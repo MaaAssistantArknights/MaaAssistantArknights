@@ -166,6 +166,7 @@ bool run_parallel_tasks(
 bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bool with_imgs = true);
 bool cvt_single_item_template(const fs::path& input, const fs::path& output);
 bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir);
+bool update_material_recipes_data(const fs::path& input_dir, const fs::path& output_dir);
 bool update_stages_data(const fs::path& input_dir, const fs::path& output_dir);
 bool update_roguelike_recruit(const fs::path& input_dir, const fs::path& output_dir, const fs::path& solution_dir);
 bool update_levels_json(const fs::path& input_file, const fs::path& output_dir);
@@ -287,6 +288,15 @@ bool run_parallel_tasks(
         }
         else {
             std::cout << ">Done infrast data" << '\n';
+        }
+
+        std::cout << "------- Update material recipes data -------" << '\n';
+        if (!update_material_recipes_data(official_data_dir / "gamedata" / "excel", resource_dir)) {
+            std::cerr << "update_material_recipes_data failed" << '\n';
+            error_occurred.store(true);
+        }
+        else {
+            std::cout << ">Done material_recipes.json" << '\n';
         }
     });
 
@@ -908,6 +918,77 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
 
     std::ofstream ofs(output_file, std::ios::out);
     ofs << root.format();
+    ofs.close();
+
+    return true;
+}
+
+bool update_material_recipes_data(const fs::path& input_dir, const fs::path& output_dir)
+{
+    const auto input_file = input_dir / "building_data.json";
+    const auto output_file = output_dir / "material_recipes.json";
+
+    auto input_json_opt = json::open(input_file);
+    if (!input_json_opt) {
+        std::cerr << input_file << " parse error" << '\n';
+        return false;
+    }
+
+    const auto workshop_formulas_opt = input_json_opt.value().find<json::object>("workshopFormulas");
+    if (!workshop_formulas_opt) {
+        std::cerr << input_file << " missing workshopFormulas" << '\n';
+        return false;
+    }
+
+    json::value output_json;
+    const std::unordered_set<std::string> non_elite_formula_items = {
+        "3131", "3132", "3133", "3113", "3114", "3401", // building materials
+        "3302", "3303",                                 // skill summaries
+        "3211", "3212", "3221", "3222", "3231", "3232", "3241", "3242",
+        "3251", "3252", "3261", "3262", "3271", "3272", "3281", "3282", // chips
+    };
+    for (const auto& [formula_id, formula] : workshop_formulas_opt.value()) {
+        const std::string item_id = formula.get("itemId", std::string());
+        if (item_id.empty()) {
+            continue;
+        }
+        if (non_elite_formula_items.contains(item_id)) {
+            continue;
+        }
+
+        json::array costs;
+        if (auto costs_array_opt = formula.find<json::array>("costs")) {
+            for (const auto& cost : costs_array_opt.value()) {
+                const std::string cost_item_id = cost.get("id", std::string());
+                const int cost_count = cost.get("count", 0);
+                if (cost_item_id.empty() || cost_count <= 0) {
+                    continue;
+                }
+
+                costs.emplace_back(json::object {
+                    { "id", cost_item_id },
+                    { "count", cost_count },
+                    { "type", cost.get("type", std::string()) },
+                });
+            }
+        }
+
+        if (costs.empty()) {
+            continue;
+        }
+
+        output_json[formula_id] = json::object {
+            { "formulaId", formula.get("formulaId", formula_id) },
+            { "itemId", item_id },
+            { "count", formula.get("count", 1) },
+            { "goldCost", formula.get("goldCost", 0) },
+            { "apCost", formula.get("apCost", 0) },
+            { "costs", std::move(costs) },
+        };
+    }
+
+    std::ofstream ofs(output_file, std::ios::out);
+    ofs << output_json.format() << '\n';
     ofs.close();
 
     return true;

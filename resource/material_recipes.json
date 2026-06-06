@@ -1,0 +1,803 @@
+{
+    "12": {
+        "formulaId": "12",
+        "itemId": "30135",
+        "count": 1,
+        "goldCost": 400,
+        "apCost": 2880000,
+        "costs": [
+            {
+                "id": "30084",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30094",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30104",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "13": {
+        "formulaId": "13",
+        "itemId": "30125",
+        "count": 1,
+        "goldCost": 400,
+        "apCost": 2880000,
+        "costs": [
+            {
+                "id": "30064",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30074",
+                "count": 2,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "14": {
+        "formulaId": "14",
+        "itemId": "30115",
+        "count": 1,
+        "goldCost": 400,
+        "apCost": 2880000,
+        "costs": [
+            {
+                "id": "30014",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30044",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30054",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "15": {
+        "formulaId": "15",
+        "itemId": "30104",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30103",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30013",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30053",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "16": {
+        "formulaId": "16",
+        "itemId": "30094",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30093",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30043",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30063",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "17": {
+        "formulaId": "17",
+        "itemId": "30084",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30083",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30033",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30073",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "18": {
+        "formulaId": "18",
+        "itemId": "30074",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30073",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30023",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30103",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "19": {
+        "formulaId": "19",
+        "itemId": "30062",
+        "count": 1,
+        "goldCost": 100,
+        "apCost": 360000,
+        "costs": [
+            {
+                "id": "30061",
+                "count": 3,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "20": {
+        "formulaId": "20",
+        "itemId": "30063",
+        "count": 1,
+        "goldCost": 200,
+        "apCost": 720000,
+        "costs": [
+            {
+                "id": "30062",
+                "count": 4,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "21": {
+        "formulaId": "21",
+        "itemId": "30064",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30063",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30013",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30093",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "22": {
+        "formulaId": "22",
+        "itemId": "30052",
+        "count": 1,
+        "goldCost": 100,
+        "apCost": 360000,
+        "costs": [
+            {
+                "id": "30051",
+                "count": 3,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "23": {
+        "formulaId": "23",
+        "itemId": "30053",
+        "count": 1,
+        "goldCost": 200,
+        "apCost": 720000,
+        "costs": [
+            {
+                "id": "30052",
+                "count": 4,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "24": {
+        "formulaId": "24",
+        "itemId": "30054",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30053",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30023",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30083",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "25": {
+        "formulaId": "25",
+        "itemId": "30042",
+        "count": 1,
+        "goldCost": 100,
+        "apCost": 360000,
+        "costs": [
+            {
+                "id": "30041",
+                "count": 3,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "26": {
+        "formulaId": "26",
+        "itemId": "30043",
+        "count": 1,
+        "goldCost": 200,
+        "apCost": 720000,
+        "costs": [
+            {
+                "id": "30042",
+                "count": 4,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "27": {
+        "formulaId": "27",
+        "itemId": "30044",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30043",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30063",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30033",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "28": {
+        "formulaId": "28",
+        "itemId": "30032",
+        "count": 1,
+        "goldCost": 100,
+        "apCost": 360000,
+        "costs": [
+            {
+                "id": "30031",
+                "count": 3,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "29": {
+        "formulaId": "29",
+        "itemId": "30033",
+        "count": 1,
+        "goldCost": 200,
+        "apCost": 720000,
+        "costs": [
+            {
+                "id": "30032",
+                "count": 4,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "30": {
+        "formulaId": "30",
+        "itemId": "30034",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30033",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30053",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30073",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "31": {
+        "formulaId": "31",
+        "itemId": "30022",
+        "count": 1,
+        "goldCost": 100,
+        "apCost": 360000,
+        "costs": [
+            {
+                "id": "30021",
+                "count": 3,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "32": {
+        "formulaId": "32",
+        "itemId": "30023",
+        "count": 1,
+        "goldCost": 200,
+        "apCost": 720000,
+        "costs": [
+            {
+                "id": "30022",
+                "count": 4,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "33": {
+        "formulaId": "33",
+        "itemId": "30024",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30023",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30043",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30083",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "34": {
+        "formulaId": "34",
+        "itemId": "30012",
+        "count": 1,
+        "goldCost": 100,
+        "apCost": 360000,
+        "costs": [
+            {
+                "id": "30011",
+                "count": 3,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "35": {
+        "formulaId": "35",
+        "itemId": "30013",
+        "count": 1,
+        "goldCost": 200,
+        "apCost": 720000,
+        "costs": [
+            {
+                "id": "30012",
+                "count": 5,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "36": {
+        "formulaId": "36",
+        "itemId": "30014",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30013",
+                "count": 4,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "55": {
+        "formulaId": "55",
+        "itemId": "31024",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30063",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30093",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31023",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "56": {
+        "formulaId": "56",
+        "itemId": "31014",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30043",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31013",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31023",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "57": {
+        "formulaId": "57",
+        "itemId": "30145",
+        "count": 1,
+        "goldCost": 400,
+        "apCost": 2880000,
+        "costs": [
+            {
+                "id": "31034",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31014",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31024",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "58": {
+        "formulaId": "58",
+        "itemId": "31034",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "31033",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31013",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31023",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "59": {
+        "formulaId": "59",
+        "itemId": "31044",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "31043",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31053",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31013",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "60": {
+        "formulaId": "60",
+        "itemId": "31054",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "31053",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31033",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30103",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "61": {
+        "formulaId": "61",
+        "itemId": "31064",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "31063",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31043",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30023",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "62": {
+        "formulaId": "62",
+        "itemId": "30155",
+        "count": 1,
+        "goldCost": 400,
+        "apCost": 2880000,
+        "costs": [
+            {
+                "id": "31064",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31054",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31044",
+                "count": 2,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "63": {
+        "formulaId": "63",
+        "itemId": "31074",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "31073",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30033",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30013",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "64": {
+        "formulaId": "64",
+        "itemId": "31084",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "31083",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31073",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31063",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "65": {
+        "formulaId": "65",
+        "itemId": "31094",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "31093",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31083",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "30023",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "66": {
+        "formulaId": "66",
+        "itemId": "30165",
+        "count": 1,
+        "goldCost": 400,
+        "apCost": 2880000,
+        "costs": [
+            {
+                "id": "31094",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31084",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31074",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "67": {
+        "formulaId": "67",
+        "itemId": "31104",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30053",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31093",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31103",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "68": {
+        "formulaId": "68",
+        "itemId": "31114",
+        "count": 1,
+        "goldCost": 300,
+        "apCost": 1440000,
+        "costs": [
+            {
+                "id": "30063",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31103",
+                "count": 1,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "31113",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    }
+}

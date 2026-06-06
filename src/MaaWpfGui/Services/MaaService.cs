@@ -194,4 +194,6 @@ public enum AsstTaskType : byte
     /// 自定义任务
     /// </summary>
     Custom,
+
+    MaterialCraft,
 }
