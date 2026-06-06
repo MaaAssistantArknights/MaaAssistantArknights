@@ -199,4 +199,6 @@ public enum AsstTaskType : byte
     /// 干员培养
     /// </summary>
     OperProgress,
+
+    MaterialCraft,
 }
