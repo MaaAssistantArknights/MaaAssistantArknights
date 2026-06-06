@@ -1,4 +1,4 @@
-{    
+{
     "SwitchTheme@ToggleSettingsMenu": {
         "action": "ClickSelf",
         "roi": [227, 327, 159, 152],
