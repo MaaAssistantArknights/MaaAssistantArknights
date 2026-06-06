@@ -1,0 +1,46 @@
+{    
+    "SwitchTheme@ToggleSettingsMenu": {
+        "action": "ClickSelf",
+        "roi": [227, 327, 159, 152],
+        "postDelay": 1000,
+        "next": ["SwitchTheme@ChangeTheme", "SwitchTheme@ToggleSettingsMenu"]
+    },
+    "SwitchTheme@ChangeTheme": {
+        "action": "ClickSelf",
+        "roi": [563, 566, 132, 132],
+        "next": ["SwitchTheme@SelectLightTheme", "SwitchTheme@SwipeToLightTheme"]
+    },
+    "SwitchTheme@SelectLightTheme": {
+        "action": "ClickSelf",
+        "roi": [0, 99, 430, 180],
+        "maxTimes": 10,
+        "exceededNext": ["SwitchTheme@CancelThemeChange"],
+        "next": ["SwitchTheme@ConfirmThemeChange", "SwitchTheme@SelectLightTheme"]
+    },
+    "SwitchTheme@SwipeToLightTheme": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [200, 170, 10, 10],
+        "rectMove": [200, 600, 10, 10],
+        "specialParams": [150, 0, 1, 1],
+        "postDelay": 500,
+        "maxTimes": 10,
+        "next": ["SwitchTheme@SelectLightTheme", "SwitchTheme@SwipeToLightTheme"]
+    },
+    "SwitchTheme@ConfirmThemeChange": {
+        "action": "ClickSelf",
+        "roi": [1070, 620, 200, 90],
+        "postDelay": 500,
+        "next": ["SwitchTheme@ReturnTheme"]
+    },
+    "SwitchTheme@CancelThemeChange": {
+        "action": "ClickSelf",
+        "roi": [918, 645, 66, 38],
+        "next": ["SwitchTheme@ReturnTheme"]
+    },
+    "SwitchTheme@ReturnTheme": {
+        "baseTask": "ReturnButton",
+        "template": ["Return.png", "Return-White.png"],
+        "next": ["#next"]
+    }
+}

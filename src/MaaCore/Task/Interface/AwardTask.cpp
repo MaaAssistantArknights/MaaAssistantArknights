@@ -2,6 +2,7 @@
 
 #include <utility>
 
+#include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
 
 #include "Utils/Logger.hpp"
@@ -24,6 +25,8 @@ asst::AwardTask::AwardTask(const AsstCallback& callback, Assistant* inst) :
     orundum_task_ptr->set_tasks({ "OrundumActivitiesBegin" });
     mining_task_ptr->set_tasks({ "MiningActivitiesBegin" });
     specialaccess_task_ptr->set_tasks({ "SpecialAccessActivitiesBegin" });
+
+    award_task_ptr->register_plugin<ScreenshotTaskPlugin>();
 
     m_subtasks.emplace_back(award_task_ptr);
     m_subtasks.emplace_back(mail_task_ptr);
