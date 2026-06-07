@@ -1482,12 +1482,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                     break;
                 }
 
-                if (report.Count == -1)
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MedicineUsed") + " Unknown times", UiLogColor.Error);
-                    break;
-                }
-
                 string medicineLog;
                 if (!report.IsExpiring)
                 {
@@ -1544,7 +1538,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     #region Model
 
-    private record MedicineUsingInfo([property: JsonProperty("is_expiring")] bool IsExpiring, [property: JsonProperty("count")] int Count, [property: JsonProperty("medicines")] List<MedicineInfo> Medicines);
+    private record MedicineUsingInfo([property: JsonProperty("is_expiring")] bool IsExpiring, [property: JsonProperty("count")] int Count, [property: JsonProperty("medicines")] List<MedicineInfo>? Medicines);
 
     private record MedicineInfo([property: JsonProperty("use")] int Use, [property: JsonProperty("inventory")] int Inventory, [property: JsonProperty("expire_days")] int ExpireDays);
 
