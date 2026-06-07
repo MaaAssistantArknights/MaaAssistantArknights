@@ -1487,7 +1487,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 {
                     MedicineUsedTimes += report.Count;
                     medicineLog = LocalizationHelper.GetString("MedicineUsed") + $" {MedicineUsedTimes}(+{report.Count})";
-                    AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, report.Count);
                 }
                 else
                 {
@@ -1505,12 +1504,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                         }
                     }
                     medicineLog = LocalizationHelper.GetStringFormat("ExpiringMedicineUsed", expireOut) + $" {ExpiringMedicineUsedTimes}(+{report.Count})";
-                    AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, report.Count);
                     AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
                 }
 
-                var list = report.Medicines?.Select(i => LocalizationHelper.GetStringFormat("UseMedicine.MedicineInfo", i.Use, i.Inventory)).ToList();
-                list?.ForEach(i => medicineLog += "\n" + i);
+                AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, report.Count);
+                if (report.Medicines?.Count > 0)
+                {
+                    var list = report.Medicines?.Select(i => LocalizationHelper.GetStringFormat("UseMedicine.MedicineInfo", i.Use, i.Inventory)).ToList();
+                    medicineLog += "\n" + string.Join("\n", list ?? []);
+                }
                 Instances.TaskQueueViewModel.AddLog(medicineLog, UiLogColor.Info);
                 break;
         }
