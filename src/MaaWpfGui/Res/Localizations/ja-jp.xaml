@@ -1222,7 +1222,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
     <system:String x:Key="ExpiringMedicineUsed">{0}時間以内に期限が切れる回復剤を使った</system:String>
-    <system:String x:Key="UseMedicine.MedicineInfo">药: {0}, 库存: {1}</system:String>
+    <system:String x:Key="UseMedicine.MedicineInfo">回復剤：{0}、在庫：{1}</system:String>
     <system:String x:Key="StoneUsed">源石を使った</system:String>
     <system:String x:Key="ActingCommandError">自動指揮のミスが生じました</system:String>
     <system:String x:Key="FightMissionFailedAndStop">自動指揮の失敗回数が上限に達したため、任務が停止されました</system:String>
