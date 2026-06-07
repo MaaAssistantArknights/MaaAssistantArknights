@@ -1,0 +1,174 @@
+#pragma once
+
+#ifdef __linux__ // Linux or Android
+
+#include "Common/AsstMsg.h"
+#include "Config/GeneralConfig.h"
+#include "Controller/SwipeHelper.hpp"
+#include "ControllerAPI.h"
+#include "InstHelper.h"
+#include "MaaFwControlUnitInterface.h"
+#include "Platform/PlatformIO.h"
+#include "Utils/LibraryHolder.hpp"
+
+namespace asst
+{
+
+struct MaaFwWlrControlUnitLoader : LibraryHolder<MaaFwWlrControlUnitLoader>
+{
+    bool loaded() const noexcept { return m_loaded; }
+
+    bool load(const std::filesystem::path& dll_path)
+    {
+        if (m_loaded) {
+            return false;
+        }
+
+        m_loaded = load_library(dll_path);
+
+        if (!m_loaded) {
+            Log.error("Failed to load library:", dll_path);
+            return false;
+        }
+
+        m_get_version = get_function<const char*()>("MaaWlRootsControlUnitGetVersion");
+        m_create = get_function<MaaFwControlUnitAPI*(const char*, bool)>("MaaWlRootsControlUnitCreate");
+        m_destroy = get_function<void(MaaFwControlUnitAPI*)>("MaaWlRootsControlUnitDestroy");
+
+        return m_get_version && m_create && m_destroy;
+    }
+
+    MaaFwControlUnitAPI* create(const char* wlr_socket_path, bool use_win32_vk_code) const
+    {
+        if (!m_loaded || !m_create) {
+            Log.error("Library not loaded or create function not available");
+            return nullptr;
+        }
+
+        return m_create(wlr_socket_path, use_win32_vk_code);
+    }
+
+    void destroy(MaaFwControlUnitAPI* handle) const
+    {
+        if (!m_loaded || !m_destroy) {
+            Log.error("Library not loaded or destroy function not available");
+            return;
+        }
+
+        if (handle) {
+            m_destroy(handle);
+        }
+    }
+
+    const char* get_version() const
+    {
+        if (!m_loaded || !m_get_version) {
+            Log.error("Library not loaded or get_version function not available");
+            return nullptr;
+        }
+
+        return m_get_version();
+    }
+
+private:
+    bool m_loaded = false;
+
+    std::function<MaaFwControlUnitAPI*(const char*, bool)> m_create;
+    std::function<void(MaaFwControlUnitAPI*)> m_destroy;
+    std::function<const char*()> m_get_version;
+};
+
+class MaaFwWlrController : public ControllerAPI, private InstHelper
+{
+public:
+    MaaFwWlrController(const MaaFwWlrController&) = delete;
+    MaaFwWlrController(MaaFwWlrController&&) = delete;
+    MaaFwWlrController& operator=(const MaaFwWlrController&) = delete;
+    MaaFwWlrController& operator=(MaaFwWlrController&&) = delete;
+
+    MaaFwWlrController(const AsstCallback& callback, Assistant* inst, PlatformType platform_type [[maybe_unused]]) :
+        InstHelper(inst),
+        m_callback(callback),
+        m_loader()
+    {
+    }
+
+    virtual ~MaaFwWlrController() override
+    {
+        if (m_unit) {
+            m_loader.destroy(m_unit);
+            m_unit = nullptr;
+        };
+    }
+
+    bool connect(const std::string& adb_path, const std::string& address, const std::string& config) override;
+
+    bool inited() const noexcept override { return m_loader.loaded() && m_unit; }
+
+    const std::string& get_uuid() const override { return m_socket_path; }
+
+    size_t get_pipe_data_size() const noexcept override { return { }; }
+
+    size_t get_version() const noexcept override { return { }; }
+
+    bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;
+
+    bool start_game(const std::string& client_type [[maybe_unused]]) override
+    {
+        Log.warn("start_game is not supported on MaaFwWlrController");
+        return false;
+    }
+
+    bool stop_game(const std::string& client_type [[maybe_unused]]) override
+    {
+        Log.warn("stop_game is not supported on MaaFwWlrController");
+        return false;
+    }
+
+    bool click(const Point& p) override;
+
+    bool input(const std::string& text [[maybe_unused]]) override
+    {
+        Log.warn("input is not supported on MaaFwWlrController");
+        return false;
+    }
+
+    bool swipe(
+        const Point& p1,
+        const Point& p2,
+        int duration = 0,
+        bool extra_swipe = false,
+        double slope_in = 1,
+        double slope_out = 1,
+        bool with_pause = false) override;
+
+    bool inject_input_event(const InputEvent& event) override;
+
+    bool press_esc() override;
+
+    ControlFeat::Feat support_features() const noexcept override { return ControlFeat::PRECISE_SWIPE; }
+
+    std::pair<int, int> get_screen_res() const noexcept override { return m_screen_size; }
+
+private:
+    bool park_cursor()
+    {
+        return inject_input_event(InputEvent { .type = InputEvent::Type::WAIT_MS, .milisec = 20 }) &&
+               inject_input_event(
+                   InputEvent { .type = InputEvent::Type::TOUCH_MOVE,
+                                .point = { m_screen_size.first - 10, m_screen_size.second - 10 } });
+    }
+
+    static constexpr int DefaultSwipeDelay = 5; // ms
+
+    AsstCallback m_callback;
+    MaaFwWlrControlUnitLoader m_loader;
+    MaaFwControlUnitAPI* m_unit = nullptr;
+
+    std::string m_socket_path;
+    std::pair<int, int> m_screen_size = { 0, 0 };
+};
+
+}
+
+#endif
