@@ -1,7 +1,6 @@
 #include "InfrastMaterialCraftTask.h"
 
 #include <algorithm>
-#include <cctype>
 #include <climits>
 #include <ranges>
 
@@ -133,40 +132,19 @@ Rect selected_formula_product_roi(const cv::Mat& image)
     return Rect(image.cols * 40 / 100, image.rows * 48 / 100, image.cols * 20 / 100, image.rows * 31 / 100);
 }
 
-Rect craft_count_roi(const cv::Mat& image)
-{
-    return Rect(image.cols * 74 / 100, image.rows * 38 / 100, image.cols * 24 / 100, image.rows * 28 / 100);
-}
-
 Rect plus_button_roi(const cv::Mat& image)
 {
     return Rect(image.cols * 72 / 100, image.rows * 34 / 100, image.cols * 20 / 100, image.rows * 13 / 100);
 }
 
+Rect start_button_roi(const cv::Mat& image)
+{
+    return Rect(image.cols * 72 / 100, image.rows * 78 / 100, image.cols * 27 / 100, image.rows * 20 / 100);
+}
+
 Point safe_plus_click_point(const Rect& rect)
 {
     return { rect.x + rect.width * 42 / 100, rect.y + rect.height / 2 };
-}
-
-std::optional<int> parse_count_text(std::string_view text)
-{
-    std::string digits;
-    for (unsigned char ch : text) {
-        if (std::isdigit(ch)) {
-            digits += static_cast<char>(ch);
-        }
-    }
-
-    if (digits.empty()) {
-        return std::nullopt;
-    }
-
-    try {
-        return std::stoi(digits);
-    }
-    catch (...) {
-        return std::nullopt;
-    }
 }
 
 bool is_elite_category_rect(const cv::Mat& image, const Rect& rect)
@@ -1082,7 +1060,7 @@ bool InfrastMaterialCraftTask::set_craft_count(int batches)
         return false;
     }
     if (batches == 1) {
-        return verify_craft_count(1);
+        return true;
     }
 
     cv::Mat image = ctrler()->get_image();
@@ -1098,67 +1076,14 @@ bool InfrastMaterialCraftTask::set_craft_count(int batches)
         sleep(100);
     }
 
-    return verify_craft_count(batches);
-}
-
-bool InfrastMaterialCraftTask::verify_craft_count(int expected)
-{
-    for (int i = 0; i != 5; ++i) {
-        const cv::Mat image = ctrler()->get_image();
-        const auto count = read_craft_count(image);
-        if (count && *count == expected) {
-            Log.trace(__FUNCTION__, "| craft count verified", expected);
-            return true;
-        }
-
-        if (count) {
-            Log.error(__FUNCTION__, "| craft count mismatch, expected", expected, "actual", *count);
-            save_img(utils::path("debug") / utils::path("material_craft") / utils::path("craft_count_mismatch"));
-            return false;
-        }
-
-        sleep(200);
-    }
-
-    Log.error(__FUNCTION__, "| failed to read craft count, expected", expected);
-    save_img(utils::path("debug") / utils::path("material_craft") / utils::path("craft_count_ocr_failed"));
-    return false;
-}
-
-std::optional<int> InfrastMaterialCraftTask::read_craft_count(const cv::Mat& image) const
-{
-    OCRer ocr(image, clamp_rect(craft_count_roi(image), image));
-    const auto results = ocr.analyze();
-    if (!results) {
-        return std::nullopt;
-    }
-
-    std::optional<TextRect> best_match;
-    for (const TextRect& result : results.value()) {
-        auto count = parse_count_text(result.text);
-        if (!count) {
-            continue;
-        }
-
-        Log.trace(__FUNCTION__, "| craft count OCR candidate", result.text, "count", *count, "rect", result.rect);
-
-        if (!best_match || result.rect.area() > best_match->rect.area()) {
-            best_match = result;
-        }
-    }
-
-    if (!best_match) {
-        return std::nullopt;
-    }
-
-    return parse_count_text(best_match->text);
+    return true;
 }
 
 bool InfrastMaterialCraftTask::click_start_button()
 {
     for (int i = 0; i != 5; ++i) {
         cv::Mat image = ctrler()->get_image();
-        auto start = match_workshop_template(image, "WorkshopStartButton.png", 0.80);
+        auto start = match_workshop_template(image, "WorkshopStartButton.png", 0.80, start_button_roi(image));
         if (start) {
             ctrler()->click(*start);
             sleep(500);
