@@ -1515,8 +1515,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                     AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
                 }
 
-                var list = report.Medicines.Select(i => LocalizationHelper.GetStringFormat("UseMedicine.MedicineInfo", i.Use, i.Inventory)).ToList();
-                list.ForEach(i => medicineLog += "\n" + i);
+                var list = report.Medicines?.Select(i => LocalizationHelper.GetStringFormat("UseMedicine.MedicineInfo", i.Use, i.Inventory)).ToList();
+                list?.ForEach(i => medicineLog += "\n" + i);
                 Instances.TaskQueueViewModel.AddLog(medicineLog, UiLogColor.Info);
                 break;
         }
