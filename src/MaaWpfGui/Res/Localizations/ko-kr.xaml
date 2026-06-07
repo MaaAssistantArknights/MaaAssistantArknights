@@ -1223,6 +1223,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}  </system:String>
     <system:String x:Key="MedicineUsed">이성 회복제를 사용했습니다</system:String>
     <system:String x:Key="ExpiringMedicineUsed">{0}시간 이내 만료되는 이성 회복제를 사용했습니다</system:String>
+    <system:String x:Key="UseMedicine.MedicineInfo">药: {0}, 库存: {1}</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
     <system:String x:Key="ActingCommandError">대리 지휘 오류 발생</system:String>
     <system:String x:Key="FightMissionFailedAndStop">대리 지휘 실패 횟수 초과로 작업을 중단합니다</system:String>

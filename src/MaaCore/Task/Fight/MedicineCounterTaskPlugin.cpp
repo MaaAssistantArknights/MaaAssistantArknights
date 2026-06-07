@@ -188,6 +188,16 @@ bool asst::MedicineCounterTaskPlugin::_run()
     auto info = basic_info_with_what("UseMedicine");
     info["details"]["is_expiring"] = m_used_count > m_max_count;
     info["details"]["count"] = using_medicine->using_count;
+    for (const auto& [use, inventory, expire_days, _] : using_medicine->medicines) {
+        if (use > 0) {
+            info["details"]["medicines"].emplace(
+                json::value {
+                    { "use", use },
+                    { "inventory", inventory },
+                    { "expire_days", expire_days },
+                });
+        }
+    }
     callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
 }

@@ -1222,6 +1222,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">已使用理智药</system:String>
     <system:String x:Key="ExpiringMedicineUsed">已使用 {0} H内过期理智药</system:String>
+    <system:String x:Key="UseMedicine.MedicineInfo">药: {0}, 库存: {1}</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
     <system:String x:Key="ActingCommandError">代理指挥失误</system:String>
     <system:String x:Key="FightMissionFailedAndStop">代理失败次数已达上限，任务已停止</system:String>
