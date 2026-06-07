@@ -85,7 +85,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译
 
 4. 编译 MaaFramework 相关组件
 
-   若需调试 MaaFwAdbController（MaaFwAdb 触控模式）相关功能，需要[自行编译 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，将 `libMaaAdbControlUnit.so` 放到安装目录下。
+   若需调试 MaaFwAdbController/MaaFwWlrController（MaaFramework 触控模式）相关功能，需要[自行编译 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，将 `libMaaAdbControlUnit.so`/`libMaaWlRootsControlUnit.so` 放到安装目录下。
 
 5. 运行
 
