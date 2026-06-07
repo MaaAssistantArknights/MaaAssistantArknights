@@ -121,8 +121,6 @@ private:
     bool rewind_formula_list_to_top();
     bool swipe_formula_list(const cv::Mat& image, bool forward, int distance_percent, int duration);
     bool set_craft_count(int batches);
-    bool verify_craft_count(int expected);
-    std::optional<int> read_craft_count(const cv::Mat& image) const;
     bool click_start_button();
     bool click_complete_tick();
 

@@ -920,14 +920,14 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="ExportTo">Export to:</system:String>
     <system:String x:Key="Export">Export</system:String>
     <system:String x:Key="MaterialCraft">Material Craft</system:String>
-    <system:String x:Key="MaterialCraftStartHint">Start inside the Workshop; the Start Craft button is in the lower right.</system:String>
+    <system:String x:Key="MaterialCraftStartHint">Start inside the Workshop; the Start Processing button is in the lower right.</system:String>
     <system:String x:Key="MaterialCraftTarget">Target</system:String>
     <system:String x:Key="MaterialCraftQueue">Queue</system:String>
     <system:String x:Key="MaterialCraftQuantity">Count</system:String>
     <system:String x:Key="MaterialCraftAdd">Add</system:String>
     <system:String x:Key="MaterialCraftClear">Clear</system:String>
     <system:String x:Key="MaterialCraftCheck">Check Craft</system:String>
-    <system:String x:Key="MaterialCraftStart">Start Craft</system:String>
+    <system:String x:Key="MaterialCraftStart">Start Processing</system:String>
     <system:String x:Key="MaterialCraftStarted">Material crafting started</system:String>
     <system:String x:Key="MaterialCraftStartFailed">Failed to start material crafting</system:String>
     <system:String x:Key="MaterialCraftCompleted">Material crafting completed; depot updated</system:String>

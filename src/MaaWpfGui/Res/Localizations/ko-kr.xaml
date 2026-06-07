@@ -922,14 +922,14 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ExportTo">내보내기:</system:String>
     <system:String x:Key="Export">내보내기</system:String>
     <system:String x:Key="MaterialCraft">재료 합성</system:String>
-    <system:String x:Key="MaterialCraftStartHint">가공소 안에서 시작하세요. 오른쪽 아래에 합성 시작 버튼이 있습니다.</system:String>
+    <system:String x:Key="MaterialCraftStartHint">가공소 안에서 시작하세요. 오른쪽 아래에 가공 시작 버튼이 있습니다.</system:String>
     <system:String x:Key="MaterialCraftTarget">대상 재료</system:String>
     <system:String x:Key="MaterialCraftQueue">합성 대기</system:String>
     <system:String x:Key="MaterialCraftQuantity">수량</system:String>
     <system:String x:Key="MaterialCraftAdd">추가</system:String>
     <system:String x:Key="MaterialCraftClear">비우기</system:String>
     <system:String x:Key="MaterialCraftCheck">합성 확인</system:String>
-    <system:String x:Key="MaterialCraftStart">합성 시작</system:String>
+    <system:String x:Key="MaterialCraftStart">가공 시작</system:String>
     <system:String x:Key="MaterialCraftStarted">재료 합성을 시작했습니다</system:String>
     <system:String x:Key="MaterialCraftStartFailed">재료 합성을 시작하지 못했습니다</system:String>
     <system:String x:Key="MaterialCraftCompleted">재료 합성이 완료되어 창고가 업데이트되었습니다</system:String>

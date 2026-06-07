@@ -815,20 +815,35 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <StackPanel Grid.Row="2" Margin="0,10,0,0" Orientation="Horizontal">
+                        <Grid Grid.Row="2" Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
                             <Button
-                                Width="120"
                                 Height="30"
                                 Command="{s:Action CheckMaterialCraftPlan}"
                                 Content="{DynamicResource MaterialCraftCheck}" />
                             <Button
-                                Width="120"
+                                Grid.Column="2"
                                 Height="30"
-                                Margin="8,0,0,0"
-                                Command="{s:Action StartMaterialCraft}"
-                                Content="{DynamicResource MaterialCraftStart}"
-                                IsEnabled="{c:Binding 'Idle and Inited'}" />
-                        </StackPanel>
+                                Command="{s:Action ToggleMaterialCraft}"
+                                IsEnabled="{c:Binding 'Inited and !Stopping'}">
+                                <Grid>
+                                    <controls:TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="{DynamicResource MaterialCraftStart}"
+                                        Visibility="{c:Binding Idle}" />
+                                    <controls:TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="{DynamicResource Stop}"
+                                        Visibility="{c:Binding '!Idle'}" />
+                                </Grid>
+                            </Button>
+                        </Grid>
                         <controls:TextBlock
                             Grid.Row="3"
                             Margin="0,8,0,0"

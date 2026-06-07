@@ -990,6 +990,29 @@ public class ToolboxViewModel : Screen
         }
     }
 
+    [UsedImplicitly]
+    public async Task ToggleMaterialCraft()
+    {
+        if (Idle)
+        {
+            await StartMaterialCraft();
+            return;
+        }
+
+        StopMaterialCraft();
+    }
+
+    private void StopMaterialCraft()
+    {
+        if (Idle || Stopping)
+        {
+            return;
+        }
+
+        MaterialCraftResultInfo = LocalizationHelper.GetString("Stopping");
+        Instances.TaskQueueViewModel.ManualStop();
+    }
+
     private JObject BuildMaterialCraftTaskParams()
     {
         var targets = new JArray(MaterialCraftPlanItems

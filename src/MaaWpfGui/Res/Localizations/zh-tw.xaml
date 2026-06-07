@@ -921,14 +921,14 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="ExportTo">匯出到：</system:String>
     <system:String x:Key="Export">匯出</system:String>
     <system:String x:Key="MaterialCraft">材料合成</system:String>
-    <system:String x:Key="MaterialCraftStartHint">在加工站內開始，右下角有「開始合成」按鈕</system:String>
+    <system:String x:Key="MaterialCraftStartHint">在加工站內開始，右下角有「開始加工」按鈕</system:String>
     <system:String x:Key="MaterialCraftTarget">目標材料</system:String>
     <system:String x:Key="MaterialCraftQueue">待合成</system:String>
     <system:String x:Key="MaterialCraftQuantity">數量</system:String>
     <system:String x:Key="MaterialCraftAdd">新增</system:String>
     <system:String x:Key="MaterialCraftClear">清空</system:String>
     <system:String x:Key="MaterialCraftCheck">計算合成</system:String>
-    <system:String x:Key="MaterialCraftStart">開始合成</system:String>
+    <system:String x:Key="MaterialCraftStart">開始加工</system:String>
     <system:String x:Key="MaterialCraftStarted">已開始材料合成</system:String>
     <system:String x:Key="MaterialCraftStartFailed">啟動材料合成失敗</system:String>
     <system:String x:Key="MaterialCraftCompleted">材料合成完成，庫存已更新</system:String>

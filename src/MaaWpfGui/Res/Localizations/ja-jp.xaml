@@ -921,14 +921,14 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ExportTo">出力先：</system:String>
     <system:String x:Key="Export">エクスポート</system:String>
     <system:String x:Key="MaterialCraft">素材合成</system:String>
-    <system:String x:Key="MaterialCraftStartHint">加工所内で開始してください。右下に「合成開始」ボタンがあります。</system:String>
+    <system:String x:Key="MaterialCraftStartHint">加工所内で開始してください。右下に「加工開始」ボタンがあります。</system:String>
     <system:String x:Key="MaterialCraftTarget">対象素材</system:String>
     <system:String x:Key="MaterialCraftQueue">合成待ち</system:String>
     <system:String x:Key="MaterialCraftQuantity">数量</system:String>
     <system:String x:Key="MaterialCraftAdd">追加</system:String>
     <system:String x:Key="MaterialCraftClear">クリア</system:String>
     <system:String x:Key="MaterialCraftCheck">合成確認</system:String>
-    <system:String x:Key="MaterialCraftStart">合成開始</system:String>
+    <system:String x:Key="MaterialCraftStart">加工開始</system:String>
     <system:String x:Key="MaterialCraftStarted">素材合成を開始しました</system:String>
     <system:String x:Key="MaterialCraftStartFailed">素材合成を開始できませんでした</system:String>
     <system:String x:Key="MaterialCraftCompleted">素材合成が完了しました。倉庫を更新しました</system:String>
