@@ -64,7 +64,9 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
     }
 
     const auto& task = Task.get<OcrTaskInfo>(stage_name + "@ClickStageName");
-    auto stages = find_stage(image, task->bin_threshold[0], task->bin_threshold[1]);
+    std::tuple<int, int, int> threshold_low { task->bin_threshold[0], task->bin_threshold[1], task->bin_threshold[2] };
+    std::tuple<int, int, int> threshold_high { task->bin_threshold[3], task->bin_threshold[4], task->bin_threshold[5] };
+    auto stages = find_stage(image, threshold_low, threshold_high);
     auto it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
     if (it != stages.end()) {
         if (enter_stage(it->rect, stage_name)) {
@@ -75,7 +77,7 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
     ProcessTask(*this, { "Copilot@FullStageNavigation" }).set_retry_times(20).run();
     sleep(Config.get_options().task_delay);
     image = ctrler()->get_image();
-    stages = find_stage(image, task->bin_threshold[0], task->bin_threshold[1]);
+    stages = find_stage(image, threshold_low, threshold_high);
     it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
     if (it != stages.end()) {
         if (enter_stage(it->rect, stage_name)) {
@@ -87,7 +89,7 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
         ProcessTask(*this, { "Copilot@StageNavigationSlowlySwipeLeft" }).set_retry_times(20).run();
         sleep(Config.get_options().task_delay);
         image = ctrler()->get_image();
-        stages = find_stage(image, task->bin_threshold[0], task->bin_threshold[1]);
+        stages = find_stage(image, threshold_low, threshold_high);
         it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
         if (it != stages.end()) {
             if (enter_stage(it->rect, stage_name)) {
@@ -102,7 +104,7 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
     if (plot_task.run()) {
         sleep(Config.get_options().task_delay);
         image = ctrler()->get_image();
-        stages = find_stage(image, task->bin_threshold[0], task->bin_threshold[1]);
+        stages = find_stage(image, threshold_low, threshold_high);
         it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
         if (it != stages.end()) {
             if (enter_stage(it->rect, stage_name)) {
@@ -127,13 +129,17 @@ bool asst::MultiCopilotTaskPlugin::enter_stage(const Rect rect, const std::strin
     return false;
 }
 
-asst::OCRer::ResultsVec
-    asst::MultiCopilotTaskPlugin::find_stage(const cv::Mat& image, int threshold_low, int threshold_high)
+asst::OCRer::ResultsVec asst::MultiCopilotTaskPlugin::find_stage(
+    const cv::Mat& image,
+    std::tuple<int, int, int> threshold_low,
+    std::tuple<int, int, int> threshold_high)
 {
     cv::Mat gray;
     cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
-    cv::inRange(gray, threshold_low, threshold_high, gray);
-    cv::dilate(gray, gray, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(20, 8)), cv::Point(-1, -1), 1);
+    auto [l1, l2, l3] = threshold_low;
+    auto [h1, h2, h3] = threshold_high;
+    cv::inRange(gray, cv::Scalar(l1, l2, l3), cv::Scalar(h1, h2, h3), gray);
+    cv::dilate(gray, gray, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(15, 8)), cv::Point(-1, -1), 1);
     std::vector<cv::Mat> channels = { gray, gray, gray };
     cv::Mat gray3;
     cv::merge(channels, gray3);

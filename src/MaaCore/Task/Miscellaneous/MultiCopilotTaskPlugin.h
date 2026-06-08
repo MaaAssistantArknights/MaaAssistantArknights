@@ -33,7 +33,10 @@ private:
     virtual bool _run() override;
     bool navigate_to_stage(const std::string& stage_name);
     bool enter_stage(const Rect rect, const std::string& stage_name);
-    OCRer::ResultsVec find_stage(const cv::Mat& image, int threshold_low, int threshold_high);
+    OCRer::ResultsVec find_stage(
+        const cv::Mat& image,
+        std::tuple<int, int, int> threshold_low,
+        std::tuple<int, int, int> threshold_high);
     bool is_stage_detail_opened(const cv::Mat& image); // 检查关卡介绍是否已展开
     bool confirm_stage_name(const cv::Mat& image, const std::string& stage_name);
 

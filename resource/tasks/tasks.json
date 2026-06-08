@@ -259,7 +259,6 @@
         "fullMatch": true,
         "isAscii": true,
         "text": [],
-        "binThreshold": [180, 255],
         "next": ["ClickedCorrectStageOrSwipe", "#self"],
         "ocrReplaceDoc": "和 ClickedCorrectStage 同步，但去除 OPERATION",
         "ocrReplace": [
@@ -276,7 +275,8 @@
             ["(-\\d+)O", "$010"],
             [".*?([A-Z]{2}-EX-\\d+)", "$1"],
             ["-I$", "-1"]
-        ]
+        ],
+        "specialParams": [0, 0, 160, 180, 30, 255]
     },
     "StageNavigationSlowlySwipeLeft": {
         "baseTask": "ChapterSlowlySwipeToTheLeft",
