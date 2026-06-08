@@ -11124,6 +11124,21 @@
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1
         },
+        "trap_309_muctba": {
+            "name": "智能裁判官",
+            "name_en": "智能裁判官",
+            "name_en_unavailable": true,
+            "name_jp": "智能裁判官",
+            "name_jp_unavailable": true,
+            "name_kr": "智能裁判官",
+            "name_kr_unavailable": true,
+            "name_tw": "智能裁判官",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
         "trap_316_ubtower": {
             "name": "警戒塔",
             "name_en": "警戒塔",
