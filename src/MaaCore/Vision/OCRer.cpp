@@ -63,13 +63,18 @@ OCRer::ResultsVecOpt OCRer::analyze() const
         return std::nullopt;
     }
 
-    if (m_params.sort_by_horizontal) {
-        std::ranges::sort(results_vec, [](const Result& a, const Result& b) {
-            if (a.rect.x != b.rect.x) {
-                return a.rect.x < b.rect.x;
-            }
-            return a.rect.y < b.rect.y;
-        });
+    switch (m_params.order_by) {
+    case ResultOrderBy::Horizontal:
+        sort_by_horizontal_(results_vec);
+        break;
+    case ResultOrderBy::Vertical:
+        sort_by_vertical_(results_vec);
+        break;
+    case ResultOrderBy::Score:
+        sort_by_score_(results_vec);
+        break;
+    default: // None：按识别顺序，不重排
+        break;
     }
 
     Log.trace("Proceed", results_vec);

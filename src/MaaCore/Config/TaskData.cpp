@@ -789,12 +789,24 @@ asst::TaskPtr asst::TaskData::generate_ocr_task_info(
 #endif
     utils::get_and_check_value_or(name, task_json, "fullMatch", ocr_task_info_ptr->full_match, default_ptr->full_match);
     utils::get_and_check_value_or(name, task_json, "isAscii", ocr_task_info_ptr->is_ascii, default_ptr->is_ascii);
-    utils::get_and_check_value_or(
-        name,
-        task_json,
-        "sortByHorizontal",
-        ocr_task_info_ptr->sort_by_horizontal,
-        default_ptr->sort_by_horizontal);
+    std::string order_by_str;
+    utils::get_and_check_value_or(name, task_json, "orderBy", order_by_str, std::string());
+    if (order_by_str.empty()) {
+        ocr_task_info_ptr->order_by = default_ptr->order_by;
+    }
+    else if (order_by_str == "Horizontal") {
+        ocr_task_info_ptr->order_by = ResultOrderBy::Horizontal;
+    }
+    else if (order_by_str == "Vertical") {
+        ocr_task_info_ptr->order_by = ResultOrderBy::Vertical;
+    }
+    else if (order_by_str == "Score") {
+        ocr_task_info_ptr->order_by = ResultOrderBy::Score;
+    }
+    else {
+        Log.error("Invalid orderBy value", order_by_str, "in task", name);
+        return nullptr;
+    }
     utils::get_and_check_value_or(
         name,
         task_json,
@@ -1091,7 +1103,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
               // specific
               "cache",         "fullMatch",   "isAscii",         "ocrReplace",   "rectMove",
               "replaceFull",   "roi",         "text",            "withoutDet",   "useRaw",
-              "binThreshold",  "sortByHorizontal",
+              "binThreshold",  "orderBy",
           } },
         { AlgorithmType::FeatureMatch,
           {

@@ -2073,7 +2073,7 @@
         "text": ["1"],
         "isAscii": true,
         "fullMatch": true,
-        "sortByHorizontal": true,
+        "orderBy": "Horizontal",
         "ocrReplace": [
             ["^\\d{1,2}$", "1"]
         ],
