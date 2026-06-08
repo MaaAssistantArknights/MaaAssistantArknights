@@ -2881,6 +2881,9 @@ public class AsstProxy
         /// <summary>更新用户数据</summary>
         UserDataUpdate,
 
+        /// <summary>仓库维护</summary>
+        DepotMaintain,
+
         /// <summary>小游戏</summary>
         MiniGame,
 

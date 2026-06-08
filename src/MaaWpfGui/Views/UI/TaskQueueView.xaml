@@ -373,7 +373,12 @@
                                             Padding="0,3"
                                             Command="{s:Action AddTaskQueueTask}"
                                             CommandParameter="{Binding TaskTypeList[9].Value}"
-                                            Header="{Binding TaskTypeList[9].Display}"
+                                            Header="{Binding TaskTypeList[9].Display}" />
+                                        <MenuItem
+                                            Padding="0,3"
+                                            Command="{s:Action AddTaskQueueTask}"
+                                            CommandParameter="{Binding TaskTypeList[10].Value}"
+                                            Header="{Binding TaskTypeList[10].Display}"
                                             Visibility="{c:Binding ShowDebugTask}" />
                                     </ContextMenu>
                                 </hc:ContextMenuButton.Menu>
@@ -606,6 +611,12 @@
                             DataContext="{Binding UserDataUpdateTask}"
                             IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                             Visibility="{c:Binding DataContext.TaskSettingVisibilities.UserDataUpdate,
+                                                   RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                  AncestorType={x:Type UserControl}}}" />
+                        <taskQueue:DepotMaintainTaskUserControl
+                            DataContext="{Binding DepotMaintainTask}"
+                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.DepotMaintain,
                                                    RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                   AncestorType={x:Type UserControl}}}" />
                         <taskQueue:CustomUserControl DataContext="{Binding CustomTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Custom, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
