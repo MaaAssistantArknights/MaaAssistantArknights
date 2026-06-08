@@ -708,7 +708,7 @@ public class AsstProxy
 
     private AsstHandle _handle;
 
-    public delegate void AsstSubTaskMsgDelegate(AsstMsg msg, AsstSubTaskMsg? details);
+    public delegate void AsstSubTaskMsgDelegate(AsstMsg type, AsstSubTaskMsg? msg);
 
     public event AsstSubTaskMsgDelegate? AsstSubTaskMsgEvent;
 
