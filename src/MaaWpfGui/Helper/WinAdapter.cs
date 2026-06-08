@@ -46,8 +46,8 @@ public class WinAdapter
         { "HD-Player", "BlueStacks" },
         { "dnplayer", "LDPlayer" },
         { "Nox", "Nox" },
-        { "MuMuPlayer", "MuMuEmulator12" }, // MuMu 12
-        { "MuMuNxDevice", "MuMuEmulator12" }, // MuMu 12 5.0
+        { "MuMuPlayer", "MuMuEmulator12" },
+        { "MuMuNxDevice", "MuMuEmulator12" },
         { "MEmu", "XYAZ" },
     };
 

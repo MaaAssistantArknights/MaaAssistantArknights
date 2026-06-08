@@ -272,7 +272,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _screencapCost, value);
     }
 
-    public class MuMuEmulator12ConnectionExtras : PropertyChangedBase
+    public class MuMuEmulatorConnectionExtras : PropertyChangedBase
     {
         private bool _enable = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12ExtrasEnabled, false);
 
@@ -307,10 +307,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
             try
             {
+                // 按版本从新到旧排列，新增版本只需追加一项
                 string[] possibleUninstallKeys =
                 [
+                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer-15.0",
                     @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer-12.0",
                     @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer",
+                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayerGlobal-15.0",
                     @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayerGlobal-12.0",
                     @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\YXArkNights-12.0",
                 ];
@@ -393,13 +396,18 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     return;
                 }
 
-                // 当路径存在时，检查 external_renderer_ipc.dll 是否可用（兼容 MuMu 5/12 路径）
+                // 当路径存在时，检查 external_renderer_ipc.dll 是否可用（兼容多个 MuMu 版本路径）
+                // 新增版本只需在此列表追加一项
                 if (!string.IsNullOrEmpty(value) && Directory.Exists(value))
                 {
-                    var dllPath1 = Path.Combine(value, "nx_device", "12.0", "shell", "sdk", "external_renderer_ipc.dll");
-                    var dllPath2 = Path.Combine(value, "shell", "sdk", "external_renderer_ipc.dll");
+                    string[] candidateRelativePaths =
+                    [
+                        Path.Combine("nx_device", "15.0", "shell", "sdk", "external_renderer_ipc.dll"),  // MuMu 6.0
+                        Path.Combine("nx_device", "12.0", "shell", "sdk", "external_renderer_ipc.dll"),  // MuMu 5.0 / MuMu 12
+                        Path.Combine("shell", "sdk", "external_renderer_ipc.dll"),                          // MuMu 旧版本
+                    ];
 
-                    if (!File.Exists(dllPath1) && !File.Exists(dllPath2))
+                    if (!candidateRelativePaths.Any(relPath => File.Exists(Path.Combine(value, relPath))))
                     {
                         MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuExternalRendererMissing"));
                         MessageBoxHelper.Show(LocalizationHelper.GetString("MuMu12ExtrasEnabledTip"));
@@ -482,7 +490,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    public MuMuEmulator12ConnectionExtras MuMuEmulator12Extras { get; set; } = new();
+    public MuMuEmulatorConnectionExtras MuMuEmulatorExtras { get; set; } = new();
 
     public class LdPlayerConnectionExtras : PropertyChangedBase
     {
@@ -1068,7 +1076,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         switch (ConnectConfig)
         {
             case "MuMuEmulator12":
-                if (MuMuEmulator12Extras.Enable && ScreencapMethod != "MumuExtras")
+                if (MuMuEmulatorExtras.Enable && ScreencapMethod != "MumuExtras")
                 {
                     TestLinkInfo = $"{LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage")}\n{ScreencapTestCost}";
                     return;

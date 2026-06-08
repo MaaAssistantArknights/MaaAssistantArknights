@@ -49,7 +49,7 @@ public class EmulatorHelper
                 "LDPlayer" => KillEmulatorLdPlayer(),
                 "XYAZ" => KillEmulatorXyaz(),
                 "BlueStacks" => KillEmulatorBlueStacks(),
-                "MuMuEmulator12" => KillEmulatorMuMuEmulator12(),
+                "MuMuEmulator12" => KillEmulatorMuMuEmulator(),
                 _ => KillEmulatorByWindow(),
             };
         }
@@ -61,10 +61,10 @@ public class EmulatorHelper
     }
 
     /// <summary>
-    /// 一个用于调用 MuMu12 模拟器控制台关闭 MuMu12 的方法
+    /// 一个用于调用 MuMu 模拟器控制台关闭 MuMu 的方法
     /// </summary>
     /// <returns>是否关闭成功</returns>
-    private static bool KillEmulatorMuMuEmulator12()
+    private static bool KillEmulatorMuMuEmulator()
     {
         string address = SettingsViewModel.ConnectSettings.ConnectAddress;
         int emuIndex;
@@ -72,9 +72,9 @@ public class EmulatorHelper
         {
             emuIndex = 0;
         }
-        else if (SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.MuMuBridgeConnection)
+        else if (SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.MuMuBridgeConnection)
         {
-            emuIndex = int.TryParse(SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Index, out var indexParse) ? indexParse : 0;
+            emuIndex = int.TryParse(SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.Index, out var indexParse) ? indexParse : 0;
         }
         else if (address.Contains(':'))
         {
@@ -94,7 +94,7 @@ public class EmulatorHelper
                         emuIndex = (port - 5555) / 2;
                         break;
                     default:
-                        _logger.Error("Port {Port} is not valid for MuMuEmulator12", port);
+                        _logger.Error("Port {Port} is not valid for MuMu emulator", port);
                         return false;
                 }
             }

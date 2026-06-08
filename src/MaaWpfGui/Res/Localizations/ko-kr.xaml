@@ -672,26 +672,26 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
     <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 강화 기능 활성화</system:String>
-    <system:String x:Key="MuMuEmulatorPathNotFound">MuMu Emulator 12 경로를 찾을 수 없습니다.</system:String>
+    <system:String x:Key="MuMuEmulatorPathNotFound">MuMu 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
     <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">선택한 MuMu 설치 폴더에서 external_renderer_ipc.dll을 찾을 수 없습니다.\n
 예상 상대 경로:
-nx_device/12.0/shell/sdk/external_renderer_ipc/external_renderer_ipc.dll 또는
-shell/sdk/external_renderer_ipc/external_renderer_ipc.dll\n
+nx_device/15.0/shell/sdk/external_renderer_ipc.dll 또는
+nx_device/12.0/shell/sdk/external_renderer_ipc.dll 또는
+shell/sdk/external_renderer_ipc.dll\n
 설치 폴더를 확인하세요.</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
 MuMu / MuMu Arknights V4.0.0 이상 버전이 필요합니다. MuMu Global은 V5.21.3 이상 버전이 필요합니다.
 이 기능을 활성화한 후 즉시 스크린샷 테스트를 실행하는 것을 강력히 권장합니다.
 MAA는 레지스트리를 통해 설치 경로를 자동으로 가져옵니다. 가져오지 못한 경우 수동으로 입력해 주세요.\n
 설치 경로는 에뮬레이터 경로의 최상위 폴더를 입력해야 합니다. 예를 들어, 에뮬레이터 프로세스 파일 경로가
-C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe 또는
-C:\\Program Files\\Netease\\MuMuPlayer-12.0\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
+C:\\Program Files\\Netease\\MuMuPlayer\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
 인 경우
-C:\\Program Files\\Netease\\MuMuPlayer-12.0으로 입력해야 합니다.\n
+C:\\Program Files\\Netease\\MuMuPlayer으로 입력해야 합니다.\n
 주의:
 1. 연결 주소의 포트 번호가 7555일 경우, 포트 번호를 16384로 변경해야 합니다.
 2. 네트워크 브리징을 사용 중인 경우 MuMu 네트워크 브리징 모드를 선택하고 일련 번호를 수동으로 입력해야 합니다.
     </system:String>
-    <system:String x:Key="MuMu12EmulatorPath">MuMu12 에뮬레이터 경로</system:String>
+    <system:String x:Key="MuMu12EmulatorPath">MuMu 에뮬레이터 경로</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu 네트워크 브리지 모드</system:String>
     <system:String x:Key="MuMuBridgeConnectionTip">무슨 역할을 하는지 잘 모른다면 이 옵션을 활성화하지 마세요</system:String>
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
@@ -1189,8 +1189,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. ｢{key=Settings} - {key=ConnectionSettings}｣에서 다른 방식으로 변경해 주세요.</system:String>
     <system:String x:Key="ScreencapFailed">스크린샷 캡처에 실패했습니다. 반복적으로 발생 시 에뮬레이터를 다시 시작하거나 변경해 보세요!</system:String>
     <system:String x:Key="FastestWayToScreencap">스크린샷 캡처 속도: {0}ms ({1})</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷 캡처 속도가 느려서 (평균: {0}ms) Copilot 기능에서 일부 비정상적인 동작이 발생할 수 있습니다. MuMu12 또는 LDPlayer를 사용하는 경우 스크린샷 향상 기능을 활성화해 보세요.</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷 캡처 속도가 너무 느려서 (평균: {0}ms) Copliot 기능이 제대로 실행되지 않을 수 있습니다. 에뮬레이터를 재시작하거나 변경하는 것을 권장합니다! MuMu12 또는 LDPlayer를 사용하는 경우 스크린샷 향상 기능을 활성화해 보세요.</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷 캡처 속도가 느려서 (평균: {0}ms) Copilot 기능에서 일부 비정상적인 동작이 발생할 수 있습니다. MuMu 또는 LDPlayer를 사용하는 경우 스크린샷 향상 기능을 활성화해 보세요.</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷 캡처 속도가 너무 느려서 (평균: {0}ms) Copliot 기능이 제대로 실행되지 않을 수 있습니다. 에뮬레이터를 재시작하거나 변경하는 것을 권장합니다! MuMu 또는 LDPlayer를 사용하는 경우 스크린샷 향상 기능을 활성화해 보세요.</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
