@@ -380,20 +380,24 @@ public static class ConfigFactory
 
     private static bool Save(string? file = null, Root? root = null)
     {
-        lock (_lock)
+        // 与 SaveAsync 共用同一信号量，使同步保存与异步保存互斥，
+        // 避免二者并发写入同一配置文件，导致写入内容被截断/损坏（#16915）
+        _semaphore.Wait();
+        try
         {
-            try
-            {
-                File.WriteAllText(file ?? ConfigFile, JsonSerializer.Serialize(root ?? Root, _options));
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Failed to save configuration file.");
-                return false;
-            }
-
-            return true;
+            File.WriteAllText(file ?? ConfigFile, JsonSerializer.Serialize(root ?? Root, _options));
         }
+        catch (Exception e)
+        {
+            _logger.Error(e, "Failed to save configuration file.");
+            return false;
+        }
+        finally
+        {
+            _semaphore.Release();
+        }
+
+        return true;
     }
 
     private static async Task<bool> SaveAsync(string? file = null)
