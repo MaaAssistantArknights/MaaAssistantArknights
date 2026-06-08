@@ -2,9 +2,14 @@
 
 ### Highlights
 
-#### 自动战斗与作业能力增强
+泡影苍霆活动关卡暂不支持多作业模式
+由于本次活动关卡的字体与界面结构较为特殊，MAA 无法在活动关卡中正常使用多作业模式。
+使用自动战斗功能时，请关闭 MAA 的「多作业模式」，并在干员编队界面启动任务。
+作业站中的「作业集」仅用于归纳作业，仍可正常导入。导入后可点击关卡名称右侧的文件图标，快速切换至对应关卡的单作业模式使用。
 
-悖论模拟新增「跳过战斗失败的作业」选项；自动战斗作业现可携带对应结构信息，并完成对怪猎二期自动战斗多作业模式的适配。
+#### 悖论模拟支持跳过战斗失败的关卡
+
+悖论模拟新增跳过战斗失败的作业选项，仅自动取消已完成的作业，未完成的作业将继续保持勾选状态。
 
 #### 支持 MuMu 6.0 版本截图增强
 
@@ -13,9 +18,9 @@
 <details>
 <summary><b>English</b></summary>
 
-#### Copilot Enhancements
-    
-Paradox Simulation adds a "skip copilots that failed in battle" option; Copilot now carry the corresponding structure info, with adaptations for Monster Hunter Phase 2 Copilot Multi-Job mode.
+#### Paradox Simulation Support for Skipping Failed Battle Stages
+
+The Paradox Simulation now includes an option to skip failed battle stages, automatically unchecking completed stages while keeping incomplete stages checked.
 
 #### Support for MuMu 6.0 Screenshot Enhancement
 
@@ -47,6 +52,7 @@ Supports the enhanced screenshot path for MuMu 6.0 Android 15, improving screens
 
 ### 修复 | Fix
 
+* 错误隐藏开局分队与开局干员选项 @ABA2396
 * 修复特克诺干员名 OCR 误识别 (#17030) @ZiyinLin
 * 修复绿票商店状态回退错误及二阶段校验问题 @status102 @ZiyinLin
 * MaskedCcoeffMatcher 稀疏路径累加器改用 CV_64F 防止大数目相减精度损失 (#16983) @Aliothmoon
