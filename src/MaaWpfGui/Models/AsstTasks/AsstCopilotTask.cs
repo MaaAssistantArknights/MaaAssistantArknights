@@ -144,6 +144,9 @@ public class AsstCopilotTask : AsstBaseTask
 
     public class MultiTask
     {
+        [JsonProperty("id")]
+        public int Index { get; set; }
+
         [JsonProperty("filename")]
         public string FileName { get; set; } = string.Empty;
 

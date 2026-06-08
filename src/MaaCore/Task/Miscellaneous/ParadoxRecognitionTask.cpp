@@ -15,7 +15,8 @@ bool asst::ParadoxRecognitionTask::_run()
         return false;
     }
 
-    const auto& path = utils::path(m_paradox_files.front());
+    const auto& [id, raw_path] = m_paradox_files.front();
+    const auto& path = utils::path(raw_path);
     std::string file_name;
     if (!Copilot.load(path)) {
         Log.error("CopilotConfig parse failed");
@@ -31,6 +32,7 @@ bool asst::ParadoxRecognitionTask::_run()
     json::value info = basic_info_with_what("CopilotListLoadTaskFileSuccess");
     info["details"]["stage_name"] = Copilot.get_stage_name();
     info["details"]["file_name"] = file_name;
+    info["details"]["id"] = id;
     callback(AsstMsg::SubTaskExtraInfo, info);
 
     m_navigate_name = standardize_name(stage_name);
@@ -91,9 +93,9 @@ void asst::ParadoxRecognitionTask::enter_paradox(const int skill_num, const int 
     }
 }
 
-void asst::ParadoxRecognitionTask::add_file(const std::string& navigate_name)
+void asst::ParadoxRecognitionTask::add_file(int id, const std::string& navigate_name)
 {
-    m_paradox_files.emplace_back(navigate_name);
+    m_paradox_files.emplace_back(id, navigate_name);
 }
 
 void asst::ParadoxRecognitionTask::swipe_page() const

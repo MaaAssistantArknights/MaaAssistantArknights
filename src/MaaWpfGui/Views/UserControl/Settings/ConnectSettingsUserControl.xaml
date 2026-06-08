@@ -212,34 +212,34 @@
                         Margin="10"
                         HorizontalAlignment="Center"
                         Content="{DynamicResource MuMu12ExtrasEnabled}"
-                        IsChecked="{Binding MuMuEmulator12Extras.Enable}" />
+                        IsChecked="{Binding MuMuEmulatorExtras.Enable}" />
                     <StackPanel
                         HorizontalAlignment="Center"
                         Orientation="Vertical"
-                        Visibility="{c:Binding MuMuEmulator12Extras.Enable}">
+                        Visibility="{c:Binding MuMuEmulatorExtras.Enable}">
                         <hc:TextBox
                             Width="420"
                             Height="30"
                             Margin="10"
-                            hc:InfoElement.Placeholder="Example: C:\Program Files\Netease\MuMuPlayer-12.0"
+                            hc:InfoElement.Placeholder="Example: C:\Program Files\Netease\MuMuPlayer"
                             hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
                             hc:TitleElement.TitlePlacement="Left"
-                            Text="{Binding MuMuEmulator12Extras.EmulatorPath}" />
+                            Text="{Binding MuMuEmulatorExtras.EmulatorPath}" />
                         <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
                             <CheckBox
                                 Margin="10"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Content="{DynamicResource MuMuBridgeConnection}"
-                                IsChecked="{Binding MuMuEmulator12Extras.MuMuBridgeConnection}" />
+                                IsChecked="{Binding MuMuEmulatorExtras.MuMuBridgeConnection}" />
                             <hc:TextBox
                                 Height="30"
                                 Margin="10"
                                 HorizontalContentAlignment="Center"
                                 hc:TitleElement.Title="{DynamicResource MuMu12Index}"
                                 hc:TitleElement.TitlePlacement="Left"
-                                Text="{Binding MuMuEmulator12Extras.Index}"
-                                Visibility="{c:Binding MuMuEmulator12Extras.MuMuBridgeConnection}" />
+                                Text="{Binding MuMuEmulatorExtras.Index}"
+                                Visibility="{c:Binding MuMuEmulatorExtras.MuMuBridgeConnection}" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

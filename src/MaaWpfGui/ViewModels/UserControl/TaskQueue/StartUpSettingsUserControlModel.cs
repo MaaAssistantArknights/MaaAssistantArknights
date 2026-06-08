@@ -32,6 +32,7 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
     static StartUpSettingsUserControlModel()
     {
         Instance = new();
+        Instances.AsstProxy.AsstSubTaskMsgEvent += Instance.ProcSubTaskMsg;
     }
 
     public static StartUpSettingsUserControlModel Instance { get; }
@@ -58,11 +59,11 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
         await Instances.TaskQueueViewModel.LinkStartWithTasks([task]);
     }
 
-    public override void ProcSubTaskMsg(AsstMsg msg, JObject details)
+    public void ProcSubTaskMsg(AsstMsg msg, AsstSubTaskMsg? details)
     {
-        if (msg == AsstMsg.SubTaskExtraInfo && details["what"]?.ToString() == "AccountSwitch")
+        if (msg == AsstMsg.SubTaskExtraInfo && details?.What == "AccountSwitch")
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {details["details"]!["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {details?.Details?["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
         }
     }
 

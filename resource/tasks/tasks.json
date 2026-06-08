@@ -93,50 +93,6 @@
         "next": ["#next"],
         "maxTimes": 20
     },
-    "SwitchTheme@ToggleSettingsMenu": {
-        "action": "ClickSelf",
-        "roi": [227, 327, 159, 152],
-        "postDelay": 1000,
-        "next": ["SwitchTheme@ChangeTheme", "SwitchTheme@ToggleSettingsMenu"]
-    },
-    "SwitchTheme@ChangeTheme": {
-        "action": "ClickSelf",
-        "roi": [563, 566, 132, 132],
-        "next": ["SwitchTheme@SelectLightTheme", "SwitchTheme@SwipeToLightTheme"]
-    },
-    "SwitchTheme@SelectLightTheme": {
-        "action": "ClickSelf",
-        "roi": [0, 99, 430, 180],
-        "maxTimes": 10,
-        "exceededNext": ["SwitchTheme@CancelThemeChange"],
-        "next": ["SwitchTheme@ConfirmThemeChange", "SwitchTheme@SelectLightTheme"]
-    },
-    "SwitchTheme@SwipeToLightTheme": {
-        "algorithm": "JustReturn",
-        "action": "Swipe",
-        "specificRect": [200, 170, 10, 10],
-        "rectMove": [200, 600, 10, 10],
-        "specialParams": [150, 0, 1, 1],
-        "postDelay": 500,
-        "maxTimes": 10,
-        "next": ["SwitchTheme@SelectLightTheme", "SwitchTheme@SwipeToLightTheme"]
-    },
-    "SwitchTheme@ConfirmThemeChange": {
-        "action": "ClickSelf",
-        "roi": [1070, 620, 200, 90],
-        "postDelay": 500,
-        "next": ["SwitchTheme@ReturnTheme"]
-    },
-    "SwitchTheme@CancelThemeChange": {
-        "action": "ClickSelf",
-        "roi": [918, 645, 66, 38],
-        "next": ["SwitchTheme@ReturnTheme"]
-    },
-    "SwitchTheme@ReturnTheme": {
-        "baseTask": "ReturnButton",
-        "template": ["Return.png", "Return-White.png"],
-        "next": ["#next"]
-    },
     "StageTheme": {
         "templThreshold": 0.7,
         "action": "ClickSelf",
@@ -293,6 +249,9 @@
         "specificRect": [600, 100, 20, 20],
         "exceededNext": ["ClickStageName", "StageNavigationSlowlySwipeLeft"]
     },
+    "Copilot@FullStageNavigation": {
+        "exceededNext": []
+    },
     "ClickStageName": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
@@ -314,8 +273,10 @@
             ["'", ""],
             ["(H\\d+)O(?=-)", "$010"],
             ["(-\\d+)O", "$010"],
-            [".*?([A-Z]{2}-EX-\\d+)", "$1"]
-        ]
+            [".*?([A-Z]{2}-EX-\\d+)", "$1"],
+            ["-I$", "-1"]
+        ],
+        "specialParams": [0, 0, 160, 180, 30, 255]
     },
     "StageNavigationSlowlySwipeLeft": {
         "baseTask": "ChapterSlowlySwipeToTheLeft",
@@ -679,6 +640,7 @@
             ["玛恩.*", "玛恩纳"],
             [".*默德克萨.*", "缄默德克萨斯"],
             [".*芜拉普兰.*", "荒芜拉普兰德"],
+            ["^持克诺$", "特克诺"],
             ["^重岳.+", "重岳"],
             ["(麒.+夜刀|.*麟.*夜刀)$", "麒麟R夜刀"],
             [".*龙.*黑角$", "火龙S黑角"],
@@ -3784,8 +3746,7 @@
     "EndOfPlot": {
         "roi": [520, 0, 243, 206],
         "action": "ClickRect",
-        "specificRect": [1260, 100, 10, 10],
-        "next": ["ClickStageName"]
+        "specificRect": [1260, 100, 10, 10]
     },
     "SkipForbiddenOperConfirm": {
         "action": "ClickSelf",
@@ -4370,7 +4331,7 @@
         "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
         "Doc_2": "需要在任务 Task 开始时截图时，将 Task 加入到此任务的 next 列表。",
         "algorithm": "JustReturn",
-        "next": ["Roguelike@StageEncounterOptionUnknown"]
+        "next": ["Roguelike@StageEncounterOptionUnknown", "SwitchTheme@ToggleSettingsMenu"]
     },
     "ScreenshotTaskPlugin-Config-Debug": {
         "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
@@ -4711,7 +4672,8 @@
     },
     "Copilot@StageNavigationSlowlySwipeLeft": {
         "doc": "禁掉copilot的找不到关卡返回",
-        "exceededNext": ["Copilot@ChapterSwipeToTheRightAndPlot"]
+        "next": [],
+        "exceededNext": []
     },
     "Copilot@ChapterSwipeToTheRightAndPlot": {
         "doc": "划 10 次到最右，然后扫有无初见剧情",
@@ -4744,7 +4706,7 @@
             "Copilot@SkipThePreBattlePlot",
             "Copilot@EndOfAction-Bypass",
             "Copilot@EndOfAction-Sandbox",
-            "Copilot@FightMissionFailed",
+            "Copilot@FightMissionFailed-Bypass",
             "Copilot@WaitUntilEndOfAction-Bypass"
         ]
     },
@@ -4771,6 +4733,10 @@
         "exceededNext": [],
         "onErrorNext": [],
         "next": ["Copilot@EndOfAction", "Copilot@EndOfAction-Sandbox"]
+    },
+    "Copilot@FightMissionFailed-Bypass": {
+        "baseTask": "Copilot@FightMissionFailed",
+        "next": ["Copilot@EndOfAction-Bypass", "Copilot@EndOfAction-Sandbox"]
     },
     "Copilot@StageDrops-Stars-3": {
         "Doc": "如果没有三星就终止",
@@ -5153,7 +5119,7 @@
         "text": ["资质凭证区"],
         "roi": [108, 163, 124, 56],
         "next": [
-            "Store@EnterTicketStore@LoadingIcon",
+            "GreenTicket@Store@EnterTicketStore@LoadingIcon",
             "GreenTicket@Store@ClickFirstFloor",
             "GreenTicket@Store@SwitchToSecondFloor"
         ]
@@ -5254,10 +5220,22 @@
         "template": "CreditShop-Bought.png",
         "next": [
             "GreenTicket@Store@PurchasedConfirm",
+            "GreenTicket@Store@SecondFloor-Check",
             "GreenTicket@Store@ClickItemList#next",
             "GreenTicket@Store@ClickSecondFloor",
             "Stop"
         ]
+    },
+    "GreenTicket@Store@SecondFloor-Check": {
+        "roi": [250, 315, 70, 165],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 0, 200],
+                [110, 255, 255]
+            ]
+        ],
+        "next": ["GreenTicket@Store@ClickSecondFloorItemList#next", "Stop"]
     },
     "GreenTicket@Store@ClickSecondFloor": {
         "algorithm": "OcrDetect",

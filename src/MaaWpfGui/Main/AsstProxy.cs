@@ -155,7 +155,7 @@ public class AsstProxy
         return ret;
     }
 
-    private static void AsstSetConnectionExtrasMuMu12(string extras)
+    private static void AsstSetConnectionExtrasMuMu(string extras)
     {
         AsstSetConnectionExtras("MuMuEmulator12", extras);
     }
@@ -708,6 +708,10 @@ public class AsstProxy
 
     private AsstHandle _handle;
 
+    public delegate void AsstSubTaskMsgDelegate(AsstMsg type, AsstSubTaskMsg? msg);
+
+    public event AsstSubTaskMsgDelegate? AsstSubTaskMsgEvent;
+
     private void ProcMsg(AsstMsg msg, JObject details)
     {
         switch (msg)
@@ -744,7 +748,15 @@ public class AsstProxy
             case AsstMsg.SubTaskCompleted:
             case AsstMsg.SubTaskExtraInfo:
                 ProcSubTaskMsg(msg, details);
-                TaskQueueViewModel.InvokeProcSubTaskMsg(msg, details);
+                try
+                {
+                    var payload = details.ToObject<AsstSubTaskMsg>() ?? null;
+                    AsstSubTaskMsgEvent?.Invoke(msg, payload);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error("Failed to parse SubTaskMsg: {ExMessage}\nSubTaskMsg:{SubTaskMsg}", ex.Message, details);
+                }
                 break;
 
             case AsstMsg.SubTaskStopped:
@@ -882,7 +894,7 @@ public class AsstProxy
                     switch (SettingsViewModel.ConnectSettings.ConnectConfig)
                     {
                         case "MuMuEmulator12":
-                            if (!SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Enable)
+                            if (!SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.Enable)
                             {
                                 break;
                             }
@@ -2141,6 +2153,14 @@ public class AsstProxy
             case "CopilotListLoadTaskFileSuccess":
                 Instances.CopilotViewModel.AddLog($"Parse {subTaskDetails!["file_name"]}[{subTaskDetails["stage_name"]}] Success");
                 Instances.CopilotViewModel.HasRequirementIgnored = false;
+                if (subTaskDetails["id"] is JToken { Type: JTokenType.Integer } id)
+                {
+                    Instances.CopilotViewModel.CurrentCopilotId = (int)id;
+                }
+                else
+                {
+                    Instances.CopilotViewModel.CurrentCopilotId = -1;
+                }
                 break;
 
             case "SSSStage":
@@ -2260,52 +2280,6 @@ public class AsstProxy
 
                     break;
                 }
-
-            case "UseMedicine":
-                var medicineReport = (JObject?)subTaskDetails;
-                if (medicineReport is null || !medicineReport.ContainsKey("is_expiring") || !medicineReport.ContainsKey("count"))
-                {
-                    break;
-                }
-
-                var isExpiringMedicine = medicineReport.TryGetValue("is_expiring", out var isExpiringMedicineToken) && (bool)isExpiringMedicineToken;
-                int medicineCount = medicineReport.TryGetValue("count", out var medicineCountToken) ? (int)medicineCountToken : -1;
-
-                if (medicineCount == -1)
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MedicineUsed") + " Unknown times", UiLogColor.Error);
-                    break;
-                }
-
-                string medicineLog;
-                if (!isExpiringMedicine)
-                {
-                    MedicineUsedTimes += medicineCount;
-                    medicineLog = LocalizationHelper.GetString("MedicineUsed") + $" {MedicineUsedTimes}(+{medicineCount})";
-                    AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, medicineCount);
-                }
-                else
-                {
-                    ExpiringMedicineUsedTimes += medicineCount;
-                    var item = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId));
-                    var expireOut = "--";
-                    if (item is not null && item.Index >= 0 && item.Index < ConfigFactory.CurrentConfig.TaskQueue.Count)
-                    {
-                        if (ConfigFactory.CurrentConfig.TaskQueue[item.Index] is FightTask fightTask)
-                        {
-                            var yjTime = DateTimeOffset.Now.ToYjDateTime().ToLocalTime();
-                            var daysUntilEndOfWeek = ((7 - (int)yjTime.DayOfWeek + 7) % 7) + 1; // 距离本周结束的天数, 用鹰历计算
-                            var expireDays = Math.Max(fightTask.UseExpiringMedicine ? fightTask.MedicineExpireDays : 0, FightSetting.Instance.ActivityExpireIn2Days && fightTask.UseExpireMedicineForActivity ? daysUntilEndOfWeek : 0);
-                            expireOut = $"{expireDays * 24}";
-                        }
-                    }
-                    medicineLog = LocalizationHelper.GetStringFormat("ExpiringMedicineUsed", expireOut) + $" {ExpiringMedicineUsedTimes}(+{medicineCount})";
-                    AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, medicineCount);
-                    AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
-                }
-
-                Instances.TaskQueueViewModel.AddLog(medicineLog, UiLogColor.Info);
-                break;
 
             case "StageQueueUnableToAgent":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails!["stage_code"]} " + LocalizationHelper.GetString("UnableToAgent"), UiLogColor.Info);
@@ -2634,7 +2608,7 @@ public class AsstProxy
         switch (SettingsViewModel.ConnectSettings.ConnectConfig)
         {
             case "MuMuEmulator12":
-                AsstSetConnectionExtrasMuMu12(SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Config);
+                AsstSetConnectionExtrasMuMu(SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.Config);
                 break;
 
             case "LDPlayer":

@@ -1,14 +1,21 @@
 #include "MultiCopilotTaskPlugin.h"
 
+#include <ranges>
+
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
+#include "Controller/Controller.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
+#include "Vision/Matcher.h"
+#include "Vision/Miscellaneous/PipelineAnalyzer.h"
 
 bool asst::MultiCopilotTaskPlugin::_run()
 {
+    LogTraceFunction;
     if (m_copilot_configs.size() < (size_t)m_index_current) {
         LogError << __FUNCTION__ << "configs size:" << m_copilot_configs.size() << ", current index:" << m_index_current
                  << ", out of range";
@@ -33,6 +40,7 @@ bool asst::MultiCopilotTaskPlugin::_run()
     json::value info = basic_info_with_what("CopilotListLoadTaskFileSuccess");
     info["details"]["stage_name"] = Copilot.get_stage_name();
     info["details"]["file_name"] = std::move(file_name);
+    info["details"]["id"] = config.id;
     callback(AsstMsg::SubTaskExtraInfo, info);
 
     bool ret = true;
@@ -49,9 +57,133 @@ bool asst::MultiCopilotTaskPlugin::_run()
 
 bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_name)
 {
-    Task.get<OcrTaskInfo>(stage_name + "@Copilot@ClickStageName")->text = { stage_name };
-    std::string replace_navigate_name = stage_name;
-    utils::string_replace_all_in_place(replace_navigate_name, { { "-", "" } });
-    Task.get<OcrTaskInfo>(stage_name + "@Copilot@ClickedCorrectStage")->text = { stage_name, replace_navigate_name };
-    return ProcessTask(*this, { stage_name + "@Copilot@StageNavigationBegin" }).set_retry_times(20).run();
+    auto image = ctrler()->get_image();
+
+    if (is_stage_detail_opened(image)) { // 关卡介绍已展开
+        return confirm_stage_name(image, stage_name);
+    }
+
+    const auto& task = Task.get<OcrTaskInfo>(stage_name + "@ClickStageName");
+    std::tuple<int, int, int> threshold_low { task->bin_threshold[0], task->bin_threshold[1], task->bin_threshold[2] };
+    std::tuple<int, int, int> threshold_high { task->bin_threshold[3], task->bin_threshold[4], task->bin_threshold[5] };
+    auto stages = find_stage(image, threshold_low, threshold_high);
+    auto it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
+    if (it != stages.end()) {
+        if (enter_stage(it->rect, stage_name)) {
+            return true;
+        }
+    }
+
+    ProcessTask(*this, { "Copilot@FullStageNavigation" }).set_retry_times(20).run();
+    sleep(Config.get_options().task_delay);
+    image = ctrler()->get_image();
+    stages = find_stage(image, threshold_low, threshold_high);
+    it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
+    if (it != stages.end()) {
+        if (enter_stage(it->rect, stage_name)) {
+            return true;
+        }
+    }
+
+    for (int i = 0; i < m_max_retry; ++i) {
+        ProcessTask(*this, { "Copilot@StageNavigationSlowlySwipeLeft" }).set_retry_times(20).run();
+        sleep(Config.get_options().task_delay);
+        image = ctrler()->get_image();
+        stages = find_stage(image, threshold_low, threshold_high);
+        it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
+        if (it != stages.end()) {
+            if (enter_stage(it->rect, stage_name)) {
+                return true;
+            }
+        }
+    }
+
+    // 划 10 次到最右，然后扫有无初见剧情
+    auto plot_task = ProcessTask(*this, { "Copilot@ChapterSwipeToTheRightAndPlot" });
+    plot_task.set_retry_times(20);
+    if (plot_task.run()) {
+        sleep(Config.get_options().task_delay);
+        image = ctrler()->get_image();
+        stages = find_stage(image, threshold_low, threshold_high);
+        it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
+        if (it != stages.end()) {
+            if (enter_stage(it->rect, stage_name)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
+
+bool asst::MultiCopilotTaskPlugin::enter_stage(const Rect rect, const std::string& stage_name)
+{
+    ctrler()->click(rect);
+    sleep(Config.get_options().task_delay);
+    auto image_entered = ctrler()->get_image();
+    if (is_stage_detail_opened(image_entered)) { // 关卡介绍已展开
+        sleep(Config.get_options().task_delay);
+        return confirm_stage_name(image_entered, stage_name);
+    }
+
+    return false;
+}
+
+asst::OCRer::ResultsVec asst::MultiCopilotTaskPlugin::find_stage(
+    const cv::Mat& image,
+    std::tuple<int, int, int> threshold_low,
+    std::tuple<int, int, int> threshold_high)
+{
+    cv::Mat gray;
+    cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
+    auto [l1, l2, l3] = threshold_low;
+    auto [h1, h2, h3] = threshold_high;
+    cv::inRange(gray, cv::Scalar(l1, l2, l3), cv::Scalar(h1, h2, h3), gray);
+    cv::dilate(gray, gray, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(15, 8)), cv::Point(-1, -1), 1);
+    std::vector<cv::Mat> channels = { gray, gray, gray };
+    cv::Mat gray3;
+    cv::merge(channels, gray3);
+    cv::bitwise_and(image, gray3, gray3);
+    OCRer ocr(gray3);
+    ocr.set_task_info("ClickStageName");
+    if (!ocr.analyze()) {
+        return {};
+    }
+    auto result = ocr.get_result();
+    std::erase_if(result, [](const OcrPack::Result& r) { return r.text.size() == 1 || r.score < 0.5; });
+    LogInfo << __FUNCTION__ << "stage results:" << result;
+    return result;
+}
+
+bool asst::MultiCopilotTaskPlugin::is_stage_detail_opened(const cv::Mat& image)
+{
+    PipelineAnalyzer match(image);
+    match.set_tasks({ "ClickedCorrectStageOrSwipe" });
+    return match.analyze().has_value();
+}
+
+bool asst::MultiCopilotTaskPlugin::confirm_stage_name(const cv::Mat& image, const std::string& stage_name)
+{
+    const auto ocr_check = [&](const OCRer::ResultsVecOpt& ret_opt) {
+        return ret_opt.has_value() &&
+               std::ranges::any_of(ret_opt.value(), [&](const OcrPack::Result& r) { return r.text == stage_name; });
+    };
+    OCRer ocr(image);
+    ocr.set_task_info("ClickStageName");
+    if (ocr_check(ocr.analyze())) {
+        return true;
+    }
+
+    for (int i = 0; i < m_max_retry; ++i) {
+        sleep(Config.get_options().task_delay);
+        OCRer re_OCR(ctrler()->get_image());
+        re_OCR.set_task_info("ClickStageName");
+        if (ocr_check(re_OCR.analyze())) {
+            return true;
+        }
+    }
+    LogError << __FUNCTION__ << "confirm stage name failed after retrying " << m_max_retry
+             << " times, stage name:" << stage_name;
+    return false;
+}
+

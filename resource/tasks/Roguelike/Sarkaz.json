@@ -81,8 +81,8 @@
     },
     "Sarkaz@Roguelike@ChooseOper": {
         "next": [
-            "Sarkaz@Roguelike@ChooseOper@(Sarkaz@Roguelike@CloseCollectionContinue)",
-            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@ChooseOperFlag@(Sarkaz@Roguelike@CloseCollectionContinue)",
+            "Sarkaz@Roguelike@ChooseOperFlag@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@ChooseOperConfirm",
             "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp",
             "Sarkaz@Roguelike@Abandon",
@@ -116,15 +116,8 @@
                 [170, 170, 170]
             ]
         ],
-        "next": [
-            "Sarkaz@Roguelike@StageEncounterEnter",
-            "Sarkaz@Roguelike@Stages#next",
-            "Sarkaz@Roguelike@DropsFlag",
-            "Sarkaz@Roguelike@CloseEvent",
-            "Sarkaz@Roguelike@ChooseOperFlag",
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
-        ]
+        "onErrorNext": ["#back"],
+        "next": ["#next"]
     },
     "Sarkaz@Roguelike@CloseCollectionContinue": {
         "action": "ClickSelf",
@@ -174,7 +167,7 @@
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
             "Sarkaz@Roguelike@DecreaseBurdenChaos@(Sarkaz@Roguelike@CloseCollectionContinue)",
-            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@DecreaseBurdenChaos@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@DecreaseBurdenChaos"
         ]
     },
@@ -200,7 +193,7 @@
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation@(Sarkaz@Roguelike@CloseCollectionContinue)",
-            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation"
         ]
     },
@@ -212,7 +205,7 @@
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1@(Sarkaz@Roguelike@CloseCollectionContinue)",
-            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"
         ]
     },
@@ -223,7 +216,7 @@
         "specificRect": [1210, 120, 0, 0],
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2@(Sarkaz@Roguelike@CloseCollectionContinue)",
-            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
             "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"
         ]
@@ -347,7 +340,7 @@
     "Sarkaz@Roguelike@GetDropSelect": {
         "next": [
             "Sarkaz@Roguelike@GetDropSelect@(Sarkaz@Roguelike@CloseCollectionContinue)",
-            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@GetDropSelect@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@GetDropSelectRecruit",
             "Sarkaz@Roguelike@GetDropSelectReward",
             "Sarkaz@Roguelike@ChooseOperFlag",
@@ -360,7 +353,7 @@
     "Sarkaz@Roguelike@GetDrops": {
         "next": [
             "Sarkaz@Roguelike@GetDrops@(Sarkaz@Roguelike@CloseCollectionContinue)",
-            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@GetDrops@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@GetDrop1",
             "Sarkaz@Roguelike@GetDrop2",
             "Sarkaz@Roguelike@GetDrop3",
@@ -631,17 +624,11 @@
     "Sarkaz@Roguelike@StageEncounter": {
         "templThreshold": 0.96
     },
-    "Sarkaz@Roguelike@StageEncounterClose": {
-        "Doc": "关掉进入事件可能弹出的窗口",
-        "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
-        "template": "Sarkaz@Roguelike@CloseCollectionClose.png",
-        "next": ["Sarkaz@Roguelike@StageEncounterJudgeOption"]
-    },
     "Sarkaz@Roguelike@StageEncounterEnter": {},
     "Sarkaz@Roguelike@StageEncounterJudgeClick2": {
         "next": [
             "Sarkaz@Roguelike@StageEncounterJudgeClick2@(Sarkaz@Roguelike@CloseCollectionContinue)",
-            "Sarkaz@Roguelike@StageEncounterClose",
+            "Sarkaz@Roguelike@StageEncounterJudgeClick2@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@StageEncounterJudgeOption"
         ]
     },
@@ -894,7 +881,7 @@
             ]
         ],
         "next": [
-            "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionClose",
+            "Sarkaz@Roguelike@StageTraderEnter@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@StageTraderEnter@(Sarkaz@Roguelike@CloseCollectionContinue)",
             "Sarkaz@Roguelike@StageVerticalConfirmTrader",
             "Sarkaz@Roguelike@StageTraderEnter",
@@ -904,11 +891,6 @@
             "Sarkaz@Roguelike@StageTraderLeave",
             "Sarkaz@Roguelike@StageTraderLeaveConfirm"
         ]
-    },
-    "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionClose": {
-        "template": "Sarkaz@Roguelike@CloseCollectionClose.png",
-        "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
-        "next": ["Sarkaz@Roguelike@StageTraderEnter#next"]
     },
     "Sarkaz@Roguelike@StageTraderHD": {
         "Doc": "已深化",
@@ -955,7 +937,7 @@
         "next": [
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@Stages@(Sarkaz@Roguelike@CloseCollectionContinue)",
-            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@Stages@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@StageBurdenOperation#next",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageEmergencyOps",
@@ -987,7 +969,7 @@
         "next": [
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@Stages@(Sarkaz@Roguelike@CloseCollectionContinue)",
-            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@Stages@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@StageBurdenOperation#next",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageTraderHD",
@@ -1019,7 +1001,7 @@
         "next": [
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@Stages@(Sarkaz@Roguelike@CloseCollectionContinue)",
-            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@Stages@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@Routing-FastInvestment"
         ],
@@ -1031,7 +1013,7 @@
         "next": [
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@Stages@(Sarkaz@Roguelike@CloseCollectionContinue)",
-            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@Stages@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@StageBoskyPassage",
@@ -1063,7 +1045,7 @@
         "next": [
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@Stages@(Sarkaz@Roguelike@CloseCollectionContinue)",
-            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@Stages@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",

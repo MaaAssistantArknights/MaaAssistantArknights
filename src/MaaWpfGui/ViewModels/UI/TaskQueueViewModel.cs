@@ -2170,15 +2170,6 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    public static void InvokeProcSubTaskMsg(AsstMsg msg, JObject details)
-    {
-        foreach (var instance in _taskViewModelTypes)
-        {
-            // 调用 ProcSubTaskMsg 方法
-            instance.ProcSubTaskMsg(msg, details);
-        }
-    }
-
     public void RefreshTaskModel(BaseTask task)
     {
         foreach (var instance in _taskViewModelTypes)

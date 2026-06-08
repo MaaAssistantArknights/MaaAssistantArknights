@@ -128,10 +128,9 @@
             Margin="25,5"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Background="{DynamicResource MouseOverRegionBrushOpacity75}"
             Command="{Binding SearchCmd, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
             CommandParameter="{Binding SearchText, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
-            Text="{Binding SearchText, Source={x:Static helper:AchievementTrackerHelper.Instance}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            IsRealTime="True" />
+            IsRealTime="True"
+            Text="{Binding SearchText, Source={x:Static helper:AchievementTrackerHelper.Instance}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </hc:Window>

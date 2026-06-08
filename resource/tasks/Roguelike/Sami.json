@@ -96,7 +96,7 @@
     },
     "Sami@Roguelike@ChooseOper": {
         "next": [
-            "Sami@Roguelike@CloseCollectionClose",
+            "Sami@Roguelike@ChooseOperFlag@(Sami@Roguelike@CloseCollectionClose)",
             "Sami@Roguelike@ChooseOperConfirm",
             "Sami@Roguelike@Abandon",
             "Sami@Roguelike@ChooseOperConfirm#next"
@@ -137,13 +137,8 @@
         "action": "ClickSelf",
         "templThreshold": 0.9,
         "roi": [572, 434, 144, 141],
-        "next": [
-            "Sami@Roguelike@StageEncounterEnter",
-            "Sami@Roguelike@Stages#next",
-            "Sami@Roguelike@DropsFlag",
-            "Sami@Roguelike@CloseEvent",
-            "Sami@Roguelike@ChooseOperFlag"
-        ]
+        "onErrorNext": ["#back"],
+        "next": ["#next"]
     },
     "Sami@Roguelike@CloseEvent": {},
     "Sami@Roguelike@CloseInterview": {
@@ -1057,7 +1052,7 @@
             "Sami@Roguelike@StageDreadfulFoe-5",
             "Sami@Roguelike@StageEmergencyOps",
             "Sami@Roguelike@StageEmergencyOpsAI6",
-            "Sami@Roguelike@CloseCollectionClose",
+            "Sami@Roguelike@StagesChaosZero@(Sami@Roguelike@CloseCollectionClose)",
             "Sami@Roguelike@ChooseOperFlag",
             "Sami@Roguelike@StageEncounterSpecialClose",
             "Sami@Roguelike@TraderRandomShopping",
@@ -1116,7 +1111,7 @@
             "Sami@Roguelike@StageDreadfulFoe",
             "Sami@Roguelike@StageDreadfulFoe-5",
             "Sami@Roguelike@StageMysteriousPresage",
-            "Sami@Roguelike@CloseCollectionClose"
+            "Sami@Roguelike@Stages@(Sami@Roguelike@CloseCollectionClose)"
         ],
         "onErrorNext": ["Sami@Roguelike@ExitThenAbandon"]
     },
@@ -1162,7 +1157,7 @@
             "Sami@Roguelike@StageGamblingAI6",
             "Sami@Roguelike@StageDreadfulFoe",
             "Sami@Roguelike@StageDreadfulFoe-5",
-            "Sami@Roguelike@CloseCollectionClose",
+            "Sami@Roguelike@Stages@(Sami@Roguelike@CloseCollectionClose)",
             "Sami@Roguelike@Abandon"
         ],
         "onErrorNext": ["Sami@Roguelike@ExitThenAbandon"]
@@ -1218,7 +1213,7 @@
             "Sami@Roguelike@StageDreadfulFoe",
             "Sami@Roguelike@StageDreadfulFoe-5",
             "Sami@Roguelike@StageFerociousPresage",
-            "Sami@Roguelike@CloseCollectionClose"
+            "Sami@Roguelike@Stages@(Sami@Roguelike@CloseCollectionClose)"
         ],
         "onErrorNext": ["Sami@Roguelike@ExitThenAbandon"]
     },
@@ -1275,7 +1270,7 @@
             "Sami@Roguelike@StageVerticalWindAndRainAI6",
             "Sami@Roguelike@StageVerticalEmergencyTransportation",
             "Sami@Roguelike@StageVerticalEmergencyTransportationAI6",
-            "Sami@Roguelike@CloseCollectionClose"
+            "Sami@Roguelike@Stages@(Sami@Roguelike@CloseCollectionClose)"
         ],
         "onErrorNext": ["Sami@Roguelike@ExitThenAbandon"]
     },

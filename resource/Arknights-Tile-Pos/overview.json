@@ -6389,6 +6389,87 @@
         "stageId": "act1enemyduel_02b",
         "width": 15
     },
+    "act1football_01-activities/act1football/level_act1football_01": {
+        "code": "PF-1",
+        "filename": "act1football_01-activities-act1football-level_act1football_01.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_01",
+        "name": "揭幕之战",
+        "stageId": "act1football_01",
+        "width": 13
+    },
+    "act1football_02-activities/act1football/level_act1football_02": {
+        "code": "PF-2",
+        "filename": "act1football_02-activities-act1football-level_act1football_02.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_02",
+        "name": "把握良机",
+        "stageId": "act1football_02",
+        "width": 13
+    },
+    "act1football_03-activities/act1football/level_act1football_03": {
+        "code": "PF-3",
+        "filename": "act1football_03-activities-act1football-level_act1football_03.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_03",
+        "name": "渐入佳境",
+        "stageId": "act1football_03",
+        "width": 13
+    },
+    "act1football_04-activities/act1football/level_act1football_04": {
+        "code": "PF-4",
+        "filename": "act1football_04-activities-act1football-level_act1football_04.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_04",
+        "name": "客场连战",
+        "stageId": "act1football_04",
+        "width": 13
+    },
+    "act1football_05-activities/act1football/level_act1football_05": {
+        "code": "PF-5",
+        "filename": "act1football_05-activities-act1football-level_act1football_05.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_05",
+        "name": "争分夺球",
+        "stageId": "act1football_05",
+        "width": 13
+    },
+    "act1football_06-activities/act1football/level_act1football_06": {
+        "code": "PF-6",
+        "filename": "act1football_06-activities-act1football-level_act1football_06.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_06",
+        "name": "胜负难分",
+        "stageId": "act1football_06",
+        "width": 13
+    },
+    "act1football_07-activities/act1football/level_act1football_07": {
+        "code": "PF-7",
+        "filename": "act1football_07-activities-act1football-level_act1football_07.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_07",
+        "name": "出线之争",
+        "stageId": "act1football_07",
+        "width": 13
+    },
+    "act1football_s01-activities/act1football/level_act1football_sub-1-1": {
+        "code": "PF-S-1",
+        "filename": "act1football_s01-activities-act1football-level_act1football_sub-1-1.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_sub-1-1",
+        "name": "耐力拉练",
+        "stageId": "act1football_s01",
+        "width": 13
+    },
+    "act1football_tr01-activities/act1football/level_act1football_tr01": {
+        "code": "PF-TR-1",
+        "filename": "act1football_tr01-activities-act1football-level_act1football_tr01.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_tr01",
+        "name": "首次训练",
+        "stageId": "act1football_tr01",
+        "width": 13
+    },
     "act1halfidle_01-activities/act1vhalfidle/level_act1vhalfidle_01": {
         "code": "RM-1",
         "filename": "act1halfidle_01-activities-act1vhalfidle-level_act1vhalfidle_01.json",
@@ -16829,6 +16910,150 @@
         "stageId": "act50side_08",
         "width": 11
     },
+    "act50side_ex01#f#-activities/act50side/level_act50side_ex02": {
+        "code": "TD-EX-1",
+        "filename": "act50side_ex01#f#-activities-act50side-level_act50side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act50side/level_act50side_ex02",
+        "name": "为了泡影国的未来？",
+        "stageId": "act50side_ex01#f#",
+        "width": 12
+    },
+    "act50side_ex01-activities/act50side/level_act50side_ex02": {
+        "code": "TD-EX-1",
+        "filename": "act50side_ex01-activities-act50side-level_act50side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act50side/level_act50side_ex02",
+        "name": "为了泡影国的未来？",
+        "stageId": "act50side_ex01",
+        "width": 12
+    },
+    "act50side_ex02#f#-activities/act50side/level_act50side_ex01": {
+        "code": "TD-EX-2",
+        "filename": "act50side_ex02#f#-activities-act50side-level_act50side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act50side/level_act50side_ex01",
+        "name": "迁徙季",
+        "stageId": "act50side_ex02#f#",
+        "width": 11
+    },
+    "act50side_ex02-activities/act50side/level_act50side_ex01": {
+        "code": "TD-EX-2",
+        "filename": "act50side_ex02-activities-act50side-level_act50side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act50side/level_act50side_ex01",
+        "name": "迁徙季",
+        "stageId": "act50side_ex02",
+        "width": 11
+    },
+    "act50side_ex03#f#-activities/act50side/level_act50side_ex03": {
+        "code": "TD-EX-3",
+        "filename": "act50side_ex03#f#-activities-act50side-level_act50side_ex03.json",
+        "height": 9,
+        "levelId": "activities/act50side/level_act50side_ex03",
+        "name": "完美的训练场",
+        "stageId": "act50side_ex03#f#",
+        "width": 13
+    },
+    "act50side_ex03-activities/act50side/level_act50side_ex03": {
+        "code": "TD-EX-3",
+        "filename": "act50side_ex03-activities-act50side-level_act50side_ex03.json",
+        "height": 9,
+        "levelId": "activities/act50side/level_act50side_ex03",
+        "name": "完美的训练场",
+        "stageId": "act50side_ex03",
+        "width": 13
+    },
+    "act50side_ex04#f#-activities/act50side/level_act50side_ex04": {
+        "code": "TD-EX-4",
+        "filename": "act50side_ex04#f#-activities-act50side-level_act50side_ex04.json",
+        "height": 9,
+        "levelId": "activities/act50side/level_act50side_ex04",
+        "name": "保护“御轮”",
+        "stageId": "act50side_ex04#f#",
+        "width": 13
+    },
+    "act50side_ex04-activities/act50side/level_act50side_ex04": {
+        "code": "TD-EX-4",
+        "filename": "act50side_ex04-activities-act50side-level_act50side_ex04.json",
+        "height": 9,
+        "levelId": "activities/act50side/level_act50side_ex04",
+        "name": "保护“御轮”",
+        "stageId": "act50side_ex04",
+        "width": 13
+    },
+    "act50side_ex05#f#-activities/act50side/level_act50side_ex05": {
+        "code": "TD-EX-5",
+        "filename": "act50side_ex05#f#-activities-act50side-level_act50side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act50side/level_act50side_ex05",
+        "name": "新的岗哨",
+        "stageId": "act50side_ex05#f#",
+        "width": 12
+    },
+    "act50side_ex05-activities/act50side/level_act50side_ex05": {
+        "code": "TD-EX-5",
+        "filename": "act50side_ex05-activities-act50side-level_act50side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act50side/level_act50side_ex05",
+        "name": "新的岗哨",
+        "stageId": "act50side_ex05",
+        "width": 12
+    },
+    "act50side_ex06#f#-activities/act50side/level_act50side_ex06": {
+        "code": "TD-EX-6",
+        "filename": "act50side_ex06#f#-activities-act50side-level_act50side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act50side/level_act50side_ex06",
+        "name": "新的兽潮？",
+        "stageId": "act50side_ex06#f#",
+        "width": 11
+    },
+    "act50side_ex06-activities/act50side/level_act50side_ex06": {
+        "code": "TD-EX-6",
+        "filename": "act50side_ex06-activities-act50side-level_act50side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act50side/level_act50side_ex06",
+        "name": "新的兽潮？",
+        "stageId": "act50side_ex06",
+        "width": 11
+    },
+    "act50side_ex07#f#-activities/act50side/level_act50side_ex07": {
+        "code": "TD-EX-7",
+        "filename": "act50side_ex07#f#-activities-act50side-level_act50side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act50side/level_act50side_ex07",
+        "name": "最后的“诅咒”",
+        "stageId": "act50side_ex07#f#",
+        "width": 13
+    },
+    "act50side_ex07-activities/act50side/level_act50side_ex07": {
+        "code": "TD-EX-7",
+        "filename": "act50side_ex07-activities-act50side-level_act50side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act50side/level_act50side_ex07",
+        "name": "最后的“诅咒”",
+        "stageId": "act50side_ex07",
+        "width": 13
+    },
+    "act50side_ex08#f#-activities/act50side/level_act50side_ex08": {
+        "code": "TD-EX-8",
+        "filename": "act50side_ex08#f#-activities-act50side-level_act50side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act50side/level_act50side_ex08",
+        "name": "山河一闪，雷鸣响彻",
+        "stageId": "act50side_ex08#f#",
+        "width": 13
+    },
+    "act50side_ex08-activities/act50side/level_act50side_ex08": {
+        "code": "TD-EX-8",
+        "filename": "act50side_ex08-activities-act50side-level_act50side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act50side/level_act50side_ex08",
+        "name": "山河一闪，雷鸣响彻",
+        "stageId": "act50side_ex08",
+        "width": 13
+    },
     "act50side_p-1-activities/act50side/level_act50side_p-1": {
         "code": "TD-P-1",
         "filename": "act50side_p-1-activities-act50side-level_act50side_p-1.json",
@@ -16836,6 +17061,15 @@
         "levelId": "activities/act50side/level_act50side_p-1",
         "name": "“百兽奔行”",
         "stageId": "act50side_p-1",
+        "width": 13
+    },
+    "act50side_s01-activities/act50side/level_act50side_sub-1-1": {
+        "code": "TD-S-1",
+        "filename": "act50side_s01-activities-act50side-level_act50side_sub-1-1.json",
+        "height": 9,
+        "levelId": "activities/act50side/level_act50side_sub-1-1",
+        "name": "群山震颤，百龙夜行",
+        "stageId": "act50side_s01",
         "width": 13
     },
     "act50side_tr01-activities/act50side/level_act50side_tr01": {

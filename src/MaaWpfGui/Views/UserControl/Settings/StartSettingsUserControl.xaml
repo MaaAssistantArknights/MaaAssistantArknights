@@ -96,8 +96,14 @@
                     <controls:TooltipBlock TooltipText="{DynamicResource SelectShortcutTip}" />
                     <Button
                         Margin="10,0,0,0"
+                        hc:BorderElement.CornerRadius="4,0,0,4"
                         Command="{s:Action SelectEmulatorExec}"
                         Content="{DynamicResource Select}" />
+                    <Button
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        BorderThickness="0,1,1,1"
+                        Command="{s:Action TestEmulatorExec}"
+                        Content="{DynamicResource Test}" />
                 </StackPanel>
                 <TextBox Margin="20,5" Text="{Binding EmulatorPath}" />
             </StackPanel>

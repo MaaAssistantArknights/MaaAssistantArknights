@@ -709,14 +709,27 @@
                 </Grid>
             </Grid>
 
-            <controls:TextBlock Grid.Row="2" Block.TextAlignment="Center">
-                <Hyperlink
-                    Cursor="Hand"
-                    NavigateUri="{Binding CopilotUrl}"
-                    TextDecorations="None">
-                    <TextBlock d:Text="PrtsPlus" Text="{Binding UrlText}" />
-                </Hyperlink>
-            </controls:TextBlock>
+            <StackPanel
+                Grid.Row="2"
+                HorizontalAlignment="Center"
+                Orientation="Vertical">
+                <controls:TextBlock Block.TextAlignment="Center" Visibility="{c:Binding HasVideoUrl}">
+                    <Hyperlink
+                        Cursor="Hand"
+                        NavigateUri="{Binding VideoUrl}"
+                        TextDecorations="None">
+                        <TextBlock Text="{DynamicResource VideoLink}" />
+                    </Hyperlink>
+                </controls:TextBlock>
+                <controls:TextBlock Block.TextAlignment="Center">
+                    <Hyperlink
+                        Cursor="Hand"
+                        NavigateUri="{Binding CopilotUrl}"
+                        TextDecorations="None">
+                        <TextBlock d:Text="PrtsPlus" Text="{DynamicResource PrtsPlus}" />
+                    </Hyperlink>
+                </controls:TextBlock>
+            </StackPanel>
         </Grid>
 
         <Grid

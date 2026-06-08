@@ -26,7 +26,7 @@ public class AsstParadoxCopilotTask : AsstBaseTask
     /// Gets or sets 多作业列表, 导航至关卡 (启用自动战斗序列、取消代理)
     /// </summary>
     [JsonProperty("list")]
-    public List<string> MultiTasks { get; set; } = [];
+    public List<MultiTask> MultiTasks { get; set; } = [];
 
     [JsonProperty("filename")]
     public string? FileName { get; set; }
@@ -45,4 +45,6 @@ public class AsstParadoxCopilotTask : AsstBaseTask
 
         return (TaskType, json);
     }
+
+    public record MultiTask([property: JsonProperty("id")] int Id, [property: JsonProperty("filename")] string FileName);
 }

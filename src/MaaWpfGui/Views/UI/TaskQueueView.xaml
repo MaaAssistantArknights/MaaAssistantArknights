@@ -310,7 +310,7 @@
                                 hc:BorderElement.CornerRadius="4,0,0,4"
                                 hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
                                 Foreground="{DynamicResource PrimaryTextBrush}"
-                                IsEnabled="{Binding Idle}"
+                                IsEnabled="{c:Binding 'Idle or !Inited'}"
                                 Style="{StaticResource MaaButtonDefaultStyle}">
                                 <hc:ContextMenuButton.Menu>
                                     <ContextMenu
@@ -387,7 +387,7 @@
                                 hc:BorderElement.CornerRadius="0"
                                 Command="{s:Action SelectedAll}"
                                 Content="{DynamicResource SelectAll}"
-                                IsEnabled="{Binding Idle}" />
+                                IsEnabled="{c:Binding 'Idle or !Inited'}" />
                             <hc:SplitButton
                                 Grid.Column="2"
                                 Height="30"
@@ -398,7 +398,7 @@
                                 Background="{DynamicResource RegionBrushOpacity25}"
                                 Command="{s:Action InverseSelected}"
                                 Content="{Binding InverseShowText}"
-                                IsEnabled="{Binding Idle}"
+                                IsEnabled="{c:Binding 'Idle or !Inited'}"
                                 Visibility="{c:Binding ShowInverse}">
                                 <hc:SplitButton.DropDownContent>
                                     <Menu>
@@ -428,7 +428,7 @@
                                 VerticalAlignment="Top"
                                 Command="{s:Action InverseSelected}"
                                 Content="{Binding InverseShowText}"
-                                IsEnabled="{Binding Idle}"
+                                IsEnabled="{c:Binding 'Idle or !Inited'}"
                                 Visibility="{c:Binding !ShowInverse}" />
                         </Grid>
                     </Grid>

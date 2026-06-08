@@ -101,11 +101,29 @@ std::optional<cv::Mat> MumuExtras::screencap()
 
 bool MumuExtras::load_mumu_library()
 {
-    auto new_lib_path = mumu_path_ / "nx_device/12.0/shell/sdk/external_renderer_ipc"; // MuMu 5.0 内测路径, 可能变更
-    auto lib_path = mumu_path_ / "shell/sdk/external_renderer_ipc";
+    // 候选路径列表，按版本从新到旧排列，新增版本只需追加一项
+    static const std::vector<std::filesystem::path> kCandidateRelativePaths = {
+        "nx_device/15.0/shell/sdk/external_renderer_ipc", // MuMu 6.0
+        "nx_device/12.0/shell/sdk/external_renderer_ipc", // MuMu 5.0 / MuMu 12
+        "shell/sdk/external_renderer_ipc",                // MuMu 旧版本
+    };
 
-    if (!load_library(new_lib_path) && !load_library(lib_path)) {
-        LogError << "Failed to load library" << VAR(new_lib_path) << "or" << VAR(lib_path);
+    bool loaded = false;
+    for (const auto& rel_path : kCandidateRelativePaths) {
+        auto lib_path = mumu_path_ / rel_path;
+        if (load_library(lib_path)) {
+            LogInfo << "Successfully loaded MuMu external renderer library from: "
+                    << lib_path.string();
+            loaded = true;
+            break;
+        }
+    }
+
+    if (!loaded) {
+        LogError << "Failed to load library from all candidate paths";
+        for (const auto& rel_path : kCandidateRelativePaths) {
+            LogError << "  tried: " << (mumu_path_ / rel_path).string();
+        }
         return false;
     }
 

@@ -3481,6 +3481,9 @@
             },
             "bskill_tra_closure": {
                 "desc": ["进驻贸易站时，订单获取效率+10%，固定获取可露希尔特别订单（不视作违约订单）"],
+                "efficient": {
+                    "all": 10.1
+                },
                 "name": ["特别订单"],
                 "template": "Bskill_tra_closure.png"
             },
