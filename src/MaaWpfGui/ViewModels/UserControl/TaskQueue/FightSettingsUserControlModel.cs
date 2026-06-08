@@ -27,6 +27,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
@@ -36,6 +37,7 @@ using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.Helper.Instances.Data;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -65,6 +67,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         _runningState = RunningState.Instance;
         _runningState.StateChanged += OnRunningStateChanged;
         Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
+        Instances.AsstProxy.AsstSubTaskMsgEvent += ProcSubTaskMsg;
 
         if (Instances.ToolboxViewModel is { } toolboxViewModel)
         {
@@ -1338,26 +1341,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     #endregion UI Item
 
-    private struct UiRefreshingScope : IDisposable
-    {
-        private static int _depth = 0;
-
-        public UiRefreshingScope()
-        {
-            ++_depth;
-            Instance.IsRefreshingUI = true;
-        }
-
-        readonly void IDisposable.Dispose()
-        {
-            --_depth;
-            if (_depth == 0)
-            {
-                Instance.IsRefreshingUI = false;
-            }
-        }
-    }
-
     private interface ISerialize : ITaskQueueModelSerialize
     {
         (bool? IsSuccess, IEnumerable<int> TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
@@ -1483,5 +1466,85 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
+    private static void ProcSubTaskMsg(AsstMsg type, AsstSubTaskMsg? msg)
+    {
+        if (type != AsstMsg.SubTaskExtraInfo || msg is null)
+        {
+            return;
+        }
+
+        switch (msg.What)
+        {
+            case "UseMedicine":
+                var report = msg.Details?.ToObject<MedicineUsingInfo>();
+                if (report is null)
+                {
+                    break;
+                }
+
+                string medicineLog;
+                if (!report.IsExpiring)
+                {
+                    MedicineUsedTimes += report.Count;
+                    medicineLog = LocalizationHelper.GetString("MedicineUsed") + $" {MedicineUsedTimes}(+{report.Count})";
+                }
+                else
+                {
+                    ExpiringMedicineUsedTimes += report.Count;
+                    var item = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(msg.TaskId));
+                    var expireOut = "--";
+                    if (item is not null && item.Index >= 0 && item.Index < ConfigFactory.CurrentConfig.TaskQueue.Count)
+                    {
+                        if (ConfigFactory.CurrentConfig.TaskQueue[item.Index] is FightTask fightTask)
+                        {
+                            var yjTime = DateTimeOffset.Now.ToYjDateTime().ToLocalTime();
+                            var daysUntilEndOfWeek = ((7 - (int)yjTime.DayOfWeek + 7) % 7) + 1; // 距离本周结束的天数, 用鹰历计算
+                            var expireDays = Math.Max(fightTask.UseExpiringMedicine ? fightTask.MedicineExpireDays : 0, Instance.ActivityExpireIn2Days && fightTask.UseExpireMedicineForActivity ? daysUntilEndOfWeek : 0);
+                            expireOut = $"{expireDays * 24}";
+                        }
+                    }
+                    medicineLog = LocalizationHelper.GetStringFormat("ExpiringMedicineUsed", expireOut) + $" {ExpiringMedicineUsedTimes}(+{report.Count})";
+                    AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
+                }
+
+                AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, report.Count);
+                if (report.Medicines?.Count > 0)
+                {
+                    var list = report.Medicines?.Select(i => LocalizationHelper.GetStringFormat("UseMedicine.MedicineInfo", i.Use, i.Inventory)).ToList();
+                    medicineLog += "\n" + string.Join("\n", list ?? []);
+                }
+                Instances.TaskQueueViewModel.AddLog(medicineLog, UiLogColor.Info);
+                break;
+        }
+    }
+
+    private struct UiRefreshingScope : IDisposable
+    {
+        private static int _depth = 0;
+
+        public UiRefreshingScope()
+        {
+            ++_depth;
+            Instance.IsRefreshingUI = true;
+        }
+
+        readonly void IDisposable.Dispose()
+        {
+            --_depth;
+            if (_depth == 0)
+            {
+                Instance.IsRefreshingUI = false;
+            }
+        }
+    }
+
+    #region Model
+
+    private record MedicineUsingInfo([property: JsonProperty("is_expiring")] bool IsExpiring, [property: JsonProperty("count")] int Count, [property: JsonProperty("medicines")] List<MedicineInfo>? Medicines);
+
+    private record MedicineInfo([property: JsonProperty("use")] int Use, [property: JsonProperty("inventory")] int Inventory, [property: JsonProperty("expire_days")] int ExpireDays);
+
     private sealed record InventoryTargetRuntimeState(string DropId, int StartInventory, int EffectiveQuantity);
+
+    #endregion Model
 }
