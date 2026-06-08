@@ -54,16 +54,11 @@ jobs:
       - name: 查看完整输入输出
         if: always()
         env:
-          ANALYSIS_PROMPT: ${{ steps.codex.outputs.analysis-prompt }}
           ISSUE_NUMBER: ${{ steps.codex.outputs.issue-number }}
           COMMENT_ID: ${{ steps.codex.outputs.comment-id }}
           COMMENT_URL: ${{ steps.codex.outputs.comment-url }}
-          CODEX_OUTPUT: ${{ steps.codex.outputs.codex-output }}
-          FINAL_CONCLUSION: ${{ steps.codex.outputs.final-conclusion }}
         run: |
-          printf '%s\n' "$ANALYSIS_PROMPT"
           echo "issue_number=$ISSUE_NUMBER"
           echo "comment_id=$COMMENT_ID"
           echo "comment_url=$COMMENT_URL"
-          printf '%s\n' "$CODEX_OUTPUT"
-          printf '%s\n' "$FINAL_CONCLUSION"
+          echo "(Full codex-output and final-conclusion are available in the uploaded artifacts)"
