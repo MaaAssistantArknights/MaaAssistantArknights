@@ -100,6 +100,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             "Bark",
             "Qmsg",
             "Gotify",
+            "MeoW",
             "Custom Webhook"
         ];
 
@@ -220,6 +221,14 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _customWebhookEnabled, value);
     }
 
+    private bool _meowEnabled = false;
+
+    public bool MeoWEnabled
+    {
+        get => _meowEnabled;
+        set => SetAndNotify(ref _meowEnabled, value);
+    }
+
     public void UpdateExternalNotificationProvider()
     {
         ServerChanEnabled = _enabledExternalNotificationProviders.Contains("ServerChan");
@@ -232,6 +241,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         QmsgEnabled = _enabledExternalNotificationProviders.Contains("Qmsg");
         GotifyEnabled = _enabledExternalNotificationProviders.Contains("Gotify");
         CustomWebhookEnabled = _enabledExternalNotificationProviders.Contains("Custom Webhook");
+        MeoWEnabled = _enabledExternalNotificationProviders.Contains("MeoW");
     }
 
     #endregion External Enable
@@ -569,6 +579,18 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _customWebhookHeaders, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders, value);
+        }
+    }
+
+    private string _meowNickname = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationMeoWNickname, string.Empty));
+
+    public string MeoWNickname
+    {
+        get => _meowNickname;
+        set {
+            SetAndNotify(ref _meowNickname, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationMeoWNickname, value);
         }
     }
 

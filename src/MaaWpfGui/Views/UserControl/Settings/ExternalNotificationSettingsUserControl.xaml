@@ -30,6 +30,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!--<controls:TextBlock
@@ -487,6 +488,20 @@
 
         <StackPanel
             Grid.Row="11"
+            Orientation="Vertical"
+            Visibility="{c:Binding MeoWEnabled}">
+            <hc:Divider Content="MeoW" />
+            <hc:TextBox
+                x:Name="MeoWNickname"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationMeoWNickname}"
+                Text="{c:Binding MeoWNickname}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="12"
             Orientation="Vertical"
             Visibility="{c:Binding CustomWebhookEnabled}">
             <hc:Divider Content="{DynamicResource ExternalNotificationCustomWebhook}" />

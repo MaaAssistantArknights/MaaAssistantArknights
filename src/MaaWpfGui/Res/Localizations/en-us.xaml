@@ -78,6 +78,7 @@
     <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">Message body template</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">Placeholders: {title}, {content}, {time}</system:String>
+    <system:String x:Key="ExternalNotificationMeoWNickname">MeoW Nickname</system:String>
     <system:String x:Key="UseGpuForInference">Use GPU for inference acceleration</system:String>
     <system:String x:Key="UseGpuForInferenceTip">Using GPU inference can significantly reduce CPU load with minimal GPU usage</system:String>
     <system:String x:Key="GpuOptionDisable">Don’t use</system:String>
