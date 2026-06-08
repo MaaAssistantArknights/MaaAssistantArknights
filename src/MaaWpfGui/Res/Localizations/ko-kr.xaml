@@ -675,9 +675,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
     <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">선택한 MuMu 설치 폴더에서 external_renderer_ipc.dll을 찾을 수 없습니다.\n
 예상 상대 경로:
-nx_device/15.0/shell/sdk/external_renderer_ipc/external_renderer_ipc.dll 또는
-nx_device/12.0/shell/sdk/external_renderer_ipc/external_renderer_ipc.dll 또는
-shell/sdk/external_renderer_ipc/external_renderer_ipc.dll\n
+nx_device/15.0/shell/sdk/external_renderer_ipc.dll 또는
+nx_device/12.0/shell/sdk/external_renderer_ipc.dll 또는
+shell/sdk/external_renderer_ipc.dll\n
 설치 폴더를 확인하세요.</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
 MuMu / MuMu Arknights V4.0.0 이상 버전이 필요합니다. MuMu Global은 V5.21.3 이상 버전이 필요합니다.

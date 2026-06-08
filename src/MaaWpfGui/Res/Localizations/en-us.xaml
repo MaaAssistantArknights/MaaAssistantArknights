@@ -674,9 +674,9 @@ Only supports Official(CN), Bilibili and Traditional Chinese servers. Third-part
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu Emulator path not found.</system:String>
     <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll was not found under the selected MuMu installation.\n
-Expected relative path: nx_device/15.0/shell/sdk/external_renderer_ipc/external_renderer_ipc.dll or
-nx_device/12.0/shell/sdk/external_renderer_ipc/external_renderer_ipc.dll or
-shell/sdk/external_renderer_ipc/external_renderer_ipc.dll\n
+Expected relative path: nx_device/15.0/shell/sdk/external_renderer_ipc.dll or
+nx_device/12.0/shell/sdk/external_renderer_ipc.dll or
+shell/sdk/external_renderer_ipc.dll\n
 Please verify the installation directory.</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
 MuMu / MuMu Arknights V4.0.0 or later is required. MuMu Global requires V5.21.3 or later.
