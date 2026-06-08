@@ -37,6 +37,7 @@ Supports the enhanced screenshot path for MuMu 6.0 Android 15, improving screens
 
 ### 新增 | New
 
+* 理智药使用增加使用中的药品信息 @status102
 * 支持 mumu 6.0 截图增强路径 (#16994) @ABA2396
 * 切换主题时保存当前画面截图 (#16993) @ABA2396
 * 悖论模拟支持跳过战斗失败的作业，自动战斗作业增加对应结构 (#16985) @status102
