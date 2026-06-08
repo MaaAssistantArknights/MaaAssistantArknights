@@ -15,22 +15,23 @@ bool asst::MaaFwWlrController::connect(
     const std::string& address,
     const std::string& config [[maybe_unused]])
 {
-    if (m_loader.loaded()) {
-        if (m_unit) {
-            m_loader.destroy(m_unit);
-            m_unit = nullptr;
-        }
-        m_loader = MaaFwWlrControlUnitLoader();
+    (void)adb_path;
+    (void)config;
+
+    if (m_unit) {
+        m_loader.destroy(m_unit);
+        m_unit = nullptr;
     }
 
-    const auto dll_path = "libMaaWlRootsControlUnit";
-    if (!m_loader.load(dll_path)) {
-        return false;
+    if (!m_loader.loaded()) {
+        const auto dll_path = "libMaaWlRootsControlUnit";
+        if (!m_loader.load(dll_path)) {
+            return false;
+        }
     }
 
     m_socket_path = address;
     m_unit = m_loader.create(m_socket_path.c_str(), false);
-
     if (!m_unit) {
         Log.error("Failed to create control unit");
         return false;
