@@ -73,7 +73,7 @@ OCRer::ResultsVecOpt OCRer::analyze() const
     case ResultOrderBy::Score:
         sort_by_score_(results_vec);
         break;
-    default: // None：按识别顺序，不重排
+    case ResultOrderBy::None: // 按识别顺序，不重排
         break;
     }
 
