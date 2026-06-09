@@ -983,6 +983,8 @@ C:\\leidian\\LDPlayer9
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">ミニゲーム名</system:String>
     <system:String x:Key="MiniGameNameEmptyTip">上からミニゲームを選択して実行を開始してください。</system:String>
+    <system:String x:Key="MiniGame@PF">陣地フットボール選手権</system:String>
+    <system:String x:Key="MiniGame@PFTip">チュートリアルステージを手動でクリアした後、PF-1 に入り手動で編成を行います。｢クルース｣ のみを単独で編成し、イベントステージ画面に戻って PF-1 をタップしてタスクを開始してください。</system:String>
     <system:String x:Key="MiniGame@PV">PV-花火実行委員会</system:String>
     <system:String x:Key="MiniGame@PVTip">選択したステージから自動でクリアします。最初のステージを選んだ場合は、イベントページの最左側から開始してください。その他のステージを選んだ場合は、位置を校正するために前のステージに一度入ってから戻ってください。</system:String>
     <system:String x:Key="MiniGame@SPA">堅守協定：盟約</system:String>

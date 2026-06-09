@@ -984,6 +984,8 @@ C:\\leidian\\LDPlayer9
     <!--  미니게임  -->
     <system:String x:Key="MiniGameName">미니게임 이름</system:String>
     <system:String x:Key="MiniGameNameEmptyTip">위에서 미니게임을 선택하여 실행을 시작하세요.</system:String>
+    <system:String x:Key="MiniGame@PF">진지 축구 선수권 대회</system:String>
+    <system:String x:Key="MiniGame@PFTip">튜토리얼 스테이지를 수동으로 클리어한 후, PF-1에 진입하여 수동으로 편성하세요. ｢크루스｣만 단독으로 편성하고, 이벤트 스테이지 화면으로 돌아가 PF-1을 탭하여 임무를 시작하세요.</system:String>
     <system:String x:Key="MiniGame@PV">PV-불꽃놀이 집행위원회</system:String>
     <system:String x:Key="MiniGame@PVTip">선택한 스테이지부터 자동으로 클리어합니다. 첫 번째 스테이지를 선택한 경우에는 이벤트 페이지의 가장 왼쪽에서 시작하세요. 다른 스테이지를 선택한 경우에는 위치 보정을 위해 이전 스테이지에 먼저 들어갔다가 돌아오세요.</system:String>
     <system:String x:Key="MiniGame@SPA">위수 협의: 맹약</system:String>
