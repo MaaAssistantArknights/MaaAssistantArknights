@@ -47,7 +47,7 @@ OCRer::ResultsVecOpt OCRer::analyze() const
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(res.rect), cv::Scalar(0, 255, 0), 2);
         cv::putText(
             m_image_draw,
-            std::to_string(res.score),
+            std::to_string(res.score) + " | " + res.text,
             cv::Point(res.rect.x, res.rect.y - 5),
             cv::FONT_HERSHEY_SIMPLEX,
             0.7,
