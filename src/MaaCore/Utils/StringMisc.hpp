@@ -35,6 +35,11 @@ template <IsSomeKindOfString StringT>
 inline constexpr void
     string_replace_all_in_place(StringT& str, detail::sv_type<StringT> from, detail::sv_type<StringT> to)
 {
+    // 空的 from 会使 str.find(from, pos) 始终返回 pos，导致无限循环（字符串还会无限增长）。
+    // 空模式没有有意义的“全部替换”语义，直接返回。
+    if (from.empty()) {
+        return;
+    }
     for (size_t pos(0);; pos += to.length()) {
         if ((pos = str.find(from, pos)) == StringT::npos) {
             return;
