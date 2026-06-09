@@ -135,11 +135,6 @@ bool asst::InfrastProductionTask::change_product()
                     continue;
                 }
 
-                if (!ProcessTask(*this, { verify_task_name }).run()) {
-                    Log.warn("trade order verification failed", verify_task_name, retry);
-                    continue;
-                }
-
                 return true;
             }
 
