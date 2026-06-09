@@ -2322,9 +2322,7 @@ public class ToolboxViewModel : Screen
                     ? "MiniGameCategoryCurrentEvent"
                     : "MiniGameCategoryPermanent");
                 return new MiniGameCategoryItem {
-                    Display = string.IsNullOrEmpty(t.DisplayKey)
-                        ? t.Display
-                        : (LocalizationHelper.TryGetString(t.DisplayKey, out var loc) ? loc : t.Display),
+                    Display = t.Display,
                     Value = t.Value,
                     Category = category,
                 };
@@ -2396,16 +2394,16 @@ public class ToolboxViewModel : Screen
             return LocalizationHelper.GetString("MiniGameNameEmptyTip");
         }
 
-        // 优先使用 TipKey 的本地化
-        if (!string.IsNullOrEmpty(entry.TipKey) && LocalizationHelper.TryGetString(entry.TipKey, out var tipFromKey))
-        {
-            return tipFromKey;
-        }
-
-        // 然后使用 explicit Tip
+        // 优先使用 API Tip
         if (!string.IsNullOrEmpty(entry.Tip))
         {
             return entry.Tip;
+        }
+
+        // 然后使用 TipKey 的本地化
+        if (!string.IsNullOrEmpty(entry.TipKey) && LocalizationHelper.TryGetString(entry.TipKey, out var tipFromKey))
+        {
+            return tipFromKey;
         }
 
         // 若不存在 Tip，再尝试使用 DisplayKey + "Tip" 的约定键

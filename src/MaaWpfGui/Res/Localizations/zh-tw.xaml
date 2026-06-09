@@ -983,6 +983,8 @@ C:\\leidian\\LDPlayer9\n
     <!--  小遊戲  -->
     <system:String x:Key="MiniGameName">小遊戲名稱</system:String>
     <system:String x:Key="MiniGameNameEmptyTip">在上方選擇小遊戲以開始執行。</system:String>
+    <system:String x:Key="MiniGame@PF">陣地足球錦標賽</system:String>
+    <system:String x:Key="MiniGame@PFTip">手動通過教程關卡後，進入 PF-1 進行手動編隊，要求僅編入 ｢克洛絲｣ 單個幹員，並回到在活動關卡介面點擊 PF-1 後開始任務。</system:String>
     <system:String x:Key="MiniGame@PV">PV-煙花籌委會</system:String>
     <system:String x:Key="MiniGame@PVTip">從所選關卡開始並自動通關。若選擇第一關，則從活動頁面最左側開始；若選擇其他關卡，請先進入上一關再返回以校準位置。</system:String>
     <system:String x:Key="MiniGame@SPA">衛戍協議：盟約</system:String>
