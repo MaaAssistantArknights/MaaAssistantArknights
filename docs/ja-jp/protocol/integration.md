@@ -351,7 +351,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 ::: field name="drones" type="string" optional default="\_NotUse"  
 ドローン使用目的。`mode = 10000` の場合、このフィールドは無効です。
 <br>
-オプション：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+オプション：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone`
 :::  
 ::: field name="threshold" type="number" optional default="0.3"  
 作業心情しきい値。範囲は [0, 1.0] です。

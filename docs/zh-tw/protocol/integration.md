@@ -351,7 +351,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ::: field name="drones" type="string" optional default="\_NotUse"  
 無人機用途。當 `mode = 10000` 時，此欄位無效。
 <br>
-選項：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+選項：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone`
 :::  
 ::: field name="threshold" type="number" optional default="0.3"  
 工作心情門檻值，取值範圍 [0, 1.0]。

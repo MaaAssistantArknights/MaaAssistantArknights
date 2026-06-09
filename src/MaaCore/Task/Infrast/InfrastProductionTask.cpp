@@ -20,7 +20,7 @@
 
 asst::InfrastProductionTask& asst::InfrastProductionTask::set_drones_usage_from_params(std::string usage) noexcept
 {
-    m_drones_usage_from_params = std::move(usage);
+    m_drones_usage_from_params = usage == "Chip" ? "_NotUse" : std::move(usage);
     return *this;
 }
 
@@ -73,6 +73,34 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
             m_is_product_incorrect = false;
         }
     }
+}
+
+void asst::InfrastProductionTask::record_facility_product(const std::string& product_name)
+{
+    if (m_is_custom || facility_name() != "Trade") {
+        return;
+    }
+
+    if (m_cur_facility_index < 0 || static_cast<size_t>(m_cur_facility_index) >= m_facility_products.size()) {
+        Log.warn(
+            __FUNCTION__,
+            "| index out of range:",
+            m_cur_facility_index,
+            "| product count:",
+            m_facility_products.size());
+        return;
+    }
+
+    m_facility_products[static_cast<size_t>(m_cur_facility_index)] = product_name;
+}
+
+void
+    asst::InfrastProductionTask::report_drones_usage_changed(const std::string& old_usage, const std::string& new_usage)
+{
+    json::value callback_info = basic_info_with_what("DronesUsageChanged");
+    callback_info["details"]["from"] = old_usage;
+    callback_info["details"]["to"] = new_usage;
+    callback(AsstMsg::SubTaskExtraInfo, callback_info);
 }
 
 bool asst::InfrastProductionTask::change_product()
@@ -234,9 +262,12 @@ bool asst::InfrastProductionTask::change_product()
 bool asst::InfrastProductionTask::shift_facility_list()
 {
     LogTraceFunction;
+    m_facility_products.clear();
     if (!facility_list_detect() || need_exit()) {
         return false;
     }
+    m_facility_products.assign(m_facility_list_tabs.size(), std::string());
+
     const auto tab_task_ptr = Task.get("InfrastFacilityListTab" + facility_name());
 
     for (; static_cast<size_t>(m_cur_facility_index) < m_facility_list_tabs.size(); ++m_cur_facility_index) {
@@ -371,6 +402,10 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
 
+        if (cur_product_detection_valid) {
+            record_facility_product(cur_product_for_non_custom_drone);
+        }
+
         /* 进入干员选择页面 */
         if (!m_skip_shift) {
             ctrler()->click(add_button);
@@ -444,7 +479,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
     }
-    return true;
+    return try_switch_trade_drone_usage();
 }
 
 bool asst::InfrastProductionTask::opers_detect_with_swipe()
@@ -902,6 +937,51 @@ bool asst::InfrastProductionTask::use_drone()
     std::string task_name = "DroneAssist" + facility_name();
     ProcessTask task_temp(*this, { task_name });
     return task_temp.run();
+}
+
+bool asst::InfrastProductionTask::try_switch_trade_drone_usage()
+{
+    if (m_is_custom || m_is_use_drones_from_custom || facility_name() != "Trade") {
+        return true;
+    }
+    if (m_drones_usage_from_params != "Money" && m_drones_usage_from_params != "SyntheticJade") {
+        return true;
+    }
+    if (m_facility_products.empty() || m_facility_products.size() != m_facility_list_tabs.size()) {
+        return true;
+    }
+
+    auto all_products_are = [this](const std::string& product_name) {
+        return std::ranges::all_of(m_facility_products, [&](const std::string& product) {
+            return product == product_name;
+        });
+    };
+
+    std::string target_usage;
+    if (m_drones_usage_from_params == "SyntheticJade" && all_products_are("Money")) {
+        target_usage = "Money";
+    }
+    else if (m_drones_usage_from_params == "Money" && all_products_are("SyntheticJade")) {
+        target_usage = "SyntheticJade";
+    }
+    else {
+        return true;
+    }
+
+    const std::string old_usage = m_drones_usage_from_params;
+    Log.info("switch drone usage for uniform trade order", old_usage, "->", target_usage);
+    m_drones_usage_from_params = std::move(target_usage);
+    m_cur_facility_index = static_cast<int>(m_facility_list_tabs.size() - 1);
+    report_drones_usage_changed(old_usage, m_drones_usage_from_params);
+
+    if (use_drone()) {
+        m_drones_usage_from_params = "_Used";
+    }
+    else {
+        Log.warn("failed to use drone after switching trade drone usage");
+    }
+
+    return true;
 }
 
 asst::infrast::SkillsComb

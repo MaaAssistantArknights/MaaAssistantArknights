@@ -1421,6 +1421,51 @@ public class AsstProxy
         }
     }
 
+    private static string BuildInfrastFacilityLog(JToken? details, string suffix = "")
+    {
+        return LocalizationHelper.GetString("ThisFacility") +
+               LocalizationHelper.GetString($"{details?["facility"]}") + " " +
+               ((int)(details?["index"] ?? -2) + 1).ToString("D2") +
+               suffix;
+    }
+
+    private static string GetDronesUsageCorrectionName(string usage)
+    {
+        if (string.IsNullOrEmpty(usage))
+        {
+            return usage;
+        }
+
+        string localized = LocalizationHelper.GetString(usage);
+        int separator = localized.IndexOf('-');
+        return separator >= 0 && separator + 1 < localized.Length
+            ? localized[(separator + 1)..]
+            : localized;
+    }
+
+    private static void UpdateInfrastDronesUsage(AsstTaskId taskId, string usage)
+    {
+        if (string.IsNullOrEmpty(usage))
+        {
+            return;
+        }
+
+        int index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
+        if (index < 0 || index >= ConfigFactory.CurrentConfig.TaskQueue.Count ||
+            ConfigFactory.CurrentConfig.TaskQueue[index] is not InfrastTask infrast)
+        {
+            return;
+        }
+
+        if (infrast.UsesOfDrones == usage)
+        {
+            return;
+        }
+
+        infrast.UsesOfDrones = usage;
+        Instances.TaskQueueViewModel.RefreshTaskModel(infrast);
+    }
+
     private static void ProcSubTaskError(JObject details)
     {
         string subTask = details["subtask"]?.ToString() ?? string.Empty;
@@ -1888,11 +1933,24 @@ public class AsstProxy
                 }
 
             case "EnterFacility":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
-                                                    LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
-                                                    ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
+                Instances.TaskQueueViewModel.AddLog(BuildInfrastFacilityLog(subTaskDetails),
                                                     splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                 break;
+
+            case "DronesUsageChanged":
+                {
+                    string fromUsage = subTaskDetails?["from"]?.ToString() ?? string.Empty;
+                    string toUsage = subTaskDetails?["to"]?.ToString() ?? string.Empty;
+                    UpdateInfrastDronesUsage(taskId, toUsage);
+
+                    string suffix = LocalizationHelper.GetStringFormat(
+                        "DronesUsageAutoCorrected",
+                        GetDronesUsageCorrectionName(fromUsage),
+                        GetDronesUsageCorrectionName(toUsage));
+                    Instances.TaskQueueViewModel.AddLog(BuildInfrastFacilityLog(subTaskDetails, suffix),
+                                                        splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                    break;
+                }
 
             case "ProductIncorrect":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductIncorrect"), UiLogColor.Error);

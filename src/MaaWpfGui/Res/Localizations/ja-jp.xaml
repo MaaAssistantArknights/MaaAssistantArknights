@@ -1283,6 +1283,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TotalDrop" xml:space="preserve">ドロップ統計: </system:String>
     <system:String x:Key="FurnitureDrop">家具</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">現在の施設: </system:String>
+    <system:String x:Key="DronesUsageAutoCorrected">（ドローン用途を自動修正 {0}->{1}）</system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">グループに合わせる: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">{key=Operator} グループ、グループ リストの一致に失敗しました: </system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">優先{key=Operator}: </system:String>

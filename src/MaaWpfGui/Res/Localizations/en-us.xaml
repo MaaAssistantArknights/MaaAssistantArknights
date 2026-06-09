@@ -1282,6 +1282,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">Total Drops:&#160;</system:String>
     <system:String x:Key="FurnitureDrop">Furniture</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility:&#160;</system:String>
+    <system:String x:Key="DronesUsageAutoCorrected"> (auto-corrected drone usage {0}->{1})</system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">Match Group:&#160;</system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">Failed to match {key=Operator} groups, group list:&#160;</system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">Preferred {key=Operator}s:&#160;</system:String>

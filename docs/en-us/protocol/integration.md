@@ -351,7 +351,7 @@ Facility name: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | 
 ::: field name="drones" type="string" optional default="\_NotUse"  
 Usage of drones. This field is ignored when `mode = 10000`.
 <br>
-Options: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+Options: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone`
 :::  
 ::: field name="threshold" type="number" optional default="0.3"  
 Morale threshold, range [0, 1.0].

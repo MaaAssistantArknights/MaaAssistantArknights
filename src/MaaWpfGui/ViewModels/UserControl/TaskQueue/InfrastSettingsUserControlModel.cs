@@ -113,7 +113,6 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
             new() { Display = LocalizationHelper.GetString("CombatRecord"), Value = "CombatRecord" },
             new() { Display = LocalizationHelper.GetString("PureGold"), Value = "PureGold" },
             new() { Display = LocalizationHelper.GetString("OriginStone"), Value = "OriginStone" },
-            new() { Display = LocalizationHelper.GetString("Chip"), Value = "Chip" },
         ];
 
     /// <summary>

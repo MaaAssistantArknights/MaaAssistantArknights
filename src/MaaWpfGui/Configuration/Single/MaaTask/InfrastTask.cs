@@ -41,7 +41,13 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     /// <summary>
     /// Gets or sets 基建无人机用法
     /// </summary>
-    public string UsesOfDrones { get; set; } = "Money";
+    private string _usesOfDrones = "Money";
+
+    public string UsesOfDrones
+    {
+        get => _usesOfDrones;
+        set => _usesOfDrones = string.IsNullOrEmpty(value) || value == "Chip" ? "_NotUse" : value;
+    }
 
     /// <summary>
     /// Gets or sets 基建心情阈值
