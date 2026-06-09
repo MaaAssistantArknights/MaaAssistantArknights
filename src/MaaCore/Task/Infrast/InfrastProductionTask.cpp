@@ -126,6 +126,32 @@ bool asst::InfrastProductionTask::change_product()
             return false;
         };
 
+    auto run_trade_order_task =
+        [&](const std::string& task_name, const std::string& verify_task_name, const std::string& target_product_key) {
+            constexpr int TradeOrderChangeMaxTimes = 3;
+            for (int retry = 0; retry < TradeOrderChangeMaxTimes; ++retry) {
+                if (retry != 0) {
+                    Matcher verify_analyzer(ctrler()->get_image());
+                    verify_analyzer.set_task_info(verify_task_name);
+                    if (verify_analyzer.analyze()) {
+                        return true;
+                    }
+                }
+
+                if (!ProcessTask(*this, { task_name }).run()) {
+                    Log.warn("change trade order failed", task_name, retry);
+                    continue;
+                }
+
+                return true;
+            }
+
+            Log.warn("failed to change trade order to target order", target_product_key);
+            json::value fail_info = basic_info_with_what("ProductChangeFail");
+            callback(AsstMsg::SubTaskExtraInfo, fail_info);
+            return false;
+        };
+
     auto customProduct = current_room_config().product;
     switch (customProduct) {
     /*制造站的产品类型*/
@@ -173,14 +199,25 @@ bool asst::InfrastProductionTask::change_product()
     }
     /*贸易站的订单类型*/
     case infrast::CustomRoomConfig::Product::LMD: {
-        ProcessTask(*this, { "ChangeToMoneyOrder" }).run();
+        if (!run_trade_order_task("ChangeToMoneyOrder", "VerifyTradeOrderChangedToMoney", "Money")) {
+            return false;
+        }
+        m_product = "Money";
+        m_is_product_incorrect = false;
         json::value callback_info = basic_info_with_what("ProductChanged");
         callback_info["details"]["product"] = "Money";
         callback(AsstMsg::SubTaskExtraInfo, callback_info);
         break;
     }
     case infrast::CustomRoomConfig::Product::Orundum: {
-        ProcessTask(*this, { "ChangeToSyntheticJadeFlagOrder" }).run();
+        if (!run_trade_order_task(
+                "ChangeToSyntheticJadeFlagOrder",
+                "VerifyTradeOrderChangedToSyntheticJade",
+                "SyntheticJade")) {
+            return false;
+        }
+        m_product = "SyntheticJade";
+        m_is_product_incorrect = false;
         json::value callback_info = basic_info_with_what("ProductChanged");
         callback_info["details"]["product"] = "SyntheticJade";
         callback(AsstMsg::SubTaskExtraInfo, callback_info);
