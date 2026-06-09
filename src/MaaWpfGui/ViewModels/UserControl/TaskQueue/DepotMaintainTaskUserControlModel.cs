@@ -11,21 +11,30 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels.UI;
+using Serilog;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
+using static MaaWpfGui.ViewModels.UserControl.TaskQueue.FightSettingsUserControlModel;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMaintainTaskUserControlModel.ISerialize
 {
+    private readonly ILogger _logger = Log.ForContext<DepotMaintainTaskUserControlModel>();
+
     static DepotMaintainTaskUserControlModel()
     {
         Instance = new();
@@ -44,7 +53,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         set => SetTaskConfig<DepotMaintainTask>(t => t.UpdateDepot == value, t => t.UpdateDepot = value);
     }
 
-    public ObservableCollection<Plan> PlanList { get; set; } = [new Plan()];
+    public ObservableCollection<Plan> PlanList { get; private set => SetAndNotify(ref field, value); } = [new Plan()];
 
     public void AddPlan()
     {
@@ -54,15 +63,97 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     public bool IsStageManually
     {
         get => GetTaskConfig<DepotMaintainTask>().IsStageManually;
-        set => SetTaskConfig<DepotMaintainTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
+        set {
+            bool ret = SetTaskConfig<DepotMaintainTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
+            if (ret && !value)
+            {
+                for (int i = 0; i < PlanList.Count; i++)
+                {
+                    var stage = PlanList[i];
+                    if (!Instances.StageManager.GetStageList().Any(p => p.Value == stage.Stage))
+                    {
+                        PlanList[i].Stage = string.Empty;
+                    }
+                }
+            }
+        }
     }
 
-    public string PlanInfo => string.Join("\n", PlanList.Select((t, i) => $"{i + 1}: {t.Stage} - {t.DropName} x{t.DropCount}"));
+    /// <summary>
+    /// Gets or private sets a value indicating whether 关卡列表。
+    /// </summary>
+    public ObservableCollection<StageSourceItem> StageListSource { get; private set => SetAndNotify(ref field, value); } = [];
+
+    public string PlanInfo => string.Join("\n", PlanList.Select((t, i) => $"{i + 1}: {StageListSource.FirstOrDefault(i => i.Value == t.Stage)?.Display ?? t.Stage} - {t.DropName} x{t.DropCount}"));
 
     private void SavePlan()
     {
         var list = PlanList.Select(i => new DepotMaintainTask.Plan(i.Stage, i.DropId, i.DropCount, i.UseMedicine, i.MedicineCount, i.UseStone, i.StoneCount));
         SetTaskConfig<DepotMaintainTask>(t => t.PlanList.SequenceEqual(list), t => t.PlanList = [.. list]);
+    }
+
+    /// <summary>
+    /// 更新关卡列表。
+    /// 使用手动输入时，只更新关卡列表，不更新关卡选择
+    /// 使用隐藏当日不开放时，更新关卡列表，关卡选择为未开放的关卡时清空
+    /// 使用备选关卡时，更新关卡列表，关卡选择为未开放的关卡时在关卡列表中添加对应未开放关卡，避免清空导致进入上次关卡
+    /// 啥都不选时，更新关卡列表，关卡选择为未开放的关卡时在关卡列表中添加对应未开放关卡，避免清空导致进入上次关卡
+    /// 除手动输入外所有情况下，如果剩余理智为未开放的关卡，会被清空
+    /// </summary>
+    /// <returns>更新任务列表的Task</returns>
+    // FIXME：被注入对象只能在 private 函数内使用，只有 Model 显示之后才会被注入。如果 Model 还没有触发 OnInitialActivate 时调用此函数，会导致空引用异常。
+    // 这个函数被声明为 public，意味着它可能会在注入对象前被调用。
+    public Task UpdateStageList()
+    {
+        return Execute.OnUIThreadAsync(async () => {
+            using var log = new LogScope(_logger);
+            var stageList = Instances.StageManager.GetStageList();
+            await TaskQueueViewModel.TaskQueueSerializingLock.WaitAsync();
+
+            //using (var refresh = new UiRefreshingScope())
+            {
+                RefreshStageList();
+                RefreshCurrentStagePlan();
+            }
+            TaskQueueViewModel.TaskQueueSerializingLock.Release();
+        });
+    }
+
+    private void RefreshStageList()
+    {
+        if (TaskSettingVisibilityInfo.CurrentTask is not DepotMaintainTask current)
+        {
+            return;
+        }
+        var stageList = Instances.StageManager.GetStageList().ToList();
+        var listCurrent = current.PlanList;
+
+        var listSource = stageList.Select(i => new StageSourceItem() { Display = i.Display, Value = i.Value, IsVisible = true, IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == i.Value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true }).ToList();
+
+        // 补过期关卡进来
+        foreach (var item in listCurrent.Where(i => !listSource.Any(p => p.Value == i.Stage)))
+        {
+            listSource.Add(new StageSourceItem() { Display = item.Stage, Value = item.Stage, IsOpen = false, IsVisible = true });
+        }
+        listSource.Remove(listSource.FirstOrDefault(i => i.Value == AnnihilationName) ?? new());
+        StageListSource = [.. listSource];
+        current.PlanList = listCurrent; // StageListSource更新后, 恢复StagePlan
+    }
+
+    private void RefreshCurrentStagePlan()
+    {
+        if (TaskSettingVisibilityInfo.CurrentTask is not DepotMaintainTask current)
+        {
+            return;
+        }
+        var plan = current.PlanList;
+        var list = plan.Select((i, index) => new Plan() { Stage = i.Stage, DropId = i.DropId, DropCount = i.DropCount, UseMedicine = i.UseMedicine, MedicineCount = i.MedicineCount, UseStone = i.UseStone, StoneCount = i.StoneCount }).ToList();
+        foreach (var item in list)
+        {
+            item.PropertyChanged += (_, __) => SavePlan();
+        }
+        PlanList = [.. list];
+        PlanList.CollectionChanged += (_, __) => SavePlan();
     }
 
     // UI 绑定的方法
@@ -79,7 +170,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     {
         public bool IsExpanded { get; set => SetAndNotify(ref field, value); }
 
-        public string Title => $"{Stage} - {DropName} x{DropCount}";
+        public string Title => $"{Instance.StageListSource.FirstOrDefault(i => i.Value == Stage)?.Display ?? Stage} - {DropName} x{DropCount}";
 
         public string Stage
         {
@@ -107,7 +198,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         /// <summary>
         /// Gets or sets 指定掉落材料名称。
         /// </summary>
-        public string DropName { get; set => SetAndNotify(ref field, value); } = string.Empty;
+        public string DropName { get; set => SetAndNotify(ref field, value); } = LocalizationHelper.GetString("NotSelected");
 
         public int DropCount
         {

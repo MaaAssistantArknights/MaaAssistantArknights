@@ -78,17 +78,16 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <controls:TextBlock Grid.Column="0" Text="关卡" />
+                                    <controls:TextBlock Grid.Column="0" Text="{DynamicResource StageSelect}" />
                                     <Grid
                                         Grid.Column="1"
                                         Height="30"
                                         Margin="-10,0,0,0">
                                         <!--  当 IsStageManually 为 false 时显示 ComboBox  -->
                                         <ComboBox
-                                            ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
+                                            ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}"
                                             ScrollViewer.CanContentScroll="False"
                                             SelectedValue="{Binding Stage}"
                                             SelectedValuePath="Value"
@@ -140,43 +139,9 @@
                                             Visibility="{c:Binding IsStageManually,
                                                                    Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}" />
                                     </Grid>
-
-                                    <Border Grid.Column="2">
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                <Style.Triggers>
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding IsMouseOver, ElementName=StageItemGrid}" Value="True" />
-                                                            <Condition Binding="{c:Binding DataContext.UseAlternateStage, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Value="True" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Visibility" Value="Visible" />
-                                                    </MultiDataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <!--  删除按钮  -->
-                                        <Button
-                                            Grid.Column="1"
-                                            Padding="2"
-                                            VerticalAlignment="Stretch"
-                                            hc:IconElement.Geometry="{StaticResource CloseGeometry}"
-                                            hc:IconElement.Height="10"
-                                            hc:IconElement.Width="10"
-                                            hc:VisualElement.HighlightBackground="Transparent"
-                                            hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
-                                            Background="Transparent"
-                                            BorderThickness="0"
-                                            Command="{s:Action RemoveStageFromPlan}"
-                                            CommandParameter="{c:Binding DataContext,
-                                                                         RelativeSource={RelativeSource Self}}"
-                                            Visibility="{c:Binding 'DataContext.StagePlan.Count > 1',
-                                                                   RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
-                                    </Border>
                                 </Grid>
 
-                                <Grid>
+                                <Grid Margin="3,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" MinWidth="100" />
                                         <ColumnDefinition Width="*" />
