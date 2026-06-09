@@ -1,4 +1,4 @@
-## v6.12.0-beta.1
+## v6.12.0-beta.2
 
 ### Highlights
 
@@ -6,6 +6,10 @@
 由于本次活动关卡的字体与界面结构较为特殊，MAA 无法在活动关卡中正常使用多作业模式。
 使用自动战斗功能时，请关闭 MAA 的「多作业模式」，并在干员编队界面启动任务。
 作业站中的「作业集」仅用于归纳作业，仍可正常导入。导入后可点击关卡名称右侧的文件图标，快速切换至对应关卡的单作业模式使用。
+
+#### 阵地足球锦标赛
+
+新增支持阵地足球锦标赛小游戏，可前往 ｢小工具-牛杂-当期活动｣ 进行选择。
 
 #### 悖论模拟支持跳过战斗失败的关卡
 
@@ -33,6 +37,20 @@ Supports the enhanced screenshot path for MuMu 6.0 Android 15, improving screens
 以下是详细内容：
 
 <details open>
+<summary><b>v6.12.0-beta.2 (2026-06-10)</b></summary>
+
+### 新增 | New
+
+* 添加阵地足球锦标赛小游戏 @ABA2396
+
+### 修复 | Fix
+
+* ConfigFactory Save 锁统一 (#17052) @status102
+* 增加贸易站订单切换重试和产物确认逻辑 (#16954) @ZiyinLin
+
+</details>
+
+<details>
 <summary><b>v6.12.0-beta.1 (2026-06-09)</b></summary>
 
 ### 新增 | New
