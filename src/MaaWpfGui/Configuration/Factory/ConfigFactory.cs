@@ -162,7 +162,7 @@ public static class ConfigFactory
                 SpecificConfigBind(keyValue.Key, keyValue.Value);
             }
 
-            if (Save(_configBakFile, parsed).GetAwaiter().GetResult())
+            if (Save(_configBakFile, parsed))
             {
                 _logger.Information("{File} saved", _configBakFile);
             }
@@ -377,12 +377,12 @@ public static class ConfigFactory
         });
     }
 
-    private static async Task<bool> Save(string? file = null, Root? root = null)
+    private static bool Save(string? file = null, Root? root = null)
     {
-        await _semaphore.WaitAsync().ConfigureAwait(false);
+        _semaphore.Wait();
         try
         {
-            await File.WriteAllTextAsync(file ?? ConfigFile, JsonSerializer.Serialize(root ?? Root, _options)).ConfigureAwait(false);
+            File.WriteAllText(file ?? ConfigFile, JsonSerializer.Serialize(root ?? Root, _options));
             return true;
         }
         catch (Exception e)
@@ -425,7 +425,7 @@ public static class ConfigFactory
             _logger.Information("Waiting for save task to complete");
             _saveTask.Wait();
         }
-        if (Save().GetAwaiter().GetResult())
+        if (Save())
         {
             _logger.Information("{File} saved", ConfigFile);
         }
