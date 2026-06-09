@@ -26,7 +26,6 @@ using System.Text.Json.Serialization.Metadata;
 using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using MaaWpfGui.Configuration.Converter;
 using MaaWpfGui.Configuration.Single;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -163,7 +162,7 @@ public static class ConfigFactory
                 SpecificConfigBind(keyValue.Key, keyValue.Value);
             }
 
-            if (Save(_configBakFile, parsed))
+            if (Save(_configBakFile, parsed).GetAwaiter().GetResult())
             {
                 _logger.Information("{File} saved", _configBakFile);
             }
@@ -378,21 +377,22 @@ public static class ConfigFactory
         });
     }
 
-    private static bool Save(string? file = null, Root? root = null)
+    private static async Task<bool> Save(string? file = null, Root? root = null)
     {
-        lock (_lock)
+        await _semaphore.WaitAsync().ConfigureAwait(false);
+        try
         {
-            try
-            {
-                File.WriteAllText(file ?? ConfigFile, JsonSerializer.Serialize(root ?? Root, _options));
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Failed to save configuration file.");
-                return false;
-            }
-
+            await File.WriteAllTextAsync(file ?? ConfigFile, JsonSerializer.Serialize(root ?? Root, _options)).ConfigureAwait(false);
             return true;
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "Failed to save configuration file.");
+            return false;
+        }
+        finally
+        {
+            _semaphore.Release();
         }
     }
 
@@ -425,16 +425,13 @@ public static class ConfigFactory
             _logger.Information("Waiting for save task to complete");
             _saveTask.Wait();
         }
-        lock (_lock)
+        if (Save().GetAwaiter().GetResult())
         {
-            if (Save())
-            {
-                _logger.Information("{File} saved", ConfigFile);
-            }
-            else
-            {
-                _logger.Warning("{File} save failed", ConfigFile);
-            }
+            _logger.Information("{File} saved", ConfigFile);
+        }
+        else
+        {
+            _logger.Warning("{File} save failed", ConfigFile);
         }
     }
 
