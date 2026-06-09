@@ -149,8 +149,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         ("SyntheticJade", "SyntheticJade"),
         ("CombatRecord", "CombatRecord"),
         ("PureGold", "PureGold"),
-        ("OriginStone", "OriginStone"),
-        ("Chip", "Chip"));
+        ("OriginStone", "OriginStone"));
 
     /// <summary>
     /// Gets the list of uses of default infrast.

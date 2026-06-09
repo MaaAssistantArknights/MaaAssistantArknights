@@ -482,7 +482,7 @@ Facility name: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | 
 @optional
 Usage of drones. This field is ignored when `mode = 10000`.
 <br>
-Options: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+Options: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone`
 :::  
 ::: field threshold  
 @type number
