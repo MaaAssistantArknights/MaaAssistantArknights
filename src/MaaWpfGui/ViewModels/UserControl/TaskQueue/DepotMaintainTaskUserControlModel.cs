@@ -53,7 +53,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         set => SetTaskConfig<DepotMaintainTask>(t => t.UpdateDepot == value, t => t.UpdateDepot = value);
     }
 
-    public ObservableCollection<Plan> PlanList { get; private set => SetAndNotify(ref field, value); } = [new Plan()];
+    public ObservableCollection<Plan> PlanList { get; private set => SetAndNotify(ref field, value); } = [];
 
     public void AddPlan()
     {
@@ -113,7 +113,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             //using (var refresh = new UiRefreshingScope())
             {
                 RefreshStageList();
-                RefreshCurrentStagePlan();
             }
             TaskQueueViewModel.TaskQueueSerializingLock.Release();
         });
@@ -125,8 +124,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             return;
         }
-        var stageList = Instances.StageManager.GetStageList().ToList();
-        var listCurrent = current.PlanList;
+        var stageList = Instances.StageManager.GetStageList().Where(i => i.Value != AnnihilationName).ToList();
+        var listCurrent = current.PlanList.ToList();
 
         var listSource = stageList.Select(i => new StageSourceItem() { Display = i.Display, Value = i.Value, IsVisible = true, IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == i.Value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true }).ToList();
 
@@ -135,25 +134,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             listSource.Add(new StageSourceItem() { Display = item.Stage, Value = item.Stage, IsOpen = false, IsVisible = true });
         }
-        listSource.Remove(listSource.FirstOrDefault(i => i.Value == AnnihilationName) ?? new());
         StageListSource = [.. listSource];
-        current.PlanList = listCurrent; // StageListSource更新后, 恢复StagePlan
-    }
-
-    private void RefreshCurrentStagePlan()
-    {
-        if (TaskSettingVisibilityInfo.CurrentTask is not DepotMaintainTask current)
+        foreach (var (plan, currentPlan) in PlanList.Zip(listCurrent))
         {
-            return;
+            plan.Stage = currentPlan.Stage; // StageListSource更新后, 恢复StagePlan
         }
-        var plan = current.PlanList;
-        var list = plan.Select((i, index) => new Plan() { Stage = i.Stage, DropId = i.DropId, DropCount = i.DropCount, UseMedicine = i.UseMedicine, MedicineCount = i.MedicineCount, UseStone = i.UseStone, StoneCount = i.StoneCount }).ToList();
-        foreach (var item in list)
-        {
-            item.PropertyChanged += (_, __) => SavePlan();
-        }
-        PlanList = [.. list];
-        PlanList.CollectionChanged += (_, __) => SavePlan();
     }
 
     // UI 绑定的方法
