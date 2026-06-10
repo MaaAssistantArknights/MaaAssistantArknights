@@ -65,13 +65,20 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 - 例如生成 v6.10.4 时，v6.10.4 区块只能写 v6.10.3 之后的新变化；v6.10.0、v6.10.1、v6.10.2、v6.10.3 的既有内容应保留在历史区块，而不是重新抄进 v6.10.4。
 - 若非 patch 版本不同，则直接根据现有内容组织该版本及其历史区块。
 
-### 5. patch / 测试版的 Highlights 复用规则
+### 5. 正式版合并测试版内容
+
+- 正式版发布时，应把所有前置测试版（beta.1、beta.2 等）的条目按模块（新增、改进、修复等）合并到正式版的单一详细区块中，去重后统一展示。
+- 不应按测试版小版本分别折叠。正式版用户不关心测试版之间的增量差异，只关心"这个正式版相比上一个正式版有什么变化"。
+- 测试版之间重复或被后续修改覆盖的条目只保留最终有效版本。例如 beta.1 修复了某个问题但 beta.2 又对其做了改进，正式版中只保留合并后的最终描述。
+- 正式版的详细区块使用 `<details open>` 默认展开，其后不再保留 beta 版本的历史折叠块（除非之前还有更早的正式版）。
+
+### 6. patch / 测试版的 Highlights 复用规则
 
 - patch 版本（例如 v6.10.4 相对于 v6.10.3）和测试版（例如 v6.11.0-beta.2 相对于 v6.11.0-beta.1）如果没有用户可感知的重要新功能或重大变化，必须直接复用其父版本的 Highlights 内容，不得自行重写或另起一套。
 - 复用 Highlights 时，只改顶部版本号标题和发版日期（例如 `## v6.11.0-beta.1 (2026-05-27)` → `## v6.11.0-beta.2 (2026-05-29)`），Highlights 正文原样保留。
 - 当 patch 版本或测试版确实包含用户可感知的重要新变化时（例如新增了重大功能、改变了核心交互），可以为 Highlights 追加新段落，但必须保留原有 Highlights 内容，新段落追加在末尾。
 
-### 6. patch / 测试版编辑的完整结构
+### 7. patch / 测试版编辑的完整结构
 
 - 输出文件的结构必须严格遵循以下层次，不得把 patch 版本或测试版的详细内容插入到父版本的 Highlights 与详细内容之间：
   1. 顶部：`## vX.Y.Z (YYYY-MM-DD)`（patch / 测试版标题，含发版日期）
@@ -86,7 +93,7 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 - 每个版本的详细内容各自放入独立的 `<details>` 折叠块，`<summary>` 内格式为 `<b>vX.Y.Z (YYYY-MM-DD)</b>`（版本号 + 发版日期），当前目标版本使用 `<details open>` 默认展开，其余默认收起。
 - 折叠块内只保留详细内容（改进、修复等），不重复 Highlights，不写 `## vX.Y.Z` 子标题（`<summary>` 已提供版本标识）。
 
-### 7. Highlights 必须中英双语且先中后英
+### 8. Highlights 必须中英双语且先中后英
 
 - 输出顶部必须包含当前目标版本和发版日期，例如 `## vX.Y.Z (2026-05-29)`。
 - 必须包含 ### Highlights。
@@ -95,13 +102,22 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 - 中文与英文都应按主题分段，标题简洁明确，正文面向最终用户，不是 commit 列表翻译。
 - Highlights 只总结本次版本中最值得强调的变化，不要把所有条目机械搬进去。
 
-### 8. 必须过滤的噪音项
+### 9. 必须过滤的噪音项
 
 - 删除或忽略纯 bot 自动生成的 changelog、update、release 条目。
 - 删除显式的 Release 发布记录，例如 Release vX.Y.Z。
 - 删除或忽略 Generate、Auto Update、Auto Generate、Update CHANGELOG、Bump version 之类自动维护条目。
 - 删除“只是在更新 changelog”而没有真实产品变更的提交记录。
 - 删除已被历史版本覆盖或重复搬运的旧条目。
+
+### 10. 查询 git 历史时的编码处理
+
+- 在 Windows PowerShell 环境下，git log 输出的中文默认会乱码。查询 git 历史时必须指定编码参数：
+  ```
+  [Console]::OutputEncoding = [System.Text.Encoding]::UTF8; git -c core.quotepath=false -c i18n.logoutputencoding=utf-8 -c i18n.commitencoding=utf-8 log --encoding=utf-8 --format="%H %s" RANGE | ForEach-Object { [System.Text.Encoding]::UTF8.GetString([System.Text.Encoding]::Default.GetBytes($_)) }
+  ```
+- 简化写法（仅在当前终端已执行过 `[Console]::OutputEncoding = [System.Text.Encoding]::UTF8` 后有效）：`git -c core.quotepath=false log --encoding=utf-8 --format="..." | ForEach-Object { [System.Text.Encoding]::UTF8.GetString([System.Text.Encoding]::Default.GetBytes($_)) }`
+- 如果输出仍然乱码，可将结果写入临时文件（`| Out-File -Encoding utf8 -FilePath "$env:TEMP\commits.txt"`）再用 read_file 工具读取。
 
 ## Workflow
 
@@ -125,6 +141,8 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 - patch 版本或测试版没有用户可感知的重要新变化，却自行重写了独立的 Highlights，而非复用父版本内容。
 - 把 patch 版本的详细内容插入到父版本的 Highlights 与详细内容之间，破坏了文件结构。
 - patch / 测试版的历史区块中重复保留了 Highlights 和"以下是详细内容："引导语，这些应只在顶部出现一次。
+- 正式版不应保留各 beta 版本的独立折叠块，应将所有测试版条目按模块合并到正式版的单一详细区块中。
+- 查询 git 历史时未指定编码，导致中文 commit 消息乱码，无法正确理解变更内容。
 
 ## Output Requirements
 
@@ -146,8 +164,80 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 
 ## Output Template
 
+### 正式版模板（合并测试版内容）
+
 ```
 ## vX.Y.Z
+
+### Highlights
+
+#### 中文小结标题 A
+
+中文小结正文。
+
+#### 中文小结标题 B
+
+中文小结正文。
+
+<details>
+<summary><b>English</b></summary>
+
+#### English Summary Title A
+
+English summary paragraph.
+
+#### English Summary Title B
+
+English summary paragraph.
+
+</details>
+
+----
+
+以下是详细内容：
+
+<details open>
+<summary><b>vX.Y.Z (YYYY-MM-DD)</b></summary>
+
+### 新增 | New
+
+* 条目 A @author
+
+### 改进 | Improved
+
+* 条目 B (#12345) @author
+
+### 修复 | Fix
+
+* 条目 C @author
+
+### 文档 | Docs
+
+* 条目 D @author
+
+### MaaMacGui
+
+#### 新增 | New
+
+* 子仓库新增条目 ([#85](https://github.com/MaaAssistantArknights/MaaMacGui/pull/85)) @author
+
+#### 修复 | Fix
+
+* 子仓库修复条目 ([#88](https://github.com/MaaAssistantArknights/MaaMacGui/pull/88)) @author
+
+</details>
+
+<details>
+<summary><b>vX.Y-1.Z (YYYY-MM-DD)</b></summary>
+
+### 修复 | Fix
+
+* 上一个正式版的条目 @author
+
+</details>
+```
+
+### patch / 测试版模板
 
 ### Highlights
 
@@ -249,3 +339,5 @@ English summary paragraph.
 - 每个版本的详细内容是否各自放入独立的 `<details>` 折叠块？
 - 当前版本是否使用 `<details open>` 默认展开，历史版本是否默认收起？
 - 如果有子仓库（如 MaaMacGui）更新，是否作为 `### MaaMacGui` 独立子项放在 `### 其他 | Other` 之后，且内部使用与主 changelog 相同的分类结构？
+- 正式版是否已将所有测试版条目合并到单一详细区块中，而非按 beta 小版本分别折叠？
+- 查询 git 历史时是否已正确指定编码参数，避免中文 commit 消息乱码？

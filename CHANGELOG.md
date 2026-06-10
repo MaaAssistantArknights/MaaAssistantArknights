@@ -1,4 +1,4 @@
-## v6.12.0-beta.2
+## v6.12.0
 
 ### Highlights
 
@@ -37,26 +37,14 @@ Supports the enhanced screenshot path for MuMu 6.0 Android 15, improving screens
 以下是详细内容：
 
 <details open>
-<summary><b>v6.12.0-beta.2 (2026-06-10)</b></summary>
+<summary><b>v6.12.0 (2026-06-11)</b></summary>
 
 ### 新增 | New
 
+* 繁中服支持「雪山降臨1101」活动导航与「喀蘭貿易技術研發部」小游戏 (#17073) @momomochi987
 * 添加阵地足球锦标赛小游戏 @ABA2396
-
-### 修复 | Fix
-
-* ConfigFactory Save 锁统一 (#17052) @status102
-* 增加贸易站订单切换重试和产物确认逻辑 (#16954) @ZiyinLin
-
-</details>
-
-<details>
-<summary><b>v6.12.0-beta.1 (2026-06-09)</b></summary>
-
-### 新增 | New
-
 * 理智药使用增加使用中的药品信息 @status102
-* 支持 mumu 6.0 截图增强路径 (#16994) @ABA2396
+* 支持 MuMu 6.0 截图增强路径 (#16994) @ABA2396
 * 切换主题时保存当前画面截图 (#16993) @ABA2396
 * 悖论模拟支持跳过战斗失败的作业，自动战斗作业增加对应结构 (#16985) @status102
 * 启动设置添加模拟器启动测试按钮，便于测试是否配置成功 @ABA2396
@@ -64,13 +52,22 @@ Supports the enhanced screenshot path for MuMu 6.0 Android 15, improving screens
 
 ### 改进 | Improved
 
-* 优化部分情况下自动战斗导航OCR结果中会出现误识别的前缀 @status102
+* 更新 MuMu 12 关闭命令至 MuMuManager 新版 API (#17067) @Zmjjeff7
+* 贸易站切换产物前先校验当前状态，避免已达成目标时的冗余操作 (#16954) @ZiyinLin
+* 修正小游戏显示名称与提示文案的本地化优先级 @ABA2396
+* 优化阵地足球锦标赛部署坐标与动画时序 @ABA2396
+* 更新 OF-1 信用作战作业干员配置 @ABA2396
+* 优化部分情况下自动战斗导航 OCR 结果中会出现误识别的前缀 @status102
 * 基于灰度阈值预处理的自动战斗导航，适配 H 关及怪猎二期 TD-2 本 (#16990) @status102
 * 肉鸽弹窗类事件处理重构 CloseCollectionClose (#17005) @status102
 * InvokeProcSubTaskMsg 重构 (#16979) @status102
 
 ### 修复 | Fix
 
+* 修复启动模拟器与 ADB 操作时 Process 对象未释放导致句柄泄漏 (#17060) @Zmjjeff7
+* 修复配置创建失败时回滚不一致的问题 @ABA2396
+* 修复 RainbowAnimation 画刷选择潜在的空引用异常 @ABA2396
+* ConfigFactory Save 锁统一 (#17052) @status102
 * 错误隐藏开局分队与开局干员选项 @ABA2396
 * 修复特克诺干员名 OCR 误识别 (#17030) @ZiyinLin
 * 修复绿票商店状态回退错误及二阶段校验问题 @status102 @ZiyinLin
@@ -85,13 +82,15 @@ Supports the enhanced screenshot path for MuMu 6.0 Android 15, improving screens
 
 ### 其他 | Other
 
-* rename Wpf ProcSubTaskMsg param name @status102
-* DEBUG 环境下 Init 时 TaskQueue 状态限制缓解 @status102
 * 自动战斗视频链接始终显示 @ABA2396
 * 补充可露希尔基建数值 @Saratoga-Official
 * YostarKR winden colorScale for compatibility @HX3N
 
 ### MaaMacGui
+
+#### 新增 | New
+
+* 添加阵地足球锦标赛小游戏入口 @ABA2396
 
 #### 修复 | Fix
 
