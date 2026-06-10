@@ -12,6 +12,7 @@
     "MiniGame@PF@StartCompetition": {
         "action": "ClickSelf",
         "roi": [931, 563, 241, 151],
+        "postDelay": 500,
         "next": ["MiniGame@PF@StartAction", "#self"]
     },
     "MiniGame@PF@StartAction": {
