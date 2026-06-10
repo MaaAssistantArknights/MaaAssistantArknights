@@ -329,7 +329,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         try
         {
             var (fileName, arguments) = ResolveShortcut(EmulatorPath);
-            Process process = new Process {
+            using Process process = new Process {
                 StartInfo = new ProcessStartInfo(fileName, arguments) {
                     UseShellExecute = false,
                 },
@@ -398,7 +398,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             UseShellExecute = false,
         };
 
-        Process process = new Process {
+        using Process process = new Process {
             StartInfo = processStartInfo,
         };
 
@@ -430,7 +430,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             UseShellExecute = false,
         };
 
-        Process process = new Process { StartInfo = processStartInfo, };
+        using Process process = new Process { StartInfo = processStartInfo, };
 
         process.Start();
         process.StandardInput.WriteLine($"\"{adbPath}\" disconnect {address}");
