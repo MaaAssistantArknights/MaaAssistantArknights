@@ -5,6 +5,9 @@ namespace asst::experiment // 不知道写namespace合适不合适，反正AI这
 {
 cv::Mat VisionToolkit::normalize_battlefield_frame(const cv::Mat& frame)
 {
+    if (frame.empty() || frame.rows <= 0 || frame.cols <= 0) {
+        return frame;
+    }
     int raw_w = frame.cols;
     int raw_h = frame.rows;
     double target_ratio = 1280.0 / 720.0;
