@@ -1,0 +1,40 @@
+{
+  "id": "meow",
+  "name": {
+    "default": "en-us",
+    "content": {
+      "zh-cn": "MeoW",
+      "en-us": "MeoW"
+    }
+  },
+  "description": {
+    "default": "en-us",
+    "content": {
+      "zh-cn": "MeoW 鸿蒙消息推送",
+      "en-us": "MeoW message push for HarmonyOS"
+    }
+  },
+  "url": "https://api.chuckfang.com/{nickname}",
+  "headers": "Content-Type: application/json",
+  "bodyTemplate": "{\"title\":\"{title}\",\"msg\":\"{content}\\n{time}\"}",
+  "userParameters": [
+    {
+      "key": "nickname",
+      "label": {
+        "default": "en-us",
+        "content": {
+          "zh-cn": "昵称",
+          "en-us": "Nickname"
+        }
+      },
+      "placeholder": {
+        "default": "en-us",
+        "content": {
+          "zh-cn": "输入你的 MeoW 昵称",
+          "en-us": "Enter your MeoW nickname"
+        }
+      },
+      "required": true
+    }
+  ]
+}

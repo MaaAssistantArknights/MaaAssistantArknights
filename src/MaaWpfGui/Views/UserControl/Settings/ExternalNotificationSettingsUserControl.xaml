@@ -490,6 +490,30 @@
             Orientation="Vertical"
             Visibility="{c:Binding CustomWebhookEnabled}">
             <hc:Divider Content="{DynamicResource ExternalNotificationCustomWebhook}" />
+            <StackPanel Orientation="Horizontal" Margin="10,10,0,10">
+                <hc:ComboBox
+                    Width="300"
+                    hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Template}"
+                    ItemsSource="{Binding WebhookTemplateList}"
+                    SelectedValue="{Binding CustomWebhookSelectedTemplate}"
+                    DisplayMemberPath="DisplayName"
+                    SelectedValuePath="Id" />
+            </StackPanel>
+            <ItemsControl ItemsSource="{Binding TemplateParameters}"
+                          Visibility="{c:Binding IsCustomWebhookTemplateMode}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <hc:TextBox
+                                Width="300"
+                                Margin="10,5,10,5"
+                                hc:InfoElement.Title="{Binding DisplayLabel}"
+                                hc:InfoElement.Placeholder="{Binding DisplayPlaceholder}"
+                                Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
             <StackPanel Orientation="Horizontal">
                 <hc:TextBox
                     x:Name="CustomWebhookUrl"
@@ -497,7 +521,8 @@
                     Height="30"
                     Margin="10,10,0,10"
                     hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Url}"
-                    Text="{c:Binding CustomWebhookUrl}" />
+                    Text="{c:Binding CustomWebhookUrl}"
+                    IsReadOnly="{c:Binding IsCustomWebhookTemplateMode}" />
                 <!--  整个相同控件占位，保持控件长度一致  -->
                 <controls:TooltipBlock Visibility="Hidden" />
             </StackPanel>
@@ -507,7 +532,8 @@
                     MinHeight="20"
                     Margin="10,10,0,10"
                     hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Headers}"
-                    Text="{c:Binding CustomWebhookHeaders}" />
+                    Text="{c:Binding CustomWebhookHeaders}"
+                    IsReadOnly="{c:Binding IsCustomWebhookTemplateMode}" />
                 <!--  整个相同控件占位，保持控件长度一致  -->
                 <controls:TooltipBlock Visibility="Hidden" />
             </StackPanel>
@@ -523,7 +549,8 @@
                     GotFocus="{s:Action CustomWebhookBodyGotFocus}"
                     LostFocus="{s:Action CustomWebhookBodyLostFocus}"
                     Text="{c:Binding CustomWebhookBody}"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap"
+                    IsReadOnly="{c:Binding IsCustomWebhookTemplateMode}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationCustomWebhook.Placeholders}" />
             </StackPanel>
         </StackPanel>

@@ -50,6 +50,14 @@ public class CustomWebhookNotificationProvider(IHttpService httpService) : IExte
             .Select(line => line.Split(':', 2))
             .Where(parts => parts.Length == 2)
             .ToDictionary(p => p[0].Trim(), p => p[1].Trim());
+
+        // Content-Type is a content header, must be set on HttpContent not HttpRequestMessage
+        if (headers.TryGetValue("Content-Type", out var contentType))
+        {
+            requestContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
+            headers.Remove("Content-Type");
+        }
+
         var response = await httpService.PostAsync(new(webhookUrl), requestContent, headers);
 
         if (response == null)

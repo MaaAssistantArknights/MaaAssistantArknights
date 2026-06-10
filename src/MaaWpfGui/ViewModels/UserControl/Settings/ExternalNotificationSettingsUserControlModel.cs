@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
@@ -31,6 +32,14 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     static ExternalNotificationSettingsUserControlModel()
     {
         Instance = new();
+    }
+
+    public ExternalNotificationSettingsUserControlModel()
+    {
+        if (IsCustomWebhookTemplateMode)
+        {
+            PopulateTemplateParameters();
+        }
     }
 
     public static ExternalNotificationSettingsUserControlModel Instance { get; }
@@ -536,12 +545,51 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    // Webhook Template
+    private List<CustomWebhookTemplate>? _webhookTemplateList;
+
+    public List<CustomWebhookTemplate> WebhookTemplateList => _webhookTemplateList ??= CustomWebhookTemplateManager.LoadTemplates();
+
+    private string _customWebhookSelectedTemplate = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookSelectedTemplate, "__custom__");
+
+    public string CustomWebhookSelectedTemplate
+    {
+        get => _customWebhookSelectedTemplate;
+        set
+        {
+            SetAndNotify(ref _customWebhookSelectedTemplate, value);
+            OnCustomWebhookSelectedTemplateChanged();
+        }
+    }
+
+    public bool IsCustomWebhookTemplateMode => CustomWebhookSelectedTemplate != "__custom__";
+
+    public ObservableCollection<WebhookParameterViewModel> TemplateParameters { get; } = [];
+
     private string _customWebhookUrl = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, string.Empty));
 
     public string CustomWebhookUrl
     {
-        get => _customWebhookUrl;
-        set {
+        get
+        {
+            if (!IsCustomWebhookTemplateMode)
+            {
+                return _customWebhookUrl;
+            }
+
+            var template = CustomWebhookTemplateManager.FindTemplate(CustomWebhookSelectedTemplate);
+            return template == null
+                ? _customWebhookUrl
+                : CustomWebhookTemplateManager.ApplyParameters(template.Url, BuildParameterDict());
+        }
+
+        set
+        {
+            if (IsCustomWebhookTemplateMode)
+            {
+                return;
+            }
+
             SetAndNotify(ref _customWebhookUrl, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, value);
@@ -552,8 +600,26 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
     public string CustomWebhookBody
     {
-        get => _customWebhookBody;
-        set {
+        get
+        {
+            if (!IsCustomWebhookTemplateMode)
+            {
+                return _customWebhookBody;
+            }
+
+            var template = CustomWebhookTemplateManager.FindTemplate(CustomWebhookSelectedTemplate);
+            return template == null
+                ? _customWebhookBody
+                : CustomWebhookTemplateManager.ApplyParameters(template.BodyTemplate, BuildParameterDict());
+        }
+
+        set
+        {
+            if (IsCustomWebhookTemplateMode)
+            {
+                return;
+            }
+
             SetAndNotify(ref _customWebhookBody, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, value);
@@ -564,12 +630,135 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
     public string CustomWebhookHeaders
     {
-        get => _customWebhookHeaders;
-        set {
+        get
+        {
+            if (!IsCustomWebhookTemplateMode)
+            {
+                return _customWebhookHeaders;
+            }
+
+            var template = CustomWebhookTemplateManager.FindTemplate(CustomWebhookSelectedTemplate);
+            return template == null
+                ? _customWebhookHeaders
+                : CustomWebhookTemplateManager.ApplyParameters(template.Headers, BuildParameterDict());
+        }
+
+        set
+        {
+            if (IsCustomWebhookTemplateMode)
+            {
+                return;
+            }
+
             SetAndNotify(ref _customWebhookHeaders, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders, value);
         }
+    }
+
+    private Dictionary<string, string> BuildParameterDict()
+    {
+        var dict = new Dictionary<string, string>();
+        foreach (var p in TemplateParameters)
+        {
+            dict[p.Key] = p.Value;
+        }
+
+        return dict;
+    }
+
+    private void OnCustomWebhookSelectedTemplateChanged()
+    {
+        ConfigurationHelper.SetValue(
+            ConfigurationKeys.ExternalNotificationCustomWebhookSelectedTemplate,
+            CustomWebhookSelectedTemplate);
+
+        foreach (var p in TemplateParameters)
+        {
+            p.ParameterChanged -= OnTemplateParameterChanged;
+        }
+
+        TemplateParameters.Clear();
+
+        if (!IsCustomWebhookTemplateMode)
+        {
+            _customWebhookUrl = SimpleEncryptionHelper.Decrypt(
+                ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, string.Empty));
+            _customWebhookHeaders = SimpleEncryptionHelper.Decrypt(
+                ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders, string.Empty));
+            _customWebhookBody = SimpleEncryptionHelper.Decrypt(
+                ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, string.Empty));
+        }
+        else
+        {
+            PopulateTemplateParameters();
+        }
+
+        NotifyOfPropertyChange(nameof(CustomWebhookUrl));
+        NotifyOfPropertyChange(nameof(CustomWebhookHeaders));
+        NotifyOfPropertyChange(nameof(CustomWebhookBody));
+        NotifyOfPropertyChange(nameof(IsCustomWebhookTemplateMode));
+    }
+
+    private void PopulateTemplateParameters()
+    {
+        var template = CustomWebhookTemplateManager.FindTemplate(CustomWebhookSelectedTemplate);
+        if (template == null)
+        {
+            return;
+        }
+
+        var savedParams = CustomWebhookTemplateManager.GetAllParameters(template.Id);
+        foreach (var param in template.UserParameters)
+        {
+            var vm = new WebhookParameterViewModel
+            {
+                Key = param.Key,
+                DisplayLabel = param.DisplayLabel,
+                DisplayPlaceholder = param.DisplayPlaceholder,
+                Required = param.Required,
+                Value = savedParams.GetValueOrDefault(param.Key) ?? string.Empty,
+            };
+            vm.ParameterChanged += OnTemplateParameterChanged;
+            TemplateParameters.Add(vm);
+        }
+    }
+
+    private void OnTemplateParameterChanged()
+    {
+        foreach (var p in TemplateParameters)
+        {
+            CustomWebhookTemplateManager.SetParameter(CustomWebhookSelectedTemplate, p.Key, p.Value);
+        }
+
+        NotifyOfPropertyChange(nameof(CustomWebhookUrl));
+        NotifyOfPropertyChange(nameof(CustomWebhookHeaders));
+        NotifyOfPropertyChange(nameof(CustomWebhookBody));
+    }
+
+    public class WebhookParameterViewModel : PropertyChangedBase
+    {
+        public string Key { get; set; } = string.Empty;
+
+        public string DisplayLabel { get; set; } = string.Empty;
+
+        public string? DisplayPlaceholder { get; set; }
+
+        public bool Required { get; set; }
+
+        private string _value = string.Empty;
+
+        public string Value
+        {
+            get => _value;
+            set
+            {
+                SetAndNotify(ref _value, value);
+                ParameterChanged?.Invoke();
+            }
+        }
+
+        public event Action? ParameterChanged;
     }
 
     // FIXME: 不知道为什么 TextBox 在高度变化时会导致 ScrollViewer 的偏移位置变成 0，直接锁到第一个元素去了。在编辑的时候先给它禁用了

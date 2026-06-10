@@ -78,6 +78,7 @@
     <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">メッセージ本文</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">プレホルダー: {title}、{content}、{time}</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Template">Webhook テンプレート</system:String>
     <system:String x:Key="UseGpuForInference">推論加速のためにGPUを使用する</system:String>
     <system:String x:Key="UseGpuForInferenceTip">GPU 推論を利用することで、ごくわずかな GPU 使用率で CPU の負荷を大幅に軽減できます</system:String>
     <system:String x:Key="GpuOptionDisable">使用しない</system:String>
