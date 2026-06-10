@@ -71,6 +71,7 @@ public class AsstProxy
 {
     private readonly RunningState _runningState;
     private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
+    private static readonly HashSet<AsstTaskId> _infrastTradeDronesUsageReminderTasks = [];
 
     public DateTimeOffset StartTaskTime { get; set; }
 
@@ -1064,6 +1065,7 @@ public class AsstProxy
 
                 // UpdateTaskStatus(taskId, TaskStatus.Completed);
                 _tasksStatus.Clear();
+                _infrastTradeDronesUsageReminderTasks.Clear();
                 break;
 
             case AsstMsg.TaskChainError:
@@ -1091,6 +1093,7 @@ public class AsstProxy
 
             case AsstMsg.TaskChainStart:
                 {
+                    _infrastTradeDronesUsageReminderTasks.Remove(taskId);
                     var taskIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
                     var task = taskIndex >= 0 && taskIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
                         ? ConfigFactory.CurrentConfig.TaskQueue[taskIndex]
@@ -1230,6 +1233,13 @@ public class AsstProxy
                         .Replace("{TimeDiff}", diffTaskTime);
 
                     var allTaskCompleteLog = LocalizationHelper.GetStringFormat("AllTasksComplete", diffTaskTime);
+
+                    if (taskList?.Any(i => _infrastTradeDronesUsageReminderTasks.Remove(i)) == true)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(
+                            LocalizationHelper.GetString("TradeDronesUsageNotUsed"),
+                            splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                    }
 
                     if (FightSetting.SanityReport is not null)
                     {
@@ -1427,43 +1437,6 @@ public class AsstProxy
                LocalizationHelper.GetString($"{details?["facility"]}") + " " +
                ((int)(details?["index"] ?? -2) + 1).ToString("D2") +
                suffix;
-    }
-
-    private static string GetDronesUsageCorrectionName(string usage)
-    {
-        if (string.IsNullOrEmpty(usage))
-        {
-            return usage;
-        }
-
-        string localized = LocalizationHelper.GetString(usage);
-        int separator = localized.IndexOf('-');
-        return separator >= 0 && separator + 1 < localized.Length
-            ? localized[(separator + 1)..]
-            : localized;
-    }
-
-    private static void UpdateInfrastDronesUsage(AsstTaskId taskId, string usage)
-    {
-        if (string.IsNullOrEmpty(usage))
-        {
-            return;
-        }
-
-        int index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
-        if (index < 0 || index >= ConfigFactory.CurrentConfig.TaskQueue.Count ||
-            ConfigFactory.CurrentConfig.TaskQueue[index] is not InfrastTask infrast)
-        {
-            return;
-        }
-
-        if (infrast.UsesOfDrones == usage)
-        {
-            return;
-        }
-
-        infrast.UsesOfDrones = usage;
-        Instances.TaskQueueViewModel.RefreshTaskModel(infrast);
     }
 
     private static void ProcSubTaskError(JObject details)
@@ -1937,20 +1910,9 @@ public class AsstProxy
                                                     splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                 break;
 
-            case "DronesUsageChanged":
-                {
-                    string fromUsage = subTaskDetails?["from"]?.ToString() ?? string.Empty;
-                    string toUsage = subTaskDetails?["to"]?.ToString() ?? string.Empty;
-                    UpdateInfrastDronesUsage(taskId, toUsage);
-
-                    string suffix = LocalizationHelper.GetStringFormat(
-                        "DronesUsageAutoCorrected",
-                        GetDronesUsageCorrectionName(fromUsage),
-                        GetDronesUsageCorrectionName(toUsage));
-                    Instances.TaskQueueViewModel.AddLog(BuildInfrastFacilityLog(subTaskDetails, suffix),
-                                                        splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-                    break;
-                }
+            case "TradeDronesUsageNotUsed":
+                _infrastTradeDronesUsageReminderTasks.Add(taskId);
+                break;
 
             case "ProductIncorrect":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductIncorrect"), UiLogColor.Error);

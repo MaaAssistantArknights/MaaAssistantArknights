@@ -32,8 +32,7 @@ protected:
     bool use_drone();
     void set_product(std::string product_name) noexcept;
     void record_facility_product(const std::string& product_name);
-    bool try_switch_trade_drone_usage();
-    void report_drones_usage_changed(const std::string& old_usage, const std::string& new_usage);
+    bool check_trade_drones_usage();
 
     infrast::SkillsComb efficient_regex_calc(std::unordered_set<infrast::Skill> skills) const;
 

@@ -1283,7 +1283,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="TotalDrop" xml:space="preserve">掉落統計：</system:String>
     <system:String x:Key="FurnitureDrop">傢俱</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">目前設施：</system:String>
-    <system:String x:Key="DronesUsageAutoCorrected">（已自動修正無人機用途{0}->{1}）</system:String>
+    <system:String x:Key="TradeDronesUsageNotUsed">貿易站無人機未使用，請在基建換班-無人機用途中確認是否需要修改</system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">符合編組：</system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">符合{key=Operator}編組失敗，編組列表：</system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">首選{key=Operator}：</system:String>
