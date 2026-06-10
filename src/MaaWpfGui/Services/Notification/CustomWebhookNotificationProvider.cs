@@ -15,6 +15,7 @@
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using MaaWpfGui.Services.Web;
@@ -38,6 +39,12 @@ public class CustomWebhookNotificationProvider(IHttpService httpService) : IExte
             return false;
         }
 
+        if (!SettingsViewModel.ExternalNotificationSettings.ValidateTemplateParameters(out var errorMessage))
+        {
+            _logger.Warning("Custom Webhook failed to send: {Error}", errorMessage);
+            return false;
+        }
+
         // 占位符替换
         string now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         string body = bodyTemplate
@@ -49,12 +56,19 @@ public class CustomWebhookNotificationProvider(IHttpService httpService) : IExte
         var headers = webhookHeaders.Replace("\r", string.Empty).Split('\n', StringSplitOptions.RemoveEmptyEntries)
             .Select(line => line.Split(':', 2))
             .Where(parts => parts.Length == 2)
-            .ToDictionary(p => p[0].Trim(), p => p[1].Trim());
+            .ToDictionary(p => p[0].Trim(), p => p[1].Trim(), StringComparer.OrdinalIgnoreCase);
 
-        // Content-Type is a content header, must be set on HttpContent not HttpRequestMessage
         if (headers.TryGetValue("Content-Type", out var contentType))
         {
-            requestContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
+            try
+            {
+                requestContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+            }
+            catch (FormatException ex)
+            {
+                _logger.Warning(ex, "Invalid Content-Type header value '{ContentType}', falling back to default", contentType);
+            }
+
             headers.Remove("Content-Type");
         }
 

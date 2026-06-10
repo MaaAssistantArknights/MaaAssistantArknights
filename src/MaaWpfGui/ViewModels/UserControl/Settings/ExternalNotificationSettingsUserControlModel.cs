@@ -48,6 +48,12 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public static void ExternalNotificationSendTest()
     {
+        if (!Instance.ValidateTemplateParameters(out var errorMessage))
+        {
+            ToastNotification.ShowDirect(errorMessage);
+            return;
+        }
+
         ExternalNotificationService.Send(
             LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
             LocalizationHelper.GetString("ExternalNotificationSendTestContent"),
@@ -722,6 +728,27 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             vm.ParameterChanged += OnTemplateParameterChanged;
             TemplateParameters.Add(vm);
         }
+    }
+
+    public bool ValidateTemplateParameters(out string? errorMessage)
+    {
+        errorMessage = null;
+
+        if (!IsCustomWebhookTemplateMode)
+        {
+            return true;
+        }
+
+        foreach (var p in TemplateParameters)
+        {
+            if (p.Required && string.IsNullOrWhiteSpace(p.Value))
+            {
+                errorMessage = p.DisplayLabel + ": " + LocalizationHelper.GetString("ExternalNotificationSendFail");
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void OnTemplateParameterChanged()

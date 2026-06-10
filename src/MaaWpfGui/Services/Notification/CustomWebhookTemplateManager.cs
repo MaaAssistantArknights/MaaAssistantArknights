@@ -118,8 +118,9 @@ public static class CustomWebhookTemplateManager
             var all = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(stored);
             return all?.GetValueOrDefault(templateId) ?? [];
         }
-        catch
+        catch (Exception ex)
         {
+            Log.Warning(ex, "Failed to deserialize webhook template parameters for {TemplateId}", templateId);
             return [];
         }
     }
@@ -141,9 +142,9 @@ public static class CustomWebhookTemplateManager
                 ConfigurationKeys.ExternalNotificationCustomWebhookTemplateParams,
                 JsonConvert.SerializeObject(all));
         }
-        catch
+        catch (Exception ex)
         {
-            // ignore
+            Log.Warning(ex, "Failed to serialize webhook template parameters for {TemplateId}", templateId);
         }
     }
 
