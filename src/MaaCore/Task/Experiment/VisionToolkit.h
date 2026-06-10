@@ -21,7 +21,7 @@ public:
      * @brief 自动化战场 UI 分析流程（识别 flag, kills(传入total_kills), speed_button 等）
      * @param frame 输入的原始设备画面
      * @param total_kills[可选] 传入的当前总击杀提示数
-     * @return 自动推导 BattlefieldMatcher::ResultOpt 的返回类型（通常为 std::optional 或特定结果结构体）
+     * @return BattlefieldMatcher::ResultOpt 类型，通常为 std::optional 包裹的战场分析结果结构体
      */
     static BattlefieldMatcher::ResultOpt
         analyze_battlefield_ui(const cv::Mat& frame, std::optional<int> total_kills = std::nullopt);
