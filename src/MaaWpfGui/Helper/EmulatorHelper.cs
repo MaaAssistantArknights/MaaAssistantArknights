@@ -178,7 +178,7 @@ public class EmulatorHelper
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
             {
-                Arguments = $"api -v {emuIndex} shutdown_player",
+                Arguments = $"control -v {emuIndex} shutdown",
                 CreateNoWindow = true,
                 UseShellExecute = false,
             };
