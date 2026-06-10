@@ -132,9 +132,7 @@ public class EmulatorHelper
 
         if (processes.Length == 0)
         {
-            // 找不到模拟器进程，说明模拟器已经关闭，视为关闭成功（#17061）
-            _logger.Information("No running MuMu emulator process found; treating as already closed.");
-            return true;
+            return false;
         }
 
         ProcessModule? processModule;
@@ -178,69 +176,21 @@ public class EmulatorHelper
 
         if (consolePath != null)
         {
-            // MuMu 12 使用 `control -v {index} shutdown` 关闭模拟器；旧的 `api -v {index} shutdown_player` 已不再生效（#17061）
-            using (var consoleProcess = Process.Start(new ProcessStartInfo(consolePath)
+            ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
             {
                 Arguments = $"control -v {emuIndex} shutdown",
                 CreateNoWindow = true,
                 UseShellExecute = false,
-            }))
+            };
+            var process = Process.Start(startInfo);
+            if (process != null && process.WaitForExit(5000))
             {
-                consoleProcess?.WaitForExit(5000);
-            }
-
-            _logger.Information("Sent shutdown command to MuMu emulator at index {EmuIndex}. Console path: {ConsolePath}", emuIndex, consolePath);
-
-            // 控制台命令返回并不代表模拟器已经关闭，需要确认真正的模拟器进程（MuMuNxDevice/MuMuPlayer）是否退出（#17061）
-            bool allExited = true;
-            foreach (var emulatorProcess in processes)
-            {
-                try
-                {
-                    if (!emulatorProcess.WaitForExit(10000))
-                    {
-                        allExited = false;
-                    }
-                }
-                catch (Exception e)
-                {
-                    _logger.Warning("Failed to wait for the MuMu emulator process to exit: {Message}", e.Message);
-                    allExited = false;
-                }
-            }
-
-            if (allExited)
-            {
-                _logger.Information("MuMu emulator at index {EmuIndex} closed through console.", emuIndex);
+                _logger.Information("Emulator at index {EmuIndex} closed through console. Console path: {ConsolePath}", emuIndex, consolePath);
                 return true;
             }
 
-            // 控制台命令未能真正关闭模拟器，回退为直接结束模拟器进程（#17061）
-            _logger.Warning("MuMu emulator process is still running after the console shutdown command; killing it directly.");
-            bool allKilled = true;
-            foreach (var emulatorProcess in processes)
-            {
-                try
-                {
-                    if (!emulatorProcess.HasExited)
-                    {
-                        emulatorProcess.Kill();
-                        emulatorProcess.WaitForExit(5000);
-                    }
-
-                    if (!emulatorProcess.HasExited)
-                    {
-                        allKilled = false;
-                    }
-                }
-                catch (Exception e)
-                {
-                    _logger.Warning("Failed to kill the MuMu emulator process directly: {Message}", e.Message);
-                    allKilled = false;
-                }
-            }
-
-            return allKilled || KillEmulatorByWindow();
+            _logger.Warning("Console process at index {EmuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {ConsolePath}", emuIndex, consolePath);
+            return KillEmulatorByWindow();
         }
 
         _logger.Error("MuMuManager.exe not found in expected locations (new or old). Trying to kill emulator by window.");
