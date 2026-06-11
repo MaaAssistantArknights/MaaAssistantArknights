@@ -60,7 +60,10 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
     auto image = ctrler()->get_image();
 
     if (is_stage_detail_opened(image)) { // 关卡介绍已展开
-        return confirm_stage_name(image, stage_name);
+        bool ret = confirm_stage_name(image, stage_name);
+        if (ret) {
+            return true;
+        }
     }
 
     const auto& task = Task.get<OcrTaskInfo>(stage_name + "@ClickStageName");
@@ -187,7 +190,7 @@ bool asst::MultiCopilotTaskPlugin::confirm_stage_name(const cv::Mat& image, cons
         return true;
     }
 
-    for (int i = 0; i < m_max_retry; ++i) {
+    for (int i = 0; i < 3; ++i) {
         sleep(Config.get_options().task_delay);
         OCRer re_OCR(ctrler()->get_image());
         re_OCR.set_task_info("ClickedCorrectStage");
@@ -195,8 +198,7 @@ bool asst::MultiCopilotTaskPlugin::confirm_stage_name(const cv::Mat& image, cons
             return true;
         }
     }
-    LogError << __FUNCTION__ << "confirm stage name failed after retrying " << m_max_retry
-             << " times, stage name:" << stage_name;
+    LogError << __FUNCTION__ << "confirm stage name failed after retrying 3 times, stage name:" << stage_name;
     return false;
 }
 
