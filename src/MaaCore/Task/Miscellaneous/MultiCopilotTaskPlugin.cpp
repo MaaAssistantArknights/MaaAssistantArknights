@@ -94,6 +94,9 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
     }
 
     for (int i = 0; i < m_max_retry; ++i) {
+        if (need_exit()) {
+            return false;
+        }
         ProcessTask(*this, { "Copilot@StageNavigationSlowlySwipeLeft" }).set_retry_times(20).run();
         sleep(Config.get_options().task_delay);
         image = ctrler()->get_image();
@@ -108,7 +111,9 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
 
     // 划 10 次到最右，然后扫有无初见剧情
     auto plot_task = ProcessTask(*this, { "Copilot@ChapterSwipeToTheRightAndPlot" });
-    plot_task.set_retry_times(20);
+    if (need_exit()) {
+        return false;
+    }
     if (plot_task.run()) {
         sleep(Config.get_options().task_delay);
         image = ctrler()->get_image();
