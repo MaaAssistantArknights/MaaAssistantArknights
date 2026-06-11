@@ -177,7 +177,7 @@ bool asst::MultiCopilotTaskPlugin::confirm_stage_name(const cv::Mat& image, cons
                std::ranges::any_of(ret_opt.value(), [&](const OcrPack::Result& r) { return r.text == stage_name; });
     };
     OCRer ocr(image);
-    ocr.set_task_info("ClickStageName");
+    ocr.set_task_info("ClickedCorrectStage");
     if (ocr_check(ocr.analyze())) {
         return true;
     }
@@ -185,7 +185,7 @@ bool asst::MultiCopilotTaskPlugin::confirm_stage_name(const cv::Mat& image, cons
     for (int i = 0; i < m_max_retry; ++i) {
         sleep(Config.get_options().task_delay);
         OCRer re_OCR(ctrler()->get_image());
-        re_OCR.set_task_info("ClickStageName");
+        re_OCR.set_task_info("ClickedCorrectStage");
         if (ocr_check(re_OCR.analyze())) {
             return true;
         }
