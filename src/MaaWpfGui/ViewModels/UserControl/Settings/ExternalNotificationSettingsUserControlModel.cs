@@ -594,7 +594,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private string _pushPlusTemplate = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationPushPlusTemplate, "html");
+    private string _pushPlusTemplate = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationPushPlusTemplate, PushPlusNotificationProvider.DefaultTemplate);
 
     public string PushPlusTemplate
     {

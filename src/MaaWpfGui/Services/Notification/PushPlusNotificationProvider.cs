@@ -26,6 +26,16 @@ public class PushPlusNotificationProvider(IHttpService httpService) : IExternalN
 {
     private readonly ILogger _logger = Log.ForContext<PushPlusNotificationProvider>();
 
+    /// <summary>
+    /// PushPlus API endpoint
+    /// </summary>
+    private const string PushPlusApiUrl = "https://www.pushplus.plus/send";
+
+    /// <summary>
+    /// Default template for PushPlus notifications
+    /// </summary>
+    public const string DefaultTemplate = "html";
+
     public async Task<bool> SendAsync(string title, string content)
     {
         var token = SettingsViewModel.ExternalNotificationSettings.PushPlusToken;
@@ -38,13 +48,11 @@ public class PushPlusNotificationProvider(IHttpService httpService) : IExternalN
         var template = SettingsViewModel.ExternalNotificationSettings.PushPlusTemplate;
         if (string.IsNullOrWhiteSpace(template))
         {
-            template = "html";
+            template = DefaultTemplate;
         }
 
         try
         {
-            const string url = "http://www.pushplus.plus/send";
-
             var requestBody = new PushPlusPostContent
             {
                 Token = token,
@@ -54,7 +62,14 @@ public class PushPlusNotificationProvider(IHttpService httpService) : IExternalN
             };
 
             var json = JsonSerializer.Serialize(requestBody);
-            var response = await httpService.PostAsync(new(url), new StringContent(json, Encoding.UTF8, "application/json"));
+            var response = await httpService.PostAsync(new(PushPlusApiUrl), new StringContent(json, Encoding.UTF8, "application/json"));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.Warning("PushPlus notification failed with HTTP status: {StatusCode}", response.StatusCode);
+                return false;
+            }
+
             var responseContent = await response.Content.ReadAsStringAsync();
 
             var responseRoot = JsonDocument.Parse(responseContent).RootElement;
