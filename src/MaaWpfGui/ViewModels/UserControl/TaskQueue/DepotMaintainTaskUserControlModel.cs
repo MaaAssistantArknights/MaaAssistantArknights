@@ -264,6 +264,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 if (string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0)
                 {
                     Instances.TaskQueueViewModel.AddLog($"Plan {i + 1}: invalid drop item.", UiLogColor.Error);
+                    taskIds.Add(0);
                     continue;
                 }
                 var count = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
@@ -271,17 +272,20 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 if (count <= 0)
                 {
                     Instances.TaskQueueViewModel.AddLog($"Plan {i + 1}: Inventory enough.", UiLogColor.Info);
+                    taskIds.Add(0);
                     continue;
                 }
                 var stage = FightSettingsUserControlModel.GetFightStage([plan.Stage]);
                 if (string.IsNullOrEmpty(stage))
                 {
                     Instances.TaskQueueViewModel.AddLog($"Plan {i + 1}: stage '{plan.Stage}' is not open.", UiLogColor.Error);
+                    taskIds.Add(0);
                     continue;
                 }
                 var fight = new AsstFightTask() {
                     Stage = stage,
-                    Drops = new() { { plan.DropId, plan.DropCount } },
+                    Drops = new() { { plan.DropId, count } },
+                    MaxTimes = count > 0 ? int.MaxValue : 0,
                     Medicine = plan.UseMedicine ? plan.MedicineCount : 0,
                     Stone = plan.UseStone ? plan.StoneCount : 0,
                 };
@@ -289,6 +293,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 if (!ret)
                 {
                     Instances.TaskQueueViewModel.AddLog($"Plan {i + 1}: add task failed.", UiLogColor.Error);
+                    taskIds.Add(0);
                 }
                 else
                 {
@@ -296,7 +301,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 }
             }
 
-            if (taskIds.Count > 0)
+            if (taskIds.Any(id => id > 0))
             {
                 return (true, taskIds);
             }
