@@ -148,7 +148,7 @@
         "Doc": "放弃交换通宝的确认按钮",
         "baseTask": "JieGarden@Roguelike@CoppersListDialogConfirm",
         "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
-        "next": ["JieGarden@Roguelike@CoppersTakeFlag#next", "#self"]
+        "next": ["JieGarden@Roguelike@DropsFlag", "JieGarden@Roguelike@CloseEvent", "#self"]
     },
     "JieGarden@Roguelike@CoppersAbandonExchange": {
         "Doc": "放弃交换通宝按钮",
