@@ -12,7 +12,6 @@
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
-    Height="600"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type taskQueue_vms:DepotMaintainTaskUserControlModel}}"
     d:DesignWidth="220"
@@ -145,6 +144,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" MinWidth="100" />
                                         <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
@@ -161,6 +161,7 @@
                                     <ComboBox
                                         Grid.Row="0"
                                         Grid.Column="1"
+                                        Grid.ColumnSpan="2"
                                         Height="30"
                                         Margin="3,2"
                                         HorizontalContentAlignment="Stretch"
@@ -185,6 +186,7 @@
                                     <hc:NumericUpDown
                                         Grid.Row="1"
                                         Grid.Column="1"
+                                        Grid.ColumnSpan="2"
                                         Width="70"
                                         Height="30"
                                         Margin="3,2"
@@ -204,6 +206,7 @@
                                     <hc:NumericUpDown
                                         Grid.Row="2"
                                         Grid.Column="1"
+                                        Grid.ColumnSpan="2"
                                         Width="70"
                                         Height="30"
                                         Margin="3,2"
@@ -232,6 +235,18 @@
                                         Maximum="999"
                                         Minimum="0"
                                         Value="{Binding StoneCount, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Button
+                                        Grid.Row="3"
+                                        Grid.Column="2"
+                                        Width="25"
+                                        Margin="0"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                        hc:IconElement.Height="15"
+                                        hc:IconElement.Width="15"
+                                        Command="{s:Action RemovePlan,
+                                                           Target={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}"
+                                        CommandParameter="{Binding}" />
                                 </Grid>
                             </StackPanel>
                         </Border>

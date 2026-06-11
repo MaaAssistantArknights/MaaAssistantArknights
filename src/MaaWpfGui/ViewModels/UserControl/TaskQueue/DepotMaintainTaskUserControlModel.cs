@@ -60,6 +60,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         PlanList.Add(new Plan());
     }
 
+    public void RemovePlan(Plan plan)
+    {
+        PlanList.Remove(plan);
+    }
+
     public bool IsStageManually
     {
         get => GetTaskConfig<DepotMaintainTask>().IsStageManually;
@@ -110,10 +115,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             var stageList = Instances.StageManager.GetStageList();
             await TaskQueueViewModel.TaskQueueSerializingLock.WaitAsync();
 
-            //using (var refresh = new UiRefreshingScope())
-            {
-                RefreshStageList();
-            }
+            RefreshStageList();
             TaskQueueViewModel.TaskQueueSerializingLock.Release();
         });
     }
@@ -163,7 +165,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 SetAndNotify(ref field, value);
                 Instance.NotifyOfPropertyChange(nameof(PlanInfo));
                 NotifyOfPropertyChange(nameof(Title));
-                Instance.SavePlan();
             }
         } = string.Empty;
 
@@ -176,7 +177,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 SetAndNotify(ref field, value);
                 Instance.NotifyOfPropertyChange(nameof(PlanInfo));
                 NotifyOfPropertyChange(nameof(Title));
-                Instance.SavePlan();
             }
         } = string.Empty;
 
@@ -191,41 +191,16 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 SetAndNotify(ref field, value);
                 Instance.NotifyOfPropertyChange(nameof(PlanInfo));
                 NotifyOfPropertyChange(nameof(Title));
-                Instance.SavePlan();
             }
         }
 
-        public bool UseMedicine
-        {
-            get; set {
-                SetAndNotify(ref field, value);
-                Instance.SavePlan();
-            }
-        }
+        public bool UseMedicine { get; set => SetAndNotify(ref field, value); }
 
-        public int MedicineCount
-        {
-            get; set {
-                SetAndNotify(ref field, value);
-                Instance.SavePlan();
-            }
-        }
+        public int MedicineCount { get; set => SetAndNotify(ref field, value); }
 
-        public bool UseStone
-        {
-            get; set {
-                SetAndNotify(ref field, value);
-                Instance.SavePlan();
-            }
-        }
+        public bool UseStone { get; set => SetAndNotify(ref field, value); }
 
-        public int StoneCount
-        {
-            get; set {
-                SetAndNotify(ref field, value);
-                Instance.SavePlan();
-            }
-        }
+        public int StoneCount { get; set => SetAndNotify(ref field, value); }
 
         // UI 绑定的方法
         [UsedImplicitly]
@@ -246,10 +221,28 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     public override void RefreshUI(BaseTask baseTask)
     {
-        if (baseTask is DepotMaintainTask)
+        if (baseTask is not DepotMaintainTask task)
         {
-            Refresh();
+            return;
         }
+        var list = new List<Plan>();
+        foreach (var plan in task.PlanList)
+        {
+            var uiPlan = new Plan() {
+                Stage = plan.Stage,
+                DropId = plan.DropId,
+                DropCount = plan.DropCount,
+                UseMedicine = plan.UseMedicine,
+                MedicineCount = plan.MedicineCount,
+                UseStone = plan.UseStone,
+                StoneCount = plan.StoneCount,
+            };
+            list.Add(uiPlan);
+            uiPlan.PropertyChanged += (_, __) => SavePlan();
+        }
+        PlanList = [.. list];
+        PlanList.CollectionChanged += (_, __) => SavePlan();
+        Refresh();
     }
 
     public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
