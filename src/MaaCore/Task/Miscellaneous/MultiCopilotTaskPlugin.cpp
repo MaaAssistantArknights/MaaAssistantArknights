@@ -64,8 +64,16 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
     }
 
     const auto& task = Task.get<OcrTaskInfo>(stage_name + "@ClickStageName");
-    std::tuple<int, int, int> threshold_low { task->bin_threshold[0], task->bin_threshold[1], task->bin_threshold[2] };
-    std::tuple<int, int, int> threshold_high { task->bin_threshold[3], task->bin_threshold[4], task->bin_threshold[5] };
+    std::tuple<int, int, int> threshold_low {
+        task->special_params[0],
+        task->special_params[1],
+        task->special_params[2],
+    };
+    std::tuple<int, int, int> threshold_high {
+        task->special_params[3],
+        task->special_params[4],
+        task->special_params[5],
+    };
     auto stages = find_stage(image, threshold_low, threshold_high);
     auto it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
     if (it != stages.end()) {
@@ -135,7 +143,7 @@ asst::OCRer::ResultsVec asst::MultiCopilotTaskPlugin::find_stage(
     std::tuple<int, int, int> threshold_high)
 {
     cv::Mat gray;
-    cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
+    cv::cvtColor(image, gray, cv::COLOR_BGR2HSV);
     auto [l1, l2, l3] = threshold_low;
     auto [h1, h2, h3] = threshold_high;
     cv::inRange(gray, cv::Scalar(l1, l2, l3), cv::Scalar(h1, h2, h3), gray);
