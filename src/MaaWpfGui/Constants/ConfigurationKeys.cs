@@ -324,6 +324,8 @@ public static class ConfigurationKeys
     public const string ExternalNotificationCustomWebhookUrl = "ExternalNotification.CustomWebhook.Url";
     public const string ExternalNotificationCustomWebhookBody = "ExternalNotification.CustomWebhook.Body";
     public const string ExternalNotificationCustomWebhookHeaders = "ExternalNotification.CustomWebhook.Headers";
+    public const string ExternalNotificationPushPlusToken = "ExternalNotification.PushPlus.Token";
+    public const string ExternalNotificationPushPlusTemplate = "ExternalNotification.PushPlus.Template";
 
     public const string PerformanceUseGpu = "Performance.UseGpu";
     public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription";

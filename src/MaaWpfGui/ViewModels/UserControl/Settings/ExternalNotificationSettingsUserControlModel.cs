@@ -100,7 +100,8 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             "Bark",
             "Qmsg",
             "Gotify",
-            "Custom Webhook"
+            "Custom Webhook",
+            "PushPlus"
         ];
 
     public static List<string> ExternalNotificationProvidersShow => ExternalNotificationProviders;
@@ -220,6 +221,14 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _customWebhookEnabled, value);
     }
 
+    private bool _pushPlusEnabled = false;
+
+    public bool PushPlusEnabled
+    {
+        get => _pushPlusEnabled;
+        set => SetAndNotify(ref _pushPlusEnabled, value);
+    }
+
     public void UpdateExternalNotificationProvider()
     {
         ServerChanEnabled = _enabledExternalNotificationProviders.Contains("ServerChan");
@@ -232,6 +241,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         QmsgEnabled = _enabledExternalNotificationProviders.Contains("Qmsg");
         GotifyEnabled = _enabledExternalNotificationProviders.Contains("Gotify");
         CustomWebhookEnabled = _enabledExternalNotificationProviders.Contains("Custom Webhook");
+        PushPlusEnabled = _enabledExternalNotificationProviders.Contains("PushPlus");
     }
 
     #endregion External Enable
@@ -569,6 +579,29 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _customWebhookHeaders, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders, value);
+        }
+    }
+
+    private string _pushPlusToken = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationPushPlusToken, string.Empty));
+
+    public string PushPlusToken
+    {
+        get => _pushPlusToken;
+        set {
+            SetAndNotify(ref _pushPlusToken, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationPushPlusToken, value);
+        }
+    }
+
+    private string _pushPlusTemplate = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationPushPlusTemplate, "html");
+
+    public string PushPlusTemplate
+    {
+        get => _pushPlusTemplate;
+        set {
+            SetAndNotify(ref _pushPlusTemplate, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationPushPlusTemplate, value);
         }
     }
 
