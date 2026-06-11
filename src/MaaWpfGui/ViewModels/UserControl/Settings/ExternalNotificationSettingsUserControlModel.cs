@@ -572,6 +572,36 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    public List<WebhookPresetTemplate> PresetTemplateList => WebhookPresetTemplate.BuiltInTemplates;
+
+    private string _selectedPresetTemplateId = "__custom__";
+
+    public string SelectedPresetTemplateId
+    {
+        get => _selectedPresetTemplateId;
+        set
+        {
+            if (!SetAndNotify(ref _selectedPresetTemplateId, value))
+            {
+                return;
+            }
+
+            var template = WebhookPresetTemplate.BuiltInTemplates.FirstOrDefault(t => t.Id == value);
+            if (template == null)
+            {
+                return;
+            }
+
+            CustomWebhookUrl = template.Url;
+            CustomWebhookBody = template.BodyTemplate;
+            CustomWebhookHeaders = template.Headers;
+
+            NotifyOfPropertyChange(nameof(CustomWebhookUrl));
+            NotifyOfPropertyChange(nameof(CustomWebhookBody));
+            NotifyOfPropertyChange(nameof(CustomWebhookHeaders));
+        }
+    }
+
     // FIXME: 不知道为什么 TextBox 在高度变化时会导致 ScrollViewer 的偏移位置变成 0，直接锁到第一个元素去了。在编辑的时候先给它禁用了
     // 不要用 static，s:Action 找不到
     public void CustomWebhookBodyGotFocus() => Instances.SettingsViewModel.AllowScrollOffsetChange = false;

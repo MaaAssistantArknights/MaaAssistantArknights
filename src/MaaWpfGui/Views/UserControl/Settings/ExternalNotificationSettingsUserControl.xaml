@@ -490,6 +490,16 @@
             Orientation="Vertical"
             Visibility="{c:Binding CustomWebhookEnabled}">
             <hc:Divider Content="{DynamicResource ExternalNotificationCustomWebhook}" />
+            <StackPanel Orientation="Horizontal" Margin="10,10,0,10">
+                <hc:ComboBox
+                    Width="300"
+                    hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Presets}"
+                    ItemsSource="{Binding PresetTemplateList}"
+                    SelectedValue="{Binding SelectedPresetTemplateId}"
+                    DisplayMemberPath="DisplayName"
+                    SelectedValuePath="Id" />
+                <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationCustomWebhook.PresetsPlaceholders}" />
+            </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <hc:TextBox
                     x:Name="CustomWebhookUrl"
