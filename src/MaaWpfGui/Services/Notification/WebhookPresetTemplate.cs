@@ -46,6 +46,14 @@ public class WebhookPresetTemplate
             Url = "https://api.chuckfang.com/{nickname}",
             BodyTemplate = "{\"title\":\"{title}\",\"msg\":\"{content}\\n{time}\"}",
         },
+        new()
+        {
+            Id = "pushplus",
+            NameResourceKey = "ExternalNotificationCustomWebhook.TemplatePushPlus",
+            Url = "https://www.pushplus.plus/send",
+            Headers = "Content-Type: application/json",
+            BodyTemplate = "{\"token\":\"{your_token}\",\"title\":\"{title}\",\"content\":\"{content}\",\"template\":\"html\"}",
+        },
     ];
 
     public static IReadOnlyList<WebhookPresetTemplate> BuiltInTemplates => _builtInTemplates;
