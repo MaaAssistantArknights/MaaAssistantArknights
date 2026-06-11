@@ -60,12 +60,23 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
     auto image = ctrler()->get_image();
 
     if (is_stage_detail_opened(image)) { // 关卡介绍已展开
-        return confirm_stage_name(image, stage_name);
+        bool ret = confirm_stage_name(image, stage_name);
+        if (ret) {
+            return true;
+        }
     }
 
     const auto& task = Task.get<OcrTaskInfo>(stage_name + "@ClickStageName");
-    std::tuple<int, int, int> threshold_low { task->bin_threshold[0], task->bin_threshold[1], task->bin_threshold[2] };
-    std::tuple<int, int, int> threshold_high { task->bin_threshold[3], task->bin_threshold[4], task->bin_threshold[5] };
+    std::tuple<int, int, int> threshold_low {
+        task->special_params[0],
+        task->special_params[1],
+        task->special_params[2],
+    };
+    std::tuple<int, int, int> threshold_high {
+        task->special_params[3],
+        task->special_params[4],
+        task->special_params[5],
+    };
     auto stages = find_stage(image, threshold_low, threshold_high);
     auto it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
     if (it != stages.end()) {
@@ -86,6 +97,9 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
     }
 
     for (int i = 0; i < m_max_retry; ++i) {
+        if (need_exit()) {
+            return false;
+        }
         ProcessTask(*this, { "Copilot@StageNavigationSlowlySwipeLeft" }).set_retry_times(20).run();
         sleep(Config.get_options().task_delay);
         image = ctrler()->get_image();
@@ -100,7 +114,9 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
 
     // 划 10 次到最右，然后扫有无初见剧情
     auto plot_task = ProcessTask(*this, { "Copilot@ChapterSwipeToTheRightAndPlot" });
-    plot_task.set_retry_times(20);
+    if (need_exit()) {
+        return false;
+    }
     if (plot_task.run()) {
         sleep(Config.get_options().task_delay);
         image = ctrler()->get_image();
@@ -135,7 +151,7 @@ asst::OCRer::ResultsVec asst::MultiCopilotTaskPlugin::find_stage(
     std::tuple<int, int, int> threshold_high)
 {
     cv::Mat gray;
-    cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
+    cv::cvtColor(image, gray, cv::COLOR_BGR2HSV);
     auto [l1, l2, l3] = threshold_low;
     auto [h1, h2, h3] = threshold_high;
     cv::inRange(gray, cv::Scalar(l1, l2, l3), cv::Scalar(h1, h2, h3), gray);
@@ -158,7 +174,7 @@ asst::OCRer::ResultsVec asst::MultiCopilotTaskPlugin::find_stage(
 bool asst::MultiCopilotTaskPlugin::is_stage_detail_opened(const cv::Mat& image)
 {
     PipelineAnalyzer match(image);
-    match.set_tasks({ "ClickedCorrectStageOrSwipe" });
+    match.set_tasks({ "StartButton1" });
     return match.analyze().has_value();
 }
 
@@ -169,21 +185,20 @@ bool asst::MultiCopilotTaskPlugin::confirm_stage_name(const cv::Mat& image, cons
                std::ranges::any_of(ret_opt.value(), [&](const OcrPack::Result& r) { return r.text == stage_name; });
     };
     OCRer ocr(image);
-    ocr.set_task_info("ClickStageName");
+    ocr.set_task_info("ClickedCorrectStage");
     if (ocr_check(ocr.analyze())) {
         return true;
     }
 
-    for (int i = 0; i < m_max_retry; ++i) {
+    for (int i = 0; i < 3; ++i) {
         sleep(Config.get_options().task_delay);
         OCRer re_OCR(ctrler()->get_image());
-        re_OCR.set_task_info("ClickStageName");
+        re_OCR.set_task_info("ClickedCorrectStage");
         if (ocr_check(re_OCR.analyze())) {
             return true;
         }
     }
-    LogError << __FUNCTION__ << "confirm stage name failed after retrying " << m_max_retry
-             << " times, stage name:" << stage_name;
+    LogError << __FUNCTION__ << "confirm stage name failed after retrying 3 times, stage name:" << stage_name;
     return false;
 }
 

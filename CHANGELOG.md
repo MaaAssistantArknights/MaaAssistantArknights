@@ -1,4 +1,4 @@
-## v6.12.0
+## v6.12.1
 
 ### Highlights
 
@@ -37,6 +37,16 @@ Supports the enhanced screenshot path for MuMu 6.0 Android 15, improving screens
 以下是详细内容：
 
 <details open>
+<summary><b>v6.12.1 (2026-06-11)</b></summary>
+
+### 修复 | Fix
+
+* 修复多作业模式关卡导航选错关卡无法重选、关卡名复核失效等多项问题 @status102 @ABA2396
+* 修复界园事件内通宝交换后无法正确处理事件结束页 (#16936) @ZiyinLin
+
+</details>
+
+<details>
 <summary><b>v6.12.0 (2026-06-11)</b></summary>
 
 ### 新增 | New
