@@ -214,6 +214,9 @@
                 "publish-base",
                 "windows-x64"
             ],
+            "cacheVariables": {
+                "BUILD_WPF_GUI": "ON"
+            },
             "displayName": "Windows x64 Publish"
         },
         {
@@ -222,6 +225,9 @@
                 "publish-base",
                 "windows-arm64"
             ],
+            "cacheVariables": {
+                "BUILD_WPF_GUI": "ON"
+            },
             "displayName": "Windows arm64 Publish"
         },
         {
