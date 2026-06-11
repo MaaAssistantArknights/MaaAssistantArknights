@@ -112,7 +112,7 @@ bool MumuExtras::load_mumu_library()
     for (const auto& rel_path : kCandidateRelativePaths) {
         auto lib_path = mumu_path_ / rel_path;
         if (load_library(lib_path)) {
-            LogInfo << "Successfully loaded MuMu external renderer library from: " << lib_path.string();
+            LogInfo << "Successfully loaded MuMu external renderer library from: " << lib_path;
             loaded = true;
             break;
         }
@@ -121,7 +121,7 @@ bool MumuExtras::load_mumu_library()
     if (!loaded) {
         LogError << "Failed to load library from all candidate paths";
         for (const auto& rel_path : kCandidateRelativePaths) {
-            LogError << "  tried: " << (mumu_path_ / rel_path).string();
+            LogError << "  tried: " << (mumu_path_ / rel_path);
         }
         return false;
     }
