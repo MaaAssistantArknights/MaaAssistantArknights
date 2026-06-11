@@ -32,7 +32,7 @@ public class WebhookPresetTemplate
     // 新增模板时，必须在所有语言的 Localizations/*.xaml 中添加对应的 NameResourceKey 字符串
     public string DisplayName => LocalizationHelper.GetString(NameResourceKey);
 
-    public static List<WebhookPresetTemplate> BuiltInTemplates { get; } =
+    private static readonly List<WebhookPresetTemplate> _builtInTemplates =
     [
         new()
         {
@@ -44,7 +44,10 @@ public class WebhookPresetTemplate
             Id = "meow",
             NameResourceKey = "ExternalNotificationCustomWebhook.TemplateMeoW",
             Url = "https://api.chuckfang.com/{nickname}",
+            Headers = "Content-Type: application/json",
             BodyTemplate = "{\"title\":\"{title}\",\"msg\":\"{content}\\n{time}\"}",
         },
     ];
+
+    public static IReadOnlyList<WebhookPresetTemplate> BuiltInTemplates => _builtInTemplates;
 }

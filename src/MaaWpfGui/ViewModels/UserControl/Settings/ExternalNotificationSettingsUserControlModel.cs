@@ -572,7 +572,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    public List<WebhookPresetTemplate> PresetTemplateList => WebhookPresetTemplate.BuiltInTemplates;
+    public IReadOnlyList<WebhookPresetTemplate> PresetTemplateList => WebhookPresetTemplate.BuiltInTemplates;
 
     private string _selectedPresetTemplateId = "__custom__";
 
@@ -582,6 +582,11 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         set
         {
             if (!SetAndNotify(ref _selectedPresetTemplateId, value))
+            {
+                return;
+            }
+
+            if (value == "__custom__")
             {
                 return;
             }
