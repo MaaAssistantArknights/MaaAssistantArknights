@@ -171,7 +171,7 @@ asst::OCRer::ResultsVec asst::MultiCopilotTaskPlugin::find_stage(
 bool asst::MultiCopilotTaskPlugin::is_stage_detail_opened(const cv::Mat& image)
 {
     PipelineAnalyzer match(image);
-    match.set_tasks({ "ClickedCorrectStageOrSwipe" });
+    match.set_tasks({ "StartButton1" });
     return match.analyze().has_value();
 }
 
