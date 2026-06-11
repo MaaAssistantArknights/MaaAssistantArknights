@@ -213,7 +213,8 @@ int asst::AdbController::get_mumu_index(const std::string& address)
     int port = std::stoi(port_str);
     int mumu_index = 0;
     if (port >= 16384) {
-        mumu_index = (port - 16384) / 32;
+        int k = (port - 16384) / 4;
+        mumu_index = 32 * k - 255 * MIN(31, int(k / 8));
     }
     else if (port == 7555) {
         mumu_index = 0;
