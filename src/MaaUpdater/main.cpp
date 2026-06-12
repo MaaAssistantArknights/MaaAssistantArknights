@@ -74,7 +74,6 @@ static void PrepareBackupDestination(const std::wstring& backupPath);
 static bool MoveExistingPathToBackup(const std::wstring& src, const std::wstring& backup);
 static bool RecycleAndBackupDirectory(const std::wstring& sourcePath, const std::wstring& backupPath);
 static bool RecycleAndBackupPath(const std::wstring& sourcePath, const std::wstring& backupPath);
-static bool RemoveDirectoryRecursive(const std::wstring& dir);
 
 static bool WriteUtf8File(const std::wstring& path, const char* content);
 static bool WriteUtf8File(const std::wstring& path, const std::string& content);
@@ -1090,26 +1089,6 @@ static bool RecycleAndBackupPath(const std::wstring& sourcePath, const std::wstr
     }
 
     return ForceDeleteFile(sourcePath);
-}
-
-static bool RemoveDirectoryRecursive(const std::wstring& dir)
-{
-    std::wstring pattern = dir + L"\\*";
-    WIN32_FIND_DATAW fd {};
-    HANDLE hFind = FindFirstFileW(pattern.c_str(), &fd);
-    if (hFind != INVALID_HANDLE_VALUE) {
-        do {
-            if (wcscmp(fd.cFileName, L".") == 0 || wcscmp(fd.cFileName, L"..") == 0)
-                continue;
-            std::wstring child = dir + L"\\" + fd.cFileName;
-            if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-                ForceRemoveDirectoryRecursive(child);
-            else
-                ForceDeleteFile(child);
-        } while (FindNextFileW(hFind, &fd));
-        FindClose(hFind);
-    }
-    return RemoveDirectoryW(dir.c_str()) != FALSE || !PathExistsW(dir);
 }
 
 // ---------------------------------------------------------------------------
