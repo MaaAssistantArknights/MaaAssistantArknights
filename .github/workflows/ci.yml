@@ -101,7 +101,7 @@ jobs:
       matrix:
         arch: [arm64, x64]
       fail-fast: false
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
 
     steps:
       - name: Checkout repository
