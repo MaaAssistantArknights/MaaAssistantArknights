@@ -102,7 +102,7 @@ static bool RetryFileOp(const std::function<bool()>& op, int maxAttempts = 5, DW
 static std::wstring RenameLockedFile(const std::wstring& path);
 static bool ForceDeleteFile(const std::wstring& path);
 static bool ForceRemoveDirectoryRecursive(const std::wstring& dir);
-static bool InstallFileAtomic(const std::wstring& sourcePath, const std::wstring& targetPath, const std::wstring& backupDirForFailedAtomic);
+static bool InstallFileAtomic(const std::wstring& sourcePath, const std::wstring& targetPath);
 static void CleanupPendingDeleteFiles(const std::wstring& rootDir);
 
 struct UpdateProgressUi
@@ -1651,8 +1651,7 @@ static bool ForceRemoveDirectoryRecursive(const std::wstring& dir)
 // a separate copy-then-delete cycle.
 // If ReplaceFileW fails, falls back to copy-then-move with retry.
 static bool InstallFileAtomic(const std::wstring& sourcePath,
-                               const std::wstring& targetPath,
-                               const std::wstring& backupDirForFailedAtomic)
+                               const std::wstring& targetPath)
 {
     EnsureParentDirectory(targetPath);
 
@@ -1682,9 +1681,6 @@ static bool InstallFileAtomic(const std::wstring& sourcePath,
     }
 
     // --- Try ReplaceFileW (atomic swap) ---
-    // backupDirForFailedAtomic is unused by ReplaceFileW itself; we pass nullptr
-    // because we already have a proper backup in the backupDir. ReplaceFileW's
-    // backup is only used as a last-resort safety net.
     {
         auto replaceOp = [&]() -> bool {
             // ReplaceFileW(replaced, replacement, backup, flags, exclude, reserved)
@@ -1998,7 +1994,7 @@ int wmain(int argc, wchar_t* argv[])
 
             if (isSourceFile) {
                 // Use atomic file replacement for individual files
-                installOk = InstallFileAtomic(sourcePath, targetPath, backupDir);
+                installOk = InstallFileAtomic(sourcePath, targetPath);
             } else {
                 // Directories: use the original move logic
                 auto moveOp = [&]() -> bool {
