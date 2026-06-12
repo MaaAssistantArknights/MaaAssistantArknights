@@ -1884,7 +1884,7 @@ public partial class CopilotViewModel : Screen
         // 连接期间用户可能已点停止，需在此处拦截
         if (_runningState.GetStopping())
         {
-            Instances.TaskQueueViewModel.SetStopped();
+            Instances.TaskQueueViewModel.SetStopped(SettingsViewModel.GameSettings.CopilotWithScript);
             AddLog(LocalizationHelper.GetString("Stopped"));
             return;
         }
