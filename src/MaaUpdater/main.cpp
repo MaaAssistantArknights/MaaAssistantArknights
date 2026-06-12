@@ -6,7 +6,7 @@
 //   MAA.Updater.exe <ParentProcessId> <RootDir> <ExtractDir> <BackupDir>
 //                   <PackagePath> <SuccessStatusFile> <FailureStatusFile>
 //                   <RelaunchExecutablePath> <PlanFile>
-//                   [--instance-key <sha256>] [--show-console]
+//                   [--mutex-name <name>] [--show-console]
 //
 // Plan file format (UTF-8 JSON):
 //   { "packageType": "full|ota", "removeList": ["rel/path", ...], "moveList": ["rel/path", ...] }
@@ -146,7 +146,7 @@ static constexpr int PROGRESS_DETAIL_CONTROL_ID = 1002;
 static constexpr int PROGRESS_COUNT_CONTROL_ID = 1003;
 static constexpr int PROGRESS_BAR_CONTROL_ID = 1004;
 static constexpr DWORD LEGACY_DWMWA_USE_IMMERSIVE_DARK_MODE = 19;
-static constexpr wchar_t INSTANCE_KEY_ARG[] = L"--instance-key";
+static constexpr wchar_t MUTEX_NAME_ARG[] = L"--mutex-name";
 static constexpr DWORD UPDATE_MUTEX_TIMEOUT_MS = 3000;
 #define PENDING_DELETE_SUFFIX L".pendingdelete"
 static constexpr int FILE_OP_MAX_RETRIES = 5;
@@ -1826,10 +1826,10 @@ int wmain(int argc, wchar_t* argv[])
     std::wstring planFile            = argv[9];
     g_writeConsoleLog = HasArgument(argc, argv, L"--show-console");
 
-    std::wstring instanceKey;
+    std::wstring mutexName;
     for (int i = 1; i < argc - 1; ++i) {
-        if (_wcsicmp(argv[i], INSTANCE_KEY_ARG) == 0) {
-            instanceKey = argv[i + 1];
+        if (_wcsicmp(argv[i], MUTEX_NAME_ARG) == 0) {
+            mutexName = argv[i + 1];
             break;
         }
     }
@@ -1875,8 +1875,7 @@ int wmain(int argc, wchar_t* argv[])
     // ------------------------------------------------------------------
     // Acquire update mutex to prevent new MAA instances from starting
     // ------------------------------------------------------------------
-    if (!instanceKey.empty()) {
-        std::wstring mutexName = L"MAA_" + instanceKey;
+    if (!mutexName.empty()) {
         hUpdateMutex = AcquireUpdateMutex(mutexName);
         if (hUpdateMutex == nullptr) {
             failureReason =
@@ -1893,7 +1892,7 @@ int wmain(int argc, wchar_t* argv[])
         // Clean up any .pendingdelete files left from a previous interrupted update
         CleanupPendingDeleteFiles(rootDir);
     } else {
-        WriteLog(L"No instance key provided, update mutex will not be used.");
+        WriteLog(L"No mutex name provided, update mutex will not be used.");
     }
 
     if (IsDriveRootDirectory(rootDir)) {

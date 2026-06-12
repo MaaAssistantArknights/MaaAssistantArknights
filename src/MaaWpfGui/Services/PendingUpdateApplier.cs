@@ -462,7 +462,7 @@ internal static partial class PendingUpdateApplier
         // Args: <ParentPid> <RootDir> <ExtractDir> <BackupDir>
         //       <PackagePath> <SuccessStatusFile> <FailureStatusFile>
         //       <RelaunchExecutablePath> <PlanFile>
-        //       [--instance-key <key>] [--show-console]
+        //       [--mutex-name <name>] [--show-console]
         startInfo.ArgumentList.Add(Environment.ProcessId.ToString());
         startInfo.ArgumentList.Add(context.RootDir);
         startInfo.ArgumentList.Add(context.ExtractDir);
@@ -472,8 +472,8 @@ internal static partial class PendingUpdateApplier
         startInfo.ArgumentList.Add(DelegatedUpdateFailureStatusFilePath);
         startInfo.ArgumentList.Add(relaunchExecutablePath);
         startInfo.ArgumentList.Add(planPath);
-        startInfo.ArgumentList.Add("--instance-key");
-        startInfo.ArgumentList.Add(Bootstrapper.InstanceKey);
+        startInfo.ArgumentList.Add("--mutex-name");
+        startInfo.ArgumentList.Add(Bootstrapper.MutexName);
         if (showUpdaterConsole)
         {
             startInfo.ArgumentList.Add("--show-console");
