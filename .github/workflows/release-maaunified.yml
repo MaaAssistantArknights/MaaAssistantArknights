@@ -13,7 +13,7 @@ on:
       prerelease:
         description: Mark the release as prerelease if the upload action needs to create it; beta tags must use true
         required: false
-        default: false
+        default: true
         type: boolean
 
 permissions:
