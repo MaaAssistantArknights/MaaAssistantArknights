@@ -874,6 +874,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Waiting">ミッション終了を待っています……</system:String>
     <system:String x:Key="Stopping">動作停止中……</system:String>
     <system:String x:Key="Stopped">動作停止</system:String>
+    <system:String x:Key="StopTimeout">停止がタイムアウトしました。Core が停止要求に応答しませんでした</system:String>
+    <system:String x:Key="RestartRecommendation">MAA を再起動して正常な状態に戻すことをお勧めします</system:String>
     <system:String x:Key="UnknownErrorOccurs">不明なエラーが発生しました</system:String>
     <system:String x:Key="SetSuccessfully">設定に成功しました</system:String>
     <system:String x:Key="SetFailed">設定に失敗しました</system:String>

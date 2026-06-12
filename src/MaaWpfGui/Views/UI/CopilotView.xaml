@@ -288,7 +288,7 @@
                             Height="50"
                             Command="{s:Action Stop}"
                             Content="{DynamicResource Stop}"
-                            IsEnabled="{c:Binding Inited}"
+                            IsEnabled="{c:Binding 'Inited and !Stopping'}"
                             Visibility="{c:Binding !Idle}" />
                     </Grid>
                     <StackPanel

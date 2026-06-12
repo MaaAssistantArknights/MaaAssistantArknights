@@ -873,6 +873,8 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="Waiting">Waiting for the mission completion…</system:String>
     <system:String x:Key="Stopping">Stopping……</system:String>
     <system:String x:Key="Stopped">Has stopped</system:String>
+    <system:String x:Key="StopTimeout">Stop timed out: Core did not respond to the stop request in time</system:String>
+    <system:String x:Key="RestartRecommendation">It is recommended to restart MAA to restore normal state</system:String>
     <system:String x:Key="UnknownErrorOccurs">Unknown error occurred</system:String>
     <system:String x:Key="SetSuccessfully">Set successfully</system:String>
     <system:String x:Key="SetFailed">Setting failed</system:String>

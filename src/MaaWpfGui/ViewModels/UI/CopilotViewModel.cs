@@ -1881,6 +1881,14 @@ public partial class CopilotViewModel : Screen
             return;
         }
 
+        // 连接期间用户可能已点停止，需在此处拦截
+        if (_runningState.GetStopping())
+        {
+            Instances.TaskQueueViewModel.SetStopped();
+            AddLog(LocalizationHelper.GetString("Stopped"));
+            return;
+        }
+
         var userAdditional = ParseUserAdditionals();
 
         bool ret;
@@ -2164,23 +2172,15 @@ public partial class CopilotViewModel : Screen
     /// Stops copilot.
     /// UI 绑定的方法
     /// </summary>
-    public void Stop()
+    public async void Stop()
     {
-        if (SettingsViewModel.GameSettings.CopilotWithScript && SettingsViewModel.GameSettings.ManualStopWithScript)
+        // 等待 Core 实际停止；回调或超时自动 SetStopped（脚本由 proxy 回调按 CopilotWithScript 设置判断）
+        AddLog(LocalizationHelper.GetString("Stopping"));
+        await Instances.TaskQueueViewModel.Stop();
+        if (_runningState.GetIdle() && !_runningState.GetStopping())
         {
-            Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript", showLog: false));
-            if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.EndsWithScript))
-            {
-                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
-            }
+            AddLog(LocalizationHelper.GetString("Stopped"));
         }
-
-        if (!Instances.AsstProxy.AsstStop())
-        {
-            _logger.Warning("Failed to stop Asst");
-        }
-
-        _runningState.SetIdle(true);
     }
 
     private bool IsDataFromWeb { get => field; set => SetAndNotify(ref field, value); }
