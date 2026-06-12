@@ -2841,6 +2841,9 @@ public class AsstProxy
 
         /// <summary>自定义任务s</summary>
         Custom,
+
+        /// <summary>任务分组</summary>
+        Group,
     }
 
     private readonly HashSet<TaskType> _mainTaskTypes =

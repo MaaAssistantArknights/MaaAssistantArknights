@@ -70,9 +70,9 @@ public class TaskQueueViewModel : Screen
     public static SemaphoreSlim TaskQueueSerializingLock { get; } = new(1, 1);
 
     /// <summary>
-    /// Gets or private sets the view models of task items.
+    /// Gets or private sets the view models of task items (both single tasks and task groups).
     /// </summary>
-    public ObservableCollection<TaskItemViewModel> TaskItemViewModels { get; private set; } = [];
+    public ObservableCollection<ITaskQueueItemViewModel> TaskItemViewModels { get; private set; } = [];
 
     /// <summary>
     /// Gets the visibility of task setting views.
@@ -186,9 +186,9 @@ public class TaskQueueViewModel : Screen
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-                foreach (var item in e.OldItems?.OfType<TaskItemViewModel>() ?? [])
+                foreach (var item in e.OldItems?.OfType<IDisposable>() ?? [])
                 {
-                    (item as IDisposable)?.Dispose(); // 释放事件订阅; 暂未支持TaskItemViewModels.clear()
+                    item.Dispose(); // 释放事件订阅; 暂未支持TaskItemViewModels.clear()
                 }
 
                 if (e.OldStartingIndex >= 0 && e.OldStartingIndex < ConfigFactory.CurrentConfig.TaskQueue.Count)
@@ -994,11 +994,15 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     private void InitializeItems()
     {
-        List<TaskItemViewModel> taskqueue = [];
+        List<ITaskQueueItemViewModel> taskqueue = [];
         for (int i = 0; i < ConfigFactory.CurrentConfig.TaskQueue.Count; i++)
         {
             var task = ConfigFactory.CurrentConfig.TaskQueue.ElementAt(i);
-            if (task is not null)
+            if (task is TaskGroup group)
+            {
+                taskqueue.Add(new TaskGroupViewModel(group) { Index = i });
+            }
+            else if (task is not null)
             {
                 taskqueue.Add(new TaskItemViewModel(task.NameOrTaskType, task.IsEnable) { Index = i });
             }
@@ -1007,7 +1011,7 @@ public class TaskQueueViewModel : Screen
         TaskItemViewModels = [.. taskqueue];
         TaskItemViewModels.CollectionChanged += TaskItemSelectionChanged;
         var taskItem = TaskItemViewModels.ElementAtOrDefault(ConfigFactory.CurrentConfig.TaskSelectedIndex);
-        taskItem ??= TaskItemViewModels.FirstOrDefault(i => ConfigFactory.CurrentConfig.TaskQueue[i.Index] is FightTask);
+        taskItem ??= TaskItemViewModels.FirstOrDefault(i => i is TaskItemViewModel tiv && ConfigFactory.CurrentConfig.TaskQueue[tiv.Index] is FightTask);
         taskItem ??= TaskItemViewModels.FirstOrDefault();
         if (taskItem is { })
         {
@@ -1309,15 +1313,43 @@ public class TaskQueueViewModel : Screen
     {
         foreach (var item in TaskItemViewModels)
         {
-            switch (ConfigFactory.CurrentConfig.TaskQueue[item.Index].TaskType)
+            if (item is TaskGroupViewModel groupVm)
             {
-                case TaskType.Roguelike:
-                case TaskType.Reclamation:
-                case TaskType.Custom:
-                    continue;
-            }
+                foreach (var child in groupVm.Children)
+                {
+                    var childIndex = child.Index;
+                    if (childIndex >= 0
+                        && ConfigFactory.CurrentConfig.TaskQueue[groupVm.Index] is TaskGroup group
+                        && childIndex < group.Children.Count)
+                    {
+                        switch (group.Children[childIndex].TaskType)
+                        {
+                            case TaskType.Roguelike:
+                            case TaskType.Reclamation:
+                            case TaskType.Custom:
+                                continue;
+                        }
+                    }
 
-            item.IsEnable = true;
+                    child.IsEnable = true;
+                }
+            }
+            else
+            {
+                var idx = item.Index;
+                if (idx >= 0 && idx < ConfigFactory.CurrentConfig.TaskQueue.Count)
+                {
+                    switch (ConfigFactory.CurrentConfig.TaskQueue[idx].TaskType)
+                    {
+                        case TaskType.Roguelike:
+                        case TaskType.Reclamation:
+                        case TaskType.Custom:
+                            continue;
+                    }
+                }
+
+                item.IsEnable = true;
+            }
         }
     }
 
@@ -1353,21 +1385,40 @@ public class TaskQueueViewModel : Screen
     }
 
     /// <summary>
+    /// Creates a new empty task group and adds it to the end of the task queue.
+    /// </summary>
+    [UsedImplicitly]
+    public void CreateGroup()
+    {
+        var group = new TaskGroup { Name = "任务组", IsExpanded = true };
+        ConfigFactory.CurrentConfig.TaskQueue.Add(group);
+        var groupVm = new TaskGroupViewModel(group) { Index = TaskItemViewModels.Count };
+        TaskItemViewModels.Add(groupVm);
+        AddLog(LocalizationHelper.GetStringFormat("TaskGroupCreated", group.NameOrTaskType), UiLogColor.Info);
+    }
+
+    /// <summary>
     /// 重命名任务
     /// </summary>
-    /// <param name="taskItem">任务项</param>
+    /// <param name="taskItem">任务项或任务组</param>
     [UsedImplicitly]
-    public void RenameTask(TaskItemViewModel taskItem)
+    public void RenameTask(ITaskQueueItemViewModel taskItem)
     {
         if (taskItem == null || !Idle)
         {
             return;
         }
 
-        var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
+        int idx = taskItem.Index;
+        if (idx < 0 || idx >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+        {
+            return;
+        }
+
+        var taskType = ConfigFactory.CurrentConfig.TaskQueue[idx].TaskType;
         var currentName = taskItem.Name.Replace("\r", string.Empty).Replace("\n", string.Empty);
         var dialog = new Views.Dialogs.TextDialogUserControl(
-            LocalizationHelper.GetString("RenameTask") + $" {taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}",
+            LocalizationHelper.GetString("RenameTask") + $" {idx + 1}-{LocalizationHelper.GetString(taskType.ToString())}",
             LocalizationHelper.GetString("RenameTaskPrompt"),
             currentName) {
             Owner = Application.Current.MainWindow,
@@ -1378,10 +1429,10 @@ public class TaskQueueViewModel : Screen
         if (result == true && !string.IsNullOrWhiteSpace(dialog.InputText))
         {
             var newName = dialog.InputText.Trim().Replace("\r", string.Empty).Replace("\n", string.Empty);
-            if (taskItem.Index < ConfigFactory.CurrentConfig.TaskQueue.Count)
+            if (idx < ConfigFactory.CurrentConfig.TaskQueue.Count)
             {
-                ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].Name = newName;
-                taskItem.Name = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].NameOrTaskType;
+                ConfigFactory.CurrentConfig.TaskQueue[idx].Name = newName;
+                taskItem.Name = ConfigFactory.CurrentConfig.TaskQueue[idx].NameOrTaskType;
                 AddLog(LocalizationHelper.GetStringFormat("TaskRenamed", newName), UiLogColor.Info);
             }
             else
@@ -1392,24 +1443,24 @@ public class TaskQueueViewModel : Screen
     }
 
     /// <summary>
-    /// 单次运行任务。
+    /// 单次运行任务.
     /// </summary>
     /// <param name="taskItem">任务项</param>
     /// <returns>A <see cref="Task"/>representing the asynchronous operation.</returns>
     [UsedImplicitly]
-    public async Task RunTaskOnce(TaskItemViewModel taskItem)
+    public async Task RunTaskOnce(ITaskQueueItemViewModel taskItem)
     {
-        if (taskItem == null || !Idle)
+        if (taskItem is not TaskItemViewModel tiv || !Idle)
         {
             return;
         }
 
-        if (taskItem.Index < 0 || taskItem.Index >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+        if (tiv.Index < 0 || tiv.Index >= ConfigFactory.CurrentConfig.TaskQueue.Count)
         {
             return;
         }
 
-        var task = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index];
+        var task = ConfigFactory.CurrentConfig.TaskQueue[tiv.Index];
         var originalIsEnable = task.IsEnable;
 
         try
@@ -1425,11 +1476,11 @@ public class TaskQueueViewModel : Screen
     }
 
     /// <summary>
-    /// 复制任务
+    /// 复制任务或任务组
     /// </summary>
-    /// <param name="taskItem">任务项</param>
+    /// <param name="taskItem">任务项或任务组</param>
     [UsedImplicitly]
-    public void CopyTask(TaskItemViewModel taskItem)
+    public void CopyTask(ITaskQueueItemViewModel taskItem)
     {
         if (taskItem == null || !Idle)
         {
@@ -1449,38 +1500,61 @@ public class TaskQueueViewModel : Screen
             AddLog(LocalizationHelper.GetString("TaskCopyFailed"), UiLogColor.Error);
             return;
         }
+
         newTask.Name = newTask.NameOrTaskType + " (2)";
         ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, newTask);
-        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(newTask.NameOrTaskType));
+
+        if (taskItem is TaskGroupViewModel)
+        {
+            // Re-create group VM after insertion
+            var groupVm = new TaskGroupViewModel((TaskGroup)newTask) { Index = index + 1 };
+            TaskItemViewModels.Insert(index + 1, groupVm);
+        }
+        else
+        {
+            TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(newTask.NameOrTaskType));
+        }
+
         AddLog(LocalizationHelper.GetStringFormat("TaskCopied", newTask.NameOrTaskType), UiLogColor.Info);
     }
 
     /// <summary>
-    /// 删除任务
+    /// 删除任务或任务组
     /// </summary>
-    /// <param name="taskItem">任务项</param>
+    /// <param name="taskItem">任务项或任务组</param>
     [UsedImplicitly]
-    public void RemoveTask(TaskItemViewModel taskItem)
+    public void RemoveTask(ITaskQueueItemViewModel taskItem)
     {
         if (taskItem == null || !Idle)
         {
             return;
         }
 
-        var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
+        int idx = taskItem.Index;
+        if (idx < 0 || idx >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+        {
+            return;
+        }
+
+        var taskType = ConfigFactory.CurrentConfig.TaskQueue[idx].TaskType;
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetStringFormat("ConfirmDeleteTaskMessage", $"{taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}", taskItem.Name),
+            LocalizationHelper.GetStringFormat("ConfirmDeleteTaskMessage", $"{idx + 1}-{LocalizationHelper.GetString(taskType.ToString())}", taskItem.Name),
             LocalizationHelper.GetString("ConfirmDeleteTask"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
 
         if (result == MessageBoxResult.Yes)
         {
-            var index = taskItem.Index;
-            if (index < ConfigFactory.CurrentConfig.TaskQueue.Count)
+            if (idx < ConfigFactory.CurrentConfig.TaskQueue.Count)
             {
-                TaskItemViewModels.RemoveAt(index);
+                if (taskItem is TaskGroupViewModel groupVm)
+                {
+                    groupVm.Dispose();
+                }
+
+                TaskItemViewModels.RemoveAt(idx);
                 AddLog(LocalizationHelper.GetStringFormat("TaskDeleted", taskItem.Name), UiLogColor.Info);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.QueueSimplifier);
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.QueueSimplifier);
             }
         }
@@ -1577,21 +1651,43 @@ public class TaskQueueViewModel : Screen
         {
             foreach (var item in TaskItemViewModels)
             {
-                switch (ConfigFactory.CurrentConfig.TaskQueue[item.Index].TaskType)
+                if (item is TaskGroupViewModel groupVm)
                 {
-                    case TaskType.Roguelike:
-                    case TaskType.Reclamation:
-                    case TaskType.Custom:
-                        continue;
+                    foreach (var child in groupVm.Children)
+                    {
+                        child.IsEnable = !(child.IsEnable ?? true);
+                    }
                 }
+                else
+                {
+                    var idx = item.Index;
+                    if (idx >= 0 && idx < ConfigFactory.CurrentConfig.TaskQueue.Count)
+                    {
+                        switch (ConfigFactory.CurrentConfig.TaskQueue[idx].TaskType)
+                        {
+                            case TaskType.Roguelike:
+                            case TaskType.Reclamation:
+                            case TaskType.Custom:
+                                continue;
+                        }
+                    }
 
-                item.IsEnable = !(item.IsEnable ?? true);
+                    item.IsEnable = !(item.IsEnable ?? true);
+                }
             }
         }
         else
         {
             foreach (var item in TaskItemViewModels)
             {
+                if (item is TaskGroupViewModel groupVm)
+                {
+                    foreach (var child in groupVm.Children)
+                    {
+                        child.IsEnable = false;
+                    }
+                }
+
                 item.IsEnable = false;
             }
         }
@@ -1854,21 +1950,61 @@ public class TaskQueueViewModel : Screen
 
         bool taskRet = true;
 
-        // 直接遍历TaskItemViewModels里面的内容，是排序后的
-        int count = 0;
-        foreach (var item in tasks)
+        // 展平任务列表：将 TaskGroup 展开为其子任务，排除禁用的任务和组
+        var executionList = new List<(BaseTask Task, ITaskQueueItemViewModel? ViewModel)>();
+        foreach (var task in ConfigFactory.CurrentConfig.TaskQueue)
         {
-            var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(item);
-            _logger.Information("Index {Index}, Type {TaskType}, Name {TaskName}, IsEnable {IsEnable}",
-                index,
+            if (task is TaskGroup group)
+            {
+                // 组本身禁用则跳过整个组
+                if (!IsTaskEnable(group))
+                {
+                    var groupVm = TaskItemViewModels.ElementAtOrDefault(ConfigFactory.CurrentConfig.TaskQueue.IndexOf(group));
+                    if (groupVm is TaskGroupViewModel gvm)
+                    {
+                        foreach (var child in gvm.Children)
+                        {
+                            child.StatusDisplay = TaskItemStatus.Skipped;
+                        }
+                    }
+
+                    continue;
+                }
+
+                foreach (var child in group.Children)
+                {
+                    if (!IsTaskEnable(child))
+                    {
+                        continue;
+                    }
+
+                    executionList.Add((child, FindTaskItemViewModel(child)));
+                }
+            }
+            else
+            {
+                if (!IsTaskEnable(task))
+                {
+                    var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(task);
+                    if (index >= 0 && index < TaskItemViewModels.Count)
+                    {
+                        TaskItemViewModels[index].StatusDisplay = TaskItemStatus.Skipped;
+                    }
+
+                    continue;
+                }
+
+                executionList.Add((task, TaskItemViewModels.ElementAtOrDefault(ConfigFactory.CurrentConfig.TaskQueue.IndexOf(task))));
+            }
+        }
+
+        int count = 0;
+        foreach (var (item, vm) in executionList)
+        {
+            _logger.Information("Type {TaskType}, Name {TaskName}, IsEnable {IsEnable}",
                 item.TaskType,
                 item.NameOrTaskType,
                 item.IsEnable);
-            if (!IsTaskEnable(item))
-            {
-                SetTaskStatus(index, TaskItemStatus.Skipped);
-                continue;
-            }
 
             try
             {
@@ -1877,16 +2013,28 @@ public class TaskQueueViewModel : Screen
                 {
                     case true:
                         ++count;
-                        Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index)?.SetTaskIds(taskIds);
+                        if (vm is TaskItemViewModel tiv)
+                        {
+                            tiv.SetTaskIds(taskIds);
+                        }
+
                         break;
                     case false:
                         taskRet = false;
                         AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType), UiLogColor.Error);
-                        SetTaskStatus(index, TaskItemStatus.Error);
+                        if (vm is TaskItemViewModel tivErr)
+                        {
+                            tivErr.StatusDisplay = TaskItemStatus.Error;
+                        }
+
                         break;
                     case null:
                         AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Skip", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType), UiLogColor.Info);
-                        SetTaskStatus(index, TaskItemStatus.Skipped);
+                        if (vm is TaskItemViewModel tivSkip)
+                        {
+                            tivSkip.StatusDisplay = TaskItemStatus.Skipped;
+                        }
+
                         break;
                 }
             }
@@ -1924,16 +2072,6 @@ public class TaskQueueViewModel : Screen
 
         AchievementTrackerHelper.Instance.MissionStartCountAdd();
         AchievementTrackerHelper.Instance.UseDailyAdd();
-
-        static void SetTaskStatus(int index, TaskItemStatus status)
-        {
-            if (index < 0 || index >= Instances.TaskQueueViewModel.TaskItemViewModels.Count)
-            {
-                return;
-            }
-
-            Instances.TaskQueueViewModel.TaskItemViewModels[index].StatusDisplay = status;
-        }
     }
 
     private void ResetTaskItemStatuses()
@@ -1941,6 +2079,13 @@ public class TaskQueueViewModel : Screen
         foreach (var item in TaskItemViewModels)
         {
             item.StatusDisplay = TaskItemStatus.Idle;
+            if (item is TaskGroupViewModel groupVm)
+            {
+                foreach (var child in groupVm.Children)
+                {
+                    child.StatusDisplay = TaskItemStatus.Idle;
+                }
+            }
         }
     }
 
@@ -2178,7 +2323,8 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    /// <summary>序列化任务</summary>
+    /// <summary>
+    /// 序列化任务</summary>
     /// <param name="task">存储的任务</param>
     /// <param name="taskId">任务id, null时追加任务, 非null为设置任务参数</param>
     /// <returns>null为未序列化, false失败, true成功</returns>
@@ -2196,5 +2342,72 @@ public class TaskQueueViewModel : Screen
             }
         }
         return (ret, id);
+    }
+
+    /// <summary>
+    /// Flattens the task list: expands TaskGroup into their children.
+    /// Only tasks that are actually serializable to MaaCore are included.
+    /// </summary>
+    private static IEnumerable<(BaseTask Task, int? GroupIndex)> FlattenTasksForExecution(IEnumerable<BaseTask> tasks)
+    {
+        foreach (var task in tasks)
+        {
+            if (task is TaskGroup group)
+            {
+                foreach (var child in group.Children)
+                {
+                    yield return (child, null);
+                }
+            }
+            else
+            {
+                yield return (task, null);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Finds the <see cref="TaskItemViewModel"/> corresponding to a <see cref="BaseTask"/>,
+    /// searching both top-level items and group children.
+    /// </summary>
+    private static TaskItemViewModel? FindTaskItemViewModel(BaseTask task)
+    {
+        // Search in top-level TaskItemViewModels
+        for (int i = 0; i < Instances.TaskQueueViewModel.TaskItemViewModels.Count; i++)
+        {
+            if (i >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+            {
+                break;
+            }
+
+            if (Instances.TaskQueueViewModel.TaskItemViewModels[i] is TaskItemViewModel tiv
+                && ReferenceEquals(ConfigFactory.CurrentConfig.TaskQueue[i], task))
+            {
+                return tiv;
+            }
+        }
+
+        // Search inside TaskGroupViewModels
+        for (int i = 0; i < Instances.TaskQueueViewModel.TaskItemViewModels.Count; i++)
+        {
+            if (i >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+            {
+                break;
+            }
+
+            if (Instances.TaskQueueViewModel.TaskItemViewModels[i] is TaskGroupViewModel groupVm
+                && ConfigFactory.CurrentConfig.TaskQueue[i] is TaskGroup group)
+            {
+                for (int j = 0; j < group.Children.Count && j < groupVm.Children.Count; j++)
+                {
+                    if (ReferenceEquals(group.Children[j], task))
+                    {
+                        return groupVm.Children[j];
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 }
