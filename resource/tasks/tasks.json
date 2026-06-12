@@ -2028,19 +2028,32 @@
             "SignInEventReturnHome",
             "SignInEventReturnHome@QuickSwitch@ToHome#next",
             "SignInEventReturnHome@ReturnButtons#next",
-            "SignInEventEnter"
+            "SignInEventEnter",
+            "SignInEventEnterByIcon"
         ]
     },
     "SignInEventReturnHome": {
         "baseTask": "Home",
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
-        "next": ["SignInEventEnter", "Stop"]
+        "next": ["SignInEventEnter", "SignInEventEnterByIcon", "Stop"]
     },
     "SignInEventEnter": {
-        "doc": "点击首页左上签到活动入口卡片",
+        "doc": "点击首页左上签到活动入口卡片，OCR 文字优先",
         "algorithm": "OcrDetect",
         "text": ["签到"],
+        "action": "ClickSelf",
+        "roi": [5, 21, 203, 258],
+        "postDelay": 1500,
+        "next": ["SignInEventInPopup"],
+        "onErrorNext": ["Stop"]
+    },
+    "SignInEventEnterByIcon": {
+        "doc": "OCR 未命中时（名称过长/截断/缺 override）改用签到日历勾选 icon 兜底，仅亮态、图案跨服通用",
+        "algorithm": "MatchTemplate",
+        "template": "SignInEventEntryIcon.png",
+        "maskRange": [220, 255],
+        "templThreshold": 0.6,
         "action": "ClickSelf",
         "roi": [5, 21, 203, 258],
         "postDelay": 1500,
