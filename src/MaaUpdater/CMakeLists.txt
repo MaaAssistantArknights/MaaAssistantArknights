@@ -3,7 +3,6 @@ add_executable(MAA.Updater
     UpdaterArgs.cpp
     UpdaterFile.cpp
     UpdaterLog.cpp
-    UpdaterMutex.cpp
     UpdaterPath.cpp
     UpdaterPlan.cpp
     UpdaterUI.cpp

@@ -1,9 +1,7 @@
 #pragma once
 
 #include <array>
-#include <cstdio>
 #include <string>
-#include <vector>
 
 // ---------------------------------------------------------------------------
 // Logging globals (defined in UpdaterLog.cpp)

@@ -32,14 +32,52 @@
 
 #include "UpdaterArgs.h"
 #include "UpdaterFile.h"
-#include "UpdaterHandle.h"
 #include "UpdaterLog.h"
-#include "UpdaterMutex.h"
 #include "UpdaterPath.h"
 #include "UpdaterPlan.h"
 #include "UpdaterUI.h"
 
 static constexpr wchar_t MAA_UPDATER_LOG_FILENAME[] = L"\\debug\\pending-update-applier.log";
+static constexpr DWORD UPDATE_MUTEX_TIMEOUT_MS = 3000;
+
+// ---------------------------------------------------------------------------
+// Update mutex helpers
+// ---------------------------------------------------------------------------
+
+static HANDLE AcquireUpdateMutex(const std::wstring& mutexName)
+{
+    HANDLE hMutex = CreateMutexW(nullptr, TRUE, mutexName.c_str());
+    if (hMutex == nullptr) {
+        WriteLogF(L"CreateMutexW failed, error=%lu", GetLastError());
+        return nullptr;
+    }
+
+    const DWORD waitResult = WaitForSingleObject(hMutex, UPDATE_MUTEX_TIMEOUT_MS);
+    if (waitResult == WAIT_OBJECT_0) {
+        WriteLogF(L"Mutex acquired: %s", mutexName);
+        return hMutex;
+    }
+    if (waitResult == WAIT_ABANDONED) {
+        WriteLogF(L"Mutex acquired after WAIT_ABANDONED (previous instance crashed): %s", mutexName);
+        return hMutex;
+    }
+
+    if (waitResult == WAIT_TIMEOUT) {
+        WriteLogF(L"Mutex acquisition timed out after %lums: %s", UPDATE_MUTEX_TIMEOUT_MS, mutexName);
+    } else {
+        WriteLogF(L"WaitForSingleObject failed, error=%lu", GetLastError());
+    }
+    CloseHandle(hMutex);
+    return nullptr;
+}
+
+static void ReleaseUpdateMutex(HANDLE hMutex)
+{
+    if (hMutex) {
+        ReleaseMutex(hMutex);
+        CloseHandle(hMutex);
+    }
+}
 
 // ---------------------------------------------------------------------------
 // Apply a loaded update plan. Each file operation is independently fault-
@@ -211,26 +249,25 @@ int wmain(int argc, wchar_t* argv[])
     // ------------------------------------------------------------------
     // Wait for parent process to exit
     // ------------------------------------------------------------------
-    {
-        ScopedHandle hParent(OpenProcess(SYNCHRONIZE, FALSE, args.parentPid));
-        if (hParent) {
-            WriteLogF(L"Waiting for parent process to exit, PID=%lu", args.parentPid);
-            while (WaitForSingleObject(hParent.get(), 100) == WAIT_TIMEOUT) {
-                PumpProgressUiMessages();
-            }
-            WriteLog(L"Parent process exited.");
-            SetProgressUiStatus(
-                L"正在准备更新... | Preparing update...",
-                L"已确认主程序退出，开始读取更新计划 | Parent process exited, reading update plan");
+    HANDLE hParent = OpenProcess(SYNCHRONIZE, FALSE, args.parentPid);
+    if (hParent) {
+        WriteLogF(L"Waiting for parent process to exit, PID=%lu", args.parentPid);
+        while (WaitForSingleObject(hParent, 100) == WAIT_TIMEOUT) {
+            PumpProgressUiMessages();
         }
-        else {
-            WriteLogF(
-                L"Could not open the parent process, it may have already exited, PID=%lu. Continuing.",
-                args.parentPid);
-            SetProgressUiStatus(
-                L"正在准备更新... | Preparing update...",
-                L"主程序已退出，开始读取更新计划 | Main process already exited, reading update plan");
-        }
+        CloseHandle(hParent);
+        WriteLog(L"Parent process exited.");
+        SetProgressUiStatus(
+            L"正在准备更新... | Preparing update...",
+            L"已确认主程序退出，开始读取更新计划 | Parent process exited, reading update plan");
+    }
+    else {
+        WriteLogF(
+            L"Could not open the parent process, it may have already exited, PID=%lu. Continuing.",
+            args.parentPid);
+        SetProgressUiStatus(
+            L"正在准备更新... | Preparing update...",
+            L"主程序已退出，开始读取更新计划 | Main process already exited, reading update plan");
     }
 
     // ------------------------------------------------------------------
@@ -345,7 +382,7 @@ int wmain(int argc, wchar_t* argv[])
     // ------------------------------------------------------------------
     // Release update mutex (always required)
     // ------------------------------------------------------------------
-    if (hUpdateMutex != nullptr) {
+    if (hUpdateMutex) {
         ReleaseUpdateMutex(hUpdateMutex);
         hUpdateMutex = nullptr;
         WriteLog(L"Update mutex released.");
@@ -373,8 +410,8 @@ int wmain(int argc, wchar_t* argv[])
                 nullptr, nullptr, FALSE, 0, nullptr,
                 workDir.c_str(),
                 &si, &pi)) {
-            ScopedHandle hProcess(pi.hProcess);
-            ScopedHandle hThread(pi.hThread);
+            CloseHandle(pi.hProcess);
+            CloseHandle(pi.hThread);
             WriteLog(L"Relaunch succeeded.");
         }
         else {
