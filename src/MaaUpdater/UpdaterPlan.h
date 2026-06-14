@@ -17,21 +17,15 @@ struct PendingUpdatePlan
 };
 
 // ---------------------------------------------------------------------------
-// JSON parsing helpers (internal, but exposed for test)
+// File I/O & string helpers
 // ---------------------------------------------------------------------------
 
 std::wstring BuildFileIoFailureReason(const wchar_t* action, const std::wstring& path, DWORD errorCode);
 bool TryReadUtf8File(const std::wstring& path, std::string& content, std::wstring& failureReason);
 std::wstring Utf8ToWide(const std::string& s);
-std::string ParseJsonString(const std::string& json, size_t& pos);
-size_t SkipJsonWhitespace(const std::string& json, size_t pos);
-size_t SkipJsonValue(const std::string& json, size_t pos);
-size_t FindTopLevelJsonValueStartByKey(const std::string& json, const char* key);
-std::vector<std::wstring> ParseJsonStringArray(const std::string& json, const char* key);
-std::wstring ParseJsonStringProperty(const std::string& json, const char* key);
 
 // ---------------------------------------------------------------------------
-// Plan loading & utilities
+// Plan loading
 // ---------------------------------------------------------------------------
 
 bool LoadPendingUpdatePlan(
