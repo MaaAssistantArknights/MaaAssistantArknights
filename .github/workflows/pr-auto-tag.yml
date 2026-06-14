@@ -33,21 +33,29 @@ jobs:
 
       - name: Determine tag name
         id: extract_tag
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          INPUT_TAG: ${{ inputs.tag }}
         run: |
-          if ${{ github.event_name != 'workflow_dispatch' }}; then
-            tag_name=$(echo "${{ github.event.pull_request.title }}" | sed -E 's/(Release|release)//' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+          if [ "$EVENT_NAME" != "workflow_dispatch" ]; then
+            tag_name=$(printf '%s' "$PR_TITLE" | sed -E 's/(Release|release)//' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
             echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
           else
-            echo "tag_name=${{ inputs.tag }}" >> $GITHUB_OUTPUT
+            echo "tag_name=$INPUT_TAG" >> $GITHUB_OUTPUT
           fi
 
       - name: Create and push release tag
+        env:
+          TAG_NAME: ${{ steps.extract_tag.outputs.tag_name }}
         run: |
-          git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}" -f
-          git push origin "${{ steps.extract_tag.outputs.tag_name }}"
+          git tag -a "$TAG_NAME" -m "$TAG_NAME" -f
+          git push origin "$TAG_NAME"
 
       - name: Merge tag into dev-v2 and push
+        env:
+          TAG_NAME: ${{ steps.extract_tag.outputs.tag_name }}
         run: |
           git switch dev-v2
-          git merge "${{ steps.extract_tag.outputs.tag_name }}"
+          git merge "$TAG_NAME"
           git push origin dev-v2

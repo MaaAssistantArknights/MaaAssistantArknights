@@ -674,10 +674,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     private static bool HandleMultipleInstances()
     {
-        string instanceKey = GetSingleInstanceKey();
-        string mutexName = "MAA_" + instanceKey;
-        string activationEventName = "MAA_SHOW_" + instanceKey;
-        _mutex = new Mutex(true, mutexName, out var isOnlyInstance);
+        string activationEventName = "MAA_SHOW_" + InstanceKey;
+        _mutex = new Mutex(true, MutexName, out var isOnlyInstance);
 
         try
         {
@@ -709,13 +707,18 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
     }
 
-    private static string GetSingleInstanceKey()
+    public static string InstanceKey
     {
-        var normalizedBaseDir = Path.GetFullPath(PathsHelper.BaseDir)
-            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
-            .ToUpperInvariant();
-        return normalizedBaseDir.StableHash();
+        get
+        {
+            var normalizedBaseDir = Path.GetFullPath(PathsHelper.BaseDir)
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                .ToUpperInvariant();
+            return normalizedBaseDir.StableHash();
+        }
     }
+
+    public static string MutexName => "MAA_" + InstanceKey;
 
     private static void EnsureInstanceActivationEvent(string activationEventName)
     {

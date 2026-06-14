@@ -12,7 +12,8 @@ jobs:
   generate-changelog:
     name: Generate Changelog
     # startsWith 表达式不区分大小写
-    if: github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
+    # fork 守卫：自动化流程对 fork PR 无效（token 只读），提前短路以避免 runner 上的表达式注入
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -25,8 +26,10 @@ jobs:
         id: extract_tag
         env:
           PR_BODY: ${{ format('{0}/{1}', runner.temp, 'output' ) }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
         run: |
-          tag_name=$(echo "${{ github.event.pull_request.title }}" | sed -E 's/(Release|release)//' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+          tag_name=$(printf '%s' "$PR_TITLE" | sed -E 's/(Release|release)//' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
           echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
 
           pr_title="docs: Auto Update Changelogs of "$tag_name
@@ -49,7 +52,7 @@ jobs:
 
           echo '======='
 
-          echo 'Target PR: ${{ github.event.pull_request.html_url }}' >> $PR_BODY
+          echo "Target PR: $PR_URL" >> $PR_BODY
           echo '' >> $PR_BODY
           echo '<details><summary>Debug information</summary>' >> $PR_BODY
           echo '' >> $PR_BODY
@@ -62,13 +65,17 @@ jobs:
           cat $PR_BODY
 
       - name: Generate changelog
-        run: |
-          git switch dev-v2
-          python3 tools/ChangelogGenerator/changelog_generator.py --tag "${{ steps.extract_tag.outputs.tag_name }}" --latest "${{ steps.extract_tag.outputs.latest }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ steps.extract_tag.outputs.tag_name }}
+          LATEST: ${{ steps.extract_tag.outputs.latest }}
+        run: |
+          git switch dev-v2
+          python3 tools/ChangelogGenerator/changelog_generator.py --tag "$TAG_NAME" --latest "$LATEST"
 
       - name: Commit changes
+        env:
+          TAG_NAME: ${{ steps.extract_tag.outputs.tag_name }}
         run: |
           git status
 
@@ -76,7 +83,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git add .
 
-          commit_msg="docs: Auto Generate Changelog of Release ""${{ steps.extract_tag.outputs.tag_name }}"
+          commit_msg="docs: Auto Generate Changelog of Release $TAG_NAME"
           git commit -m "$commit_msg"
 
       - name: Create changelog PR
@@ -101,7 +108,8 @@ jobs:
 
   update-submodules:
     name: Update Submodules
-    if: github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
+    # fork 守卫：同上，fork PR 的 token 只读，write 步骤必然失败
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
     runs-on: ubuntu-latest
     steps:
       - name: Trigger submodule update workflow

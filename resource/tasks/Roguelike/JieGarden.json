@@ -1227,7 +1227,8 @@
             "JieGarden@Roguelike@StageCombatOps",
             "JieGarden@Roguelike@StageEmergencyOps",
             "JieGarden@Roguelike@StageDreadfulFoe",
-            "JieGarden@Roguelike@StageDreadfulFoe-5"
+            "JieGarden@Roguelike@StageDreadfulFoe-5",
+            "JieGarden@Roguelike@CloseEvent"
         ],
         "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },

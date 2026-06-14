@@ -101,10 +101,57 @@ std::optional<int> asst::PosixIO::call_command(
     }
 
     // parent process
+    auto kill_child = [&]() {
+        ::kill(m_child, SIGTERM);
+        Log.error("Killing child `", cmd, "`, pid:", m_child);
+        ::kill(m_child, SIGKILL);
+        ::waitpid(m_child, &exit_ret, 0);
+    };
+
     if (recv_by_socket) {
         sockaddr addr {};
         socklen_t len = sizeof(addr);
         sock_buffer = asst::platform::single_page_buffer<char>();
+
+        if (timeout) {
+            bool socket_ready = false;
+            while (!need_exit()) {
+                auto elapsed = duration_cast<milliseconds>(steady_clock::now() - start_time).count();
+                auto remaining = timeout - elapsed;
+                if (remaining <= 0) {
+                    Log.warn("timeout when waiting socket connection, killing child:", m_child);
+                    kill_child();
+                    return std::nullopt;
+                }
+
+                ::pollfd event { .fd = m_server_sock, .events = POLLIN, .revents = 0 };
+                int poll_timeout = remaining > 5000 ? 5000 : static_cast<int>(remaining);
+                int poll_ret = ::poll(&event, 1, poll_timeout);
+                if (poll_ret > 0) {
+                    if (event.revents & POLLIN) {
+                        socket_ready = true;
+                        break;
+                    }
+
+                    Log.warn("socket connection failed before timeout, killing child:", m_child);
+                    kill_child();
+                    return std::nullopt;
+                }
+                if (poll_ret == 0 || errno == EINTR) {
+                    continue;
+                }
+
+                Log.error("poll() failed:", std::strerror(errno));
+                kill_child();
+                return std::nullopt;
+            }
+
+            if (!socket_ready) {
+                Log.warn("socket connection is interrupted, killing child:", m_child);
+                kill_child();
+                return std::nullopt;
+            }
+        }
 
         int client_socket = ::accept(m_server_sock, &addr, &len);
         if (client_socket < 0) {
