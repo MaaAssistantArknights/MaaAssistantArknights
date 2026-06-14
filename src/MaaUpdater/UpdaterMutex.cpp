@@ -5,27 +5,27 @@ HANDLE AcquireUpdateMutex(const std::wstring& mutexName)
 {
     HANDLE hMutex = CreateMutexW(nullptr, TRUE, mutexName.c_str());
     if (hMutex == nullptr) {
-        WriteLog((L"CreateMutexW failed, error=" + std::to_wstring(GetLastError())));
+        WriteLogF(L"CreateMutexW failed, error=%lu", GetLastError());
         return nullptr;
     }
 
     DWORD waitResult = WaitForSingleObject(hMutex, UPDATE_MUTEX_TIMEOUT_MS);
 
     if (waitResult == WAIT_OBJECT_0) {
-        WriteLog((L"Mutex acquired: " + mutexName));
+        WriteLogF(L"Mutex acquired: %s", mutexName);
         return hMutex;
     }
 
     if (waitResult == WAIT_ABANDONED) {
         // Previous MAA instance terminated abnormally; we now own the mutex.
-        WriteLog((L"Mutex acquired after WAIT_ABANDONED (previous instance crashed): " + mutexName));
+        WriteLogF(L"Mutex acquired after WAIT_ABANDONED (previous instance crashed): %s", mutexName);
         return hMutex;
     }
 
     if (waitResult == WAIT_TIMEOUT) {
-        WriteLog((L"Mutex acquisition timed out after " + std::to_wstring(UPDATE_MUTEX_TIMEOUT_MS) + L"ms: " + mutexName));
+        WriteLogF(L"Mutex acquisition timed out after %lums: %s", UPDATE_MUTEX_TIMEOUT_MS, mutexName);
     } else {
-        WriteLog((L"WaitForSingleObject failed, error=" + std::to_wstring(GetLastError())));
+        WriteLogF(L"WaitForSingleObject failed, error=%lu", GetLastError());
     }
 
     CloseHandle(hMutex);

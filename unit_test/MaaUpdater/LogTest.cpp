@@ -47,34 +47,6 @@ TEST_CASE("TryConvertWideToUtf8 round-trips", "[log][utf8]")
 }
 
 // ============================================================================
-// HasArgument
-// ============================================================================
-
-TEST_CASE("HasArgument finds matching argument", "[log][args]")
-{
-    const wchar_t* args[] = { L"program.exe", L"--show-console", L"--other" };
-    REQUIRE(HasArgument(3, const_cast<wchar_t**>(args), L"--show-console"));
-}
-
-TEST_CASE("HasArgument finds argument case-insensitively", "[log][args]")
-{
-    const wchar_t* args[] = { L"program.exe", L"--Show-Console" };
-    REQUIRE(HasArgument(2, const_cast<wchar_t**>(args), L"--show-console"));
-}
-
-TEST_CASE("HasArgument returns false for missing argument", "[log][args]")
-{
-    const wchar_t* args[] = { L"program.exe", L"--other" };
-    REQUIRE_FALSE(HasArgument(2, const_cast<wchar_t**>(args), L"--show-console"));
-}
-
-TEST_CASE("HasArgument does not match argv[0]", "[log][args]")
-{
-    const wchar_t* args[] = { L"--show-console", L"arg1" };
-    REQUIRE_FALSE(HasArgument(2, const_cast<wchar_t**>(args), L"--show-console"));
-}
-
-// ============================================================================
 // GetConsoleStreamHandle
 // ============================================================================
 

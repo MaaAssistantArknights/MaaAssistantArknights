@@ -102,7 +102,7 @@ void WriteLogImpl(const wchar_t* message)
 
 void WriteLogEntries(const std::wstring& title, const std::vector<std::wstring>& entries)
 {
-    WriteLogF(L"%s (%zu)", title.c_str(), entries.size());
+    WriteLogF(L"%s (%zu)", title, entries.size());
     for (const std::wstring& entry : entries) {
         WriteLog(L"  - " + entry);
     }
@@ -161,15 +161,4 @@ void RotateLogIfNeeded()
     std::wstring bakFile = g_logFile + L".bak";
     DeleteFileW(bakFile.c_str());
     MoveFileExW(g_logFile.c_str(), bakFile.c_str(), MOVEFILE_REPLACE_EXISTING);
-}
-
-bool HasArgument(int argc, wchar_t* argv[], const wchar_t* argument)
-{
-    for (int index = 1; index < argc; ++index) {
-        if (_wcsicmp(argv[index], argument) == 0) {
-            return true;
-        }
-    }
-
-    return false;
 }

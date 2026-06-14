@@ -73,10 +73,10 @@ int wmain(int argc, wchar_t* argv[])
         L"等待 MAA 主程序退出 | Waiting for the main MAA process to exit");
 
     WriteLog(L"MAA.Updater started (C++ external updater).");
-    WriteLog((std::wstring(L"Console output: ") + (g_writeConsoleLog ? L"enabled" : L"disabled")));
-    WriteLog((L"Argument format: " + std::wstring(IsV2Format(argc, argv) ? L"v2 (--key value)" : L"legacy (positional)")));
-    WriteLog((L"Parent PID: " + std::to_wstring(args.parentPid) + L", root dir: " + args.rootDir));
-    WriteLog((L"Plan file: " + args.planFile + L", extract dir: " + args.extractDir));
+    WriteLogF(L"Console output: %s", g_writeConsoleLog ? L"enabled" : L"disabled");
+    WriteLogF(L"Argument format: %s", IsV2Format(argc, argv) ? L"v2 (--key value)" : L"legacy (positional)");
+    WriteLogF(L"Parent PID: %lu, root dir: %s", args.parentPid, args.rootDir);
+    WriteLogF(L"Plan file: %s, extract dir: %s", args.planFile, args.extractDir);
 
     bool shouldRelaunch = false;
     bool success = false;
@@ -88,7 +88,7 @@ int wmain(int argc, wchar_t* argv[])
     // ------------------------------------------------------------------
     ScopedHandle hParent(OpenProcess(SYNCHRONIZE, FALSE, args.parentPid));
     if (hParent) {
-        WriteLog((L"Waiting for parent process to exit, PID=" + std::to_wstring(args.parentPid)));
+        WriteLogF(L"Waiting for parent process to exit, PID=%lu", args.parentPid);
         while (WaitForSingleObject(hParent.get(), 100) == WAIT_TIMEOUT) {
             PumpProgressUiMessages();
         }
@@ -97,7 +97,7 @@ int wmain(int argc, wchar_t* argv[])
             L"正在准备更新... | Preparing update...",
             L"已确认主程序退出，开始读取更新计划 | Parent process exited, reading update plan");
     } else {
-        WriteLog((L"Could not open the parent process, it may have already exited, PID=" + std::to_wstring(args.parentPid) + L". Continuing."));
+        WriteLogF(L"Could not open the parent process, it may have already exited, PID=%lu. Continuing.", args.parentPid);
         SetProgressUiStatus(
             L"正在准备更新... | Preparing update...",
             L"主程序已退出，开始读取更新计划 | Main process already exited, reading update plan");
@@ -159,7 +159,8 @@ int wmain(int argc, wchar_t* argv[])
             L"正在分析更新内容... | Analyzing update contents...",
             L"更新计划读取完成 | Update plan loaded");
 
-        WriteLog((L"Plan loaded, package type: " + plan.packageType + L", remove entries: " + std::to_wstring(removeList.size()) + L", install entries: " + std::to_wstring(moveList.size())));
+        WriteLogF(L"Plan loaded, package type: %s, remove entries: %zu, install entries: %zu",
+                  plan.packageType, removeList.size(), moveList.size());
         WriteLogEntries(L"Files to remove", removeList);
         WriteLogEntries(L"Files to install", moveList);
 
@@ -181,7 +182,8 @@ int wmain(int argc, wchar_t* argv[])
             }
 
             if (!isFullPackage && IsDirectory(targetPath)) {
-                WriteLog((L"Skipping directory removal for a non-full package, entry: " + rel + L", target: " + targetPath));
+                WriteLogF(L"Skipping directory removal for a non-full package, entry: %s, target: %s",
+                          rel, targetPath);
                 AdvanceProgressUi(
                     L"正在清理旧文件... | Cleaning old files...",
                     rel);
@@ -195,7 +197,7 @@ int wmain(int argc, wchar_t* argv[])
                 goto apply_failed;
             }
 
-            WriteLog((L"Removing and backing up: " + targetPath + L" -> " + backupPath));
+            WriteLogF(L"Removing and backing up: %s -> %s", targetPath, backupPath);
             bool backupOk = isFullPackage
                 ? RecycleAndBackupPath(targetPath, backupPath)
                 : MoveExistingPathToBackup(targetPath, backupPath);
@@ -230,7 +232,7 @@ int wmain(int argc, wchar_t* argv[])
                     goto apply_failed;
                 }
 
-                WriteLog((L"Backing up existing entry: " + targetPath));
+                WriteLogF(L"Backing up existing entry: %s", targetPath);
                 bool backupOk = IsRecycleAndReplaceDirectory(rel)
                     ? RecycleAndBackupDirectory(targetPath, backupPath)
                     : MoveExistingPathToBackup(targetPath, backupPath);
@@ -241,7 +243,7 @@ int wmain(int argc, wchar_t* argv[])
                 }
             }
 
-            WriteLog((L"Installing new file: " + sourcePath + L" -> " + targetPath));
+            WriteLogF(L"Installing new file: %s -> %s", sourcePath, targetPath);
 
             bool installOk = false;
             DWORD sourceAttr = GetFileAttributesW(sourcePath.c_str());
@@ -274,7 +276,7 @@ int wmain(int argc, wchar_t* argv[])
         // ---- Cleanup package ----
         if (PathExistsW(args.packagePath)) {
             DeleteFileW(args.packagePath.c_str());
-            WriteLog((L"Deleted update package: " + args.packagePath));
+            WriteLogF(L"Deleted update package: %s", args.packagePath);
         }
 
         if (PathExistsW(args.failureStatusFile))
@@ -284,7 +286,7 @@ int wmain(int argc, wchar_t* argv[])
             L"正在完成更新... | Finalizing update...",
             L"正在写入更新结果 | Writing update result");
         if (WriteUtf8File(args.successStatusFile, "succeeded")) {
-            WriteLog((L"Wrote success status file: " + args.successStatusFile));
+            WriteLogF(L"Wrote success status file: %s", args.successStatusFile);
             success = true;
             shouldRelaunch = true;
         } else {
@@ -306,7 +308,7 @@ int wmain(int argc, wchar_t* argv[])
                 continue;
             }
             if (PathExistsW(backupPath) && !PathExistsW(targetPath)) {
-                WriteLog((L"Rollback: restoring " + backupPath + L" -> " + targetPath));
+                WriteLogF(L"Rollback: restoring %s -> %s", backupPath, targetPath);
                 MovePathEntry(backupPath, targetPath);
             }
         }
@@ -317,7 +319,7 @@ int wmain(int argc, wchar_t* argv[])
                 continue;
             }
             if (PathExistsW(backupPath) && !PathExistsW(targetPath)) {
-                WriteLog((L"Rollback: restoring " + backupPath + L" -> " + targetPath));
+                WriteLogF(L"Rollback: restoring %s -> %s", backupPath, targetPath);
                 MovePathEntry(backupPath, targetPath);
             }
         }
@@ -334,7 +336,7 @@ int wmain(int argc, wchar_t* argv[])
         }
         if (PathExistsW(args.successStatusFile))
             DeleteFileW(args.successStatusFile.c_str());
-        WriteLog((L"Update failed: " + failureReason));
+        WriteLogF(L"Update failed: %s", failureReason);
         ShowProgressUiFailure(failureReason);
     }
 
@@ -342,7 +344,7 @@ int wmain(int argc, wchar_t* argv[])
     // Cleanup extract dir and plan file
     // ------------------------------------------------------------------
     if (PathExistsW(args.extractDir)) {
-        WriteLog((L"Cleaning extract directory: " + args.extractDir));
+        WriteLogF(L"Cleaning extract directory: %s", args.extractDir);
         ForceRemoveDirectoryRecursive(args.extractDir);
     }
 
@@ -365,7 +367,7 @@ int wmain(int argc, wchar_t* argv[])
         CompleteProgressUi(
             L"更新完成 | Update completed",
             L"正在重新启动 MAA... | Relaunching MAA...");
-        WriteLog((L"Relaunching MAA: " + args.relaunchExecutable));
+        WriteLogF(L"Relaunching MAA: %s", args.relaunchExecutable);
 
         // Find working directory (parent of the executable)
         std::wstring workDir = args.relaunchExecutable;
@@ -387,7 +389,7 @@ int wmain(int argc, wchar_t* argv[])
             ScopedHandle hThread(pi.hThread);
             WriteLog(L"Relaunch succeeded.");
         } else {
-            WriteLog((L"Relaunch failed, error=" + std::to_wstring(GetLastError())));
+            WriteLogF(L"Relaunch failed, error=%lu", GetLastError());
             ShowProgressUiFailure(
                 L"更新已完成，但重新启动 MAA 失败，请手动启动 MAA。\n"
                 L"Update finished, but failed to relaunch MAA. Please start MAA manually.");

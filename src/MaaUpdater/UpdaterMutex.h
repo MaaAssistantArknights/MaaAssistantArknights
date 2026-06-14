@@ -8,7 +8,6 @@
 // Update mutex constants
 // ---------------------------------------------------------------------------
 
-constexpr wchar_t MUTEX_NAME_ARG[] = L"--mutex-name";
 constexpr DWORD UPDATE_MUTEX_TIMEOUT_MS = 3000;
 
 // ---------------------------------------------------------------------------

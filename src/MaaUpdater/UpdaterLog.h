@@ -39,15 +39,25 @@ void WriteLog(const StringLike& message)
 }
 
 // Variadic template — replaces C-style va_list WriteLogF
+namespace detail {
+    // Default: pass through (int, DWORD, size_t, const wchar_t*, etc.)
+    template <typename T>
+    T FmtArg(T&& arg) { return std::forward<T>(arg); }
+
+    // wstring → c_str()
+    inline const wchar_t* FmtArg(const std::wstring& s) { return s.c_str(); }
+    inline const wchar_t* FmtArg(std::wstring& s)       { return s.c_str(); }
+    inline const wchar_t* FmtArg(std::wstring&& s)      { return s.c_str(); }
+}
+
 template <typename... Args>
 void WriteLogF(const wchar_t* fmt, Args&&... args)
 {
     std::array<wchar_t, 2048> buf{};
-    std::swprintf(buf.data(), buf.size(), fmt, std::forward<Args>(args)...);
+    std::swprintf(buf.data(), buf.size(), fmt, detail::FmtArg(std::forward<Args>(args))...);
     WriteLog(buf.data());
 }
 
 void WriteLogEntries(const std::wstring& title, const std::vector<std::wstring>& entries);
 void WriteConsoleText(FILE* stream, const std::wstring& text, bool appendNewline);
 void RotateLogIfNeeded();
-bool HasArgument(int argc, wchar_t* argv[], const wchar_t* argument);

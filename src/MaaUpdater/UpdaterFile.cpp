@@ -156,7 +156,7 @@ bool MovePathEntry(const std::wstring& src, const std::wstring& dst)
     }
 
     // Move failed (likely the source file is locked). Try copy+force-delete.
-    WriteLogF(L"MovePathEntry: move failed, falling back to copy+delete for: %ls", src.c_str());
+    WriteLogF(L"MovePathEntry: move failed, falling back to copy+delete for: %s", src);
     {
         auto copyOp = [&]() -> bool {
             return CopyFileW(src.c_str(), dst.c_str(), FALSE) != FALSE;
@@ -171,7 +171,7 @@ bool MovePathEntry(const std::wstring& src, const std::wstring& dst)
 
     // Copy also failed. As a last resort, try to rename the source out of the way
     // and then do a fresh copy to the destination.
-    WriteLogF(L"MovePathEntry: copy+delete failed, trying rename-and-copy for: %ls", src.c_str());
+    WriteLogF(L"MovePathEntry: copy+delete failed, trying rename-and-copy for: %s", src);
     {
         std::wstring renamed = RenameLockedFile(src);
         if (!renamed.empty()) {
@@ -181,13 +181,13 @@ bool MovePathEntry(const std::wstring& src, const std::wstring& dst)
             };
 
             if (RetryFileOp(copyOp, 3, 500)) {
-                WriteLogF(L"MovePathEntry: rename-and-copy succeeded: %ls", src.c_str());
+                WriteLogF(L"MovePathEntry: rename-and-copy succeeded: %s", src);
                 return true;
             }
         }
     }
 
-    WriteLogF(L"MovePathEntry: all strategies failed for src=%ls, dst=%ls", src.c_str(), dst.c_str());
+    WriteLogF(L"MovePathEntry: all strategies failed for src=%s, dst=%s", src, dst);
     return false;
 }
 
@@ -210,7 +210,7 @@ bool MoveExistingPathToBackup(const std::wstring& src, const std::wstring& backu
     }
 
     // Second try: copy to backup, then force-delete the source
-    WriteLogF(L"MoveExistingPathToBackup: move failed, trying copy+delete for: %ls", src.c_str());
+    WriteLogF(L"MoveExistingPathToBackup: move failed, trying copy+delete for: %s", src);
     {
         auto copyOp = [&]() -> bool {
             return CopyPathEntry(src, backup) != FALSE;
@@ -223,7 +223,7 @@ bool MoveExistingPathToBackup(const std::wstring& src, const std::wstring& backu
         }
     }
 
-    WriteLogF(L"MoveExistingPathToBackup: all strategies failed for: %ls", src.c_str());
+    WriteLogF(L"MoveExistingPathToBackup: all strategies failed for: %s", src);
     return false;
 }
 
@@ -342,7 +342,7 @@ std::wstring RenameLockedFile(const std::wstring& path)
     // Try the rename; if it fails (e.g. path already exists), append more entropy
     for (int attempt = 0; attempt < 10; ++attempt) {
         if (MoveFileExW(path.c_str(), newPath.c_str(), MOVEFILE_REPLACE_EXISTING) != FALSE) {
-            WriteLogF(L"Renamed locked file: %ls -> %ls", path.c_str(), newPath.c_str());
+            WriteLogF(L"Renamed locked file: %s -> %s", path, newPath);
             return newPath;
         }
 
@@ -353,7 +353,7 @@ std::wstring RenameLockedFile(const std::wstring& path)
         newPath = retryPath;
     }
 
-    WriteLogF(L"Failed to rename locked file after 10 attempts: %ls", path.c_str());
+    WriteLogF(L"Failed to rename locked file after 10 attempts: %s", path);
     return {};
 }
 
@@ -370,7 +370,7 @@ bool ForceDeleteFile(const std::wstring& path)
     };
 
     if (RetryFileOp(deleteOp, FILE_OP_MAX_RETRIES, FILE_OP_INITIAL_DELAY_MS)) {
-        WriteLogF(L"Deleted file: %ls", path.c_str());
+        WriteLogF(L"Deleted file: %s", path);
         return true;
     }
 
@@ -385,21 +385,21 @@ bool ForceDeleteFile(const std::wstring& path)
         RetryFileOp([&]() -> bool { return DeleteFileW(renamed.c_str()) != FALSE; },
                     3, 500);
         if (PathExistsW(renamed)) {
-            WriteLogF(L"Renamed file could not be deleted immediately (will remain as .pendingdelete): %ls",
-                      renamed.c_str());
+            WriteLogF(L"Renamed file could not be deleted immediately (will remain as .pendingdelete): %s",
+                      renamed);
         }
         // Even if we couldn't delete the renamed file, the original path is now free.
-        WriteLogF(L"File vacated via rename: %ls -> %ls", path.c_str(), renamed.c_str());
+        WriteLogF(L"File vacated via rename: %s -> %s", path, renamed);
         return true;
     }
 
     // --- Layer 3: Schedule for deletion on next reboot ---
     if (MoveFileExW(path.c_str(), nullptr, MOVEFILE_DELAY_UNTIL_REBOOT) != FALSE) {
-        WriteLogF(L"Scheduled file for deletion on next reboot: %ls", path.c_str());
+        WriteLogF(L"Scheduled file for deletion on next reboot: %s", path);
         return true;
     }
 
-    WriteLogF(L"All deletion strategies failed for: %ls (error=%u)", path.c_str(), GetLastError());
+    WriteLogF(L"All deletion strategies failed for: %s (error=%lu)", path, GetLastError());
     return false;
 }
 
@@ -442,7 +442,7 @@ bool InstallFileAtomic(const std::wstring& sourcePath,
     {
         DWORD attr = GetFileAttributesW(sourcePath.c_str());
         if (attr == INVALID_FILE_ATTRIBUTES) {
-            WriteLogF(L"InstallFileAtomic: source not found: %ls", sourcePath.c_str());
+            WriteLogF(L"InstallFileAtomic: source not found: %s", sourcePath);
             return false;
         }
 
@@ -451,8 +451,8 @@ bool InstallFileAtomic(const std::wstring& sourcePath,
         };
 
         if (!RetryFileOp(copyOp, FILE_OP_MAX_RETRIES, FILE_OP_INITIAL_DELAY_MS)) {
-            WriteLogF(L"InstallFileAtomic: failed to copy to temp: %ls (error=%u)",
-                      tempPath.c_str(), GetLastError());
+            WriteLogF(L"InstallFileAtomic: failed to copy to temp: %s (error=%lu)",
+                      tempPath, GetLastError());
             // Clean up the temp file if it exists
             DeleteFileW(tempPath.c_str());
             return false;
@@ -471,14 +471,14 @@ bool InstallFileAtomic(const std::wstring& sourcePath,
         };
 
         if (RetryFileOp(replaceOp, 3, 500)) {
-            WriteLogF(L"InstallFileAtomic: ReplaceFileW succeeded: %ls", targetPath.c_str());
+            WriteLogF(L"InstallFileAtomic: ReplaceFileW succeeded: %s", targetPath);
             return true;
         }
     }
 
     // --- ReplaceFileW failed; fall back to copy-then-rename ---
-    WriteLogF(L"InstallFileAtomic: ReplaceFileW failed, falling back to MoveFileEx for: %ls",
-              targetPath.c_str());
+    WriteLogF(L"InstallFileAtomic: ReplaceFileW failed, falling back to MoveFileEx for: %s",
+              targetPath);
 
     // If the target exists and is locked, try to rename it out of the way
     if (PathExistsW(targetPath)) {
@@ -486,7 +486,7 @@ bool InstallFileAtomic(const std::wstring& sourcePath,
         if (!renamed.empty()) {
             // Target path is now free; move temp into place
             if (MoveFileExW(tempPath.c_str(), targetPath.c_str(), MOVEFILE_REPLACE_EXISTING) != FALSE) {
-                WriteLogF(L"InstallFileAtomic: installed after renaming locked target: %ls", targetPath.c_str());
+                WriteLogF(L"InstallFileAtomic: installed after renaming locked target: %s", targetPath);
                 return true;
             }
         }
@@ -498,13 +498,13 @@ bool InstallFileAtomic(const std::wstring& sourcePath,
     };
 
     if (RetryFileOp(moveOp, FILE_OP_MAX_RETRIES, FILE_OP_INITIAL_DELAY_MS)) {
-        WriteLogF(L"InstallFileAtomic: move succeeded: %ls", targetPath.c_str());
+        WriteLogF(L"InstallFileAtomic: move succeeded: %s", targetPath);
         return true;
     }
 
     // Clean up temp file
     DeleteFileW(tempPath.c_str());
-    WriteLogF(L"InstallFileAtomic: all strategies failed for: %ls", targetPath.c_str());
+    WriteLogF(L"InstallFileAtomic: all strategies failed for: %s", targetPath);
     return false;
 }
 
@@ -534,7 +534,7 @@ void CleanupPendingDeleteFiles(const std::wstring& rootDir)
         if (RetryFileOp(deleteOp, 3, 500)) {
             ++cleanedCount;
         } else {
-            WriteLogF(L"Could not clean up pending-delete file: %ls", filePath.c_str());
+            WriteLogF(L"Could not clean up pending-delete file: %s", filePath);
         }
     } while (FindNextFileW(hFind, &fd));
 
