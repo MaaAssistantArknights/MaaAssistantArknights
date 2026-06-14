@@ -49,7 +49,7 @@
                 "CMAKE_C_COMPILER_TARGET": "x86_64-pc-windows-msvc",
                 "CMAKE_CXX_COMPILER_TARGET": "x86_64-pc-windows-msvc",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "BUILD_WPF_GUI": "OFF",
+                "BUILD_WPF_GUI": "ON",
                 "BUILD_DEBUG_DEMO": "ON",
                 "BUILD_RESOURCE_UPDATER": "ON",
                 "INSTALL_RESOURCE": "OFF",
