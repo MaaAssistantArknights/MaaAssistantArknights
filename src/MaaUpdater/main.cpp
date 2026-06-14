@@ -204,7 +204,6 @@ int wmain(int argc, wchar_t* argv[])
     WriteLogF(L"Parent PID: %lu, root dir: %s", args.parentPid, args.rootDir);
     WriteLogF(L"Plan file: %s, extract dir: %s", args.planFile, args.extractDir);
 
-    bool shouldRelaunch = false;
     bool success = false;
     std::wstring failureReason;
     HANDLE hUpdateMutex = nullptr;
@@ -286,7 +285,6 @@ int wmain(int argc, wchar_t* argv[])
     // ------------------------------------------------------------------
     if (failureReason.empty()) {
         success = true;
-        shouldRelaunch = true;
     }
 
     // ------------------------------------------------------------------
@@ -356,7 +354,7 @@ int wmain(int argc, wchar_t* argv[])
     // ------------------------------------------------------------------
     // Relaunch MAA (only on success)
     // ------------------------------------------------------------------
-    if (shouldRelaunch && PathExistsW(args.relaunchExecutable)) {
+    if (success && PathExistsW(args.relaunchExecutable)) {
         CompleteProgressUi(L"更新完成 | Update completed", L"正在重新启动 MAA... | Relaunching MAA...");
         WriteLogF(L"Relaunching MAA: %s", args.relaunchExecutable);
 
@@ -385,11 +383,6 @@ int wmain(int argc, wchar_t* argv[])
                 L"更新已完成，但重新启动 MAA 失败，请手动启动 MAA。\n"
                 L"Update finished, but failed to relaunch MAA. Please start MAA manually.");
         }
-    }
-    else if (success) {
-        CompleteProgressUi(
-            L"更新完成 | Update completed",
-            L"更新已完成，请手动启动 MAA。 | Update completed. Please start MAA manually.");
     }
 
     WriteLog(L"MAA.Updater exiting.");
