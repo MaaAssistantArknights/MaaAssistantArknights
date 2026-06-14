@@ -1,4 +1,5 @@
 #include "UpdaterFile.h"
+#include "UpdaterHandle.h"
 #include "UpdaterLog.h"
 #include "UpdaterPath.h"
 
@@ -280,17 +281,15 @@ bool WriteUtf8File(const std::wstring& path, const char* content)
 bool WriteUtf8File(const std::wstring& path, const std::string& content)
 {
     EnsureParentDirectory(path);
-    HANDLE hFile = CreateFileW(
+    ScopedHandle hFile(CreateFileW(
         path.c_str(),
         GENERIC_WRITE, 0,
-        nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-    if (hFile == INVALID_HANDLE_VALUE) return false;
+        nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr));
+    if (!hFile) return false;
 
     DWORD written = 0;
     DWORD len = static_cast<DWORD>(content.size());
-    bool ok = WriteFile(hFile, content.data(), len, &written, nullptr) != FALSE;
-    CloseHandle(hFile);
-    return ok && written == len;
+    return WriteFile(hFile.get(), content.data(), len, &written, nullptr) && written == len;
 }
 
 // ---------------------------------------------------------------------------

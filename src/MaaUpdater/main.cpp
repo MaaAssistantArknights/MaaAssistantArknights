@@ -28,14 +28,18 @@
 #include <shellapi.h>
 
 #include <string>
+#include <winnt.h>
 
 #include "UpdaterArgs.h"
 #include "UpdaterFile.h"
+#include "UpdaterHandle.h"
 #include "UpdaterLog.h"
 #include "UpdaterMutex.h"
 #include "UpdaterPath.h"
 #include "UpdaterPlan.h"
 #include "UpdaterUI.h"
+
+static constexpr wchar_t MAA_UPDATER_LOG_FILENAME[] = L"\\debug\\pending-update-applier.log";
 
 int wmain(int argc, wchar_t* argv[])
 {
@@ -61,7 +65,7 @@ int wmain(int argc, wchar_t* argv[])
     // ------------------------------------------------------------------
     // Set up logging
     // ------------------------------------------------------------------
-    g_logFile = args.rootDir + L"\\debug\\pending-update-applier.log";
+    g_logFile = args.rootDir + MAA_UPDATER_LOG_FILENAME;
     RotateLogIfNeeded();
     InitializeProgressUi();
     SetProgressUiStatus(
@@ -82,13 +86,12 @@ int wmain(int argc, wchar_t* argv[])
     // ------------------------------------------------------------------
     // Wait for parent process to exit
     // ------------------------------------------------------------------
-    HANDLE hParent = OpenProcess(SYNCHRONIZE, FALSE, args.parentPid);
-    if (hParent != nullptr) {
+    ScopedHandle hParent(OpenProcess(SYNCHRONIZE, FALSE, args.parentPid));
+    if (hParent) {
         WriteLog((L"Waiting for parent process to exit, PID=" + std::to_wstring(args.parentPid)));
-        while (WaitForSingleObject(hParent, 100) == WAIT_TIMEOUT) {
+        while (WaitForSingleObject(hParent.get(), 100) == WAIT_TIMEOUT) {
             PumpProgressUiMessages();
         }
-        CloseHandle(hParent);
         WriteLog(L"Parent process exited.");
         SetProgressUiStatus(
             L"正在准备更新... | Preparing update...",
@@ -380,8 +383,8 @@ int wmain(int argc, wchar_t* argv[])
                 workDir.c_str(),
                 &si, &pi))
         {
-            CloseHandle(pi.hProcess);
-            CloseHandle(pi.hThread);
+            ScopedHandle hProcess(pi.hProcess);
+            ScopedHandle hThread(pi.hThread);
             WriteLog(L"Relaunch succeeded.");
         } else {
             WriteLog((L"Relaunch failed, error=" + std::to_wstring(GetLastError())));
@@ -397,5 +400,5 @@ int wmain(int argc, wchar_t* argv[])
 
     WriteLog(L"MAA.Updater exiting.");
     DestroyProgressUi();
-    return success ? 0 : 2;
+    return success ? EXIT_SUCCESS : EXIT_FAILURE;
 }

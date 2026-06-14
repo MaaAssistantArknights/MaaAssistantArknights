@@ -1,5 +1,6 @@
 #include "UpdaterPlan.h"
 #include "UpdaterFile.h"
+#include "UpdaterHandle.h"
 
 #include <cstring>
 
@@ -17,11 +18,11 @@ bool TryReadUtf8File(const std::wstring& path, std::string& content, std::wstrin
     content.clear();
     failureReason.clear();
 
-    HANDLE hFile = CreateFileW(
+    ScopedHandle hFile(CreateFileW(
         path.c_str(),
         GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-        nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-    if (hFile == INVALID_HANDLE_VALUE) {
+        nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr));
+    if (!hFile) {
         failureReason = BuildFileIoFailureReason(L"Failed to open file", path, GetLastError());
         return false;
     }
@@ -30,9 +31,8 @@ bool TryReadUtf8File(const std::wstring& path, std::string& content, std::wstrin
     char chunk[4096];
     while (true) {
         DWORD chunkRead = 0;
-        if (!ReadFile(hFile, chunk, static_cast<DWORD>(sizeof(chunk)), &chunkRead, nullptr)) {
+        if (!ReadFile(hFile.get(), chunk, static_cast<DWORD>(sizeof(chunk)), &chunkRead, nullptr)) {
             failureReason = BuildFileIoFailureReason(L"Failed to read file", path, GetLastError());
-            CloseHandle(hFile);
             return false;
         }
 
@@ -43,7 +43,6 @@ bool TryReadUtf8File(const std::wstring& path, std::string& content, std::wstrin
         buf.append(chunk, chunkRead);
     }
 
-    CloseHandle(hFile);
     content.swap(buf);
     return true;
 }
