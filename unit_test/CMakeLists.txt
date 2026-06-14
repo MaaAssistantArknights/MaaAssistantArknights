@@ -35,3 +35,27 @@ target_link_libraries(maa-algorithm-test PRIVATE Catch2::Catch2WithMain)
 target_include_directories(maa-algorithm-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
 
 catch_discover_tests(maa-algorithm-test TEST_PREFIX "algorithm::")
+
+# ---- MaaUpdater tests ----
+set(UPDATER_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaUpdater)
+
+add_executable(maa-updater-test
+    MaaUpdater/PathTest.cpp
+    MaaUpdater/PlanTest.cpp
+    MaaUpdater/LogTest.cpp
+    MaaUpdater/FileTest.cpp
+    MaaUpdater/MutexTest.cpp
+    ${UPDATER_SRC_DIR}/UpdaterPath.cpp
+    ${UPDATER_SRC_DIR}/UpdaterPlan.cpp
+    ${UPDATER_SRC_DIR}/UpdaterLog.cpp
+    ${UPDATER_SRC_DIR}/UpdaterFile.cpp
+    ${UPDATER_SRC_DIR}/UpdaterMutex.cpp
+)
+
+target_compile_features(maa-updater-test PRIVATE cxx_std_20)
+target_compile_options(maa-updater-test PRIVATE /utf-8)
+target_compile_definitions(maa-updater-test PRIVATE UNICODE _UNICODE WIN32_LEAN_AND_MEAN NOMINMAX)
+target_link_libraries(maa-updater-test PRIVATE Catch2::Catch2WithMain)
+target_include_directories(maa-updater-test PRIVATE ${UPDATER_SRC_DIR})
+
+catch_discover_tests(maa-updater-test TEST_PREFIX "updater::")

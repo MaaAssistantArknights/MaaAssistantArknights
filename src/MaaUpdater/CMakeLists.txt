@@ -1,4 +1,12 @@
-add_executable(MAA.Updater main.cpp)
+add_executable(MAA.Updater
+    main.cpp
+    UpdaterFile.cpp
+    UpdaterLog.cpp
+    UpdaterMutex.cpp
+    UpdaterPath.cpp
+    UpdaterPlan.cpp
+    UpdaterUI.cpp
+)
 set_target_properties(MAA.Updater PROPERTIES OUTPUT_NAME "MAA.Updater")
 
 # Static CRT - no runtime DLL dependency, updater must survive MAA's own runtime being replaced
