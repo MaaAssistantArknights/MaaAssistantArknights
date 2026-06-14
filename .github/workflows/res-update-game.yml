@@ -306,7 +306,7 @@ jobs:
 
       - name: Push changes
         if: steps.add_files.outputs.have_commits == 'True'
-        uses: ad-m/github-push-action@d30dc2d070765d7e509df00c34c5fa2dd636ff74 # master as of 2026-05-06
+        uses: ad-m/github-push-action@881a6320fdb16eb5318c5054f31c218aec2b324c # master as of 2026-05-06
         with:
           branch: ${{ github.ref }}
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
