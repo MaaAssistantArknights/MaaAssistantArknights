@@ -22,16 +22,19 @@ bool IsV2Format(int argc, wchar_t* argv[])
 // New-format parser: --key value
 // ---------------------------------------------------------------------------
 
-namespace {
+namespace
+{
 
 using WstrField = std::wstring UpdaterArgs::*;
 
-struct ArgDef {
+struct ArgDef
+{
     const wchar_t* key;
     WstrField field;
     bool required;
 };
 
+// clang-format off
 constexpr ArgDef STRING_ARGS[] = {
     { ARG_ROOT_DIR,            &UpdaterArgs::rootDir,            true },
     { ARG_EXTRACT_DIR,         &UpdaterArgs::extractDir,         true },
@@ -43,6 +46,7 @@ constexpr ArgDef STRING_ARGS[] = {
     { ARG_PLAN_FILE,           &UpdaterArgs::planFile,           true },
     { ARG_MUTEX_NAME,          &UpdaterArgs::mutexName,          false },
 };
+// clang-format on
 
 UpdaterArgs ParseV2Args(int argc, wchar_t* argv[])
 {
@@ -69,7 +73,9 @@ UpdaterArgs ParseV2Args(int argc, wchar_t* argv[])
                 break;
             }
         }
-        if (matched) continue;
+        if (matched) {
+            continue;
+        }
 
         // Special fields
         if (MatchArg(key, ARG_PARENT_PID)) {
@@ -112,7 +118,8 @@ UpdaterArgs ParseV2Args(int argc, wchar_t* argv[])
 // Legacy positional parser
 // ---------------------------------------------------------------------------
 
-namespace {
+namespace
+{
 
 UpdaterArgs ParseLegacyArgs(int argc, wchar_t* argv[])
 {
@@ -122,11 +129,12 @@ UpdaterArgs ParseLegacyArgs(int argc, wchar_t* argv[])
 
     if (argc - 1 < REQUIRED_ARGS) {
         args.valid = false;
-        args.errorMessage = L"Insufficient arguments for legacy format. Expected at least "
-                            + std::to_wstring(REQUIRED_ARGS) + L" positional arguments.";
+        args.errorMessage = L"Insufficient arguments for legacy format. Expected at least " +
+                            std::to_wstring(REQUIRED_ARGS) + L" positional arguments.";
         return args;
     }
 
+    // clang-format off
     args.parentPid          = static_cast<DWORD>(_wtoi(argv[1]));
     args.rootDir            = argv[2];
     args.extractDir         = argv[3];
@@ -136,12 +144,14 @@ UpdaterArgs ParseLegacyArgs(int argc, wchar_t* argv[])
     args.failureStatusFile  = argv[7];
     args.relaunchExecutable = argv[8];
     args.planFile           = argv[9];
+    // clang-format on
 
     // Optional flags (same as before: --mutex-name <name>, --show-console)
     for (int i = REQUIRED_ARGS + 1; i < argc; ++i) {
         if (MatchArg(argv[i], ARG_MUTEX_NAME) && i + 1 < argc) {
             args.mutexName = argv[++i];
-        } else if (MatchArg(argv[i], ARG_SHOW_CONSOLE)) {
+        }
+        else if (MatchArg(argv[i], ARG_SHOW_CONSOLE)) {
             args.showConsole = true;
         }
     }

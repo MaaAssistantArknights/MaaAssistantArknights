@@ -1,6 +1,7 @@
 #pragma once
 
 #include <windows.h>
+
 #include <shellapi.h>
 
 #include <functional>

@@ -54,7 +54,8 @@ void RefreshProgressUiTheme()
         g_progressUiTheme.secondaryTextColor = RGB(200, 200, 200);
         g_progressUiTheme.progressTrackColor = RGB(58, 58, 58);
         g_progressUiTheme.progressBarColor = RGB(76, 194, 255);
-    } else {
+    }
+    else {
         g_progressUiTheme.backgroundColor = RGB(255, 255, 255);
         g_progressUiTheme.primaryTextColor = RGB(32, 32, 32);
         g_progressUiTheme.secondaryTextColor = RGB(96, 96, 96);
@@ -73,27 +74,15 @@ void RefreshProgressUiTheme()
     }
 
     BOOL useDarkMode = g_progressUiTheme.isDarkMode ? TRUE : FALSE;
-    DwmSetWindowAttribute(
-        g_progressUi.window,
-        DWMWA_USE_IMMERSIVE_DARK_MODE,
-        &useDarkMode,
-        sizeof(useDarkMode));
-    DwmSetWindowAttribute(
-        g_progressUi.window,
-        LEGACY_DWMWA_USE_IMMERSIVE_DARK_MODE,
-        &useDarkMode,
-        sizeof(useDarkMode));
+    DwmSetWindowAttribute(g_progressUi.window, DWMWA_USE_IMMERSIVE_DARK_MODE, &useDarkMode, sizeof(useDarkMode));
+    DwmSetWindowAttribute(g_progressUi.window, LEGACY_DWMWA_USE_IMMERSIVE_DARK_MODE, &useDarkMode, sizeof(useDarkMode));
 
     if (g_progressUi.progressBar != nullptr) {
         SendMessageW(g_progressUi.progressBar, PBM_SETBKCOLOR, 0, g_progressUiTheme.progressTrackColor);
         SendMessageW(g_progressUi.progressBar, PBM_SETBARCOLOR, 0, g_progressUiTheme.progressBarColor);
     }
 
-    RedrawWindow(
-        g_progressUi.window,
-        nullptr,
-        nullptr,
-        RDW_ERASE | RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
+    RedrawWindow(g_progressUi.window, nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
 }
 
 // ---------------------------------------------------------------------------
@@ -114,24 +103,21 @@ static LRESULT CALLBACK UpdateProgressWindowProc(HWND hwnd, UINT message, WPARAM
         FillRect(
             dc,
             &clientRect,
-            g_progressUiTheme.backgroundBrush != nullptr
-                ? g_progressUiTheme.backgroundBrush
-                : reinterpret_cast<HBRUSH>(GetStockObject(WHITE_BRUSH)));
+            g_progressUiTheme.backgroundBrush != nullptr ? g_progressUiTheme.backgroundBrush
+                                                         : reinterpret_cast<HBRUSH>(GetStockObject(WHITE_BRUSH)));
         return 1;
     }
     case WM_CTLCOLORSTATIC: {
         HDC dc = reinterpret_cast<HDC>(wParam);
         HWND control = reinterpret_cast<HWND>(lParam);
-        COLORREF textColor = control == g_progressUi.detailLabel
-            ? g_progressUiTheme.secondaryTextColor
-            : g_progressUiTheme.primaryTextColor;
+        COLORREF textColor = control == g_progressUi.detailLabel ? g_progressUiTheme.secondaryTextColor
+                                                                 : g_progressUiTheme.primaryTextColor;
         SetTextColor(dc, textColor);
         SetBkColor(dc, g_progressUiTheme.backgroundColor);
         SetBkMode(dc, TRANSPARENT);
         return reinterpret_cast<INT_PTR>(
-            g_progressUiTheme.backgroundBrush != nullptr
-                ? g_progressUiTheme.backgroundBrush
-                : reinterpret_cast<HBRUSH>(GetStockObject(WHITE_BRUSH)));
+            g_progressUiTheme.backgroundBrush != nullptr ? g_progressUiTheme.backgroundBrush
+                                                         : reinterpret_cast<HBRUSH>(GetStockObject(WHITE_BRUSH)));
     }
     case WM_CLOSE:
         return 0;
@@ -339,7 +325,7 @@ void DestroyProgressUi()
 std::wstring BuildProgressCountText(int processedFileCount, int totalFileCount)
 {
     return L"已处理文件 " + std::to_wstring(processedFileCount) + L"/" + std::to_wstring(totalFileCount) +
-        L" | Files processed " + std::to_wstring(processedFileCount) + L"/" + std::to_wstring(totalFileCount);
+           L" | Files processed " + std::to_wstring(processedFileCount) + L"/" + std::to_wstring(totalFileCount);
 }
 
 void RefreshProgressUiCountText()
@@ -426,9 +412,5 @@ void ShowProgressUiFailure(const std::wstring& failureReason)
     }
 
     SetProgressUiStatus(L"更新失败 | Update failed", failureReason);
-    MessageBoxW(
-        g_progressUi.window,
-        failureReason.c_str(),
-        L"MAA 更新失败 | MAA Update Failed",
-        MB_OK | MB_ICONERROR);
+    MessageBoxW(g_progressUi.window, failureReason.c_str(), L"MAA 更新失败 | MAA Update Failed", MB_OK | MB_ICONERROR);
 }

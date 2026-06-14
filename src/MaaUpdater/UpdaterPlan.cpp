@@ -21,8 +21,12 @@ bool TryReadUtf8File(const std::wstring& path, std::string& content, std::wstrin
 
     HANDLE hFile = CreateFileW(
         path.c_str(),
-        GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-        nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+        GENERIC_READ,
+        FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+        nullptr,
+        OPEN_EXISTING,
+        FILE_ATTRIBUTE_NORMAL,
+        nullptr);
     if (hFile == INVALID_HANDLE_VALUE) {
         failureReason = BuildFileIoFailureReason(L"Failed to open file", path, GetLastError());
         return false;
@@ -56,9 +60,13 @@ bool TryReadUtf8File(const std::wstring& path, std::string& content, std::wstrin
 
 std::wstring Utf8ToWide(const std::string& s)
 {
-    if (s.empty()) return {};
+    if (s.empty()) {
+        return {};
+    }
     const int len = MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, nullptr, 0);
-    if (len <= 1) return {};
+    if (len <= 1) {
+        return {};
+    }
     std::wstring out(static_cast<size_t>(len - 1), L'\0');
     MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, out.data(), len);
     return out;
@@ -68,7 +76,8 @@ std::wstring Utf8ToWide(const std::string& s)
 // Plan loading (using meojson)
 // ---------------------------------------------------------------------------
 
-namespace {
+namespace
+{
 
 std::vector<std::wstring> JsonArrayToWideStrings(const json::value& root, const char* key)
 {
@@ -119,11 +128,9 @@ bool LoadPendingUpdatePlan(
     }
 
     const auto& root = *parsed;
-    outPlan.packageType = Utf8ToWide(root.get("packageType", std::string{}));
+    outPlan.packageType = Utf8ToWide(root.get("packageType", std::string {}));
     outPlan.removeList = JsonArrayToWideStrings(root, "removeList");
     outPlan.moveList = JsonArrayToWideStrings(root, "moveList");
     return true;
 }
-
-
 

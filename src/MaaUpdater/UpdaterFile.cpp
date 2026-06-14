@@ -93,9 +93,13 @@ bool CopyPathEntry(const std::wstring& sourcePath, const std::wstring& destinati
 void EnsureParentDirectory(const std::wstring& path)
 {
     size_t sep = path.rfind(L'\\');
-    if (sep == std::wstring::npos) return;
+    if (sep == std::wstring::npos) {
+        return;
+    }
     std::wstring parent = path.substr(0, sep);
-    if (parent.empty()) return;
+    if (parent.empty()) {
+        return;
+    }
 
     // Recursively create
     EnsureParentDirectory(parent);
@@ -107,17 +111,26 @@ std::wstring CreateArchivedPath(const std::wstring& base)
     SYSTEMTIME st {};
     GetLocalTime(&st);
     wchar_t ts[32];
-    _snwprintf_s(ts, _countof(ts), _TRUNCATE,
-                 L".%04d%02d%02d%02d%02d%02d.",
-                 st.wYear, st.wMonth, st.wDay,
-                 st.wHour, st.wMinute, st.wSecond);
+    _snwprintf_s(
+        ts,
+        _countof(ts),
+        _TRUNCATE,
+        L".%04d%02d%02d%02d%02d%02d.",
+        st.wYear,
+        st.wMonth,
+        st.wDay,
+        st.wHour,
+        st.wMinute,
+        st.wSecond);
 
     int index = 0;
     while (true) {
         wchar_t idx[16];
         _itow_s(index, idx, _countof(idx), 10);
         std::wstring candidate = base + ts + idx;
-        if (!PathExistsW(candidate)) return candidate;
+        if (!PathExistsW(candidate)) {
+            return candidate;
+        }
         index++;
     }
 }
@@ -133,7 +146,9 @@ bool MovePathEntry(const std::wstring& src, const std::wstring& dst)
     EnsureParentDirectory(dst);
 
     DWORD attr = GetFileAttributesW(src.c_str());
-    if (attr == INVALID_FILE_ATTRIBUTES) return false;
+    if (attr == INVALID_FILE_ATTRIBUTES) {
+        return false;
+    }
 
     if (attr & FILE_ATTRIBUTE_DIRECTORY) {
         auto moveOp = [&]() -> bool {
@@ -192,7 +207,9 @@ bool MovePathEntry(const std::wstring& src, const std::wstring& dst)
 void PrepareBackupDestination(const std::wstring& backupPath)
 {
     EnsureParentDirectory(backupPath);
-    if (!PathExistsW(backupPath)) return;
+    if (!PathExistsW(backupPath)) {
+        return;
+    }
 
     std::wstring archived = CreateArchivedPath(backupPath);
     MovePathEntry(backupPath, archived);
@@ -279,11 +296,10 @@ bool WriteUtf8File(const std::wstring& path, const char* content)
 bool WriteUtf8File(const std::wstring& path, const std::string& content)
 {
     EnsureParentDirectory(path);
-    HANDLE hFile = CreateFileW(
-        path.c_str(),
-        GENERIC_WRITE, 0,
-        nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-    if (hFile == INVALID_HANDLE_VALUE) return false;
+    HANDLE hFile = CreateFileW(path.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (hFile == INVALID_HANDLE_VALUE) {
+        return false;
+    }
 
     DWORD written = 0;
     DWORD len = static_cast<DWORD>(content.size());
@@ -307,16 +323,19 @@ bool RetryFileOp(const std::function<bool()>& op, int maxAttempts, DWORD initial
         }
 
         DWORD error = GetLastError();
-        if (error != ERROR_SHARING_VIOLATION && error != ERROR_LOCK_VIOLATION &&
-            error != ERROR_ACCESS_DENIED) {
+        if (error != ERROR_SHARING_VIOLATION && error != ERROR_LOCK_VIOLATION && error != ERROR_ACCESS_DENIED) {
             // Not a transient locking error — no point retrying.
             return false;
         }
 
         if (attempt < maxAttempts) {
             DWORD delay = initialDelayMs * static_cast<DWORD>(1 << (attempt - 1));
-            WriteLogF(L"RetryFileOp: attempt %d/%d failed (error=%u), retrying in %u ms",
-                      attempt, maxAttempts, error, delay);
+            WriteLogF(
+                L"RetryFileOp: attempt %d/%d failed (error=%u), retrying in %u ms",
+                attempt,
+                maxAttempts,
+                error,
+                delay);
             Sleep(delay);
         }
     }
@@ -334,8 +353,13 @@ std::wstring RenameLockedFile(const std::wstring& path)
     DWORD tick = GetTickCount();
     LONG counter = InterlockedIncrement(&s_renameCounter);
     wchar_t suffix[64];
-    _snwprintf_s(suffix, _countof(suffix), _TRUNCATE,
-                 L".%08x%04x" PENDING_DELETE_SUFFIX, tick, static_cast<WORD>(counter & 0xFFFF));
+    _snwprintf_s(
+        suffix,
+        _countof(suffix),
+        _TRUNCATE,
+        L".%08x%04x" PENDING_DELETE_SUFFIX,
+        tick,
+        static_cast<WORD>(counter & 0xFFFF));
 
     std::wstring newPath = path + suffix;
 
@@ -382,11 +406,9 @@ bool ForceDeleteFile(const std::wstring& path)
     std::wstring renamed = RenameLockedFile(path);
     if (!renamed.empty()) {
         // The rename succeeded; now try to delete the renamed file
-        RetryFileOp([&]() -> bool { return DeleteFileW(renamed.c_str()) != FALSE; },
-                    3, 500);
+        RetryFileOp([&]() -> bool { return DeleteFileW(renamed.c_str()) != FALSE; }, 3, 500);
         if (PathExistsW(renamed)) {
-            WriteLogF(L"Renamed file could not be deleted immediately (will remain as .pendingdelete): %s",
-                      renamed);
+            WriteLogF(L"Renamed file could not be deleted immediately (will remain as .pendingdelete): %s", renamed);
         }
         // Even if we couldn't delete the renamed file, the original path is now free.
         WriteLogF(L"File vacated via rename: %s -> %s", path, renamed);
@@ -411,12 +433,14 @@ bool ForceRemoveDirectoryRecursive(const std::wstring& dir)
     HANDLE hFind = FindFirstFileW(pattern.c_str(), &fd);
     if (hFind != INVALID_HANDLE_VALUE) {
         do {
-            if (wcscmp(fd.cFileName, L".") == 0 || wcscmp(fd.cFileName, L"..") == 0)
+            if (wcscmp(fd.cFileName, L".") == 0 || wcscmp(fd.cFileName, L"..") == 0) {
                 continue;
+            }
             std::wstring child = dir + L"\\" + fd.cFileName;
             if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
                 ForceRemoveDirectoryRecursive(child);
-            } else {
+            }
+            else {
                 ForceDeleteFile(child);
             }
         } while (FindNextFileW(hFind, &fd));
@@ -429,8 +453,7 @@ bool ForceRemoveDirectoryRecursive(const std::wstring& dir)
 // Uses ReplaceFileW which handles locked target files better than
 // a separate copy-then-delete cycle.
 // If ReplaceFileW fails, falls back to copy-then-move with retry.
-bool InstallFileAtomic(const std::wstring& sourcePath,
-                       const std::wstring& targetPath)
+bool InstallFileAtomic(const std::wstring& sourcePath, const std::wstring& targetPath)
 {
     EnsureParentDirectory(targetPath);
 
@@ -451,8 +474,7 @@ bool InstallFileAtomic(const std::wstring& sourcePath,
         };
 
         if (!RetryFileOp(copyOp, FILE_OP_MAX_RETRIES, FILE_OP_INITIAL_DELAY_MS)) {
-            WriteLogF(L"InstallFileAtomic: failed to copy to temp: %s (error=%lu)",
-                      tempPath, GetLastError());
+            WriteLogF(L"InstallFileAtomic: failed to copy to temp: %s (error=%lu)", tempPath, GetLastError());
             // Clean up the temp file if it exists
             DeleteFileW(tempPath.c_str());
             return false;
@@ -463,11 +485,13 @@ bool InstallFileAtomic(const std::wstring& sourcePath,
     {
         auto replaceOp = [&]() -> bool {
             // ReplaceFileW(replaced, replacement, backup, flags, exclude, reserved)
-            return ReplaceFileW(targetPath.c_str(),
-                                tempPath.c_str(),
-                                nullptr, // no additional backup needed
-                                REPLACEFILE_IGNORE_MERGE_ERRORS | REPLACEFILE_WRITE_THROUGH,
-                                nullptr, nullptr) != FALSE;
+            return ReplaceFileW(
+                       targetPath.c_str(),
+                       tempPath.c_str(),
+                       nullptr, // no additional backup needed
+                       REPLACEFILE_IGNORE_MERGE_ERRORS | REPLACEFILE_WRITE_THROUGH,
+                       nullptr,
+                       nullptr) != FALSE;
         };
 
         if (RetryFileOp(replaceOp, 3, 500)) {
@@ -477,8 +501,7 @@ bool InstallFileAtomic(const std::wstring& sourcePath,
     }
 
     // --- ReplaceFileW failed; fall back to copy-then-rename ---
-    WriteLogF(L"InstallFileAtomic: ReplaceFileW failed, falling back to MoveFileEx for: %s",
-              targetPath);
+    WriteLogF(L"InstallFileAtomic: ReplaceFileW failed, falling back to MoveFileEx for: %s", targetPath);
 
     // If the target exists and is locked, try to rename it out of the way
     if (PathExistsW(targetPath)) {
@@ -533,7 +556,8 @@ void CleanupPendingDeleteFiles(const std::wstring& rootDir)
 
         if (RetryFileOp(deleteOp, 3, 500)) {
             ++cleanedCount;
-        } else {
+        }
+        else {
             WriteLogF(L"Could not clean up pending-delete file: %s", filePath);
         }
     } while (FindNextFileW(hFind, &fd));

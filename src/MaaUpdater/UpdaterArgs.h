@@ -41,6 +41,7 @@ bool IsV2Format(int argc, wchar_t* argv[]);
 // New-format argument names
 // ---------------------------------------------------------------------------
 
+// clang-format off
 constexpr wchar_t ARG_V2[]                  = L"-v2";
 constexpr wchar_t ARG_PARENT_PID[]          = L"--parent-pid";
 constexpr wchar_t ARG_ROOT_DIR[]            = L"--root-dir";
@@ -53,3 +54,4 @@ constexpr wchar_t ARG_RELAUNCH_EXECUTABLE[] = L"--relaunch-executable";
 constexpr wchar_t ARG_PLAN_FILE[]           = L"--plan-file";
 constexpr wchar_t ARG_MUTEX_NAME[]          = L"--mutex-name";
 constexpr wchar_t ARG_SHOW_CONSOLE[]        = L"--show-console";
+// clang-format on

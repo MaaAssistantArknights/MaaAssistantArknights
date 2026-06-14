@@ -64,7 +64,8 @@ static HANDLE AcquireUpdateMutex(const std::wstring& mutexName)
 
     if (waitResult == WAIT_TIMEOUT) {
         WriteLogF(L"Mutex acquisition timed out after %lums: %s", UPDATE_MUTEX_TIMEOUT_MS, mutexName);
-    } else {
+    }
+    else {
         WriteLogF(L"WaitForSingleObject failed, error=%lu", GetLastError());
     }
     CloseHandle(hMutex);
@@ -96,8 +97,11 @@ static void ApplyUpdatePlan(const UpdaterArgs& args, const PendingUpdatePlan& pl
         L"正在分析更新内容... | Analyzing update contents...",
         L"更新计划读取完成 | Update plan loaded");
 
-    WriteLogF(L"Plan loaded, package type: %s, remove entries: %zu, install entries: %zu",
-              plan.packageType, removeList.size(), moveList.size());
+    WriteLogF(
+        L"Plan loaded, package type: %s, remove entries: %zu, install entries: %zu",
+        plan.packageType,
+        removeList.size(),
+        moveList.size());
     WriteLogF(L"Files to remove (%zu)", removeList.size());
     for (const std::wstring& entry : removeList) {
         WriteLog(L"  - " + entry);
@@ -167,9 +171,8 @@ static void ApplyUpdatePlan(const UpdaterArgs& args, const PendingUpdatePlan& pl
             }
 
             WriteLogF(L"Backing up existing entry: %s", targetPath);
-            const bool backupOk = IsRecycleAndReplaceDirectory(rel)
-                ? RecycleAndBackupDirectory(targetPath, backupPath)
-                : MoveExistingPathToBackup(targetPath, backupPath);
+            const bool backupOk = IsRecycleAndReplaceDirectory(rel) ? RecycleAndBackupDirectory(targetPath, backupPath)
+                                                                    : MoveExistingPathToBackup(targetPath, backupPath);
             if (!backupOk) {
                 WriteLogF(L"Failed to back up existing entry (will retry next time): %s", targetPath);
                 AdvanceProgressUi(L"正在安装新文件... | Installing new files...", rel);
@@ -180,8 +183,7 @@ static void ApplyUpdatePlan(const UpdaterArgs& args, const PendingUpdatePlan& pl
         WriteLogF(L"Installing new file: %s -> %s", sourcePath, targetPath);
 
         const DWORD sourceAttr = GetFileAttributesW(sourcePath.c_str());
-        const bool isSourceFile = (sourceAttr != INVALID_FILE_ATTRIBUTES) &&
-                                  !(sourceAttr & FILE_ATTRIBUTE_DIRECTORY);
+        const bool isSourceFile = (sourceAttr != INVALID_FILE_ATTRIBUTES) && !(sourceAttr & FILE_ATTRIBUTE_DIRECTORY);
 
         bool installOk = false;
         if (isSourceFile) {
@@ -189,8 +191,7 @@ static void ApplyUpdatePlan(const UpdaterArgs& args, const PendingUpdatePlan& pl
         }
         else {
             auto moveOp = [&]() -> bool {
-                return MoveFileExW(sourcePath.c_str(), targetPath.c_str(),
-                                   MOVEFILE_REPLACE_EXISTING) != FALSE;
+                return MoveFileExW(sourcePath.c_str(), targetPath.c_str(), MOVEFILE_REPLACE_EXISTING) != FALSE;
             };
             installOk = RetryFileOp(moveOp, FILE_OP_MAX_RETRIES, FILE_OP_INITIAL_DELAY_MS);
         }
@@ -407,9 +408,14 @@ int wmain(int argc, wchar_t* argv[])
         if (CreateProcessW(
                 args.relaunchExecutable.c_str(),
                 cmdLine.data(),
-                nullptr, nullptr, FALSE, 0, nullptr,
+                nullptr,
+                nullptr,
+                FALSE,
+                0,
+                nullptr,
                 workDir.c_str(),
-                &si, &pi)) {
+                &si,
+                &pi)) {
             CloseHandle(pi.hProcess);
             CloseHandle(pi.hThread);
             WriteLog(L"Relaunch succeeded.");
