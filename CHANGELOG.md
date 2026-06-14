@@ -1,4 +1,4 @@
-## v6.12.1
+## v6.12.2
 
 ### Highlights
 
@@ -37,6 +37,32 @@ Supports the enhanced screenshot path for MuMu 6.0 Android 15, improving screens
 以下是详细内容：
 
 <details open>
+<summary><b>v6.12.2 (2026-06-14)</b></summary>
+
+### 新增 | New
+
+* MAA 更新器增加文件被占用时重试、互斥量协调与自动回滚机制 (#16703) @soundofautumn
+
+### 改进 | Improved
+
+* 更新肉鸽招募干员配置，补充赤刃明霄陈、贝洛内、缇缇、焰狐龙梓兰等干员 @Saratoga-Official
+* 修复 POSIX 下 RawByNc 截图等待设备回连可能无限阻塞的问题 (#17027) @Halo5082
+
+### 修复 | Fix
+
+* 修复界园肉鸽"移时换物"事件放弃探索时的异常处理 @Saratoga-Official
+* 修复水月肉鸽事件 DiceConfirm 后事件不处理的问题 @status102
+
+### 其他 | Other
+
+* CI 工作流安全加固，防止 fork PR 表达式注入 @ABA2396
+* Windows 构建切换至 VS2026 运行器镜像 (#15806) @soundofautumn
+* 启动初始化期间允许拖拽排序任务列表 @status102
+* 移除未使用的变量、简化 MuMu 加载日志 @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.12.1 (2026-06-11)</b></summary>
 
 ### 修复 | Fix
