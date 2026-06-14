@@ -45,22 +45,3 @@ TEST_CASE("TryConvertWideToUtf8 round-trips", "[log][utf8]")
     MultiByteToWideChar(CP_UTF8, 0, utf8.c_str(), -1, back.data(), len);
     REQUIRE(back == original);
 }
-
-// ============================================================================
-// GetConsoleStreamHandle
-// ============================================================================
-
-TEST_CASE("GetConsoleStreamHandle returns handle for stdout", "[log][console]")
-{
-    HANDLE h = GetConsoleStreamHandle(stdout);
-    // In a non-console environment (CI) this may return nullptr
-    // In console it should return a valid handle or nullptr
-    // Just verify it doesn't crash
-    (void)h;
-}
-
-TEST_CASE("GetConsoleStreamHandle returns handle for stderr", "[log][console]")
-{
-    HANDLE h = GetConsoleStreamHandle(stderr);
-    (void)h;
-}

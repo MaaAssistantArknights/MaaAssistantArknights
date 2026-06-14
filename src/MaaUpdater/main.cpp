@@ -161,8 +161,14 @@ int wmain(int argc, wchar_t* argv[])
 
         WriteLogF(L"Plan loaded, package type: %s, remove entries: %zu, install entries: %zu",
                   plan.packageType, removeList.size(), moveList.size());
-        WriteLogEntries(L"Files to remove", removeList);
-        WriteLogEntries(L"Files to install", moveList);
+        WriteLogF(L"Files to remove (%zu)", removeList.size());
+        for (const std::wstring& entry : removeList) {
+            WriteLog(L"  - " + entry);
+        }
+        WriteLogF(L"Files to install (%zu)", moveList.size());
+        for (const std::wstring& entry : moveList) {
+            WriteLog(L"  - " + entry);
+        }
 
         CreateDirectoryW(args.backupDir.c_str(), nullptr);
 

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <windows.h>
-
 #include <array>
 #include <cstdio>
 #include <string>
@@ -19,7 +17,6 @@ extern bool g_writeConsoleLog;
 // ---------------------------------------------------------------------------
 
 bool TryConvertWideToUtf8(const std::wstring& wide, std::string& utf8);
-HANDLE GetConsoleStreamHandle(FILE* stream);
 
 // Core implementation (defined in UpdaterLog.cpp)
 void WriteLogImpl(const wchar_t* message);
@@ -58,6 +55,4 @@ void WriteLogF(const wchar_t* fmt, Args&&... args)
     WriteLog(buf.data());
 }
 
-void WriteLogEntries(const std::wstring& title, const std::vector<std::wstring>& entries);
-void WriteConsoleText(FILE* stream, const std::wstring& text, bool appendNewline);
 void RotateLogIfNeeded();
