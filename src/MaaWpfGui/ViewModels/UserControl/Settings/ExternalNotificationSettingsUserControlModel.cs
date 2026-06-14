@@ -600,10 +600,6 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             CustomWebhookUrl = template.Url;
             CustomWebhookBody = template.BodyTemplate;
             CustomWebhookHeaders = template.Headers;
-
-            NotifyOfPropertyChange(nameof(CustomWebhookUrl));
-            NotifyOfPropertyChange(nameof(CustomWebhookBody));
-            NotifyOfPropertyChange(nameof(CustomWebhookHeaders));
         }
     }
 

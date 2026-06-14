@@ -43,7 +43,7 @@ public class WebhookPresetTemplate
         {
             Id = "meow",
             NameResourceKey = "ExternalNotificationCustomWebhook.TemplateMeoW",
-            Url = "https://api.chuckfang.com/{nickname}",
+            Url = "https://api.chuckfang.com/<nickname>",
             BodyTemplate = "{\"title\":\"{title}\",\"msg\":\"{content}\\n{time}\"}",
         },
     ];
