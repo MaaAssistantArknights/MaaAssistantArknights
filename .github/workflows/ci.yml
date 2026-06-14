@@ -42,8 +42,10 @@ jobs:
       prerelease: ${{ steps.set_pre.outputs.prerelease }}
     steps:
       - name: Show concurrency group
+        env:
+          CONCURRENCY_GROUP: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}
         run: |
-          echo "Concurrency Group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}"
+          echo "Concurrency Group: $CONCURRENCY_GROUP"
 
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -101,7 +103,7 @@ jobs:
       matrix:
         arch: [arm64, x64]
       fail-fast: false
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
 
     steps:
       - name: Checkout repository

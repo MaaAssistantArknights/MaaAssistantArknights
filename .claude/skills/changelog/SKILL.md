@@ -104,11 +104,12 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 
 ### 9. 必须过滤的噪音项
 
-- 删除或忽略纯 bot 自动生成的 changelog、update、release 条目。
+- 删除或忽略纯 bot 自动生成的 changelog、update、release 条目（如 github-actions[bot] 的 Auto Update Game Resources）。
 - 删除显式的 Release 发布记录，例如 Release vX.Y.Z。
 - 删除或忽略 Generate、Auto Update、Auto Generate、Update CHANGELOG、Bump version 之类自动维护条目。
-- 删除“只是在更新 changelog”而没有真实产品变更的提交记录。
-- 删除已被历史版本覆盖或重复搬运的旧条目。
+- 删除带有 `[skip changelog]` 标记的提交。
+- 删除 commit 消息仅为 "Update CHANGELOG" "docs: Update CHANGELOG for vX.Y.Z release" 之类纯 changelog 内容维护的提交。
+- 除此之外的提交都不应过滤，即使标题是 chore、perf 或看起来像内部优化——只要有用户可感知的效果（包括启动体验、操作窗口、性能、稳定性等），都应保留并放入合适的模块。
 
 ### 10. 查询 git 历史时的编码处理
 
@@ -143,6 +144,7 @@ description: 根据提交记录、PR、diff、现有 CHANGELOG 与历史 tag 内
 - patch / 测试版的历史区块中重复保留了 Highlights 和"以下是详细内容："引导语，这些应只在顶部出现一次。
 - 正式版不应保留各 beta 版本的独立折叠块，应将所有测试版条目按模块合并到正式版的单一详细区块中。
 - 查询 git 历史时未指定编码，导致中文 commit 消息乱码，无法正确理解变更内容。
+- 把 chore/perf 标题的提交默认当作噪音过滤，而不是判断其是否有用户可感知的效果。
 
 ## Output Requirements
 

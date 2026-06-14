@@ -268,6 +268,26 @@
             "name": "近卫",
             "opers": [
                 {
+                    "name": "赤刃明霄陈",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 711,
+                    "promote_priority": 800,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "近卫", "召唤", "重装"],
+                            "threshold": 1,
+                            "offset": -300
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "is_less": true,
+                            "threshold": 1,
+                            "offset": -80
+                        }
+                    ]
+                },
+                {
                     "name": "圣约送葬人",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -466,6 +486,25 @@
                     "skill_usage": 2,
                     "is_start": true,
                     "recruit_priority": 700,
+                    "promote_priority": 610,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "近卫", "召唤", "重装"],
+                            "threshold": 1,
+                            "offset": -500
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "is_less": true,
+                            "threshold": 1,
+                            "offset": -80
+                        }
+                    ]
+                },
+                {
+                    "name": "贝洛内",
+                    "skill": 2,
+                    "recruit_priority": 699,
                     "promote_priority": 610,
                     "recruit_priority_offsets": [
                         {
@@ -1231,7 +1270,7 @@
                 {
                     "name": "寒芒克洛丝",
                     "skill": 2,
-                    "recruit_priority": 550,
+                    "recruit_priority": 678,
                     "promote_priority": 420,
                     "recruit_priority_offsets": [
                         {
@@ -1548,7 +1587,7 @@
                 },
                 {
                     "name": "苏苏洛",
-                    "skill": 2,
+                    "skill": 1,
                     "is_key": true,
                     "is_start": true,
                     "recruit_priority": 680,
@@ -1879,6 +1918,20 @@
                             "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "凯尔希·思衡托",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 748,
+                    "promote_priority": 648,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["单奶", "群奶"],
+                            "threshold": 3,
+                            "offset": -200
                         }
                     ]
                 },
@@ -2517,6 +2570,13 @@
                     "promote_priority": 588
                 },
                 {
+                    "name": "维伊",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 360,
+                    "promote_priority": 560
+                },
+                {
                     "name": "黑键",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -2930,6 +2990,9 @@
                     "name": "圣约送葬人"
                 },
                 {
+                    "name": "赤刃明霄陈"
+                },
+                {
                     "name": "锏"
                 },
                 {
@@ -2937,6 +3000,9 @@
                 },
                 {
                     "name": "山"
+                },
+                {
+                    "name": "贝洛内"
                 },
                 {
                     "name": "Mon3tr"
@@ -3063,6 +3129,9 @@
                 {
                     "name": "白铁",
                     "skill": 2
+                },
+                {
+                    "name": "娜斯提"
                 },
                 {
                     "name": "赫德雷",
@@ -3482,6 +3551,9 @@
                     "name": "焰影苇草"
                 },
                 {
+                    "name": "缇缇"
+                },
+                {
                     "name": "蜜莓"
                 },
                 {
@@ -3696,6 +3768,9 @@
                     "name": "焰影苇草"
                 },
                 {
+                    "name": "缇缇"
+                },
+                {
                     "name": "蕾缪安"
                 },
                 {
@@ -3769,6 +3844,9 @@
                 },
                 {
                     "name": "霍尔海雅"
+                },
+                {
+                    "name": "望"
                 },
                 {
                     "name": "多萝西"
@@ -4496,6 +4574,9 @@
                 },
                 {
                     "name": "磐蟹护卫队"
+                },
+                {
+                    "name": "棋子"
                 }
             ]
         },
@@ -4505,6 +4586,12 @@
             "opers": [
                 {
                     "name": "送葬人"
+                },
+                {
+                    "name": "望",
+                    "skill": 3,
+                    "recruit_priority": 600,
+                    "promote_priority": 600
                 },
                 {
                     "name": "多萝西",
@@ -4517,6 +4604,21 @@
                     "skill": 3,
                     "recruit_priority": 400,
                     "promote_priority": 600
+                },
+                {
+                    "name": "可露希尔",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 325,
+                    "promote_priority": 325,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["回费"],
+                            "is_less": true,
+                            "offset": 150,
+                            "doc": "回费干员≤0时，优先级+150"
+                        }
+                    ]
                 },
                 {
                     "name": "缪尔赛思",
@@ -4583,11 +4685,23 @@
                     "promote_priority": 200
                 },
                 {
+                    "name": "焰狐龙梓兰",
+                    "skill": 1,
+                    "skill_usage": 0,
+                    "recruit_priority": 600,
+                    "promote_priority": 600,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["狙击", "水陈"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
                     "name": "松果",
                     "skill": 2,
-                    "is_key": true,
-                    "is_start": true,
-                    "recruit_priority": 678,
+                    "recruit_priority": 550,
                     "promote_priority": 200,
                     "recruit_priority_offsets": [
                         {

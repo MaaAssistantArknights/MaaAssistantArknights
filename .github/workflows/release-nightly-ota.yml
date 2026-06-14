@@ -28,7 +28,7 @@ jobs:
   build-win-nightly:
     name: Build Nightly for Windows
     if: github.repository_owner == 'MaaAssistantArknights'
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     strategy:
       matrix:
         arch: [x64]
