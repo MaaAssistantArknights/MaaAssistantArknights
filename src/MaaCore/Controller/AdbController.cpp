@@ -213,9 +213,17 @@ int asst::AdbController::get_mumu_index(const std::string& address)
     int port = std::stoi(port_str);
     int mumu_index = 0;
     if (port >= 16384) {
+        // port = 16384 + (index % 32) * 32 + ((offset + floor(index/32) * 4) % 32)
+        // 设 i = (index % 32) 是 0~31
+        // 不考虑 index 超过 256 的情况，设 j = floor(index/32)，只能是 0~7
+        // 于是 j * 4 的取值范围是 0, 4, 8, ..., 28，全部小于 32，所以取模后就是它本身
+        // offset 的取整为 0~31，但只有端口被占用时才会增加，所以不影响正常情况下的连续性
+        // 所以公式简化为：
+        //     port = 16384 + (index % 32) * 32 + floor(index/32) * 4 = 16384 + i * 32 + j * 4
+        // 设 k = (port - 16384) / 4，则 k = i * 8 + j
+        // index = j * 32 + i = (k & 7) * 32 + (k >> 3) = ((k & 7) << 5) + (k >> 3)
         int k = (port - 16384) / 4;
         mumu_index = ((k & 7) << 5) | (k >> 3); 
-        // 等同于 mumu_index = 32 * k - 255 * MIN(31, int(k / 8));
     }
     else if (port == 7555) {
         mumu_index = 0;
