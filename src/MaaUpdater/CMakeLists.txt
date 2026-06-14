@@ -1,5 +1,6 @@
 add_executable(MAA.Updater
     main.cpp
+    UpdaterArgs.cpp
     UpdaterFile.cpp
     UpdaterLog.cpp
     UpdaterMutex.cpp

@@ -64,6 +64,11 @@ HANDLE GetConsoleStreamHandle(FILE* stream)
 // Logging
 // ---------------------------------------------------------------------------
 
+void WriteLog(const std::wstring& message)
+{
+    WriteLog(message.c_str());
+}
+
 void WriteLog(const wchar_t* message)
 {
     SYSTEMTIME st {};
@@ -124,7 +129,7 @@ void WriteLogEntries(const std::wstring& title, const std::vector<std::wstring>&
     WriteLogF(L"%s (%zu)", title.c_str(), entries.size());
     for (const std::wstring& entry : entries) {
         std::wstring line = L"  - " + entry;
-        WriteLog(line.c_str());
+        WriteLog(line);
     }
 }
 
