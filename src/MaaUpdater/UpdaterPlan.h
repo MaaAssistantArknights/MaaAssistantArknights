@@ -39,5 +39,3 @@ bool LoadPendingUpdatePlan(
     PendingUpdatePlan& outPlan,
     std::wstring& failureReason,
     std::string* rawJson = nullptr);
-void PrintPlanEntries(const std::wstring& title, const std::vector<std::wstring>& entries);
-int RunPlanParserTest(const std::wstring& initialPlanFile);

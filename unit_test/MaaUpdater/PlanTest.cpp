@@ -233,7 +233,7 @@ TEST_CASE("BuildFileIoFailureReason formats correctly", "[plan][io]")
 TEST_CASE("LoadPendingUpdatePlan loads real plan file", "[plan][integration]")
 {
     // Path relative to the unit_test build directory; adjust as needed
-    std::wstring planFile = L"../../src/MaaUpdater/testdata/文件名输出测试.json";
+    std::wstring planFile = L"../testdata/文件名输出测试.json";
 
     PendingUpdatePlan plan;
     std::wstring failureReason;

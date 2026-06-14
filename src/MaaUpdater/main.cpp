@@ -27,10 +27,6 @@ int wmain(int argc, wchar_t* argv[])
 {
     constexpr int REQUIRED_ARGS = 9; // excluding argv[0]
 
-    if (argc >= 2 && wcscmp(argv[1], L"--test-plan") == 0) {
-        return RunPlanParserTest(argc >= 3 ? argv[2] : L"");
-    }
-
     if (argc - 1 < REQUIRED_ARGS) {
         MessageBoxW(
             nullptr,

@@ -1,9 +1,7 @@
 #include "UpdaterPlan.h"
 #include "UpdaterFile.h"
-#include "UpdaterLog.h"
 
 #include <cstring>
-#include <iostream>
 
 // ---------------------------------------------------------------------------
 // File I/O helpers
@@ -316,40 +314,5 @@ bool LoadPendingUpdatePlan(
     return true;
 }
 
-void PrintPlanEntries(const std::wstring& title, const std::vector<std::wstring>& entries)
-{
-    WriteConsoleText(stdout, title + L" (" + std::to_wstring(entries.size()) + L")", true);
-    for (const std::wstring& entry : entries) {
-        WriteConsoleText(stdout, L"  - " + entry, true);
-    }
-}
 
-int RunPlanParserTest(const std::wstring& initialPlanFile)
-{
-    std::wstring planFile = initialPlanFile;
-    if (planFile.empty()) {
-        WriteConsoleText(stdout, L"请输入要解析的 plan 文件路径 | Enter the plan file path to parse: ", false);
-        std::getline(std::wcin, planFile);
-    }
 
-    if (planFile.empty()) {
-        WriteConsoleText(stderr, L"未提供 plan 文件路径。 | No plan file path was provided.", true);
-        return 1;
-    }
-
-    PendingUpdatePlan plan;
-    std::wstring failureReason;
-    std::string rawJson;
-    if (!LoadPendingUpdatePlan(planFile, plan, failureReason, &rawJson)) {
-        WriteConsoleText(stderr, failureReason, true);
-        return 2;
-    }
-
-    WriteConsoleText(stdout, L"文件读取成功: " + planFile + L" | Plan file loaded successfully: " + planFile, true);
-    WriteConsoleText(stdout, L"原始字节数: " + std::to_wstring(rawJson.size()) + L" | Raw byte count: " + std::to_wstring(rawJson.size()), true);
-    WriteConsoleText(stdout, L"包类型: " + (plan.packageType.empty() ? std::wstring(L"<空>") : plan.packageType) +
-        L" | Package type: " + (plan.packageType.empty() ? std::wstring(L"<empty>") : plan.packageType), true);
-    PrintPlanEntries(L"待删除文件列表 | Files to remove", plan.removeList);
-    PrintPlanEntries(L"待安装文件列表 | Files to install", plan.moveList);
-    return 0;
-}
