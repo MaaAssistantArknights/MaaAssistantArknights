@@ -26,7 +26,7 @@
     "CFChapterToCF": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["苍暮", "山地"],
+        "text": ["苍暮", "山", "地"],
         "roi": [1026, 499, 218, 142],
         "postDelay": 2000,
         "next": ["#self", "CFChapterToCF", "ChapterSwipeToTheRight"]
