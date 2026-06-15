@@ -1,15 +1,26 @@
 {
     "CF-8": {
         "algorithm": "JustReturn",
-        "sub": ["CF-Open"],
+        "sub": ["CF-8@CF-OpenOpt"],
         "next": ["CF-8@SideStoryStage", "CF-8@SwipeToStage"]
     },
+    "CF-8@SideStoryStage": {
+        "text": ["CF-8"]
+    },
+    "CF-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["CF-OpenOcr", "CF-Open"]
+    },
     "CF-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+        "baseTask": "SS-Open",
+        "postDelay": 3000,
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["CFChapterToCF"]
+    },
+    "CF-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "postDelay": 3000,
         "text": ["落叶", "逐火", "活动", "开放"],
-        "roi": [0, 500, 500, 150],
-        "postDelay": 2000,
         "next": ["CFChapterToCF"]
     },
     "CFChapterToCF": {
@@ -19,8 +30,5 @@
         "roi": [1026, 499, 218, 142],
         "postDelay": 2000,
         "next": ["CFChapterToCF", "ChapterSwipeToTheRight"]
-    },
-    "CF-8@SideStoryStage": {
-        "text": ["CF-8"]
     }
 }
