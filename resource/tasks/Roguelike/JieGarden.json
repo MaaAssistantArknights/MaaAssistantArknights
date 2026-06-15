@@ -125,7 +125,16 @@
     },
     "JieGarden@Roguelike@CloseEvent": {
         "action": "ClickRect",
-        "specificRect": [153, 79, 63, 29]
+        "specificRect": [153, 79, 63, 29],
+        "next": [
+            "JieGarden@Roguelike@StageEncounterEnter",
+            "JieGarden@Roguelike@CloseEvent@(JieGarden@Roguelike@CloseCollectionContinue)",
+            "JieGarden@Roguelike@CloseEvent@(JieGarden@Roguelike@CloseCollectionClose)",
+            "JieGarden@Roguelike@CloseEvent",
+            "JieGarden@Roguelike@Stages#next",
+            "JieGarden@Roguelike@StageEncounterOptions#next",
+            "JieGarden@Roguelike@DropsFlag"
+        ]
     },
     "JieGarden@Roguelike@CloseInterview": {
         "template": "JieGarden@Roguelike@CloseCollectionClose.png"
@@ -1227,8 +1236,7 @@
             "JieGarden@Roguelike@StageCombatOps",
             "JieGarden@Roguelike@StageEmergencyOps",
             "JieGarden@Roguelike@StageDreadfulFoe",
-            "JieGarden@Roguelike@StageDreadfulFoe-5",
-            "JieGarden@Roguelike@CloseEvent"
+            "JieGarden@Roguelike@StageDreadfulFoe-5"
         ],
         "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
