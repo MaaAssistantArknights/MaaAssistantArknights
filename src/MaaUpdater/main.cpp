@@ -80,6 +80,19 @@ static void ReleaseUpdateMutex(HANDLE hMutex)
     }
 }
 
+static void SetFileUpdateTime(const std::wstring& path)
+{
+    HANDLE hFile = CreateFileW(path.c_str(), FILE_WRITE_ATTRIBUTES,
+                                FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                                nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (hFile == INVALID_HANDLE_VALUE) return;
+
+    FILETIME ft;
+    GetSystemTimeAsFileTime(&ft);
+    SetFileTime(hFile, nullptr, nullptr, &ft);
+    CloseHandle(hFile);
+}
+
 // ---------------------------------------------------------------------------
 // Apply a loaded update plan. Each file operation is independently fault-
 // tolerant: a single failure is logged but does not abort the whole update.
@@ -198,6 +211,9 @@ static void ApplyUpdatePlan(const UpdaterArgs& args, const PendingUpdatePlan& pl
 
         if (!installOk) {
             WriteLogF(L"Failed to install file (will retry next time): %s", sourcePath);
+        }
+        else {
+            SetFileUpdateTime(targetPath);
         }
 
         AdvanceProgressUi(L"正在安装新文件... | Installing new files...", rel);
