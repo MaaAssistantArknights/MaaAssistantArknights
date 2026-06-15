@@ -20,7 +20,7 @@
     "CF-OpenOcr": {
         "baseTask": "SS-OpenOcr",
         "postDelay": 3000,
-        "text": ["落叶", "逐火", "活动", "开放"],
+        "text": ["落叶逐火"],
         "next": ["CFChapterToCF"]
     },
     "CFChapterToCF": {
@@ -29,6 +29,6 @@
         "text": ["苍暮", "山地"],
         "roi": [1026, 499, 218, 142],
         "postDelay": 2000,
-        "next": ["CFChapterToCF", "ChapterSwipeToTheRight"]
+        "next": ["#self", "CFChapterToCF", "ChapterSwipeToTheRight"]
     }
 }
