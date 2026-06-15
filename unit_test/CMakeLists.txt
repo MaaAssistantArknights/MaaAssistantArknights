@@ -44,12 +44,10 @@ add_executable(maa-updater-test
     MaaUpdater/PlanTest.cpp
     MaaUpdater/LogTest.cpp
     MaaUpdater/FileTest.cpp
-    MaaUpdater/MutexTest.cpp
     ${UPDATER_SRC_DIR}/UpdaterPath.cpp
     ${UPDATER_SRC_DIR}/UpdaterPlan.cpp
     ${UPDATER_SRC_DIR}/UpdaterLog.cpp
     ${UPDATER_SRC_DIR}/UpdaterFile.cpp
-    ${UPDATER_SRC_DIR}/UpdaterMutex.cpp
 )
 
 target_compile_features(maa-updater-test PRIVATE cxx_std_20)
