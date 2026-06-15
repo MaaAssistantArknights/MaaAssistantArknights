@@ -46,7 +46,7 @@ static constexpr DWORD UPDATE_MUTEX_TIMEOUT_MS = 3000;
 
 static HANDLE AcquireUpdateMutex(const std::wstring& mutexName)
 {
-    HANDLE hMutex = CreateMutexW(nullptr, TRUE, mutexName.c_str());
+    HANDLE hMutex = CreateMutexW(nullptr, FALSE, mutexName.c_str());
     if (hMutex == nullptr) {
         WriteLogF(L"CreateMutexW failed, error=%lu", GetLastError());
         return nullptr;
