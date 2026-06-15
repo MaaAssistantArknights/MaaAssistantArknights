@@ -1074,7 +1074,8 @@
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@RecruitMain",
-        "roi": [80, 470, 1120, 154]
+        "roi": [80, 470, 1120, 154],
+        "next": ["Roguelike@ChooseOperFlag", "Roguelike@RecruitCloseGuide", "#self"]
     },
     "Roguelike@RecruitSkip": {
         "template": "RecruitSkip.png",
