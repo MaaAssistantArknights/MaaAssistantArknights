@@ -38,6 +38,7 @@
 #include "UpdaterUI.h"
 
 static constexpr wchar_t MAA_UPDATER_LOG_FILENAME[] = L"\\debug\\pending-update-applier.log";
+static constexpr DWORD PARENT_PROCESS_WAIT_TIMEOUT_MS = 100;
 static constexpr DWORD UPDATE_MUTEX_TIMEOUT_MS = 3000;
 
 // ---------------------------------------------------------------------------
@@ -78,19 +79,6 @@ static void ReleaseUpdateMutex(HANDLE hMutex)
         ReleaseMutex(hMutex);
         CloseHandle(hMutex);
     }
-}
-
-static void SetFileUpdateTime(const std::wstring& path)
-{
-    HANDLE hFile = CreateFileW(path.c_str(), FILE_WRITE_ATTRIBUTES,
-                                FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-                                nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-    if (hFile == INVALID_HANDLE_VALUE) return;
-
-    FILETIME ft;
-    GetSystemTimeAsFileTime(&ft);
-    SetFileTime(hFile, nullptr, nullptr, &ft);
-    CloseHandle(hFile);
 }
 
 // ---------------------------------------------------------------------------
@@ -195,25 +183,9 @@ static void ApplyUpdatePlan(const UpdaterArgs& args, const PendingUpdatePlan& pl
 
         WriteLogF(L"Installing new file: %s -> %s", sourcePath, targetPath);
 
-        const DWORD sourceAttr = GetFileAttributesW(sourcePath.c_str());
-        const bool isSourceFile = (sourceAttr != INVALID_FILE_ATTRIBUTES) && !(sourceAttr & FILE_ATTRIBUTE_DIRECTORY);
-
-        bool installOk = false;
-        if (isSourceFile) {
-            installOk = InstallFileAtomic(sourcePath, targetPath);
-        }
-        else {
-            auto moveOp = [&]() -> bool {
-                return MoveFileExW(sourcePath.c_str(), targetPath.c_str(), MOVEFILE_REPLACE_EXISTING) != FALSE;
-            };
-            installOk = RetryFileOp(moveOp, FILE_OP_MAX_RETRIES, FILE_OP_INITIAL_DELAY_MS);
-        }
-
+        bool installOk = InstallFileAtomic(sourcePath, targetPath);
         if (!installOk) {
             WriteLogF(L"Failed to install file (will retry next time): %s", sourcePath);
-        }
-        else {
-            SetFileUpdateTime(targetPath);
         }
 
         AdvanceProgressUi(L"正在安装新文件... | Installing new files...", rel);
@@ -269,7 +241,7 @@ int wmain(int argc, wchar_t* argv[])
     HANDLE hParent = OpenProcess(SYNCHRONIZE, FALSE, args.parentPid);
     if (hParent) {
         WriteLogF(L"Waiting for parent process to exit, PID=%lu", args.parentPid);
-        while (WaitForSingleObject(hParent, 100) == WAIT_TIMEOUT) {
+        while (WaitForSingleObject(hParent, PARENT_PROCESS_WAIT_TIMEOUT_MS) == WAIT_TIMEOUT) {
             PumpProgressUiMessages();
         }
         CloseHandle(hParent);

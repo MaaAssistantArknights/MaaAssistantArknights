@@ -449,86 +449,65 @@ bool ForceRemoveDirectoryRecursive(const std::wstring& dir)
     return RemoveDirectoryW(dir.c_str()) != FALSE || !PathExistsW(dir);
 }
 
-// Atomically installs a file from sourcePath to targetPath.
-// Uses ReplaceFileW which handles locked target files better than
-// a separate copy-then-delete cycle.
-// If ReplaceFileW fails, falls back to copy-then-move with retry.
+// Atomically installs a file, sets last-write time to now.
 bool InstallFileAtomic(const std::wstring& sourcePath, const std::wstring& targetPath)
 {
     EnsureParentDirectory(targetPath);
 
-    // Generate a temporary path alongside the target
-    DWORD tick = GetTickCount();
-    std::wstring tempPath = targetPath + L"." + std::to_wstring(tick) + L".tmpinstall";
-
-    // Copy source to the temp location first
-    {
-        DWORD attr = GetFileAttributesW(sourcePath.c_str());
-        if (attr == INVALID_FILE_ATTRIBUTES) {
-            WriteLogF(L"InstallFileAtomic: source not found: %s", sourcePath);
-            return false;
-        }
-
-        auto copyOp = [&]() -> bool {
-            return CopyFileW(sourcePath.c_str(), tempPath.c_str(), FALSE) != FALSE;
-        };
-
-        if (!RetryFileOp(copyOp, FILE_OP_MAX_RETRIES, FILE_OP_INITIAL_DELAY_MS)) {
-            WriteLogF(L"InstallFileAtomic: failed to copy to temp: %s (error=%lu)", tempPath, GetLastError());
-            // Clean up the temp file if it exists
-            DeleteFileW(tempPath.c_str());
-            return false;
-        }
+    if (!PathExistsW(sourcePath)) {
+        WriteLogF(L"InstallFileAtomic: source not found: %s", sourcePath);
+        return false;
     }
 
-    // --- Try ReplaceFileW (atomic swap) ---
-    {
-        auto replaceOp = [&]() -> bool {
-            // ReplaceFileW(replaced, replacement, backup, flags, exclude, reserved)
-            return ReplaceFileW(
-                       targetPath.c_str(),
-                       tempPath.c_str(),
-                       nullptr, // no additional backup needed
-                       REPLACEFILE_IGNORE_MERGE_ERRORS | REPLACEFILE_WRITE_THROUGH,
-                       nullptr,
-                       nullptr) != FALSE;
-        };
+    // Generate a temporary path alongside the target for ReplaceFileW
+    const std::wstring tempPath = targetPath + L"." + std::to_wstring(GetTickCount()) + L".tmpinstall";
 
-        if (RetryFileOp(replaceOp, 3, 500)) {
-            WriteLogF(L"InstallFileAtomic: ReplaceFileW succeeded: %s", targetPath);
-            return true;
-        }
+    auto copyOp = [&]() -> bool {
+        return CopyFileW(sourcePath.c_str(), tempPath.c_str(), FALSE) != FALSE;
+    };
+    if (!RetryFileOp(copyOp, FILE_OP_MAX_RETRIES, FILE_OP_INITIAL_DELAY_MS)) {
+        WriteLogF(L"InstallFileAtomic: failed to copy to temp: %s (error=%lu)", tempPath, GetLastError());
+        DeleteFileW(tempPath.c_str());
+        return false;
     }
 
-    // --- ReplaceFileW failed; fall back to copy-then-rename ---
-    WriteLogF(L"InstallFileAtomic: ReplaceFileW failed, falling back to MoveFileEx for: %s", targetPath);
-
-    // If the target exists and is locked, try to rename it out of the way
-    if (PathExistsW(targetPath)) {
-        std::wstring renamed = RenameLockedFile(targetPath);
-        if (!renamed.empty()) {
-            // Target path is now free; move temp into place
-            if (MoveFileExW(tempPath.c_str(), targetPath.c_str(), MOVEFILE_REPLACE_EXISTING) != FALSE) {
-                WriteLogF(L"InstallFileAtomic: installed after renaming locked target: %s", targetPath);
-                return true;
-            }
-        }
-    }
-
-    // Last resort: direct move with retry
+    // Try ReplaceFileW (atomic swap, handles locked targets). If it fails,
+    // rename any locked target out of the way then try a direct move.
+    auto replaceOp = [&]() -> bool {
+        return ReplaceFileW(targetPath.c_str(), tempPath.c_str(), nullptr,
+                            REPLACEFILE_IGNORE_MERGE_ERRORS | REPLACEFILE_WRITE_THROUGH,
+                            nullptr, nullptr) != FALSE;
+    };
     auto moveOp = [&]() -> bool {
         return MoveFileExW(tempPath.c_str(), targetPath.c_str(), MOVEFILE_REPLACE_EXISTING) != FALSE;
     };
 
-    if (RetryFileOp(moveOp, FILE_OP_MAX_RETRIES, FILE_OP_INITIAL_DELAY_MS)) {
-        WriteLogF(L"InstallFileAtomic: move succeeded: %s", targetPath);
-        return true;
+    bool ok = RetryFileOp(replaceOp, 3, 500);
+    if (!ok && PathExistsW(targetPath)) {
+        std::wstring renamed = RenameLockedFile(targetPath);
+        if (!renamed.empty()) ok = moveOp();
+    }
+    if (!ok) ok = RetryFileOp(moveOp, FILE_OP_MAX_RETRIES, FILE_OP_INITIAL_DELAY_MS);
+
+    DeleteFileW(tempPath.c_str());
+    if (!ok) {
+        WriteLogF(L"InstallFileAtomic: all strategies failed for: %s", targetPath);
+        return false;
     }
 
-    // Clean up temp file
-    DeleteFileW(tempPath.c_str());
-    WriteLogF(L"InstallFileAtomic: all strategies failed for: %s", targetPath);
-    return false;
+    WriteLogF(L"InstallFileAtomic: installed: %s", targetPath);
+
+    // Set last-write time to now
+    HANDLE hFile = CreateFileW(targetPath.c_str(), FILE_WRITE_ATTRIBUTES,
+                                FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                                nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (hFile != INVALID_HANDLE_VALUE) {
+        FILETIME ft;
+        GetSystemTimeAsFileTime(&ft);
+        SetFileTime(hFile, nullptr, nullptr, &ft);
+        CloseHandle(hFile);
+    }
+    return true;
 }
 
 // Scans rootDir and deletes any remaining .pendingdelete files left
