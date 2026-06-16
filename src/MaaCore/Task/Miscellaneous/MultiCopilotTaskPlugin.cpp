@@ -16,13 +16,13 @@
 bool asst::MultiCopilotTaskPlugin::_run()
 {
     LogTraceFunction;
-    if (m_copilot_configs.size() < (size_t)m_index_current) {
+    if (m_copilot_configs.size() <= (size_t)m_index_current) {
         LogError << __FUNCTION__ << "configs size:" << m_copilot_configs.size() << ", current index:" << m_index_current
                  << ", out of range";
         return false;
     }
 
-    const auto& config = m_copilot_configs[m_index_current++];
+    const auto& config = m_copilot_configs[m_index_current];
 
     std::string file_name;
     if (!Copilot.load(config.copilot_file)) {
@@ -52,6 +52,9 @@ bool asst::MultiCopilotTaskPlugin::_run()
         ret = ret && ProcessTask(*this, { "RaidConfirm", "ChangeToRaidDifficulty" }).set_retry_times(20).run();
     }
 
+    if (ret) {
+        ++m_index_current;
+    }
     return ret;
 }
 
