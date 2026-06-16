@@ -2094,7 +2094,7 @@
         "roi": [0, 150, 1280, 250],
         "postDelay": 2500,
         "maxTimes": 25,
-        "next": ["SignInEventEarnRewards", "SignInEventReturn"],
+        "next": ["SignInEventEarnRewards", "SignInEventCostumeLeave", "SignInEventReturn"],
         "exceededNext": ["SignInEventReturn"]
     },
     "SignInEventEarnRewards": {
@@ -2106,6 +2106,19 @@
         "postDelay": 800,
         "next": ["#self", "SignInEventClaim", "SignInEventReturn"],
         "maxTimes": 50,
+        "exceededNext": ["SignInEventReturn"]
+    },
+    "SignInEventCostumeLeave": {
+        "doc": "时装展示挡路页：认右下穿戴衣架 icon 确认在该页，点空白处离开、推进到获得物资",
+        "algorithm": "MatchTemplate",
+        "template": "SignInEventCostumeWear.png",
+        "templThreshold": 0.6,
+        "roi": [1000, 560, 280, 130],
+        "action": "ClickRect",
+        "specificRect": [270, 170, 60, 60],
+        "postDelay": 800,
+        "maxTimes": 15,
+        "next": ["SignInEventEarnRewards", "#self", "SignInEventClaim", "SignInEventReturn"],
         "exceededNext": ["SignInEventReturn"]
     },
     "SignInEventReturn": {
