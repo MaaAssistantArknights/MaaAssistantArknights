@@ -1,5 +1,7 @@
 file(GLOB_RECURSE maa_src *.h *.hpp *.cpp)
 
+set(ARPS_NATIVE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Controller/ArpsNative")
+
 if(WITH_MAC_SCK)
     if(APPLE)
         list(APPEND maa_src Controller/MacSCKHelper.mm)
@@ -23,9 +25,14 @@ endif()
 target_compile_definitions(MaaCore PRIVATE ASST_WITH_EMULATOR_EXTRAS=$<BOOL:${WITH_EMULATOR_EXTRAS}>)
 target_compile_definitions(MaaCore PRIVATE ASST_WITH_MAC_SCK=$<BOOL:${WITH_MAC_SCK}>)
 
-target_include_directories(MaaCore PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE .)
+target_include_directories(MaaCore PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE
+                           .
+                           "${ARPS_NATIVE_DIR}/include"
+                           "${ARPS_NATIVE_DIR}/src"
+                           "${ARPS_NATIVE_DIR}/third_party/lz4")
 add_dependencies(MaaCore MaaUtils)
 target_link_libraries(MaaCore HeaderOnlyLibraries MaaUtils ${OpenCV_LIBS} fastdeploy_ppocr ONNXRuntime::ONNXRuntime ZLIB::ZLIB Boost::system)
+target_sources(MaaCore PRIVATE "${ARPS_NATIVE_DIR}/third_party/lz4/lz4.c")
 
 if(WIN32)
     target_link_libraries(MaaCore ws2_32)

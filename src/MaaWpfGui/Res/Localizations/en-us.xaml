@@ -197,6 +197,15 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="Compatible">Compatible Mode</system:String>
     <system:String x:Key="SecondResolution">2nd Resolution</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">General Mode (Blocked exception output)</system:String>
+    <system:String x:Key="ARPS">ARPS (Experimental)</system:String>
+    <system:String x:Key="ArpsCompression">ARPS Compression</system:String>
+    <system:String x:Key="ArpsMaxFps">Max FPS</system:String>
+    <system:String x:Key="ArpsCaptureMode">Capture Mode</system:String>
+    <system:String x:Key="ArpsExitPowerMode">Exit Power Mode</system:String>
+    <system:String x:Key="ArpsPowerOnIfScreenOff">Wake screen if off</system:String>
+    <system:String x:Key="ArpsTurnScreenOff">Turn physical screen off after stream starts</system:String>
+    <system:String x:Key="ArpsKeepScreenOn">Keep screen on</system:String>
+    <system:String x:Key="ArpsNotEnabledMessage">ARPS screenshot backend not enabled, please check related settings</system:String>
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
     <system:String x:Key="InfrastThresholdTip">If custom shifts are enabled, this field is only valid for rooms with autofill and {key=Operator} groups</system:String>
     <system:String x:Key="RoguelikeStrategyExp">Gain Experience Points, clear as many nodes as possible</system:String>

@@ -20,6 +20,7 @@
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 #include "Utils/StringMisc.hpp"
+#include "Utils/WorkingDir.hpp"
 
 #include <boost/regex.hpp>
 
@@ -324,6 +325,27 @@ void asst::AdbController::init_ld_extras(const AdbCfg& adb_cfg, const std::strin
 #endif
 }
 
+void asst::AdbController::init_arps(const AdbCfg& adb_cfg)
+{
+    if (adb_cfg.extras.get("type", std::string()) != "ARPS") {
+        return;
+    }
+
+    ArpsCapture::Config cfg;
+    cfg.compression = adb_cfg.extras.get("compression", cfg.compression);
+    cfg.max_fps = adb_cfg.extras.get("max_fps", cfg.max_fps);
+    cfg.capture_mode = adb_cfg.extras.get("capture_mode", cfg.capture_mode);
+    cfg.power_on_if_screen_off = adb_cfg.extras.get("power_on_if_screen_off", cfg.power_on_if_screen_off);
+    cfg.turn_screen_off = adb_cfg.extras.get("turn_screen_off", cfg.turn_screen_off);
+    cfg.keep_screen_on = adb_cfg.extras.get("keep_screen_on", cfg.keep_screen_on);
+    cfg.exit_power_mode = adb_cfg.extras.get("exit_power_mode", cfg.exit_power_mode);
+
+    auto apk = ResDir.get() / "arps" / "arps-device.apk";
+    if (!m_arps.init(m_conn_ctx.adb_path, m_conn_ctx.address, apk, cfg, m_platform_io.get())) {
+        Log.error("ArpsCapture: init failed, will fall back to standard screencap methods");
+    }
+}
+
 void asst::AdbController::close_socket() noexcept
 {
     m_platform_io->close_socket();
@@ -465,6 +487,7 @@ std::pair<int, int> asst::AdbController::get_screen_res() const noexcept
 
 void asst::AdbController::release()
 {
+    m_arps.uninit();
     close_socket();
 
     if (m_kill_adb_on_exit && !m_adb.release.empty()) {
@@ -662,6 +685,25 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             }
         }
 #endif
+        if (m_arps.inited()) {
+            start_time = steady_clock::now();
+            auto img_opt = m_arps.screencap();
+            if (img_opt) {
+                auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
+                image_payload = img_opt.value();
+                if (duration < min_cost) {
+                    m_adb.screencap_method = AdbProperty::ScreencapMethod::ARPS;
+                    m_inited = true;
+                    min_cost = duration;
+                }
+                Log.info("ARPS cost", duration.count(), "ms");
+                all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::ARPS, std::to_string(duration.count()));
+            }
+            else {
+                Log.info("ARPS is not supported");
+                all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::ARPS, "???");
+            }
+        }
 
         static const std::unordered_map<AdbProperty::ScreencapMethod, std::string> MethodName = {
             { AdbProperty::ScreencapMethod::UnknownYet, "UnknownYet" },
@@ -672,6 +714,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             { AdbProperty::ScreencapMethod::MumuExtras, "MumuExtras" },
             { AdbProperty::ScreencapMethod::LDExtras, "LDExtras" },
 #endif
+            { AdbProperty::ScreencapMethod::ARPS, "ARPS" },
         };
         Log.info("The fastest way is", MethodName.at(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
         if (m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet) {
@@ -739,6 +782,21 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             }
         } break;
 #endif
+        case AdbProperty::ScreencapMethod::ARPS: {
+            auto img_opt = m_arps.screencap();
+            screencap_ret = img_opt.has_value();
+
+            if (!screencap_ret && allow_reconnect) {
+                m_arps.uninit();
+                init_arps(m_conn_ctx.adb_cfg);
+                img_opt = m_arps.screencap();
+                screencap_ret = img_opt.has_value();
+            }
+
+            if (screencap_ret) {
+                image_payload = img_opt.value();
+            }
+        } break;
         default:
             break;
         }
@@ -1186,6 +1244,9 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     }
     else if (config == "LDPlayer") {
         init_ld_extras(adb_cfg, address);
+    }
+    else if (config == "ARPS") {
+        init_arps(adb_cfg);
     }
     if (need_exit()) {
         return false;

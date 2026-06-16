@@ -82,6 +82,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
             new() { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
             new() { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
+            new() { Display = LocalizationHelper.GetString("ARPS"), Value = "ARPS" },
         ];
 
     public static string TouchModeVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "TouchMode.mp4");
@@ -761,6 +762,160 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     public LdPlayerConnectionExtras LdPlayerExtras { get; set; } = new();
 
+    public class ArpsConnectionExtras : PropertyChangedBase
+    {
+        public List<CombinedData> CompressionOptions { get; } =
+            [
+                new() { Display = "lz4_block", Value = "lz4_block" },
+                new() { Display = "raw", Value = "raw" },
+            ];
+
+        public List<CombinedData> CaptureModeOptions { get; } =
+            [
+                new() { Display = "auto", Value = "auto" },
+                new() { Display = "hardware", Value = "hardware" },
+                new() { Display = "bitmap", Value = "bitmap" },
+            ];
+
+        public List<CombinedData> ExitPowerModeOptions { get; } =
+            [
+                new() { Display = "restore_previous", Value = "restore_previous" },
+                new() { Display = "keep_on", Value = "keep_on" },
+                new() { Display = "turn_off", Value = "turn_off" },
+            ];
+
+        private string _compression = ConfigurationHelper.GetValue(ConfigurationKeys.ArpsCompression, "lz4_block");
+
+        public string Compression
+        {
+            get => _compression;
+            set {
+                if (!SetAndNotify(ref _compression, value))
+                {
+                    return;
+                }
+
+                Instances.AsstProxy.Connected = false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.ArpsCompression, value);
+            }
+        }
+
+        private int _maxFps = ConfigurationHelper.GetValue(ConfigurationKeys.ArpsMaxFps, 30);
+
+        public int MaxFps
+        {
+            get => _maxFps;
+            set {
+                value = Math.Clamp(value, 0, 240);
+                if (!SetAndNotify(ref _maxFps, value))
+                {
+                    return;
+                }
+
+                Instances.AsstProxy.Connected = false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.ArpsMaxFps, value.ToString());
+            }
+        }
+
+        private static string NormalizeCaptureMode(string value) => value == "surface" ? "hardware" : value;
+
+        private string _captureMode =
+            NormalizeCaptureMode(ConfigurationHelper.GetValue(ConfigurationKeys.ArpsCaptureMode, "auto"));
+
+        public string CaptureMode
+        {
+            get => _captureMode;
+            set {
+                value = NormalizeCaptureMode(value);
+                if (!SetAndNotify(ref _captureMode, value))
+                {
+                    return;
+                }
+
+                Instances.AsstProxy.Connected = false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.ArpsCaptureMode, value);
+            }
+        }
+
+        private bool _powerOnIfScreenOff = ConfigurationHelper.GetValue(ConfigurationKeys.ArpsPowerOnIfScreenOff, true);
+
+        public bool PowerOnIfScreenOff
+        {
+            get => _powerOnIfScreenOff;
+            set {
+                if (!SetAndNotify(ref _powerOnIfScreenOff, value))
+                {
+                    return;
+                }
+
+                Instances.AsstProxy.Connected = false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.ArpsPowerOnIfScreenOff, value.ToString());
+            }
+        }
+
+        private bool _turnScreenOff = ConfigurationHelper.GetValue(ConfigurationKeys.ArpsTurnScreenOff, false);
+
+        public bool TurnScreenOff
+        {
+            get => _turnScreenOff;
+            set {
+                if (!SetAndNotify(ref _turnScreenOff, value))
+                {
+                    return;
+                }
+
+                Instances.AsstProxy.Connected = false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.ArpsTurnScreenOff, value.ToString());
+            }
+        }
+
+        private bool _keepScreenOn = ConfigurationHelper.GetValue(ConfigurationKeys.ArpsKeepScreenOn, true);
+
+        public bool KeepScreenOn
+        {
+            get => _keepScreenOn;
+            set {
+                if (!SetAndNotify(ref _keepScreenOn, value))
+                {
+                    return;
+                }
+
+                Instances.AsstProxy.Connected = false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.ArpsKeepScreenOn, value.ToString());
+            }
+        }
+
+        private string _exitPowerMode = ConfigurationHelper.GetValue(ConfigurationKeys.ArpsExitPowerMode, "restore_previous");
+
+        public string ExitPowerMode
+        {
+            get => _exitPowerMode;
+            set {
+                if (!SetAndNotify(ref _exitPowerMode, value))
+                {
+                    return;
+                }
+
+                Instances.AsstProxy.Connected = false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.ArpsExitPowerMode, value);
+            }
+        }
+
+        public string Config => JsonConvert.SerializeObject(new JObject
+        {
+            ["type"] = "ARPS",
+            ["compression"] = Compression,
+            ["max_fps"] = MaxFps,
+            ["capture_mode"] = CaptureMode,
+            ["power_on_if_screen_off"] = PowerOnIfScreenOff,
+            ["turn_screen_off"] = TurnScreenOff,
+            ["keep_screen_on"] = KeepScreenOn,
+            ["exit_power_mode"] = ExitPowerMode,
+        });
+    }
+
+    public ArpsConnectionExtras ArpsExtras { get; set; } = new();
+
     private bool _retryOnDisconnected = ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, false);
 
     /// <summary>
@@ -1088,6 +1243,15 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 if (LdPlayerExtras.Enable && ScreencapMethod != "LDExtras")
                 {
                     TestLinkInfo = $"{LocalizationHelper.GetString("LdExtrasNotEnabledMessage")}\n{ScreencapTestCost}";
+                    return;
+                }
+
+                break;
+
+            case "ARPS":
+                if (ScreencapMethod != "ARPS")
+                {
+                    TestLinkInfo = $"{LocalizationHelper.GetString("ArpsNotEnabledMessage")}\n{ScreencapTestCost}";
                     return;
                 }
 

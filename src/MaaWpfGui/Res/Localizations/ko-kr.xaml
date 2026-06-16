@@ -197,6 +197,15 @@
     <system:String x:Key="Compatible">호환 모드</system:String>
     <system:String x:Key="SecondResolution">분할 화면</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">일반 모드 (예외 출력 차단)</system:String>
+    <system:String x:Key="ARPS">ARPS (실험적)</system:String>
+    <system:String x:Key="ArpsCompression">ARPS 압축</system:String>
+    <system:String x:Key="ArpsMaxFps">최대 FPS</system:String>
+    <system:String x:Key="ArpsCaptureMode">캡처 모드</system:String>
+    <system:String x:Key="ArpsExitPowerMode">종료 시 전원 모드</system:String>
+    <system:String x:Key="ArpsPowerOnIfScreenOff">화면이 꺼져 있으면 켜기</system:String>
+    <system:String x:Key="ArpsTurnScreenOff">스트림 시작 후 물리 화면 끄기</system:String>
+    <system:String x:Key="ArpsKeepScreenOn">화면 항상 켜기</system:String>
+    <system:String x:Key="ArpsNotEnabledMessage">ARPS 스크린샷 백엔드가 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
     <system:String x:Key="DormThreshold">{key=Operator} 컨디션 한계점</system:String>
     <system:String x:Key="InfrastThresholdTip">커스텀 교대 근무 변경이 활성화된 경우 이 필드는 자동 채우기 및 {key=Operator} 교체를 사용하는 회의실에만 유효합니다</system:String>
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>

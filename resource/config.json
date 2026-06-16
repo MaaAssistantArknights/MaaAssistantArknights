@@ -90,6 +90,10 @@
             "baseConfig": "General"
         },
         {
+            "configName": "ARPS",
+            "baseConfig": "General"
+        },
+        {
             "configName": "MuMuEmulator12",
             "baseConfig": "General",
             "orientation": "[Adb] -s [AdbSerial] shell \"dumpsys input | grep SurfaceOrientation | tail -n 1 | grep -m 1 -o -E [0-9]\""

@@ -79,6 +79,13 @@ public static class ConfigurationKeys
     public const string LdPlayerEmulatorPath = "Connect.LdPlayerEmulatorPath";
     public const string LdPlayerManualSetIndex = "Connect.LdPlayerManualSetIndex";
     public const string LdPlayerIndex = "Connect.LdPlayerIndex";
+    public const string ArpsCompression = "Connect.ARPS.Compression";
+    public const string ArpsMaxFps = "Connect.ARPS.MaxFps";
+    public const string ArpsCaptureMode = "Connect.ARPS.CaptureMode";
+    public const string ArpsPowerOnIfScreenOff = "Connect.ARPS.PowerOnIfScreenOff";
+    public const string ArpsTurnScreenOff = "Connect.ARPS.TurnScreenOff";
+    public const string ArpsKeepScreenOn = "Connect.ARPS.KeepScreenOn";
+    public const string ArpsExitPowerMode = "Connect.ARPS.ExitPowerMode";
     public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected";
     public const string AllowAdbRestart = "Connect.AllowADBRestart";
     public const string AllowAdbHardRestart = "Connect.AllowADBHardRestart";

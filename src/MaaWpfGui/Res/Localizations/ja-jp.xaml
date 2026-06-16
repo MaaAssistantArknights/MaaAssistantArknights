@@ -197,6 +197,15 @@
     <system:String x:Key="Compatible">互換モード</system:String>
     <system:String x:Key="SecondResolution">2番目の決議</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">一般モード（ブロックされた例外出力）</system:String>
+    <system:String x:Key="ARPS">ARPS (実験的)</system:String>
+    <system:String x:Key="ArpsCompression">ARPS 圧縮</system:String>
+    <system:String x:Key="ArpsMaxFps">最大 FPS</system:String>
+    <system:String x:Key="ArpsCaptureMode">キャプチャモード</system:String>
+    <system:String x:Key="ArpsExitPowerMode">終了時の電源モード</system:String>
+    <system:String x:Key="ArpsPowerOnIfScreenOff">画面消灯時に点灯</system:String>
+    <system:String x:Key="ArpsTurnScreenOff">ストリーム開始後に物理画面を消灯</system:String>
+    <system:String x:Key="ArpsKeepScreenOn">画面を常に点灯</system:String>
+    <system:String x:Key="ArpsNotEnabledMessage">ARPS スクリーンショットバックエンドが有効ではありません。関連設定を確認してください</system:String>
     <system:String x:Key="DormThreshold">体力が設定した%以下になれば宿舎へ移動する</system:String>
     <system:String x:Key="InfrastThresholdTip">カスタム シフトが有効な場合、このフィールドは自動入力と{key=Operator} グループのあるルームに対してのみ有効です</system:String>
     <system:String x:Key="RoguelikeStrategyExp">経験値を取得し、できるだけクリア</system:String>
