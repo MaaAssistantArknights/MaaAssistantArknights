@@ -2081,15 +2081,12 @@
         "next": ["SignInEventReturn"]
     },
     "SignInEventClaim": {
-        "doc": "OCR 签到天数大数字、点最左可领的一天",
+        "doc": "OCR 卡片 LOGIN 标签定位未领的签到卡，点最左上可领的一天",
         "algorithm": "OcrDetect",
-        "text": ["1"],
+        "text": ["LOGIN"],
         "isAscii": true,
         "fullMatch": true,
         "orderBy": "Horizontal",
-        "ocrReplace": [
-            ["^\\d{1,2}$", "1"]
-        ],
         "action": "ClickSelf",
         "roi": [0, 150, 1280, 250],
         "postDelay": 2500,
