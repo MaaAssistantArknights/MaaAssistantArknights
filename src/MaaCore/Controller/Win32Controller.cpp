@@ -335,7 +335,27 @@ bool Win32Controller::inject_input_event(const InputEvent& event)
 bool Win32Controller::press_esc()
 {
     LogTraceFunction;
-    return unit_click_key(VK_ESCAPE); // VK_ESCAPE = 0x1B, defined in WinUser.h
+
+    // 先尝试 DLL 方式（SendMessage/PostMessage）
+    bool ret = unit_click_key(VK_ESCAPE);
+
+    // 再尝试将窗口拉到前台
+    if (m_hwnd) {
+        SetForegroundWindow(static_cast<HWND>(m_hwnd));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    // 使用 SendInput 发送系统级按键（DirectInput 可以捕获）
+    // SendInput 比 keybd_event 更可靠，且正确支持 UIPI
+    INPUT inputs[2] = {};
+    inputs[0].type = INPUT_KEYBOARD;
+    inputs[0].ki.wVk = VK_ESCAPE;
+    inputs[1].type = INPUT_KEYBOARD;
+    inputs[1].ki.wVk = VK_ESCAPE;
+    inputs[1].ki.dwFlags = KEYEVENTF_KEYUP;
+    SendInput(2, inputs, sizeof(INPUT));
+
+    return ret;
 }
 
 ControlFeat::Feat Win32Controller::support_features() const noexcept

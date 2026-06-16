@@ -222,6 +222,9 @@ ProcessTask::NodeStatus ProcessTask::run_action(const HitDetail& hits) const
             task->high_resolution_swipe_fix);
         return NodeStatus::Success;
     }
+    case ProcessTaskAction::PressEsc:
+        exec_press_esc_task();
+        return NodeStatus::Success;
     case ProcessTaskAction::DoNothing:
         return NodeStatus::Success;
     case ProcessTaskAction::Stop:
@@ -425,6 +428,11 @@ void ProcessTask::exec_click_task(const Rect& matched_rect) const
 void ProcessTask::exec_input_task(const std::string& text) const
 {
     ctrler()->input(text);
+}
+
+void ProcessTask::exec_press_esc_task() const
+{
+    ctrler()->press_esc();
 }
 
 void ProcessTask::exec_swipe_task(

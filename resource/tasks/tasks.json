@@ -844,6 +844,7 @@
             "StartToWakeUp",
             "StartToWakeUpOCR",
             "StartLoginBServer",
+            "ClosePCEventPage",
             "StartUpConnectingFlag",
             "MainThemes#next",
             "CloseAnnos#next",
@@ -958,6 +959,11 @@
         "postDelay": 1000,
         "maxTimes": 3,
         "next": ["StartUp", "StartUp@LoadingText", "StartUp@CloseAnnos#next"]
+    },
+    "ClosePCEventPage": {
+        "algorithm": "JustReturn",
+        "action": "PressEsc",
+        "next": ["StartUpConnectingFlag", "MainThemes#next", "CloseAnnos#next", "OfflineConfirm"]
     },
     "CloseAnnos": {
         "algorithm": "JustReturn",

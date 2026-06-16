@@ -500,6 +500,7 @@ enum class ProcessTaskAction
     Stop = 0x400,      // 停止当前Task
     Swipe = 0x1000,    // 滑动
     Input = 0x2000,    // 输入文本
+    PressEsc = 0x4000, // 按 ESC 键
 };
 
 inline ProcessTaskAction get_action_type(std::string action_str)
@@ -510,6 +511,7 @@ inline ProcessTaskAction get_action_type(std::string action_str)
         { "clickself", ProcessTaskAction::ClickSelf }, { "clickrect", ProcessTaskAction::ClickRect },
         { "stop", ProcessTaskAction::Stop },           { "swipe", ProcessTaskAction::Swipe },
         { "input", ProcessTaskAction::Input },
+        { "pressesc", ProcessTaskAction::PressEsc },
     };
     if (auto it = action_map.find(action_str); it != action_map.end()) {
         return it->second;
@@ -524,6 +526,7 @@ inline std::string enum_to_string(ProcessTaskAction action)
         { ProcessTaskAction::BasicClick, "BasicClick" }, { ProcessTaskAction::ClickSelf, "ClickSelf" },
         { ProcessTaskAction::ClickRect, "ClickRect" },   { ProcessTaskAction::Stop, "Stop" },
         { ProcessTaskAction::Swipe, "Swipe" },           { ProcessTaskAction::Input, "Input" },
+        { ProcessTaskAction::PressEsc, "PressEsc" },
     };
     if (auto it = action_map.find(action); it != action_map.end()) {
         return it->second;
