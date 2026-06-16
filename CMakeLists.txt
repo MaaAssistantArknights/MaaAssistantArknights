@@ -19,6 +19,11 @@ if(INSTALL_FLATTEN)
     set(MaaCore_install_flatten_args RUNTIME DESTINATION . LIBRARY DESTINATION . PUBLIC_HEADER DESTINATION .)
 endif()
 
+# MAA only consumes ncnn on Android (other platforms use fastdeploy).
+# Opt in here, before MaaUtils is loaded, so the shared submodule stays neutral.
+if(ANDROID)
+    set(WITH_NCNN ON)
+endif()
 include(src/MaaUtils/MaaUtils.cmake)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 include(${PROJECT_SOURCE_DIR}/cmake/config.cmake)

@@ -3,28 +3,13 @@
 #include "Common/AsstTypes.h"
 #include "Config/AbstractResource.h"
 
+#include <memory>
 #include <optional>
 #include <vector>
 
 namespace cv
 {
 class Mat;
-}
-
-namespace fastdeploy
-{
-namespace vision::ocr
-{
-class DBDetector;
-class Recognizer;
-}
-
-namespace pipeline
-{
-class PPOCRv3;
-}
-
-struct RuntimeOption;
 }
 
 namespace asst
@@ -49,16 +34,10 @@ public:
 protected:
     OcrPack();
 
-    bool check_and_load();
+    bool check_and_load() const;
 
-    std::unique_ptr<fastdeploy::vision::ocr::DBDetector> m_det;
-    std::unique_ptr<fastdeploy::vision::ocr::Recognizer> m_rec;
-    std::unique_ptr<fastdeploy::pipeline::PPOCRv3> m_ocr;
-
-    std::filesystem::path m_det_model_path;
-    std::filesystem::path m_rec_model_path;
-    std::filesystem::path m_rec_label_path;
-
+    struct Impl;
+    std::unique_ptr<Impl> m_impl;
     std::optional<int> m_gpu_id = std::nullopt;
 };
 
