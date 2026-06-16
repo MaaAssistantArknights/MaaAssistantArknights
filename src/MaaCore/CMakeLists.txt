@@ -33,20 +33,12 @@ target_compile_definitions(MaaCore PRIVATE ASST_WITH_MAC_SCK=$<BOOL:${WITH_MAC_S
 target_include_directories(MaaCore PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE .)
 add_dependencies(MaaCore MaaUtils)
 if(ANDROID)
-    # 直接链接 ncnn target，所有传递依赖（openmp、android、log 等）自动传播。
-    # ncnn 通过 INTERFACE_COMPILE_OPTIONS 带来 -fno-rtti/-fno-exceptions，
-    # MaaCore 需要 RTTI 和 exceptions，通过 set_property 移除这两个标志。
+    find_package(ncnn REQUIRED)
     target_link_libraries(MaaCore
         HeaderOnlyLibraries MaaUtils ${OpenCV_LIBS}
         ncnn
         ONNXRuntime::ONNXRuntime ZLIB::ZLIB Boost::system)
     set_property(TARGET MaaCore PROPERTY NO_SYSTEM_FROM_IMPORTED TRUE)
-    # 移除 ncnn 传播的 -fno-rtti / -fno-exceptions
-    get_target_property(_ncnn_opts ncnn INTERFACE_COMPILE_OPTIONS)
-    if(_ncnn_opts)
-        list(REMOVE_ITEM _ncnn_opts "-fno-rtti" "-fno-exceptions")
-        set_target_properties(ncnn PROPERTIES INTERFACE_COMPILE_OPTIONS "${_ncnn_opts}")
-    endif()
 else()
     target_link_libraries(MaaCore HeaderOnlyLibraries MaaUtils ${OpenCV_LIBS} fastdeploy_ppocr ONNXRuntime::ONNXRuntime ZLIB::ZLIB Boost::system)
 endif()
