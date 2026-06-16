@@ -341,7 +341,7 @@
                 "orderBy": {
                     "type": "string",
                     "enum": ["Horizontal", "Vertical", "Score"],
-                    "description": "Optional, sorting method for results when there are multiple matches (refer to MaaFramework order_by):\nHorizontal: left to right, top to bottom; Vertical: top to bottom, left to right; Score: by score from high to low.\nIf omitted, results keep the recognition order without reordering. This is only effective when algorithm is OcrDetect."
+                    "description": "Optional, sorting method for results when there are multiple matches (refer to MaaFramework order_by):\nHorizontal: row-major (left-to-right within a row); Vertical: column-major (top-to-bottom within a column); Score: by score from high to low.\nIf omitted, results keep the recognition order without reordering. This is only effective when algorithm is OcrDetect."
                 }
             },
             "required": ["algorithm", "text"],

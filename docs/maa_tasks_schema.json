@@ -341,7 +341,7 @@
                 "orderBy": {
                     "type": "string",
                     "enum": ["Horizontal", "Vertical", "Score"],
-                    "description": "可选项，多个匹配时的结果排序方式（参考 MaaFramework order_by）：\nHorizontal 从左到右、从上到下；Vertical 从上到下、从左到右；Score 按分数从高到低。\n省略则按识别顺序，不重排。仅当 algorithm 为 OcrDetect 时生效。"
+                    "description": "可选项，多个匹配时的结果排序方式（参考 MaaFramework order_by）：\nHorizontal 行优先（行内从左到右）；Vertical 列优先（列内从上到下）；Score 按分数从高到低。\n省略则按识别顺序，不重排。仅当 algorithm 为 OcrDetect 时生效。"
                 }
             },
             "required": ["algorithm", "text"],

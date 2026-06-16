@@ -689,8 +689,8 @@ using TaskConstPtr = std::shared_ptr<const TaskInfo>;
 enum class ResultOrderBy
 {
     None,       // 默认：按识别顺序，不重排
-    Horizontal, // 从左到右、从上到下（行优先）
-    Vertical,   // 从上到下、从左到右（列优先）
+    Horizontal, // 行优先（行内从左到右）
+    Vertical,   // 列优先（列内从上到下）
     Score,      // 按分数从高到低
 };
 
