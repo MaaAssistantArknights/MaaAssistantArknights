@@ -4,28 +4,34 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - ".github/workflows/ci-avalonia.yml"
+      - "3rdparty/include/**"
+      - "cmake/**"
       - "src/MAAUnified"
       - "src/MAAUnified/**"
       - "src/MaaCore/**"
       - "src/MaaUtils/**"
       - "include/**"
-      - "resource/**"
       - "tools/maadeps-download.py"
       - "CMakeLists.txt"
       - "CMakePresets.json"
+      - "!**/*.md"
   push:
     branches:
-      - dev
+      - dev-v2
     paths:
+      - ".github/workflows/ci-avalonia.yml"
+      - "3rdparty/include/**"
+      - "cmake/**"
       - "src/MAAUnified"
       - "src/MAAUnified/**"
       - "src/MaaCore/**"
       - "src/MaaUtils/**"
       - "include/**"
-      - "resource/**"
       - "tools/maadeps-download.py"
       - "CMakeLists.txt"
       - "CMakePresets.json"
+      - "!**/*.md"
 
 jobs:
   meta:
