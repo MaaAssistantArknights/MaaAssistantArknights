@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <filesystem>
+#include <ranges>
 #include <thread>
 
 #include "MaaUtils/NoWarningCV.hpp"
@@ -106,7 +107,7 @@ OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, c
     return raw_results;
 }
 
-bool OcrPack::check_and_load() const
+bool OcrPack::check_and_load()
 {
     if (m_impl->ncnn && m_impl->ncnn->initialized()) {
         return true;

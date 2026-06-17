@@ -164,7 +164,7 @@ OcrPack::ResultsVec
     return raw_results;
 }
 
-bool OcrPack::check_and_load() const
+bool OcrPack::check_and_load()
 {
     if (m_impl->det && m_impl->rec) {
         return true;
