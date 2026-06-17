@@ -39,13 +39,17 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.out.outputs.tag }}
+      checkout_sha: ${{ steps.out.outputs.checkout_sha }}
     steps:
       - id: out
+        env:
+          CHECKOUT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
+          echo "checkout_sha=${CHECKOUT_SHA}" >> "$GITHUB_OUTPUT"
           if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
             echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
           else
-            echo "tag=preview-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+            echo "tag=preview-${CHECKOUT_SHA::7}" >> "$GITHUB_OUTPUT"
           fi
 
   build:
@@ -77,6 +81,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.meta.outputs.checkout_sha }}
 
       - name: Fetch required submodules
         shell: bash
