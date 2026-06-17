@@ -1,8 +1,5 @@
 #pragma once
 
-// Android 专用：用 ncnn 替代 fastdeploy 跑 PP-OCR（DBNet 检测 + SVTR 识别）。
-// 整文件用 __ANDROID__ 自守卫：非 Android 平台编译成空 TU，不产生任何符号，
-// 因此无需改动 MaaCore 的 file(GLOB_RECURSE) 规则。
 #ifdef __ANDROID__
 
 #include <filesystem>
@@ -21,9 +18,7 @@ class Net;
 
 namespace asst
 {
-// ncnn 版 OCR 引擎：与桌面端 fastdeploy 的 OcrPack 在行为/参数上对齐
-// （预处理 mean/std、DBNet 阈值/unclip、rec 归一化、CTC 解码均按 PP-OCRv3 默认值，
-//  已在 src/OCRBenchmark 用 onnxruntime 做基准逐像素/逐字符验证）。
+
 class OcrPackNcnn
 {
 public:
