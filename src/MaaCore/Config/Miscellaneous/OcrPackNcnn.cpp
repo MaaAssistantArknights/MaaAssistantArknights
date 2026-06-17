@@ -71,7 +71,7 @@ OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, c
 {
     if (!check_and_load()) {
         Log.error(__FUNCTION__, "check_and_load failed");
-        return { };
+        return {};
     }
 
     auto start_time = std::chrono::steady_clock::now();
@@ -390,7 +390,7 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
         ex.input("in0", in);
         if (ex.extract("out0", out) != 0) {
             Log.error("OcrPackNcnn det extract failed");
-            return { };
+            return {};
         }
     }
     ncnn::Mat plane = out.channel(0);
@@ -555,7 +555,7 @@ std::pair<std::string, float> asst::OcrPackNcnn::recognize_line(const cv::Mat& l
 asst::OcrPackNcnn::ResultsVec asst::OcrPackNcnn::recognize(const cv::Mat& image_in, bool without_det)
 {
     if (!m_loaded) {
-        return { };
+        return {};
     }
     cv::Mat image = ensure_continuous_bgr(image_in);
 

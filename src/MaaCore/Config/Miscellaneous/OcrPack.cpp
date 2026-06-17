@@ -33,7 +33,10 @@ struct OcrPack::Impl
     std::filesystem::path rec_label_path;
 };
 
-OcrPack::OcrPack() : m_impl(std::make_unique<Impl>()) {}
+OcrPack::OcrPack() :
+    m_impl(std::make_unique<Impl>())
+{
+}
 
 OcrPack::~OcrPack()
 {
@@ -80,8 +83,7 @@ bool OcrPack::load(const std::filesystem::path& path)
     return !m_impl->det_model_path.empty() && !m_impl->rec_model_path.empty() && !m_impl->rec_label_path.empty();
 }
 
-OcrPack::ResultsVec
-    OcrPack::recognize(const cv::Mat& image, bool without_det, const std::optional<Rect>& base_roi)
+OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, const std::optional<Rect>& base_roi)
 {
     if (!check_and_load()) {
         Log.error(__FUNCTION__, "check_and_load failed");
