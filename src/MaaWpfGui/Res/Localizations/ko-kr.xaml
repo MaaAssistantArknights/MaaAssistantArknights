@@ -879,6 +879,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Waiting">전투가 끝나기를 기다리며……</system:String>
     <system:String x:Key="Stopping">중지 중……</system:String>
     <system:String x:Key="Stopped">중지됨</system:String>
+    <system:String x:Key="StopTimeout">중지 시간 초과: Core가 중지 요청에 시간 내 응답하지 않았습니다</system:String>
+    <system:String x:Key="RestartRecommendation">MAA를 다시 시작하여 정상 상태로 복원하는 것을 권장합니다</system:String>
     <system:String x:Key="UnknownErrorOccurs">예상치 못한 오류가 발생했습니다</system:String>
     <system:String x:Key="SetSuccessfully">설정 성공</system:String>
     <system:String x:Key="SetFailed">설정 실패</system:String>

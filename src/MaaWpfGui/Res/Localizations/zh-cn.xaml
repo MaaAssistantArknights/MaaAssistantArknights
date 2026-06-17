@@ -878,6 +878,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Waiting">正在等待当前任务结束……</system:String>
     <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
+    <system:String x:Key="StopTimeout">停止超时，Core 未能及时响应停止请求</system:String>
+    <system:String x:Key="RestartRecommendation">建议重启 MAA 以恢复正常状态</system:String>
     <system:String x:Key="UnknownErrorOccurs">出现未知错误</system:String>
     <system:String x:Key="SetSuccessfully">设置成功</system:String>
     <system:String x:Key="SetFailed">设置失败</system:String>
