@@ -201,6 +201,15 @@
     <system:String x:Key="Compatible">相容模式</system:String>
     <system:String x:Key="SecondResolution">第二解析度</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">通用模式（阻擋異常輸出）</system:String>
+    <system:String x:Key="ARPS">ARPS（實驗性）</system:String>
+    <system:String x:Key="ArpsCompression">ARPS 壓縮</system:String>
+    <system:String x:Key="ArpsMaxFps">最大 FPS</system:String>
+    <system:String x:Key="ArpsCaptureMode">擷取模式</system:String>
+    <system:String x:Key="ArpsExitPowerMode">退出電源策略</system:String>
+    <system:String x:Key="ArpsPowerOnIfScreenOff">熄屏時點亮螢幕</system:String>
+    <system:String x:Key="ArpsTurnScreenOff">推流後關閉實體螢幕</system:String>
+    <system:String x:Key="ArpsKeepScreenOn">保持螢幕常亮</system:String>
+    <system:String x:Key="ArpsNotEnabledMessage">ARPS 截圖後端未生效，請檢查相關設定</system:String>
     <system:String x:Key="DormThreshold">基建工作心情閾值</system:String>
     <system:String x:Key="InfrastThresholdTip">若啟用自定義換班，該欄位僅針對自動填充 (autofill) 和{key=Operator}編組的房間有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等級，盡可能穩定地打更多層數</system:String>

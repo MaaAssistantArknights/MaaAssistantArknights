@@ -276,6 +276,68 @@
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Visibility="{c:Binding 'ConnectConfig==&quot;ARPS&quot;'}">
+                    <StackPanel Margin="10,5" Orientation="Horizontal">
+                        <hc:ComboBox
+                            Width="190"
+                            Height="30"
+                            hc:TitleElement.Title="{DynamicResource ArpsCompression}"
+                            hc:TitleElement.TitlePlacement="Left"
+                            DisplayMemberPath="Display"
+                            ItemsSource="{Binding ArpsExtras.CompressionOptions}"
+                            SelectedValue="{Binding ArpsExtras.Compression}"
+                            SelectedValuePath="Value" />
+                        <hc:NumericUpDown
+                            Width="160"
+                            Height="30"
+                            Margin="10,0,0,0"
+                            hc:InfoElement.Title="{DynamicResource ArpsMaxFps}"
+                            hc:TitleElement.TitlePlacement="Left"
+                            Maximum="240"
+                            Minimum="0"
+                            Value="{Binding ArpsExtras.MaxFps}" />
+                    </StackPanel>
+                    <StackPanel Margin="10,5" Orientation="Horizontal">
+                        <hc:ComboBox
+                            Width="190"
+                            Height="30"
+                            hc:TitleElement.Title="{DynamicResource ArpsCaptureMode}"
+                            hc:TitleElement.TitlePlacement="Left"
+                            DisplayMemberPath="Display"
+                            ItemsSource="{Binding ArpsExtras.CaptureModeOptions}"
+                            SelectedValue="{Binding ArpsExtras.CaptureMode}"
+                            SelectedValuePath="Value" />
+                        <hc:ComboBox
+                            Width="220"
+                            Height="30"
+                            Margin="10,0,0,0"
+                            hc:TitleElement.Title="{DynamicResource ArpsExitPowerMode}"
+                            hc:TitleElement.TitlePlacement="Left"
+                            DisplayMemberPath="Display"
+                            ItemsSource="{Binding ArpsExtras.ExitPowerModeOptions}"
+                            SelectedValue="{Binding ArpsExtras.ExitPowerMode}"
+                            SelectedValuePath="Value" />
+                    </StackPanel>
+                    <WrapPanel
+                        Margin="10,5"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                        <CheckBox
+                            Margin="10,5"
+                            Content="{DynamicResource ArpsPowerOnIfScreenOff}"
+                            IsChecked="{Binding ArpsExtras.PowerOnIfScreenOff}" />
+                        <CheckBox
+                            Margin="10,5"
+                            Content="{DynamicResource ArpsTurnScreenOff}"
+                            IsChecked="{Binding ArpsExtras.TurnScreenOff}" />
+                        <CheckBox
+                            Margin="10,5"
+                            Content="{DynamicResource ArpsKeepScreenOn}"
+                            IsChecked="{Binding ArpsExtras.KeepScreenOn}" />
+                    </WrapPanel>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
 
