@@ -969,6 +969,15 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     public static void Release()
     {
+        try
+        {
+            Instances.AsstProxy.AsstDestroy();
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to destroy MaaCore during shutdown");
+        }
+
         _instanceActivationListenerCancellation?.Cancel();
         _instanceActivationListenerCancellation?.Dispose();
         _instanceActivationListenerCancellation = null;
