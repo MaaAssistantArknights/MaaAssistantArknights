@@ -77,6 +77,12 @@ void ArpsCapture::uninit()
     std::lock_guard lock(screencap_mutex_);
 
     if (receiver_) {
+        if (receiver_->client_socket() != arps::kInvalidArpsSocket) {
+            std::string error;
+            if (!receiver_->SendStop(&error)) {
+                Log.warn("ArpsCapture: send STOP failed:", error);
+            }
+        }
         receiver_->Close();
         receiver_.reset();
     }

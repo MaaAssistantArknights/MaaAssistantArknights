@@ -571,6 +571,10 @@ bool ArpsReceiver::SendStart(const ArpsStartOptions& options, std::string* error
     return SendControlPacket(kPacketStart, options.ToJson(), error);
 }
 
+bool ArpsReceiver::SendStop(std::string* error) {
+    return SendControlPacket(kPacketStop, "{\"reason\":\"host_uninit\"}", error);
+}
+
 bool ArpsReceiver::RequestFrame(std::string* error) {
     return SendControlPacket(kPacketFrameRequest, "{}", error);
 }

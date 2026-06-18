@@ -58,6 +58,7 @@ public:
     bool AcceptOnce(int timeout_ms, std::string* error);
     bool AdoptConnectedSocket(ArpsSocket socket, std::string* error);
     bool SendStart(const ArpsStartOptions& options, std::string* error);
+    bool SendStop(std::string* error);
     bool RequestFrame(std::string* error);
     ArpsReadResult ReadNext(int timeout_ms);
     void Close();
