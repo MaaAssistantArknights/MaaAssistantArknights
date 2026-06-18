@@ -353,7 +353,11 @@ bool Win32Controller::press_esc()
     inputs[1].type = INPUT_KEYBOARD;
     inputs[1].ki.wVk = VK_ESCAPE;
     inputs[1].ki.dwFlags = KEYEVENTF_KEYUP;
-    SendInput(2, inputs, sizeof(INPUT));
+    UINT sent = SendInput(2, inputs, sizeof(INPUT));
+    if (sent != 2) {
+        Log.warn("press_esc: SendInput did not send all events, sent:", sent,
+                 "expected: 2, last_error:", GetLastError());
+    }
 
     return ret;
 }
