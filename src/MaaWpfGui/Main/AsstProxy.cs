@@ -3083,7 +3083,14 @@ public class AsstProxy
     /// </summary>
     public void AsstDestroy()
     {
+        if (_handle == AsstHandle.Zero)
+        {
+            return;
+        }
+
         MaaService.AsstDestroy(_handle);
+        _handle = AsstHandle.Zero;
+        Connected = false;
     }
 }
 
