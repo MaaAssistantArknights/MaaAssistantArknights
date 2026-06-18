@@ -844,13 +844,13 @@
             "StartToWakeUp",
             "StartToWakeUpOCR",
             "StartLoginBServer",
-            "ClosePCEventPage",
             "StartUpConnectingFlag",
             "MainThemes#next",
             "CloseAnnos#next",
             "OfflineConfirm",
             "GameStartCheckResourceOCR",
-            "GameStartUpdateOCR"
+            "GameStartUpdateOCR",
+            "ClosePCEventPage"
         ]
     },
     "LeidianGoogleFrameworkConfirm": {
@@ -958,12 +958,15 @@
         "roi": [227, 327, 159, 152],
         "postDelay": 1000,
         "maxTimes": 3,
-        "next": ["StartUp", "StartUp@LoadingText", "StartUp@CloseAnnos#next"]
+        "next": ["StartUp", "StartUp@LoadingText", "StartUp@CloseAnnos#next", "ClosePCEventPage"]
     },
     "ClosePCEventPage": {
         "algorithm": "JustReturn",
         "action": "PressEsc",
-        "next": ["StartUpConnectingFlag", "MainThemes#next", "CloseAnnos#next", "OfflineConfirm"]
+        "maxTimes": 3,
+        "next": ["StartUp"],
+        "on_error_next": ["ClosePCEventPage"],
+        "exceededNext": ["StartUpConnectingFlag", "MainThemes#next", "CloseAnnos#next", "OfflineConfirm"]
     },
     "CloseAnnos": {
         "algorithm": "JustReturn",
