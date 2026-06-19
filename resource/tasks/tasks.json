@@ -919,7 +919,7 @@
     "StartToWakeUpOCR": {
         "baseTask": "StartToWakeUp",
         "algorithm": "OcrDetect",
-        "text": ["开始唤醒", "登录", "登", "录"],
+        "text": ["开始唤醒", "登录", "登", "录", "签到"],
         "fullMatch": true,
         "roi": [373, 145, 535, 430]
     },
@@ -965,7 +965,7 @@
         "action": "PressEsc",
         "maxTimes": 3,
         "next": ["StartUp"],
-        "on_error_next": ["ClosePCEventPage"],
+        "on_error_next": ["StartUpConnectingFlag", "MainThemes#next", "CloseAnnos#next", "OfflineConfirm"],
         "exceededNext": ["StartUpConnectingFlag", "MainThemes#next", "CloseAnnos#next", "OfflineConfirm"]
     },
     "CloseAnnos": {
