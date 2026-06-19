@@ -1428,6 +1428,9 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="AutoSelectLevel4">自动确认 4 星</system:String>
     <system:String x:Key="AutoSelectLevel5">自动确认 5 星</system:String>
     <system:String x:Key="AutoSelectLevel6">自动确认 6 星</system:String>
+    <system:String x:Key="AutoSelectLevel6Tip">仅可通过修改配置文件开启此选项</system:String>
+    <system:String x:Key="AutoUseExpeditedTip" xml:space="preserve">该选项仅生效一次。
+招募券获取速度低于消耗速度，正常情况下下一轮公招任务时自然已到招募时间，仅在招募券严重溢出等应急场景下使用</system:String>
     <system:String x:Key="PreserveTagsTip">识别到任一已选词条时跳过该次招募并保留该栏位；留空时不保留任何词条。</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->

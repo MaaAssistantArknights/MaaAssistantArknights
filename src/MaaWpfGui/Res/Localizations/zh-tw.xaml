@@ -1428,6 +1428,9 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="AutoSelectLevel4">自動確認 4★</system:String>
     <system:String x:Key="AutoSelectLevel5">自動確認 5★</system:String>
     <system:String x:Key="AutoSelectLevel6">自動確認 6★</system:String>
+    <system:String x:Key="AutoSelectLevel6Tip">僅可透過修改設定檔來開啟此選項</system:String>
+    <system:String x:Key="AutoUseExpeditedTip" xml:space="preserve">該選項僅生效一次。
+招募券獲取速度低於消耗速度，正常情況下下一輪公招任務時自然已到招募時間，僅在招募券嚴重溢出等應急場景下使用</system:String>
     <system:String x:Key="PreserveTagsTip">辨識到任一已選 Tag 時，跳過該次招募並保留該欄位；留空時不保留任何 Tag。</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->

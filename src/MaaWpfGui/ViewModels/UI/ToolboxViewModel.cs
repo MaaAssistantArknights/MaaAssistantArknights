@@ -417,7 +417,6 @@ public class ToolboxViewModel : Screen
             SetRecruitTime = RecruitAutoSetTime,
             ChooseLevel3Time = ChooseLevel3Time,
             ChooseLevel4Time = ChooseLevel4Time,
-            ChooseLevel5Time = ChooseLevel5Time,
             ServerType = Instances.SettingsViewModel.ServerType,
         };
         var (type, taskParams) = task.Serialize();

@@ -1427,6 +1427,9 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="AutoSelectLevel4">Auto confirm 4★</system:String>
     <system:String x:Key="AutoSelectLevel5">Auto confirm 5★</system:String>
     <system:String x:Key="AutoSelectLevel6">Auto confirm 6★</system:String>
+    <system:String x:Key="AutoSelectLevel6Tip">This option can only be enabled by editing the config file</system:String>
+    <system:String x:Key="AutoUseExpeditedTip" xml:space="preserve">Effective once only.
+Recruitment permits are consumed faster than acquired; normally the timer expires before the next recruit task runs. Use only in emergencies such as severe permit overflow</system:String>
     <system:String x:Key="PreserveTagsTip">Skip the recruitment and keep the slot when any selected tag is identified. Leave it empty to preserve none.</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->

@@ -290,7 +290,6 @@ public class ConfigConverter
                 recruitTask.Level4Choose = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitChooseLevel4, true);
                 recruitTask.Level4Time = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4Time, 540);
                 recruitTask.Level5Choose = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitChooseLevel5, false);
-                recruitTask.Level5Time = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5Time, 540);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.SelectExtraTags);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.AutoRecruitFirstList);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RefreshLevel3);

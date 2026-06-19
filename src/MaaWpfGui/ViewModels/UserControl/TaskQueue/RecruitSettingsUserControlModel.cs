@@ -189,6 +189,16 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
         set => SetTaskConfig<RecruitTask>(t => t.Level5Choose == value, t => t.Level5Choose = value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to choose level 6.
+    /// 仅作为配置项暴露，界面不可修改（IsEnabled=False），招募时间固定为 9:00。
+    /// </summary>
+    public bool ChooseLevel6
+    {
+        get => GetTaskConfig<RecruitTask>().Level6Choose;
+        set => SetTaskConfig<RecruitTask>(t => t.Level6Choose == value, t => t.Level6Choose = value);
+    }
+
     #region 公招时间
     [PropertyDependsOn(nameof(ChooseLevel3Time))]
     public int ChooseLevel3Hour
@@ -244,33 +254,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
         }
     }
 
-    [PropertyDependsOn(nameof(ChooseLevel5Time))]
-    public int ChooseLevel5Hour
-    {
-        get => ChooseLevel5Time / 60;
-        set => ChooseLevel5Time = (value * 60) + ChooseLevel5Min;
-    }
-
-    [PropertyDependsOn(nameof(ChooseLevel5Time))]
-    public int ChooseLevel5Min
-    {
-        get => (ChooseLevel5Time % 60) / 10 * 10;
-        set => ChooseLevel5Time = (ChooseLevel5Hour * 60) + value;
-    }
-
-    public int ChooseLevel5Time
-    {
-        get => GetTaskConfig<RecruitTask>().Level5Time;
-        set {
-            value = value switch {
-                < 60 => 9 * 60,
-                > 9 * 60 => 60,
-                _ => value / 10 * 10,
-            };
-
-            SetTaskConfig<RecruitTask>(t => t.Level5Time == value, t => t.Level5Time = value);
-        }
-    }
+    // 5 星、6 星公招时间固定为 9:00，不提供可修改的绑定属性。
     #endregion 公招时间
 
     public override void RefreshUI(BaseTask baseTask)
@@ -307,7 +291,6 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
                 PreserveTags = preserveTags,
                 ChooseLevel3Time = recruit.Level3Time,
                 ChooseLevel4Time = recruit.Level4Time,
-                ChooseLevel5Time = recruit.Level5Time,
                 ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
                 ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
                 PenguinId = SettingsViewModel.GameSettings.PenguinId,
@@ -326,11 +309,17 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
                 task.ConfirmList.Add(4);
             }
 
-            // ReSharper disable once InvertIf
             if (recruit.Level5Choose)
             {
                 task.SelectList.Add(5);
                 task.ConfirmList.Add(5);
+            }
+
+            // 6 星仅参与确认，招募时间固定 9:00，界面不可修改
+            if (recruit.Level6Choose)
+            {
+                task.SelectList.Add(6);
+                task.ConfirmList.Add(6);
             }
 
             return taskId switch {

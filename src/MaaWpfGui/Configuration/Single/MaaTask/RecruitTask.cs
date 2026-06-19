@@ -89,8 +89,15 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
 
     /// <summary>
     /// Gets or sets a value indicating whether 自动确认5星
+    /// 招募时间固定为 9:00（540 分钟）。
     /// </summary>
     public bool Level5Choose { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 自动确认6星。
+    /// 仅作为配置文件可修改项，界面不可修改，招募时间固定为 9:00（540 分钟）。
+    /// </summary>
+    public bool Level6Choose { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 3星时间
@@ -101,11 +108,6 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
     /// Gets or sets 4星时间
     /// </summary>
     public int Level4Time { get; set; } = 540;
-
-    /// <summary>
-    /// Gets or sets 5星时间
-    /// </summary>
-    public int Level5Time { get; set; } = 540;
 
     public void OnDeserialized()
     {
