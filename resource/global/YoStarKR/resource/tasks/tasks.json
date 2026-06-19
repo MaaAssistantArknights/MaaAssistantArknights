@@ -30,6 +30,7 @@
     },
     "ClickChapterNewDefaultProgress": {
         "ocrReplace": [[".?본", "기본"]],
+        "roi": [715, 26, 85, 38],
         "text": ["기본"]
     },
     "ClickChapterNewOverview": {
