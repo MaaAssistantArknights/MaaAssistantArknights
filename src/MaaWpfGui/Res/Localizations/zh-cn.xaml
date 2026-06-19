@@ -1610,7 +1610,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="ReminderIntervalMinutes">通知间隔时间（分钟）</system:String>
     <system:String x:Key="StallTimeoutMinutes">日志输出停滞超时时间（分钟）</system:String>
     <system:String x:Key="StallTimeoutEnabled">启用停滞检测</system:String>
-    <system:String x:Key="TaskStallWarning">任务日志输出已超过 {0} 分钟无更新（当前已停滞 {1} 分钟）。如果长时间无进一步日志输出，可能需要手动干预。</system:String>
+    <system:String x:Key="TaskStallWarning">任务日志输出已超过 {0} 分钟无更新（当前已停滞 {1} 分钟）。请确认任务是否正常运行，若任务正常可忽略此提示，若无响应则可能需要手动干预。</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 达成成就</system:String>

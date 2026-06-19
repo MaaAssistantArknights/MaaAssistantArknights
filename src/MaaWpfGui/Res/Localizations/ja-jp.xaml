@@ -1610,7 +1610,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="ReminderIntervalMinutes">リマインダー間隔時間（分）</system:String>
     <system:String x:Key="StallTimeoutMinutes">ログ出力停滞タイムアウト（分）</system:String>
     <system:String x:Key="StallTimeoutEnabled">停滞検出を有効にする</system:String>
-    <system:String x:Key="TaskStallWarning">タスクログ出力が {0} 分間更新されていません（現在 {1} 分間停滞）。長時間ログ出力がない場合は、手動での操作が必要になる可能性があります。</system:String>
+    <system:String x:Key="TaskStallWarning">タスクログ出力が {0} 分間更新されていません（現在 {1} 分間停滞）。タスクが正常に実行中か確認してください。正常であればこの警告は無視できます。応答がない場合は、手動での操作が必要になる可能性があります。</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 実績を獲得した</system:String>
