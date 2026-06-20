@@ -106,9 +106,14 @@ public class AsstRecruitTask : AsstBaseTask
     public int ChooseLevel4Time { get; set; }
 
     /// <summary>
-    /// Gets or sets 5 星招募时间
+    /// Gets 5 星招募时间。5 星仅支持 9:00（540 分钟）。
     /// </summary>
-    public int ChooseLevel5Time { get; set; }
+    public int ChooseLevel5Time { get; } = 540;
+
+    /// <summary>
+    /// Gets 6 星招募时间。6 星仅支持 9:00（540 分钟）。
+    /// </summary>
+    public int ChooseLevel6Time { get; } = 540;
 
     /// <summary>
     /// Gets or sets a value indicating whether 是否回报企鹅物流，默认 false
@@ -155,6 +160,7 @@ public class AsstRecruitTask : AsstBaseTask
                 ["3"] = ChooseLevel3Time,
                 ["4"] = ChooseLevel4Time,
                 ["5"] = ChooseLevel5Time,
+                ["6"] = ChooseLevel6Time,
             },
             ["report_to_penguin"] = ReportToPenguin,
             ["report_to_yituliu"] = ReportToYituliu,

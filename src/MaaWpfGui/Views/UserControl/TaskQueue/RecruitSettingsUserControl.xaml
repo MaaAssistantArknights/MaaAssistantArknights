@@ -17,16 +17,92 @@
     mc:Ignorable="d">
     <StackPanel>
         <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource AutoUseExpedited}" IsChecked="{Binding UseExpeditedWithNull}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource CheckBoxesNotSaved}" />
-            </StackPanel>
-
             <hc:NumericUpDown
                 Margin="0,5"
+                HorizontalAlignment="Left"
                 hc:InfoElement.Title="{DynamicResource RecruitMaxTimes}"
                 Minimum="0"
                 Value="{Binding RecruitMaxTimes}" />
+
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource AutoUseExpedited}" IsChecked="{Binding UseExpeditedWithNull}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource AutoUseExpeditedTip}" />
+            </StackPanel>
+
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AutoSelectLevel3}"
+                IsChecked="{Binding ChooseLevel3}" />
+            <StackPanel
+                Height="30"
+                IsEnabled="{c:Binding ChooseLevel3}"
+                Orientation="Horizontal">
+                <hc:NumericUpDown
+                    Width="55"
+                    Maximum="9"
+                    Minimum="1"
+                    ValueFormat="00"
+                    Value="{Binding ChooseLevel3Hour}" />
+                <controls:TextBlock Margin="5" Text=":" />
+                <hc:NumericUpDown
+                    Width="55"
+                    Increment="10"
+                    Maximum="50"
+                    Minimum="0"
+                    ValueFormat="00"
+                    Value="{Binding ChooseLevel3Min}" />
+            </StackPanel>
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AutoSelectLevel4}"
+                IsChecked="{Binding ChooseLevel4}" />
+            <StackPanel
+                Height="30"
+                IsEnabled="{c:Binding ChooseLevel4}"
+                Orientation="Horizontal">
+                <hc:NumericUpDown
+                    Width="55"
+                    Maximum="9"
+                    Minimum="1"
+                    ValueFormat="00"
+                    Value="{Binding ChooseLevel4Hour}" />
+                <controls:TextBlock Margin="5" Text=":" />
+                <hc:NumericUpDown
+                    Width="55"
+                    Increment="10"
+                    Maximum="50"
+                    Minimum="0"
+                    ValueFormat="00"
+                    Value="{Binding ChooseLevel4Min}" />
+            </StackPanel>
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AutoSelectLevel5}"
+                IsChecked="{Binding ChooseLevel5}" />
+            <StackPanel
+                Height="30"
+                IsEnabled="False"
+                Orientation="Horizontal">
+                <hc:NumericUpDown ValueFormat="00" Value="9" />
+                <controls:TextBlock Margin="5" Text=":" />
+                <hc:NumericUpDown ValueFormat="00" Value="0" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox
+                    Margin="0,10"
+                    Content="{DynamicResource AutoSelectLevel6}"
+                    IsChecked="{Binding ChooseLevel6}"
+                    IsEnabled="{Binding ChooseLevel6}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource AutoSelectLevel6Tip}" />
+            </StackPanel>
+            <StackPanel
+                Height="30"
+                IsEnabled="False"
+                Orientation="Horizontal">
+                <hc:NumericUpDown ValueFormat="00" Value="9" />
+                <controls:TextBlock Margin="5" Text=":" />
+                <hc:NumericUpDown ValueFormat="00" Value="0" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
@@ -83,80 +159,6 @@
                     SelectionMode="Multiple"
                     Visibility="{c:Binding PreserveTagEnabled}" />
             </StackPanel>
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource AutoSelectLevel3}"
-                IsChecked="{Binding ChooseLevel3}" />
-            <StackPanel
-                Height="30"
-                IsEnabled="{c:Binding ChooseLevel3}"
-                Orientation="Horizontal">
-                <hc:NumericUpDown
-                    Width="55"
-                    Maximum="9"
-                    Minimum="1"
-                    ValueFormat="00"
-                    Value="{Binding ChooseLevel3Hour}" />
-                <controls:TextBlock Margin="5" Text=":" />
-                <hc:NumericUpDown
-                    Width="55"
-                    Increment="10"
-                    Maximum="50"
-                    Minimum="0"
-                    ValueFormat="00"
-                    Value="{Binding ChooseLevel3Min}" />
-            </StackPanel>
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource AutoSelectLevel4}"
-                IsChecked="{Binding ChooseLevel4}" />
-            <StackPanel
-                Height="30"
-                IsEnabled="{c:Binding ChooseLevel4}"
-                Orientation="Horizontal">
-                <hc:NumericUpDown
-                    Width="55"
-                    Maximum="9"
-                    Minimum="1"
-                    ValueFormat="00"
-                    Value="{Binding ChooseLevel4Hour}" />
-                <controls:TextBlock Margin="5" Text=":" />
-                <hc:NumericUpDown
-                    Width="55"
-                    Increment="10"
-                    Maximum="50"
-                    Minimum="0"
-                    ValueFormat="00"
-                    Value="{Binding ChooseLevel4Min}" />
-            </StackPanel>
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource AutoSelectLevel5}"
-                IsChecked="{Binding ChooseLevel5}" />
-            <StackPanel
-                Height="30"
-                IsEnabled="{c:Binding ChooseLevel5}"
-                Orientation="Horizontal">
-                <hc:NumericUpDown
-                    Width="55"
-                    Maximum="9"
-                    Minimum="1"
-                    ValueFormat="00"
-                    Value="{Binding ChooseLevel5Hour}" />
-                <controls:TextBlock Margin="5" Text=":" />
-                <hc:NumericUpDown
-                    Width="55"
-                    Increment="10"
-                    Maximum="50"
-                    Minimum="0"
-                    ValueFormat="00"
-                    Value="{Binding ChooseLevel5Min}" />
-            </StackPanel>
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource AutoSelectLevel6}"
-                IsChecked="False"
-                IsEnabled="False" />
         </StackPanel>
     </StackPanel>
 </UserControl>

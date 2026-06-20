@@ -1431,6 +1431,9 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="AutoSelectLevel4">★4 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel5">★5 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel6">★6 자동 모집</system:String>
+    <system:String x:Key="AutoSelectLevel6Tip">이 옵션은 설정 파일 편집으로만 활성화할 수 있습니다</system:String>
+    <system:String x:Key="AutoUseExpeditedTip" xml:space="preserve">한 번만 유효합니다.
+모집 허가증 획득 속도가 소비 속도보다 느리므로, 일반적으로 다음 모집 작업 실행 시 자연스럽게 시간이 경과합니다. 모집 허가증이 대량 남는 등 비상 시에만 사용하세요</system:String>
     <system:String x:Key="PreserveTagsTip">선택한 태그 중 하나라도 인식되면 해당 모집을 건너뛰고 슬롯을 유지합니다. 비워 두면 어떤 태그도 보류하지 않습니다.</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->

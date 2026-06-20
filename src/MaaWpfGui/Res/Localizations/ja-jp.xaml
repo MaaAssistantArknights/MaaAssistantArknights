@@ -1430,6 +1430,9 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="AutoSelectLevel4">星4を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel6">星6を自動的に確認する</system:String>
+    <system:String x:Key="AutoSelectLevel6Tip">このオプションは設定ファイルの編集でのみ有効にできます</system:String>
+    <system:String x:Key="AutoUseExpeditedTip" xml:space="preserve">一度のみ有効です。
+求人許可の取得速度は消費速度より遅いため、通常は次の公招タスク実行時までに自然に時間が経過します。求人許可が大量に余っているなど、緊急時のみご使用ください</system:String>
     <system:String x:Key="PreserveTagsTip">選択したタグのいずれかを認識した場合、その募集をスキップして枠を残します。未選択の場合は何も保留しません。</system:String>
     <!--  !自動募集設定  -->
     <!--  EasterEggs  -->
