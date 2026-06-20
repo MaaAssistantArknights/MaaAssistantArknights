@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Tools;
 using JetBrains.Annotations;
@@ -93,7 +94,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         var (isAvailable, detail) = ToastNotification.ToastNotificationCheck();
         if (!isAvailable)
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail), UiLogColor.Error);
+            Growl.Error(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail));
         }
     }
 
