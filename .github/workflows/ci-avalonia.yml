@@ -80,7 +80,7 @@ jobs:
             maadeps_triplet: x64-osx
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.meta.outputs.checkout_sha }}
 

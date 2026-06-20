@@ -40,7 +40,7 @@ jobs:
       changelog: ${{ steps.read_changelog.outputs.content }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # repository: 'MaaAssistantArknights/MaaAssistantArknights'
           #ref: ${{ inputs.ref }}
@@ -298,7 +298,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout MaaRelease
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
           fetch-depth: 0
@@ -329,7 +329,7 @@ jobs:
           echo ${{ needs.build-win-nightly.outputs.tag }}
 
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: MaaAssistantArknights
           token: ${{ secrets.MAARELEASE_RELEASE }}
