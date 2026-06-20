@@ -14,10 +14,12 @@
 #nullable enable
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
@@ -29,6 +31,11 @@ public class TelegramNotificationProvider(IHttpService httpService) : IExternalN
 {
     private readonly ILogger _logger = Log.ForContext<TelegramNotificationProvider>();
 
+    private const int MaxMessageLength = 3900;
+
+    // Matches "[timestamp][color]" at the start of a log entry line
+    private static readonly Regex LogEntryRegex = new(@"^\[[^\]]+\]\[[^\]]+\]", RegexOptions.Compiled | RegexOptions.Multiline);
+
     public async Task<bool> SendAsync(string title, string content)
     {
         var botToken = SettingsViewModel.ExternalNotificationSettings.TelegramBotToken;
@@ -36,14 +43,86 @@ public class TelegramNotificationProvider(IHttpService httpService) : IExternalN
         var topicId = SettingsViewModel.ExternalNotificationSettings.TelegramTopicId;
 
         var uri = $"https://api.telegram.org/bot{botToken}/sendMessage";
+        var fullMessage = $"{title}: {content}";
 
+        // Short enough — send as-is
+        if (fullMessage.Length <= MaxMessageLength)
+        {
+            return await SendMessageAsync(uri, chatId, topicId, fullMessage);
+        }
+
+        // Too long — split by log entry boundaries ([timestamp][color])
+        var maxContentLength = MaxMessageLength - title.Length - ": ".Length;
+        var parts = SplitByLogEntries(content, maxContentLength);
+        var allSuccess = true;
+        foreach (var part in parts)
+        {
+            if (!await SendMessageAsync(uri, chatId, topicId, $"{title}: {part}"))
+            {
+                allSuccess = false;
+            }
+        }
+
+        return allSuccess;
+    }
+
+    /// <summary>
+    /// Split content into sub-messages by log entry boundaries ([timestamp][color]).
+    /// Each sub-message fits within maxLength. Only splits — does not modify content.
+    /// </summary>
+    private static List<string> SplitByLogEntries(string segment, int maxLength)
+    {
+        // Find entry start positions
+        var entryStarts = new List<int>();
+        foreach (Match match in LogEntryRegex.Matches(segment))
+        {
+            // Align to line start
+            var lineStart = segment.LastIndexOf('\n', match.Index);
+            lineStart = lineStart < 0 ? 0 : lineStart + 1;
+            if (entryStarts.Count == 0 || entryStarts[^1] != lineStart)
+            {
+                entryStarts.Add(lineStart);
+            }
+        }
+
+        if (entryStarts.Count == 0)
+        {
+            return [segment];
+        }
+
+        // Group consecutive entries into chunks that fit maxLength
+        var parts = new List<string>();
+        var chunkStart = entryStarts[0];
+        for (var i = 0; i < entryStarts.Count; i++)
+        {
+            var entryEnd = i + 1 < entryStarts.Count ? entryStarts[i + 1] : segment.Length;
+            var chunkEnd = entryEnd;
+
+            // If adding this entry would exceed limit, flush current chunk
+            if (chunkEnd - chunkStart > maxLength && chunkStart < entryStarts[i])
+            {
+                parts.Add(segment[chunkStart..entryStarts[i]]);
+                chunkStart = entryStarts[i];
+            }
+        }
+
+        // Flush remaining
+        if (chunkStart < segment.Length)
+        {
+            parts.Add(segment[chunkStart..]);
+        }
+
+        return parts;
+    }
+
+    private async Task<bool> SendMessageAsync(string uri, string chatId, string topicId, string message)
+    {
         var postContent = new TelegramPostContent
         {
             ChatId = chatId,
-            Content = $"{title}: {content}",
+            Content = message,
         };
 
-        // Only add the topic ID if one is provided
         if (!string.IsNullOrEmpty(topicId))
         {
             postContent.TopicId = topicId;
