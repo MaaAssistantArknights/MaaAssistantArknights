@@ -45,7 +45,7 @@ bool asst::MultiCopilotTaskPlugin::_run()
 
     bool ret = true;
     for (int i = 0; i < m_retry_times; ++i) {
-        ret = ret && navigate_to_stage(config.nav_name);
+        ret = navigate_to_stage(config.nav_name);
         sleep(Config.get_options().task_delay);
         if (ret) {
             break;
