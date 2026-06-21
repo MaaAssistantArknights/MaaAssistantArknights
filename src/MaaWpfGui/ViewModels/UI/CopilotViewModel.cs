@@ -1877,7 +1877,7 @@ public partial class CopilotViewModel : Screen
 
         if (!await ConnectToEmulatorAsync())
         {
-            Stop();
+            await Stop();
             return;
         }
 
@@ -2172,7 +2172,8 @@ public partial class CopilotViewModel : Screen
     /// Stops copilot.
     /// UI 绑定的方法
     /// </summary>
-    public async void Stop()
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public async Task Stop()
     {
         // 等待 Core 实际停止；回调或超时自动 SetStopped（脚本由 proxy 回调按 CopilotWithScript 设置判断）
         AddLog(LocalizationHelper.GetString("Stopping"));
