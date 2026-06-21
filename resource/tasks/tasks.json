@@ -849,8 +849,7 @@
             "CloseAnnos#next",
             "OfflineConfirm",
             "GameStartCheckResourceOCR",
-            "GameStartUpdateOCR",
-            "ClosePCEventPage"
+            "GameStartUpdateOCR"
         ]
     },
     "LeidianGoogleFrameworkConfirm": {
@@ -883,7 +882,8 @@
             "StartUpBegin@LoadingIcon",
             "StartUp@ReturnButtons#next",
             "StartUp@EndOfAction",
-            "StartUp@PRTS#next"
+            "StartUp@PRTS#next",
+            "ClosePCEventPage"
         ]
     },
     "GameStart": {
