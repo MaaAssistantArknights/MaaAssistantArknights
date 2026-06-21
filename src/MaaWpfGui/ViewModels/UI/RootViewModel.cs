@@ -95,6 +95,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         if (!isAvailable)
         {
             Growl.Error(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail));
+            _logger.Error(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail));
         }
     }
 
