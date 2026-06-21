@@ -1834,7 +1834,7 @@ public class TaskQueueViewModel : Screen
         */
 
         // 一般是点了“停止”按钮了
-        if (_runningState.Stopping)
+        if (_runningState.GetStopping())
         {
             SetStopped();
             return;
@@ -1846,7 +1846,7 @@ public class TaskQueueViewModel : Screen
         }
 
         // 一般是点了“停止”按钮了
-        if (_runningState.Stopping)
+        if (_runningState.GetStopping())
         {
             SetStopped();
             return;
@@ -1968,15 +1968,21 @@ public class TaskQueueViewModel : Screen
     }
 
     /// <summary>
-    /// <para>通常要和 <see cref="SetStopped()"/> 一起使用，除非能保证回调消息能收到 `AsstMsg.TaskChainStopped`</para>
-    /// <para>This is usually done with <see cref="SetStopped()"/> Unless you are guaranteed to receive the callback message `AsstMsg.TaskChainStopped`</para>
+    /// <para>通知 Core 停止当前任务并等待其完成。</para>
+    /// <para>通常 Core 停止后会发送 <c>TaskChainStopped</c> 回调，由 <see cref="AsstProxy"/> 调用 <see cref="SetStopped"/> 恢复 UI 状态。</para>
+    /// <para>若未通过任务链调用 Core（如 Peep），则不会收到回调，需在调用 <see cref="Stop"/> 后手动调用 <see cref="SetStopped"/>。</para>
+    /// <para>超时后会自动调用 <see cref="SetStopped"/> 强制恢复 UI 状态。</para>
+    /// <para>Notifies Core to stop the current task and waits for completion.</para>
+    /// <para>Normally Core sends <c>TaskChainStopped</c> callback after stopping, and <see cref="AsstProxy"/> calls <see cref="SetStopped"/> to reset UI state.</para>
+    /// <para>If Core was not invoked via task chain (e.g. Peep), no callback will be received; caller must manually call <see cref="SetStopped"/> after <see cref="Stop"/>.</para>
+    /// <para>On timeout, <see cref="SetStopped"/> is called automatically to force-reset UI state.</para>
     /// </summary>
     /// <param name="timeout">Timeout millisecond</param>
     /// <returns>A <see cref="Task"/>
     /// <para>尝试等待 core 成功停止运行，默认超时时间一分钟</para>
     /// <para>Try to wait for the core to stop running, the default timeout is one minute</para>
     /// </returns>
-    public async Task<bool> Stop(int timeout = 60 * 1000)
+    public async Task Stop(int timeout = 60 * 1000)
     {
         _runningState.SetStopping(true);
         AddLog(LocalizationHelper.GetString("Stopping"), splitMode: LogCardSplitMode.Both);
@@ -1994,7 +2000,13 @@ public class TaskQueueViewModel : Screen
             count++;
         }
 
-        return !Instances.AsstProxy.AsstRunning();
+        if (Instances.AsstProxy.AsstRunning())
+        {
+            // 超时：Core 未在超时内停止，强制恢复 UI 状态
+            _logger.Warning("Stop timeout, force resetting UI state");
+            AddLog(LocalizationHelper.GetString("StopTimeout") + "\n" + LocalizationHelper.GetString("RestartRecommendation"), UiLogColor.Error);
+            SetStopped();
+        }
     }
 
     // UI 绑定的方法
@@ -2029,10 +2041,22 @@ public class TaskQueueViewModel : Screen
 
     public bool RoguelikeInCombatAndShowWait { get => field; set => SetAndNotify(ref field, value); }
 
-    public void SetStopped()
+    /// <summary>
+    /// 重置 UI 状态为已停止。
+    /// </summary>
+    /// <param name="runStopScript">是否执行结束脚本。</param>
+    /// <returns>是否实际执行了状态重置（false 表示被幂等保护跳过）。</returns>
+    public bool SetStopped(bool runStopScript = true)
     {
+        // 幂等保护：已经空闲且不在停止中，跳过
+        // 防止超时 SetStopped 后 Core 延迟回调再次触发导致打断新任务
+        if (_runningState.GetIdle() && !_runningState.GetStopping())
+        {
+            return false;
+        }
+
         SleepManagement.AllowSleep();
-        if (SettingsViewModel.GameSettings.ManualStopWithScript)
+        if (runStopScript && SettingsViewModel.GameSettings.ManualStopWithScript)
         {
             Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
         }
@@ -2047,6 +2071,7 @@ public class TaskQueueViewModel : Screen
         _runningState.SetIdle(true);
 
         // 只抑制“本轮任务期间”的自动开启；任务结束后应允许下一轮自动开启 LiveView。
+        return true;
     }
 
     public bool EnableSetFightParams { get; set; } = true;

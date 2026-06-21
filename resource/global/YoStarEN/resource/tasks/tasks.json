@@ -1762,7 +1762,8 @@
             ["Cloudstepper", "攀云机"],
             ["Pinnacle Insights? Port", "尖端研究成果共享终端"],
             ["Lightweight Range[finder]*", "轻型瞄准测距仪"],
-            ["Master Who Walks the[ Night Gear]*", "天工夜行套装"]
+            ["Master Who Walks the[ Night Gear]*", "天工夜行套装"],
+            ["Ice Blast Machine", "冷爆机"]
         ]
     },
     "SSSBuffChooseConfirm": {

@@ -78,6 +78,10 @@
     <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">消息体模板</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">可用占位符：{title}、{content}、{time}</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Presets">预置模板</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">请将预置模板中除 {title}、{content}、{time} 以外的 {} 占位符（如 {nickname}）替换为实际值</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.TemplateCustom">自定义</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.TemplateMeoW">MeoW</system:String>
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
     <system:String x:Key="UseGpuForInferenceTip">使用 GPU 推理能够以极低的 GPU 占用显著降低 CPU 的负担</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
@@ -874,6 +878,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Waiting">正在等待当前任务结束……</system:String>
     <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
+    <system:String x:Key="StopTimeout">停止超时，Core 未能及时响应停止请求</system:String>
+    <system:String x:Key="RestartRecommendation">建议重启 MAA 以恢复正常状态</system:String>
     <system:String x:Key="UnknownErrorOccurs">出现未知错误</system:String>
     <system:String x:Key="SetSuccessfully">设置成功</system:String>
     <system:String x:Key="SetFailed">设置失败</system:String>
@@ -1424,6 +1430,9 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="AutoSelectLevel4">自动确认 4 星</system:String>
     <system:String x:Key="AutoSelectLevel5">自动确认 5 星</system:String>
     <system:String x:Key="AutoSelectLevel6">自动确认 6 星</system:String>
+    <system:String x:Key="AutoSelectLevel6Tip">仅可通过修改配置文件开启此选项</system:String>
+    <system:String x:Key="AutoUseExpeditedTip" xml:space="preserve">该选项仅生效一次。
+招募券获取速度低于消耗速度，正常情况下下一轮公招任务时自然已到招募时间，仅在招募券严重溢出等应急场景下使用</system:String>
     <system:String x:Key="PreserveTagsTip">识别到任一已选词条时跳过该次招募并保留该栏位；留空时不保留任何词条。</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
@@ -1604,7 +1613,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="ReminderIntervalMinutes">通知间隔时间（分钟）</system:String>
     <system:String x:Key="StallTimeoutMinutes">日志输出停滞超时时间（分钟）</system:String>
     <system:String x:Key="StallTimeoutEnabled">启用停滞检测</system:String>
-    <system:String x:Key="TaskStallWarning">任务日志输出已超过 {0} 分钟无更新（当前已停滞 {1} 分钟）。如果长时间无进一步日志输出，可能需要手动干预。</system:String>
+    <system:String x:Key="TaskStallWarning">任务日志输出已超过 {0} 分钟无更新（当前已停滞 {1} 分钟）。请确认任务是否正常运行，若任务正常可忽略此提示，若无响应则可能需要手动干预。</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 达成成就</system:String>

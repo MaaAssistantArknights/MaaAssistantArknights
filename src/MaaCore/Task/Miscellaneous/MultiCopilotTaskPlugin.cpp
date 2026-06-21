@@ -44,7 +44,16 @@ bool asst::MultiCopilotTaskPlugin::_run()
     callback(AsstMsg::SubTaskExtraInfo, info);
 
     bool ret = true;
-    ret = ret && navigate_to_stage(config.nav_name);
+    for (int i = 0; i < m_retry_times; ++i) {
+        ret = navigate_to_stage(config.nav_name);
+        sleep(Config.get_options().task_delay);
+        if (ret) {
+            break;
+        }
+        if (need_exit()) {
+            return false;
+        }
+    }
 
     ProcessTask(*this, { "NotUsePrts" }).set_ignore_error(true).set_retry_times(0).run();
     if (config.is_raid) {

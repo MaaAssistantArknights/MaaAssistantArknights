@@ -562,7 +562,7 @@ public class VersionUpdateDialogViewModel : Screen
         var tasks = urls.ConvertAll(url => Instances.HttpService.HeadAsync(new Uri(url)));
         var latencies = await Task.WhenAll(tasks);
 
-        var proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
+        var proxy = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateProxy, string.Empty);
         var hasProxy = !string.IsNullOrEmpty(proxy);
 
         // select the fastest mirror

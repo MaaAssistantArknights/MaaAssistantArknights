@@ -1877,7 +1877,15 @@ public partial class CopilotViewModel : Screen
 
         if (!await ConnectToEmulatorAsync())
         {
-            Stop();
+            await Stop();
+            return;
+        }
+
+        // 连接期间用户可能已点停止，需在此处拦截
+        if (_runningState.GetStopping())
+        {
+            Instances.TaskQueueViewModel.SetStopped(SettingsViewModel.GameSettings.CopilotWithScript);
+            AddLog(LocalizationHelper.GetString("Stopped"));
             return;
         }
 
@@ -2164,23 +2172,16 @@ public partial class CopilotViewModel : Screen
     /// Stops copilot.
     /// UI 绑定的方法
     /// </summary>
-    public void Stop()
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public async Task Stop()
     {
-        if (SettingsViewModel.GameSettings.CopilotWithScript && SettingsViewModel.GameSettings.ManualStopWithScript)
+        // 等待 Core 实际停止；回调或超时自动 SetStopped（脚本由 proxy 回调按 CopilotWithScript 设置判断）
+        AddLog(LocalizationHelper.GetString("Stopping"));
+        await Instances.TaskQueueViewModel.Stop();
+        if (_runningState.GetIdle() && !_runningState.GetStopping())
         {
-            Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript", showLog: false));
-            if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.EndsWithScript))
-            {
-                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
-            }
+            AddLog(LocalizationHelper.GetString("Stopped"));
         }
-
-        if (!Instances.AsstProxy.AsstStop())
-        {
-            _logger.Warning("Failed to stop Asst");
-        }
-
-        _runningState.SetIdle(true);
     }
 
     private bool IsDataFromWeb { get => field; set => SetAndNotify(ref field, value); }

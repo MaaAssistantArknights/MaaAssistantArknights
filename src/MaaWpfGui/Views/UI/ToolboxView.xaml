@@ -201,21 +201,19 @@
                                 VerticalAlignment="Bottom"
                                 Content="{DynamicResource AutoSelectLevel5Tags}"
                                 IsChecked="{Binding ChooseLevel5}" />
-                            <StackPanel Orientation="Horizontal" Visibility="{c:Binding RecruitAutoSetTime}">
+                            <StackPanel
+                                IsEnabled="False"
+                                Orientation="Horizontal"
+                                Visibility="{c:Binding RecruitAutoSetTime}">
                                 <hc:NumericUpDown
                                     Width="55"
-                                    Maximum="9"
-                                    Minimum="1"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel5Hour}" />
+                                    Value="9" />
                                 <controls:TextBlock Margin="5" Text=":" />
                                 <hc:NumericUpDown
                                     Width="55"
-                                    Increment="10"
-                                    Maximum="50"
-                                    Minimum="0"
                                     ValueFormat="00"
-                                    Value="{Binding ChooseLevel5Min}" />
+                                    Value="0" />
                             </StackPanel>
                         </StackPanel>
 
@@ -669,11 +667,11 @@
                             TextWrapping="Wrap" />
                         <controls:TextBlock
                             Margin="10,50,50,50"
+                            properties:RainbowAnimationBehavior.IsActive="True"
                             FontSize="40"
                             Style="{StaticResource TextBlockDefaultBold}"
                             Text="{DynamicResource GachaDisclaimerEmphasize}"
-                            TextWrapping="Wrap"
-                            properties:RainbowAnimationBehavior.IsActive="True">
+                            TextWrapping="Wrap">
                             <controls:TextBlock.Foreground>
                                 <DynamicResource ResourceKey="RainbowFlowBrush" />
                             </controls:TextBlock.Foreground>

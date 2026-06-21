@@ -78,6 +78,10 @@
     <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">Message body template</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">Placeholders: {title}, {content}, {time}</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Presets">Preset Template</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">Please replace placeholders wrapped in {} other than {title}, {content}, {time} (e.g. {nickname}) with actual values</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.TemplateCustom">Custom</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.TemplateMeoW">MeoW</system:String>
     <system:String x:Key="UseGpuForInference">Use GPU for inference acceleration</system:String>
     <system:String x:Key="UseGpuForInferenceTip">Using GPU inference can significantly reduce CPU load with minimal GPU usage</system:String>
     <system:String x:Key="GpuOptionDisable">Don’t use</system:String>
@@ -873,6 +877,8 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="Waiting">Waiting for the mission completion…</system:String>
     <system:String x:Key="Stopping">Stopping……</system:String>
     <system:String x:Key="Stopped">Has stopped</system:String>
+    <system:String x:Key="StopTimeout">Stop timed out: Core did not respond to the stop request in time</system:String>
+    <system:String x:Key="RestartRecommendation">It is recommended to restart MAA to restore normal state</system:String>
     <system:String x:Key="UnknownErrorOccurs">Unknown error occurred</system:String>
     <system:String x:Key="SetSuccessfully">Set successfully</system:String>
     <system:String x:Key="SetFailed">Setting failed</system:String>
@@ -1423,6 +1429,9 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="AutoSelectLevel4">Auto confirm 4★</system:String>
     <system:String x:Key="AutoSelectLevel5">Auto confirm 5★</system:String>
     <system:String x:Key="AutoSelectLevel6">Auto confirm 6★</system:String>
+    <system:String x:Key="AutoSelectLevel6Tip">This option can only be enabled by editing the config file</system:String>
+    <system:String x:Key="AutoUseExpeditedTip" xml:space="preserve">Effective once only.
+Recruitment permits are consumed faster than acquired; normally the timer expires before the next recruit task runs. Use only in emergencies such as severe permit overflow</system:String>
     <system:String x:Key="PreserveTagsTip">Skip the recruitment and keep the slot when any selected tag is identified. Leave it empty to preserve none.</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
@@ -1603,7 +1612,7 @@ These locations are too high-level and can lead to file overwrites, config write
     <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
     <system:String x:Key="StallTimeoutMinutes">Log output stall timeout (min)</system:String>
     <system:String x:Key="StallTimeoutEnabled">Enable stall detection</system:String>
-    <system:String x:Key="TaskStallWarning">Task log output has not been updated for {0} minutes (currently stalled for {1} minutes). If there is no further log output for a long time, manual intervention may be required.</system:String>
+    <system:String x:Key="TaskStallWarning">Task log output has not been updated for {0} minutes (currently stalled for {1} minutes). Please check whether the task is still running; if so, you can ignore this warning. If the task is unresponsive, manual intervention may be required.</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 Achievement Unlocked</system:String>

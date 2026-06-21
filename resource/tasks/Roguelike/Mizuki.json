@@ -52,7 +52,16 @@
     },
     "Mizuki@Roguelike@CloseEvent": {
         "action": "ClickRect",
-        "specificRect": [619, 615, 41, 17]
+        "specificRect": [619, 615, 41, 17],
+        "next": [
+            "Mizuki@Roguelike@StageEncounterEnter",
+            "Mizuki@Roguelike@CloseEvent@(Mizuki@Roguelike@CloseCollectionContinue)",
+            "Mizuki@Roguelike@CloseEvent@(Mizuki@Roguelike@CloseCollectionClose)",
+            "Mizuki@Roguelike@CloseEvent",
+            "Mizuki@Roguelike@Stages#next",
+            "Mizuki@Roguelike@StageEncounterOptions#next",
+            "Mizuki@Roguelike@DropsFlag"
+        ]
     },
     "Mizuki@Roguelike@CloseInterview": {
         "template": "Mizuki@Roguelike@CloseCollectionClose.png"

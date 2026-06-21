@@ -134,7 +134,16 @@
     },
     "Sarkaz@Roguelike@CloseEvent": {
         "action": "ClickRect",
-        "specificRect": [153, 79, 63, 29]
+        "specificRect": [153, 79, 63, 29],
+        "next": [
+            "Sarkaz@Roguelike@StageEncounterEnter",
+            "Sarkaz@Roguelike@CloseEvent@(Sarkaz@Roguelike@CloseCollectionContinue)",
+            "Sarkaz@Roguelike@CloseEvent@(Sarkaz@Roguelike@CloseCollectionClose)",
+            "Sarkaz@Roguelike@CloseEvent",
+            "Sarkaz@Roguelike@Stages#next",
+            "Sarkaz@Roguelike@StageEncounterOptions#next",
+            "Sarkaz@Roguelike@DropsFlag"
+        ]
     },
     "Sarkaz@Roguelike@CloseInterview": {
         "template": "Sarkaz@Roguelike@CloseCollectionClose.png"

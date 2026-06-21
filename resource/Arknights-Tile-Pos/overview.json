@@ -6452,6 +6452,42 @@
         "stageId": "act1football_07",
         "width": 13
     },
+    "act1football_ex01-activities/act1football/level_act1football_ex01": {
+        "code": "PF-EX-1",
+        "filename": "act1football_ex01-activities-act1football-level_act1football_ex01.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_ex01",
+        "name": "球风对撞",
+        "stageId": "act1football_ex01",
+        "width": 13
+    },
+    "act1football_ex02-activities/act1football/level_act1football_ex02": {
+        "code": "PF-EX-2",
+        "filename": "act1football_ex02-activities-act1football-level_act1football_ex02.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_ex02",
+        "name": "先声夺人",
+        "stageId": "act1football_ex02",
+        "width": 13
+    },
+    "act1football_ex03-activities/act1football/level_act1football_ex03": {
+        "code": "PF-EX-3",
+        "filename": "act1football_ex03-activities-act1football-level_act1football_ex03.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_ex03",
+        "name": "小心脚下",
+        "stageId": "act1football_ex03",
+        "width": 13
+    },
+    "act1football_ex04-activities/act1football/level_act1football_ex04": {
+        "code": "PF-EX-4",
+        "filename": "act1football_ex04-activities-act1football-level_act1football_ex04.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_ex04",
+        "name": "冠军之路",
+        "stageId": "act1football_ex04",
+        "width": 13
+    },
     "act1football_s01-activities/act1football/level_act1football_sub-1-1": {
         "code": "PF-S-1",
         "filename": "act1football_s01-activities-act1football-level_act1football_sub-1-1.json",
@@ -6459,6 +6495,15 @@
         "levelId": "activities/act1football/level_act1football_sub-1-1",
         "name": "耐力拉练",
         "stageId": "act1football_s01",
+        "width": 13
+    },
+    "act1football_s02-activities/act1football/level_act1football_sub-1-2": {
+        "code": "PF-S-2",
+        "filename": "act1football_s02-activities-act1football-level_act1football_sub-1-2.json",
+        "height": 9,
+        "levelId": "activities/act1football/level_act1football_sub-1-2",
+        "name": "盘带练习",
+        "stageId": "act1football_s02",
         "width": 13
     },
     "act1football_tr01-activities/act1football/level_act1football_tr01": {

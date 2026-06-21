@@ -1,0 +1,429 @@
+{
+    "minimum_required": "v5.23.0",
+    "stage_name": "Spier Foothills",
+    "actions": [],
+    "doc": {
+        "title": "SSS - TASK ONLY - CasterRecruit - Spier Foothills - Ice Blast Machine",
+        "details": "This operation is for farming the \"Recruit 8 Casters\" mission. You need to set the loop count. MAA will clear the first stage, recruit operators, then intentionally leak enemies to restart.\n═══════════════════════════════════\nOperation code: maa://77859\nManual team assembly is required for now. For all filler operators, prioritize low cost. Recommended promotion is E2, with E1 max as the bare minimum.\nAvoid skills that only trigger once per deployment (like Mountain S2) or skills that require enemy contact (like Degenbrecher S3), as MAA will keep activating them repeatedly. Also avoid skills with unusual attack ranges (like Schwarz S3).\nDouble-check that the Amplifier is set to [Ice Blast Machine], all Tactical Equipment are set to A, your team is manually formed and confirmed, and then hit Start.\nAuthor: 萨拉托加\nJSON Author: 萨拉托加\nVideo: 【MAA保全派驻 任务合集】 https://www.bilibili.com/video/BV1RbqnBCEfd/\n═══════════════════════════════════\nExtra operators (excluding core picks):\nVanguards (3): Choose skills that generate cost without needing enemy contact. Avoid skills that require enemy contact to generate cost, and avoid block-1 vanguards (they may leak enemies). Prioritize Pioneers. SilverAsh is not recommended, as MAA will frequently target his summon.\nDefenders (5): Prioritize self-healing healing defenders like Saria, Shu, Nearl, plus other defenders around 20 cost, e.g., Hoshiguma, Yu.\nSnipers (5): Go for low-cost AA snipers where possible.\nCasters (5): Aim for casters around 20 cost. If bringing AoE casters, equip cost-reduction modules. Recommended operators with AoE skills, e.g., Eyjafjalla S3, Goldenglow S3, LapplandAlt S3; bring Dusk if you want the \"Four Seasons\" buff.\nSupporters (2): Options include Civilight Eterna S2, Haruka S2, Virtuosa S3, or Tragodia S3; bring Ling if you want the \"Four Seasons\" buff.\n═══════════════════════════════════\nFor any issues, join the group: 216314927. Comments may not receive timely replies.\nYou may tweak the core selections in the operation files to suit your needs, but please do not re-upload them to the operation site. Using this operation means you agree to these terms.",
+        "title_color": "dark",
+        "details_color": "dark"
+    },
+    "groups": [],
+    "opers": [],
+    "type": "SSS",
+    "buff": "冷爆机",
+    "equipment": ["A", "A", "A", "A", "A", "A", "A", "A"],
+    "strategy": "优选策略",
+    "tool_men": {
+        "vanguard": 3,
+        "guard": 0,
+        "defender": 5,
+        "sniper": 5,
+        "caster": 5,
+        "medic": 0,
+        "supporter": 2,
+        "specialist": 0
+    },
+    "drops": ["术师", "辅助", "无需增调干员", "重装", "冰浪脉冲模块"],
+    "blacklist": [
+        "CONFESS-47",
+        "PhonoR-0",
+        "Friston-3",
+        "U-Official",
+        "泰拉大陆调查团",
+        "正义骑士号",
+        "THRM-EX",
+        "斑点",
+        "泡普卡",
+        "月见夜",
+        "空爆",
+        "梓兰",
+        "安赛尔",
+        "芙蓉",
+        "安德切尔",
+        "克洛丝",
+        "米格鲁",
+        "卡缇",
+        "玫兰莎",
+        "翎羽",
+        "香草",
+        "芬",
+        "巡林者",
+        "黑角",
+        "夜刀",
+        "Castle-3",
+        "Lancet-2",
+        "历阵锐枪芬",
+        "野鬃",
+        "风笛",
+        "苇草",
+        "格拉尼",
+        "红豆",
+        "渡桥",
+        "缪尔赛思",
+        "伺夜",
+        "夜半",
+        "豆苗",
+        "万顷",
+        "琴柳",
+        "极境",
+        "桃金娘",
+        "寻澜",
+        "齐尔查克",
+        "伊内丝",
+        "谜图",
+        "晓歌",
+        "山",
+        "达格达",
+        "重岳",
+        "杰克",
+        "燧石",
+        "猎蜂",
+        "因陀罗",
+        "维娜·维多利亚",
+        "薇薇安娜",
+        "史尔特尔",
+        "阿米娅",
+        "铸铁",
+        "星极",
+        "慕斯",
+        "左乐",
+        "火龙S黑角",
+        "赤冬",
+        "宴",
+        "赫拉格",
+        "莱欧斯",
+        "止颂",
+        "摩根",
+        "耀骑士临光",
+        "断罪者",
+        "炎客",
+        "斯卡蒂",
+        "芙兰卡",
+        "缠丸",
+        "司霆惊蛰",
+        "骋风",
+        "玛恩纳",
+        "龙舌兰",
+        "露托",
+        "斥罪",
+        "泥岩",
+        "火神",
+        "坚雷",
+        "石棉",
+        "暮落",
+        "车尔尼",
+        "森蚺",
+        "极光",
+        "洋灰",
+        "灰毫",
+        "号角",
+        "火哨",
+        "菲莱",
+        "余",
+        "普罗旺斯",
+        "黑",
+        "酸糖",
+        "鸿雪",
+        "玫拉",
+        "白雪",
+        "陨星",
+        "慑砂",
+        "W",
+        "菲亚梅塔",
+        "截云",
+        "守林人",
+        "安比尔",
+        "安哲拉",
+        "远牙",
+        "子月",
+        "送葬人",
+        "奥斯塔",
+        "松果",
+        "假日威龙陈",
+        "吉星",
+        "早露",
+        "熔泉",
+        "埃拉托",
+        "铅踝",
+        "提丰",
+        "迷迭香",
+        "承曦格雷伊",
+        "冰酿",
+        "莱伊",
+        "跃跃",
+        "娜仁图亚",
+        "水灯心",
+        "凯尔希",
+        "刺玫",
+        "焰影苇草",
+        "濯尘芙蓉",
+        "罗比菈塔",
+        "掠风",
+        "白铁",
+        "凯瑟琳",
+        "阿兰娜",
+        "砾",
+        "红",
+        "槐琥",
+        "傀影",
+        "卡夫卡",
+        "缄默德克萨斯",
+        "麒麟R夜刀",
+        "弑君者",
+        "阿消",
+        "食铁兽",
+        "温蒂",
+        "见行者",
+        "暗索",
+        "崖心",
+        "雪雉",
+        "歌蕾蒂娅",
+        "杏仁",
+        "阿",
+        "空构",
+        "新约能天使",
+        "孑",
+        "乌有",
+        "老鲤",
+        "琳琅诗怀雅",
+        "裁度",
+        "罗宾",
+        "霜华",
+        "多萝西",
+        "艾拉",
+        "钼铅",
+        "贝娜",
+        "风丸",
+        "归溟幽灵鲨",
+        "维荻",
+        "双月",
+        "锡人",
+        "引星棘刺",
+        "云迹",
+        "蒂比",
+        "狮蝎",
+        "伊桑",
+        "绮良",
+        "水月",
+        "阿斯卡纶",
+        "八幡海铃",
+        "若叶睦",
+        "冬时",
+        "折桠",
+        "哈蒂娅",
+        "雪猎",
+        "凛御银灰",
+        "娜斯提",
+        "响石",
+        "天空盒"
+    ],
+    "stages": [
+        {
+            "stage_name": "运道抢险",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [8, 5],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1,
+                        "vanguard": 1
+                    },
+                    "location": [8, 5],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [7, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [4, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "冷爆机",
+                    "tool_men": {},
+                    "location": [6, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [5, 5],
+                    "direction": "Left"
+                },
+                {
+                    "core": "冷爆机",
+                    "tool_men": {},
+                    "location": [6, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "冷爆机",
+                    "tool_men": {},
+                    "location": [6, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [7, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [4, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [5, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [4, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 99
+                    },
+                    "location": [7, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "defender": 99
+                    },
+                    "location": [5, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 99
+                    },
+                    "location": [4, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 99
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "战备激活阀",
+                    "tool_men": {
+                        "sniper": 99
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [6, 1],
+                    "direction": "none",
+                    "costs": 48
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [7, 1],
+                    "direction": "none",
+                    "costs": 49
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [8, 1],
+                    "direction": "none",
+                    "costs": 50
+                }
+            ],
+            "retry_times": 99
+        },
+        {
+            "stage_name": "作业整备",
+            "strategies": [],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [1, 1],
+                    "direction": "none",
+                    "costs": 48
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [2, 1],
+                    "direction": "none",
+                    "costs": 49
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [3, 1],
+                    "direction": "none",
+                    "costs": 50
+                }
+            ],
+            "retry_times": 0
+        }
+    ]
+}

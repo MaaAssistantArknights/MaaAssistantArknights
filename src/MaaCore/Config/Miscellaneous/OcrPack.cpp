@@ -1,3 +1,5 @@
+#ifndef __ANDROID__
+
 #include "OcrPack.h"
 
 #include <algorithm>
@@ -17,26 +19,37 @@ MAA_SUPPRESS_CV_WARNINGS_END
 #include "Utils/StringMisc.hpp"
 #include <ranges>
 
-asst::OcrPack::OcrPack() :
-    m_det(nullptr),
-    m_rec(nullptr),
-    m_ocr(nullptr)
+namespace asst
 {
-    LogTraceFunction;
+
+struct OcrPack::Impl
+{
+    std::unique_ptr<fastdeploy::vision::ocr::DBDetector> det;
+    std::unique_ptr<fastdeploy::vision::ocr::Recognizer> rec;
+    std::unique_ptr<fastdeploy::pipeline::PPOCRv3> ocr;
+
+    std::filesystem::path det_model_path;
+    std::filesystem::path rec_model_path;
+    std::filesystem::path rec_label_path;
+};
+
+OcrPack::OcrPack() :
+    m_impl(std::make_unique<Impl>())
+{
 }
 
-asst::OcrPack::~OcrPack()
+OcrPack::~OcrPack()
 {
     LogTraceFunction;
     if (m_gpu_id) {
         // FIXME: leak fastdeploy objects to avoid crash (double free?)
-        (void)m_det.release();
-        (void)m_rec.release();
-        (void)m_ocr.release();
+        (void)m_impl->det.release();
+        (void)m_impl->rec.release();
+        (void)m_impl->ocr.release();
     }
 }
 
-bool asst::OcrPack::load(const std::filesystem::path& path)
+bool OcrPack::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
     Log.info("load", path.lexically_relative(UserDir.get()));
@@ -45,33 +58,32 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
     const auto det_dir = path / "det"_p;
     const auto det_model_file = det_dir / "inference.onnx"_p;
 
-    if (std::filesystem::exists(det_model_file) && m_det_model_path != det_model_file) {
-        m_det_model_path = det_model_file;
-        m_det = nullptr;
+    if (std::filesystem::exists(det_model_file) && m_impl->det_model_path != det_model_file) {
+        m_impl->det_model_path = det_model_file;
+        m_impl->det = nullptr;
     }
 
     const auto rec_dir = path / "rec"_p;
     const auto rec_model_file = rec_dir / "inference.onnx"_p;
     const auto rec_label_file = rec_dir / "keys.txt"_p;
 
-    if (std::filesystem::exists(rec_model_file) && m_rec_model_path != rec_model_file) {
-        m_rec_model_path = rec_model_file;
-        m_rec = nullptr;
+    if (std::filesystem::exists(rec_model_file) && m_impl->rec_model_path != rec_model_file) {
+        m_impl->rec_model_path = rec_model_file;
+        m_impl->rec = nullptr;
     }
-    if (std::filesystem::exists(rec_label_file) && m_rec_label_path != rec_label_file) {
-        m_rec_label_path = rec_label_file;
-        m_rec = nullptr;
-    }
-
-    if (m_det && m_rec) {
-        m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());
+    if (std::filesystem::exists(rec_label_file) && m_impl->rec_label_path != rec_label_file) {
+        m_impl->rec_label_path = rec_label_file;
+        m_impl->rec = nullptr;
     }
 
-    return !m_det_model_path.empty() && !m_rec_model_path.empty() && !m_rec_label_path.empty();
+    if (m_impl->det && m_impl->rec) {
+        m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_impl->det.get(), m_impl->rec.get());
+    }
+
+    return !m_impl->det_model_path.empty() && !m_impl->rec_model_path.empty() && !m_impl->rec_label_path.empty();
 }
 
-asst::OcrPack::ResultsVec
-    asst::OcrPack::recognize(const cv::Mat& image, bool without_det, const std::optional<Rect>& base_roi)
+OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, const std::optional<Rect>& base_roi)
 {
     if (!check_and_load()) {
         Log.error(__FUNCTION__, "check_and_load failed");
@@ -87,12 +99,12 @@ asst::OcrPack::ResultsVec
     // 或等待两轮 Predict 卡个几十秒之后正常运行
     auto start_time = std::chrono::steady_clock::now();
     if (!without_det) {
-        m_ocr->Predict(image, &ocr_result);
+        m_impl->ocr->Predict(image, &ocr_result);
     }
     else {
         std::string rec_text;
         float rec_score = 0;
-        m_rec->Predict(image, &rec_text, &rec_score);
+        m_impl->rec->Predict(image, &rec_text, &rec_score);
         ocr_result.text.emplace_back(std::move(rec_text));
         ocr_result.rec_scores.emplace_back(rec_score);
     }
@@ -154,9 +166,9 @@ asst::OcrPack::ResultsVec
     return raw_results;
 }
 
-bool asst::OcrPack::check_and_load()
+bool OcrPack::check_and_load()
 {
-    if (m_det && m_rec) {
+    if (m_impl->det && m_impl->rec) {
         return true;
     }
 
@@ -213,28 +225,32 @@ bool asst::OcrPack::check_and_load()
     Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
 #endif
 
-    m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
-        platform::path_to_utf8_string(m_det_model_path),
+    m_impl->det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
+        platform::path_to_utf8_string(m_impl->det_model_path),
         std::string(),
         det_option,
         fastdeploy::ModelFormat::ONNX);
 
-    m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
-        platform::path_to_utf8_string(m_rec_model_path),
+    m_impl->rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
+        platform::path_to_utf8_string(m_impl->rec_model_path),
         std::string(),
-        platform::path_to_utf8_string(m_rec_label_path),
+        platform::path_to_utf8_string(m_impl->rec_label_path),
         rec_option,
         fastdeploy::ModelFormat::ONNX);
 
-    if (m_det && m_rec) {
-        m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());
+    if (m_impl->det && m_impl->rec) {
+        m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_impl->det.get(), m_impl->rec.get());
     }
 
-    bool det_inited = m_det && m_det->Initialized();
-    bool rec_inited = m_rec && m_rec->Initialized();
-    bool ocr_inited = m_ocr && m_ocr->Initialized();
+    bool det_inited = m_impl->det && m_impl->det->Initialized();
+    bool rec_inited = m_impl->rec && m_impl->rec->Initialized();
+    bool ocr_inited = m_impl->ocr && m_impl->ocr->Initialized();
 
     Log.info("det", det_inited, "rec", rec_inited, "ocr", ocr_inited);
 
     return det_inited && rec_inited && ocr_inited;
 }
+
+} // namespace asst
+
+#endif // __ANDROID__

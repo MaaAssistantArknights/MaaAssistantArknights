@@ -1060,7 +1060,11 @@ public class AsstProxy
         switch (msg)
         {
             case AsstMsg.TaskChainStopped:
-                Instances.TaskQueueViewModel.SetStopped();
+                {
+                    // Copilot 场景下只有 CopilotWithScript 开启时才执行结束脚本，否则由 SetStopped 默认逻辑处理
+                    bool runScript = !isCopilotTaskChain || SettingsViewModel.GameSettings.CopilotWithScript;
+                    Instances.TaskQueueViewModel.SetStopped(runStopScript: runScript);
+                }
 
                 // UpdateTaskStatus(taskId, TaskStatus.Completed);
                 _tasksStatus.Clear();

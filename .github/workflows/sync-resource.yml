@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           show-progress: false
 
@@ -28,7 +28,7 @@ jobs:
           git show -s
 
       - name: Checkout MaaResource
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: MaaAssistantArknights/MaaResource
           show-progress: false

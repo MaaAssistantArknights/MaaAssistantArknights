@@ -1,6 +1,6 @@
 {
-    "CF-Open": {
-        "text": ["落葉", "逐火", "活動", "開放"]
+    "CF-OpenOcr": {
+        "text": ["落葉逐火"]
     },
     "CFChapterToCF": {
         "text": ["蒼暮", "山地", "工池", "工地"]
