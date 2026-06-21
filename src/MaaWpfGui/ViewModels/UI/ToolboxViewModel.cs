@@ -326,34 +326,6 @@ public class ToolboxViewModel : Screen
         }
     } = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel4Time, 540);
 
-    [PropertyDependsOn(nameof(ChooseLevel5Time))]
-    public int ChooseLevel5Hour
-    {
-        get => ChooseLevel5Time / 60;
-        set => ChooseLevel5Time = (value * 60) + ChooseLevel5Min;
-    }
-
-    [PropertyDependsOn(nameof(ChooseLevel5Time))]
-    public int ChooseLevel5Min
-    {
-        get => (ChooseLevel5Time % 60) / 10 * 10;
-        set => ChooseLevel5Time = (ChooseLevel5Hour * 60) + value;
-    }
-
-    public int ChooseLevel5Time
-    {
-        get => field;
-        set {
-            value = value switch {
-                < 60 => 9 * 60,
-                > 9 * 60 => 60,
-                _ => value / 10 * 10,
-            };
-            SetAndNotify(ref field, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ToolBoxChooseLevel5Time, value.ToString());
-        }
-    } = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel5Time, 540);
-
     private bool _autoSetTime = ConfigurationHelper.GetValue(ConfigurationKeys.AutoSetTime, true);
 
     /// <summary>
