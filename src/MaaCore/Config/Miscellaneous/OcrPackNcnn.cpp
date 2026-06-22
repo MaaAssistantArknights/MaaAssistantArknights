@@ -415,7 +415,7 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
             continue;
         }
         cv::RotatedRect rr = cv::minAreaRect(contour);
-        if (std::min(rr.size.width, rr.size.height) < kDetMinSize) {
+        if (std::max(rr.size.width, rr.size.height) < kDetMinSize) {
             continue;
         }
         cv::Point2f raw[4];
@@ -436,7 +436,7 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
         const float dist = area * kDetUnclipRatio / length;
 
         cv::RotatedRect rr2(rr.center, cv::Size2f(rr.size.width + 2.f * dist, rr.size.height + 2.f * dist), rr.angle);
-        if (std::min(rr2.size.width, rr2.size.height) < kDetMinSize + 2) {
+        if (std::max(rr2.size.width, rr2.size.height) < kDetMinSize + 2) {
             continue;
         }
         cv::Point2f raw2[4];
@@ -582,6 +582,12 @@ asst::OcrPackNcnn::ResultsVec asst::OcrPackNcnn::recognize(const cv::Mat& image_
     }
 
     const std::vector<DetBox> boxes = detect(image);
+    if (boxes.empty()) {
+        // 对齐 fastdeploy PPOCRv2/v3 det 无框时整图当一行送 rec 小 roi 不处理直接就爆了
+        auto [text, score] = recognize_line(image);
+        results.emplace_back(Rect(0, 0, image.cols, image.rows), score, std::move(text));
+        return results;
+    }
     for (const auto& box : boxes) {
         cv::Mat crop = crop_rotated(image, box);
         if (crop.empty()) {
