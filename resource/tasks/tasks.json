@@ -960,18 +960,63 @@
         "next": ["StartUp", "StartUp@LoadingText", "StartUp@CloseAnnos#next", "ClosePCEventPage"]
     },
     "ClosePCEventPage": {
+        "Doc": "PC端活动页面右上角关闭 — 先点击关闭按钮，失败后进入ESC兜底",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1180, 20, 100, 120],
+        "postDelay": 1000,
+        "maxTimes": 1,
+        "next": ["StartUp", "StartUp@LoadingText", "MainThemes#next", "ClosePCEventPageEsc"],
+        "exceededNext": ["ClosePCEventPageEsc"]
+    },
+    "ClosePCEventPageEsc": {
         "Doc": "PC端活动页面ESC关闭 — 按ESC后延迟等待动画结束，再闭环检查主界面/弹窗",
         "algorithm": "JustReturn",
         "action": "PressEsc",
         "postDelay": 1000,
         "maxTimes": 3,
-        "next": ["StartUp", "StartUp@LoadingText", "MainThemes#next", "CloseAnnos#next", "ClosePCEventPage"],
+        "next": [
+            "StartUp",
+            "StartUp@LoadingText",
+            "MainThemes#next",
+            "StartUp@CloseAnnoTexas",
+            "StartUp@CloseAnnoSpecialAccess",
+            "StartUp@TodaysSupplies",
+            "StartUp@NotDownloadVoice",
+            "ClosePCEventPageEsc"
+        ],
         "on_error_next": ["StartUp"],
         "exceededNext": ["StartUp"]
     },
     "CloseAnnos": {
         "algorithm": "JustReturn",
         "next": ["CloseAnno", "CloseAnnoTexas", "CloseAnnoSpecialAccess", "TodaysSupplies", "NotDownloadVoice"]
+    },
+    "StartUp@CloseAnno": {
+        "baseTask": "CloseAnno",
+        "template": "CloseAnno.png",
+        "next": [
+            "StartUp",
+            "StartUp@LoadingText",
+            "StartUp@CloseAnnoTexas",
+            "StartUp@CloseAnnoSpecialAccess",
+            "StartUp@TodaysSupplies",
+            "StartUp@NotDownloadVoice",
+            "MainThemes#next",
+            "ClosePCEventPageEsc"
+        ]
+    },
+    "StartUp@TodaysSupplies": {
+        "baseTask": "TodaysSupplies",
+        "next": [
+            "StartUp",
+            "StartUp@LoadingText",
+            "StartUp@CloseAnnoTexas",
+            "StartUp@CloseAnnoSpecialAccess",
+            "StartUp@NotDownloadVoice",
+            "MainThemes#next",
+            "ClosePCEventPage"
+        ]
     },
     "MainThemes": {
         "Doc": "使用本任务时带上 #next",
