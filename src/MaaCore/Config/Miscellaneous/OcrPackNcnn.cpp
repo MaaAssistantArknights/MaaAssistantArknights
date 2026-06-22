@@ -71,7 +71,7 @@ OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, c
 {
     if (!check_and_load()) {
         Log.error(__FUNCTION__, "check_and_load failed");
-        return {};
+        return { };
     }
 
     auto start_time = std::chrono::steady_clock::now();
@@ -166,7 +166,7 @@ constexpr float kDetThresh = 0.3f;
 constexpr float kDetBoxThresh = 0.6f;
 constexpr float kDetUnclipRatio = 1.5f;
 constexpr int kDetMinSize = 3;
-constexpr int kDetMaxCandidates = 100;
+constexpr int kDetMaxCandidates = 1000;
 
 constexpr int kRecImgH = 48;
 constexpr int kRecImgW = 320;
@@ -215,29 +215,32 @@ void order_box(const cv::Point2f in[4], cv::Point2f out[4])
     out[3] = bl;
 }
 
-float box_score(const cv::Mat& prob, const cv::Point2f box[4])
+// 对齐 fastdeploy
+float poly_score(const cv::Mat& prob, const std::vector<cv::Point>& contour)
 {
     const int w = prob.cols;
     const int h = prob.rows;
-    float xs[4] = { box[0].x, box[1].x, box[2].x, box[3].x };
-    float ys[4] = { box[0].y, box[1].y, box[2].y, box[3].y };
-    int xmin = std::max(0, static_cast<int>(std::floor(*std::min_element(xs, xs + 4))));
-    int xmax = std::min(w - 1, static_cast<int>(std::ceil(*std::max_element(xs, xs + 4))));
-    int ymin = std::max(0, static_cast<int>(std::floor(*std::min_element(ys, ys + 4))));
-    int ymax = std::min(h - 1, static_cast<int>(std::ceil(*std::max_element(ys, ys + 4))));
+    int xmin = w, xmax = 0, ymin = h, ymax = 0;
+    for (const auto& p : contour) {
+        xmin = std::min(xmin, p.x);
+        xmax = std::max(xmax, p.x);
+        ymin = std::min(ymin, p.y);
+        ymax = std::max(ymax, p.y);
+    }
+    xmin = std::clamp(xmin, 0, w - 1);
+    xmax = std::clamp(xmax, 0, w - 1);
+    ymin = std::clamp(ymin, 0, h - 1);
+    ymax = std::clamp(ymax, 0, h - 1);
     if (xmax < xmin || ymax < ymin) {
         return 0.f;
     }
     cv::Mat mask = cv::Mat::zeros(ymax - ymin + 1, xmax - xmin + 1, CV_8UC1);
-    std::array<cv::Point, 4> shifted;
-    for (int i = 0; i < 4; ++i) {
-        shifted[i] = cv::Point(static_cast<int>(box[i].x) - xmin, static_cast<int>(box[i].y) - ymin);
+    std::vector<cv::Point> shifted;
+    shifted.reserve(contour.size());
+    for (const auto& p : contour) {
+        shifted.emplace_back(p.x - xmin, p.y - ymin);
     }
-    std::vector<std::vector<cv::Point>> polys = { { shifted.begin(), shifted.end() } };
-    cv::fillPoly(mask, polys, cv::Scalar(1));
-    if (cv::countNonZero(mask) == 0) {
-        return 0.f;
-    }
+    cv::fillPoly(mask, std::vector<std::vector<cv::Point>> { shifted }, cv::Scalar(1));
     cv::Mat region = prob(cv::Rect(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1));
     return static_cast<float>(cv::mean(region, mask)[0]);
 }
@@ -384,8 +387,7 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
     const float ratio_h = static_cast<float>(resize_h) / src_h;
     const float ratio_w = static_cast<float>(resize_w) / src_w;
 
-    ncnn::Mat in =
-        ncnn::Mat::from_pixels_resize(image.data, ncnn::Mat::PIXEL_BGR2RGB, src_w, src_h, resize_w, resize_h);
+    ncnn::Mat in = ncnn::Mat::from_pixels_resize(image.data, ncnn::Mat::PIXEL_BGR, src_w, src_h, resize_w, resize_h);
     in.substract_mean_normalize(kDetMean, kDetNorm);
 
     ncnn::Mat out;
@@ -394,7 +396,7 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
         ex.input("in0", in);
         if (ex.extract("out0", out) != 0) {
             Log.error("OcrPackNcnn det extract failed");
-            return {};
+            return { };
         }
     }
     ncnn::Mat plane = out.channel(0);
@@ -409,7 +411,7 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
     const int limit = std::min(static_cast<int>(contours.size()), kDetMaxCandidates);
     for (int ci = 0; ci < limit; ++ci) {
         const auto& contour = contours[ci];
-        if (contour.size() < 4) {
+        if (contour.size() <= 2) {
             continue;
         }
         cv::RotatedRect rr = cv::minAreaRect(contour);
@@ -421,7 +423,7 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
         cv::Point2f box[4];
         order_box(raw, box);
 
-        const float score = box_score(prob, box);
+        const float score = poly_score(prob, contour);
         if (score < kDetBoxThresh) {
             continue;
         }
@@ -445,6 +447,12 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
         for (auto& p : db.pts) {
             p.x = std::clamp(p.x / ratio_w, 0.f, static_cast<float>(src_w));
             p.y = std::clamp(p.y / ratio_h, 0.f, static_cast<float>(src_h));
+        }
+        // 对齐 fastdeploy FilterTagDetRes：丢弃过细框
+        const int rect_w = static_cast<int>(cv::norm(db.pts[0] - db.pts[1]));
+        const int rect_h = static_cast<int>(cv::norm(db.pts[0] - db.pts[3]));
+        if (rect_w <= 4 || rect_h <= 4) {
+            continue;
         }
         results.push_back(db);
     }
@@ -480,8 +488,9 @@ cv::Mat asst::OcrPackNcnn::crop_rotated(const cv::Mat& image, const DetBox& box)
                                  { 0, static_cast<float>(h) } };
     const cv::Mat m = cv::getPerspectiveTransform(src, dst);
     cv::Mat crop;
-    cv::warpPerspective(image, crop, m, cv::Size(w, h));
-    if (h > 0 && static_cast<float>(w) / h < 0.7f) {
+    // 对齐 fastdeploy GetRotateCropImage BORDER_REPLICATE + h>=1.5w 旋转
+    cv::warpPerspective(image, crop, m, cv::Size(w, h), cv::INTER_LINEAR, cv::BORDER_REPLICATE);
+    if (static_cast<float>(h) >= static_cast<float>(w) * 1.5f) {
         cv::rotate(crop, crop, cv::ROTATE_90_COUNTERCLOCKWISE);
     }
     return crop;
@@ -499,10 +508,11 @@ std::pair<std::string, float> asst::OcrPackNcnn::recognize_line(const cv::Mat& l
     cv::Mat resized;
     cv::resize(line, resized, cv::Size(resized_w, kRecImgH));
 
-    cv::Mat canvas(kRecImgH, kRecImgW, CV_8UC3, cv::Scalar(128, 128, 128));
+    // 对齐 fastdeploy
+    cv::Mat canvas(kRecImgH, kRecImgW, CV_8UC3, cv::Scalar(127, 127, 127));
     resized.copyTo(canvas(cv::Rect(0, 0, resized_w, kRecImgH)));
 
-    ncnn::Mat in = ncnn::Mat::from_pixels(canvas.data, ncnn::Mat::PIXEL_BGR2RGB, kRecImgW, kRecImgH);
+    ncnn::Mat in = ncnn::Mat::from_pixels(canvas.data, ncnn::Mat::PIXEL_BGR, kRecImgW, kRecImgH);
     in.substract_mean_normalize(kRecMean, kRecNorm);
 
     ncnn::Mat out;
@@ -559,7 +569,7 @@ std::pair<std::string, float> asst::OcrPackNcnn::recognize_line(const cv::Mat& l
 asst::OcrPackNcnn::ResultsVec asst::OcrPackNcnn::recognize(const cv::Mat& image_in, bool without_det)
 {
     if (!m_loaded) {
-        return {};
+        return { };
     }
     cv::Mat image = ensure_continuous_bgr(image_in);
 
