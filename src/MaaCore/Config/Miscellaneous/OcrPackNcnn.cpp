@@ -372,11 +372,15 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
     if (std::max(src_h, src_w) > kDetLimitSideLen) {
         ratio = static_cast<float>(kDetLimitSideLen) / std::max(src_h, src_w);
     }
-    auto align32 = [](int v) {
-        return std::max(32, ((v + 31) / 32) * 32);
+    // 与 fastdeploy 的 OcrDetectorGetInfo 对齐
+    // 之前用 ceil 对齐：小 ROI 上 ceil 会过度横向拉伸（如 106→128 比 round 的 106→96 多拉 ~21%），
+    // 改变文字长宽比，使 DBNet 概率脊偏扁、检测框竖向过紧而切掉小字首笔，导致 rec 误识
+    // （实测「聚羽之地」被读成「袭羽之地」；改 round 后框 16px→20px，两个字段均正确且置信度更高）。
+    auto align32 = [](const int v) {
+        return std::max(32, static_cast<int>(std::round(v / 32.f)) * 32);
     };
-    const int resize_h = align32(static_cast<int>(std::lround(src_h * ratio)));
-    const int resize_w = align32(static_cast<int>(std::lround(src_w * ratio)));
+    const int resize_h = align32(static_cast<int>(src_h * ratio));
+    const int resize_w = align32(static_cast<int>(src_w * ratio));
     const float ratio_h = static_cast<float>(resize_h) / src_h;
     const float ratio_w = static_cast<float>(resize_w) / src_w;
 
