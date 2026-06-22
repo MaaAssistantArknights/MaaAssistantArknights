@@ -1,4 +1,4 @@
-## v6.13.0-beta.1
+## v6.13.0-beta.2
 
 ### Highlights
 
@@ -28,6 +28,15 @@ Automatically falls back to in-app notifications when system notifications are u
 以下是详细内容：
 
 <details open>
+<summary><b>v6.13.0-beta.2 (2026-06-22)</b></summary>
+
+### 修复 | Fix
+
+* 修复自动战斗多作业模式无法进行关卡导航 @status102
+
+</details>
+
+<details>
 <summary><b>v6.13.0-beta.1 (2026-06-21)</b></summary>
 
 ### 新增 | New
