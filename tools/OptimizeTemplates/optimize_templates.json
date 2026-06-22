@@ -4120,5 +4120,15 @@
     "resource/template/MiniGame/PF/MiniGame@PF@Victory": "841fa89c408fff47b2afa5fe340bdce5d3dd3af84cdfdfdd5f32f2f382573c40",
     "resource/template/MiniGame/PF/MiniGame@PF@StartAction": "93a5356716730ef2036e56b45085840e8ae381c86992a379797c96591b537d71",
     "resource/template/MiniGame/PF/MiniGame@PF@PF-1": "9b0f7f0c1988e6e901bef201485b8015662521fc4c1af078f79690615cef1895",
-    "resource/template/MiniGame/PF/MiniGame@PF@DoubleSpeed": "85c19ebbf001f7db751437eaf6af07233d3ffb52f17aafa8f8d312eca438bf57"
+    "resource/template/MiniGame/PF/MiniGame@PF@DoubleSpeed": "85c19ebbf001f7db751437eaf6af07233d3ffb52f17aafa8f8d312eca438bf57",
+    "resource/global/YoStarKR/resource/template/UiTheme/LoneTrail/Night/Mall": "f1d4073eb419eb54bb29898ac99976700aae6269867f7a277e2777118877c436",
+    "resource/global/YoStarKR/resource/template/UiTheme/LoneTrail/Night/EnterInfrast": "2b266bf839036a49cdbd6eda7fb598d3483e04cd0a7a87698f8dbc21016a8c9a",
+    "resource/global/YoStarKR/resource/template/UiTheme/LoneTrail/Night/Task": "27558f8aac19c042ebef28c8e58424a0993e52892a091e5eb0658d5229c44e48",
+    "resource/global/YoStarKR/resource/template/UiTheme/LoneTrail/Night/DepotEnter": "6357bbbe50bc11ec2eb9815f1a681cef9f25be5a003c66df6d9b98983158545e",
+    "resource/global/YoStarKR/resource/template/UiTheme/LoneTrail/Night/Friends": "45f0c1c0209754d1de852e83734007c8dc01676e33dbe5a75f7b3157fbf7dc06",
+    "resource/global/YoStarKR/resource/template/UiTheme/LoneTrail/Day/Mall": "fbcdacfa8e3ad719017a4506851af5ed69aeed831898078a18b067edb3d1e2b4",
+    "resource/global/YoStarKR/resource/template/UiTheme/LoneTrail/Day/EnterInfrast": "e92caa0286a9dfb9ce08fa32dd4f1c50bfc4e50d1024d28da6983b49af76119b",
+    "resource/global/YoStarKR/resource/template/UiTheme/LoneTrail/Day/Task": "0b1b9322b4e5d6a4f65decd4d92798a90123013627b0fce564a095ca380fa56e",
+    "resource/global/YoStarKR/resource/template/UiTheme/LoneTrail/Day/DepotEnter": "31c116d5a92db31fee96c505205d0af307e5b66bae4aeae6951c35e9a72dd8b9",
+    "resource/global/YoStarKR/resource/template/UiTheme/LoneTrail/Day/Friends": "22c3705ab91a846082f9550b7987ed336e0cef77c2442a527fe84e3027b3b5db"
 }
