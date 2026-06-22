@@ -169,8 +169,7 @@
         },
         "char_1022_flwr2": {
             "name": "撷英调香师",
-            "name_en": "撷英调香师",
-            "name_en_unavailable": true,
+            "name_en": "Perfumer the Distilled",
             "name_jp": "萃香パフューマー",
             "name_kr": "퍼퓨머 더 디스틸트",
             "name_tw": "撷英调香师",
@@ -2940,8 +2939,7 @@
         },
         "char_4056_titi": {
             "name": "缇缇",
-            "name_en": "缇缇",
-            "name_en_unavailable": true,
+            "name_en": "Titi",
             "name_jp": "ティティ",
             "name_kr": "티티",
             "name_tw": "缇缇",
@@ -3682,8 +3680,7 @@
         },
         "char_4166_varkis": {
             "name": "摆渡人",
-            "name_en": "摆渡人",
-            "name_en_unavailable": true,
+            "name_en": "Varkáris",
             "name_jp": "ヴァルカリス",
             "name_kr": "바르카리스",
             "name_tw": "摆渡人",
@@ -10657,8 +10654,7 @@
         },
         "trap_279_pirene": {
             "name": "喷泉水池",
-            "name_en": "喷泉水池",
-            "name_en_unavailable": true,
+            "name_en": "Fountain",
             "name_jp": "憩いの池",
             "name_kr": "분수대 수조",
             "name_tw": "喷泉水池",
@@ -15232,8 +15228,7 @@
         },
         "trap_790_dytswd": {
             "name": "宿傲",
-            "name_en": "宿傲",
-            "name_en_unavailable": true,
+            "name_en": "Olden Pride",
             "name_jp": "宿傲",
             "name_kr": "숙오",
             "name_tw": "宿傲",
@@ -15245,8 +15240,7 @@
         },
         "trap_791_dytfre": {
             "name": "宿怒",
-            "name_en": "宿怒",
-            "name_en_unavailable": true,
+            "name_en": "Olden Grudge",
             "name_jp": "宿怒",
             "name_kr": "숙노",
             "name_tw": "宿怒",

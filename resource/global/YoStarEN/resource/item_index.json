@@ -2287,6 +2287,14 @@
         "sortId": -10000,
         "usage": "An innovative beverage inspired by high-altitude air-supply devices, now the lifeblood of Columbians. No one would refuse to fork over a high price to taste a new era beyond the Starpod."
     },
+    "act48side_token_ostracon": {
+        "classifyType": "NONE",
+        "description": "Even though everyone has a terminal loaded with all kinds of apps these days, the Minoans still prefer to follow their ancient traditions.",
+        "icon": "act48side_token_ostracon.png",
+        "name": "Ostracon",
+        "sortId": -10000,
+        "usage": "An essential item for Athenian citizens when voting. But what to do with used ostraca? Astynomos' Office decided to collect and wrap them up nicely for tourist souvenirs, and this innovative idea was well received by all."
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
@@ -2719,6 +2727,22 @@
         "sortId": -10000,
         "usage": "A carefully-prepared tasting set. Can be exchanged for LMD."
     },
+    "itempack_leaf_def": {
+        "classifyType": "NONE",
+        "description": "Create your own unique style.",
+        "icon": "itempack_leaf_def.png",
+        "name": "Looseleaf/Rhodes Fashion Review",
+        "sortId": -10000,
+        "usage": "A themed Fashion Collections set containing a Custom Looseleaf and stickers, easily placed and displayed."
+    },
+    "itempack_leaf_def2": {
+        "classifyType": "NONE",
+        "description": "A new melody composed for today's display.",
+        "icon": "itempack_leaf_def2.png",
+        "name": "Looseleaf/Media",
+        "sortId": -10000,
+        "usage": "A themed Fashion Collections set containing a Custom Looseleaf and stickers, easily placed and displayed."
+    },
     "itempack_main_1": {
         "classifyType": "NONE",
         "description": "A materials supply crate issued alongside Sanity samplers, giving you a random material as you restore your Sanity.",
@@ -2822,6 +2846,54 @@
         "name": "Thank-You Celebration Recruiting Supplies",
         "sortId": -10000,
         "usage": "HR resource pack for recruitment, allowing a large number of Operators to be recruited via public channels."
+    },
+    "itempack_stickers_rog1": {
+        "classifyType": "NONE",
+        "description": "A grand encompassing performance.",
+        "icon": "itempack_stickers_rog1.png",
+        "name": "Sticker Pack/Crimson Solitaire",
+        "sortId": -10000,
+        "usage": "Special Looseleaf Stickers for Fashion Collections usable as decorations."
+    },
+    "itempack_stickers_rog2": {
+        "classifyType": "NONE",
+        "description": "The tides call out for you to travel.",
+        "icon": "itempack_stickers_rog2.png",
+        "name": "Sticker Pack/Caerula Arbor",
+        "sortId": -10000,
+        "usage": "Special Looseleaf Stickers for Fashion Collections usable as decorations."
+    },
+    "itempack_stickers_rog3": {
+        "classifyType": "NONE",
+        "description": "Seek the beauty of mystery in the bitter cold.",
+        "icon": "itempack_stickers_rog3.png",
+        "name": "Sticker Pack/Silverfrost Frontier",
+        "sortId": -10000,
+        "usage": "Special Looseleaf Stickers for Fashion Collections usable as decorations."
+    },
+    "itempack_stickers_rog4": {
+        "classifyType": "NONE",
+        "description": "The land witnesses the Sarkaz's splendid forms.",
+        "icon": "itempack_stickers_rog4.png",
+        "name": "Sticker Pack/Furnaceside Fables",
+        "sortId": -10000,
+        "usage": "Special Looseleaf Stickers for Fashion Collections usable as decorations."
+    },
+    "itempack_stickers_rog5": {
+        "classifyType": "NONE",
+        "description": "Tourists entranced by enchanting landscapes.",
+        "icon": "itempack_stickers_rog5.png",
+        "name": "Sticker Pack/Garden of Grotesqueries",
+        "sortId": -10000,
+        "usage": "Special Looseleaf Stickers for Fashion Collections usable as decorations."
+    },
+    "itempack_stickers_sand1": {
+        "classifyType": "NONE",
+        "description": "Admire the artistic mesh of desert and oasis.",
+        "icon": "itempack_stickers_sand1.png",
+        "name": "Sticker Pack/Tales Within the Sand",
+        "sortId": -10000,
+        "usage": "Special Looseleaf Stickers for Fashion Collections usable as decorations."
     },
     "main16_spitem_1": {
         "classifyType": "NORMAL",
