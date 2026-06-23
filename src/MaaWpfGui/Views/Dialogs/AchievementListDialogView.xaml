@@ -39,13 +39,7 @@
                                 HorizontalAlignment="Left"
                                 Background="{DynamicResource MdXamlBackground}"
                                 Orientation="Horizontal">
-                                <TextBlock
-                                    FontWeight="Bold"
-                                    Foreground="{DynamicResource MessageLogBrush}"
-                                    Text="{Binding Title}"
-                                    TextWrapping="Wrap" />
                                 <Border
-                                    Margin="6,0,0,0"
                                     Padding="6,1"
                                     VerticalAlignment="Center"
                                     Background="{DynamicResource MouseOverRegionBrushOpacity75}"
@@ -53,8 +47,15 @@
                                     <TextBlock
                                         FontSize="11"
                                         Foreground="{DynamicResource InfoLogBrush}"
-                                        Text="{Binding ReleasePhaseTag}" />
+                                        Text="{Binding ReleasePhaseTag}"
+                                        ToolTip="{Binding ReleasePhaseToolTip}"
+                                        ToolTipService.InitialShowDelay="100" />
                                 </Border>
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource MessageLogBrush}"
+                                    Text="{Binding Title}"
+                                    TextWrapping="Wrap" />
                                 <TextBlock Text=" (NEW)" Visibility="{c:Binding IsNewUnlock}" />
                             </VirtualizingStackPanel>
                             <TextBlock

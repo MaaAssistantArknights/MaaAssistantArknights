@@ -2076,6 +2076,9 @@ These locations are too high-level and can lead to file overwrites, config write
     <system:String x:Key="Achievement.SlackingOff.Title">Slacking Off</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">Done with serious business, time to play something else.</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">Launch a mini-game once</system:String>
+
+    <system:String x:Key="AchievementDlcProgressNotice">Achievement DLC: #1 shipped with the system, later DLCs were added via updates. Some achievements can only be progressed after their DLC goes live.</system:String>
+    <system:String x:Key="AchievementDlcReleaseDate">Release date</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->
