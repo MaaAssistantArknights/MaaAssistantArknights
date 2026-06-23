@@ -1359,6 +1359,10 @@
     "InfrastTrainingCompleted": {
         "text": ["훈련완료"]
     },
+    "InfrastTrainingOperatorAndSkill": {
+        "doc": "Expanded roi to cover two-line wrapping of long operator names",
+        "roi": [150, 585, 365, 70]
+    },
     "BattleStageName": {
         "Doc": "이 작업의 'ocrReplace'는 로그라이크 스테이지 이름과 관련된 모든 인식 작업에서 사용됩니다",
         "ocrReplace": [
