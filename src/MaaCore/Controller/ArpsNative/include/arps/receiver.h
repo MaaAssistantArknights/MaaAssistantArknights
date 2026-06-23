@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <mutex>
+#include <optional>
 #include <string>
 
 #include "arps/frame.h"
@@ -26,10 +27,35 @@ struct ArpsStartOptions {
     std::string ToJson() const;
 };
 
+struct ArpsPowerControlOptions {
+    std::optional<std::uint32_t> display_id;
+    std::string request_id;
+    std::string reason;
+    std::optional<bool> keep_screen_on;
+    std::optional<bool> power_on_if_screen_off;
+    std::optional<std::string> screen_interactive;
+    std::optional<std::string> display_power;
+
+    std::string ToJson() const;
+};
+
+struct ArpsPowerState {
+    std::string request_id;
+    bool ok = false;
+    std::string error;
+    std::string reason;
+    std::uint32_t display_id = 0;
+    bool screen_on = false;
+    bool previous_screen_on = false;
+    bool wake_lock_held_by_arps = false;
+    std::string display_power_override = "unknown";
+};
+
 enum class ArpsReadStatus {
     Frame,
     Hello,
     Ready,
+    PowerState,
     Error,
     Stop,
     Timeout,
@@ -40,9 +66,12 @@ enum class ArpsReadStatus {
 struct ArpsReadResult {
     ArpsReadStatus status = ArpsReadStatus::Closed;
     ArpsFrame frame;
+    ArpsPowerState power_state;
     std::string json;
     std::string message;
     std::uint16_t packet_type = 0;
+    std::uint16_t protocol_major = 0;
+    std::uint16_t protocol_minor = 0;
     std::uint32_t sequence = 0;
 };
 
@@ -58,8 +87,12 @@ public:
     bool AcceptOnce(int timeout_ms, std::string* error);
     bool AdoptConnectedSocket(ArpsSocket socket, std::string* error);
     bool SendStart(const ArpsStartOptions& options, std::string* error);
-    bool SendStop(std::string* error);
     bool RequestFrame(std::string* error);
+    bool SendPowerControl(const ArpsPowerControlOptions& options, std::string* error);
+    bool RequestPowerState(const std::string& request_id, std::string* error);
+    bool SendPowerControl(bool keep_screen_on, bool power_on_if_screen_off,
+            const std::string& reason, std::string* error);
+    bool SendStop(const std::string& reason, std::string* error);
     ArpsReadResult ReadNext(int timeout_ms);
     void Close();
 

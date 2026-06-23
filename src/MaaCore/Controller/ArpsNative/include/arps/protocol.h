@@ -8,7 +8,7 @@ namespace arps {
 constexpr char kMagic[] = "ARPSBYVISOTC";
 constexpr std::size_t kMagicSize = 12;
 constexpr std::uint16_t kProtocolMajor = 1;
-constexpr std::uint16_t kProtocolMinor = 0;
+constexpr std::uint16_t kProtocolMinor = 1;
 constexpr std::uint16_t kHeaderLen = 32;
 constexpr std::uint32_t kDefaultMaxPacketLen = 64u * 1024u * 1024u;
 constexpr std::size_t kFrameBaseLenV1 = 64;
@@ -21,6 +21,8 @@ enum PacketType : std::uint16_t {
     kPacketFrame = 5,
     kPacketError = 6,
     kPacketStop = 7,
+    kPacketPowerControl = 8,
+    kPacketPowerState = 9,
 };
 
 enum PixelFormat : std::uint32_t {

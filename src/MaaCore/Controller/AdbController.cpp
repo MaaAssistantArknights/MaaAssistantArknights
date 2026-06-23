@@ -687,6 +687,15 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
 #endif
         if (m_arps.inited()) {
             start_time = steady_clock::now();
+            if (m_arps.warmup()) {
+                auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
+                Log.info("ARPS warmup cost", duration.count(), "ms");
+            }
+            else {
+                Log.info("ARPS warmup failed");
+            }
+
+            start_time = steady_clock::now();
             auto img_opt = m_arps.screencap();
             if (img_opt) {
                 auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
