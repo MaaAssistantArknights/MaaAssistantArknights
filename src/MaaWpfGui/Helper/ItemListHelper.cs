@@ -94,7 +94,7 @@ public static class ItemListHelper
     {
         return ArkItems.TryGetValue(itemId, out var item)
             ? item.Name
-            : null;
+            : itemId;
     }
 
     private static readonly ConcurrentDictionary<string, BitmapSource?> _imageCache = new();

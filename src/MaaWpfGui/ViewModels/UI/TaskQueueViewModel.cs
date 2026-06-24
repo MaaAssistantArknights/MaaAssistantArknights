@@ -664,7 +664,7 @@ public class TaskQueueViewModel : Screen
 
             // 延迟到所有 LanguageChanged 回调执行完毕后再更新关卡列表
             // 确保 StageManager.RefreshLocalization 已更新 StageInfo 的 Display/Tip
-            System.Windows.Application.Current.Dispatcher.InvokeAsync(
+            Application.Current.Dispatcher.InvokeAsync(
                 () => UpdateDatePromptAndStagesLocally(),
                 System.Windows.Threading.DispatcherPriority.Loaded);
         };
