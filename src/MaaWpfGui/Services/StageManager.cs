@@ -48,12 +48,50 @@ public class StageManager
     // data
     private Dictionary<string, StageInfo> _stages = [];
 
+    /// <summary>
+    /// 刷新关卡列表的本地化文本。
+    /// </summary>
+    private void RefreshStageLocalization()
+    {
+        foreach (var stage in _stages.Values)
+        {
+            if (!string.IsNullOrEmpty(stage.DisplayKey))
+            {
+                stage.Display = LocalizationHelper.GetString(stage.DisplayKey);
+            }
+
+            if (string.IsNullOrEmpty(stage.Value))
+            {
+                stage.Display = LocalizationHelper.GetString("DefaultStage");
+            }
+
+            if (!string.IsNullOrEmpty(stage.TipKey))
+            {
+                stage.Tip = LocalizationHelper.GetString(stage.TipKey);
+            }
+        }
+    }
+
     private Dictionary<string, SideStoryActivity> _activityList = [];
 
     public IReadOnlyDictionary<string, SideStoryActivity> ActivityList => _activityList.AsReadOnly();
 
     // mini game entries exposed from StageActivityV2 (richer model including Tip/TipKey)
     private List<MiniGameEntry> _miniGameEntries = InitializeDefaultMiniGameEntries();
+
+    /// <summary>
+    /// 刷新小游戏条目的本地化文本。
+    /// </summary>
+    private void RefreshMiniGameLocalization()
+    {
+        foreach (var entry in _miniGameEntries)
+        {
+            if (!string.IsNullOrEmpty(entry.DisplayKey))
+            {
+                entry.Display = LocalizationHelper.GetString(entry.DisplayKey);
+            }
+        }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StageManager"/> class.
@@ -248,6 +286,15 @@ public class StageManager
             { "Pormpt1", new() { Tip = LocalizationHelper.GetString("Pormpt1"), OpenDaysOfWeek = [DayOfWeek.Monday], IsHidden = true } },
             { "Pormpt2", new() { Tip = LocalizationHelper.GetString("Pormpt2"), OpenDaysOfWeek = [DayOfWeek.Sunday], IsHidden = true } },
         };
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        RefreshStageLocalization();
+        RefreshMiniGameLocalization();
     }
 
     private static List<MiniGameEntry> InitializeDefaultMiniGameEntries()
@@ -775,36 +822,5 @@ public class StageManager
     {
         return _stages.Values.Where(stage => !stage.IsHidden && stage.IsStageOpenOrWillOpen());
     }
-
-    /// <summary>
-    /// 刷新构造时缓存的本地化列表文本。
-    /// </summary>
-    private void RefreshLocalization()
-    {
-        foreach (var stage in _stages.Values)
-        {
-            if (!string.IsNullOrEmpty(stage.DisplayKey))
-            {
-                stage.Display = LocalizationHelper.GetString(stage.DisplayKey);
-            }
-
-            if (string.IsNullOrEmpty(stage.Value))
-            {
-                stage.Display = LocalizationHelper.GetString("DefaultStage");
-            }
-
-            if (!string.IsNullOrEmpty(stage.TipKey))
-            {
-                stage.Tip = LocalizationHelper.GetString(stage.TipKey);
-            }
-        }
-
-        foreach (var entry in _miniGameEntries)
-        {
-            if (!string.IsNullOrEmpty(entry.DisplayKey))
-            {
-                entry.Display = LocalizationHelper.GetString(entry.DisplayKey);
-            }
-        }
-    }
 }
+
