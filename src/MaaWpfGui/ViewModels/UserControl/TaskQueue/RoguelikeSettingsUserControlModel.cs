@@ -49,7 +49,6 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
     public void InitRoguelike()
     {
-        GenerateRoguelikeThemeList();
         UpdateRoguelikeParams();
     }
 
@@ -62,15 +61,6 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         UpdateRoguelikeSquadList();
         UpdateRoguelikeStartWithAllDict();
         UpdateRoguelikeCoreCharList();
-    }
-
-    private void GenerateRoguelikeThemeList()
-    {
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = Theme.Phantom });
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = Theme.Mizuki });
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = Theme.Sami });
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = Theme.Sarkaz });
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeJieGarden"), Value = Theme.JieGarden });
     }
 
     private void UpdateRoguelikeDifficultyList()
@@ -96,7 +86,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         }
 
         // 验证当前选中的难度是否在新列表中
-        RoguelikeDifficulty = RoguelikeDifficultyList.Any(item => item.Value == RoguelikeDifficulty) ? difficulty : -1;
+        RoguelikeDifficulty = RoguelikeDifficultyList.Any(item => item.Value == difficulty) ? difficulty : -1;
+        NotifyOfPropertyChange(nameof(RoguelikeDifficulty));
     }
 
     private static int GetMaxDifficultyForTheme(Theme theme) => theme switch {
@@ -366,7 +357,12 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     /// <summary>
     /// Gets the list of roguelike lists.
     /// </summary>
-    public List<GenericCombinedData<Theme>> RoguelikeThemeList { get; } = [];
+    public LocalizedList<Theme> RoguelikeThemeList { get; } = new(
+        (Theme.Phantom, "RoguelikeThemePhantom"),
+        (Theme.Mizuki, "RoguelikeThemeMizuki"),
+        (Theme.Sami, "RoguelikeThemeSami"),
+        (Theme.Sarkaz, "RoguelikeThemeSarkaz"),
+        (Theme.JieGarden, "RoguelikeThemeJieGarden"));
 
     /// <summary>
     /// Gets or sets the Roguelike theme.
@@ -1157,51 +1153,10 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     /// </summary>
     private void RefreshLocalization()
     {
-        foreach (var item in RoguelikeThemeList)
-        {
-            item.Display = item.Value switch {
-                Theme.Phantom => LocalizationHelper.GetString("RoguelikeThemePhantom"),
-                Theme.Mizuki => LocalizationHelper.GetString("RoguelikeThemeMizuki"),
-                Theme.Sami => LocalizationHelper.GetString("RoguelikeThemeSami"),
-                Theme.Sarkaz => LocalizationHelper.GetString("RoguelikeThemeSarkaz"),
-                Theme.JieGarden => LocalizationHelper.GetString("RoguelikeThemeJieGarden"),
-                _ => item.Display,
-            };
-        }
-
-        foreach (var item in RoguelikeModeList)
-        {
-            item.Display = item.Value switch {
-                Mode.Exp => LocalizationHelper.GetString("RoguelikeStrategyExp"),
-                Mode.Investment => LocalizationHelper.GetString("RoguelikeStrategyGold"),
-                Mode.Collectible => LocalizationHelper.GetString("RoguelikeStrategyLastReward"),
-                Mode.Squad => LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"),
-                Mode.Exploration => LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"),
-                Mode.CLP_PDS => LocalizationHelper.GetString("RoguelikeStrategyCollapse"),
-                Mode.FindPlaytime => LocalizationHelper.GetString("RoguelikeStrategyFindPlaytime"),
-                _ => item.Display,
-            };
-        }
-
-        foreach (var item in RoguelikeRolesList)
-        {
-            item.Display = item.Value switch {
-                "先手必胜" => LocalizationHelper.GetString("FirstMoveAdvantage"),
-                "稳扎稳打" => LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"),
-                "取长补短" => LocalizationHelper.GetString("OvercomingYourWeaknesses"),
-                "灵活部署" => LocalizationHelper.GetString("FlexibleDeployment"),
-                "坚不可摧" => LocalizationHelper.GetString("Unbreakable"),
-                "随心所欲" => LocalizationHelper.GetString("AsYourHeartDesires"),
-                _ => item.Display,
-            };
-        }
-
-        foreach (var item in RoguelikeDifficultyList)
-        {
-            if (item.Value == -1)
-            {
-                item.Display = LocalizationHelper.GetString("NotSwitch") + " (-1)";
-            }
-        }
+        RoguelikeThemeList.RefreshLocalization();
+        UpdateRoguelikeDifficultyList();
+        UpdateRoguelikeModeList();
+        UpdateRoguelikeRolesList();
+        UpdateRoguelikeSquadList();
     }
 }
