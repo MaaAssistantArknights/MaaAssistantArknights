@@ -511,5 +511,12 @@ public class PostActionSetting : PropertyChangedBase
 
         LoadPostActions();
         RefreshDescription();
+
+        LocalizationHelper.LanguageChanged += () => {
+            ActionTitle = _once
+                ? $"{LocalizationHelper.GetString("PostActions")} ({LocalizationHelper.GetString("Once")})"
+                : LocalizationHelper.GetString("PostActions");
+            RefreshDescription();
+        };
     }
 }

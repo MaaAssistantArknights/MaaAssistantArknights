@@ -18,6 +18,8 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
+using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels;
@@ -29,13 +31,27 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
         _name = name;
         _isEnable = isCheckedWithNull;
         Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
     }
 
     private string _name;
 
+    /// <summary>
+    /// Gets or sets 显示名称：优先返回用户自定义名称，否则返回本地化任务类型名。
+    /// 设置时写入配置。语言切换时通过 PropertyDependsOn 自动刷新。
+    /// </summary>
+    [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
     public string Name
     {
-        get => _name;
+        get
+        {
+            // 从配置读取：用户自定义名为空时，动态获取本地化任务类型名
+            var configName = ConfigFactory.CurrentConfig.TaskQueue[Index].Name;
+            return string.IsNullOrEmpty(configName)
+                ? LocalizationHelper.GetString(ConfigFactory.CurrentConfig.TaskQueue[Index].TaskType.ToString())
+                : configName;
+        }
+
         set {
             if (!SetAndNotify(ref _name, value))
             {

@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using HandyControl.Controls;
@@ -39,6 +40,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public GuiSettingsUserControlModel()
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
+        LocalizationHelper.LanguageChanged += RefreshCachedLocalization;
     }
 
     public static GuiSettingsUserControlModel Instance { get; }
@@ -57,6 +59,13 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("OperNameLanguageClient"), Value = "OperNameLanguageClient" }
         ];
 
+    private static void RefreshOperNameLanguageModeList()
+    {
+        Instance.OperNameLanguageModeList[0].Display = LocalizationHelper.GetString("OperNameLanguageMAA");
+        Instance.OperNameLanguageModeList[1].Display = LocalizationHelper.GetString("OperNameLanguageClient");
+        Instance.NotifyOfPropertyChange(nameof(OperNameLanguageModeList));
+    }
+
     /// <summary>
     /// Gets the list of dark mode.
     /// </summary>
@@ -67,6 +76,14 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOs },
         ];
 
+    private static void RefreshDarkModeList()
+    {
+        Instance.DarkModeList[0].Display = LocalizationHelper.GetString("Light");
+        Instance.DarkModeList[1].Display = LocalizationHelper.GetString("Dark");
+        Instance.DarkModeList[2].Display = LocalizationHelper.GetString("SyncWithOs");
+        Instance.NotifyOfPropertyChange(nameof(DarkModeList));
+    }
+
     /// <summary>
     /// Gets the list of inverse clear modes.
     /// </summary>
@@ -76,6 +93,14 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("Inverse"), Value = "Inverse" },
             new() { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
          ];
+
+    private static void RefreshInverseClearModeList()
+    {
+        Instance.InverseClearModeList[0].Display = LocalizationHelper.GetString("Clear");
+        Instance.InverseClearModeList[1].Display = LocalizationHelper.GetString("Inverse");
+        Instance.InverseClearModeList[2].Display = LocalizationHelper.GetString("Switchable");
+        Instance.NotifyOfPropertyChange(nameof(InverseClearModeList));
+    }
 
     private bool _useTray = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, true);
 
@@ -318,20 +343,36 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private static readonly Dictionary<string, string> _windowTitleAllShowDict = new()
+    private static ObservableCollection<KeyValuePair<string, string>> _windowTitleAllShowDict = new(new Dictionary<string, string>
     {
         { "1", LocalizationHelper.GetString("ConfigurationName") },
         { "2", LocalizationHelper.GetString("ConnectionPreset") },
         { "3", LocalizationHelper.GetString("ConnectionAddress") },
         { "4", LocalizationHelper.GetString("ClientType") },
-    };
+    });
 
-    public static Dictionary<string, string> WindowTitleAllShowDict { get => _windowTitleAllShowDict; }
+    private void RefreshWindowTitleAllShowDict()
+    {
+        // 重建 SelectedItems 数组，保持当前选中的 key
+        var config = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, "2 3 4");
+
+        WindowTitleAllShowDict[0] = new("1", LocalizationHelper.GetString("ConfigurationName"));
+        WindowTitleAllShowDict[1] = new("2", LocalizationHelper.GetString("ConnectionPreset"));
+        WindowTitleAllShowDict[2] = new("3", LocalizationHelper.GetString("ConnectionAddress"));
+        WindowTitleAllShowDict[3] = new("4", LocalizationHelper.GetString("ClientType"));
+        NotifyOfPropertyChange(nameof(WindowTitleAllShowDict));
+        WindowTitleSelectShowList = [.. config
+            .Split(' ')
+            .Where(s => _windowTitleAllShowDict.Any(kv => kv.Key == s))
+            .Select(s => (object)new KeyValuePair<string, string>(s, _windowTitleAllShowDict.First(kv => kv.Key == s).Value))];
+    }
+
+    public ObservableCollection<KeyValuePair<string, string>> WindowTitleAllShowDict { get => _windowTitleAllShowDict; }
 
     private static object[] _windowTitleSelectShowList = [.. ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, "2 3 4")
         .Split(' ')
-        .Where(s => _windowTitleAllShowDict.ContainsKey(s.ToString()))
-        .Select(s => (object)new KeyValuePair<string, string>(s, _windowTitleAllShowDict[s]))];
+        .Where(s => _windowTitleAllShowDict.Any(kv => kv.Key == s))
+        .Select(s => (object)new KeyValuePair<string, string>(s, _windowTitleAllShowDict.First(kv => kv.Key == s).Value))];
 
     public object[] WindowTitleSelectShowList
     {
@@ -420,6 +461,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the language info.
     /// </summary>
+    [PropertyDependsOn(nameof(Language))]
     public string LanguageInfo
     {
         get {
@@ -534,5 +576,17 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshCachedLocalization()
+    {
+        RefreshOperNameLanguageModeList();
+        RefreshDarkModeList();
+        RefreshInverseClearModeList();
+        RefreshWindowTitleAllShowDict();
+        Instances.SettingsViewModel.UpdateWindowTitle();
     }
 }

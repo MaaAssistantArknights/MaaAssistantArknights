@@ -42,6 +42,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     {
         Instance = new();
         Instances.AsstProxy.AsstSubTaskMsgEvent += Instance.ProcSubTaskMsg;
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     public static RoguelikeSettingsUserControlModel Instance { get; }
@@ -1147,6 +1148,59 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 }
 
                 return result;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        foreach (var item in RoguelikeThemeList)
+        {
+            item.Display = item.Value switch {
+                Theme.Phantom => LocalizationHelper.GetString("RoguelikeThemePhantom"),
+                Theme.Mizuki => LocalizationHelper.GetString("RoguelikeThemeMizuki"),
+                Theme.Sami => LocalizationHelper.GetString("RoguelikeThemeSami"),
+                Theme.Sarkaz => LocalizationHelper.GetString("RoguelikeThemeSarkaz"),
+                Theme.JieGarden => LocalizationHelper.GetString("RoguelikeThemeJieGarden"),
+                _ => item.Display,
+            };
+        }
+
+        foreach (var item in RoguelikeModeList)
+        {
+            item.Display = item.Value switch {
+                Mode.Exp => LocalizationHelper.GetString("RoguelikeStrategyExp"),
+                Mode.Investment => LocalizationHelper.GetString("RoguelikeStrategyGold"),
+                Mode.Collectible => LocalizationHelper.GetString("RoguelikeStrategyLastReward"),
+                Mode.Squad => LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"),
+                Mode.Exploration => LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"),
+                Mode.CLP_PDS => LocalizationHelper.GetString("RoguelikeStrategyCollapse"),
+                Mode.FindPlaytime => LocalizationHelper.GetString("RoguelikeStrategyFindPlaytime"),
+                _ => item.Display,
+            };
+        }
+
+        foreach (var item in RoguelikeRolesList)
+        {
+            item.Display = item.Value switch {
+                "先手必胜" => LocalizationHelper.GetString("FirstMoveAdvantage"),
+                "稳扎稳打" => LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"),
+                "取长补短" => LocalizationHelper.GetString("OvercomingYourWeaknesses"),
+                "灵活部署" => LocalizationHelper.GetString("FlexibleDeployment"),
+                "坚不可摧" => LocalizationHelper.GetString("Unbreakable"),
+                "随心所欲" => LocalizationHelper.GetString("AsYourHeartDesires"),
+                _ => item.Display,
+            };
+        }
+
+        foreach (var item in RoguelikeDifficultyList)
+        {
+            if (item.Value == -1)
+            {
+                item.Display = LocalizationHelper.GetString("NotSwitch") + " (-1)";
             }
         }
     }

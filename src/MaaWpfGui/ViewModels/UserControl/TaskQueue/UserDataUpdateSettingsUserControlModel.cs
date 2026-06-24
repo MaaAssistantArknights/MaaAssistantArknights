@@ -32,6 +32,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
     static UserDataUpdateSettingsUserControlModel()
     {
         Instance = new();
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     public static UserDataUpdateSettingsUserControlModel Instance { get; }
@@ -156,5 +157,15 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                 _ => true,
             };
         }
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        TriggerIntervalList[0].Display = LocalizationHelper.GetString("EveryTime");
+        TriggerIntervalList[1].Display = LocalizationHelper.GetString("Daily");
+        TriggerIntervalList[2].Display = LocalizationHelper.GetString("Weekly");
     }
 }

@@ -141,6 +141,11 @@ public class SettingsViewModel : Screen
             // Inited = e.Inited;
             // Stopping = e.Stopping;
         };
+
+        LocalizationHelper.LanguageChanged += () => {
+            DisplayName = LocalizationHelper.GetString("Settings");
+            RefreshInitSettings();
+        };
     }
 
     #region Init
@@ -261,6 +266,14 @@ public class SettingsViewModel : Screen
         Settings = [.. tempOrderList.OfType<SettingItemViewModel>()];
 
         Settings.CollectionChanged += Settings_CollectionChanged;
+    }
+
+    private void RefreshInitSettings()
+    {
+        foreach (var item in Settings)
+        {
+            item.Display = LocalizationHelper.GetString(item.Key);
+        }
     }
 
     private void Settings_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)

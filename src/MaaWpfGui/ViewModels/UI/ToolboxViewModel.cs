@@ -73,6 +73,12 @@ public class ToolboxViewModel : Screen
             }
         };
         _peepImageTimer.Elapsed += PeepImageTimerElapsed;
+        LocalizationHelper.LanguageChanged += () => {
+            DisplayName = LocalizationHelper.GetString("Toolbox");
+            RecruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
+            OperBoxInfo = $"{LocalizationHelper.GetString("IdentificationCompleted")}  {LocalizationHelper.GetString("OperBoxRecognitionTip")}";
+            DepotInfo = LocalizationHelper.GetString("IdentificationCompleted");
+        };
         _peepImageTimer.Interval = 1000d / PeepTargetFps;
         _gachaTimer.Tick += RefreshGachaTip;
         LoadDepotDetails();

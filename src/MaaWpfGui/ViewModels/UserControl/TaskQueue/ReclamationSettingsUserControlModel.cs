@@ -32,6 +32,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     static ReclamationSettingsUserControlModel()
     {
         Instance = new();
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     public static ReclamationSettingsUserControlModel Instance { get; }
@@ -227,5 +228,16 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
                 _ => (null, []),
             };
         }
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        ReclamationThemeList[0].Display = $"{LocalizationHelper.GetString("ReclamationThemeFire")} ({LocalizationHelper.GetString("ClosedStage")})";
+        ReclamationThemeList[1].Display = LocalizationHelper.GetString("ReclamationThemeTales");
+        ReclamationThemeList[2].Display = LocalizationHelper.GetString("ReclamationThemeRelaunchAnchor");
+        RefreshModeList();
     }
 }

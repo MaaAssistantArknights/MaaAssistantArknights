@@ -49,6 +49,7 @@ using MaaWpfGui.Views.Dialogs;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using Windows.Win32.Foundation;
 using static MaaWpfGui.Main.AsstProxy;
 using Application = System.Windows.Application;
 using Screen = Stylet.Screen;
@@ -653,6 +654,12 @@ public class TaskQueueViewModel : Screen
         InitTimer();
 
         _ = UpdateDatePromptAndStagesWeb();
+
+        LocalizationHelper.LanguageChanged += () => {
+            DisplayName = LocalizationHelper.GetString("Farming");
+            RefreshTaskTypeListLocalization();
+            InverseMode = InverseMode;
+        };
     }
 
     /// <inheritdoc/>
@@ -1334,6 +1341,27 @@ public class TaskQueueViewModel : Screen
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("UserDataUpdate"), Value = typeof(UserDataUpdateTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Custom"), Value = typeof(CustomTask) },
         ]);
+
+    private void RefreshTaskTypeListLocalization()
+    {
+        foreach (var item in TaskTypeList)
+        {
+            item.Display = item.Value.Name switch
+            {
+                nameof(StartUpTask) => LocalizationHelper.GetString("StartUp"),
+                nameof(FightTask) => LocalizationHelper.GetString("Fight"),
+                nameof(InfrastTask) => LocalizationHelper.GetString("Infrast"),
+                nameof(RecruitTask) => LocalizationHelper.GetString("Recruit"),
+                nameof(MallTask) => LocalizationHelper.GetString("Mall"),
+                nameof(AwardTask) => LocalizationHelper.GetString("Award"),
+                nameof(RoguelikeTask) => LocalizationHelper.GetString("Roguelike"),
+                nameof(ReclamationTask) => LocalizationHelper.GetString("Reclamation"),
+                nameof(UserDataUpdateTask) => LocalizationHelper.GetString("UserDataUpdate"),
+                nameof(CustomTask) => LocalizationHelper.GetString("Custom"),
+                _ => item.Display,
+            };
+        }
+    }
 
     public void AddTaskQueueTask(Type taskName)
     {

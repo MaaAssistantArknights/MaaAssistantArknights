@@ -61,6 +61,7 @@ public class StageManager
     public StageManager()
     {
         UpdateStageLocal();
+        LocalizationHelper.LanguageChanged += RefreshLocalization;
     }
 
     /// <summary>
@@ -773,5 +774,34 @@ public class StageManager
     public IEnumerable<StageInfo> GetStageList()
     {
         return _stages.Values.Where(stage => !stage.IsHidden && stage.IsStageOpenOrWillOpen());
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        if (_stages.TryGetValue(string.Empty, out var defaultStage))
+        {
+            defaultStage.Display = LocalizationHelper.GetString("DefaultStage");
+        }
+
+        if (_stages.TryGetValue("Pormpt1", out var prompt1))
+        {
+            prompt1.Tip = LocalizationHelper.GetString("Pormpt1");
+        }
+
+        if (_stages.TryGetValue("Pormpt2", out var prompt2))
+        {
+            prompt2.Tip = LocalizationHelper.GetString("Pormpt2");
+        }
+
+        foreach (var entry in _miniGameEntries)
+        {
+            if (!string.IsNullOrEmpty(entry.DisplayKey))
+            {
+                entry.Display = LocalizationHelper.GetString(entry.DisplayKey);
+            }
+        }
     }
 }

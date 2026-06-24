@@ -95,7 +95,7 @@
                                 Orientation="Vertical"
                                 Spacing="20">
                                 <ComboBox
-                                    hc:InfoElement.Title="{Binding LanguageInfo, Mode=OneTime}"
+                                    hc:InfoElement.Title="{Binding LanguageInfo}"
                                     hc:TitleElement.HorizontalAlignment="Center"
                                     DisplayMemberPath="Display"
                                     ItemsSource="{Binding LanguageList}"

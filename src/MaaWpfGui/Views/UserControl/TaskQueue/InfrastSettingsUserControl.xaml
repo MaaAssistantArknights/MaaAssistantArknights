@@ -127,16 +127,12 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
                     <controls:TextBlock
-                        MaxWidth="180"
-                        d:Text="{DynamicResource DormThreshold}"
-                        TextWrapping="Wrap">
-                        <controls:TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}: {1}%">
-                                <Binding Source="{StaticResource DormThreshold}" />
-                                <Binding Path="DormThreshold" />
-                            </MultiBinding>
-                        </controls:TextBlock.Text>
-                    </controls:TextBlock>
+                        MaxWidth="150"
+                        Text="{DynamicResource DormThreshold}"
+                        TextWrapping="Wrap" />
+                    <controls:TextBlock Text=": " />
+                    <controls:TextBlock d:Text="30" Text="{Binding DormThreshold}" />
+                    <controls:TextBlock Text="%" />
                     <controls:TooltipBlock TooltipText="{DynamicResource InfrastThresholdTip}" />
                 </StackPanel>
                 <Slider
