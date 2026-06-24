@@ -40,7 +40,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public GuiSettingsUserControlModel()
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
-        LocalizationHelper.LanguageChanged += RefreshCachedLocalization;
+        LocalizationHelper.LanguageChanged += RefreshLocalization;
     }
 
     public static GuiSettingsUserControlModel Instance { get; }
@@ -53,54 +53,25 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets or sets the list of operator name language settings
     /// </summary>
-    public List<CombinedData> OperNameLanguageModeList { get; set; } =
-        [
-            new() { Display = LocalizationHelper.GetString("OperNameLanguageMAA"), Value = "OperNameLanguageMAA" },
-            new() { Display = LocalizationHelper.GetString("OperNameLanguageClient"), Value = "OperNameLanguageClient" }
-        ];
-
-    private static void RefreshOperNameLanguageModeList()
-    {
-        Instance.OperNameLanguageModeList[0].Display = LocalizationHelper.GetString("OperNameLanguageMAA");
-        Instance.OperNameLanguageModeList[1].Display = LocalizationHelper.GetString("OperNameLanguageClient");
-        Instance.NotifyOfPropertyChange(nameof(OperNameLanguageModeList));
-    }
+    public LocalizedList<string> OperNameLanguageModeList { get; } = new(
+        ("OperNameLanguageMAA", "OperNameLanguageMAA"),
+        ("OperNameLanguageClient", "OperNameLanguageClient"));
 
     /// <summary>
     /// Gets the list of dark mode.
     /// </summary>
-    public List<GenericCombinedData<DarkModeType>> DarkModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("Light"), Value = DarkModeType.Light },
-            new() { Display = LocalizationHelper.GetString("Dark"), Value = DarkModeType.Dark },
-            new() { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOs },
-        ];
-
-    private static void RefreshDarkModeList()
-    {
-        Instance.DarkModeList[0].Display = LocalizationHelper.GetString("Light");
-        Instance.DarkModeList[1].Display = LocalizationHelper.GetString("Dark");
-        Instance.DarkModeList[2].Display = LocalizationHelper.GetString("SyncWithOs");
-        Instance.NotifyOfPropertyChange(nameof(DarkModeList));
-    }
+    public LocalizedList<DarkModeType> DarkModeList { get; } = new(
+        (DarkModeType.Light, "Light"),
+        (DarkModeType.Dark, "Dark"),
+        (DarkModeType.SyncWithOs, "SyncWithOs"));
 
     /// <summary>
     /// Gets the list of inverse clear modes.
     /// </summary>
-    public List<CombinedData> InverseClearModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("Clear"), Value = "Clear" },
-            new() { Display = LocalizationHelper.GetString("Inverse"), Value = "Inverse" },
-            new() { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
-         ];
-
-    private static void RefreshInverseClearModeList()
-    {
-        Instance.InverseClearModeList[0].Display = LocalizationHelper.GetString("Clear");
-        Instance.InverseClearModeList[1].Display = LocalizationHelper.GetString("Inverse");
-        Instance.InverseClearModeList[2].Display = LocalizationHelper.GetString("Switchable");
-        Instance.NotifyOfPropertyChange(nameof(InverseClearModeList));
-    }
+    public LocalizedList<string> InverseClearModeList { get; } = new(
+        ("Clear", "Clear"),
+        ("Inverse", "Inverse"),
+        ("ClearInverse", "Switchable"));
 
     private bool _useTray = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, true);
 
@@ -488,7 +459,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 return _operNameLanguage;
             }
 
-            OperNameLanguageModeList.Add(new CombinedData { Display = LocalizationHelper.GetString("OperNameLanguageForce"), Value = "OperNameLanguageForce" });
+            OperNameLanguageModeList.Items.Add(new GenericCombinedData<string> { Display = LocalizationHelper.GetString("OperNameLanguageForce"), Value = "OperNameLanguageForce" });
             return "OperNameLanguageForce";
         }
 
@@ -581,20 +552,11 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// 刷新构造时缓存的本地化列表文本。
     /// </summary>
-    private void RefreshCachedLocalization()
-    {
-        RefreshOperNameLanguageModeList();
-        RefreshDarkModeList();
-        RefreshInverseClearModeList();
-        RefreshWindowTitleAllShowDict();
-        Instances.SettingsViewModel.UpdateWindowTitle();
-    }
-
     public void RefreshLocalization()
     {
-        RefreshOperNameLanguageModeList();
-        RefreshDarkModeList();
-        RefreshInverseClearModeList();
+        OperNameLanguageModeList.RefreshLocalization();
+        DarkModeList.RefreshLocalization();
+        InverseClearModeList.RefreshLocalization();
         RefreshWindowTitleAllShowDict();
         Instances.SettingsViewModel.UpdateWindowTitle();
     }
