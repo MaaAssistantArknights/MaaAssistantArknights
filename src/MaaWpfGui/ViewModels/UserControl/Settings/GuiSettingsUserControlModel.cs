@@ -462,7 +462,12 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 return _operNameLanguage;
             }
 
-            OperNameLanguageModeList.Items.Add(new GenericCombinedData<string> { Display = LocalizationHelper.GetString("OperNameLanguageForce"), Value = "OperNameLanguageForce" });
+            // 去重：getter 每次绑定时都可能被读取，避免重复添加"强制指定语言"选项
+            if (!OperNameLanguageModeList.Items.Any(i => i.Value == "OperNameLanguageForce"))
+            {
+                OperNameLanguageModeList.Items.Add(new GenericCombinedData<string> { Display = LocalizationHelper.GetString("OperNameLanguageForce"), Value = "OperNameLanguageForce" });
+            }
+
             return "OperNameLanguageForce";
         }
 
