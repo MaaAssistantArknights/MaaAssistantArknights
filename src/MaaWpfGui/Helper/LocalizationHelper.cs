@@ -143,8 +143,9 @@ public static class LocalizationHelper
 
     private static bool IsLocalizationDictionary(ResourceDictionary dict)
     {
-        // 通过检查是否包含典型的本地化 key 来判断
-        return dict.Contains("Settings") && dict.Contains("Language");
+        // 通过 Source 文件名判断本地化字典（路径固定为 Res\Localizations\xxx.xaml）
+        var source = dict.Source?.OriginalString ?? string.Empty;
+        return source.Replace('\\', '/').Contains("res/localizations/", StringComparison.OrdinalIgnoreCase);
     }
 
     private static void LoadLocalizationDictionaries(string culture)
