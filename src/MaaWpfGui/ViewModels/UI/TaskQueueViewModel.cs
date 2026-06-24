@@ -1013,7 +1013,7 @@ public class TaskQueueViewModel : Screen
             var task = ConfigFactory.CurrentConfig.TaskQueue.ElementAt(i);
             if (task is not null)
             {
-                taskqueue.Add(new TaskItemViewModel(task.NameOrTaskType, task.IsEnable) { Index = i });
+                taskqueue.Add(new TaskItemViewModel(task.IsEnable) { Index = i });
             }
         }
 
@@ -1374,7 +1374,7 @@ public class TaskQueueViewModel : Screen
         if (Activator.CreateInstance(taskName) is BaseTask task)
         {
             ConfigFactory.CurrentConfig.TaskQueue.Add(task);
-            TaskItemViewModels.Add(new TaskItemViewModel(task.NameOrTaskType));
+            TaskItemViewModels.Add(new TaskItemViewModel());
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.QueueExpansion);
             AchievementTrackerHelper.Instance.TrackManualTaskAddition(
                 task.TaskType.ToString(),
@@ -1485,7 +1485,7 @@ public class TaskQueueViewModel : Screen
         }
         newTask.Name = newTask.NameOrTaskType + " (2)";
         ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, newTask);
-        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(newTask.NameOrTaskType));
+        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel());
         AddLog(LocalizationHelper.GetStringFormat("TaskCopied", newTask.NameOrTaskType), UiLogColor.Info);
     }
 

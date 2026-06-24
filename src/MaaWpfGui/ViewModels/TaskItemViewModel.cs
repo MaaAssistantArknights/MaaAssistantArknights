@@ -26,10 +26,8 @@ namespace MaaWpfGui.ViewModels;
 
 public class TaskItemViewModel : PropertyChangedBase, IDisposable
 {
-    public TaskItemViewModel(string name, bool? isCheckedWithNull = true)
+    public TaskItemViewModel(bool? isCheckedWithNull = true)
     {
-        // name 仅用于兼容旧调用方，显示名始终从配置动态读取（见 Name getter），
-        // 这样语言切换、任务增删导致 Index 变化时都能拿到最新值。
         _isEnable = isCheckedWithNull;
         Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
