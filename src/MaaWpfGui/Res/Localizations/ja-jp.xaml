@@ -311,7 +311,9 @@
     <system:String x:Key="EmulatorStartFailed">エミュレータの起動に失敗しました\n管理者権限でこのソフトウェアを開いていただくか\n手動でエミュレータを起動してください。</system:String>
     <system:String x:Key="SwitchLanguage">言語を切り替える 🌐</system:String>
     <system:String x:Key="Language">言語</system:String>
-    <system:String x:Key="LanguageChangedTip">言語設定が変更されました、今すぐMAAを再起動して言語設定を適用しますか？</system:String>
+    <system:String x:Key="LanguageChangedTip">言語設定が変更されました。一部のコンテンツは再起動後に完全に反映されます。</system:String>
+    <system:String x:Key="LanguageRestartNow">再起動</system:String>
+    <system:String x:Key="LanguageSwitchNow">切替</system:String>
     <system:String x:Key="ManualRestart">後で</system:String>
     <system:String x:Key="Tip">ヒント</system:String>
     <system:String x:Key="Warning">警告</system:String>

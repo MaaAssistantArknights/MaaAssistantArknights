@@ -34,6 +34,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Serilog;
 using Stylet;
@@ -291,7 +292,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public static string UseStoneString => LocalizationHelper.GetString("UseOriginitePrime");
+    [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
+#pragma warning disable CA1822 // 将成员标记为 static
+    public string UseStoneString => LocalizationHelper.GetString("UseOriginitePrime");
+#pragma warning restore CA1822 // 将成员标记为 static
 
     /// <summary>
     /// Gets or sets a value indicating whether 使用源石。

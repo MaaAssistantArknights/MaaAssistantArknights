@@ -21,6 +21,7 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
@@ -33,6 +34,11 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     static GuiSettingsUserControlModel()
     {
         Instance = new();
+    }
+
+    public GuiSettingsUserControlModel()
+    {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
     }
 
     public static GuiSettingsUserControlModel Instance { get; }
@@ -367,7 +373,6 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 Instances.SettingsViewModel.SoberLanguage = value;
             }
 
-            // var backup = _language;
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Localization, value);
 
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.Linguist);
@@ -383,16 +388,27 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             var result = MessageBoxHelper.Show(
                 FormatText("{0}\n{1}", "LanguageChangedTip"),
                 FormatText("{0}({1})", "Tip"),
-                MessageBoxButton.OKCancel,
+                MessageBoxButton.YesNoCancel,
                 MessageBoxImage.Question,
-                ok: FormatText("{0}({1})", "Ok"),
-                cancel: FormatText("{0}({1})", "ManualRestart"));
-            if (result == MessageBoxResult.OK)
+                yes: FormatText("{0}/{1}", "LanguageSwitchNow"),
+                no: FormatText("{0}/{1}", "LanguageRestartNow"),
+                cancel: FormatText("{0}/{1}", "ManualRestart"));
+            if (result == MessageBoxResult.Yes)
             {
+                // 立即热切换语言（部分内容可能需要下次重启才完全生效）
+                LocalizationHelper.Reload(value);
+                SetAndNotify(ref _language, value);
+            }
+            else if (result == MessageBoxResult.No)
+            {
+                // 重启以完整应用语言更改
                 Bootstrapper.ShutdownAndRestartWithoutArgs();
             }
-
-            SetAndNotify(ref _language, value);
+            else
+            {
+                // 稍后：仅保存配置，下次重启时生效
+                SetAndNotify(ref _language, value);
+            }
 
             return;
 
@@ -450,27 +466,6 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 default:
                     ConfigurationHelper.SetGlobalValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
                     break;
-            }
-
-            var mainWindow = Application.Current.MainWindow;
-
-            if (mainWindow != null)
-            {
-                mainWindow.Show();
-                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
-                mainWindow.Activate();
-            }
-
-            var result = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("LanguageChangedTip"),
-                LocalizationHelper.GetString("Tip"),
-                MessageBoxButton.OKCancel,
-                MessageBoxImage.Question,
-                ok: LocalizationHelper.GetString("Ok"),
-                cancel: LocalizationHelper.GetString("ManualRestart"));
-            if (result == MessageBoxResult.OK)
-            {
-                Bootstrapper.ShutdownAndRestartWithoutArgs();
             }
 
             SetAndNotify(ref _operNameLanguage, value);
