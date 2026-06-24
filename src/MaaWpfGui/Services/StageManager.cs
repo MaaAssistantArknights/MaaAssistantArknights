@@ -823,4 +823,3 @@ public class StageManager
         return _stages.Values.Where(stage => !stage.IsHidden && stage.IsStageOpenOrWillOpen());
     }
 }
-
