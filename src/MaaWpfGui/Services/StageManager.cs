@@ -254,11 +254,11 @@ public class StageManager
     {
         var entries = new List<MiniGameEntry>
         {
-            new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin", TipKey = "MiniGameNameSsStoreTip" },
-            new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin", TipKey = "MiniGameNameGreenTicketStoreTip" },
-            new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin", TipKey = "MiniGameNameYellowTicketStoreTip" },
-            new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin", TipKey = "MiniGameNameRAStoreTip" },
-            new() { Display = LocalizationHelper.GetString("MiniGame@SecretFront"), Value = "MiniGame@SecretFront", TipKey = "MiniGame@SecretFrontTip" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), DisplayKey = "MiniGameNameSsStore", Value = "SS@Store@Begin", TipKey = "MiniGameNameSsStoreTip" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), DisplayKey = "MiniGameNameGreenTicketStore", Value = "GreenTicket@Store@Begin", TipKey = "MiniGameNameGreenTicketStoreTip" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), DisplayKey = "MiniGameNameYellowTicketStore", Value = "YellowTicket@Store@Begin", TipKey = "MiniGameNameYellowTicketStoreTip" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), DisplayKey = "MiniGameNameRAStore", Value = "RA@Store@Begin", TipKey = "MiniGameNameRAStoreTip" },
+            new() { Display = LocalizationHelper.GetString("MiniGame@SecretFront"), DisplayKey = "MiniGame@SecretFront", Value = "MiniGame@SecretFront", TipKey = "MiniGame@SecretFrontTip" },
         };
 
         return entries;
@@ -599,7 +599,7 @@ public class StageManager
             { "SK-5", new("SK-5", "SKTip", [DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
 
             // 剿灭模式
-            { "Annihilation", new() { Display = LocalizationHelper.GetString("AnnihilationMode"), Value = "Annihilation" } },
+            { "Annihilation", new() { Display = LocalizationHelper.GetString("AnnihilationMode"), DisplayKey = "AnnihilationMode", Value = "Annihilation" } },
 
             // 芯片本 - dropGroups 格式：[[PR-X-1的掉落], [PR-X-2的掉落]]
             { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3261", "3231"], ["3262", "3232"]]) },
@@ -781,19 +781,22 @@ public class StageManager
     /// </summary>
     private void RefreshLocalization()
     {
-        if (_stages.TryGetValue(string.Empty, out var defaultStage))
+        foreach (var stage in _stages.Values)
         {
-            defaultStage.Display = LocalizationHelper.GetString("DefaultStage");
-        }
+            if (!string.IsNullOrEmpty(stage.DisplayKey))
+            {
+                stage.Display = LocalizationHelper.GetString(stage.DisplayKey);
+            }
 
-        if (_stages.TryGetValue("Pormpt1", out var prompt1))
-        {
-            prompt1.Tip = LocalizationHelper.GetString("Pormpt1");
-        }
+            if (string.IsNullOrEmpty(stage.Value))
+            {
+                stage.Display = LocalizationHelper.GetString("DefaultStage");
+            }
 
-        if (_stages.TryGetValue("Pormpt2", out var prompt2))
-        {
-            prompt2.Tip = LocalizationHelper.GetString("Pormpt2");
+            if (!string.IsNullOrEmpty(stage.TipKey))
+            {
+                stage.Tip = LocalizationHelper.GetString(stage.TipKey);
+            }
         }
 
         foreach (var entry in _miniGameEntries)

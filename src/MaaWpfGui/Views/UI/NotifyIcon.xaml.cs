@@ -88,6 +88,23 @@ public partial class NotifyIcon
 
             switchLangMenu.Items.Add(langMenu);
         }
+
+        LocalizationHelper.LanguageChanged += RefreshMenuLocalization;
+    }
+
+    /// <summary>
+    /// 刷新托盘图标的右键菜单文本。
+    /// </summary>
+    private void RefreshMenuLocalization()
+    {
+        startMenu.SetResourceReference(MenuItem.HeaderProperty, "Farming");
+        stopMenu.SetResourceReference(MenuItem.HeaderProperty, "Stop");
+        switchLangMenu.SetResourceReference(MenuItem.HeaderProperty, "SwitchLanguage");
+        forceShowMenu.SetResourceReference(MenuItem.HeaderProperty, "ForceShow");
+        hideTrayMenu.SetResourceReference(MenuItem.HeaderProperty, "HideTray");
+        toggleOverlayMenu.SetResourceReference(MenuItem.HeaderProperty, "ToggleOverlay");
+        restartMenu.SetResourceReference(MenuItem.HeaderProperty, "Restart");
+        exitMenu.SetResourceReference(MenuItem.HeaderProperty, "Exit");
     }
 
     // 不知道是干嘛的，先留着

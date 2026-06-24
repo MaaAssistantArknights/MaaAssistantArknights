@@ -83,6 +83,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         item.PropertyChanged += (_, __) => SaveStagePlan();
         StagePlan.Add(item);
         InitDrops();
+        LocalizationHelper.LanguageChanged += RebuildDropsList;
     }
 
     /// <summary>
@@ -720,6 +721,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
         AllDrops.Sort((a, b) => string.Compare(a.Value, b.Value, StringComparison.Ordinal));
         DropsList = [.. AllDrops];
+        NotifyOfPropertyChange(nameof(DropsList));
 
         foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>())
         {
@@ -734,6 +736,26 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// Gets 获取或私有设置掉落材料列表。
     /// </summary>
     public ObservableCollection<CombinedData> DropsList { get; private set; } = [];
+
+    /// <summary>
+    /// 语言切换时重建掉落材料列表。
+    /// </summary>
+    private void RebuildDropsList()
+    {
+        // 提前记录当前选中的掉落 ID，避免重建后丢失
+        var savedDropId = GetTaskConfig<FightTask>().DropId;
+        ItemListHelper.Reload();
+        AllDrops.Clear();
+        InitDrops();
+
+        // 恢复选中状态
+        if (!string.IsNullOrEmpty(savedDropId) && AllDrops.Any(i => i.Value == savedDropId))
+        {
+            SetTaskConfig<FightTask>(t => t.DropId == savedDropId, t => t.DropId = savedDropId);
+        }
+
+        RefreshDropName();
+    }
 
     /// <summary>
     /// Gets or sets 指定掉落材料 ID。

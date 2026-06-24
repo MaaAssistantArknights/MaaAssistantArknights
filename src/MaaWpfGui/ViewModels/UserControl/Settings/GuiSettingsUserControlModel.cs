@@ -589,4 +589,13 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         RefreshWindowTitleAllShowDict();
         Instances.SettingsViewModel.UpdateWindowTitle();
     }
+
+    public void RefreshLocalization()
+    {
+        RefreshOperNameLanguageModeList();
+        RefreshDarkModeList();
+        RefreshInverseClearModeList();
+        RefreshWindowTitleAllShowDict();
+        Instances.SettingsViewModel.UpdateWindowTitle();
+    }
 }

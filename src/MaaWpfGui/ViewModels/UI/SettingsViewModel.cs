@@ -142,10 +142,43 @@ public class SettingsViewModel : Screen
             // Stopping = e.Stopping;
         };
 
-        LocalizationHelper.LanguageChanged += () => {
-            DisplayName = LocalizationHelper.GetString("Settings");
-            RefreshInitSettings();
+        LocalizationHelper.LanguageChanged += RefreshLocalization;
+    }
+
+    /// <summary>
+    /// 刷新本地化文本。
+    /// </summary>
+    public void RefreshLocalization()
+    {
+        DisplayName = LocalizationHelper.GetString("Settings");
+
+        // 重新生成设置列表
+        Settings.Clear();
+        var keyList = new List<string>
+        {
+            "SwitchConfiguration",
+            "ScheduleSettings",
+            "PerformanceSettings",
+            "GameSettings",
+            "ConnectionSettings",
+            "StartupSettings",
+            "RemoteControlSettings",
+            "UiSettings",
+            "BackgroundSettings",
+            "ExternalNotificationSettings",
+            "HotKeySettings",
+            "AchievementSettings",
+            "UpdateSettings",
+            "IssueReport",
+            "AboutUs",
         };
+
+        foreach (var key in keyList)
+        {
+            int order = ConfigurationHelper.GetSettingOrder(key, -1);
+            var item = new SettingItemViewModel(key, LocalizationHelper.GetString(key), order);
+            Settings.Add(item);
+        }
     }
 
     #region Init
