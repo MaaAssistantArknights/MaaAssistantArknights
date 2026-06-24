@@ -151,34 +151,7 @@ public class SettingsViewModel : Screen
     public void RefreshLocalization()
     {
         DisplayName = LocalizationHelper.GetString("Settings");
-
-        // 重新生成设置列表
-        Settings.Clear();
-        var keyList = new List<string>
-        {
-            "SwitchConfiguration",
-            "ScheduleSettings",
-            "PerformanceSettings",
-            "GameSettings",
-            "ConnectionSettings",
-            "StartupSettings",
-            "RemoteControlSettings",
-            "UiSettings",
-            "BackgroundSettings",
-            "ExternalNotificationSettings",
-            "HotKeySettings",
-            "AchievementSettings",
-            "UpdateSettings",
-            "IssueReport",
-            "AboutUs",
-        };
-
-        foreach (var key in keyList)
-        {
-            int order = ConfigurationHelper.GetSettingOrder(key, -1);
-            var item = new SettingItemViewModel(key, LocalizationHelper.GetString(key), order);
-            Settings.Add(item);
-        }
+        RefreshSettingsList();
     }
 
     #region Init
@@ -301,7 +274,10 @@ public class SettingsViewModel : Screen
         Settings.CollectionChanged += Settings_CollectionChanged;
     }
 
-    private void RefreshInitSettings()
+    /// <summary>
+    /// 刷新设置菜单项的本地化文本。
+    /// </summary>
+    private void RefreshSettingsList()
     {
         foreach (var item in Settings)
         {
