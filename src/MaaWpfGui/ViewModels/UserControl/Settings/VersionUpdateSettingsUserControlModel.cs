@@ -45,6 +45,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     static VersionUpdateSettingsUserControlModel()
     {
         Instance = new();
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     public static VersionUpdateSettingsUserControlModel Instance { get; }
@@ -228,16 +229,14 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the list of the version type.
     /// </summary>
-    public List<GenericCombinedData<UpdateVersionType>> AllVersionTypeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
-            new() { Display = LocalizationHelper.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
-            new() { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
-        ];
+    public LocalizedList<UpdateVersionType> AllVersionTypeList { get; } = new(
+        (UpdateVersionType.Nightly, "UpdateCheckNightly"),
+        (UpdateVersionType.Beta, "UpdateCheckBeta"),
+        (UpdateVersionType.Stable, "UpdateCheckStable"));
 
     public List<GenericCombinedData<UpdateVersionType>> VersionTypeList
     {
-        get => AllVersionTypeList.Where(v => AllowNightlyUpdates || v.Value != UpdateVersionType.Nightly).ToList();
+        get => [.. AllVersionTypeList.Items.Where(v => AllowNightlyUpdates || v.Value != UpdateVersionType.Nightly)];
     }
 
     public bool AllowNightlyUpdates { get; set; } = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, false);
@@ -253,10 +252,9 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    public List<GenericCombinedData<string>> UpdateSourceList { get; } = [
-        new() { Display = LocalizationHelper.GetString("GlobalSource"), Value = "Github" },
-        new() { Display = LocalizationHelper.GetString("MirrorChyan"), Value = "MirrorChyan" },
-    ];
+    public LocalizedList<string> UpdateSourceList { get; } = new(
+        ("Github", "GlobalSource"),
+        ("MirrorChyan", "MirrorChyan"));
 
     private string _updateSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateSource, "Github");
 
@@ -636,5 +634,14 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         {
             Instances.WindowManager.ShowWindow(Instances.VersionUpdateDialogViewModel);
         }
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        AllVersionTypeList.RefreshLocalization();
+        UpdateSourceList.RefreshLocalization();
     }
 }
