@@ -28,12 +28,8 @@
         "roi": [1163, 27, 84, 28],
         "text": ["Movements"]
     },
-    "EnterEpisodeNew": {
-        "baseTask": "#none",
-        "baseTaskDoc": "26.2.10 Add a secondary interface and delete it after subsequent updates",
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf"
+    "EnterEpisodeNew-Click": {
+        "text": ["Go to Episode"]
     },
     "LevelOfDifficulty": {
         "text": ["Environment", "PRTS"]
