@@ -401,6 +401,9 @@ public static class PropertyDependsOnUtility
         // 避免 Dispose 后仍被外部实例的 PropertyChanged 回调持有强引用。
         lock (_externalDependenciesLock)
         {
+            // 收集 propMap 已完全清空的 externalInstance，遍历结束后统一移除并反订阅
+            var orphanedExternalInstances = new List<object>();
+
             foreach (var (externalInstance, propMap) in _externalDependencies)
             {
                 // propMap: 外部属性名 → 依赖它的本实例列表
@@ -421,6 +424,23 @@ public static class PropertyDependsOnUtility
                 {
                     propMap.Remove(key);
                 }
+
+                // 该外部实例下已无任何依赖方，标记为孤儿，稍后移除并反订阅
+                if (propMap.Count == 0)
+                {
+                    orphanedExternalInstances.Add(externalInstance);
+                }
+            }
+
+            foreach (var orphan in orphanedExternalInstances)
+            {
+                _externalDependencies.Remove(orphan);
+                if (_externalHandlers.TryGetValue(orphan, out var externalHandler) && orphan is INotifyPropertyChanged notifyOrphan)
+                {
+                    notifyOrphan.PropertyChanged -= externalHandler;
+                }
+
+                _externalHandlers.Remove(orphan);
             }
         }
     }
