@@ -154,5 +154,5 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
         // （导致内存泄漏与语言切换时的僵尸通知）
         PropertyDependsOnUtility.UnInitializePropertyDependencies(this);
         GC.SuppressFinalize(this);
-}
+    }
 }

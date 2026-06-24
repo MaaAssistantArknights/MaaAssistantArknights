@@ -19,6 +19,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Serilog;
 
 namespace MaaWpfGui.Utilities;
@@ -40,11 +41,18 @@ public static class PropertyDependsOnUtility
     private static readonly ConcurrentDictionary<Type, MethodInfo?> _methodInfoCache = new();
 
     // 跨实例依赖：外部实例 → (外部属性名 → 依赖它的本实例列表)
-    // 使用 object 作为 key（弱引用），value 中存储需要刷新的 (本实例, 依赖属性名列表)
+    // 注意：value 中存储需要刷新的 (本实例, 依赖属性名列表) 是强引用，
+    // 因此非单例实例必须在 Dispose 时调用 UnInitializePropertyDependencies 清理，
+    // 否则会被无限期持有，造成内存泄漏与僵尸通知。
     private static readonly Dictionary<object, Dictionary<string, List<(object Instance, List<string> DependentProperties)>>> _externalDependencies = [];
 
-    // 跨实例事件处理器，用于取消订阅
+    // 跨实例事件处理器，用于取消订阅（强引用，配合 UnInitializePropertyDependencies 清理）
     private static readonly Dictionary<object, PropertyChangedEventHandler> _externalHandlers = [];
+
+    // 保护 _externalDependencies / _externalHandlers 的所有读写。
+    // 用锁而非 ConcurrentDictionary，因为内层 Dictionary/List 仍非线程安全，
+    // 且事件订阅是必须原子的副作用。Monitor 可重入，同线程内 Initialize → Register 不会死锁。
+    private static readonly Lock _externalDependenciesLock = new();
 
     // 缓存静态属性访问器，key: "OwnerType.PropertyName" → Func<object?>
     private static readonly ConcurrentDictionary<string, Func<object?>?> _externalInstanceCache = new();
@@ -236,41 +244,49 @@ public static class PropertyDependsOnUtility
     /// </summary>
     private static void RegisterExternalDependency(INotifyPropertyChanged externalInstance, string externalPropertyName, List<(object Instance, List<string> DependentProperties)> instanceEntries)
     {
-        if (!_externalDependencies.TryGetValue(externalInstance, out var propMap))
+        // 事件订阅是不可重复的副作用，必须整体原子：仅在首次注册时订阅一次。
+        // Monitor 可重入，InitializePropertyDependencies 调用本方法（同线程）不会死锁。
+        lock (_externalDependenciesLock)
         {
-            propMap = [];
-            _externalDependencies[externalInstance] = propMap;
-
-            // 订阅外部实例的 PropertyChanged
-            void externalHandler(object? sender, PropertyChangedEventArgs e)
+            if (!_externalDependencies.TryGetValue(externalInstance, out var propMap))
             {
-                Log.Debug("跨实例 handler 触发: sender={Sender}, property={Property}", sender?.GetType().Name, e.PropertyName);
+                propMap = [];
+                _externalDependencies[externalInstance] = propMap;
 
-                if (!_externalDependencies.TryGetValue(externalInstance, out var currentPropMap))
+                // 订阅外部实例的 PropertyChanged
+                void externalHandler(object? sender, PropertyChangedEventArgs e)
                 {
-                    return;
-                }
+                    Log.Debug("跨实例 handler 触发: sender={Sender}, property={Property}", sender?.GetType().Name, e.PropertyName);
 
-                if (string.IsNullOrEmpty(e.PropertyName))
-                {
-                    foreach (var (_, instances) in currentPropMap)
+                    // 在锁内只收集待通知的 (实例, 属性)，通知动作放到锁外执行，
+                    // 避免 NotifyPropertyChange 触发任意用户代码时持锁（潜在死锁/重入问题）。
+                    List<(object Instance, List<string> DependentProperties)> toNotify;
+                    lock (_externalDependenciesLock)
                     {
-                        foreach (var (inst, depProps) in instances)
+                        if (!_externalDependencies.TryGetValue(externalInstance, out var currentPropMap))
                         {
-                            foreach (var prop in depProps)
-                            {
-                                NotifyPropertyChange(inst, prop);
-                            }
+                            return;
+                        }
+
+                        if (string.IsNullOrEmpty(e.PropertyName))
+                        {
+                            // 全局刷新：汇总所有属性下的依赖
+                            toNotify = currentPropMap.Values.SelectMany(instances => instances).ToList();
+                        }
+                        else if (currentPropMap.TryGetValue(e.PropertyName, out var affectedInstances))
+                        {
+                            Log.Debug("跨实例依赖匹配: property={Property}, 实例数={Count}", e.PropertyName, affectedInstances.Count);
+
+                            // 复制一份快照，避免通知期间列表被其他线程修改
+                            toNotify = [.. affectedInstances];
+                        }
+                        else
+                        {
+                            return;
                         }
                     }
 
-                    return;
-                }
-
-                if (currentPropMap.TryGetValue(e.PropertyName, out var affectedInstances))
-                {
-                    Log.Debug("跨实例依赖匹配: property={Property}, 实例数={Count}", e.PropertyName, affectedInstances.Count);
-                    foreach (var (inst, depProps) in affectedInstances)
+                    foreach (var (inst, depProps) in toNotify)
                     {
                         foreach (var prop in depProps)
                         {
@@ -278,20 +294,20 @@ public static class PropertyDependsOnUtility
                         }
                     }
                 }
+
+                _externalHandlers[externalInstance] = externalHandler;
+                externalInstance.PropertyChanged += externalHandler;
+                Log.Debug("已注册跨实例依赖: externalType={Type}, property={Property}", externalInstance.GetType().Name, externalPropertyName);
             }
 
-            _externalHandlers[externalInstance] = externalHandler;
-            externalInstance.PropertyChanged += externalHandler;
-            Log.Debug("已注册跨实例依赖: externalType={Type}, property={Property}", externalInstance.GetType().Name, externalPropertyName);
-        }
+            if (!propMap.TryGetValue(externalPropertyName, out var existingList))
+            {
+                existingList = [];
+                propMap[externalPropertyName] = existingList;
+            }
 
-        if (!propMap.TryGetValue(externalPropertyName, out var existingList))
-        {
-            existingList = [];
-            propMap[externalPropertyName] = existingList;
+            existingList.AddRange(instanceEntries);
         }
-
-        existingList.AddRange(instanceEntries);
     }
 
     /// <summary>
@@ -361,7 +377,9 @@ public static class PropertyDependsOnUtility
     }
 
     /// <summary>
-    /// 取消指定实例的属性依赖初始化，移除事件订阅。
+    /// 取消指定实例的属性依赖初始化，移除事件订阅，并清理它在跨实例依赖表中的注册项。
+    /// 非单例实例（如 TaskItemViewModel）必须在 Dispose 时调用此方法，否则会被静态
+    /// <see cref="_externalDependencies"/> 强引用持有，造成内存泄漏和僵尸通知。
     /// </summary>
     /// <param name="instance">要取消初始化的实例</param>
     public static void UnInitializePropertyDependencies(INotifyPropertyChanged? instance)
@@ -378,6 +396,33 @@ public static class PropertyDependsOnUtility
         }
 
         _instanceDependencies.Remove(instance);
+
+        // 清理该实例作为"依赖方"在跨实例依赖表中的所有注册项，
+        // 避免 Dispose 后仍被外部实例的 PropertyChanged 回调持有强引用。
+        lock (_externalDependenciesLock)
+        {
+            foreach (var (externalInstance, propMap) in _externalDependencies)
+            {
+                // propMap: 外部属性名 → 依赖它的本实例列表
+                var emptyPropertyKeys = new List<string>();
+                foreach (var (propertyName, instanceEntries) in propMap)
+                {
+                    // 移除所有指向本实例的条目
+                    if (instanceEntries.RemoveAll(entry => ReferenceEquals(entry.Instance, instance)) > 0)
+                    {
+                        if (instanceEntries.Count == 0)
+                        {
+                            emptyPropertyKeys.Add(propertyName);
+                        }
+                    }
+                }
+
+                foreach (var key in emptyPropertyKeys)
+                {
+                    propMap.Remove(key);
+                }
+            }
+        }
     }
 
     /// <summary>
