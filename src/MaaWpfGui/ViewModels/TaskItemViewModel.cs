@@ -146,5 +146,13 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
         }
     }
 
-    void IDisposable.Dispose() => Instances.AsstProxy.OnTaskStatusChanged -= OnTaskStatusChanged;
+    void IDisposable.Dispose()
+    {
+        Instances.AsstProxy.OnTaskStatusChanged -= OnTaskStatusChanged;
+
+        // 清理跨实例依赖注册，避免 Dispose 后被静态 _externalDependencies 强引用持有
+        // （导致内存泄漏与语言切换时的僵尸通知）
+        PropertyDependsOnUtility.UnInitializePropertyDependencies(this);
+        GC.SuppressFinalize(this);
+}
 }
