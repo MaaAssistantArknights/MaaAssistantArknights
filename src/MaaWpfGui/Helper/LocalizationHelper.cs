@@ -95,6 +95,13 @@ public static class LocalizationHelper
 
     /// <summary>
     /// 语言变更事件，运行时切换语言后触发，订阅者应刷新缓存的本地化文本。
+    /// <para>
+    /// 订阅约定：该事件为静态事件，订阅者必须是应用级单例（通过 Stylet IoC 容器管理，
+    /// 如 <see cref="ViewModels.UI.ToolboxViewModel"/>、各 <c>*UserControlModel</c> 的 <c>Instance</c> 单例），
+    /// 因此订阅后无需取消订阅。非单例类型（如 <see cref="ViewModels.TaskItemViewModel"/>）
+    /// 必须在 <see cref="IDisposable.Dispose"/> 时通过
+    /// <see cref="Utilities.PropertyDependsOnUtility.UnInitializePropertyDependencies"/> 清理跨实例依赖。
+    /// </para>
     /// </summary>
     public static event Action? LanguageChanged;
 

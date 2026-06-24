@@ -73,6 +73,8 @@ public class ToolboxViewModel : Screen
             }
         };
         _peepImageTimer.Elapsed += PeepImageTimerElapsed;
+
+        // 本类型由 Stylet IoC 容器管理，全应用生命周期唯一实例，订阅后无需取消订阅
         LocalizationHelper.LanguageChanged += () => {
             DisplayName = LocalizationHelper.GetString("Toolbox");
             RecruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
