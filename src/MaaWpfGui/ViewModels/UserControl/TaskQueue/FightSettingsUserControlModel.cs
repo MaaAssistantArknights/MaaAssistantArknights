@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -83,6 +84,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         item.PropertyChanged += (_, __) => SaveStagePlan();
         StagePlan.Add(item);
         InitDrops();
+
+        // 本类型为 Instance 单例，构造仅执行一次，订阅后无需取消订阅
         LocalizationHelper.LanguageChanged += RefreshLocalization;
     }
 
@@ -301,10 +304,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
+    // CA1822: 该属性必须保持为实例成员，PropertyDependsOnUtility 通过实例反射触发通知。
+    [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "PropertyDependsOn 需要通过实例属性触发通知")]
     [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
-#pragma warning disable CA1822 // 将成员标记为 static
     public string UseStoneString => LocalizationHelper.GetString("UseOriginitePrime");
-#pragma warning restore CA1822 // 将成员标记为 static
 
     /// <summary>
     /// Gets or sets a value indicating whether 使用源石。
