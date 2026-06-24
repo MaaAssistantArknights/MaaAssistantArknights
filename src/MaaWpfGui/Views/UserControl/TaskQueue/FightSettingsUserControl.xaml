@@ -217,7 +217,7 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         d:IsHitTestVisible="True"
-                        DisplayMemberPath="Key"
+                        DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                      Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                         ItemsSource="{Binding SeriesList}"
@@ -424,7 +424,7 @@
                 <ComboBox
                     Height="30"
                     d:IsHitTestVisible="True"
-                    DisplayMemberPath="Key"
+                    DisplayMemberPath="Display"
                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                  Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                     ItemsSource="{Binding AnnihilationModeList}"

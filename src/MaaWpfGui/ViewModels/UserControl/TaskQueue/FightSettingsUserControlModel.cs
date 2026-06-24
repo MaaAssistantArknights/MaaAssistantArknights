@@ -83,7 +83,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         item.PropertyChanged += (_, __) => SaveStagePlan();
         StagePlan.Add(item);
         InitDrops();
-        LocalizationHelper.LanguageChanged += RebuildDropsList;
+        LocalizationHelper.LanguageChanged += RefreshLocalization;
+    }
+
+    private void RefreshLocalization()
+    {
+        RebuildDropsList();
+        SeriesList.RefreshLocalization();
+        AnnihilationModeList.RefreshLocalization();
+        StageResetModeList.RefreshLocalization();
     }
 
     /// <summary>
@@ -383,17 +391,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public static Dictionary<string, int> SeriesList { get; set; } = new()
-    {
-        { "AUTO", 0 },
-        { "6", 6 },
-        { "5", 5 },
-        { "4", 4 },
-        { "3", 3 },
-        { "2", 2 },
-        { "1", 1 },
-        { LocalizationHelper.GetString("NotSwitch"), -1 },
-    };
+    public LocalizedList<int> SeriesList { get; } = new(
+        (0, "AUTO"),
+        (6, "6"),
+        (5, "5"),
+        (4, "4"),
+        (3, "3"),
+        (2, "2"),
+        (1, "1"),
+        (-1, "NotSwitch"));
 
     /// <summary>
     /// Gets or sets 连战次数。
@@ -848,13 +854,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public static Dictionary<string, string> AnnihilationModeList { get; } = new()
-    {
-        { LocalizationHelper.GetString("Annihilation.Current"), AnnihilationName },
-        { LocalizationHelper.GetString("Chernobog"), "Chernobog@Annihilation" },
-        { LocalizationHelper.GetString("LungmenOutskirts"), "LungmenOutskirts@Annihilation" },
-        { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@Annihilation" },
-    };
+    public LocalizedList<string> AnnihilationModeList { get; } = new(
+        (AnnihilationName, "Annihilation.Current"),
+        ("Chernobog@Annihilation", "Chernobog"),
+        ("LungmenOutskirts@Annihilation", "LungmenOutskirts"),
+        ("LungmenDowntown@Annihilation", "LungmenDowntown"));
 
     public bool UseCustomAnnihilation
     {
@@ -863,7 +867,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             bool ret = SetTaskConfig<FightTask>(t => t.UseCustomAnnihilation == value, t => t.UseCustomAnnihilation = value);
             if (ret)
             {
-                StageListSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display = UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == AnnihilationStage).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
+                StageListSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display =
+                    UseCustomAnnihilation
+                        ? (AnnihilationModeList.FirstOrDefault(i => i.Value == AnnihilationStage)?.Display
+                            ?? LocalizationHelper.GetString("Annihilation.Current"))
+                        : LocalizationHelper.GetString("Annihilation.Current");
             }
         }
     }
@@ -873,7 +881,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         get => GetTaskConfig<FightTask>().AnnihilationStage;
         set {
             SetTaskConfig<FightTask>(t => t.AnnihilationStage == value, t => t.AnnihilationStage = value);
-            StageListSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display = UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == value).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
+            StageListSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display =
+                UseCustomAnnihilation
+                    ? (AnnihilationModeList.FirstOrDefault(i => i.Value == value)?.Display
+                        ?? LocalizationHelper.GetString("Annihilation.Current"))
+                    : LocalizationHelper.GetString("Annihilation.Current");
         }
     }
 
@@ -1005,11 +1017,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public List<GenericCombinedData<FightStageResetMode>> StageResetModeList { get; } =
-    [
-        new() { Display = LocalizationHelper.GetString("DefaultStage"), Value = FightStageResetMode.Current },
-        new() { Display = LocalizationHelper.GetString("NotSwitch"), Value = FightStageResetMode.Ignore },
-    ];
+    public LocalizedList<FightStageResetMode> StageResetModeList { get; } = new(
+        (FightStageResetMode.Current, "DefaultStage"),
+        (FightStageResetMode.Ignore, "NotSwitch"));
 
     public FightStageResetMode StageResetMode
     {
@@ -1213,7 +1223,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         {
             listSource.Add(new StageSourceItem() { Display = item, Value = item, IsOpen = false, IsVisible = false, IsOutdated = true });
         }
-        listSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display = current.UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == current.AnnihilationStage).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
+        listSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display = current.UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == current.AnnihilationStage)?.Display ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
         StageListSource = [.. listSource];
         current.StagePlan = listCurrent; // StageListSource更新后, 恢复StagePlan
     }

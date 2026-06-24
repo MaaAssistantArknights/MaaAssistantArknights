@@ -28,7 +28,7 @@ namespace MaaWpfGui.Utilities.ValueType;
 /// <typeparam name="TValue">条目的值类型</typeparam>
 public class LocalizedList<TValue> : IEnumerable<GenericCombinedData<TValue>>
 {
-    private readonly (TValue Value, string LocalizationKey)[] _entries;
+    private readonly (TValue Value, string LocalizationKey, string? SecondaryKey)[] _entries;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LocalizedList{TValue}"/> class.
@@ -37,12 +37,35 @@ public class LocalizedList<TValue> : IEnumerable<GenericCombinedData<TValue>>
     /// <param name="entries">(值, 本地化key) 数组</param>
     public LocalizedList(params (TValue Value, string LocalizationKey)[] entries)
     {
+        _entries = entries.Select(e => (e.Value, e.LocalizationKey, (string?)null)).ToArray();
+        Items = new(entries.Select(e => new GenericCombinedData<TValue>
+        {
+            Display = FormatDisplay(e.LocalizationKey, null),
+            Value = e.Value,
+        }));
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LocalizedList{TValue}"/> class.
+    /// 初始化本地化列表，支持部分条目有附加本地化 key（如 "{主key} ({附加key})" 格式）。
+    /// </summary>
+    /// <param name="entries">(值, 主本地化key, 附加本地化key或null) 数组</param>
+    public LocalizedList(params (TValue Value, string LocalizationKey, string? SecondaryKey)[] entries)
+    {
         _entries = entries;
         Items = new(entries.Select(e => new GenericCombinedData<TValue>
         {
-            Display = LocalizationHelper.GetString(e.LocalizationKey),
+            Display = FormatDisplay(e.LocalizationKey, e.SecondaryKey),
             Value = e.Value,
         }));
+    }
+
+    private static string FormatDisplay(string key, string? secondaryKey)
+    {
+        var primary = LocalizationHelper.TryGetString(key, out var value) ? value : key;
+        return secondaryKey != null
+            ? $"{primary} ({LocalizationHelper.GetString(secondaryKey)})"
+            : primary;
     }
 
     /// <summary>
@@ -57,7 +80,7 @@ public class LocalizedList<TValue> : IEnumerable<GenericCombinedData<TValue>>
     {
         foreach (var (item, entry) in Items.Zip(_entries))
         {
-            item.Display = LocalizationHelper.GetString(entry.LocalizationKey);
+            item.Display = FormatDisplay(entry.LocalizationKey, entry.SecondaryKey);
         }
     }
 
