@@ -29,12 +29,8 @@
     "ClickChapterNewOverview": {
         "text": ["楽章"]
     },
-    "EnterEpisodeNew": {
-        "baseTask": "#none",
-        "baseTaskDoc": "26.2.10 Add a secondary interface and delete it after subsequent updates",
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf"
+    "EnterEpisodeNew-Click": {
+        "text": ["章節へ"]
     },
     "EnterChapterDifficultyHard": {
         "text": ["作戦へ"]
