@@ -106,7 +106,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     /// <summary>
     /// Gets the list of uses of drones.
     /// </summary>
-    public LocalizedList<string> UsesOfDronesList { get; } = new(
+    public LocalizedObservableList<string> UsesOfDronesList { get; } = new(
         ("_NotUse", "DronesNotUse"),
         ("Money", "Money"),
         ("SyntheticJade", "SyntheticJade"),
@@ -118,7 +118,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     /// <summary>
     /// Gets the list of uses of default infrast.
     /// </summary>
-    public LocalizedList<string> DefaultInfrastList { get; } = new(
+    public LocalizedObservableList<string> DefaultInfrastList { get; } = new(
         (UserDefined, "UserDefined"),
         ("153_layout_3_times_a_day.json", "153Time3"),
         ("153_layout_4_times_a_day.json", "153Time4"),
@@ -175,7 +175,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     /// <summary>
     /// Gets the list of uses of infrast mode.
     /// </summary>
-    public LocalizedList<Mode> InfrastModeList { get; } = new(
+    public LocalizedObservableList<Mode> InfrastModeList { get; } = new(
         (Mode.Normal, "InfrastModeNormal"),
         (Mode.Rotation, "InfrastModeRotation"),
         (Mode.Custom, "InfrastModeCustom"));

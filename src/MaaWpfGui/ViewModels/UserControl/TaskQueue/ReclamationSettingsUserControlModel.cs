@@ -40,7 +40,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     /// <summary>
     /// Gets the list of reclamation themes.
     /// </summary>
-    public LocalizedList<Theme> ReclamationThemeList { get; } = new(
+    public LocalizedObservableList<Theme> ReclamationThemeList { get; } = new(
         (Theme.Fire, "ReclamationThemeFire", "ClosedStage"),
         (Theme.Tales, "ReclamationThemeTales", null),
         (Theme.RelaunchAnchor, "ReclamationThemeRelaunchAnchor", null));
@@ -117,7 +117,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     /// <summary>
     /// Gets the list of reclamation increment modes.
     /// </summary>
-    public LocalizedList<int> ReclamationIncrementModeList { get; } = new(
+    public LocalizedObservableList<int> ReclamationIncrementModeList { get; } = new(
         (0, "ReclamationIncrementModeClick"),
         (1, "ReclamationIncrementModeHold"));
 

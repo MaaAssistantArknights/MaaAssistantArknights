@@ -68,7 +68,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the list of the configuration of connection.
     /// </summary>
-    public LocalizedList<string> ConnectConfigList { get; } = new(
+    public LocalizedObservableList<string> ConnectConfigList { get; } = new(
         ("General", "General"),
         ("BlueStacks", "BlueStacks"),
         ("MuMuEmulator12", "MuMuEmulator12"),
@@ -88,7 +88,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the list of touch modes
     /// </summary>
-    public LocalizedList<string> TouchModeList { get; } = new(
+    public LocalizedObservableList<string> TouchModeList { get; } = new(
         ("minitouch", "MiniTouchMode"),
         ("maatouch", "MaaTouchMode"),
         ("adb", "AdbTouchMode"),

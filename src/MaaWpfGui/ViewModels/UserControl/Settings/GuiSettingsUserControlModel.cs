@@ -53,14 +53,14 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets or sets the list of operator name language settings
     /// </summary>
-    public LocalizedList<string> OperNameLanguageModeList { get; } = new(
+    public LocalizedObservableList<string> OperNameLanguageModeList { get; } = new(
         ("OperNameLanguageMAA", "OperNameLanguageMAA"),
         ("OperNameLanguageClient", "OperNameLanguageClient"));
 
     /// <summary>
     /// Gets the list of dark mode.
     /// </summary>
-    public LocalizedList<DarkModeType> DarkModeList { get; } = new(
+    public LocalizedObservableList<DarkModeType> DarkModeList { get; } = new(
         (DarkModeType.Light, "Light"),
         (DarkModeType.Dark, "Dark"),
         (DarkModeType.SyncWithOs, "SyncWithOs"));
@@ -68,7 +68,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the list of inverse clear modes.
     /// </summary>
-    public LocalizedList<string> InverseClearModeList { get; } = new(
+    public LocalizedObservableList<string> InverseClearModeList { get; } = new(
         ("Clear", "Clear"),
         ("Inverse", "Inverse"),
         ("ClearInverse", "Switchable"));
@@ -490,6 +490,14 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             }
 
             SetAndNotify(ref _operNameLanguage, value);
+
+            // 切换到非 Force 选项后，移除运行时动态插入的 Force 项，避免下拉框残留
+            var forceItem = OperNameLanguageModeList.Items.FirstOrDefault(i => i.Value == "OperNameLanguageForce");
+            if (forceItem is not null)
+            {
+                OperNameLanguageModeList.Items.Remove(forceItem);
+            }
+
             OperNameLanguageChanged?.Invoke();
         }
     }
@@ -569,6 +577,14 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public void RefreshLocalization()
     {
         OperNameLanguageModeList.RefreshLocalization();
+
+        // OperNameLanguageForce 项是运行时动态插入的（不在 LocalizedObservableList._entries 中），
+        // RefreshLocalization 的 Zip 配对不会覆盖它，需单独刷新其 Display。
+        if (OperNameLanguageModeList.Items.FirstOrDefault(i => i.Value == "OperNameLanguageForce") is { } forceItem)
+        {
+            forceItem.Display = LocalizationHelper.GetString("OperNameLanguageForce");
+        }
+
         DarkModeList.RefreshLocalization();
         InverseClearModeList.RefreshLocalization();
         RefreshWindowTitleAllShowDict();

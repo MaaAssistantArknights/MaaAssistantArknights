@@ -58,7 +58,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the list of the client types.
     /// </summary>
-    public LocalizedList<string> ClientTypeList { get; } = new(
+    public LocalizedObservableList<string> ClientTypeList { get; } = new(
         (Constants.Enums.ClientType.Official, "Official"),
         (Constants.Enums.ClientType.Bilibili, "Bilibili"),
         (Constants.Enums.ClientType.EN, "YoStarEN"),

@@ -357,7 +357,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     /// <summary>
     /// Gets the list of roguelike lists.
     /// </summary>
-    public LocalizedList<Theme> RoguelikeThemeList { get; } = new(
+    public LocalizedObservableList<Theme> RoguelikeThemeList { get; } = new(
         (Theme.Phantom, "RoguelikeThemePhantom"),
         (Theme.Mizuki, "RoguelikeThemeMizuki"),
         (Theme.Sami, "RoguelikeThemeSami"),

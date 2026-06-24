@@ -147,7 +147,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
     /// <summary>
     /// Gets the list of auto recruit selecting extra tags.
     /// </summary>
-    public LocalizedList<int> AutoRecruitSelectExtraTagsList { get; } = new(
+    public LocalizedObservableList<int> AutoRecruitSelectExtraTagsList { get; } = new(
         (0, "DefaultNoExtraTags"),
         (1, "SelectExtraTags"),
         (2, "SelectExtraOnlyRareTags"));

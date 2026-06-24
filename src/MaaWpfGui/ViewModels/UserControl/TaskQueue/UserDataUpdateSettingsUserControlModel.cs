@@ -55,7 +55,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
         set => SetTaskConfig<UserDataUpdateTask>(t => t.TriggerInterval == value, t => t.TriggerInterval = value);
     }
 
-    public LocalizedList<UserDataUpdateTriggerInterval> TriggerIntervalList { get; } = new(
+    public LocalizedObservableList<UserDataUpdateTriggerInterval> TriggerIntervalList { get; } = new(
         (UserDataUpdateTriggerInterval.EveryTime, "EveryTime"),
         (UserDataUpdateTriggerInterval.Daily, "Daily"),
         (UserDataUpdateTriggerInterval.Weekly, "Weekly"));

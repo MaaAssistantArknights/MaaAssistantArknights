@@ -391,7 +391,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public LocalizedList<int> SeriesList { get; } = new(
+    public LocalizedObservableList<int> SeriesList { get; } = new(
         (0, "AUTO"),
         (6, "6"),
         (5, "5"),
@@ -854,7 +854,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public LocalizedList<string> AnnihilationModeList { get; } = new(
+    public LocalizedObservableList<string> AnnihilationModeList { get; } = new(
         (AnnihilationName, "Annihilation.Current"),
         ("Chernobog@Annihilation", "Chernobog"),
         ("LungmenOutskirts@Annihilation", "LungmenOutskirts"),
@@ -1017,7 +1017,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public LocalizedList<FightStageResetMode> StageResetModeList { get; } = new(
+    public LocalizedObservableList<FightStageResetMode> StageResetModeList { get; } = new(
         (FightStageResetMode.Current, "DefaultStage"),
         (FightStageResetMode.Ignore, "NotSwitch"));
 

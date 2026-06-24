@@ -1,4 +1,4 @@
-// <copyright file="LocalizedList.cs" company="MaaAssistantArknights">
+// <copyright file="LocalizedObservableList.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -15,27 +15,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Utilities.ValueType;
 
 /// <summary>
-/// 支持语言热切换的本地化列表。
+/// 支持语言热切换的本地化可观察列表。
 /// 每个条目存储 Value 和对应的本地化 key，Display 在初始化和语言切换时自动从 key 获取。
-/// 实现 IEnumerable 以支持 WPF ItemsSource 绑定。
+/// 实现 IEnumerable + INotifyCollectionChanged + INotifyPropertyChanged 以支持 WPF ItemsSource 绑定，
+/// 内部 Items 的增删和 item 属性变更会转发给绑定方。
 /// </summary>
 /// <typeparam name="TValue">条目的值类型</typeparam>
-public class LocalizedList<TValue> : IEnumerable<GenericCombinedData<TValue>>
+public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<TValue>>, INotifyCollectionChanged
 {
     private readonly (TValue Value, string LocalizationKey, string? SecondaryKey)[] _entries;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LocalizedList{TValue}"/> class.
+    /// Initializes a new instance of the <see cref="LocalizedObservableList{TValue}"/> class.
     /// 初始化本地化列表。
     /// </summary>
     /// <param name="entries">(值, 本地化key) 数组</param>
-    public LocalizedList(params (TValue Value, string LocalizationKey)[] entries)
+    public LocalizedObservableList(params (TValue Value, string LocalizationKey)[] entries)
     {
         _entries = entries.Select(e => (e.Value, e.LocalizationKey, (string?)null)).ToArray();
         Items = new(entries.Select(e => new GenericCombinedData<TValue>
@@ -43,14 +45,17 @@ public class LocalizedList<TValue> : IEnumerable<GenericCombinedData<TValue>>
             Display = FormatDisplay(e.LocalizationKey, null),
             Value = e.Value,
         }));
+
+        // 转发内部集合变更，使 WPF ItemsSource 绑定能感知 Items.Add/Remove
+        Items.CollectionChanged += OnItemsCollectionChanged;
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LocalizedList{TValue}"/> class.
+    /// Initializes a new instance of the <see cref="LocalizedObservableList{TValue}"/> class.
     /// 初始化本地化列表，支持部分条目有附加本地化 key（如 "{主key} ({附加key})" 格式）。
     /// </summary>
     /// <param name="entries">(值, 主本地化key, 附加本地化key或null) 数组</param>
-    public LocalizedList(params (TValue Value, string LocalizationKey, string? SecondaryKey)[] entries)
+    public LocalizedObservableList(params (TValue Value, string LocalizationKey, string? SecondaryKey)[] entries)
     {
         _entries = entries;
         Items = new(entries.Select(e => new GenericCombinedData<TValue>
@@ -58,6 +63,8 @@ public class LocalizedList<TValue> : IEnumerable<GenericCombinedData<TValue>>
             Display = FormatDisplay(e.LocalizationKey, e.SecondaryKey),
             Value = e.Value,
         }));
+
+        Items.CollectionChanged += OnItemsCollectionChanged;
     }
 
     private static string FormatDisplay(string key, string? secondaryKey)
@@ -87,4 +94,13 @@ public class LocalizedList<TValue> : IEnumerable<GenericCombinedData<TValue>>
     public IEnumerator<GenericCombinedData<TValue>> GetEnumerator() => Items.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    /// <summary>
+    /// 内部 Items 变更时转发事件，使绑定到本对象的 WPF ItemsControl 能感知增删。
+    /// </summary>
+    private void OnItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        => CollectionChanged?.Invoke(this, e);
+
+    /// <inheritdoc/>
+    public event NotifyCollectionChangedEventHandler? CollectionChanged;
 }

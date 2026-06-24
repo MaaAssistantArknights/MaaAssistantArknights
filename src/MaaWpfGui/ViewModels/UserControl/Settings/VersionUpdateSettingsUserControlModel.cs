@@ -229,7 +229,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the list of the version type.
     /// </summary>
-    public LocalizedList<UpdateVersionType> AllVersionTypeList { get; } = new(
+    public LocalizedObservableList<UpdateVersionType> AllVersionTypeList { get; } = new(
         (UpdateVersionType.Nightly, "UpdateCheckNightly"),
         (UpdateVersionType.Beta, "UpdateCheckBeta"),
         (UpdateVersionType.Stable, "UpdateCheckStable"));
@@ -252,7 +252,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    public LocalizedList<string> UpdateSourceList { get; } = new(
+    public LocalizedObservableList<string> UpdateSourceList { get; } = new(
         ("Github", "GlobalSource"),
         ("MirrorChyan", "MirrorChyan"));
 
