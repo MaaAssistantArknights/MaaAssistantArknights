@@ -35,6 +35,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
     static RecruitSettingsUserControlModel()
     {
         Instance = new();
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     public static RecruitSettingsUserControlModel Instance { get; }
@@ -146,12 +147,10 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
     /// <summary>
     /// Gets the list of auto recruit selecting extra tags.
     /// </summary>
-    public List<GenericCombinedData<int>> AutoRecruitSelectExtraTagsList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = 0 },
-            new() { Display = LocalizationHelper.GetString("SelectExtraTags"), Value = 1 },
-            new() { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = 2 },
-        ];
+    public LocalizedList<int> AutoRecruitSelectExtraTagsList { get; } = new(
+        (0, "DefaultNoExtraTags"),
+        (1, "SelectExtraTags"),
+        (2, "SelectExtraOnlyRareTags"));
 
     /// <summary>
     /// Gets or sets a value indicating three tags are always selected or select only rare tags as many as possible .
@@ -266,6 +265,14 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
     }
 
     public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        AutoRecruitSelectExtraTagsList.RefreshLocalization();
+    }
 
     private interface ISerialize : ITaskQueueModelSerialize
     {
