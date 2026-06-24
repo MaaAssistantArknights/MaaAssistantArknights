@@ -1291,6 +1291,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="TotalDrop" xml:space="preserve">掉落统计: </system:String>
     <system:String x:Key="FurnitureDrop">家具</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">当前设施: </system:String>
+    <system:String x:Key="TradeDronesUsageNotUsed">贸易站无人机未使用，在基建换班-无人机用途中确认是否需要修改</system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配编组: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配{key=Operator}编组失败，编组列表: </system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">首选{key=Operator}: </system:String>

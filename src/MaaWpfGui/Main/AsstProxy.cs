@@ -71,6 +71,7 @@ public class AsstProxy
 {
     private readonly RunningState _runningState;
     private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
+    private static readonly HashSet<AsstTaskId> _infrastTradeDronesUsageReminderTasks = [];
 
     public DateTimeOffset StartTaskTime { get; set; }
 
@@ -1068,6 +1069,7 @@ public class AsstProxy
 
                 // UpdateTaskStatus(taskId, TaskStatus.Completed);
                 _tasksStatus.Clear();
+                _infrastTradeDronesUsageReminderTasks.Clear();
                 break;
 
             case AsstMsg.TaskChainError:
@@ -1095,6 +1097,7 @@ public class AsstProxy
 
             case AsstMsg.TaskChainStart:
                 {
+                    _infrastTradeDronesUsageReminderTasks.Remove(taskId);
                     var taskIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
                     var task = taskIndex >= 0 && taskIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
                         ? ConfigFactory.CurrentConfig.TaskQueue[taskIndex]
@@ -1234,6 +1237,13 @@ public class AsstProxy
                         .Replace("{TimeDiff}", diffTaskTime);
 
                     var allTaskCompleteLog = LocalizationHelper.GetStringFormat("AllTasksComplete", diffTaskTime);
+
+                    if (taskList?.Any(i => _infrastTradeDronesUsageReminderTasks.Remove(i)) == true)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(
+                            LocalizationHelper.GetString("TradeDronesUsageNotUsed"),
+                            splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                    }
 
                     if (FightSetting.SanityReport is not null)
                     {
@@ -1423,6 +1433,14 @@ public class AsstProxy
             default:
                 throw new ArgumentOutOfRangeException(nameof(msg), msg, null);
         }
+    }
+
+    private static string BuildInfrastFacilityLog(JToken? details, string suffix = "")
+    {
+        return LocalizationHelper.GetString("ThisFacility") +
+               LocalizationHelper.GetString($"{details?["facility"]}") + " " +
+               ((int)(details?["index"] ?? -2) + 1).ToString("D2") +
+               suffix;
     }
 
     private static void ProcSubTaskError(JObject details)
@@ -1892,10 +1910,12 @@ public class AsstProxy
                 }
 
             case "EnterFacility":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
-                                                    LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
-                                                    ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
+                Instances.TaskQueueViewModel.AddLog(BuildInfrastFacilityLog(subTaskDetails),
                                                     splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                break;
+
+            case "TradeDronesUsageNotUsed":
+                _infrastTradeDronesUsageReminderTasks.Add(taskId);
                 break;
 
             case "ProductIncorrect":

@@ -351,7 +351,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="drones" type="string" optional default="\_NotUse"  
 无人机用途。`mode = 10000` 时该字段无效。
 <br>
-选项：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+选项：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone`
 :::  
 ::: field name="threshold" type="number" optional default="0.3"  
 工作心情阈值，取值范围 [0, 1.0]。

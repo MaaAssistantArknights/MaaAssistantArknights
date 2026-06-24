@@ -1292,6 +1292,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TotalDrop" xml:space="preserve">드롭 통계: </system:String>
     <system:String x:Key="FurnitureDrop">가구</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">현재 시설: </system:String>
+    <system:String x:Key="TradeDronesUsageNotUsed">무역소 드론을 사용하지 않았습니다. 기반시설 교대-드론 용도에서 변경이 필요한지 확인하세요.</system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">그룹에 일치: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">{key=Operator} 그룹, 그룹 목록을 일치시키지 못했습니다: </system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">선호하는 {key=Operator}: </system:String>

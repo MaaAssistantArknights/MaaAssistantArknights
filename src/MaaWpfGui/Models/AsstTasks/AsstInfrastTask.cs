@@ -45,10 +45,15 @@ public class AsstInfrastTask : AsstBaseTask
     /// <item><c>CombatRecord</c></item>
     /// <item><c>PureGold</c></item>
     /// <item><c>OriginStone</c></item>
-    /// <item><c>Chip</c></item>
     /// </list>
     /// </summary>
-    public string UsesOfDrones { get; set; } = "_NotUse";
+    private string _usesOfDrones = "_NotUse";
+
+    public string UsesOfDrones
+    {
+        get => _usesOfDrones;
+        set => _usesOfDrones = string.IsNullOrEmpty(value) || value == "Chip" ? "_NotUse" : value;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether 训练室是否尝试连续专精

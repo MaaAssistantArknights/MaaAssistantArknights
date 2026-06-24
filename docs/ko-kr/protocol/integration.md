@@ -340,7 +340,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 ::: field name="drones" type="string" optional default="\_NotUse"  
 드론 용도. `mode = 10000`일 때 이 필드는 무효
 <br>
-옵션: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+옵션: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone`
 :::  
 ::: field name="threshold" type="number" optional default="0.3"  
 컨디션 임계값, 범위 [0, 1.0]
