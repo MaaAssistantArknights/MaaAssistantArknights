@@ -482,8 +482,14 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             }
 
             SetAndNotify(ref _operNameLanguage, value);
+            OperNameLanguageChanged?.Invoke();
         }
     }
+
+    /// <summary>
+    /// 干员名语言变更事件，订阅者应刷新干员相关数据。
+    /// </summary>
+    public event Action? OperNameLanguageChanged;
 
     public string OperNameLocalization
     {

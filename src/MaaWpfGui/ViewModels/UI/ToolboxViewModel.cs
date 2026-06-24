@@ -76,7 +76,6 @@ public class ToolboxViewModel : Screen
         LocalizationHelper.LanguageChanged += () => {
             DisplayName = LocalizationHelper.GetString("Toolbox");
             RecruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
-
             Application.Current.Dispatcher.InvokeAsync(
                 () => {
                     LoadDepotDetails();
@@ -84,6 +83,13 @@ public class ToolboxViewModel : Screen
                     LoadOperBoxDetails();
                 },
                 DispatcherPriority.Loaded);
+        };
+        SettingsViewModel.GuiSettings.OperNameLanguageChanged += () => {
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                ClearOperBoxRecognitionData();
+                LoadOperBoxDetails();
+            }, DispatcherPriority.Loaded);
         };
         _peepImageTimer.Interval = 1000d / PeepTargetFps;
         _gachaTimer.Tick += RefreshGachaTip;
