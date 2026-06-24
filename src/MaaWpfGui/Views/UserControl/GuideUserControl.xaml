@@ -326,25 +326,18 @@
                             <hc:RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <TextBlock
                                     Name="ToolTipGuide"
-                                    Margin="0,10"
+                                    Margin="0,0,0,50"
                                     Text="{DynamicResource ToolTipGuide}" />
                                 <controls:TooltipBlock
                                     x:Name="PerformBattlesGuide"
-                                    Margin="0,10,0,10"
+                                    Margin="0,0,0,50"
                                     hc:RelativePanel.RightOf="{Binding ElementName=ToolTipGuide}"
                                     TooltipText="{DynamicResource CheckBoxesNotSaved}" />
-                                <TextBlock
-                                    Name="ToolTipArrow"
-                                    Margin="10,0"
-                                    hc:RelativePanel.AlignLeftWith="{Binding ElementName=ToolTipGuide}"
-                                    hc:RelativePanel.Below="{Binding ElementName=ToolTipGuide}"
-                                    FontSize="14"
-                                    Text="↓" />
                                 <Border
                                     x:Name="TaskItemBorder"
                                     Width="220"
                                     Padding="5,0,0,0"
-                                    hc:RelativePanel.Below="{Binding ElementName=ToolTipArrow}"
+                                    hc:RelativePanel.Below="{Binding ElementName=ToolTipGuide}"
                                     BorderBrush="{DynamicResource BorderBrush}"
                                     BorderThickness="1"
                                     CornerRadius="4">
