@@ -1301,7 +1301,7 @@
             ["汝吾(门)?", "_default"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
-            ["是非境", "_boskyPassageDefault"]
+            ["是非(境|坍)", "_boskyPassageDefault"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1318,7 +1318,7 @@
             ["汝吾(门)?", "_pragmatic"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
-            ["是非境", "_boskyPassageDefault"]
+            ["是非(境|坍)", "_boskyPassageDefault"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1334,7 +1334,7 @@
             ["汝吾(门)?", "_restart"],
             ["见字祠", "_restart"],
             ["始末陵", "_restart"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["是非(境|坍)", "_leaveBoskyPassage"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1351,7 +1351,7 @@
             ["汝吾(门)?", "_restart"],
             ["见字祠", "_restart"],
             ["始末陵", "_restart"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["是非(境|坍)", "_leaveBoskyPassage"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1368,7 +1368,7 @@
             ["汝吾(门)?", "_restart"],
             ["见字祠", "_restart"],
             ["始末陵", "_restart"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["是非(境|坍)", "_leaveBoskyPassage"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1384,7 +1384,7 @@
             ["汝吾(门)?", "_restart"],
             ["见字祠", "_restart"],
             ["始末陵", "_restart"],
-            ["是非境", "_boskyPassageDefault"]
+            ["是非(境|坍)", "_boskyPassageDefault"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1400,7 +1400,7 @@
             ["汝吾(门)?", "_exit"],
             ["见字祠", "_exit"],
             ["始末陵", "_exit"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["是非(境|坍)", "_leaveBoskyPassage"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1417,7 +1417,7 @@
             ["汝吾(门)?", "_exit"],
             ["见字祠", "_exit"],
             ["始末陵", "_exit"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["是非(境|坍)", "_leaveBoskyPassage"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1433,7 +1433,7 @@
             ["汝吾(门)?", "_default"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
-            ["是非境", "_boskyPassageDefault"]
+            ["是非(境|坍)", "_boskyPassageDefault"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1449,7 +1449,7 @@
             ["汝吾(门)?", "_default"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
-            ["是非境", "_boskyPassageDefault"]
+            ["是非(境|坍)", "_boskyPassageDefault"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
