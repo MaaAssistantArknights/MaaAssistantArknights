@@ -657,8 +657,8 @@ public class TaskQueueViewModel : Screen
             DisplayName = LocalizationHelper.GetString("Farming");
             RefreshTaskTypeListLocalization();
 
-            // 用于触反选按钮刷新
-            InverseMode = InverseMode;
+            // 刷新反选按钮的两个本地化文本
+            RefreshInverseModeText();
 
             // 延迟到所有 LanguageChanged 回调执行完毕后再更新关卡列表
             // 确保 StageManager.RefreshLocalization 已更新 StageInfo 的 Display/Tip
@@ -1530,10 +1530,18 @@ public class TaskQueueViewModel : Screen
         get => _inverseMode;
         set {
             SetAndNotify(ref _inverseMode, value);
-            InverseShowText = value ? LocalizationHelper.GetString("Inverse") : LocalizationHelper.GetString("Clear");
-            InverseMenuText = value ? LocalizationHelper.GetString("Clear") : LocalizationHelper.GetString("Inverse");
+            RefreshInverseModeText();
             ConfigurationHelper.SetValue(ConfigurationKeys.MainFunctionInverseMode, value.ToString());
         }
+    }
+
+    /// <summary>
+    /// 刷新反选按钮的两个本地化文本（语言切换时调用）。
+    /// </summary>
+    private void RefreshInverseModeText()
+    {
+        InverseShowText = _inverseMode ? LocalizationHelper.GetString("Inverse") : LocalizationHelper.GetString("Clear");
+        InverseMenuText = _inverseMode ? LocalizationHelper.GetString("Clear") : LocalizationHelper.GetString("Inverse");
     }
 
     /// <summary>
