@@ -651,13 +651,16 @@
                             HorizontalAlignment="Right"
                             VerticalContentAlignment="Top"
                             NormalOpacity="0.5">
-                            <controls:TooltipBlock.TooltipText>
-                                <MultiBinding StringFormat="{}{0}&#x0a;{1}: {2}">
-                                    <Binding Source="{StaticResource InventoryUpdateTip}" />
-                                    <Binding Source="{StaticResource LastSyncTime}" />
-                                    <Binding Path="LastDepotSyncTimeText" Source="{x:Static helper:Instances.ToolboxViewModel}" />
-                                </MultiBinding>
-                            </controls:TooltipBlock.TooltipText>
+                            <controls:TooltipBlock.CustomToolTip>
+                                <StackPanel>
+                                    <controls:TextBlock Text="{DynamicResource InventoryUpdateTip}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <controls:TextBlock Text="{DynamicResource LastSyncTime}" />
+                                        <controls:TextBlock Text=": " />
+                                        <controls:TextBlock Text="{Binding LastDepotSyncTimeText, Mode=OneWay, Source={x:Static helper:Instances.ToolboxViewModel}}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </controls:TooltipBlock.CustomToolTip>
                         </controls:TooltipBlock>
                     </Border>
                 </Grid>
