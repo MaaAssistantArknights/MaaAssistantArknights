@@ -407,9 +407,12 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 cancel: FormatText("{0}/{1}", "ManualRestart"));
             if (result == MessageBoxResult.Yes)
             {
+                // 先更新字段值，确保 Reload 触发的 LanguageChanged 与跨实例
+                // PropertyDependsOn(Language) 回调都能读到新语言，避免时序问题
+                SetAndNotify(ref _language, value);
+
                 // 立即热切换语言（部分内容可能需要下次重启才完全生效）
                 LocalizationHelper.Reload(value);
-                SetAndNotify(ref _language, value);
             }
             else if (result == MessageBoxResult.No)
             {
