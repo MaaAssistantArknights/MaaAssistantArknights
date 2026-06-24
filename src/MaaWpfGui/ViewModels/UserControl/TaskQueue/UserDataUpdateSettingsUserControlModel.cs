@@ -55,12 +55,10 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
         set => SetTaskConfig<UserDataUpdateTask>(t => t.TriggerInterval == value, t => t.TriggerInterval = value);
     }
 
-    public List<GenericCombinedData<UserDataUpdateTriggerInterval>> TriggerIntervalList { get; } =
-    [
-        new() { Display = LocalizationHelper.GetString("EveryTime"), Value = UserDataUpdateTriggerInterval.EveryTime },
-        new() { Display = LocalizationHelper.GetString("Daily"), Value = UserDataUpdateTriggerInterval.Daily },
-        new() { Display = LocalizationHelper.GetString("Weekly"), Value = UserDataUpdateTriggerInterval.Weekly },
-    ];
+    public LocalizedList<UserDataUpdateTriggerInterval> TriggerIntervalList { get; } = new(
+        (UserDataUpdateTriggerInterval.EveryTime, "EveryTime"),
+        (UserDataUpdateTriggerInterval.Daily, "Daily"),
+        (UserDataUpdateTriggerInterval.Weekly, "Weekly"));
 
     public override void RefreshUI(BaseTask baseTask)
     {
@@ -164,8 +162,6 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
     /// </summary>
     private void RefreshLocalization()
     {
-        TriggerIntervalList[0].Display = LocalizationHelper.GetString("EveryTime");
-        TriggerIntervalList[1].Display = LocalizationHelper.GetString("Daily");
-        TriggerIntervalList[2].Display = LocalizationHelper.GetString("Weekly");
+        TriggerIntervalList.RefreshLocalization();
     }
 }
