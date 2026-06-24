@@ -28,37 +28,24 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
 {
     public TaskItemViewModel(string name, bool? isCheckedWithNull = true)
     {
-        _name = name;
+        // name 仅用于兼容旧调用方，显示名始终从配置动态读取（见 Name getter），
+        // 这样语言切换、任务增删导致 Index 变化时都能拿到最新值。
         _isEnable = isCheckedWithNull;
         Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
     }
 
-    private string _name;
-
     /// <summary>
     /// Gets or sets 显示名称：优先返回用户自定义名称，否则返回本地化任务类型名。
-    /// 设置时写入配置。语言切换时通过 PropertyDependsOn 自动刷新。
+    /// 始终从配置动态读取，语言切换时通过 <see cref="PropertyDependsOnAttribute"/> 自动刷新。
     /// </summary>
     [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
     public string Name
     {
-        get
-        {
-            // 从配置读取：用户自定义名为空时，动态获取本地化任务类型名
-            var configName = ConfigFactory.CurrentConfig.TaskQueue[Index].Name;
-            return string.IsNullOrEmpty(configName)
-                ? LocalizationHelper.GetString(ConfigFactory.CurrentConfig.TaskQueue[Index].TaskType.ToString())
-                : configName;
-        }
-
+        get => ConfigFactory.CurrentConfig.TaskQueue[Index].NameOrTaskType;
         set {
-            if (!SetAndNotify(ref _name, value))
-            {
-                return;
-            }
-
             ConfigFactory.CurrentConfig.TaskQueue[Index].Name = value;
+            NotifyOfPropertyChange();
         }
     }
 
