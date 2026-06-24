@@ -23,6 +23,7 @@ using System.Windows;
 using System.Windows.Markup;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
+using Stylet;
 
 namespace MaaWpfGui.Helper;
 
@@ -111,6 +112,11 @@ public static class LocalizationHelper
     /// </summary>
     /// <param name="newCulture">新语言代码，如 "en-us"。</param>
     public static void Reload(string newCulture)
+    {
+        Execute.OnUIThread(() => ReloadCore(newCulture));
+    }
+
+    private static void ReloadCore(string newCulture)
     {
         if (newCulture == _culture)
         {
