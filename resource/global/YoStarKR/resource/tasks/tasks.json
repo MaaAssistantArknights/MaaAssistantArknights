@@ -36,12 +36,8 @@
     "ClickChapterNewOverview": {
         "text": ["서사"]
     },
-    "EnterEpisodeNew": {
-        "baseTask": "#none",
-        "baseTaskDoc": "26.2.10 Add a secondary interface and delete it after subsequent updates",
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf"
+    "EnterEpisodeNew-Click": {
+        "text": ["진입하기"]
     },
     "LevelOfDifficulty": {
         "text": ["환경", "PRTS"]
