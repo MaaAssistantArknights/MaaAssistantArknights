@@ -15,6 +15,14 @@
         "rectMove": [800, 360, 0, 0],
         "specialParams": [200, 1, 2, 0]
     },
+    "RoguelikeRouting-MoveToLeftmost": {
+        "doc": "向右滑动把地图拉到最左（露出 init 节点）。商贾分队开局已投出触锁代币时跳过开盒，地图未被复位到初始位置，需先滑到最左，使 MoveRightToPeek 的起点与重投路径一致；滑动距离取大值，到最左会被夹住不会越界",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [350, 360, 0, 0],
+        "rectMove": [1150, 360, 0, 0],
+        "specialParams": [200, 1, 2, 0]
+    },
     "RoguelikeRoutingAction": {
         "algorithm": "JustReturn"
     },
@@ -181,6 +189,32 @@
             "JieGarden@RoguelikeMapNode-YiTrader.png",
             "JieGarden@RoguelikeMapNode-Scheme.png"
         ]
+    },
+    "JieGarden@RoguelikeRouting-RefreshNode": {
+        "Doc": "界园刷新键与萨卡兹相同，复用萨卡兹模板在竖条 roi 内精确匹配后 ClickSelf（之前用 JustReturn 盲点会随机落在按钮下方空白处，故刷新无效）",
+        "roi": [796, 130, 50, 170],
+        "template": "Sarkaz@RoguelikeRouting-RefreshNode.png",
+        "action": "ClickSelf",
+        "next": ["JieGarden@RoguelikeRouting-ConfirmToRefreshNode"]
+    },
+    "JieGarden@RoguelikeRouting-ConfirmToRefreshNode": {
+        "Doc": "刷新节点的确认按钮。界园弹窗是「是否消耗1次[衡-触锁代币]的效果，刷新该节点?」，按钮文字为“确认”（非萨卡兹的“确定”），位置在底部偏右红色按钮",
+        "algorithm": "OcrDetect",
+        "roi": [920, 468, 210, 62],
+        "text": ["确认"],
+        "action": "ClickSelf",
+        "postDelay": 300,
+        "next": ["JieGarden@RoguelikeRouting-WaitAfterRefreshNode", "Stop"]
+    },
+    "JieGarden@RoguelikeRouting-WaitAfterRefreshNode": {
+        "baseTask": "LoadingText",
+        "postDelay": 300,
+        "next": ["#self", "Stop"]
+    },
+    "JieGarden@RoguelikeRoutingAction-StageTraderEnter": {
+        "Doc": "进入诡意行商(StageTrader)。其 next 链已自动包含 StageTraderInvestSystem 存款 + 离开",
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageTraderEnter"]
     },
     "JieGarden@RoguelikeRoutingAction-ExitThenAbandon": {
         "algorithm": "JustReturn",

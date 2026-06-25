@@ -103,6 +103,12 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         }
     }
 
+    // 商贾分队刷源石锭：全程只刷诡意行商存款、不打仗，开局招谁都不影响结果，直接放弃招募省时间
+    if (theme == RoguelikeTheme::JieGarden && mode == RoguelikeMode::Investment && squad == "商贾分队") {
+        ProcessTask(*this, { "JieGarden@RoguelikeRecruit-GiveUp" }).run();
+        return true;
+    }
+
     // 刷常乐节点保存路上招募券
     // 只在非开局招募时保存招募券
     if (theme == RoguelikeTheme::JieGarden && mode == RoguelikeMode::FindPlaytime && !m_initail_recruit) {
