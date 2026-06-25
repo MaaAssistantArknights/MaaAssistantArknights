@@ -982,7 +982,7 @@ public class TaskQueueViewModel : Screen
         {
             var canceled = false;
             var delay = TimeSpan.FromSeconds(seconds);
-            var dialogUserControl = new Views.UserControl.TextDialogWithTimerUserControl(
+            var dialogUserControl = new Views.Dialogs.TextWithTimerDialogView(
                 content,
                 tipContent,
                 buttonContent,
@@ -1400,7 +1400,7 @@ public class TaskQueueViewModel : Screen
 
         var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
         var currentName = taskItem.Name.Replace("\r", string.Empty).Replace("\n", string.Empty);
-        var dialog = new Views.Dialogs.TextDialogUserControl(
+        var dialog = new Views.Dialogs.TextDialogView(
             LocalizationHelper.GetString("RenameTask") + $" {taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}",
             LocalizationHelper.GetString("RenameTaskPrompt"),
             currentName) {

@@ -1,4 +1,4 @@
-// <copyright file="TextDialogWithTimerUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="TextWithTimerDialogView.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -16,21 +16,21 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using HandyControl.Tools;
 
-namespace MaaWpfGui.Views.UserControl;
+namespace MaaWpfGui.Views.Dialogs;
 
 /// <summary>
-/// TextDialogWithTimerUserControl.xaml 的交互逻辑
+/// TextWithTimerDialogView.xaml 的交互逻辑
 /// </summary>
-public partial class TextDialogWithTimerUserControl : System.Windows.Controls.Border
+public partial class TextWithTimerDialogView : System.Windows.Controls.Border
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="TextDialogWithTimerUserControl"/> class.
+    /// Initializes a new instance of the <see cref="TextWithTimerDialogView"/> class.
     /// </summary>
     /// <param name="content">主要内容</param>
     /// <param name="tipContent">提示内容</param>
     /// <param name="buttonContent">按钮内容</param>
     /// <param name="milliseconds">倒计时</param>
-    public TextDialogWithTimerUserControl(string content, string tipContent, string buttonContent, double milliseconds)
+    public TextWithTimerDialogView(string content, string tipContent, string buttonContent, double milliseconds)
     {
         InitializeComponent();
 

@@ -1,4 +1,4 @@
-// <copyright file="TextDialogUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="TextDialogView.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -18,9 +18,9 @@ using System.Windows;
 namespace MaaWpfGui.Views.Dialogs;
 
 /// <summary>
-/// TextDialogUserControl.xaml 的交互逻辑
+/// TextDialogView.xaml 的交互逻辑
 /// </summary>
-public partial class TextDialogUserControl
+public partial class TextDialogView
 {
     /// <summary>
     /// 获取输入的文本
@@ -28,21 +28,21 @@ public partial class TextDialogUserControl
     public string InputText { get; private set; } = string.Empty;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TextDialogUserControl"/> class.
+    /// Initializes a new instance of the <see cref="TextDialogView"/> class.
     /// </summary>
-    public TextDialogUserControl()
+    public TextDialogView()
     {
         InitializeComponent();
         Loaded += OnLoaded;
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TextDialogUserControl"/> class.
+    /// Initializes a new instance of the <see cref="TextDialogView"/> class.
     /// </summary>
     /// <param name="title">标题</param>
     /// <param name="prompt">提示文本</param>
     /// <param name="defaultText">默认文本</param>
-    public TextDialogUserControl(string title, string prompt, string defaultText = "")
+    public TextDialogView(string title, string prompt, string defaultText = "")
     {
         InitializeComponent();
         Title = title;
