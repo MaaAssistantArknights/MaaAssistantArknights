@@ -374,12 +374,6 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 return;
             }
 
-            if (_language == SettingsViewModel.PallasLangKey)
-            {
-                Instances.SettingsViewModel.Hangover = true;
-                Instances.SettingsViewModel.Cheers = false;
-            }
-
             if (value != SettingsViewModel.PallasLangKey)
             {
                 Instances.SettingsViewModel.SoberLanguage = value;
@@ -407,17 +401,9 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 cancel: FormatText("{0}/{1}", "ManualRestart"));
             if (result == MessageBoxResult.Yes)
             {
-                // 时序要求（三者缺一不可）：
-                // 1. 先静默更新 _language，使 Reload 触发 LanguageChanged 时，
-                //    任何读取 Language 属性的订阅者都能拿到新值；
-                // 2. Reload 内部先替换 ResourceDictionary 再触发 LanguageChanged，
-                //    保证订阅者调 LocalizationHelper.GetString 拿到的是新字典；
-                // 3. 最后 NotifyOfPropertyChange 触发 PropertyDependsOn(Language) 回调，
-                //    此时字典和 _language 都已是新值。
-                //
-                // 不能用 SetAndNotify 替代步骤 1+3：SetAndNotify 会在赋值后立即同步触发通知，
-                // 若放在 Reload 之前，回调读到的仍是旧字典；若放在之后，由于 _language 已被
-                // 步骤 1 赋值，SetAndNotify 判定值未变而不触发通知。
+                // 时序要求：先静默更新 _language，使 Reload 触发 LanguageChanged 时，
+                // 订阅者读到的 Language 属性已是新值；Reload 内部先替换字典再触发事件；
+                // 最后 NotifyOfPropertyChange 触发 PropertyDependsOn(Language) 回调。
                 _language = value;
                 LocalizationHelper.Reload(value);
                 NotifyOfPropertyChange(nameof(Language));
@@ -438,6 +424,24 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             string FormatText(string text, string key)
                 => string.Format(text, LocalizationHelper.GetString(key, value), LocalizationHelper.GetString(key, _language));
         }
+    }
+
+    /// <summary>
+    /// 直接热切换语言，不弹确认窗、不触发 pallas 宿醉等 setter 副作用。
+    /// 供彩蛋逻辑（GetDrunk / HangoverEnd）在已完成状态转换后调用。
+    /// </summary>
+    /// <param name="value">目标语言代码</param>
+    public void SetLanguageInternal(string value)
+    {
+        if (value == _language)
+        {
+            return;
+        }
+
+        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Localization, value);
+        _language = value;
+        LocalizationHelper.Reload(value);
+        NotifyOfPropertyChange(nameof(Language));
     }
 
     /// <summary>

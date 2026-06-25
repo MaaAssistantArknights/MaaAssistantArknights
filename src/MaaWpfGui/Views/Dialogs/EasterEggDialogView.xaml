@@ -1,0 +1,32 @@
+<Border
+    x:Class="MaaWpfGui.Views.Dialogs.EasterEggDialogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="360"
+    Background="{DynamicResource RegionBrush}"
+    CornerRadius="10"
+    mc:Ignorable="d">
+    <StackPanel Margin="24,20">
+        <TextBlock
+            x:Name="CaptionText"
+            Margin="0,0,0,12"
+            FontSize="16"
+            FontWeight="Bold"
+            TextAlignment="Center" />
+        <TextBlock
+            x:Name="MessageText"
+            Margin="0,0,0,20"
+            LineHeight="22"
+            TextAlignment="Center"
+            TextWrapping="Wrap" />
+        <Button
+            x:Name="ConfirmButton"
+            MinWidth="80"
+            MinHeight="36"
+            HorizontalAlignment="Center"
+            Style="{DynamicResource ButtonPrimary}" />
+    </StackPanel>
+</Border>

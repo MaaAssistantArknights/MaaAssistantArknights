@@ -48,6 +48,12 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
         InitViewModels();
         _ = InitProxy();
+
+        // 宿醉彩蛋弹窗依赖 RootView 已渲染完毕的 Dialog 容器，
+        // 必须在主窗口显示之后再弹出，否则弹不出
+        // 必须在其他内容初始化之前执行，否则其他内容语言可能已经被初始化为非宿醉语言
+        Instances.SettingsViewModel.HangoverEnd();
+
         ShowVersionMismatchWarningOnStartup();
         if (SettingsViewModel.VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly &&
             !SettingsViewModel.VersionUpdateSettings.HasAcknowledgedNightlyWarning)
