@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using HandyControl.Controls;
@@ -21,6 +22,7 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
@@ -35,6 +37,12 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         Instance = new();
     }
 
+    public GuiSettingsUserControlModel()
+    {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
+        LocalizationHelper.LanguageChanged += RefreshLocalization;
+    }
+
     public static GuiSettingsUserControlModel Instance { get; }
 
     /// <summary>
@@ -45,31 +53,25 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets or sets the list of operator name language settings
     /// </summary>
-    public List<CombinedData> OperNameLanguageModeList { get; set; } =
-        [
-            new() { Display = LocalizationHelper.GetString("OperNameLanguageMAA"), Value = "OperNameLanguageMAA" },
-            new() { Display = LocalizationHelper.GetString("OperNameLanguageClient"), Value = "OperNameLanguageClient" }
-        ];
+    public LocalizedObservableList<string> OperNameLanguageModeList { get; } = new(
+        ("OperNameLanguageMAA", "OperNameLanguageMAA"),
+        ("OperNameLanguageClient", "OperNameLanguageClient"));
 
     /// <summary>
     /// Gets the list of dark mode.
     /// </summary>
-    public List<GenericCombinedData<DarkModeType>> DarkModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("Light"), Value = DarkModeType.Light },
-            new() { Display = LocalizationHelper.GetString("Dark"), Value = DarkModeType.Dark },
-            new() { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOs },
-        ];
+    public LocalizedObservableList<DarkModeType> DarkModeList { get; } = new(
+        (DarkModeType.Light, "Light"),
+        (DarkModeType.Dark, "Dark"),
+        (DarkModeType.SyncWithOs, "SyncWithOs"));
 
     /// <summary>
     /// Gets the list of inverse clear modes.
     /// </summary>
-    public List<CombinedData> InverseClearModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("Clear"), Value = "Clear" },
-            new() { Display = LocalizationHelper.GetString("Inverse"), Value = "Inverse" },
-            new() { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
-         ];
+    public LocalizedObservableList<string> InverseClearModeList { get; } = new(
+        ("Clear", "Clear"),
+        ("Inverse", "Inverse"),
+        ("ClearInverse", "Switchable"));
 
     private bool _useTray = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, true);
 
@@ -312,20 +314,36 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private static readonly Dictionary<string, string> _windowTitleAllShowDict = new()
+    private static ObservableCollection<KeyValuePair<string, string>> _windowTitleAllShowDict = new(new Dictionary<string, string>
     {
         { "1", LocalizationHelper.GetString("ConfigurationName") },
         { "2", LocalizationHelper.GetString("ConnectionPreset") },
         { "3", LocalizationHelper.GetString("ConnectionAddress") },
         { "4", LocalizationHelper.GetString("ClientType") },
-    };
+    });
 
-    public static Dictionary<string, string> WindowTitleAllShowDict { get => _windowTitleAllShowDict; }
+    private void RefreshWindowTitleAllShowDict()
+    {
+        // 重建 SelectedItems 数组，保持当前选中的 key
+        var config = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, "2 3 4");
+
+        WindowTitleAllShowDict[0] = new("1", LocalizationHelper.GetString("ConfigurationName"));
+        WindowTitleAllShowDict[1] = new("2", LocalizationHelper.GetString("ConnectionPreset"));
+        WindowTitleAllShowDict[2] = new("3", LocalizationHelper.GetString("ConnectionAddress"));
+        WindowTitleAllShowDict[3] = new("4", LocalizationHelper.GetString("ClientType"));
+        NotifyOfPropertyChange(nameof(WindowTitleAllShowDict));
+        WindowTitleSelectShowList = [.. config
+            .Split(' ')
+            .Where(s => _windowTitleAllShowDict.Any(kv => kv.Key == s))
+            .Select(s => (object)new KeyValuePair<string, string>(s, _windowTitleAllShowDict.First(kv => kv.Key == s).Value))];
+    }
+
+    public ObservableCollection<KeyValuePair<string, string>> WindowTitleAllShowDict { get => _windowTitleAllShowDict; }
 
     private static object[] _windowTitleSelectShowList = [.. ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, "2 3 4")
         .Split(' ')
-        .Where(s => _windowTitleAllShowDict.ContainsKey(s.ToString()))
-        .Select(s => (object)new KeyValuePair<string, string>(s, _windowTitleAllShowDict[s]))];
+        .Where(s => _windowTitleAllShowDict.Any(kv => kv.Key == s))
+        .Select(s => (object)new KeyValuePair<string, string>(s, _windowTitleAllShowDict.First(kv => kv.Key == s).Value))];
 
     public object[] WindowTitleSelectShowList
     {
@@ -367,7 +385,6 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 Instances.SettingsViewModel.SoberLanguage = value;
             }
 
-            // var backup = _language;
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Localization, value);
 
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.Linguist);
@@ -383,16 +400,38 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             var result = MessageBoxHelper.Show(
                 FormatText("{0}\n{1}", "LanguageChangedTip"),
                 FormatText("{0}({1})", "Tip"),
-                MessageBoxButton.OKCancel,
+                MessageBoxButton.YesNoCancel,
                 MessageBoxImage.Question,
-                ok: FormatText("{0}({1})", "Ok"),
-                cancel: FormatText("{0}({1})", "ManualRestart"));
-            if (result == MessageBoxResult.OK)
+                yes: FormatText("{0}/{1}", "LanguageSwitchNow"),
+                no: FormatText("{0}/{1}", "LanguageRestartNow"),
+                cancel: FormatText("{0}/{1}", "ManualRestart"));
+            if (result == MessageBoxResult.Yes)
             {
+                // 时序要求（三者缺一不可）：
+                // 1. 先静默更新 _language，使 Reload 触发 LanguageChanged 时，
+                //    任何读取 Language 属性的订阅者都能拿到新值；
+                // 2. Reload 内部先替换 ResourceDictionary 再触发 LanguageChanged，
+                //    保证订阅者调 LocalizationHelper.GetString 拿到的是新字典；
+                // 3. 最后 NotifyOfPropertyChange 触发 PropertyDependsOn(Language) 回调，
+                //    此时字典和 _language 都已是新值。
+                //
+                // 不能用 SetAndNotify 替代步骤 1+3：SetAndNotify 会在赋值后立即同步触发通知，
+                // 若放在 Reload 之前，回调读到的仍是旧字典；若放在之后，由于 _language 已被
+                // 步骤 1 赋值，SetAndNotify 判定值未变而不触发通知。
+                _language = value;
+                LocalizationHelper.Reload(value);
+                NotifyOfPropertyChange(nameof(Language));
+            }
+            else if (result == MessageBoxResult.No)
+            {
+                // 重启以完整应用语言更改
                 Bootstrapper.ShutdownAndRestartWithoutArgs();
             }
-
-            SetAndNotify(ref _language, value);
+            else
+            {
+                // 稍后：仅保存配置，下次重启时生效
+                SetAndNotify(ref _language, value);
+            }
 
             return;
 
@@ -404,6 +443,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the language info.
     /// </summary>
+    [PropertyDependsOn(nameof(Language))]
     public string LanguageInfo
     {
         get {
@@ -430,7 +470,12 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 return _operNameLanguage;
             }
 
-            OperNameLanguageModeList.Add(new CombinedData { Display = LocalizationHelper.GetString("OperNameLanguageForce"), Value = "OperNameLanguageForce" });
+            // 去重：getter 每次绑定时都可能被读取，避免重复添加"强制指定语言"选项
+            if (!OperNameLanguageModeList.Items.Any(i => i.Value == "OperNameLanguageForce"))
+            {
+                OperNameLanguageModeList.Add("OperNameLanguageForce", "OperNameLanguageForce");
+            }
+
             return "OperNameLanguageForce";
         }
 
@@ -452,30 +497,19 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                     break;
             }
 
-            var mainWindow = Application.Current.MainWindow;
-
-            if (mainWindow != null)
-            {
-                mainWindow.Show();
-                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
-                mainWindow.Activate();
-            }
-
-            var result = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("LanguageChangedTip"),
-                LocalizationHelper.GetString("Tip"),
-                MessageBoxButton.OKCancel,
-                MessageBoxImage.Question,
-                ok: LocalizationHelper.GetString("Ok"),
-                cancel: LocalizationHelper.GetString("ManualRestart"));
-            if (result == MessageBoxResult.OK)
-            {
-                Bootstrapper.ShutdownAndRestartWithoutArgs();
-            }
-
             SetAndNotify(ref _operNameLanguage, value);
+
+            // 切换到非 Force 选项后，移除运行时动态插入的 Force 项，避免下拉框残留
+            OperNameLanguageModeList.Remove("OperNameLanguageForce");
+
+            OperNameLanguageChanged?.Invoke();
         }
     }
+
+    /// <summary>
+    /// 干员名语言变更事件，订阅者应刷新干员相关数据。
+    /// </summary>
+    public event Action? OperNameLanguageChanged;
 
     public string OperNameLocalization
     {
@@ -539,5 +573,18 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    public void RefreshLocalization()
+    {
+        OperNameLanguageModeList.RefreshLocalization();
+
+        DarkModeList.RefreshLocalization();
+        InverseClearModeList.RefreshLocalization();
+        RefreshWindowTitleAllShowDict();
+        Instances.SettingsViewModel.UpdateWindowTitle();
     }
 }

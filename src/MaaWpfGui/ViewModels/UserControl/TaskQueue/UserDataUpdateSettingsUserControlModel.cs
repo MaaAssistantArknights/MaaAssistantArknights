@@ -32,6 +32,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
     static UserDataUpdateSettingsUserControlModel()
     {
         Instance = new();
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     public static UserDataUpdateSettingsUserControlModel Instance { get; }
@@ -54,12 +55,10 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
         set => SetTaskConfig<UserDataUpdateTask>(t => t.TriggerInterval == value, t => t.TriggerInterval = value);
     }
 
-    public List<GenericCombinedData<UserDataUpdateTriggerInterval>> TriggerIntervalList { get; } =
-    [
-        new() { Display = LocalizationHelper.GetString("EveryTime"), Value = UserDataUpdateTriggerInterval.EveryTime },
-        new() { Display = LocalizationHelper.GetString("Daily"), Value = UserDataUpdateTriggerInterval.Daily },
-        new() { Display = LocalizationHelper.GetString("Weekly"), Value = UserDataUpdateTriggerInterval.Weekly },
-    ];
+    public LocalizedObservableList<UserDataUpdateTriggerInterval> TriggerIntervalList { get; } = new(
+        (UserDataUpdateTriggerInterval.EveryTime, "EveryTime"),
+        (UserDataUpdateTriggerInterval.Daily, "Daily"),
+        (UserDataUpdateTriggerInterval.Weekly, "Weekly"));
 
     public override void RefreshUI(BaseTask baseTask)
     {
@@ -156,5 +155,13 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                 _ => true,
             };
         }
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        TriggerIntervalList.RefreshLocalization();
     }
 }

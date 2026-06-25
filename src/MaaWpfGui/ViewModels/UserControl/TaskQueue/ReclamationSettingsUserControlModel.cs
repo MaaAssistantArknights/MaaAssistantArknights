@@ -32,6 +32,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     static ReclamationSettingsUserControlModel()
     {
         Instance = new();
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     public static ReclamationSettingsUserControlModel Instance { get; }
@@ -39,12 +40,10 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     /// <summary>
     /// Gets the list of reclamation themes.
     /// </summary>
-    public List<GenericCombinedData<Theme>> ReclamationThemeList { get; } =
-        [
-            new() { Display = $"{LocalizationHelper.GetString("ReclamationThemeFire")} ({LocalizationHelper.GetString("ClosedStage")})", Value = Theme.Fire },
-            new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = Theme.Tales },
-            new() { Display = LocalizationHelper.GetString("ReclamationThemeRelaunchAnchor"), Value = Theme.RelaunchAnchor },
-        ];
+    public LocalizedObservableList<Theme> ReclamationThemeList { get; } = new(
+        (Theme.Fire, "ReclamationThemeFire", "ClosedStage"),
+        (Theme.Tales, "ReclamationThemeTales", null),
+        (Theme.RelaunchAnchor, "ReclamationThemeRelaunchAnchor", null));
 
     /// <summary>
     /// Gets or sets 生息演算主题["Tales"].
@@ -118,11 +117,9 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     /// <summary>
     /// Gets the list of reclamation increment modes.
     /// </summary>
-    public List<GenericCombinedData<int>> ReclamationIncrementModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeClick"), Value = 0 },
-            new() { Display = LocalizationHelper.GetString("ReclamationIncrementModeHold"), Value = 1 },
-        ];
+    public LocalizedObservableList<int> ReclamationIncrementModeList { get; } = new(
+        (0, "ReclamationIncrementModeClick"),
+        (1, "ReclamationIncrementModeHold"));
 
     /// <summary>
     /// Gets or sets 点击类型：0 连点；1 长按
@@ -227,5 +224,15 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
                 _ => (null, []),
             };
         }
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        ReclamationThemeList.RefreshLocalization();
+        RefreshModeList();
+        ReclamationIncrementModeList.RefreshLocalization();
     }
 }

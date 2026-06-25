@@ -51,6 +51,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     static ConnectSettingsUserControlModel()
     {
         Instance = new();
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     private ConnectSettingsUserControlModel()
@@ -67,35 +68,31 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the list of the configuration of connection.
     /// </summary>
-    public List<CombinedData> ConnectConfigList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("General"), Value = "General" },
-            new() { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
-            new() { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
-            new() { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
-            new() { Display = LocalizationHelper.GetString("Androws"), Value = "Androws" },
-            new() { Display = LocalizationHelper.GetString("AVD"), Value = "AVD" },
-            new() { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
-            new() { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
-            new() { Display = LocalizationHelper.GetString("PC"), Value = "PC" },
-            new() { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
-            new() { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
-            new() { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
-            new() { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
-        ];
+    public LocalizedObservableList<string> ConnectConfigList { get; } = new(
+        ("General", "General"),
+        ("BlueStacks", "BlueStacks"),
+        ("MuMuEmulator12", "MuMuEmulator12"),
+        ("LDPlayer", "LDPlayer"),
+        ("Androws", "Androws"),
+        ("AVD", "AVD"),
+        ("Nox", "Nox"),
+        ("XYAZ", "XYAZ"),
+        ("PC", "PC"),
+        ("WSA", "WSA"),
+        ("Compatible", "Compatible"),
+        ("SecondResolution", "SecondResolution"),
+        ("GeneralWithoutScreencapErr", "GeneralWithoutScreencapErr"));
 
     public static string TouchModeVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "TouchMode.mp4");
 
     /// <summary>
     /// Gets the list of touch modes
     /// </summary>
-    public List<CombinedData> TouchModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("MiniTouchMode"), Value = "minitouch" },
-            new() { Display = LocalizationHelper.GetString("MaaTouchMode"), Value = "maatouch" },
-            new() { Display = LocalizationHelper.GetString("AdbTouchMode"), Value = "adb" },
-            new() { Display = LocalizationHelper.GetString("MaaFwAdbTouchMode"), Value = "MaaFwAdb" },
-        ];
+    public LocalizedObservableList<string> TouchModeList { get; } = new(
+        ("minitouch", "MiniTouchMode"),
+        ("maatouch", "MaaTouchMode"),
+        ("adb", "AdbTouchMode"),
+        ("MaaFwAdb", "MaaFwAdbTouchMode"));
 
     private bool _autoDetectConnection = ConfigurationHelper.GetValue(ConfigurationKeys.AutoDetect, true);
 
@@ -1406,4 +1403,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     }
 
     #endregion
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        ConnectConfigList.RefreshLocalization();
+        TouchModeList.RefreshLocalization();
+    }
 }

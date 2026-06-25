@@ -42,13 +42,13 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     {
         Instance = new();
         Instances.AsstProxy.AsstSubTaskMsgEvent += Instance.ProcSubTaskMsg;
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     public static RoguelikeSettingsUserControlModel Instance { get; }
 
     public void InitRoguelike()
     {
-        GenerateRoguelikeThemeList();
         UpdateRoguelikeParams();
     }
 
@@ -61,15 +61,6 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         UpdateRoguelikeSquadList();
         UpdateRoguelikeStartWithAllDict();
         UpdateRoguelikeCoreCharList();
-    }
-
-    private void GenerateRoguelikeThemeList()
-    {
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = Theme.Phantom });
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = Theme.Mizuki });
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = Theme.Sami });
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = Theme.Sarkaz });
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeJieGarden"), Value = Theme.JieGarden });
     }
 
     private void UpdateRoguelikeDifficultyList()
@@ -95,7 +86,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         }
 
         // 验证当前选中的难度是否在新列表中
-        RoguelikeDifficulty = RoguelikeDifficultyList.Any(item => item.Value == RoguelikeDifficulty) ? difficulty : -1;
+        RoguelikeDifficulty = RoguelikeDifficultyList.Any(item => item.Value == difficulty) ? difficulty : -1;
+        NotifyOfPropertyChange(nameof(RoguelikeDifficulty));
     }
 
     private static int GetMaxDifficultyForTheme(Theme theme) => theme switch {
@@ -365,7 +357,12 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     /// <summary>
     /// Gets the list of roguelike lists.
     /// </summary>
-    public List<GenericCombinedData<Theme>> RoguelikeThemeList { get; } = [];
+    public LocalizedObservableList<Theme> RoguelikeThemeList { get; } = new(
+        (Theme.Phantom, "RoguelikeThemePhantom"),
+        (Theme.Mizuki, "RoguelikeThemeMizuki"),
+        (Theme.Sami, "RoguelikeThemeSami"),
+        (Theme.Sarkaz, "RoguelikeThemeSarkaz"),
+        (Theme.JieGarden, "RoguelikeThemeJieGarden"));
 
     /// <summary>
     /// Gets or sets the Roguelike theme.
@@ -1149,5 +1146,17 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 return result;
             }
         }
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        RoguelikeThemeList.RefreshLocalization();
+        UpdateRoguelikeDifficultyList();
+        UpdateRoguelikeModeList();
+        UpdateRoguelikeRolesList();
+        UpdateRoguelikeSquadList();
     }
 }

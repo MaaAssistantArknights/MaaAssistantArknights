@@ -35,5 +35,6 @@ public class LogScope : IDisposable
     {
         _stopwatch.Stop();
         _logger.Information("{MethodName} Exit, {Elapsed:#,0} ms", _methodName, _stopwatch.ElapsedMilliseconds);
+        GC.SuppressFinalize(this);
     }
 }

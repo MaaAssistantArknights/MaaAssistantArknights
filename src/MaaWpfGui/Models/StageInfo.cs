@@ -26,10 +26,25 @@ namespace MaaWpfGui.Models;
 /// </summary>
 public class StageInfo : CombinedData
 {
+    private string _tip = string.Empty;
+
     /// <summary>
     /// Gets or sets the stage tip
     /// </summary>
-    public string Tip { get; set; } = string.Empty;
+    public string Tip
+    {
+        get {
+            if (!string.IsNullOrEmpty(_tip))
+            {
+                return _tip;
+            }
+
+            return !string.IsNullOrEmpty(TipKey)
+                ? LocalizationHelper.GetString(TipKey)
+                : string.Empty;
+        }
+        set => _tip = value;
+    }
 
     /// <summary>
     /// Gets or sets the days of week when the stage is open (used for resource stages like CE-6, PR-A-1)
@@ -67,25 +82,37 @@ public class StageInfo : CombinedData
     }
 
     /// <summary>
+    /// 构造时用于 Display 的本地化 key，语言切换时用于刷新。
+    /// </summary>
+    public string? DisplayKey { get; set; }
+
+    /// <summary>
+    /// 构造时用于 Tip 的本地化 key，语言切换时用于刷新。
+    /// </summary>
+    public string? TipKey { get; set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="StageInfo"/> class for resource stages with weekly schedule.
     /// Used for stages like CE-6 (Tuesday/Thursday/Saturday/Sunday), PR-A-1 (Monday/Thursday/Friday/Sunday), etc.
     /// </summary>
-    /// <param name="name">Stage name</param>
-    /// <param name="tipKey">Localization key of tip</param>
+    /// <param name="stageName">Stage name，同时作为 Display 的本地化 key</param>
+    /// <param name="tipLocalizationKey">Tip 的本地化 key，为空则不显示提示</param>
     /// <param name="openDaysOfWeek">Days of week when this stage is available</param>
     /// <param name="activity">Associated activity (typically resource collection activity)</param>
     /// <param name="dropGroups">Grouped drop items (used for chip stages with multiple variants)</param>
-    public StageInfo(string name, string tipKey, IEnumerable<DayOfWeek> openDaysOfWeek, StageActivityInfo activity, List<List<string>>? dropGroups = null)
+    public StageInfo(string stageName, string tipLocalizationKey, IEnumerable<DayOfWeek> openDaysOfWeek, StageActivityInfo activity, List<List<string>>? dropGroups = null)
     {
-        Value = name;
-        Display = LocalizationHelper.GetString(name);
+        Value = stageName;
+        Display = LocalizationHelper.GetString(stageName);
+        DisplayKey = stageName;
         OpenDaysOfWeek = openDaysOfWeek;
         Activity = activity;
         DropGroups = dropGroups;
 
-        if (!string.IsNullOrEmpty(tipKey))
+        if (!string.IsNullOrEmpty(tipLocalizationKey))
         {
-            Tip = LocalizationHelper.GetString(tipKey);
+            Tip = LocalizationHelper.GetString(tipLocalizationKey);
+            TipKey = tipLocalizationKey;
         }
     }
 

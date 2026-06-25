@@ -13,6 +13,7 @@
 
 #nullable enable
 using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
@@ -27,18 +28,41 @@ public class PerformanceUserControlModel : PropertyChangedBase
     static PerformanceUserControlModel()
     {
         Instance = new();
+        LocalizationHelper.LanguageChanged += Instance.RefreshGpuOptions;
     }
 
     public static PerformanceUserControlModel Instance { get; }
 
-    public List<GpuOption> GpuOptions => GpuOption.GetGpuOptions();
+    private List<GpuOptionItem>? _gpuOptions;
 
-    public GpuOption ActiveGpuOption
+    public List<GpuOptionItem> GpuOptions => _gpuOptions ??= [.. GpuOption.GetGpuOptions().Select(o => new GpuOptionItem(o))];
+
+    private GpuOptionItem? _activeGpuOption;
+
+    public GpuOptionItem? ActiveGpuOption
     {
-        get => GpuOption.GetCurrent();
-        set {
-            GpuOption.SetCurrent(value);
+        get => _activeGpuOption ??= GpuOptions.FirstOrDefault(x => x.Value.Equals(GpuOption.GetCurrent()));
+        set
+        {
+            if (!SetAndNotify(ref _activeGpuOption, value) || value is null)
+            {
+                return;
+            }
+
+            GpuOption.SetCurrent(value.Value);
             SettingsViewModel.AskRestartToApplySettings();
+        }
+    }
+
+    /// <summary>
+    /// 刷新 GPU 选项的显示文本（语言切换时调用）。
+    /// 只更新每个 item 的 Display 字符串，选中项引用保持稳定，避免 ComboBox 选中框刷新问题。
+    /// </summary>
+    private void RefreshGpuOptions()
+    {
+        foreach (var item in GpuOptions)
+        {
+            item.RefreshDisplay();
         }
     }
 

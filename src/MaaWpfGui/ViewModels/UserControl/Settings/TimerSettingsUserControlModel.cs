@@ -15,6 +15,7 @@
 using System;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Utilities;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
@@ -81,6 +82,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
         {
             public TimerProperties(int timeId, bool? isOn, int hour, int min, string? timerConfig)
             {
+                PropertyDependsOnUtility.InitializePropertyDependencies(this);
                 TimerId = timeId;
                 _isOn = isOn;
                 _hour = hour;
@@ -97,8 +99,9 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
 
             public int TimerId { get; set; }
 
-            private readonly string _timerName = LocalizationHelper.GetString("Timer");
+            private static string _timerName => LocalizationHelper.GetString("Timer");
 
+            [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
             public string TimerName => $"{_timerName} {TimerId + 1}";
 
             private bool? _isOn;

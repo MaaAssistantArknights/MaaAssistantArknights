@@ -311,7 +311,9 @@
     <system:String x:Key="EmulatorStartFailed">에뮬레이터를 시작하지 못했습니다.\n사용하지 않는 에뮬레이터를 종료하거나\n또는 에뮬레이터를 수동으로 시작하세요.</system:String>
     <system:String x:Key="SwitchLanguage">언어 전환 🌐</system:String>
     <system:String x:Key="Language">언어</system:String>
-    <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 바로 재시작하시겠습니까?</system:String>
+    <system:String x:Key="LanguageChangedTip">언어 설정이 변경되었습니다. 일부 콘텐츠는 재시작 후 완전히 적용됩니다.</system:String>
+    <system:String x:Key="LanguageRestartNow">재시작</system:String>
+    <system:String x:Key="LanguageSwitchNow">전환</system:String>
     <system:String x:Key="ManualRestart">나중에</system:String>
     <system:String x:Key="Tip">도움말</system:String>
     <system:String x:Key="Warning">경고</system:String>

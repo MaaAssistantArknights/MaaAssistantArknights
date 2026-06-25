@@ -141,6 +141,17 @@ public class SettingsViewModel : Screen
             // Inited = e.Inited;
             // Stopping = e.Stopping;
         };
+
+        LocalizationHelper.LanguageChanged += RefreshLocalization;
+    }
+
+    /// <summary>
+    /// 刷新本地化文本。
+    /// </summary>
+    public void RefreshLocalization()
+    {
+        DisplayName = LocalizationHelper.GetString("Settings");
+        RefreshSettingsList();
     }
 
     #region Init
@@ -261,6 +272,17 @@ public class SettingsViewModel : Screen
         Settings = [.. tempOrderList.OfType<SettingItemViewModel>()];
 
         Settings.CollectionChanged += Settings_CollectionChanged;
+    }
+
+    /// <summary>
+    /// 刷新设置菜单项的本地化文本。
+    /// </summary>
+    private void RefreshSettingsList()
+    {
+        foreach (var item in Settings)
+        {
+            item.Display = LocalizationHelper.GetString(item.Key);
+        }
     }
 
     private void Settings_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)

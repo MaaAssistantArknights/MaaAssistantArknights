@@ -44,10 +44,11 @@
                     IsChecked="{Binding UseTray}" />
                 <CheckBox
                     Margin="8"
-                    Content="{DynamicResource MinimizeToTray}"
                     IsChecked="{Binding MinimizeToTray}"
                     Visibility="{c:Binding UseTray,
-                                           FalseToVisibility=Collapsed}" />
+                                           FalseToVisibility=Collapsed}">
+                    <controls:TextBlock Text="{DynamicResource MinimizeToTray}" TextWrapping="Wrap" />
+                </CheckBox>
                 <StackPanel Margin="8" Orientation="Horizontal">
                     <CheckBox Content="{DynamicResource SystemNotification}" IsChecked="{Binding UseNotify}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource SystemNotificationInfo}" />
@@ -112,7 +113,7 @@
                 <ComboBox
                     x:Name="LanguageSelector"
                     Margin="8"
-                    hc:InfoElement.Title="{Binding LanguageInfo, Mode=OneTime}"
+                    hc:InfoElement.Title="{Binding LanguageInfo}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding LanguageList}"
                     SelectedValue="{Binding Language}"

@@ -120,6 +120,7 @@ public partial class CopilotViewModel : Screen
             Inited = e.NewState.Inited;
             Stopping = e.NewState.Stopping;
         };
+        LocalizationHelper.LanguageChanged += () => DisplayName = LocalizationHelper.GetString("Copilot");
         UserAdditionalItems.CollectionChanged += (_, _) => {
             NotifyOfPropertyChange(nameof(UserAdditionalGridHeight));
             NotifyOfPropertyChange(nameof(UserAdditionalPopupVerticalOffset));

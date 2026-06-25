@@ -46,7 +46,6 @@ using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using MaaWpfGui.Views.Dialogs;
-using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
@@ -653,6 +652,20 @@ public class TaskQueueViewModel : Screen
         InitTimer();
 
         _ = UpdateDatePromptAndStagesWeb();
+
+        LocalizationHelper.LanguageChanged += () => {
+            DisplayName = LocalizationHelper.GetString("Farming");
+            RefreshTaskTypeListLocalization();
+
+            // 刷新反选按钮的两个本地化文本
+            RefreshInverseModeText();
+
+            // 延迟到所有 LanguageChanged 回调执行完毕后再更新关卡列表
+            // 确保 StageManager.RefreshLocalization 已更新 StageInfo 的 Display/Tip
+            Application.Current.Dispatcher.InvokeAsync(
+                () => UpdateDatePromptAndStagesLocally(),
+                System.Windows.Threading.DispatcherPriority.Loaded);
+        };
     }
 
     /// <inheritdoc/>
@@ -1000,7 +1013,7 @@ public class TaskQueueViewModel : Screen
             var task = ConfigFactory.CurrentConfig.TaskQueue.ElementAt(i);
             if (task is not null)
             {
-                taskqueue.Add(new TaskItemViewModel(task.NameOrTaskType, task.IsEnable) { Index = i });
+                taskqueue.Add(new TaskItemViewModel(task.IsEnable) { Index = i });
             }
         }
 
@@ -1335,12 +1348,33 @@ public class TaskQueueViewModel : Screen
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Custom"), Value = typeof(CustomTask) },
         ]);
 
+    private void RefreshTaskTypeListLocalization()
+    {
+        foreach (var item in TaskTypeList)
+        {
+            item.Display = item.Value.Name switch
+            {
+                nameof(StartUpTask) => LocalizationHelper.GetString("StartUp"),
+                nameof(FightTask) => LocalizationHelper.GetString("Fight"),
+                nameof(InfrastTask) => LocalizationHelper.GetString("Infrast"),
+                nameof(RecruitTask) => LocalizationHelper.GetString("Recruit"),
+                nameof(MallTask) => LocalizationHelper.GetString("Mall"),
+                nameof(AwardTask) => LocalizationHelper.GetString("Award"),
+                nameof(RoguelikeTask) => LocalizationHelper.GetString("Roguelike"),
+                nameof(ReclamationTask) => LocalizationHelper.GetString("Reclamation"),
+                nameof(UserDataUpdateTask) => LocalizationHelper.GetString("UserDataUpdate"),
+                nameof(CustomTask) => LocalizationHelper.GetString("Custom"),
+                _ => item.Display,
+            };
+        }
+    }
+
     public void AddTaskQueueTask(Type taskName)
     {
         if (Activator.CreateInstance(taskName) is BaseTask task)
         {
             ConfigFactory.CurrentConfig.TaskQueue.Add(task);
-            TaskItemViewModels.Add(new TaskItemViewModel(task.NameOrTaskType));
+            TaskItemViewModels.Add(new TaskItemViewModel());
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.QueueExpansion);
             AchievementTrackerHelper.Instance.TrackManualTaskAddition(
                 task.TaskType.ToString(),
@@ -1451,7 +1485,7 @@ public class TaskQueueViewModel : Screen
         }
         newTask.Name = newTask.NameOrTaskType + " (2)";
         ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, newTask);
-        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(newTask.NameOrTaskType));
+        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel());
         AddLog(LocalizationHelper.GetStringFormat("TaskCopied", newTask.NameOrTaskType), UiLogColor.Info);
     }
 
@@ -1496,10 +1530,18 @@ public class TaskQueueViewModel : Screen
         get => _inverseMode;
         set {
             SetAndNotify(ref _inverseMode, value);
-            InverseShowText = value ? LocalizationHelper.GetString("Inverse") : LocalizationHelper.GetString("Clear");
-            InverseMenuText = value ? LocalizationHelper.GetString("Clear") : LocalizationHelper.GetString("Inverse");
+            RefreshInverseModeText();
             ConfigurationHelper.SetValue(ConfigurationKeys.MainFunctionInverseMode, value.ToString());
         }
+    }
+
+    /// <summary>
+    /// 刷新反选按钮的两个本地化文本（语言切换时调用）。
+    /// </summary>
+    private void RefreshInverseModeText()
+    {
+        InverseShowText = _inverseMode ? LocalizationHelper.GetString("Inverse") : LocalizationHelper.GetString("Clear");
+        InverseMenuText = _inverseMode ? LocalizationHelper.GetString("Clear") : LocalizationHelper.GetString("Inverse");
     }
 
     /// <summary>

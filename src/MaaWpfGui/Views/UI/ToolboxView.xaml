@@ -268,12 +268,9 @@
                     HorizontalAlignment="Center"
                     d:Text="上次同步时间: 2026/1/1 上午00:00:00"
                     Visibility="{c:Binding 'LastOperBoxSyncTimeText.Length > 0'}">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0}: {1}">
-                            <Binding Source="{StaticResource LastSyncTime}" />
-                            <Binding Path="LastOperBoxSyncTimeText" Source="{x:Static helper:Instances.ToolboxViewModel}" />
-                        </MultiBinding>
-                    </TextBlock.Text>
+                    <Run Text="{DynamicResource LastSyncTime}" />
+                    <Run Text=": " />
+                    <Run Text="{Binding LastOperBoxSyncTimeText, Mode=OneWay, Source={x:Static helper:Instances.ToolboxViewModel}}" />
                 </controls:TextBlock>
                 <controls:TextBlock
                     Grid.Row="1"
@@ -484,12 +481,9 @@
                         HorizontalAlignment="Center"
                         d:Text="上次同步时间: 2026/1/1 上午00:00:00"
                         Visibility="{c:Binding 'LastDepotSyncTimeText.Length > 0'}">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}: {1}">
-                                <Binding Source="{StaticResource LastSyncTime}" />
-                                <Binding Path="LastDepotSyncTimeText" Source="{x:Static helper:Instances.ToolboxViewModel}" />
-                            </MultiBinding>
-                        </TextBlock.Text>
+                        <Run Text="{DynamicResource LastSyncTime}" />
+                        <Run Text=": " />
+                        <Run Text="{Binding LastDepotSyncTimeText, Mode=OneWay, Source={x:Static helper:Instances.ToolboxViewModel}}" />
                     </controls:TextBlock>
                     <controls:TextBlock
                         Margin="5"
