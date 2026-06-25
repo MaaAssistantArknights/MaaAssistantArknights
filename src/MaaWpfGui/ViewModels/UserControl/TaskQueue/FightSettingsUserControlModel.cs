@@ -304,11 +304,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    // CA1822: 该属性必须保持为实例成员，PropertyDependsOnUtility 通过实例反射触发通知。
-    [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "PropertyDependsOn 需要通过实例属性触发通知")]
-    [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
-    public string UseStoneString => LocalizationHelper.GetString("UseOriginitePrime");
-
     /// <summary>
     /// Gets or sets a value indicating whether 使用源石。
     /// </summary>

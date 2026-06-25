@@ -46,11 +46,14 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
-                        Content="{c:Binding 'UseStoneString + (AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}"
                         IsChecked="{Binding UseStone}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
+                        ToolTip="{DynamicResource CheckBoxesNotSaved}">
+                        <TextBlock>
+                            <Run Text="{DynamicResource UseOriginitePrime}" /><Run Text="{c:Binding '(AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}" />
+                        </TextBlock>
+                    </CheckBox>
                     <CheckBox
                         Height="30"
                         Margin="6"
