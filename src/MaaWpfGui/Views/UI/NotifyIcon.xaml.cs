@@ -90,6 +90,7 @@ public partial class NotifyIcon
         }
 
         LocalizationHelper.LanguageChanged += RefreshMenuLocalization;
+        Unloaded += (_, _) => LocalizationHelper.LanguageChanged -= RefreshMenuLocalization;
     }
 
     /// <summary>
