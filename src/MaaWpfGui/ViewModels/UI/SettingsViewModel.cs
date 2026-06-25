@@ -323,8 +323,7 @@ public class SettingsViewModel : Screen
     public string SearchText
     {
         get => _searchText;
-        set
-        {
+        set {
             if (SetAndNotify(ref _searchText, value))
             {
                 SearchRequested?.Invoke(this, value);
@@ -410,8 +409,7 @@ public class SettingsViewModel : Screen
     public bool Hangover
     {
         get => _hangover;
-        set
-        {
+        set {
             SetAndNotify(ref _hangover, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Hangover, value.ToString());
         }
@@ -504,10 +502,11 @@ public class SettingsViewModel : Screen
             return false;
         }
 
-        // if (now.IsAprilFoolsDay())
-        // {
-        //     return true;
-        // }
+        if (now.IsAprilFoolsDay())
+        {
+            return true;
+        }
+
         string[] wineList = ["酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶"];
         foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<MallTask>())
         {
@@ -921,8 +920,7 @@ public class SettingsViewModel : Screen
     public bool IsSwitchConfigurationExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderSwitchConfiguration;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderSwitchConfiguration = value;
             NotifyOfPropertyChange();
         }
@@ -931,8 +929,7 @@ public class SettingsViewModel : Screen
     public bool IsScheduleSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderScheduleSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderScheduleSettings = value;
             NotifyOfPropertyChange();
         }
@@ -941,8 +938,7 @@ public class SettingsViewModel : Screen
     public bool IsPerformanceSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderPerformanceSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderPerformanceSettings = value;
             NotifyOfPropertyChange();
         }
@@ -951,8 +947,7 @@ public class SettingsViewModel : Screen
     public bool IsGameSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderGameSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderGameSettings = value;
             NotifyOfPropertyChange();
         }
@@ -961,8 +956,7 @@ public class SettingsViewModel : Screen
     public bool IsConnectionSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderConnectionSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderConnectionSettings = value;
             NotifyOfPropertyChange();
         }
@@ -971,8 +965,7 @@ public class SettingsViewModel : Screen
     public bool IsStartupSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderStartupSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderStartupSettings = value;
             NotifyOfPropertyChange();
         }
@@ -981,8 +974,7 @@ public class SettingsViewModel : Screen
     public bool IsRemoteControlSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderRemoteControlSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderRemoteControlSettings = value;
             NotifyOfPropertyChange();
         }
@@ -991,8 +983,7 @@ public class SettingsViewModel : Screen
     public bool IsUiSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderUiSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderUiSettings = value;
             NotifyOfPropertyChange();
         }
@@ -1001,8 +992,7 @@ public class SettingsViewModel : Screen
     public bool IsBackgroundSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderBackgroundSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderBackgroundSettings = value;
             NotifyOfPropertyChange();
         }
@@ -1011,8 +1001,7 @@ public class SettingsViewModel : Screen
     public bool IsExternalNotificationSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderExternalNotificationSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderExternalNotificationSettings = value;
             NotifyOfPropertyChange();
         }
@@ -1021,8 +1010,7 @@ public class SettingsViewModel : Screen
     public bool IsHotKeySettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderHotKeySettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderHotKeySettings = value;
             NotifyOfPropertyChange();
         }
@@ -1031,8 +1019,7 @@ public class SettingsViewModel : Screen
     public bool IsAchievementSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderAchievementSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderAchievementSettings = value;
             NotifyOfPropertyChange();
         }
@@ -1041,8 +1028,7 @@ public class SettingsViewModel : Screen
     public bool IsUpdateSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderUpdateSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderUpdateSettings = value;
             NotifyOfPropertyChange();
         }
@@ -1051,8 +1037,7 @@ public class SettingsViewModel : Screen
     public bool IsIssueReportExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderIssueReport;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderIssueReport = value;
             NotifyOfPropertyChange();
         }
@@ -1061,8 +1046,7 @@ public class SettingsViewModel : Screen
     public bool IsAboutUsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderAboutUs;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderAboutUs = value;
             NotifyOfPropertyChange();
         }
