@@ -851,6 +851,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UseCustomAnnihilation">커스텀 {key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">섬멸 모드</system:String>
     <system:String x:Key="Annihilation.Current">이번 섬멸 작전</system:String>
+    <system:String x:Key="PermanentStageBlocksStages">선택된 스테이지 ｢{0}｣ 는 상설 스테이지 또는 현재/마지막이므로 이후 스테이지는 선택되지 않습니다</system:String>
     <system:String x:Key="Chernobog">체르노보그</system:String>
     <system:String x:Key="LungmenOutskirts">용문 외곽</system:String>
     <system:String x:Key="LungmenDowntown">용문 시내</system:String>

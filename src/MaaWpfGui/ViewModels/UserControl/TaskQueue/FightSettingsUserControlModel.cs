@@ -1061,6 +1061,20 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         return stage;
     }
 
+    /// <summary>
+    /// 判断指定关卡是否为常驻关卡（无周期限制且非限时活动，每天都开放）。
+    /// 资源关（如 LS-6）虽有关联活动但 IsResourceCollection 为 true 且无周期限制，同样视为常驻。
+    /// </summary>
+    /// <param name="stage">关卡代码。</param>
+    /// <returns>若该关卡为常驻关卡则返回 <c>true</c>。</returns>
+    private static bool IsPermanentStage(string stage)
+    {
+        var stageInfo = Instances.StageManager.GetStageInfo(stage);
+        bool noPeriodicLimit = stageInfo.OpenDaysOfWeek == null || !stageInfo.OpenDaysOfWeek.Any();
+        bool notLimitedActivity = stageInfo.Activity == null || stageInfo.Activity.IsResourceCollection;
+        return noPeriodicLimit && notLimitedActivity;
+    }
+
     public override void RefreshUI(BaseTask baseTask)
     {
         if (baseTask is not FightTask fight)
@@ -1359,6 +1373,23 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             if (stage is null)
             {
                 return (null, []);
+            }
+
+            // 选关逻辑为从上至下找第一个开放关卡，
+            // 常驻关卡（如剿灭、1-7）或"当前/上次"（空字符串）一旦被选中便不会继续往下查找，
+            // 因此其后配置的关卡不会被选中执行
+            if (taskId is null && (stage == string.Empty || IsPermanentStage(stage)))
+            {
+                int stageIndex = fight.StagePlan.IndexOf(stage);
+                if (stageIndex >= 0 && stageIndex < fight.StagePlan.Count - 1)
+                {
+                    var stageName = stage == string.Empty
+                        ? LocalizationHelper.GetString("DefaultStage")
+                        : Instances.StageManager.GetStageInfo(stage).Display;
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("PermanentStageBlocksStages", stageName),
+                        UiLogColor.Warning);
+                }
             }
 
             var time = DateTimeOffset.Now;

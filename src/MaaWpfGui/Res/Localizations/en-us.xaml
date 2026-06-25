@@ -849,6 +849,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="UseCustomAnnihilation">Custom {key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">Annihilation Mode</system:String>
     <system:String x:Key="Annihilation.Current">Current Annihilation</system:String>
+    <system:String x:Key="PermanentStageBlocksStages">The selected stage ｢{0}｣ is a permanent stage or Current/Last; subsequent stages will not be selected</system:String>
     <system:String x:Key="Chernobog">Chernobog</system:String>
     <system:String x:Key="LungmenOutskirts">Lungmen Outskirts</system:String>
     <system:String x:Key="LungmenDowntown">Lungmen Downtown</system:String>

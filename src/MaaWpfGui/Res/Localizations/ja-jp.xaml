@@ -850,6 +850,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UseCustomAnnihilation">カスタム{key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">殲滅作戦</system:String>
     <system:String x:Key="Annihilation.Current">今期の殲滅作戦</system:String>
+    <system:String x:Key="PermanentStageBlocksStages">選択されたステージ ｢{0}｣ は常設ステージまたは現在/最後のため、後続のステージは選択されません</system:String>
     <system:String x:Key="Chernobog">チェルノボーグ</system:String>
     <system:String x:Key="LungmenOutskirts">龍門郊外</system:String>
     <system:String x:Key="LungmenDowntown">龍門市街</system:String>

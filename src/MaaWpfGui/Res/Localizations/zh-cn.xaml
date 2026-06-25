@@ -850,6 +850,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="UseCustomAnnihilation">自定义{key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">剿灭模式</system:String>
     <system:String x:Key="Annihilation.Current">当期剿灭</system:String>
+    <system:String x:Key="PermanentStageBlocksStages">当前选中的关卡 ｢{0}｣ 为常驻关卡或当前/上次，其后的关卡不会被选中执行</system:String>
     <system:String x:Key="Chernobog">切尔诺伯格</system:String>
     <system:String x:Key="LungmenOutskirts">龙门外环</system:String>
     <system:String x:Key="LungmenDowntown">龙门市区</system:String>
