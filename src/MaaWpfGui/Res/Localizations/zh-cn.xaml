@@ -1022,6 +1022,19 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGame@SecretFront@Event3">诡影迷踪</system:String>
     <system:String x:Key="MiniGame@SecretFront">隐秘战线</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip" xml:space="preserve">在选小队界面开始，如有存档须手动删除。&#10;第一次打自己看完把教程关了。&#10;推荐勾选游戏内 ｢继承上一支队伍发回的数据｣</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast">通宝重投</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastTip" xml:space="preserve">在界园肉鸽中自动重投通宝直至满足停止条件。可在下方设置停止条件。</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@StopCondition">停止条件</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@AddCondition">添加条件</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@RemoveCondition">删除</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricRecastCount">重投次数</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricHP">生命值</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricHope">希望</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricIngot">源石锭</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricTicket">票券</system:String>
+    <system:String x:Key="CoppersRecastProgress">通宝重投: 已投 {0} 次, {1}</system:String>
+    <system:String x:Key="CoppersRecastStopped">通宝重投完成: 共 {0} 次, {1}</system:String>
+    <system:String x:Key="CoppersRecastStats">生命 {0}, 希望 {1}, 源石锭 {2}, 票券 {3}</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">绿票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1层全买。&#10;2层买寻访凭证和招聘许可。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黄票商店</system:String>

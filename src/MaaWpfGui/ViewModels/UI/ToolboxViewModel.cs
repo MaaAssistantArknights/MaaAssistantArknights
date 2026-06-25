@@ -2265,6 +2265,8 @@ public class ToolboxViewModel : Screen
         public string Category { get; set; } = string.Empty;
 
         public bool IsSecretFront => Value == "MiniGame@SecretFront";
+
+        public bool IsCoppersRecast => Value == "MiniGame@CoppersRecast@Begin";
     }
 
     public ObservableCollection<MiniGameCategoryItem> MiniGameCategoryItems { get; } = [];
@@ -2435,6 +2437,70 @@ public class ToolboxViewModel : Screen
         }
     }
 
+    #region CoppersRecast Conditions
+
+    public class CoppersRecastConditionItem : PropertyChangedBase
+    {
+        private string _metric = "recast_count";
+
+        public string Metric
+        {
+            get => _metric;
+            set => SetAndNotify(ref _metric, value);
+        }
+
+        private string _comparator = "greater_or_equal";
+
+        public string Comparator
+        {
+            get => _comparator;
+            set => SetAndNotify(ref _comparator, value);
+        }
+
+        private int _threshold = 1;
+
+        public int Threshold
+        {
+            get => _threshold;
+            set => SetAndNotify(ref _threshold, value);
+        }
+    }
+
+    public ObservableCollection<CoppersRecastConditionItem> CoppersRecastConditions { get; } = [];
+
+    public List<GenericCombinedData<string>> CoppersRecastMetricList { get; } =
+    [
+        new() { Display = LocalizationHelper.GetString("MiniGame@CoppersRecast@MetricRecastCount"), Value = "recast_count" },
+        new() { Display = LocalizationHelper.GetString("MiniGame@CoppersRecast@MetricHP"), Value = "hp" },
+        new() { Display = LocalizationHelper.GetString("MiniGame@CoppersRecast@MetricHope"), Value = "hope" },
+        new() { Display = LocalizationHelper.GetString("MiniGame@CoppersRecast@MetricIngot"), Value = "ingot" },
+        new() { Display = LocalizationHelper.GetString("MiniGame@CoppersRecast@MetricTicket"), Value = "ticket" },
+    ];
+
+    public List<GenericCombinedData<string>> CoppersRecastComparatorList { get; } =
+    [
+        new() { Display = "=", Value = "equal" },
+        new() { Display = ">", Value = "greater" },
+        new() { Display = "<", Value = "less" },
+        new() { Display = ">=", Value = "greater_or_equal" },
+        new() { Display = "<=", Value = "less_or_equal" },
+    ];
+
+    public void AddCoppersRecastCondition()
+    {
+        CoppersRecastConditions.Add(new CoppersRecastConditionItem());
+    }
+
+    public void RemoveCoppersRecastCondition(CoppersRecastConditionItem condition)
+    {
+        if (CoppersRecastConditions.Contains(condition))
+        {
+            CoppersRecastConditions.Remove(condition);
+        }
+    }
+
+    #endregion
+
     public void StartMiniGame()
     {
         _ = StartMiniGameAsync();
@@ -2466,7 +2532,18 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
+        var task = new AsstCustomTask { CustomTasks = [GetMiniGameTask()] };
+        if (SelectedMiniGameItem?.IsCoppersRecast == true && CoppersRecastConditions.Count > 0)
+        {
+            task.Conditions = [.. CoppersRecastConditions
+                .Select(c => new AsstCustomTask.CoppersRecastConditionDto {
+                    Metric = c.Metric,
+                    Comparator = c.Comparator,
+                    Threshold = c.Threshold,
+                })];
+        }
+
+        caught = Instances.AsstProxy.AsstMiniGame(task);
         if (!caught)
         {
             _runningState.SetIdle(true);

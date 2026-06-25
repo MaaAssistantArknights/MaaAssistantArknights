@@ -915,6 +915,74 @@
                                 SelectedValue="{Binding SecretFrontEvent}"
                                 SelectedValuePath="Value" />
                         </Grid>
+                        <Grid Visibility="{c:Binding 'SelectedMiniGameItem.IsCoppersRecast'}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <controls:TextBlock
+                                Grid.Row="0"
+                                Margin="0,0,0,5"
+                                FontWeight="Bold"
+                                Text="{DynamicResource MiniGame@CoppersRecast@StopCondition}" />
+                            <hc:ScrollViewer
+                                Grid.Row="1"
+                                MaxHeight="200"
+                                HorizontalScrollBarVisibility="Disabled"
+                                IsInertiaEnabled="True"
+                                PanningMode="Both"
+                                VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding CoppersRecastConditions}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,3">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <ComboBox
+                                                    Grid.Column="0"
+                                                    DisplayMemberPath="Display"
+                                                    ItemsSource="{Binding DataContext.CoppersRecastMetricList, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding Metric}"
+                                                    SelectedValuePath="Value" />
+                                                <ComboBox
+                                                    Grid.Column="1"
+                                                    Margin="3,0"
+                                                    DisplayMemberPath="Display"
+                                                    ItemsSource="{Binding DataContext.CoppersRecastComparatorList, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding Comparator}"
+                                                    SelectedValuePath="Value" />
+                                                <hc:NumericUpDown
+                                                    Grid.Column="2"
+                                                    Margin="3,0"
+                                                    Minimum="0"
+                                                    Maximum="9999"
+                                                    Value="{Binding Threshold, UpdateSourceTrigger=PropertyChanged}" />
+                                                <Button
+                                                    Grid.Column="3"
+                                                    Width="24"
+                                                    Height="24"
+                                                    Margin="3,0,0,0"
+                                                    Command="{s:Action RemoveCoppersRecastCondition}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="✕"
+                                                    FontSize="10" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </hc:ScrollViewer>
+                            <Button
+                                Grid.Row="2"
+                                Margin="0,8,0,0"
+                                HorizontalAlignment="Left"
+                                Command="{s:Action AddCoppersRecastCondition}"
+                                Content="{DynamicResource MiniGame@CoppersRecast@AddCondition}" />
+                        </Grid>
                         <Viewbox
                             Grid.Row="1"
                             Stretch="Uniform"

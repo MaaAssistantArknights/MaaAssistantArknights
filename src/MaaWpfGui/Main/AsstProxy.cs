@@ -2292,6 +2292,34 @@ public class AsstProxy
             case "StageQueueMissionCompleted":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails!["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
                 break;
+
+            case "CoppersRecastProgress":
+                Instances.TaskQueueViewModel.AddLog(
+                    string.Format(
+                        LocalizationHelper.GetString("CoppersRecastProgress"),
+                        subTaskDetails!["recast_times"],
+                        string.Format(
+                            LocalizationHelper.GetString("CoppersRecastStats"),
+                            subTaskDetails["hp"],
+                            subTaskDetails["hope"],
+                            subTaskDetails["ingot"],
+                            subTaskDetails["ticket_count"])),
+                    UiLogColor.Info);
+                break;
+
+            case "CoppersRecastStopped":
+                Instances.TaskQueueViewModel.AddLog(
+                    string.Format(
+                        LocalizationHelper.GetString("CoppersRecastStopped"),
+                        subTaskDetails!["recast_times"],
+                        string.Format(
+                            LocalizationHelper.GetString("CoppersRecastStats"),
+                            subTaskDetails["hp"],
+                            subTaskDetails["hope"],
+                            subTaskDetails["ingot"],
+                            subTaskDetails["ticket_count"])),
+                    UiLogColor.Success);
+                break;
         }
     }
 
@@ -2963,11 +2991,10 @@ public class AsstProxy
     /// </summary>
     /// <param name="taskName">任务名（tasks.json 中的 key）</param>
     /// <returns>是否成功。</returns>
-    public bool AsstMiniGame(string taskName)
+    public bool AsstMiniGame(string taskName) => AsstMiniGame(new AsstCustomTask { CustomTasks = [taskName] });
+
+    public bool AsstMiniGame(AsstCustomTask task)
     {
-        var task = new AsstCustomTask() {
-            CustomTasks = [taskName],
-        };
         var (type, param) = task.Serialize();
         return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
     }

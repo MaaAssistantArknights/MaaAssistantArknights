@@ -1023,6 +1023,19 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">수상한 그림자</system:String>
     <system:String x:Key="MiniGame@SecretFront">비밀 전선</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내 「이전 소대의 데이터 전승받기」 옵션을 체크하는 것을 권장합니다.</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast">주화 재주조</system:String>
+    <system:String x:Key="MiniGame@CoppersRecastTip">계원 로그라이크에서 중지 조건이 충족될 때까지 자동으로 주화 재주조를 실행합니다. 아래에서 조건을 설정하세요.</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@StopCondition">중지 조건</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@AddCondition">조건 추가</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@RemoveCondition">삭제</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricRecastCount">재주조 횟수</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricHP">HP</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricHope">희망</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricIngot">원석 주괴</system:String>
+    <system:String x:Key="MiniGame@CoppersRecast@MetricTicket">티켓</system:String>
+    <system:String x:Key="CoppersRecastProgress">주화 재주조: {0}회, {1}</system:String>
+    <system:String x:Key="CoppersRecastStopped">주화 재주조 완료: {0}회, {1}</system:String>
+    <system:String x:Key="CoppersRecastStats">HP {0}, 희망 {1}, 원석 주괴 {2}, 티켓 {3}</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">자격증명서 상점</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1단계는 전부 구매하고&#10;2단계는 헤드헌팅 허가증과 모집 허가증을 구매해요</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">고급증명서 상점</system:String>

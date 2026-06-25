@@ -11,6 +11,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
+#include "Vision/Roguelike/RoguelikeParameterAnalyzer.h"
 
 bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -337,37 +338,7 @@ int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image) const
 {
     LogTraceFunction;
 
-    if (!ProcessTask(*this, { "Roguelike@HpFlag" }).run()) {
-        Log.info("Not found HpFlag");
-        return -1;
-    }
-
-    auto task = Task.get<OcrTaskInfo>("Roguelike@HpRecognition");
-    std::vector<std::pair<std::string, std::string>> merged_map;
-    merged_map.insert(merged_map.end(), task->replace_map.begin(), task->replace_map.end());
-    merged_map.emplace_back("(.*)/.*", "$1");
-
-    auto roi_image = make_roi(image, task->roi).clone();
-    cv::Mat r_channel;
-    cv::extractChannel(roi_image, r_channel, 2);
-    cv::Mat mask;
-    cv::threshold(r_channel, mask, 50, 255, cv::THRESH_BINARY);
-    cv::Mat inv_mask;
-    cv::bitwise_not(mask, inv_mask);
-    roi_image.setTo(cv::Scalar(0, 0, 0), mask);
-
-    RegionOCRer analyzer(roi_image);
-    analyzer.set_replace(merged_map);
-    analyzer.set_use_char_model(true);
-    analyzer.set_bin_threshold(60); // 血量没有红色通道，虽然它看着很明显，但实际上在灰度中只有 2/3
-
-    auto res_vec_opt = analyzer.analyze();
-    if (!res_vec_opt) {
-        return 0;
-    }
-
-    int hp_val;
-    return utils::chars_to_number(res_vec_opt->text, hp_val) ? hp_val : 0;
+    return RoguelikeParameterAnalyzer::update_hp(image);
 }
 
 bool asst::RoguelikeStageEncounterTaskPlugin::update_option_list()
