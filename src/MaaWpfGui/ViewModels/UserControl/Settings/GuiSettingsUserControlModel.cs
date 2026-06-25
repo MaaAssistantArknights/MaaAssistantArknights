@@ -473,7 +473,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             // 去重：getter 每次绑定时都可能被读取，避免重复添加"强制指定语言"选项
             if (!OperNameLanguageModeList.Items.Any(i => i.Value == "OperNameLanguageForce"))
             {
-                OperNameLanguageModeList.Items.Add(new GenericCombinedData<string> { Display = LocalizationHelper.GetString("OperNameLanguageForce"), Value = "OperNameLanguageForce" });
+                OperNameLanguageModeList.Add("OperNameLanguageForce", "OperNameLanguageForce");
             }
 
             return "OperNameLanguageForce";
@@ -500,11 +500,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _operNameLanguage, value);
 
             // 切换到非 Force 选项后，移除运行时动态插入的 Force 项，避免下拉框残留
-            var forceItem = OperNameLanguageModeList.Items.FirstOrDefault(i => i.Value == "OperNameLanguageForce");
-            if (forceItem is not null)
-            {
-                OperNameLanguageModeList.Items.Remove(forceItem);
-            }
+            OperNameLanguageModeList.Remove("OperNameLanguageForce");
 
             OperNameLanguageChanged?.Invoke();
         }
@@ -585,13 +581,6 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public void RefreshLocalization()
     {
         OperNameLanguageModeList.RefreshLocalization();
-
-        // OperNameLanguageForce 项是运行时动态插入的（不在 LocalizedObservableList._entries 中），
-        // RefreshLocalization 的 Zip 配对不会覆盖它，需单独刷新其 Display。
-        if (OperNameLanguageModeList.Items.FirstOrDefault(i => i.Value == "OperNameLanguageForce") is { } forceItem)
-        {
-            forceItem.Display = LocalizationHelper.GetString("OperNameLanguageForce");
-        }
 
         DarkModeList.RefreshLocalization();
         InverseClearModeList.RefreshLocalization();
