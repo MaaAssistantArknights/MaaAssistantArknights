@@ -21,8 +21,11 @@ namespace MaaWpfGui.Utilities;
 /// <para>同实例：<c>[PropertyDependsOn(nameof(SomeProp))]</c></para>
 /// <para>跨实例：<c>[PropertyDependsOn(typeof(OwnerType), nameof(OwnerType.SomeProp))]</c></para>
 /// <para>全局刷新（语言切换等）：<c>[PropertyDependsOn]</c></para>
+/// <para>支持 AllowMultiple，可叠加多个 attribute 混合同实例与跨实例依赖：
+/// <c>[PropertyDependsOn(typeof(OwnerType), nameof(OwnerType.Lang))]</c>
+/// <c>[PropertyDependsOn(nameof(Index))]</c></para>
 /// </summary>
-[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
 public class PropertyDependsOnAttribute : Attribute
 {
     /// <summary>

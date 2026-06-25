@@ -35,9 +35,11 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
 
     /// <summary>
     /// Gets or sets 显示名称：优先返回用户自定义名称，否则返回本地化任务类型名。
-    /// 始终从配置动态读取，语言切换时通过 <see cref="PropertyDependsOnAttribute"/> 自动刷新。
+    /// 始终从配置动态读取，语言切换或任务排序（Index 变化）时通过
+    /// <see cref="PropertyDependsOnAttribute"/> 自动刷新。
     /// </summary>
     [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
+    [PropertyDependsOn(nameof(Index))]
     public string Name
     {
         get => ConfigFactory.CurrentConfig.TaskQueue[Index].NameOrTaskType;
