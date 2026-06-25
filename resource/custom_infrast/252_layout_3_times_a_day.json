@@ -30,7 +30,7 @@
               "龙舌兰",
               "柏喙"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -40,7 +40,7 @@
               "深巡",
               "但书"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -53,7 +53,7 @@
               "稀音",
               "帕拉斯"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -64,7 +64,7 @@
               "野鬃",
               "灰毫"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -75,7 +75,7 @@
               "断罪者",
               "食铁兽"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -86,7 +86,7 @@
               "砾",
               "引星棘刺"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -97,7 +97,7 @@
               "温蒂",
               "冬时"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -107,7 +107,7 @@
             "operators": [
               "承曦格雷伊"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -115,7 +115,7 @@
             "operators": [
               "Lancet-2"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -129,7 +129,7 @@
               "烛煌",
               "逻各斯"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -141,7 +141,7 @@
               "赫德雷",
               "缪尔赛思"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -153,7 +153,7 @@
               "斩业星熊",
               "摩根"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -165,7 +165,7 @@
               "诗怀雅",
               "菲亚梅塔"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -179,7 +179,7 @@
               "薇薇安娜",
               "八幡海铃"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -190,7 +190,7 @@
               "伊内丝",
               "跃跃"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -200,7 +200,7 @@
             "operators": [
               "凯尔希·思衡托"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -210,7 +210,7 @@
             "operators": [
               "煌"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ]
@@ -241,7 +241,7 @@
               "龙舌兰",
               "柏喙"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -251,7 +251,7 @@
               "深巡",
               "但书"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -264,7 +264,7 @@
               "稀音",
               "帕拉斯"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -275,7 +275,7 @@
               "安哲拉",
               "酒神"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -286,7 +286,7 @@
               "斯卡蒂",
               "乌尔比安"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -297,7 +297,7 @@
               "淬羽赫默",
               "多萝西"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -308,7 +308,7 @@
               "温蒂",
               "冬时"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -318,7 +318,7 @@
             "operators": [
               "承曦格雷伊"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -326,7 +326,7 @@
             "operators": [
               "Lancet-2"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -340,7 +340,7 @@
               "推进之王",
               "槐琥"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -352,7 +352,7 @@
               "断罪者",
               "凯尔希·思衡托"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -364,7 +364,7 @@
               "伊内丝",
               "食铁兽"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -376,7 +376,7 @@
               "菲亚梅塔",
               "焰狐龙梓兰"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -390,7 +390,7 @@
               "森蚺",
               "八幡海铃"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -401,7 +401,7 @@
               "信仰搅拌机",
               "跃跃"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -411,7 +411,7 @@
             "operators": [
               "斥罪"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -421,7 +421,7 @@
             "operators": [
               "赫默"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ]
@@ -452,7 +452,7 @@
               "推进之王",
               "可露希尔"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -462,7 +462,7 @@
               "赫德雷",
               "但书"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -475,7 +475,7 @@
               "野鬃",
               "灰毫"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -486,7 +486,7 @@
               "裂响",
               "断罪者"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -497,7 +497,7 @@
               "酒神",
               "弑君者"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -508,7 +508,7 @@
               "淬羽赫默",
               "多萝西"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -519,7 +519,7 @@
               "砾",
               "引星棘刺"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -529,7 +529,7 @@
             "operators": [
               "缪尔赛思"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -537,7 +537,7 @@
             "operators": [
               "格雷伊"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -551,7 +551,7 @@
               "菲亚梅塔",
               "信仰搅拌机"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -563,7 +563,7 @@
               "斯卡蒂",
               "深巡"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -575,7 +575,7 @@
               "承曦格雷伊",
               "跃跃"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           },
           {
@@ -587,7 +587,7 @@
               "森蚺",
               "八幡海铃"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -601,7 +601,7 @@
               "薇薇安娜",
               "焰狐龙梓兰"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -612,7 +612,7 @@
               "伊内丝",
               "见行者"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -622,7 +622,7 @@
             "operators": [
               "斥罪"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ],
@@ -632,7 +632,7 @@
             "operators": [
               "赫默"
             ],
-            "sort": false,
+            "sort": true,
             "autofill": false
           }
         ]
