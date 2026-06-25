@@ -407,12 +407,20 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 cancel: FormatText("{0}/{1}", "ManualRestart"));
             if (result == MessageBoxResult.Yes)
             {
-                // 先更新字段值，确保 Reload 触发的 LanguageChanged 与跨实例
-                // PropertyDependsOn(Language) 回调都能读到新语言，避免时序问题
-                SetAndNotify(ref _language, value);
-
-                // 立即热切换语言（部分内容可能需要下次重启才完全生效）
+                // 时序要求（三者缺一不可）：
+                // 1. 先静默更新 _language，使 Reload 触发 LanguageChanged 时，
+                //    任何读取 Language 属性的订阅者都能拿到新值；
+                // 2. Reload 内部先替换 ResourceDictionary 再触发 LanguageChanged，
+                //    保证订阅者调 LocalizationHelper.GetString 拿到的是新字典；
+                // 3. 最后 NotifyOfPropertyChange 触发 PropertyDependsOn(Language) 回调，
+                //    此时字典和 _language 都已是新值。
+                //
+                // 不能用 SetAndNotify 替代步骤 1+3：SetAndNotify 会在赋值后立即同步触发通知，
+                // 若放在 Reload 之前，回调读到的仍是旧字典；若放在之后，由于 _language 已被
+                // 步骤 1 赋值，SetAndNotify 判定值未变而不触发通知。
+                _language = value;
                 LocalizationHelper.Reload(value);
+                NotifyOfPropertyChange(nameof(Language));
             }
             else if (result == MessageBoxResult.No)
             {
