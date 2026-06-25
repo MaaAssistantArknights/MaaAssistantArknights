@@ -860,10 +860,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CATip">CA-5: 技能</system:String>
     <system:String x:Key="LSTip">LS-6: 经验</system:String>
     <system:String x:Key="SKTip">SK-5: 碳</system:String>
-    <system:String x:Key="PR-ATip">PR-A-1/2: 奶&amp;盾芯片</system:String>
-    <system:String x:Key="PR-BTip">PR-B-1/2: 术&amp;狙芯片</system:String>
-    <system:String x:Key="PR-CTip">PR-C-1/2: 先&amp;辅芯片</system:String>
-    <system:String x:Key="PR-DTip">PR-D-1/2: 近&amp;特芯片</system:String>
+    <system:String x:Key="PR-ATip">PR-A-1/2: |奶|&amp;|盾|芯片</system:String>
+    <system:String x:Key="PR-BTip">PR-B-1/2: |术|&amp;|狙|芯片</system:String>
+    <system:String x:Key="PR-CTip">PR-C-1/2: |先|&amp;|辅|芯片</system:String>
+    <system:String x:Key="PR-DTip">PR-D-1/2: |近|&amp;|特|芯片</system:String>
     <system:String x:Key="Pormpt1">周一了，可以打剿灭了~</system:String>
     <system:String x:Key="Pormpt2">周日了，记得打剿灭哦~</system:String>
     <!--  !战斗设置  -->
