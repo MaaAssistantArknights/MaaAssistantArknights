@@ -140,7 +140,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
     // 商贾分队固定在分队列表末尾：先快速划到底，省去逐页 OCR 一个个找（每页 HijackSquad postDelay 1s）。
     // 列表到底后再划无副作用，商贾分队仍停在最右侧，随后由下方循环识别并点击。
     if (squad == "商贾分队") {
-        constexpr size_t SwipeToEndTimes = 6;
+        constexpr size_t SwipeToEndTimes = 6; // 实测：5 次有小概率翻不到底，7 次过多，6 次刚好
         for (size_t i = 0; i != SwipeToEndTimes; ++i) {
             if (need_exit()) {
                 return false;

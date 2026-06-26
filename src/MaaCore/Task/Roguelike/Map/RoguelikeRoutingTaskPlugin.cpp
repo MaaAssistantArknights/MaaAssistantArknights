@@ -619,7 +619,7 @@ bool asst::RoguelikeRoutingTaskPlugin::recast_until_token_cast()
         return true;
     }
 
-    // 票券很少，设安全上限兜底，避免死循环
+    // 游戏内重投最多 4 次（票券上限），+1 作为 OCR 失败时的安全兜底，避免死循环
     constexpr int max_recast_times = 5;
 
     // 打开钱盒
