@@ -1,5 +1,9 @@
 #include "MaaFwAdbController.h"
 
+#include <algorithm>
+#include <chrono>
+#include <cctype>
+#include <cstdint>
 #include <thread>
 
 #include "Common/AsstMsg.h"
@@ -10,6 +14,154 @@
 
 namespace asst
 {
+namespace
+{
+struct MaaFwAdbConfig
+{
+    std::string json = "{}";
+    uint64_t screencap_methods = MaaAdbScreencapMethod::Default;
+    uint64_t input_methods = MaaAdbInputMethod::AdbShell | MaaAdbInputMethod::EmulatorExtras;
+    std::string screencap_method_name;
+};
+
+int get_mumu_index(const std::string& address)
+{
+    auto pos = address.find(":");
+    if (pos == std::string::npos) {
+        LogError << "address is invalid" << VAR(address);
+        return 0;
+    }
+
+    std::string port_str = address.substr(pos + 1);
+    if (port_str.empty() ||
+        !std::ranges::all_of(port_str, [](unsigned char c) -> bool { return std::isdigit(c); })) {
+        LogError << "port is invalid" << VAR(port_str);
+        return 0;
+    }
+
+    int port = std::stoi(port_str);
+    int mumu_index = 0;
+    if (port >= 16384) {
+        mumu_index = (port - 16384) / 32;
+    }
+    else if (port == 7555) {
+        LogWarn << "Port 7555 is deprecated for MuMu6, please use 16384 or above.";
+    }
+    else if (port >= 5555) {
+        mumu_index = (port - 5555) / 2;
+    }
+    LogInfo << VAR(port_str) << VAR(port) << VAR(mumu_index);
+    return mumu_index;
+}
+
+int get_ld_index(const std::string& address)
+{
+    constexpr std::string_view EmulatorPrefix = "emulator-";
+    constexpr int BaseEmulatorPort = 5554;
+    if (address.starts_with(EmulatorPrefix)) {
+        std::string port_str = address.substr(EmulatorPrefix.size());
+        if (port_str.empty() ||
+            !std::ranges::all_of(port_str, [](unsigned char c) -> bool { return std::isdigit(c); })) {
+            LogError << "emulator port is invalid" << VAR(port_str);
+            return 0;
+        }
+
+        int port = std::stoi(port_str);
+        int ld_index = (port - BaseEmulatorPort) / 2;
+        LogInfo << VAR(port_str) << VAR(port) << VAR(ld_index);
+        return ld_index;
+    }
+
+    constexpr std::string_view LocalhostPrefix = "127.0.0.1:";
+    constexpr int BaseAdbPort = 5555;
+    if (address.starts_with(LocalhostPrefix)) {
+        std::string port_str = address.substr(LocalhostPrefix.size());
+        if (port_str.empty() ||
+            !std::ranges::all_of(port_str, [](unsigned char c) -> bool { return std::isdigit(c); })) {
+            LogError << "adb port is invalid" << VAR(port_str);
+            return 0;
+        }
+
+        int port = std::stoi(port_str);
+        int ld_index = (port - BaseAdbPort) / 2;
+        LogInfo << VAR(port_str) << VAR(port) << VAR(ld_index);
+        return ld_index;
+    }
+
+    LogError << "address is invalid or unsupported" << VAR(address);
+    return 0;
+}
+
+MaaFwAdbConfig make_maa_fw_adb_config(const std::string& config, const std::string& address)
+{
+    if (config == "AVD") {
+        return { R"({"extras":{"avd":{"enable":true}}})" };
+    }
+
+    auto adb_cfg = Config.get_adb_cfg(config);
+    if (!adb_cfg || adb_cfg->extras.empty()) {
+        return {};
+    }
+
+    const auto& extras = adb_cfg->extras;
+    if (config == "MuMuEmulator12") {
+        std::string mumu_path = extras.get("path", "");
+        if (mumu_path.empty()) {
+            return {};
+        }
+
+        json::object mumu_config {
+            { "enable", true },
+            { "path", std::move(mumu_path) },
+            { "index", extras.contains("index") ? extras.get("index", 0) : get_mumu_index(address) },
+        };
+
+        json::value fw_config = json::object {
+            { "extras",
+              json::object {
+                  { "mumu", std::move(mumu_config) },
+              } },
+        };
+
+        return {
+            fw_config.to_string(),
+            MaaAdbScreencapMethod::EmulatorExtras,
+            MaaAdbInputMethod::AdbShell,
+            "MumuExtras",
+        };
+    }
+
+    if (config == "LDPlayer") {
+        std::string ld_path = extras.get("path", "");
+        if (ld_path.empty()) {
+            return {};
+        }
+
+        json::object ld_config {
+            { "enable", true },
+            { "path", std::move(ld_path) },
+            { "index", extras.contains("index") ? extras.get("index", 0) : get_ld_index(address) },
+            { "pid", extras.get("pid", 0) },
+        };
+
+        json::value fw_config = json::object {
+            { "extras",
+              json::object {
+                  { "ld", std::move(ld_config) },
+              } },
+        };
+
+        return {
+            fw_config.to_string(),
+            MaaAdbScreencapMethod::EmulatorExtras,
+            MaaAdbInputMethod::AdbShell,
+            "LDExtras",
+        };
+    }
+
+    return {};
+}
+} // namespace
 
 MaaFwAdbController::MaaFwAdbController(
     const AsstCallback& callback,
@@ -87,12 +239,14 @@ bool MaaFwAdbController::connect(const std::string& adb_path, const std::string&
         m_unit_handle = nullptr;
     }
 
+    auto maa_fw_config = make_maa_fw_adb_config(config, address);
+
     m_unit_handle = m_create_func(
         adb_path.c_str(),
         address.c_str(),
-        MaaAdbScreencapMethod::Default,
-        MaaAdbInputMethod::AdbShell | MaaAdbInputMethod::EmulatorExtras,
-        config == "AVD" ? "{\"extras\":{\"avd\":{\"enable\":true}}}" : "{}",
+        maa_fw_config.screencap_methods,
+        maa_fw_config.input_methods,
+        maa_fw_config.json.c_str(),
         // MaaAgentBinary目录
         utils::path_to_utf8_string(ResDir.get()).c_str());
 
@@ -140,6 +294,7 @@ bool MaaFwAdbController::connect(const std::string& adb_path, const std::string&
 
     // 尝试进行一次截图以获取屏幕分辨率
     cv::Mat image;
+    auto screencap_start = std::chrono::steady_clock::now();
     if (!m_unit_handle->screencap(image) || image.cols == 0 || image.rows == 0) {
         m_destroy_func(m_unit_handle);
         m_unit_handle = nullptr;
@@ -151,6 +306,9 @@ bool MaaFwAdbController::connect(const std::string& adb_path, const std::string&
             } | get_info_json());
         return false;
     }
+    auto screencap_cost = std::chrono::duration_cast<std::chrono::milliseconds>(
+                              std::chrono::steady_clock::now() - screencap_start)
+                              .count();
     m_screen_size = { image.cols, image.rows };
     LogInfo << "Connected to ADB. Screen size:" << m_screen_size.first << "x" << m_screen_size.second;
     callback(
@@ -169,6 +327,27 @@ bool MaaFwAdbController::connect(const std::string& adb_path, const std::string&
             { "what", "Connected" },
             { "why", "" },
         } | get_info_json());
+
+    if (!maa_fw_config.screencap_method_name.empty()) {
+        callback(
+            AsstMsg::ConnectionInfo,
+            json::object {
+                { "uuid", m_uuid },
+                { "what", "FastestWayToScreencap" },
+                { "details",
+                  json::object {
+                      { "method", maa_fw_config.screencap_method_name },
+                      { "cost", screencap_cost },
+                      { "alternatives",
+                        json::array {
+                            json::object {
+                                { "method", maa_fw_config.screencap_method_name },
+                                { "cost", std::to_string(screencap_cost) },
+                            },
+                        } },
+                  } },
+            });
+    }
     return true;
 }
 
