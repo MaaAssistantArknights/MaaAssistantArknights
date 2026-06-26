@@ -65,6 +65,9 @@ private:
 
     MaaFwAdbControlUnitAPI* m_unit_handle = nullptr;
     bool init_library();
+    uint64_t get_maa_fw_features() const noexcept;
+    bool use_touch_down_up() const noexcept;
+    bool use_key_down_up() const noexcept;
 
     AsstCallback m_callback = nullptr;
     void callback(AsstMsg msg, const json::value& details);

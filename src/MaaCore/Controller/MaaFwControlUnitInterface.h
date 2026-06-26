@@ -67,8 +67,9 @@ public:
 namespace MaaFeature
 {
 constexpr uint64_t None = 0;
-constexpr uint64_t UseMouseDownAndUpInsteadOfClick = 1ULL << 1;
-constexpr uint64_t UseKeyboardDownAndUpInsteadOfClick = 1ULL << 2;
+constexpr uint64_t UseMouseDownAndUpInsteadOfClick = 1ULL;
+constexpr uint64_t UseKeyboardDownAndUpInsteadOfClick = 1ULL << 1;
+constexpr uint64_t NoScalingTouchPoints = 1ULL << 2;
 } // namespace MaaFeature
 
 // 与 MaaFramework 的 MaaAdbScreencapMethod 兼容的常量

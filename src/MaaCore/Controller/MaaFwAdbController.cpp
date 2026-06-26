@@ -9,6 +9,7 @@
 #include "Common/AsstMsg.h"
 #include "Config/GeneralConfig.h"
 #include "Controller/MaaFwControlUnitInterface.h"
+#include "Controller/SwipeHelper.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/WorkingDir.hpp"
 
@@ -126,7 +127,7 @@ MaaFwAdbConfig make_maa_fw_adb_config(const std::string& config, const std::stri
         return {
             fw_config.to_string(),
             MaaAdbScreencapMethod::EmulatorExtras,
-            MaaAdbInputMethod::AdbShell,
+            MaaAdbInputMethod::AdbShell | MaaAdbInputMethod::EmulatorExtras,
             "MumuExtras",
         };
     }
@@ -420,6 +421,15 @@ bool MaaFwAdbController::click(const Point& p)
         LogWarn << "MaaAdbControlUnit is not initialized";
         return false;
     }
+
+    if (use_touch_down_up()) {
+        if (!m_unit_handle->touch_down(0, p.x, p.y, 1)) {
+            return false;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        return m_unit_handle->touch_up(0);
+    }
+
     return m_unit_handle->click(p.x, p.y);
 }
 
@@ -437,15 +447,105 @@ bool MaaFwAdbController::swipe(
     const Point& p1,
     const Point& p2,
     int duration,
-    bool extra_swipe [[maybe_unused]],
-    double slope_in [[maybe_unused]],
-    double slope_out [[maybe_unused]],
-    bool with_pause [[maybe_unused]])
+    bool extra_swipe,
+    double slope_in,
+    double slope_out,
+    bool with_pause)
 {
     LogTraceFunction;
     if (!m_unit_handle) {
         LogWarn << "MaaAdbControlUnit is not initialized";
         return false;
+    }
+
+    if (use_touch_down_up()) {
+        int x1 = p1.x, y1 = p1.y;
+        int x2 = p2.x, y2 = p2.y;
+
+        const auto width = m_screen_size.first;
+        const auto height = m_screen_size.second;
+        if (width > 0 && height > 0 && (x1 < 0 || x1 >= width || y1 < 0 || y1 >= height)) {
+            LogWarn << "swipe point1 is out of range" << x1 << y1;
+            x1 = std::clamp(x1, 0, width - 1);
+            y1 = std::clamp(y1, 0, height - 1);
+        }
+
+        if (!m_unit_handle->touch_down(0, x1, y1, 1)) {
+            LogError << "touch_down failed at swipe start point";
+            return false;
+        }
+
+        constexpr int TimeInterval = 5;
+        bool need_pause = with_pause;
+        const auto& opt = Config.get_options();
+
+        auto bounds_check = [width, height](int x, int y) {
+            if (width <= 0 || height <= 0) {
+                return true;
+            }
+            return x >= 0 && x < width && y >= 0 && y < height;
+        };
+
+        auto move_func = [this](int x, int y) -> bool {
+            if (!m_unit_handle->touch_move(0, x, y, 1)) {
+                return false;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(TimeInterval));
+            return true;
+        };
+
+        auto do_swipe = [&](int _x1, int _y1, int _x2, int _y2, int _duration) -> bool {
+            if (need_pause) {
+                auto pause_check = [&opt](int cur_x, int cur_y, int start_x, int start_y) {
+                    return std::sqrt(std::pow(cur_x - start_x, 2) + std::pow(cur_y - start_y, 2)) >
+                           opt.swipe_with_pause_required_distance;
+                };
+
+                return interpolate_swipe_with_pause(
+                    _x1,
+                    _y1,
+                    _x2,
+                    _y2,
+                    _duration,
+                    TimeInterval,
+                    slope_in,
+                    slope_out,
+                    move_func,
+                    bounds_check,
+                    pause_check,
+                    [&]() {
+                        need_pause = false;
+                        press_esc();
+                    });
+            }
+
+            return interpolate_swipe(
+                _x1,
+                _y1,
+                _x2,
+                _y2,
+                _duration,
+                TimeInterval,
+                slope_in,
+                slope_out,
+                move_func,
+                bounds_check);
+        };
+
+        if (!do_swipe(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration)) {
+            LogError << "Failed during main swipe movement";
+            m_unit_handle->touch_up(0);
+            return false;
+        }
+
+        if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(opt.minitouch_swipe_extra_end_delay));
+            if (!do_swipe(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration)) {
+                LogWarn << "Failed during extra swipe movement";
+            }
+        }
+
+        return m_unit_handle->touch_up(0);
     }
 
     return m_unit_handle->swipe(p1.x, p1.y, p2.x, p2.y, duration);
@@ -491,12 +591,25 @@ bool MaaFwAdbController::press_esc()
         return false;
     }
 
+    if (use_key_down_up()) {
+        constexpr int EscKeyCode = 111;
+        if (!m_unit_handle->key_down(EscKeyCode)) {
+            return false;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        return m_unit_handle->key_up(EscKeyCode);
+    }
+
     return m_unit_handle->click_key(111); // KEYCODE_ESCAPE
 }
 
 ControlFeat::Feat MaaFwAdbController::support_features() const noexcept
 {
-    return ControlFeat::PRECISE_SWIPE;
+    auto feat = ControlFeat::PRECISE_SWIPE;
+    if (use_touch_down_up()) {
+        feat |= ControlFeat::SWIPE_WITH_PAUSE;
+    }
+    return feat;
 }
 
 std::pair<int, int> MaaFwAdbController::get_screen_res() const noexcept
@@ -509,6 +622,24 @@ void MaaFwAdbController::callback(AsstMsg msg, const json::value& details)
     if (m_callback) {
         m_callback(msg, details, m_inst);
     }
+}
+
+uint64_t MaaFwAdbController::get_maa_fw_features() const noexcept
+{
+    if (!m_unit_handle) {
+        return MaaFeature::None;
+    }
+    return m_unit_handle->get_features();
+}
+
+bool MaaFwAdbController::use_touch_down_up() const noexcept
+{
+    return get_maa_fw_features() & MaaFeature::UseMouseDownAndUpInsteadOfClick;
+}
+
+bool MaaFwAdbController::use_key_down_up() const noexcept
+{
+    return get_maa_fw_features() & MaaFeature::UseKeyboardDownAndUpInsteadOfClick;
 }
 
 } // namespace asst
