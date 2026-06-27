@@ -387,6 +387,8 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
     const float ratio_h = static_cast<float>(resize_h) / src_h;
     const float ratio_w = static_cast<float>(resize_w) / src_w;
 
+    // 用 PIXEL_BGR 不转 RGB，kDetMean/kDetNorm 按 BGR 通道施加，对齐 fastdeploy
+    // fastdeploy/vision/common/processors/normalize_and_permute.h (swap_rb 默认 false
     ncnn::Mat in = ncnn::Mat::from_pixels_resize(image.data, ncnn::Mat::PIXEL_BGR, src_w, src_h, resize_w, resize_h);
     in.substract_mean_normalize(kDetMean, kDetNorm);
 
@@ -512,6 +514,7 @@ std::pair<std::string, float> asst::OcrPackNcnn::recognize_line(const cv::Mat& l
     cv::Mat canvas(kRecImgH, kRecImgW, CV_8UC3, cv::Scalar(127, 127, 127));
     resized.copyTo(canvas(cv::Rect(0, 0, resized_w, kRecImgH)));
 
+    // 同 det，用 PIXEL_BGR 不转 RGB，对齐 fastdeploy rec_preprocessor.cc
     ncnn::Mat in = ncnn::Mat::from_pixels(canvas.data, ncnn::Mat::PIXEL_BGR, kRecImgW, kRecImgH);
     in.substract_mean_normalize(kRecMean, kRecNorm);
 
