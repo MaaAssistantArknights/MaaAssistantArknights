@@ -1165,6 +1165,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">Failed to extract the update package. Please try restarting MAA.exe first. If the issue persists, restart your computer and try again. Do not extract the update package manually, as this may skip necessary file deletions.</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">Please retry after shutting down the emulator and killing ADB. Otherwise, restart your computer, then run MAA as administrator without opening the emulator, finally retry it.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">The file is occupied, please restart the computer and try again.</system:String>
+    <system:String x:Key="ErrorSolutionDesktopCompositionDisabled">This is usually caused by a transient graphics driver issue that disables DWM desktop composition. MAA will try to keep running. If the UI displays abnormally, please restart MAA manually, and check/update your graphics driver.</system:String>
+    <system:String x:Key="ErrorSolutionDragDrop">This is usually an occasional crash caused by repeated dragging while a drag operation is in progress. It does not affect functionality and can be ignored. If it happens frequently, please avoid repeated dragging during the operation.</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">Open link failure, please go to ｢Windows Settings｣ and select the default browser.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>

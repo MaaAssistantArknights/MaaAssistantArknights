@@ -1166,6 +1166,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">アップデートパッケージの解凍に失敗しました。まずは MAA.exe の再起動をお試しください。問題が解決しない場合は、PC を再起動して再度お試しください。必要なファイルの削除が行われない可能性があるため、手動で解凍しないでください。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">エミュレータとADBを閉じるか、コンピューターを再起動してから、管理者権限でMAAを開いて操作してください。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">ファイルが占有されています。コンピュータを再起動して再試行してください。</system:String>
+    <system:String x:Key="ErrorSolutionDesktopCompositionDisabled">これは通常、グラフィックスドライバの一時的な問題により DWM デスクトップ合成が無効化されたことによるものです。MAA は実行を継続しようとします。UI の表示に異常がある場合は MAA を手動で再起動し、グラフィックスドライバの確認と更新を行ってください。</system:String>
+    <system:String x:Key="ErrorSolutionDragDrop">これは通常、ドラッグ操作の進行中に繰り返しドラッグしたことによる偶発的なクラッシュです。機能には影響せず、無視できます。頻繁に発生する場合は、操作中の繰り返しドラッグを避けてください。</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">リンクを開けませんでした。Windows 設定に移動してデフォルトのブラウザを選択してください。</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">GitHub issueを作成する</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQグループに入ります</system:String>

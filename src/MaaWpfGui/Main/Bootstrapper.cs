@@ -1121,11 +1121,24 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static void ShowErrorDialog(Exception exception)
     {
         Application.Current.Dispatcher.Invoke(() => {
-            // DragDrop.DoDragSourceMove 会导致崩溃，但不需要退出程序
+            // 这些异常虽然会导致崩溃，但不需要退出程序
             // 这是一坨屎，但是没办法，只能这样了
-            var isDragDropException = exception is COMException && exception.ToString()!.Contains("DragDrop.DoDragSourceMove");
+            var comEx = exception as COMException;
 
-            var shouldExit = !isDragDropException;
+            var details = exception.ToString();
+
+            // DragDrop.DoDragSourceMove 会在拖拽时偶发崩溃
+            var isDragDropException = comEx != null && details.Contains("DragDrop.DoDragSourceMove");
+
+            // DWM 桌面组合被禁用（0x80263001），通常是瞬时的显卡驱动问题，DWM 会自行恢复
+            // 同时用 HResult 与异常文本双重判断，避免不同 .NET 版本/语言环境下 HRESULT 暴露不一致
+            const int DwmECompositionDisabled = unchecked((int)0x80263001);
+            var isDwmCompositionDisabledException = comEx != null &&
+                (comEx.HResult == DwmECompositionDisabled ||
+                 details.Contains("Desktop composition is disabled") ||
+                 details.Contains("0x80263001"));
+
+            var shouldExit = !isDragDropException && !isDwmCompositionDisabledException;
 
             var errorView = new ErrorDialogView(exception, shouldExit);
             errorView.ShowDialog();

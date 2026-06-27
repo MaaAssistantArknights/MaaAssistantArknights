@@ -1167,6 +1167,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">업데이트 패키지 압축 해제에 실패했습니다. 먼저 MAA.exe를 재시작해 보세요. 문제가 계속되면 컴퓨터를 재부팅한 후 다시 시도해 주세요. 필수 파일 삭제가 누락될 수 있으므로 수동으로 압축을 해제하지 마세요.</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">에뮬레이터와 ADB를 종료하거나 컴퓨터를 재시작하고 관리자 권한으로 MAA를 실행해 주세요.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">파일이 사용 중입니다. 컴퓨터를 재시작한 후 다시 시도하세요.</system:String>
+    <system:String x:Key="ErrorSolutionDesktopCompositionDisabled">이는 일반적으로 그래픽 드라이버의 일시적인 문제로 인해 DWM 데스크톱 합성이 비활성화된 것입니다. MAA는 계속 실행을 시도합니다. UI가 비정상적으로 표시되면 MAA를 수동으로 다시 시작하고, 그래픽 드라이버를 확인하고 업데이트하세요.</system:String>
+    <system:String x:Key="ErrorSolutionDragDrop">이는 일반적으로 드래그 조작이 진행 중일 때 반복적으로 드래그하여 발생한 우발적인 크래시입니다. 기능에 영향을 주지 않으며 무시해도 됩니다. 자주 발생한다면 조작 중 반복 드래그를 피해 주세요.</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">링크 열기 실패. ｢Windows 설정｣으로 이동하여 기본 브라우저를 선택하세요.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>

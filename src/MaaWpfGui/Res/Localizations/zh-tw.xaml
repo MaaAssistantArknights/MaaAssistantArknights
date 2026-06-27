@@ -1166,6 +1166,8 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">解壓縮更新檔案失敗。建議先嘗試重新啟動 MAA.exe，若仍無法解決，請重新啟動電腦後再試。請勿手動解壓縮更新檔案，以免漏刪必要的檔案。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">請關閉模擬器與 ADB 或重啟電腦後，以系統管理員身分執行 MAA 進行操作。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">檔案被佔用，請重啟電腦後重試。</system:String>
+    <system:String x:Key="ErrorSolutionDesktopCompositionDisabled">這通常是顯示卡驅動程式瞬時異常導致 DWM 桌面組合不可用，程式將嘗試繼續執行。如果介面顯示異常，請手動重啟 MAA；並建議檢查並更新顯示卡驅動程式。</system:String>
+    <system:String x:Key="ErrorSolutionDragDrop">這通常是在拖曳操作進行過程中重複拖曳導致的偶發崩潰，不影響功能，可忽略。如頻繁出現，請避免在拖曳過程中重複操作。</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">開啟連結失敗，請前往 ｢Windows 設定｣ 選擇預設瀏覽器。</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">建立 GitHub Issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群</system:String>

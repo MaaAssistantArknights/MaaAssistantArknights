@@ -1166,6 +1166,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">解压更新包失败。建议先尝试重新启动 MAA.exe，如仍无法解决，请重启电脑后再试。请勿手动解压更新包，以免遗漏必要的文件删除操作。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">请 ｢关闭模拟器与 ADB｣ 或 ｢重启电脑后在未开启模拟器的情况下使用管理员权限打开 MAA｣ 后进行操作。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">文件被占用，请重启电脑后重试。</system:String>
+    <system:String x:Key="ErrorSolutionDesktopCompositionDisabled">这通常是显卡驱动瞬时异常导致 DWM 桌面组合不可用，程序将尝试继续运行。如果界面显示异常，请手动重启 MAA；并建议检查并更新显卡驱动。</system:String>
+    <system:String x:Key="ErrorSolutionDragDrop">这通常是在拖拽操作进行过程中重复拖动导致的偶发崩溃，不影响功能，可忽略。如频繁出现，请避免在拖拽过程中重复操作。</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">打开链接失败，请前往 ｢Windows 设置｣ 选择默认浏览器。</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群</system:String>

@@ -134,10 +134,21 @@ public partial class ErrorDialogView : INotifyPropertyChanged
             return LocalizationHelper.GetString("ErrorSolutionSelectDefaultBrowser");
         }
 
-        // ReSharper disable once ConvertIfStatementToReturnStatement
         if (details.Contains("System.IO.File.InternalMove"))
         {
             return LocalizationHelper.GetString("ErrorSolutionFailedToMove");
+        }
+
+        // DWM 桌面组合被禁用（0x80263001），通常是瞬时的显卡驱动问题
+        if (details.Contains("Desktop composition is disabled") || details.Contains("0x80263001"))
+        {
+            return LocalizationHelper.GetString("ErrorSolutionDesktopCompositionDisabled");
+        }
+
+        // 拖拽正在执行时重复拖动导致的偶发崩溃，可忽略
+        if (details.Contains("DragDrop.DoDragSourceMove"))
+        {
+            return LocalizationHelper.GetString("ErrorSolutionDragDrop");
         }
 
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.UnexpectedCrash);
