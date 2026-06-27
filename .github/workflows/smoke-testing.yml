@@ -56,7 +56,7 @@ jobs:
       - name: Restore cache for Smoke Test
         if: ${{ steps.cache_key.outputs.key != '' }}
         id: smoke-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           key: ${{ steps.cache_key.outputs.key }}
@@ -76,7 +76,7 @@ jobs:
       - name: Cache MaaDeps
         if: steps.smoke-cache.outputs.cache-hit != 'true'
         id: maadeps-cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         continue-on-error: true
         with:
           path: ./src/MaaUtils/MaaDeps
@@ -107,7 +107,7 @@ jobs:
 
       - name: Save cache for Smoke Test (only in dev-v2)
         if: steps.smoke-cache.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev-v2'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           key: ${{ steps.cache_key.outputs.key }}
