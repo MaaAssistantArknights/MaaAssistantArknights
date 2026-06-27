@@ -13,7 +13,7 @@ on:
         type: number
 
 jobs:
-  codex-analysis:
+  claude-analysis:
     if: |
       (github.event_name == 'issues' && github.event.action == 'opened') ||
       github.event_name == 'workflow_dispatch' ||
@@ -32,15 +32,15 @@ jobs:
       # 最佳实践参考：
       # - https://github.com/MaaEnd/MaaEnd/blob/v2/.claude/skills/maaend-issue-log-analysis/SKILL.md
       # - https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.claude/skills/maa-issue-log-analysis/SKILL.md
-      - name: Analyze issue with Codex
-        id: codex
+      - name: Analyze issue with Claude
+        id: claude
         continue-on-error: true
-        uses: MistEO/ai-issue-analysis@codex
+        uses: MistEO/ai-issue-analysis@claude
         with:
           github-token: ${{ secrets.MAA_BOT_TOKEN }}
-          codex-api-key: ${{ secrets.CODEX_API_KEY }}
-          codex-base-url: ${{ secrets.CODEX_BASE_URL }}
-          codex-model: ${{ secrets.CODEX_MODEL }}
+          claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
+          claude-base-url: ${{ secrets.CLAUDE_BASE_URL }}
+          claude-model: ${{ secrets.CLAUDE_MODEL }}
           bot-name: '@MaaArknightsBot'
           initial-comment-body: |
             🤖 **MaaBot 正在分析该 Issue...**  
@@ -54,11 +54,11 @@ jobs:
       - name: 查看完整输入输出
         if: always()
         env:
-          ISSUE_NUMBER: ${{ steps.codex.outputs.issue-number }}
-          COMMENT_ID: ${{ steps.codex.outputs.comment-id }}
-          COMMENT_URL: ${{ steps.codex.outputs.comment-url }}
+          ISSUE_NUMBER: ${{ steps.claude.outputs.issue-number }}
+          COMMENT_ID: ${{ steps.claude.outputs.comment-id }}
+          COMMENT_URL: ${{ steps.claude.outputs.comment-url }}
         run: |
           echo "issue_number=$ISSUE_NUMBER"
           echo "comment_id=$COMMENT_ID"
           echo "comment_url=$COMMENT_URL"
-          echo "(Full codex-output and final-conclusion are available in the uploaded artifacts)"
+          echo "(Full claude-output and final-conclusion are available in the uploaded artifacts)"
