@@ -1485,7 +1485,7 @@ public class TaskQueueViewModel : Screen
         }
         newTask.Name = newTask.NameOrTaskType + " (2)";
         ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, newTask);
-        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel());
+        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(oldTask.IsEnable));
         AddLog(LocalizationHelper.GetStringFormat("TaskCopied", newTask.NameOrTaskType), UiLogColor.Info);
     }
 

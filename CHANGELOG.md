@@ -54,6 +54,7 @@ Switching the UI language no longer requires a restart; operator recognition, de
 * 修复 NCNN OCR 引擎在小 ROI 下识别异常，对齐 fastdeploy 的 det 缩放与 rec 预处理 ([#17182](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17182)) @Aliothmoon
 * YostarEN 修复未来异格干员识别与章节导航点击 @Constrat
 * YostarKR 修复训练 ROI 以适配换行的干员名 @HX3N
+* 修复复制任务时未保留原任务启用状态的问题 @ABA2396
 
 ### 其他 | Other
 
