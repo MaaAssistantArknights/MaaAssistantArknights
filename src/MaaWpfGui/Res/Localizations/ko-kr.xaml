@@ -311,7 +311,9 @@
     <system:String x:Key="EmulatorStartFailed">에뮬레이터를 시작하지 못했습니다.\n사용하지 않는 에뮬레이터를 종료하거나\n또는 에뮬레이터를 수동으로 시작하세요.</system:String>
     <system:String x:Key="SwitchLanguage">언어 전환 🌐</system:String>
     <system:String x:Key="Language">언어</system:String>
-    <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 바로 재시작하시겠습니까?</system:String>
+    <system:String x:Key="LanguageChangedTip">언어 설정이 변경되었습니다. 일부 콘텐츠는 재시작 후 완전히 적용됩니다.</system:String>
+    <system:String x:Key="LanguageRestartNow">재시작</system:String>
+    <system:String x:Key="LanguageSwitchNow">전환</system:String>
     <system:String x:Key="ManualRestart">나중에</system:String>
     <system:String x:Key="Tip">도움말</system:String>
     <system:String x:Key="Warning">경고</system:String>
@@ -851,6 +853,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UseCustomAnnihilation">커스텀 {key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">섬멸 모드</system:String>
     <system:String x:Key="Annihilation.Current">이번 섬멸 작전</system:String>
+    <system:String x:Key="PermanentStageBlocksStages">선택된 스테이지 ｢{0}｣ 는 상설 스테이지 또는 현재/마지막이므로 이후 스테이지는 선택되지 않습니다</system:String>
     <system:String x:Key="Chernobog">체르노보그</system:String>
     <system:String x:Key="LungmenOutskirts">용문 외곽</system:String>
     <system:String x:Key="LungmenDowntown">용문 시내</system:String>
@@ -1164,6 +1167,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">업데이트 패키지 압축 해제에 실패했습니다. 먼저 MAA.exe를 재시작해 보세요. 문제가 계속되면 컴퓨터를 재부팅한 후 다시 시도해 주세요. 필수 파일 삭제가 누락될 수 있으므로 수동으로 압축을 해제하지 마세요.</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">에뮬레이터와 ADB를 종료하거나 컴퓨터를 재시작하고 관리자 권한으로 MAA를 실행해 주세요.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">파일이 사용 중입니다. 컴퓨터를 재시작한 후 다시 시도하세요.</system:String>
+    <system:String x:Key="ErrorSolutionDesktopCompositionDisabled">이는 일반적으로 그래픽 드라이버의 일시적인 문제로 인해 DWM 데스크톱 합성이 비활성화된 것입니다. MAA는 계속 실행을 시도합니다. UI가 비정상적으로 표시되면 MAA를 수동으로 다시 시작하고, 그래픽 드라이버를 확인하고 업데이트하세요.</system:String>
+    <system:String x:Key="ErrorSolutionDragDrop">이는 일반적으로 드래그 조작이 진행 중일 때 반복적으로 드래그하여 발생한 우발적인 크래시입니다. 기능에 영향을 주지 않으며 무시해도 됩니다. 자주 발생한다면 조작 중 반복 드래그를 피해 주세요.</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">링크 열기 실패. ｢Windows 설정｣으로 이동하여 기본 브라우저를 선택하세요.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
@@ -2077,6 +2082,9 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.SlackingOff.Title">월급 루팡</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">업무 효율을 위해서 가끔은 쉬어줘야죠.</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">미니게임 1회 실행</system:String>
+
+    <system:String x:Key="AchievementDlcProgressNotice">업적 DLC 식별자: #1은 시스템과 함께 출시, 이후 DLC는 업데이트로 추가됩니다. 일부 업적은 해당 DLC 공개 후에만 진행도가 누적됩니다.</system:String>
+    <system:String x:Key="AchievementDlcReleaseDate">출시일</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

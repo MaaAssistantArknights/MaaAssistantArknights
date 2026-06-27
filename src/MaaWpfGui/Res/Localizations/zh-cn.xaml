@@ -311,7 +311,9 @@
     <system:String x:Key="EmulatorStartFailed">未能成功启动模拟器\n请使用管理员权限打开本软件\n或手动启动模拟器。</system:String>
     <system:String x:Key="SwitchLanguage">切换语言 🌐</system:String>
     <system:String x:Key="Language">语言</system:String>
-    <system:String x:Key="LanguageChangedTip">语言设置已更改，是否现在重启 MAA 以应用语言设置？</system:String>
+    <system:String x:Key="LanguageChangedTip">语言设置已更改，部分内容可能需要重启才能完全生效。</system:String>
+    <system:String x:Key="LanguageRestartNow">重启</system:String>
+    <system:String x:Key="LanguageSwitchNow">切换</system:String>
     <system:String x:Key="ManualRestart">稍后</system:String>
     <system:String x:Key="Tip">提示</system:String>
     <system:String x:Key="Warning">警告</system:String>
@@ -850,6 +852,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="UseCustomAnnihilation">自定义{key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">剿灭模式</system:String>
     <system:String x:Key="Annihilation.Current">当期剿灭</system:String>
+    <system:String x:Key="PermanentStageBlocksStages">当前选中的关卡 ｢{0}｣ 为常驻关卡或当前/上次，其后的关卡不会被选中执行</system:String>
     <system:String x:Key="Chernobog">切尔诺伯格</system:String>
     <system:String x:Key="LungmenOutskirts">龙门外环</system:String>
     <system:String x:Key="LungmenDowntown">龙门市区</system:String>
@@ -1163,6 +1166,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">解压更新包失败。建议先尝试重新启动 MAA.exe，如仍无法解决，请重启电脑后再试。请勿手动解压更新包，以免遗漏必要的文件删除操作。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">请 ｢关闭模拟器与 ADB｣ 或 ｢重启电脑后在未开启模拟器的情况下使用管理员权限打开 MAA｣ 后进行操作。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">文件被占用，请重启电脑后重试。</system:String>
+    <system:String x:Key="ErrorSolutionDesktopCompositionDisabled">这通常是显卡驱动瞬时异常导致 DWM 桌面组合不可用，程序将尝试继续运行。如果界面显示异常，请手动重启 MAA；并建议检查并更新显卡驱动。</system:String>
+    <system:String x:Key="ErrorSolutionDragDrop">这通常是在拖拽操作进行过程中重复拖动导致的偶发崩溃，不影响功能，可忽略。如频繁出现，请避免在拖拽过程中重复操作。</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">打开链接失败，请前往 ｢Windows 设置｣ 选择默认浏览器。</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群</system:String>
@@ -2077,6 +2082,10 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Achievement.SlackingOff.Title">不务正业</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">正事做累了，玩点别的。</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">启动一次小游戏</system:String>
+
+    <system:String x:Key="AchievementDlcProgressNotice" xml:space="preserve">成就 DLC 标识：#1 随成就系统首发，后续 DLC 由版本更新追加。
+部分成就的进度需在所属 DLC 上线后方可累计。</system:String>
+    <system:String x:Key="AchievementDlcReleaseDate">上线日期</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

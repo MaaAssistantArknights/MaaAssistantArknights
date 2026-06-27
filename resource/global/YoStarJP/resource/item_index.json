@@ -43,7 +43,7 @@
         "classifyType": "CONSUME",
         "description": "ロドスの戦略需要を考慮した結果、まとまった人材の引き入れと方向性が定まったスカウトを同時進行することで、特殊な人材を個別に獲得することができるようになった。",
         "icon": "2026recruitment10_1.png",
-        "name": "5.5周年特別スカウト券α",
+        "name": "6.5周年特別スカウト券α",
         "sortId": 50107,
         "usage": "ロドス人事部が特別に発行した許可証。 人材紹介会社に対して特殊なリクエストをしており、オペレーターを1回で10人採用できる。"
     },
@@ -51,7 +51,7 @@
         "classifyType": "CONSUME",
         "description": "ロドスの戦略需要を考慮した結果、まとまった人材の引き入れと方向性が定まったスカウトを同時進行することで、特殊な人材を個別に獲得することができるようになった。",
         "icon": "2026recruitment10_2.png",
-        "name": "5.5周年特別スカウト券β",
+        "name": "6.5周年特別スカウト券β",
         "sortId": 50107,
         "usage": "ロドス人事部が特別に発行した許可証。 人材紹介会社に対して特殊なリクエストをしており、オペレーターを1回で10人採用できる。"
     },
@@ -59,7 +59,7 @@
         "classifyType": "CONSUME",
         "description": "ロドスの戦略需要を考慮した結果、まとまった人材の引き入れと方向性が定まったスカウトを同時進行することで、特殊な人材を個別に獲得することができるようになった。",
         "icon": "2026recruitment10_3.png",
-        "name": "5.5周年特別スカウト券γ",
+        "name": "6.5周年特別スカウト券γ",
         "sortId": 50107,
         "usage": "ロドス人事部が特別に発行した許可証。 人材紹介会社に対して特殊なリクエストをしており、オペレーターを1回で10人採用できる。"
     },
@@ -501,7 +501,7 @@
         "icon": "31083.png",
         "name": "炭化水素ポリマー",
         "sortId": 100010,
-        "usage": "耐熱性と耐薬品性を兼ね備えた工業材料｡昇進やスキル強化に必要な素材。"
+        "usage": "耐熱性と耐薬品性を兼ね備えた工業材料。昇進やスキル強化に必要な素材。"
     },
     "31084": {
         "classifyType": "MATERIAL",
@@ -1989,7 +1989,7 @@
         "icon": "act27side_token_fur.png",
         "name": "ピンクのふわふわ",
         "sortId": -10000,
-        "usage": "アウトドア用の防寒具に使えそうだが、今の季節はあまり役に立たないだろう。「ホワイト・ヴォルケーノ」の末娘がなぜこの奇妙な綿毛を気に入っているのかは分からないが、彼女にこれを渡せばこっそり店内の商品と交換してくれる。注意：このことはにはくれぐれも長兄には内密に！！"
+        "usage": "アウトドア用の防寒具に使えそうだが、今の季節はあまり役に立たないだろう。「ホワイト・ヴォルケーノ」の末娘がなぜこの奇妙な綿毛を気に入っているのかは分からないが、彼女にこれを渡せばこっそり店内の商品と交換してくれる。注意：このことはくれぐれも長兄には内密に！！"
     },
     "act28side_token_box": {
         "classifyType": "NONE",
@@ -2286,6 +2286,14 @@
         "name": "Dr.オキシゲン",
         "sortId": -10000,
         "usage": "高所環境用酸素供給装置から着想を得た斬新なコンセプトのドリンク。現代のクルビア人にとっては、もはや血液も同然だ。新時代、それも星のさやの外側から来た味をひと口体験するためなら、誰もが喜んで大金を差し出す。"
+    },
+    "act48side_token_ostracon": {
+        "classifyType": "NONE",
+        "description": "人々が様々な機能を備えた端末を手にするようになった現代に、ミノス人は依然として、投票という行為においては古来のやり方に従い続けている。",
+        "icon": "act48side_token_ostracon.png",
+        "name": "投票用陶片",
+        "sortId": -10000,
+        "usage": "アテヌスの公民が投票時に用いる必需品。使用した陶片は、監督官の執務室が回収し、それをきれいに包装して、アテヌスを訪れる観光客に販売することになった。この画期的な取り組みは、各方面から高い評価を得ている。"
     },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
@@ -2727,6 +2735,22 @@
         "sortId": -10000,
         "usage": "丹念に用意された試飲セット。龍門幣と交換できる。"
     },
+    "itempack_leaf_def": {
+        "classifyType": "NONE",
+        "description": "あなただけのデザインを創ろう。",
+        "icon": "itempack_leaf_def.png",
+        "name": "特集/ロドス特選",
+        "sortId": -10000,
+        "usage": "表紙編集のテンプレートに含まれている表紙と特集シール。一括で編集を完了させられる。"
+    },
+    "itempack_leaf_def2": {
+        "classifyType": "NONE",
+        "description": "今日の輝きのために、新たな旋律を紡ごう。",
+        "icon": "itempack_leaf_def2.png",
+        "name": "特集/ストリーミングメディア",
+        "sortId": -10000,
+        "usage": "表紙編集のテンプレートに含まれている表紙と特集シール。一括で編集を完了させられる。"
+    },
     "itempack_main_1": {
         "classifyType": "NONE",
         "description": "試供理性回復剤がおまけでついて来る素材補給箱。理性を回復させると同時に、ランダムで材料をひとつ獲得できる。",
@@ -2830,6 +2854,54 @@
         "name": "求人物資・感謝祭",
         "sortId": -10000,
         "usage": "求人の需要を満たすために用意された人材リソースパック。関係者が公開ルートを通じて多くのオペレーターを募集するために使用される。"
+    },
+    "itempack_stickers_rog1": {
+        "classifyType": "NONE",
+        "description": "気迫溢れる一幕。",
+        "icon": "itempack_stickers_rog1.png",
+        "name": "シールパック/緋き貴石",
+        "sortId": -10000,
+        "usage": "コーデ特集専用のシール。表紙編集に使うことができる。"
+    },
+    "itempack_stickers_rog2": {
+        "classifyType": "NONE",
+        "description": "潮風があなたを旅にいざなっている。",
+        "icon": "itempack_stickers_rog2.png",
+        "name": "シールパック/紺碧の樹",
+        "sortId": -10000,
+        "usage": "コーデ特集専用のシール。表紙編集に使うことができる。"
+    },
+    "itempack_stickers_rog3": {
+        "classifyType": "NONE",
+        "description": "凍える風の中に神秘の美を追い求める。",
+        "icon": "itempack_stickers_rog3.png",
+        "name": "シールパック/銀氷の果て",
+        "sortId": -10000,
+        "usage": "コーデ特集専用のシール。表紙編集に使うことができる。"
+    },
+    "itempack_stickers_rog4": {
+        "classifyType": "NONE",
+        "description": "大地はサルカズの輝かしき姿を見届ける。",
+        "icon": "itempack_stickers_rog4.png",
+        "name": "シールパック/炉辺奇談",
+        "sortId": -10000,
+        "usage": "コーデ特集専用のシール。表紙編集に使うことができる。"
+    },
+    "itempack_stickers_rog5": {
+        "classifyType": "NONE",
+        "description": "美しき山水に、旅人は休息をも忘れる。",
+        "icon": "itempack_stickers_rog5.png",
+        "name": "シールパック/界園志異",
+        "sortId": -10000,
+        "usage": "コーデ特集専用のシール。表紙編集に使うことができる。"
+    },
+    "itempack_stickers_sand1": {
+        "classifyType": "NONE",
+        "description": "砂漠とオアシスが織りなす芸術を鑑賞しよう。",
+        "icon": "itempack_stickers_sand1.png",
+        "name": "シールパック/熱砂秘聞",
+        "sortId": -10000,
+        "usage": "コーデ特集専用のシール。表紙編集に使うことができる。"
     },
     "main16_spitem_1": {
         "classifyType": "NORMAL",

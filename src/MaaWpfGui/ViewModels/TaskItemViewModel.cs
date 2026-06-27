@@ -18,31 +18,34 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
+using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels;
 
 public class TaskItemViewModel : PropertyChangedBase, IDisposable
 {
-    public TaskItemViewModel(string name, bool? isCheckedWithNull = true)
+    public TaskItemViewModel(bool? isCheckedWithNull = true)
     {
-        _name = name;
         _isEnable = isCheckedWithNull;
         Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
     }
 
-    private string _name;
-
+    /// <summary>
+    /// Gets or sets 显示名称：优先返回用户自定义名称，否则返回本地化任务类型名。
+    /// 始终从配置动态读取，语言切换或任务排序（Index 变化）时通过
+    /// <see cref="PropertyDependsOnAttribute"/> 自动刷新。
+    /// </summary>
+    [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
+    [PropertyDependsOn(nameof(Index))]
     public string Name
     {
-        get => _name;
+        get => ConfigFactory.CurrentConfig.TaskQueue[Index].NameOrTaskType;
         set {
-            if (!SetAndNotify(ref _name, value))
-            {
-                return;
-            }
-
             ConfigFactory.CurrentConfig.TaskQueue[Index].Name = value;
+            NotifyOfPropertyChange();
         }
     }
 
@@ -130,5 +133,13 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
         }
     }
 
-    void IDisposable.Dispose() => Instances.AsstProxy.OnTaskStatusChanged -= OnTaskStatusChanged;
+    void IDisposable.Dispose()
+    {
+        Instances.AsstProxy.OnTaskStatusChanged -= OnTaskStatusChanged;
+
+        // 清理跨实例依赖注册，避免 Dispose 后被静态 _externalDependencies 强引用持有
+        // （导致内存泄漏与语言切换时的僵尸通知）
+        PropertyDependsOnUtility.UnInitializePropertyDependencies(this);
+        GC.SuppressFinalize(this);
+    }
 }

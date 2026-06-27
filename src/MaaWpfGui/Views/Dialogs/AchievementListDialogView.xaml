@@ -53,7 +53,9 @@
                                     <TextBlock
                                         FontSize="11"
                                         Foreground="{DynamicResource InfoLogBrush}"
-                                        Text="{Binding ReleasePhaseTag}" />
+                                        Text="{Binding ReleasePhaseTag}"
+                                        ToolTip="{Binding ReleasePhaseToolTip}"
+                                        ToolTipService.InitialShowDelay="100" />
                                 </Border>
                                 <TextBlock Text=" (NEW)" Visibility="{c:Binding IsNewUnlock}" />
                             </VirtualizingStackPanel>

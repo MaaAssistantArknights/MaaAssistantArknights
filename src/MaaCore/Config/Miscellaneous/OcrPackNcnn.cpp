@@ -166,7 +166,7 @@ constexpr float kDetThresh = 0.3f;
 constexpr float kDetBoxThresh = 0.6f;
 constexpr float kDetUnclipRatio = 1.5f;
 constexpr int kDetMinSize = 3;
-constexpr int kDetMaxCandidates = 100;
+constexpr int kDetMaxCandidates = 1000;
 
 constexpr int kRecImgH = 48;
 constexpr int kRecImgW = 320;
@@ -215,29 +215,32 @@ void order_box(const cv::Point2f in[4], cv::Point2f out[4])
     out[3] = bl;
 }
 
-float box_score(const cv::Mat& prob, const cv::Point2f box[4])
+// 对齐 fastdeploy
+float poly_score(const cv::Mat& prob, const std::vector<cv::Point>& contour)
 {
     const int w = prob.cols;
     const int h = prob.rows;
-    float xs[4] = { box[0].x, box[1].x, box[2].x, box[3].x };
-    float ys[4] = { box[0].y, box[1].y, box[2].y, box[3].y };
-    int xmin = std::max(0, static_cast<int>(std::floor(*std::min_element(xs, xs + 4))));
-    int xmax = std::min(w - 1, static_cast<int>(std::ceil(*std::max_element(xs, xs + 4))));
-    int ymin = std::max(0, static_cast<int>(std::floor(*std::min_element(ys, ys + 4))));
-    int ymax = std::min(h - 1, static_cast<int>(std::ceil(*std::max_element(ys, ys + 4))));
+    int xmin = w, xmax = 0, ymin = h, ymax = 0;
+    for (const auto& p : contour) {
+        xmin = std::min(xmin, p.x);
+        xmax = std::max(xmax, p.x);
+        ymin = std::min(ymin, p.y);
+        ymax = std::max(ymax, p.y);
+    }
+    xmin = std::clamp(xmin, 0, w - 1);
+    xmax = std::clamp(xmax, 0, w - 1);
+    ymin = std::clamp(ymin, 0, h - 1);
+    ymax = std::clamp(ymax, 0, h - 1);
     if (xmax < xmin || ymax < ymin) {
         return 0.f;
     }
     cv::Mat mask = cv::Mat::zeros(ymax - ymin + 1, xmax - xmin + 1, CV_8UC1);
-    std::array<cv::Point, 4> shifted;
-    for (int i = 0; i < 4; ++i) {
-        shifted[i] = cv::Point(static_cast<int>(box[i].x) - xmin, static_cast<int>(box[i].y) - ymin);
+    std::vector<cv::Point> shifted;
+    shifted.reserve(contour.size());
+    for (const auto& p : contour) {
+        shifted.emplace_back(p.x - xmin, p.y - ymin);
     }
-    std::vector<std::vector<cv::Point>> polys = { { shifted.begin(), shifted.end() } };
-    cv::fillPoly(mask, polys, cv::Scalar(1));
-    if (cv::countNonZero(mask) == 0) {
-        return 0.f;
-    }
+    cv::fillPoly(mask, std::vector<std::vector<cv::Point>> { shifted }, cv::Scalar(1));
     cv::Mat region = prob(cv::Rect(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1));
     return static_cast<float>(cv::mean(region, mask)[0]);
 }
@@ -372,16 +375,21 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
     if (std::max(src_h, src_w) > kDetLimitSideLen) {
         ratio = static_cast<float>(kDetLimitSideLen) / std::max(src_h, src_w);
     }
-    auto align32 = [](int v) {
-        return std::max(32, ((v + 31) / 32) * 32);
+    // 与 fastdeploy 的 OcrDetectorGetInfo 对齐
+    // 之前用 ceil 对齐：小 ROI 上 ceil 会过度横向拉伸（如 106→128 比 round 的 106→96 多拉 ~21%），
+    // 改变文字长宽比，使 DBNet 概率脊偏扁、检测框竖向过紧而切掉小字首笔，导致 rec 误识
+    // （实测「聚羽之地」被读成「袭羽之地」；改 round 后框 16px→20px，两个字段均正确且置信度更高）。
+    auto align32 = [](const int v) {
+        return std::max(32, static_cast<int>(std::round(v / 32.f)) * 32);
     };
-    const int resize_h = align32(static_cast<int>(std::lround(src_h * ratio)));
-    const int resize_w = align32(static_cast<int>(std::lround(src_w * ratio)));
+    const int resize_h = align32(static_cast<int>(src_h * ratio));
+    const int resize_w = align32(static_cast<int>(src_w * ratio));
     const float ratio_h = static_cast<float>(resize_h) / src_h;
     const float ratio_w = static_cast<float>(resize_w) / src_w;
 
-    ncnn::Mat in =
-        ncnn::Mat::from_pixels_resize(image.data, ncnn::Mat::PIXEL_BGR2RGB, src_w, src_h, resize_w, resize_h);
+    // 用 PIXEL_BGR 不转 RGB，kDetMean/kDetNorm 按 BGR 通道施加，对齐 fastdeploy
+    // fastdeploy/vision/common/processors/normalize_and_permute.h (swap_rb 默认 false
+    ncnn::Mat in = ncnn::Mat::from_pixels_resize(image.data, ncnn::Mat::PIXEL_BGR, src_w, src_h, resize_w, resize_h);
     in.substract_mean_normalize(kDetMean, kDetNorm);
 
     ncnn::Mat out;
@@ -405,11 +413,11 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
     const int limit = std::min(static_cast<int>(contours.size()), kDetMaxCandidates);
     for (int ci = 0; ci < limit; ++ci) {
         const auto& contour = contours[ci];
-        if (contour.size() < 4) {
+        if (contour.size() <= 2) {
             continue;
         }
         cv::RotatedRect rr = cv::minAreaRect(contour);
-        if (std::min(rr.size.width, rr.size.height) < kDetMinSize) {
+        if (std::max(rr.size.width, rr.size.height) < kDetMinSize) {
             continue;
         }
         cv::Point2f raw[4];
@@ -417,7 +425,7 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
         cv::Point2f box[4];
         order_box(raw, box);
 
-        const float score = box_score(prob, box);
+        const float score = poly_score(prob, contour);
         if (score < kDetBoxThresh) {
             continue;
         }
@@ -430,7 +438,7 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
         const float dist = area * kDetUnclipRatio / length;
 
         cv::RotatedRect rr2(rr.center, cv::Size2f(rr.size.width + 2.f * dist, rr.size.height + 2.f * dist), rr.angle);
-        if (std::min(rr2.size.width, rr2.size.height) < kDetMinSize + 2) {
+        if (std::max(rr2.size.width, rr2.size.height) < kDetMinSize + 2) {
             continue;
         }
         cv::Point2f raw2[4];
@@ -441,6 +449,12 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
         for (auto& p : db.pts) {
             p.x = std::clamp(p.x / ratio_w, 0.f, static_cast<float>(src_w));
             p.y = std::clamp(p.y / ratio_h, 0.f, static_cast<float>(src_h));
+        }
+        // 对齐 fastdeploy FilterTagDetRes：丢弃过细框
+        const int rect_w = static_cast<int>(cv::norm(db.pts[0] - db.pts[1]));
+        const int rect_h = static_cast<int>(cv::norm(db.pts[0] - db.pts[3]));
+        if (rect_w <= 4 || rect_h <= 4) {
+            continue;
         }
         results.push_back(db);
     }
@@ -476,8 +490,9 @@ cv::Mat asst::OcrPackNcnn::crop_rotated(const cv::Mat& image, const DetBox& box)
                                  { 0, static_cast<float>(h) } };
     const cv::Mat m = cv::getPerspectiveTransform(src, dst);
     cv::Mat crop;
-    cv::warpPerspective(image, crop, m, cv::Size(w, h));
-    if (h > 0 && static_cast<float>(w) / h < 0.7f) {
+    // 对齐 fastdeploy GetRotateCropImage BORDER_REPLICATE + h>=1.5w 旋转
+    cv::warpPerspective(image, crop, m, cv::Size(w, h), cv::INTER_LINEAR, cv::BORDER_REPLICATE);
+    if (static_cast<float>(h) >= static_cast<float>(w) * 1.5f) {
         cv::rotate(crop, crop, cv::ROTATE_90_COUNTERCLOCKWISE);
     }
     return crop;
@@ -495,10 +510,12 @@ std::pair<std::string, float> asst::OcrPackNcnn::recognize_line(const cv::Mat& l
     cv::Mat resized;
     cv::resize(line, resized, cv::Size(resized_w, kRecImgH));
 
-    cv::Mat canvas(kRecImgH, kRecImgW, CV_8UC3, cv::Scalar(128, 128, 128));
+    // 对齐 fastdeploy
+    cv::Mat canvas(kRecImgH, kRecImgW, CV_8UC3, cv::Scalar(127, 127, 127));
     resized.copyTo(canvas(cv::Rect(0, 0, resized_w, kRecImgH)));
 
-    ncnn::Mat in = ncnn::Mat::from_pixels(canvas.data, ncnn::Mat::PIXEL_BGR2RGB, kRecImgW, kRecImgH);
+    // 同 det，用 PIXEL_BGR 不转 RGB，对齐 fastdeploy rec_preprocessor.cc
+    ncnn::Mat in = ncnn::Mat::from_pixels(canvas.data, ncnn::Mat::PIXEL_BGR, kRecImgW, kRecImgH);
     in.substract_mean_normalize(kRecMean, kRecNorm);
 
     ncnn::Mat out;
@@ -568,6 +585,12 @@ asst::OcrPackNcnn::ResultsVec asst::OcrPackNcnn::recognize(const cv::Mat& image_
     }
 
     const std::vector<DetBox> boxes = detect(image);
+    if (boxes.empty()) {
+        // 对齐 fastdeploy PPOCRv2/v3 det 无框时整图当一行送 rec 小 roi 不处理直接就爆了
+        auto [text, score] = recognize_line(image);
+        results.emplace_back(Rect(0, 0, image.cols, image.rows), score, std::move(text));
+        return results;
+    }
     for (const auto& box : boxes) {
         cv::Mat crop = crop_rotated(image, box);
         if (crop.empty()) {

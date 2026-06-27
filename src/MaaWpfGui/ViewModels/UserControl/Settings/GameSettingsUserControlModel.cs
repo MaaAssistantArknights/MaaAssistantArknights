@@ -37,6 +37,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     static GameSettingsUserControlModel()
     {
         Instance = new();
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     public static GameSettingsUserControlModel Instance { get; }
@@ -57,15 +58,13 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the list of the client types.
     /// </summary>
-    public List<CombinedData> ClientTypeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("Official"), Value = Constants.Enums.ClientType.Official },
-            new() { Display = LocalizationHelper.GetString("Bilibili"), Value = Constants.Enums.ClientType.Bilibili },
-            new() { Display = LocalizationHelper.GetString("YoStarEN"), Value = Constants.Enums.ClientType.EN },
-            new() { Display = LocalizationHelper.GetString("YoStarJP"), Value = Constants.Enums.ClientType.JP },
-            new() { Display = LocalizationHelper.GetString("YoStarKR"), Value = Constants.Enums.ClientType.KR },
-            new() { Display = LocalizationHelper.GetString("Txwy"), Value = Constants.Enums.ClientType.Txwy },
-        ];
+    public LocalizedObservableList<string> ClientTypeList { get; } = new(
+        (Constants.Enums.ClientType.Official, "Official"),
+        (Constants.Enums.ClientType.Bilibili, "Bilibili"),
+        (Constants.Enums.ClientType.EN, "YoStarEN"),
+        (Constants.Enums.ClientType.JP, "YoStarJP"),
+        (Constants.Enums.ClientType.KR, "YoStarKR"),
+        (Constants.Enums.ClientType.Txwy, "Txwy"));
 
     private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, Constants.Enums.ClientType.Official);
 
@@ -392,4 +391,12 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     }
 
     #endregion 任务超时
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        ClientTypeList.RefreshLocalization();
+    }
 }

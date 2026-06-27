@@ -1318,16 +1318,13 @@ public class AsstProxy
                 if (buyWine)
                 {
                     Instances.SettingsViewModel.LastBuyWineTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
-                    var result = MessageBoxHelper.Show(
-                        LocalizationHelper.GetString("DrunkAndStaggering"),
+
+                    // 非阻塞 Dialog：喝醉提示，用户点确认后再切换到 Pallas 语言
+                    SettingsViewModel.ShowEasterEggDialog(
                         LocalizationHelper.GetString("Burping"),
-                        iconKey: "DrunkAndStaggeringGeometry",
-                        iconBrushKey: "PallasBrush");
-                    if (result == MessageBoxResult.OK)
-                    {
-                        Instances.SettingsViewModel.Cheers = true;
-                        Bootstrapper.ShutdownAndRestartWithoutArgs();
-                    }
+                        LocalizationHelper.GetString("DrunkAndStaggering"),
+                        LocalizationHelper.GetString("Ok"),
+                        () => Instances.SettingsViewModel.GetDrunk());
                 }
 
                 break;

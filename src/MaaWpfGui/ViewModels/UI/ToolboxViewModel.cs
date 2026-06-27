@@ -73,6 +73,26 @@ public class ToolboxViewModel : Screen
             }
         };
         _peepImageTimer.Elapsed += PeepImageTimerElapsed;
+
+        // 本类型由 Stylet IoC 容器管理，全应用生命周期唯一实例，订阅后无需取消订阅
+        LocalizationHelper.LanguageChanged += () => {
+            DisplayName = LocalizationHelper.GetString("Toolbox");
+            RecruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
+            Application.Current.Dispatcher.InvokeAsync(
+                () => {
+                    LoadDepotDetails();
+                    ClearOperBoxRecognitionData();
+                    LoadOperBoxDetails();
+                },
+                DispatcherPriority.Loaded);
+        };
+        SettingsViewModel.GuiSettings.OperNameLanguageChanged += () => {
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                ClearOperBoxRecognitionData();
+                LoadOperBoxDetails();
+            }, DispatcherPriority.Loaded);
+        };
         _peepImageTimer.Interval = 1000d / PeepTargetFps;
         _gachaTimer.Tick += RefreshGachaTip;
         LoadDepotDetails();

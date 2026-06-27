@@ -311,7 +311,9 @@
     <system:String x:Key="EmulatorStartFailed">エミュレータの起動に失敗しました\n管理者権限でこのソフトウェアを開いていただくか\n手動でエミュレータを起動してください。</system:String>
     <system:String x:Key="SwitchLanguage">言語を切り替える 🌐</system:String>
     <system:String x:Key="Language">言語</system:String>
-    <system:String x:Key="LanguageChangedTip">言語設定が変更されました、今すぐMAAを再起動して言語設定を適用しますか？</system:String>
+    <system:String x:Key="LanguageChangedTip">言語設定が変更されました。一部のコンテンツは再起動後に完全に反映されます。</system:String>
+    <system:String x:Key="LanguageRestartNow">再起動</system:String>
+    <system:String x:Key="LanguageSwitchNow">切替</system:String>
     <system:String x:Key="ManualRestart">後で</system:String>
     <system:String x:Key="Tip">ヒント</system:String>
     <system:String x:Key="Warning">警告</system:String>
@@ -850,6 +852,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UseCustomAnnihilation">カスタム{key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">殲滅作戦</system:String>
     <system:String x:Key="Annihilation.Current">今期の殲滅作戦</system:String>
+    <system:String x:Key="PermanentStageBlocksStages">選択されたステージ ｢{0}｣ は常設ステージまたは現在/最後のため、後続のステージは選択されません</system:String>
     <system:String x:Key="Chernobog">チェルノボーグ</system:String>
     <system:String x:Key="LungmenOutskirts">龍門郊外</system:String>
     <system:String x:Key="LungmenDowntown">龍門市街</system:String>
@@ -1163,6 +1166,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">アップデートパッケージの解凍に失敗しました。まずは MAA.exe の再起動をお試しください。問題が解決しない場合は、PC を再起動して再度お試しください。必要なファイルの削除が行われない可能性があるため、手動で解凍しないでください。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">エミュレータとADBを閉じるか、コンピューターを再起動してから、管理者権限でMAAを開いて操作してください。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">ファイルが占有されています。コンピュータを再起動して再試行してください。</system:String>
+    <system:String x:Key="ErrorSolutionDesktopCompositionDisabled">これは通常、グラフィックスドライバの一時的な問題により DWM デスクトップ合成が無効化されたことによるものです。MAA は実行を継続しようとします。UI の表示に異常がある場合は MAA を手動で再起動し、グラフィックスドライバの確認と更新を行ってください。</system:String>
+    <system:String x:Key="ErrorSolutionDragDrop">これは通常、ドラッグ操作の進行中に繰り返しドラッグしたことによる偶発的なクラッシュです。機能には影響せず、無視できます。頻繁に発生する場合は、操作中の繰り返しドラッグを避けてください。</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">リンクを開けませんでした。Windows 設定に移動してデフォルトのブラウザを選択してください。</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">GitHub issueを作成する</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQグループに入ります</system:String>
@@ -2077,6 +2082,9 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.SlackingOff.Title">本業を怠る</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">本業に疲れたら、ちょっと別の遊びを。</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">ミニゲームを1回起動する</system:String>
+
+    <system:String x:Key="AchievementDlcProgressNotice">実績 DLC 識別子：#1 は実績システムと同時公開、以降はアップデートで追加されます。一部実績の進捗は所属 DLC 公開後にのみ加算されます。</system:String>
+    <system:String x:Key="AchievementDlcReleaseDate">公開日</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

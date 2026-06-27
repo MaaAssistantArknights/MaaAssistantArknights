@@ -28,12 +28,8 @@
         "roi": [1163, 27, 84, 28],
         "text": ["Movements"]
     },
-    "EnterEpisodeNew": {
-        "baseTask": "#none",
-        "baseTaskDoc": "26.2.10 Add a secondary interface and delete it after subsequent updates",
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf"
+    "EnterEpisodeNew-Click": {
+        "text": ["Go to Episode"]
     },
     "LevelOfDifficulty": {
         "text": ["Environment", "PRTS"]
@@ -127,7 +123,7 @@
             ["Purestream", "清流"],
             ["Whisperain", "絮雨"],
             ["Tuye", "图耶"],
-            ["Kal'tsit", "凯尔希"],
+            ["^Kal'tsit$", "凯尔希"],
             ["Mulberry", "桑葚"],
             ["Honeyberry", "蜜莓"],
             ["Reserve Operator *-* *L[ogistics]*", "预备干员-后勤"],
@@ -144,7 +140,7 @@
             ["Grani", "格拉尼"],
             ["Siege", "推进之王"],
             ["^Texas$", "德克萨斯"],
-            ["Zima", "凛冬"],
+            ["^Zima$", "凛冬"],
             ["Vigna", "红豆"],
             ["Scavenger", "清道夫"],
             ["Courier", "讯使"],
@@ -1092,7 +1088,13 @@
             ["Ice Blast Machine", "冷爆机"],
             ["Skybox", "天空盒"],
             ["Nasti", "娜斯提"],
-            ["Cairn", "响石"]
+            ["Cairn", "响石"],
+            ["Olden Pride", "宿傲"],
+            ["Olden Grudge", "宿怒"],
+            ["Fountain", "喷泉水池"],
+            ["Varkáris", "摆渡人"],
+            ["Perfumer the Distilled", "撷英调香师"],
+            ["Titi", "缇缇"]
         ]
     },
     "GameStartCheckResourceOCR": {

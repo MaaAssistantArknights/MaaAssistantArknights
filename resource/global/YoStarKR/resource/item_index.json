@@ -2287,6 +2287,14 @@
         "sortId": -10000,
         "usage": "고공 산소 공급 장치에서 영감을 받아 디자인된 신개념 음료. 이미 컬럼비아인의 새로운 '혈액'이 되었다. 새 시대의, 별깍지 밖의 맛을 보기 위해서라면, 누구든 기꺼이 비싼 값을 치를 것이다."
     },
+    "act48side_token_ostracon": {
+        "classifyType": "NONE",
+        "description": "오늘날 사람들의 손에 온갖 프로그램을 탑재한 단말기가 들려 있음에도, 미노스인들은 투표에서만큼 여전히 옛 방식을 고수한다.",
+        "icon": "act48side_token_ostracon.png",
+        "name": "오스트라콘",
+        "sortId": -10000,
+        "usage": "아테누스 시민의 투표 필수품. 사용한 오스트라콘은 어떻게 처리해야 하지? 시정감독관 사무실은 이를 모아 정교하고 아름답게 포장해서, 아테누스 관광객에게 팔기로 결정했다. 이 참신한 정책은 여러 방면에서 호평을 받았다."
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
@@ -2719,6 +2727,22 @@
         "sortId": -10000,
         "usage": "정성껏 준비한 시음 세트, 용문폐와 교환할 수 있다."
     },
+    "itempack_leaf_def": {
+        "classifyType": "NONE",
+        "description": "자신만의 독보적인 스타일을 개척해 보십시오.",
+        "icon": "itempack_leaf_def.png",
+        "name": "특집/로도스 아일랜드 트렌드",
+        "sortId": -10000,
+        "usage": "스타일 특집의 프리셋 테마에 포함된 특집 커버와 스티커. 탬플릿 편집을 빠르게 완성할 수 있다."
+    },
+    "itempack_leaf_def2": {
+        "classifyType": "NONE",
+        "description": "오늘의 찬란함을 위한 새로운 악보를 기록해 보십시오.",
+        "icon": "itempack_leaf_def2.png",
+        "name": "특집/스트리밍 미디어",
+        "sortId": -10000,
+        "usage": "스타일 특집의 프리셋 테마에 포함된 특집 커버와 스티커. 탬플릿 편집을 빠르게 완성할 수 있다."
+    },
     "itempack_main_1": {
         "classifyType": "NONE",
         "description": "이성 샘플을 배포하는 재료 보급 상자. 이성을 회복하는 동시에 한 가지 랜덤 재료도 받을 수 있다.",
@@ -2822,6 +2846,54 @@
         "name": "감사 축제 모집 보급",
         "sortId": -10000,
         "usage": "모집 수요를 충족시키기 위해 준비한 인적 자원 패키지. 공개적인 루트를 통한 오퍼레이터를 대량 채용할 수 있다."
+    },
+    "itempack_stickers_rog1": {
+        "classifyType": "NONE",
+        "description": "압도적인 기백이 서린 웅장한 연출.",
+        "icon": "itempack_stickers_rog1.png",
+        "name": "스티커 팩/크림슨 솔리테어",
+        "sortId": -10000,
+        "usage": "스타일 특집 전용 소장 스티커. 탬플릿 편집에 사용할 수 있다."
+    },
+    "itempack_stickers_rog2": {
+        "classifyType": "NONE",
+        "description": "트렌드의 열풍을 따르는 새로운 여정.",
+        "icon": "itempack_stickers_rog2.png",
+        "name": "스티커 팩/카이룰라 아버",
+        "sortId": -10000,
+        "usage": "스타일 특집 전용 소장 스티커. 탬플릿 편집에 사용할 수 있다."
+    },
+    "itempack_stickers_rog3": {
+        "classifyType": "NONE",
+        "description": "차디찬 바람 속의 신비로운 아름다움.",
+        "icon": "itempack_stickers_rog3.png",
+        "name": "스티커 팩/은빛 서리 끝자락",
+        "sortId": -10000,
+        "usage": "스타일 특집 전용 소장 스티커. 탬플릿 편집에 사용할 수 있다."
+    },
+    "itempack_stickers_rog4": {
+        "classifyType": "NONE",
+        "description": "대지가 목격한 살카즈의 현란한 자태.",
+        "icon": "itempack_stickers_rog4.png",
+        "name": "스티커 팩/영겁 기담",
+        "sortId": -10000,
+        "usage": "스타일 특집 전용 소장 스티커. 탬플릿 편집에 사용할 수 있다."
+    },
+    "itempack_stickers_rog5": {
+        "classifyType": "NONE",
+        "description": "영롱한 산수에 취해 헤어나오지 못하는 여행자.",
+        "icon": "itempack_stickers_rog5.png",
+        "name": "스티커 팩/기이한 계원",
+        "sortId": -10000,
+        "usage": "스타일 특집 전용 소장 스티커. 탬플릿 편집에 사용할 수 있다."
+    },
+    "itempack_stickers_sand1": {
+        "classifyType": "NONE",
+        "description": "거친 사막과 오아시스가 자아내는 예술.",
+        "icon": "itempack_stickers_sand1.png",
+        "name": "스티커 팩/사막 이야기",
+        "sortId": -10000,
+        "usage": "스타일 특집 전용 소장 스티커. 탬플릿 편집에 사용할 수 있다."
     },
     "main16_spitem_1": {
         "classifyType": "NORMAL",

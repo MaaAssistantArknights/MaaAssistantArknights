@@ -132,8 +132,6 @@ public class SettingsViewModel : Screen
 
         Init();
 
-        HangoverEnd();
-
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (_, e) => {
             Idle = e.NewState.Idle;
@@ -141,6 +139,17 @@ public class SettingsViewModel : Screen
             // Inited = e.Inited;
             // Stopping = e.Stopping;
         };
+
+        LocalizationHelper.LanguageChanged += RefreshLocalization;
+    }
+
+    /// <summary>
+    /// 刷新本地化文本。
+    /// </summary>
+    public void RefreshLocalization()
+    {
+        DisplayName = LocalizationHelper.GetString("Settings");
+        RefreshSettingsList();
     }
 
     #region Init
@@ -263,6 +272,17 @@ public class SettingsViewModel : Screen
         Settings.CollectionChanged += Settings_CollectionChanged;
     }
 
+    /// <summary>
+    /// 刷新设置菜单项的本地化文本。
+    /// </summary>
+    private void RefreshSettingsList()
+    {
+        foreach (var item in Settings)
+        {
+            item.Display = LocalizationHelper.GetString(item.Key);
+        }
+    }
+
     private void Settings_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
     {
         Execute.OnUIThread(() => {
@@ -303,8 +323,7 @@ public class SettingsViewModel : Screen
     public string SearchText
     {
         get => _searchText;
-        set
-        {
+        set {
             if (SetAndNotify(ref _searchText, value))
             {
                 SearchRequested?.Invoke(this, value);
@@ -334,7 +353,7 @@ public class SettingsViewModel : Screen
     private void InitUiSettings()
     {
         var languageList = (from pair in LocalizationHelper.SupportedLanguages
-                            where pair.Key != PallasLangKey || Cheers
+                            where pair.Key != PallasLangKey || IsDrunk
                             select new CombinedData { Display = pair.Value, Value = pair.Key })
            .ToList();
 
@@ -368,33 +387,24 @@ public class SettingsViewModel : Screen
     /// </summary>
     public const string PallasLangKey = "pallas";
 
-    private bool _cheers = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Cheers, false);
+    /// <summary>
+    /// 当前是否处于喝醉状态（语言为 Pallas）。
+    /// </summary>
+    public bool IsDrunk => GuiSettings.Language == PallasLangKey;
 
     /// <summary>
-    /// Gets or sets a value indicating whether to cheer.
+    /// 喝醉：切换到 Pallas 语言。
     /// </summary>
-    public bool Cheers
+    public void GetDrunk()
     {
-        get => _cheers;
-        set {
-            if (_cheers == value)
-            {
-                return;
-            }
-
-            SetAndNotify(ref _cheers, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Cheers, value.ToString());
-            if (_cheers)
-            {
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Localization, PallasLangKey);
-            }
-        }
+        // 不走 Language setter 以避免弹出语言切换确认窗
+        GuiSettings.SetLanguageInternal(PallasLangKey);
     }
 
     private bool _hangover = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Hangover, false);
 
     /// <summary>
-    /// Gets or sets a value indicating whether to hangover.
+    /// Gets or sets a value indicating whether need to show hangover dialog.
     /// </summary>
     public bool Hangover
     {
@@ -416,32 +426,57 @@ public class SettingsViewModel : Screen
         }
     }
 
+    /// <summary>
+    /// 退出时调用：如果当前喝醉，切回清醒语言并留宿醉标记。
+    /// </summary>
+    public void Sober()
+    {
+        if (!IsDrunk)
+        {
+            return;
+        }
+
+        GuiSettings.SetLanguageInternal(SoberLanguage);
+        Hangover = true;
+    }
+
     public void HangoverEnd()
     {
-        if (!Hangover)
+        // 同时检查标记和语言：正常退出走 Sober() 会留标记；
+        // 异常退出标记可能缺失，但语言仍是 pallas，据此兜底。
+        if (!Hangover && !IsDrunk)
         {
             return;
         }
 
         Hangover = false;
-        MessageBoxHelper.Show(
-            LocalizationHelper.GetString("Hangover"),
-            LocalizationHelper.GetString("Burping"),
-            iconKey: "HangoverGeometry",
-            iconBrushKey: "PallasBrush");
-        Bootstrapper.ShutdownAndRestartWithoutArgs();
-    }
-
-    public void Sober()
-    {
-        if (!Cheers || GuiSettings.Language != PallasLangKey)
+        if (IsDrunk)
         {
-            return;
+            // 异常退出兜底：语言仍为 pallas，这里补切回来
+            GuiSettings.SetLanguageInternal(SoberLanguage);
         }
 
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Localization, SoberLanguage);
-        Hangover = true;
-        Cheers = false;
+        ShowEasterEggDialog(
+            LocalizationHelper.GetString("Burping"),
+            LocalizationHelper.GetString("Hangover"),
+            LocalizationHelper.GetString("Ok"));
+    }
+
+    /// <summary>
+    /// 显示非阻塞彩蛋弹窗，用户点确认后执行回调。
+    /// </summary>
+    /// <param name="caption">标题</param>
+    /// <param name="message">提示内容</param>
+    /// <param name="confirmText">确认按钮文本</param>
+    /// <param name="onConfirm">用户点击确认后的回调（可为 null）</param>
+    public static void ShowEasterEggDialog(string caption, string message, string confirmText, Action? onConfirm = null)
+    {
+        var dialog = new Views.Dialogs.EasterEggDialogView(caption, message, confirmText);
+        var hcDialog = Dialog.Show(dialog, nameof(Views.UI.RootView));
+        dialog.ConfirmClicked += (_, _) => {
+            hcDialog.Close();
+            onConfirm?.Invoke();
+        };
     }
 
     private string _soberLanguage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.SoberLanguage, LocalizationHelper.DefaultLanguage);
@@ -467,10 +502,11 @@ public class SettingsViewModel : Screen
             return false;
         }
 
-        // if (now.IsAprilFoolsDay())
-        // {
-        //     return true;
-        // }
+        if (now.IsAprilFoolsDay())
+        {
+            return true;
+        }
+
         string[] wineList = ["酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶"];
         foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<MallTask>())
         {
@@ -884,8 +920,7 @@ public class SettingsViewModel : Screen
     public bool IsSwitchConfigurationExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderSwitchConfiguration;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderSwitchConfiguration = value;
             NotifyOfPropertyChange();
         }
@@ -894,8 +929,7 @@ public class SettingsViewModel : Screen
     public bool IsScheduleSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderScheduleSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderScheduleSettings = value;
             NotifyOfPropertyChange();
         }
@@ -904,8 +938,7 @@ public class SettingsViewModel : Screen
     public bool IsPerformanceSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderPerformanceSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderPerformanceSettings = value;
             NotifyOfPropertyChange();
         }
@@ -914,8 +947,7 @@ public class SettingsViewModel : Screen
     public bool IsGameSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderGameSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderGameSettings = value;
             NotifyOfPropertyChange();
         }
@@ -924,8 +956,7 @@ public class SettingsViewModel : Screen
     public bool IsConnectionSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderConnectionSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderConnectionSettings = value;
             NotifyOfPropertyChange();
         }
@@ -934,8 +965,7 @@ public class SettingsViewModel : Screen
     public bool IsStartupSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderStartupSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderStartupSettings = value;
             NotifyOfPropertyChange();
         }
@@ -944,8 +974,7 @@ public class SettingsViewModel : Screen
     public bool IsRemoteControlSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderRemoteControlSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderRemoteControlSettings = value;
             NotifyOfPropertyChange();
         }
@@ -954,8 +983,7 @@ public class SettingsViewModel : Screen
     public bool IsUiSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderUiSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderUiSettings = value;
             NotifyOfPropertyChange();
         }
@@ -964,8 +992,7 @@ public class SettingsViewModel : Screen
     public bool IsBackgroundSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderBackgroundSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderBackgroundSettings = value;
             NotifyOfPropertyChange();
         }
@@ -974,8 +1001,7 @@ public class SettingsViewModel : Screen
     public bool IsExternalNotificationSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderExternalNotificationSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderExternalNotificationSettings = value;
             NotifyOfPropertyChange();
         }
@@ -984,8 +1010,7 @@ public class SettingsViewModel : Screen
     public bool IsHotKeySettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderHotKeySettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderHotKeySettings = value;
             NotifyOfPropertyChange();
         }
@@ -994,8 +1019,7 @@ public class SettingsViewModel : Screen
     public bool IsAchievementSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderAchievementSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderAchievementSettings = value;
             NotifyOfPropertyChange();
         }
@@ -1004,8 +1028,7 @@ public class SettingsViewModel : Screen
     public bool IsUpdateSettingsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderUpdateSettings;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderUpdateSettings = value;
             NotifyOfPropertyChange();
         }
@@ -1014,8 +1037,7 @@ public class SettingsViewModel : Screen
     public bool IsIssueReportExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderIssueReport;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderIssueReport = value;
             NotifyOfPropertyChange();
         }
@@ -1024,8 +1046,7 @@ public class SettingsViewModel : Screen
     public bool IsAboutUsExpanded
     {
         get => ConfigFactory.Root.GUI.ExpanderAboutUs;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.ExpanderAboutUs = value;
             NotifyOfPropertyChange();
         }

@@ -36,12 +36,8 @@
     "ClickChapterNewOverview": {
         "text": ["서사"]
     },
-    "EnterEpisodeNew": {
-        "baseTask": "#none",
-        "baseTaskDoc": "26.2.10 Add a secondary interface and delete it after subsequent updates",
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf"
+    "EnterEpisodeNew-Click": {
+        "text": ["진입하기"]
     },
     "LevelOfDifficulty": {
         "text": ["환경", "PRTS"]
@@ -145,7 +141,7 @@
             ["^안셀$", "安赛尔"],
             ["^미르$", "末药"],
             ["^가비(알|말)$", "嘉维尔"],
-            ["퍼퓨(머|며)", "调香师"],
+            ["^퍼퓨(머|며)$", "调香师"],
             ["프틸롭시스", "白面鸮"],
             ["^사일런스$", "赫默"],
             ["와파린", "华法琳"],
@@ -1132,7 +1128,13 @@
             ["냉폭기", "冷爆机"],
             ["스카이박스", "天空盒"],
             ["^내스.?$", "娜斯提"],
-            ["^케언$", "响石"]
+            ["^케언$", "响石"],
+            ["^숙오$", "宿傲"],
+            ["^숙노$", "宿怒"],
+            ["분수대수조", "喷泉水池"],
+            ["바르카리스", "摆渡人"],
+            ["퍼퓨(머|며)더.+", "撷英调香师"],
+            ["^티티$", "缇缇"]
         ]
     },
     "StartUpThemes": {
@@ -1352,6 +1354,10 @@
     },
     "InfrastTrainingCompleted": {
         "text": ["훈련완료"]
+    },
+    "InfrastTrainingOperatorAndSkill": {
+        "doc": "Expanded roi to cover two-line wrapping of long operator names",
+        "roi": [150, 585, 365, 70]
     },
     "BattleStageName": {
         "Doc": "이 작업의 'ocrReplace'는 로그라이크 스테이지 이름과 관련된 모든 인식 작업에서 사용됩니다",

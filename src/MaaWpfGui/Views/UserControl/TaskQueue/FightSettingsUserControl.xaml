@@ -46,11 +46,14 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
-                        Content="{c:Binding 'UseStoneString + (AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}"
                         IsChecked="{Binding UseStone}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
+                        ToolTip="{DynamicResource CheckBoxesNotSaved}">
+                        <TextBlock>
+                            <Run Text="{DynamicResource UseOriginitePrime}" /><Run Text="{c:Binding '(AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}" />
+                        </TextBlock>
+                    </CheckBox>
                     <CheckBox
                         Height="30"
                         Margin="6"
@@ -217,7 +220,7 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         d:IsHitTestVisible="True"
-                        DisplayMemberPath="Key"
+                        DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                      Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                         ItemsSource="{Binding SeriesList}"
@@ -424,7 +427,7 @@
                 <ComboBox
                     Height="30"
                     d:IsHitTestVisible="True"
-                    DisplayMemberPath="Key"
+                    DisplayMemberPath="Display"
                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                  Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                     ItemsSource="{Binding AnnihilationModeList}"

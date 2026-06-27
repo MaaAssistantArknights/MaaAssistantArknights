@@ -23,6 +23,7 @@ using System.Windows;
 using System.Windows.Markup;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
+using Stylet;
 
 namespace MaaWpfGui.Helper;
 
@@ -68,9 +69,14 @@ public static class LocalizationHelper
         }
     }
 
-    private static readonly string _culture = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, DefaultLanguage);
+    private static string _culture = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, DefaultLanguage);
 
-    private static readonly string _customCulture = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomCulture, string.Empty);
+    private static string _customCulture = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomCulture, string.Empty);
+
+    /// <summary>
+    /// 获取当前语言。
+    /// </summary>
+    public static string CurrentCulture => _culture;
 
     public static CultureInfo CustomCultureInfo
     {
@@ -88,11 +94,76 @@ public static class LocalizationHelper
     }
 
     /// <summary>
+    /// 语言变更事件，运行时切换语言后触发，订阅者应刷新缓存的本地化文本。
+    /// <para>
+    /// 订阅约定：该事件为静态事件，订阅者必须是应用级单例（通过 Stylet IoC 容器管理，
+    /// 如 <see cref="ViewModels.UI.ToolboxViewModel"/>、各 <c>*UserControlModel</c> 的 <c>Instance</c> 单例），
+    /// 因此订阅后无需取消订阅。非单例类型（如 <see cref="ViewModels.TaskItemViewModel"/>）
+    /// 必须在 <see cref="IDisposable.Dispose"/> 时通过
+    /// <see cref="Utilities.PropertyDependsOnUtility.UnInitializePropertyDependencies"/> 清理跨实例依赖。
+    /// </para>
+    /// </summary>
+    public static event Action? LanguageChanged;
+
+    /// <summary>
     /// Loads localizations.
     /// </summary>
     public static void Load()
     {
-        if (_culture == "pallas")
+        LoadLocalizationDictionaries(_culture);
+        ApplyCultureToThread();
+    }
+
+    /// <summary>
+    /// 运行时切换语言，热替换 ResourceDictionary 并通知订阅者刷新。
+    /// </summary>
+    /// <param name="newCulture">新语言代码，如 "en-us"。</param>
+    public static void Reload(string newCulture)
+    {
+        Execute.OnUIThread(() => ReloadCore(newCulture));
+    }
+
+    private static void ReloadCore(string newCulture)
+    {
+        if (newCulture == _culture)
+        {
+            return;
+        }
+
+        _culture = newCulture;
+
+        // 移除旧的本地化字典
+        var app = Application.Current;
+        if (app != null)
+        {
+            var dictList = app.Resources.MergedDictionaries;
+            var toRemove = dictList.Where(IsLocalizationDictionary).ToList();
+            foreach (var dict in toRemove)
+            {
+                dictList.Remove(dict);
+            }
+        }
+
+        _preprocessedCultures.Clear();
+
+        // 加载新语言字典
+        LoadLocalizationDictionaries(newCulture);
+        ApplyCultureToThread();
+
+        // 通知订阅者刷新缓存的本地化文本
+        LanguageChanged?.Invoke();
+    }
+
+    private static bool IsLocalizationDictionary(ResourceDictionary dict)
+    {
+        // 通过 Source 文件名判断本地化字典（路径固定为 Res\Localizations\xxx.xaml）
+        var source = dict.Source?.OriginalString ?? string.Empty;
+        return source.Replace('\\', '/').Contains("res/localizations/", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static void LoadLocalizationDictionaries(string culture)
+    {
+        if (culture == "pallas")
         {
             var dictionary = new ResourceDictionary {
                 Source = new(@"Res\Localizations\zh-cn.xaml", UriKind.Relative),
@@ -106,11 +177,11 @@ public static class LocalizationHelper
             return;
         }
 
-        string[] cultureList = _culture switch {
-            "zh-cn" => [_culture],
-            "zh-tw" => ["zh-cn", _culture],
-            "en-us" => ["zh-cn", _culture],
-            _ => ["zh-cn", "en-us", _culture],
+        string[] cultureList = culture switch {
+            "zh-cn" => [culture],
+            "zh-tw" => ["zh-cn", culture],
+            "en-us" => ["zh-cn", culture],
+            _ => ["zh-cn", "en-us", culture],
         };
 
         foreach (var cur in cultureList)
@@ -121,12 +192,15 @@ public static class LocalizationHelper
             _preprocessedCultures.Add(cur);
             PreprocessDictionary(dictionary, cur);
             Application.Current.Resources.MergedDictionaries.Add(dictionary);
-            if (cur == _culture)
+            if (cur == culture)
             {
                 break;
             }
         }
+    }
 
+    private static void ApplyCultureToThread()
+    {
         try
         {
             Thread.CurrentThread.CurrentCulture = !string.IsNullOrEmpty(_customCulture)

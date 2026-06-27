@@ -25,12 +25,9 @@
                 TextWrapping="Wrap"
                 Visibility="{c:Binding 'LastOperBoxSyncTimeText.Length > 0',
                                        Source={x:Static helper:Instances.ToolboxViewModel}}">
-                <TextBlock.Text>
-                    <MultiBinding StringFormat="{}{0}: {1}">
-                        <Binding Source="{StaticResource LastSyncTime}" />
-                        <Binding Path="LastOperBoxSyncTimeText" Source="{x:Static helper:Instances.ToolboxViewModel}" />
-                    </MultiBinding>
-                </TextBlock.Text>
+                <Run Text="{DynamicResource LastSyncTime}" />
+                <Run Text=": " />
+                <Run Text="{Binding LastOperBoxSyncTimeText, Mode=OneWay, Source={x:Static helper:Instances.ToolboxViewModel}}" />
             </controls:TextBlock>
         </StackPanel>
         <StackPanel Margin="0,10">
@@ -41,12 +38,9 @@
                 TextWrapping="Wrap"
                 Visibility="{c:Binding 'LastDepotSyncTimeText.Length > 0',
                                        Source={x:Static helper:Instances.ToolboxViewModel}}">
-                <TextBlock.Text>
-                    <MultiBinding StringFormat="{}{0}: {1}">
-                        <Binding Source="{StaticResource LastSyncTime}" />
-                        <Binding Path="LastDepotSyncTimeText" Source="{x:Static helper:Instances.ToolboxViewModel}" />
-                    </MultiBinding>
-                </TextBlock.Text>
+                <Run Text="{DynamicResource LastSyncTime}" />
+                <Run Text=": " />
+                <Run Text="{Binding LastDepotSyncTimeText, Mode=OneWay, Source={x:Static helper:Instances.ToolboxViewModel}}" />
             </controls:TextBlock>
         </StackPanel>
         <StackPanel Margin="0,10">

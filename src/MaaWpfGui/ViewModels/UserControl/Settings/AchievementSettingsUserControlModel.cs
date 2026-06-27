@@ -21,6 +21,7 @@ using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
+using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.Dialogs;
 using Stylet;
 using Window = System.Windows.Window;
@@ -143,12 +144,19 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         if (_isTriggered)
         {
             ResetDebugState();
+            Instances.SettingsViewModel.Sober();
+            Instances.SettingsViewModel.HangoverEnd();
             return;
         }
 
         if (Instances.VersionUpdateDialogViewModel.IsDebugVersion())
         {
             EnableDebugMode();
+            SettingsViewModel.ShowEasterEggDialog(
+                LocalizationHelper.GetString("Burping"),
+                LocalizationHelper.GetString("DrunkAndStaggering"),
+                LocalizationHelper.GetString("Ok"),
+                () => Instances.SettingsViewModel.GetDrunk());
             return;
         }
 
@@ -163,6 +171,11 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         if (shouldTriggerDebug)
         {
             EnableDebugMode();
+            SettingsViewModel.ShowEasterEggDialog(
+                LocalizationHelper.GetString("Burping"),
+                LocalizationHelper.GetString("DrunkAndStaggering"),
+                LocalizationHelper.GetString("Ok"),
+                () => Instances.SettingsViewModel.GetDrunk());
         }
     }
 
