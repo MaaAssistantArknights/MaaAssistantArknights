@@ -44,7 +44,7 @@ jobs:
           BASE_URL="https://github.com/${{ github.repository }}/releases/download/${TAG}"
           WIN_URL="${BASE_URL}/MAA-${TAG}-win-x64.zip"
           MAC_URL="${BASE_URL}/MAA-${TAG}-macos-universal.dmg"
-          LIN_URL="${BASE_URL}/MAA-${TAG}-linux-amd64.tar.gz"
+          LIN_URL="${BASE_URL}/MAA-${TAG}-linux-x86_64.tar.gz"
 
           DESCRIPTION=$(printf 'Read the full release note [here](%s).\n\nOpen or reopen your MAA client to get automatic updates.\nOr, download `MAA %s` for your platform by clicking the buttons below.' "$URL" "$TAG")
 
@@ -62,7 +62,7 @@ jobs:
                 fields: [
                   { name: "Windows (x64)", value: ("[↗ Download](" + $win_url + ")"), inline: true },
                   { name: "macOS (Universal, dmg)", value: ("[↗ Download](" + $mac_url + ")"), inline: true },
-                  { name: "Linux (amd64, tar.gz)", value: ("[↗ Download](" + $lin_url + ")"), inline: true }
+                  { name: "Linux (x86_64, tar.gz)", value: ("[↗ Download](" + $lin_url + ")"), inline: true }
                 ]
               }]
             }')
