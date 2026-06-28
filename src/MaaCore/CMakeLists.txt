@@ -5,6 +5,16 @@ if(ANDROID)
     list(FILTER maa_src EXCLUDE REGEX "OcrPack\\.cpp$")
 else()
     list(FILTER maa_src EXCLUDE REGEX "OcrPackNcnn\\.cpp$")
+    # clipper 仅供 Android 端 OcrPackNcnn 使用；桌面端链接 fastdeploy（自带 ClipperLib），编译会符号冲突
+    list(FILTER maa_src EXCLUDE REGEX "Config/Miscellaneous/clipper\\.cpp$")
+endif()
+
+if(ANDROID)
+    # clipper 是 vendored 第三方代码（ClipperLib 6.4.2），关闭其告警：
+    # MaaCore 全局 -Werror -Wpedantic 会因其旧式实现（deprecated-copy 等）中断编译。
+    set_source_files_properties(
+        "${CMAKE_CURRENT_SOURCE_DIR}/Config/Miscellaneous/clipper.cpp"
+        PROPERTIES COMPILE_OPTIONS "-w")
 endif()
 
 if(WITH_MAC_SCK)
