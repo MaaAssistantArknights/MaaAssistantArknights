@@ -26,10 +26,25 @@ namespace MaaWpfGui.Models;
 /// </summary>
 public class StageInfo : CombinedData
 {
+    private string _tip = string.Empty;
+
     /// <summary>
     /// Gets or sets the stage tip
     /// </summary>
-    public string Tip { get; set; } = string.Empty;
+    public string Tip
+    {
+        get {
+            if (!string.IsNullOrEmpty(_tip))
+            {
+                return _tip;
+            }
+
+            return !string.IsNullOrEmpty(TipKey)
+                ? LocalizationHelper.GetString(TipKey)
+                : string.Empty;
+        }
+        set => _tip = value;
+    }
 
     /// <summary>
     /// Gets or sets the days of week when the stage is open (used for resource stages like CE-6, PR-A-1)

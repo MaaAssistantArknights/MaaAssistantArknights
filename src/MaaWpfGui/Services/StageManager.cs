@@ -283,8 +283,8 @@ public class StageManager
             { string.Empty, new() { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty } },
 
             // 周一和周日的关卡提示
-            { "Pormpt1", new() { Tip = LocalizationHelper.GetString("Pormpt1"), OpenDaysOfWeek = [DayOfWeek.Monday], IsHidden = true } },
-            { "Pormpt2", new() { Tip = LocalizationHelper.GetString("Pormpt2"), OpenDaysOfWeek = [DayOfWeek.Sunday], IsHidden = true } },
+            { "Pormpt1", new() { TipKey = "Pormpt1", OpenDaysOfWeek = [DayOfWeek.Monday], IsHidden = true } },
+            { "Pormpt2", new() { TipKey = "Pormpt2", OpenDaysOfWeek = [DayOfWeek.Sunday], IsHidden = true } },
         };
     }
 
