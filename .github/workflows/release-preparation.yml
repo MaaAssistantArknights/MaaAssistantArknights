@@ -76,13 +76,19 @@ jobs:
       - name: Write CHANGELOG.md from AI output
         if: steps.analysis.outcome == 'success'
         run: |
-          if [ -f answer.md ] && [ -s answer.md ]; then
-            cp answer.md CHANGELOG.md
-            echo "CHANGELOG.md updated from AI output ($(wc -l < CHANGELOG.md) lines)"
-            git diff --stat CHANGELOG.md
-          else
+          if [ ! -f answer.md ] || [ ! -s answer.md ]; then
             echo "::error::answer.md not found or empty, cannot update CHANGELOG.md"
             exit 1
+          fi
+
+          cp answer.md CHANGELOG.md
+          echo "CHANGELOG.md updated from AI output ($(wc -l < CHANGELOG.md) lines)"
+
+          if git diff --quiet CHANGELOG.md 2>/dev/null; then
+            echo "::warning::AI output is identical to existing CHANGELOG.md, no PR will be created"
+          else
+            echo "Changes detected:"
+            git diff --stat CHANGELOG.md
           fi
 
       - name: Create changelog PR
