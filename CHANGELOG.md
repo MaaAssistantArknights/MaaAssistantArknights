@@ -56,9 +56,9 @@ Switching the UI language no longer requires a restart; operator recognition, de
 * 优化成就 DLC 标识显示效果与提示，增加对应 DLC 上线时间提示 @ABA2396
 * 调整繁中服 CharNameOcrReplace 替换规则 ([#17113](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17113)) @momomochi987
 * 怪猎一期复刻 CF-EX-8、CF-S-1 关卡参数调整 @status102
-* 裁剪 YostarKR 界园肉鸽模板以提升匹配分数 @HX3N
 * 移除依赖库安装脚本的提权操作 @ABA2396
 * 调整日志超时提示 @ABA2396
+* YostarKR crop JieGarden@Roguelike@StartAction.png to improve match score @HX3N
 
 ### 修复 | Fix
 
@@ -73,15 +73,15 @@ Switching the UI language no longer requires a restart; operator recognition, de
 * 修复 MAA 更新检查 API 请求未遵循代理设置的问题 @status102
 * 修正落叶逐火入口 OCR 文本 @SherkeyXD
 * 修复复制任务时未保留原任务启用状态的问题 @ABA2396
-* YostarEN 修复未来异格干员识别与章节导航点击 @Constrat
-* YostarKR 修正章节导航 ROI、修复训练 ROI 以适配换行的干员名 @HX3N
+* YostarEN fix future alter operators recognition and EnterEpisodeNew-Click @Constrat
+* YostarKR correct ClickChapterNewDefaultProgress roi, expand training roi for wrapped operator names @HX3N
 
 ### 其他 | Other
 
-* YostarEN/JP/KR 更新落叶逐火与界园主题 ([#17175](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17175)) @Constrat @Manicsteiner @HX3N
-* YostarJP 新增章节导航与界园主题招募 @Manicsteiner
 * 修复 MAAUnified CI 选错 ref 的问题 ([#17143](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17143)) @Halo
 * 优化 Avalonia 构建工作流触发条件 ([#17139](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17139)) @Manicsteiner
+* YostarEN/JP/KR update LoneTrail and JieGarden themes ([#17175](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17175)) @Constrat @Manicsteiner @HX3N
+* YostarJP add episode new navigation and JieGarden theme recruit @Manicsteiner
 * Update GitHub push action version comment ([#17124](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17124)) @AnnAngela
 
 </details>
