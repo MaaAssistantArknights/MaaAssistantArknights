@@ -67,12 +67,23 @@ jobs:
             你是 MAA 项目的 Changelog 生成专员。
 
             当前 Release PR 编号为 #{{issue_number}}（仓库 {{repository}}），请从该 PR 标题中提取目标版本号。
-            严格按照 .claude/skills/changelog/SKILL.md 中的规则：
+            严格按照 .claude/skills/changelog/SKILL.md 中的规则，分析 git 提交记录（tag 间的 commit 及其 diff）和现有 CHANGELOG.md，
+            生成完整的新版本 Changelog Markdown 并写到 {{answer_file}}。
 
-            1. 分析 git 提交记录（tag 间的 commit 及其 diff）和现有 CHANGELOG.md
-            2. 直接更新 CHANGELOG.md 文件
-            3. 把本次 Changelog 变更的简要说明写到 {{answer_file}}（将作为 PR 评论发布）
+            {{answer_file}} 的内容应当是可以直接替换 CHANGELOG.md 整个文件的完整内容（包含新版本和所有历史版本）。
           details-summary: 点击此处展开生成过程
+
+      - name: Write CHANGELOG.md from AI output
+        if: steps.analysis.outcome == 'success'
+        run: |
+          if [ -f answer.md ] && [ -s answer.md ]; then
+            cp answer.md CHANGELOG.md
+            echo "CHANGELOG.md updated from AI output ($(wc -l < CHANGELOG.md) lines)"
+            git diff --stat CHANGELOG.md
+          else
+            echo "::error::answer.md not found or empty, cannot update CHANGELOG.md"
+            exit 1
+          fi
 
       - name: Create changelog PR
         if: steps.analysis.outcome == 'success'
