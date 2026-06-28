@@ -155,7 +155,7 @@ jobs:
 
       - name: Restore ResourceUpdater from cache
         id: resupd-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
@@ -171,7 +171,7 @@ jobs:
       - name: Cache MaaDeps
         if: steps.resupd-cache.outputs.cache-hit != 'true'
         id: maadeps-cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         continue-on-error: true
         with:
           path: |
@@ -195,7 +195,7 @@ jobs:
 
       - name: Save ResourceUpdater to cache
         if: always() && steps.resupd-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
