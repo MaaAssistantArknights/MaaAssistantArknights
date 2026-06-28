@@ -62,7 +62,7 @@ jobs:
               embeds: [{
                 title: ("🎉 New MAA Release:  " + $tag),
                 description: $description,
-                color: 15844367,
+                color: 10246582,
                 fields: [
                   { name: "Windows", value: ("[x64](" + $win64_url + ") ❘ [ARM](" + $winarm_url + ")"), inline: true },
                   { name: "macOS", value: ("[Universal](" + $mac_url + ")"), inline: true },
