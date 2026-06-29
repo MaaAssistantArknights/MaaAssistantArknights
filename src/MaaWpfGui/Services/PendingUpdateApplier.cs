@@ -459,18 +459,25 @@ internal static partial class PendingUpdateApplier
             WorkingDirectory = context.RootDir,
         };
 
-        // Args: <ParentPid> <RootDir> <ExtractDir> <BackupDir>
-        //       <PackagePath> <SuccessStatusFile> <FailureStatusFile>
-        //       <RelaunchExecutablePath> <PlanFile>
-        //       [--mutex-name <name>] [--show-console]
+        // Use new -v2 format: --key value
+        startInfo.ArgumentList.Add("-v2");
+        startInfo.ArgumentList.Add("--parent-pid");
         startInfo.ArgumentList.Add(Environment.ProcessId.ToString());
+        startInfo.ArgumentList.Add("--root-dir");
         startInfo.ArgumentList.Add(context.RootDir);
+        startInfo.ArgumentList.Add("--extract-dir");
         startInfo.ArgumentList.Add(context.ExtractDir);
+        startInfo.ArgumentList.Add("--backup-dir");
         startInfo.ArgumentList.Add(context.BackupDir);
+        startInfo.ArgumentList.Add("--package-path");
         startInfo.ArgumentList.Add(context.PackagePath);
+        startInfo.ArgumentList.Add("--success-status-file");
         startInfo.ArgumentList.Add(DelegatedUpdateSuccessStatusFilePath);
+        startInfo.ArgumentList.Add("--failure-status-file");
         startInfo.ArgumentList.Add(DelegatedUpdateFailureStatusFilePath);
+        startInfo.ArgumentList.Add("--relaunch-executable");
         startInfo.ArgumentList.Add(relaunchExecutablePath);
+        startInfo.ArgumentList.Add("--plan-file");
         startInfo.ArgumentList.Add(planPath);
         startInfo.ArgumentList.Add("--mutex-name");
         startInfo.ArgumentList.Add(Bootstrapper.MutexName);
