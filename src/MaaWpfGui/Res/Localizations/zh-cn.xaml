@@ -348,6 +348,8 @@
     <system:String x:Key="UpdateAutoCheck">定时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheckTip">游戏内 00:00 / 18:00（对应服务器当地时间 04:00 / 22:00）</system:String>
     <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
+    <system:String x:Key="UpdateAutoDownloadTip" xml:space="preserve">取消勾选后，检测到新版本时（包括手动触发 ｢{key=UpdateCheckNow}｣）将不再自动下载，仅通过系统通知提示并附带下载链接，可自行下载更新包后拖入 MAA 完成更新。
+若系统通知已关闭，则改为软件内通知，但软件内通知不提供可交互的下载按钮。</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自动安装更新包</system:String>
     <system:String x:Key="ShowUpdaterConsole">显示更新程序控制台输出</system:String>
     <system:String x:Key="ShowUpdaterProgress">显示更新程序进度窗口</system:String>

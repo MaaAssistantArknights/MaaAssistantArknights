@@ -348,6 +348,8 @@
     <system:String x:Key="UpdateAutoCheck">定期的な更新チェック</system:String>
     <system:String x:Key="UpdateAutoCheckTip">ゲーム内 00:00 / 18:00（サーバー現地時間 04:00 / 22:00）</system:String>
     <system:String x:Key="UpdateAutoDownload">自動アップデート</system:String>
+    <system:String x:Key="UpdateAutoDownloadTip" xml:space="preserve">オフの場合、更新の検出時（手動で ｢{key=UpdateCheckNow}｣ を実行した場合を含む）に自動ダウンロードは行われず、ダウンロードリンク付きのシステム通知のみが表示されます。リンク先から更新パッケージをダウンロードし、MAA にドラッグして手動更新できます。
+システム通知が無効な場合はアプリ内通知に切り替わりますが、アプリ内通知には操作可能なダウンロードボタンは提供されません。</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自動インストール更新</system:String>
     <system:String x:Key="ShowUpdaterConsole">更新中にアップデーターのコンソール出力を表示</system:String>
     <system:String x:Key="ShowUpdaterProgress">アップデーターの進行状況ウィンドウを表示</system:String>

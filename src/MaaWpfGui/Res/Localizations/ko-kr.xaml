@@ -348,6 +348,8 @@
     <system:String x:Key="UpdateAutoCheck">일정 시간마다 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheckTip">게임 내 00:00 / 18:00 (서버 현지 시간 04:00 / 22:00)</system:String>
     <system:String x:Key="UpdateAutoDownload">업데이트 자동 다운로드</system:String>
+    <system:String x:Key="UpdateAutoDownloadTip" xml:space="preserve">체크 해제 시, 업데이트 감지 시（수동으로 ｢{key=UpdateCheckNow}｣ 실행 포함）자동 다운로드가 중지되고 다운로드 링크가 포함된 시스템 알림만 표시됩니다. 링크에서 업데이트 패키지를 직접 다운로드한 후 MAA에 끌어다 놓아 수동으로 업데이트할 수 있습니다.
+시스템 알림이 꺼져 있는 경우 앱 내 알림으로 전환되지만, 앱 내 알림에는 조작 가능한 다운로드 버튼이 제공되지 않습니다.</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">업데이트 패키지 자동 설치</system:String>
     <system:String x:Key="ShowUpdaterConsole">업데이트 중 업데이터 콘솔 출력 표시</system:String>
     <system:String x:Key="ShowUpdaterProgress">업데이터 진행 창 표시</system:String>
