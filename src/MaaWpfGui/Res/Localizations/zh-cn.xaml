@@ -1203,6 +1203,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FastestWayToScreencap">最快截图耗时: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">截图用时较长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）可能表现异常。如使用 MuMu、雷电模拟器请尝试开启截图增强</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">截图用时过长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）很可能无法正常运行，建议尝试重启或更换模拟器！如使用 MuMu、雷电模拟器请尝试开启截图增强</system:String>
+    <system:String x:Key="EmulatorFpsWarningTip">检测到模拟器设置帧率为 {0} FPS，低于游戏原生帧率（60 FPS），可能开启了后台降帧或帧率设置过低，建议将模拟器帧率设置为 60 FPS</system:String>
+    <system:String x:Key="EmulatorFpsErrorTip">检测到模拟器设置帧率过低（{0} FPS），可能导致任务异常，请关闭模拟器后台降帧并将帧率设置为 60 FPS</system:String>
+    <system:String x:Key="EmulatorFpsHighTip">检测到模拟器设置帧率为 {0} FPS，高于游戏原生帧率上限（60 FPS），可能是模拟器插帧功能，可能导致画面异常或识别不稳定，建议关闭插帧并将帧率设置为 60 FPS</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>
     <system:String x:Key="CombatError">战斗出错</system:String>

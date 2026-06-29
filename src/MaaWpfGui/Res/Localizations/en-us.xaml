@@ -1202,6 +1202,9 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="FastestWayToScreencap">Screenshot test tasks: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">Screencap takes a long time (avg: {0}ms) which may cause some abnormal behaviors using automatic combat functions (e.g. Auto I. S.). If using MuMu or LDPlayer, please try enabling screenshot enhancement</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">Screencap takes too long (avg: {0}ms), so automatic combat functions (e.g. Auto I. S.) may not run properly. It is recommended to try restarting or changing the emulator! If using MuMu or LDPlayer, please try enabling screenshot enhancement</system:String>
+    <system:String x:Key="EmulatorFpsWarningTip">Emulator refresh rate is set to {0} FPS, below the game's native frame rate (60 FPS). Background frame rate reduction may be enabled or the rate is set too low. It is recommended to set the emulator frame rate to 60 FPS</system:String>
+    <system:String x:Key="EmulatorFpsErrorTip">Emulator refresh rate is set too low ({0} FPS), which may cause tasks to malfunction. Please turn off background frame rate reduction and set the frame rate to 60 FPS</system:String>
+    <system:String x:Key="EmulatorFpsHighTip">Emulator refresh rate is set to {0} FPS, above the game's native frame rate cap (60 FPS). This may be the emulator's frame interpolation feature, which can cause visual artifacts or unstable recognition. It is recommended to disable frame interpolation and set the frame rate to 60 FPS</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error:&#160;</system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
