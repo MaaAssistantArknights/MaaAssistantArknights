@@ -349,7 +349,17 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="UpdateAutoCheckTip">In-game 00:00 / 18:00 (Server local time 04:00 / 22:00)</system:String>
     <system:String x:Key="UpdateAutoDownload">Auto Download Update</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">Auto Install Update</system:String>
-    <system:String x:Key="ShowUpdaterConsole">Show MAA.Updater console output during update</system:String>
+    <system:String x:Key="ShowUpdaterConsole">Show updater console output during update</system:String>
+    <system:String x:Key="ShowUpdaterProgress">Show updater progress window</system:String>
+    <system:String x:Key="ShowUpdaterProgressTip" xml:space="preserve">Shows a standalone progress window from the updater during the update, displaying the current status and file processing progress.
+When disabled, you won't be able to see the update progress visually. Do not launch MAA again while an update is in progress, as this may interrupt the update or corrupt files.</system:String>
+    <system:String x:Key="ShowUpdaterProgressWarning" xml:space="preserve">After disabling the update progress window, no progress will be shown during updates.
+
+Please note:
+1. Do not launch MAA again while an update is in progress, otherwise file locks may cause the update to fail or files to become corrupted.
+2. If both the progress window and console output are disabled, the update will run with no UI feedback at all, making it hard to tell if it is stuck or has failed.
+
+Are you sure you want to disable the update progress window?</system:String>
     <system:String x:Key="UpdateCheckStable">Stable Release</system:String>
     <system:String x:Key="UpdateCheckBeta">Beta Release</system:String>
     <system:String x:Key="UpdateCheckNightly">Nightly Release</system:String>

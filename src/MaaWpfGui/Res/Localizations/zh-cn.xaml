@@ -349,7 +349,17 @@
     <system:String x:Key="UpdateAutoCheckTip">游戏内 00:00 / 18:00（对应服务器当地时间 04:00 / 22:00）</system:String>
     <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自动安装更新包</system:String>
-    <system:String x:Key="ShowUpdaterConsole">显示 MAA.Updater 控制台输出</system:String>
+    <system:String x:Key="ShowUpdaterConsole">显示更新程序控制台输出</system:String>
+    <system:String x:Key="ShowUpdaterProgress">显示更新程序进度窗口</system:String>
+    <system:String x:Key="ShowUpdaterProgressTip" xml:space="preserve">更新时由更新程序显示一个独立的进度窗口，展示当前更新状态与文件处理进度。
+关闭后将无法直观看到更新进展，更新过程中也不要重复启动 MAA，否则可能导致更新中断或文件损坏。</system:String>
+    <system:String x:Key="ShowUpdaterProgressWarning" xml:space="preserve">关闭更新进度窗口后，更新过程中将不再显示进度提示。
+
+请注意：
+1. 更新期间请勿重复启动 MAA，否则可能因文件占用导致更新失败或文件损坏。
+2. 若同时关闭了进度窗口和控制台输出，更新过程将完全无界面提示，难以判断是否卡住或失败。
+
+确定要关闭更新进度窗口吗？</system:String>
     <system:String x:Key="UpdateCheckStable">正式版</system:String>
     <system:String x:Key="UpdateCheckBeta">公测版</system:String>
     <system:String x:Key="UpdateCheckNightly">内测版</system:String>

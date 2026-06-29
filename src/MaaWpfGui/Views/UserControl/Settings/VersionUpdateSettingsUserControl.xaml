@@ -81,6 +81,18 @@
                 </CheckBox>
                 <StackPanel
                     Margin="8"
+                    Orientation="Horizontal">
+                    <CheckBox
+                        MaxWidth="150"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding ShowUpdaterProgress}">
+                        <TextBlock Text="{DynamicResource ShowUpdaterProgress}" TextWrapping="Wrap" />
+                    </CheckBox>
+                    <controls:TooltipBlock TooltipText="{DynamicResource ShowUpdaterProgressTip}" />
+                </StackPanel>
+                <StackPanel
+                    Margin="8"
                     Orientation="Horizontal"
                     Visibility="{c:Binding 'UpdateSource == &quot;Github&quot;'}">
                     <CheckBox

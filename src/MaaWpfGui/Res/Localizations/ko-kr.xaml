@@ -349,7 +349,17 @@
     <system:String x:Key="UpdateAutoCheckTip">게임 내 00:00 / 18:00 (서버 현지 시간 04:00 / 22:00)</system:String>
     <system:String x:Key="UpdateAutoDownload">업데이트 자동 다운로드</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">업데이트 패키지 자동 설치</system:String>
-    <system:String x:Key="ShowUpdaterConsole">업데이트 중 MAA.Updater 콘솔 출력 표시</system:String>
+    <system:String x:Key="ShowUpdaterConsole">업데이트 중 업데이터 콘솔 출력 표시</system:String>
+    <system:String x:Key="ShowUpdaterProgress">업데이터 진행 창 표시</system:String>
+    <system:String x:Key="ShowUpdaterProgressTip" xml:space="preserve">업데이트 시 업데이터가 별도의 진행 창을 표시하여 현재 상태와 파일 처리 진행률을 보여줍니다.
+끄면 업데이트 진행 상황을 직관적으로 확인할 수 없습니다. 업데이트 중에는 MAA를 다시 실행하지 마세요. 업데이트가 중단되거나 파일이 손상될 수 있습니다.</system:String>
+    <system:String x:Key="ShowUpdaterProgressWarning" xml:space="preserve">업데이트 진행 창을 끄면 업데이트 중에 진행 상황이 표시되지 않습니다.
+
+주의 사항:
+1. 업데이트 중에는 MAA를 다시 실행하지 마세요. 파일 점유로 인해 업데이트가 실패하거나 파일이 손상될 수 있습니다.
+2. 진행 창과 콘솔 출력을 모두 끄면 업데이트 중에 UI 피드백이 전혀 표시되지 않아 중단 또는 실패 여부를 판단하기 어렵습니다.
+
+업데이트 진행 창을 끄시겠습니까?</system:String>
     <system:String x:Key="UpdateCheckStable">안정 버전</system:String>
     <system:String x:Key="UpdateCheckBeta">베타 버전</system:String>
     <system:String x:Key="UpdateCheckNightly">개발 버전</system:String>

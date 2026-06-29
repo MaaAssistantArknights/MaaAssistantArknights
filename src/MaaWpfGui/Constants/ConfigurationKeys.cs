@@ -248,6 +248,7 @@ public static class ConfigurationKeys
     public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage";
     public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage";
     public const string ShowUpdaterConsole = "VersionUpdate.ShowUpdaterConsole";
+    public const string ShowUpdaterProgress = "VersionUpdate.ShowUpdaterProgress";
 
     public const string PenguinId = "Penguin.Id";
     public const string IsDrGrandet = "Penguin.IsDrGrandet"; // 已迁移

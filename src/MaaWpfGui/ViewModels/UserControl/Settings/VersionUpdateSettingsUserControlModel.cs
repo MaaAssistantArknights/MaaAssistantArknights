@@ -513,6 +513,36 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private bool _showUpdaterProgress = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterProgress, true);
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to show the updater progress window.
+    /// </summary>
+    public bool ShowUpdaterProgress
+    {
+        get => _showUpdaterProgress;
+        set {
+            // 关闭进度窗口属于有风险的操作，需要二次确认
+            if (!value)
+            {
+                var result = MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("ShowUpdaterProgressWarning"),
+                    LocalizationHelper.GetString("Warning"),
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning,
+                    yes: LocalizationHelper.GetString("Confirm"),
+                    no: LocalizationHelper.GetString("Cancel"));
+                if (result != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            SetAndNotify(ref _showUpdaterProgress, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ShowUpdaterProgress, value.ToString());
+        }
+    }
+
     /// <summary>
     /// Updates manually.
     /// </summary>
