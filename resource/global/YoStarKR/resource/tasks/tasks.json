@@ -1,13 +1,4 @@
 {
-    "SignInEventEnter": {
-        "text": ["출석", "로그인"]
-    },
-    "SignInEventEarnRewards": {
-        "text": ["물자획득"]
-    },
-    "SignInEventInPopup": {
-        "text": ["종료시간"]
-    },
     "BattleQuickFormationModulePage": {
         "text": ["세부", "분류"]
     },
@@ -1270,6 +1261,15 @@
     "SpecialAccessActivitiesConfirm": {
         "text": ["수령", "하기"],
         "postDelay": 500
+    },
+    "SignInEventEnter": {
+        "text": ["출석", "로그인"]
+    },
+    "SignInEventInPopup": {
+        "text": ["종료시간"]
+    },
+    "SignInEventEarnRewards": {
+        "text": ["물자획득"]
     },
     "NoFriends": {
         "text": ["등록된", "없습니다"]

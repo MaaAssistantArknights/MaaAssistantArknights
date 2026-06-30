@@ -1,13 +1,4 @@
 {
-    "SignInEventEnter": {
-        "text": ["スタンプ"]
-    },
-    "SignInEventEarnRewards": {
-        "text": ["物資獲得", "物資", "獲得"]
-    },
-    "SignInEventInPopup": {
-        "text": ["終了時間"]
-    },
     "BattleQuickFormationModulePage": {
         "text": ["職分"]
     },
@@ -1189,6 +1180,15 @@
     },
     "SpecialAccessActivitiesConfirm": {
         "text": ["受け取る"]
+    },
+    "SignInEventEnter": {
+        "text": ["スタンプ"]
+    },
+    "SignInEventInPopup": {
+        "text": ["終了時間"]
+    },
+    "SignInEventEarnRewards": {
+        "text": ["物資獲得", "物資", "獲得"]
     },
     "NoFriends": {
         "text": ["戦友があリませれ"]
