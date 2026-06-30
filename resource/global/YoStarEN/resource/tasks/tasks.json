@@ -1,12 +1,12 @@
 {
     "SignInEventEnter": {
-        "text": ["Sign-in"]
-    },
-    "SignInEventEarnRewards": {
-        "text": ["Obtained", "Received"]
+        "text": ["Sign-In"]
     },
     "SignInEventInPopup": {
-        "text": ["End Time", "Ends"]
+        "text": ["Ends"]
+    },
+    "SignInEventEarnRewards": {
+        "text": ["Resource", "Gained"]
     },
     "BattleQuickFormationModulePage": {
         "text": ["Branch"]
