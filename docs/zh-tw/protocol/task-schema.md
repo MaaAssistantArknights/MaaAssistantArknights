@@ -154,6 +154,12 @@ icon: material-symbols:task
         "isAscii": false,                   // 選填，要辨識的文字內容是否為 ASCII 碼字元
                                             // 不填寫預設為 false
 
+        "orderBy": "None",                  // 選填，多個匹配時的結果排序方式（不填預設繼承 baseTask，無 base 則不重排、按辨識順序）
+                                            //      - None:         不重排（按辨識順序），可顯式寫來覆蓋 base 已設的排序
+                                            //      - Horizontal:   行優先（行內從左到右）
+                                            //      - Vertical:     列優先（列內從上到下）
+                                            //      - Score:        按分數從高到低
+
         "withoutDet": false,                // 選填，是否不使用檢測模型
                                             // 不填寫預設為 false
 

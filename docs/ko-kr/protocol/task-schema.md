@@ -153,6 +153,12 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
         "isAscii": false,                   // 선택 사항, 인식 대상이 ASCII 문자인지 여부
                                             // 기본값 false
 
+        "orderBy": "None",                  // 선택 사항, 여러 개가 매칭될 때 결과 정렬 방식 (생략 시 baseTask 상속, base가 없으면 정렬 안 함·인식 순서)
+                                            //      - None:         정렬 안 함(인식 순서). base에 설정된 정렬을 덮어쓰려면 명시적으로 지정
+                                            //      - Horizontal:   행 우선(행 내에서 왼쪽→오른쪽)
+                                            //      - Vertical:     열 우선(열 내에서 위→아래)
+                                            //      - Score:        점수 높은 순
+
         "withoutDet": false,                // 선택 사항, 디텍션 모델 미사용 여부
                                             // 기본값 false
 
