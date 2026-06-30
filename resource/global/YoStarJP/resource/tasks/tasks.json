@@ -3,7 +3,7 @@
         "text": ["スタンプ"]
     },
     "SignInEventEarnRewards": {
-        "text": ["受け取る", "受取"]
+        "text": ["物資獲得", "物資", "獲得"]
     },
     "SignInEventInPopup": {
         "text": ["終了時間"]
