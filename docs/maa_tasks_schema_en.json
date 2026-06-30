@@ -340,8 +340,9 @@
                 },
                 "orderBy": {
                     "type": "string",
-                    "enum": ["Horizontal", "Vertical", "Score"],
-                    "description": "Optional, sorting method for results when there are multiple matches (refer to MaaFramework order_by):\nHorizontal: row-major (left-to-right within a row); Vertical: column-major (top-to-bottom within a column); Score: by score from high to low.\nIf omitted, results keep the recognition order without reordering. This is only effective when algorithm is OcrDetect."
+                    "enum": ["None", "Horizontal", "Vertical", "Score"],
+                    "default": "None",
+                    "description": "Optional, sorting method for results when there are multiple matches (refer to MaaFramework order_by):\nNone: keep recognition order (no reorder); Horizontal: row-major (left-to-right within a row); Vertical: column-major (top-to-bottom within a column); Score: by score from high to low.\nIf omitted, inherits the baseTask's setting (None when there is no base); to override a base's ordering back to no-reorder, set None explicitly. This is only effective when algorithm is OcrDetect."
                 }
             },
             "required": ["algorithm", "text"],

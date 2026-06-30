@@ -794,6 +794,10 @@ asst::TaskPtr asst::TaskData::generate_ocr_task_info(
     if (order_by_str.empty()) {
         ocr_task_info_ptr->order_by = default_ptr->order_by;
     }
+    else if (order_by_str == "None") {
+        // 显式写 None = 不重排（按识别顺序）；省略是继承 base，显式 None 才能把 base 已设的排序覆盖回来
+        ocr_task_info_ptr->order_by = ResultOrderBy::None;
+    }
     else if (order_by_str == "Horizontal") {
         ocr_task_info_ptr->order_by = ResultOrderBy::Horizontal;
     }
