@@ -346,6 +346,12 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         }
     }
 
+    public bool CustomInfrastAutoAdvancePlanIndex
+    {
+        get => GetTaskConfig<InfrastTask>().AutoAdvancePlanIndex;
+        set => SetTaskConfig<InfrastTask>(t => t.AutoAdvancePlanIndex == value, t => t.AutoAdvancePlanIndex = value);
+    }
+
     private readonly GenericCombinedData<int> _defaultItem = new() { Display = LocalizationHelper.GetStringFormat("CustomInfrastTimeSchedule", string.Empty), Value = -1 };
 
     public List<CustomInfrastConfig.Plan> CustomInfrastPlanList
@@ -486,7 +492,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     /// <param name="infrast">基建任务</param>
     public static void IncreaseCustomInfrastPlanIndex(InfrastTask? infrast)
     {
-        if (infrast is null || infrast.Mode != Mode.Custom || infrast.PlanSelect == -1 || infrast.PlanSelect >= infrast.InfrastPlan.Count)
+        if (infrast is null || !infrast.AutoAdvancePlanIndex || infrast.Mode != Mode.Custom || infrast.PlanSelect == -1 || infrast.PlanSelect >= infrast.InfrastPlan.Count)
         {
             return;
         }

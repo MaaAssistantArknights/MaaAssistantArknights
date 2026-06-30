@@ -1,0 +1,68 @@
+{
+    "title": "设施预设换班",
+    "plans": [
+        {
+            "name": "切换一",
+            "strategy": "facility_preset",
+            "preset": {
+                "rooms": [
+                    "Control",
+                    "Reception",
+                    "Mfg1",
+                    "Mfg2",
+                    "Trade1",
+                    "Power1",
+                    "Power2",
+                    "Power3",
+                    "Office"
+                ],
+                "rest": true
+            },
+            "drones": {
+                "enable": false,
+                "room": "trading",
+                "index": 1,
+                "order": "pre"
+            }
+        },
+        {
+            "name": "切换二",
+            "strategy": "facility_preset",
+            "preset": {
+                "rooms": [
+                    "Control",
+                    "Reception",
+                    "Mfg1",
+                    "Mfg2",
+                    "Mfg3",
+                    "Mfg4",
+                    "Trade1",
+                    "Trade2",
+                    "Power1",
+                    "Power2",
+                    "Power3"
+                ],
+                "rest": true
+            }
+        },
+        {
+            "name": "切换三",
+            "strategy": "facility_preset",
+            "preset": {
+                "rooms": [
+                    "Mfg3",
+                    "Mfg4",
+                    "Trade2",
+                    "Office"
+                ],
+                "rest": true
+            },
+            "drones": {
+                "enable": false,
+                "room": "trading",
+                "index": 1,
+                "order": "post"
+            }
+        }
+    ]
+}

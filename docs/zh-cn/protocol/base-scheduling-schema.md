@@ -135,8 +135,58 @@ icon: material-symbols:view-quilt-rounded
 }
 ```
 
+## 设施预设换班
+
+若已在游戏内为设施配置好队列预设，可以让 MAA 在「进驻总览」页按设施点击右侧的预设切换按钮。该模式使用与自定义基建相同的 `plans` / `period` JSON 外层结构，但不会进入干员选择页，也不会读取 `rooms` 中的干员名单。
+
+### 推荐入口：队列轮换 · 进驻总览设施点预设
+
+在任务参数中设置 `mode = 20000`，并指定 `rotation_style = "station_preset"`，同时提供内联 `preset` 对象（GUI）或 `filename` + `plan_index`（JSON / API）。多班次请配置多个基建任务，每个任务一个班次。
+
+### 兼容入口：自定义基建 · `strategy: facility_preset`
+
+`mode = 10000` 时，仍可在单个 plan 上设置 `strategy: "facility_preset"`，行为与 `station_preset` 一致，用于兼容已有配置。
+
+```json
+{
+    "title": "设施预设换班",
+    "plans": [
+        {
+            "name": "早班",
+            "period": [["08:00", "09:00"]],
+            "preset": {
+                "rooms": ["Mfg1", "Mfg2", "Trade1", "Office"],
+                "rest": true
+            },
+            "drones": {
+                "enable": true,
+                "room": "manufacture",
+                "index": 1,
+                "order": "pre"
+            }
+        },
+        {
+            "name": "晚班",
+            "period": [["20:00", "21:00"]],
+            "preset": {
+                "rooms": ["Mfg1", "Mfg2", "Trade1", "Office"],
+                "rest": true
+            }
+        }
+    ]
+}
+```
+
+- `preset.rooms`: 需要点击预设切换按钮的设施列表。支持 `Control`、`Reception`、`Mfg1` - `Mfg5`、`Trade1` - `Trade5`、`Power1` - `Power3`、`Office`。游戏内单类上限为制造站 5、贸易站 5、发电站 3，三类编号设施合计最多 9 个。
+- `preset.rest`: 是否在工作区设施切换完成后进入非工作区并点击“干员休整”，可选，默认 `true`。
+- `drones`: 是否在设施预设切换前或后使用无人机，可选，不填写则不使用。字段沿用原有自定义基建无人机配置：`enable` 表示是否启用，`room` 取值范围为 `trading` / `manufacture`，`index` 表示第几个同类设施，`order` 取值范围为 `pre` / `post`。
+- `strategy`（仅 Custom 兼容）: 设置为 `facility_preset` 时启用设施预设换班。`station_preset` 模式下可省略。
+- GUI 中的“宿舍空余位置蹭信赖”“不将已进驻的干员放入宿舍”“源石碎片自动补货”“会客室信息板收取信用”“会客室接收线索”“进行线索交流”“赠送线索”“训练完成后继续尝试专精当前技能”设置仍会生效；四项会客室开关均未启用时，不会进入会客室。仅启用信息板收取信用时，只进入会客室主界面领取，不会切换到线索板页。启用接收线索 / 线索交流 / 赠送线索任一项时，才会进入线索板页执行对应操作。启用源石碎片自动补货时，MAA 会额外进入制造站逐个识别产物并补货，但不会执行逐干员换班。
+
 ## 举例
 
 [243 极限效率，一天三换](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master-v2/resource/custom_infrast/243_layout_3_times_a_day.json)
 
 [153 极限效率，一天三换](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master-v2/resource/custom_infrast/153_layout_3_times_a_day.json)
+
+[设施预设换班，一天三换示例](../../resource/custom_infrast/facility_preset_3_shifts_daily.json)
