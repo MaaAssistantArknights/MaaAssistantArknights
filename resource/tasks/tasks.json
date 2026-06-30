@@ -2075,7 +2075,7 @@
         "algorithm": "MatchTemplate",
         "template": "SignInEventClaimedCheck.png",
         "maskRange": [220, 255],
-        "templThreshold": 0.6,
+        "templThreshold": 0.75,
         "roi": [0, 150, 1280, 400],
         "action": "DoNothing",
         "next": ["SignInEventReturn"]
