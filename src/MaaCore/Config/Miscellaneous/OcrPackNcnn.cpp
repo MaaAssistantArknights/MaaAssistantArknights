@@ -156,7 +156,7 @@ bool OcrPack::check_and_load()
 
 #include <ncnn/net.h>
 
-#include "clipper.h" // vendored from fastdeploy (ClipperLib 6.4.2)，用于 DBNet UnClip 多边形偏移
+#include <polyclipping/clipper.hpp>
 
 namespace
 {
