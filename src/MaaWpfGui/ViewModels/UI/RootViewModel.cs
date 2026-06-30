@@ -97,6 +97,11 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
 
     private static void ToastNotificationCheck()
     {
+        if (!SettingsViewModel.GuiSettings.UseNotify)
+        {
+            return;
+        }
+
         var (isAvailable, detail) = ToastNotification.ToastNotificationCheck();
         if (!isAvailable)
         {
