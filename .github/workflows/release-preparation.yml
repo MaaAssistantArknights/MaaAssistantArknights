@@ -52,7 +52,7 @@ jobs:
         continue-on-error: true
         uses: MistEO/ai-issue-analysis@main
         with:
-          agent: claude
+          agent: ${{ secrets.BOT_AI_AGENT }}
           api-key: ${{ secrets.BOT_AI_API_KEY }}
           api-base-url: ${{ secrets.BOT_AI_API_BASE_URL }}
           model: ${{ secrets.BOT_AI_MODEL }}
