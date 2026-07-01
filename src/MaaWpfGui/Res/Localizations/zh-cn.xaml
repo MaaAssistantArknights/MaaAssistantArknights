@@ -890,6 +890,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="TaskAppend.Skip">{0}: {1} 任务跳过</system:String>
     <system:String x:Key="TaskAppend.Error">{0}: {1} 添加任务失败</system:String>
     <system:String x:Key="AdbReplacementTips">如果任务完全没有反应，请使用 ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣，或触控模式选择 ADB Input（不推荐）。</system:String>
+    <system:String x:Key="LDPlayerMaaTouchWarning">检测到当前使用雷电模拟器 + MaaTouch 触控模式。已知该组合下滑动操作会异常缓慢（滑动实际持续时间远大于设定值），可能导致后续操作在滑动尚未结束时提前执行，从而引发各种异常。建议更换其他触控模式。</system:String>
     <system:String x:Key="Waiting">正在等待当前任务结束……</system:String>
     <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>

@@ -1854,6 +1854,13 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
+        // 雷电模拟器 + maatouch 组合存在滑动异常缓慢的问题（滑动持续时间远大于预期），给出警告
+        if (SettingsViewModel.ConnectSettings.ConnectConfig == "LDPlayer" &&
+            SettingsViewModel.ConnectSettings.TouchMode == "maatouch")
+        {
+            AddLog(LocalizationHelper.GetString("LDPlayerMaaTouchWarning"), UiLogColor.Warning);
+        }
+
         MainTasksCompletedCount = 0;
         ResetTaskItemStatuses();
 
