@@ -164,7 +164,6 @@
         "template": "RelaunchAnchor@RA@DoubleSpeed.png",
         "action": "ClickSelf",
         "roi": [1060, 20, 80, 70],
-        "maskRange": [220, 255],
         "next": ["#self", "RelaunchAnchor@RA@RA1-DeployGatheringBaseWait"]
     },
     "RelaunchAnchor@RA@RA1-DeployGatheringBaseWait": {
@@ -650,7 +649,6 @@
         "algorithm": "MatchTemplate",
         "template": "RelaunchAnchor@RA@DoubleSpeed.png",
         "roi": [1060, 20, 80, 70],
-        "maskRange": [220, 255],
         "action": "ClickSelf",
         "preDelay": 500,
         "next": ["RelaunchAnchor@RA@RA4-ClickStone"]
@@ -1357,7 +1355,6 @@
         "template": "RelaunchAnchor@RA@DoubleSpeed.png",
         "action": "ClickSelf",
         "roi": [1060, 20, 80, 70],
-        "maskRange": [220, 255],
         "next": ["#self", "RelaunchAnchor@RA@RA15-WaitCost"]
     },
     "RelaunchAnchor@RA@RA15-WaitCost": {
