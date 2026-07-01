@@ -152,6 +152,16 @@ jobs:
           cp MaaFramework-temp/bin/*Win32ControlUnit* install/
           cp MaaFramework-temp/bin/*AdbControlUnit* install/
 
+      - name: Upload MaaCore runtime for downstream jobs
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAARuntime-win-${{ matrix.arch }}
+          path: |
+            install/
+            !install/*.h
+            !install/*.pdb
+            !install/msvc-debug/
+
       - name: Generate global.json
         shell: bash
         run: |
@@ -288,6 +298,12 @@ jobs:
       - name: Copy ControlUnits
         run: |
           cp MaaFramework-temp/bin/*AdbControlUnit* install/
+
+      - name: Upload MaaCore runtime for downstream jobs
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAARuntime-linux-${{ matrix.arch }}
+          path: install/
 
       - name: Setup cross compile toolchains for CLI
         uses: ./src/maa-cli/.github/actions/setup
@@ -489,6 +505,12 @@ jobs:
           name: MAACore-macos-${{ matrix.arch }}
           path: "install/*.dylib"
 
+      - name: Upload MaaCore runtime for downstream jobs
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAARuntime-macos-${{ matrix.arch }}
+          path: install/
+
   macOS-GUI:
     name: Build GUI for macOS
     needs: [meta, macOS-Core]
@@ -651,6 +673,139 @@ jobs:
           name: MAA-macos-universal
           path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/MAA.xcarchive/**' }}
 
+  avalonia:
+    name: Build MAAUnified (Avalonia) ${{ matrix.name }}
+    needs: [meta, windows, ubuntu, macOS-Core]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: win-x64
+            os: windows-2025-vs2026
+            rid: win-x64
+            runtime_artifact: MAARuntime-win-x64
+          - name: linux-x64
+            os: ubuntu-latest
+            rid: linux-x64
+            runtime_artifact: MAARuntime-linux-x86_64
+          - name: macos-x64
+            os: macos-latest
+            rid: osx-x64
+            runtime_artifact: MAARuntime-macos-x86_64
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          show-progress: false
+
+      - name: Fetch required submodules
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MAAUnified
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore app
+        run: dotnet restore src/MAAUnified/App/MAAUnified.App.csproj
+
+      - name: Restore tests
+        if: matrix.name != 'macos-x64'
+        run: dotnet restore src/MAAUnified/Tests/MAAUnified.Tests.csproj
+
+      - name: Run Linux baseline consistency gate
+        if: matrix.name == 'linux-x64'
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
+          --results-directory TestResults/${{ matrix.name }}
+          --logger "trx;LogFileName=baseline-consistency.trx"
+          --filter "FullyQualifiedName~BaselineContractTests|FullyQualifiedName~BaselineCoverageTests|FullyQualifiedName~BaselineRenderSyncTests|FullyQualifiedName~ParityMatrixSyncTests"
+
+      - name: Run Linux full MAAUnified test gate
+        if: matrix.name == 'linux-x64'
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
+          --results-directory TestResults/${{ matrix.name }}
+          --logger "trx;LogFileName=full-maaunified-tests.trx"
+
+      - name: Run Windows platform capability contract gate
+        if: matrix.name == 'win-x64'
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
+          --results-directory TestResults/${{ matrix.name }}
+          --logger "trx;LogFileName=platform-capability-contract.trx"
+          --filter "FullyQualifiedName~PlatformCapabilityContractTests"
+
+      - name: Run Windows native capability smoke gate
+        if: matrix.name == 'win-x64'
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
+          --results-directory TestResults/${{ matrix.name }}
+          --logger "trx;LogFileName=platform-windows-native-smoke.trx"
+          --filter "FullyQualifiedName~PlatformWindowsNativeSmokeTests"
+
+      - name: Upload test result artifacts on failure
+        if: failure() && matrix.name != 'macos-x64'
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAAUnified-TestResults-${{ matrix.name }}
+          path: TestResults/${{ matrix.name }}/*.trx
+          if-no-files-found: ignore
+
+      - name: Download MaaCore runtime
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ matrix.runtime_artifact }}
+          path: install
+
+      - name: Publish MAAUnified app
+        run: dotnet publish src/MAAUnified/App/MAAUnified.App.csproj -c Release -r ${{ matrix.rid }} --self-contained true -o publish
+
+      - name: Merge MaaCore runtime (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Copy-Item install\* publish\ -Recurse -Force
+          if (!(Test-Path "publish\MaaCore.dll")) { throw "MaaCore.dll not found in publish output." }
+          if (!(Test-Path "publish\resource")) { throw "resource directory not found in publish output." }
+
+      - name: Merge MaaCore runtime (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          cp -a install/. publish/
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            test -f publish/libMaaCore.so
+          else
+            test -f publish/libMaaCore.dylib
+          fi
+          test -d publish/resource
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path release -Force | Out-Null
+          $name = "MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
+          Compress-Archive -Path publish\* -DestinationPath "release\$name.zip"
+
+      - name: Package (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          mkdir -p release
+          name="MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
+          tar -czf "release/${name}.tar.gz" -C publish .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAAUnified-${{ matrix.name }}
+          path: release/*
+
   release:
     name: Publish Release
     if: startsWith(github.ref, 'refs/tags/v')
@@ -666,6 +821,8 @@ jobs:
         run: |
           mv -vf assets/changelog/* .
           rm -rf assets/MAACore-macos-*
+          rm -rf assets/MAARuntime-*
+          rm -rf assets/MAAUnified-*
           cd assets
           # find . -type f | xargs mv -fvt .
           find . -type f | while read f; do mv -fvt . $f; done
