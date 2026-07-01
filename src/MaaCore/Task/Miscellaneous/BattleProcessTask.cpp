@@ -46,6 +46,8 @@ bool asst::BattleProcessTask::_run()
         return false;
     }
 
+    update_cost_regeneration(ctrler()->get_image());
+
     to_group();
 
     size_t action_size = get_combat_data().actions.size();
@@ -353,6 +355,8 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
                                       { "target", action.name },
                                       { "doc", action.doc },
                                       { "doc_color", action.doc_color },
+                                      { "cost_regenerated", m_cost_regenerated },
+                                      { "cost_regeneration", m_cost_regeneration },
                                       { "elapsed_time", elapsed_time() } };
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
@@ -365,12 +369,14 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             image_prev = cv::Mat();
             image = ctrler()->get_image();
             check_in_battle(image);
+            update_cost_regeneration(image);
         }
     };
     auto do_strategy_and_update_image = [&]() {
         do_strategic_action(image);
         image_prev = std::move(image);
         image = ctrler()->get_image();
+        update_cost_regeneration(image);
     };
 
     if (action.cost_changes != 0) {
@@ -438,6 +444,27 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         }
     }
 
+    // 等待费用回复
+    if (action.cost_regenerated > 0) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            if (m_cost_regenerated >= action.cost_regenerated) {
+                break;
+            }
+            do_strategy_and_update_image();
+        }
+    }
+
+    if (action.cost_regeneration > 0) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            if (m_cost_regeneration >= action.cost_regeneration) {
+                break;
+            }
+            do_strategy_and_update_image();
+        }
+    }
+
     // 等待全局计时器
     if (action.elapsed_time > 0) {
         if (m_stopwatch_enabled) {
@@ -499,6 +526,7 @@ void asst::BattleProcessTask::sleep_and_do_strategy(unsigned millisecond)
 
     cv::Mat image = ctrler()->get_image();
     while (!need_exit() && check_in_battle(image) && std::chrono::steady_clock::now() - start < delay) {
+        update_cost_regeneration(image);
         do_strategic_action(image);
         std::this_thread::yield();
 

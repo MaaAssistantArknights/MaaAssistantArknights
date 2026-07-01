@@ -55,6 +55,8 @@ void asst::BattleHelper::clear()
     m_in_battle = false;
     m_kills = 0;
     m_total_kills = 0;
+    m_cost_regenerated = 0;
+    m_cost_regeneration = 0;
     m_stopwatch_enabled = false;
     m_cur_deployment_opers.clear();
     m_battlefield_opers.clear();
@@ -399,6 +401,25 @@ bool asst::BattleHelper::update_cost(const cv::Mat& image, const cv::Mat& image_
     else if (result_opt->costs.status == BattlefieldMatcher::MatchStatus::Success) {
         m_cost = result_opt->costs.value;
     }
+    return true;
+}
+
+bool asst::BattleHelper::update_cost_regeneration(const cv::Mat& reusable)
+{
+    static const MatchTaskPtr cost_bar_task_ptr = Task.get<MatchTaskInfo>("BattleCostRegenerationBar");
+    static const int cost_bar_wrap_start_threshold = cost_bar_task_ptr->special_params[0];
+    static const int cost_bar_wrap_end_threshold = cost_bar_task_ptr->special_params[1];
+
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    BattlefieldMatcher analyzer(image);
+    analyzer.set_object_of_interest({ .cost_regeneration = true });
+    auto result_opt = analyzer.analyze();
+    int cost_regeneration = result_opt->cost_regeneration.value;
+    if (m_cost_regeneration >= cost_bar_wrap_start_threshold && cost_regeneration <= cost_bar_wrap_end_threshold) {
+        ++m_cost_regenerated;
+    }
+    m_cost_regeneration = cost_regeneration;
+
     return true;
 }
 

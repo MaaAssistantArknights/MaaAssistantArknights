@@ -14,6 +14,7 @@ public:
         bool deployment = false;
         bool kills = false;
         bool costs = false;
+        bool cost_regeneration = false;
         // bool in_detail = false;
         bool speed_button = false;
         bool oper_cost = false;
@@ -39,6 +40,7 @@ public:
         std::vector<battle::DeploymentOper> deployment;
         MatchResult<std::pair<int, int>> kills; // kills / total_kills
         MatchResult<int> costs;
+        MatchResult<int> cost_regeneration;
 
         // bool in_detail = false;
         bool speed_button = false;
@@ -74,6 +76,7 @@ protected:
     MatchResult<int> costs_analyze() const; // 识别费用
     // 识别持有费用是否命中缓存
     bool hit_costs_cache() const;
+    MatchResult<int> cost_regeneration_analyze() const; // 识别费用回复进度条
     bool in_detail_analyze() const;        // 识别是否在详情页
     bool speed_button_analyze() const;     // 识别是否有加速按钮（在详情页就没有）
 
