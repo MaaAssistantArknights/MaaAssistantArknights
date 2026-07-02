@@ -43,12 +43,6 @@ public class GUI : INotifyPropertyChanged
 
     public bool SaveWindowPlacement { get; set; } = true;
 
-    public bool UseAlternateStage { get; set; } = false;
-
-    public bool HideUnavailableStage { get; set; } = true;
-
-    public bool CustomStageCode { get; set; } = false;
-
     public InverseClearType InverseClearMode { get; set; } = InverseClearType.Clear;
 
     public string WindowTitlePrefix { get; set; } = string.Empty;
