@@ -224,7 +224,7 @@ int asst::AdbController::get_mumu_index(const std::string& address)
         // 设 k = (port - 16384) / 4，则 k = i * 8 + j
         // index = j * 32 + i = (k & 7) * 32 + (k >> 3) = ((k & 7) << 5) + (k >> 3)
         int k = (port - 16384) / 4;
-        mumu_index = ((k & 7) << 5) | (k >> 3); 
+        mumu_index = ((k & 7) << 5) | (k >> 3);
     }
     else if (port == 7555) {
         mumu_index = 0;
@@ -1231,8 +1231,7 @@ void asst::AdbController::check_fps()
     // 每 1 分钟检测一次
     constexpr auto FpsCheckInterval = std::chrono::minutes(1);
     auto now = std::chrono::steady_clock::now();
-    if (m_last_fps_check_time.time_since_epoch().count() != 0 &&
-        now - m_last_fps_check_time < FpsCheckInterval) {
+    if (m_last_fps_check_time.time_since_epoch().count() != 0 && now - m_last_fps_check_time < FpsCheckInterval) {
         return;
     }
     m_last_fps_check_time = now;

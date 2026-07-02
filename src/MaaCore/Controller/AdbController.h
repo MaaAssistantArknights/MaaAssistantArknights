@@ -219,9 +219,9 @@ protected:
     bool m_server_started = false;
     bool m_inited = false;
     bool m_kill_adb_on_exit = false;
-    long long m_last_command_duration = 0;  // 上次命令执行用时
-    std::deque<long long> m_screencap_cost; // 截图用时
-    int m_screencap_times = 0;              // 截图次数
+    long long m_last_command_duration = 0;                       // 上次命令执行用时
+    std::deque<long long> m_screencap_cost;                      // 截图用时
+    int m_screencap_times = 0;                                   // 截图次数
     std::chrono::steady_clock::time_point m_last_fps_check_time; // 上次帧率检测时间
 
 #if ASST_WITH_EMULATOR_EXTRAS
