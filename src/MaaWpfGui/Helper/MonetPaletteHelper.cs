@@ -121,6 +121,31 @@ public static class MonetPaletteHelper
     /// </summary>
     private const double DarkBgL = 0.10;
 
+    // 背景体系角色亮度（深色模式）
+    private const double DarkSecondaryRegionL = 0.15;
+    private const double DarkMouseOverL = 0.20;
+    private const double DarkBorderL = 0.25;
+
+    // 背景体系角色亮度（浅色模式）
+    private const double LightSecondaryRegionL = 0.90;
+    private const double LightMouseOverL = 0.80;
+    private const double LightBorderL = 0.80;
+
+    // 主色系辅助角色亮度
+    private const double DarkPrimaryVariantDelta = 0.15; // DarkPrimary 比 Primary 暗多少
+    private const double DarkLightPrimaryL = 0.10; // 深色模式 LightPrimary 亮度
+    private const double LightLightPrimaryL = 0.85; // 浅色模式 LightPrimary 亮度
+
+    // 文字色亮度物理边界
+    private const double TextMaxL = 0.95;
+    private const double TextMinL = 0.05;
+    private const double SecondaryTextMaxL = 0.85;
+    private const double SecondaryTextMinL = 0.15;
+
+    // 主色亮度物理边界
+    private const double PrimaryMaxL = 0.90;
+    private const double PrimaryMinL = 0.10;
+
     /// <summary>
     /// 背景图对文字层的有效穿透率。
     /// <para>
@@ -136,6 +161,25 @@ public static class MonetPaletteHelper
     private const double BgImageVisibility = 0.561;
 
     /// <summary>
+    /// 计算有效背景亮度。
+    /// 背景图透过两层 25% 蒙版影响文字层，穿透率 = <see cref="BgImageVisibility"/>。
+    /// <para>
+    /// 有效背景 = Region×(1 - 穿透率×α) + BaseColor×(穿透率×α)。
+    /// </para>
+    /// </summary>
+    /// <param name="baseL">提取色的 HSL 亮度。</param>
+    /// <param name="isDark">当前是否为深色模式。</param>
+    /// <param name="backgroundOpacity">背景图不透明度 (0~100)。</param>
+    /// <returns>文字层实际感受到的背景亮度。</returns>
+    private static double ComputeEffectiveBgL(double baseL, bool isDark, int backgroundOpacity)
+    {
+        var bgAlpha = Math.Clamp(backgroundOpacity / 100.0, 0.0, 1.0);
+        var regionBaseL = isDark ? DarkBgL : LightBgL;
+        var bgInfluence = BgImageVisibility * bgAlpha;
+        return (regionBaseL * (1 - bgInfluence)) + (baseL * bgInfluence);
+    }
+
+    /// <summary>
     /// 根据基础主色生成调色板。
     /// </summary>
     /// <param name="baseColor">提取或用户选定的主色。</param>
@@ -149,34 +193,26 @@ public static class MonetPaletteHelper
         // 5 组色调：主色饱和度固定为 0.36（统一降饱和到 Material You 风格）
         var primarySat = PrimarySaturation;
 
-        // ── 计算有效背景亮度 ──
-        // 背景图透过两层 25% 蒙版影响文字层，穿透率 = BgImageVisibility (0.561)。
-        // 有效背景 = Region×(1 - 穿透率×α) + BaseColor×(穿透率×α)
-        var bgAlpha = Math.Clamp(backgroundOpacity / 100.0, 0.0, 1.0);
-        var regionBaseL = isDark ? DarkBgL : LightBgL;
-        var bgInfluence = BgImageVisibility * bgAlpha;
-        var effectiveBgL = (regionBaseL * (1 - bgInfluence)) + (baseL * bgInfluence);
+        // 计算有效背景亮度（背景图透过两层 25% 蒙版影响文字层）
+        var effectiveBgL = ComputeEffectiveBgL(baseL, isDark, backgroundOpacity);
 
         // ── 从背景亮度推导各角色亮度 ──
-        // 文字与背景保持 TextContrastDistance (0.80) 距离
         var textL = isDark
-            ? Math.Min(effectiveBgL + TextContrastDistance, 0.95)
-            : Math.Max(effectiveBgL - TextContrastDistance, 0.05);
+            ? Math.Min(effectiveBgL + TextContrastDistance, TextMaxL)
+            : Math.Max(effectiveBgL - TextContrastDistance, TextMinL);
         var secondaryTextL = isDark
-            ? Math.Min(effectiveBgL + (TextContrastDistance * 0.7), 0.85)
-            : Math.Max(effectiveBgL - (TextContrastDistance * 0.7), 0.15);
+            ? Math.Min(effectiveBgL + (TextContrastDistance * 0.7), SecondaryTextMaxL)
+            : Math.Max(effectiveBgL - (TextContrastDistance * 0.7), SecondaryTextMinL);
 
-        // 主色亮度：与有效背景保持 PrimaryContrastDistance 距离
-        // 深色模式取亮侧，浅色模式取暗侧，与文字使用同一套对比逻辑
         var primaryL = isDark
-            ? Math.Min(effectiveBgL + PrimaryContrastDistance, 0.90)
-            : Math.Max(effectiveBgL - PrimaryContrastDistance, 0.10);
+            ? Math.Min(effectiveBgL + PrimaryContrastDistance, PrimaryMaxL)
+            : Math.Max(effectiveBgL - PrimaryContrastDistance, PrimaryMinL);
 
-        // 背景体系亮度：Region 固定，SecondaryRegion/MouseOver 稍亮（深色）/稍暗（浅色）
-        var regionL = regionBaseL;
-        var secondaryRegionL = isDark ? 0.15 : 0.90;
-        var mouseOverL = isDark ? 0.20 : 0.80;
-        var borderL = isDark ? 0.25 : 0.80;
+        // 背景体系亮度
+        var regionL = isDark ? DarkBgL : LightBgL;
+        var secondaryRegionL = isDark ? DarkSecondaryRegionL : LightSecondaryRegionL;
+        var mouseOverL = isDark ? DarkMouseOverL : LightMouseOverL;
+        var borderL = isDark ? DarkBorderL : LightBorderL;
 
         // 文字色饱和度：按原始色饱和度等比缩放，保留微弱色调
         var textSat = Math.Clamp(sat * TextSatRatio, TextSatMin, TextSatMax);
@@ -188,8 +224,8 @@ public static class MonetPaletteHelper
         var border = HslToRgb(hue, BackgroundSaturation, borderL);
 
         var primary = HslToRgb(hue, primarySat, primaryL);
-        var darkPrimary = HslToRgb(hue, primarySat, Math.Max(primaryL - 0.15, 0.05));
-        var lightPrimary = HslToRgb(hue, primarySat, isDark ? 0.10 : 0.85);
+        var darkPrimary = HslToRgb(hue, primarySat, Math.Max(primaryL - DarkPrimaryVariantDelta, PrimaryMinL));
+        var lightPrimary = HslToRgb(hue, primarySat, isDark ? DarkLightPrimaryL : LightLightPrimaryL);
 
         var primaryText = HslToRgb(hue, textSat, textL);
         var traceLog = HslToRgb(hue, Math.Clamp(sat * TextSatRatio * 1.25, TextSatMin * 1.5, TextSatMax * 1.5), secondaryTextL);
