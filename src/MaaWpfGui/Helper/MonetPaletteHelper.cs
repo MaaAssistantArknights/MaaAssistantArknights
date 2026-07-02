@@ -95,7 +95,9 @@ public static class MonetPaletteHelper
     private const double MouseOverLightL = 0.70;
 
     /// <summary>
-    /// RegionBrushOpacity25 中 RegionBrush 的占比（75%），用于计算有效背景明度。
+    /// RegionBrushOpacity25 中底层（混合底）的占比（75%）。
+    /// Opacity25 覆盖层为 25% RegionBrush + 75% 混合底，
+    /// 此常量即混合底在 effectiveRegionL 公式中的权重。
     /// </summary>
     private const double Alpha25Factor = 0.75;
 

@@ -28,6 +28,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
+using Serilog;
 using Stylet;
 using MonetModeType = MaaWpfGui.Configuration.Global.GUI.MonetModeType;
 
@@ -35,6 +36,13 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
 public class BackgroundSettingsUserControlModel : PropertyChangedBase
 {
+    private static readonly ILogger _logger = Log.ForContext<BackgroundSettingsUserControlModel>();
+
+    /// <summary>
+    /// 莫奈取色更新的防抖延迟（毫秒）。
+    /// </summary>
+    private const int MonetDebounceMs = 150;
+
     static BackgroundSettingsUserControlModel()
     {
         Instance = new();
@@ -257,27 +265,21 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     public void SelectMonetColor()
     {
         var picker = SingleOpenHelper.CreateControl<ColorPicker>();
-        var window = new PopupWindow {
-            PopupElement = picker,
-            Title = LocalizationHelper.GetString("BackgroundMonetSelectColor"),
-        };
-
-        window.Loaded += (_, _) => Helper.WindowManager.MoveWindowToRootCenter(window);
 
         // 初始化 ColorPicker 为当前颜色
         var current = ThemeHelper.String2Color(BackgroundMonetCustomColor);
         picker.SelectedBrush = new SolidColorBrush(current);
 
+        var dialog = Dialog.Show(picker, nameof(Views.UI.RootView));
+
         picker.Confirmed += (_, e) => {
             var color = e.Info;
             BackgroundMonetCustomColor = ThemeHelper.Color2HexString(color);
             UpdateMonet();
-            window.Close();
+            dialog.Close();
         };
 
-        picker.Canceled += (_, _) => window.Close();
-
-        window.Show();
+        picker.Canceled += (_, _) => dialog.Close();
     }
 
     /// <summary>
@@ -308,29 +310,51 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
 
     /// <summary>
     /// 异步执行莫奈取色，支持取消（用于防抖）。
+    /// 所有异常均在方法内部捕获并记录，避免 fire-and-forget 调用产生未观察异常。
     /// </summary>
     /// <param name="cancellationToken">取消令牌。</param>
     private async Task UpdateMonetAsync(CancellationToken cancellationToken)
     {
-        if (!BackgroundMonetEnabled)
+        // 防抖延迟：等待 150ms，期间若被取消则直接返回
+        try
         {
-            ThemeHelper.RevertMonetPalette();
-            NotifyOfPropertyChange(nameof(CurrentMonetColor));
+            await Task.Delay(MonetDebounceMs, cancellationToken).ConfigureAwait(true);
+        }
+        catch (OperationCanceledException)
+        {
             return;
         }
 
-        if (BackgroundMonetMode == MonetModeType.Custom)
+        try
         {
-            // 自定义模式：直接用用户选定的颜色，计算放后台线程
-            var color = ThemeHelper.String2Color(BackgroundMonetCustomColor);
-            await ThemeHelper.ApplyMonetPaletteAsync(color, BackgroundOpacity);
-            cancellationToken.ThrowIfCancellationRequested();
-            NotifyOfPropertyChange(nameof(CurrentMonetColor));
+            if (!BackgroundMonetEnabled)
+            {
+                ThemeHelper.RevertMonetPalette();
+                NotifyOfPropertyChange(nameof(CurrentMonetColor));
+                return;
+            }
+
+            if (BackgroundMonetMode == MonetModeType.Custom)
+            {
+                // 自定义模式：直接用用户选定的颜色，计算放后台线程
+                var color = ThemeHelper.String2Color(BackgroundMonetCustomColor);
+                await ThemeHelper.ApplyMonetPaletteAsync(color, BackgroundOpacity, cancellationToken);
+                NotifyOfPropertyChange(nameof(CurrentMonetColor));
+            }
+            else
+            {
+                // 自动模式：从背景图提取主色（本身就是异步的）
+                await UpdateMonetAutoAsync(cancellationToken);
+            }
         }
-        else
+        catch (OperationCanceledException)
         {
-            // 自动模式：从背景图提取主色（本身就是异步的）
-            await UpdateMonetAutoAsync(cancellationToken);
+            // 正常的防抖取消，静默忽略
+        }
+        catch (Exception ex)
+        {
+            // 兜底：fire-and-forget 调用中的异常不能逃逸，记录后忽略
+            _logger.Error(ex, "Failed to update Monet palette.");
         }
     }
 
@@ -350,14 +374,13 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        var rawColor = await ColorExtractorHelper.ExtractDominantColorAsync(image);
+        var rawColor = await ColorExtractorHelper.ExtractDominantColorAsync(image).ConfigureAwait(true);
         cancellationToken.ThrowIfCancellationRequested();
 
         // 直接使用提取到的原始主色生成调色板
         _lastExtractedColor = rawColor;
 
-        await ThemeHelper.ApplyMonetPaletteAsync(rawColor, BackgroundOpacity);
-        cancellationToken.ThrowIfCancellationRequested();
+        await ThemeHelper.ApplyMonetPaletteAsync(rawColor, BackgroundOpacity, cancellationToken);
 
         NotifyOfPropertyChange(nameof(CurrentMonetColor));
     }

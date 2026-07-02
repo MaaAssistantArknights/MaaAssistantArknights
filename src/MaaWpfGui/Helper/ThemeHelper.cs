@@ -12,6 +12,7 @@
 // </copyright>
 
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -139,15 +140,16 @@ public static class ThemeHelper
     /// </summary>
     /// <param name="baseColor">提取或用户选定的主色。</param>
     /// <param name="backgroundOpacity">背景图不透明度 (0~100)，影响文字色的明度选取。</param>
+    /// <param name="cancellationToken">取消令牌，用于防抖时取消过期的调色板计算。</param>
     /// <returns>表示异步操作的任务。</returns>
-    public static async Task ApplyMonetPaletteAsync(Color baseColor, int backgroundOpacity = 50)
+    public static async Task ApplyMonetPaletteAsync(Color baseColor, int backgroundOpacity = 50, CancellationToken cancellationToken = default)
     {
         var isDark = IsDarkMode();
         _monetBaseColor = baseColor;
         _monetBackgroundOpacity = backgroundOpacity;
 
         // 在后台线程计算调色板
-        var palette = await Task.Run(() => MonetPaletteHelper.Generate(baseColor, isDark, backgroundOpacity))
+        var palette = await Task.Run(() => MonetPaletteHelper.Generate(baseColor, isDark, backgroundOpacity), cancellationToken)
             .ConfigureAwait(true);
 
         // 在 UI 线程写入资源
