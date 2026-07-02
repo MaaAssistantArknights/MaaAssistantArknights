@@ -279,7 +279,7 @@ public class StageManager
     {
         return new()
         {
-            // 「当前/上次」关卡导航
+            // ｢当前/上次｣ 关卡导航
             { string.Empty, new() { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty } },
 
             // 周一和周日的关卡提示

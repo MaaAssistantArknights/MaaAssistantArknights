@@ -788,6 +788,14 @@ public class AsstProxy
                 _connectedAddress = details["details"]!["address"]!.ToString();
                 SettingsViewModel.ConnectSettings.ConnectAddress = _connectedAddress;
                 _lastConnectionError = string.Empty;
+
+                // 检测 MuMu 后台保活是否开启
+                if (SettingsViewModel.ConnectSettings.ConnectConfig == "MuMuEmulator12" &&
+                    EmulatorHelper.CheckMuMuKeepAlive())
+                {
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuEmulator12KeepAliveOn"), UiLogColor.Warning);
+                }
+
                 break;
 
             case "UnsupportedResolution":
