@@ -793,6 +793,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="ExitArknights">Exit Arknights</system:String>
     <system:String x:Key="ExitSelf">Exit MAA</system:String>
     <system:String x:Key="ExitEmulator">Exit Emulator</system:String>
+    <system:String x:Key="ExitPCClient">Exit PC Client</system:String>
     <system:String x:Key="Hibernate">Hibernate</system:String>
     <system:String x:Key="HibernateTip">You need to enable the hibernate feature in Windows power options, otherwise this feature will be invalid.</system:String>
     <system:String x:Key="Sleep">Sleep</system:String>
