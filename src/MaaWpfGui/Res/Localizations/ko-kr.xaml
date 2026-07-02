@@ -24,6 +24,12 @@
     <system:String x:Key="BackgroundImageStretchModeFill">늘려 채움</system:String>
     <system:String x:Key="BackgroundImageStretchModeUniform">비율 유지 (맞춤)</system:String>
     <system:String x:Key="BackgroundImageStretchModeUniformToFill">비율 유지 (자르기)</system:String>
+    <system:String x:Key="BackgroundMonet">모네 색상</system:String>
+    <system:String x:Key="BackgroundMonetMode">색상 모드</system:String>
+    <system:String x:Key="BackgroundMonetAuto">자동 추출</system:String>
+    <system:String x:Key="BackgroundMonetCustom">사용자 지정 색상</system:String>
+    <system:String x:Key="BackgroundMonetSelectColor">색상 선택</system:String>
+    <system:String x:Key="BackgroundMonetAutoTip">배경 이미지에서 주요 색상을 추출하여 테마 색상을 생성합니다</system:String>
     <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">업데이트</system:String>
     <system:String x:Key="AchievementSettings">도전과제</system:String>

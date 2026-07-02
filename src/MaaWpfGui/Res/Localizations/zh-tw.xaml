@@ -23,6 +23,12 @@
     <system:String x:Key="BackgroundImageStretchModeFill">非等比例填滿</system:String>
     <system:String x:Key="BackgroundImageStretchModeUniform">等比例縮放</system:String>
     <system:String x:Key="BackgroundImageStretchModeUniformToFill">等比例填滿（裁剪）</system:String>
+    <system:String x:Key="BackgroundMonet">莫奈取色</system:String>
+    <system:String x:Key="BackgroundMonetMode">取色模式</system:String>
+    <system:String x:Key="BackgroundMonetAuto">自動取色</system:String>
+    <system:String x:Key="BackgroundMonetCustom">自訂顏色</system:String>
+    <system:String x:Key="BackgroundMonetSelectColor">選擇顏色</system:String>
+    <system:String x:Key="BackgroundMonetAutoTip">將從背景圖自動提取主色產生主題配色</system:String>
     <system:String x:Key="UiTheme">介面主題</system:String>
     <system:String x:Key="HotKeySettings">熱鍵設定</system:String>
     <system:String x:Key="UpdateSettings">更新設定</system:String>
