@@ -10,7 +10,7 @@
     <!--  文字颜色  -->
     <SolidColorBrush x:Key="PrimaryTextBrush" Color="#E6E6E6" />
     <SolidColorBrush x:Key="ThirdlyTextBrush" Color="#7FE6E6E6" />
-    <!--  文字颜色  -->
+    <!--  勾选框勾的颜色  -->
     <SolidColorBrush x:Key="TextIconBrush" Color="#E6E6E6" />
 
     <!--  背景颜色  -->
