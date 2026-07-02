@@ -12,12 +12,12 @@
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type settings_vms:BackgroundSettingsUserControlModel}}"
-    d:DesignHeight="650"
+    d:DesignHeight="350"
     d:DesignWidth="550"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <StackPanel Margin="10">
+        <StackPanel Margin="5">
             <controls:TextBlock
                 Margin="0,0,0,5"
                 HorizontalAlignment="Center"
@@ -40,7 +40,7 @@
             </Grid>
         </StackPanel>
         <StackPanel
-            Margin="10"
+            Margin="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <controls:TextBlock
@@ -60,7 +60,7 @@
             </hc:PreviewSlider>
         </StackPanel>
         <StackPanel
-            Margin="10"
+            Margin="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <controls:TextBlock
@@ -80,7 +80,7 @@
             </hc:PreviewSlider>
         </StackPanel>
         <StackPanel
-            Margin="10"
+            Margin="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <controls:TextBlock
@@ -97,18 +97,14 @@
                 SelectedValue="{Binding BackgroundImageStretchMode}"
                 SelectedValuePath="Value" />
         </StackPanel>
-
-        <!--  莫奈取色  -->
-        <hc:Divider Margin="10,5" Content="{DynamicResource BackgroundMonet}" />
-        <StackPanel Margin="10" HorizontalAlignment="Center">
+        <StackPanel HorizontalAlignment="Center">
             <CheckBox
-                Margin="0,0,0,10"
+                Margin="5"
                 HorizontalAlignment="Center"
                 Content="{DynamicResource BackgroundMonet}"
                 IsChecked="{Binding BackgroundMonetEnabled}" />
-
             <StackPanel
-                Margin="0,0,0,0"
+                Margin="5"
                 IsEnabled="{Binding BackgroundMonetEnabled}"
                 Visibility="{c:Binding BackgroundMonetEnabled}">
                 <!--  取色模式选择  -->
@@ -118,7 +114,7 @@
                     Text="{DynamicResource BackgroundMonetMode}" />
                 <hc:ComboBox
                     Width="200"
-                    Margin="0,0,0,10"
+                    Margin="0,0,0,5"
                     HorizontalContentAlignment="Stretch"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding BackgroundMonetModeList}"
@@ -149,7 +145,7 @@
                         RadiusY="4"
                         Stroke="{DynamicResource RegionBrushOpacity50}">
                         <Rectangle.Fill>
-                            <SolidColorBrush Color="{Binding CurrentMonetColor}" />
+                            <SolidColorBrush d:Color="{DynamicResource PrimaryColor}" Color="{Binding CurrentMonetColor}" />
                         </Rectangle.Fill>
                     </Rectangle>
                     <Button
