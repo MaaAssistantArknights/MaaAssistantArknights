@@ -789,11 +789,16 @@ public class AsstProxy
                 SettingsViewModel.ConnectSettings.ConnectAddress = _connectedAddress;
                 _lastConnectionError = string.Empty;
 
-                // 检测 MuMu 后台保活是否开启
-                if (SettingsViewModel.ConnectSettings.ConnectConfig == "MuMuEmulator12" &&
-                    EmulatorHelper.CheckMuMuKeepAlive())
+                // 检测 MuMu 后台保活是否开启（异步执行，避免阻塞 UI 线程）
+                if (SettingsViewModel.ConnectSettings.ConnectConfig == "MuMuEmulator12")
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuEmulator12KeepAliveOn"), UiLogColor.Warning);
+                    _ = Task.Run(() =>
+                    {
+                        if (EmulatorHelper.CheckMuMuKeepAlive())
+                        {
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuEmulator12KeepAliveOn"), UiLogColor.Warning);
+                        }
+                    });
                 }
 
                 break;

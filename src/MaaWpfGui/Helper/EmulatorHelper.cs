@@ -62,6 +62,17 @@ public class EmulatorHelper
     }
 
     /// <summary>
+    /// 记录无效端口日志并返回 null。
+    /// </summary>
+    /// <param name="port">无效的端口号。</param>
+    /// <returns>始终返回 null。</returns>
+    private static int? InvalidMuMuPort(int port)
+    {
+        _logger.Error("Port {Port} is not valid for MuMu emulator", port);
+        return null;
+    }
+
+    /// <summary>
     /// 将 MuMu 端口号转换为实例索引。
     /// MuMu 端口分配公式：port = 16384 + (index % 32) * 32 + floor(index/32) * 4，
     /// 简化后 index = ((k & 7) << 5) | (k >> 3)，其中 k = (port - 16384) / 4。
@@ -106,7 +117,7 @@ public class EmulatorHelper
                 >= 16384 => MuMuPortToIndex(port),
                 7555 => 0,
                 >= 5555 => (port - 5555) / 2,
-                _ => null,
+                _ => InvalidMuMuPort(port),
             };
         }
 
@@ -612,7 +623,16 @@ public class EmulatorHelper
             using var process = Process.Start(startInfo);
             if (process == null || !process.WaitForExit(5000))
             {
-                _logger.Warning("MuMuManager.exe did not exit within timeout");
+                _logger.Warning("MuMuManager.exe did not exit within timeout, killing it");
+                try
+                {
+                    process?.Kill();
+                }
+                catch (Exception ex)
+                {
+                    _logger.Warning("Failed to kill MuMuManager.exe: {ExMessage}", ex.Message);
+                }
+
                 return false;
             }
 
@@ -624,11 +644,17 @@ public class EmulatorHelper
                 return false;
             }
 
-            // 解析 JSON 输出
+            // 解析 JSON 输出，兼容字符串和布尔两种格式
             using var doc = JsonDocument.Parse(output);
             if (doc.RootElement.TryGetProperty("app_keptlive", out var value))
             {
-                return value.GetString() == "true";
+                return value.ValueKind switch
+                {
+                    JsonValueKind.True => true,
+                    JsonValueKind.False => false,
+                    JsonValueKind.String => string.Equals(value.GetString(), "true", StringComparison.OrdinalIgnoreCase),
+                    _ => false,
+                };
             }
 
             return false;
