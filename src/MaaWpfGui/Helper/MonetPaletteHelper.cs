@@ -21,7 +21,8 @@ namespace MaaWpfGui.Helper;
 /// 根据提取到的主色，通过 HSL 线性计算生成 Material You 风格的主题色板。
 /// <para>
 /// 设计理念：从背景图提取一个主色后，以 5 组「色调（色相+饱和度）」为基准，
-/// 在亮度 0~1 之间实时取色。任意两个需要视觉区分的角色之间亮度差 ≥ ContrastDistance (0.55)。
+/// 在亮度 0~1 之间实时取色。文字与背景之间亮度差 ≥ TextContrastDistance (0.80)，
+/// 主色与背景之间亮度差 ≥ PrimaryContrastDistance (0.40)。
 /// 深色模式与浅色模式只是亮度方向翻转：浅色模式背景亮(L高)、文字暗(L低)；
 /// 深色模式背景暗(L低)、文字亮(L高)。
 /// </para>
@@ -69,7 +70,7 @@ public static class MonetPaletteHelper
     // ── 5 组色调（饱和度）基准 ──
 
     /// <summary>
-    /// 主色系饱和度。提取色的饱和度不足时以此值为下限。
+    /// 主色系固定饱和度，统一降饱和到 Material You 风格。
     /// </summary>
     private const double PrimarySaturation = 0.36;
 
@@ -93,16 +94,6 @@ public static class MonetPaletteHelper
     /// 文字色饱和度下限，保证至少能感知到色调。
     /// </summary>
     private const double TextSatMin = 0.04;
-
-    /// <summary>
-    /// 强调色饱和度（互补色，当前未使用）。
-    /// </summary>
-    private const double AccentSaturation = 0.24;
-
-    /// <summary>
-    /// 强调色色相偏移角度（与主色形成互补对比）。
-    /// </summary>
-    private const double AccentHueShift = 60.0;
 
     // ── 对比距离 ──
 
@@ -153,16 +144,15 @@ public static class MonetPaletteHelper
     /// <returns>资源 key → 颜色的映射。</returns>
     public static Dictionary<string, Color> Generate(Color baseColor, bool isDark, int backgroundOpacity = 50)
     {
-        var (hue, sat, _) = RgbToHsl(baseColor);
+        var (hue, sat, baseL) = RgbToHsl(baseColor);
 
-        // 5 组色调：主色饱和度固定为 0.36（不是取 max，而是统一降饱和到 Material You 风格）
+        // 5 组色调：主色饱和度固定为 0.36（统一降饱和到 Material You 风格）
         var primarySat = PrimarySaturation;
 
         // ── 计算有效背景亮度 ──
         // 背景图透过两层 25% 蒙版影响文字层，穿透率 = BgImageVisibility (0.561)。
         // 有效背景 = Region×(1 - 穿透率×α) + BaseColor×(穿透率×α)
-        var baseL = RgbToHsl(baseColor).L;
-        var bgAlpha = backgroundOpacity / 100.0;
+        var bgAlpha = Math.Clamp(backgroundOpacity / 100.0, 0.0, 1.0);
         var regionBaseL = isDark ? DarkBgL : LightBgL;
         var bgInfluence = BgImageVisibility * bgAlpha;
         var effectiveBgL = (regionBaseL * (1 - bgInfluence)) + (baseL * bgInfluence);
