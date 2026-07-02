@@ -691,7 +691,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
         FeatureExploration(id: AchievementIds.Pioneer2, group: AchievementIds.PioneerGroup, isHidden: true, groupIndex: 2), // 将 MAA 更新至内测版（隐藏）
         FeatureExploration(id: AchievementIds.Pioneer3, group: AchievementIds.PioneerGroup, isHidden: true, groupIndex: 3), // 使用未发布版本的 MAA（隐藏）
 
-        FeatureExploration(id: AchievementIds.MosquitoLeg, target: 5), // 使用「借助战打 OF-1」功能超过 5 次
+        FeatureExploration(id: AchievementIds.MosquitoLeg, target: 5), // 使用 ｢借助战打 OF-1｣ 功能超过 5 次
         FeatureExploration(id: AchievementIds.RealGacha, isHidden: true), // 真正的抽卡
         FeatureExploration(id: AchievementIds.PeekScreen, isHidden: true), // 窥屏
         FeatureExploration(id: AchievementIds.CustomizationMaster, isHidden: true), // 自定义背景
