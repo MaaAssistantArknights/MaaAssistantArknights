@@ -134,7 +134,8 @@
         "text": ["请部署", "罗德岛", "采集基站"],
         "roi": [520, 54, 247, 38],
         "sub": ["RelaunchAnchor@RA@RA1-AlignMap*2"],
-        "next": ["RelaunchAnchor@RA@RA1-DeployGatheringBaseSwipe"]
+        "next": ["RelaunchAnchor@RA@RA1-DeployGatheringBaseSwipe"],
+        "subErrorIgnored": true
     },
     "RelaunchAnchor@RA@RA1-AlignMap": {
         "doc": "步骤 9：JustReturn Swipe，对齐地图",
@@ -142,7 +143,8 @@
         "action": "Swipe",
         "specificRect": [120, 580, 1, 1],
         "rectMove": [1920, 0, 1, 1],
-        "specialParams": [500, 0, 3, 0]
+        "specialParams": [500, 0, 3, 0],
+        "maxTimes": 2
     },
     "RelaunchAnchor@RA@RA1-DeployGatheringBaseSwipe": {
         "doc": "步骤 10：JustReturn Swipe，占位部署采集基站",
@@ -152,6 +154,7 @@
         "rectMove": [955, 300, 1, 1],
         "specialParams": [500, 0, 3, 0],
         "postDelay": 1000,
+        "maxTimes": 5,
         "next": ["RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt", "RelaunchAnchor@RA@RA1-WaitDoubleSpeed"]
     },
     "RelaunchAnchor@RA@RA1-WaitDoubleSpeed": {
@@ -624,20 +627,23 @@
         "baseTask": "RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt",
         "doc": "步骤 9：OCR 等待 <请部署罗德岛采集基站>",
         "sub": ["RelaunchAnchor@RA@RA4-AlignMap*2"],
-        "next": ["RelaunchAnchor@RA@RA4-DeployGatheringBaseSwipe"]
+        "next": ["RelaunchAnchor@RA@RA4-DeployGatheringBaseSwipe"],
+        "subErrorIgnored": true
     },
     "RelaunchAnchor@RA@RA4-AlignMap": {
         "doc": "步骤 10：JustReturn Swipe，对齐地图",
         "baseTask": "RelaunchAnchor@RA@RA1-AlignMap",
         "specificRect": [433, 123, 1, 1],
-        "rectMove": [749, 520, 1, 1]
+        "rectMove": [749, 520, 1, 1],
+        "maxTimes": 2
     },
     "RelaunchAnchor@RA@RA4-DeployGatheringBaseSwipe": {
         "baseTask": "RelaunchAnchor@RA@RA1-DeployGatheringBaseSwipe",
         "doc": "步骤 11：JustReturn Swipe，占位部署采集基站",
         "specificRect": [430, 630, 1, 1],
         "rectMove": [750, 340, 1, 1],
-        "next": ["RelaunchAnchor@RA@RA4-WaitDoubleSpeed"]
+        "maxTimes": 5,
+        "next": ["RelaunchAnchor@RA@RA4-DeployGatheringBasePrompt", "RelaunchAnchor@RA@RA4-WaitDoubleSpeed"]
     },
     "RelaunchAnchor@RA@RA4-WaitDoubleSpeed": {
         "doc": "步骤 12 前等待二倍速提示出现",
@@ -1324,7 +1330,8 @@
         "action": "DoNothing",
         "postDelay": 1000,
         "sub": ["RelaunchAnchor@RA@RA15-AlignMap2*2"],
-        "next": ["RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe"]
+        "next": ["RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe"],
+        "subErrorIgnored": true
     },
     "RelaunchAnchor@RA@RA15-AlignMap2": {
         "doc": "步骤 17.2：JustReturn 的 Swipe，对齐地图",
@@ -1333,7 +1340,8 @@
         "specificRect": [970, 110, 1, 1],
         "rectMove": [430, 550, 1, 1],
         "specialParams": [1000, 0, 3, 0],
-        "postDelay": 1000
+        "postDelay": 1000,
+        "maxTimes": 2
     },
     "RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe": {
         "doc": "步骤 18：JustReturn 的 Swipe，占位部署采集基站",
@@ -1343,6 +1351,7 @@
         "rectMove": [495, 414, 1, 1],
         "specialParams": [1000, 0, 3, 0],
         "postDelay": 4000,
+        "maxTimes": 5,
         "next": ["RelaunchAnchor@RA@RA15-AlignMapCheck", "RelaunchAnchor@RA@RA15-WaitDoubleSpeed"]
     },
     "RelaunchAnchor@RA@RA15-WaitDoubleSpeed": {
