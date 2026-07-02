@@ -19,8 +19,13 @@ namespace MaaWpfGui.Helper;
 
 /// <summary>
 /// 根据提取到的主色，通过 HSL 线性计算生成 Material You 风格的主题色板。
-/// <para>所有颜色均由 (色相, 饱和度, 明度) 直接计算，无离散档位量化，保证连续平滑。</para>
-/// <para>文字与背景之间保持足够的明度距离以保证可读性。</para>
+/// <para>
+/// 设计理念：从背景图提取一个主色后，以 5 组「色调（色相+饱和度）」为基准，
+/// 在亮度 0~1 之间实时取色。任意两个需要视觉区分的角色之间亮度差 ≥ ContrastDistance (0.55)。
+/// 深色模式与浅色模式只是亮度方向翻转：浅色模式背景亮(L高)、文字暗(L低)；
+/// 深色模式背景暗(L低)、文字亮(L高)。
+/// </para>
+/// <para>因为是实时计算的，所以不需要预生成 5×12 的离散调色盘，直接计算即可。</para>
 /// </summary>
 public static class MonetPaletteHelper
 {
@@ -34,6 +39,7 @@ public static class MonetPaletteHelper
         "LightPrimaryBrush",
         "TitleBrush",
         "RegionBrush",
+        "SecondaryRegionBrush",
         "RegionBrushOpacity10",
         "RegionBrushOpacity25",
         "RegionBrushOpacity50",
@@ -43,6 +49,9 @@ public static class MonetPaletteHelper
         "MouseOverRegionBrushOpacity25",
         "MouseOverRegionBrushOpacity50",
         "MouseOverRegionBrushOpacity75",
+
+        // 边框色：固定明度角色，跟随背景体系
+        "BorderBrush",
 
         // 亮度依赖的文字色：随明暗模式翻转，需跟随 region 明度适配
         "PrimaryTextBrush",
@@ -57,106 +66,143 @@ public static class MonetPaletteHelper
     private const byte Alpha50 = 0x7F; // 50%
     private const byte Alpha75 = 0xBF; // 75%
 
-    // ── 各角色的饱和度常量 ──
+    // ── 5 组色调（饱和度）基准 ──
 
     /// <summary>
-    /// 主色（Primary）饱和度下限。原始主色饱和度不足此值时使用此值。
+    /// 主色系饱和度。提取色的饱和度不足时以此值为下限。
     /// </summary>
-    private const double PrimaryMinSaturation = 0.55;
+    private const double PrimarySaturation = 0.36;
 
     /// <summary>
-    /// 背景体系（Neutral Tint）饱和度。
+    /// 背景体系（Region / MouseOver / Border）饱和度。
     /// </summary>
     private const double BackgroundSaturation = 0.16;
 
     /// <summary>
-    /// 文字色饱和度，极低饱和度接近中性色。
+    /// 主要文字色饱和度占原始色饱和度的比例。
+    /// 文字色保持低饱和但不至于完全丢失主色调。
     /// </summary>
-    private const double TextSaturation = 0.06;
-
-    // ── 对比度常量 ──
+    private const double TextSatRatio = 0.20;
 
     /// <summary>
-    /// 文字与有效背景之间要求的最小明度差。
-    /// 原版深色主题 PrimaryText(L=0.90) 与 Region(L=0.11) 差约 0.79。
+    /// 文字色饱和度上限，避免影响可读性。
     /// </summary>
-    private const double TextContrastDistance = 0.70;
+    private const double TextSatMax = 0.18;
 
     /// <summary>
-    /// 主色（PrimaryBrush）与有效背景之间要求的最小明度差。
-    /// 原版 Primary(L=0.57) 与 Region(L=0.11) 差约 0.46。
+    /// 文字色饱和度下限，保证至少能感知到色调。
     /// </summary>
-    private const double PrimaryContrastDistance = 0.45;
-
-    // ── 固定明度常量（不随透明度变化的角色） ──
-    private const double RegionDarkL = 0.10;
-    private const double RegionLightL = 0.90;
-    private const double MouseOverDarkL = 0.20;
-    private const double MouseOverLightL = 0.70;
+    private const double TextSatMin = 0.04;
 
     /// <summary>
-    /// RegionBrushOpacity25 中底层（混合底）的占比（75%）。
-    /// Opacity25 覆盖层为 25% RegionBrush + 75% 混合底，
-    /// 此常量即混合底在 effectiveRegionL 公式中的权重。
+    /// 强调色饱和度（互补色，当前未使用）。
     /// </summary>
-    private const double Alpha25Factor = 0.75;
+    private const double AccentSaturation = 0.24;
 
     /// <summary>
-    /// 背景图对有效背景明度的影响因子。
-    /// 背景图虽然透过半透明层影响视觉，但文字的可读性主要取决于 RegionBrush 系列底色，
-    /// 因此只取背景图影响的 50%，避免文字色被背景图过度拉偏。
+    /// 强调色色相偏移角度（与主色形成互补对比）。
     /// </summary>
-    private const double BackgroundInfluence = 0.5;
+    private const double AccentHueShift = 60.0;
+
+    // ── 对比距离 ──
+
+    /// <summary>
+    /// 文字与有效背景之间要求的最小亮度差。
+    /// 原版深色主题：Text L=0.90 vs Region L=0.11，差 ≈ 0.80。
+    /// </summary>
+    private const double TextContrastDistance = 0.80;
+
+    /// <summary>
+    /// 主色与有效背景之间要求的最小亮度差。
+    /// 主色是强调色，不需要像文字那么高的对比度。
+    /// </summary>
+    private const double PrimaryContrastDistance = 0.40;
+
+    // ── 亮度锚点 ──
+
+    /// <summary>
+    /// 浅色模式背景基础亮度。
+    /// </summary>
+    private const double LightBgL = 0.95;
+
+    /// <summary>
+    /// 深色模式背景基础亮度。
+    /// </summary>
+    private const double DarkBgL = 0.10;
+
+    /// <summary>
+    /// 背景图对文字层的有效穿透率。
+    /// <para>
+    /// UI 层次：RegionBrush(固态) → Image(α) → RegionBrushOpacity25 → RegionBrushOpacity25 → 文字。
+    /// 每层 RegionBrushOpacity25 的 Alpha = 0x40/255 ≈ 0.251，透光率 = 0.749。
+    /// 两层叠加后背景图穿透率 = 0.749² ≈ 0.561。
+    /// </para>
+    /// <para>
+    /// 有效背景亮度 = regionL×(1 - 穿透率×α) + baseL×(穿透率×α)。
+    /// α=0 时为纯 Region 色，α=1 时为 Region×0.439 + BaseColor×0.561。
+    /// </para>
+    /// </summary>
+    private const double BgImageVisibility = 0.561;
 
     /// <summary>
     /// 根据基础主色生成调色板。
     /// </summary>
     /// <param name="baseColor">提取或用户选定的主色。</param>
     /// <param name="isDark">当前是否为深色模式。</param>
-    /// <param name="backgroundOpacity">背景图不透明度 (0~100)，影响文字色的明度选取。</param>
+    /// <param name="backgroundOpacity">背景图不透明度 (0~100)，影响背景有效亮度。</param>
     /// <returns>资源 key → 颜色的映射。</returns>
     public static Dictionary<string, Color> Generate(Color baseColor, bool isDark, int backgroundOpacity = 50)
     {
         var (hue, sat, _) = RgbToHsl(baseColor);
 
-        // 主色饱和度：保留原色鲜艳度，但设下限避免过低饱和
-        var primarySat = Math.Max(sat, PrimaryMinSaturation);
+        // 5 组色调：主色饱和度固定为 0.36（不是取 max，而是统一降饱和到 Material You 风格）
+        var primarySat = PrimarySaturation;
 
-        // 有效背景明度：文字实际位于 RegionBrushOpacity25 覆盖层之上。
-        // 背景图透过半透明层影响视觉，但对可读性的影响有限，只取部分影响。
-        var regionL = isDark ? RegionDarkL : RegionLightL;
+        // ── 计算有效背景亮度 ──
+        // 背景图透过两层 25% 蒙版影响文字层，穿透率 = BgImageVisibility (0.561)。
+        // 有效背景 = Region×(1 - 穿透率×α) + BaseColor×(穿透率×α)
         var baseL = RgbToHsl(baseColor).L;
-        var alpha = backgroundOpacity / 100.0;
-        var blendedL = (regionL * (1 - (alpha * BackgroundInfluence))) + (baseL * (alpha * BackgroundInfluence));
+        var bgAlpha = backgroundOpacity / 100.0;
+        var regionBaseL = isDark ? DarkBgL : LightBgL;
+        var bgInfluence = BgImageVisibility * bgAlpha;
+        var effectiveBgL = (regionBaseL * (1 - bgInfluence)) + (baseL * bgInfluence);
 
-        // Opacity25 覆盖层：25% region + 75% 混合底
-        var effectiveRegionL = (blendedL * Alpha25Factor) + (regionL * (1 - Alpha25Factor));
+        // ── 从背景亮度推导各角色亮度 ──
+        // 文字与背景保持 TextContrastDistance (0.80) 距离
+        var textL = isDark
+            ? Math.Min(effectiveBgL + TextContrastDistance, 0.95)
+            : Math.Max(effectiveBgL - TextContrastDistance, 0.05);
+        var secondaryTextL = isDark
+            ? Math.Min(effectiveBgL + (TextContrastDistance * 0.7), 0.85)
+            : Math.Max(effectiveBgL - (TextContrastDistance * 0.7), 0.15);
 
-        // ── 固定明度角色：背景体系 ──
-        var region = HslToRgb(hue, BackgroundSaturation, isDark ? RegionDarkL : RegionLightL);
-        var mouseOver = HslToRgb(hue, BackgroundSaturation, isDark ? MouseOverDarkL : MouseOverLightL);
+        // 主色亮度：与有效背景保持 PrimaryContrastDistance 距离
+        // 深色模式取亮侧，浅色模式取暗侧，与文字使用同一套对比逻辑
+        var primaryL = isDark
+            ? Math.Min(effectiveBgL + PrimaryContrastDistance, 0.90)
+            : Math.Max(effectiveBgL - PrimaryContrastDistance, 0.10);
 
-        // ── 自适应明度角色：主色系（随有效背景明度连续变化） ──
-        var primaryTargetL = isDark
-            ? Math.Min(effectiveRegionL + PrimaryContrastDistance, 0.90)
-            : Math.Max(effectiveRegionL - PrimaryContrastDistance, 0.10);
-        var primary = HslToRgb(hue, primarySat, primaryTargetL);
+        // 背景体系亮度：Region 固定，SecondaryRegion/MouseOver 稍亮（深色）/稍暗（浅色）
+        var regionL = regionBaseL;
+        var secondaryRegionL = isDark ? 0.15 : 0.90;
+        var mouseOverL = isDark ? 0.20 : 0.80;
+        var borderL = isDark ? 0.25 : 0.80;
 
-        var darkPrimary = isDark
-            ? HslToRgb(hue, primarySat, Math.Max(primaryTargetL - 0.10, 0.05))
-            : primary;
-        var lightPrimary = HslToRgb(hue, primarySat, isDark ? 0.10 : 0.70);
+        // 文字色饱和度：按原始色饱和度等比缩放，保留微弱色调
+        var textSat = Math.Clamp(sat * TextSatRatio, TextSatMin, TextSatMax);
 
-        // ── 自适应明度角色：文字系 ──
-        var textTargetL = isDark
-            ? Math.Min(effectiveRegionL + TextContrastDistance, 0.90)
-            : Math.Max(effectiveRegionL - TextContrastDistance, 0.05);
-        var traceTargetL = isDark
-            ? Math.Min(effectiveRegionL + (TextContrastDistance * 0.7), 0.90)
-            : Math.Max(effectiveRegionL - (TextContrastDistance * 0.7), 0.05);
+        // ── 生成颜色 ──
+        var region = HslToRgb(hue, BackgroundSaturation, regionL);
+        var secondaryRegion = HslToRgb(hue, BackgroundSaturation, secondaryRegionL);
+        var mouseOver = HslToRgb(hue, BackgroundSaturation, mouseOverL);
+        var border = HslToRgb(hue, BackgroundSaturation, borderL);
 
-        var primaryText = HslToRgb(hue, TextSaturation, textTargetL);
-        var traceLog = HslToRgb(hue, TextSaturation, traceTargetL);
+        var primary = HslToRgb(hue, primarySat, primaryL);
+        var darkPrimary = HslToRgb(hue, primarySat, Math.Max(primaryL - 0.15, 0.05));
+        var lightPrimary = HslToRgb(hue, primarySat, isDark ? 0.10 : 0.85);
+
+        var primaryText = HslToRgb(hue, textSat, textL);
+        var traceLog = HslToRgb(hue, Math.Clamp(sat * TextSatRatio * 1.25, TextSatMin * 1.5, TextSatMax * 1.5), secondaryTextL);
 
         var palette = new Dictionary<string, Color>
         {
@@ -166,7 +212,9 @@ public static class MonetPaletteHelper
             ["TitleBrush"] = primary,
             ["RegionBrush"] = region,
             ["MouseOverRegionBrush"] = mouseOver,
+            ["BorderBrush"] = border,
             ["PrimaryTextBrush"] = primaryText,
+            ["SecondaryRegionBrush"] = secondaryRegion,
             ["ThirdlyTextBrush"] = Color.FromArgb(0x7F, primaryText.R, primaryText.G, primaryText.B),
             ["TraceLogBrush"] = traceLog,
             ["MessageLogBrush"] = primaryText,
