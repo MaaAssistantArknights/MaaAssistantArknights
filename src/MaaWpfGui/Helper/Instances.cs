@@ -44,6 +44,8 @@ public static class Instances
 
         public static bool HasPrintedScreencapWarning { get; set; } = false;
 
+        public static bool HasPrintedFpsHighTip { get; set; } = false;
+
         public static int RecruitConfirmTime { get; set; } = 0;
 
         public static void ClearCache()
@@ -54,6 +56,7 @@ public static class Instances
             StoneUsedTimes = 0;
             RecruitConfirmTime = 0;
             HasPrintedScreencapWarning = false;
+            HasPrintedFpsHighTip = false;
         }
     }
 

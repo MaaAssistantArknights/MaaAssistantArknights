@@ -1004,6 +1004,37 @@ public class AsstProxy
                 }
 
                 break;
+
+            case "EmulatorFPS":
+                var fpsValue = details["details"]?["fps"]?.ToString() ?? "???";
+                if (!int.TryParse(fpsValue, out var fpsInt))
+                {
+                    break;
+                }
+
+                if (fpsInt <= 0)
+                {
+                    break;
+                }
+
+                if (fpsInt < 30)
+                {
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsErrorTip", fpsInt), UiLogColor.Error);
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsErrorTip", fpsInt), UiLogColor.Error, showTime: false);
+                }
+                else if (fpsInt < 60)
+                {
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsWarningTip", fpsInt), UiLogColor.Warning);
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsWarningTip", fpsInt), UiLogColor.Warning, showTime: false);
+                }
+                else if (fpsInt > 60 && !HasPrintedFpsHighTip)
+                {
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsHighTip", fpsInt), UiLogColor.Warning);
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsHighTip", fpsInt), UiLogColor.Warning, showTime: false);
+                    HasPrintedFpsHighTip = true;
+                }
+
+                break;
         }
     }
 

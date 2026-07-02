@@ -87,6 +87,7 @@ bool asst::GeneralConfig::parse(const json::value& json)
         adb.call_maatouch = cfg_json.get("callMaatouch", base_cfg.call_maatouch);
         adb.event_id = cfg_json.get("eventId", base_cfg.event_id);
         adb.back_to_home = cfg_json.get("back_to_home", base_cfg.back_to_home);
+        adb.fps = cfg_json.get("fps", base_cfg.fps);
     }
 
     return true;

@@ -76,7 +76,8 @@
             "stop": "[Adb] -s [AdbSerial] shell am force-stop [PackageName]",
             "back_to_home": "[Adb] -s [AdbSerial] shell input keyevent HOME",
             "release": "[Adb] kill-server",
-            "pressEsc": "[Adb] -s [AdbSerial] shell input keyevent 111"
+            "pressEsc": "[Adb] -s [AdbSerial] shell input keyevent 111",
+            "fps": "[Adb] -s [AdbSerial] shell \"dumpsys SurfaceFlinger --latency | head -n 1\""
         },
         {
             "configName": "CapWithShell",

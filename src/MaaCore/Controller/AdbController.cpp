@@ -3,6 +3,7 @@
 #include "Assistant.h"
 #include "Controller.h"
 #include "MaaUtils/NoWarningCV.hpp"
+#include <cmath>
 #include <cstdint>
 #include <numeric>
 
@@ -352,6 +353,7 @@ void asst::AdbController::clear_info() noexcept
     m_width = 0;
     m_height = 0;
     m_screen_size = { 0, 0 };
+    m_last_fps_check_time = {}; // 重置帧率检测计时，重连后立即检测一次
 }
 
 bool asst::AdbController::inited() const noexcept
@@ -787,6 +789,10 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             }
             callback(AsstMsg::ConnectionInfo, info);
         }
+
+        // 每 1 分钟检测一次模拟器帧率
+        check_fps();
+
         return screencap_ret;
     }
 }
@@ -1156,6 +1162,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     m_adb.start = m_conn_ctx.replace_cmd(adb_cfg.start);
     m_adb.stop = m_conn_ctx.replace_cmd(adb_cfg.stop);
     m_adb.back_to_home = m_conn_ctx.replace_cmd(adb_cfg.back_to_home);
+    m_adb.fps = m_conn_ctx.replace_cmd(adb_cfg.fps);
 
     if (m_support_socket && !m_server_started) {
         std::string bind_address;
@@ -1212,6 +1219,74 @@ void asst::AdbController::set_kill_adb_on_exit(bool enable) noexcept
 void asst::AdbController::clear_lf_info()
 {
     m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::UnknownYet;
+}
+
+void asst::AdbController::check_fps()
+{
+    // 命令未配置或尚未连接，跳过
+    if (m_adb.fps.empty()) {
+        return;
+    }
+
+    // 每 1 分钟检测一次
+    constexpr auto FpsCheckInterval = std::chrono::minutes(1);
+    auto now = std::chrono::steady_clock::now();
+    if (m_last_fps_check_time.time_since_epoch().count() != 0 &&
+        now - m_last_fps_check_time < FpsCheckInterval) {
+        return;
+    }
+    m_last_fps_check_time = now;
+
+    auto ret = call_command(m_adb.fps, 100, false /* 帧率检测不触发重连，避免拖慢截图流程 */);
+    if (!ret || ret.value().empty()) {
+        Log.warn("fps command failed or empty");
+        return;
+    }
+
+    // SurfaceFlinger --latency 第一行是每帧刷新周期（纳秒），例如 16666666 表示 60 FPS
+    // 注意：这里检测的是模拟器/系统的设置刷新率，而非游戏实际运行帧率。
+    // 游戏原生帧率上限为 60 FPS，高于 60 通常为模拟器插帧，不作为异常处理。
+    auto& output = ret.value();
+    convert_lf(output);
+    auto newline_pos = output.find('\n');
+    std::string first_line = newline_pos == std::string::npos ? output : output.substr(0, newline_pos);
+
+    // 去掉空白和非数字字符
+    std::erase_if(first_line, [](char c) { return !std::isdigit(static_cast<unsigned char>(c)); });
+
+    if (first_line.empty()) {
+        Log.warn("fps output is empty after sanitize");
+        return;
+    }
+
+    long long refresh_period_ns = 0;
+    try {
+        refresh_period_ns = std::stoll(first_line);
+    }
+    catch (...) {
+        Log.warn("fps output parse failed:", first_line);
+        return;
+    }
+
+    if (refresh_period_ns <= 0) {
+        Log.warn("invalid refresh period:", refresh_period_ns);
+        return;
+    }
+
+    // ns -> FPS
+    double fps = 1000000000.0 / static_cast<double>(refresh_period_ns);
+    int fps_int = static_cast<int>(std::round(fps));
+
+    json::value info = json::object {
+        { "uuid", m_uuid },
+        { "what", "EmulatorFPS" },
+        { "details",
+          json::object {
+              { "fps", fps_int },
+              { "refresh_period_ns", refresh_period_ns },
+          } },
+    };
+    callback(AsstMsg::ConnectionInfo, info);
 }
 
 void asst::AdbController::back_to_home() noexcept
