@@ -401,6 +401,7 @@ enum class ActionType
     Output,         // 仅输出，什么都不操作，界面上也不显示
     SkillDaemon,    // 什么都不做，有技能开技能，直到战斗结束
     ResetStopwatch, // 重置全局计时器 (试验性功能)
+    Pause,          // 暂停/取消暂停
 
     /* for TRN */
     MoveCamera, // 引航者试炼，移动镜头

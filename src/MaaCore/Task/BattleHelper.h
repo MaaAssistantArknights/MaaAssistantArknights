@@ -44,6 +44,7 @@ protected:
     bool calc_tiles_info(const std::string& stage_name, double shift_x = 0, double shift_y = 0);
 
     bool pause();
+    bool advance_while_paused();
     bool speed_up();
     bool abandon();
 
@@ -114,6 +115,11 @@ protected:
     Point m_skill_button_pos;
     Point m_retreat_button_pos;
     bool m_has_multi_stages = false;
+    int m_pause_on_start_delay = 0;
+    int m_pause_esc_post_delay = 0;
+    int m_pause_pre_delay = 0;
+    int m_pause_post_delay = 0;
+    bool m_need_pause_on_start = false;
     std::unordered_map<std::string, battle::SkillUsage> m_skill_usage;
     std::unordered_map<std::string, int> m_skill_times;
     std::unordered_map<std::string, int> m_skill_error_count;
@@ -130,6 +136,7 @@ protected:
     int m_cost_regenerated = 0;
     int m_cost_regeneration = 0;
     bool m_stopwatch_enabled = false;
+    bool m_paused = false;
     std::chrono::steady_clock::time_point m_stopwatch_start_time;
 
     std::vector<battle::DeploymentOper> m_cur_deployment_opers;

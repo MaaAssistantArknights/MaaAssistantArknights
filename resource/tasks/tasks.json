@@ -3887,6 +3887,7 @@
         "specialParams": [160, 4, 0, 0, 0, 10]
     },
     "BattleOfficiallyBegin": {
+        "template": ["BattleOfficiallyBegin.png"],
         "roi": [1165, 20, 75, 65],
         "maskRange": [100, 255],
         "templThreshold": 0.7
@@ -3908,7 +3909,12 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [1170, 20, 60, 60],
-        "postDelay": 200
+        "postDelay": 200,
+        "specialParams": [100, 100]
+    },
+    "BattlePauseEsc": {
+        "algorithm": "JustReturn",
+        "specialParams": [30, 200]
     },
     "BattlePauseCancel": {
         "algorithm": "JustReturn",
@@ -3917,6 +3923,10 @@
         "postDelay": 50,
         "maxTimes": 10,
         "next": ["BattlePauseCancelCheck", "BattlePauseCancel"]
+    },
+    "BattlePaused": {
+        "roi": [1165, 20, 75, 65],
+        "maskRange": [100, 255]
     },
     "BattlePauseCancelCheck": {
         "template": "BattleOfficiallyBegin.png",
