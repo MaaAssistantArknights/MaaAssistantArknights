@@ -204,14 +204,20 @@ std::optional<int> asst::AdbController::get_mumu_index(const std::string& addres
     // 实例索引 = (port - 5554) / 2
     if (address.starts_with("emulator-")) {
         constexpr int base_emulator_port = 5554;
-        std::string port_str = address.substr(9); // after "emulator-"
-        if (port_str.empty() || !std::ranges::all_of(port_str, [](const char& c) -> bool { return std::isdigit(c); })) {
-            Log.error("emulator port is invalid", port_str);
+        std::string_view port_sv = std::string_view(address).substr(9); // after "emulator-"
+        int port = 0;
+        if (!utils::chars_to_number<int, true>(port_sv, port)) {
+            Log.error("emulator port is invalid", port_sv);
             return std::nullopt;
         }
-        int port = std::stoi(port_str);
+        // emulator 控制台端口从 5554 起步进 2（5554, 5556, ...），
+        // 奇数端口是 adb 端口而非控制台端口，不在 emulator-xxxx 格式中出现
+        if (port < base_emulator_port || (port - base_emulator_port) % 2 != 0) {
+            Log.error("emulator port is out of range or not aligned", port);
+            return std::nullopt;
+        }
         int mumu_index = (port - base_emulator_port) / 2;
-        LogInfo << VAR(port_str) << VAR(port) << VAR(mumu_index);
+        LogInfo << VAR(port_sv) << VAR(port) << VAR(mumu_index);
         return mumu_index;
     }
 
@@ -304,14 +310,20 @@ std::optional<int> asst::AdbController::get_ld_index(const std::string& address)
     // emulator-5554
     if (address.starts_with("emulator-")) {
         constexpr int base_emulator_port = 5554;
-        std::string port_str = address.substr(9); // after "emulator-"
-        if (port_str.empty() || !std::ranges::all_of(port_str, [](char c) { return std::isdigit(c); })) {
-            Log.error("emulator port is invalid", port_str);
+        std::string_view port_sv = std::string_view(address).substr(9); // after "emulator-"
+        int port = 0;
+        if (!utils::chars_to_number<int, true>(port_sv, port)) {
+            Log.error("emulator port is invalid", port_sv);
             return std::nullopt;
         }
-        int port = std::stoi(port_str);
+        // emulator 控制台端口从 5554 起步进 2（5554, 5556, ...），
+        // 奇数端口是 adb 端口而非控制台端口，不在 emulator-xxxx 格式中出现
+        if (port < base_emulator_port || (port - base_emulator_port) % 2 != 0) {
+            Log.error("emulator port is out of range or not aligned", port);
+            return std::nullopt;
+        }
         int index = (port - base_emulator_port) / 2;
-        LogInfo << VAR(port_str) << VAR(port) << VAR(index);
+        LogInfo << VAR(port_sv) << VAR(port) << VAR(index);
         return index;
     }
 
