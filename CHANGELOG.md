@@ -1,33 +1,17 @@
-## v6.13.0
+## v6.13.1 (2026-07-03)
 
 ### Highlights
 
-#### 6 星自动公招支持
+#### 模拟器兼容与截图体验增强
 
-新增可通过手动修改配置文件开启的 6 星自动公招功能，「是否招募」和「招募时间」选项移入常规设置，并优化了相关提示信息。
-
-#### 通知不可用时自动回退
-
-系统通知无法显示时自动回退到软件内通知，避免用户错过重要提醒；启动时的通知检测提示也改为软件内弹窗，不再仅写入日志。
-
-#### 切换语言无需重启
-
-切换软件界面语言不再需要重启，干员识别、仓库识别等界面同步支持动态切换。
+新增莫奈取色、MuMu / 雷电截图增强与截图测试入口，并增加模拟器帧率、MuMu 后台保活、雷电模拟器 + MaaTouch 组合等运行环境提示；同时修复 OCR 多边形偏移、MuMu 多开编号及通知检查等问题，提升识别稳定性与连接体验。
 
 <details>
 <summary><b>English</b></summary>
 
-#### 6-Star Auto Recruitment Support
+#### Better Emulator Compatibility and Screenshot Experience
 
-Added a 6-star auto recruitment feature that can be enabled through manual configuration file editing. The "Recruit" and "Recruitment Time" options have been moved to general settings, with improved tooltip hints.
-
-#### Notification Fallback
-
-Automatically falls back to in-app notifications when system notifications are unavailable, ensuring users never miss important alerts. The startup notification availability check now shows an in-app Growl message instead of only logging to file.
-
-#### Switch Language Without Restart
-
-Switching the UI language no longer requires a restart; operator recognition, depot recognition, and other views now support dynamic switching.
+Added Monet color extraction, enhanced screenshot options and screenshot testing for MuMu / LDPlayer, plus new environment warnings for emulator FPS, MuMu background keep-alive, and the LDPlayer + MaaTouch combination. Also fixed OCR polygon offset issues, MuMu multi-instance indexing, and notification checks to improve recognition stability and connection reliability.
 
 </details>
 
@@ -36,6 +20,37 @@ Switching the UI language no longer requires a restart; operator recognition, de
 以下是详细内容：
 
 <details open>
+<summary><b>v6.13.1 (2026-07-03)</b></summary>
+
+### 新增 | New
+
+* 新增莫奈取色，可从背景图自动提取主题色，支持自动取色与自定义颜色模式 ([#17242](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17242)) @ABA2396
+* 设置指引与开始唤醒中新增 MuMu / 雷电截图增强相关选项，并提供截图测试入口 ([#17247](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17247)) @ABA2396
+* 新增模拟器帧率检测与提示，检测到过低或过高帧率时给出建议 ([#17219](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17219)) @ABA2396
+* 新增 MuMu 模拟器后台保活检测与提示，帮助排查截图失败和操作异常 ([#17241](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17241)) @ABA2396
+* 新增雷电模拟器与 MaaTouch 同时使用时的兼容性警告 ([#17238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17238)) @ABA2396
+* 更新设置中的自动下载更新包提示文本 @ABA2396
+* 新增隐藏更新进度提示框选项 @ABA2396
+
+### 改进 | Improved
+
+* 优化莫奈取色逻辑，改进主题配色生成与亮度计算，提升背景取色后的界面观感与对比度 ([#17243](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17243)) @ABA2396
+* 禁用 Xe-LPG+ Arrow Lake Arc 140T 的 GPU 推理选项，避免缺字等显示异常 @ABA2396
+
+### 修复 | Fix
+
+* 修复关闭莫奈取色后切换界面主题异常的问题 ([#17249](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17249)) @ABA2396
+* 修复 DBNet UnClip 多边形偏移与 fastdeploy 不一致的问题，提升 NCNN OCR 结果稳定性 ([#17227](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17227)) @Aliothmoon
+* 修复 MuMu 模拟器下第 32 个及以后多开实例编号计算错误 ([#17112](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17112)) @dikxingmengya @ABA2396
+* 修复未开启系统通知时仍进行系统通知检查的问题 @ABA2396
+
+### 其他 | Other
+
+* 优化 MAAUnified 构建流程，复用 MaaCore 制品以缩短 CI 构建时间 ([#17233](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17233)) @Aliothmoon
+
+</details>
+
+<details>
 <summary><b>v6.13.0 (2026-06-28)</b></summary>
 
 ### 新增 | New
