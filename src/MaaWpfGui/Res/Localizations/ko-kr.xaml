@@ -898,6 +898,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TaskAppend.Skip">{0}: {1} 작업 스킵</system:String>
     <system:String x:Key="TaskAppend.Error">{0}: {1} 작업 추가 실패</system:String>
     <system:String x:Key="AdbReplacementTips">작업이 전혀 반응하지 않을 경우, ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣를 사용하거나, 터치 모드에서 ADB Input(권장하지 않음)을 선택해 보세요.</system:String>
+    <system:String x:Key="LDPlayerMaaTouchWarning">LDPlayer 에뮬레이터와 MaaTouch 터치 모드 조합이 감지되었습니다. 이 조합은 스와이프 작업이 비정상적으로 느려지는 것으로 알려져 있습니다(실제 스와이프 지속 시간이 설정값을 훨씬 초과함). 스와이프가 끝나기 전에 다음 작업이 실행되어 다양한 문제가 발생할 수 있습니다. 다른 터치 모드로 전환하는 것을 권장합니다.</system:String>
     <system:String x:Key="Waiting">전투가 끝나기를 기다리며……</system:String>
     <system:String x:Key="Stopping">중지 중……</system:String>
     <system:String x:Key="Stopped">중지됨</system:String>

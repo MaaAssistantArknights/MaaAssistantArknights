@@ -896,6 +896,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskAppend.Skip">{0}: {1} task skip</system:String>
     <system:String x:Key="TaskAppend.Error">{0}: {1} append task failed</system:String>
     <system:String x:Key="AdbReplacementTips">If nothing happens or appears stuck, please go to ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣, or turn on ADB Input (Deprecated).</system:String>
+    <system:String x:Key="LDPlayerMaaTouchWarning">LDPlayer emulator with MaaTouch touch mode detected. This combination is known to cause abnormally slow swipe operations (the actual swipe duration far exceeds the configured value), which may cause subsequent actions to execute before a swipe finishes, leading to various issues. Consider switching to a different touch mode.</system:String>
     <system:String x:Key="Waiting">Waiting for the mission completion…</system:String>
     <system:String x:Key="Stopping">Stopping……</system:String>
     <system:String x:Key="Stopped">Has stopped</system:String>
