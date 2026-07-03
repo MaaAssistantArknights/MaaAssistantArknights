@@ -315,6 +315,132 @@ jobs:
           git tag ${{ needs.build-win-nightly.outputs.tag }} || exit 0 # do nothing if the tag already exists
           git push --tags origin HEAD:refs/tags/${{ needs.build-win-nightly.outputs.tag }}
 
+  build-maaunified-runtime-linux:
+    name: Build MAAUnified Runtime for Linux
+    if: github.repository_owner == 'MaaAssistantArknights'
+    needs: build-win-nightly
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [x86_64]
+      fail-fast: false
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          show-progress: false
+
+      - name: Checkout ref (if provided)
+        if: inputs.ref != ''
+        run: git checkout --progress --recurse-submodules ${{ inputs.ref }}
+
+      - name: Fetch submodules
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MaaUtils
+
+      - name: Cache MaaDeps
+        id: cache-maadeps
+        uses: actions/cache@v6
+        continue-on-error: true
+        with:
+          path: ./src/MaaUtils/MaaDeps
+          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
+
+      - name: Bootstrap MaaDeps
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/maadeps-download.py x64-linux
+
+      - name: Configure, build and install
+        run: |
+          cmake --preset linux-publish-x64 -DMAA_HASH_VERSION='${{ needs.build-win-nightly.outputs.tag }}'
+          cmake --build --preset linux-publish-x64 --parallel $(nproc)
+          cmake --install build --config RelWithDebInfo
+        env:
+          CLICOLOR_FORCE: 1
+
+      - name: Download MaaFramework
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: MaaXYZ/MaaFramework
+          latest: true
+          fileName: '*linux-x86_64*.zip'
+          extract: true
+          out-file-path: MaaFramework-temp
+
+      - name: Copy ControlUnits
+        run: cp MaaFramework-temp/bin/*AdbControlUnit* install/
+
+      - name: Upload MaaCore runtime for MAAUnified
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAARuntime-linux-${{ matrix.arch }}
+          path: install/
+
+  build-maaunified-runtime-macos:
+    name: Build MAAUnified Runtime for macOS
+    if: github.repository_owner == 'MaaAssistantArknights'
+    needs: build-win-nightly
+    runs-on: macos-26
+    strategy:
+      matrix:
+        arch: [arm64, x86_64]
+      fail-fast: false
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          show-progress: false
+
+      - name: Checkout ref (if provided)
+        if: inputs.ref != ''
+        run: git checkout --progress --recurse-submodules ${{ inputs.ref }}
+
+      - name: Fetch submodules
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MaaUtils
+
+      - name: Cache MaaDeps
+        id: cache-maadeps
+        uses: actions/cache@v6
+        continue-on-error: true
+        with:
+          path: ./src/MaaUtils/MaaDeps
+          key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
+
+      - name: Bootstrap MaaDeps
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/maadeps-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-osx
+
+      - name: Configure, build and install
+        run: |
+          cmake -B build --preset ${{ matrix.arch == 'x86_64' && 'macos-publish-x64' || 'macos-publish-arm64' }} -DMAA_HASH_VERSION='${{ needs.build-win-nightly.outputs.tag }}'
+          cmake --build --preset ${{ matrix.arch == 'x86_64' && 'macos-publish-x64' || 'macos-publish-arm64' }} --parallel $(sysctl -n hw.logicalcpu)
+          cmake --install build --config RelWithDebInfo
+
+      - name: Download MaaFramework
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: MaaXYZ/MaaFramework
+          latest: true
+          fileName: ${{ matrix.arch == 'x86_64' && '*macos-x86_64*.zip' || '*macos-aarch64*.zip' }}
+          extract: true
+          out-file-path: MaaFramework-temp
+
+      - name: Copy ControlUnits
+        run: cp MaaFramework-temp/bin/*AdbControlUnit* install/
+
+      - name: Upload MaaCore runtime for MAAUnified
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAARuntime-macos-${{ matrix.arch }}
+          path: install/
+
   make-ota:
     name: Build and Upload Nightly OTA for Windows
     if: github.repository_owner == 'MaaAssistantArknights'
@@ -400,6 +526,36 @@ jobs:
 
             **Full Changelog**: [${{ needs.build-win-nightly.outputs.pre_version }} -> ${{ needs.build-win-nightly.outputs.main_tag_name }}](https://github.com/${{ github.repository }}/compare/${{ needs.build-win-nightly.outputs.pre_version }}...${{ needs.build-win-nightly.outputs.main_tag_name }})
 
+  release-maaunified-alpha:
+    name: Upload MAAUnified Alpha Packages
+    if: github.repository_owner == 'MaaAssistantArknights'
+    needs:
+      - build-win-nightly
+      - build-maaunified-runtime-linux
+      - build-maaunified-runtime-macos
+      - make-ota
+    uses: ./.github/workflows/release-maaunified.yml
+    with:
+      release_tag: ${{ needs.build-win-nightly.outputs.tag }}
+      prerelease: true
+      target_repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
+      runtime_run_id: ${{ github.run_id }}
+    secrets:
+      release_token: ${{ secrets.MAARELEASE_RELEASE }}
+      HGUANDL_SIGN_CERT_P12: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
+      HGUANDL_SIGN_CERT_PASSWD: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
+      HGUANDL_APPSTORE_KEYID: ${{ secrets.HGUANDL_APPSTORE_KEYID }}
+      HGUANDL_APPSTORE_KEY: ${{ secrets.HGUANDL_APPSTORE_KEY }}
+      HGUANDL_APPSTORE_ISSUER: ${{ secrets.HGUANDL_APPSTORE_ISSUER }}
+
+  setup-release-mirror:
+    name: Setup release mirror
+    if: github.repository_owner == 'MaaAssistantArknights'
+    needs:
+      - make-ota
+      - release-maaunified-alpha
+    runs-on: ubuntu-latest
+    steps:
       - name: Setup release mirror
         run: |
           gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml

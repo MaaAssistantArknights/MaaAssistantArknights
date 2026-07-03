@@ -1,0 +1,389 @@
+name: Build MAAUnified Debug Packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: Run MAAUnified test gates before packaging
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  meta:
+    name: Resolve debug build metadata
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.out.outputs.tag }}
+      checkout_sha: ${{ steps.out.outputs.checkout_sha }}
+      version_suffix: ${{ steps.out.outputs.version_suffix }}
+      informational_version: ${{ steps.out.outputs.informational_version }}
+    steps:
+      - id: out
+        env:
+          CHECKOUT_SHA: ${{ github.sha }}
+        run: |
+          short_sha="${CHECKOUT_SHA::7}"
+          echo "checkout_sha=${CHECKOUT_SHA}" >> "$GITHUB_OUTPUT"
+          echo "tag=debug-${short_sha}" >> "$GITHUB_OUTPUT"
+          echo "version_suffix=debug.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+          echo "informational_version=debug-${short_sha}" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build ${{ matrix.name }}
+    needs: meta
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: windows-x64
+            os: windows-2022
+            rid: win-x64
+            self_contained: true
+            cmake_preset: windows-unified-publish-x64
+            maadeps_triplet: x64-windows
+          - name: linux-x64
+            os: ubuntu-latest
+            rid: linux-x64
+            self_contained: true
+            cmake_preset: linux-publish-x64
+            maadeps_triplet: x64-linux
+          - name: macos-x64
+            os: macos-latest
+            rid: osx-x64
+            self_contained: true
+            cmake_preset: macos-publish-x64
+            maadeps_triplet: x64-osx
+          - name: macos-arm64
+            os: macos-latest
+            rid: osx-arm64
+            self_contained: true
+            cmake_preset: macos-publish-arm64
+            maadeps_triplet: arm64-osx
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.meta.outputs.checkout_sha }}
+
+      - name: Initialize staging directory
+        shell: pwsh
+        run: |
+          $stagingDir = Join-Path $env:RUNNER_TEMP "maaunified-staging"
+          if (Test-Path $stagingDir) {
+            Remove-Item $stagingDir -Recurse -Force
+          }
+          New-Item -ItemType Directory -Path $stagingDir -Force | Out-Null
+          "MAAUNIFIED_STAGING_DIR=$stagingDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Fetch required submodules
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MAAUnified src/MaaUtils
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      - name: Install dmgbuild (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: python3 -m pip install dmgbuild
+
+      - name: Install AppImage packaging dependencies
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sudo add-apt-repository universe
+          sudo apt update
+          sudo apt install -y libfuse2
+
+      - name: Restore app
+        run: dotnet restore src/MAAUnified/App/MAAUnified.App.csproj
+
+      - name: Restore tests
+        if: inputs.run_tests && runner.os != 'macOS'
+        run: dotnet restore src/MAAUnified/Tests/MAAUnified.Tests.csproj
+
+      - name: Run Linux baseline consistency gate
+        if: inputs.run_tests && matrix.name == 'linux-x64'
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
+          --results-directory TestResults/${{ matrix.name }}
+          --logger "trx;LogFileName=baseline-consistency.trx"
+          --filter "FullyQualifiedName~BaselineContractTests|FullyQualifiedName~BaselineCoverageTests|FullyQualifiedName~BaselineRenderSyncTests|FullyQualifiedName~ParityMatrixSyncTests"
+
+      - name: Run Linux full MAAUnified test gate
+        if: inputs.run_tests && matrix.name == 'linux-x64'
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
+          --results-directory TestResults/${{ matrix.name }}
+          --logger "trx;LogFileName=full-maaunified-tests.trx"
+
+      - name: Run Windows platform capability contract gate
+        if: inputs.run_tests && matrix.name == 'windows-x64'
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
+          --results-directory TestResults/${{ matrix.name }}
+          --logger "trx;LogFileName=platform-capability-contract.trx"
+          --filter "FullyQualifiedName~PlatformCapabilityContractTests"
+
+      - name: Run Windows native capability smoke gate
+        if: inputs.run_tests && matrix.name == 'windows-x64'
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
+          --results-directory TestResults/${{ matrix.name }}
+          --logger "trx;LogFileName=platform-windows-native-smoke.trx"
+          --filter "FullyQualifiedName~PlatformWindowsNativeSmokeTests"
+
+      - name: Upload test result artifacts on failure
+        if: inputs.run_tests && failure() && runner.os != 'macOS'
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAAUnified-TestResults-${{ matrix.name }}
+          path: TestResults/${{ matrix.name }}/*.trx
+          if-no-files-found: ignore
+
+      - name: Resolve macOS signing availability
+        if: runner.os == 'macOS'
+        id: macos_signing
+        shell: bash
+        env:
+          SIGN_CERT_P12: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
+          SIGN_CERT_PASSWORD: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
+          APPSTORE_KEYID: ${{ secrets.HGUANDL_APPSTORE_KEYID }}
+          APPSTORE_KEY: ${{ secrets.HGUANDL_APPSTORE_KEY }}
+          APPSTORE_ISSUER: ${{ secrets.HGUANDL_APPSTORE_ISSUER }}
+        run: |
+          if [[ -n "$SIGN_CERT_P12" && -n "$SIGN_CERT_PASSWORD" && -n "$APPSTORE_KEYID" && -n "$APPSTORE_KEY" && -n "$APPSTORE_ISSUER" ]]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+            echo "macOS signing and notarization secrets are available."
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "macOS signing and notarization secrets are incomplete; unsigned dmg will be produced."
+          fi
+
+      - name: Install Developer ID certificate
+        if: runner.os == 'macOS' && steps.macos_signing.outputs.available == 'true'
+        uses: apple-actions/import-codesign-certs@v7
+        with:
+          p12-file-base64: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
+          p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
+
+      - name: Bootstrap MaaDeps
+        run: python tools/maadeps-download.py ${{ matrix.maadeps_triplet }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build MaaCore runtime
+        run: |
+          cmake --preset ${{ matrix.cmake_preset }} -DINSTALL_PYTHON=OFF -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake --build --preset ${{ matrix.cmake_preset }}
+          cmake --install build --config RelWithDebInfo
+
+      - name: Download MaaFramework ADB control unit (macOS)
+        if: runner.os == 'macOS'
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: MaaXYZ/MaaFramework
+          latest: true
+          fileName: ${{ matrix.rid == 'osx-x64' && '*macos-x86_64*.zip' || '*macos-aarch64*.zip' }}
+          extract: true
+          out-file-path: MaaFramework-temp
+
+      - name: Install MaaFramework ADB control unit (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          mkdir -p install
+          shopt -s nullglob
+          control_units=(MaaFramework-temp/bin/*AdbControlUnit*)
+          if (( ${#control_units[@]} == 0 )); then
+            echo "MaaFramework release did not contain bin/*AdbControlUnit*." >&2
+            exit 1
+          fi
+          cp -f "${control_units[@]}" install/
+          test -f install/libMaaAdbControlUnit.dylib
+
+      - name: Publish MAAUnified app (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: >
+          dotnet publish src/MAAUnified/App/MAAUnified.App.csproj -c Release -r ${{ matrix.rid }}
+          --self-contained ${{ matrix.self_contained }} -o "$env:MAAUNIFIED_STAGING_DIR"
+          -p:PublishSingleFile=true
+          -p:IncludeNativeLibrariesForSelfExtract=true
+          -p:VersionPrefix=1.0.0
+          -p:VersionSuffix=${{ needs.meta.outputs.version_suffix }}
+          -p:AssemblyVersion=1.0.0.0
+          -p:FileVersion=1.0.0.0
+          -p:InformationalVersion="${{ needs.meta.outputs.informational_version }}"
+          -p:MaaUnifiedReleaseChannel=debug
+          -p:MaaUnifiedDiagnosticsProfile=full
+
+      - name: Publish MAAUnified app (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: >
+          dotnet publish src/MAAUnified/App/MAAUnified.App.csproj -c Release -r ${{ matrix.rid }}
+          --self-contained ${{ matrix.self_contained }} -o "$MAAUNIFIED_STAGING_DIR/bin"
+          -p:VersionPrefix=1.0.0
+          -p:VersionSuffix=${{ needs.meta.outputs.version_suffix }}
+          -p:AssemblyVersion=1.0.0.0
+          -p:FileVersion=1.0.0.0
+          -p:InformationalVersion="${{ needs.meta.outputs.informational_version }}"
+          -p:MaaUnifiedReleaseChannel=debug
+          -p:MaaUnifiedDiagnosticsProfile=full
+
+      - name: Merge MaaCore runtime (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $stagingDir = $env:MAAUNIFIED_STAGING_DIR
+          New-Item -ItemType Directory -Path $stagingDir -Force | Out-Null
+          Copy-Item install\* $stagingDir -Recurse -Force
+          if (!(Test-Path (Join-Path $stagingDir "MaaCore.dll"))) { throw "MaaCore.dll not found in staging output." }
+          if (!(Test-Path (Join-Path $stagingDir "resource"))) { throw "resource directory not found in staging output." }
+
+      - name: Merge MaaCore runtime (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          mkdir -p "$staging_dir"
+          cp -a install/. "$staging_dir/"
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            test -f "$staging_dir/libMaaCore.so"
+          else
+            test -f "$staging_dir/libMaaCore.dylib"
+          fi
+          test -d "$staging_dir/resource"
+
+      - name: Prepare portable writable directories (Linux)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          mkdir -p \
+            "$staging_dir/config" \
+            "$staging_dir/data" \
+            "$staging_dir/cache" \
+            "$staging_dir/debug" \
+            "$staging_dir/update-packages"
+
+      - name: Validate staging layout (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $stagingDir = $env:MAAUNIFIED_STAGING_DIR
+          if (!(Test-Path (Join-Path $stagingDir "MAAUnified.exe"))) { throw "Windows GUI executable not found at staging root." }
+          if (!(Test-Path (Join-Path $stagingDir "resource"))) { throw "resource directory not found under staging root." }
+          if (Test-Path (Join-Path $stagingDir "MAAUnified.cmd")) { throw "Legacy cmd launcher should not be included in Windows package." }
+          $rootManaged = @(Get-ChildItem $stagingDir -File | Where-Object { $_.Name -like 'System.*.dll' -or $_.Name -like 'Avalonia.*.dll' })
+          if ($rootManaged.Count -gt 0) { throw "Managed DLLs should not be placed at staging root." }
+
+      - name: Validate staging layout (Linux)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          test -x "$staging_dir/bin/MAAUnified"
+          test -d "$staging_dir/resource"
+          test -f "$staging_dir/libMaaCore.so"
+          test -d "$staging_dir/config"
+          test -d "$staging_dir/data"
+          test -d "$staging_dir/cache"
+          test -d "$staging_dir/debug"
+          test -d "$staging_dir/update-packages"
+          ! test -e "$staging_dir/MAAUnified"
+          ! test -e "$staging_dir/MAAUnified.sh"
+          ! find "$staging_dir" -maxdepth 1 -type f \( -name 'System.*.dll' -o -name 'Avalonia.*.dll' \) | grep -q .
+
+      - name: Validate staging layout (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          test -x "$staging_dir/bin/MAAUnified"
+          test -f "$staging_dir/libMaaCore.dylib"
+          test -d "$staging_dir/resource"
+          ! test -e "$staging_dir/MAAUnified.command"
+          ! find "$staging_dir" -maxdepth 1 -type f \( -name 'System.*.dll' -o -name 'Avalonia.*.dll' \) | grep -q .
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path release -Force | Out-Null
+          $name = "MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
+          Compress-Archive -Path "$env:MAAUNIFIED_STAGING_DIR\*" -DestinationPath "release\$name.zip"
+
+      - name: Package (Linux)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          mkdir -p release
+          name="MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
+          bash src/MAAUnified/CI/create-linux-appimage.sh "$MAAUNIFIED_STAGING_DIR" release MAAUnified x86_64
+          cp "release/MAAUnified.AppImage" "$MAAUNIFIED_STAGING_DIR/MAAUnified.AppImage"
+          (
+            cd "$MAAUNIFIED_STAGING_DIR"
+            zip -qr "$GITHUB_WORKSPACE/release/${name}.zip" .
+          )
+          test -f "release/${name}.zip"
+          unzip -Z1 "release/${name}.zip" | grep -qx 'MAAUnified.AppImage'
+          unzip -Z1 "release/${name}.zip" | grep -qx 'bin/MAAUnified'
+          unzip -Z1 "release/${name}.zip" | grep -q '^resource/'
+          unzip -Z1 "release/${name}.zip" | grep -q '^libMaaCore\.so'
+          ! unzip -Z1 "release/${name}.zip" | grep -q '^usr/share/maaunified/'
+          rm -f "release/MAAUnified.AppImage"
+          ! find release -type f -name '*linux*.tar.gz' | grep -q .
+
+      - name: Package (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        env:
+          MACOS_CODESIGN_ENABLED: ${{ steps.macos_signing.outputs.available }}
+        run: |
+          mkdir -p release
+          name="MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
+          bash src/MAAUnified/CI/create-macos-app-dmg.sh \
+            "$MAAUNIFIED_STAGING_DIR" \
+            release \
+            "$name" \
+            "1.0.0" \
+            "${{ needs.meta.outputs.informational_version }}"
+          test -f "release/${name}.dmg"
+          ! find release -type f -name '*macos*.tar.gz' | grep -q .
+          ! find release -name 'MAAUnified.command' | grep -q .
+          rm -rf release/MAAUnified.app
+
+      - name: Notarize macOS dmg
+        if: runner.os == 'macOS' && steps.macos_signing.outputs.available == 'true'
+        shell: bash
+        env:
+          APPSTORE_KEYID: ${{ secrets.HGUANDL_APPSTORE_KEYID }}
+          APPSTORE_KEY: ${{ secrets.HGUANDL_APPSTORE_KEY }}
+          ISSUER_ID: ${{ secrets.HGUANDL_APPSTORE_ISSUER }}
+        run: |
+          cd release
+          echo "$APPSTORE_KEY" > "AuthKey_${APPSTORE_KEYID}.p8"
+          dmg="MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}.dmg"
+          xcrun notarytool submit -k "AuthKey_${APPSTORE_KEYID}.p8" -d "$APPSTORE_KEYID" -i "$ISSUER_ID" --wait "$dmg"
+          rm -f "AuthKey_${APPSTORE_KEYID}.p8"
+          xcrun stapler staple "$dmg"
+          spctl -a -t open --context context:primary-signature -v "$dmg"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}
+          path: |
+            release/*.zip
+            release/*.dmg
