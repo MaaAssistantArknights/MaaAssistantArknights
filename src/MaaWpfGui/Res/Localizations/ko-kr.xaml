@@ -694,6 +694,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
+    <system:String x:Key="ScreenshotEnhancement">스크린샷 향상</system:String>
     <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu 에뮬레이터 경로를 찾을 수 없습니다.</system:String>

@@ -694,6 +694,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
+    <system:String x:Key="ScreenshotEnhancement">スクリーンショット強化</system:String>
     <system:String x:Key="ScreenshotTest">スクリーンショットテスト</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu エミュレータのパスが見つかりません。</system:String>
