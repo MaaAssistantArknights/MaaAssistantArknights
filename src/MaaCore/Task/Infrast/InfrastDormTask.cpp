@@ -199,18 +199,29 @@ bool asst::InfrastDormTask::fill_dorm_slots()
                         break;
                     }
 
+                    bool is_not_stationed = false;
                     RegionOCRer facility_analyzer(oper.facility_img);
                     if (!facility_analyzer.analyze()) {
-                        Log.trace("ERROR:!facility_analyzer.analyze()");
-                        break;
+                        // Unstationed operators often have a blank facility region; RegionOCRer
+                        // treats that as failure rather than an empty result. When the in-game
+                        // "not stationed" filter is already active, assume not stationed.
+                        if (m_notstationed_filter_active) {
+                            Log.trace("facility OCR failed, assume not stationed (filter active)");
+                            is_not_stationed = true;
+                        }
+                        else {
+                            Log.trace("skip trust autofill candidate: facility OCR failed");
+                            continue;
+                        }
                     }
+                    else {
+                        std::string facility_name = facility_analyzer.get_result().text;
+                        boost::regex facility_rule("[^BF0-9]");
+                        facility_name = boost::regex_replace(facility_name, facility_rule, "");
 
-                    std::string facility_name = facility_analyzer.get_result().text;
-                    boost::regex facility_rule("[^BF0-9]");
-                    facility_name = boost::regex_replace(facility_name, facility_rule, "");
-
-                    Log.trace("facility_name:<" + facility_name + ">");
-                    const bool is_not_stationed = facility_name.length() < ActiveFacilityNumberLength;
+                        Log.trace("facility_name:<" + facility_name + ">");
+                        is_not_stationed = facility_name.length() < ActiveFacilityNumberLength;
+                    }
 
                     if (has_incomplete_trust && is_not_stationed) {
                         ctrler()->click(oper.rect);
