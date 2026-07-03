@@ -84,6 +84,7 @@
                         Width="150"
                         Margin="0,5"
                         hc:InfoElement.Title="{DynamicResource DefaultInfrast}"
+                        DisplayMemberPath="Display"
                         ItemsSource="{Binding DefaultInfrastList}"
                         SelectedValue="{Binding DefaultInfrast}"
                         SelectedValuePath="Value" />
