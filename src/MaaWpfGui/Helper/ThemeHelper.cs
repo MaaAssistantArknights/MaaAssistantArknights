@@ -94,11 +94,6 @@ public static class ThemeHelper
     private static int _monetBackgroundOpacity = 50;
 
     /// <summary>
-    /// 保存被莫奈覆盖前的原始 brush，用于关闭莫奈时恢复。
-    /// </summary>
-    private static readonly Dictionary<string, SolidColorBrush> _monetOriginalBrushes = [];
-
-    /// <summary>
     /// 莫奈取色是否已启用（即是否已调用过 ApplyMonetPalette 且未 Revert）。
     /// </summary>
     public static bool IsMonetActive => _monetBaseColor != null;
@@ -164,9 +159,6 @@ public static class ThemeHelper
     /// </summary>
     private static void ApplyPaletteToResources(Dictionary<string, Color> palette, Color baseColor)
     {
-        // 首次应用时保存原始值
-        SaveOriginalsIfNeeded(MonetPaletteHelper.PaletteKeys);
-
         // 先设置 AccentColor：HandyControl 的 ThemeManager 会根据它重新生成
         // PrimaryBrush / DarkPrimaryBrush / TitleBrush 等内部资源，
         // 因此必须在 AccentColor 之后再覆盖为莫奈调色板的值，否则会被覆盖回去
@@ -193,19 +185,20 @@ public static class ThemeHelper
         // 只有资源写入需要在 UI 线程
         Application.Current?.Dispatcher.Invoke(() =>
         {
-            // 先恢复 AccentColor 到系统值（同样会重写 HandyControl 内部 brush）
+            // 移除莫奈写入 Application.Current.Resources 的直接覆盖项，
+            // 让底层主题字典的值（随明暗切换自动更新）重新生效。
+            // 不能将保存的原始 brush 写回——它们是启用莫奈时的快照，
+            // 写回后会成为永久的 app 级覆盖，导致后续亮色/暗色模式切换异常。
+            foreach (var key in MonetPaletteHelper.PaletteKeys)
+            {
+                Application.Current.Resources.Remove(key);
+            }
+
+            // 恢复 AccentColor 到系统值（HandyControl 会据此重写内部 brush）
             if (!WineRuntimeInformation.IsRunningUnderWine)
             {
                 ThemeManager.Current.AccentColor = ThemeManager.Current.GetAccentColorFromSystem();
             }
-
-            // 在 AccentColor 之后再恢复原始 brush，避免被 HandyControl 覆盖
-            foreach (var (key, brush) in _monetOriginalBrushes)
-            {
-                Application.Current.Resources[key] = brush;
-            }
-
-            _monetOriginalBrushes.Clear();
 
             Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         });
@@ -230,28 +223,7 @@ public static class ThemeHelper
                 }
             });
 
-            _monetOriginalBrushes.Clear();
             ApplyMonetPalette(color, _monetBackgroundOpacity);
-        }
-    }
-
-    /// <summary>
-    /// 首次覆盖前保存原始 brush 值。
-    /// </summary>
-    private static void SaveOriginalsIfNeeded(IEnumerable<string> keys)
-    {
-        if (_monetOriginalBrushes.Count > 0)
-        {
-            return;
-        }
-
-        foreach (var key in keys)
-        {
-            if (Application.Current?.Resources[key] is SolidColorBrush brush)
-            {
-                // 冻结副本，避免引用被修改
-                _monetOriginalBrushes[key] = brush.Clone();
-            }
         }
     }
 
