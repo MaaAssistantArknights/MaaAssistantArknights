@@ -196,20 +196,41 @@ void asst::AdbController::callback(AsstMsg msg, const json::value& details)
     }
 }
 
-int asst::AdbController::get_mumu_index(const std::string& address)
+std::optional<int> asst::AdbController::get_mumu_index(const std::string& address)
 {
     LogTrace << VAR(address);
+
+    // 新版 MuMu 支持 emulator-xxxx 格式的设备号（如 emulator-5554），
+    // 实例索引 = (port - 5554) / 2
+    if (address.starts_with("emulator-")) {
+        constexpr int base_emulator_port = 5554;
+        std::string_view port_sv = std::string_view(address).substr(9); // after "emulator-"
+        int port = 0;
+        if (!utils::chars_to_number<int, true>(port_sv, port)) {
+            Log.error("emulator port is invalid", port_sv);
+            return std::nullopt;
+        }
+        // emulator 控制台端口从 5554 起步进 2（5554, 5556, ...），
+        // 奇数端口是 adb 端口而非控制台端口，不在 emulator-xxxx 格式中出现
+        if (port < base_emulator_port || (port - base_emulator_port) % 2 != 0) {
+            Log.error("emulator port is out of range or not aligned", port);
+            return std::nullopt;
+        }
+        int mumu_index = (port - base_emulator_port) / 2;
+        LogInfo << VAR(port_sv) << VAR(port) << VAR(mumu_index);
+        return mumu_index;
+    }
 
     auto pos = address.find(":");
     if (pos == std::string::npos) {
         Log.error("address is invalid", address);
-        return 0;
+        return std::nullopt;
     }
 
     std::string port_str = address.substr(pos + 1);
     if (port_str.empty() || !std::ranges::all_of(port_str, [](const char& c) -> bool { return std::isdigit(c); })) {
         Log.error("port is invalid", port_str);
-        return 0;
+        return std::nullopt;
     }
     int port = std::stoi(port_str);
     int mumu_index = 0;
@@ -232,6 +253,10 @@ int asst::AdbController::get_mumu_index(const std::string& address)
     }
     else if (port >= 5555) {
         mumu_index = (port - 5555) / 2;
+    }
+    else {
+        Log.error("port is not in a valid MuMu range", port);
+        return std::nullopt;
     }
     LogInfo << VAR(port_str) << VAR(port) << VAR(mumu_index);
     return mumu_index;
@@ -257,7 +282,12 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg, const std::str
         m_mumu_extras.init(mumu_path, adb_cfg.extras.get("index", 0));
     }
     else {
-        m_mumu_extras.init(mumu_path, get_mumu_index(address));
+        auto mumu_index = get_mumu_index(address);
+        if (!mumu_index) {
+            LogError << "Failed to parse MuMu index from address, skip MumuExtras init" << VAR(address);
+            return;
+        }
+        m_mumu_extras.init(mumu_path, mumu_index.value());
     }
 #endif
 }
@@ -273,21 +303,27 @@ void asst::AdbController::set_mumu_package(const std::string& client_type)
 #endif
 }
 
-int asst::AdbController::get_ld_index(const std::string& address)
+std::optional<int> asst::AdbController::get_ld_index(const std::string& address)
 {
     LogTrace << VAR(address);
 
     // emulator-5554
     if (address.starts_with("emulator-")) {
         constexpr int base_emulator_port = 5554;
-        std::string port_str = address.substr(9); // after "emulator-"
-        if (port_str.empty() || !std::ranges::all_of(port_str, [](char c) { return std::isdigit(c); })) {
-            Log.error("emulator port is invalid", port_str);
-            return 0;
+        std::string_view port_sv = std::string_view(address).substr(9); // after "emulator-"
+        int port = 0;
+        if (!utils::chars_to_number<int, true>(port_sv, port)) {
+            Log.error("emulator port is invalid", port_sv);
+            return std::nullopt;
         }
-        int port = std::stoi(port_str);
+        // emulator 控制台端口从 5554 起步进 2（5554, 5556, ...），
+        // 奇数端口是 adb 端口而非控制台端口，不在 emulator-xxxx 格式中出现
+        if (port < base_emulator_port || (port - base_emulator_port) % 2 != 0) {
+            Log.error("emulator port is out of range or not aligned", port);
+            return std::nullopt;
+        }
         int index = (port - base_emulator_port) / 2;
-        LogInfo << VAR(port_str) << VAR(port) << VAR(index);
+        LogInfo << VAR(port_sv) << VAR(port) << VAR(index);
         return index;
     }
 
@@ -298,7 +334,7 @@ int asst::AdbController::get_ld_index(const std::string& address)
         std::string port_str = address.substr(pos + 1);
         if (port_str.empty() || !std::ranges::all_of(port_str, [](char c) { return std::isdigit(c); })) {
             Log.error("adb port is invalid", port_str);
-            return 0;
+            return std::nullopt;
         }
         int port = std::stoi(port_str);
         int index = (port - base_adb_port) / 2;
@@ -307,7 +343,7 @@ int asst::AdbController::get_ld_index(const std::string& address)
     }
 
     Log.error("address is invalid or unsupported", address);
-    return 0;
+    return std::nullopt;
 }
 
 void asst::AdbController::init_ld_extras(const AdbCfg& adb_cfg, const std::string& address)
@@ -328,7 +364,12 @@ void asst::AdbController::init_ld_extras(const AdbCfg& adb_cfg, const std::strin
         ld_index = adb_cfg.extras.get("index", 0);
     }
     else {
-        ld_index = get_ld_index(address);
+        auto ld_index_opt = get_ld_index(address);
+        if (!ld_index_opt) {
+            LogError << "Failed to parse LD index from address, skip LDExtras init" << VAR(address);
+            return;
+        }
+        ld_index = ld_index_opt.value();
     }
     int ld_pid = adb_cfg.extras.get("pid", 0);
     m_ld_extras.init(ld_path, ld_index, ld_pid, m_width, m_height);
