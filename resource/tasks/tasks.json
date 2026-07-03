@@ -2385,7 +2385,7 @@
     "InfrastNotification": {
         "roi": [1100, 0, 180, 300],
         "action": "ClickSelf",
-        "next": ["InfrastReward", "InfrastReward@LoadingText", "InfrastExitReward"]
+        "next": ["InfrastReward", "InfrastNotification@LoadingText", "InfrastExitReward"]
     },
     "InfrastReward": {
         "algorithm": "OcrDetect",
