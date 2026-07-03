@@ -23,6 +23,12 @@
     <system:String x:Key="BackgroundImageStretchModeFill">拉伸填充</system:String>
     <system:String x:Key="BackgroundImageStretchModeUniform">等比适应</system:String>
     <system:String x:Key="BackgroundImageStretchModeUniformToFill">等比填充（裁剪）</system:String>
+    <system:String x:Key="BackgroundMonet">莫奈取色</system:String>
+    <system:String x:Key="BackgroundMonetMode">取色模式</system:String>
+    <system:String x:Key="BackgroundMonetAuto">自动取色</system:String>
+    <system:String x:Key="BackgroundMonetCustom">自定义颜色</system:String>
+    <system:String x:Key="BackgroundMonetSelectColor">选择颜色</system:String>
+    <system:String x:Key="BackgroundMonetAutoTip">将从背景图自动提取主色生成主题配色</system:String>
     <system:String x:Key="UiTheme">界面主题</system:String>
     <system:String x:Key="HotKeySettings">热键设置</system:String>
     <system:String x:Key="UpdateSettings">更新设置</system:String>
@@ -117,15 +123,15 @@
 ↓ 右键齿轮显示更多操作</system:String>
     <system:String x:Key="UserGuide">使用指引</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 官网与文档</system:String>
-    <system:String x:Key="GuideDocumentationPath">您可以在「{key=Settings} - {key=AboutUs} - {key=Website}」找到 MAA 的官方网站和完整文档。</system:String>
+    <system:String x:Key="GuideDocumentationPath">您可以在 ｢{key=Settings} - {key=AboutUs} - {key=Website}｣ 找到 MAA 的官方网站和完整文档。</system:String>
     <system:String x:Key="GuideIssueReportSubtitle">🔧 遇到问题时</system:String>
-    <system:String x:Key="GuideViewLog">您可以前往「{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}」查看日志，了解错误发生的具体原因。</system:String>
-    <system:String x:Key="GuideGenerateReport">请使用「{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}」生成错误报告，并点击蓝色的「{key=Issue}」链接提交反馈。</system:String>
+    <system:String x:Key="GuideViewLog">您可以前往 ｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ 查看日志，了解错误发生的具体原因。</system:String>
+    <system:String x:Key="GuideGenerateReport">请使用 ｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 生成错误报告，并点击蓝色的 ｢{key=Issue}｣ 链接提交反馈。</system:String>
     <system:String x:Key="GuideGitHubIssueTitle">⚠️ 反馈规范</system:String>
     <system:String x:Key="GuideGitHubIssueDescription">MAA Team 仅受理用户通过 GitHub 平台依照 Issue 模板规范提交的反馈，并保留对所有反馈的处理决定权。</system:String>
     <system:String x:Key="GuideOpenSourceTitle">💡 参与开源</system:String>
     <system:String x:Key="GuideOpenSourceDescription">作为开源项目，用户可依据 AGPL-3.0 许可证在 GitHub 平台参与 MAA 的开发。MAA Team 鼓励用户通过更有价值的代码贡献代替问题反馈。</system:String>
-    <system:String x:Key="GuideUserAgreement">使用 MAA 即表示您同意遵守「用户协议」，完整协议内容可在官网底部的链接中查看。</system:String>
+    <system:String x:Key="GuideUserAgreement">使用 MAA 即表示您同意遵守 ｢用户协议｣，完整协议内容可在官网底部的链接中查看。</system:String>
     <system:String x:Key="RestartGuide">重看设置指引</system:String>
     <system:String x:Key="RestartGuidePrompt">设置指引将在主界面显示，是否立即重启应用？</system:String>
     <!--  !设置指引  -->
@@ -163,9 +169,9 @@
     <system:String x:Key="InfrastModeNormal">常规模式</system:String>
     <system:String x:Key="InfrastModeRotation">队列轮换</system:String>
     <system:String x:Key="InfrastModeRotationTip">使用队列轮换需提前在游戏中设置好队列</system:String>
-    <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">｢{key=InfrastModeRotation}｣ 的换班逻辑与游戏内基建右下角的「{key=InfrastModeRotation}」完全一致：
+    <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">｢{key=InfrastModeRotation}｣ 的换班逻辑与游戏内基建右下角的 ｢{key=InfrastModeRotation}｣ 完全一致：
 当当前班次中任意干员心情值为 0 时，会整队替换为下一班干员。
-若需自定义轮换班次，请使用「{key=InfrastModeCustom}」。</system:String>
+若需自定义轮换班次，请使用 ｢{key=InfrastModeCustom}｣。</system:String>
     <system:String x:Key="InfrastModeCustom">自定义基建配置</system:String>
     <system:String x:Key="DefaultInfrast">内置配置</system:String>
     <system:String x:Key="UserDefined">自定义</system:String>
@@ -401,7 +407,7 @@
 📄 更新说明：
     • {key=UpdateCheckNow}：包含界面与功能更新。界面改动、新功能需通过{key=UpdateCheckNow}获得
     • {key=ResourceUpdate}：包含自动战斗新关卡、掉落识别图标、公招干员标签等素材数据
-    • 导航热更：自动触发，用于更新主界面提示与活动关卡入口。成功后右上角会显示「{key=ApiUpdateSuccess}」
+    • 导航热更：自动触发，用于更新主界面提示与活动关卡入口。成功后右上角会显示 ｢{key=ApiUpdateSuccess}｣
 </system:String>
     <system:String x:Key="GlobalSource">海外源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">强制使用 GitHub</system:String>
@@ -715,6 +721,7 @@ C:\\Program Files\\Netease\\MuMuPlayer。\n
     <system:String x:Key="MuMu12Index">实例编号</system:String>
     <system:String x:Key="MuMu12Display">屏幕编号</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截图增强未生效，请检查相关设置</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">检测到 MuMu 模拟器开启了后台保活，可能导致截图失败和操作异常，请在 MuMu 设置中关闭 ｢后台保活｣（或 ｢应用保活｣ ｢后台挂机时保活运行｣ 等）</system:String>
     <system:String x:Key="LdExtrasEnabled">启用 LD 截图增强模式</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">未找到 LDPlayer 模拟器路径。</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">在所选 LDPlayer 路径中未找到 ldopengl64.dll，请确认安装目录。</system:String>
@@ -844,7 +851,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩余天数: </system:String>
     <system:String x:Key="Inventory">库存</system:String>
     <system:String x:Key="InventoryUpdateTip">可通过 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存数据</system:String>
-    <system:String x:Key="SpecifiedDropsInventoryUnavailable">任务「{0}」启用了 {key=TargetInventory}，但当前没有可用的库存数据，已跳过。可通过 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存。</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">任务 ｢{0}｣ 启用了 {key=TargetInventory}，但当前没有可用的库存数据，已跳过。可通过 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存。</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>
@@ -1185,8 +1192,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群</system:String>
     <system:String x:Key="ErrorCrashMessageHeader">以上问题导致程序异常退出。</system:String>
-    <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往「{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}」查看日志，了解错误发生的具体原因。</system:String>
-    <system:String x:Key="ErrorCrashMessageGenerateReport">请使用「{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}」生成错误报告，并点击蓝色的 ｢{key=Issue}｣ 链接提交反馈。</system:String>
+    <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往 ｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ 查看日志，了解错误发生的具体原因。</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">请使用 ｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 生成错误报告，并点击蓝色的 ｢{key=Issue}｣ 链接提交反馈。</system:String>
     <system:String x:Key="ErrorCrashMessageHelpTip">如果向他人寻求帮助，请发送生成的错误报告文件，而不是发送此窗口的截图、录屏视频、屏幕照片、拍摄的视频、手绘图片或誊抄的画面内容。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">上次程序崩溃原因</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
@@ -1216,6 +1223,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FastestWayToScreencap">最快截图耗时: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">截图用时较长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）可能表现异常。如使用 MuMu、雷电模拟器请尝试开启截图增强</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">截图用时过长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）很可能无法正常运行，建议尝试重启或更换模拟器！如使用 MuMu、雷电模拟器请尝试开启截图增强</system:String>
+    <system:String x:Key="EmulatorFpsWarningTip">检测到模拟器设置帧率为 {0} FPS，低于游戏原生帧率（60 FPS），可能开启了后台降帧或帧率设置过低，建议将模拟器帧率设置为 60 FPS</system:String>
+    <system:String x:Key="EmulatorFpsErrorTip">检测到模拟器设置帧率过低（{0} FPS），可能导致任务异常，请关闭模拟器后台降帧并将帧率设置为 60 FPS</system:String>
+    <system:String x:Key="EmulatorFpsHighTip">检测到模拟器设置帧率为 {0} FPS，高于游戏原生帧率上限（60 FPS），可能是模拟器插帧功能，可能导致画面异常或识别不稳定，建议关闭插帧并将帧率设置为 60 FPS</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>
     <system:String x:Key="CombatError">战斗出错</system:String>
@@ -1734,7 +1744,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
     <system:String x:Key="Achievement.SanityExpire.Title">要过期了</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">赶紧冲哇！！！</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">使用「{key=UseExpiringMedicine}」，单次任务使用 8 瓶及以上临期理智药</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">使用 ｢{key=UseExpiringMedicine}｣，单次任务使用 8 瓶及以上临期理智药</system:String>
 
     <system:String x:Key="Achievement.OverLimitAgent.Title">超限代理</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Description">你进行了一次能将大道磨灭的代理任务。</system:String>

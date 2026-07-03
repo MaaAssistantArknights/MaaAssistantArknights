@@ -2,6 +2,7 @@
 
 #include "ControllerAPI.h"
 
+#include <chrono>
 #include <deque>
 #include <random>
 
@@ -147,6 +148,9 @@ protected:
     // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
     static bool convert_lf(std::string& data);
 
+    // 每 1 分钟检测一次模拟器帧率，回调给 UI 用于低帧率提示
+    void check_fps();
+
     AdbConnectionContext m_conn_ctx;
 
     AsstCallback m_callback;
@@ -179,6 +183,8 @@ protected:
         std::string version;
 
         std::string back_to_home;
+
+        std::string fps; // 获取模拟器刷新率的命令
 
         /* properties */
         enum class ScreencapEndOfLine
@@ -213,9 +219,10 @@ protected:
     bool m_server_started = false;
     bool m_inited = false;
     bool m_kill_adb_on_exit = false;
-    long long m_last_command_duration = 0;  // 上次命令执行用时
-    std::deque<long long> m_screencap_cost; // 截图用时
-    int m_screencap_times = 0;              // 截图次数
+    long long m_last_command_duration = 0;                       // 上次命令执行用时
+    std::deque<long long> m_screencap_cost;                      // 截图用时
+    int m_screencap_times = 0;                                   // 截图次数
+    std::chrono::steady_clock::time_point m_last_fps_check_time; // 上次帧率检测时间
 
 #if ASST_WITH_EMULATOR_EXTRAS
     MumuExtras m_mumu_extras;

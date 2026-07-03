@@ -43,12 +43,6 @@ public class GUI : INotifyPropertyChanged
 
     public bool SaveWindowPlacement { get; set; } = true;
 
-    public bool UseAlternateStage { get; set; } = false;
-
-    public bool HideUnavailableStage { get; set; } = true;
-
-    public bool CustomStageCode { get; set; } = false;
-
     public InverseClearType InverseClearMode { get; set; } = InverseClearType.Clear;
 
     public string WindowTitlePrefix { get; set; } = string.Empty;
@@ -84,6 +78,13 @@ public class GUI : INotifyPropertyChanged
     public bool ExpanderIssueReport { get; set; } = true;
 
     public bool ExpanderAboutUs { get; set; } = true;
+
+    // ===== 背景设置（莫奈取色） =====
+    public bool BackgroundMonetEnabled { get; set; } = false;
+
+    public MonetModeType BackgroundMonetMode { get; set; } = MonetModeType.Auto;
+
+    public string BackgroundMonetCustomColor { get; set; } = "#326CF3";
 
     [UsedImplicitly]
     public void OnPropertyChanged(string propertyName, object before, object after)
@@ -128,5 +129,21 @@ public class GUI : INotifyPropertyChanged
         /// 下拉框，可选清空/反转
         /// </summary>
         ClearInverse,
+    }
+
+    /// <summary>
+    /// 莫奈取色的模式。
+    /// </summary>
+    public enum MonetModeType
+    {
+        /// <summary>
+        /// 从背景图自动提取主色。
+        /// </summary>
+        Auto = 0,
+
+        /// <summary>
+        /// 用户手动选择颜色。
+        /// </summary>
+        Custom,
     }
 }

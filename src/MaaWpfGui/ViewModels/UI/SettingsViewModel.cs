@@ -359,6 +359,9 @@ public class SettingsViewModel : Screen
 
         GuiSettings.LanguageList = languageList;
         GuiSettings.SwitchDarkMode();
+
+        // 主题初始化完成后，若莫奈取色已开启，恢复调色板（必须在主题切换之后执行）
+        BackgroundSettings.UpdateMonet();
     }
 
     private void InitConnectConfig()

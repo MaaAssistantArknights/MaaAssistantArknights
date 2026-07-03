@@ -24,6 +24,12 @@
     <system:String x:Key="BackgroundImageStretchModeFill">늘려 채움</system:String>
     <system:String x:Key="BackgroundImageStretchModeUniform">비율 유지 (맞춤)</system:String>
     <system:String x:Key="BackgroundImageStretchModeUniformToFill">비율 유지 (자르기)</system:String>
+    <system:String x:Key="BackgroundMonet">모네 색상</system:String>
+    <system:String x:Key="BackgroundMonetMode">색상 모드</system:String>
+    <system:String x:Key="BackgroundMonetAuto">자동 추출</system:String>
+    <system:String x:Key="BackgroundMonetCustom">사용자 지정 색상</system:String>
+    <system:String x:Key="BackgroundMonetSelectColor">색상 선택</system:String>
+    <system:String x:Key="BackgroundMonetAutoTip">배경 이미지에서 주요 색상을 추출하여 테마 색상을 생성합니다</system:String>
     <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">업데이트</system:String>
     <system:String x:Key="AchievementSettings">도전과제</system:String>
@@ -715,6 +721,7 @@ C:\\Program Files\\Netease\\MuMuPlayer으로 입력해야 합니다.\n
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
     <system:String x:Key="MuMu12Display">표시 번호</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu 스크린샷 강화 기능이 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu 에뮬레이터 백그라운드 유지가 활성화되어 있습니다. 스크린샷 실패 및 작동 오류가 발생할 수 있습니다. MuMu 설정에서 "백그라운드 유지"(또는 "앱 유지" 등)를 비활성화하세요</system:String>
     <system:String x:Key="LdExtrasEnabled">LD 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">선택한 LDPlayer 경로에서 ldopengl64.dll을 찾을 수 없습니다. 설치 디렉터리를 확인하세요.</system:String>
@@ -1037,7 +1044,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event2">레인저</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event3">수상한 그림자</system:String>
     <system:String x:Key="MiniGame@SecretFront">비밀 전선</system:String>
-    <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내 「이전 소대의 데이터 전승받기」 옵션을 체크하는 것을 권장합니다.</system:String>
+    <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내  ｢이전 소대의 데이터 전승받기｣  옵션을 체크하는 것을 권장합니다.</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">자격증명서 상점</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1단계는 전부 구매하고&#10;2단계는 헤드헌팅 허가증과 모집 허가증을 구매해요</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">고급증명서 상점</system:String>
@@ -1162,7 +1169,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTaskTypeMismatch">선택한 작업이 현재 탭과 일치하지 않습니다</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">스테이지 이름이 비어 있는 작업이 있습니다</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">부조종사 작업을 파일에 저장할 수 없습니다.: </system:String>
-    <system:String x:Key="CopilotStartWithEmptyList">작업 없이 ｢{key=UseCopilotList}」를 사용 중입니다.</system:String>
+    <system:String x:Key="CopilotStartWithEmptyList">작업 없이 ｢{key=UseCopilotList}｣ 를 사용 중입니다.</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">｢{key=UseCopilotList}｣를 사용하여 단일 작업을 실행하는 것은 권장되지 않습니다. 단일 작업은 직접 실행해 주세요.</system:String>
     <system:String x:Key="CopilotTaskListMixedModeNotAllowed">현재 ｢{key=UseCopilotList}｣를 사용 중입니다. 서로 다른 작업 유형을 혼합하는 것은 지원되지 않습니다.</system:String>
     <system:String x:Key="CopilotTaskTypeParseFailedSkipCheck">일부 작업 유형을 해석하지 못했습니다. 유형 검사를 건너뜁니다.</system:String>
@@ -1186,8 +1193,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
     <system:String x:Key="ErrorCrashMessageHeader">위 문제로 인해 프로그램이 비정상 종료되었습니다.</system:String>
-    <system:String x:Key="ErrorCrashMessageOpenLog">「{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}」로 로그를 확인하고 오류가 발생한 구체적인 원인을 확인할 수 있습니다.</system:String>
-    <system:String x:Key="ErrorCrashMessageGenerateReport">「{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}」을 사용하여 오류 보고서를 생성한 후, 파란색 ｢{key=Issue}｣ 링크를 클릭하여 피드백을 제출해 주세요.</system:String>
+    <system:String x:Key="ErrorCrashMessageOpenLog"> ｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ 로 로그를 확인하고 오류가 발생한 구체적인 원인을 확인할 수 있습니다.</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport"> ｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 을 사용하여 오류 보고서를 생성한 후, 파란색 ｢{key=Issue}｣ 링크를 클릭하여 피드백을 제출해 주세요.</system:String>
     <system:String x:Key="ErrorCrashMessageHelpTip">다른 사람에게 도움을 요청할 경우, 이 창의 스크린샷, 화면 녹화, 화면 사진, 촬영한 영상, 손그림, 옮겨 적은 내용이 아니라 생성된 오류 보고서 파일을 보내 주세요.</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">마지막 충돌 원인</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
@@ -1217,6 +1224,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FastestWayToScreencap">스크린샷 캡처 속도: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷 캡처 속도가 느려서 (평균: {0}ms) Copilot 기능에서 일부 비정상적인 동작이 발생할 수 있습니다. MuMu 또는 LDPlayer를 사용하는 경우 스크린샷 향상 기능을 활성화해 보세요.</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷 캡처 속도가 너무 느려서 (평균: {0}ms) Copliot 기능이 제대로 실행되지 않을 수 있습니다. 에뮬레이터를 재시작하거나 변경하는 것을 권장합니다! MuMu 또는 LDPlayer를 사용하는 경우 스크린샷 향상 기능을 활성화해 보세요.</system:String>
+    <system:String x:Key="EmulatorFpsWarningTip">에뮬레이터 설정 주사율이 {0} FPS로 게임의 기본 프레임 속도(60 FPS)보다 낮습니다. 백그라운드 프레임 저하가 활성화되어 있거나 주사율이 너무 낮게 설정되어 있을 수 있습니다. 에뮬레이터 프레임 속도를 60 FPS로 설정하는 것을 권장합니다</system:String>
+    <system:String x:Key="EmulatorFpsErrorTip">에뮬레이터 설정 주사율이 너무 낮습니다 ({0} FPS). 작업에 문제가 발생할 수 있습니다. 에뮬레이터 설정에서 백그라운드 프레임 저하를 끄고 프레임 속도를 60 FPS로 설정해 주세요</system:String>
+    <system:String x:Key="EmulatorFpsHighTip">에뮬레이터 설정 주사율이 {0} FPS로 게임의 기본 프레임 속도 상한(60 FPS)을 초과합니다. 이는 에뮬레이터의 프레임 보간 기능일 수 있으며, 화면 왜곡이나 인식 불안정을 유발할 수 있습니다. 프레임 보간을 비활성화하고 프레임 속도를 60 FPS로 설정하는 것을 권장합니다</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
@@ -1734,7 +1744,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
 
     <system:String x:Key="Achievement.SanityExpire.Title">배신자!</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">유통기한이 다 될 때까지 뭐 하셨어요? 너무해요!</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">「{key=UseExpiringMedicine}」 기능으로 한 번에 8개 이상의 이성 회복제 사용</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions"> ｢{key=UseExpiringMedicine}｣  기능으로 한 번에 8개 이상의 이성 회복제 사용</system:String>
 
     <system:String x:Key="Achievement.OverLimitAgent.Title">스테이지 파괴자</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Description">이제 여기는 눈감고도 돌 수 있겠어요</system:String>

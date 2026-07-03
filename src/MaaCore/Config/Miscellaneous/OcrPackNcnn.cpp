@@ -156,6 +156,8 @@ bool OcrPack::check_and_load()
 
 #include <ncnn/net.h>
 
+#include <polyclipping/clipper.hpp>
+
 namespace
 {
 constexpr int kDetLimitSideLen = 960;
@@ -437,7 +439,31 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
         }
         const float dist = area * kDetUnclipRatio / length;
 
-        cv::RotatedRect rr2(rr.center, cv::Size2f(rr.size.width + 2.f * dist, rr.size.height + 2.f * dist), rr.angle);
+        // 对齐 fastdeploy PostProcessor::UnClip：对 box 多边形做 jtRound 偏移再取 minAreaRect。
+        // 之前的近似（RotatedRect 宽高各 +2*dist）在小字上框偏紧约 0.5~1px，叠加 det 的各向异性回缩后
+        // 会切掉笔画导致 rec 误识（实测 1080P 缩放后「丰饶灌木林」被读成「丰烧濯木林」，破坏 ocrReplace 锚点；
+        // 改用 Clipper 后框高 14→15px、rec 置信度 0.83→0.94，与桌面 fastdeploy / 720P 表现一致）。
+        ClipperLib::Path poly;
+        for (int pi = 0; pi < 4; ++pi) {
+            poly << ClipperLib::IntPoint(static_cast<int>(box[pi].x), static_cast<int>(box[pi].y));
+        }
+        ClipperLib::ClipperOffset offset;
+        offset.AddPath(poly, ClipperLib::jtRound, ClipperLib::etClosedPolygon);
+        ClipperLib::Paths solution;
+        offset.Execute(solution, dist);
+        if (solution.empty()) {
+            continue;
+        }
+        std::vector<cv::Point2f> expanded;
+        for (const auto& sub : solution) {
+            for (const auto& pt : sub) {
+                expanded.emplace_back(static_cast<float>(pt.X), static_cast<float>(pt.Y));
+            }
+        }
+        if (expanded.empty()) {
+            continue;
+        }
+        cv::RotatedRect rr2 = cv::minAreaRect(expanded);
         if (std::max(rr2.size.width, rr2.size.height) < kDetMinSize + 2) {
             continue;
         }

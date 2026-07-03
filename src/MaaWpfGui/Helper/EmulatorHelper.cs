@@ -16,6 +16,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using MaaWpfGui.Constants;
 using MaaWpfGui.ViewModels.UI;
@@ -61,67 +62,95 @@ public class EmulatorHelper
     }
 
     /// <summary>
+    /// 记录无效端口日志并返回 null。
+    /// </summary>
+    /// <param name="port">无效的端口号。</param>
+    /// <returns>始终返回 null。</returns>
+    private static int? InvalidMuMuPort(int port)
+    {
+        _logger.Error("Port {Port} is not valid for MuMu emulator", port);
+        return null;
+    }
+
+    /// <summary>
+    /// 将 MuMu 端口号转换为实例索引。
+    /// MuMu 端口分配公式：port = 16384 + (index % 32) * 32 + floor(index/32) * 4，
+    /// 简化后 index = ((k & 7) << 5) | (k >> 3)，其中 k = (port - 16384) / 4。
+    /// 参见 https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17112
+    /// </summary>
+    /// <param name="port">MuMu ADB 端口号。</param>
+    /// <returns>实例索引。</returns>
+    private static int MuMuPortToIndex(int port)
+    {
+        int k = (port - 16384) / 4;
+        return ((k & 7) << 5) | (k >> 3);
+    }
+
+    /// <summary>
+    /// 从连接地址或 MuMu Bridge 连接配置推导 MuMu 模拟器实例索引。
+    /// </summary>
+    /// <param name="address">连接地址，如 127.0.0.1:16384。</param>
+    /// <returns>推导出的实例索引；无法推导时返回 null。</returns>
+    private static int? GetMuMuIndex(string address)
+    {
+        if (address == "127.0.0.1:16384")
+        {
+            return 0;
+        }
+
+        if (SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.MuMuBridgeConnection)
+        {
+            return int.TryParse(SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.Index, out var indexParse) ? indexParse : 0;
+        }
+
+        if (address.Contains(':'))
+        {
+            string portStr = address.Split(':')[1];
+            if (!int.TryParse(portStr, out int port))
+            {
+                _logger.Error("Failed to parse port from address {Address}", address);
+                return null;
+            }
+
+            return port switch
+            {
+                >= 16384 => MuMuPortToIndex(port),
+                7555 => 0,
+                >= 5555 => (port - 5555) / 2,
+                _ => InvalidMuMuPort(port),
+            };
+        }
+
+        if (address.StartsWith("emulator-", StringComparison.OrdinalIgnoreCase))
+        {
+            string[] parts = address.Split('-');
+            if (parts.Length >= 2 && int.TryParse(parts[1], out int port))
+            {
+                return (port - 5554) / 2;
+            }
+
+            _logger.Error("Failed to parse port from emulator style address {Address}", address);
+            return null;
+        }
+
+        _logger.Error("Unsupported address format: {Address}", address);
+        return null;
+    }
+
+    /// <summary>
     /// 一个用于调用 MuMu 模拟器控制台关闭 MuMu 的方法
     /// </summary>
     /// <returns>是否关闭成功</returns>
     private static bool KillEmulatorMuMuEmulator()
     {
         string address = SettingsViewModel.ConnectSettings.ConnectAddress;
-        int emuIndex;
-        if (address == "127.0.0.1:16384")
+        int? emuIndexOpt = GetMuMuIndex(address);
+        if (emuIndexOpt is null)
         {
-            emuIndex = 0;
-        }
-        else if (SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.MuMuBridgeConnection)
-        {
-            emuIndex = int.TryParse(SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.Index, out var indexParse) ? indexParse : 0;
-        }
-        else if (address.Contains(':'))
-        {
-            string portStr = address.Split(':')[1];
-            if (int.TryParse(portStr, out int port))
-            {
-                switch (port)
-                {
-                    case >= 16384:
-                        emuIndex = (port - 16384) / 32;
-                        break;
-                    case 7555:
-                        emuIndex = 0;
-                        _logger.Warning("Port 7555 is deprecated for MuMu6, please use 16384 or above.");
-                        break;
-                    case >= 5555:
-                        emuIndex = (port - 5555) / 2;
-                        break;
-                    default:
-                        _logger.Error("Port {Port} is not valid for MuMu emulator", port);
-                        return false;
-                }
-            }
-            else
-            {
-                _logger.Error("Failed to parse port from address {Address}", address);
-                return false;
-            }
-        }
-        else if (address.StartsWith("emulator-", StringComparison.OrdinalIgnoreCase))
-        {
-            string[] parts = address.Split('-');
-            if (parts.Length >= 2 && int.TryParse(parts[1], out int port))
-            {
-                emuIndex = (port - 5554) / 2;
-            }
-            else
-            {
-                _logger.Error("Failed to parse port from emulator style address {Address}", address);
-                return false;
-            }
-        }
-        else
-        {
-            _logger.Error("Unsupported address format: {Address}", address);
             return false;
         }
+
+        int emuIndex = emuIndexOpt.Value;
 
         // 尝试找到正在运行的模拟器进程
         Process[] processes = Process.GetProcessesByName("MuMuNxDevice"); // 新版
@@ -551,6 +580,156 @@ public class EmulatorHelper
         }
 
         return KillEmulator();
+    }
+
+    /// <summary>
+    /// 检测 MuMu 模拟器的后台保活是否开启。
+    /// 通过 MuMuManager.exe 读取 app_keptlive 配置项。
+    /// </summary>
+    /// <returns>true 表示保活已开启（可能导致截图和操作异常），false 表示未开启或检测失败。</returns>
+    public static bool CheckMuMuKeepAlive()
+    {
+        try
+        {
+            // 从连接地址推导实例索引
+            string address = SettingsViewModel.ConnectSettings.ConnectAddress;
+            int? emuIndexOpt = GetMuMuIndex(address);
+            if (emuIndexOpt is null)
+            {
+                _logger.Information("Cannot determine MuMu index for keep alive check, address: {Address}", address);
+                return false;
+            }
+
+            int emuIndex = emuIndexOpt.Value;
+
+            // 查找 MuMuManager.exe 路径
+            string? consolePath = FindMuMuManagerPath();
+            if (consolePath == null)
+            {
+                _logger.Information("MuMuManager.exe not found, skip keep alive check");
+                return false;
+            }
+
+            // 调用 MuMuManager.exe setting -v {emuIndex} -k app_keptlive
+            // 返回 JSON 格式: { "app_keptlive": "true" }
+            var startInfo = new ProcessStartInfo(consolePath)
+            {
+                Arguments = $"setting -v {emuIndex} -k app_keptlive",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true,
+            };
+
+            using var process = Process.Start(startInfo);
+            if (process == null || !process.WaitForExit(5000))
+            {
+                _logger.Warning("MuMuManager.exe did not exit within timeout, killing it");
+                try
+                {
+                    process?.Kill();
+                }
+                catch (Exception ex)
+                {
+                    _logger.Warning("Failed to kill MuMuManager.exe: {ExMessage}", ex.Message);
+                }
+
+                return false;
+            }
+
+            string output = process.StandardOutput.ReadToEnd().Trim();
+            _logger.Information("MuMuManager app_keptlive output: {Output}", output);
+
+            if (string.IsNullOrEmpty(output))
+            {
+                return false;
+            }
+
+            // 解析 JSON 输出，兼容字符串和布尔两种格式
+            using var doc = JsonDocument.Parse(output);
+            if (doc.RootElement.TryGetProperty("app_keptlive", out var value))
+            {
+                return value.ValueKind switch
+                {
+                    JsonValueKind.True => true,
+                    JsonValueKind.False => false,
+                    JsonValueKind.String => string.Equals(value.GetString(), "true", StringComparison.OrdinalIgnoreCase),
+                    _ => false,
+                };
+            }
+
+            return false;
+        }
+        catch (Exception e)
+        {
+            _logger.Warning("Failed to check MuMu keep alive: {EMessage}", e.Message);
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// 查找 MuMuManager.exe 的路径，优先从运行中的 MuMu 进程获取，回退到用户配置的安装路径。
+    /// </summary>
+    /// <returns>MuMuManager.exe 的完整路径，找不到则返回 null。</returns>
+    private static string? FindMuMuManagerPath()
+    {
+        // 优先从运行中的模拟器进程获取安装目录
+        Process[] processes = Process.GetProcessesByName("MuMuNxDevice");
+        if (processes.Length == 0)
+        {
+            processes = Process.GetProcessesByName("MuMuPlayer");
+        }
+
+        if (processes.Length > 0)
+        {
+            try
+            {
+                string? emulatorExePath = processes[0].MainModule?.FileName;
+                if (emulatorExePath != null)
+                {
+                    // 新版: nx_device\12.0\shell\MuMuNxDevice.exe → 上三级 = 安装目录
+                    // 旧版: shell\MuMuPlayer.exe → 上一级 = 安装目录
+                    var installPath = Path.GetFullPath(
+                        Path.GetFileName(emulatorExePath).Equals("MuMuNxDevice.exe", StringComparison.OrdinalIgnoreCase)
+                            ? Path.Combine(Path.GetDirectoryName(emulatorExePath)!, @"..\..\..")
+                            : Path.Combine(Path.GetDirectoryName(emulatorExePath)!, ".."));
+
+                    string newConsolePath = Path.Combine(installPath, @"nx_main\MuMuManager.exe");
+                    if (File.Exists(newConsolePath))
+                    {
+                        return newConsolePath;
+                    }
+
+                    string oldConsolePath = Path.Combine(installPath, @"shell\MuMuManager.exe");
+                    if (File.Exists(oldConsolePath))
+                    {
+                        return oldConsolePath;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Warning("Failed to get MuMu process module path: {EMessage}", e.Message);
+            }
+        }
+
+        // 回退：从用户配置的 MuMu 安装路径查找
+        string? configuredPath = SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.EmulatorPath;
+        if (!string.IsNullOrEmpty(configuredPath) && Directory.Exists(configuredPath))
+        {
+            string newConsolePath = Path.Combine(configuredPath, @"nx_main\MuMuManager.exe");
+            if (File.Exists(newConsolePath))
+            {
+                return newConsolePath;
+            }
+
+            string oldConsolePath = Path.Combine(configuredPath, @"shell\MuMuManager.exe");
+            if (File.Exists(oldConsolePath))
+            {
+                return oldConsolePath;
+            }
+        }
+
+        return null;
     }
 
     /// <summary>

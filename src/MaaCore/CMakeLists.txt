@@ -34,9 +34,11 @@ target_include_directories(MaaCore PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE 
 add_dependencies(MaaCore MaaUtils)
 if(ANDROID)
     find_package(ncnn REQUIRED)
+    find_package(polyclipping CONFIG REQUIRED)
     target_link_libraries(MaaCore
         HeaderOnlyLibraries MaaUtils ${OpenCV_LIBS}
         ncnn
+        polyclipping::polyclipping
         ONNXRuntime::ONNXRuntime ZLIB::ZLIB Boost::system)
     set_property(TARGET MaaCore PROPERTY NO_SYSTEM_FROM_IMPORTED TRUE)
 else()
