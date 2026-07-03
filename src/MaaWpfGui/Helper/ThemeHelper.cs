@@ -22,6 +22,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
+using Stylet;
 
 namespace MaaWpfGui.Helper;
 
@@ -123,7 +124,7 @@ public static class ThemeHelper
         var palette = MonetPaletteHelper.Generate(baseColor, isDark, backgroundOpacity);
 
         // 只有实际写入 WPF 资源才需要在 UI 线程执行
-        Application.Current?.Dispatcher.Invoke(() =>
+        Execute.OnUIThread(() =>
         {
             ApplyPaletteToResources(palette, baseColor);
         });
@@ -148,7 +149,7 @@ public static class ThemeHelper
             .ConfigureAwait(true);
 
         // 在 UI 线程写入资源
-        Application.Current?.Dispatcher.Invoke(() =>
+        Execute.OnUIThread(() =>
         {
             ApplyPaletteToResources(palette, baseColor);
         });
@@ -183,7 +184,7 @@ public static class ThemeHelper
         _monetBaseColor = null;
 
         // 只有资源写入需要在 UI 线程
-        Application.Current?.Dispatcher.Invoke(() =>
+        Execute.OnUIThread(() =>
         {
             // 移除莫奈写入 Application.Current.Resources 的直接覆盖项，
             // 让底层主题字典的值（随明暗切换自动更新）重新生效。
@@ -215,7 +216,7 @@ public static class ThemeHelper
             // 明暗模式切换后，HandyControl 会通过 ThemeResources 切换底层主题字典，
             // 但莫奈之前直接写入 Application.Current.Resources 的值会遮蔽新主题的值。
             // 需要先移除这些直接覆盖项，让底层新主题值透出，再重新保存和生成。
-            Application.Current?.Dispatcher.Invoke(() =>
+            Execute.OnUIThread(() =>
             {
                 foreach (var key in MonetPaletteHelper.PaletteKeys)
                 {
