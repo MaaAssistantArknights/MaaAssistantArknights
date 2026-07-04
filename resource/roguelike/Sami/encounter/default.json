@@ -301,7 +301,7 @@
             "choose": 2,
             "choices": [
                 {
-                    "name": "你在做什么?",
+                    "name": "你在做什么？",
                     "option_num": 3,
                     "choose": 2,
                     "requirements": [

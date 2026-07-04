@@ -252,15 +252,18 @@
     },
     "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
         "ocrReplace": [
-            [" ", ""],
-            ["Eatyourfill", "饱餐一顿"],
-            ["Boostmorale", "鼓舞士气"],
-            ["Treatyourwounds", "医治伤口"],
-            ["Wavethesignalflag", "摇动令旗"],
+            [" |<|>|-|'", ""],
             ["Takeabreak", "稍事休息"],
             ["Reorganize", "重整编制"],
+            ["Boostmorale", "鼓舞士气"],
+            ["Treatyourwounds", "医治伤口"],
+            ["Eatyourfill", "饱餐一顿"],
+            ["Wavethesignalflag", "摇动令旗"],
+            ["Lightacandle", "点燃蜡烛"],
             ["Getintoformation", "布下阵法"],
-            ["Lightacandle", "点燃蜡烛"]
+            ["Pickabigone", "挑个大的"],
+            ["Pickasmallone", "挑个小的"],
+            ["Prettyreasonable[onceyouthinkaboutit]*", "细细想来也有道理"]
         ]
     }
 }
