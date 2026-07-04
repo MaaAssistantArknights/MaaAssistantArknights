@@ -86,6 +86,12 @@ public class GUI : INotifyPropertyChanged
 
     public string BackgroundMonetCustomColor { get; set; } = "#326CF3";
 
+    /// <summary>
+    /// 自动取色模式上次提取到的主色（HEX），用于下次启动时同步恢复调色板，避免闪烁。
+    /// 自定义模式的颜色也写入此缓存，使启动时不论何种模式都能即时恢复。
+    /// </summary>
+    public string BackgroundMonetCachedColor { get; set; } = string.Empty;
+
     [UsedImplicitly]
     public void OnPropertyChanged(string propertyName, object before, object after)
     {
