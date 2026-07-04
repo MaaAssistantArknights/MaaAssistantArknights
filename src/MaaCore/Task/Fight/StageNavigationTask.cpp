@@ -197,9 +197,7 @@ bool asst::StageNavigationTask::swipe_and_find_stage()
         Log.info("Stage template found, using template matching for", m_stage_code, ", templ:", templ_path);
         Task.get<MatchTaskInfo>(m_stage_code + "@ClickStageByTemplate")->templ_names = { templ_path + ".png" };
         Task.get<OcrTaskInfo>(m_stage_code + "@ClickedCorrectStageByTemplateOrSwipe")->text = { m_stage_code };
-        return ProcessTask(
-                   *this,
-                   { m_stage_code + "@StageNavigationByTemplateMatchBegin" })
+        return ProcessTask(*this, { m_stage_code + "@StageNavigationByTemplateMatchBegin" })
             .set_retry_times(RetryTimesDefault)
             .run();
     }

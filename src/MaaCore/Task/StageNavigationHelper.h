@@ -28,7 +28,9 @@ inline std::string get_stage_template_path(const std::string& stage_name)
 
     std::string prefix = stage_name.substr(0, dash_pos);
     // 验证前缀全是字母
-    if (!std::all_of(prefix.begin(), prefix.end(), [](char c) { return std::isalpha(static_cast<unsigned char>(c)); })) {
+    if (!std::all_of(prefix.begin(), prefix.end(), [](char c) {
+            return std::isalpha(static_cast<unsigned char>(c));
+        })) {
         return {};
     }
 
