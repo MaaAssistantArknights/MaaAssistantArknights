@@ -1037,7 +1037,6 @@
             ["DuckforceTest", "鸭力测试"],
             ["SomeTimetoKill", "打发时间"],
             ["APassionforWork", "工作热情"],
-            ["BusinessEmpire", "商业帝国？"],
             ["DelusionsofLunacy", "狂徒妄念"],
             ["TheKnightPersists", "骑士仍在"],
             ["TheBeginning", "开端"],
@@ -1295,11 +1294,7 @@
             ["DeclaretheKings.?struenames", "报出魔王的名讳"],
             ["Let.?stryagain", "再试试看吧"],
             ["Heaven-Blessed Hunt", "大狩维天"],
-            ["For Tomorrow", "只为明日"],
-            ["Business Empire?", "商业帝国？"],
-            ["Duck Lord the Lead Actor?", "鸭爵主演？"],
-            ["A Passion for Work?", "工作热情？"],
-            ["Reprieve?", "解脱？"]
+            ["ForTomorrow", "只为明日"]
         ],
         "roi": [0, 395, 725, 235]
     },
