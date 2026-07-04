@@ -1358,6 +1358,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">Additional custom {key=Operator} name invalid: {0}, please check spelling</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
     <system:String x:Key="CostRegeneration">当前费用回复: {0} ({1}/120)</system:String>
+    <system:String x:Key="MechanismRegeneration">当前地图机制回复: {0} ({1}/453)</system:String>
     <system:String x:Key="ElapsedTime">Elapsed time: {0}ms</system:String>
     <system:String x:Key="Deploy">Deploy</system:String>
     <system:String x:Key="UseSkill">Use Skill</system:String>

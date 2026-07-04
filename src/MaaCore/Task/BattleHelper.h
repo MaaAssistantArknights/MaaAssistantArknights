@@ -57,6 +57,7 @@ protected:
     bool update_kills(const cv::Mat& image, const cv::Mat& image_prev = cv::Mat());
     bool update_cost(const cv::Mat& image, const cv::Mat& image_prev = cv::Mat());
     bool update_cost_regeneration(const cv::Mat& reusable = cv::Mat());
+    bool update_mechanism_regeneration(const cv::Mat& reusable = cv::Mat());
 
     cv::Mat get_top_view(const cv::Mat& cam_img, bool side = true, bool has_multi_stages = false);
 
@@ -135,6 +136,9 @@ protected:
     int m_cost = 0;
     int m_cost_regenerated = 0;
     int m_cost_regeneration = 0;
+    int m_mechanism_regenerated = 0;
+    int m_mechanism_regeneration = 0;
+    bool m_mechanism_regeneration_reversed = false;
     bool m_stopwatch_enabled = false;
     bool m_paused = false;
     std::chrono::steady_clock::time_point m_stopwatch_start_time;

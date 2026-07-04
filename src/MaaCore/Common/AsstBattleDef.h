@@ -418,6 +418,8 @@ struct Action
     int cost_changes = 0;
     int cost_regenerated = 0;
     int cost_regeneration = 0;
+    int mechanism_regenerated = 0;
+    int mechanism_regeneration = 0;
     int cooling = 0;
     ActionType type = ActionType::Deploy;
     std::string name; // 目标名，若 type >= SwitchSpeed, name 为空

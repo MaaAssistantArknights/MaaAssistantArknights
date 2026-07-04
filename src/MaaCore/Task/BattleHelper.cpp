@@ -57,6 +57,9 @@ void asst::BattleHelper::clear()
     m_total_kills = 0;
     m_cost_regenerated = 0;
     m_cost_regeneration = 0;
+    m_mechanism_regenerated = 0;
+    m_mechanism_regeneration = 0;
+    m_mechanism_regeneration_reversed = false;
     m_stopwatch_enabled = false;
     m_paused = false;
     m_need_pause_on_start = false;
@@ -444,6 +447,31 @@ bool asst::BattleHelper::update_cost_regeneration(const cv::Mat& reusable)
         ++m_cost_regenerated;
     }
     m_cost_regeneration = cost_regeneration;
+
+    return true;
+}
+
+bool asst::BattleHelper::update_mechanism_regeneration(const cv::Mat& reusable)
+{
+    static const MatchTaskPtr mechanism_bar_task_ptr = Task.get<MatchTaskInfo>("BattleMechanismRegenerationBar");
+    static const int mechanism_bar_wrap_start_threshold = mechanism_bar_task_ptr->special_params[0];
+    // static const int mechanism_bar_wrap_end_threshold = mechanism_bar_task_ptr->special_params[1];
+
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    BattlefieldMatcher analyzer(image);
+    analyzer.set_object_of_interest({ .mechanism_regeneration = true });
+    auto result_opt = analyzer.analyze();
+    int mechanism_regeneration = result_opt->mechanism_regeneration.value;
+    if (m_mechanism_regeneration_reversed) {
+        mechanism_regeneration = mechanism_bar_task_ptr->roi.width - mechanism_regeneration;
+    }
+    if (m_mechanism_regeneration >= mechanism_bar_wrap_start_threshold &&
+        mechanism_regeneration < m_mechanism_regeneration) {
+        ++m_mechanism_regenerated;
+        m_mechanism_regeneration_reversed = !m_mechanism_regeneration_reversed;
+        mechanism_regeneration = mechanism_bar_task_ptr->roi.width - mechanism_regeneration;
+    }
+    m_mechanism_regeneration = mechanism_regeneration;
 
     return true;
 }

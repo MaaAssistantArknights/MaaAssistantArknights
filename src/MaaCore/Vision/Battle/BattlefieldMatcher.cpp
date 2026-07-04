@@ -66,6 +66,10 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
         result.cost_regeneration = cost_regeneration_analyze();
     }
 
+    if (m_object_of_interest.mechanism_regeneration) {
+        result.mechanism_regeneration = mechanism_regeneration_analyze();
+    }
+
     // 识别的不准，暂时不用了
     // if (m_object_of_interest.in_detail) {
     //    result.in_detail = in_detail_analyze();
@@ -448,9 +452,30 @@ bool asst::BattlefieldMatcher::hit_costs_cache() const
 BattlefieldMatcher::MatchResult<int> BattlefieldMatcher::cost_regeneration_analyze() const
 {
     static const MatchTaskPtr cost_regeneration_task_ptr = Task.get<MatchTaskInfo>("BattleCostRegenerationBar");
+    static const std::pair<int,int> cost_regeneration_color_scales =
+        std::get<std::pair<int,int>>(cost_regeneration_task_ptr->color_scales[0]);
     PixelAnalyzer analyzer(m_image);
     analyzer.set_roi(cost_regeneration_task_ptr->roi);
-    analyzer.set_gray_lb(cost_regeneration_task_ptr->special_params[2]);
+    analyzer.set_gray_lb(cost_regeneration_color_scales.first);
+    analyzer.set_gray_ub(cost_regeneration_color_scales.second);
+    if (!analyzer.analyze()) {
+        return { .value = 0, .status = MatchStatus::Success };
+    }
+    int max_x = std::ranges::max(analyzer.get_result(), {}, &Point::x).x;
+    return { .value = max_x, .status = MatchStatus::Success };
+}
+
+BattlefieldMatcher::MatchResult<int> BattlefieldMatcher::mechanism_regeneration_analyze() const
+{
+    static const MatchTaskPtr mechanism_regeneration_task_ptr =
+        Task.get<MatchTaskInfo>("BattleMechanismRegenerationBar");
+    static const std::pair<std::array<int,3>, std::array<int,3>> mechanism_regeneration_color_scales =
+        std::get<std::pair<std::array<int,3>, std::array<int,3>>>(mechanism_regeneration_task_ptr->color_scales[0]);
+    PixelAnalyzer analyzer(m_image);
+    analyzer.set_roi(mechanism_regeneration_task_ptr->roi);
+    analyzer.set_filter(PixelAnalyzer::Filter::RGB);
+    analyzer.set_lb(mechanism_regeneration_color_scales.first);
+    analyzer.set_ub(mechanism_regeneration_color_scales.second);
     if (!analyzer.analyze()) {
         return { .value = 0, .status = MatchStatus::Success };
     }

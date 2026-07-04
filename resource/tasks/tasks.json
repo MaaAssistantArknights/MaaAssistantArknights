@@ -4004,7 +4004,23 @@
     "BattleCostRegenerationBar": {
         "template": "empty.png",
         "roi": [1160, 542, 120, 1],
-        "specialParams": [90, 30, 100]
+        "method": "RGBCount",
+        "colorScales": [
+            [100, 255]
+        ],
+        "specialParams": [90, 30]
+    },
+    "BattleMechanismRegenerationBar": {
+        "template": "empty.png",
+        "roi": [364, 75, 556, 1],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [100, 0, 0],
+                [255, 255, 255]
+            ]
+        ],
+        "specialParams": [400, 50]
     },
     "BattleSkillReady": {
         "rectMove": [-28, -140, 64, 64]
