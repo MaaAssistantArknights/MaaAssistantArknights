@@ -1,33 +1,17 @@
-## v6.13.0
+## v6.13.1-alpha.1 (2026-07-04)
 
 ### Highlights
 
-#### 6 星自动公招支持
+#### 模拟器兼容性与主题体验改进
 
-新增可通过手动修改配置文件开启的 6 星自动公招功能，「是否招募」和「招募时间」选项移入常规设置，并优化了相关提示信息。
-
-#### 通知不可用时自动回退
-
-系统通知无法显示时自动回退到软件内通知，避免用户错过重要提醒；启动时的通知检测提示也改为软件内弹窗，不再仅写入日志。
-
-#### 切换语言无需重启
-
-切换软件界面语言不再需要重启，干员识别、仓库识别等界面同步支持动态切换。
+新增模拟器帧率检测、MuMu 后台保活检测与更多截图增强指引，帮助排查截图慢、操作异常和低帧率问题；同时新增莫奈取色，可根据背景图自动生成界面配色，并补充更新提示与进度窗口相关选项。
 
 <details>
 <summary><b>English</b></summary>
 
-#### 6-Star Auto Recruitment Support
+#### Better Emulator Compatibility and Theme Experience
 
-Added a 6-star auto recruitment feature that can be enabled through manual configuration file editing. The "Recruit" and "Recruitment Time" options have been moved to general settings, with improved tooltip hints.
-
-#### Notification Fallback
-
-Automatically falls back to in-app notifications when system notifications are unavailable, ensuring users never miss important alerts. The startup notification availability check now shows an in-app Growl message instead of only logging to file.
-
-#### Switch Language Without Restart
-
-Switching the UI language no longer requires a restart; operator recognition, depot recognition, and other views now support dynamic switching.
+Added emulator FPS detection, MuMu keep-alive detection, and more screenshot-enhancement guidance to help diagnose slow screencaps, unstable actions, and low frame rate issues. Also introduced Monet color extraction for background-based theme colors, plus clearer update prompts and progress window options.
 
 </details>
 
@@ -36,6 +20,37 @@ Switching the UI language no longer requires a restart; operator recognition, de
 以下是详细内容：
 
 <details open>
+<summary><b>v6.13.1-alpha.1 (2026-07-04)</b></summary>
+
+### 新增 | New
+
+* 新增莫奈取色，可根据背景图自动提取主色生成主题配色，并支持自定义颜色 ([#17242](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17242) [#17243](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17243) [#17249](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17249)) @ABA2396
+* 新增模拟器帧率检测与提示，帮助识别后台降帧、低帧率设置和插帧问题 ([#17219](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17219)) @ABA2396
+* 新增 MuMu 后台保活检测提示，帮助排查截图失败和操作异常 ([#17241](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17241)) @ABA2396
+* 设置指引与开始唤醒中新增截图增强和截图测试相关选项 ([#17247](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17247)) @ABA2396
+* 新增隐藏更新进度提示框选项，并补充自动下载更新包的提示说明 ([#17254](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17254) [#17232](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17232)) @ABA2396 @Rin @status102
+* 新增同时使用雷电模拟器与 MaaTouch 的警告提示 ([#17238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17238)) @ABA2396
+* 繁中服新增「衛戍協議：盟約」小游戏资源支持 ([#17257](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17257)) @momomochi987
+
+### 改进 | Improved
+
+* MuMu 截图增强支持 `emulator-5xxx` 格式端口连接，兼容更多连接方式 ([#17255](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17255)) @ABA2396
+* 禁用 Xe-LPG+ Arrow Lake Arc 140T 的 GPU 推理选项，避免缺字等识别异常 ([#17246](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17246) [#17245](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17245)) @ABA2396
+* YostarEN/JP/KR/txwy add MASS choice encounters support for Roguelike @Constrat
+
+### 修复 | Fix
+
+* 修复 NCNN OCR 在部分文本上的检测框偏移问题，提升小字识别稳定性 ([#17227](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17227)) @Aliothmoon
+* 修复 MuMu 模拟器第 32 个及以后多开实例的编号计算错误 ([#17112](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17112)) @dikxingmengya @ABA2396
+* 修复未开启系统通知时仍执行通知检查的问题 @ABA2396
+* 修复自定义基建配置列表显示异常 ([#17254](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17254)) @ABA2396
+* 修复基建产物收取时被 Loading 遮挡而跳过的问题 ([#17232](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17232)) @Rin @status102
+* 修复萨米肉鸽「特里蒙旅行社特派团」识别错误 @萨拉托加
+* 修复多服肉鸽事件与选项识别错误，统一问号等文本匹配，并清理重复或过期条目 ([#17256](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17256)) @uye @Constrat
+
+</details>
+
+<details>
 <summary><b>v6.13.0 (2026-06-28)</b></summary>
 
 ### 新增 | New
