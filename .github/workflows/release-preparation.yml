@@ -29,7 +29,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout dev-v2 with full history
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: dev-v2
           fetch-depth: 0
