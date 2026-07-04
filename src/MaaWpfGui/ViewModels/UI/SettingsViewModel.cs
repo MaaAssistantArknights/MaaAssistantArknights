@@ -361,7 +361,8 @@ public class SettingsViewModel : Screen
         GuiSettings.SwitchDarkMode();
 
         // 主题初始化完成后，若莫奈取色已开启，恢复调色板（必须在主题切换之后执行）
-        BackgroundSettings.UpdateMonet();
+        // 跳过防抖延迟，避免界面先闪烁原版颜色再显示莫奈主题
+        BackgroundSettings.UpdateMonet(skipDebounce: true);
     }
 
     private void InitConnectConfig()
