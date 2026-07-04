@@ -6,7 +6,7 @@
 //   MAA.Updater.exe <ParentProcessId> <RootDir> <ExtractDir> <BackupDir>
 //                   <PackagePath> <SuccessStatusFile> <FailureStatusFile>
 //                   <RelaunchExecutablePath> <PlanFile>
-//                   [--mutex-name <name>] [--show-console]
+//                   [--mutex-name <name>] [--show-console] [--no-progress-ui]
 //
 // Plan file format (UTF-8 JSON):
 //   { "packageType": "full|ota", "removeList": ["rel/path", ...], "moveList": ["rel/path", ...] }
@@ -134,6 +134,8 @@ struct ProgressUiTheme
 
 static std::wstring g_logFile;
 static bool g_writeConsoleLog = false;
+// 用户可通过 --no-progress-ui 显式关闭更新进度窗口
+static bool g_suppressProgressUi = false;
 static UpdateProgressUi g_progressUi;
 static ProgressUiTheme g_progressUiTheme;
 
@@ -340,7 +342,8 @@ static bool EnsureProgressWindowClassRegistered()
 
 static bool ShouldShowProgressUi()
 {
-    return !g_writeConsoleLog && GetConsoleWindow() == nullptr;
+    // 控制台输出和进度窗口是两个独立选项，可同时显示；用户可通过 --no-progress-ui 显式关闭进度窗口
+    return !g_suppressProgressUi;
 }
 
 static void PumpProgressUiMessages()
@@ -1800,6 +1803,7 @@ int wmain(int argc, wchar_t* argv[])
     std::wstring relaunchExecutable  = argv[8];
     std::wstring planFile            = argv[9];
     g_writeConsoleLog = HasArgument(argc, argv, L"--show-console");
+    g_suppressProgressUi = HasArgument(argc, argv, L"--no-progress-ui");
 
     std::wstring mutexName;
     for (int i = 1; i < argc - 1; ++i) {

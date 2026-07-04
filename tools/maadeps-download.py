@@ -10,7 +10,7 @@ from maadeps_download import detect_host_triplet
 from maadeps_download import main as download_main
 
 REPO = "MaaAssistantArknights/MaaDeps"
-VERSION = "v2.13.1"
+VERSION = "v2.14.0"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("triplet", nargs="?")

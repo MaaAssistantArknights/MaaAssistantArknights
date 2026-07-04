@@ -1,108 +1,52 @@
-name: Build MAAUnified (Avalonia + MaaCore Runtime)
+name: MAAUnified Quick Tests
 
 on:
   workflow_dispatch:
   pull_request:
     paths:
       - ".github/workflows/ci-avalonia.yml"
-      - "3rdparty/include/**"
-      - "cmake/**"
-      - "src/MAAUnified"
       - "src/MAAUnified/**"
-      - "src/MaaCore/**"
-      - "src/MaaUtils/**"
-      - "include/**"
-      - "tools/maadeps-download.py"
-      - "CMakeLists.txt"
-      - "CMakePresets.json"
       - "!**/*.md"
   push:
     branches:
       - dev-v2
     paths:
       - ".github/workflows/ci-avalonia.yml"
-      - "3rdparty/include/**"
-      - "cmake/**"
-      - "src/MAAUnified"
       - "src/MAAUnified/**"
-      - "src/MaaCore/**"
-      - "src/MaaUtils/**"
-      - "include/**"
-      - "tools/maadeps-download.py"
-      - "CMakeLists.txt"
-      - "CMakePresets.json"
       - "!**/*.md"
 
-jobs:
-  meta:
-    name: Resolve version tag
-    runs-on: ubuntu-latest
-    outputs:
-      tag: ${{ steps.out.outputs.tag }}
-      checkout_sha: ${{ steps.out.outputs.checkout_sha }}
-    steps:
-      - id: out
-        env:
-          CHECKOUT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-        run: |
-          echo "checkout_sha=${CHECKOUT_SHA}" >> "$GITHUB_OUTPUT"
-          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
-            echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
-          else
-            echo "tag=preview-${CHECKOUT_SHA::7}" >> "$GITHUB_OUTPUT"
-          fi
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
 
-  build:
-    name: Build ${{ matrix.name }}
-    needs: meta
+jobs:
+  test:
+    name: .NET Tests (${{ matrix.name }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: windows-x64
-            os: windows-2025-vs2026
-            rid: win-x64
-            self_contained: true
-            cmake_preset: windows-publish-x64
-            maadeps_triplet: x64-windows
           - name: linux-x64
             os: ubuntu-latest
-            rid: linux-x64
-            self_contained: true
-            cmake_preset: linux-publish-x64
-            maadeps_triplet: x64-linux
-          - name: macos-x64
-            os: macos-latest
-            rid: osx-x64
-            self_contained: true
-            cmake_preset: macos-publish-x64
-            maadeps_triplet: x64-osx
+          - name: windows-x64
+            os: windows-2025-vs2026
 
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: ${{ needs.meta.outputs.checkout_sha }}
+          show-progress: false
 
       - name: Fetch required submodules
         shell: bash
-        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MAAUnified src/MaaUtils
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MAAUnified
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "10.0.x"
 
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.x"
-
-      - name: Restore app
-        run: dotnet restore src/MAAUnified/App/MAAUnified.App.csproj
-
       - name: Restore tests
-        if: matrix.name != 'macos-x64'
         run: dotnet restore src/MAAUnified/Tests/MAAUnified.Tests.csproj
 
       - name: Run Linux baseline consistency gate
@@ -137,65 +81,9 @@ jobs:
           --filter "FullyQualifiedName~PlatformWindowsNativeSmokeTests"
 
       - name: Upload test result artifacts on failure
-        if: failure() && matrix.name != 'macos-x64'
+        if: failure()
         uses: actions/upload-artifact@v7
         with:
           name: MAAUnified-TestResults-${{ matrix.name }}
           path: TestResults/${{ matrix.name }}/*.trx
           if-no-files-found: ignore
-
-      - name: Bootstrap MaaDeps
-        run: python tools/maadeps-download.py ${{ matrix.maadeps_triplet }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build MaaCore runtime
-        run: |
-          cmake --preset ${{ matrix.cmake_preset }} -DINSTALL_PYTHON=OFF -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
-          cmake --build --preset ${{ matrix.cmake_preset }}
-          cmake --install build --config RelWithDebInfo
-
-      - name: Publish MAAUnified app
-        run: dotnet publish src/MAAUnified/App/MAAUnified.App.csproj -c Release -r ${{ matrix.rid }} --self-contained ${{ matrix.self_contained }} -o publish
-
-      - name: Merge MaaCore runtime (Windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          Copy-Item install\* publish\ -Recurse -Force
-          if (!(Test-Path "publish\MaaCore.dll")) { throw "MaaCore.dll not found in publish output." }
-          if (!(Test-Path "publish\resource")) { throw "resource directory not found in publish output." }
-
-      - name: Merge MaaCore runtime (Unix)
-        if: runner.os != 'Windows'
-        shell: bash
-        run: |
-          cp -a install/. publish/
-          if [[ "$RUNNER_OS" == "Linux" ]]; then
-            test -f publish/libMaaCore.so
-          else
-            test -f publish/libMaaCore.dylib
-          fi
-          test -d publish/resource
-
-      - name: Package (Windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          New-Item -ItemType Directory -Path release -Force | Out-Null
-          $name = "MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
-          Compress-Archive -Path publish\* -DestinationPath "release\$name.zip"
-
-      - name: Package (Unix)
-        if: runner.os != 'Windows'
-        shell: bash
-        run: |
-          mkdir -p release
-          name="MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
-          tar -czf "release/${name}.tar.gz" -C publish .
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: MAAUnified-${{ matrix.name }}
-          path: release/*

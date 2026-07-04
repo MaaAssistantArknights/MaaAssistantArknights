@@ -214,6 +214,90 @@
                     SelectedValue="{Binding AttachWindowKeyboardMethod}"
                     SelectedValuePath="Value" />
             </StackPanel>
+
+            <!--  截图增强（MuMu12）  -->
+            <StackPanel Visibility="{c:Binding 'ConnectConfig==&quot;MuMuEmulator12&quot; and !UseAttachWindow'}">
+                <StackPanel
+                    Margin="0,5"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal">
+                    <CheckBox Content="{DynamicResource MuMu12ExtrasEnabled}" IsChecked="{Binding MuMuEmulatorExtras.Enable}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource MuMu12ExtrasEnabledTip}" />
+                </StackPanel>
+                <StackPanel
+                    HorizontalAlignment="Left"
+                    Orientation="Vertical"
+                    Visibility="{c:Binding MuMuEmulatorExtras.Enable}">
+                    <hc:TextBox
+                        Margin="0,5"
+                        hc:InfoElement.Placeholder="Example: C:\Program Files\Netease\MuMuPlayer"
+                        hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
+                        hc:TitleElement.TitlePlacement="Top"
+                        Text="{Binding MuMuEmulatorExtras.EmulatorPath}" />
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <CheckBox
+                            Margin="0,5"
+                            Content="{DynamicResource MuMuBridgeConnection}"
+                            IsChecked="{Binding MuMuEmulatorExtras.MuMuBridgeConnection}" />
+                        <controls:TooltipBlock TooltipText="{DynamicResource MuMuBridgeConnectionTip}" />
+                    </StackPanel>
+                    <hc:TextBox
+                        Margin="0,5"
+                        HorizontalContentAlignment="Center"
+                        hc:TitleElement.Title="{DynamicResource MuMu12Index}"
+                        hc:TitleElement.TitlePlacement="Top"
+                        Text="{Binding MuMuEmulatorExtras.Index}"
+                        Visibility="{c:Binding MuMuEmulatorExtras.MuMuBridgeConnection}" />
+                </StackPanel>
+            </StackPanel>
+
+            <!--  截图增强（LDPlayer）  -->
+            <StackPanel Visibility="{c:Binding 'ConnectConfig==&quot;LDPlayer&quot; and !UseAttachWindow'}">
+                <StackPanel
+                    Margin="0,5"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal">
+                    <CheckBox Content="{DynamicResource LdExtrasEnabled}" IsChecked="{Binding LdPlayerExtras.Enable}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource LdExtrasEnabledTip}" />
+                </StackPanel>
+                <StackPanel Visibility="{c:Binding LdPlayerExtras.Enable}">
+                    <hc:TextBox
+                        Margin="0,5"
+                        hc:InfoElement.Placeholder="Example: C:\leidian\LDPlayer9"
+                        hc:TitleElement.Title="{DynamicResource LdEmulatorPath}"
+                        hc:TitleElement.TitlePlacement="Left"
+                        Text="{Binding LdPlayerExtras.EmulatorPath}" />
+                    <CheckBox
+                        HorizontalAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Content="{DynamicResource LdManualSetIndex}"
+                        IsChecked="{Binding LdPlayerExtras.ManualSetIndex}" />
+                    <hc:TextBox
+                        Width="130"
+                        Margin="0,5"
+                        hc:InfoElement.Placeholder="0"
+                        hc:TitleElement.Title="{DynamicResource LdIndex}"
+                        hc:TitleElement.TitlePlacement="Left"
+                        Text="{Binding LdPlayerExtras.Index}"
+                        Visibility="{c:Binding LdPlayerExtras.ManualSetIndex}" />
+                </StackPanel>
+            </StackPanel>
+
+            <!--  截图测试  -->
+            <StackPanel Visibility="{c:Binding '!UseAttachWindow'}">
+                <Button
+                    Height="30"
+                    Margin="0,5"
+                    HorizontalAlignment="Left"
+                    Command="{s:Action TestLinkAndGetImage}"
+                    Content="{DynamicResource ScreenshotTest}" />
+                <controls:TextBlock
+                    Margin="0,5"
+                    HorizontalAlignment="Left"
+                    Text="{Binding TestLinkInfo}"
+                    TextWrapping="Wrap"
+                    Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </UserControl>

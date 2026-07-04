@@ -445,6 +445,7 @@ internal static partial class PendingUpdateApplier
         IReadOnlyList<string> moveEntries)
     {
         bool showUpdaterConsole = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterConsole, false);
+        bool showUpdaterProgress = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterProgress, true);
         string planPath = Path.Combine(context.RootDir, $"maa-pending-update-{Guid.NewGuid():N}.json");
         string updaterExecutablePath = PrepareDelegatedUpdaterExecutable(context);
         string relaunchExecutablePath = Path.Combine(context.RootDir, "MAA.exe");
@@ -462,7 +463,7 @@ internal static partial class PendingUpdateApplier
         // Args: <ParentPid> <RootDir> <ExtractDir> <BackupDir>
         //       <PackagePath> <SuccessStatusFile> <FailureStatusFile>
         //       <RelaunchExecutablePath> <PlanFile>
-        //       [--mutex-name <name>] [--show-console]
+        //       [--mutex-name <name>] [--show-console] [--no-progress-ui]
         startInfo.ArgumentList.Add(Environment.ProcessId.ToString());
         startInfo.ArgumentList.Add(context.RootDir);
         startInfo.ArgumentList.Add(context.ExtractDir);
@@ -479,13 +480,19 @@ internal static partial class PendingUpdateApplier
             startInfo.ArgumentList.Add("--show-console");
         }
 
+        if (!showUpdaterProgress)
+        {
+            startInfo.ArgumentList.Add("--no-progress-ui");
+        }
+
         _logger.Information(
-            "Delegating pending update apply to external updater: packageType={PackageType}, rootDir={RootDir}, extractDir={ExtractDir}, packagePath={PackagePath}, showUpdaterConsole={ShowUpdaterConsole}",
+            "Delegating pending update apply to external updater: packageType={PackageType}, rootDir={RootDir}, extractDir={ExtractDir}, packagePath={PackagePath}, showUpdaterConsole={ShowUpdaterConsole}, showUpdaterProgress={ShowUpdaterProgress}",
             packageType,
             context.RootDir,
             context.ExtractDir,
             context.PackagePath,
-            showUpdaterConsole);
+            showUpdaterConsole,
+            showUpdaterProgress);
 
         if (!File.Exists(updaterExecutablePath))
         {

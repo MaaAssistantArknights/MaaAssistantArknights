@@ -44,6 +44,8 @@ public class VersionUpdate : INotifyPropertyChanged
 
     public bool ShowUpdaterConsole { get; set; } = false;
 
+    public bool ShowUpdaterProgress { get; set; } = true;
+
     public void OnPropertyChanged(string propertyName, object before, object after)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));

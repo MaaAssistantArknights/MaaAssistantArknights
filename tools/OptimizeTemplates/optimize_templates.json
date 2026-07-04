@@ -2203,7 +2203,7 @@
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageYiTraderEnter": "a0aedc6743840eb16f4f7bb351beb8d9555cc01824f88e0f3d30380f61eab2f7",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropLeave": "ea29cf838f1a452532f3a4e1eba5cee847073bc7a2c6af1d99b3812f5cc8559a",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GamePassSkip2": "e403d4f7f0c0c05ed69298242c40cf7ff078d0ed4699bfb08f67d6cf7e8f5d6d",
-    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MissionFailedFlag2": "1439e7a6584daa54168a8882d846417ca17abce704abee6e42151c396ba303aa",
+    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MissionFailedFlag2": "b9f79b170cc64400a3995aeb263eef48743d1e92365fc3590df11d2f22ffb085",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@Abandon": "a4ce47ab3e4cdc807913370661309112541382ca30c7edb9f1b12c3b7c2bfb83",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@EnterAfterRecruit": "15381a6f5e07a193984bd3d043a08beb6e8cd5d22d51ab8c003d0420c94ab86a",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageDreadfulFoe-5Enter": "4e2ff9a8ffc250187ff3b059fddbd985e3b65193b2432f7256baab3e26401d3e",
@@ -4158,5 +4158,13 @@
     "resource/global/YoStarEN/resource/template/UiTheme/LoneTrail/Night/OperBoxEnter": "764036a4f9b885c7e175ad494bcd4c03b7dc7d8f2b8914114616bda987714af3",
     "resource/global/YoStarEN/resource/template/UiTheme/LoneTrail/Night/Recruit": "1a29645e751b16d4e2ca0236cafc5e9c9ee037931b9658b2cd6ef5f02ceb9b46",
     "resource/global/YoStarEN/resource/template/UiTheme/LoneTrail/Night/Task": "99fe0e41b36b62d7e2666c3a7f3ae3d52acea9a6a3f078246542b03bb32d5acc",
-    "resource/global/YoStarEN/resource/template/UiTheme/LoneTrail/Night/Terminal": "35496fa9c86a69d930aaeaeb36a7fbe10730276573849c086061da1e06245bad"
+    "resource/global/YoStarEN/resource/template/UiTheme/LoneTrail/Night/Terminal": "35496fa9c86a69d930aaeaeb36a7fbe10730276573849c086061da1e06245bad",
+    "resource/global/txwy/resource/template/MiniGame/SPA/MiniGame@SPA@EnterStandard": "01d3d4d15723e37b96774076bc562bc6d48d78cf79ba570d0bce7dee38fc11de",
+    "resource/global/txwy/resource/template/MiniGame/SPA/MiniGame@SPA@ReadyScreen": "f760e42511f20f8bb50db759b937b1997e37785d84bcdf7e670aeb2756275bc2",
+    "resource/global/txwy/resource/template/MiniGame/SPA/MiniGame@SPA@EnterDanger": "1c475e9f50df9bb44f2a2f122b396bf770572f59a319615d747036bbffd7a969",
+    "resource/global/txwy/resource/template/MiniGame/SPA/MiniGame@SPA@ReadyAgain": "94001389f6032a6e0060a00450c021b12d44313794ae7f77f04ddca315781c76",
+    "resource/global/txwy/resource/template/MiniGame/SPA/MiniGame@SPA@ReturnHome": "ae4b72f00860816cc1caea6ff1a2c91ea1d1968e4dc5fc78517e423510551afc",
+    "resource/global/txwy/resource/template/MiniGame/SPA/MiniGame@SPA@NoMoreHint": "5277b19d824d03014b7c0f185c52743b8913a6808772f00771a983b93f9cfa50",
+    "resource/global/txwy/resource/template/MiniGame/SPA/MiniGame@SPA@EnterIndependent": "c696541cb2ef78485294eeb3245b031601f7d4e8ef8b31113324a2a3ac9ca096",
+    "resource/global/txwy/resource/template/MiniGame/SPA/MiniGame@SPA@StartSimulation": "efb5cd732b62eb7cd509bdff410547d4165b98df03e01fcf2ab6d366d4f89384"
 }

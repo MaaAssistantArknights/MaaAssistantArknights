@@ -1,33 +1,33 @@
-## v6.13.0
+## v6.14.0-beta.1
 
 ### Highlights
 
-#### 6 星自动公招支持
+#### 莫奈取色
 
-新增可通过手动修改配置文件开启的 6 星自动公招功能，「是否招募」和「招募时间」选项移入常规设置，并优化了相关提示信息。
+新增背景莫奈取色，可根据背景图自动生成主题色，也支持手动选色。
 
-#### 通知不可用时自动回退
+#### 截图增强
 
-系统通知无法显示时自动回退到软件内通知，避免用户错过重要提醒；启动时的通知检测提示也改为软件内弹窗，不再仅写入日志。
+在设置指引与开始唤醒中补充截图增强与截图测试入口，MuMu 截图增强也已支持 `emulator-5xxx` 格式端口。
 
-#### 切换语言无需重启
+#### 模拟器兼容性提示更完整
 
-切换软件界面语言不再需要重启，干员识别、仓库识别等界面同步支持动态切换。
+新增当前模拟器帧率检测与提示，补充 MuMu 后台保活检测，以及雷电模拟器搭配 MaaTouch 时的组合警告，帮助更快定位截图异常、操作异常与性能设置问题。
 
 <details>
 <summary><b>English</b></summary>
 
-#### 6-Star Auto Recruitment Support
+#### Monet Theming
 
-Added a 6-star auto recruitment feature that can be enabled through manual configuration file editing. The "Recruit" and "Recruitment Time" options have been moved to general settings, with improved tooltip hints.
+Added background Monet theming with both automatic color extraction and manual color selection.
 
-#### Notification Fallback
+#### Screenshot Enhancements
 
-Automatically falls back to in-app notifications when system notifications are unavailable, ensuring users never miss important alerts. The startup notification availability check now shows an in-app Growl message instead of only logging to file.
+Screenshot enhancement and screenshot test entries are now surfaced in setup guidance and startup wake-up, and MuMu screenshot enhancement now supports `emulator-5xxx` style ports.
 
-#### Switch Language Without Restart
+#### Better Emulator Compatibility Guidance
 
-Switching the UI language no longer requires a restart; operator recognition, depot recognition, and other views now support dynamic switching.
+Added emulator frame rate detection and warnings, MuMu background keep-alive detection, and a warning for the LDPlayer + MaaTouch combination, making screenshot, input, and performance issues easier to diagnose.
 
 </details>
 
@@ -36,52 +36,38 @@ Switching the UI language no longer requires a restart; operator recognition, de
 以下是详细内容：
 
 <details open>
-<summary><b>v6.13.0 (2026-06-28)</b></summary>
+<summary><b>v6.14.0-beta.1 (2026-07-04)</b></summary>
 
 ### 新增 | New
 
-* Android OCR 推理引擎切换为 NCNN ([#17133](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17133)) @Aliothmoon
-* 切换界面语言不再需要重启，干员识别、仓库识别等界面同步支持动态切换，并可单独设置干员名称显示语言 ([#17183](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17183)) @ABA2396
-* 新增可通过手动修改配置文件开启 6 星自动公招，将「是否招募」和「招募时间」选项移入常规设置，优化 ToolTip 提示 ([#17154](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17154)) @ABA2396
-* Custom Webhook 新增预置模板功能 ([#17081](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17081)) @pboymt
-* 新增常驻关卡备选提示，当选中的关卡为常驻关卡或当前/上次时提示其后关卡不会被选中执行 @ABA2396
-* 增加 DWM 被禁用与重复拖动异常的解决方案提示 @ABA2396
-* 添加落叶逐火复刻关卡入口任务 @SherkeyXD
-* Yostar 服新增 SSS#10 极寒自动战斗作业 ([#17137](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17137)) @Manicsteiner
+* 新增背景莫奈取色，支持根据背景图自动生成主题色，也支持手动选择自定义颜色；优化主题色板生成与对比度表现 ([#17242](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17242), [#17243](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17243), [#17249](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17249)) @ABA2396
+* 新增更新器进度窗口显示开关，并补充自动下载更新包提示文本 @ABA2396
+* 新增当前模拟器帧率检测与提示，可识别过低、非 60 FPS 与异常高帧率设置 ([#17219](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17219)) @ABA2396
+* 新增 MuMu 后台保活检测，连接后可提示可能导致截图与操作异常的后台保活设置 ([#17241](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17241)) @ABA2396
+* 新增同时使用雷电模拟器 + MaaTouch 组合的警告 ([#17238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17238)) @ABA2396
+* 设置指引与开始唤醒中新增截图增强与截图测试相关选项 ([#17247](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17247)) @ABA2396
+* MuMu 截图增强新增支持 `emulator-5xxx` 格式端口 ([#17255](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17255)) @ABA2396
+* 繁中服新增「衛戍協議：盟約」小玩法模板支持 ([#17257](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17257)) @momomochi987
 
 ### 改进 | Improved
 
-* 统一任务队列与自动战斗的停止逻辑 ([#17087](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17087)) @ABA2396
-* 无法显示系统通知时自动回退到软件内通知，启动时通知不可用提示改为软件内弹窗 ([#17165](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17165)) @ABA2396
-* 优化成就 DLC 标识显示效果与提示，增加对应 DLC 上线时间提示 @ABA2396
-* 调整繁中服 CharNameOcrReplace 替换规则 ([#17113](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17113)) @momomochi987
-* 怪猎一期复刻 CF-EX-8、CF-S-1 关卡参数调整 @status102
-* 移除依赖库安装脚本的提权操作 @ABA2396
-* 调整日志超时提示 @ABA2396
-* YostarKR crop JieGarden@Roguelike@StartAction.png to improve match score @HX3N
+* 禁用 Xe-LPG+ Arrow Lake Arc 140T 的 GPU 推理选项，避免相关机型出现识别异常 @ABA2396
+* 修复未开启系统通知时仍执行系统通知检查的问题 @ABA2396
 
 ### 修复 | Fix
 
-* 修复 NCNN OCR 引擎在小 ROI 下识别异常，对齐 fastdeploy 的 det 缩放与 rec 预处理 ([#17182](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17182)) @Aliothmoon
-* 修复部分设备界园树洞"是非境"识别错误 ([#17181](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17181)) @Aliothmoon
-* 修复自动战斗多作业模式无法进行关卡导航 @status102
-* 修复自动战斗导航 retry 异常导致跳过作业的问题 @status102
-* 修复肉鸽战斗结束后招募误入 StartExplore 的问题 @Saratoga-Official
-* 修复水月肉鸽"大海的遗产"和"狗眼婆娑"事件名识别错误 @Saratoga-Official
-* 修复肉鸽 GetDrop 未等待 LoadingText 导致的问题 @Saratoga-Official
-* 修复 CloseEvent 和 CloseCollection 同时出现导致的异常 @Saratoga-Official
-* 修复 MAA 更新检查 API 请求未遵循代理设置的问题 @status102
-* 修正落叶逐火入口 OCR 文本 @SherkeyXD
-* 修复复制任务时未保留原任务启用状态的问题 @ABA2396
-* YostarEN fix future alter operators recognition and EnterEpisodeNew-Click @Constrat
-* YostarKR correct ClickChapterNewDefaultProgress roi, expand training roi for wrapped operator names @HX3N
+* 修复 MuMu 模拟器下第 32 个及以后多开实例的编号计算错误 ([#17112](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17112)) @ABA2396
+* 修复 DBNet UnClip 多边形偏移实现，提升 NCNN OCR 结果与 fastdeploy 的一致性 ([#17227](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17227)) @Aliothmoon
+* 修复基建产物收取时因 loading 遮挡导致跳过的问题 ([#17232](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17232)) @ZiyinLin @status102
+* 修复自定义基建配置列表显示异常 ([#17254](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17254)) @ABA2396
+* 修复萨米肉鸽「特里蒙旅行社特派团」识别错误 @Saratoga-Official
+* 修复肉鸽事件与选项中的问号、空格、重复项及相似项锚定问题，统一多项事件名识别 ([#17256](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17256)) @ABA2396 @Constrat
+* 繁中服补充与修正萨米肉鸽大量事件/选项识别 @Constrat
+* YostarEN/JP/KR: add and fix a large batch of Sami roguelike event/option recognition; YostarEN additionally adds a set of MASS event option mappings @Constrat
+* YostarEN: fix `MissionFailedFlag2` template mismatch recognition issue @Constrat
 
 ### 其他 | Other
 
-* 修复 MAAUnified CI 选错 ref 的问题 ([#17143](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17143)) @Halo
-* 优化 Avalonia 构建工作流触发条件 ([#17139](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17139)) @Manicsteiner
-* YostarEN/JP/KR update LoneTrail and JieGarden themes ([#17175](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17175)) @Constrat @Manicsteiner @HX3N
-* YostarJP add episode new navigation and JieGarden theme recruit @Manicsteiner
-* Update GitHub push action version comment ([#17124](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17124)) @AnnAngela
+* 优化 MAAUnified 构建流程，复用 MaaCore 构建产物 ([#17233](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17233)) @GhostKiller127
 
 </details>
