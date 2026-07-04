@@ -9,6 +9,8 @@ description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 
 
 **必要输入**：目标版本号、提交范围（由 tag/PR/分支推导）、当前 CHANGELOG 内容。
 
+> ⚠️ **版本号必须从用户/CI 提供的来源获取，禁止从 git tag 自行推测。** 若获取新版本号失败，必须通过 PR URL（如 `https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17248`）直接访问网页提取标题中的版本号，**不得 fallback 到 git tag 推测**。推测版本号会导致版本号全错（如 v6.14.0-beta.1 被错推为 v6.13.1-alpha.1），进而连锁触发折叠块处理错误。
+
 ## 1. 净变更优先
 
 - 同一功能/问题的多条相关 commit **合并为单条**，描述最终效果。
@@ -176,7 +178,7 @@ English paragraph.
 - ❌ 无重大变化却重写 Highlights / 正式版全量重分析而非合并测试版
 - ❌ 详细内容插入到 Highlights 与历史区块之间，破坏结构 / 历史区块重复 Highlights 或引导语
 - ❌ chore/perf 默认当噪音过滤（应判断用户可感知效果）
-- ❌ 跨次版本号仍保留旧版本折叠块（含新次版本第一个测试版）
+- ❌ 从 git tag 自行推测版本号（应从 PR 标题/用户输入获取；`gh` 失败时用 URL 访问 PR 页面）
 - ❌ 外服专有条目整条译成中文 / git 历史未指定编码导致乱码
 
 ## 最终检查
@@ -189,4 +191,5 @@ English paragraph.
 - [ ] 正式版合并所有测试版为单一区块，未全量重分析？
 - [ ] 跨次版本号已移除旧版本折叠块（含新次版本第一个测试版）？
 - [ ] 子仓库 MaaMacGui 放在 `### 其他 | Other` 之后？
+- [ ] 版本号从 PR 标题/用户输入获取，未从 git tag 推测？
 - [ ] 外服专有条目保留英文原文？git 历史已指定编码？
