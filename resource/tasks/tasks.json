@@ -295,7 +295,7 @@
         "fullMatch": true,
         "isAscii": true,
         "text": [],
-        "ocrReplaceDoc": "和 ClickedCorrectStage 同步",
+        "ocrReplaceDoc": "和 ClickStageName 同步",
         "ocrReplace": [
             ["OPERATION", ""],
             ["-\\]", "-1"],
@@ -312,6 +312,33 @@
             [".*?([A-Z]{2}-EX-\\d+)", "$1"]
         ],
         "roi": [845, 72, 220, 50]
+    },
+    "StageNavigationByTemplateMatchBegin": {
+        "doc": "模板匹配导航入口（对应 OCR 的 StageNavigationBegin）",
+        "algorithm": "JustReturn",
+        "next": ["ClickStageByTemplate", "FullStageNavigationByTemplate"]
+    },
+    "FullStageNavigationByTemplate": {
+        "doc": "模板匹配导航右滑+左滑（对应 OCR 的 FullStageNavigation）",
+        "baseTask": "FullStageNavigation",
+        "exceededNext": ["ClickStageByTemplate", "StageNavigationSlowlySwipeLeftByTemplate"]
+    },
+    "ClickStageByTemplate": {
+        "doc": "模板匹配关卡截图（对应 OCR 的 ClickStageName），由 C++ 动态替换实际模板",
+        "action": "ClickSelf",
+        "template": ["empty.png"],
+        "roi": [0, 0, 1280, 720],
+        "next": ["ClickedCorrectStageByTemplateOrSwipe", "#self"]
+    },
+    "StageNavigationSlowlySwipeLeftByTemplate": {
+        "doc": "模板匹配导航左滑找关（对应 OCR 的 StageNavigationSlowlySwipeLeft）",
+        "baseTask": "StageNavigationSlowlySwipeLeft",
+        "next": ["FullStageNavigationByTemplate"]
+    },
+    "ClickedCorrectStageByTemplateOrSwipe": {
+        "doc": "模板匹配后验证（对应 OCR 的 ClickedCorrectStageOrSwipe）",
+        "baseTask": "ClickedCorrectStageOrSwipe",
+        "next": ["ClickedCorrectStage", "FullStageNavigationByTemplate"]
     },
     "ChangeToRaidDifficulty": {
         "doc": ["突袭", "15章险地"],
