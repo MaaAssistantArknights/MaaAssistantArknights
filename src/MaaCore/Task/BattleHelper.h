@@ -141,6 +141,7 @@ protected:
     int m_cost_regeneration_baseline = 0;
     int m_mechanism_regenerated = 0;
     int m_mechanism_regeneration = 0;
+    int m_mechanism_regeneration_raw_prev = -1;
     bool m_mechanism_regeneration_reversed = false;
     bool m_stopwatch_enabled = false;
     bool m_paused = false;

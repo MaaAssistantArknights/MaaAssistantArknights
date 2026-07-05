@@ -60,6 +60,7 @@ void asst::BattleHelper::clear()
     m_cost_regeneration_baseline = 0;
     m_mechanism_regenerated = 0;
     m_mechanism_regeneration = 0;
+    m_mechanism_regeneration_raw_prev = -1;
     m_mechanism_regeneration_reversed = false;
     m_stopwatch_enabled = false;
     m_paused = false;
@@ -457,12 +458,22 @@ bool asst::BattleHelper::update_mechanism_regeneration(const cv::Mat& reusable)
     static const MatchTaskPtr mechanism_bar_task_ptr = Task.get<MatchTaskInfo>("BattleMechanismRegenerationBar");
     static const int mechanism_bar_wrap_start_threshold = mechanism_bar_task_ptr->special_params[0];
     // static const int mechanism_bar_wrap_end_threshold = mechanism_bar_task_ptr->special_params[1];
+    static const int mechanism_bar_spike_up_threshold = mechanism_bar_task_ptr->special_params[2];
+    static const int mechanism_bar_spike_prev_cap = mechanism_bar_task_ptr->special_params[3];
+    static const int mechanism_bar_spike_raw_floor = mechanism_bar_task_ptr->special_params[4];
 
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     BattlefieldMatcher analyzer(image);
     analyzer.set_object_of_interest({ .mechanism_regeneration = true });
     auto result_opt = analyzer.analyze();
     int mechanism_regeneration = result_opt->mechanism_regeneration.value;
+    if (m_mechanism_regeneration_raw_prev >= 0 && mechanism_regeneration > m_mechanism_regeneration_raw_prev &&
+        mechanism_regeneration - m_mechanism_regeneration_raw_prev > mechanism_bar_spike_up_threshold &&
+        mechanism_regeneration >= mechanism_bar_spike_raw_floor &&
+        m_mechanism_regeneration_raw_prev < mechanism_bar_spike_prev_cap) {
+        mechanism_regeneration = m_mechanism_regeneration_raw_prev;
+    }
+    m_mechanism_regeneration_raw_prev = mechanism_regeneration;
     if (m_mechanism_regeneration_reversed) {
         mechanism_regeneration = mechanism_bar_task_ptr->roi.width - mechanism_regeneration;
     }

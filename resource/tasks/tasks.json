@@ -4016,11 +4016,11 @@
         "method": "RGBCount",
         "colorScales": [
             [
-                [100, 0, 0],
+                [70, 0, 0],
                 [255, 255, 255]
             ]
         ],
-        "specialParams": [400, 50]
+        "specialParams": [400, 50, 77, 384, 430]
     },
     "BattleSkillReady": {
         "rectMove": [-28, -140, 64, 64]
