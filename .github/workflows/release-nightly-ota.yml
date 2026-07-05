@@ -192,19 +192,18 @@ jobs:
           cmake --install build --config RelWithDebInfo
 
       - name: Download MaaFramework
-        if: matrix.arch == 'x64'
         uses: robinraju/release-downloader@v1
         with:
           repository: MaaXYZ/MaaFramework
           tag: v5.9.2
-          fileName: "*win-x86_64*.zip"
+          fileName: ${{ matrix.arch == 'arm64' && '*win-aarch64*.zip' || '*win-x86_64*.zip' }}
           extract: true
           out-file-path: MaaFramework-temp
 
-      - name: Copy MaaWin32ControlUnit
-        if: matrix.arch == 'x64'
+      - name: Copy ControlUnits
         run: |
           cp MaaFramework-temp/bin/*Win32ControlUnit* install/
+          cp MaaFramework-temp/bin/*AdbControlUnit* install/
 
       - name: Generate global.json
         shell: bash
@@ -271,6 +270,7 @@ jobs:
           rm -rf install/*.pdb
           rm -rf install/msvc-debug
           rm -rf install/*.h
+          rm -rf install/*.bak
 
           cp tools/DependencySetup_依赖库安装.bat install
 
