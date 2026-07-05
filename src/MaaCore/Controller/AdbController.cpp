@@ -1305,7 +1305,7 @@ void asst::AdbController::check_fps()
         }
 
         // SurfaceFlinger --latency 第一行是每帧刷新周期（纳秒），例如 16666666 表示 60 FPS
-        // 注意：这里检测的是模拟器/系统的设置刷新率，而非游戏实际运行帧率。。
+        // 注意：这里检测的是模拟器/系统的设置刷新率，而非游戏实际运行帧率。
         auto output = std::move(ret.value());
         convert_lf(output);
         auto newline_pos = output.find('\n');
