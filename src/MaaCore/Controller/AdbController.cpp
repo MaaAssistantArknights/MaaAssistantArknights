@@ -49,6 +49,10 @@ asst::AdbController::~AdbController()
     LogTraceFunction;
 
     m_inited = false;
+    // 等待异步帧率检测结束，避免线程访问已析构的 this
+    if (m_fps_future.valid()) {
+        m_fps_future.wait();
+    }
     release();
 }
 
@@ -389,6 +393,10 @@ std::optional<unsigned short> asst::AdbController::init_socket(const std::string
 void asst::AdbController::clear_info() noexcept
 {
     m_inited = false;
+    // 等待可能仍在执行的异步帧率检测
+    if (m_fps_future.valid()) {
+        m_fps_future.wait();
+    }
     m_adb = decltype(m_adb)();
     m_uuid.clear();
     m_width = 0;
@@ -1269,6 +1277,12 @@ void asst::AdbController::check_fps()
         return;
     }
 
+    // 上一次异步检测尚未完成，跳过（避免堆积）
+    if (m_fps_future.valid() &&
+        m_fps_future.wait_for(std::chrono::seconds(0)) != std::future_status::ready) {
+        return;
+    }
+
     // 每 1 分钟检测一次
     constexpr auto FpsCheckInterval = std::chrono::minutes(1);
     auto now = std::chrono::steady_clock::now();
@@ -1277,56 +1291,63 @@ void asst::AdbController::check_fps()
     }
     m_last_fps_check_time = now;
 
-    auto ret = call_command(m_adb.fps, 100, false /* 帧率检测不触发重连，避免拖慢截图流程 */);
-    if (!ret || ret.value().empty()) {
-        Log.warn("fps command failed or empty");
-        return;
-    }
+    // 异步执行，避免 adb 延迟阻塞截图返回
+    m_fps_future = std::async(std::launch::async, [this]() {
+        if (need_exit()) {
+            return;
+        }
 
-    // SurfaceFlinger --latency 第一行是每帧刷新周期（纳秒），例如 16666666 表示 60 FPS
-    // 注意：这里检测的是模拟器/系统的设置刷新率，而非游戏实际运行帧率。
-    // 游戏原生帧率上限为 60 FPS，高于 60 通常为模拟器插帧，不作为异常处理。
-    auto& output = ret.value();
-    convert_lf(output);
-    auto newline_pos = output.find('\n');
-    std::string first_line = newline_pos == std::string::npos ? output : output.substr(0, newline_pos);
+        // 放宽到 5 秒：异步执行后不再阻塞截图，可给 adb 足够时间
+        auto ret = call_command(m_adb.fps, 5000, false);
+        if (!ret || ret.value().empty()) {
+            Log.warn("fps command failed or empty");
+            return;
+        }
 
-    // 去掉空白和非数字字符
-    std::erase_if(first_line, [](char c) { return !std::isdigit(static_cast<unsigned char>(c)); });
+        // SurfaceFlinger --latency 第一行是每帧刷新周期（纳秒），例如 16666666 表示 60 FPS
+        // 注意：这里检测的是模拟器/系统的设置刷新率，而非游戏实际运行帧率。。
+        auto output = std::move(ret.value());
+        convert_lf(output);
+        auto newline_pos = output.find('\n');
+        std::string first_line = newline_pos == std::string::npos ? output : output.substr(0, newline_pos);
 
-    if (first_line.empty()) {
-        Log.warn("fps output is empty after sanitize");
-        return;
-    }
+        // 去掉空白和非数字字符
+        std::erase_if(first_line, [](char c) { return !std::isdigit(static_cast<unsigned char>(c)); });
 
-    long long refresh_period_ns = 0;
-    try {
-        refresh_period_ns = std::stoll(first_line);
-    }
-    catch (...) {
-        Log.warn("fps output parse failed:", first_line);
-        return;
-    }
+        if (first_line.empty()) {
+            Log.warn("fps output is empty after sanitize");
+            return;
+        }
 
-    if (refresh_period_ns <= 0) {
-        Log.warn("invalid refresh period:", refresh_period_ns);
-        return;
-    }
+        long long refresh_period_ns = 0;
+        try {
+            refresh_period_ns = std::stoll(first_line);
+        }
+        catch (...) {
+            Log.warn("fps output parse failed:", first_line);
+            return;
+        }
 
-    // ns -> FPS
-    double fps = 1000000000.0 / static_cast<double>(refresh_period_ns);
-    int fps_int = static_cast<int>(std::round(fps));
+        if (refresh_period_ns <= 0) {
+            Log.warn("invalid refresh period:", refresh_period_ns);
+            return;
+        }
 
-    json::value info = json::object {
-        { "uuid", m_uuid },
-        { "what", "EmulatorFPS" },
-        { "details",
-          json::object {
-              { "fps", fps_int },
-              { "refresh_period_ns", refresh_period_ns },
-          } },
-    };
-    callback(AsstMsg::ConnectionInfo, info);
+        // ns -> FPS
+        double fps = 1000000000.0 / static_cast<double>(refresh_period_ns);
+        int fps_int = static_cast<int>(std::round(fps));
+
+        json::value info = json::object {
+            { "uuid", m_uuid },
+            { "what", "EmulatorFPS" },
+            { "details",
+              json::object {
+                  { "fps", fps_int },
+                  { "refresh_period_ns", refresh_period_ns },
+              } },
+        };
+        callback(AsstMsg::ConnectionInfo, info);
+    });
 }
 
 void asst::AdbController::back_to_home() noexcept
