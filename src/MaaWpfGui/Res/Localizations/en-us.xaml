@@ -2111,7 +2111,7 @@ These locations are too high-level and can lead to file overwrites, config write
 
     <!--  BadModules  -->
     <system:String x:Key="BadModules.Warning.Heading">Compatibility Warning</system:String>
-    <system:String x:Key="BadModules.Warning.Prolog">The following DLL(s) injected into MAA may crash MAA or corrupt MAA user interface:</system:String>
+    <system:String x:Key="BadModules.Warning.Prolog">The following third-party software has injected DLL(s) into MAA, which will interfere with WPF rendering and ONNX/DML inference, causing MAA to crash, display rendering anomalies, or OCR recognition failures:</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">If you encounter such issues with MAA, please try adding MAA to the exclusion list of the relevant software, or uninstall the related software and check if the problem persists.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">Do not show this warning again</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">Warning: Performance Impact</system:String>
