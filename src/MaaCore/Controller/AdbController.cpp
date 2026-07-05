@@ -1292,13 +1292,16 @@ void asst::AdbController::check_fps()
     m_last_fps_check_time = now;
 
     // 异步执行，避免 adb 延迟阻塞截图返回
-    m_fps_future = std::async(std::launch::async, [this]() {
+    // 值捕获易变数据（m_uuid / m_adb.fps），防止 clear_info() 清空后异步线程读到悬空数据；
+    // call_command / callback 依赖的 mutex、platform_io、callback 等均为构造后不变，
+    // 生命周期由 ~AdbController 和 clear_info() 中的 m_fps_future.wait() 保证安全
+    m_fps_future = std::async(std::launch::async, [this, cmd = m_adb.fps, uuid = m_uuid]() {
         if (need_exit()) {
             return;
         }
 
         // 放宽到 5 秒：异步执行后不再阻塞截图，可给 adb 足够时间
-        auto ret = call_command(m_adb.fps, 5000, false);
+        auto ret = call_command(cmd, 5000, false);
         if (!ret || ret.value().empty()) {
             Log.warn("fps command failed or empty");
             return;
@@ -1335,7 +1338,7 @@ void asst::AdbController::check_fps()
         int fps_int = static_cast<int>(std::round(fps));
 
         json::value info = json::object {
-            { "uuid", m_uuid },
+            { "uuid", uuid },
             { "what", "EmulatorFPS" },
             { "details",
               json::object {
