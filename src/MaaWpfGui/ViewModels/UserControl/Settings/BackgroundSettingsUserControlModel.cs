@@ -308,10 +308,17 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
             BackgroundMonetCustomColor = ThemeHelper.Color2HexString(color);
             SaveCachedMonetColor(color);
             UpdateMonet();
-            dialog.Close();
+            Cleanup();
         };
 
-        picker.Canceled += (_, _) => dialog.Close();
+        picker.Canceled += (_, _) => Cleanup();
+        return;
+
+        void Cleanup()
+        {
+            dialog.Close();
+            picker.Dispose();
+        }
     }
 
     /// <summary>
