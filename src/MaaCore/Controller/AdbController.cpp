@@ -1320,10 +1320,7 @@ void asst::AdbController::check_fps()
         }
 
         long long refresh_period_ns = 0;
-        try {
-            refresh_period_ns = std::stoll(first_line);
-        }
-        catch (...) {
+        if (!utils::chars_to_number<long long, true>(first_line, refresh_period_ns)) {
             Log.warn("fps output parse failed:", first_line);
             return;
         }
