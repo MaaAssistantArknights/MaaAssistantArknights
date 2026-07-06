@@ -805,7 +805,7 @@ public class ToolboxViewModel : Screen
             }
         }
 
-        // 转换为 DepotResult，排序后添加（3000-3999 → 其他数字 → 4000-4999 → 非数字）
+        // 按游戏内置 sortId 排序
         var results = depotItems.Select(kvp => new DepotResultDate {
             Id = kvp.Key,
             Name = ItemListHelper.GetItemName(kvp.Key),
@@ -1133,7 +1133,7 @@ public class ToolboxViewModel : Screen
         // 如果有更新，重新排序并保存
         if (hasUpdates)
         {
-            // 按 ID 排序（数字优先，其次文本）
+            // 按游戏内置 sortId 排序（与 DepotParse 保持一致）
             var sortedItems = DepotResult.OrderBy(x => x).ToList();
             DepotResult.Clear();
             foreach (var item in sortedItems)
