@@ -9,6 +9,7 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 
 bool asst::DepotRecognitionTask::_run()
@@ -16,9 +17,45 @@ bool asst::DepotRecognitionTask::_run()
     LogTraceFunction;
 
     bool ret = swipe_and_analyze();
+
+    // 材料页扫完后，切到「全部」标签页识别基础物品（源石、合成玉、龙门币、赤金、采购凭证）
+    ret &= analyze_basic_items();
+
     callback_analyze_result(true);
 
     return ret;
+}
+
+bool asst::DepotRecognitionTask::analyze_basic_items()
+{
+    LogTraceFunction;
+
+    // 识别并点击「全部」标签页（此时在材料页，「全部」为白色可选状态）
+    Matcher all_tab_matcher(ctrler()->get_image());
+    all_tab_matcher.set_task_info("DepotAllTab");
+    auto all_tab_result = all_tab_matcher.analyze();
+    if (!all_tab_result) {
+        Log.error(__FUNCTION__, "failed to match DepotAllTab");
+        return false;
+    }
+    ctrler()->click(all_tab_result->rect);
+    sleep(500);
+
+    DepotImageAnalyzer analyzer(ctrler()->get_image());
+    analyzer.set_item_ids({ "4002", "4003", "4001", "3003", "4006" }); // 源石 合成玉 龙门币 赤金 采购凭证（红票）
+    analyzer.set_is_basic(true);
+    if (!analyzer.analyze()) {
+        return false;
+    }
+
+    const auto& result = analyzer.get_result();
+    for (const auto& [item_id, item_info] : result) {
+        m_all_items.emplace(item_id, item_info);
+    }
+
+    DepotImageAnalyzer::clear_cached_templates();
+    callback_analyze_result(false);
+    return true;
 }
 
 bool asst::DepotRecognitionTask::swipe_and_analyze()

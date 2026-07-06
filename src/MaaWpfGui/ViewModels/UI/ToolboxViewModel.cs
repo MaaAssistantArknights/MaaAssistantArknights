@@ -87,8 +87,7 @@ public class ToolboxViewModel : Screen
                 DispatcherPriority.Loaded);
         };
         SettingsViewModel.GuiSettings.OperNameLanguageChanged += () => {
-            Application.Current.Dispatcher.InvokeAsync(() =>
-            {
+            Application.Current.Dispatcher.InvokeAsync(() => {
                 ClearOperBoxRecognitionData();
                 LoadOperBoxDetails();
             }, DispatcherPriority.Loaded);
@@ -553,7 +552,7 @@ public class ToolboxViewModel : Screen
         _cachedLoliconResult = null;
     }
 
-    public class DepotResultDate
+    public class DepotResultDate : IComparable<DepotResultDate>
     {
         public string? Name { get; set; }
 
@@ -570,6 +569,37 @@ public class ToolboxViewModel : Screen
         /// Gets 格式化后的显示数量（用于 UI 绑定）
         /// </summary>
         public string? DisplayCount => Count >= 0 ? Count.FormatNumber(false) : null;
+
+        /// <summary>
+        /// 创建后懒加载缓存的 sortId，避免每次比较都查字典。
+        /// </summary>
+        private int? _cachedSortId;
+
+        private int SortId => _cachedSortId ??=
+            ItemListHelper.ArkItems != null &&
+            ItemListHelper.ArkItems.TryGetValue(Id, out var item)
+                ? item.SortId
+                : int.MaxValue;
+
+        /// <summary>
+        /// 按游戏内置 sortId 排序（值越小越靠前），查不到的按 ID 文本兜底。
+        /// </summary>
+        /// <param name="other">要比较的另一个 DepotResultDate 对象</param>
+        /// <returns>比较结果</returns>
+        public int CompareTo(DepotResultDate? other)
+        {
+            if (other is null)
+            {
+                return 1;
+            }
+
+            if (SortId != other.SortId)
+            {
+                return SortId.CompareTo(other.SortId);
+            }
+
+            return string.Compare(Id, other.Id, StringComparison.OrdinalIgnoreCase);
+        }
     }
 
     private void InitializeDepotRowPresentation()
@@ -775,23 +805,20 @@ public class ToolboxViewModel : Screen
             }
         }
 
-        // 转换为 DepotResult，按 ID 排序
-        foreach (var kvp in depotItems.OrderBy(x => x.Key))
+        // 按游戏内置 sortId 排序
+        var results = depotItems.Select(kvp => new DepotResultDate {
+            Id = kvp.Key,
+            Name = ItemListHelper.GetItemName(kvp.Key),
+            Image = ItemListHelper.GetItemImage(kvp.Key),
+            Count = kvp.Value,
+        });
+
+        foreach (var result in results.OrderBy(x => x))
         {
-            var id = kvp.Key;
-            var count = kvp.Value;
-
-            DepotResultDate result = new() {
-                Id = id,
-                Name = ItemListHelper.GetItemName(id),
-                Image = ItemListHelper.GetItemImage(id),
-                Count = count,
-            };
-
-            if (count > 0 &&
-                count > AchievementTrackerHelper.Instance.GetProgress(AchievementIds.WarehouseMiser))
+            if (result.Count > 0 &&
+                result.Count > AchievementTrackerHelper.Instance.GetProgress(AchievementIds.WarehouseMiser))
             {
-                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.WarehouseMiser, count);
+                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.WarehouseMiser, result.Count);
             }
 
             DepotResult.Add(result);
@@ -1020,9 +1047,6 @@ public class ToolboxViewModel : Screen
     [
         "3401", // 家具
         "3112", "3113", "3114", // 碳
-        "4001", // 龙门币
-        "4003", // 合成玉
-        "4006", // 红票
         "5001", // 经验
     ];
 
@@ -1109,8 +1133,8 @@ public class ToolboxViewModel : Screen
         // 如果有更新，重新排序并保存
         if (hasUpdates)
         {
-            // 按 ID 排序（与 DepotParse 保持一致）
-            var sortedItems = DepotResult.OrderBy(x => x.Id).ToList();
+            // 按游戏内置 sortId 排序（与 DepotParse 保持一致）
+            var sortedItems = DepotResult.OrderBy(x => x).ToList();
             DepotResult.Clear();
             foreach (var item in sortedItems)
             {
