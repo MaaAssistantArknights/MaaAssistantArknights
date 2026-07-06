@@ -2,6 +2,10 @@
 
 ### Highlights
 
+#### 莫奈取色
+
+新增背景莫奈取色，可根据背景图自动生成主题色，也支持手动选色。
+
 #### 仓库识别支持更多基础资源
 
 仓库识别现已新增对源石、合成玉、龙门币、赤金与采购凭证的识别支持，导出与库存核对更完整。
@@ -10,12 +14,16 @@
 
 自动战斗多作业模式现已支持异体字关卡导航，并为部分活动/支线关卡补充模板导航；同时继续补强繁中服、YostarEN 与 YostarJP 的关卡、肉鸽事件与选项识别。
 
-#### 启动与界面体验优化
+#### 模拟器兼容性提示更完整
 
-新增账号切换启用勾选框，避免不需要时仍执行账号切换；同时优化帧率检查异步流程、主题色持久化与相关界面细节，减少截图返回阻塞、启动闪烁与主题设置异常。
+新增当前模拟器帧率检测与提示，补充 MuMu 后台保活检测，以及雷电模拟器搭配 MaaTouch 时的组合警告，帮助更快定位截图异常、操作异常与性能设置问题。
 
 <details>
 <summary><b>English</b></summary>
+
+#### Monet Theming
+
+Added background Monet theming with both automatic color extraction and manual color selection.
 
 #### More Base Resources Supported in Depot Recognition
 
@@ -25,9 +33,9 @@ Depot recognition now supports Originium, Orundum, LMD, Gold, and Purchase Certi
 
 Multi-copilot auto-battle now supports template-based navigation for variant stage names, with additional template coverage for some event and side-story stages. Recognition has also been improved further for Traditional Chinese, YostarEN, and YostarJP stages, roguelike events, and options.
 
-#### Startup and UI Experience Improvements
+#### Better Emulator Compatibility Guidance
 
-Added an explicit account-switch toggle so account switching no longer runs when unnecessary, while also improving asynchronous frame-rate checks, persisted theme colors, and related UI details to reduce screenshot blocking, startup flicker, and theme-setting issues.
+Added emulator frame rate detection and warnings, MuMu background keep-alive detection, and a warning for the LDPlayer + MaaTouch combination, making screenshot, input, and performance issues easier to diagnose.
 
 </details>
 
