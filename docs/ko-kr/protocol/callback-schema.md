@@ -119,6 +119,28 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   스크린샷 실패 (adb / 에뮬레이터 충돌), 재시도 실패
 - `TouchModeNotAvailable`  
   지원하지 않는 터치 모드
+- `ResolutionGot`  
+  해상도를 획득함
+- `FastestWayToScreencap`  
+  가장 빠른 스크린샷 방식을 찾음, `details` 구조:
+
+  - `method` (string, required): 가장 빠른 스크린샷 방식.
+  - `cost` (number, required): 소요 시간 (밀리초).
+  - `alternatives` (array<object>, required): 모든 후보 방식과 소요 시간.
+
+- `ScreencapCost`  
+  스크린샷 소요 시간 통계 (10회마다 보고), `details` 구조:
+
+  - `min` (number, required): 최소 소요 시간 (밀리초).
+  - `max` (number, required): 최대 소요 시간 (밀리초).
+  - `avg` (number, required): 평균 소요 시간 (밀리초).
+  - `fault_times` (number): 실패 횟수 (실패가 있는 경우에만 존재).
+
+- `EmulatorFPS`  
+  에뮬레이터 주사율 (1분마다 검사), `details` 구조:
+
+  - `fps` (number, required): 에뮬레이터/시스템 주사율 (FPS).
+  - `refresh_period_ns` (number, required): 프레임 주기 (나노초).
 
 ### AsyncCallInfo
 

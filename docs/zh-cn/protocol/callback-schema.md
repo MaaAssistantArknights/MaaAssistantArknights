@@ -119,6 +119,28 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   截图失败（adb / 模拟器 炸了），并重试失败
 - `TouchModeNotAvailable`  
   不支持的触控模式
+- `ResolutionGot`  
+  已获取到分辨率
+- `FastestWayToScreencap`  
+  已找到最快的截图方式，`details` 结构如下：
+
+  - `method` (string, required): 最快的截图方式。
+  - `cost` (number, required): 耗时，单位毫秒。
+  - `alternatives` (array<object>, required): 各候选方式及其耗时。
+
+- `ScreencapCost`  
+  截图耗时统计（每 10 次截图回传一次），`details` 结构如下：
+
+  - `min` (number, required): 最小耗时，单位毫秒。
+  - `max` (number, required): 最大耗时，单位毫秒。
+  - `avg` (number, required): 平均耗时，单位毫秒。
+  - `fault_times` (number): 失败次数（仅有失败时存在）。
+
+- `EmulatorFPS`  
+  模拟器刷新率（每 1 分钟检测一次），`details` 结构如下：
+
+  - `fps` (number, required): 模拟器/系统刷新率（FPS）。
+  - `refresh_period_ns` (number, required): 每帧刷新周期，单位纳秒。
 
 ### AsyncCallInfo
 
