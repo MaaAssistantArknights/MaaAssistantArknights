@@ -1,33 +1,33 @@
-## v6.14.0-beta.1
+## v6.14.0-beta.2
 
 ### Highlights
 
-#### 莫奈取色
+#### 仓库识别支持更多基础资源
 
-新增背景莫奈取色，可根据背景图自动生成主题色，也支持手动选色。
+仓库识别现已新增对源石、合成玉、龙门币、赤金与采购凭证的识别支持，导出与库存核对更完整。
 
-#### 截图增强
+#### 关卡导航与肉鸽识别继续增强
 
-在设置指引与开始唤醒中补充截图增强与截图测试入口，MuMu 截图增强也已支持 `emulator-5xxx` 格式端口。
+自动战斗多作业模式现已支持异体字关卡导航，并为部分活动/支线关卡补充模板导航；同时继续补强繁中服、YostarEN 与 YostarJP 的关卡、肉鸽事件与选项识别。
 
-#### 模拟器兼容性提示更完整
+#### 启动与界面体验优化
 
-新增当前模拟器帧率检测与提示，补充 MuMu 后台保活检测，以及雷电模拟器搭配 MaaTouch 时的组合警告，帮助更快定位截图异常、操作异常与性能设置问题。
+新增账号切换启用勾选框，避免不需要时仍执行账号切换；同时优化帧率检查异步流程、主题色持久化与相关界面细节，减少截图返回阻塞、启动闪烁与主题设置异常。
 
 <details>
 <summary><b>English</b></summary>
 
-#### Monet Theming
+#### More Base Resources Supported in Depot Recognition
 
-Added background Monet theming with both automatic color extraction and manual color selection.
+Depot recognition now supports Originium, Orundum, LMD, Gold, and Purchase Certificates, making inventory checks and exports more complete.
 
-#### Screenshot Enhancements
+#### Better Stage Navigation and Roguelike Recognition
 
-Screenshot enhancement and screenshot test entries are now surfaced in setup guidance and startup wake-up, and MuMu screenshot enhancement now supports `emulator-5xxx` style ports.
+Multi-copilot auto-battle now supports template-based navigation for variant stage names, with additional template coverage for some event and side-story stages. Recognition has also been improved further for Traditional Chinese, YostarEN, and YostarJP stages, roguelike events, and options.
 
-#### Better Emulator Compatibility Guidance
+#### Startup and UI Experience Improvements
 
-Added emulator frame rate detection and warnings, MuMu background keep-alive detection, and a warning for the LDPlayer + MaaTouch combination, making screenshot, input, and performance issues easier to diagnose.
+Added an explicit account-switch toggle so account switching no longer runs when unnecessary, while also improving asynchronous frame-rate checks, persisted theme colors, and related UI details to reduce screenshot blocking, startup flicker, and theme-setting issues.
 
 </details>
 
@@ -36,6 +36,37 @@ Added emulator frame rate detection and warnings, MuMu background keep-alive det
 以下是详细内容：
 
 <details open>
+<summary><b>v6.14.0-beta.2 (2026-07-06)</b></summary>
+
+### 新增 | New
+
+* 自动战斗多作业模式新增支持异体字关卡导航；部分活动与支线关卡新增模板导航，在有模板时可优先使用模板识别、无模板时回退 OCR ([#16984](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/16984)) @ABA2396
+* 仓库识别新增支持源石、合成玉、龙门币、赤金与采购凭证 ([#17287](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17287)) @ABA2396
+* 账号切换新增启用勾选框，可按需关闭账号切换 ([#17280](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17280)) @ABA2396
+* 繁中服新增「未許之地」关卡导航支持 ([#17285](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17285)) @momomochi987
+* YostarJP adds JieGarden DLC2 roguelike support, including new squad names and a large batch of OCR/recognition mappings ([#17286](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17286)) @Manicsteiner
+
+### 改进 | Improved
+
+* 持久化保存主题色，减少启动时主题闪烁 ([#17263](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17263)) @ABA2396
+* 帧率检查改为异步执行，减少截图返回阻塞 ([#17277](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17277)) @ABA2396
+* 优化被注入提示文案，提示信息更清晰 ([#17272](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17272)) @ABA2396
+* 确认招募时同步更新 UI 日志 Card 图片，界面展示更及时 ([#17268](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17268)) @ABA2396
+* YostarEN/JP improve JieGarden and Sami roguelike event/option recognition; YostarEN additionally improves MASS encounter option mappings ([#17261](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17261)) @Manicsteiner @Constrat
+
+### 修复 | Fix
+
+* 修复使用莫奈取色吸管工具后二次打开页面时崩溃的问题 ([#17270](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17270)) @ABA2396
+* 修复背景填充模式仍可编辑的问题 @ABA2396
+* YostarEN fixes a Varkaris text/accent recognition issue @Constrat
+
+### 文档 | Docs
+
+* 补充截图相关回调文档 @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.14.0-beta.1 (2026-07-04)</b></summary>
 
 ### 新增 | New
