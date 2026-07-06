@@ -8,15 +8,11 @@
 
 #### 仓库识别支持更多基础资源
 
-仓库识别现已新增对源石、合成玉、龙门币、赤金与采购凭证的识别支持，导出与库存核对更完整。
+仓库识别现已新增对源石、合成玉、龙门币、赤金与采购凭证的识别支持，导出与库存核对更完整；排序现已改为按游戏内顺序排列。
 
-#### 关卡导航与肉鸽识别继续增强
+#### 截图与模拟器兼容性提示更完整
 
-自动战斗多作业模式现已支持异体字关卡导航，并为部分活动/支线关卡补充模板导航；同时继续补强繁中服、YostarEN 与 YostarJP 的关卡、肉鸽事件与选项识别。
-
-#### 模拟器兼容性提示更完整
-
-新增当前模拟器帧率检测与提示，补充 MuMu 后台保活检测，以及雷电模拟器搭配 MaaTouch 时的组合警告，帮助更快定位截图异常、操作异常与性能设置问题。
+在设置指引与开始唤醒中补充截图增强与截图测试入口，MuMu 截图增强也已支持 `emulator-5xxx` 格式端口；新增当前模拟器帧率检测与提示，补充 MuMu 后台保活检测，以及雷电模拟器搭配 MaaTouch 时的组合警告，帮助更快定位截图异常、操作异常与性能设置问题。
 
 <details>
 <summary><b>English</b></summary>
@@ -27,15 +23,11 @@ Added background Monet theming with both automatic color extraction and manual c
 
 #### More Base Resources Supported in Depot Recognition
 
-Depot recognition now supports Originium, Orundum, LMD, Gold, and Purchase Certificates, making inventory checks and exports more complete.
+Depot recognition now supports Originium, Orundum, LMD, Gold, and Purchase Certificates, making inventory checks and exports more complete. Items are now sorted by in-game order.
 
-#### Better Stage Navigation and Roguelike Recognition
+#### Better Screenshot and Emulator Compatibility Guidance
 
-Multi-copilot auto-battle now supports template-based navigation for variant stage names, with additional template coverage for some event and side-story stages. Recognition has also been improved further for Traditional Chinese, YostarEN, and YostarJP stages, roguelike events, and options.
-
-#### Better Emulator Compatibility Guidance
-
-Added emulator frame rate detection and warnings, MuMu background keep-alive detection, and a warning for the LDPlayer + MaaTouch combination, making screenshot, input, and performance issues easier to diagnose.
+Screenshot enhancement and screenshot test entries are now surfaced in setup guidance and startup wake-up, and MuMu screenshot enhancement now supports `emulator-5xxx` style ports. Added emulator frame rate detection and warnings, MuMu background keep-alive detection, and a warning for the LDPlayer + MaaTouch combination, making screenshot, input, and performance issues easier to diagnose.
 
 </details>
 
