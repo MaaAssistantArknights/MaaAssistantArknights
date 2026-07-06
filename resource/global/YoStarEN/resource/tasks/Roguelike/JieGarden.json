@@ -260,10 +260,32 @@
             ["Eatyourfill", "饱餐一顿"],
             ["Wavethesignalflag", "摇动令旗"],
             ["Lightacandle", "点燃蜡烛"],
+            ["Reviseyourorders", "改换号令"],
             ["Getintoformation", "布下阵法"],
             ["Pickabigone", "挑个大的"],
             ["Pickasmallone", "挑个小的"],
-            ["Prettyreasonable[onceyouthinkaboutit]*", "细细想来也有道理"]
+            ["Prettyreasonable[onceyouthinkaboutit]*", "细细想来也有道理"],
+            ["IwishfortheHourof[Hai]*", "想要亥时的"],
+            ["TheHourofYinsounds[good]*", "寅时的应该不错"],
+            ["TheHourofWeiismost[suitable]*", "未时的更合适"],
+            ["Givemesomethingmore[normal]*", "还是给我件正常器物吧"],
+            ["Useclusteredflowers[towipeit]*", "以花簇擦拭"],
+            ["Useorderlybalanceto[wipeit]*", "以衡常擦拭"],
+            ["Usepointedrisktowipe[it]*", "以厉锋擦拭"],
+            ["Acceptthecrystal", "收下结晶"],
+            ["Forgetit", "还是算了"],
+            ["Xiexie[...]*", "谢谢......"],
+            ["AskYuforameal", "找余果腹"],
+            ["AskLingforenlightenment", "找令会意"],
+            ["AskDusktotouchupyour[body]*", "找夕描躯"],
+            ["AskShutoderivecause[andeffect]*", "找黍溯果"],
+            ["AskChongyuetopress[theadvantage]*", "找重岳借势"],
+            ["AskNiantoforgesome[scales]*", "找年锻鳞"],
+            ["Openyoureyes.?", "睁开双眼——"],
+            ["Returntoyourbody", "返回躯壳"],
+            ["Drinksomewater[,prayingforgoodluck]*", "饮一口缸中水，祈求好运"],
+            ["Offertheinkstick[,thenbegintherite]*", "奉碑行仪"]
+
         ]
     }
 }
