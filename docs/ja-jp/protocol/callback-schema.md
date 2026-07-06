@@ -115,24 +115,21 @@ Todo
    解像度を取得しました
 - `FastestWayToScreencap`  
    最速のスクリーンショット方式が見つかりました、`details` 構造：
-
-   - `method` (string, required): 最速のスクリーンショット方式。
-   - `cost` (number, required): 所要時間（ミリ秒）。
-   - `alternatives` (array<object>, required): 全候補方式とその所要時間。
+  - `method` (string, required): 最速のスクリーンショット方式。
+  - `cost` (number, required): 所要時間（ミリ秒）。
+  - `alternatives` (array<object>, required): 全候補方式とその所要時間。
 
 - `ScreencapCost`  
    スクリーンショット所要時間統計（10回ごとに報告）、`details` 構造：
-
-   - `min` (number, required): 最小所要時間（ミリ秒）。
-   - `max` (number, required): 最大所要時間（ミリ秒）。
-   - `avg` (number, required): 平均所要時間（ミリ秒）。
-   - `fault_times` (number): 失敗回数（失敗がある場合のみ存在）。
+  - `min` (number, required): 最小所要時間（ミリ秒）。
+  - `max` (number, required): 最大所要時間（ミリ秒）。
+  - `avg` (number, required): 平均所要時間（ミリ秒）。
+  - `fault_times` (number): 失敗回数（失敗がある場合のみ存在）。
 
 - `EmulatorFPS`  
    エミュレータリフレッシュレート（1分ごとに検出）、`details` 構造：
-
-   - `fps` (number, required): エミュレータ/システムのリフレッシュレート（FPS）。
-   - `refresh_period_ns` (number, required): フレーム更新周期（ナノ秒）。
+  - `fps` (number, required): エミュレータ/システムのリフレッシュレート（FPS）。
+  - `refresh_period_ns` (number, required): フレーム更新周期（ナノ秒）。
 
 ### AsyncCallInfo
 
