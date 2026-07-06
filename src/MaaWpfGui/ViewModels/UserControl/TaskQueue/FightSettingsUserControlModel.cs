@@ -15,8 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,8 +33,8 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
-using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
+using ObservableCollections;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Helper.Instances.Data;
@@ -164,8 +162,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// <summary>
     /// 当仓库识别数据变化时，刷新界面显示的目标库存信息。
     /// </summary>
-    private void OnDepotResultCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    private void OnDepotResultCollectionChanged(in NotifyCollectionChangedEventArgs<ToolboxViewModel.DepotResultDate> e)
     {
+        _ = e;
         if (!_runningState.Idle)
         {
             return;

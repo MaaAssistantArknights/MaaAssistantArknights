@@ -40,6 +40,7 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ObservableCollections;
 using Serilog;
 using Stylet;
 using Timer = System.Timers.Timer;
@@ -494,12 +495,12 @@ public class ToolboxViewModel : Screen
 
     private const int DepotRowSize = 5;
 
-    private ObservableCollection<DepotResultDate> _depotResult = [];
+    private ObservableList<DepotResultDate> _depotResult = [];
 
     /// <summary>
     /// Gets or sets the depot result.
     /// </summary>
-    public ObservableCollection<DepotResultDate> DepotResult
+    public ObservableList<DepotResultDate> DepotResult
     {
         get => _depotResult;
         set {
@@ -608,10 +609,7 @@ public class ToolboxViewModel : Screen
         RefreshDepotRows();
     }
 
-    private void DepotResultCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        RefreshDepotRows();
-    }
+    private void DepotResultCollectionChanged(in NotifyCollectionChangedEventArgs<DepotResultDate> e) => RefreshDepotRows();
 
     private void RefreshDepotRows()
     {
@@ -805,24 +803,24 @@ public class ToolboxViewModel : Screen
             }
         }
 
-        // 按游戏内置 sortId 排序
+        // 构建结果并检查成就，按游戏内置 sortId 排序
         var results = depotItems.Select(kvp => new DepotResultDate {
             Id = kvp.Key,
             Name = ItemListHelper.GetItemName(kvp.Key),
             Image = ItemListHelper.GetItemImage(kvp.Key),
             Count = kvp.Value,
-        });
+        }).OrderBy(r => r);
 
-        foreach (var result in results.OrderBy(x => x))
+        foreach (var result in results)
         {
             if (result.Count > 0 &&
                 result.Count > AchievementTrackerHelper.Instance.GetProgress(AchievementIds.WarehouseMiser))
             {
                 AchievementTrackerHelper.Instance.SetProgress(AchievementIds.WarehouseMiser, result.Count);
             }
-
-            DepotResult.Add(result);
         }
+
+        DepotResult.AddRange(results);
 
         // 标记缓存失效
         InvalidateDepotCache();
@@ -1133,13 +1131,8 @@ public class ToolboxViewModel : Screen
         // 如果有更新，重新排序并保存
         if (hasUpdates)
         {
-            // 按游戏内置 sortId 排序（与 DepotParse 保持一致）
-            var sortedItems = DepotResult.OrderBy(x => x).ToList();
-            DepotResult.Clear();
-            foreach (var item in sortedItems)
-            {
-                DepotResult.Add(item);
-            }
+            // 按游戏内置 sortId 排序
+            DepotResult.Sort();
 
             // 标记缓存失效
             InvalidateDepotCache();
