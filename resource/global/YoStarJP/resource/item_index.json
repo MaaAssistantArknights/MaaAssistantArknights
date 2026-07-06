@@ -2415,6 +2415,14 @@
         "sortId": -10000,
         "usage": "年関後夜祭で集めたアイテム。報酬との交換に用いられる。"
     },
+    "act7collection_point_token": {
+        "classifyType": "NONE",
+        "description": "様々な統合戦略の作戦において貢献してくれた外勤オペレーターへのボーナスとして、ロドスは必要な物資と交換できるポイントを配布することにした。",
+        "icon": "act7collection_point_token.png",
+        "name": "「戦略家」ポイント",
+        "sortId": -10000,
+        "usage": "対応する報酬と交換できる。"
+    },
     "act7d5_point_coupon": {
         "classifyType": "NONE",
         "description": "このクーポンは、ロドス後方支援部の構想によって発行されたもので、オペレーターの積極的な任務遂行を激励する活動の一環である。試運転期間中、任務達成度や作戦成果に応じて支給されていく。",
