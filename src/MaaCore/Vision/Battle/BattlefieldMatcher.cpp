@@ -469,17 +469,31 @@ BattlefieldMatcher::MatchResult<int> BattlefieldMatcher::mechanism_regeneration_
 {
     static const MatchTaskPtr mechanism_regeneration_task_ptr =
         Task.get<MatchTaskInfo>("BattleMechanismRegenerationBar");
-    static const std::pair<std::array<int,3>, std::array<int,3>> mechanism_regeneration_color_scales =
+    static const std::pair<std::array<int,3>, std::array<int,3>> mechanism_regeneration_color_scales_light =
         std::get<std::pair<std::array<int,3>, std::array<int,3>>>(mechanism_regeneration_task_ptr->color_scales[0]);
-    PixelAnalyzer analyzer(m_image);
-    analyzer.set_roi(mechanism_regeneration_task_ptr->roi);
-    analyzer.set_filter(PixelAnalyzer::Filter::RGB);
-    analyzer.set_lb(mechanism_regeneration_color_scales.first);
-    analyzer.set_ub(mechanism_regeneration_color_scales.second);
-    if (!analyzer.analyze()) {
-        return { .value = 0, .status = MatchStatus::Success };
+    static const std::pair<std::array<int,3>, std::array<int,3>> mechanism_regeneration_color_scales_dark =
+        std::get<std::pair<std::array<int,3>, std::array<int,3>>>(mechanism_regeneration_task_ptr->color_scales[1]);
+
+    int max_x = 0;
+
+    PixelAnalyzer analyzer_light(m_image);
+    analyzer_light.set_roi(mechanism_regeneration_task_ptr->roi);
+    analyzer_light.set_filter(PixelAnalyzer::Filter::RGB);
+    analyzer_light.set_lb(mechanism_regeneration_color_scales_light.first);
+    analyzer_light.set_ub(mechanism_regeneration_color_scales_light.second);
+    if (analyzer_light.analyze()) {
+        max_x = std::ranges::max(analyzer_light.get_result(), {}, &Point::x).x;
     }
-    int max_x = std::ranges::max(analyzer.get_result(), {}, &Point::x).x;
+
+    PixelAnalyzer analyzer_dark(m_image);
+    analyzer_dark.set_roi(mechanism_regeneration_task_ptr->roi);
+    analyzer_dark.set_filter(PixelAnalyzer::Filter::RGB);
+    analyzer_dark.set_lb(mechanism_regeneration_color_scales_dark.first);
+    analyzer_dark.set_ub(mechanism_regeneration_color_scales_dark.second);
+    if (analyzer_dark.analyze()) {
+        max_x = std::max(max_x, std::ranges::max(analyzer_dark.get_result(), {}, &Point::x).x);
+    }
+
     return { .value = max_x, .status = MatchStatus::Success };
 }
 
