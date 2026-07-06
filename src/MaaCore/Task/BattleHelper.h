@@ -102,6 +102,8 @@ protected:
     std::string analyze_detail_page_oper_name(const cv::Mat& image, battle::Role role);
     std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
+
+    int cost_regeneration_delta() const;
     int elapsed_time();
 
     // 注册已部署干员及位置
@@ -136,6 +138,7 @@ protected:
     int m_cost = 0;
     int m_cost_regenerated = 0;
     int m_cost_regeneration = 0;
+    int m_cost_regeneration_baseline = 0;
     int m_mechanism_regenerated = 0;
     int m_mechanism_regeneration = 0;
     bool m_mechanism_regeneration_reversed = false;

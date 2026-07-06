@@ -2172,11 +2172,13 @@ public class AsstProxy
                 {
                     var cost_regenerated = subTaskDetails!["cost_regenerated"]?.ToString();
                     var cost_regeneration = subTaskDetails!["cost_regeneration"]?.ToString();
+                    var cost_regeneration_delta = subTaskDetails!["cost_regeneration_delta"]?.ToString();
                     Instances.CopilotViewModel.AddLog(
                         string.Format(
                             LocalizationHelper.GetString("CostRegeneration"),
                             cost_regenerated,
-                            cost_regeneration
+                            cost_regeneration,
+                            cost_regeneration_delta)
                         ),
                         UiLogColor.Message);
 

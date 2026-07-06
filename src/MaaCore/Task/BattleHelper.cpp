@@ -57,6 +57,7 @@ void asst::BattleHelper::clear()
     m_total_kills = 0;
     m_cost_regenerated = 0;
     m_cost_regeneration = 0;
+    m_cost_regeneration_baseline = 0;
     m_mechanism_regenerated = 0;
     m_mechanism_regeneration = 0;
     m_mechanism_regeneration_reversed = false;
@@ -1208,6 +1209,12 @@ int asst::BattleHelper::elapsed_time()
         return std::numeric_limits<int>::max();
     }
     return static_cast<int>(elapsed_ms);
+}
+
+int asst::BattleHelper::cost_regeneration_delta() const
+{
+    static const int cost_bar_length = Task.get<MatchTaskInfo>("BattleCostRegenerationBar") -> roi.width;
+    return m_cost_regenerated * cost_bar_length + m_cost_regeneration - m_cost_regeneration_baseline;
 }
 
 void asst::BattleHelper::register_deployed_oper(const std::string& name, const Point& loc)

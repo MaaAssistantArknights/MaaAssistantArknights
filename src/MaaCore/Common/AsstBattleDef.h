@@ -400,6 +400,7 @@ enum class ActionType
     BulletTime,     // 使用 1/5 的速度
     Output,         // 仅输出，什么都不操作，界面上也不显示
     SkillDaemon,    // 什么都不做，有技能开技能，直到战斗结束
+    SetCostRegenerationBaseline, // 设置费用回复基准值
     ResetStopwatch, // 重置全局计时器 (试验性功能)
     Pause,          // 暂停/取消暂停
 
@@ -418,6 +419,7 @@ struct Action
     int cost_changes = 0;
     int cost_regenerated = 0;
     int cost_regeneration = 0;
+    int cost_regeneration_delta = 0;
     int mechanism_regenerated = 0;
     int mechanism_regeneration = 0;
     int cooling = 0;

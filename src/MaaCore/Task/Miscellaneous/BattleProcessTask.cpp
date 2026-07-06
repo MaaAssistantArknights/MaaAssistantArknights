@@ -47,6 +47,7 @@ bool asst::BattleProcessTask::_run()
         const auto& init_action = get_combat_data().actions.at(0);
         if (init_action.type == ActionType::Pause && init_action.kills == 0 && init_action.cost_changes == 0 &&
             init_action.costs == 0 && init_action.cost_regenerated == 0 && init_action.cost_regeneration == 0 &&
+            init_action.cost_regeneration_delta == 0 &&
             init_action.mechanism_regenerated == 0 && init_action.mechanism_regeneration == 0 &&
             init_action.cooling == -1 && init_action.elapsed_time == 0) {
             m_need_pause_on_start = true;
@@ -335,6 +336,11 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         ret = move_camera(action.distance);
         break;
 
+    case ActionType::SetCostRegenerationBaseline:
+        update_cost_regeneration(ctrler()->get_image());
+        m_cost_regeneration_baseline = cost_regeneration_delta();
+        break;
+
     case ActionType::ResetStopwatch:
         m_stopwatch_start_time = std::chrono::steady_clock::now();
         m_stopwatch_enabled = true;
@@ -377,6 +383,7 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { ActionType::MoveCamera, "MoveCamera" },
         { ActionType::DrawCard, "DrawCard" },
         { ActionType::CheckIfStartOver, "CheckIfStartOver" },
+        { ActionType::SetCostRegenerationBaseline, "SetCostRegenerationBaseline" },
         { ActionType::ResetStopwatch, "ResetStopwatch" },
         { ActionType::Pause, "Pause" },
     };
@@ -393,6 +400,7 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
                                       { "doc_color", action.doc_color },
                                       { "cost_regenerated", m_cost_regenerated },
                                       { "cost_regeneration", m_cost_regeneration },
+                                      { "cost_regeneration_delta", cost_regeneration_delta() },
                                       { "mechanism_regenerated", m_mechanism_regenerated },
                                       { "mechanism_regeneration", m_mechanism_regeneration },
                                       { "elapsed_time", elapsed_time() } };
@@ -514,6 +522,19 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         update_image_if_empty();
         while (!need_exit()) {
             if (m_cost_regeneration >= action.cost_regeneration) {
+                break;
+            }
+            if (m_paused) {
+                advance_while_paused();
+            }
+            do_strategy_and_update_image();
+        }
+    }
+
+    if (action.cost_regeneration_delta > 0) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            if (cost_regeneration_delta() >= action.cost_regeneration_delta) {
                 break;
             }
             if (m_paused) {
