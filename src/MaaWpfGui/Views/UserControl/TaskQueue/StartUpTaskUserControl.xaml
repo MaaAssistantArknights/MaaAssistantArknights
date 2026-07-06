@@ -20,39 +20,37 @@
     mc:Ignorable="d">
     <StackPanel>
         <StackPanel Visibility="{c:Binding !UseAttachWindow, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
-            <Grid Margin="0,5" Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;txwy&quot;', Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <StackPanel Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;txwy&quot;', Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}">
                 <StackPanel
+                    Margin="0,5"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
                     Orientation="Horizontal">
-                    <TextBlock
-                        Margin="8,0,0,0"
-                        Text="{DynamicResource AccountSwitch}"
-                        Visibility="Hidden" />
-                    <controls:TooltipBlock Margin="0,0,5,0" TooltipText="{DynamicResource AccountSwitchTip}" />
+                    <CheckBox Content="{DynamicResource AccountSwitch}" IsChecked="{Binding AccountSwitchEnabled}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource AccountSwitchTip}" />
                 </StackPanel>
-                <hc:TextBox
-                    Grid.Column="0"
-                    hc:BorderElement.CornerRadius="4,0,0,4"
-                    hc:TitleElement.Title="{DynamicResource AccountSwitch}"
-                    IsReadOnly="{c:Binding !Idle,
-                                           Source={x:Static helper:Instances.SettingsViewModel}}"
-                    Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}" />
-                <Button
-                    Grid.Column="1"
-                    Padding="12,1,12,1"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    hc:BorderElement.CornerRadius="0,4,4,0"
-                    BorderThickness="0,1,1,1"
-                    Command="{s:Action AccountSwitchManualRun}"
-                    Content="{DynamicResource AccountSwitchManualRun}"
-                    IsEnabled="{c:Binding 'AccountName != &quot;&quot;'}" />
-            </Grid>
+                <Grid Margin="0,5" Visibility="{c:Binding AccountSwitchEnabled}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        Grid.Column="0"
+                        hc:BorderElement.CornerRadius="4,0,0,4"
+                        IsReadOnly="{c:Binding !Idle,
+                                               Source={x:Static helper:Instances.SettingsViewModel}}"
+                        Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button
+                        Grid.Column="1"
+                        Padding="12,1,12,1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        BorderThickness="0,1,1,1"
+                        Command="{s:Action AccountSwitchManualRun}"
+                        Content="{DynamicResource AccountSwitchManualRun}"
+                        IsEnabled="{c:Binding 'AccountName != &quot;&quot;'}" />
+                </Grid>
+            </StackPanel>
 
             <controls:TextBlock
                 Margin="0,5"

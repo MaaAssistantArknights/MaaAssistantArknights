@@ -46,6 +46,24 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
         }
     }
 
+    public bool AccountSwitchEnabled
+    {
+        get
+        {
+            var task = GetTaskConfig<StartUpTask>();
+            if (task.AccountSwitchEnabled is bool v)
+            {
+                return v;
+            }
+
+            // 一次性配置迁移：旧配置未设置该字段时，若已有账号名则自动勾选，否则默认关
+            var migrated = !string.IsNullOrEmpty(task.AccountName);
+            SetTaskConfig<StartUpTask>(t => t.AccountSwitchEnabled == migrated, t => t.AccountSwitchEnabled = migrated);
+            return migrated;
+        }
+        set => SetTaskConfig<StartUpTask>(t => t.AccountSwitchEnabled == value, t => t.AccountSwitchEnabled = value);
+    }
+
     // UI 绑定的方法
     [UsedImplicitly]
     public async void AccountSwitchManualRun()
@@ -88,7 +106,8 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
 
             var clientType = SettingsViewModel.GameSettings.ClientType;
             var accountName = !SettingsViewModel.ConnectSettings.UseAttachWindow &&
-                clientType is ClientType.Official or ClientType.Bilibili or ClientType.Txwy
+                clientType is ClientType.Official or ClientType.Bilibili or ClientType.Txwy &&
+                startUp.AccountSwitchEnabled == true
                     ? startUp.AccountName
                     : string.Empty;
 

@@ -20,4 +20,9 @@ public class StartUpTask : BaseTask
     public StartUpTask() => TaskType = TaskType.StartUp;
 
     public string AccountName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 启用账号切换。null 表示尚未迁移的旧配置。
+    /// </summary>
+    public bool? AccountSwitchEnabled { get; set; }
 }
