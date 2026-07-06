@@ -260,6 +260,37 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     private Color? _lastExtractedColor;
 
     /// <summary>
+    /// 从配置中读取上次持久化的自动取色主色。
+    /// 启动时先用它同步应用调色板，避免界面先闪烁原版颜色。
+    /// </summary>
+    /// <returns>持久化缓存的颜色；无缓存或格式无效时返回 null。</returns>
+    private static Color? LoadCachedMonetColor()
+    {
+        var hex = ConfigFactory.Root.GUI.BackgroundMonetCachedColor;
+        if (string.IsNullOrEmpty(hex))
+        {
+            return null;
+        }
+
+        try
+        {
+            return (Color)ColorConverter.ConvertFromString(hex);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// 将自动提取的主色持久化到配置，供下次启动时同步恢复。
+    /// </summary>
+    private static void SaveCachedMonetColor(Color color)
+    {
+        ConfigFactory.Root.GUI.BackgroundMonetCachedColor = ThemeHelper.Color2HexString(color);
+    }
+
+    /// <summary>
     /// 打开 HandyControl ColorPicker 弹窗让用户选择自定义颜色。
     /// </summary>
     public void SelectMonetColor()
@@ -275,11 +306,19 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
         picker.Confirmed += (_, e) => {
             var color = e.Info;
             BackgroundMonetCustomColor = ThemeHelper.Color2HexString(color);
+            SaveCachedMonetColor(color);
             UpdateMonet();
-            dialog.Close();
+            Cleanup();
         };
 
-        picker.Canceled += (_, _) => dialog.Close();
+        picker.Canceled += (_, _) => Cleanup();
+        return;
+
+        void Cleanup()
+        {
+            dialog.Close();
+            picker.Dispose();
+        }
     }
 
     /// <summary>
@@ -302,10 +341,11 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     /// 根据当前配置执行莫奈取色逻辑。
     /// 自动 / 自定义模式都会将计算放到后台线程，仅资源写入在 UI 线程。
     /// </summary>
-    public void UpdateMonet()
+    /// <param name="skipDebounce">是否跳过防抖延迟。初始化时应传 true 以避免界面先闪烁原版颜色。</param>
+    public void UpdateMonet(bool skipDebounce = false)
     {
         _monetUpdateCts?.Cancel();
-        _ = UpdateMonetAsync(CancellationToken.None);
+        _ = UpdateMonetAsync(CancellationToken.None, skipDebounce);
     }
 
     /// <summary>
@@ -313,16 +353,21 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     /// 所有异常均在方法内部捕获并记录，避免 fire-and-forget 调用产生未观察异常。
     /// </summary>
     /// <param name="cancellationToken">取消令牌。</param>
-    private async Task UpdateMonetAsync(CancellationToken cancellationToken)
+    /// <param name="skipDebounce">是否跳过防抖延迟。</param>
+    private async Task UpdateMonetAsync(CancellationToken cancellationToken, bool skipDebounce = false)
     {
         // 防抖延迟：等待 150ms，期间若被取消则直接返回
-        try
+        // 初始化时跳过延迟，避免界面先显示原版颜色再切换为莫奈主题（闪烁）
+        if (!skipDebounce)
         {
-            await Task.Delay(MonetDebounceMs, cancellationToken).ConfigureAwait(true);
-        }
-        catch (OperationCanceledException)
-        {
-            return;
+            try
+            {
+                await Task.Delay(MonetDebounceMs, cancellationToken).ConfigureAwait(true);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
         }
 
         try
@@ -332,6 +377,14 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
                 ThemeHelper.RevertMonetPalette();
                 NotifyOfPropertyChange(nameof(CurrentMonetColor));
                 return;
+            }
+
+            // 启动时先用持久化缓存的主色同步应用调色板，避免界面先闪烁原版颜色
+            if (skipDebounce && LoadCachedMonetColor() is { } cached)
+            {
+                _lastExtractedColor = cached;
+                ThemeHelper.ApplyMonetPalette(cached, BackgroundOpacity);
+                NotifyOfPropertyChange(nameof(CurrentMonetColor));
             }
 
             if (BackgroundMonetMode == MonetModeType.Custom)
@@ -379,6 +432,9 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
 
         // 直接使用提取到的原始主色生成调色板
         _lastExtractedColor = rawColor;
+
+        // 持久化提取结果，下次启动时可同步恢复，避免闪烁
+        SaveCachedMonetColor(rawColor);
 
         await ThemeHelper.ApplyMonetPaletteAsync(rawColor, BackgroundOpacity, cancellationToken);
 

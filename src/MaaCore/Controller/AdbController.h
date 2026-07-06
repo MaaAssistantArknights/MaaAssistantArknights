@@ -4,6 +4,7 @@
 
 #include <chrono>
 #include <deque>
+#include <future>
 #include <optional>
 #include <random>
 
@@ -224,6 +225,7 @@ protected:
     std::deque<long long> m_screencap_cost;                      // 截图用时
     int m_screencap_times = 0;                                   // 截图次数
     std::chrono::steady_clock::time_point m_last_fps_check_time; // 上次帧率检测时间
+    std::future<void> m_fps_future;                              // 异步帧率检测任务
 
 #if ASST_WITH_EMULATOR_EXTRAS
     MumuExtras m_mumu_extras;

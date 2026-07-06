@@ -108,6 +108,28 @@ Todo
   Screenshot failed (adb/emulator crashed), and retry failed
 - `TouchModeNotAvailable`  
   Unsupported touch mode
+- `ResolutionGot`  
+  Resolution retrieved
+- `FastestWayToScreencap`  
+  Fastest screenshot method found, `details` structure:
+
+  - `method` (string, required): Fastest screenshot method.
+  - `cost` (number, required): Time cost in milliseconds.
+  - `alternatives` (array<object>, required): All candidate methods and their costs.
+
+- `ScreencapCost`  
+  Screenshot cost statistics (reported every 10 screenshots), `details` structure:
+
+  - `min` (number, required): Minimum cost in milliseconds.
+  - `max` (number, required): Maximum cost in milliseconds.
+  - `avg` (number, required): Average cost in milliseconds.
+  - `fault_times` (number): Number of failures (only present when there are failures).
+
+- `EmulatorFPS`  
+  Emulator refresh rate (checked every 1 minute), `details` structure:
+
+  - `fps` (number, required): Emulator/system refresh rate (FPS).
+  - `refresh_period_ns` (number, required): Frame refresh period in nanoseconds.
 
 ### AsyncCallInfo
 

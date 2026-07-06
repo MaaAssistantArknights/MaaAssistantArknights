@@ -2407,6 +2407,14 @@
         "sortId": -10000,
         "usage": "수집 가능한 아이템. 보상으로 교환할 수 있다."
     },
+    "act7collection_point_token": {
+        "classifyType": "NONE",
+        "description": "통합 전략 작전에 기여한 외근 오퍼레이터를 위해 로도스 아일랜드에서 발급한 특별 교환 포인트. 포인트로 긴급 필요 물자를 교환할 수 있다.",
+        "icon": "act7collection_point_token.png",
+        "name": "'전략가' 포인트",
+        "sortId": -10000,
+        "usage": "상응하는 단계별 이벤트 보상을 교환하는 데 사용된다."
+    },
     "act7d5_point_coupon": {
         "classifyType": "NONE",
         "description": "본 식사권의 발행은 오퍼레이터들의 적극적인 임무 완수를 독려하기 위해, 로도스 아일랜드의 후방 지원부에서 구상한 것이다. 시행 기간 동안 임무 완료도나 작전 성과에 따라 배포된다.",

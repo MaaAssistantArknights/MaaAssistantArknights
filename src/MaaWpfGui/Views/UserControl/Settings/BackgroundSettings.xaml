@@ -87,12 +87,10 @@
                 Margin="0,0,0,5"
                 HorizontalAlignment="Center"
                 Text="{DynamicResource BackgroundImageStretchMode}" />
-            <hc:ComboBox
+            <ComboBox
                 Width="200"
                 HorizontalContentAlignment="Stretch"
                 DisplayMemberPath="Display"
-                IsEditable="True"
-                IsEnabled="True"
                 ItemsSource="{Binding BackgroundImageStretchModeList}"
                 SelectedValue="{Binding BackgroundImageStretchMode}"
                 SelectedValuePath="Value" />

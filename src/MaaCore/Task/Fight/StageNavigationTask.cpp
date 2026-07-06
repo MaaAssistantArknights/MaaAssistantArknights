@@ -7,6 +7,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
+#include "Task/StageNavigationHelper.h"
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"
 
@@ -190,6 +191,18 @@ bool asst::StageNavigationTask::swipe_and_find_stage()
 {
     LogTraceFunction;
 
+    // 优先检查是否存在对应活动关卡名的模板资源，如果存在则走模板匹配
+    std::string templ_path = StageNavigationHelper::get_stage_template_path(m_stage_code);
+    if (!templ_path.empty()) {
+        Log.info("Stage template found, using template matching for", m_stage_code, ", templ:", templ_path);
+        Task.get<MatchTaskInfo>(m_stage_code + "@ClickStageByTemplate")->templ_names = { templ_path + ".png" };
+        Task.get<OcrTaskInfo>(m_stage_code + "@ClickedCorrectStageByTemplateOrSwipe")->text = { m_stage_code };
+        return ProcessTask(*this, { m_stage_code + "@StageNavigationByTemplateMatchBegin" })
+            .set_retry_times(RetryTimesDefault)
+            .run();
+    }
+
+    // 无模板，使用 OCR 匹配
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickStageName")->text = { m_stage_code };
     std::string replace_m_stage_code = m_stage_code;
     utils::string_replace_all_in_place(replace_m_stage_code, { { "-", "" } });

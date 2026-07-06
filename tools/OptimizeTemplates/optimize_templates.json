@@ -4166,5 +4166,11 @@
     "resource/global/txwy/resource/template/MiniGame/SPA/MiniGame@SPA@ReturnHome": "ae4b72f00860816cc1caea6ff1a2c91ea1d1968e4dc5fc78517e423510551afc",
     "resource/global/txwy/resource/template/MiniGame/SPA/MiniGame@SPA@NoMoreHint": "5277b19d824d03014b7c0f185c52743b8913a6808772f00771a983b93f9cfa50",
     "resource/global/txwy/resource/template/MiniGame/SPA/MiniGame@SPA@EnterIndependent": "c696541cb2ef78485294eeb3245b031601f7d4e8ef8b31113324a2a3ac9ca096",
-    "resource/global/txwy/resource/template/MiniGame/SPA/MiniGame@SPA@StartSimulation": "efb5cd732b62eb7cd509bdff410547d4165b98df03e01fcf2ab6d366d4f89384"
+    "resource/global/txwy/resource/template/MiniGame/SPA/MiniGame@SPA@StartSimulation": "efb5cd732b62eb7cd509bdff410547d4165b98df03e01fcf2ab6d366d4f89384",
+    "resource/template/StageNavigation/SideStory/TD/TD-2": "099e400d7de609929ffe5ee807a6f08d21e20d5a48d8f5f12186547e488b5d64",
+    "resource/template/StageNavigation/SideStory/TD/TD-3": "04a731d18d39314f09238e0df46cc34ac7dcbbcfe68c25f02a8674bec5dad347",
+    "resource/template/StageNavigation/SideStory/TD/TD-P-1": "22d8a61375ae0e66eea90275157a453ae471daf39c1b134cc745394714466fe5",
+    "resource/template/StageNavigation/SideStory/TD/TD-1": "266fa0c2972e5f2d0abc0227df56a4e88c4cede44cef6277829843bf68611b3d",
+    "resource/template/StageNavigation/SideStory/TD/TD-5": "27536f748da64e8d58b4cb793e4b10a494751b5c030deaa20728e8d0e478722a",
+    "resource/template/StageNavigation/SideStory/TD/TD-4": "b195912f24b5c3fc882fd2ac9bb003571f31aa16cf78f604bfb8f21bcbbb5a3f"
 }

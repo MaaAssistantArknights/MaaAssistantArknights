@@ -99,6 +99,18 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
         return false;
     }
 #endif
+
+    // 将所有图片按完整相对路径注册到索引，支持 C++ 代码动态引用（如活动关卡截图模板）
+    // 仅当该路径尚未被注册时才插入，不影响已有的 m_load_required 匹配逻辑
+    for (const auto& [rel_path, full_path] : relative_path_index) {
+        if (!rel_path.ends_with(".png")) {
+            continue;
+        }
+        if (!m_templ_paths.contains(rel_path)) {
+            m_templ_paths.emplace(rel_path, full_path);
+        }
+    }
+
     m_templs.clear();
     ++m_revision;
     return true;
