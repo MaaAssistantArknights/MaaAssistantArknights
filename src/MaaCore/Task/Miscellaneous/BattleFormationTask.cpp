@@ -11,6 +11,7 @@
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
 #include "Task/ProcessTask.h"
+#include "Utils/BattleFormationOwnedOperators.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/OperNameAnalyzer.h"
@@ -91,6 +92,18 @@ bool asst::BattleFormationTask::_run()
         return false;
     }
     formation_with_last_opers();
+    if (!m_owned_opers.empty()) {
+        size_t skipped_count = 0;
+        for (auto& groups : m_formation | std::views::values) {
+            skipped_count += asst::algorithm::mark_unowned_formation_candidates_missing(
+                groups,
+                m_owned_opers,
+                battle::OperStatus::Selected,
+                battle::OperStatus::Unchecked,
+                battle::OperStatus::Missing);
+        }
+        Log.info(__FUNCTION__, "| Marked unowned formation candidates missing:", skipped_count);
+    }
     for (auto& [role, oper_groups] : m_formation) {
         bool need_check =
             std::ranges::any_of(oper_groups, [&](const OperGroup& group) { return has_oper_unchecked(group.second); });

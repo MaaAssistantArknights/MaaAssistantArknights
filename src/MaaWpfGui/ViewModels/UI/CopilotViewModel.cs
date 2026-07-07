@@ -2082,6 +2082,7 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)
     {
+        var ownedOpers = GetOwnedOperNames();
         if (!UseCopilotList)
         {
         }
@@ -2101,6 +2102,7 @@ public partial class CopilotViewModel : Screen
                 AddTrust = AddTrust,
                 IgnoreRequirements = IgnoreRequirements,
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
+                OwnedOpers = ownedOpers,
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
             };
@@ -2155,6 +2157,7 @@ public partial class CopilotViewModel : Screen
                 AddTrust = AddTrust,
                 IgnoreRequirements = IgnoreRequirements,
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
+                OwnedOpers = ownedOpers,
                 LoopTimes = Loop ? LoopTimes : 1,
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
@@ -2165,6 +2168,15 @@ public partial class CopilotViewModel : Screen
         }
 
         return appended && Instances.AsstProxy.AsstStart();
+    }
+
+    private static List<string> GetOwnedOperNames()
+    {
+        return Instances.ToolboxViewModel?.OperBoxHaveList
+            .Select(oper => oper.Name)
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .Distinct()
+            .ToList() ?? [];
     }
 
     // private bool StartVideoTask()

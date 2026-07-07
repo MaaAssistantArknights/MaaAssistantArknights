@@ -1,6 +1,8 @@
 #pragma once
 
 #include <optional>
+#include <unordered_set>
+#include <utility>
 
 #include "Common/AsstBattleDef.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
@@ -78,6 +80,8 @@ public:
     };
 
     void set_support_unit_usage(const SupportUnitUsage& value) { m_support_unit_usage = value; }
+
+    void set_owned_opers(std::unordered_set<std::string> value) { m_owned_opers = std::move(value); }
 
     // 是否在有且仅有一名缺失干员时尝试寻找助战干员补齐编队
     bool use_suppprt_unit_when_needed() const
@@ -157,6 +161,7 @@ protected:
 
     SupportUnitUsage m_support_unit_usage = SupportUnitUsage::None;
     bool m_used_support_unit = false; // 是否已经招募助战干员
+    std::unordered_set<std::string> m_owned_opers;
     // ———————— 以下变量为指定助战干员设置，仅当 m_support_unit_usage == SupportUnitUsage::Specific 时有效 ————————
     battle::RequiredOper m_specific_support_unit;
 
