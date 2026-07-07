@@ -733,7 +733,7 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 ::: field name="filename" type="string"  
 単一作業 JSON ファイルのパス。copilot_list と二択（必須）。相対/絶対パスの両方対応。  
 :::  
-::: field name="copilot_list" type="array<object>"  
+::: field name="copilot_list" type="array`<object>`"  
 作業リスト。filename と二択（必須）。filename と copilot_list が同時に存在する場合、copilot_list を無視。このパラメータが有効な場合、set_params は 1 回のみ実行可能。
 <br>
 各オブジェクトには以下を含みます：
@@ -759,7 +759,7 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   <br>
   0～4 の整数。0 は現在の編成を意味し、1～4 は第 1～第 4 編成を表します。  
   :::  
-  ::: field name="user_additional" type="array<object>" optional default="[]"  
+  ::: field name="user_additional" type="array`<object>`" optional default="[]"  
   カスタム追加オペレーター リスト。formation が true の場合のみ有効。
   <br>
   各オブジェクトには以下を含みます：
