@@ -733,7 +733,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="filename" type="string"  
 单一作业 JSON 文件的路径，与 copilot_list 二选一（必填）；相对路径与绝对路径均可。  
 :::  
-::: field name="copilot_list" type="array<object>"  
+::: field name="copilot_list" type="array`<object>`"  
 作业列表，与 filename 二选一（必填）；当 filename 与 copilot_list 同时存在时，忽视 copilot_list；此参数生效时仅可执行 set_params 一次。
 <br>
 每个对象包含：
@@ -759,7 +759,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
   <br>
   为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队。  
   :::  
-  ::: field name="user_additional" type="array<object>" optional default="[]"  
+  ::: field name="user_additional" type="array`<object>`" optional default="[]"  
   自定义追加干员列表。仅在 formation 为 true 时有效。
   <br>
   每个对象包含：

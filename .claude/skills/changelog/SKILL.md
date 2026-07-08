@@ -39,6 +39,7 @@ description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 
 - 列表前缀统一 `*`；中英文与数字间留空格（如"修复 3 个 bug"）。
 - 术语统一大小写：WPF、Json、Markdown、CSV、Info。
 - 保留作者与 PR 引用，格式 `([#12345](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12345)) @author`；多条合并时引用合并括注。
+- **作者归属**：从 commit 的 `%an`（author）字段获取，**不要**用 `%cn`（committer）——squash merge 的 committer 通常是 GitHub 或执行合并的人，而非贡献者。对于多贡献者 PR（squash 后协作者信息丢失），需访问 PR 页面确认发起人与协作者，全部列出（用空格分隔，如 `@author1 @author2`）。
 
 ## 4. 版本历史与折叠块
 
@@ -99,6 +100,14 @@ description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 
 ```
 
 如仍乱码：`| Out-File -Encoding utf8 -FilePath "$env:TEMP\commits.txt"` 后用 read_file 读取。
+
+## 9. Squash PR 作者归属
+
+仓库默认使用 squash merge，squash 后的 commit 会丢失原始分支上的多提交者信息：
+
+- **`%an`（author）= PR 发起人**，是默认归属依据。**不要**用 `%cn`（committer），squash 的 committer 通常是 GitHub 或执行合并维护者。
+- **多贡献者 PR**：如果 PR 有其他协作者（Co-authored-by、分支上有他人 commit），squash 后这些信息可能被压缩或仅保留在 PR 页面的 contributor 列表中。对无法确认的 PR，**必须访问 PR 页面**（如 `https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12345`）核对发起人与 contributor 列表。
+- 作者格式：单作者 `@author`；多作者用空格分隔 `@author1 @author2`。
 
 ## 文件结构（自上而下）
 
@@ -188,6 +197,7 @@ English paragraph.
 - ❌ chore/perf 默认当噪音过滤（应判断用户可感知效果）
 - ❌ 从 git tag 自行推测版本号（应从 PR 标题/用户输入获取；`gh` 失败时用 URL 访问 PR 页面）
 - ❌ 外服专有条目整条译成中文 / git 历史未指定编码导致乱码
+- ❌ squash PR 作者取 `%cn`（committer/合并者）而非 `%an`（author/发起人）；多贡献者 PR 未访问 PR 页面核对 contributor
 
 ## 最终检查
 
@@ -200,4 +210,5 @@ English paragraph.
 - [ ] 跨次版本号已移除旧版本折叠块（含新次版本第一个测试版）？
 - [ ] 子仓库 MaaMacGui 放在 `### 其他 | Other` 之后？
 - [ ] 版本号从 PR 标题/用户输入获取，未从 git tag 推测？
+- [ ] squash PR 作者取 `%an`（发起人），非 `%cn`（合并者）？多贡献者 PR 已核对 contributor 列表？
 - [ ] 外服专有条目保留英文原文？git 历史已指定编码？

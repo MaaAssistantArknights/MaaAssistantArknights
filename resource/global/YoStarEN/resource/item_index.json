@@ -2407,6 +2407,14 @@
         "sortId": -10000,
         "usage": "The paraphernalia collected during the New Year can be exchanged for great rewards."
     },
+    "act7collection_point_token": {
+        "classifyType": "NONE",
+        "description": "Rhodes Island issues special reward points as an incentive to field operators contributing to Integrated Strategies operations. These points can be used to redeem important supplies.",
+        "icon": "act7collection_point_token.png",
+        "name": "'Strategist' Point",
+        "sortId": -10000,
+        "usage": "Can be exchanged for the corresponding event stage reward."
+    },
     "act7d5_point_coupon": {
         "classifyType": "NONE",
         "description": "The Rhodes Island Logistics Departmen issued this meal voucher during an event as an incentive to complete a series of missions. During the trial period, it will be distributed according to the number of missions completed or to operation results.",

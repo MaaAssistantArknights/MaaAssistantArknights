@@ -63,7 +63,7 @@ private:
 
     size_t m_match_begin_pos = 0ULL;
     std::vector<std::string> m_item_ids; // 为空时使用 get_ordered_material_item_id
-    bool m_is_basic = false; // 为 true 时匹配不到不中断
+    bool m_is_basic = false;             // 为 true 时匹配不到不中断
     Rect m_resized_rect;
     cv::Mat m_image_resized;
 #ifdef ASST_DEBUG

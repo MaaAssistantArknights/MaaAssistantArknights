@@ -1278,8 +1278,7 @@ void asst::AdbController::check_fps()
     }
 
     // 上一次异步检测尚未完成，跳过（避免堆积）
-    if (m_fps_future.valid() &&
-        m_fps_future.wait_for(std::chrono::seconds(0)) != std::future_status::ready) {
+    if (m_fps_future.valid() && m_fps_future.wait_for(std::chrono::seconds(0)) != std::future_status::ready) {
         return;
     }
 

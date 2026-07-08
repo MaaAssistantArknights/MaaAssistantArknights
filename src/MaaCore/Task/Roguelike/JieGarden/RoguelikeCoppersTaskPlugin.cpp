@@ -498,6 +498,7 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row
 
     // 再滑动到目标列
     swipe_copper_list_right(col - 1);
+    sleep(300);
 
     // 执行点击
     ctrler()->click(click_point);
