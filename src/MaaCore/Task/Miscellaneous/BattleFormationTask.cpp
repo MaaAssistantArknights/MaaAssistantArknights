@@ -2,6 +2,7 @@
 
 #include <ranges>
 #include <set>
+#include <unordered_set>
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -93,11 +94,21 @@ bool asst::BattleFormationTask::_run()
     }
     formation_with_last_opers();
     if (!m_owned_opers.empty()) {
+        std::unordered_set<std::string> owned_oper_names;
+        for (const auto& oper_id_or_name : m_owned_opers) {
+            if (const auto& oper_ptr = BattleData.find_oper_by_id(oper_id_or_name); oper_ptr != nullptr) {
+                owned_oper_names.emplace(oper_ptr->name);
+            }
+            else {
+                owned_oper_names.emplace(oper_id_or_name);
+            }
+        }
+
         size_t skipped_count = 0;
         for (auto& groups : m_formation | std::views::values) {
             skipped_count += asst::algorithm::mark_unowned_formation_candidates_missing(
                 groups,
-                m_owned_opers,
+                owned_oper_names,
                 battle::OperStatus::Selected,
                 battle::OperStatus::Unchecked,
                 battle::OperStatus::Missing);

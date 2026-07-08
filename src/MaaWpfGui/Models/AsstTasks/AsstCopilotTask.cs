@@ -73,7 +73,7 @@ public class AsstCopilotTask : AsstBaseTask
     public List<UserAdditional>? UserAdditionals { get; set; }
 
     /// <summary>
-    /// Gets or sets cached owned operator names from operator recognition.
+    /// Gets or sets cached owned operator ids from operator recognition.
     /// </summary>
     public List<string> OwnedOpers { get; set; } = [];
 
