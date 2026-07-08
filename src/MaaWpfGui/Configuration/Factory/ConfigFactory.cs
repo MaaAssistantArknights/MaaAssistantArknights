@@ -120,6 +120,7 @@ public static class ConfigFactory
             {
                 _logger.Information("Failed to load configuration file, creating a new one");
                 parsed = new Root();
+                parsed.Configurations.Add(parsed.Current, new SpecificConfig());
             }
 
             parsed.PropertyChanged += OnPropertyChangedFactory("Root.");
@@ -171,6 +172,7 @@ public static class ConfigFactory
                 _logger.Warning("{File} save failed", _configBakFile);
             }
 
+            // 检查当前配置是否存在，如果不存在则补上新的配置
             if (parsed.Configurations.All(i => i.Key != parsed.Current))
             {
                 _brokenConfigs.Add(parsed.Current);
