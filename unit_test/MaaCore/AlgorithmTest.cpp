@@ -238,6 +238,34 @@ TEST_CASE("Unowned formation candidates are marked missing before page scanning"
     REQUIRE(groups[1].second[0].status == TestOperStatus::Missing);
 }
 
+TEST_CASE("Owned and selected formation candidates are not marked missing")
+{
+    std::vector<std::pair<std::string, std::vector<TestOper>>> groups {
+        { "Vanguard",
+          {
+              TestOper { .name = "Bagpipe", .status = TestOperStatus::Selected },
+              TestOper { .name = "Texas", .status = TestOperStatus::Selected },
+          } },
+        { "Caster",
+          {
+              TestOper { .name = "Eyjafjalla", .status = TestOperStatus::Unchecked },
+          } },
+    };
+    const std::unordered_set<std::string> owned { "Bagpipe", "Eyjafjalla" };
+
+    const auto changed = asst::algorithm::mark_unowned_formation_candidates_missing(
+        groups,
+        owned,
+        TestOperStatus::Selected,
+        TestOperStatus::Unchecked,
+        TestOperStatus::Missing);
+
+    REQUIRE(changed == 0);
+    REQUIRE(groups[0].second[0].status == TestOperStatus::Selected);
+    REQUIRE(groups[0].second[1].status == TestOperStatus::Selected);
+    REQUIRE(groups[1].second[0].status == TestOperStatus::Unchecked);
+}
+
 TEST_CASE("Empty owned operator cache leaves formation candidates unchanged")
 {
     std::vector<std::pair<std::string, std::vector<TestOper>>> groups {
