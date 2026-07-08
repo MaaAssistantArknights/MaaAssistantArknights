@@ -1086,8 +1086,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">일부 작업은 특정 스킬 레벨, 모듈 또는 기타 요구 사항이 필요합니다.
 이 옵션을 활성화하면 해당 검사를 건너뛰지만, 작업이 정상적으로 동작하지 않을 수 있습니다.
 오퍼레이터의 정예화 등급은 무시할 수 없습니다. 요구 사항을 하나라도 무시할 경우, 전투 종료 후 자동으로 '좋아요'를 남기지 않습니다.</system:String>
-    <system:String x:Key="Copilot.OwnedOperPreCheck">보유 확인</system:String>
-    <system:String x:Key="Copilot.OwnedOperPreCheck.Tip">로컬 보유 오퍼레이터 데이터를 사용해 검색 전에 작업 오퍼레이터 보유 여부를 확인합니다. 잘못된 검색을 줄이기 위한 기능이며, 레벨, 스킬, 모듈은 기존 자동 편성 검사로 확인됩니다. 로컬 보유 데이터가 없다면 먼저 도구 상자에서 데이터 업데이트를 실행하세요.</system:String>
+    <system:String x:Key="Copilot.OwnedOperPreCheck">오퍼레이터 사전 확인</system:String>
+    <system:String x:Key="Copilot.OwnedOperPreCheck.Tip">자동 편성 시작 전에 로컬 오퍼레이터 데이터로 작업에 필요한 오퍼레이터를 보유했는지 확인합니다. 미보유 오퍼레이터를 찾을 때의 대기 시간을 줄일 수 있습니다. 여기서는 보유 여부만 확인하며, 레벨, 스킬, 모듈은 기존 자동 편성 흐름에서 정상적으로 확인됩니다. 사용 전에 도구 상자에서 데이터 업데이트를 실행하세요.</system:String>
     <system:String x:Key="AddUserAdditional">커스텀 {key=Operator} 추가</system:String>
     <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 {key=Operator}를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator} 이름</system:String>
