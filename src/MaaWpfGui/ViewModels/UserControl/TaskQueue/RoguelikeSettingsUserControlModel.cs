@@ -796,6 +796,15 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         set => SetTaskConfig<RoguelikeTask>(t => t.StopWhenLevelMax == value, t => t.StopWhenLevelMax = value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to close tutorial overlays.
+    /// </summary>
+    public bool RoguelikeCloseTutorialOverlay
+    {
+        get => GetTaskConfig<RoguelikeTask>().CloseTutorialOverlay;
+        set => SetTaskConfig<RoguelikeTask>(t => t.CloseTutorialOverlay == value, t => t.CloseTutorialOverlay = value);
+    }
+
     private bool _roguelikeDelayAbortUntilCombatComplete = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, false);
 
     /// <summary>
@@ -1079,6 +1088,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
                 StopAtFinalBoss = roguelike.StopAtFinalBoss,
                 StopAtMaxLevel = roguelike.StopWhenLevelMax,
+                CloseTutorialOverlay = roguelike.CloseTutorialOverlay,
 
                 // 刷开局
                 CollectibleModeSquad = roguelike.SquadCollectible,

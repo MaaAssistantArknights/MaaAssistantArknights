@@ -241,6 +241,8 @@
     <system:String x:Key="RoguelikeStopAtFinalBoss">第5階層のボスの手前で一時停止する</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">最大レベル達成時に停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">シードから始める</system:String>
+    <system:String x:Key="RoguelikeCloseTutorialOverlay">チュートリアル / ガイドのオーバーレイを自動で閉じる</system:String>
+    <system:String x:Key="RoguelikeCloseTutorialOverlayTip">有効にすると、自動ローグはイベント終了処理中に左上のチュートリアル閉じるボタンを検出してクリックします。他の左上ボタンの誤クリックを避けるため、既定では無効です。</system:String>
     <!--<system:String x:Key="RoguelikeStartWithSeed">投資のシードを有効にする</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月次小隊自動切替</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月次小隊通信</system:String>

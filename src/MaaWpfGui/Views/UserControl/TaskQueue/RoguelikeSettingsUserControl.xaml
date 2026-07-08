@@ -402,6 +402,15 @@
                     </Binding>
                 </hc:TextBox.Text>
             </hc:TextBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding RoguelikeCloseTutorialOverlay}"
+                ToolTip="{DynamicResource RoguelikeCloseTutorialOverlayTip}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeCloseTutorialOverlay}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
             <controls:TextBlock
                 Margin="0,5"
                 HorizontalAlignment="Center"

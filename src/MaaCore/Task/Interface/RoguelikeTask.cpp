@@ -191,6 +191,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_roguelike_task_ptr->set_times_limit(
         "StageTraderRefreshWithDice",
         params.get("refresh_trader_with_dice", false) ? INT_MAX : 0);
+    m_roguelike_task_ptr->set_times_limit(
+        "Roguelike@CloseTutorialOverlay",
+        params.get("close_tutorial_overlay", false) ? INT_MAX : 0);
 
     for (const auto& plugin : m_roguelike_task_ptr->get_plugins()) {
         if (const auto& p_ptr = std::dynamic_pointer_cast<AbstractRoguelikeTaskPlugin>(plugin); p_ptr != nullptr) {

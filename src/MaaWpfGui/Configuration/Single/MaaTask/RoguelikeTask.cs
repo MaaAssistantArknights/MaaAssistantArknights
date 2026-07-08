@@ -130,6 +130,11 @@ public class RoguelikeTask : BaseTask
     /// </summary>
     public bool RefreshTraderWithDice { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 自动关闭教学 / 引导遮罩
+    /// </summary>
+    public bool CloseTutorialOverlay { get; set; }
+
     private bool SquadIsProfessional => Mode == RoguelikeMode.Collectible && Theme != RoguelikeTheme.Phantom && Squad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
 
     public bool SquadIsFoldartal => Mode == RoguelikeMode.Collectible && Theme == RoguelikeTheme.Sami && Squad == "生活至上分队";

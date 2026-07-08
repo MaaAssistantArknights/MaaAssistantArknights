@@ -199,6 +199,11 @@ public class AsstRoguelikeTask : AsstBaseTask
     /// </summary>
     public string? StartWithSeed { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 自动关闭教学 / 引导遮罩
+    /// </summary>
+    public bool CloseTutorialOverlay { get; set; }
+
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var taskParams = new JObject
@@ -281,6 +286,7 @@ public class AsstRoguelikeTask : AsstBaseTask
         taskParams["use_support"] = UseSupport;
         taskParams["use_nonfriend_support"] = UseSupportNonFriend;
         taskParams["refresh_trader_with_dice"] = Theme == RoguelikeTheme.Mizuki && RefreshTraderWithDice;
+        taskParams["close_tutorial_overlay"] = CloseTutorialOverlay;
         if (!string.IsNullOrEmpty(StartWithSeed))
         {
             taskParams["start_with_seed"] = StartWithSeed;

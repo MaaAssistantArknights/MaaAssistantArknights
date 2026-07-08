@@ -55,6 +55,7 @@
         "specificRect": [619, 615, 41, 17],
         "next": [
             "Mizuki@Roguelike@StageEncounterEnter",
+            "Mizuki@Roguelike@CloseEvent@(Roguelike@CloseTutorialOverlay)",
             "Mizuki@Roguelike@CloseEvent@(Mizuki@Roguelike@CloseCollectionContinue)",
             "Mizuki@Roguelike@CloseEvent@(Mizuki@Roguelike@CloseCollectionClose)",
             "Mizuki@Roguelike@CloseEvent",
