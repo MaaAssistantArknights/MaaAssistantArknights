@@ -167,6 +167,9 @@
     "JieGarden@Roguelike@StageSafeHouseReuse": {
         "text": ["안전가옥활용"]
     },
+    "JieGarden@Roguelike@StartExploreWithSeed-Open": {
+        "roi": [851, 567, 130, 40]
+    },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             ["홍육루", "_default"],

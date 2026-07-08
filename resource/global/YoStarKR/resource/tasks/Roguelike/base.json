@@ -1274,5 +1274,19 @@
     "Roguelike@StartExploreCD": {
         "doc": "로그라이크 재시작 딜레이",
         "text": ["복귀", "재정비", "정리"]
+    },
+    "Roguelike@StartExploreWithSeed-BackToMainPage": {
+        "text": ["중지하기"]
+    },
+    "Roguelike@StartExploreWithSeed-ClickInputBox": {
+        "text": ["프리셋코드"],
+        "roi": [199, 312, 481, 60]
+    },
+    "Roguelike@StartExploreWithSeed-Open": {
+        "text": ["프리셋", "사용"],
+        "roi": [851, 567, 130, 40]
+    },
+    "Roguelike@StartExploreWithSeed-SetDifficulty": {
+        "text": ["난이도", "설정"]
     }
 }
