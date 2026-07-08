@@ -125,7 +125,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
    已找到最快的截圖方式，`details` 結構如下：
   - `method` (string, required): 最快的截圖方式。
   - `cost` (number, required): 耗時，單位毫秒。
-  - `alternatives` (array<object>, required): 各候選方式及其耗時。
+  - `alternatives` (array&lt;object&gt;, required): 各候選方式及其耗時。
 
 - `ScreencapCost`  
    截圖耗時統計（每 10 次截圖回傳一次），`details` 結構如下：

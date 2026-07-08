@@ -125,7 +125,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   가장 빠른 스크린샷 방식을 찾음, `details` 구조:
   - `method` (string, required): 가장 빠른 스크린샷 방식.
   - `cost` (number, required): 소요 시간 (밀리초).
-  - `alternatives` (array<object>, required): 모든 후보 방식과 소요 시간.
+  - `alternatives` (array&lt;object&gt;, required): 모든 후보 방식과 소요 시간.
 
 - `ScreencapCost`  
   스크린샷 소요 시간 통계 (10회마다 보고), `details` 구조:
