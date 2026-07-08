@@ -76,7 +76,6 @@ public static class ConfigFactory
             }
 
             Root? parsed = null;
-            var loadedFromFile = false;
             if (File.Exists(ConfigFile))
             {
                 try
@@ -86,10 +85,6 @@ public static class ConfigFactory
                     {
                         _logger.Warning("Failed to load configuration file, copying configuration file to error file");
                         File.Copy(ConfigFile, ConfigFile + ".err", true);
-                    }
-                    else
-                    {
-                        loadedFromFile = true;
                     }
                 }
                 catch (Exception e)
@@ -108,7 +103,6 @@ public static class ConfigFactory
                     {
                         _logger.Information("Backup file loaded successfully, copying backup file to configuration file");
                         File.Copy(_configBakFile, ConfigFile, true);
-                        loadedFromFile = true;
                     }
                     else
                     {
@@ -179,13 +173,7 @@ public static class ConfigFactory
 
             if (parsed.Configurations.All(i => i.Key != parsed.Current))
             {
-                // 只有从已有文件加载时 Current 指向了不存在的配置，才算 broken；
-                // 全新安装（无文件）时 parsed 为 new Root()，不标记为 broken
-                if (loadedFromFile)
-                {
-                    _brokenConfigs.Add(parsed.Current);
-                }
-
+                _brokenConfigs.Add(parsed.Current);
                 parsed.Configurations.Add(parsed.Current, new SpecificConfig());
             }
 
