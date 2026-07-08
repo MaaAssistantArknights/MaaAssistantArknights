@@ -242,7 +242,7 @@
     <system:String x:Key="RoguelikeStopAtMaxLevel">滿級後自動停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">使用指定種子開局</system:String>
     <system:String x:Key="RoguelikeCloseTutorialOverlay">自動關閉教學 / 引導遮罩</system:String>
-    <system:String x:Key="RoguelikeCloseTutorialOverlayTip">開啟後，自動肉鴿會在事件關閉流程中偵測左上角教學關閉按鈕並點擊。預設關閉，以避免誤觸其他左上角按鈕。</system:String>
+    <system:String x:Key="RoguelikeCloseTutorialOverlayTip">開啟後，自動肉鴿會在事件關閉流程中偵測左上角教學關閉按鈕，短暫等待並再次確認後再點擊。預設關閉，以避免誤觸其他左上角按鈕。</system:String>
     <!--<system:String x:Key="RoguelikeStartWithSeed">啟用刷錢種子</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小隊自動切換</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小隊通訊</system:String>

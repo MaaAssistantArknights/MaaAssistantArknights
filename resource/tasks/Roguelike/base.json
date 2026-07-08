@@ -540,12 +540,19 @@
     },
     "Roguelike@CloseTutorialOverlay": {
         "template": "CloseTutorialOverlay.png",
-        "action": "ClickSelf",
+        "action": "DoNothing",
         "roi": [60, 60, 220, 100],
         "templThreshold": 0.85,
-        "postDelay": 500,
-        "next": ["#next"],
+        "postDelay": 1500,
+        "next": ["Roguelike@CloseTutorialOverlayConfirm"],
+        "onErrorNext": ["#next ^ #self"],
         "exceededNext": ["#next ^ #self"]
+    },
+    "Roguelike@CloseTutorialOverlayConfirm": {
+        "baseTask": "Roguelike@CloseTutorialOverlay",
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": ["#next"]
     },
     "Roguelike@CloseEvent": {
         "Doc": "base_task",
