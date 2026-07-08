@@ -163,6 +163,9 @@
     "JieGarden@Roguelike@StageSafeHouseReuse": {
         "text": ["Use the Safe House again", "Use the Safe"]
     },
+    "JieGarden@Roguelike@StartExploreWithSeed-Open": {
+        "roi": [870, 576, 111, 31]
+    },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "text": ["_default", "_boskyPassageDefault"],
         "ocrReplace": [

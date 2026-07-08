@@ -1299,5 +1299,19 @@
             "Organizing Thoughts",
             "Maintaining Garden"
         ]
+    },
+    "Roguelike@StartExploreWithSeed-BackToMainPage": {
+        "text": ["Stop", "Seed"]
+    },
+    "Roguelike@StartExploreWithSeed-ClickInputBox": {
+        "text": ["Enter", "paste", "seed"],
+        "roi": [199, 312, 481, 60]
+    },
+    "Roguelike@StartExploreWithSeed-Open": {
+        "text": ["Activate", "Seed"],
+        "roi": [870, 576, 111, 31]
+    },
+    "Roguelike@StartExploreWithSeed-SetDifficulty": {
+        "text": ["Set", "Difficulty"]
     }
 }
