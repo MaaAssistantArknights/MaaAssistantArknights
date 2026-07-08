@@ -114,7 +114,7 @@ Todo
   Fastest screenshot method found, `details` structure:
   - `method` (string, required): Fastest screenshot method.
   - `cost` (number, required): Time cost in milliseconds.
-  - `alternatives` (array&lt;object&gt;, required): All candidate methods and their costs.
+  - `alternatives` (array<object>, required): All candidate methods and their costs.
 
 - `ScreencapCost`  
   Screenshot cost statistics (reported every 10 screenshots), `details` structure:
