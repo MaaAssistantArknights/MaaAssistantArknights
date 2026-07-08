@@ -95,7 +95,7 @@
             ["花-性情を修む", "花-修性情"],
             ["花-心患うこと無し", "花-心无患"],
             ["花-.*爵の金幣", "花-鸭爵金币"],
-            ["衡-.*[蒙豪墓沌].*荒を開く", "衡-鸿蒙开荒"],
+            ["衡-.*荒を開く", "衡-鸿蒙开荒"],
             ["花-己が任重し", "花-己任重"],
             ["花-聖[詔招語]神を封ず", "花-圣诏封神"],
             ["花-神秘なる商[賈買]", "花-神秘商贾"],
@@ -152,6 +152,9 @@
     },
     "JieGarden@Roguelike@StageSafeHouseReuse": {
         "text": ["セーフハウスを利用する"]
+    },
+    "JieGarden@Roguelike@StartExploreWithSeed-Open": {
+        "roi": [860, 569, 130, 43]
     },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "text": ["_default", "_boskyPassageDefault"],
