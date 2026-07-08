@@ -333,6 +333,15 @@
                             <controls:TooltipBlock TooltipText="{DynamicResource Copilot.IgnoreRequirements.Tip}" />
                         </StackPanel>
 
+                        <!--  OwnedOperPreCheck  -->
+                        <StackPanel
+                            Margin="2.5,5"
+                            Orientation="Horizontal"
+                            Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
+                            <CheckBox Content="{DynamicResource Copilot.OwnedOperPreCheck}" IsChecked="{Binding UseOwnedOperPreCheck}" />
+                            <controls:TooltipBlock TooltipText="{DynamicResource Copilot.OwnedOperPreCheck.Tip}" />
+                        </StackPanel>
+
                         <!--  SupportUnitUsage  -->
                         <WrapPanel Orientation="Vertical" Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
                             <StackPanel Orientation="Horizontal">

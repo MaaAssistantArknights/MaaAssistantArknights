@@ -382,6 +382,15 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     public bool IgnoreRequirements { get => field; set => SetAndNotify(ref field, value); }
 
+    public bool UseOwnedOperPreCheck
+    {
+        get => field;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotUseOwnedOperPreCheck, value.ToString());
+        }
+    } = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUseOwnedOperPreCheck, false);
+
     /// <summary>
     /// Gets or sets a value indicating whether 真正有干员被忽略了要求
     /// </summary>
@@ -2082,7 +2091,7 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)
     {
-        var ownedOpers = GetOwnedOperIds();
+        var ownedOpers = UseOwnedOperPreCheck ? GetOwnedOperIds() : [];
         if (!UseCopilotList)
         {
         }
