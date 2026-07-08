@@ -722,7 +722,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 ::: field name="filename" type="string"  
 단일 작전 JSON 파일 경로, copilot_list와 택일(필수); 상대/절대 경로 모두 가능  
 :::  
-::: field name="copilot_list" type="array<object>"  
+::: field name="copilot_list" type="array`<object>`"  
 작전 목록, filename과 택일(필수); filename과 copilot_list 동시 존재 시 copilot_list 무시; 이 파라미터 유효 시 set_params는 1회만 실행 가능
 <br>
 각 객체 포함:
@@ -748,7 +748,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
   <br>
   0–4 정수, 0은 현재 편성 선택, 1-4는 제1, 2, 3, 4 편성  
   :::  
-  ::: field name="user_additional" type="array<object>" optional default="[]"  
+  ::: field name="user_additional" type="array`<object>`" optional default="[]"  
   사용자 정의 추가 오퍼레이터 목록. `formation`이 true일 때 유효
   <br>
   각 객체 포함:

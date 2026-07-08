@@ -733,7 +733,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ::: field name="filename" type="string"  
 單一作業 json 檔案路徑。與 `copilot_list` 二選一（必填），支援相對路徑與絕對路徑。  
 :::  
-::: field name="copilot_list" type="array<object>"  
+::: field name="copilot_list" type="array`<object>`"  
 作業列表。與 `filename` 二選一（必填）。若兩者同時存在，將忽略 `copilot_list`。此參數起作用時，僅可執行 `set_params` 一次。
 <br>
 每個物件包含：
@@ -759,7 +759,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
   <br>
   範圍為 0–4 的整數，其中 0 表示選擇目前編隊，1-4 分別代表第一、二、三、四編隊。  
   :::  
-  ::: field name="user_additional" type="array<object>" optional default="[]"  
+  ::: field name="user_additional" type="array`<object>`" optional default="[]"  
   自定義追加幹員清單。僅在 `formation` 為 `true` 時有效。
   <br>
   每個物件包含：

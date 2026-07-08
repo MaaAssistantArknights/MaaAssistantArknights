@@ -117,7 +117,7 @@ Todo
    最速のスクリーンショット方式が見つかりました、`details` 構造：
   - `method` (string, required): 最速のスクリーンショット方式。
   - `cost` (number, required): 所要時間（ミリ秒）。
-  - `alternatives` (array<object>, required): 全候補方式とその所要時間。
+  - `alternatives` (array`<object>`, required): 全候補方式とその所要時間。
 
 - `ScreencapCost`  
    スクリーンショット所要時間統計（10回ごとに報告）、`details` 構造：

@@ -733,7 +733,7 @@ Whether to enable this task.
 ::: field name="filename" type="string"  
 Path to a single job JSON file, mutually exclusive with copilot_list (required, choose one); both relative and absolute paths are supported.  
 :::  
-::: field name="copilot_list" type="array<object>"  
+::: field name="copilot_list" type="array`<object>`"  
 List of jobs, mutually exclusive with filename (required, choose one); when both filename and copilot_list are present, copilot_list will be ignored; set_params can only be executed once when this parameter is in effect.
 <br>
 Each object contains:
@@ -759,7 +759,7 @@ Each object contains:
   <br>
   An integer between 0–4: 0 means the current formation, 1–4 refer to the 1st–4th formations.  
   :::  
-  ::: field name="user_additional" type="array<object>" optional default="[]"  
+  ::: field name="user_additional" type="array`<object>`" optional default="[]"  
   Custom additional operators list. Only effective when formation is true.
   <br>
   Each object contains:
