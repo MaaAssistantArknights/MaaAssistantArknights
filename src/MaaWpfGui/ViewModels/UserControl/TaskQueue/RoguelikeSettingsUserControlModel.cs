@@ -458,7 +458,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 return;
             }
 
-            Instances.TaskQueueViewModel.AddLog("Core Char:" + value);
+            Instances.TaskQueueViewModel.AddLog("Core Char: " + value);
         }
     }
 
