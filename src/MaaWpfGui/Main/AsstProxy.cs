@@ -1030,21 +1030,29 @@ public class AsstProxy
                     break;
                 }
 
+                string? fpsLogKey = null;
+                string fpsLogColor = UiLogColor.Warning;
+
                 if (fpsInt < 30)
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsErrorTip", fpsInt), UiLogColor.Error);
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsErrorTip", fpsInt), UiLogColor.Error, showTime: false);
+                    fpsLogKey = "EmulatorFpsErrorTip";
+                    fpsLogColor = UiLogColor.Error;
                 }
                 else if (fpsInt < 60)
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsWarningTip", fpsInt), UiLogColor.Warning);
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsWarningTip", fpsInt), UiLogColor.Warning, showTime: false);
+                    fpsLogKey = "EmulatorFpsWarningTip";
                 }
                 else if (fpsInt > 60 && !HasPrintedFpsHighTip)
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsHighTip", fpsInt), UiLogColor.Warning);
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsHighTip", fpsInt), UiLogColor.Warning, showTime: false);
+                    fpsLogKey = "EmulatorFpsHighTip";
                     HasPrintedFpsHighTip = true;
+                }
+
+                if (fpsLogKey is not null && !SettingsViewModel.GuiSettings.DisableEmulatorFpsLogs)
+                {
+                    var fpsLogMsg = LocalizationHelper.GetStringFormat(fpsLogKey, fpsInt);
+                    Instances.TaskQueueViewModel.AddLog(fpsLogMsg, fpsLogColor);
+                    Instances.CopilotViewModel.AddLog(fpsLogMsg, fpsLogColor, showTime: false);
                 }
 
                 break;
