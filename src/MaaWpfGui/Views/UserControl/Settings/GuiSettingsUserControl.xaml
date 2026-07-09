@@ -156,7 +156,6 @@
                         hc:ListBoxAttach.SelectedItems="{Binding WindowTitleSelectShowList}"
                         DisplayMemberPath="Value"
                         ItemsSource="{Binding WindowTitleAllShowDict}" />
-                    <TextBox TextWrapping="Wrap" Text="TextBox" Width="120"/>
                 </StackPanel>
                 <Button
                     Width="180"
