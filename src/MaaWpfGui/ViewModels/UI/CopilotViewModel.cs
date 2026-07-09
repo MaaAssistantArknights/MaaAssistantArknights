@@ -2091,7 +2091,7 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)
     {
-        var ownedOpers = UseOwnedOperPreCheck ? GetOwnedOperIds() : [];
+        var supportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0;
         if (!UseCopilotList)
         {
         }
@@ -2102,16 +2102,20 @@ public partial class CopilotViewModel : Screen
             var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i => {
                 _copilotIdList.Add(i.CopilotId);
                 return new MultiTask { Index = i.Index, FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
-            });
+            }).ToList();
+            if (await ApplyOwnedOperPreCheckAsync(t.Select(i => i.FileName), supportUnitUsage) is not { } checkedSupportUnitUsage)
+            {
+                return false;
+            }
+            supportUnitUsage = checkedSupportUnitUsage;
 
             var task = new AsstCopilotTask() {
-                MultiTasks = [.. t],
+                MultiTasks = t,
                 Formation = Form,
-                SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+                SupportUnitUsage = supportUnitUsage,
                 AddTrust = AddTrust,
                 IgnoreRequirements = IgnoreRequirements,
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
-                OwnedOpers = ownedOpers,
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
             };
@@ -2159,14 +2163,19 @@ public partial class CopilotViewModel : Screen
         }
         else
         {
+            if (ApplyOwnedOperPreCheck(_copilotCache as CopilotModel, supportUnitUsage) is not { } checkedSupportUnitUsage)
+            {
+                return false;
+            }
+            supportUnitUsage = checkedSupportUnitUsage;
+
             var singleTask = new AsstCopilotTask() {
                 FileName = IsDataFromWeb ? TempCopilotFile : Filename,
                 Formation = Form,
-                SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+                SupportUnitUsage = supportUnitUsage,
                 AddTrust = AddTrust,
                 IgnoreRequirements = IgnoreRequirements,
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
-                OwnedOpers = ownedOpers,
                 LoopTimes = Loop ? LoopTimes : 1,
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
@@ -2177,6 +2186,75 @@ public partial class CopilotViewModel : Screen
         }
 
         return appended && Instances.AsstProxy.AsstStart();
+    }
+
+    private async Task<int?> ApplyOwnedOperPreCheckAsync(IEnumerable<string> copilotFiles, int supportUnitUsage)
+    {
+        if (!TryGetOwnedOperIdsForPreCheck(out var ownedOperIds))
+        {
+            return supportUnitUsage;
+        }
+
+        foreach (var file in copilotFiles)
+        {
+            try
+            {
+                var json = await File.ReadAllTextAsync(Path.IsPathRooted(file) ? file : Path.Combine(BaseDir, file));
+                if (JsonConvert.DeserializeObject<CopilotBase>(json, new CopilotContentConverter()) is CopilotModel copilot &&
+                    ApplyOwnedOperPreCheck(copilot, ownedOperIds, ref supportUnitUsage) is false)
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Warning(ex, "Owned operator pre-check skipped for copilot file: {File}", file);
+            }
+        }
+
+        return supportUnitUsage;
+    }
+
+    private int? ApplyOwnedOperPreCheck(CopilotModel? copilot, int supportUnitUsage)
+    {
+        return copilot is null ||
+               !TryGetOwnedOperIdsForPreCheck(out var ownedOperIds) ||
+               ApplyOwnedOperPreCheck(copilot, ownedOperIds, ref supportUnitUsage)
+            ? supportUnitUsage
+            : null;
+    }
+
+    private bool ApplyOwnedOperPreCheck(CopilotModel copilot, HashSet<string> ownedOperIds, ref int supportUnitUsage)
+    {
+        var missingGroups = GetMissingOperGroups(copilot, ownedOperIds);
+        if (missingGroups.Count >= 2)
+        {
+            AddLog(LocalizationHelper.GetString("MissingOperators") + Environment.NewLine + string.Join(Environment.NewLine, missingGroups), UiLogColor.Error);
+            return false;
+        }
+
+        if (missingGroups.Count == 1 && supportUnitUsage == 0)
+        {
+            supportUnitUsage = 1;
+        }
+
+        return true;
+    }
+
+    private bool TryGetOwnedOperIdsForPreCheck(out HashSet<string> ownedOperIds)
+    {
+        ownedOperIds = UseOwnedOperPreCheck && Form ? [.. GetOwnedOperIds()] : [];
+        return ownedOperIds.Count > 0;
+    }
+
+    private static List<string> GetMissingOperGroups(CopilotModel copilot, HashSet<string> ownedOperIds)
+    {
+        return copilot.Opers
+            .Select(oper => (Name: DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, Opers: Enumerable.Repeat(oper, 1)))
+            .Concat(copilot.Groups.Select(group => (Name: group.Name, Opers: group.Opers.AsEnumerable())))
+            .Where(group => group.Opers.Any() && group.Opers.All(oper => DataHelper.GetCharacterByNameOrAlias(oper.Name) is { } character && !ownedOperIds.Contains(character.Id)))
+            .Select(group => group.Name)
+            .ToList();
     }
 
     private static List<string> GetOwnedOperIds()

@@ -73,11 +73,6 @@ public class AsstCopilotTask : AsstBaseTask
     public List<UserAdditional>? UserAdditionals { get; set; }
 
     /// <summary>
-    /// Gets or sets cached owned operator ids from operator recognition.
-    /// </summary>
-    public List<string> OwnedOpers { get; set; } = [];
-
-    /// <summary>
     /// Gets or sets a value indicating whether 信用战斗选择编队
     /// </summary>
     public int FormationIndex { get; set; }
@@ -119,11 +114,6 @@ public class AsstCopilotTask : AsstBaseTask
         if (UserAdditionals?.Count > 0)
         {
             taskParams["user_additional"] = JArray.FromObject(UserAdditionals);
-        }
-
-        if (OwnedOpers.Count > 0)
-        {
-            taskParams["owned_opers"] = JArray.FromObject(OwnedOpers);
         }
 
         return (TaskType, taskParams);

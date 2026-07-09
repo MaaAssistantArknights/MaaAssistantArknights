@@ -6,25 +6,11 @@
 #include <vector>
 
 #include "Utils/Algorithm.hpp"
-#include "Utils/BattleFormationOwnedOperators.hpp"
 
 namespace
 {
 using GroupList = std::unordered_map<std::string, std::vector<std::string>>;
 using CharSet = std::unordered_set<std::string>;
-
-enum class TestOperStatus
-{
-    Unchecked,
-    Selected,
-    Missing,
-};
-
-struct TestOper
-{
-    std::string name;
-    TestOperStatus status = TestOperStatus::Unchecked;
-};
 
 void require_valid_allocation(const GroupList& group_list, const CharSet& char_set,
                               const asst::algorithm::CharAllocationResult& result)
@@ -215,71 +201,4 @@ TEST_CASE("Group with empty candidate list returns no solution")
 
     REQUIRE(result.status == asst::algorithm::CharAllocationStatus::NoSolution);
     REQUIRE_FALSE(result.has_value());
-}
-
-TEST_CASE("Unowned formation candidates are marked missing before page scanning")
-{
-    std::vector<std::pair<std::string, std::vector<TestOper>>> groups {
-        { "先锋", { TestOper { .name = "风笛" }, TestOper { .name = "德克萨斯" } } },
-        { "术师", { TestOper { .name = "艾雅法拉" } } },
-    };
-    const std::unordered_set<std::string> owned { "德克萨斯" };
-
-    const auto changed = asst::algorithm::mark_unowned_formation_candidates_missing(
-        groups,
-        owned,
-        TestOperStatus::Selected,
-        TestOperStatus::Unchecked,
-        TestOperStatus::Missing);
-
-    REQUIRE(changed == 2);
-    REQUIRE(groups[0].second[0].status == TestOperStatus::Missing);
-    REQUIRE(groups[0].second[1].status == TestOperStatus::Unchecked);
-    REQUIRE(groups[1].second[0].status == TestOperStatus::Missing);
-}
-
-TEST_CASE("Owned and selected formation candidates are not marked missing")
-{
-    std::vector<std::pair<std::string, std::vector<TestOper>>> groups {
-        { "Vanguard",
-          {
-              TestOper { .name = "Bagpipe", .status = TestOperStatus::Selected },
-              TestOper { .name = "Texas", .status = TestOperStatus::Selected },
-          } },
-        { "Caster",
-          {
-              TestOper { .name = "Eyjafjalla", .status = TestOperStatus::Unchecked },
-          } },
-    };
-    const std::unordered_set<std::string> owned { "Bagpipe", "Eyjafjalla" };
-
-    const auto changed = asst::algorithm::mark_unowned_formation_candidates_missing(
-        groups,
-        owned,
-        TestOperStatus::Selected,
-        TestOperStatus::Unchecked,
-        TestOperStatus::Missing);
-
-    REQUIRE(changed == 0);
-    REQUIRE(groups[0].second[0].status == TestOperStatus::Selected);
-    REQUIRE(groups[0].second[1].status == TestOperStatus::Selected);
-    REQUIRE(groups[1].second[0].status == TestOperStatus::Unchecked);
-}
-
-TEST_CASE("Empty owned operator cache leaves formation candidates unchanged")
-{
-    std::vector<std::pair<std::string, std::vector<TestOper>>> groups {
-        { "先锋", { TestOper { .name = "风笛" } } },
-    };
-    const std::unordered_set<std::string> owned;
-
-    const auto changed = asst::algorithm::mark_unowned_formation_candidates_missing(
-        groups,
-        owned,
-        TestOperStatus::Selected,
-        TestOperStatus::Unchecked,
-        TestOperStatus::Missing);
-
-    REQUIRE(changed == 0);
-    REQUIRE(groups[0].second[0].status == TestOperStatus::Unchecked);
 }
