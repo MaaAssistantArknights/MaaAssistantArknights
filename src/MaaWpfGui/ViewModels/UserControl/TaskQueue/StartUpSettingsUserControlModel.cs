@@ -22,7 +22,6 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.ViewModels.UI;
-using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -61,7 +60,7 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
             Instances.TaskQueueViewModel.AddLog("Current task is not StartUpTask", UiLogColor.Error);
             return;
         }
-        var task = new StartUpTask() { AccountName = startUp.AccountName };
+        var task = new StartUpTask() { AccountSwitchEnabled = true, AccountName = startUp.AccountName };
         await Instances.TaskQueueViewModel.LinkStartWithTasks([task]);
     }
 
