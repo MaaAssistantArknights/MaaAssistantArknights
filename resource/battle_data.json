@@ -4179,6 +4179,21 @@
             "rangeId": ["3-1", "3-3", "3-3"],
             "rarity": 6
         },
+        "char_4229_aphris": {
+            "name": "谬因",
+            "name_en": "谬因",
+            "name_en_unavailable": true,
+            "name_jp": "谬因",
+            "name_jp_unavailable": true,
+            "name_kr": "谬因",
+            "name_kr_unavailable": true,
+            "name_tw": "谬因",
+            "name_tw_unavailable": true,
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": ["4-1", "5-1", "5-1"],
+            "rarity": 6
+        },
         "char_422_aurora": {
             "name": "极光",
             "name_en": "Aurora",
@@ -4188,6 +4203,21 @@
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 5
+        },
+        "char_4234_pedro": {
+            "name": "佩德洛",
+            "name_en": "佩德洛",
+            "name_en_unavailable": true,
+            "name_jp": "佩德洛",
+            "name_jp_unavailable": true,
+            "name_kr": "佩德洛",
+            "name_kr_unavailable": true,
+            "name_tw": "佩德洛",
+            "name_tw_unavailable": true,
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": ["3-1", "3-18", "3-18"],
             "rarity": 5
         },
         "char_423_blemsh": {
@@ -5825,6 +5855,21 @@
             "position": "RANGED",
             "profession": "TOKEN",
             "rangeId": ["y-2", "y-6", "y-6"],
+            "rarity": 6
+        },
+        "token_10070_aphris_pc": {
+            "name": "中继器",
+            "name_en": "中继器",
+            "name_en_unavailable": true,
+            "name_jp": "中继器",
+            "name_jp_unavailable": true,
+            "name_kr": "中继器",
+            "name_kr_unavailable": true,
+            "name_tw": "中继器",
+            "name_tw_unavailable": true,
+            "position": "ALL",
+            "profession": "TOKEN",
+            "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 6
         },
         "trap_001_crate": {

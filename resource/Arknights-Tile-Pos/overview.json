@@ -7721,6 +7721,168 @@
         "stageId": "act20side_tr01",
         "width": 9
     },
+    "act21mini_01#f#-activities/act21mini/level_act21mini_01": {
+        "code": "BD-1",
+        "filename": "act21mini_01#f#-activities-act21mini-level_act21mini_01.json",
+        "height": 7,
+        "levelId": "activities/act21mini/level_act21mini_01",
+        "name": "消耗品",
+        "stageId": "act21mini_01#f#",
+        "width": 11
+    },
+    "act21mini_01-activities/act21mini/level_act21mini_01": {
+        "code": "BD-1",
+        "filename": "act21mini_01-activities-act21mini-level_act21mini_01.json",
+        "height": 7,
+        "levelId": "activities/act21mini/level_act21mini_01",
+        "name": "消耗品",
+        "stageId": "act21mini_01",
+        "width": 11
+    },
+    "act21mini_02#f#-activities/act21mini/level_act21mini_02": {
+        "code": "BD-2",
+        "filename": "act21mini_02#f#-activities-act21mini-level_act21mini_02.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_02",
+        "name": "门后世界",
+        "stageId": "act21mini_02#f#",
+        "width": 11
+    },
+    "act21mini_02-activities/act21mini/level_act21mini_02": {
+        "code": "BD-2",
+        "filename": "act21mini_02-activities-act21mini-level_act21mini_02.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_02",
+        "name": "门后世界",
+        "stageId": "act21mini_02",
+        "width": 11
+    },
+    "act21mini_03#f#-activities/act21mini/level_act21mini_03": {
+        "code": "BD-3",
+        "filename": "act21mini_03#f#-activities-act21mini-level_act21mini_03.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_03",
+        "name": "“嘀嗒嘀嗒”",
+        "stageId": "act21mini_03#f#",
+        "width": 12
+    },
+    "act21mini_03-activities/act21mini/level_act21mini_03": {
+        "code": "BD-3",
+        "filename": "act21mini_03-activities-act21mini-level_act21mini_03.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_03",
+        "name": "“嘀嗒嘀嗒”",
+        "stageId": "act21mini_03",
+        "width": 12
+    },
+    "act21mini_04#f#-activities/act21mini/level_act21mini_04": {
+        "code": "BD-4",
+        "filename": "act21mini_04#f#-activities-act21mini-level_act21mini_04.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_04",
+        "name": "失控沙盒",
+        "stageId": "act21mini_04#f#",
+        "width": 12
+    },
+    "act21mini_04-activities/act21mini/level_act21mini_04": {
+        "code": "BD-4",
+        "filename": "act21mini_04-activities-act21mini-level_act21mini_04.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_04",
+        "name": "失控沙盒",
+        "stageId": "act21mini_04",
+        "width": 12
+    },
+    "act21mini_05#f#-activities/act21mini/level_act21mini_05": {
+        "code": "BD-5",
+        "filename": "act21mini_05#f#-activities-act21mini-level_act21mini_05.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_05",
+        "name": "入职邀请",
+        "stageId": "act21mini_05#f#",
+        "width": 11
+    },
+    "act21mini_05-activities/act21mini/level_act21mini_05": {
+        "code": "BD-5",
+        "filename": "act21mini_05-activities-act21mini-level_act21mini_05.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_05",
+        "name": "入职邀请",
+        "stageId": "act21mini_05",
+        "width": 11
+    },
+    "act21mini_06#f#-activities/act21mini/level_act21mini_06": {
+        "code": "BD-6",
+        "filename": "act21mini_06#f#-activities-act21mini-level_act21mini_06.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_06",
+        "name": "实验守则",
+        "stageId": "act21mini_06#f#",
+        "width": 12
+    },
+    "act21mini_06-activities/act21mini/level_act21mini_06": {
+        "code": "BD-6",
+        "filename": "act21mini_06-activities-act21mini-level_act21mini_06.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_06",
+        "name": "实验守则",
+        "stageId": "act21mini_06",
+        "width": 12
+    },
+    "act21mini_07#f#-activities/act21mini/level_act21mini_07": {
+        "code": "BD-7",
+        "filename": "act21mini_07#f#-activities-act21mini-level_act21mini_07.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_07",
+        "name": "不断电",
+        "stageId": "act21mini_07#f#",
+        "width": 10
+    },
+    "act21mini_07-activities/act21mini/level_act21mini_07": {
+        "code": "BD-7",
+        "filename": "act21mini_07-activities-act21mini-level_act21mini_07.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_07",
+        "name": "不断电",
+        "stageId": "act21mini_07",
+        "width": 10
+    },
+    "act21mini_08#f#-activities/act21mini/level_act21mini_08": {
+        "code": "BD-8",
+        "filename": "act21mini_08#f#-activities-act21mini-level_act21mini_08.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_08",
+        "name": "演算的终点",
+        "stageId": "act21mini_08#f#",
+        "width": 12
+    },
+    "act21mini_08-activities/act21mini/level_act21mini_08": {
+        "code": "BD-8",
+        "filename": "act21mini_08-activities-act21mini-level_act21mini_08.json",
+        "height": 8,
+        "levelId": "activities/act21mini/level_act21mini_08",
+        "name": "演算的终点",
+        "stageId": "act21mini_08",
+        "width": 12
+    },
+    "act21mini_s01-activities/act21mini/level_act21mini_sub-1-1": {
+        "code": "BD-S-1",
+        "filename": "act21mini_s01-activities-act21mini-level_act21mini_sub-1-1.json",
+        "height": 7,
+        "levelId": "activities/act21mini/level_act21mini_sub-1-1",
+        "name": "“绝不后退”",
+        "stageId": "act21mini_s01",
+        "width": 11
+    },
+    "act21mini_s02-activities/act21mini/level_act21mini_sub-2-1": {
+        "code": "BD-S-2",
+        "filename": "act21mini_s02-activities-act21mini-level_act21mini_sub-2-1.json",
+        "height": 7,
+        "levelId": "activities/act21mini/level_act21mini_sub-2-1",
+        "name": "“试启动”",
+        "stageId": "act21mini_s02",
+        "width": 10
+    },
     "act21side_01-activities/act21side/level_act21side_01": {
         "code": "IS-1",
         "filename": "act21side_01-activities-act21side-level_act21side_01.json",
@@ -25901,6 +26063,15 @@
         "stageId": "mem_chnut_1",
         "width": 11
     },
+    "mem_christ_1-obt/memory/level_memory_christ_1": {
+        "code": "mem_christ_1",
+        "filename": "mem_christ_1-obt-memory-level_memory_christ_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_christ_1",
+        "name": "女士与鼷兽",
+        "stageId": "mem_christ_1",
+        "width": 11
+    },
     "mem_chyue_1-obt/memory/level_memory_chyue_1": {
         "code": "mem_chyue_1",
         "filename": "mem_chyue_1-obt-memory-level_memory_chyue_1.json",
@@ -25999,6 +26170,15 @@
         "name": "死路",
         "stageId": "mem_demkni_1",
         "width": 11
+    },
+    "mem_doberm_1-obt/memory/level_memory_doberm_1": {
+        "code": "mem_doberm_1",
+        "filename": "mem_doberm_1-obt-memory-level_memory_doberm_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_doberm_1",
+        "name": "她的骄傲",
+        "stageId": "mem_doberm_1",
+        "width": 10
     },
     "mem_doroth_1-obt/memory/level_memory_doroth_1": {
         "code": "mem_doroth_1",
@@ -27323,6 +27503,15 @@
         "stageId": "mem_ray_1",
         "width": 12
     },
+    "mem_reckpr_1-obt/memory/level_memory_reckpr_1": {
+        "code": "mem_reckpr_1",
+        "filename": "mem_reckpr_1-obt-memory-level_memory_reckpr_1.json",
+        "height": 9,
+        "levelId": "obt/memory/level_memory_reckpr_1",
+        "name": "观形察意",
+        "stageId": "mem_reckpr_1",
+        "width": 10
+    },
     "mem_rfalcn_1-obt/memory/level_memory_rfalcn_1": {
         "code": "mem_rfalcn_1",
         "filename": "mem_rfalcn_1-obt-memory-level_memory_rfalcn_1.json",
@@ -27789,6 +27978,15 @@
         "levelId": "obt/memory/level_memory_totter_1",
         "name": "裂空之镞",
         "stageId": "mem_totter_1",
+        "width": 9
+    },
+    "mem_turdus_1-obt/memory/level_memory_turdus_1": {
+        "code": "mem_turdus_1",
+        "filename": "mem_turdus_1-obt-memory-level_memory_turdus_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_turdus_1",
+        "name": "乌影迷踪",
+        "stageId": "mem_turdus_1",
         "width": 9
     },
     "mem_tuye_1-obt/memory/level_memory_tuye_1": {

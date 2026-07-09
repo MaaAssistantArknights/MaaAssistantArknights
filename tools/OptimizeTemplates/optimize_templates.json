@@ -4172,5 +4172,8 @@
     "resource/template/StageNavigation/SideStory/TD/TD-P-1": "22d8a61375ae0e66eea90275157a453ae471daf39c1b134cc745394714466fe5",
     "resource/template/StageNavigation/SideStory/TD/TD-1": "266fa0c2972e5f2d0abc0227df56a4e88c4cede44cef6277829843bf68611b3d",
     "resource/template/StageNavigation/SideStory/TD/TD-5": "27536f748da64e8d58b4cb793e4b10a494751b5c030deaa20728e8d0e478722a",
-    "resource/template/StageNavigation/SideStory/TD/TD-4": "b195912f24b5c3fc882fd2ac9bb003571f31aa16cf78f604bfb8f21bcbbb5a3f"
+    "resource/template/StageNavigation/SideStory/TD/TD-4": "b195912f24b5c3fc882fd2ac9bb003571f31aa16cf78f604bfb8f21bcbbb5a3f",
+    "resource/template/items/SINGLE_75_0_1_GACHA_10": "71943420c33f92be65e1ec117a0338a4ac543a55115e8ec5f476984b68a8f1a0",
+    "resource/template/items/act21mini_token_shred": "c150cbe57879bcb9a4dddda682351b85465e073d1ee7ef7009f420bf06df340e",
+    "resource/template/items/SINGLE_75_0_1_GACHA": "8a5646380eb80159d86807a79395380d6ce76efd1858eacc93c10b15c69a93b5"
 }
