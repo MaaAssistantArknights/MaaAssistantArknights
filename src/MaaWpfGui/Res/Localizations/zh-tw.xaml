@@ -1086,7 +1086,8 @@ C:\\leidian\\LDPlayer9\n
 勾選此項將跳過這些檢查，但可能導致作業無法正常執行。
 幹員精英化等級無法跳過；若跳過任何需求，戰鬥完成後將不再為作業自動點贊。</system:String>
     <system:String x:Key="Copilot.OwnedOperPreCheck">幹員預檢</system:String>
-    <system:String x:Key="Copilot.OwnedOperPreCheck.Tip">開始自動編隊前，先用本機幹員資料檢查作業需要的幹員是否已擁有，可減少查找未持有幹員時的等待。這裡只檢查是否擁有，等級、技能、模組仍由自動編隊正常判斷。使用前請先在小工具中執行一次更新資料。</system:String>
+    <system:String x:Key="Copilot.OwnedOperPreCheck.Tip">開始自動編隊前，先用本機幹員資料檢查作業需要的幹員是否已擁有，可減少查找未持有幹員時的等待。這裡只檢查是否擁有，等級、技能、模組仍由自動編隊正常判斷。使用前請先在{key=Farming}中執行一次更新資料。</system:String>
+    <system:String x:Key="Copilot.OwnedOperPreCheck.NoData">請先在{key=Farming}中執行一次更新資料。</system:String>
     <system:String x:Key="AddUserAdditional">追加自定義{key=Operator}</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用 ｢;｣ 作為分隔符，用 ｢,｣ 分隔{key=Operator}姓名和技能，例如：史爾特爾,3;艾雅法拉,1</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名稱</system:String>

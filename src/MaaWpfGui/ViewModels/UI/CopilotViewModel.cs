@@ -2092,8 +2092,10 @@ public partial class CopilotViewModel : Screen
     private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)
     {
         var supportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0;
+        var preCheckedMissingOpers = new List<string>();
         if (!UseCopilotList)
         {
+            preCheckedMissingOpers = GetPreCheckedMissingOpers(_copilotCache as CopilotModel);
         }
         else if (CopilotTabIndex == 0)
         {
@@ -2103,11 +2105,7 @@ public partial class CopilotViewModel : Screen
                 _copilotIdList.Add(i.CopilotId);
                 return new MultiTask { Index = i.Index, FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
             }).ToList();
-            if (await ApplyOwnedOperPreCheckAsync(t.Select(i => i.FileName), supportUnitUsage) is not { } checkedSupportUnitUsage)
-            {
-                return false;
-            }
-            supportUnitUsage = checkedSupportUnitUsage;
+            preCheckedMissingOpers = await GetPreCheckedMissingOpersAsync(t.Select(i => i.FileName));
 
             var task = new AsstCopilotTask() {
                 MultiTasks = t,
@@ -2118,6 +2116,7 @@ public partial class CopilotViewModel : Screen
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
+                PreCheckedMissingOpers = preCheckedMissingOpers,
             };
 
             // 能用列表的是主线/ss/故事集/悖论，都是 Copilot 类型
@@ -2163,12 +2162,6 @@ public partial class CopilotViewModel : Screen
         }
         else
         {
-            if (ApplyOwnedOperPreCheck(_copilotCache as CopilotModel, supportUnitUsage) is not { } checkedSupportUnitUsage)
-            {
-                return false;
-            }
-            supportUnitUsage = checkedSupportUnitUsage;
-
             var singleTask = new AsstCopilotTask() {
                 FileName = IsDataFromWeb ? TempCopilotFile : Filename,
                 Formation = Form,
@@ -2179,6 +2172,7 @@ public partial class CopilotViewModel : Screen
                 LoopTimes = Loop ? LoopTimes : 1,
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
+                PreCheckedMissingOpers = preCheckedMissingOpers,
             };
 
             // 单作业需要区分 Copilot / SSSCopilot
@@ -2188,22 +2182,22 @@ public partial class CopilotViewModel : Screen
         return appended && Instances.AsstProxy.AsstStart();
     }
 
-    private async Task<int?> ApplyOwnedOperPreCheckAsync(IEnumerable<string> copilotFiles, int supportUnitUsage)
+    private async Task<List<string>> GetPreCheckedMissingOpersAsync(IEnumerable<string> copilotFiles)
     {
         if (!TryGetOwnedOperIdsForPreCheck(out var ownedOperIds))
         {
-            return supportUnitUsage;
+            return [];
         }
 
+        var result = new HashSet<string>();
         foreach (var file in copilotFiles)
         {
             try
             {
                 var json = await File.ReadAllTextAsync(Path.IsPathRooted(file) ? file : Path.Combine(BaseDir, file));
-                if (JsonConvert.DeserializeObject<CopilotBase>(json, new CopilotContentConverter()) is CopilotModel copilot &&
-                    ApplyOwnedOperPreCheck(copilot, ownedOperIds, ref supportUnitUsage) is false)
+                if (JsonConvert.DeserializeObject<CopilotBase>(json, new CopilotContentConverter()) is CopilotModel copilot)
                 {
-                    return null;
+                    result.UnionWith(GetPreCheckedMissingOpers(copilot, ownedOperIds));
                 }
             }
             catch (Exception ex)
@@ -2212,44 +2206,35 @@ public partial class CopilotViewModel : Screen
             }
         }
 
-        return supportUnitUsage;
+        return [.. result];
     }
 
-    private int? ApplyOwnedOperPreCheck(CopilotModel? copilot, int supportUnitUsage)
+    private List<string> GetPreCheckedMissingOpers(CopilotModel? copilot)
     {
-        return copilot is null ||
-               !TryGetOwnedOperIdsForPreCheck(out var ownedOperIds) ||
-               ApplyOwnedOperPreCheck(copilot, ownedOperIds, ref supportUnitUsage)
-            ? supportUnitUsage
-            : null;
+        return copilot is not null && TryGetOwnedOperIdsForPreCheck(out var ownedOperIds)
+            ? GetPreCheckedMissingOpers(copilot, ownedOperIds)
+            : [];
     }
 
-    private bool ApplyOwnedOperPreCheck(CopilotModel copilot, HashSet<string> ownedOperIds, ref int supportUnitUsage)
+    private static List<string> GetPreCheckedMissingOpers(CopilotModel copilot, HashSet<string> ownedOperIds)
     {
-        var missingGroups = GetMissingOperGroups(copilot, ownedOperIds);
-        if (missingGroups.Count >= 2)
-        {
-            AddLog(LocalizationHelper.GetString("MissingOperators") + Environment.NewLine + string.Join(Environment.NewLine, missingGroups), UiLogColor.Error);
-            return false;
-        }
-
-        return true;
+        return copilot.Opers
+            .Concat(copilot.Groups.SelectMany(group => group.Opers))
+            .Where(oper => DataHelper.GetCharacterByNameOrAlias(oper.Name) is { } character && !ownedOperIds.Contains(character.Id))
+            .Select(oper => oper.Name)
+            .Distinct()
+            .ToList();
     }
 
     private bool TryGetOwnedOperIdsForPreCheck(out HashSet<string> ownedOperIds)
     {
         ownedOperIds = UseOwnedOperPreCheck && Form ? [.. GetOwnedOperIds()] : [];
-        return ownedOperIds.Count > 0;
-    }
+        if (UseOwnedOperPreCheck && Form && ownedOperIds.Count == 0)
+        {
+            AddLog(LocalizationHelper.GetString("Copilot.OwnedOperPreCheck.NoData"), UiLogColor.Warning);
+        }
 
-    private static List<string> GetMissingOperGroups(CopilotModel copilot, HashSet<string> ownedOperIds)
-    {
-        return copilot.Opers
-            .Select(oper => (Name: DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, Opers: Enumerable.Repeat(oper, 1)))
-            .Concat(copilot.Groups.Select(group => (Name: group.Name, Opers: group.Opers.AsEnumerable())))
-            .Where(group => group.Opers.Any() && group.Opers.All(oper => DataHelper.GetCharacterByNameOrAlias(oper.Name) is { } character && !ownedOperIds.Contains(character.Id)))
-            .Select(group => group.Name)
-            .ToList();
+        return ownedOperIds.Count > 0;
     }
 
     private static List<string> GetOwnedOperIds()

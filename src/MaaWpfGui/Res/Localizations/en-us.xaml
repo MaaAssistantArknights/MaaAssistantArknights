@@ -1085,7 +1085,8 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
 Enabling this will skip these checks, but may cause the job to fail.
 Operators' Elite level CANNOT be ignored. If any requirements are ignored, the operation will no longer be automatically rated after the battle.</system:String>
     <system:String x:Key="Copilot.OwnedOperPreCheck">Operator precheck</system:String>
-    <system:String x:Key="Copilot.OwnedOperPreCheck.Tip">Before auto formation starts, use local operator data to check whether the operators required by the job are owned. This can reduce waiting when searching for unowned operators. Only ownership is checked here; levels, skills and Modules are still checked by the normal auto-formation flow. Run Update Data in Toolbox before using this.</system:String>
+    <system:String x:Key="Copilot.OwnedOperPreCheck.Tip">Before auto formation starts, use local operator data to check whether the operators required by the job are owned. This can reduce waiting when searching for unowned operators. Only ownership is checked here; levels, skills and Modules are still checked by the normal auto-formation flow. Run Update Data in {key=Farming} before using this.</system:String>
+    <system:String x:Key="Copilot.OwnedOperPreCheck.NoData">Run Update Data in {key=Farming} first.</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and Skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator} Name</system:String>

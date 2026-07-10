@@ -77,6 +77,8 @@ public class AsstCopilotTask : AsstBaseTask
     /// </summary>
     public int FormationIndex { get; set; }
 
+    public List<string> PreCheckedMissingOpers { get; set; } = [];
+
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var taskParams = new JObject
@@ -114,6 +116,11 @@ public class AsstCopilotTask : AsstBaseTask
         if (UserAdditionals?.Count > 0)
         {
             taskParams["user_additional"] = JArray.FromObject(UserAdditionals);
+        }
+
+        if (PreCheckedMissingOpers.Count > 0)
+        {
+            taskParams["prechecked_missing_opers"] = JArray.FromObject(PreCheckedMissingOpers);
         }
 
         return (TaskType, taskParams);
