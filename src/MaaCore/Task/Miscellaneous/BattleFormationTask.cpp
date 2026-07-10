@@ -11,6 +11,7 @@
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
 #include "Task/ProcessTask.h"
+#include "Utils/Algorithm.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/OperNameAnalyzer.h"
@@ -822,11 +823,13 @@ bool asst::BattleFormationTask::parse_formation()
         bool same_role = true;
         auto opers = opers_vec;
         battle::Role role = BattleData.get_role(opers.front().name);
+        asst::algorithm::mark_prechecked_missing_opers(
+            opers,
+            m_prechecked_missing_opers,
+            battle::OperStatus::Unchecked,
+            battle::OperStatus::Missing);
         for (auto& oper : opers) {
             same_role &= BattleData.get_role(oper.name) == role;
-            if (m_prechecked_missing_opers.contains(oper.name)) {
-                oper.status = battle::OperStatus::Missing;
-            }
 
             // （仅一次）如果发现这名助战干员，则将其技能设定为对应的所需技能
             if (oper.name == m_specific_support_unit.name && m_specific_support_unit.skill == 0) {
