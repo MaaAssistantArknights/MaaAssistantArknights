@@ -2228,7 +2228,7 @@ public partial class CopilotViewModel : Screen
 
     private bool TryGetOwnedOperIdsForPreCheck(out HashSet<string> ownedOperIds)
     {
-        ownedOperIds = UseOwnedOperPreCheck && Form ? [.. GetOwnedOperIds()] : [];
+        ownedOperIds = UseOwnedOperPreCheck && Form ? GetOwnedOperIds() : [];
         if (UseOwnedOperPreCheck && Form && ownedOperIds.Count == 0)
         {
             AddLog(LocalizationHelper.GetString("Copilot.OwnedOperPreCheck.NoData"), UiLogColor.Warning);
@@ -2237,13 +2237,12 @@ public partial class CopilotViewModel : Screen
         return ownedOperIds.Count > 0;
     }
 
-    private static List<string> GetOwnedOperIds()
+    private static HashSet<string> GetOwnedOperIds()
     {
         return Instances.ToolboxViewModel?.OperBoxHaveList
             .Select(oper => oper.Id)
             .Where(id => !string.IsNullOrWhiteSpace(id))
-            .Distinct()
-            .ToList() ?? [];
+            .ToHashSet() ?? [];
     }
 
     // private bool StartVideoTask()
