@@ -1086,7 +1086,9 @@ C:\\leidian\\LDPlayer9。\n
 勾选此项将跳过这些检查，但可能导致作业无法正常运行
 干员精英化等级无法被跳过，如果跳过了任何需求，则战斗完成后不再进行自动点赞</system:String>
     <system:String x:Key="Copilot.OwnedOperPreCheck">干员预检</system:String>
-    <system:String x:Key="Copilot.OwnedOperPreCheck.Tip">开始自动编队前，先用本地干员数据检查作业需要的干员是否已拥有，可减少查找未持有干员时的等待。这里只检查是否拥有，等级、技能、模组仍由自动编队正常判断。使用前请先在小工具中运行一次更新数据。</system:String>
+    <system:String x:Key="Copilot.OwnedOperPreCheck.Tip" xml:space="preserve">开始自动编队前，先用本地干员数据检查作业需要的干员是否已拥有，可减少查找未持有干员时的等待。
+这里只检查是否拥有，等级、技能、模组仍由自动编队正常判断。
+使用前请先在小工具中运行一次更新数据。</system:String>
     <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
     <system:String x:Key="AddUserAdditionalTip">以英文 ｢;｣ 为分隔符，英文 ｢,｣ 分隔{key=Operator}名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
