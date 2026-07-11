@@ -356,6 +356,22 @@ def generate_html(processed: dict, output_path: Path):
         cum += r["total_downloads"]
         trend_cumulative.append(cum)
 
+    # 正式版各版本下载量（非累计，按发布日期正序）
+    def is_stable_only(tag: str) -> bool:
+        tag = tag.strip()
+        tag_lower = tag.lower()
+        if 'alpha' in tag_lower or 'beta' in tag_lower or '.d0' in tag:
+            return False
+        if re.match(r"^v\d+\.\d+[\.\d]*$", tag):
+            return True
+        if tag.startswith("release.stable."):
+            return True
+        return False
+
+    stable_releases = [r for r in releases if is_stable_only(r["tag"])]
+    stable_labels = [r["tag"] for r in stable_releases]
+    stable_counts = [r["total_downloads"] for r in stable_releases]
+
     # --- 构建 Release 明细表 ---
     rows_html = []
     for i, r in enumerate(reversed(releases)):  # 表格最新在最上面
@@ -448,6 +464,8 @@ def generate_html(processed: dict, output_path: Path):
         "platform_data": platform_data,
         "trend_labels": trend_labels,
         "trend_cumulative": trend_cumulative,
+        "stable_labels": stable_labels,
+        "stable_counts": stable_counts,
         "top_rel_tags": top_rel_tags,
         "top_rel_counts": top_rel_counts,
     }, ensure_ascii=False)
@@ -667,6 +685,10 @@ def generate_html(processed: dict, output_path: Path):
             <h3>📈 累计下载量趋势</h3>
             <canvas id="trendChart"></canvas>
         </div>
+        <div class="chart-card full-chart">
+            <h3>📊 正式版各版本下载量</h3>
+            <canvas id="stableChart"></canvas>
+        </div>
     </div>
 
     <!-- Release 明细表 -->
@@ -786,6 +808,38 @@ def generate_html(processed: dict, output_path: Path):
                     x: {{
                         grid: {{ display: false }},
                         ticks: {{ maxTicksLimit: 15, maxRotation: 45 }}
+                    }},
+                    y: {{
+                        grid: {{ color: '#21262d' }},
+                        ticks: {{ callback: v => v.toLocaleString() }}
+                    }}
+                }}
+            }}
+        }});
+
+        // 正式版各版本下载量折线图
+        new Chart(document.getElementById('stableChart'), {{
+            type: 'line',
+            data: {{
+                labels: chartData.stable_labels,
+                datasets: [{{
+                    data: chartData.stable_counts,
+                    borderColor: '#3fb950',
+                    backgroundColor: 'rgba(63,185,80,0.1)',
+                    fill: true,
+                    pointRadius: 2,
+                    pointHoverRadius: 5,
+                    borderWidth: 2,
+                }}]
+            }},
+            options: {{
+                responsive: true,
+                interaction: {{ mode: 'index', intersect: false }},
+                plugins: {{ legend: {{ display: false }} }},
+                scales: {{
+                    x: {{
+                        grid: {{ display: false }},
+                        ticks: {{ maxTicksLimit: 20, maxRotation: 45 }}
                     }},
                     y: {{
                         grid: {{ color: '#21262d' }},
