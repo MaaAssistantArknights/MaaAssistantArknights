@@ -536,13 +536,7 @@
     },
     "JieGarden@Roguelike@GamePass": {},
     "JieGarden@Roguelike@GamePassSkip1": {},
-    "JieGarden@Roguelike@GamePassSkip1Confirm": {
-        "next": [
-            "JieGarden@Roguelike@GamePassSkip2",
-            "JieGarden@Roguelike@GamePassTheEndConfirm",
-            "JieGarden@Roguelike@GamePass"
-        ]
-    },
+    "JieGarden@Roguelike@GamePassSkip1Confirm": {},
     "JieGarden@Roguelike@GamePassSkip2": {},
     "JieGarden@Roguelike@GamePassTheEndConfirm": {
         "roi": [580, 550, 120, 90]

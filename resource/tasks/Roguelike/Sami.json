@@ -461,9 +461,7 @@
     },
     "Sami@Roguelike@GamePass": {},
     "Sami@Roguelike@GamePassSkip1": {},
-    "Sami@Roguelike@GamePassSkip1Confirm": {
-        "next": ["Sami@Roguelike@GamePassSkip2", "Sami@Roguelike@GamePassTheEndConfirm", "Sami@Roguelike@GamePass"]
-    },
+    "Sami@Roguelike@GamePassSkip1Confirm": {},
     "Sami@Roguelike@GamePassSkip2": {},
     "Sami@Roguelike@GamePassTheEndConfirm": {},
     "Sami@Roguelike@GetDrop1": {},
