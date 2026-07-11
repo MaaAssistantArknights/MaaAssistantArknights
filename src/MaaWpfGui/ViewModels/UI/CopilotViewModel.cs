@@ -1182,11 +1182,11 @@ public partial class CopilotViewModel : Screen
                 return;
             }
         }
-        else if (TryParseCopilotCode(filename, out var codeType, out _))
+        else if (TryParseCopilotCode(filename, out var codeType, out var copilotSetId))
         {
             if (codeType == CopilotCodeType.CopilotSet)
             {
-                await GetCopilotSetAsync(filename);
+                await GetCopilotSetAsync(copilotSetId);
                 return;
             }
 
