@@ -68,7 +68,9 @@ public partial class CopilotViewModel : Screen
     /// 缓存的已解析作业，非即时添加的作业会使用该缓存
     /// </summary>
     private CopilotBase? _copilotCache;
-    private const string CopilotIdPrefix = "maa://";
+    private const string CopilotIdPrefix = "maa://"; // TODO: 作业站迁移完成后删除 maa:// 旧格式支持
+    private const string CopilotNewIdPrefix = "prts://"; // 新格式前缀，prts://12345 为作业，prts://s12345 为作业集
+    private const string CopilotNewSetIdPrefix = "prts://s"; // 新格式作业集前缀
     private static readonly string TempCopilotFile = Path.Combine(CacheDir, "_temp_copilot.json");
 
     // VideoRecognition 已不支持：仅保留 json 作业
@@ -281,8 +283,13 @@ public partial class CopilotViewModel : Screen
             var copilotRoot = Path.Combine(ResourceDir, "copilot");
             var fullPath = Path.IsPathRooted(value) ? value : Path.Combine(copilotRoot, value);
 
+            /* 神秘代码（作业站 ID），交给 FileName 处理 */
+            if (IsCopilotCode(value))
+            {
+                Filename = value;
+            }
             /* 相对/绝对路径 */
-            if (File.Exists(fullPath))
+            else if (File.Exists(fullPath))
             {
                 Filename = fullPath;
             }
@@ -291,7 +298,7 @@ public partial class CopilotViewModel : Screen
             {
                 Filename = mappedPath;
             }
-            /* maybe 是神秘代码，交给 FileName 处理 */
+            /* maybe 是其他神秘代码，交给 FileName 处理 */
             else
             {
                 Filename = value;
@@ -317,7 +324,8 @@ public partial class CopilotViewModel : Screen
 
     private string ProcessFilePath(string value)
     {
-        if (string.IsNullOrWhiteSpace(value) || File.Exists(value))
+        // 神秘代码不按文件路径处理，原样透传
+        if (string.IsNullOrWhiteSpace(value) || IsCopilotCode(value) || File.Exists(value))
         {
             return value;
         }
@@ -351,6 +359,95 @@ public partial class CopilotViewModel : Screen
     private void UpdateCopilotUrl(string filename)
     {
         CopilotUrl = string.IsNullOrWhiteSpace(filename) ? CopilotUiUrl : CopilotUrl;
+    }
+
+    /// <summary>
+    /// 判断输入是否为作业站神秘代码（maa://、prts://、prts://s 前缀、s12345 或纯数字）
+    /// </summary>
+    private static bool IsCopilotCode(string value)
+    {
+        return TryParseCopilotCode(value, out _, out _);
+    }
+
+    // TODO: 作业站迁移完成后删除此方法（旧格式 maa:// 和纯数字无法区分类型，届时所有格式都自带类型信息）
+
+    /// <summary>
+    /// 判断是否为类型不明确的旧格式代码（maa:// 或纯数字，无法区分作业/作业集）
+    /// </summary>
+    private static bool IsAmbiguousCopilotCode(string value)
+    {
+        return value.StartsWith(CopilotIdPrefix, StringComparison.OrdinalIgnoreCase)
+            || int.TryParse(value, out _);
+    }
+
+    /// <summary>
+    /// 作业站代码类型
+    /// </summary>
+    private enum CopilotCodeType
+    {
+        /// <summary>不是作业站代码</summary>
+        None,
+
+        /// <summary>单个作业</summary>
+        Copilot,
+
+        /// <summary>作业集</summary>
+        CopilotSet,
+    }
+
+    /// <summary>
+    /// 解析作业站代码，识别所有已知格式并提取数字 ID
+    /// </summary>
+    /// <param name="input">原始输入（maa://12345、prts://12345、prts://s12345、s12345、12345）</param>
+    /// <param name="type">解析出的类型；maa:// 和纯数字默认为 Copilot（按钮上下文可覆盖）</param>
+    /// <param name="id">提取的数字 ID</param>
+    /// <returns>是否成功解析</returns>
+    private static bool TryParseCopilotCode(string input, out CopilotCodeType type, out int id)
+    {
+        type = CopilotCodeType.None;
+        id = 0;
+
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            return false;
+        }
+
+        // 带前缀的格式（从长到短匹配，避免 prts://s 被 prts:// 抢先）
+        if (input.StartsWith(CopilotNewSetIdPrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            type = CopilotCodeType.CopilotSet;
+            return int.TryParse(input[CopilotNewSetIdPrefix.Length..], out id);
+        }
+
+        if (input.StartsWith(CopilotNewIdPrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            type = CopilotCodeType.Copilot;
+            return int.TryParse(input[CopilotNewIdPrefix.Length..], out id);
+        }
+
+        // TODO: 作业站迁移完成后删除 maa:// 旧格式分支
+        if (input.StartsWith(CopilotIdPrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            // maa:// 旧格式，默认当单个作业（按钮上下文可覆盖为作业集）
+            type = CopilotCodeType.Copilot;
+            return int.TryParse(input[CopilotIdPrefix.Length..], out id);
+        }
+
+        // s12345 格式作业集
+        if (input.Length > 1 && (input[0] is 's' or 'S') && int.TryParse(input[1..], out id))
+        {
+            type = CopilotCodeType.CopilotSet;
+            return true;
+        }
+
+        // 纯数字，默认当单个作业
+        if (int.TryParse(input, out id))
+        {
+            type = CopilotCodeType.Copilot;
+            return true;
+        }
+
+        return false;
     }
 
     private bool _form;
@@ -860,6 +957,9 @@ public partial class CopilotViewModel : Screen
         }
     }
 
+    // TODO: 作业站迁移完成后删除此方法及对应的 XAML 按钮（CopilotView.xaml Grid.Column=3）、
+    //  TooltipBlock（Grid.Column=3）、本地化字符串 PasteClipboardCopilotSetTip
+
     /// <summary>
     /// Paste clipboard contents.
     /// UI 绑定的方法
@@ -868,14 +968,25 @@ public partial class CopilotViewModel : Screen
     [UsedImplicitly]
     public async Task PasteClipboardCopilotSet()
     {
-        StartEnabled = false;
-        ClearLog();
-        if (Clipboard.ContainsText())
+        if (!Clipboard.ContainsText())
         {
-            await GetCopilotSetAsync(Clipboard.GetText().Trim());
-            CopilotUrl = CopilotUiUrl;
+            return;
         }
 
+        var text = Clipboard.GetText().Trim();
+
+        // 新格式自带类型信息，交给 Filename → UpdateFileDoc 自动路由
+        // 旧格式（maa:// / 纯数字）类型不明确，按按钮上下文当作业集处理
+        if (!IsAmbiguousCopilotCode(text))
+        {
+            Filename = text;
+            return;
+        }
+
+        StartEnabled = false;
+        ClearLog();
+        await GetCopilotSetAsync(text);
+        CopilotUrl = CopilotUiUrl;
         StartEnabled = true;
     }
 
@@ -1071,8 +1182,15 @@ public partial class CopilotViewModel : Screen
                 return;
             }
         }
-        else if (filename.StartsWith(CopilotIdPrefix, StringComparison.OrdinalIgnoreCase) || int.TryParse(filename, out _))
+        else if (TryParseCopilotCode(filename, out var codeType, out var copilotSetId))
         {
+            if (codeType == CopilotCodeType.CopilotSet)
+            {
+                await GetCopilotSetAsync(copilotSetId);
+                return;
+            }
+
+            // 单个作业
             (copilotId, payload) = await GetCopilotAsync(filename);
             if (payload is not null)
             {
@@ -1128,18 +1246,13 @@ public partial class CopilotViewModel : Screen
 
     private async Task<(int CopilotId, CopilotBase? Payload)> GetCopilotAsync(string copilotCodeString)
     {
-        if (copilotCodeString.StartsWith(CopilotIdPrefix, StringComparison.OrdinalIgnoreCase))
+        if (!TryParseCopilotCode(copilotCodeString, out _, out var copilotCode))
         {
-            copilotCodeString = copilotCodeString[CopilotIdPrefix.Length..];
+            AddLog(LocalizationHelper.GetString("CopilotNoFound") + $":{copilotCodeString}", UiLogColor.Error, showTime: false);
+            return (0, null);
         }
 
-        if (int.TryParse(copilotCodeString, out var copilotCode))
-        {
-            return await GetCopilotAsync(copilotCode);
-        }
-
-        AddLog(LocalizationHelper.GetString("CopilotNoFound") + $":{copilotCodeString}", UiLogColor.Error, showTime: false);
-        return (0, null);
+        return await GetCopilotAsync(copilotCode);
     }
 
     private async Task<(int CopilotId, CopilotBase? Payload)> GetCopilotAsync(int copilotId)
@@ -1332,18 +1445,13 @@ public partial class CopilotViewModel : Screen
 
     private async Task GetCopilotSetAsync(string copilotCodeString)
     {
-        if (copilotCodeString.StartsWith(CopilotIdPrefix, StringComparison.OrdinalIgnoreCase))
+        if (!TryParseCopilotCode(copilotCodeString, out _, out var copilotCode))
         {
-            copilotCodeString = copilotCodeString[CopilotIdPrefix.Length..];
-        }
-
-        if (int.TryParse(copilotCodeString, out var copilotCode))
-        {
-            await GetCopilotSetAsync(copilotCode);
+            AddLog(LocalizationHelper.GetString("CopilotNoFound") + $"  {copilotCodeString}", UiLogColor.Error, showTime: false);
             return;
         }
 
-        AddLog(LocalizationHelper.GetString("CopilotNoFound") + $"  {copilotCodeString}", UiLogColor.Error, showTime: false);
+        await GetCopilotSetAsync(copilotCode);
     }
 
     private async Task GetCopilotSetAsync(int copilotCode)

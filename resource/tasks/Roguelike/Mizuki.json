@@ -157,7 +157,8 @@
             "Mizuki@Roguelike@DataTraceback",
             "Mizuki@Roguelike@GamePassSkip2",
             "Mizuki@Roguelike@GamePassTheEndConfirm",
-            "Mizuki@Roguelike@GamePass"
+            "Mizuki@Roguelike@GamePass",
+            "Mizuki@Roguelike@GamePassSkip1Confirm@LoadingText"
         ]
     },
     "Mizuki@Roguelike@GetDrop1": {},

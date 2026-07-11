@@ -327,13 +327,7 @@
     },
     "Sarkaz@Roguelike@GamePass": {},
     "Sarkaz@Roguelike@GamePassSkip1": {},
-    "Sarkaz@Roguelike@GamePassSkip1Confirm": {
-        "next": [
-            "Sarkaz@Roguelike@GamePassSkip2",
-            "Sarkaz@Roguelike@GamePassTheEndConfirm",
-            "Sarkaz@Roguelike@GamePass"
-        ]
-    },
+    "Sarkaz@Roguelike@GamePassSkip1Confirm": {},
     "Sarkaz@Roguelike@GamePassSkip2": {},
     "Sarkaz@Roguelike@GamePassTheEndConfirm": {
         "template": "Sarkaz@Roguelike@Confirm.png"

@@ -1,4 +1,4 @@
-## v6.14.0
+## v6.14.1
 
 ### Highlights
 
@@ -36,6 +36,24 @@ Screenshot enhancement and screenshot test entries are now surfaced in setup gui
 以下是详细内容：
 
 <details open>
+<summary><b>v6.14.1 (2026-07-11)</b></summary>
+
+### 新增 | New
+
+* 自动战斗新增支持 ZOOT 作业站新格式神秘代码（`prts://` 前缀，区分单个作业与作业集），兼容旧 `maa://` 格式 ([#17322](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17322)) @ABA2396
+
+### 修复 | Fix
+
+* 修复因网络原因导致跳过肉鸽结局剧情时出错的问题 @Saratoga-Official
+* 修复干员折桠识别错误 @Saratoga-Official
+* 修复开始唤醒手动切换账号运行时无法切换账号的问题 @status102
+* 修复截图测试窗口可被拖拽调整大小导致崩溃的问题 @ABA2396
+* YostarEN: fix `Roguelike@RewardCompleted` template mismatch recognition issue @Constrat
+* YostarJP: fix JieGarden DLC2 厉-西廉贞 tongbao OCR recognition issue @Manicsteiner
+
+</details>
+
+<details>
 <summary><b>v6.14.0 (2026-07-09)</b></summary>
 
 ### 新增 | New

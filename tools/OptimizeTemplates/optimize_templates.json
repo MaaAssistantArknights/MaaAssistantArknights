@@ -3396,7 +3396,7 @@
     "resource/template/Roguelike/base/Roguelike@DialogSkip": "91fb5897420dbb26a6d3d315f2f123a1fc6b8ba5c5f13ad5a6d8c1755805d293",
     "resource/template/Roguelike/base/Roguelike@StageTraderInvestSystemError": "fe1bc37a4793346b0b1868925c9e10e333b3e3fb752df1480cd143cae1b35bab",
     "resource/template/Roguelike/base/Roguelike@StageTraderInvestSystem": "dc09e2a318b0f3efdb3101e4b337e26d226c53ea5b53f11d6507536685b99025",
-    "resource/template/Roguelike/base/Roguelike@RewardCompleted": "9c094d8f0291ef003f38268aa00da6881081be959c275f5a978f4258247c9ad2",
+    "resource/template/Roguelike/base/Roguelike@RewardCompleted": "235262b16aa69b4ec69366f51a796191ea989e5bea704db9b026f8febac5835f",
     "resource/template/Roguelike/base/Roguelike@CommsCompleted": "58c9e507aebbca6df7ec0b24464d105a42e413ea5aa1bdd23f936e08a7419e88",
     "resource/template/Roguelike/base/Roguelike@TempRecruitFlag": "04fab9bc8ec45b89c171c9b6ee48ef2f0ddfa3f95e2b0d6f53f2fded98c3e8bf",
     "resource/template/Roguelike/base/Roguelike@QuickFormation": "f746216963a542dc83ec929c30aee925304afee5f5ec1f590567f3a5e57597f9",
@@ -4172,5 +4172,8 @@
     "resource/template/StageNavigation/SideStory/TD/TD-P-1": "22d8a61375ae0e66eea90275157a453ae471daf39c1b134cc745394714466fe5",
     "resource/template/StageNavigation/SideStory/TD/TD-1": "266fa0c2972e5f2d0abc0227df56a4e88c4cede44cef6277829843bf68611b3d",
     "resource/template/StageNavigation/SideStory/TD/TD-5": "27536f748da64e8d58b4cb793e4b10a494751b5c030deaa20728e8d0e478722a",
-    "resource/template/StageNavigation/SideStory/TD/TD-4": "b195912f24b5c3fc882fd2ac9bb003571f31aa16cf78f604bfb8f21bcbbb5a3f"
+    "resource/template/StageNavigation/SideStory/TD/TD-4": "b195912f24b5c3fc882fd2ac9bb003571f31aa16cf78f604bfb8f21bcbbb5a3f",
+    "resource/template/items/SINGLE_75_0_1_GACHA_10": "71943420c33f92be65e1ec117a0338a4ac543a55115e8ec5f476984b68a8f1a0",
+    "resource/template/items/act21mini_token_shred": "c150cbe57879bcb9a4dddda682351b85465e073d1ee7ef7009f420bf06df340e",
+    "resource/template/items/SINGLE_75_0_1_GACHA": "8a5646380eb80159d86807a79395380d6ce76efd1858eacc93c10b15c69a93b5"
 }

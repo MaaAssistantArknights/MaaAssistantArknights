@@ -1107,6 +1107,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             _imagePopupWindow = new() {
                 Width = TotalWindowWidth,
                 Height = totalWindowHeight,
+                ResizeMode = ResizeMode.NoResize,
                 Content = new Image {
                     Source = TestLinkImage,
                 },
