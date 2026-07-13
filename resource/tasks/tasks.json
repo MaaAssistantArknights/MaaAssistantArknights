@@ -753,14 +753,14 @@
     },
     "Logout": {
         "action": "ClickSelf",
-        "roi": [660, 460, 140, 50],
+        "roi": [635, 435, 190, 100],
         "next": ["LogoutConfirm", "LogoutConfirmOCR", "Logout"]
     },
     "LogoutOCR": {
         "baseTask": "Logout",
         "algorithm": "OcrDetect",
         "text": ["退出登录", "登出", "账号", "出"],
-        "roi": [702, 470, 390, 30]
+        "roi": [677, 445, 440, 80]
     },
     "LogoutConfirm": {
         "action": "ClickSelf",
