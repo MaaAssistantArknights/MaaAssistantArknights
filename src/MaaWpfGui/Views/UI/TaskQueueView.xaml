@@ -431,6 +431,7 @@
                                 Height="30"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
+                                hc:BorderElement.CornerRadius="0,4,4,0"
                                 Command="{s:Action InverseSelected}"
                                 Content="{Binding InverseShowText}"
                                 IsEnabled="{c:Binding 'Idle or !Inited'}"
