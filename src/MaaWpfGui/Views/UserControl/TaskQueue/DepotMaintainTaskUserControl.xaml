@@ -184,7 +184,7 @@
                                 <controls:TextBlock
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    Margin="0,p,6,0"
+                                    Margin="0,6,6,0"
                                     VerticalAlignment="Center"
                                     Text="{DynamicResource AssignedMaterial}" />
                                 <ComboBox
