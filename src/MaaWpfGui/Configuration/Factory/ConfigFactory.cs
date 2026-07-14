@@ -211,6 +211,7 @@ public static class ConfigFactory
             {
                 var key = "Root.Configurations." + name + ".";
                 config.PropertyChanged += OnPropertyChangedFactory(key);
+                config.WpfSettings.EventBinding(key, OnPropertyChangedFactory);
                 config.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
                 config.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
 

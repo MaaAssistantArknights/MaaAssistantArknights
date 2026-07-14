@@ -17,7 +17,7 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Extensions;
 using Microsoft.Win32;
 using Windows.Win32;
@@ -39,8 +39,8 @@ public abstract class GpuOption
 
     public static bool AllowDeprecatedGpu
     {
-        get => ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, false);
-        set => ConfigurationHelper.SetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, value.ToString());
+        get => ConfigFactory.CurrentConfig.WpfSettings.Performance.AllowDeprecatedGpu;
+        set => ConfigFactory.CurrentConfig.WpfSettings.Performance.AllowDeprecatedGpu = value;
     }
 
     // use string literal to efficiently store uint16 array
@@ -215,10 +215,8 @@ public abstract class GpuOption
     {
         try
         {
-            var req = new DISPLAYCONFIG_ADAPTER_NAME
-            {
-                header = new DISPLAYCONFIG_DEVICE_INFO_HEADER
-                {
+            var req = new DISPLAYCONFIG_ADAPTER_NAME {
+                header = new DISPLAYCONFIG_DEVICE_INFO_HEADER {
                     size = (uint)sizeof(DISPLAYCONFIG_ADAPTER_NAME),
                     adapterId = luid,
                     id = 0,
@@ -399,8 +397,7 @@ public abstract class GpuOption
             // Intel: pre-Xe (Gen9, Gen11)
             // AMD: pre-Polaris (Sea Islands, Volcanic Islands, Arctic Islands)
             // NVIDIA: maybe pre-Pascal? (Kepler, Maxwell)
-            ReadOnlySpan<ushort> devIdBlacklist = desc.VendorId switch
-            {
+            ReadOnlySpan<ushort> devIdBlacklist = desc.VendorId switch {
                 0x8086 => IntelBlacklist,
                 0x1002 => AmdBlacklist,
                 0x10de => NvidiaBlacklist,
@@ -417,11 +414,11 @@ public abstract class GpuOption
 
     public static GpuOption GetCurrent()
     {
-        var preferredGpuInstancePath = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty);
-        var preferredGpuDescription = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty);
+        var preferredGpuInstancePath = ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuInstancePath;
+        var preferredGpuDescription = ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuDescription;
 
         GpuOption result;
-        if (ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceUseGpu, false))
+        if (ConfigFactory.CurrentConfig.WpfSettings.Performance.UseGpu)
         {
             var options = GetGpuOptions();
             if (ReferenceEquals(options, _unavailableOptions))
@@ -454,17 +451,19 @@ public abstract class GpuOption
         switch (option)
         {
             case DisableOption:
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformanceUseGpu, "false");
+                ConfigFactory.CurrentConfig.WpfSettings.Performance.UseGpu = false;
+                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuDescription = string.Empty;
+                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuInstancePath = string.Empty;
                 break;
             case SystemDefaultOption:
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformanceUseGpu, "true");
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty);
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty);
+                ConfigFactory.CurrentConfig.WpfSettings.Performance.UseGpu = true;
+                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuDescription = string.Empty;
+                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuInstancePath = string.Empty;
                 break;
             case SpecificGpuOption x:
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformanceUseGpu, "true");
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuDescription, x.GpuInfo.Description);
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, x.InstancePath);
+                ConfigFactory.CurrentConfig.WpfSettings.Performance.UseGpu = true;
+                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuDescription = x.GpuInfo.Description;
+                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuInstancePath = x.InstancePath;
                 break;
         }
     }

@@ -34,6 +34,7 @@ public class ConfigConverter
     private static readonly string ConfigurationNewFile = ConfigFactory.ConfigFile;
     private static readonly string ConfigurationOldBakFile = ConfigurationHelper.ConfigFile + ".old";
     private static readonly string ConfigurationOldFile = ConfigurationHelper.ConfigFile;
+    private static bool HasBackupOldConfig = false;
 
     public static bool ConvertConfig()
     {
@@ -60,20 +61,18 @@ public class ConfigConverter
             ret &= ConvertTaskQueue();
         }
 
+        if (ConfigurationHelper.ContainsKey(ConfigurationKeys.PerformanceUseGpu))
+        {
+            ret = ret && ConvertWpfSettings();
+        }
+
         return ret;
     }
 
     // 迁移任务队列，v5.15编写
     private static bool ConvertTaskQueue()
     {
-        try
-        {
-            File.Copy(ConfigurationOldFile, ConfigurationOldBakFile, true);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error(ex, "备份配置失败: {Message}", ex.Message);
-        }
+        BackupOldConfig();
         string[] configKeys = [ConfigurationKeys.AnnouncementInfo, ConfigurationKeys.DoNotRemindThisAnnouncementAgain, ConfigurationKeys.DoNotShowAnnouncement,
             ConfigurationKeys.VersionName, ConfigurationKeys.VersionUpdateBody, ConfigurationKeys.VersionUpdateIsFirstBoot, ConfigurationKeys.VersionUpdatePackage,
             ConfigurationKeys.VersionUpdateDoNotShowUpdate, ConfigurationKeys.CustomInfrastEnabled, ConfigurationKeys.CustomInfrastPlanShowInFightSettings,
@@ -515,6 +514,37 @@ public class ConfigConverter
         return true;
     }
 
+    // 迁移Wpf设置, v6.14编写
+    private static bool ConvertWpfSettings()
+    {
+        BackupOldConfig();
+
+        var currentConfigName = ConfigurationHelper.GetCurrentConfiguration();
+        foreach (var configName in ConfigurationHelper.GetConfigurationList())
+        {
+            ConfigurationHelper.SwitchConfiguration(configName);
+            if (!ConfigFactory.SwitchConfig(configName))
+            {
+                _logger.Error("配置迁移失败，无法切换到配置: {ConfigName}", configName);
+                throw new Exception($"配置迁移失败，无法切换到配置{configName}");
+            }
+
+            ConfigFactory.CurrentConfig.WpfSettings.Performance.UseGpu = ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceUseGpu, false);
+            ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuDescription = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty);
+            ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuInstancePath = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty);
+            ConfigFactory.CurrentConfig.WpfSettings.Performance.AllowDeprecatedGpu = ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, false);
+
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.PerformanceUseGpu);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.PerformancePreferredGpuDescription);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.PerformancePreferredGpuInstancePath);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu);
+        }
+
+        ConfigurationHelper.SwitchConfiguration(currentConfigName);
+        ConfigFactory.SwitchConfig(currentConfigName);
+        return true;
+    }
+
     private static JObject? ParseJsonFile(string filePath)
     {
         if (File.Exists(filePath) is false)
@@ -534,5 +564,22 @@ public class ConfigConverter
         }
 
         return null;
+    }
+
+    private static void BackupOldConfig()
+    {
+        if (HasBackupOldConfig)
+        {
+            return;
+        }
+        HasBackupOldConfig = true;
+        try
+        {
+            File.Copy(ConfigurationOldFile, ConfigurationOldBakFile, true);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "备份配置失败: {Message}", ex.Message);
+        }
     }
 }

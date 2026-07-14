@@ -16,6 +16,7 @@ using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Configuration.Single.Settings;
 using ObservableCollections;
 
 namespace MaaWpfGui.Configuration.Single;
@@ -34,6 +35,9 @@ public class SpecificConfig : INotifyPropertyChanged, IJsonOnDeserialized
 
     [JsonInclude]
     public ObservableList<BaseTask> TaskQueue { get; private set; } = [];
+
+    [JsonInclude]
+    public WpfSettings WpfSettings { get; private set; } = new();
 
     [JsonInclude]
     public int TaskSelectedIndex { get; set; } = -1;

@@ -325,10 +325,10 @@ public static class ConfigurationKeys
     public const string ExternalNotificationCustomWebhookBody = "ExternalNotification.CustomWebhook.Body";
     public const string ExternalNotificationCustomWebhookHeaders = "ExternalNotification.CustomWebhook.Headers";
 
-    public const string PerformanceUseGpu = "Performance.UseGpu";
-    public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription";
-    public const string PerformancePreferredGpuInstancePath = "Performance.PreferredGpuInstancePath";
-    public const string PerformanceAllowDeprecatedGpu = "Performance.AllowDeprecatedGpu";
+    public const string PerformanceUseGpu = "Performance.UseGpu"; // √
+    public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription"; // √
+    public const string PerformancePreferredGpuInstancePath = "Performance.PreferredGpuInstancePath"; // √
+    public const string PerformanceAllowDeprecatedGpu = "Performance.AllowDeprecatedGpu"; // √
 
     // The following should not be modified manually
     public const string VersionName = "VersionUpdate.name";
