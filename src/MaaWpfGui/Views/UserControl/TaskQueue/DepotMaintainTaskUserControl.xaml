@@ -73,7 +73,7 @@
                 <DataTemplate>
                     <Expander HorizontalContentAlignment="Stretch" IsExpanded="{Binding IsExpanded}">
                         <Expander.Header>
-                            <Grid HorizontalAlignment="Stretch">
+                            <Grid HorizontalAlignment="Stretch" Background="Transparent">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
@@ -94,7 +94,18 @@
                                     Command="{s:Action RemovePlan,
                                                        Target={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}"
                                     CommandParameter="{Binding}"
-                                    DockPanel.Dock="Right" />
+                                    ToolTip="{DynamicResource Delete}">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
                             </Grid>
                         </Expander.Header>
                         <Border
