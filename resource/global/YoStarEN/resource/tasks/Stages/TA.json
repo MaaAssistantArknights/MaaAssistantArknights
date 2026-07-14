@@ -1,0 +1,8 @@
+{    
+    "TA-OpenOcr": {
+        "text": ["First", "Thousand", "Forgotten", "Unwritten"]
+    },
+    "TAChapterToTA": {
+        "text": ["Record", "Autumn", "End", "RECORD", "AUTUMN", "END"]
+    }
+}
