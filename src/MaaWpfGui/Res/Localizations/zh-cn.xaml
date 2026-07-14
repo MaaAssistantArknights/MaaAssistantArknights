@@ -781,6 +781,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">无存档，通过进出关卡刷生息点数</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">有存档，通过组装支援道具刷生息点数</system:String>
+    <system:String x:Key="ReclamationModeAdvanceInSave">有存档，通过推进天数刷物资和生息点数</system:String>
     <system:String x:Key="ReclamationIncrementMode">增加方式</system:String>
     <system:String x:Key="ReclamationIncrementModeClick">连点</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">长按</system:String>
