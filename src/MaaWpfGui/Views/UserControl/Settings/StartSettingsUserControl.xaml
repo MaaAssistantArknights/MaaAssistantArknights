@@ -29,13 +29,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Vertical">
-            <controls:TextBlock
-                HorizontalAlignment="Center"
-                FontWeight="Bold"
-                Text="{DynamicResource GlobalConfigTip}"
-                TextAlignment="Center"
-                Visibility="{c:Binding 'ConfigurationList.Count > 1',
-                                       Source={x:Static helper:Instances.SettingsViewModel}}" />
+            <controls:GlobalConfigTip />
             <StackPanel Margin="10" Orientation="Horizontal">
                 <CheckBox
                     HorizontalAlignment="Left"

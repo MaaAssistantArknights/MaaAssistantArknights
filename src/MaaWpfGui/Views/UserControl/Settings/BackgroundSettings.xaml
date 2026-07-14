@@ -17,6 +17,7 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
+        <controls:GlobalConfigTip />
         <StackPanel Margin="5">
             <controls:TextBlock
                 Margin="0,0,0,5"
