@@ -767,6 +767,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">생존 연산</system:String>
     <system:String x:Key="UserDataUpdate">사용자 데이터 업데이트</system:String>
+    <system:String x:Key="DepotMaintain">재고 유지</system:String>
     <system:String x:Key="MiniGame">편의 기능</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">상시</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">현재 이벤트</system:String>
@@ -853,6 +854,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Inventory">재고</system:String>
     <system:String x:Key="InventoryUpdateTip">재고 데이터는  ｢{key=Toolbox}-{key=DepotRecognition}｣ 을 통해 업데이트 가능</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">작업 "{0}" 에서 {key=TargetInventory} 가 켜져 있지만 현재 사용할 수 있는 재고 데이터가 없어 건너뜁니다. ｢{key=Toolbox}-{key=DepotRecognition}｣ 에서 재고를 업데이트해 주세요.</system:String>
+    <!--  재고 유지  -->
+    <system:String x:Key="AddPlan">추가</system:String>
+    <system:String x:Key="CollapseAll">접기</system:String>
+    <system:String x:Key="DepotPlanInvalidDropItem">계획 {0}: 드롭 아이템이 유효하지 않습니다.</system:String>
+    <system:String x:Key="DepotPlanInventoryEnough">계획 {0}: 재고가 충분합니다.</system:String>
+    <system:String x:Key="DepotPlanStageNotOpen">계획 {0}: 스테이지 '{1}' 가 열려 있지 않습니다.</system:String>
+    <system:String x:Key="DepotPlanAddTaskFailed">계획 {0}: 작업 추가 실패.</system:String>
     <system:String x:Key="LessThanOneDay">1일 미만</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>

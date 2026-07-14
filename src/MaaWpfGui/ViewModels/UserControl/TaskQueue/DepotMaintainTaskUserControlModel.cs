@@ -263,7 +263,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 var plan = depot.PlanList[i];
                 if (string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0)
                 {
-                    Instances.TaskQueueViewModel.AddLog($"Plan {i + 1}: invalid drop item.", UiLogColor.Error);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInvalidDropItem", i + 1), UiLogColor.Error);
                     taskIds.Add(0);
                     continue;
                 }
@@ -271,14 +271,14 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 count = plan.DropCount - count;
                 if (count <= 0)
                 {
-                    Instances.TaskQueueViewModel.AddLog($"Plan {i + 1}: Inventory enough.", UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1), UiLogColor.Info);
                     taskIds.Add(0);
                     continue;
                 }
                 var stage = FightSettingsUserControlModel.GetFightStage([plan.Stage]);
                 if (string.IsNullOrEmpty(stage))
                 {
-                    Instances.TaskQueueViewModel.AddLog($"Plan {i + 1}: stage '{plan.Stage}' is not open.", UiLogColor.Error);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanStageNotOpen", i + 1, plan.Stage), UiLogColor.Error);
                     taskIds.Add(0);
                     continue;
                 }
@@ -292,7 +292,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 var (ret, id) = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, fight);
                 if (!ret)
                 {
-                    Instances.TaskQueueViewModel.AddLog($"Plan {i + 1}: add task failed.", UiLogColor.Error);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanAddTaskFailed", i + 1), UiLogColor.Error);
                     taskIds.Add(0);
                 }
                 else

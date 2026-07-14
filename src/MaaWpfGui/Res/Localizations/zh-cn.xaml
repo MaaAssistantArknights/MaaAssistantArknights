@@ -766,6 +766,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="UserDataUpdate">更新数据</system:String>
+    <system:String x:Key="DepotMaintain">库存保持</system:String>
     <system:String x:Key="MiniGame">牛杂</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">常驻活动</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">当期活动</system:String>
@@ -852,6 +853,13 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Inventory">库存</system:String>
     <system:String x:Key="InventoryUpdateTip">可通过 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存数据</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">任务 ｢{0}｣ 启用了 {key=TargetInventory}，但当前没有可用的库存数据，已跳过。可通过 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存。</system:String>
+    <!--  库存保持  -->
+    <system:String x:Key="AddPlan">添加</system:String>
+    <system:String x:Key="CollapseAll">折叠</system:String>
+    <system:String x:Key="DepotPlanInvalidDropItem">计划 {0}：掉落物无效。</system:String>
+    <system:String x:Key="DepotPlanInventoryEnough">计划 {0}：库存已充足。</system:String>
+    <system:String x:Key="DepotPlanStageNotOpen">计划 {0}：关卡「{1}」未开放。</system:String>
+    <system:String x:Key="DepotPlanAddTaskFailed">计划 {0}：添加任务失败。</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>
