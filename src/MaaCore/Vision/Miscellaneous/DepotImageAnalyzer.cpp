@@ -48,6 +48,9 @@ void asst::DepotImageAnalyzer::prepare_cached_templates()
 {
     LogTraceFunction;
 
+    static constexpr int QuantityMaskWidth = 80;
+    static constexpr int QuantityMaskHeight = 50;
+
     for (const auto& item_id : get_ordered_item_ids()) {
         try {
             cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
@@ -56,7 +59,7 @@ void asst::DepotImageAnalyzer::prepare_cached_templates()
                 m_invalid_template_ids.emplace_back(item_id);
                 continue;
             }
-            if (templ.cols < 80 || templ.rows < 50) {
+            if (templ.cols < QuantityMaskWidth || templ.rows < QuantityMaskHeight) {
                 Log.error(__FUNCTION__, "templ is too small:", item_id, "size:", templ.cols, "x", templ.rows);
                 m_invalid_template_ids.emplace_back(item_id);
                 continue;
@@ -64,7 +67,11 @@ void asst::DepotImageAnalyzer::prepare_cached_templates()
 
             const cv::Scalar mean_color = cv::mean(templ(get_center_rect(templ)));
             // 抹去右下角 80x50 区域（防止影响匹配）
-            templ(cv::Rect { templ.cols - 80, templ.rows - 50, 80, 50 }) = cv::Scalar { 0, 0, 0 };
+            templ(
+                cv::Rect { templ.cols - QuantityMaskWidth,
+                           templ.rows - QuantityMaskHeight,
+                           QuantityMaskWidth,
+                           QuantityMaskHeight }) = cv::Scalar { 0, 0, 0 };
             m_template_mean_colors[item_id] = mean_color;
             m_cached_templs[item_id] = std::move(templ);
         }
