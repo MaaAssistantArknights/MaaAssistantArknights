@@ -1183,6 +1183,14 @@
         "sortId": 10323,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_7001": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_7001.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10324,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_903": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -2295,6 +2303,14 @@
         "sortId": -10000,
         "usage": "An essential item for Athenian citizens when voting. But what to do with used ostraca? Astynomos' Office decided to collect and wrap them up nicely for tourist souvenirs, and this innovative idea was well received by all."
     },
+    "act49side_token_draft": {
+        "classifyType": "NONE",
+        "description": "A chronicle of an event's beginning and end, an examination of an era's gains and losses, an analysis of one's rights and wrongs, to be settled with a single verdict.",
+        "icon": "act49side_token_draft.png",
+        "name": "Draft of History",
+        "sortId": -10000,
+        "usage": "A history manuscript yet to be approved. Hand it to a certain Magistrate of Water, and she will gladly offer you excess supplies from the Sky Mirror Pavilion. Once compiled, It will transcend its era, endure the test of time, and be judged before becoming time itself."
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
@@ -3270,6 +3286,14 @@
         "name": "Project One Definitive Edition",
         "sortId": 60119,
         "usage": "A high-speed battleship model. Can be exchanged for LMD."
+    },
+    "randomMaterial_message2": {
+        "classifyType": "CONSUME",
+        "description": "At first glance it seems like a regular weiqi set: a board, pieces, and a box. But on closer inspection, the board is made from mahogany, the box carved from a single piece of wood, and the pieces crafted from shiny rare stones, yet identical in shape. A record of weiqi games stretching from ages past to modern times is also attached.",
+        "icon": "randomMaterial_message2.png",
+        "name": "Simple Weiqi Set",
+        "sortId": 60121,
+        "usage": "A simple-looking weiqi set. Can be exchanged for LMD."
     },
     "randomMaterial_rhine2": {
         "classifyType": "CONSUME",

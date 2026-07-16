@@ -89,14 +89,16 @@ def _gh_api_with_retry(url: str) -> list:
                 return json.loads(result.stdout)
             else:
                 stderr = (result.stderr or "").strip()
-                print(f"  [警告] gh api 调用失败 (尝试 {attempt+1}/{MAX_RETRIES}): {stderr[:200]}")
+                print(
+                    f"  [警告] gh api 调用失败 (尝试 {attempt + 1}/{MAX_RETRIES}): {stderr[:200]}"
+                )
         except subprocess.TimeoutExpired:
-            print(f"  [警告] gh api 超时 (尝试 {attempt+1}/{MAX_RETRIES})")
+            print(f"  [警告] gh api 超时 (尝试 {attempt + 1}/{MAX_RETRIES})")
         except Exception as e:
-            print(f"  [警告] gh api 异常 (尝试 {attempt+1}/{MAX_RETRIES}): {e}")
+            print(f"  [警告] gh api 异常 (尝试 {attempt + 1}/{MAX_RETRIES}): {e}")
 
         if attempt < MAX_RETRIES - 1:
-            wait = 2 ** attempt  # 1s, 2s, 4s
+            wait = 2**attempt  # 1s, 2s, 4s
             print(f"  等待 {wait}s 后重试...")
             time.sleep(wait)
 
@@ -141,9 +143,7 @@ EXCLUDE_PATTERNS = [
 ]
 
 # OTA 包命名: MAAComponent-OTA-{from}_{to}-win-x64.zip
-OTA_PATTERN = re.compile(
-    r"^MAAComponent-OTA-(.+?)_(.+?)-win.*$"
-)
+OTA_PATTERN = re.compile(r"^MAAComponent-OTA-(.+?)_(.+?)-win.*$")
 
 # 完整包命名: MAA-{tag}-{platform}.{ext}
 FULL_PKG_PATTERN = re.compile(
@@ -203,7 +203,8 @@ def process_releases(raw_data: dict) -> dict:
                 merged_releases[tag] = {
                     "tag": tag,
                     "name": rel.get("name") or tag,
-                    "published_at": rel.get("published_at") or rel.get("created_at", ""),
+                    "published_at": rel.get("published_at")
+                    or rel.get("created_at", ""),
                     "repo_sources": [],
                     "assets": {},
                     "total_downloads": 0,
@@ -246,7 +247,9 @@ def process_releases(raw_data: dict) -> dict:
                 from_v = a["info"].get("from_version", "unknown")
                 entry["ota_sources"][from_v] += a["count"]
             elif a["type"] == "full":
-                entry["full_downloads"][a["info"].get("platform", "unknown")] += a["count"]
+                entry["full_downloads"][a["info"].get("platform", "unknown")] += a[
+                    "count"
+                ]
             elif a["type"] == "delta":
                 entry["delta_downloads"] += a["count"]
             else:
@@ -360,7 +363,7 @@ def generate_html(processed: dict, output_path: Path):
     def is_stable_only(tag: str) -> bool:
         tag = tag.strip()
         tag_lower = tag.lower()
-        if 'alpha' in tag_lower or 'beta' in tag_lower or '.d0' in tag:
+        if "alpha" in tag_lower or "beta" in tag_lower or ".d0" in tag:
             return False
         if re.match(r"^v\d+\.\d+[\.\d]*$", tag):
             return True
@@ -401,7 +404,12 @@ def generate_html(processed: dict, output_path: Path):
         assets_html = ""
         if assets_sorted:
             assets_html = "<table class='asset-detail-table'><thead><tr><th>Asset</th><th>类型</th><th>下载量</th></tr></thead><tbody>"
-            type_names = {"full": "完整包", "ota": "OTA", "delta": "Delta", "other": "其他"}
+            type_names = {
+                "full": "完整包",
+                "ota": "OTA",
+                "delta": "Delta",
+                "other": "其他",
+            }
             for a in assets_sorted:
                 assets_html += (
                     f"<tr><td>{escape(a['name'])}</td>"
@@ -414,34 +422,35 @@ def generate_html(processed: dict, output_path: Path):
         platform_cells = ""
         if r["full_downloads"]:
             platform_cells = " / ".join(
-                f"{escape(p)}: {c:,}" for p, c in sorted(r["full_downloads"].items(), key=lambda x: -x[1])
+                f"{escape(p)}: {c:,}"
+                for p, c in sorted(r["full_downloads"].items(), key=lambda x: -x[1])
             )
 
         pub_date = r["published_at"][:10] if r["published_at"] else "N/A"
 
-        full_sum = sum(r['full_downloads'].values())
+        full_sum = sum(r["full_downloads"].values())
         # 判断版本渠道（带 .d0 的 dev 推进版一律为内测版）
-        tag_lower = r['tag'].lower()
-        is_dev = '.d0' in r['tag']
-        if is_dev or 'alpha' in tag_lower:
-            channel = 'alpha'
-        elif 'beta' in tag_lower:
-            channel = 'beta'
+        tag_lower = r["tag"].lower()
+        is_dev = ".d0" in r["tag"]
+        if is_dev or "alpha" in tag_lower:
+            channel = "alpha"
+        elif "beta" in tag_lower:
+            channel = "beta"
         else:
-            channel = 'stable'
+            channel = "stable"
         rows_html.append(f"""
         <tr class="release-row" onclick="toggleDetail('detail-{i}')"
-            data-version="{escape(r['tag'])}"
+            data-version="{escape(r["tag"])}"
             data-date="{pub_date}"
             data-full="{full_sum}"
-            data-ota="{r['ota_downloads']}"
-            data-total="{r['total_downloads']}"
+            data-ota="{r["ota_downloads"]}"
+            data-total="{r["total_downloads"]}"
             data-channel="{channel}">
-            <td class="col-version">{escape(r['tag'])}</td>
+            <td class="col-version">{escape(r["tag"])}</td>
             <td class="col-date">{pub_date}</td>
             <td class="col-full num">{full_sum:,}</td>
-            <td class="col-ota num">{r['ota_downloads']:,}</td>
-            <td class="col-total num">{r['total_downloads']:,}</td>
+            <td class="col-ota num">{r["ota_downloads"]:,}</td>
+            <td class="col-total num">{r["total_downloads"]:,}</td>
             <td class="col-platform">{platform_cells}</td>
         </tr>
         <tr class="release-detail" id="detail-{i}" data-channel="{channel}" style="display:none">
@@ -457,18 +466,21 @@ def generate_html(processed: dict, output_path: Path):
     top_rel_counts = [count for _, count in summary["top_releases"]]
 
     # 将图表数据嵌入 JSON
-    chart_data = json.dumps({
-        "pie_labels": pie_labels,
-        "pie_data": pie_data,
-        "platform_labels": platform_labels,
-        "platform_data": platform_data,
-        "trend_labels": trend_labels,
-        "trend_cumulative": trend_cumulative,
-        "stable_labels": stable_labels,
-        "stable_counts": stable_counts,
-        "top_rel_tags": top_rel_tags,
-        "top_rel_counts": top_rel_counts,
-    }, ensure_ascii=False)
+    chart_data = json.dumps(
+        {
+            "pie_labels": pie_labels,
+            "pie_data": pie_data,
+            "platform_labels": platform_labels,
+            "platform_data": platform_data,
+            "trend_labels": trend_labels,
+            "trend_cumulative": trend_cumulative,
+            "stable_labels": stable_labels,
+            "stable_counts": stable_counts,
+            "top_rel_tags": top_rel_tags,
+            "top_rel_counts": top_rel_counts,
+        },
+        ensure_ascii=False,
+    )
 
     html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -654,19 +666,19 @@ def generate_html(processed: dict, output_path: Path):
     <!-- 汇总卡片 -->
     <div class="summary-cards">
         <div class="card">
-            <div class="value">{summary['total_downloads']:,}</div>
+            <div class="value">{summary["total_downloads"]:,}</div>
             <div class="label">总下载量</div>
         </div>
         <div class="card green">
-            <div class="value">{summary['full_downloads']:,}</div>
+            <div class="value">{summary["full_downloads"]:,}</div>
             <div class="label">完整包下载量</div>
         </div>
         <div class="card orange">
-            <div class="value">{summary['ota_downloads']:,}</div>
+            <div class="value">{summary["ota_downloads"]:,}</div>
             <div class="label">OTA 更新包下载量</div>
         </div>
         <div class="card purple">
-            <div class="value">{summary['total_releases']:,}</div>
+            <div class="value">{summary["total_releases"]:,}</div>
             <div class="label">Release 总数</div>
         </div>
     </div>
@@ -712,7 +724,7 @@ def generate_html(processed: dict, output_path: Path):
                 </tr>
             </thead>
             <tbody id="releaseTableBody">
-                {''.join(rows_html)}
+                {"".join(rows_html)}
             </tbody>
         </table>
     </div>
@@ -1039,11 +1051,16 @@ def generate_html(processed: dict, output_path: Path):
 def main():
     parser = argparse.ArgumentParser(description="MAA Release 下载量统计 → HTML 报告")
     parser.add_argument(
-        "--cache", type=str, default=None,
+        "--cache",
+        type=str,
+        default=None,
         help="缓存文件路径。存在则直接读取，不存在则拉取数据后写入缓存。",
     )
     parser.add_argument(
-        "--output", "-o", type=str, default=None,
+        "--output",
+        "-o",
+        type=str,
+        default=None,
         help="输出 HTML 文件路径（默认: report.html）",
     )
     args = parser.parse_args()
@@ -1065,14 +1082,14 @@ def main():
 
     # 打印摘要
     s = processed["summary"]
-    print(f"\n{'='*50}")
+    print(f"\n{'=' * 50}")
     print(f"  Release 总数: {s['total_releases']}")
     print(f"  总下载量:     {s['total_downloads']:,}")
     print(f"  完整包:       {s['full_downloads']:,}")
     print(f"  OTA 更新包:   {s['ota_downloads']:,}")
     print(f"  macOS Delta:  {s['delta_downloads']:,}")
     print(f"  其他:         {s['other_downloads']:,}")
-    print(f"{'='*50}")
+    print(f"{'=' * 50}")
 
 
 if __name__ == "__main__":
