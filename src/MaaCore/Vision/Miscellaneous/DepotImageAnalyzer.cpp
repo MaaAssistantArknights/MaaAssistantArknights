@@ -13,12 +13,24 @@
 #include <exception>
 #include <numbers>
 
+namespace
+{
+constexpr int QuantityMaskWidth = 80;
+constexpr int QuantityMaskHeight = 50;
+
+bool is_depot_template_size_valid(const cv::Mat& templ)
+{
+    return templ.cols >= QuantityMaskWidth && templ.rows >= QuantityMaskHeight;
+}
+}
+
 bool asst::DepotImageAnalyzer::analyze()
 {
     LogTraceFunction;
 
     m_all_items_roi.clear();
     m_result.clear();
+    m_invalid_template_ids.clear();
 
     if (m_cached_templs.empty()) {
         prepare_cached_templates();
@@ -48,20 +60,17 @@ void asst::DepotImageAnalyzer::prepare_cached_templates()
 {
     LogTraceFunction;
 
-    static constexpr int QuantityMaskWidth = 80;
-    static constexpr int QuantityMaskHeight = 50;
-
     for (const auto& item_id : get_ordered_item_ids()) {
         try {
             cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
             if (templ.empty()) {
                 Log.error(__FUNCTION__, "templ is empty:", item_id);
-                m_invalid_template_ids.emplace_back(item_id);
+                record_invalid_template(item_id);
                 continue;
             }
-            if (templ.cols < QuantityMaskWidth || templ.rows < QuantityMaskHeight) {
+            if (!is_depot_template_size_valid(templ)) {
                 Log.error(__FUNCTION__, "templ is too small:", item_id, "size:", templ.cols, "x", templ.rows);
-                m_invalid_template_ids.emplace_back(item_id);
+                record_invalid_template(item_id);
                 continue;
             }
 
@@ -77,8 +86,16 @@ void asst::DepotImageAnalyzer::prepare_cached_templates()
         }
         catch (const std::exception& e) {
             Log.error(__FUNCTION__, "failed to prepare templ:", item_id, "error:", e.what());
-            m_invalid_template_ids.emplace_back(item_id);
+            record_invalid_template(item_id);
         }
+    }
+}
+
+void asst::DepotImageAnalyzer::record_invalid_template(const std::string& item_id)
+{
+    if (std::find(m_invalid_template_ids.begin(), m_invalid_template_ids.end(), item_id) ==
+        m_invalid_template_ids.end()) {
+        m_invalid_template_ids.emplace_back(item_id);
     }
 }
 
@@ -351,9 +368,31 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
     auto item_templ = TemplResource::get_instance().get_templ(item.item_id);
     if (item_templ.empty()) {
         Log.error(__FUNCTION__, "templ is empty:", item.item_id);
+        record_invalid_template(item.item_id);
         return 0;
     }
     auto item_image = m_image_resized(make_rect<cv::Rect>(item.rect));
+    if (!is_depot_template_size_valid(item_templ) || item_templ.size() != item_image.size() ||
+        item_templ.type() != item_image.type()) {
+        Log.error(
+            __FUNCTION__,
+            "templ is incompatible:",
+            item.item_id,
+            "templ size:",
+            item_templ.cols,
+            "x",
+            item_templ.rows,
+            "item size:",
+            item_image.cols,
+            "x",
+            item_image.rows,
+            "templ type:",
+            item_templ.type(),
+            "item type:",
+            item_image.type());
+        record_invalid_template(item.item_id);
+        return 0;
+    }
     cv::Mat quotient;
     cv::divide(
         item_image + cv::Scalar { 1, 1, 1 }, // I've forgot why I should plus 1 here

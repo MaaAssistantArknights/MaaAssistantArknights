@@ -43,6 +43,7 @@ public:
 private:
     void resize();
     void prepare_cached_templates();
+    void record_invalid_template(const std::string& item_id);
     const std::vector<std::string>& get_ordered_item_ids() const;
     static double color_diff(const cv::Scalar& a, const cv::Scalar& b);
     static std::vector<std::string> filter_candidates_by_color(
