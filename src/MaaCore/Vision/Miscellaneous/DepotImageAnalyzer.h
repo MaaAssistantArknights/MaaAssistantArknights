@@ -32,6 +32,7 @@ public:
     void set_is_basic(bool is_basic) noexcept { m_is_basic = is_basic; }
 
     const auto& get_result() const noexcept { return m_result; }
+    const auto& get_invalid_template_ids() const noexcept { return m_invalid_template_ids; }
 
     static void clear_cached_templates()
     {
@@ -71,6 +72,7 @@ private:
 #endif
     std::vector<Rect> m_all_items_roi;
     std::unordered_map<std::string, ItemInfo> m_result;
+    std::vector<std::string> m_invalid_template_ids;
 
     inline static std::unordered_map<std::string, cv::Mat> m_cached_templs;
     inline static std::unordered_map<std::string, cv::Scalar> m_template_mean_colors;

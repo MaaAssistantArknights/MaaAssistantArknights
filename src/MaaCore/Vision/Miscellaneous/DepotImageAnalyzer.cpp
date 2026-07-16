@@ -10,6 +10,7 @@
 #include "Vision/RegionOCRer.h"
 
 #include <algorithm>
+#include <exception>
 #include <numbers>
 
 bool asst::DepotImageAnalyzer::analyze()
@@ -48,11 +49,29 @@ void asst::DepotImageAnalyzer::prepare_cached_templates()
     LogTraceFunction;
 
     for (const auto& item_id : get_ordered_item_ids()) {
-        cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
-        m_template_mean_colors[item_id] = cv::mean(templ(get_center_rect(templ)));
-        // 抹去右下角 80x50 区域（防止影响匹配）
-        templ(cv::Rect { templ.cols - 80, templ.rows - 50, 80, 50 }) = cv::Scalar { 0, 0, 0 };
-        m_cached_templs[item_id] = std::move(templ);
+        try {
+            cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
+            if (templ.empty()) {
+                Log.error(__FUNCTION__, "templ is empty:", item_id);
+                m_invalid_template_ids.emplace_back(item_id);
+                continue;
+            }
+            if (templ.cols < 80 || templ.rows < 50) {
+                Log.error(__FUNCTION__, "templ is too small:", item_id, "size:", templ.cols, "x", templ.rows);
+                m_invalid_template_ids.emplace_back(item_id);
+                continue;
+            }
+
+            const cv::Scalar mean_color = cv::mean(templ(get_center_rect(templ)));
+            // 抹去右下角 80x50 区域（防止影响匹配）
+            templ(cv::Rect { templ.cols - 80, templ.rows - 50, 80, 50 }) = cv::Scalar { 0, 0, 0 };
+            m_template_mean_colors[item_id] = mean_color;
+            m_cached_templs[item_id] = std::move(templ);
+        }
+        catch (const std::exception& e) {
+            Log.error(__FUNCTION__, "failed to prepare templ:", item_id, "error:", e.what());
+            m_invalid_template_ids.emplace_back(item_id);
+        }
     }
 }
 
@@ -323,6 +342,10 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("DepotQuantity");
     auto item_templ = TemplResource::get_instance().get_templ(item.item_id);
+    if (item_templ.empty()) {
+        Log.error(__FUNCTION__, "templ is empty:", item.item_id);
+        return 0;
+    }
     auto item_image = m_image_resized(make_rect<cv::Rect>(item.rect));
     cv::Mat quotient;
     cv::divide(

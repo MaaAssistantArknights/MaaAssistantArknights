@@ -940,6 +940,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="LastSyncTime">前回同期時間</system:String>
     <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。エラーが発生/統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
+    <system:String x:Key="DepotTemplateLoadError">倉庫認識用テンプレートの読み込みに失敗しました（{0}）。一部のアイテムはスキップされます。リソースが破損している可能性があるため、完全なリソースパッケージを再ダウンロードし、resource フォルダーに上書きしてください。</system:String>
     <system:String x:Key="StartToDepotRecognition">認識開始</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner</system:String>
     <system:String x:Key="ExportToLolicon">Arkntools</system:String>

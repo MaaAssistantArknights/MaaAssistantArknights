@@ -940,6 +940,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="LastSyncTime">上次同步时间</system:String>
     <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
+    <system:String x:Key="DepotTemplateLoadError">仓库识别模板加载失败（{0}），将跳过这些物品。资源文件可能已损坏，请重新下载完整资源包并覆盖 resource 文件夹。</system:String>
     <system:String x:Key="StartToDepotRecognition">开始识别</system:String>
     <system:String x:Key="ExportToArkplanner">企鹅物流刷图规划</system:String>
     <system:String x:Key="ExportToLolicon">明日方舟工具箱</system:String>
