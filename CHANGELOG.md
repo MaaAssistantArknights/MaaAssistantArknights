@@ -1,4 +1,4 @@
-## v6.14.1
+## v6.14.2
 
 ### Highlights
 
@@ -36,6 +36,22 @@ Screenshot enhancement and screenshot test entries are now surfaced in setup gui
 以下是详细内容：
 
 <details open>
+<summary><b>v6.14.2 (2026-07-16)</b></summary>
+
+### 新增 | New
+
+* YostarEN/KR add TA stage navigation @Constrat @HX3N
+
+### 修复 | Fix
+
+* 修复鹰角网络调整用户中心界面间距后无法识别退出登录的问题 @Saratoga-Official
+* 修复多作业模式中 H10-1 被 OCR 识别为 `H1O-1` 时关卡名称替换错误、导致导航重试的问题 ([#17326](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17326)) @wzacolemak
+* YostarEN: fix OCR recognition mappings for Eye of the Blizzard and Base @Constrat
+* YostarKR: fix and refine operator, item, and event OCR replacements @HX3N
+
+</details>
+
+<details>
 <summary><b>v6.14.1 (2026-07-11)</b></summary>
 
 ### 新增 | New
