@@ -1092,7 +1092,24 @@
             ["Fountain", "喷泉水池"],
             ["Vark.ris", "摆渡人"],
             ["Perfumer the Distilled", "撷英调香师"],
-            ["Titi", "缇缇"]
+            ["Titi", "缇缇"],
+            ["Performer Wang", "演出望"],
+            ["Stamp'", "印字"],
+            ["Sui's Mountain", "岁用山"],
+            ["Soldier'", "兵字"],
+            ["Suppression Pillar", "镇岁柱"],
+            ["Writing Knife", "书刀"],
+            ["Ridge", "山脊"],
+            ["Mountain'", "山字"],
+            ["Taraxacum", "风絮"],
+            ["Stone", "棋子"],
+            ["Wealth'", "财字"],
+            ["Wang", "望"],
+            ["Ju", "矩"],
+            ["Broken", "断"],
+            ["Friend'", "友字"],
+            ["Food'", "食字"],
+            ["Ch'en the Dawnstreak", "赤刃明霄陈"]
         ]
     },
     "GameStartCheckResourceOCR": {

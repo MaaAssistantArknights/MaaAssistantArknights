@@ -504,8 +504,7 @@
         },
         "char_1050_chen3": {
             "name": "赤刃明霄陈",
-            "name_en": "赤刃明霄陈",
-            "name_en_unavailable": true,
+            "name_en": "Ch'en the Dawnstreak",
             "name_jp": "赤刃明霄チェン",
             "name_kr": "첸 더 던스트릭",
             "name_tw": "赤刃明霄陈",
@@ -1366,8 +1365,7 @@
         },
         "char_2027_wang": {
             "name": "望",
-            "name_en": "望",
-            "name_en_unavailable": true,
+            "name_en": "Wang",
             "name_jp": "ウァン",
             "name_kr": "왕",
             "name_tw": "望",
@@ -4057,8 +4055,7 @@
         },
         "char_4221_ju": {
             "name": "矩",
-            "name_en": "矩",
-            "name_en_unavailable": true,
+            "name_en": "Ju",
             "name_jp": "ジュー",
             "name_kr": "쥐",
             "name_tw": "矩",
@@ -4070,8 +4067,7 @@
         },
         "char_4222_taraxa": {
             "name": "风絮",
-            "name_en": "风絮",
-            "name_en_unavailable": true,
+            "name_en": "Taraxacum",
             "name_jp": "タラクサカム",
             "name_kr": "타락사쿰",
             "name_tw": "风絮",
@@ -5791,8 +5787,7 @@
         },
         "token_10064_wang_stone1": {
             "name": "棋子",
-            "name_en": "棋子",
-            "name_en_unavailable": true,
+            "name_en": "Stone",
             "name_jp": "碁石",
             "name_kr": "바둑돌",
             "name_tw": "棋子",
@@ -10720,8 +10715,7 @@
         },
         "trap_285_tjggt": {
             "name": "山脊",
-            "name_en": "山脊",
-            "name_en_unavailable": true,
+            "name_en": "Ridge",
             "name_jp": "尾根",
             "name_kr": "산등성이",
             "name_tw": "山脊",
@@ -10733,8 +10727,7 @@
         },
         "trap_286_tjgsd": {
             "name": "书刀",
-            "name_en": "书刀",
-            "name_en_unavailable": true,
+            "name_en": "Writing Knife",
             "name_jp": "書刀",
             "name_kr": "서도",
             "name_tw": "书刀",
@@ -10746,8 +10739,7 @@
         },
         "trap_287_baizi": {
             "name": "断",
-            "name_en": "断",
-            "name_en_unavailable": true,
+            "name_en": "Broken",
             "name_jp": "キリ",
             "name_kr": "'단'",
             "name_tw": "断",
@@ -10759,8 +10751,7 @@
         },
         "trap_288_sunmao": {
             "name": "镇岁柱",
-            "name_en": "镇岁柱",
-            "name_en_unavailable": true,
+            "name_en": "Suppression Pillar",
             "name_jp": "鎮歳柱",
             "name_kr": "쉐이 진압 기둥",
             "name_tw": "镇岁柱",
@@ -10772,8 +10763,7 @@
         },
         "trap_289_zicai": {
             "name": "财字",
-            "name_en": "财字",
-            "name_en_unavailable": true,
+            "name_en": "Wealth'",
             "name_jp": "「財」",
             "name_kr": "'재'",
             "name_tw": "财字",
@@ -10785,8 +10775,7 @@
         },
         "trap_290_zishi": {
             "name": "食字",
-            "name_en": "食字",
-            "name_en_unavailable": true,
+            "name_en": "Food'",
             "name_jp": "「食」",
             "name_kr": "'식'",
             "name_tw": "食字",
@@ -10798,8 +10787,7 @@
         },
         "trap_291_zibin": {
             "name": "兵字",
-            "name_en": "兵字",
-            "name_en_unavailable": true,
+            "name_en": "Soldier'",
             "name_jp": "「兵」",
             "name_kr": "'병'",
             "name_tw": "兵字",
@@ -10811,8 +10799,7 @@
         },
         "trap_292_zishan": {
             "name": "山字",
-            "name_en": "山字",
-            "name_en_unavailable": true,
+            "name_en": "Mountain'",
             "name_jp": "「山」",
             "name_kr": "'산'",
             "name_tw": "山字",
@@ -10824,8 +10811,7 @@
         },
         "trap_293_suishan": {
             "name": "岁用山",
-            "name_en": "岁用山",
-            "name_en_unavailable": true,
+            "name_en": "Sui's Mountain",
             "name_jp": "歳用山",
             "name_kr": "쉐이용 산",
             "name_tw": "岁用山",
@@ -10837,8 +10823,7 @@
         },
         "trap_294_ziyou": {
             "name": "友字",
-            "name_en": "友字",
-            "name_en_unavailable": true,
+            "name_en": "Friend'",
             "name_jp": "「友」",
             "name_kr": "'우'",
             "name_tw": "友字",
@@ -10850,8 +10835,7 @@
         },
         "trap_295_ziyin": {
             "name": "印字",
-            "name_en": "印字",
-            "name_en_unavailable": true,
+            "name_en": "Stamp'",
             "name_jp": "「印」",
             "name_kr": "'인'",
             "name_tw": "印字",
@@ -11148,8 +11132,7 @@
         },
         "trap_330_ycwang": {
             "name": "演出望",
-            "name_en": "演出望",
-            "name_en_unavailable": true,
+            "name_en": "Performer Wang",
             "name_jp": "演出用ウァン",
             "name_kr": "연출용 왕",
             "name_tw": "演出望",
