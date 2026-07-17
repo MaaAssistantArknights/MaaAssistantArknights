@@ -1,4 +1,77 @@
 {
     "theme": "DrowningSeekers",
-    "stage": []
+    "stage": [
+        {
+            "name": "线人",
+            "option_num": 3,
+            "choose": 2
+        },
+        {
+            "name": "临时中介所",
+            "option_num": 3,
+            "choose": 1
+        },
+        {
+            "name": "血衣之下",
+            "option_num": 4,
+            "choose": 2
+        },
+        {
+            "name": "擒与缚",
+            "option_num": 3,
+            "choose": 1
+        },
+        {
+            "name": "桑尼的邀请",
+            "option_num": 2,
+            "choose": 1
+        },
+        {
+            "name": "色味不同源",
+            "option_num": 3,
+            "choose": 2
+        },
+        {
+            "name": "沉重的契约",
+            "option_num": 3,
+            "choose": 1
+        },
+        {
+            "name": "敲动杠杆",
+            "option_num": 3,
+            "choose": 2
+        },
+        {
+            "name": "和平守卫者",
+            "option_num": 2,
+            "choose": 1,
+            "next_event": "和平守卫者-从长计议"
+        },
+        {
+            "name": "和平守卫者-从长计议",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "独活",
+            "option_num": 2,
+            "choose": 1,
+            "next_event": "独活-请小狗告知营地位置"
+        },
+        {
+            "name": "独活-请小狗告知营地位置",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "无人商店",
+            "option_num": 3,
+            "choose": 1
+        },
+        {
+            "name": "险路尽头",
+            "option_num": 3,
+            "choose": 1
+        }
+    ]
 }

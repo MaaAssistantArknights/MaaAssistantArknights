@@ -1,0 +1,16 @@
+{
+    "theme": "DrowningSeekers",
+    "mode": [1, 4],
+    "stage": [
+        {
+            "name": "桑尼的邀请",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "敲动杠杆",
+            "option_num": 3,
+            "choose": 3
+        }
+    ]
+}
