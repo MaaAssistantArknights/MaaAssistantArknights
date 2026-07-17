@@ -96,7 +96,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         Theme.Sami => 15,
         Theme.Sarkaz => 18,
         Theme.JieGarden => 18,
-        Theme.DrowningSeekers => 18,
+        Theme.DrowningSeekers => 15,
         _ => 20,
     };
 
@@ -106,12 +106,16 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
         var baseList = new List<GenericCombinedData<Mode>>
         {
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
             new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible },
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"), Value = Mode.Squad },
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"), Value = Mode.Exploration },
         };
+
+        if (RoguelikeTheme != Theme.DrowningSeekers)
+        {
+            baseList.Insert(0, new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp });
+            baseList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible });
+            baseList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"), Value = Mode.Squad });
+            baseList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"), Value = Mode.Exploration });
+        }
 
         switch (RoguelikeTheme)
         {
@@ -252,6 +256,11 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         // 添加通用分队
         foreach (var (key, value) in _commonSquads)
         {
+            if (RoguelikeTheme == Theme.DrowningSeekers && key == "First-ClassSquad")
+            {
+                continue;
+            }
+
             RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString(key), Value = value });
         }
 
@@ -695,7 +704,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     /// <summary>
     /// Gets a value indicating whether investment is enabled.
     /// </summary>
-    public bool RoguelikeInvestmentWithMoreScore => GetTaskConfig<RoguelikeTask>().InvestWithMoreScore && RoguelikeMode == Mode.Investment;
+    public bool RoguelikeInvestmentWithMoreScore => GetTaskConfig<RoguelikeTask>().InvestWithMoreScore && RoguelikeMode == Mode.Investment && RoguelikeTheme != Theme.DrowningSeekers;
 
     /// <summary>
     /// Gets or sets a value indicating whether shopping is enabled in LastReward Mode.
@@ -1077,7 +1086,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 InvestmentEnabled = roguelike.Investment,
                 InvestmentCount = roguelike.Mode == Mode.Investment ? roguelike.InvestCount : int.MaxValue,
                 InvestmentStopWhenFull = roguelike.StopWhenDepositFull && roguelike.Mode == Mode.Investment,
-                InvestmentWithMoreScore = roguelike.InvestWithMoreScore && roguelike.Mode == Mode.Investment,
+                InvestmentWithMoreScore = roguelike.Theme != Theme.DrowningSeekers && roguelike.InvestWithMoreScore && roguelike.Mode == Mode.Investment,
                 RefreshTraderWithDice = roguelike.Theme == Theme.Mizuki && roguelike.RefreshTraderWithDice,
 
                 StopAtFinalBoss = roguelike.StopAtFinalBoss,
@@ -1106,7 +1115,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
                 ExpectedCollapsalParadigms = [.. roguelike.ExpectedCollapsalParadigms.Split(';').Where(i => !string.IsNullOrEmpty(i))],
 
-                StartWithSeed = roguelike.StartWithSeed ? roguelike.Seed : null,
+                StartWithSeed = roguelike.Theme == Theme.JieGarden && roguelike.StartWithSeed ? roguelike.Seed : null,
             };
 
             bool squadIsProfessional = roguelike.Mode == Mode.Collectible && roguelike.Theme != Theme.Phantom && roguelike.Squad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
