@@ -1,4 +1,18 @@
 {
+    "DrowningSeekers@StartExplore@Roguelike@ChooseOper": {
+        "next": [
+            "DrowningSeekers@StartExplore@Roguelike@ChooseOperConfirm",
+            "DrowningSeekers@StartExplore@Roguelike@ChooseOperConfirm#next"
+        ]
+    },
+    "DrowningSeekers@StartExplore@Roguelike@ChooseOperConfirm": {
+        "template": "DrowningSeekers@Roguelike@ChooseOperConfirm.png",
+        "roi": [1016, 602, 264, 118]
+    },
+    "DrowningSeekers@StartExplore@Roguelike@ChooseOperFlag": {
+        "template": "DrowningSeekers@Roguelike@ChooseOperConfirm.png",
+        "roi": [1016, 602, 264, 118]
+    },
     "DrowningSeekers@StartExplore@Roguelike@RecruitOther": {
         "template": "DrowningSeekers@Roguelike@Recruit.png"
     },
@@ -25,6 +39,12 @@
         "roi": [1050, 550, 210, 100],
         "action": "ClickSelf"
     },
+    "DrowningSeekers@Roguelike@CloseCollection": {
+        "template": "DrowningSeekers@Roguelike@CloseCollection.png",
+        "action": "ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [569, 400, 140, 139]
+    },
     "DrowningSeekers@Roguelike@EnterAfterRecruit": {
         "template": "DrowningSeekers@Roguelike@EnterAfterRecruit.png",
         "roi": [1040, 240, 240, 179]
@@ -32,14 +52,38 @@
     "DrowningSeekers@Roguelike@GamePassTheEndConfirm": {
         "template": "DrowningSeekers@Roguelike@GamePassTheEndConfirm.png"
     },
+    "DrowningSeekers@Roguelike@MissionFailedFlag": {
+        "template": "DrowningSeekers@Roguelike@MissionFailedFlag.png"
+    },
+    "DrowningSeekers@Roguelike@MissionFailedFlag2": {
+        "template": "DrowningSeekers@Roguelike@MissionFailedFlag2.png"
+    },
     "DrowningSeekers@Roguelike@GetDrop1": {
-        "template": "empty.png"
+        "template": "DrowningSeekers@Roguelike@GetDrop1.png"
     },
     "DrowningSeekers@Roguelike@GetDrop2": {
-        "template": "empty.png"
+        "template": "DrowningSeekers@Roguelike@GetDrop2.png"
     },
     "DrowningSeekers@Roguelike@GetDrop3": {
-        "template": "empty.png"
+        "template": "DrowningSeekers@Roguelike@GetDrop3.png"
+    },
+    "DrowningSeekers@Roguelike@GetDropRecruit": {
+        "template": "DrowningSeekers@Roguelike@GetDropRecruit.png"
+    },
+    "DrowningSeekers@Roguelike@GetDropSelect": {
+        "template": "DrowningSeekers@Roguelike@GetDropSelect.png"
+    },
+    "DrowningSeekers@Roguelike@GetDropSelectRecruit": {
+        "template": "DrowningSeekers@Roguelike@GetDropSelectRecruit.png"
+    },
+    "DrowningSeekers@Roguelike@GetDropSelectReward": {
+        "template": "DrowningSeekers@Roguelike@GetDropSelectReward.png"
+    },
+    "DrowningSeekers@Roguelike@GetDropCompleted": {
+        "template": "DrowningSeekers@Roguelike@GetDropCompleted.png"
+    },
+    "DrowningSeekers@Roguelike@GetDropLeave": {
+        "template": "DrowningSeekers@Roguelike@GetDropLeave.png"
     },
     "DrowningSeekers@Roguelike@InitialDrop": {
         "template": "DrowningSeekers@Roguelike@Confirm.png"
@@ -47,18 +91,24 @@
     "DrowningSeekers@Roguelike@LastReward": {},
     "DrowningSeekers@Roguelike@LastReward2": {},
     "DrowningSeekers@Roguelike@LastReward3": {},
+    "DrowningSeekers@Roguelike@LastReward4": {},
+    "DrowningSeekers@Roguelike@LastReward5": {},
     "DrowningSeekers@Roguelike@LastReward-EnterPoint": {
         "template": [
             "DrowningSeekers@Roguelike@LastReward.png",
             "DrowningSeekers@Roguelike@LastReward2.png",
-            "DrowningSeekers@Roguelike@LastReward3.png"
+            "DrowningSeekers@Roguelike@LastReward3.png",
+            "DrowningSeekers@Roguelike@LastReward4.png",
+            "DrowningSeekers@Roguelike@LastReward5.png"
         ]
     },
     "DrowningSeekers@Roguelike@LastReward-Strategy": {
         "next": [
             "DrowningSeekers@Roguelike@LastReward",
             "DrowningSeekers@Roguelike@LastReward2",
-            "DrowningSeekers@Roguelike@LastReward3"
+            "DrowningSeekers@Roguelike@LastReward3",
+            "DrowningSeekers@Roguelike@LastReward4",
+            "DrowningSeekers@Roguelike@LastReward5"
         ]
     },
     "DrowningSeekers@Roguelike@LastRewardConfirm": {
@@ -67,15 +117,32 @@
     "DrowningSeekers@Roguelike@RecruitMain": {
         "template": "DrowningSeekers@Roguelike@Recruit.png"
     },
+    "DrowningSeekers@Roguelike@ChooseOper": {
+        "next": [
+            "DrowningSeekers@Roguelike@ChooseOperConfirm",
+            "DrowningSeekers@Roguelike@ChooseOperConfirm#next"
+        ]
+    },
+    "DrowningSeekers@Roguelike@ChooseOperConfirm": {
+        "template": "DrowningSeekers@Roguelike@ChooseOperConfirm.png",
+        "roi": [1016, 602, 264, 118]
+    },
+    "DrowningSeekers@Roguelike@ChooseOperFlag": {
+        "template": "DrowningSeekers@Roguelike@ChooseOperConfirm.png",
+        "roi": [1016, 602, 264, 118]
+    },
     "DrowningSeekers@Roguelike@RecruitOther": {
         "template": "DrowningSeekers@Roguelike@Recruit.png"
     },
     "DrowningSeekers@Roguelike@RecruitWithoutButton": {},
+    "DrowningSeekers@RoguelikeRecruit-GiveUp": {
+        "template": "DrowningSeekers@RoguelikeRecruit-GiveUp.png"
+    },
     "DrowningSeekers@Roguelike@RolesConfirm": {
         "template": "DrowningSeekers@Roguelike@LastRewardConfirm.png"
     },
     "DrowningSeekers@Roguelike@RolesDefault": {
-        "template": "empty.png"
+        "template": "DrowningSeekers@Roguelike@RolesDefault.png"
     },
     "DrowningSeekers@Roguelike@SelectTheme": {
         "text": ["沉沦者的黑流树海", "黑流树海", "沉沦于树海"]
@@ -91,15 +158,71 @@
         ]
     },
     "DrowningSeekers@Roguelike@SquadDefault": {
-        "template": "empty.png"
+        "template": "DrowningSeekers@Roguelike@SquadDefault.png"
+    },
+    "DrowningSeekers@Roguelike@ReserveRecruitmentVoucher": {
+        "template": "DrowningSeekers@Roguelike@ReserveRecruitmentVoucher.png"
+    },
+    "DrowningSeekers@Roguelike@StageCombatOpsEnter": {
+        "template": "DrowningSeekers@Roguelike@StageCombatOpsEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageEmergencyOpsEnter": {
+        "template": "DrowningSeekers@Roguelike@StageEmergencyOpsEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageEncounterEnter": {
+        "template": "DrowningSeekers@Roguelike@StageEncounterEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageEncounterLeaveConfirm": {
+        "template": "DrowningSeekers@Roguelike@StageEncounterLeaveConfirm.png"
+    },
+    "DrowningSeekers@Roguelike@StageTraderEnter": {
+        "template": "DrowningSeekers@Roguelike@StageTraderEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageSafeHouseEnter": {
+        "template": "DrowningSeekers@Roguelike@StageSafeHouseEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageBoskyPassageEnter": {
+        "template": "DrowningSeekers@Roguelike@StageBoskyPassageEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageDreadfulFoeEnter": {
+        "template": "DrowningSeekers@Roguelike@StageDreadfulFoeEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageDreadfulFoe-5Enter": {
+        "template": "DrowningSeekers@Roguelike@StageDreadfulFoe-5Enter.png"
+    },
+    "DrowningSeekers@Roguelike@StageBoonsEnter": {
+        "template": "DrowningSeekers@Roguelike@StageBoonsEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageConfrontationEnter": {
+        "template": "DrowningSeekers@Roguelike@StageConfrontationEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageDoorEnter": {
+        "template": "DrowningSeekers@Roguelike@StageDoorEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageEmployEnter": {
+        "template": "DrowningSeekers@Roguelike@StageEmployEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageFinalEnter": {
+        "template": "DrowningSeekers@Roguelike@StageFinalEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageLightEnter": {
+        "template": "DrowningSeekers@Roguelike@StageLightEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageScrapShopEnter": {
+        "template": "DrowningSeekers@Roguelike@StageScrapShopEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter": {
+        "template": "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter.png"
+    },
+    "DrowningSeekers@Roguelike@StageWindAndRainEnter": {
+        "template": "DrowningSeekers@Roguelike@StageWindAndRainEnter.png"
     },
     "DrowningSeekers@Roguelike@Stages": {
         "baseTask": "DrowningSeekers@Roguelike@Stages_default",
         "onErrorNext": ["DrowningSeekers@Roguelike@ExitThenAbandon"]
     },
     "DrowningSeekers@Roguelike@Stages_default": {
-        "algorithm": "JustReturn",
-        "next": ["Stop"]
+        "algorithm": "JustReturn"
     },
     "DrowningSeekers@Roguelike@StartExplore": {
         "template": "DrowningSeekers@Roguelike@StartExplore.png",
