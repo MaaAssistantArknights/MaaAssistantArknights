@@ -1,0 +1,115 @@
+{
+    "DrowningSeekers@StartExplore@Roguelike@RecruitOther": {
+        "template": "DrowningSeekers@Roguelike@Recruit.png"
+    },
+    "DrowningSeekers@StartExplore@Roguelike@RecruitWithoutButton": {},
+    "DrowningSeekers@Roguelike@Abandon": {
+        "template": "DrowningSeekers@Roguelike@Abandon.png"
+    },
+    "DrowningSeekers@Roguelike@CheckLevel": {
+        "text": ["沉沦者的黑流树海", "黑流树海", "沉沦于树海"]
+    },
+    "DrowningSeekers@Roguelike@ChooseDifficulty": {
+        "template": "DrowningSeekers@Roguelike@ChooseDifficulty.png",
+        "roi": [1064, 294, 216, 170]
+    },
+    "DrowningSeekers@Roguelike@ChooseDifficultyEnter": {
+        "action": "ClickRect",
+        "specificRect": [1119, 479, 80, 22],
+        "postDelay": 800,
+        "template": "DrowningSeekers@Roguelike@StartExplore.png",
+        "roi": [958, 530, 322, 189]
+    },
+    "DrowningSeekers@Roguelike@Continue": {
+        "template": "DrowningSeekers@Roguelike@Continue.png",
+        "roi": [1050, 550, 210, 100],
+        "action": "ClickSelf"
+    },
+    "DrowningSeekers@Roguelike@EnterAfterRecruit": {
+        "template": "DrowningSeekers@Roguelike@EnterAfterRecruit.png",
+        "roi": [1040, 240, 240, 179]
+    },
+    "DrowningSeekers@Roguelike@GamePassTheEndConfirm": {
+        "template": "DrowningSeekers@Roguelike@GamePassTheEndConfirm.png"
+    },
+    "DrowningSeekers@Roguelike@GetDrop1": {
+        "template": "empty.png"
+    },
+    "DrowningSeekers@Roguelike@GetDrop2": {
+        "template": "empty.png"
+    },
+    "DrowningSeekers@Roguelike@GetDrop3": {
+        "template": "empty.png"
+    },
+    "DrowningSeekers@Roguelike@InitialDrop": {
+        "template": "DrowningSeekers@Roguelike@Confirm.png"
+    },
+    "DrowningSeekers@Roguelike@LastReward": {},
+    "DrowningSeekers@Roguelike@LastReward2": {},
+    "DrowningSeekers@Roguelike@LastReward3": {},
+    "DrowningSeekers@Roguelike@LastReward-EnterPoint": {
+        "template": [
+            "DrowningSeekers@Roguelike@LastReward.png",
+            "DrowningSeekers@Roguelike@LastReward2.png",
+            "DrowningSeekers@Roguelike@LastReward3.png"
+        ]
+    },
+    "DrowningSeekers@Roguelike@LastReward-Strategy": {
+        "next": [
+            "DrowningSeekers@Roguelike@LastReward",
+            "DrowningSeekers@Roguelike@LastReward2",
+            "DrowningSeekers@Roguelike@LastReward3"
+        ]
+    },
+    "DrowningSeekers@Roguelike@LastRewardConfirm": {
+        "template": "DrowningSeekers@Roguelike@LastRewardConfirm.png"
+    },
+    "DrowningSeekers@Roguelike@RecruitMain": {
+        "template": "DrowningSeekers@Roguelike@Recruit.png"
+    },
+    "DrowningSeekers@Roguelike@RecruitOther": {
+        "template": "DrowningSeekers@Roguelike@Recruit.png"
+    },
+    "DrowningSeekers@Roguelike@RecruitWithoutButton": {},
+    "DrowningSeekers@Roguelike@RolesConfirm": {
+        "template": "DrowningSeekers@Roguelike@LastRewardConfirm.png"
+    },
+    "DrowningSeekers@Roguelike@RolesDefault": {
+        "template": "empty.png"
+    },
+    "DrowningSeekers@Roguelike@SelectTheme": {
+        "text": ["沉沦者的黑流树海", "黑流树海", "沉沦于树海"]
+    },
+    "DrowningSeekers@Roguelike@SquadConfirm": {
+        "template": "DrowningSeekers@Roguelike@LastRewardConfirm.png",
+        "next": [
+            "DrowningSeekers@Roguelike@LastReward-EnterPoint",
+            "DrowningSeekers@Roguelike@RolesDefault",
+            "DrowningSeekers@Roguelike@RecruitMain",
+            "DrowningSeekers@Roguelike@CloseCollection",
+            "DrowningSeekers@Roguelike@Stages#next"
+        ]
+    },
+    "DrowningSeekers@Roguelike@SquadDefault": {
+        "template": "empty.png"
+    },
+    "DrowningSeekers@Roguelike@Stages": {
+        "baseTask": "DrowningSeekers@Roguelike@Stages_default",
+        "onErrorNext": ["DrowningSeekers@Roguelike@ExitThenAbandon"]
+    },
+    "DrowningSeekers@Roguelike@Stages_default": {
+        "algorithm": "JustReturn",
+        "next": ["Stop"]
+    },
+    "DrowningSeekers@Roguelike@StartExplore": {
+        "template": "DrowningSeekers@Roguelike@StartExplore.png",
+        "roi": [958, 530, 322, 189]
+    },
+    "DrowningSeekers@Roguelike@StartExplore-EnterCheck": {
+        "template": "DrowningSeekers@Roguelike@StartExplore.png",
+        "roi": [958, 530, 322, 189]
+    },
+    "DrowningSeekers@RoguelikeSettlementConfirm": {
+        "template": "DrowningSeekers@Roguelike@GamePassTheEndConfirm.png"
+    }
+}

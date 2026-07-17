@@ -96,6 +96,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         Theme.Sami => 15,
         Theme.Sarkaz => 18,
         Theme.JieGarden => 18,
+        Theme.DrowningSeekers => 18,
         _ => 20,
     };
 
@@ -362,7 +363,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         (Theme.Mizuki, "RoguelikeThemeMizuki"),
         (Theme.Sami, "RoguelikeThemeSami"),
         (Theme.Sarkaz, "RoguelikeThemeSarkaz"),
-        (Theme.JieGarden, "RoguelikeThemeJieGarden"));
+        (Theme.JieGarden, "RoguelikeThemeJieGarden"),
+        (Theme.DrowningSeekers, "RoguelikeThemeDrowningSeekers"));
 
     /// <summary>
     /// Gets or sets the Roguelike theme.
@@ -533,6 +535,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 Theme.Sami => "RoguelikeThemeTipSami",
                 Theme.Sarkaz => "RoguelikeThemeTipSarkaz",
                 Theme.JieGarden => "RoguelikeThemeTipJieGarden",
+                Theme.DrowningSeekers => "RoguelikeThemeTipDrowningSeekers",
                 _ => "RoguelikeThemeTipPhantom",
             };
 

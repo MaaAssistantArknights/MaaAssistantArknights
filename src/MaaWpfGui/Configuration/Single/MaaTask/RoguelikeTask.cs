@@ -200,6 +200,11 @@ public enum RoguelikeTheme
     /// 界园
     /// </summary>
     JieGarden,
+
+    /// <summary>
+    /// 沉沦者的黑流树海
+    /// </summary>
+    DrowningSeekers,
 }
 
 public enum RoguelikeMode

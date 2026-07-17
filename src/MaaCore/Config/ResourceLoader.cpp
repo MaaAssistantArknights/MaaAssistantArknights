@@ -190,7 +190,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     // 参考: https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/6188
     // 原先使用异步加载，但存在竞态问题，现改为同步加载
 
-    constexpr std::array roguelike_themes = { "Phantom", "Mizuki", "Sami", "Sarkaz", "JieGarden" };
+    constexpr std::array roguelike_themes = { "Phantom", "Mizuki", "Sami", "Sarkaz", "JieGarden", "DrowningSeekers" };
 
     auto roguelike_path = [](std::string_view theme, const std::filesystem::path& subpath) {
         return "roguelike"_p / theme / subpath;

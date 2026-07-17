@@ -537,6 +537,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="RoguelikeThemeSami">사미</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">살카즈</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">쉐이</system:String>
+    <system:String x:Key="RoguelikeThemeDrowningSeekers">침몰자의 검은 유류림</system:String>
     <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}추천 구성:
 
 {key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
@@ -578,6 +579,9 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
 2. 지휘 회피 전투 전략을 사용하면 각뿔 투자 효율이 크게 향상되고, 빠른 레벨업(클리어를 목표로 하지 않음)에도 사용할 수 있지만, 전략을 ｢각뿔 투자｣로 설정해야 해요
 3. 해금된 최고 난이도가 3 미만이거나 관련 기술을 해금하지 않았다면 지휘 회피 전투 전략을 사용하지 마세요. 오류가 발생할 수 있어요
 4. 난이도 15 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가해요. 일부 분대에서는 시작 시 6성 오퍼레이터를 모집하지 못해 오류나 실패로 이어질 수 있어요</system:String>
+    <system:String x:Key="RoguelikeThemeTipDrowningSeekers" xml:space="preserve">{key=RoguelikeThemeDrowningSeekers}현재 오리지늄 각괴 파밍과 탐색 시작을 지원합니다.
+
+노드 맵과 정식 전략은 개발 중입니다.</system:String>
     <system:String x:Key="RoguelikeDifficulty">난이도</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">｢{key=RoguelikeThemeJieGarden}｣ 관련 기술을 해금하면 난이도 3 이상에서 {key=LeaderSquad}로 탐색할 때 추가로 ｢시간의 끝｣을 소지해 ｢한 번 싸우고 한 번 포기｣하는 저축 전략을 쓸 수 있어요.
 아직 해금하지 않았다면 난이도 3 이상(｢MAX｣ 포함)을 선택하지 마세요.

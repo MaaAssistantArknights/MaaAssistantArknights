@@ -537,6 +537,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界園</system:String>
+    <system:String x:Key="RoguelikeThemeDrowningSeekers">沈淪者の黒流樹海</system:String>
     <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}推奨構成:
 
 {key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
@@ -578,6 +579,9 @@ MAA は非インストール型のアプリケーションであり、レジス�
 2. 指揮回避戦闘戦術を使うと源石錐稼ぎ効率が大幅に向上し、高速レベリング（攻略を狙わない）にも使用できますが、戦略を ｢源石錐稼ぎ｣ に設定する必要があります
 3. 解放済みの最高難易度が N3 未満、または関連知識を解放していない場合は指揮回避戦闘戦術を使用しないでください。エラーの原因になります
 4. 最高難易度が N15 以上の場合、6★オペレーターの希望消費が+1になり、一部の分隊では開始時に6★オペレーターを招集できず、エラーや失敗を招く可能性があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipDrowningSeekers" xml:space="preserve">{key=RoguelikeThemeDrowningSeekers}現在は源石錠稼ぎと探索開始に対応しています。
+
+ノードマップと正式な戦略は開発中です。</system:String>
     <system:String x:Key="RoguelikeDifficulty">難易度</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">｢{key=RoguelikeThemeJieGarden}｣に関連する知識を解放すると、{key=LeaderSquad}で N3 以上の難易度を探索する際に ｢時の果て｣ を追加で携帯し、 ｢一戦一跳｣ の貯蓄戦術を行えます。
 まだ解放していない場合は、N3 以上の難易度（ ｢MAX｣ を含む）を選択しないでください。
