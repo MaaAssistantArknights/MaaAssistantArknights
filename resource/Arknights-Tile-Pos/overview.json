@@ -18485,6 +18485,15 @@
         "stageId": "camp_r_32",
         "width": 13
     },
+    "camp_r_33-obt/campaign/level_camp_r_33": {
+        "code": "拉特兰",
+        "filename": "camp_r_33-obt-campaign-level_camp_r_33.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_33",
+        "name": "默祷圣祠",
+        "stageId": "camp_r_33",
+        "width": 13
+    },
     "easy_09-01-obt/main/level_easy_09-01": {
         "code": "9-2",
         "filename": "easy_09-01-obt-main-level_easy_09-01.json",
