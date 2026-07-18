@@ -15,14 +15,7 @@
         Margin="10"
         HorizontalAlignment="Center"
         VerticalAlignment="Center">
-        <controls:TextBlock
-            Grid.Row="0"
-            HorizontalAlignment="Center"
-            FontWeight="Bold"
-            Text="{DynamicResource GlobalConfigTip}"
-            TextAlignment="Center"
-            Visibility="{c:Binding 'ConfigurationList.Count > 1',
-                                   Source={x:Static helper:Instances.SettingsViewModel}}" />
+        <controls:GlobalConfigTip Grid.Row="0" />
         <StackPanel
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
