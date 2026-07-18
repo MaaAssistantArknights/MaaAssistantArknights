@@ -1,4 +1,17 @@
 {
+    "DrowningSeekers@Roguelike@StartAction": {
+        "baseTask": "Roguelike@StartAction",
+        "template": "Roguelike@StartAction.png",
+        "sub": ["DrowningSeekers@Roguelike@DialogConfirm"],
+        "subErrorIgnored": true
+    },
+    "DrowningSeekers@Roguelike@DialogConfirm": {
+        "template": "DrowningSeekers@Roguelike@DialogConfirm.png",
+        "action": "ClickSelf",
+        "roi": [850, 450, 250, 100],
+        "templThreshold": 0.85,
+        "postDelay": 500
+    },
     "DrowningSeekers@StartExplore@Roguelike@ChooseOper": {
         "next": [
             "DrowningSeekers@StartExplore@Roguelike@ChooseOperConfirm",
@@ -52,6 +65,7 @@
         "roi": [560, 500, 160, 100]
     },
     "DrowningSeekers@Roguelike@CloseEvent": {
+        "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [153, 79, 63, 29]
     },
@@ -66,6 +80,13 @@
             "血色空脉",
             "受害者腐殖",
             "卡德霍之颅"
+        ],
+        "roi": [380, 530, 500, 100],
+        "next": [
+            "DrowningSeekers@Roguelike@CloseInterview",
+            "DrowningSeekers@Roguelike@StrategyChange",
+            "DrowningSeekers@Roguelike@NextLevel",
+            "DrowningSeekers@Roguelike@Stages#next"
         ]
     },
     "DrowningSeekers@Roguelike@EnterAfterRecruit": {
@@ -187,58 +208,75 @@
         "template": "DrowningSeekers@Roguelike@ReserveRecruitmentVoucher.png"
     },
     "DrowningSeekers@Roguelike@StageCombatOpsEnter": {
-        "template": "DrowningSeekers@Roguelike@StageCombatOpsEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageCombatOpsEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageEmergencyOpsEnter": {
-        "template": "DrowningSeekers@Roguelike@StageEmergencyOpsEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageEmergencyOpsEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageEncounterEnter": {
-        "template": "DrowningSeekers@Roguelike@StageEncounterEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageEncounterEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageEncounterLeaveConfirm": {
         "template": "DrowningSeekers@Roguelike@StageEncounterLeaveConfirm.png"
     },
     "DrowningSeekers@Roguelike@StageTraderEnter": {
-        "template": "DrowningSeekers@Roguelike@StageTraderEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageTraderEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageSafeHouseEnter": {
-        "template": "DrowningSeekers@Roguelike@StageSafeHouseEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageSafeHouseEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageBoskyPassageEnter": {
-        "template": "DrowningSeekers@Roguelike@StageBoskyPassageEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageBoskyPassageEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageDreadfulFoeEnter": {
-        "template": "DrowningSeekers@Roguelike@StageDreadfulFoeEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageDreadfulFoeEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageDreadfulFoe-5Enter": {
-        "template": "DrowningSeekers@Roguelike@StageDreadfulFoe-5Enter.png"
+        "template": "DrowningSeekers@Roguelike@StageDreadfulFoe-5Enter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageBoonsEnter": {
-        "template": "DrowningSeekers@Roguelike@StageBoonsEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageBoonsEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageConfrontationEnter": {
-        "template": "DrowningSeekers@Roguelike@StageConfrontationEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageConfrontationEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageDoorEnter": {
-        "template": "DrowningSeekers@Roguelike@StageDoorEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageDoorEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageEmployEnter": {
-        "template": "DrowningSeekers@Roguelike@StageEmployEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageEmployEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageFinalEnter": {
-        "template": "DrowningSeekers@Roguelike@StageFinalEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageFinalEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageLightEnter": {
-        "template": "DrowningSeekers@Roguelike@StageLightEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageLightEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageScrapShopEnter": {
-        "template": "DrowningSeekers@Roguelike@StageScrapShopEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageScrapShopEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter": {
-        "template": "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@StageWindAndRainEnter": {
-        "template": "DrowningSeekers@Roguelike@StageWindAndRainEnter.png"
+        "template": "DrowningSeekers@Roguelike@StageWindAndRainEnter.png",
+        "templThreshold": 0.98
     },
     "DrowningSeekers@Roguelike@Stages": {
         "baseTask": "DrowningSeekers@Roguelike@Stages_default",
@@ -246,6 +284,15 @@
     },
     "DrowningSeekers@Roguelike@Stages_default": {
         "algorithm": "JustReturn"
+    },
+    "DrowningSeekers@Roguelike@Stages_investment": {
+        "doc": "投资模式迷宫导航策略，调用 RoguelikeDrowningSeekersRoutingTaskPlugin",
+        "algorithm": "JustReturn",
+        "next": [
+            "DrowningSeekers@Roguelike@CloseCollection",
+            "DrowningSeekers@Roguelike@Routing-Investment"
+        ],
+        "onErrorNext": ["DrowningSeekers@Roguelike@ExitThenAbandon"]
     },
     "DrowningSeekers@Roguelike@StartExplore": {
         "template": "DrowningSeekers@Roguelike@StartExplore.png",

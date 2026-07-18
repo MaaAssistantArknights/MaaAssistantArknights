@@ -87,6 +87,15 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
                 Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode20001");
             }
         }
+        // 黑流树海投资模式迷宫导航
+        if (m_theme == "DrowningSeekers") {
+            if (m_mode == RoguelikeMode::Investment) {
+                // 启用迷宫导航策略，联动 RoguelikeDrowningSeekersRoutingTaskPlugin
+                Task.set_task_base(
+                    m_theme + "@Roguelike@Stages",
+                    "DrowningSeekers@Roguelike@Stages_investment");
+            }
+        }
     }
 
     if (m_mode == RoguelikeMode::Investment) {

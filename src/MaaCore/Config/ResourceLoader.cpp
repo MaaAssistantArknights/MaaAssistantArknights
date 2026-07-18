@@ -140,7 +140,11 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     // ==================== ONNX 模型（惰性加载） ====================
     if (!load_with_custom.template operator()<OnnxSessions>("onnx"_p / "skill_ready_cls.onnx"_p, "OnnxSessions") ||
         !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "deploy_direction_cls.onnx"_p, "OnnxSessions") ||
-        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "operators_det.onnx"_p, "OnnxSessions")) {
+        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "operators_det.onnx"_p, "OnnxSessions") ||
+        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "DrowningSeekers_node.onnx"_p, "OnnxSessions") ||
+        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "DrowningSeekers_edge.onnx"_p, "OnnxSessions") ||
+        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "DrowningSeekers_player.onnx"_p, "OnnxSessions") ||
+        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "DrowningSeekers_node_type.onnx"_p, "OnnxSessions")) {
         return false;
     }
 
@@ -245,8 +249,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         return false;
     }
 
-    // Map Config（仅 Sarkaz 和 JieGarden）
-    for (auto theme : { "Sarkaz", "JieGarden" }) {
+    // Map Config（Sarkaz、JieGarden 用模板匹配；DrowningSeekers 用节点分类模型）
+    for (auto theme : { "Sarkaz", "JieGarden", "DrowningSeekers" }) {
         if (!load_with_custom.template operator()<RoguelikeMapConfig>(
                 roguelike_path(theme, "map.json"_p),
                 "RoguelikeMapConfig")) {

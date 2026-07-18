@@ -37,6 +37,14 @@ enum class RoguelikeNodeType
     OldShop,   // 故肆
     YiTrader,  // 易与
     Scheme,    // 筹谋
+    // –––––––– 沉沦者的黑流树海引入 ––––––––––––––––––––
+    PathEnd,            // 险路尽头
+    PathLane,           // 险路小径
+    HiddenTrader,       // 秘境行商
+    EmergencyAid,       // 应急助力
+    WindingPassage,     // 曲折密道
+    VantagePoint,       // 羽瞰点
+    ResidentStronghold, // “居民”据点
 };
 
 class RoguelikeMapConfig final : public MAA_NS::SingletonHolder<RoguelikeMapConfig>, public AbstractConfig
@@ -45,6 +53,7 @@ public:
     virtual ~RoguelikeMapConfig() override = default;
 
     RoguelikeNodeType templ2type(const std::string& theme, const std::string& templ_name) const;
+    RoguelikeNodeType text2type(const std::string& theme, const std::string& text) const;
     static std::string type2name(RoguelikeNodeType type);
     static RoguelikeNodeType name2type(const std::string& type_name);
 
@@ -52,6 +61,7 @@ private:
     virtual bool parse(const json::value& json) override;
 
     std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeNodeType>> m_templ_type_mappings;
+    std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeNodeType>> m_text_type_mappings;
 };
 
 inline static auto& RoguelikeMapInfo = RoguelikeMapConfig::get_instance();

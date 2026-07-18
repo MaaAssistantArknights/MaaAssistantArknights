@@ -279,5 +279,100 @@
         ],
         "roi": [0, 60, 1280, 575],
         "postDelay": 300
+    },
+    "DrowningSeekers@Roguelike@Routing-Investment": {
+        "doc": [
+            "黑流树海投资模式导航触发任务。",
+            "模板为左下角缩放图标，命中即代表当前在迷宫地图界面；",
+            "RoguelikeDrowningSeekersRoutingTaskPlugin::verify 据任务名匹配并接管。"
+        ],
+        "template": [
+            "DrowningSeekers@Roguelike@MapZoomIn.png",
+            "DrowningSeekers@Roguelike@MapZoomOut.png"
+        ],
+        "templThreshold": 0.8,
+        "roi": [0, 540, 120, 100],
+        "next": ["RoguelikeRoutingAction"]
+    },
+    "DrowningSeekers@RoguelikeRouting-EnsureZoomedOut": {
+        "doc": "点击缩小图标直至只剩放大图标（保证地图完整可见）",
+        "template": "DrowningSeekers@Roguelike@MapZoomOut.png",
+        "templThreshold": 0.8,
+        "roi": [0, 540, 120, 100],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["#self", "Stop"]
+    },
+    "DrowningSeekers@RoguelikeRouting-SwipeToCorner": {
+        "doc": "从右上向左下滑动以固定视野（不取过于边缘的点）",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [900, 180, 0, 0],
+        "rectMove": [300, 500, 0, 0],
+        "specialParams": [500, 1],
+        "postDelay": 800
+    },
+    "DrowningSeekers@Roguelike@ActionPointsRecognition": {
+        "baseTask": "NumberOcrReplace",
+        "doc": "识别右上角剩余行动力（可走步数）",
+        "text": [],
+        "roi": [1080, 110, 100, 75]
+    },
+    "DrowningSeekers@RoguelikeRoutingNodeNameOcr": {
+        "doc": "识别节点铭牌文字，供 RoguelikeMapConfig::text2type 映射到节点类型",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [0, 90, 1280, 540],
+        "ocrReplace": [
+            ["未矢[口]?的", "未知的"],
+            ["诡[祕秘]", "诡秘"],
+            ["[凶兇][戾唳]", "凶戾"],
+            ["[曲典]折密道", "曲折密道"],
+            ["羽[瞰瞅]点", "羽瞰点"],
+            ["险路[小尐]径", "险路小径"]
+        ]
+    },
+    "DrowningSeekers@RoguelikeRoutingConfig": {
+        "algorithm": "JustReturn",
+        "doc": [
+            "RoguelikeDrowningSeekersRoutingTaskPlugin/Analyzer 用参数（1280x720，scale=1.0）",
+            "边/节点/玩家判定由 ONNX 模型完成，无需阈值。",
+            "| specialParams[0]: 网格步长（BASE_GRID_STEP，101）",
+            "| specialParams[1]: 铭牌相对节点中心的纵向偏移（下方，约16）",
+            "| specialParams[2]: 行动力放弃阈值（<= 此值直接放弃，默认1）",
+            "| specialParams[3]: dry_run（1=仅识别并安全退出，用于人工核对识别；0=正常导航）"
+        ],
+        "specialParams": [101, 16, 1, 0]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-ExitThenAbandon": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@ExitThenAbandon"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-EnterNode": {
+        "doc": [
+            "点击目标相邻节点后弹出的\"进入\"确认窗，各类型模板逐一尝试；",
+            "road/空节点点击后无弹窗时经 Stop 优雅返回 Stages 循环重新识别。"
+        ],
+        "algorithm": "JustReturn",
+        "next": [
+            "DrowningSeekers@Roguelike@StageTraderEnter",
+            "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter",
+            "DrowningSeekers@Roguelike@StageEncounterEnter",
+            "DrowningSeekers@Roguelike@StageSafeHouseEnter",
+            "DrowningSeekers@Roguelike@StageBoonsEnter",
+            "DrowningSeekers@Roguelike@StageCombatOpsEnter",
+            "DrowningSeekers@Roguelike@StageEmergencyOpsEnter",
+            "DrowningSeekers@Roguelike@StageDreadfulFoeEnter",
+            "DrowningSeekers@Roguelike@StageDreadfulFoe-5Enter",
+            "DrowningSeekers@Roguelike@StageBoskyPassageEnter",
+            "DrowningSeekers@Roguelike@StageConfrontationEnter",
+            "DrowningSeekers@Roguelike@StageWindAndRainEnter",
+            "DrowningSeekers@Roguelike@StageScrapShopEnter",
+            "DrowningSeekers@Roguelike@StageEmployEnter",
+            "DrowningSeekers@Roguelike@StageDoorEnter",
+            "DrowningSeekers@Roguelike@StageLightEnter",
+            "DrowningSeekers@Roguelike@StageFinalEnter",
+            "Stop"
+        ]
     }
 }

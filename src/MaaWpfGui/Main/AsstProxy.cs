@@ -2096,6 +2096,23 @@ public class AsstProxy
                 }
 
             /* Roguelike */
+            case "DrowningSeekersMapRecognition":
+                {
+                    var mapAscii = subTaskDetails?["map_ascii"]?.ToString();
+                    if (!string.IsNullOrWhiteSpace(mapAscii))
+                    {
+                        var cols = subTaskDetails?["cols"]?.ToString() ?? "?";
+                        var rows = subTaskDetails?["rows"]?.ToString() ?? "?";
+                        var nodes = subTaskDetails?["nodes"]?.ToString() ?? "?";
+                        var edges = subTaskDetails?["edges"]?.ToString() ?? "?";
+                        Instances.TaskQueueViewModel.AddLog(
+                            $"黑流树海地图 ({cols}×{rows}, 节点 {nodes}, 连线 {edges})\n{mapAscii}",
+                            UiLogColor.Info);
+                    }
+
+                    break;
+                }
+
             case "StageInfo":
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartCombat") + subTaskDetails!["name"]);
