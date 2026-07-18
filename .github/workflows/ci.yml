@@ -168,7 +168,7 @@ jobs:
           echo '{"sdk":{"version":"10.0.203","rollForward":"disable"}}' > global.json
 
       - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
 
@@ -705,7 +705,7 @@ jobs:
         run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MAAUnified
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "10.0.x"
 
@@ -828,7 +828,7 @@ jobs:
           find . -type f | while read f; do mv -fvt . $f; done
 
       - name: Publish release to GitHub
-        uses: softprops/action-gh-release@v3.0.1
+        uses: softprops/action-gh-release@v3.0.2
         with:
           body_path: CHANGELOG.md
           files: |

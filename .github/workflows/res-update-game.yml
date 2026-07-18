@@ -255,7 +255,7 @@ jobs:
           echo "gitdiff=$(echo $(git diff --name-only --diff-filter=ACM 2>/dev/null | grep '\.json$'))" >> $GITHUB_OUTPUT
 
       - name: Run prettier
-        uses: Nerixyz/actionsx-prettier@v3-adj
+        uses: Nerixyz/actionsx-prettier@v4.0.0
         with:
           args: -w ${{ steps.task_sorting.outputs.gitdiff }}
 
