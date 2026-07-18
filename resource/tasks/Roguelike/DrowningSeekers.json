@@ -20,6 +20,9 @@
     "DrowningSeekers@Roguelike@Abandon": {
         "template": "DrowningSeekers@Roguelike@Abandon.png"
     },
+    "DrowningSeekers@Roguelike@AbandonConfirm": {
+        "template": "DrowningSeekers@Roguelike@AbandonConfirm.png"
+    },
     "DrowningSeekers@Roguelike@CheckLevel": {
         "text": ["沉沦者的黑流树海", "黑流树海", "沉沦于树海"]
     },
@@ -39,11 +42,31 @@
         "roi": [1050, 550, 210, 100],
         "action": "ClickSelf"
     },
+    "DrowningSeekers@Roguelike@TodoEnter": {
+        "template": "DrowningSeekers@Roguelike@TodoEnter.png"
+    },
     "DrowningSeekers@Roguelike@CloseCollection": {
         "template": "DrowningSeekers@Roguelike@CloseCollection.png",
         "action": "ClickSelf",
         "templThreshold": 0.9,
-        "roi": [569, 400, 140, 139]
+        "roi": [560, 500, 160, 100]
+    },
+    "DrowningSeekers@Roguelike@CloseEvent": {
+        "action": "ClickRect",
+        "specificRect": [153, 79, 63, 29]
+    },
+    "DrowningSeekers@Roguelike@CloseInterview": {
+        "template": "DrowningSeekers@Roguelike@CloseCollection.png"
+    },
+    "DrowningSeekers@Roguelike@NextLevel": {
+        "text": [
+            "浅文明之地",
+            "玻利瓦尔肤层",
+            "甜美的伤口",
+            "血色空脉",
+            "受害者腐殖",
+            "卡德霍之颅"
+        ]
     },
     "DrowningSeekers@Roguelike@EnterAfterRecruit": {
         "template": "DrowningSeekers@Roguelike@EnterAfterRecruit.png",
