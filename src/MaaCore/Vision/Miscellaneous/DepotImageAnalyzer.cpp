@@ -64,7 +64,6 @@ void asst::DepotImageAnalyzer::prepare_cached_templates()
         try {
             cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
             if (templ.empty()) {
-                Log.error(__FUNCTION__, "templ is empty:", item_id);
                 record_invalid_template(item_id);
                 continue;
             }
@@ -367,7 +366,6 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
     auto task_ptr = Task.get<MatchTaskInfo>("DepotQuantity");
     auto item_templ = TemplResource::get_instance().get_templ(item.item_id);
     if (item_templ.empty()) {
-        Log.error(__FUNCTION__, "templ is empty:", item.item_id);
         record_invalid_template(item.item_id);
         return 0;
     }
