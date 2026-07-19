@@ -85,12 +85,35 @@
             "nonCarryoverUseCost": 0.0,
             "gearUseReward": { "坎诺特的触须": 2 },
             "leftoverApWeight": 0.1
+        },
+        "boilWater": {
+            "endpointRequired": true,
+            "endpointUnreachable": "bestEffort",
+            "abandonWhenNoPositive": false,
+            "nodeWeights": {
+                "Boons": 3,
+                "Encounter": 3,
+                "EmergencyAid": 3,
+                "RogueTrader": 2,
+                "HiddenTrader": 2,
+                "MysteriousPresage": 2,
+                "SafeHouse": 1,
+                "Recreation": 1,
+                "CombatOps": -20,
+                "FerociousPresage": -30,
+                "EmergencyOps": -30,
+                "DreadfulFoe": -40
+            },
+            "gearUseCost": 0.5,
+            "nonCarryoverUseCost": 0.0,
+            "gearUseReward": {},
+            "leftoverApWeight": 0.1
         }
     },
     "modeStrategies": {
         "0": "clear",
-        "1": "investment"
+        "1": "investment",
+        "4": "boilWater"
     }
 }
-
 

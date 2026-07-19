@@ -446,6 +446,29 @@
         ],
         "onErrorNext": ["DrowningSeekers@Roguelike@ExitThenAbandon"]
     },
+    "DrowningSeekers@Roguelike@Stages_exit": {
+        "doc": "烧水模式进入第三层后退出，检查指定开局奖励后决定是否重开",
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@ExitThenAbandon_ToHardest"],
+        "onErrorNext": ["DrowningSeekers@Roguelike@ExitThenAbandon"]
+    },
+    "DrowningSeekers@Roguelike@StrategyChange": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "DrowningSeekers@Roguelike@StrategyChange_mode4": {
+        "baseTask": "DrowningSeekers@Roguelike@StrategyChange",
+        "text": ["_navigate", "_exit"],
+        "ocrReplace": [
+            ["浅文明之地", "_navigate"],
+            ["玻利瓦尔肤层", "_navigate"],
+            ["甜美的伤口", "_exit"],
+            ["血色空脉", "_exit"],
+            ["受害者腐殖", "_exit"],
+            ["卡德霍之颅", "_exit"]
+        ],
+        "roi": [570, 0, 180, 80],
+        "next": ["DrowningSeekers@Roguelike@Stages"]
+    },
     "DrowningSeekers@Roguelike@StartExplore": {
         "template": "DrowningSeekers@Roguelike@StartExplore.png",
         "roi": [958, 530, 322, 189]

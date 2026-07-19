@@ -648,6 +648,21 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::next_event(c
 {
     LogTraceFunction;
 
+    // DrowningSeekers marks ordinary OCR-selectable encounters as dynamic_options,
+    // but they do not have a follow-up event. Once the option is selected and the
+    // map is visible again, click the map's "show player" button to clear the
+    // selected option state. This position is fixed and harmless to click, so do
+    // not use a nested ProcessTask here: this plugin intentionally has retry_times=0.
+    // StageEncounterJudgeClick's fixed coordinate can hit a map node and consume
+    // action points.
+    if (event.next_event.empty() && m_config->get_theme() == RoguelikeTheme::DrowningSeekers) {
+        constexpr Point show_player_button { 55, 515 };
+        ctrler()->click(show_player_button);
+        sleep(800);
+        Log.debug("DrowningSeekers encounter finished; clicked map show-player button at", show_player_button.x, show_player_button.y);
+        return std::nullopt;
+    }
+
     if (event.next_event.empty() && !event.dynamic_options) {
         return std::nullopt;
     }

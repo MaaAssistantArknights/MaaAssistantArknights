@@ -177,6 +177,12 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_reward()
     if (auto ret = analyzer.analyze(); !ret) {
         // 未获取到期望物品，设置烧水flag，重开
         m_config->set_run_for_collectible(true);
+        if (m_config->get_theme() == RoguelikeTheme::DrowningSeekers) {
+            // 黑流树海烧水需要走到第三层；奖励不符合而重开时恢复前两层导航。
+            Task.set_task_base(
+                "DrowningSeekers@Roguelike@Stages",
+                "DrowningSeekers@Roguelike@Stages_navigate");
+        }
         m_control_ptr->exit_then_stop(true);
     }
     else if (m_config->get_start_with_elite_two() || m_config->get_first_floor_foldartal()) {
