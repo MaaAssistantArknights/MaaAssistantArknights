@@ -1,5 +1,6 @@
 #include "RoguelikeConfig.h"
 
+#include "Config/Roguelike/RoguelikeDrowningSeekersRoutingConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
@@ -87,13 +88,10 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
                 Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode20001");
             }
         }
-        // 黑流树海投资模式迷宫导航
+        // 黑流树海迷宫导航：由 routing.json 的 modeStrategies 决定启用哪些模式。
         if (m_theme == "DrowningSeekers") {
-            if (m_mode == RoguelikeMode::Investment) {
-                // 启用迷宫导航策略，联动 RoguelikeDrowningSeekersRoutingTaskPlugin
-                Task.set_task_base(
-                    m_theme + "@Roguelike@Stages",
-                    "DrowningSeekers@Roguelike@Stages_investment");
+            if (DrowningSeekersRoutingInfo.strategy_for_mode(static_cast<int>(m_mode)) != nullptr) {
+                Task.set_task_base(m_theme + "@Roguelike@Stages", "DrowningSeekers@Roguelike@Stages_navigate");
             }
         }
     }
@@ -133,4 +131,3 @@ void asst::RoguelikeConfig::clear()
     // ------------------ 通用参数 ------------------
     m_squad = std::string();
 }
-

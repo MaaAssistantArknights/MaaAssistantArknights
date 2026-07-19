@@ -1,6 +1,8 @@
 #include "RoguelikeDrowningSeekersRoutingTaskPlugin.h"
 
+#include <algorithm>
 #include <climits>
+#include <optional>
 #include <string_view>
 
 #include "Config/TaskData.h"
@@ -15,22 +17,26 @@
 using namespace asst;
 
 // ============================================================================
-// 投资模式策略
+// 工具
 // ============================================================================
 namespace {
 
-// 软避战代价：进入这些格 +1000（可被穿越，仅在无替代路线时才会走）
-constexpr int kBattlePenalty = 1000;
+// 徒步跋涉：不是加工品，永远是面板第一张卡
+constexpr const char* kWalkName = "徒步跋涉";
 
-bool is_battle_type(RoguelikeNodeType t)
-{
-    return t == RoguelikeNodeType::CombatOps || t == RoguelikeNodeType::EmergencyOps ||
-           t == RoguelikeNodeType::FerociousPresage || t == RoguelikeNodeType::Unknown;
-}
+// 加工品面板卡片几何（1280x720）：名称在卡片右下；
+// "剩余N次"徽章中心在名称中心上方约 90px；"装载中"标签在名称中心上方约 25px。
+constexpr int kBadgeWindowMin = 40;
+constexpr int kBadgeWindowMax = 150;
+constexpr int kLoadedWindowMin = 2;
+constexpr int kLoadedWindowMax = 60;
+constexpr int kCardClickX = 1063; // 卡片内名称行左侧空白处，避开文字
 
-// 已经能从地图铭牌确定类型的节点，不再让入口模板互相竞争。
-// 返回值是 RoguelikeRoutingAction 的具体任务名；未覆盖的类型继续走旧兜底，
-// 方便后续补齐黑流树海的特殊节点和未知节点流程。
+constexpr int kMaxPanelScrolls = 3;
+constexpr int kMaxConsecutiveFailures = 3;
+
+// 保留当前工作区的节点分类入口：地图分析器给出节点类型后，优先进入对应的
+// 节点流程，避免再次让所有入口模板竞争同一个确认窗。
 const char* known_node_route_action(RoguelikeNodeType type)
 {
     switch (type) {
@@ -60,9 +66,35 @@ const char* known_node_route_action(RoguelikeNodeType type)
         return "DrowningSeekers@RoguelikeRoutingAction-StageScrapShopEnter";
     case RoguelikeNodeType::EmergencyAid:
         return "DrowningSeekers@RoguelikeRoutingAction-StageEmployEnter";
+    case RoguelikeNodeType::MysteriousPresage:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageMysteriousPresageEnter";
+    case RoguelikeNodeType::FerociousPresage:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageFerociousPresageEnter";
     default:
         return nullptr;
     }
+}
+
+// 解析"剩余N次"徽章
+std::optional<int> parse_uses_badge(const std::string& text)
+{
+    static const std::string prefix = "剩余";
+    const size_t pos = text.find(prefix);
+    if (pos == std::string::npos) {
+        return std::nullopt;
+    }
+    size_t i = pos + prefix.size();
+    int value = 0;
+    bool any_digit = false;
+    while (i < text.size() && text[i] >= '0' && text[i] <= '9') {
+        value = value * 10 + (text[i] - '0');
+        ++i;
+        any_digit = true;
+    }
+    if (!any_digit) {
+        return std::nullopt;
+    }
+    return value;
 }
 
 std::string_view node_marker(const RoguelikeDrowningSeekersMapAnalyzer::Cell& cell, bool is_player)
@@ -77,7 +109,6 @@ std::string_view node_marker(const RoguelikeDrowningSeekersMapAnalyzer::Cell& ce
         return "空";
     }
 
-    // 使用单个汉字显示节点类型，保证每个网格单元占用相同的全角宽度。
     switch (cell.type) {
     case RoguelikeNodeType::CombatOps:
         return "战";
@@ -153,7 +184,7 @@ std::string format_map_ascii(const RoguelikeDrowningSeekersMapAnalyzer::Result& 
                 output += node_marker(*cell_at, cell_at->col == result.player.first && cell_at->row == result.player.second);
             }
             else {
-                output += "　";
+                output += "空";
             }
             if (col + 1 < result.cols) {
                 output += connected(col, row, col + 1, row) ? "－" : "　";
@@ -161,7 +192,6 @@ std::string format_map_ascii(const RoguelikeDrowningSeekersMapAnalyzer::Result& 
         }
         if (row + 1 < result.rows) {
             output += '\n';
-            // 竖线也使用全宽字符；每个网格列之间留一个全角空格，与节点行等宽。
             std::string vertical;
             vertical.reserve(static_cast<size_t>(result.cols) * 3);
             for (int col = 0; col < result.cols; ++col) {
@@ -177,120 +207,47 @@ std::string format_map_ascii(const RoguelikeDrowningSeekersMapAnalyzer::Result& 
     return output;
 }
 
-// 进入某格的代价：战斗格 +1000，其余 1（保证走最短跳数）
-RoguelikeDrowningSeekersMap::CostFun make_soft_avoid_cost()
+// 路线仅显示每一步的方向：正八方向使用箭头，非相邻移动（例如喷气背包）使用星号。
+std::string route_to_string(
+    const drowning_seekers::PlannerResult& planned,
+    const drowning_seekers::PlannerMap& map)
 {
-    return [](int /*col*/, int /*row*/, const RoguelikeDrowningSeekersMap::Cell& cell) -> int {
-        return 1 + (is_battle_type(cell.type) ? kBattlePenalty : 0);
-    };
+    std::string out;
+    int current = map.player;
+    for (const auto& action : planned.actions) {
+        const int current_col = current >= 0 && map.cols > 0 ? current % map.cols : -1;
+        const int current_row = current >= 0 && map.cols > 0 ? current / map.cols : -1;
+        const int target_col = action.target >= 0 && map.cols > 0 ? action.target % map.cols : -1;
+        const int target_row = action.target >= 0 && map.cols > 0 ? action.target / map.cols : -1;
+        const int dc = target_col - current_col;
+        const int dr = target_row - current_row;
+
+        const char* marker = "★";
+        if (dc >= -1 && dc <= 1 && dr >= -1 && dr <= 1 && (dc != 0 || dr != 0)) {
+            static constexpr const char* kDirections[3][3] = {
+                { "↖", "↑", "↗" },
+                { "←", "", "→" },
+                { "↙", "↓", "↘" },
+            };
+            marker = kDirections[dr + 1][dc + 1];
+        }
+        out += marker;
+
+        current = action.target;
+        if (current >= 0 && current < static_cast<int>(map.cells.size())) {
+            const int twin = map.cells[static_cast<size_t>(current)].teleport_twin;
+            if (twin >= 0) {
+                current = twin;
+            }
+        }
+    }
+    return out;
 }
 
 } // namespace
 
-DrowningSeekersRouteDecision DrowningSeekersInvestmentStrategy::decide(
-    const RoguelikeDrowningSeekersMap& map,
-    int action_points) const
-{
-    DrowningSeekersRouteDecision d;
-
-    // 1. 行动力未知或过低 → 放弃
-    if (action_points < 0) {
-        d.action = DrowningSeekersRouteDecision::Action::Abandon;
-        d.reason = "action_points_unknown";
-        return d;
-    }
-    if (action_points <= m_abandon_ap) {
-        d.action = DrowningSeekersRouteDecision::Action::Abandon;
-        d.reason = "action_points_too_low";
-        return d;
-    }
-
-    const auto cost_fun = make_soft_avoid_cost();
-    const auto [pcol, prow] = map.player();
-
-    auto plan_to = [&](int tcol, int trow) -> std::pair<int, std::vector<std::pair<int, int>>> {
-        const auto path = map.shortest_path(tcol, trow, cost_fun);
-        if (path.empty()) {
-            return { INT_MAX, {} };
-        }
-        return { map.path_cost(tcol, trow, cost_fun), path };
-    };
-
-    // 2. 优先诡意行商：走向最近（代价最小）者
-    auto traders = map.find_nodes(RoguelikeNodeType::RogueTrader, /*exclude_visited=*/true);
-    {
-        int best_cost = INT_MAX;
-        std::vector<std::pair<int, int>> best_path;
-        std::pair<int, int> best_target = { -1, -1 };
-        for (const auto& [tc, tr] : traders) {
-            auto [cost, path] = plan_to(tc, tr);
-            if (path.size() >= 2 && cost < best_cost) {
-                best_cost = cost;
-                best_path = path;
-                best_target = { tc, tr };
-            }
-        }
-        if (!best_path.empty()) {
-            d.action = DrowningSeekersRouteDecision::Action::Move;
-            d.next = best_path[1]; // path[0] 是玩家格
-            d.target = best_target;
-            d.reason = "toward_rogue_trader";
-            return d;
-        }
-    }
-
-    // 3. 否则走「未知的诡秘」最多的路线（并列取代价小者）
-    auto mysteries = map.find_nodes(RoguelikeNodeType::MysteriousPresage, /*exclude_visited=*/true);
-    if (mysteries.empty() && traders.empty()) {
-        // 4. 图中无行商也无诡秘 → 放弃
-        d.action = DrowningSeekersRouteDecision::Action::Abandon;
-        d.reason = "no_trader_no_mystery";
-        return d;
-    }
-
-    auto count_mysteries_on_path = [&](const std::vector<std::pair<int, int>>& path) -> int {
-        int cnt = 0;
-        for (const auto& [c, r] : path) {
-            if (map.cell(c, r).type == RoguelikeNodeType::MysteriousPresage) {
-                ++cnt;
-            }
-        }
-        return cnt;
-    };
-
-    int best_mystery_count = -1;
-    int best_cost = INT_MAX;
-    std::vector<std::pair<int, int>> best_path;
-    std::pair<int, int> best_target = { -1, -1 };
-    for (const auto& [tc, tr] : mysteries) {
-        auto [cost, path] = plan_to(tc, tr);
-        if (path.size() < 2) {
-            continue;
-        }
-        const int mc = count_mysteries_on_path(path);
-        if (mc > best_mystery_count || (mc == best_mystery_count && cost < best_cost)) {
-            best_mystery_count = mc;
-            best_cost = cost;
-            best_path = path;
-            best_target = { tc, tr };
-        }
-    }
-
-    if (best_path.empty()) {
-        d.action = DrowningSeekersRouteDecision::Action::Abandon;
-        d.reason = "no_reachable_mystery";
-        return d;
-    }
-
-    d.action = DrowningSeekersRouteDecision::Action::Move;
-    d.next = best_path[1];
-    d.target = best_target;
-    d.reason = "toward_most_mysteries";
-    return d;
-}
-
 // ============================================================================
-// 插件
+// 生命周期
 // ============================================================================
 bool RoguelikeDrowningSeekersRoutingTaskPlugin::load_params([[maybe_unused]] const json::value& params)
 {
@@ -306,19 +263,16 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::load_params([[maybe_unused]] con
         m_dry_run = config_task->special_params.at(3) != 0;
     }
 
-    // 目前仅投资模式启用迷宫导航
-    if (m_config->get_mode() == RoguelikeMode::Investment) {
-        m_strategy = std::make_unique<DrowningSeekersInvestmentStrategy>(m_abandon_ap);
-        return true;
-    }
-
-    return false;
+    // 该模式有策略档案才启用迷宫导航（resource/roguelike/DrowningSeekers/routing.json 的 modeStrategies）
+    m_profile = DrowningSeekersRoutingInfo.strategy_for_mode(static_cast<int>(m_config->get_mode()));
+    return m_profile != nullptr;
 }
 
 void RoguelikeDrowningSeekersRoutingTaskPlugin::reset_in_run_variables()
 {
-    if (m_config->get_mode() == RoguelikeMode::Investment && !m_strategy) {
-        m_strategy = std::make_unique<DrowningSeekersInvestmentStrategy>(m_abandon_ap);
+    m_consecutive_failures = 0;
+    if (m_profile == nullptr) {
+        m_profile = DrowningSeekersRoutingInfo.strategy_for_mode(static_cast<int>(m_config->get_mode()));
     }
 }
 
@@ -330,7 +284,7 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::verify(const AsstMsg msg, const 
 
     std::string task_name = details.get("details", "task", "");
 
-    // trigger 任务名可以为 "...@Roguelike@Routing-Investment" 的形式（截断 '-' 后缀）
+    // trigger 任务名可以带 '-' 后缀变体（截断后匹配）
     if (const size_t pos = task_name.find('-'); pos != std::string::npos) {
         task_name = task_name.substr(0, pos);
     }
@@ -338,6 +292,9 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::verify(const AsstMsg msg, const 
     return task_name == m_config->get_theme() + "@Roguelike@Routing";
 }
 
+// ============================================================================
+// 地图识别
+// ============================================================================
 RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersRoutingTaskPlugin::recognize_map()
 {
     // 1. 确保地图缩小：同一帧比较“＋”和“−”的置信率。
@@ -399,28 +356,6 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersRoutingTaskP
     return analyzer.analyze();
 }
 
-RoguelikeDrowningSeekersMap
-    RoguelikeDrowningSeekersRoutingTaskPlugin::build_map(const RoguelikeDrowningSeekersMapAnalyzer::Result& result)
-{
-    RoguelikeDrowningSeekersMap map;
-    map.set_dimensions(result.cols, result.rows);
-    for (const auto& c : result.cells) {
-        RoguelikeDrowningSeekersMap::Cell cell;
-        cell.kind = c.kind == RoguelikeDrowningSeekersMapAnalyzer::CellKind::Object
-                        ? RoguelikeDrowningSeekersMap::CellKind::Object
-                        : RoguelikeDrowningSeekersMap::CellKind::Road;
-        cell.type = c.type;
-        cell.center = c.center;
-        cell.visited = c.visited;
-        map.set_cell(c.col, c.row, cell);
-    }
-    for (const auto& [a, b] : result.edges) {
-        map.add_edge(a.first, a.second, b.first, b.second);
-    }
-    map.set_player(result.player.first, result.player.second);
-    return map;
-}
-
 int RoguelikeDrowningSeekersRoutingTaskPlugin::recognize_action_points()
 {
     OCRer analyzer(ctrler()->get_image());
@@ -437,6 +372,284 @@ int RoguelikeDrowningSeekersRoutingTaskPlugin::recognize_action_points()
     return val;
 }
 
+// ============================================================================
+// 加工品面板
+// ============================================================================
+void RoguelikeDrowningSeekersRoutingTaskPlugin::ensure_gear_panel_closed()
+{
+    // 显示玩家按钮命中则点击（收起面板并聚焦玩家）；未命中经 Stop 立即返回。
+    ProcessTask(*this, { "DrowningSeekers@RoguelikeRouting-CloseGearPanel", "Stop" }).run();
+}
+
+void RoguelikeDrowningSeekersRoutingTaskPlugin::open_gear_panel()
+{
+    ProcessTask(*this, { "DrowningSeekers@RoguelikeRouting-OpenGearPanel" }).run();
+}
+
+std::vector<RoguelikeDrowningSeekersRoutingTaskPlugin::GearCardHit>
+    RoguelikeDrowningSeekersRoutingTaskPlugin::ocr_gear_cards()
+{
+    std::vector<GearCardHit> cards;
+
+    OCRer analyzer(ctrler()->get_image());
+    analyzer.set_task_info("DrowningSeekers@Roguelike@GearPanelOcr");
+    if (!analyzer.analyze()) {
+        return cards;
+    }
+
+    std::vector<std::string> known_names { kWalkName };
+    for (const auto& gear : DrowningSeekersRoutingInfo.gears()) {
+        known_names.emplace_back(gear.name);
+    }
+
+    struct Badge
+    {
+        int cy = 0;
+        int value = 0;
+    };
+
+    struct NameHit
+    {
+        std::string name;
+        int cy = 0;
+        bool inline_loaded = false; // "装载中"与名称被 OCR 合并进同一个框
+    };
+
+    std::vector<Badge> badges;
+    std::vector<int> loaded_cys;
+    std::vector<NameHit> names;
+
+    for (const auto& res : analyzer.get_result()) {
+        const int cy = res.rect.y + res.rect.height / 2;
+        if (auto uses = parse_uses_badge(res.text)) {
+            badges.push_back({ cy, *uses });
+            continue;
+        }
+        const bool has_loaded_mark = res.text.find("装载中") != std::string::npos;
+        bool matched_name = false;
+        for (const auto& name : known_names) {
+            if (res.text.find(name) != std::string::npos) {
+                names.push_back({ name, cy, has_loaded_mark });
+                matched_name = true;
+                break;
+            }
+        }
+        if (has_loaded_mark && !matched_name) {
+            loaded_cys.push_back(cy);
+        }
+    }
+
+    for (const auto& hit : names) {
+        GearCardHit card;
+        card.name = hit.name;
+        card.name_cy = hit.cy;
+        card.loaded = hit.inline_loaded;
+        if (hit.name != kWalkName) {
+            int best_dist = INT_MAX;
+            for (const auto& badge : badges) {
+                const int dist = hit.cy - badge.cy;
+                if (dist >= kBadgeWindowMin && dist <= kBadgeWindowMax && dist < best_dist) {
+                    best_dist = dist;
+                    card.uses = badge.value;
+                }
+            }
+        }
+        if (!card.loaded) {
+            for (const int lcy : loaded_cys) {
+                const int dist = hit.cy - lcy;
+                if (dist >= kLoadedWindowMin && dist <= kLoadedWindowMax) {
+                    card.loaded = true;
+                    break;
+                }
+            }
+        }
+        cards.emplace_back(std::move(card));
+    }
+
+    std::ranges::sort(cards, {}, &GearCardHit::name_cy);
+    return cards;
+}
+
+RoguelikeDrowningSeekersRoutingTaskPlugin::GearPanelInfo RoguelikeDrowningSeekersRoutingTaskPlugin::read_gear_panel()
+{
+    LogTraceFunction;
+
+    GearPanelInfo info;
+    bool walk_seen = false;
+    for (int screen = 0; screen <= kMaxPanelScrolls && !need_exit(); ++screen) {
+        std::vector<GearCardHit> cards = ocr_gear_cards();
+        if (cards.empty() && screen == 0) {
+            sleep(500); // 面板展开动画未完成时重试一次
+            cards = ocr_gear_cards();
+        }
+
+        bool any_new = false;
+        for (const auto& card : cards) {
+            if (card.loaded) {
+                info.loaded_name = card.name;
+            }
+            if (card.name == kWalkName) {
+                if (!walk_seen) {
+                    walk_seen = true;
+                    any_new = true;
+                }
+                continue;
+            }
+            const bool exists = std::ranges::any_of(info.uses_by_name, [&](const auto& pair) {
+                return pair.first == card.name;
+            });
+            if (!exists) {
+                // 徽章 OCR 失败时保守按剩余 1 次
+                info.uses_by_name.emplace_back(card.name, card.uses > 0 ? card.uses : 1);
+                any_new = true;
+            }
+        }
+
+        if (!any_new || screen == kMaxPanelScrolls) {
+            break;
+        }
+        ProcessTask(*this, { "DrowningSeekers@RoguelikeRouting-GearPanelSwipeUp" }).run();
+    }
+
+    info.valid = walk_seen || !info.uses_by_name.empty();
+    return info;
+}
+
+bool RoguelikeDrowningSeekersRoutingTaskPlugin::select_gear_card(const std::string& name)
+{
+    LogTraceFunction;
+    Log.info(__FUNCTION__, "| selecting gear card:", name);
+
+    for (int attempt = 0; attempt < 2 && !need_exit(); ++attempt) {
+        for (int screen = 0; screen <= kMaxPanelScrolls && !need_exit(); ++screen) {
+            const auto cards = ocr_gear_cards();
+            const auto it = std::ranges::find_if(cards, [&](const auto& card) { return card.name == name; });
+            if (it != cards.end()) {
+                for (int click_try = 0; click_try < 2 && !need_exit(); ++click_try) {
+                    ctrler()->click(Point(kCardClickX, it->name_cy));
+                    sleep(600);
+                    const auto verify_cards = ocr_gear_cards();
+                    const auto vit =
+                        std::ranges::find_if(verify_cards, [&](const auto& card) { return card.name == name; });
+                    if (vit != verify_cards.end() && vit->loaded) {
+                        return true;
+                    }
+                    Log.warn(__FUNCTION__, "| clicked gear card but not loaded:", name);
+                }
+                return false; // 点击两次仍未装载，异常交给上层重试
+            }
+            if (screen < kMaxPanelScrolls) {
+                ProcessTask(*this, { "DrowningSeekers@RoguelikeRouting-GearPanelSwipeUp" }).run();
+            }
+        }
+        // 收起重开以复位滚动位置
+        ensure_gear_panel_closed();
+        open_gear_panel();
+    }
+    return false;
+}
+
+// ============================================================================
+// 规划输入翻译
+// ============================================================================
+drowning_seekers::PlannerMap RoguelikeDrowningSeekersRoutingTaskPlugin::build_planner_map(
+    const RoguelikeDrowningSeekersMapAnalyzer::Result& result) const
+{
+    const auto& cfg = DrowningSeekersRoutingInfo;
+
+    drowning_seekers::PlannerMap pm;
+    pm.cols = result.cols;
+    pm.rows = result.rows;
+    const int n = pm.cols * pm.rows;
+    pm.cells.resize(n);
+    pm.adj.resize(n);
+    pm.player = result.player.second * pm.cols + result.player.first;
+
+    std::vector<int> teleport_cells;
+    for (const auto& c : result.cells) {
+        const int idx = c.row * pm.cols + c.col;
+        auto& pc = pm.cells[idx];
+        pc.exists = true;
+        pc.visited = c.visited;
+        if (c.kind != RoguelikeDrowningSeekersMapAnalyzer::CellKind::Object) {
+            continue;
+        }
+        if (auto wit = m_profile->node_weights.find(c.type); wit != m_profile->node_weights.end()) {
+            pc.weight = wit->second;
+        }
+        pc.ap_gain = cfg.node_ap_gain(c.type);
+        pc.is_endpoint = cfg.is_endpoint(c.type);
+        pc.is_combat = cfg.is_combat(c.type);
+        pc.is_trader = cfg.is_trader(c.type);
+        if (cfg.node_teleport_paired(c.type)) {
+            teleport_cells.push_back(idx);
+        }
+    }
+
+    for (const auto& [a, b] : result.edges) {
+        const int ia = a.second * pm.cols + a.first;
+        const int ib = b.second * pm.cols + b.first;
+        if (ia < 0 || ia >= n || ib < 0 || ib >= n) {
+            continue;
+        }
+        pm.adj[ia].push_back(ib);
+        pm.adj[ib].push_back(ia);
+    }
+    for (auto& neighbors : pm.adj) {
+        std::ranges::sort(neighbors);
+        neighbors.erase(std::ranges::unique(neighbors).begin(), neighbors.end());
+    }
+
+    // 曲折密道：恰好成对时互设传送；数量异常则不建传送模型
+    if (teleport_cells.size() == 2) {
+        pm.cells[teleport_cells[0]].teleport_twin = teleport_cells[1];
+        pm.cells[teleport_cells[1]].teleport_twin = teleport_cells[0];
+    }
+    else if (!teleport_cells.empty()) {
+        Log.warn(
+            "DrowningSeekersRouting | winding passages not in pair:",
+            teleport_cells.size(),
+            "- teleport modeling disabled");
+    }
+
+    return pm;
+}
+
+std::vector<drowning_seekers::PlannerGear> RoguelikeDrowningSeekersRoutingTaskPlugin::build_planner_gears(
+    const GearPanelInfo& panel,
+    std::vector<std::string>& gear_names) const
+{
+    const auto& cfg = DrowningSeekersRoutingInfo;
+
+    std::vector<drowning_seekers::PlannerGear> gears;
+    gear_names.clear();
+    for (const auto& [name, uses] : panel.uses_by_name) {
+        const DrowningSeekersGearInfo* info = cfg.gear_by_name(name);
+        if (info == nullptr) {
+            Log.warn("DrowningSeekersRouting | unknown gear from panel OCR:", name);
+            continue;
+        }
+        drowning_seekers::PlannerGear gear;
+        gear.range = info->range;
+        gear.distance = info->distance;
+        gear.uses = std::clamp(uses, 0, info->max_uses);
+        gear.ap_cost = info->ap_cost;
+        gear.ap_gain = info->ap_gain;
+        gear.use_cost = info->carryover ? m_profile->gear_use_cost : m_profile->non_carryover_use_cost;
+        if (auto rit = m_profile->gear_use_reward.find(name); rit != m_profile->gear_use_reward.end()) {
+            gear.use_reward = rit->second;
+        }
+        gear.carryover = info->carryover;
+        gear.controllable = info->controllable;
+        gears.emplace_back(gear);
+        gear_names.emplace_back(name);
+    }
+    return gears;
+}
+
+// ============================================================================
+// 日志与收尾
+// ============================================================================
 void RoguelikeDrowningSeekersRoutingTaskPlugin::dump_recognition(
     const RoguelikeDrowningSeekersMapAnalyzer::Result& result,
     int action_points) const
@@ -544,124 +757,239 @@ void RoguelikeDrowningSeekersRoutingTaskPlugin::act_abandon(const std::string& r
     Task.set_task_base("RoguelikeRoutingAction", "DrowningSeekers@RoguelikeRoutingAction-ExitThenAbandon");
 }
 
-void RoguelikeDrowningSeekersRoutingTaskPlugin::act_move(
-    const RoguelikeDrowningSeekersMap& map,
-    const DrowningSeekersRouteDecision& decision)
+void RoguelikeDrowningSeekersRoutingTaskPlugin::act_retry(const std::string& reason)
 {
-    const auto [ncol, nrow] = decision.next;
-    const RoguelikeDrowningSeekersMap::Cell& target_cell = map.cell(ncol, nrow);
+    ++m_consecutive_failures;
+    Log.warn("DrowningSeekersRouting | retry:", reason, "| consecutive", m_consecutive_failures);
+    if (m_consecutive_failures >= kMaxConsecutiveFailures) {
+        act_abandon("consecutive_failures:" + reason);
+        return;
+    }
+    callback(
+        AsstMsg::SubTaskExtraInfo,
+        [&] {
+            auto info = basic_info_with_what("DrowningSeekersRoutingDecision");
+            info["details"]["action"] = "retry";
+            info["details"]["reason"] = reason;
+            return info;
+        }());
+    Task.set_task_base("RoguelikeRoutingAction", "DrowningSeekers@RoguelikeRoutingAction-Retry");
+}
 
+// ============================================================================
+// 主流程
+// ============================================================================
+bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
+{
+    LogTraceFunction;
+
+    if (m_profile == nullptr) {
+        return false;
+    }
+
+    // 1. 收起可能残留的加工品面板，识别地图与行动力（面板关闭态）
+    ensure_gear_panel_closed();
+    const RoguelikeDrowningSeekersMapAnalyzer::Result result = recognize_map();
+    if (!result.valid) {
+        Log.error("DrowningSeekersRouting | map recognition failed");
+        act_retry("recognition_failed");
+        return true;
+    }
+    const int action_points = recognize_action_points();
+
+    // 2. 打开加工品面板并识别（名称/剩余次数/装载中）
+    open_gear_panel();
+    GearPanelInfo panel = read_gear_panel();
+    if (!panel.valid) {
+        ensure_gear_panel_closed();
+        open_gear_panel();
+        panel = read_gear_panel();
+    }
+
+    dump_recognition(result, action_points);
+    for (const auto& [name, uses] : panel.uses_by_name) {
+        Log.info("  gear", name, "x", uses, name == panel.loaded_name ? "[loaded]" : "");
+    }
+    Log.info("  loaded:", panel.loaded_name.empty() ? "<unknown>" : panel.loaded_name);
+
+    if (action_points < 0) {
+        ensure_gear_panel_closed();
+        act_retry("action_points_unknown");
+        return true;
+    }
+    if (!panel.valid) {
+        // 面板读不到时无法确认当前装载的移动方式，贸然点击节点可能误耗加工品
+        ensure_gear_panel_closed();
+        act_retry("gear_panel_unreadable");
+        return true;
+    }
+
+    // 3. 翻译 + 束搜索规划
+    const drowning_seekers::PlannerMap pmap = build_planner_map(result);
+    std::vector<std::string> gear_names;
+    const std::vector<drowning_seekers::PlannerGear> pgears = build_planner_gears(panel, gear_names);
+
+    drowning_seekers::PlannerParams params;
+    params.action_points = action_points;
+    params.endpoint_required = m_profile->endpoint_required;
+    params.best_effort = m_profile->best_effort_when_unreachable;
+    params.leftover_ap_weight = m_profile->leftover_ap_weight;
+    const drowning_seekers::PlannerResult planned = drowning_seekers::plan(pmap, pgears, params);
+
+    const std::string route_str = route_to_string(planned, pmap);
     Log.info(
-        "DrowningSeekersRouting | move to (",
-        ncol,
+        "DrowningSeekersRouting | strategy",
+        m_profile->name,
+        "| planned score",
+        planned.score,
+        "| reaches_endpoint",
+        planned.reaches_endpoint,
+        "| route:",
+        route_str.empty() ? "<none>" : route_str);
+
+    // 回传识别与规划摘要给 WPF
+    callback(
+        AsstMsg::SubTaskExtraInfo,
+        [&] {
+            auto info = basic_info_with_what("DrowningSeekersMapRecognition");
+            info["details"]["cols"] = result.cols;
+            info["details"]["rows"] = result.rows;
+            info["details"]["nodes"] = static_cast<int>(result.cells.size());
+            info["details"]["edges"] = static_cast<int>(result.edges.size());
+            info["details"]["player_col"] = result.player.first;
+            info["details"]["player_row"] = result.player.second;
+            info["details"]["action_points"] = action_points;
+            info["details"]["map_ascii"] = format_map_ascii(result);
+            info["details"]["strategy"] = m_profile->name;
+            auto gears_json = json::array();
+            for (const auto& [name, uses] : panel.uses_by_name) {
+                gears_json.emplace_back(json::object { { "name", name }, { "uses", uses } });
+            }
+            info["details"]["gears"] = std::move(gears_json);
+            info["details"]["loaded"] = panel.loaded_name;
+            info["details"]["planned_route"] = route_str;
+            info["details"]["planned_score"] = planned.score;
+            info["details"]["reaches_endpoint"] = planned.reaches_endpoint;
+            return info;
+        }());
+
+    if (m_dry_run) {
+        // 仅识别与规划，安全退出以便人工核对（M1）。
+        ensure_gear_panel_closed();
+        act_abandon("dry_run");
+        return true;
+    }
+
+    // 4. 放弃裁决
+    if (m_profile->abandon_when_no_positive) {
+        const bool has_free_move = std::ranges::any_of(pgears, [](const auto& gear) {
+            return gear.controllable && gear.uses > 0 && gear.ap_cost == 0;
+        });
+        if (action_points <= m_abandon_ap && !has_free_move) {
+            ensure_gear_panel_closed();
+            act_abandon("action_points_too_low");
+            return true;
+        }
+    }
+    if (!planned.has_route) {
+        ensure_gear_panel_closed();
+        act_abandon(m_profile->endpoint_required ? "endpoint_unreachable" : "no_route");
+        return true;
+    }
+    if (m_profile->abandon_when_no_positive && planned.score <= 0.0) {
+        ensure_gear_panel_closed();
+        act_abandon("no_positive_route");
+        return true;
+    }
+
+    // 5. 执行首个动作：按需切换移动方式
+    const drowning_seekers::PlannerAction& first = planned.actions.front();
+    const std::string desired_mode = first.is_walk ? kWalkName : gear_names.at(first.gear_index);
+    if (desired_mode != panel.loaded_name) {
+        if (!select_gear_card(desired_mode)) {
+            ensure_gear_panel_closed();
+            act_retry("select_gear_failed:" + desired_mode);
+            return true;
+        }
+    }
+    ensure_gear_panel_closed();
+
+    // 6. 面板开合与聚焦会移动视野：复位视野并快速重识别，校验后再点击目标格
+    ProcessTask(*this, { "DrowningSeekers@RoguelikeRouting-SwipeToCorner" }).run();
+    sleep(300);
+    RoguelikeDrowningSeekersMapAnalyzer refresh_analyzer(ctrler()->get_image());
+    const RoguelikeDrowningSeekersMapAnalyzer::Result fresh = refresh_analyzer.analyze();
+
+    const int target_col = first.target % pmap.cols;
+    const int target_row = first.target / pmap.cols;
+    const RoguelikeDrowningSeekersMapAnalyzer::Cell* target_cell = nullptr;
+    if (fresh.valid && fresh.cols == result.cols && fresh.rows == result.rows && fresh.player == result.player) {
+        for (const auto& c : fresh.cells) {
+            if (c.col == target_col && c.row == target_row) {
+                target_cell = &c;
+                break;
+            }
+        }
+    }
+    if (target_cell == nullptr) {
+        Log.warn("DrowningSeekersRouting | map changed after gear panel interaction, retrying");
+        act_retry("refresh_mismatch");
+        return true;
+    }
+
+    m_consecutive_failures = 0;
+
+    const int final_target = planned.actions.back().target;
+    Log.info(
+        "DrowningSeekersRouting | move via",
+        desired_mode,
+        "to (",
+        target_col,
         ",",
-        nrow,
+        target_row,
         ") type",
-        type2name(target_cell.type),
-        "| target (",
-        decision.target.first,
+        type2name(target_cell->type),
+        "| route target (",
+        final_target % pmap.cols,
         ",",
-        decision.target.second,
-        ") | reason",
-        decision.reason);
+        final_target / pmap.cols,
+        ")");
 
     callback(
         AsstMsg::SubTaskExtraInfo,
         [&] {
             auto info = basic_info_with_what("DrowningSeekersRoutingDecision");
             info["details"]["action"] = "move";
-            info["details"]["reason"] = decision.reason;
-            info["details"]["next_col"] = ncol;
-            info["details"]["next_row"] = nrow;
-            info["details"]["next_type"] = type2name(target_cell.type);
+            info["details"]["reason"] = "planned";
+            info["details"]["move_mode"] = desired_mode;
+            info["details"]["next_col"] = target_col;
+            info["details"]["next_row"] = target_row;
+            info["details"]["next_type"] = type2name(target_cell->type);
+            info["details"]["target_col"] = final_target % pmap.cols;
+            info["details"]["target_row"] = final_target / pmap.cols;
             return info;
         }());
 
-    // 点击相邻格中心
-    ctrler()->click(Point(target_cell.center.x, target_cell.center.y));
+    // 点击目标格中心，继续使用当前工作区的按节点类型分流；道路、羽瞰点和曲折
+    // 密道点击后不进入节点页面，直接回到地图循环。
+    ctrler()->click(Point(target_cell->center.x, target_cell->center.y));
     sleep(300);
 
-    // 空路、羽瞰点、曲折密道点击“出发前往”后直接回到地图，不会出现节点界面。
-    // 这些节点仍需要点击右下角的“出发前往”，但不能进入 StageTraderEnter 等
-    // 节点后续流程，否则会把地图上的确认按钮误当成商店入口并一直等待商店界面。
     const bool moves_without_stage =
-        target_cell.kind == RoguelikeDrowningSeekersMap::CellKind::Road ||
-        target_cell.type == RoguelikeNodeType::VantagePoint || target_cell.type == RoguelikeNodeType::WindingPassage;
+        target_cell->kind == RoguelikeDrowningSeekersMapAnalyzer::CellKind::Road ||
+        target_cell->type == RoguelikeNodeType::VantagePoint || target_cell->type == RoguelikeNodeType::WindingPassage;
     if (moves_without_stage) {
-        Log.info("DrowningSeekersRouting | direct-return node, execute StageUnknownOrEmptyEnterDirectReturn");
-        // Routing-Investment 的默认 next 是 RoguelikeRoutingAction（空 JustReturn）。
-        // 直返节点需要在当前外层 ProcessTask 返回后再次进入地图路由，不能
-        // 在这里嵌套跑完整的 Routing-Investment，否则外层会在空 Action 后结束。
         Task.set_task_base("RoguelikeRoutingAction", "DrowningSeekers@RoguelikeRoutingAction-DirectReturn");
         ProcessTask(*this, { "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnterDirectReturn" }).run();
-        return;
+        return true;
     }
 
-    if (const char* route_action = known_node_route_action(target_cell.type); route_action != nullptr) {
-        Log.info(
-            "DrowningSeekersRouting | typed node entry:",
-            type2name(target_cell.type),
-            "->",
-            route_action);
+    if (const char* route_action = known_node_route_action(target_cell->type); route_action != nullptr) {
+        Log.info("DrowningSeekersRouting | typed node entry:", type2name(target_cell->type), "->", route_action);
         Task.set_task_base("RoguelikeRoutingAction", route_action);
-        return;
+        return true;
     }
 
-    // 尚未覆盖的特殊节点和未知节点暂时保留旧兜底；未知节点的战斗/非战斗
-    // 分流会在后续适配中单独处理。
-    Log.info(
-        "DrowningSeekersRouting | fallback node entry:",
-        type2name(target_cell.type),
-        "-> EnterNode");
     Task.set_task_base("RoguelikeRoutingAction", "DrowningSeekers@RoguelikeRoutingAction-EnterNode");
-}
-
-bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
-{
-    LogTraceFunction;
-
-    if (!m_strategy) {
-        return false;
-    }
-
-    const RoguelikeDrowningSeekersMapAnalyzer::Result result = recognize_map();
-    const int action_points = recognize_action_points();
-
-    if (!result.valid) {
-        Log.error("DrowningSeekersRouting | map recognition failed, abandoning");
-        act_abandon("recognition_failed");
-        return true;
-    }
-
-    dump_recognition(result, action_points);
-
-    // 回传识别摘要给 WPF（便于调试观测）
-    auto recog_info = basic_info_with_what("DrowningSeekersMapRecognition");
-    recog_info["details"]["cols"] = result.cols;
-    recog_info["details"]["rows"] = result.rows;
-    recog_info["details"]["nodes"] = static_cast<int>(result.cells.size());
-    recog_info["details"]["edges"] = static_cast<int>(result.edges.size());
-    recog_info["details"]["player_col"] = result.player.first;
-    recog_info["details"]["player_row"] = result.player.second;
-    recog_info["details"]["action_points"] = action_points;
-    recog_info["details"]["map_ascii"] = format_map_ascii(result);
-    callback(AsstMsg::SubTaskExtraInfo, recog_info);
-
-    if (m_dry_run) {
-        // 仅识别，安全退出以便人工核对识别正确性（M1）。
-        act_abandon("dry_run");
-        return true;
-    }
-
-    // 策略决策 → 移动 / 放弃
-    const RoguelikeDrowningSeekersMap map = build_map(result);
-    const DrowningSeekersRouteDecision decision = m_strategy->decide(map, action_points);
-
-    if (decision.action == DrowningSeekersRouteDecision::Action::Move && map.in_bounds(decision.next.first, decision.next.second)) {
-        act_move(map, decision);
-    }
-    else {
-        act_abandon(decision.reason.empty() ? "no_move" : decision.reason);
-    }
     return true;
 }

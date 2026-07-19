@@ -1,65 +1,20 @@
 #pragma once
 
 #include <functional>
-#include <memory>
 #include <string>
 #include <utility>
+#include <vector>
 
-#include "MaaUtils/NoWarningCVMat.hpp"
-#include "RoguelikeDrowningSeekersMap.h"
+#include "Config/Roguelike/RoguelikeDrowningSeekersRoutingConfig.h"
+#include "RoguelikeDrowningSeekersRoutePlanner.h"
 #include "Task/Roguelike/AbstractRoguelikeTaskPlugin.h"
 #include "Vision/Roguelike/RoguelikeDrowningSeekersMapAnalyzer.h"
 
 namespace asst
 {
-// ———————— 策略抽象 ————————
-// 迷宫导航一步的决策：放弃本局，或移动到与玩家相邻的某个格。
-struct DrowningSeekersRouteDecision
-{
-    enum class Action
-    {
-        Abandon, // 放弃本局（ExitThenAbandon）
-        Move,    // 点击 next（玩家相邻格），朝 target 前进
-    };
-
-    Action action = Action::Abandon;
-    std::pair<int, int> next = { -1, -1 };   // 本步要点击的格（玩家相邻）
-    std::pair<int, int> target = { -1, -1 }; // 最终目标格（用于日志）
-    std::string reason;                      // 决策原因（日志/回调用）
-};
-
-class IDrowningSeekersRoutingStrategy
-{
-public:
-    virtual ~IDrowningSeekersRoutingStrategy() = default;
-    virtual DrowningSeekersRouteDecision decide(const RoguelikeDrowningSeekersMap& map, int action_points) const = 0;
-};
-
-// 投资模式策略：
-//   1. 行动力未知或 <= abandon_ap → 放弃；
-//   2. 有未 ✓ 的诡意行商 → 走向最近者（软避战：进入作战/紧急作战/未知的凶戾格罚 +1000）；
-//   3. 否则走「未知的诡秘」最多的路线（并列取代价小者）；
-//   4. 图中无行商也无诡秘 → 放弃。
-class DrowningSeekersInvestmentStrategy final : public IDrowningSeekersRoutingStrategy
-{
-public:
-    explicit DrowningSeekersInvestmentStrategy(int abandon_ap) :
-        m_abandon_ap(abandon_ap)
-    {
-    }
-
-    virtual DrowningSeekersRouteDecision
-        decide(const RoguelikeDrowningSeekersMap& map, int action_points) const override;
-
-private:
-    int m_abandon_ap = 1;
-};
-
 // 黑流树海（DrowningSeekers）迷宫地图导航插件。
-//
-// 流程：确保地图缩小 → 滑动固定视野 → 截图交 Analyzer 识别（ONNX）→ OCR 行动力
-//       → 策略决策（放弃 / 移动到相邻格）→ set_task_base 衔接后续节点流程。
-// 每次回到地图界面都重新识别、重新规划（不跨步持久化）。
+// 每回合重新识别地图、行动力和加工品面板，规划器只执行首个动作。
+// 节点类型仍由 RoguelikeDrowningSeekersMapAnalyzer 的当前实现提供。
 class RoguelikeDrowningSeekersRoutingTaskPlugin : public AbstractRoguelikeTaskPlugin
 {
 public:
@@ -73,30 +28,46 @@ protected:
     virtual bool _run() override;
 
 private:
-    // 从当前截图识别地图（缩放 + 滑动 + Analyzer），失败返回 valid=false 的结果。
     RoguelikeDrowningSeekersMapAnalyzer::Result recognize_map();
-
-    // 由 Analyzer 结果构建 RoguelikeDrowningSeekersMap。
-    static RoguelikeDrowningSeekersMap build_map(const RoguelikeDrowningSeekersMapAnalyzer::Result& result);
-
-    // OCR 右上角行动力（剩余步数）。失败返回 -1。
     int recognize_action_points();
 
-    // 把识别结果详细打印到日志，便于人工核对。
-    void dump_recognition(const RoguelikeDrowningSeekersMapAnalyzer::Result& result, int action_points) const;
+    struct GearCardHit
+    {
+        std::string name;
+        int uses = -1;
+        bool loaded = false;
+        int name_cy = 0;
+    };
 
-    // 决策为放弃时的收尾
+    struct GearPanelInfo
+    {
+        bool valid = false;
+        std::vector<std::pair<std::string, int>> uses_by_name;
+        std::string loaded_name;
+    };
+
+    void ensure_gear_panel_closed();
+    void open_gear_panel();
+    std::vector<GearCardHit> ocr_gear_cards();
+    GearPanelInfo read_gear_panel();
+    bool select_gear_card(const std::string& name);
+
+    drowning_seekers::PlannerMap build_planner_map(
+        const RoguelikeDrowningSeekersMapAnalyzer::Result& result) const;
+    std::vector<drowning_seekers::PlannerGear>
+        build_planner_gears(const GearPanelInfo& panel, std::vector<std::string>& gear_names) const;
+
+    void dump_recognition(const RoguelikeDrowningSeekersMapAnalyzer::Result& result, int action_points) const;
     void act_abandon(const std::string& reason);
-    // 决策为移动时的收尾（点击 + 衔接节点流程）
-    void act_move(const RoguelikeDrowningSeekersMap& map, const DrowningSeekersRouteDecision& decision);
+    void act_retry(const std::string& reason);
 
     inline static std::function<std::string(RoguelikeNodeType)> type2name = &RoguelikeMapConfig::type2name;
 
-    // ———————— 常量与变量 ————————
-    std::unique_ptr<IDrowningSeekersRoutingStrategy> m_strategy;
-    int m_grid_step = 101;       // specialParams[0]
-    int m_nameplate_offset = 16; // specialParams[1]
-    int m_abandon_ap = 1;        // specialParams[2]，AP<=此值放弃
-    bool m_dry_run = true;       // specialParams[3]，1=仅识别安全退出（人工核对识别用）
+    const DrowningSeekersStrategyProfile* m_profile = nullptr;
+    int m_grid_step = 101;
+    int m_nameplate_offset = 16;
+    int m_abandon_ap = 1;
+    bool m_dry_run = true;
+    int m_consecutive_failures = 0;
 };
 }

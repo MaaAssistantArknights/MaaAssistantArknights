@@ -18,6 +18,7 @@
 #include "OnnxSessions.h"
 #include "Roguelike/JieGarden/RoguelikeCoppersConfig.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
+#include "Roguelike/RoguelikeDrowningSeekersRoutingConfig.h"
 #include "Roguelike/RoguelikeMapConfig.h"
 #include "Roguelike/RoguelikeRecruitConfig.h"
 #include "Roguelike/RoguelikeShoppingConfig.h"
@@ -272,6 +273,12 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     if (!load_with_custom.template operator()<RoguelikeCoppersConfig>(
             roguelike_path("JieGarden", "coppers.json"_p),
             "RoguelikeCoppersConfig")) {
+        return false;
+    }
+    // DrowningSeekers：迷宫导航（加工品定义 + 策略档案）
+    if (!load_with_custom.template operator()<RoguelikeDrowningSeekersRoutingConfig>(
+            roguelike_path("DrowningSeekers", "routing.json"_p),
+            "RoguelikeDrowningSeekersRoutingConfig")) {
         return false;
     }
 

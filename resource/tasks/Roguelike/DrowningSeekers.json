@@ -339,6 +339,17 @@
         "templThreshold": 0.98,
         "rectMove": [0, 0, 55, 70]
     },
+    "DrowningSeekers@Roguelike@StageFerociousPresageEnter": {
+        "template": [
+            "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter.png",
+            "DrowningSeekers@Roguelike@StageTraderEnter.png"
+        ],
+        "baseTask": "DrowningSeekers@Roguelike@StageEnterBattle",
+        "roi": [1035, 370, 226, 300],
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70],
+        "postDelay": 1000
+    },
     "DrowningSeekers@Roguelike@StageFinalEnter": {
         "template": "DrowningSeekers@Roguelike@StageFinalEnter.png",
         "templThreshold": 0.98,
@@ -351,8 +362,41 @@
     },
     "DrowningSeekers@Roguelike@StageScrapShopEnter": {
         "template": "DrowningSeekers@Roguelike@StageScrapShopEnter.png",
+        "baseTask": "DrowningSeekers@Roguelike@StageEnter",
+        "next": [
+            "DrowningSeekers@Roguelike@ScrapShopCheck",
+            "DrowningSeekers@Roguelike@StageEncounterJudgeClick"
+        ],
         "templThreshold": 0.98,
         "rectMove": [0, 0, 55, 70]
+    },
+    "DrowningSeekers@Roguelike@StageMysteriousPresageEnter": {
+        "template": [
+            "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter.png",
+            "DrowningSeekers@Roguelike@StageTraderEnter.png"
+        ],
+        "baseTask": "DrowningSeekers@Roguelike@StageEnter",
+        "roi": [1035, 370, 226, 300],
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70],
+        "postDelay": 1000,
+        "next": [
+            "DrowningSeekers@Roguelike@TraderCheck",
+            "DrowningSeekers@Roguelike@ScrapShopCheck",
+            "DrowningSeekers@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "DrowningSeekers@Roguelike@TraderCheck": {
+        "template": "DrowningSeekers@Roguelike@TraderCheck.png",
+        "roi": [200, 250, 180, 190],
+        "templThreshold": 0.8,
+        "next": ["DrowningSeekers@Roguelike@StageTraderEnter#next"]
+    },
+    "DrowningSeekers@Roguelike@ScrapShopCheck": {
+        "template": "DrowningSeekers@Roguelike@ScrapShopCheck.png",
+        "roi": [200, 250, 180, 190],
+        "templThreshold": 0.8,
+        "next": ["DrowningSeekers@Roguelike@StageTraderEnter#next"]
     },
     "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter": {
         "template": [
@@ -393,12 +437,12 @@
     "DrowningSeekers@Roguelike@Stages_default": {
         "algorithm": "JustReturn"
     },
-    "DrowningSeekers@Roguelike@Stages_investment": {
-        "doc": "投资模式迷宫导航策略，调用 RoguelikeDrowningSeekersRoutingTaskPlugin",
+    "DrowningSeekers@Roguelike@Stages_navigate": {
+        "doc": "迷宫导航策略（打层/投资通用），调用 RoguelikeDrowningSeekersRoutingTaskPlugin",
         "algorithm": "JustReturn",
         "next": [
             "DrowningSeekers@Roguelike@CloseCollection",
-            "DrowningSeekers@Roguelike@Routing-Investment"
+            "DrowningSeekers@Roguelike@Routing"
         ],
         "onErrorNext": ["DrowningSeekers@Roguelike@ExitThenAbandon"]
     },

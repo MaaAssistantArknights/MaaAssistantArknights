@@ -280,9 +280,9 @@
         "roi": [0, 60, 1280, 575],
         "postDelay": 300
     },
-    "DrowningSeekers@Roguelike@Routing-Investment": {
+    "DrowningSeekers@Roguelike@Routing": {
         "doc": [
-            "黑流树海投资模式导航触发任务。",
+            "黑流树海迷宫导航触发任务（打层/投资通用，策略档案见 roguelike/DrowningSeekers/routing.json）。",
             "模板为左下角缩放图标，命中即代表当前在迷宫地图界面；",
             "RoguelikeDrowningSeekersRoutingTaskPlugin::verify 据任务名匹配并接管。"
         ],
@@ -293,6 +293,53 @@
         "templThreshold": 0.8,
         "roi": [0, 540, 120, 100],
         "next": ["RoguelikeRoutingAction"]
+    },
+    "DrowningSeekers@RoguelikeRouting-OpenGearPanel": {
+        "doc": "点击右上角行动力区域，展开选择移动方式（加工品）面板",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1080, 110, 100, 75],
+        "postDelay": 800
+    },
+    "DrowningSeekers@RoguelikeRouting-CloseGearPanel": {
+        "doc": "点击显示玩家按钮收起加工品面板并聚焦玩家",
+        "template": "DrowningSeekers@Roguelike@MapShowPlayer.png",
+        "templThreshold": 0.7,
+        "roi": [0, 480, 100, 70],
+        "action": "ClickSelf",
+        "postDelay": 800
+    },
+    "DrowningSeekers@RoguelikeRouting-GearPanelSwipeUp": {
+        "doc": "加工品面板内向上滑动以显示更多加工品卡片",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1060, 600, 0, 0],
+        "rectMove": [1060, 260, 0, 0],
+        "specialParams": [400, 1],
+        "postDelay": 600
+    },
+    "DrowningSeekers@Roguelike@GearPanelOcr": {
+        "doc": "识别黑流树海加工品面板的名称、剩余次数和装载状态",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [850, 180, 430, 540],
+        "ocrReplace": [
+            ["剩[余佘示禾]", "剩余"],
+            ["[裝装][载栽戴]中", "装载中"],
+            ["徒[步歩]跋[涉步陟]", "徒步跋涉"],
+            ["[报極].?[废庋]轮[子孑了]", "报废轮子"],
+            ["[报極].?[废庋]假[肢胶枝技]", "报废假肢"],
+            ["[标榇]准引[擎擊挚]", "标准引擎"],
+            ["重[弹彈][簧黄簧鲨]", "重弹簧"],
+            ["[气氣][垫墊]底[座坐]", "气垫底座"],
+            ["[试訊][作佧]外骨[骼胳骸]", "试作外骨骼"],
+            ["小八[界介堺]", "小八界"],
+            ["一次[性倖][喷噴][气氣]背[包色]", "一次性喷气背包"],
+            ["老[妈媽][妈媽]的融[雪雷]", "老妈妈的融雪"],
+            ["[坎块欢][诺諾]特的[触觸][须須需]", "坎诺特的触须"],
+            ["[结結][构構]性原[理埋]", "结构性原理"],
+            ["[\"“”『』]*[简簡筒][易昜]遥控器[\"“”『』]*", "简易遥控器"]
+        ]
     },
     "DrowningSeekers@RoguelikeRouting-EnsureZoomedOut": {
         "doc": "点击缩小图标直至只剩放大图标（保证地图完整可见）",
@@ -351,7 +398,7 @@
     "DrowningSeekers@RoguelikeRoutingAction-DirectReturn": {
         "doc": "空路、羽瞰点、曲折密道点击出发前往后，回到地图继续路由。",
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@Routing-Investment"]
+        "next": ["DrowningSeekers@Roguelike@Routing"]
     },
     "DrowningSeekers@RoguelikeRoutingAction-StageCombatOpsEnter": {
         "algorithm": "JustReturn",
@@ -407,6 +454,19 @@
     "DrowningSeekers@RoguelikeRoutingAction-StageEmployEnter": {
         "algorithm": "JustReturn",
         "next": ["DrowningSeekers@Roguelike@StageEmployEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageMysteriousPresageEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageMysteriousPresageEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageFerociousPresageEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageFerociousPresageEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-Retry": {
+        "doc": "识别或选卡异常时结束本轮子任务，回到 Stages 循环重试",
+        "algorithm": "JustReturn",
+        "postDelay": 500
     },
     "DrowningSeekers@RoguelikeRoutingAction-EnterNode": {
         "doc": [
