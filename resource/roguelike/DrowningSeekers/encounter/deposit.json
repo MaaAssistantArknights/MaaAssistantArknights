@@ -3,14 +3,55 @@
     "mode": [1, 4],
     "stage": [
         {
-            "name": "桑尼的邀请",
-            "option_num": 2,
-            "choose": 2
+            "name": "行动奖励",
+            "preferred_options": [
+                { "texts": ["调查预付款"] },
+                { "texts": ["襁褓天马"] },
+                { "texts": ["襁褓骏鹰"] }
+            ],
+            "safe_fallback_options": ["调查预付款", "襁褓天马", "襁褓骏鹰"],
+            "prefer_event_rule": true
         },
         {
-            "name": "敲动杠杆",
-            "option_num": 3,
-            "choose": 3
+            "name": "安眠一隅",
+            "preferred_options": [
+                { "texts": ["进入神秘空间"], "occurrence": 2 },
+                { "texts": ["抚摸小狗的脑袋"] },
+                { "texts": ["安静观察"] }
+            ],
+            "safe_fallback_options": ["进入神秘空间", "抚摸小狗的脑袋", "安静观察"],
+            "prefer_event_rule": true
+        },
+        {
+            "name": "桑尼的邀请",
+            "preferred_options": [
+                { "texts": ["唱一首摇篮曲"] },
+                { "texts": ["帮它梳理绒毛"] }
+            ],
+            "safe_fallback_options": ["唱一首摇篮曲", "帮它梳理绒毛"],
+            "prefer_event_rule": true
+        },
+        {
+            "name": "金色凝滞",
+            "preferred_options": [
+                { "texts": ["抚摸静止的小动物"] },
+                { "texts": ["向泉水许愿"] },
+                { "texts": ["查看无人机"] }
+            ],
+            "safe_fallback_options": ["抚摸静止的小动物", "向泉水许愿", "查看无人机"],
+            "prefer_event_rule": true
+        },
+        {
+            "name": "色味不同源",
+            "preferred_options": [{ "texts": ["拿走看上去像是鱼的食物"] }],
+            "safe_fallback_options": ["拿走看上去像是鱼的食物"],
+            "prefer_event_rule": true
+        },
+        {
+            "name": "愈创之心",
+            "preferred_options": [{ "texts": ["闭上眼感受宁静"] }],
+            "safe_fallback_options": ["闭上眼感受宁静"],
+            "prefer_event_rule": true
         }
     ]
 }

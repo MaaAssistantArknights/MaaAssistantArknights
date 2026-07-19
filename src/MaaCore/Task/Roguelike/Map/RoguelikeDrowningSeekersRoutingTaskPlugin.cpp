@@ -491,7 +491,12 @@ void RoguelikeDrowningSeekersRoutingTaskPlugin::act_move(
         target_cell.kind == RoguelikeDrowningSeekersMap::CellKind::Road ||
         target_cell.type == RoguelikeNodeType::VantagePoint || target_cell.type == RoguelikeNodeType::WindingPassage;
     if (moves_without_stage) {
-        Task.set_task_base("RoguelikeRoutingAction", "DrowningSeekers@RoguelikeRoutingAction-MoveWithoutPopup");
+        Log.info("DrowningSeekersRouting | direct-return node, execute StageUnknownOrEmptyEnterDirectReturn");
+        // Routing-Investment 的默认 next 是 RoguelikeRoutingAction（空 JustReturn）。
+        // 直返节点需要在当前外层 ProcessTask 返回后再次进入地图路由，不能
+        // 在这里嵌套跑完整的 Routing-Investment，否则外层会在空 Action 后结束。
+        Task.set_task_base("RoguelikeRoutingAction", "DrowningSeekers@RoguelikeRoutingAction-DirectReturn");
+        ProcessTask(*this, { "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnterDirectReturn" }).run();
         return;
     }
 

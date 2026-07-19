@@ -236,7 +236,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }
     }
     // 额外的 encounter 配置（deposit / collapse）
-    for (auto theme : { "Phantom", "Mizuki", "Sami" }) {
+    for (auto theme : { "Phantom", "Mizuki", "Sami", "DrowningSeekers" }) {
         if (!load_with_custom.template operator()<RoguelikeStageEncounterConfig>(
                 roguelike_path(theme, "encounter"_p / "deposit.json"_p),
                 "RoguelikeStageEncounterConfig")) {

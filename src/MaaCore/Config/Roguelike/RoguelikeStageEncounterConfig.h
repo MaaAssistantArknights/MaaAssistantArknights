@@ -7,6 +7,7 @@
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
 #include "Task/Roguelike/RoguelikeConfig.h"
+#include "Utils/RoguelikeEncounterOptionSelector.h"
 
 namespace asst
 {
@@ -61,6 +62,12 @@ public:
 
         std::vector<std::pair<size_t, size_t>>
             fallback_choices; // 备用选项，格式为 (选项数量，选择的选项)，有些事件的选项数量可变
+
+        bool dynamic_options = false;
+        bool prefer_event_rule = false;
+        size_t max_steps = 1;
+        RoguelikeEncounterOptionSelector::Rule option_rule;
+        std::vector<RoguelikeEncounterOptionSelector::Rule> option_variants;
     };
 
 private:

@@ -7,6 +7,14 @@
 #include "Utils/Logger.hpp"
 #include "Vision/RegionOCRer.h"
 
+namespace
+{
+bool supports_option_analyzer(const std::string& theme)
+{
+    return theme == asst::RoguelikeTheme::JieGarden || theme == asst::RoguelikeTheme::DrowningSeekers;
+}
+}
+
 bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
 {
     LogTraceFunction;
@@ -19,8 +27,8 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
         return false;
     }
 
-    if (m_theme != RoguelikeTheme::JieGarden) [[unlikely]] {
-        Log.error(__FUNCTION__, std::format("| Unsupported roguelike theme: {}; failed to analyze", m_theme));
+    if (!supports_option_analyzer(m_theme)) [[unlikely]] {
+        Log.error(__FUNCTION__, std::format("| No option analyzer task for theme: {}; failed to analyze", m_theme));
         return false;
     }
     // ————————————————————————————————————————————————————————————————
@@ -89,8 +97,8 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
         return std::nullopt;
     }
 
-    if (m_theme != RoguelikeTheme::JieGarden) {
-        Log.error(__FUNCTION__, std::format("| Unsupported roguelike theme: {}; failed to merge images", m_theme));
+    if (!supports_option_analyzer(m_theme)) {
+        Log.error(__FUNCTION__, std::format("| No option analyzer task for theme: {}; failed to merge images", m_theme));
         return std::nullopt;
     }
 
@@ -196,10 +204,10 @@ void asst::RoguelikeEncounterOptionAnalyzer::set_theme(const std::string& theme)
         return;
     }
 
-    if (theme != RoguelikeTheme::JieGarden) {
+    if (!supports_option_analyzer(theme)) {
         Log.error(
             __FUNCTION__,
-            std::format("| Unsupported roguelike theme: {}; failed to set theme; reverting to {}", theme, m_theme));
+            std::format("| No option analyzer task for theme: {}; reverting to {}", theme, m_theme));
         return;
     }
     // ————————————————————————————————————————————————————————————————
@@ -223,8 +231,8 @@ asst::Matcher::ResultOpt asst::RoguelikeEncounterOptionAnalyzer::match_option(
         return std::nullopt;
     }
 
-    if (theme != RoguelikeTheme::JieGarden) [[unlikely]] {
-        Log.error(__FUNCTION__, std::format("| Unsupported roguelike theme: {}; failed to match option", theme));
+    if (!supports_option_analyzer(theme)) [[unlikely]] {
+        Log.error(__FUNCTION__, std::format("| No option analyzer task for theme: {}; failed to match option", theme));
         return std::nullopt;
     }
     // ————————————————————————————————————————————————————————————————

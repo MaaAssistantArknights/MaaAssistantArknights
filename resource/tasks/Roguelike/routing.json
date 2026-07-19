@@ -348,13 +348,9 @@
         "algorithm": "JustReturn",
         "next": ["DrowningSeekers@Roguelike@ExitThenAbandon"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-MoveWithoutPopup": {
-        "doc": "空路、羽瞰点、曲折密道点击节点后的出发确认；确认后直接回到地图，不进入节点界面。",
-        "template": "DrowningSeekers@Roguelike@StageTraderEnter.png",
-        "templThreshold": 0.98,
-        "roi": [1035, 370, 226, 300],
-        "action": "ClickSelf",
-        "postDelay": 1000,
+    "DrowningSeekers@RoguelikeRoutingAction-DirectReturn": {
+        "doc": "空路、羽瞰点、曲折密道点击出发前往后，回到地图继续路由。",
+        "algorithm": "JustReturn",
         "next": ["DrowningSeekers@Roguelike@Routing-Investment"]
     },
     "DrowningSeekers@RoguelikeRoutingAction-EnterNode": {
@@ -365,7 +361,6 @@
         "algorithm": "JustReturn",
         "next": [
             "DrowningSeekers@Roguelike@StageTraderEnter",
-            "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter",
             "DrowningSeekers@Roguelike@StageEncounterEnter",
             "DrowningSeekers@Roguelike@StageSafeHouseEnter",
             "DrowningSeekers@Roguelike@StageBoonsEnter",

@@ -1,77 +1,1992 @@
 {
-    "theme": "DrowningSeekers",
-    "stage": [
+  "theme": "DrowningSeekers",
+  "stage": [
+    {
+      "name": "未涉足之树",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
         {
-            "name": "线人",
-            "option_num": 3,
-            "choose": 2
-        },
-        {
-            "name": "临时中介所",
-            "option_num": 3,
-            "choose": 1
-        },
-        {
-            "name": "血衣之下",
-            "option_num": 4,
-            "choose": 2
-        },
-        {
-            "name": "擒与缚",
-            "option_num": 3,
-            "choose": 1
-        },
-        {
-            "name": "桑尼的邀请",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
-            "name": "色味不同源",
-            "option_num": 3,
-            "choose": 2
-        },
-        {
-            "name": "沉重的契约",
-            "option_num": 3,
-            "choose": 1
-        },
-        {
-            "name": "敲动杠杆",
-            "option_num": 3,
-            "choose": 2
-        },
-        {
-            "name": "和平守卫者",
-            "option_num": 2,
-            "choose": 1,
-            "next_event": "和平守卫者-从长计议"
-        },
-        {
-            "name": "和平守卫者-从长计议",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "独活",
-            "option_num": 2,
-            "choose": 1,
-            "next_event": "独活-请小狗告知营地位置"
-        },
-        {
-            "name": "独活-请小狗告知营地位置",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "无人商店",
-            "option_num": 3,
-            "choose": 1
-        },
-        {
-            "name": "险路尽头",
-            "option_num": 3,
-            "choose": 1
+          "texts": [
+            "休息"
+          ],
+          "occurrence": 1
         }
-    ]
+      ],
+      "safe_fallback_options": [
+        "休息"
+      ],
+      "branches": [
+        {
+          "id": "scout",
+          "option_texts": [
+            "尝试探索树的内部",
+            "休息",
+            "尝试探索树的源头",
+            "你们约好了会合的地点"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "休息"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "休息"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "回滚文明",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "有点可疑"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "有点可疑"
+      ],
+      "branches": [
+        {
+          "id": "sacrifice1",
+          "option_texts": [
+            "复原藏品",
+            "接过藏品",
+            "接过藏品",
+            "接过藏品",
+            "离开",
+            "继续赞助它",
+            "接过藏品",
+            "接过藏品",
+            "接过藏品",
+            "有点可疑",
+            "复原零件",
+            "接过零件",
+            "接过零件",
+            "继续赞助它",
+            "接过零件",
+            "接过零件",
+            "有点可疑",
+            "接过零件",
+            "接过零件"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "有点可疑"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "有点可疑"
+          ]
+        },
+        {
+          "id": "sacrifice2",
+          "option_texts": [
+            "复原藏品",
+            "接过藏品",
+            "接过藏品",
+            "接过藏品",
+            "远离这个疯子",
+            "继续赞助它",
+            "接过藏品",
+            "接过藏品",
+            "接过藏品",
+            "有点可疑",
+            "复原零件",
+            "接过零件",
+            "接过零件",
+            "继续赞助它",
+            "接过零件",
+            "接过零件",
+            "有点可疑",
+            "接过零件",
+            "接过零件",
+            "复原“文明”",
+            "等待结果"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "有点可疑"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "有点可疑"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "无人商店",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [],
+      "safe_fallback_options": [],
+      "branches": [
+        {
+          "id": "wish",
+          "option_texts": [
+            "搬一个大桶",
+            "搬两个小桶",
+            "先撬开木桶再说！",
+            "搬一个大桶",
+            "搬两个小桶",
+            "推装着轮子的巨大木桶",
+            "推装着轮子的巨大木桶",
+            "先撬开木桶再说！",
+            "搬一个大桶",
+            "搬两个小桶",
+            "推装着轮子的巨大木桶"
+          ],
+          "preferred_options": [],
+          "safe_fallback_options": []
+        }
+      ]
+    },
+    {
+      "name": "三重身",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "接受它的提议"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "接受它的提议"
+      ],
+      "branches": [
+        {
+          "id": "evacuate",
+          "option_texts": [
+            "接受它的提议",
+            "自己找路",
+            "接受它的提议",
+            "离开"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "接受它的提议"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "接受它的提议"
+          ]
+        },
+        {
+          "id": "evacuate2",
+          "option_texts": [
+            "接受它的提议",
+            "自己找路",
+            "接受它的提议",
+            "离开"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "接受它的提议"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "接受它的提议"
+          ]
+        },
+        {
+          "id": "evacuate3",
+          "option_texts": [
+            "接受它的提议",
+            "自己找路",
+            "接受它的提议",
+            "离开"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "接受它的提议"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "接受它的提议"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "思乡心切",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "安慰它"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "安慰它"
+      ],
+      "branches": [
+        {
+          "id": "bat1",
+          "option_texts": [
+            "赶跑它",
+            "安慰它",
+            "强行驱赶"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "安慰它"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "安慰它"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "划算买卖",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "装没听到"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "装没听到"
+      ],
+      "branches": [
+        {
+          "id": "bat2",
+          "option_texts": [
+            "让它闭嘴",
+            "装没听到",
+            "为客户群体发声！"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "装没听到"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "装没听到"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "鸭托邦",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "兴趣缺缺"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "兴趣缺缺"
+      ],
+      "branches": [
+        {
+          "id": "bat3",
+          "option_texts": [
+            "呛一句",
+            "故意挑事",
+            "区区打手！",
+            "兴趣缺缺",
+            "区区商人！"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "兴趣缺缺"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "兴趣缺缺"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "传奇团伙",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "凭什么？"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "凭什么？"
+      ],
+      "branches": [
+        {
+          "id": "bat4",
+          "option_texts": [
+            "凭什么？",
+            "扎穿货车车胎",
+            "阻拦到底",
+            "果断求饶",
+            "就挑衅，怎么了？"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "凭什么？"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "凭什么？"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "湖中仙女",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "离开"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "离开"
+      ],
+      "branches": [
+        {
+          "id": "bat5",
+          "option_texts": [
+            "上前看看",
+            "不理会她",
+            "拿出诚意",
+            "休想骗我",
+            "到此为止了！",
+            "离开",
+            "继续拿出诚意",
+            "继续拿出诚意",
+            "我不要困在这里！",
+            "获得了奖励"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "离开"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "离开"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "洞中宝",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "离开"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "离开"
+      ],
+      "branches": [
+        {
+          "id": "bat6",
+          "option_texts": [
+            "树洞里肯定有好东西",
+            "离开",
+            "我的了！",
+            "我的了！",
+            "怎么是空的！",
+            "放开我！",
+            "一定是错觉",
+            "太诡异了",
+            "我的了！",
+            "我的了！",
+            "怎么是空的！",
+            "放开我！",
+            "一定是错觉",
+            "我的了！",
+            "我的了！",
+            "怎么是空的！",
+            "放开我！",
+            "一定是错觉",
+            "我的了！",
+            "我的了！",
+            "怎么是空的！",
+            "放开我！"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "离开"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "离开"
+          ]
+        },
+        {
+          "id": "bat6b",
+          "option_texts": [
+            "树洞里肯定有好东西",
+            "离开",
+            "我的了！",
+            "我的了！",
+            "怎么是空的！",
+            "放开我！",
+            "一定是错觉",
+            "太诡异了",
+            "我的了！",
+            "我的了！",
+            "怎么是空的！",
+            "放开我！",
+            "一定是错觉",
+            "我的了！",
+            "我的了！",
+            "怎么是空的！",
+            "放开我！",
+            "一定是错觉",
+            "我的了！",
+            "我的了！",
+            "怎么是空的！",
+            "放开我！"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "离开"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "离开"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "桑尼的邀请",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "唱一首摇篮曲"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "唱一首摇篮曲"
+      ],
+      "branches": [
+        {
+          "id": "res1",
+          "option_texts": [
+            "帮它梳理绒毛",
+            "唱一首摇篮曲"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "唱一首摇篮曲"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "唱一首摇篮曲"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "色味不同源",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "拿走看上去像是鱼的食物"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "拿走看上去像是鱼的食物"
+      ],
+      "branches": [
+        {
+          "id": "res2",
+          "option_texts": [
+            "拿走看上去像是苹果的食物",
+            "拿走看上去像是鱼的食物",
+            "我不饿"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "拿走看上去像是鱼的食物"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "拿走看上去像是鱼的食物"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "货从口出",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "没什么想买的"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "没什么想买的"
+      ],
+      "branches": [
+        {
+          "id": "res3",
+          "option_texts": [
+            "想要一个能节省力气的",
+            "想要一个可以保值的",
+            "想要一个树海特色纪念品",
+            "没什么想买的"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "没什么想买的"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "没什么想买的"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "沉重的契约",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "上去帮个小忙"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "上去帮个小忙"
+      ],
+      "branches": [
+        {
+          "id": "res4",
+          "option_texts": [
+            "上去帮个小忙",
+            "推翻石磨",
+            "不关我的事"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "上去帮个小忙"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "上去帮个小忙"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "敲动杠杆",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "不感兴趣"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "不感兴趣"
+      ],
+      "branches": [
+        {
+          "id": "res5",
+          "option_texts": [
+            "敲一次",
+            "敲三次",
+            "不感兴趣"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不感兴趣"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不感兴趣"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "血衣之下",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "拽出衣服寻找可用物资"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "拽出衣服寻找可用物资"
+      ],
+      "branches": [
+        {
+          "id": "relic1",
+          "option_texts": [
+            "拽出衣服寻找可用物资",
+            "割下怪花",
+            "砍断藤蔓",
+            "离开"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "拽出衣服寻找可用物资"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "拽出衣服寻找可用物资"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "擒与缚",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "帮助蛇"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "帮助蛇"
+      ],
+      "branches": [
+        {
+          "id": "relic2",
+          "option_texts": [
+            "帮助蛇",
+            "帮助鹰",
+            "不关我的事"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "帮助蛇"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "帮助蛇"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "沉寂之屋",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "离开"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "离开"
+      ],
+      "branches": [
+        {
+          "id": "normal1",
+          "option_texts": [
+            "清理门上的人形藤蔓",
+            "试图和人形藤蔓交流",
+            "离开"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "离开"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "离开"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "黑诞",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "落荒而逃"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "落荒而逃"
+      ],
+      "branches": [
+        {
+          "id": "normal2",
+          "option_texts": [
+            "掏出笼控器控制猎狗",
+            "和猎狗战斗到底",
+            "落荒而逃",
+            "落荒而逃",
+            "落荒而逃",
+            "落荒而逃"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "落荒而逃"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "落荒而逃"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "呼吸的红苔",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "快逃"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "快逃"
+      ],
+      "branches": [
+        {
+          "id": "normal3",
+          "option_texts": [
+            "尝试驱赶猎狗",
+            "将种子埋在此处",
+            "快逃"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "快逃"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "快逃"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "被歌颂的影子",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "我不会跳舞"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "我不会跳舞"
+      ],
+      "branches": [
+        {
+          "id": "normal4",
+          "option_texts": [
+            "加入它们",
+            "休息好了",
+            "我不会跳舞",
+            "收下",
+            "加入它们",
+            "收下",
+            "休息好了",
+            "不想再跳了",
+            "加入它们",
+            "收下",
+            "休息好了",
+            "加入它们",
+            "收下",
+            "收下",
+            "休息好了",
+            "加入它们",
+            "收下",
+            "收下",
+            "加入它们",
+            "收下",
+            "收下",
+            "休息好了",
+            "加入它们",
+            "收下",
+            "加入它们",
+            "收下",
+            "收下",
+            "加入它们"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "我不会跳舞"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "我不会跳舞"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "愈创之心",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "闭上眼感受宁静"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "闭上眼感受宁静"
+      ],
+      "branches": [
+        {
+          "id": "normal5",
+          "option_texts": [
+            "紧紧拥抱愈创木",
+            "让这里有一个秋千",
+            "比对像素小猫和树干刻痕",
+            "检测此地有无危险",
+            "闭上眼感受宁静"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "闭上眼感受宁静"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "闭上眼感受宁静"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "临时中介所",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "可靠的中介值得信任"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "可靠的中介值得信任"
+      ],
+      "branches": [
+        {
+          "id": "hire1",
+          "option_texts": [
+            "可靠的中介值得信任",
+            "合格的帮手应当仔细挑选",
+            "前行的速度更重要",
+            "可靠的中介值得信任",
+            "可靠的中介值得信任",
+            "可靠的中介值得信任"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "可靠的中介值得信任"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "可靠的中介值得信任"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "和平守卫者",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "加入队伍，接取悬赏"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "加入队伍，接取悬赏"
+      ],
+      "branches": [
+        {
+          "id": "task1",
+          "option_texts": [
+            "加入队伍，接取悬赏",
+            "离开队伍",
+            "守卫和平！",
+            "从长计议"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "加入队伍，接取悬赏"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "加入队伍，接取悬赏"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "独活",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "去看看小狗"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "去看看小狗"
+      ],
+      "branches": [
+        {
+          "id": "task2",
+          "option_texts": [
+            "去看看小狗",
+            "小心为上",
+            "跟随小狗",
+            "请小狗告知营地位置"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "去看看小狗"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "去看看小狗"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "原始娱乐",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "回避视线"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "回避视线"
+      ],
+      "branches": [
+        {
+          "id": "sala1",
+          "option_texts": [
+            "直视对方",
+            "回避视线",
+            "应战"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "回避视线"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "回避视线"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "掠夺成性",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "放弃金块"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "放弃金块"
+      ],
+      "branches": [
+        {
+          "id": "sala2",
+          "option_texts": [
+            "走近金块",
+            "放弃金块",
+            "争夺"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "放弃金块"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "放弃金块"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "险路尽头",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "进入下一区域"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "进入下一区域"
+      ],
+      "branches": [
+        {
+          "id": "final1",
+          "option_texts": [
+            "说服同伴",
+            "离开黑池",
+            "召集同伴",
+            "进入下一区域",
+            "说服同伴"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "进入下一区域"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "进入下一区域"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "金色凝滞",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "查看无人机"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "查看无人机"
+      ],
+      "branches": [
+        {
+          "id": "rest",
+          "option_texts": [
+            "坐下休息",
+            "采样金色泉水",
+            "向泉水许愿",
+            "查看无人机",
+            "抚摸静止的小动物",
+            "整理行囊"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "查看无人机"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "查看无人机"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "安眠一隅",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "进入神秘空间"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "进入神秘空间"
+      ],
+      "branches": [
+        {
+          "id": "surprise",
+          "option_texts": [
+            "进入神秘空间",
+            "抚摸小狗的脑袋",
+            "触碰图案",
+            "闭眼感受",
+            "拾起松鼠落下的橡实",
+            "四处看看",
+            "帮忙采摘",
+            "目送豹子们远去",
+            "触碰图案",
+            "安静观察",
+            "触碰图案",
+            "进入神秘空间"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "进入神秘空间"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "进入神秘空间"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "线人",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "我是一名独立探险家"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "我是一名独立探险家"
+      ],
+      "branches": [
+        {
+          "id": "bomb1",
+          "option_texts": [
+            "我受雇于梅兰德",
+            "我是一名独立探险家",
+            "我是联合政府派来的"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "我是一名独立探险家"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "我是一名独立探险家"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "好奇心与死",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "这是什么戏法？"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "这是什么戏法？"
+      ],
+      "branches": [
+        {
+          "id": "end1",
+          "option_texts": [
+            "修正结果，必须找到目标",
+            "这是什么戏法？"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "这是什么戏法？"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "这是什么戏法？"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "窥视箱中",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "她在说什么疯话？"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "她在说什么疯话？"
+      ],
+      "branches": [
+        {
+          "id": "end2",
+          "option_texts": [
+            "保护证据，查缴那些机器！",
+            "她在说什么疯话？",
+            "你将见证一场毁灭，抑或新生",
+            "保护证据，查缴那些机器！"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "她在说什么疯话？"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "她在说什么疯话？"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "泪之聚落",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "无能为力"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "无能为力"
+      ],
+      "branches": [
+        {
+          "id": "chimera2",
+          "option_texts": [
+            "倾囊资助",
+            "无能为力"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "无能为力"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "无能为力"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "调谐仪式",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "不必依靠外物"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "不必依靠外物"
+      ],
+      "branches": [
+        {
+          "id": "end3",
+          "option_texts": [
+            "我有一些头绪",
+            "不必依靠外物",
+            "建立信仰抵御黑风",
+            "用源私钥作弊",
+            "我们无能为力",
+            "建立文化抵御黑焰",
+            "用源私钥作弊",
+            "我们无能为力",
+            "建立认同抵御黑流",
+            "用源私钥作弊",
+            "我们无能为力"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不必依靠外物"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不必依靠外物"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "行动奖励",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "未编号物"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "未编号物"
+      ],
+      "branches": [
+        {
+          "id": "startbuff",
+          "option_texts": [
+            "未编号物",
+            "调查预付款",
+            "空间租赁",
+            "退行补偿",
+            "林间代步",
+            "巢寄生",
+            "襁褓天马",
+            "襁褓骏鹰",
+            "襁褓巨龙",
+            "襁褓九头蛇",
+            "襁褓白泽",
+            "襁褓金乌"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "未编号物"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "未编号物"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "溯源",
+      "dynamic_options": true,
+      "max_steps": 8,
+      "preferred_options": [
+        {
+          "texts": [
+            "不应该冒进"
+          ],
+          "occurrence": 1
+        }
+      ],
+      "safe_fallback_options": [
+        "不应该冒进"
+      ],
+      "branches": [
+        {
+          "id": "portal1a",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal1b",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal2a",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal2b",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal3a",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal3b",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal4a",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal4b",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal5a",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal5b",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal5c",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal6a",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal6b",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal6c",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal7a",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal7b",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal8a",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal8b",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        },
+        {
+          "id": "portal9",
+          "option_texts": [
+            "发动引擎规避风险",
+            "或许该挑选一下",
+            "用这个会更好吗",
+            "成功了",
+            "我们无法发动引擎",
+            "不应该冒进"
+          ],
+          "preferred_options": [
+            {
+              "texts": [
+                "不应该冒进"
+              ],
+              "occurrence": 1
+            }
+          ],
+          "safe_fallback_options": [
+            "不应该冒进"
+          ]
+        }
+      ]
+    }
+  ]
 }

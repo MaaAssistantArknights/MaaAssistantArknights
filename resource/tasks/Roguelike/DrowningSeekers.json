@@ -394,6 +394,30 @@
         "template": "DrowningSeekers@Roguelike@StartExplore.png",
         "roi": [958, 530, 322, 189]
     },
+    "DrowningSeekers@RoguelikeEncounter-ClickOption": {
+        "baseTask": "JieGarden@RoguelikeEncounter-ClickOption"
+    },
+    "DrowningSeekers@RoguelikeEncounter-InitialMoveUp": {
+        "baseTask": "JieGarden@RoguelikeEncounter-InitialMoveUp"
+    },
+    "DrowningSeekers@RoguelikeEncounter-MoveDown": {
+        "baseTask": "JieGarden@RoguelikeEncounter-MoveDown"
+    },
+    "DrowningSeekers@RoguelikeEncounter-MoveUp": {
+        "baseTask": "JieGarden@RoguelikeEncounter-MoveUp"
+    },
+    "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-Option": {
+        "baseTask": "JieGarden@RoguelikeEncounterOptionAnalyzer-Option"
+    },
+    "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
+        "baseTask": "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar"
+    },
+    "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled": {
+        "baseTask": "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled"
+    },
+    "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
+        "baseTask": "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text"
+    },
     "DrowningSeekers@RoguelikeSettlementConfirm": {
         "template": "DrowningSeekers@Roguelike@GamePassTheEndConfirm.png"
     }
