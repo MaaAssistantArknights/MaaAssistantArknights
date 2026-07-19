@@ -1,6 +1,7 @@
 #include "RoguelikeDrowningSeekersRoutingTaskPlugin.h"
 
 #include <climits>
+#include <string_view>
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
@@ -64,6 +65,67 @@ const char* known_node_route_action(RoguelikeNodeType type)
     }
 }
 
+std::string_view node_marker(const RoguelikeDrowningSeekersMapAnalyzer::Cell& cell, bool is_player)
+{
+    if (is_player) {
+        return "我";
+    }
+    if (cell.kind == RoguelikeDrowningSeekersMapAnalyzer::CellKind::Road) {
+        return "路";
+    }
+    if (cell.kind != RoguelikeDrowningSeekersMapAnalyzer::CellKind::Object) {
+        return "空";
+    }
+
+    // 使用单个汉字显示节点类型，保证每个网格单元占用相同的全角宽度。
+    switch (cell.type) {
+    case RoguelikeNodeType::CombatOps:
+        return "战";
+    case RoguelikeNodeType::EmergencyOps:
+        return "急";
+    case RoguelikeNodeType::DreadfulFoe:
+        return "敌";
+    case RoguelikeNodeType::Encounter:
+        return "遇";
+    case RoguelikeNodeType::Boons:
+        return "赐";
+    case RoguelikeNodeType::SafeHouse:
+        return "安";
+    case RoguelikeNodeType::Recreation:
+        return "休";
+    case RoguelikeNodeType::RogueTrader:
+        return "商";
+    case RoguelikeNodeType::LostAndFound:
+        return "失";
+    case RoguelikeNodeType::Scout:
+        return "探";
+    case RoguelikeNodeType::BoskyPassage:
+        return "林";
+    case RoguelikeNodeType::MysteriousPresage:
+        return "谜";
+    case RoguelikeNodeType::FerociousPresage:
+        return "凶";
+    case RoguelikeNodeType::FaceOff:
+        return "决";
+    case RoguelikeNodeType::PathEnd:
+        return "终";
+    case RoguelikeNodeType::PathLane:
+        return "径";
+    case RoguelikeNodeType::HiddenTrader:
+        return "隐";
+    case RoguelikeNodeType::EmergencyAid:
+        return "援";
+    case RoguelikeNodeType::WindingPassage:
+        return "曲";
+    case RoguelikeNodeType::VantagePoint:
+        return "瞰";
+    case RoguelikeNodeType::ResidentStronghold:
+        return "居";
+    default:
+        return "未";
+    }
+}
+
 std::string format_map_ascii(const RoguelikeDrowningSeekersMapAnalyzer::Result& result)
 {
     std::string output;
@@ -79,35 +141,33 @@ std::string format_map_ascii(const RoguelikeDrowningSeekersMapAnalyzer::Result& 
 
     for (int row = 0; row < result.rows; ++row) {
         for (int col = 0; col < result.cols; ++col) {
-            char marker = ' ';
+            const RoguelikeDrowningSeekersMapAnalyzer::Cell* cell_at = nullptr;
             for (const auto& cell : result.cells) {
                 if (cell.col != col || cell.row != row) {
                     continue;
                 }
-                if (cell.col == result.player.first && cell.row == result.player.second) {
-                    marker = '@';
-                }
-                else if (cell.kind == RoguelikeDrowningSeekersMapAnalyzer::CellKind::Object) {
-                    marker = cell.type == RoguelikeNodeType::CombatOps ? 'C' : 'O';
-                }
-                else {
-                    marker = '.';
-                }
+                cell_at = &cell;
                 break;
             }
-            output += '[';
-            output += marker;
-            output += ']';
+            if (cell_at != nullptr) {
+                output += node_marker(*cell_at, cell_at->col == result.player.first && cell_at->row == result.player.second);
+            }
+            else {
+                output += "　";
+            }
             if (col + 1 < result.cols) {
-                output += connected(col, row, col + 1, row) ? "---" : "   ";
+                output += connected(col, row, col + 1, row) ? "－" : "　";
             }
         }
         if (row + 1 < result.rows) {
             output += '\n';
-            std::string vertical(static_cast<size_t>(result.cols) * 6, ' ');
+            // 竖线也使用全宽字符；每个网格列之间留一个全角空格，与节点行等宽。
+            std::string vertical;
+            vertical.reserve(static_cast<size_t>(result.cols) * 3);
             for (int col = 0; col < result.cols; ++col) {
-                if (connected(col, row, col, row + 1)) {
-                    vertical[static_cast<size_t>(col) * 6 + 1] = '|';
+                vertical += connected(col, row, col, row + 1) ? "｜" : "　";
+                if (col + 1 < result.cols) {
+                    vertical += "　";
                 }
             }
             output += vertical;
