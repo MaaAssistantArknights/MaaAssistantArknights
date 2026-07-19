@@ -13,6 +13,49 @@ bool supports_option_analyzer(const std::string& theme)
 {
     return theme == asst::RoguelikeTheme::JieGarden || theme == asst::RoguelikeTheme::DrowningSeekers;
 }
+
+// 黑流树海的选项左侧图标在可选/不可选状态下基本不变，状态差异体现在
+// 选项文字：可选文字为深色，不可选文字会被渲染成较浅的灰色。
+bool is_drowning_seekers_option_enabled(const cv::Mat& option_templ)
+{
+    constexpr int text_left = 40;
+    constexpr int dark_pixel_threshold = 180;
+    constexpr int enabled_text_luma_threshold = 112;
+
+    if (option_templ.empty() || option_templ.cols <= text_left || option_templ.channels() != 3) {
+        return false;
+    }
+
+    const cv::Rect text_rect { text_left, 0, option_templ.cols - text_left, option_templ.rows };
+    const cv::Mat text_image = option_templ(text_rect);
+
+    int dark_pixel_count = 0;
+    int dark_pixel_luma_sum = 0;
+    for (int y = 0; y < text_image.rows; ++y) {
+        const auto* row = text_image.ptr<cv::Vec3b>(y);
+        for (int x = 0; x < text_image.cols; ++x) {
+            const cv::Vec3b& pixel = row[x];
+            // OpenCV 图像通道顺序为 BGR。用亮度而不是单通道值，避免彩色背景影响判断。
+            const int luma = (114 * pixel[0] + 587 * pixel[1] + 299 * pixel[2]) / 1000;
+            if (luma < dark_pixel_threshold) {
+                ++dark_pixel_count;
+                dark_pixel_luma_sum += luma;
+            }
+        }
+    }
+
+    if (dark_pixel_count == 0) {
+        return false;
+    }
+
+    const int average_dark_luma = dark_pixel_luma_sum / dark_pixel_count;
+    Log.trace(
+        "RoguelikeEncounterOptionAnalyzer | DrowningSeekers text luma:",
+        average_dark_luma,
+        "dark pixels:",
+        dark_pixel_count);
+    return average_dark_luma < enabled_text_luma_threshold;
+}
 }
 
 bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
@@ -54,13 +97,18 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
     for (const auto& [rect, score, templ_name] : option_analyze_result) {
         Option option;
 
-        Matcher enabled_analyzer(make_roi(m_image, rect));
-        enabled_analyzer.set_task_info(enabled_task_ptr);
-        option.enabled = enabled_analyzer.analyze().has_value();
-
         Rect templ_rect = templ_task_ptr->specific_rect;
         templ_rect.y = rect.y;
         option.templ = make_roi(m_image, templ_rect);
+
+        if (m_theme == RoguelikeTheme::DrowningSeekers) {
+            option.enabled = is_drowning_seekers_option_enabled(option.templ);
+        }
+        else {
+            Matcher enabled_analyzer(make_roi(m_image, rect));
+            enabled_analyzer.set_task_info(enabled_task_ptr);
+            option.enabled = enabled_analyzer.analyze().has_value();
+        }
 
         RegionOCRer ocrer(option.enabled ? option.templ : binarize_for_ocr(option.templ));
         ocrer.set_task_info(text_task_ptr);

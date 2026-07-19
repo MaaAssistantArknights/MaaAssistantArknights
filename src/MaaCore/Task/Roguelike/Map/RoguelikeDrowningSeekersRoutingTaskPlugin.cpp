@@ -27,6 +27,43 @@ bool is_battle_type(RoguelikeNodeType t)
            t == RoguelikeNodeType::FerociousPresage || t == RoguelikeNodeType::Unknown;
 }
 
+// 已经能从地图铭牌确定类型的节点，不再让入口模板互相竞争。
+// 返回值是 RoguelikeRoutingAction 的具体任务名；未覆盖的类型继续走旧兜底，
+// 方便后续补齐黑流树海的特殊节点和未知节点流程。
+const char* known_node_route_action(RoguelikeNodeType type)
+{
+    switch (type) {
+    case RoguelikeNodeType::CombatOps:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageCombatOpsEnter";
+    case RoguelikeNodeType::EmergencyOps:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageEmergencyOpsEnter";
+    case RoguelikeNodeType::DreadfulFoe:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageDreadfulFoeEnter";
+    case RoguelikeNodeType::Encounter:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageEncounterEnter";
+    case RoguelikeNodeType::Boons:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageBoonsEnter";
+    case RoguelikeNodeType::SafeHouse:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageSafeHouseEnter";
+    case RoguelikeNodeType::BoskyPassage:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageBoskyPassageEnter";
+    case RoguelikeNodeType::FaceOff:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageConfrontationEnter";
+    case RoguelikeNodeType::RogueTrader:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageTraderEnter";
+    case RoguelikeNodeType::LostAndFound:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageWindAndRainEnter";
+    case RoguelikeNodeType::PathEnd:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageFinalEnter";
+    case RoguelikeNodeType::HiddenTrader:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageScrapShopEnter";
+    case RoguelikeNodeType::EmergencyAid:
+        return "DrowningSeekers@RoguelikeRoutingAction-StageEmployEnter";
+    default:
+        return nullptr;
+    }
+}
+
 std::string format_map_ascii(const RoguelikeDrowningSeekersMapAnalyzer::Result& result)
 {
     std::string output;
@@ -500,7 +537,22 @@ void RoguelikeDrowningSeekersRoutingTaskPlugin::act_move(
         return;
     }
 
-    // 其他节点交给 EnterNode 逐模板尝试进入节点流程。
+    if (const char* route_action = known_node_route_action(target_cell.type); route_action != nullptr) {
+        Log.info(
+            "DrowningSeekersRouting | typed node entry:",
+            type2name(target_cell.type),
+            "->",
+            route_action);
+        Task.set_task_base("RoguelikeRoutingAction", route_action);
+        return;
+    }
+
+    // 尚未覆盖的特殊节点和未知节点暂时保留旧兜底；未知节点的战斗/非战斗
+    // 分流会在后续适配中单独处理。
+    Log.info(
+        "DrowningSeekersRouting | fallback node entry:",
+        type2name(target_cell.type),
+        "-> EnterNode");
     Task.set_task_base("RoguelikeRoutingAction", "DrowningSeekers@RoguelikeRoutingAction-EnterNode");
 }
 

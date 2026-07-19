@@ -353,10 +353,65 @@
         "algorithm": "JustReturn",
         "next": ["DrowningSeekers@Roguelike@Routing-Investment"]
     },
+    "DrowningSeekers@RoguelikeRoutingAction-StageCombatOpsEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageCombatOpsEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageEmergencyOpsEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageEmergencyOpsEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageDreadfulFoeEnter": {
+        "algorithm": "JustReturn",
+        "next": [
+            "DrowningSeekers@Roguelike@StageDreadfulFoe-5Enter",
+            "DrowningSeekers@Roguelike@StageDreadfulFoeEnter"
+        ]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageEncounterEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageEncounterEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageBoonsEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageBoonsEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageSafeHouseEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageSafeHouseEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageBoskyPassageEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageBoskyPassageEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageConfrontationEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageConfrontationEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageTraderEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageTraderEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageWindAndRainEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageWindAndRainEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageFinalEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageFinalEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageScrapShopEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageScrapShopEnter"]
+    },
+    "DrowningSeekers@RoguelikeRoutingAction-StageEmployEnter": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@StageEmployEnter"]
+    },
     "DrowningSeekers@RoguelikeRoutingAction-EnterNode": {
         "doc": [
-            "点击目标相邻节点后弹出的\"进入\"确认窗，各类型模板逐一尝试；",
-            "仅处理会进入战斗、事件、商店等后续界面的节点。"
+            "已知节点由 RoguelikeDrowningSeekersRoutingTaskPlugin 按地图类型直接路由；",
+            "本任务仅作为尚未覆盖类型的入口模板兜底。"
         ],
         "algorithm": "JustReturn",
         "next": [

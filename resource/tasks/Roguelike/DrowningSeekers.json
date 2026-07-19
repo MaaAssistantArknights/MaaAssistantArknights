@@ -305,16 +305,27 @@
     },
     "DrowningSeekers@Roguelike@StageDreadfulFoe-5Enter": {
         "template": "DrowningSeekers@Roguelike@StageDreadfulFoe-5Enter.png",
+        "baseTask": "DrowningSeekers@Roguelike@StageEnterBattle",
         "templThreshold": 0.98,
         "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageBoonsEnter": {
         "template": "DrowningSeekers@Roguelike@StageBoonsEnter.png",
+        "baseTask": "DrowningSeekers@Roguelike@StageEnter",
+        "next": [
+            "DrowningSeekers@Roguelike@StageBoonsEnter",
+            "DrowningSeekers@Roguelike@StageEncounterJudgeClick"
+        ],
         "templThreshold": 0.98,
         "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageConfrontationEnter": {
         "template": "DrowningSeekers@Roguelike@StageConfrontationEnter.png",
+        "baseTask": "DrowningSeekers@Roguelike@StageEnter",
+        "next": [
+            "DrowningSeekers@Roguelike@StageConfrontationEnter",
+            "DrowningSeekers@Roguelike@StageEncounterJudgeClick"
+        ],
         "templThreshold": 0.98,
         "rectMove": [0, 0, 55, 70]
     },
@@ -367,6 +378,11 @@
     },
     "DrowningSeekers@Roguelike@StageWindAndRainEnter": {
         "template": "DrowningSeekers@Roguelike@StageWindAndRainEnter.png",
+        "baseTask": "DrowningSeekers@Roguelike@StageEnter",
+        "next": [
+            "DrowningSeekers@Roguelike@StageWindAndRainEnter",
+            "DrowningSeekers@Roguelike@StageEncounterJudgeClick"
+        ],
         "templThreshold": 0.98,
         "rectMove": [0, 0, 55, 70]
     },
@@ -407,13 +423,16 @@
         "baseTask": "JieGarden@RoguelikeEncounter-MoveUp"
     },
     "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-Option": {
-        "baseTask": "JieGarden@RoguelikeEncounterOptionAnalyzer-Option"
+        "baseTask": "JieGarden@RoguelikeEncounterOptionAnalyzer-Option",
+        "template": "empty.png"
     },
     "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
-        "baseTask": "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar"
+        "baseTask": "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar",
+        "template": "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-38.png"
     },
     "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled": {
-        "baseTask": "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled"
+        "baseTask": "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled",
+        "template": "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-38.png"
     },
     "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
         "baseTask": "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text"
