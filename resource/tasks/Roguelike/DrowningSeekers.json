@@ -11,6 +11,24 @@
         "templThreshold": 0.85,
         "postDelay": 500
     },
+    "DrowningSeekers@Roguelike@DropsFlag": {
+        "template": "Roguelike@DropsFlag.png",
+        "baseTask": "DrowningSeekers@Roguelike@DropsFlag_default"
+    },
+    "DrowningSeekers@Roguelike@DropsFlag_default": {
+        "template": "Roguelike@DropsFlag.png",
+        "next": [
+            "DrowningSeekers@Roguelike@GetDrops#next",
+            "DrowningSeekers@Roguelike@GetDropCompleted",
+            "DrowningSeekers@Roguelike@GetDropLeave",
+            "DrowningSeekers@Roguelike@Stages#next",
+            "DrowningSeekers@Roguelike@StageEncounterOptions#next",
+            "DrowningSeekers@Roguelike@StageEncounterSpecialClose",
+            "DrowningSeekers@Roguelike@StageTraderLeave",
+            "DrowningSeekers@Roguelike@CloseEvent",
+            "DrowningSeekers@Roguelike@RecruitOther"
+        ]
+    },
     "DrowningSeekers@StartExplore@Roguelike@ChooseOper": {
         "next": [
             "DrowningSeekers@StartExplore@Roguelike@ChooseOperConfirm",
@@ -34,6 +52,20 @@
     },
     "DrowningSeekers@Roguelike@AbandonConfirm": {
         "template": "DrowningSeekers@Roguelike@AbandonConfirm.png"
+    },
+    "DrowningSeekers@Roguelike@ExitThenAbandon": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "next": [
+            "DrowningSeekers@Roguelike@ExitThenAbandon",
+            "DrowningSeekers@Roguelike@Abandon"
+        ]
+    },
+    "DrowningSeekers@Roguelike@ExitThenAbandon_ToHardest": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "next": [
+            "DrowningSeekers@Roguelike@ExitThenAbandon_ToHardest",
+            "DrowningSeekers@Roguelike@Abandon"
+        ]
     },
     "DrowningSeekers@Roguelike@CheckLevel": {
         "text": ["沉沦者的黑流树海", "黑流树海", "沉沦于树海"]
@@ -62,6 +94,14 @@
         "action": "ClickSelf",
         "templThreshold": 0.9,
         "roi": [560, 500, 160, 100]
+    },
+    "DrowningSeekers@Roguelike@CloseCollectionContinue": {
+        "template": "DrowningSeekers@Roguelike@CloseCollectionContinue.png",
+        "action": "ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [549, 440, 123, 130],
+        "onErrorNext": ["#back"],
+        "next": ["#next"]
     },
     "DrowningSeekers@Roguelike@CloseEvent": {
         "algorithm": "JustReturn",
@@ -218,74 +258,117 @@
     },
     "DrowningSeekers@Roguelike@StageCombatOpsEnter": {
         "template": "DrowningSeekers@Roguelike@StageCombatOpsEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageEmergencyOpsEnter": {
         "template": "DrowningSeekers@Roguelike@StageEmergencyOpsEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageEncounterEnter": {
         "template": "DrowningSeekers@Roguelike@StageEncounterEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
+    },
+    "DrowningSeekers@Roguelike@StageEncounterSpecialClose": {
+        "template": "DrowningSeekers@Roguelike@StageEncounterSpecialClose.png"
+    },
+    "DrowningSeekers@Roguelike@StageEncounterJudgeClick2": {
+        "next": [
+            "DrowningSeekers@Roguelike@StageEncounterJudgeClick2@(DrowningSeekers@Roguelike@CloseCollectionContinue)",
+            "DrowningSeekers@Roguelike@StageEncounterJudgeOption"
+        ]
     },
     "DrowningSeekers@Roguelike@StageEncounterLeaveConfirm": {
         "template": "DrowningSeekers@Roguelike@StageEncounterLeaveConfirm.png"
     },
     "DrowningSeekers@Roguelike@StageTraderEnter": {
         "template": "DrowningSeekers@Roguelike@StageTraderEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageSafeHouseEnter": {
         "template": "DrowningSeekers@Roguelike@StageSafeHouseEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageBoskyPassageEnter": {
         "template": "DrowningSeekers@Roguelike@StageBoskyPassageEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageDreadfulFoeEnter": {
         "template": "DrowningSeekers@Roguelike@StageDreadfulFoeEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageDreadfulFoe-5Enter": {
         "template": "DrowningSeekers@Roguelike@StageDreadfulFoe-5Enter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageBoonsEnter": {
         "template": "DrowningSeekers@Roguelike@StageBoonsEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageConfrontationEnter": {
         "template": "DrowningSeekers@Roguelike@StageConfrontationEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageDoorEnter": {
         "template": "DrowningSeekers@Roguelike@StageDoorEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageEmployEnter": {
         "template": "DrowningSeekers@Roguelike@StageEmployEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageFinalEnter": {
         "template": "DrowningSeekers@Roguelike@StageFinalEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageLightEnter": {
         "template": "DrowningSeekers@Roguelike@StageLightEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageScrapShopEnter": {
         "template": "DrowningSeekers@Roguelike@StageScrapShopEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter": {
-        "template": "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter.png",
-        "templThreshold": 0.98
+        "template": [
+            "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter.png",
+            "DrowningSeekers@Roguelike@StageTraderEnter.png"
+        ],
+        "action": "ClickSelf",
+        "roi": [1035, 370, 226, 300],
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70],
+        "postDelay": 1000
+    },
+    "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnterDirectReturn": {
+        "template": [
+            "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter.png",
+            "DrowningSeekers@Roguelike@StageTraderEnter.png"
+        ],
+        "action": "ClickSelf",
+        "roi": [1035, 370, 226, 300],
+        "templThreshold": 0.90,
+        "rectMove": [0, 0, 55, 70],
+        "postDelay": 1000
     },
     "DrowningSeekers@Roguelike@StageWindAndRainEnter": {
         "template": "DrowningSeekers@Roguelike@StageWindAndRainEnter.png",
-        "templThreshold": 0.98
+        "templThreshold": 0.98,
+        "rectMove": [0, 0, 55, 70]
     },
     "DrowningSeekers@Roguelike@Stages": {
         "baseTask": "DrowningSeekers@Roguelike@Stages_default",
