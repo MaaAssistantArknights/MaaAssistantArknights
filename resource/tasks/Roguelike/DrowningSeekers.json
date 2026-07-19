@@ -1,6 +1,5 @@
 {
     "DrowningSeekers@Roguelike@StartAction": {
-        "baseTask": "Roguelike@StartAction",
         "template": "Roguelike@StartAction.png",
         "sub": ["DrowningSeekers@Roguelike@DialogConfirm"],
         "subErrorIgnored": true
@@ -96,6 +95,16 @@
     "DrowningSeekers@Roguelike@GamePassTheEndConfirm": {
         "template": "DrowningSeekers@Roguelike@GamePassTheEndConfirm.png"
     },
+    "DrowningSeekers@Roguelike@GamePass": {
+        "template": "DrowningSeekers@Roguelike@GamePass.png"
+    },
+    "DrowningSeekers@Roguelike@GamePassSkip1": {
+        "template": "DrowningSeekers@Roguelike@GamePassSkip1.png"
+    },
+    "DrowningSeekers@Roguelike@GamePassSkip1Confirm": {
+        "template": "DrowningSeekers@Roguelike@GamePassSkip1Confirm.png"
+    },
+    "DrowningSeekers@Roguelike@GamePassSkip2": {},
     "DrowningSeekers@Roguelike@MissionFailedFlag": {
         "template": "DrowningSeekers@Roguelike@MissionFailedFlag.png"
     },
