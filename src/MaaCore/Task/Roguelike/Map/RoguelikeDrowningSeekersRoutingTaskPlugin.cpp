@@ -484,8 +484,18 @@ void RoguelikeDrowningSeekersRoutingTaskPlugin::act_move(
     ctrler()->click(Point(target_cell.center.x, target_cell.center.y));
     sleep(300);
 
-    // 衔接节点进入流程：无论何种类型，统一交给 EnterNode 逐模板尝试进入弹窗；
-    // road/空节点无弹窗时经 Stop 优雅返回 Stages 循环重新识别。
+    // 空路、羽瞰点、曲折密道点击“出发前往”后直接回到地图，不会出现节点界面。
+    // 这些节点仍需要点击右下角的“出发前往”，但不能进入 StageTraderEnter 等
+    // 节点后续流程，否则会把地图上的确认按钮误当成商店入口并一直等待商店界面。
+    const bool moves_without_stage =
+        target_cell.kind == RoguelikeDrowningSeekersMap::CellKind::Road ||
+        target_cell.type == RoguelikeNodeType::VantagePoint || target_cell.type == RoguelikeNodeType::WindingPassage;
+    if (moves_without_stage) {
+        Task.set_task_base("RoguelikeRoutingAction", "DrowningSeekers@RoguelikeRoutingAction-MoveWithoutPopup");
+        return;
+    }
+
+    // 其他节点交给 EnterNode 逐模板尝试进入节点流程。
     Task.set_task_base("RoguelikeRoutingAction", "DrowningSeekers@RoguelikeRoutingAction-EnterNode");
 }
 

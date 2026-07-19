@@ -87,7 +87,7 @@ private:
 
     // 决策为放弃时的收尾
     void act_abandon(const std::string& reason);
-    // 决策为移动时的收尾（点击 + 衔接节点进入流程）
+    // 决策为移动时的收尾（点击 + 衔接节点流程）
     void act_move(const RoguelikeDrowningSeekersMap& map, const DrowningSeekersRouteDecision& decision);
 
     inline static std::function<std::string(RoguelikeNodeType)> type2name = &RoguelikeMapConfig::type2name;

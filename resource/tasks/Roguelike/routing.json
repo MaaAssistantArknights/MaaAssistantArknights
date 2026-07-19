@@ -348,10 +348,19 @@
         "algorithm": "JustReturn",
         "next": ["DrowningSeekers@Roguelike@ExitThenAbandon"]
     },
+    "DrowningSeekers@RoguelikeRoutingAction-MoveWithoutPopup": {
+        "doc": "空路、羽瞰点、曲折密道点击节点后的出发确认；确认后直接回到地图，不进入节点界面。",
+        "template": "DrowningSeekers@Roguelike@StageTraderEnter.png",
+        "templThreshold": 0.98,
+        "roi": [1035, 370, 226, 300],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["DrowningSeekers@Roguelike@Routing-Investment"]
+    },
     "DrowningSeekers@RoguelikeRoutingAction-EnterNode": {
         "doc": [
             "点击目标相邻节点后弹出的\"进入\"确认窗，各类型模板逐一尝试；",
-            "road/空节点点击后无弹窗时经 Stop 优雅返回 Stages 循环重新识别。"
+            "仅处理会进入战斗、事件、商店等后续界面的节点。"
         ],
         "algorithm": "JustReturn",
         "next": [
