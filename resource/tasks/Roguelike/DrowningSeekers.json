@@ -352,6 +352,7 @@
     },
     "DrowningSeekers@Roguelike@StageFinalEnter": {
         "template": "DrowningSeekers@Roguelike@StageFinalEnter.png",
+        "baseTask": "DrowningSeekers@Roguelike@StageEncounterEnter",
         "templThreshold": 0.98,
         "rectMove": [0, 0, 55, 70]
     },
