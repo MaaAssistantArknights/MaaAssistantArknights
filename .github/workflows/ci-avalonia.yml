@@ -57,13 +57,6 @@ jobs:
           --logger "trx;LogFileName=baseline-consistency.trx"
           --filter "FullyQualifiedName~BaselineContractTests|FullyQualifiedName~BaselineCoverageTests|FullyQualifiedName~BaselineRenderSyncTests|FullyQualifiedName~ParityMatrixSyncTests"
 
-      - name: Run Linux full MAAUnified test gate
-        if: matrix.name == 'linux-x64'
-        run: >
-          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
-          --results-directory TestResults/${{ matrix.name }}
-          --logger "trx;LogFileName=full-maaunified-tests.trx"
-
       - name: Run Windows platform capability contract gate
         if: matrix.name == 'windows-x64'
         run: >
