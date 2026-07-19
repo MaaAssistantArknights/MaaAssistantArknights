@@ -133,8 +133,28 @@
       "name": "无人商店",
       "dynamic_options": true,
       "max_steps": 8,
-      "preferred_options": [],
-      "safe_fallback_options": [],
+      "preferred_options": [
+        {
+          "texts": [
+            "搬一个大桶"
+          ]
+        },
+        {
+          "texts": [
+            "搬两个小桶"
+          ]
+        },
+        {
+          "texts": [
+            "推装着轮子的巨大木桶"
+          ]
+        }
+      ],
+      "safe_fallback_options": [
+        "搬一个大桶",
+        "搬两个小桶",
+        "推装着轮子的巨大木桶"
+      ],
       "branches": [
         {
           "id": "wish",
@@ -151,8 +171,28 @@
             "搬两个小桶",
             "推装着轮子的巨大木桶"
           ],
-          "preferred_options": [],
-          "safe_fallback_options": []
+          "preferred_options": [
+            {
+              "texts": [
+                "搬一个大桶"
+              ]
+            },
+            {
+              "texts": [
+                "搬两个小桶"
+              ]
+            },
+            {
+              "texts": [
+                "推装着轮子的巨大木桶"
+              ]
+            }
+          ],
+          "safe_fallback_options": [
+            "搬一个大桶",
+            "搬两个小桶",
+            "推装着轮子的巨大木桶"
+          ]
         }
       ]
     },
