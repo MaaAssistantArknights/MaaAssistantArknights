@@ -586,9 +586,7 @@ D:\
 2. 使用指挥避战策略将大幅提高刷源石锭效率，也可用于快速刷等级（不追求通关），但需要注意策略选择为 ｢刷源石锭｣
 3. 已解锁的最高难度 &lt;3 或未解锁相关科技时，请不要使用指挥避战策略，否则会导致出错
 4. 当前难度 ≥15 时，6★ 干员希望消耗 +1，使用部分分队时可能无法招募开局 6★ 干员，导致出错或失败</system:String>
-    <system:String x:Key="RoguelikeThemeTipBlackflow" xml:space="preserve">注意：{key=RoguelikeThemeBlackflow}目前支持非常不良好，仅建议用于测试。
-
-当前仅支持刷源石锭并进入开局流程；节点地图和正式策略开发中。</system:String>
+    <system:String x:Key="RoguelikeThemeTipBlackflow" xml:space="preserve">注意：{key=RoguelikeThemeBlackflow}目前支持非常不良好，仅建议用于测试。</system:String>
     <system:String x:Key="RoguelikeDifficulty">难度</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解锁 ｢{key=RoguelikeThemeJieGarden}｣ 相关科技后，{key=LeaderSquad}在进行 N3 及以上难度的探索时，会额外携带一个 ｢时光之末｣，可以利用其进行 ｢一战一跳｣ 的存钱策略。
 若尚未解锁该科技，请不要选择 N3 及以上难度（包括 ｢MAX｣）进行探索；

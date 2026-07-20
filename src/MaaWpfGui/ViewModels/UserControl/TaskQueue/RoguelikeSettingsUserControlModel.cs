@@ -425,6 +425,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
             // 更新主题提示
             OnPropertyChanged(nameof(RoguelikeThemeTip));
+            OnPropertyChanged(nameof(RoguelikeStartWithSeedVisible));
         }
     }
 
@@ -864,6 +865,11 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, value.ToString());
         }
     }
+
+    /// <summary>
+    /// Gets a value indicating whether starting with a seed is supported by the current theme.
+    /// </summary>
+    public bool RoguelikeStartWithSeedVisible => RoguelikeTheme == Theme.JieGarden;
 
     /// <summary>
     /// Gets or sets a value indicating whether start with seed
