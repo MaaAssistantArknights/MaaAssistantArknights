@@ -204,7 +204,7 @@ public enum RoguelikeTheme
     /// <summary>
     /// 沉沦者的黑流树海
     /// </summary>
-    DrowningSeekers,
+    Blackflow,
 }
 
 public enum RoguelikeMode

@@ -213,7 +213,7 @@
     <system:String x:Key="RoguelikeStrategyGold">각뿔 투자, 투자 완료 시 자동 종료</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">{key=Operator} 2차 정예화 또는 전기주전자 획득까지 반복</system:String>
     <system:String x:Key="RoguelikeStrategyBoilWater">물 끓이기</system:String>
-    <system:String x:Key="RoguelikeDrowningSeekersCollectibleModeTip">사실 전기주전자는 없습니다 :(</system:String>
+    <system:String x:Key="RoguelikeBlackflowCollectibleModeTip">사실 전기주전자는 없습니다 :(</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">희귀 붕괴 패러다임 파밍, 일반 붕괴 패러다임 획득 시 재시작</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">전기주전자 획득 분대</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">월간 분대 파밍, 최대한 많은 구역 클리어</system:String>
@@ -544,7 +544,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="RoguelikeThemeSami">사미</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">살카즈</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">쉐이</system:String>
-    <system:String x:Key="RoguelikeThemeDrowningSeekers">침몰자의 검은 유류림</system:String>
+    <system:String x:Key="RoguelikeThemeBlackflow">침몰자의 검은 유류림</system:String>
     <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}추천 구성:
 
 {key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
@@ -586,7 +586,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
 2. 지휘 회피 전투 전략을 사용하면 각뿔 투자 효율이 크게 향상되고, 빠른 레벨업(클리어를 목표로 하지 않음)에도 사용할 수 있지만, 전략을 ｢각뿔 투자｣로 설정해야 해요
 3. 해금된 최고 난이도가 3 미만이거나 관련 기술을 해금하지 않았다면 지휘 회피 전투 전략을 사용하지 마세요. 오류가 발생할 수 있어요
 4. 난이도 15 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가해요. 일부 분대에서는 시작 시 6성 오퍼레이터를 모집하지 못해 오류나 실패로 이어질 수 있어요</system:String>
-    <system:String x:Key="RoguelikeThemeTipDrowningSeekers" xml:space="preserve">{key=RoguelikeThemeDrowningSeekers}현재 오리지늄 각괴 파밍과 탐색 시작을 지원합니다.
+    <system:String x:Key="RoguelikeThemeTipBlackflow" xml:space="preserve">{key=RoguelikeThemeBlackflow}현재 오리지늄 각괴 파밍과 탐색 시작을 지원합니다.
 
 노드 맵과 정식 전략은 개발 중입니다.</system:String>
     <system:String x:Key="RoguelikeDifficulty">난이도</system:String>

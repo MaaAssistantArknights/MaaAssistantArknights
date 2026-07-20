@@ -1,6 +1,6 @@
 #pragma once
 
-// 黑流树海（DrowningSeekers）迷宫路线规划器：束搜索求解带行动力预算的 orienteering 问题。
+// 黑流树海（Blackflow）迷宫路线规划器：束搜索求解带行动力预算的 orienteering 问题。
 // 刻意零 MaaCore 依赖（仅标准库），以便被 unit_test 直接编译；
 // MAA 侧类型（RoguelikeNodeType、加工品配置等）由插件翻译成本文件的输入结构。
 

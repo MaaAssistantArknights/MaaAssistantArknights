@@ -1,4 +1,4 @@
-#include "RoguelikeDrowningSeekersRoutingTaskPlugin.h"
+#include "RoguelikeBlackflowRoutingTaskPlugin.h"
 
 #include <algorithm>
 #include <climits>
@@ -42,35 +42,35 @@ const char* known_node_route_action(RoguelikeNodeType type)
 {
     switch (type) {
     case RoguelikeNodeType::CombatOps:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageCombatOpsEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageCombatOpsEnter";
     case RoguelikeNodeType::EmergencyOps:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageEmergencyOpsEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageEmergencyOpsEnter";
     case RoguelikeNodeType::DreadfulFoe:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageDreadfulFoeEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageDreadfulFoeEnter";
     case RoguelikeNodeType::Encounter:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageEncounterEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageEncounterEnter";
     case RoguelikeNodeType::Boons:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageBoonsEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageBoonsEnter";
     case RoguelikeNodeType::SafeHouse:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageSafeHouseEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageSafeHouseEnter";
     case RoguelikeNodeType::BoskyPassage:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageBoskyPassageEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageBoskyPassageEnter";
     case RoguelikeNodeType::FaceOff:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageConfrontationEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageConfrontationEnter";
     case RoguelikeNodeType::RogueTrader:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageTraderEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageTraderEnter";
     case RoguelikeNodeType::LostAndFound:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageWindAndRainEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageWindAndRainEnter";
     case RoguelikeNodeType::PathEnd:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageFinalEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageFinalEnter";
     case RoguelikeNodeType::HiddenTrader:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageScrapShopEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageScrapShopEnter";
     case RoguelikeNodeType::EmergencyAid:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageEmployEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageEmployEnter";
     case RoguelikeNodeType::MysteriousPresage:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageMysteriousPresageEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageMysteriousPresageEnter";
     case RoguelikeNodeType::FerociousPresage:
-        return "DrowningSeekers@RoguelikeRoutingAction-StageFerociousPresageEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageFerociousPresageEnter";
     default:
         return nullptr;
     }
@@ -98,15 +98,15 @@ std::optional<int> parse_uses_badge(const std::string& text)
     return value;
 }
 
-std::string_view node_marker(const RoguelikeDrowningSeekersMapAnalyzer::Cell& cell, bool is_player)
+std::string_view node_marker(const RoguelikeBlackflowMapAnalyzer::Cell& cell, bool is_player)
 {
     if (is_player) {
         return "我";
     }
-    if (cell.kind == RoguelikeDrowningSeekersMapAnalyzer::CellKind::Road) {
+    if (cell.kind == RoguelikeBlackflowMapAnalyzer::CellKind::Road) {
         return "路";
     }
-    if (cell.kind != RoguelikeDrowningSeekersMapAnalyzer::CellKind::Object) {
+    if (cell.kind != RoguelikeBlackflowMapAnalyzer::CellKind::Object) {
         return "空";
     }
 
@@ -158,7 +158,7 @@ std::string_view node_marker(const RoguelikeDrowningSeekersMapAnalyzer::Cell& ce
     }
 }
 
-std::string format_map_ascii(const RoguelikeDrowningSeekersMapAnalyzer::Result& result)
+std::string format_map_ascii(const RoguelikeBlackflowMapAnalyzer::Result& result)
 {
     std::string output;
     auto connected = [&](int col, int row, int next_col, int next_row) {
@@ -173,7 +173,7 @@ std::string format_map_ascii(const RoguelikeDrowningSeekersMapAnalyzer::Result& 
 
     for (int row = 0; row < result.rows; ++row) {
         for (int col = 0; col < result.cols; ++col) {
-            const RoguelikeDrowningSeekersMapAnalyzer::Cell* cell_at = nullptr;
+            const RoguelikeBlackflowMapAnalyzer::Cell* cell_at = nullptr;
             for (const auto& cell : result.cells) {
                 if (cell.col != col || cell.row != row) {
                     continue;
@@ -250,13 +250,13 @@ std::string route_to_string(
 // ============================================================================
 // 生命周期
 // ============================================================================
-bool RoguelikeDrowningSeekersRoutingTaskPlugin::load_params([[maybe_unused]] const json::value& params)
+bool RoguelikeBlackflowRoutingTaskPlugin::load_params([[maybe_unused]] const json::value& params)
 {
-    if (m_config->get_theme() != RoguelikeTheme::DrowningSeekers) {
+    if (m_config->get_theme() != RoguelikeTheme::Blackflow) {
         return false;
     }
 
-    const TaskPtr config_task = Task.get("DrowningSeekers@RoguelikeRoutingConfig");
+    const TaskPtr config_task = Task.get("Blackflow@RoguelikeRoutingConfig");
     if (config_task && config_task->special_params.size() >= 4) {
         m_grid_step = config_task->special_params.at(0);
         m_nameplate_offset = config_task->special_params.at(1);
@@ -264,21 +264,21 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::load_params([[maybe_unused]] con
         m_dry_run = config_task->special_params.at(3) != 0;
     }
 
-    // 该模式有策略档案才启用迷宫导航（resource/roguelike/DrowningSeekers/routing.json 的 modeStrategies）
-    m_profile = DrowningSeekersRoutingInfo.strategy_for_mode(static_cast<int>(m_config->get_mode()));
+    // 该模式有策略档案才启用迷宫导航（resource/roguelike/Blackflow/routing.json 的 modeStrategies）
+    m_profile = BlackflowRoutingInfo.strategy_for_mode(static_cast<int>(m_config->get_mode()));
     return m_profile != nullptr;
 }
 
-void RoguelikeDrowningSeekersRoutingTaskPlugin::reset_in_run_variables()
+void RoguelikeBlackflowRoutingTaskPlugin::reset_in_run_variables()
 {
     m_consecutive_failures = 0;
     m_force_zoom_reset_after_layer_transition = false;
     if (m_profile == nullptr) {
-        m_profile = DrowningSeekersRoutingInfo.strategy_for_mode(static_cast<int>(m_config->get_mode()));
+        m_profile = BlackflowRoutingInfo.strategy_for_mode(static_cast<int>(m_config->get_mode()));
     }
 }
 
-bool RoguelikeDrowningSeekersRoutingTaskPlugin::verify(const AsstMsg msg, const json::value& details) const
+bool RoguelikeBlackflowRoutingTaskPlugin::verify(const AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
@@ -297,7 +297,7 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::verify(const AsstMsg msg, const 
 // ============================================================================
 // 地图识别
 // ============================================================================
-RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersRoutingTaskPlugin::recognize_map()
+RoguelikeBlackflowMapAnalyzer::Result RoguelikeBlackflowRoutingTaskPlugin::recognize_map()
 {
     // 1. 确保地图缩小：同一帧比较“＋”和“−”的置信率。
     //    游戏在最小缩放时仍会保留“−”按钮，因此不能以“−”消失作为退出条件。
@@ -306,8 +306,8 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersRoutingTaskP
     constexpr int zoom_max_clicks = 8;
     constexpr int zoom_wait_ms = 1000;
     constexpr double layer_reset_threshold = 0.8;
-    constexpr const char* zoom_in_template = "DrowningSeekers@Roguelike@MapZoomIn.png";
-    constexpr const char* zoom_out_template = "DrowningSeekers@Roguelike@MapZoomOut.png";
+    constexpr const char* zoom_in_template = "Blackflow@Roguelike@MapZoomIn.png";
+    constexpr const char* zoom_out_template = "Blackflow@Roguelike@MapZoomOut.png";
     const Rect zoom_roi { 0, 540, 120, 100 };
 
     if (m_force_zoom_reset_after_layer_transition) {
@@ -391,7 +391,7 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersRoutingTaskP
     }
 
     // 2. 从右上向左下滑动，固定视野
-    ProcessTask(*this, { "DrowningSeekers@RoguelikeRouting-SwipeToCorner" }).run();
+    ProcessTask(*this, { "Blackflow@RoguelikeRouting-SwipeToCorner" }).run();
     sleep(300);
 
     // 3. 截图识别
@@ -402,16 +402,16 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersRoutingTaskP
         true,
         "drowningseekers recognition input",
         "input");
-    RoguelikeDrowningSeekersMapAnalyzer analyzer(image);
+    RoguelikeBlackflowMapAnalyzer analyzer(image);
     return analyzer.analyze();
 }
 
-int RoguelikeDrowningSeekersRoutingTaskPlugin::recognize_action_points(const char* task_name)
+int RoguelikeBlackflowRoutingTaskPlugin::recognize_action_points(const char* task_name)
 {
     cv::Mat image = ctrler()->get_image().clone();
     const auto task_ptr = Task.get<OcrTaskInfo>(task_name);
     if (!task_ptr) {
-        Log.error("DrowningSeekersRouting | action points OCR task missing", task_name);
+        Log.error("BlackflowRouting | action points OCR task missing", task_name);
         return -1;
     }
 
@@ -430,7 +430,7 @@ int RoguelikeDrowningSeekersRoutingTaskPlugin::recognize_action_points(const cha
         analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
         analyzer.set_use_char_model(true);
         if (!analyzer.analyze()) {
-            Log.info("DrowningSeekersRouting | action points OCR", task_name, pass, "no result");
+            Log.info("BlackflowRouting | action points OCR", task_name, pass, "no result");
             return std::nullopt;
         }
 
@@ -451,7 +451,7 @@ int RoguelikeDrowningSeekersRoutingTaskPlugin::recognize_action_points(const cha
 
         if (best) {
             Log.info(
-                "DrowningSeekersRouting | action points OCR",
+                "BlackflowRouting | action points OCR",
                 task_name,
                 pass,
                 best->text,
@@ -461,7 +461,7 @@ int RoguelikeDrowningSeekersRoutingTaskPlugin::recognize_action_points(const cha
                 best->score);
         }
         else {
-            Log.info("DrowningSeekersRouting | action points OCR", task_name, pass, "no numeric result");
+            Log.info("BlackflowRouting | action points OCR", task_name, pass, "no numeric result");
         }
         return best;
     };
@@ -492,30 +492,30 @@ int RoguelikeDrowningSeekersRoutingTaskPlugin::recognize_action_points(const cha
 // ============================================================================
 // 加工品面板
 // ============================================================================
-void RoguelikeDrowningSeekersRoutingTaskPlugin::ensure_gear_panel_closed()
+void RoguelikeBlackflowRoutingTaskPlugin::ensure_gear_panel_closed()
 {
     // 显示玩家按钮命中则点击（收起面板并聚焦玩家）；未命中经 Stop 立即返回。
-    ProcessTask(*this, { "DrowningSeekers@RoguelikeRouting-CloseGearPanel", "Stop" }).run();
+    ProcessTask(*this, { "Blackflow@RoguelikeRouting-CloseGearPanel", "Stop" }).run();
 }
 
-void RoguelikeDrowningSeekersRoutingTaskPlugin::open_gear_panel()
+void RoguelikeBlackflowRoutingTaskPlugin::open_gear_panel()
 {
-    ProcessTask(*this, { "DrowningSeekers@RoguelikeRouting-OpenGearPanel" }).run();
+    ProcessTask(*this, { "Blackflow@RoguelikeRouting-OpenGearPanel" }).run();
 }
 
-std::vector<RoguelikeDrowningSeekersRoutingTaskPlugin::GearCardHit>
-    RoguelikeDrowningSeekersRoutingTaskPlugin::ocr_gear_cards()
+std::vector<RoguelikeBlackflowRoutingTaskPlugin::GearCardHit>
+    RoguelikeBlackflowRoutingTaskPlugin::ocr_gear_cards()
 {
     std::vector<GearCardHit> cards;
 
     OCRer analyzer(ctrler()->get_image());
-    analyzer.set_task_info("DrowningSeekers@Roguelike@GearPanelOcr");
+    analyzer.set_task_info("Blackflow@Roguelike@GearPanelOcr");
     if (!analyzer.analyze()) {
         return cards;
     }
 
     std::vector<std::string> known_names { kWalkName };
-    for (const auto& gear : DrowningSeekersRoutingInfo.gears()) {
+    for (const auto& gear : BlackflowRoutingInfo.gears()) {
         known_names.emplace_back(gear.name);
     }
 
@@ -587,7 +587,7 @@ std::vector<RoguelikeDrowningSeekersRoutingTaskPlugin::GearCardHit>
     return cards;
 }
 
-RoguelikeDrowningSeekersRoutingTaskPlugin::GearPanelInfo RoguelikeDrowningSeekersRoutingTaskPlugin::read_gear_panel()
+RoguelikeBlackflowRoutingTaskPlugin::GearPanelInfo RoguelikeBlackflowRoutingTaskPlugin::read_gear_panel()
 {
     LogTraceFunction;
 
@@ -596,7 +596,7 @@ RoguelikeDrowningSeekersRoutingTaskPlugin::GearPanelInfo RoguelikeDrowningSeeker
 
     // 先把可能残留的滚动位置推回顶部，再从顶部向下逐页识别。
     for (int reset = 0; reset < kMaxPanelScrolls && !need_exit(); ++reset) {
-        ProcessTask(*this, { "DrowningSeekers@RoguelikeRouting-GearPanelSwipeToTop" }).run();
+        ProcessTask(*this, { "Blackflow@RoguelikeRouting-GearPanelSwipeToTop" }).run();
     }
 
     for (int screen = 0; screen <= kMaxPanelScrolls && !need_exit(); ++screen) {
@@ -631,14 +631,14 @@ RoguelikeDrowningSeekersRoutingTaskPlugin::GearPanelInfo RoguelikeDrowningSeeker
         if (!any_new || screen == kMaxPanelScrolls) {
             break;
         }
-        ProcessTask(*this, { "DrowningSeekers@RoguelikeRouting-GearPanelSwipeUp" }).run();
+        ProcessTask(*this, { "Blackflow@RoguelikeRouting-GearPanelSwipeUp" }).run();
     }
 
     info.valid = walk_seen || !info.uses_by_name.empty();
     return info;
 }
 
-bool RoguelikeDrowningSeekersRoutingTaskPlugin::select_gear_card(const std::string& name)
+bool RoguelikeBlackflowRoutingTaskPlugin::select_gear_card(const std::string& name)
 {
     LogTraceFunction;
     Log.info(__FUNCTION__, "| selecting gear card:", name);
@@ -662,7 +662,7 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::select_gear_card(const std::stri
                 return false; // 点击两次仍未装载，异常交给上层重试
             }
             if (screen < kMaxPanelScrolls) {
-                ProcessTask(*this, { "DrowningSeekers@RoguelikeRouting-GearPanelSwipeUp" }).run();
+                ProcessTask(*this, { "Blackflow@RoguelikeRouting-GearPanelSwipeUp" }).run();
             }
         }
         // 收起重开以复位滚动位置
@@ -675,10 +675,10 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::select_gear_card(const std::stri
 // ============================================================================
 // 规划输入翻译
 // ============================================================================
-drowning_seekers::PlannerMap RoguelikeDrowningSeekersRoutingTaskPlugin::build_planner_map(
-    const RoguelikeDrowningSeekersMapAnalyzer::Result& result) const
+drowning_seekers::PlannerMap RoguelikeBlackflowRoutingTaskPlugin::build_planner_map(
+    const RoguelikeBlackflowMapAnalyzer::Result& result) const
 {
-    const auto& cfg = DrowningSeekersRoutingInfo;
+    const auto& cfg = BlackflowRoutingInfo;
 
     drowning_seekers::PlannerMap pm;
     pm.cols = result.cols;
@@ -694,7 +694,7 @@ drowning_seekers::PlannerMap RoguelikeDrowningSeekersRoutingTaskPlugin::build_pl
         auto& pc = pm.cells[idx];
         pc.exists = true;
         pc.visited = c.visited;
-        if (c.kind != RoguelikeDrowningSeekersMapAnalyzer::CellKind::Object) {
+        if (c.kind != RoguelikeBlackflowMapAnalyzer::CellKind::Object) {
             continue;
         }
         if (auto wit = m_profile->node_weights.find(c.type); wit != m_profile->node_weights.end()) {
@@ -730,7 +730,7 @@ drowning_seekers::PlannerMap RoguelikeDrowningSeekersRoutingTaskPlugin::build_pl
     }
     else if (!teleport_cells.empty()) {
         Log.warn(
-            "DrowningSeekersRouting | winding passages not in pair:",
+            "BlackflowRouting | winding passages not in pair:",
             teleport_cells.size(),
             "- teleport modeling disabled");
     }
@@ -738,18 +738,18 @@ drowning_seekers::PlannerMap RoguelikeDrowningSeekersRoutingTaskPlugin::build_pl
     return pm;
 }
 
-std::vector<drowning_seekers::PlannerGear> RoguelikeDrowningSeekersRoutingTaskPlugin::build_planner_gears(
+std::vector<drowning_seekers::PlannerGear> RoguelikeBlackflowRoutingTaskPlugin::build_planner_gears(
     const GearPanelInfo& panel,
     std::vector<std::string>& gear_names) const
 {
-    const auto& cfg = DrowningSeekersRoutingInfo;
+    const auto& cfg = BlackflowRoutingInfo;
 
     std::vector<drowning_seekers::PlannerGear> gears;
     gear_names.clear();
     for (const auto& [name, uses] : panel.uses_by_name) {
-        const DrowningSeekersGearInfo* info = cfg.gear_by_name(name);
+        const BlackflowGearInfo* info = cfg.gear_by_name(name);
         if (info == nullptr) {
-            Log.warn("DrowningSeekersRouting | unknown gear from panel OCR:", name);
+            Log.warn("BlackflowRouting | unknown gear from panel OCR:", name);
             continue;
         }
         drowning_seekers::PlannerGear gear;
@@ -773,12 +773,12 @@ std::vector<drowning_seekers::PlannerGear> RoguelikeDrowningSeekersRoutingTaskPl
 // ============================================================================
 // 日志与收尾
 // ============================================================================
-void RoguelikeDrowningSeekersRoutingTaskPlugin::dump_recognition(
-    const RoguelikeDrowningSeekersMapAnalyzer::Result& result,
+void RoguelikeBlackflowRoutingTaskPlugin::dump_recognition(
+    const RoguelikeBlackflowMapAnalyzer::Result& result,
     int action_points) const
 {
     Log.info(
-        "DrowningSeekersRouting | === recognition dump ===",
+        "BlackflowRouting | === recognition dump ===",
         "map",
         result.cols,
         "x",
@@ -803,7 +803,7 @@ void RoguelikeDrowningSeekersRoutingTaskPlugin::dump_recognition(
                 if (c.col == result.player.first && c.row == result.player.second) {
                     marker = '@';
                 }
-                else if (c.kind == RoguelikeDrowningSeekersMapAnalyzer::CellKind::Object) {
+                else if (c.kind == RoguelikeBlackflowMapAnalyzer::CellKind::Object) {
                     marker = c.type == RoguelikeNodeType::CombatOps ? 'C' : 'O';
                 }
                 else {
@@ -857,7 +857,7 @@ void RoguelikeDrowningSeekersRoutingTaskPlugin::dump_recognition(
             c.row,
             ") kind",
             static_cast<int>(c.kind),
-            c.kind == RoguelikeDrowningSeekersMapAnalyzer::CellKind::Object ? type2name(c.type) : std::string("road"),
+            c.kind == RoguelikeBlackflowMapAnalyzer::CellKind::Object ? type2name(c.type) : std::string("road"),
             c.visited ? "[visited]" : "",
             c.ocr_text.empty() ? "" : ("ocr=" + c.ocr_text));
     }
@@ -866,27 +866,27 @@ void RoguelikeDrowningSeekersRoutingTaskPlugin::dump_recognition(
     }
 }
 
-void RoguelikeDrowningSeekersRoutingTaskPlugin::act_abandon(const std::string& reason)
+void RoguelikeBlackflowRoutingTaskPlugin::act_abandon(const std::string& reason)
 {
-    Log.info("DrowningSeekersRouting | abandon:", reason);
+    Log.info("BlackflowRouting | abandon:", reason);
     callback(
         AsstMsg::SubTaskExtraInfo,
         [&] {
-            auto info = basic_info_with_what("DrowningSeekersRoutingDecision");
+            auto info = basic_info_with_what("BlackflowRoutingDecision");
             info["details"]["action"] = "abandon";
             info["details"]["reason"] = reason;
             return info;
         }());
     const std::string exit_task = reason == "boil_water_success_dreadful_foe"
-        ? "DrowningSeekers@RoguelikeRoutingAction-ExitThenAbandon_ToHardest"
-        : "DrowningSeekers@RoguelikeRoutingAction-ExitThenAbandon";
+        ? "Blackflow@RoguelikeRoutingAction-ExitThenAbandon_ToHardest"
+        : "Blackflow@RoguelikeRoutingAction-ExitThenAbandon";
     Task.set_task_base("RoguelikeRoutingAction", exit_task);
 }
 
-void RoguelikeDrowningSeekersRoutingTaskPlugin::act_retry(const std::string& reason)
+void RoguelikeBlackflowRoutingTaskPlugin::act_retry(const std::string& reason)
 {
     ++m_consecutive_failures;
-    Log.warn("DrowningSeekersRouting | retry:", reason, "| consecutive", m_consecutive_failures);
+    Log.warn("BlackflowRouting | retry:", reason, "| consecutive", m_consecutive_failures);
     if (m_consecutive_failures >= kMaxConsecutiveFailures) {
         act_abandon("consecutive_failures:" + reason);
         return;
@@ -894,18 +894,18 @@ void RoguelikeDrowningSeekersRoutingTaskPlugin::act_retry(const std::string& rea
     callback(
         AsstMsg::SubTaskExtraInfo,
         [&] {
-            auto info = basic_info_with_what("DrowningSeekersRoutingDecision");
+            auto info = basic_info_with_what("BlackflowRoutingDecision");
             info["details"]["action"] = "retry";
             info["details"]["reason"] = reason;
             return info;
         }());
-    Task.set_task_base("RoguelikeRoutingAction", "DrowningSeekers@RoguelikeRoutingAction-Retry");
+    Task.set_task_base("RoguelikeRoutingAction", "Blackflow@RoguelikeRoutingAction-Retry");
 }
 
 // ============================================================================
 // 主流程
 // ============================================================================
-bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
+bool RoguelikeBlackflowRoutingTaskPlugin::_run()
 {
     LogTraceFunction;
 
@@ -915,9 +915,9 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
 
     // 1. 收起可能残留的加工品面板，识别地图与行动力（面板关闭态）
     ensure_gear_panel_closed();
-    const RoguelikeDrowningSeekersMapAnalyzer::Result result = recognize_map();
+    const RoguelikeBlackflowMapAnalyzer::Result result = recognize_map();
     if (!result.valid) {
-        Log.error("DrowningSeekersRouting | map recognition failed");
+        Log.error("BlackflowRouting | map recognition failed");
         act_retry("recognition_failed");
         return true;
     }
@@ -930,7 +930,7 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
         });
         if (dreadful_foe != result.cells.end()) {
             Log.info(
-                "DrowningSeekersRouting | boilWater success: detected DreadfulFoe at",
+                "BlackflowRouting | boilWater success: detected DreadfulFoe at",
                 dreadful_foe->col,
                 dreadful_foe->row);
             act_abandon("boil_water_success_dreadful_foe");
@@ -938,15 +938,15 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
         }
     }
 
-    const int map_action_points = recognize_action_points("DrowningSeekers@Roguelike@ActionPointsRecognition");
+    const int map_action_points = recognize_action_points("Blackflow@Roguelike@ActionPointsRecognition");
 
     // 2. 打开加工品面板，再识别一次行动力与加工品（面板态作为备用）
     open_gear_panel();
     const int panel_action_points =
-        recognize_action_points("DrowningSeekers@Roguelike@ActionPointsRecognitionGearPanel");
+        recognize_action_points("Blackflow@Roguelike@ActionPointsRecognitionGearPanel");
     const int action_points = panel_action_points >= 0 ? panel_action_points : map_action_points;
     Log.info(
-        "DrowningSeekersRouting | action points OCR map",
+        "BlackflowRouting | action points OCR map",
         map_action_points,
         "panel",
         panel_action_points,
@@ -995,7 +995,7 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
 
     const std::string route_str = route_to_string(planned, pmap);
     Log.info(
-        "DrowningSeekersRouting | strategy",
+        "BlackflowRouting | strategy",
         m_profile->name,
         "| planned score",
         planned.score,
@@ -1008,7 +1008,7 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
     callback(
         AsstMsg::SubTaskExtraInfo,
         [&] {
-            auto info = basic_info_with_what("DrowningSeekersMapRecognition");
+            auto info = basic_info_with_what("BlackflowMapRecognition");
             info["details"]["cols"] = result.cols;
             info["details"]["rows"] = result.rows;
             info["details"]["nodes"] = static_cast<int>(result.cells.size());
@@ -1074,7 +1074,7 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
     // 6. 面板关闭后直接使用已识别的地图和目标节点，不再滑动或重复识别
     const int target_col = first.target % pmap.cols;
     const int target_row = first.target / pmap.cols;
-    const RoguelikeDrowningSeekersMapAnalyzer::Cell* target_cell = nullptr;
+    const RoguelikeBlackflowMapAnalyzer::Cell* target_cell = nullptr;
     for (const auto& c : result.cells) {
         if (c.col == target_col && c.row == target_row) {
             target_cell = &c;
@@ -1082,7 +1082,7 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
         }
     }
     if (target_cell == nullptr) {
-        Log.error("DrowningSeekersRouting | planned target is missing from recognized map");
+        Log.error("BlackflowRouting | planned target is missing from recognized map");
         act_retry("target_missing");
         return true;
     }
@@ -1094,11 +1094,11 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
         target_cell->type == RoguelikeNodeType::PathEnd || target_cell->type == RoguelikeNodeType::PathLane;
     if (m_force_zoom_reset_after_layer_transition) {
         Log.info(
-            "DrowningSeekersRouting | next map will reset zoom after layer node",
+            "BlackflowRouting | next map will reset zoom after layer node",
             type2name(target_cell->type));
     }
     Log.info(
-        "DrowningSeekersRouting | move via",
+        "BlackflowRouting | move via",
         desired_mode,
         "to (",
         target_col,
@@ -1115,7 +1115,7 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
     callback(
         AsstMsg::SubTaskExtraInfo,
         [&] {
-            auto info = basic_info_with_what("DrowningSeekersRoutingDecision");
+            auto info = basic_info_with_what("BlackflowRoutingDecision");
             info["details"]["action"] = "move";
             info["details"]["reason"] = "planned";
             info["details"]["move_mode"] = desired_mode;
@@ -1133,20 +1133,20 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
     sleep(300);
 
     const bool moves_without_stage =
-        target_cell->kind == RoguelikeDrowningSeekersMapAnalyzer::CellKind::Road ||
+        target_cell->kind == RoguelikeBlackflowMapAnalyzer::CellKind::Road ||
         target_cell->type == RoguelikeNodeType::VantagePoint || target_cell->type == RoguelikeNodeType::WindingPassage;
     if (moves_without_stage) {
-        Task.set_task_base("RoguelikeRoutingAction", "DrowningSeekers@RoguelikeRoutingAction-DirectReturn");
-        ProcessTask(*this, { "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnterDirectReturn" }).run();
+        Task.set_task_base("RoguelikeRoutingAction", "Blackflow@RoguelikeRoutingAction-DirectReturn");
+        ProcessTask(*this, { "Blackflow@Roguelike@StageUnknownOrEmptyEnterDirectReturn" }).run();
         return true;
     }
 
     if (const char* route_action = known_node_route_action(target_cell->type); route_action != nullptr) {
-        Log.info("DrowningSeekersRouting | typed node entry:", type2name(target_cell->type), "->", route_action);
+        Log.info("BlackflowRouting | typed node entry:", type2name(target_cell->type), "->", route_action);
         Task.set_task_base("RoguelikeRoutingAction", route_action);
         return true;
     }
 
-    Task.set_task_base("RoguelikeRoutingAction", "DrowningSeekers@RoguelikeRoutingAction-EnterNode");
+    Task.set_task_base("RoguelikeRoutingAction", "Blackflow@RoguelikeRoutingAction-EnterNode");
     return true;
 }

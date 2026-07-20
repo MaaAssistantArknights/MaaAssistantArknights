@@ -280,36 +280,36 @@
         "roi": [0, 60, 1280, 575],
         "postDelay": 300
     },
-    "DrowningSeekers@Roguelike@Routing": {
+    "Blackflow@Roguelike@Routing": {
         "doc": [
-            "黑流树海迷宫导航触发任务（打层/投资通用，策略档案见 roguelike/DrowningSeekers/routing.json）。",
+            "黑流树海迷宫导航触发任务（打层/投资通用，策略档案见 roguelike/Blackflow/routing.json）。",
             "模板为左下角缩放图标，命中即代表当前在迷宫地图界面；",
-            "RoguelikeDrowningSeekersRoutingTaskPlugin::verify 据任务名匹配并接管。"
+            "RoguelikeBlackflowRoutingTaskPlugin::verify 据任务名匹配并接管。"
         ],
         "template": [
-            "DrowningSeekers@Roguelike@MapZoomIn.png",
-            "DrowningSeekers@Roguelike@MapZoomOut.png"
+            "Blackflow@Roguelike@MapZoomIn.png",
+            "Blackflow@Roguelike@MapZoomOut.png"
         ],
         "templThreshold": 0.8,
         "roi": [0, 540, 120, 100],
         "next": ["RoguelikeRoutingAction"]
     },
-    "DrowningSeekers@RoguelikeRouting-OpenGearPanel": {
+    "Blackflow@RoguelikeRouting-OpenGearPanel": {
         "doc": "点击右上角行动力区域，展开选择移动方式（加工品）面板",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [1080, 110, 100, 75],
         "postDelay": 800
     },
-    "DrowningSeekers@RoguelikeRouting-CloseGearPanel": {
+    "Blackflow@RoguelikeRouting-CloseGearPanel": {
         "doc": "点击显示玩家按钮收起加工品面板并聚焦玩家",
-        "template": "DrowningSeekers@Roguelike@MapShowPlayer.png",
+        "template": "Blackflow@Roguelike@MapShowPlayer.png",
         "templThreshold": 0.7,
         "roi": [0, 480, 100, 70],
         "action": "ClickSelf",
         "postDelay": 800
     },
-    "DrowningSeekers@RoguelikeRouting-GearPanelSwipeUp": {
+    "Blackflow@RoguelikeRouting-GearPanelSwipeUp": {
         "doc": "加工品面板内向上滑动以显示更多加工品卡片",
         "algorithm": "JustReturn",
         "action": "Swipe",
@@ -318,7 +318,7 @@
         "specialParams": [400, 1],
         "postDelay": 600
     },
-    "DrowningSeekers@RoguelikeRouting-GearPanelSwipeToTop": {
+    "Blackflow@RoguelikeRouting-GearPanelSwipeToTop": {
         "doc": "加工品面板识别前向下滑动，将列表复位到顶部",
         "algorithm": "JustReturn",
         "action": "Swipe",
@@ -327,7 +327,7 @@
         "specialParams": [400, 1],
         "postDelay": 600
     },
-    "DrowningSeekers@Roguelike@GearPanelOcr": {
+    "Blackflow@Roguelike@GearPanelOcr": {
         "doc": "识别黑流树海加工品面板的名称、剩余次数和装载状态",
         "algorithm": "OcrDetect",
         "text": [],
@@ -350,16 +350,16 @@
             ["[\"“”『』]*[简簡筒][易昜]遥控器[\"“”『』]*", "简易遥控器"]
         ]
     },
-    "DrowningSeekers@RoguelikeRouting-EnsureZoomedOut": {
+    "Blackflow@RoguelikeRouting-EnsureZoomedOut": {
         "doc": "点击缩小图标直至只剩放大图标（保证地图完整可见）",
-        "template": "DrowningSeekers@Roguelike@MapZoomOut.png",
+        "template": "Blackflow@Roguelike@MapZoomOut.png",
         "templThreshold": 0.99,
         "roi": [0, 540, 120, 100],
         "action": "ClickSelf",
         "postDelay": 1000,
         "next": ["#self", "Stop"]
     },
-    "DrowningSeekers@RoguelikeRouting-SwipeToCorner": {
+    "Blackflow@RoguelikeRouting-SwipeToCorner": {
         "doc": "从右上向左下滑动以固定视野（不取过于边缘的点）",
         "algorithm": "JustReturn",
         "action": "Swipe",
@@ -368,19 +368,19 @@
         "specialParams": [500, 1],
         "postDelay": 800
     },
-    "DrowningSeekers@Roguelike@ActionPointsRecognition": {
+    "Blackflow@Roguelike@ActionPointsRecognition": {
         "baseTask": "NumberOcrReplace",
         "doc": "地图界面识别右上角剩余行动力（可走步数）",
         "text": [],
         "roi": [1080, 110, 100, 75]
     },
-    "DrowningSeekers@Roguelike@ActionPointsRecognitionGearPanel": {
+    "Blackflow@Roguelike@ActionPointsRecognitionGearPanel": {
         "baseTask": "NumberOcrReplace",
         "doc": "加工品界面识别右上角剩余行动力（可走步数）",
         "text": [],
         "roi": [1170, 40, 110, 70]
     },
-    "DrowningSeekers@RoguelikeRoutingNodeNameOcr": {
+    "Blackflow@RoguelikeRoutingNodeNameOcr": {
         "doc": "识别节点铭牌文字，供 RoguelikeMapConfig::text2type 映射到节点类型",
         "algorithm": "OcrDetect",
         "text": [],
@@ -394,10 +394,10 @@
             ["险路[小尐]径", "险路小径"]
         ]
     },
-    "DrowningSeekers@RoguelikeRoutingConfig": {
+    "Blackflow@RoguelikeRoutingConfig": {
         "algorithm": "JustReturn",
         "doc": [
-            "RoguelikeDrowningSeekersRoutingTaskPlugin/Analyzer 用参数（1280x720，scale=1.0）",
+            "RoguelikeBlackflowRoutingTaskPlugin/Analyzer 用参数（1280x720，scale=1.0）",
             "边/节点/玩家判定由 ONNX 模型完成，无需阈值。",
             "| specialParams[0]: 网格步长（BASE_GRID_STEP，101）",
             "| specialParams[1]: 铭牌相对节点中心的纵向偏移（下方，约16）",
@@ -406,110 +406,110 @@
         ],
         "specialParams": [101, 16, 1, 0]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-ExitThenAbandon": {
+    "Blackflow@RoguelikeRoutingAction-ExitThenAbandon": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@ExitThenAbandon"]
+        "next": ["Blackflow@Roguelike@ExitThenAbandon"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-ExitThenAbandon_ToHardest": {
+    "Blackflow@RoguelikeRoutingAction-ExitThenAbandon_ToHardest": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@ExitThenAbandon_ToHardest"]
+        "next": ["Blackflow@Roguelike@ExitThenAbandon_ToHardest"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-DirectReturn": {
+    "Blackflow@RoguelikeRoutingAction-DirectReturn": {
         "doc": "空路、羽瞰点、曲折密道点击出发前往后，回到地图继续路由。",
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@Routing"]
+        "next": ["Blackflow@Roguelike@Routing"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageCombatOpsEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageCombatOpsEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageCombatOpsEnter"]
+        "next": ["Blackflow@Roguelike@StageCombatOpsEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageEmergencyOpsEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageEmergencyOpsEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageEmergencyOpsEnter"]
+        "next": ["Blackflow@Roguelike@StageEmergencyOpsEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageDreadfulFoeEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageDreadfulFoeEnter": {
         "algorithm": "JustReturn",
         "next": [
-            "DrowningSeekers@Roguelike@StageDreadfulFoe-5Enter",
-            "DrowningSeekers@Roguelike@StageDreadfulFoeEnter"
+            "Blackflow@Roguelike@StageDreadfulFoe-5Enter",
+            "Blackflow@Roguelike@StageDreadfulFoeEnter"
         ]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageEncounterEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageEncounterEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageEncounterEnter"]
+        "next": ["Blackflow@Roguelike@StageEncounterEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageBoonsEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageBoonsEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageBoonsEnter"]
+        "next": ["Blackflow@Roguelike@StageBoonsEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageSafeHouseEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageSafeHouseEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageSafeHouseEnter"]
+        "next": ["Blackflow@Roguelike@StageSafeHouseEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageBoskyPassageEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageBoskyPassageEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageBoskyPassageEnter"]
+        "next": ["Blackflow@Roguelike@StageBoskyPassageEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageConfrontationEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageConfrontationEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageConfrontationEnter"]
+        "next": ["Blackflow@Roguelike@StageConfrontationEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageTraderEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageTraderEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageTraderEnter"]
+        "next": ["Blackflow@Roguelike@StageTraderEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageWindAndRainEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageWindAndRainEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageWindAndRainEnter"]
+        "next": ["Blackflow@Roguelike@StageWindAndRainEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageFinalEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageFinalEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageFinalEnter"]
+        "next": ["Blackflow@Roguelike@StageFinalEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageScrapShopEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageScrapShopEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageScrapShopEnter"]
+        "next": ["Blackflow@Roguelike@StageScrapShopEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageEmployEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageEmployEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageEmployEnter"]
+        "next": ["Blackflow@Roguelike@StageEmployEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageMysteriousPresageEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageMysteriousPresageEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageMysteriousPresageEnter"]
+        "next": ["Blackflow@Roguelike@StageMysteriousPresageEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-StageFerociousPresageEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageFerociousPresageEnter": {
         "algorithm": "JustReturn",
-        "next": ["DrowningSeekers@Roguelike@StageFerociousPresageEnter"]
+        "next": ["Blackflow@Roguelike@StageFerociousPresageEnter"]
     },
-    "DrowningSeekers@RoguelikeRoutingAction-Retry": {
+    "Blackflow@RoguelikeRoutingAction-Retry": {
         "doc": "识别或选卡异常时结束本轮子任务，回到 Stages 循环重试",
         "algorithm": "JustReturn",
         "postDelay": 500
     },
-    "DrowningSeekers@RoguelikeRoutingAction-EnterNode": {
+    "Blackflow@RoguelikeRoutingAction-EnterNode": {
         "doc": [
-            "已知节点由 RoguelikeDrowningSeekersRoutingTaskPlugin 按地图类型直接路由；",
+            "已知节点由 RoguelikeBlackflowRoutingTaskPlugin 按地图类型直接路由；",
             "本任务仅作为尚未覆盖类型的入口模板兜底。"
         ],
         "algorithm": "JustReturn",
         "next": [
-            "DrowningSeekers@Roguelike@StageTraderEnter",
-            "DrowningSeekers@Roguelike@StageEncounterEnter",
-            "DrowningSeekers@Roguelike@StageSafeHouseEnter",
-            "DrowningSeekers@Roguelike@StageBoonsEnter",
-            "DrowningSeekers@Roguelike@StageCombatOpsEnter",
-            "DrowningSeekers@Roguelike@StageEmergencyOpsEnter",
-            "DrowningSeekers@Roguelike@StageDreadfulFoeEnter",
-            "DrowningSeekers@Roguelike@StageDreadfulFoe-5Enter",
-            "DrowningSeekers@Roguelike@StageBoskyPassageEnter",
-            "DrowningSeekers@Roguelike@StageConfrontationEnter",
-            "DrowningSeekers@Roguelike@StageWindAndRainEnter",
-            "DrowningSeekers@Roguelike@StageScrapShopEnter",
-            "DrowningSeekers@Roguelike@StageEmployEnter",
-            "DrowningSeekers@Roguelike@StageDoorEnter",
-            "DrowningSeekers@Roguelike@StageLightEnter",
-            "DrowningSeekers@Roguelike@StageFinalEnter",
+            "Blackflow@Roguelike@StageTraderEnter",
+            "Blackflow@Roguelike@StageEncounterEnter",
+            "Blackflow@Roguelike@StageSafeHouseEnter",
+            "Blackflow@Roguelike@StageBoonsEnter",
+            "Blackflow@Roguelike@StageCombatOpsEnter",
+            "Blackflow@Roguelike@StageEmergencyOpsEnter",
+            "Blackflow@Roguelike@StageDreadfulFoeEnter",
+            "Blackflow@Roguelike@StageDreadfulFoe-5Enter",
+            "Blackflow@Roguelike@StageBoskyPassageEnter",
+            "Blackflow@Roguelike@StageConfrontationEnter",
+            "Blackflow@Roguelike@StageWindAndRainEnter",
+            "Blackflow@Roguelike@StageScrapShopEnter",
+            "Blackflow@Roguelike@StageEmployEnter",
+            "Blackflow@Roguelike@StageDoorEnter",
+            "Blackflow@Roguelike@StageLightEnter",
+            "Blackflow@Roguelike@StageFinalEnter",
             "Stop"
         ]
     }

@@ -1,4 +1,4 @@
-#include "RoguelikeDrowningSeekersRoutingConfig.h"
+#include "RoguelikeBlackflowRoutingConfig.h"
 
 #include <meojson/json.hpp>
 
@@ -6,7 +6,7 @@
 
 using namespace asst;
 
-const DrowningSeekersGearInfo* RoguelikeDrowningSeekersRoutingConfig::gear_by_name(const std::string& name) const
+const BlackflowGearInfo* RoguelikeBlackflowRoutingConfig::gear_by_name(const std::string& name) const
 {
     for (const auto& gear : m_gears) {
         if (gear.name == name) {
@@ -16,19 +16,19 @@ const DrowningSeekersGearInfo* RoguelikeDrowningSeekersRoutingConfig::gear_by_na
     return nullptr;
 }
 
-int RoguelikeDrowningSeekersRoutingConfig::node_ap_gain(RoguelikeNodeType type) const
+int RoguelikeBlackflowRoutingConfig::node_ap_gain(RoguelikeNodeType type) const
 {
     auto it = m_node_effects.find(type);
     return it == m_node_effects.end() ? 0 : it->second.ap_gain;
 }
 
-bool RoguelikeDrowningSeekersRoutingConfig::node_teleport_paired(RoguelikeNodeType type) const
+bool RoguelikeBlackflowRoutingConfig::node_teleport_paired(RoguelikeNodeType type) const
 {
     auto it = m_node_effects.find(type);
     return it != m_node_effects.end() && it->second.teleport_paired;
 }
 
-const DrowningSeekersStrategyProfile* RoguelikeDrowningSeekersRoutingConfig::strategy_for_mode(int mode) const
+const BlackflowStrategyProfile* RoguelikeBlackflowRoutingConfig::strategy_for_mode(int mode) const
 {
     auto mode_it = m_mode_strategies.find(mode);
     if (mode_it == m_mode_strategies.end()) {
@@ -38,7 +38,7 @@ const DrowningSeekersStrategyProfile* RoguelikeDrowningSeekersRoutingConfig::str
     return strat_it == m_strategies.end() ? nullptr : &strat_it->second;
 }
 
-bool RoguelikeDrowningSeekersRoutingConfig::parse(const json::value& json)
+bool RoguelikeBlackflowRoutingConfig::parse(const json::value& json)
 {
     LogTraceFunction;
 
@@ -61,7 +61,7 @@ bool RoguelikeDrowningSeekersRoutingConfig::parse(const json::value& json)
     };
 
     for (const auto& gear_json : json.at("gears").as_array()) {
-        DrowningSeekersGearInfo info;
+        BlackflowGearInfo info;
         info.name = gear_json.at("name").as_string();
         const std::string range_name = gear_json.at("range").as_string();
         auto range_it = RANGE_MAPPING.find(range_name);
@@ -120,7 +120,7 @@ bool RoguelikeDrowningSeekersRoutingConfig::parse(const json::value& json)
     }
 
     for (const auto& [profile_name, profile_json] : json.at("strategies").as_object()) {
-        DrowningSeekersStrategyProfile profile;
+        BlackflowStrategyProfile profile;
         profile.name = profile_name;
         profile.endpoint_required = profile_json.get("endpointRequired", false);
         profile.shortest_endpoint = profile_json.get("shortestEndpoint", false);

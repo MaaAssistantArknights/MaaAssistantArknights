@@ -1,4 +1,4 @@
-#include "RoguelikeDrowningSeekersMapAnalyzer.h"
+#include "RoguelikeBlackflowMapAnalyzer.h"
 
 #include <algorithm>
 #include <array>
@@ -89,8 +89,8 @@ inline int iround(double x)
 // 特征上下文
 // ============================================================================
 
-RoguelikeDrowningSeekersMapAnalyzer::NodeCtx
-    RoguelikeDrowningSeekersMapAnalyzer::make_node_ctx(const cv::Mat& image)
+RoguelikeBlackflowMapAnalyzer::NodeCtx
+    RoguelikeBlackflowMapAnalyzer::make_node_ctx(const cv::Mat& image)
 {
     NodeCtx ctx;
     cv::cvtColor(image, ctx.gray, cv::COLOR_BGR2GRAY);
@@ -108,8 +108,8 @@ RoguelikeDrowningSeekersMapAnalyzer::NodeCtx
     return ctx;
 }
 
-RoguelikeDrowningSeekersMapAnalyzer::EdgeCtx
-    RoguelikeDrowningSeekersMapAnalyzer::make_edge_ctx(const cv::Mat& image)
+RoguelikeBlackflowMapAnalyzer::EdgeCtx
+    RoguelikeBlackflowMapAnalyzer::make_edge_ctx(const cv::Mat& image)
 {
     EdgeCtx ctx;
     cv::cvtColor(image, ctx.gray, cv::COLOR_BGR2GRAY);
@@ -129,8 +129,8 @@ RoguelikeDrowningSeekersMapAnalyzer::EdgeCtx
     return ctx;
 }
 
-RoguelikeDrowningSeekersMapAnalyzer::PlayerCtx
-    RoguelikeDrowningSeekersMapAnalyzer::make_player_ctx(const cv::Mat& image)
+RoguelikeBlackflowMapAnalyzer::PlayerCtx
+    RoguelikeBlackflowMapAnalyzer::make_player_ctx(const cv::Mat& image)
 {
     PlayerCtx ctx;
     cv::cvtColor(image, ctx.gray, cv::COLOR_BGR2GRAY);
@@ -148,7 +148,7 @@ RoguelikeDrowningSeekersMapAnalyzer::PlayerCtx
 // ============================================================================
 // node_features —— 对应 extract_map.py::_node_features（181 维，scale=1.0）
 // ============================================================================
-std::vector<float> RoguelikeDrowningSeekersMapAnalyzer::node_features(
+std::vector<float> RoguelikeBlackflowMapAnalyzer::node_features(
     const NodeCtx& ctx,
     float x,
     float y,
@@ -284,7 +284,7 @@ std::vector<float> RoguelikeDrowningSeekersMapAnalyzer::node_features(
 // ============================================================================
 // node_type_features —— 对应 train_node_classifier.py::feature_vector（2118 维）
 // ============================================================================
-std::vector<float> RoguelikeDrowningSeekersMapAnalyzer::node_type_features(const cv::Mat& image, float x, float y)
+std::vector<float> RoguelikeBlackflowMapAnalyzer::node_type_features(const cv::Mat& image, float x, float y)
 {
     constexpr int crop_size = 92;
     constexpr int input_size = 64;
@@ -435,7 +435,7 @@ std::vector<float> RoguelikeDrowningSeekersMapAnalyzer::node_type_features(const
 // ============================================================================
 // edge_features —— 对应 extract_map.py::_edge_features（378 维，scale=1.0）
 // ============================================================================
-std::vector<float> RoguelikeDrowningSeekersMapAnalyzer::edge_features(
+std::vector<float> RoguelikeBlackflowMapAnalyzer::edge_features(
     const EdgeCtx& ctx,
     float x1,
     float y1,
@@ -697,7 +697,7 @@ std::vector<float> RoguelikeDrowningSeekersMapAnalyzer::edge_features(
 // ============================================================================
 // player_features —— 对应 extract_map.py::_player_features（192 维，scale=1.0）
 // ============================================================================
-std::vector<float> RoguelikeDrowningSeekersMapAnalyzer::player_features(const PlayerCtx& ctx, float x, float y)
+std::vector<float> RoguelikeBlackflowMapAnalyzer::player_features(const PlayerCtx& ctx, float x, float y)
 {
     const int h = ctx.gray.rows;
     const int w = ctx.gray.cols;
@@ -835,8 +835,8 @@ std::vector<float> RoguelikeDrowningSeekersMapAnalyzer::player_features(const Pl
 // ============================================================================
 // detect_lattice —— 对应 extract_map.py::_detect_lattice（scale=1.0）
 // ============================================================================
-RoguelikeDrowningSeekersMapAnalyzer::Lattice
-    RoguelikeDrowningSeekersMapAnalyzer::detect_lattice(const cv::Mat& gray) const
+RoguelikeBlackflowMapAnalyzer::Lattice
+    RoguelikeBlackflowMapAnalyzer::detect_lattice(const cv::Mat& gray) const
 {
     Lattice lat;
     const int h = gray.rows;
@@ -942,7 +942,7 @@ RoguelikeDrowningSeekersMapAnalyzer::Lattice
 // ============================================================================
 // ONNX 推理：TreeEnsembleClassifier，返回每行概率（rows x n_classes）
 // ============================================================================
-std::vector<std::vector<float>> RoguelikeDrowningSeekersMapAnalyzer::run_tree_ensemble(
+std::vector<std::vector<float>> RoguelikeBlackflowMapAnalyzer::run_tree_ensemble(
     const std::string& model_name,
     const std::vector<std::vector<float>>& feats,
     int n_features)
@@ -984,7 +984,7 @@ std::vector<std::vector<float>> RoguelikeDrowningSeekersMapAnalyzer::run_tree_en
     return out;
 }
 
-bool RoguelikeDrowningSeekersMapAnalyzer::nameplate_has_check(float cx, float cy) const
+bool RoguelikeBlackflowMapAnalyzer::nameplate_has_check(float cx, float cy) const
 {
     // 铭牌左侧的绿色 ✓：在铭牌左端外侧一小块统计绿色像素比例
     const int x = std::clamp(iround(cx - 60), 0, m_image.cols - 1);
@@ -1007,7 +1007,7 @@ bool RoguelikeDrowningSeekersMapAnalyzer::nameplate_has_check(float cx, float cy
 // largest_component —— 对应 extract_map.py::_largest_component
 // 选择边最多、其次节点最多的连通分量
 // ============================================================================
-std::vector<std::pair<int, int>> RoguelikeDrowningSeekersMapAnalyzer::largest_component(
+std::vector<std::pair<int, int>> RoguelikeBlackflowMapAnalyzer::largest_component(
     const std::vector<std::pair<int, int>>& vertices,
     const std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>& edges)
 {
@@ -1068,7 +1068,7 @@ std::vector<std::pair<int, int>> RoguelikeDrowningSeekersMapAnalyzer::largest_co
 // ============================================================================
 // analyze —— 主流程（对应 extract_map.py::extract + 节点类型分类模型）
 // ============================================================================
-RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersMapAnalyzer::analyze()
+RoguelikeBlackflowMapAnalyzer::Result RoguelikeBlackflowMapAnalyzer::analyze()
 {
     LogTraceFunction;
 
@@ -1121,7 +1121,7 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersMapAnalyzer:
     for (auto [ix, iy] : cells) {
         node_feats.push_back(node_features(node_ctx, lat.xs[ix], lat.ys[iy], lat.circles));
     }
-    const auto node_prob = run_tree_ensemble("DrowningSeekers_node", node_feats, 181);
+    const auto node_prob = run_tree_ensemble("Blackflow_node", node_feats, 181);
     // node 类别顺序：['none','object','road']（sklearn classes_ 已验证）
     std::vector<int> node_kind(cells.size(), 0); // 0=none,1=object,2=road
     std::vector<double> node_conf(cells.size(), 0.0);
@@ -1138,7 +1138,7 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersMapAnalyzer:
     for (auto [ix, iy] : cells) {
         player_feats.push_back(player_features(player_ctx, lat.xs[ix], lat.ys[iy]));
     }
-    const auto player_prob = run_tree_ensemble("DrowningSeekers_player", player_feats, 192);
+    const auto player_prob = run_tree_ensemble("Blackflow_player", player_feats, 192);
     size_t player_idx = 0;
     double best_pscore = -1.0;
     for (size_t i = 0; i < cells.size(); ++i) {
@@ -1198,7 +1198,7 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersMapAnalyzer:
     }
     std::vector<std::vector<float>> object_type_prob;
     if (!object_type_feats.empty()) {
-        object_type_prob = run_tree_ensemble("DrowningSeekers_node_type", object_type_feats, 2118);
+        object_type_prob = run_tree_ensemble("Blackflow_node_type", object_type_feats, 2118);
     }
     for (size_t i = 0; i < object_cells.size(); ++i) {
         const auto& probabilities = object_type_prob[i];
@@ -1265,7 +1265,7 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersMapAnalyzer:
     }
     std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> edges;
     if (!pair_feats.empty()) {
-        const auto edge_prob = run_tree_ensemble("DrowningSeekers_edge", pair_feats, 378);
+        const auto edge_prob = run_tree_ensemble("Blackflow_edge", pair_feats, 378);
         for (size_t i = 0; i < pair_cells.size(); ++i) {
             // edge 类别 [0,1]，读 class-1 概率
             const double p = edge_prob[i].size() >= 2 ? edge_prob[i][1] : 0.0;

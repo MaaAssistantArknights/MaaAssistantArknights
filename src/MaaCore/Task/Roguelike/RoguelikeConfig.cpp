@@ -1,6 +1,6 @@
 #include "RoguelikeConfig.h"
 
-#include "Config/Roguelike/RoguelikeDrowningSeekersRoutingConfig.h"
+#include "Config/Roguelike/RoguelikeBlackflowRoutingConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
@@ -89,9 +89,9 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
             }
         }
         // 黑流树海迷宫导航：由 routing.json 的 modeStrategies 决定启用哪些模式。
-        if (m_theme == "DrowningSeekers") {
-            if (DrowningSeekersRoutingInfo.strategy_for_mode(static_cast<int>(m_mode)) != nullptr) {
-                Task.set_task_base(m_theme + "@Roguelike@Stages", "DrowningSeekers@Roguelike@Stages_navigate");
+        if (m_theme == "Blackflow") {
+            if (BlackflowRoutingInfo.strategy_for_mode(static_cast<int>(m_mode)) != nullptr) {
+                Task.set_task_base(m_theme + "@Roguelike@Stages", "Blackflow@Roguelike@Stages_navigate");
             }
         }
     }

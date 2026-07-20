@@ -38,8 +38,8 @@ target_include_directories(maa-algorithm-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR
 catch_discover_tests(maa-algorithm-test TEST_PREFIX "algorithm::")
 
 add_executable(maa-drowningseekers-planner-test
-    MaaCore/DrowningSeekersRoutePlannerTest.cpp
-    ../src/MaaCore/Task/Roguelike/Map/RoguelikeDrowningSeekersRoutePlanner.cpp
+    MaaCore/BlackflowRoutePlannerTest.cpp
+    ../src/MaaCore/Task/Roguelike/Map/RoguelikeBlackflowRoutePlanner.cpp
 )
 
 target_compile_features(maa-drowningseekers-planner-test PRIVATE cxx_std_20)

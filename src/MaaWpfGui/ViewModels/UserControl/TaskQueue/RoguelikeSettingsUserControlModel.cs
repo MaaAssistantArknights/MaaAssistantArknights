@@ -96,7 +96,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         Theme.Sami => 15,
         Theme.Sarkaz => 18,
         Theme.JieGarden => 18,
-        Theme.DrowningSeekers => 15,
+        Theme.Blackflow => 15,
         _ => 20,
     };
 
@@ -109,7 +109,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
         };
 
-        if (RoguelikeTheme != Theme.DrowningSeekers)
+        if (RoguelikeTheme != Theme.Blackflow)
         {
             baseList.Insert(0, new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp });
             baseList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible });
@@ -148,7 +148,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
         switch (RoguelikeTheme)
         {
-            case Theme.JieGarden or Theme.DrowningSeekers:
+            case Theme.JieGarden or Theme.Blackflow:
                 RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("FlexibleDeployment"), Value = "灵活部署" });
                 RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Unbreakable"), Value = "坚不可摧" });
                 break;
@@ -221,7 +221,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             ("IS5NewSquad10", "知学分队"),
             ("IS5NewSquad11", "商贾分队"),
         ],
-        ["DrowningSeekers_Default"] =
+        ["Blackflow_Default"] =
         [
             ("LeaderSquad", "指挥分队"),
             ("SpecialForceSquad", "特勤分队"),
@@ -278,7 +278,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         // 添加通用分队
         foreach (var (key, value) in _commonSquads)
         {
-            if (RoguelikeTheme == Theme.DrowningSeekers && key == "First-ClassSquad")
+            if (RoguelikeTheme == Theme.Blackflow && key == "First-ClassSquad")
             {
                 continue;
             }
@@ -400,7 +400,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         (Theme.Sami, "RoguelikeThemeSami"),
         (Theme.Sarkaz, "RoguelikeThemeSarkaz"),
         (Theme.JieGarden, "RoguelikeThemeJieGarden"),
-        (Theme.DrowningSeekers, "RoguelikeThemeDrowningSeekers"));
+        (Theme.Blackflow, "RoguelikeThemeBlackflow"));
 
     /// <summary>
     /// Gets or sets the Roguelike theme.
@@ -571,7 +571,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 Theme.Sami => "RoguelikeThemeTipSami",
                 Theme.Sarkaz => "RoguelikeThemeTipSarkaz",
                 Theme.JieGarden => "RoguelikeThemeTipJieGarden",
-                Theme.DrowningSeekers => "RoguelikeThemeTipDrowningSeekers",
+                Theme.Blackflow => "RoguelikeThemeTipBlackflow",
                 _ => "RoguelikeThemeTipPhantom",
             };
 
@@ -583,7 +583,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     private void UpdateRoguelikeStartWithAllDict()
     {
         var config = GetTaskConfig<RoguelikeTask>().CollectibleStartAwards;
-        if (RoguelikeTheme == Theme.DrowningSeekers)
+        if (RoguelikeTheme == Theme.Blackflow)
         {
             RoguelikeStartAwards =
             [
@@ -747,7 +747,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     /// <summary>
     /// Gets a value indicating whether investment is enabled.
     /// </summary>
-    public bool RoguelikeInvestmentWithMoreScore => GetTaskConfig<RoguelikeTask>().InvestWithMoreScore && RoguelikeMode == Mode.Investment && RoguelikeTheme != Theme.DrowningSeekers;
+    public bool RoguelikeInvestmentWithMoreScore => GetTaskConfig<RoguelikeTask>().InvestWithMoreScore && RoguelikeMode == Mode.Investment && RoguelikeTheme != Theme.Blackflow;
 
     /// <summary>
     /// Gets or sets a value indicating whether shopping is enabled in LastReward Mode.
@@ -1129,7 +1129,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 InvestmentEnabled = roguelike.Investment,
                 InvestmentCount = roguelike.Mode == Mode.Investment ? roguelike.InvestCount : int.MaxValue,
                 InvestmentStopWhenFull = roguelike.StopWhenDepositFull && roguelike.Mode == Mode.Investment,
-                InvestmentWithMoreScore = roguelike.Theme != Theme.DrowningSeekers && roguelike.InvestWithMoreScore && roguelike.Mode == Mode.Investment,
+                InvestmentWithMoreScore = roguelike.Theme != Theme.Blackflow && roguelike.InvestWithMoreScore && roguelike.Mode == Mode.Investment,
                 RefreshTraderWithDice = roguelike.Theme == Theme.Mizuki && roguelike.RefreshTraderWithDice,
 
                 StopAtFinalBoss = roguelike.StopAtFinalBoss,

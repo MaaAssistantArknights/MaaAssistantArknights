@@ -1,4 +1,4 @@
-// 黑流树海迷宫路线规划器（RoguelikeDrowningSeekersRoutePlanner）单元测试。
+// 黑流树海迷宫路线规划器（RoguelikeBlackflowRoutePlanner）单元测试。
 // 规划器零 MaaCore 依赖，可直接编译测试。
 
 #include <catch2/catch_test_macros.hpp>
@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <set>
 
-#include "Task/Roguelike/Map/RoguelikeDrowningSeekersRoutePlanner.h"
+#include "Task/Roguelike/Map/RoguelikeBlackflowRoutePlanner.h"
 
 using namespace asst::drowning_seekers;
 

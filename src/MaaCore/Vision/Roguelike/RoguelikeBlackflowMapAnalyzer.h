@@ -14,16 +14,16 @@
 namespace asst
 {
 // 黑流树海迷宫地图识别器。忠实复刻参考方案 extract_map.py 的确定性流水线，
-// 用 ONNX 模型（OnnxSessions: DrowningSeekers_node/edge/player/node_type，均为 sklearn ExtraTrees 转换）
+// 用 ONNX 模型（OnnxSessions: Blackflow_node/edge/player/node_type，均为 sklearn ExtraTrees 转换）
 // 替代 sklearn 推理。输入图假定为 MAA 归一化后的 1280x720（scale = w/1280 = 1.0）。
 //
 // 四个模型的特征维度必须与训练时严格一致：node 181 维、edge 378 维、player 192 维、node_type 2118 维。
 // 二分类模型（edge/player）因 skl2onnx 的已知 bug，只能读 probabilities[:,1]。
-class RoguelikeDrowningSeekersMapAnalyzer : public VisionHelper
+class RoguelikeBlackflowMapAnalyzer : public VisionHelper
 {
 public:
     using VisionHelper::VisionHelper;
-    virtual ~RoguelikeDrowningSeekersMapAnalyzer() override = default;
+    virtual ~RoguelikeBlackflowMapAnalyzer() override = default;
 
     enum class CellKind
     {
@@ -94,7 +94,7 @@ private:
     // ———————— 特征提取（与 extract_map.py 逐函数同构，scale 固定 1.0） ————————
     static std::vector<float>
         node_features(const NodeCtx& ctx, float x, float y, const std::vector<cv::Vec3f>& circles);
-    // 节点类型分类模型特征：与 tools/DrowningSeekersNodeDataset/train_node_classifier.py 完全同构。
+    // 节点类型分类模型特征：与 tools/BlackflowNodeDataset/train_node_classifier.py 完全同构。
     static std::vector<float> node_type_features(const cv::Mat& image, float x, float y);
     static std::vector<float> edge_features(const EdgeCtx& ctx, float x1, float y1, float x2, float y2);
     static std::vector<float> player_features(const PlayerCtx& ctx, float x, float y);

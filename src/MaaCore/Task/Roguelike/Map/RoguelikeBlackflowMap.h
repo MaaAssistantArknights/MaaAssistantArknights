@@ -12,9 +12,9 @@
 
 namespace asst
 {
-// 黑流树海（DrowningSeekers）每层是一个四邻接网格迷宫，与列式 DAG 的 RoguelikeMap 不同。
+// 黑流树海（Blackflow）每层是一个四邻接网格迷宫，与列式 DAG 的 RoguelikeMap 不同。
 // 本模型每次识别后由 Analyzer 结果重建（非单例、非持久化），提供网格坐标、邻接与带权最短路查询。
-class RoguelikeDrowningSeekersMap
+class RoguelikeBlackflowMap
 {
 public:
     // 节点在网格中的成分类型
@@ -36,7 +36,7 @@ public:
     // 代价函数：给定一个格的坐标返回进入该格的代价（越大越不愿走）
     using CostFun = std::function<int(int col, int row, const Cell&)>;
 
-    RoguelikeDrowningSeekersMap() = default;
+    RoguelikeBlackflowMap() = default;
 
     // ———————— 构建 ————————
     void reset();

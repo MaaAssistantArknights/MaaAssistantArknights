@@ -199,7 +199,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
                 return std::nullopt;
             }
 
-            if (theme != RoguelikeTheme::DrowningSeekers) {
+            if (theme != RoguelikeTheme::Blackflow) {
                 // 界园旧配置保留从下到上的安全兜底。
                 for (size_t choice = m_option_list.size(); choice > 0; --choice) {
                     if (m_option_list[choice - 1].enabled && select_analyzed_option(choice - 1)) {
@@ -212,8 +212,8 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
                 return std::nullopt;
             }
         }
-        else if (theme == RoguelikeTheme::DrowningSeekers) {
-            Log.error("RoguelikeEncounter | Failed to analyze DrowningSeekers options; stopping event", event.name);
+        else if (theme == RoguelikeTheme::Blackflow) {
+            Log.error("RoguelikeEncounter | Failed to analyze Blackflow options; stopping event", event.name);
             return std::nullopt;
         }
     }
@@ -450,10 +450,10 @@ bool asst::RoguelikeStageEncounterTaskPlugin::update_option_list(const std::stri
 
     // 黑流树海“得偿所愿-无人商店”中，OCR 偶尔会把首字误识为“二”，
     // 形成“二搬一个大桶”，导致配置中的“搬一个大桶”无法命中。
-    if (m_config->get_theme() == RoguelikeTheme::DrowningSeekers && event_name == "无人商店") {
+    if (m_config->get_theme() == RoguelikeTheme::Blackflow && event_name == "无人商店") {
         for (auto& option : m_option_list) {
             if (option.text == "二搬一个大桶") {
-                Log.info("RoguelikeEncounter | Corrected DrowningSeekers option OCR: 二搬一个大桶 -> 搬一个大桶");
+                Log.info("RoguelikeEncounter | Corrected Blackflow option OCR: 二搬一个大桶 -> 搬一个大桶");
                 option.text = "搬一个大桶";
             }
         }
@@ -659,18 +659,18 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::next_event(c
 {
     LogTraceFunction;
 
-    // DrowningSeekers marks ordinary OCR-selectable encounters as dynamic_options,
+    // Blackflow marks ordinary OCR-selectable encounters as dynamic_options,
     // but they do not have a follow-up event. Once the option is selected and the
     // map is visible again, click the map's "show player" button to clear the
     // selected option state. This position is fixed and harmless to click, so do
     // not use a nested ProcessTask here: this plugin intentionally has retry_times=0.
     // StageEncounterJudgeClick's fixed coordinate can hit a map node and consume
     // action points.
-    if (event.next_event.empty() && m_config->get_theme() == RoguelikeTheme::DrowningSeekers) {
+    if (event.next_event.empty() && m_config->get_theme() == RoguelikeTheme::Blackflow) {
         constexpr Point show_player_button { 55, 515 };
         ctrler()->click(show_player_button);
         sleep(800);
-        Log.debug("DrowningSeekers encounter finished; clicked map show-player button at", show_player_button.x, show_player_button.y);
+        Log.debug("Blackflow encounter finished; clicked map show-player button at", show_player_button.x, show_player_button.y);
         return std::nullopt;
     }
 

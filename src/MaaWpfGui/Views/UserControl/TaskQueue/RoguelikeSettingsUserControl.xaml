@@ -61,9 +61,9 @@
             <controls:TextBlock
                 Margin="8,0,0,3"
                 Foreground="Gray"
-                Text="{DynamicResource RoguelikeDrowningSeekersCollectibleModeTip}"
+                Text="{DynamicResource RoguelikeBlackflowCollectibleModeTip}"
                 TextWrapping="Wrap"
-                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme == task:RoguelikeTheme.DrowningSeekers',
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme == task:RoguelikeTheme.Blackflow',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
             <hc:ComboBox
                 Margin="0,3"
@@ -171,7 +171,7 @@
                 Margin="0,10"
                 d:Visibility="Visible"
                 IsChecked="{Binding RoguelikeInvestmentWithMoreScoreRaw}"
-                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Investment and RoguelikeTheme != task:RoguelikeTheme.DrowningSeekers',
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Investment and RoguelikeTheme != task:RoguelikeTheme.Blackflow',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
                 <TextBlock
                     Block.TextAlignment="Left"

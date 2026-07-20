@@ -70,7 +70,7 @@ def natural_key(path: Path) -> tuple[int, str]:
 
 
 def load_classes(repo_root: Path) -> list[str]:
-    config_path = repo_root / "resource" / "roguelike" / "DrowningSeekers" / "map.json"
+    config_path = repo_root / "resource" / "roguelike" / "Blackflow" / "map.json"
     try:
         data = json.loads(config_path.read_text(encoding="utf-8"))
         classes = [str(node["type"]) for node in data["nodes"]]

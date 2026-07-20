@@ -2096,7 +2096,7 @@ public class AsstProxy
                 }
 
             /* Roguelike */
-            case "DrowningSeekersMapRecognition":
+            case "BlackflowMapRecognition":
                 {
                     var logLines = new List<string>();
                     var mapAscii = subTaskDetails?["map_ascii"]?.ToString();
@@ -2125,7 +2125,7 @@ public class AsstProxy
                     break;
                 }
 
-            case "DrowningSeekersRoutingDecision":
+            case "BlackflowRoutingDecision":
                 {
                     var action = subTaskDetails?["action"]?.ToString();
                     switch (action)

@@ -213,7 +213,7 @@
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，投资完成后自动退出</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二{key=Operator}开局</system:String>
     <system:String x:Key="RoguelikeStrategyBoilWater">烧水</system:String>
-    <system:String x:Key="RoguelikeDrowningSeekersCollectibleModeTip">其实没有热水壶:(</system:String>
+    <system:String x:Key="RoguelikeBlackflowCollectibleModeTip">其实没有热水壶:(</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">烧水使用分队</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小队，尽可能稳定地打更多层数</system:String>
@@ -544,7 +544,7 @@ D:\
     <system:String x:Key="RoguelikeThemeSami">萨米</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">萨卡兹</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界园</system:String>
-    <system:String x:Key="RoguelikeThemeDrowningSeekers">黑流树海</system:String>
+    <system:String x:Key="RoguelikeThemeBlackflow">黑流树海</system:String>
     <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}推荐配置：
 
 {key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
@@ -586,7 +586,7 @@ D:\
 2. 使用指挥避战策略将大幅提高刷源石锭效率，也可用于快速刷等级（不追求通关），但需要注意策略选择为 ｢刷源石锭｣
 3. 已解锁的最高难度 &lt;3 或未解锁相关科技时，请不要使用指挥避战策略，否则会导致出错
 4. 当前难度 ≥15 时，6★ 干员希望消耗 +1，使用部分分队时可能无法招募开局 6★ 干员，导致出错或失败</system:String>
-    <system:String x:Key="RoguelikeThemeTipDrowningSeekers" xml:space="preserve">注意：{key=RoguelikeThemeDrowningSeekers}目前支持非常不良好，仅建议用于测试。
+    <system:String x:Key="RoguelikeThemeTipBlackflow" xml:space="preserve">注意：{key=RoguelikeThemeBlackflow}目前支持非常不良好，仅建议用于测试。
 
 当前仅支持刷源石锭并进入开局流程；节点地图和正式策略开发中。</system:String>
     <system:String x:Key="RoguelikeDifficulty">难度</system:String>

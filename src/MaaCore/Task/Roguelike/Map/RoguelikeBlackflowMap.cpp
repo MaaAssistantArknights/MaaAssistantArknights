@@ -1,4 +1,4 @@
-#include "RoguelikeDrowningSeekersMap.h"
+#include "RoguelikeBlackflowMap.h"
 
 #include <algorithm>
 #include <limits>
@@ -8,7 +8,7 @@
 
 using namespace asst;
 
-void RoguelikeDrowningSeekersMap::reset()
+void RoguelikeBlackflowMap::reset()
 {
     m_cols = 0;
     m_rows = 0;
@@ -17,7 +17,7 @@ void RoguelikeDrowningSeekersMap::reset()
     m_player = { -1, -1 };
 }
 
-void RoguelikeDrowningSeekersMap::set_dimensions(int cols, int rows)
+void RoguelikeBlackflowMap::set_dimensions(int cols, int rows)
 {
     m_cols = std::max(0, cols);
     m_rows = std::max(0, rows);
@@ -25,7 +25,7 @@ void RoguelikeDrowningSeekersMap::set_dimensions(int cols, int rows)
     m_adjacency.clear();
 }
 
-void RoguelikeDrowningSeekersMap::set_cell(int col, int row, const Cell& cell)
+void RoguelikeBlackflowMap::set_cell(int col, int row, const Cell& cell)
 {
     if (!in_bounds(col, row)) {
         Log.error(__FUNCTION__, "| cell out of bounds", col, row);
@@ -34,7 +34,7 @@ void RoguelikeDrowningSeekersMap::set_cell(int col, int row, const Cell& cell)
     m_cells[index(col, row)] = cell;
 }
 
-void RoguelikeDrowningSeekersMap::add_edge(int c1, int r1, int c2, int r2)
+void RoguelikeBlackflowMap::add_edge(int c1, int r1, int c2, int r2)
 {
     if (!in_bounds(c1, r1) || !in_bounds(c2, r2)) {
         Log.error(__FUNCTION__, "| edge endpoint out of bounds");
@@ -52,7 +52,7 @@ void RoguelikeDrowningSeekersMap::add_edge(int c1, int r1, int c2, int r2)
     }
 }
 
-const RoguelikeDrowningSeekersMap::Cell& RoguelikeDrowningSeekersMap::cell(int col, int row) const
+const RoguelikeBlackflowMap::Cell& RoguelikeBlackflowMap::cell(int col, int row) const
 {
     if (!in_bounds(col, row)) {
         return m_none_cell;
@@ -60,12 +60,12 @@ const RoguelikeDrowningSeekersMap::Cell& RoguelikeDrowningSeekersMap::cell(int c
     return m_cells[index(col, row)];
 }
 
-bool RoguelikeDrowningSeekersMap::has_node(int col, int row) const
+bool RoguelikeBlackflowMap::has_node(int col, int row) const
 {
     return in_bounds(col, row) && m_cells[index(col, row)].kind != CellKind::None;
 }
 
-std::vector<std::pair<int, int>> RoguelikeDrowningSeekersMap::neighbors(int col, int row) const
+std::vector<std::pair<int, int>> RoguelikeBlackflowMap::neighbors(int col, int row) const
 {
     std::vector<std::pair<int, int>> result;
     if (!in_bounds(col, row)) {
@@ -85,7 +85,7 @@ std::vector<std::pair<int, int>> RoguelikeDrowningSeekersMap::neighbors(int col,
     return result;
 }
 
-std::vector<std::pair<int, int>> RoguelikeDrowningSeekersMap::all_nodes() const
+std::vector<std::pair<int, int>> RoguelikeBlackflowMap::all_nodes() const
 {
     std::vector<std::pair<int, int>> result;
     for (int r = 0; r < m_rows; ++r) {
@@ -99,7 +99,7 @@ std::vector<std::pair<int, int>> RoguelikeDrowningSeekersMap::all_nodes() const
 }
 
 std::vector<std::pair<int, int>>
-    RoguelikeDrowningSeekersMap::find_nodes(RoguelikeNodeType type, bool exclude_visited) const
+    RoguelikeBlackflowMap::find_nodes(RoguelikeNodeType type, bool exclude_visited) const
 {
     std::vector<std::pair<int, int>> result;
     for (int r = 0; r < m_rows; ++r) {
@@ -118,7 +118,7 @@ std::vector<std::pair<int, int>>
 }
 
 std::vector<std::pair<int, int>>
-    RoguelikeDrowningSeekersMap::shortest_path(int target_col, int target_row, const CostFun& cost_fun) const
+    RoguelikeBlackflowMap::shortest_path(int target_col, int target_row, const CostFun& cost_fun) const
 {
     if (m_player.first < 0 || !in_bounds(target_col, target_row) || !has_node(target_col, target_row)) {
         return {};
@@ -182,7 +182,7 @@ std::vector<std::pair<int, int>>
     return path;
 }
 
-int RoguelikeDrowningSeekersMap::path_cost(int target_col, int target_row, const CostFun& cost_fun) const
+int RoguelikeBlackflowMap::path_cost(int target_col, int target_row, const CostFun& cost_fun) const
 {
     const auto path = shortest_path(target_col, target_row, cost_fun);
     if (path.empty()) {

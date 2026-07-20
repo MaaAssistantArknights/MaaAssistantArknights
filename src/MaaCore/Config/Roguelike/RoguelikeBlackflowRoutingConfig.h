@@ -7,12 +7,12 @@
 
 #include "Config/AbstractConfig.h"
 #include "RoguelikeMapConfig.h"
-#include "Task/Roguelike/Map/RoguelikeDrowningSeekersRoutePlanner.h"
+#include "Task/Roguelike/Map/RoguelikeBlackflowRoutePlanner.h"
 
 namespace asst
 {
-// 加工品定义（resource/roguelike/DrowningSeekers/routing.json 的 gears 项）
-struct DrowningSeekersGearInfo
+// 加工品定义（resource/roguelike/Blackflow/routing.json 的 gears 项）
+struct BlackflowGearInfo
 {
     std::string name;
     drowning_seekers::GearRange range = drowning_seekers::GearRange::Any;
@@ -25,7 +25,7 @@ struct DrowningSeekersGearInfo
 };
 
 // 策略档案：节点权重、终点约束与加工品使用成本
-struct DrowningSeekersStrategyProfile
+struct BlackflowStrategyProfile
 {
     std::string name;
     bool endpoint_required = false;
@@ -40,16 +40,16 @@ struct DrowningSeekersStrategyProfile
     double leftover_ap_weight = 0.1;
 };
 
-// 黑流树海迷宫导航配置（resource/roguelike/DrowningSeekers/routing.json）
-class RoguelikeDrowningSeekersRoutingConfig final
-    : public MAA_NS::SingletonHolder<RoguelikeDrowningSeekersRoutingConfig>,
+// 黑流树海迷宫导航配置（resource/roguelike/Blackflow/routing.json）
+class RoguelikeBlackflowRoutingConfig final
+    : public MAA_NS::SingletonHolder<RoguelikeBlackflowRoutingConfig>,
       public AbstractConfig
 {
 public:
-    virtual ~RoguelikeDrowningSeekersRoutingConfig() override = default;
+    virtual ~RoguelikeBlackflowRoutingConfig() override = default;
 
-    const std::vector<DrowningSeekersGearInfo>& gears() const { return m_gears; }
-    const DrowningSeekersGearInfo* gear_by_name(const std::string& name) const;
+    const std::vector<BlackflowGearInfo>& gears() const { return m_gears; }
+    const BlackflowGearInfo* gear_by_name(const std::string& name) const;
 
     // 进入未访问节点获得的行动力（羽瞰点 = 1，其余 0）
     int node_ap_gain(RoguelikeNodeType type) const;
@@ -61,7 +61,7 @@ public:
     bool is_endpoint(RoguelikeNodeType type) const { return m_endpoint_types.contains(type); }
 
     // 该模式无策略档案时返回 nullptr（= 不启用迷宫导航）
-    const DrowningSeekersStrategyProfile* strategy_for_mode(int mode) const;
+    const BlackflowStrategyProfile* strategy_for_mode(int mode) const;
 
 private:
     virtual bool parse(const json::value& json) override;
@@ -72,14 +72,14 @@ private:
         bool teleport_paired = false;
     };
 
-    std::vector<DrowningSeekersGearInfo> m_gears;
+    std::vector<BlackflowGearInfo> m_gears;
     std::unordered_map<RoguelikeNodeType, NodeEffect> m_node_effects;
     std::unordered_set<RoguelikeNodeType> m_combat_types;
     std::unordered_set<RoguelikeNodeType> m_trader_types;
     std::unordered_set<RoguelikeNodeType> m_endpoint_types;
-    std::unordered_map<std::string, DrowningSeekersStrategyProfile> m_strategies;
+    std::unordered_map<std::string, BlackflowStrategyProfile> m_strategies;
     std::unordered_map<int, std::string> m_mode_strategies;
 };
 
-inline static auto& DrowningSeekersRoutingInfo = RoguelikeDrowningSeekersRoutingConfig::get_instance();
+inline static auto& BlackflowRoutingInfo = RoguelikeBlackflowRoutingConfig::get_instance();
 }

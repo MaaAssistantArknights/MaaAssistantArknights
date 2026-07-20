@@ -11,7 +11,7 @@ namespace
 {
 bool supports_option_analyzer(const std::string& theme)
 {
-    return theme == asst::RoguelikeTheme::JieGarden || theme == asst::RoguelikeTheme::DrowningSeekers;
+    return theme == asst::RoguelikeTheme::JieGarden || theme == asst::RoguelikeTheme::Blackflow;
 }
 
 // 黑流树海的选项左侧图标在可选/不可选状态下基本不变，状态差异体现在
@@ -50,7 +50,7 @@ bool is_drowning_seekers_option_enabled(const cv::Mat& option_templ)
 
     const int average_dark_luma = dark_pixel_luma_sum / dark_pixel_count;
     Log.trace(
-        "RoguelikeEncounterOptionAnalyzer | DrowningSeekers text luma:",
+        "RoguelikeEncounterOptionAnalyzer | Blackflow text luma:",
         average_dark_luma,
         "dark pixels:",
         dark_pixel_count);
@@ -101,7 +101,7 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
         templ_rect.y = rect.y;
         option.templ = make_roi(m_image, templ_rect);
 
-        if (m_theme == RoguelikeTheme::DrowningSeekers) {
+        if (m_theme == RoguelikeTheme::Blackflow) {
             option.enabled = is_drowning_seekers_option_enabled(option.templ);
         }
         else {
