@@ -16,26 +16,26 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.Services.Web;
-using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
 
-public class BarkNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
+public class BarkNotificationProvider(IHttpService httpService, BarkConfig bark) : IExternalNotificationProvider
 {
     private readonly ILogger _logger = Log.ForContext<BarkNotificationProvider>();
 
     public async Task<bool> SendAsync(string title, string content)
     {
-        var sendKey = SettingsViewModel.ExternalNotificationSettings.BarkSendKey;
+        var sendKey = bark.SendKey;
         if (string.IsNullOrWhiteSpace(sendKey))
         {
             _logger.Warning("Failed to send Bark notification, Bark send key is empty");
             return false;
         }
 
-        var apiBase = SettingsViewModel.ExternalNotificationSettings.BarkServer;
+        var apiBase = bark.Server;
         if (string.IsNullOrWhiteSpace(apiBase))
         {
             _logger.Warning("Failed to send Bark notification, Bark server address is empty");

@@ -19,6 +19,7 @@ using System.Windows;
 using System.Windows.Media;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.ViewModels.UI;
 using MailKit.Net.Smtp;
 using MimeKit;
@@ -27,7 +28,7 @@ using Serilog;
 namespace MaaWpfGui.Services.Notification;
 
 /// <inheritdoc />
-public partial class SmtpNotificationProvider : IExternalNotificationProvider
+public partial class SmtpNotificationProvider(SmtpConfig smtp) : IExternalNotificationProvider
 {
     private readonly ILogger _logger = Log.ForContext<SmtpNotificationProvider>();
 
@@ -80,12 +81,12 @@ public partial class SmtpNotificationProvider : IExternalNotificationProvider
     {
         content = ProcessContent(content);
 
-        var smtpServer = SettingsViewModel.ExternalNotificationSettings.SmtpServer;
-        var smtpPortValid = int.TryParse(SettingsViewModel.ExternalNotificationSettings.SmtpPort, out var smtpPort);
-        var smtpUser = SettingsViewModel.ExternalNotificationSettings.SmtpUser;
-        var smtpPassword = SettingsViewModel.ExternalNotificationSettings.SmtpPassword;
-        var smtpUseSsl = SettingsViewModel.ExternalNotificationSettings.SmtpUseSsl;
-        var smtpRequiresAuthentication = SettingsViewModel.ExternalNotificationSettings.SmtpRequireAuthentication;
+        var smtpServer = smtp.Server;
+        var smtpPortValid = int.TryParse(smtp.Port, out var smtpPort);
+        var smtpUser = smtp.Username;
+        var smtpPassword = smtp.Password;
+        var smtpUseSsl = smtp.UseSsl;
+        var smtpRequiresAuthentication = smtp.RequiresAuthentication;
 
         if (string.IsNullOrEmpty(smtpServer) || smtpPortValid is false)
         {
@@ -93,8 +94,8 @@ public partial class SmtpNotificationProvider : IExternalNotificationProvider
             return false;
         }
 
-        var emailFrom = SettingsViewModel.ExternalNotificationSettings.SmtpFrom;
-        var emailTo = SettingsViewModel.ExternalNotificationSettings.SmtpTo;
+        var emailFrom = smtp.From;
+        var emailTo = smtp.To;
 
         if (string.IsNullOrWhiteSpace(emailFrom) || string.IsNullOrWhiteSpace(emailTo))
         {

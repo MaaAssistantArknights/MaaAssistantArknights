@@ -17,13 +17,13 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.Services.Web;
-using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
 
-public class DiscordNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
+public class DiscordNotificationProvider(IHttpService httpService, DiscordConfig discord) : IExternalNotificationProvider
 {
     private const string DiscordApiVersion = "v9";
 
@@ -31,8 +31,8 @@ public class DiscordNotificationProvider(IHttpService httpService) : IExternalNo
 
     public async Task<bool> SendAsync(string title, string content)
     {
-        var botToken = SettingsViewModel.ExternalNotificationSettings.DiscordBotToken;
-        var userId = SettingsViewModel.ExternalNotificationSettings.DiscordUserId;
+        var botToken = discord.BotToken;
+        var userId = discord.UserId;
 
         var channelId = await CreateDmChannel(botToken, userId);
 

@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
@@ -23,16 +24,16 @@ using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
 
-public class QmsgNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
+public class QmsgNotificationProvider(IHttpService httpService, QmsgConfig qmsg) : IExternalNotificationProvider
 {
     private readonly ILogger _logger = Log.ForContext<QmsgNotificationProvider>();
 
     public async Task<bool> SendAsync(string title, string content)
     {
-        var server = SettingsViewModel.ExternalNotificationSettings.QmsgServer;
-        var key = SettingsViewModel.ExternalNotificationSettings.QmsgKey;
-        var receiveUser = SettingsViewModel.ExternalNotificationSettings.QmsgUser;
-        var sendBot = SettingsViewModel.ExternalNotificationSettings.QmsgBot;
+        var server = qmsg.Server;
+        var key = qmsg.Key;
+        var receiveUser = qmsg.User;
+        var sendBot = qmsg.Bot;
 
         var uri = $"{server}/jsend/{key}";
 

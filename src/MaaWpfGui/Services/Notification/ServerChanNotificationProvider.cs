@@ -17,13 +17,14 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
 
-public class ServerChanNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
+public class ServerChanNotificationProvider(IHttpService httpService, ServerChanConfig serverChan) : IExternalNotificationProvider
 {
     private readonly ILogger _logger = Log.ForContext<ServerChanNotificationProvider>();
 
@@ -38,7 +39,7 @@ public class ServerChanNotificationProvider(IHttpService httpService) : IExterna
             title = title[..32]; // 截取前 32 个字符
         }
 
-        var sendKey = SettingsViewModel.ExternalNotificationSettings.ServerChanSendKey;
+        var sendKey = serverChan.SendKey;
 
         try
         {

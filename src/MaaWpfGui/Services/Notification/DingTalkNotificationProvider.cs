@@ -20,21 +20,21 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.Services.Web;
-using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
 
-public class DingTalkNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
+public class DingTalkNotificationProvider(IHttpService httpService, DingTalkConfig dingTalk) : IExternalNotificationProvider
 {
     private const string DingTalkWebhookEndpoint = "https://oapi.dingtalk.com/robot/send";
     private readonly ILogger _logger = Log.ForContext<DingTalkNotificationProvider>();
 
     public async Task<bool> SendAsync(string title, string content)
     {
-        var accessToken = SettingsViewModel.ExternalNotificationSettings.DingTalkAccessToken;
-        var secret = SettingsViewModel.ExternalNotificationSettings.DingTalkSecret;
+        var accessToken = dingTalk.AccessToken;
+        var secret = dingTalk.Secret;
 
         if (string.IsNullOrEmpty(accessToken))
         {
@@ -43,11 +43,9 @@ public class DingTalkNotificationProvider(IHttpService httpService) : IExternalN
         }
 
         var webhook = BuildWebhookUrl(accessToken, secret);
-        var requestBody = new DingTalkPostContent
-        {
+        var requestBody = new DingTalkPostContent {
             MessageType = "text",
-            Text = new DingTalkTextContent
-            {
+            Text = new DingTalkTextContent {
                 Content = $"{title}: {content}",
             },
         };

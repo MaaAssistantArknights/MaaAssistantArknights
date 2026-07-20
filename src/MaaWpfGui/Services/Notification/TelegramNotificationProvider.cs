@@ -19,21 +19,22 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
 
-public class TelegramNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
+public class TelegramNotificationProvider(IHttpService httpService, TelegramConfig telegram) : IExternalNotificationProvider
 {
     private readonly ILogger _logger = Log.ForContext<TelegramNotificationProvider>();
 
     public async Task<bool> SendAsync(string title, string content)
     {
-        var botToken = SettingsViewModel.ExternalNotificationSettings.TelegramBotToken;
-        var chatId = SettingsViewModel.ExternalNotificationSettings.TelegramChatId;
-        var topicId = SettingsViewModel.ExternalNotificationSettings.TelegramTopicId;
+        var botToken = telegram.BotToken;
+        var chatId = telegram.ChatId;
+        var topicId = telegram.TopicId;
 
         var uri = $"https://api.telegram.org/bot{botToken}/sendMessage";
 

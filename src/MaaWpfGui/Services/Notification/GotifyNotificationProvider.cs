@@ -18,14 +18,14 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.Services.Web;
-using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
 
 /// <inheritdoc />
-public partial class GotifyNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
+public partial class GotifyNotificationProvider(IHttpService httpService, GotifyConfig gotify) : IExternalNotificationProvider
 {
     private readonly ILogger _logger = Log.ForContext<GotifyNotificationProvider>();
 
@@ -54,8 +54,8 @@ public partial class GotifyNotificationProvider(IHttpService httpService) : IExt
 
     public async Task<bool> SendAsync(string title, string content)
     {
-        var server = SettingsViewModel.ExternalNotificationSettings.GotifyServer;
-        var token = SettingsViewModel.ExternalNotificationSettings.GotifyToken;
+        var server = gotify.Server;
+        var token = gotify.Token;
 
         if (string.IsNullOrWhiteSpace(server))
         {

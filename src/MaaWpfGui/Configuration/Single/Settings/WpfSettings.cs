@@ -11,8 +11,11 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System;
 using System.ComponentModel;
+using System.Text.Json.Serialization;
+using Serilog;
+using static MaaWpfGui.Configuration.Factory.ConfigFactory;
+using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
@@ -20,11 +23,16 @@ public class WpfSettings : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public void EventBinding(string prefix, Func<string, PropertyChangedEventHandler> valueFactory)
+    public void EventBinding(string prefix)
     {
-        PropertyChanged += valueFactory.Invoke(prefix + nameof(WpfSettings) + ".");
-        Performance.PropertyChanged += valueFactory.Invoke(prefix + nameof(WpfSettings) + "." + nameof(Performance) + ".");
+        PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(WpfSettings) + ".");
+        Performance.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(WpfSettings) + "." + nameof(Performance) + ".");
+        ExternalNotification.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(WpfSettings) + "." + nameof(ExternalNotification) + ".");
+        ExternalNotification.Configs.CollectionChanged += Handler.OnCollectionChangedFactory<Base>(prefix + nameof(WpfSettings) + "." + nameof(ExternalNotification) + ".");
     }
 
+    [JsonInclude]
     public Performance Performance { get; set; } = new();
+
+    public ExternalNotification ExternalNotification { get; set; } = new();
 }

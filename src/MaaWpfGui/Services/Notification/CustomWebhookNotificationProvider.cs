@@ -17,21 +17,21 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.Services.Web;
-using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
 
-public class CustomWebhookNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
+public class CustomWebhookNotificationProvider(IHttpService httpService, CustomWebhookConfig custom) : IExternalNotificationProvider
 {
     private readonly ILogger _logger = Log.ForContext<CustomWebhookNotificationProvider>();
 
     public async Task<bool> SendAsync(string title, string content)
     {
-        var webhookUrl = SettingsViewModel.ExternalNotificationSettings.CustomWebhookUrl;
-        var webhookHeaders = SettingsViewModel.ExternalNotificationSettings.CustomWebhookHeaders;
-        var bodyTemplate = SettingsViewModel.ExternalNotificationSettings.CustomWebhookBody;
+        var webhookUrl = custom.Url;
+        var webhookHeaders = custom.Headers;
+        var bodyTemplate = custom.Body;
         if (string.IsNullOrEmpty(webhookUrl) || string.IsNullOrEmpty(bodyTemplate))
         {
             _logger.Warning("Custom Webhook failed to send: URL or message body is empty");

@@ -21,16 +21,18 @@ public class WebhookPresetTemplate
 {
     public string Id { get; init; } = string.Empty;
 
-    public string NameResourceKey { get; init; } = string.Empty;
+    private string NameResourceKey { get; init; } = string.Empty;
+
+    private string Name { get; init; } = string.Empty;
 
     public string Url { get; init; } = string.Empty;
 
     public string Headers { get; init; } = string.Empty;
 
-    public string BodyTemplate { get; init; } = string.Empty;
+    public string Body { get; init; } = string.Empty;
 
     // 新增模板时，必须在所有语言的 Localizations/*.xaml 中添加对应的 NameResourceKey 字符串
-    public string DisplayName => LocalizationHelper.GetString(NameResourceKey);
+    public string DisplayName => string.IsNullOrEmpty(NameResourceKey) ? Name : LocalizationHelper.GetString(NameResourceKey);
 
     private static readonly List<WebhookPresetTemplate> _builtInTemplates =
     [
@@ -44,7 +46,13 @@ public class WebhookPresetTemplate
             Id = "meow",
             NameResourceKey = "ExternalNotificationCustomWebhook.TemplateMeoW",
             Url = "https://api.chuckfang.com/<nickname>",
-            BodyTemplate = "{\"title\":\"{title}\",\"msg\":\"{content}\\n{time}\"}",
+            Body = "{\"title\":\"{title}\",\"msg\":\"{content}\\n{time}\"}",
+        },
+        new()
+        {
+            Id = "Discord Webhook",
+            Name = "Discord Webhook",
+            Body = $"{{\"content\": {{content}}}}",
         },
     ];
 
