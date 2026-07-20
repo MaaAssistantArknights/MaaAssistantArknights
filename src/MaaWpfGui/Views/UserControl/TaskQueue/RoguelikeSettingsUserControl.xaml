@@ -58,6 +58,13 @@
                 ItemsSource="{Binding RoguelikeModeList}"
                 SelectedValue="{Binding RoguelikeMode}"
                 SelectedValuePath="Value" />
+            <controls:TextBlock
+                Margin="8,0,0,3"
+                Foreground="Gray"
+                Text="{DynamicResource RoguelikeDrowningSeekersCollectibleModeTip}"
+                TextWrapping="Wrap"
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme == task:RoguelikeTheme.DrowningSeekers',
+                                       Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
             <hc:ComboBox
                 Margin="0,3"
                 d:Visibility="Visible"

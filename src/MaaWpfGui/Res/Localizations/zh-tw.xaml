@@ -213,6 +213,7 @@
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，投資完成後自動退出</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷開局，刷取熱水壺或精二{key=Operator}開局</system:String>
     <system:String x:Key="RoguelikeStrategyBoilWater">燒水</system:String>
+    <system:String x:Key="RoguelikeDrowningSeekersCollectibleModeTip">其實沒有熱水壺:(</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍縮範式，遇到非稀有坍縮範式後直接重開</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">燒水分隊</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小隊，盡可能穩定地打更多層數</system:String>
