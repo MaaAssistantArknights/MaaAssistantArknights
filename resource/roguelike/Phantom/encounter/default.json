@@ -174,8 +174,9 @@
         },
         {
             "name": "解脱",
-            "option_num": 1,
-            "choose": 1
+            "option_num": 2,
+            "choose": 2,
+            "fallback_choices": [[1, 1]]
         },
         {
             "name": "赴宴",
