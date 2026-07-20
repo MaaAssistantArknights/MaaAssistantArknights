@@ -464,7 +464,7 @@
         "roi": [1035, 370, 226, 300],
         "templThreshold": 0.98,
         "rectMove": [0, 0, 55, 70],
-        "postDelay": 1000,
+        "postDelay": 3000,
         "next": [
             "Blackflow@Roguelike@TraderCheck",
             "Blackflow@Roguelike@ScrapShopCheck",
