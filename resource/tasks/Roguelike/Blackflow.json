@@ -181,7 +181,16 @@
         "template": "Blackflow@Roguelike@GetDropRecruit.png"
     },
     "Blackflow@Roguelike@GetDropSelect": {
-        "template": "Blackflow@Roguelike@GetDropSelect.png"
+        "template": "Blackflow@Roguelike@GetDropSelect.png",
+        "next": [
+            "Blackflow@Roguelike@GetDropSelect@(Blackflow@Roguelike@CloseCollectionContinue)",
+            "Blackflow@Roguelike@GetDropSelect@(Blackflow@Roguelike@CloseCollectionClose)",
+            "Blackflow@Roguelike@GetDropSelectRecruit",
+            "Blackflow@Roguelike@GetDropSelectReward",
+            "Blackflow@Roguelike@ChooseOperFlag",
+            "Blackflow@Roguelike@GetDropCompleted",
+            "Blackflow@Roguelike@GetDropSelect"
+        ]
     },
     "Blackflow@Roguelike@GetDropSelectRecruit": {
         "template": "Blackflow@Roguelike@GetDropSelectRecruit.png"
@@ -194,6 +203,18 @@
     },
     "Blackflow@Roguelike@GetDropLeave": {
         "template": "Blackflow@Roguelike@GetDropLeave.png"
+    },
+    "Blackflow@Roguelike@GetDrops": {
+        "next": [
+            "Blackflow@Roguelike@GetDrops@(Blackflow@Roguelike@CloseCollectionContinue)",
+            "Blackflow@Roguelike@GetDrops@(Blackflow@Roguelike@CloseCollectionClose)",
+            "Blackflow@Roguelike@GetDrop1",
+            "Blackflow@Roguelike@GetDrop2",
+            "Blackflow@Roguelike@GetDrop3",
+            "Blackflow@Roguelike@GetDropSelectReward",
+            "Blackflow@Roguelike@GetDropSelect",
+            "Blackflow@Roguelike@GetDropRecruit"
+        ]
     },
     "Blackflow@Roguelike@InitialDrop": {
         "template": "Blackflow@Roguelike@Confirm.png"
@@ -265,7 +286,20 @@
     "Blackflow@Roguelike@RecruitOther": {
         "template": "Blackflow@Roguelike@Recruit.png"
     },
-    "Blackflow@Roguelike@RecruitWithoutButton": {},
+    "Blackflow@Roguelike@RecruitWithoutButton": {
+        "next": [
+            "Blackflow@Roguelike@RecruitOther",
+            "Blackflow@Roguelike@EmergencyAidCheck",
+            "Blackflow@Roguelike@TraderRandomShopping",
+            "Blackflow@Roguelike@StageTraderLeave",
+            "Blackflow@Roguelike@DropsFlag",
+            "Blackflow@Roguelike@ChooseOperFlag",
+            "Blackflow@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "Blackflow@Roguelike@NextLevel",
+            "Blackflow@Roguelike@NextLevel#next",
+            "Blackflow@Roguelike@RecruitWithoutButton"
+        ]
+    },
     "Blackflow@RoguelikeRecruit-GiveUp": {
         "template": "Blackflow@RoguelikeRecruit-GiveUp.png"
     },
@@ -455,7 +489,7 @@
         "template": "Blackflow@Roguelike@EmergencyAidCheck.png",
         "roi": [200, 250, 180, 190],
         "templThreshold": 0.8,
-        "next": ["Roguelike@StageTraderLeave"]
+        "next": ["Blackflow@Roguelike@StageTraderLeave"]
     },
     "Blackflow@Roguelike@StageUnknownOrEmptyEnter": {
         "template": [
