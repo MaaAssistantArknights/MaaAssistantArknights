@@ -416,6 +416,7 @@
         "next": [
             "DrowningSeekers@Roguelike@TraderCheck",
             "DrowningSeekers@Roguelike@ScrapShopCheck",
+            "DrowningSeekers@Roguelike@EmergencyAidCheck",
             "DrowningSeekers@Roguelike@StageEncounterJudgeClick"
         ]
     },
@@ -430,6 +431,13 @@
         "roi": [200, 250, 180, 190],
         "templThreshold": 0.8,
         "next": ["DrowningSeekers@Roguelike@StageTraderEnter#next"]
+    },
+    "DrowningSeekers@Roguelike@EmergencyAidCheck": {
+        "doc": "未知的诡秘分支：应急助力界面使用左侧立绘局部识别，暂时直接离开。",
+        "template": "DrowningSeekers@Roguelike@EmergencyAidCheck.png",
+        "roi": [200, 250, 180, 190],
+        "templThreshold": 0.8,
+        "next": ["Roguelike@StageTraderLeave"]
     },
     "DrowningSeekers@Roguelike@StageUnknownOrEmptyEnter": {
         "template": [
