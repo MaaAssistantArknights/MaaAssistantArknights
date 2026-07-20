@@ -527,6 +527,7 @@
     },
     "Blackflow@Roguelike@StageUnknownOrEmptyEnterDirectReturn": {
         "template": [
+            "Blackflow@Roguelike@StageLightEnter.png",
             "Blackflow@Roguelike@StageUnknownOrEmptyEnter.png",
             "Blackflow@Roguelike@StageTraderEnter.png"
         ],
