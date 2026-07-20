@@ -466,6 +466,10 @@
         "algorithm": "JustReturn",
         "next": ["Blackflow@Roguelike@StageFinalEnter"]
     },
+    "Blackflow@RoguelikeRoutingAction-StageLightEnter": {
+        "algorithm": "JustReturn",
+        "next": ["Blackflow@Roguelike@StageLightEnter"]
+    },
     "Blackflow@RoguelikeRoutingAction-StageScrapShopEnter": {
         "algorithm": "JustReturn",
         "next": ["Blackflow@Roguelike@StageScrapShopEnter"]

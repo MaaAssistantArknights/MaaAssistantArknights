@@ -442,6 +442,7 @@
     },
     "Blackflow@Roguelike@StageLightEnter": {
         "template": "Blackflow@Roguelike@StageLightEnter.png",
+        "baseTask": "Blackflow@Roguelike@StageEncounterEnter",
         "templThreshold": 0.98,
         "rectMove": [0, 0, 55, 70]
     },

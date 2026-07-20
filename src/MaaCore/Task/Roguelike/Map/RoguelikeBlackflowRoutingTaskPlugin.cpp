@@ -63,6 +63,8 @@ const char* known_node_route_action(RoguelikeNodeType type)
         return "Blackflow@RoguelikeRoutingAction-StageWindAndRainEnter";
     case RoguelikeNodeType::PathEnd:
         return "Blackflow@RoguelikeRoutingAction-StageFinalEnter";
+    case RoguelikeNodeType::PathLane:
+        return "Blackflow@RoguelikeRoutingAction-StageLightEnter";
     case RoguelikeNodeType::HiddenTrader:
         return "Blackflow@RoguelikeRoutingAction-StageScrapShopEnter";
     case RoguelikeNodeType::EmergencyAid:
