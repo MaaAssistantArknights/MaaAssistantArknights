@@ -213,6 +213,7 @@
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，投资完成后自动退出</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二{key=Operator}开局</system:String>
     <system:String x:Key="RoguelikeStrategyBoilWater">烧水</system:String>
+    <system:String x:Key="RoguelikeBlackflowExpModeTip">因为没有做boss的策略,其实不可能通关</system:String>
     <system:String x:Key="RoguelikeBlackflowCollectibleModeTip">其实没有热水壶:(</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">烧水使用分队</system:String>

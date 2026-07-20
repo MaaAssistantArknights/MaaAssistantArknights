@@ -213,6 +213,7 @@
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，投資完成後自動退出</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷開局，刷取熱水壺或精二{key=Operator}開局</system:String>
     <system:String x:Key="RoguelikeStrategyBoilWater">燒水</system:String>
+    <system:String x:Key="RoguelikeBlackflowExpModeTip">因為沒有做 Boss 的策略，其實不可能通關</system:String>
     <system:String x:Key="RoguelikeBlackflowCollectibleModeTip">其實沒有熱水壺:(</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍縮範式，遇到非稀有坍縮範式後直接重開</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">燒水分隊</system:String>

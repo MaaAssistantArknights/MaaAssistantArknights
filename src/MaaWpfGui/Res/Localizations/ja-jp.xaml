@@ -213,6 +213,7 @@
     <system:String x:Key="RoguelikeStrategyGold">源石錐を収集、投資完了後に自動で終了</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">支援選択あるいは昇進した{key=Operator}を得るため3層到着後に終了</system:String>
     <system:String x:Key="RoguelikeStrategyBoilWater">水を沸かす</system:String>
+    <system:String x:Key="RoguelikeBlackflowExpModeTip">ボス戦略が未実装のため、実際にはクリアできません</system:String>
     <system:String x:Key="RoguelikeBlackflowCollectibleModeTip">実は熱水ケトルはありません :(</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">パラダイムロストをファーミングして、非レアパラダイムロストに遭遇したらすぐに再起動します</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">支援選択を得るモードの分隊</system:String>

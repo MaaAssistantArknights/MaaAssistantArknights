@@ -46,7 +46,7 @@
     "strategies": {
         "clear": {
             "endpointRequired": true,
-            "endpointUnreachable": "bestEffort",
+            "endpointUnreachable": "abandon",
             "abandonWhenNoPositive": false,
             "nodeWeights": {
                 "Boons": 8,
@@ -59,7 +59,8 @@
                 "Recreation": 1,
                 "CombatOps": -2,
                 "FerociousPresage": -3,
-                "EmergencyOps": -5
+                "EmergencyOps": -5,
+                "DreadfulFoe": 1
             },
             "gearUseCost": 0.5,
             "nonCarryoverUseCost": 0.0,

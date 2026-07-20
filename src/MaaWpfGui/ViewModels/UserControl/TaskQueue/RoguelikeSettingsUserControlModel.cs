@@ -118,6 +118,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         }
         else
         {
+            baseList.Insert(0, new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp });
             baseList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible });
         }
 

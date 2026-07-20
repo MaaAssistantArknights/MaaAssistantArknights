@@ -61,6 +61,13 @@
             <controls:TextBlock
                 Margin="8,0,0,3"
                 Foreground="Gray"
+                Text="{DynamicResource RoguelikeBlackflowExpModeTip}"
+                TextWrapping="Wrap"
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Exp and RoguelikeTheme == task:RoguelikeTheme.Blackflow',
+                                       Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
+            <controls:TextBlock
+                Margin="8,0,0,3"
+                Foreground="Gray"
                 Text="{DynamicResource RoguelikeBlackflowCollectibleModeTip}"
                 TextWrapping="Wrap"
                 Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme == task:RoguelikeTheme.Blackflow',
