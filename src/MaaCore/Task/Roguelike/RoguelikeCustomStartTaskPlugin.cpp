@@ -88,7 +88,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
         list.ingot = select_list->get("ingot", false);
         list.hope = select_list->get("hope", false);
         list.random = select_list->get("random", false);
-        if (m_config->get_theme() == RoguelikeTheme::Mizuki) {
+        if (m_config->get_theme() == RoguelikeTheme::Mizuki || m_config->get_theme() == RoguelikeTheme::DrowningSeekers) {
             list.key = select_list->get("key", false);
             list.dice = select_list->get("dice", false);
         }
@@ -300,6 +300,14 @@ std::vector<std::string> asst::RoguelikeCustomStartTaskPlugin::get_select_list()
         }
         if (m_start_select.dice) {
             list.emplace_back("Mizuki@Roguelike@LastReward6"); // 骰子
+        }
+    }
+    else if (m_config->get_theme() == RoguelikeTheme::DrowningSeekers) {
+        if (m_start_select.key) {
+            list.emplace_back("DrowningSeekers@Roguelike@LastReward5"); // 调查预付款
+        }
+        if (m_start_select.dice) {
+            list.emplace_back("DrowningSeekers@Roguelike@LastReward6"); // 空间租赁
         }
     }
     else if (m_config->get_theme() == RoguelikeTheme::Sarkaz && m_start_select.ideas) {

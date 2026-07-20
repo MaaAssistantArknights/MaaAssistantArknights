@@ -186,7 +186,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
     // 使用 OCR 选项和分支签名选择动态事件；黑流树海禁止未知选项的盲点兜底。
     if (event.dynamic_options) {
         reset_option_list_and_view_data();
-        if (update_option_list()) {
+        if (update_option_list(event.name)) {
             if (auto choice = select_dynamic_option(event)) {
                 if (select_analyzed_option(*choice)) {
                     return next_event(event);
@@ -221,7 +221,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
     if (theme == RoguelikeTheme::JieGarden) {
         // 兼容界园旧配置的动态文本选择。
         reset_option_list_and_view_data();
-        if (update_option_list()) {
+        if (update_option_list(event.name)) {
             size_t choice = 0;
             if (!event.option_text.empty()) {
                 for (const std::string& event_text : event.option_text) {
@@ -418,7 +418,7 @@ int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image) const
     return utils::chars_to_number(res_vec_opt->text, hp_val) ? hp_val : 0;
 }
 
-bool asst::RoguelikeStageEncounterTaskPlugin::update_option_list()
+bool asst::RoguelikeStageEncounterTaskPlugin::update_option_list(const std::string& event_name)
 {
     LogTraceFunction;
 
@@ -447,6 +447,17 @@ bool asst::RoguelikeStageEncounterTaskPlugin::update_option_list()
     }
 
     m_option_list = analyzer.get_result();
+
+    // 黑流树海“得偿所愿-无人商店”中，OCR 偶尔会把首字误识为“二”，
+    // 形成“二搬一个大桶”，导致配置中的“搬一个大桶”无法命中。
+    if (m_config->get_theme() == RoguelikeTheme::DrowningSeekers && event_name == "无人商店") {
+        for (auto& option : m_option_list) {
+            if (option.text == "二搬一个大桶") {
+                Log.info("RoguelikeEncounter | Corrected DrowningSeekers option OCR: 二搬一个大桶 -> 搬一个大桶");
+                option.text = "搬一个大桶";
+            }
+        }
+    }
     report_analyzed_options();
 
     update_view(image);

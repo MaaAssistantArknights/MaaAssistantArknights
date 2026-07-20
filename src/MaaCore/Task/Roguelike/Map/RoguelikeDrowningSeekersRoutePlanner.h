@@ -58,6 +58,8 @@ struct PlannerParams
 {
     int action_points = 0;
     bool endpoint_required = false; // 路线必须结束在 is_endpoint 格
+    bool shortest_endpoint = false; // 终点模式按动作数做 BFS，不为中途收益绕路
+    bool avoid_combat_first = false; // 终点模式先最少战斗，再最短动作数
     bool best_effort = true;        // 终点不可达时：true=输出最优刷分路线（接受追猎），false=判无路线
     double leftover_ap_weight = 0.0;
     int beam_width = 256;
@@ -86,5 +88,3 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
 // 不考虑 endpoint/行动力等约束）。供 plan 内部与单测使用。
 std::vector<int> range_targets(const PlannerMap& map, int from, const PlannerGear& gear);
 }
-
-

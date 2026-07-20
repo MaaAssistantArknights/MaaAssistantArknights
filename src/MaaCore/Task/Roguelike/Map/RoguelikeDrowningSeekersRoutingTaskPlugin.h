@@ -29,7 +29,7 @@ protected:
 
 private:
     RoguelikeDrowningSeekersMapAnalyzer::Result recognize_map();
-    int recognize_action_points();
+    int recognize_action_points(const char* task_name);
 
     struct GearCardHit
     {
@@ -69,5 +69,6 @@ private:
     int m_abandon_ap = 1;
     bool m_dry_run = true;
     int m_consecutive_failures = 0;
+    bool m_force_zoom_reset_after_layer_transition = false;
 };
 }

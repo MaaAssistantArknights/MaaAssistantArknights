@@ -104,6 +104,38 @@ TEST_CASE("planner.walk_to_endpoint_with_detour", "[dsplanner]")
         REQUIRE(result.score == 0.0);
         REQUIRE(result.actions.size() == 2);
     }
+
+    SECTION("烧水模式按最短路线直奔终点，不为收益绕路")
+    {
+        auto params = make_params(4, true);
+        params.shortest_endpoint = true;
+        const auto result = plan(b.map, {}, params);
+        REQUIRE(result.has_route);
+        REQUIRE(result.reaches_endpoint);
+        REQUIRE(result.actions.size() == 2);
+        REQUIRE(result.actions.back().target == b.idx(2, 0));
+    }
+
+    SECTION("烧水模式先避战，再在无战斗路线中取最短")
+    {
+        b.map.cells[b.idx(1, 0)].is_combat = true;
+        auto params = make_params(4, true);
+        params.shortest_endpoint = true;
+        params.avoid_combat_first = true;
+
+        // 直线两步会经过战斗节点；绕开战斗节点需要三步。
+        b.map.adj[b.idx(0, 0)].clear();
+        b.map.adj[b.idx(0, 0)].push_back(b.idx(1, 1));
+        b.map.adj[b.idx(1, 1)].push_back(b.idx(0, 0));
+        b.map.adj[b.idx(1, 1)].push_back(b.idx(1, 0));
+        b.map.adj[b.idx(1, 0)].push_back(b.idx(1, 1));
+
+        const auto result = plan(b.map, {}, params);
+        REQUIRE(result.has_route);
+        REQUIRE(result.reaches_endpoint);
+        REQUIRE(result.actions.size() == 3);
+        REQUIRE(result.actions.front().target == b.idx(1, 1));
+    }
 }
 
 TEST_CASE("planner.jetpack_reaches_disconnected_endpoint", "[dsplanner]")
@@ -419,5 +451,3 @@ TEST_CASE("planner.determinism", "[dsplanner]")
         REQUIRE(first.actions[i].target == second.actions[i].target);
     }
 }
-
-

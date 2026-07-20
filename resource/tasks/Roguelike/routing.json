@@ -318,6 +318,15 @@
         "specialParams": [400, 1],
         "postDelay": 600
     },
+    "DrowningSeekers@RoguelikeRouting-GearPanelSwipeToTop": {
+        "doc": "加工品面板识别前向下滑动，将列表复位到顶部",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1060, 260, 0, 0],
+        "rectMove": [1060, 600, 0, 0],
+        "specialParams": [400, 1],
+        "postDelay": 600
+    },
     "DrowningSeekers@Roguelike@GearPanelOcr": {
         "doc": "识别黑流树海加工品面板的名称、剩余次数和装载状态",
         "algorithm": "OcrDetect",
@@ -344,7 +353,7 @@
     "DrowningSeekers@RoguelikeRouting-EnsureZoomedOut": {
         "doc": "点击缩小图标直至只剩放大图标（保证地图完整可见）",
         "template": "DrowningSeekers@Roguelike@MapZoomOut.png",
-        "templThreshold": 0.8,
+        "templThreshold": 0.99,
         "roi": [0, 540, 120, 100],
         "action": "ClickSelf",
         "postDelay": 1000,
@@ -361,9 +370,15 @@
     },
     "DrowningSeekers@Roguelike@ActionPointsRecognition": {
         "baseTask": "NumberOcrReplace",
-        "doc": "识别右上角剩余行动力（可走步数）",
+        "doc": "地图界面识别右上角剩余行动力（可走步数）",
         "text": [],
         "roi": [1080, 110, 100, 75]
+    },
+    "DrowningSeekers@Roguelike@ActionPointsRecognitionGearPanel": {
+        "baseTask": "NumberOcrReplace",
+        "doc": "加工品界面识别右上角剩余行动力（可走步数）",
+        "text": [],
+        "roi": [1170, 40, 110, 70]
     },
     "DrowningSeekers@RoguelikeRoutingNodeNameOcr": {
         "doc": "识别节点铭牌文字，供 RoguelikeMapConfig::text2type 映射到节点类型",

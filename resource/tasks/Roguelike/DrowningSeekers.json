@@ -93,15 +93,32 @@
         "template": "DrowningSeekers@Roguelike@CloseCollection.png",
         "action": "ClickSelf",
         "templThreshold": 0.9,
-        "roi": [560, 500, 160, 100]
+        "roi": [560, 500, 160, 100],
+        "onErrorNext": ["#back"],
+        "next": ["#next"]
     },
     "DrowningSeekers@Roguelike@CloseCollectionContinue": {
         "template": "DrowningSeekers@Roguelike@CloseCollectionContinue.png",
         "action": "ClickSelf",
         "templThreshold": 0.9,
-        "roi": [549, 440, 123, 130],
+        "roi": [500, 560, 280, 160],
         "onErrorNext": ["#back"],
         "next": ["#next"]
+    },
+    "DrowningSeekers@Roguelike@CloseCollectionAfterEncounter": {
+        "baseTask": "DrowningSeekers@Roguelike@CloseCollection",
+        "template": "DrowningSeekers@Roguelike@CloseCollection.png",
+        "doc": "事件选项结果页先关闭黑色叉，再处理后续白色勾或回到地图路由",
+        "next": [
+            "DrowningSeekers@Roguelike@CloseCollectionContinueAfterEncounter",
+            "DrowningSeekers@Roguelike@Routing"
+        ]
+    },
+    "DrowningSeekers@Roguelike@CloseCollectionContinueAfterEncounter": {
+        "baseTask": "DrowningSeekers@Roguelike@CloseCollectionContinue",
+        "template": "DrowningSeekers@Roguelike@CloseCollectionContinue.png",
+        "doc": "事件选项结果页的白色勾关闭后回到地图路由",
+        "next": ["DrowningSeekers@Roguelike@Routing"]
     },
     "DrowningSeekers@Roguelike@CloseEvent": {
         "algorithm": "JustReturn",
@@ -186,13 +203,15 @@
     "DrowningSeekers@Roguelike@LastReward3": {},
     "DrowningSeekers@Roguelike@LastReward4": {},
     "DrowningSeekers@Roguelike@LastReward5": {},
+    "DrowningSeekers@Roguelike@LastReward6": {},
     "DrowningSeekers@Roguelike@LastReward-EnterPoint": {
         "template": [
             "DrowningSeekers@Roguelike@LastReward.png",
             "DrowningSeekers@Roguelike@LastReward2.png",
             "DrowningSeekers@Roguelike@LastReward3.png",
             "DrowningSeekers@Roguelike@LastReward4.png",
-            "DrowningSeekers@Roguelike@LastReward5.png"
+            "DrowningSeekers@Roguelike@LastReward5.png",
+            "DrowningSeekers@Roguelike@LastReward6.png"
         ]
     },
     "DrowningSeekers@Roguelike@LastReward-Strategy": {
@@ -201,7 +220,8 @@
             "DrowningSeekers@Roguelike@LastReward2",
             "DrowningSeekers@Roguelike@LastReward3",
             "DrowningSeekers@Roguelike@LastReward4",
-            "DrowningSeekers@Roguelike@LastReward5"
+            "DrowningSeekers@Roguelike@LastReward5",
+            "DrowningSeekers@Roguelike@LastReward6"
         ]
     },
     "DrowningSeekers@Roguelike@LastRewardConfirm": {
@@ -277,8 +297,20 @@
     "DrowningSeekers@Roguelike@StageEncounterJudgeClick2": {
         "next": [
             "DrowningSeekers@Roguelike@StageEncounterJudgeClick2@(DrowningSeekers@Roguelike@CloseCollectionContinue)",
+            "DrowningSeekers@Roguelike@StageEncounterJudgeClick2@(DrowningSeekers@Roguelike@CloseCollection)",
             "DrowningSeekers@Roguelike@StageEncounterJudgeOption"
         ]
+    },
+    "DrowningSeekers@Roguelike@StageEncounterJudgeOption": {
+        "algorithm": "JustReturn",
+        "Doc": "选项点击后的结果页先关闭白勾或藏品黑叉，再继续地图路线",
+        "next": [
+            "DrowningSeekers@Roguelike@CloseCollectionContinueAfterEncounter",
+            "DrowningSeekers@Roguelike@CloseCollectionAfterEncounter",
+            "DrowningSeekers@Roguelike@StageEncounterOptions#next",
+            "DrowningSeekers@Roguelike@Stages#next"
+        ],
+        "onErrorNext": ["DrowningSeekers@Roguelike@ExitThenAbandon"]
     },
     "DrowningSeekers@Roguelike@StageEncounterLeaveConfirm": {
         "template": "DrowningSeekers@Roguelike@StageEncounterLeaveConfirm.png"
@@ -496,7 +528,8 @@
     },
     "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
         "baseTask": "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar",
-        "template": "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-38.png"
+        "template": "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-38.png",
+        "templThreshold": 0.78
     },
     "DrowningSeekers@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled": {
         "baseTask": "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled",

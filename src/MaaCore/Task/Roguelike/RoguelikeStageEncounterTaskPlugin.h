@@ -26,7 +26,7 @@ protected:
 
 private:
     std::optional<std::string> recognize_event_name(const cv::Mat& image) const;
-    bool update_option_list();
+    bool update_option_list(const std::string& event_name);
     std::optional<size_t> select_dynamic_option(const Config::RoguelikeEvent& event);
     bool select_analyzed_option(size_t index);
     void reset_option_list_and_view_data();

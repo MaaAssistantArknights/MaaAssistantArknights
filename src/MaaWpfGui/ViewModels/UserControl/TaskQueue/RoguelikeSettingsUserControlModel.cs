@@ -560,6 +560,22 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     private void UpdateRoguelikeStartWithAllDict()
     {
         var config = GetTaskConfig<RoguelikeTask>().CollectibleStartAwards;
+        if (RoguelikeTheme == Theme.DrowningSeekers)
+        {
+            RoguelikeStartAwards =
+            [
+                new() { Display = "退行补偿(2血换1藏)", Value = RoguelikeCollectibleAward.HotWater },
+                new() { Display = "林间代步(1加工品)", Value = RoguelikeCollectibleAward.Shield },
+                new() { Display = "巢寄生(1零件容量换1藏)", Value = RoguelikeCollectibleAward.Ingot },
+                new() { Display = "未编号物(1普通藏)", Value = RoguelikeCollectibleAward.Hope },
+                new() { Display = "调查预付款(8源石锭)", Value = RoguelikeCollectibleAward.Key },
+                new() { Display = "空间租赁(6源石锭换2零件容量)", Value = RoguelikeCollectibleAward.Dice },
+            ];
+            OnPropertyChanged(nameof(RoguelikeStartAwards));
+            RoguelikeStartWithSelectList = RoguelikeStartAwards.Where(i => config.HasFlag(i.Value)).ToArray();
+            return;
+        }
+
         var list = new List<GenericCombinedData<RoguelikeCollectibleAward>>()
         {
            new() { Display = LocalizationHelper.GetString("RoguelikeStartWithKettle"), Value = RoguelikeCollectibleAward.HotWater },

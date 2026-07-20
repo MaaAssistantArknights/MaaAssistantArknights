@@ -88,7 +88,9 @@
         },
         "boilWater": {
             "endpointRequired": true,
-            "endpointUnreachable": "bestEffort",
+            "shortestEndpoint": true,
+            "avoidCombatFirst": true,
+            "endpointUnreachable": "abandon",
             "abandonWhenNoPositive": false,
             "nodeWeights": {
                 "Boons": 3,
@@ -116,4 +118,3 @@
         "4": "boilWater"
     }
 }
-

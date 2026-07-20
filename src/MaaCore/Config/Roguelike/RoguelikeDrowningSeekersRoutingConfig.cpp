@@ -123,6 +123,8 @@ bool RoguelikeDrowningSeekersRoutingConfig::parse(const json::value& json)
         DrowningSeekersStrategyProfile profile;
         profile.name = profile_name;
         profile.endpoint_required = profile_json.get("endpointRequired", false);
+        profile.shortest_endpoint = profile_json.get("shortestEndpoint", false);
+        profile.avoid_combat_first = profile_json.get("avoidCombatFirst", false);
         const std::string unreachable = profile_json.get("endpointUnreachable", "bestEffort");
         if (unreachable != "bestEffort" && unreachable != "abandon") {
             Log.error(__FUNCTION__, "| Unknown endpointUnreachable policy:", unreachable, "of", profile_name);
@@ -169,5 +171,3 @@ bool RoguelikeDrowningSeekersRoutingConfig::parse(const json::value& json)
 
     return true;
 }
-
-

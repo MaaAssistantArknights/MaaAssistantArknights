@@ -12,6 +12,7 @@ namespace
 {
 constexpr size_t kMaxGears = 12;  // 剩余次数打包进 uint64（每个 4 bit）
 constexpr int kMaxTracked = 64;   // visited 位掩码可跟踪的格数上限
+constexpr size_t kMaxSearchStates = 100000; // 防止高行动力 + 多加工品导致搜索爆炸
 
 struct SearchNode
 {
@@ -20,6 +21,7 @@ struct SearchNode
     std::uint64_t uses = 0; // 各加工品剩余次数（4 bit × 加工品）
     std::uint64_t mask = 0; // 本次规划中已"消费"过奖励/效果的格
     double score = 0.0;
+    int combat_count = 0;   // 路线上进入战斗节点的次数（避战策略使用）
     int carry_spent = 0;    // 已消耗的可携带加工品次数（平局裁决用）
     int parent = -1;        // arena 下标
     PlannerAction act;
@@ -58,8 +60,16 @@ int packed_uses(std::uint64_t packed, size_t i)
 }
 
 // a 是否严格优于 b（确定性平局裁决：分高 → 可携带耗得少 → 剩余 AP 多 → 格序号小 → 深度小）
-bool better(const SearchNode& a, const SearchNode& b)
+bool better(const SearchNode& a, const SearchNode& b, bool avoid_combat_first = false)
 {
+    if (avoid_combat_first) {
+        if (a.combat_count != b.combat_count) {
+            return a.combat_count < b.combat_count;
+        }
+        if (a.depth != b.depth) {
+            return a.depth < b.depth;
+        }
+    }
     if (a.score != b.score) {
         return a.score > b.score;
     }
@@ -210,6 +220,8 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
         }
     }
 
+    const bool shortest_endpoint = params.endpoint_required && params.shortest_endpoint;
+    const bool avoid_combat_first = shortest_endpoint && params.avoid_combat_first;
     const int beam_width = std::max(8, params.beam_width);
     const int max_depth = std::max(1, params.max_depth);
 
@@ -235,6 +247,28 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
             return va > vb;
         }
         return better(a, b);
+    };
+
+    auto combat_candidate_better = [&](const SearchNode& a, const SearchNode& b) {
+        return better(a, b, true);
+    };
+
+    std::optional<SearchNode> best_combat_terminal;
+
+    auto make_result = [&](const SearchNode* chosen) {
+        PlannerResult out;
+        if (chosen == nullptr) {
+            return out;
+        }
+        out.has_route = true;
+        out.reaches_endpoint = chosen->terminal;
+        out.score = value_of(*chosen);
+        out.actions.push_back(chosen->act);
+        for (int idx = chosen->parent; idx > 0; idx = arena[idx].parent) {
+            out.actions.push_back(arena[idx].act);
+        }
+        std::ranges::reverse(out.actions);
+        return out;
     };
 
     // 进入 target 格；不可行返回 nullopt
@@ -270,6 +304,7 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
         nxt.act = { gear_idx < 0, gear_idx, target };
         nxt.ap = cur.ap - cost + gear_ap_gain;
         nxt.score = cur.score + gear_delta;
+        nxt.combat_count = cur.combat_count + (cell.is_combat ? 1 : 0);
         if (gear_idx >= 0) {
             nxt.uses = cur.uses - (1ull << (gear_idx * 4));
             if (gears[gear_idx].carryover) {
@@ -328,6 +363,35 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
             break;
         }
 
+        // 烧水模式只关心到终点的最短动作序列。普通最短路在当前层发现终点
+        // 就可以返回；避战模式则先比较整条路线的战斗次数，再比较动作数，
+        // 所以要继续搜索，直到找到零战斗终点或达到搜索深度。
+        if (avoid_combat_first) {
+            for (const auto& node : generated) {
+                if (!node.terminal || !best_combat_terminal || combat_candidate_better(node, *best_combat_terminal)) {
+                    if (node.terminal) {
+                        best_combat_terminal = node;
+                    }
+                }
+            }
+            if (best_combat_terminal && best_combat_terminal->combat_count == 0) {
+                return make_result(&*best_combat_terminal);
+            }
+        }
+        else if (shortest_endpoint) {
+            const SearchNode* shortest_terminal = nullptr;
+            for (const auto& node : generated) {
+                if (!node.terminal || shortest_terminal == nullptr || better(node, *shortest_terminal)) {
+                    if (node.terminal) {
+                        shortest_terminal = &node;
+                    }
+                }
+            }
+            if (shortest_terminal != nullptr) {
+                return make_result(shortest_terminal);
+            }
+        }
+
         // 同状态去重，保留更优者
         std::unordered_map<StateKey, size_t, StateKeyHash> dedup;
         dedup.reserve(generated.size());
@@ -339,7 +403,7 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
             if (inserted) {
                 kept.push_back(i);
             }
-            else if (better(generated[i], generated[it->second])) {
+            else if (better(generated[i], generated[it->second], avoid_combat_first)) {
                 // 用更优者替换占位（kept 中仍是旧下标，替换内容即可）
                 generated[it->second] = generated[i];
             }
@@ -356,25 +420,48 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
             }
         }
 
-        std::ranges::stable_sort(kept, [&](size_t a, size_t b) { return better(generated[a], generated[b]); });
-        if (kept.size() > static_cast<size_t>(beam_width)) {
+        std::ranges::stable_sort(
+            kept,
+            [&](size_t a, size_t b) { return better(generated[a], generated[b], avoid_combat_first); });
+        // 避战终点模式也必须裁剪束宽：若没有零战斗终点，不能让所有加工品组合无限扩张。
+        // 每层仍按战斗次数优先排序，因此不会改变“避战第一”的决策顺序，只限制候选规模。
+        const bool use_beam_pruning = !shortest_endpoint || avoid_combat_first;
+        if (use_beam_pruning && kept.size() > static_cast<size_t>(beam_width)) {
             kept.resize(beam_width);
         }
 
         std::vector<int> next_frontier;
         next_frontier.reserve(kept.size());
+        bool state_limit_reached = false;
         for (const size_t gi : kept) {
             if (generated[gi].terminal) {
                 continue; // 终点节点不再扩展，也无需成为 parent
             }
+            if (arena.size() >= kMaxSearchStates) {
+                state_limit_reached = true;
+                break;
+            }
             arena.push_back(generated[gi]);
             next_frontier.push_back(static_cast<int>(arena.size()) - 1);
         }
-        frontier = std::move(next_frontier);
+        if (state_limit_reached) {
+            frontier.clear();
+        }
+        else {
+            frontier = std::move(next_frontier);
+        }
     }
 
     const SearchNode* chosen = nullptr;
-    if (params.endpoint_required) {
+    if (avoid_combat_first) {
+        if (best_combat_terminal) {
+            return make_result(&*best_combat_terminal);
+        }
+        if (params.best_effort && best_any_node) {
+            chosen = &*best_any_node;
+        }
+    }
+    else if (params.endpoint_required) {
         if (best_terminal_node) {
             chosen = &*best_terminal_node;
         }
@@ -389,16 +476,6 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
         return result;
     }
 
-    result.has_route = true;
-    result.reaches_endpoint = chosen->terminal;
-    result.score = value_of(*chosen);
-    result.actions.push_back(chosen->act);
-    for (int idx = chosen->parent; idx > 0; idx = arena[idx].parent) {
-        result.actions.push_back(arena[idx].act);
-    }
-    std::ranges::reverse(result.actions);
-    return result;
+    return make_result(chosen);
 }
 } // namespace asst::drowning_seekers
-
-

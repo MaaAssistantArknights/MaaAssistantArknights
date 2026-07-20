@@ -5,11 +5,11 @@
         {
             "name": "行动奖励",
             "preferred_options": [
-                { "texts": ["调查预付款"] },
+                { "texts": ["调查预付款(8源石锭)"] },
                 { "texts": ["襁褓天马"] },
                 { "texts": ["襁褓骏鹰"] }
             ],
-            "safe_fallback_options": ["调查预付款", "襁褓天马", "襁褓骏鹰"],
+            "safe_fallback_options": ["调查预付款(8源石锭)", "襁褓天马", "襁褓骏鹰"],
             "prefer_event_rule": true
         },
         {

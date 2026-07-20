@@ -7,6 +7,7 @@
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Task/ProcessTask.h"
 #include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
@@ -271,6 +272,7 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::load_params([[maybe_unused]] con
 void RoguelikeDrowningSeekersRoutingTaskPlugin::reset_in_run_variables()
 {
     m_consecutive_failures = 0;
+    m_force_zoom_reset_after_layer_transition = false;
     if (m_profile == nullptr) {
         m_profile = DrowningSeekersRoutingInfo.strategy_for_mode(static_cast<int>(m_config->get_mode()));
     }
@@ -299,12 +301,60 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersRoutingTaskP
 {
     // 1. 确保地图缩小：同一帧比较“＋”和“−”的置信率。
     //    游戏在最小缩放时仍会保留“−”按钮，因此不能以“−”消失作为退出条件。
-    constexpr double zoom_threshold = 0.8;
+    //    最小缩放时“−”模板会产生约 0.95 的背景误匹配，真实按钮通常 >= 0.99。
+    constexpr double zoom_threshold = 0.99;
     constexpr int zoom_max_clicks = 8;
     constexpr int zoom_wait_ms = 1000;
+    constexpr double layer_reset_threshold = 0.8;
     constexpr const char* zoom_in_template = "DrowningSeekers@Roguelike@MapZoomIn.png";
     constexpr const char* zoom_out_template = "DrowningSeekers@Roguelike@MapZoomOut.png";
     const Rect zoom_roi { 0, 540, 120, 100 };
+
+    if (m_force_zoom_reset_after_layer_transition) {
+        const cv::Mat image = ctrler()->get_image();
+        if (!image.empty()) {
+            Matcher zoom_in_matcher(image, zoom_roi);
+            zoom_in_matcher.set_templ(zoom_in_template);
+            zoom_in_matcher.set_threshold(0.0);
+            const auto zoom_in = zoom_in_matcher.analyze();
+
+            Matcher zoom_out_matcher(image, zoom_roi);
+            zoom_out_matcher.set_templ(zoom_out_template);
+            zoom_out_matcher.set_threshold(0.0);
+            const auto zoom_out = zoom_out_matcher.analyze();
+
+            const double zoom_in_score = zoom_in ? zoom_in->score : 0.0;
+            const double zoom_out_score = zoom_out ? zoom_out->score : 0.0;
+            if (zoom_in_score >= zoom_out_score && zoom_in && zoom_in_score >= layer_reset_threshold) {
+                const Point click_point {
+                    zoom_in->rect.x + zoom_in->rect.width / 2,
+                    zoom_in->rect.y + zoom_in->rect.height / 2
+                };
+                Log.info(__FUNCTION__, "| layer transition reset: clicking zoom in at", click_point.x, click_point.y);
+                ctrler()->click(click_point);
+                m_force_zoom_reset_after_layer_transition = false;
+                sleep(zoom_wait_ms);
+            }
+            else if (zoom_out && zoom_out_score >= layer_reset_threshold) {
+                const Point click_point {
+                    zoom_out->rect.x + zoom_out->rect.width / 2,
+                    zoom_out->rect.y + zoom_out->rect.height / 2
+                };
+                Log.info(__FUNCTION__, "| layer transition reset: clicking zoom out at", click_point.x, click_point.y);
+                ctrler()->click(click_point);
+                m_force_zoom_reset_after_layer_transition = false;
+                sleep(zoom_wait_ms);
+            }
+            else {
+                Log.warn(
+                    __FUNCTION__,
+                    "| layer transition reset icon not found, in=",
+                    zoom_in_score,
+                    "out=",
+                    zoom_out_score);
+            }
+        }
+    }
 
     for (int click_count = 0; click_count < zoom_max_clicks && !need_exit(); ++click_count) {
         const cv::Mat image = ctrler()->get_image();
@@ -356,20 +406,87 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersRoutingTaskP
     return analyzer.analyze();
 }
 
-int RoguelikeDrowningSeekersRoutingTaskPlugin::recognize_action_points()
+int RoguelikeDrowningSeekersRoutingTaskPlugin::recognize_action_points(const char* task_name)
 {
-    OCRer analyzer(ctrler()->get_image());
-    analyzer.set_task_info("DrowningSeekers@Roguelike@ActionPointsRecognition");
-    analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
-    analyzer.set_use_char_model(true);
-    if (!analyzer.analyze()) {
+    cv::Mat image = ctrler()->get_image().clone();
+    const auto task_ptr = Task.get<OcrTaskInfo>(task_name);
+    if (!task_ptr) {
+        Log.error("DrowningSeekersRouting | action points OCR task missing", task_name);
         return -1;
     }
-    int val = 0;
-    if (!utils::chars_to_number(analyzer.get_result().front().text, val)) {
-        return -1;
+
+    const cv::Rect roi = make_rect<cv::Rect>(task_ptr->roi);
+
+    struct Candidate
+    {
+        int value = -1;
+        double score = 0.0;
+        std::string text;
+    };
+
+    auto recognize = [&](const cv::Mat& input, const char* pass) -> std::optional<Candidate> {
+        OCRer analyzer(input);
+        analyzer.set_task_info(task_name);
+        analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
+        analyzer.set_use_char_model(true);
+        if (!analyzer.analyze()) {
+            Log.info("DrowningSeekersRouting | action points OCR", task_name, pass, "no result");
+            return std::nullopt;
+        }
+
+        std::optional<Candidate> best;
+        for (const auto& result : analyzer.get_result()) {
+            if (result.text.empty() ||
+                !std::ranges::all_of(result.text, [](char ch) { return ch >= '0' && ch <= '9'; })) {
+                continue;
+            }
+            int value = 0;
+            if (!utils::chars_to_number(result.text, value) || value < 0 || value > 99) {
+                continue;
+            }
+            if (!best || result.score > best->score) {
+                best = Candidate { value, result.score, result.text };
+            }
+        }
+
+        if (best) {
+            Log.info(
+                "DrowningSeekersRouting | action points OCR",
+                task_name,
+                pass,
+                best->text,
+                "value",
+                best->value,
+                "score",
+                best->score);
+        }
+        else {
+            Log.info("DrowningSeekersRouting | action points OCR", task_name, pass, "no numeric result");
+        }
+        return best;
+    };
+
+    // 先识别原图，保留细小数字的抗锯齿；再识别白色过滤图，抑制地图背景。
+    const auto raw = recognize(image, "raw");
+
+    cv::Mat gray;
+    cv::cvtColor(image(roi), gray, cv::COLOR_BGR2GRAY);
+    cv::Mat white_mask;
+    constexpr int kActionPointWhiteThreshold = 180;
+    cv::inRange(gray, kActionPointWhiteThreshold, 255, white_mask);
+    cv::Mat filtered = image.clone();
+    cv::Mat filtered_roi;
+    cv::cvtColor(white_mask, filtered_roi, cv::COLOR_GRAY2BGR);
+    filtered_roi.copyTo(filtered(roi));
+    const auto filtered_result = recognize(filtered, "white-filtered");
+
+    if (raw) {
+        return raw->value;
     }
-    return val;
+    if (filtered_result) {
+        return filtered_result->value;
+    }
+    return -1;
 }
 
 // ============================================================================
@@ -476,6 +593,12 @@ RoguelikeDrowningSeekersRoutingTaskPlugin::GearPanelInfo RoguelikeDrowningSeeker
 
     GearPanelInfo info;
     bool walk_seen = false;
+
+    // 先把可能残留的滚动位置推回顶部，再从顶部向下逐页识别。
+    for (int reset = 0; reset < kMaxPanelScrolls && !need_exit(); ++reset) {
+        ProcessTask(*this, { "DrowningSeekers@RoguelikeRouting-GearPanelSwipeToTop" }).run();
+    }
+
     for (int screen = 0; screen <= kMaxPanelScrolls && !need_exit(); ++screen) {
         std::vector<GearCardHit> cards = ocr_gear_cards();
         if (cards.empty() && screen == 0) {
@@ -795,10 +918,39 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
         act_retry("recognition_failed");
         return true;
     }
-    const int action_points = recognize_action_points();
 
-    // 2. 打开加工品面板并识别（名称/剩余次数/装载中）
+    // 烧水只需验证是否已经进入第三层：险路恶敌只会出现在第三层和第五层。
+    // 识别到该节点即可判定成功，不再打开加工品面板或继续规划路线。
+    if (m_profile->name == "boilWater") {
+        const auto dreadful_foe = std::ranges::find_if(result.cells, [](const auto& cell) {
+            return cell.type == RoguelikeNodeType::DreadfulFoe;
+        });
+        if (dreadful_foe != result.cells.end()) {
+            Log.info(
+                "DrowningSeekersRouting | boilWater success: detected DreadfulFoe at",
+                dreadful_foe->col,
+                dreadful_foe->row);
+            act_abandon("boil_water_success_dreadful_foe");
+            return true;
+        }
+    }
+
+    const int map_action_points = recognize_action_points("DrowningSeekers@Roguelike@ActionPointsRecognition");
+
+    // 2. 打开加工品面板，再识别一次行动力与加工品（面板态作为备用）
     open_gear_panel();
+    const int panel_action_points =
+        recognize_action_points("DrowningSeekers@Roguelike@ActionPointsRecognitionGearPanel");
+    const int action_points = panel_action_points >= 0 ? panel_action_points : map_action_points;
+    Log.info(
+        "DrowningSeekersRouting | action points OCR map",
+        map_action_points,
+        "panel",
+        panel_action_points,
+        "selected",
+        action_points,
+        "source",
+        panel_action_points >= 0 ? "panel" : "map");
     GearPanelInfo panel = read_gear_panel();
     if (!panel.valid) {
         ensure_gear_panel_closed();
@@ -832,6 +984,8 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
     drowning_seekers::PlannerParams params;
     params.action_points = action_points;
     params.endpoint_required = m_profile->endpoint_required;
+    params.shortest_endpoint = m_profile->shortest_endpoint;
+    params.avoid_combat_first = m_profile->avoid_combat_first;
     params.best_effort = m_profile->best_effort_when_unreachable;
     params.leftover_ap_weight = m_profile->leftover_ap_weight;
     const drowning_seekers::PlannerResult planned = drowning_seekers::plan(pmap, pgears, params);
@@ -914,32 +1068,32 @@ bool RoguelikeDrowningSeekersRoutingTaskPlugin::_run()
     }
     ensure_gear_panel_closed();
 
-    // 6. 面板开合与聚焦会移动视野：复位视野并快速重识别，校验后再点击目标格
-    ProcessTask(*this, { "DrowningSeekers@RoguelikeRouting-SwipeToCorner" }).run();
-    sleep(300);
-    RoguelikeDrowningSeekersMapAnalyzer refresh_analyzer(ctrler()->get_image());
-    const RoguelikeDrowningSeekersMapAnalyzer::Result fresh = refresh_analyzer.analyze();
-
+    // 6. 面板关闭后直接使用已识别的地图和目标节点，不再滑动或重复识别
     const int target_col = first.target % pmap.cols;
     const int target_row = first.target / pmap.cols;
     const RoguelikeDrowningSeekersMapAnalyzer::Cell* target_cell = nullptr;
-    if (fresh.valid && fresh.cols == result.cols && fresh.rows == result.rows && fresh.player == result.player) {
-        for (const auto& c : fresh.cells) {
-            if (c.col == target_col && c.row == target_row) {
-                target_cell = &c;
-                break;
-            }
+    for (const auto& c : result.cells) {
+        if (c.col == target_col && c.row == target_row) {
+            target_cell = &c;
+            break;
         }
     }
     if (target_cell == nullptr) {
-        Log.warn("DrowningSeekersRouting | map changed after gear panel interaction, retrying");
-        act_retry("refresh_mismatch");
+        Log.error("DrowningSeekersRouting | planned target is missing from recognized map");
+        act_retry("target_missing");
         return true;
     }
 
     m_consecutive_failures = 0;
 
     const int final_target = planned.actions.back().target;
+    m_force_zoom_reset_after_layer_transition = target_cell->type == RoguelikeNodeType::DreadfulFoe ||
+        target_cell->type == RoguelikeNodeType::PathEnd || target_cell->type == RoguelikeNodeType::PathLane;
+    if (m_force_zoom_reset_after_layer_transition) {
+        Log.info(
+            "DrowningSeekersRouting | next map will reset zoom after layer node",
+            type2name(target_cell->type));
+    }
     Log.info(
         "DrowningSeekersRouting | move via",
         desired_mode,
