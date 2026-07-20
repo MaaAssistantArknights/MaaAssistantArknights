@@ -276,6 +276,11 @@
     <system:String x:Key="IS5NewSquad9">代理人分隊（サポートされていません）</system:String>
     <system:String x:Key="IS5NewSquad10">知学分隊</system:String>
     <system:String x:Key="IS5NewSquad11">商人分隊</system:String>
+    <system:String x:Key="IS6NewSquad1">本源研修分隊</system:String>
+    <system:String x:Key="IS6NewSquad2">文明開化分隊</system:String>
+    <system:String x:Key="IS6NewSquad3">開拓者分隊</system:String>
+    <system:String x:Key="IS6NewSquad4">多角貿易分隊</system:String>
+    <system:String x:Key="IS6NewSquad5">地質調査分隊</system:String>
     <system:String x:Key="SpecialForceSquad">特別行動分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>

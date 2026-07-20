@@ -118,7 +118,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         }
         else
         {
-            baseList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBoilWater"), Value = Mode.Collectible });
+            baseList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible });
         }
 
         switch (RoguelikeTheme)
@@ -148,7 +148,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
         switch (RoguelikeTheme)
         {
-            case Theme.JieGarden:
+            case Theme.JieGarden or Theme.DrowningSeekers:
                 RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("FlexibleDeployment"), Value = "灵活部署" });
                 RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Unbreakable"), Value = "坚不可摧" });
                 break;
@@ -221,6 +221,24 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             ("IS5NewSquad10", "知学分队"),
             ("IS5NewSquad11", "商贾分队"),
         ],
+        ["DrowningSeekers_Default"] =
+        [
+            ("LeaderSquad", "指挥分队"),
+            ("SpecialForceSquad", "特勤分队"),
+            ("SupportSquad", "后勤分队"),
+            ("SpearheadSquad", "矛头分队"),
+            ("TacticalAssaultOperative", "突击战术分队"),
+            ("TacticalFortificationOperative", "堡垒战术分队"),
+            ("TacticalRangedOperative", "远程战术分队"),
+            ("TacticalDestructionOperative", "破坏战术分队"),
+            ("IS5NewSquad1", "高台突破分队"),
+            ("IS5NewSquad2", "地面突破分队"),
+            ("IS6NewSquad1", "本源研修分队"),
+            ("IS6NewSquad2", "文明开化分队"),
+            ("IS6NewSquad3", "开拓者分队"),
+            ("IS6NewSquad4", "多边贸易分队"),
+            ("IS6NewSquad5", "地质调查分队"),
+        ],
     };
 
     // 通用分队
@@ -261,6 +279,11 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         foreach (var (key, value) in _commonSquads)
         {
             if (RoguelikeTheme == Theme.DrowningSeekers && key == "First-ClassSquad")
+            {
+                continue;
+            }
+
+            if (RoguelikeSquadList.Any(x => x.Value == value))
             {
                 continue;
             }

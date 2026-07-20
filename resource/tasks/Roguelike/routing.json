@@ -410,6 +410,10 @@
         "algorithm": "JustReturn",
         "next": ["DrowningSeekers@Roguelike@ExitThenAbandon"]
     },
+    "DrowningSeekers@RoguelikeRoutingAction-ExitThenAbandon_ToHardest": {
+        "algorithm": "JustReturn",
+        "next": ["DrowningSeekers@Roguelike@ExitThenAbandon_ToHardest"]
+    },
     "DrowningSeekers@RoguelikeRoutingAction-DirectReturn": {
         "doc": "空路、羽瞰点、曲折密道点击出发前往后，回到地图继续路由。",
         "algorithm": "JustReturn",

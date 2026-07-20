@@ -276,6 +276,11 @@
     <system:String x:Key="IS5NewSquad9">대리인 분대 (미지원)</system:String>
     <system:String x:Key="IS5NewSquad10">학자 분대</system:String>
     <system:String x:Key="IS5NewSquad11">상인 분대</system:String>
+    <system:String x:Key="IS6NewSquad1">근원 연구 분대</system:String>
+    <system:String x:Key="IS6NewSquad2">문명 개화 분대</system:String>
+    <system:String x:Key="IS6NewSquad3">개척자 분대</system:String>
+    <system:String x:Key="IS6NewSquad4">다변 무역 분대</system:String>
+    <system:String x:Key="IS6NewSquad5">지질 조사 분대</system:String>
     <system:String x:Key="SpecialForceSquad">특근 분대</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>

@@ -198,12 +198,30 @@
     "DrowningSeekers@Roguelike@InitialDrop": {
         "template": "DrowningSeekers@Roguelike@Confirm.png"
     },
-    "DrowningSeekers@Roguelike@LastReward": {},
-    "DrowningSeekers@Roguelike@LastReward2": {},
-    "DrowningSeekers@Roguelike@LastReward3": {},
-    "DrowningSeekers@Roguelike@LastReward4": {},
-    "DrowningSeekers@Roguelike@LastReward5": {},
-    "DrowningSeekers@Roguelike@LastReward6": {},
+    "DrowningSeekers@Roguelike@LastReward": {
+        "baseTask": "Roguelike@LastReward",
+        "template": "DrowningSeekers@Roguelike@LastReward.png"
+    },
+    "DrowningSeekers@Roguelike@LastReward2": {
+        "baseTask": "Roguelike@LastReward",
+        "template": "DrowningSeekers@Roguelike@LastReward2.png"
+    },
+    "DrowningSeekers@Roguelike@LastReward3": {
+        "baseTask": "Roguelike@LastReward",
+        "template": "DrowningSeekers@Roguelike@LastReward3.png"
+    },
+    "DrowningSeekers@Roguelike@LastReward4": {
+        "baseTask": "Roguelike@LastReward",
+        "template": "DrowningSeekers@Roguelike@LastReward4.png"
+    },
+    "DrowningSeekers@Roguelike@LastReward5": {
+        "baseTask": "Roguelike@LastReward",
+        "template": "DrowningSeekers@Roguelike@LastReward5.png"
+    },
+    "DrowningSeekers@Roguelike@LastReward6": {
+        "baseTask": "Roguelike@LastReward",
+        "template": "DrowningSeekers@Roguelike@LastReward6.png"
+    },
     "DrowningSeekers@Roguelike@LastReward-EnterPoint": {
         "template": [
             "DrowningSeekers@Roguelike@LastReward.png",
@@ -497,7 +515,6 @@
         "baseTask": "Roguelike@StrategyChange_default"
     },
     "DrowningSeekers@Roguelike@StrategyChange_mode4": {
-        "baseTask": "DrowningSeekers@Roguelike@StrategyChange",
         "text": ["_navigate", "_exit"],
         "ocrReplace": [
             ["浅文明之地", "_navigate"],

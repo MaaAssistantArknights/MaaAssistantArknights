@@ -877,7 +877,10 @@ void RoguelikeDrowningSeekersRoutingTaskPlugin::act_abandon(const std::string& r
             info["details"]["reason"] = reason;
             return info;
         }());
-    Task.set_task_base("RoguelikeRoutingAction", "DrowningSeekers@RoguelikeRoutingAction-ExitThenAbandon");
+    const std::string exit_task = reason == "boil_water_success_dreadful_foe"
+        ? "DrowningSeekers@RoguelikeRoutingAction-ExitThenAbandon_ToHardest"
+        : "DrowningSeekers@RoguelikeRoutingAction-ExitThenAbandon";
+    Task.set_task_base("RoguelikeRoutingAction", exit_task);
 }
 
 void RoguelikeDrowningSeekersRoutingTaskPlugin::act_retry(const std::string& reason)

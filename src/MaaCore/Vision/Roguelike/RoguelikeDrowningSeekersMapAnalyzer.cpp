@@ -1173,6 +1173,7 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersMapAnalyzer:
     std::map<std::pair<int, int>, RoguelikeNodeType> obj_type;
     std::map<std::pair<int, int>, std::string> obj_text;
     std::map<std::pair<int, int>, bool> obj_visited;
+    std::set<std::pair<int, int>> road_cells;
 
     static constexpr std::array<std::string_view, 20> node_type_labels = {
         "Boons",           "BoskyPassage",      "CombatOps",        "DreadfulFoe",       "EmergencyAid",
@@ -1183,6 +1184,11 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersMapAnalyzer:
     std::vector<std::pair<int, int>> object_cells;
     std::vector<std::vector<float>> object_type_feats;
     for (size_t i = 0; i < cells.size(); ++i) {
+        if (node_kind[i] == 2 && node_conf[i] >= 0.50) {
+            // 布局模型已经确认是道路，直接使用道路结果，不进入节点详细分类模型。
+            road_cells.insert(cells[i]);
+            continue;
+        }
         if (node_kind[i] != 1 || node_conf[i] < 0.50) {
             continue;
         }
@@ -1190,7 +1196,10 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersMapAnalyzer:
         object_cells.push_back(cell);
         object_type_feats.push_back(node_type_features(m_image, lat.xs[cell.first], lat.ys[cell.second]));
     }
-    const auto object_type_prob = run_tree_ensemble("DrowningSeekers_node_type", object_type_feats, 2118);
+    std::vector<std::vector<float>> object_type_prob;
+    if (!object_type_feats.empty()) {
+        object_type_prob = run_tree_ensemble("DrowningSeekers_node_type", object_type_feats, 2118);
+    }
     for (size_t i = 0; i < object_cells.size(); ++i) {
         const auto& probabilities = object_type_prob[i];
         const auto best = std::ranges::max_element(probabilities);
@@ -1306,7 +1315,12 @@ RoguelikeDrowningSeekersMapAnalyzer::Result RoguelikeDrowningSeekersMapAnalyzer:
         cell.col = ix - min_ix;
         cell.row = iy - min_iy;
         cell.center = Point(iround(lat.xs[ix]), iround(lat.ys[iy]));
-        if (obj_type.count({ ix, iy })) {
+        if (road_cells.count({ ix, iy })) {
+            // node 模型已确认道路；道路节点不需要详细类型和访问状态。
+            cell.kind = CellKind::Road;
+            cell.type = RoguelikeNodeType::Unknown;
+        }
+        else if (obj_type.count({ ix, iy })) {
             cell.kind = CellKind::Object;
             cell.type = obj_type[{ ix, iy }];
             cell.ocr_text = obj_text[{ ix, iy }];
