@@ -4203,7 +4203,8 @@
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": ["2-2", "2-2", "2-2"],
-            "rarity": 6
+            "rarity": 6,
+            "tokens": ["结构性原理"]
         },
         "char_4234_pedro": {
             "name": "佩德洛",

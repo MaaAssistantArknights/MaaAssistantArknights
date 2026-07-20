@@ -34,6 +34,18 @@
                 {
                     "name": "电弧",
                     "skill": 2,
+                    "recruit_priority": 650,
+                    "promote_priority": 650
+                }
+            ]
+        },
+        {
+            "name": "机械师",
+            "opers": [
+                {
+                    "name": "机械师",
+                    "skill": 3,
+                    "alternate_skill": 2,
                     "is_start": true,
                     "is_key": true,
                     "recruit_priority": 999,
@@ -768,6 +780,9 @@
             "name": "重装",
             "opers": [
                 {
+                    "name": "机械师"
+                },
+                {
                     "name": "斩业星熊",
                     "skill": 2,
                     "is_start": true,
@@ -1370,6 +1385,9 @@
             "opers": [
                 {
                     "name": "电弧"
+                },
+                {
+                    "name": "机械师"
                 },
                 {
                     "name": "令",
@@ -2930,6 +2948,12 @@
                     "name": "“弦惊”"
                 },
                 {
+                    "name": "机械师"
+                },
+                {
+                    "name": "结构性原理"
+                },
+                {
                     "name": "斩业星熊"
                 },
                 {
@@ -3372,6 +3396,12 @@
             "name": "地面远程",
             "doc": "打三及以上",
             "opers": [
+                {
+                    "name": "机械师"
+                },
+                {
+                    "name": "结构性原理"
+                },
                 {
                     "name": "丰川祥子"
                 },
@@ -4238,6 +4268,15 @@
             "opers": [
                 {
                     "name": "赛柯"
+                }
+            ]
+        },
+        {
+            "name": "结构性原理",
+            "doc": "机械师的召唤物，1个，地面阻挡/输出",
+            "opers": [
+                {
+                    "name": "结构性原理"
                 }
             ]
         },
