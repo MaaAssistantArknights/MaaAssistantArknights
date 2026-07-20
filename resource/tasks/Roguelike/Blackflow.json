@@ -420,6 +420,12 @@
     },
     "Blackflow@Roguelike@StageEmployEnter": {
         "template": "Blackflow@Roguelike@StageEmployEnter.png",
+        "baseTask": "Blackflow@Roguelike@StageEnter",
+        "postDelay": 1000,
+        "next": [
+            "Blackflow@Roguelike@EmergencyAidCheck",
+            "Blackflow@Roguelike@EmergencyAidLeave"
+        ],
         "templThreshold": 0.98,
         "rectMove": [0, 0, 55, 70]
     },
@@ -490,7 +496,23 @@
         "template": "Blackflow@Roguelike@EmergencyAidCheck.png",
         "roi": [200, 250, 180, 190],
         "templThreshold": 0.8,
-        "next": ["Blackflow@Roguelike@StageTraderLeave"]
+        "next": ["Blackflow@Roguelike@EmergencyAidLeave"]
+    },
+    "Blackflow@Roguelike@EmergencyAidLeave": {
+        "doc": "应急助力页面使用黑流树海专属的右下角离开图标，尺寸不同于普通商店按钮。",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1100, 530, 100, 110],
+        "postDelay": 1000,
+        "next": ["Blackflow@Roguelike@EmergencyAidLeaveConfirm"]
+    },
+    "Blackflow@Roguelike@EmergencyAidLeaveConfirm": {
+        "doc": "应急助力离开确认仍使用同一个右下角图标，再点击一次后回到地图。",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1100, 530, 100, 110],
+        "postDelay": 1000,
+        "next": ["Blackflow@Roguelike@Stages#next"]
     },
     "Blackflow@Roguelike@StageUnknownOrEmptyEnter": {
         "template": [
