@@ -462,21 +462,21 @@
         "algorithm": "JustReturn",
         "next": ["Blackflow@Roguelike@StageWindAndRainEnter"]
     },
-    "Blackflow@RoguelikeRoutingAction-StageFinalEnter": {
+    "Blackflow@RoguelikeRoutingAction-StagePathEndEnter": {
         "algorithm": "JustReturn",
-        "next": ["Blackflow@Roguelike@StageFinalEnter"]
+        "next": ["Blackflow@Roguelike@StagePathEndEnter"]
     },
-    "Blackflow@RoguelikeRoutingAction-StageLightEnter": {
+    "Blackflow@RoguelikeRoutingAction-StagePathLaneEnter": {
         "algorithm": "JustReturn",
-        "next": ["Blackflow@Roguelike@StageLightEnter"]
+        "next": ["Blackflow@Roguelike@StagePathLaneEnter"]
     },
-    "Blackflow@RoguelikeRoutingAction-StageScrapShopEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageHiddenTraderEnter": {
         "algorithm": "JustReturn",
-        "next": ["Blackflow@Roguelike@StageScrapShopEnter"]
+        "next": ["Blackflow@Roguelike@StageHiddenTraderEnter"]
     },
-    "Blackflow@RoguelikeRoutingAction-StageEmployEnter": {
+    "Blackflow@RoguelikeRoutingAction-StageEmergencyAidEnter": {
         "algorithm": "JustReturn",
-        "next": ["Blackflow@Roguelike@StageEmployEnter"]
+        "next": ["Blackflow@Roguelike@StageEmergencyAidEnter"]
     },
     "Blackflow@RoguelikeRoutingAction-StageMysteriousPresageEnter": {
         "algorithm": "JustReturn",
@@ -509,11 +509,11 @@
             "Blackflow@Roguelike@StageBoskyPassageEnter",
             "Blackflow@Roguelike@StageConfrontationEnter",
             "Blackflow@Roguelike@StageWindAndRainEnter",
-            "Blackflow@Roguelike@StageScrapShopEnter",
-            "Blackflow@Roguelike@StageEmployEnter",
+            "Blackflow@Roguelike@StageHiddenTraderEnter",
+            "Blackflow@Roguelike@StageEmergencyAidEnter",
             "Blackflow@Roguelike@StageDoorEnter",
-            "Blackflow@Roguelike@StageLightEnter",
-            "Blackflow@Roguelike@StageFinalEnter",
+            "Blackflow@Roguelike@StagePathLaneEnter",
+            "Blackflow@Roguelike@StagePathEndEnter",
             "Stop"
         ]
     }

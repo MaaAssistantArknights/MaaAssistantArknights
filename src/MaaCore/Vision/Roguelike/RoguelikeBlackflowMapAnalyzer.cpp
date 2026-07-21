@@ -1386,7 +1386,7 @@ RoguelikeBlackflowMapAnalyzer::Result RoguelikeBlackflowMapAnalyzer::analyze()
             cv::line(draw, *pa, *pb, cv::Scalar(255, 255, 255), 1);
         }
     }
-    utils::save_debug_image(draw, utils::path("debug") / "roguelikeMap", true, "drowningseekers map", "draw");
+    utils::save_debug_image(draw, utils::path("debug") / "roguelikeMap", true, "blackflow map", "draw");
 #endif
 
     return result;

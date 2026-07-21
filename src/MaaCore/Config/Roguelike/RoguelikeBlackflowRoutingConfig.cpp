@@ -50,14 +50,14 @@ bool RoguelikeBlackflowRoutingConfig::parse(const json::value& json)
     m_strategies.clear();
     m_mode_strategies.clear();
 
-    static const std::unordered_map<std::string, drowning_seekers::GearRange> RANGE_MAPPING = {
-        { "line", drowning_seekers::GearRange::Line },
-        { "ring8", drowning_seekers::GearRange::Ring8 },
-        { "ring12", drowning_seekers::GearRange::Ring12 },
-        { "any", drowning_seekers::GearRange::Any },
-        { "anyNonCombat", drowning_seekers::GearRange::AnyNonCombat },
-        { "anyTrader", drowning_seekers::GearRange::AnyTrader },
-        { "randomNonCombat", drowning_seekers::GearRange::RandomNonCombat },
+    static const std::unordered_map<std::string, blackflow::GearRange> RANGE_MAPPING = {
+        { "line", blackflow::GearRange::Line },
+        { "ring8", blackflow::GearRange::Ring8 },
+        { "ring12", blackflow::GearRange::Ring12 },
+        { "any", blackflow::GearRange::Any },
+        { "anyNonCombat", blackflow::GearRange::AnyNonCombat },
+        { "anyTrader", blackflow::GearRange::AnyTrader },
+        { "randomNonCombat", blackflow::GearRange::RandomNonCombat },
     };
 
     for (const auto& gear_json : json.at("gears").as_array()) {
@@ -71,7 +71,7 @@ bool RoguelikeBlackflowRoutingConfig::parse(const json::value& json)
         }
         info.range = range_it->second;
         info.distance = gear_json.get("distance", 0);
-        if (info.range == drowning_seekers::GearRange::Line && info.distance <= 0) {
+        if (info.range == blackflow::GearRange::Line && info.distance <= 0) {
             Log.error(__FUNCTION__, "| Gear", info.name, "has line range but invalid distance", info.distance);
             return false;
         }

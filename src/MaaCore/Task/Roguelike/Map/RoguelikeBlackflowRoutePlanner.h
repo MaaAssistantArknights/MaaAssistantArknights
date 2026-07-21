@@ -6,7 +6,7 @@
 
 #include <vector>
 
-namespace asst::drowning_seekers
+namespace asst::blackflow
 {
 // 加工品移动范围。Line 配合 distance 使用；Ring12 = Ring8 ∪ {(±2,0),(0,±2)}（剑雨范围）。
 enum class GearRange

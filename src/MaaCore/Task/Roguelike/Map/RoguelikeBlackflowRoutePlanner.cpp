@@ -6,7 +6,7 @@
 #include <optional>
 #include <unordered_map>
 
-namespace asst::drowning_seekers
+namespace asst::blackflow
 {
 namespace
 {
@@ -478,4 +478,4 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
 
     return make_result(chosen);
 }
-} // namespace asst::drowning_seekers
+} // namespace asst::blackflow

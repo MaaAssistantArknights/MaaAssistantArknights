@@ -8,7 +8,7 @@
 
 #include "Task/Roguelike/Map/RoguelikeBlackflowRoutePlanner.h"
 
-using namespace asst::drowning_seekers;
+using namespace asst::blackflow;
 
 namespace
 {
@@ -76,7 +76,7 @@ PlannerParams make_params(int ap, bool endpoint_required)
 }
 } // namespace
 
-TEST_CASE("planner.walk_to_endpoint_with_detour", "[dsplanner]")
+TEST_CASE("planner.walk_to_endpoint_with_detour", "[blackflow-planner]")
 {
     // row0: P -- . -- E    row1 的 (1,1) 挂着高权重节点
     //       |    |
@@ -138,7 +138,7 @@ TEST_CASE("planner.walk_to_endpoint_with_detour", "[dsplanner]")
     }
 }
 
-TEST_CASE("planner.jetpack_reaches_disconnected_endpoint", "[dsplanner]")
+TEST_CASE("planner.jetpack_reaches_disconnected_endpoint", "[blackflow-planner]")
 {
     // 终点与玩家完全不连通，只能靠一次性喷气背包（免耗、any）
     MapBuilder b(5, 1);
@@ -166,7 +166,7 @@ TEST_CASE("planner.jetpack_reaches_disconnected_endpoint", "[dsplanner]")
     REQUIRE_FALSE(without.has_route);
 }
 
-TEST_CASE("planner.winding_passage_teleport", "[dsplanner]")
+TEST_CASE("planner.winding_passage_teleport", "[blackflow-planner]")
 {
     // P -- A(密道) ... B(密道) -- E；A/B 互为孪生，传送免费
     MapBuilder b(7, 1);
@@ -192,7 +192,7 @@ TEST_CASE("planner.winding_passage_teleport", "[dsplanner]")
     REQUIRE(result.score == 1.0);
 }
 
-TEST_CASE("planner.vantage_point_extends_reach", "[dsplanner]")
+TEST_CASE("planner.vantage_point_extends_reach", "[blackflow-planner]")
 {
     // P -- V(+1AP) -- . -- E，行动力只有 2，靠羽瞰点补给才够 3 步
     MapBuilder b(4, 1);
@@ -216,7 +216,7 @@ TEST_CASE("planner.vantage_point_extends_reach", "[dsplanner]")
     REQUIRE_FALSE(visited_vantage.has_route);
 }
 
-TEST_CASE("planner.remote_controller_free_ap", "[dsplanner]")
+TEST_CASE("planner.remote_controller_free_ap", "[blackflow-planner]")
 {
     // 行动力为 0：简易遥控器（免耗 ring8 + 行动力+3）先跳到 (1,1)，再徒步进终点
     MapBuilder b(3, 2);
@@ -243,7 +243,7 @@ TEST_CASE("planner.remote_controller_free_ap", "[dsplanner]")
     REQUIRE(result.score == 5.0);
 }
 
-TEST_CASE("planner.range_geometry", "[dsplanner]")
+TEST_CASE("planner.range_geometry", "[blackflow-planner]")
 {
     MapBuilder b(5, 5);
     for (int c = 0; c < 5; ++c) {
@@ -316,7 +316,7 @@ TEST_CASE("planner.range_geometry", "[dsplanner]")
     }
 }
 
-TEST_CASE("planner.investment_profile", "[dsplanner]")
+TEST_CASE("planner.investment_profile", "[blackflow-planner]")
 {
     // P -- T1(w10) -- . -- T2(w10) -- E；非终点模式下终点是禁区
     MapBuilder b(5, 1);
@@ -373,7 +373,7 @@ TEST_CASE("planner.investment_profile", "[dsplanner]")
     }
 }
 
-TEST_CASE("planner.endpoint_unreachable_policies", "[dsplanner]")
+TEST_CASE("planner.endpoint_unreachable_policies", "[blackflow-planner]")
 {
     // 图中根本没有终点
     MapBuilder b(3, 1);
@@ -400,7 +400,7 @@ TEST_CASE("planner.endpoint_unreachable_policies", "[dsplanner]")
     }
 }
 
-TEST_CASE("planner.determinism", "[dsplanner]")
+TEST_CASE("planner.determinism", "[blackflow-planner]")
 {
     // 较复杂的图 + 多个加工品，两次规划结果必须完全一致
     MapBuilder b(6, 4);

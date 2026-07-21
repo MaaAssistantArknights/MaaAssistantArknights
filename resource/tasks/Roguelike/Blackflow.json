@@ -418,8 +418,8 @@
         "templThreshold": 0.98,
         "rectMove": [0, 0, 55, 70]
     },
-    "Blackflow@Roguelike@StageEmployEnter": {
-        "template": "Blackflow@Roguelike@StageEmployEnter.png",
+    "Blackflow@Roguelike@StageEmergencyAidEnter": {
+        "template": "Blackflow@Roguelike@StageEmergencyAidEnter.png",
         "baseTask": "Blackflow@Roguelike@StageEnter",
         "postDelay": 1000,
         "next": [
@@ -440,23 +440,23 @@
         "rectMove": [0, 0, 55, 70],
         "postDelay": 1000
     },
-    "Blackflow@Roguelike@StageFinalEnter": {
-        "template": "Blackflow@Roguelike@StageFinalEnter.png",
+    "Blackflow@Roguelike@StagePathEndEnter": {
+        "template": "Blackflow@Roguelike@StagePathEndEnter.png",
         "baseTask": "Blackflow@Roguelike@StageEncounterEnter",
         "templThreshold": 0.98,
         "rectMove": [0, 0, 55, 70]
     },
-    "Blackflow@Roguelike@StageLightEnter": {
-        "template": "Blackflow@Roguelike@StageLightEnter.png",
+    "Blackflow@Roguelike@StagePathLaneEnter": {
+        "template": "Blackflow@Roguelike@StagePathLaneEnter.png",
         "baseTask": "Blackflow@Roguelike@StageEncounterEnter",
         "templThreshold": 0.98,
         "rectMove": [0, 0, 55, 70]
     },
-    "Blackflow@Roguelike@StageScrapShopEnter": {
-        "template": "Blackflow@Roguelike@StageScrapShopEnter.png",
+    "Blackflow@Roguelike@StageHiddenTraderEnter": {
+        "template": "Blackflow@Roguelike@StageHiddenTraderEnter.png",
         "baseTask": "Blackflow@Roguelike@StageEnter",
         "next": [
-            "Blackflow@Roguelike@ScrapShopCheck",
+            "Blackflow@Roguelike@HiddenTraderCheck",
             "Blackflow@Roguelike@StageEncounterJudgeClick"
         ],
         "templThreshold": 0.98,
@@ -474,7 +474,7 @@
         "postDelay": 3000,
         "next": [
             "Blackflow@Roguelike@TraderCheck",
-            "Blackflow@Roguelike@ScrapShopCheck",
+            "Blackflow@Roguelike@HiddenTraderCheck",
             "Blackflow@Roguelike@EmergencyAidCheck",
             "Blackflow@Roguelike@StageEncounterJudgeClick"
         ]
@@ -485,8 +485,8 @@
         "templThreshold": 0.8,
         "next": ["Blackflow@Roguelike@StageTraderEnter#next"]
     },
-    "Blackflow@Roguelike@ScrapShopCheck": {
-        "template": "Blackflow@Roguelike@ScrapShopCheck.png",
+    "Blackflow@Roguelike@HiddenTraderCheck": {
+        "template": "Blackflow@Roguelike@HiddenTraderCheck.png",
         "roi": [200, 250, 180, 190],
         "templThreshold": 0.8,
         "next": ["Blackflow@Roguelike@StageTraderEnter#next"]
@@ -527,7 +527,7 @@
     },
     "Blackflow@Roguelike@StageUnknownOrEmptyEnterDirectReturn": {
         "template": [
-            "Blackflow@Roguelike@StageLightEnter.png",
+            "Blackflow@Roguelike@StagePathLaneEnter.png",
             "Blackflow@Roguelike@StageUnknownOrEmptyEnter.png",
             "Blackflow@Roguelike@StageTraderEnter.png"
         ],

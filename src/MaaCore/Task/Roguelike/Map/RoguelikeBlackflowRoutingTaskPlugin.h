@@ -52,9 +52,9 @@ private:
     GearPanelInfo read_gear_panel();
     bool select_gear_card(const std::string& name);
 
-    drowning_seekers::PlannerMap build_planner_map(
+    blackflow::PlannerMap build_planner_map(
         const RoguelikeBlackflowMapAnalyzer::Result& result) const;
-    std::vector<drowning_seekers::PlannerGear>
+    std::vector<blackflow::PlannerGear>
         build_planner_gears(const GearPanelInfo& panel, std::vector<std::string>& gear_names) const;
 
     void dump_recognition(const RoguelikeBlackflowMapAnalyzer::Result& result, int action_points) const;

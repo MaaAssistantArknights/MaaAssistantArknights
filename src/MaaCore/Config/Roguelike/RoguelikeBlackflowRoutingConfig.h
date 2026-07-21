@@ -15,7 +15,7 @@ namespace asst
 struct BlackflowGearInfo
 {
     std::string name;
-    drowning_seekers::GearRange range = drowning_seekers::GearRange::Any;
+    blackflow::GearRange range = blackflow::GearRange::Any;
     int distance = 0;         // range == Line 时的最大直线距离
     int max_uses = 1;
     int ap_cost = 1;          // 每次移动消耗行动力

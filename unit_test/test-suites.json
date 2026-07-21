@@ -16,10 +16,10 @@
       ]
     },
     {
-      "id": "maa-drowningseekers-planner-test",
+      "id": "maa-blackflow-planner-test",
       "name": "BlackflowRoutePlanner",
-      "buildTarget": "maa-drowningseekers-planner-test",
-      "ctestRegex": "^dsplanner::",
+      "buildTarget": "maa-blackflow-planner-test",
+      "ctestRegex": "^blackflow-planner::",
       "paths": [
         "src/MaaCore/Task/Roguelike/Map/RoguelikeBlackflowRoutePlanner.h",
         "src/MaaCore/Task/Roguelike/Map/RoguelikeBlackflowRoutePlanner.cpp",

@@ -37,16 +37,16 @@ target_include_directories(maa-algorithm-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR
 
 catch_discover_tests(maa-algorithm-test TEST_PREFIX "algorithm::")
 
-add_executable(maa-drowningseekers-planner-test
+add_executable(maa-blackflow-planner-test
     MaaCore/BlackflowRoutePlannerTest.cpp
     ../src/MaaCore/Task/Roguelike/Map/RoguelikeBlackflowRoutePlanner.cpp
 )
 
-target_compile_features(maa-drowningseekers-planner-test PRIVATE cxx_std_20)
-target_link_libraries(maa-drowningseekers-planner-test PRIVATE Catch2::Catch2WithMain)
-target_include_directories(maa-drowningseekers-planner-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
+target_compile_features(maa-blackflow-planner-test PRIVATE cxx_std_20)
+target_link_libraries(maa-blackflow-planner-test PRIVATE Catch2::Catch2WithMain)
+target_include_directories(maa-blackflow-planner-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
 if(MSVC)
-    target_compile_options(maa-drowningseekers-planner-test PRIVATE /utf-8)
+    target_compile_options(maa-blackflow-planner-test PRIVATE /utf-8)
 endif()
 
-catch_discover_tests(maa-drowningseekers-planner-test TEST_PREFIX "dsplanner::")
+catch_discover_tests(maa-blackflow-planner-test TEST_PREFIX "blackflow-planner::")

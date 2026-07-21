@@ -62,13 +62,13 @@ const char* known_node_route_action(RoguelikeNodeType type)
     case RoguelikeNodeType::LostAndFound:
         return "Blackflow@RoguelikeRoutingAction-StageWindAndRainEnter";
     case RoguelikeNodeType::PathEnd:
-        return "Blackflow@RoguelikeRoutingAction-StageFinalEnter";
+        return "Blackflow@RoguelikeRoutingAction-StagePathEndEnter";
     case RoguelikeNodeType::PathLane:
-        return "Blackflow@RoguelikeRoutingAction-StageLightEnter";
+        return "Blackflow@RoguelikeRoutingAction-StagePathLaneEnter";
     case RoguelikeNodeType::HiddenTrader:
-        return "Blackflow@RoguelikeRoutingAction-StageScrapShopEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageHiddenTraderEnter";
     case RoguelikeNodeType::EmergencyAid:
-        return "Blackflow@RoguelikeRoutingAction-StageEmployEnter";
+        return "Blackflow@RoguelikeRoutingAction-StageEmergencyAidEnter";
     case RoguelikeNodeType::MysteriousPresage:
         return "Blackflow@RoguelikeRoutingAction-StageMysteriousPresageEnter";
     case RoguelikeNodeType::FerociousPresage:
@@ -212,8 +212,8 @@ std::string format_map_ascii(const RoguelikeBlackflowMapAnalyzer::Result& result
 
 // 路线仅显示每一步的方向：正八方向使用箭头，非相邻移动（例如喷气背包）使用星号。
 std::string route_to_string(
-    const drowning_seekers::PlannerResult& planned,
-    const drowning_seekers::PlannerMap& map)
+    const blackflow::PlannerResult& planned,
+    const blackflow::PlannerMap& map)
 {
     std::string out;
     int current = map.player;
@@ -402,7 +402,7 @@ RoguelikeBlackflowMapAnalyzer::Result RoguelikeBlackflowRoutingTaskPlugin::recog
         image,
         utils::path("debug") / "roguelikeMap",
         true,
-        "drowningseekers recognition input",
+        "blackflow recognition input",
         "input");
     RoguelikeBlackflowMapAnalyzer analyzer(image);
     return analyzer.analyze();
@@ -677,12 +677,12 @@ bool RoguelikeBlackflowRoutingTaskPlugin::select_gear_card(const std::string& na
 // ============================================================================
 // 规划输入翻译
 // ============================================================================
-drowning_seekers::PlannerMap RoguelikeBlackflowRoutingTaskPlugin::build_planner_map(
+blackflow::PlannerMap RoguelikeBlackflowRoutingTaskPlugin::build_planner_map(
     const RoguelikeBlackflowMapAnalyzer::Result& result) const
 {
     const auto& cfg = BlackflowRoutingInfo;
 
-    drowning_seekers::PlannerMap pm;
+    blackflow::PlannerMap pm;
     pm.cols = result.cols;
     pm.rows = result.rows;
     const int n = pm.cols * pm.rows;
@@ -740,13 +740,13 @@ drowning_seekers::PlannerMap RoguelikeBlackflowRoutingTaskPlugin::build_planner_
     return pm;
 }
 
-std::vector<drowning_seekers::PlannerGear> RoguelikeBlackflowRoutingTaskPlugin::build_planner_gears(
+std::vector<blackflow::PlannerGear> RoguelikeBlackflowRoutingTaskPlugin::build_planner_gears(
     const GearPanelInfo& panel,
     std::vector<std::string>& gear_names) const
 {
     const auto& cfg = BlackflowRoutingInfo;
 
-    std::vector<drowning_seekers::PlannerGear> gears;
+    std::vector<blackflow::PlannerGear> gears;
     gear_names.clear();
     for (const auto& [name, uses] : panel.uses_by_name) {
         const BlackflowGearInfo* info = cfg.gear_by_name(name);
@@ -754,7 +754,7 @@ std::vector<drowning_seekers::PlannerGear> RoguelikeBlackflowRoutingTaskPlugin::
             Log.warn("BlackflowRouting | unknown gear from panel OCR:", name);
             continue;
         }
-        drowning_seekers::PlannerGear gear;
+        blackflow::PlannerGear gear;
         gear.range = info->range;
         gear.distance = info->distance;
         gear.uses = std::clamp(uses, 0, info->max_uses);
@@ -982,18 +982,18 @@ bool RoguelikeBlackflowRoutingTaskPlugin::_run()
     }
 
     // 3. 翻译 + 束搜索规划
-    const drowning_seekers::PlannerMap pmap = build_planner_map(result);
+    const blackflow::PlannerMap pmap = build_planner_map(result);
     std::vector<std::string> gear_names;
-    const std::vector<drowning_seekers::PlannerGear> pgears = build_planner_gears(panel, gear_names);
+    const std::vector<blackflow::PlannerGear> pgears = build_planner_gears(panel, gear_names);
 
-    drowning_seekers::PlannerParams params;
+    blackflow::PlannerParams params;
     params.action_points = action_points;
     params.endpoint_required = m_profile->endpoint_required;
     params.shortest_endpoint = m_profile->shortest_endpoint;
     params.avoid_combat_first = m_profile->avoid_combat_first;
     params.best_effort = m_profile->best_effort_when_unreachable;
     params.leftover_ap_weight = m_profile->leftover_ap_weight;
-    const drowning_seekers::PlannerResult planned = drowning_seekers::plan(pmap, pgears, params);
+    const blackflow::PlannerResult planned = blackflow::plan(pmap, pgears, params);
 
     const std::string route_str = route_to_string(planned, pmap);
     Log.info(
@@ -1062,7 +1062,7 @@ bool RoguelikeBlackflowRoutingTaskPlugin::_run()
     }
 
     // 5. 执行首个动作：按需切换移动方式
-    const drowning_seekers::PlannerAction& first = planned.actions.front();
+    const blackflow::PlannerAction& first = planned.actions.front();
     const std::string desired_mode = first.is_walk ? kWalkName : gear_names.at(first.gear_index);
     if (desired_mode != panel.loaded_name) {
         if (!select_gear_card(desired_mode)) {

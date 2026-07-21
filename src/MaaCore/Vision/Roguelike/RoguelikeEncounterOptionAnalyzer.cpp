@@ -16,7 +16,7 @@ bool supports_option_analyzer(const std::string& theme)
 
 // 黑流树海的选项左侧图标在可选/不可选状态下基本不变，状态差异体现在
 // 选项文字：可选文字为深色，不可选文字会被渲染成较浅的灰色。
-bool is_drowning_seekers_option_enabled(const cv::Mat& option_templ)
+bool is_blackflow_option_enabled(const cv::Mat& option_templ)
 {
     constexpr int text_left = 40;
     constexpr int dark_pixel_threshold = 180;
@@ -102,7 +102,7 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
         option.templ = make_roi(m_image, templ_rect);
 
         if (m_theme == RoguelikeTheme::Blackflow) {
-            option.enabled = is_drowning_seekers_option_enabled(option.templ);
+            option.enabled = is_blackflow_option_enabled(option.templ);
         }
         else {
             Matcher enabled_analyzer(make_roi(m_image, rect));
