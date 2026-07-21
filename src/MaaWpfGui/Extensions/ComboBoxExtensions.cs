@@ -15,6 +15,7 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using Serilog;
 
@@ -38,6 +39,14 @@ public static class ComboBoxExtensions
         if (targetComboBox?.Template.FindName("PART_EditableTextBox", targetComboBox) is not TextBox targetTextBox)
         {
             return;
+        }
+
+        // 为每个 ComboBox 创建独立的 CollectionView，避免多个控件共享默认视图导致搜索过滤互相干扰
+        if (targetComboBox.ItemsSource != null)
+        {
+            var sourceList = targetComboBox.ItemsSource.OfType<object>().ToList();
+            var independentView = new CollectionViewSource { Source = sourceList };
+            targetComboBox.ItemsSource = independentView.View;
         }
 
         targetComboBox.Items.IsLiveFiltering = true;
