@@ -18,8 +18,11 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-        <CheckBox Content="{DynamicResource DepotRecognition}" IsChecked="{Binding UpdateDepot}" />
-        <StackPanel Margin="0,10" Orientation="Horizontal">
+        <!--  FIXME: 任务开始前更新库存数据尚未实现，暂隐藏  -->
+        <!--<CheckBox Content="{DynamicResource DepotUpdateBeforeStart}" IsChecked="{Binding UpdateDepot}" />-->
+        <CheckBox Content="{DynamicResource DepotSkipDuringActivity}" IsChecked="{Binding SkipDuringActivity}" />
+        <CheckBox Margin="0,6,0,0" Content="{DynamicResource DepotSkipDuringResourceCollection}" IsChecked="{Binding SkipDuringResourceCollection}" />
+        <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
             <CheckBox Content="{DynamicResource CustomStageCode}" IsChecked="{Binding IsStageManually}" />
             <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
         </StackPanel>

@@ -854,12 +854,18 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="InventoryUpdateTip">在庫データは ｢{key=Toolbox}-{key=DepotRecognition}｣ で更新できます</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">タスク ｢{0}｣ では {key=TargetInventory} が有効ですが、利用可能な在庫データがないためスキップされました。｢{key=Toolbox}-{key=DepotRecognition}｣ で在庫を更新してください。</system:String>
     <!--  在庫維持  -->
+    <system:String x:Key="DepotUpdateBeforeStart">タスク開始前に在庫データを更新</system:String>
     <system:String x:Key="AddPlan">追加</system:String>
     <system:String x:Key="CollapseAll">折りたたむ</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">プラン {0}：ドロップアイテムが無効です。</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">プラン {0}：在庫が十分です。</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">プラン {0}：ステージ「{1}」は公開されていません。</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">プラン {0}：タスクの追加に失敗しました。</system:String>
+    <system:String x:Key="DepotSkipDuringActivity">イベント期間中はスキップ</system:String>
+    <system:String x:Key="DepotSkipDuringResourceCollection">資源收集限時全日開放期間中はスキップ</system:String>
+    <system:String x:Key="DepotPlanSkippedActivity">イベント開催中のため、在庫維持をスキップしました。</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">資源收集限時全日開放期間中のため、在庫維持をスキップしました。</system:String>
+    <system:String x:Key="DepotPlanUpdateDepotFailed">在庫データの更新に失敗しました。</system:String>
     <system:String x:Key="LessThanOneDay">1日以内</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6(CE-6)</system:String>

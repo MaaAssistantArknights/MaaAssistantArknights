@@ -853,12 +853,18 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="InventoryUpdateTip">Inventory data can be updated via  ｢{key=Toolbox}-{key=DepotRecognition}｣</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">Task "{0}" uses {key=TargetInventory}, but no inventory data is currently available, so it was skipped. Update it via ｢{key=Toolbox}-{key=DepotRecognition}｣.</system:String>
     <!--  DepotMaintain  -->
+    <system:String x:Key="DepotUpdateBeforeStart">Update inventory before starting</system:String>
     <system:String x:Key="AddPlan">Add</system:String>
     <system:String x:Key="CollapseAll">Collapse</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">Plan {0}: invalid drop item.</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">Plan {0}: Inventory enough.</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">Plan {0}: stage '{1}' is not open.</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">Plan {0}: add task failed.</system:String>
+    <system:String x:Key="DepotSkipDuringActivity">Skip during event</system:String>
+    <system:String x:Key="DepotSkipDuringResourceCollection">Skip during resource collection limited-time all-day open</system:String>
+    <system:String x:Key="DepotPlanSkippedActivity">An event is in progress, depot maintain skipped.</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">Resource collection limited-time all-day open is in progress, depot maintain skipped.</system:String>
+    <system:String x:Key="DepotPlanUpdateDepotFailed">Failed to update inventory data.</system:String>
     <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>

@@ -854,12 +854,18 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="InventoryUpdateTip">可透過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存數據</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">任務 ｢{0}｣ 啟用了 {key=TargetInventory}，但目前沒有可用的庫存資料，已跳過。可透過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存。</system:String>
     <!--  庫存保持  -->
+    <system:String x:Key="DepotUpdateBeforeStart">任務開始前更新庫存資料</system:String>
     <system:String x:Key="AddPlan">新增</system:String>
     <system:String x:Key="CollapseAll">折疊</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">計劃 {0}：掉落物無效。</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">計劃 {0}：庫存已充足。</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">計劃 {0}：關卡「{1}」未開放。</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">計劃 {0}：新增任務失敗。</system:String>
+    <system:String x:Key="DepotSkipDuringActivity">活動期間跳過</system:String>
+    <system:String x:Key="DepotSkipDuringResourceCollection">資源收集限時全天開放期間跳過</system:String>
+    <system:String x:Key="DepotPlanSkippedActivity">目前有活動進行中，已跳過庫存保持。</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">目前處於資源收集限時全天開放期間，已跳過庫存保持。</system:String>
+    <system:String x:Key="DepotPlanUpdateDepotFailed">更新庫存資料失敗。</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>

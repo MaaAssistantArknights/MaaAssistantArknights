@@ -53,6 +53,24 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         set => SetTaskConfig<DepotMaintainTask>(t => t.UpdateDepot == value, t => t.UpdateDepot = value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 活动期间跳过整个库存保持任务。
+    /// </summary>
+    public bool SkipDuringActivity
+    {
+        get => GetTaskConfig<DepotMaintainTask>().SkipDuringActivity;
+        set => SetTaskConfig<DepotMaintainTask>(t => t.SkipDuringActivity == value, t => t.SkipDuringActivity = value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 资源全开放期间跳过整个库存保持任务。
+    /// </summary>
+    public bool SkipDuringResourceCollection
+    {
+        get => GetTaskConfig<DepotMaintainTask>().SkipDuringResourceCollection;
+        set => SetTaskConfig<DepotMaintainTask>(t => t.SkipDuringResourceCollection == value, t => t.SkipDuringResourceCollection = value);
+    }
+
     public ObservableCollection<Plan> PlanList { get; private set => SetAndNotify(ref field, value); } = [];
 
     public void AddPlan()
@@ -255,6 +273,40 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             {
                 return (null, []);
             }
+
+            // 活动期间跳过：当有 SideStory 活动进行中时跳过整个库存保持任务
+            if (depot.SkipDuringActivity && Instances.StageManager.IsActivityOpen())
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanSkippedActivity"), UiLogColor.Info);
+                return (null, []);
+            }
+
+            // 资源全开放期间跳过：当资源全开放活动进行中时跳过整个库存保持任务
+            if (depot.SkipDuringResourceCollection && Instances.StageManager.IsResourceCollectionOpen())
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanSkippedResourceCollection"), UiLogColor.Info);
+                return (null, []);
+            }
+
+            // 任务开始前更新库存数据：先追加仓库识别任务，刷新库存后再执行计划
+            // FIXME：战斗任务支持运行时修改参数（AsstSetTaskParamsEncoded），理论上可在此先追加仓库识别任务，
+            //        待识别完成后通过回调用最新库存重新计算各 plan 的缺口并动态更新战斗任务的 drops/times。
+            //        但当前未实现该运行时联动；且 core 侧 drops 指定数量为 0 时 check_specify_quantity 不会拦截
+            //        （m_drop_stats 中无记录即视为未达标），仍会进入关卡，需依赖 times=0 阻止进入。
+            /*
+            if (depot.UpdateDepot)
+            {
+                if (!Instances.ToolboxViewModel.StartDepotRecognitionTask(startImmediately: false))
+                {
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanUpdateDepotFailed"), UiLogColor.Error);
+                    return (false, []);
+                }
+
+                int depotTaskId = Instances.AsstProxy.TasksStatus.Last().Key;
+                Instances.ToolboxViewModel.MarkDepotRecognitionSyncTimeForReset(depotTaskId);
+                taskIds.Add(depotTaskId);
+            }
+            */
 
             var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
             var taskIds = new List<int>();

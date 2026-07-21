@@ -25,6 +25,16 @@ public class DepotMaintainTask : BaseTask
 
     public bool IsStageManually { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 活动期间跳过整个库存保持任务。
+    /// </summary>
+    public bool SkipDuringActivity { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 资源全开放期间跳过整个库存保持任务。
+    /// </summary>
+    public bool SkipDuringResourceCollection { get; set; }
+
     public List<Plan> PlanList { get; set; } = [];
 
     public record Plan(string Stage = "", string DropId = "", int DropCount = 0, bool UseMedicine = false, int MedicineCount = 0, bool UseStone = false, int StoneCount = 0);
