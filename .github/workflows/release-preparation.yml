@@ -67,7 +67,7 @@ jobs:
             你是 MAA 项目的 Changelog 生成专员。
 
             当前 Release PR 编号为 #{{issue_number}}（仓库 {{repository}}），请从该 PR 标题中提取目标版本号。
-            严格按照 .claude/skills/changelog/SKILL.md 中的规则，分析 git 提交记录（tag 间的 commit 及其 diff）和现有 CHANGELOG.md，
+            严格按照 .agents/skills/changelog/SKILL.md 中的规则，分析 git 提交记录（tag 间的 commit 及其 diff）和现有 CHANGELOG.md，
             生成完整的新版本 Changelog Markdown 并写到 {{answer_file}}。
 
             {{answer_file}} 的内容应当是可以直接替换 CHANGELOG.md 整个文件的完整内容（包含新版本和所有历史版本）。
