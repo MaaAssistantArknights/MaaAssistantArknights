@@ -24,6 +24,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
+using ObservableCollections;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
@@ -47,6 +48,15 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             SavePlan();
             NotifyOfPropertyChange(nameof(PlanInfo));
         };
+
+        // 仓库数据变化时刷新计划显示（当前库存数量）
+        if (Instances.ToolboxViewModel is { } toolbox)
+        {
+            toolbox.DepotResult.CollectionChanged += (in NotifyCollectionChangedEventArgs<ToolboxViewModel.DepotResultDate> _) =>
+            {
+                NotifyOfPropertyChange(nameof(PlanInfo));
+            };
+        }
     }
 
     public static DepotMaintainTaskUserControlModel Instance { get; }
@@ -111,7 +121,27 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     /// </summary>
     public ObservableCollection<StageSourceItem> StageListSource { get; private set => SetAndNotify(ref field, value); } = [];
 
-    public string PlanInfo => string.Join("\n", PlanList.Select((t, i) => $"{i + 1}: {StageListSource.FirstOrDefault(i => i.Value == t.Stage)?.Display ?? t.Stage} - {t.DropName} x{t.DropCount}"));
+    public string PlanInfo => string.Join("\n", PlanList.Select((t, i) => $"{i + 1}: {StageListSource.FirstOrDefault(i => i.Value == t.Stage)?.Display ?? t.Stage} - {t.DropName} {GetCurrentInventoryCount(t.DropId)}/{t.DropCount}"));
+
+    /// <summary>
+    /// 获取指定掉落物当前库存数量，无数据时返回 "--"。
+    /// </summary>
+    private static string GetCurrentInventoryCount(string dropId)
+    {
+        if (string.IsNullOrEmpty(dropId))
+        {
+            return "--";
+        }
+
+        var depot = Instances.ToolboxViewModel?.DepotResult;
+        if (depot == null || depot.Count == 0)
+        {
+            return "--";
+        }
+
+        var item = depot.FirstOrDefault(i => i.Id == dropId);
+        return item?.Count >= 0 ? item.Count.ToString() : "--";
+    }
 
     /// <summary>
     /// 单个 Plan 属性变化时，保存配置并通知 UI 刷新。
@@ -210,7 +240,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             get; set {
                 SetAndNotify(ref field, value);
-                Instance.OnPlanChanged(nameof(PlanInfo), nameof(Title));
+                NotifyOfPropertyChange(nameof(Title));
+                Instance.OnPlanChanged(nameof(PlanInfo));
             }
         } = string.Empty;
 
@@ -221,20 +252,31 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             get; set {
                 SetAndNotify(ref field, value);
-                Instance.OnPlanChanged(nameof(PlanInfo), nameof(Title));
+                NotifyOfPropertyChange(nameof(Title));
+                Instance.OnPlanChanged(nameof(PlanInfo));
             }
         } = string.Empty;
 
         /// <summary>
         /// Gets or sets 指定掉落材料名称。
         /// </summary>
-        public string DropName { get; set => SetAndNotify(ref field, value); } = LocalizationHelper.GetString("NotSelected");
+        public string DropName
+        {
+            get => field;
+            set
+            {
+                SetAndNotify(ref field, value);
+                NotifyOfPropertyChange(nameof(Title));
+                Instance.OnPlanChanged(nameof(PlanInfo));
+            }
+        } = LocalizationHelper.GetString("NotSelected");
 
         public int DropCount
         {
             get; set {
                 SetAndNotify(ref field, value);
-                Instance.OnPlanChanged(nameof(PlanInfo), nameof(Title));
+                NotifyOfPropertyChange(nameof(Title));
+                Instance.OnPlanChanged(nameof(PlanInfo));
             }
         }
 
@@ -274,7 +316,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         var list = new List<Plan>();
         foreach (var plan in task.PlanList)
         {
-            var uiPlan = new Plan() {
+            var uiPlan = new Plan {
                 Stage = plan.Stage,
                 DropId = plan.DropId,
                 DropCount = plan.DropCount,
@@ -282,6 +324,10 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 MedicineCount = plan.MedicineCount,
                 UseStone = plan.UseStone,
                 StoneCount = plan.StoneCount,
+
+                // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
+                DropName = FightSettingsUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display
+                    ?? LocalizationHelper.GetString("NotSelected"),
             };
             list.Add(uiPlan);
         }
@@ -342,34 +388,65 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
             var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
             var taskIds = new List<int>();
+            var seenDropIds = new Dictionary<string, int>();
             for (int i = 0; i < depot.PlanList.Count; i++)
             {
                 var plan = depot.PlanList[i];
-                if (string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0)
+                if (string.IsNullOrEmpty(plan.DropId))
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInvalidDropItem", i + 1), UiLogColor.Error);
                     taskIds.Add(0);
                     continue;
                 }
-                var count = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
-                count = plan.DropCount - count;
-                if (count <= 0)
+                if (plan.DropCount <= 0)
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanZeroDropCount", i + 1), UiLogColor.Error);
                     taskIds.Add(0);
                     continue;
                 }
-                var stage = FightSettingsUserControlModel.GetFightStage([plan.Stage]);
+
+                // 检查是否有重复材料
+                if (seenDropIds.TryGetValue(plan.DropId, out var firstIndex))
+                {
+                    var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanDuplicateDrop", i + 1, dropName, firstIndex + 1), UiLogColor.Error);
+                    continue;
+                }
+                else
+                {
+                    seenDropIds[plan.DropId] = i;
+                }
+
+                var stage = GetFightStage([plan.Stage]);
                 if (string.IsNullOrEmpty(stage))
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanStageNotOpen", i + 1, plan.Stage), UiLogColor.Error);
+                    if (string.IsNullOrEmpty(plan.Stage))
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanNoStage", i + 1), UiLogColor.Error);
+                    }
+                    else
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanStageNotOpen", i + 1, plan.Stage), UiLogColor.Error);
+                    }
+
                     taskIds.Add(0);
                     continue;
                 }
+
+                var currentCount = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
+                var need = plan.DropCount - currentCount;
+                if (need <= 0)
+                {
+                    var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1, dropName, currentCount, plan.DropCount), UiLogColor.Info);
+                    taskIds.Add(0);
+                    continue;
+                }
+
                 var fight = new AsstFightTask() {
                     Stage = stage,
-                    Drops = new() { { plan.DropId, count } },
-                    MaxTimes = count > 0 ? int.MaxValue : 0,
+                    Drops = new() { { plan.DropId, need } },
+                    MaxTimes = need > 0 ? int.MaxValue : 0,
                     Medicine = plan.UseMedicine ? plan.MedicineCount : 0,
                     Stone = plan.UseStone ? plan.StoneCount : 0,
                 };
