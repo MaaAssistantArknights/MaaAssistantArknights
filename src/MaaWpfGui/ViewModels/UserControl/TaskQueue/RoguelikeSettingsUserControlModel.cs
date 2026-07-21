@@ -96,6 +96,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         Theme.Sami => 15,
         Theme.Sarkaz => 18,
         Theme.JieGarden => 18,
+        Theme.BlackFlow => 15,
         _ => 20,
     };
 
@@ -140,6 +141,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         switch (RoguelikeTheme)
         {
             case Theme.JieGarden:
+            case Theme.BlackFlow:
                 RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("FlexibleDeployment"), Value = "灵活部署" });
                 RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Unbreakable"), Value = "坚不可摧" });
                 break;
@@ -212,6 +214,18 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             ("IS5NewSquad10", "知学分队"),
             ("IS5NewSquad11", "商贾分队"),
         ],
+        ["BlackFlow_Default"] =
+        [
+            ("SpecialForceSquad", "特勤分队"),
+            ("SpearheadSquad", "矛头分队"),
+            ("IS5NewSquad1", "高台突破分队"),
+            ("IS5NewSquad2", "地面突破分队"),
+            ("IS6NewSquad1", "本源研修分队"),
+            ("IS6NewSquad2", "文明开化分队"),
+            ("IS6NewSquad3", "开拓者分队"),
+            ("IS6NewSquad4", "多边贸易分队"),
+            ("IS6NewSquad5", "地质调查分队"),
+        ],
     };
 
     // 通用分队
@@ -223,7 +237,6 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         ("TacticalFortificationOperative", "堡垒战术分队"),
         ("TacticalRangedOperative", "远程战术分队"),
         ("TacticalDestructionOperative", "破坏战术分队"),
-        ("First-ClassSquad", "高规格分队"),
     ];
 
     private void UpdateRoguelikeSquadList()
@@ -252,6 +265,11 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         foreach (var (key, value) in _commonSquads)
         {
             RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString(key), Value = value });
+        }
+
+        if (RoguelikeTheme is Theme.Phantom or Theme.Mizuki or Theme.Sami or Theme.Sarkaz or Theme.JieGarden)
+        {
+            RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString("First-ClassSquad"), Value = "高规格分队" });
         }
 
         // 选择当前分队
@@ -362,7 +380,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         (Theme.Mizuki, "RoguelikeThemeMizuki"),
         (Theme.Sami, "RoguelikeThemeSami"),
         (Theme.Sarkaz, "RoguelikeThemeSarkaz"),
-        (Theme.JieGarden, "RoguelikeThemeJieGarden"));
+        (Theme.JieGarden, "RoguelikeThemeJieGarden"),
+        (Theme.BlackFlow, "RoguelikeThemeBlackFlow"));
 
     /// <summary>
     /// Gets or sets the Roguelike theme.
