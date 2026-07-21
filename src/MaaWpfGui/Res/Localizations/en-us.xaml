@@ -279,6 +279,11 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="IS5NewSquad9">Proxy Squad (Not Supported)</system:String>
     <system:String x:Key="IS5NewSquad10">Knowledge Squad</system:String>
     <system:String x:Key="IS5NewSquad11">Merchant Squad</system:String>
+    <system:String x:Key="IS6NewSquad1">本源研修分队</system:String>
+    <system:String x:Key="IS6NewSquad2">文明开化分队</system:String>
+    <system:String x:Key="IS6NewSquad3">开拓者分队</system:String>
+    <system:String x:Key="IS6NewSquad4">多边贸易分队</system:String>
+    <system:String x:Key="IS6NewSquad5">地质调查分队</system:String>
     <system:String x:Key="SpecialForceSquad">Special Squad</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
@@ -550,6 +555,7 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="RoguelikeThemeSami">Sami</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">Sarkaz</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">Sui's Garden</system:String>
+    <system:String x:Key="RoguelikeThemeBlackFlow">黑流树海</system:String>
     <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom} recommended configuration:
 
 {key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}

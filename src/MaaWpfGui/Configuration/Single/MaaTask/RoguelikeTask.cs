@@ -200,6 +200,11 @@ public enum RoguelikeTheme
     /// 界园
     /// </summary>
     JieGarden,
+
+    /// <summary>
+    /// 黑流树海
+    /// </summary>
+    BlackFlow,
 }
 
 public enum RoguelikeMode
