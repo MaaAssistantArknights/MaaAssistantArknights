@@ -18,10 +18,15 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-        <!--  FIXME: 任务开始前更新库存数据尚未实现，暂隐藏  -->
-        <!--<CheckBox Content="{DynamicResource DepotUpdateBeforeStart}" IsChecked="{Binding UpdateDepot}" />-->
-        <CheckBox Content="{DynamicResource DepotSkipDuringActivity}" IsChecked="{Binding SkipDuringActivity}" />
-        <CheckBox Margin="0,6,0,0" Content="{DynamicResource DepotSkipDuringResourceCollection}" IsChecked="{Binding SkipDuringResourceCollection}" />
+        <CheckBox Content="{DynamicResource DepotUpdateBeforeStart}" IsChecked="{Binding UpdateDepot}" />
+        <CheckBox
+            Margin="0,6,0,0"
+            Content="{DynamicResource DepotSkipDuringActivity}"
+            IsChecked="{Binding SkipDuringActivity}" />
+        <CheckBox
+            Margin="0,6,0,0"
+            Content="{DynamicResource DepotSkipDuringResourceCollection}"
+            IsChecked="{Binding SkipDuringResourceCollection}" />
         <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
             <CheckBox Content="{DynamicResource CustomStageCode}" IsChecked="{Binding IsStageManually}" />
             <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
@@ -99,7 +104,7 @@
                                     CommandParameter="{Binding}"
                                     ToolTip="{DynamicResource Delete}">
                                     <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                                             <Setter Property="Visibility" Value="Collapsed" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" Value="True">
@@ -236,7 +241,7 @@
                                     HorizontalAlignment="Left"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Maximum="9999"
+                                    Maximum="1145141919"
                                     Minimum="0"
                                     Value="{Binding DropCount, UpdateSourceTrigger=PropertyChanged}" />
 

@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
@@ -35,6 +36,9 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMaintainTaskUserControlModel.ISerialize
 {
     private readonly ILogger _logger = Log.ForContext<DepotMaintainTaskUserControlModel>();
+
+    // plan index → core taskId 的映射，用于运行时重算缺口
+    private Dictionary<int, int> _planTaskIdMap = [];
 
     static DepotMaintainTaskUserControlModel()
     {
@@ -56,6 +60,41 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             {
                 NotifyOfPropertyChange(nameof(PlanInfo));
             };
+        }
+
+        // 任务状态变化时，用最新库存重算该 plan 的缺口
+        Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
+    }
+
+    private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
+    {
+        if (status != TaskItemStatus.InProgress || taskId <= 0)
+        {
+            return;
+        }
+
+        // 查找该 taskId 对应的 plan index
+        var planIndex = _planTaskIdMap.FirstOrDefault(kvp => kvp.Value == taskId).Key;
+        if (TaskSettingVisibilityInfo.CurrentTask is not DepotMaintainTask depot || planIndex < 0 || planIndex >= depot.PlanList.Count)
+        {
+            return;
+        }
+
+        var plan = depot.PlanList[planIndex];
+        if (string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0)
+        {
+            return;
+        }
+
+        // 复用 FightSettings 的公共方法，用最新库存重算缺口
+        var stage = GetFightStage([plan.Stage]);
+        if (!string.IsNullOrEmpty(stage))
+        {
+            FightSettingsUserControlModel.RefreshFightTaskDrops(taskId, plan.DropId, plan.DropCount,
+                stage,
+                plan.UseMedicine ? plan.MedicineCount : 0,
+                plan.UseStone ? plan.StoneCount : 0,
+                (planIndex + 1).ToString());
         }
     }
 
@@ -338,6 +377,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             NotifyOfPropertyChange(nameof(PlanInfo));
         };
         NotifyOfPropertyChange(nameof(PlanInfo));
+        RefreshStageList();
         Refresh();
     }
 
@@ -366,12 +406,10 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 return (null, []);
             }
 
+            var taskIds = new List<int>();
+
             // 任务开始前更新库存数据：先追加仓库识别任务，刷新库存后再执行计划
-            // FIXME：战斗任务支持运行时修改参数（AsstSetTaskParamsEncoded），理论上可在此先追加仓库识别任务，
-            //        待识别完成后通过回调用最新库存重新计算各 plan 的缺口并动态更新战斗任务的 drops/times。
-            //        但当前未实现该运行时联动；且 core 侧 drops 指定数量为 0 时 check_specify_quantity 不会拦截
-            //        （m_drop_stats 中无记录即视为未达标），仍会进入关卡，需依赖 times=0 阻止进入。
-            /*
+            // 每个 plan 开始时会通过 OnTaskStatusChanged 用最新库存重算缺口
             if (depot.UpdateDepot)
             {
                 if (!Instances.ToolboxViewModel.StartDepotRecognitionTask(startImmediately: false))
@@ -384,10 +422,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 Instances.ToolboxViewModel.MarkDepotRecognitionSyncTimeForReset(depotTaskId);
                 taskIds.Add(depotTaskId);
             }
-            */
 
             var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
-            var taskIds = new List<int>();
+            Instance._planTaskIdMap = [];
             var seenDropIds = new Dictionary<string, int>();
             for (int i = 0; i < depot.PlanList.Count; i++)
             {
@@ -426,7 +463,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     }
                     else
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanStageNotOpen", i + 1, plan.Stage), UiLogColor.Error);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanStageNotOpen", i + 1, plan.Stage));
                     }
 
                     taskIds.Add(0);
@@ -438,7 +475,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 if (need <= 0)
                 {
                     var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1, dropName, currentCount, plan.DropCount), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1, dropName, currentCount, plan.DropCount));
                     taskIds.Add(0);
                     continue;
                 }
@@ -459,6 +496,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 else
                 {
                     taskIds.Add(id);
+                    Instance._planTaskIdMap[i] = id;
                 }
             }
 

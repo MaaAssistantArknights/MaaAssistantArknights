@@ -349,7 +349,7 @@
 • {key=Quantity}：以当前理智作战任务中该材料的掉落数量为目标，达到设定数量后停止。
 • {key=TargetInventory}：会参考 ｢{key=Toolbox}-{key=DepotRecognition}｣ 中保存的库存数据，只补到设定库存为止。
   • 库存数据是缓存值，手动刷关、合成或消耗材料后可能与实际不一致；可通过 ｢{key=UserDataUpdate}｣ 或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 同步。
-  • 使用 {key=TargetInventory} 时，开始后不能临时修改材料和数量。</system:String>
+  • 运行时会根据掉落实时更新库存，前序任务刷出的材料会影响后续任务的缺口计算。</system:String>
     <system:String x:Key="StartupUpdateCheck">启动时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheck">定时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheckTip">游戏内 00:00 / 18:00（对应服务器当地时间 04:00 / 22:00）</system:String>

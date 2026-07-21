@@ -349,7 +349,7 @@
 • {key=Quantity}: 현재 전투 작업에서 해당 재료의 드롭 수를 목표로 삼아, 설정한 수량에 도달하면 멈춥니다.
 • {key=TargetInventory}: ｢{key=Toolbox}-{key=DepotRecognition}｣ 에 저장된 재고 데이터를 참고하여 설정한 재고 수량까지만 보충합니다.
   • 재고 데이터는 캐시이므로 수동 파밍, 제작, 재료 사용 후 실제 수량과 달라질 수 있습니다. ｢{key=UserDataUpdate}｣ 또는 ｢{key=Toolbox}-{key=DepotRecognition}｣ 에서 동기화해 주세요.
-  • {key=TargetInventory} 사용 중에는 실행 도중 재료와 수량을 바꿀 수 없습니다.</system:String>
+  • 실행 중에는 드롭에 따라 재고가 실시간 업데이트되며, 이전 작업에서 드롭된 재료가 후속 작업의 부족 수량에 반영됩니다.</system:String>
     <system:String x:Key="StartupUpdateCheck">시작 시 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheck">일정 시간마다 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheckTip">게임 내 00:00 / 18:00 (서버 현지 시간 04:00 / 22:00)</system:String>
