@@ -42,7 +42,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     public DepotMaintainTaskUserControlModel()
     {
-        PlanList.CollectionChanged += (_, __) => SavePlan();
+        PlanList.CollectionChanged += (_, __) =>
+        {
+            SavePlan();
+            NotifyOfPropertyChange(nameof(PlanInfo));
+        };
     }
 
     public static DepotMaintainTaskUserControlModel Instance { get; }
@@ -109,8 +113,31 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     public string PlanInfo => string.Join("\n", PlanList.Select((t, i) => $"{i + 1}: {StageListSource.FirstOrDefault(i => i.Value == t.Stage)?.Display ?? t.Stage} - {t.DropName} x{t.DropCount}"));
 
+    /// <summary>
+    /// 单个 Plan 属性变化时，保存配置并通知 UI 刷新。
+    /// </summary>
+    /// <param name="notifyProperties">需要通知刷新的属性名。</param>
+    public void OnPlanChanged(params string[] notifyProperties)
+    {
+        if (IsRefreshingUI)
+        {
+            return;
+        }
+
+        SavePlan();
+        foreach (var prop in notifyProperties)
+        {
+            NotifyOfPropertyChange(prop);
+        }
+    }
+
     private void SavePlan()
     {
+        if (IsRefreshingUI)
+        {
+            return;
+        }
+
         var list = PlanList.Select(i => new DepotMaintainTask.Plan(i.Stage, i.DropId, i.DropCount, i.UseMedicine, i.MedicineCount, i.UseStone, i.StoneCount));
         SetTaskConfig<DepotMaintainTask>(t => t.PlanList.SequenceEqual(list), t => t.PlanList = [.. list]);
     }
@@ -144,6 +171,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             return;
         }
+
+        using var refresh = new UiRefreshingScope();
         var stageList = Instances.StageManager.GetStageList().Where(i => i.Value != AnnihilationName).ToList();
         var listCurrent = current.PlanList.ToList();
 
@@ -181,8 +210,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             get; set {
                 SetAndNotify(ref field, value);
-                Instance.NotifyOfPropertyChange(nameof(PlanInfo));
-                NotifyOfPropertyChange(nameof(Title));
+                Instance.OnPlanChanged(nameof(PlanInfo), nameof(Title));
             }
         } = string.Empty;
 
@@ -193,8 +221,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             get; set {
                 SetAndNotify(ref field, value);
-                Instance.NotifyOfPropertyChange(nameof(PlanInfo));
-                NotifyOfPropertyChange(nameof(Title));
+                Instance.OnPlanChanged(nameof(PlanInfo), nameof(Title));
             }
         } = string.Empty;
 
@@ -207,8 +234,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             get; set {
                 SetAndNotify(ref field, value);
-                Instance.NotifyOfPropertyChange(nameof(PlanInfo));
-                NotifyOfPropertyChange(nameof(Title));
+                Instance.OnPlanChanged(nameof(PlanInfo), nameof(Title));
             }
         }
 
@@ -243,6 +269,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             return;
         }
+
+        using var refresh = new UiRefreshingScope();
         var list = new List<Plan>();
         foreach (var plan in task.PlanList)
         {
@@ -256,10 +284,14 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 StoneCount = plan.StoneCount,
             };
             list.Add(uiPlan);
-            uiPlan.PropertyChanged += (_, __) => SavePlan();
         }
         PlanList = [.. list];
-        PlanList.CollectionChanged += (_, __) => SavePlan();
+        PlanList.CollectionChanged += (_, __) =>
+        {
+            SavePlan();
+            NotifyOfPropertyChange(nameof(PlanInfo));
+        };
+        NotifyOfPropertyChange(nameof(PlanInfo));
         Refresh();
     }
 
@@ -358,6 +390,29 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 return (true, taskIds);
             }
             return (null, []);
+        }
+    }
+
+    /// <summary>
+    /// UI 刷新作用域，防止刷新期间 ComboBox 等控件的绑定回写覆盖配置。
+    /// </summary>
+    private struct UiRefreshingScope : IDisposable
+    {
+        private static int _depth = 0;
+
+        public UiRefreshingScope()
+        {
+            ++_depth;
+            Instance.IsRefreshingUI = true;
+        }
+
+        readonly void IDisposable.Dispose()
+        {
+            --_depth;
+            if (_depth == 0)
+            {
+                Instance.IsRefreshingUI = false;
+            }
         }
     }
 }
