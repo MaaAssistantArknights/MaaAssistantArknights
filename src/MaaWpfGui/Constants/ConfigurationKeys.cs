@@ -285,11 +285,11 @@ public static class ConfigurationKeys
     public const string DropsItemName = "MainFunction.Drops.ItemName"; // 已废弃
     public const string DropsQuantity = "MainFunction.Drops.Quantity"; // 已迁移
 
-    public const string RemoteControlGetTaskEndpointUri = "RemoteControl.RemoteControlGetTaskEndpointUri";
-    public const string RemoteControlReportStatusUri = "RemoteControl.RemoteControlReportStatusUri";
-    public const string RemoteControlUserIdentity = "RemoteControl.RemoteControlUserIdentity";
-    public const string RemoteControlDeviceIdentity = "RemoteControl.RemoteControlDeviceIdentity";
-    public const string RemoteControlPollIntervalMs = "RemoteControl.RemoteControlPollIntervalMs";
+    public const string RemoteControlGetTaskEndpointUri = "RemoteControl.RemoteControlGetTaskEndpointUri"; // √
+    public const string RemoteControlReportStatusUri = "RemoteControl.RemoteControlReportStatusUri"; // √
+    public const string RemoteControlUserIdentity = "RemoteControl.RemoteControlUserIdentity"; // √
+    public const string RemoteControlDeviceIdentity = "RemoteControl.RemoteControlDeviceIdentity"; // √
+    public const string RemoteControlPollIntervalMs = "RemoteControl.RemoteControlPollIntervalMs"; // √
 
     public const string ExternalNotificationEnabled = "ExternalNotification.Enabled"; // √
     public const string ExternalNotificationSendWhenComplete = "ExternalNotification.SendWhenComplete"; // √

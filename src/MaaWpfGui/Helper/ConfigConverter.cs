@@ -684,6 +684,16 @@ public class ConfigConverter
             ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSendWhenStalled);
             ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationEnableDetails);
 
+            ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlGetTaskEndpointUri = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty));
+            ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlReportStatusUri = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty));
+            ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlUserIdentity = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty));
+            ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlDeviceIdentity = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty));
+            ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlPollIntervalMs = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlPollIntervalMs, 1000);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.RemoteControlReportStatusUri);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.RemoteControlUserIdentity);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.RemoteControlDeviceIdentity);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.RemoteControlPollIntervalMs);
         }
 
         ConfigurationHelper.SwitchConfiguration(currentConfigName);
