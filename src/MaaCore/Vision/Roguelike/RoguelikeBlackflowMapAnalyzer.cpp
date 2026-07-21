@@ -282,7 +282,7 @@ std::vector<float> RoguelikeBlackflowMapAnalyzer::node_features(
 }
 
 // ============================================================================
-// node_type_features —— 对应 train_node_classifier.py::feature_vector（2118 维）
+// node_type_features —— 节点类型分类模型的输入特征（2118 维）
 // ============================================================================
 std::vector<float> RoguelikeBlackflowMapAnalyzer::node_type_features(const cv::Mat& image, float x, float y)
 {

@@ -94,7 +94,7 @@ private:
     // ———————— 特征提取（与 extract_map.py 逐函数同构，scale 固定 1.0） ————————
     static std::vector<float>
         node_features(const NodeCtx& ctx, float x, float y, const std::vector<cv::Vec3f>& circles);
-    // 节点类型分类模型特征：与 tools/BlackflowNodeDataset/train_node_classifier.py 完全同构。
+    // 节点类型分类模型特征：必须与导出模型时使用的特征布局保持一致。
     static std::vector<float> node_type_features(const cv::Mat& image, float x, float y);
     static std::vector<float> edge_features(const EdgeCtx& ctx, float x1, float y1, float x2, float y2);
     static std::vector<float> player_features(const PlayerCtx& ctx, float x, float y);
