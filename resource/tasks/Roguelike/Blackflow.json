@@ -120,6 +120,16 @@
         "doc": "事件选项结果页的白色勾关闭后回到地图路由",
         "next": ["Blackflow@Roguelike@Routing"]
     },
+    "Blackflow@Roguelike@CloseCollectionAfterReward": {
+        "baseTask": "Blackflow@Roguelike@CloseCollection",
+        "template": "Blackflow@Roguelike@CloseCollection.png",
+        "doc": "奖励确认页关闭收藏界面后继续招募组合，必要时回到地图路由",
+        "next": [
+            "Blackflow@Roguelike@RolesDefault",
+            "Blackflow@Roguelike@RecruitMain",
+            "Blackflow@Roguelike@Routing"
+        ]
+    },
     "Blackflow@Roguelike@CloseEvent": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -265,10 +275,22 @@
     },
     "Blackflow@Roguelike@LastRewardConfirm": {
         "baseTask": "Roguelike@LastRewardConfirm",
-        "template": "Blackflow@Roguelike@LastRewardConfirm.png"
+        "template": "Blackflow@Roguelike@LastRewardConfirm.png",
+        "next": [
+            "Blackflow@Roguelike@RolesDefault",
+            "Blackflow@Roguelike@RecruitMain",
+            "Blackflow@Roguelike@CloseCollectionAfterReward",
+            "Blackflow@Roguelike@Stages#next"
+        ]
     },
     "Blackflow@Roguelike@RecruitMain": {
-        "template": "Blackflow@Roguelike@Recruit.png"
+        "baseTask": "Roguelike@RecruitMain",
+        "template": "Blackflow@Roguelike@Recruit.png",
+        "next": [
+            "Blackflow@StartExplore@Roguelike@ChooseOperFlag",
+            "Blackflow@StartExplore@Roguelike@RecruitCloseGuide",
+            "#self"
+        ]
     },
     "Blackflow@Roguelike@ChooseOper": {
         "next": [
