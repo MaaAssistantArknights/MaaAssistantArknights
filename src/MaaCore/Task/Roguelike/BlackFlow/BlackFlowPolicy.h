@@ -6,6 +6,7 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <unordered_set>
 #include <variant>
 #include <vector>
 
@@ -164,7 +165,7 @@ struct PolicyRule
     PolicyTier tier = PolicyTier::Development;
     int rank = 0;
     Condition when;
-    Condition target;
+    Condition target { ConditionKind::Constant, false };
 };
 
 struct ResourceReserve
@@ -174,7 +175,7 @@ struct ResourceReserve
     std::string resource;
     int minimum = 0;
     Condition active_if;
-    Condition release_if;
+    Condition release_if { ConditionKind::Constant, false };
 };
 
 struct Milestone
@@ -185,9 +186,14 @@ struct Milestone
     int floor_begin = 1;
     int floor_end = 99;
     int rank = 0;
+    int required_count = 1;
+    int weight = 1;
+    bool terminal_on_reach = false;
     Condition active_if;
-    Condition complete_if;
-    Condition target;
+    Condition complete_if { ConditionKind::Constant, false };
+    Condition target { ConditionKind::Constant, false };
+    std::vector<NodeType> target_node_types;
+    std::vector<std::string> target_node_names;
     std::vector<std::string> reserve_ids;
     std::vector<std::string> prerequisites;
     std::vector<std::string> successors;
@@ -197,9 +203,20 @@ struct MissionState
 {
     MissionViability viability = MissionViability::Possible;
     std::unordered_map<std::string, MilestoneStatus> milestones;
+    std::unordered_map<std::string, int> milestone_progress;
+    std::unordered_map<std::string, std::unordered_set<NodeId>> milestone_nodes;
 
     [[nodiscard]] MilestoneStatus status(std::string_view id) const noexcept;
+    [[nodiscard]] int progress(std::string_view id) const noexcept;
     void set_status(std::string id, MilestoneStatus status);
+    void set_progress(std::string id, int value);
+    bool record_node(
+        const std::vector<Milestone>& definitions,
+        int floor,
+        const FactStore& facts,
+        NodeId node,
+        NodeType type,
+        std::string_view name);
     void refresh(const std::vector<Milestone>& definitions, int floor, const FactStore& facts);
 };
 
@@ -247,16 +264,29 @@ private:
     std::unordered_map<std::string, Reader> m_readers;
 };
 
+struct PlannedRouteStep
+{
+    MoveCandidate move;
+    int action_points_before = 0;
+    int action_point_cost = 0;
+    int action_point_gain = 0;
+    int action_points_after = 0;
+};
+
 struct PolicyCandidate
 {
     MoveCandidate move;
     FactStore facts;
     bool legal = true;
-    bool confirmed_safe = false;
+    bool safe = false;
     int development_score = 0;
     int risk_score = 0;
     int battle_count = 0;
+    int processing_move_count = 0;
     int estimated_duration = 0;
+    std::unordered_map<std::string, int> milestone_progress;
+    std::vector<NodeId> planned_route;
+    std::vector<PlannedRouteStep> planned_route_steps;
 };
 
 enum class DecisionReasonCategory
@@ -273,6 +303,9 @@ enum class DecisionReasonCategory
 struct PolicyDecision
 {
     std::optional<MoveCandidate> selected;
+    std::vector<NodeId> planned_route;
+    std::vector<PlannedRouteStep> planned_route_steps;
+    std::unordered_map<std::string, int> planned_milestone_progress;
     std::vector<MoveCandidate> runners_up;
     std::vector<std::string> rejected;
     std::unordered_map<std::string, std::size_t> rejection_counts;
@@ -281,6 +314,7 @@ struct PolicyDecision
     DecisionReasonCategory reason_category = DecisionReasonCategory::TieBreak;
     std::string decisive_rule_id;
     std::string decisive_milestone_id;
+    std::vector<std::string> decisive_milestone_ids;
     std::string reason;
 };
 

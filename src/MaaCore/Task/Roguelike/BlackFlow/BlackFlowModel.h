@@ -16,7 +16,6 @@
 namespace asst::blackflow
 {
 using NodeId = std::uint64_t;
-using EventMask = std::uint32_t;
 
 inline constexpr NodeId InvalidNodeId = std::numeric_limits<NodeId>::max();
 
@@ -39,30 +38,26 @@ struct GridPositionHash
 enum class NodeType
 {
     Unknown,
-    Empty,
-    Combat,
-    EmergencyCombat,
-    Boss,
-    BattleShop,
-    ScrapShop,
-    Encounter,
-    MysteriousPresage,
-    FerociousPresage,
-    Scout,
-    FaceOff,
-    EmergencyAid,
+    BattleElite,
+    BattleNormal,
+    BattleSavage,
+    Door,
+    Employ,
+    Expedition,
+    HideBattle,
+    HideInvisible,
+    Incident,
+    Light,
+    Portal,
     Rest,
-    FeatherPoint,
-    WindingPassage,
     Sacrifice,
+    ScrapShop,
+    Shop,
     Wish,
-    BoskyPassage,
-    ResidentStronghold,
-    Final,
-    Fate,
+    Empty,
     Evacuate,
-    Teleporter,
-    Other,
+    Final,
+    BattleBoss,
 };
 
 enum class NodeProgress
@@ -86,12 +81,6 @@ enum class EdgeKnowledge
     Absent,
 };
 
-enum class MapKnowledgeMode
-{
-    Confirmed,
-    Relaxed,
-};
-
 struct NodeTraversal
 {
     bool blocks_walk = true;
@@ -106,14 +95,13 @@ struct Node
     int floor = 0;
     GridPosition position;
     NodeType type = NodeType::Unknown;
-    EventMask event_mask = 0;
     std::string name;
     NodeProgress progress = NodeProgress::Active;
     NodeTraversal traversal;
     NodeIdentityState identity_state = NodeIdentityState::Unclassified;
     bool identity_revealed = false;
     bool badged = false;
-    std::optional<NodeId> teleport_target;
+    std::optional<NodeId> transfer_target;
 };
 
 struct EdgeEvidence
@@ -146,7 +134,7 @@ public:
     [[nodiscard]] std::vector<NodeId> neighbors(NodeId id, bool include_unknown_edges = false) const;
     [[nodiscard]] std::unordered_set<NodeId> reveal_through_transparent_nodes(NodeId origin) const;
     [[nodiscard]] std::unordered_set<NodeId> nodes_within_manhattan(NodeId origin, int distance) const;
-    [[nodiscard]] bool has_confirmed_teleport_pair(NodeId node) const noexcept;
+    [[nodiscard]] bool has_valid_transfer_pair(NodeId node) const noexcept;
     [[nodiscard]] bool validate(std::string* error = nullptr) const;
 
     [[nodiscard]] const auto& nodes() const noexcept { return m_nodes; }
@@ -170,14 +158,13 @@ struct ObservedNode
 {
     GridPosition position;
     std::optional<NodeType> type;
-    std::optional<EventMask> event_mask;
     std::optional<std::string> name;
     std::optional<NodeProgress> progress;
     std::optional<NodeTraversal> traversal;
     std::optional<NodeIdentityState> identity_state;
     std::optional<bool> identity_revealed;
     std::optional<bool> badged;
-    std::optional<std::optional<GridPosition>> teleport_target;
+    std::optional<std::optional<GridPosition>> transfer_target;
 };
 
 struct ObservedEdge
@@ -247,18 +234,10 @@ private:
     std::uint64_t m_viewport_revision = 0;
 };
 
-[[nodiscard]] EventMask event_mask_for(NodeType type) noexcept;
 [[nodiscard]] NodeTraversal default_traversal_for(NodeType type) noexcept;
 [[nodiscard]] bool is_transfer_node(NodeType type) noexcept;
-
-enum class TargetMatch
-{
-    Definite,
-    Possible,
-    NoMatch,
-};
-
-[[nodiscard]] TargetMatch match_event_mask(const Node& node, EventMask required_mask) noexcept;
+[[nodiscard]] bool is_combat_node_type(NodeType type) noexcept;
+[[nodiscard]] std::optional<NodeType> node_type_from_string(std::string_view value) noexcept;
 
 enum class MovementKind
 {
@@ -300,13 +279,15 @@ struct MovementSpec
     std::string_view id;
     std::string_view name;
     MovementRange range = MovementRange::WalkEdges;
-    EventMask target_mask = 0;
+    std::vector<NodeType> target_types;
     int action_point_cost = 1;
     int initial_charges = 0;
     bool random_target = false;
     bool expires_on_floor_end = false;
     MovementEffect effect;
 };
+
+[[nodiscard]] bool node_type_allowed(const MovementSpec& movement, NodeType type) noexcept;
 
 struct DynamicCostModel
 {
@@ -368,13 +349,9 @@ struct MoveCandidate
     std::unordered_map<NodeId, int> landing_action_point_gains;
     int predicted_action_point_cost = 0;
     int predicted_action_point_gain = 0;
-    int confirmed_action_point_requirement = std::numeric_limits<int>::max() / 4;
-    TargetMatch target_match = TargetMatch::Definite;
+    int action_point_requirement = std::numeric_limits<int>::max() / 4;
     bool controllable = true;
     bool terminal_on_completion = false;
-    bool requires_preview_confirmation = false;
-    bool probe_only = false;
-    bool passes_unclassified = false;
     bool uses_inferred_edge = false;
 };
 
@@ -384,14 +361,8 @@ struct MoveAction
     std::vector<NodeId> possible_landings;
 };
 
-[[nodiscard]] NodeId resolve_landing(
-    const MapSnapshot& map,
-    NodeId target,
-    MapKnowledgeMode knowledge = MapKnowledgeMode::Confirmed) noexcept;
-[[nodiscard]] std::vector<MoveAction> enumerate_move_actions(
-    const MapSnapshot& map,
-    const RunState& state,
-    MapKnowledgeMode knowledge = MapKnowledgeMode::Confirmed);
+[[nodiscard]] NodeId resolve_landing(const MapSnapshot& map, NodeId target) noexcept;
+[[nodiscard]] std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const RunState& state);
 
 enum class PreviewReachability
 {
@@ -407,24 +378,6 @@ struct MovePreview
     NodeType displayed_type = NodeType::Unknown;
     std::string displayed_name;
     bool identity_revealed = false;
-};
-
-struct VerifiedMoveArc
-{
-    NodeId source = InvalidNodeId;
-    NodeId target = InvalidNodeId;
-    NodeId landing = InvalidNodeId;
-    MovementKind movement = MovementKind::Walk;
-    int exact_action_point_cost = 0;
-    std::uint64_t map_revision = 0;
-    std::uint64_t cost_revision = 0;
-    std::uint64_t viewport_revision = 0;
-
-    [[nodiscard]] bool matches(
-        const MoveCandidate& candidate,
-        std::uint64_t current_map_revision,
-        std::uint64_t current_cost_revision,
-        std::uint64_t current_viewport_revision) const noexcept;
 };
 
 enum class MoveTransactionStage

@@ -42,6 +42,7 @@ public:
     bool apply_post_move(const BlackFlowPostMoveSnapshot& snapshot, std::string* error = nullptr);
     bool bind_page_route(std::string* error = nullptr);
     bool apply_task_event(const json::value& callback_details, std::string* error = nullptr);
+    void discard_applied_transaction() noexcept;
 
     void fail(std::string outcome, std::string reason);
 
@@ -96,8 +97,6 @@ private:
     RunState m_run;
     ResourceRegistry m_resources;
     std::unordered_set<std::string> m_unreachable_actions;
-    std::optional<NodeId> m_preferred_probe_node;
-    std::optional<VerifiedMoveArc> m_verified_arc;
     std::optional<MoveTransaction> m_transaction;
     std::optional<BlackFlowPlan> m_last_plan;
     std::optional<BlackFlowStrategyResult> m_result;
@@ -108,7 +107,6 @@ private:
     std::uint64_t m_transaction_sequence = 0;
     std::uint64_t m_artifact_sequence = 0;
     NodeId m_observed_current_node = InvalidNodeId;
-    NodeId m_pending_event_node = InvalidNodeId;
     std::string m_observation_id;
     std::string m_decision_id;
     std::string m_transaction_id;

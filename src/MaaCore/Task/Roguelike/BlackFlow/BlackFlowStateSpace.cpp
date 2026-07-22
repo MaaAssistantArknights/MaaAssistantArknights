@@ -51,7 +51,7 @@ RunState materialize_run_state(const RunState& source, const PlannerState& state
     result.node_progress.clear();
     result.visited_nodes.clear();
     result.visited_nodes.insert(state.visited_nodes.begin(), state.visited_nodes.end());
-    for (const NodeId completed : state.completed_nodes) {
+    for (const NodeId completed : state.emptied_nodes) {
         result.node_progress.emplace(completed, NodeProgress::Completed);
     }
     result.consumed_one_time_nodes.clear();
@@ -64,7 +64,7 @@ RunState materialize_run_state(const RunState& source, const PlannerState& state
 bool unavailable_target(const MapSnapshot& map, const PlannerState& state, NodeId target)
 {
     const Node* node = map.find_node(target);
-    return node == nullptr || (contains_sorted(state.completed_nodes, target) && !node->traversal.repeatable);
+    return node == nullptr || (contains_sorted(state.emptied_nodes, target) && !node->traversal.repeatable);
 }
 
 PlannerState
@@ -86,9 +86,9 @@ PlannerState
     insert_sorted(successor.visited_nodes, completed);
     const Node* node = map.find_node(completed);
     if (node != nullptr && !node->traversal.repeatable && node->type != NodeType::Empty) {
-        insert_sorted(successor.completed_nodes, completed);
+        insert_sorted(successor.emptied_nodes, completed);
     }
-    if (node != nullptr && node->type == NodeType::FeatherPoint &&
+    if (node != nullptr && node->type == NodeType::Light &&
         !contains_sorted(successor.consumed_one_time_nodes, completed)) {
         insert_sorted(successor.consumed_one_time_nodes, completed);
         for (const NodeId revealed : map.nodes_within_manhattan(completed, 2)) {
@@ -107,7 +107,7 @@ int action_gain(const MapSnapshot& map, const PlannerState& source, const MoveAc
         effect_node = landing;
     }
     const Node* node = map.find_node(effect_node);
-    if (node != nullptr && node->type == NodeType::FeatherPoint &&
+    if (node != nullptr && node->type == NodeType::Light &&
         !contains_sorted(source.consumed_one_time_nodes, effect_node)) {
         ++gain;
     }
@@ -124,7 +124,7 @@ std::size_t PlannerStateHash::operator()(const PlannerState& state) const noexce
     for (const bool expired : state.cross_floor_expired) {
         seed = combine_hash(seed, std::hash<bool> {}(expired));
     }
-    for (const NodeId node : state.completed_nodes) {
+    for (const NodeId node : state.emptied_nodes) {
         seed = combine_hash(seed, std::hash<NodeId> {}(node));
     }
     for (const NodeId node : state.visited_nodes) {
@@ -152,8 +152,7 @@ bool BlackFlowStateExpander::is_terminal(
     if (node == nullptr) {
         return false;
     }
-    return (options.final_is_terminal && node->type == NodeType::Final) ||
-           (options.fate_is_terminal && node->type == NodeType::Fate);
+    return options.final_is_terminal && node->type == NodeType::Final;
 }
 
 std::optional<ExpandedSafetyProblem> BlackFlowStateExpander::build(
@@ -194,13 +193,13 @@ std::optional<ExpandedSafetyProblem> BlackFlowStateExpander::build(
     }
     for (const auto& [node, progress] : run.node_progress) {
         if (progress == NodeProgress::Completed) {
-            initial.completed_nodes.emplace_back(node);
+            initial.emptied_nodes.emplace_back(node);
         }
     }
-    std::ranges::sort(initial.completed_nodes);
-    initial.completed_nodes.erase(
-        std::unique(initial.completed_nodes.begin(), initial.completed_nodes.end()),
-        initial.completed_nodes.end());
+    std::ranges::sort(initial.emptied_nodes);
+    initial.emptied_nodes.erase(
+        std::unique(initial.emptied_nodes.begin(), initial.emptied_nodes.end()),
+        initial.emptied_nodes.end());
     initial.visited_nodes.assign(run.visited_nodes.begin(), run.visited_nodes.end());
     std::ranges::sort(initial.visited_nodes);
     initial.consumed_one_time_nodes.assign(run.consumed_one_time_nodes.begin(), run.consumed_one_time_nodes.end());
@@ -210,7 +209,7 @@ std::optional<ExpandedSafetyProblem> BlackFlowStateExpander::build(
         if (node.identity_revealed) {
             insert_sorted(initial.revealed_nodes, node_id);
         }
-        if (node.type == NodeType::FeatherPoint) {
+        if (node.type == NodeType::Light) {
             for (const NodeId revealed : map.nodes_within_manhattan(node_id, 1)) {
                 insert_sorted(initial.revealed_nodes, revealed);
             }
@@ -256,7 +255,7 @@ std::optional<ExpandedSafetyProblem> BlackFlowStateExpander::build(
         }
 
         const RunState materialized = materialize_run_state(run, source);
-        const auto actions = enumerate_move_actions(map, materialized, options.knowledge);
+        const auto actions = enumerate_move_actions(map, materialized);
         for (const auto& move : actions) {
             if (options.forbidden_action_ids.contains(move.candidate.action_id)) {
                 continue;

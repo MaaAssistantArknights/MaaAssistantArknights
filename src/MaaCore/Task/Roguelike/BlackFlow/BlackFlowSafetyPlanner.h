@@ -61,14 +61,12 @@ struct SafetySolveResult
     [[nodiscard]] explicit operator bool() const noexcept { return solution.has_value(); }
 };
 
-struct SafetyBounds
+struct SafetyAssessment
 {
-    int optimistic_lower_bound = UnreachableActionPointRequirement;
-    int confirmed_upper_bound = UnreachableActionPointRequirement;
-    std::optional<std::string> confirmed_first_action;
-    std::optional<std::size_t> confirmed_proof_depth;
-    SafetySolution relaxed_solution;
-    SafetySolution confirmed_solution;
+    int required_action_points = UnreachableActionPointRequirement;
+    std::optional<std::string> first_action;
+    std::optional<std::size_t> proof_depth;
+    SafetySolution solution;
 };
 
 class SafetyPlanner
@@ -76,12 +74,8 @@ class SafetyPlanner
 public:
     [[nodiscard]] SafetySolveResult solve(const SafetyProblem& problem) const;
 
-    [[nodiscard]] std::optional<SafetyBounds> solve_bounds(
-        const SafetyProblem& relaxed_problem,
-        const SafetyProblem& confirmed_problem,
-        SafetyStateId relaxed_initial,
-        SafetyStateId confirmed_initial,
-        std::string* error = nullptr) const;
+    [[nodiscard]] std::optional<SafetyAssessment>
+        assess(const SafetyProblem& problem, SafetyStateId initial, std::string* error = nullptr) const;
 
 private:
     [[nodiscard]] bool validate(const SafetyProblem& problem, std::string* error) const;

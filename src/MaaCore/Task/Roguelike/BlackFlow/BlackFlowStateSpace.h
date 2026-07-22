@@ -18,7 +18,7 @@ struct PlannerState
     NodeId node = InvalidNodeId;
     std::array<std::uint8_t, 13> movement_charges {};
     std::array<bool, 13> cross_floor_expired {};
-    std::vector<NodeId> completed_nodes;
+    std::vector<NodeId> emptied_nodes;
     std::vector<NodeId> visited_nodes;
     std::vector<NodeId> consumed_one_time_nodes;
     std::vector<NodeId> revealed_nodes;
@@ -35,11 +35,9 @@ struct PlannerStateHash
 
 struct StateExpansionOptions
 {
-    MapKnowledgeMode knowledge = MapKnowledgeMode::Confirmed;
     std::unordered_set<NodeId> strategy_terminal_nodes;
     std::unordered_set<std::string> forbidden_action_ids;
     bool final_is_terminal = true;
-    bool fate_is_terminal = false;
     std::size_t maximum_states = 200000;
 };
 

@@ -1,7 +1,6 @@
 #include "BlackFlowPolicy.h"
 
 #include <algorithm>
-#include <array>
 #include <tuple>
 
 namespace asst::blackflow
@@ -82,7 +81,7 @@ struct ScoreOrigin
 {
     DecisionReasonCategory category = DecisionReasonCategory::TieBreak;
     std::string id;
-    bool milestone = false;
+    std::vector<std::string> milestone_ids;
 };
 
 struct RankedCandidate
@@ -290,53 +289,107 @@ MilestoneStatus MissionState::status(std::string_view id) const noexcept
     return found == milestones.end() ? MilestoneStatus::Inactive : found->second;
 }
 
+int MissionState::progress(std::string_view id) const noexcept
+{
+    const auto found = milestone_progress.find(std::string(id));
+    return found == milestone_progress.end() ? 0 : std::max(found->second, 0);
+}
+
 void MissionState::set_status(std::string id, MilestoneStatus status_value)
 {
     milestones.insert_or_assign(std::move(id), status_value);
 }
 
+void MissionState::set_progress(std::string id, int value)
+{
+    milestone_progress.insert_or_assign(std::move(id), std::max(value, 0));
+}
+
+bool MissionState::record_node(
+    const std::vector<Milestone>& definitions,
+    int floor,
+    const FactStore& facts,
+    NodeId node,
+    NodeType type,
+    std::string_view name)
+{
+    bool changed = false;
+    for (const Milestone& milestone : definitions) {
+        const bool type_matches =
+            std::ranges::find(milestone.target_node_types, type) != milestone.target_node_types.end();
+        const bool name_matches =
+            std::ranges::find(milestone.target_node_names, name) != milestone.target_node_names.end();
+        if (!milestone_is_active(milestone, floor, facts, *this) || (!type_matches && !name_matches)) {
+            continue;
+        }
+        auto& counted = milestone_nodes[milestone.id];
+        if (!counted.emplace(node).second) {
+            continue;
+        }
+        const int next = std::min(milestone.required_count, progress(milestone.id) + 1);
+        if (next != progress(milestone.id)) {
+            set_progress(milestone.id, next);
+            changed = true;
+        }
+    }
+    if (changed) {
+        refresh(definitions, floor, facts);
+    }
+    return changed;
+}
+
 void MissionState::refresh(const std::vector<Milestone>& definitions, int floor, const FactStore& facts)
 {
-    viability = MissionViability::Possible;
-    for (const auto& milestone : definitions) {
-        const MilestoneStatus previous = status(milestone.id);
-        if (previous == MilestoneStatus::Satisfied || previous == MilestoneStatus::Impossible) {
-            if (previous == MilestoneStatus::Impossible && milestone.kind == MilestoneKind::Mandatory) {
-                viability = MissionViability::Impossible;
+    for (std::size_t pass = 0; pass <= definitions.size(); ++pass) {
+        bool changed = false;
+        for (const Milestone& milestone : definitions) {
+            const MilestoneStatus previous = status(milestone.id);
+            if (previous == MilestoneStatus::Satisfied || previous == MilestoneStatus::Missed ||
+                previous == MilestoneStatus::Impossible) {
+                continue;
             }
-            continue;
+
+            MilestoneStatus next = MilestoneStatus::Inactive;
+            if (milestone.complete_if.evaluate(facts) || progress(milestone.id) >= milestone.required_count) {
+                next = MilestoneStatus::Satisfied;
+            }
+            else if (!prerequisites_satisfied(milestone, *this)) {
+                const bool prerequisite_failed =
+                    std::ranges::any_of(milestone.prerequisites, [&](const std::string& id) {
+                        const MilestoneStatus value = status(id);
+                        return value == MilestoneStatus::Missed || value == MilestoneStatus::Impossible;
+                    });
+                next = prerequisite_failed ? MilestoneStatus::Impossible : MilestoneStatus::Inactive;
+            }
+            else if (floor > milestone.floor_end) {
+                next = MilestoneStatus::Missed;
+            }
+            else if (floor >= milestone.floor_begin && milestone.active_if.evaluate(facts)) {
+                next = MilestoneStatus::Available;
+            }
+            if (next != previous) {
+                set_status(milestone.id, next);
+                changed = true;
+            }
         }
-        if (milestone.complete_if.evaluate(facts)) {
-            set_status(milestone.id, MilestoneStatus::Satisfied);
-            continue;
-        }
-        if (!prerequisites_satisfied(milestone, *this)) {
-            const bool prerequisite_failed = std::ranges::any_of(milestone.prerequisites, [&](const std::string& id) {
-                const auto value = status(id);
-                return value == MilestoneStatus::Missed || value == MilestoneStatus::Impossible;
-            });
-            set_status(milestone.id, prerequisite_failed ? MilestoneStatus::Impossible : MilestoneStatus::Inactive);
-        }
-        else if (floor > milestone.floor_end) {
-            set_status(milestone.id, MilestoneStatus::Missed);
-        }
-        else if (floor >= milestone.floor_begin && milestone.active_if.evaluate(facts)) {
-            set_status(milestone.id, MilestoneStatus::Available);
-        }
-        else {
-            set_status(milestone.id, MilestoneStatus::Inactive);
-        }
-        const auto current = status(milestone.id);
-        if (milestone.kind == MilestoneKind::Mandatory &&
-            (current == MilestoneStatus::Missed || current == MilestoneStatus::Impossible)) {
-            viability = MissionViability::Impossible;
+        if (!changed) {
+            break;
         }
     }
-    if (viability != MissionViability::Impossible && std::ranges::all_of(definitions, [&](const Milestone& milestone) {
-            return milestone.kind != MilestoneKind::Mandatory || status(milestone.id) == MilestoneStatus::Satisfied;
-        })) {
-        viability = MissionViability::Confirmed;
+
+    const bool mandatory_failed = std::ranges::any_of(definitions, [&](const Milestone& milestone) {
+        const MilestoneStatus current = status(milestone.id);
+        return milestone.kind == MilestoneKind::Mandatory &&
+               (current == MilestoneStatus::Missed || current == MilestoneStatus::Impossible);
+    });
+    if (mandatory_failed) {
+        viability = MissionViability::Impossible;
+        return;
     }
+    const bool mandatory_complete = std::ranges::all_of(definitions, [&](const Milestone& milestone) {
+        return milestone.kind != MilestoneKind::Mandatory || status(milestone.id) == MilestoneStatus::Satisfied;
+    });
+    viability = mandatory_complete ? MissionViability::Confirmed : MissionViability::Possible;
 }
 
 ResourceRegistry::ResourceRegistry()
@@ -500,8 +553,8 @@ PolicyDecision PolicyExecutor::choose(
         if (!candidate.legal) {
             reject(candidate, "legality", "illegal");
         }
-        else if (!candidate.confirmed_safe) {
-            reject(candidate, "safety", "no confirmed safe terminal route");
+        else if (!candidate.safe) {
+            reject(candidate, "safety", "no safe terminal route");
         }
         else {
             eligible.emplace_back(&candidate);
@@ -531,26 +584,6 @@ PolicyDecision PolicyExecutor::choose(
         }
         return false;
     });
-    const std::size_t after_hard_policy = eligible.size();
-
-    const Milestone* mandatory = nullptr;
-    for (const auto& milestone : policy.milestones) {
-        if (milestone.kind == MilestoneKind::Mandatory && milestone_is_active(milestone, run.floor, facts, mission) &&
-            (mandatory == nullptr ||
-             std::tie(milestone.rank, milestone.id) < std::tie(mandatory->rank, mandatory->id))) {
-            mandatory = &milestone;
-        }
-    }
-    if (mandatory != nullptr) {
-        std::erase_if(eligible, [&](const PolicyCandidate* candidate) {
-            if (milestone_matches_candidate(*mandatory, facts, candidate->facts)) {
-                return false;
-            }
-            reject(*candidate, "mandatory_goal", "mandatory milestone " + mandatory->id);
-            return true;
-        });
-    }
-    const std::size_t after_mandatory = eligible.size();
 
     const ResourceReserve* decisive_reserve = nullptr;
     std::erase_if(eligible, [&](const PolicyCandidate* candidate) {
@@ -571,78 +604,141 @@ PolicyDecision PolicyExecutor::choose(
 
     decision.eligible_candidates = eligible.size();
     if (eligible.empty()) {
-        decision.reason = mandatory == nullptr ? "no eligible safe candidate"
-                                               : "no candidate can advance the active mandatory milestone";
+        decision.reason = "no eligible safe candidate";
         return decision;
     }
 
-    std::vector<const Milestone*> preferred;
+    std::vector<const Milestone*> active_milestones;
     for (const auto& milestone : policy.milestones) {
-        if (milestone.kind != MilestoneKind::Mandatory && milestone_is_active(milestone, run.floor, facts, mission)) {
-            preferred.emplace_back(&milestone);
+        const MilestoneStatus status = mission.status(milestone.id);
+        if (run.floor >= milestone.floor_begin && run.floor <= milestone.floor_end &&
+            status != MilestoneStatus::Satisfied && status != MilestoneStatus::Missed &&
+            status != MilestoneStatus::Impossible && milestone.active_if.evaluate(facts)) {
+            active_milestones.emplace_back(&milestone);
         }
     }
-    std::ranges::sort(preferred, [](const Milestone* lhs, const Milestone* rhs) {
-        return std::tie(lhs->rank, lhs->id) < std::tie(rhs->rank, rhs->id);
+    std::ranges::sort(active_milestones, [](const Milestone* lhs, const Milestone* rhs) {
+        return std::tie(lhs->kind, lhs->rank, lhs->id) < std::tie(rhs->kind, rhs->rank, rhs->id);
     });
 
-    static constexpr std::array SoftTiers = {
-        PolicyTier::Legality,
-        PolicyTier::Safety,
-        PolicyTier::MandatoryMilestone,
-        PolicyTier::ResourceReserve,
-        PolicyTier::PreferredMilestone,
-        PolicyTier::Development,
-        PolicyTier::Risk,
-        PolicyTier::TieBreak,
+    const auto milestone_value = [&](const PolicyCandidate& current, const Milestone& milestone) {
+        const auto planned = current.milestone_progress.find(milestone.id);
+        if (planned != current.milestone_progress.end()) {
+            return std::min(milestone.required_count, planned->second);
+        }
+        return std::min(
+            milestone.required_count,
+            mission.progress(milestone.id) + (milestone_matches_candidate(milestone, facts, current.facts) ? 1 : 0));
     };
+
     std::vector<RankedCandidate> ranked;
     for (const PolicyCandidate* candidate : eligible) {
         RankedCandidate entry;
         entry.candidate = candidate;
-        auto add_score = [&](int value, DecisionReasonCategory category, std::string id, bool milestone = false) {
+        auto add_score = [&](int value,
+                             DecisionReasonCategory category,
+                             std::string id,
+                             std::vector<std::string> milestone_ids = {}) {
             entry.score.emplace_back(value);
-            entry.origins.emplace_back(ScoreOrigin { category, std::move(id), milestone });
+            entry.origins.emplace_back(ScoreOrigin { category, std::move(id), std::move(milestone_ids) });
         };
-        for (const PolicyTier tier : SoftTiers) {
+        auto append_milestone_groups = [&](MilestoneKind kind, DecisionReasonCategory category) {
+            std::size_t begin = 0;
+            while (begin < active_milestones.size()) {
+                while (begin < active_milestones.size() && active_milestones[begin]->kind != kind) {
+                    ++begin;
+                }
+                if (begin >= active_milestones.size()) {
+                    break;
+                }
+                const int rank = active_milestones[begin]->rank;
+                std::size_t end = begin;
+                int completed = 0;
+                int progress_sum = 0;
+                while (end < active_milestones.size() && active_milestones[end]->kind == kind &&
+                       active_milestones[end]->rank == rank) {
+                    const Milestone& milestone = *active_milestones[end];
+                    const int value = milestone_value(*candidate, milestone);
+                    completed += value >= milestone.required_count ? 1 : 0;
+                    progress_sum += milestone.weight * value;
+                    ++end;
+                }
+                std::vector<std::string> group_milestone_ids;
+                group_milestone_ids.reserve(end - begin);
+                for (std::size_t index = begin; index < end; ++index) {
+                    group_milestone_ids.emplace_back(active_milestones[index]->id);
+                }
+                if (kind == MilestoneKind::Mandatory) {
+                    add_score(-completed, category, {}, group_milestone_ids);
+                    add_score(-progress_sum, category, {}, group_milestone_ids);
+                }
+                else {
+                    const auto group_reward = [&](const PolicyCandidate& current) {
+                        int value = 0;
+                        for (std::size_t index = begin; index < end; ++index) {
+                            const Milestone& milestone = *active_milestones[index];
+                            value += milestone.weight * milestone_value(current, milestone);
+                        }
+                        return value;
+                    };
+                    const int reference = group_reward(*eligible.front());
+                    const bool varies = std::ranges::any_of(eligible, [&](const PolicyCandidate* other) {
+                        return group_reward(*other) != reference;
+                    });
+                    if (varies) {
+                        add_score(
+                            candidate->estimated_duration + candidate->battle_count + candidate->processing_move_count -
+                                progress_sum,
+                            category,
+                            {},
+                            group_milestone_ids);
+                        add_score(-progress_sum, category, {}, group_milestone_ids);
+                    }
+                }
+                begin = end;
+            }
+        };
+
+        append_milestone_groups(MilestoneKind::Mandatory, DecisionReasonCategory::MandatoryGoal);
+        for (const PolicyRule* rule : active_rules) {
+            if (rule->kind == RuleKind::Prefer && rule->tier == PolicyTier::ResourceReserve) {
+                add_score(
+                    rule_matches_candidate(*rule, facts, candidate->facts) ? 0 : 1,
+                    DecisionReasonCategory::ResourceReserve,
+                    rule->id);
+            }
+        }
+        append_milestone_groups(MilestoneKind::Preferred, DecisionReasonCategory::PreferredGoal);
+        append_milestone_groups(MilestoneKind::Opportunistic, DecisionReasonCategory::Development);
+        for (const PolicyTier tier : { PolicyTier::Development, PolicyTier::Risk }) {
             for (const PolicyRule* rule : active_rules) {
-                if (rule->kind == RuleKind::Prefer && rule->tier == tier) {
+                if ((rule->kind == RuleKind::Prefer || rule->kind == RuleKind::TieBreak) && rule->tier == tier) {
                     add_score(
                         rule_matches_candidate(*rule, facts, candidate->facts) ? 0 : 1,
                         category_for_tier(tier),
                         rule->id);
                 }
             }
-            if (tier == PolicyTier::PreferredMilestone) {
-                for (const Milestone* milestone : preferred) {
-                    add_score(
-                        milestone_matches_candidate(*milestone, facts, candidate->facts) ? 0 : 1,
-                        DecisionReasonCategory::PreferredGoal,
-                        milestone->id,
-                        true);
-                }
-            }
-            else if (tier == PolicyTier::Development) {
+            if (tier == PolicyTier::Development) {
                 add_score(candidate->development_score, DecisionReasonCategory::Development, "development_score");
-            }
-            else if (tier == PolicyTier::Risk) {
-                add_score(candidate->risk_score, DecisionReasonCategory::RiskAvoidance, "risk_score");
-            }
-            else if (tier == PolicyTier::TieBreak) {
-                for (const PolicyRule* rule : active_rules) {
-                    if (rule->kind == RuleKind::TieBreak) {
-                        add_score(
-                            rule_matches_candidate(*rule, facts, candidate->facts) ? 0 : 1,
-                            DecisionReasonCategory::TieBreak,
-                            rule->id);
-                    }
-                }
             }
         }
         add_score(candidate->battle_count, DecisionReasonCategory::RiskAvoidance, "battle_count");
         add_score(candidate->estimated_duration, DecisionReasonCategory::TieBreak, "estimated_duration");
+        add_score(candidate->processing_move_count, DecisionReasonCategory::ResourceReserve, "processing_move_count");
+        add_score(candidate->risk_score, DecisionReasonCategory::RiskAvoidance, "risk_score");
+        for (const PolicyRule* rule : active_rules) {
+            if ((rule->kind == RuleKind::Prefer || rule->kind == RuleKind::TieBreak) &&
+                rule->tier == PolicyTier::TieBreak) {
+                add_score(
+                    rule_matches_candidate(*rule, facts, candidate->facts) ? 0 : 1,
+                    DecisionReasonCategory::TieBreak,
+                    rule->id);
+            }
+        }
         ranked.emplace_back(std::move(entry));
     }
+
     std::ranges::stable_sort(ranked, [](const RankedCandidate& lhs, const RankedCandidate& rhs) {
         if (score_less(lhs, rhs)) {
             return true;
@@ -654,10 +750,12 @@ PolicyDecision PolicyExecutor::choose(
     });
 
     decision.selected = ranked.front().candidate->move;
+    decision.planned_route = ranked.front().candidate->planned_route;
+    decision.planned_route_steps = ranked.front().candidate->planned_route_steps;
+    decision.planned_milestone_progress = ranked.front().candidate->milestone_progress;
     for (std::size_t index = 1; index < std::min<std::size_t>(ranked.size(), 3); ++index) {
         decision.runners_up.emplace_back(ranked[index].candidate->move);
     }
-
     if (ranked.size() >= 2) {
         const std::size_t dimensions = std::min(ranked[0].score.size(), ranked[1].score.size());
         for (std::size_t index = 0; index < dimensions; ++index) {
@@ -666,8 +764,20 @@ PolicyDecision PolicyExecutor::choose(
             }
             const ScoreOrigin& origin = ranked[0].origins[index];
             decision.reason_category = origin.category;
-            if (origin.milestone) {
-                decision.decisive_milestone_id = origin.id;
+            if (!origin.milestone_ids.empty()) {
+                for (const std::string& milestone_id : origin.milestone_ids) {
+                    const auto milestone = std::ranges::find_if(active_milestones, [&](const Milestone* value) {
+                        return value->id == milestone_id;
+                    });
+                    if (milestone != active_milestones.end() &&
+                        milestone_value(*ranked[0].candidate, **milestone) !=
+                            milestone_value(*ranked[1].candidate, **milestone)) {
+                        decision.decisive_milestone_ids.emplace_back(milestone_id);
+                    }
+                }
+                if (decision.decisive_milestone_ids.size() == 1) {
+                    decision.decisive_milestone_id = decision.decisive_milestone_ids.front();
+                }
             }
             else {
                 decision.decisive_rule_id = origin.id;
@@ -675,11 +785,7 @@ PolicyDecision PolicyExecutor::choose(
             break;
         }
     }
-    else if (mandatory != nullptr && after_hard_policy > after_mandatory) {
-        decision.reason_category = DecisionReasonCategory::MandatoryGoal;
-        decision.decisive_milestone_id = mandatory->id;
-    }
-    else if (decisive_reserve != nullptr && after_mandatory > eligible.size()) {
+    else if (decisive_reserve != nullptr) {
         decision.reason_category = DecisionReasonCategory::ResourceReserve;
         decision.decisive_rule_id = decisive_reserve->id;
     }
@@ -689,9 +795,8 @@ PolicyDecision PolicyExecutor::choose(
     }
     else if (safe_count == 1 && candidates.size() > 1) {
         decision.reason_category = DecisionReasonCategory::SafetyFallback;
-        decision.decisive_rule_id = "confirmed_safety";
+        decision.decisive_rule_id = "safety";
     }
-
     decision.reason = "selected by lexicographic policy order";
     return decision;
 }

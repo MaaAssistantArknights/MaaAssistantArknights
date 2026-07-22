@@ -60,26 +60,26 @@ bool has_node_type(const MapSnapshot& map, NodeType type)
     });
 }
 
-std::unordered_set<NodeId>
-    terminal_nodes_for(const std::string& profile, const FactStore& facts, const MapSnapshot& map)
+std::unordered_set<NodeId> terminal_nodes_for(
+    const ResolvedPolicy& policy,
+    const MissionState& mission,
+    const FactStore& facts,
+    const MapSnapshot& map,
+    int floor)
 {
     std::unordered_set<NodeId> result;
-    const int floor = static_cast<int>(integer_fact(facts, "current_floor"));
-    for (const auto& [id, node] : map.nodes()) {
-        if (profile == "investment" && boolean_fact(facts, "unknown_presage_visited") &&
-            node.type == NodeType::BattleShop) {
-            result.emplace(id);
+    for (const Milestone& milestone : policy.milestones) {
+        if (!milestone.terminal_on_reach || !milestone_is_active(milestone, floor, facts, mission)) {
+            continue;
         }
-        else if (profile == "burn" && floor == 3 && node.type == NodeType::BoskyPassage) {
-            result.emplace(id);
-        }
-        else if (
-            profile == "baby_animal" && floor == 3 && integer_fact(facts, "seeds") > 0 &&
-            node.type == NodeType::ScrapShop) {
-            result.emplace(id);
-        }
-        else if (profile == "ending2" && node.type == NodeType::Fate) {
-            result.emplace(id);
+        for (const auto& [id, node] : map.nodes()) {
+            const bool type_matches =
+                std::ranges::find(milestone.target_node_types, node.type) != milestone.target_node_types.end();
+            const bool name_matches =
+                std::ranges::find(milestone.target_node_names, node.name) != milestone.target_node_names.end();
+            if ((type_matches || name_matches) && node.progress != NodeProgress::Removed) {
+                result.emplace(id);
+            }
         }
     }
     return result;
@@ -87,38 +87,7 @@ std::unordered_set<NodeId>
 
 std::optional<NodeType> node_type_from_report(std::string_view value)
 {
-    if (const auto perception = BlackFlowObservationAdapter::map_node_type(value); perception.has_value()) {
-        return perception;
-    }
-    static const std::unordered_map<std::string_view, NodeType> Mapping = {
-        { "unknown", NodeType::Unknown },
-        { "empty", NodeType::Empty },
-        { "combat", NodeType::Combat },
-        { "emergency_combat", NodeType::EmergencyCombat },
-        { "boss", NodeType::Boss },
-        { "battle_shop", NodeType::BattleShop },
-        { "scrap_shop", NodeType::ScrapShop },
-        { "encounter", NodeType::Encounter },
-        { "mysterious_presage", NodeType::MysteriousPresage },
-        { "ferocious_presage", NodeType::FerociousPresage },
-        { "scout", NodeType::Scout },
-        { "face_off", NodeType::FaceOff },
-        { "emergency_aid", NodeType::EmergencyAid },
-        { "rest", NodeType::Rest },
-        { "feather_point", NodeType::FeatherPoint },
-        { "winding_passage", NodeType::WindingPassage },
-        { "sacrifice", NodeType::Sacrifice },
-        { "wish", NodeType::Wish },
-        { "bosky_passage", NodeType::BoskyPassage },
-        { "resident_stronghold", NodeType::ResidentStronghold },
-        { "final", NodeType::Final },
-        { "fate", NodeType::Fate },
-        { "evacuate", NodeType::Evacuate },
-        { "teleporter", NodeType::Teleporter },
-        { "other", NodeType::Other },
-    };
-    const auto found = Mapping.find(value);
-    return found == Mapping.end() ? std::nullopt : std::optional<NodeType>(found->second);
+    return node_type_from_string(value);
 }
 
 std::string terminal_dispatch_task(const BlackFlowStrategyResult& result)
@@ -181,8 +150,6 @@ bool BlackFlowSession::initialize(std::string profile, std::string* error)
     m_viewport.clear(0, 0);
     m_run = RunState {};
     m_unreachable_actions.clear();
-    m_preferred_probe_node.reset();
-    m_verified_arc.reset();
     m_transaction.reset();
     m_last_plan.reset();
     m_result.reset();
@@ -192,7 +159,6 @@ bool BlackFlowSession::initialize(std::string profile, std::string* error)
     m_transaction_sequence = 0;
     m_artifact_sequence = 0;
     m_observed_current_node = InvalidNodeId;
-    m_pending_event_node = InvalidNodeId;
     m_observation_id.clear();
     m_decision_id.clear();
     m_transaction_id.clear();
@@ -281,7 +247,7 @@ void BlackFlowSession::refresh_mission()
         json::object details {
             { "run_revision", m_run_revision }, { "observation_id", m_observation_id },
             { "floor", m_run.floor },           { "milestone_id", id },
-            { "status", status_name(status) },
+            { "status", status_name(status) },  { "progress", m_mission.progress(id) },
         };
         m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowMilestoneChanged", std::move(details) });
     }
@@ -495,7 +461,7 @@ void BlackFlowSession::queue_decision()
     const int cost = m_transaction->authoritative_cost();
     const int expected_after =
         action_points_after(m_run.resources.action_points, cost, move.predicted_action_point_gain);
-    const int requirement = move.confirmed_action_point_requirement;
+    const int requirement = move.action_point_requirement;
     const int margin = requirement >= UnreachableActionPointRequirement ? -UnreachableActionPointRequirement
                                                                         : m_run.resources.action_points - requirement;
     m_decision_id = "BF-D" + std::to_string(m_run_revision) + "-" + std::to_string(++m_decision_sequence);
@@ -508,10 +474,16 @@ void BlackFlowSession::queue_decision()
             reason_detail = found->description;
         }
     }
-    if (!decision.decisive_milestone_id.empty() && m_policy.has_value()) {
-        const auto found = std::ranges::find(m_policy->milestones, decision.decisive_milestone_id, &Milestone::id);
-        if (found != m_policy->milestones.end()) {
-            reason_detail = found->description;
+    if (!decision.decisive_milestone_ids.empty() && m_policy.has_value()) {
+        for (const std::string& milestone_id : decision.decisive_milestone_ids) {
+            const auto found = std::ranges::find(m_policy->milestones, milestone_id, &Milestone::id);
+            if (found == m_policy->milestones.end()) {
+                continue;
+            }
+            if (!reason_detail.empty()) {
+                reason_detail += "; ";
+            }
+            reason_detail += found->description;
         }
     }
     if (reason_detail.empty()) {
@@ -525,13 +497,23 @@ void BlackFlowSession::queue_decision()
             json::object {
                 { "action_id", runner.action_id },
                 { "target", runner.target },
-                { "node_type", std::string(runner_target == nullptr ? "unknown" : to_string(runner_target->type)) },
+                { "node_type",
+                  std::string(runner_target == nullptr ? "unclassified" : to_string(runner_target->type)) },
                 { "predicted_cost", runner.predicted_action_point_cost },
             });
+    }
+    json::object planned_progress;
+    for (const auto& [milestone, progress] : decision.planned_milestone_progress) {
+        planned_progress[milestone] = progress;
     }
     json::object rejected;
     for (const auto& [category, count] : decision.rejection_counts) {
         rejected[category] = count;
+    }
+    std::vector<json::value> decisive_milestones;
+    decisive_milestones.reserve(decision.decisive_milestone_ids.size());
+    for (const std::string& milestone_id : decision.decisive_milestone_ids) {
+        decisive_milestones.emplace_back(milestone_id);
     }
 
     json::object details {
@@ -545,7 +527,7 @@ void BlackFlowSession::queue_decision()
         { "target", move.target },
         { "landing", move.landing },
         { "node_name", target == nullptr ? std::string() : target->name },
-        { "node_type", std::string(target == nullptr ? "unknown" : to_string(target->type)) },
+        { "node_type", std::string(target == nullptr ? "unclassified" : to_string(target->type)) },
         { "movement", std::string(to_string(move.movement)) },
         { "path_edge_count", move.path.size() },
         { "predicted_cost", move.predicted_action_point_cost },
@@ -558,14 +540,55 @@ void BlackFlowSession::queue_decision()
         { "reason_detail", reason_detail },
         { "decisive_rule_id", decision.decisive_rule_id },
         { "decisive_milestone_id", decision.decisive_milestone_id },
+        { "decisive_milestone_ids", json::array(std::move(decisive_milestones)) },
         { "total_candidates", decision.total_candidates },
         { "eligible_candidates", decision.eligible_candidates },
         { "rejection_counts", std::move(rejected) },
         { "runners_up", json::array(std::move(runners_up)) },
+        { "planned_milestone_progress", std::move(planned_progress) },
         { "uses_inferred_edge", move.uses_inferred_edge },
-        { "passes_unclassified", move.passes_unclassified },
-        { "requires_preview_confirmation", move.requires_preview_confirmation },
     };
+    if (includes_full_routing_details(m_diagnostics.level)) {
+        const auto node_details = [&](NodeId id) {
+            const Node* node = m_map.snapshot().find_node(id);
+            if (node == nullptr) {
+                return json::object { { "id", id } };
+            }
+            return json::object {
+                { "id", id },
+                { "row", node->position.row },
+                { "column", node->position.column },
+                { "node_type", std::string(to_string(node->type)) },
+                { "node_name", node->name },
+            };
+        };
+        std::vector<json::value> planned_route_steps;
+        planned_route_steps.reserve(decision.planned_route_steps.size());
+        for (const PlannedRouteStep& step : decision.planned_route_steps) {
+            std::vector<json::value> path;
+            path.reserve(step.move.path.size());
+            for (const NodeId node : step.move.path) {
+                path.emplace_back(node_details(node));
+            }
+            planned_route_steps.emplace_back(
+                json::object {
+                    { "action_id", step.move.action_id },
+                    { "movement", std::string(to_string(step.move.movement)) },
+                    { "source", node_details(step.move.source) },
+                    { "target", node_details(step.move.target) },
+                    { "landing", node_details(step.move.landing) },
+                    { "path", json::array(std::move(path)) },
+                    { "action_point_requirement", step.move.action_point_requirement },
+                    { "action_points_before", step.action_points_before },
+                    { "action_point_cost", step.action_point_cost },
+                    { "action_point_gain", step.action_point_gain },
+                    { "action_points_after", step.action_points_after },
+                    { "uses_processing_item", step.move.movement != MovementKind::Walk },
+                    { "uses_inferred_edge", step.move.uses_inferred_edge },
+                });
+        }
+        details["planned_route_steps"] = json::array(std::move(planned_route_steps));
+    }
     Log.info(
         "BlackFlow decision",
         m_decision_id,
@@ -606,8 +629,6 @@ bool BlackFlowSession::merge_perception(
     if (new_floor) {
         m_facts.begin_floor();
         m_unreachable_actions.clear();
-        m_preferred_probe_node.reset();
-        m_verified_arc.reset();
         m_transaction.reset();
     }
     else {
@@ -636,8 +657,6 @@ bool BlackFlowSession::merge_perception(
     if (routing_context_changed) {
         m_run.costs.clear_action_cost_overrides();
         m_unreachable_actions.clear();
-        m_preferred_probe_node.reset();
-        m_verified_arc.reset();
         if (m_transaction.has_value()) {
             m_transaction->invalidate();
             m_transaction.reset();
@@ -666,14 +685,14 @@ bool BlackFlowSession::merge_perception(
         if (node.identity_revealed) {
             m_run.revealed_nodes.emplace(node_id);
         }
-        if (node.type == NodeType::FeatherPoint) {
+        if (node.type == NodeType::Light) {
             const auto statically_revealed = m_map.snapshot().nodes_within_manhattan(node_id, 1);
             m_run.revealed_nodes.insert(statically_revealed.begin(), statically_revealed.end());
         }
     }
     if (!apply_observed_facts(observed_facts, error) ||
         !set_fact("map_full_coverage", normalized->map.coverage == ObservationCoverage::FullMap, error) ||
-        !set_fact("bosky_available", has_node_type(m_map.snapshot(), NodeType::BoskyPassage), error)) {
+        !set_fact("portal_available", has_node_type(m_map.snapshot(), NodeType::Portal), error)) {
         return false;
     }
     queue_map_summary(normalized->summary);
@@ -682,8 +701,72 @@ bool BlackFlowSession::merge_perception(
 
 bool BlackFlowSession::update(const BlackFlowPerceptionSnapshot& snapshot, std::string* error)
 {
+    // A normal routing refresh is reached only after the node JSON chain has returned to the map.
+    // The applied movement identifies that completed visit; no separate node-page state is retained.
+    std::optional<Node> entered_node;
+    int entered_floor = 0;
+    if (m_transaction.has_value() && m_transaction->stage() == MoveTransactionStage::Applied) {
+        const MoveCandidate& proposal = m_transaction->proposal();
+        const NodeId entered_id = proposal.controllable ? proposal.target : m_run.current_node;
+        const Node* current = m_map.snapshot().find_node(entered_id);
+        if (entered_id == InvalidNodeId || current == nullptr) {
+            if (error != nullptr) {
+                *error = "applied movement has no node to finalize on map return";
+            }
+            return false;
+        }
+        entered_node = *current;
+        if (const auto& preview = m_transaction->preview(); preview.has_value()) {
+            if (preview->displayed_type != NodeType::Unknown) {
+                entered_node->type = preview->displayed_type;
+            }
+            if (!preview->displayed_name.empty()) {
+                entered_node->name = preview->displayed_name;
+            }
+        }
+        entered_floor = m_run.floor;
+    }
+
     if (!merge_perception(snapshot.observation, snapshot.run, snapshot.observed_facts, false, error)) {
         return false;
+    }
+    if (entered_node.has_value()) {
+        m_run.visited_nodes.emplace(entered_node->id);
+        m_run.node_progress.insert_or_assign(entered_node->id, NodeProgress::Completed);
+        if (entered_node->type == NodeType::Light) {
+            m_run.consumed_one_time_nodes.emplace(entered_node->id);
+        }
+        if (entered_node->type != NodeType::Empty) {
+            m_mission.record_node(
+                m_policy->milestones,
+                entered_floor,
+                m_facts.merged(),
+                entered_node->id,
+                entered_node->type,
+                entered_node->name);
+        }
+
+        if (entered_floor == m_run.floor) {
+            if (const Node* observed = m_map.snapshot().find_node(entered_node->id); observed != nullptr) {
+                Node updated = *observed;
+                if (updated.type != NodeType::Empty &&
+                    (updated.type != entered_node->type || updated.name != entered_node->name)) {
+                    m_mission.record_node(
+                        m_policy->milestones,
+                        m_run.floor,
+                        m_facts.merged(),
+                        updated.id,
+                        updated.type,
+                        updated.name);
+                }
+                updated.progress = NodeProgress::Completed;
+                updated.traversal.blocks_walk = false;
+                updated.traversal.blocks_vision = false;
+                m_map.snapshot().upsert_node(std::move(updated));
+            }
+        }
+        m_transaction.reset();
+        m_transaction_id.clear();
     }
     if (!synchronize_resource_facts(error)) {
         return false;
@@ -713,9 +796,9 @@ bool BlackFlowSession::update(const BlackFlowPerceptionSnapshot& snapshot, std::
         return true;
     }
     if (m_profile == "burn" && m_run.floor == 3 && snapshot.observation.coverage == ObservationCoverage::FullMap &&
-        !has_node_type(m_map.snapshot(), NodeType::BoskyPassage)) {
+        !has_node_type(m_map.snapshot(), NodeType::Portal)) {
         m_result = BlackFlowStrategyResult {
-            m_profile, "burn_completed", "third_floor_has_no_bosky_passage", 0, true,
+            m_profile, "burn_completed", "third_floor_has_no_portal", 0, true,
         };
     }
     if (m_profile == "baby_animal" && m_run.floor == 3 && m_run.resources.seeds > 0 &&
@@ -746,12 +829,9 @@ BlackFlowPlan BlackFlowSession::plan(std::string* error)
         request.policy = &*m_policy;
         request.facts = &merged;
         request.mission = &m_mission;
-        request.strategy_terminal_nodes = terminal_nodes_for(m_profile, merged, m_map.snapshot());
-        request.fate_is_safe_terminal = m_profile == "ending2";
+        request.strategy_terminal_nodes =
+            terminal_nodes_for(*m_policy, m_mission, merged, m_map.snapshot(), m_run.floor);
         request.forbidden_actions = &m_unreachable_actions;
-        request.verified_arc = m_verified_arc.has_value() ? &*m_verified_arc : nullptr;
-        request.preferred_probe_node = m_preferred_probe_node;
-        request.viewport_revision = m_viewport.viewport_revision();
         result = BlackFlowPlanner {}.plan(request);
     }
     if (!result.error.empty() && error != nullptr) {
@@ -782,13 +862,6 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
     const MoveCandidate proposal = m_transaction->proposal();
     if (m_transaction->stage() == MoveTransactionStage::Cancelled) {
         m_unreachable_actions.emplace(proposal.action_id);
-        for (const NodeId node_id : proposal.path) {
-            const Node* node = m_map.snapshot().find_node(node_id);
-            if (node != nullptr && node->identity_state == NodeIdentityState::Unclassified) {
-                m_preferred_probe_node = node_id;
-                break;
-            }
-        }
         queue_warning(
             "target_unreachable",
             "move preview reported that the selected target is currently unreachable",
@@ -818,7 +891,6 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
             existing->identity_revealed != preview.identity_revealed) {
             Node updated = *existing;
             updated.type = preview.displayed_type;
-            updated.event_mask = event_mask_for(preview.displayed_type);
             updated.name = preview.displayed_name;
             updated.identity_revealed = preview.identity_revealed;
             updated.identity_state =
@@ -854,25 +926,6 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
         }
         ++m_run.costs.revision;
         changed = true;
-    }
-
-    if (proposal.requires_preview_confirmation || proposal.probe_only) {
-        m_verified_arc = VerifiedMoveArc {
-            proposal.source,
-            proposal.target,
-            proposal.landing,
-            proposal.movement,
-            preview.exact_action_point_cost,
-            m_map.snapshot().revision,
-            m_run.costs.revision,
-            m_viewport.viewport_revision(),
-        };
-    }
-    if (proposal.probe_only) {
-        m_preferred_probe_node.reset();
-        m_transaction->cancel();
-        m_transaction.reset();
-        return PreviewDisposition::Replan;
     }
     if (changed) {
         m_transaction->invalidate();
@@ -928,18 +981,8 @@ bool BlackFlowSession::apply_post_move(const BlackFlowPostMoveSnapshot& snapshot
         queue_warning("post_move_mismatch", *error, DiagnosticTrigger::PostMoveMismatch);
         return false;
     }
-    if (observation.landed_type == NodeType::Unknown) {
+    if (observation.landed_type == NodeType::Unknown || landed_node->identity_revealed) {
         observation.landed_type = landed_node->type;
-    }
-    else if (landed_node->identity_revealed && observation.landed_type != landed_node->type) {
-        if (error != nullptr) {
-            *error = "post-move node type differs from normalized map";
-        }
-        queue_warning("post_move_mismatch", *error, DiagnosticTrigger::PostMoveMismatch);
-        return false;
-    }
-    if (snapshot.move.target_progress == NodeProgress::Active) {
-        observation.target_progress = landed_node->progress;
     }
     if (!m_transaction->observe(observation, error) || !m_transaction->apply(m_run, error)) {
         queue_warning(
@@ -953,27 +996,16 @@ bool BlackFlowSession::apply_post_move(const BlackFlowPostMoveSnapshot& snapshot
         return false;
     }
 
-    const NodeId entered_node =
-        m_transaction->proposal().target == InvalidNodeId ? observation.current_node : m_transaction->proposal().target;
-    m_pending_event_node = entered_node;
-    if (const Node* current = m_map.snapshot().find_node(entered_node); current != nullptr) {
-        Node updated = *current;
-        if (m_run.visited_nodes.contains(entered_node)) {
-            updated.traversal.blocks_walk = false;
-            updated.traversal.blocks_vision = false;
-        }
-        m_map.snapshot().upsert_node(std::move(updated));
-    }
     for (const auto& [node_id, node] : m_map.snapshot().nodes()) {
         if (node.identity_revealed) {
             m_run.revealed_nodes.emplace(node_id);
         }
-        if (node.type == NodeType::FeatherPoint) {
+        if (node.type == NodeType::Light) {
             const auto statically_revealed = m_map.snapshot().nodes_within_manhattan(node_id, 1);
             m_run.revealed_nodes.insert(statically_revealed.begin(), statically_revealed.end());
         }
     }
-    if (observation.landed_type == NodeType::FeatherPoint) {
+    if (observation.landed_type == NodeType::Light) {
         const auto entered_reveal = m_map.snapshot().nodes_within_manhattan(observation.current_node, 2);
         m_run.revealed_nodes.insert(entered_reveal.begin(), entered_reveal.end());
     }
@@ -984,9 +1016,6 @@ bool BlackFlowSession::apply_post_move(const BlackFlowPostMoveSnapshot& snapshot
         observation.current_node,
         "action_points",
         m_run.resources.action_points);
-    m_transaction.reset();
-    m_verified_arc.reset();
-    m_preferred_probe_node.reset();
     m_unreachable_actions.clear();
     return synchronize_resource_facts(error);
 }
@@ -1046,25 +1075,28 @@ bool BlackFlowSession::queue_node_resolution(const json::value& callback_details
     if (correlation_reported && (reported_decision.empty() || reported_decision != m_decision_id) &&
         (reported_transaction.empty() || reported_transaction != m_transaction_id)) {
         if (error != nullptr) {
-            *error = "BlackFlow node resolution does not match the pending decision or transaction";
+            *error = "BlackFlow node resolution does not match the active decision or transaction";
         }
         return false;
     }
-    if (m_pending_event_node == InvalidNodeId) {
+    if (!m_transaction.has_value() || m_transaction->stage() != MoveTransactionStage::Applied) {
         if (error != nullptr) {
-            *error = "BlackFlow node resolution arrived without a pending entered node";
+            *error = "BlackFlow node resolution arrived without an applied movement transaction";
         }
         return false;
     }
-    const Node* current = m_map.snapshot().find_node(m_pending_event_node);
-    if (current == nullptr) {
+
+    const MoveCandidate& proposal = m_transaction->proposal();
+    const NodeId node_id = proposal.controllable ? proposal.target : m_run.current_node;
+    const Node* current = m_map.snapshot().find_node(node_id);
+    if (node_id == InvalidNodeId || current == nullptr) {
         if (error != nullptr) {
             *error = "BlackFlow node resolution references a node absent from the current map";
         }
         return false;
     }
 
-    Node updated = *current;
+    NodeType resolved_type = current->type;
     if (!type_text.empty()) {
         const auto type = node_type_from_report(type_text);
         if (!type.has_value()) {
@@ -1073,73 +1105,44 @@ bool BlackFlowSession::queue_node_resolution(const json::value& callback_details
             }
             return false;
         }
-        updated.type = *type;
-        updated.event_mask = event_mask_for(*type);
-        updated.identity_state = NodeIdentityState::Classified;
-        updated.identity_revealed = true;
+        resolved_type = *type;
     }
-    if (!event_name.empty()) {
-        updated.name = event_name;
-    }
-    if (!progress.empty()) {
-        if (progress == "active") {
-            updated.progress = NodeProgress::Active;
+    if (!progress.empty() && progress != "active" && progress != "completed" && progress != "removed") {
+        if (error != nullptr) {
+            *error = "BlackFlow node resolution contains an unknown progress value: " + progress;
         }
-        else if (progress == "completed") {
-            updated.progress = NodeProgress::Completed;
-        }
-        else if (progress == "removed") {
-            updated.progress = NodeProgress::Removed;
-        }
-        else {
-            if (error != nullptr) {
-                *error = "BlackFlow node resolution contains an unknown progress value: " + progress;
-            }
-            return false;
-        }
+        return false;
     }
-    const bool repeatable =
-        callback_details.get("details", "blackflow_resolution", "repeatable", updated.traversal.repeatable);
-    updated.traversal.repeatable = repeatable;
-    if (updated.progress == NodeProgress::Completed || becomes_empty || m_run.visited_nodes.contains(updated.id)) {
-        updated.traversal.blocks_walk = false;
-        updated.traversal.blocks_vision = false;
+
+    // Resolution reports semantic identity only. Map appearance and lifecycle are updated by map observation.
+    const std::string resolved_name = event_name.empty() ? current->name : event_name;
+    const bool reported_repeatable =
+        callback_details.get("details", "blackflow_resolution", "repeatable", current->traversal.repeatable);
+    if (resolved_type != NodeType::Empty) {
+        m_mission
+            .record_node(m_policy->milestones, m_run.floor, m_facts.merged(), node_id, resolved_type, resolved_name);
     }
-    if (becomes_empty) {
-        updated.type = NodeType::Empty;
-        updated.event_mask = event_mask_for(NodeType::Empty);
-        updated.progress = NodeProgress::Active;
-        updated.traversal = default_traversal_for(NodeType::Empty);
-        updated.identity_state = NodeIdentityState::Classified;
-        updated.identity_revealed = true;
-        updated.teleport_target.reset();
-    }
-    m_run.node_progress.insert_or_assign(m_pending_event_node, updated.progress);
-    m_run.visited_nodes.emplace(m_pending_event_node);
-    m_map.snapshot().upsert_node(updated);
 
     json::object details {
         { "run_revision", m_run_revision },
         { "observation_id", m_observation_id },
         { "decision_id", m_decision_id },
         { "transaction_id", m_transaction_id },
-        { "node", m_pending_event_node },
+        { "node", node_id },
         { "event_name", event_name },
-        { "node_type", std::string(to_string(updated.type)) },
+        { "node_type", std::string(to_string(resolved_type)) },
         { "progress", progress },
-        { "repeatable", repeatable },
+        { "repeatable", reported_repeatable },
         { "becomes_empty", becomes_empty },
     };
     Log.info(
-        "BlackFlow node resolution",
+        "BlackFlow node resolution reported",
         "node",
-        m_pending_event_node,
+        node_id,
         "event",
         event_name,
         "type",
-        to_string(updated.type),
-        "progress",
-        progress);
+        to_string(resolved_type));
     m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowNodeResolution", std::move(details) });
     return true;
 }
@@ -1186,6 +1189,14 @@ bool BlackFlowSession::apply_event_effect(
     return set_fact(effect.fact, parsed, error);
 }
 
+void BlackFlowSession::discard_applied_transaction() noexcept
+{
+    if (m_transaction.has_value() && m_transaction->stage() == MoveTransactionStage::Applied) {
+        m_transaction.reset();
+        m_transaction_id.clear();
+    }
+}
+
 bool BlackFlowSession::apply_task_event(const json::value& callback_details, std::string* error)
 {
     const std::string task = callback_details.get("details", "task", "");
@@ -1205,7 +1216,6 @@ bool BlackFlowSession::apply_task_event(const json::value& callback_details, std
         }
     }
     refresh_mission();
-    m_pending_event_node = InvalidNodeId;
     if (event->terminate) {
         const int cultivated = static_cast<int>(integer_fact(m_facts.merged(), "cultivated_animals"));
         m_result = BlackFlowStrategyResult {
@@ -1399,7 +1409,10 @@ bool BlackFlowTaskPlugin::_run()
         Task.set_task_base(
             "BlackFlow@Roguelike@RecoverMap",
             recovered ? "BlackFlow@Roguelike@RoutingAction" : "BlackFlow@Roguelike@RecoveryFailed");
-        if (!recovered) {
+        if (recovered) {
+            m_session->discard_applied_transaction();
+        }
+        else {
             m_session->fail("page_recovery_failed", error.empty() ? "map recovery port is unavailable" : error);
             report_result();
         }

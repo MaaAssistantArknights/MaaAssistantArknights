@@ -57,6 +57,7 @@ struct BlackFlowTelemetryEvent
 };
 
 [[nodiscard]] std::optional<DiagnosticLevel> parse_diagnostic_level(std::string_view value) noexcept;
+[[nodiscard]] bool includes_full_routing_details(DiagnosticLevel level) noexcept;
 [[nodiscard]] std::string_view to_string(DiagnosticLevel level) noexcept;
 [[nodiscard]] std::string_view to_string(DiagnosticTrigger trigger) noexcept;
 } // namespace asst::blackflow

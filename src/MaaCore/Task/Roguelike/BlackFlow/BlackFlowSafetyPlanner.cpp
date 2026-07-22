@@ -179,45 +179,25 @@ SafetySolveResult SafetyPlanner::solve(const SafetyProblem& problem) const
     return { std::nullopt, "safety requirement iteration did not converge" };
 }
 
-std::optional<SafetyBounds> SafetyPlanner::solve_bounds(
-    const SafetyProblem& relaxed_problem,
-    const SafetyProblem& confirmed_problem,
-    SafetyStateId relaxed_initial,
-    SafetyStateId confirmed_initial,
-    std::string* error) const
+std::optional<SafetyAssessment>
+    SafetyPlanner::assess(const SafetyProblem& problem, SafetyStateId initial, std::string* error) const
 {
-    auto relaxed = solve(relaxed_problem);
-    if (!relaxed) {
+    auto solved = solve(problem);
+    if (!solved) {
         if (error != nullptr) {
-            *error = "relaxed safety problem: " + relaxed.error;
-        }
-        return std::nullopt;
-    }
-    auto confirmed = solve(confirmed_problem);
-    if (!confirmed) {
-        if (error != nullptr) {
-            *error = "confirmed safety problem: " + confirmed.error;
+            *error = solved.error;
         }
         return std::nullopt;
     }
 
-    SafetyBounds bounds;
-    bounds.optimistic_lower_bound = relaxed.solution->requirement(relaxed_initial);
-    bounds.confirmed_upper_bound = confirmed.solution->requirement(confirmed_initial);
-    if (bounds.optimistic_lower_bound > bounds.confirmed_upper_bound &&
-        bounds.confirmed_upper_bound < UnreachableActionPointRequirement) {
-        if (error != nullptr) {
-            *error = "optimistic action-point lower bound exceeds confirmed upper bound";
-        }
-        return std::nullopt;
+    SafetyAssessment assessment;
+    assessment.required_action_points = solved.solution->requirement(initial);
+    if (const std::string* first = solved.solution->action(initial); first != nullptr) {
+        assessment.first_action = *first;
     }
-    if (const std::string* first = confirmed.solution->action(confirmed_initial); first != nullptr) {
-        bounds.confirmed_first_action = *first;
-    }
-    bounds.confirmed_proof_depth = confirmed.solution->depth(confirmed_initial);
-    bounds.relaxed_solution = std::move(*relaxed.solution);
-    bounds.confirmed_solution = std::move(*confirmed.solution);
-    return bounds;
+    assessment.proof_depth = solved.solution->depth(initial);
+    assessment.solution = std::move(*solved.solution);
+    return assessment;
 }
 } // namespace asst::blackflow
 

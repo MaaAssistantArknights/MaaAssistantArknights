@@ -44,31 +44,7 @@ bool identity_revealed_for(std::string_view type) noexcept
 
 std::optional<NodeType> BlackFlowObservationAdapter::map_node_type(std::string_view type) noexcept
 {
-    static const std::unordered_map<std::string_view, NodeType> Mapping = {
-        { "battle_normal", NodeType::Combat },
-        { "battle_elite", NodeType::EmergencyCombat },
-        { "battle_savage", NodeType::FaceOff },
-        { "incident", NodeType::Encounter },
-        { "shop", NodeType::BattleShop },
-        { "scrap_shop", NodeType::ScrapShop },
-        { "expedition", NodeType::Scout },
-        { "employ", NodeType::EmergencyAid },
-        { "rest", NodeType::Rest },
-        { "door", NodeType::WindingPassage },
-        { "portal", NodeType::BoskyPassage },
-        { "light", NodeType::FeatherPoint },
-        { "sacrifice", NodeType::Sacrifice },
-        { "wish", NodeType::Wish },
-        { "hide_battle", NodeType::FerociousPresage },
-        { "hide_invisible", NodeType::MysteriousPresage },
-        { "battle_boss", NodeType::Boss },
-        { "final", NodeType::Final },
-        { "evacuate", NodeType::Evacuate },
-        { "empty", NodeType::Empty },
-        { "unclassified", NodeType::Unknown },
-    };
-    const auto found = Mapping.find(type);
-    return found == Mapping.end() ? std::nullopt : std::optional<NodeType>(found->second);
+    return node_type_from_string(type);
 }
 
 std::vector<GridPosition> BlackFlowObservationAdapter::expected_grid_positions(int floor)
@@ -145,14 +121,13 @@ std::optional<NormalizedPerceptionObservation>
         ObservedNode node;
         node.position = source_node.position;
         node.type = *type;
-        node.event_mask = event_mask_for(*type);
         node.name = source_node.displayed_name;
 
         node.identity_state = identity_state_for(source_node.type);
         node.identity_revealed = identity_revealed_for(source_node.type);
         node.badged = source_node.badged;
         if (source_node.transfer_target.has_value()) {
-            node.teleport_target = source_node.transfer_target;
+            node.transfer_target = source_node.transfer_target;
         }
         result.map.nodes.emplace_back(std::move(node));
 

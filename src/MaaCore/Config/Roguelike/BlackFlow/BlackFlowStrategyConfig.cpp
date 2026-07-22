@@ -334,22 +334,49 @@ Milestone parse_milestone(const json::value& value)
           "kind",
           "floor_window",
           "rank",
+          "count",
+          "weight",
+          "terminal_on_reach",
           "active_if",
           "complete_if",
           "target",
+          "target_node_types",
+          "target_node_names",
           "reserves",
           "requires",
           "successors" },
-        { "id", "kind", "target" },
+        { "id", "kind" },
         "milestone");
     Milestone result;
     result.id = value.at("id").as_string();
     result.description = value.get("description", std::string());
     result.kind = parse_milestone_kind(value.at("kind").as_string());
     result.rank = value.get("rank", 0);
+    result.required_count = value.get("count", 1);
+    result.weight = value.get("weight", 1);
+    result.terminal_on_reach = value.get("terminal_on_reach", false);
     result.active_if = optional_condition(value, "active_if", true);
     result.complete_if = optional_condition(value, "complete_if", false);
-    result.target = parse_condition(value.at("target"));
+    result.target = optional_condition(value, "target", false);
+    for (const std::string& type_name : parse_string_array(value, "target_node_types")) {
+        const auto type = node_type_from_string(type_name);
+        if (!type.has_value() || *type == NodeType::Unknown) {
+            invalid_config("milestone references an unsupported node type: " + type_name);
+        }
+        result.target_node_types.emplace_back(*type);
+    }
+    std::ranges::sort(result.target_node_types, {}, [](NodeType type) { return static_cast<int>(type); });
+    if (std::ranges::adjacent_find(result.target_node_types) != result.target_node_types.end()) {
+        invalid_config("milestone target_node_types contains duplicates");
+    }
+    result.target_node_names = parse_string_array(value, "target_node_names");
+    if (std::ranges::any_of(result.target_node_names, [](const std::string& name) { return name.empty(); })) {
+        invalid_config("milestone target_node_names must not contain empty names");
+    }
+    std::ranges::sort(result.target_node_names);
+    if (std::ranges::adjacent_find(result.target_node_names) != result.target_node_names.end()) {
+        invalid_config("milestone target_node_names contains duplicates");
+    }
     result.reserve_ids = parse_string_array(value, "reserves");
     result.prerequisites = parse_string_array(value, "requires");
     result.successors = parse_string_array(value, "successors");
@@ -360,8 +387,10 @@ Milestone parse_milestone(const json::value& value)
         result.floor_begin = window->at(0).as_integer();
         result.floor_end = window->at(1).as_integer();
     }
-    if (result.id.empty() || result.floor_begin < 1 || result.floor_end < result.floor_begin) {
-        invalid_config("milestone id or floor window is invalid");
+    if (result.id.empty() || result.floor_begin < 1 || result.floor_end < result.floor_begin ||
+        result.required_count < 1 || result.weight < 1 ||
+        (result.target_node_types.empty() && result.target_node_names.empty() && !value.find("target"))) {
+        invalid_config("milestone id, floor window, count, or target is invalid");
     }
     return result;
 }
@@ -819,7 +848,7 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
         { "schema_version", "resources", "facts", "modules", "profiles", "task_events" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
-    if (schema_version != 2) {
+    if (schema_version != 3) {
         invalid_config("unsupported schema_version: " + std::to_string(schema_version));
     }
     for (const auto key : { "resources", "facts", "modules", "profiles", "task_events" }) {

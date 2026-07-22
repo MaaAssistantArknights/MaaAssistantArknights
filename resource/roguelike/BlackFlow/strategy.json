@@ -1,5 +1,5 @@
 {
-    "schema_version": 2,
+    "schema_version": 3,
     "resources": [
         {
             "id": "action_points",
@@ -99,11 +99,7 @@
             "type": "bool",
             "scope": "run"
         },
-        {
-            "name": "unknown_presage_visited",
-            "type": "bool",
-            "scope": "run"
-        },
+
         {
             "name": "investment_completed",
             "type": "bool",
@@ -245,7 +241,7 @@
             "scope": "candidate"
         },
         {
-            "name": "candidate.feather_reveal_count",
+            "name": "candidate.light_reveal_count",
             "type": "int",
             "scope": "candidate"
         },
@@ -266,7 +262,7 @@
             "description": "当前观察批次是否覆盖完整地图"
         },
         {
-            "name": "bosky_available",
+            "name": "portal_available",
             "type": "bool",
             "scope": "page",
             "description": "当前地图是否确认存在误入奇境"
@@ -287,12 +283,12 @@
             "scope": "candidate"
         },
         {
-            "name": "candidate.route_has_badged_encounter",
+            "name": "candidate.route_has_badged_incident",
             "type": "bool",
             "scope": "candidate"
         },
         {
-            "name": "candidate.guaranteed_route_has_badged_encounter",
+            "name": "candidate.guaranteed_route_has_badged_incident",
             "type": "bool",
             "scope": "candidate"
         }
@@ -333,12 +329,12 @@
                     }
                 },
                 {
-                    "id": "feather_reveals_two",
+                    "id": "light_reveals_two",
                     "kind": "prefer",
                     "tier": "development",
                     "rank": 20,
                     "target": {
-                        "fact": "candidate.feather_reveal_count",
+                        "fact": "candidate.light_reveal_count",
                         "op": "ge",
                         "value": 2
                     }
@@ -418,36 +414,6 @@
             "id": "ending1_progression",
             "rules": [
                 {
-                    "id": "delay_exit_while_development_remains",
-                    "kind": "forbid",
-                    "tier": "mandatory_milestone",
-                    "rank": 10,
-                    "when": {
-                        "all": [
-                            {
-                                "fact": "floor_development_exhausted",
-                                "op": "eq",
-                                "value": false
-                            },
-                            {
-                                "fact": "safety_margin_low",
-                                "op": "eq",
-                                "value": false
-                            },
-                            {
-                                "fact": "force_exit",
-                                "op": "eq",
-                                "value": false
-                            }
-                        ]
-                    },
-                    "target": {
-                        "fact": "candidate.exit",
-                        "op": "eq",
-                        "value": true
-                    }
-                },
-                {
                     "id": "exit_when_required",
                     "kind": "require",
                     "tier": "mandatory_milestone",
@@ -478,118 +444,6 @@
                     }
                 },
                 {
-                    "id": "ending1_floor1_combat",
-                    "kind": "prefer",
-                    "tier": "development",
-                    "rank": 0,
-                    "when": {
-                        "fact": "current_floor",
-                        "op": "eq",
-                        "value": 1
-                    },
-                    "target": {
-                        "fact": "candidate.route_node_types",
-                        "op": "contains",
-                        "value": "combat"
-                    }
-                },
-                {
-                    "id": "ending1_floor2_presage",
-                    "kind": "prefer",
-                    "tier": "development",
-                    "rank": 0,
-                    "when": {
-                        "fact": "current_floor",
-                        "op": "eq",
-                        "value": 2
-                    },
-                    "target": {
-                        "fact": "candidate.route_node_types",
-                        "op": "contains",
-                        "value": "mysterious_presage"
-                    }
-                },
-                {
-                    "id": "ending1_floor2_scout",
-                    "kind": "prefer",
-                    "tier": "development",
-                    "rank": 1,
-                    "when": {
-                        "fact": "current_floor",
-                        "op": "eq",
-                        "value": 2
-                    },
-                    "target": {
-                        "fact": "candidate.route_node_types",
-                        "op": "contains",
-                        "value": "scout"
-                    }
-                },
-                {
-                    "id": "ending1_late_faceoff",
-                    "kind": "prefer",
-                    "tier": "development",
-                    "rank": 0,
-                    "when": {
-                        "fact": "current_floor",
-                        "op": "ge",
-                        "value": 3
-                    },
-                    "target": {
-                        "fact": "candidate.route_node_types",
-                        "op": "contains",
-                        "value": "face_off"
-                    }
-                },
-                {
-                    "id": "ending1_late_scout",
-                    "kind": "prefer",
-                    "tier": "development",
-                    "rank": 1,
-                    "when": {
-                        "fact": "current_floor",
-                        "op": "ge",
-                        "value": 3
-                    },
-                    "target": {
-                        "fact": "candidate.route_node_types",
-                        "op": "contains",
-                        "value": "scout"
-                    }
-                },
-                {
-                    "id": "ending1_late_scrap_shop",
-                    "kind": "prefer",
-                    "tier": "development",
-                    "rank": 2,
-                    "when": {
-                        "fact": "current_floor",
-                        "op": "ge",
-                        "value": 3
-                    },
-                    "target": {
-                        "fact": "candidate.route_node_types",
-                        "op": "contains",
-                        "value": "scrap_shop"
-                    }
-                },
-                {
-                    "id": "ending1_late_emergency_aid",
-                    "kind": "prefer",
-                    "tier": "development",
-                    "rank": 3,
-                    "when": {
-                        "fact": "current_floor",
-                        "op": "ge",
-                        "value": 3
-                    },
-                    "target": {
-                        "fact": "candidate.route_node_types",
-                        "op": "contains",
-                        "value": "emergency_aid"
-                    }
-                },
-                {
                     "id": "ending1_avoid_late_combat",
                     "kind": "prefer",
                     "tier": "risk",
@@ -614,6 +468,148 @@
                         "value": false
                     }
                 }
+            ],
+            "milestones": [
+                {
+                    "id": "ending1_floor1_battles",
+                    "description": "第一层尽量经过作战节点",
+                    "kind": "preferred",
+                    "floor_window": [1, 1],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "target_node_types": ["battle_normal", "battle_elite"]
+                },
+                {
+                    "id": "ending1_floor2_expedition",
+                    "description": "第二层优先经过先行一步",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 1,
+                    "weight": 4,
+                    "target_node_types": ["expedition"]
+                },
+                {
+                    "id": "ending1_floor2_scrap_shop",
+                    "description": "第二层优先经过秘境行商",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 1,
+                    "weight": 4,
+                    "target_node_types": ["scrap_shop"]
+                },
+                {
+                    "id": "ending1_floor2_hidden",
+                    "description": "第二层在核心节点之外尽量探索未知事件",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "target_node_types": ["hide_invisible"]
+                },
+                {
+                    "id": "ending1_floor2_employ",
+                    "description": "第二层顺路经过应急助力",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "target_node_types": ["employ"]
+                },
+                {
+                    "id": "ending1_floor2_light",
+                    "description": "第二层顺路经过羽瞰点",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "target_node_types": ["light"]
+                },
+                {
+                    "id": "ending1_floor2_wish",
+                    "description": "第二层顺路经过得偿所愿",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "target_node_types": ["wish"]
+                },
+                {
+                    "id": "ending1_late_battle_savage",
+                    "description": "第三至第五层优先经过狭路相逢",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 4,
+                    "target_node_types": ["battle_savage"]
+                },
+                {
+                    "id": "ending1_late_expedition",
+                    "description": "第三至第五层优先经过先行一步",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 4,
+                    "target_node_types": ["expedition"]
+                },
+                {
+                    "id": "ending1_late_scrap_shop",
+                    "description": "第三至第五层优先经过秘境行商",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 4,
+                    "target_node_types": ["scrap_shop"]
+                },
+                {
+                    "id": "ending1_late_employ",
+                    "description": "第三至第五层优先经过应急助力",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "target_node_types": ["employ"]
+                },
+                {
+                    "id": "ending1_late_hidden",
+                    "description": "第三至第五层在核心节点之外探索未知事件",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 1,
+                    "target_node_types": ["hide_invisible"]
+                },
+                {
+                    "id": "ending1_late_light",
+                    "description": "第三至第五层顺路经过羽瞰点",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "target_node_types": ["light"]
+                },
+                {
+                    "id": "ending1_late_wish",
+                    "description": "第三至第五层顺路经过得偿所愿",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "target_node_types": ["wish"]
+                }
             ]
         },
         {
@@ -621,38 +617,20 @@
             "rules": [],
             "milestones": [
                 {
-                    "id": "investment_unknown_once",
+                    "id": "investment_shop",
+                    "description": "以最少战斗和最短时间抵达第一层固定普通商店",
                     "kind": "mandatory",
                     "floor_window": [1, 1],
                     "rank": 0,
-                    "complete_if": {
-                        "fact": "unknown_presage_visited",
-                        "op": "eq",
-                        "value": true
-                    },
-                    "target": {
-                        "fact": "candidate.guaranteed_route_node_types",
-                        "op": "contains",
-                        "value": "mysterious_presage"
-                    },
-                    "successors": ["investment_shop"]
-                },
-                {
-                    "id": "investment_shop",
-                    "kind": "mandatory",
-                    "floor_window": [1, 1],
-                    "rank": 1,
-                    "requires": ["investment_unknown_once"],
+                    "count": 1,
+                    "weight": 1,
+                    "terminal_on_reach": true,
                     "complete_if": {
                         "fact": "investment_completed",
                         "op": "eq",
                         "value": true
                     },
-                    "target": {
-                        "fact": "candidate.guaranteed_route_node_types",
-                        "op": "contains",
-                        "value": "battle_shop"
-                    }
+                    "target_node_types": ["shop"]
                 }
             ]
         },
@@ -672,9 +650,10 @@
                     "target": {
                         "fact": "candidate.guaranteed_route_node_types",
                         "op": "contains",
-                        "value": "battle_shop"
+                        "value": "shop"
                     },
-                    "successors": ["burn_floor1_final"]
+                    "successors": ["burn_floor1_final"],
+                    "target_node_types": ["shop"]
                 },
                 {
                     "id": "burn_floor1_final",
@@ -692,7 +671,8 @@
                         "op": "contains",
                         "value": "final"
                     },
-                    "successors": ["burn_floor2_final"]
+                    "successors": ["burn_floor2_final"],
+                    "target_node_types": ["final"]
                 },
                 {
                     "id": "burn_floor2_final",
@@ -710,10 +690,11 @@
                         "op": "contains",
                         "value": "final"
                     },
-                    "successors": ["burn_floor3_bosky"]
+                    "successors": ["burn_floor3_portal"],
+                    "target_node_types": ["final"]
                 },
                 {
-                    "id": "burn_floor3_bosky",
+                    "id": "burn_floor3_portal",
                     "kind": "mandatory",
                     "floor_window": [3, 3],
                     "rank": 0,
@@ -726,7 +707,7 @@
                     "target": {
                         "fact": "candidate.guaranteed_route_node_types",
                         "op": "contains",
-                        "value": "bosky_passage"
+                        "value": "portal"
                     },
                     "active_if": {
                         "all": [
@@ -736,12 +717,14 @@
                                 "value": true
                             },
                             {
-                                "fact": "bosky_available",
+                                "fact": "portal_available",
                                 "op": "eq",
                                 "value": true
                             }
                         ]
-                    }
+                    },
+                    "target_node_types": ["portal"],
+                    "terminal_on_reach": true
                 }
             ]
         },
@@ -775,7 +758,7 @@
                     "target": {
                         "fact": "candidate.route_node_types",
                         "op": "contains",
-                        "value": "battle_shop"
+                        "value": "shop"
                     }
                 },
                 {
@@ -791,7 +774,7 @@
                     "target": {
                         "fact": "candidate.node_type",
                         "op": "eq",
-                        "value": "battle_shop"
+                        "value": "shop"
                     }
                 },
                 {
@@ -955,7 +938,7 @@
                     "target": {
                         "fact": "candidate.route_node_types",
                         "op": "contains",
-                        "value": "battle_shop"
+                        "value": "shop"
                     }
                 }
             ],
@@ -1022,8 +1005,9 @@
                     "target": {
                         "fact": "candidate.guaranteed_route_node_types",
                         "op": "contains",
-                        "value": "battle_shop"
-                    }
+                        "value": "shop"
+                    },
+                    "target_node_types": ["shop"]
                 },
                 {
                     "id": "baby_cultivate_floor3",
@@ -1068,7 +1052,9 @@
                         "op": "contains",
                         "value": "scrap_shop"
                     },
-                    "reserves": ["baby_keep_floor3_movement"]
+                    "reserves": ["baby_keep_floor3_movement"],
+                    "target_node_types": ["scrap_shop"],
+                    "terminal_on_reach": true
                 }
             ]
         },
@@ -1086,7 +1072,7 @@
                         "value": true
                     },
                     "target": {
-                        "fact": "candidate.guaranteed_route_has_badged_encounter",
+                        "fact": "candidate.guaranteed_route_has_badged_incident",
                         "op": "eq",
                         "value": true
                     }
@@ -1104,8 +1090,9 @@
                     "target": {
                         "fact": "candidate.route_node_types",
                         "op": "contains",
-                        "value": "battle_shop"
-                    }
+                        "value": "shop"
+                    },
+                    "target_node_types": ["shop"]
                 },
                 {
                     "id": "ending2_fate",
@@ -1159,10 +1146,12 @@
                         "value": true
                     },
                     "target": {
-                        "fact": "candidate.guaranteed_route_node_types",
-                        "op": "contains",
-                        "value": "fate"
-                    }
+                        "fact": "candidate.node_name",
+                        "op": "eq",
+                        "value": "命运所指"
+                    },
+                    "target_node_names": ["命运所指"],
+                    "terminal_on_reach": true
                 }
             ]
         },
@@ -1182,8 +1171,9 @@
                     "target": {
                         "fact": "candidate.guaranteed_route_node_types",
                         "op": "contains",
-                        "value": "scout"
-                    }
+                        "value": "expedition"
+                    },
+                    "target_node_types": ["expedition"]
                 },
                 {
                     "id": "ending3_relics",
@@ -1215,9 +1205,10 @@
                     "target": {
                         "fact": "candidate.guaranteed_route_node_types",
                         "op": "contains",
-                        "value": "boss"
+                        "value": "battle_boss"
                     },
-                    "successors": ["ending3_floor6"]
+                    "successors": ["ending3_floor6"],
+                    "target_node_types": ["battle_boss"]
                 },
                 {
                     "id": "ending3_floor6",
@@ -1234,7 +1225,8 @@
                         "fact": "candidate.guaranteed_route_node_types",
                         "op": "contains",
                         "value": "final"
-                    }
+                    },
+                    "target_node_types": ["final"]
                 }
             ]
         }
@@ -1256,7 +1248,7 @@
         },
         {
             "id": "investment",
-            "description": "第一层一次未知诡秘后以战斗次数优先、时间次优抵达固定商店",
+            "description": "第一层以战斗次数最少、预计时间最短的完整路线抵达固定普通商店",
             "modules": ["common_navigation", "investment_route"],
             "failure_action": "stop_run",
             "page_routes": [
@@ -1479,17 +1471,7 @@
             "terminate": true,
             "termination_reason": "node_page_could_not_return_to_map"
         },
-        {
-            "task": "BlackFlow@Roguelike@Event-InvestmentUnknownVisited",
-            "on": "SubTaskCompleted",
-            "effects": [
-                {
-                    "kind": "set",
-                    "fact": "unknown_presage_visited",
-                    "value": true
-                }
-            ]
-        },
+
         {
             "task": "BlackFlow@Roguelike@Event-BurnShopDone",
             "on": "SubTaskCompleted",

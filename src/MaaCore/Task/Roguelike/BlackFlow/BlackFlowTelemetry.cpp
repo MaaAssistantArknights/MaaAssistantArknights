@@ -27,6 +27,11 @@ std::optional<DiagnosticLevel> parse_diagnostic_level(std::string_view value) no
     return std::nullopt;
 }
 
+bool includes_full_routing_details(DiagnosticLevel level) noexcept
+{
+    return level == DiagnosticLevel::Full;
+}
+
 std::string_view to_string(DiagnosticLevel level) noexcept
 {
     switch (level) {

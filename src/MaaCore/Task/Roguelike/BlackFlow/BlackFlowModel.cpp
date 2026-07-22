@@ -13,41 +13,24 @@ namespace asst::blackflow
 {
 namespace
 {
-constexpr EventMask mask_bit(unsigned bit) noexcept
-{
-    return EventMask { 1U } << bit;
-}
+const std::vector<NodeType> AllTargetTypes = {
+    NodeType::Unknown,    NodeType::BattleElite, NodeType::BattleNormal, NodeType::BattleSavage,  NodeType::Door,
+    NodeType::Employ,     NodeType::Expedition,  NodeType::HideBattle,   NodeType::HideInvisible, NodeType::Incident,
+    NodeType::Light,      NodeType::Portal,      NodeType::Rest,         NodeType::Sacrifice,     NodeType::ScrapShop,
+    NodeType::Shop,       NodeType::Wish,        NodeType::Empty,        NodeType::Evacuate,      NodeType::Final,
+    NodeType::BattleBoss,
+};
 
-constexpr EventMask UnknownMask = mask_bit(0);
-constexpr EventMask EmptyMask = mask_bit(1);
-constexpr EventMask CombatMask = mask_bit(2);
-constexpr EventMask EmergencyCombatMask = mask_bit(3);
-constexpr EventMask BossMask = mask_bit(4);
-constexpr EventMask BattleShopMask = mask_bit(5);
-constexpr EventMask ScrapShopMask = mask_bit(6);
-constexpr EventMask EncounterMask = mask_bit(7);
-constexpr EventMask MysteriousPresageMask = mask_bit(8);
-constexpr EventMask FerociousPresageMask = mask_bit(9);
-constexpr EventMask ScoutMask = mask_bit(10);
-constexpr EventMask FaceOffMask = mask_bit(11);
-constexpr EventMask EmergencyAidMask = mask_bit(12);
-constexpr EventMask RestMask = mask_bit(13);
-constexpr EventMask FeatherPointMask = mask_bit(14);
-constexpr EventMask WindingPassageMask = mask_bit(15);
-constexpr EventMask SacrificeMask = mask_bit(16);
-constexpr EventMask WishMask = mask_bit(17);
-constexpr EventMask BoskyPassageMask = mask_bit(18);
-constexpr EventMask ResidentStrongholdMask = mask_bit(19);
-constexpr EventMask FinalMask = mask_bit(20);
-constexpr EventMask FateMask = mask_bit(21);
-constexpr EventMask EvacuateMask = mask_bit(22);
-constexpr EventMask TeleporterMask = mask_bit(23);
-constexpr EventMask OtherMask = mask_bit(24);
-constexpr EventMask AllMask = mask_bit(25) - 1U;
-constexpr EventMask EventAndEmptyMask = EmptyMask | EncounterMask | MysteriousPresageMask | FerociousPresageMask |
-                                        ScoutMask | FaceOffMask | EmergencyAidMask | RestMask | FeatherPointMask |
-                                        WindingPassageMask | SacrificeMask | WishMask | BoskyPassageMask |
-                                        ResidentStrongholdMask | EvacuateMask | TeleporterMask | OtherMask;
+const std::vector<NodeType> NonCombatTargetTypes = {
+    NodeType::Door,  NodeType::Employ, NodeType::Expedition, NodeType::HideInvisible, NodeType::Incident,
+    NodeType::Light, NodeType::Portal, NodeType::Rest,       NodeType::Sacrifice,     NodeType::ScrapShop,
+    NodeType::Shop,  NodeType::Wish,   NodeType::Empty,      NodeType::Evacuate,      NodeType::Final,
+};
+
+const std::vector<NodeType> ShopTargetTypes = {
+    NodeType::ScrapShop,
+    NodeType::Shop,
+};
 
 bool same_edge(const Edge& lhs, const Edge& rhs) noexcept
 {
@@ -68,6 +51,15 @@ NodeProgress effective_progress(const Node& node, const RunState& state) noexcep
     return found == state.node_progress.end() ? node.progress : found->second;
 }
 
+NodeType effective_node_type(const Node& node, const RunState& state) noexcept
+{
+    if (effective_progress(node, state) == NodeProgress::Completed && !node.traversal.repeatable &&
+        node.type != NodeType::Empty) {
+        return NodeType::Empty;
+    }
+    return node.type;
+}
+
 bool is_targetable(const Node& node, const RunState& state) noexcept
 {
     const NodeProgress progress = effective_progress(node, state);
@@ -85,12 +77,7 @@ bool is_walk_transparent(const Node& node, const RunState& state) noexcept
 
 int predicted_node_gain(const Node& node, const RunState& state) noexcept
 {
-    return node.type == NodeType::FeatherPoint && !state.consumed_one_time_nodes.contains(node.id) ? 1 : 0;
-}
-
-bool is_combat_type(NodeType type) noexcept
-{
-    return type == NodeType::Combat || type == NodeType::EmergencyCombat || type == NodeType::Boss;
+    return node.type == NodeType::Light && !state.consumed_one_time_nodes.contains(node.id) ? 1 : 0;
 }
 
 std::uint32_t encode_grid_component(int value, bool* ok) noexcept
@@ -149,8 +136,8 @@ bool MapSnapshot::remove_node(NodeId id)
     std::erase_if(m_edges, [id](const Edge& edge) { return edge.first == id || edge.second == id; });
     for (auto& [other_id, node] : m_nodes) {
         (void)other_id;
-        if (node.teleport_target == id) {
-            node.teleport_target.reset();
+        if (node.transfer_target == id) {
+            node.transfer_target.reset();
         }
     }
     ++revision;
@@ -272,15 +259,15 @@ std::unordered_set<NodeId> MapSnapshot::nodes_within_manhattan(NodeId origin, in
     return result;
 }
 
-bool MapSnapshot::has_confirmed_teleport_pair(NodeId id) const noexcept
+bool MapSnapshot::has_valid_transfer_pair(NodeId id) const noexcept
 {
     const Node* first = find_node(id);
-    if (first == nullptr || !is_transfer_node(first->type) || !first->teleport_target.has_value() ||
-        *first->teleport_target == id) {
+    if (first == nullptr || !is_transfer_node(first->type) || !first->transfer_target.has_value() ||
+        *first->transfer_target == id) {
         return false;
     }
-    const Node* second = find_node(*first->teleport_target);
-    return second != nullptr && is_transfer_node(second->type) && second->teleport_target == id;
+    const Node* second = find_node(*first->transfer_target);
+    return second != nullptr && is_transfer_node(second->type) && second->transfer_target == id;
 }
 
 bool MapSnapshot::validate(std::string* error) const
@@ -300,9 +287,9 @@ bool MapSnapshot::validate(std::string* error) const
             }
             return false;
         }
-        if (node.teleport_target == id) {
+        if (node.transfer_target == id) {
             if (error != nullptr) {
-                *error = "teleporter pairing must be non-self";
+                *error = "transfer pairing must be non-self";
             }
             return false;
         }
@@ -361,16 +348,10 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
         if (observed.type.has_value()) {
             const bool newly_classified = node.type == NodeType::Unknown && *observed.type != NodeType::Unknown;
             node.type = *observed.type;
-            if (!observed.event_mask.has_value()) {
-                node.event_mask = event_mask_for(node.type);
-            }
             if (!observed.traversal.has_value() &&
                 (current == nullptr || newly_classified || current->type != *observed.type)) {
                 node.traversal = default_traversal_for(node.type);
             }
-        }
-        if (observed.event_mask.has_value()) {
-            node.event_mask = *observed.event_mask;
         }
         if (observed.name.has_value()) {
             node.name = *observed.name;
@@ -390,10 +371,10 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
         if (observed.badged.has_value()) {
             node.badged = *observed.badged;
         }
-        if (observed.teleport_target.has_value()) {
-            if (observed.teleport_target->has_value()) {
-                node.teleport_target = make_stable_node_id(batch.floor, **observed.teleport_target);
-                if (!node.teleport_target.has_value()) {
+        if (observed.transfer_target.has_value()) {
+            if (observed.transfer_target->has_value()) {
+                node.transfer_target = make_stable_node_id(batch.floor, **observed.transfer_target);
+                if (!node.transfer_target.has_value()) {
                     if (error != nullptr) {
                         *error = "observation contains an invalid transfer target";
                     }
@@ -401,7 +382,7 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
                 }
             }
             else {
-                node.teleport_target.reset();
+                node.transfer_target.reset();
             }
         }
         if (!working.m_snapshot.upsert_node(std::move(node))) {
@@ -440,14 +421,13 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
         }
         Node empty = *current;
         empty.type = NodeType::Empty;
-        empty.event_mask = event_mask_for(NodeType::Empty);
         empty.name.clear();
         empty.progress = NodeProgress::Active;
         empty.traversal = default_traversal_for(NodeType::Empty);
         empty.identity_state = NodeIdentityState::Classified;
         empty.identity_revealed = true;
         empty.badged = false;
-        empty.teleport_target.reset();
+        empty.transfer_target.reset();
         working.m_snapshot.upsert_node(std::move(empty));
     }
 
@@ -545,10 +525,9 @@ NodeTraversal default_traversal_for(NodeType type) noexcept
     switch (type) {
     case NodeType::Empty:
         return { false, false, false, false };
-    case NodeType::WindingPassage:
-    case NodeType::Teleporter:
+    case NodeType::Door:
         return { false, false, true, true };
-    case NodeType::BattleShop:
+    case NodeType::Shop:
     case NodeType::ScrapShop:
         return { true, true, true, true };
     default:
@@ -558,90 +537,58 @@ NodeTraversal default_traversal_for(NodeType type) noexcept
 
 bool is_transfer_node(NodeType type) noexcept
 {
-    return type == NodeType::WindingPassage || type == NodeType::Teleporter;
+    return type == NodeType::Door;
 }
 
-EventMask event_mask_for(NodeType type) noexcept
+bool is_combat_node_type(NodeType type) noexcept
 {
-    switch (type) {
-    case NodeType::Unknown:
-        return UnknownMask;
-    case NodeType::Empty:
-        return EmptyMask;
-    case NodeType::Combat:
-        return CombatMask;
-    case NodeType::EmergencyCombat:
-        return EmergencyCombatMask;
-    case NodeType::Boss:
-        return BossMask;
-    case NodeType::BattleShop:
-        return BattleShopMask;
-    case NodeType::ScrapShop:
-        return ScrapShopMask;
-    case NodeType::Encounter:
-        return EncounterMask;
-    case NodeType::MysteriousPresage:
-        return MysteriousPresageMask;
-    case NodeType::FerociousPresage:
-        return FerociousPresageMask;
-    case NodeType::Scout:
-        return ScoutMask;
-    case NodeType::FaceOff:
-        return FaceOffMask;
-    case NodeType::EmergencyAid:
-        return EmergencyAidMask;
-    case NodeType::Rest:
-        return RestMask;
-    case NodeType::FeatherPoint:
-        return FeatherPointMask;
-    case NodeType::WindingPassage:
-        return WindingPassageMask;
-    case NodeType::Sacrifice:
-        return SacrificeMask;
-    case NodeType::Wish:
-        return WishMask;
-    case NodeType::BoskyPassage:
-        return BoskyPassageMask;
-    case NodeType::ResidentStronghold:
-        return ResidentStrongholdMask;
-    case NodeType::Final:
-        return FinalMask;
-    case NodeType::Fate:
-        return FateMask;
-    case NodeType::Evacuate:
-        return EvacuateMask;
-    case NodeType::Teleporter:
-        return TeleporterMask;
-    case NodeType::Other:
-        return OtherMask;
-    }
-    return UnknownMask;
+    return type == NodeType::BattleNormal || type == NodeType::BattleElite || type == NodeType::BattleSavage ||
+           type == NodeType::HideBattle || type == NodeType::BattleBoss;
 }
 
-TargetMatch match_event_mask(const Node& node, EventMask required_mask) noexcept
+std::optional<NodeType> node_type_from_string(std::string_view value) noexcept
 {
-    if (required_mask == AllMask) {
-        return TargetMatch::Definite;
-    }
-    const EventMask actual = node.event_mask != 0 ? node.event_mask : event_mask_for(node.type);
-    if (node.identity_revealed && node.type != NodeType::Unknown) {
-        return (actual & required_mask) != 0 ? TargetMatch::Definite : TargetMatch::NoMatch;
-    }
-    if ((actual & required_mask) != 0 && actual != UnknownMask) {
-        return TargetMatch::Definite;
-    }
-    return TargetMatch::Possible;
+    static const std::unordered_map<std::string_view, NodeType> Mapping = {
+        { "unclassified", NodeType::Unknown },
+        { "battle_elite", NodeType::BattleElite },
+        { "battle_normal", NodeType::BattleNormal },
+        { "battle_savage", NodeType::BattleSavage },
+        { "door", NodeType::Door },
+        { "employ", NodeType::Employ },
+        { "expedition", NodeType::Expedition },
+        { "hide_battle", NodeType::HideBattle },
+        { "hide_invisible", NodeType::HideInvisible },
+        { "incident", NodeType::Incident },
+        { "light", NodeType::Light },
+        { "portal", NodeType::Portal },
+        { "rest", NodeType::Rest },
+        { "sacrifice", NodeType::Sacrifice },
+        { "scrap_shop", NodeType::ScrapShop },
+        { "shop", NodeType::Shop },
+        { "wish", NodeType::Wish },
+        { "empty", NodeType::Empty },
+        { "evacuate", NodeType::Evacuate },
+        { "final", NodeType::Final },
+        { "battle_boss", NodeType::BattleBoss },
+    };
+    const auto found = Mapping.find(value);
+    return found == Mapping.end() ? std::nullopt : std::optional<NodeType>(found->second);
+}
+
+bool node_type_allowed(const MovementSpec& movement, NodeType type) noexcept
+{
+    return std::ranges::find(movement.target_types, type) != movement.target_types.end();
 }
 
 const std::vector<MovementSpec>& movement_specs()
 {
     static const std::vector<MovementSpec> Specs = {
-        { MovementKind::Walk, "walk", "徒步跋涉", MovementRange::WalkEdges, AllMask, 1, -1, false, false, {} },
+        { MovementKind::Walk, "walk", "徒步跋涉", MovementRange::WalkEdges, AllTargetTypes, 1, -1, false, false, {} },
         { MovementKind::M01,
           "rogue_6_scrap_M_01",
           "报废轮子",
           MovementRange::OrthogonalTwo,
-          AllMask,
+          AllTargetTypes,
           1,
           1,
           false,
@@ -651,7 +598,7 @@ const std::vector<MovementSpec>& movement_specs()
           "rogue_6_scrap_M_02",
           "报废假肢",
           MovementRange::SurroundingEight,
-          AllMask,
+          AllTargetTypes,
           1,
           1,
           false,
@@ -661,7 +608,7 @@ const std::vector<MovementSpec>& movement_specs()
           "rogue_6_scrap_M_03",
           "标准引擎",
           MovementRange::SurroundingEight,
-          AllMask,
+          AllTargetTypes,
           1,
           3,
           false,
@@ -671,7 +618,7 @@ const std::vector<MovementSpec>& movement_specs()
           "rogue_6_scrap_M_04",
           "重弹簧",
           MovementRange::ManhattanTwo,
-          AllMask,
+          AllTargetTypes,
           0,
           1,
           false,
@@ -681,7 +628,7 @@ const std::vector<MovementSpec>& movement_specs()
           "rogue_6_scrap_M_05",
           "气垫底座",
           MovementRange::ManhattanTwo,
-          AllMask,
+          AllTargetTypes,
           1,
           2,
           false,
@@ -691,7 +638,7 @@ const std::vector<MovementSpec>& movement_specs()
           "rogue_6_scrap_M_06",
           "试作外骨骼",
           MovementRange::OrthogonalThree,
-          AllMask,
+          AllTargetTypes,
           1,
           2,
           false,
@@ -701,7 +648,7 @@ const std::vector<MovementSpec>& movement_specs()
           "rogue_6_scrap_M_07",
           "小八界",
           MovementRange::FullMap,
-          EventAndEmptyMask,
+          NonCombatTargetTypes,
           0,
           1,
           true,
@@ -711,7 +658,7 @@ const std::vector<MovementSpec>& movement_specs()
           "rogue_6_scrap_M_08",
           "一次性喷气背包",
           MovementRange::FullMap,
-          AllMask,
+          AllTargetTypes,
           0,
           1,
           false,
@@ -721,7 +668,7 @@ const std::vector<MovementSpec>& movement_specs()
           "rogue_6_scrap_M_09",
           "老妈妈的融雪",
           MovementRange::FullMap,
-          EventAndEmptyMask,
+          NonCombatTargetTypes,
           1,
           1,
           false,
@@ -731,7 +678,7 @@ const std::vector<MovementSpec>& movement_specs()
           "rogue_6_scrap_M_10",
           "坎诺特的触须",
           MovementRange::FullMap,
-          BattleShopMask | ScrapShopMask,
+          ShopTargetTypes,
           1,
           2,
           false,
@@ -741,7 +688,7 @@ const std::vector<MovementSpec>& movement_specs()
           "rogue_6_scrap_M_11",
           "结构性原理",
           MovementRange::FullMap,
-          AllMask,
+          AllTargetTypes,
           1,
           3,
           false,
@@ -751,7 +698,7 @@ const std::vector<MovementSpec>& movement_specs()
           "rogue_6_scrap_M_12",
           "简易遥控器",
           MovementRange::SurroundingEight,
-          AllMask,
+          AllTargetTypes,
           0,
           1,
           false,
@@ -871,32 +818,22 @@ std::vector<NodeId> enumerate_geometric_targets(const MapSnapshot& map, NodeId s
     return result;
 }
 
-NodeId resolve_landing(const MapSnapshot& map, NodeId target, MapKnowledgeMode knowledge) noexcept
+NodeId resolve_landing(const MapSnapshot& map, NodeId target) noexcept
 {
     const Node* node = map.find_node(target);
     if (node == nullptr || !is_transfer_node(node->type)) {
         return target;
     }
-    if (map.has_confirmed_teleport_pair(target)) {
-        return *node->teleport_target;
-    }
-    if (knowledge == MapKnowledgeMode::Relaxed) {
-        return node->teleport_target.has_value() && map.find_node(*node->teleport_target) != nullptr
-                   ? *node->teleport_target
-                   : target;
-    }
-    return InvalidNodeId;
+    return map.has_valid_transfer_pair(target) ? *node->transfer_target : InvalidNodeId;
 }
 
-std::vector<MoveAction>
-    enumerate_move_actions(const MapSnapshot& map, const RunState& state, MapKnowledgeMode knowledge)
+std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const RunState& state)
 {
     std::vector<MoveAction> result;
     if (state.resources.action_points < 1 || map.find_node(state.current_node) == nullptr) {
         return result;
     }
 
-    const bool relaxed = knowledge == MapKnowledgeMode::Relaxed;
     const MovementSpec* walk = find_movement_spec(MovementKind::Walk);
     if (walk != nullptr) {
         struct WalkFrontier
@@ -913,40 +850,34 @@ std::vector<MoveAction>
         while (!queue.empty()) {
             WalkFrontier current = std::move(queue.front());
             queue.pop_front();
-            for (const NodeId neighbor : map.neighbors(current.node, relaxed)) {
+            for (const NodeId neighbor : map.neighbors(current.node, false)) {
                 if (std::ranges::find(current.path, neighbor) != current.path.end() || neighbor == state.current_node) {
                     continue;
                 }
                 const Node* node = map.find_node(neighbor);
-                if (node == nullptr || node->progress == NodeProgress::Removed) {
+                if (node == nullptr || effective_progress(*node, state) == NodeProgress::Removed) {
                     continue;
                 }
                 auto path = current.path;
                 path.emplace_back(neighbor);
-                if (is_targetable(*node, state)) {
+                if (is_targetable(*node, state) && node_type_allowed(*walk, node->type)) {
                     MoveAction action;
                     action.candidate.action_id =
                         "walk:" + std::to_string(state.current_node) + ":" + std::to_string(neighbor);
                     action.candidate.movement = MovementKind::Walk;
                     action.candidate.source = state.current_node;
                     action.candidate.target = neighbor;
-                    action.candidate.landing = resolve_landing(map, neighbor, knowledge);
+                    action.candidate.landing = resolve_landing(map, neighbor);
                     if (action.candidate.landing != InvalidNodeId) {
                         action.candidate.path = path;
                         NodeId previous = state.current_node;
                         for (const NodeId step : path) {
-                            const Node* path_node = map.find_node(step);
                             const Edge* path_edge = map.find_edge(previous, step);
-                            action.candidate.passes_unclassified =
-                                action.candidate.passes_unclassified ||
-                                (path_node != nullptr && path_node->identity_state == NodeIdentityState::Unclassified);
                             action.candidate.uses_inferred_edge =
                                 action.candidate.uses_inferred_edge ||
                                 (path_edge != nullptr && path_edge->evidence.forced_by_connectivity_constraint);
                             previous = step;
                         }
-                        action.candidate.requires_preview_confirmation =
-                            relaxed && (action.candidate.passes_unclassified || action.candidate.uses_inferred_edge);
                         action.candidate.predicted_action_point_cost = state.costs.action_cost(
                             action.candidate.action_id,
                             state.costs.movement_cost(*walk, path.size()));
@@ -955,9 +886,7 @@ std::vector<MoveAction>
                         action.candidate.landing_action_point_gains.emplace(
                             action.candidate.landing,
                             action.candidate.predicted_action_point_gain);
-                        action.candidate.target_match = TargetMatch::Definite;
-                        action.candidate.terminal_on_completion =
-                            node->type == NodeType::Final || node->type == NodeType::Fate;
+                        action.candidate.terminal_on_completion = node->type == NodeType::Final;
                         action.possible_landings.emplace_back(action.candidate.landing);
                         const auto existing_action = walk_action_indices.find(neighbor);
                         if (existing_action == walk_action_indices.end()) {
@@ -969,8 +898,7 @@ std::vector<MoveAction>
                         }
                     }
                 }
-                const bool relaxed_unclassified = relaxed && node->identity_state == NodeIdentityState::Unclassified;
-                if ((is_walk_transparent(*node, state) || relaxed_unclassified) && expanded.emplace(neighbor).second) {
+                if (is_walk_transparent(*node, state) && expanded.emplace(neighbor).second) {
                     queue.push_back({ neighbor, std::move(path) });
                 }
             }
@@ -987,24 +915,24 @@ std::vector<MoveAction>
             continue;
         }
 
-        std::vector<std::pair<NodeId, TargetMatch>> targets;
+        std::vector<NodeId> targets;
         for (const auto& [id, node] : map.nodes()) {
-            if (id == state.current_node || !is_targetable(node, state) ||
+            const NodeType target_type = effective_node_type(node, state);
+            const bool targetable = target_type == NodeType::Empty
+                                        ? effective_progress(node, state) != NodeProgress::Removed
+                                        : is_targetable(node, state);
+            if (id == state.current_node || !targetable || !node_type_allowed(movement, target_type) ||
                 !is_in_geometric_range(map, state.current_node, id, movement)) {
                 continue;
             }
-            const TargetMatch match = match_event_mask(node, movement.target_mask);
-            if (match == TargetMatch::NoMatch || (match == TargetMatch::Possible && !relaxed)) {
-                continue;
-            }
-            targets.emplace_back(id, match);
+            targets.emplace_back(id);
         }
-        std::ranges::sort(targets, {}, &std::pair<NodeId, TargetMatch>::first);
+        std::ranges::sort(targets);
         if (targets.empty()) {
             continue;
         }
 
-        if (movement.random_target && !relaxed) {
+        if (movement.random_target) {
             MoveAction action;
             action.candidate.action_id = std::string(movement.id) + ":random:" + std::to_string(state.current_node);
             action.candidate.movement = movement.kind;
@@ -1013,9 +941,8 @@ std::vector<MoveAction>
                 state.costs.action_cost(action.candidate.action_id, state.costs.movement_cost(movement));
             action.candidate.predicted_action_point_gain = movement.effect.action_point_gain;
             action.candidate.controllable = false;
-            for (const auto& [target, match] : targets) {
-                (void)match;
-                const NodeId landing = resolve_landing(map, target, knowledge);
+            for (const NodeId target : targets) {
+                const NodeId landing = resolve_landing(map, target);
                 const Node* target_node = map.find_node(target);
                 if (landing != InvalidNodeId && target_node != nullptr) {
                     action.possible_landings.emplace_back(landing);
@@ -1035,63 +962,36 @@ std::vector<MoveAction>
             continue;
         }
 
-        for (const auto& [target, match] : targets) {
+        for (const NodeId target : targets) {
             const Node* target_node = map.find_node(target);
             if (target_node == nullptr) {
                 continue;
             }
-            std::vector<NodeId> landings;
-            const NodeId normal_landing = resolve_landing(map, target, knowledge);
-            if (normal_landing != InvalidNodeId) {
-                landings.emplace_back(normal_landing);
+            const NodeId landing = resolve_landing(map, target);
+            if (landing == InvalidNodeId) {
+                continue;
             }
-            if (relaxed && is_transfer_node(target_node->type) && !map.has_confirmed_teleport_pair(target)) {
-                for (const auto& [other_id, other_node] : map.nodes()) {
-                    if (other_id != target && is_transfer_node(other_node.type)) {
-                        landings.emplace_back(other_id);
-                    }
-                }
-            }
-            std::ranges::sort(landings);
-            landings.erase(std::unique(landings.begin(), landings.end()), landings.end());
-            for (const NodeId landing : landings) {
-                MoveAction action;
-                action.candidate.action_id = std::string(movement.id) + ":" + std::to_string(state.current_node) + ":" +
-                                             std::to_string(target) + ":" + std::to_string(landing);
-                action.candidate.movement = movement.kind;
-                action.candidate.source = state.current_node;
-                action.candidate.target = target;
-                action.candidate.landing = landing;
-                action.candidate.path = { target };
-                action.candidate.predicted_action_point_cost =
-                    state.costs.action_cost(action.candidate.action_id, state.costs.movement_cost(movement));
-                action.candidate.predicted_action_point_gain =
-                    movement.effect.action_point_gain + predicted_node_gain(*target_node, state);
-                action.candidate.possible_landings.emplace_back(landing);
-                action.candidate.landing_action_point_gains.emplace(
-                    landing,
-                    action.candidate.predicted_action_point_gain);
-                action.candidate.target_match = match;
-                action.candidate.controllable = true;
-                action.candidate.terminal_on_completion =
-                    target_node->type == NodeType::Final || target_node->type == NodeType::Fate;
-                action.possible_landings.emplace_back(landing);
-                result.emplace_back(std::move(action));
-            }
+            MoveAction action;
+            action.candidate.action_id = std::string(movement.id) + ":" + std::to_string(state.current_node) + ":" +
+                                         std::to_string(target) + ":" + std::to_string(landing);
+            action.candidate.movement = movement.kind;
+            action.candidate.source = state.current_node;
+            action.candidate.target = target;
+            action.candidate.landing = landing;
+            action.candidate.path = { target };
+            action.candidate.predicted_action_point_cost =
+                state.costs.action_cost(action.candidate.action_id, state.costs.movement_cost(movement));
+            action.candidate.predicted_action_point_gain =
+                movement.effect.action_point_gain + predicted_node_gain(*target_node, state);
+            action.candidate.possible_landings.emplace_back(landing);
+            action.candidate.landing_action_point_gains.emplace(landing, action.candidate.predicted_action_point_gain);
+            action.candidate.controllable = true;
+            action.candidate.terminal_on_completion = target_node->type == NodeType::Final;
+            action.possible_landings.emplace_back(landing);
+            result.emplace_back(std::move(action));
         }
     }
     return result;
-}
-
-bool VerifiedMoveArc::matches(
-    const MoveCandidate& candidate,
-    std::uint64_t current_map_revision,
-    std::uint64_t current_cost_revision,
-    std::uint64_t current_viewport_revision) const noexcept
-{
-    return source == candidate.source && target == candidate.target && landing == candidate.landing &&
-           movement == candidate.movement && map_revision == current_map_revision &&
-           cost_revision == current_cost_revision && viewport_revision == current_viewport_revision;
 }
 
 std::optional<MoveTransaction> MoveTransaction::propose(
@@ -1259,15 +1159,9 @@ bool MoveTransaction::apply(RunState& state, std::string* error)
     state.resources.hope += movement->effect.hope_gain;
     state.resources.ingots += movement->effect.ingot_gain;
     state.current_node = m_observation->current_node;
-    const NodeId entered_node = m_proposal.controllable ? m_proposal.target : m_observation->current_node;
-    state.visited_nodes.emplace(entered_node);
-    state.node_progress.insert_or_assign(entered_node, m_observation->target_progress);
-    if (m_observation->landed_type == NodeType::FeatherPoint) {
-        state.consumed_one_time_nodes.emplace(entered_node);
-    }
 
     const bool processing_move = m_proposal.movement != MovementKind::Walk;
-    if (processing_move && is_combat_type(m_observation->landed_type) && state.resources.white_model_birds > 0) {
+    if (processing_move && is_combat_node_type(m_observation->landed_type) && state.resources.white_model_birds > 0) {
         --state.resources.white_model_birds;
     }
     m_stage = MoveTransactionStage::Applied;
@@ -1292,57 +1186,49 @@ std::string_view to_string(NodeType type) noexcept
 {
     switch (type) {
     case NodeType::Unknown:
-        return "unknown";
-    case NodeType::Empty:
-        return "empty";
-    case NodeType::Combat:
-        return "combat";
-    case NodeType::EmergencyCombat:
-        return "emergency_combat";
-    case NodeType::Boss:
-        return "boss";
-    case NodeType::BattleShop:
-        return "battle_shop";
-    case NodeType::ScrapShop:
-        return "scrap_shop";
-    case NodeType::Encounter:
-        return "encounter";
-    case NodeType::MysteriousPresage:
-        return "mysterious_presage";
-    case NodeType::FerociousPresage:
-        return "ferocious_presage";
-    case NodeType::Scout:
-        return "scout";
-    case NodeType::FaceOff:
-        return "face_off";
-    case NodeType::EmergencyAid:
-        return "emergency_aid";
+        return "unclassified";
+    case NodeType::BattleElite:
+        return "battle_elite";
+    case NodeType::BattleNormal:
+        return "battle_normal";
+    case NodeType::BattleSavage:
+        return "battle_savage";
+    case NodeType::Door:
+        return "door";
+    case NodeType::Employ:
+        return "employ";
+    case NodeType::Expedition:
+        return "expedition";
+    case NodeType::HideBattle:
+        return "hide_battle";
+    case NodeType::HideInvisible:
+        return "hide_invisible";
+    case NodeType::Incident:
+        return "incident";
+    case NodeType::Light:
+        return "light";
+    case NodeType::Portal:
+        return "portal";
     case NodeType::Rest:
         return "rest";
-    case NodeType::FeatherPoint:
-        return "feather_point";
-    case NodeType::WindingPassage:
-        return "winding_passage";
     case NodeType::Sacrifice:
         return "sacrifice";
+    case NodeType::ScrapShop:
+        return "scrap_shop";
+    case NodeType::Shop:
+        return "shop";
     case NodeType::Wish:
         return "wish";
-    case NodeType::BoskyPassage:
-        return "bosky_passage";
-    case NodeType::ResidentStronghold:
-        return "resident_stronghold";
-    case NodeType::Final:
-        return "final";
-    case NodeType::Fate:
-        return "fate";
+    case NodeType::Empty:
+        return "empty";
     case NodeType::Evacuate:
         return "evacuate";
-    case NodeType::Teleporter:
-        return "teleporter";
-    case NodeType::Other:
-        return "other";
+    case NodeType::Final:
+        return "final";
+    case NodeType::BattleBoss:
+        return "battle_boss";
     }
-    return "unknown";
+    return "unclassified";
 }
 
 std::string_view to_string(MovementKind kind) noexcept
