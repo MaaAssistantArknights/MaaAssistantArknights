@@ -793,6 +793,12 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         set => SetTaskConfig<RoguelikeTask>(t => t.StopAtFinalBoss == value, t => t.StopAtFinalBoss = value);
     }
 
+    public bool RoguelikeBlackflowNoBoss
+    {
+        get => GetTaskConfig<RoguelikeTask>().BlackflowNoBoss;
+        set => SetTaskConfig<RoguelikeTask>(t => t.BlackflowNoBoss == value, t => t.BlackflowNoBoss = value);
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether to automatically iterate the monthly squad.
     /// </summary>
@@ -1140,6 +1146,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 RefreshTraderWithDice = roguelike.Theme == Theme.Mizuki && roguelike.RefreshTraderWithDice,
 
                 StopAtFinalBoss = roguelike.StopAtFinalBoss,
+                BlackflowNoBoss = roguelike.Theme == Theme.Blackflow && roguelike.Mode == Mode.Exp && roguelike.BlackflowNoBoss,
                 StopAtMaxLevel = roguelike.StopWhenLevelMax,
 
                 // 刷开局

@@ -165,6 +165,11 @@ public class RoguelikeTask : BaseTask
     public bool StopAtFinalBoss { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether Blackflow experience mode should stop without fighting the boss.
+    /// </summary>
+    public bool BlackflowNoBoss { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 等级满了停
     /// </summary>
     public bool StopWhenLevelMax { get; set; }

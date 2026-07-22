@@ -357,6 +357,17 @@
             <CheckBox
                 Margin="0,10"
                 d:Visibility="Visible"
+                IsChecked="{Binding RoguelikeBlackflowNoBoss}"
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Exp and RoguelikeTheme == task:RoguelikeTheme.Blackflow',
+                                       Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeBlackflowNoBoss}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                d:Visibility="Visible"
                 IsChecked="{Binding RoguelikeMonthlySquadAutoIterate}"
                 Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Squad',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">

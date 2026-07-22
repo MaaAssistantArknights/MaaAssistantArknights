@@ -579,6 +579,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="stop_at_final_boss" type="boolean" optional default="false"  
 是否在第 5 层险路恶敌节点前停止任务。仅适用于**除 Phantom 以外**的主题。  
 :::  
+::: field name="blackflow_no_boss" type="boolean" optional default="false"
+黑流树海刷等级模式是否在第三层不打 Boss，并在可达的不期而遇完成后放弃本局。仅适用于 Blackflow 主题的模式 0。
+:::
 ::: field name="stop_at_max_level" type="boolean" optional default="false"  
 是否在肉鸽等级刷满后停止任务。  
 :::  

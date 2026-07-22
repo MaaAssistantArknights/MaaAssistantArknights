@@ -242,6 +242,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort Auto IS until the end of battle</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">Stop before final boss</system:String>
+    <system:String x:Key="RoguelikeBlackflowNoBoss">Do not fight the boss</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">Stop when max level is achieved</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">Start with seed</system:String>
     <!--<system:String x:Key="RoguelikeStartWithSeed">Enable Investment Seed</system:String>-->

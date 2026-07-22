@@ -268,6 +268,7 @@ bool RoguelikeBlackflowRoutingTaskPlugin::load_params([[maybe_unused]] const jso
 
     // 该模式有策略档案才启用迷宫导航（resource/roguelike/Blackflow/routing.json 的 modeStrategies）
     m_profile = BlackflowRoutingInfo.strategy_for_mode(static_cast<int>(m_config->get_mode()));
+    m_blackflow_no_boss = m_config->get_blackflow_no_boss();
     return m_profile != nullptr;
 }
 
@@ -275,6 +276,8 @@ void RoguelikeBlackflowRoutingTaskPlugin::reset_in_run_variables()
 {
     m_consecutive_failures = 0;
     m_force_zoom_reset_after_layer_transition = false;
+    m_no_boss_floor_three = false;
+    m_no_boss_target_encounter = -1;
     if (m_profile == nullptr) {
         m_profile = BlackflowRoutingInfo.strategy_for_mode(static_cast<int>(m_config->get_mode()));
     }
@@ -703,7 +706,15 @@ blackflow::PlannerMap RoguelikeBlackflowRoutingTaskPlugin::build_planner_map(
             pc.weight = wit->second;
         }
         pc.ap_gain = cfg.node_ap_gain(c.type);
-        pc.is_endpoint = cfg.is_endpoint(c.type);
+        const bool no_boss_encounter_phase = m_blackflow_no_boss && m_no_boss_floor_three;
+        if (no_boss_encounter_phase) {
+            const bool is_selected_target = m_no_boss_target_encounter < 0 || m_no_boss_target_encounter == idx;
+            pc.is_endpoint = c.type == RoguelikeNodeType::Encounter && !c.visited && is_selected_target;
+            pc.forbidden = cfg.is_endpoint(c.type);
+        }
+        else {
+            pc.is_endpoint = cfg.is_endpoint(c.type);
+        }
         pc.is_combat = cfg.is_combat(c.type);
         pc.is_trader = cfg.is_trader(c.type);
         if (cfg.node_teleport_paired(c.type)) {
@@ -924,18 +935,45 @@ bool RoguelikeBlackflowRoutingTaskPlugin::_run()
         return true;
     }
 
-    // 烧水只需验证是否已经进入第三层：险路恶敌只会出现在第三层和第五层。
-    // 识别到该节点即可判定成功，不再打开加工品面板或继续规划路线。
-    if (m_profile->name == "boilWater") {
-        const auto dreadful_foe = std::ranges::find_if(result.cells, [](const auto& cell) {
-            return cell.type == RoguelikeNodeType::DreadfulFoe;
-        });
-        if (dreadful_foe != result.cells.end()) {
+    // 险路恶敌只会出现在第三层和第五层。烧水模式识别到该节点即可退出；
+    // 黑流刷等级的不打 Boss 模式则进入第三层事件刷分阶段。
+    const auto dreadful_foe = std::ranges::find_if(result.cells, [](const auto& cell) {
+        return cell.type == RoguelikeNodeType::DreadfulFoe;
+    });
+    if (dreadful_foe != result.cells.end()) {
+        if (m_blackflow_no_boss) {
+            m_no_boss_floor_three = true;
+            Log.info(
+                "BlackflowRouting | no-boss reached floor three at",
+                dreadful_foe->col,
+                dreadful_foe->row);
+        }
+        else if (m_profile->name == "boilWater") {
             Log.info(
                 "BlackflowRouting | boilWater success: detected DreadfulFoe at",
                 dreadful_foe->col,
                 dreadful_foe->row);
             act_abandon("boil_water_success_dreadful_foe");
+            return true;
+        }
+    }
+
+    if (m_blackflow_no_boss && m_no_boss_floor_three) {
+        const auto target = std::ranges::find_if(result.cells, [&](const auto& cell) {
+            return cell.col + cell.row * result.cols == m_no_boss_target_encounter;
+        });
+        if (m_no_boss_target_encounter >= 0 && target != result.cells.end() && target->visited) {
+            act_abandon("no_boss_encounter_completed");
+            return true;
+        }
+        if (m_no_boss_target_encounter >= 0 && target == result.cells.end()) {
+            m_no_boss_target_encounter = -1;
+        }
+        const bool has_unvisited_encounter = std::ranges::any_of(result.cells, [](const auto& cell) {
+            return cell.type == RoguelikeNodeType::Encounter && !cell.visited;
+        });
+        if (!has_unvisited_encounter) {
+            act_abandon("no_boss_no_visible_encounter");
             return true;
         }
     }
@@ -988,10 +1026,11 @@ bool RoguelikeBlackflowRoutingTaskPlugin::_run()
 
     blackflow::PlannerParams params;
     params.action_points = action_points;
-    params.endpoint_required = m_profile->endpoint_required;
-    params.shortest_endpoint = m_profile->shortest_endpoint;
-    params.avoid_combat_first = m_profile->avoid_combat_first;
-    params.best_effort = m_profile->best_effort_when_unreachable;
+    const bool no_boss_encounter_phase = m_blackflow_no_boss && m_no_boss_floor_three;
+    params.endpoint_required = no_boss_encounter_phase || m_profile->endpoint_required;
+    params.shortest_endpoint = no_boss_encounter_phase || m_profile->shortest_endpoint || m_blackflow_no_boss;
+    params.avoid_combat_first = no_boss_encounter_phase || m_profile->avoid_combat_first || m_blackflow_no_boss;
+    params.best_effort = no_boss_encounter_phase ? false : (m_blackflow_no_boss ? false : m_profile->best_effort_when_unreachable);
     params.leftover_ap_weight = m_profile->leftover_ap_weight;
     const blackflow::PlannerResult planned = blackflow::plan(pmap, pgears, params);
 
@@ -1052,7 +1091,7 @@ bool RoguelikeBlackflowRoutingTaskPlugin::_run()
     }
     if (!planned.has_route) {
         ensure_gear_panel_closed();
-        act_abandon(m_profile->endpoint_required ? "endpoint_unreachable" : "no_route");
+        act_abandon(no_boss_encounter_phase ? "no_boss_encounter_unreachable" : (m_profile->endpoint_required ? "endpoint_unreachable" : "no_route"));
         return true;
     }
     if (m_profile->abandon_when_no_positive && planned.score <= 0.0) {
@@ -1092,6 +1131,10 @@ bool RoguelikeBlackflowRoutingTaskPlugin::_run()
     m_consecutive_failures = 0;
 
     const int final_target = planned.actions.back().target;
+    if (no_boss_encounter_phase && m_no_boss_target_encounter < 0) {
+        m_no_boss_target_encounter = final_target;
+        Log.info("BlackflowRouting | no-boss encounter target", final_target % pmap.cols, final_target / pmap.cols);
+    }
     m_force_zoom_reset_after_layer_transition = target_cell->type == RoguelikeNodeType::DreadfulFoe ||
         target_cell->type == RoguelikeNodeType::PathEnd || target_cell->type == RoguelikeNodeType::PathLane;
     if (m_force_zoom_reset_after_layer_transition) {

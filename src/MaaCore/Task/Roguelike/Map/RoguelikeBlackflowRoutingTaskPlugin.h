@@ -70,5 +70,8 @@ private:
     bool m_dry_run = true;
     int m_consecutive_failures = 0;
     bool m_force_zoom_reset_after_layer_transition = false;
+    bool m_blackflow_no_boss = false;
+    bool m_no_boss_floor_three = false;
+    int m_no_boss_target_encounter = -1;
 };
 }

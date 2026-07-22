@@ -400,6 +400,44 @@ TEST_CASE("planner.endpoint_unreachable_policies", "[blackflow-planner]")
     }
 }
 
+TEST_CASE("planner.forbidden_nodes_are_never_entered", "[blackflow-planner]")
+{
+    MapBuilder b(4, 2);
+    PlannerCell forbidden_boss;
+    forbidden_boss.forbidden = true;
+    PlannerCell encounter = endpoint();
+    b.cell(0, 0).cell(1, 0, forbidden_boss).cell(2, 0).cell(3, 0, encounter);
+    b.edge(0, 0, 1, 0).edge(1, 0, 2, 0).edge(2, 0, 3, 0);
+    b.player(0, 0);
+
+    auto params = make_params(3, true);
+    params.best_effort = false;
+    REQUIRE_FALSE(plan(b.map, {}, params).has_route);
+}
+
+TEST_CASE("planner.can_use_gear_to_reach_visible_encounter", "[blackflow-planner]")
+{
+    MapBuilder b(5, 1);
+    b.cell(0, 0).cell(4, 0, endpoint());
+    b.player(0, 0);
+
+    PlannerGear gear;
+    gear.range = GearRange::Any;
+    gear.uses = 1;
+    gear.ap_cost = 0;
+    gear.carryover = false;
+
+    auto params = make_params(0, true);
+    params.best_effort = false;
+    const auto result = plan(b.map, { gear }, params);
+
+    REQUIRE(result.has_route);
+    REQUIRE(result.reaches_endpoint);
+    REQUIRE(result.actions.size() == 1);
+    REQUIRE_FALSE(result.actions.front().is_walk);
+    REQUIRE(result.actions.front().target == b.idx(4, 0));
+}
+
 TEST_CASE("planner.determinism", "[blackflow-planner]")
 {
     // 较复杂的图 + 多个加工品，两次规划结果必须完全一致

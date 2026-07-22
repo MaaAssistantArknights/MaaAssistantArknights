@@ -275,7 +275,7 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
     auto try_enter = [&](int cur_idx, int target, int gear_idx) -> std::optional<SearchNode> {
         const SearchNode& cur = arena[cur_idx];
         const PlannerCell& cell = map.cells[target];
-        if (!cell.exists) {
+        if (!cell.exists || cell.forbidden) {
             return std::nullopt;
         }
         // 非终点模式下终点格视为禁区（进入会直接离层）

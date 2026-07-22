@@ -579,6 +579,9 @@ Specified difficulty level. Selects the highest unlocked difficulty if the desir
 ::: field name="stop_at_final_boss" type="boolean" optional default="false"  
 Whether to stop before the level 5 final boss node. Only applicable to themes **excluding Phantom**.  
 :::  
+::: field name="blackflow_no_boss" type="boolean" optional default="false"
+Whether Blackflow experience mode should avoid the boss on floor 3 and abandon after completing a reachable encounter. Only available for Blackflow mode 0.
+:::
 ::: field name="stop_at_max_level" type="boolean" optional default="false"  
 Whether to stop if max level for roguelike has been achieved.  
 :::  

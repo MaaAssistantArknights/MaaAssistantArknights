@@ -25,6 +25,7 @@ struct PlannerCell
     bool exists = false;
     bool visited = false;     // 已访问（铭牌前有 ✓）：进入不再获得 weight / ap_gain
     bool is_endpoint = false; // 进入即结束本层（险路尽头/险路小径/险路恶敌）
+    bool forbidden = false;   // 规划路线中禁止进入（例如不打 Boss 模式的楼层出口）
     bool is_combat = false;   // AnyNonCombat 落点过滤用
     bool is_trader = false;   // AnyTrader 落点过滤用
     double weight = 0.0;      // 进入未访问节点的奖励（负=惩罚），路点为 0

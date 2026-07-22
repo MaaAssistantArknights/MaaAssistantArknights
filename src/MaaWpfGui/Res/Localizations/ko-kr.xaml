@@ -242,6 +242,7 @@
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">{key=AutoRoguelike} 중지 시 전투 종료 대기</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">5스테이지 보스 앞에서 일시정지</system:String>
+    <system:String x:Key="RoguelikeBlackflowNoBoss">보스와 싸우지 않기</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">최대 레벨 달성 시 중지</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">지정 시드로 시작</system:String>
     <!--<system:String x:Key="RoguelikeStartWithSeed">투자 시드 활성화</system:String>-->
