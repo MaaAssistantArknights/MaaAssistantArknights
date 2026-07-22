@@ -19,6 +19,11 @@ namespace MaaWpfGui.Models.ExternalNotification;
 
 public class TelegramConfig(string botToken = "", string chatId = "", string topicId = "") : BaseConfig
 {
+    public TelegramConfig()
+        : this(string.Empty, string.Empty, string.Empty) // 无参给设计器用
+    {
+    }
+
     public TelegramConfig(Telegram telegram)
         : this(SimpleEncryptionHelper.Decrypt(telegram.BotToken), SimpleEncryptionHelper.Decrypt(telegram.ChatId), SimpleEncryptionHelper.Decrypt(telegram.TopicId))
     {

@@ -116,6 +116,12 @@
                 PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
                                              Target={x:Type helper:MouseWheelHelper}}"
                 Style="{DynamicResource NoSelectedHighlightListBoxStyle}">
+
+                <d:ListBox.ItemsSource>
+                    <x:Array Type="{x:Type config:BaseConfig}">
+                        <config:TelegramConfig />
+                    </x:Array>
+                </d:ListBox.ItemsSource>
                 <ListBox.ItemContainerStyle>
                     <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
                         <Setter Property="Background" Value="Transparent" />
