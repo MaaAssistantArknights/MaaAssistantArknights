@@ -43,6 +43,9 @@
 // ------------------ 界园主题专用配置及插件 ------------------
 #include "Task/Roguelike/JieGarden/RoguelikeCoppersTaskPlugin.h"
 
+// ------------------ 黑流树海主题专用配置及插件 ------------------
+#include "Task/Roguelike/BlackFlow/BlackFlowSession.h"
+
 #include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst) :
@@ -109,6 +112,14 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     // ------------------ 界园主题专用插件 ------------------
     m_roguelike_task_ptr->register_plugin<RoguelikeCoppersTaskPlugin>(m_config_ptr, m_control_ptr);
+
+    // ------------------ 黑流树海主题专用插件 ------------------
+    m_blackflow_session_ptr = std::make_shared<blackflow::BlackFlowSession>();
+    m_roguelike_task_ptr->register_plugin<blackflow::BlackFlowTaskPlugin>(
+        m_config_ptr,
+        m_control_ptr,
+        m_blackflow_session_ptr,
+        std::shared_ptr<blackflow::IBlackFlowTaskPort> {});
 
     m_subtasks.emplace_back(m_roguelike_task_ptr);
 }

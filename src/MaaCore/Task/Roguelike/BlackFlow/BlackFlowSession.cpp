@@ -1274,7 +1274,7 @@ BlackFlowTaskPlugin::BlackFlowTaskPlugin(
 
 bool BlackFlowTaskPlugin::load_params(const json::value& params)
 {
-    if (m_session == nullptr) {
+    if (m_config->get_theme() != RoguelikeTheme::BlackFlow || m_session == nullptr) {
         return false;
     }
     std::string error;

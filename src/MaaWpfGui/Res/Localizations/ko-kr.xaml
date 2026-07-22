@@ -211,6 +211,8 @@
     <system:String x:Key="InfrastThresholdTip">커스텀 교대 근무 변경이 활성화된 경우 이 필드는 자동 채우기 및 {key=Operator} 교체를 사용하는 회의실에만 유효합니다</system:String>
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyGold">각뿔 투자, 투자 완료 시 자동 종료</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowExp">레벨 파밍, 빠르게 3층으로 이동</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">오리지늄 각괴 파밍, 투자 완료 후 자동 종료</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">{key=Operator} 2차 정예화 또는 전기주전자 획득까지 반복</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">희귀 붕괴 패러다임 파밍, 일반 붕괴 패러다임 획득 시 재시작</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">전기주전자 획득 분대</system:String>

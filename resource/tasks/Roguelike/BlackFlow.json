@@ -106,5 +106,209 @@
     "BlackFlow@Roguelike@Event-Ending3Completed": {
         "algorithm": "JustReturn",
         "next": ["RoguelikeControlTaskPlugin-ExitThenStop"]
+    },
+    "BlackFlow@StartExplore@Roguelike@ChooseOper": {
+        "next": [
+            "BlackFlow@StartExplore@Roguelike@ChooseOperConfirm",
+            "BlackFlow@StartExplore@Roguelike@ChooseOperConfirm#next"
+        ]
+    },
+    "BlackFlow@StartExplore@Roguelike@ChooseOperConfirm": {
+        "template": "BlackFlow@Roguelike@ChooseOperConfirm.png",
+        "roi": [1016, 602, 264, 118]
+    },
+    "BlackFlow@StartExplore@Roguelike@ChooseOperFlag": {
+        "template": "BlackFlow@Roguelike@ChooseOperConfirm.png",
+        "roi": [1016, 602, 264, 118]
+    },
+    "BlackFlow@StartExplore@Roguelike@RecruitOther": {
+        "template": "BlackFlow@Roguelike@Recruit.png"
+    },
+    "BlackFlow@StartExplore@Roguelike@RecruitWithoutButton": {},
+    "BlackFlow@Roguelike@Abandon": {
+        "template": "BlackFlow@Roguelike@Abandon.png"
+    },
+    "BlackFlow@Roguelike@AbandonConfirm": {
+        "template": "BlackFlow@Roguelike@AbandonConfirm.png"
+    },
+    "BlackFlow@Roguelike@ExitThenAbandon": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "next": ["BlackFlow@Roguelike@ExitThenAbandon", "BlackFlow@Roguelike@Abandon"]
+    },
+    "BlackFlow@Roguelike@CheckLevel": {
+        "text": ["沉沦者的黑流树海", "黑流树海", "沉沦于树海"]
+    },
+    "BlackFlow@Roguelike@SelectTheme": {
+        "text": ["沉沦者的黑流树海", "黑流树海", "沉沦于树海"]
+    },
+    "BlackFlow@Roguelike@ChooseDifficulty": {
+        "template": "BlackFlow@Roguelike@ChooseDifficulty.png",
+        "roi": [1064, 294, 216, 170]
+    },
+    "BlackFlow@Roguelike@ChooseDifficultyEnter": {
+        "action": "ClickRect",
+        "specificRect": [1119, 479, 80, 22],
+        "postDelay": 800,
+        "template": "BlackFlow@Roguelike@StartExplore.png",
+        "roi": [958, 530, 322, 189]
+    },
+    "BlackFlow@Roguelike@Continue": {
+        "template": "BlackFlow@Roguelike@Continue.png",
+        "roi": [1050, 550, 210, 100],
+        "action": "ClickSelf"
+    },
+    "BlackFlow@Roguelike@TodoEnter": {
+        "template": "BlackFlow@Roguelike@TodoEnter.png"
+    },
+    "BlackFlow@Roguelike@CloseCollection": {
+        "template": "BlackFlow@Roguelike@CloseCollection.png",
+        "action": "ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [560, 500, 160, 100],
+        "onErrorNext": ["#back"],
+        "next": ["#next"]
+    },
+    "BlackFlow@Roguelike@CloseCollectionContinue": {
+        "template": "BlackFlow@Roguelike@CloseCollectionContinue.png",
+        "action": "ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [500, 560, 280, 160],
+        "onErrorNext": ["#back"],
+        "next": ["#next"]
+    },
+    "BlackFlow@Roguelike@EnterAfterRecruit": {
+        "template": "BlackFlow@Roguelike@EnterAfterRecruit.png",
+        "roi": [1040, 240, 240, 179]
+    },
+    "BlackFlow@Roguelike@GamePassTheEndConfirm": {
+        "template": "BlackFlow@Roguelike@GamePassTheEndConfirm.png"
+    },
+    "BlackFlow@Roguelike@GamePass": {
+        "template": "BlackFlow@Roguelike@GamePass.png"
+    },
+    "BlackFlow@Roguelike@GamePassSkip1": {
+        "template": "BlackFlow@Roguelike@GamePassSkip1.png"
+    },
+    "BlackFlow@Roguelike@GamePassSkip1Confirm": {
+        "template": "BlackFlow@Roguelike@GamePassSkip1Confirm.png"
+    },
+    "BlackFlow@Roguelike@GamePassSkip2": {},
+    "BlackFlow@Roguelike@MissionFailedFlag": {
+        "template": "BlackFlow@Roguelike@MissionFailedFlag.png"
+    },
+    "BlackFlow@Roguelike@MissionFailedFlag2": {
+        "template": "BlackFlow@Roguelike@MissionFailedFlag2.png"
+    },
+    "BlackFlow@Roguelike@InitialDrop": {
+        "template": "BlackFlow@Roguelike@Confirm.png"
+    },
+    "BlackFlow@Roguelike@LastReward": {
+        "baseTask": "Roguelike@LastReward",
+        "template": "BlackFlow@Roguelike@LastReward.png"
+    },
+    "BlackFlow@Roguelike@LastReward2": {
+        "baseTask": "Roguelike@LastReward",
+        "template": "BlackFlow@Roguelike@LastReward2.png"
+    },
+    "BlackFlow@Roguelike@LastReward3": {
+        "baseTask": "Roguelike@LastReward",
+        "template": "BlackFlow@Roguelike@LastReward3.png"
+    },
+    "BlackFlow@Roguelike@LastReward4": {
+        "baseTask": "Roguelike@LastReward",
+        "template": "BlackFlow@Roguelike@LastReward4.png"
+    },
+    "BlackFlow@Roguelike@LastReward5": {
+        "baseTask": "Roguelike@LastReward",
+        "template": "BlackFlow@Roguelike@LastReward5.png"
+    },
+    "BlackFlow@Roguelike@LastReward6": {
+        "baseTask": "Roguelike@LastReward",
+        "template": "BlackFlow@Roguelike@LastReward6.png"
+    },
+    "BlackFlow@Roguelike@LastReward-EnterPoint": {
+        "template": [
+            "BlackFlow@Roguelike@LastReward.png",
+            "BlackFlow@Roguelike@LastReward2.png",
+            "BlackFlow@Roguelike@LastReward3.png",
+            "BlackFlow@Roguelike@LastReward4.png",
+            "BlackFlow@Roguelike@LastReward5.png",
+            "BlackFlow@Roguelike@LastReward6.png"
+        ]
+    },
+    "BlackFlow@Roguelike@LastReward-Strategy": {
+        "next": [
+            "BlackFlow@Roguelike@LastReward",
+            "BlackFlow@Roguelike@LastReward2",
+            "BlackFlow@Roguelike@LastReward3",
+            "BlackFlow@Roguelike@LastReward4",
+            "BlackFlow@Roguelike@LastReward5",
+            "BlackFlow@Roguelike@LastReward6"
+        ]
+    },
+    "BlackFlow@Roguelike@LastRewardConfirm": {
+        "template": "BlackFlow@Roguelike@LastRewardConfirm.png"
+    },
+    "BlackFlow@Roguelike@RecruitMain": {
+        "template": "BlackFlow@Roguelike@Recruit.png"
+    },
+    "BlackFlow@Roguelike@ChooseOper": {
+        "next": ["BlackFlow@Roguelike@ChooseOperConfirm", "BlackFlow@Roguelike@ChooseOperConfirm#next"]
+    },
+    "BlackFlow@Roguelike@ChooseOperConfirm": {
+        "template": "BlackFlow@Roguelike@ChooseOperConfirm.png",
+        "roi": [1016, 602, 264, 118]
+    },
+    "BlackFlow@Roguelike@ChooseOperFlag": {
+        "template": "BlackFlow@Roguelike@ChooseOperConfirm.png",
+        "roi": [1016, 602, 264, 118]
+    },
+    "BlackFlow@Roguelike@RecruitOther": {
+        "template": "BlackFlow@Roguelike@Recruit.png"
+    },
+    "BlackFlow@Roguelike@RecruitWithoutButton": {},
+    "BlackFlow@RoguelikeRecruit-GiveUp": {
+        "template": "BlackFlow@RoguelikeRecruit-GiveUp.png"
+    },
+    "BlackFlow@Roguelike@RolesConfirm": {
+        "template": "BlackFlow@Roguelike@LastRewardConfirm.png"
+    },
+    "BlackFlow@Roguelike@RolesDefault": {
+        "template": "BlackFlow@Roguelike@RolesDefault.png"
+    },
+    "BlackFlow@Roguelike@SquadConfirm": {
+        "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
+        "next": [
+            "BlackFlow@Roguelike@LastReward-EnterPoint",
+            "BlackFlow@Roguelike@RolesDefault",
+            "BlackFlow@Roguelike@RecruitMain",
+            "BlackFlow@Roguelike@CloseCollection",
+            "BlackFlow@Roguelike@Stages#next"
+        ]
+    },
+    "BlackFlow@Roguelike@SquadDefault": {
+        "template": "BlackFlow@Roguelike@SquadDefault.png"
+    },
+    "BlackFlow@Roguelike@ReserveRecruitmentVoucher": {
+        "template": "BlackFlow@Roguelike@ReserveRecruitmentVoucher.png"
+    },
+    "BlackFlow@Roguelike@Stages": {
+        "baseTask": "BlackFlow@Roguelike@Stages_default",
+        "onErrorNext": ["BlackFlow@Roguelike@ExitThenAbandon"]
+    },
+    "BlackFlow@Roguelike@StartExplore": {
+        "template": "BlackFlow@Roguelike@StartExplore.png",
+        "roi": [958, 530, 322, 189]
+    },
+    "BlackFlow@Roguelike@StartExplore-EnterCheck": {
+        "template": "BlackFlow@Roguelike@StartExplore.png",
+        "roi": [958, 530, 322, 189]
+    },
+    "BlackFlow@RoguelikeSettlementConfirm": {
+        "template": "BlackFlow@Roguelike@GamePassTheEndConfirm.png"
+    },
+    "BlackFlow@Roguelike@Stages_default": {
+        "algorithm": "JustReturn",
+        "next": ["Stop"]
     }
 }

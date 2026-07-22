@@ -164,7 +164,7 @@
                 Margin="0,10"
                 d:Visibility="Visible"
                 IsChecked="{Binding RoguelikeInvestmentWithMoreScoreRaw}"
-                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Investment',
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Investment and RoguelikeTheme != task:RoguelikeTheme.BlackFlow',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
                 <TextBlock
                     Block.TextAlignment="Left"

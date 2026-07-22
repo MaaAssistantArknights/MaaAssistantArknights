@@ -104,14 +104,26 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     {
         var roguelikeMode = RoguelikeMode;
 
-        var baseList = new List<GenericCombinedData<Mode>>
+        List<GenericCombinedData<Mode>> baseList;
+        if (RoguelikeTheme == Theme.BlackFlow)
         {
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible },
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"), Value = Mode.Squad },
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"), Value = Mode.Exploration },
-        };
+            baseList =
+            [
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowExp"), Value = Mode.Exp },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowInvestment"), Value = Mode.Investment },
+            ];
+        }
+        else
+        {
+            baseList =
+            [
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"), Value = Mode.Squad },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"), Value = Mode.Exploration },
+            ];
+        }
 
         switch (RoguelikeTheme)
         {
@@ -264,6 +276,10 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         // 添加通用分队
         foreach (var (key, value) in _commonSquads)
         {
+            if (RoguelikeTheme == Theme.BlackFlow && key == "First-ClassSquad")
+            {
+                continue;
+            }
             RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString(key), Value = value });
         }
 
@@ -552,6 +568,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 Theme.Sami => "RoguelikeThemeTipSami",
                 Theme.Sarkaz => "RoguelikeThemeTipSarkaz",
                 Theme.JieGarden => "RoguelikeThemeTipJieGarden",
+                Theme.BlackFlow => "RoguelikeThemeBlackFlow",
                 _ => "RoguelikeThemeTipPhantom",
             };
 
@@ -711,7 +728,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     /// <summary>
     /// Gets a value indicating whether investment is enabled.
     /// </summary>
-    public bool RoguelikeInvestmentWithMoreScore => GetTaskConfig<RoguelikeTask>().InvestWithMoreScore && RoguelikeMode == Mode.Investment;
+    public bool RoguelikeInvestmentWithMoreScore => GetTaskConfig<RoguelikeTask>().InvestWithMoreScore && RoguelikeMode == Mode.Investment && RoguelikeTheme != Theme.BlackFlow;
 
     /// <summary>
     /// Gets or sets a value indicating whether shopping is enabled in LastReward Mode.
@@ -1302,7 +1319,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 InvestmentEnabled = roguelike.Investment,
                 InvestmentCount = roguelike.Mode == Mode.Investment ? roguelike.InvestCount : int.MaxValue,
                 InvestmentStopWhenFull = roguelike.StopWhenDepositFull && roguelike.Mode == Mode.Investment,
-                InvestmentWithMoreScore = roguelike.InvestWithMoreScore && roguelike.Mode == Mode.Investment,
+                InvestmentWithMoreScore = roguelike.Theme != Theme.BlackFlow && roguelike.InvestWithMoreScore && roguelike.Mode == Mode.Investment,
                 RefreshTraderWithDice = roguelike.Theme == Theme.Mizuki && roguelike.RefreshTraderWithDice,
 
                 StopAtFinalBoss = roguelike.StopAtFinalBoss,
