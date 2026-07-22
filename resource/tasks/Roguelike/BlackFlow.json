@@ -1,0 +1,110 @@
+{
+    "BlackFlow@Roguelike@RoutingAction": {
+        "baseTask": "BlackFlow@Roguelike@NodeDispatch"
+    },
+    "BlackFlow@Roguelike@NodeDispatch": {
+        "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
+    },
+    "BlackFlow@Roguelike@NodeDispatch-Unconfigured": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@PageFailure"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@Page-Default": {
+        "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
+    },
+    "BlackFlow@Roguelike@Page-SeedPriority": {
+        "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
+    },
+    "BlackFlow@Roguelike@Page-SeedPriorityFloor3": {
+        "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
+    },
+    "BlackFlow@Roguelike@CultivationResult": {
+        "baseTask": "BlackFlow@Roguelike@CultivationResult-Unconfigured"
+    },
+    "BlackFlow@Roguelike@CultivationResult-Unconfigured": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@Event-InvestmentCompleted": {
+        "algorithm": "JustReturn",
+        "next": ["RoguelikeControlTaskPlugin-ExitThenStop"]
+    },
+    "BlackFlow@Roguelike@Event-BurnCompleted": {
+        "algorithm": "JustReturn",
+        "next": ["RoguelikeControlTaskPlugin-ExitThenStop"]
+    },
+    "BlackFlow@Roguelike@Event-BabyCultivationCompleted": {
+        "algorithm": "JustReturn",
+        "next": ["RoguelikeControlTaskPlugin-ExitThenStop"]
+    },
+    "BlackFlow@Roguelike@Event-EndingPrerequisiteFailed": {
+        "algorithm": "JustReturn",
+        "next": ["RoguelikeControlTaskPlugin-ExitThenStop"]
+    },
+    "BlackFlow@Roguelike@Event-StrategyCompleted": {
+        "algorithm": "JustReturn",
+        "next": ["RoguelikeControlTaskPlugin-ExitThenStop"]
+    },
+    "BlackFlow@Roguelike@PageFailure": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RecoverMap"],
+        "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
+    },
+    "BlackFlow@Roguelike@RecoverMap": {
+        "baseTask": "BlackFlow@Roguelike@RecoveryFailed"
+    },
+    "BlackFlow@Roguelike@RecoveryFailed": {
+        "algorithm": "JustReturn",
+        "next": ["RoguelikeControlTaskPlugin-ExitThenStop"]
+    },
+    "BlackFlow@Roguelike@Event-BabyNoSeed": {
+        "algorithm": "JustReturn",
+        "next": ["RoguelikeControlTaskPlugin-ExitThenStop"]
+    },
+    "BlackFlow@Roguelike@Event-InvestmentUnknownVisited": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RoutingAction"]
+    },
+    "BlackFlow@Roguelike@Event-BurnShopDone": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RoutingAction"]
+    },
+    "BlackFlow@Roguelike@Event-BabySeedFound": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RoutingAction"]
+    },
+    "BlackFlow@Roguelike@Event-BasicE2Team": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RoutingAction"]
+    },
+    "BlackFlow@Roguelike@Event-SandtableA": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RoutingAction"]
+    },
+    "BlackFlow@Roguelike@Event-SandtableB": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RoutingAction"]
+    },
+    "BlackFlow@Roguelike@Event-Ending3Device": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RoutingAction"]
+    },
+    "BlackFlow@Roguelike@Event-Ending3Relic": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RoutingAction"]
+    },
+    "BlackFlow@Roguelike@Event-Floor5BossCompleted": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RoutingAction"]
+    },
+    "BlackFlow@Roguelike@Event-Ending2Completed": {
+        "algorithm": "JustReturn",
+        "next": ["RoguelikeControlTaskPlugin-ExitThenStop"]
+    },
+    "BlackFlow@Roguelike@Event-Ending3Completed": {
+        "algorithm": "JustReturn",
+        "next": ["RoguelikeControlTaskPlugin-ExitThenStop"]
+    }
+}

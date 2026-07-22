@@ -31,19 +31,23 @@ constexpr EventMask FerociousPresageMask = mask_bit(9);
 constexpr EventMask ScoutMask = mask_bit(10);
 constexpr EventMask FaceOffMask = mask_bit(11);
 constexpr EventMask EmergencyAidMask = mask_bit(12);
-constexpr EventMask FeatherPointMask = mask_bit(13);
-constexpr EventMask WindingPassageMask = mask_bit(14);
-constexpr EventMask BoskyPassageMask = mask_bit(15);
-constexpr EventMask ResidentStrongholdMask = mask_bit(16);
-constexpr EventMask FinalMask = mask_bit(17);
-constexpr EventMask FateMask = mask_bit(18);
-constexpr EventMask TeleporterMask = mask_bit(19);
-constexpr EventMask OtherMask = mask_bit(20);
-constexpr EventMask AllMask = mask_bit(21) - 1U;
+constexpr EventMask RestMask = mask_bit(13);
+constexpr EventMask FeatherPointMask = mask_bit(14);
+constexpr EventMask WindingPassageMask = mask_bit(15);
+constexpr EventMask SacrificeMask = mask_bit(16);
+constexpr EventMask WishMask = mask_bit(17);
+constexpr EventMask BoskyPassageMask = mask_bit(18);
+constexpr EventMask ResidentStrongholdMask = mask_bit(19);
+constexpr EventMask FinalMask = mask_bit(20);
+constexpr EventMask FateMask = mask_bit(21);
+constexpr EventMask EvacuateMask = mask_bit(22);
+constexpr EventMask TeleporterMask = mask_bit(23);
+constexpr EventMask OtherMask = mask_bit(24);
+constexpr EventMask AllMask = mask_bit(25) - 1U;
 constexpr EventMask EventAndEmptyMask = EmptyMask | EncounterMask | MysteriousPresageMask | FerociousPresageMask |
-                                        ScoutMask | FaceOffMask | EmergencyAidMask | FeatherPointMask |
-                                        WindingPassageMask | BoskyPassageMask | ResidentStrongholdMask |
-                                        TeleporterMask | OtherMask;
+                                        ScoutMask | FaceOffMask | EmergencyAidMask | RestMask | FeatherPointMask |
+                                        WindingPassageMask | SacrificeMask | WishMask | BoskyPassageMask |
+                                        ResidentStrongholdMask | EvacuateMask | TeleporterMask | OtherMask;
 
 bool same_edge(const Edge& lhs, const Edge& rhs) noexcept
 {
@@ -58,12 +62,25 @@ Edge normalized_edge(Edge edge) noexcept
     return edge;
 }
 
-bool is_targetable(const Node& node) noexcept
+NodeProgress effective_progress(const Node& node, const RunState& state) noexcept
 {
-    if (!node.traversal.enterable || node.progress == NodeProgress::Removed || node.type == NodeType::Empty) {
+    const auto found = state.node_progress.find(node.id);
+    return found == state.node_progress.end() ? node.progress : found->second;
+}
+
+bool is_targetable(const Node& node, const RunState& state) noexcept
+{
+    const NodeProgress progress = effective_progress(node, state);
+    if (!node.traversal.enterable || progress == NodeProgress::Removed || node.type == NodeType::Empty) {
         return false;
     }
-    return node.progress != NodeProgress::Completed || node.traversal.repeatable;
+    return progress != NodeProgress::Completed || node.traversal.repeatable;
+}
+
+bool is_walk_transparent(const Node& node, const RunState& state) noexcept
+{
+    return !node.traversal.blocks_walk || state.visited_nodes.contains(node.id) ||
+           effective_progress(node, state) == NodeProgress::Completed;
 }
 
 int predicted_node_gain(const Node& node, const RunState& state) noexcept
@@ -149,8 +166,11 @@ bool MapSnapshot::upsert_edge(Edge edge)
     }
     if (auto iter = std::ranges::find_if(m_edges, [&](const Edge& current) { return same_edge(current, edge); });
         iter != m_edges.end()) {
-        if (iter->knowledge != edge.knowledge) {
-            iter->knowledge = edge.knowledge;
+        if (iter->knowledge != edge.knowledge || iter->evidence.probability != edge.evidence.probability ||
+            iter->evidence.cnn_connected != edge.evidence.cnn_connected ||
+            iter->evidence.forced_by_connectivity_constraint != edge.evidence.forced_by_connectivity_constraint ||
+            iter->evidence.decision_source != edge.evidence.decision_source) {
+            *iter = std::move(edge);
             ++revision;
         }
     }
@@ -175,9 +195,15 @@ const Node* MapSnapshot::find_node(int floor, GridPosition position) const noexc
 
 EdgeKnowledge MapSnapshot::edge_knowledge(NodeId first, NodeId second) const noexcept
 {
-    const Edge key = normalized_edge({ first, second, EdgeKnowledge::Unknown });
+    const Edge* edge = find_edge(first, second);
+    return edge == nullptr ? EdgeKnowledge::Unknown : edge->knowledge;
+}
+
+const Edge* MapSnapshot::find_edge(NodeId first, NodeId second) const noexcept
+{
+    const Edge key = normalized_edge({ first, second, EdgeKnowledge::Unknown, {} });
     const auto iter = std::ranges::find_if(m_edges, [&](const Edge& edge) { return same_edge(edge, key); });
-    return iter == m_edges.end() ? EdgeKnowledge::Unknown : iter->knowledge;
+    return iter == m_edges.end() ? nullptr : &*iter;
 }
 
 std::vector<NodeId> MapSnapshot::neighbors(NodeId id, bool include_unknown_edges) const
@@ -249,12 +275,12 @@ std::unordered_set<NodeId> MapSnapshot::nodes_within_manhattan(NodeId origin, in
 bool MapSnapshot::has_confirmed_teleport_pair(NodeId id) const noexcept
 {
     const Node* first = find_node(id);
-    if (first == nullptr || first->type != NodeType::Teleporter || !first->teleport_target.has_value() ||
+    if (first == nullptr || !is_transfer_node(first->type) || !first->teleport_target.has_value() ||
         *first->teleport_target == id) {
         return false;
     }
     const Node* second = find_node(*first->teleport_target);
-    return second != nullptr && second->type == NodeType::Teleporter && second->teleport_target == id;
+    return second != nullptr && is_transfer_node(second->type) && second->teleport_target == id;
 }
 
 bool MapSnapshot::validate(std::string* error) const
@@ -308,10 +334,11 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
         }
         return false;
     }
-    if (m_floor != 0 && m_floor != batch.floor) {
-        reset();
+    NormalizedMap working = *this;
+    if (working.m_floor != 0 && working.m_floor != batch.floor) {
+        working.reset();
     }
-    m_floor = batch.floor;
+    working.m_floor = batch.floor;
 
     std::unordered_set<GridPosition, GridPositionHash> observed_positions;
     for (const auto& observed : batch.nodes) {
@@ -322,27 +349,62 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
             }
             return false;
         }
-        Node node;
-        node.id = *id;
-        node.floor = batch.floor;
-        node.position = observed.position;
-        node.type = observed.type;
-        node.event_mask = observed.event_mask != 0 ? observed.event_mask : event_mask_for(observed.type);
-        node.name = observed.name;
-        node.progress = observed.progress;
-        node.traversal = observed.traversal;
-        node.identity_revealed = observed.identity_revealed;
-        node.badged = observed.badged;
-        if (observed.teleport_target.has_value()) {
-            node.teleport_target = make_stable_node_id(batch.floor, *observed.teleport_target);
-            if (!node.teleport_target.has_value()) {
-                if (error != nullptr) {
-                    *error = "observation contains an invalid teleporter target";
-                }
-                return false;
+
+        const Node* current = working.m_snapshot.find_node(*id);
+        Node node = current == nullptr ? Node {} : *current;
+        if (current == nullptr) {
+            node.id = *id;
+            node.floor = batch.floor;
+            node.position = observed.position;
+            node.traversal = default_traversal_for(NodeType::Unknown);
+        }
+        if (observed.type.has_value()) {
+            const bool newly_classified = node.type == NodeType::Unknown && *observed.type != NodeType::Unknown;
+            node.type = *observed.type;
+            if (!observed.event_mask.has_value()) {
+                node.event_mask = event_mask_for(node.type);
+            }
+            if (!observed.traversal.has_value() &&
+                (current == nullptr || newly_classified || current->type != *observed.type)) {
+                node.traversal = default_traversal_for(node.type);
             }
         }
-        if (!m_snapshot.upsert_node(std::move(node))) {
+        if (observed.event_mask.has_value()) {
+            node.event_mask = *observed.event_mask;
+        }
+        if (observed.name.has_value()) {
+            node.name = *observed.name;
+        }
+        if (observed.progress.has_value()) {
+            node.progress = *observed.progress;
+        }
+        if (observed.traversal.has_value()) {
+            node.traversal = *observed.traversal;
+        }
+        if (observed.identity_state.has_value()) {
+            node.identity_state = *observed.identity_state;
+        }
+        if (observed.identity_revealed.has_value()) {
+            node.identity_revealed = *observed.identity_revealed;
+        }
+        if (observed.badged.has_value()) {
+            node.badged = *observed.badged;
+        }
+        if (observed.teleport_target.has_value()) {
+            if (observed.teleport_target->has_value()) {
+                node.teleport_target = make_stable_node_id(batch.floor, **observed.teleport_target);
+                if (!node.teleport_target.has_value()) {
+                    if (error != nullptr) {
+                        *error = "observation contains an invalid transfer target";
+                    }
+                    return false;
+                }
+            }
+            else {
+                node.teleport_target.reset();
+            }
+        }
+        if (!working.m_snapshot.upsert_node(std::move(node))) {
             if (error != nullptr) {
                 *error = "failed to merge observed node";
             }
@@ -350,27 +412,43 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
         }
     }
 
-    std::unordered_set<GridPosition, GridPositionHash> covered;
-    if (batch.coverage == ObservationCoverage::FullMap) {
-        for (const auto& [id, node] : m_snapshot.nodes()) {
+    std::unordered_set<GridPosition, GridPositionHash> covered(
+        batch.covered_positions.begin(),
+        batch.covered_positions.end());
+    if (batch.coverage == ObservationCoverage::FullMap && covered.empty()) {
+        for (const auto& [id, node] : working.m_snapshot.nodes()) {
             (void)id;
             if (node.floor == batch.floor) {
                 covered.emplace(node.position);
             }
         }
     }
-    else {
-        covered.insert(batch.covered_positions.begin(), batch.covered_positions.end());
-    }
-    std::vector<NodeId> missing_nodes;
-    for (const auto& [id, node] : m_snapshot.nodes()) {
-        if (node.floor == batch.floor && covered.contains(node.position) &&
-            !observed_positions.contains(node.position)) {
-            missing_nodes.emplace_back(id);
+    for (const GridPosition& position : covered) {
+        if (observed_positions.contains(position)) {
+            continue;
         }
-    }
-    for (const NodeId id : missing_nodes) {
-        m_snapshot.remove_node(id);
+        const auto id = make_stable_node_id(batch.floor, position);
+        if (!id.has_value()) {
+            if (error != nullptr) {
+                *error = "covered observation contains an invalid grid position";
+            }
+            return false;
+        }
+        const Node* current = working.m_snapshot.find_node(*id);
+        if (current == nullptr) {
+            continue;
+        }
+        Node empty = *current;
+        empty.type = NodeType::Empty;
+        empty.event_mask = event_mask_for(NodeType::Empty);
+        empty.name.clear();
+        empty.progress = NodeProgress::Active;
+        empty.traversal = default_traversal_for(NodeType::Empty);
+        empty.identity_state = NodeIdentityState::Classified;
+        empty.identity_revealed = true;
+        empty.badged = false;
+        empty.teleport_target.reset();
+        working.m_snapshot.upsert_node(std::move(empty));
     }
 
     std::set<std::pair<NodeId, NodeId>> observed_edges;
@@ -383,9 +461,9 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
             }
             return false;
         }
-        const Edge normalized = normalized_edge({ *first, *second, observed.knowledge });
+        const Edge normalized = normalized_edge({ *first, *second, observed.knowledge, observed.evidence });
         if (!observed_edges.emplace(normalized.first, normalized.second).second ||
-            !m_snapshot.upsert_edge(normalized)) {
+            !working.m_snapshot.upsert_edge(normalized)) {
             if (error != nullptr) {
                 *error = "observation edge endpoints must reference merged nodes and be unique";
             }
@@ -394,22 +472,25 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
     }
 
     std::vector<Edge> missing_edges;
-    for (const auto& edge : m_snapshot.edges()) {
+    for (const auto& edge : working.m_snapshot.edges()) {
         if (observed_edges.contains({ edge.first, edge.second })) {
             continue;
         }
-        const Node* first = m_snapshot.find_node(edge.first);
-        const Node* second = m_snapshot.find_node(edge.second);
+        const Node* first = working.m_snapshot.find_node(edge.first);
+        const Node* second = working.m_snapshot.find_node(edge.second);
         const bool edge_covered = batch.coverage == ObservationCoverage::FullMap ||
                                   (first != nullptr && second != nullptr && covered.contains(first->position) &&
                                    covered.contains(second->position));
         if (edge_covered && edge.knowledge != EdgeKnowledge::Absent) {
-            missing_edges.emplace_back(Edge { edge.first, edge.second, EdgeKnowledge::Absent });
+            Edge absent = edge;
+            absent.knowledge = EdgeKnowledge::Absent;
+            missing_edges.emplace_back(std::move(absent));
         }
     }
     for (const Edge& edge : missing_edges) {
-        m_snapshot.upsert_edge(edge);
+        working.m_snapshot.upsert_edge(edge);
     }
+    *this = std::move(working);
     return true;
 }
 
@@ -459,6 +540,27 @@ std::optional<Rect> ViewportObservation::clickable_rect(
     return observation == nullptr ? std::nullopt : std::optional<Rect>(observation->icon_rect);
 }
 
+NodeTraversal default_traversal_for(NodeType type) noexcept
+{
+    switch (type) {
+    case NodeType::Empty:
+        return { false, false, false, false };
+    case NodeType::WindingPassage:
+    case NodeType::Teleporter:
+        return { false, false, true, true };
+    case NodeType::BattleShop:
+    case NodeType::ScrapShop:
+        return { true, true, true, true };
+    default:
+        return {};
+    }
+}
+
+bool is_transfer_node(NodeType type) noexcept
+{
+    return type == NodeType::WindingPassage || type == NodeType::Teleporter;
+}
+
 EventMask event_mask_for(NodeType type) noexcept
 {
     switch (type) {
@@ -488,10 +590,16 @@ EventMask event_mask_for(NodeType type) noexcept
         return FaceOffMask;
     case NodeType::EmergencyAid:
         return EmergencyAidMask;
+    case NodeType::Rest:
+        return RestMask;
     case NodeType::FeatherPoint:
         return FeatherPointMask;
     case NodeType::WindingPassage:
         return WindingPassageMask;
+    case NodeType::Sacrifice:
+        return SacrificeMask;
+    case NodeType::Wish:
+        return WishMask;
     case NodeType::BoskyPassage:
         return BoskyPassageMask;
     case NodeType::ResidentStronghold:
@@ -500,6 +608,8 @@ EventMask event_mask_for(NodeType type) noexcept
         return FinalMask;
     case NodeType::Fate:
         return FateMask;
+    case NodeType::Evacuate:
+        return EvacuateMask;
     case NodeType::Teleporter:
         return TeleporterMask;
     case NodeType::Other:
@@ -681,6 +791,16 @@ int DynamicCostModel::action_cost(std::string_view action_id, int fallback) cons
     return found == action_cost_overrides.end() ? fallback : found->second;
 }
 
+bool DynamicCostModel::clear_action_cost_overrides() noexcept
+{
+    if (action_cost_overrides.empty()) {
+        return false;
+    }
+    action_cost_overrides.clear();
+    ++revision;
+    return true;
+}
+
 bool DynamicCostModel::validate(std::string* error) const
 {
     if (walk_cost_per_edge < 0) {
@@ -740,9 +860,10 @@ bool is_in_geometric_range(const MapSnapshot& map, NodeId source, NodeId target,
 
 std::vector<NodeId> enumerate_geometric_targets(const MapSnapshot& map, NodeId source, const MovementSpec& movement)
 {
+    const RunState empty_state;
     std::vector<NodeId> result;
     for (const auto& [id, node] : map.nodes()) {
-        if (id != source && is_targetable(node) && is_in_geometric_range(map, source, id, movement)) {
+        if (id != source && is_targetable(node, empty_state) && is_in_geometric_range(map, source, id, movement)) {
             result.emplace_back(id);
         }
     }
@@ -753,7 +874,7 @@ std::vector<NodeId> enumerate_geometric_targets(const MapSnapshot& map, NodeId s
 NodeId resolve_landing(const MapSnapshot& map, NodeId target, MapKnowledgeMode knowledge) noexcept
 {
     const Node* node = map.find_node(target);
-    if (node == nullptr || node->type != NodeType::Teleporter) {
+    if (node == nullptr || !is_transfer_node(node->type)) {
         return target;
     }
     if (map.has_confirmed_teleport_pair(target)) {
@@ -785,6 +906,7 @@ std::vector<MoveAction>
         };
 
         std::deque<WalkFrontier> queue;
+        std::unordered_map<NodeId, std::size_t> walk_action_indices;
         std::unordered_set<NodeId> expanded;
         queue.push_back({ state.current_node, {} });
         expanded.emplace(state.current_node);
@@ -801,7 +923,7 @@ std::vector<MoveAction>
                 }
                 auto path = current.path;
                 path.emplace_back(neighbor);
-                if (is_targetable(*node)) {
+                if (is_targetable(*node, state)) {
                     MoveAction action;
                     action.candidate.action_id =
                         "walk:" + std::to_string(state.current_node) + ":" + std::to_string(neighbor);
@@ -811,6 +933,20 @@ std::vector<MoveAction>
                     action.candidate.landing = resolve_landing(map, neighbor, knowledge);
                     if (action.candidate.landing != InvalidNodeId) {
                         action.candidate.path = path;
+                        NodeId previous = state.current_node;
+                        for (const NodeId step : path) {
+                            const Node* path_node = map.find_node(step);
+                            const Edge* path_edge = map.find_edge(previous, step);
+                            action.candidate.passes_unclassified =
+                                action.candidate.passes_unclassified ||
+                                (path_node != nullptr && path_node->identity_state == NodeIdentityState::Unclassified);
+                            action.candidate.uses_inferred_edge =
+                                action.candidate.uses_inferred_edge ||
+                                (path_edge != nullptr && path_edge->evidence.forced_by_connectivity_constraint);
+                            previous = step;
+                        }
+                        action.candidate.requires_preview_confirmation =
+                            relaxed && (action.candidate.passes_unclassified || action.candidate.uses_inferred_edge);
                         action.candidate.predicted_action_point_cost = state.costs.action_cost(
                             action.candidate.action_id,
                             state.costs.movement_cost(*walk, path.size()));
@@ -823,10 +959,18 @@ std::vector<MoveAction>
                         action.candidate.terminal_on_completion =
                             node->type == NodeType::Final || node->type == NodeType::Fate;
                         action.possible_landings.emplace_back(action.candidate.landing);
-                        result.emplace_back(std::move(action));
+                        const auto existing_action = walk_action_indices.find(neighbor);
+                        if (existing_action == walk_action_indices.end()) {
+                            walk_action_indices.emplace(neighbor, result.size());
+                            result.emplace_back(std::move(action));
+                        }
+                        else if (action.candidate.path.size() < result[existing_action->second].candidate.path.size()) {
+                            result[existing_action->second] = std::move(action);
+                        }
                     }
                 }
-                if (!node->traversal.blocks_walk && expanded.emplace(neighbor).second) {
+                const bool relaxed_unclassified = relaxed && node->identity_state == NodeIdentityState::Unclassified;
+                if ((is_walk_transparent(*node, state) || relaxed_unclassified) && expanded.emplace(neighbor).second) {
                     queue.push_back({ neighbor, std::move(path) });
                 }
             }
@@ -845,7 +989,7 @@ std::vector<MoveAction>
 
         std::vector<std::pair<NodeId, TargetMatch>> targets;
         for (const auto& [id, node] : map.nodes()) {
-            if (id == state.current_node || !is_targetable(node) ||
+            if (id == state.current_node || !is_targetable(node, state) ||
                 !is_in_geometric_range(map, state.current_node, id, movement)) {
                 continue;
             }
@@ -901,9 +1045,9 @@ std::vector<MoveAction>
             if (normal_landing != InvalidNodeId) {
                 landings.emplace_back(normal_landing);
             }
-            if (relaxed && target_node->type == NodeType::Teleporter && !map.has_confirmed_teleport_pair(target)) {
+            if (relaxed && is_transfer_node(target_node->type) && !map.has_confirmed_teleport_pair(target)) {
                 for (const auto& [other_id, other_node] : map.nodes()) {
-                    if (other_id != target && other_node.type == NodeType::Teleporter) {
+                    if (other_id != target && is_transfer_node(other_node.type)) {
                         landings.emplace_back(other_id);
                     }
                 }
@@ -937,6 +1081,17 @@ std::vector<MoveAction>
         }
     }
     return result;
+}
+
+bool VerifiedMoveArc::matches(
+    const MoveCandidate& candidate,
+    std::uint64_t current_map_revision,
+    std::uint64_t current_cost_revision,
+    std::uint64_t current_viewport_revision) const noexcept
+{
+    return source == candidate.source && target == candidate.target && landing == candidate.landing &&
+           movement == candidate.movement && map_revision == current_map_revision &&
+           cost_revision == current_cost_revision && viewport_revision == current_viewport_revision;
 }
 
 std::optional<MoveTransaction> MoveTransaction::propose(
@@ -1162,10 +1317,16 @@ std::string_view to_string(NodeType type) noexcept
         return "face_off";
     case NodeType::EmergencyAid:
         return "emergency_aid";
+    case NodeType::Rest:
+        return "rest";
     case NodeType::FeatherPoint:
         return "feather_point";
     case NodeType::WindingPassage:
         return "winding_passage";
+    case NodeType::Sacrifice:
+        return "sacrifice";
+    case NodeType::Wish:
+        return "wish";
     case NodeType::BoskyPassage:
         return "bosky_passage";
     case NodeType::ResidentStronghold:
@@ -1174,6 +1335,8 @@ std::string_view to_string(NodeType type) noexcept
         return "final";
     case NodeType::Fate:
         return "fate";
+    case NodeType::Evacuate:
+        return "evacuate";
     case NodeType::Teleporter:
         return "teleporter";
     case NodeType::Other:

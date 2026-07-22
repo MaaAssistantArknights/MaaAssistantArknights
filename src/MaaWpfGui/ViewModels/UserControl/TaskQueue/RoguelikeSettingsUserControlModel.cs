@@ -967,6 +967,79 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 Instances.TaskQueueViewModel.AddLog(string.Join("\n", logLines), UiLogColor.EventIS, updateCardImage: true);
                 break;
 
+            case "BlackFlowRoutingDecision":
+                {
+                    var floor = subTaskDetails?["floor"]?.Value<int>() ?? 0;
+                    var before = subTaskDetails?["action_points_before"]?.Value<int>() ?? 0;
+                    var after = subTaskDetails?["action_points_after"]?.Value<int>() ?? 0;
+                    var movement = subTaskDetails?["movement"]?.ToString() == "walk"
+                        ? LocalizationHelper.GetString("BlackFlowMovementWalk")
+                        : LocalizationHelper.GetString("BlackFlowMovementProcessing");
+                    var nodeName = subTaskDetails?["node_name"]?.ToString();
+                    if (string.IsNullOrWhiteSpace(nodeName))
+                    {
+                        nodeName = subTaskDetails?["node_type"]?.ToString() ?? "Unknown";
+                    }
+                    var margin = subTaskDetails?["safety_margin"]?.Value<int>() ?? 0;
+                    var category = subTaskDetails?["reason_category"]?.ToString() switch
+                    {
+                        "mandatory_goal" => LocalizationHelper.GetString("BlackFlowReasonMandatoryGoal"),
+                        "resource_reserve" => LocalizationHelper.GetString("BlackFlowReasonResourceReserve"),
+                        "preferred_goal" => LocalizationHelper.GetString("BlackFlowReasonPreferredGoal"),
+                        "development" => LocalizationHelper.GetString("BlackFlowReasonDevelopment"),
+                        "risk_avoidance" => LocalizationHelper.GetString("BlackFlowReasonRiskAvoidance"),
+                        "safety_fallback" => LocalizationHelper.GetString("BlackFlowReasonSafetyFallback"),
+                        _ => LocalizationHelper.GetString("BlackFlowReasonTieBreak"),
+                    };
+                    var reasonDetail = subTaskDetails?["reason_detail"]?.ToString() ?? string.Empty;
+                    var routeLine = LocalizationHelper.GetStringFormat(
+                        "BlackFlowRoutingDecision",
+                        floor,
+                        before,
+                        after,
+                        movement,
+                        nodeName,
+                        margin);
+                    var reasonLine = LocalizationHelper.GetStringFormat("BlackFlowRoutingReason", category, reasonDetail);
+                    Instances.TaskQueueViewModel.AddLog($"{routeLine}\n{reasonLine}", UiLogColor.EventIS);
+                    break;
+                }
+
+            case "BlackFlowRoutingWarning":
+                {
+                    var warning = subTaskDetails?["code"]?.ToString() switch
+                    {
+                        "map_rebuild_failed" => LocalizationHelper.GetString("BlackFlowWarningMapRebuildFailed"),
+                        "page_recovery_failed" => LocalizationHelper.GetString("BlackFlowWarningPageRecoveryFailed"),
+                        "preview_cost_changed" => LocalizationHelper.GetString("BlackFlowWarningPreviewCostChanged"),
+                        "target_unreachable" => LocalizationHelper.GetString("BlackFlowWarningTargetUnreachable"),
+                        "inferred_edge_selected" => LocalizationHelper.GetString("BlackFlowWarningInferredEdge"),
+                        "post_move_mismatch" => LocalizationHelper.GetString("BlackFlowWarningPostMoveMismatch"),
+                        "floor_mismatch" => LocalizationHelper.GetString("BlackFlowWarningFloorMismatch"),
+                        _ => subTaskDetails?["message"]?.ToString() ?? LocalizationHelper.GetString("BlackFlowWarningUnknown"),
+                    };
+                    Instances.TaskQueueViewModel.AddLog(warning, UiLogColor.Warning);
+                    break;
+                }
+
+            case "BlackFlowMilestoneChanged":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "BlackFlowMilestoneChanged",
+                        subTaskDetails?["milestone_id"]?.ToString() ?? string.Empty,
+                        subTaskDetails?["status"]?.ToString() ?? string.Empty),
+                    UiLogColor.Info);
+                break;
+
+            case "BlackFlowStrategyResult":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "BlackFlowStrategyResult",
+                        subTaskDetails?["outcome"]?.ToString() ?? string.Empty,
+                        subTaskDetails?["termination_reason"]?.ToString() ?? string.Empty),
+                    subTaskDetails?["succeeded"]?.Value<bool>() == true ? UiLogColor.Info : UiLogColor.Warning);
+                break;
+
             case "BoskyPassageNode":
                 {
                     var nodeType = subTaskDetails!["node_type"]?.ToString();

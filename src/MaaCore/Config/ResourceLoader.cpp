@@ -16,6 +16,7 @@
 #include "Miscellaneous/StageDropsConfig.h"
 #include "Miscellaneous/TilePack.h"
 #include "OnnxSessions.h"
+#include "Roguelike/BlackFlow/BlackFlowStrategyConfig.h"
 #include "Roguelike/JieGarden/RoguelikeCoppersConfig.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
 #include "Roguelike/RoguelikeMapConfig.h"
@@ -254,6 +255,12 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }
     }
 
+    // BlackFlow high-level route policy. Page tasks and visual resources are loaded separately.
+    if (!load_with_custom.template operator()<BlackFlowStrategyConfig>(
+            roguelike_path("BlackFlow", "strategy.json"_p),
+            "BlackFlowStrategyConfig")) {
+        return false;
+    }
     // ==================== 主题专属插件配置 ====================
     // Sami
     if (!load_with_custom.template operator()<RoguelikeFoldartalConfig>(

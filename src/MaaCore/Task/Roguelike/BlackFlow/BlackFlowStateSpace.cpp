@@ -49,6 +49,8 @@ RunState materialize_run_state(const RunState& source, const PlannerState& state
         }
     }
     result.node_progress.clear();
+    result.visited_nodes.clear();
+    result.visited_nodes.insert(state.visited_nodes.begin(), state.visited_nodes.end());
     for (const NodeId completed : state.completed_nodes) {
         result.node_progress.emplace(completed, NodeProgress::Completed);
     }
@@ -81,6 +83,7 @@ PlannerState
     if (completed == InvalidNodeId) {
         completed = landing;
     }
+    insert_sorted(successor.visited_nodes, completed);
     const Node* node = map.find_node(completed);
     if (node != nullptr && !node->traversal.repeatable && node->type != NodeType::Empty) {
         insert_sorted(successor.completed_nodes, completed);
@@ -122,6 +125,9 @@ std::size_t PlannerStateHash::operator()(const PlannerState& state) const noexce
         seed = combine_hash(seed, std::hash<bool> {}(expired));
     }
     for (const NodeId node : state.completed_nodes) {
+        seed = combine_hash(seed, std::hash<NodeId> {}(node));
+    }
+    for (const NodeId node : state.visited_nodes) {
         seed = combine_hash(seed, std::hash<NodeId> {}(node));
     }
     for (const NodeId node : state.consumed_one_time_nodes) {
@@ -195,6 +201,8 @@ std::optional<ExpandedSafetyProblem> BlackFlowStateExpander::build(
     initial.completed_nodes.erase(
         std::unique(initial.completed_nodes.begin(), initial.completed_nodes.end()),
         initial.completed_nodes.end());
+    initial.visited_nodes.assign(run.visited_nodes.begin(), run.visited_nodes.end());
+    std::ranges::sort(initial.visited_nodes);
     initial.consumed_one_time_nodes.assign(run.consumed_one_time_nodes.begin(), run.consumed_one_time_nodes.end());
     std::ranges::sort(initial.consumed_one_time_nodes);
     initial.revealed_nodes.assign(run.revealed_nodes.begin(), run.revealed_nodes.end());

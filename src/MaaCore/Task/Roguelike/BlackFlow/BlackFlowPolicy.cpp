@@ -78,10 +78,18 @@ bool prerequisites_satisfied(const Milestone& milestone, const MissionState& mis
     });
 }
 
+struct ScoreOrigin
+{
+    DecisionReasonCategory category = DecisionReasonCategory::TieBreak;
+    std::string id;
+    bool milestone = false;
+};
+
 struct RankedCandidate
 {
     const PolicyCandidate* candidate = nullptr;
     std::vector<int> score;
+    std::vector<ScoreOrigin> origins;
 };
 
 bool score_less(const RankedCandidate& lhs, const RankedCandidate& rhs)
@@ -461,18 +469,45 @@ PolicyDecision PolicyExecutor::choose(
     const std::vector<PolicyCandidate>& candidates) const
 {
     PolicyDecision decision;
+    decision.total_candidates = candidates.size();
+    auto reject = [&](const PolicyCandidate& candidate, std::string category, std::string detail) {
+        ++decision.rejection_counts[category];
+        decision.rejected.emplace_back(candidate.move.action_id + ": " + std::move(detail));
+    };
+    auto category_for_tier = [](PolicyTier tier) {
+        switch (tier) {
+        case PolicyTier::MandatoryMilestone:
+            return DecisionReasonCategory::MandatoryGoal;
+        case PolicyTier::ResourceReserve:
+            return DecisionReasonCategory::ResourceReserve;
+        case PolicyTier::PreferredMilestone:
+            return DecisionReasonCategory::PreferredGoal;
+        case PolicyTier::Development:
+            return DecisionReasonCategory::Development;
+        case PolicyTier::Risk:
+            return DecisionReasonCategory::RiskAvoidance;
+        case PolicyTier::Safety:
+            return DecisionReasonCategory::SafetyFallback;
+        case PolicyTier::Legality:
+        case PolicyTier::TieBreak:
+            return DecisionReasonCategory::TieBreak;
+        }
+        return DecisionReasonCategory::TieBreak;
+    };
+
     std::vector<const PolicyCandidate*> eligible;
     for (const auto& candidate : candidates) {
         if (!candidate.legal) {
-            decision.rejected.emplace_back(candidate.move.action_id + ": illegal");
+            reject(candidate, "legality", "illegal");
         }
         else if (!candidate.confirmed_safe) {
-            decision.rejected.emplace_back(candidate.move.action_id + ": no confirmed safe terminal route");
+            reject(candidate, "safety", "no confirmed safe terminal route");
         }
         else {
             eligible.emplace_back(&candidate);
         }
     }
+    const std::size_t safe_count = eligible.size();
 
     std::vector<const PolicyRule*> active_rules;
     for (const auto& rule : policy.rules) {
@@ -484,16 +519,19 @@ PolicyDecision PolicyExecutor::choose(
         return std::tie(lhs->tier, lhs->rank, lhs->id) < std::tie(rhs->tier, rhs->rank, rhs->id);
     });
 
+    const PolicyRule* decisive_hard_rule = nullptr;
     std::erase_if(eligible, [&](const PolicyCandidate* candidate) {
         for (const PolicyRule* rule : active_rules) {
             const bool matches = rule_matches_candidate(*rule, facts, candidate->facts);
             if ((rule->kind == RuleKind::Forbid && matches) || (rule->kind == RuleKind::Require && !matches)) {
-                decision.rejected.emplace_back(candidate->move.action_id + ": hard policy " + rule->id);
+                reject(*candidate, "hard_policy", "hard policy " + rule->id);
+                decisive_hard_rule = decisive_hard_rule == nullptr ? rule : decisive_hard_rule;
                 return true;
             }
         }
         return false;
     });
+    const std::size_t after_hard_policy = eligible.size();
 
     const Milestone* mandatory = nullptr;
     for (const auto& milestone : policy.milestones) {
@@ -508,11 +546,13 @@ PolicyDecision PolicyExecutor::choose(
             if (milestone_matches_candidate(*mandatory, facts, candidate->facts)) {
                 return false;
             }
-            decision.rejected.emplace_back(candidate->move.action_id + ": mandatory milestone " + mandatory->id);
+            reject(*candidate, "mandatory_goal", "mandatory milestone " + mandatory->id);
             return true;
         });
     }
+    const std::size_t after_mandatory = eligible.size();
 
+    const ResourceReserve* decisive_reserve = nullptr;
     std::erase_if(eligible, [&](const PolicyCandidate* candidate) {
         for (const auto& reserve : policy.reserves) {
             const FactStore reserve_facts = facts.overlay(candidate->facts);
@@ -521,13 +561,15 @@ PolicyDecision PolicyExecutor::choose(
             }
             const auto after = resources.read_after(reserve.resource, run, candidate->move);
             if (!after.has_value() || *after < reserve.minimum) {
-                decision.rejected.emplace_back(candidate->move.action_id + ": resource reserve " + reserve.id);
+                reject(*candidate, "resource_reserve", "resource reserve " + reserve.id);
+                decisive_reserve = decisive_reserve == nullptr ? &reserve : decisive_reserve;
                 return true;
             }
         }
         return false;
     });
 
+    decision.eligible_candidates = eligible.size();
     if (eligible.empty()) {
         decision.reason = mandatory == nullptr ? "no eligible safe candidate"
                                                : "no candidate can advance the active mandatory milestone";
@@ -558,39 +600,99 @@ PolicyDecision PolicyExecutor::choose(
     for (const PolicyCandidate* candidate : eligible) {
         RankedCandidate entry;
         entry.candidate = candidate;
+        auto add_score = [&](int value, DecisionReasonCategory category, std::string id, bool milestone = false) {
+            entry.score.emplace_back(value);
+            entry.origins.emplace_back(ScoreOrigin { category, std::move(id), milestone });
+        };
         for (const PolicyTier tier : SoftTiers) {
             for (const PolicyRule* rule : active_rules) {
                 if (rule->kind == RuleKind::Prefer && rule->tier == tier) {
-                    entry.score.emplace_back(rule_matches_candidate(*rule, facts, candidate->facts) ? 0 : 1);
+                    add_score(
+                        rule_matches_candidate(*rule, facts, candidate->facts) ? 0 : 1,
+                        category_for_tier(tier),
+                        rule->id);
                 }
             }
             if (tier == PolicyTier::PreferredMilestone) {
                 for (const Milestone* milestone : preferred) {
-                    entry.score.emplace_back(milestone_matches_candidate(*milestone, facts, candidate->facts) ? 0 : 1);
+                    add_score(
+                        milestone_matches_candidate(*milestone, facts, candidate->facts) ? 0 : 1,
+                        DecisionReasonCategory::PreferredGoal,
+                        milestone->id,
+                        true);
                 }
             }
             else if (tier == PolicyTier::Development) {
-                entry.score.emplace_back(candidate->development_score);
+                add_score(candidate->development_score, DecisionReasonCategory::Development, "development_score");
             }
             else if (tier == PolicyTier::Risk) {
-                entry.score.emplace_back(candidate->risk_score);
+                add_score(candidate->risk_score, DecisionReasonCategory::RiskAvoidance, "risk_score");
             }
             else if (tier == PolicyTier::TieBreak) {
                 for (const PolicyRule* rule : active_rules) {
                     if (rule->kind == RuleKind::TieBreak) {
-                        entry.score.emplace_back(rule_matches_candidate(*rule, facts, candidate->facts) ? 0 : 1);
+                        add_score(
+                            rule_matches_candidate(*rule, facts, candidate->facts) ? 0 : 1,
+                            DecisionReasonCategory::TieBreak,
+                            rule->id);
                     }
                 }
             }
         }
-        entry.score.emplace_back(candidate->battle_count);
-        entry.score.emplace_back(candidate->estimated_duration);
+        add_score(candidate->battle_count, DecisionReasonCategory::RiskAvoidance, "battle_count");
+        add_score(candidate->estimated_duration, DecisionReasonCategory::TieBreak, "estimated_duration");
         ranked.emplace_back(std::move(entry));
     }
-    std::ranges::stable_sort(ranked, score_less);
+    std::ranges::stable_sort(ranked, [](const RankedCandidate& lhs, const RankedCandidate& rhs) {
+        if (score_less(lhs, rhs)) {
+            return true;
+        }
+        if (score_less(rhs, lhs)) {
+            return false;
+        }
+        return lhs.candidate->move.action_id < rhs.candidate->move.action_id;
+    });
+
     decision.selected = ranked.front().candidate->move;
-    decision.reason = mandatory == nullptr ? "selected by lexicographic policy order"
-                                           : "selected for mandatory milestone " + mandatory->id;
+    for (std::size_t index = 1; index < std::min<std::size_t>(ranked.size(), 3); ++index) {
+        decision.runners_up.emplace_back(ranked[index].candidate->move);
+    }
+
+    if (ranked.size() >= 2) {
+        const std::size_t dimensions = std::min(ranked[0].score.size(), ranked[1].score.size());
+        for (std::size_t index = 0; index < dimensions; ++index) {
+            if (ranked[0].score[index] == ranked[1].score[index]) {
+                continue;
+            }
+            const ScoreOrigin& origin = ranked[0].origins[index];
+            decision.reason_category = origin.category;
+            if (origin.milestone) {
+                decision.decisive_milestone_id = origin.id;
+            }
+            else {
+                decision.decisive_rule_id = origin.id;
+            }
+            break;
+        }
+    }
+    else if (mandatory != nullptr && after_hard_policy > after_mandatory) {
+        decision.reason_category = DecisionReasonCategory::MandatoryGoal;
+        decision.decisive_milestone_id = mandatory->id;
+    }
+    else if (decisive_reserve != nullptr && after_mandatory > eligible.size()) {
+        decision.reason_category = DecisionReasonCategory::ResourceReserve;
+        decision.decisive_rule_id = decisive_reserve->id;
+    }
+    else if (decisive_hard_rule != nullptr) {
+        decision.reason_category = category_for_tier(decisive_hard_rule->tier);
+        decision.decisive_rule_id = decisive_hard_rule->id;
+    }
+    else if (safe_count == 1 && candidates.size() > 1) {
+        decision.reason_category = DecisionReasonCategory::SafetyFallback;
+        decision.decisive_rule_id = "confirmed_safety";
+    }
+
+    decision.reason = "selected by lexicographic policy order";
     return decision;
 }
 
@@ -630,6 +732,27 @@ std::string_view to_string(PolicyTier tier) noexcept
         return "tie_break";
     }
     return "development";
+}
+
+std::string_view to_string(DecisionReasonCategory category) noexcept
+{
+    switch (category) {
+    case DecisionReasonCategory::MandatoryGoal:
+        return "mandatory_goal";
+    case DecisionReasonCategory::ResourceReserve:
+        return "resource_reserve";
+    case DecisionReasonCategory::PreferredGoal:
+        return "preferred_goal";
+    case DecisionReasonCategory::Development:
+        return "development";
+    case DecisionReasonCategory::RiskAvoidance:
+        return "risk_avoidance";
+    case DecisionReasonCategory::SafetyFallback:
+        return "safety_fallback";
+    case DecisionReasonCategory::TieBreak:
+        return "tie_break";
+    }
+    return "tie_break";
 }
 } // namespace asst::blackflow
 

@@ -19,6 +19,9 @@ struct BlackFlowPlanRequest
     const MissionState* mission = nullptr;
     std::unordered_set<NodeId> strategy_terminal_nodes;
     const std::unordered_set<std::string>* forbidden_actions = nullptr;
+    const VerifiedMoveArc* verified_arc = nullptr;
+    std::optional<NodeId> preferred_probe_node;
+    std::uint64_t viewport_revision = 0;
     bool fate_is_safe_terminal = false;
     std::size_t maximum_states = 200000;
 };
@@ -28,6 +31,7 @@ struct BlackFlowPlan
     SafetyBounds safety;
     PolicyDecision decision;
     std::optional<MoveCandidate> confirmed_escape_first_action;
+    bool selected_requires_probe = false;
     std::uint64_t map_revision = 0;
     std::uint64_t cost_revision = 0;
     std::string error;

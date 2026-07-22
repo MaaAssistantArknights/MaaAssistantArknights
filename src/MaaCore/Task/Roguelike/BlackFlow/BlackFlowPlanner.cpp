@@ -268,6 +268,131 @@ RouteMetric confirmed_metric_after_root(
     }
     return worst;
 }
+
+struct HypotheticalSuffix
+{
+    int full_requirement = UnreachableActionPointRequirement;
+    ReachableFeatures possible;
+    std::optional<ReachableFeatures> guaranteed;
+};
+
+RunState run_after_candidate(const MapSnapshot& map, const RunState& run, const MoveCandidate& move, NodeId landing)
+{
+    RunState next = run;
+    next.current_node = landing;
+    if (move.movement != MovementKind::Walk) {
+        auto charge = next.resources.movement_charges.find(move.movement);
+        if (charge != next.resources.movement_charges.end() && charge->second > 0) {
+            --charge->second;
+        }
+    }
+    NodeId entered = move.target == InvalidNodeId ? landing : move.target;
+    next.visited_nodes.emplace(entered);
+    const Node* node = map.find_node(entered);
+    if (node != nullptr && node->type != NodeType::Empty && !node->traversal.repeatable) {
+        next.node_progress.insert_or_assign(entered, NodeProgress::Completed);
+    }
+    if (node != nullptr && node->type == NodeType::FeatherPoint && !next.consumed_one_time_nodes.contains(entered)) {
+        next.consumed_one_time_nodes.emplace(entered);
+        const auto revealed = map.nodes_within_manhattan(entered, 2);
+        next.revealed_nodes.insert(revealed.begin(), revealed.end());
+    }
+    return next;
+}
+
+std::optional<HypotheticalSuffix> analyze_relaxed_root(
+    const MapSnapshot& map,
+    const RunState& run,
+    MoveCandidate move,
+    const StateExpansionOptions& confirmed_options)
+{
+    HypotheticalSuffix result;
+    result.full_requirement = std::max(1, move.predicted_action_point_cost);
+    std::vector<NodeId> landings = move.possible_landings;
+    if (landings.empty() && move.landing != InvalidNodeId) {
+        landings.emplace_back(move.landing);
+    }
+    if (landings.empty()) {
+        return std::nullopt;
+    }
+
+    for (const NodeId landing : landings) {
+        RunState next = run_after_candidate(map, run, move, landing);
+        int gain = move.predicted_action_point_gain;
+        if (const auto found = move.landing_action_point_gains.find(landing);
+            found != move.landing_action_point_gains.end()) {
+            gain = found->second;
+        }
+        const int remaining = action_points_after(run.resources.action_points, move.predicted_action_point_cost, gain);
+        BlackFlowStateExpander expander;
+        std::string ignored;
+        auto expanded = expander.build(map, next, confirmed_options, &ignored);
+        if (!expanded.has_value()) {
+            return std::nullopt;
+        }
+        auto solution_result = SafetyPlanner {}.solve(expanded->problem);
+        if (!solution_result) {
+            return std::nullopt;
+        }
+        const int suffix_requirement = solution_result.solution->requirement(expanded->initial_state);
+        if (suffix_requirement >= UnreachableActionPointRequirement) {
+            return std::nullopt;
+        }
+        const std::int64_t full =
+            static_cast<std::int64_t>(suffix_requirement) + move.predicted_action_point_cost - gain;
+        result.full_requirement = std::max(
+            result.full_requirement,
+            static_cast<int>(std::clamp<std::int64_t>(full, 0, UnreachableActionPointRequirement)));
+
+        ReachableFeatures features =
+            reachable_features(map, *expanded, *solution_result.solution, expanded->initial_state, remaining);
+        result.possible.node_types.insert(features.node_types.begin(), features.node_types.end());
+        result.possible.has_badged = result.possible.has_badged || features.has_badged;
+        result.possible.has_badged_encounter = result.possible.has_badged_encounter || features.has_badged_encounter;
+        if (!result.guaranteed.has_value()) {
+            result.guaranteed = features;
+        }
+        else {
+            std::erase_if(result.guaranteed->node_types, [&](const std::string& type) {
+                return !features.node_types.contains(type);
+            });
+            result.guaranteed->has_badged = result.guaranteed->has_badged && features.has_badged;
+            result.guaranteed->has_badged_encounter =
+                result.guaranteed->has_badged_encounter && features.has_badged_encounter;
+        }
+    }
+    return result;
+}
+
+FactStore relaxed_candidate_facts(const MapSnapshot& map, const MoveCandidate& move, const HypotheticalSuffix& suffix)
+{
+    FactStore facts;
+    const Node* target = map.find_node(move.target);
+    facts.set("candidate.node_type", std::string(target == nullptr ? "unknown" : to_string(target->type)));
+    facts.set("candidate.node_name", target == nullptr ? std::string() : target->name);
+    facts.set("candidate.badged", target != nullptr && target->badged);
+    const bool combat = target != nullptr && combat_type(target->type);
+    facts.set("candidate.combat", combat);
+    facts.set("candidate.boss", combat && target->type == NodeType::Boss);
+    facts.set(
+        "candidate.exit",
+        target != nullptr && (target->type == NodeType::Final || target->type == NodeType::Fate));
+    facts.set("candidate.uses_processing_item", move.movement != MovementKind::Walk);
+    facts.set(
+        "candidate.feather_reveal_count",
+        static_cast<std::int64_t>(
+            target != nullptr && target->type == NodeType::FeatherPoint ? unknown_big_nodes_revealed(map, target->id)
+                                                                        : 0));
+    const ReachableFeatures guaranteed = suffix.guaranteed.value_or(ReachableFeatures {});
+    facts.set("candidate.route_node_types", sorted_types(suffix.possible.node_types));
+    facts.set("candidate.guaranteed_route_node_types", sorted_types(guaranteed.node_types));
+    facts.set("candidate.route_has_badged", suffix.possible.has_badged);
+    facts.set("candidate.guaranteed_route_has_badged", guaranteed.has_badged);
+    facts.set("candidate.route_has_badged_encounter", suffix.possible.has_badged_encounter);
+    facts.set("candidate.guaranteed_route_has_badged_encounter", guaranteed.has_badged_encounter);
+    return facts;
+}
+
 } // namespace
 
 FactStore BlackFlowPlanner::candidate_facts(
@@ -413,8 +538,10 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         }
         PolicyCandidate candidate;
         candidate.move = move->second;
+        candidate.move.confirmed_action_point_requirement =
+            action_requirement(action, result.safety.confirmed_solution);
         candidate.confirmed_safe =
-            request.run->resources.action_points >= action_requirement(action, result.safety.confirmed_solution);
+            request.run->resources.action_points >= candidate.move.confirmed_action_point_requirement;
         candidate.facts = candidate_facts(
             *request.map,
             *confirmed,
@@ -452,6 +579,70 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
             candidate.risk_score = 0;
         }
         policy_candidates.emplace_back(std::move(candidate));
+    }
+
+    std::unordered_set<std::string> confirmed_root_actions;
+    for (const auto& candidate : policy_candidates) {
+        confirmed_root_actions.emplace(candidate.move.action_id);
+    }
+    std::optional<MoveCandidate> preferred_probe;
+    for (const auto& action : relaxed->problem.actions) {
+        if (action.source != relaxed->initial_state) {
+            continue;
+        }
+        const auto move_iter = relaxed->action_candidates.find(action.id);
+        if (move_iter == relaxed->action_candidates.end() ||
+            confirmed_root_actions.contains(move_iter->second.action_id)) {
+            continue;
+        }
+        MoveCandidate move = move_iter->second;
+        move.requires_preview_confirmation = true;
+        if (request.verified_arc != nullptr &&
+            request.verified_arc
+                ->matches(move, request.map->revision, request.run->costs.revision, request.viewport_revision)) {
+            move.predicted_action_point_cost = request.verified_arc->exact_action_point_cost;
+            move.requires_preview_confirmation = false;
+        }
+        auto suffix = analyze_relaxed_root(*request.map, *request.run, move, confirmed_options);
+        if (!suffix.has_value()) {
+            continue;
+        }
+        move.confirmed_action_point_requirement = suffix->full_requirement;
+        PolicyCandidate candidate;
+        candidate.move = move;
+        candidate.confirmed_safe = request.run->resources.action_points >= suffix->full_requirement;
+        candidate.facts = relaxed_candidate_facts(*request.map, move, *suffix);
+        const Node* target = request.map->find_node(move.target);
+        candidate.battle_count = target != nullptr && combat_type(target->type) ? 1 : 0;
+        candidate.estimated_duration =
+            move.movement == MovementKind::Walk ? std::max(1, static_cast<int>(move.path.size())) : 1;
+        candidate.development_score = -static_cast<int>(suffix->possible.node_types.size());
+        candidate.risk_score = target == nullptr || !target->identity_revealed
+                                   ? 5
+                                   : (target->type == NodeType::EmergencyCombat || target->type == NodeType::Boss
+                                          ? 10
+                                          : candidate.battle_count * 4);
+        if (request.preferred_probe_node.has_value() && move.target == *request.preferred_probe_node &&
+            candidate.confirmed_safe) {
+            move.probe_only = true;
+            preferred_probe = move;
+        }
+        policy_candidates.emplace_back(std::move(candidate));
+    }
+
+    if (request.preferred_probe_node.has_value()) {
+        if (!preferred_probe.has_value()) {
+            result.error = "no safe preview action reaches the requested unclassified frontier";
+            return result;
+        }
+        result.decision.selected = *preferred_probe;
+        result.decision.total_candidates = policy_candidates.size();
+        result.decision.eligible_candidates = 1;
+        result.decision.reason_category = DecisionReasonCategory::SafetyFallback;
+        result.decision.decisive_rule_id = "unclassified_frontier_probe";
+        result.decision.reason = "selected unclassified frontier probe";
+        result.selected_requires_probe = true;
+        return result;
     }
 
     const bool has_safe_noncombat_alternative =
@@ -492,6 +683,9 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         executor.choose(*request.policy, policy_facts, *request.mission, *request.run, resources, policy_candidates);
     if (!result.decision.selected.has_value()) {
         result.error = result.decision.reason;
+    }
+    else {
+        result.selected_requires_probe = result.decision.selected->probe_only;
     }
     return result;
 }

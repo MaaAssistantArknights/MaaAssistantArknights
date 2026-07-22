@@ -19,6 +19,7 @@ struct PlannerState
     std::array<std::uint8_t, 13> movement_charges {};
     std::array<bool, 13> cross_floor_expired {};
     std::vector<NodeId> completed_nodes;
+    std::vector<NodeId> visited_nodes;
     std::vector<NodeId> consumed_one_time_nodes;
     std::vector<NodeId> revealed_nodes;
     std::uint64_t dynamic_cost_revision = 0;

@@ -51,12 +51,16 @@ enum class NodeType
     Scout,
     FaceOff,
     EmergencyAid,
+    Rest,
     FeatherPoint,
     WindingPassage,
+    Sacrifice,
+    Wish,
     BoskyPassage,
     ResidentStronghold,
     Final,
     Fate,
+    Evacuate,
     Teleporter,
     Other,
 };
@@ -66,6 +70,13 @@ enum class NodeProgress
     Active,
     Completed,
     Removed,
+};
+
+enum class NodeIdentityState
+{
+    Classified,
+    Hidden,
+    Unclassified,
 };
 
 enum class EdgeKnowledge
@@ -99,9 +110,18 @@ struct Node
     std::string name;
     NodeProgress progress = NodeProgress::Active;
     NodeTraversal traversal;
+    NodeIdentityState identity_state = NodeIdentityState::Unclassified;
     bool identity_revealed = false;
     bool badged = false;
     std::optional<NodeId> teleport_target;
+};
+
+struct EdgeEvidence
+{
+    double probability = 0.0;
+    bool cnn_connected = false;
+    bool forced_by_connectivity_constraint = false;
+    std::string decision_source;
 };
 
 struct Edge
@@ -109,6 +129,7 @@ struct Edge
     NodeId first = InvalidNodeId;
     NodeId second = InvalidNodeId;
     EdgeKnowledge knowledge = EdgeKnowledge::Unknown;
+    EdgeEvidence evidence;
 };
 
 class MapSnapshot
@@ -121,6 +142,7 @@ public:
     [[nodiscard]] const Node* find_node(NodeId id) const noexcept;
     [[nodiscard]] const Node* find_node(int floor, GridPosition position) const noexcept;
     [[nodiscard]] EdgeKnowledge edge_knowledge(NodeId first, NodeId second) const noexcept;
+    [[nodiscard]] const Edge* find_edge(NodeId first, NodeId second) const noexcept;
     [[nodiscard]] std::vector<NodeId> neighbors(NodeId id, bool include_unknown_edges = false) const;
     [[nodiscard]] std::unordered_set<NodeId> reveal_through_transparent_nodes(NodeId origin) const;
     [[nodiscard]] std::unordered_set<NodeId> nodes_within_manhattan(NodeId origin, int distance) const;
@@ -147,14 +169,15 @@ enum class ObservationCoverage
 struct ObservedNode
 {
     GridPosition position;
-    NodeType type = NodeType::Unknown;
-    EventMask event_mask = 0;
-    std::string name;
-    NodeProgress progress = NodeProgress::Active;
-    NodeTraversal traversal;
-    bool identity_revealed = false;
-    bool badged = false;
-    std::optional<GridPosition> teleport_target;
+    std::optional<NodeType> type;
+    std::optional<EventMask> event_mask;
+    std::optional<std::string> name;
+    std::optional<NodeProgress> progress;
+    std::optional<NodeTraversal> traversal;
+    std::optional<NodeIdentityState> identity_state;
+    std::optional<bool> identity_revealed;
+    std::optional<bool> badged;
+    std::optional<std::optional<GridPosition>> teleport_target;
 };
 
 struct ObservedEdge
@@ -162,6 +185,7 @@ struct ObservedEdge
     GridPosition first;
     GridPosition second;
     EdgeKnowledge knowledge = EdgeKnowledge::Unknown;
+    EdgeEvidence evidence;
 };
 
 struct MapObservationBatch
@@ -224,6 +248,8 @@ private:
 };
 
 [[nodiscard]] EventMask event_mask_for(NodeType type) noexcept;
+[[nodiscard]] NodeTraversal default_traversal_for(NodeType type) noexcept;
+[[nodiscard]] bool is_transfer_node(NodeType type) noexcept;
 
 enum class TargetMatch
 {
@@ -291,6 +317,7 @@ struct DynamicCostModel
 
     [[nodiscard]] int movement_cost(const MovementSpec& movement, std::size_t walked_edges = 0) const noexcept;
     [[nodiscard]] int action_cost(std::string_view action_id, int fallback) const noexcept;
+    bool clear_action_cost_overrides() noexcept;
     [[nodiscard]] bool validate(std::string* error = nullptr) const;
 };
 
@@ -341,9 +368,14 @@ struct MoveCandidate
     std::unordered_map<NodeId, int> landing_action_point_gains;
     int predicted_action_point_cost = 0;
     int predicted_action_point_gain = 0;
+    int confirmed_action_point_requirement = std::numeric_limits<int>::max() / 4;
     TargetMatch target_match = TargetMatch::Definite;
     bool controllable = true;
     bool terminal_on_completion = false;
+    bool requires_preview_confirmation = false;
+    bool probe_only = false;
+    bool passes_unclassified = false;
+    bool uses_inferred_edge = false;
 };
 
 struct MoveAction
@@ -374,6 +406,25 @@ struct MovePreview
     int exact_action_point_cost = 0;
     NodeType displayed_type = NodeType::Unknown;
     std::string displayed_name;
+    bool identity_revealed = false;
+};
+
+struct VerifiedMoveArc
+{
+    NodeId source = InvalidNodeId;
+    NodeId target = InvalidNodeId;
+    NodeId landing = InvalidNodeId;
+    MovementKind movement = MovementKind::Walk;
+    int exact_action_point_cost = 0;
+    std::uint64_t map_revision = 0;
+    std::uint64_t cost_revision = 0;
+    std::uint64_t viewport_revision = 0;
+
+    [[nodiscard]] bool matches(
+        const MoveCandidate& candidate,
+        std::uint64_t current_map_revision,
+        std::uint64_t current_cost_revision,
+        std::uint64_t current_viewport_revision) const noexcept;
 };
 
 enum class MoveTransactionStage

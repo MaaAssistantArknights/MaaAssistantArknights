@@ -259,10 +259,28 @@ struct PolicyCandidate
     int estimated_duration = 0;
 };
 
+enum class DecisionReasonCategory
+{
+    MandatoryGoal,
+    ResourceReserve,
+    PreferredGoal,
+    Development,
+    RiskAvoidance,
+    SafetyFallback,
+    TieBreak,
+};
+
 struct PolicyDecision
 {
     std::optional<MoveCandidate> selected;
+    std::vector<MoveCandidate> runners_up;
     std::vector<std::string> rejected;
+    std::unordered_map<std::string, std::size_t> rejection_counts;
+    std::size_t total_candidates = 0;
+    std::size_t eligible_candidates = 0;
+    DecisionReasonCategory reason_category = DecisionReasonCategory::TieBreak;
+    std::string decisive_rule_id;
+    std::string decisive_milestone_id;
     std::string reason;
 };
 
@@ -292,5 +310,6 @@ public:
 
 [[nodiscard]] std::string_view to_string(RuleKind kind) noexcept;
 [[nodiscard]] std::string_view to_string(PolicyTier tier) noexcept;
+[[nodiscard]] std::string_view to_string(DecisionReasonCategory category) noexcept;
 } // namespace asst::blackflow
 
