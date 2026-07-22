@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -29,7 +30,7 @@ public class AsstCloseDownTask : AsstBaseTask
     /// Gets or sets 关闭的客户端类型
     /// </summary>
     [JsonProperty("client_type")]
-    public string ClientType { get; set; } = string.Empty;
+    public ClientType ClientType { get; set; } = ClientType.Official;
 
     public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
 }

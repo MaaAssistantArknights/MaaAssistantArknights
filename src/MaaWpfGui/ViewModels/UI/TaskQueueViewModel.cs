@@ -211,6 +211,8 @@ public class TaskQueueViewModel : Screen
         });
     }
 
+    #region Overlay
+
     public static void ChooseOverlayTarget()
     {
         try
@@ -273,6 +275,8 @@ public class TaskQueueViewModel : Screen
             EnableOverlay();
         }
     }
+
+    #endregion Overlay
 
     /// <summary>
     /// Gets or private sets the view models of log items.

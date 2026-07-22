@@ -210,11 +210,11 @@
             Margin="10"
             HorizontalAlignment="Center"
             Content="{DynamicResource StallTimeoutEnabled}"
-            IsChecked="{Binding StallTimeoutEnabled}" />
+            IsChecked="{Binding EnableStallTimeout}" />
         <StackPanel
             HorizontalAlignment="Center"
             Orientation="Horizontal"
-            Visibility="{c:Binding StallTimeoutEnabled}">
+            Visibility="{c:Binding EnableStallTimeout}">
             <hc:NumericUpDown
                 Margin="5"
                 hc:InfoElement.Title="{DynamicResource StallTimeoutMinutes}"

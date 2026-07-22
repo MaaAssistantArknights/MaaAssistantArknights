@@ -296,7 +296,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                         continue;
                     }
 
-                    if (!DataHelper.IsCharacterAvailableInClient(name, SettingsViewModel.GameSettings.ClientType))
+                    if (!DataHelper.IsCharacterAvailableInClient(name, SettingsViewModel.GameSettings.ClientType.ToString()))
                     {
                         continue;
                     }

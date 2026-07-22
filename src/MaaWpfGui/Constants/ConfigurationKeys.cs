@@ -93,7 +93,7 @@ public static class ConfigurationKeys
     public const string AttachWindowKeyboardMethod = "Connect.AttachWindow.KeyboardMethod";
 
     public const string StartGame = "Start.StartGame";
-    public const string ClientType = "Start.ClientType";
+    public const string ClientType = "Start.ClientType"; // √
     public const string AccountName = "Start.AccountName"; // 已迁移
     public const string RunDirectly = "Start.RunDirectly";
     public const string MinimizeDirectly = "Start.MinimizeDirectly";
@@ -104,12 +104,12 @@ public static class ConfigurationKeys
 
     // 仅在理智作战的任务中会生效，前缀需要修改
     public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop";
-    public const string StartsWithScript = "Start.StartsWithScript";
-    public const string EndsWithScript = "Start.EndsWithScript";
-    public const string CopilotWithScript = "Start.CopilotWithScript";
-    public const string ManualStopWithScript = "Start.ManualStopWithScript";
-    public const string BlockSleep = "Start.BlockSleep";
-    public const string BlockSleepWithScreenOn = "Start.BlockSleepWithScreenOn";
+    public const string StartsWithScript = "Start.StartsWithScript"; // √
+    public const string EndsWithScript = "Start.EndsWithScript"; // √
+    public const string CopilotWithScript = "Start.CopilotWithScript"; // √
+    public const string ManualStopWithScript = "Start.ManualStopWithScript"; // √
+    public const string BlockSleep = "Start.BlockSleep"; // √
+    public const string BlockSleepWithScreenOn = "Start.BlockSleepWithScreenOn"; // √
 
     public const string ChooseLevel3 = "Recruit.ChooseLevel3";
     public const string ToolBoxChooseLevel3Time = "Toolbox.Recruit.ChooseLevel3.Time";
@@ -121,7 +121,7 @@ public static class ConfigurationKeys
     public const string AutoSetTime = "Recruit.AutoSetTime";
     public const string RecruitmentShowPotential = "Recruit.ShowPotential";
 
-    public const string DepotResult = "Depot.DepotResult";
+    public const string DepotResult = "Depot.DepotResult"; // √
 
     public const string InfrastMode = "Infrast.InfrastMode"; // 已迁移
     public const string DormThreshold = "Infrast.DormThreshold"; // 已迁移
@@ -170,7 +170,7 @@ public static class ConfigurationKeys
     public const string RoguelikeRefreshTraderWithDice = "Roguelike.RefreshTraderWithDice"; // 已迁移
     public const string RoguelikeInvestsCount = "Roguelike.InvestsCount"; // 已迁移
     public const string RoguelikeStopWhenInvestmentFull = "Roguelike.StopWhenInvestmentFull"; // 已迁移
-    public const string RoguelikeDeploymentWithPause = "Roguelike.DeploymentWithPause";
+    public const string RoguelikeDeploymentWithPause = "Roguelike.DeploymentWithPause"; // √
     public const string RoguelikeStopAtFinalBoss = "Roguelike.ExitAtFinalBoss"; // 已迁移
     public const string RoguelikeStopAtMaxLevel = "Roguelike.StopAtMaxLevel"; // 已迁移
     public const string RoguelikeStartWithSeed = "Roguelike.StartWithSeed";
@@ -250,16 +250,16 @@ public static class ConfigurationKeys
     public const string ShowUpdaterConsole = "VersionUpdate.ShowUpdaterConsole";
     public const string ShowUpdaterProgress = "VersionUpdate.ShowUpdaterProgress";
 
-    public const string PenguinId = "Penguin.Id";
+    public const string PenguinId = "Penguin.Id"; // √
     public const string IsDrGrandet = "Penguin.IsDrGrandet"; // 已迁移
-    public const string EnablePenguin = "Penguin.EnablePenguin";
+    public const string EnablePenguin = "Penguin.EnablePenguin"; // √
 
-    public const string EnableYituliu = "Yituliu.EnableYituliu";
+    public const string EnableYituliu = "Yituliu.EnableYituliu"; // √
 
     // public const string TaskTimeoutMinutes = "TimeOut.Timer.TaskTimeoutMinutes";
-    public const string ReminderIntervalMinutes = "TimeOut.Timer.ReminderIntervalMinutes";
-    public const string StallTimeoutMinutes = "TimeOut.Timer.StallTimeoutMinutes";
-    public const string StallTimeoutEnabled = "TimeOut.Timer.StallTimeoutEnabled";
+    public const string ReminderIntervalMinutes = "TimeOut.Timer.ReminderIntervalMinutes"; // √
+    public const string StallTimeoutMinutes = "TimeOut.Timer.StallTimeoutMinutes"; // √
+    public const string StallTimeoutEnabled = "TimeOut.Timer.StallTimeoutEnabled"; // √
 
     public const string BluestacksConfigPath = "Bluestacks.Config.Path";
     public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";
@@ -338,7 +338,7 @@ public static class ConfigurationKeys
     public const string VersionUpdatePackage = "VersionUpdate.package";
     public const string VersionUpdateDoNotShowUpdate = "VersionUpdate.doNotShowUpdate";
 
-    public const string OperBoxData = "OperBox.Data";
+    public const string OperBoxData = "OperBox.Data"; // √
     public const string OperBoxSelectedExportValue = "OperBox.SelectedExportValue";
 
     public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";

@@ -1534,7 +1534,7 @@ public class ToolboxViewModel : Screen
             var operDataMap = ownOpers.ToDictionary(o => o.Id);
             foreach (var (id, oper) in DataHelper.Operators)
             {
-                if (!DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType))
+                if (!DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToString()))
                 {
                     continue;
                 }
@@ -1629,7 +1629,7 @@ public class ToolboxViewModel : Screen
 
         foreach (var (id, oper) in DataHelper.Operators)
         {
-            if (!_tempOperHaveSet.Contains(id) && DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType))
+            if (!_tempOperHaveSet.Contains(id) && DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToString()))
             {
                 var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
                 OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity));
@@ -1770,7 +1770,7 @@ public class ToolboxViewModel : Screen
 
         foreach (var (operId, operInfo) in DataHelper.Operators)
         {
-            if (!DataHelper.IsCharacterAvailableInClient(operInfo, SettingsViewModel.GameSettings.ClientType))
+            if (!DataHelper.IsCharacterAvailableInClient(operInfo, SettingsViewModel.GameSettings.ClientType.ToString()))
             {
                 continue;
             }

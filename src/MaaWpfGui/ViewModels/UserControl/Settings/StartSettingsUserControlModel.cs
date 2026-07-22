@@ -125,10 +125,6 @@ public class StartSettingsUserControlModel : PropertyChangedBase
 
             SetAndNotify(ref _openEmulatorAfterLaunch, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.StartEmulator, value.ToString());
-            if (SettingsViewModel.GameSettings.ClientType == string.Empty && _runningState.GetIdle())
-            {
-                SettingsViewModel.GameSettings.ClientType = "Official";
-            }
         }
     }
 
@@ -212,30 +208,6 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         set {
             SetAndNotify(ref _emulatorWaitSeconds, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.EmulatorWaitSeconds, value);
-        }
-    }
-
-    private bool _blockSleep = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, false);
-
-    public bool BlockSleep
-    {
-        get => _blockSleep;
-        set {
-            SetAndNotify(ref _blockSleep, value);
-            SleepManagement.SetBlockSleep(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleep, value.ToString());
-        }
-    }
-
-    private bool _blockSleepWithScreenOn = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, true);
-
-    public bool BlockSleepWithScreenOn
-    {
-        get => _blockSleepWithScreenOn;
-        set {
-            SetAndNotify(ref _blockSleepWithScreenOn, value);
-            SleepManagement.SetBlockSleepWithScreenOn(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleepWithScreenOn, value.ToString());
         }
     }
 

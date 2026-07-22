@@ -470,12 +470,12 @@ public class AsstProxy
     {
         using var log = new LogScope(_logger);
 
-        string clientType = SettingsViewModel.GameSettings.ClientType;
+        var clientType = SettingsViewModel.GameSettings.ClientType;
 
         string mainRes = PathsHelper.ResourceDir;
-        string globalRes = Path.Combine(mainRes, "global", clientType, "resource");
+        string globalRes = Path.Combine(mainRes, "global", clientType.ToString(), "resource");
         string mainCacheRes = PathsHelper.CacheResourceDir;
-        string globalCacheRes = Path.Combine(mainCacheRes, "global", clientType, "resource");
+        string globalCacheRes = Path.Combine(mainCacheRes, "global", clientType.ToString(), "resource");
 
         bool loaded;
         if (clientType is ClientType.Official or ClientType.Bilibili)
@@ -2640,7 +2640,7 @@ public class AsstProxy
         {
             case "WSA":
             case "Androws":
-                AsstSetInstanceOption(InstanceOptionKey.ClientType, SettingsViewModel.GameSettings.ClientType);
+                AsstSetInstanceOption(InstanceOptionKey.ClientType, SettingsViewModel.GameSettings.ClientType.ToString());
                 break;
             default:
                 AsstSetInstanceOption(InstanceOptionKey.ClientType, string.Empty);
@@ -2912,7 +2912,7 @@ public class AsstProxy
         return true;
     }
 
-    public bool AsstAppendCloseDown(string clientType)
+    public bool AsstAppendCloseDown(ClientType clientType)
     {
         if (!AsstStop())
         {
@@ -2928,7 +2928,7 @@ public class AsstProxy
     /// </summary>
     /// <param name="clientType">客户端版本。</param>
     /// <returns>是否成功。</returns>
-    public bool AsstStartCloseDown(string clientType)
+    public bool AsstStartCloseDown(ClientType clientType)
     {
         return AsstAppendCloseDown(clientType) && AsstStart();
     }

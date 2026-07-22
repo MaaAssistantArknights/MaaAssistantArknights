@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -156,9 +157,9 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         Instances.SettingsViewModel.UpdateWindowTitle();
     }
 
-    public static (DateTimeOffset DateTime, string VersionName) GetResourceVersionByClientType(string clientType)
+    public static (DateTimeOffset DateTime, string VersionName) GetResourceVersionByClientType(ClientType clientType)
     {
-        bool isDefaultClient = new HashSet<string> { Constants.Enums.ClientType.Official, Constants.Enums.ClientType.Bilibili }.Contains(clientType);
+        bool isDefaultClient = new HashSet<ClientType> { ClientType.Official, ClientType.Bilibili }.Contains(clientType);
 
         string defaultJsonPath = Path.Combine(PathsHelper.ResourceDir, "version.json");
         var jsonPath = isDefaultClient

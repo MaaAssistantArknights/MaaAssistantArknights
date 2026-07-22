@@ -59,7 +59,7 @@ public static class ItemListHelper
                 break;
 
             default:
-                filename = Path.Combine(PathsHelper.ResourceDir, "global", DataHelper.ClientDirectoryMapper[language], "resource", "item_index.json");
+                filename = Path.Combine(PathsHelper.ResourceDir, "global", DataHelper.ClientDirectoryMapper[language].ToString(), "resource", "item_index.json");
                 break;
         }
 

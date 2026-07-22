@@ -13,15 +13,15 @@
 
 #nullable enable
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
-using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -58,39 +58,27 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the list of the client types.
     /// </summary>
-    public LocalizedObservableList<string> ClientTypeList { get; } = new(
-        (Constants.Enums.ClientType.Official, "Official"),
-        (Constants.Enums.ClientType.Bilibili, "Bilibili"),
-        (Constants.Enums.ClientType.EN, "YoStarEN"),
-        (Constants.Enums.ClientType.JP, "YoStarJP"),
-        (Constants.Enums.ClientType.KR, "YoStarKR"),
-        (Constants.Enums.ClientType.Txwy, "Txwy"));
-
-    private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, Constants.Enums.ClientType.Official);
+    public LocalizedObservableList<ClientType> ClientTypeList { get; } = new(
+        (ClientType.Official, "Official"),
+        (ClientType.Bilibili, "Bilibili"),
+        (ClientType.EN, "YoStarEN"),
+        (ClientType.JP, "YoStarJP"),
+        (ClientType.KR, "YoStarKR"),
+        (ClientType.Txwy, "Txwy"));
 
     /// <summary>
     /// Gets or sets the client type.
     /// </summary>
-    public string ClientType
+    public ClientType ClientType
     {
-        get { // v5.19.0-beta.1
-            if (!string.IsNullOrEmpty(_clientType))
-            {
-                return _clientType;
-            }
-
-            ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, Constants.Enums.ClientType.Official);
-            return Constants.Enums.ClientType.Official;
-        }
-
-        set {
-            var oldValue = _clientType;
-            if (!SetAndNotify(ref _clientType, value))
+        get; set {
+            var oldValue = field;
+            if (!SetAndNotify(ref field, value))
             {
                 return;
             }
 
-            ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ClientType = value;
             VersionUpdateSettings.ResourceInfoUpdate();
             FightSettingsUserControlModel.Instance.UpdateStageList();
             Instances.TaskQueueViewModel.UpdateDatePrompt();
@@ -102,77 +90,62 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
             Task.Run(() => { Instances.AsstProxy.LoadResource(); });
 
-            SettingsViewModel.AskRestartToApplySettings(value is Constants.Enums.ClientType.EN);
+            SettingsViewModel.AskRestartToApplySettings(value is ClientType.EN);
         }
-    }
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ClientType;
 
-    private static bool NeedRestartAfterClientTypeChange(string oldType, string newType)
+    private static bool NeedRestartAfterClientTypeChange(ClientType oldType, ClientType newType)
     {
-        if (string.IsNullOrEmpty(oldType) || oldType == newType)
+        if (oldType == newType)
         {
             return false;
         }
 
         // 官服 <-> B服 之间切换不需要重启
-        return (oldType != "Official" || newType != "Bilibili") &&
-               (oldType != "Bilibili" || newType != "Official");
+        return (oldType != ClientType.Official || newType != ClientType.Bilibili) &&
+               (oldType != ClientType.Bilibili || newType != ClientType.Official);
     }
-
-    private bool _deploymentWithPause = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, false);
 
     public bool DeploymentWithPause
     {
-        get => _deploymentWithPause;
-        set {
-            SetAndNotify(ref _deploymentWithPause, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.DeployWithPause = value;
             SettingsViewModel.ConnectSettings.UpdateInstanceSettings();
         }
-    }
-
-    private string _startsWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.StartsWithScript, string.Empty);
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.DeployWithPause;
 
     public string StartsWithScript
     {
-        get => _startsWithScript;
-        set {
-            SetAndNotify(ref _startsWithScript, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.StartsWithScript, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PreRunScript = value;
         }
-    }
-
-    private string _endsWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.EndsWithScript, string.Empty);
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PreRunScript;
 
     public string EndsWithScript
     {
-        get => _endsWithScript;
-        set {
-            SetAndNotify(ref _endsWithScript, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.EndsWithScript, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PostRunScript = value;
         }
-    }
-
-    private bool _copilotWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotWithScript, false);
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PostRunScript;
 
     public bool CopilotWithScript
     {
-        get => _copilotWithScript;
-        set {
-            SetAndNotify(ref _copilotWithScript, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotWithScript, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ExecuteScriptOnCopilot = value;
         }
-    }
-
-    private bool _manualStopWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.ManualStopWithScript, false);
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ExecuteScriptOnCopilot;
 
     public bool ManualStopWithScript
     {
-        get => _manualStopWithScript;
-        set {
-            SetAndNotify(ref _manualStopWithScript, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ManualStopWithScript, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ExecuteScriptOnManualStop = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ExecuteScriptOnManualStop;
 
     public void RunScript(string str, bool showLog = true)
     {
@@ -274,121 +247,96 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _blockSleep = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, false);
-
     public bool BlockSleep
     {
-        get => _blockSleep;
-        set {
-            SetAndNotify(ref _blockSleep, value);
-            SleepManagement.SetBlockSleep(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleep, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.BlockSleep = value;
         }
-    }
-
-    private bool _blockSleepWithScreenOn = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, true);
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.BlockSleep;
 
     public bool BlockSleepWithScreenOn
     {
-        get => _blockSleepWithScreenOn;
-        set {
-            SetAndNotify(ref _blockSleepWithScreenOn, value);
-            SleepManagement.SetBlockSleepWithScreenOn(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleepWithScreenOn, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.BlockSleepWithScreenOn = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.BlockSleepWithScreenOn;
 
     #region 企鹅和一图流上报
-
-    private string _penguinId = ConfigurationHelper.GetValue(ConfigurationKeys.PenguinId, string.Empty);
 
     /// <summary>
     /// Gets or sets the id of PenguinStats.
     /// </summary>
     public string PenguinId
     {
-        get => _penguinId;
-        set {
-            SetAndNotify(ref _penguinId, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.PenguinId, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PenguinId = value;
         }
-    }
-
-    private bool _enablePenguin = ConfigurationHelper.GetValue(ConfigurationKeys.EnablePenguin, true);
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PenguinId;
 
     /// <summary>
     /// Gets or sets a value indicating whether to enable penguin upload.
     /// </summary>
     public bool EnablePenguin
     {
-        get => _enablePenguin;
-        set {
-            SetAndNotify(ref _enablePenguin, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.EnablePenguin, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ReportToPenguin = value;
         }
-    }
-
-    private bool _enableYituliu = ConfigurationHelper.GetValue(ConfigurationKeys.EnableYituliu, true);
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ReportToPenguin;
 
     /// <summary>
     /// Gets or sets a value indicating whether to enable yituliu upload.
     /// </summary>
     public bool EnableYituliu
     {
-        get => _enableYituliu;
+        get;
         set {
-            SetAndNotify(ref _enableYituliu, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.EnableYituliu, value.ToString());
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ReportToYituliu = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ReportToYituliu;
 
     #endregion 企鹅和一图流上报
 
     #region 任务超时
 
-    // 防止乘以 60000 毫秒时 int 溢出，int.MaxValue / 60000 ≈ 35791
-    private const int MaxMinutes = 11451;
-
-    private int _reminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30).Clamp(1, MaxMinutes);
-
-    public int ReminderIntervalMinutes
-    {
-        get => _reminderIntervalMinutes;
-        set {
-            value = value.Clamp(1, MaxMinutes);
-            SetAndNotify(ref _reminderIntervalMinutes, value);
-            _runningState.ReminderIntervalMinutes = value;
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReminderIntervalMinutes, value.ToString());
-        }
-    }
-
-    private int _stallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25).Clamp(0, MaxMinutes);
-
-    public int StallTimeoutMinutes
-    {
-        get => _stallTimeoutMinutes;
-        set {
-            value = value.Clamp(0, MaxMinutes);
-            SetAndNotify(ref _stallTimeoutMinutes, value);
-            _runningState.StallTimeoutMinutes = value;
-            ConfigurationHelper.SetValue(ConfigurationKeys.StallTimeoutMinutes, value.ToString());
-        }
-    }
-
-    private bool _stallTimeoutEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutEnabled, true);
-
     /// <summary>
     /// Gets or sets a value indicating whether是否启用停滞检测
     /// </summary>
-    public bool StallTimeoutEnabled
+    public bool EnableStallTimeout
     {
-        get => _stallTimeoutEnabled;
-        set {
-            SetAndNotify(ref _stallTimeoutEnabled, value);
-            _runningState.StallTimeoutEnabled = value;
-            ConfigurationHelper.SetValue(ConfigurationKeys.StallTimeoutEnabled, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            _runningState.EnableStallTimeout = value;
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.EnableStallTimeout = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.EnableStallTimeout;
+
+    public int StallTimeoutMinutes
+    {
+        get; set {
+            value = value.Clamp(0, TimeoutMaxMinutes);
+            SetAndNotify(ref field, value);
+            _runningState.StallTimeoutMinutes = value;
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.StallTimeoutMinutes = value;
+        }
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.StallTimeoutMinutes;
+
+    // 防止乘以 60000 毫秒时 int 溢出，int.MaxValue / 60000 ≈ 35791
+    public const int TimeoutMaxMinutes = 11451;
+
+    public int ReminderIntervalMinutes
+    {
+        get; set {
+            value = value.Clamp(1, TimeoutMaxMinutes);
+            SetAndNotify(ref field, value);
+            _runningState.ReminderIntervalMinutes = value;
+            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.StallTimeoutReminderIntervalMinutes = value;
+        }
+    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
 
     #endregion 任务超时
 

@@ -30,12 +30,14 @@ public class WpfSettings : INotifyPropertyChanged
         ExternalNotification.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(WpfSettings) + "." + nameof(ExternalNotification) + ".");
         ExternalNotification.Configs.CollectionChanged += Handler.OnCollectionChangedFactory<Base>(prefix + nameof(WpfSettings) + "." + nameof(ExternalNotification) + ".");
         RemoteControl.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(WpfSettings) + "." + nameof(RemoteControl) + ".");
+        RuntimeSettings.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(WpfSettings) + "." + nameof(RuntimeSettings) + ".");
     }
 
-    [JsonInclude]
     public Performance Performance { get; set; } = new();
 
     public ExternalNotification ExternalNotification { get; set; } = new();
 
     public RemoteControl RemoteControl { get; set; } = new();
+
+    public RuntimeSettings RuntimeSettings { get; set; } = new();
 }

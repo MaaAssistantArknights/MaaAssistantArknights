@@ -13,6 +13,7 @@
 
 #nullable enable
 using System.ComponentModel;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -27,7 +28,7 @@ public class AsstStartUpTask : AsstBaseTask
     /// Gets or sets 客户端版本
     /// </summary>
     [JsonProperty("client_type")]
-    public string ClientType { get; set; } = string.Empty;
+    public ClientType ClientType { get; set; } = ClientType.Official;
 
     /// <summary>
     /// Gets or sets a value indicating whether 是否自动启动客户端

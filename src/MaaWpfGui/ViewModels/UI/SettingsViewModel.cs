@@ -1221,7 +1221,7 @@ public class SettingsViewModel : Screen
         }
     }
 
-    private static readonly Dictionary<string, string> _serverMapping = new()
+    private static readonly Dictionary<ClientType, string> _serverMapping = new()
     {
         { ClientType.Official, "CN" },
         { ClientType.Bilibili, "CN" },

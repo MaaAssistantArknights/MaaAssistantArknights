@@ -39,7 +39,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
 
     public static MallSettingsUserControlModel Instance { get; }
 
-    private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new()
+    private readonly Dictionary<ClientType, IEnumerable<string>> _blackCharacterListMapping = new()
         {
             { ClientType.Official, ["讯使", "嘉维尔", "坚雷"] },
             { ClientType.Bilibili, ["讯使", "嘉维尔", "坚雷"] },

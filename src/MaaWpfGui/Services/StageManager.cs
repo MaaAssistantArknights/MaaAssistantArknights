@@ -162,7 +162,7 @@ public class StageManager
         });
     }
 
-    private static string GetClientType() => SettingsViewModel.GameSettings.ClientType switch {
+    private static ClientType GetClientType() => SettingsViewModel.GameSettings.ClientType switch {
         ClientType.Bilibili => ClientType.Official,
         _ => SettingsViewModel.GameSettings.ClientType,
     };

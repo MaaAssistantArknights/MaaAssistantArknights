@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.ViewModels.UI;
@@ -28,7 +29,7 @@ namespace MaaWpfGui.Helper;
 
 public static class DataHelper
 {
-    public static readonly Dictionary<string, string> ClientDirectoryMapper = new()
+    public static readonly Dictionary<string, ClientType> ClientDirectoryMapper = new()
     {
         { "zh-tw", ClientType.Txwy },
         { "en-us", ClientType.EN },
@@ -36,7 +37,7 @@ public static class DataHelper
         { "ko-kr", ClientType.KR },
     };
 
-    public static readonly Dictionary<string, string> ClientLanguageMapper = new()
+    public static readonly Dictionary<ClientType, string> ClientLanguageMapper = new()
     {
         { ClientType.Official, "zh-cn" },
         { ClientType.Bilibili, "zh-cn" },
@@ -86,7 +87,7 @@ public static class DataHelper
         var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? [];
 
         var characterNamesLangAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage));
-        var characterNamesClientAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
+        var characterNamesClientAdd = GetCharacterNamesAddAction(ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ClientType.ToString());
 
         Characters.Clear();
         CharacterNames.Clear();
@@ -109,16 +110,14 @@ public static class DataHelper
     private static void InitRecruitTag()
     {
         var clientType = GameSettingsUserControlModel.Instance.ClientType;
-        var clientPath = clientType switch
-        {
-            "" or "Official" or "Bilibili" => string.Empty,
-            _ => Path.Combine("global", clientType, "resource"),
+        var clientPath = clientType switch {
+            ClientType.Official or ClientType.Bilibili => string.Empty,
+            _ => Path.Combine("global", clientType.ToString(), "resource"),
         };
 
         var displayLanguage = GuiSettingsUserControlModel.Instance.Language;
-        var displayPath = displayLanguage switch
-        {
-            "zh-tw" or "en-us" or "ja-jp" or "ko-kr" => Path.Combine("global", ClientDirectoryMapper[displayLanguage], "resource"),
+        var displayPath = displayLanguage switch {
+            "zh-tw" or "en-us" or "ja-jp" or "ko-kr" => Path.Combine("global", ClientDirectoryMapper[displayLanguage].ToString(), "resource"),
             _ => string.Empty,
         };
 
@@ -189,17 +188,16 @@ public static class DataHelper
 
     private static Action<CharacterInfo> GetCharacterNamesAddAction(string str)
     {
-        return str switch
-        {
-            "zh-cn" or ClientType.Official or ClientType.Bilibili =>
+        return str switch {
+            "zh-cn" or ClientTypeExtension.Official or ClientTypeExtension.Bilibili =>
                 v => CharacterNames.Add(v.Name ?? string.Empty),
-            "zh-tw" or ClientType.Txwy =>
+            "zh-tw" or ClientTypeExtension.Txwy =>
                 v => CharacterNames.Add(v.NameTw ?? string.Empty),
-            "en-us" or ClientType.EN =>
+            "en-us" or ClientTypeExtension.EN =>
                 v => CharacterNames.Add(v.NameEn ?? string.Empty),
-            "ja-jp" or ClientType.JP =>
+            "ja-jp" or ClientTypeExtension.JP =>
                 v => CharacterNames.Add(v.NameJp ?? string.Empty),
-            "ko-kr" or ClientType.KR =>
+            "ko-kr" or ClientTypeExtension.KR =>
                 v => CharacterNames.Add(v.NameKr ?? string.Empty),
             _ =>
                 v => CharacterNames.Add(v.Name ?? string.Empty),
@@ -269,8 +267,7 @@ public static class DataHelper
         }
 
         language ??= SettingsViewModel.GuiSettings.OperNameLocalization;
-        return language switch
-        {
+        return language switch {
             "zh-cn" => characterInfo.Name,
             "zh-tw" => characterInfo.NameTw ?? characterInfo.Name,
             "en-us" => characterInfo.NameEn ?? characterInfo.Name,
@@ -293,12 +290,11 @@ public static class DataHelper
             return false;
         }
 
-        return clientType switch
-        {
-            "zh-tw" or ClientType.Txwy => !character.NameTwUnavailable,
-            "en-us" or ClientType.EN => !character.NameEnUnavailable,
-            "ja-jp" or ClientType.JP => !character.NameJpUnavailable,
-            "ko-kr" or ClientType.KR => !character.NameKrUnavailable,
+        return clientType switch {
+            "zh-tw" or ClientTypeExtension.Txwy => !character.NameTwUnavailable,
+            "en-us" or ClientTypeExtension.EN => !character.NameEnUnavailable,
+            "ja-jp" or ClientTypeExtension.JP => !character.NameJpUnavailable,
+            "ko-kr" or ClientTypeExtension.KR => !character.NameKrUnavailable,
             _ => true,
         };
     }
