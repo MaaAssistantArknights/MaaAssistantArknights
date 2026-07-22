@@ -41,6 +41,9 @@ if(ANDROID)
         polyclipping::polyclipping
         ONNXRuntime::ONNXRuntime ZLIB::ZLIB Boost::system)
     set_property(TARGET MaaCore PROPERTY NO_SYSTEM_FROM_IMPORTED TRUE)
+    # OpenCV 4.12 起 cvdef.h 的 CV_XADD 在 Android clang 上展开为 _Atomic（C11 扩展），
+    # 由于 NO_SYSTEM_FROM_IMPORTED 使 OpenCV 头不走 -isystem，-Wpedantic -Werror 下会报错
+    target_compile_options(MaaCore PRIVATE -Wno-c11-extensions)
 else()
     target_link_libraries(MaaCore HeaderOnlyLibraries MaaUtils ${OpenCV_LIBS} fastdeploy_ppocr ONNXRuntime::ONNXRuntime ZLIB::ZLIB Boost::system)
 endif()
