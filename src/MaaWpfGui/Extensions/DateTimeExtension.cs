@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using MaaWpfGui.Configuration.Factory;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 
