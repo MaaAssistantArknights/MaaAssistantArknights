@@ -264,6 +264,7 @@
         ]
     },
     "Blackflow@Roguelike@LastRewardConfirm": {
+        "baseTask": "Roguelike@LastRewardConfirm",
         "template": "Blackflow@Roguelike@LastRewardConfirm.png"
     },
     "Blackflow@Roguelike@RecruitMain": {
