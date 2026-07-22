@@ -856,6 +856,132 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         }
     }
 
+    private static string LocalizeBlackFlowIdentifier(string prefix, string? identifier, string fallbackKey)
+    {
+        if (string.IsNullOrWhiteSpace(identifier))
+        {
+            return LocalizationHelper.GetString(fallbackKey);
+        }
+
+        var suffix = string.Concat(
+            identifier.Split('_', StringSplitOptions.RemoveEmptyEntries)
+                .Select(part => $"{char.ToUpperInvariant(part[0])}{part[1..]}"));
+        return LocalizationHelper.TryGetString(prefix + suffix, out var localized)
+            ? localized
+            : LocalizationHelper.GetString(fallbackKey);
+    }
+
+    private static string LocalizeBlackFlowDecisionDetail(JToken? details)
+    {
+        var ruleId = details?["decisive_rule_id"]?.ToString();
+        if (!string.IsNullOrWhiteSpace(ruleId))
+        {
+            return LocalizeBlackFlowIdentifier("BlackFlowRule", ruleId, "BlackFlowDecisionDetailUnknown");
+        }
+
+        var milestoneId = details?["decisive_milestone_id"]?.ToString();
+        if (!string.IsNullOrWhiteSpace(milestoneId))
+        {
+            return LocalizeBlackFlowIdentifier("BlackFlowMilestone", milestoneId, "BlackFlowDecisionDetailUnknown");
+        }
+
+        return details?["reason_detail"]?.ToString() switch
+        {
+            "selected unclassified frontier probe" => LocalizationHelper.GetString("BlackFlowDecisionProbeUnknownNode"),
+            "selected by lexicographic policy order" => LocalizationHelper.GetString("BlackFlowDecisionPolicyOrder"),
+            _ => LocalizationHelper.GetString("BlackFlowDecisionDetailUnknown"),
+        };
+    }
+
+    private static string LocalizeBlackFlowNodeType(string? nodeType) => nodeType switch
+    {
+        "empty" => LocalizationHelper.GetString("BlackFlowNodeEmpty"),
+        "combat" => LocalizationHelper.GetString("BlackFlowNodeCombat"),
+        "emergency_combat" => LocalizationHelper.GetString("BlackFlowNodeEmergencyCombat"),
+        "boss" => LocalizationHelper.GetString("BlackFlowNodeBoss"),
+        "battle_shop" => LocalizationHelper.GetString("BlackFlowNodeBattleShop"),
+        "scrap_shop" => LocalizationHelper.GetString("BlackFlowNodeScrapShop"),
+        "encounter" => LocalizationHelper.GetString("BlackFlowNodeEncounter"),
+        "mysterious_presage" => LocalizationHelper.GetString("BlackFlowNodeMysteriousPresage"),
+        "ferocious_presage" => LocalizationHelper.GetString("BlackFlowNodeFerociousPresage"),
+        "scout" => LocalizationHelper.GetString("BlackFlowNodeScout"),
+        "face_off" => LocalizationHelper.GetString("BlackFlowNodeFaceOff"),
+        "emergency_aid" => LocalizationHelper.GetString("BlackFlowNodeEmergencyAid"),
+        "rest" => LocalizationHelper.GetString("BlackFlowNodeRest"),
+        "feather_point" => LocalizationHelper.GetString("BlackFlowNodeFeatherPoint"),
+        "winding_passage" => LocalizationHelper.GetString("BlackFlowNodeWindingPassage"),
+        "sacrifice" => LocalizationHelper.GetString("BlackFlowNodeSacrifice"),
+        "wish" => LocalizationHelper.GetString("BlackFlowNodeWish"),
+        "bosky_passage" => LocalizationHelper.GetString("BlackFlowNodeBoskyPassage"),
+        "resident_stronghold" => LocalizationHelper.GetString("BlackFlowNodeResidentStronghold"),
+        "final" => LocalizationHelper.GetString("BlackFlowNodeFinal"),
+        "fate" => LocalizationHelper.GetString("BlackFlowNodeFate"),
+        "evacuate" => LocalizationHelper.GetString("BlackFlowNodeEvacuate"),
+        "teleporter" => LocalizationHelper.GetString("BlackFlowNodeTeleporter"),
+        "other" => LocalizationHelper.GetString("BlackFlowNodeOther"),
+        _ => LocalizationHelper.GetString("BlackFlowNodeUnknown"),
+    };
+
+    private static string LocalizeBlackFlowMilestoneStatus(string? status) => status switch
+    {
+        "available" => LocalizationHelper.GetString("BlackFlowMilestoneStatusAvailable"),
+        "satisfied" => LocalizationHelper.GetString("BlackFlowMilestoneStatusSatisfied"),
+        "missed" => LocalizationHelper.GetString("BlackFlowMilestoneStatusMissed"),
+        "impossible" => LocalizationHelper.GetString("BlackFlowMilestoneStatusImpossible"),
+        _ => LocalizationHelper.GetString("BlackFlowMilestoneStatusUnknown"),
+    };
+
+    private static string LocalizeBlackFlowStrategyOutcome(string? outcome) => outcome switch
+    {
+        "investment_completed" => LocalizationHelper.GetString("BlackFlowOutcomeInvestmentCompleted"),
+        "burn_completed" => LocalizationHelper.GetString("BlackFlowOutcomeFloor3RouteCompleted"),
+        "baby_cultivation_completed" => LocalizationHelper.GetString("BlackFlowOutcomeBabyCultivationCompleted"),
+        "baby_no_seed" => LocalizationHelper.GetString("BlackFlowOutcomeBabyNoSeed"),
+        "ending_prerequisite_failed" => LocalizationHelper.GetString("BlackFlowOutcomeEndingPrerequisiteFailed"),
+        "strategy_completed" => LocalizationHelper.GetString("BlackFlowOutcomeStrategyCompleted"),
+        "page_recovery_failed" => LocalizationHelper.GetString("BlackFlowOutcomePageRecoveryFailed"),
+        "ending2_completed" => LocalizationHelper.GetString("BlackFlowOutcomeEnding2Completed"),
+        "ending3_completed" => LocalizationHelper.GetString("BlackFlowOutcomeEnding3Completed"),
+        "ending2_prerequisite_failed" => LocalizationHelper.GetString("BlackFlowOutcomeEnding2PrerequisiteFailed"),
+        "ending3_prerequisite_failed" => LocalizationHelper.GetString("BlackFlowOutcomeEnding3PrerequisiteFailed"),
+        "baby_scrap_shop_missing" => LocalizationHelper.GetString("BlackFlowOutcomeBabyScrapShopMissing"),
+        "mandatory_milestone_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMandatoryMilestoneFailed"),
+        "task_event_failed" => LocalizationHelper.GetString("BlackFlowOutcomeTaskEventFailed"),
+        "perception_port_missing" => LocalizationHelper.GetString("BlackFlowOutcomePerceptionPortMissing"),
+        "map_rebuild_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMapRebuildFailed"),
+        "planning_failed" => LocalizationHelper.GetString("BlackFlowOutcomePlanningFailed"),
+        "transaction_proposal_failed" => LocalizationHelper.GetString("BlackFlowOutcomeTransactionProposalFailed"),
+        "move_preview_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMovePreviewFailed"),
+        "move_preview_rejected" => LocalizationHelper.GetString("BlackFlowOutcomeMovePreviewRejected"),
+        "move_confirmation_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMoveConfirmationFailed"),
+        "post_move_validation_failed" => LocalizationHelper.GetString("BlackFlowOutcomePostMoveValidationFailed"),
+        "planning_retry_exhausted" => LocalizationHelper.GetString("BlackFlowOutcomePlanningRetryExhausted"),
+        _ => LocalizationHelper.GetString("BlackFlowOutcomeUnknown"),
+    };
+
+    private static string LocalizeBlackFlowTerminationReason(string? reason) => reason switch
+    {
+        "investment_finished" => LocalizationHelper.GetString("BlackFlowTerminationInvestmentFinished"),
+        "burn_floor3_finished" => LocalizationHelper.GetString("BlackFlowTerminationFloor3Reached"),
+        "cultivation_result_reported" => LocalizationHelper.GetString("BlackFlowTerminationCultivationReported"),
+        "floor1_shop_has_no_seed" => LocalizationHelper.GetString("BlackFlowTerminationFloor1ShopNoSeed"),
+        "mandatory_prerequisite_missed" => LocalizationHelper.GetString("BlackFlowTerminationMandatoryPrerequisiteMissed"),
+        "strategy_terminal_reached" => LocalizationHelper.GetString("BlackFlowTerminationStrategyTerminalReached"),
+        "node_page_could_not_return_to_map" => LocalizationHelper.GetString("BlackFlowTerminationNodePageRecoveryFailed"),
+        "ending2_terminal_completed" => LocalizationHelper.GetString("BlackFlowTerminationEnding2Completed"),
+        "ending3_terminal_completed" => LocalizationHelper.GetString("BlackFlowTerminationEnding3Completed"),
+        "fifth_floor_reached_without_valid_sandtable_payment" => LocalizationHelper.GetString("BlackFlowTerminationEnding2PrerequisiteMissing"),
+        "fifth_floor_reached_without_special_device" => LocalizationHelper.GetString("BlackFlowTerminationEnding3RelicMissing"),
+        "third_floor_has_no_bosky_passage" => LocalizationHelper.GetString("BlackFlowTerminationNoBoskyPassage"),
+        "third_floor_has_no_scrap_shop" => LocalizationHelper.GetString("BlackFlowTerminationNoScrapShop"),
+        "a mandatory strategy milestone was missed or became impossible" => LocalizationHelper.GetString("BlackFlowTerminationMandatoryMilestoneFailed"),
+        "map recovery port is unavailable" => LocalizationHelper.GetString("BlackFlowTerminationRecoveryPortUnavailable"),
+        "BlackFlow perception and task port is not attached" => LocalizationHelper.GetString("BlackFlowTerminationPerceptionPortUnavailable"),
+        "map rebuild failed twice" => LocalizationHelper.GetString("BlackFlowTerminationMapRebuildFailedTwice"),
+        "preview replanning exceeded the finite candidate limit" => LocalizationHelper.GetString("BlackFlowTerminationPlanningRetryExhausted"),
+        _ => LocalizationHelper.GetString("BlackFlowTerminationUnknown"),
+    };
+
     public void ProcSubTaskMsg(AsstMsg msg, AsstSubTaskMsg? details)
     {
         if (msg != AsstMsg.SubTaskExtraInfo)
@@ -978,7 +1104,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                     var nodeName = subTaskDetails?["node_name"]?.ToString();
                     if (string.IsNullOrWhiteSpace(nodeName))
                     {
-                        nodeName = subTaskDetails?["node_type"]?.ToString() ?? "Unknown";
+                        nodeName = LocalizeBlackFlowNodeType(subTaskDetails?["node_type"]?.ToString());
                     }
                     var margin = subTaskDetails?["safety_margin"]?.Value<int>() ?? 0;
                     var category = subTaskDetails?["reason_category"]?.ToString() switch
@@ -991,7 +1117,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                         "safety_fallback" => LocalizationHelper.GetString("BlackFlowReasonSafetyFallback"),
                         _ => LocalizationHelper.GetString("BlackFlowReasonTieBreak"),
                     };
-                    var reasonDetail = subTaskDetails?["reason_detail"]?.ToString() ?? string.Empty;
+                    var reasonDetail = LocalizeBlackFlowDecisionDetail(subTaskDetails);
                     var routeLine = LocalizationHelper.GetStringFormat(
                         "BlackFlowRoutingDecision",
                         floor,
@@ -1016,30 +1142,40 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                         "inferred_edge_selected" => LocalizationHelper.GetString("BlackFlowWarningInferredEdge"),
                         "post_move_mismatch" => LocalizationHelper.GetString("BlackFlowWarningPostMoveMismatch"),
                         "floor_mismatch" => LocalizationHelper.GetString("BlackFlowWarningFloorMismatch"),
-                        _ => subTaskDetails?["message"]?.ToString() ?? LocalizationHelper.GetString("BlackFlowWarningUnknown"),
+                        "identity_conflict" => LocalizationHelper.GetString("BlackFlowWarningIdentityConflict"),
+                        _ => LocalizationHelper.GetString("BlackFlowWarningUnknown"),
                     };
                     Instances.TaskQueueViewModel.AddLog(warning, UiLogColor.Warning);
                     break;
                 }
 
             case "BlackFlowMilestoneChanged":
-                Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetStringFormat(
-                        "BlackFlowMilestoneChanged",
-                        subTaskDetails?["milestone_id"]?.ToString() ?? string.Empty,
-                        subTaskDetails?["status"]?.ToString() ?? string.Empty),
-                    UiLogColor.Info);
-                break;
+                {
+                    var statusCode = subTaskDetails?["status"]?.ToString();
+                    if (statusCode == "inactive")
+                    {
+                        break;
+                    }
+                    var milestone = LocalizeBlackFlowIdentifier(
+                        "BlackFlowMilestone",
+                        subTaskDetails?["milestone_id"]?.ToString(),
+                        "BlackFlowMilestoneUnknown");
+                    var status = LocalizeBlackFlowMilestoneStatus(statusCode);
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("BlackFlowMilestoneChanged", milestone, status),
+                        UiLogColor.Info);
+                    break;
+                }
 
             case "BlackFlowStrategyResult":
-                Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetStringFormat(
-                        "BlackFlowStrategyResult",
-                        subTaskDetails?["outcome"]?.ToString() ?? string.Empty,
-                        subTaskDetails?["termination_reason"]?.ToString() ?? string.Empty),
-                    subTaskDetails?["succeeded"]?.Value<bool>() == true ? UiLogColor.Info : UiLogColor.Warning);
-                break;
-
+                {
+                    var outcome = LocalizeBlackFlowStrategyOutcome(subTaskDetails?["outcome"]?.ToString());
+                    var reason = LocalizeBlackFlowTerminationReason(subTaskDetails?["termination_reason"]?.ToString());
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("BlackFlowStrategyResult", outcome, reason),
+                        subTaskDetails?["succeeded"]?.Value<bool>() == true ? UiLogColor.Info : UiLogColor.Warning);
+                    break;
+                }
             case "BoskyPassageNode":
                 {
                     var nodeType = subTaskDetails!["node_type"]?.ToString();

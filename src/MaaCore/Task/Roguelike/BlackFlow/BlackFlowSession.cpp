@@ -275,7 +275,7 @@ void BlackFlowSession::refresh_mission()
     };
     for (const auto& [id, status] : m_mission.milestones) {
         const auto old = previous.find(id);
-        if (old != previous.end() && old->second == status) {
+        if (status == MilestoneStatus::Inactive || (old != previous.end() && old->second == status)) {
             continue;
         }
         json::object details {
@@ -372,7 +372,24 @@ void BlackFlowSession::queue_map_summary(const PerceptionSummary& summary)
         { "attempt_count", summary.attempt_count },
         { "retry_count", summary.retry_count },
     };
-    Log.info("BlackFlowMapSummary", json::value(details).to_string());
+    Log.info(
+        "BlackFlow map summary",
+        "observation",
+        summary.observation_id,
+        "floor",
+        summary.floor,
+        "current",
+        summary.current_node,
+        "nodes",
+        summary.node_count,
+        "confirmed edges",
+        summary.confirmed_edge_count,
+        "inferred edges",
+        summary.forced_edge_count,
+        "unclassified",
+        summary.unclassified_count,
+        "attempts",
+        summary.attempt_count);
     m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowMapSummary", details });
 
     std::vector<json::value> nodes;
@@ -463,7 +480,7 @@ void BlackFlowSession::queue_warning(std::string code, std::string message, Diag
         { "code", code },
         { "message", message },
     };
-    Log.warn("BlackFlowRoutingWarning", json::value(details).to_string());
+    Log.warn("BlackFlow routing warning", code, message);
     m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowRoutingWarning", details });
     request_diagnostics(trigger, std::move(details));
 }
@@ -1113,7 +1130,16 @@ bool BlackFlowSession::queue_node_resolution(const json::value& callback_details
         { "repeatable", repeatable },
         { "becomes_empty", becomes_empty },
     };
-    Log.info("BlackFlowNodeResolution", json::value(details).to_string());
+    Log.info(
+        "BlackFlow node resolution",
+        "node",
+        m_pending_event_node,
+        "event",
+        event_name,
+        "type",
+        to_string(updated.type),
+        "progress",
+        progress);
     m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowNodeResolution", std::move(details) });
     return true;
 }
