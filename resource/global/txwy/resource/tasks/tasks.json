@@ -27,12 +27,8 @@
     "ClickChapterNewOverview": {
         "text": ["樂章"]
     },
-    "EnterEpisodeNew": {
-        "baseTask": "#none",
-        "baseTaskDoc": "26.2.10 Add a secondary interface and delete it after subsequent updates",
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf"
+    "EnterEpisodeNew-Click": {
+        "text": ["前往章節"],
     },
     "LevelOfDifficulty": {
         "text": ["環境", "PRTS"]
