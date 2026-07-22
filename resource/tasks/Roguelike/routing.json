@@ -307,7 +307,7 @@
         "templThreshold": 0.7,
         "roi": [0, 480, 100, 70],
         "action": "ClickSelf",
-        "postDelay": 800
+        "postDelay": 1500
     },
     "Blackflow@RoguelikeRouting-GearPanelSwipeUp": {
         "doc": "加工品面板内向上滑动以显示更多加工品卡片",
