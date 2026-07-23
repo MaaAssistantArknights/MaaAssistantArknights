@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:enums="clr-namespace:MaaWpfGui.Constants.Enums"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -20,7 +21,7 @@
     mc:Ignorable="d">
     <StackPanel>
         <StackPanel Visibility="{c:Binding !UseAttachWindow, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
-            <StackPanel Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;txwy&quot;', Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}">
+            <StackPanel Visibility="{c:Binding 'ClientType == enums:ClientType.Official or ClientType == enums:ClientType.Bilibili or ClientType == enums:ClientType.Txwy', Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}">
                 <StackPanel
                     Margin="0,5"
                     HorizontalAlignment="Left"
