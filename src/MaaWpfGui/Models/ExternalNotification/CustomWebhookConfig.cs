@@ -21,6 +21,11 @@ namespace MaaWpfGui.Models.ExternalNotification;
 
 public class CustomWebhookConfig(string url = "", string headers = "", string body = "") : BaseConfig
 {
+    public CustomWebhookConfig()
+        : this(string.Empty, string.Empty, string.Empty)
+    {
+    }
+
     public CustomWebhookConfig(CustomWebhook customWebhook)
         : this(SimpleEncryptionHelper.Decrypt(customWebhook.Url), SimpleEncryptionHelper.Decrypt(customWebhook.Headers), SimpleEncryptionHelper.Decrypt(customWebhook.Body))
     {

@@ -18,6 +18,11 @@ namespace MaaWpfGui.Models.ExternalNotification;
 
 public class SmtpConfig(string server = "", string port = "", string username = "", string password = "", string from = "", string to = "", string useSsl = "false", string requiresAuthentication = "false") : BaseConfig
 {
+    public SmtpConfig()
+        : this(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty)
+    {
+    }
+
     public SmtpConfig(Smtp smtp)
         : this(SimpleEncryptionHelper.Decrypt(smtp.Server), SimpleEncryptionHelper.Decrypt(smtp.Port), SimpleEncryptionHelper.Decrypt(smtp.User), SimpleEncryptionHelper.Decrypt(smtp.Password), SimpleEncryptionHelper.Decrypt(smtp.From), SimpleEncryptionHelper.Decrypt(smtp.To), smtp.UseSsl.ToString(), smtp.RequiresAuthentication.ToString())
     {

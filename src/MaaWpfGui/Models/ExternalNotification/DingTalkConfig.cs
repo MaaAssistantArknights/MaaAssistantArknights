@@ -19,6 +19,11 @@ namespace MaaWpfGui.Models.ExternalNotification;
 
 public class DingTalkConfig(string accessToken = "", string secret = "") : BaseConfig
 {
+    public DingTalkConfig()
+        : this(string.Empty, string.Empty)
+    {
+    }
+
     public DingTalkConfig(DingTalk dingTalk)
         : this(SimpleEncryptionHelper.Decrypt(dingTalk.AccessToken), SimpleEncryptionHelper.Decrypt(dingTalk.Secret))
     {

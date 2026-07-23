@@ -19,6 +19,11 @@ namespace MaaWpfGui.Models.ExternalNotification;
 
 public class ServerChanConfig(string sendKey = "") : BaseConfig
 {
+    public ServerChanConfig()
+        : this(string.Empty)
+    {
+    }
+
     public ServerChanConfig(ServerChan serverChan)
         : this(SimpleEncryptionHelper.Decrypt(serverChan.SendKey))
     {

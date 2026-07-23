@@ -19,6 +19,11 @@ namespace MaaWpfGui.Models.ExternalNotification;
 
 public class BarkConfig(string sendKey = "", string server = "https://api.day.app") : BaseConfig
 {
+    public BarkConfig()
+        : this(string.Empty)
+    {
+    }
+
     public BarkConfig(Bark bark)
         : this(SimpleEncryptionHelper.Decrypt(bark.SendKey), SimpleEncryptionHelper.Decrypt(bark.Server, "https://api.day.app"))
     {

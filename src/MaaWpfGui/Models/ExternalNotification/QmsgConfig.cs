@@ -19,6 +19,11 @@ namespace MaaWpfGui.Models.ExternalNotification;
 
 public class QmsgConfig(string server = "", string key = "", string user = "", string bot = "") : BaseConfig
 {
+    public QmsgConfig()
+        : this(string.Empty, string.Empty, string.Empty, string.Empty)
+    {
+    }
+
     public QmsgConfig(Qmsg qmsg)
         : this(SimpleEncryptionHelper.Decrypt(qmsg.Server), SimpleEncryptionHelper.Decrypt(qmsg.Key), SimpleEncryptionHelper.Decrypt(qmsg.User), SimpleEncryptionHelper.Decrypt(qmsg.Bot))
     {

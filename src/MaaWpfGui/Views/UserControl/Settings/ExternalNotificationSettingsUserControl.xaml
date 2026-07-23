@@ -118,7 +118,15 @@
 
                 <d:ListBox.ItemsSource>
                     <x:Array Type="{x:Type config:BaseConfig}">
+                        <config:ServerChanConfig />
                         <config:TelegramConfig />
+                        <config:DiscordConfig />
+                        <config:DingTalkConfig />
+                        <config:SmtpConfig />
+                        <config:BarkConfig />
+                        <config:QmsgConfig />
+                        <config:GotifyConfig />
+                        <config:CustomWebhookConfig />
                     </x:Array>
                 </d:ListBox.ItemsSource>
                 <ListBox.ItemContainerStyle>
@@ -140,7 +148,7 @@
                             Margin="4"
                             Padding="8"
                             HorizontalAlignment="Stretch">
-                            <StackPanel Orientation="Vertical">
+                            <StackPanel d:DataContext="{d:DesignInstance {x:Type config:ServerChanConfig}}" Orientation="Vertical">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
@@ -160,8 +168,7 @@
                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                         hc:IconElement.Height="15"
                                         hc:IconElement.Width="15"
-                                        Command="{s:Action RemoveConfig,
-                                                           Target={x:Static settings_vms:ExternalNotificationSettingsUserControlModel.Instance}}"
+                                        Command="{s:Action RemoveConfig}"
                                         CommandParameter="{Binding}"
                                         ToolTip="{DynamicResource Delete}" />
                                 </Grid>
@@ -172,16 +179,16 @@
                                     hc:InfoElement.Title="{DynamicResource ExternalNotificationServerChanSendKey}"
                                     IsSafeEnabled="False"
                                     ShowEyeButton="True"
-                                    UnsafePassword="{c:Binding SendKey}" />
+                                    UnsafePassword="{Binding SendKey}" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
-
                     <DataTemplate DataType="{x:Type config:TelegramConfig}">
                         <Border
                             Margin="4"
                             Padding="8"
-                            HorizontalAlignment="Stretch">
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:TelegramConfig}}">
                             <StackPanel Orientation="Vertical">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -202,8 +209,7 @@
                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                         hc:IconElement.Height="15"
                                         hc:IconElement.Width="15"
-                                        Command="{s:Action RemoveConfig,
-                                                           Target={x:Static settings_vms:ExternalNotificationSettingsUserControlModel.Instance}}"
+                                        Command="{s:Action RemoveConfig}"
                                         CommandParameter="{Binding}"
                                         ToolTip="{DynamicResource Delete}" />
                                 </Grid>
@@ -214,7 +220,7 @@
                                     hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramBotToken}"
                                     IsSafeEnabled="False"
                                     ShowEyeButton="True"
-                                    UnsafePassword="{c:Binding BotToken}" />
+                                    UnsafePassword="{Binding BotToken}" />
                                 <hc:TextBox
                                     Width="400"
                                     Height="30"
@@ -234,7 +240,8 @@
                         <Border
                             Margin="4"
                             Padding="8"
-                            HorizontalAlignment="Stretch">
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:DiscordConfig}}">
                             <StackPanel Orientation="Vertical">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -255,8 +262,7 @@
                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                         hc:IconElement.Height="15"
                                         hc:IconElement.Width="15"
-                                        Command="{s:Action RemoveConfig,
-                                                           Target={x:Static settings_vms:ExternalNotificationSettingsUserControlModel.Instance}}"
+                                        Command="{s:Action RemoveConfig}"
                                         CommandParameter="{Binding}"
                                         ToolTip="{DynamicResource Delete}" />
                                 </Grid>
@@ -267,7 +273,7 @@
                                     hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordBotToken}"
                                     IsSafeEnabled="False"
                                     ShowEyeButton="True"
-                                    UnsafePassword="{c:Binding BotToken}" />
+                                    UnsafePassword="{Binding BotToken}" />
                                 <hc:TextBox
                                     Width="400"
                                     Height="30"
@@ -281,16 +287,16 @@
                                     hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordWebhookUrl}"
                                     IsSafeEnabled="False"
                                     ShowEyeButton="True"
-                                    UnsafePassword="{c:Binding WebhookUrl}" />
+                                    UnsafePassword="{Binding WebhookUrl}" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
-
                     <DataTemplate DataType="{x:Type config:DingTalkConfig}">
                         <Border
                             Margin="4"
                             Padding="8"
-                            HorizontalAlignment="Stretch">
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:DingTalkConfig}}">
                             <StackPanel Orientation="Vertical">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -311,8 +317,7 @@
                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                         hc:IconElement.Height="15"
                                         hc:IconElement.Width="15"
-                                        Command="{s:Action RemoveConfig,
-                                                           Target={x:Static settings_vms:ExternalNotificationSettingsUserControlModel.Instance}}"
+                                        Command="{s:Action RemoveConfig}"
                                         CommandParameter="{Binding}"
                                         ToolTip="{DynamicResource Delete}" />
                                 </Grid>
@@ -323,7 +328,7 @@
                                     hc:InfoElement.Title="{DynamicResource ExternalNotificationDingTalkAccessToken}"
                                     IsSafeEnabled="False"
                                     ShowEyeButton="True"
-                                    UnsafePassword="{c:Binding AccessToken}" />
+                                    UnsafePassword="{Binding AccessToken}" />
                                 <hc:PasswordBox
                                     Width="400"
                                     Height="30"
@@ -331,16 +336,16 @@
                                     hc:InfoElement.Title="{DynamicResource ExternalNotificationDingTalkSecret}"
                                     IsSafeEnabled="False"
                                     ShowEyeButton="True"
-                                    UnsafePassword="{c:Binding Secret}" />
+                                    UnsafePassword="{Binding Secret}" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
-
                     <DataTemplate DataType="{x:Type config:SmtpConfig}">
                         <Border
                             Margin="4"
                             Padding="8"
-                            HorizontalAlignment="Stretch">
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:SmtpConfig}}">
                             <StackPanel Orientation="Vertical">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -361,8 +366,7 @@
                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                         hc:IconElement.Height="15"
                                         hc:IconElement.Width="15"
-                                        Command="{s:Action RemoveConfig,
-                                                           Target={x:Static settings_vms:ExternalNotificationSettingsUserControlModel.Instance}}"
+                                        Command="{s:Action RemoveConfig}"
                                         CommandParameter="{Binding}"
                                         ToolTip="{DynamicResource Delete}" />
                                 </Grid>
@@ -394,6 +398,7 @@
                                     Width="400"
                                     Height="30"
                                     Margin="10"
+                                    d:Visibility="Visible"
                                     hc:InfoElement.Title="{DynamicResource ExternalNotificationSmtpUser}"
                                     Text="{Binding Username}"
                                     Visibility="{c:Binding RequiresAuthentication}" />
@@ -401,10 +406,11 @@
                                     Width="400"
                                     Height="30"
                                     Margin="10"
+                                    d:Visibility="Visible"
                                     hc:InfoElement.Title="{DynamicResource ExternalNotificationSmtpPassword}"
                                     IsSafeEnabled="False"
                                     ShowEyeButton="True"
-                                    UnsafePassword="{c:Binding Password}"
+                                    UnsafePassword="{Binding Password}"
                                     Visibility="{c:Binding RequiresAuthentication}" />
                                 <hc:TextBox
                                     Width="400"
@@ -421,12 +427,12 @@
                             </StackPanel>
                         </Border>
                     </DataTemplate>
-
                     <DataTemplate DataType="{x:Type config:BarkConfig}">
                         <Border
                             Margin="4"
                             Padding="8"
-                            HorizontalAlignment="Stretch">
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:BarkConfig}}">
                             <StackPanel Orientation="Vertical">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -447,8 +453,7 @@
                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                         hc:IconElement.Height="15"
                                         hc:IconElement.Width="15"
-                                        Command="{s:Action RemoveConfig,
-                                                           Target={x:Static settings_vms:ExternalNotificationSettingsUserControlModel.Instance}}"
+                                        Command="{s:Action RemoveConfig}"
                                         CommandParameter="{Binding}"
                                         ToolTip="{DynamicResource Delete}" />
                                 </Grid>
@@ -465,16 +470,16 @@
                                     hc:InfoElement.Title="{DynamicResource ExternalNotificationBarkSendKey}"
                                     IsSafeEnabled="False"
                                     ShowEyeButton="True"
-                                    UnsafePassword="{c:Binding SendKey}" />
+                                    UnsafePassword="{Binding SendKey}" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
-
                     <DataTemplate DataType="{x:Type config:QmsgConfig}">
                         <Border
                             Margin="4"
                             Padding="8"
-                            HorizontalAlignment="Stretch">
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:QmsgConfig}}">
                             <StackPanel Orientation="Vertical">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -495,8 +500,7 @@
                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                         hc:IconElement.Height="15"
                                         hc:IconElement.Width="15"
-                                        Command="{s:Action RemoveConfig,
-                                                           Target={x:Static settings_vms:ExternalNotificationSettingsUserControlModel.Instance}}"
+                                        Command="{s:Action RemoveConfig}"
                                         CommandParameter="{Binding}"
                                         ToolTip="{DynamicResource Delete}" />
                                 </Grid>
@@ -513,7 +517,7 @@
                                     hc:InfoElement.Title="{DynamicResource ExternalNotificationQmsgKey}"
                                     IsSafeEnabled="False"
                                     ShowEyeButton="True"
-                                    UnsafePassword="{c:Binding Key}" />
+                                    UnsafePassword="{Binding Key}" />
                                 <hc:TextBox
                                     Width="400"
                                     Height="30"
@@ -529,12 +533,12 @@
                             </StackPanel>
                         </Border>
                     </DataTemplate>
-
                     <DataTemplate DataType="{x:Type config:GotifyConfig}">
                         <Border
                             Margin="4"
                             Padding="8"
-                            HorizontalAlignment="Stretch">
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:GotifyConfig}}">
                             <StackPanel Orientation="Vertical">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -555,8 +559,7 @@
                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                         hc:IconElement.Height="15"
                                         hc:IconElement.Width="15"
-                                        Command="{s:Action RemoveConfig,
-                                                           Target={x:Static settings_vms:ExternalNotificationSettingsUserControlModel.Instance}}"
+                                        Command="{s:Action RemoveConfig}"
                                         CommandParameter="{Binding}"
                                         ToolTip="{DynamicResource Delete}" />
                                 </Grid>
@@ -573,16 +576,16 @@
                                     hc:InfoElement.Title="{DynamicResource ExternalNotificationGotifyToken}"
                                     IsSafeEnabled="False"
                                     ShowEyeButton="True"
-                                    UnsafePassword="{c:Binding Token}" />
+                                    UnsafePassword="{Binding Token}" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
-
                     <DataTemplate DataType="{x:Type config:CustomWebhookConfig}">
                         <Border
                             Margin="4"
                             Padding="8"
-                            HorizontalAlignment="Stretch">
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:CustomWebhookConfig}}">
                             <StackPanel Orientation="Vertical">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -603,8 +606,7 @@
                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                         hc:IconElement.Height="15"
                                         hc:IconElement.Width="15"
-                                        Command="{s:Action RemoveConfig,
-                                                           Target={x:Static settings_vms:ExternalNotificationSettingsUserControlModel.Instance}}"
+                                        Command="{s:Action RemoveConfig}"
                                         CommandParameter="{Binding}"
                                         ToolTip="{DynamicResource Delete}" />
                                 </Grid>

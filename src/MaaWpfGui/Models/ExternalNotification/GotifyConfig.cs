@@ -19,6 +19,11 @@ namespace MaaWpfGui.Models.ExternalNotification;
 
 public class GotifyConfig(string server = "", string token = "") : BaseConfig
 {
+    public GotifyConfig()
+        : this(string.Empty, string.Empty)
+    {
+    }
+
     public GotifyConfig(Gotify gotify)
         : this(SimpleEncryptionHelper.Decrypt(gotify.Server), SimpleEncryptionHelper.Decrypt(gotify.Token))
     {

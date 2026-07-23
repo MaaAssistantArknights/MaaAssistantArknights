@@ -19,6 +19,11 @@ namespace MaaWpfGui.Models.ExternalNotification;
 
 public class DiscordConfig(string botToken = "", string userId = "") : BaseConfig
 {
+    public DiscordConfig()
+        : this(string.Empty, string.Empty)
+    {
+    }
+
     public DiscordConfig(Discord discord)
         : this(SimpleEncryptionHelper.Decrypt(discord.BotToken), SimpleEncryptionHelper.Decrypt(discord.UserId))
     {
