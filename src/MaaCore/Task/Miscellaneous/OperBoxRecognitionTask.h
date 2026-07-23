@@ -17,6 +17,7 @@ protected:
     void callback_analyze_result(bool done);
     bool swipe_and_analyze();
 
-    std::unordered_map<std::string, OperBoxInfo> m_own_opers;
+    std::vector<OperBoxInfo> m_own_opers;
+    std::unordered_set<std::string> m_own_opers_names;
 };
 }
