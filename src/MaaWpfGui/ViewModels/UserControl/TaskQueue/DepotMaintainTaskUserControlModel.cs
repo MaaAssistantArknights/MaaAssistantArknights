@@ -74,8 +74,14 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
 
         // 查找该 taskId 对应的 plan index
-        var planIndex = _planTaskIdMap.FirstOrDefault(kvp => kvp.Value == taskId).Key;
-        if (TaskSettingVisibilityInfo.CurrentTask is not DepotMaintainTask depot || planIndex < 0 || planIndex >= depot.PlanList.Count)
+        var planKvp = _planTaskIdMap.FirstOrDefault(kvp => kvp.Value == taskId);
+        if (planKvp.Value != taskId)
+        {
+            return;
+        }
+
+        int planIndex = planKvp.Key;
+        if (TaskSettingVisibilityInfo.CurrentTask is not DepotMaintainTask depot || planIndex >= depot.PlanList.Count)
         {
             return;
         }
