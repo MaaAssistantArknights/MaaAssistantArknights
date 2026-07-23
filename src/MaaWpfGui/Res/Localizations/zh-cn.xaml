@@ -858,7 +858,6 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AddPlan">添加</system:String>
     <system:String x:Key="CollapseAll">折叠</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">计划 {0}：未指定掉落物。</system:String>
-    <system:String x:Key="DepotPlanDuplicateDrop">计划 {0}：材料 ｢{1}｣ 与计划 {2} 重复。</system:String>
     <system:String x:Key="DepotPlanZeroDropCount">计划 {0}：目标库存为 0。</system:String>
     <system:String x:Key="DepotPlanNoStage">计划 {0}：关卡未指定或为 ｢当前/上次｣。</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">计划 {0}：{1} 库存已充足（当前 {2} / 目标 {3}）。</system:String>

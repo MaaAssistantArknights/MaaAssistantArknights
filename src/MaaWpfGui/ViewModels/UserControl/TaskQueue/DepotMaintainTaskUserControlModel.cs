@@ -425,7 +425,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
             var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
             Instance._planTaskIdMap = [];
-            var seenDropIds = new Dictionary<string, int>();
             for (int i = 0; i < depot.PlanList.Count; i++)
             {
                 var plan = depot.PlanList[i];
@@ -440,18 +439,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanZeroDropCount", i + 1), UiLogColor.Error);
                     taskIds.Add(0);
                     continue;
-                }
-
-                // 检查是否有重复材料
-                if (seenDropIds.TryGetValue(plan.DropId, out var firstIndex))
-                {
-                    var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanDuplicateDrop", i + 1, dropName, firstIndex + 1), UiLogColor.Error);
-                    continue;
-                }
-                else
-                {
-                    seenDropIds[plan.DropId] = i;
                 }
 
                 var stage = GetFightStage([plan.Stage]);

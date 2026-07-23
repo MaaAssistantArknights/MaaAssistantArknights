@@ -857,7 +857,6 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="AddPlan">Add</system:String>
     <system:String x:Key="CollapseAll">Collapse</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">Plan {0}: no drop item specified.</system:String>
-    <system:String x:Key="DepotPlanDuplicateDrop">Plan {0}: item '{1}' duplicates plan {2}.</system:String>
     <system:String x:Key="DepotPlanZeroDropCount">Plan {0}: target inventory is 0.</system:String>
     <system:String x:Key="DepotPlanNoStage">Plan {0}: stage not specified or is "Current/Last".</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">Plan {0}: {1} inventory sufficient (current {2} / target {3}).</system:String>

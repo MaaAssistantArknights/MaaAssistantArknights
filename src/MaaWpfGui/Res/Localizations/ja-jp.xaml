@@ -858,7 +858,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AddPlan">追加</system:String>
     <system:String x:Key="CollapseAll">折りたたむ</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">プラン {0}：ドロップアイテム未指定。</system:String>
-    <system:String x:Key="DepotPlanDuplicateDrop">プラン {0}：アイテム ｢{1}｣ はプラン {2} と重複。</system:String>
     <system:String x:Key="DepotPlanZeroDropCount">プラン {0}：目標在庫が 0。</system:String>
     <system:String x:Key="DepotPlanNoStage">プラン {0}：ステージ未指定または ｢現在/前回｣。</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">プラン {0}：{1} 在庫十分（現在 {2} / 目標 {3}）。</system:String>
