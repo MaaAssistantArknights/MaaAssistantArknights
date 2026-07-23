@@ -1370,6 +1370,7 @@ public class TaskQueueViewModel : Screen
                 nameof(RoguelikeTask) => LocalizationHelper.GetString("Roguelike"),
                 nameof(ReclamationTask) => LocalizationHelper.GetString("Reclamation"),
                 nameof(UserDataUpdateTask) => LocalizationHelper.GetString("UserDataUpdate"),
+                nameof(DepotMaintainTask) => LocalizationHelper.GetString("DepotMaintain"),
                 nameof(CustomTask) => LocalizationHelper.GetString("Custom"),
                 _ => item.Display,
             };
