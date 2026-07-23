@@ -226,7 +226,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     {
         return Execute.OnUIThreadAsync(async () => {
             using var log = new LogScope(_logger);
-            var stageList = Instances.StageManager.GetStageList();
             await TaskQueueViewModel.TaskQueueSerializingLock.WaitAsync();
 
             RefreshStageList();
