@@ -2,7 +2,7 @@
     "BlackFlow@Roguelike@DismissMovePreview": {
         "algorithm": "JustReturn",
         "sub": ["BlackFlow@Roguelike@DismissMovePreviewClick*3"],
-        "next": ["BlackFlow@Roguelike@Routing"],
+        "next": ["BlackFlow@Roguelike@MapPrepare"],
         "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
         "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
     },
@@ -20,6 +20,21 @@
     },
     "BlackFlow@Roguelike@RoutingAction": {
         "baseTask": "BlackFlow@Roguelike@RecoveryFailed"
+    },
+    "BlackFlow@Roguelike@RoutingResume": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RoutingAction"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@SelectMovement": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@SelectMovementAction"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@SelectMovementAction": {
+        "baseTask": "BlackFlow@Roguelike@PageFailure"
     },
     "BlackFlow@Roguelike@NodeDispatch": {
         "algorithm": "JustReturn",
@@ -111,7 +126,7 @@
     },
     "BlackFlow@Roguelike@RecoverMapCompleted": {
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@Routing"]
+        "next": ["BlackFlow@Roguelike@MapPrepare"]
     },
     "BlackFlow@Roguelike@RecoverMapFailed": {
         "algorithm": "JustReturn",
@@ -367,7 +382,7 @@
     },
     "BlackFlow@Roguelike@Stages_default": {
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@Routing"]
+        "next": ["BlackFlow@Roguelike@MapPrepare"]
     },
     "BlackFlow@Roguelike@NodeResultDispatch": {
         "algorithm": "JustReturn",
@@ -384,5 +399,215 @@
     },
     "BlackFlow@Roguelike@StrategyTerminalAction": {
         "baseTask": "BlackFlow@Roguelike@RecoveryFailed"
+    },
+    "BlackFlow@Roguelike@MapPrepare": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@MapPrepare-Ready", "BlackFlow@Roguelike@MapPrepare-ZoomOut"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@MapPrepare-Ready": {
+        "template": "BlackFlow@Roguelike@MapZoomIn.png",
+        "templThreshold": 0.98,
+        "roi": [24, 468, 62, 153],
+        "next": ["BlackFlow@Roguelike@Routing"]
+    },
+    "BlackFlow@Roguelike@MapPrepare-ZoomOut": {
+        "template": "BlackFlow@Roguelike@MapZoomOut.png",
+        "templThreshold": 0.98,
+        "roi": [24, 468, 62, 153],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["BlackFlow@Roguelike@MapPrepare"]
+    },
+    "BlackFlow@Roguelike@CurrentActionPoints": {
+        "algorithm": "OcrDetect",
+        "roi": [1106, 102, 78, 75],
+        "isAscii": true,
+        "withoutDet": true,
+        "text": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64"
+        ],
+        "fullMatch": true
+    },
+    "BlackFlow@Roguelike@MovePreviewCost": {
+        "algorithm": "OcrDetect",
+        "roi": [1089, 544, 38, 27],
+        "isAscii": true,
+        "withoutDet": true,
+        "text": ["0", "-1", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "-9"],
+        "fullMatch": true
+    },
+    "BlackFlow@Roguelike@MovePreviewEnter": {
+        "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
+        "roi": [1149, 540, 102, 28]
+    },
+    "BlackFlow@Roguelike@MovePreviewCannotEnter": {
+        "template": "BlackFlow@Roguelike@MovePreviewCannotEnter.png",
+        "roi": [1149, 540, 102, 28]
+    },
+    "BlackFlow@Roguelike@MovePreviewConfirm": {
+        "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
+        "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
+        "action": "ClickSelf"
+    },
+    "BlackFlow@Roguelike@MovementPanelOpenClick": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1121, 90, 56, 5],
+        "postDelay": 500
+    },
+    "BlackFlow@Roguelike@MovementPanelTitle": {
+        "algorithm": "OcrDetect",
+        "roi": [893, 33, 196, 47],
+        "withoutDet": true,
+        "text": ["选择移动方式"],
+        "fullMatch": true
+    },
+    "BlackFlow@Roguelike@MovementPanelItems": {
+        "algorithm": "OcrDetect",
+        "roi": [877, 191, 400, 527],
+        "text": [
+            "报废轮子",
+            "报废假肢",
+            "标准引擎",
+            "重弹簧",
+            "气垫底座",
+            "试作外骨骼",
+            "小八界",
+            "一次性喷气背包",
+            "老妈妈的融雪",
+            "坎诺特的触须",
+            "结构性原理",
+            "简易遥控器",
+            "徒步跋涉",
+            "装载中",
+            "剩余1次",
+            "剩余2次",
+            "剩余3次"
+        ],
+        "fullMatch": true
+    },
+    "BlackFlow@Roguelike@MovementLoaded-Walk": {
+        "template": "BlackFlow@Roguelike@Movement-Walk.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementLoaded-M01": {
+        "template": "BlackFlow@Roguelike@Movement-M01.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementLoaded-M02": {
+        "template": "BlackFlow@Roguelike@Movement-M02.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementLoaded-M03": {
+        "template": "BlackFlow@Roguelike@Movement-M03.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementLoaded-M05": {
+        "template": "BlackFlow@Roguelike@Movement-M05.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementLoaded-M06": {
+        "template": "BlackFlow@Roguelike@Movement-M06.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementLoaded-M07": {
+        "template": "BlackFlow@Roguelike@Movement-M07.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementLoaded-M08": {
+        "template": "BlackFlow@Roguelike@Movement-M08.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementLoaded-M09": {
+        "template": "BlackFlow@Roguelike@Movement-M09.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementLoaded-M10": {
+        "template": "BlackFlow@Roguelike@Movement-M10.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementLoaded-M11": {
+        "template": "BlackFlow@Roguelike@Movement-M11.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementPanelSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1024, 590, 1, 1],
+        "rectMove": [1024, 280, 1, 1],
+        "specialParams": [200, 0, 2, 0],
+        "postDelay": 500
+    },
+    "BlackFlow@Roguelike@MovementPanelBackClick": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [2, 138, 36, 293],
+        "postDelay": 500
     }
 }

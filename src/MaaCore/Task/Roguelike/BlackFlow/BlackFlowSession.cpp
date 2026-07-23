@@ -126,6 +126,7 @@ bool BlackFlowSession::initialize(std::string profile, std::string* error)
     m_unreachable_actions.clear();
     m_pending_probe_target.reset();
     m_verified_move_arc.reset();
+    m_pending_candidate.reset();
     m_transaction.reset();
     m_last_plan.reset();
     m_page_context.reset();
@@ -288,8 +289,16 @@ bool BlackFlowSession::apply_run_observation(const RunObservation& observation, 
         target = *value;
         return true;
     };
-    if (!assign_nonnegative(observation.action_points, m_run.resources.action_points, "action points") ||
-        !assign_nonnegative(observation.hope, m_run.resources.hope, "hope") ||
+    if (observation.action_points.has_value()) {
+        if (*observation.action_points < 0 || *observation.action_points > 64) {
+            if (error != nullptr) {
+                *error = "action points must be between 0 and 64";
+            }
+            return false;
+        }
+        m_run.resources.action_points = *observation.action_points;
+    }
+    if (!assign_nonnegative(observation.hope, m_run.resources.hope, "hope") ||
         !assign_nonnegative(observation.ingots, m_run.resources.ingots, "ingots") ||
         !assign_nonnegative(observation.seeds, m_run.resources.seeds, "seeds") ||
         !assign_nonnegative(observation.sellable_scraps, m_run.resources.sellable_scraps, "sellable scraps") ||
@@ -300,13 +309,63 @@ bool BlackFlowSession::apply_run_observation(const RunObservation& observation, 
         m_run.resources.painted_liberi = *observation.painted_liberi;
     }
     if (observation.movement_charges.has_value()) {
-        if (std::ranges::any_of(*observation.movement_charges, [](const auto& pair) { return pair.second < 0; })) {
+        std::unordered_map<MovementKind, int> observed_charges;
+        for (const auto& [movement, charges] : *observation.movement_charges) {
+            if (movement == MovementKind::Walk || find_movement_spec(movement) == nullptr || charges < 0) {
+                if (error != nullptr) {
+                    *error = "movement charges contain an invalid movement or negative count";
+                }
+                return false;
+            }
+            if (charges > 0) {
+                observed_charges.insert_or_assign(movement, charges);
+            }
+        }
+        m_run.resources.movement_charges = std::move(observed_charges);
+        if (m_run.active_movement.has_value() && *m_run.active_movement != MovementKind::Walk &&
+            !m_run.resources.movement_charges.contains(*m_run.active_movement)) {
+            m_run.active_movement.reset();
+        }
+    }
+    if (observation.movement_panel.has_value()) {
+        const MovementPanelObservation& panel = *observation.movement_panel;
+        if (find_movement_spec(panel.target) == nullptr || !movement_panel_observation_is_structurally_valid(panel)) {
             if (error != nullptr) {
-                *error = "movement charges cannot be negative";
+                *error = "movement panel observation is inconsistent";
             }
             return false;
         }
-        m_run.resources.movement_charges = *observation.movement_charges;
+        const auto owned = m_run.resources.movement_charges.find(panel.target);
+        if (panel.target != MovementKind::Walk && owned != m_run.resources.movement_charges.end()) {
+            const bool reliable_count = movement_panel_has_reliable_count(panel);
+            const bool confirmed_absent = movement_panel_confirms_absent(panel);
+            if (reliable_count) {
+                if (*panel.remaining_charges == 0) {
+                    m_run.resources.movement_charges.erase(owned);
+                    if (m_run.active_movement == panel.target) {
+                        m_run.active_movement.reset();
+                    }
+                }
+                else {
+                    owned->second = *panel.remaining_charges;
+                }
+            }
+            else if (confirmed_absent) {
+                m_run.resources.movement_charges.erase(owned);
+                if (m_run.active_movement == panel.target) {
+                    m_run.active_movement.reset();
+                }
+            }
+        }
+    }
+    if (observation.active_movement.has_value()) {
+        if (find_movement_spec(*observation.active_movement) == nullptr) {
+            if (error != nullptr) {
+                *error = "active movement observation is invalid";
+            }
+            return false;
+        }
+        m_run.active_movement = *observation.active_movement;
     }
     if (observation.cross_floor_expired.has_value()) {
         m_run.cross_floor_expired = *observation.cross_floor_expired;
@@ -636,6 +695,7 @@ bool BlackFlowSession::merge_perception(
         m_unreachable_actions.clear();
         m_pending_probe_target.reset();
         m_verified_move_arc.reset();
+        m_pending_candidate.reset();
         if (!reconcile_move) {
             m_transaction.reset();
             m_page_context.reset();
@@ -667,6 +727,7 @@ bool BlackFlowSession::merge_perception(
         m_unreachable_actions.clear();
         m_pending_probe_target.reset();
         m_verified_move_arc.reset();
+        m_pending_candidate.reset();
         if (m_transaction.has_value()) {
             m_transaction->invalidate();
             m_transaction.reset();
@@ -882,10 +943,57 @@ bool BlackFlowSession::reconcile_committed_move(const BlackFlowPerceptionSnapsho
     m_page_context.reset();
     m_transaction_id.clear();
     m_verified_move_arc.reset();
+    m_pending_candidate.reset();
     m_pending_probe_target.reset();
     m_run.costs.clear_action_cost_overrides();
     m_unreachable_actions.clear();
     return true;
+}
+
+bool BlackFlowSession::apply_movement_panel_observation(
+    MovementPanelObservation panel,
+    std::optional<MovementKind> active_movement,
+    std::string* error)
+{
+    const MovementKind target = panel.target;
+    const bool reliable_count = movement_panel_has_reliable_count(panel);
+    const bool confirmed_absent = movement_panel_confirms_absent(panel);
+
+    BlackFlowSession staged = *this;
+    RunObservation observation;
+    observation.active_movement = active_movement;
+    observation.movement_panel = std::move(panel);
+    if (!staged.apply_run_observation(observation, error)) {
+        return false;
+    }
+    if (staged.m_pending_candidate.has_value() && staged.m_pending_candidate->candidate.movement == target) {
+        if (confirmed_absent) {
+            staged.m_pending_candidate.reset();
+        }
+        else if (reliable_count) {
+            const auto charges = staged.m_run.resources.movement_charges.find(target);
+            if (charges == staged.m_run.resources.movement_charges.end() || charges->second <= 0) {
+                staged.m_pending_candidate.reset();
+            }
+            else {
+                staged.m_pending_candidate->resources_revision = staged.m_run.resources_revision;
+            }
+        }
+    }
+    if (!staged.synchronize_resource_facts(error)) {
+        return false;
+    }
+    *this = std::move(staged);
+    return true;
+}
+
+bool BlackFlowSession::report_movement_unavailable(MovementKind target, std::string* error)
+{
+    MovementPanelObservation panel;
+    panel.target = target;
+    panel.completed_swipes = 3;
+    panel.complete = true;
+    return apply_movement_panel_observation(std::move(panel), std::nullopt, error);
 }
 
 bool BlackFlowSession::update(const BlackFlowPerceptionSnapshot& snapshot, std::string* error)
@@ -959,6 +1067,116 @@ BlackFlowPlan BlackFlowSession::plan(std::string* error)
     return result;
 }
 
+bool BlackFlowSession::save_pending_candidate(const MoveCandidate& candidate, std::string* error)
+{
+    if (m_transaction.has_value()) {
+        if (error != nullptr) {
+            *error = "cannot save a pending candidate while a movement transaction exists";
+        }
+        return false;
+    }
+    if (candidate.source != m_run.current_node || m_map.snapshot().find_node(candidate.source) == nullptr) {
+        if (error != nullptr) {
+            *error = "pending candidate does not start at the current node";
+        }
+        return false;
+    }
+    if (find_movement_spec(candidate.movement) == nullptr) {
+        if (error != nullptr) {
+            *error = "pending candidate references an unknown movement";
+        }
+        return false;
+    }
+    if (candidate.movement != MovementKind::Walk) {
+        const auto charges = m_run.resources.movement_charges.find(candidate.movement);
+        if (charges == m_run.resources.movement_charges.end() || charges->second <= 0) {
+            if (error != nullptr) {
+                *error = "pending candidate movement has no remaining charges";
+            }
+            return false;
+        }
+    }
+    if (candidate.controllable &&
+        !m_viewport.clickable_rect(candidate.target, m_map.snapshot().revision, m_viewport.viewport_revision())
+             .has_value()) {
+        if (error != nullptr) {
+            *error = "pending candidate has no current viewport coordinate";
+        }
+        return false;
+    }
+    m_pending_candidate = PendingMoveCandidate {
+        candidate,
+        m_run_revision,
+        m_map.snapshot().revision,
+        m_run.costs.revision,
+        m_run.resources_revision,
+        m_viewport.viewport_revision(),
+    };
+    return true;
+}
+
+bool BlackFlowSession::validate_pending_candidate(std::string* error) const
+{
+    if (!m_pending_candidate.has_value()) {
+        if (error != nullptr) {
+            *error = "no pending movement candidate is saved";
+        }
+        return false;
+    }
+    const PendingMoveCandidate& pending = *m_pending_candidate;
+    if (pending.run_revision != m_run_revision || pending.map_revision != m_map.snapshot().revision ||
+        pending.cost_revision != m_run.costs.revision || pending.resources_revision != m_run.resources_revision ||
+        pending.viewport_revision != m_viewport.viewport_revision()) {
+        if (error != nullptr) {
+            *error = "pending movement candidate revisions no longer match the session";
+        }
+        return false;
+    }
+    if (pending.candidate.source != m_run.current_node) {
+        if (error != nullptr) {
+            *error = "pending movement candidate source is no longer current";
+        }
+        return false;
+    }
+    if (!m_run.active_movement.has_value() || *m_run.active_movement != pending.candidate.movement) {
+        if (error != nullptr) {
+            *error = "active movement does not match the pending candidate";
+        }
+        return false;
+    }
+    if (pending.candidate.movement != MovementKind::Walk) {
+        const auto charges = m_run.resources.movement_charges.find(pending.candidate.movement);
+        if (charges == m_run.resources.movement_charges.end() || charges->second <= 0) {
+            if (error != nullptr) {
+                *error = "pending candidate movement has no remaining charges";
+            }
+            return false;
+        }
+    }
+    if (pending.candidate.controllable &&
+        !m_viewport.clickable_rect(pending.candidate.target, pending.map_revision, pending.viewport_revision)
+             .has_value()) {
+        if (error != nullptr) {
+            *error = "pending movement candidate viewport coordinate is stale";
+        }
+        return false;
+    }
+    return true;
+}
+
+bool BlackFlowSession::begin_pending_transaction(std::string* error)
+{
+    if (!validate_pending_candidate(error)) {
+        return false;
+    }
+    const MoveCandidate candidate = m_pending_candidate->candidate;
+    if (!begin_transaction(candidate, error)) {
+        return false;
+    }
+    m_pending_candidate.reset();
+    return true;
+}
+
 bool BlackFlowSession::begin_transaction(const MoveCandidate& candidate, std::string* error)
 {
     auto proposed = MoveTransaction::propose(candidate, m_map.snapshot(), m_viewport, error);
@@ -966,6 +1184,7 @@ bool BlackFlowSession::begin_transaction(const MoveCandidate& candidate, std::st
         return false;
     }
     m_verified_move_arc.reset();
+    m_pending_candidate.reset();
     m_transaction = std::move(*proposed);
     m_transaction_id = "BF-T" + std::to_string(m_run_revision) + "-" + std::to_string(++m_transaction_sequence);
     return true;
@@ -1129,6 +1348,48 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
         return PreviewDisposition::Failed;
     }
     return PreviewDisposition::ReadyToCommit;
+}
+
+bool BlackFlowSession::validate_commit(std::string* error) const
+{
+    if (!m_transaction.has_value()) {
+        if (error != nullptr) {
+            *error = "move commit has no active transaction";
+        }
+        return false;
+    }
+    if (m_transaction->stage() != MoveTransactionStage::Previewed || !m_transaction->preview().has_value() ||
+        m_transaction->preview()->reachability != PreviewReachability::Reachable) {
+        if (error != nullptr) {
+            *error = "only a reachable previewed transaction can be committed";
+        }
+        return false;
+    }
+    if (m_transaction->map_revision() != m_map.snapshot().revision ||
+        m_transaction->viewport_revision() != m_viewport.viewport_revision()) {
+        if (error != nullptr) {
+            *error = "map or viewport revision changed before commit";
+        }
+        return false;
+    }
+
+    const MoveCandidate& pending = m_transaction->proposal();
+    if (!pending.requires_preview_verification) {
+        return true;
+    }
+    const bool verified =
+        m_verified_move_arc.has_value() && m_verified_move_arc->action_id == pending.action_id &&
+        m_verified_move_arc->source == pending.source && m_verified_move_arc->target == pending.target &&
+        m_verified_move_arc->landing == pending.landing && m_verified_move_arc->movement == pending.movement &&
+        m_verified_move_arc->map_revision == m_map.snapshot().revision &&
+        m_verified_move_arc->cost_revision == m_run.costs.revision &&
+        m_verified_move_arc->resources_revision == m_run.resources_revision &&
+        m_verified_move_arc->viewport_revision == m_viewport.viewport_revision() &&
+        m_verified_move_arc->exact_action_point_cost == m_transaction->preview()->exact_action_point_cost;
+    if (!verified && error != nullptr) {
+        *error = "preview-verified move arc expired before commit";
+    }
+    return verified;
 }
 
 bool BlackFlowSession::commit(std::string* error)

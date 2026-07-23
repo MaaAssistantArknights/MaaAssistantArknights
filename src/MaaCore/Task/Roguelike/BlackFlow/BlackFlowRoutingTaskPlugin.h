@@ -16,7 +16,14 @@ protected:
     virtual bool _run() override;
 
 private:
-    mutable bool m_routing_pending = false;
+    enum class PendingWork
+    {
+        None,
+        ObserveAndPlan,
+        ResumePendingMove,
+    };
+
+    mutable PendingWork m_pending = PendingWork::None;
     bool m_page_recovery_attempted = false;
 };
 } // namespace asst::blackflow

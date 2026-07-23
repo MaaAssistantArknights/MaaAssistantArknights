@@ -120,7 +120,7 @@ bool BlackFlowNodeTaskPlugin::_run()
         }
         else if (result->kind == NodeTaskResultKind::PageCompleted) {
             next_task =
-                m_session->terminated() ? "BlackFlow@Roguelike@StrategyTerminated" : "BlackFlow@Roguelike@Routing";
+                m_session->terminated() ? "BlackFlow@Roguelike@StrategyTerminated" : "BlackFlow@Roguelike@MapPrepare";
             Task.set_task_base("BlackFlow@Roguelike@NodeResultAction", next_task);
         }
         else if (result->redispatch) {

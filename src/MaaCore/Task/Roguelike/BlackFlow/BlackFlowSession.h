@@ -51,6 +51,16 @@ struct VerifiedMoveArc
     std::uint64_t viewport_revision = 0;
 };
 
+struct PendingMoveCandidate
+{
+    MoveCandidate candidate;
+    std::uint64_t run_revision = 0;
+    std::uint64_t map_revision = 0;
+    std::uint64_t cost_revision = 0;
+    std::uint64_t resources_revision = 0;
+    std::uint64_t viewport_revision = 0;
+};
+
 struct PageExecutionContext
 {
     std::uint64_t run_revision = 0;
@@ -75,9 +85,21 @@ public:
     bool configure_diagnostics(DiagnosticSettings settings, std::string* error = nullptr);
 
     bool update(const BlackFlowPerceptionSnapshot& snapshot, std::string* error = nullptr);
+    bool apply_movement_panel_observation(
+        MovementPanelObservation panel,
+        std::optional<MovementKind> active_movement,
+        std::string* error = nullptr);
+    bool report_movement_unavailable(MovementKind target, std::string* error = nullptr);
     [[nodiscard]] BlackFlowPlan plan(std::string* error = nullptr);
+    bool save_pending_candidate(const MoveCandidate& candidate, std::string* error = nullptr);
+    [[nodiscard]] bool validate_pending_candidate(std::string* error = nullptr) const;
+    bool begin_pending_transaction(std::string* error = nullptr);
+
+    void clear_pending_candidate() noexcept { m_pending_candidate.reset(); }
+
     bool begin_transaction(const MoveCandidate& candidate, std::string* error = nullptr);
     PreviewDisposition accept_preview(MovePreview preview, std::string* error = nullptr);
+    [[nodiscard]] bool validate_commit(std::string* error = nullptr) const;
     bool commit(std::string* error = nullptr);
     void cancel_transaction();
     [[nodiscard]] int expected_observation_floor() const noexcept;
@@ -107,6 +129,11 @@ public:
     [[nodiscard]] const std::string& profile() const noexcept { return m_profile; }
 
     [[nodiscard]] const std::optional<PageExecutionContext>& page_context() const noexcept { return m_page_context; }
+
+    [[nodiscard]] const std::optional<PendingMoveCandidate>& pending_candidate() const noexcept
+    {
+        return m_pending_candidate;
+    }
 
     [[nodiscard]] std::vector<BlackFlowTelemetryEvent> take_telemetry_events();
     [[nodiscard]] std::vector<DiagnosticArtifactRequest> take_diagnostic_requests();
@@ -151,6 +178,7 @@ private:
     std::unordered_set<std::string> m_unreachable_actions;
     std::optional<NodeId> m_pending_probe_target;
     std::optional<VerifiedMoveArc> m_verified_move_arc;
+    std::optional<PendingMoveCandidate> m_pending_candidate;
     std::optional<MoveTransaction> m_transaction;
     std::optional<BlackFlowPlan> m_last_plan;
     std::optional<PageExecutionContext> m_page_context;

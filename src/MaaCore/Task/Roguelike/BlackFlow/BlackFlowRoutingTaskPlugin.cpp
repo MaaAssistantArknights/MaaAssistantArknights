@@ -9,27 +9,35 @@ namespace asst::blackflow
 {
 bool BlackFlowRoutingTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask" ||
-        details.get("details", "task", "") != "BlackFlow@Roguelike@Routing") {
+    if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
-    m_routing_pending = true;
-    return true;
+    const std::string task = details.get("details", "task", "");
+    if (task == "BlackFlow@Roguelike@Routing") {
+        m_pending = PendingWork::ObserveAndPlan;
+        return true;
+    }
+    if (task == "BlackFlow@Roguelike@RoutingResume") {
+        m_pending = PendingWork::ResumePendingMove;
+        return true;
+    }
+    return false;
 }
 
 void BlackFlowRoutingTaskPlugin::reset_in_run_variables()
 {
-    m_routing_pending = false;
+    m_pending = PendingWork::None;
     m_page_recovery_attempted = false;
 }
 
 bool BlackFlowRoutingTaskPlugin::_run()
 {
     LogTraceFunction;
-    if (!m_routing_pending) {
+    const PendingWork work = m_pending;
+    m_pending = PendingWork::None;
+    if (work == PendingWork::None) {
         return true;
     }
-    m_routing_pending = false;
     Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@RecoveryFailed");
 
     if (m_session == nullptr || m_port == nullptr) {
@@ -41,7 +49,9 @@ bool BlackFlowRoutingTaskPlugin::_run()
         return true;
     }
 
-    const RoutingCycleOutcome cycle = execute_routing_cycle(*m_session, *m_port);
+    const RoutingCycleOutcome cycle = work == PendingWork::ResumePendingMove
+                                          ? execute_pending_routing_cycle(*m_session, *m_port)
+                                          : execute_routing_cycle(*m_session, *m_port);
     if (cycle.status == RoutingCycleStatus::NeedsPageRecovery) {
         if (!m_page_recovery_attempted) {
             m_page_recovery_attempted = true;
@@ -56,6 +66,16 @@ bool BlackFlowRoutingTaskPlugin::_run()
         return true;
     }
     m_page_recovery_attempted = false;
+    if (cycle.status == RoutingCycleStatus::MovementSelectionRequired) {
+        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@SelectMovement");
+        report_outputs();
+        return true;
+    }
+    if (cycle.status == RoutingCycleStatus::ReplanRequired) {
+        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@MapPrepare");
+        report_outputs();
+        return true;
+    }
     if (cycle.status == RoutingCycleStatus::PreviewNeedsDismiss) {
         Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@DismissMovePreview");
         report_outputs();

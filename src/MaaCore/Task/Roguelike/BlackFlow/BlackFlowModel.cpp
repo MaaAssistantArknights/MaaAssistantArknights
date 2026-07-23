@@ -1196,22 +1196,15 @@ bool MoveTransaction::apply(RunState& state, std::string* error)
         }
         return false;
     }
-    int action_point_gain = m_proposal.predicted_action_point_gain;
-    if (!m_proposal.controllable) {
-        const auto gain = m_proposal.landing_action_point_gains.find(m_observation->current_node);
-        if (gain == m_proposal.landing_action_point_gains.end()) {
-            if (error != nullptr) {
-                *error = "uncontrollable move observation has no matching action-point outcome";
-            }
-            return false;
-        }
-        action_point_gain = gain->second;
-    }
-    const int expected_action_points = action_points_after(state.resources.action_points, cost, action_point_gain);
-    const bool floor_advanced = m_observation->floor > m_source_floor;
-    if (!floor_advanced && m_observation->action_points != expected_action_points) {
+    if (!m_proposal.controllable && !m_proposal.landing_action_point_gains.contains(m_observation->current_node)) {
         if (error != nullptr) {
-            *error = "observed action points do not match authoritative move accounting";
+            *error = "uncontrollable move observation has no matching action-point outcome";
+        }
+        return false;
+    }
+    if (m_observation->action_points < 0 || m_observation->action_points > 64) {
+        if (error != nullptr) {
+            *error = "observed action points must be between 0 and 64";
         }
         return false;
     }
@@ -1225,6 +1218,12 @@ bool MoveTransaction::apply(RunState& state, std::string* error)
             return false;
         }
         --charge->second;
+        if (charge->second == 0) {
+            state.resources.movement_charges.erase(charge);
+            if (state.active_movement == m_proposal.movement) {
+                state.active_movement.reset();
+            }
+        }
     }
     state.resources.action_points = m_observation->action_points;
     state.resources.hope += movement->effect.hope_gain;

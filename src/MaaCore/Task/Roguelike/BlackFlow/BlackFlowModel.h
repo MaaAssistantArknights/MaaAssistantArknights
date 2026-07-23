@@ -347,6 +347,7 @@ struct RunState
     int floor = 0;
     NodeId current_node = InvalidNodeId;
     RunResources resources;
+    std::optional<MovementKind> active_movement;
     DynamicCostModel costs;
     std::uint64_t resources_revision = 0;
     std::unordered_set<NodeId> visited_nodes;
