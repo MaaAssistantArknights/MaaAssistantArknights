@@ -44,8 +44,7 @@
                     HorizontalContentAlignment="Center"
                     hc:BorderElement.CornerRadius="4,0,0,4"
                     Background="{DynamicResource RegionBrushOpacity25}"
-                    Content="添加推送"
-                    HitMode="Hover">
+                    Content="{DynamicResource ExternalNotificationAddConfig}">
                     <hc:SplitButton.DropDownContent>
                         <Menu ItemsSource="{Binding ExternalNotificationProviderList, Source={x:Static settings_vms:ExternalNotificationSettingsUserControlModel.Instance}, Mode=OneWay}" MenuItem.Click="{s:Action AddConfig}">
                             <Menu.ItemsPanel>
@@ -70,7 +69,7 @@
                     Content="{DynamicResource ExternalNotificationSendTest}"
                     IsEnabled="{c:Binding 'ConfigCount > 0'}" />
             </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}">
+            <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'ConfigCount > 0'}">
                 <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
                     <CheckBox
                         Margin="5"

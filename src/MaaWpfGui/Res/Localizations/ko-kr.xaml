@@ -52,6 +52,7 @@
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
     <system:String x:Key="ExternalNotificationSendTest">테스트</system:String>
+    <system:String x:Key="ExternalNotificationAddConfig">알림 추가</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 외부 알림 테스트</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">MAA 외부 알림 테스트입니다. 이 메시지가 표시되었다면 알림 전송이 성공한 것입니다!</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 전송 키</system:String>
