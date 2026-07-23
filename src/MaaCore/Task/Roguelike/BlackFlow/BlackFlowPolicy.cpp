@@ -283,6 +283,32 @@ bool Condition::evaluate(const FactStore& facts) const
     return false;
 }
 
+bool NodeSelector::empty() const noexcept
+{
+    return node_types.empty() && node_names.empty() && !badged.has_value() && !identity_state.has_value() &&
+           !identity_revealed.has_value();
+}
+
+bool NodeSelector::matches(const Node& node) const noexcept
+{
+    if (!node_types.empty() && std::ranges::find(node_types, node.type) == node_types.end()) {
+        return false;
+    }
+    if (!node_names.empty() && std::ranges::find(node_names, node.name) == node_names.end()) {
+        return false;
+    }
+    if (badged.has_value() && node.badged != *badged) {
+        return false;
+    }
+    if (identity_state.has_value() && node.identity_state != *identity_state) {
+        return false;
+    }
+    if (identity_revealed.has_value() && node.identity_revealed != *identity_revealed) {
+        return false;
+    }
+    return !empty();
+}
+
 MilestoneStatus MissionState::status(std::string_view id) const noexcept
 {
     const auto found = milestones.find(std::string(id));
@@ -305,25 +331,16 @@ void MissionState::set_progress(std::string id, int value)
     milestone_progress.insert_or_assign(std::move(id), std::max(value, 0));
 }
 
-bool MissionState::record_node(
-    const std::vector<Milestone>& definitions,
-    int floor,
-    const FactStore& facts,
-    NodeId node,
-    NodeType type,
-    std::string_view name)
+bool MissionState::record_node(const std::vector<Milestone>& definitions, const FactStore& facts, const Node& node)
 {
     bool changed = false;
     for (const Milestone& milestone : definitions) {
-        const bool type_matches =
-            std::ranges::find(milestone.target_node_types, type) != milestone.target_node_types.end();
-        const bool name_matches =
-            std::ranges::find(milestone.target_node_names, name) != milestone.target_node_names.end();
-        if (!milestone_is_active(milestone, floor, facts, *this) || (!type_matches && !name_matches)) {
+        if (milestone.completion != MilestoneCompletion::VisitCount ||
+            !milestone_is_active(milestone, node.floor, facts, *this) || !milestone_matches_node(milestone, node)) {
             continue;
         }
         auto& counted = milestone_nodes[milestone.id];
-        if (!counted.emplace(node).second) {
+        if (!counted.emplace(node.id).second) {
             continue;
         }
         const int next = std::min(milestone.required_count, progress(milestone.id) + 1);
@@ -333,7 +350,7 @@ bool MissionState::record_node(
         }
     }
     if (changed) {
-        refresh(definitions, floor, facts);
+        refresh(definitions, node.floor, facts);
     }
     return changed;
 }
@@ -350,7 +367,10 @@ void MissionState::refresh(const std::vector<Milestone>& definitions, int floor,
             }
 
             MilestoneStatus next = MilestoneStatus::Inactive;
-            if (milestone.complete_if.evaluate(facts) || progress(milestone.id) >= milestone.required_count) {
+            const bool completed = milestone.completion == MilestoneCompletion::Condition
+                                       ? milestone.complete_if.evaluate(facts)
+                                       : progress(milestone.id) >= milestone.required_count;
+            if (completed) {
                 next = MilestoneStatus::Satisfied;
             }
             else if (!prerequisites_satisfied(milestone, *this)) {
@@ -489,7 +509,12 @@ bool rule_is_active(const PolicyRule& rule, const FactStore& facts)
 
 bool rule_matches_candidate(const PolicyRule& rule, const FactStore& facts, const FactStore& candidate_facts)
 {
-    return rule.target.evaluate(facts.overlay(candidate_facts));
+    return rule.candidate_if.evaluate(facts.overlay(candidate_facts));
+}
+
+bool milestone_matches_node(const Milestone& milestone, const Node& node) noexcept
+{
+    return node.floor >= milestone.floor_begin && node.floor <= milestone.floor_end && milestone.selector.matches(node);
 }
 
 bool milestone_is_active(
@@ -506,11 +531,6 @@ bool milestone_is_active(
 bool milestone_is_complete(const Milestone& milestone, const FactStore& facts)
 {
     return milestone.complete_if.evaluate(facts);
-}
-
-bool milestone_matches_candidate(const Milestone& milestone, const FactStore& facts, const FactStore& candidate_facts)
-{
-    return milestone.target.evaluate(facts.overlay(candidate_facts));
 }
 
 PolicyDecision PolicyExecutor::choose(
@@ -626,9 +646,7 @@ PolicyDecision PolicyExecutor::choose(
         if (planned != current.milestone_progress.end()) {
             return std::min(milestone.required_count, planned->second);
         }
-        return std::min(
-            milestone.required_count,
-            mission.progress(milestone.id) + (milestone_matches_candidate(milestone, facts, current.facts) ? 1 : 0));
+        return std::min(milestone.required_count, mission.progress(milestone.id));
     };
 
     std::vector<RankedCandidate> ranked;
@@ -750,6 +768,23 @@ PolicyDecision PolicyExecutor::choose(
     });
 
     decision.selected = ranked.front().candidate->move;
+    const auto& immediate_milestones = ranked.front().candidate->immediate_milestone_ids;
+    for (const Milestone* milestone : active_milestones) {
+        if (milestone->page_intent.empty() ||
+            std::ranges::find(immediate_milestones, milestone->id) == immediate_milestones.end()) {
+            continue;
+        }
+        decision.selected_page_intent = milestone->page_intent;
+        break;
+    }
+    if (decision.selected_page_intent.empty()) {
+        for (const PolicyRule* rule : active_rules) {
+            if (!rule->page_intent.empty() && rule_matches_candidate(*rule, facts, ranked.front().candidate->facts)) {
+                decision.selected_page_intent = rule->page_intent;
+                break;
+            }
+        }
+    }
     decision.planned_route = ranked.front().candidate->planned_route;
     decision.planned_route_steps = ranked.front().candidate->planned_route_steps;
     decision.planned_milestone_progress = ranked.front().candidate->milestone_progress;

@@ -81,12 +81,20 @@ enum class EdgeKnowledge
     Absent,
 };
 
+enum class GraphLayer
+{
+    Confirmed,
+    Relaxed,
+};
+
 struct NodeTraversal
 {
     bool blocks_walk = true;
     bool blocks_vision = true;
     bool repeatable = false;
     bool enterable = true;
+
+    bool operator==(const NodeTraversal&) const noexcept = default;
 };
 
 struct Node
@@ -102,6 +110,8 @@ struct Node
     bool identity_revealed = false;
     bool badged = false;
     std::optional<NodeId> transfer_target;
+
+    bool operator==(const Node&) const noexcept = default;
 };
 
 struct EdgeEvidence
@@ -131,7 +141,7 @@ public:
     [[nodiscard]] const Node* find_node(int floor, GridPosition position) const noexcept;
     [[nodiscard]] EdgeKnowledge edge_knowledge(NodeId first, NodeId second) const noexcept;
     [[nodiscard]] const Edge* find_edge(NodeId first, NodeId second) const noexcept;
-    [[nodiscard]] std::vector<NodeId> neighbors(NodeId id, bool include_unknown_edges = false) const;
+    [[nodiscard]] std::vector<NodeId> neighbors(NodeId id, GraphLayer layer = GraphLayer::Confirmed) const;
     [[nodiscard]] std::unordered_set<NodeId> reveal_through_transparent_nodes(NodeId origin) const;
     [[nodiscard]] std::unordered_set<NodeId> nodes_within_manhattan(NodeId origin, int distance) const;
     [[nodiscard]] bool has_valid_transfer_pair(NodeId node) const noexcept;
@@ -306,10 +316,17 @@ struct DynamicCostModel
 
 [[nodiscard]] const std::vector<MovementSpec>& movement_specs();
 [[nodiscard]] const MovementSpec* find_movement_spec(MovementKind kind) noexcept;
-[[nodiscard]] bool
-    is_in_geometric_range(const MapSnapshot& map, NodeId source, NodeId target, const MovementSpec& movement);
-[[nodiscard]] std::vector<NodeId>
-    enumerate_geometric_targets(const MapSnapshot& map, NodeId source, const MovementSpec& movement);
+[[nodiscard]] bool is_in_geometric_range(
+    const MapSnapshot& map,
+    NodeId source,
+    NodeId target,
+    const MovementSpec& movement,
+    GraphLayer layer = GraphLayer::Confirmed);
+[[nodiscard]] std::vector<NodeId> enumerate_geometric_targets(
+    const MapSnapshot& map,
+    NodeId source,
+    const MovementSpec& movement,
+    GraphLayer layer = GraphLayer::Confirmed);
 
 struct RunResources
 {
@@ -321,6 +338,8 @@ struct RunResources
     int white_model_birds = 0;
     bool painted_liberi = false;
     std::unordered_map<MovementKind, int> movement_charges;
+
+    bool operator==(const RunResources&) const noexcept = default;
 };
 
 struct RunState
@@ -329,6 +348,7 @@ struct RunState
     NodeId current_node = InvalidNodeId;
     RunResources resources;
     DynamicCostModel costs;
+    std::uint64_t resources_revision = 0;
     std::unordered_set<NodeId> visited_nodes;
     std::unordered_set<NodeId> consumed_one_time_nodes;
     std::unordered_set<NodeId> revealed_nodes;
@@ -352,7 +372,11 @@ struct MoveCandidate
     int action_point_requirement = std::numeric_limits<int>::max() / 4;
     bool controllable = true;
     bool terminal_on_completion = false;
+    bool requires_preview_verification = false;
+    GraphLayer graph_layer = GraphLayer::Confirmed;
+    bool uses_unconfirmed_edge = false;
     bool uses_inferred_edge = false;
+    std::optional<NodeId> first_unclassified;
 };
 
 struct MoveAction
@@ -362,13 +386,16 @@ struct MoveAction
 };
 
 [[nodiscard]] NodeId resolve_landing(const MapSnapshot& map, NodeId target) noexcept;
-[[nodiscard]] std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const RunState& state);
+[[nodiscard]] std::vector<MoveAction>
+    enumerate_move_actions(const MapSnapshot& map, const RunState& state, GraphLayer layer = GraphLayer::Confirmed);
 
 enum class PreviewReachability
 {
     Unknown,
     Reachable,
-    Unreachable,
+    Blocked,
+    InsufficientActionPoints,
+    TargetStateChanged,
 };
 
 struct MovePreview
@@ -385,6 +412,7 @@ enum class MoveTransactionStage
     Proposed,
     Previewed,
     Committed,
+    PageResolved,
     Observed,
     Applied,
     Cancelled,
@@ -394,10 +422,12 @@ enum class MoveTransactionStage
 struct MoveObservation
 {
     NodeId current_node = InvalidNodeId;
+    int floor = 0;
     int action_points = 0;
     NodeProgress target_progress = NodeProgress::Active;
     NodeType landed_type = NodeType::Unknown;
     std::uint64_t map_revision = 0;
+    std::uint64_t viewport_revision = 0;
 };
 
 class MoveTransaction
@@ -414,6 +444,7 @@ public:
         std::uint64_t current_map_revision,
         std::uint64_t current_viewport_revision,
         std::string* error = nullptr);
+    [[nodiscard]] bool mark_page_resolved(std::string* error = nullptr);
     [[nodiscard]] bool observe(MoveObservation observation, std::string* error = nullptr);
     [[nodiscard]] bool apply(RunState& state, std::string* error = nullptr);
     void cancel() noexcept;
@@ -436,6 +467,8 @@ private:
     std::optional<MovePreview> m_preview;
     std::optional<MoveObservation> m_observation;
     MoveTransactionStage m_stage = MoveTransactionStage::Proposed;
+    int m_source_floor = 0;
+    NodeType m_target_type = NodeType::Unknown;
     std::uint64_t m_map_revision = 0;
     std::uint64_t m_viewport_revision = 0;
 };

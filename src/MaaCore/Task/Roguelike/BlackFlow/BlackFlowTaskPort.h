@@ -33,12 +33,9 @@ struct BlackFlowPerceptionSnapshot
     FactStore observed_facts;
 };
 
-struct BlackFlowPostMoveSnapshot
+struct BlackFlowObservationRequest
 {
-    BlackFlowMapObservation observation;
-    RunObservation run;
-    MoveObservation move;
-    FactStore observed_facts;
+    int expected_floor = 1;
 };
 
 class IBlackFlowTaskPort
@@ -46,15 +43,19 @@ class IBlackFlowTaskPort
 public:
     virtual ~IBlackFlowTaskPort() = default;
 
-    virtual bool refresh(BlackFlowPerceptionSnapshot& snapshot, std::string* error) = 0;
+    virtual bool refresh(
+        const BlackFlowObservationRequest& request,
+        BlackFlowPerceptionSnapshot& snapshot,
+        std::string* error) = 0;
     virtual bool preview(
         const MoveCandidate& candidate,
         const ViewportObservation& viewport,
         MovePreview& preview,
+        bool& panel_open,
         std::string* error) = 0;
     virtual bool confirm(const MoveTransaction& transaction, std::string* error) = 0;
-    virtual bool observe_after_commit(BlackFlowPostMoveSnapshot& snapshot, std::string* error) = 0;
-    virtual bool recover_map(std::string* error) = 0;
+
+    virtual void reset_run() {}
 
     virtual void configure_diagnostics(const DiagnosticSettings&) {}
 
@@ -64,7 +65,7 @@ public:
 enum class PreviewDisposition
 {
     ReadyToCommit,
-    Replan,
+    ReplanAfterDismiss,
     Failed,
 };
 } // namespace asst::blackflow

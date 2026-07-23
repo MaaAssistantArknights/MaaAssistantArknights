@@ -157,6 +157,12 @@ enum class MilestoneKind
     Opportunistic,
 };
 
+enum class MilestoneCompletion
+{
+    VisitCount,
+    Condition,
+};
+
 struct PolicyRule
 {
     std::string id;
@@ -165,7 +171,8 @@ struct PolicyRule
     PolicyTier tier = PolicyTier::Development;
     int rank = 0;
     Condition when;
-    Condition target { ConditionKind::Constant, false };
+    Condition candidate_if { ConditionKind::Constant, false };
+    std::string page_intent;
 };
 
 struct ResourceReserve
@@ -178,25 +185,36 @@ struct ResourceReserve
     Condition release_if { ConditionKind::Constant, false };
 };
 
+struct NodeSelector
+{
+    std::vector<NodeType> node_types;
+    std::vector<std::string> node_names;
+    std::optional<bool> badged;
+    std::optional<NodeIdentityState> identity_state;
+    std::optional<bool> identity_revealed;
+
+    [[nodiscard]] bool empty() const noexcept;
+    [[nodiscard]] bool matches(const Node& node) const noexcept;
+};
+
 struct Milestone
 {
     std::string id;
     std::string description;
     MilestoneKind kind = MilestoneKind::Preferred;
-    int floor_begin = 1;
-    int floor_end = 99;
+    MilestoneCompletion completion = MilestoneCompletion::VisitCount;
+    int floor_begin = 0;
+    int floor_end = 0;
     int rank = 0;
     int required_count = 1;
     int weight = 1;
     bool terminal_on_reach = false;
     Condition active_if;
     Condition complete_if { ConditionKind::Constant, false };
-    Condition target { ConditionKind::Constant, false };
-    std::vector<NodeType> target_node_types;
-    std::vector<std::string> target_node_names;
+    NodeSelector selector;
+    std::string page_intent;
     std::vector<std::string> reserve_ids;
     std::vector<std::string> prerequisites;
-    std::vector<std::string> successors;
 };
 
 struct MissionState
@@ -210,13 +228,7 @@ struct MissionState
     [[nodiscard]] int progress(std::string_view id) const noexcept;
     void set_status(std::string id, MilestoneStatus status);
     void set_progress(std::string id, int value);
-    bool record_node(
-        const std::vector<Milestone>& definitions,
-        int floor,
-        const FactStore& facts,
-        NodeId node,
-        NodeType type,
-        std::string_view name);
+    bool record_node(const std::vector<Milestone>& definitions, const FactStore& facts, const Node& node);
     void refresh(const std::vector<Milestone>& definitions, int floor, const FactStore& facts);
 };
 
@@ -229,11 +241,22 @@ struct PolicyModule
     std::vector<Milestone> milestones;
 };
 
+struct StrategyTerminalRule
+{
+    std::string id;
+    Condition when;
+    std::string outcome;
+    std::string reason;
+    bool succeeded = false;
+    std::string next_action;
+};
+
 struct PolicyProfile
 {
     std::string id;
     std::string description;
     std::vector<std::string> modules;
+    std::vector<StrategyTerminalRule> terminal_rules;
     std::string failure_action = "stop_run";
 };
 
@@ -245,6 +268,7 @@ struct ResolvedPolicy
     std::vector<PolicyRule> rules;
     std::vector<ResourceReserve> reserves;
     std::vector<Milestone> milestones;
+    std::vector<StrategyTerminalRule> terminal_rules;
     std::string failure_action = "stop_run";
 };
 
@@ -285,6 +309,7 @@ struct PolicyCandidate
     int processing_move_count = 0;
     int estimated_duration = 0;
     std::unordered_map<std::string, int> milestone_progress;
+    std::vector<std::string> immediate_milestone_ids;
     std::vector<NodeId> planned_route;
     std::vector<PlannedRouteStep> planned_route_steps;
 };
@@ -315,6 +340,7 @@ struct PolicyDecision
     std::string decisive_rule_id;
     std::string decisive_milestone_id;
     std::vector<std::string> decisive_milestone_ids;
+    std::string selected_page_intent;
     std::string reason;
 };
 
@@ -333,14 +359,13 @@ public:
 [[nodiscard]] bool rule_is_active(const PolicyRule& rule, const FactStore& facts);
 [[nodiscard]] bool
     rule_matches_candidate(const PolicyRule& rule, const FactStore& facts, const FactStore& candidate_facts);
+[[nodiscard]] bool milestone_matches_node(const Milestone& milestone, const Node& node) noexcept;
 [[nodiscard]] bool milestone_is_active(
     const Milestone& milestone,
     int floor,
     const FactStore& facts,
     const MissionState& mission_state);
 [[nodiscard]] bool milestone_is_complete(const Milestone& milestone, const FactStore& facts);
-[[nodiscard]] bool
-    milestone_matches_candidate(const Milestone& milestone, const FactStore& facts, const FactStore& candidate_facts);
 
 [[nodiscard]] std::string_view to_string(RuleKind kind) noexcept;
 [[nodiscard]] std::string_view to_string(PolicyTier tier) noexcept;

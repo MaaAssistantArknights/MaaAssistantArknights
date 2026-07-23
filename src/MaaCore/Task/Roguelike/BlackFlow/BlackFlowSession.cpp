@@ -30,12 +30,6 @@ FactValue default_fact_value(FactType type)
     return false;
 }
 
-bool boolean_fact(const FactStore& facts, std::string_view name)
-{
-    const FactValue* value = facts.find(name);
-    return value != nullptr && std::holds_alternative<bool>(*value) && std::get<bool>(*value);
-}
-
 std::int64_t integer_fact(const FactStore& facts, std::string_view name)
 {
     const FactValue* value = facts.find(name);
@@ -73,11 +67,7 @@ std::unordered_set<NodeId> terminal_nodes_for(
             continue;
         }
         for (const auto& [id, node] : map.nodes()) {
-            const bool type_matches =
-                std::ranges::find(milestone.target_node_types, node.type) != milestone.target_node_types.end();
-            const bool name_matches =
-                std::ranges::find(milestone.target_node_names, node.name) != milestone.target_node_names.end();
-            if ((type_matches || name_matches) && node.progress != NodeProgress::Removed) {
+            if (milestone_matches_node(milestone, node) && node.progress != NodeProgress::Removed) {
                 result.emplace(id);
             }
         }
@@ -85,22 +75,6 @@ std::unordered_set<NodeId> terminal_nodes_for(
     return result;
 }
 
-std::optional<NodeType> node_type_from_report(std::string_view value)
-{
-    return node_type_from_string(value);
-}
-
-std::string terminal_dispatch_task(const BlackFlowStrategyResult& result)
-{
-    if (result.outcome == "burn_completed") {
-        return "BlackFlow@Roguelike@Event-BurnCompleted";
-    }
-    if (result.outcome == "baby_no_seed") {
-        return "BlackFlow@Roguelike@Event-BabyNoSeed";
-    }
-    return result.succeeded ? "BlackFlow@Roguelike@Event-StrategyCompleted"
-                            : "BlackFlow@Roguelike@Event-EndingPrerequisiteFailed";
-}
 } // namespace
 
 json::object BlackFlowStrategyResult::to_json() const
@@ -150,11 +124,16 @@ bool BlackFlowSession::initialize(std::string profile, std::string* error)
     m_viewport.clear(0, 0);
     m_run = RunState {};
     m_unreachable_actions.clear();
+    m_pending_probe_target.reset();
+    m_verified_move_arc.reset();
     m_transaction.reset();
     m_last_plan.reset();
+    m_page_context.reset();
     m_result.reset();
+    m_result_reported = false;
     m_persisted_image_packages = 0;
     ++m_run_revision;
+    m_page_revision = 0;
     m_decision_sequence = 0;
     m_transaction_sequence = 0;
     m_artifact_sequence = 0;
@@ -253,6 +232,28 @@ void BlackFlowSession::refresh_mission()
     }
 }
 
+void BlackFlowSession::evaluate_terminal_rules()
+{
+    if (m_result.has_value() || !m_policy.has_value()) {
+        return;
+    }
+    const FactStore facts = m_facts.merged();
+    for (const StrategyTerminalRule& rule : m_policy->terminal_rules) {
+        if (!rule.when.evaluate(facts)) {
+            continue;
+        }
+        const int cultivated =
+            static_cast<int>(std::clamp<std::int64_t>(integer_fact(facts, "cultivated_animals"), 0, 3));
+        BlackFlowStrategyResult result {
+            m_profile, rule.outcome, rule.reason, cultivated, rule.succeeded,
+        };
+        result.next_action =
+            rule.next_action.empty() ? (rule.succeeded ? "stop_run" : m_policy->failure_action) : rule.next_action;
+        m_result = std::move(result);
+        return;
+    }
+}
+
 bool BlackFlowSession::apply_observed_facts(const FactStore& facts, std::string* error)
 {
     for (const auto& [name, value] : facts.values()) {
@@ -272,6 +273,8 @@ bool BlackFlowSession::apply_observed_facts(const FactStore& facts, std::string*
 
 bool BlackFlowSession::apply_run_observation(const RunObservation& observation, std::string* error)
 {
+    const RunResources resources_before = m_run.resources;
+    const auto cross_floor_expired_before = m_run.cross_floor_expired;
     auto assign_nonnegative = [&](const std::optional<int>& value, int& target, std::string_view name) {
         if (!value.has_value()) {
             return true;
@@ -317,6 +320,9 @@ bool BlackFlowSession::apply_run_observation(const RunObservation& observation, 
             return false;
         }
         m_run.costs = *observation.costs;
+    }
+    if (m_run.resources != resources_before || m_run.cross_floor_expired != cross_floor_expired_before) {
+        ++m_run.resources_revision;
     }
     return true;
 }
@@ -615,21 +621,25 @@ bool BlackFlowSession::merge_perception(
     const BlackFlowMapObservation& observation,
     const RunObservation& run,
     const FactStore& observed_facts,
-    bool post_move,
+    bool reconcile_move,
     std::string* error)
 {
     auto normalized = m_observation_adapter.normalize(observation, error);
     if (!normalized.has_value()) {
         return false;
     }
-    const std::uint64_t previous_map_revision = m_map.snapshot().revision;
-    const std::uint64_t previous_viewport_revision = m_viewport.viewport_revision();
+
     const NodeId previous_current_node = m_observed_current_node;
     const bool new_floor = m_run.floor != 0 && m_run.floor != normalized->map.floor;
     if (new_floor) {
         m_facts.begin_floor();
         m_unreachable_actions.clear();
-        m_transaction.reset();
+        m_pending_probe_target.reset();
+        m_verified_move_arc.reset();
+        if (!reconcile_move) {
+            m_transaction.reset();
+            m_page_context.reset();
+        }
     }
     else {
         m_facts.begin_page();
@@ -650,19 +660,19 @@ bool BlackFlowSession::merge_perception(
                            : normalized->summary.observation_id;
     normalized->summary.observation_id = m_observation_id;
     m_viewport.replace(std::move(normalized->viewport), m_map.snapshot().revision, normalized->viewport_revision);
-    const bool routing_context_changed = !post_move && previous_map_revision != 0 &&
-                                         (previous_map_revision != m_map.snapshot().revision ||
-                                          previous_viewport_revision != m_viewport.viewport_revision() ||
-                                          previous_current_node != normalized->current_node);
+    const bool routing_context_changed =
+        !reconcile_move && previous_current_node != InvalidNodeId && previous_current_node != normalized->current_node;
     if (routing_context_changed) {
         m_run.costs.clear_action_cost_overrides();
         m_unreachable_actions.clear();
+        m_pending_probe_target.reset();
+        m_verified_move_arc.reset();
         if (m_transaction.has_value()) {
             m_transaction->invalidate();
             m_transaction.reset();
         }
     }
-    if (!post_move) {
+    if (!reconcile_move) {
         m_run.floor = normalized->map.floor;
         m_run.current_node = normalized->current_node;
         RunObservation effective = run;
@@ -692,120 +702,221 @@ bool BlackFlowSession::merge_perception(
     }
     if (!apply_observed_facts(observed_facts, error) ||
         !set_fact("map_full_coverage", normalized->map.coverage == ObservationCoverage::FullMap, error) ||
-        !set_fact("portal_available", has_node_type(m_map.snapshot(), NodeType::Portal), error)) {
+        !set_fact("portal_available", has_node_type(m_map.snapshot(), NodeType::Portal), error) ||
+        !set_fact("scrap_shop_available", has_node_type(m_map.snapshot(), NodeType::ScrapShop), error)) {
         return false;
     }
     queue_map_summary(normalized->summary);
     return true;
 }
 
-bool BlackFlowSession::update(const BlackFlowPerceptionSnapshot& snapshot, std::string* error)
+void BlackFlowSession::finalize_entered_node(const PageExecutionContext& context, bool page_completed)
 {
-    // A normal routing refresh is reached only after the node JSON chain has returned to the map.
-    // The applied movement identifies that completed visit; no separate node-page state is retained.
-    std::optional<Node> entered_node;
-    int entered_floor = 0;
-    if (m_transaction.has_value() && m_transaction->stage() == MoveTransactionStage::Applied) {
-        const MoveCandidate& proposal = m_transaction->proposal();
-        const NodeId entered_id = proposal.controllable ? proposal.target : m_run.current_node;
-        const Node* current = m_map.snapshot().find_node(entered_id);
-        if (entered_id == InvalidNodeId || current == nullptr) {
-            if (error != nullptr) {
-                *error = "applied movement has no node to finalize on map return";
-            }
-            return false;
-        }
-        entered_node = *current;
-        if (const auto& preview = m_transaction->preview(); preview.has_value()) {
-            if (preview->displayed_type != NodeType::Unknown) {
-                entered_node->type = preview->displayed_type;
-            }
-            if (!preview->displayed_name.empty()) {
-                entered_node->name = preview->displayed_name;
-            }
-        }
-        entered_floor = m_run.floor;
+    Node entered;
+    if (const Node* stored = m_map.snapshot().find_node(context.node);
+        stored != nullptr && stored->floor == context.floor) {
+        entered = *stored;
+    }
+    else {
+        entered.id = context.node;
+        entered.floor = context.floor;
+        entered.type = context.node_type;
+        entered.name = context.node_name;
+        entered.traversal = default_traversal_for(entered.type);
     }
 
-    if (!merge_perception(snapshot.observation, snapshot.run, snapshot.observed_facts, false, error)) {
-        return false;
+    if (context.result.has_value()) {
+        const NodeStateUpdate& update = *context.result;
+        if (update.actual_type.has_value()) {
+            entered.type = *update.actual_type;
+        }
+        if (update.actual_name.has_value()) {
+            entered.name = *update.actual_name;
+        }
+        if (update.identity_revealed.has_value()) {
+            entered.identity_revealed = *update.identity_revealed;
+            entered.identity_state =
+                *update.identity_revealed ? NodeIdentityState::Classified : NodeIdentityState::Hidden;
+        }
+        if (page_completed && update.repeatable.has_value()) {
+            entered.traversal.repeatable = *update.repeatable;
+        }
+        if (page_completed && update.progress.has_value()) {
+            entered.progress = *update.progress;
+        }
+        if (page_completed && update.becomes_empty.value_or(false)) {
+            entered.type = NodeType::Empty;
+            entered.progress = NodeProgress::Completed;
+            entered.traversal = default_traversal_for(NodeType::Empty);
+        }
     }
-    if (entered_node.has_value()) {
-        m_run.visited_nodes.emplace(entered_node->id);
-        m_run.node_progress.insert_or_assign(entered_node->id, NodeProgress::Completed);
-        if (entered_node->type == NodeType::Light) {
-            m_run.consumed_one_time_nodes.emplace(entered_node->id);
-        }
-        if (entered_node->type != NodeType::Empty) {
-            m_mission.record_node(
-                m_policy->milestones,
-                entered_floor,
-                m_facts.merged(),
-                entered_node->id,
-                entered_node->type,
-                entered_node->name);
-        }
+    else if (page_completed) {
+        entered.progress = NodeProgress::Completed;
+    }
 
-        if (entered_floor == m_run.floor) {
-            if (const Node* observed = m_map.snapshot().find_node(entered_node->id); observed != nullptr) {
-                Node updated = *observed;
-                if (updated.type != NodeType::Empty &&
-                    (updated.type != entered_node->type || updated.name != entered_node->name)) {
-                    m_mission.record_node(
-                        m_policy->milestones,
-                        m_run.floor,
-                        m_facts.merged(),
-                        updated.id,
-                        updated.type,
-                        updated.name);
-                }
-                updated.progress = NodeProgress::Completed;
+    m_run.visited_nodes.emplace(context.node);
+    m_run.node_progress.insert_or_assign(context.node, entered.progress);
+    if (entered.type == NodeType::Light) {
+        m_run.consumed_one_time_nodes.emplace(context.node);
+    }
+    if (page_completed && entered.type != NodeType::Empty) {
+        m_mission.record_node(m_policy->milestones, m_facts.merged(), entered);
+    }
+
+    if (context.floor == m_run.floor) {
+        const Node* observed = m_map.snapshot().find_node(context.node);
+        if (observed != nullptr) {
+            Node updated = *observed;
+            if (context.result.has_value() && context.result->actual_type.has_value()) {
+                updated.type = *context.result->actual_type;
+            }
+            if (context.result.has_value() && context.result->identity_revealed.has_value()) {
+                updated.identity_revealed = *context.result->identity_revealed;
+                updated.identity_state =
+                    updated.identity_revealed ? NodeIdentityState::Classified : NodeIdentityState::Hidden;
+            }
+            if (page_completed && context.result.has_value() && context.result->repeatable.has_value()) {
+                updated.traversal.repeatable = *context.result->repeatable;
+            }
+            updated.progress = entered.progress;
+            if (page_completed && context.result.has_value() && context.result->becomes_empty.value_or(false)) {
+                updated.type = NodeType::Empty;
+                updated.traversal = default_traversal_for(NodeType::Empty);
+            }
+            else if (page_completed && updated.progress == NodeProgress::Completed) {
                 updated.traversal.blocks_walk = false;
                 updated.traversal.blocks_vision = false;
-                m_map.snapshot().upsert_node(std::move(updated));
             }
+            m_map.snapshot().upsert_node(std::move(updated));
         }
-        m_transaction.reset();
-        m_transaction_id.clear();
+    }
+
+    if (page_completed && !context.resolution_reported) {
+        queue_node_resolution(context);
+    }
+}
+
+bool BlackFlowSession::reconcile_committed_move(const BlackFlowPerceptionSnapshot& snapshot, std::string* error)
+{
+    if (!m_transaction.has_value() || !m_page_context.has_value()) {
+        if (error != nullptr) {
+            *error = "map return has no committed BlackFlow page context";
+        }
+        return false;
+    }
+    const MoveTransactionStage stage = m_transaction->stage();
+    if (stage != MoveTransactionStage::Committed && stage != MoveTransactionStage::PageResolved) {
+        if (error != nullptr) {
+            *error = "map return cannot reconcile the current movement stage";
+        }
+        return false;
+    }
+    if (!merge_perception(snapshot.observation, snapshot.run, snapshot.observed_facts, true, error)) {
+        return false;
+    }
+
+    MoveObservation observation;
+    observation.current_node = m_observed_current_node;
+    observation.floor = m_map.floor();
+    observation.map_revision = m_map.snapshot().revision;
+    observation.viewport_revision = m_viewport.viewport_revision();
+    if (snapshot.run.action_points.has_value()) {
+        observation.action_points = *snapshot.run.action_points;
+    }
+    else if (snapshot.observation.hud_action_points.has_value()) {
+        observation.action_points = *snapshot.observation.hud_action_points;
+    }
+    else {
+        const MoveCandidate& proposal = m_transaction->proposal();
+        int gain = proposal.predicted_action_point_gain;
+        if (!proposal.controllable) {
+            const auto found = proposal.landing_action_point_gains.find(observation.current_node);
+            gain = found == proposal.landing_action_point_gains.end() ? 0 : found->second;
+        }
+        observation.action_points =
+            action_points_after(m_run.resources.action_points, m_transaction->authoritative_cost(), gain);
+    }
+
+    if (observation.floor == m_page_context->floor) {
+        if (const Node* landed = m_map.snapshot().find_node(observation.current_node); landed != nullptr) {
+            observation.landed_type = landed->type;
+            observation.target_progress = landed->progress;
+        }
+    }
+    else {
+        observation.landed_type = m_page_context->node_type;
+        observation.target_progress = m_page_context->result.has_value() && m_page_context->result->progress.has_value()
+                                          ? *m_page_context->result->progress
+                                          : NodeProgress::Completed;
+    }
+
+    if (!m_transaction->observe(observation, error) || !m_transaction->apply(m_run, error)) {
+        queue_warning(
+            "post_move_mismatch",
+            error == nullptr ? "map return does not match the committed movement" : *error,
+            DiagnosticTrigger::PostMoveMismatch);
+        return false;
+    }
+
+    m_run.floor = observation.floor;
+    m_run.current_node = observation.current_node;
+    RunObservation effective = snapshot.run;
+    if (!effective.action_points.has_value()) {
+        effective.action_points = observation.action_points;
+    }
+    if (snapshot.run.action_points.has_value() && snapshot.observation.hud_action_points.has_value() &&
+        *snapshot.run.action_points != *snapshot.observation.hud_action_points) {
+        if (error != nullptr) {
+            *error = "HUD action points conflict with the state observation";
+        }
+        return false;
+    }
+    if (!apply_run_observation(effective, error)) {
+        return false;
+    }
+    const bool page_completed = m_transaction->stage() == MoveTransactionStage::Applied &&
+                                m_page_context->stage == PageExecutionStage::Resolved;
+    finalize_entered_node(*m_page_context, page_completed);
+
+    m_transaction.reset();
+    m_page_context.reset();
+    m_transaction_id.clear();
+    m_verified_move_arc.reset();
+    m_pending_probe_target.reset();
+    m_run.costs.clear_action_cost_overrides();
+    m_unreachable_actions.clear();
+    return true;
+}
+
+bool BlackFlowSession::update(const BlackFlowPerceptionSnapshot& snapshot, std::string* error)
+{
+    BlackFlowSession staged = *this;
+    if (!staged.update_in_place(snapshot, error)) {
+        return false;
+    }
+    *this = std::move(staged);
+    return true;
+}
+
+bool BlackFlowSession::update_in_place(const BlackFlowPerceptionSnapshot& snapshot, std::string* error)
+{
+    const bool pending_move =
+        m_transaction.has_value() && (m_transaction->stage() == MoveTransactionStage::Committed ||
+                                      m_transaction->stage() == MoveTransactionStage::PageResolved);
+    if (pending_move) {
+        if (!reconcile_committed_move(snapshot, error)) {
+            return false;
+        }
+    }
+    else if (!merge_perception(snapshot.observation, snapshot.run, snapshot.observed_facts, false, error)) {
+        return false;
     }
     if (!synchronize_resource_facts(error)) {
         return false;
     }
 
-    const FactStore merged = m_facts.merged();
     refresh_mission();
-    if (m_profile == "burn" && m_run.floor >= 2 && !set_fact("burn_floor1_done", true, error)) {
-        return false;
-    }
-    if (m_profile == "burn" && m_run.floor >= 3 && !set_fact("burn_floor2_done", true, error)) {
-        return false;
-    }
-    if (m_profile == "ending3" && m_run.floor >= 6 && !set_fact("floor6_entered", true, error)) {
-        return false;
-    }
-    if (m_profile == "ending2" && m_run.floor >= 5) {
-        const bool a = boolean_fact(merged, "sandtable_a");
-        const bool b = boolean_fact(merged, "sandtable_b");
-        if (!((a && b) || ((a || b) && m_run.resources.ingots >= 50))) {
-            fail("ending2_prerequisite_failed", "fifth_floor_reached_without_valid_sandtable_payment");
-            return true;
-        }
-    }
-    if (m_profile == "ending3" && m_run.floor >= 5 && !boolean_fact(merged, "ending3_device")) {
-        fail("ending3_prerequisite_failed", "fifth_floor_reached_without_special_device");
-        return true;
-    }
-    if (m_profile == "burn" && m_run.floor == 3 && snapshot.observation.coverage == ObservationCoverage::FullMap &&
-        !has_node_type(m_map.snapshot(), NodeType::Portal)) {
-        m_result = BlackFlowStrategyResult {
-            m_profile, "burn_completed", "third_floor_has_no_portal", 0, true,
-        };
-    }
-    if (m_profile == "baby_animal" && m_run.floor == 3 && m_run.resources.seeds > 0 &&
-        snapshot.observation.coverage == ObservationCoverage::FullMap &&
-        !has_node_type(m_map.snapshot(), NodeType::ScrapShop)) {
-        fail("baby_scrap_shop_missing", "third_floor_has_no_scrap_shop");
-    }
+    evaluate_terminal_rules();
     if (!m_result.has_value() && m_mission.viability == MissionViability::Impossible) {
         fail("mandatory_milestone_failed", "a mandatory strategy milestone was missed or became impossible");
     }
@@ -832,7 +943,12 @@ BlackFlowPlan BlackFlowSession::plan(std::string* error)
         request.strategy_terminal_nodes =
             terminal_nodes_for(*m_policy, m_mission, merged, m_map.snapshot(), m_run.floor);
         request.forbidden_actions = &m_unreachable_actions;
+        request.probe_target = m_pending_probe_target;
         result = BlackFlowPlanner {}.plan(request);
+        if (result && m_pending_probe_target.has_value() &&
+            result.decision.selected->target != *m_pending_probe_target) {
+            m_pending_probe_target.reset();
+        }
     }
     if (!result.error.empty() && error != nullptr) {
         *error = result.error;
@@ -849,6 +965,7 @@ bool BlackFlowSession::begin_transaction(const MoveCandidate& candidate, std::st
     if (!proposed.has_value()) {
         return false;
     }
+    m_verified_move_arc.reset();
     m_transaction = std::move(*proposed);
     m_transaction_id = "BF-T" + std::to_string(m_run_revision) + "-" + std::to_string(++m_transaction_sequence);
     return true;
@@ -856,18 +973,52 @@ bool BlackFlowSession::begin_transaction(const MoveCandidate& candidate, std::st
 
 PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::string* error)
 {
-    if (!m_transaction.has_value() || !m_transaction->record_preview(preview, error)) {
+    if (!m_transaction.has_value()) {
+        if (error != nullptr) {
+            *error = "move preview arrived without a proposed transaction";
+        }
+        return PreviewDisposition::Failed;
+    }
+    if (preview.reachability == PreviewReachability::Reachable &&
+        preview.exact_action_point_cost > m_run.resources.action_points) {
+        preview.reachability = PreviewReachability::InsufficientActionPoints;
+    }
+    const PreviewReachability reachability = preview.reachability;
+    if (!m_transaction->record_preview(preview, error)) {
         return PreviewDisposition::Failed;
     }
     const MoveCandidate proposal = m_transaction->proposal();
     if (m_transaction->stage() == MoveTransactionStage::Cancelled) {
         m_unreachable_actions.emplace(proposal.action_id);
-        queue_warning(
-            "target_unreachable",
-            "move preview reported that the selected target is currently unreachable",
-            DiagnosticTrigger::RebuildConflict);
+        m_verified_move_arc.reset();
+        if (reachability == PreviewReachability::Blocked && proposal.first_unclassified.has_value() &&
+            *proposal.first_unclassified != proposal.target) {
+            m_pending_probe_target = proposal.first_unclassified;
+        }
+        else if (m_pending_probe_target == proposal.target) {
+            m_pending_probe_target.reset();
+        }
+        if (reachability == PreviewReachability::Blocked) {
+            queue_warning(
+                "route_blocked",
+                "move preview shows that a blocking node prevents this move",
+                DiagnosticTrigger::RebuildConflict);
+        }
+        else if (reachability == PreviewReachability::InsufficientActionPoints) {
+            queue_warning(
+                "insufficient_action_points",
+                "move preview cost exceeds the remaining action points",
+                DiagnosticTrigger::PreviewCostMismatch);
+        }
+        else {
+            queue_warning(
+                "target_state_changed",
+                "move preview no longer accepts the selected target",
+                DiagnosticTrigger::RebuildConflict);
+        }
         m_transaction.reset();
-        return PreviewDisposition::Replan;
+        m_transaction_id.clear();
+        return PreviewDisposition::ReplanAfterDismiss;
     }
 
     bool changed = false;
@@ -917,20 +1068,62 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
             "preview action-point cost differs from the planner prediction",
             DiagnosticTrigger::PreviewCostMismatch);
         m_run.costs.action_cost_overrides.insert_or_assign(proposal.action_id, preview.exact_action_point_cost);
-        if (proposal.movement == MovementKind::Walk && !proposal.path.empty() &&
-            preview.exact_action_point_cost % static_cast<int>(proposal.path.size()) == 0) {
-            m_run.costs.walk_cost_per_edge = preview.exact_action_point_cost / static_cast<int>(proposal.path.size());
-        }
-        else if (proposal.movement != MovementKind::Walk) {
-            m_run.costs.movement_cost_overrides.insert_or_assign(proposal.movement, preview.exact_action_point_cost);
-        }
+
         ++m_run.costs.revision;
+        m_verified_move_arc.reset();
         changed = true;
     }
     if (changed) {
         m_transaction->invalidate();
         m_transaction.reset();
-        return PreviewDisposition::Replan;
+        m_transaction_id.clear();
+        return PreviewDisposition::ReplanAfterDismiss;
+    }
+
+    if (proposal.requires_preview_verification) {
+        const FactStore merged = m_facts.merged();
+        BlackFlowPlanRequest request;
+        request.map = &m_map.snapshot();
+        request.run = &m_run;
+        request.policy = &*m_policy;
+        request.facts = &merged;
+        request.mission = &m_mission;
+        request.strategy_terminal_nodes =
+            terminal_nodes_for(*m_policy, m_mission, merged, m_map.snapshot(), m_run.floor);
+        request.forbidden_actions = &m_unreachable_actions;
+        const PreviewSafetyVerification verification =
+            BlackFlowPlanner {}.verify_previewed_move(request, proposal, preview.exact_action_point_cost);
+        if (!verification.error.empty()) {
+            if (error != nullptr) {
+                *error = verification.error;
+            }
+            return PreviewDisposition::Failed;
+        }
+        if (!verification.safe) {
+            m_unreachable_actions.emplace(proposal.action_id);
+            queue_warning(
+                "preview_has_no_confirmed_safe_route",
+                "the previewed move has no confirmed safe route from its landing",
+                DiagnosticTrigger::RebuildConflict);
+            m_transaction->cancel();
+            m_transaction.reset();
+            m_transaction_id.clear();
+            return PreviewDisposition::ReplanAfterDismiss;
+        }
+        m_verified_move_arc = VerifiedMoveArc {
+            proposal.action_id,
+            proposal.source,
+            proposal.target,
+            proposal.landing,
+            proposal.movement,
+            preview.exact_action_point_cost,
+            verification.required_action_points_after,
+            verification.proof_depth,
+            m_map.snapshot().revision,
+            m_run.costs.revision,
+            m_run.resources_revision,
+            m_viewport.viewport_revision(),
+        };
     }
     if (!set_fact("page_kind", std::string(to_string(preview.displayed_type)), error)) {
         return PreviewDisposition::Failed;
@@ -940,238 +1133,164 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
 
 bool BlackFlowSession::commit(std::string* error)
 {
-    const bool committed = m_transaction.has_value() &&
-                           m_transaction->commit(m_map.snapshot().revision, m_viewport.viewport_revision(), error);
-    if (committed) {
-        queue_decision();
-    }
-    return committed;
-}
-
-bool BlackFlowSession::apply_post_move(const BlackFlowPostMoveSnapshot& snapshot, std::string* error)
-{
-    if (!m_transaction.has_value() || m_transaction->stage() != MoveTransactionStage::Committed) {
+    if (!m_transaction.has_value()) {
         if (error != nullptr) {
-            *error = "post-move observation arrived without a committed transaction";
+            *error = "move commit has no active transaction";
         }
         return false;
     }
-    if (!merge_perception(snapshot.observation, snapshot.run, snapshot.observed_facts, true, error)) {
-        queue_warning(
-            "post_move_mismatch",
-            error == nullptr ? "post-move map merge failed" : *error,
-            DiagnosticTrigger::PostMoveMismatch);
-        return false;
-    }
-
-    MoveObservation observation = snapshot.move;
-    observation.current_node = m_observed_current_node;
-    observation.map_revision = m_map.snapshot().revision;
-    if (snapshot.run.action_points.has_value()) {
-        observation.action_points = *snapshot.run.action_points;
-    }
-    else if (snapshot.observation.hud_action_points.has_value()) {
-        observation.action_points = *snapshot.observation.hud_action_points;
-    }
-    const Node* landed_node = m_map.snapshot().find_node(observation.current_node);
-    if (landed_node == nullptr) {
-        if (error != nullptr) {
-            *error = "post-move observation landing is absent from normalized map";
+    const MoveCandidate& pending = m_transaction->proposal();
+    if (pending.requires_preview_verification) {
+        const bool verified =
+            m_verified_move_arc.has_value() && m_verified_move_arc->action_id == pending.action_id &&
+            m_verified_move_arc->source == pending.source && m_verified_move_arc->target == pending.target &&
+            m_verified_move_arc->landing == pending.landing && m_verified_move_arc->movement == pending.movement &&
+            m_verified_move_arc->map_revision == m_map.snapshot().revision &&
+            m_verified_move_arc->cost_revision == m_run.costs.revision &&
+            m_verified_move_arc->resources_revision == m_run.resources_revision &&
+            m_verified_move_arc->viewport_revision == m_viewport.viewport_revision() &&
+            m_transaction->preview().has_value() &&
+            m_verified_move_arc->exact_action_point_cost == m_transaction->preview()->exact_action_point_cost;
+        if (!verified) {
+            m_transaction->invalidate();
+            if (error != nullptr) {
+                *error = "preview-verified move arc expired before commit";
+            }
+            return false;
         }
-        queue_warning("post_move_mismatch", *error, DiagnosticTrigger::PostMoveMismatch);
-        return false;
-    }
-    if (observation.landed_type == NodeType::Unknown || landed_node->identity_revealed) {
-        observation.landed_type = landed_node->type;
-    }
-    if (!m_transaction->observe(observation, error) || !m_transaction->apply(m_run, error)) {
-        queue_warning(
-            "post_move_mismatch",
-            error == nullptr ? "post-move transaction validation failed" : *error,
-            DiagnosticTrigger::PostMoveMismatch);
-        return false;
-    }
-    if (!apply_run_observation(snapshot.run, error) ||
-        !set_fact("page_kind", std::string(to_string(observation.landed_type)), error)) {
-        return false;
     }
 
-    for (const auto& [node_id, node] : m_map.snapshot().nodes()) {
-        if (node.identity_revealed) {
-            m_run.revealed_nodes.emplace(node_id);
-        }
-        if (node.type == NodeType::Light) {
-            const auto statically_revealed = m_map.snapshot().nodes_within_manhattan(node_id, 1);
-            m_run.revealed_nodes.insert(statically_revealed.begin(), statically_revealed.end());
-        }
-    }
-    if (observation.landed_type == NodeType::Light) {
-        const auto entered_reveal = m_map.snapshot().nodes_within_manhattan(observation.current_node, 2);
-        m_run.revealed_nodes.insert(entered_reveal.begin(), entered_reveal.end());
-    }
-    Log.info(
-        "BlackFlowApplied",
-        m_transaction_id,
-        "node",
-        observation.current_node,
-        "action_points",
-        m_run.resources.action_points);
-    m_unreachable_actions.clear();
-    return synchronize_resource_facts(error);
-}
-
-bool BlackFlowSession::bind_page_route(std::string* error)
-{
-    const auto* routes = BlackFlowStrategy.get_page_routes(m_profile);
-    if (routes == nullptr || routes->empty()) {
-        if (error != nullptr) {
-            *error = "profile has no page route";
-        }
-        Task.set_task_base("BlackFlow@Roguelike@NodeDispatch", "BlackFlow@Roguelike@NodeDispatch-Unconfigured");
-        return false;
-    }
-    std::vector<const PageRoute*> ordered;
-    for (const auto& route : *routes) {
-        ordered.emplace_back(&route);
-    }
-    std::ranges::sort(ordered, [](const PageRoute* lhs, const PageRoute* rhs) {
-        return std::tie(lhs->rank, lhs->id) < std::tie(rhs->rank, rhs->id);
-    });
-    const FactStore merged = m_facts.merged();
-    for (const PageRoute* route : ordered) {
-        if (route->when.evaluate(merged)) {
-            Task.set_task_base(route->alias, route->task);
-            Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@NodeDispatch");
-            return true;
-        }
-    }
-    Task.set_task_base("BlackFlow@Roguelike@NodeDispatch", "BlackFlow@Roguelike@NodeDispatch-Unconfigured");
-    if (error != nullptr) {
-        *error = "no page route condition matched";
-    }
-    return false;
-}
-
-bool BlackFlowSession::queue_node_resolution(const json::value& callback_details, std::string* error)
-{
-    const std::string event_name = callback_details.get("details", "blackflow_resolution", "event_name", "");
-    const std::string type_text = callback_details.get("details", "blackflow_resolution", "node_type", "");
-    const std::string reported_decision = callback_details.get("details", "blackflow_resolution", "decision_id", "");
-    const std::string reported_transaction =
-        callback_details.get("details", "blackflow_resolution", "transaction_id", "");
-    const std::string progress = callback_details.get("details", "blackflow_resolution", "progress", "");
-    const bool becomes_empty = callback_details.get("details", "blackflow_resolution", "becomes_empty", false);
-    const bool repeatable_present = callback_details.contains("details") &&
-                                    callback_details.at("details").is_object() &&
-                                    callback_details.at("details").contains("blackflow_resolution") &&
-                                    callback_details.at("details").at("blackflow_resolution").is_object() &&
-                                    callback_details.at("details").at("blackflow_resolution").contains("repeatable");
-    const bool present = !event_name.empty() || !type_text.empty() || !progress.empty() || becomes_empty ||
-                         repeatable_present || !reported_decision.empty() || !reported_transaction.empty();
-    if (!present) {
-        return true;
-    }
-    const bool correlation_reported = !reported_decision.empty() || !reported_transaction.empty();
-    if (correlation_reported && (reported_decision.empty() || reported_decision != m_decision_id) &&
-        (reported_transaction.empty() || reported_transaction != m_transaction_id)) {
-        if (error != nullptr) {
-            *error = "BlackFlow node resolution does not match the active decision or transaction";
-        }
-        return false;
-    }
-    if (!m_transaction.has_value() || m_transaction->stage() != MoveTransactionStage::Applied) {
-        if (error != nullptr) {
-            *error = "BlackFlow node resolution arrived without an applied movement transaction";
-        }
+    const bool committed = m_transaction->commit(m_map.snapshot().revision, m_viewport.viewport_revision(), error);
+    if (!committed) {
         return false;
     }
 
     const MoveCandidate& proposal = m_transaction->proposal();
-    const NodeId node_id = proposal.controllable ? proposal.target : m_run.current_node;
-    const Node* current = m_map.snapshot().find_node(node_id);
-    if (node_id == InvalidNodeId || current == nullptr) {
-        if (error != nullptr) {
-            *error = "BlackFlow node resolution references a node absent from the current map";
+    const NodeId page_node = proposal.controllable ? proposal.target : InvalidNodeId;
+    const Node* target = page_node == InvalidNodeId ? nullptr : m_map.snapshot().find_node(page_node);
+    NodeType page_type = target == nullptr ? NodeType::Unknown : target->type;
+    std::string page_name = target == nullptr ? std::string {} : target->name;
+    int page_floor = target == nullptr ? m_run.floor : target->floor;
+    if (m_transaction->preview().has_value()) {
+        const MovePreview& preview = *m_transaction->preview();
+        if (preview.displayed_type != NodeType::Unknown) {
+            page_type = preview.displayed_type;
         }
-        return false;
+        if (!preview.displayed_name.empty()) {
+            page_name = preview.displayed_name;
+        }
     }
 
-    NodeType resolved_type = current->type;
-    if (!type_text.empty()) {
-        const auto type = node_type_from_report(type_text);
-        if (!type.has_value()) {
-            if (error != nullptr) {
-                *error = "BlackFlow node resolution contains an unknown node type: " + type_text;
-            }
-            return false;
-        }
-        resolved_type = *type;
-    }
-    if (!progress.empty() && progress != "active" && progress != "completed" && progress != "removed") {
-        if (error != nullptr) {
-            *error = "BlackFlow node resolution contains an unknown progress value: " + progress;
-        }
-        return false;
-    }
-
-    // Resolution reports semantic identity only. Map appearance and lifecycle are updated by map observation.
-    const std::string resolved_name = event_name.empty() ? current->name : event_name;
-    const bool reported_repeatable =
-        callback_details.get("details", "blackflow_resolution", "repeatable", current->traversal.repeatable);
-    if (resolved_type != NodeType::Empty) {
-        m_mission
-            .record_node(m_policy->milestones, m_run.floor, m_facts.merged(), node_id, resolved_type, resolved_name);
-    }
-
-    json::object details {
-        { "run_revision", m_run_revision },
-        { "observation_id", m_observation_id },
-        { "decision_id", m_decision_id },
-        { "transaction_id", m_transaction_id },
-        { "node", node_id },
-        { "event_name", event_name },
-        { "node_type", std::string(to_string(resolved_type)) },
-        { "progress", progress },
-        { "repeatable", reported_repeatable },
-        { "becomes_empty", becomes_empty },
+    m_page_context = PageExecutionContext {
+        m_run_revision,
+        ++m_page_revision,
+        m_decision_id,
+        m_transaction_id,
+        page_floor,
+        page_node,
+        page_type,
+        std::move(page_name),
+        m_last_plan.has_value() && !m_last_plan->decision.selected_page_intent.empty()
+            ? m_last_plan->decision.selected_page_intent
+            : "default",
+        PageExecutionStage::PendingDispatch,
     };
-    Log.info(
-        "BlackFlow node resolution reported",
-        "node",
-        node_id,
-        "event",
-        event_name,
-        "type",
-        to_string(resolved_type));
-    m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowNodeResolution", std::move(details) });
+    if (m_pending_probe_target == proposal.target) {
+        m_pending_probe_target.reset();
+    }
+    queue_decision();
     return true;
 }
 
-bool BlackFlowSession::apply_event_effect(
-    const TaskEventEffect& effect,
+void BlackFlowSession::cancel_transaction()
+{
+    if (m_transaction.has_value()) {
+        m_transaction->cancel();
+        m_transaction.reset();
+    }
+    m_verified_move_arc.reset();
+    m_transaction_id.clear();
+}
+
+int BlackFlowSession::expected_observation_floor() const noexcept
+{
+    if (m_run.floor <= 0) {
+        return 1;
+    }
+    if (m_transaction.has_value() && m_page_context.has_value() &&
+        m_transaction->stage() == MoveTransactionStage::PageResolved && m_page_context->node_type == NodeType::Final) {
+        return m_run.floor + 1;
+    }
+    return m_run.floor;
+}
+
+bool BlackFlowSession::mark_page_running(std::string* error)
+{
+    if (!m_page_context.has_value() || !m_transaction.has_value() ||
+        m_transaction->stage() != MoveTransactionStage::Committed ||
+        m_page_context->stage != PageExecutionStage::PendingDispatch) {
+        if (error != nullptr) {
+            *error = "node dispatch has no committed BlackFlow page";
+        }
+        return false;
+    }
+    m_page_context->stage = PageExecutionStage::Running;
+    return true;
+}
+
+bool BlackFlowSession::mark_page_recovery(std::string* error)
+{
+    if (!m_page_context.has_value() || !m_transaction.has_value() ||
+        m_transaction->stage() != MoveTransactionStage::Committed ||
+        (m_page_context->stage != PageExecutionStage::PendingDispatch &&
+         m_page_context->stage != PageExecutionStage::Running)) {
+        if (error != nullptr) {
+            *error = "page recovery has no unresolved committed BlackFlow page";
+        }
+        return false;
+    }
+    m_page_context->stage = PageExecutionStage::Recovering;
+    return true;
+}
+
+bool BlackFlowSession::apply_node_signal(
+    const NodeStrategySignal& signal,
     const json::value& callback_details,
     std::string* error)
 {
-    if (effect.kind == TaskEventEffectKind::Set) {
-        return set_fact(effect.fact, *effect.value, error);
-    }
-    if (effect.kind == TaskEventEffectKind::Add) {
-        const FactValue* current = m_facts.find(effect.fact);
-        if (current == nullptr || !std::holds_alternative<std::int64_t>(*current)) {
+    if (signal.kind == NodeSignalKind::Set) {
+        if (!signal.value.has_value()) {
             if (error != nullptr) {
-                *error = "add effect target is not an initialized integer fact";
+                *error = "set signal has no value";
             }
             return false;
         }
-        const auto delta = std::get<std::int64_t>(*effect.value);
-        return set_fact(effect.fact, saturated_add(std::get<std::int64_t>(*current), delta), error);
+        FactValue value = std::visit([](const auto& item) -> FactValue { return item; }, *signal.value);
+        return set_fact(signal.fact, std::move(value), error);
+    }
+    if (signal.kind == NodeSignalKind::Add) {
+        if (!signal.value.has_value() || !std::holds_alternative<std::int64_t>(*signal.value)) {
+            if (error != nullptr) {
+                *error = "add signal has no integer value";
+            }
+            return false;
+        }
+        const FactValue* current = m_facts.find(signal.fact);
+        if (current == nullptr || !std::holds_alternative<std::int64_t>(*current)) {
+            if (error != nullptr) {
+                *error = "add signal target is not an initialized integer fact";
+            }
+            return false;
+        }
+        const std::int64_t delta = std::get<std::int64_t>(*signal.value);
+        return set_fact(signal.fact, saturated_add(std::get<std::int64_t>(*current), delta), error);
     }
 
     const std::string text = callback_details.get("details", "result", "text", "");
     std::smatch match;
     if (!std::regex_search(text, match, std::regex(R"([-+]?\d+)"))) {
         if (error != nullptr) {
-            *error = "capture_int task event found no integer in details.result.text";
+            *error = "capture_integer node result found no integer in details.result.text";
         }
         return false;
     }
@@ -1181,52 +1300,137 @@ bool BlackFlowSession::apply_event_effect(
     }
     catch (const std::exception&) {
         if (error != nullptr) {
-            *error = "capture_int task event integer is outside the supported range";
+            *error = "captured integer is outside the supported range";
         }
         return false;
     }
-    parsed = std::clamp<std::int64_t>(parsed, effect.minimum, effect.maximum);
-    return set_fact(effect.fact, parsed, error);
+    parsed = std::clamp<std::int64_t>(parsed, signal.minimum, signal.maximum);
+    return set_fact(signal.fact, parsed, error);
 }
 
-void BlackFlowSession::discard_applied_transaction() noexcept
+void BlackFlowSession::queue_node_resolution(const PageExecutionContext& context)
 {
-    if (m_transaction.has_value() && m_transaction->stage() == MoveTransactionStage::Applied) {
-        m_transaction.reset();
-        m_transaction_id.clear();
+    NodeType resolved_type = context.node_type;
+    NodeProgress progress = NodeProgress::Completed;
+    bool repeatable = false;
+    bool becomes_empty = false;
+    if (context.result.has_value()) {
+        const NodeStateUpdate& result = *context.result;
+        resolved_type = result.actual_type.value_or(resolved_type);
+        progress = result.progress.value_or(progress);
+        repeatable = result.repeatable.value_or(false);
+        becomes_empty = result.becomes_empty.value_or(false);
     }
+
+    json::object details {
+        { "run_revision", context.run_revision },
+        { "observation_id", m_observation_id },
+        { "decision_id", context.decision_id },
+        { "transaction_id", context.transaction_id },
+        { "page_revision", context.page_revision },
+        { "floor", context.floor },
+        { "node", context.node },
+        { "event_name", context.node_name },
+        { "node_type", std::string(to_string(resolved_type)) },
+        { "progress",
+          progress == NodeProgress::Active ? "active"
+                                           : (progress == NodeProgress::Completed ? "completed" : "removed") },
+        { "repeatable", repeatable },
+        { "becomes_empty", becomes_empty },
+    };
+    Log.info(
+        "BlackFlow node resolution",
+        "floor",
+        context.floor,
+        "node",
+        context.node,
+        "event",
+        context.node_name,
+        "type",
+        to_string(resolved_type));
+    m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowNodeResolution", std::move(details) });
 }
 
-bool BlackFlowSession::apply_task_event(const json::value& callback_details, std::string* error)
+bool BlackFlowSession::apply_node_task_result(
+    const NodeTaskResult& result,
+    const json::value& callback_details,
+    std::string* error)
 {
-    const std::string task = callback_details.get("details", "task", "");
-    const TaskEvent* event = BlackFlowStrategy.get_task_event(task);
-    if (event == nullptr) {
+    if (!m_page_context.has_value() || !m_transaction.has_value()) {
         if (error != nullptr) {
-            *error = "completed task has no BlackFlow task event: " + task;
+            *error = "node task result arrived without an active BlackFlow page";
         }
         return false;
     }
-    if (!queue_node_resolution(callback_details, error)) {
-        return false;
-    }
-    for (const auto& effect : event->effects) {
-        if (!apply_event_effect(effect, callback_details, error)) {
+
+    for (const NodeStrategySignal& signal : result.signals) {
+        if (!apply_node_signal(signal, callback_details, error)) {
             return false;
         }
     }
+
+    NodeStateUpdate update = result.node;
+    if (!update.actual_name_source.empty()) {
+        const std::string captured_name = callback_details.get("details", "result", "text", "");
+        if (captured_name.empty()) {
+            if (error != nullptr) {
+                *error = "node result found no event name in details.result.text";
+            }
+            return false;
+        }
+        update.actual_name = captured_name;
+    }
+    const bool has_node_update = update.progress.has_value() || update.actual_type.has_value() ||
+                                 update.actual_name.has_value() || update.identity_revealed.has_value() ||
+                                 update.repeatable.has_value() || update.becomes_empty.has_value();
+    if (result.redispatch && !update.actual_type.has_value() && !update.actual_name.has_value()) {
+        if (error != nullptr) {
+            *error = "node redispatch requires an updated event name or node type";
+        }
+        return false;
+    }
+    if (has_node_update) {
+        NodeStateUpdate merged = m_page_context->result.value_or(NodeStateUpdate {});
+        if (update.progress.has_value()) {
+            merged.progress = update.progress;
+        }
+        if (update.actual_type.has_value()) {
+            merged.actual_type = update.actual_type;
+            m_page_context->node_type = *update.actual_type;
+        }
+        if (update.actual_name.has_value()) {
+            merged.actual_name = update.actual_name;
+            m_page_context->node_name = *update.actual_name;
+        }
+        if (update.identity_revealed.has_value()) {
+            merged.identity_revealed = update.identity_revealed;
+        }
+        if (update.repeatable.has_value()) {
+            merged.repeatable = update.repeatable;
+        }
+        if (update.becomes_empty.has_value()) {
+            merged.becomes_empty = update.becomes_empty;
+        }
+        m_page_context->result = std::move(merged);
+    }
+
+    if (result.kind == NodeTaskResultKind::PageCompleted) {
+        if (!m_transaction->mark_page_resolved(error)) {
+            return false;
+        }
+        m_page_context->stage = PageExecutionStage::Resolved;
+        queue_node_resolution(*m_page_context);
+        m_page_context->resolution_reported = true;
+    }
     refresh_mission();
-    if (event->terminate) {
+    evaluate_terminal_rules();
+
+    if (result.terminate && !m_result.has_value()) {
         const int cultivated = static_cast<int>(integer_fact(m_facts.merged(), "cultivated_animals"));
         m_result = BlackFlowStrategyResult {
-            m_profile,
-            event->outcome_code,
-            event->termination_reason,
-            std::clamp(cultivated, 0, 3),
-            event->outcome_code != "ending_prerequisite_failed" && event->outcome_code != "page_recovery_failed" &&
-                event->outcome_code != "baby_no_seed",
+            m_profile, result.outcome_code, result.termination_reason, std::clamp(cultivated, 0, 3), result.succeeded,
         };
-        if (!m_result->succeeded && m_policy.has_value()) {
+        if (!result.succeeded && m_policy.has_value()) {
             m_result->next_action = m_policy->failure_action;
         }
     }
@@ -1253,6 +1457,15 @@ void BlackFlowSession::fail(std::string outcome, std::string reason)
     }
 }
 
+bool BlackFlowSession::claim_result_report() noexcept
+{
+    if (!m_result.has_value() || m_result_reported) {
+        return false;
+    }
+    m_result_reported = true;
+    return true;
+}
+
 std::vector<BlackFlowTelemetryEvent> BlackFlowSession::take_telemetry_events()
 {
     std::vector<BlackFlowTelemetryEvent> result;
@@ -1267,192 +1480,4 @@ std::vector<DiagnosticArtifactRequest> BlackFlowSession::take_diagnostic_request
     return result;
 }
 
-BlackFlowTaskPlugin::BlackFlowTaskPlugin(
-    const AsstCallback& callback,
-    Assistant* inst,
-    std::string_view task_chain,
-    const std::shared_ptr<RoguelikeConfig>& config,
-    const std::shared_ptr<RoguelikeControlTaskPlugin>& control,
-    std::shared_ptr<BlackFlowSession> session,
-    std::shared_ptr<IBlackFlowTaskPort> port) :
-    AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config, control),
-    m_session(std::move(session)),
-    m_port(std::move(port))
-{
-    set_block(true);
-}
-
-bool BlackFlowTaskPlugin::load_params(const json::value& params)
-{
-    if (m_config->get_theme() != RoguelikeTheme::BlackFlow || m_session == nullptr) {
-        return false;
-    }
-    std::string error;
-    const std::string profile = params.get("blackflow_strategy", std::string("ending1"));
-    if (!m_session->initialize(profile, &error)) {
-        Log.error("BlackFlow strategy initialization failed:", error);
-        return false;
-    }
-    const std::string diagnostics_text = params.get("blackflow_diagnostics", std::string("normal"));
-    const auto diagnostics = parse_diagnostic_level(diagnostics_text);
-    const int image_limit = params.get("blackflow_diagnostic_image_limit", 3);
-    if (!diagnostics.has_value() || image_limit < 0 || image_limit > 100) {
-        Log.error("Invalid BlackFlow diagnostics parameters");
-        return false;
-    }
-    DiagnosticSettings settings { *diagnostics, static_cast<std::size_t>(image_limit) };
-    if (!m_session->configure_diagnostics(settings, &error)) {
-        Log.error("BlackFlow diagnostics initialization failed:", error);
-        return false;
-    }
-    if (m_port != nullptr) {
-        m_port->configure_diagnostics(settings);
-    }
-    return true;
-}
-
-bool BlackFlowTaskPlugin::verify(AsstMsg msg, const json::value& details) const
-{
-    if (details.get("subtask", std::string()) != "ProcessTask") {
-        return false;
-    }
-    const std::string task = details.get("details", "task", "");
-    if (msg == AsstMsg::SubTaskStart && task == "BlackFlow@Roguelike@RoutingAction") {
-        m_pending = PendingWork::Routing;
-        m_pending_details = details;
-        return true;
-    }
-    if (msg == AsstMsg::SubTaskCompleted && task == "BlackFlow@Roguelike@PageFailure") {
-        m_pending = PendingWork::RecoverMap;
-        m_pending_details = details;
-        return true;
-    }
-    if (msg == AsstMsg::SubTaskCompleted && BlackFlowStrategy.get_task_event(task) != nullptr) {
-        m_pending = PendingWork::TaskEvent;
-        m_pending_details = details;
-        return true;
-    }
-    return false;
-}
-
-void BlackFlowTaskPlugin::reset_in_run_variables()
-{
-    if (m_session != nullptr) {
-        m_session->reset_run();
-    }
-    m_pending = PendingWork::None;
-    m_pending_details = json::value {};
-    m_reported = false;
-}
-
-void BlackFlowTaskPlugin::report_result()
-{
-    if (m_reported || m_session == nullptr || !m_session->result().has_value()) {
-        return;
-    }
-    auto info = basic_info_with_what("BlackFlowStrategyResult");
-    info["details"] = m_session->result()->to_json();
-    callback(AsstMsg::SubTaskExtraInfo, info);
-    m_reported = true;
-}
-
-void BlackFlowTaskPlugin::report_telemetry()
-{
-    if (m_session == nullptr) {
-        return;
-    }
-    for (auto& event : m_session->take_telemetry_events()) {
-        auto info = basic_info_with_what(event.what);
-        info["details"] = std::move(event.details);
-        callback(AsstMsg::SubTaskExtraInfo, info);
-    }
-}
-
-void BlackFlowTaskPlugin::persist_diagnostics()
-{
-    if (m_session == nullptr || m_port == nullptr) {
-        return;
-    }
-    for (const auto& request : m_session->take_diagnostic_requests()) {
-        std::string error;
-        if (!m_port->persist_diagnostics(request, &error)) {
-            Log.warn("BlackFlow diagnostic artifact persistence failed:", error);
-        }
-    }
-}
-
-bool BlackFlowTaskPlugin::_run()
-{
-    LogTraceFunction;
-    if (m_session == nullptr) {
-        Task.set_task_base("BlackFlow@Roguelike@NodeDispatch", "BlackFlow@Roguelike@RecoveryFailed");
-        m_pending = PendingWork::None;
-        return true;
-    }
-
-    const PendingWork work = m_pending;
-    m_pending = PendingWork::None;
-    if (work == PendingWork::TaskEvent) {
-        std::string error;
-        if (!execute_routing_task_event(*m_session, m_pending_details, &error)) {
-            m_session->fail("task_event_failed", error);
-        }
-        report_telemetry();
-        persist_diagnostics();
-        report_result();
-        return true;
-    }
-
-    if (work == PendingWork::RecoverMap) {
-        std::string error;
-        const bool recovered = m_port != nullptr && m_port->recover_map(&error);
-        Task.set_task_base(
-            "BlackFlow@Roguelike@RecoverMap",
-            recovered ? "BlackFlow@Roguelike@RoutingAction" : "BlackFlow@Roguelike@RecoveryFailed");
-        if (recovered) {
-            m_session->discard_applied_transaction();
-        }
-        else {
-            m_session->fail("page_recovery_failed", error.empty() ? "map recovery port is unavailable" : error);
-            report_result();
-        }
-        report_telemetry();
-        persist_diagnostics();
-        return true;
-    }
-
-    if (work != PendingWork::Routing) {
-        return true;
-    }
-    if (m_port == nullptr) {
-        m_session->fail("perception_port_missing", "BlackFlow perception and task port is not attached");
-        Task.set_task_base("BlackFlow@Roguelike@NodeDispatch", "BlackFlow@Roguelike@RecoveryFailed");
-        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@NodeDispatch");
-        report_telemetry();
-        persist_diagnostics();
-        report_result();
-        return true;
-    }
-
-    const RoutingCycleOutcome cycle = execute_routing_cycle(*m_session, *m_port);
-    report_telemetry();
-    persist_diagnostics();
-    if (cycle.status == RoutingCycleStatus::SessionTerminated) {
-        Task.set_task_base("BlackFlow@Roguelike@NodeDispatch", terminal_dispatch_task(*m_session->result()));
-        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@NodeDispatch");
-        report_result();
-        return true;
-    }
-    if (cycle.status == RoutingCycleStatus::MovedToNode) {
-        return true;
-    }
-
-    m_session->fail(cycle.failure_code, cycle.error);
-    report_telemetry();
-    persist_diagnostics();
-    Task.set_task_base("BlackFlow@Roguelike@NodeDispatch", "BlackFlow@Roguelike@RecoveryFailed");
-    Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@NodeDispatch");
-    report_result();
-    return true;
-}
 } // namespace asst::blackflow

@@ -169,11 +169,13 @@ std::optional<NormalizedPerceptionObservation>
             }
             return std::nullopt;
         }
+        const EdgeKnowledge knowledge =
+            source_edge.forced_by_connectivity_constraint ? EdgeKnowledge::Unknown : EdgeKnowledge::Confirmed;
         result.map.edges.emplace_back(
             ObservedEdge {
                 first->second->position,
                 second->second->position,
-                EdgeKnowledge::Confirmed,
+                knowledge,
                 EdgeEvidence {
                     source_edge.probability,
                     source_edge.cnn_connected,
@@ -181,7 +183,9 @@ std::optional<NormalizedPerceptionObservation>
                     source_edge.decision_source,
                 },
             });
-        ++result.summary.confirmed_edge_count;
+        if (knowledge == EdgeKnowledge::Confirmed) {
+            ++result.summary.confirmed_edge_count;
+        }
         if (source_edge.forced_by_connectivity_constraint) {
             ++result.summary.forced_edge_count;
         }

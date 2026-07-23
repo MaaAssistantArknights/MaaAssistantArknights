@@ -1322,6 +1322,9 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowWarningPageRecoveryFailed">Unable to return from the node page to the map</system:String>
     <system:String x:Key="BlackFlowWarningPreviewCostChanged">The preview AP cost changed; replanning</system:String>
     <system:String x:Key="BlackFlowWarningTargetUnreachable">The target is unreachable; probing an unknown node and replanning</system:String>
+    <system:String x:Key="BlackFlowWarningRouteBlocked">The route is blocked.</system:String>
+    <system:String x:Key="BlackFlowWarningInsufficientActionPoints">There are not enough action points.</system:String>
+    <system:String x:Key="BlackFlowWarningTargetStateChanged">The target state has changed.</system:String>
     <system:String x:Key="BlackFlowWarningInferredEdge">This move uses a low-evidence connection</system:String>
     <system:String x:Key="BlackFlowWarningPostMoveMismatch">Post-move node or AP state is inconsistent</system:String>
     <system:String x:Key="BlackFlowWarningFloorMismatch">State-machine floor conflicts with the HUD floor</system:String>
@@ -1384,7 +1387,6 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowRuleBabyDelayExitBeforeFloor3">Delay the exit before floor 3 while development opportunities remain</system:String>
     <system:String x:Key="BlackFlowRuleBabyExitBeforeFloor3WhenRequired">Head to the exit before floor 3 when development is exhausted or the safety margin is low</system:String>
     <system:String x:Key="BlackFlowRuleBabyFloor2NormalShop">Prioritize the normal shop on floor 2</system:String>
-    <system:String x:Key="BlackFlowMilestoneInvestmentUnknownOnce">Visit one mysterious presage</system:String>
     <system:String x:Key="BlackFlowMilestoneInvestmentShop">Enter the fixed floor 1 shop and finish investing</system:String>
     <system:String x:Key="BlackFlowMilestoneBurnFloor1Shop">Enter the shop on floor 1</system:String>
     <system:String x:Key="BlackFlowMilestoneBurnFloor1Final">Reach the final node on floor 1</system:String>

@@ -259,6 +259,17 @@ MilestoneKind parse_milestone_kind(const std::string& value)
     return found->second;
 }
 
+MilestoneCompletion parse_milestone_completion(const std::string& value)
+{
+    if (value == "visit_count") {
+        return MilestoneCompletion::VisitCount;
+    }
+    if (value == "condition") {
+        return MilestoneCompletion::Condition;
+    }
+    invalid_config("unknown milestone completion mode: " + value);
+}
+
 std::vector<std::string> parse_string_array(const json::value& parent, const std::string& key)
 {
     std::vector<std::string> result;
@@ -284,12 +295,45 @@ Condition optional_condition(const json::value& parent, const std::string& key, 
     return value ? parse_condition(*value) : constant_condition(default_value);
 }
 
+bool is_valid_page_intent(std::string_view value)
+{
+    if (value.empty()) {
+        return false;
+    }
+    bool segment_start = true;
+    for (const char character : value) {
+        if (character == '.') {
+            if (segment_start) {
+                return false;
+            }
+            segment_start = true;
+            continue;
+        }
+        const bool lower = character >= 'a' && character <= 'z';
+        const bool digit = character >= '0' && character <= '9';
+        if ((!lower && !digit && character != '_') || (segment_start && !lower)) {
+            return false;
+        }
+        segment_start = false;
+    }
+    return !segment_start;
+}
+
+std::string optional_page_intent(const json::value& parent)
+{
+    const std::string result = parent.get("page_intent", std::string());
+    if (!result.empty() && !is_valid_page_intent(result)) {
+        invalid_config("page_intent must use lower-case dotted semantic identifiers");
+    }
+    return result;
+}
+
 PolicyRule parse_rule(const json::value& value)
 {
     check_keys(
         value,
-        { "id", "description", "kind", "tier", "rank", "when", "target" },
-        { "id", "kind", "tier", "target" },
+        { "id", "description", "kind", "tier", "rank", "when", "candidate_if", "page_intent" },
+        { "id", "kind", "tier", "candidate_if" },
         "rule");
     PolicyRule result;
     result.id = value.at("id").as_string();
@@ -298,7 +342,8 @@ PolicyRule parse_rule(const json::value& value)
     result.tier = parse_policy_tier(value.at("tier").as_string());
     result.rank = value.get("rank", 0);
     result.when = optional_condition(value, "when", true);
-    result.target = parse_condition(value.at("target"));
+    result.candidate_if = parse_condition(value.at("candidate_if"));
+    result.page_intent = optional_page_intent(value);
     if (result.id.empty()) {
         invalid_config("rule id must not be empty");
     }
@@ -325,6 +370,71 @@ ResourceReserve parse_reserve(const json::value& value)
     return result;
 }
 
+NodeIdentityState parse_identity_state(const std::string& value)
+{
+    static const std::unordered_map<std::string, NodeIdentityState> Values = {
+        { "classified", NodeIdentityState::Classified },
+        { "hidden", NodeIdentityState::Hidden },
+        { "unclassified", NodeIdentityState::Unclassified },
+    };
+    const auto found = Values.find(value);
+    if (found == Values.end()) {
+        invalid_config("unknown node identity state: " + value);
+    }
+    return found->second;
+}
+
+NodeSelector parse_node_selector(const json::value& value)
+{
+    check_keys(
+        value,
+        { "node_types", "node_names", "badged", "identity_state", "identity_revealed" },
+        {},
+        "node selector");
+    NodeSelector result;
+    for (const std::string& type_name : parse_string_array(value, "node_types")) {
+        const auto type = node_type_from_string(type_name);
+        if (!type.has_value() || *type == NodeType::Unknown) {
+            invalid_config("node selector references an unsupported node type: " + type_name);
+        }
+        result.node_types.emplace_back(*type);
+    }
+    std::ranges::sort(result.node_types, {}, [](NodeType type) { return static_cast<int>(type); });
+    if (std::ranges::adjacent_find(result.node_types) != result.node_types.end()) {
+        invalid_config("node selector node_types contains duplicates");
+    }
+    result.node_names = parse_string_array(value, "node_names");
+    if (std::ranges::any_of(result.node_names, [](const std::string& name) { return name.empty(); })) {
+        invalid_config("node selector node_names must not contain empty names");
+    }
+    std::ranges::sort(result.node_names);
+    if (std::ranges::adjacent_find(result.node_names) != result.node_names.end()) {
+        invalid_config("node selector node_names contains duplicates");
+    }
+    if (const auto badged = value.find("badged"); badged) {
+        if (!badged->is_boolean()) {
+            invalid_config("node selector badged must be boolean");
+        }
+        result.badged = badged->as_boolean();
+    }
+    if (const auto identity = value.find("identity_state"); identity) {
+        if (!identity->is_string()) {
+            invalid_config("node selector identity_state must be a string");
+        }
+        result.identity_state = parse_identity_state(identity->as_string());
+    }
+    if (const auto revealed = value.find("identity_revealed"); revealed) {
+        if (!revealed->is_boolean()) {
+            invalid_config("node selector identity_revealed must be boolean");
+        }
+        result.identity_revealed = revealed->as_boolean();
+    }
+    if (result.empty()) {
+        invalid_config("node selector must contain at least one criterion");
+    }
+    return result;
+}
+
 Milestone parse_milestone(const json::value& value)
 {
     check_keys(
@@ -332,6 +442,7 @@ Milestone parse_milestone(const json::value& value)
         { "id",
           "description",
           "kind",
+          "completion",
           "floor_window",
           "rank",
           "count",
@@ -339,58 +450,43 @@ Milestone parse_milestone(const json::value& value)
           "terminal_on_reach",
           "active_if",
           "complete_if",
-          "target",
-          "target_node_types",
-          "target_node_names",
+          "selector",
+          "page_intent",
           "reserves",
-          "requires",
-          "successors" },
-        { "id", "kind" },
+          "requires" },
+        { "id", "kind", "floor_window", "selector" },
         "milestone");
     Milestone result;
     result.id = value.at("id").as_string();
     result.description = value.get("description", std::string());
     result.kind = parse_milestone_kind(value.at("kind").as_string());
+    result.completion = parse_milestone_completion(value.get("completion", std::string("visit_count")));
     result.rank = value.get("rank", 0);
     result.required_count = value.get("count", 1);
     result.weight = value.get("weight", 1);
     result.terminal_on_reach = value.get("terminal_on_reach", false);
     result.active_if = optional_condition(value, "active_if", true);
     result.complete_if = optional_condition(value, "complete_if", false);
-    result.target = optional_condition(value, "target", false);
-    for (const std::string& type_name : parse_string_array(value, "target_node_types")) {
-        const auto type = node_type_from_string(type_name);
-        if (!type.has_value() || *type == NodeType::Unknown) {
-            invalid_config("milestone references an unsupported node type: " + type_name);
-        }
-        result.target_node_types.emplace_back(*type);
-    }
-    std::ranges::sort(result.target_node_types, {}, [](NodeType type) { return static_cast<int>(type); });
-    if (std::ranges::adjacent_find(result.target_node_types) != result.target_node_types.end()) {
-        invalid_config("milestone target_node_types contains duplicates");
-    }
-    result.target_node_names = parse_string_array(value, "target_node_names");
-    if (std::ranges::any_of(result.target_node_names, [](const std::string& name) { return name.empty(); })) {
-        invalid_config("milestone target_node_names must not contain empty names");
-    }
-    std::ranges::sort(result.target_node_names);
-    if (std::ranges::adjacent_find(result.target_node_names) != result.target_node_names.end()) {
-        invalid_config("milestone target_node_names contains duplicates");
-    }
+    result.selector = parse_node_selector(value.at("selector"));
+    result.page_intent = optional_page_intent(value);
     result.reserve_ids = parse_string_array(value, "reserves");
     result.prerequisites = parse_string_array(value, "requires");
-    result.successors = parse_string_array(value, "successors");
-    if (const auto window = value.find("floor_window"); window) {
-        if (!window->is_array() || window->as_array().size() != 2) {
-            invalid_config("milestone floor_window must contain two integers");
-        }
-        result.floor_begin = window->at(0).as_integer();
-        result.floor_end = window->at(1).as_integer();
+
+    const auto& window = value.at("floor_window");
+    if (!window.is_array() || window.as_array().size() != 2 || !window.at(0).is_number() || !window.at(1).is_number()) {
+        invalid_config("milestone floor_window must contain two integers");
     }
+    result.floor_begin = window.at(0).as_integer();
+    result.floor_end = window.at(1).as_integer();
     if (result.id.empty() || result.floor_begin < 1 || result.floor_end < result.floor_begin ||
-        result.required_count < 1 || result.weight < 1 ||
-        (result.target_node_types.empty() && result.target_node_names.empty() && !value.find("target"))) {
-        invalid_config("milestone id, floor window, count, or target is invalid");
+        result.required_count < 1 || result.weight < 1) {
+        invalid_config("milestone id, floor window, count, or weight is invalid");
+    }
+    if (result.completion == MilestoneCompletion::Condition && !value.find("complete_if")) {
+        invalid_config("condition-completed milestone requires complete_if");
+    }
+    if (result.completion == MilestoneCompletion::VisitCount && value.find("complete_if")) {
+        invalid_config("visit-count milestone must not define complete_if");
     }
     return result;
 }
@@ -431,32 +527,54 @@ PolicyModule parse_module(const json::value& value)
     return result;
 }
 
-PageRoute parse_page_route(const json::value& value)
+StrategyTerminalRule parse_terminal_rule(const json::value& value)
 {
-    check_keys(value, { "id", "alias", "task", "rank", "when" }, { "id", "alias", "task" }, "page route");
-    PageRoute result;
+    check_keys(
+        value,
+        { "id", "when", "outcome", "reason", "succeeded", "next_action" },
+        { "id", "when", "outcome", "reason", "succeeded" },
+        "profile terminal rule");
+    StrategyTerminalRule result;
     result.id = value.at("id").as_string();
-    result.alias = value.at("alias").as_string();
-    result.task = value.at("task").as_string();
-    result.rank = value.get("rank", 0);
-    result.when = optional_condition(value, "when", true);
-    if (result.id.empty() || result.alias.empty() || result.task.empty()) {
-        invalid_config("page route id, alias, and task must not be empty");
+    result.when = parse_condition(value.at("when"));
+    result.outcome = value.at("outcome").as_string();
+    result.reason = value.at("reason").as_string();
+    result.succeeded = value.at("succeeded").as_boolean();
+    result.next_action = value.get("next_action", std::string {});
+    if (result.id.empty() || result.outcome.empty() || result.reason.empty()) {
+        invalid_config("profile terminal rule id, outcome, and reason must not be empty");
+    }
+    if (!result.next_action.empty() && result.next_action != "stop_run" &&
+        result.next_action != "restart_current_run") {
+        invalid_config("profile terminal rule next_action is unsupported: " + result.next_action);
     }
     return result;
 }
 
-PolicyProfile parse_profile(const json::value& value, std::vector<PageRoute>* page_routes)
+PolicyProfile parse_profile(const json::value& value)
 {
     check_keys(
         value,
-        { "id", "description", "modules", "failure_action", "page_routes" },
-        { "id", "modules", "page_routes" },
+        { "id", "description", "modules", "terminal_rules", "failure_action" },
+        { "id", "modules" },
         "profile");
     PolicyProfile result;
     result.id = value.at("id").as_string();
     result.description = value.get("description", std::string());
     result.modules = parse_string_array(value, "modules");
+    if (const auto rules = value.find("terminal_rules"); rules) {
+        if (!rules->is_array()) {
+            invalid_config("profile terminal_rules must be an array");
+        }
+        std::unordered_set<std::string> rule_ids;
+        for (const auto& rule : rules->as_array()) {
+            StrategyTerminalRule parsed = parse_terminal_rule(rule);
+            if (!rule_ids.emplace(parsed.id).second) {
+                invalid_config("profile contains duplicate terminal rule: " + parsed.id);
+            }
+            result.terminal_rules.emplace_back(std::move(parsed));
+        }
+    }
     result.failure_action = value.get("failure_action", std::string("stop_run"));
     if (result.id.empty() || result.modules.empty() || result.failure_action.empty()) {
         invalid_config("profile id, module list, and failure action must be present");
@@ -469,93 +587,6 @@ PolicyProfile parse_profile(const json::value& value, std::vector<PageRoute>* pa
         if (!unique_modules.emplace(module).second) {
             invalid_config("profile contains duplicate module: " + module);
         }
-    }
-    const auto routes = value.at("page_routes");
-    if (!routes.is_array()) {
-        invalid_config("profile page_routes must be an array");
-    }
-    std::unordered_set<std::string> route_ids;
-    for (const auto& route_json : routes.as_array()) {
-        auto route = parse_page_route(route_json);
-        if (!route_ids.emplace(route.id).second) {
-            invalid_config("profile contains duplicate page route: " + route.id);
-        }
-        page_routes->emplace_back(std::move(route));
-    }
-    return result;
-}
-
-TaskEventEffectKind parse_effect_kind(const std::string& value)
-{
-    if (value == "set") {
-        return TaskEventEffectKind::Set;
-    }
-    if (value == "add") {
-        return TaskEventEffectKind::Add;
-    }
-    if (value == "capture_int") {
-        return TaskEventEffectKind::CaptureInteger;
-    }
-    invalid_config("unknown task event effect kind: " + value);
-}
-
-TaskEventEffect parse_task_effect(const json::value& value)
-{
-    check_keys(
-        value,
-        { "kind", "fact", "value", "source", "minimum", "maximum" },
-        { "kind", "fact" },
-        "task event effect");
-    TaskEventEffect result;
-    result.kind = parse_effect_kind(value.at("kind").as_string());
-    result.fact = value.at("fact").as_string();
-    if (const auto literal = value.find("value"); literal) {
-        result.value = parse_fact_value(*literal);
-    }
-    result.source = value.get("source", std::string());
-    result.minimum = value.get("minimum", std::numeric_limits<int>::min());
-    result.maximum = value.get("maximum", std::numeric_limits<int>::max());
-    if (result.fact.empty() || result.minimum > result.maximum) {
-        invalid_config("task event effect has an invalid fact or numeric range");
-    }
-    if ((result.kind == TaskEventEffectKind::Set || result.kind == TaskEventEffectKind::Add) !=
-        result.value.has_value()) {
-        invalid_config("set/add effects require value and capture_int forbids value");
-    }
-    if (result.kind == TaskEventEffectKind::CaptureInteger) {
-        if (result.source != "details.result.text") {
-            invalid_config("capture_int source must be details.result.text");
-        }
-    }
-    else if (!result.source.empty()) {
-        invalid_config("only capture_int effects may specify source");
-    }
-    return result;
-}
-
-TaskEvent parse_task_event(const json::value& value)
-{
-    check_keys(
-        value,
-        { "task", "on", "effects", "outcome", "terminate", "termination_reason" },
-        { "task", "on", "effects" },
-        "task event");
-    if (value.at("on").as_string() != "SubTaskCompleted") {
-        invalid_config("task event on must be SubTaskCompleted");
-    }
-    TaskEvent result;
-    result.task = value.at("task").as_string();
-    result.outcome_code = value.get("outcome", std::string());
-    result.terminate = value.get("terminate", false);
-    result.termination_reason = value.get("termination_reason", std::string());
-    if (result.task.empty() || !value.at("effects").is_array()) {
-        invalid_config("task event task must be present and effects must be an array");
-    }
-    for (const auto& effect : value.at("effects").as_array()) {
-        result.effects.emplace_back(parse_task_effect(effect));
-    }
-    if (result.terminate && (result.outcome_code.empty() || result.termination_reason.empty())) {
-        invalid_config("terminating task event requires outcome and termination_reason");
     }
     return result;
 }
@@ -617,7 +648,7 @@ void validate_module(
             invalid_config("module contains duplicate rule id: " + rule.id);
         }
         validate_condition(rule.when, facts, false);
-        validate_condition(rule.target, facts, true);
+        validate_condition(rule.candidate_if, facts, true);
     }
     for (const auto& reserve : module.reserves) {
         if (!ids.emplace("reserve:" + reserve.id).second) {
@@ -635,7 +666,6 @@ void validate_module(
         }
         validate_condition(milestone.active_if, facts, false);
         validate_condition(milestone.complete_if, facts, false);
-        validate_condition(milestone.target, facts, true);
     }
 }
 
@@ -686,7 +716,6 @@ void validate_requirement_cycles(const std::vector<Milestone>& milestones)
 
 void validate_profile_definition(
     const PolicyProfile& profile,
-    const std::vector<PageRoute>& routes,
     const std::unordered_map<std::string, PolicyModule>& modules,
     const std::unordered_map<std::string, FactDefinition>& facts)
 {
@@ -706,6 +735,11 @@ void validate_profile_definition(
             invalid_config(error);
         }
     }
+
+    std::unordered_map<std::string, const Milestone*> milestones_by_id;
+    for (const auto& milestone : resolved.milestones) {
+        milestones_by_id.emplace(milestone.id, &milestone);
+    }
     for (const auto& milestone : resolved.milestones) {
         for (const auto& reserve : milestone.reserve_ids) {
             if (!reserve_ids.contains(reserve)) {
@@ -713,53 +747,20 @@ void validate_profile_definition(
             }
         }
         for (const auto& required : milestone.prerequisites) {
-            if (!milestone_ids.contains(required)) {
+            const auto prerequisite = milestones_by_id.find(required);
+            if (prerequisite == milestones_by_id.end()) {
                 invalid_config("milestone requires unknown milestone: " + required);
             }
-        }
-        for (const auto& successor : milestone.successors) {
-            if (!milestone_ids.contains(successor)) {
-                invalid_config("milestone references unknown successor: " + successor);
+            if (prerequisite->second->floor_begin > milestone.floor_end) {
+                invalid_config(
+                    "milestone prerequisite cannot be completed before its dependent milestone: " + required);
             }
         }
     }
+    for (const StrategyTerminalRule& rule : profile.terminal_rules) {
+        validate_condition(rule.when, facts, false);
+    }
     validate_requirement_cycles(resolved.milestones);
-
-    for (const auto& route : routes) {
-        validate_condition(route.when, facts, false);
-        if (Task.get(route.alias) == nullptr) {
-            invalid_config("page route references unknown task alias: " + route.alias);
-        }
-        if (Task.get(route.task) == nullptr) {
-            invalid_config("page route references unknown target task: " + route.task);
-        }
-    }
-}
-
-void validate_task_event(const TaskEvent& event, const std::unordered_map<std::string, FactDefinition>& facts)
-{
-    if (Task.get(event.task) == nullptr) {
-        invalid_config("task event references unknown task: " + event.task);
-    }
-    for (const auto& effect : event.effects) {
-        const auto definition = facts.find(effect.fact);
-        if (definition == facts.end()) {
-            invalid_config("task event references undeclared fact: " + effect.fact);
-        }
-        if (definition->second.scope == FactScope::Candidate) {
-            invalid_config("task event cannot write candidate-scoped fact: " + effect.fact);
-        }
-        if (effect.kind == TaskEventEffectKind::CaptureInteger && definition->second.type != FactType::Integer) {
-            invalid_config("capture_int effect requires an integer fact");
-        }
-        if (effect.kind == TaskEventEffectKind::Add &&
-            (definition->second.type != FactType::Integer || !std::holds_alternative<std::int64_t>(*effect.value))) {
-            invalid_config("add effect requires an integer fact and integer value");
-        }
-        if (effect.kind == TaskEventEffectKind::Set && !fact_value_matches(definition->second.type, *effect.value)) {
-            invalid_config("set effect value type differs from fact declaration");
-        }
-    }
 }
 } // namespace
 
@@ -781,17 +782,23 @@ const blackflow::PolicyProfile* BlackFlowStrategyConfig::get_profile(const std::
     return found == m_profiles.end() ? nullptr : &found->second;
 }
 
-const std::vector<blackflow::PageRoute>*
-    BlackFlowStrategyConfig::get_page_routes(const std::string& profile) const noexcept
+std::unordered_set<std::string> BlackFlowStrategyConfig::page_intents() const
 {
-    const auto found = m_page_routes.find(profile);
-    return found == m_page_routes.end() ? nullptr : &found->second;
-}
-
-const blackflow::TaskEvent* BlackFlowStrategyConfig::get_task_event(const std::string& task) const noexcept
-{
-    const auto found = m_task_events.find(task);
-    return found == m_task_events.end() ? nullptr : &found->second;
+    std::unordered_set<std::string> result;
+    for (const auto& [id, module] : m_modules) {
+        (void)id;
+        for (const auto& rule : module.rules) {
+            if (!rule.page_intent.empty()) {
+                result.emplace(rule.page_intent);
+            }
+        }
+        for (const auto& milestone : module.milestones) {
+            if (!milestone.page_intent.empty()) {
+                result.emplace(milestone.page_intent);
+            }
+        }
+    }
+    return result;
 }
 
 std::optional<blackflow::ResolvedPolicy>
@@ -808,6 +815,7 @@ std::optional<blackflow::ResolvedPolicy>
     result.profile_id = profile->id;
     result.description = profile->description;
     result.modules = profile->modules;
+    result.terminal_rules = profile->terminal_rules;
     result.failure_action = profile->failure_action;
 
     std::unordered_set<std::string> rule_ids;
@@ -844,14 +852,14 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
 {
     check_keys(
         json,
-        { "schema_version", "resources", "facts", "modules", "profiles", "task_events" },
-        { "schema_version", "resources", "facts", "modules", "profiles", "task_events" },
+        { "schema_version", "resources", "facts", "modules", "profiles" },
+        { "schema_version", "resources", "facts", "modules", "profiles" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
-    if (schema_version != 3) {
+    if (schema_version != 5) {
         invalid_config("unsupported schema_version: " + std::to_string(schema_version));
     }
-    for (const auto key : { "resources", "facts", "modules", "profiles", "task_events" }) {
+    for (const auto key : { "resources", "facts", "modules", "profiles" }) {
         if (!json.at(key).is_array()) {
             invalid_config(std::string(key) + " must be an array");
         }
@@ -888,30 +896,19 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
     }
 
     std::unordered_map<std::string, blackflow::PolicyProfile> profiles;
-    std::unordered_map<std::string, std::vector<blackflow::PageRoute>> page_routes;
     for (const auto& value : json.at("profiles").as_array()) {
-        std::vector<blackflow::PageRoute> routes;
-        auto profile = parse_profile(value, &routes);
+        auto profile = parse_profile(value);
         const std::string id = profile.id;
         if (!profiles.emplace(id, profile).second) {
             invalid_config("duplicate profile id: " + id);
-        }
-        page_routes.emplace(id, std::move(routes));
-    }
-
-    std::unordered_map<std::string, blackflow::TaskEvent> task_events;
-    for (const auto& value : json.at("task_events").as_array()) {
-        auto event = parse_task_event(value);
-        validate_task_event(event, facts);
-        if (!task_events.emplace(event.task, event).second) {
-            invalid_config("duplicate task event: " + event.task);
         }
     }
     if (resources.empty() || facts.empty() || modules.empty() || profiles.empty()) {
         invalid_config("resources, facts, modules, and profiles must not be empty");
     }
     for (const auto& [id, profile] : profiles) {
-        validate_profile_definition(profile, page_routes.at(id), modules, facts);
+        (void)id;
+        validate_profile_definition(profile, modules, facts);
     }
 
     m_schema_version = schema_version;
@@ -919,8 +916,6 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
     m_facts = std::move(facts);
     m_modules = std::move(modules);
     m_profiles = std::move(profiles);
-    m_page_routes = std::move(page_routes);
-    m_task_events = std::move(task_events);
     return true;
 }
 } // namespace asst

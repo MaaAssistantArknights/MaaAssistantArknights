@@ -45,6 +45,17 @@ Edge normalized_edge(Edge edge) noexcept
     return edge;
 }
 
+bool edge_visible_in_layer(const Edge& edge, GraphLayer layer) noexcept
+{
+    if (edge.knowledge == EdgeKnowledge::Absent) {
+        return false;
+    }
+    if (layer == GraphLayer::Relaxed) {
+        return true;
+    }
+    return edge.knowledge == EdgeKnowledge::Confirmed && !edge.evidence.forced_by_connectivity_constraint;
+}
+
 NodeProgress effective_progress(const Node& node, const RunState& state) noexcept
 {
     const auto found = state.node_progress.find(node.id);
@@ -69,10 +80,11 @@ bool is_targetable(const Node& node, const RunState& state) noexcept
     return progress != NodeProgress::Completed || node.traversal.repeatable;
 }
 
-bool is_walk_transparent(const Node& node, const RunState& state) noexcept
+bool is_walk_transparent(const Node& node, const RunState& state, GraphLayer layer) noexcept
 {
     return !node.traversal.blocks_walk || state.visited_nodes.contains(node.id) ||
-           effective_progress(node, state) == NodeProgress::Completed;
+           effective_progress(node, state) == NodeProgress::Completed ||
+           (layer == GraphLayer::Relaxed && node.identity_state == NodeIdentityState::Unclassified);
 }
 
 int predicted_node_gain(const Node& node, const RunState& state) noexcept
@@ -122,6 +134,10 @@ bool MapSnapshot::upsert_node(Node node)
     const auto expected = make_stable_node_id(node.floor, node.position);
     if (!expected.has_value() || *expected != node.id) {
         return false;
+    }
+    const auto existing = m_nodes.find(node.id);
+    if (existing != m_nodes.end() && existing->second == node) {
+        return true;
     }
     m_nodes.insert_or_assign(node.id, std::move(node));
     ++revision;
@@ -193,12 +209,11 @@ const Edge* MapSnapshot::find_edge(NodeId first, NodeId second) const noexcept
     return iter == m_edges.end() ? nullptr : &*iter;
 }
 
-std::vector<NodeId> MapSnapshot::neighbors(NodeId id, bool include_unknown_edges) const
+std::vector<NodeId> MapSnapshot::neighbors(NodeId id, GraphLayer layer) const
 {
     std::vector<NodeId> result;
     for (const auto& edge : m_edges) {
-        if (edge.knowledge == EdgeKnowledge::Absent ||
-            (edge.knowledge == EdgeKnowledge::Unknown && !include_unknown_edges)) {
+        if (!edge_visible_in_layer(edge, layer)) {
             continue;
         }
         if (edge.first == id) {
@@ -306,6 +321,12 @@ bool MapSnapshot::validate(std::string* error) const
         if (!edge_keys.emplace(edge.first, edge.second).second) {
             if (error != nullptr) {
                 *error = "duplicate edge";
+            }
+            return false;
+        }
+        if (edge.knowledge == EdgeKnowledge::Confirmed && edge.evidence.forced_by_connectivity_constraint) {
+            if (error != nullptr) {
+                *error = "connectivity-constraint edge cannot be confirmed";
             }
             return false;
         }
@@ -775,7 +796,12 @@ bool DynamicCostModel::validate(std::string* error) const
     return true;
 }
 
-bool is_in_geometric_range(const MapSnapshot& map, NodeId source, NodeId target, const MovementSpec& movement)
+bool is_in_geometric_range(
+    const MapSnapshot& map,
+    NodeId source,
+    NodeId target,
+    const MovementSpec& movement,
+    GraphLayer layer)
 {
     if (source == target) {
         return false;
@@ -789,8 +815,10 @@ bool is_in_geometric_range(const MapSnapshot& map, NodeId source, NodeId target,
     const int row_delta = std::abs(target_node->position.row - source_node->position.row);
     const int column_delta = std::abs(target_node->position.column - source_node->position.column);
     switch (movement.range) {
-    case MovementRange::WalkEdges:
-        return map.edge_knowledge(source, target) == EdgeKnowledge::Confirmed;
+    case MovementRange::WalkEdges: {
+        const Edge* edge = map.find_edge(source, target);
+        return edge != nullptr && edge_visible_in_layer(*edge, layer);
+    }
     case MovementRange::OrthogonalTwo:
         return (row_delta == 0 || column_delta == 0) && row_delta + column_delta <= 2;
     case MovementRange::SurroundingEight:
@@ -805,12 +833,14 @@ bool is_in_geometric_range(const MapSnapshot& map, NodeId source, NodeId target,
     return false;
 }
 
-std::vector<NodeId> enumerate_geometric_targets(const MapSnapshot& map, NodeId source, const MovementSpec& movement)
+std::vector<NodeId>
+    enumerate_geometric_targets(const MapSnapshot& map, NodeId source, const MovementSpec& movement, GraphLayer layer)
 {
     const RunState empty_state;
     std::vector<NodeId> result;
     for (const auto& [id, node] : map.nodes()) {
-        if (id != source && is_targetable(node, empty_state) && is_in_geometric_range(map, source, id, movement)) {
+        if (id != source && is_targetable(node, empty_state) &&
+            is_in_geometric_range(map, source, id, movement, layer)) {
             result.emplace_back(id);
         }
     }
@@ -827,7 +857,7 @@ NodeId resolve_landing(const MapSnapshot& map, NodeId target) noexcept
     return map.has_valid_transfer_pair(target) ? *node->transfer_target : InvalidNodeId;
 }
 
-std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const RunState& state)
+std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const RunState& state, GraphLayer layer)
 {
     std::vector<MoveAction> result;
     if (state.resources.action_points < 1 || map.find_node(state.current_node) == nullptr) {
@@ -850,7 +880,7 @@ std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const Run
         while (!queue.empty()) {
             WalkFrontier current = std::move(queue.front());
             queue.pop_front();
-            for (const NodeId neighbor : map.neighbors(current.node, false)) {
+            for (const NodeId neighbor : map.neighbors(current.node, layer)) {
                 if (std::ranges::find(current.path, neighbor) != current.path.end() || neighbor == state.current_node) {
                     continue;
                 }
@@ -868,14 +898,26 @@ std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const Run
                     action.candidate.source = state.current_node;
                     action.candidate.target = neighbor;
                     action.candidate.landing = resolve_landing(map, neighbor);
+                    action.candidate.graph_layer = layer;
                     if (action.candidate.landing != InvalidNodeId) {
                         action.candidate.path = path;
                         NodeId previous = state.current_node;
                         for (const NodeId step : path) {
                             const Edge* path_edge = map.find_edge(previous, step);
-                            action.candidate.uses_inferred_edge =
-                                action.candidate.uses_inferred_edge ||
-                                (path_edge != nullptr && path_edge->evidence.forced_by_connectivity_constraint);
+                            if (path_edge != nullptr) {
+                                action.candidate.uses_unconfirmed_edge =
+                                    action.candidate.uses_unconfirmed_edge ||
+                                    path_edge->knowledge != EdgeKnowledge::Confirmed ||
+                                    path_edge->evidence.forced_by_connectivity_constraint;
+                                action.candidate.uses_inferred_edge =
+                                    action.candidate.uses_inferred_edge ||
+                                    path_edge->evidence.forced_by_connectivity_constraint;
+                            }
+                            const Node* path_node = map.find_node(step);
+                            if (!action.candidate.first_unclassified.has_value() && path_node != nullptr &&
+                                path_node->identity_state == NodeIdentityState::Unclassified) {
+                                action.candidate.first_unclassified = step;
+                            }
                             previous = step;
                         }
                         action.candidate.predicted_action_point_cost = state.costs.action_cost(
@@ -898,7 +940,7 @@ std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const Run
                         }
                     }
                 }
-                if (is_walk_transparent(*node, state) && expanded.emplace(neighbor).second) {
+                if (is_walk_transparent(*node, state, layer) && expanded.emplace(neighbor).second) {
                     queue.push_back({ neighbor, std::move(path) });
                 }
             }
@@ -922,7 +964,7 @@ std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const Run
                                         ? effective_progress(node, state) != NodeProgress::Removed
                                         : is_targetable(node, state);
             if (id == state.current_node || !targetable || !node_type_allowed(movement, target_type) ||
-                !is_in_geometric_range(map, state.current_node, id, movement)) {
+                !is_in_geometric_range(map, state.current_node, id, movement, GraphLayer::Confirmed)) {
                 continue;
             }
             targets.emplace_back(id);
@@ -1027,6 +1069,13 @@ std::optional<MoveTransaction> MoveTransaction::propose(
         return std::nullopt;
     }
     MoveTransaction transaction;
+    transaction.m_source_floor = map.find_node(proposal.source)->floor;
+    if (proposal.controllable) {
+        const NodeId destination = proposal.landing == InvalidNodeId ? proposal.target : proposal.landing;
+        if (const Node* target = map.find_node(destination); target != nullptr) {
+            transaction.m_target_type = target->type;
+        }
+    }
     transaction.m_proposal = std::move(proposal);
     transaction.m_map_revision = map.revision;
     transaction.m_viewport_revision = viewport.viewport_revision();
@@ -1048,7 +1097,7 @@ bool MoveTransaction::record_preview(MovePreview preview, std::string* error)
         return false;
     }
     m_preview = std::move(preview);
-    if (m_preview->reachability == PreviewReachability::Unreachable) {
+    if (m_preview->reachability != PreviewReachability::Reachable) {
         m_stage = MoveTransactionStage::Cancelled;
         return true;
     }
@@ -1079,15 +1128,35 @@ bool MoveTransaction::commit(
     return true;
 }
 
+bool MoveTransaction::mark_page_resolved(std::string* error)
+{
+    if (m_stage == MoveTransactionStage::PageResolved) {
+        return true;
+    }
+    if (m_stage != MoveTransactionStage::Committed) {
+        if (error != nullptr) {
+            *error = "node page can only resolve a committed transaction";
+        }
+        return false;
+    }
+    m_stage = MoveTransactionStage::PageResolved;
+    return true;
+}
+
 bool MoveTransaction::observe(MoveObservation observation, std::string* error)
 {
+    const bool returned_to_same_floor = observation.floor == m_source_floor;
     const bool landing_matches = m_proposal.controllable
                                      ? observation.current_node == m_proposal.landing
                                      : std::ranges::find(m_proposal.possible_landings, observation.current_node) !=
                                            m_proposal.possible_landings.end();
-    if (m_stage != MoveTransactionStage::Committed || observation.map_revision <= m_map_revision || !landing_matches) {
+    const bool advanced_after_final = observation.floor == m_source_floor + 1 && m_target_type == NodeType::Final;
+    const bool stage_accepts_observation =
+        m_stage == MoveTransactionStage::Committed || m_stage == MoveTransactionStage::PageResolved;
+    if (!stage_accepts_observation || observation.viewport_revision <= m_viewport_revision ||
+        !((returned_to_same_floor && landing_matches) || advanced_after_final)) {
         if (error != nullptr) {
-            *error = "post-commit observation does not confirm the proposed landing";
+            *error = "next map observation does not match the committed move";
         }
         return false;
     }
@@ -1105,6 +1174,7 @@ int MoveTransaction::authoritative_cost() const noexcept
 
 bool MoveTransaction::apply(RunState& state, std::string* error)
 {
+    const RunResources resources_before = state.resources;
     if (m_stage != MoveTransactionStage::Observed || !m_observation.has_value() ||
         state.current_node != m_proposal.source || state.resources.action_points < 1) {
         if (error != nullptr) {
@@ -1138,7 +1208,8 @@ bool MoveTransaction::apply(RunState& state, std::string* error)
         action_point_gain = gain->second;
     }
     const int expected_action_points = action_points_after(state.resources.action_points, cost, action_point_gain);
-    if (m_observation->action_points != expected_action_points) {
+    const bool floor_advanced = m_observation->floor > m_source_floor;
+    if (!floor_advanced && m_observation->action_points != expected_action_points) {
         if (error != nullptr) {
             *error = "observed action points do not match authoritative move accounting";
         }
@@ -1163,6 +1234,9 @@ bool MoveTransaction::apply(RunState& state, std::string* error)
     const bool processing_move = m_proposal.movement != MovementKind::Walk;
     if (processing_move && is_combat_node_type(m_observation->landed_type) && state.resources.white_model_birds > 0) {
         --state.resources.white_model_birds;
+    }
+    if (state.resources != resources_before) {
+        ++state.resources_revision;
     }
     m_stage = MoveTransactionStage::Applied;
     return true;

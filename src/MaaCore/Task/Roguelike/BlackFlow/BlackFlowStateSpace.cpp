@@ -115,6 +115,71 @@ int action_gain(const MapSnapshot& map, const PlannerState& source, const MoveAc
 }
 } // namespace
 
+std::optional<ProjectedMoveOutcome> project_move_outcome(
+    const MapSnapshot& map,
+    const RunState& run,
+    const MoveCandidate& move,
+    int exact_action_point_cost,
+    std::string* error)
+{
+    const Node* target = map.find_node(move.target);
+    const Node* landing = map.find_node(move.landing);
+    if (!move.controllable || move.source != run.current_node || target == nullptr || landing == nullptr ||
+        target->floor != run.floor || landing->floor != run.floor || run.resources.action_points < 1 ||
+        exact_action_point_cost < 0 || exact_action_point_cost > run.resources.action_points) {
+        if (error != nullptr) {
+            *error = "previewed move cannot be projected from the current run state";
+        }
+        return std::nullopt;
+    }
+
+    const MovementSpec* movement = find_movement_spec(move.movement);
+    if (movement == nullptr) {
+        if (error != nullptr) {
+            *error = "previewed move references an unknown movement";
+        }
+        return std::nullopt;
+    }
+
+    ProjectedMoveOutcome outcome;
+    outcome.run = run;
+    outcome.action_point_gain = move.predicted_action_point_gain;
+    outcome.run.current_node = move.landing;
+    outcome.run.resources.action_points =
+        action_points_after(run.resources.action_points, exact_action_point_cost, outcome.action_point_gain);
+    outcome.run.resources.hope += movement->effect.hope_gain;
+    outcome.run.resources.ingots += movement->effect.ingot_gain;
+
+    if (move.movement != MovementKind::Walk) {
+        auto charge = outcome.run.resources.movement_charges.find(move.movement);
+        if (charge == outcome.run.resources.movement_charges.end() || charge->second <= 0) {
+            if (error != nullptr) {
+                *error = "previewed move has no remaining movement charge";
+            }
+            return std::nullopt;
+        }
+        --charge->second;
+    }
+
+    outcome.run.visited_nodes.emplace(move.target);
+    if (!target->traversal.repeatable && target->type != NodeType::Empty) {
+        outcome.run.node_progress.insert_or_assign(move.target, NodeProgress::Completed);
+    }
+    if (target->type == NodeType::Light && !outcome.run.consumed_one_time_nodes.contains(move.target)) {
+        outcome.run.consumed_one_time_nodes.emplace(move.target);
+        const auto revealed = map.nodes_within_manhattan(move.target, 2);
+        outcome.run.revealed_nodes.insert(revealed.begin(), revealed.end());
+    }
+    if (move.movement != MovementKind::Walk && is_combat_node_type(target->type) &&
+        outcome.run.resources.white_model_birds > 0) {
+        --outcome.run.resources.white_model_birds;
+    }
+    if (outcome.run.resources != run.resources) {
+        ++outcome.run.resources_revision;
+    }
+    return outcome;
+}
+
 std::size_t PlannerStateHash::operator()(const PlannerState& state) const noexcept
 {
     std::size_t seed = std::hash<NodeId> {}(state.node);
@@ -255,7 +320,7 @@ std::optional<ExpandedSafetyProblem> BlackFlowStateExpander::build(
         }
 
         const RunState materialized = materialize_run_state(run, source);
-        const auto actions = enumerate_move_actions(map, materialized);
+        const auto actions = enumerate_move_actions(map, materialized, options.graph_layer);
         for (const auto& move : actions) {
             if (options.forbidden_action_ids.contains(move.candidate.action_id)) {
                 continue;

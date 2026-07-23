@@ -167,8 +167,7 @@ std::vector<RouteMilestone>
         const MilestoneStatus status = mission.status(milestone.id);
         if (floor < milestone.floor_begin || floor > milestone.floor_end || status == MilestoneStatus::Satisfied ||
             status == MilestoneStatus::Missed || status == MilestoneStatus::Impossible ||
-            !milestone.active_if.evaluate(facts) ||
-            (milestone.target_node_types.empty() && milestone.target_node_names.empty())) {
+            !milestone.active_if.evaluate(facts) || milestone.selector.empty()) {
             continue;
         }
         result.emplace_back(RouteMilestone { &milestone, mission.progress(milestone.id) });
@@ -201,31 +200,28 @@ bool simulated_prerequisites_satisfied(
 
 using CountedNodes = std::vector<std::vector<NodeId>>;
 
-void advance_milestones(
-    NodeId node,
-    NodeType type,
-    std::string_view name,
+std::vector<std::string> advance_milestones(
+    const Node& node,
     const std::vector<RouteMilestone>& milestones,
     const MissionState& mission,
     std::vector<int>& progress,
     CountedNodes& counted)
 {
+    std::vector<std::string> advanced;
     const std::vector<int> before = progress;
     for (std::size_t index = 0; index < milestones.size(); ++index) {
         const Milestone& milestone = *milestones[index].definition;
-        const bool type_matches =
-            std::ranges::find(milestone.target_node_types, type) != milestone.target_node_types.end();
-        const bool name_matches =
-            std::ranges::find(milestone.target_node_names, name) != milestone.target_node_names.end();
-        if (before[index] >= milestone.required_count || (!type_matches && !name_matches) ||
-            std::ranges::find(counted[index], node) != counted[index].end() ||
+        if (before[index] >= milestone.required_count || !milestone_matches_node(milestone, node) ||
+            std::ranges::find(counted[index], node.id) != counted[index].end() ||
             !simulated_prerequisites_satisfied(milestone, milestones, before, mission)) {
             continue;
         }
-        counted[index].emplace_back(node);
+        counted[index].emplace_back(node.id);
         std::ranges::sort(counted[index]);
         progress[index] = std::min(milestone.required_count, before[index] + 1);
+        advanced.emplace_back(milestone.id);
     }
+    return advanced;
 }
 
 std::vector<int>
@@ -303,6 +299,7 @@ struct RouteLabel
     std::vector<int> progress;
     CountedNodes counted;
     RouteMetric metric;
+    std::vector<std::string> immediate_milestone_ids;
     std::vector<NodeId> route;
     std::vector<PlannedRouteStep> steps;
 };
@@ -380,15 +377,13 @@ RouteLabel best_route_after_outcome(
         entered_node = expanded.planner_states[root_outcome.successor].node;
     }
     if (const Node* target = map.find_node(entered_node); target != nullptr) {
-        const NodeType entered_type = route_node_type(map, expanded, expanded.initial_state, target->id);
-        advance_milestones(
-            target->id,
-            entered_type,
-            entered_type == NodeType::Empty ? std::string_view {} : std::string_view { target->name },
-            milestones,
-            mission,
-            initial.progress,
-            initial.counted);
+        Node entered = *target;
+        entered.type = route_node_type(map, expanded, expanded.initial_state, target->id);
+        if (entered.type == NodeType::Empty) {
+            entered.name.clear();
+        }
+        initial.immediate_milestone_ids =
+            advance_milestones(entered, milestones, mission, initial.progress, initial.counted);
         initial.route.emplace_back(target->id);
     }
 
@@ -441,15 +436,12 @@ RouteLabel best_route_after_outcome(
                     remaining,
                 });
             if (const Node* target = map.find_node(move->second.target); target != nullptr) {
-                const NodeType entered_type = route_node_type(map, expanded, action->source, target->id);
-                advance_milestones(
-                    target->id,
-                    entered_type,
-                    entered_type == NodeType::Empty ? std::string_view {} : std::string_view { target->name },
-                    milestones,
-                    mission,
-                    next.progress,
-                    next.counted);
+                Node entered = *target;
+                entered.type = route_node_type(map, expanded, action->source, target->id);
+                if (entered.type == NodeType::Empty) {
+                    entered.name.clear();
+                }
+                (void)advance_milestones(entered, milestones, mission, next.progress, next.counted);
                 next.route.emplace_back(target->id);
             }
             auto& existing = labels[next.state];
@@ -540,6 +532,51 @@ FactStore BlackFlowPlanner::candidate_facts(
     return facts;
 }
 
+PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
+    const BlackFlowPlanRequest& request,
+    const MoveCandidate& move,
+    int exact_action_point_cost) const
+{
+    PreviewSafetyVerification result;
+    if (request.map == nullptr || request.run == nullptr) {
+        result.error = "preview safety request is incomplete";
+        return result;
+    }
+
+    auto projected = project_move_outcome(*request.map, *request.run, move, exact_action_point_cost, &result.error);
+    if (!projected.has_value()) {
+        return result;
+    }
+    result.action_points_after = projected->run.resources.action_points;
+
+    StateExpansionOptions options;
+    options.strategy_terminal_nodes = request.strategy_terminal_nodes;
+    options.graph_layer = GraphLayer::Confirmed;
+    options.maximum_states = request.maximum_states;
+    if (request.forbidden_actions != nullptr) {
+        options.forbidden_action_ids = *request.forbidden_actions;
+    }
+
+    std::string error;
+    BlackFlowStateExpander expander;
+    auto expanded = expander.build(*request.map, projected->run, options, &error);
+    if (!expanded.has_value()) {
+        result.error = "confirmed successor expansion failed: " + error;
+        return result;
+    }
+    SafetyPlanner safety_planner;
+    auto assessment = safety_planner.assess(expanded->problem, expanded->initial_state, &error);
+    if (!assessment.has_value()) {
+        result.error = "confirmed successor safety calculation failed: " + error;
+        return result;
+    }
+
+    result.required_action_points_after = assessment->required_action_points;
+    result.proof_depth = assessment->proof_depth;
+    result.safe = assessment->solution.certifies(expanded->initial_state, projected->run.resources.action_points);
+    return result;
+}
+
 BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
 {
     BlackFlowPlan result;
@@ -555,32 +592,58 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         return result;
     }
 
-    StateExpansionOptions options;
-    options.strategy_terminal_nodes = request.strategy_terminal_nodes;
+    StateExpansionOptions confirmed_options;
+    confirmed_options.strategy_terminal_nodes = request.strategy_terminal_nodes;
+    confirmed_options.graph_layer = GraphLayer::Confirmed;
     if (request.forbidden_actions != nullptr) {
-        options.forbidden_action_ids = *request.forbidden_actions;
+        confirmed_options.forbidden_action_ids = *request.forbidden_actions;
     }
-    options.maximum_states = request.maximum_states;
+    confirmed_options.maximum_states = request.maximum_states;
 
     BlackFlowStateExpander expander;
+    SafetyPlanner safety_planner;
     std::string error;
-    auto expanded = expander.build(*request.map, *request.run, options, &error);
-    if (!expanded.has_value()) {
-        result.error = "state expansion failed: " + error;
+    auto confirmed_expanded = expander.build(*request.map, *request.run, confirmed_options, &error);
+    if (!confirmed_expanded.has_value()) {
+        result.error = "confirmed state expansion failed: " + error;
         return result;
+    }
+    auto confirmed_assessment =
+        safety_planner.assess(confirmed_expanded->problem, confirmed_expanded->initial_state, &error);
+    if (!confirmed_assessment.has_value()) {
+        result.error = "confirmed safety calculation failed: " + error;
+        return result;
+    }
+    result.safety = std::move(*confirmed_assessment);
+    if (result.safety.first_action.has_value()) {
+        const auto action = confirmed_expanded->action_candidates.find(*result.safety.first_action);
+        if (action != confirmed_expanded->action_candidates.end()) {
+            result.escape_first_action = action->second;
+        }
     }
 
-    SafetyPlanner safety_planner;
-    auto assessment = safety_planner.assess(expanded->problem, expanded->initial_state, &error);
-    if (!assessment.has_value()) {
-        result.error = "safety calculation failed: " + error;
+    StateExpansionOptions relaxed_options = confirmed_options;
+    relaxed_options.graph_layer = GraphLayer::Relaxed;
+    auto expanded = expander.build(*request.map, *request.run, relaxed_options, &error);
+    if (!expanded.has_value()) {
+        result.error = "relaxed state expansion failed: " + error;
         return result;
     }
-    result.safety = std::move(*assessment);
-    if (result.safety.first_action.has_value()) {
-        const auto action = expanded->action_candidates.find(*result.safety.first_action);
-        if (action != expanded->action_candidates.end()) {
-            result.escape_first_action = action->second;
+    auto relaxed_assessment = safety_planner.assess(expanded->problem, expanded->initial_state, &error);
+    if (!relaxed_assessment.has_value()) {
+        result.error = "relaxed safety calculation failed: " + error;
+        return result;
+    }
+    result.relaxed_safety = std::move(*relaxed_assessment);
+
+    std::unordered_map<std::string, const SafetyAction*> confirmed_root_actions;
+    for (const SafetyAction& action : confirmed_expanded->problem.actions) {
+        if (action.source != confirmed_expanded->initial_state) {
+            continue;
+        }
+        const auto move = confirmed_expanded->action_candidates.find(action.id);
+        if (move != confirmed_expanded->action_candidates.end()) {
+            confirmed_root_actions.insert_or_assign(move->second.action_id, &action);
         }
     }
 
@@ -596,14 +659,32 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         }
         PolicyCandidate candidate;
         candidate.move = move->second;
-        candidate.move.action_point_requirement = action_requirement(action, result.safety.solution);
-        candidate.safe = request.run->resources.action_points >= candidate.move.action_point_requirement;
+        const int relaxed_requirement = action_requirement(action, result.relaxed_safety.solution);
+        candidate.move.action_point_requirement = relaxed_requirement;
+        const bool relaxed_safe = request.run->resources.action_points >= relaxed_requirement;
+        bool confirmed_safe = false;
+        if (const auto confirmed = confirmed_root_actions.find(candidate.move.action_id);
+            confirmed != confirmed_root_actions.end()) {
+            const int confirmed_requirement = action_requirement(*confirmed->second, result.safety.solution);
+            if (request.run->resources.action_points >= confirmed_requirement) {
+                const auto confirmed_move = confirmed_expanded->action_candidates.find(confirmed->second->id);
+                if (confirmed_move != confirmed_expanded->action_candidates.end()) {
+                    candidate.move = confirmed_move->second;
+                    candidate.move.action_point_requirement = confirmed_requirement;
+                    confirmed_safe = true;
+                }
+            }
+        }
+        candidate.safe = confirmed_safe || (relaxed_safe && candidate.move.controllable);
+        const bool probing_target = request.probe_target.has_value() && candidate.move.target == *request.probe_target;
+        candidate.move.requires_preview_verification = candidate.safe && (!confirmed_safe || probing_target);
         candidate.facts = candidate_facts(
             *request.map,
             *expanded,
-            result.safety.solution,
+            result.relaxed_safety.solution,
             action,
             request.run->resources.action_points);
+        candidate.facts.set("candidate.preview_required", candidate.move.requires_preview_verification);
         const Node* target = request.map->find_node(candidate.move.target);
         candidate.battle_count = target != nullptr && is_combat_node_type(target->type) ? 1 : 0;
         candidate.estimated_duration = candidate.move.movement == MovementKind::Walk
@@ -626,7 +707,7 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
             RouteLabel route = best_route_after_outcome(
                 *request.map,
                 *expanded,
-                result.safety.solution,
+                result.relaxed_safety.solution,
                 milestones,
                 *request.mission,
                 candidate.move,
@@ -636,6 +717,7 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
                 remaining);
             if (first_outcome) {
                 guaranteed_progress = route.progress;
+                candidate.immediate_milestone_ids = route.immediate_milestone_ids;
                 candidate.planned_route = route.route;
                 candidate.planned_route_steps = route.steps;
                 worst_metric = route.metric;
@@ -645,6 +727,9 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
                 for (std::size_t index = 0; index < guaranteed_progress.size(); ++index) {
                     guaranteed_progress[index] = std::min(guaranteed_progress[index], route.progress[index]);
                 }
+                std::erase_if(candidate.immediate_milestone_ids, [&](const std::string& id) {
+                    return std::ranges::find(route.immediate_milestone_ids, id) == route.immediate_milestone_ids.end();
+                });
                 worst_metric.battles = std::max(worst_metric.battles, route.metric.battles);
                 worst_metric.processing_moves = std::max(worst_metric.processing_moves, route.metric.processing_moves);
                 worst_metric.duration = std::max(worst_metric.duration, route.metric.duration);
@@ -695,8 +780,25 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
 
     ResourceRegistry resources;
     PolicyExecutor executor;
-    result.decision =
-        executor.choose(*request.policy, policy_facts, *request.mission, *request.run, resources, policy_candidates);
+    if (request.probe_target.has_value()) {
+        std::vector<PolicyCandidate> probe_candidates;
+        std::ranges::copy_if(
+            policy_candidates,
+            std::back_inserter(probe_candidates),
+            [&](const PolicyCandidate& candidate) {
+                return candidate.safe && candidate.move.target == *request.probe_target;
+            });
+        if (!probe_candidates.empty()) {
+            result.decision =
+                executor
+                    .choose(*request.policy, policy_facts, *request.mission, *request.run, resources, probe_candidates);
+        }
+    }
+    if (!result.decision.selected.has_value()) {
+        result.decision =
+            executor
+                .choose(*request.policy, policy_facts, *request.mission, *request.run, resources, policy_candidates);
+    }
     if (!result.decision.selected.has_value()) {
         result.error = result.decision.reason;
     }

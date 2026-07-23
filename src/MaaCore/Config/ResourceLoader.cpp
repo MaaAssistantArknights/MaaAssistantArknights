@@ -16,6 +16,7 @@
 #include "Miscellaneous/StageDropsConfig.h"
 #include "Miscellaneous/TilePack.h"
 #include "OnnxSessions.h"
+#include "Roguelike/BlackFlow/BlackFlowNodeExecutionConfig.h"
 #include "Roguelike/BlackFlow/BlackFlowStrategyConfig.h"
 #include "Roguelike/JieGarden/RoguelikeCoppersConfig.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
@@ -259,6 +260,11 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     if (!load_with_custom.template operator()<BlackFlowStrategyConfig>(
             roguelike_path("BlackFlow", "strategy.json"_p),
             "BlackFlowStrategyConfig")) {
+        return false;
+    }
+    if (!load_with_custom.template operator()<BlackFlowNodeExecutionConfig>(
+            roguelike_path("BlackFlow", "node_execution.json"_p),
+            "BlackFlowNodeExecutionConfig")) {
         return false;
     }
     // ==================== 主题专属插件配置 ====================

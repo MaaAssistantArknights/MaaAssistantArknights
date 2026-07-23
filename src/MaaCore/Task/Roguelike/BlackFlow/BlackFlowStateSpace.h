@@ -37,6 +37,7 @@ struct StateExpansionOptions
 {
     std::unordered_set<NodeId> strategy_terminal_nodes;
     std::unordered_set<std::string> forbidden_action_ids;
+    GraphLayer graph_layer = GraphLayer::Confirmed;
     bool final_is_terminal = true;
     std::size_t maximum_states = 200000;
 };
@@ -48,6 +49,19 @@ struct ExpandedSafetyProblem
     std::vector<PlannerState> planner_states;
     std::unordered_map<std::string, MoveCandidate> action_candidates;
 };
+
+struct ProjectedMoveOutcome
+{
+    RunState run;
+    int action_point_gain = 0;
+};
+
+[[nodiscard]] std::optional<ProjectedMoveOutcome> project_move_outcome(
+    const MapSnapshot& map,
+    const RunState& run,
+    const MoveCandidate& move,
+    int exact_action_point_cost,
+    std::string* error = nullptr);
 
 class BlackFlowStateExpander
 {

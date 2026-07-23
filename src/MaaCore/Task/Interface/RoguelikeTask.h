@@ -15,6 +15,7 @@ class RoguelikeFoldartalUseTaskPlugin;
 namespace blackflow
 {
 class BlackFlowSession;
+class IBlackFlowTaskPort;
 }
 
 class RoguelikeTask : public InterfaceTask
@@ -37,5 +38,6 @@ private:
     std::shared_ptr<RoguelikeFoldartalStartTaskPlugin> m_foldartal_start_ptr = nullptr;
     std::shared_ptr<RoguelikeFoldartalUseTaskPlugin> m_foldartal_use_ptr = nullptr;
     std::shared_ptr<blackflow::BlackFlowSession> m_blackflow_session_ptr = nullptr;
+    std::shared_ptr<blackflow::IBlackFlowTaskPort> m_blackflow_port_ptr = nullptr;
 };
 }

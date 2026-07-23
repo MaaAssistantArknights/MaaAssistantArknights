@@ -1,0 +1,369 @@
+{
+    "schema_version": 2,
+    "routes": [
+        {
+            "id": "default_node_page",
+            "page_intent": "default",
+            "rank": 100,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Default"
+        },
+        {
+            "id": "floor1_investment_shop",
+            "page_intent": "shop.invest",
+            "floor_window": [1, 1],
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Investment"
+        },
+        {
+            "id": "seed_priority_shop",
+            "page_intent": "shop.seed_priority",
+            "floor_window": [1, 2],
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-SeedPriority"
+        },
+        {
+            "id": "floor3_seed_priority_shop",
+            "page_intent": "shop.seed_priority_floor3",
+            "floor_window": [3, 3],
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-SeedPriorityFloor3"
+        },
+        {
+            "id": "cultivate_scrap_shop",
+            "page_intent": "scrap_shop.cultivate",
+            "floor_window": [2, 3],
+            "node_types": ["scrap_shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Cultivate"
+        },
+        {
+            "id": "ending2_sandtable_a",
+            "page_intent": "incident.ending2_sandtable_a",
+            "floor_window": [1, 4],
+            "node_types": ["incident", "hide_invisible"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Ending2SandtableA"
+        },
+        {
+            "id": "ending2_sandtable_b",
+            "page_intent": "shop.ending2_sandtable_b",
+            "floor_window": [1, 4],
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Ending2SandtableB"
+        },
+        {
+            "id": "ending3_expedition_option2",
+            "page_intent": "expedition.ending3_option2",
+            "floor_window": [1, 4],
+            "node_types": ["expedition"],
+            "event_names": ["先行一步"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Ending3Option2"
+        },
+        {
+            "id": "ending3_expedition_entry",
+            "page_intent": "expedition.ending3_option2",
+            "floor_window": [1, 4],
+            "node_types": ["expedition", "hide_invisible"],
+            "rank": 10,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Ending3Option2"
+        },
+        {
+            "id": "floor1_portal_entry",
+            "page_intent": "portal.enter",
+            "floor_window": [1, 1],
+            "node_types": ["portal"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-PortalFloor1"
+        },
+        {
+            "id": "floor2_portal_entry",
+            "page_intent": "portal.enter",
+            "floor_window": [2, 2],
+            "node_types": ["portal"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-PortalFloor2"
+        },
+        {
+            "id": "floor3_portal_entry",
+            "page_intent": "portal.enter",
+            "floor_window": [3, 3],
+            "node_types": ["portal"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-PortalFloor3"
+        }
+    ],
+    "task_results": [
+        {
+            "task": "BlackFlow@Roguelike@Event-InvestmentCompleted",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "investment_completed",
+                    "value": true
+                },
+                {
+                    "kind": "set",
+                    "fact": "strategy_result_code",
+                    "value": "investment_completed"
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-BurnCompleted",
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "burn_completed",
+                    "value": true
+                },
+                {
+                    "kind": "set",
+                    "fact": "strategy_result_code",
+                    "value": "burn_completed"
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@CultivationResult",
+            "signals": [
+                {
+                    "kind": "capture_integer",
+                    "fact": "cultivated_animals",
+                    "source": "details.result.text",
+                    "minimum": 0,
+                    "maximum": 3
+                }
+            ],
+            "result_kind": "intermediate"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-BabyCultivationCompleted",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "cultivation_completed",
+                    "value": true
+                },
+                {
+                    "kind": "set",
+                    "fact": "strategy_result_code",
+                    "value": "baby_cultivation_completed"
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-BabyNoSeed",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "shop_seed_checked",
+                    "value": true
+                },
+                {
+                    "kind": "set",
+                    "fact": "baby_no_seed",
+                    "value": true
+                },
+                {
+                    "kind": "set",
+                    "fact": "strategy_result_code",
+                    "value": "baby_no_seed"
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-BurnShopDone",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "burn_shop_done",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-BabySeedFound",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "shop_seed_checked",
+                    "value": true
+                },
+                {
+                    "kind": "set",
+                    "fact": "shop_seed_found",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-BasicE2Team",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "basic_e2_team",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-SandtableA",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "sandtable_a",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-SandtableB",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "sandtable_b",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-Ending2Completed",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "ending2_completed",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-Ending3Device",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "ending3_device",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-Ending3Relic",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "add",
+                    "fact": "ending3_relic_count",
+                    "value": 1
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-Floor5BossCompleted",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "floor5_boss_completed",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-Ending3Completed",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "ending3_completed",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        }
+    ]
+}

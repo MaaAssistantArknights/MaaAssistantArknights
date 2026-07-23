@@ -1323,6 +1323,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowWarningPageRecoveryFailed">ノード画面からマップに戻れません</system:String>
     <system:String x:Key="BlackFlowWarningPreviewCostChanged">プレビューの行動力消費が変化したため再計画します</system:String>
     <system:String x:Key="BlackFlowWarningTargetUnreachable">目標に到達できないため未知ノードを調査して再計画します</system:String>
+    <system:String x:Key="BlackFlowWarningRouteBlocked">経路が遮断されています。</system:String>
+    <system:String x:Key="BlackFlowWarningInsufficientActionPoints">行動力が不足しています。</system:String>
+    <system:String x:Key="BlackFlowWarningTargetStateChanged">目標の状態が変化しました。</system:String>
     <system:String x:Key="BlackFlowWarningInferredEdge">低信頼の接続を使用します</system:String>
     <system:String x:Key="BlackFlowWarningPostMoveMismatch">移動後のノードまたは行動力が一致しません</system:String>
     <system:String x:Key="BlackFlowWarningFloorMismatch">状態機械の階層と画面の階層が一致しません</system:String>

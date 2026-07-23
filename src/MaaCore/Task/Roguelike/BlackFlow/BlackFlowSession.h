@@ -1,13 +1,14 @@
 #pragma once
 
+#include <cstdint>
 #include <memory>
 #include <optional>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
+#include "BlackFlowNodeExecutionTypes.h"
 #include "Config/Roguelike/BlackFlow/BlackFlowStrategyConfig.h"
-#include "Task/Roguelike/AbstractRoguelikeTaskPlugin.h"
 
 #include "BlackFlowTaskPort.h"
 
@@ -25,7 +26,46 @@ struct BlackFlowStrategyResult
     [[nodiscard]] json::object to_json() const;
 };
 
-class BlackFlowSession;
+enum class PageExecutionStage
+{
+    None,
+    PendingDispatch,
+    Running,
+    Recovering,
+    Resolved,
+};
+
+struct VerifiedMoveArc
+{
+    std::string action_id;
+    NodeId source = InvalidNodeId;
+    NodeId target = InvalidNodeId;
+    NodeId landing = InvalidNodeId;
+    MovementKind movement = MovementKind::Walk;
+    int exact_action_point_cost = 0;
+    int required_action_points_after = UnreachableActionPointRequirement;
+    std::optional<std::size_t> proof_depth;
+    std::uint64_t map_revision = 0;
+    std::uint64_t cost_revision = 0;
+    std::uint64_t resources_revision = 0;
+    std::uint64_t viewport_revision = 0;
+};
+
+struct PageExecutionContext
+{
+    std::uint64_t run_revision = 0;
+    std::uint64_t page_revision = 0;
+    std::string decision_id;
+    std::string transaction_id;
+    int floor = 0;
+    NodeId node = InvalidNodeId;
+    NodeType node_type = NodeType::Unknown;
+    std::string node_name;
+    std::string page_intent = "default";
+    PageExecutionStage stage = PageExecutionStage::None;
+    std::optional<NodeStateUpdate> result;
+    bool resolution_reported = false;
+};
 
 class BlackFlowSession
 {
@@ -39,16 +79,22 @@ public:
     bool begin_transaction(const MoveCandidate& candidate, std::string* error = nullptr);
     PreviewDisposition accept_preview(MovePreview preview, std::string* error = nullptr);
     bool commit(std::string* error = nullptr);
-    bool apply_post_move(const BlackFlowPostMoveSnapshot& snapshot, std::string* error = nullptr);
-    bool bind_page_route(std::string* error = nullptr);
-    bool apply_task_event(const json::value& callback_details, std::string* error = nullptr);
-    void discard_applied_transaction() noexcept;
+    void cancel_transaction();
+    [[nodiscard]] int expected_observation_floor() const noexcept;
+    bool mark_page_running(std::string* error = nullptr);
+    bool mark_page_recovery(std::string* error = nullptr);
+    bool apply_node_task_result(
+        const NodeTaskResult& result,
+        const json::value& callback_details,
+        std::string* error = nullptr);
 
     void fail(std::string outcome, std::string reason);
 
     [[nodiscard]] const std::optional<BlackFlowStrategyResult>& result() const noexcept { return m_result; }
 
     [[nodiscard]] bool terminated() const noexcept { return m_result.has_value(); }
+
+    bool claim_result_report() noexcept;
 
     [[nodiscard]] const ViewportObservation& viewport() const noexcept { return m_viewport; }
 
@@ -60,6 +106,8 @@ public:
 
     [[nodiscard]] const std::string& profile() const noexcept { return m_profile; }
 
+    [[nodiscard]] const std::optional<PageExecutionContext>& page_context() const noexcept { return m_page_context; }
+
     [[nodiscard]] std::vector<BlackFlowTelemetryEvent> take_telemetry_events();
     [[nodiscard]] std::vector<DiagnosticArtifactRequest> take_diagnostic_requests();
 
@@ -69,23 +117,27 @@ public:
     }
 
 private:
+    bool update_in_place(const BlackFlowPerceptionSnapshot& snapshot, std::string* error);
     bool synchronize_resource_facts(std::string* error);
     void refresh_mission();
+    void evaluate_terminal_rules();
     bool apply_run_observation(const RunObservation& observation, std::string* error);
     bool merge_perception(
         const BlackFlowMapObservation& observation,
         const RunObservation& run,
         const FactStore& observed_facts,
-        bool post_move,
+        bool reconcile_move,
         std::string* error);
+    bool reconcile_committed_move(const BlackFlowPerceptionSnapshot& snapshot, std::string* error);
+    void finalize_entered_node(const PageExecutionContext& context, bool page_completed);
     void queue_map_summary(const PerceptionSummary& summary);
     void queue_warning(std::string code, std::string message, DiagnosticTrigger trigger);
     void queue_decision();
-    bool queue_node_resolution(const json::value& details, std::string* error);
+    void queue_node_resolution(const PageExecutionContext& context);
     void request_diagnostics(DiagnosticTrigger trigger, json::object snapshot = {});
     bool apply_observed_facts(const FactStore& facts, std::string* error);
     bool set_fact(std::string_view name, FactValue value, std::string* error);
-    bool apply_event_effect(const TaskEventEffect& effect, const json::value& callback_details, std::string* error);
+    bool apply_node_signal(const NodeStrategySignal& signal, const json::value& callback_details, std::string* error);
 
     std::string m_profile;
     std::optional<ResolvedPolicy> m_policy;
@@ -97,12 +149,17 @@ private:
     RunState m_run;
     ResourceRegistry m_resources;
     std::unordered_set<std::string> m_unreachable_actions;
+    std::optional<NodeId> m_pending_probe_target;
+    std::optional<VerifiedMoveArc> m_verified_move_arc;
     std::optional<MoveTransaction> m_transaction;
     std::optional<BlackFlowPlan> m_last_plan;
+    std::optional<PageExecutionContext> m_page_context;
     std::optional<BlackFlowStrategyResult> m_result;
+    bool m_result_reported = false;
     DiagnosticSettings m_diagnostics;
     std::size_t m_persisted_image_packages = 0;
     std::uint64_t m_run_revision = 0;
+    std::uint64_t m_page_revision = 0;
     std::uint64_t m_decision_sequence = 0;
     std::uint64_t m_transaction_sequence = 0;
     std::uint64_t m_artifact_sequence = 0;
@@ -112,44 +169,5 @@ private:
     std::string m_transaction_id;
     std::vector<BlackFlowTelemetryEvent> m_telemetry_events;
     std::vector<DiagnosticArtifactRequest> m_diagnostic_requests;
-};
-
-class BlackFlowTaskPlugin final : public AbstractRoguelikeTaskPlugin
-{
-public:
-    BlackFlowTaskPlugin(
-        const AsstCallback& callback,
-        Assistant* inst,
-        std::string_view task_chain,
-        const std::shared_ptr<RoguelikeConfig>& config,
-        const std::shared_ptr<RoguelikeControlTaskPlugin>& control,
-        std::shared_ptr<BlackFlowSession> session,
-        std::shared_ptr<IBlackFlowTaskPort> port);
-
-    virtual bool load_params(const json::value& params) override;
-    virtual bool verify(AsstMsg msg, const json::value& details) const override;
-    virtual void reset_in_run_variables() override;
-
-protected:
-    virtual bool _run() override;
-
-private:
-    enum class PendingWork
-    {
-        None,
-        Routing,
-        TaskEvent,
-        RecoverMap,
-    };
-
-    void report_result();
-    void report_telemetry();
-    void persist_diagnostics();
-
-    std::shared_ptr<BlackFlowSession> m_session;
-    std::shared_ptr<IBlackFlowTaskPort> m_port;
-    mutable PendingWork m_pending = PendingWork::None;
-    mutable json::value m_pending_details;
-    bool m_reported = false;
 };
 } // namespace asst::blackflow

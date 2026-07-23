@@ -1324,6 +1324,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowWarningPageRecoveryFailed">노드 화면에서 지도로 돌아갈 수 없습니다</system:String>
     <system:String x:Key="BlackFlowWarningPreviewCostChanged">미리보기 행동력 소모가 변경되어 다시 계획합니다</system:String>
     <system:String x:Key="BlackFlowWarningTargetUnreachable">목표에 도달할 수 없어 미확인 노드를 탐색하고 다시 계획합니다</system:String>
+    <system:String x:Key="BlackFlowWarningRouteBlocked">경로가 차단되었습니다.</system:String>
+    <system:String x:Key="BlackFlowWarningInsufficientActionPoints">행동력이 부족합니다.</system:String>
+    <system:String x:Key="BlackFlowWarningTargetStateChanged">목표 상태가 변경되었습니다.</system:String>
     <system:String x:Key="BlackFlowWarningInferredEdge">낮은 신뢰도의 연결을 사용합니다</system:String>
     <system:String x:Key="BlackFlowWarningPostMoveMismatch">이동 후 노드 또는 행동력 상태가 일치하지 않습니다</system:String>
     <system:String x:Key="BlackFlowWarningFloorMismatch">상태 기계 층과 화면 층이 일치하지 않습니다</system:String>
