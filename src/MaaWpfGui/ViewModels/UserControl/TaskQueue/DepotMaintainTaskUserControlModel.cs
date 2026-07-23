@@ -25,6 +25,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using ObservableCollections;
 using Serilog;
 using Stylet;
@@ -47,8 +48,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     public DepotMaintainTaskUserControlModel()
     {
-        PlanList.CollectionChanged += (_, __) =>
-        {
+        PlanList.CollectionChanged += (_, __) => {
             SavePlan();
             NotifyOfPropertyChange(nameof(PlanInfo));
         };
@@ -56,14 +56,31 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         // 仓库数据变化时刷新计划显示（当前库存数量）
         if (Instances.ToolboxViewModel is { } toolbox)
         {
-            toolbox.DepotResult.CollectionChanged += (in NotifyCollectionChangedEventArgs<ToolboxViewModel.DepotResultDate> _) =>
-            {
+            toolbox.DepotResult.CollectionChanged += (in NotifyCollectionChangedEventArgs<ToolboxViewModel.DepotResultDate> _) => {
                 NotifyOfPropertyChange(nameof(PlanInfo));
             };
         }
 
         // 任务状态变化时，用最新库存重算该 plan 的缺口
         Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
+
+        // 语言切换时由 FightSettings.RebuildDropsList 显式调用 OnLanguageChanged
+    }
+
+    public void OnLanguageChanged()
+    {
+        // DropsList 已由 RebuildDropsList 原地更新 Display（不增删项），ComboBox SelectedValue 不会丢失
+        // 只需刷新各 plan 的 DropName
+        foreach (var plan in PlanList)
+        {
+            if (!string.IsNullOrEmpty(plan.DropId))
+            {
+                plan.DropName = ItemListHelper.GetItemName(plan.DropId) ?? LocalizationHelper.GetString("NotSelected");
+            }
+        }
+
+        // 刷新关卡列表（关卡名随语言变化）
+        RefreshStageList();
     }
 
     private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
@@ -166,6 +183,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     /// </summary>
     public ObservableCollection<StageSourceItem> StageListSource { get; private set => SetAndNotify(ref field, value); } = [];
 
+    [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
     public string PlanInfo => string.Join("\n", PlanList.Select((t, i) => $"{i + 1}: {StageListSource.FirstOrDefault(i => i.Value == t.Stage)?.Display ?? t.Stage} - {t.DropName} {GetCurrentInventoryCount(t.DropId)}/{t.DropCount}"));
 
     /// <summary>
@@ -306,9 +324,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         /// </summary>
         public string DropName
         {
-            get => field;
-            set
-            {
+            get; set {
                 SetAndNotify(ref field, value);
                 NotifyOfPropertyChange(nameof(Title));
                 Instance.OnPlanChanged(nameof(PlanInfo));
@@ -376,8 +392,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             list.Add(uiPlan);
         }
         PlanList = [.. list];
-        PlanList.CollectionChanged += (_, __) =>
-        {
+        PlanList.CollectionChanged += (_, __) => {
             SavePlan();
             NotifyOfPropertyChange(nameof(PlanInfo));
         };

@@ -732,8 +732,44 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
 
         AllDrops.Sort((a, b) => string.Compare(a.Value, b.Value, StringComparison.Ordinal));
-        DropsList = [.. AllDrops];
-        NotifyOfPropertyChange(nameof(DropsList));
+
+        // 原地更新 DropsList：只更新 Display 不增删项，避免 ComboBox SelectedValue 丢失
+        // 首次构建时 DropsList 为空，需要完整 Add；后续语言切换时只更新 Display
+        var allDropsDict = AllDrops.ToDictionary(i => i.Value, i => i.Display);
+        if (DropsList.Count == 0)
+        {
+            foreach (var item in AllDrops)
+            {
+                DropsList.Add(item);
+            }
+        }
+        else
+        {
+            // 更新已有项的 Display
+            foreach (var item in DropsList)
+            {
+                if (allDropsDict.TryGetValue(item.Value, out var newDisplay))
+                {
+                    item.Display = newDisplay;
+                }
+            }
+
+            // 补充新出现的项（如特有材料）
+            var existingValues = DropsList.Select(i => i.Value).ToHashSet();
+            foreach (var item in AllDrops.Where(i => !existingValues.Contains(i.Value)))
+            {
+                DropsList.Add(item);
+            }
+
+            // 删除不再存在的项（保留空值项即"不选择"）
+            for (int i = DropsList.Count - 1; i >= 0; i--)
+            {
+                if (!string.IsNullOrEmpty(DropsList[i].Value) && !allDropsDict.ContainsKey(DropsList[i].Value))
+                {
+                    DropsList.RemoveAt(i);
+                }
+            }
+        }
 
         foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>())
         {
@@ -767,6 +803,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
 
         RefreshDropName();
+
+        // 通知 DepotMaintain 刷新各 plan 的 DropName
+        DepotMaintainTaskUserControlModel.Instance.OnLanguageChanged();
     }
 
     /// <summary>
