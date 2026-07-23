@@ -13,7 +13,7 @@
 
 using System.Threading.Tasks;
 
-namespace MaaWpfGui.Services.Notification;
+namespace MaaWpfGui.Services.ExternalNotification;
 
 public class DummyNotificationProvider : IExternalNotificationProvider
 {

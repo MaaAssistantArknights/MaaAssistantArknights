@@ -25,7 +25,7 @@ using MailKit.Net.Smtp;
 using MimeKit;
 using Serilog;
 
-namespace MaaWpfGui.Services.Notification;
+namespace MaaWpfGui.Services.ExternalNotification;
 
 /// <inheritdoc />
 public partial class SmtpNotificationProvider(SmtpConfig smtp) : IExternalNotificationProvider

@@ -23,7 +23,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.ExternalNotification;
-using MaaWpfGui.Services.Notification;
+using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.Utilities.ValueType;
 using Serilog;
 using Stylet;

@@ -12,7 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
-    xmlns:template="clr-namespace:MaaWpfGui.Services.Notification"
+    xmlns:template="clr-namespace:MaaWpfGui.Services.ExternalNotification"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type settings_vms:ExternalNotificationSettingsUserControlModel}}"
     s:View.ActionTarget="{Binding}"

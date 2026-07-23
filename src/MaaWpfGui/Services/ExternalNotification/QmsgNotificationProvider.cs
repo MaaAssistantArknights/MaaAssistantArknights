@@ -22,7 +22,7 @@ using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace MaaWpfGui.Services.Notification;
+namespace MaaWpfGui.Services.ExternalNotification;
 
 public class QmsgNotificationProvider(IHttpService httpService, QmsgConfig qmsg) : IExternalNotificationProvider
 {

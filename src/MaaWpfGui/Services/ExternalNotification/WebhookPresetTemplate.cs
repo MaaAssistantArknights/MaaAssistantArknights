@@ -15,7 +15,7 @@
 using System.Collections.Generic;
 using MaaWpfGui.Helper;
 
-namespace MaaWpfGui.Services.Notification;
+namespace MaaWpfGui.Services.ExternalNotification;
 
 public class WebhookPresetTemplate
 {

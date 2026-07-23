@@ -20,7 +20,7 @@ using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
-namespace MaaWpfGui.Services.Notification;
+namespace MaaWpfGui.Services.ExternalNotification;
 
 public static class ExternalNotificationService
 {

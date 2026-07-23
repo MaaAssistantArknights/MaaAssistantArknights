@@ -14,7 +14,7 @@
 #nullable enable
 using System.Linq;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Services.Notification;
+using MaaWpfGui.Services.ExternalNotification;
 using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
 
 namespace MaaWpfGui.Models.ExternalNotification;

@@ -22,7 +22,7 @@ using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
-namespace MaaWpfGui.Services.Notification;
+namespace MaaWpfGui.Services.ExternalNotification;
 
 public class ServerChanNotificationProvider(IHttpService httpService, ServerChanConfig serverChan) : IExternalNotificationProvider
 {

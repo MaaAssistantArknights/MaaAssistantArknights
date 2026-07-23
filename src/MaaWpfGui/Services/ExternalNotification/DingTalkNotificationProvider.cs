@@ -24,7 +24,7 @@ using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.Services.Web;
 using Serilog;
 
-namespace MaaWpfGui.Services.Notification;
+namespace MaaWpfGui.Services.ExternalNotification;
 
 public class DingTalkNotificationProvider(IHttpService httpService, DingTalkConfig dingTalk) : IExternalNotificationProvider
 {

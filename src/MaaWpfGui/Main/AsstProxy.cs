@@ -41,7 +41,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
-using MaaWpfGui.Services.Notification;
+using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
