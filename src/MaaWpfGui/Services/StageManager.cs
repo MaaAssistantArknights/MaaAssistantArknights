@@ -210,7 +210,7 @@ public class StageManager
         bool globalTasksCached = true;
         if (clientType != ClientType.Official && tasksJson != null)
         {
-            var tasksPath = "resource/global/" + ClientTypeExtension.ToString(clientType) + '/' + TasksApi;
+            var tasksPath = "resource/global/" + clientType.ToCustomString() + '/' + TasksApi;
 
             // Download the client specific resources only when the Official ones are successfully downloaded so that the client specific resource version is the actual version
             // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
@@ -250,7 +250,7 @@ public class StageManager
     {
         var tempStage = InitializeDefaultStages();
 
-        var clientType = ClientTypeExtension.ToString(GetClientType());
+        var clientType = GetClientType().ToCustomString();
 
         bool isDebugVersion = Instances.VersionUpdateDialogViewModel.IsDebugVersion();
         bool curVerParsed = TryParseVersion(VersionUpdateSettingsUserControlModel.CoreVersion, out var curVersionObj);

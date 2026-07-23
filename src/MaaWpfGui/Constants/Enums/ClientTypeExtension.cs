@@ -27,7 +27,7 @@ public static class ClientTypeExtension
     public const string KR = "YoStarKR";
     public const string Txwy = "txwy";
 
-    public static string ToString(ClientType clientType)
+    public static string ToCustomString(this ClientType clientType)
     {
         return clientType switch {
             ClientType.Official => Official,
