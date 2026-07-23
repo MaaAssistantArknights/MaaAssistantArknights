@@ -711,6 +711,7 @@ blackflow::PlannerMap RoguelikeBlackflowRoutingTaskPlugin::build_planner_map(
             pc.weight = wit->second;
         }
         pc.ap_gain = cfg.node_ap_gain(c.type);
+        pc.is_mysterious_presage = c.type == RoguelikeNodeType::MysteriousPresage;
         const bool no_boss_encounter_phase = m_blackflow_no_boss && m_no_boss_floor_three;
         if (no_boss_encounter_phase) {
             const bool is_selected_target = m_no_boss_target_encounter < 0 || m_no_boss_target_encounter == idx;
@@ -1036,6 +1037,7 @@ bool RoguelikeBlackflowRoutingTaskPlugin::_run()
     params.shortest_endpoint = no_boss_encounter_phase || m_profile->shortest_endpoint || m_blackflow_no_boss;
     params.avoid_combat_first = no_boss_encounter_phase || m_profile->avoid_combat_first || m_blackflow_no_boss;
     params.best_effort = no_boss_encounter_phase ? false : (m_blackflow_no_boss ? false : m_profile->best_effort_when_unreachable);
+    params.prefer_right_center_mysterious_presage = m_profile->prefer_right_center_mysterious_presage;
     params.leftover_ap_weight = m_profile->leftover_ap_weight;
     const blackflow::PlannerResult planned = blackflow::plan(pmap, pgears, params);
 

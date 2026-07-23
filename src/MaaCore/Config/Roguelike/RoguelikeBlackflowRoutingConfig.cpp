@@ -125,6 +125,8 @@ bool RoguelikeBlackflowRoutingConfig::parse(const json::value& json)
         profile.endpoint_required = profile_json.get("endpointRequired", false);
         profile.shortest_endpoint = profile_json.get("shortestEndpoint", false);
         profile.avoid_combat_first = profile_json.get("avoidCombatFirst", false);
+        profile.prefer_right_center_mysterious_presage =
+            profile_json.get("preferRightCenterMysteriousPresage", false);
         const std::string unreachable = profile_json.get("endpointUnreachable", "bestEffort");
         if (unreachable != "bestEffort" && unreachable != "abandon") {
             Log.error(__FUNCTION__, "| Unknown endpointUnreachable policy:", unreachable, "of", profile_name);

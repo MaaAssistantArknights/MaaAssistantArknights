@@ -23,6 +23,7 @@ struct SearchNode
     double score = 0.0;
     int combat_count = 0;   // 路线上进入战斗节点的次数（避战策略使用）
     int carry_spent = 0;    // 已消耗的可携带加工品次数（平局裁决用）
+    bool preferred_target_reached = false;
     int parent = -1;        // arena 下标
     PlannerAction act;
     int depth = 0;
@@ -33,6 +34,7 @@ struct StateKey
 {
     std::uint64_t a = 0;
     std::uint64_t b = 0;
+    bool preferred_target_reached = false;
 
     bool operator==(const StateKey&) const = default;
 };
@@ -43,6 +45,7 @@ struct StateKeyHash
     {
         std::uint64_t h = k.a * 0x9E3779B97F4A7C15ull;
         h ^= k.b + 0x9E3779B97F4A7C15ull + (h << 6) + (h >> 2);
+        h ^= static_cast<std::uint64_t>(k.preferred_target_reached) + 0x9E3779B97F4A7C15ull + (h << 6) + (h >> 2);
         return static_cast<size_t>(h);
     }
 };
@@ -51,7 +54,11 @@ StateKey make_key(const SearchNode& node)
 {
     const std::uint64_t pos = static_cast<std::uint64_t>(node.pos) & 0xFF;
     const std::uint64_t ap = static_cast<std::uint64_t>(std::min(node.ap, 255)) & 0xFF;
-    return { (node.uses & 0xFFFFFFFFFFFFull) | (pos << 48) | (ap << 56), node.mask };
+    return {
+        (node.uses & 0xFFFFFFFFFFFFull) | (pos << 48) | (ap << 56),
+        node.mask,
+        node.preferred_target_reached,
+    };
 }
 
 int packed_uses(std::uint64_t packed, size_t i)
@@ -60,8 +67,15 @@ int packed_uses(std::uint64_t packed, size_t i)
 }
 
 // a 是否严格优于 b（确定性平局裁决：分高 → 可携带耗得少 → 剩余 AP 多 → 格序号小 → 深度小）
-bool better(const SearchNode& a, const SearchNode& b, bool avoid_combat_first = false)
+bool better(
+    const SearchNode& a,
+    const SearchNode& b,
+    bool avoid_combat_first = false,
+    bool prefer_preferred_target = false)
 {
+    if (prefer_preferred_target && a.preferred_target_reached != b.preferred_target_reached) {
+        return a.preferred_target_reached;
+    }
     if (avoid_combat_first) {
         if (a.combat_count != b.combat_count) {
             return a.combat_count < b.combat_count;
@@ -83,6 +97,45 @@ bool better(const SearchNode& a, const SearchNode& b, bool avoid_combat_first = 
         return a.pos < b.pos;
     }
     return a.depth < b.depth;
+}
+
+std::optional<int> find_preferred_mysterious_presage_target(const PlannerMap& map, const PlannerParams& params)
+{
+    if (!params.prefer_right_center_mysterious_presage || map.cols <= 0 || map.rows <= 0) {
+        return std::nullopt;
+    }
+
+    // 已经揭示出的行商优先级更高；只有完全没有未访问的已知行商时才猜未知诡秘。
+    for (const auto& cell : map.cells) {
+        if (cell.exists && !cell.visited && cell.is_trader) {
+            return std::nullopt;
+        }
+    }
+
+    std::optional<int> target;
+    for (int idx = 0; idx < map.cols * map.rows; ++idx) {
+        const auto& cell = map.cells[idx];
+        if (!cell.exists || cell.visited || !cell.is_mysterious_presage) {
+            continue;
+        }
+        if (!target) {
+            target = idx;
+            continue;
+        }
+
+        const int col = idx % map.cols;
+        const int row = idx / map.cols;
+        const int target_col = *target % map.cols;
+        const int target_row = *target / map.cols;
+        const int center_distance = std::abs(2 * row - (map.rows - 1));
+        const int target_center_distance = std::abs(2 * target_row - (map.rows - 1));
+        if (col > target_col ||
+            (col == target_col && center_distance < target_center_distance) ||
+            (col == target_col && center_distance == target_center_distance && row < target_row)) {
+            target = idx;
+        }
+    }
+    return target;
 }
 } // namespace
 
@@ -222,6 +275,8 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
 
     const bool shortest_endpoint = params.endpoint_required && params.shortest_endpoint;
     const bool avoid_combat_first = shortest_endpoint && params.avoid_combat_first;
+    const std::optional<int> preferred_target = find_preferred_mysterious_presage_target(map, params);
+    const bool prefer_preferred_target = preferred_target.has_value();
     const int beam_width = std::max(8, params.beam_width);
     const int max_depth = std::max(1, params.max_depth);
 
@@ -241,16 +296,19 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
     std::optional<SearchNode> best_any_node;
     auto value_of = [&](const SearchNode& node) { return node.score + params.leftover_ap_weight * node.ap; };
     auto candidate_better = [&](const SearchNode& a, const SearchNode& b) {
+        if (prefer_preferred_target && a.preferred_target_reached != b.preferred_target_reached) {
+            return a.preferred_target_reached;
+        }
         const double va = value_of(a);
         const double vb = value_of(b);
         if (va != vb) {
             return va > vb;
         }
-        return better(a, b);
+        return better(a, b, false, prefer_preferred_target);
     };
 
     auto combat_candidate_better = [&](const SearchNode& a, const SearchNode& b) {
-        return better(a, b, true);
+        return better(a, b, true, prefer_preferred_target);
     };
 
     std::optional<SearchNode> best_combat_terminal;
@@ -305,6 +363,8 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
         nxt.ap = cur.ap - cost + gear_ap_gain;
         nxt.score = cur.score + gear_delta;
         nxt.combat_count = cur.combat_count + (cell.is_combat ? 1 : 0);
+        nxt.preferred_target_reached = cur.preferred_target_reached ||
+            (preferred_target && target == *preferred_target);
         if (gear_idx >= 0) {
             nxt.uses = cur.uses - (1ull << (gear_idx * 4));
             if (gears[gear_idx].carryover) {
@@ -403,7 +463,7 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
             if (inserted) {
                 kept.push_back(i);
             }
-            else if (better(generated[i], generated[it->second], avoid_combat_first)) {
+            else if (better(generated[i], generated[it->second], avoid_combat_first, prefer_preferred_target)) {
                 // 用更优者替换占位（kept 中仍是旧下标，替换内容即可）
                 generated[it->second] = generated[i];
             }
@@ -422,7 +482,9 @@ PlannerResult plan(const PlannerMap& map, const std::vector<PlannerGear>& gears,
 
         std::ranges::stable_sort(
             kept,
-            [&](size_t a, size_t b) { return better(generated[a], generated[b], avoid_combat_first); });
+            [&](size_t a, size_t b) {
+                return better(generated[a], generated[b], avoid_combat_first, prefer_preferred_target);
+            });
         // 避战终点模式也必须裁剪束宽：若没有零战斗终点，不能让所有加工品组合无限扩张。
         // 每层仍按战斗次数优先排序，因此不会改变“避战第一”的决策顺序，只限制候选规模。
         const bool use_beam_pruning = !shortest_endpoint || avoid_combat_first;

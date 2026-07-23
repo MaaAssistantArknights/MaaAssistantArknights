@@ -28,6 +28,7 @@ struct PlannerCell
     bool forbidden = false;   // 规划路线中禁止进入（例如不打 Boss 模式的楼层出口）
     bool is_combat = false;   // AnyNonCombat 落点过滤用
     bool is_trader = false;   // AnyTrader 落点过滤用
+    bool is_mysterious_presage = false; // 未知的诡秘，用于刷钱策略的空间优先级
     double weight = 0.0;      // 进入未访问节点的奖励（负=惩罚），路点为 0
     int ap_gain = 0;          // 进入未访问节点获得的行动力（羽瞰点 = 1）
     int teleport_twin = -1;   // 曲折密道孪生格 index（进入本格后免费移动到该格），无则 -1
@@ -61,6 +62,7 @@ struct PlannerParams
     bool endpoint_required = false; // 路线必须结束在 is_endpoint 格
     bool shortest_endpoint = false; // 终点模式按动作数做 BFS，不为中途收益绕路
     bool avoid_combat_first = false; // 终点模式先最少战斗，再最短动作数
+    bool prefer_right_center_mysterious_presage = false; // 无已知行商时优先右中未知诡秘
     bool best_effort = true;        // 终点不可达时：true=输出最优刷分路线（接受追猎），false=判无路线
     double leftover_ap_weight = 0.0;
     int beam_width = 256;

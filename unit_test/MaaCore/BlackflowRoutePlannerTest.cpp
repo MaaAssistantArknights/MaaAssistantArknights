@@ -373,6 +373,50 @@ TEST_CASE("planner.investment_profile", "[blackflow-planner]")
     }
 }
 
+TEST_CASE("planner.investment_prefers_right_center_mysterious_presage", "[blackflow-planner]")
+{
+    // 没有已知行商时，右侧同列的两个未知诡秘中优先垂直居中的那个。
+    MapBuilder b(5, 5);
+    PlannerCell normal = weighted(20.0);
+    PlannerCell upper_mysterious = weighted(1.0);
+    upper_mysterious.is_mysterious_presage = true;
+    PlannerCell center_mysterious = weighted(1.0);
+    center_mysterious.is_mysterious_presage = true;
+    b.cell(0, 2).cell(1, 2, normal).cell(0, 1).cell(1, 1).cell(2, 1).cell(3, 1);
+    b.cell(4, 0, upper_mysterious).cell(4, 2, center_mysterious);
+    b.edge(0, 2, 1, 2); // 高收益但不是目标的节点
+    b.edge(0, 2, 0, 1).edge(0, 1, 1, 1).edge(1, 1, 2, 1).edge(2, 1, 3, 1).edge(3, 1, 4, 2);
+    b.player(0, 2);
+
+    auto params = make_params(5, false);
+    params.prefer_right_center_mysterious_presage = true;
+    const auto result = plan(b.map, {}, params);
+
+    REQUIRE(result.has_route);
+    REQUIRE(result.actions.size() == 5);
+    REQUIRE(result.actions.back().target == b.idx(4, 2));
+}
+
+TEST_CASE("planner.investment_keeps_known_trader_priority", "[blackflow-planner]")
+{
+    MapBuilder b(3, 1);
+    PlannerCell known_trader = weighted(20.0);
+    known_trader.is_trader = true;
+    PlannerCell mysterious = weighted(1.0);
+    mysterious.is_mysterious_presage = true;
+    b.cell(0, 0).cell(1, 0, known_trader).cell(2, 0, mysterious);
+    b.edge(0, 0, 1, 0).edge(1, 0, 2, 0);
+    b.player(0, 0);
+
+    auto params = make_params(1, false);
+    params.prefer_right_center_mysterious_presage = true;
+    const auto result = plan(b.map, {}, params);
+
+    REQUIRE(result.has_route);
+    REQUIRE(result.actions.size() == 1);
+    REQUIRE(result.actions.front().target == b.idx(1, 0));
+}
+
 TEST_CASE("planner.endpoint_unreachable_policies", "[blackflow-planner]")
 {
     // 图中根本没有终点

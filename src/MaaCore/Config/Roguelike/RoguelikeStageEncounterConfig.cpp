@@ -1,5 +1,7 @@
 #include "RoguelikeStageEncounterConfig.h"
 
+#include <algorithm>
+
 #include <meojson/json.hpp>
 
 #include "Utils/Logger.hpp"
@@ -10,25 +12,51 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
 
     const std::string theme = json.at("theme").as_string();
 
-    // m_event[(肉鸽主题,模式)] 默认继承 m_event["(肉鸽主题,std::nullopt)"]
+    // m_event[(肉鸽主题,模式)] 默认继承 m_event["(肉鸽主题,std::nullopt)"]。
+    // 额外配置的单个 stage 也可以用 mode 限定覆盖范围。
     std::pair<std::string, int> key = std::make_pair(theme, -1);
     std::vector<int> modes = json.get("mode", std::vector<int> {});
-    std::unordered_map<std::string, RoguelikeEvent> events;
     const bool is_mode_override = !modes.empty();
+    std::unordered_map<std::string, RoguelikeEvent> inherited_events;
     if (!modes.empty()) {
-        events = m_events.at(key);
+        inherited_events = m_events.at(key);
     }
     else {
         modes.emplace_back(-1);
     }
+
+    struct ParsedEvent
+    {
+        RoguelikeEvent event;
+        std::vector<int> modes;
+    };
+    std::vector<ParsedEvent> parsed_events;
 
     std::vector<std::string>& event_names = m_event_names[theme];
 
     for (const auto& event_json : json.at("stage").as_array()) {
         RoguelikeEvent event;
         event.name = event_json.at("name").as_string();
+        std::vector<int> event_modes = modes;
+        if (auto event_modes_opt = event_json.find("mode"); event_modes_opt) {
+            if (!event_modes_opt->is_array()) {
+                Log.error(std::format("RoguelikeEncounterConfig | mode for event {} must be an array", event.name));
+                return false;
+            }
+            event_modes = static_cast<std::vector<int>>(event_modes_opt.value());
+            if (event_modes.empty()) {
+                Log.error(std::format("RoguelikeEncounterConfig | mode for event {} must not be empty", event.name));
+                return false;
+            }
+            if (is_mode_override && std::ranges::any_of(event_modes, [&](int mode) {
+                    return std::ranges::find(modes, mode) == modes.end();
+                })) {
+                Log.error(std::format("RoguelikeEncounterConfig | event {} mode is outside file mode", event.name));
+                return false;
+            }
+        }
         if (is_mode_override) {
-            if (auto inherited = events.find(event.name); inherited != events.end()) {
+            if (auto inherited = inherited_events.find(event.name); inherited != inherited_events.end()) {
                 event = inherited->second;
             }
         }
@@ -203,12 +231,18 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
         }
         event.dynamic_options = event.dynamic_options || !event.option_rule.preferred_options.empty() ||
             !event.option_rule.safe_fallback_options.empty() || !event.option_variants.empty();
-        events[event.name] = std::move(event);
+        parsed_events.emplace_back(ParsedEvent { std::move(event), std::move(event_modes) });
     }
 
     for (int mode : modes) {
+        auto events = inherited_events;
+        for (const auto& parsed : parsed_events) {
+            if (std::ranges::find(parsed.modes, mode) != parsed.modes.end()) {
+                events[parsed.event.name] = parsed.event;
+            }
+        }
         key = std::make_pair(theme, mode);
-        m_events[key] = events;
+        m_events[key] = std::move(events);
     }
 
     return true;

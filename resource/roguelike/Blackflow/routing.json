@@ -71,6 +71,7 @@
             "endpointRequired": false,
             "endpointUnreachable": "abandon",
             "abandonWhenNoPositive": true,
+            "preferRightCenterMysteriousPresage": true,
             "nodeWeights": {
                 "RogueTrader": 10,
                 "HiddenTrader": 8,

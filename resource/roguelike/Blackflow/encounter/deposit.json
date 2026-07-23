@@ -52,6 +52,20 @@
             "preferred_options": [{ "texts": ["闭上眼感受宁静"] }],
             "safe_fallback_options": ["闭上眼感受宁静"],
             "prefer_event_rule": true
+        },
+        {
+            "name": "三重身",
+            "mode": [1],
+            "preferred_options": [{ "texts": ["自己找路"] }],
+            "safe_fallback_options": ["自己找路"],
+            "prefer_event_rule": true
+        },
+        {
+            "name": "险路尽头",
+            "mode": [1],
+            "preferred_options": [{ "texts": ["离开黑池"] }],
+            "safe_fallback_options": ["离开黑池"],
+            "prefer_event_rule": true
         }
     ]
 }

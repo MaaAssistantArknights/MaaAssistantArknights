@@ -31,6 +31,7 @@ struct BlackflowStrategyProfile
     bool endpoint_required = false;
     bool shortest_endpoint = false;       // 到终点模式：按动作数优先，不为节点收益绕路
     bool avoid_combat_first = false;      // 终点模式先最小化战斗节点数量，再比较路线长度
+    bool prefer_right_center_mysterious_presage = false; // 无已知行商时优先右中未知诡秘
     bool best_effort_when_unreachable = true; // endpointUnreachable: bestEffort / abandon
     bool abandon_when_no_positive = false;    // 最优路线收益 <= 0 时放弃本局
     std::unordered_map<RoguelikeNodeType, double> node_weights;
