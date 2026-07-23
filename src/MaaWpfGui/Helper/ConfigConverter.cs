@@ -533,10 +533,10 @@ public class ConfigConverter
 
             // 性能设置
             {
-                ConfigFactory.CurrentConfig.WpfSettings.Performance.UseGpu = ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceUseGpu, false);
-                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuDescription = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty);
-                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuInstancePath = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty);
-                ConfigFactory.CurrentConfig.WpfSettings.Performance.AllowDeprecatedGpu = ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, false);
+                ConfigFactory.CurrentConfig.Gui.Performance.UseGpu = ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceUseGpu, false);
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty);
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty);
+                ConfigFactory.CurrentConfig.Gui.Performance.AllowDeprecatedGpu = ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, false);
 
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.PerformanceUseGpu);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.PerformancePreferredGpuDescription);
@@ -579,7 +579,7 @@ public class ConfigConverter
                 {
                     var sendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationServerChanSendKey);
-                    ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Add(new ServerChan(sendKey));
+                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new ServerChan(sendKey));
                 }
 
                 if (telegramEnabled)
@@ -590,7 +590,7 @@ public class ConfigConverter
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationTelegramBotToken);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationTelegramChatId);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationTelegramTopicId);
-                    ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Add(new Telegram(botToken, chatId, topicId));
+                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Telegram(botToken, chatId, topicId));
                 }
 
                 if (discordEnabled)
@@ -599,14 +599,14 @@ public class ConfigConverter
                     var userId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, string.Empty);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDiscordBotToken);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDiscordUserId);
-                    ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Add(new Discord(botToken, userId));
+                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Discord(botToken, userId));
                 }
 
                 if (discordWebhookEnabled)
                 {
                     var webhookUrl = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl, string.Empty);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl);
-                    ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Add(new CustomWebhook(webhookUrl, Body: $"{{\"content\": {{content}}}}"));
+                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new CustomWebhook(webhookUrl, Body: $"{{\"content\": {{content}}}}"));
                 }
 
                 if (dingTalkEnabled)
@@ -615,7 +615,7 @@ public class ConfigConverter
                     var secret = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDingTalkSecret, string.Empty);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDingTalkAccessToken);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDingTalkSecret);
-                    ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Add(new DingTalk(accessToken, secret));
+                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new DingTalk(accessToken, secret));
                 }
 
                 if (smtpEnabled)
@@ -636,7 +636,7 @@ public class ConfigConverter
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpTo);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication);
-                    ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Add(new Smtp(server, port, user, password, from, to, useSsl, requiresAuthentication));
+                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Smtp(server, port, user, password, from, to, useSsl, requiresAuthentication));
                 }
 
                 if (barkEnabled)
@@ -645,7 +645,7 @@ public class ConfigConverter
                     var server = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, string.Empty);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationBarkSendKey);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationBarkServer);
-                    ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Add(new Bark(sendKey, server));
+                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Bark(sendKey, server));
                 }
 
                 if (qmsgEnabled)
@@ -658,7 +658,7 @@ public class ConfigConverter
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgKey);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgUser);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgBot);
-                    ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Add(new Qmsg(server, key, user, bot));
+                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Qmsg(server, key, user, bot));
                 }
 
                 if (gotifyEnabled)
@@ -667,7 +667,7 @@ public class ConfigConverter
                     var token = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationGotifyToken, string.Empty);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationGotifyServer);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationGotifyToken);
-                    ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Add(new Gotify(server, token));
+                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Gotify(server, token));
                 }
 
                 if (customWebhookEnabled)
@@ -678,23 +678,23 @@ public class ConfigConverter
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody);
                     ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders);
-                    ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Add(new CustomWebhook(url, headers, body));
+                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new CustomWebhook(url, headers, body));
                 }
 
-                ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.SendWhenComplete = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, true);
-                ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.ShowWhenCompleteWithDetails = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, false);
-                ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.SendWhenError = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, true);
-                ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.SendWhenStalled = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, false);
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenComplete = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, true);
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.ShowWhenCompleteWithDetails = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, false);
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenError = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, true);
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenStalled = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, false);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSendWhenError);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSendWhenComplete);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSendWhenStalled);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationEnableDetails);
 
-                ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlGetTaskEndpointUri = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty));
-                ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlReportStatusUri = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty));
-                ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlUserIdentity = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty));
-                ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlDeviceIdentity = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty));
-                ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlPollIntervalMs = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlPollIntervalMs, 1000);
+                ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlGetTaskEndpointUri = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty));
+                ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlReportStatusUri = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty));
+                ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlUserIdentity = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty));
+                ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlDeviceIdentity = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty));
+                ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlPollIntervalMs = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlPollIntervalMs, 1000);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RemoteControlReportStatusUri);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RemoteControlUserIdentity);
@@ -704,20 +704,20 @@ public class ConfigConverter
 
             // 运行设置
             {
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ClientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, ClientType.Official);
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.DeployWithPause = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, false);
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PreRunScript = ConfigurationHelper.GetValue(ConfigurationKeys.StartsWithScript, string.Empty);
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PostRunScript = ConfigurationHelper.GetValue(ConfigurationKeys.EndsWithScript, string.Empty);
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ExecuteScriptOnCopilot = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotWithScript, false);
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ExecuteScriptOnManualStop = ConfigurationHelper.GetValue(ConfigurationKeys.ManualStopWithScript, false);
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.BlockSleep = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, false);
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.BlockSleepWithScreenOn = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, true);
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ReportToPenguin = ConfigurationHelper.GetValue(ConfigurationKeys.EnablePenguin, true);
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ReportToYituliu = ConfigurationHelper.GetValue(ConfigurationKeys.EnableYituliu, true);
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PenguinId = ConfigurationHelper.GetValue(ConfigurationKeys.PenguinId, string.Empty);
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.EnableStallTimeout = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutEnabled, true);
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.StallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25).Clamp(0, GameSettingsUserControlModel.TimeoutMaxMinutes);
-                ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.StallTimeoutReminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30).Clamp(1, GameSettingsUserControlModel.TimeoutMaxMinutes);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, ClientType.Official);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.DeployWithPause = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, false);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PreRunScript = ConfigurationHelper.GetValue(ConfigurationKeys.StartsWithScript, string.Empty);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PostRunScript = ConfigurationHelper.GetValue(ConfigurationKeys.EndsWithScript, string.Empty);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ExecuteScriptOnCopilot = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotWithScript, false);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ExecuteScriptOnManualStop = ConfigurationHelper.GetValue(ConfigurationKeys.ManualStopWithScript, false);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleep = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, false);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleepWithScreenOn = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, true);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToPenguin = ConfigurationHelper.GetValue(ConfigurationKeys.EnablePenguin, true);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToYituliu = ConfigurationHelper.GetValue(ConfigurationKeys.EnableYituliu, true);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PenguinId = ConfigurationHelper.GetValue(ConfigurationKeys.PenguinId, string.Empty);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableStallTimeout = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutEnabled, true);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25).Clamp(0, GameSettingsUserControlModel.TimeoutMaxMinutes);
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30).Clamp(1, GameSettingsUserControlModel.TimeoutMaxMinutes);
 
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ClientType);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeDeploymentWithPause);

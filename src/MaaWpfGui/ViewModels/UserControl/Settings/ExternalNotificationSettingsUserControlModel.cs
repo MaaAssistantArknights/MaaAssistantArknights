@@ -43,7 +43,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
     public ExternalNotificationSettingsUserControlModel()
     {
-        var config = ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs;
+        var config = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs;
         var list = new List<BaseConfig>();
         foreach (var configItem in config)
         {
@@ -65,22 +65,22 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         ExternalNotificationConfigs.CollectionChanged += (o, e) => {
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
-                ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Clear();
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Clear();
             }
             else if (e.Action is NotifyCollectionChangedAction.Remove)
             {
-                ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.RemoveAt(e.OldStartingIndex);
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.RemoveAt(e.OldStartingIndex);
             }
             else if (e.Action is NotifyCollectionChangedAction.Move)
             {
-                var item = ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs[e.OldStartingIndex];
-                ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.RemoveAt(e.OldStartingIndex);
-                ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Insert(e.NewStartingIndex, item);
+                var item = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs[e.OldStartingIndex];
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.RemoveAt(e.OldStartingIndex);
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Insert(e.NewStartingIndex, item);
             }
             else if (e.Action is NotifyCollectionChangedAction.Add)
             {
                 e.NewItems?.OfType<BaseConfig>().ToList().ForEach(item => {
-                    ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Add(item.ToConfig());
+                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(item.ToConfig());
                 });
             }
 
@@ -89,13 +89,13 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
                 e.NewItems?.OfType<BaseConfig>().ToList().ForEach(item => {
                     item.PropertyChanged += (s, e) => {
                         var index = ExternalNotificationConfigs.IndexOf(item);
-                        if (index < 0 || index >= ExternalNotificationConfigs.Count || ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Count != ExternalNotificationConfigs.Count)
+                        if (index < 0 || index >= ExternalNotificationConfigs.Count || ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count != ExternalNotificationConfigs.Count)
                         {
-                            Log.Error("ExternalNotificationConfigs index out of range or count mismatch. Index: {Index}, ExternalNotificationConfigs Count: {ExternalNotificationConfigsCount}, Config Count: {ConfigCount}", index, ExternalNotificationConfigs.Count, ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Count);
+                            Log.Error("ExternalNotificationConfigs index out of range or count mismatch. Index: {Index}, ExternalNotificationConfigs Count: {ExternalNotificationConfigsCount}, Config Count: {ConfigCount}", index, ExternalNotificationConfigs.Count, ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count);
                             return;
                         }
 
-                        ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs[index] = item.ToConfig();
+                        ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs[index] = item.ToConfig();
                     };
                 });
             }
@@ -105,12 +105,12 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         {
             item.PropertyChanged += (s, e) => {
                 var index = ExternalNotificationConfigs.IndexOf(item);
-                if (index < 0 || index >= ExternalNotificationConfigs.Count || ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Count != ExternalNotificationConfigs.Count)
+                if (index < 0 || index >= ExternalNotificationConfigs.Count || ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count != ExternalNotificationConfigs.Count)
                 {
-                    Log.Error("ExternalNotificationConfigs index out of range or count mismatch. Index: {Index}, ExternalNotificationConfigs Count: {ExternalNotificationConfigsCount}, Config Count: {ConfigCount}", index, ExternalNotificationConfigs.Count, ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs.Count);
+                    Log.Error("ExternalNotificationConfigs index out of range or count mismatch. Index: {Index}, ExternalNotificationConfigs Count: {ExternalNotificationConfigsCount}, Config Count: {ConfigCount}", index, ExternalNotificationConfigs.Count, ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count);
                     return;
                 }
-                ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.Configs[index] = item.ToConfig();
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs[index] = item.ToConfig();
             };
         }
     }
@@ -128,36 +128,36 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
     public bool ExternalNotificationSendWhenComplete
     {
-        get => ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.SendWhenComplete;
+        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenComplete;
         set {
-            ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.SendWhenComplete = value;
+            ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenComplete = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool ExternalNotificationEnableDetails
     {
-        get => ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.ShowWhenCompleteWithDetails;
+        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.ShowWhenCompleteWithDetails;
         set {
-            ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.ShowWhenCompleteWithDetails = value;
+            ConfigFactory.CurrentConfig.Gui.ExternalNotification.ShowWhenCompleteWithDetails = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool ExternalNotificationSendWhenError
     {
-        get => ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.SendWhenError;
+        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenError;
         set {
-            ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.SendWhenError = value;
+            ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenError = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool ExternalNotificationSendWhenStalled
     {
-        get => ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.SendWhenStalled;
+        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenStalled;
         set {
-            ConfigFactory.CurrentConfig.WpfSettings.ExternalNotification.SendWhenStalled = value;
+            ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenStalled = value;
             NotifyOfPropertyChange();
         }
     }

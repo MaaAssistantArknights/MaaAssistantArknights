@@ -87,7 +87,7 @@ public static class DataHelper
         var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? [];
 
         var characterNamesLangAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage));
-        var characterNamesClientAdd = GetCharacterNamesAddAction(ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ClientType.ToString());
+        var characterNamesClientAdd = GetCharacterNamesAddAction(ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType.ToString());
 
         Characters.Clear();
         CharacterNames.Clear();

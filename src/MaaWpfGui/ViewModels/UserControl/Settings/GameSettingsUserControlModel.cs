@@ -78,7 +78,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
                 return;
             }
 
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ClientType = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType = value;
             VersionUpdateSettings.ResourceInfoUpdate();
             FightSettingsUserControlModel.Instance.UpdateStageList();
             Instances.TaskQueueViewModel.UpdateDatePrompt();
@@ -92,7 +92,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
             SettingsViewModel.AskRestartToApplySettings(value is ClientType.EN);
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ClientType;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType;
 
     private static bool NeedRestartAfterClientTypeChange(ClientType oldType, ClientType newType)
     {
@@ -110,42 +110,42 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.DeployWithPause = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.DeployWithPause = value;
             SettingsViewModel.ConnectSettings.UpdateInstanceSettings();
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.DeployWithPause;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.DeployWithPause;
 
     public string StartsWithScript
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PreRunScript = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PreRunScript = value;
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PreRunScript;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PreRunScript;
 
     public string EndsWithScript
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PostRunScript = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PostRunScript = value;
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PostRunScript;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PostRunScript;
 
     public bool CopilotWithScript
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ExecuteScriptOnCopilot = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ExecuteScriptOnCopilot = value;
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ExecuteScriptOnCopilot;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ExecuteScriptOnCopilot;
 
     public bool ManualStopWithScript
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ExecuteScriptOnManualStop = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ExecuteScriptOnManualStop = value;
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ExecuteScriptOnManualStop;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ExecuteScriptOnManualStop;
 
     public void RunScript(string str, bool showLog = true)
     {
@@ -251,17 +251,17 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.BlockSleep = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleep = value;
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.BlockSleep;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleep;
 
     public bool BlockSleepWithScreenOn
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.BlockSleepWithScreenOn = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleepWithScreenOn = value;
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.BlockSleepWithScreenOn;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleepWithScreenOn;
 
     #region 企鹅和一图流上报
 
@@ -272,9 +272,9 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PenguinId = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PenguinId = value;
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.PenguinId;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PenguinId;
 
     /// <summary>
     /// Gets or sets a value indicating whether to enable penguin upload.
@@ -283,9 +283,9 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ReportToPenguin = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToPenguin = value;
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ReportToPenguin;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToPenguin;
 
     /// <summary>
     /// Gets or sets a value indicating whether to enable yituliu upload.
@@ -295,9 +295,9 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         get;
         set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ReportToYituliu = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToYituliu = value;
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ReportToYituliu;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToYituliu;
 
     #endregion 企鹅和一图流上报
 
@@ -311,9 +311,9 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         get; set {
             SetAndNotify(ref field, value);
             _runningState.EnableStallTimeout = value;
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.EnableStallTimeout = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableStallTimeout = value;
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.EnableStallTimeout;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableStallTimeout;
 
     public int StallTimeoutMinutes
     {
@@ -321,9 +321,9 @@ public class GameSettingsUserControlModel : PropertyChangedBase
             value = value.Clamp(0, TimeoutMaxMinutes);
             SetAndNotify(ref field, value);
             _runningState.StallTimeoutMinutes = value;
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.StallTimeoutMinutes = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes = value;
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.StallTimeoutMinutes;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes;
 
     // 防止乘以 60000 毫秒时 int 溢出，int.MaxValue / 60000 ≈ 35791
     public const int TimeoutMaxMinutes = 11451;
@@ -334,9 +334,9 @@ public class GameSettingsUserControlModel : PropertyChangedBase
             value = value.Clamp(1, TimeoutMaxMinutes);
             SetAndNotify(ref field, value);
             _runningState.ReminderIntervalMinutes = value;
-            ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.StallTimeoutReminderIntervalMinutes = value;
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes = value;
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
 
     #endregion 任务超时
 

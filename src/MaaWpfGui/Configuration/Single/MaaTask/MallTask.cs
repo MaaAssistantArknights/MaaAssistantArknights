@@ -94,8 +94,7 @@ public class MallTask : BaseTask
 
     public bool IsCreditFightAvailable
     {
-        get
-        {
+        get {
             if (!CreditFightOnceADay)
             {
                 return CreditFight;
@@ -114,8 +113,7 @@ public class MallTask : BaseTask
 
     public bool IsVisitFriendsAvailable
     {
-        get
-        {
+        get {
             if (!VisitFriendsOnceADay)
             {
                 return VisitFriends;

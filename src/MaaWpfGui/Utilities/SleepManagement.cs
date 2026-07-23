@@ -53,14 +53,14 @@ public static class SleepManagement
 
     public static void BlockSleep(bool? allowBlockSleep = null, bool? blockSleepWithScreenOn = null)
     {
-        if (!(allowBlockSleep ?? ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.BlockSleep))
+        if (!(allowBlockSleep ?? ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleep))
         {
             return;
         }
 
         _isBlockingSleep = true;
 
-        bool keepDisplayOn = blockSleepWithScreenOn ?? ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.BlockSleepWithScreenOn;
+        bool keepDisplayOn = blockSleepWithScreenOn ?? ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleepWithScreenOn;
         _logger.Information("Blocking system from sleeping");
         ExecutionState state = ExecutionState.Continuous | ExecutionState.SystemRequired |
             (keepDisplayOn ? ExecutionState.DisplayRequired : 0);

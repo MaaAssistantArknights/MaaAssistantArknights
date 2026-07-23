@@ -77,7 +77,7 @@ public class RunningState
             TimeoutReminderTimer_Elapsed(null, null);
             _timeoutReminderTimer.Interval = value * 60 * 1000;
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
 
     public int StallTimeoutMinutes
     {
@@ -95,7 +95,7 @@ public class RunningState
                 }
             }
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
 
     /// <summary>
     /// Gets or sets a value indicating whether 启用停滞检测
@@ -109,7 +109,7 @@ public class RunningState
                 _stallTimer.Stop();
             }
         }
-    } = ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.EnableStallTimeout;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableStallTimeout;
 
     public event EventHandler<string>? StallOccurred;
 

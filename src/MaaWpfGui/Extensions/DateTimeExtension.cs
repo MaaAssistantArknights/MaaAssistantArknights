@@ -25,7 +25,7 @@ public static class DateTimeExtension
 {
     private const int YjDayStartHour = 4;
 
-    private static ClientType ClientType => ConfigFactory.CurrentConfig.WpfSettings.RuntimeSettings.ClientType;
+    private static ClientType ClientType => ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType;
 
     private static readonly Dictionary<ClientType, int> _clientTypeTimezone = new()
     {

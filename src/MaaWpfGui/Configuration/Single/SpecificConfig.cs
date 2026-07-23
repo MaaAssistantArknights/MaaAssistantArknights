@@ -37,7 +37,7 @@ public class SpecificConfig : INotifyPropertyChanged, IJsonOnDeserialized
     public ObservableList<BaseTask> TaskQueue { get; private set; } = [];
 
     [JsonInclude]
-    public WpfSettings WpfSettings { get; private set; } = new();
+    public Gui Gui { get; private set; } = new();
 
     [JsonInclude]
     public int TaskSelectedIndex { get; set; } = -1;

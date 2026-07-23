@@ -39,8 +39,8 @@ public abstract class GpuOption
 
     public static bool AllowDeprecatedGpu
     {
-        get => ConfigFactory.CurrentConfig.WpfSettings.Performance.AllowDeprecatedGpu;
-        set => ConfigFactory.CurrentConfig.WpfSettings.Performance.AllowDeprecatedGpu = value;
+        get => ConfigFactory.CurrentConfig.Gui.Performance.AllowDeprecatedGpu;
+        set => ConfigFactory.CurrentConfig.Gui.Performance.AllowDeprecatedGpu = value;
     }
 
     // use string literal to efficiently store uint16 array
@@ -414,11 +414,11 @@ public abstract class GpuOption
 
     public static GpuOption GetCurrent()
     {
-        var preferredGpuInstancePath = ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuInstancePath;
-        var preferredGpuDescription = ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuDescription;
+        var preferredGpuInstancePath = ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath;
+        var preferredGpuDescription = ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription;
 
         GpuOption result;
-        if (ConfigFactory.CurrentConfig.WpfSettings.Performance.UseGpu)
+        if (ConfigFactory.CurrentConfig.Gui.Performance.UseGpu)
         {
             var options = GetGpuOptions();
             if (ReferenceEquals(options, _unavailableOptions))
@@ -451,19 +451,19 @@ public abstract class GpuOption
         switch (option)
         {
             case DisableOption:
-                ConfigFactory.CurrentConfig.WpfSettings.Performance.UseGpu = false;
-                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuDescription = string.Empty;
-                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuInstancePath = string.Empty;
+                ConfigFactory.CurrentConfig.Gui.Performance.UseGpu = false;
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription = string.Empty;
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath = string.Empty;
                 break;
             case SystemDefaultOption:
-                ConfigFactory.CurrentConfig.WpfSettings.Performance.UseGpu = true;
-                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuDescription = string.Empty;
-                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuInstancePath = string.Empty;
+                ConfigFactory.CurrentConfig.Gui.Performance.UseGpu = true;
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription = string.Empty;
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath = string.Empty;
                 break;
             case SpecificGpuOption x:
-                ConfigFactory.CurrentConfig.WpfSettings.Performance.UseGpu = true;
-                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuDescription = x.GpuInfo.Description;
-                ConfigFactory.CurrentConfig.WpfSettings.Performance.GpuInstancePath = x.InstancePath;
+                ConfigFactory.CurrentConfig.Gui.Performance.UseGpu = true;
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription = x.GpuInfo.Description;
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath = x.InstancePath;
                 break;
         }
     }

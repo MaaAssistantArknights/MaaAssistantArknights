@@ -39,39 +39,39 @@ public class RemoteControlUserControlModel : PropertyChangedBase
             }
 
             Instances.RemoteControlService.InitializePollJobTask();
-            ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlGetTaskEndpointUri = SimpleEncryptionHelper.Encrypt(value);
+            ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlGetTaskEndpointUri = SimpleEncryptionHelper.Encrypt(value);
         }
-    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlGetTaskEndpointUri);
+    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlGetTaskEndpointUri);
 
     public string RemoteControlReportStatusUri
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlReportStatusUri = SimpleEncryptionHelper.Encrypt(value);
+            ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlReportStatusUri = SimpleEncryptionHelper.Encrypt(value);
         }
-    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlReportStatusUri);
+    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlReportStatusUri);
 
     public string RemoteControlUserIdentity
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlUserIdentity = SimpleEncryptionHelper.Encrypt(value);
+            ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlUserIdentity = SimpleEncryptionHelper.Encrypt(value);
         }
-    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlUserIdentity);
+    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlUserIdentity);
 
     public string RemoteControlDeviceIdentity
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlDeviceIdentity = SimpleEncryptionHelper.Encrypt(value);
+            ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlDeviceIdentity = SimpleEncryptionHelper.Encrypt(value);
         }
-    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlDeviceIdentity);
+    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlDeviceIdentity);
 
     public int RemoteControlPollIntervalMs
     {
-        get => ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlPollIntervalMs;
+        get => ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlPollIntervalMs;
         set {
-            ConfigFactory.CurrentConfig.WpfSettings.RemoteControl.RemoteControlPollIntervalMs = value;
+            ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlPollIntervalMs = value;
             NotifyOfPropertyChange();
         }
     }
