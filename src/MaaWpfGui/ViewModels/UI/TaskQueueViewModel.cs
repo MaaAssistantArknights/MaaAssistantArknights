@@ -29,7 +29,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -1013,6 +1012,18 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     private void InitializeItems()
     {
+        if (ConfigFactory.CurrentConfig.TaskQueue.Count == 0)
+        {
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new StartUpTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new FightTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new InfrastTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new RecruitTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new MallTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new AwardTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new RoguelikeTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new ReclamationTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new UserDataUpdateTask());
+        }
         List<TaskItemViewModel> taskqueue = [];
         for (int i = 0; i < ConfigFactory.CurrentConfig.TaskQueue.Count; i++)
         {
@@ -1358,8 +1369,7 @@ public class TaskQueueViewModel : Screen
     {
         foreach (var item in TaskTypeList)
         {
-            item.Display = item.Value.Name switch
-            {
+            item.Display = item.Value.Name switch {
                 nameof(StartUpTask) => LocalizationHelper.GetString("StartUp"),
                 nameof(FightTask) => LocalizationHelper.GetString("Fight"),
                 nameof(InfrastTask) => LocalizationHelper.GetString("Infrast"),

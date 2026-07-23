@@ -21,14 +21,9 @@ using ObservableCollections;
 
 namespace MaaWpfGui.Configuration.Single;
 
-public class SpecificConfig : INotifyPropertyChanged, IJsonOnDeserialized
+public class SpecificConfig : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
-
-    public SpecificConfig()
-    {
-        AddDefaultTasks();
-    }
 
     [JsonInclude]
     public ObservableDictionary<string, int> InfrastOrder { get; private set; } = [];
@@ -49,27 +44,5 @@ public class SpecificConfig : INotifyPropertyChanged, IJsonOnDeserialized
     public void OnPropertyChanged(string propertyName, object before, object after)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
-    }
-
-    private void AddDefaultTasks()
-    {
-        TaskQueue.Add(new StartUpTask());
-        TaskQueue.Add(new FightTask());
-        TaskQueue.Add(new InfrastTask());
-        TaskQueue.Add(new RecruitTask());
-        TaskQueue.Add(new MallTask());
-        TaskQueue.Add(new AwardTask());
-        TaskQueue.Add(new RoguelikeTask());
-        TaskQueue.Add(new ReclamationTask());
-        TaskQueue.Add(new UserDataUpdateTask());
-    }
-
-    public void OnDeserialized()
-    {
-        if (TaskQueue.Count > 0)
-        {
-            return;
-        }
-        AddDefaultTasks();
     }
 }
