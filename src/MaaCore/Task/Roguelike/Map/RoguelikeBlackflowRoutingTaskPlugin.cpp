@@ -304,6 +304,11 @@ bool RoguelikeBlackflowRoutingTaskPlugin::verify(const AsstMsg msg, const json::
 // ============================================================================
 RoguelikeBlackflowMapAnalyzer::Result RoguelikeBlackflowRoutingTaskPlugin::recognize_map()
 {
+    if (m_config->consume_blackflow_force_zoom_reset_after_event()) {
+        m_force_zoom_reset_after_layer_transition = true;
+        Log.info(__FUNCTION__, "| terminal event requested layer transition zoom reset");
+    }
+
     // 1. 确保地图缩小：同一帧比较“＋”和“−”的置信率。
     //    游戏在最小缩放时仍会保留“−”按钮，因此不能以“−”消失作为退出条件。
     //    最小缩放时“−”模板会产生约 0.95 的背景误匹配，真实按钮通常 >= 0.99。

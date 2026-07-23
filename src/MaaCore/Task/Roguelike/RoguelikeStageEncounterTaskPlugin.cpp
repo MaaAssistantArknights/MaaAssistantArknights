@@ -115,6 +115,12 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
 
     const auto& event = it->second;
 
+    if (m_config->get_theme() == RoguelikeTheme::Blackflow &&
+        (event.name == "险路尽头" || event.name == "三重身")) {
+        m_config->set_blackflow_force_zoom_reset_after_event(true);
+        Log.info("Blackflow encounter ends the layer; next map will reset zoom:", event.name);
+    }
+
     cv::Mat image = ctrler()->get_image();
 
     int special_val = 0;

@@ -132,4 +132,5 @@ void asst::RoguelikeConfig::clear()
 
     // ------------------ 通用参数 ------------------
     m_squad = std::string();
+    m_blackflow_force_zoom_reset_after_event = false;
 }

@@ -135,6 +135,18 @@ public:
 
     bool get_blackflow_no_boss() const { return m_blackflow_no_boss; }
 
+    void set_blackflow_force_zoom_reset_after_event(bool value)
+    {
+        m_blackflow_force_zoom_reset_after_event = value;
+    }
+
+    bool consume_blackflow_force_zoom_reset_after_event()
+    {
+        const bool value = m_blackflow_force_zoom_reset_after_event;
+        m_blackflow_force_zoom_reset_after_event = false;
+        return value;
+    }
+
     void set_skip_recruit_in_fast_pass(const bool value) { m_skip_recruit_in_fast_pass = value; }
 
     bool get_skip_recruit_in_fast_pass() const { return m_skip_recruit_in_fast_pass; }
@@ -165,6 +177,7 @@ private:
     bool m_run_for_collectible = false;       // 用于 RoguelikeMode::Collectible，判断是否正在烧水
     bool m_skip_recruit_in_fast_pass = false; // 是否可以在特定情况下跳过招募，是否真的跳过招募需要结合其他条件来判断
     bool m_blackflow_no_boss = false;         // 黑流树海刷等级模式：到第三层后不打 Boss
+    bool m_blackflow_force_zoom_reset_after_event = false; // 黑流终点事件结束后下一张地图强制复位缩放
 
     // ------------------ 投资模式 ------------------
     bool m_invest_with_more_score = false; // 投资时招募、购物刷分
