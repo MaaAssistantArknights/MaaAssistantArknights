@@ -228,7 +228,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     /// <summary>
     /// Gets or sets a value indicating whether to show close button.
     /// </summary>
-    public bool ShowCloseButton { get; set => SetAndNotify(ref field, value); } = ConfigFactory.Root.Gui.HideCloseButton;
+    public bool ShowCloseButton { get; set => SetAndNotify(ref field, value); } = !ConfigFactory.Root.Gui.HideCloseButton;
 
     private bool _isWindowTopMost;
 
