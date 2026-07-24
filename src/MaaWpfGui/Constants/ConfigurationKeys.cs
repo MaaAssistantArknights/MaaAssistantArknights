@@ -111,15 +111,15 @@ public static class ConfigurationKeys
     public const string BlockSleep = "Start.BlockSleep"; // √
     public const string BlockSleepWithScreenOn = "Start.BlockSleepWithScreenOn"; // √
 
-    public const string ChooseLevel3 = "Recruit.ChooseLevel3";
-    public const string ToolBoxChooseLevel3Time = "Toolbox.Recruit.ChooseLevel3.Time";
-    public const string ChooseLevel4 = "Recruit.ChooseLevel4";
-    public const string ToolBoxChooseLevel4Time = "Toolbox.Recruit.ChooseLevel4.Time";
-    public const string ChooseLevel5 = "Recruit.ChooseLevel5";
-    public const string ToolBoxChooseLevel5Time = "Toolbox.Recruit.ChooseLevel5.Time";
-    public const string ChooseLevel6 = "Recruit.ChooseLevel6";
-    public const string AutoSetTime = "Recruit.AutoSetTime";
-    public const string RecruitmentShowPotential = "Recruit.ShowPotential";
+    public const string ChooseLevel3 = "Recruit.ChooseLevel3"; // √
+    public const string ToolBoxChooseLevel3Time = "Toolbox.Recruit.ChooseLevel3.Time"; // √
+    public const string ChooseLevel4 = "Recruit.ChooseLevel4"; // √
+    public const string ToolBoxChooseLevel4Time = "Toolbox.Recruit.ChooseLevel4.Time"; // √
+    public const string ChooseLevel5 = "Recruit.ChooseLevel5"; // √
+    public const string ToolBoxChooseLevel5Time = "Toolbox.Recruit.ChooseLevel5.Time"; // 废弃
+    public const string ChooseLevel6 = "Recruit.ChooseLevel6"; // √
+    public const string AutoSetTime = "Recruit.AutoSetTime"; // √
+    public const string RecruitmentShowPotential = "Recruit.ShowPotential"; // √
 
     public const string DepotResult = "Depot.DepotResult"; // √
 
@@ -333,17 +333,17 @@ public static class ConfigurationKeys
     // The following should not be modified manually
     public const string VersionName = "VersionUpdate.name";
 
-    public const string VersionUpdateBody = "VersionUpdate.body";
+    public const string VersionUpdateBody = "VersionUpdate.body"; // √
     public const string VersionUpdateIsFirstBoot = "VersionUpdate.isfirstboot";
     public const string VersionUpdatePackage = "VersionUpdate.package";
     public const string VersionUpdateDoNotShowUpdate = "VersionUpdate.doNotShowUpdate";
 
     public const string OperBoxData = "OperBox.Data"; // √
-    public const string OperBoxSelectedExportValue = "OperBox.SelectedExportValue";
+    public const string OperBoxSelectedExportValue = "OperBox.SelectedExportValue"; // √
 
-    public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
+    public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore"; // √
 
-    public const string PeepTargetFps = "Peep.TargetFps";
+    public const string PeepTargetFps = "Peep.TargetFps"; // √
 
     public const string GuideStepIndex = "Guide.StepIndex";
 
@@ -353,9 +353,9 @@ public static class ConfigurationKeys
 
     public const string DebugTaskName = "Debug.TaskName"; // √
 
-    public const string MiniGameTaskName = "MiniGame.TaskName";
-    public const string MiniGameSecretFrontEnding = "MiniGame.SecretFrontEnding";
-    public const string MiniGameSecretFrontEvent = "MiniGame.SecretFrontEvent";
+    public const string MiniGameTaskName = "MiniGame.TaskName"; // 废弃
+    public const string MiniGameSecretFrontEnding = "MiniGame.SecretFrontEnding"; // 废弃
+    public const string MiniGameSecretFrontEvent = "MiniGame.SecretFrontEvent"; // 废弃
 
     public const string AchievementPopupDisabled = "Achievement.PopupDisabled";
     public const string AchievementPopupAutoClose = "Achievement.PopupAutoClose";

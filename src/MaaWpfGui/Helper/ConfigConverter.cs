@@ -27,6 +27,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
+using static MaaWpfGui.ViewModels.UI.ToolboxViewModel;
 
 namespace MaaWpfGui.Helper;
 
@@ -733,6 +734,47 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.StallTimeoutEnabled);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.StallTimeoutMinutes);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReminderIntervalMinutes);
+            }
+
+            // 小工具
+            {
+                {
+                    var saved = ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxSelectedExportValue, "0");
+                    if (int.TryParse(saved, out var val) && Enum.IsDefined(typeof(OperBoxExportFormat), val))
+                    {
+                        ConfigFactory.CurrentConfig.Toolbox.OperBoxExportFormat = (OperBoxExportFormat)val;
+                    }
+                    else if (Enum.TryParse<OperBoxExportFormat>(saved, out var fmt))
+                    {
+                        ConfigFactory.CurrentConfig.Toolbox.OperBoxExportFormat = fmt;
+                    }
+                }
+                ConfigFactory.CurrentConfig.Toolbox.GachaShowDisclaimerNoMore = ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, false);
+                ConfigFactory.CurrentConfig.Toolbox.PeepTargetFps = ConfigurationHelper.GetValue(ConfigurationKeys.PeepTargetFps, 20);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.OperBoxSelectedExportValue);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.GachaShowDisclaimerNoMore);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.PeepTargetFps);
+
+                ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3, true);
+                ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4, true);
+                ConfigFactory.CurrentConfig.Toolbox.ChooseLevel5 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5, true);
+                ConfigFactory.CurrentConfig.Toolbox.ChooseLevel6 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel6, true);
+                ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3Time = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel3Time, 540);
+                ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4Time = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel4Time, 540);
+                ConfigFactory.CurrentConfig.Toolbox.AutoSetTime = ConfigurationHelper.GetValue(ConfigurationKeys.AutoSetTime, true);
+                ConfigFactory.CurrentConfig.Toolbox.ShowPotential = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitmentShowPotential, true);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel3);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel4);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel5);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel6);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ToolBoxChooseLevel3Time);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ToolBoxChooseLevel4Time);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AutoSetTime);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RecruitmentShowPotential);
+                ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.MiniGameTaskName, out var _);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ToolBoxChooseLevel5Time);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.MiniGameSecretFrontEnding);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.MiniGameSecretFrontEvent);
             }
         }
 

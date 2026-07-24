@@ -29,6 +29,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -245,50 +246,44 @@ public class ToolboxViewModel : Screen
     /// </summary>
     public bool ChooseLevel3
     {
-        get => field;
-        set {
+        get; set {
             SetAndNotify(ref field, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel3, value.ToString());
+            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3 = value;
         }
-    } = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3, true);
+    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3;
 
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 4.
     /// </summary>
     public bool ChooseLevel4
     {
-        get => field;
-        set {
+        get; set {
             SetAndNotify(ref field, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel4, value.ToString());
+            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4 = value;
         }
-    } = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4, true);
+    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4;
 
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 5.
     /// </summary>
     public bool ChooseLevel5
     {
-        get => field;
-        set {
+        get; set {
             SetAndNotify(ref field, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel5, value.ToString());
+            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel5 = value;
         }
-    } = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5, true);
-
-    private bool _chooseLevel6 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel6, true);
+    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel5;
 
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 6.
     /// </summary>
     public bool ChooseLevel6
     {
-        get => _chooseLevel6;
-        set {
-            SetAndNotify(ref _chooseLevel6, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel6, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel6 = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel6;
 
     [PropertyDependsOn(nameof(ChooseLevel3Time))]
     public int ChooseLevel3Hour
@@ -306,17 +301,16 @@ public class ToolboxViewModel : Screen
 
     public int ChooseLevel3Time
     {
-        get => field;
-        set {
+        get; set {
             value = value switch {
                 < 60 => 9 * 60,
                 > 9 * 60 => 60,
                 _ => value / 10 * 10,
             };
             SetAndNotify(ref field, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ToolBoxChooseLevel3Time, value.ToString());
+            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3Time = value;
         }
-    } = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel3Time, 540);
+    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3Time;
 
     [PropertyDependsOn(nameof(ChooseLevel4Time))]
     public int ChooseLevel4Hour
@@ -334,31 +328,27 @@ public class ToolboxViewModel : Screen
 
     public int ChooseLevel4Time
     {
-        get => field;
-        set {
+        get; set {
             value = value switch {
                 < 60 => 9 * 60,
                 > 9 * 60 => 60,
                 _ => value / 10 * 10,
             };
             SetAndNotify(ref field, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ToolBoxChooseLevel4Time, value.ToString());
+            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4Time = value;
         }
-    } = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel4Time, 540);
-
-    private bool _autoSetTime = ConfigurationHelper.GetValue(ConfigurationKeys.AutoSetTime, true);
+    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4Time;
 
     /// <summary>
     /// Gets or sets a value indicating whether to set time automatically.
     /// </summary>
     public bool RecruitAutoSetTime
     {
-        get => _autoSetTime;
-        set {
-            SetAndNotify(ref _autoSetTime, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AutoSetTime, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.AutoSetTime = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.Toolbox.AutoSetTime;
 
     /// <summary>
     /// Starts calculation.
@@ -416,16 +406,13 @@ public class ToolboxViewModel : Screen
         ret &= Instances.AsstProxy.AsstStart();
     }
 
-    private bool _recruitmentShowPotential = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitmentShowPotential, true);
-
     public bool RecruitmentShowPotential
     {
-        get => _recruitmentShowPotential;
-        set {
-            SetAndNotify(ref _recruitmentShowPotential, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RecruitmentShowPotential, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.ShowPotential = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.Toolbox.ShowPotential;
 
     public void ProcRecruitMsg(JObject details)
     {
@@ -1496,7 +1483,6 @@ public class ToolboxViewModel : Screen
     {
         // TODO: 删除老数据节省 gui.json 的大小，后续版本可以删除
         // var json = ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxData, string.Empty);
-        ConfigurationHelper.DeleteValue(ConfigurationKeys.OperBoxData);
         var json = JsonDataHelper.Get(JsonDataKey.OperBoxData, string.Empty);
         if (string.IsNullOrWhiteSpace(json))
         {
@@ -1711,45 +1697,26 @@ public class ToolboxViewModel : Screen
         StartOperBoxRecognitionTask();
     }
 
-    public List<ExportEntry> OperBoxExportOptionList { get; } = [
-        new(LocalizationHelper.GetString("OperBoxExportToClipboard"), (int)OperBoxExportFormat.Clipboard),
-        new(LocalizationHelper.GetString("OperBoxExportToJson"), (int)OperBoxExportFormat.Json),
-        new(LocalizationHelper.GetString("ExportToMarkdown"), (int)OperBoxExportFormat.Markdown),
-        new(LocalizationHelper.GetString("ExportToCsv"), (int)OperBoxExportFormat.Csv),
+    public List<GenericCombinedData<OperBoxExportFormat>> OperBoxExportOptionList { get; } = [
+        new(LocalizationHelper.GetString("OperBoxExportToClipboard"), OperBoxExportFormat.Clipboard),
+        new(LocalizationHelper.GetString("OperBoxExportToJson"), OperBoxExportFormat.Json),
+        new(LocalizationHelper.GetString("ExportToMarkdown"), OperBoxExportFormat.Markdown),
+        new(LocalizationHelper.GetString("ExportToCsv"), OperBoxExportFormat.Csv),
     ];
 
-    private int _selectedOperBoxExportValue = LoadOperBoxExportFormat();
-
-    private static int LoadOperBoxExportFormat()
+    public OperBoxExportFormat SelectedOperBoxExportValue
     {
-        var saved = ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxSelectedExportValue, "0");
-        if (int.TryParse(saved, out var val) && Enum.IsDefined(typeof(OperBoxExportFormat), val))
-        {
-            return val;
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.OperBoxExportFormat = value;
         }
-
-        if (Enum.TryParse<OperBoxExportFormat>(saved, out var fmt))
-        {
-            return (int)fmt;
-        }
-
-        return (int)OperBoxExportFormat.Clipboard;
-    }
-
-    public int SelectedOperBoxExportValue
-    {
-        get => _selectedOperBoxExportValue;
-        set {
-            SetAndNotify(ref _selectedOperBoxExportValue, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxSelectedExportValue, ((OperBoxExportFormat)value).ToString());
-        }
-    }
+    } = ConfigFactory.CurrentConfig.Toolbox.OperBoxExportFormat;
 
     // UI 绑定的方法
     [UsedImplicitly]
     public void ExportOperBox()
     {
-        switch ((OperBoxExportFormat)_selectedOperBoxExportValue)
+        switch (SelectedOperBoxExportValue)
         {
             case OperBoxExportFormat.Clipboard: ExportOperBoxToClipboard(); break;
             case OperBoxExportFormat.Json: ExportOperBoxToJson(); break;
@@ -2000,14 +1967,12 @@ public class ToolboxViewModel : Screen
         }
     }
 
-    private bool _gachaShowDisclaimerNoMore = ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, false);
-
     public bool GachaShowDisclaimerNoMore
     {
-        get => _gachaShowDisclaimerNoMore;
+        get => ConfigFactory.CurrentConfig.Toolbox.GachaShowDisclaimerNoMore;
         set {
-            SetAndNotify(ref _gachaShowDisclaimerNoMore, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, value.ToString());
+            ConfigFactory.CurrentConfig.Toolbox.GachaShowDisclaimerNoMore = value;
+            NotifyOfPropertyChange();
         }
     }
 
@@ -2092,26 +2057,20 @@ public class ToolboxViewModel : Screen
         set => SetAndNotify(ref _peepScreenFpf, value);
     }
 
-    private int _peepTargetFps = ConfigurationHelper.GetValue(ConfigurationKeys.PeepTargetFps, 20);
-
     public int PeepTargetFps
     {
-        get {
-            return _peepTargetFps;
-        }
-
-        set {
+        get; set {
             value = value switch {
                 > 600 => 600,
                 < 1 => 1,
                 _ => value,
             };
 
-            SetAndNotify(ref _peepTargetFps, value);
-            _peepImageTimer.Interval = 1000d / _peepTargetFps;
-            ConfigurationHelper.SetValue(ConfigurationKeys.PeepTargetFps, value.ToString());
+            SetAndNotify(ref field, value);
+            _peepImageTimer.Interval = 1000d / field;
+            ConfigFactory.CurrentConfig.Toolbox.PeepTargetFps = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.Toolbox.PeepTargetFps;
 
     private DateTime _lastFpsUpdateTime = DateTime.MinValue;
     private int _frameCount;
@@ -2360,17 +2319,13 @@ public class ToolboxViewModel : Screen
         });
     }
 
-    private string _miniGameTaskName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameTaskName, "SS@Store@Begin");
-
     public string MiniGameTaskName
     {
-        get => _miniGameTaskName;
-        set {
-            SetAndNotify(ref _miniGameTaskName, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MiniGameTaskName, value);
+        get; set {
+            SetAndNotify(ref field, value);
             MiniGameTip = GetMiniGameTip(value);
         }
-    }
+    } = "SS@Store@Begin";
 
     public string GetMiniGameTask()
     {
@@ -2442,16 +2397,7 @@ public class ToolboxViewModel : Screen
 
     public List<string> SecretFrontEndingList { get; set; } = ["A", "B", "C", "D", "E"];
 
-    private string _secretFrontEnding = ConfigurationHelper.GetValue(ConfigurationKeys.MiniGameSecretFrontEnding, "A");
-
-    public string SecretFrontEnding
-    {
-        get => _secretFrontEnding;
-        set {
-            SetAndNotify(ref _secretFrontEnding, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.MiniGameSecretFrontEnding, value);
-        }
-    }
+    public string SecretFrontEnding { get; set => SetAndNotify(ref field, value); } = "A";
 
     public List<GenericCombinedData<string>> SecretFrontEventList { get; set; } =
     [
@@ -2461,16 +2407,7 @@ public class ToolboxViewModel : Screen
         new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event3"), Value = "诡影迷踪" },
     ];
 
-    private string _secretFrontEvent = ConfigurationHelper.GetValue(ConfigurationKeys.MiniGameSecretFrontEvent, string.Empty);
-
-    public string SecretFrontEvent
-    {
-        get => _secretFrontEvent;
-        set {
-            SetAndNotify(ref _secretFrontEvent, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.MiniGameSecretFrontEvent, value);
-        }
-    }
+    public string SecretFrontEvent { get; set => SetAndNotify(ref field, value); } = string.Empty;
 
     public void StartMiniGame()
     {

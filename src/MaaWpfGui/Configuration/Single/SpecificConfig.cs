@@ -18,12 +18,20 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Configuration.Single.Settings;
 using ObservableCollections;
+using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Single;
 
 public class SpecificConfig : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    public void EventBinding(string prefix)
+    {
+        PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
+        Gui.EventBinding(prefix + nameof(Gui) + ".");
+        Toolbox.EventBinding(prefix + nameof(Toolbox) + ".");
+    }
 
     [JsonInclude]
     public ObservableDictionary<string, int> InfrastOrder { get; private set; } = [];
@@ -33,6 +41,9 @@ public class SpecificConfig : INotifyPropertyChanged
 
     [JsonInclude]
     public Gui Gui { get; private set; } = new();
+
+    [JsonInclude]
+    public Toolbox Toolbox { get; private set; } = new();
 
     [JsonInclude]
     public int TaskSelectedIndex { get; set; } = -1;

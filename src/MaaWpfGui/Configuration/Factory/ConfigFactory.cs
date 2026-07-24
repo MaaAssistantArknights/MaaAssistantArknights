@@ -210,7 +210,7 @@ public static class ConfigFactory
             void SpecificConfigBind(string name, SpecificConfig config)
             {
                 var key = "Root.Configurations." + name + ".";
-                config.PropertyChanged += Handler.OnPropertyChangedFactory(key);
+                config.EventBinding(key);
                 config.Gui.EventBinding(key);
                 config.DragItemIsChecked.CollectionChanged += Handler.OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
                 config.InfrastOrder.CollectionChanged += Handler.OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
