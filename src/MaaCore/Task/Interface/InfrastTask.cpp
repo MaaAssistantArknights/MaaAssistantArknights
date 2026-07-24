@@ -160,6 +160,17 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_processing_task_ptr->set_mood_threshold(threshold);
     m_dorm_task_ptr->set_mood_threshold(threshold);
 
+    bool dynamic_polling = params.get("dynamic_polling", false);
+    m_info_task_ptr->set_dynamic_polling(dynamic_polling);
+    m_mfg_task_ptr->set_dynamic_polling(dynamic_polling);
+    m_trade_task_ptr->set_dynamic_polling(dynamic_polling);
+    m_power_task_ptr->set_dynamic_polling(dynamic_polling);
+    m_control_task_ptr->set_dynamic_polling(dynamic_polling);
+    m_reception_task_ptr->set_dynamic_polling(dynamic_polling);
+    m_office_task_ptr->set_dynamic_polling(dynamic_polling);
+    m_processing_task_ptr->set_dynamic_polling(dynamic_polling);
+    m_dorm_task_ptr->set_dynamic_polling(dynamic_polling);
+
     bool dorm_notstationed_enabled = params.get("dorm_notstationed_enabled", false);
     m_dorm_task_ptr->set_notstationed_enabled(dorm_notstationed_enabled);
 

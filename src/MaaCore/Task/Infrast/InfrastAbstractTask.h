@@ -14,6 +14,8 @@ public:
 
     virtual ~InfrastAbstractTask() override = default;
     InfrastAbstractTask& set_mood_threshold(double mood_thres) noexcept;
+    InfrastAbstractTask& set_dynamic_polling(bool enable) noexcept;
+    bool smart_sleep(int default_ms, const std::function<bool()>& is_ready_checker = nullptr);
 
     virtual json::value basic_info() const override;
     virtual std::string facility_name() const;
@@ -85,6 +87,7 @@ protected:
     mutable std::string m_facility_name_cache;
     int m_cur_facility_index = 0;
     bool m_is_custom = false;
+    bool m_dynamic_polling = false;
     infrast::CustomFacilityConfig m_custom_config;
 };
 } // namespace asst

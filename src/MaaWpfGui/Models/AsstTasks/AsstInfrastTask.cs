@@ -56,6 +56,11 @@ public class AsstInfrastTask : AsstBaseTask
     public bool ContinueTraining { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 动态UI Check (Fast Mode)
+    /// </summary>
+    public bool DynamicPolling { get; set; }
+
+    /// <summary>
     /// Gets or sets 宿舍进驻心情阈值
     /// </summary>
     public double DormThreshold { get; set; }
@@ -114,6 +119,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["reception_message_board"] = ReceptionMessageBoard,
             ["reception_clue_exchange"] = ReceptionClueExchange,
             ["reception_send_clue"] = ReceptionSendClue,
+            ["dynamic_polling"] = DynamicPolling,
             ["mode"] = (int)Mode,
         };
 

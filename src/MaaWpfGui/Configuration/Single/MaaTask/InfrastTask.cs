@@ -84,6 +84,11 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     public bool ContinueTraining { get; set; } = false;
 
     /// <summary>
+    /// Gets or sets a value indicating whether 动态UI Check (Fast Mode)
+    /// </summary>
+    public bool DynamicPolling { get; set; } = false;
+
+    /// <summary>
     /// Gets or sets 自定义配置文件路径
     /// </summary>
     public string Filename { get; set; } = string.Empty;

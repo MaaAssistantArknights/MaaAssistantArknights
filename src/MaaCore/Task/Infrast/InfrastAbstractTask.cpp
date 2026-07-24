@@ -32,6 +32,47 @@ asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_mood_threshold(double 
     return *this;
 }
 
+asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_dynamic_polling(bool enable) noexcept
+{
+    m_dynamic_polling = enable;
+    return *this;
+}
+
+bool asst::InfrastAbstractTask::smart_sleep(int default_ms, const std::function<bool()>& is_ready_checker)
+{
+    if (!m_dynamic_polling || !is_ready_checker) {
+        sleep(default_ms);
+        return true;
+    }
+
+    constexpr int check_interval = 50;
+    const int max_wait = default_ms * 2;
+    int elapsed = 0;
+
+    while (elapsed < max_wait) {
+        if (need_exit()) {
+            return false;
+        }
+        try {
+            if (is_ready_checker()) {
+                Log.trace("smart_sleep dynamic condition matched in", elapsed, "ms");
+                return true;
+            }
+        }
+        catch (const std::exception& e) {
+            Log.warn("smart_sleep ready_checker exception:", e.what());
+        }
+        catch (...) {
+            Log.warn("smart_sleep ready_checker unknown exception");
+        }
+        sleep(check_interval);
+        elapsed += check_interval;
+    }
+
+    Log.warn("smart_sleep timed out after", elapsed, "ms, falling back");
+    return false;
+}
+
 json::value asst::InfrastAbstractTask::basic_info() const
 {
     json::value info = AbstractTask::basic_info();
@@ -355,7 +396,12 @@ bool asst::InfrastAbstractTask::select_opers_review(
     // save_img("debug/");
     auto room_config = origin_room_config;
 
-    sleep(500); // 等待干员选择界面稳定
+    smart_sleep(500, [&]() {
+        const auto image = ctrler()->get_image();
+        InfrastOperImageAnalyzer oper_analyzer(image);
+        oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
+        return oper_analyzer.analyze() && !oper_analyzer.get_result().empty();
+    });
     const auto image = ctrler()->get_image();
     InfrastOperImageAnalyzer oper_analyzer(image);
     oper_analyzer.set_to_be_calced(

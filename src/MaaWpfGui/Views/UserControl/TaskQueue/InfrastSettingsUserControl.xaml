@@ -221,6 +221,9 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
                 <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
             </CheckBox>
+            <CheckBox Margin="0,10" IsChecked="{Binding DynamicPolling}">
+                <controls:TextBlock Text="Dynamic UI Polling (Fast Mode)" TextWrapping="Wrap" />
+            </CheckBox>
         </StackPanel>
     </StackPanel>
 </UserControl>

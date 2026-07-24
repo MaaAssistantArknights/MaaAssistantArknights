@@ -233,6 +233,12 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         set => SetTaskConfig<InfrastTask>(t => t.ContinueTraining == value, t => t.ContinueTraining = value);
     }
 
+    public bool DynamicPolling
+    {
+        get => GetTaskConfig<InfrastTask>().DynamicPolling;
+        set => SetTaskConfig<InfrastTask>(t => t.DynamicPolling == value, t => t.DynamicPolling = value);
+    }
+
     private string _defaultInfrast = ConfigurationHelper.GetValue(ConfigurationKeys.DefaultInfrast, UserDefined);
 
     public const string UserDefined = "user_defined";
@@ -577,6 +583,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                 ReceptionMessageBoard = infrast.ReceptionMessageBoard,
                 ReceptionClueExchange = infrast.ReceptionClueExchange,
                 ReceptionSendClue = infrast.SendClue,
+                DynamicPolling = infrast.DynamicPolling,
                 Filename = infrast.Filename,
             };
 
