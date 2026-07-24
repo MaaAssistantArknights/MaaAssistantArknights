@@ -455,7 +455,7 @@
                     "floor_window": [2, 2],
                     "rank": 0,
                     "count": 1,
-                    "weight": 4,
+                    "weight": 6,
                     "selector": {
                         "node_types": ["expedition"]
                     }
@@ -467,7 +467,7 @@
                     "floor_window": [2, 2],
                     "rank": 0,
                     "count": 1,
-                    "weight": 4,
+                    "weight": 6,
                     "selector": {
                         "node_types": ["scrap_shop"]
                     }
@@ -479,7 +479,7 @@
                     "floor_window": [2, 2],
                     "rank": 0,
                     "count": 99,
-                    "weight": 2,
+                    "weight": 3,
                     "selector": {
                         "node_types": ["hide_invisible"]
                     }
@@ -504,6 +504,7 @@
                     "rank": 0,
                     "count": 99,
                     "weight": 2,
+                    "minimum_unknown_nodes_revealed": 2,
                     "selector": {
                         "node_types": ["light"]
                     }
@@ -539,7 +540,7 @@
                     "floor_window": [3, 5],
                     "rank": 0,
                     "count": 99,
-                    "weight": 4,
+                    "weight": 6,
                     "selector": {
                         "node_types": ["expedition"]
                     }
@@ -551,7 +552,7 @@
                     "floor_window": [3, 5],
                     "rank": 0,
                     "count": 99,
-                    "weight": 4,
+                    "weight": 6,
                     "selector": {
                         "node_types": ["scrap_shop"]
                     }
@@ -575,9 +576,33 @@
                     "floor_window": [3, 5],
                     "rank": 0,
                     "count": 99,
-                    "weight": 1,
+                    "weight": 3,
                     "selector": {
                         "node_types": ["hide_invisible"]
+                    }
+                },
+                {
+                    "id": "ending1_late_incident",
+                    "description": "第三至第五层尽量经过常规事件",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["incident"]
+                    }
+                },
+                {
+                    "id": "ending1_late_combat",
+                    "description": "第三至第五层作战具有收益，同时低于同数量常规事件",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["hide_battle", "battle_normal", "battle_elite"]
                     }
                 },
                 {
@@ -588,6 +613,7 @@
                     "rank": 0,
                     "count": 99,
                     "weight": 2,
+                    "minimum_unknown_nodes_revealed": 2,
                     "selector": {
                         "node_types": ["light"]
                     }

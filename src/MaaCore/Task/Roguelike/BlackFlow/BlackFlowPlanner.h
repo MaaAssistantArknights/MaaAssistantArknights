@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <optional>
 #include <string>
 #include <unordered_set>
@@ -10,6 +11,15 @@
 
 namespace asst::blackflow
 {
+struct RouteSearchOptions
+{
+    int time_budget_ms = 1000;
+    std::size_t total_expansions = 4096;
+    std::size_t expansions_per_root = 128;
+    int greedy_preview_depth = 2;
+    bool safety_resource_dominance = true;
+};
+
 struct BlackFlowPlanRequest
 {
     const MapSnapshot* map = nullptr;
@@ -20,7 +30,8 @@ struct BlackFlowPlanRequest
     std::unordered_set<NodeId> strategy_terminal_nodes;
     const std::unordered_set<std::string>* forbidden_actions = nullptr;
     std::optional<NodeId> probe_target;
-    std::size_t maximum_states = 200000;
+    std::size_t maximum_states = 2'000'000;
+    RouteSearchOptions route_search;
 };
 
 struct PreviewSafetyVerification
@@ -40,6 +51,11 @@ struct BlackFlowPlan
     std::optional<MoveCandidate> escape_first_action;
     std::uint64_t map_revision = 0;
     std::uint64_t cost_revision = 0;
+    std::size_t confirmed_state_count = 0;
+    std::size_t relaxed_state_count = 0;
+    std::size_t route_search_expansions = 0;
+    bool route_search_time_exhausted = false;
+    bool route_search_expansions_exhausted = false;
     std::string error;
 
     [[nodiscard]] explicit operator bool() const noexcept { return error.empty() && decision.selected.has_value(); }
@@ -63,4 +79,3 @@ private:
         int current_action_points) const;
 };
 } // namespace asst::blackflow
-

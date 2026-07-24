@@ -448,6 +448,7 @@ Milestone parse_milestone(const json::value& value)
           "count",
           "weight",
           "terminal_on_reach",
+          "minimum_unknown_nodes_revealed",
           "active_if",
           "complete_if",
           "selector",
@@ -465,6 +466,7 @@ Milestone parse_milestone(const json::value& value)
     result.required_count = value.get("count", 1);
     result.weight = value.get("weight", 1);
     result.terminal_on_reach = value.get("terminal_on_reach", false);
+    result.minimum_unknown_nodes_revealed = value.get("minimum_unknown_nodes_revealed", 0);
     result.active_if = optional_condition(value, "active_if", true);
     result.complete_if = optional_condition(value, "complete_if", false);
     result.selector = parse_node_selector(value.at("selector"));
@@ -479,8 +481,12 @@ Milestone parse_milestone(const json::value& value)
     result.floor_begin = window.at(0).as_integer();
     result.floor_end = window.at(1).as_integer();
     if (result.id.empty() || result.floor_begin < 1 || result.floor_end < result.floor_begin ||
-        result.required_count < 1 || result.weight < 1) {
-        invalid_config("milestone id, floor window, count, or weight is invalid");
+        result.required_count < 1 || result.weight < 1 || result.minimum_unknown_nodes_revealed < 0) {
+        invalid_config("milestone id, floor window, count, weight, or reveal threshold is invalid");
+    }
+    if (result.minimum_unknown_nodes_revealed > 0 &&
+        std::ranges::find(result.selector.node_types, NodeType::Light) == result.selector.node_types.end()) {
+        invalid_config("milestone reveal threshold requires a light node selector");
     }
     if (result.completion == MilestoneCompletion::Condition && !value.find("complete_if")) {
         invalid_config("condition-completed milestone requires complete_if");

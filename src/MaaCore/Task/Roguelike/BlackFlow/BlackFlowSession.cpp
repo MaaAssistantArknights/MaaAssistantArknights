@@ -612,6 +612,11 @@ void BlackFlowSession::queue_decision()
         { "runners_up", json::array(std::move(runners_up)) },
         { "planned_milestone_progress", std::move(planned_progress) },
         { "uses_inferred_edge", move.uses_inferred_edge },
+        { "confirmed_state_count", static_cast<std::int64_t>(m_last_plan->confirmed_state_count) },
+        { "relaxed_state_count", static_cast<std::int64_t>(m_last_plan->relaxed_state_count) },
+        { "route_search_expansions", static_cast<std::int64_t>(m_last_plan->route_search_expansions) },
+        { "route_search_time_exhausted", m_last_plan->route_search_time_exhausted },
+        { "route_search_expansions_exhausted", m_last_plan->route_search_expansions_exhausted },
     };
     if (includes_full_routing_details(m_diagnostics.level)) {
         const auto node_details = [&](NodeId id) {
@@ -666,7 +671,17 @@ void BlackFlowSession::queue_decision()
         "margin",
         margin,
         "reason",
-        to_string(decision.reason_category));
+        to_string(decision.reason_category),
+        "confirmed states",
+        m_last_plan->confirmed_state_count,
+        "relaxed states",
+        m_last_plan->relaxed_state_count,
+        "route expansions",
+        m_last_plan->route_search_expansions,
+        "time exhausted",
+        m_last_plan->route_search_time_exhausted,
+        "expansions exhausted",
+        m_last_plan->route_search_expansions_exhausted);
     m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowRoutingDecision", std::move(details) });
     if (move.uses_inferred_edge) {
         queue_warning(

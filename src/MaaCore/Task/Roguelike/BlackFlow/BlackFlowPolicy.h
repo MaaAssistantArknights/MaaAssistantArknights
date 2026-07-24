@@ -209,6 +209,7 @@ struct Milestone
     int required_count = 1;
     int weight = 1;
     bool terminal_on_reach = false;
+    int minimum_unknown_nodes_revealed = 0;
     Condition active_if;
     Condition complete_if { ConditionKind::Constant, false };
     NodeSelector selector;

@@ -928,7 +928,8 @@ std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const Run
                         action.candidate.landing_action_point_gains.emplace(
                             action.candidate.landing,
                             action.candidate.predicted_action_point_gain);
-                        action.candidate.terminal_on_completion = node->type == NodeType::Final;
+                        action.candidate.terminal_on_completion =
+                            node->type == NodeType::Final || node->type == NodeType::BattleBoss;
                         action.possible_landings.emplace_back(action.candidate.landing);
                         const auto existing_action = walk_action_indices.find(neighbor);
                         if (existing_action == walk_action_indices.end()) {
@@ -1028,11 +1029,62 @@ std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const Run
             action.candidate.possible_landings.emplace_back(landing);
             action.candidate.landing_action_point_gains.emplace(landing, action.candidate.predicted_action_point_gain);
             action.candidate.controllable = true;
-            action.candidate.terminal_on_completion = target_node->type == NodeType::Final;
+            action.candidate.terminal_on_completion =
+                target_node->type == NodeType::Final || target_node->type == NodeType::BattleBoss;
             action.possible_landings.emplace_back(landing);
             result.emplace_back(std::move(action));
         }
     }
+
+    struct ConfirmedAdjacentWalk
+    {
+        NodeId target = InvalidNodeId;
+        NodeId landing = InvalidNodeId;
+        int action_point_cost = 0;
+        int action_point_gain = 0;
+    };
+
+    std::vector<ConfirmedAdjacentWalk> confirmed_adjacent_walks;
+    for (const MoveAction& action : result) {
+        if (action.candidate.movement != MovementKind::Walk || action.candidate.path.size() != 1 ||
+            action.candidate.uses_unconfirmed_edge || action.candidate.uses_inferred_edge) {
+            continue;
+        }
+        const Node* source = map.find_node(action.candidate.source);
+        const Node* target = map.find_node(action.candidate.target);
+        const Edge* edge = map.find_edge(action.candidate.source, action.candidate.target);
+        if (source == nullptr || target == nullptr || edge == nullptr ||
+            !edge_visible_in_layer(*edge, GraphLayer::Confirmed) ||
+            std::abs(source->position.row - target->position.row) +
+                    std::abs(source->position.column - target->position.column) !=
+                1) {
+            continue;
+        }
+        confirmed_adjacent_walks.emplace_back(
+            ConfirmedAdjacentWalk {
+                action.candidate.target,
+                action.candidate.landing,
+                action.candidate.predicted_action_point_cost,
+                action.candidate.predicted_action_point_gain,
+            });
+    }
+    std::erase_if(result, [&](const MoveAction& action) {
+        const MovementKind kind = action.candidate.movement;
+        if (kind == MovementKind::Walk || kind == MovementKind::M07 || kind == MovementKind::M12 ||
+            !action.candidate.controllable || action.candidate.predicted_action_point_cost <= 0) {
+            return false;
+        }
+        const MovementSpec* movement = find_movement_spec(kind);
+        if (movement == nullptr || movement->effect.action_point_gain != 0 || movement->effect.hope_gain != 0 ||
+            movement->effect.ingot_gain != 0) {
+            return false;
+        }
+        return std::ranges::any_of(confirmed_adjacent_walks, [&](const ConfirmedAdjacentWalk& walk_action) {
+            return walk_action.target == action.candidate.target && walk_action.landing == action.candidate.landing &&
+                   walk_action.action_point_cost <= action.candidate.predicted_action_point_cost &&
+                   walk_action.action_point_gain >= action.candidate.predicted_action_point_gain;
+        });
+    });
     return result;
 }
 

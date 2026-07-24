@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <functional>
+#include <queue>
 #include <unordered_set>
 
 namespace asst::blackflow
@@ -105,41 +107,68 @@ SafetySolveResult SafetyPlanner::solve(const SafetyProblem& problem) const
         return { std::nullopt, std::move(validation_error) };
     }
 
-    std::unordered_map<SafetyStateId, std::vector<const SafetyAction*>> actions_by_source;
+    const std::size_t state_count = problem.states.size();
+    std::unordered_map<SafetyStateId, std::size_t> state_indices;
+    state_indices.reserve(state_count);
+
+    std::vector<std::vector<const SafetyAction*>> actions_by_source(state_count);
+    std::vector<std::vector<std::size_t>> predecessors(state_count);
     SafetySolution solution;
-    for (const auto& state : problem.states) {
+    solution.required_action_points.reserve(state_count);
+    solution.proof_depth.reserve(state_count);
+    solution.selected_actions.reserve(state_count);
+
+    for (std::size_t index = 0; index < state_count; ++index) {
+        const auto& state = problem.states[index];
+        state_indices.emplace(state.id, index);
         solution.required_action_points.emplace(state.id, state.safe_exit ? 0 : UnreachableActionPointRequirement);
         if (state.safe_exit) {
             solution.proof_depth.emplace(state.id, 0);
         }
     }
+
     for (const auto& action : problem.actions) {
-        actions_by_source[action.source].emplace_back(&action);
+        const std::size_t source_index = state_indices.at(action.source);
+        actions_by_source[source_index].emplace_back(&action);
+        for (const auto& outcome : action.outcomes) {
+            predecessors[state_indices.at(outcome.successor)].emplace_back(source_index);
+        }
     }
-    for (auto& [source, actions] : actions_by_source) {
-        (void)source;
+    for (auto& actions : actions_by_source) {
         std::ranges::sort(actions, {}, &SafetyAction::id);
     }
+    for (auto& predecessor_list : predecessors) {
+        std::ranges::sort(predecessor_list);
+        predecessor_list.erase(std::unique(predecessor_list.begin(), predecessor_list.end()), predecessor_list.end());
+    }
 
-    const std::size_t state_count = problem.states.size();
+    using StateQueue = std::priority_queue<std::size_t, std::vector<std::size_t>, std::greater<>>;
+    StateQueue current_queue;
+    StateQueue next_queue;
+    std::vector<bool> current_queued(state_count, false);
+    std::vector<bool> next_queued(state_count, false);
+
+    for (std::size_t index = 0; index < state_count; ++index) {
+        if (!problem.states[index].safe_exit && !actions_by_source[index].empty()) {
+            current_queue.emplace(index);
+            current_queued[index] = true;
+        }
+    }
+
     const std::size_t action_count = std::max<std::size_t>(problem.actions.size(), 1);
     const std::size_t maximum_passes = state_count * (state_count + action_count) + 1;
-    bool changed = false;
     for (std::size_t pass = 0; pass < maximum_passes; ++pass) {
-        changed = false;
-        for (const auto& state : problem.states) {
-            if (state.safe_exit) {
-                continue;
-            }
-            const auto source_actions = actions_by_source.find(state.id);
-            if (source_actions == actions_by_source.end()) {
-                continue;
-            }
+        bool changed = false;
+        while (!current_queue.empty()) {
+            const std::size_t state_index = current_queue.top();
+            current_queue.pop();
+            current_queued[state_index] = false;
 
+            const auto& state = problem.states[state_index];
             int best = solution.requirement(state.id);
             const SafetyAction* witness = nullptr;
             std::size_t witness_depth = std::numeric_limits<std::size_t>::max();
-            for (const SafetyAction* action : source_actions->second) {
+            for (const SafetyAction* action : actions_by_source[state_index]) {
                 int requirement = std::max(action->minimum_action_points_to_start, action->action_point_cost);
                 std::size_t action_depth = 0;
                 bool reachable = true;
@@ -165,16 +194,46 @@ SafetySolveResult SafetyPlanner::solve(const SafetyProblem& problem) const
                 }
             }
 
-            if (witness != nullptr) {
-                solution.required_action_points[state.id] = best;
-                solution.selected_actions.insert_or_assign(state.id, witness->id);
-                solution.proof_depth.insert_or_assign(state.id, witness_depth);
-                changed = true;
+            if (witness == nullptr) {
+                continue;
+            }
+
+            solution.required_action_points[state.id] = best;
+            solution.selected_actions.insert_or_assign(state.id, witness->id);
+            solution.proof_depth.insert_or_assign(state.id, witness_depth);
+            changed = true;
+
+            for (const std::size_t predecessor_index : predecessors[state_index]) {
+                if (problem.states[predecessor_index].safe_exit) {
+                    continue;
+                }
+                if (predecessor_index > state_index) {
+                    if (!current_queued[predecessor_index]) {
+                        current_queue.emplace(predecessor_index);
+                        current_queued[predecessor_index] = true;
+                    }
+                }
+                else if (!next_queued[predecessor_index]) {
+                    next_queue.emplace(predecessor_index);
+                    next_queued[predecessor_index] = true;
+                }
             }
         }
+
         if (!changed) {
             return { std::move(solution), {} };
         }
+        if (pass + 1 == maximum_passes) {
+            break;
+        }
+        if (next_queue.empty()) {
+            return { std::move(solution), {} };
+        }
+
+        current_queue = std::move(next_queue);
+        current_queued = std::move(next_queued);
+        next_queue = StateQueue {};
+        next_queued.assign(state_count, false);
     }
     return { std::nullopt, "safety requirement iteration did not converge" };
 }
@@ -200,4 +259,3 @@ std::optional<SafetyAssessment>
     return assessment;
 }
 } // namespace asst::blackflow
-
