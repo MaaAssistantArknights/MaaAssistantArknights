@@ -805,8 +805,6 @@ void asst::InfrastAbstractTask::reset_swipe_motion_state() noexcept
 
 bool asst::InfrastAbstractTask::is_swipe_motion_settled()
 {
-    sleep(70);
-
     cv::Mat cur_frame = ctrler()->get_image();
     if (m_prev_swipe_frame.empty()) {
         m_prev_swipe_frame = cur_frame.clone();
