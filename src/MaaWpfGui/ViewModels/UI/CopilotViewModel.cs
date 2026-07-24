@@ -2054,7 +2054,7 @@ public partial class CopilotViewModel : Screen
             var task = new AsstCopilotTask() {
                 MultiTasks = [.. t],
                 Formation = Form,
-                SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+                SupportUnitUsage = UseSupportUnitUsage ? (int)SupportUnitUsage : 0,
                 AddTrust = AddTrust,
                 IgnoreRequirements = IgnoreRequirements,
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
@@ -2108,7 +2108,7 @@ public partial class CopilotViewModel : Screen
             var singleTask = new AsstCopilotTask() {
                 FileName = IsDataFromWeb ? TempCopilotFile : Filename,
                 Formation = Form,
-                SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+                SupportUnitUsage = UseSupportUnitUsage ? (int)SupportUnitUsage : 0,
                 AddTrust = AddTrust,
                 IgnoreRequirements = IgnoreRequirements,
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
