@@ -6,7 +6,7 @@
 
 #include "Utils/MinCostFlow.hpp"
 
-namespace asst::algorithm
+namespace asst::algorithm::bipartite
 {
 struct BipartiteMatchResult
 {
@@ -17,14 +17,12 @@ struct BipartiteMatchResult
     [[nodiscard]] bool all_matched() const noexcept { return unmatched_left.empty(); }
 };
 
-inline BipartiteMatchResult
-    bipartite_max_match(const std::vector<std::vector<size_t>>& adjacency, size_t left_count, size_t right_count)
+inline flow::FlowGraph
+    build_flow_graph(const std::vector<std::vector<size_t>>& adjacency, size_t left_count, size_t right_count)
 {
-    using flow::FlowGraph;
-
     int src = 0;
     int sink = static_cast<int>(left_count + right_count + 1);
-    FlowGraph fg { .src = src, .sink = sink };
+    flow::FlowGraph fg { .src = src, .sink = sink };
     fg.graph.resize(sink + 1);
 
     for (size_t i = 0; i < left_count; ++i) {
@@ -39,7 +37,13 @@ inline BipartiteMatchResult
             fg.add_edge(static_cast<int>(i + 1), static_cast<int>(left_count + j + 1), 1, cost);
         }
     }
+    return fg;
+}
 
+inline BipartiteMatchResult
+    bipartite_max_match(const std::vector<std::vector<size_t>>& adjacency, size_t left_count, size_t right_count)
+{
+    auto fg = bipartite::build_flow_graph(adjacency, left_count, right_count);
     flow::min_cost_max_flow(fg);
 
     BipartiteMatchResult result;
@@ -76,4 +80,4 @@ BipartiteMatchResult bipartite_max_match(
     }
     return bipartite_max_match(adjacency, left.size(), right.size());
 }
-} // namespace asst::algorithm
+} // namespace asst::algorithm::bipartite
