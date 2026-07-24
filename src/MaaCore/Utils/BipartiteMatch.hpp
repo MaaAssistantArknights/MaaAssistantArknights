@@ -50,7 +50,7 @@ inline BipartiteMatchResult
     for (size_t i = 0; i < left_count; ++i) {
         bool matched = false;
         for (auto& e : fg.graph[i + 1]) {
-            if (e.cap == 0) {
+            if (e.cap == 0 && e.to > static_cast<int>(left_count)) {
                 result.matched.emplace_back(i, e.to - static_cast<int>(left_count) - 1);
                 ++result.match_count;
                 matched = true;
