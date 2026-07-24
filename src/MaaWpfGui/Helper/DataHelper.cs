@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -86,8 +85,8 @@ public static class DataHelper
         string jsonText = File.ReadAllText(filePath);
         var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? [];
 
-        var characterNamesLangAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage));
-        var characterNamesClientAdd = GetCharacterNamesAddAction(ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType.ToString());
+        var characterNamesLangAdd = GetCharacterNamesAddAction(ConfigFactory.Root.Gui.Localization);
+        var characterNamesClientAdd = GetCharacterNamesAddAction(ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType.ToCustomString());
 
         Characters.Clear();
         CharacterNames.Clear();
@@ -112,7 +111,7 @@ public static class DataHelper
         var clientType = GameSettingsUserControlModel.Instance.ClientType;
         var clientPath = clientType switch {
             ClientType.Official or ClientType.Bilibili => string.Empty,
-            _ => Path.Combine("global", clientType.ToString(), "resource"),
+            _ => Path.Combine("global", clientType.ToCustomString(), "resource"),
         };
 
         var displayLanguage = GuiSettingsUserControlModel.Instance.Language;

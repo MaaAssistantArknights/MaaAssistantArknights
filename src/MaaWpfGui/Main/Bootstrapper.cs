@@ -565,7 +565,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         ConfigConverter.ConvertConfig();
         ETagCache.Load();
 
-        if (ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering)
+        if (ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering)
         {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             _logger.Information("Using software rendering mode due to user preference (bad modules detected)");

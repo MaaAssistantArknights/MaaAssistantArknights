@@ -52,9 +52,20 @@ public static class DateTimeExtension
         return dt.ToOffset(TimeSpan.FromHours(_clientTypeTimezone[ClientType])).AddHours(-YjDayStartHour);
     }
 
+    public static string ToFormattedString(this DateTimeOffset dt)
+    {
+        return dt.ToString("yyyy/MM/dd HH:mm:ss zzz", DateTimeFormatInfo.InvariantInfo);
+    }
+
     public static string ToFormattedString(this DateTime dt)
     {
         return dt.ToString("yyyy/MM/dd HH:mm:ss", DateTimeFormatInfo.InvariantInfo);
+    }
+
+    public static bool IsAprilFoolsDay(this DateTimeOffset dt)
+    {
+        // return true;
+        return dt is { Month: 4, Day: 1 };
     }
 
     public static bool IsAprilFoolsDay(this DateTime dt)

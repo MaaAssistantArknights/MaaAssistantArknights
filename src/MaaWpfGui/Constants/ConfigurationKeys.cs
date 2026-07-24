@@ -31,37 +31,37 @@ public static class ConfigurationKeys
     [UsedImplicitly]
     public const string ConfigurationCron = "Cron";
 
-    public const string Localization = "GUI.Localization";
-    public const string OperNameLanguage = "GUI.OperNameLanguage";
-    public const string UseTray = "GUI.UseTray";
-    public const string MinimizeToTray = "GUI.MinimizeToTray";
-    public const string HideCloseButton = "GUI.HideCloseButton";
-    public const string WindowTitleScrollable = "GUI.WindowTitleScrollable";
+    public const string Localization = "GUI.Localization"; // √
+    public const string OperNameLanguage = "GUI.OperNameLanguage"; // √
+    public const string UseTray = "GUI.UseTray"; // √
+    public const string MinimizeToTray = "GUI.MinimizeToTray"; // √
+    public const string HideCloseButton = "GUI.HideCloseButton"; // √
+    public const string WindowTitleScrollable = "GUI.WindowTitleScrollable"; // √
 
     // public const string UseLogItemDateFormat = "GUI.UseLogItemDateFormat"; 是否使用自定义的时间格式
-    public const string LogItemDateFormat = "GUI.LogItemDateFormatString";
-    public const string WindowPlacement = "GUI.Placement";
-    public const string LoadWindowPlacement = "GUI.Placement.Load";
-    public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing";
+    public const string LogItemDateFormat = "GUI.LogItemDateFormatString"; // √
+    public const string WindowPlacement = "GUI.Placement"; // √
+    public const string LoadWindowPlacement = "GUI.Placement.Load"; // √
+    public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing"; // √
     public const string UseAlternateStage = "GUI.UseAlternateStage"; // 已废弃
     public const string AllowUseStoneSave = "GUI.AllowUseStoneSave"; // 已迁移
-    public const string HideUnavailableStage = "GUI.HideUnavailableStage";
+    public const string HideUnavailableStage = "GUI.HideUnavailableStage"; // √
     public const string HideSeries = "GUI.HideSeries"; // 已迁移
     public const string CustomStageCode = "GUI.CustomStageCode"; // 已迁移
-    public const string InverseClearMode = "GUI.InverseClearMode";
-    public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
-    public const string MaxNumberOfLogThumbnails = "GUI.MaxNumberOfLogThumbnails";
-    public const string UseCardLog = "GUI.UseCardLog";
-    public const string WindowTitleSelectShowList = "GUI.WindowTitleSelectShowList";
-    public const string SoberLanguage = "GUI.SoberLanguage";
-    public const string Hangover = "GUI.Hangover";
-    public const string LastBuyWineTime = "GUI.LastBuyWineTime";
-    public const string CustomCulture = "GUI.CustomCulture";
+    public const string InverseClearMode = "GUI.InverseClearMode"; // √
+    public const string WindowTitlePrefix = "GUI.WindowTitlePrefix"; // √
+    public const string MaxNumberOfLogThumbnails = "GUI.MaxNumberOfLogThumbnails"; // √
+    public const string UseCardLog = "GUI.UseCardLog"; // √
+    public const string WindowTitleSelectShowList = "GUI.WindowTitleSelectShowList"; // √
+    public const string SoberLanguage = "GUI.SoberLanguage"; // √
+    public const string Hangover = "GUI.Hangover"; // √
+    public const string LastBuyWineTime = "GUI.LastBuyWineTime"; // √
+    public const string CustomCulture = "GUI.CustomCulture"; // √
 
-    public const string BackgroundImagePath = "GUI.Background.ImagePath";
-    public const string BackgroundImageStretchMode = "GUI.Background.StretchMode";
-    public const string BackgroundOpacity = "GUI.Background.Opacity";
-    public const string BackgroundBlurEffectRadius = "GUI.Background.BlurEffectRadius";
+    public const string BackgroundImagePath = "GUI.Background.ImagePath"; // √
+    public const string BackgroundImageStretchMode = "GUI.Background.StretchMode"; // √
+    public const string BackgroundOpacity = "GUI.Background.Opacity"; // √
+    public const string BackgroundBlurEffectRadius = "GUI.Background.BlurEffectRadius"; // √
 
     public const string AddressHistory = "Connect.AddressHistory";
     public const string AutoDetect = "Connect.AutoDetect";
@@ -96,7 +96,7 @@ public static class ConfigurationKeys
     public const string ClientType = "Start.ClientType"; // √
     public const string AccountName = "Start.AccountName"; // 已迁移
     public const string RunDirectly = "Start.RunDirectly";
-    public const string MinimizeDirectly = "Start.MinimizeDirectly";
+    public const string MinimizeDirectly = "Start.MinimizeDirectly"; // √
     public const string StartEmulator = "Start.OpenEmulatorAfterLaunch";
     public const string EmulatorPath = "Start.EmulatorPath";
     public const string EmulatorAddCommand = "Start.EmulatorAddCommand";
@@ -135,7 +135,7 @@ public static class ConfigurationKeys
     public const string DormFilterNotStationedEnabled = "Infrast.DormFilterNotStationedEnabled"; // 已迁移
     public const string DormTrustEnabled = "Infrast.DormTrustEnabled"; // 已迁移
     public const string OriginiumShardAutoReplenishment = "Infrast.OriginiumShardAutoReplenishment"; // 已迁移
-    public const string CustomInfrastEnabled = "Infrast.CustomInfrastEnabled";
+    public const string CustomInfrastEnabled = "Infrast.CustomInfrastEnabled"; // 废弃
     public const string CustomInfrastFile = "Infrast.CustomInfrastFile"; // 已迁移
     public const string CustomInfrastPlanIndex = "Infrast.CustomInfrastPlanIndex"; // 已废弃
     public const string CustomInfrastPlanSelect = "Infrast.CustomInfrastPlanSelect"; // 已迁移
@@ -243,7 +243,7 @@ public static class ConfigurationKeys
 
     // 这个已经废弃了，还要留着吗？
     [UsedImplicitly]
-    public const string UseAria2 = "VersionUpdate.UseAria2";
+    public const string UseAria2 = "VersionUpdate.UseAria2"; // 废弃
 
     public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage"; // √
     public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage"; // √
@@ -266,7 +266,7 @@ public static class ConfigurationKeys
     public const string BluestacksConfigError = "Bluestacks.Config.Error";
 
     public const string PostActions = "MainFunction.PostActions";
-    public const string MainFunctionInverseMode = "MainFunction.InverseMode";
+    public const string MainFunctionInverseMode = "MainFunction.InverseMode"; // √
     public const string Stage1 = "MainFunction.Stage1"; // 已迁移
     public const string Stage2 = "MainFunction.Stage2"; // 已迁移
     public const string Stage3 = "MainFunction.Stage3"; // 已迁移

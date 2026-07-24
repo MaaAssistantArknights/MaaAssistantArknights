@@ -473,9 +473,9 @@ public class AsstProxy
         var clientType = SettingsViewModel.GameSettings.ClientType;
 
         string mainRes = PathsHelper.ResourceDir;
-        string globalRes = Path.Combine(mainRes, "global", clientType.ToString(), "resource");
+        string globalRes = Path.Combine(mainRes, "global", clientType.ToCustomString(), "resource");
         string mainCacheRes = PathsHelper.CacheResourceDir;
-        string globalCacheRes = Path.Combine(mainCacheRes, "global", clientType.ToString(), "resource");
+        string globalCacheRes = Path.Combine(mainCacheRes, "global", clientType.ToCustomString(), "resource");
 
         bool loaded;
         if (clientType is ClientType.Official or ClientType.Bilibili)
@@ -1336,7 +1336,7 @@ public class AsstProxy
 
                 if (buyWine)
                 {
-                    Instances.SettingsViewModel.LastBuyWineTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                    Instances.SettingsViewModel.LastBuyWineTime = DateTimeOffset.UtcNow.ToYjDateTime();
 
                     // 非阻塞 Dialog：喝醉提示，用户点确认后再切换到 Pallas 语言
                     SettingsViewModel.ShowEasterEggDialog(
@@ -2640,7 +2640,7 @@ public class AsstProxy
         {
             case "WSA":
             case "Androws":
-                AsstSetInstanceOption(InstanceOptionKey.ClientType, SettingsViewModel.GameSettings.ClientType.ToString());
+                AsstSetInstanceOption(InstanceOptionKey.ClientType, SettingsViewModel.GameSettings.ClientType.ToCustomString());
                 break;
             default:
                 AsstSetInstanceOption(InstanceOptionKey.ClientType, string.Empty);

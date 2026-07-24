@@ -46,6 +46,8 @@ public class Gui : INotifyPropertyChanged
     [JsonInclude]
     public RuntimeSettings RuntimeSettings { get; private set; } = new();
 
-    [JsonInclude]
-    public ConnectSettings ConnectSettings { get; private set; } = new();
+    //[JsonInclude]
+    //public ConnectSettings ConnectSettings { get; private set; } = new();
+
+    public string WindowTitlePrefix { get; set; } = string.Empty;
 }

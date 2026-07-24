@@ -47,6 +47,7 @@ using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using MaaWpfGui.Views.Dialogs;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.Configuration.Global.Gui;
 using static MaaWpfGui.Main.AsstProxy;
 using Application = System.Windows.Application;
 using Screen = Stylet.Screen;
@@ -1536,28 +1537,25 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    private bool _inverseMode = ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to use inverse mode.
     /// </summary>
     public bool InverseMode
     {
-        get => _inverseMode;
-        set {
-            SetAndNotify(ref _inverseMode, value);
+        get; set {
+            SetAndNotify(ref field, value);
             RefreshInverseModeText();
-            ConfigurationHelper.SetValue(ConfigurationKeys.MainFunctionInverseMode, value.ToString());
+            ConfigFactory.Root.Gui.TaskQueueInverseMode = value;
         }
-    }
+    } = ConfigFactory.Root.Gui.TaskQueueInverseMode;
 
     /// <summary>
     /// 刷新反选按钮的两个本地化文本（语言切换时调用）。
     /// </summary>
     private void RefreshInverseModeText()
     {
-        InverseShowText = _inverseMode ? LocalizationHelper.GetString("Inverse") : LocalizationHelper.GetString("Clear");
-        InverseMenuText = _inverseMode ? LocalizationHelper.GetString("Clear") : LocalizationHelper.GetString("Inverse");
+        InverseShowText = InverseMode ? LocalizationHelper.GetString("Inverse") : LocalizationHelper.GetString("Clear");
+        InverseMenuText = InverseMode ? LocalizationHelper.GetString("Clear") : LocalizationHelper.GetString("Inverse");
     }
 
     /// <summary>
@@ -1565,30 +1563,17 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public const int SelectedAllWidthWhenBoth = 80;
 
-    private int _selectedAllWidth =
-        ConfigurationHelper.GetGlobalValue(ConfigurationKeys.InverseClearMode, "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
-
     /// <summary>
     /// Gets or sets the width of "Select All".
     /// </summary>
-    public int SelectedAllWidth
-    {
-        get => _selectedAllWidth;
-        set => SetAndNotify(ref _selectedAllWidth, value);
-    }
-
-    private bool _showInverse = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.InverseClearMode, "Clear") == "ClearInverse";
+    public int SelectedAllWidth { get; set => SetAndNotify(ref field, value); } = ConfigFactory.Root.Gui.InverseClearMode == InverseClearType.ClearInverse ? SelectedAllWidthWhenBoth : 85;
 
     /// <summary>
     /// Gets or sets a value indicating whether "Select inversely" is visible.
     /// </summary>
-    public bool ShowInverse
-    {
-        get => _showInverse;
-        set => SetAndNotify(ref _showInverse, value);
-    }
+    public bool ShowInverse { get; set => SetAndNotify(ref field, value); } = ConfigFactory.Root.Gui.InverseClearMode == InverseClearType.ClearInverse;
 
-    private string _inverseShowText = ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, false)
+    private string _inverseShowText = ConfigFactory.Root.Gui.TaskQueueInverseMode
         ? LocalizationHelper.GetString("Inverse")
         : LocalizationHelper.GetString("Clear");
 
@@ -1601,7 +1586,7 @@ public class TaskQueueViewModel : Screen
         private set => SetAndNotify(ref _inverseShowText, value);
     }
 
-    private string _inverseMenuText = ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, false)
+    private string _inverseMenuText = ConfigFactory.Root.Gui.TaskQueueInverseMode
         ? LocalizationHelper.GetString("Clear")
         : LocalizationHelper.GetString("Inverse");
 

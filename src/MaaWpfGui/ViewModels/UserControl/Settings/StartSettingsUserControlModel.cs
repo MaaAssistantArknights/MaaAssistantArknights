@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
@@ -90,19 +91,16 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _minimizeDirectly = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeDirectly, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to minimize directly.
     /// </summary>
     public bool MinimizeDirectly
     {
-        get => _minimizeDirectly;
-        set {
-            SetAndNotify(ref _minimizeDirectly, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MinimizeDirectly, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.MinimizeOnStartup = value;
         }
-    }
+    } = ConfigFactory.Root.Gui.MinimizeOnStartup;
 
     private bool _openEmulatorAfterLaunch = ConfigurationHelper.GetValue(ConfigurationKeys.StartEmulator, false);
 

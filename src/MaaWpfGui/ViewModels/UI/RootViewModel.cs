@@ -25,7 +25,6 @@ using HandyControl.Data;
 using HandyControl.Tools;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Services;
@@ -221,27 +220,15 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         }
     }
 
-    private bool _windowTitleScrollable = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleScrollable, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to scroll the window title.
     /// </summary>
-    public bool WindowTitleScrollable
-    {
-        get => _windowTitleScrollable;
-        set => SetAndNotify(ref _windowTitleScrollable, value);
-    }
-
-    private bool _showCloseButton = !ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HideCloseButton, false);
+    public bool WindowTitleScrollable { get; set => SetAndNotify(ref field, value); } = ConfigFactory.Root.Gui.WindowTitleScrollable;
 
     /// <summary>
     /// Gets or sets a value indicating whether to show close button.
     /// </summary>
-    public bool ShowCloseButton
-    {
-        get => _showCloseButton;
-        set => SetAndNotify(ref _showCloseButton, value);
-    }
+    public bool ShowCloseButton { get; set => SetAndNotify(ref field, value); } = ConfigFactory.Root.Gui.HideCloseButton;
 
     private bool _isWindowTopMost;
 

@@ -20,7 +20,7 @@ using System.IO;
 using System.Text.Json;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Models;
 using Serilog;
 
@@ -47,7 +47,7 @@ public static class ItemListHelper
 
     private static Dictionary<string, ArkItem> LoadItems()
     {
-        var language = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+        var language = ConfigFactory.Root.Gui.Localization;
         string filename = string.Empty;
         switch (language)
         {
@@ -82,7 +82,7 @@ public static class ItemListHelper
             _logger.Error(e, "Failed to load item list from {filename}", filename);
         }
 
-        return tempItems ?? new Dictionary<string, ArkItem>();
+        return tempItems ?? [];
     }
 
     /// <summary>

@@ -31,6 +31,7 @@ using HandyControl.Controls;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -1520,7 +1521,7 @@ public class ToolboxViewModel : Screen
             var operDataMap = ownOpers.ToDictionary(o => o.Id);
             foreach (var (id, oper) in DataHelper.Operators)
             {
-                if (!DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToString()))
+                if (!DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
                 {
                     continue;
                 }
@@ -1615,7 +1616,7 @@ public class ToolboxViewModel : Screen
 
         foreach (var (id, oper) in DataHelper.Operators)
         {
-            if (!_tempOperHaveSet.Contains(id) && DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToString()))
+            if (!_tempOperHaveSet.Contains(id) && DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
             {
                 var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
                 OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity));
@@ -1737,7 +1738,7 @@ public class ToolboxViewModel : Screen
 
         foreach (var (operId, operInfo) in DataHelper.Operators)
         {
-            if (!DataHelper.IsCharacterAvailableInClient(operInfo, SettingsViewModel.GameSettings.ClientType.ToString()))
+            if (!DataHelper.IsCharacterAvailableInClient(operInfo, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
             {
                 continue;
             }

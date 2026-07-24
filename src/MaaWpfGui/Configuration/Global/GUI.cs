@@ -1,4 +1,4 @@
-// <copyright file="GUI.cs" company="MaaAssistantArknights">
+// <copyright file="Gui.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System;
 using System.ComponentModel;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
@@ -19,7 +20,7 @@ using MaaWpfGui.Models;
 
 namespace MaaWpfGui.Configuration.Global;
 
-public class GUI : INotifyPropertyChanged
+public class Gui : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -27,13 +28,23 @@ public class GUI : INotifyPropertyChanged
 
     public bool UseNotify { get; set; } = true;
 
-    public bool MainTasksInvertNullFunction { get; set; } = false;
+    public bool MainTasksInvertNullFunction { get; set; }
 
     public string Localization { get; set; } = LocalizationHelper.DefaultLanguage;
 
-    public bool MinimizeToTray { get; set; } = false;
+    public string OperNameLanguage { get; set; } = "OperNameLanguageMAA";
 
-    public bool HideCloseButton { get; set; } = false;
+    public bool UseTray { get; set; } = true;
+
+    public bool MinimizeToTray { get; set; }
+
+    public bool MinimizeOnStartup { get; set; }
+
+    public bool HideCloseButton { get; set; }
+
+    public string WindowTitleSelectShowList { get; set; } = "2 3 4";
+
+    public bool WindowTitleScrollable { get; set; }
 
     public string LogItemDateFormat { get; set; } = "HH:mm:ss";
 
@@ -45,9 +56,21 @@ public class GUI : INotifyPropertyChanged
 
     public InverseClearType InverseClearMode { get; set; } = InverseClearType.Clear;
 
-    public string WindowTitlePrefix { get; set; } = string.Empty;
+    public bool TaskQueueInverseMode { get; set; }
 
-    public bool IgnoreBadModulesAndUseSoftwareRendering { get; set; } = false;
+    public bool UseCardLog { get; set; } = true;
+
+    public int MaxNumberOfLogThumbnails { get; set; } = 100;
+
+    public string SoberLanguage { get; set; } = LocalizationHelper.DefaultLanguage;
+
+    public bool Hangover { get; set; }
+
+    public DateTimeOffset LastBuyWineTime { get; set; } = DateTimeOffset.MinValue;
+
+    public string CustomCulture { get; set; } = string.Empty;
+
+    public bool IgnoreBadModulesAndUseSoftwareRendering { get; set; }
 
     public bool ExpanderSwitchConfiguration { get; set; } = true;
 
@@ -78,6 +101,8 @@ public class GUI : INotifyPropertyChanged
     public bool ExpanderIssueReport { get; set; } = true;
 
     public bool ExpanderAboutUs { get; set; } = true;
+
+    public Background Background { get; set; } = new();
 
     // ===== 背景设置（莫奈取色） =====
     public bool BackgroundMonetEnabled { get; set; } = false;

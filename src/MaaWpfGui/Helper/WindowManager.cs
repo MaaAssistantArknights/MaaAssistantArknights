@@ -14,10 +14,9 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Models;
 using MaaWpfGui.Views.UI;
-using Newtonsoft.Json;
 using Serilog;
 using Stylet;
 using Rect = MaaWpfGui.Models.Rect;
@@ -33,10 +32,10 @@ public class WindowManager : Stylet.WindowManager
 
     private static readonly ILogger _logger = Log.ForContext<WindowManager>();
 
-    private readonly bool _loadWindowPlacement = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.LoadWindowPlacement, true);
-    private readonly bool _saveWindowPlacement = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.SaveWindowPlacement, true);
-    private readonly bool _minimizeDirectly = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeDirectly, false);
-    private readonly bool _minimizeToTray = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeToTray, false);
+    private readonly bool _loadWindowPlacement = ConfigFactory.Root.Gui.LoadWindowPlacement;
+    private readonly bool _saveWindowPlacement = ConfigFactory.Root.Gui.SaveWindowPlacement;
+    private readonly bool _minimizeDirectly = ConfigFactory.Root.Gui.MinimizeOnStartup;
+    private readonly bool _minimizeToTray = ConfigFactory.Root.Gui.MinimizeToTray;
 
     /// <summary>
     /// Center other windows in MaaWpfGui.RootView
@@ -66,8 +65,7 @@ public class WindowManager : Stylet.WindowManager
 
             if (_loadWindowPlacement && GetConfiguration(out WindowPlacement wp))
             {
-                window.SourceInitialized += (s, e) =>
-                {
+                window.SourceInitialized += (s, e) => {
                     bool success = SetWindowPlacement(window, ref wp, minimizeDirectly: _minimizeDirectly);
                     _logger.Information("Whether the window placement was set successfully: {Success}", success);
                 };
@@ -75,8 +73,7 @@ public class WindowManager : Stylet.WindowManager
 
             if (_loadWindowPlacement && _saveWindowPlacement)
             {
-                window.Closing += (s, e) =>
-                {
+                window.Closing += (s, e) => {
                     if (!GetWindowPlacement(window, out WindowPlacement windowPlacement))
                     {
                         _logger.Error("Failed to get window placement");
@@ -89,10 +86,9 @@ public class WindowManager : Stylet.WindowManager
                         return;
                     }
 
-                    if (!SetConfiguration(windowPlacement))
-                    {
-                        _logger.Error("Failed to save window placement");
-                    }
+                    // 请在配置文件中修改该部分配置，暂不支持从GUI设置
+                    // Please modify this part of configuration in the configuration file.
+                    ConfigFactory.Root.Gui.WindowPlacement = windowPlacement;
                 };
             }
 
@@ -111,45 +107,16 @@ public class WindowManager : Stylet.WindowManager
         return window;
     }
 
-    private bool SetConfiguration(WindowPlacement wp)
-    {
-        try
-        {
-            // 请在配置文件中修改该部分配置，暂不支持从GUI设置
-            // Please modify this part of configuration in the configuration file.
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.LoadWindowPlacement, _loadWindowPlacement.ToString());
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.SaveWindowPlacement, _saveWindowPlacement.ToString());
-
-            return ConfigurationHelper.SetGlobalValue(ConfigurationKeys.WindowPlacement, JsonConvert.SerializeObject(wp));
-        }
-        catch (Exception e)
-        {
-            _logger.Error(e, "Failed to serialize json string to {Key}", ConfigurationKeys.WindowPlacement);
-        }
-
-        return false;
-    }
-
     private static bool GetConfiguration(out WindowPlacement wp)
     {
         wp = default;
-        var jsonStr = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowPlacement, string.Empty);
-        if (string.IsNullOrEmpty(jsonStr))
+        if (ConfigFactory.Root.Gui.WindowPlacement == null)
         {
             return false;
         }
 
-        try
-        {
-            wp = JsonConvert.DeserializeObject<WindowPlacement?>(jsonStr) ?? throw new Exception("Failed to parse json string");
-            return true;
-        }
-        catch (Exception e)
-        {
-            _logger.Error(e, "Failed to deserialize json string from {Key}", ConfigurationKeys.WindowPlacement);
-        }
-
-        return false;
+        wp = ConfigFactory.Root.Gui.WindowPlacement.Value;
+        return true;
     }
 
     /// <summary>

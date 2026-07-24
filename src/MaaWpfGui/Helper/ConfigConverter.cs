@@ -13,8 +13,10 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Windows.Media;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -26,6 +28,7 @@ using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using static MaaWpfGui.Configuration.Global.Gui;
 using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
 using static MaaWpfGui.ViewModels.UI.ToolboxViewModel;
 using static MaaWpfGui.ViewModels.UserControl.Settings.VersionUpdateSettingsUserControlModel;
@@ -737,6 +740,9 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReminderIntervalMinutes);
             }
 
+            ConfigFactory.CurrentConfig.Gui.WindowTitlePrefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.WindowTitlePrefix);
+
             // 小工具
             {
                 {
@@ -778,6 +784,9 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.MiniGameSecretFrontEvent);
             }
         }
+
+        ConfigurationHelper.SwitchConfiguration(currentConfigName);
+        ConfigFactory.SwitchConfig(currentConfigName);
 
         // 更新设置
         {
@@ -822,8 +831,70 @@ public class ConfigConverter
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.ShowUpdaterConsole, out var _);
         }
 
-        ConfigurationHelper.SwitchConfiguration(currentConfigName);
-        ConfigFactory.SwitchConfig(currentConfigName);
+        // Gui设置
+        {
+            ConfigFactory.Root.Gui.Localization = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+            ConfigFactory.Root.Gui.OperNameLanguage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
+            ConfigFactory.Root.Gui.UseTray = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, true);
+            ConfigFactory.Root.Gui.MinimizeToTray = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeToTray, false);
+            ConfigFactory.Root.Gui.MinimizeOnStartup = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeDirectly, false);
+            ConfigFactory.Root.Gui.HideCloseButton = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HideCloseButton, false);
+            ConfigFactory.Root.Gui.WindowTitleScrollable = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleScrollable, false);
+            ConfigFactory.Root.Gui.LogItemDateFormat = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.LogItemDateFormat, "HH:mm:ss");
+            var jsonStr = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowPlacement, string.Empty);
+            if (!string.IsNullOrEmpty(jsonStr))
+            {
+                try
+                {
+                    ConfigFactory.Root.Gui.WindowPlacement = JsonConvert.DeserializeObject<WindowPlacement?>(jsonStr);
+                }
+                catch
+                {
+                }
+            }
+            ConfigFactory.Root.Gui.LoadWindowPlacement = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.LoadWindowPlacement, true);
+            ConfigFactory.Root.Gui.SaveWindowPlacement = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.SaveWindowPlacement, true);
+            ConfigFactory.Root.Gui.InverseClearMode = Enum.TryParse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.InverseClearMode, InverseClearType.Clear.ToString()), out InverseClearType temp) ? temp : InverseClearType.Clear;
+            ConfigFactory.Root.Gui.TaskQueueInverseMode = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MainFunctionInverseMode, false);
+            ConfigFactory.Root.Gui.UseCardLog = ConfigurationHelper.GetValue(ConfigurationKeys.UseCardLog, true);
+            ConfigFactory.Root.Gui.MaxNumberOfLogThumbnails = ConfigurationHelper.GetValue(ConfigurationKeys.MaxNumberOfLogThumbnails, 100);
+            ConfigFactory.Root.Gui.SoberLanguage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.SoberLanguage, LocalizationHelper.DefaultLanguage);
+            ConfigFactory.Root.Gui.Hangover = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Hangover, false);
+            var time = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.LastBuyWineTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
+            ConfigFactory.Root.Gui.LastBuyWineTime = new DateTimeOffset(DateTime.ParseExact(time.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture));
+            ConfigFactory.Root.Gui.CustomCulture = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomCulture, string.Empty);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.Localization, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.OperNameLanguage, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.UseTray, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.MinimizeToTray, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.MinimizeDirectly, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.HideCloseButton, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.WindowTitleScrollable, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.LogItemDateFormat, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.WindowPlacement, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.LoadWindowPlacement, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.SaveWindowPlacement, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.InverseClearMode, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.MainFunctionInverseMode, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.UseCardLog, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.MaxNumberOfLogThumbnails, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.SoberLanguage, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.Hangover, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.LastBuyWineTime, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.CustomCulture, out var _);
+            ConfigFactory.Root.Gui.WindowTitleSelectShowList = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, "2 3 4");
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, out var _);
+
+            ConfigFactory.Root.Gui.Background.ImagePath = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundImagePath, "background/background.png");
+            ConfigFactory.Root.Gui.Background.StretchMode = Enum.Parse<Stretch>(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundImageStretchMode, Stretch.Fill.ToString())); ;
+            ConfigFactory.Root.Gui.Background.Opacity = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundOpacity, 50);
+            ConfigFactory.Root.Gui.Background.BlurEffectRadius = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, 5);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundImagePath, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundImageStretchMode, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundOpacity, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, out var _);
+        }
+
         return true;
 
         static string CapitalizeFirst(string? input)

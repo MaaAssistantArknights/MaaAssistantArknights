@@ -45,7 +45,7 @@ public class Root : INotifyPropertyChanged
     public AnnouncementInfo AnnouncementInfo { get; private set; } = new();
 
     [JsonInclude]
-    public GUI GUI { get; private set; } = new();
+    public Gui Gui { get; private set; } = new();
 
     [JsonIgnore]
     public SpecificConfig CurrentConfig
