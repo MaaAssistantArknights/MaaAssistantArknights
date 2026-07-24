@@ -374,7 +374,12 @@ bool asst::InfrastProductionTask::shift_facility_list()
         /* 进入干员选择页面 */
         if (!m_skip_shift) {
             ctrler()->click(add_button);
-            sleep(add_task_ptr->post_delay);
+            if (m_dynamic_polling) {
+                smart_sleep(add_task_ptr->post_delay);
+            }
+            else {
+                sleep(add_task_ptr->post_delay);
+            }
 
             close_quick_formation_expand_role();
 
@@ -451,6 +456,7 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
 {
     LogTraceFunction;
     m_all_available_opers.clear();
+    m_ephemeral_oper_cache.clear();
 
     while (true) {
         if (need_exit()) {
@@ -460,6 +466,12 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
         Log.trace("opers_detect return", num);
 
         if (num == 0) {
+            break;
+        }
+
+        // Fast Mode: Avoid trailing swipe if custom targets are already 100% satisfied
+        if (m_dynamic_polling && m_is_custom && m_all_available_opers.size() >= current_room_config().names.size()) {
+            Log.info("Fast Mode: custom targets satisfied, skipping trailing swipe");
             break;
         }
 
@@ -485,11 +497,27 @@ size_t asst::InfrastProductionTask::opers_detect()
     if (!oper_analyzer.analyze()) {
         return 0;
     }
-    const auto& cur_all_opers = oper_analyzer.get_result();
+    auto cur_all_opers = oper_analyzer.get_result();
     max_num_of_opers_per_page = (std::max)(max_num_of_opers_per_page, cur_all_opers.size());
 
     const int face_hash_thres = Task.get("InfrastOperFace")->special_params[0];
     const size_t pre_size = m_all_available_opers.size();
+
+    // Fast Mode: Cache skills per Face Hash to short-circuit repeat skill scanning
+    if (m_dynamic_polling) {
+        for (auto& cur_oper : cur_all_opers) {
+            for (const auto& [cached_hash, cached_skills] : m_ephemeral_oper_cache) {
+                if (Hasher::hamming(cur_oper.face_hash, cached_hash) < face_hash_thres) {
+                    cur_oper.skills = cached_skills;
+                    break;
+                }
+            }
+            if (!cur_oper.skills.empty()) {
+                m_ephemeral_oper_cache[cur_oper.face_hash] = cur_oper.skills;
+            }
+        }
+    }
+
     for (const auto& cur_oper : cur_all_opers) {
         if (cur_oper.skills.empty()) {
             continue;

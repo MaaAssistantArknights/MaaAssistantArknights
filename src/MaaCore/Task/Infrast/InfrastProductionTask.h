@@ -38,6 +38,7 @@ protected:
     std::string m_drones_usage_from_params;
     int m_cur_num_of_locked_opers = 0;
     std::vector<infrast::Oper> m_all_available_opers;
+    std::unordered_map<std::string, std::unordered_set<infrast::Skill>> m_ephemeral_oper_cache;
     std::vector<infrast::SkillsComb> m_optimal_combs;
     std::vector<Rect> m_facility_list_tabs;
     size_t max_num_of_opers_per_page = 0;

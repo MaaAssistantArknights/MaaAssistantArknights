@@ -1867,6 +1867,36 @@ public class AsstProxy
         string what = details["what"]?.ToString() ?? string.Empty;
         switch (what)
         {
+            case "FastModeActivity":
+                {
+                    int elapsed = subTaskDetails?["elapsed"]?.Value<int>() ?? 0;
+                    Instances.TaskQueueViewModel.AddLog($"[Fast Mode] UI condition matched in {elapsed} ms", UiLogColor.Info);
+                    break;
+                }
+
+            case "SubTaskDuration":
+                {
+                    string facility = subTaskDetails?["facility"]?.ToString() ?? string.Empty;
+                    int index = subTaskDetails?["index"]?.Value<int>() ?? 0;
+                    double duration = subTaskDetails?["duration"]?.Value<double>() ?? 0.0;
+                    string facilityText = LocalizationHelper.GetString(facility);
+                    if (string.IsNullOrEmpty(facilityText))
+                    {
+                        facilityText = facility;
+                    }
+                    Instances.TaskQueueViewModel.AddLog($"{LocalizationHelper.GetString("ThisFacility")}{facilityText} {index + 1:D2} (Duration: {duration:F1}s)", UiLogColor.Info);
+                    break;
+                }
+
+            case "SubTaskStepDuration":
+                {
+                    string step = subTaskDetails?["step"]?.ToString() ?? string.Empty;
+                    string facility = subTaskDetails?["facility"]?.ToString() ?? string.Empty;
+                    int index = subTaskDetails?["index"]?.Value<int>() ?? 0;
+                    double duration = subTaskDetails?["duration_sec"]?.Value<double>() ?? 0.0;
+                    Instances.TaskQueueViewModel.AddLog($"⏱️ [{facility} {index + 1:D2}] Step '{step}' took {duration:F2}s", UiLogColor.Info);
+                    break;
+                }
             case "StageDrops":
                 {
                     string allDrops = string.Empty;

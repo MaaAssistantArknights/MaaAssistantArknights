@@ -114,7 +114,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
         var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
         var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
-        if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion() && uiVersion != coreVersion)
+        if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion() && uiVersion != coreVersion && !File.Exists("DEBUG") && !File.Exists("DEBUG.txt"))
         {
             MessageBoxHelper.Show(
                 LocalizationHelper.GetStringFormat("VersionMismatch", uiVersion, coreVersion),

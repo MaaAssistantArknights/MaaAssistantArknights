@@ -1848,7 +1848,7 @@ public class TaskQueueViewModel : Screen
 
         var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
         var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
-        if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion() && uiVersion != coreVersion)
+        if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion() && uiVersion != coreVersion && !File.Exists("DEBUG") && !File.Exists("DEBUG.txt"))
         {
             AddLog(LocalizationHelper.GetStringFormat("VersionMismatch", uiVersion, coreVersion), UiLogColor.Error);
             return;

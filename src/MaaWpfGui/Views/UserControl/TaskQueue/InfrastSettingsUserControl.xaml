@@ -225,7 +225,7 @@
                 <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=DynamicPollingTipsTooltipBlock}" IsChecked="{Binding DynamicPolling}">
                     <controls:TextBlock Text="Dynamic UI Polling (Fast Mode)" TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock x:Name="DynamicPollingTipsTooltipBlock" TooltipText="Dynamically checks UI stability and target states instead of fixed delays, accelerating Base tasks by 15-30% on fast machines." />
+                <controls:TooltipBlock x:Name="DynamicPollingTipsTooltipBlock" TooltipText="Dynamically checks UI stability, target states, and uses ephemeral face-hash caching instead of fixed delays." />
             </StackPanel>
         </StackPanel>
     </StackPanel>

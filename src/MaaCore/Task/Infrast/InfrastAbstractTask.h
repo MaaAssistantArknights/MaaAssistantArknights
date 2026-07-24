@@ -89,5 +89,16 @@ protected:
     bool m_is_custom = false;
     bool m_dynamic_polling = false;
     infrast::CustomFacilityConfig m_custom_config;
+    std::chrono::steady_clock::time_point m_subtask_start_time;
+    void record_subtask_start() noexcept;
+    double elapsed_subtask_sec() const noexcept;
+    void log_step_duration(std::string_view step_name, double duration_sec);
+
+    void reset_swipe_motion_state() noexcept;
+    bool is_swipe_motion_settled();
+
+private:
+    cv::Mat m_prev_swipe_frame;
+    int m_stable_frame_count = 0;
 };
 } // namespace asst

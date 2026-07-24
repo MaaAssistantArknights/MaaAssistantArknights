@@ -194,7 +194,7 @@ bool asst::InfrastReceptionTask::remove_clue()
         // 点击已放上的线索
         Rect click_rect = vacancy.at(id);
         ret &= ctrler()->click(click_rect);
-        sleep(500);
+        smart_sleep(500);
 
         bool pin_found = false;
         for (int i = 0; i < 5; ++i) {
@@ -207,7 +207,7 @@ bool asst::InfrastReceptionTask::remove_clue()
             if (auto pin_res = pin_analyzer.analyze()) {
                 pin_found = true;
                 ctrler()->click(pin_res->rect);
-                sleep(500);
+                smart_sleep(500);
                 break;
             }
             // 向下滑动一点，可能线索比较多
@@ -221,7 +221,7 @@ bool asst::InfrastReceptionTask::remove_clue()
 
         if (auto confirm_res = confirm_analyzer.analyze()) {
             ret &= ctrler()->click(confirm_res->rect);
-            sleep(500);
+            smart_sleep(500);
         }
     }
 

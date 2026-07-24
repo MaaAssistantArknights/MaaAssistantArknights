@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <boost/regex.hpp>
+#include <opencv2/imgproc.hpp>
 #include <utility>
 
 #include "Common/AsstMsg.h"
@@ -17,6 +18,8 @@
 #include "Vision/RegionOCRer.h"
 #include <ranges>
 
+#define DEBUG_SHOW_FAST_MODE_GUI_LOG false
+
 asst::InfrastAbstractTask::InfrastAbstractTask(
     const AsstCallback& callback,
     Assistant* inst,
@@ -24,6 +27,27 @@ asst::InfrastAbstractTask::InfrastAbstractTask(
     AbstractTask(callback, inst, task_chain)
 {
     m_retry_times = TaskRetryTimes;
+}
+
+void asst::InfrastAbstractTask::record_subtask_start() noexcept
+{
+    m_subtask_start_time = std::chrono::steady_clock::now();
+}
+
+double asst::InfrastAbstractTask::elapsed_subtask_sec() const noexcept
+{
+    auto now = std::chrono::steady_clock::now();
+    return std::chrono::duration<double>(now - m_subtask_start_time).count();
+}
+
+void asst::InfrastAbstractTask::log_step_duration(std::string_view step_name, double duration_sec)
+{
+    json::value callback_info = basic_info_with_what("SubTaskStepDuration");
+    callback_info["details"]["step"] = std::string(step_name);
+    callback_info["details"]["facility"] = facility_name();
+    callback_info["details"]["index"] = m_cur_facility_index;
+    callback_info["details"]["duration_sec"] = duration_sec;
+    callback(AsstMsg::SubTaskExtraInfo, callback_info);
 }
 
 asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_mood_threshold(double mood_thres) noexcept
@@ -55,7 +79,13 @@ bool asst::InfrastAbstractTask::smart_sleep(int default_ms, const std::function<
         }
         try {
             if (is_ready_checker()) {
-                Log.trace("smart_sleep dynamic condition matched in", elapsed, "ms");
+                Log.info("smart_sleep dynamic condition matched in", elapsed, "ms");
+#if DEBUG_SHOW_FAST_MODE_GUI_LOG
+                json::value info = basic_info_with_what("FastModeActivity");
+                info["details"]["elapsed"] = elapsed;
+                info["details"]["default"] = default_ms;
+                callback(AsstMsg::SubTaskExtraInfo, info);
+#endif
                 return true;
             }
         }
@@ -240,6 +270,8 @@ bool asst::InfrastAbstractTask::on_run_fails()
 bool asst::InfrastAbstractTask::enter_facility(int index)
 {
     LogTraceFunction;
+    record_subtask_start();
+    auto start_time = std::chrono::steady_clock::now();
 
     if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
         Log.warn("index out of range:", index, m_custom_config.size());
@@ -263,7 +295,15 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
     m_cur_facility_index = index;
 
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
-    sleep(Task.get("InfrastEnterFacility")->post_delay);
+    if (m_dynamic_polling) {
+        smart_sleep(Task.get("InfrastEnterFacility")->post_delay);
+    }
+    else {
+        sleep(Task.get("InfrastEnterFacility")->post_delay);
+    }
+
+    double dur = std::chrono::duration<double>(std::chrono::steady_clock::now() - start_time).count();
+    log_step_duration("EnterFacility", dur);
 
     return true;
 }
@@ -467,6 +507,10 @@ bool asst::InfrastAbstractTask::select_opers_review(
     }
 
     Log.info("select opers review passed");
+    double duration = elapsed_subtask_sec();
+    json::value info = basic_info_with_what("SubTaskDuration");
+    info["details"]["duration"] = duration;
+    callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
 }
 
@@ -524,11 +568,11 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         const auto& end = views.back();
         if (image.cols > end.rect.x + (end.rect.x - first.rect.x)) {
             // 如果最后一列干员后，还能塞一列，则认为是触底了
-            sleep(500);
+            smart_sleep(500);
         }
     }
     else {
-        sleep(500);
+        smart_sleep(500);
     }
 
     image = ctrler()->get_image();
@@ -753,9 +797,45 @@ bool asst::InfrastAbstractTask::click_confirm_button()
     return ret;
 }
 
+void asst::InfrastAbstractTask::reset_swipe_motion_state() noexcept
+{
+    m_prev_swipe_frame.release();
+    m_stable_frame_count = 0;
+}
+
+bool asst::InfrastAbstractTask::is_swipe_motion_settled()
+{
+    sleep(70);
+
+    cv::Mat cur_frame = ctrler()->get_image();
+    if (m_prev_swipe_frame.empty()) {
+        m_prev_swipe_frame = cur_frame.clone();
+        return false;
+    }
+
+    cv::Mat diff_frame;
+    cv::absdiff(m_prev_swipe_frame, cur_frame, diff_frame);
+    cv::Scalar mean_diff = cv::mean(diff_frame);
+    m_prev_swipe_frame = cur_frame.clone();
+
+    // Average pixel difference across channels < 2.0 (out of 255)
+    double avg_diff = (mean_diff[0] + mean_diff[1] + mean_diff[2]) / 3.0;
+    if (avg_diff < 2.0) {
+        m_stable_frame_count++;
+        return m_stable_frame_count >= 2;
+    }
+
+    m_stable_frame_count = 0;
+    return false;
+}
+
 void asst::InfrastAbstractTask::swipe_of_operlist()
 {
+    reset_swipe_motion_state();
     ProcessTask(*this, { "InfrastOperListSlowlySwipeToTheRight" }).run();
+    if (m_dynamic_polling) {
+        smart_sleep(400, [this]() { return is_swipe_motion_settled(); });
+    }
 }
 
 void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
