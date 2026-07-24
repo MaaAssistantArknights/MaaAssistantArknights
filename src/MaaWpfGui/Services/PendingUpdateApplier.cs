@@ -21,7 +21,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using Newtonsoft.Json.Linq;
@@ -107,8 +107,8 @@ internal static partial class PendingUpdateApplier
 
     public static bool HasPendingUpdatePackage()
     {
-        string updateTag = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
-        string updatePackageName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
+        string updateTag = ConfigFactory.Root.Update.Name;
+        string updatePackageName = ConfigFactory.Root.Update.UpdatePackage;
         return updateTag != string.Empty && updatePackageName != string.Empty && File.Exists(updatePackageName);
     }
 
@@ -245,8 +245,8 @@ internal static partial class PendingUpdateApplier
 
     public static PendingUpdateApplyResult TryApplyPendingUpdatePackage()
     {
-        string updateTag = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
-        string updatePackageName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
+        string updateTag = ConfigFactory.Root.Update.Name;
+        string updatePackageName = ConfigFactory.Root.Update.UpdatePackage;
         if (updateTag == string.Empty || updatePackageName == string.Empty || !File.Exists(updatePackageName))
         {
             return new(PendingUpdateApplyResult.StatusKind.NoPendingPackage);
@@ -444,16 +444,15 @@ internal static partial class PendingUpdateApplier
         IReadOnlyList<string> removeEntries,
         IReadOnlyList<string> moveEntries)
     {
-        bool showUpdaterConsole = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterConsole, false);
-        bool showUpdaterProgress = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterProgress, true);
+        bool showUpdaterConsole = ConfigFactory.Root.Update.ShowUpdaterConsole;
+        bool showUpdaterProgress = ConfigFactory.Root.Update.ShowUpdaterProgress;
         string planPath = Path.Combine(context.RootDir, $"maa-pending-update-{Guid.NewGuid():N}.json");
         string updaterExecutablePath = PrepareDelegatedUpdaterExecutable(context);
         string relaunchExecutablePath = Path.Combine(context.RootDir, "MAA.exe");
 
         File.WriteAllText(planPath, CreatePendingUpdatePlan(packageType, removeEntries, moveEntries));
 
-        var startInfo = new ProcessStartInfo
-        {
+        var startInfo = new ProcessStartInfo {
             FileName = updaterExecutablePath,
             UseShellExecute = false,
             CreateNoWindow = !showUpdaterConsole,
@@ -515,8 +514,7 @@ internal static partial class PendingUpdateApplier
 
     private static string CreatePendingUpdatePlan(string packageType, IReadOnlyList<string> removeEntries, IReadOnlyList<string> moveEntries)
     {
-        return new JObject
-        {
+        return new JObject {
             ["packageType"] = packageType,
             ["removeList"] = JArray.FromObject(removeEntries),
             ["moveList"] = JArray.FromObject(moveEntries),
@@ -772,8 +770,8 @@ internal static partial class PendingUpdateApplier
 
     private static void MarkPendingUpdateApplied()
     {
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, bool.TrueString);
+        ConfigFactory.Root.Update.UpdatePackage = string.Empty;
+        ConfigFactory.Root.Update.IsFirstBoot = true;
     }
 
     internal static bool ShouldPreserveExistingUpdateBody(string updateTag)
@@ -783,7 +781,7 @@ internal static partial class PendingUpdateApplier
             return false;
         }
 
-        string existingUpdateTag = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
+        string existingUpdateTag = ConfigFactory.Root.Update.Name;
         string existingUpdateBody = MarkdownDataHelper.Get("CHANGELOG");
         return !string.IsNullOrWhiteSpace(existingUpdateBody) && VersionsMatch(existingUpdateTag, updateTag);
     }
@@ -791,18 +789,18 @@ internal static partial class PendingUpdateApplier
     private static void RegisterPendingUpdatePackage(string updateTag, string packagePath)
     {
         bool preserveExistingUpdateBody = ShouldPreserveExistingUpdateBody(updateTag);
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionName, updateTag);
+        ConfigFactory.Root.Update.Name = updateTag;
         if (!preserveExistingUpdateBody)
         {
             MarkdownDataHelper.Delete("CHANGELOG");
         }
 
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdatePackage, packagePath);
+        ConfigFactory.Root.Update.UpdatePackage = packagePath;
     }
 
     private static void ClearPendingUpdatePackageState()
     {
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
+        ConfigFactory.Root.Update.UpdatePackage = string.Empty;
     }
 
     private static string NormalizeArchitecture(string architecture)

@@ -39,7 +39,7 @@ public class Root : INotifyPropertyChanged
     public string Current { get; set; } = ConfigurationKeys.DefaultConfiguration;
 
     [JsonInclude]
-    public VersionUpdate VersionUpdate { get; private set; } = new();
+    public Update Update { get; private set; } = new();
 
     [JsonInclude]
     public AnnouncementInfo AnnouncementInfo { get; private set; } = new();

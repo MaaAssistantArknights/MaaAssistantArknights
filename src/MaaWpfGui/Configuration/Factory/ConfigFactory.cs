@@ -154,9 +154,9 @@ public static class ConfigFactory
             };
 
             parsed.Timers.CollectionChanged += Handler.OnCollectionChangedFactory<int, Global.Timer>("Root.Timers.");
-            parsed.VersionUpdate.PropertyChanged += Handler.OnPropertyChangedFactory();
             parsed.AnnouncementInfo.PropertyChanged += Handler.OnPropertyChangedFactory();
             parsed.GUI.PropertyChanged += Handler.OnPropertyChangedFactory();
+            parsed.Update.PropertyChanged += Handler.OnPropertyChangedFactory();
 
             foreach (var keyValue in parsed.Configurations)
             {

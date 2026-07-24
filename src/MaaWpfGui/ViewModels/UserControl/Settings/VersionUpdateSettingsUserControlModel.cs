@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
@@ -164,7 +165,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         string defaultJsonPath = Path.Combine(PathsHelper.ResourceDir, "version.json");
         var jsonPath = isDefaultClient
             ? defaultJsonPath
-            : Path.Combine(PathsHelper.ResourceDir, $"global/{clientType}/resource/version.json");
+            : Path.Combine(PathsHelper.ResourceDir, $"global/{clientType.ToCustomString()}/resource/version.json");
 
         string versionName;
         if (!File.Exists(defaultJsonPath) || (!isDefaultClient && !File.Exists(jsonPath)))
@@ -213,19 +214,16 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private UpdateVersionType _versionType = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable);
-
     /// <summary>
     /// Gets or sets the type of version to update.
     /// </summary>
     public UpdateVersionType VersionType
     {
-        get => _versionType;
-        set {
-            SetAndNotify(ref _versionType, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionType, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.VersionType = value;
         }
-    }
+    } = ConfigFactory.Root.Update.VersionType;
 
     /// <summary>
     /// Gets the list of the version type.
@@ -240,60 +238,48 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         get => [.. AllVersionTypeList.Items.Where(v => AllowNightlyUpdates || v.Value != UpdateVersionType.Nightly)];
     }
 
-    public bool AllowNightlyUpdates { get; set; } = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, false);
-
-    private bool _hasAcknowledgedNightlyWarning = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, false);
+    public bool AllowNightlyUpdates { get; set; } = ConfigFactory.Root.Update.AllowNightlyUpdates;
 
     public bool HasAcknowledgedNightlyWarning
     {
-        get => _hasAcknowledgedNightlyWarning;
-        set {
-            SetAndNotify(ref _hasAcknowledgedNightlyWarning, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.HasAcknowledgedNightlyWarning = value;
         }
-    }
+    } = ConfigFactory.Root.Update.HasAcknowledgedNightlyWarning;
 
     public LocalizedObservableList<string> UpdateSourceList { get; } = new(
         ("Github", "GlobalSource"),
         ("MirrorChyan", "MirrorChyan"));
-
-    private string _updateSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateSource, "Github");
 
     /// <summary>
     /// Gets or sets the type of version to update.
     /// </summary>
     public string UpdateSource
     {
-        get => _updateSource;
-        set {
-            SetAndNotify(ref _updateSource, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateSource, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.UpdateSource = value;
         }
-    }
-
-    private bool _forceGithubGlobalSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, false);
+    } = ConfigFactory.Root.Update.UpdateSource;
 
     public bool ForceGithubGlobalSource
     {
-        get => _forceGithubGlobalSource;
-        set {
-            SetAndNotify(ref _forceGithubGlobalSource, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.ForceGithubGlobalSource = value;
         }
-    }
-
-    private string _mirrorChyanCdk = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdk, string.Empty));
+    } = ConfigFactory.Root.Update.ForceGithubGlobalSource;
 
     public string MirrorChyanCdk
     {
-        get => _mirrorChyanCdk;
-        set {
+        get; set {
             if (string.IsNullOrEmpty(value))
             {
                 MirrorChyanCdkExpiredTime = 0;
             }
 
-            if (!SetAndNotify(ref _mirrorChyanCdk, value))
+            if (!SetAndNotify(ref field, value))
             {
                 return;
             }
@@ -306,36 +292,25 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
                 });
             }
 
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MirrorChyanCdk, value);
+            ConfigFactory.Root.Update.MirrorChyanCdk = SimpleEncryptionHelper.Encrypt(value);
         }
-    }
-
-    // 时间戳
-    private long _mirrorChyanCdkExpiredTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, 0L);
+    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.Root.Update.MirrorChyanCdk);
 
     // 0 表示未设置，1 表示未设置且已过期
     public long MirrorChyanCdkExpiredTime
     {
-        get => _mirrorChyanCdkExpiredTime;
-        set {
-            if (!SetAndNotify(ref _mirrorChyanCdkExpiredTime, value))
+        get; set {
+            if (!SetAndNotify(ref field, value))
             {
                 return;
             }
 
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, value.ToString());
+            ConfigFactory.Root.Update.MirrorChyanCdkExpiredTime = value;
             RefreshMirrorChyanCdkRemaining();
         }
-    }
+    } = ConfigFactory.Root.Update.MirrorChyanCdkExpiredTime;
 
-    private bool _mirrorChyanCdkFetchFailed = false;
-
-    public bool MirrorChyanCdkFetchFailed
-    {
-        get => _mirrorChyanCdkFetchFailed;
-        set => SetAndNotify(ref _mirrorChyanCdkFetchFailed, value);
-    }
+    public bool MirrorChyanCdkFetchFailed { get; set => SetAndNotify(ref field, value); }
 
     public DateTimeOffset MirrorChyanCdkExpiredDateTime => DateTimeOffset.FromUnixTimeSeconds(MirrorChyanCdkExpiredTime);
 
@@ -392,8 +367,6 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         OnPropertyChanged(nameof(MirrorChyanCdkExpiredLocalTime));
     }
 
-    private bool _startupUpdateCheck = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, true);
-
     // UI 绑定的方法
     [UsedImplicitly]
     public void MirrorChyanCdkCopy()
@@ -407,122 +380,92 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public bool StartupUpdateCheck
     {
-        get => _startupUpdateCheck;
-        set {
-            SetAndNotify(ref _startupUpdateCheck, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.StartupUpdateCheck, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.CheckOnStartup = value;
         }
-    }
-
-    private bool _updateAutoCheck = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateAutoCheck, false);
+    } = ConfigFactory.Root.Update.CheckOnStartup;
 
     /// <summary>
     /// Gets or sets a value indicating whether to check update.
     /// </summary>
     public bool UpdateAutoCheck
     {
-        get => _updateAutoCheck;
-        set {
-            SetAndNotify(ref _updateAutoCheck, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateAutoCheck, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.CheckOnSchedule = value;
         }
-    }
-
-    private string _proxy = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateProxy, string.Empty);
+    } = ConfigFactory.Root.Update.CheckOnSchedule;
 
     /// <summary>
     /// Gets or sets the proxy settings.
     /// </summary>
     public string Proxy
     {
-        get => _proxy;
-        set {
-            SetAndNotify(ref _proxy, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateProxy, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.Proxy = value;
         }
-    }
+    } = ConfigFactory.Root.Update.Proxy;
 
     public List<CombinedData> ProxyTypeList { get; } =
         [
-            new() { Display = "HTTP Proxy", Value = "http" },
-            new() { Display = "SOCKS5 Proxy", Value = "socks5" },
+            new() { Display = "HTTP Proxy", Value = "Http" },
+            new() { Display = "SOCKS5 Proxy", Value = "Socks5" },
         ];
-
-    private string _proxyType = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ProxyType, "http");
 
     public string ProxyType
     {
-        get => _proxyType;
-        set {
-            SetAndNotify(ref _proxyType, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ProxyType, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.ProxyType = value;
         }
-    }
-
-    private bool _isCheckingForUpdates;
+    } = ConfigFactory.Root.Update.ProxyType;
 
     /// <summary>
     /// Gets or sets a value indicating whether the update is being checked.
     /// </summary>
-    public bool IsCheckingForUpdates
-    {
-        get => _isCheckingForUpdates;
-        set {
-            SetAndNotify(ref _isCheckingForUpdates, value);
-        }
-    }
-
-    private bool _autoDownloadUpdatePackage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, true);
+    public bool IsCheckingForUpdates { get; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or sets a value indicating whether to auto download update package.
     /// </summary>
     public bool AutoDownloadUpdatePackage
     {
-        get => _autoDownloadUpdatePackage;
-        set {
-            SetAndNotify(ref _autoDownloadUpdatePackage, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.AutoDownloadUpdatePackage = value;
         }
-    }
-
-    private bool _autoInstallUpdatePackage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, false);
+    } = ConfigFactory.Root.Update.AutoDownloadUpdatePackage;
 
     /// <summary>
     /// Gets or sets a value indicating whether to auto install update package.
     /// </summary>
     public bool AutoInstallUpdatePackage
     {
-        get => _autoInstallUpdatePackage;
-        set {
-            SetAndNotify(ref _autoInstallUpdatePackage, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.AutoInstallUpdatePackage = value;
         }
-    }
-
-    private bool _showUpdaterConsole = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterConsole, false);
+    } = ConfigFactory.Root.Update.AutoInstallUpdatePackage;
 
     /// <summary>
     /// Gets or sets a value indicating whether to show the updater console window.
     /// </summary>
     public bool ShowUpdaterConsole
     {
-        get => _showUpdaterConsole;
-        set {
-            SetAndNotify(ref _showUpdaterConsole, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ShowUpdaterConsole, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.ShowUpdaterConsole = value;
         }
-    }
-
-    private bool _showUpdaterProgress = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterProgress, true);
+    } = ConfigFactory.Root.Update.ShowUpdaterConsole;
 
     /// <summary>
     /// Gets or sets a value indicating whether to show the updater progress window.
     /// </summary>
     public bool ShowUpdaterProgress
     {
-        get => _showUpdaterProgress;
-        set {
+        get; set {
             // 关闭进度窗口属于有风险的操作，需要二次确认
             if (!value)
             {
@@ -539,10 +482,10 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
                 }
             }
 
-            SetAndNotify(ref _showUpdaterProgress, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ShowUpdaterProgress, value.ToString());
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.ShowUpdaterProgress = value;
         }
-    }
+    } = ConfigFactory.Root.Update.ShowUpdaterProgress;
 
     /// <summary>
     /// Updates manually.

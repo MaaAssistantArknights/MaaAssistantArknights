@@ -28,6 +28,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
 using static MaaWpfGui.ViewModels.UI.ToolboxViewModel;
+using static MaaWpfGui.ViewModels.UserControl.Settings.VersionUpdateSettingsUserControlModel;
 
 namespace MaaWpfGui.Helper;
 
@@ -778,9 +779,66 @@ public class ConfigConverter
             }
         }
 
+        // 更新设置
+        {
+            ConfigFactory.Root.Update.Name = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
+            ConfigFactory.Root.Update.UpdatePackage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
+            ConfigFactory.Root.Update.IsFirstBoot = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, false);
+            ConfigFactory.Root.Update.DoNotShowUpdate = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, false);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.VersionName, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.VersionUpdatePackage, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, out var _);
+
+            ConfigFactory.Root.Update.VersionType = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable);
+            ConfigFactory.Root.Update.AllowNightlyUpdates = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, false);
+            ConfigFactory.Root.Update.HasAcknowledgedNightlyWarning = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, false);
+            ConfigFactory.Root.Update.UpdateSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateSource, "Github");
+            ConfigFactory.Root.Update.ForceGithubGlobalSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, false);
+            ConfigFactory.Root.Update.MirrorChyanCdk = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdk, string.Empty));
+            ConfigFactory.Root.Update.MirrorChyanCdkExpiredTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, 0L);
+            ConfigFactory.Root.Update.CheckOnStartup = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, true);
+            ConfigFactory.Root.Update.CheckOnSchedule = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateAutoCheck, false);
+            ConfigFactory.Root.Update.Proxy = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateProxy, string.Empty);
+            ConfigFactory.Root.Update.ProxyType = CapitalizeFirst(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ProxyType, "Http"));
+            ConfigFactory.Root.Update.AutoDownloadUpdatePackage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, true);
+            ConfigFactory.Root.Update.AutoInstallUpdatePackage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, false);
+            ConfigFactory.Root.Update.ShowUpdaterProgress = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterProgress, true);
+            ConfigFactory.Root.Update.ShowUpdaterConsole = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowUpdaterConsole, false);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.VersionType, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.AllowNightlyUpdates, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.UpdateSource, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.MirrorChyanCdk, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.StartupUpdateCheck, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.UpdateAutoCheck, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.UpdateProxy, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.ProxyType, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.ShowUpdaterProgress, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.ShowUpdaterConsole, out var _);
+        }
+
         ConfigurationHelper.SwitchConfiguration(currentConfigName);
         ConfigFactory.SwitchConfig(currentConfigName);
         return true;
+
+        static string CapitalizeFirst(string? input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return input ?? string.Empty;
+            }
+            else if (input.Length == 1)
+            {
+                return char.ToUpperInvariant(input[0]).ToString();
+            }
+
+            return char.ToUpperInvariant(input[0]) + input[1..];
+        }
     }
 
     private static JObject? ParseJsonFile(string filePath)

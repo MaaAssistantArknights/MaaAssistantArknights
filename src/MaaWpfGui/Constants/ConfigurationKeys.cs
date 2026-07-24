@@ -173,7 +173,7 @@ public static class ConfigurationKeys
     public const string RoguelikeDeploymentWithPause = "Roguelike.DeploymentWithPause"; // √
     public const string RoguelikeStopAtFinalBoss = "Roguelike.ExitAtFinalBoss"; // 已迁移
     public const string RoguelikeStopAtMaxLevel = "Roguelike.StopAtMaxLevel"; // 已迁移
-    public const string RoguelikeStartWithSeed = "Roguelike.StartWithSeed";
+    public const string RoguelikeStartWithSeed = "Roguelike.StartWithSeed"; // 废弃
     public const string RoguelikeMonthlySquadAutoIterate = "Roguelike.MonthlySquadAutoIterate"; // 已迁移
     public const string RoguelikeMonthlySquadCheckComms = "Roguelike.MonthlySquadCheckComms"; // 已迁移
     public const string RoguelikeDeepExplorationAutoIterate = "Roguelike.DeepExplorationAutoIterate"; // 已迁移
@@ -226,29 +226,29 @@ public static class ConfigurationKeys
     public const string CopilotSupportUnitUsage = "Copilot.SupportUnitUsage";
     public const string CopilotLoopTimes = "Copilot.LoopTimes";
     public const string CopilotTaskList = "Copilot.CopilotTaskList";
-    public const string UpdateProxy = "VersionUpdate.Proxy";
-    public const string ProxyType = "VersionUpdate.ProxyType";
-    public const string VersionType = "VersionUpdate.VersionType";
+    public const string UpdateProxy = "VersionUpdate.Proxy"; // √
+    public const string ProxyType = "VersionUpdate.ProxyType"; // √
+    public const string VersionType = "VersionUpdate.VersionType"; // √
 
     // MirrorChyanCdk 迁到新配置的话就直接叫 UpdateSource，现在本体更新也加上了 MirrorChyan
-    public const string UpdateSource = "VersionUpdate.ResourceUpdateSource";
-    public const string ForceGithubGlobalSource = "VersionUpdate.UpdateSource.ForceGithubGlobalSource";
-    public const string MirrorChyanCdk = "VersionUpdate.ResourceUpdateSource.MirrorChyanCdk";
-    public const string MirrorChyanCdkExpiredTime = "VersionUpdate.UpdateSource.MirrorChyanCdkExpired";
-    public const string StartupUpdateCheck = "VersionUpdate.StartupUpdateCheck";
-    public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
-    public const string ResourceApi = "VersionUpdate.ResourceApi";
-    public const string AllowNightlyUpdates = "VersionUpdate.AllowNightlyUpdates";
-    public const string HasAcknowledgedNightlyWarning = "VersionUpdate.HasAcknowledgedNightlyWarning";
+    public const string UpdateSource = "VersionUpdate.ResourceUpdateSource"; // √
+    public const string ForceGithubGlobalSource = "VersionUpdate.UpdateSource.ForceGithubGlobalSource"; // √
+    public const string MirrorChyanCdk = "VersionUpdate.ResourceUpdateSource.MirrorChyanCdk"; // √
+    public const string MirrorChyanCdkExpiredTime = "VersionUpdate.UpdateSource.MirrorChyanCdkExpired"; // √
+    public const string StartupUpdateCheck = "VersionUpdate.StartupUpdateCheck"; // √
+    public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck"; // √
+    public const string ResourceApi = "VersionUpdate.ResourceApi"; // 废弃
+    public const string AllowNightlyUpdates = "VersionUpdate.AllowNightlyUpdates"; // √
+    public const string HasAcknowledgedNightlyWarning = "VersionUpdate.HasAcknowledgedNightlyWarning"; // √
 
     // 这个已经废弃了，还要留着吗？
     [UsedImplicitly]
     public const string UseAria2 = "VersionUpdate.UseAria2";
 
-    public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage";
-    public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage";
-    public const string ShowUpdaterConsole = "VersionUpdate.ShowUpdaterConsole";
-    public const string ShowUpdaterProgress = "VersionUpdate.ShowUpdaterProgress";
+    public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage"; // √
+    public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage"; // √
+    public const string ShowUpdaterConsole = "VersionUpdate.ShowUpdaterConsole"; // √
+    public const string ShowUpdaterProgress = "VersionUpdate.ShowUpdaterProgress"; // √
 
     public const string PenguinId = "Penguin.Id"; // √
     public const string IsDrGrandet = "Penguin.IsDrGrandet"; // 已迁移
@@ -331,12 +331,12 @@ public static class ConfigurationKeys
     public const string PerformanceAllowDeprecatedGpu = "Performance.AllowDeprecatedGpu"; // √
 
     // The following should not be modified manually
-    public const string VersionName = "VersionUpdate.name";
+    public const string VersionName = "VersionUpdate.name"; // √
 
     public const string VersionUpdateBody = "VersionUpdate.body"; // √
-    public const string VersionUpdateIsFirstBoot = "VersionUpdate.isfirstboot";
-    public const string VersionUpdatePackage = "VersionUpdate.package";
-    public const string VersionUpdateDoNotShowUpdate = "VersionUpdate.doNotShowUpdate";
+    public const string VersionUpdateIsFirstBoot = "VersionUpdate.isfirstboot"; // √
+    public const string VersionUpdatePackage = "VersionUpdate.package"; // √
+    public const string VersionUpdateDoNotShowUpdate = "VersionUpdate.doNotShowUpdate"; // √
 
     public const string OperBoxData = "OperBox.Data"; // √
     public const string OperBoxSelectedExportValue = "OperBox.SelectedExportValue"; // √
