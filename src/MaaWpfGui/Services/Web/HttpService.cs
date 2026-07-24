@@ -23,6 +23,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -41,7 +42,7 @@ public class HttpService : IHttpService
     {
         get
         {
-            var proxy = SettingsViewModel.VersionUpdateSettings.Proxy;
+            var proxy = ConfigFactory.Root.Update.Proxy;
             if (string.IsNullOrEmpty(proxy))
             {
                 return string.Empty;
