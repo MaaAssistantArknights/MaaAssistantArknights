@@ -28,6 +28,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.Dialogs;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Serilog;
 
 namespace MaaWpfGui.Services.Web;
@@ -59,24 +60,16 @@ public class HttpService : IHttpService
         string uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
         UserAgent = $"MaaWpfGui/{uiVersion}";
 
-        ConfigurationHelper.ConfigurationUpdateEvent += (key, old, value) =>
-        {
-            if (key != ConfigurationKeys.UpdateProxy)
+        VersionUpdateSettingsUserControlModel.Instance.PropertyChanged += (sender, args) => {
+            if (args.PropertyName != nameof(VersionUpdateSettingsUserControlModel.Proxy) && args.PropertyName != nameof(VersionUpdateSettingsUserControlModel.ProxyType))
             {
                 return;
             }
-
-            if (old == value)
-            {
-                return;
-            }
-
             if (GetProxy() == null)
             {
                 _logger.Warning("Proxy is not a valid URI, and HttpClient is not null, keep using the original HttpClient");
                 return;
             }
-
             _client = BuildHttpClient();
         };
 

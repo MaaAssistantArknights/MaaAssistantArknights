@@ -44,7 +44,7 @@ public class Update : INotifyPropertyChanged
 
     public bool CheckOnStartup { get; set; } = true;
 
-    public bool CheckOnSchedule { get; set; } 
+    public bool CheckOnSchedule { get; set; }
 
     public string Proxy { get; set; } = string.Empty;
 
