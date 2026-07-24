@@ -51,7 +51,7 @@ bool asst::InfrastReceptionTask::_run()
     }
 
     // 赠送线索后的弹窗会挡住自己新线索的图标
-    sleep(1500);
+    smart_sleep(1500);
     get_self_clue();
     if (need_exit()) {
         return false;

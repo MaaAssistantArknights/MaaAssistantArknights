@@ -649,7 +649,12 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
             Log.error("name not in this page", name);
         }
     }
-    sleep(500); // 此处刚刚选择了一位干员，因后续任务需截图识别，所以需要一个延迟，以保证后续截图选中状态无误
+    smart_sleep(500, [&]() {
+        const auto img = ctrler()->get_image();
+        InfrastOperImageAnalyzer analyzer(img);
+        analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
+        return analyzer.analyze() && !analyzer.get_result().empty();
+    });
 }
 
 void asst::InfrastAbstractTask::close_quick_formation_expand_role() const
@@ -787,17 +792,17 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
 {
     ProcessTask(*this, { "SwipeToTheLeft" }).run();
-    sleep(500);
+    smart_sleep(500);
 }
 
 void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
 {
     ProcessTask(*this, { "SwipeToTheRight" }).run();
-    sleep(500);
+    smart_sleep(500);
 }
 
 void asst::InfrastAbstractTask::swipe_to_right_of_main_ui()
 {
     ProcessTask(*this, { "InfrastSwipeToRightOfMainUi" }).run();
-    sleep(500);
+    smart_sleep(500);
 }

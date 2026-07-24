@@ -258,13 +258,13 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         // 最近总是出现设施没选中，导致干员放错房间，多点一次，观察一段时间。最好是改为图像识别是几号。
-        sleep(tab_task_ptr->pre_delay);
+        smart_sleep(tab_task_ptr->pre_delay);
         ctrler()->click(tab);
-        sleep(tab_task_ptr->post_delay);
+        smart_sleep(tab_task_ptr->post_delay);
 
-        sleep(tab_task_ptr->pre_delay);
+        smart_sleep(tab_task_ptr->pre_delay);
         ctrler()->click(tab);
-        sleep(tab_task_ptr->post_delay);
+        smart_sleep(tab_task_ptr->post_delay);
 
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
         const auto image = ctrler()->get_image();
