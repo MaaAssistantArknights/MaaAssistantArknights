@@ -180,9 +180,11 @@ protected:
     // ————————————————————————————————
     bool m_operbox_assist_enabled = false;
     std::string m_operbox_data_path;
-    std::optional<std::unordered_map<size_t, size_t>> m_operbox_matching;
+    std::unordered_map<std::string, std::string> m_operbox_assigned;
+    std::string m_operbox_unmatched_group;
 
     std::vector<OperBoxInfo> parse_operbox_data(const std::string& path);
+    bool do_operbox_precheck();
 
 private:
     static constexpr battle::Role Roles[] = { battle::Role::Caster,  battle::Role::Medic,   battle::Role::Pioneer,

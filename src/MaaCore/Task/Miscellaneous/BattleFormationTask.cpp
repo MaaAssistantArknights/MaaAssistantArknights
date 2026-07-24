@@ -11,6 +11,7 @@
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
 #include "Task/ProcessTask.h"
+#include "Utils/BipartiteMatch.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/OperNameAnalyzer.h"
@@ -61,7 +62,10 @@ bool asst::BattleFormationTask::_run()
     if (!parse_formation()) {
         return false;
     }
-    else if (compare_formation()) { // 与上一个作业的编队进行对比，相同则跳过
+    if (!do_operbox_precheck()) {
+        return false;
+    }
+    if (compare_formation()) { // 与上一个作业的编队进行对比，相同则跳过
         Log.info(__FUNCTION__, "| Formation is the same as last time, skip");
         for (auto& [name, _, __, opers] : m_formation | std::views::values | std::views::join) {
             const auto& pair_it =
@@ -287,8 +291,10 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, const std::vect
     while (!need_exit()) {
         if (select_opers_in_cur_page(oper_group)) {
             has_error = false;
-            bool exit =
-                std::ranges::all_of(oper_group, [&](OperGroup* group) { return !has_oper_unchecked(group->opers); });
+            bool exit = std::ranges::all_of(oper_group, [&](OperGroup* group) {
+                return !has_oper_unchecked(group->opers) ||
+                       (m_operbox_assist_enabled && group->name == m_operbox_unmatched_group);
+            }); // 该职业下的所有干员组都已选中, 或者是operbox未匹配的组, 直接退出
             if (exit) {
                 break;
             }
@@ -597,6 +603,9 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
     bool ret = true;
     for (const auto& res :
          opers_result | std::views::filter([](const QuickFormationOper& op) { return !op.is_selected; })) {
+        auto is_selectable = [&](const battle::OperUsage& op) {
+            return op.name == res.text && op.status != battle::OperStatus::Unavailable;
+        };
         auto oper_cache_it = m_opers.find({ res.role, res.text });
         if (oper_cache_it == m_opers.end()) {
             auto [_elite, _level] = m_quick_formation_ui.analyze_oper_level(image, res.flag_rect);
@@ -621,12 +630,18 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             level_last = oper_cache_it->second.level;
         }
         const auto& iter = std::ranges::find_if(groups, [&](OperGroup* group) {
+            if (m_operbox_assist_enabled) {
+                if (auto it = m_operbox_assigned.find(group->name);
+                    it != m_operbox_assigned.end() && it->second == res.text) {
+                    oper = &(*std::ranges::find_if(group->opers, is_selectable));
+                    return true;
+                }
+                return false;
+            }
             if (!has_oper_unchecked(group->opers)) { // 干员组没有干员已选中且存在可用干员
                 return false;
             }
-            auto it = std::ranges::find_if(group->opers, [&](const battle::OperUsage& op) {
-                return op.name == res.text && op.status != battle::OperStatus::Unavailable;
-            });
+            auto it = std::ranges::find_if(group->opers, is_selectable);
             if (it != group->opers.cend()) {
                 oper = &(*it);
                 return true; // 找到干员
@@ -1129,4 +1144,73 @@ std::vector<asst::OperBoxInfo> asst::BattleFormationTask::parse_operbox_data(con
     }
 
     return result;
+}
+
+bool asst::BattleFormationTask::do_operbox_precheck()
+{
+    LogTraceFunction;
+
+    if (!m_operbox_assist_enabled || m_operbox_data_path.empty()) {
+        return true;
+    }
+
+    auto oper_data = parse_operbox_data(m_operbox_data_path);
+    if (oper_data.empty()) {
+        Log.error("OperBox data is empty, cannot perform precheck");
+        return false;
+    }
+
+    std::vector<OperGroup> flat_groups;
+    for (const auto& [role, oper_groups] : m_formation) {
+        for (const auto& group : oper_groups) {
+            flat_groups.emplace_back(group);
+        }
+    }
+
+    if (flat_groups.empty()) {
+        return true;
+    }
+
+    auto result = algorithm::bipartite::bipartite_max_match<OperGroup, OperBoxInfo>(
+        flat_groups,
+        oper_data,
+        [](const OperGroup& group, const OperBoxInfo& info) {
+            if (!info.own || info.name.empty()) {
+                return false;
+            }
+            auto it = std::ranges::find_if(group.second, [&](const battle::OperUsage& op) {
+                if (op.name != info.name) {
+                    return false;
+                }
+                if (op.requirements.elite <= 0 && op.requirements.level <= 0) {
+                    return true;
+                }
+                return info.elite >= op.requirements.elite;
+            });
+            return it != group.second.end();
+        });
+
+    std::unordered_map<std::string, std::string> assigned;
+    for (const auto& [left, right] : result.matched) {
+        assigned[flat_groups[left].first] = oper_data[right].name;
+    }
+
+    if (result.unmatched_left.empty()) {
+        m_operbox_assigned = std::move(assigned);
+        m_operbox_unmatched_group.clear();
+        return true;
+    }
+
+    if (result.unmatched_left.size() == 1) {
+        m_operbox_assigned = std::move(assigned);
+        m_operbox_unmatched_group = flat_groups[result.unmatched_left[0]].first;
+        Log.info("OperBox precheck: 1 slot unmatched, will use support unit");
+        return true;
+    }
+
+    Log.info("OperBox precheck:", result.unmatched_left.size(), "slots unmatched, aborting formation");
+    for (size_t idx : result.unmatched_left) {
+        Log.info("  Unmatched slot:", flat_groups[idx].first);
+    }
+    return false;
 }
