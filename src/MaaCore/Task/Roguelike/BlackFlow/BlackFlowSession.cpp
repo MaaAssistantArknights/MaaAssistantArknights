@@ -77,6 +77,30 @@ std::unordered_set<NodeId> terminal_nodes_for(
 
 } // namespace
 
+PageIdentityResolution resolve_page_identity(
+    NodeType map_type,
+    std::string map_name,
+    const MovePreview* preview,
+    const EnteredPageObservation& entered_page)
+{
+    PageIdentityResolution result { map_type, std::move(map_name) };
+    const bool map_identity_unresolved =
+        map_type == NodeType::Unknown || map_type == NodeType::HideInvisible || map_type == NodeType::HideBattle;
+    if (!map_identity_unresolved || entered_page.classification_conflict) {
+        return result;
+    }
+    if (entered_page.classified_type.has_value()) {
+        result.type = *entered_page.classified_type;
+    }
+    else if (preview != nullptr && preview->displayed_type != NodeType::Unknown) {
+        result.type = preview->displayed_type;
+    }
+    if (preview != nullptr && !preview->displayed_name.empty()) {
+        result.name = preview->displayed_name;
+    }
+    return result;
+}
+
 json::object BlackFlowStrategyResult::to_json() const
 {
     return {
@@ -874,9 +898,9 @@ void BlackFlowSession::finalize_entered_node(const PageExecutionContext& context
 
 bool BlackFlowSession::reconcile_committed_move(const BlackFlowPerceptionSnapshot& snapshot, std::string* error)
 {
-    if (!m_transaction.has_value() || !m_page_context.has_value()) {
+    if (!m_transaction.has_value()) {
         if (error != nullptr) {
-            *error = "map return has no committed BlackFlow page context";
+            *error = "map return has no committed BlackFlow movement";
         }
         return false;
     }
@@ -884,6 +908,12 @@ bool BlackFlowSession::reconcile_committed_move(const BlackFlowPerceptionSnapsho
     if (stage != MoveTransactionStage::Committed && stage != MoveTransactionStage::PageResolved) {
         if (error != nullptr) {
             *error = "map return cannot reconcile the current movement stage";
+        }
+        return false;
+    }
+    if (stage == MoveTransactionStage::Committed && !m_page_context.has_value()) {
+        if (error != nullptr) {
+            *error = "committed node movement has no BlackFlow page context";
         }
         return false;
     }
@@ -913,17 +943,24 @@ bool BlackFlowSession::reconcile_committed_move(const BlackFlowPerceptionSnapsho
             action_points_after(m_run.resources.action_points, m_transaction->authoritative_cost(), gain);
     }
 
-    if (observation.floor == m_page_context->floor) {
-        if (const Node* landed = m_map.snapshot().find_node(observation.current_node); landed != nullptr) {
-            observation.landed_type = landed->type;
-            observation.target_progress = landed->progress;
+    if (m_page_context.has_value()) {
+        if (observation.floor == m_page_context->floor) {
+            if (const Node* landed = m_map.snapshot().find_node(observation.current_node); landed != nullptr) {
+                observation.landed_type = landed->type;
+                observation.target_progress = landed->progress;
+            }
+        }
+        else {
+            observation.landed_type = m_page_context->node_type;
+            observation.target_progress =
+                m_page_context->result.has_value() && m_page_context->result->progress.has_value()
+                    ? *m_page_context->result->progress
+                    : NodeProgress::Completed;
         }
     }
-    else {
-        observation.landed_type = m_page_context->node_type;
-        observation.target_progress = m_page_context->result.has_value() && m_page_context->result->progress.has_value()
-                                          ? *m_page_context->result->progress
-                                          : NodeProgress::Completed;
+    else if (const Node* landed = m_map.snapshot().find_node(observation.current_node); landed != nullptr) {
+        observation.landed_type = landed->type;
+        observation.target_progress = landed->progress;
     }
 
     if (!m_transaction->observe(observation, error) || !m_transaction->apply(m_run, error)) {
@@ -950,9 +987,11 @@ bool BlackFlowSession::reconcile_committed_move(const BlackFlowPerceptionSnapsho
     if (!apply_run_observation(effective, error)) {
         return false;
     }
-    const bool page_completed = m_transaction->stage() == MoveTransactionStage::Applied &&
-                                m_page_context->stage == PageExecutionStage::Resolved;
-    finalize_entered_node(*m_page_context, page_completed);
+    if (m_page_context.has_value()) {
+        const bool page_completed = m_transaction->stage() == MoveTransactionStage::Applied &&
+                                    m_page_context->stage == PageExecutionStage::Resolved;
+        finalize_entered_node(*m_page_context, page_completed);
+    }
 
     m_transaction.reset();
     m_page_context.reset();
@@ -1272,8 +1311,12 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
                 "preview node identity conflicts with the current normalized map",
                 DiagnosticTrigger::IdentityConflict);
         }
-        if (existing->type != preview.displayed_type || existing->name != preview.displayed_name ||
-            existing->identity_revealed != preview.identity_revealed) {
+        const bool identity_unresolved = existing->type == NodeType::Unknown ||
+                                         existing->type == NodeType::HideInvisible ||
+                                         existing->type == NodeType::HideBattle;
+        if (identity_unresolved &&
+            (existing->type != preview.displayed_type || existing->name != preview.displayed_name ||
+             existing->identity_revealed != preview.identity_revealed)) {
             Node updated = *existing;
             updated.type = preview.displayed_type;
             updated.name = preview.displayed_name;
@@ -1407,7 +1450,7 @@ bool BlackFlowSession::validate_commit(std::string* error) const
     return verified;
 }
 
-bool BlackFlowSession::commit(std::string* error)
+bool BlackFlowSession::commit(EnteredPageObservation entered_page, std::string* error)
 {
     if (!m_transaction.has_value()) {
         if (error != nullptr) {
@@ -1444,18 +1487,33 @@ bool BlackFlowSession::commit(std::string* error)
     const MoveCandidate& proposal = m_transaction->proposal();
     const NodeId page_node = proposal.controllable ? proposal.target : InvalidNodeId;
     const Node* target = page_node == InvalidNodeId ? nullptr : m_map.snapshot().find_node(page_node);
-    NodeType page_type = target == nullptr ? NodeType::Unknown : target->type;
-    std::string page_name = target == nullptr ? std::string {} : target->name;
-    int page_floor = target == nullptr ? m_run.floor : target->floor;
-    if (m_transaction->preview().has_value()) {
-        const MovePreview& preview = *m_transaction->preview();
-        if (preview.displayed_type != NodeType::Unknown) {
-            page_type = preview.displayed_type;
+    if (target != nullptr && (target->type == NodeType::Empty || is_transfer_node(target->type))) {
+        if (!m_transaction->mark_page_resolved(error)) {
+            return false;
         }
-        if (!preview.displayed_name.empty()) {
-            page_name = preview.displayed_name;
+        m_page_context.reset();
+        if (m_pending_probe_target == proposal.target) {
+            m_pending_probe_target.reset();
         }
+        queue_decision();
+        return true;
     }
+
+    const NodeType map_type = target == nullptr ? NodeType::Unknown : target->type;
+    const std::string map_name = target == nullptr ? std::string {} : target->name;
+    const int page_floor = target == nullptr ? m_run.floor : target->floor;
+    const MovePreview* preview = m_transaction->preview().has_value() ? &*m_transaction->preview() : nullptr;
+    const bool entered_identity_conflict =
+        entered_page.classification_conflict ||
+        (target != nullptr && target->identity_revealed && entered_page.classified_type.has_value() &&
+         target->type != *entered_page.classified_type);
+    if (entered_identity_conflict) {
+        queue_warning(
+            "entered_page_identity_conflict",
+            "entered-page classification conflicts with the current normalized map",
+            DiagnosticTrigger::IdentityConflict);
+    }
+    PageIdentityResolution identity = resolve_page_identity(map_type, map_name, preview, entered_page);
 
     m_page_context = PageExecutionContext {
         m_run_revision,
@@ -1464,11 +1522,12 @@ bool BlackFlowSession::commit(std::string* error)
         m_transaction_id,
         page_floor,
         page_node,
-        page_type,
-        std::move(page_name),
+        identity.type,
+        std::move(identity.name),
         m_last_plan.has_value() && !m_last_plan->decision.selected_page_intent.empty()
             ? m_last_plan->decision.selected_page_intent
             : "default",
+        std::move(entered_page.matched_texts),
         PageExecutionStage::PendingDispatch,
     };
     if (m_pending_probe_target == proposal.target) {

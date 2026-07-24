@@ -14,7 +14,12 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
 
     std::string profile = params.get("blackflow_strategy", std::string {});
     if (profile.empty()) {
-        profile = m_config->get_mode() == RoguelikeMode::Investment ? "investment" : "burn";
+        if (m_config->get_mode() == RoguelikeMode::Investment) {
+            profile = "investment";
+        }
+        else {
+            profile = params.get("investment_enabled", true) ? "burn_with_investment" : "burn";
+        }
     }
 
     std::string error;

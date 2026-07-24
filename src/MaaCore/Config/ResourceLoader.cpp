@@ -216,6 +216,11 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }
     }
 
+    if (!RoguelikeRecruit.copy_theme("JieGarden", "BlackFlow")) {
+        Log.error("Unable to reuse JieGarden recruitment configuration for BlackFlow");
+        return false;
+    }
+
     // Shopping Config
     for (auto theme : roguelike_themes) {
         if (!load_with_custom.template operator()<RoguelikeShoppingConfig>(
@@ -233,6 +238,12 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
             return false;
         }
     }
+    if (!load_with_custom.template operator()<RoguelikeStageEncounterConfig>(
+            roguelike_path("BlackFlow", "encounter"_p / "default.json"_p),
+            "RoguelikeStageEncounterConfig")) {
+        return false;
+    }
+
     // 额外的 encounter 配置（deposit / collapse）
     for (auto theme : { "Phantom", "Mizuki", "Sami" }) {
         if (!load_with_custom.template operator()<RoguelikeStageEncounterConfig>(

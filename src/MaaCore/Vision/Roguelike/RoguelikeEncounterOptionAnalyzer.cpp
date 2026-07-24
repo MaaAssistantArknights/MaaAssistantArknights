@@ -19,7 +19,7 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
         return false;
     }
 
-    if (m_theme != RoguelikeTheme::JieGarden) [[unlikely]] {
+    if (m_theme != RoguelikeTheme::JieGarden && m_theme != RoguelikeTheme::BlackFlow) [[unlikely]] {
         Log.error(__FUNCTION__, std::format("| Unsupported roguelike theme: {}; failed to analyze", m_theme));
         return false;
     }
@@ -36,8 +36,6 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
 #endif
     MultiMatcher::ResultsVec option_analyze_result = option_analyze_ret.value();
 
-    const MatchTaskPtr enabled_task_ptr =
-        Task.get<MatchTaskInfo>(m_theme + "@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled");
     const MatchTaskPtr templ_task_ptr = Task.get<MatchTaskInfo>(m_theme + "@RoguelikeEncounterOptionAnalyzer-Option");
     const OcrTaskPtr text_task_ptr =
         Task.get<OcrTaskInfo>(m_theme + "@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text");
@@ -46,9 +44,34 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
     for (const auto& [rect, score, templ_name] : option_analyze_result) {
         Option option;
 
-        Matcher enabled_analyzer(make_roi(m_image, rect));
-        enabled_analyzer.set_task_info(enabled_task_ptr);
-        option.enabled = enabled_analyzer.analyze().has_value();
+        if (m_theme == RoguelikeTheme::BlackFlow) {
+            const Rect enabled_rect { rect.x + 40, rect.y, 160, rect.height };
+            if (enabled_rect.x < 0 || enabled_rect.y < 0 || enabled_rect.width <= 0 || enabled_rect.height <= 0 ||
+                enabled_rect.x + enabled_rect.width > m_image.cols ||
+                enabled_rect.y + enabled_rect.height > m_image.rows) {
+                Log.error(__FUNCTION__, "BlackFlow option enabled-state ROI is out of bounds:", enabled_rect);
+                return false;
+            }
+
+            cv::Mat gray;
+            cv::cvtColor(make_roi(m_image, enabled_rect), gray, cv::COLOR_BGR2GRAY);
+            cv::Mat dark_pixel_mask;
+            cv::threshold(gray, dark_pixel_mask, 119, 255, cv::THRESH_BINARY_INV);
+            const double dark_pixel_ratio =
+                static_cast<double>(cv::countNonZero(dark_pixel_mask)) / static_cast<double>(gray.total());
+            option.enabled = dark_pixel_ratio >= 0.10;
+            Log.debug(
+                "RoguelikeEncounterOptionAnalyzer | BlackFlow option dark pixel ratio",
+                dark_pixel_ratio,
+                option.enabled ? "enabled" : "disabled");
+        }
+        else {
+            const MatchTaskPtr enabled_task_ptr =
+                Task.get<MatchTaskInfo>(m_theme + "@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled");
+            Matcher enabled_analyzer(make_roi(m_image, rect));
+            enabled_analyzer.set_task_info(enabled_task_ptr);
+            option.enabled = enabled_analyzer.analyze().has_value();
+        }
 
         Rect templ_rect = templ_task_ptr->specific_rect;
         templ_rect.y = rect.y;
@@ -89,7 +112,7 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
         return std::nullopt;
     }
 
-    if (m_theme != RoguelikeTheme::JieGarden) {
+    if (m_theme != RoguelikeTheme::JieGarden && m_theme != RoguelikeTheme::BlackFlow) {
         Log.error(__FUNCTION__, std::format("| Unsupported roguelike theme: {}; failed to merge images", m_theme));
         return std::nullopt;
     }
@@ -196,7 +219,7 @@ void asst::RoguelikeEncounterOptionAnalyzer::set_theme(const std::string& theme)
         return;
     }
 
-    if (theme != RoguelikeTheme::JieGarden) {
+    if (theme != RoguelikeTheme::JieGarden && theme != RoguelikeTheme::BlackFlow) {
         Log.error(
             __FUNCTION__,
             std::format("| Unsupported roguelike theme: {}; failed to set theme; reverting to {}", theme, m_theme));
@@ -223,7 +246,7 @@ asst::Matcher::ResultOpt asst::RoguelikeEncounterOptionAnalyzer::match_option(
         return std::nullopt;
     }
 
-    if (theme != RoguelikeTheme::JieGarden) [[unlikely]] {
+    if (theme != RoguelikeTheme::JieGarden && theme != RoguelikeTheme::BlackFlow) [[unlikely]] {
         Log.error(__FUNCTION__, std::format("| Unsupported roguelike theme: {}; failed to match option", theme));
         return std::nullopt;
     }

@@ -137,8 +137,16 @@ NodeExecutionRoute parse_route(const json::value& value)
 {
     check_keys(
         value,
-        { "id", "page_intent", "floor_window", "node_types", "event_names", "rank", "alias", "task" },
-        { "id", "page_intent", "alias", "task" },
+        { "id",
+          "page_intent",
+          "floor_window",
+          "node_types",
+          "event_names",
+          "rank",
+          "alias",
+          "task",
+          "completion_task" },
+        { "id", "page_intent", "alias", "task", "completion_task" },
         "route");
 
     NodeExecutionRoute result;
@@ -150,6 +158,7 @@ NodeExecutionRoute parse_route(const json::value& value)
     result.rank = value.get("rank", 0);
     result.alias = value.at("alias").as_string();
     result.task = value.at("task").as_string();
+    result.completion_task = value.at("completion_task").as_string();
 
     if (result.id.empty() || !is_valid_page_intent(result.page_intent) || result.rank < 0) {
         invalid_config(
@@ -160,6 +169,7 @@ NodeExecutionRoute parse_route(const json::value& value)
     }
     validate_task_alias(result.alias, "route alias");
     validate_task_alias(result.task, "route task");
+    validate_task_alias(result.completion_task, "route completion_task");
     return result;
 }
 
@@ -447,7 +457,7 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
         { "schema_version", "routes", "task_results" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
-    if (schema_version != 2) {
+    if (schema_version != 3) {
         invalid_config("unsupported schema_version: " + std::to_string(schema_version));
     }
     if (!json.at("routes").is_array() || !json.at("task_results").is_array()) {

@@ -10,6 +10,7 @@ namespace asst::blackflow
 enum class RoutingCycleStatus
 {
     MoveCommitted,
+    MoveCommittedToMap,
     MovementSelectionRequired,
     ReplanRequired,
     PreviewNeedsDismiss,
@@ -58,6 +59,17 @@ bool validate_session_commit(Session& session, std::string* error)
 }
 
 template <typename Session>
+bool session_requires_page_dispatch(const Session& session)
+{
+    if constexpr (requires { session.page_dispatch_required(); }) {
+        return session.page_dispatch_required();
+    }
+    else {
+        return true;
+    }
+}
+
+template <typename Session>
 RoutingCycleOutcome execute_preview_cycle(Session& session, IBlackFlowTaskPort& port)
 {
     std::string error;
@@ -82,18 +94,24 @@ RoutingCycleOutcome execute_preview_cycle(Session& session, IBlackFlowTaskPort& 
         return { RoutingCycleStatus::PreviewNeedsDismiss, {}, {} };
     }
     if (disposition == PreviewDisposition::Failed || session.transaction() == nullptr) {
-        return { RoutingCycleStatus::Failed, "move_preview_rejected", std::move(error) };
+        session.cancel_transaction();
+        return { RoutingCycleStatus::PreviewNeedsDismiss, "move_preview_rejected", std::move(error) };
     }
     if (!validate_session_commit(session, &error)) {
-        return { RoutingCycleStatus::Failed, "move_confirmation_invalidated", std::move(error) };
+        session.cancel_transaction();
+        return { RoutingCycleStatus::PreviewNeedsDismiss, "move_confirmation_invalidated", std::move(error) };
     }
-    if (!port.confirm(*session.transaction(), &error)) {
+    EnteredPageObservation entered_page;
+    if (!port.confirm(*session.transaction(), entered_page, &error)) {
         return { RoutingCycleStatus::Failed, "move_confirmation_failed", std::move(error) };
     }
-    if (!session.commit(&error)) {
+    if (!session.commit(std::move(entered_page), &error)) {
         return { RoutingCycleStatus::Failed, "move_confirmation_state_failed", std::move(error) };
     }
-    return { RoutingCycleStatus::MoveCommitted, {}, {} };
+    return { session_requires_page_dispatch(session) ? RoutingCycleStatus::MoveCommitted
+                                                     : RoutingCycleStatus::MoveCommittedToMap,
+             {},
+             {} };
 }
 
 template <typename Session>

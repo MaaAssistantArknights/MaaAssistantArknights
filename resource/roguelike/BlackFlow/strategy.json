@@ -109,7 +109,6 @@
             "type": "bool",
             "scope": "run"
         },
-
         {
             "name": "burn_completed",
             "type": "bool",
@@ -696,7 +695,7 @@
             ]
         },
         {
-            "id": "burn_route",
+            "id": "burn_investment_shop",
             "milestones": [
                 {
                     "id": "burn_floor1_shop",
@@ -711,14 +710,19 @@
                     "selector": {
                         "node_types": ["shop"]
                     },
+                    "page_intent": "shop.invest_continue",
                     "completion": "condition"
-                },
+                }
+            ]
+        },
+        {
+            "id": "burn_route",
+            "milestones": [
                 {
                     "id": "burn_floor1_final",
                     "kind": "mandatory",
                     "floor_window": [1, 1],
                     "rank": 1,
-                    "requires": ["burn_floor1_shop"],
                     "selector": {
                         "node_types": ["final"]
                     }
@@ -1355,6 +1359,52 @@
             "id": "burn",
             "description": "携带结构性原理快速抵达第三层并在树洞存在时进入",
             "modules": ["common_navigation", "burn_route"],
+            "terminal_rules": [
+                {
+                    "id": "burn_portal_completed",
+                    "when": {
+                        "fact": "burn_completed",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "outcome": "burn_completed",
+                    "reason": "third_floor_portal_entered",
+                    "succeeded": true,
+                    "next_action": "restart_current_run"
+                },
+                {
+                    "id": "burn_third_floor_without_portal",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "eq",
+                                "value": 3
+                            },
+                            {
+                                "fact": "map_full_coverage",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "portal_available",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "outcome": "burn_completed",
+                    "reason": "third_floor_has_no_portal",
+                    "succeeded": true,
+                    "next_action": "restart_current_run"
+                }
+            ],
+            "failure_action": "stop_run"
+        },
+        {
+            "id": "burn_with_investment",
+            "description": "第一层完成投资后快速抵达第三层并在树洞存在时进入",
+            "modules": ["common_navigation", "burn_investment_shop", "burn_route"],
             "terminal_rules": [
                 {
                     "id": "burn_portal_completed",

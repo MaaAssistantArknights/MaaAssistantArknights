@@ -61,6 +61,18 @@ struct PendingMoveCandidate
     std::uint64_t viewport_revision = 0;
 };
 
+struct PageIdentityResolution
+{
+    NodeType type = NodeType::Unknown;
+    std::string name;
+};
+
+[[nodiscard]] PageIdentityResolution resolve_page_identity(
+    NodeType map_type,
+    std::string map_name,
+    const MovePreview* preview,
+    const EnteredPageObservation& entered_page);
+
 struct PageExecutionContext
 {
     std::uint64_t run_revision = 0;
@@ -72,6 +84,7 @@ struct PageExecutionContext
     NodeType node_type = NodeType::Unknown;
     std::string node_name;
     std::string page_intent = "default";
+    std::vector<std::string> entry_markers;
     PageExecutionStage stage = PageExecutionStage::None;
     std::optional<NodeStateUpdate> result;
     bool resolution_reported = false;
@@ -100,7 +113,7 @@ public:
     bool begin_transaction(const MoveCandidate& candidate, std::string* error = nullptr);
     PreviewDisposition accept_preview(MovePreview preview, std::string* error = nullptr);
     [[nodiscard]] bool validate_commit(std::string* error = nullptr) const;
-    bool commit(std::string* error = nullptr);
+    bool commit(EnteredPageObservation entered_page = {}, std::string* error = nullptr);
     void cancel_transaction();
     [[nodiscard]] int expected_observation_floor() const noexcept;
     bool mark_page_running(std::string* error = nullptr);
@@ -129,6 +142,8 @@ public:
     [[nodiscard]] const std::string& profile() const noexcept { return m_profile; }
 
     [[nodiscard]] const std::optional<PageExecutionContext>& page_context() const noexcept { return m_page_context; }
+
+    [[nodiscard]] bool page_dispatch_required() const noexcept { return m_page_context.has_value(); }
 
     [[nodiscard]] const std::optional<PendingMoveCandidate>& pending_candidate() const noexcept
     {

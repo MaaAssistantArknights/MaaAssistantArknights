@@ -1,6 +1,5 @@
 #pragma once
 
-#include <array>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -50,7 +49,6 @@ private:
     SelectionOutcome select_movement(MovementKind target, std::string* error);
     bool ensure_panel_open(std::string* error);
     bool close_panel(std::string* error);
-    std::optional<MovementKind> recognize_loaded_movement(const cv::Mat& image) const;
     bool title_visible(const cv::Mat& image) const;
     bool scan_current_frame(PanelFrame& frame, std::string* error) const;
     bool analyze_frame(const cv::Mat& image, PanelFrame& frame, std::string* error) const;

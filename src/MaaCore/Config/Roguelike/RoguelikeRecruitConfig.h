@@ -70,6 +70,8 @@ class RoguelikeRecruitConfig final : public MAA_NS::SingletonHolder<RoguelikeRec
 public:
     virtual ~RoguelikeRecruitConfig() override = default;
 
+    bool copy_theme(const std::string& source, const std::string& target);
+
     const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& oper_name) noexcept;
     const RoguelikeGroupInfo& get_group_info(const std::string& theme, const std::string& group_name) noexcept;
     const std::vector<RecruitPriorityOffset> get_team_complete_info(const std::string& theme) const noexcept;

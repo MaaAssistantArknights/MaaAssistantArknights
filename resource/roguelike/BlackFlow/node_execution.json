@@ -1,12 +1,32 @@
 {
-    "schema_version": 2,
+    "schema_version": 3,
     "routes": [
+        {
+            "id": "final_encounter",
+            "page_intent": "default",
+            "node_types": ["final"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-FinalEncounter",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
         {
             "id": "default_node_page",
             "page_intent": "default",
             "rank": 100,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-Default"
+            "task": "BlackFlow@Roguelike@Page-Default",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "floor1_burn_investment_shop",
+            "page_intent": "shop.invest_continue",
+            "floor_window": [1, 1],
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Investment",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-BurnShop"
         },
         {
             "id": "floor1_investment_shop",
@@ -15,7 +35,8 @@
             "node_types": ["shop"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-Investment"
+            "task": "BlackFlow@Roguelike@Page-Investment",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-Investment"
         },
         {
             "id": "seed_priority_shop",
@@ -24,7 +45,8 @@
             "node_types": ["shop"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-SeedPriority"
+            "task": "BlackFlow@Roguelike@Page-SeedPriority",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {
             "id": "floor3_seed_priority_shop",
@@ -33,7 +55,8 @@
             "node_types": ["shop"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-SeedPriorityFloor3"
+            "task": "BlackFlow@Roguelike@Page-SeedPriorityFloor3",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {
             "id": "cultivate_scrap_shop",
@@ -42,16 +65,28 @@
             "node_types": ["scrap_shop"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-Cultivate"
+            "task": "BlackFlow@Roguelike@Page-Cultivate",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {
             "id": "ending2_sandtable_a",
             "page_intent": "incident.ending2_sandtable_a",
             "floor_window": [1, 4],
-            "node_types": ["incident", "hide_invisible"],
+            "node_types": ["incident"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-Ending2SandtableA"
+            "task": "BlackFlow@Roguelike@Page-Ending2SandtableA",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "ending2_hidden_entry",
+            "page_intent": "incident.ending2_sandtable_a",
+            "floor_window": [1, 4],
+            "node_types": ["hide_invisible"],
+            "rank": 10,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Default",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {
             "id": "ending2_sandtable_b",
@@ -60,7 +95,8 @@
             "node_types": ["shop"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-Ending2SandtableB"
+            "task": "BlackFlow@Roguelike@Page-Ending2SandtableB",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {
             "id": "ending3_expedition_option2",
@@ -70,16 +106,28 @@
             "event_names": ["先行一步"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-Ending3Option2"
+            "task": "BlackFlow@Roguelike@Page-Ending3Option2",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {
             "id": "ending3_expedition_entry",
             "page_intent": "expedition.ending3_option2",
             "floor_window": [1, 4],
-            "node_types": ["expedition", "hide_invisible"],
+            "node_types": ["expedition"],
             "rank": 10,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-Ending3Option2"
+            "task": "BlackFlow@Roguelike@Page-Ending3Option2",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "ending3_hidden_entry",
+            "page_intent": "expedition.ending3_option2",
+            "floor_window": [1, 4],
+            "node_types": ["hide_invisible"],
+            "rank": 20,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Default",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {
             "id": "floor1_portal_entry",
@@ -88,7 +136,8 @@
             "node_types": ["portal"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-PortalFloor1"
+            "task": "BlackFlow@Roguelike@Page-PortalFloor1",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {
             "id": "floor2_portal_entry",
@@ -97,7 +146,8 @@
             "node_types": ["portal"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-PortalFloor2"
+            "task": "BlackFlow@Roguelike@Page-PortalFloor2",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {
             "id": "floor3_portal_entry",
@@ -106,10 +156,15 @@
             "node_types": ["portal"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-PortalFloor3"
+            "task": "BlackFlow@Roguelike@Page-PortalFloor3",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         }
     ],
     "task_results": [
+        {
+            "task": "BlackFlow@Roguelike@Event-NodeCompleted",
+            "result_kind": "page_completed"
+        },
         {
             "task": "BlackFlow@Roguelike@Event-InvestmentCompleted",
             "node": {

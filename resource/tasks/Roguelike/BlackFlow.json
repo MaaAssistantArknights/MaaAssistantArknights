@@ -1,12 +1,12 @@
 {
-    "BlackFlow@Roguelike@DismissMovePreview": {
+    "BlackFlow@Roguelike@CancelNodeSelection": {
         "algorithm": "JustReturn",
-        "sub": ["BlackFlow@Roguelike@DismissMovePreviewClick*3"],
+        "sub": ["BlackFlow@Roguelike@CancelNodeSelectionClick*3"],
         "next": ["BlackFlow@Roguelike@MapPrepare"],
         "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
         "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
     },
-    "BlackFlow@Roguelike@DismissMovePreviewClick": {
+    "BlackFlow@Roguelike@CancelNodeSelectionClick": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [1, 154, 45, 261],
@@ -67,7 +67,47 @@
         "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
     },
     "BlackFlow@Roguelike@Page-Investment": {
-        "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
+        "baseTask": "BlackFlow@Roguelike@StageTraderInvestSystem",
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@StageTraderInvest-Wallet": {
+        "baseTask": "JieGarden@Roguelike@StageTraderInvest-Wallet"
+    },
+    "BlackFlow@Roguelike@StageTraderInvestSystem": {
+        "baseTask": "Roguelike@StageTraderInvestSystem",
+        "next": ["BlackFlow@Roguelike@StageTraderInvestSystemEnter", "BlackFlow@Roguelike@StageTraderLeave"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@StageTraderLeave"]
+    },
+    "BlackFlow@Roguelike@StageTraderInvestSystemEnter": {
+        "baseTask": "Roguelike@StageTraderInvestSystemEnter",
+        "next": [
+            "BlackFlow@Roguelike@StageTraderInvestSystemError",
+            "BlackFlow@Roguelike@StageTraderInvestConfirm",
+            "BlackFlow@Roguelike@StageTraderInvestCancel",
+            "#self"
+        ],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@StageTraderInvestConfirm": {
+        "baseTask": "Roguelike@StageTraderInvestConfirm",
+        "next": ["BlackFlow@Roguelike@StageTraderInvestSystemError", "BlackFlow@Roguelike@StageTraderInvestCancel"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@StageTraderInvestCancel": {
+        "baseTask": "Roguelike@StageTraderInvestCancel",
+        "next": ["BlackFlow@Roguelike@StageTraderInvestSystemLeave", "BlackFlow@Roguelike@StageTraderLeave", "#self"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@StageTraderInvestSystemLeave": {
+        "baseTask": "Roguelike@StageTraderInvestSystemLeave",
+        "next": ["BlackFlow@Roguelike@StageTraderLeave", "#self"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
     },
     "BlackFlow@Roguelike@Page-Cultivate": {
         "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
@@ -88,7 +128,8 @@
         "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
     },
     "BlackFlow@Roguelike@Page-PortalFloor3": {
-        "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@Event-BurnCompleted"]
     },
     "BlackFlow@Roguelike@CultivationResult": {
         "baseTask": "BlackFlow@Roguelike@CultivationResult-Unconfigured"
@@ -96,6 +137,18 @@
     "BlackFlow@Roguelike@CultivationResult-Unconfigured": {
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@LegacyCompletion-NodePage": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@Event-NodeCompleted"]
+    },
+    "BlackFlow@Roguelike@LegacyCompletion-Investment": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@Event-InvestmentCompleted"]
+    },
+    "BlackFlow@Roguelike@Event-NodeCompleted": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@NodeResultDispatch"]
     },
     "BlackFlow@Roguelike@Event-InvestmentCompleted": {
         "algorithm": "JustReturn",
@@ -513,7 +566,29 @@
     "BlackFlow@Roguelike@MovePreviewConfirm": {
         "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
         "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
-        "action": "ClickSelf"
+        "action": "ClickSelf",
+        "next": ["#self", "BlackFlow@Roguelike@MovePreviewConfirmCompleted"]
+    },
+    "BlackFlow@Roguelike@MovePreviewConfirmCompleted": {
+        "algorithm": "JustReturn",
+        "postDelay": 600
+    },
+    "BlackFlow@Roguelike@NodePageDepartConfirm": {
+        "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
+        "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
+        "action": "ClickSelf",
+        "next": ["#self", "BlackFlow@Roguelike@NodePageDepartCompleted"]
+    },
+    "BlackFlow@Roguelike@NodePageDepartCompleted": {
+        "algorithm": "JustReturn",
+        "postDelay": 600
+    },
+    "BlackFlow@Roguelike@EnteredPageClassification": {
+        "algorithm": "OcrDetect",
+        "roi": [100, 160, 505, 372],
+        "withoutDet": false,
+        "text": ["险路尽头", "前瞻性投资系统", "机械师的园圃", "刷新"],
+        "fullMatch": true
     },
     "BlackFlow@Roguelike@MovementPanelOpenClick": {
         "algorithm": "JustReturn",
@@ -609,5 +684,122 @@
         "action": "ClickRect",
         "specificRect": [2, 138, 36, 293],
         "postDelay": 500
+    },
+    "BlackFlow@Roguelike@Page-FinalEncounter": {
+        "baseTask": "BlackFlow@Roguelike@StageEncounterJudgeClick",
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@StageEncounterJudgeClick": {
+        "baseTask": "Roguelike@StageEncounterJudgeClick",
+        "next": ["BlackFlow@Roguelike@StageEncounterJudgeClick2"]
+    },
+    "BlackFlow@Roguelike@StageEncounterJudgeClick2": {
+        "baseTask": "Roguelike@StageEncounterJudgeClick2",
+        "next": ["BlackFlow@Roguelike@StageEncounterJudgeOption"]
+    },
+    "BlackFlow@Roguelike@StageEncounterJudgeOption": {
+        "algorithm": "JustReturn",
+        "Doc": "本任务注册了插件 RoguelikeStageEncounterTaskPlugin。",
+        "next": ["BlackFlow@Roguelike@StageEncounterResult"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@StageEncounterOcr": {
+        "algorithm": "OcrDetect",
+        "roi": [100, 160, 505, 372],
+        "withoutDet": false,
+        "fullMatch": true,
+        "text": ["险路尽头"]
+    },
+    "BlackFlow@Roguelike@StageEncounterLeaveConfirm": {
+        "baseTask": "Roguelike@StageEncounterLeaveConfirm",
+        "template": "BlackFlow@Roguelike@StageEncounterLeaveConfirm.png",
+        "next": [
+            "BlackFlow@Roguelike@StageEncounterLeaveConfirm",
+            "BlackFlow@Roguelike@StageEncounterLeaveConfirmCompleted"
+        ]
+    },
+    "BlackFlow@Roguelike@StageEncounterLeaveConfirmCompleted": {
+        "algorithm": "JustReturn",
+        "postDelay": 600
+    },
+    "BlackFlow@Roguelike@StageEncounterReward": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@StageEncounterRewardContinue", "BlackFlow@Roguelike@StageEncounterRewardClose"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@StageEncounterRewardContinue": {
+        "baseTask": "BlackFlow@Roguelike@CloseCollectionContinue",
+        "next": ["BlackFlow@Roguelike@StageEncounterReward"]
+    },
+    "BlackFlow@Roguelike@StageEncounterRewardClose": {
+        "baseTask": "BlackFlow@Roguelike@CloseCollection",
+        "next": ["BlackFlow@Roguelike@CloseEventAfterEncounter"]
+    },
+    "BlackFlow@Roguelike@CloseEventAfterEncounter": {
+        "template": "BlackFlow@Roguelike@CloseEvent.png",
+        "action": "ClickSelf",
+        "postDelay": 600,
+        "next": ["BlackFlow@Roguelike@Stages"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@RoguelikeEncounter-InitialMoveUp": {
+        "baseTask": "JieGarden@RoguelikeEncounter-InitialMoveUp",
+        "Doc": "将事件选项列表移动到顶部。"
+    },
+    "BlackFlow@RoguelikeEncounter-MoveDown": {
+        "baseTask": "JieGarden@RoguelikeEncounter-MoveDown",
+        "Doc": "向后扫描事件选项列表。"
+    },
+    "BlackFlow@RoguelikeEncounter-MoveUp": {
+        "baseTask": "JieGarden@RoguelikeEncounter-MoveUp",
+        "Doc": "向前返回事件选项列表。"
+    },
+    "BlackFlow@RoguelikeEncounterOptionAnalyzer-Option": {
+        "Doc": ["匹配事件选项时用于 Matcher。", "specificRect 用于截取单个事件选项。"],
+        "template": "empty.png",
+        "roi": [835, 50, 300, 585],
+        "specificRect": [835, 0, 300, 40]
+    },
+    "BlackFlow@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
+        "Doc": "识别事件选项头部时用于 MultiMatcher。",
+        "template": "BlackFlow@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-40.png",
+        "roi": [835, 50, 40, 585],
+        "maskRange": [1, 255]
+    },
+    "BlackFlow@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
+        "Doc": "识别事件选项文字时用于 RegionOCRer。",
+        "algorithm": "OcrDetect",
+        "roi": [0, 0, 300, 40],
+        "text": [],
+        "withoutDet": true
+    },
+    "BlackFlow@Roguelike@LegacyCompletion-BurnShop": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@Event-BurnShopDone"]
+    },
+    "BlackFlow@Roguelike@StageTraderInvestSystemError": {
+        "baseTask": "Roguelike@StageTraderInvestSystemError",
+        "next": ["BlackFlow@Roguelike@StageTraderInvestCancel"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@StageTraderLeave": {
+        "baseTask": "Roguelike@StageTraderLeave",
+        "next": ["BlackFlow@Roguelike@StageTraderLeaveConfirm", "BlackFlow@Roguelike@StageTraderLeave"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@StageTraderLeaveConfirm": {
+        "baseTask": "Roguelike@StageTraderLeaveConfirm",
+        "next": ["#self", "BlackFlow@Roguelike@Stages"],
+        "onErrorNext": ["BlackFlow@Roguelike@PageFailure"],
+        "exceededNext": ["BlackFlow@Roguelike@PageFailure"]
+    },
+    "BlackFlow@Roguelike@StageEncounterResult": {
+        "baseTask": "BlackFlow@Roguelike@PageFailure"
     }
 }

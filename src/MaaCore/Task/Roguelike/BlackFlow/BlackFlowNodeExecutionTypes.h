@@ -31,6 +31,7 @@ struct NodeExecutionRoute
     int rank = 0;
     std::string alias;
     std::string task;
+    std::string completion_task;
 
     [[nodiscard]] bool matches(const NodeExecutionContext& context) const noexcept
     {

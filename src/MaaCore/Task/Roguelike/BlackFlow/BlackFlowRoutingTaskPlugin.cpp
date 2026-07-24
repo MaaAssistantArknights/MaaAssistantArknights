@@ -77,7 +77,12 @@ bool BlackFlowRoutingTaskPlugin::_run()
         return true;
     }
     if (cycle.status == RoutingCycleStatus::PreviewNeedsDismiss) {
-        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@DismissMovePreview");
+        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@CancelNodeSelection");
+        report_outputs();
+        return true;
+    }
+    if (cycle.status == RoutingCycleStatus::MoveCommittedToMap) {
+        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@MapPrepare");
         report_outputs();
         return true;
     }

@@ -1,14 +1,29 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #include "BlackFlowObservation.h"
 #include "BlackFlowPlanner.h"
 #include "BlackFlowTelemetry.h"
+
+#include "Common/AsstMsg.h"
+
+namespace cv
+{
+class Mat;
+}
+
+namespace asst
+{
+class Assistant;
+}
 
 namespace asst::blackflow
 {
@@ -72,6 +87,32 @@ struct BlackFlowObservationRequest
     int expected_floor = 1;
 };
 
+struct EnteredPageObservation
+{
+    std::vector<std::string> matched_texts;
+    std::optional<NodeType> classified_type;
+    bool classification_conflict = false;
+};
+
+[[nodiscard]] EnteredPageObservation classify_entered_page_texts(std::vector<std::string> matched_texts);
+
+class IBlackFlowMapObservationSource
+{
+public:
+    virtual ~IBlackFlowMapObservationSource() = default;
+
+    virtual bool recognize(
+        const cv::Mat& image,
+        const BlackFlowObservationRequest& request,
+        BlackFlowMapObservation& observation,
+        FactStore& observed_facts,
+        std::string* error) = 0;
+
+    virtual void configure_diagnostics(const DiagnosticSettings&) {}
+
+    virtual bool persist_diagnostics(const DiagnosticArtifactRequest& request, std::string* error) = 0;
+};
+
 class IBlackFlowTaskPort
 {
 public:
@@ -87,13 +128,47 @@ public:
         MovePreview& preview,
         bool& panel_open,
         std::string* error) = 0;
-    virtual bool confirm(const MoveTransaction& transaction, std::string* error) = 0;
+    virtual bool
+        confirm(const MoveTransaction& transaction, EnteredPageObservation& entered_page, std::string* error) = 0;
 
     virtual void reset_run() {}
 
     virtual void configure_diagnostics(const DiagnosticSettings&) {}
 
-    virtual bool persist_diagnostics(const DiagnosticArtifactRequest&, std::string*) { return true; }
+    virtual bool persist_diagnostics(const DiagnosticArtifactRequest&, std::string*) { return false; }
+};
+
+class BlackFlowTaskPort final : public IBlackFlowTaskPort
+{
+public:
+    BlackFlowTaskPort(
+        const AsstCallback& callback,
+        Assistant* inst,
+        std::string_view task_chain,
+        std::shared_ptr<IBlackFlowMapObservationSource> map_source);
+    ~BlackFlowTaskPort() override;
+
+    bool refresh(const BlackFlowObservationRequest& request, BlackFlowPerceptionSnapshot& snapshot, std::string* error)
+        override;
+    bool preview(
+        const MoveCandidate& candidate,
+        const ViewportObservation& viewport,
+        MovePreview& preview,
+        bool& panel_open,
+        std::string* error) override;
+    bool confirm(const MoveTransaction& transaction, EnteredPageObservation& entered_page, std::string* error) override;
+
+    void configure_diagnostics(const DiagnosticSettings& settings) override;
+    bool persist_diagnostics(const DiagnosticArtifactRequest& request, std::string* error) override;
+
+private:
+    class ProcessTaskContext;
+
+    [[nodiscard]] std::optional<int> recognize_action_points(const cv::Mat& image) const;
+    bool classify_entered_page(const cv::Mat& image, EnteredPageObservation& observation, std::string* error) const;
+
+    std::unique_ptr<ProcessTaskContext> m_task_context;
+    std::shared_ptr<IBlackFlowMapObservationSource> m_map_source;
 };
 
 enum class PreviewDisposition
