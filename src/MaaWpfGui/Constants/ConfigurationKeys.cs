@@ -220,12 +220,12 @@ public static class ConfigurationKeys
     public const string ReceiveMining = "Mission.ReceiveMining"; // 已迁移
     public const string ReceiveSpecialAccess = "Mission.ReceiveSpecialAccess"; // 已迁移
 
-    public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
-    public const string CopilotUserAdditional = "Copilot.UserAdditional";
-    public const string CopilotSelectFormation = "Copilot.SelectFormation";
-    public const string CopilotSupportUnitUsage = "Copilot.SupportUnitUsage";
-    public const string CopilotLoopTimes = "Copilot.LoopTimes";
-    public const string CopilotTaskList = "Copilot.CopilotTaskList";
+    public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional"; // √
+    public const string CopilotUserAdditional = "Copilot.UserAdditional"; // √
+    public const string CopilotSelectFormation = "Copilot.SelectFormation"; // √
+    public const string CopilotSupportUnitUsage = "Copilot.SupportUnitUsage"; // √
+    public const string CopilotLoopTimes = "Copilot.LoopTimes"; // √
+    public const string CopilotTaskList = "Copilot.CopilotTaskList"; // √
     public const string UpdateProxy = "VersionUpdate.Proxy"; // √
     public const string ProxyType = "VersionUpdate.ProxyType"; // √
     public const string VersionType = "VersionUpdate.VersionType"; // √

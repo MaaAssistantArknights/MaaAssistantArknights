@@ -12,12 +12,10 @@
 // </copyright>
 
 using MaaWpfGui.Helper;
-using Newtonsoft.Json;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.Items;
 
-[JsonObject(MemberSerialization.OptIn)]
 public class CopilotItemViewModel : PropertyChangedBase
 {
     /// <summary>
@@ -40,22 +38,18 @@ public class CopilotItemViewModel : PropertyChangedBase
     /// <summary>
     /// Gets the name.
     /// </summary>
-    [JsonProperty("name")]
     public string Name { get; }
 
     /// <summary>
     /// Gets the original_name.
     /// </summary>
-    [JsonProperty("file_path")]
     public string FilePath { get; }
 
     /// <summary>
     /// Gets or sets 作业站对应 id，本地作业应为默认值 0
     /// </summary>
-    [JsonProperty("copilot_id")]
     public int CopilotId { get; set; }
 
-    [JsonProperty("is_raid")]
     private bool _isRaid;
 
     /// <summary>
@@ -70,7 +64,6 @@ public class CopilotItemViewModel : PropertyChangedBase
         }
     }
 
-    [JsonProperty("is_checked")]
     private bool _isChecked;
 
     /// <summary>
@@ -85,11 +78,5 @@ public class CopilotItemViewModel : PropertyChangedBase
         }
     }
 
-    private int _index;
-
-    public int Index
-    {
-        get => _index;
-        set => SetAndNotify(ref _index, value);
-    }
+    public int Index { get; set => SetAndNotify(ref field, value); }
 }

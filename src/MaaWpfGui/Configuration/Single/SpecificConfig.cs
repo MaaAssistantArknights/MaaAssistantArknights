@@ -31,6 +31,7 @@ public class SpecificConfig : INotifyPropertyChanged
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
         Gui.EventBinding(prefix + nameof(Gui) + ".");
         Toolbox.EventBinding(prefix + nameof(Toolbox) + ".");
+        Copilot.EventBinding(prefix + nameof(Copilot) + ".");
     }
 
     [JsonInclude]
@@ -44,6 +45,9 @@ public class SpecificConfig : INotifyPropertyChanged
 
     [JsonInclude]
     public Toolbox Toolbox { get; private set; } = new();
+
+    [JsonInclude]
+    public Copilot Copilot { get; private set; } = new();
 
     [JsonInclude]
     public int TaskSelectedIndex { get; set; } = -1;

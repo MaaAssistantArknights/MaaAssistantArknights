@@ -13,7 +13,6 @@
 #nullable enable
 using System.ComponentModel;
 using System.Text.Json.Serialization;
-using Serilog;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
 

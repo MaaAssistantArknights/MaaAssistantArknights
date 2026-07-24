@@ -23,6 +23,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Models;
+using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
@@ -30,6 +31,9 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using static MaaWpfGui.Configuration.Global.Gui;
 using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
+using static MaaWpfGui.Models.AsstTasks.AsstCopilotTask;
+using static MaaWpfGui.Models.PostActionSetting;
+using static MaaWpfGui.ViewModels.UI.CopilotViewModel;
 using static MaaWpfGui.ViewModels.UI.ToolboxViewModel;
 using static MaaWpfGui.ViewModels.UserControl.Settings.VersionUpdateSettingsUserControlModel;
 
@@ -742,6 +746,52 @@ public class ConfigConverter
 
             ConfigFactory.CurrentConfig.Gui.WindowTitlePrefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
             ConfigurationHelper.DeleteValue(ConfigurationKeys.WindowTitlePrefix);
+
+            ConfigFactory.CurrentConfig.Gui.PostActions = JsonConvert.DeserializeObject<PostActions>(ConfigurationHelper.GetValue(ConfigurationKeys.PostActions, "0"));
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.PostActions);
+
+            // Copilot
+            {
+                try
+                {
+                    var copilotTaskList = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotTaskList, string.Empty);
+                    if (!string.IsNullOrEmpty(copilotTaskList))
+                    {
+                        var list = JsonConvert.DeserializeObject<List<CopilotItemViewModel>>(copilotTaskList) ?? [];
+                        ConfigFactory.CurrentConfig.Copilot.TaskList = [.. list.Select((c, i) => {
+                            c.Index = i;
+                            return c;
+                        })];
+                    }
+                }
+                catch
+                {
+                }
+
+                try
+                {
+                    var userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, string.Empty);
+                    if (!string.IsNullOrEmpty(userAdditional))
+                    {
+                        var list = JsonConvert.DeserializeObject<List<UserAdditional>>(userAdditional) ?? [];
+                        ConfigFactory.CurrentConfig.Copilot.UserAdditional = list;
+                    }
+                }
+                catch
+                {
+                }
+
+                ConfigFactory.CurrentConfig.Copilot.EnableUserAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, false);
+                ConfigFactory.CurrentConfig.Copilot.SelectFormation = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSelectFormation, 1);
+                ConfigFactory.CurrentConfig.Copilot.LoopTimes = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotLoopTimes, 1);
+                ConfigFactory.CurrentConfig.Copilot.SupportMode = (CopilotSupportMode)ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSupportUnitUsage, 1);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CopilotTaskList);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CopilotUserAdditional);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CopilotAddUserAdditional);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CopilotSelectFormation);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CopilotLoopTimes);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CopilotSupportUnitUsage);
+            }
 
             // 小工具
             {
