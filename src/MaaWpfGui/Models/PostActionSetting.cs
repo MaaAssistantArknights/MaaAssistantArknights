@@ -17,10 +17,9 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
 using JetBrains.Annotations;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UserControl.Settings;
-using Newtonsoft.Json;
 using Stylet;
 
 namespace MaaWpfGui.Models;
@@ -83,8 +82,7 @@ public class PostActionSetting : PropertyChangedBase
     public bool Once
     {
         get => _once;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _once, value))
             {
                 return;
@@ -104,8 +102,7 @@ public class PostActionSetting : PropertyChangedBase
     public bool ExitArknights
     {
         get => _exitArknights;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _exitArknights, value))
             {
                 return;
@@ -130,8 +127,7 @@ public class PostActionSetting : PropertyChangedBase
     public bool BackToAndroidHome
     {
         get => _backToAndroidHome;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _backToAndroidHome, value))
             {
                 return;
@@ -156,8 +152,7 @@ public class PostActionSetting : PropertyChangedBase
     public bool ExitEmulator
     {
         get => _exitEmulator;
-        set
-        {
+        set {
             if (value && ConnectSettingsUserControlModel.Instance.UseAttachWindow)
             {
                 return;
@@ -185,8 +180,7 @@ public class PostActionSetting : PropertyChangedBase
     public bool ExitSelf
     {
         get => _exitSelf;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _exitSelf, value))
             {
                 return;
@@ -206,8 +200,7 @@ public class PostActionSetting : PropertyChangedBase
     public bool IfNoOtherMaa
     {
         get => _ifNoOtherMaa;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _ifNoOtherMaa, value))
             {
                 return;
@@ -229,8 +222,7 @@ public class PostActionSetting : PropertyChangedBase
     public bool Hibernate
     {
         get => _hibernate;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _hibernate, value))
             {
                 return;
@@ -255,8 +247,7 @@ public class PostActionSetting : PropertyChangedBase
     public bool Shutdown
     {
         get => _shutdown;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _shutdown, value))
             {
                 return;
@@ -283,8 +274,7 @@ public class PostActionSetting : PropertyChangedBase
     public bool Sleep
     {
         get => _sleep;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _sleep, value))
             {
                 return;
@@ -424,13 +414,13 @@ public class PostActionSetting : PropertyChangedBase
     {
         if (!_once)
         {
-            ConfigurationHelper.SetValue(ConfigurationKeys.PostActions, JsonConvert.SerializeObject(_postActions));
+            ConfigFactory.CurrentConfig.Gui.PostActions = _postActions;
         }
     }
 
     public void LoadPostActions()
     {
-        _postActions = JsonConvert.DeserializeObject<PostActions>(ConfigurationHelper.GetValue(ConfigurationKeys.PostActions, "0"));
+        _postActions = ConfigFactory.CurrentConfig.Gui.PostActions;
         ExitArknights = _postActions.HasFlag(PostActions.ExitArknights);
         BackToAndroidHome = _postActions.HasFlag(PostActions.BackToAndroidHome);
         ExitEmulator = _postActions.HasFlag(PostActions.ExitEmulator);
@@ -493,8 +483,7 @@ public class PostActionSetting : PropertyChangedBase
 
     private PostActionSetting()
     {
-        ConnectSettingsUserControlModel.Instance.PropertyChanged += (_, e) =>
-        {
+        ConnectSettingsUserControlModel.Instance.PropertyChanged += (_, e) => {
             if (e.PropertyName is nameof(ConnectSettingsUserControlModel.ConnectConfig) or nameof(ConnectSettingsUserControlModel.UseAttachWindow))
             {
                 if (ConnectSettingsUserControlModel.Instance.UseAttachWindow && ExitEmulator)

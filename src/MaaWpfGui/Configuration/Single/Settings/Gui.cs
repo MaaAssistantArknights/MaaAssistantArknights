@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Text.Json.Serialization;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
+using static MaaWpfGui.Models.PostActionSetting;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
@@ -49,4 +50,6 @@ public class Gui : INotifyPropertyChanged
     //public ConnectSettings ConnectSettings { get; private set; } = new();
 
     public string WindowTitlePrefix { get; set; } = string.Empty;
+
+    public PostActions PostActions { get; set; } = PostActions.None;
 }
