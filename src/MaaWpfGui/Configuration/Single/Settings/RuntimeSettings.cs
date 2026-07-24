@@ -24,6 +24,8 @@ public class RuntimeSettings : INotifyPropertyChanged, IJsonOnDeserialized
 
     public Constants.Enums.ClientType ClientType { get; set; } = Constants.Enums.ClientType.Official;
 
+    public bool StartGame { get; set; } = true;
+
     public bool DeployWithPause { get; set; }
 
     public string PreRunScript { get; set; } = string.Empty;

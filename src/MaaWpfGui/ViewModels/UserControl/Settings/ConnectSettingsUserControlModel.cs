@@ -25,6 +25,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -758,15 +759,12 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     public LdPlayerConnectionExtras LdPlayerExtras { get; set; } = new();
 
-    private bool _retryOnDisconnected = ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to retry task after ADB disconnected.
     /// </summary>
     public bool RetryOnDisconnected
     {
-        get => _retryOnDisconnected;
-        set {
+        get; set {
             if (string.IsNullOrEmpty(SettingsViewModel.StartSettings.EmulatorPath))
             {
                 MessageBoxHelper.Show(
@@ -777,10 +775,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 value = false;
             }
 
-            SetAndNotify(ref _retryOnDisconnected, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RetryOnAdbDisconnected, value.ToString());
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.StartUpSettings.RestartEmulatorWhenAdbFailed = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.Gui.StartUpSettings.RestartEmulatorWhenAdbFailed;
 
     private bool _allowAdbRestart = ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbRestart, true);
 
@@ -860,8 +858,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     {
         string? ShowDialogCore()
         {
-            var selectionWindow = new Views.Dialogs.ItemSelectionDialogView(items, windowTitle, promptMessage)
-            {
+            var selectionWindow = new Views.Dialogs.ItemSelectionDialogView(items, windowTitle, promptMessage) {
                 Owner = Application.Current.MainWindow,
             };
 

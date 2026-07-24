@@ -51,9 +51,9 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         get => SettingsViewModel.ConnectSettings.UseAttachWindow ? false : field;
         set {
             SetAndNotify(ref field, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.StartGame, value.ToString());
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StartGame = value;
         }
-    } = ConfigurationHelper.GetValue(ConfigurationKeys.StartGame, true);
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StartGame;
 
     /// <summary>
     /// Gets the list of the client types.

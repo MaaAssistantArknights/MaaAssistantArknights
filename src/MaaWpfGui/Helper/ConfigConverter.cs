@@ -727,7 +727,8 @@ public class ConfigConverter
                 ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableStallTimeout = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutEnabled, true);
                 ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25).Clamp(0, GameSettingsUserControlModel.TimeoutMaxMinutes);
                 ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30).Clamp(1, GameSettingsUserControlModel.TimeoutMaxMinutes);
-
+                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StartGame = ConfigurationHelper.GetValue(ConfigurationKeys.StartGame, true);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.StartGame);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ClientType);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeDeploymentWithPause);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.StartsWithScript);
@@ -742,6 +743,22 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.StallTimeoutEnabled);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.StallTimeoutMinutes);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReminderIntervalMinutes);
+            }
+
+            // 启动设置
+            {
+                ConfigFactory.CurrentConfig.Gui.StartUpSettings.RunDirectly = ConfigurationHelper.GetValue(ConfigurationKeys.RunDirectly, false);
+                ConfigFactory.CurrentConfig.Gui.StartUpSettings.StartEmulator = ConfigurationHelper.GetValue(ConfigurationKeys.StartEmulator, false);
+                ConfigFactory.CurrentConfig.Gui.StartUpSettings.RestartEmulatorWhenAdbFailed = ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, false);
+                ConfigFactory.CurrentConfig.Gui.StartUpSettings.EmulatorPath = ConfigurationHelper.GetValue(ConfigurationKeys.EmulatorPath, string.Empty);
+                ConfigFactory.CurrentConfig.Gui.StartUpSettings.EmulatorAddCommand = ConfigurationHelper.GetValue(ConfigurationKeys.EmulatorAddCommand, string.Empty);
+                ConfigFactory.CurrentConfig.Gui.StartUpSettings.EmulatorWaitSeconds = ConfigurationHelper.GetValue(ConfigurationKeys.EmulatorWaitSeconds, 60);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RunDirectly);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.StartEmulator);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RetryOnAdbDisconnected);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.EmulatorPath);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.EmulatorAddCommand);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.EmulatorWaitSeconds);
             }
 
             ConfigFactory.CurrentConfig.Gui.WindowTitlePrefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
@@ -936,7 +953,7 @@ public class ConfigConverter
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, out var _);
 
             ConfigFactory.Root.Gui.Background.ImagePath = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundImagePath, "background/background.png");
-            ConfigFactory.Root.Gui.Background.StretchMode = Enum.Parse<Stretch>(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundImageStretchMode, Stretch.Fill.ToString())); ;
+            ConfigFactory.Root.Gui.Background.StretchMode = Enum.Parse<Stretch>(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundImageStretchMode, Stretch.Fill.ToString()));
             ConfigFactory.Root.Gui.Background.Opacity = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundOpacity, 50);
             ConfigFactory.Root.Gui.Background.BlurEffectRadius = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, 5);
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundImagePath, out var _);

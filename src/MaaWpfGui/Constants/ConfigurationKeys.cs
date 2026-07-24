@@ -78,7 +78,7 @@ public static class ConfigurationKeys
     public const string LdPlayerEmulatorPath = "Connect.LdPlayerEmulatorPath";
     public const string LdPlayerManualSetIndex = "Connect.LdPlayerManualSetIndex";
     public const string LdPlayerIndex = "Connect.LdPlayerIndex";
-    public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected";
+    public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected"; // √
     public const string AllowAdbRestart = "Connect.AllowADBRestart";
     public const string AllowAdbHardRestart = "Connect.AllowADBHardRestart";
     public const string AdbLiteEnabled = "Connect.AdbLiteEnabled";
@@ -92,15 +92,15 @@ public static class ConfigurationKeys
     public const string AttachWindowMouseMethod = "Connect.AttachWindow.MouseMethod";
     public const string AttachWindowKeyboardMethod = "Connect.AttachWindow.KeyboardMethod";
 
-    public const string StartGame = "Start.StartGame";
+    public const string StartGame = "Start.StartGame"; // √
     public const string ClientType = "Start.ClientType"; // √
     public const string AccountName = "Start.AccountName"; // 已迁移
-    public const string RunDirectly = "Start.RunDirectly";
+    public const string RunDirectly = "Start.RunDirectly"; // √
     public const string MinimizeDirectly = "Start.MinimizeDirectly"; // √
-    public const string StartEmulator = "Start.OpenEmulatorAfterLaunch";
-    public const string EmulatorPath = "Start.EmulatorPath";
-    public const string EmulatorAddCommand = "Start.EmulatorAddCommand";
-    public const string EmulatorWaitSeconds = "Start.EmulatorWaitSeconds";
+    public const string StartEmulator = "Start.OpenEmulatorAfterLaunch"; // √
+    public const string EmulatorPath = "Start.EmulatorPath"; // √
+    public const string EmulatorAddCommand = "Start.EmulatorAddCommand"; // √
+    public const string EmulatorWaitSeconds = "Start.EmulatorWaitSeconds"; // √
 
     // 仅在理智作战的任务中会生效，前缀需要修改
     public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop";

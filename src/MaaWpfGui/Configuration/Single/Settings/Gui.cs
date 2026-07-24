@@ -32,6 +32,7 @@ public class Gui : INotifyPropertyChanged
         RemoteControl.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + "." + nameof(RemoteControl) + ".");
         RuntimeSettings.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + "." + nameof(RuntimeSettings) + ".");
         ConnectSettings.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + "." + nameof(ConnectSettings) + ".");
+        StartUpSettings.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + "." + nameof(StartUpSettings) + ".");
     }
 
     [JsonInclude]
@@ -48,6 +49,8 @@ public class Gui : INotifyPropertyChanged
 
     //[JsonInclude]
     //public ConnectSettings ConnectSettings { get; private set; } = new();
+    [JsonInclude]
+    public StartUpSettings StartUpSettings { get; private set; } = new();
 
     public string WindowTitlePrefix { get; set; } = string.Empty;
 
