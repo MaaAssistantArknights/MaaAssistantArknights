@@ -33,7 +33,6 @@ struct FlowGraph
 
 inline bool dijkstra(const FlowGraph& fg, const std::vector<int64_t>& potential, std::vector<int64_t>& dist)
 {
-    int n = static_cast<int>(fg.graph.size());
     std::ranges::fill(dist, kInfCost);
     dist[fg.src] = 0;
 
