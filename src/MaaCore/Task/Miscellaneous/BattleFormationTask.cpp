@@ -1098,3 +1098,35 @@ std::optional<std::string> asst::BattleFormationTask::add_support_unit_from_supp
 
     return std::nullopt;
 }
+
+std::vector<asst::OperBoxInfo> asst::BattleFormationTask::parse_operbox_data(const std::string& path)
+{
+    LogTraceFunction;
+
+    std::vector<OperBoxInfo> result;
+    auto json_opt = json::open(path, true, true);
+    if (!json_opt) {
+        Log.error("Failed to open OperBox data file:", path);
+        return result;
+    }
+
+    auto& own_opers = json_opt->get("own_opers");
+    if (!own_opers.is_array()) {
+        Log.error("Missing own_opers array in OperBox data");
+        return result;
+    }
+
+    for (auto& item : own_opers.as_array()) {
+        OperBoxInfo info;
+        info.id = item.get("id", std::string());
+        info.name = item.get("name", std::string());
+        info.elite = item.get("elite", 0);
+        info.level = item.get("level", 0);
+        info.potential = item.get("potential", 0);
+        info.rarity = item.get("rarity", 0);
+        info.own = item.get("own", false);
+        result.emplace_back(std::move(info));
+    }
+
+    return result;
+}

@@ -7,6 +7,7 @@
 #include "Task/AbstractTask.h"
 #include "Ui/BattleQuickFormation.h"
 #include "Ui/SupportList.h"
+#include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
 #include "Vision/TemplDetOCRer.h"
 
 namespace asst
@@ -87,6 +88,10 @@ public:
     }
 
     bool set_specific_support_unit(const std::string& name = ""); // 设置指定助战干员
+
+    void set_operbox_assist_enabled(bool value) { m_operbox_assist_enabled = value; }
+
+    void set_operbox_assist_path(std::string path) { m_operbox_data_path = std::move(path); }
 
 protected:
     using OperGroup = battle::copilot::OperUsageGroup;
@@ -169,6 +174,15 @@ protected:
     bool m_used_support_unit = false; // 是否已经招募助战干员
     // ———————— 以下变量为指定助战干员设置，仅当 m_support_unit_usage == SupportUnitUsage::Specific 时有效 ————————
     battle::RequiredOper m_specific_support_unit;
+
+    // ————————————————————————————————
+    // 干员识别辅助编队相关
+    // ————————————————————————————————
+    bool m_operbox_assist_enabled = false;
+    std::string m_operbox_data_path;
+    std::optional<std::unordered_map<size_t, size_t>> m_operbox_matching;
+
+    std::vector<OperBoxInfo> parse_operbox_data(const std::string& path);
 
 private:
     static constexpr battle::Role Roles[] = { battle::Role::Caster,  battle::Role::Medic,   battle::Role::Pioneer,
