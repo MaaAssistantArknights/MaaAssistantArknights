@@ -1125,13 +1125,10 @@ std::vector<asst::OperBoxInfo> asst::BattleFormationTask::parse_operbox_data(con
         return result;
     }
 
-    auto& own_opers = json_opt->get("own_opers");
-    if (!own_opers.is_array()) {
-        Log.error("Missing own_opers array in OperBox data");
-        return result;
-    }
+    auto& json_obj = json_opt.value();
+    auto own_opers = json_obj.get("own_opers", json::array());
 
-    for (auto& item : own_opers.as_array()) {
+    for (auto& item : own_opers) {
         OperBoxInfo info;
         info.id = item.get("id", std::string());
         info.name = item.get("name", std::string());
@@ -1167,6 +1164,23 @@ bool asst::BattleFormationTask::do_operbox_precheck()
         }
     }
 
+    Log.info("OperBox precheck: total", flat_groups.size(), "groups, total", oper_data.size(), "opers");
+    auto join_names = [](const auto& container, auto to_name) {
+        std::string result;
+        bool first = true;
+        for (const auto& item : container) {
+            if (!first) {
+                result += ",";
+            }
+            first = false;
+            result += to_name(item);
+        }
+        return result;
+    };
+
+    Log.info("OperBox precheck: groups:", join_names(flat_groups, [](const OperGroup& g) { return g.first; }));
+    Log.info("OperBox precheck: opers:", join_names(oper_data, [](const OperBoxInfo& o) { return o.name; }));
+
     if (flat_groups.empty()) {
         return true;
     }
@@ -1189,6 +1203,38 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             });
             return it != group.second.end();
         });
+
+    Log.info(
+        "OperBox precheck: matched",
+        result.matched.size(),
+        "groups, unmatched",
+        result.unmatched_left.size(),
+        "groups");
+    auto join_view = [](auto&& rng, const std::string& sep) {
+        std::string out;
+        bool first = true;
+        for (auto&& e : rng) {
+            if (!first) {
+                out += sep;
+            }
+            first = false;
+            out += e;
+        }
+        return out;
+    };
+
+    Log.info(
+        "OperBox precheck: matched:",
+        join_view(
+            result.matched | std::views::transform([&](const auto& pair) {
+                return flat_groups[pair.first].first + "->" + oper_data[pair.second].name;
+            }),
+            ","));
+    Log.info(
+        "OperBox precheck: unmatched:",
+        join_view(
+            result.unmatched_left | std::views::transform([&](size_t idx) { return flat_groups[idx].first; }),
+            ","));
 
     std::unordered_map<std::string, std::string> assigned;
     for (const auto& [left, right] : result.matched) {
