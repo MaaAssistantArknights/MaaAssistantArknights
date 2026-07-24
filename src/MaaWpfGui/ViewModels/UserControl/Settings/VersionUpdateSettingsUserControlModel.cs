@@ -96,7 +96,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     public static string BuildDateTimeCurrentCultureString => BuildDateTime.ToLocalTimeString();
 
-    private static (DateTimeOffset DateTime, string VersionName) _resourceInfo = GetResourceVersionByClientType(SettingsViewModel.GameSettings.ClientType);
+    private static (DateTimeOffset DateTime, string VersionName) _resourceInfo = GetResourceVersionByClientType(ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType);
 
     public (DateTimeOffset DateTime, string VersionName) ResourceInfo
     {
