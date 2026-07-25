@@ -116,7 +116,7 @@ public static class DataHelper
 
         var displayLanguage = GuiSettingsUserControlModel.Instance.Language;
         var displayPath = displayLanguage switch {
-            "zh-tw" or "en-us" or "ja-jp" or "ko-kr" => Path.Combine("global", ClientDirectoryMapper[displayLanguage].ToString(), "resource"),
+            "zh-tw" or "en-us" or "ja-jp" or "ko-kr" => Path.Combine("global", ClientDirectoryMapper[displayLanguage].ToCustomString(), "resource"),
             _ => string.Empty,
         };
 

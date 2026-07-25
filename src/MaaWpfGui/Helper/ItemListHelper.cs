@@ -21,6 +21,7 @@ using System.Text.Json;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Models;
 using Serilog;
 
@@ -59,7 +60,7 @@ public static class ItemListHelper
                 break;
 
             default:
-                filename = Path.Combine(PathsHelper.ResourceDir, "global", DataHelper.ClientDirectoryMapper[language].ToString(), "resource", "item_index.json");
+                filename = Path.Combine(PathsHelper.ResourceDir, "global", DataHelper.ClientDirectoryMapper[language].ToCustomString(), "resource", "item_index.json");
                 break;
         }
 
