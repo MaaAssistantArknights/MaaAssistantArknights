@@ -48,7 +48,7 @@ public class Update : INotifyPropertyChanged
 
     public string Proxy { get; set; } = string.Empty;
 
-    public string ProxyType { get; set; } = "http";
+    public string ProxyType { get; set; } = "Http";
 
     public bool AutoDownloadUpdatePackage { get; set; } = true;
 
