@@ -27,6 +27,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
@@ -1024,6 +1025,15 @@ public class TaskQueueViewModel : Screen
             ConfigFactory.CurrentConfig.TaskQueue.Add(new RoguelikeTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new ReclamationTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new UserDataUpdateTask());
+        }
+
+        // 临时补足到8个，支持添加删除后移除此代码
+        if (ConfigFactory.Root.TimerSettings.List.Count < 8)
+        {
+            for (int i = ConfigFactory.Root.TimerSettings.List.Count; i < 8; i++)
+            {
+                ConfigFactory.Root.TimerSettings.List.Add(new(i, string.Empty));
+            }
         }
         List<TaskItemViewModel> taskqueue = [];
         for (int i = 0; i < ConfigFactory.CurrentConfig.TaskQueue.Count; i++)

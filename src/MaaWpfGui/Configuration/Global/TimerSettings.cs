@@ -16,12 +16,11 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Text.Json.Serialization;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Global;
 
-public class TimerSettings : INotifyPropertyChanged, IJsonOnDeserialized
+public class TimerSettings : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -50,16 +49,4 @@ public class TimerSettings : INotifyPropertyChanged, IJsonOnDeserialized
     public bool CustomConfig { get; set; }
 
     public ObservableCollection<Timer> List { get; private set; } = [];
-
-    public void OnDeserialized()
-    {
-        // 临时补足到8个，支持添加删除后移除此代码
-        if (List.Count < 8)
-        {
-            for (int i = List.Count; i < 8; i++)
-            {
-                List.Add(new Timer(i, string.Empty));
-            }
-        }
-    }
 }
