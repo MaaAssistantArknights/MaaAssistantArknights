@@ -53,7 +53,7 @@ public class RuntimeSettings : INotifyPropertyChanged, IJsonOnDeserialized
 
     public bool ReportToYituliu { get; set; } = true;
 
-    public bool EnableStallTimeout { get; set; }
+    public bool EnableStallTimeout { get; set; } = true;
 
     public int StallTimeoutReminderIntervalMinutes { get; set; } = 30;
 
