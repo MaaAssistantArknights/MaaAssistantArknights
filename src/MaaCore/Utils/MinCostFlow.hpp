@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <limits>
 #include <queue>
+#include <utility>
 #include <vector>
 
 namespace asst::algorithm::flow

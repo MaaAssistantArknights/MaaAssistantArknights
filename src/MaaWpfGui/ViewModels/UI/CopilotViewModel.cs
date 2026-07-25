@@ -492,10 +492,14 @@ public partial class CopilotViewModel : Screen
                 if (!string.IsNullOrEmpty(_operBoxDataPath) && File.Exists(_operBoxDataPath)) {
                     var json = JObject.Parse(File.ReadAllText(_operBoxDataPath));
                     var syncTime = json["syncTime"]?.Value<string>();
+                    if (!string.IsNullOrEmpty(syncTime) && DateTimeOffset.TryParse(syncTime, out var dto)) {
+                        return Extensions.DateTimeExtension.ToLocalTimeString(dto);
+                    }
                     return syncTime ?? string.Empty;
                 }
             }
-            catch {
+            catch (Exception ex) {
+                _logger.Warning(ex, "Failed to read OperBox syncTime from {Path}", _operBoxDataPath);
             }
             return string.Empty;
         }

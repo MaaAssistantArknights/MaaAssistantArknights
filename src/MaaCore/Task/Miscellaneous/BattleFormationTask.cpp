@@ -292,9 +292,17 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, const std::vect
         if (select_opers_in_cur_page(oper_group)) {
             has_error = false;
             bool exit = std::ranges::all_of(oper_group, [&](OperGroup* group) {
-                return !has_oper_unchecked(group->opers) ||
-                       (m_operbox_assist_enabled && group->name == m_operbox_unmatched_group);
-            }); // 该职业下的所有干员组都已选中, 或者是operbox未匹配的组, 直接退出
+                if (m_operbox_assist_enabled && group->name == m_operbox_unmatched_group) {
+                    // Mark as missing so the existing support-unit filling logic can build required_opers.
+                    for (auto& oper : group->opers) {
+                        if (oper.status == battle::OperStatus::Unchecked) {
+                            oper.status = battle::OperStatus::Missing;
+                        }
+                    }
+                    return true;
+                }
+                return !has_oper_unchecked(group->opers);
+            }); // 该职业下的所有干员组都已选中；OperBox 未匹配的组标记缺失后跳过
             if (exit) {
                 break;
             }
@@ -633,7 +641,11 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             if (m_operbox_assist_enabled) {
                 if (auto it = m_operbox_assigned.find(group->name);
                     it != m_operbox_assigned.end() && it->second == res.text) {
-                    oper = &(*std::ranges::find_if(group->opers, is_selectable));
+                    auto sel = std::ranges::find_if(group->opers, is_selectable);
+                    if (sel == group->opers.end()) {
+                        return false;
+                    }
+                    oper = &(*sel);
                     return true;
                 }
                 return false;
@@ -1171,11 +1183,11 @@ bool asst::BattleFormationTask::do_operbox_precheck()
         return true;
     }
 
-    auto can_match = [](const OperGroup& group, const OperBoxInfo& info) {
+    auto can_match = [](const OperGroup& group, const OperBoxInfo& info) { // 目前只考虑忽略干员练度情况
         if (!info.own || info.id.empty()) {
             return false;
         }
-        auto it = std::ranges::find_if(group.second, [&](const battle::OperUsage& op) {
+        auto it = std::ranges::find_if(group.opers, [&](const battle::OperUsage& op) {
             if (BattleData.get_id(op.name) != info.id) { // ! 用的是干员的 id 而不是 name，干员识别的 name 可能不是中文
                 return false;
             }
@@ -1184,7 +1196,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             }
             return info.elite >= op.requirements.elite;
         });
-        return it != group.second.end();
+        return it != group.opers.end();
     };
 
     // 使用二分图最大权匹配算法，尝试将干员组与可用干员进行匹配
@@ -1201,10 +1213,10 @@ bool asst::BattleFormationTask::do_operbox_precheck()
     std::unordered_map<std::string, std::string> assigned;
     json::array matched_groups;
     for (const auto& [left, right] : result.matched) {
-        assigned[flat_groups[left].first] = oper_data[right].name;
-        Log.info("  Matched group:", flat_groups[left].first, "with oper:", oper_data[right].name);
+        assigned[flat_groups[left].name] = oper_data[right].name;
+        Log.info("  Matched group:", flat_groups[left].name, "with oper:", oper_data[right].name);
         matched_groups.emplace_back(
-            std::unordered_map<std::string, std::string> { { "group_name", flat_groups[left].first },
+            std::unordered_map<std::string, std::string> { { "group_name", flat_groups[left].name },
                                                            { "oper_name", oper_data[right].name } });
     }
     if (!matched_groups.empty()) {
@@ -1222,7 +1234,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
 
     // 只有一个未匹配的干员组
     if (result.unmatched_left.size() == 1) {
-        m_operbox_unmatched_group = flat_groups[result.unmatched_left[0]].first;
+        m_operbox_unmatched_group = flat_groups[result.unmatched_left[0]].name;
         if (m_support_unit_usage == SupportUnitUsage::None) {
             json::value info = basic_info_with_what("BattleFormationOperbox1Unmatched");
             info["details"]["group_name"] = m_operbox_unmatched_group;
@@ -1235,8 +1247,11 @@ bool asst::BattleFormationTask::do_operbox_precheck()
         // 不知道这么写效率够不够，应该是常数很小的O(n^4)，可能跟O(n^3)的差不多
         std::unordered_set<std::string> candidate_ids;
         for (const auto& group : flat_groups) {
-            for (const auto& op : group.second) {
-                candidate_ids.insert(BattleData.get_id(op.name));
+            for (const auto& op : group.opers) {
+                auto id = BattleData.get_id(op.name);
+                if (!id.empty()) {
+                    candidate_ids.insert(id);
+                }
             }
         }
 
@@ -1254,11 +1269,11 @@ bool asst::BattleFormationTask::do_operbox_precheck()
                 std::unordered_map<std::string, std::string> new_assigned;
                 for (const auto& [left, right] : retry.matched) {
                     if (right == fake_idx) {
-                        Log.info("OperBox precheck: borrow", borrow_id, "for", flat_groups[left].first);
-                        m_operbox_unmatched_group = flat_groups[left].first;
+                        Log.info("OperBox precheck: borrow", borrow_id, "for", flat_groups[left].name);
+                        m_operbox_unmatched_group = flat_groups[left].name;
                     }
                     else {
-                        new_assigned[flat_groups[left].first] = cur_data[right].name;
+                        new_assigned[flat_groups[left].name] = cur_data[right].name;
                     }
                 }
                 m_operbox_assigned = std::move(new_assigned);
@@ -1279,8 +1294,8 @@ bool asst::BattleFormationTask::do_operbox_precheck()
     json::array unmatched_groups;
     Log.info("OperBox precheck:", result.unmatched_left.size(), "slots unmatched, aborting formation");
     for (size_t idx : result.unmatched_left) {
-        Log.info("  Unmatched slot:", flat_groups[idx].first);
-        unmatched_groups.emplace_back(flat_groups[idx].first);
+        Log.info("  Unmatched slot:", flat_groups[idx].name);
+        unmatched_groups.emplace_back(flat_groups[idx].name);
     }
     {
         json::value info = basic_info();
