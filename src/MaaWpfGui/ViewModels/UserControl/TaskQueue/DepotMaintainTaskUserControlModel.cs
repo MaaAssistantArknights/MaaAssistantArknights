@@ -51,6 +51,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         PlanList.CollectionChanged += (_, __) => {
             SavePlan();
             NotifyOfPropertyChange(nameof(PlanInfo));
+
             // 增删后序号变化，通知所有 plan 刷新 Title
             foreach (var plan in PlanList)
             {
