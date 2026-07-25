@@ -1147,13 +1147,17 @@ bool asst::BattleFormationTask::do_operbox_precheck()
 {
     LogTraceFunction;
 
-    if (!m_operbox_assist_enabled || m_operbox_data_path.empty()) {
+    m_operbox_assigned.clear();
+    m_operbox_unmatched_group.clear();
+    if (!m_operbox_assist_enabled) {
         return true;
     }
 
     auto oper_data = parse_operbox_data(m_operbox_data_path);
     if (oper_data.empty()) {
         Log.error("OperBox data is empty, cannot perform precheck");
+        json::value info = basic_info_with_what("BattleFormationOperboxDataParseFailed");
+        callback(AsstMsg::SubTaskExtraInfo, info);
         return false;
     }
 
@@ -1163,37 +1167,21 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             flat_groups.emplace_back(group);
         }
     }
-
-    Log.info("OperBox precheck: total", flat_groups.size(), "groups, total", oper_data.size(), "opers");
-    auto join_names = [](const auto& container, auto to_name) {
-        std::string result;
-        bool first = true;
-        for (const auto& item : container) {
-            if (!first) {
-                result += ",";
-            }
-            first = false;
-            result += to_name(item);
-        }
-        return result;
-    };
-
-    Log.info("OperBox precheck: groups:", join_names(flat_groups, [](const OperGroup& g) { return g.first; }));
-    Log.info("OperBox precheck: opers:", join_names(oper_data, [](const OperBoxInfo& o) { return o.name; }));
-
     if (flat_groups.empty()) {
         return true;
     }
 
+    // 使用二分图最大权匹配算法，尝试将干员组与可用干员进行匹配
     auto result = algorithm::bipartite::bipartite_max_match<OperGroup, OperBoxInfo>(
         flat_groups,
         oper_data,
         [](const OperGroup& group, const OperBoxInfo& info) {
-            if (!info.own || info.name.empty()) {
+            if (!info.own || info.id.empty()) {
                 return false;
             }
             auto it = std::ranges::find_if(group.second, [&](const battle::OperUsage& op) {
-                if (op.name != info.name) {
+                if (BattleData.get_id(op.name) !=
+                    info.id) { // ! 用的是干员的 id 而不是 name，干员识别的 name 可能不是中文
                     return false;
                 }
                 if (op.requirements.elite <= 0 && op.requirements.level <= 0) {
@@ -1210,53 +1198,57 @@ bool asst::BattleFormationTask::do_operbox_precheck()
         "groups, unmatched",
         result.unmatched_left.size(),
         "groups");
-    auto join_view = [](auto&& rng, const std::string& sep) {
-        std::string out;
-        bool first = true;
-        for (auto&& e : rng) {
-            if (!first) {
-                out += sep;
-            }
-            first = false;
-            out += e;
-        }
-        return out;
-    };
 
-    Log.info(
-        "OperBox precheck: matched:",
-        join_view(
-            result.matched | std::views::transform([&](const auto& pair) {
-                return flat_groups[pair.first].first + "->" + oper_data[pair.second].name;
-            }),
-            ","));
-    Log.info(
-        "OperBox precheck: unmatched:",
-        join_view(
-            result.unmatched_left | std::views::transform([&](size_t idx) { return flat_groups[idx].first; }),
-            ","));
-
+    // 匹配的干员组
     std::unordered_map<std::string, std::string> assigned;
+    json::array matched_groups;
     for (const auto& [left, right] : result.matched) {
         assigned[flat_groups[left].first] = oper_data[right].name;
+        Log.info("  Matched group:", flat_groups[left].first, "with oper:", oper_data[right].name);
+        matched_groups.emplace_back(
+            std::unordered_map<std::string, std::string> { { "group_name", flat_groups[left].first },
+                                                           { "oper_name", oper_data[right].name } });
+    }
+    if (!matched_groups.empty()) {
+        json::value info = basic_info_with_what("BattleFormationOperboxMatched");
+        info["details"]["matched_groups"] = std::move(matched_groups);
+        callback(AsstMsg::SubTaskExtraInfo, info);
     }
 
+    // 没有未匹配的干员组
     if (result.unmatched_left.empty()) {
         m_operbox_assigned = std::move(assigned);
         m_operbox_unmatched_group.clear();
         return true;
     }
 
+    // 只有一个未匹配的干员组
     if (result.unmatched_left.size() == 1) {
         m_operbox_assigned = std::move(assigned);
         m_operbox_unmatched_group = flat_groups[result.unmatched_left[0]].first;
-        Log.info("OperBox precheck: 1 slot unmatched, will use support unit");
+        Log.info("OperBox precheck: ", m_operbox_unmatched_group, " unmatched, need support unit");
+        json::value info = basic_info_with_what("BattleFormationOperbox1Unmatched");
+        info["details"]["group_name"] = m_operbox_unmatched_group;
+        callback(AsstMsg::SubTaskExtraInfo, info);
+        if (m_support_unit_usage == SupportUnitUsage::None) {
+            return false; // 如果不允许使用助战干员，则直接返回失败
+        }
         return true;
     }
 
+    // 多个未匹配的干员组
+    json::array unmatched_groups;
     Log.info("OperBox precheck:", result.unmatched_left.size(), "slots unmatched, aborting formation");
     for (size_t idx : result.unmatched_left) {
         Log.info("  Unmatched slot:", flat_groups[idx].first);
+        unmatched_groups.emplace_back(flat_groups[idx].first);
+    }
+    {
+        json::value info = basic_info();
+        info["why"] = "OperboxMultipleUnmatched";
+        info["details"] = json::object { { "unmatched_groups", std::move(unmatched_groups) },
+                                         { "matched_groups", std::move(matched_groups) } };
+        callback(AsstMsg::SubTaskError, info);
     }
     return false;
 }
