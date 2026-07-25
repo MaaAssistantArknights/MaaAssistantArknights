@@ -212,7 +212,6 @@ public static class ConfigFactory
             {
                 var key = "Root.Configurations." + name + ".";
                 config.EventBinding(key);
-                config.Gui.EventBinding(key);
                 config.TaskQueue.CollectionChanged += (in NotifyCollectionChangedEventArgs<BaseTask> args) => {
                     switch (args.Action)
                     {
