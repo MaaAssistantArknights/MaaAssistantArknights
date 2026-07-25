@@ -640,7 +640,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
         const auto& iter = std::ranges::find_if(groups, [&](OperGroup* group) {
             if (m_operbox_assist_enabled) {
                 if (auto it = m_operbox_assigned.find(group->name);
-                    it != m_operbox_assigned.end() && it->second == res.text) {
+                    it != m_operbox_assigned.end() && it->second == BattleData.get_id(res.text)) {
                     auto sel = std::ranges::find_if(group->opers, is_selectable);
                     if (sel == group->opers.end()) {
                         return false;
@@ -1213,7 +1213,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
     std::unordered_map<std::string, std::string> assigned;
     json::array matched_groups;
     for (const auto& [left, right] : result.matched) {
-        assigned[flat_groups[left].name] = oper_data[right].name;
+        assigned[flat_groups[left].name] = oper_data[right].id;
         Log.info("  Matched group:", flat_groups[left].name, "with oper:", oper_data[right].name);
         matched_groups.emplace_back(
             std::unordered_map<std::string, std::string> { { "group_name", flat_groups[left].name },
@@ -1273,7 +1273,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
                         m_operbox_unmatched_group = flat_groups[left].name;
                     }
                     else {
-                        new_assigned[flat_groups[left].name] = cur_data[right].name;
+                        new_assigned[flat_groups[left].name] = cur_data[right].id;
                     }
                 }
                 m_operbox_assigned = std::move(new_assigned);
