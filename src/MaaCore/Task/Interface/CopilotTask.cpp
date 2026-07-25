@@ -73,6 +73,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
     auto support_unit_usage = static_cast<SupportUnitUsage>(
         params.get("support_unit_usage", static_cast<int>(SupportUnitUsage::None))); // 助战干员使用模式
     std::string support_unit_name = params.get("support_unit_name", std::string());
+    bool operbox_assist = params.get("operbox_assist", false);                       // 是否启用已有干员辅助编队
+    std::string operbox_data_path = params.get("operbox_data_path", std::string());  // 已有干员辅助编队数据路径
 
     auto filename_opt = params.find<std::string>("filename");
     auto multi_tasks_opt = params.find<json::array>("copilot_list"); // 多任务列表
@@ -153,6 +155,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_formation_task_ptr->set_ignore_requirements(ignore_requirements);
     m_formation_task_ptr->set_support_unit_usage(support_unit_usage);
     m_formation_task_ptr->set_specific_support_unit(support_unit_name);
+    m_formation_task_ptr->set_operbox_assist_enabled(operbox_assist);
+    m_formation_task_ptr->set_operbox_assist_path(operbox_data_path);
 
     if (auto opt = params.find<json::array>("user_additional"); with_formation && add_user_additional && opt) {
         std::vector<std::pair<std::string, int>> user_additional;

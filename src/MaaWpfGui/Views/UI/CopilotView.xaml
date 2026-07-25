@@ -492,6 +492,36 @@
 
                         </WrapPanel>
 
+                        <!--  UseOperBoxAssist  -->
+                        <WrapPanel
+                            Orientation="Vertical"
+                            Visibility="{c:Binding 'IgnoreRequirements and Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
+                            <CheckBox
+                                Margin="2.5,5"
+                                Content="{DynamicResource Copilot.UseOperBoxAssist}" IsChecked="{Binding EnableOperBoxAssist}" />
+                            <StackPanel Visibility="{c:Binding EnableOperBoxAssist}" Margin="24,0,0,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox
+                                        Width="150"
+                                        Height="28"
+                                        Text="{Binding OperBoxDisplayPath, Mode=OneWay}"
+                                        IsEnabled="{c:Binding Idle}"
+                                        IsReadOnly="True" />
+                                    <Button
+                                        Height="28"
+                                        MinWidth="28"
+                                        Padding="0,5"
+                                        Command="{s:Action SelectOperBoxFile}"
+                                        IsEnabled="{c:Binding Idle}"
+                                        hc:IconElement.Geometry="{StaticResource FolderOpen20Regular}" />
+                                </StackPanel>
+                                <TextBlock
+                                    Margin="0,2,0,0"
+                                    Foreground="Gray"
+                                    Text="{Binding OperBoxLastSyncTimeText}" />
+                            </StackPanel>
+                        </WrapPanel>
+
                         <!--  UseCopilotList  -->
                         <StackPanel
                             Margin="2.5,5"

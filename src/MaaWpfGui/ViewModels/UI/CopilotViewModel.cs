@@ -463,6 +463,44 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     public bool IgnoreRequirements { get => field; set => SetAndNotify(ref field, value); }
 
+    public bool EnableOperBoxAssist { get => field; set => SetAndNotify(ref field, value); }
+
+    private string _operBoxDataPath = ConfigurationHelper.GetValue(
+        ConfigurationKeys.CopilotOperBoxDataPath,
+        Path.Combine(DataDir, "OperBoxData.json")).Trim();
+
+    public string OperBoxDataPath
+    {
+        get => _operBoxDataPath;
+        set {
+            SetAndNotify(ref _operBoxDataPath, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotOperBoxDataPath, value);
+        }
+    }
+
+    [PropertyDependsOn(nameof(OperBoxDataPath))]
+    public string OperBoxDisplayPath =>
+        !string.IsNullOrEmpty(_operBoxDataPath) && _operBoxDataPath.StartsWith(BaseDir, StringComparison.OrdinalIgnoreCase)
+            ? Path.GetRelativePath(BaseDir, _operBoxDataPath)
+            : _operBoxDataPath;
+
+    [PropertyDependsOn(nameof(OperBoxDataPath))]
+    public string OperBoxLastSyncTimeText
+    {
+        get {
+            try {
+                if (!string.IsNullOrEmpty(_operBoxDataPath) && File.Exists(_operBoxDataPath)) {
+                    var json = JObject.Parse(File.ReadAllText(_operBoxDataPath));
+                    var syncTime = json["syncTime"]?.Value<string>();
+                    return syncTime ?? string.Empty;
+                }
+            }
+            catch {
+            }
+            return string.Empty;
+        }
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether 真正有干员被忽略了要求
     /// </summary>
@@ -833,6 +871,19 @@ public partial class CopilotViewModel : Screen
         if (dialog.ShowDialog() == true)
         {
             Filename = dialog.FileName;
+        }
+    }
+
+    [UsedImplicitly]
+    public void SelectOperBoxFile()
+    {
+        var dialog = new OpenFileDialog {
+            Filter = "JSON|*.json",
+        };
+
+        if (dialog.ShowDialog() == true)
+        {
+            OperBoxDataPath = dialog.FileName;
         }
     }
 
@@ -2044,6 +2095,8 @@ public partial class CopilotViewModel : Screen
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
+                OperBoxAssist = EnableOperBoxAssist && IgnoreRequirements,
+                OperBoxDataPath = OperBoxDataPath,
             };
 
             // 能用列表的是主线/ss/故事集/悖论，都是 Copilot 类型
@@ -2099,6 +2152,8 @@ public partial class CopilotViewModel : Screen
                 LoopTimes = Loop ? LoopTimes : 1,
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
+                OperBoxAssist = EnableOperBoxAssist && IgnoreRequirements,
+                OperBoxDataPath = OperBoxDataPath,
             };
 
             // 单作业需要区分 Copilot / SSSCopilot

@@ -230,6 +230,7 @@ public static class ConfigurationKeys
     public const string CopilotSelectFormation = "Copilot.SelectFormation"; // √
     public const string CopilotSupportUnitUsage = "Copilot.SupportUnitUsage"; // √
     public const string CopilotLoopTimes = "Copilot.LoopTimes"; // √
+    public const string CopilotOperBoxDataPath = "Copilot.OperBoxDataPath";
     public const string CopilotTaskList = "Copilot.CopilotTaskList"; // √
     public const string UpdateProxy = "VersionUpdate.Proxy"; // √
     public const string ProxyType = "VersionUpdate.ProxyType"; // √

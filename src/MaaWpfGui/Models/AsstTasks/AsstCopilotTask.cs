@@ -68,6 +68,16 @@ public class AsstCopilotTask : AsstBaseTask
     public bool UseSanityPotion { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 依据干员识别结果辅助编队
+    /// </summary>
+    public bool OperBoxAssist { get; set; }
+
+    /// <summary>
+    /// Gets or sets 干员识别数据文件路径
+    /// </summary>
+    public string OperBoxDataPath { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets 自定干员列表
     /// </summary>
     public List<UserAdditional>? UserAdditionals { get; set; }
@@ -113,6 +123,12 @@ public class AsstCopilotTask : AsstBaseTask
         if (UserAdditionals?.Count > 0)
         {
             taskParams["user_additional"] = JArray.FromObject(UserAdditionals);
+        }
+
+        if (OperBoxAssist)
+        {
+            taskParams["operbox_assist"] = true;
+            taskParams["operbox_data_path"] = OperBoxDataPath;
         }
 
         return (TaskType, taskParams);
