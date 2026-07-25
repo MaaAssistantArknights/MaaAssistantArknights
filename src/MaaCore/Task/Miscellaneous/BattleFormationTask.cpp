@@ -1173,6 +1173,36 @@ bool asst::BattleFormationTask::do_operbox_precheck()
         return false;
     }
 
+    std::sort(oper_data.begin(), oper_data.end(), [](const OperBoxInfo& a, const OperBoxInfo& b) {
+        if (a.elite != b.elite) {
+            return a.elite > b.elite;
+        }
+        if (a.level != b.level) {
+            return a.level > b.level;
+        }
+        if (a.rarity != b.rarity) {
+            return a.rarity > b.rarity;
+        }
+        auto get_id_num = [](const std::string& id) {
+            auto first_underscore = id.find('_');
+            if (first_underscore == std::string::npos) {
+                return 0;
+            }
+            auto second_underscore = id.find('_', first_underscore + 1);
+            if (second_underscore == std::string::npos) {
+                return 0;
+            }
+            std::string num_str = id.substr(first_underscore + 1, second_underscore - first_underscore - 1);
+            try {
+                return std::stoi(num_str);
+            }
+            catch (...) {
+                return 0;
+            }
+        };
+        return get_id_num(a.id) > get_id_num(b.id);
+    });
+
     std::vector<OperGroup> flat_groups;
     for (const auto& [role, oper_groups] : m_formation) {
         for (const auto& group : oper_groups) {
