@@ -34,7 +34,7 @@ inline flow::FlowGraph
     }
     for (size_t i = 0; i < left_count; ++i) {
         for (size_t j : adjacency[i]) {
-            int64_t cost = static_cast<int64_t>(i) * static_cast<int64_t>(right_count) + static_cast<int64_t>(j);
+            int64_t cost = (i + 1) * (j + 1);
             fg.add_edge(static_cast<int>(i + 1), static_cast<int>(left_count + j + 1), 1, cost);
         }
     }
