@@ -1172,7 +1172,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 已弃用。原为是否启用 Minitouch；"1" 开，"0" 关。注意设备可能不支持。枚举值：1（已弃用）。  
 :::  
 ::: field name="TouchMode" type="string" optional default="minitouch"  
-触控模式设置。可选值：minitouch | maatouch | adb | MaaFwAdb。默认 minitouch。枚举值：2。  
+触控模式设置。可选值：minitouch | maatouch | adb | MaaFwAdb | MaaFwWlr。默认 minitouch。枚举值：2。  
 :::  
 ::: field name="DeploymentWithPause" type="boolean" optional  
 是否暂停下干员，同时影响抄作业、肉鸽、保全。可用值："1" 或 "0"。枚举值：3。  
