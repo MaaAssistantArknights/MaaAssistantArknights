@@ -32,6 +32,13 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
         Instance = new();
     }
 
+    public TimerSettingsUserControlModel()
+    {
+        // 订阅现有定时器，并在列表增删时重新订阅，用于触发「时间管理大师」成就
+        SubscribeTimerChanges();
+        TimerList.CollectionChanged += (_, _) => SubscribeTimerChanges();
+    }
+
     public static TimerSettingsUserControlModel Instance { get; }
 
     /// <summary>
@@ -68,4 +75,24 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     } = ConfigFactory.Root.TimerSettings.CustomConfig;
 
     public ObservableCollection<Timer> TimerList => ConfigFactory.Root.TimerSettings.List;
+
+    /// <summary>
+    /// 订阅所有定时器的启用状态变化，用于触发「时间管理大师」成就检查。
+    /// </summary>
+    private void SubscribeTimerChanges()
+    {
+        foreach (var timer in TimerList)
+        {
+            timer.PropertyChanged -= OnTimerPropertyChanged;
+            timer.PropertyChanged += OnTimerPropertyChanged;
+        }
+    }
+
+    private void OnTimerPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(Timer.IsEnabled))
+        {
+            AchievementTrackerHelper.Instance.CheckTimeManagementMaster();
+        }
+    }
 }

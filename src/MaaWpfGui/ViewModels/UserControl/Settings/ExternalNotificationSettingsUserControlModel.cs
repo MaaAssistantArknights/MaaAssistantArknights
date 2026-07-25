@@ -21,6 +21,7 @@ using System.Windows;
 using System.Windows.Controls;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.Services.ExternalNotification;
@@ -100,6 +101,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
                 });
             }
             NotifyOfPropertyChange(nameof(ConfigCount));
+            CheckAllChannelBroadcast();
         };
         foreach (var item in ExternalNotificationConfigs)
         {
@@ -125,6 +127,39 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     }
 
     public int ConfigCount => ExternalNotificationConfigs.Count;
+
+    /// <summary>
+    /// 外部通知支持的全部 provider 配置类型（与 <see cref="Base"/> 的派生 record 一一对应）。
+    /// </summary>
+    private static readonly HashSet<Type> _allProviderTypes =
+    [
+        typeof(Smtp),
+        typeof(ServerChan),
+        typeof(Discord),
+        typeof(DingTalk),
+        typeof(Telegram),
+        typeof(Bark),
+        typeof(Qmsg),
+        typeof(Gotify),
+        typeof(CustomWebhook),
+    ];
+
+    /// <summary>
+    /// 当配置项覆盖了全部支持的 provider 类型时，解锁「全频道广播」成就。
+    /// </summary>
+    private static void CheckAllChannelBroadcast()
+    {
+        var covered = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs
+            .Select(c => c.GetType())
+            .Where(t => _allProviderTypes.Contains(t))
+            .Distinct()
+            .Count();
+
+        if (covered == _allProviderTypes.Count)
+        {
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.AllChannelBroadcast);
+        }
+    }
 
     public bool ExternalNotificationSendWhenComplete
     {
