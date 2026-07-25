@@ -37,6 +37,7 @@ using static MaaWpfGui.Models.AsstTasks.AsstCopilotTask;
 using static MaaWpfGui.Models.EmulatorConnectionExtra.Win32Extra;
 using static MaaWpfGui.Models.PostActionSetting;
 using static MaaWpfGui.ViewModels.UI.CopilotViewModel;
+using static MaaWpfGui.ViewModels.UI.OverlayViewModel;
 using static MaaWpfGui.ViewModels.UI.ToolboxViewModel;
 using static MaaWpfGui.ViewModels.UserControl.Settings.VersionUpdateSettingsUserControlModel;
 
@@ -1055,6 +1056,21 @@ public class ConfigConverter
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, out var _);
             ConfigFactory.Root.Gui.GuideStep = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0);
             ConfigurationHelper.DeleteValue(ConfigurationKeys.GuideStepIndex);
+            try
+            {
+                var saved = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.OverlayTarget, string.Empty);
+                if (!string.IsNullOrWhiteSpace(saved))
+                {
+                    var info = JsonConvert.DeserializeObject<OverlayTargetInfo>(saved);
+                    if (info != null)
+                    {
+                        ConfigFactory.Root.Gui.OverlayTarget = info;
+                    }
+                }
+            }
+            catch
+            {
+            }
         }
 
         // Timer

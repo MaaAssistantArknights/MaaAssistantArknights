@@ -17,6 +17,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
+using static MaaWpfGui.ViewModels.UI.OverlayViewModel;
 
 namespace MaaWpfGui.Configuration.Global;
 
@@ -71,6 +72,8 @@ public class Gui : INotifyPropertyChanged
     public string CustomCulture { get; set; } = string.Empty;
 
     public bool IgnoreBadModulesAndUseSoftwareRendering { get; set; }
+
+    public OverlayTargetInfo OverlayTarget { get; set; } = new();
 
     public int GuideStep { get; set; } = 0;
 

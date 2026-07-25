@@ -192,7 +192,6 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                 return;
             }
 
-            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastMode, value.ToString());
             ParseCustomInfrastPlan();
         }
     }
