@@ -422,6 +422,8 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStartWithSelectList);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeCollectibleModeShopping);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeCollectibleModeSquad);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeFindPlaytimeTarget);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeExpectedCollapsalParadigms);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStartWithSeed);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeMonthlySquadAutoIterate);
@@ -1067,6 +1069,8 @@ public class ConfigConverter
                         ConfigFactory.Root.Gui.OverlayTarget = info;
                     }
                 }
+
+                ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.OverlayTarget, out var _);
             }
             catch
             {
