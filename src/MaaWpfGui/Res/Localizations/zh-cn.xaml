@@ -1650,7 +1650,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">技能等级不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">所需模组未解锁</system:String>
     <system:String x:Key="BattleFormationOperboxDataParseFailed">{key=OperBoxRecognition}数据解析失败</system:String>
-    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator}（组） {0} 没有匹配的{key=Operator}，可能需要借助战 {1}</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator}（组） {0} 没有匹配的{key=Operator}，可能需要借助战{key=Operator}{1}</system:String>
     <system:String x:Key="BattleFormationOperboxMatched">预匹配的{key=Operator}（组）：</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加自定{key=Operator}名称无效: {0}，请检查拼写</system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>

@@ -1653,7 +1653,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">스킬 레벨이 너무 낮음</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">필요한 모듈이 잠금 해제되지 않음</system:String>
     <system:String x:Key="BattleFormationOperboxDataParseFailed">{key=OperBoxRecognition} 데이터 분석 실패</system:String>
-    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator}(그룹) {0}에 일치하는 {key=Operator} 없음</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator}(그룹) {0}에 일치하는 {key=Operator} 없음，{key=Operator}{1}을(를) 빌려야 할 수 있습니다</system:String>
     <system:String x:Key="BattleFormationOperboxMatched">사전 매칭된 {key=Operator}(그룹):</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">추가된 커스텀 {key=Operator} 이름이 유효하지 않음: {0}, 철자를 확인하세요</system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
