@@ -703,10 +703,10 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSendWhenStalled);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationEnableDetails);
 
-                ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlGetTaskEndpointUri = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty));
-                ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlReportStatusUri = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty));
-                ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlUserIdentity = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty));
-                ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlDeviceIdentity = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty));
+                ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlGetTaskEndpointUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty);
+                ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlReportStatusUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty);
+                ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlUserIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty);
+                ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlDeviceIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty);
                 ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlPollIntervalMs = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlPollIntervalMs, 1000);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RemoteControlReportStatusUri);
@@ -965,7 +965,7 @@ public class ConfigConverter
             ConfigFactory.Root.Update.HasAcknowledgedNightlyWarning = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, false);
             ConfigFactory.Root.Update.UpdateSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateSource, "Github");
             ConfigFactory.Root.Update.ForceGithubGlobalSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, false);
-            ConfigFactory.Root.Update.MirrorChyanCdk = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdk, string.Empty));
+            ConfigFactory.Root.Update.MirrorChyanCdk = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdk, string.Empty);
             ConfigFactory.Root.Update.MirrorChyanCdkExpiredTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, 0L);
             ConfigFactory.Root.Update.CheckOnStartup = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, true);
             ConfigFactory.Root.Update.CheckOnSchedule = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateAutoCheck, false);
