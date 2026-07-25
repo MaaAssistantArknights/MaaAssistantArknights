@@ -101,30 +101,30 @@ In `Connection Settings`, set `Connection Configuration` to `BlueStacks`, then c
 
 This should work in most cases. If connection still fails, you may have multiple emulator cores or issues requiring additional settings as explained below.
 
-#### Specifying `Bluestacks.Config.Keyword`
+#### Specifying `ConfigKeyword`
 
 ::: info Note
 If you're using multi-instance or have multiple emulator cores installed, you'll need additional settings to specify which emulator number to use
 :::
 
-In `.\config\gui.json`, search for the `Bluestacks.Config.Keyword` field containing `"bst.instance.<emulator number>.status.adb_port"`. Find the emulator number in the `BlueStacks_nxt\Engine` folder in the emulator path.
+In `gui.new.json`, find your current configuration name (viewable in Settings-Switch Configuration, default is `Default`) and locate the `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigKeyword` field containing `"bst.instance.<emulator number>.status.adb_port"`. Find the emulator number in the `BlueStacks_nxt\Engine` folder in the emulator path.
 
 ::: details Examples
 Nougat64 core:
 
 ```json
-"Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
+"ConfigKeyword": "bst.instance.Nougat64.status.adb_port"
 ```
 
 Pie64_2 core: (the number after the core name indicates a multi-instance core)
 
 ```json
-"Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
+"ConfigKeyword": "bst.instance.Pie64_2.status.adb_port"
 ```
 
 :::
 
-#### Specifying `Bluestacks.Config.Path`
+#### Specifying `ConfigPath`
 
 ::: info Note
 MAA now attempts to read the `bluestacks.conf` storage location from the registry. When this fails, you need to manually specify the configuration file path
@@ -138,7 +138,7 @@ MAA now attempts to read the `bluestacks.conf` storage location from the registr
 
 2. If this is your first time, run MAA once so it automatically generates the configuration file.
 
-3. **First close** MAA, **then** open `gui.json`, find your current configuration name under `Configurations` (viewable in Settings-Switch Configuration, default is `Default`), search for the `Bluestacks.Config.Path` field, and enter the full path to `bluestacks.conf`. (Note: use escaped backslashes `\\`)
+3. **First close** MAA, **then** open `gui.new.json`, find your current configuration name (viewable in Settings-Switch Configuration, default is `Default`), locate the `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigPath` field, and enter the full path to `bluestacks.conf`. (Note: use escaped backslashes `\\`)
 
 ::: details Example
 For `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`:
@@ -147,8 +147,15 @@ For `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`:
 {
   "Configurations": {
     "Default": {
-      "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
-      // Other configuration fields, don't manually modify
+      "Gui": {
+        "ConnectSettings": {
+          "Extras": {
+            "BluestacksExtra": {
+              "ConfigPath": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
+            }
+          }
+        }
+      }
     }
   }
 }

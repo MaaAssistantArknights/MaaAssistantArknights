@@ -103,30 +103,30 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
 
 :::: steps
 
-1. 指定 `Bluestacks.Config.Keyword`
+1. 指定 `ConfigKeyword`
 
    ::: info 注意
    如果启用了多开功能或安装了多个模拟器核心，则需要进行额外设置来指定使用的模拟器编号
    :::
 
-   在 `.\config\gui.json` 中搜索 `Bluestacks.Config.Keyword` 字段，内容为 `"bst.instance.<模拟器编号>.status.adb_port"`，模拟器编号可在模拟器路径的 `BlueStacks_nxt\Engine` 中 看到
+   在 `gui.new.json` 中找到当前配置（可在 设置-切换配置 中查看，默认为 `Default`）下的 `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigKeyword` 字段，内容为 `"bst.instance.<模拟器编号>.status.adb_port"`，模拟器编号可在模拟器路径的 `BlueStacks_nxt\Engine` 中 看到
 
    ::: details 示例
    Nougat64 核心：
 
    ```json
-   "Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
+   "ConfigKeyword": "bst.instance.Nougat64.status.adb_port"
    ```
 
    Pie64_2 核心：（核心名称后的数字代表这是一个多开核心）
 
    ```json
-   "Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
+   "ConfigKeyword": "bst.instance.Pie64_2.status.adb_port"
    ```
 
    :::
 
-2. 指定 `Bluestacks.Config.Path`
+2. 指定 `ConfigPath`
 
    ::: info 注意
    MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当该功能无法工作时，则需要手动指定配置文件路径
@@ -138,7 +138,7 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
       注：`C:\ProgramData`为隐藏目录，必要时请在文件资源管理器的地址栏中直接粘贴该地址，以便进入目录并进行寻找。
 
    2. 如果是第一次使用，请运行一次 MAA，使 MAA 自动生成配置文件。
-   3. **先关闭** MAA，**然后**打开 `gui.json`，找到 `Configurations` 下的当前配置名字段（可在 设置-切换配置 中查看，默认为 `Default`），在其中搜索字段 `Bluestacks.Config.Path`， 填 入 `bluestacks.conf` 的完整路径。（注意斜杠要用转义 `\\`）
+   3. **先关闭** MAA，**然后**打开 `gui.new.json`，找到当前配置名字段（可在 设置-切换配置 中查看，默认为 `Default`）下的 `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigPath` 字段， 填 入 `bluestacks.conf` 的完整路径。（注意斜杠要用转义 `\\`）
 
    ::: details 示例
    以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 为例
@@ -147,8 +147,15 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
    {
      "Configurations": {
        "Default": {
-         "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
-         // 其余配置字段，不要手动输入修改
+         "Gui": {
+           "ConnectSettings": {
+             "Extras": {
+               "BluestacksExtra": {
+                 "ConfigPath": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
+               }
+             }
+           }
+         }
        }
      }
    }
