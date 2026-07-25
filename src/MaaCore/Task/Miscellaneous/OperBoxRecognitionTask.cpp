@@ -26,7 +26,6 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
     std::string pre_pre_last_oper;
     std::string pre_last_oper;
     m_own_opers.clear();
-    m_own_opers_names.clear();
 
     while (!need_exit()) {
         OperBoxImageAnalyzer analyzer(ctrler()->get_image());
@@ -36,8 +35,7 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
         if (!analyzer.analyze()) {
             break;
         }
-        auto opers_result = analyzer.get_result();
-        sort_by_vertical_(opers_result);
+        const auto& opers_result = analyzer.get_result();
 
         const std::string& last_oper = opers_result.back().name;
         if (last_oper == pre_last_oper && pre_last_oper == pre_pre_last_oper) {
@@ -47,9 +45,7 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
         pre_last_oper = last_oper;
 
         for (const auto& box_info : opers_result) {
-            if (m_own_opers_names.emplace(box_info.name).second) {
-                m_own_opers.emplace_back(box_info);
-            }
+            m_own_opers.emplace(box_info.name, box_info);
         }
         callback_analyze_result(false);
         future.wait();
@@ -78,7 +74,7 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
                                  return pair.second->role != battle::Role::Drone;
                              })) {
         const auto& props = chars.second;
-        bool own = m_own_opers_names.contains(props->name);
+        bool own = m_own_opers.contains(props->name);
         all_opers.emplace_back(
             json::object {
                 { "id", props ? props->id : "" },
@@ -91,7 +87,7 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
                 { "own", own }, // 在m_own_opers中重复
             });
     }
-    for (const auto& box_info : m_own_opers) {
+    for (const auto& [name, box_info] : m_own_opers) {
         own_opers.emplace_back(
             json::object {
                 { "id", box_info.id },
