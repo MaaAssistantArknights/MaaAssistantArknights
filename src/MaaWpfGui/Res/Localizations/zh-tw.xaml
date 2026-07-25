@@ -407,7 +407,7 @@
 📄 更新說明：
     • {key=UpdateCheckNow}：包含介面與功能更新。介面改動、新功能需透過 {key=UpdateCheckNow} 取得
     • {key=ResourceUpdate}：包含自動作戰新關卡、掉落辨識圖示、公招幹員標籤等素材資料
-    • 導航熱更新：自動觸發，用於更新主介面提示與活動關卡入口。成功後右上角會顯示 ｢{key=ApiUpdateSuccess}｣ 
+    • 導航熱更新：自動觸發，用於更新主介面提示與活動關卡入口。成功後右上角會顯示 ｢{key=ApiUpdateSuccess}｣
 </system:String>
     <system:String x:Key="GlobalSource">全域來源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">強制使用 GitHub</system:String>
@@ -1020,7 +1020,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="MiniGame@SPA">衛戍協議：盟約</system:String>
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">在活動主介面（有 ｢獨立模擬｣ 處）開始任務。
 在有存檔時需要先手動放棄
-最高只測試過 ｢險境模擬｣ 
+最高只測試過 ｢險境模擬｣
 如果已通關更高難度導致看不到 ｢險境模擬｣ 或 ｢標準模擬｣ ，需手動選擇一次 ｢險境模擬｣ 難度
 手動通關 ｢標準模擬｣ 可以更快刷分。
 只能刷等級獎勵，拿蝕刻章得打完所有的 ｢關鍵目標｣ 。</system:String>
@@ -1228,6 +1228,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="EmulatorFpsWarningTip">偵測到模擬器設定幀率為 {0} FPS，低於遊戲原生幀率（60 FPS），可能開啟了背景降幀或幀率設定過低，建議將模擬器幀率設定為 60 FPS</system:String>
     <system:String x:Key="EmulatorFpsErrorTip">偵測到模擬器設定幀率過低（{0} FPS），可能導致任務異常，請關閉模擬器背景降幀並將幀率設定為 60 FPS</system:String>
     <system:String x:Key="EmulatorFpsHighTip">偵測到模擬器設定幀率為 {0} FPS，高於遊戲原生幀率上限（60 FPS），可能是模擬器插幀功能，可能導致畫面異常或辨識不穩定，建議關閉插幀並將幀率設定為 60 FPS</system:String>
+    <system:String x:Key="DisableEmulatorFpsLogs">停用模擬器幀率警告</system:String>
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任務出錯: </system:String>
     <system:String x:Key="CombatError">戰鬥出錯</system:String>

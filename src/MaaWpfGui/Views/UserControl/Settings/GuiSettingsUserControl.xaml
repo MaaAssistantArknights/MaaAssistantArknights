@@ -55,6 +55,10 @@
                     Margin="8"
                     Content="{DynamicResource WindowTitleScrollable}"
                     IsChecked="{Binding WindowTitleScrollable}" />
+                <CheckBox
+                    Margin="8"
+                    Content="{DynamicResource DisableEmulatorFpsLogs}"
+                    IsChecked="{Binding DisableEmulatorFpsLogs}" />
                 <StackPanel Margin="8" Orientation="Horizontal">
                     <CheckBox MaxWidth="200" IsChecked="{Binding MainTasksInvertNullFunction}">
                         <controls:TextBlock Text="{DynamicResource MainTasksNullFunctionality}" TextWrapping="Wrap" />

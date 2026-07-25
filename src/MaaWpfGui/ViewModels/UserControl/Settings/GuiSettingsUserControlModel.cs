@@ -128,6 +128,20 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private bool _disableEmulatorFpsLogs = ConfigurationHelper.GetValue(ConfigurationKeys.DisableEmulatorFpsLogs, false);
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to disable emulator FPS warnings and errors.
+    /// </summary>
+    public bool DisableEmulatorFpsLogs
+    {
+        get => _disableEmulatorFpsLogs;
+        set {
+            SetAndNotify(ref _disableEmulatorFpsLogs, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.DisableEmulatorFpsLogs, value.ToString());
+        }
+    }
+
     private bool _hideCloseButton = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HideCloseButton, false);
 
     /// <summary>

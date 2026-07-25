@@ -83,6 +83,7 @@ public static class ConfigurationKeys
     public const string AllowAdbHardRestart = "Connect.AllowADBHardRestart";
     public const string AdbLiteEnabled = "Connect.AdbLiteEnabled";
     public const string KillAdbOnExit = "Connect.KillAdbOnExit";
+    public const string DisableEmulatorFpsLogs = "Connect.DisableEmulatorFpsLogs";
     public const string TouchMode = "Connect.TouchMode";
     public const string AdbReplaced = "Connect.AdbReplaced";
 
