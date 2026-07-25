@@ -37,6 +37,27 @@ struct CharAllocationResult
     [[nodiscard]] bool has_value() const noexcept { return status == CharAllocationStatus::Success; }
 };
 
+template <typename Oper, typename Status>
+[[nodiscard]] inline size_t mark_prechecked_missing_opers(
+    std::vector<Oper>& opers,
+    const std::unordered_set<std::string>& prechecked_missing_opers,
+    Status unchecked,
+    Status missing)
+{
+    if (prechecked_missing_opers.empty()) {
+        return 0;
+    }
+
+    size_t changed = 0;
+    for (auto& oper : opers) {
+        if (oper.status == unchecked && prechecked_missing_opers.contains(oper.name)) {
+            oper.status = missing;
+            ++changed;
+        }
+    }
+    return changed;
+}
+
 /**
  * @brief 根据传入的分组规则及干员列表, 求解一个可行的分配方案
  * @param group_list 分组规则, key 为组名, value 为组内干员列表, 如:\n

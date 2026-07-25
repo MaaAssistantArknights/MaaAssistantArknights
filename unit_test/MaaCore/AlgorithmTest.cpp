@@ -12,6 +12,19 @@ namespace
 using GroupList = std::unordered_map<std::string, std::vector<std::string>>;
 using CharSet = std::unordered_set<std::string>;
 
+enum class TestOperStatus
+{
+    Unchecked,
+    Selected,
+    Missing,
+};
+
+struct TestOper
+{
+    std::string name;
+    TestOperStatus status = TestOperStatus::Unchecked;
+};
+
 void require_valid_allocation(const GroupList& group_list, const CharSet& char_set,
                               const asst::algorithm::CharAllocationResult& result)
 {
@@ -45,6 +58,48 @@ void require_valid_allocation(const GroupList& group_list, const CharSet& char_s
         REQUIRE(candidate_found);
         REQUIRE(used_chars.emplace(assigned_char).second);
     }
+}
+
+TEST_CASE("Prechecked missing formation candidates are marked missing")
+{
+    std::vector<TestOper> opers {
+        { .name = "Bagpipe" },
+        { .name = "Texas" },
+        { .name = "Eyjafjalla" },
+    };
+    const std::unordered_set<std::string> prechecked_missing { "Bagpipe", "Eyjafjalla" };
+
+    const auto changed = asst::algorithm::mark_prechecked_missing_opers(
+        opers,
+        prechecked_missing,
+        TestOperStatus::Unchecked,
+        TestOperStatus::Missing);
+
+    REQUIRE(changed == 2);
+    REQUIRE(opers[0].status == TestOperStatus::Missing);
+    REQUIRE(opers[1].status == TestOperStatus::Unchecked);
+    REQUIRE(opers[2].status == TestOperStatus::Missing);
+}
+
+TEST_CASE("Selected and non-prechecked formation candidates are not marked missing")
+{
+    std::vector<TestOper> opers {
+        { .name = "Bagpipe", .status = TestOperStatus::Selected },
+        { .name = "Texas" },
+        { .name = "Eyjafjalla", .status = TestOperStatus::Selected },
+    };
+    const std::unordered_set<std::string> prechecked_missing { "Bagpipe", "Eyjafjalla" };
+
+    const auto changed = asst::algorithm::mark_prechecked_missing_opers(
+        opers,
+        prechecked_missing,
+        TestOperStatus::Unchecked,
+        TestOperStatus::Missing);
+
+    REQUIRE(changed == 0);
+    REQUIRE(opers[0].status == TestOperStatus::Selected);
+    REQUIRE(opers[1].status == TestOperStatus::Unchecked);
+    REQUIRE(opers[2].status == TestOperStatus::Selected);
 }
 } // namespace
 

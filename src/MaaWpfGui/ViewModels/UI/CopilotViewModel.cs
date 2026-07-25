@@ -479,6 +479,15 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     public bool IgnoreRequirements { get => field; set => SetAndNotify(ref field, value); }
 
+    public bool UseOwnedOperPreCheck
+    {
+        get => field;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotUseOwnedOperPreCheck, value.ToString());
+        }
+    } = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUseOwnedOperPreCheck, false);
+
     /// <summary>
     /// Gets or sets a value indicating whether 真正有干员被忽略了要求
     /// </summary>
@@ -2190,8 +2199,11 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)
     {
+        var supportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0;
+        var preCheckedMissingOpers = new List<string>();
         if (!UseCopilotList)
         {
+            preCheckedMissingOpers = GetPreCheckedMissingOpers(_copilotCache as CopilotModel);
         }
         else if (CopilotTabIndex == 0)
         {
@@ -2200,17 +2212,19 @@ public partial class CopilotViewModel : Screen
             var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i => {
                 _copilotIdList.Add(i.CopilotId);
                 return new MultiTask { Index = i.Index, FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
-            });
+            }).ToList();
+            preCheckedMissingOpers = await GetPreCheckedMissingOpersAsync(t.Select(i => i.FileName));
 
             var task = new AsstCopilotTask() {
-                MultiTasks = [.. t],
+                MultiTasks = t,
                 Formation = Form,
-                SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+                SupportUnitUsage = supportUnitUsage,
                 AddTrust = AddTrust,
                 IgnoreRequirements = IgnoreRequirements,
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
+                PreCheckedMissingOpers = preCheckedMissingOpers,
             };
 
             // 能用列表的是主线/ss/故事集/悖论，都是 Copilot 类型
@@ -2259,13 +2273,14 @@ public partial class CopilotViewModel : Screen
             var singleTask = new AsstCopilotTask() {
                 FileName = IsDataFromWeb ? TempCopilotFile : Filename,
                 Formation = Form,
-                SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+                SupportUnitUsage = supportUnitUsage,
                 AddTrust = AddTrust,
                 IgnoreRequirements = IgnoreRequirements,
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                 LoopTimes = Loop ? LoopTimes : 1,
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
+                PreCheckedMissingOpers = preCheckedMissingOpers,
             };
 
             // 单作业需要区分 Copilot / SSSCopilot
@@ -2273,6 +2288,69 @@ public partial class CopilotViewModel : Screen
         }
 
         return appended && Instances.AsstProxy.AsstStart();
+    }
+
+    private async Task<List<string>> GetPreCheckedMissingOpersAsync(IEnumerable<string> copilotFiles)
+    {
+        if (!TryGetOwnedOperIdsForPreCheck(out var ownedOperIds))
+        {
+            return [];
+        }
+
+        var result = new HashSet<string>();
+        foreach (var file in copilotFiles)
+        {
+            try
+            {
+                var json = await File.ReadAllTextAsync(Path.IsPathRooted(file) ? file : Path.Combine(BaseDir, file));
+                if (JsonConvert.DeserializeObject<CopilotBase>(json, new CopilotContentConverter()) is CopilotModel copilot)
+                {
+                    result.UnionWith(GetPreCheckedMissingOpers(copilot, ownedOperIds));
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Warning(ex, "Owned operator pre-check skipped for copilot file: {File}", file);
+            }
+        }
+
+        return [.. result];
+    }
+
+    private List<string> GetPreCheckedMissingOpers(CopilotModel? copilot)
+    {
+        return copilot is not null && TryGetOwnedOperIdsForPreCheck(out var ownedOperIds)
+            ? GetPreCheckedMissingOpers(copilot, ownedOperIds)
+            : [];
+    }
+
+    private static List<string> GetPreCheckedMissingOpers(CopilotModel copilot, HashSet<string> ownedOperIds)
+    {
+        return copilot.Opers
+            .Concat(copilot.Groups.SelectMany(group => group.Opers))
+            .Where(oper => DataHelper.GetCharacterByNameOrAlias(oper.Name) is { } character && !ownedOperIds.Contains(character.Id))
+            .Select(oper => oper.Name)
+            .Distinct()
+            .ToList();
+    }
+
+    private bool TryGetOwnedOperIdsForPreCheck(out HashSet<string> ownedOperIds)
+    {
+        ownedOperIds = UseOwnedOperPreCheck && Form ? GetOwnedOperIds() : [];
+        if (UseOwnedOperPreCheck && Form && ownedOperIds.Count == 0)
+        {
+            AddLog(LocalizationHelper.GetString("Copilot.OwnedOperPreCheck.NoData"), UiLogColor.Warning);
+        }
+
+        return ownedOperIds.Count > 0;
+    }
+
+    private static HashSet<string> GetOwnedOperIds()
+    {
+        return Instances.ToolboxViewModel?.OperBoxHaveList
+            .Select(oper => oper.Id)
+            .Where(id => !string.IsNullOrWhiteSpace(id))
+            .ToHashSet() ?? [];
     }
 
     // private bool StartVideoTask()

@@ -11,6 +11,7 @@
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
 #include "Task/ProcessTask.h"
+#include "Utils/Algorithm.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/OperNameAnalyzer.h"
@@ -820,8 +821,14 @@ bool asst::BattleFormationTask::parse_formation()
 
         // 判断干员/干员组的职业，放进对应的分组
         bool same_role = true;
-        battle::Role role = BattleData.get_role(opers_vec.front().name);
-        for (const auto& oper : opers_vec) {
+        auto opers = opers_vec;
+        battle::Role role = BattleData.get_role(opers.front().name);
+        asst::algorithm::mark_prechecked_missing_opers(
+            opers,
+            m_prechecked_missing_opers,
+            battle::OperStatus::Unchecked,
+            battle::OperStatus::Missing);
+        for (auto& oper : opers) {
             same_role &= BattleData.get_role(oper.name) == role;
 
             // （仅一次）如果发现这名助战干员，则将其技能设定为对应的所需技能
@@ -831,7 +838,7 @@ bool asst::BattleFormationTask::parse_formation()
         }
 
         // for unknown, will use { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }
-        m_formation[same_role ? role : battle::Role::Unknown].emplace_back(name, opers_vec);
+        m_formation[same_role ? role : battle::Role::Unknown].emplace_back(name, std::move(opers));
     }
     callback(AsstMsg::SubTaskExtraInfo, info);
     return true;

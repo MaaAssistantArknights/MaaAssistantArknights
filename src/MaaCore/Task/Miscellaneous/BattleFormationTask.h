@@ -1,6 +1,7 @@
 #pragma once
 
 #include <optional>
+#include <unordered_set>
 
 #include "Common/AsstBattleDef.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
@@ -43,6 +44,10 @@ public:
 
     // 设置追加自定干员列表
     void set_user_additional(std::vector<std::pair<std::string, int>> value) { m_user_additional = std::move(value); }
+    void set_prechecked_missing_opers(std::unordered_set<std::string> value)
+    {
+        m_prechecked_missing_opers = std::move(value);
+    }
 
     // 是否追加低信赖干员
     void set_add_trust(bool add_trust) { m_add_trust = add_trust; }
@@ -131,6 +136,7 @@ protected:
     bool m_add_trust = false;                                   // 是否需要追加信赖干员
     bool m_ignore_requirements = false;                         // 是否跳过未满足的干员属性要求
     std::vector<std::pair<std::string, int>> m_user_additional; // 追加干员表，从头往后加
+    std::unordered_set<std::string> m_prechecked_missing_opers;
     DataResource m_data_resource = DataResource::Copilot;
     std::vector<AdditionalFormation> m_additional;
     std::string m_last_oper_name;
