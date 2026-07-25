@@ -56,4 +56,8 @@ public class Gui : INotifyPropertyChanged
     public string WindowTitlePrefix { get; set; } = string.Empty;
 
     public PostActions PostActions { get; set; } = PostActions.None;
+
+    public bool AchievementPopupDisabled { get; set; }
+
+    public bool AchievementPopupAutoClose { get; set; }
 }
