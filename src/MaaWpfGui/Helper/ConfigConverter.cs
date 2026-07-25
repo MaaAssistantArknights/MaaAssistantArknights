@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
@@ -1047,6 +1048,27 @@ public class ConfigConverter
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundImageStretchMode, out var _);
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundOpacity, out var _);
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, out var _);
+        }
+
+        // Timer
+        {
+            ConfigFactory.Root.TimerSettings.CustomConfig = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomConfig, false);
+            ConfigFactory.Root.TimerSettings.ShowWindowBeforeForceScheduledStart = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, false);
+            ConfigFactory.Root.TimerSettings.ForceScheduledStart = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, false);
+            ConfigFactory.Root.TimerSettings.List.Clear();
+            for (int i = 0; i < 8; i++)
+            {
+                var timerState = ConfigurationHelper.GetTimer(i, bool.FalseString);
+                bool? isOn = bool.TryParse(timerState, out bool parsedBool) ? parsedBool : null;
+                var hour = int.Parse(ConfigurationHelper.GetTimerHour(i, $"{i * 3}"));
+                var minute = int.Parse(ConfigurationHelper.GetTimerMin(i, "0"));
+                var config = ConfigurationHelper.GetTimerConfig(i, ConfigurationHelper.GetCurrentConfiguration());
+                var timer = new Timer(i, isOn, config, hour, minute);
+                ConfigFactory.Root.TimerSettings.List.Add(timer);
+            }
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.CustomConfig, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, out var _);
+            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.ForceScheduledStart, out var _);
         }
 
         return true;

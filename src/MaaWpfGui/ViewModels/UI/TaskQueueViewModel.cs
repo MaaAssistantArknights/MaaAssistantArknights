@@ -853,7 +853,8 @@ public class TaskQueueViewModel : Screen
 
         for (int i = 0; i < 8; ++i)
         {
-            if (SettingsViewModel.TimerSettings.TimerModels.Timers[i].IsOn == false)
+            var timer = SettingsViewModel.TimerSettings.TimerList[i];
+            if (timer.IsEnabled == false)
             {
                 continue;
             }
@@ -861,8 +862,8 @@ public class TaskQueueViewModel : Screen
             DateTime startTime = new DateTime(currentTime.Year,
                 currentTime.Month,
                 currentTime.Day,
-                SettingsViewModel.TimerSettings.TimerModels.Timers[i].Hour,
-                SettingsViewModel.TimerSettings.TimerModels.Timers[i].Min,
+                timer.Hour,
+                timer.Minute,
                 0);
             DateTime restartDateTime = startTime.AddMinutes(-2);
 
@@ -872,8 +873,7 @@ public class TaskQueueViewModel : Screen
                 restartDateTime = restartDateTime.AddDays(1);
             }
 
-            if (currentTime == restartDateTime &&
-                Instances.SettingsViewModel.CurrentConfiguration != SettingsViewModel.TimerSettings.TimerModels.Timers[i].TimerConfig)
+            if (currentTime == restartDateTime && Instances.SettingsViewModel.CurrentConfiguration != timer.Config)
             {
                 timeToChangeConfig = true;
                 configIndex = i;
@@ -899,30 +899,30 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        var (timeToStart, timeToChangeConfig, configIndex) = CheckTimers(currentTime);
+        var (timeToStart, timeToChangeConfig, timerIndex) = CheckTimers(currentTime);
 
         if (timeToChangeConfig)
         {
-            _logger.Information("Scheduled configuration change: Timer Index: {ConfigIndex}", configIndex);
-            HandleConfigChange(configIndex);
+            _logger.Information("Scheduled configuration change: Timer Index: {TimerIndex}", timerIndex);
+            HandleConfigChange(timerIndex);
             return;
         }
 
         if (timeToStart)
         {
-            _logger.Information("Scheduled start: Timer Index: {ConfigIndex}", configIndex);
-            await HandleScheduledStart(configIndex);
+            _logger.Information("Scheduled start: Timer Index: {TimerIndex}", timerIndex);
+            await HandleScheduledStart(timerIndex);
 
-            SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].IsOn ??= false;
+            SettingsViewModel.TimerSettings.TimerList[timerIndex].IsEnabled ??= false;
         }
     }
 
-    private void HandleConfigChange(int configIndex)
+    private void HandleConfigChange(int timerIndex)
     {
         if (SettingsViewModel.TimerSettings.CustomConfig &&
             (_runningState.GetIdle() || SettingsViewModel.TimerSettings.ForceScheduledStart))
         {
-            Instances.SettingsViewModel.CurrentConfiguration = SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig;
+            Instances.SettingsViewModel.CurrentConfiguration = SettingsViewModel.TimerSettings.TimerList[timerIndex].Config;
         }
     }
 
@@ -931,13 +931,13 @@ public class TaskQueueViewModel : Screen
         if (SettingsViewModel.TimerSettings.ForceScheduledStart)
         {
             if (SettingsViewModel.TimerSettings.CustomConfig &&
-                Instances.SettingsViewModel.CurrentConfiguration != SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig)
+                Instances.SettingsViewModel.CurrentConfiguration != SettingsViewModel.TimerSettings.TimerList[configIndex].Config)
             {
                 _logger.Warning(
                     "Scheduled start skipped: Custom configuration is enabled, but the current configuration does not match the scheduled timer configuration (Timer Index: {ConfigIndex}). Current Configuration: {CurrentConfiguration}, Scheduled Configuration: {TimerConfig}",
                     configIndex,
                     Instances.SettingsViewModel.CurrentConfiguration,
-                    SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig);
+                    SettingsViewModel.TimerSettings.TimerList[configIndex].Config);
                 return;
             }
 

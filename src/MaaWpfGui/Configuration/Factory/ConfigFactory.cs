@@ -153,7 +153,7 @@ public static class ConfigFactory
                 OnPropertyChanged("Root.Configurations." + args.NewItem.Key, args.OldItem.Value, args.NewItem.Value);
             };
 
-            parsed.Timers.CollectionChanged += Handler.OnCollectionChangedFactory<int, Global.Timer>("Root.Timers.");
+            parsed.TimerSettings.EventBinding("Root.Timers.");
             parsed.AnnouncementInfo.PropertyChanged += Handler.OnPropertyChangedFactory($"Root.{nameof(parsed.AnnouncementInfo)}.");
             parsed.Gui.PropertyChanged += Handler.OnPropertyChangedFactory($"Root.{nameof(parsed.Gui)}.");
             parsed.Gui.Background.PropertyChanged += Handler.OnPropertyChangedFactory($"Root.{nameof(parsed.Gui)}.{nameof(parsed.Gui.Background)}.");

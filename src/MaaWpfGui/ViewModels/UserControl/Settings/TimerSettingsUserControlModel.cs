@@ -12,8 +12,10 @@
 // </copyright>
 
 #nullable enable
-using System;
-using MaaWpfGui.Constants;
+using System.Collections.ObjectModel;
+using System.Windows.Documents;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities;
 using Stylet;
@@ -32,149 +34,38 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
 
     public static TimerSettingsUserControlModel Instance { get; }
 
-    private bool _forceScheduledStart = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to force scheduled start.
     /// </summary>
     public bool ForceScheduledStart
     {
-        get => _forceScheduledStart;
-        set {
-            SetAndNotify(ref _forceScheduledStart, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ForceScheduledStart, value.ToString());
+        get; set {
+            ConfigFactory.Root.TimerSettings.ForceScheduledStart = value;
+            SetAndNotify(ref field, value);
         }
-    }
-
-    private bool _showWindowBeforeForceScheduledStart = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, false);
+    } = ConfigFactory.Root.TimerSettings.ForceScheduledStart;
 
     /// <summary>
     /// Gets or sets a value indicating whether show window before force scheduled start.
     /// </summary>
     public bool ShowWindowBeforeForceScheduledStart
     {
-        get => _showWindowBeforeForceScheduledStart;
-        set {
-            SetAndNotify(ref _showWindowBeforeForceScheduledStart, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, value.ToString());
+        get; set {
+            ConfigFactory.Root.TimerSettings.ShowWindowBeforeForceScheduledStart = value;
+            SetAndNotify(ref field, value);
         }
-    }
-
-    private bool _customConfig = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomConfig, false);
+    } = ConfigFactory.Root.TimerSettings.ShowWindowBeforeForceScheduledStart;
 
     /// <summary>
     /// Gets or sets a value indicating whether to use custom config.
     /// </summary>
     public bool CustomConfig
     {
-        get => _customConfig;
-        set {
-            SetAndNotify(ref _customConfig, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.CustomConfig, value.ToString());
+        get; set {
+            ConfigFactory.Root.TimerSettings.CustomConfig = value;
+            SetAndNotify(ref field, value);
         }
-    }
+    } = ConfigFactory.Root.TimerSettings.CustomConfig;
 
-    public TimerModel TimerModels { get; set; } = new();
-
-    public class TimerModel
-    {
-        public class TimerProperties : PropertyChangedBase
-        {
-            public TimerProperties(int timeId, bool? isOn, int hour, int min, string? timerConfig)
-            {
-                PropertyDependsOnUtility.InitializePropertyDependencies(this);
-                TimerId = timeId;
-                _isOn = isOn;
-                _hour = hour;
-                _min = min;
-                if (timerConfig == null || !ConfigurationHelper.GetConfigurationList().Contains(timerConfig))
-                {
-                    _timerConfig = ConfigurationHelper.GetCurrentConfiguration();
-                }
-                else
-                {
-                    _timerConfig = timerConfig;
-                }
-            }
-
-            public int TimerId { get; set; }
-
-            private static string _timerName => LocalizationHelper.GetString("Timer");
-
-            [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
-            public string TimerName => $"{_timerName} {TimerId + 1}";
-
-            private bool? _isOn;
-
-            /// <summary>
-            /// Gets or sets a value indicating whether the timer is set.
-            /// </summary>
-            public bool? IsOn
-            {
-                get => _isOn;
-                set {
-                    SetAndNotify(ref _isOn, value);
-                    ConfigurationHelper.SetTimer(TimerId, value.ToString());
-                    AchievementTrackerHelper.Instance.CheckTimeManagementMaster();
-                }
-            }
-
-            private int _hour;
-
-            /// <summary>
-            /// Gets or sets the hour of the timer.
-            /// </summary>
-            public int Hour
-            {
-                get => _hour;
-                set {
-                    SetAndNotify(ref _hour, value);
-                    ConfigurationHelper.SetTimerHour(TimerId, _hour.ToString());
-                }
-            }
-
-            private int _min;
-
-            /// <summary>
-            /// Gets or sets the minute of the timer.
-            /// </summary>
-            public int Min
-            {
-                get => _min;
-                set {
-                    SetAndNotify(ref _min, value);
-                    ConfigurationHelper.SetTimerMin(TimerId, _min.ToString());
-                }
-            }
-
-            private string? _timerConfig;
-
-            /// <summary>
-            /// Gets or sets the config of the timer.
-            /// </summary>
-            public string? TimerConfig
-            {
-                get => _timerConfig;
-                set {
-                    SetAndNotify(ref _timerConfig, value ?? ConfigurationHelper.GetCurrentConfiguration());
-                    ConfigurationHelper.SetTimerConfig(TimerId, _timerConfig);
-                }
-            }
-        }
-
-        public TimerProperties[] Timers { get; set; } = new TimerProperties[8];
-
-        public TimerModel()
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                var timerState = ConfigurationHelper.GetTimer(i, bool.FalseString);
-                bool? isOn = bool.TryParse(timerState, out bool parsedBool) ? parsedBool : null;
-                var hour = int.Parse(ConfigurationHelper.GetTimerHour(i, $"{i * 3}"));
-                var minute = int.Parse(ConfigurationHelper.GetTimerMin(i, "0"));
-                var config = ConfigurationHelper.GetTimerConfig(i, ConfigurationHelper.GetCurrentConfiguration());
-                Timers[i] = new(i, isOn, hour, minute, config);
-            }
-        }
-    }
+    public ObservableCollection<Timer> TimerList => ConfigFactory.Root.TimerSettings.List;
 }
