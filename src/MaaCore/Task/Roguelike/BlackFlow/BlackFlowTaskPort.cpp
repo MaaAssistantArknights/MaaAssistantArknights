@@ -19,6 +19,7 @@ namespace asst::blackflow
 namespace
 {
 constexpr std::string_view CurrentActionPointsTask = "BlackFlow@Roguelike@CurrentActionPoints";
+constexpr std::string_view CurrentFloorTask = "BlackFlow@Roguelike@CurrentFloor";
 constexpr std::string_view MovePreviewEnterTask = "BlackFlow@Roguelike@MovePreviewEnter";
 constexpr std::string_view MovePreviewCannotEnterTask = "BlackFlow@Roguelike@MovePreviewCannotEnter";
 constexpr std::string_view MovePreviewCostTask = "BlackFlow@Roguelike@MovePreviewCost";
@@ -49,6 +50,47 @@ std::optional<int> recognize_integer(const cv::Mat& image, std::string_view task
         return std::nullopt;
     }
     return value;
+}
+
+struct FloorRecognition
+{
+    std::string name;
+    std::optional<int> floor;
+};
+
+std::optional<FloorRecognition> recognize_floor(const cv::Mat& image)
+{
+    const auto task = Task.get<OcrTaskInfo>(CurrentFloorTask);
+    if (task == nullptr) {
+        return std::nullopt;
+    }
+    OCRer analyzer(image);
+    analyzer.set_task_info(task);
+    const auto results = analyzer.analyze();
+    if (!results.has_value()) {
+        return std::nullopt;
+    }
+    for (const auto& result : *results) {
+        if (result.text == "玻利瓦尔肤层") {
+            return FloorRecognition { result.text, 1 };
+        }
+        if (result.text == "甜美的伤口") {
+            return FloorRecognition { result.text, 2 };
+        }
+        if (result.text == "血色空脉") {
+            return FloorRecognition { result.text, 3 };
+        }
+        if (result.text == "受害者腐殖") {
+            return FloorRecognition { result.text, 4 };
+        }
+        if (result.text == "卡德霍之颅") {
+            return FloorRecognition { result.text, 5 };
+        }
+        if (result.text == "未萌生的摇篮") {
+            return FloorRecognition { result.text, std::nullopt };
+        }
+    }
+    return std::nullopt;
 }
 } // namespace
 
@@ -128,11 +170,21 @@ bool BlackFlowTaskPort::refresh(
         current_request.capture_us =
             std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - capture_start)
                 .count();
+        const auto recognized_floor = recognize_floor(image);
         BlackFlowPerceptionSnapshot next;
+        const auto apply_recognized_floor = [&]() {
+            if (!recognized_floor.has_value()) {
+                return;
+            }
+            next.observation.hud_area_name = recognized_floor->name;
+            next.observation.hud_floor = recognized_floor->floor;
+        };
         if (!m_map_source->recognize(image, current_request, next.observation, next.observed_facts, error)) {
+            apply_recognized_floor();
             snapshot = std::move(next);
             return false;
         }
+        apply_recognized_floor();
         if (const auto action_points = recognize_action_points(image); action_points.has_value()) {
             next.run.action_points = *action_points;
             next.observation.hud_action_points = *action_points;

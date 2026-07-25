@@ -169,13 +169,31 @@
         "exceededNext": ["BlackFlow@Roguelike@RecoverMapFailed"]
     },
     "BlackFlow@Roguelike@RecoverMap": {
-        "baseTask": "BlackFlow@Roguelike@RecoverMap-Unconfigured",
+        "baseTask": "BlackFlow@Roguelike@RecoverMap-Exit",
         "onErrorNext": ["BlackFlow@Roguelike@RecoverMapFailed"],
         "exceededNext": ["BlackFlow@Roguelike@RecoverMapFailed"]
     },
-    "BlackFlow@Roguelike@RecoverMap-Unconfigured": {
+    "BlackFlow@Roguelike@RecoverMap-Exit": {
+        "baseTask": "BlackFlow@Roguelike@ExitThenAbandon",
+        "roi": [0, 0, 1280, 720],
+        "maxTimes": 3,
+        "next": ["BlackFlow@Roguelike@RecoverMap-Continue", "#self"],
+        "onErrorNext": ["BlackFlow@Roguelike@RecoverMapFailed"],
+        "exceededNext": ["BlackFlow@Roguelike@RecoverMapFailed"]
+    },
+    "BlackFlow@Roguelike@RecoverMap-Continue": {
+        "baseTask": "BlackFlow@Roguelike@Continue",
+        "maxTimes": 3,
+        "next": ["#self", "BlackFlow@Roguelike@RecoverMap-Dismiss"],
+        "onErrorNext": ["BlackFlow@Roguelike@RecoverMapFailed"],
+        "exceededNext": ["BlackFlow@Roguelike@RecoverMapFailed"]
+    },
+    "BlackFlow@Roguelike@RecoverMap-Dismiss": {
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@RecoverMapFailed"]
+        "sub": ["BlackFlow@Roguelike@CancelNodeSelectionClick*3"],
+        "next": ["BlackFlow@Roguelike@RecoverMapCompleted"],
+        "onErrorNext": ["BlackFlow@Roguelike@RecoverMapFailed"],
+        "exceededNext": ["BlackFlow@Roguelike@RecoverMapFailed"]
     },
     "BlackFlow@Roguelike@RecoverMapCompleted": {
         "algorithm": "JustReturn",
@@ -280,7 +298,7 @@
     },
     "BlackFlow@Roguelike@Continue": {
         "template": "BlackFlow@Roguelike@Continue.png",
-        "roi": [1050, 550, 210, 100],
+        "roi": [995, 565, 198, 104],
         "action": "ClickSelf"
     },
     "BlackFlow@Roguelike@TodoEnter": {
@@ -472,6 +490,13 @@
         "action": "ClickSelf",
         "postDelay": 1000,
         "next": ["BlackFlow@Roguelike@MapPrepare"]
+    },
+    "BlackFlow@Roguelike@CurrentFloor": {
+        "algorithm": "OcrDetect",
+        "roi": [524, 0, 246, 42],
+        "withoutDet": false,
+        "text": ["玻利瓦尔肤层", "甜美的伤口", "血色空脉", "受害者腐殖", "卡德霍之颅", "未萌生的摇篮"],
+        "fullMatch": true
     },
     "BlackFlow@Roguelike@CurrentActionPoints": {
         "algorithm": "OcrDetect",

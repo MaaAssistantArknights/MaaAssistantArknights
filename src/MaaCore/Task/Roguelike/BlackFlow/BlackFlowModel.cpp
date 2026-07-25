@@ -1305,6 +1305,7 @@ bool MoveTransaction::apply(RunState& state, std::string* error)
     state.resources.action_points = m_observation->action_points;
     state.resources.hope += movement->effect.hope_gain;
     state.resources.ingots += movement->effect.ingot_gain;
+    state.floor = m_observation->floor;
     state.current_node = m_observation->current_node;
 
     const bool processing_move = m_proposal.movement != MovementKind::Walk;

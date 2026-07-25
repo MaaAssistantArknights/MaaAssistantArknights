@@ -44,6 +44,7 @@ struct BlackFlowMapObservation
     std::uint64_t viewport_revision = 0;
     int state_machine_floor = 0;
     std::optional<int> hud_floor;
+    std::string hud_area_name;
     std::optional<int> hud_action_points;
     ObservationCoverage coverage = ObservationCoverage::FullMap;
     std::vector<GridPosition> covered_positions;
