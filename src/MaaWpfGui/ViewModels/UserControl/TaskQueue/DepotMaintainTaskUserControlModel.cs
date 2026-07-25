@@ -51,6 +51,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         PlanList.CollectionChanged += (_, __) => {
             SavePlan();
             NotifyOfPropertyChange(nameof(PlanInfo));
+            // 增删后序号变化，通知所有 plan 刷新 Title
+            foreach (var plan in PlanList)
+            {
+                plan.RefreshTitle();
+            }
         };
 
         // 仓库数据变化时刷新计划显示（当前库存数量）
@@ -296,7 +301,12 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     {
         public bool IsExpanded { get; set => SetAndNotify(ref field, value); }
 
-        public string Title => $"{Instance.StageListSource.FirstOrDefault(i => i.Value == Stage)?.Display ?? Stage} - {DropName} x{DropCount}";
+        public string Title => $"{Instance.PlanList.IndexOf(this) + 1}: {Instance.StageListSource.FirstOrDefault(i => i.Value == Stage)?.Display ?? Stage} - {DropName} x{DropCount}";
+
+        /// <summary>
+        /// 增删 plan 或语言切换后刷新 Title 显示（序号/关卡名/材料名）。
+        /// </summary>
+        public void RefreshTitle() => NotifyOfPropertyChange(nameof(Title));
 
         public string Stage
         {
@@ -395,6 +405,10 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         PlanList.CollectionChanged += (_, __) => {
             SavePlan();
             NotifyOfPropertyChange(nameof(PlanInfo));
+            foreach (var plan in PlanList)
+            {
+                plan.RefreshTitle();
+            }
         };
         NotifyOfPropertyChange(nameof(PlanInfo));
         RefreshStageList();
