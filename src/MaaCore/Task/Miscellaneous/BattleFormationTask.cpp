@@ -1171,26 +1171,24 @@ bool asst::BattleFormationTask::do_operbox_precheck()
         return true;
     }
 
-    // 使用二分图最大权匹配算法，尝试将干员组与可用干员进行匹配
-    auto result = algorithm::bipartite::bipartite_max_match<OperGroup, OperBoxInfo>(
-        flat_groups,
-        oper_data,
-        [](const OperGroup& group, const OperBoxInfo& info) {
-            if (!info.own || info.id.empty()) {
+    auto can_match = [](const OperGroup& group, const OperBoxInfo& info) {
+        if (!info.own || info.id.empty()) {
+            return false;
+        }
+        auto it = std::ranges::find_if(group.second, [&](const battle::OperUsage& op) {
+            if (BattleData.get_id(op.name) != info.id) { // ! 用的是干员的 id 而不是 name，干员识别的 name 可能不是中文
                 return false;
             }
-            auto it = std::ranges::find_if(group.second, [&](const battle::OperUsage& op) {
-                if (BattleData.get_id(op.name) !=
-                    info.id) { // ! 用的是干员的 id 而不是 name，干员识别的 name 可能不是中文
-                    return false;
-                }
-                if (op.requirements.elite <= 0 && op.requirements.level <= 0) {
-                    return true;
-                }
-                return info.elite >= op.requirements.elite;
-            });
-            return it != group.second.end();
+            if (op.requirements.elite <= 0 && op.requirements.level <= 0) {
+                return true;
+            }
+            return info.elite >= op.requirements.elite;
         });
+        return it != group.second.end();
+    };
+
+    // 使用二分图最大权匹配算法，尝试将干员组与可用干员进行匹配
+    auto result = algorithm::bipartite::bipartite_max_match<OperGroup, OperBoxInfo>(flat_groups, oper_data, can_match);
 
     Log.info(
         "OperBox precheck: matched",
@@ -1224,16 +1222,57 @@ bool asst::BattleFormationTask::do_operbox_precheck()
 
     // 只有一个未匹配的干员组
     if (result.unmatched_left.size() == 1) {
-        m_operbox_assigned = std::move(assigned);
         m_operbox_unmatched_group = flat_groups[result.unmatched_left[0]].first;
-        Log.info("OperBox precheck: ", m_operbox_unmatched_group, " unmatched, need support unit");
+        if (m_support_unit_usage == SupportUnitUsage::None) {
+            json::value info = basic_info_with_what("BattleFormationOperbox1Unmatched");
+            info["details"]["group_name"] = m_operbox_unmatched_group;
+            callback(AsstMsg::SubTaskExtraInfo, info);
+            return false;
+        }
+
+        // 枚举作业中所有候选的未拥有干员，尝试借助战
+        // 不能改图结构，因为可能你有一个精1的干员，但作业1个组要求精1的干员，另1个要求精2的同名干员，借战的干员可能是精2的，网络流做不了
+        // 不知道这么写效率够不够，应该是常数很小的O(n^4)，可能跟O(n^3)的差不多
+        std::unordered_set<std::string> candidate_ids;
+        for (const auto& group : flat_groups) {
+            for (const auto& op : group.second) {
+                candidate_ids.insert(BattleData.get_id(op.name));
+            }
+        }
+
+        for (const auto& borrow_id : candidate_ids) {
+            auto cur_data = oper_data;
+            std::erase_if(cur_data, [&](const OperBoxInfo& o) { return o.id == borrow_id; });
+            auto fake_idx = cur_data.size();
+            cur_data.push_back(
+                { .id = borrow_id, .elite = 2, .own = true }); // 借助战干员，精英化等级设为2，保证能匹配上
+
+            auto retry =
+                algorithm::bipartite::bipartite_max_match<OperGroup, OperBoxInfo>(flat_groups, cur_data, can_match);
+
+            if (retry.unmatched_left.empty()) {
+                std::unordered_map<std::string, std::string> new_assigned;
+                for (const auto& [left, right] : retry.matched) {
+                    if (right == fake_idx) {
+                        Log.info("OperBox precheck: borrow", borrow_id, "for", flat_groups[left].first);
+                        m_operbox_unmatched_group = flat_groups[left].first;
+                    }
+                    else {
+                        new_assigned[flat_groups[left].first] = cur_data[right].name;
+                    }
+                }
+                m_operbox_assigned = std::move(new_assigned);
+                json::value info = basic_info_with_what("BattleFormationOperbox1Unmatched");
+                info["details"]["group_name"] = m_operbox_unmatched_group;
+                info["details"]["may_borrow_oper"] = BattleData.get_all_chars().at(borrow_id)->name;
+                callback(AsstMsg::SubTaskExtraInfo, info);
+                return true;
+            }
+        }
         json::value info = basic_info_with_what("BattleFormationOperbox1Unmatched");
         info["details"]["group_name"] = m_operbox_unmatched_group;
         callback(AsstMsg::SubTaskExtraInfo, info);
-        if (m_support_unit_usage == SupportUnitUsage::None) {
-            return false; // 如果不允许使用助战干员，则直接返回失败
-        }
-        return true;
+        return false;
     }
 
     // 多个未匹配的干员组
