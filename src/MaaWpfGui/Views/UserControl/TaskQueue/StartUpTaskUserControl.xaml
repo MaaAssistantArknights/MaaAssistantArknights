@@ -168,10 +168,13 @@
                                         Grid.Column="1"
                                         Width="30"
                                         Height="30"
+                                        Padding="0"
                                         HorizontalAlignment="Right"
+                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                        hc:IconElement.Height="15"
+                                        hc:IconElement.Width="15"
                                         Command="{s:Action RemoveAddressClick}"
                                         CommandParameter="{Binding}"
-                                        Content="×"
                                         FontWeight="Bold" />
                                 </Grid>
                             </DataTemplate>

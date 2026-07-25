@@ -400,7 +400,7 @@
                                             Grid.Column="1"
                                             Padding="2"
                                             VerticalAlignment="Stretch"
-                                            hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                            hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                             hc:IconElement.Height="10"
                                             hc:IconElement.Width="10"
                                             hc:VisualElement.HighlightBackground="Transparent"
