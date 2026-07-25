@@ -347,7 +347,7 @@ public static class ConfigurationKeys
 
     public const string PeepTargetFps = "Peep.TargetFps"; // √
 
-    public const string GuideStepIndex = "Guide.StepIndex";
+    public const string GuideStepIndex = "Guide.StepIndex"; // √
 
     public const string ForceScheduledStart = "Timer.ForceScheduledStart"; // √
     public const string ShowWindowBeforeForceScheduledStart = "Timer.ShowWindowBeforeForceScheduledStart"; // √

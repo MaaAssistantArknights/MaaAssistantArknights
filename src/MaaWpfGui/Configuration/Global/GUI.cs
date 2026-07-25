@@ -72,6 +72,8 @@ public class Gui : INotifyPropertyChanged
 
     public bool IgnoreBadModulesAndUseSoftwareRendering { get; set; }
 
+    public int GuideStep { get; set; } = 0;
+
     public bool ExpanderSwitchConfiguration { get; set; } = true;
 
     public bool ExpanderScheduleSettings { get; set; } = true;

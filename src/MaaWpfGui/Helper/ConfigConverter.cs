@@ -1050,6 +1050,8 @@ public class ConfigConverter
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundImageStretchMode, out var _);
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundOpacity, out var _);
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, out var _);
+            ConfigFactory.Root.Gui.GuideStep = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.GuideStepIndex);
         }
 
         // Timer

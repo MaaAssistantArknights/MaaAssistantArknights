@@ -36,7 +36,6 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
-using Newtonsoft.Json;
 using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -684,16 +683,13 @@ public class SettingsViewModel : Screen
 
     public static int GuideMaxStep => 7;
 
-    private int _guideStepIndex = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0);
-
     public int GuideStepIndex
     {
-        get => _guideStepIndex;
-        set {
-            SetAndNotify(ref _guideStepIndex, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.GuideStepIndex, value.ToString());
+        get; set {
+            ConfigFactory.Root.Gui.GuideStep = value;
+            SetAndNotify(ref field, value);
         }
-    }
+    } = ConfigFactory.Root.Gui.GuideStep;
 
     private string _guideTransitionMode = "Bottom2Top";
 
