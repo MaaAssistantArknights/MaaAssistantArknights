@@ -44,6 +44,7 @@ public class Root : INotifyPropertyChanged
     [JsonInclude]
     public AnnouncementInfo AnnouncementInfo { get; private set; } = new();
 
+    [JsonPropertyName("GUI")]
     [JsonInclude]
     public Gui Gui { get; private set; } = new();
 
