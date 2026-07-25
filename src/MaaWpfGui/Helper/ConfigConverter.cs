@@ -23,6 +23,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Models;
+using MaaWpfGui.Models.EmulatorConnectionExtra;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -32,6 +33,7 @@ using Serilog;
 using static MaaWpfGui.Configuration.Global.Gui;
 using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
 using static MaaWpfGui.Models.AsstTasks.AsstCopilotTask;
+using static MaaWpfGui.Models.EmulatorConnectionExtra.Win32Extra;
 using static MaaWpfGui.Models.PostActionSetting;
 using static MaaWpfGui.ViewModels.UI.CopilotViewModel;
 using static MaaWpfGui.ViewModels.UI.ToolboxViewModel;
@@ -587,45 +589,45 @@ public class ConfigConverter
                 if (serverChanEnabled)
                 {
                     var sendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationServerChanSendKey);
                     ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new ServerChan(sendKey));
                 }
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationServerChanSendKey);
 
                 if (telegramEnabled)
                 {
                     var botToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, string.Empty);
                     var chatId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, string.Empty);
                     var topicId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramTopicId, string.Empty);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationTelegramBotToken);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationTelegramChatId);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationTelegramTopicId);
                     ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Telegram(botToken, chatId, topicId));
                 }
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationTelegramBotToken);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationTelegramChatId);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationTelegramTopicId);
 
                 if (discordEnabled)
                 {
                     var botToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, string.Empty);
                     var userId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, string.Empty);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDiscordBotToken);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDiscordUserId);
                     ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Discord(botToken, userId));
                 }
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDiscordBotToken);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDiscordUserId);
 
                 if (discordWebhookEnabled)
                 {
                     var webhookUrl = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl, string.Empty);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl);
                     ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new CustomWebhook(webhookUrl, Body: $"{{\"content\": {{content}}}}"));
                 }
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl);
 
                 if (dingTalkEnabled)
                 {
                     var accessToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDingTalkAccessToken, string.Empty);
                     var secret = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDingTalkSecret, string.Empty);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDingTalkAccessToken);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDingTalkSecret);
                     ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new DingTalk(accessToken, secret));
                 }
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDingTalkAccessToken);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDingTalkSecret);
 
                 if (smtpEnabled)
                 {
@@ -637,25 +639,25 @@ public class ConfigConverter
                     var to = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty);
                     var useSsl = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, false);
                     var requiresAuthentication = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, false);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpServer);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpPort);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpUser);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpPassword);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpFrom);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpTo);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication);
                     ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Smtp(server, port, user, password, from, to, useSsl, requiresAuthentication));
                 }
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpServer);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpPort);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpUser);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpPassword);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpFrom);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpTo);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication);
 
                 if (barkEnabled)
                 {
                     var sendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, string.Empty);
                     var server = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, string.Empty);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationBarkSendKey);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationBarkServer);
                     ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Bark(sendKey, server));
                 }
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationBarkSendKey);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationBarkServer);
 
                 if (qmsgEnabled)
                 {
@@ -663,32 +665,32 @@ public class ConfigConverter
                     var key = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgKey, string.Empty);
                     var user = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgUser, string.Empty);
                     var bot = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgBot, string.Empty);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgServer);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgKey);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgUser);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgBot);
                     ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Qmsg(server, key, user, bot));
                 }
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgServer);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgKey);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgUser);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgBot);
 
                 if (gotifyEnabled)
                 {
                     var server = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationGotifyServer, string.Empty);
                     var token = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationGotifyToken, string.Empty);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationGotifyServer);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationGotifyToken);
                     ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Gotify(server, token));
                 }
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationGotifyServer);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationGotifyToken);
 
                 if (customWebhookEnabled)
                 {
                     var url = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, string.Empty);
                     var body = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, string.Empty);
                     var headers = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders, string.Empty);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody);
-                    ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders);
                     ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new CustomWebhook(url, headers, body));
                 }
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders);
 
                 ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenComplete = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, true);
                 ConfigFactory.CurrentConfig.Gui.ExternalNotification.ShowWhenCompleteWithDetails = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, false);
@@ -743,6 +745,91 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.StallTimeoutEnabled);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.StallTimeoutMinutes);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReminderIntervalMinutes);
+            }
+
+            // 连接设置
+            {
+                ConfigFactory.CurrentConfig.Gui.ConnectSettings.AutoDetect = ConfigurationHelper.GetValue(ConfigurationKeys.AutoDetect, true);
+                ConfigFactory.CurrentConfig.Gui.ConnectSettings.AlwaysAutoDetect = ConfigurationHelper.GetValue(ConfigurationKeys.AlwaysAutoDetect, false);
+                ConfigFactory.CurrentConfig.Gui.ConnectSettings.AdbPath = ConfigurationHelper.GetValue(ConfigurationKeys.AdbPath, string.Empty);
+                ConfigFactory.CurrentConfig.Gui.ConnectSettings.Address = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
+                var listStr = ConfigurationHelper.GetValue(ConfigurationKeys.AddressHistory, string.Empty);
+                try
+                {
+                    ConfigFactory.CurrentConfig.Gui.ConnectSettings.AddressHistory = JsonConvert.DeserializeObject<List<string>>(listStr) ?? [];
+                }
+                catch
+                {
+                }
+                var connectConfig = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectConfig, "General");
+                if (Enum.TryParse<ConnectConfig>(connectConfig, true, out var config))
+                {
+                    ConfigFactory.CurrentConfig.Gui.ConnectSettings.Config = config;
+                }
+                ConfigFactory.CurrentConfig.Gui.ConnectSettings.AllowAdbRestart = ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbRestart, true);
+                ConfigFactory.CurrentConfig.Gui.ConnectSettings.AllowAdbHardRestart = ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbHardRestart, true);
+                var touch = ConfigurationHelper.GetValue(ConfigurationKeys.TouchMode, "minitouch");
+                if (Enum.TryParse<TouchMode>(touch, true, out var touchMode))
+                {
+                    ConfigFactory.CurrentConfig.Gui.ConnectSettings.TouchMode = touchMode;
+                }
+                ConfigFactory.CurrentConfig.Gui.ConnectSettings.EnableAdbLite = ConfigurationHelper.GetValue(ConfigurationKeys.AdbLiteEnabled, false);
+                ConfigFactory.CurrentConfig.Gui.ConnectSettings.KillAdbOnExit = ConfigurationHelper.GetValue(ConfigurationKeys.KillAdbOnExit, false);
+                ConfigFactory.CurrentConfig.Gui.ConnectSettings.AdbReplaced = ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, false);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AdbReplaced);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AutoDetect);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AlwaysAutoDetect);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AdbPath);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ConnectAddress);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AddressHistory);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ConnectConfig);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AllowAdbRestart);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AllowAdbHardRestart);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.TouchMode);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AdbLiteEnabled);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.KillAdbOnExit);
+                {
+                    var extra = new MuMu12Extra {
+                        Enable = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12ExtrasEnabled, false),
+                        EmulatorPath = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12EmulatorPath, string.Empty),
+                        EnableBridgeConnection = ConfigurationHelper.GetValue(ConfigurationKeys.MumuBridgeConnection, false),
+                        InstanceIndex = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Index, 0),
+                    };
+                    ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.MuMuEmulator12 = extra;
+                }
+                {
+                    var extra = new LDPlayerExtra {
+                        Enable = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerExtrasEnabled, false),
+                        EmulatorPath = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerEmulatorPath, string.Empty),
+                        ManualSetIndex = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerManualSetIndex, false),
+                        InstanceIndex = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerIndex, 0),
+                    };
+                    ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LDPlayer = extra;
+                }
+                {
+                    var extra = new Win32Extra {
+                        ScreencapMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowScreencapMethod, AsstWin32ScreencapMethod.FramePool),
+                        MouseMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowMouseMethod, AsstWin32InputMethod.SendMessageWithCursorPos),
+                        KeyboardMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowKeyboardMethod, AsstWin32KeyboardInputMethod.SendMessage),
+                    };
+                    ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra = extra;
+                }
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.MuMu12ExtrasEnabled);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.MuMu12EmulatorPath);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.MumuBridgeConnection);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.MuMu12Index);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.LdPlayerExtrasEnabled);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.LdPlayerEmulatorPath);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.LdPlayerManualSetIndex);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.LdPlayerIndex);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AttachWindowScreencapMethod);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AttachWindowMouseMethod);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AttachWindowKeyboardMethod);
+                ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.BluestacksExtra.ConfigKeyword = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, string.Empty);
+                ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.BluestacksExtra.ConfigPath = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.BluestacksConfigError);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.BluestacksConfigKeyword);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.BluestacksConfigPath);
             }
 
             // 启动设置

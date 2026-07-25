@@ -31,9 +31,12 @@ public class Gui : INotifyPropertyChanged
         ExternalNotification.Configs.CollectionChanged += Handler.OnCollectionChangedFactory<Base>(prefix + nameof(Gui) + "." + nameof(ExternalNotification) + ".");
         RemoteControl.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + "." + nameof(RemoteControl) + ".");
         RuntimeSettings.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + "." + nameof(RuntimeSettings) + ".");
-        ConnectSettings.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + "." + nameof(ConnectSettings) + ".");
+        ConnectSettings.EventBinding(prefix + nameof(Gui) + ".");
         StartUpSettings.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + "." + nameof(StartUpSettings) + ".");
     }
+
+    [JsonInclude]
+    public ConnectSettings ConnectSettings { get; private set; } = new();
 
     [JsonInclude]
     public Performance Performance { get; private set; } = new();
@@ -47,8 +50,6 @@ public class Gui : INotifyPropertyChanged
     [JsonInclude]
     public RuntimeSettings RuntimeSettings { get; private set; } = new();
 
-    //[JsonInclude]
-    //public ConnectSettings ConnectSettings { get; private set; } = new();
     [JsonInclude]
     public StartUpSettings StartUpSettings { get; private set; } = new();
 

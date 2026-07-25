@@ -366,11 +366,10 @@ public class SettingsViewModel : Screen
 
     private void InitConnectConfig()
     {
-        var addressListJson = ConfigurationHelper.GetValue(ConfigurationKeys.AddressHistory, string.Empty);
-        if (!string.IsNullOrEmpty(addressListJson))
-        {
-            ConnectSettings.ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson) ?? [];
-        }
+        ConnectSettings.ConnectAddressHistory = new(ConfigFactory.CurrentConfig.Gui.ConnectSettings.AddressHistory);
+        ConnectSettings.ConnectAddressHistory.CollectionChanged += (_, _) => {
+            ConfigFactory.CurrentConfig.Gui.ConnectSettings.AddressHistory = [.. ConnectSettings.ConnectAddressHistory];
+        };
     }
 
     private void InitVersionUpdate()

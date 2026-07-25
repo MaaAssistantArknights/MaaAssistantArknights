@@ -18,7 +18,9 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Models.EmulatorConnectionExtra;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
@@ -42,15 +44,14 @@ public class EmulatorHelper
     {
         try
         {
-            string emulatorMode = SettingsViewModel.ConnectSettings.ConnectConfig;
+            var emulatorMode = SettingsViewModel.ConnectSettings.ConnectConfig;
             Instances.AsstProxy.Connected = false;
-            return emulatorMode switch
-            {
-                "Nox" => KillEmulatorNox(),
-                "LDPlayer" => KillEmulatorLdPlayer(),
-                "XYAZ" => KillEmulatorXyaz(),
-                "BlueStacks" => KillEmulatorBlueStacks(),
-                "MuMuEmulator12" => KillEmulatorMuMuEmulator(),
+            return emulatorMode switch {
+                ConnectConfig.Nox => KillEmulatorNox(),
+                ConnectConfig.LDPlayer => KillEmulatorLdPlayer(),
+                ConnectConfig.XYAZ => KillEmulatorXyaz(),
+                ConnectConfig.BlueStacks => KillEmulatorBlueStacks(),
+                ConnectConfig.MuMuEmulator12 => KillEmulatorMuMuEmulator(),
                 _ => KillEmulatorByWindow(),
             };
         }
@@ -98,9 +99,9 @@ public class EmulatorHelper
             return 0;
         }
 
-        if (SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.MuMuBridgeConnection)
+        if (SettingsViewModel.ConnectSettings.ExtraConfig is MuMu12Extra mumu && mumu.EnableBridgeConnection)
         {
-            return int.TryParse(SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.Index, out var indexParse) ? indexParse : 0;
+            return mumu.InstanceIndex;
         }
 
         if (address.Contains(':'))
@@ -112,8 +113,7 @@ public class EmulatorHelper
                 return null;
             }
 
-            return port switch
-            {
+            return port switch {
                 >= 16384 => MuMuPortToIndex(port),
                 7555 => 0,
                 >= 5555 => (port - 5555) / 2,
@@ -205,8 +205,7 @@ public class EmulatorHelper
 
         if (consolePath != null)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-            {
+            ProcessStartInfo startInfo = new ProcessStartInfo(consolePath) {
                 Arguments = $"control -v {emuIndex} shutdown",
                 CreateNoWindow = true,
                 UseShellExecute = false,
@@ -281,8 +280,7 @@ public class EmulatorHelper
 
         if (File.Exists(consolePath))
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-            {
+            ProcessStartInfo startInfo = new ProcessStartInfo(consolePath) {
                 Arguments = $"quit --index {emuIndex}",
                 CreateNoWindow = true,
                 UseShellExecute = false,
@@ -355,8 +353,7 @@ public class EmulatorHelper
 
         if (File.Exists(consolePath))
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-            {
+            ProcessStartInfo startInfo = new ProcessStartInfo(consolePath) {
                 Arguments = $"quit -index:{emuIndex}",
                 CreateNoWindow = true,
                 UseShellExecute = false,
@@ -421,8 +418,7 @@ public class EmulatorHelper
 
         if (File.Exists(consolePath))
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-            {
+            ProcessStartInfo startInfo = new ProcessStartInfo(consolePath) {
                 Arguments = $"stop -i {emuIndex}",
                 CreateNoWindow = true,
                 UseShellExecute = false,
@@ -612,8 +608,7 @@ public class EmulatorHelper
 
             // 调用 MuMuManager.exe setting -v {emuIndex} -k app_keptlive
             // 返回 JSON 格式: { "app_keptlive": "true" }
-            var startInfo = new ProcessStartInfo(consolePath)
-            {
+            var startInfo = new ProcessStartInfo(consolePath) {
                 Arguments = $"setting -v {emuIndex} -k app_keptlive",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
@@ -648,8 +643,7 @@ public class EmulatorHelper
             using var doc = JsonDocument.Parse(output);
             if (doc.RootElement.TryGetProperty("app_keptlive", out var value))
             {
-                return value.ValueKind switch
-                {
+                return value.ValueKind switch {
                     JsonValueKind.True => true,
                     JsonValueKind.False => false,
                     JsonValueKind.String => string.Equals(value.GetString(), "true", StringComparison.OrdinalIgnoreCase),
@@ -713,7 +707,7 @@ public class EmulatorHelper
         }
 
         // 回退：从用户配置的 MuMu 安装路径查找
-        string? configuredPath = SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.EmulatorPath;
+        string? configuredPath = SettingsViewModel.ConnectSettings.ExtraConfig is MuMu12Extra mumu ? mumu.EmulatorPath : null;
         if (!string.IsNullOrEmpty(configuredPath) && Directory.Exists(configuredPath))
         {
             string newConsolePath = Path.Combine(configuredPath, @"nx_main\MuMuManager.exe");
@@ -739,15 +733,13 @@ public class EmulatorHelper
     public static bool KillEmulator()
     {
         int pid = 0;
-        string address = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
+        string address = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Address;
         var port = address.StartsWith("127") ? address[10..] : "5555";
         _logger.Information("address: {Address}, port: {Port}", address, port);
 
         string portCmd = "netstat -ano|findstr \"" + port + "\"";
-        Process checkCmd = new Process
-        {
-            StartInfo =
-                {
+        Process checkCmd = new Process {
+            StartInfo = {
                     FileName = "cmd.exe",
                     UseShellExecute = false,
                     RedirectStandardInput = true,

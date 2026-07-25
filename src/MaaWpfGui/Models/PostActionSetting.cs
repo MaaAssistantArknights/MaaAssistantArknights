@@ -122,7 +122,7 @@ public class PostActionSetting : PropertyChangedBase
     /// <summary>
     /// Gets a value indicating whether AttachWindow 模式支持 Android 侧后处理动作。
     /// </summary>
-    public bool AndroidControlPostActionsEnabled => !_exitEmulator && !ConnectSettingsUserControlModel.Instance.UseAttachWindow;
+    public bool AndroidControlPostActionsEnabled => !_exitEmulator && !ConnectSettingsUserControlModel.Instance.IsPCConnectConfig;
 
     public bool BackToAndroidHome
     {
@@ -147,13 +147,13 @@ public class PostActionSetting : PropertyChangedBase
     /// <summary>
     /// Gets a value indicating whether PC 端（窗口绑定）无模拟器进程，完成后不可选择 ｢退出模拟器｣。
     /// </summary>
-    public bool ExitEmulatorOptionEnabled => !ConnectSettingsUserControlModel.Instance.UseAttachWindow;
+    public bool ExitEmulatorOptionEnabled => !ConnectSettingsUserControlModel.Instance.IsPCConnectConfig;
 
     public bool ExitEmulator
     {
         get => _exitEmulator;
         set {
-            if (value && ConnectSettingsUserControlModel.Instance.UseAttachWindow)
+            if (value && ConnectSettingsUserControlModel.Instance.IsPCConnectConfig)
             {
                 return;
             }
@@ -438,7 +438,7 @@ public class PostActionSetting : PropertyChangedBase
     /// </summary>
     private void ClearUnsupportedPostActionsForAttachWindow()
     {
-        if (!ConnectSettingsUserControlModel.Instance.UseAttachWindow)
+        if (!ConnectSettingsUserControlModel.Instance.IsPCConnectConfig)
         {
             return;
         }
@@ -484,9 +484,9 @@ public class PostActionSetting : PropertyChangedBase
     private PostActionSetting()
     {
         ConnectSettingsUserControlModel.Instance.PropertyChanged += (_, e) => {
-            if (e.PropertyName is nameof(ConnectSettingsUserControlModel.ConnectConfig) or nameof(ConnectSettingsUserControlModel.UseAttachWindow))
+            if (e.PropertyName is nameof(ConnectSettingsUserControlModel.ConnectConfig) or nameof(ConnectSettingsUserControlModel.IsPCConnectConfig))
             {
-                if (ConnectSettingsUserControlModel.Instance.UseAttachWindow && ExitEmulator)
+                if (ConnectSettingsUserControlModel.Instance.IsPCConnectConfig && ExitEmulator)
                 {
                     ExitEmulator = false;
                     ExitArknights = true;

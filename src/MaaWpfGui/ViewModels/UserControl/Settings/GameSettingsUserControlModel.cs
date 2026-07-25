@@ -48,7 +48,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
     public bool StartGame
     {
-        get => SettingsViewModel.ConnectSettings.UseAttachWindow ? false : field;
+        get => SettingsViewModel.ConnectSettings.IsPCConnectConfig ? false : field;
         set {
             SetAndNotify(ref field, value);
             ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StartGame = value;

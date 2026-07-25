@@ -40,12 +40,14 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Models.EmulatorConnectionExtra;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -495,7 +497,7 @@ public class AsstProxy
         }
 
         // 使用窗口绑定模式时，额外加载 PC 平台差异资源
-        if (SettingsViewModel.ConnectSettings.UseAttachWindow)
+        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig)
         {
             string pcPlatformRes = Path.Combine(mainRes, "platform_diff", "PC", "resource");
             loaded &= LoadResIfExists(pcPlatformRes);
@@ -630,7 +632,7 @@ public class AsstProxy
         }
 
         _runningState.SetInit(true);
-        AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettings.TouchMode);
+        AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettings.TouchMode.ToCustomString());
         AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
         AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, SettingsViewModel.ConnectSettings.AdbLiteEnabled ? "1" : "0");
 
@@ -790,7 +792,7 @@ public class AsstProxy
                 _lastConnectionError = string.Empty;
 
                 // 检测 MuMu 后台保活是否开启（异步执行，避免阻塞 UI 线程）
-                if (SettingsViewModel.ConnectSettings.ConnectConfig == "MuMuEmulator12")
+                if (SettingsViewModel.ConnectSettings.ConnectConfig == ConnectConfig.MuMuEmulator12)
                 {
                     _ = Task.Run(() => {
                         if (EmulatorHelper.CheckMuMuKeepAlive())
@@ -905,8 +907,8 @@ public class AsstProxy
                     var needToStop = false;
                     switch (SettingsViewModel.ConnectSettings.ConnectConfig)
                     {
-                        case "MuMuEmulator12":
-                            if (!SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.Enable)
+                        case ConnectConfig.MuMuEmulator12:
+                            if (SettingsViewModel.ConnectSettings.ExtraConfig is not MuMu12Extra muMu12 || !muMu12.Enable)
                             {
                                 break;
                             }
@@ -924,8 +926,8 @@ public class AsstProxy
 
                             break;
 
-                        case "LDPlayer":
-                            if (!SettingsViewModel.ConnectSettings.LdPlayerExtras.Enable)
+                        case ConnectConfig.LDPlayer:
+                            if (SettingsViewModel.ConnectSettings.ExtraConfig is not LDPlayerExtra ldPlayer || !ldPlayer.Enable)
                             {
                                 break;
                             }
@@ -2355,7 +2357,7 @@ public class AsstProxy
             return;
         }
 
-        if (SettingsViewModel.ConnectSettings.UseAttachWindow && (subTask == "ReportToPenguinStats" || subTask == "ReportToYituliu"))
+        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig && (subTask == "ReportToPenguinStats" || subTask == "ReportToYituliu"))
         {
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ReportSkippedForPcClient"), UiLogColor.Warning);
             return;
@@ -2477,7 +2479,7 @@ public class AsstProxy
     public bool AsstConnect(ref string error)
     {
         // 如果启用了 AttachWindow 模式，则使用窗口绑定而非 ADB 连接
-        if (SettingsViewModel.ConnectSettings.UseAttachWindow)
+        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig)
         {
             return AsstAttachWindowConnect(ref error);
         }
@@ -2579,21 +2581,13 @@ public class AsstProxy
             _logger.Information("AttachWindow: Found window \"{WindowName}\" with HWND: {Hwnd}", TargetWindowName, hwnd);
         }
 
-        if (!ulong.TryParse(SettingsViewModel.ConnectSettings.AttachWindowScreencapMethod, out var screencapMethod))
+        if (SettingsViewModel.ConnectSettings.ExtraConfig is not Win32Extra win32Extra)
         {
-            screencapMethod = 2; // 默认 FramePool
+            return false;
         }
-
-        if (!ulong.TryParse(SettingsViewModel.ConnectSettings.AttachWindowMouseMethod, out var mouseMethod))
-        {
-            mouseMethod = 32; // 默认 SendMessageWithCursorPos
-        }
-
-        if (!ulong.TryParse(SettingsViewModel.ConnectSettings.AttachWindowKeyboardMethod, out var keyboardMethod))
-        {
-            keyboardMethod = 2; // 默认 SendMessage
-        }
-
+        var screencapMethod = (ulong)win32Extra.ScreencapMethod;
+        var mouseMethod = (ulong)win32Extra.MouseMethod;
+        var keyboardMethod = (ulong)win32Extra.KeyboardMethod;
         bool ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
 
         if (!ret)
@@ -2625,21 +2619,19 @@ public class AsstProxy
     {
         _lastConnectionError = string.Empty;
 
-        switch (SettingsViewModel.ConnectSettings.ConnectConfig)
+        if (ConnectSettingsUserControlModel.Instance.ExtraConfig is MuMu12Extra mumu12)
         {
-            case "MuMuEmulator12":
-                AsstSetConnectionExtrasMuMu(SettingsViewModel.ConnectSettings.MuMuEmulatorExtras.Config);
-                break;
-
-            case "LDPlayer":
-                AsstSetConnectionExtrasLdPlayer(SettingsViewModel.ConnectSettings.LdPlayerExtras.Config);
-                break;
+            AsstSetConnectionExtrasMuMu(mumu12.Config);
+        }
+        else if (ConnectSettingsUserControlModel.Instance.ExtraConfig is LDPlayerExtra ldPlayer)
+        {
+            AsstSetConnectionExtrasLdPlayer(ldPlayer.Config);
         }
 
         switch (SettingsViewModel.ConnectSettings.ConnectConfig)
         {
-            case "WSA":
-            case "Androws":
+            case ConnectConfig.WSA:
+            case ConnectConfig.Androws:
                 AsstSetInstanceOption(InstanceOptionKey.ClientType, SettingsViewModel.GameSettings.ClientType.ToCustomString());
                 break;
             default:
@@ -2686,7 +2678,7 @@ public class AsstProxy
             }
         }
 
-        bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig);
+        bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig.ToString());
 
         // 如果连接失败，等待回调完成以获取详细错误信息
         if (!ret)
@@ -2697,12 +2689,12 @@ public class AsstProxy
         // 尝试默认的备选端口
         if (!ret && SettingsViewModel.ConnectSettings.AutoDetectConnection)
         {
-            if (SettingsViewModel.ConnectSettings.DefaultAddress.TryGetValue(SettingsViewModel.ConnectSettings.ConnectConfig, out var value))
+            if (SettingsViewModel.ConnectSettings.DefaultAddress.TryGetValue(SettingsViewModel.ConnectSettings.ConnectConfig.ToString(), out var value))
             {
                 foreach (var address in value
                              .TakeWhile(_ => !_runningState.GetIdle()))
                 {
-                    ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, address, SettingsViewModel.ConnectSettings.ConnectConfig);
+                    ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, address, SettingsViewModel.ConnectSettings.ConnectConfig.ToString());
                     if (!ret)
                     {
                         continue;

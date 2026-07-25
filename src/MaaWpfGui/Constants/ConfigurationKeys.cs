@@ -63,34 +63,34 @@ public static class ConfigurationKeys
     public const string BackgroundOpacity = "GUI.Background.Opacity"; // √
     public const string BackgroundBlurEffectRadius = "GUI.Background.BlurEffectRadius"; // √
 
-    public const string AddressHistory = "Connect.AddressHistory";
-    public const string AutoDetect = "Connect.AutoDetect";
-    public const string AlwaysAutoDetect = "Connect.AlwaysAutoDetect";
-    public const string MumuBridgeConnection = "Connect.MumuBridgeConnection";
-    public const string ConnectAddress = "Connect.Address";
-    public const string AdbPath = "Connect.AdbPath";
-    public const string ConnectConfig = "Connect.ConnectConfig";
-    public const string MuMu12ExtrasEnabled = "Connect.MuMu12Extras.Enabled";
-    public const string MuMu12EmulatorPath = "Connect.MuMu12EmulatorPath";
-    public const string MuMu12Index = "Connect.MuMu12Index";
-    public const string MuMu12Display = "Connect.MuMu12Display";
-    public const string LdPlayerExtrasEnabled = "Connect.LdPlayerExtras.Enabled";
-    public const string LdPlayerEmulatorPath = "Connect.LdPlayerEmulatorPath";
-    public const string LdPlayerManualSetIndex = "Connect.LdPlayerManualSetIndex";
-    public const string LdPlayerIndex = "Connect.LdPlayerIndex";
+    public const string AddressHistory = "Connect.AddressHistory"; // √
+    public const string AutoDetect = "Connect.AutoDetect"; // √
+    public const string AlwaysAutoDetect = "Connect.AlwaysAutoDetect"; // √
+    public const string MumuBridgeConnection = "Connect.MumuBridgeConnection"; // √
+    public const string ConnectAddress = "Connect.Address"; // √
+    public const string AdbPath = "Connect.AdbPath"; // √
+    public const string ConnectConfig = "Connect.ConnectConfig"; // √
+    public const string MuMu12ExtrasEnabled = "Connect.MuMu12Extras.Enabled"; // √
+    public const string MuMu12EmulatorPath = "Connect.MuMu12EmulatorPath"; // √
+    public const string MuMu12Index = "Connect.MuMu12Index"; // √
+    public const string MuMu12Display = "Connect.MuMu12Display"; // 废弃
+    public const string LdPlayerExtrasEnabled = "Connect.LdPlayerExtras.Enabled"; // √
+    public const string LdPlayerEmulatorPath = "Connect.LdPlayerEmulatorPath"; // √
+    public const string LdPlayerManualSetIndex = "Connect.LdPlayerManualSetIndex"; // √
+    public const string LdPlayerIndex = "Connect.LdPlayerIndex"; // √
     public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected"; // √
-    public const string AllowAdbRestart = "Connect.AllowADBRestart";
-    public const string AllowAdbHardRestart = "Connect.AllowADBHardRestart";
-    public const string AdbLiteEnabled = "Connect.AdbLiteEnabled";
-    public const string KillAdbOnExit = "Connect.KillAdbOnExit";
-    public const string TouchMode = "Connect.TouchMode";
-    public const string AdbReplaced = "Connect.AdbReplaced";
+    public const string AllowAdbRestart = "Connect.AllowADBRestart"; // √
+    public const string AllowAdbHardRestart = "Connect.AllowADBHardRestart"; // √
+    public const string AdbLiteEnabled = "Connect.AdbLiteEnabled"; // √
+    public const string KillAdbOnExit = "Connect.KillAdbOnExit"; // √
+    public const string TouchMode = "Connect.TouchMode"; // √
+    public const string AdbReplaced = "Connect.AdbReplaced"; // √
 
     // AttachWindow (Win32窗口绑定) 配置
-    public const string UseAttachWindow = "Connect.UseAttachWindow";
-    public const string AttachWindowScreencapMethod = "Connect.AttachWindow.ScreencapMethod";
-    public const string AttachWindowMouseMethod = "Connect.AttachWindow.MouseMethod";
-    public const string AttachWindowKeyboardMethod = "Connect.AttachWindow.KeyboardMethod";
+    public const string UseAttachWindow = "Connect.UseAttachWindow"; // 废弃
+    public const string AttachWindowScreencapMethod = "Connect.AttachWindow.ScreencapMethod"; // √
+    public const string AttachWindowMouseMethod = "Connect.AttachWindow.MouseMethod"; // √
+    public const string AttachWindowKeyboardMethod = "Connect.AttachWindow.KeyboardMethod"; // √
 
     public const string StartGame = "Start.StartGame"; // √
     public const string ClientType = "Start.ClientType"; // √
@@ -123,6 +123,7 @@ public static class ConfigurationKeys
 
     public const string DepotResult = "Depot.DepotResult"; // √
 
+    #region TaskQueue
     public const string InfrastMode = "Infrast.InfrastMode"; // 已迁移
     public const string DormThreshold = "Infrast.DormThreshold"; // 已迁移
     public const string UsesOfDrones = "Infrast.UsesOfDrones"; // 已迁移
@@ -220,6 +221,7 @@ public static class ConfigurationKeys
     public const string ReceiveMining = "Mission.ReceiveMining"; // 已迁移
     public const string ReceiveSpecialAccess = "Mission.ReceiveSpecialAccess"; // 已迁移
 
+    #endregion TaskQueue
     public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional"; // √
     public const string CopilotUserAdditional = "Copilot.UserAdditional"; // √
     public const string CopilotSelectFormation = "Copilot.SelectFormation"; // √
@@ -263,9 +265,9 @@ public static class ConfigurationKeys
 
     public const string BluestacksConfigPath = "Bluestacks.Config.Path";
     public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";
-    public const string BluestacksConfigError = "Bluestacks.Config.Error";
+    public const string BluestacksConfigError = "Bluestacks.Config.Error"; // 废弃
 
-    public const string PostActions = "MainFunction.PostActions";
+    public const string PostActions = "MainFunction.PostActions"; // √
     public const string MainFunctionInverseMode = "MainFunction.InverseMode"; // √
     public const string Stage1 = "MainFunction.Stage1"; // 已迁移
     public const string Stage2 = "MainFunction.Stage2"; // 已迁移
