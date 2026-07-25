@@ -579,13 +579,18 @@
                                                                 <TextBlock Text="{DynamicResource TaskSettings}" />
 
                                                                 <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
-                                                                <TextBlock Text="{DynamicResource RunTaskOnce}" />
+                                                                <TextBlock>
+                                                                    <Run Text="{DynamicResource RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource Copy}" /><Run Text="/" /><Run Text="{DynamicResource Rename}" /><Run Text="/" /><Run Text="{DynamicResource Delete}" />
+                                                                </TextBlock>
                                                             </StackPanel>
                                                         </ToolTip>
                                                     </RadioButton.ToolTip>
                                                     <RadioButton.ContextMenu>
-                                                        <ContextMenu>
+                                                        <ContextMenu Width="150">
                                                             <MenuItem Header="{DynamicResource RunTaskOnce}" />
+                                                            <MenuItem Header="{DynamicResource Copy}" />
+                                                            <MenuItem Header="{DynamicResource Rename}" />
+                                                            <MenuItem Header="{DynamicResource Delete}" />
                                                         </ContextMenu>
                                                     </RadioButton.ContextMenu>
                                                 </RadioButton>
