@@ -10,12 +10,15 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
+#nullable enable
+using System.Text.Json.Serialization;
 using MaaWpfGui.Helper;
+using Newtonsoft.Json;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.Items;
 
+[JsonObject(MemberSerialization.OptIn)]
 public class CopilotItemViewModel : PropertyChangedBase
 {
     /// <summary>
@@ -35,26 +38,38 @@ public class CopilotItemViewModel : PropertyChangedBase
         _isChecked = isChecked;
     }
 
+    [System.Text.Json.Serialization.JsonConstructor]
+    public CopilotItemViewModel()
+    {
+    }
+
     /// <summary>
     /// Gets the name.
     /// </summary>
-    public string Name { get; }
+    [JsonProperty("name")]
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets the original_name.
     /// </summary>
-    public string FilePath { get; }
+    [JsonProperty("file_path")]
+    public string FilePath { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets 作业站对应 id，本地作业应为默认值 0
     /// </summary>
+    [JsonProperty("copilot_id")]
     public int CopilotId { get; set; }
 
+    [JsonProperty("is_raid")]
+    [JsonInclude]
+    [JsonPropertyName("IsRaid")]
     private bool _isRaid;
 
     /// <summary>
     /// Gets or sets a value indicating whether 突袭关
     /// </summary>
+    [System.Text.Json.Serialization.JsonIgnore]
     public bool IsRaid
     {
         get => _isRaid;
@@ -64,11 +79,15 @@ public class CopilotItemViewModel : PropertyChangedBase
         }
     }
 
+    [JsonProperty("is_checked")]
+    [JsonInclude]
+    [JsonPropertyName("IsChecked")]
     private bool _isChecked;
 
     /// <summary>
     /// Gets or sets a value indicating whether the key is checked.
     /// </summary>
+    [System.Text.Json.Serialization.JsonIgnore]
     public bool IsChecked
     {
         get => _isChecked;
