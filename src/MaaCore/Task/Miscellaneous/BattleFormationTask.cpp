@@ -1242,8 +1242,8 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             return false;
         }
 
-        // 枚举作业中所有候选的未拥有干员，尝试借助战
-        // 不能改图结构，因为可能你有一个精1的干员，但作业1个组要求精1的干员，另1个要求精2的同名干员，借战的干员可能是精2的，网络流做不了
+        // 枚举作业中所有干员，尝试借助战
+        // 不能改图结构，因为可能你有一个精1的干员，但作业1个组要求精1的干员，另1个要求精2的同名干员，借助战的干员可能是精2的，网络流做不了
         // 不知道这么写效率够不够，应该是常数很小的O(n^4)，可能跟O(n^3)的差不多
         std::unordered_set<std::string> candidate_ids;
         for (const auto& group : flat_groups) {
