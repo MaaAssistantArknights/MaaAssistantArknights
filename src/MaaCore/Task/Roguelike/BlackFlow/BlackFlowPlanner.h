@@ -76,6 +76,7 @@ private:
         const ExpandedSafetyProblem& expanded,
         const SafetySolution& solution,
         const SafetyAction& root_action,
+        const RunState& run,
         int current_action_points) const;
 };
 } // namespace asst::blackflow

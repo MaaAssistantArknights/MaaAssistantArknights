@@ -118,6 +118,14 @@ FactScope parse_fact_scope(const std::string& value)
     return found->second;
 }
 
+RoutePreference parse_route_preference(const std::string& value)
+{
+    if (value == "minimize_intermediate_interactions") {
+        return RoutePreference::MinimizeIntermediateInteractions;
+    }
+    invalid_config("unknown route preference: " + value);
+}
+
 FactDefinition parse_fact_definition(const json::value& value)
 {
     check_keys(value, { "name", "type", "scope", "description" }, { "name", "type", "scope" }, "fact");
@@ -497,12 +505,23 @@ Milestone parse_milestone(const json::value& value)
 
 PolicyModule parse_module(const json::value& value)
 {
-    check_keys(value, { "id", "description", "rules", "reserves", "milestones" }, { "id" }, "module");
+    check_keys(
+        value,
+        { "id", "description", "route_preferences", "rules", "reserves", "milestones" },
+        { "id" },
+        "module");
     PolicyModule result;
     result.id = value.at("id").as_string();
     result.description = value.get("description", std::string());
     if (result.id.empty()) {
         invalid_config("module id must not be empty");
+    }
+    for (const std::string& preference : parse_string_array(value, "route_preferences")) {
+        const RoutePreference parsed = parse_route_preference(preference);
+        if (std::ranges::find(result.route_preferences, parsed) != result.route_preferences.end()) {
+            invalid_config("module contains duplicate route preference: " + preference);
+        }
+        result.route_preferences.emplace_back(parsed);
     }
     if (const auto rules = value.find("rules"); rules) {
         if (!rules->is_array()) {
@@ -834,6 +853,11 @@ std::optional<blackflow::ResolvedPolicy>
                 *error = "profile references unknown module: " + module_id;
             }
             return std::nullopt;
+        }
+        for (const blackflow::RoutePreference preference : module->route_preferences) {
+            if (std::ranges::find(result.route_preferences, preference) == result.route_preferences.end()) {
+                result.route_preferences.emplace_back(preference);
+            }
         }
     }
     return result;

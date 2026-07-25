@@ -167,6 +167,11 @@ NodeType
     return target->type;
 }
 
+int intermediate_interaction_cost(NodeType type) noexcept
+{
+    return type == NodeType::Empty || type == NodeType::ScrapShop ? 0 : 1;
+}
+
 struct RouteMetric
 {
     int battles = 0;
@@ -359,12 +364,17 @@ struct RouteLabel
     std::vector<int> progress;
     CountedNodes counted;
     RouteMetric metric;
+    int intermediate_interactions = 0;
     std::vector<std::string> immediate_milestone_ids;
     std::vector<NodeId> route;
     std::vector<PlannedRouteStep> steps;
 };
 
-bool route_label_better(const RouteLabel& lhs, const RouteLabel& rhs, const std::vector<RouteMilestone>& milestones)
+bool route_label_better(
+    const RouteLabel& lhs,
+    const RouteLabel& rhs,
+    const std::vector<RouteMilestone>& milestones,
+    bool minimize_intermediate_interactions = false)
 {
     const auto lhs_mandatory = mandatory_progress_score(milestones, lhs.progress);
     const auto rhs_mandatory = mandatory_progress_score(milestones, rhs.progress);
@@ -380,14 +390,32 @@ bool route_label_better(const RouteLabel& lhs, const RouteLabel& rhs, const std:
         if (lhs_preferred[index] == rhs_preferred[index]) {
             continue;
         }
-        const std::int64_t lhs_utility = lhs_preferred[index] - route_penalty(lhs.metric);
-        const std::int64_t rhs_utility = rhs_preferred[index] - route_penalty(rhs.metric);
+        const std::int64_t lhs_utility = lhs_preferred[index] - route_penalty(lhs.metric) -
+                                         (minimize_intermediate_interactions ? lhs.intermediate_interactions : 0);
+        const std::int64_t rhs_utility = rhs_preferred[index] - route_penalty(rhs.metric) -
+                                         (minimize_intermediate_interactions ? rhs.intermediate_interactions : 0);
         if (lhs_utility != rhs_utility) {
             return lhs_utility > rhs_utility;
         }
         return lhs_preferred[index] > rhs_preferred[index];
     }
-    if (std::tie(lhs.metric.battles, lhs.metric.processing_moves, lhs.metric.duration) !=
+    if (minimize_intermediate_interactions) {
+        const auto lhs_metric = std::tie(
+            lhs.metric.battles,
+            lhs.intermediate_interactions,
+            lhs.metric.processing_moves,
+            lhs.metric.duration);
+        const auto rhs_metric = std::tie(
+            rhs.metric.battles,
+            rhs.intermediate_interactions,
+            rhs.metric.processing_moves,
+            rhs.metric.duration);
+        if (lhs_metric != rhs_metric) {
+            return lhs_metric < rhs_metric;
+        }
+    }
+    else if (
+        std::tie(lhs.metric.battles, lhs.metric.processing_moves, lhs.metric.duration) !=
         std::tie(rhs.metric.battles, rhs.metric.processing_moves, rhs.metric.duration)) {
         return std::tie(lhs.metric.battles, lhs.metric.processing_moves, lhs.metric.duration) <
                std::tie(rhs.metric.battles, rhs.metric.processing_moves, rhs.metric.duration);
@@ -898,7 +926,8 @@ bool route_may_beat(
     const OnDemandStateGraph& graph,
     const std::vector<RouteMilestone>& milestones,
     const RouteLabel& current,
-    const RouteLabel& incumbent)
+    const RouteLabel& incumbent,
+    bool minimize_intermediate_interactions)
 {
     std::vector<int> upper_progress = current.progress;
     const int entry_limit = maximum_future_entries(map, graph, current.state, current.action_points);
@@ -961,9 +990,13 @@ bool route_may_beat(
     const auto lower_preferred = preferred_progress_score(milestones, current.progress);
     std::vector<std::int64_t> bounded_upper_preferred = preferred_progress_score(milestones, upper_progress);
     const auto incumbent_preferred = preferred_progress_score(milestones, incumbent.progress);
-    const std::int64_t current_penalty = route_penalty(current.metric);
-    const std::int64_t minimum_penalty = route_penalty(minimum_metric);
-    const std::int64_t incumbent_penalty = route_penalty(incumbent.metric);
+    const std::int64_t current_penalty =
+        route_penalty(current.metric) + (minimize_intermediate_interactions ? current.intermediate_interactions : 0);
+    const std::int64_t minimum_penalty =
+        route_penalty(minimum_metric) + (minimize_intermediate_interactions ? current.intermediate_interactions : 0);
+    const std::int64_t incumbent_penalty =
+        route_penalty(incumbent.metric) +
+        (minimize_intermediate_interactions ? incumbent.intermediate_interactions : 0);
     std::vector<std::int64_t> upper_utilities;
     upper_utilities.reserve(bounded_upper_preferred.size());
     std::size_t score_index = 0;
@@ -1008,8 +1041,11 @@ bool route_may_beat(
                     }
                     reward += milestone.weight;
                 }
-                const int net = reward - 1 - (is_combat_node_type(node.type) ? 1 : 0);
-                if (graph.is_terminal_node(id)) {
+                const bool terminal = graph.is_terminal_node(id);
+                const int interaction_penalty =
+                    minimize_intermediate_interactions ? (terminal ? 0 : intermediate_interaction_cost(node.type)) : 1;
+                const int net = reward - interaction_penalty - (is_combat_node_type(node.type) ? 1 : 0);
+                if (terminal) {
                     has_terminal = true;
                     best_terminal_reward = std::max(best_terminal_reward, reward);
                     best_terminal_net = std::max(best_terminal_net, net);
@@ -1064,11 +1100,29 @@ bool route_may_beat(
         }
     }
 
-    const auto minimum_tie = std::tie(minimum_metric.battles, minimum_metric.processing_moves, minimum_metric.duration);
-    const auto incumbent_tie =
-        std::tie(incumbent.metric.battles, incumbent.metric.processing_moves, incumbent.metric.duration);
-    if (minimum_tie != incumbent_tie) {
-        return minimum_tie < incumbent_tie;
+    if (minimize_intermediate_interactions) {
+        const auto minimum_tie = std::tie(
+            minimum_metric.battles,
+            current.intermediate_interactions,
+            minimum_metric.processing_moves,
+            minimum_metric.duration);
+        const auto incumbent_tie = std::tie(
+            incumbent.metric.battles,
+            incumbent.intermediate_interactions,
+            incumbent.metric.processing_moves,
+            incumbent.metric.duration);
+        if (minimum_tie != incumbent_tie) {
+            return minimum_tie < incumbent_tie;
+        }
+    }
+    else {
+        const auto minimum_tie =
+            std::tie(minimum_metric.battles, minimum_metric.processing_moves, minimum_metric.duration);
+        const auto incumbent_tie =
+            std::tie(incumbent.metric.battles, incumbent.metric.processing_moves, incumbent.metric.duration);
+        if (minimum_tie != incumbent_tie) {
+            return minimum_tie < incumbent_tie;
+        }
     }
     return true;
 }
@@ -1111,6 +1165,7 @@ RouteLabel best_route_after_outcome(
     int remaining_action_points,
     const RouteSearchOptions& search_options,
     RouteSearchBudget& search_budget,
+    bool minimize_intermediate_interactions,
     std::string* error)
 {
     RouteLabel initial;
@@ -1139,6 +1194,10 @@ RouteLabel best_route_after_outcome(
     NodeId entered_node = root_move.target;
     if (entered_node == InvalidNodeId) {
         entered_node = graph.state(root_outcome.successor).node;
+    }
+    if (minimize_intermediate_interactions && !graph.is_terminal(root_outcome.successor)) {
+        initial.intermediate_interactions =
+            intermediate_interaction_cost(route_node_type(map, graph, graph.initial_state(), entered_node));
     }
     if (const Node* target = map.find_node(entered_node); target != nullptr) {
         Node entered = *target;
@@ -1172,10 +1231,10 @@ RouteLabel best_route_after_outcome(
         };
     };
     const auto lower_priority = [&](const PendingRoute& lhs, const PendingRoute& rhs) {
-        if (route_label_better(lhs.route, rhs.route, milestones)) {
+        if (route_label_better(lhs.route, rhs.route, milestones, minimize_intermediate_interactions)) {
             return false;
         }
-        if (route_label_better(rhs.route, lhs.route, milestones)) {
+        if (route_label_better(rhs.route, lhs.route, milestones, minimize_intermediate_interactions)) {
             return true;
         }
         return lhs.terminal_depth > rhs.terminal_depth;
@@ -1205,6 +1264,10 @@ RouteLabel best_route_after_outcome(
         next.state = outcome.successor;
         next.action_points = remaining;
         next.metric = add_metric(next.metric, move_metric(map, graph, current.state, action.candidate));
+        if (minimize_intermediate_interactions && !graph.is_terminal(outcome.successor)) {
+            next.intermediate_interactions +=
+                intermediate_interaction_cost(route_node_type(map, graph, current.state, action.candidate.target));
+        }
         MoveCandidate planned_move = action.candidate;
         planned_move.action_point_requirement = requirement;
         next.steps.emplace_back(
@@ -1283,8 +1346,10 @@ RouteLabel best_route_after_outcome(
         const auto lhs_preferred = preferred_progress_score(milestones, lhs.progress);
         const auto rhs_preferred = preferred_progress_score(milestones, rhs.progress);
         for (std::size_t index = 0; index < std::min(lhs_preferred.size(), rhs_preferred.size()); ++index) {
-            const std::int64_t lhs_utility = lhs_preferred[index] - route_penalty(lhs.metric);
-            const std::int64_t rhs_utility = rhs_preferred[index] - route_penalty(rhs.metric);
+            const std::int64_t lhs_utility = lhs_preferred[index] - route_penalty(lhs.metric) -
+                                             (minimize_intermediate_interactions ? lhs.intermediate_interactions : 0);
+            const std::int64_t rhs_utility = rhs_preferred[index] - route_penalty(rhs.metric) -
+                                             (minimize_intermediate_interactions ? rhs.intermediate_interactions : 0);
             if (lhs_utility != rhs_utility) {
                 return lhs_utility > rhs_utility;
             }
@@ -1297,7 +1362,7 @@ RouteLabel best_route_after_outcome(
         if (lhs_flexibility != rhs_flexibility) {
             return lhs_flexibility > rhs_flexibility;
         }
-        return route_label_better(lhs, rhs, milestones);
+        return route_label_better(lhs, rhs, milestones, minimize_intermediate_interactions);
     };
     const auto complete_greedy = [&](RouteLabel greedy) -> std::optional<RouteLabel> {
         struct PreviewedAction
@@ -1477,7 +1542,7 @@ RouteLabel best_route_after_outcome(
             }
             else {
                 std::ranges::stable_sort(previews, [&](const PreviewedAction& lhs, const PreviewedAction& rhs) {
-                    return route_label_better(lhs.preview, rhs.preview, milestones);
+                    return route_label_better(lhs.preview, rhs.preview, milestones, minimize_intermediate_interactions);
                 });
                 const auto find_first_safe = [&](const auto& predicate) -> std::optional<RouteLabel> {
                     for (const PreviewedAction& preview : previews) {
@@ -1532,12 +1597,14 @@ RouteLabel best_route_after_outcome(
         pending.pop();
         ++expanded_routes;
         if (graph.is_terminal(current.state)) {
-            if (!best.has_value() || route_label_better(current, *best, milestones)) {
+            if (!best.has_value() ||
+                route_label_better(current, *best, milestones, minimize_intermediate_interactions)) {
                 best = current;
             }
             continue;
         }
-        if (best.has_value() && !route_may_beat(map, graph, milestones, current, *best)) {
+        if (best.has_value() &&
+            !route_may_beat(map, graph, milestones, current, *best, minimize_intermediate_interactions)) {
             continue;
         }
 
@@ -1560,6 +1627,10 @@ RouteLabel best_route_after_outcome(
             next.state = outcome.successor;
             next.action_points = remaining;
             next.metric = add_metric(next.metric, move_metric(map, graph, current.state, action.candidate));
+            if (minimize_intermediate_interactions && !graph.is_terminal(outcome.successor)) {
+                next.intermediate_interactions +=
+                    intermediate_interaction_cost(route_node_type(map, graph, current.state, action.candidate.target));
+            }
             MoveCandidate planned_move = action.candidate;
             planned_move.action_point_requirement = requirement;
             next.steps.emplace_back(
@@ -1589,6 +1660,8 @@ RouteLabel best_route_after_outcome(
             const bool dominated = std::ranges::any_of(existing, [&](const RouteLabel& value) {
                 return value.progress == next.progress && value.counted == next.counted &&
                        value.action_points >= next.action_points &&
+                       (!minimize_intermediate_interactions ||
+                        value.intermediate_interactions <= next.intermediate_interactions) &&
                        route_metric_weakly_better(value.metric, next.metric);
             });
             if (dominated) {
@@ -1597,6 +1670,8 @@ RouteLabel best_route_after_outcome(
             std::erase_if(existing, [&](const RouteLabel& value) {
                 return value.progress == next.progress && value.counted == next.counted &&
                        next.action_points >= value.action_points &&
+                       (!minimize_intermediate_interactions ||
+                        next.intermediate_interactions <= value.intermediate_interactions) &&
                        route_metric_weakly_better(next.metric, value.metric);
             });
             existing.emplace_back(next);
@@ -1648,10 +1723,22 @@ void set_route_feature_facts(FactStore& facts, const ReachableFeatures& possible
     facts.set("candidate.guaranteed_route_has_badged_incident", guaranteed.has_badged_incident);
 }
 
+void set_first_move_facts(FactStore& facts, const RunState& run, const MoveCandidate& move)
+{
+    facts.set("candidate.movement", std::string(to_string(move.movement)));
+    facts.set(
+        "candidate.move_edges",
+        static_cast<std::int64_t>(move.movement == MovementKind::Walk ? move.path.size() : 0));
+    facts.set(
+        "candidate.requires_movement_switch",
+        !run.active_movement.has_value() || *run.active_movement != move.movement);
+}
+
 FactStore on_demand_candidate_facts(
     const MapSnapshot& map,
     OnDemandStateGraph& graph,
-    const OnDemandSafetyAction& root_action)
+    const OnDemandSafetyAction& root_action,
+    const RunState& run)
 {
     FactStore facts;
     const MoveCandidate& move = root_action.candidate;
@@ -1666,6 +1753,7 @@ FactStore on_demand_candidate_facts(
         "candidate.exit",
         target != nullptr && (target->type == NodeType::Final || target->type == NodeType::BattleBoss));
     facts.set("candidate.uses_processing_item", move.movement != MovementKind::Walk);
+    set_first_move_facts(facts, run, move);
     facts.set(
         "candidate.light_reveal_count",
         static_cast<std::int64_t>(
@@ -1683,6 +1771,7 @@ FactStore BlackFlowPlanner::candidate_facts(
     const ExpandedSafetyProblem& expanded,
     const SafetySolution& solution,
     const SafetyAction& root_action,
+    const RunState& run,
     int current_action_points) const
 {
     FactStore facts;
@@ -1702,6 +1791,7 @@ FactStore BlackFlowPlanner::candidate_facts(
         "candidate.exit",
         target != nullptr && (target->type == NodeType::Final || target->type == NodeType::BattleBoss));
     facts.set("candidate.uses_processing_item", move.movement != MovementKind::Walk);
+    set_first_move_facts(facts, run, move);
     facts.set(
         "candidate.light_reveal_count",
         static_cast<std::int64_t>(
@@ -1822,6 +1912,9 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
     }
     result.map_revision = request.map->revision;
     result.cost_revision = request.run->costs.revision;
+    const bool minimize_intermediate_interactions =
+        std::ranges::find(request.policy->route_preferences, RoutePreference::MinimizeIntermediateInteractions) !=
+        request.policy->route_preferences.end();
     if (request.mission->viability == MissionViability::Impossible) {
         result.error = "active strategy has an impossible mandatory milestone";
         return result;
@@ -1999,7 +2092,7 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         candidate.safe = confirmed_safe || (relaxed_safe && candidate.move.controllable);
         const bool probing_target = request.probe_target.has_value() && candidate.move.target == *request.probe_target;
         candidate.move.requires_preview_verification = candidate.safe && (!confirmed_safe || probing_target);
-        candidate.facts = on_demand_candidate_facts(*request.map, relaxed_graph, action);
+        candidate.facts = on_demand_candidate_facts(*request.map, relaxed_graph, action, *request.run);
         if (!error.empty() || !relaxed_oracle.error().empty()) {
             result.error =
                 "candidate reachability calculation failed: " + (!error.empty() ? error : relaxed_oracle.error());
@@ -2022,6 +2115,7 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         std::optional<ReachableFeatures> guaranteed_route_features;
         std::vector<int> guaranteed_progress;
         RouteMetric worst_metric;
+        int worst_intermediate_interactions = 0;
         for (const OnDemandSafetyOutcome& outcome : action.outcomes) {
             const int remaining =
                 action_points_after(current_action_points, action.action_point_cost, outcome.action_point_gain);
@@ -2038,12 +2132,15 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
                 remaining,
                 request.route_search,
                 route_search_budget,
+                minimize_intermediate_interactions,
                 &error);
             if (!error.empty() || !relaxed_oracle.error().empty()) {
                 result.error =
                     "candidate route calculation failed: " + (!error.empty() ? error : relaxed_oracle.error());
                 return result;
             }
+            worst_intermediate_interactions =
+                std::max(worst_intermediate_interactions, route.intermediate_interactions);
             const ReachableFeatures outcome_features = planned_route_features(*request.map, route.route);
             merge_route_union(possible_route_features, outcome_features);
             if (!guaranteed_route_features.has_value()) {
@@ -2082,8 +2179,12 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
             candidate.milestone_progress.emplace(milestones[index].definition->id, guaranteed_progress[index]);
         }
         candidate.battle_count = worst_metric.battles;
+        candidate.intermediate_interaction_count = worst_intermediate_interactions;
         candidate.processing_move_count = worst_metric.processing_moves;
         candidate.estimated_duration = worst_metric.duration;
+        candidate.facts.set(
+            "candidate.intermediate_interactions",
+            static_cast<std::int64_t>(candidate.intermediate_interaction_count));
         candidate.development_score = 0;
         policy_candidates.emplace_back(std::move(candidate));
     }

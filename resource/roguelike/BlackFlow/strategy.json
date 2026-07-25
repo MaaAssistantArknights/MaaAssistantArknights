@@ -230,6 +230,30 @@
             "scope": "candidate"
         },
         {
+            "name": "candidate.movement",
+            "type": "string",
+            "scope": "candidate",
+            "description": "候选首步使用的移动方式 ID"
+        },
+        {
+            "name": "candidate.move_edges",
+            "type": "int",
+            "scope": "candidate",
+            "description": "候选首步徒步经过的确认边数；加工品移动为 0"
+        },
+        {
+            "name": "candidate.requires_movement_switch",
+            "type": "bool",
+            "scope": "candidate",
+            "description": "执行候选首步前是否需要切换移动方式"
+        },
+        {
+            "name": "candidate.intermediate_interactions",
+            "type": "int",
+            "scope": "candidate",
+            "description": "抵达策略终点前需要处理的中途交互节点数"
+        },
+        {
             "name": "candidate.light_reveal_count",
             "type": "int",
             "scope": "candidate"
@@ -670,7 +694,61 @@
         },
         {
             "id": "investment_route",
-            "rules": [],
+            "route_preferences": ["minimize_intermediate_interactions"],
+            "rules": [
+                {
+                    "id": "investment_keep_short_walk",
+                    "description": "商店距离不超过两格时保持徒步",
+                    "kind": "prefer",
+                    "tier": "resource_reserve",
+                    "rank": 0,
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.node_type",
+                                "op": "eq",
+                                "value": "shop"
+                            },
+                            {
+                                "fact": "candidate.movement",
+                                "op": "eq",
+                                "value": "walk"
+                            },
+                            {
+                                "fact": "candidate.move_edges",
+                                "op": "le",
+                                "value": 2
+                            },
+                            {
+                                "fact": "candidate.requires_movement_switch",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "investment_use_m11_for_direct_shop",
+                    "description": "没有短途徒步方案时使用结构性原理直达商店",
+                    "kind": "prefer",
+                    "tier": "resource_reserve",
+                    "rank": 1,
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.node_type",
+                                "op": "eq",
+                                "value": "shop"
+                            },
+                            {
+                                "fact": "candidate.movement",
+                                "op": "eq",
+                                "value": "rogue_6_scrap_M_11"
+                            }
+                        ]
+                    }
+                }
+            ],
             "milestones": [
                 {
                     "id": "investment_shop",

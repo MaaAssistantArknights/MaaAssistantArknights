@@ -233,10 +233,16 @@ struct MissionState
     void refresh(const std::vector<Milestone>& definitions, int floor, const FactStore& facts);
 };
 
+enum class RoutePreference
+{
+    MinimizeIntermediateInteractions,
+};
+
 struct PolicyModule
 {
     std::string id;
     std::string description;
+    std::vector<RoutePreference> route_preferences;
     std::vector<PolicyRule> rules;
     std::vector<ResourceReserve> reserves;
     std::vector<Milestone> milestones;
@@ -266,6 +272,7 @@ struct ResolvedPolicy
     std::string profile_id;
     std::string description;
     std::vector<std::string> modules;
+    std::vector<RoutePreference> route_preferences;
     std::vector<PolicyRule> rules;
     std::vector<ResourceReserve> reserves;
     std::vector<Milestone> milestones;
@@ -307,6 +314,7 @@ struct PolicyCandidate
     int development_score = 0;
     int risk_score = 0;
     int battle_count = 0;
+    int intermediate_interaction_count = 0;
     int processing_move_count = 0;
     int estimated_duration = 0;
     std::unordered_map<std::string, int> milestone_progress;

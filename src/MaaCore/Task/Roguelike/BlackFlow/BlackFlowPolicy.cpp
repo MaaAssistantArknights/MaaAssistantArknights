@@ -543,6 +543,9 @@ PolicyDecision PolicyExecutor::choose(
 {
     PolicyDecision decision;
     decision.total_candidates = candidates.size();
+    const bool minimize_intermediate_interactions =
+        std::ranges::find(policy.route_preferences, RoutePreference::MinimizeIntermediateInteractions) !=
+        policy.route_preferences.end();
     auto reject = [&](const PolicyCandidate& candidate, std::string category, std::string detail) {
         ++decision.rejection_counts[category];
         decision.rejected.emplace_back(candidate.move.action_id + ": " + std::move(detail));
@@ -705,7 +708,8 @@ PolicyDecision PolicyExecutor::choose(
                     });
                     if (varies) {
                         add_score(
-                            candidate->estimated_duration + candidate->battle_count + candidate->processing_move_count -
+                            candidate->estimated_duration + candidate->battle_count + candidate->processing_move_count +
+                                (minimize_intermediate_interactions ? candidate->intermediate_interaction_count : 0) -
                                 progress_sum,
                             category,
                             {},
@@ -742,6 +746,12 @@ PolicyDecision PolicyExecutor::choose(
             }
         }
         add_score(candidate->battle_count, DecisionReasonCategory::RiskAvoidance, "battle_count");
+        if (minimize_intermediate_interactions) {
+            add_score(
+                candidate->intermediate_interaction_count,
+                DecisionReasonCategory::TieBreak,
+                "intermediate_interaction_count");
+        }
         add_score(candidate->estimated_duration, DecisionReasonCategory::TieBreak, "estimated_duration");
         add_score(candidate->processing_move_count, DecisionReasonCategory::ResourceReserve, "processing_move_count");
         add_score(candidate->risk_score, DecisionReasonCategory::RiskAvoidance, "risk_score");

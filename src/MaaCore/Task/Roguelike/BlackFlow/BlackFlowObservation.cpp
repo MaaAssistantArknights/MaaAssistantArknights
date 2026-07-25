@@ -40,6 +40,24 @@ bool identity_revealed_for(std::string_view type) noexcept
 {
     return type != "unclassified" && type != "hide_battle" && type != "hide_invisible";
 }
+
+const PerceptionNodeObservation* infer_first_floor_shop(const BlackFlowMapObservation& source) noexcept
+{
+    if (source.state_machine_floor != 1) {
+        return nullptr;
+    }
+
+    const PerceptionNodeObservation* result = nullptr;
+    for (const auto& node : source.nodes) {
+        if (!node.exists || node.position.row != 1 || node.type != "hide_invisible") {
+            continue;
+        }
+        if (result == nullptr || node.position.column > result->position.column) {
+            result = &node;
+        }
+    }
+    return result;
+}
 } // namespace
 
 std::optional<NodeType> BlackFlowObservationAdapter::map_node_type(std::string_view type) noexcept
@@ -101,6 +119,7 @@ std::optional<NormalizedPerceptionObservation>
     result.summary.attempt_count = source.attempt_count;
     result.summary.retry_count = source.retry_count;
 
+    const PerceptionNodeObservation* inferred_shop = infer_first_floor_shop(source);
     std::unordered_map<int, const PerceptionNodeObservation*> by_temporary_id;
     std::unordered_map<int, NodeId> stable_ids;
     for (const auto& source_node : source.nodes) {
@@ -118,13 +137,14 @@ std::optional<NormalizedPerceptionObservation>
         }
         stable_ids.emplace(source_node.temporary_id, *stable);
 
+        const bool is_inferred_shop = inferred_shop == &source_node;
         ObservedNode node;
         node.position = source_node.position;
-        node.type = *type;
+        node.type = is_inferred_shop ? NodeType::Shop : *type;
         node.name = source_node.displayed_name;
 
-        node.identity_state = identity_state_for(source_node.type);
-        node.identity_revealed = identity_revealed_for(source_node.type);
+        node.identity_state = is_inferred_shop ? NodeIdentityState::Classified : identity_state_for(source_node.type);
+        node.identity_revealed = is_inferred_shop || identity_revealed_for(source_node.type);
         node.badged = source_node.badged;
         if (source_node.transfer_target.has_value()) {
             node.transfer_target = source_node.transfer_target;
