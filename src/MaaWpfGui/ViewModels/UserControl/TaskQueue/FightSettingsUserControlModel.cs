@@ -462,7 +462,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             // 游戏更新后、MAA 适配前，强制锁定为不切换，不写入配置
             if (IsSeriesLocked)
             {
-                NotifyOfPropertyChange(nameof(Series));
+                // 被钳制时延迟通知，绕过 WPF TwoWay binding writeback 期间的 PropertyChanged 忽略
+                Application.Current.Dispatcher.BeginInvoke(() => NotifyOfPropertyChange(nameof(Series)));
                 return;
             }
 
@@ -473,17 +474,17 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 value = 6;
             }
 
-            // 适配后删除 end
             if (SetTaskConfig<FightTask>(t => t.Series == value, t => t.Series = value))
             {
                 SetFightParams();
             }
 
             // 适配后删除 start
-            else if (clamped)
+            if (clamped)
             {
                 // 值被钳制但配置未变（已经是 6），仍需通知 UI 回弹
-                NotifyOfPropertyChange(nameof(Series));
+                // 被钳制时延迟通知，绕过 WPF TwoWay binding writeback 期间的 PropertyChanged 忽略
+                Application.Current.Dispatcher.BeginInvoke(() => NotifyOfPropertyChange(nameof(Series)));
             }
 
             // 适配后删除 end
