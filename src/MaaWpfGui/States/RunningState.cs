@@ -95,7 +95,7 @@ public class RunningState
                 }
             }
         }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes;
 
     /// <summary>
     /// Gets or sets a value indicating whether 启用停滞检测
