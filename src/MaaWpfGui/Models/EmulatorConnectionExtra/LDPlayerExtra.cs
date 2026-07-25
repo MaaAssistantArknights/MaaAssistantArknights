@@ -26,9 +26,18 @@ using Serilog;
 
 namespace MaaWpfGui.Models.EmulatorConnectionExtra;
 
-public class LDPlayerExtra : ExtraConfig, IJsonOnDeserialized
+public class LDPlayerExtra() : ExtraConfig, IJsonOnDeserialized
 {
     private static readonly ILogger _logger = Log.ForContext<LDPlayerExtra>();
+
+    public LDPlayerExtra(bool isEnabled, string emulatorPath, bool manualSetIndex, int instanceIndex)
+        : this()
+    {
+        _isEnabled = isEnabled;
+        _emulatorPath = emulatorPath;
+        _manualSetIndex = manualSetIndex;
+        _instanceIndex = instanceIndex;
+    }
 
     public void OnDeserialized()
     {
@@ -37,14 +46,14 @@ public class LDPlayerExtra : ExtraConfig, IJsonOnDeserialized
 
     [JsonInclude]
     [JsonPropertyName("IsEnabled")]
-    private bool _enable;
+    private bool _isEnabled;
 
     [JsonIgnore]
     public bool Enable
     {
-        get => _enable;
+        get => _isEnabled;
         set {
-            if (!SetAndNotify(ref _enable, value))
+            if (!SetAndNotify(ref _isEnabled, value))
             {
                 return;
             }
@@ -139,7 +148,7 @@ public class LDPlayerExtra : ExtraConfig, IJsonOnDeserialized
     {
         get => _emulatorPath;
         set {
-            if (_enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
+            if (_isEnabled && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
             {
                 MessageBoxHelper.Show(LocalizationHelper.GetString("LdPlayerEmulatorPathNotFound"));
                 MessageBoxHelper.Show(LocalizationHelper.GetString("LdExtrasEnabledTip"));

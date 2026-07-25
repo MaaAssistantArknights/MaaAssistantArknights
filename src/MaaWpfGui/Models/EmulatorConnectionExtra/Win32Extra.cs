@@ -19,7 +19,7 @@ using Serilog;
 
 namespace MaaWpfGui.Models.EmulatorConnectionExtra;
 
-public class Win32Extra : ExtraConfig
+public class Win32Extra() : ExtraConfig
 {
     private static readonly ILogger _logger = Log.ForContext<Win32Extra>();
 
@@ -50,6 +50,14 @@ public class Win32Extra : ExtraConfig
 #pragma warning restore SA1602 // Enumeration items should be documented
     #endregion Enums
 
+    public Win32Extra(AsstWin32ScreencapMethod screencapMethod,AsstWin32InputMethod inputMethod, AsstWin32KeyboardInputMethod keyboardInputMethod)
+        : this()
+    {
+        _screencapMethod = screencapMethod;
+        _mouseMethod = inputMethod;
+        _KeyboardMethod = keyboardInputMethod;
+    }
+
     /// <summary>
     /// Gets win32 截图方式枚举（与 AsstCaller.h 中 AsstWin32ScreencapMethodEnum 对应）
     /// </summary>
@@ -66,7 +74,7 @@ public class Win32Extra : ExtraConfig
 
     [JsonInclude]
     [JsonPropertyName("ScreencapMethod")]
-    private AsstWin32ScreencapMethod _ScreencapMethod = AsstWin32ScreencapMethod.FramePool; // 默认 FramePool
+    private AsstWin32ScreencapMethod _screencapMethod = AsstWin32ScreencapMethod.FramePool; // 默认 FramePool
 
     /// <summary>
     /// Gets or sets the screencap method for AttachWindow mode.
@@ -74,17 +82,17 @@ public class Win32Extra : ExtraConfig
     [JsonIgnore]
     public AsstWin32ScreencapMethod ScreencapMethod
     {
-        get => _ScreencapMethod;
+        get => _screencapMethod;
         set {
             Instances.AsstProxy.Connected = false;
-            SetAndNotify(ref _ScreencapMethod, value);
+            SetAndNotify(ref _screencapMethod, value);
         }
     }
 
     /// <summary>
     /// Win32 鼠标输入方式枚举（与 AsstCaller.h 中 AsstWin32InputMethodEnum 对应）
     /// </summary>
-    private static readonly List<GenericCombinedData<AsstWin32InputMethod>> _MouseMethodList =
+    private static readonly List<GenericCombinedData<AsstWin32InputMethod>> _mouseMethodList =
     [
         new(LocalizationHelper.GetString("AttachWindowInputSeize"),  AsstWin32InputMethod.Seize),
         new(LocalizationHelper.GetString("AttachWindowInputSendWithCursor"),  AsstWin32InputMethod.SendMessageWithCursorPos),
@@ -92,11 +100,11 @@ public class Win32Extra : ExtraConfig
     ];
 
     [JsonIgnore]
-    public List<GenericCombinedData<AsstWin32InputMethod>> MouseMethodList => _MouseMethodList;
+    public List<GenericCombinedData<AsstWin32InputMethod>> MouseMethodList => _mouseMethodList;
 
     [JsonInclude]
     [JsonPropertyName("MouseMethod")]
-    private AsstWin32InputMethod _MouseMethod = AsstWin32InputMethod.SendMessageWithCursorPos; // 默认 SendMessageWithCursor
+    private AsstWin32InputMethod _mouseMethod = AsstWin32InputMethod.SendMessageWithCursorPos; // 默认 SendMessageWithCursor
 
     /// <summary>
     /// Gets or sets the mouse input method for AttachWindow mode.
@@ -104,10 +112,10 @@ public class Win32Extra : ExtraConfig
     [JsonIgnore]
     public AsstWin32InputMethod MouseMethod
     {
-        get => _MouseMethod;
+        get => _mouseMethod;
         set {
             Instances.AsstProxy.Connected = false;
-            SetAndNotify(ref _MouseMethod, value);
+            SetAndNotify(ref _mouseMethod, value);
         }
     }
 

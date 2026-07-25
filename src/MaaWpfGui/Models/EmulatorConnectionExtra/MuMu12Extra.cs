@@ -27,9 +27,18 @@ using Serilog;
 
 namespace MaaWpfGui.Models.EmulatorConnectionExtra;
 
-public class MuMu12Extra : ExtraConfig, IJsonOnDeserialized
+public class MuMu12Extra() : ExtraConfig, IJsonOnDeserialized
 {
     private static readonly ILogger _logger = Log.ForContext<MuMu12Extra>();
+
+    public MuMu12Extra(bool isEnabled, string emulatorPath, bool enableBridgeConnection, int instanceIndex)
+        : this()
+    {
+        _enable = isEnabled;
+        _emulatorPath = emulatorPath;
+        _enableBridgeConnection = enableBridgeConnection;
+        _instanceIndex = instanceIndex;
+    }
 
     public void OnDeserialized()
     {
