@@ -37,7 +37,7 @@
             ItemsSource="{Binding ClientTypeList}"
             SelectedValue="{Binding ClientType}"
             SelectedValuePath="Value" />
-        <controls:TextBlock HorizontalAlignment="Center" Visibility="{c:Binding 'ClientType == enums:ClientType.EN'}">
+        <controls:TextBlock HorizontalAlignment="Center" Visibility="{c:Binding 'ClientType == enums:ClientType.EN', Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}">
             <Hyperlink
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.YostarENResolution}}"
@@ -82,7 +82,8 @@
             Margin="0,10,0,10"
             HorizontalAlignment="Center"
             FontSize="10"
-            Visibility="{c:Binding 'ClientType != enums:ClientType.Official and ClientType != enums:ClientType.Bilibili'}">
+            Visibility="{c:Binding 'ClientType != enums:ClientType.Official and ClientType != enums:ClientType.Bilibili',
+                                   Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}">
             <Hyperlink
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.OverseasAdaptation}}"
