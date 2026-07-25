@@ -77,30 +77,6 @@ std::unordered_set<NodeId> terminal_nodes_for(
 
 } // namespace
 
-PageIdentityResolution resolve_page_identity(
-    NodeType map_type,
-    std::string map_name,
-    const MovePreview* preview,
-    const EnteredPageObservation& entered_page)
-{
-    PageIdentityResolution result { map_type, std::move(map_name) };
-    const bool map_identity_unresolved =
-        map_type == NodeType::Unknown || map_type == NodeType::HideInvisible || map_type == NodeType::HideBattle;
-    if (!map_identity_unresolved || entered_page.classification_conflict) {
-        return result;
-    }
-    if (entered_page.classified_type.has_value()) {
-        result.type = *entered_page.classified_type;
-    }
-    else if (preview != nullptr && preview->displayed_type != NodeType::Unknown) {
-        result.type = preview->displayed_type;
-    }
-    if (preview != nullptr && !preview->displayed_name.empty()) {
-        result.name = preview->displayed_name;
-    }
-    return result;
-}
-
 json::object BlackFlowStrategyResult::to_json() const
 {
     return {
@@ -444,7 +420,13 @@ void BlackFlowSession::queue_map_summary(const PerceptionSummary& summary)
         "unclassified",
         summary.unclassified_count,
         "attempts",
-        summary.attempt_count);
+        summary.attempt_count,
+        "retries",
+        summary.retry_count,
+        "screenshot us",
+        summary.screenshot_us,
+        "recognition us",
+        summary.recognition_us);
     m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowMapSummary", details });
 
     std::vector<json::value> nodes;
@@ -1553,7 +1535,8 @@ int BlackFlowSession::expected_observation_floor() const noexcept
         return 1;
     }
     if (m_transaction.has_value() && m_page_context.has_value() &&
-        m_transaction->stage() == MoveTransactionStage::PageResolved && m_page_context->node_type == NodeType::Final) {
+        m_transaction->stage() == MoveTransactionStage::PageResolved &&
+        (m_page_context->node_type == NodeType::Final || m_page_context->node_type == NodeType::BattleBoss)) {
         return m_run.floor + 1;
     }
     return m_run.floor;

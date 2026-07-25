@@ -2,6 +2,7 @@
 
 #include "AbstractResource.h"
 
+#include <mutex>
 #include <unordered_map>
 
 #if __has_include(<onnxruntime_cxx_api.h>)
@@ -21,14 +22,20 @@ public:
     virtual bool load(const std::filesystem::path& path) override;
 
     Ort::Session& get(const std::string& name);
+    Ort::Session& acquire(const std::string& name);
+    void release(const std::string& name);
     bool use_cpu();
     bool use_gpu(int device_id);
 
 private:
+    Ort::Session& get_or_create(const std::string& name);
+
     Ort::Env m_env;
     Ort::SessionOptions m_options;
     std::unordered_map<std::string, Ort::Session> m_sessions;
     std::unordered_map<std::string, std::filesystem::path> m_model_paths;
+    std::unordered_map<std::string, std::size_t> m_session_users;
+    std::mutex m_mutex;
     bool gpu_enabled = false;
 };
 }

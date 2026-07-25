@@ -4,7 +4,7 @@
         {
             "id": "final_encounter",
             "page_intent": "default",
-            "node_types": ["final"],
+            "node_types": ["final", "battle_boss"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
             "task": "BlackFlow@Roguelike@Page-FinalEncounter",

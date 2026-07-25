@@ -85,6 +85,8 @@ struct BlackFlowPerceptionSnapshot
 struct BlackFlowObservationRequest
 {
     int expected_floor = 1;
+    int attempt_count = 1;
+    std::int64_t capture_us = 0;
 };
 
 struct EnteredPageObservation

@@ -5,6 +5,8 @@
 
 #include "BlackFlowTaskPort.h"
 
+#include "Utils/Logger.hpp"
+
 namespace asst::blackflow
 {
 enum class RoutingCycleStatus
@@ -30,12 +32,37 @@ template <typename Session>
 bool refresh_with_retries(Session& session, IBlackFlowTaskPort& port, std::string* error)
 {
     std::string latest_error;
-    const BlackFlowObservationRequest request { session.expected_observation_floor() };
     for (int attempt = 0; attempt < 2; ++attempt) {
+        const BlackFlowObservationRequest request { session.expected_observation_floor(), attempt + 1 };
         BlackFlowPerceptionSnapshot snapshot;
         std::string current_error;
         if (port.refresh(request, snapshot, &current_error) && session.update(snapshot, &current_error)) {
             return true;
+        }
+        const auto* failure = current_error.empty() ? "unknown" : current_error.c_str();
+        if (attempt == 0) {
+            Log.info(
+                "BlackFlow map rebuild attempt failed",
+                "floor",
+                request.expected_floor,
+                "attempt",
+                attempt + 1,
+                "of",
+                2,
+                "error",
+                failure);
+        }
+        else {
+            Log.debug(
+                "BlackFlow map rebuild attempt failed",
+                "floor",
+                request.expected_floor,
+                "attempt",
+                attempt + 1,
+                "of",
+                2,
+                "error",
+                failure);
         }
         if (!current_error.empty()) {
             latest_error = std::move(current_error);

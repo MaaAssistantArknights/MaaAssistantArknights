@@ -1,0 +1,256 @@
+{
+    "schema_version": 2,
+    "package_id": "blackflow_templates_uniform_ordinary_v2",
+    "ordinary_template_policy": "metadata_only_ocr_primary",
+    "special_template_prefixes": ["BlackFlow@Roguelike@battle_mid_boss_", "BlackFlow@Roguelike@battle_boss_"],
+    "ocr_labels": [
+        {
+            "text": "险路尽头",
+            "display_name": "险路尽头",
+            "node_type": "final"
+        },
+        {
+            "text": "险路恶敌",
+            "display_name": "险路恶敌",
+            "node_type": "battle_boss"
+        },
+        {
+            "text": "险路小径",
+            "display_name": "险路小径",
+            "node_type": "evacuate"
+        }
+    ],
+    "templates": [
+        {
+            "file": "BlackFlow@Roguelike@battle_elite.png",
+            "node_type": "battle_elite",
+            "display_name": "紧急作战",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@battle_normal.png",
+            "node_type": "battle_normal",
+            "display_name": "作战",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@battle_savage.png",
+            "node_type": "battle_savage",
+            "display_name": "狭路相逢",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@door.png",
+            "node_type": "door",
+            "display_name": "曲折密道",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@employ.png",
+            "node_type": "employ",
+            "display_name": "应急助力",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@expedition.png",
+            "node_type": "expedition",
+            "display_name": "先行一步",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@hide_battle.png",
+            "node_type": "hide_battle",
+            "display_name": "未知的凶戾",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@hide_invisible.png",
+            "node_type": "hide_invisible",
+            "display_name": "未知的诡秘",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@incident.png",
+            "node_type": "incident",
+            "display_name": "不期而遇",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@light.png",
+            "node_type": "light",
+            "display_name": "羽瞰点",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@portal.png",
+            "node_type": "portal",
+            "display_name": "误入奇境",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@rest.png",
+            "node_type": "rest",
+            "display_name": "安全的角落",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@sacrifice.png",
+            "node_type": "sacrifice",
+            "display_name": "失与得",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@scrap_shop.png",
+            "node_type": "scrap_shop",
+            "display_name": "秘境行商",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@shop.png",
+            "node_type": "shop",
+            "display_name": "诡意行商",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@wish.png",
+            "node_type": "wish",
+            "display_name": "得偿所愿",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@empty.png",
+            "node_type": "empty",
+            "display_name": "空节点",
+            "role": "empty",
+            "threshold": 0.5,
+            "seed_anchor": true,
+            "width": 18,
+            "height": 18
+        },
+        {
+            "file": "BlackFlow@Roguelike@current_marker.png",
+            "node_type": "current_marker",
+            "display_name": "当前位置人物标记",
+            "role": "current_marker",
+            "threshold": 0.6,
+            "seed_anchor": false,
+            "width": 23,
+            "height": 47
+        },
+        {
+            "file": "BlackFlow@Roguelike@evacuate.png",
+            "node_type": "evacuate",
+            "display_name": "险路小径",
+            "role": "special",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 67,
+            "height": 66
+        },
+        {
+            "file": "BlackFlow@Roguelike@final.png",
+            "node_type": "final",
+            "display_name": "险路尽头",
+            "role": "special",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 67,
+            "height": 66
+        },
+        {
+            "file": "BlackFlow@Roguelike@battle_mid_boss_shsgzd.png",
+            "node_type": "battle_boss",
+            "display_name": "险路恶敌",
+            "role": "special",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 67,
+            "height": 66
+        },
+        {
+            "file": "BlackFlow@Roguelike@battle_mid_boss_shwksc.png",
+            "node_type": "battle_boss",
+            "display_name": "险路恶敌",
+            "role": "special",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 67,
+            "height": 66
+        },
+        {
+            "file": "BlackFlow@Roguelike@battle_boss_cadejo.png",
+            "node_type": "battle_boss",
+            "display_name": "险路恶敌",
+            "role": "special",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 67,
+            "height": 66
+        }
+    ],
+    "template_root": "Roguelike/BlackFlow"
+}

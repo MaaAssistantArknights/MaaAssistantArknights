@@ -359,6 +359,8 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
         }
 
         const Node* current = working.m_snapshot.find_node(*id);
+        const bool preserve_door_identity = current != nullptr && current->type == NodeType::Door &&
+                                            observed.type.has_value() && *observed.type != NodeType::Door;
         Node node = current == nullptr ? Node {} : *current;
         if (current == nullptr) {
             node.id = *id;
@@ -366,7 +368,7 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
             node.position = observed.position;
             node.traversal = default_traversal_for(NodeType::Unknown);
         }
-        if (observed.type.has_value()) {
+        if (observed.type.has_value() && !preserve_door_identity) {
             const bool newly_classified = node.type == NodeType::Unknown && *observed.type != NodeType::Unknown;
             node.type = *observed.type;
             if (!observed.traversal.has_value() &&
@@ -374,36 +376,34 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
                 node.traversal = default_traversal_for(node.type);
             }
         }
-        if (observed.name.has_value()) {
+        if (observed.name.has_value() && !preserve_door_identity) {
             node.name = *observed.name;
         }
         if (observed.progress.has_value()) {
             node.progress = *observed.progress;
         }
-        if (observed.traversal.has_value()) {
+        if (observed.traversal.has_value() && !preserve_door_identity) {
             node.traversal = *observed.traversal;
         }
-        if (observed.identity_state.has_value()) {
+        if (observed.identity_state.has_value() && !preserve_door_identity) {
             node.identity_state = *observed.identity_state;
         }
-        if (observed.identity_revealed.has_value()) {
+        if (observed.identity_revealed.has_value() && !preserve_door_identity) {
             node.identity_revealed = *observed.identity_revealed;
         }
-        if (observed.badged.has_value()) {
+        if (observed.badged.has_value() && !preserve_door_identity) {
             node.badged = *observed.badged;
         }
-        if (observed.transfer_target.has_value()) {
-            if (observed.transfer_target->has_value()) {
-                node.transfer_target = make_stable_node_id(batch.floor, **observed.transfer_target);
-                if (!node.transfer_target.has_value()) {
-                    if (error != nullptr) {
-                        *error = "observation contains an invalid transfer target";
-                    }
-                    return false;
+        if (observed.transfer_target.has_value() && observed.transfer_target->has_value()) {
+            const auto transfer_target = make_stable_node_id(batch.floor, **observed.transfer_target);
+            if (!transfer_target.has_value()) {
+                if (error != nullptr) {
+                    *error = "observation contains an invalid transfer target";
                 }
+                return false;
             }
-            else {
-                node.transfer_target.reset();
+            if (!node.transfer_target.has_value()) {
+                node.transfer_target = *transfer_target;
             }
         }
         if (!working.m_snapshot.upsert_node(std::move(node))) {
@@ -437,7 +437,7 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
             return false;
         }
         const Node* current = working.m_snapshot.find_node(*id);
-        if (current == nullptr) {
+        if (current == nullptr || current->type == NodeType::Door) {
             continue;
         }
         Node empty = *current;
@@ -448,8 +448,31 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
         empty.identity_state = NodeIdentityState::Classified;
         empty.identity_revealed = true;
         empty.badged = false;
-        empty.transfer_target.reset();
+
         working.m_snapshot.upsert_node(std::move(empty));
+    }
+
+    std::vector<NodeId> door_ids;
+    for (const auto& [id, node] : working.m_snapshot.nodes()) {
+        if (node.floor == batch.floor && node.type == NodeType::Door) {
+            door_ids.emplace_back(id);
+        }
+    }
+    if (door_ids.size() == 2) {
+        Node first = *working.m_snapshot.find_node(door_ids[0]);
+        Node second = *working.m_snapshot.find_node(door_ids[1]);
+        const bool first_compatible = !first.transfer_target.has_value() || first.transfer_target == second.id;
+        const bool second_compatible = !second.transfer_target.has_value() || second.transfer_target == first.id;
+        if (first_compatible && second_compatible) {
+            if (!first.transfer_target.has_value()) {
+                first.transfer_target = second.id;
+                working.m_snapshot.upsert_node(std::move(first));
+            }
+            if (!second.transfer_target.has_value()) {
+                second.transfer_target = door_ids[0];
+                working.m_snapshot.upsert_node(std::move(second));
+            }
+        }
     }
 
     std::set<std::pair<NodeId, NodeId>> observed_edges;
@@ -482,7 +505,8 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
         const bool edge_covered = batch.coverage == ObservationCoverage::FullMap ||
                                   (first != nullptr && second != nullptr && covered.contains(first->position) &&
                                    covered.contains(second->position));
-        if (edge_covered && edge.knowledge != EdgeKnowledge::Absent) {
+        if (edge_covered && edge.knowledge != EdgeKnowledge::Absent &&
+            !edge.evidence.forced_by_connectivity_constraint) {
             Edge absent = edge;
             absent.knowledge = EdgeKnowledge::Absent;
             missing_edges.emplace_back(std::move(absent));
@@ -1202,11 +1226,12 @@ bool MoveTransaction::observe(MoveObservation observation, std::string* error)
                                      ? observation.current_node == m_proposal.landing
                                      : std::ranges::find(m_proposal.possible_landings, observation.current_node) !=
                                            m_proposal.possible_landings.end();
-    const bool advanced_after_final = observation.floor == m_source_floor + 1 && m_target_type == NodeType::Final;
+    const bool advanced_after_terminal = observation.floor == m_source_floor + 1 &&
+                                         (m_target_type == NodeType::Final || m_target_type == NodeType::BattleBoss);
     const bool stage_accepts_observation =
         m_stage == MoveTransactionStage::Committed || m_stage == MoveTransactionStage::PageResolved;
     if (!stage_accepts_observation || observation.viewport_revision <= m_viewport_revision ||
-        !((returned_to_same_floor && landing_matches) || advanced_after_final)) {
+        !((returned_to_same_floor && landing_matches) || advanced_after_terminal)) {
         if (error != nullptr) {
             *error = "next map observation does not match the committed move";
         }

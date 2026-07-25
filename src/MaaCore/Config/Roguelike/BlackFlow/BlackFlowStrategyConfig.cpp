@@ -7,8 +7,6 @@
 #include <unordered_set>
 #include <utility>
 
-#include "Config/TaskData.h"
-
 namespace asst
 {
 namespace

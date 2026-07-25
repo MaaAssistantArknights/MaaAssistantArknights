@@ -1,8 +1,7 @@
 #include "BlackFlowTaskPort.h"
 
-#include <iterator>
+#include <chrono>
 #include <memory>
-#include <set>
 #include <string>
 #include <utility>
 
@@ -100,38 +99,6 @@ private:
     std::shared_ptr<cv::Mat> m_last_image;
 };
 
-EnteredPageObservation classify_entered_page_texts(std::vector<std::string> matched_texts)
-{
-    std::set<std::string> texts(
-        std::make_move_iterator(matched_texts.begin()),
-        std::make_move_iterator(matched_texts.end()));
-    EnteredPageObservation observation;
-    observation.matched_texts.assign(texts.begin(), texts.end());
-
-    const bool final = texts.contains("险路尽头");
-    const bool shop = texts.contains("前瞻性投资系统") && texts.contains("刷新");
-    const bool scrap_shop = texts.contains("机械师的园圃");
-    const bool emergency_aid = texts.size() == 1 && texts.contains("刷新");
-    const int classifications = static_cast<int>(final) + static_cast<int>(shop) + static_cast<int>(scrap_shop) +
-                                static_cast<int>(emergency_aid);
-    if (classifications > 1) {
-        observation.classification_conflict = true;
-    }
-    else if (final) {
-        observation.classified_type = NodeType::Final;
-    }
-    else if (shop) {
-        observation.classified_type = NodeType::Shop;
-    }
-    else if (scrap_shop) {
-        observation.classified_type = NodeType::ScrapShop;
-    }
-    else if (emergency_aid) {
-        observation.classified_type = NodeType::Employ;
-    }
-    return observation;
-}
-
 BlackFlowTaskPort::BlackFlowTaskPort(
     const AsstCallback& callback,
     Assistant* inst,
@@ -149,25 +116,41 @@ bool BlackFlowTaskPort::refresh(
     BlackFlowPerceptionSnapshot& snapshot,
     std::string* error)
 {
-    if (m_map_source == nullptr || m_task_context == nullptr) {
-        set_error(error, "BlackFlow map observation source is not attached");
-        return false;
-    }
+    try {
+        if (m_map_source == nullptr || m_task_context == nullptr) {
+            set_error(error, "BlackFlow map observation source is not attached");
+            return false;
+        }
 
-    const cv::Mat image = m_task_context->capture();
-    BlackFlowPerceptionSnapshot next;
-    if (!m_map_source->recognize(image, request, next.observation, next.observed_facts, error)) {
+        const auto capture_start = std::chrono::steady_clock::now();
+        const cv::Mat image = m_task_context->capture();
+        BlackFlowObservationRequest current_request = request;
+        current_request.capture_us =
+            std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - capture_start)
+                .count();
+        BlackFlowPerceptionSnapshot next;
+        if (!m_map_source->recognize(image, current_request, next.observation, next.observed_facts, error)) {
+            snapshot = std::move(next);
+            return false;
+        }
+        if (const auto action_points = recognize_action_points(image); action_points.has_value()) {
+            next.run.action_points = *action_points;
+            next.observation.hud_action_points = *action_points;
+        }
+        if (const auto movement = recognize_loaded_movement(image); movement.has_value()) {
+            next.run.active_movement = *movement;
+        }
+        snapshot = std::move(next);
+        return true;
+    }
+    catch (const std::exception& exception) {
+        set_error(error, "BlackFlow map refresh failed: " + std::string(exception.what()));
         return false;
     }
-    if (const auto action_points = recognize_action_points(image); action_points.has_value()) {
-        next.run.action_points = *action_points;
-        next.observation.hud_action_points = *action_points;
+    catch (...) {
+        set_error(error, "BlackFlow map refresh failed: unknown exception");
+        return false;
     }
-    if (const auto movement = recognize_loaded_movement(image); movement.has_value()) {
-        next.run.active_movement = *movement;
-    }
-    snapshot = std::move(next);
-    return true;
 }
 
 bool BlackFlowTaskPort::preview(
