@@ -2564,8 +2564,9 @@ public class AsstProxy
             case "BattleFormationOperbox1Unmatched":
                 {
                     var groupName = subTaskDetails!["group_name"]?.ToString() ?? "Unknown Group";
+                    var operName = DataHelper.GetLocalizedCharacterName(subTaskDetails["may_borrow_oper"]?.ToString()) ?? String.Empty;
                     Instances.CopilotViewModel.AddLog(
-                        LocalizationHelper.GetStringFormat("BattleFormationOperbox1Unmatched", groupName), UiLogColor.Warning);
+                        LocalizationHelper.GetStringFormat("BattleFormationOperbox1Unmatched", groupName, operName), operName == string.Empty ? UiLogColor.Error : UiLogColor.Warning);
                     break;
                 }
 
