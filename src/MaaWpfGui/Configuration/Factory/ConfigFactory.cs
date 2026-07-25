@@ -213,9 +213,6 @@ public static class ConfigFactory
                 var key = "Root.Configurations." + name + ".";
                 config.EventBinding(key);
                 config.Gui.EventBinding(key);
-                config.DragItemIsChecked.CollectionChanged += Handler.OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
-                config.InfrastOrder.CollectionChanged += Handler.OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
-
                 config.TaskQueue.CollectionChanged += (in NotifyCollectionChangedEventArgs<BaseTask> args) => {
                     switch (args.Action)
                     {
