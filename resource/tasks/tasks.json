@@ -1076,6 +1076,13 @@
         ],
         "onErrorNext": ["SwitchTheme@ToggleSettingsMenu"]
     },
+    "ReturnButtonCheck": {
+        "baseTask": "ReturnButton",
+        "template": ["Return.png", "Return-White.png"],
+        "action": "DoNothing",
+        "next": [],
+        "onErrorNext": []
+    },
     "FromStageSN": {
         "template": "StageSNReturnFlag.png",
         "action": "ClickRect",

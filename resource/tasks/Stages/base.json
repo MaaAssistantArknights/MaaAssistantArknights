@@ -87,5 +87,26 @@
         "next": ["SS@Store@ClickItem", "#self"],
         "maxTimes": 10,
         "exceededNext": ["Stop"]
+    },
+    "SS@EnterTaskPage": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [],
+        "preDelay": 4000,
+        "onErrorNext": ["Return"],
+        "next": ["SS@ClaimTask", "#self"]
+    },
+    "SS@ClaimTask": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["领取"],
+        "postDelay": 2000,
+        "roi": [980, 140, 240, 70],
+        "next": ["SS@ClaimTaskSuccess", "#self"]
+    },
+    "SS@ClaimTaskSuccess": {
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "next": ["ReturnButtonCheck", "#self"]
     }
 }
