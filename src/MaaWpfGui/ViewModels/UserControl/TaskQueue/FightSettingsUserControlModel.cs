@@ -1128,12 +1128,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     public bool AutoRestartOnDrop
     {
-        get => field;
-        set {
+        get; set {
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.AutoRestartOnDrop = value;
             SetAndNotify(ref field, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AutoRestartOnDrop, value.ToString());
         }
-    } = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, true);
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.AutoRestartOnDrop;
 
     private static string ToUpperAndCheckStage(string value)
     {

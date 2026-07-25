@@ -28,6 +28,10 @@ public class RuntimeSettings : INotifyPropertyChanged, IJsonOnDeserialized
 
     public bool DeployWithPause { get; set; }
 
+    public bool AutoRestartOnDrop { get; set; } = true;
+
+    public bool RoguelikeDelayAbortUntilCombatComplete { get; set; }
+
     public string PreRunScript { get; set; } = string.Empty;
 
     public string PostRunScript { get; set; } = string.Empty;

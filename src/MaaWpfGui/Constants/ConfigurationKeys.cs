@@ -103,7 +103,7 @@ public static class ConfigurationKeys
     public const string EmulatorWaitSeconds = "Start.EmulatorWaitSeconds"; // √
 
     // 仅在理智作战的任务中会生效，前缀需要修改
-    public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop";
+    public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop"; // √
     public const string StartsWithScript = "Start.StartsWithScript"; // √
     public const string EndsWithScript = "Start.EndsWithScript"; // √
     public const string CopilotWithScript = "Start.CopilotWithScript"; // √
@@ -163,7 +163,7 @@ public static class ConfigurationKeys
     public const string RoguelikeExpectedCollapsalParadigms = "Roguelike.RoguelikeExpectedCollapsalParadigms"; // 已迁移
     public const string RoguelikeUseSupportUnit = "Roguelike.RoguelikeUseSupportUnit"; // 已迁移
     public const string RoguelikeEnableNonfriendSupport = "Roguelike.RoguelikeEnableNonfriendSupport"; // 已迁移
-    public const string RoguelikeDelayAbortUntilCombatComplete = "Roguelike.RoguelikeDelayAbortUntilCombatComplete";
+    public const string RoguelikeDelayAbortUntilCombatComplete = "Roguelike.RoguelikeDelayAbortUntilCombatComplete"; // √
     public const string RoguelikeStartsCount = "Roguelike.StartsCount"; // 已迁移
     public const string RoguelikeInvestmentEnabled = "Roguelike.InvestmentEnabled"; // 已迁移
     public const string RoguelikeInvestmentEnterSecondFloor = "Roguelike.InvestmentEnterSecondFloor"; // 已迁移
@@ -349,9 +349,9 @@ public static class ConfigurationKeys
 
     public const string GuideStepIndex = "Guide.StepIndex";
 
-    public const string ForceScheduledStart = "Timer.ForceScheduledStart";
-    public const string ShowWindowBeforeForceScheduledStart = "Timer.ShowWindowBeforeForceScheduledStart";
-    public const string CustomConfig = "Timer.CustomConfig";
+    public const string ForceScheduledStart = "Timer.ForceScheduledStart"; // √
+    public const string ShowWindowBeforeForceScheduledStart = "Timer.ShowWindowBeforeForceScheduledStart"; // √
+    public const string CustomConfig = "Timer.CustomConfig"; // √
 
     public const string DebugTaskName = "Debug.TaskName"; // √
 

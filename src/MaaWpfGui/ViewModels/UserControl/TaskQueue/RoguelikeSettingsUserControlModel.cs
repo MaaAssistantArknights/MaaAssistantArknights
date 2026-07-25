@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
@@ -796,19 +797,17 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         set => SetTaskConfig<RoguelikeTask>(t => t.StopWhenLevelMax == value, t => t.StopWhenLevelMax = value);
     }
 
-    private bool _roguelikeDelayAbortUntilCombatComplete = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether delay abort until battle complete
     /// </summary>
     public bool RoguelikeDelayAbortUntilCombatComplete
     {
-        get => _roguelikeDelayAbortUntilCombatComplete;
-        set {
-            SetAndNotify(ref _roguelikeDelayAbortUntilCombatComplete, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, value.ToString());
+        get; set {
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.RoguelikeDelayAbortUntilCombatComplete = value;
+            SetAndNotify(ref field, value);
         }
-    }
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.RoguelikeDelayAbortUntilCombatComplete;
 
     /// <summary>
     /// Gets or sets a value indicating whether start with seed
