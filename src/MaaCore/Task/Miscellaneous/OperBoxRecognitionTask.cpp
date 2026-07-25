@@ -48,7 +48,13 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
             m_own_opers.emplace(box_info.name, box_info);
         }
         callback_analyze_result(false);
-        future.wait();
+
+        // 等待滑动完成。即使收到停止信号，也需等待 future 结束：
+        //   1. 提前返回会导致 std::async lambda 捕获 this 的悬空引用
+        //   2. 滑动任务内部在 ProcessTask::sleep() 中定期检查 need_exit()，收到信号后会尽快退出
+        // 正常完成后 while 顶部的 need_exit() 检查会处理退出
+        while (future.wait_for(std::chrono::milliseconds(100)) != std::future_status::ready) {
+        }
     }
     return !m_own_opers.empty();
 }
