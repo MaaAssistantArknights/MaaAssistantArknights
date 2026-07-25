@@ -24,10 +24,10 @@ namespace MaaWpfGui.Configuration.Global;
 public class Timer : PropertyChangedBase
 {
     [JsonConstructor]
-    public Timer(int id, bool? enable, string config, int hour, int minute)
+    public Timer(int id, bool? isEnabled, string config, int hour, int minute)
     {
         Id = id;
-        IsEnabled = enable;
+        IsEnabled = isEnabled;
         Config = config;
         Hour = hour;
         Minute = minute;

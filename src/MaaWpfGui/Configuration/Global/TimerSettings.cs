@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.Json.Serialization;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Global;
@@ -48,5 +49,6 @@ public class TimerSettings : INotifyPropertyChanged
 
     public bool CustomConfig { get; set; }
 
+    [JsonInclude]
     public ObservableCollection<Timer> List { get; private set; } = [];
 }
