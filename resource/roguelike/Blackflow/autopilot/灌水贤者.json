@@ -1,0 +1,35 @@
+{
+    "stage_name": "灌水贤者",
+    "replacement_home": [
+        {
+            "location": [7, 3],
+            "direction": "left"
+        }
+    ],
+    "blacklist_location": [
+        [4, 3]
+    ],
+    "not_use_dice": false,
+    "deploy_plan": [
+        {
+            "groups": ["益达", "新能", "高台输出", "速狙", "狙击", "术师"],
+            "doc": "先部署远程输出来解决3个预制炮兵",
+            "location": [3, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["益达", "新能", "高台输出", "速狙", "狙击", "术师", "辅助"],
+            "doc": "击杀3后部署远程解决剩下两个炮兵（可能会死）",
+            "location": [5, 3],
+            "direction": "up",
+            "condition": [3, 100]
+        },
+        {
+            "groups": ["挡人先锋", "投锋", "重装", "近卫", "地面阻挡", "其他地面"],
+            "doc": "击杀5前不应部署阻挡位",
+            "location": [5, 4],
+            "direction": "left",
+            "condition": [5, 100]
+        }
+    ]
+}

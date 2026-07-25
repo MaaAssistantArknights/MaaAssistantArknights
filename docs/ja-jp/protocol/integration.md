@@ -579,6 +579,9 @@ OF-1 実行時に使用する編成スロットのインデックス。
 ::: field name="stop_at_final_boss" type="boolean" optional default="false"  
 第 5 層の最終ボス ノードの前でタスクを停止するかどうか。**Phantom 以外**のテーマのみに対応。  
 :::  
+::: field name="blackflow_no_boss" type="boolean" optional default="false"
+Blackflow のモード 0 で 3 層のボスを避け、到達可能な不期而遇を完了した後に放棄するかどうか。Blackflow のモード 0 でのみ使用できます。
+:::
 ::: field name="stop_at_max_level" type="boolean" optional default="false"  
 統合戦略レベルが最大に達した場合にタスクを停止するかどうか。  
 :::  

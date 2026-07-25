@@ -1,5 +1,6 @@
 #include "RoguelikeConfig.h"
 
+#include "Config/Roguelike/RoguelikeBlackflowRoutingConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
@@ -21,6 +22,8 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     m_theme = theme;
     m_mode = mode;
     m_difficulty = params.get("difficulty", -1);
+    m_blackflow_no_boss = theme == RoguelikeTheme::Blackflow && mode == RoguelikeMode::Exp &&
+        params.get("blackflow_no_boss", false);
 
     Log.info("Roguelike theme", m_theme, "| mode", static_cast<int>(m_mode), "| difficulty", m_difficulty);
 
@@ -87,6 +90,12 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
                 Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode20001");
             }
         }
+        // 黑流树海迷宫导航：由 routing.json 的 modeStrategies 决定启用哪些模式。
+        if (m_theme == "Blackflow") {
+            if (BlackflowRoutingInfo.strategy_for_mode(static_cast<int>(m_mode)) != nullptr) {
+                Task.set_task_base(m_theme + "@Roguelike@Stages", "Blackflow@Roguelike@Stages_navigate");
+            }
+        }
     }
 
     if (m_mode == RoguelikeMode::Investment) {
@@ -123,5 +132,5 @@ void asst::RoguelikeConfig::clear()
 
     // ------------------ 通用参数 ------------------
     m_squad = std::string();
+    m_blackflow_force_zoom_reset_after_event = false;
 }
-

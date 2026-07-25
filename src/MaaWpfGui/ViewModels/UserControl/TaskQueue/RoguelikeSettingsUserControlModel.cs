@@ -96,6 +96,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         Theme.Sami => 15,
         Theme.Sarkaz => 18,
         Theme.JieGarden => 18,
+        Theme.Blackflow => 15,
         _ => 20,
     };
 
@@ -105,12 +106,21 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
         var baseList = new List<GenericCombinedData<Mode>>
         {
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
             new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible },
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"), Value = Mode.Squad },
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"), Value = Mode.Exploration },
         };
+
+        if (RoguelikeTheme != Theme.Blackflow)
+        {
+            baseList.Insert(0, new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp });
+            baseList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible });
+            baseList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"), Value = Mode.Squad });
+            baseList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"), Value = Mode.Exploration });
+        }
+        else
+        {
+            baseList.Insert(0, new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp });
+            baseList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible });
+        }
 
         switch (RoguelikeTheme)
         {
@@ -139,7 +149,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
         switch (RoguelikeTheme)
         {
-            case Theme.JieGarden:
+            case Theme.JieGarden or Theme.Blackflow:
                 RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("FlexibleDeployment"), Value = "灵活部署" });
                 RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Unbreakable"), Value = "坚不可摧" });
                 break;
@@ -212,6 +222,24 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             ("IS5NewSquad10", "知学分队"),
             ("IS5NewSquad11", "商贾分队"),
         ],
+        ["Blackflow_Default"] =
+        [
+            ("LeaderSquad", "指挥分队"),
+            ("SpecialForceSquad", "特勤分队"),
+            ("SupportSquad", "后勤分队"),
+            ("SpearheadSquad", "矛头分队"),
+            ("TacticalAssaultOperative", "突击战术分队"),
+            ("TacticalFortificationOperative", "堡垒战术分队"),
+            ("TacticalRangedOperative", "远程战术分队"),
+            ("TacticalDestructionOperative", "破坏战术分队"),
+            ("IS5NewSquad1", "高台突破分队"),
+            ("IS5NewSquad2", "地面突破分队"),
+            ("IS6NewSquad1", "本源研修分队"),
+            ("IS6NewSquad2", "文明开化分队"),
+            ("IS6NewSquad3", "开拓者分队"),
+            ("IS6NewSquad4", "多边贸易分队"),
+            ("IS6NewSquad5", "地质调查分队"),
+        ],
     };
 
     // 通用分队
@@ -251,6 +279,16 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         // 添加通用分队
         foreach (var (key, value) in _commonSquads)
         {
+            if (RoguelikeTheme == Theme.Blackflow && key == "First-ClassSquad")
+            {
+                continue;
+            }
+
+            if (RoguelikeSquadList.Any(x => x.Value == value))
+            {
+                continue;
+            }
+
             RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString(key), Value = value });
         }
 
@@ -362,7 +400,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         (Theme.Mizuki, "RoguelikeThemeMizuki"),
         (Theme.Sami, "RoguelikeThemeSami"),
         (Theme.Sarkaz, "RoguelikeThemeSarkaz"),
-        (Theme.JieGarden, "RoguelikeThemeJieGarden"));
+        (Theme.JieGarden, "RoguelikeThemeJieGarden"),
+        (Theme.Blackflow, "RoguelikeThemeBlackflow"));
 
     /// <summary>
     /// Gets or sets the Roguelike theme.
@@ -387,6 +426,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
             // 更新主题提示
             OnPropertyChanged(nameof(RoguelikeThemeTip));
+            OnPropertyChanged(nameof(RoguelikeStartWithSeedVisible));
         }
     }
 
@@ -533,6 +573,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 Theme.Sami => "RoguelikeThemeTipSami",
                 Theme.Sarkaz => "RoguelikeThemeTipSarkaz",
                 Theme.JieGarden => "RoguelikeThemeTipJieGarden",
+                Theme.Blackflow => "RoguelikeThemeTipBlackflow",
                 _ => "RoguelikeThemeTipPhantom",
             };
 
@@ -544,6 +585,22 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     private void UpdateRoguelikeStartWithAllDict()
     {
         var config = GetTaskConfig<RoguelikeTask>().CollectibleStartAwards;
+        if (RoguelikeTheme == Theme.Blackflow)
+        {
+            RoguelikeStartAwards =
+            [
+                new() { Display = "退行补偿(2血换1藏)", Value = RoguelikeCollectibleAward.HotWater },
+                new() { Display = "林间代步(1加工品)", Value = RoguelikeCollectibleAward.Shield },
+                new() { Display = "巢寄生(1零件容量换1藏)", Value = RoguelikeCollectibleAward.Ingot },
+                new() { Display = "未编号物(1普通藏)", Value = RoguelikeCollectibleAward.Hope },
+                new() { Display = "调查预付款(8源石锭)", Value = RoguelikeCollectibleAward.Key },
+                new() { Display = "空间租赁(6源石锭换2零件容量)", Value = RoguelikeCollectibleAward.Dice },
+            ];
+            OnPropertyChanged(nameof(RoguelikeStartAwards));
+            RoguelikeStartWithSelectList = RoguelikeStartAwards.Where(i => config.HasFlag(i.Value)).ToArray();
+            return;
+        }
+
         var list = new List<GenericCombinedData<RoguelikeCollectibleAward>>()
         {
            new() { Display = LocalizationHelper.GetString("RoguelikeStartWithKettle"), Value = RoguelikeCollectibleAward.HotWater },
@@ -692,7 +749,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     /// <summary>
     /// Gets a value indicating whether investment is enabled.
     /// </summary>
-    public bool RoguelikeInvestmentWithMoreScore => GetTaskConfig<RoguelikeTask>().InvestWithMoreScore && RoguelikeMode == Mode.Investment;
+    public bool RoguelikeInvestmentWithMoreScore => GetTaskConfig<RoguelikeTask>().InvestWithMoreScore && RoguelikeMode == Mode.Investment && RoguelikeTheme != Theme.Blackflow;
 
     /// <summary>
     /// Gets or sets a value indicating whether shopping is enabled in LastReward Mode.
@@ -734,6 +791,12 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     {
         get => GetTaskConfig<RoguelikeTask>().StopAtFinalBoss;
         set => SetTaskConfig<RoguelikeTask>(t => t.StopAtFinalBoss == value, t => t.StopAtFinalBoss = value);
+    }
+
+    public bool RoguelikeBlackflowNoBoss
+    {
+        get => GetTaskConfig<RoguelikeTask>().BlackflowNoBoss;
+        set => SetTaskConfig<RoguelikeTask>(t => t.BlackflowNoBoss == value, t => t.BlackflowNoBoss = value);
     }
 
     /// <summary>
@@ -809,6 +872,11 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, value.ToString());
         }
     }
+
+    /// <summary>
+    /// Gets a value indicating whether starting with a seed is supported by the current theme.
+    /// </summary>
+    public bool RoguelikeStartWithSeedVisible => RoguelikeTheme == Theme.JieGarden;
 
     /// <summary>
     /// Gets or sets a value indicating whether start with seed
@@ -1074,10 +1142,11 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 InvestmentEnabled = roguelike.Investment,
                 InvestmentCount = roguelike.Mode == Mode.Investment ? roguelike.InvestCount : int.MaxValue,
                 InvestmentStopWhenFull = roguelike.StopWhenDepositFull && roguelike.Mode == Mode.Investment,
-                InvestmentWithMoreScore = roguelike.InvestWithMoreScore && roguelike.Mode == Mode.Investment,
+                InvestmentWithMoreScore = roguelike.Theme != Theme.Blackflow && roguelike.InvestWithMoreScore && roguelike.Mode == Mode.Investment,
                 RefreshTraderWithDice = roguelike.Theme == Theme.Mizuki && roguelike.RefreshTraderWithDice,
 
                 StopAtFinalBoss = roguelike.StopAtFinalBoss,
+                BlackflowNoBoss = roguelike.Theme == Theme.Blackflow && roguelike.Mode == Mode.Exp && roguelike.BlackflowNoBoss,
                 StopAtMaxLevel = roguelike.StopWhenLevelMax,
 
                 // 刷开局
@@ -1103,7 +1172,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
                 ExpectedCollapsalParadigms = [.. roguelike.ExpectedCollapsalParadigms.Split(';').Where(i => !string.IsNullOrEmpty(i))],
 
-                StartWithSeed = roguelike.StartWithSeed ? roguelike.Seed : null,
+                StartWithSeed = roguelike.Theme == Theme.JieGarden && roguelike.StartWithSeed ? roguelike.Seed : null,
             };
 
             bool squadIsProfessional = roguelike.Mode == Mode.Collectible && roguelike.Theme != Theme.Phantom && roguelike.Squad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";

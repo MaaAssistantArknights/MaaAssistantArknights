@@ -24,7 +24,7 @@ public:
     /// 识别 <c>m_image</c> 中所有的事件选项。
     /// </summary>
     /// <returns>
-    /// 若识别成功，则返回 <c>true</c>，若识别失败或遇到不支持的 <c>m_theme</c> 则返回 <c>false</c>。
+    /// 若识别成功，则返回 <c>true</c>，若识别失败或主题没有选项识别任务则返回 <c>false</c>。
     /// </returns>
     bool analyze();
 
@@ -33,7 +33,7 @@ public:
     /// </summary>
     /// <param name="new_img">要拼接到 <c>m_image</c> 的图像。</param>
     /// <returns>
-    /// 拼接后 <c>m_image</c> 向下伸长的长度；若无法拼接图像或遇到不支持的 <c>m_theme</c> 则返回 <c>std::nullopt</c>。
+    /// 拼接后 <c>m_image</c> 向下伸长的长度；若无法拼接图像或主题没有选项识别任务则返回 <c>std::nullopt</c>。
     /// </returns>
     /// <remarks>
     /// 要求 <c>m_image</c> 与 <c>new_image</c> 宽度相同，分别展示事件选项列表的上、下部分视图，
@@ -55,7 +55,7 @@ public:
     /// <summary>
     /// 在 <c>image</c> 中匹配 <c>option_templ</c> 所对应的事件选项。
     /// </summary>
-    /// <param name="theme">集成战略主题；目前只适配了界园主题。</param>
+    /// <param name="theme">集成战略主题；需要提供选项识别任务配置。</param>
     /// <param name="image">目标图像。</param>
     /// <param name="option_templ">要匹配的事件选项的模版。</param>
     /// <returns>
@@ -117,7 +117,7 @@ private:
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
 
     /// <summary>
-    /// 集成战略主题；目前只适配了界园主题。
+    /// 集成战略主题。
     /// </summary>
     std::string m_theme;
 

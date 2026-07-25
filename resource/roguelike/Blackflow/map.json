@@ -1,0 +1,93 @@
+{
+    "theme": "Blackflow",
+    "nodes": [
+        {
+            "type": "MysteriousPresage",
+            "name": ["未知的诡秘"]
+        },
+        {
+            "type": "FerociousPresage",
+            "name": ["未知的凶戾"]
+        },
+        {
+            "type": "CombatOps",
+            "name": ["作战"]
+        },
+        {
+            "type": "EmergencyOps",
+            "name": ["紧急作战"]
+        },
+        {
+            "type": "DreadfulFoe",
+            "name": ["险路恶敌"]
+        },
+        {
+            "type": "Encounter",
+            "name": ["不期而遇"]
+        },
+        {
+            "type": "SafeHouse",
+            "name": ["安全的角落"]
+        },
+        {
+            "type": "Boons",
+            "name": ["得偿所愿"]
+        },
+        {
+            "type": "FaceOff",
+            "name": ["狭路相逢"]
+        },
+        {
+            "type": "RogueTrader",
+            "name": ["诡意行商"]
+        },
+        {
+            "type": "LostAndFound",
+            "name": ["失与得"]
+        },
+        {
+            "type": "Scout",
+            "name": ["先行一步"]
+        },
+        {
+            "type": "PathEnd",
+            "name": ["险路尽头"]
+        },
+        {
+            "type": "PathLane",
+            "name": ["险路小径"]
+        },
+        {
+            "type": "HiddenTrader",
+            "name": ["秘境行商"]
+        },
+        {
+            "type": "EmergencyAid",
+            "name": ["应急助力"]
+        },
+        {
+            "type": "WindingPassage",
+            "name": ["曲折密道"]
+        },
+        {
+            "type": "VantagePoint",
+            "name": ["羽瞰点"]
+        },
+        {
+            "type": "ResidentStronghold",
+            "name": ["“居民”据点", "居民据点"]
+        },
+        {
+            "type": "BoskyPassage",
+            "name": ["误入奇境"]
+        },
+        {
+            "type": "Prophecy",
+            "name": ["命运所指"]
+        },
+        {
+            "type": "Recreation",
+            "name": ["兴致盎然"]
+        }
+    ]
+}

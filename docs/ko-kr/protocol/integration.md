@@ -568,6 +568,9 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 ::: field name="stop_at_final_boss" type="boolean" optional default="false"  
 5층 보스 노드 앞에서 정지할지 여부. **Phantom 제외** 테마에만 적용  
 :::  
+::: field name="blackflow_no_boss" type="boolean" optional default="false"
+Blackflow 모드 0에서 3층 보스를 피하고 도달 가능한 이벤트를 완료한 뒤 포기할지 여부입니다. Blackflow 모드 0에서만 사용할 수 있습니다.
+:::
 ::: field name="stop_at_max_level" type="boolean" optional default="false"  
 통합 전략 만렙 도달 시 정지할지 여부  
 :::  

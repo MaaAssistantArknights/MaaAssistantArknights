@@ -88,7 +88,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
         list.ingot = select_list->get("ingot", false);
         list.hope = select_list->get("hope", false);
         list.random = select_list->get("random", false);
-        if (m_config->get_theme() == RoguelikeTheme::Mizuki) {
+        if (m_config->get_theme() == RoguelikeTheme::Mizuki || m_config->get_theme() == RoguelikeTheme::Blackflow) {
             list.key = select_list->get("key", false);
             list.dice = select_list->get("dice", false);
         }
@@ -177,6 +177,12 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_reward()
     if (auto ret = analyzer.analyze(); !ret) {
         // 未获取到期望物品，设置烧水flag，重开
         m_config->set_run_for_collectible(true);
+        if (m_config->get_theme() == RoguelikeTheme::Blackflow) {
+            // 黑流树海烧水需要走到第三层；奖励不符合而重开时恢复前两层导航。
+            Task.set_task_base(
+                "Blackflow@Roguelike@Stages",
+                "Blackflow@Roguelike@Stages_navigate");
+        }
         m_control_ptr->exit_then_stop(true);
     }
     else if (m_config->get_start_with_elite_two() || m_config->get_first_floor_foldartal()) {
@@ -294,6 +300,14 @@ std::vector<std::string> asst::RoguelikeCustomStartTaskPlugin::get_select_list()
         }
         if (m_start_select.dice) {
             list.emplace_back("Mizuki@Roguelike@LastReward6"); // 骰子
+        }
+    }
+    else if (m_config->get_theme() == RoguelikeTheme::Blackflow) {
+        if (m_start_select.key) {
+            list.emplace_back("Blackflow@Roguelike@LastReward5"); // 调查预付款
+        }
+        if (m_start_select.dice) {
+            list.emplace_back("Blackflow@Roguelike@LastReward6"); // 空间租赁
         }
     }
     else if (m_config->get_theme() == RoguelikeTheme::Sarkaz && m_start_select.ideas) {

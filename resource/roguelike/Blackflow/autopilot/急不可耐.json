@@ -1,0 +1,35 @@
+{
+    "stage_name": "急不可耐",
+    "replacement_home": [
+        {
+            "location": [0, 5],
+            "direction": "right"
+        }
+    ],
+    "blacklist_location": [],
+    "not_use_dice": false,
+    "deploy_plan": [
+        {
+            "groups": ["玛恩纳", "近卫", "地面C", "史尔特尔", "其他地面"],
+            "doc": "先部署近战输出",
+            "location": [7, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["益达", "新能", "高台输出", "速狙", "狙击", "术师"],
+            "location": [1, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["益达", "新能", "高台输出", "速狙", "狙击", "术师", "辅助"],
+            "location": [2, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["挡人先锋", "投锋", "重装", "地面阻挡", "其他地面"],
+            "doc": "额外地面阻挡",
+            "location": [1, 5],
+            "direction": "right"
+        }
+    ]
+}

@@ -14,6 +14,17 @@
         "src/MaaCore/Utils/Algorithm.hpp",
         "unit_test/MaaCore/AlgorithmTest.cpp"
       ]
+    },
+    {
+      "id": "maa-blackflow-planner-test",
+      "name": "BlackflowRoutePlanner",
+      "buildTarget": "maa-blackflow-planner-test",
+      "ctestRegex": "^blackflow-planner::",
+      "paths": [
+        "src/MaaCore/Task/Roguelike/Map/RoguelikeBlackflowRoutePlanner.h",
+        "src/MaaCore/Task/Roguelike/Map/RoguelikeBlackflowRoutePlanner.cpp",
+        "unit_test/MaaCore/BlackflowRoutePlannerTest.cpp"
+      ]
     }
   ]
 }

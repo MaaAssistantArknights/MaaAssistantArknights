@@ -10,6 +10,7 @@ bool asst::RoguelikeShoppingConfig::parse(const json::value& json)
 
     const std::string theme = json.at("theme").as_string();
     m_goods.erase(theme);
+    m_goods.emplace(theme, std::vector<RoguelikeGoods>{});
 
     const auto& theme_json = json.at("priority");
     for (const auto& goods_json : theme_json.as_array()) {

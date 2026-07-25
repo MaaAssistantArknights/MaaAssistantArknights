@@ -18,6 +18,7 @@
 #include "OnnxSessions.h"
 #include "Roguelike/JieGarden/RoguelikeCoppersConfig.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
+#include "Roguelike/RoguelikeBlackflowRoutingConfig.h"
 #include "Roguelike/RoguelikeMapConfig.h"
 #include "Roguelike/RoguelikeRecruitConfig.h"
 #include "Roguelike/RoguelikeShoppingConfig.h"
@@ -140,7 +141,11 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     // ==================== ONNX 模型（惰性加载） ====================
     if (!load_with_custom.template operator()<OnnxSessions>("onnx"_p / "skill_ready_cls.onnx"_p, "OnnxSessions") ||
         !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "deploy_direction_cls.onnx"_p, "OnnxSessions") ||
-        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "operators_det.onnx"_p, "OnnxSessions")) {
+        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "operators_det.onnx"_p, "OnnxSessions") ||
+        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "Blackflow_node.onnx"_p, "OnnxSessions") ||
+        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "Blackflow_edge.onnx"_p, "OnnxSessions") ||
+        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "Blackflow_player.onnx"_p, "OnnxSessions") ||
+        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "Blackflow_node_type.onnx"_p, "OnnxSessions")) {
         return false;
     }
 
@@ -190,7 +195,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     // 参考: https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/6188
     // 原先使用异步加载，但存在竞态问题，现改为同步加载
 
-    constexpr std::array roguelike_themes = { "Phantom", "Mizuki", "Sami", "Sarkaz", "JieGarden" };
+    constexpr std::array roguelike_themes = { "Phantom", "Mizuki", "Sami", "Sarkaz", "JieGarden", "Blackflow" };
 
     auto roguelike_path = [](std::string_view theme, const std::filesystem::path& subpath) {
         return "roguelike"_p / theme / subpath;
@@ -232,7 +237,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }
     }
     // 额外的 encounter 配置（deposit / collapse）
-    for (auto theme : { "Phantom", "Mizuki", "Sami" }) {
+    for (auto theme : { "Phantom", "Mizuki", "Sami", "Blackflow" }) {
         if (!load_with_custom.template operator()<RoguelikeStageEncounterConfig>(
                 roguelike_path(theme, "encounter"_p / "deposit.json"_p),
                 "RoguelikeStageEncounterConfig")) {
@@ -245,8 +250,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         return false;
     }
 
-    // Map Config（仅 Sarkaz 和 JieGarden）
-    for (auto theme : { "Sarkaz", "JieGarden" }) {
+    // Map Config（Sarkaz、JieGarden 用模板匹配；Blackflow 用节点分类模型）
+    for (auto theme : { "Sarkaz", "JieGarden", "Blackflow" }) {
         if (!load_with_custom.template operator()<RoguelikeMapConfig>(
                 roguelike_path(theme, "map.json"_p),
                 "RoguelikeMapConfig")) {
@@ -268,6 +273,12 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     if (!load_with_custom.template operator()<RoguelikeCoppersConfig>(
             roguelike_path("JieGarden", "coppers.json"_p),
             "RoguelikeCoppersConfig")) {
+        return false;
+    }
+    // Blackflow：迷宫导航（加工品定义 + 策略档案）
+    if (!load_with_custom.template operator()<RoguelikeBlackflowRoutingConfig>(
+            roguelike_path("Blackflow", "routing.json"_p),
+            "RoguelikeBlackflowRoutingConfig")) {
         return false;
     }
 

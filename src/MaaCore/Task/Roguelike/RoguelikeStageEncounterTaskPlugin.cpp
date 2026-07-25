@@ -42,8 +42,6 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     LogTraceFunction;
 
     const std::string& theme = m_config->get_theme();
-    std::vector<std::string> event_names = RoguelikeStageEncounter.get_event_names(theme);
-
     const auto event_name_task_ptr = Task.get("Roguelike@StageEncounterOcr");
     sleep(event_name_task_ptr->pre_delay);
 
@@ -51,35 +49,56 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         return false;
     }
 
-    cv::Mat image = ctrler()->get_image();
-    OCRer name_analyzer(image);
-    name_analyzer.set_task_info(event_name_task_ptr);
-    name_analyzer.set_required(event_names);
-
-    if (!name_analyzer.analyze()) {
+    auto current_event_name = recognize_event_name(ctrler()->get_image());
+    if (!current_event_name) {
         Log.error("Unknown Event");
         callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EncounterOcrError"));
         return true;
     }
 
-    const auto& result_vec = name_analyzer.get_result();
-    if (result_vec.empty()) {
-        Log.error("Unknown Event");
-        return true;
-    }
-
-    std::string current_event_name = result_vec.front().text;
-
     // 处理主事件及其链式 next_event
-    while (!current_event_name.empty()) {
-        auto next = handle_single_event(current_event_name);
+    std::string previous_event_name;
+    size_t same_event_steps = 0;
+    while (current_event_name && !current_event_name->empty()) {
+        if (*current_event_name == previous_event_name) {
+            ++same_event_steps;
+        }
+        else {
+            previous_event_name = *current_event_name;
+            same_event_steps = 1;
+        }
+
+        const auto& event_map = RoguelikeStageEncounter.get_events(theme, m_config->get_mode());
+        auto event_it = event_map.find(*current_event_name);
+        if (event_it == event_map.end()) {
+            Log.error("Unknown event:", *current_event_name);
+            break;
+        }
+        if (same_event_steps > event_it->second.max_steps) {
+            Log.warn("Encounter step limit reached for event:", *current_event_name);
+            break;
+        }
+
+        auto next = handle_single_event(*current_event_name);
         if (!next) {
             break;
         }
-        current_event_name = next.value();
+        current_event_name = std::move(next);
     }
 
     return true;
+}
+
+std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::recognize_event_name(const cv::Mat& image) const
+{
+    const std::string& theme = m_config->get_theme();
+    OCRer analyzer(image);
+    analyzer.set_task_info(Task.get("Roguelike@StageEncounterOcr"));
+    analyzer.set_required(RoguelikeStageEncounter.get_event_names(theme));
+    if (!analyzer.analyze() || analyzer.get_result().empty()) {
+        return std::nullopt;
+    }
+    return analyzer.get_result().front().text;
 }
 
 std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_single_event(const std::string& event_name)
@@ -95,6 +114,12 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
     }
 
     const auto& event = it->second;
+
+    if (m_config->get_theme() == RoguelikeTheme::Blackflow &&
+        (event.name == "险路尽头" || event.name == "三重身")) {
+        m_config->set_blackflow_force_zoom_reset_after_event(true);
+        Log.info("Blackflow encounter ends the layer; next map will reset zoom:", event.name);
+    }
 
     cv::Mat image = ctrler()->get_image();
 
@@ -164,16 +189,51 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         }
     }
 
-    // 界园肉鸽实验性功能 -- 识别选项数量后调整选项
-    if (theme == RoguelikeTheme::JieGarden) {
+    // 使用 OCR 选项和分支签名选择动态事件；黑流树海禁止未知选项的盲点兜底。
+    if (event.dynamic_options) {
         reset_option_list_and_view_data();
-        if (update_option_list()) {
-            size_t choice = 0; // 以 0 作为 无效 index
+        if (update_option_list(event.name)) {
+            if (auto choice = select_dynamic_option(event)) {
+                if (select_analyzed_option(*choice)) {
+                    return next_event(event);
+                }
+            }
+            else {
+                Log.warn(
+                    "RoguelikeEncounter | No enabled safe option matched; refusing blind selection for event",
+                    event.name);
+                return std::nullopt;
+            }
+
+            if (theme != RoguelikeTheme::Blackflow) {
+                // 界园旧配置保留从下到上的安全兜底。
+                for (size_t choice = m_option_list.size(); choice > 0; --choice) {
+                    if (m_option_list[choice - 1].enabled && select_analyzed_option(choice - 1)) {
+                        return next_event(event);
+                    }
+                }
+            }
+            else {
+                Log.error("RoguelikeEncounter | Dynamic option click failed; stopping event", event.name);
+                return std::nullopt;
+            }
+        }
+        else if (theme == RoguelikeTheme::Blackflow) {
+            Log.error("RoguelikeEncounter | Failed to analyze Blackflow options; stopping event", event.name);
+            return std::nullopt;
+        }
+    }
+
+    if (theme == RoguelikeTheme::JieGarden) {
+        // 兼容界园旧配置的动态文本选择。
+        reset_option_list_and_view_data();
+        if (update_option_list(event.name)) {
+            size_t choice = 0;
             if (!event.option_text.empty()) {
                 for (const std::string& event_text : event.option_text) {
                     const auto option_it =
                         std::ranges::find_if(m_option_list, [&event_text](const OptionAnalyzer::Option& option) {
-                            return option.text == event_text;
+                            return option.enabled && option.text == event_text;
                         });
                     if (option_it != m_option_list.end()) {
                         choice = std::distance(m_option_list.begin(), option_it) + 1;
@@ -192,13 +252,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
                     }
                 }
             }
-            if (choice == 0) {
-                Log.error(
-                    std::format(
-                        "RoguelikeEncounter | Failed to find choice for scenario with {} option(s)",
-                        m_option_list.size()));
-            }
-            else if (select_analyzed_option(choice - 1)) {
+            if (choice != 0 && select_analyzed_option(choice - 1)) {
                 return next_event(event);
             }
 
@@ -370,7 +424,7 @@ int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image) const
     return utils::chars_to_number(res_vec_opt->text, hp_val) ? hp_val : 0;
 }
 
-bool asst::RoguelikeStageEncounterTaskPlugin::update_option_list()
+bool asst::RoguelikeStageEncounterTaskPlugin::update_option_list(const std::string& event_name)
 {
     LogTraceFunction;
 
@@ -399,11 +453,52 @@ bool asst::RoguelikeStageEncounterTaskPlugin::update_option_list()
     }
 
     m_option_list = analyzer.get_result();
+
+    // 黑流树海“得偿所愿-无人商店”中，OCR 偶尔会把首字误识为“二”，
+    // 形成“二搬一个大桶”，导致配置中的“搬一个大桶”无法命中。
+    if (m_config->get_theme() == RoguelikeTheme::Blackflow && event_name == "无人商店") {
+        for (auto& option : m_option_list) {
+            if (option.text == "二搬一个大桶") {
+                Log.info("RoguelikeEncounter | Corrected Blackflow option OCR: 二搬一个大桶 -> 搬一个大桶");
+                option.text = "搬一个大桶";
+            }
+        }
+    }
     report_analyzed_options();
 
     update_view(image);
 
     return true;
+}
+
+std::optional<size_t> asst::RoguelikeStageEncounterTaskPlugin::select_dynamic_option(
+    const Config::RoguelikeEvent& event)
+{
+    std::vector<RoguelikeEncounterOptionSelector::VisibleOption> options;
+    options.reserve(m_option_list.size());
+    for (const auto& option : m_option_list) {
+        options.emplace_back(option.enabled, option.text);
+    }
+
+    const auto result = RoguelikeEncounterOptionSelector::select(
+        options,
+        event.option_rule,
+        event.prefer_event_rule ? std::vector<RoguelikeEncounterOptionSelector::Rule> {} : event.option_variants);
+    if (!result.index) {
+        Log.warn(
+            "RoguelikeEncounter | No configured safe choice for",
+            event.name,
+            result.matched_variant ? result.rule_id : "default");
+        return std::nullopt;
+    }
+
+    Log.info(
+        "RoguelikeEncounter | Selected",
+        event.name,
+        "option",
+        *result.index + 1,
+        result.used_safe_fallback ? "(safe fallback)" : "(preferred)");
+    return result.index;
 }
 
 bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t index)
@@ -426,7 +521,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t inde
 
     // click option
     Log.info(__FUNCTION__, std::format("| Clicking option {}: {}", index + 1, m_option_list[index].text));
-    Rect click_rect = Task.get("JieGarden@RoguelikeEncounter-ClickOption")->specific_rect;
+    Rect click_rect = Task.get(m_config->get_theme() + "@RoguelikeEncounter-ClickOption")->specific_rect;
     click_rect.y = m_option_y_in_view[index];
     for (int j = 0; j < 2; ++j) {
         ctrler()->click(click_rect);
@@ -570,7 +665,22 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::next_event(c
 {
     LogTraceFunction;
 
-    if (event.next_event.empty()) {
+    // Blackflow marks ordinary OCR-selectable encounters as dynamic_options,
+    // but they do not have a follow-up event. Once the option is selected and the
+    // map is visible again, click the map's "show player" button to clear the
+    // selected option state. This position is fixed and harmless to click, so do
+    // not use a nested ProcessTask here: this plugin intentionally has retry_times=0.
+    // StageEncounterJudgeClick's fixed coordinate can hit a map node and consume
+    // action points.
+    if (event.next_event.empty() && m_config->get_theme() == RoguelikeTheme::Blackflow) {
+        constexpr Point show_player_button { 55, 515 };
+        ctrler()->click(show_player_button);
+        sleep(800);
+        Log.debug("Blackflow encounter finished; clicked map show-player button at", show_player_button.x, show_player_button.y);
+        return std::nullopt;
+    }
+
+    if (event.next_event.empty() && !event.dynamic_options) {
         return std::nullopt;
     }
 
@@ -581,11 +691,19 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::next_event(c
             sleep(500);
         }
         if (hp(ctrler()->get_image()) >= 0) {
-            Log.debug("HP restored, going to next_event:", event.next_event);
             // 多点一次，确保选项恢复
             ctrler()->click(task->specific_rect);
             sleep(500);
-            return event.next_event;
+            if (!event.next_event.empty()) {
+                Log.debug("HP restored, going to next_event:", event.next_event);
+                return event.next_event;
+            }
+
+            if (auto reocr_event = recognize_event_name(ctrler()->get_image())) {
+                Log.debug("Re-OCR same-title/multi-stage encounter:", reocr_event.value());
+                return reocr_event;
+            }
+            return std::nullopt;
         }
     }
 

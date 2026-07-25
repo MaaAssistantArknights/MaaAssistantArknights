@@ -212,6 +212,9 @@
     <system:String x:Key="RoguelikeStrategyExp">刷等级，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，投资完成后自动退出</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二{key=Operator}开局</system:String>
+    <system:String x:Key="RoguelikeStrategyBoilWater">烧水</system:String>
+    <system:String x:Key="RoguelikeBlackflowExpModeTip">因为没有做boss的策略,其实不可能通关</system:String>
+    <system:String x:Key="RoguelikeBlackflowCollectibleModeTip">其实没有热水壶:(</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">烧水使用分队</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小队，尽可能稳定地打更多层数</system:String>
@@ -239,6 +242,7 @@
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自动肉鸽在战斗结束前延迟 ｢{key=Stop}｣ 动作</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五层 BOSS 前暂停</system:String>
+    <system:String x:Key="RoguelikeBlackflowNoBoss">不打boss</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">满级后自动停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">使用指定种子开局</system:String>
     <!--<system:String x:Key="RoguelikeStartWithSeed">启用刷钱种子（美愿）</system:String>-->
@@ -275,6 +279,11 @@
     <system:String x:Key="IS5NewSquad9">代理人分队（不支持）</system:String>
     <system:String x:Key="IS5NewSquad10">知学分队</system:String>
     <system:String x:Key="IS5NewSquad11">商贾分队</system:String>
+    <system:String x:Key="IS6NewSquad1">本源研修分队</system:String>
+    <system:String x:Key="IS6NewSquad2">文明开化分队</system:String>
+    <system:String x:Key="IS6NewSquad3">开拓者分队</system:String>
+    <system:String x:Key="IS6NewSquad4">多边贸易分队</system:String>
+    <system:String x:Key="IS6NewSquad5">地质调查分队</system:String>
     <system:String x:Key="SpecialForceSquad">特勤分队</system:String>
     <system:String x:Key="LeaderSquad">指挥分队</system:String>
     <system:String x:Key="GatheringSquad">集群分队</system:String>
@@ -537,6 +546,7 @@ D:\
     <system:String x:Key="RoguelikeThemeSami">萨米</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">萨卡兹</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界园</system:String>
+    <system:String x:Key="RoguelikeThemeBlackflow">黑流树海</system:String>
     <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}推荐配置：
 
 {key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
@@ -578,6 +588,7 @@ D:\
 2. 使用指挥避战策略将大幅提高刷源石锭效率，也可用于快速刷等级（不追求通关），但需要注意策略选择为 ｢刷源石锭｣
 3. 已解锁的最高难度 &lt;3 或未解锁相关科技时，请不要使用指挥避战策略，否则会导致出错
 4. 当前难度 ≥15 时，6★ 干员希望消耗 +1，使用部分分队时可能无法招募开局 6★ 干员，导致出错或失败</system:String>
+    <system:String x:Key="RoguelikeThemeTipBlackflow" xml:space="preserve">注意：{key=RoguelikeThemeBlackflow}目前支持非常不良好，仅建议用于测试。</system:String>
     <system:String x:Key="RoguelikeDifficulty">难度</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解锁 ｢{key=RoguelikeThemeJieGarden}｣ 相关科技后，{key=LeaderSquad}在进行 N3 及以上难度的探索时，会额外携带一个 ｢时光之末｣，可以利用其进行 ｢一战一跳｣ 的存钱策略。
 若尚未解锁该科技，请不要选择 N3 及以上难度（包括 ｢MAX｣）进行探索；

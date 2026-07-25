@@ -2096,6 +2096,68 @@ public class AsstProxy
                 }
 
             /* Roguelike */
+            case "BlackflowMapRecognition":
+                {
+                    var logLines = new List<string>();
+                    var mapAscii = subTaskDetails?["map_ascii"]?.ToString();
+                    if (!string.IsNullOrWhiteSpace(mapAscii))
+                    {
+                        var cols = subTaskDetails?["cols"]?.ToString() ?? "?";
+                        var rows = subTaskDetails?["rows"]?.ToString() ?? "?";
+                        var nodes = subTaskDetails?["nodes"]?.ToString() ?? "?";
+                        var edges = subTaskDetails?["edges"]?.ToString() ?? "?";
+                        var actionPoints = subTaskDetails?["action_points"]?.ToString() ?? "?";
+                        logLines.Add($"黑流树海地图 ({cols}×{rows}, 节点 {nodes}, 连线 {edges}, 行动力 {actionPoints})\n{mapAscii}");
+                    }
+
+                    var gears = subTaskDetails?["gears"] as JArray;
+                    var loaded = subTaskDetails?["loaded"]?.ToString();
+                    var gearDesc = gears is { Count: > 0 }
+                        ? string.Join(", ", gears.Select(g =>
+                            $"{g["uses"]}x{g["name"]}" + (g["name"]?.ToString() == loaded ? "(装载中)" : string.Empty)))
+                        : "<none>";
+                    logLines.Add($"加工品: {gearDesc}");
+
+                    var plannedRoute = subTaskDetails?["planned_route"]?.ToString();
+                    logLines.Add($"预期路线: {(string.IsNullOrWhiteSpace(plannedRoute) ? "<none>" : plannedRoute)}");
+                    Instances.TaskQueueViewModel.AddLog(string.Join("\n", logLines), UiLogColor.Info);
+
+                    break;
+                }
+
+            case "BlackflowRoutingDecision":
+                {
+                    var action = subTaskDetails?["action"]?.ToString();
+                    switch (action)
+                    {
+                        case "move":
+                            {
+                                var moveMode = subTaskDetails?["move_mode"]?.ToString() ?? "?";
+                                var nextCol = subTaskDetails?["next_col"]?.ToString() ?? "?";
+                                var nextRow = subTaskDetails?["next_row"]?.ToString() ?? "?";
+                                var nextType = subTaskDetails?["next_type"]?.ToString() ?? "?";
+                                Instances.TaskQueueViewModel.AddLog(
+                                    $"黑流树海移动: {moveMode} → ({nextCol},{nextRow}) {nextType}",
+                                    UiLogColor.Message);
+                                break;
+                            }
+
+                        case "abandon":
+                            Instances.TaskQueueViewModel.AddLog(
+                                $"黑流树海放弃本局: {subTaskDetails?["reason"]}",
+                                UiLogColor.Warning);
+                            break;
+
+                        case "retry":
+                            Instances.TaskQueueViewModel.AddLog(
+                                $"黑流树海本回合重试: {subTaskDetails?["reason"]}",
+                                UiLogColor.Warning);
+                            break;
+                    }
+
+                    break;
+                }
+
             case "StageInfo":
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartCombat") + subTaskDetails!["name"]);

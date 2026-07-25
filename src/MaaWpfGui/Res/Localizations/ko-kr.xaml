@@ -212,6 +212,9 @@
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyGold">각뿔 투자, 투자 완료 시 자동 종료</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">{key=Operator} 2차 정예화 또는 전기주전자 획득까지 반복</system:String>
+    <system:String x:Key="RoguelikeStrategyBoilWater">물 끓이기</system:String>
+    <system:String x:Key="RoguelikeBlackflowExpModeTip">보스 전략이 아직 없으므로 실제로는 클리어할 수 없습니다</system:String>
+    <system:String x:Key="RoguelikeBlackflowCollectibleModeTip">사실 전기주전자는 없습니다 :(</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">희귀 붕괴 패러다임 파밍, 일반 붕괴 패러다임 획득 시 재시작</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">전기주전자 획득 분대</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">월간 분대 파밍, 최대한 많은 구역 클리어</system:String>
@@ -239,6 +242,7 @@
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">{key=AutoRoguelike} 중지 시 전투 종료 대기</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">5스테이지 보스 앞에서 일시정지</system:String>
+    <system:String x:Key="RoguelikeBlackflowNoBoss">보스와 싸우지 않기</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">최대 레벨 달성 시 중지</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">지정 시드로 시작</system:String>
     <!--<system:String x:Key="RoguelikeStartWithSeed">투자 시드 활성화</system:String>-->
@@ -275,6 +279,11 @@
     <system:String x:Key="IS5NewSquad9">대리인 분대 (미지원)</system:String>
     <system:String x:Key="IS5NewSquad10">학자 분대</system:String>
     <system:String x:Key="IS5NewSquad11">상인 분대</system:String>
+    <system:String x:Key="IS6NewSquad1">근원 연구 분대</system:String>
+    <system:String x:Key="IS6NewSquad2">문명 개화 분대</system:String>
+    <system:String x:Key="IS6NewSquad3">개척자 분대</system:String>
+    <system:String x:Key="IS6NewSquad4">다변 무역 분대</system:String>
+    <system:String x:Key="IS6NewSquad5">지질 조사 분대</system:String>
     <system:String x:Key="SpecialForceSquad">특근 분대</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
@@ -537,6 +546,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="RoguelikeThemeSami">사미</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">살카즈</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">쉐이</system:String>
+    <system:String x:Key="RoguelikeThemeBlackflow">침몰자의 검은 유류림</system:String>
     <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}추천 구성:
 
 {key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
@@ -578,6 +588,9 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
 2. 지휘 회피 전투 전략을 사용하면 각뿔 투자 효율이 크게 향상되고, 빠른 레벨업(클리어를 목표로 하지 않음)에도 사용할 수 있지만, 전략을 ｢각뿔 투자｣로 설정해야 해요
 3. 해금된 최고 난이도가 3 미만이거나 관련 기술을 해금하지 않았다면 지휘 회피 전투 전략을 사용하지 마세요. 오류가 발생할 수 있어요
 4. 난이도 15 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가해요. 일부 분대에서는 시작 시 6성 오퍼레이터를 모집하지 못해 오류나 실패로 이어질 수 있어요</system:String>
+    <system:String x:Key="RoguelikeThemeTipBlackflow" xml:space="preserve">{key=RoguelikeThemeBlackflow}현재 오리지늄 각괴 파밍과 탐색 시작을 지원합니다.
+
+노드 맵과 정식 전략은 개발 중입니다.</system:String>
     <system:String x:Key="RoguelikeDifficulty">난이도</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">｢{key=RoguelikeThemeJieGarden}｣ 관련 기술을 해금하면 난이도 3 이상에서 {key=LeaderSquad}로 탐색할 때 추가로 ｢시간의 끝｣을 소지해 ｢한 번 싸우고 한 번 포기｣하는 저축 전략을 쓸 수 있어요.
 아직 해금하지 않았다면 난이도 3 이상(｢MAX｣ 포함)을 선택하지 마세요.

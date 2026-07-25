@@ -189,6 +189,8 @@ public class AsstRoguelikeTask : AsstBaseTask
     /// </summary>
     public bool StopAtFinalBoss { get; set; }
 
+    public bool BlackflowNoBoss { get; set; }
+
     /// <summary>
     /// Gets or sets a value indicating whether 是否在满级时停止任务
     /// </summary>
@@ -236,6 +238,10 @@ public class AsstRoguelikeTask : AsstBaseTask
         {
             taskParams["stop_at_final_boss"] = StopAtFinalBoss;
             taskParams["stop_at_max_level"] = StopAtMaxLevel;
+            if (Theme == RoguelikeTheme.Blackflow)
+            {
+                taskParams["blackflow_no_boss"] = BlackflowNoBoss;
+            }
         }
         else if (Mode == RoguelikeMode.Collectible)
         {

@@ -1,0 +1,122 @@
+{
+    "theme": "Blackflow",
+    "doc": [
+        "黑流树海迷宫导航配置：加工品定义、特殊节点效果、类型集合与策略档案。",
+        "机制假设均为数据字段，实测不符时直接改本文件：",
+        "| gears[].range: line(直线 distance 格) / ring8(相邻8格) / ring12(相邻12格，剑雨范围) /",
+        "|                any(任意节点) / anyNonCombat(任意非作战节点) / anyTrader(任意行商节点) /",
+        "|                randomNonCombat(随机传送，不可控)",
+        "| gears[].apCost: 每次移动消耗的行动力（未标注免耗的默认为 1）",
+        "| gears[].apGain: 移动后获得的行动力（简易遥控器 +3）",
+        "| gears[].carryover: 能否携带至下一区域（false 者用掉不亏，useCost 按 nonCarryoverUseCost）",
+        "| gears[].controllable: false = 落点随机，规划器不主动使用",
+        "| nodeEffects: 进入节点时的机制效果（羽瞰点 +1 行动力；曲折密道成对传送）",
+        "| strategies.*.endpointRequired: 路线终点必须是 typeSets.endpoint 之一",
+        "| strategies.*.endpointUnreachable: bestEffort=终点不可达时仍刷分(接受追猎) / abandon=放弃",
+        "| strategies.*.abandonWhenNoPositive: 最优路线收益 <= 0 时放弃本局",
+        "| strategies.*.nodeWeights: 进入未访问节点的奖励/惩罚系数（未列出的为 0）",
+        "| strategies.*.gearUseCost / nonCarryoverUseCost: 每次使用加工品的机会成本",
+        "| strategies.*.gearUseReward: 指定加工品每次使用的额外收益（如触须 +4 源石锭）",
+        "| strategies.*.leftoverApWeight: 终态每点剩余行动力折算的收益",
+        "| modeStrategies: RoguelikeMode -> 策略档案名"
+    ],
+    "gears": [
+        { "name": "报废轮子", "range": "line", "distance": 2, "maxUses": 1, "apCost": 1 },
+        { "name": "报废假肢", "range": "ring8", "maxUses": 1, "apCost": 1 },
+        { "name": "标准引擎", "range": "ring8", "maxUses": 3, "apCost": 1 },
+        { "name": "重弹簧", "range": "ring12", "maxUses": 1, "apCost": 0, "carryover": false },
+        { "name": "气垫底座", "range": "ring12", "maxUses": 2, "apCost": 1 },
+        { "name": "试作外骨骼", "range": "line", "distance": 3, "maxUses": 2, "apCost": 1 },
+        { "name": "小八界", "range": "randomNonCombat", "maxUses": 1, "apCost": 0, "carryover": false, "controllable": false },
+        { "name": "一次性喷气背包", "range": "any", "maxUses": 1, "apCost": 0, "carryover": false },
+        { "name": "老妈妈的融雪", "range": "anyNonCombat", "maxUses": 1, "apCost": 1 },
+        { "name": "坎诺特的触须", "range": "anyTrader", "maxUses": 2, "apCost": 1 },
+        { "name": "结构性原理", "range": "any", "maxUses": 3, "apCost": 1 },
+        { "name": "简易遥控器", "range": "ring8", "maxUses": 1, "apCost": 0, "apGain": 3 }
+    ],
+    "nodeEffects": {
+        "VantagePoint": { "apGain": 1 },
+        "WindingPassage": { "teleportPaired": true }
+    },
+    "typeSets": {
+        "combat": ["CombatOps", "EmergencyOps", "DreadfulFoe", "FerociousPresage"],
+        "trader": ["RogueTrader", "HiddenTrader"],
+        "endpoint": ["PathEnd", "PathLane", "DreadfulFoe"]
+    },
+    "strategies": {
+        "clear": {
+            "endpointRequired": true,
+            "endpointUnreachable": "abandon",
+            "abandonWhenNoPositive": false,
+            "nodeWeights": {
+                "Boons": 8,
+                "Encounter": 6,
+                "EmergencyAid": 5,
+                "RogueTrader": 3,
+                "HiddenTrader": 3,
+                "MysteriousPresage": 2,
+                "SafeHouse": 1,
+                "Recreation": 1,
+                "CombatOps": -2,
+                "FerociousPresage": -3,
+                "EmergencyOps": -5,
+                "DreadfulFoe": 1
+            },
+            "gearUseCost": 0.5,
+            "nonCarryoverUseCost": 0.0,
+            "gearUseReward": {},
+            "leftoverApWeight": 0.1
+        },
+        "investment": {
+            "endpointRequired": false,
+            "endpointUnreachable": "abandon",
+            "abandonWhenNoPositive": true,
+            "preferRightCenterMysteriousPresage": true,
+            "nodeWeights": {
+                "RogueTrader": 10,
+                "HiddenTrader": 8,
+                "MysteriousPresage": 4,
+                "Encounter": 1,
+                "Boons": 1,
+                "CombatOps": -6,
+                "FerociousPresage": -6,
+                "EmergencyOps": -8,
+                "DreadfulFoe": -10
+            },
+            "gearUseCost": 0.5,
+            "nonCarryoverUseCost": 0.0,
+            "gearUseReward": { "坎诺特的触须": 2 },
+            "leftoverApWeight": 0.1
+        },
+        "boilWater": {
+            "endpointRequired": true,
+            "shortestEndpoint": true,
+            "avoidCombatFirst": true,
+            "endpointUnreachable": "abandon",
+            "abandonWhenNoPositive": false,
+            "nodeWeights": {
+                "Boons": 3,
+                "Encounter": 3,
+                "EmergencyAid": 3,
+                "RogueTrader": 2,
+                "HiddenTrader": 2,
+                "MysteriousPresage": 2,
+                "SafeHouse": 1,
+                "Recreation": 1,
+                "CombatOps": -20,
+                "FerociousPresage": -30,
+                "EmergencyOps": -30,
+                "DreadfulFoe": -40
+            },
+            "gearUseCost": 0.5,
+            "nonCarryoverUseCost": 0.0,
+            "gearUseReward": {},
+            "leftoverApWeight": 0.1
+        }
+    },
+    "modeStrategies": {
+        "0": "clear",
+        "1": "investment",
+        "4": "boilWater"
+    }
+}

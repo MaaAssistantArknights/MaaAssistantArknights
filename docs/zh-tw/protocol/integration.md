@@ -579,6 +579,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ::: field name="stop_at_final_boss" type="boolean" optional default="false"  
 是否在第 5 層「險路惡敵」節點前停止任務。僅適用於 **Phantom 以外**的主題。  
 :::  
+::: field name="blackflow_no_boss" type="boolean" optional default="false"
+黑流樹海刷等級模式是否在第三層不打 Boss，並在可達的不期而遇完成後放棄本局。僅適用於 Blackflow 主題的模式 0。
+:::
 ::: field name="stop_at_max_level" type="boolean" optional default="false"  
 是否在肉鴿等級刷滿後停止任務。  
 :::  

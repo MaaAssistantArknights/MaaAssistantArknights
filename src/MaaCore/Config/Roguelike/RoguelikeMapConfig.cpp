@@ -31,7 +31,14 @@ static const std::unordered_map<std::string, RoguelikeNodeType> NODE_TYPE_MAPPIN
     { "Playtime", RoguelikeNodeType::Playtime },
     { "OldShop", RoguelikeNodeType::OldShop },
     { "YiTrader", RoguelikeNodeType::YiTrader },
-    { "Scheme", RoguelikeNodeType::Scheme }
+    { "Scheme", RoguelikeNodeType::Scheme },
+    { "PathEnd", RoguelikeNodeType::PathEnd },
+    { "PathLane", RoguelikeNodeType::PathLane },
+    { "HiddenTrader", RoguelikeNodeType::HiddenTrader },
+    { "EmergencyAid", RoguelikeNodeType::EmergencyAid },
+    { "WindingPassage", RoguelikeNodeType::WindingPassage },
+    { "VantagePoint", RoguelikeNodeType::VantagePoint },
+    { "ResidentStronghold", RoguelikeNodeType::ResidentStronghold }
 };
 
 bool RoguelikeMapConfig::parse(const json::value& json)
@@ -40,6 +47,7 @@ bool RoguelikeMapConfig::parse(const json::value& json)
 
     const std::string theme = json.at("theme").as_string();
     m_templ_type_mappings.erase(theme);
+    m_text_type_mappings.erase(theme);
 
     for (const auto& node_json : json.at("nodes").as_array()) {
         const std::string& type_name = node_json.at("type").as_string();
@@ -49,9 +57,18 @@ bool RoguelikeMapConfig::parse(const json::value& json)
             return false;
         }
         RoguelikeNodeType type = it->second;
-        for (const auto& template_json : node_json.at("template").as_array()) {
-            const std::string node_template = template_json.as_string();
-            m_templ_type_mappings[theme].emplace(node_template, type);
+        // template 与 name 均为可选：模板匹配主题用 template，OCR 铭牌主题（黑流树海）用 name
+        if (auto opt = node_json.find<json::array>("template")) {
+            for (const auto& template_json : opt.value()) {
+                const std::string node_template = template_json.as_string();
+                m_templ_type_mappings[theme].emplace(node_template, type);
+            }
+        }
+        if (auto opt = node_json.find<json::array>("name")) {
+            for (const auto& name_json : opt.value()) {
+                const std::string node_name = name_json.as_string();
+                m_text_type_mappings[theme].emplace(node_name, type);
+            }
         }
     }
     return true;
@@ -68,6 +85,22 @@ RoguelikeNodeType RoguelikeMapConfig::templ2type(const std::string& theme, const
     auto inner_it = templ_type_mapping.find(templ_name);
     if (inner_it == templ_type_mapping.end()) {
         Log.error(__FUNCTION__, "| No roguelike node type is specified for template", templ_name);
+        return RoguelikeNodeType::Unknown;
+    }
+    return inner_it->second;
+}
+
+RoguelikeNodeType RoguelikeMapConfig::text2type(const std::string& theme, const std::string& text) const
+{
+    auto outer_it = m_text_type_mappings.find(theme);
+    if (outer_it == m_text_type_mappings.end()) {
+        Log.error(__FUNCTION__, "| Unsupported roguelike theme:", theme);
+        return RoguelikeNodeType::Unknown;
+    }
+    const auto& text_type_mapping = outer_it->second;
+    auto inner_it = text_type_mapping.find(text);
+    if (inner_it == text_type_mapping.end()) {
+        // OCR 常有噪声，找不到不算错误，交由调用方判定
         return RoguelikeNodeType::Unknown;
     }
     return inner_it->second;
