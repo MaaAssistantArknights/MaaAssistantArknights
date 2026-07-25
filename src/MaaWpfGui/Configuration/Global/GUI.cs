@@ -75,6 +75,11 @@ public class Gui : INotifyPropertyChanged
 
     public OverlayTargetInfo OverlayTarget { get; set; } = new();
 
+    /// <summary>
+    /// 全局热键配置，序列化为 JSON 字符串（Dictionary&lt;MaaHotKeyAction, MaaHotKey&gt;）。
+    /// </summary>
+    public string HotKeys { get; set; } = string.Empty;
+
     public int GuideStep { get; set; } = 0;
 
     public bool ExpanderSwitchConfiguration { get; set; } = true;

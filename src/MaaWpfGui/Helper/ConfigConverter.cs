@@ -1058,6 +1058,8 @@ public class ConfigConverter
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, out var _);
             ConfigFactory.Root.Gui.GuideStep = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0);
             ConfigurationHelper.DeleteValue(ConfigurationKeys.GuideStepIndex);
+            ConfigFactory.Root.Gui.HotKeys = ConfigurationHelper.GetGlobalValue("HotKeys", string.Empty);
+            ConfigurationHelper.DeleteGlobalValue("HotKeys", out var _);
             try
             {
                 var saved = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.OverlayTarget, string.Empty);
