@@ -25,14 +25,14 @@ public class Gui : INotifyPropertyChanged
 
     public void EventBinding(string prefix)
     {
-        PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + ".");
-        Performance.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + "." + nameof(Performance) + ".");
-        ExternalNotification.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + "." + nameof(ExternalNotification) + ".");
-        ExternalNotification.Configs.CollectionChanged += Handler.OnCollectionChangedFactory<Base>(prefix + nameof(Gui) + "." + nameof(ExternalNotification) + ".");
-        RemoteControl.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + "." + nameof(RemoteControl) + ".");
-        RuntimeSettings.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + "." + nameof(RuntimeSettings) + ".");
-        ConnectSettings.EventBinding(prefix + nameof(Gui) + ".");
-        StartUpSettings.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Gui) + "." + nameof(StartUpSettings) + ".");
+        PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
+        Performance.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Performance) + ".");
+        ExternalNotification.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(ExternalNotification) + ".");
+        ExternalNotification.Configs.CollectionChanged += Handler.OnCollectionChangedFactory<Base>(prefix + nameof(ExternalNotification) + ".");
+        RemoteControl.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(RemoteControl) + ".");
+        RuntimeSettings.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(RuntimeSettings) + ".");
+        ConnectSettings.EventBinding(prefix + nameof(ConnectSettings) + ".");
+        StartUpSettings.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(StartUpSettings) + ".");
     }
 
     [JsonInclude]
