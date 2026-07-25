@@ -1183,6 +1183,9 @@ bool asst::BattleFormationTask::do_operbox_precheck()
         if (a.rarity != b.rarity) {
             return a.rarity > b.rarity;
         }
+        if (a.potential != b.potential) {
+            return a.potential > b.potential;
+        }
         auto get_id_num = [](const std::string& id) {
             auto first_underscore = id.find('_');
             if (first_underscore == std::string::npos) {
@@ -1289,8 +1292,16 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             auto cur_data = oper_data;
             std::erase_if(cur_data, [&](const OperBoxInfo& o) { return o.id == borrow_id; });
             auto fake_idx = cur_data.size();
-            cur_data.push_back(
-                { .id = borrow_id, .elite = 2, .own = true }); // 借助战干员，精英化等级设为2，保证能匹配上
+            const auto& all_chars = BattleData.get_all_chars();
+            OperBoxInfo fake_oper {};
+            fake_oper.id = borrow_id;
+            fake_oper.name = all_chars.at(borrow_id)->name;
+            fake_oper.rarity = all_chars.at(borrow_id)->rarity;
+            fake_oper.elite = fake_oper.rarity / 4 + (fake_oper.rarity > 2); // magic: 满练
+            fake_oper.level = 30 + (fake_oper.elite * 25) + (fake_oper.rarity > 3) * 10 * (fake_oper.rarity - 5);
+            fake_oper.potential = 6;
+            fake_oper.own = true;
+            cur_data.push_back(std::move(fake_oper));
 
             auto retry =
                 algorithm::bipartite::bipartite_max_match<OperGroup, OperBoxInfo>(flat_groups, cur_data, can_match);
@@ -1309,7 +1320,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
                 m_operbox_assigned = std::move(new_assigned);
                 json::value info = basic_info_with_what("BattleFormationOperbox1Unmatched");
                 info["details"]["group_name"] = m_operbox_unmatched_group;
-                info["details"]["may_borrow_oper"] = BattleData.get_all_chars().at(borrow_id)->name;
+                info["details"]["may_borrow_oper"] = all_chars.at(borrow_id)->name;
                 callback(AsstMsg::SubTaskExtraInfo, info);
                 return true;
             }
