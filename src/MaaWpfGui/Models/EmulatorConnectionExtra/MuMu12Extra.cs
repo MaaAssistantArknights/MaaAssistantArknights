@@ -18,7 +18,6 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Windows;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.Win32;
@@ -197,7 +196,7 @@ public class MuMu12Extra() : ExtraConfig, IJsonOnDeserialized
 
     [JsonInclude]
     [JsonPropertyName("EnableBridgeConnection")]
-    private bool _enableBridgeConnection = ConfigurationHelper.GetValue(ConfigurationKeys.MumuBridgeConnection, false);
+    private bool _enableBridgeConnection;
 
     [JsonIgnore]
     public bool EnableBridgeConnection
