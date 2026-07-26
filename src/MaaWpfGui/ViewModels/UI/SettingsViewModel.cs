@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
@@ -891,10 +892,10 @@ public class SettingsViewModel : Screen
 
     private bool GetExpanderState(SettingKey key) => ConfigFactory.Root.Gui.ExpanderStates.TryGetValue(key, out var v) ? v : true;
 
-    private void SetExpanderState(SettingKey key, bool value)
+    private void SetExpanderState(SettingKey key, bool value, [CallerMemberName] string propertyName = "")
     {
         ConfigFactory.Root.Gui.ExpanderStates[key] = value;
-        NotifyOfPropertyChange();
+        NotifyOfPropertyChange(propertyName);
     }
 
     public bool IsSwitchConfigurationExpanded
