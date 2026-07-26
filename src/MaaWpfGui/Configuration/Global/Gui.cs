@@ -87,7 +87,7 @@ public class Gui : INotifyPropertyChanged
     /// <summary>
     /// 设置页折叠框展开状态。
     /// </summary>
-    public ObservableCollection<SettingKey> ExpanderStates { get; set; } = [.. Enum.GetValues<SettingKey>()];
+    public ObservableCollection<SettingKey> CollapesStates { get; set; } = [];
 
     /// <summary>
     /// 全局热键配置。

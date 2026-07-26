@@ -862,17 +862,17 @@ public class SettingsViewModel : Screen
 
     #region 折叠框展开状态
 
-    private bool GetExpanderState(SettingKey key) => ConfigFactory.Root.Gui.ExpanderStates.Contains(key);
+    private bool GetExpanderState(SettingKey key) => !ConfigFactory.Root.Gui.CollapesStates.Contains(key);
 
     private void SetExpanderState(SettingKey key, bool value, [CallerMemberName] string propertyName = "")
     {
-        if (value)
+        if (!value)
         {
-            ConfigFactory.Root.Gui.ExpanderStates.Add(key);
+            ConfigFactory.Root.Gui.CollapesStates.Add(key);
         }
         else
         {
-            ConfigFactory.Root.Gui.ExpanderStates.Remove(key);
+            ConfigFactory.Root.Gui.CollapesStates.Remove(key);
         }
         NotifyOfPropertyChange(propertyName);
     }

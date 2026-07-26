@@ -35,7 +35,7 @@ public class Root : INotifyPropertyChanged
         AnnouncementInfo.PropertyChanged += Handler.OnPropertyChangedFactory($"{prefix}{nameof(AnnouncementInfo)}.");
         Gui.PropertyChanged += Handler.OnPropertyChangedFactory($"{prefix}{nameof(Gui)}.");
         Gui.Background.PropertyChanged += Handler.OnPropertyChangedFactory($"{prefix}{nameof(Gui)}.{nameof(Gui.Background)}.");
-        Gui.ExpanderStates.CollectionChanged += Handler.OnCollectionChangedFactory<SettingKey>($"{prefix}{nameof(Gui)}.{nameof(Gui.ExpanderStates)}.");
+        Gui.CollapesStates.CollectionChanged += Handler.OnCollectionChangedFactory<SettingKey>($"{prefix}{nameof(Gui)}.{nameof(Gui.CollapesStates)}.");
         Update.PropertyChanged += Handler.OnPropertyChangedFactory($"{prefix}{nameof(Update)}.");
     }
 

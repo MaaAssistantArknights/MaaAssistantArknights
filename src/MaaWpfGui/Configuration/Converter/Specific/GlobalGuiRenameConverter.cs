@@ -13,7 +13,6 @@
 
 #nullable enable
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -39,18 +38,18 @@ public class GlobalGuiRenameConverter : JsonConverter<Root>
             var jsonObject = JsonNode.Parse(jsonDoc.RootElement.GetRawText()) as JsonObject;
             if (jsonObject?.TryGetPropertyValue("GUI", out var guiNode) is true)
             {
-                var list = new HashSet<SettingKey>();
+                var list = Enum.GetValues<SettingKey>().ToList();
                 foreach (var (key, jsonKey) in Enum.GetValues<SettingKey>().Select(i => (i, $"Expander{i}")))
                 {
                     if (guiNode is JsonObject guiObject && guiObject.TryGetPropertyValue(jsonKey, out var isExpand) is true && isExpand is JsonValue jsonValue && jsonValue.TryGetValue(out bool expand))
                     {
                         if (expand)
                         {
-                            list.Add(key);
+                            list.Remove(key);
                         }
                     }
                 }
-                guiNode?["ExpanderStates"] = JsonSerializer.SerializeToNode(list, GetOptionsWithoutThisConverter(options));
+                guiNode?[nameof(Root.Gui.CollapesStates)] = JsonSerializer.SerializeToNode(list, GetOptionsWithoutThisConverter(options));
                 if (!jsonObject.ContainsKey("Gui"))
                 {
                     jsonObject["Gui"] = guiNode?.DeepClone();
