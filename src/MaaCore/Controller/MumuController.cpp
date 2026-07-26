@@ -125,7 +125,9 @@ bool MumuController::swipe(
         return ret;
     };
 
-    auto bounds_check = [this](int x, int y) { return x >= 0 && x < m_width && y >= 0 && y < m_height; };
+    auto bounds_check = [this](int x, int y) {
+        return x >= 0 && x < m_width && y >= 0 && y < m_height;
+    };
 
     bool need_pause = with_pause && use_swipe_with_pause();
 

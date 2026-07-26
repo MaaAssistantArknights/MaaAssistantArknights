@@ -55,6 +55,7 @@ private:
     void disconnect_mumu();
     // 0 是合法的 display id，查询失败必须和它区分开，否则会把输入打到错误的 display
     std::optional<int> get_display_id();
+
     void invalidate_display_id() { display_id_cache_ = kInvalidDisplayId; }
 
     // MuMuManager.exe version >= 6.3.2.0 才支持 external renderer 输入，低版本行为异常
