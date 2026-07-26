@@ -1,4 +1,4 @@
-## v6.15.0-beta.1
+## v6.15.0-beta.2
 
 ### Highlights
 
@@ -36,6 +36,16 @@ GUI configuration has been migrated to `gui.new.json`; future versions will no l
 以下是详细内容：
 
 <details open>
+<summary><b>v6.15.0-beta.2 (2026-07-26)</b></summary>
+
+### 修复 | Fix
+
+* 修复 WPF 配置迁移引入的 `client_type` 参数序列化错误（枚举值被序列化为数字而非字符串），导致开始唤醒、战斗、关闭客户端等任务添加失败的问题 @status102
+* 修复连接地址历史记录因在非 UI 线程更新集合而无法正确记录的问题 @status102
+
+</details>
+
+<details>
 <summary><b>v6.15.0-beta.1 (2026-07-26)</b></summary>
 
 ### 新增 | New
