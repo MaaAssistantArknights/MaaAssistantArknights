@@ -1255,7 +1255,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             task.MaxTimes = 0;
             task.Drops = new() { { dropId, 1 } };
             Instances.TaskQueueViewModel.AddLog(
-                LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", logLabel ?? string.Empty, dropName, currentCount, dropCount),
+                LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", logLabel ?? string.Empty, dropName, currentCount.ToString("N0"), dropCount.ToString("N0")),
                 UiLogColor.Info);
         }
         else

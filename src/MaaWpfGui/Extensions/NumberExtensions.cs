@@ -36,6 +36,15 @@ public static class NumberExtensions
         _ => $"{n}",
     };
 
+    public static string FormatNumber(this string n, bool abbreviateK = true)
+    {
+        if (!long.TryParse(n, out var number))
+        {
+            return n;
+        }
+        return number.FormatNumber(abbreviateK);
+    }
+
     /// <summary>
     /// 将数值限制在指定范围内
     /// </summary>

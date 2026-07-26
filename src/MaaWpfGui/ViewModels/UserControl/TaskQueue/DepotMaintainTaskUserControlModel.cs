@@ -21,6 +21,7 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
@@ -181,7 +182,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     public ObservableCollection<StageSourceItem> StageListSource { get; private set => SetAndNotify(ref field, value); } = [];
 
     [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
-    public string PlanInfo => string.Join("\n", PlanList.Select((t, i) => $"{i + 1}: {StageListSource.FirstOrDefault(i => i.Value == t.Stage)?.Display ?? t.Stage} - {t.DropName} {GetCurrentInventoryCount(t.DropId)}/{t.DropCount}"));
+    public string PlanInfo => string.Join("\n", PlanList.Select((t, i) => $"{i + 1}: {StageListSource.FirstOrDefault(i => i.Value == t.Stage)?.Display ?? t.Stage} - {t.DropName} {GetCurrentInventoryCount(t.DropId).FormatNumber(false)}/{t.DropCount.FormatNumber(false)}"));
 
     /// <summary>
     /// 获取指定掉落物当前库存数量，无数据时返回 "--"。
@@ -293,7 +294,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     {
         public bool IsExpanded { get; set => SetAndNotify(ref field, value); }
 
-        public string Title => $"{Instance.PlanList.IndexOf(this) + 1}: {Instance.StageListSource.FirstOrDefault(i => i.Value == Stage)?.Display ?? Stage} - {DropName} x{DropCount}";
+        public string Title => $"{Instance.PlanList.IndexOf(this) + 1}: {Instance.StageListSource.FirstOrDefault(i => i.Value == Stage)?.Display ?? Stage} - {DropName} x{DropCount.FormatNumber(false)}";
 
         /// <summary>
         /// 增删 plan 或语言切换后刷新 Title 显示（序号/关卡名/材料名）。
@@ -489,7 +490,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 if (need <= 0)
                 {
                     var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1, dropName, currentCount, plan.DropCount));
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1, dropName, currentCount.ToString("N0"), plan.DropCount.ToString("N0")));
                     taskIds.Add(0);
                     continue;
                 }
