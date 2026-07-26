@@ -15,6 +15,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -68,27 +69,21 @@ public class RunningState
     private const int MaxMinutes = 11451;
     private const int LongTaskTimeoutMinutes = 60;
 
-    private int _reminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30).Clamp(1, MaxMinutes);
-
     public int ReminderIntervalMinutes
     {
-        get => _reminderIntervalMinutes;
-        set {
+        get; set {
             value = value.Clamp(1, MaxMinutes);
-            _reminderIntervalMinutes = value;
+            field = value;
             TimeoutReminderTimer_Elapsed(null, null);
             _timeoutReminderTimer.Interval = value * 60 * 1000;
         }
-    }
-
-    private int _stallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25).Clamp(0, MaxMinutes);
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
 
     public int StallTimeoutMinutes
     {
-        get => _stallTimeoutMinutes;
-        set {
+        get; set {
             value = value.Clamp(0, MaxMinutes);
-            _stallTimeoutMinutes = value;
+            field = value;
             _stallIsFirstFire = true;
             if (_stallTimer.Enabled)
             {
@@ -100,24 +95,21 @@ public class RunningState
                 }
             }
         }
-    }
-
-    private bool _stallTimeoutEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutEnabled, true);
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes;
 
     /// <summary>
     /// Gets or sets a value indicating whether 启用停滞检测
     /// </summary>
-    public bool StallTimeoutEnabled
+    public bool EnableStallTimeout
     {
-        get => _stallTimeoutEnabled;
-        set {
-            _stallTimeoutEnabled = value;
+        get; set {
+            field = value;
             if (!value && _stallTimer.Enabled)
             {
                 _stallTimer.Stop();
             }
         }
-    }
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableStallTimeout;
 
     public event EventHandler<string>? StallOccurred;
 
@@ -125,7 +117,7 @@ public class RunningState
     {
         _stallAccumulatedCount = 0;
         _stallIsFirstFire = true;
-        if (_stallTimer.Enabled && StallTimeoutEnabled && StallTimeoutMinutes > 0)
+        if (_stallTimer.Enabled && EnableStallTimeout && StallTimeoutMinutes > 0)
         {
             _stallTimer.Interval = StallTimeoutMinutes * 60 * 1000;
             _stallTimer.Stop();
@@ -140,7 +132,7 @@ public class RunningState
         _timeoutReminderTimer.Start();
         _stallAccumulatedCount = 0;
         _stallIsFirstFire = true;
-        if (StallTimeoutEnabled && StallTimeoutMinutes > 0)
+        if (EnableStallTimeout && StallTimeoutMinutes > 0)
         {
             _stallTimer.Interval = StallTimeoutMinutes * 60 * 1000;
             _stallTimer.Start();
@@ -187,7 +179,7 @@ public class RunningState
             accumulatedMinutes);
         StallOccurred?.Invoke(this, message);
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.LongTaskTimeout);
-        if (StallTimeoutEnabled && StallTimeoutMinutes > 0)
+        if (EnableStallTimeout && StallTimeoutMinutes > 0)
         {
             if (_stallIsFirstFire)
             {

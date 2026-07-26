@@ -192,7 +192,6 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                 return;
             }
 
-            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastMode, value.ToString());
             ParseCustomInfrastPlan();
         }
     }
@@ -233,8 +232,6 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         set => SetTaskConfig<InfrastTask>(t => t.ContinueTraining == value, t => t.ContinueTraining = value);
     }
 
-    private string _defaultInfrast = ConfigurationHelper.GetValue(ConfigurationKeys.DefaultInfrast, UserDefined);
-
     public const string UserDefined = "user_defined";
 
     /// <summary>
@@ -242,10 +239,10 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     /// </summary>
     public string DefaultInfrast
     {
-        get => _defaultInfrast;
+        get => GetTaskConfig<InfrastTask>().CustomFileType;
         set {
-            SetAndNotify(ref _defaultInfrast, value);
-            if (_defaultInfrast != UserDefined)
+            SetTaskConfig<InfrastTask>(t => t.CustomFileType == value, t => t.CustomFileType = value);
+            if (value != UserDefined)
             {
                 CustomInfrastFile = Path.Combine(PathsHelper.ResourceDir, "custom_infrast", value);
             }
@@ -255,7 +252,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     }
 
     [PropertyDependsOn(nameof(DefaultInfrast))]
-    public bool IsCustomInfrastFileReadOnly => _defaultInfrast != UserDefined;
+    public bool IsCustomInfrastFileReadOnly => DefaultInfrast != UserDefined;
 
     /// <summary>
     /// Gets or sets a value indicating whether the not stationed filter in dorm is enabled.
@@ -420,7 +417,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
             Instances.TaskQueueViewModel.AddLog(string.Empty, splitMode: UI.TaskQueueViewModel.LogCardSplitMode.After);
 
             CustomInfrastPlanList = [.. list];
-            if (_defaultInfrast == UserDefined && list.Count > 0)
+            if (DefaultInfrast == UserDefined && list.Count > 0)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.PrivateDormManager);
             }

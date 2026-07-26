@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels.UI;
@@ -45,8 +45,7 @@ public partial class NotifyIcon
         _clickTimer = new(doubleClickTime) {
             AutoReset = false,
         };
-        _clickTimer.Elapsed += (s, e) =>
-        {
+        _clickTimer.Elapsed += (s, e) => {
             _canClick = true;
         };
 
@@ -60,7 +59,7 @@ public partial class NotifyIcon
     private void InitIcon()
     {
         notifyIcon.Icon = AppIcon.GetIcon();
-        notifyIcon.Visibility = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, true) ? Visibility.Visible : Visibility.Collapsed;
+        notifyIcon.Visibility = ConfigFactory.Root.Gui.UseTray ? Visibility.Visible : Visibility.Collapsed;
 
         notifyIcon.Click += NotifyIcon_MouseClick;
         notifyIcon.MouseDoubleClick += NotifyIcon_MouseClick;
@@ -81,8 +80,7 @@ public partial class NotifyIcon
             }
 
             var langMenu = new MenuItem() { Header = lang.Value };
-            langMenu.Click += (_, _) =>
-            {
+            langMenu.Click += (_, _) => {
                 SettingsViewModel.GuiSettings.Language = lang.Key;
             };
 

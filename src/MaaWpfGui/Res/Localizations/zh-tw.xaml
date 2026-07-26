@@ -52,6 +52,7 @@
     <system:String x:Key="ExternalNotificationSendSuccess">發送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">發送失敗</system:String>
     <system:String x:Key="ExternalNotificationSendTest">發送測試</system:String>
+    <system:String x:Key="ExternalNotificationAddConfig">添加推送</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知測試</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">這是 MAA 外部通知測試資訊。如果您看到了這段內容，就說明通知發送成功了！</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 發送金鑰</system:String>

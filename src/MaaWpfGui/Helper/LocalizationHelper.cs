@@ -21,8 +21,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
-using MaaWpfGui.Constants;
-using MaaWpfGui.Extensions;
+using MaaWpfGui.Configuration.Factory;
 using Stylet;
 
 namespace MaaWpfGui.Helper;
@@ -69,9 +68,9 @@ public static class LocalizationHelper
         }
     }
 
-    private static string _culture = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, DefaultLanguage);
+    private static string _culture = ConfigFactory.Root.Gui.Localization;
 
-    private static string _customCulture = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomCulture, string.Empty);
+    private static string _customCulture = ConfigFactory.Root.Gui.CustomCulture;
 
     /// <summary>
     /// 获取当前语言。

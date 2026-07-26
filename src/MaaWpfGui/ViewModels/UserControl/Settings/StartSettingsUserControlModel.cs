@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
@@ -76,43 +77,34 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _runDirectly = ConfigurationHelper.GetValue(ConfigurationKeys.RunDirectly, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to run directly.
     /// </summary>
     public bool RunDirectly
     {
-        get => _runDirectly;
-        set {
-            SetAndNotify(ref _runDirectly, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RunDirectly, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.StartUpSettings.RunDirectly = value;
         }
-    }
-
-    private bool _minimizeDirectly = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeDirectly, false);
+    } = ConfigFactory.CurrentConfig.Gui.StartUpSettings.RunDirectly;
 
     /// <summary>
     /// Gets or sets a value indicating whether to minimize directly.
     /// </summary>
     public bool MinimizeDirectly
     {
-        get => _minimizeDirectly;
-        set {
-            SetAndNotify(ref _minimizeDirectly, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MinimizeDirectly, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.MinimizeOnStartup = value;
         }
-    }
-
-    private bool _openEmulatorAfterLaunch = ConfigurationHelper.GetValue(ConfigurationKeys.StartEmulator, false);
+    } = ConfigFactory.Root.Gui.MinimizeOnStartup;
 
     /// <summary>
     /// Gets or sets a value indicating whether to start emulator.
     /// </summary>
     public bool OpenEmulatorAfterLaunch
     {
-        get => _openEmulatorAfterLaunch;
-        set {
+        get; set {
             if (string.IsNullOrEmpty(SettingsViewModel.StartSettings.EmulatorPath))
             {
                 MessageBoxHelper.Show(
@@ -123,28 +115,21 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 value = false;
             }
 
-            SetAndNotify(ref _openEmulatorAfterLaunch, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.StartEmulator, value.ToString());
-            if (SettingsViewModel.GameSettings.ClientType == string.Empty && _runningState.GetIdle())
-            {
-                SettingsViewModel.GameSettings.ClientType = "Official";
-            }
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.StartUpSettings.StartEmulator = value;
         }
-    }
-
-    private string _emulatorPath = ConfigurationHelper.GetValue(ConfigurationKeys.EmulatorPath, string.Empty);
+    } = ConfigFactory.CurrentConfig.Gui.StartUpSettings.StartEmulator;
 
     /// <summary>
     /// Gets or sets the emulator path.
     /// </summary>
     public string EmulatorPath
     {
-        get => _emulatorPath;
-        set {
+        get; set {
             value = value.Trim();
 
             // 这里不用 SetAndNotify 判断
-            if (value == _emulatorPath)
+            if (value == field)
             {
                 return;
             }
@@ -182,62 +167,33 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 Growl.Warning(LocalizationHelper.GetString("EmulatorPathNotExist"));
             }
 
-            SetAndNotify(ref _emulatorPath, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.EmulatorPath, value);
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.StartUpSettings.EmulatorPath = value;
         }
-    }
-
-    private string _emulatorAddCommand = ConfigurationHelper.GetValue(ConfigurationKeys.EmulatorAddCommand, string.Empty);
+    } = ConfigFactory.CurrentConfig.Gui.StartUpSettings.EmulatorPath;
 
     /// <summary>
     /// Gets or sets the command to append after the emulator command.
     /// </summary>
     public string EmulatorAddCommand
     {
-        get => _emulatorAddCommand;
-        set {
-            SetAndNotify(ref _emulatorAddCommand, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.EmulatorAddCommand, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.StartUpSettings.EmulatorAddCommand = value;
         }
-    }
-
-    private string _emulatorWaitSeconds = ConfigurationHelper.GetValue(ConfigurationKeys.EmulatorWaitSeconds, "60");
+    } = ConfigFactory.CurrentConfig.Gui.StartUpSettings.EmulatorAddCommand;
 
     /// <summary>
     /// Gets or sets the seconds to wait for the emulator.
     /// </summary>
-    public string EmulatorWaitSeconds
+    public int EmulatorWaitSeconds
     {
-        get => _emulatorWaitSeconds;
+        get;
         set {
-            SetAndNotify(ref _emulatorWaitSeconds, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.EmulatorWaitSeconds, value);
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.StartUpSettings.EmulatorWaitSeconds = value;
         }
-    }
-
-    private bool _blockSleep = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, false);
-
-    public bool BlockSleep
-    {
-        get => _blockSleep;
-        set {
-            SetAndNotify(ref _blockSleep, value);
-            SleepManagement.SetBlockSleep(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleep, value.ToString());
-        }
-    }
-
-    private bool _blockSleepWithScreenOn = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, true);
-
-    public bool BlockSleepWithScreenOn
-    {
-        get => _blockSleepWithScreenOn;
-        set {
-            SetAndNotify(ref _blockSleepWithScreenOn, value);
-            SleepManagement.SetBlockSleepWithScreenOn(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleepWithScreenOn, value.ToString());
-        }
-    }
+    } = ConfigFactory.CurrentConfig.Gui.StartUpSettings.EmulatorWaitSeconds;
 
     private (string FileName, string Arguments) ResolveShortcut(string path)
     {
@@ -320,12 +276,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        int delay = 0;
-        if (!test && !int.TryParse(EmulatorWaitSeconds, out delay))
-        {
-            delay = 60;
-        }
-
+        int delay = test ? 0 : ConfigFactory.CurrentConfig.Gui.StartUpSettings.EmulatorWaitSeconds;
         try
         {
             var (fileName, arguments) = ResolveShortcut(EmulatorPath);

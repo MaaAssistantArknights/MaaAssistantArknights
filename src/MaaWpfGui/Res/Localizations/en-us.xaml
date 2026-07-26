@@ -52,6 +52,7 @@
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
     <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
+    <system:String x:Key="ExternalNotificationAddConfig">Add Notification</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA external notification test</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">This is MAA external notification test information. If you see this content, the notification was sent successfully!</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan Send Key</system:String>

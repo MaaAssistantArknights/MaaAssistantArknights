@@ -13,6 +13,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Text.Json.Serialization;
 
 namespace MaaWpfGui.Models;
 
@@ -20,11 +21,17 @@ namespace MaaWpfGui.Models;
 [StructLayout(LayoutKind.Sequential)]
 public struct WindowPlacement
 {
+    [JsonInclude]
     public int Length;
+    [JsonInclude]
     public int Flags;
+    [JsonInclude]
     public int ShowCmd;
+    [JsonInclude]
     public Point MinPosition;
+    [JsonInclude]
     public Point MaxPosition;
+    [JsonInclude]
     public Rect NormalPosition;
 }
 
@@ -32,9 +39,13 @@ public struct WindowPlacement
 [StructLayout(LayoutKind.Sequential)]
 public struct Rect
 {
+    [JsonInclude]
     public int Left;
+    [JsonInclude]
     public int Top;
+    [JsonInclude]
     public int Right;
+    [JsonInclude]
     public int Bottom;
 
     public Rect(int left, int top, int right, int bottom)
@@ -50,7 +61,9 @@ public struct Rect
 [StructLayout(LayoutKind.Sequential)]
 public struct Point
 {
+    [JsonInclude]
     public int X;
+    [JsonInclude]
     public int Y;
 
     public Point(int x, int y)

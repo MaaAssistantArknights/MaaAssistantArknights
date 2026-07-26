@@ -568,7 +568,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
     public void CheckTimeManagementMaster()
     {
         var timerSettings = SettingsViewModel.TimerSettings;
-        if (timerSettings.TimerModels.Timers.Any(timer => timer.IsOn != true))
+        if (timerSettings.TimerList.Any(timer => timer.IsEnabled != true))
         {
             return;
         }

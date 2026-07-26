@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,7 +36,6 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
-using Newtonsoft.Json;
 using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -367,11 +365,10 @@ public class SettingsViewModel : Screen
 
     private void InitConnectConfig()
     {
-        var addressListJson = ConfigurationHelper.GetValue(ConfigurationKeys.AddressHistory, string.Empty);
-        if (!string.IsNullOrEmpty(addressListJson))
-        {
-            ConnectSettings.ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson) ?? [];
-        }
+        ConnectSettings.ConnectAddressHistory = new(ConfigFactory.CurrentConfig.Gui.ConnectSettings.AddressHistory);
+        ConnectSettings.ConnectAddressHistory.CollectionChanged += (_, _) => {
+            ConfigFactory.CurrentConfig.Gui.ConnectSettings.AddressHistory = [.. ConnectSettings.ConnectAddressHistory];
+        };
     }
 
     private void InitVersionUpdate()
@@ -405,30 +402,24 @@ public class SettingsViewModel : Screen
         GuiSettings.SetLanguageInternal(PallasLangKey);
     }
 
-    private bool _hangover = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Hangover, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether need to show hangover dialog.
     /// </summary>
     public bool Hangover
     {
-        get => _hangover;
-        set {
-            SetAndNotify(ref _hangover, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Hangover, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.Hangover = value;
         }
-    }
+    } = ConfigFactory.Root.Gui.Hangover;
 
-    private string _lastBuyWineTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.LastBuyWineTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
-
-    public string LastBuyWineTime
+    public DateTimeOffset LastBuyWineTime
     {
-        get => _lastBuyWineTime;
-        set {
-            SetAndNotify(ref _lastBuyWineTime, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.LastBuyWineTime, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.LastBuyWineTime = value;
         }
-    }
+    } = ConfigFactory.Root.Gui.LastBuyWineTime;
 
     /// <summary>
     /// 退出时调用：如果当前喝醉，切回清醒语言并留宿醉标记。
@@ -483,16 +474,13 @@ public class SettingsViewModel : Screen
         };
     }
 
-    private string _soberLanguage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.SoberLanguage, LocalizationHelper.DefaultLanguage);
-
     public string SoberLanguage
     {
-        get => _soberLanguage;
-        set {
-            SetAndNotify(ref _soberLanguage, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.SoberLanguage, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.SoberLanguage = value;
         }
-    }
+    } = ConfigFactory.Root.Gui.SoberLanguage;
 
     /// <summary>
     /// Did you buy wine?
@@ -500,8 +488,8 @@ public class SettingsViewModel : Screen
     /// <returns>The answer.</returns>
     public bool DidYouBuyWine()
     {
-        var now = DateTime.UtcNow.ToYjDate();
-        if (now == DateTime.ParseExact(LastBuyWineTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+        var now = DateTimeOffset.UtcNow.ToYjDateTime();
+        if (now == ConfigFactory.Root.Gui.LastBuyWineTime)
         {
             return false;
         }
@@ -695,16 +683,13 @@ public class SettingsViewModel : Screen
 
     public static int GuideMaxStep => 7;
 
-    private int _guideStepIndex = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0);
-
     public int GuideStepIndex
     {
-        get => _guideStepIndex;
-        set {
-            SetAndNotify(ref _guideStepIndex, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.GuideStepIndex, value.ToString());
+        get; set {
+            ConfigFactory.Root.Gui.GuideStep = value;
+            SetAndNotify(ref field, value);
         }
-    }
+    } = ConfigFactory.Root.Gui.GuideStep;
 
     private string _guideTransitionMode = "Bottom2Top";
 
@@ -923,135 +908,135 @@ public class SettingsViewModel : Screen
 
     public bool IsSwitchConfigurationExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderSwitchConfiguration;
+        get => ConfigFactory.Root.Gui.ExpanderSwitchConfiguration;
         set {
-            ConfigFactory.Root.GUI.ExpanderSwitchConfiguration = value;
+            ConfigFactory.Root.Gui.ExpanderSwitchConfiguration = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsScheduleSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderScheduleSettings;
+        get => ConfigFactory.Root.Gui.ExpanderScheduleSettings;
         set {
-            ConfigFactory.Root.GUI.ExpanderScheduleSettings = value;
+            ConfigFactory.Root.Gui.ExpanderScheduleSettings = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsPerformanceSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderPerformanceSettings;
+        get => ConfigFactory.Root.Gui.ExpanderPerformanceSettings;
         set {
-            ConfigFactory.Root.GUI.ExpanderPerformanceSettings = value;
+            ConfigFactory.Root.Gui.ExpanderPerformanceSettings = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsGameSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderGameSettings;
+        get => ConfigFactory.Root.Gui.ExpanderGameSettings;
         set {
-            ConfigFactory.Root.GUI.ExpanderGameSettings = value;
+            ConfigFactory.Root.Gui.ExpanderGameSettings = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsConnectionSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderConnectionSettings;
+        get => ConfigFactory.Root.Gui.ExpanderConnectionSettings;
         set {
-            ConfigFactory.Root.GUI.ExpanderConnectionSettings = value;
+            ConfigFactory.Root.Gui.ExpanderConnectionSettings = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsStartupSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderStartupSettings;
+        get => ConfigFactory.Root.Gui.ExpanderStartupSettings;
         set {
-            ConfigFactory.Root.GUI.ExpanderStartupSettings = value;
+            ConfigFactory.Root.Gui.ExpanderStartupSettings = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsRemoteControlSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderRemoteControlSettings;
+        get => ConfigFactory.Root.Gui.ExpanderRemoteControlSettings;
         set {
-            ConfigFactory.Root.GUI.ExpanderRemoteControlSettings = value;
+            ConfigFactory.Root.Gui.ExpanderRemoteControlSettings = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsUiSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderUiSettings;
+        get => ConfigFactory.Root.Gui.ExpanderUiSettings;
         set {
-            ConfigFactory.Root.GUI.ExpanderUiSettings = value;
+            ConfigFactory.Root.Gui.ExpanderUiSettings = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsBackgroundSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderBackgroundSettings;
+        get => ConfigFactory.Root.Gui.ExpanderBackgroundSettings;
         set {
-            ConfigFactory.Root.GUI.ExpanderBackgroundSettings = value;
+            ConfigFactory.Root.Gui.ExpanderBackgroundSettings = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsExternalNotificationSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderExternalNotificationSettings;
+        get => ConfigFactory.Root.Gui.ExpanderExternalNotificationSettings;
         set {
-            ConfigFactory.Root.GUI.ExpanderExternalNotificationSettings = value;
+            ConfigFactory.Root.Gui.ExpanderExternalNotificationSettings = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsHotKeySettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderHotKeySettings;
+        get => ConfigFactory.Root.Gui.ExpanderHotKeySettings;
         set {
-            ConfigFactory.Root.GUI.ExpanderHotKeySettings = value;
+            ConfigFactory.Root.Gui.ExpanderHotKeySettings = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsAchievementSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderAchievementSettings;
+        get => ConfigFactory.Root.Gui.ExpanderAchievementSettings;
         set {
-            ConfigFactory.Root.GUI.ExpanderAchievementSettings = value;
+            ConfigFactory.Root.Gui.ExpanderAchievementSettings = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsUpdateSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderUpdateSettings;
+        get => ConfigFactory.Root.Gui.ExpanderUpdateSettings;
         set {
-            ConfigFactory.Root.GUI.ExpanderUpdateSettings = value;
+            ConfigFactory.Root.Gui.ExpanderUpdateSettings = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsIssueReportExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderIssueReport;
+        get => ConfigFactory.Root.Gui.ExpanderIssueReport;
         set {
-            ConfigFactory.Root.GUI.ExpanderIssueReport = value;
+            ConfigFactory.Root.Gui.ExpanderIssueReport = value;
             NotifyOfPropertyChange();
         }
     }
 
     public bool IsAboutUsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderAboutUs;
+        get => ConfigFactory.Root.Gui.ExpanderAboutUs;
         set {
-            ConfigFactory.Root.GUI.ExpanderAboutUs = value;
+            ConfigFactory.Root.Gui.ExpanderAboutUs = value;
             NotifyOfPropertyChange();
         }
     }
@@ -1154,7 +1139,7 @@ public class SettingsViewModel : Screen
 
         rvm.WindowResourceUpdateInfo = VersionUpdateSettings.NewResourceFoundInfo;
 
-        string prefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
+        string prefix = ConfigFactory.CurrentConfig.Gui.WindowTitlePrefix;
         if (!string.IsNullOrEmpty(prefix))
         {
             prefix += " - ";
@@ -1221,7 +1206,7 @@ public class SettingsViewModel : Screen
         }
     }
 
-    private static readonly Dictionary<string, string> _serverMapping = new()
+    private static readonly Dictionary<ClientType, string> _serverMapping = new()
     {
         { ClientType.Official, "CN" },
         { ClientType.Bilibili, "CN" },

@@ -31,7 +31,7 @@ public class Root : INotifyPropertyChanged
     public ObservableDictionary<string, SpecificConfig> Configurations { get; private set; } = [];
 
     [JsonInclude]
-    public ObservableDictionary<int, Timer> Timers { get; private set; } = [];
+    public TimerSettings TimerSettings { get; private set; } = new();
 
     public int ConfigVersion { get; set; } = 1;
 
@@ -39,13 +39,13 @@ public class Root : INotifyPropertyChanged
     public string Current { get; set; } = ConfigurationKeys.DefaultConfiguration;
 
     [JsonInclude]
-    public VersionUpdate VersionUpdate { get; private set; } = new();
+    public Update Update { get; private set; } = new();
 
     [JsonInclude]
     public AnnouncementInfo AnnouncementInfo { get; private set; } = new();
 
     [JsonInclude]
-    public GUI GUI { get; private set; } = new();
+    public Gui Gui { get; private set; } = new();
 
     [JsonIgnore]
     public SpecificConfig CurrentConfig

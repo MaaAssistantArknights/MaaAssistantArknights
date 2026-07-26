@@ -16,13 +16,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
@@ -34,13 +33,11 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
-using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
 using Serilog;
 using Stylet;
-using SearchOption = System.IO.SearchOption;
 
 namespace MaaWpfGui.ViewModels.Dialogs;
 
@@ -78,21 +75,16 @@ public class VersionUpdateDialogViewModel : Screen
 
     private string _latestVersion = string.Empty;
 
-    private string _updateTag = FakeUpdateHelper.IsEnabled
-        ? FakeUpdateHelper.TargetVersion
-        : ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
-
     /// <summary>
     /// Gets or sets the update tag.
     /// </summary>
     public string UpdateTag
     {
-        get => _updateTag;
-        set {
-            SetAndNotify(ref _updateTag, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionName, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.Name = value;
         }
-    }
+    } = FakeUpdateHelper.IsEnabled ? FakeUpdateHelper.TargetVersion : ConfigFactory.Root.Update.Name;
 
     private static string LoadUpdateBody()
     {
@@ -102,15 +94,7 @@ public class VersionUpdateDialogViewModel : Screen
             return body;
         }
 
-        // 从老版本配置文件迁移
-        var legacy = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
-        if (!string.IsNullOrWhiteSpace(legacy))
-        {
-            MarkdownDataHelper.Set("CHANGELOG", legacy);
-            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.VersionUpdateBody, out _);
-        }
-
-        return legacy;
+        return string.Empty;
     }
 
     private string _updateInfo = LoadUpdateBody();
@@ -139,44 +123,32 @@ public class VersionUpdateDialogViewModel : Screen
         }
     }
 
-    private string _updateUrl = string.Empty;
-
     /// <summary>
     /// Gets or sets the update URL.
     /// </summary>
-    public string UpdateUrl
-    {
-        get => _updateUrl;
-        set => SetAndNotify(ref _updateUrl, value);
-    }
-
-    private bool _isFirstBootAfterUpdate = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, false);
+    public string UpdateUrl { get; set => SetAndNotify(ref field, value); } = string.Empty;
 
     /// <summary>
     /// Gets or sets a value indicating whether it is the first boot after updating.
     /// </summary>
     public bool IsFirstBootAfterUpdate
     {
-        get => _isFirstBootAfterUpdate;
-        set {
-            SetAndNotify(ref _isFirstBootAfterUpdate, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.IsFirstBoot = value;
         }
-    }
-
-    private string _updatePackageName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
+    } = ConfigFactory.Root.Update.IsFirstBoot;
 
     /// <summary>
     /// Gets or sets the name of the update package.
     /// </summary>
     public string UpdatePackageName
     {
-        get => _updatePackageName;
-        set {
-            SetAndNotify(ref _updatePackageName, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdatePackage, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.UpdatePackage = value;
         }
-    }
+    } = ConfigFactory.Root.Update.UpdatePackage;
 
     /// <summary>
     /// Gets the OS architecture.
@@ -277,19 +249,16 @@ public class VersionUpdateDialogViewModel : Screen
         MirrorChyan,
     }
 
-    private bool _doNotShowUpdate = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to show the update.
     /// </summary>
     public bool DoNotShowUpdate
     {
-        get => _doNotShowUpdate;
-        set {
-            SetAndNotify(ref _doNotShowUpdate, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.DoNotShowUpdate = value;
         }
-    }
+    } = ConfigFactory.Root.Update.DoNotShowUpdate;
 
     /// <summary>
     /// 如果是在更新后第一次启动，显示ReleaseNote弹窗，否则检查更新并下载更新包。
@@ -562,7 +531,7 @@ public class VersionUpdateDialogViewModel : Screen
         var tasks = urls.ConvertAll(url => Instances.HttpService.HeadAsync(new Uri(url)));
         var latencies = await Task.WhenAll(tasks);
 
-        var proxy = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateProxy, string.Empty);
+        var proxy = ConfigFactory.Root.Update.Proxy;
         var hasProxy = !string.IsNullOrEmpty(proxy);
 
         // select the fastest mirror

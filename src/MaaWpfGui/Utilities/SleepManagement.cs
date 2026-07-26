@@ -15,6 +15,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Serilog;
@@ -27,20 +28,7 @@ public static class SleepManagement
     private static extern ExecutionState SetThreadExecutionState(ExecutionState esFlags);
 
     private static readonly ILogger _logger = Log.ForContext("SourceContext", "SleepManagement");
-
-    private static bool _allowBlockSleep = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, false);
-    private static bool _blockSleepWithScreenOn = ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, true);
     private static bool _isBlockingSleep = false;
-
-    public static void SetBlockSleep(bool allowBlockSleep)
-    {
-        _allowBlockSleep = allowBlockSleep;
-    }
-
-    public static void SetBlockSleepWithScreenOn(bool blockSleepWithScreenOn)
-    {
-        _blockSleepWithScreenOn = blockSleepWithScreenOn;
-    }
 
     [Flags]
     private enum ExecutionState : uint
@@ -65,14 +53,14 @@ public static class SleepManagement
 
     public static void BlockSleep(bool? allowBlockSleep = null, bool? blockSleepWithScreenOn = null)
     {
-        if (!(allowBlockSleep ?? _allowBlockSleep))
+        if (!(allowBlockSleep ?? ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleep))
         {
             return;
         }
 
         _isBlockingSleep = true;
 
-        bool keepDisplayOn = blockSleepWithScreenOn ?? _blockSleepWithScreenOn;
+        bool keepDisplayOn = blockSleepWithScreenOn ?? ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleepWithScreenOn;
         _logger.Information("Blocking system from sleeping");
         ExecutionState state = ExecutionState.Continuous | ExecutionState.SystemRequired |
             (keepDisplayOn ? ExecutionState.DisplayRequired : 0);

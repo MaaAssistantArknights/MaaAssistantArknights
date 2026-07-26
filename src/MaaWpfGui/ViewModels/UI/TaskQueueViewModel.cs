@@ -27,9 +27,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -38,7 +38,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
-using MaaWpfGui.Services.Notification;
+using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -48,6 +48,7 @@ using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using MaaWpfGui.Views.Dialogs;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.Configuration.Global.Gui;
 using static MaaWpfGui.Main.AsstProxy;
 using Application = System.Windows.Application;
 using Screen = Stylet.Screen;
@@ -211,6 +212,8 @@ public class TaskQueueViewModel : Screen
         });
     }
 
+    #region Overlay
+
     public static void ChooseOverlayTarget()
     {
         try
@@ -273,6 +276,8 @@ public class TaskQueueViewModel : Screen
             EnableOverlay();
         }
     }
+
+    #endregion Overlay
 
     /// <summary>
     /// Gets or private sets the view models of log items.
@@ -475,7 +480,7 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        if (actions.ExitEmulator && !SettingsViewModel.ConnectSettings.UseAttachWindow)
+        if (actions.ExitEmulator && !SettingsViewModel.ConnectSettings.IsPCConnectConfig)
         {
             DoKillEmulator();
             await Task.Delay(1000);
@@ -849,7 +854,8 @@ public class TaskQueueViewModel : Screen
 
         for (int i = 0; i < 8; ++i)
         {
-            if (SettingsViewModel.TimerSettings.TimerModels.Timers[i].IsOn == false)
+            var timer = SettingsViewModel.TimerSettings.TimerList[i];
+            if (timer.IsEnabled == false)
             {
                 continue;
             }
@@ -857,8 +863,8 @@ public class TaskQueueViewModel : Screen
             DateTime startTime = new DateTime(currentTime.Year,
                 currentTime.Month,
                 currentTime.Day,
-                SettingsViewModel.TimerSettings.TimerModels.Timers[i].Hour,
-                SettingsViewModel.TimerSettings.TimerModels.Timers[i].Min,
+                timer.Hour,
+                timer.Minute,
                 0);
             DateTime restartDateTime = startTime.AddMinutes(-2);
 
@@ -868,8 +874,7 @@ public class TaskQueueViewModel : Screen
                 restartDateTime = restartDateTime.AddDays(1);
             }
 
-            if (currentTime == restartDateTime &&
-                Instances.SettingsViewModel.CurrentConfiguration != SettingsViewModel.TimerSettings.TimerModels.Timers[i].TimerConfig)
+            if (currentTime == restartDateTime && Instances.SettingsViewModel.CurrentConfiguration != timer.Config)
             {
                 timeToChangeConfig = true;
                 configIndex = i;
@@ -895,30 +900,30 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        var (timeToStart, timeToChangeConfig, configIndex) = CheckTimers(currentTime);
+        var (timeToStart, timeToChangeConfig, timerIndex) = CheckTimers(currentTime);
 
         if (timeToChangeConfig)
         {
-            _logger.Information("Scheduled configuration change: Timer Index: {ConfigIndex}", configIndex);
-            HandleConfigChange(configIndex);
+            _logger.Information("Scheduled configuration change: Timer Index: {TimerIndex}", timerIndex);
+            HandleConfigChange(timerIndex);
             return;
         }
 
         if (timeToStart)
         {
-            _logger.Information("Scheduled start: Timer Index: {ConfigIndex}", configIndex);
-            await HandleScheduledStart(configIndex);
+            _logger.Information("Scheduled start: Timer Index: {TimerIndex}", timerIndex);
+            await HandleScheduledStart(timerIndex);
 
-            SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].IsOn ??= false;
+            SettingsViewModel.TimerSettings.TimerList[timerIndex].IsEnabled ??= false;
         }
     }
 
-    private void HandleConfigChange(int configIndex)
+    private void HandleConfigChange(int timerIndex)
     {
         if (SettingsViewModel.TimerSettings.CustomConfig &&
             (_runningState.GetIdle() || SettingsViewModel.TimerSettings.ForceScheduledStart))
         {
-            Instances.SettingsViewModel.CurrentConfiguration = SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig;
+            Instances.SettingsViewModel.CurrentConfiguration = SettingsViewModel.TimerSettings.TimerList[timerIndex].Config;
         }
     }
 
@@ -927,13 +932,13 @@ public class TaskQueueViewModel : Screen
         if (SettingsViewModel.TimerSettings.ForceScheduledStart)
         {
             if (SettingsViewModel.TimerSettings.CustomConfig &&
-                Instances.SettingsViewModel.CurrentConfiguration != SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig)
+                Instances.SettingsViewModel.CurrentConfiguration != SettingsViewModel.TimerSettings.TimerList[configIndex].Config)
             {
                 _logger.Warning(
                     "Scheduled start skipped: Custom configuration is enabled, but the current configuration does not match the scheduled timer configuration (Timer Index: {ConfigIndex}). Current Configuration: {CurrentConfiguration}, Scheduled Configuration: {TimerConfig}",
                     configIndex,
                     Instances.SettingsViewModel.CurrentConfiguration,
-                    SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig);
+                    SettingsViewModel.TimerSettings.TimerList[configIndex].Config);
                 return;
             }
 
@@ -1009,6 +1014,27 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     private void InitializeItems()
     {
+        if (ConfigFactory.CurrentConfig.TaskQueue.Count == 0)
+        {
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new StartUpTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new FightTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new InfrastTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new RecruitTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new MallTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new AwardTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new RoguelikeTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new ReclamationTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new UserDataUpdateTask());
+        }
+
+        // 临时补足到8个，支持添加删除后移除此代码
+        if (ConfigFactory.Root.TimerSettings.List.Count < 8)
+        {
+            for (int i = ConfigFactory.Root.TimerSettings.List.Count; i < 8; i++)
+            {
+                ConfigFactory.Root.TimerSettings.List.Add(new(i, string.Empty));
+            }
+        }
         List<TaskItemViewModel> taskqueue = [];
         for (int i = 0; i < ConfigFactory.CurrentConfig.TaskQueue.Count; i++)
         {
@@ -1354,8 +1380,7 @@ public class TaskQueueViewModel : Screen
     {
         foreach (var item in TaskTypeList)
         {
-            item.Display = item.Value.Name switch
-            {
+            item.Display = item.Value.Name switch {
                 nameof(StartUpTask) => LocalizationHelper.GetString("StartUp"),
                 nameof(FightTask) => LocalizationHelper.GetString("Fight"),
                 nameof(InfrastTask) => LocalizationHelper.GetString("Infrast"),
@@ -1522,28 +1547,25 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    private bool _inverseMode = ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to use inverse mode.
     /// </summary>
     public bool InverseMode
     {
-        get => _inverseMode;
-        set {
-            SetAndNotify(ref _inverseMode, value);
+        get; set {
+            SetAndNotify(ref field, value);
             RefreshInverseModeText();
-            ConfigurationHelper.SetValue(ConfigurationKeys.MainFunctionInverseMode, value.ToString());
+            ConfigFactory.Root.Gui.TaskQueueInverseMode = value;
         }
-    }
+    } = ConfigFactory.Root.Gui.TaskQueueInverseMode;
 
     /// <summary>
     /// 刷新反选按钮的两个本地化文本（语言切换时调用）。
     /// </summary>
     private void RefreshInverseModeText()
     {
-        InverseShowText = _inverseMode ? LocalizationHelper.GetString("Inverse") : LocalizationHelper.GetString("Clear");
-        InverseMenuText = _inverseMode ? LocalizationHelper.GetString("Clear") : LocalizationHelper.GetString("Inverse");
+        InverseShowText = InverseMode ? LocalizationHelper.GetString("Inverse") : LocalizationHelper.GetString("Clear");
+        InverseMenuText = InverseMode ? LocalizationHelper.GetString("Clear") : LocalizationHelper.GetString("Inverse");
     }
 
     /// <summary>
@@ -1551,30 +1573,17 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public const int SelectedAllWidthWhenBoth = 80;
 
-    private int _selectedAllWidth =
-        ConfigurationHelper.GetGlobalValue(ConfigurationKeys.InverseClearMode, "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
-
     /// <summary>
     /// Gets or sets the width of "Select All".
     /// </summary>
-    public int SelectedAllWidth
-    {
-        get => _selectedAllWidth;
-        set => SetAndNotify(ref _selectedAllWidth, value);
-    }
-
-    private bool _showInverse = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.InverseClearMode, "Clear") == "ClearInverse";
+    public int SelectedAllWidth { get; set => SetAndNotify(ref field, value); } = ConfigFactory.Root.Gui.InverseClearMode == InverseClearType.ClearInverse ? SelectedAllWidthWhenBoth : 85;
 
     /// <summary>
     /// Gets or sets a value indicating whether "Select inversely" is visible.
     /// </summary>
-    public bool ShowInverse
-    {
-        get => _showInverse;
-        set => SetAndNotify(ref _showInverse, value);
-    }
+    public bool ShowInverse { get; set => SetAndNotify(ref field, value); } = ConfigFactory.Root.Gui.InverseClearMode == InverseClearType.ClearInverse;
 
-    private string _inverseShowText = ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, false)
+    private string _inverseShowText = ConfigFactory.Root.Gui.TaskQueueInverseMode
         ? LocalizationHelper.GetString("Inverse")
         : LocalizationHelper.GetString("Clear");
 
@@ -1587,7 +1596,7 @@ public class TaskQueueViewModel : Screen
         private set => SetAndNotify(ref _inverseShowText, value);
     }
 
-    private string _inverseMenuText = ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, false)
+    private string _inverseMenuText = ConfigFactory.Root.Gui.TaskQueueInverseMode
         ? LocalizationHelper.GetString("Clear")
         : LocalizationHelper.GetString("Inverse");
 
@@ -1687,7 +1696,7 @@ public class TaskQueueViewModel : Screen
         string errMsg = string.Empty;
         bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
 
-        if (!connected && SettingsViewModel.ConnectSettings.UseAttachWindow)
+        if (!connected && SettingsViewModel.ConnectSettings.IsPCConnectConfig)
         {
             AddLog(errMsg, UiLogColor.Error);
             _runningState.SetIdle(true);
@@ -1813,6 +1822,9 @@ public class TaskQueueViewModel : Screen
     /// <returns>Task</returns>
     public async Task LinkStart()
     {
+        var test = ConfigFactory.Root.Gui.HotKeys;
+        _logger.Information("HotKeys: {HotKeys}", test);
+        return;
         using var log = new LogScope(_logger);
         await TaskQueueSerializingLock.WaitAsync();
         await LinkStartWithTasks(ConfigFactory.CurrentConfig.TaskQueue);
@@ -1857,8 +1869,8 @@ public class TaskQueueViewModel : Screen
         }
 
         // 雷电模拟器 + maatouch 组合存在滑动异常缓慢的问题（滑动持续时间远大于预期），给出警告
-        if (SettingsViewModel.ConnectSettings.ConnectConfig == "LDPlayer" &&
-            SettingsViewModel.ConnectSettings.TouchMode == "maatouch")
+        if (SettingsViewModel.ConnectSettings.ConnectConfig == ConnectConfig.LDPlayer &&
+            SettingsViewModel.ConnectSettings.TouchMode == TouchMode.MaaTouch)
         {
             AddLog(LocalizationHelper.GetString("LDPlayerMaaTouchWarning"), UiLogColor.Warning);
         }

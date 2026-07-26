@@ -31,7 +31,7 @@ Since v4.13.0, MAA supports setting scripts to run before starting and after fin
 
 ## Configuration Migration
 
-In the Windows version, all MAA configurations are stored in `gui.json` inside the `config` folder. Migrating this folder transfers all MAA settings.
+In the Windows version, all MAA configurations are stored in the `config` folder. Migrating this folder transfers all MAA settings.
 
 ## Additional Notes
 

@@ -19,8 +19,15 @@ namespace MaaWpfGui.Utilities.ValueType;
 /// Generic combined data class.
 /// </summary>
 /// <typeparam name="TValueType">The type of value.</typeparam>
-public class GenericCombinedData<TValueType> : PropertyChangedBase
+public class GenericCombinedData<TValueType>() : PropertyChangedBase
 {
+    public GenericCombinedData(string name, TValueType value)
+        : this()
+    {
+        _name = name;
+        _value = value;
+    }
+
     private string _name = string.Empty;
 
     /// <summary>

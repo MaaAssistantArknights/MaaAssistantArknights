@@ -3,12 +3,16 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:config="clr-namespace:MaaWpfGui.Models.ExternalNotification"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    xmlns:template="clr-namespace:MaaWpfGui.Services.ExternalNotification"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type settings_vms:ExternalNotificationSettingsUserControlModel}}"
     s:View.ActionTarget="{Binding}"
@@ -18,15 +22,6 @@
         hc:InfoElement.TitlePlacement="Left"
         hc:InfoElement.TitleWidth="150">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -41,30 +36,40 @@
         <StackPanel Grid.Row="1">
             <controls:TextBlock Margin="0,0,0,5" Text="{DynamicResource ExternalNotificationEnabled}" />
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <hc:CheckComboBox
-                    Width="250"
+                <hc:SplitButton
+                    Width="120"
+                    Padding="0,0,5,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
                     HorizontalContentAlignment="Center"
                     hc:BorderElement.CornerRadius="4,0,0,4"
-                    hc:ListBoxAttach.SelectedItems="{Binding EnabledExternalNotificationProviders}"
-                    hc:TitleElement.TitleWidth="0"
-                    ItemsSource="{Binding ExternalNotificationProvidersShow}" />
-                <Grid>
-                    <Button
-                        hc:BorderElement.CornerRadius="0,4,4,0"
-                        BorderThickness="0,1,1,1"
-                        Content="{DynamicResource ExternalNotificationSendTest}"
-                        Foreground="Transparent"
-                        Visibility="{c:Binding 'EnabledExternalNotificationProviderCount == 0'}" />
-                    <Button
-                        hc:BorderElement.CornerRadius="0,4,4,0"
-                        BorderThickness="0,1,1,1"
-                        Command="{s:Action ExternalNotificationSendTest,
-                                           Target={x:Type settings_vms:ExternalNotificationSettingsUserControlModel}}"
-                        Content="{DynamicResource ExternalNotificationSendTest}"
-                        IsEnabled="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}" />
-                </Grid>
+                    Background="{DynamicResource RegionBrushOpacity25}"
+                    Content="{DynamicResource ExternalNotificationAddConfig}">
+                    <hc:SplitButton.DropDownContent>
+                        <Menu ItemsSource="{Binding ExternalNotificationProviderList, Source={x:Static settings_vms:ExternalNotificationSettingsUserControlModel.Instance}, Mode=OneWay}" MenuItem.Click="{s:Action AddConfig}">
+                            <Menu.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </Menu.ItemsPanel>
+                            <Menu.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource MenuItemBaseStyle}" TargetType="{x:Type MenuItem}">
+                                    <Setter Property="Header" Value="{Binding Display}" />
+                                </Style>
+                            </Menu.ItemContainerStyle>
+                        </Menu>
+                    </hc:SplitButton.DropDownContent>
+                </hc:SplitButton>
+                <Button
+                    Width="120"
+                    hc:BorderElement.CornerRadius="0,4,4,0"
+                    BorderThickness="0,1,1,1"
+                    Command="{s:Action ExternalNotificationSendTest,
+                                       Target={x:Type settings_vms:ExternalNotificationSettingsUserControlModel}}"
+                    Content="{DynamicResource ExternalNotificationSendTest}"
+                    IsEnabled="{c:Binding 'ConfigCount > 0'}" />
             </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}">
+            <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'ConfigCount > 0'}">
                 <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
                     <CheckBox
                         Margin="5"
@@ -100,442 +105,551 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel
-            Grid.Row="2"
-            Orientation="Vertical"
-            Visibility="{c:Binding ServerChanEnabled}">
-            <hc:Divider Content="Server Chan" />
-            <hc:PasswordBox
-                x:Name="ServerChanSendKey"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationServerChanSendKey}"
-                IsSafeEnabled="False"
-                ShowEyeButton="True"
-                UnsafePassword="{c:Binding ServerChanSendKey}" />
-        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Vertical">
+            <ListBox
+                dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
+                dd:DragDrop.IsDragSource="True"
+                dd:DragDrop.IsDropTarget="True"
+                BorderThickness="0"
+                ItemsSource="{Binding ExternalNotificationConfigs}"
+                PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
+                                             Target={x:Type helper:MouseWheelHelper}}"
+                Style="{DynamicResource NoSelectedHighlightListBoxStyle}">
 
-        <StackPanel
-            Grid.Row="3"
-            Orientation="Vertical"
-            Visibility="{c:Binding TelegramEnabled}">
-            <hc:Divider Content="Telegram bot" />
-            <hc:PasswordBox
-                x:Name="TelegramBotToken"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramBotToken}"
-                IsSafeEnabled="False"
-                ShowEyeButton="True"
-                UnsafePassword="{c:Binding TelegramBotToken}" />
-            <hc:TextBox
-                x:Name="TelegramChatId"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramChatId}"
-                Text="{c:Binding TelegramChatId}" />
-            <hc:TextBox
-                x:Name="TelegramTopicId"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramTopicId}"
-                Text="{c:Binding TelegramTopicId}" />
-        </StackPanel>
+                <d:ListBox.ItemsSource>
+                    <x:Array Type="{x:Type config:BaseConfig}">
+                        <config:ServerChanConfig />
+                        <config:TelegramConfig />
+                        <config:DiscordConfig />
+                        <config:DingTalkConfig />
+                        <config:SmtpConfig />
+                        <config:BarkConfig />
+                        <config:QmsgConfig />
+                        <config:GotifyConfig />
+                        <config:CustomWebhookConfig />
+                    </x:Array>
+                </d:ListBox.ItemsSource>
+                <ListBox.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.Resources>
+                    <DataTemplate DataType="{x:Type config:ServerChanConfig}">
+                        <Border
+                            Margin="4"
+                            Padding="8"
+                            HorizontalAlignment="Stretch">
+                            <StackPanel d:DataContext="{d:DesignInstance {x:Type config:ServerChanConfig}}" Orientation="Vertical">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-        <StackPanel
-            Grid.Row="4"
-            Orientation="Vertical"
-            Visibility="{c:Binding DiscordEnabled}">
-            <hc:Divider Content="Discord" />
-            <hc:PasswordBox
-                x:Name="DiscordBotToken"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordBotToken}"
-                IsSafeEnabled="False"
-                ShowEyeButton="True"
-                UnsafePassword="{c:Binding DiscordBotToken}" />
-            <hc:TextBox
-                x:Name="DiscordUserId"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordUserId}"
-                Text="{c:Binding DiscordUserId}" />
-        </StackPanel>
+                                    <hc:Divider
+                                        Grid.Column="0"
+                                        Margin="0,5,16,0"
+                                        Content="Server Chan" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="25"
+                                        Height="25"
+                                        Margin="0,0,10,0"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                        hc:IconElement.Height="15"
+                                        hc:IconElement.Width="15"
+                                        Command="{s:Action RemoveConfig}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="{DynamicResource Delete}" />
+                                </Grid>
+                                <hc:PasswordBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationServerChanSendKey}"
+                                    IsSafeEnabled="False"
+                                    ShowEyeButton="True"
+                                    UnsafePassword="{Binding SendKey}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type config:TelegramConfig}">
+                        <Border
+                            Margin="4"
+                            Padding="8"
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:TelegramConfig}}">
+                            <StackPanel Orientation="Vertical">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-        <StackPanel
-            Grid.Row="5"
-            Orientation="Vertical"
-            Visibility="{c:Binding DiscordWebhookEnabled}">
-            <hc:Divider Content="Discord WebHook" />
-            <hc:PasswordBox
-                x:Name="DiscordWebHookUrl"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordWebhookUrl}"
-                IsSafeEnabled="False"
-                ShowEyeButton="True"
-                UnsafePassword="{c:Binding DiscordWebhookUrl}" />
-        </StackPanel>
+                                    <hc:Divider
+                                        Grid.Column="0"
+                                        Margin="0,5,16,0"
+                                        Content="Telegram" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="25"
+                                        Height="25"
+                                        Margin="0,0,10,0"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                        hc:IconElement.Height="15"
+                                        hc:IconElement.Width="15"
+                                        Command="{s:Action RemoveConfig}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="{DynamicResource Delete}" />
+                                </Grid>
+                                <hc:PasswordBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramBotToken}"
+                                    IsSafeEnabled="False"
+                                    ShowEyeButton="True"
+                                    UnsafePassword="{Binding BotToken}" />
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramChatId}"
+                                    Text="{Binding ChatId}" />
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramTopicId}"
+                                    Text="{Binding TopicId}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type config:DiscordConfig}">
+                        <Border
+                            Margin="4"
+                            Padding="8"
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:DiscordConfig}}">
+                            <StackPanel Orientation="Vertical">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-        <StackPanel
-            Grid.Row="6"
-            Orientation="Vertical"
-            Visibility="{c:Binding DingTalkEnabled}">
-            <hc:Divider Content="DingTalk" />
-            <hc:PasswordBox
-                x:Name="DingTalkAccessToken"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationDingTalkAccessToken}"
-                IsSafeEnabled="False"
-                ShowEyeButton="True"
-                UnsafePassword="{c:Binding DingTalkAccessToken}" />
-            <hc:PasswordBox
-                x:Name="DingTalkSecret"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationDingTalkSecret}"
-                IsSafeEnabled="False"
-                ShowEyeButton="True"
-                UnsafePassword="{c:Binding DingTalkSecret}" />
-        </StackPanel>
+                                    <hc:Divider
+                                        Grid.Column="0"
+                                        Margin="0,5,16,0"
+                                        Content="Discord" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="25"
+                                        Height="25"
+                                        Margin="0,0,10,0"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                        hc:IconElement.Height="15"
+                                        hc:IconElement.Width="15"
+                                        Command="{s:Action RemoveConfig}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="{DynamicResource Delete}" />
+                                </Grid>
+                                <hc:PasswordBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordBotToken}"
+                                    IsSafeEnabled="False"
+                                    ShowEyeButton="True"
+                                    UnsafePassword="{Binding BotToken}" />
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordUserId}"
+                                    Text="{Binding UserId}" />
+                                <hc:PasswordBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordWebhookUrl}"
+                                    IsSafeEnabled="False"
+                                    ShowEyeButton="True"
+                                    UnsafePassword="{Binding WebhookUrl}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type config:DingTalkConfig}">
+                        <Border
+                            Margin="4"
+                            Padding="8"
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:DingTalkConfig}}">
+                            <StackPanel Orientation="Vertical">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-        <StackPanel
-            Grid.Row="7"
-            HorizontalAlignment="Center"
-            hc:InfoElement.TitleWidth="0"
-            Visibility="{c:Binding SmtpEnabled}">
-            <hc:Divider Content="SMTP" />
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="180" />
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="180" />
-                </Grid.ColumnDefinitions>
-                <StackPanel
-                    Grid.Row="0"
-                    Grid.ColumnSpan="4"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal">
-                    <CheckBox
-                        Margin="50,10"
-                        VerticalAlignment="Center"
-                        Content="{DynamicResource ExternalNotificationSmtpSsl}"
-                        IsChecked="{c:Binding SmtpUseSsl}" />
-                    <CheckBox
-                        Margin="50,10"
-                        VerticalAlignment="Center"
-                        Content="{DynamicResource ExternalNotificationSmtpAuth}"
-                        IsChecked="{c:Binding SmtpRequireAuthentication}" />
-                </StackPanel>
+                                    <hc:Divider
+                                        Grid.Column="0"
+                                        Margin="0,5,16,0"
+                                        Content="DingTalk" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="25"
+                                        Height="25"
+                                        Margin="0,0,10,0"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                        hc:IconElement.Height="15"
+                                        hc:IconElement.Width="15"
+                                        Command="{s:Action RemoveConfig}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="{DynamicResource Delete}" />
+                                </Grid>
+                                <hc:PasswordBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationDingTalkAccessToken}"
+                                    IsSafeEnabled="False"
+                                    ShowEyeButton="True"
+                                    UnsafePassword="{Binding AccessToken}" />
+                                <hc:PasswordBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationDingTalkSecret}"
+                                    IsSafeEnabled="False"
+                                    ShowEyeButton="True"
+                                    UnsafePassword="{Binding Secret}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type config:SmtpConfig}">
+                        <Border
+                            Margin="4"
+                            Padding="8"
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:SmtpConfig}}">
+                            <StackPanel Orientation="Vertical">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
+                                    <hc:Divider
+                                        Grid.Column="0"
+                                        Margin="0,5,16,0"
+                                        Content="SMTP" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="25"
+                                        Height="25"
+                                        Margin="0,0,10,0"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                        hc:IconElement.Height="15"
+                                        hc:IconElement.Width="15"
+                                        Command="{s:Action RemoveConfig}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="{DynamicResource Delete}" />
+                                </Grid>
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <CheckBox
+                                        Margin="10,5"
+                                        VerticalAlignment="Center"
+                                        Content="{DynamicResource ExternalNotificationSmtpSsl}"
+                                        IsChecked="{Binding UseSsl}" />
+                                    <CheckBox
+                                        Margin="10,5"
+                                        VerticalAlignment="Center"
+                                        Content="{DynamicResource ExternalNotificationSmtpAuth}"
+                                        IsChecked="{Binding RequiresAuthentication}" />
+                                </StackPanel>
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationSmtpServer}"
+                                    Text="{Binding Server}" />
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationSmtpPort}"
+                                    Text="{Binding Port}" />
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    d:Visibility="Visible"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationSmtpUser}"
+                                    Text="{Binding Username}"
+                                    Visibility="{c:Binding RequiresAuthentication}" />
+                                <hc:PasswordBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    d:Visibility="Visible"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationSmtpPassword}"
+                                    IsSafeEnabled="False"
+                                    ShowEyeButton="True"
+                                    UnsafePassword="{Binding Password}"
+                                    Visibility="{c:Binding RequiresAuthentication}" />
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationSmtpFrom}"
+                                    Text="{Binding From}" />
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationSmtpTo}"
+                                    Text="{Binding To}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type config:BarkConfig}">
+                        <Border
+                            Margin="4"
+                            Padding="8"
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:BarkConfig}}">
+                            <StackPanel Orientation="Vertical">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                <controls:TextBlock
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Margin="10"
-                    Block.TextAlignment="Center"
-                    Text="{DynamicResource ExternalNotificationSmtpServer}"
-                    TextWrapping="Wrap" />
-                <TextBox
-                    x:Name="SmtpServer"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Width="150"
-                    Height="30"
-                    Margin="10"
-                    Text="{c:Binding SmtpServer}" />
-                <controls:TextBlock
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    Margin="10"
-                    Block.TextAlignment="Center"
-                    Text="{DynamicResource ExternalNotificationSmtpPort}"
-                    TextWrapping="Wrap" />
-                <TextBox
-                    x:Name="SmtpPort"
-                    Grid.Row="1"
-                    Grid.Column="3"
-                    Width="150"
-                    Height="30"
-                    Margin="10"
-                    Text="{c:Binding SmtpPort}" />
+                                    <hc:Divider
+                                        Grid.Column="0"
+                                        Margin="0,5,16,0"
+                                        Content="Bark" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="25"
+                                        Height="25"
+                                        Margin="0,0,10,0"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                        hc:IconElement.Height="15"
+                                        hc:IconElement.Width="15"
+                                        Command="{s:Action RemoveConfig}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="{DynamicResource Delete}" />
+                                </Grid>
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationBarkServer}"
+                                    Text="{Binding Server}" />
+                                <hc:PasswordBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationBarkSendKey}"
+                                    IsSafeEnabled="False"
+                                    ShowEyeButton="True"
+                                    UnsafePassword="{Binding SendKey}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type config:QmsgConfig}">
+                        <Border
+                            Margin="4"
+                            Padding="8"
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:QmsgConfig}}">
+                            <StackPanel Orientation="Vertical">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                <controls:TextBlock
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Margin="10"
-                    Block.TextAlignment="Center"
-                    Text="{DynamicResource ExternalNotificationSmtpUser}"
-                    TextWrapping="Wrap"
-                    Visibility="{c:Binding SmtpRequireAuthentication}" />
-                <TextBox
-                    x:Name="SmtpUser"
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Width="150"
-                    Height="30"
-                    Margin="10"
-                    Text="{c:Binding SmtpUser}"
-                    Visibility="{c:Binding SmtpRequireAuthentication}" />
-                <controls:TextBlock
-                    Grid.Row="2"
-                    Grid.Column="2"
-                    Margin="10"
-                    Block.TextAlignment="Center"
-                    Text="{DynamicResource ExternalNotificationSmtpPassword}"
-                    TextWrapping="Wrap"
-                    Visibility="{c:Binding SmtpRequireAuthentication}" />
-                <hc:PasswordBox
-                    x:Name="SmtpPassword"
-                    Grid.Row="2"
-                    Grid.Column="3"
-                    Width="150"
-                    Height="30"
-                    Margin="10"
-                    hc:InfoElement.TitleWidth="0"
-                    IsEnabled="{c:Binding SmtpRequireAuthentication}"
-                    IsSafeEnabled="False"
-                    ShowEyeButton="True"
-                    UnsafePassword="{c:Binding SmtpPassword}"
-                    Visibility="{c:Binding SmtpRequireAuthentication}" />
+                                    <hc:Divider
+                                        Grid.Column="0"
+                                        Margin="0,5,16,0"
+                                        Content="Qmsg" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="25"
+                                        Height="25"
+                                        Margin="0,0,10,0"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                        hc:IconElement.Height="15"
+                                        hc:IconElement.Width="15"
+                                        Command="{s:Action RemoveConfig}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="{DynamicResource Delete}" />
+                                </Grid>
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationQmsgServer}"
+                                    Text="{Binding Server}" />
+                                <hc:PasswordBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationQmsgKey}"
+                                    IsSafeEnabled="False"
+                                    ShowEyeButton="True"
+                                    UnsafePassword="{Binding Key}" />
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationQmsgUser}"
+                                    Text="{Binding User}" />
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationQmsgBot}"
+                                    Text="{Binding Bot}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type config:GotifyConfig}">
+                        <Border
+                            Margin="4"
+                            Padding="8"
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:GotifyConfig}}">
+                            <StackPanel Orientation="Vertical">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                <controls:TextBlock
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    Margin="10"
-                    Block.TextAlignment="Center"
-                    Text="{DynamicResource ExternalNotificationSmtpFrom}"
-                    TextWrapping="Wrap" />
-                <TextBox
-                    x:Name="SmtpFrom"
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    Width="150"
-                    Height="30"
-                    Margin="10"
-                    Text="{c:Binding SmtpFrom}" />
-                <controls:TextBlock
-                    Grid.Row="3"
-                    Grid.Column="2"
-                    Margin="10"
-                    Block.TextAlignment="Center"
-                    Text="{DynamicResource ExternalNotificationSmtpTo}"
-                    TextWrapping="Wrap" />
-                <TextBox
-                    x:Name="SmtpTo"
-                    Grid.Row="3"
-                    Grid.Column="3"
-                    Width="150"
-                    Height="30"
-                    Margin="10"
-                    Text="{c:Binding SmtpTo}" />
+                                    <hc:Divider
+                                        Grid.Column="0"
+                                        Margin="0,5,16,0"
+                                        Content="Gotify" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="25"
+                                        Height="25"
+                                        Margin="0,0,10,0"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                        hc:IconElement.Height="15"
+                                        hc:IconElement.Width="15"
+                                        Command="{s:Action RemoveConfig}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="{DynamicResource Delete}" />
+                                </Grid>
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationGotifyServer}"
+                                    Text="{Binding Server}" />
+                                <hc:PasswordBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationGotifyToken}"
+                                    IsSafeEnabled="False"
+                                    ShowEyeButton="True"
+                                    UnsafePassword="{Binding Token}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type config:CustomWebhookConfig}">
+                        <Border
+                            Margin="4"
+                            Padding="8"
+                            HorizontalAlignment="Stretch"
+                            d:DataContext="{d:DesignInstance {x:Type config:CustomWebhookConfig}}">
+                            <StackPanel Orientation="Vertical">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-            </Grid>
-        </StackPanel>
+                                    <hc:Divider
+                                        Grid.Column="0"
+                                        Margin="0,5,16,0"
+                                        Content="{DynamicResource ExternalNotificationCustomWebhook}" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="25"
+                                        Height="25"
+                                        Margin="0,0,10,0"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                        hc:IconElement.Height="15"
+                                        hc:IconElement.Width="15"
+                                        Command="{s:Action RemoveConfig}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="{DynamicResource Delete}" />
+                                </Grid>
+                                <StackPanel Margin="10,10,0,10" Orientation="Horizontal">
+                                    <hc:ComboBox
+                                        Width="300"
+                                        hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Presets}"
+                                        DisplayMemberPath="DisplayName"
+                                        ItemsSource="{Binding Source={x:Static template:WebhookPresetTemplate.BuiltInTemplates}}"
+                                        SelectedValue="{Binding SelectedPresetTemplateId}"
+                                        SelectedValuePath="Id" />
+                                    <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationCustomWebhook.PresetsPlaceholders}" />
+                                </StackPanel>
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Url}"
+                                    Text="{Binding Url}" />
+                                <hc:TextBox
+                                    Width="400"
+                                    MinHeight="20"
+                                    Margin="10"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Headers}"
+                                    Text="{Binding Headers}" />
+                                <hc:TextBox
+                                    Width="400"
+                                    MinHeight="60"
+                                    Margin="10"
+                                    Padding="6,3"
+                                    VerticalContentAlignment="Top"
+                                    hc:InfoElement.Placeholder="{DynamicResource ExternalNotificationCustomWebhook.Placeholders}"
+                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Body}"
+                                    AcceptsReturn="True"
+                                    Text="{Binding Body}"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
 
-        <StackPanel
-            Grid.Row="8"
-            Orientation="Vertical"
-            Visibility="{c:Binding BarkEnabled}">
-            <hc:Divider Content="Bark" />
-            <hc:TextBox
-                x:Name="BarkServer"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationBarkServer}"
-                Text="{c:Binding BarkServer}" />
-            <hc:PasswordBox
-                x:Name="BarkSendKey"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationBarkSendKey}"
-                IsSafeEnabled="False"
-                ShowEyeButton="True"
-                UnsafePassword="{c:Binding BarkSendKey}" />
-        </StackPanel>
+                </ListBox.Resources>
+            </ListBox>
 
-        <StackPanel
-            Grid.Row="9"
-            hc:InfoElement.TitleWidth="0"
-            Orientation="Vertical"
-            Visibility="{c:Binding QmsgEnabled}">
-            <hc:Divider Content="Qmsg" />
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70" />
-                    <ColumnDefinition Width="180" />
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="180" />
-                </Grid.ColumnDefinitions>
-                <controls:TextBlock
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Margin="10"
-                    Block.TextAlignment="Center"
-                    Text="{DynamicResource ExternalNotificationQmsgServer}"
-                    TextWrapping="Wrap" />
-                <TextBox
-                    x:Name="QmsgServer"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Height="30"
-                    Margin="10"
-                    Text="{c:Binding QmsgServer}" />
-                <controls:TextBlock
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Margin="10"
-                    Block.TextAlignment="Center"
-                    Text="{DynamicResource ExternalNotificationQmsgKey}"
-                    TextWrapping="Wrap" />
-                <controls:TextBlock
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Margin="10"
-                    Block.TextAlignment="Center"
-                    Text="{DynamicResource ExternalNotificationQmsgKey}"
-                    TextWrapping="Wrap" />
-                <hc:PasswordBox
-                    x:Name="QmsgKey"
-                    Grid.Row="0"
-                    Grid.Column="3"
-                    Height="30"
-                    Margin="10"
-                    hc:InfoElement.TitleWidth="0"
-                    IsSafeEnabled="False"
-                    ShowEyeButton="True"
-                    UnsafePassword="{c:Binding QmsgKey}" />
-
-                <controls:TextBlock
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Margin="10"
-                    Block.TextAlignment="Center"
-                    Text="{DynamicResource ExternalNotificationQmsgUser}"
-                    TextWrapping="Wrap" />
-                <TextBox
-                    x:Name="QmsgUser"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Height="30"
-                    Margin="10"
-                    Text="{c:Binding QmsgUser}" />
-                <controls:TextBlock
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    Margin="10"
-                    Block.TextAlignment="Center"
-                    Text="{DynamicResource ExternalNotificationQmsgBot}"
-                    TextWrapping="Wrap" />
-                <TextBox
-                    x:Name="QmsgBot"
-                    Grid.Row="1"
-                    Grid.Column="3"
-                    Height="30"
-                    Margin="10"
-                    Text="{c:Binding QmsgBot}" />
-
-            </Grid>
-        </StackPanel>
-
-        <StackPanel
-            Grid.Row="10"
-            Orientation="Vertical"
-            Visibility="{c:Binding GotifyEnabled}">
-            <hc:Divider Content="Gotify" />
-            <hc:TextBox
-                x:Name="GotifyServer"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationGotifyServer}"
-                Text="{c:Binding GotifyServer}" />
-            <hc:PasswordBox
-                x:Name="GotifyToken"
-                Width="400"
-                Height="30"
-                Margin="10"
-                hc:InfoElement.Title="{DynamicResource ExternalNotificationGotifyToken}"
-                IsSafeEnabled="False"
-                ShowEyeButton="True"
-                UnsafePassword="{c:Binding GotifyToken}" />
-        </StackPanel>
-
-        <StackPanel
-            Grid.Row="11"
-            Orientation="Vertical"
-            Visibility="{c:Binding CustomWebhookEnabled}">
-            <hc:Divider Content="{DynamicResource ExternalNotificationCustomWebhook}" />
-            <StackPanel Orientation="Horizontal" Margin="10,10,0,10">
-                <hc:ComboBox
-                    Width="300"
-                    hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Presets}"
-                    ItemsSource="{Binding PresetTemplateList}"
-                    SelectedValue="{Binding SelectedPresetTemplateId}"
-                    DisplayMemberPath="DisplayName"
-                    SelectedValuePath="Id" />
-                <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationCustomWebhook.PresetsPlaceholders}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <hc:TextBox
-                    x:Name="CustomWebhookUrl"
-                    Width="400"
-                    Height="30"
-                    Margin="10,10,0,10"
-                    hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Url}"
-                    Text="{c:Binding CustomWebhookUrl}" />
-                <!--  整个相同控件占位，保持控件长度一致  -->
-                <controls:TooltipBlock Visibility="Hidden" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <hc:TextBox
-                    Width="400"
-                    MinHeight="20"
-                    Margin="10,10,0,10"
-                    hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Headers}"
-                    Text="{c:Binding CustomWebhookHeaders}" />
-                <!--  整个相同控件占位，保持控件长度一致  -->
-                <controls:TooltipBlock Visibility="Hidden" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <hc:TextBox
-                    x:Name="CustomWebhookBody"
-                    Width="400"
-                    MinHeight="20"
-                    Margin="10,10,0,10"
-                    hc:InfoElement.Placeholder="{DynamicResource ExternalNotificationCustomWebhook.Placeholders}"
-                    hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Body}"
-                    AcceptsReturn="True"
-                    GotFocus="{s:Action CustomWebhookBodyGotFocus}"
-                    LostFocus="{s:Action CustomWebhookBodyLostFocus}"
-                    Text="{c:Binding CustomWebhookBody}"
-                    TextWrapping="Wrap" />
-                <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationCustomWebhook.Placeholders}" />
-            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>
