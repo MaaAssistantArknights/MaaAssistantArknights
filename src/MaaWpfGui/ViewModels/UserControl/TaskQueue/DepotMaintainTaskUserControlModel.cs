@@ -23,6 +23,7 @@ using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Services;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -447,13 +448,12 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             // 每个 plan 开始时会通过 OnTaskStatusChanged 用最新库存重算缺口
             if (depot.UpdateDepot)
             {
-                if (!Instances.ToolboxViewModel.StartDepotRecognitionTask(startImmediately: false))
+                var (result, depotTaskId) = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Depot, (AsstTaskType.Depot, null));
+                if (!result)
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanUpdateDepotFailed"), UiLogColor.Error);
                     return (false, []);
                 }
-
-                int depotTaskId = Instances.AsstProxy.TasksStatus.Last().Key;
                 Instances.ToolboxViewModel.MarkDepotRecognitionSyncTimeForReset(depotTaskId);
                 taskIds.Add(depotTaskId);
             }
