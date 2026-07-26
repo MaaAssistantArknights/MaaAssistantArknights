@@ -104,7 +104,6 @@ public class AsstFightTask : AsstBaseTask
     /// <summary>
     /// Gets or sets 客户端类型
     /// </summary>
-    [JsonProperty("client_type")]
     public ClientType ClientType { get; set; } = ClientType.Official;
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
@@ -124,6 +123,7 @@ public class AsstFightTask : AsstBaseTask
         {
             param["drops"] = JObject.FromObject(Drops);
         }
+        param["client_type"] = ClientType.ToCustomString();
 
         return (TaskType, param);
     }
