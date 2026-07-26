@@ -1087,8 +1087,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
     <system:String x:Key="SelectTheFileTip">마우스로 작업 파일을 드래그해 선택할 수 있어요 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">클립보드에서 읽어 작업/작업 세트 자동 인식</system:String>
-    <!-- TODO: 作业站迁移完成后删除 PasteClipboardCopilotSetTip -->
-    <system:String x:Key="PasteClipboardCopilotSetTip">클립보드에서 작업 파일을 읽고 작업 목록에 추가합니다.</system:String>
     <system:String x:Key="ImportFilesTip">일괄 가져오기</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">이 작업 파일이 마음에 드셨나요? 평가해 주세요!</system:String>
     <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다: &lt;</system:String>
@@ -1164,8 +1162,7 @@ C:\\leidian\\LDPlayer9
         4. {key=ParadoxSimulation}: 스킬 선택 후, ｢시뮬레이션 시작｣ 버튼이 나타나는 스킬 선택 화면에서 시작하세요. 1/2★ 오퍼레이터(스킬 없음)의 경우, 우측 하단에 ｢시뮬레이션 시작｣ 버튼이 있는 화면에서 시작하세요. ｢{key=UseCopilotList}｣를 사용하는 경우, {key=Operator} 목록의 ｢레벨/레어도｣ 탭에서 시작하세요.\n\n
         5. ｢선호｣로 표시된 오퍼레이터는 ｢{key=AutoSquad}｣ 인식 및 선택에 영향을 줄 수 있습니다. ｢{key=AutoSquad}｣ 사용 시, 선호 표시를 해제하거나 오류 발생 시 ｢{key=AutoSquad}｣를 끄고 안내에 따라 누락된 오퍼레이터를 수동으로 편성하는 것을 고려하세요.\n\n
         6. ZOOT 작업 공간에서, 입력 상자 오른쪽의 붙여넣기 버튼을 클릭하여 코드를 붙여넣을 수 있습니다. 형식은 자동으로 인식됩니다:\n
-        • prts://s = 작업 세트 prts:// = 단일 작업\n
-        세 번째 버튼은 기존 작업 세트용이며 나중에 제거됩니다.\n\n
+        • prts://s = 작업 세트 prts:// = 단일 작업\n\n
         7. {key=UseCopilotList}:\n
         • 작업 선택 후, 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
         • 추가: 좌클릭은 일반, 우클릭은 하드 모드입니다.\n

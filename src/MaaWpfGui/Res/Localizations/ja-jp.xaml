@@ -1086,8 +1086,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">クリップボードを読み取り、作業/作業セットを自動識別</system:String>
-    <!-- TODO: 作业站迁移完成后删除 PasteClipboardCopilotSetTip -->
-    <system:String x:Key="PasteClipboardCopilotSetTip">クリップボードを読み取り、ジョブセットとして追加します</system:String>
     <system:String x:Key="ImportFilesTip">バッチインポート</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">この攻略ファイルは好きですか？評価してください！</system:String>
     <system:String x:Key="FailedToLikeWebJson">エラーが発生しました、いいねに失敗しました。 : &lt;</system:String>
@@ -1163,8 +1161,7 @@ C:\\leidian\\LDPlayer9
         4. {key=ParadoxSimulation}: スキルを選択した後、スキル選択画面に ｢演算開始｣ ボタンが表示され、1/2 星{key=Operator}（スキルなし）が右下に ｢演算開始｣ ボタンを表示されて開始します。 ｢{key=UseCopilotList}｣ を使用する場合、{key=Operator}リストの｢レベル/レアリティ｣タブから開始してください。\n\n
         5.  ｢戦術要員｣ 機能を有効にすると、 ｢{key=AutoSquad}｣ の{key=Operator}選択に影響を与える可能性があります。 ｢{key=AutoSquad}｣ を 使用する際は ｢戦術要員｣ をオフにするか、不足している{key=Operator}を手動で補充して編成を完成させることをお勧めします。\n\n
         6. ZOOT 作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、コードを貼り付けることができます。形式は自動的に識別されます：\n
-        • prts://s = 割り当てセット prts:// = 個別の割り当て\n
-        3番目のボタンは旧形式の割り当てセット用で、後で削除されます。\n\n
+        • prts://s = 割り当てセット prts:// = 個別の割り当て\n\n
         7. {key=UseCopilotList}:\n
         • 攻略ファイルを選択した後、リストの下のステージ名が正しいことを確認してください（例: CV-EX-1）。 \n
         • 追加: 左クリックして通常難易度を追加し、右クリックして強襲難易度を追加します。\n

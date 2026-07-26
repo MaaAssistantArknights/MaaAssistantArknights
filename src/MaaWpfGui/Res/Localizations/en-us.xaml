@@ -1085,8 +1085,6 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be imported by dragging the mouse</system:String>
     <system:String x:Key="PasteClipboardTip">Read clipboard, auto-detect job/job set</system:String>
-    <!-- TODO: 作业站迁移完成后删除 PasteClipboardCopilotSetTip -->
-    <system:String x:Key="PasteClipboardCopilotSetTip">Read the clipboard and add it as a job set</system:String>
     <system:String x:Key="ImportFilesTip">Import task files</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">Do you like this task file? Rate it!</system:String>
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
@@ -1162,8 +1160,7 @@ Right-click to clear inactive jobs</system:String>
         4. {key=ParadoxSimulation}: After selecting Skills, start from the Skill selection screen where the "Start Simulation" button appears. For 1/2★ {key=Operator}s (without Skills), start from the screen with the "Start Simulation" button in the bottom right. If using ｢{key=UseCopilotList}｣, please start from the ｢Level/Rarity｣ tab in the {key=Operator} list.\n\n
         5. {key=Operator}s marked as "Favorite" may affect ｢{key=AutoSquad}｣ recognition and selection. When using ｢{key=AutoSquad}｣, consider removing favorites, or if errors occur, turn off ｢{key=AutoSquad}｣ and manually supplement the missing {key=Operator}s as prompted.\n\n
         6. ZOOT workstation codes can be pasted via the paste button on the right side of the input box. Formats are auto-detected:\n
-        • prts://s = Job set prts:// = Single job\n
-        The third button is for legacy job sets and will be removed later.\n\n
+        • prts://s = Job set prts:// = Single job\n\n
         7. {key=UseCopilotList}:\n
         • After selecting a job, verify the stage name below is correct (e.g., CV-EX-1).\n
         • Add: Left-click for Normal difficulty, right-click for Challenge difficulty.\n

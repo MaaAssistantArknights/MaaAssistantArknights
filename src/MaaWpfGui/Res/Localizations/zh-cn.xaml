@@ -1086,8 +1086,6 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">读取剪贴板，自动识别作业/作业集</system:String>
-    <!-- TODO: 作业站迁移完成后删除 PasteClipboardCopilotSetTip -->
-    <system:String x:Key="PasteClipboardCopilotSetTip">读取剪贴板并添加为作业集</system:String>
     <system:String x:Key="ImportFilesTip">批量导入</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作业怎么样？评价下吧！</system:String>
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
@@ -1163,8 +1161,7 @@ C:\\leidian\\LDPlayer9。\n
         4. {key=ParadoxSimulation}: 选好技能后，在技能选择界面存在 ｢开始模拟｣ 按钮界面启动，1/2 星{key=Operator}（无技能）在右下角存在 ｢开始模拟｣ 按钮界面开始。若使用 ｢{key=UseCopilotList}｣，请从{key=Operator}列表 ｢等级/稀有度｣ 筛选下启动。\n\n
         5. {key=Operator}若被标记为 ｢特别关注｣，可能影响 ｢{key=AutoSquad}｣ 的识别与选择。建议使用 ｢{key=AutoSquad}｣ 时移除关注，或在报错后关闭 ｢{key=AutoSquad}｣，根据提示手动补充缺失的{key=Operator}。\n\n
         6. ZOOT 作业站的神秘代码可通过输入框右侧的粘贴按钮粘贴，自动识别格式：\n
-        • prts://s = 作业集 prts:// = 单个作业\n
-        第三按钮为旧格式作业集入口，后续将移除。\n\n
+        • prts://s = 作业集 prts:// = 单个作业\n\n
         7. {key=UseCopilotList}:\n
         • 选择作业后，检查下方关卡名是否正确 (例: CV-EX-1)。\n
         • 添加: 左键 = 普通难度，右键 = 突袭难度。\n

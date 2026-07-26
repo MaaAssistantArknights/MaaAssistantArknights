@@ -69,7 +69,7 @@ public partial class CopilotViewModel : Screen
     /// 缓存的已解析作业，非即时添加的作业会使用该缓存
     /// </summary>
     private CopilotBase? _copilotCache;
-    private const string CopilotIdPrefix = "maa://"; // TODO: 作业站迁移完成后删除 maa:// 旧格式支持
+    private const string CopilotIdPrefix = "maa://";
     private const string CopilotNewIdPrefix = "prts://"; // 新格式前缀，prts://12345 为作业，prts://s12345 为作业集
     private const string CopilotNewSetIdPrefix = "prts://s"; // 新格式作业集前缀
     private static readonly string TempCopilotFile = Path.Combine(CacheDir, "_temp_copilot.json");
@@ -362,17 +362,6 @@ public partial class CopilotViewModel : Screen
         return TryParseCopilotCode(value, out _, out _);
     }
 
-    // TODO: 作业站迁移完成后删除此方法（旧格式 maa:// 和纯数字无法区分类型，届时所有格式都自带类型信息）
-
-    /// <summary>
-    /// 判断是否为类型不明确的旧格式代码（maa:// 或纯数字，无法区分作业/作业集）
-    /// </summary>
-    private static bool IsAmbiguousCopilotCode(string value)
-    {
-        return value.StartsWith(CopilotIdPrefix, StringComparison.OrdinalIgnoreCase)
-            || int.TryParse(value, out _);
-    }
-
     /// <summary>
     /// 作业站代码类型
     /// </summary>
@@ -392,7 +381,7 @@ public partial class CopilotViewModel : Screen
     /// 解析作业站代码，识别所有已知格式并提取数字 ID
     /// </summary>
     /// <param name="input">原始输入（maa://12345、prts://12345、prts://s12345、s12345、12345）</param>
-    /// <param name="type">解析出的类型；maa:// 和纯数字默认为 Copilot（按钮上下文可覆盖）</param>
+    /// <param name="type">解析出的类型</param>
     /// <param name="id">提取的数字 ID</param>
     /// <returns>是否成功解析</returns>
     private static bool TryParseCopilotCode(string input, out CopilotCodeType type, out int id)
@@ -418,10 +407,8 @@ public partial class CopilotViewModel : Screen
             return int.TryParse(input[CopilotNewIdPrefix.Length..], out id);
         }
 
-        // TODO: 作业站迁移完成后删除 maa:// 旧格式分支
         if (input.StartsWith(CopilotIdPrefix, StringComparison.OrdinalIgnoreCase))
         {
-            // maa:// 旧格式，默认当单个作业（按钮上下文可覆盖为作业集）
             type = CopilotCodeType.Copilot;
             return int.TryParse(input[CopilotIdPrefix.Length..], out id);
         }
@@ -857,39 +844,6 @@ public partial class CopilotViewModel : Screen
         {
             DropFile(Clipboard.GetFileDropList()[0]);
         }
-    }
-
-    // TODO: 作业站迁移完成后删除此方法及对应的 XAML 按钮（CopilotView.xaml Grid.Column=3）、
-    //  TooltipBlock（Grid.Column=3）、本地化字符串 PasteClipboardCopilotSetTip
-
-    /// <summary>
-    /// Paste clipboard contents.
-    /// UI 绑定的方法
-    /// </summary>
-    /// <returns>Task</returns>
-    [UsedImplicitly]
-    public async Task PasteClipboardCopilotSet()
-    {
-        if (!Clipboard.ContainsText())
-        {
-            return;
-        }
-
-        var text = Clipboard.GetText().Trim();
-
-        // 新格式自带类型信息，交给 Filename → UpdateFileDoc 自动路由
-        // 旧格式（maa:// / 纯数字）类型不明确，按按钮上下文当作业集处理
-        if (!IsAmbiguousCopilotCode(text))
-        {
-            Filename = text;
-            return;
-        }
-
-        StartEnabled = false;
-        ClearLog();
-        await GetCopilotSetAsync(text);
-        CopilotUrl = CopilotUiUrl;
-        StartEnabled = true;
     }
 
     /// <summary>
