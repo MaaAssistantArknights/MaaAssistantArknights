@@ -47,17 +47,20 @@ GUI configuration has been migrated to `gui.new.json`; future versions will no l
 ### 改进 | Improved
 
 * WPF 配置体系全量迁移至强类型 JSON 配置，统一管理外部通知、性能、远程控制等设置 ([#17392](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17392)) @status102 @ABA2396
+* 优化 WPF 设置页设置项排序与折叠/展开状态管理，并支持从旧版本迁移设置项顺序 @status102 @ABA2396
 * 自动战斗移除已过期的 `maa://` 旧格式兼容入口，全面采用作业站新格式（`prts://` 前缀，自动区分单个作业与作业集） @ABA2396
 * 优化库存保持任务的显示效果 @ABA2396
 * 游戏更新后临时禁用代理倍率切换，提示在游戏内手动设置 @ABA2396
 * 支持 Array 移除未识别选项，避免任务队列等配置因未知类型加载失败 @ABA2396
 * 繁中服更新界园主题模板，并修正进入主线章节方式 ([#17399](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17399)) @momomochi987
 * YostarJP improve operator and JieGarden item OCR mappings ([#17389](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17389)) @Manicsteiner
+* YostarJP fix SSS cold bomb device OCR recognition @Manicsteiner
 
 ### 修复 | Fix
 
 * 修复设置页可搜索下拉框二次打开时导致崩溃的问题 @ABA2396
 * 修复模拟器卡顿二次返回退出基建后状态丢失的问题 ([#17395](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17395)) @ABA2396
+* 修复萨卡兹肉鸽进入第四层后弹出获得灵感窗口出错的问题 @Saratoga-Official
 * 修复催影肉龟可能会误入二结局的问题 @Saratoga-Official
 * 修复 Bark 通知图标未被输出到请求体的问题 ([#17305](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17305)) @FSPaul2498 @status102
 * 升级 MaaDeps 至 v2.14.1，修复 Linux 下 MaaFwAdb 控制模块因 OpenCV 动态库版本不匹配无法加载的问题 ([#17391](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17391)) @MistEO @Aliothmoon
