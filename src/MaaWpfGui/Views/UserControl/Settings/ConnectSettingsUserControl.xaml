@@ -186,6 +186,11 @@
                                         hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
                                         hc:TitleElement.TitlePlacement="Left"
                                         Text="{Binding EmulatorPath}" />
+                                    <CheckBox
+                                        Margin="10"
+                                        HorizontalAlignment="Center"
+                                        Content="{DynamicResource MuMuExtrasTouchEnabled}"
+                                        IsChecked="{Binding EnableTouch}" />
                                     <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
                                         <CheckBox
                                             Margin="10"

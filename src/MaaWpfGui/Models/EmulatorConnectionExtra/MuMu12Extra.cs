@@ -30,13 +30,14 @@ public class MuMu12Extra() : ExtraConfig, IJsonOnDeserialized
 {
     private static readonly ILogger _logger = Log.ForContext<MuMu12Extra>();
 
-    public MuMu12Extra(bool isEnabled, string emulatorPath, bool enableBridgeConnection, int instanceIndex)
+    public MuMu12Extra(bool isEnabled, string emulatorPath, bool enableBridgeConnection, int instanceIndex, bool enableTouch = false)
         : this()
     {
         _enable = isEnabled;
         _emulatorPath = emulatorPath;
         _enableBridgeConnection = enableBridgeConnection;
         _instanceIndex = instanceIndex;
+        _enableTouch = enableTouch;
     }
 
     public void OnDeserialized()
@@ -228,6 +229,27 @@ public class MuMu12Extra() : ExtraConfig, IJsonOnDeserialized
     }
 
     [JsonInclude]
+    [JsonPropertyName("EnableTouch")]
+    private bool _enableTouch;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether MuMu extras is also used for touch input, not just screencap.
+    /// </summary>
+    [JsonIgnore]
+    public bool EnableTouch
+    {
+        get => _enableTouch;
+        set {
+            if (!SetAndNotify(ref _enableTouch, value))
+            {
+                return;
+            }
+
+            Instances.AsstProxy.Connected = false;
+        }
+    }
+
+    [JsonInclude]
     [JsonPropertyName("InstanceIndex")]
     private int _instanceIndex;
 
@@ -255,6 +277,7 @@ public class MuMu12Extra() : ExtraConfig, IJsonOnDeserialized
 
             var configObject = new JObject {
                 ["path"] = EmulatorPath,
+                ["touch"] = EnableTouch,
             };
 
             if (EnableBridgeConnection)
