@@ -1,33 +1,33 @@
-## v6.14.2
+## v6.15.0-beta.1
 
 ### Highlights
 
-#### 莫奈取色
+#### 作业站新格式适配
 
-新增背景莫奈取色，可根据背景图自动生成主题色，也支持手动选色。
+上游作业站 PRTS.plus 已于 2026 年 7 月 20 日更新作业代码格式。本版本全面适配新格式（`prts://` 前缀，自动区分单个作业与作业集），并移除已过期的 `maa://` 旧格式兼容入口，请及时更新以保证作业正常导入。
 
-#### 仓库识别支持更多基础资源
+#### 库存保持任务
 
-仓库识别现已新增对源石、合成玉、龙门币、赤金与采购凭证的识别支持，导出与库存核对更完整；排序现已改为按游戏内顺序排列。
+新增「库存保持」任务，支持在单个任务中添加多组保持计划，按从上到下的优先级将指定材料刷取至目标数量；可在任务开始前更新库存数据，并支持在 SideStory 活动与资源关卡限时全开放期间自动跳过，方便保持芯片、红票、龙门币等各类资源数量。
 
-#### 截图与模拟器兼容性提示更完整
+#### 配置迁移至 gui.new.json
 
-在设置指引与开始唤醒中补充截图增强与截图测试入口，MuMu 截图增强也已支持 `emulator-5xxx` 格式端口；新增当前模拟器帧率检测与提示，补充 MuMu 后台保活检测，以及雷电模拟器搭配 MaaTouch 时的组合警告，帮助更快定位截图异常、操作异常与性能设置问题。
+GUI 配置正式迁移至 `gui.new.json`，后续版本将不再使用 `gui.json`；配合 WPF 配置体系全量迁移至强类型 JSON，统一管理外部通知、性能、远程控制等设置，提升配置可靠性与可维护性。
 
 <details>
 <summary><b>English</b></summary>
 
-#### Monet Theming
+#### Copilot Site New Format
 
-Added background Monet theming with both automatic color extraction and manual color selection.
+The upstream copilot site PRTS.plus updated its copilot code format on July 20, 2026. This version fully adopts the new format (`prts://` prefix, automatically distinguishing single copilots from copilot sets) and removes the deprecated `maa://` legacy entry. Please update to this version to keep copilot imports working.
 
-#### More Base Resources Supported in Depot Recognition
+#### Depot Maintain Task
 
-Depot recognition now supports Originium, Orundum, LMD, Gold, and Purchase Certificates, making inventory checks and exports more complete. Items are now sorted by in-game order.
+Added a Depot Maintain task that supports multiple plans within a single task, farming specified materials up to target quantities in top-to-bottom priority order. It can refresh depot data before the task starts and automatically skips during SideStory events and limited full-day resource stages, making it easy to maintain stocks of chips, vouchers, LMD, and other resources.
 
-#### Better Screenshot and Emulator Compatibility Guidance
+#### Configuration Migration to gui.new.json
 
-Screenshot enhancement and screenshot test entries are now surfaced in setup guidance and startup wake-up, and MuMu screenshot enhancement now supports `emulator-5xxx` style ports. Added emulator frame rate detection and warnings, MuMu background keep-alive detection, and a warning for the LDPlayer + MaaTouch combination, making screenshot, input, and performance issues easier to diagnose.
+GUI configuration has been migrated to `gui.new.json`; future versions will no longer use `gui.json`. Combined with the full WPF configuration migration to strongly typed JSON (covering external notification, performance, remote control, and more), this improves reliability and maintainability.
 
 </details>
 
@@ -36,93 +36,30 @@ Screenshot enhancement and screenshot test entries are now surfaced in setup gui
 以下是详细内容：
 
 <details open>
-<summary><b>v6.14.2 (2026-07-16)</b></summary>
+<summary><b>v6.15.0-beta.1 (2026-07-26)</b></summary>
 
 ### 新增 | New
 
-* YostarEN/KR add TA stage navigation @Constrat @HX3N
-
-### 修复 | Fix
-
-* 修复鹰角网络调整用户中心界面间距后无法识别退出登录的问题 @Saratoga-Official
-* 修复多作业模式中 H10-1 被 OCR 识别为 `H1O-1` 时关卡名称替换错误、导致导航重试的问题 ([#17326](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17326)) @wzacolemak
-* YostarEN: fix OCR recognition mappings for Eye of the Blizzard and Base @Constrat
-* YostarKR: fix and refine operator, item, and event OCR replacements @HX3N
-
-</details>
-
-<details>
-<summary><b>v6.14.1 (2026-07-11)</b></summary>
-
-### 新增 | New
-
-* 自动战斗新增支持 ZOOT 作业站新格式神秘代码（`prts://` 前缀，区分单个作业与作业集），兼容旧 `maa://` 格式 ([#17322](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17322)) @ABA2396
-
-### 修复 | Fix
-
-* 修复因网络原因导致跳过肉鸽结局剧情时出错的问题 @Saratoga-Official
-* 修复干员折桠识别错误 @Saratoga-Official
-* 修复开始唤醒手动切换账号运行时无法切换账号的问题 @status102
-* 修复截图测试窗口可被拖拽调整大小导致崩溃的问题 @ABA2396
-* YostarEN: fix `Roguelike@RewardCompleted` template mismatch recognition issue @Constrat
-* YostarJP: fix JieGarden DLC2 厉-西廉贞 tongbao OCR recognition issue @Manicsteiner
-
-</details>
-
-<details>
-<summary><b>v6.14.0 (2026-07-09)</b></summary>
-
-### 新增 | New
-
-* 新增背景莫奈取色，支持根据背景图自动生成主题色，也支持手动选择自定义颜色；优化主题色板生成与对比度表现 ([#17242](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17242), [#17243](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17243), [#17249](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17249)) @ABA2396
-* 自动战斗多作业模式新增支持异体字关卡导航；部分活动与支线关卡新增模板导航，在有模板时可优先使用模板识别、无模板时回退 OCR ([#16984](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/16984)) @ABA2396
-* 仓库识别新增支持源石、合成玉、龙门币、赤金与采购凭证 ([#17287](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17287)) @ABA2396
-* 账号切换新增启用勾选框，可按需关闭账号切换 ([#17280](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17280)) @ABA2396
-* 新增当前模拟器帧率检测与提示，可识别过低、非 60 FPS 与异常高帧率设置 ([#17219](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17219)) @ABA2396
-* 新增 MuMu 后台保活检测，连接后可提示可能导致截图与操作异常的后台保活设置 ([#17241](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17241)) @ABA2396
-* 新增同时使用雷电模拟器 + MaaTouch 组合的警告 ([#17238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17238)) @ABA2396
-* 设置指引与开始唤醒中新增截图增强与截图测试相关选项 ([#17247](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17247)) @ABA2396
-* MuMu 截图增强新增支持 `emulator-5xxx` 格式端口 ([#17255](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17255)) @ABA2396
-* 新增更新器进度窗口显示开关，并补充自动下载更新包提示文本 @ABA2396
-* 繁中服新增「未許之地」关卡导航支持 ([#17285](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17285)) @momomochi987
-* 繁中服新增「衛戍協議：盟約」小玩法模板支持 ([#17257](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17257)) @momomochi987
-* YostarEN/JP/KR add JieGarden DLC2 roguelike support, including new squad names and a large batch of OCR/recognition mappings ([#17286](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17286), [#17290](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17290), [#17294](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17294)) @Manicsteiner @Constrat @HX3N
+* 新增「库存保持」任务 ([#17042](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17042)) @status102 @ABA2396
+* 繁中服新增「雅賽努斯復仇記」活动关卡导航 ([#17398](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17398)) @momomochi987
+* YostarJP add TA stage navigation ([#17389](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17389)) @Manicsteiner
 
 ### 改进 | Improved
 
-* 持久化保存主题色，减少启动时主题闪烁 ([#17263](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17263)) @ABA2396
-* 帧率检查改为异步执行，减少截图返回阻塞 ([#17277](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17277)) @ABA2396
-* JieGarden DLC2 在通宝页面滑动与选取之间添加延迟，提升选取稳定性 ([#17295](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17295)) @Manicsteiner
-* 优化被注入提示文案，提示信息更清晰 ([#17272](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17272)) @ABA2396
-* 确认招募时同步更新 UI 日志 Card 图片，界面展示更及时 ([#17268](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17268)) @ABA2396
-* 禁用 Xe-LPG+ Arrow Lake Arc 140T 的 GPU 推理选项，避免相关机型出现识别异常 @ABA2396
-* YostarEN/JP improve JieGarden and Sami roguelike event/option recognition; YostarEN additionally improves MASS encounter option mappings ([#17261](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17261)) @Manicsteiner @Constrat
+* WPF 配置体系全量迁移至强类型 JSON 配置，统一管理外部通知、性能、远程控制等设置 ([#17392](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17392)) @status102 @ABA2396
+* 自动战斗移除已过期的 `maa://` 旧格式兼容入口，全面采用作业站新格式（`prts://` 前缀，自动区分单个作业与作业集） @ABA2396
+* 优化库存保持任务的显示效果 @ABA2396
+* 游戏更新后临时禁用代理倍率切换，提示在游戏内手动设置 @ABA2396
+* 支持 Array 移除未识别选项，避免任务队列等配置因未知类型加载失败 @ABA2396
+* 繁中服更新界园主题模板，并修正进入主线章节方式 ([#17399](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17399)) @momomochi987
+* YostarJP improve operator and JieGarden item OCR mappings ([#17389](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17389)) @Manicsteiner
 
 ### 修复 | Fix
 
-* 修复首次运行时错误弹出目标配置缺失的提示 @status102
-* 修复 MuMu 模拟器下第 32 个及以后多开实例的编号计算错误 ([#17112](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17112)) @dikxingmengya @ABA2396
-* 修复 DBNet UnClip 多边形偏移实现，提升 NCNN OCR 结果与 fastdeploy 的一致性 ([#17227](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17227)) @Aliothmoon
-* 修复基建产物收取时因 loading 遮挡导致跳过的问题 ([#17232](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17232)) @ZiyinLin @status102
-* 修复自定义基建配置列表显示异常 ([#17254](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17254)) @ABA2396
-* 修复使用莫奈取色吸管工具后二次打开页面时崩溃的问题 ([#17270](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17270)) @ABA2396
-* 修复背景填充模式仍可编辑的问题 @ABA2396
-* 修复未开启系统通知时仍执行系统通知检查的问题 @ABA2396
-* 修复萨米肉鸽「特里蒙旅行社特派团」识别错误 @Saratoga-Official
-* 修复肉鸽事件与选项中的问号、空格、重复项及相似项锚定问题，统一多项事件名识别 ([#17256](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17256)) @ABA2396 @Constrat
-* 繁中服补充与修正萨米肉鸽大量事件/选项识别 @Constrat
-* YostarEN/JP/KR: add and fix a large batch of Sami roguelike event/option recognition; YostarEN additionally adds a set of MASS event option mappings @Constrat
-* YostarEN: fix a JieGarden DLC2 tongbao regex recognition issue @Constrat
-* YostarEN: fix `MissionFailedFlag2` template mismatch recognition issue @Constrat
-* YostarEN: fix a Varkaris text/accent recognition issue @Constrat
-
-### 文档 | Docs
-
-* 补充截图相关回调文档 @ABA2396
-* 修复多语言协议文档中的 `<object>` 标签问题 ([#17296](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17296)) @Constrat
-
-### 其他 | Other
-
-* 优化 MAAUnified 构建流程，复用 MaaCore 构建产物 ([#17233](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17233)) @GhostKiller127
+* 修复设置页可搜索下拉框二次打开时导致崩溃的问题 @ABA2396
+* 修复模拟器卡顿二次返回退出基建后状态丢失的问题 ([#17395](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17395)) @ABA2396
+* 修复催影肉龟可能会误入二结局的问题 @Saratoga-Official
+* 修复 Bark 通知图标未被输出到请求体的问题 ([#17305](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17305)) @FSPaul2498 @status102
+* 升级 MaaDeps 至 v2.14.1，修复 Linux 下 MaaFwAdb 控制模块因 OpenCV 动态库版本不匹配无法加载的问题 ([#17391](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17391)) @MistEO @Aliothmoon
 
 </details>
