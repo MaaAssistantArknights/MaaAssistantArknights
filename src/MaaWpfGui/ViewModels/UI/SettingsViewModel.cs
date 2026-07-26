@@ -213,44 +213,27 @@ public class SettingsViewModel : Screen
     {
         var keyList = Enum.GetValues<SettingKey>();
 
-        var tempOrderList = new List<SettingItemViewModel?>(new SettingItemViewModel[keyList.Length]);
-        var nonOrderList = new List<SettingItemViewModel?>();
+        var tempOrderList = new List<SettingItemViewModel?>();
 
-        foreach (var key in keyList)
+        bool isAdded = false;
+        var orderList = ConfigFactory.Root.Gui.SettingOrders.ToList();
+        foreach (var key in keyList.Where(k => !orderList.Any(o => o == k)))
         {
-            int order = ConfigFactory.Root.Gui.SettingOrders.TryGetValue(key, out var o) ? o : -1;
-
-            var item = new SettingItemViewModel(key.ToString(), LocalizationHelper.GetString(key.ToString()), -1);
-
-            if (order < 0 || order >= tempOrderList.Count || tempOrderList[order] != null)
-            {
-                nonOrderList.Add(item);
-            }
-            else
-            {
-                item.Value = order;
-                tempOrderList[order] = item;
-            }
+            isAdded = true;
+            orderList.Add(key);
+        }
+        if (isAdded)
+        {
+            ConfigFactory.Root.Gui.SettingOrders = orderList;
         }
 
-        int fillIndex = 0;
-        foreach (var item in nonOrderList.OfType<SettingItemViewModel>())
+        foreach (var (i, key) in orderList.Select((key, index) => (index, key)))
         {
-            while (fillIndex < tempOrderList.Count && tempOrderList[fillIndex] != null)
-            {
-                fillIndex++;
-            }
-
-            if (fillIndex < tempOrderList.Count)
-            {
-                item.Value = fillIndex;
-                tempOrderList[fillIndex] = item;
-                ConfigFactory.Root.Gui.SettingOrders[Enum.Parse<SettingKey>(item.Key)] = fillIndex;
-            }
+            var item = new SettingItemViewModel(key.ToString(), LocalizationHelper.GetString(key.ToString()), i);
+            tempOrderList.Add(item);
         }
 
         Settings = [.. tempOrderList.OfType<SettingItemViewModel>()];
-
         Settings.CollectionChanged += Settings_CollectionChanged;
     }
 
@@ -267,22 +250,11 @@ public class SettingsViewModel : Screen
 
     private void Settings_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
     {
+        ConfigFactory.Root.Gui.SettingOrders = [.. Settings.Select(item => Enum.Parse<SettingKey>(item.Key))];
         Execute.OnUIThread(() => {
             if (e?.Action == NotifyCollectionChangedAction.Move)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.SortingMaster);
-            }
-
-            for (int i = 0; i < Settings.Count; i++)
-            {
-                var item = Settings[i];
-                if (item.Value == i)
-                {
-                    continue;
-                }
-
-                item.Value = i;
-                ConfigFactory.Root.Gui.SettingOrders[Enum.Parse<SettingKey>(item.Key)] = i;
             }
 
             OnSettingItemValueChanged();
@@ -890,11 +862,18 @@ public class SettingsViewModel : Screen
 
     #region 折叠框展开状态
 
-    private bool GetExpanderState(SettingKey key) => ConfigFactory.Root.Gui.ExpanderStates.TryGetValue(key, out var v) ? v : true;
+    private bool GetExpanderState(SettingKey key) => ConfigFactory.Root.Gui.ExpanderStates.Contains(key);
 
     private void SetExpanderState(SettingKey key, bool value, [CallerMemberName] string propertyName = "")
     {
-        ConfigFactory.Root.Gui.ExpanderStates[key] = value;
+        if (value)
+        {
+            ConfigFactory.Root.Gui.ExpanderStates.Add(key);
+        }
+        else
+        {
+            ConfigFactory.Root.Gui.ExpanderStates.Remove(key);
+        }
         NotifyOfPropertyChange(propertyName);
     }
 

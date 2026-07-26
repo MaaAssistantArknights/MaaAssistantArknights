@@ -1064,7 +1064,7 @@ public class ConfigConverter
             try
             {
                 var hotKeys = ConfigurationHelper.GetGlobalValue("HotKeys", string.Empty);
-                var hotKeyTemp = new Dictionary<MaaHotKeyAction, MaaHotKey>
+                var hotKeyTemp = new Dictionary<MaaHotKeyAction, MaaHotKey?>
                 {
                     {
                         MaaHotKeyAction.ShowGui, new MaaHotKey(Key.M, ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt)
@@ -1073,7 +1073,7 @@ public class ConfigConverter
                         MaaHotKeyAction.LinkStart, new MaaHotKey(Key.L, ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt)
                     },
                 };
-                ConfigFactory.Root.Gui.HotKeys = string.IsNullOrEmpty(hotKeys) ? hotKeyTemp : JsonConvert.DeserializeObject<Dictionary<MaaHotKeyAction, MaaHotKey>>(hotKeys) ?? hotKeyTemp;
+                ConfigFactory.Root.Gui.HotKeys = string.IsNullOrEmpty(hotKeys) ? hotKeyTemp : JsonConvert.DeserializeObject<Dictionary<MaaHotKeyAction, MaaHotKey?>>(hotKeys) ?? hotKeyTemp;
             }
             catch
             {
@@ -1098,6 +1098,7 @@ public class ConfigConverter
             }
 
             // 设置页排列顺序迁移
+            var list = new List<SettingKey>();
             foreach (SettingKey key in Enum.GetValues<SettingKey>())
             {
                 var orderFullKey = "Settings.Order." + key;
@@ -1106,20 +1107,24 @@ public class ConfigConverter
                     var orderStr = ConfigurationHelper.GetGlobalValue(orderFullKey, "-1");
                     if (int.TryParse(orderStr, out var order))
                     {
-                        ConfigFactory.Root.Gui.SettingOrders[key] = order;
+                        ConfigFactory.Root.Gui.SettingOrders.Insert(order, key);
                     }
 
                     ConfigurationHelper.DeleteGlobalValue(orderFullKey, out var _);
+                }
+                else
+                {
+                    list.Add(key);
                 }
             }
         }
 
         // Timer
         {
-            ConfigFactory.Root.TimerSettings.CustomConfig = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomConfig, false);
-            ConfigFactory.Root.TimerSettings.ShowWindowBeforeForceScheduledStart = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, false);
-            ConfigFactory.Root.TimerSettings.ForceScheduledStart = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, false);
-            ConfigFactory.Root.TimerSettings.List.Clear();
+            ConfigFactory.Root.Timers.CustomConfig = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomConfig, false);
+            ConfigFactory.Root.Timers.ShowWindowBeforeForceScheduledStart = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, false);
+            ConfigFactory.Root.Timers.ForceScheduledStart = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, false);
+            ConfigFactory.Root.Timers.List.Clear();
             for (int i = 0; i < 8; i++)
             {
                 var timerState = ConfigurationHelper.GetTimer(i, bool.FalseString);
@@ -1128,7 +1133,7 @@ public class ConfigConverter
                 var minute = int.Parse(ConfigurationHelper.GetTimerMin(i, "0"));
                 var config = ConfigurationHelper.GetTimerConfig(i, ConfigurationHelper.GetCurrentConfiguration());
                 var timer = new Timer(i, isOn, config, hour, minute);
-                ConfigFactory.Root.TimerSettings.List.Add(timer);
+                ConfigFactory.Root.Timers.List.Add(timer);
             }
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.CustomConfig, out var _);
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, out var _);

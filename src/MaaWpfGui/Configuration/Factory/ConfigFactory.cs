@@ -125,6 +125,7 @@ public static class ConfigFactory
             }
 
             parsed.PropertyChanged += Handler.OnPropertyChangedFactory("Root.");
+            parsed.EventBinding("Root.");
             parsed.Configurations.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<string, SpecificConfig>> args) => {
                 switch (args.Action)
                 {
@@ -153,12 +154,6 @@ public static class ConfigFactory
 
                 OnPropertyChanged("Root.Configurations." + args.NewItem.Key, args.OldItem.Value, args.NewItem.Value);
             };
-
-            parsed.TimerSettings.EventBinding("Root.Timers.");
-            parsed.AnnouncementInfo.PropertyChanged += Handler.OnPropertyChangedFactory($"Root.{nameof(parsed.AnnouncementInfo)}.");
-            parsed.Gui.PropertyChanged += Handler.OnPropertyChangedFactory($"Root.{nameof(parsed.Gui)}.");
-            parsed.Gui.Background.PropertyChanged += Handler.OnPropertyChangedFactory($"Root.{nameof(parsed.Gui)}.{nameof(parsed.Gui.Background)}.");
-            parsed.Update.PropertyChanged += Handler.OnPropertyChangedFactory($"Root.{nameof(parsed.Update)}.");
 
             foreach (var keyValue in parsed.Configurations)
             {
@@ -339,6 +334,13 @@ public static class ConfigFactory
         {
             return (object? sender, NotifyCollectionChangedEventArgs e) => {
                 OnPropertyChanged(key + $"[{e.NewStartingIndex}].", e.OldItems?.Count > 0 ? e.OldItems : null, e.NewItems?.Count > 0 ? e.NewItems : null);
+            };
+        }
+
+        public static NotifyCollectionChangedEventHandler<T> OnObservableChangedFactory<T>(string key)
+        {
+            return (in NotifyCollectionChangedEventArgs<T> e) => {
+                OnPropertyChanged(key + $"[{e.NewStartingIndex}]", e.OldItem, e.NewItem);
             };
         }
 

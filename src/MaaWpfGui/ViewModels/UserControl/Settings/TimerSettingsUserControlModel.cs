@@ -47,10 +47,10 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     public bool ForceScheduledStart
     {
         get; set {
-            ConfigFactory.Root.TimerSettings.ForceScheduledStart = value;
+            ConfigFactory.Root.Timers.ForceScheduledStart = value;
             SetAndNotify(ref field, value);
         }
-    } = ConfigFactory.Root.TimerSettings.ForceScheduledStart;
+    } = ConfigFactory.Root.Timers.ForceScheduledStart;
 
     /// <summary>
     /// Gets or sets a value indicating whether show window before force scheduled start.
@@ -58,10 +58,10 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     public bool ShowWindowBeforeForceScheduledStart
     {
         get; set {
-            ConfigFactory.Root.TimerSettings.ShowWindowBeforeForceScheduledStart = value;
+            ConfigFactory.Root.Timers.ShowWindowBeforeForceScheduledStart = value;
             SetAndNotify(ref field, value);
         }
-    } = ConfigFactory.Root.TimerSettings.ShowWindowBeforeForceScheduledStart;
+    } = ConfigFactory.Root.Timers.ShowWindowBeforeForceScheduledStart;
 
     /// <summary>
     /// Gets or sets a value indicating whether to use custom config.
@@ -69,12 +69,12 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     public bool CustomConfig
     {
         get; set {
-            ConfigFactory.Root.TimerSettings.CustomConfig = value;
+            ConfigFactory.Root.Timers.CustomConfig = value;
             SetAndNotify(ref field, value);
         }
-    } = ConfigFactory.Root.TimerSettings.CustomConfig;
+    } = ConfigFactory.Root.Timers.CustomConfig;
 
-    public ObservableCollection<Timer> TimerList => ConfigFactory.Root.TimerSettings.List;
+    public ObservableCollection<Timer> TimerList => ConfigFactory.Root.Timers.List;
 
     /// <summary>
     /// 订阅所有定时器的启用状态变化，用于触发「时间管理大师」成就检查。

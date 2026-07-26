@@ -1033,11 +1033,11 @@ public class TaskQueueViewModel : Screen
         }
 
         // 临时补足到8个，支持添加删除后移除此代码
-        if (ConfigFactory.Root.TimerSettings.List.Count < 8)
+        if (ConfigFactory.Root.Timers.List.Count < 8)
         {
-            for (int i = ConfigFactory.Root.TimerSettings.List.Count; i < 8; i++)
+            for (int i = ConfigFactory.Root.Timers.List.Count; i < 8; i++)
             {
-                ConfigFactory.Root.TimerSettings.List.Add(new(i, string.Empty));
+                ConfigFactory.Root.Timers.List.Add(new(i, string.Empty));
             }
         }
         List<TaskItemViewModel> taskqueue = [];

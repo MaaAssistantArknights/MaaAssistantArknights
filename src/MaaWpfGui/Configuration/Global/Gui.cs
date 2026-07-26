@@ -13,6 +13,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
@@ -20,6 +21,7 @@ using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
+using ObservableCollections;
 using static MaaWpfGui.ViewModels.UI.OverlayViewModel;
 
 namespace MaaWpfGui.Configuration.Global;
@@ -81,12 +83,12 @@ public class Gui : INotifyPropertyChanged
     /// <summary>
     /// 设置页排列顺序。
     /// </summary>
-    public Dictionary<SettingKey, int> SettingOrders { get; set; } = [];
+    public List<SettingKey> SettingOrders { get; set; } = [];
 
     /// <summary>
     /// 设置页折叠框展开状态。
     /// </summary>
-    public Dictionary<SettingKey, bool> ExpanderStates { get; set; } = [];
+    public ObservableCollection<SettingKey> ExpanderStates { get; set; } = [];
 
     /// <summary>
     /// 全局热键配置。

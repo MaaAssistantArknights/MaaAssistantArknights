@@ -19,7 +19,9 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using ObservableCollections;
+using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration;
 
@@ -27,11 +29,21 @@ public class Root : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    public void EventBinding(string prefix)
+    {
+        Timers.EventBinding($"{prefix}{nameof(Timers)}.");
+        AnnouncementInfo.PropertyChanged += Handler.OnPropertyChangedFactory($"{prefix}{nameof(AnnouncementInfo)}.");
+        Gui.PropertyChanged += Handler.OnPropertyChangedFactory($"{prefix}{nameof(Gui)}.");
+        Gui.Background.PropertyChanged += Handler.OnPropertyChangedFactory($"{prefix}{nameof(Gui)}.{nameof(Gui.Background)}.");
+        Gui.ExpanderStates.CollectionChanged += Handler.OnCollectionChangedFactory<SettingKey>($"{prefix}{nameof(Gui)}.{nameof(Gui.ExpanderStates)}.");
+        Update.PropertyChanged += Handler.OnPropertyChangedFactory($"{prefix}{nameof(Update)}.");
+    }
+
     [JsonInclude]
     public ObservableDictionary<string, SpecificConfig> Configurations { get; private set; } = [];
 
     [JsonInclude]
-    public TimerSettings TimerSettings { get; private set; } = new();
+    public TimerSettings Timers { get; private set; } = new();
 
     public int ConfigVersion { get; set; } = 1;
 
