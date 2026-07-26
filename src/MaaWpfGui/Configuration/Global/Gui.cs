@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
@@ -78,41 +79,21 @@ public class Gui : INotifyPropertyChanged
     public OverlayTargetInfo OverlayTarget { get; set; } = new();
 
     /// <summary>
+    /// 设置页排列顺序。
+    /// </summary>
+    public Dictionary<SettingKey, int> SettingOrders { get; set; } = [];
+
+    /// <summary>
+    /// 设置页折叠框展开状态。
+    /// </summary>
+    public Dictionary<SettingKey, bool> ExpanderStates { get; set; } = [];
+
+    /// <summary>
     /// 全局热键配置。
     /// </summary>
     public Dictionary<MaaHotKeyAction, MaaHotKey?> HotKeys { get; set; } = [];
 
     public int GuideStep { get; set; } = 0;
-
-    public bool ExpanderSwitchConfiguration { get; set; } = true;
-
-    public bool ExpanderScheduleSettings { get; set; } = true;
-
-    public bool ExpanderPerformanceSettings { get; set; } = true;
-
-    public bool ExpanderGameSettings { get; set; } = true;
-
-    public bool ExpanderConnectionSettings { get; set; } = true;
-
-    public bool ExpanderStartupSettings { get; set; } = true;
-
-    public bool ExpanderRemoteControlSettings { get; set; } = true;
-
-    public bool ExpanderUiSettings { get; set; } = true;
-
-    public bool ExpanderBackgroundSettings { get; set; } = true;
-
-    public bool ExpanderExternalNotificationSettings { get; set; } = true;
-
-    public bool ExpanderHotKeySettings { get; set; } = true;
-
-    public bool ExpanderAchievementSettings { get; set; } = true;
-
-    public bool ExpanderUpdateSettings { get; set; } = true;
-
-    public bool ExpanderIssueReport { get; set; } = true;
-
-    public bool ExpanderAboutUs { get; set; } = true;
 
     public Background Background { get; set; } = new();
 

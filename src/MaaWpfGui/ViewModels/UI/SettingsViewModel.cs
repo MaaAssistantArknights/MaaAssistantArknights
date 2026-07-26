@@ -210,33 +210,16 @@ public class SettingsViewModel : Screen
 
     private void InitSettings()
     {
-        List<string> keyList =
-        [
-            "SwitchConfiguration",
-            "ScheduleSettings",
-            "PerformanceSettings",
-            "GameSettings",
-            "ConnectionSettings",
-            "StartupSettings",
-            "RemoteControlSettings",
-            "UiSettings",
-            "BackgroundSettings",
-            "ExternalNotificationSettings",
-            "HotKeySettings",
-            "AchievementSettings",
-            "UpdateSettings",
-            "IssueReport",
-            "AboutUs",
-        ];
+        var keyList = Enum.GetValues<SettingKey>();
 
-        var tempOrderList = new List<SettingItemViewModel?>(new SettingItemViewModel[keyList.Count]);
+        var tempOrderList = new List<SettingItemViewModel?>(new SettingItemViewModel[keyList.Length]);
         var nonOrderList = new List<SettingItemViewModel?>();
 
         foreach (var key in keyList)
         {
-            int order = ConfigurationHelper.GetSettingOrder(key, -1);
+            int order = ConfigFactory.Root.Gui.SettingOrders.TryGetValue(key, out var o) ? o : -1;
 
-            var item = new SettingItemViewModel(key, LocalizationHelper.GetString(key), -1);
+            var item = new SettingItemViewModel(key.ToString(), LocalizationHelper.GetString(key.ToString()), -1);
 
             if (order < 0 || order >= tempOrderList.Count || tempOrderList[order] != null)
             {
@@ -261,7 +244,7 @@ public class SettingsViewModel : Screen
             {
                 item.Value = fillIndex;
                 tempOrderList[fillIndex] = item;
-                ConfigurationHelper.SetSettingOrder(item.Key, fillIndex);
+                ConfigFactory.Root.Gui.SettingOrders[Enum.Parse<SettingKey>(item.Key)] = fillIndex;
             }
         }
 
@@ -298,7 +281,7 @@ public class SettingsViewModel : Screen
                 }
 
                 item.Value = i;
-                ConfigurationHelper.SetSettingOrder(item.Key, i);
+                ConfigFactory.Root.Gui.SettingOrders[Enum.Parse<SettingKey>(item.Key)] = i;
             }
 
             OnSettingItemValueChanged();
@@ -906,139 +889,102 @@ public class SettingsViewModel : Screen
 
     #region 折叠框展开状态
 
+    private bool GetExpanderState(SettingKey key) => ConfigFactory.Root.Gui.ExpanderStates.TryGetValue(key, out var v) ? v : true;
+
+    private void SetExpanderState(SettingKey key, bool value)
+    {
+        ConfigFactory.Root.Gui.ExpanderStates[key] = value;
+        NotifyOfPropertyChange();
+    }
+
     public bool IsSwitchConfigurationExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderSwitchConfiguration;
-        set {
-            ConfigFactory.Root.Gui.ExpanderSwitchConfiguration = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.SwitchConfiguration);
+        set => SetExpanderState(SettingKey.SwitchConfiguration, value);
     }
 
     public bool IsScheduleSettingsExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderScheduleSettings;
-        set {
-            ConfigFactory.Root.Gui.ExpanderScheduleSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.ScheduleSettings);
+        set => SetExpanderState(SettingKey.ScheduleSettings, value);
     }
 
     public bool IsPerformanceSettingsExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderPerformanceSettings;
-        set {
-            ConfigFactory.Root.Gui.ExpanderPerformanceSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.PerformanceSettings);
+        set => SetExpanderState(SettingKey.PerformanceSettings, value);
     }
 
     public bool IsGameSettingsExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderGameSettings;
-        set {
-            ConfigFactory.Root.Gui.ExpanderGameSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.GameSettings);
+        set => SetExpanderState(SettingKey.GameSettings, value);
     }
 
     public bool IsConnectionSettingsExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderConnectionSettings;
-        set {
-            ConfigFactory.Root.Gui.ExpanderConnectionSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.ConnectionSettings);
+        set => SetExpanderState(SettingKey.ConnectionSettings, value);
     }
 
     public bool IsStartupSettingsExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderStartupSettings;
-        set {
-            ConfigFactory.Root.Gui.ExpanderStartupSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.StartupSettings);
+        set => SetExpanderState(SettingKey.StartupSettings, value);
     }
 
     public bool IsRemoteControlSettingsExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderRemoteControlSettings;
-        set {
-            ConfigFactory.Root.Gui.ExpanderRemoteControlSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.RemoteControlSettings);
+        set => SetExpanderState(SettingKey.RemoteControlSettings, value);
     }
 
     public bool IsUiSettingsExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderUiSettings;
-        set {
-            ConfigFactory.Root.Gui.ExpanderUiSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.UiSettings);
+        set => SetExpanderState(SettingKey.UiSettings, value);
     }
 
     public bool IsBackgroundSettingsExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderBackgroundSettings;
-        set {
-            ConfigFactory.Root.Gui.ExpanderBackgroundSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.BackgroundSettings);
+        set => SetExpanderState(SettingKey.BackgroundSettings, value);
     }
 
     public bool IsExternalNotificationSettingsExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderExternalNotificationSettings;
-        set {
-            ConfigFactory.Root.Gui.ExpanderExternalNotificationSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.ExternalNotificationSettings);
+        set => SetExpanderState(SettingKey.ExternalNotificationSettings, value);
     }
 
     public bool IsHotKeySettingsExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderHotKeySettings;
-        set {
-            ConfigFactory.Root.Gui.ExpanderHotKeySettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.HotKeySettings);
+        set => SetExpanderState(SettingKey.HotKeySettings, value);
     }
 
     public bool IsAchievementSettingsExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderAchievementSettings;
-        set {
-            ConfigFactory.Root.Gui.ExpanderAchievementSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.AchievementSettings);
+        set => SetExpanderState(SettingKey.AchievementSettings, value);
     }
 
     public bool IsUpdateSettingsExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderUpdateSettings;
-        set {
-            ConfigFactory.Root.Gui.ExpanderUpdateSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.UpdateSettings);
+        set => SetExpanderState(SettingKey.UpdateSettings, value);
     }
 
     public bool IsIssueReportExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderIssueReport;
-        set {
-            ConfigFactory.Root.Gui.ExpanderIssueReport = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.IssueReport);
+        set => SetExpanderState(SettingKey.IssueReport, value);
     }
 
     public bool IsAboutUsExpanded
     {
-        get => ConfigFactory.Root.Gui.ExpanderAboutUs;
-        set {
-            ConfigFactory.Root.Gui.ExpanderAboutUs = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.AboutUs);
+        set => SetExpanderState(SettingKey.AboutUs, value);
     }
 
     #endregion 折叠框展开状态

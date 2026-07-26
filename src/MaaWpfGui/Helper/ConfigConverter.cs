@@ -1096,6 +1096,22 @@ public class ConfigConverter
             catch
             {
             }
+
+            // 设置页排列顺序迁移
+            foreach (SettingKey key in Enum.GetValues<SettingKey>())
+            {
+                var orderFullKey = "Settings.Order." + key;
+                if (ConfigurationHelper.ContainsKey(orderFullKey, true))
+                {
+                    var orderStr = ConfigurationHelper.GetGlobalValue(orderFullKey, "-1");
+                    if (int.TryParse(orderStr, out var order))
+                    {
+                        ConfigFactory.Root.Gui.SettingOrders[key] = order;
+                    }
+
+                    ConfigurationHelper.DeleteGlobalValue(orderFullKey, out var _);
+                }
+            }
         }
 
         // Timer
