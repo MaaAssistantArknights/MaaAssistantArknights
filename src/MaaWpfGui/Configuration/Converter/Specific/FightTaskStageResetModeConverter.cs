@@ -1,4 +1,4 @@
-// <copyright file="RecruitTaskHoldTagsConverter.cs" company="MaaAssistantArknights">
+// <copyright file="FightTaskStageResetModeConverter.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -15,13 +15,11 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Constants.Enums;
 
-namespace MaaWpfGui.Configuration.Converter;
+namespace MaaWpfGui.Configuration.Converter.Specific;
 
-/// <summary>
-/// 招募保留tag设置迁移, v6.11
-/// </summary>
-internal class RecruitTaskHoldTagsConverter : JsonConverter<Root>
+internal class FightTaskStageResetModeConverter : JsonConverter<Root>
 {
     public override Root? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -65,11 +63,13 @@ internal class RecruitTaskHoldTagsConverter : JsonConverter<Root>
             foreach (var taskElement in taskQueueElement.EnumerateArray())
             {
                 if (taskIndex < configObj.TaskQueue.Count
-                    && configObj.TaskQueue[taskIndex] is RecruitTask task
-                    && taskElement.TryGetProperty("Level1NotChoose", out var notChoose)
-                    && notChoose.ValueKind == JsonValueKind.True)
+                    && configObj.TaskQueue[taskIndex] is FightTask fightTask
+                    && (!taskElement.TryGetProperty("StageResetMode", out var mode)
+                        || !Enum.TryParse<FightStageResetMode>(mode.GetString(), out _)))
                 {
-                    task.PreserveTagEnabled = true;
+                    fightTask.StageResetMode = fightTask.HideUnavailableStage
+                        ? FightStageResetMode.Current
+                        : FightStageResetMode.Ignore;
                 }
 
                 taskIndex++;
@@ -93,7 +93,7 @@ internal class RecruitTaskHoldTagsConverter : JsonConverter<Root>
         var newOptions = new JsonSerializerOptions(options);
         for (int i = newOptions.Converters.Count - 1; i >= 0; i--)
         {
-            if (newOptions.Converters[i] is RecruitTaskHoldTagsConverter)
+            if (newOptions.Converters[i] is FightTaskStageResetModeConverter)
             {
                 newOptions.Converters.RemoveAt(i);
             }

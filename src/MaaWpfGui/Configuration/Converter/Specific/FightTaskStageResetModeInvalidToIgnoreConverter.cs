@@ -16,7 +16,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
-namespace MaaWpfGui.Configuration.Converter;
+namespace MaaWpfGui.Configuration.Converter.Specific;
 
 internal class FightTaskStageResetModeInvalidToIgnoreConverter : JsonConverter<Root>
 {
