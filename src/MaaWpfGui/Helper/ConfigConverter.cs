@@ -16,7 +16,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Windows.Input;
 using System.Windows.Media;
+using GlobalHotKey;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -25,6 +27,7 @@ using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.EmulatorConnectionExtra;
+using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -1058,7 +1061,23 @@ public class ConfigConverter
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, out var _);
             ConfigFactory.Root.Gui.GuideStep = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0);
             ConfigurationHelper.DeleteValue(ConfigurationKeys.GuideStepIndex);
-            ConfigFactory.Root.Gui.HotKeys = ConfigurationHelper.GetGlobalValue("HotKeys", string.Empty);
+            try
+            {
+                var hotKeys = ConfigurationHelper.GetGlobalValue("HotKeys", string.Empty);
+                var hotKeyTemp = new Dictionary<MaaHotKeyAction, MaaHotKey>
+                {
+                    {
+                        MaaHotKeyAction.ShowGui, new MaaHotKey(Key.M, ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt)
+                    },
+                    {
+                        MaaHotKeyAction.LinkStart, new MaaHotKey(Key.L, ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt)
+                    },
+                };
+                ConfigFactory.Root.Gui.HotKeys = string.IsNullOrEmpty(hotKeys) ? hotKeyTemp : JsonConvert.DeserializeObject<Dictionary<MaaHotKeyAction, MaaHotKey>>(hotKeys) ?? hotKeyTemp;
+            }
+            catch
+            {
+            }
             ConfigurationHelper.DeleteGlobalValue("HotKeys", out var _);
             try
             {

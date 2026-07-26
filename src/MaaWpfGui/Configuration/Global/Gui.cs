@@ -12,11 +12,13 @@
 // </copyright>
 #nullable enable
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
+using MaaWpfGui.Services.HotKeys;
 using static MaaWpfGui.ViewModels.UI.OverlayViewModel;
 
 namespace MaaWpfGui.Configuration.Global;
@@ -76,9 +78,9 @@ public class Gui : INotifyPropertyChanged
     public OverlayTargetInfo OverlayTarget { get; set; } = new();
 
     /// <summary>
-    /// 全局热键配置，序列化为 JSON 字符串（Dictionary&lt;MaaHotKeyAction, MaaHotKey&gt;）。
+    /// 全局热键配置。
     /// </summary>
-    public string HotKeys { get; set; } = string.Empty;
+    public Dictionary<MaaHotKeyAction, MaaHotKey?> HotKeys { get; set; } = [];
 
     public int GuideStep { get; set; } = 0;
 

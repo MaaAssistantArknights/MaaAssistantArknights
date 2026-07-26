@@ -1822,6 +1822,9 @@ public class TaskQueueViewModel : Screen
     /// <returns>Task</returns>
     public async Task LinkStart()
     {
+        var test = ConfigFactory.Root.Gui.HotKeys;
+        _logger.Information("HotKeys: {HotKeys}", test);
+        return;
         using var log = new LogScope(_logger);
         await TaskQueueSerializingLock.WaitAsync();
         await LinkStartWithTasks(ConfigFactory.CurrentConfig.TaskQueue);
