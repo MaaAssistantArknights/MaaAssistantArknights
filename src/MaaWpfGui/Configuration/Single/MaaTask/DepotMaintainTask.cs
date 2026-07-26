@@ -37,5 +37,5 @@ public class DepotMaintainTask : BaseTask
 
     public List<Plan> PlanList { get; set; } = [];
 
-    public record Plan(string Stage = "", string DropId = "", int DropCount = 0, bool UseMedicine = false, int MedicineCount = 0, bool UseStone = false, int StoneCount = 0);
+    public record class Plan(string Stage = "", string DropId = "", int DropCount = 0, bool UseMedicine = false, int MedicineCount = 0, bool UseStone = false, int StoneCount = 0, int TaskId = 0);
 }

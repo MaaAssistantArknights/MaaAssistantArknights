@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
@@ -38,9 +39,6 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMaintainTaskUserControlModel.ISerialize
 {
     private readonly ILogger _logger = Log.ForContext<DepotMaintainTaskUserControlModel>();
-
-    // plan index → core taskId 的映射，用于运行时重算缺口
-    private Dictionary<int, int> _planTaskIdMap = [];
 
     static DepotMaintainTaskUserControlModel()
     {
@@ -97,20 +95,12 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             return;
         }
 
-        // 查找该 taskId 对应的 plan index
-        var planKvp = _planTaskIdMap.FirstOrDefault(kvp => kvp.Value == taskId);
-        if (planKvp.Value != taskId)
+        var task = ConfigFactory.CurrentConfig.TaskQueue.OfType<DepotMaintainTask>().FirstOrDefault(t => t.PlanList.Any(p => p.TaskId == taskId));
+        if (task == null || task.PlanList.FirstOrDefault(plan => plan.TaskId == taskId) is not { } plan)
         {
             return;
         }
 
-        int planIndex = planKvp.Key;
-        if (TaskSettingVisibilityInfo.CurrentTask is not DepotMaintainTask depot || planIndex >= depot.PlanList.Count)
-        {
-            return;
-        }
-
-        var plan = depot.PlanList[planIndex];
         if (string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0)
         {
             return;
@@ -123,8 +113,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             FightSettingsUserControlModel.RefreshFightTaskDrops(taskId, plan.DropId, plan.DropCount,
                 stage,
                 plan.UseMedicine ? plan.MedicineCount : 0,
-                plan.UseStone ? plan.StoneCount : 0,
-                (planIndex + 1).ToString());
+                plan.UseStone ? plan.StoneCount : 0);
         }
     }
 
@@ -238,7 +227,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             return;
         }
 
-        var list = PlanList.Select(i => new DepotMaintainTask.Plan(i.Stage, i.DropId, i.DropCount, i.UseMedicine, i.MedicineCount, i.UseStone, i.StoneCount));
+        var list = PlanList.Select(i => new DepotMaintainTask.Plan(i.Stage, i.DropId, i.DropCount, i.UseMedicine, i.MedicineCount, i.UseStone, i.StoneCount, i.TaskId));
         SetTaskConfig<DepotMaintainTask>(t => t.PlanList.SequenceEqual(list), t => t.PlanList = [.. list]);
     }
 
@@ -360,6 +349,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
         public int StoneCount { get; set => SetAndNotify(ref field, value); }
 
+        public int TaskId { get; set; }
+
         // UI 绑定的方法
         [UsedImplicitly]
         public void DropsListDropDownClosed()
@@ -396,6 +387,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 MedicineCount = plan.MedicineCount,
                 UseStone = plan.UseStone,
                 StoneCount = plan.StoneCount,
+                TaskId = plan.TaskId,
 
                 // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
                 DropName = FightSettingsUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display
@@ -459,7 +451,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             }
 
             var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
-            Instance._planTaskIdMap = [];
             for (int i = 0; i < depot.PlanList.Count; i++)
             {
                 var plan = depot.PlanList[i];
@@ -518,7 +509,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 else
                 {
                     taskIds.Add(id);
-                    Instance._planTaskIdMap[i] = id;
+                    depot.PlanList[i] = plan with { TaskId = id };
                 }
             }
 
