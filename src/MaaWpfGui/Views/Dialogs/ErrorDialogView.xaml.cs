@@ -39,7 +39,11 @@ public partial class ErrorDialogView : INotifyPropertyChanged
 
     public string ExceptionDetails { get; set; } = string.Empty;
 
+#if DEBUG
+    private bool _congratulationsOnError;
+#else
     private bool _congratulationsOnError = true;
+#endif
 
     public string ErrorString { get; set; } = LocalizationHelper.GetString("Error");
 
@@ -51,8 +55,7 @@ public partial class ErrorDialogView : INotifyPropertyChanged
     public bool CongratulationsOnError
     {
         get => _congratulationsOnError;
-        set
-        {
+        set {
             _congratulationsOnError = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CongratulationsOnError)));
         }
