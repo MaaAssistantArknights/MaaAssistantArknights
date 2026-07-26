@@ -972,14 +972,14 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
         chars[oper_id]["tokens"] = json::array(token_names_list);
     }
 
-    const auto& patch_json = chars_patch_opt.value()["patchChars"];
+    const auto& patch_json = chars_patch_opt.value()["patchChars"].as_object();
     json::value Amiya_data;
     Amiya_data["name"] = "阿米娅-WARRIOR";
     Amiya_data["name_en"] = "Amiya-WARRIOR";
     Amiya_data["name_jp"] = "アーミヤ-WARRIOR";
     Amiya_data["name_kr"] = "아미야-WARRIOR";
     Amiya_data["name_tw"] = "阿米婭-WARRIOR";
-    if (auto amiya2_opt = chars_patch_opt->find<json::object>("char_1001_amiya2")) {
+    if (auto amiya2_opt = patch_json.find<json::object>("char_1001_amiya2")) {
         Amiya_data["profession"] = amiya2_opt->at("profession");
         Amiya_data["rarity"] = static_cast<int>(amiya2_opt->at("rarity")) + 1;
         Amiya_data["position"] = amiya2_opt->at("position");
@@ -1000,7 +1000,7 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
     Amiya_data3["name_jp"] = "アーミヤ-MEDIC";
     Amiya_data3["name_kr"] = "아미야-MEDIC";
     Amiya_data3["name_tw"] = "阿米婭-MEDIC";
-    if (auto amiya3_opt = chars_patch_opt->find<json::object>("char_1037_amiya3")) {
+    if (auto amiya3_opt = patch_json.find<json::object>("char_1037_amiya3")) {
         Amiya_data3["profession"] = amiya3_opt->at("profession");
         Amiya_data3["rarity"] = static_cast<int>(amiya3_opt->at("rarity")) + 1;
         Amiya_data3["position"] = amiya3_opt->at("position");
