@@ -1098,7 +1098,7 @@ public class ConfigConverter
             }
 
             // 设置页排列顺序迁移
-            var list = new List<SettingKey>();
+            var list = new List<(int, SettingKey)>();
             foreach (SettingKey key in Enum.GetValues<SettingKey>())
             {
                 var orderFullKey = "Settings.Order." + key;
@@ -1107,16 +1107,18 @@ public class ConfigConverter
                     var orderStr = ConfigurationHelper.GetGlobalValue(orderFullKey, "-1");
                     if (int.TryParse(orderStr, out var order))
                     {
-                        ConfigFactory.Root.Gui.SettingOrders.Insert(order, key);
+                        list.Add((order, key));
                     }
 
                     ConfigurationHelper.DeleteGlobalValue(orderFullKey, out var _);
                 }
                 else
                 {
-                    list.Add(key);
+                    list.Add((-1, key));
                 }
             }
+
+            ConfigFactory.Root.Gui.SettingOrders = [.. list.OrderBy(i => i.Item1).Select(i => i.Item2)];
         }
 
         // Timer
