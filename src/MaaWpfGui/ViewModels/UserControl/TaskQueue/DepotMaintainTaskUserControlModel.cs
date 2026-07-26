@@ -113,7 +113,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             FightSettingsUserControlModel.RefreshFightTaskDrops(taskId, plan.DropId, plan.DropCount,
                 stage,
                 plan.UseMedicine ? plan.MedicineCount : 0,
-                plan.UseStone ? plan.StoneCount : 0);
+                plan.UseStone ? plan.StoneCount : 0,
+                $"{task.PlanList.IndexOf(plan) + 1}");
         }
     }
 
