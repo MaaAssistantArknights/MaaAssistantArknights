@@ -60,7 +60,8 @@ private:
     // MuMuManager.exe version >= 6.3.2.0 才支持 external renderer 输入，低版本行为异常
     bool check_input_version() const;
 
-    static int android_keycode_to_linux_key_code(int key);
+    // 无对应映射时返回 nullopt：两套编码互不相干，透传等于按错键
+    static std::optional<int> android_keycode_to_linux_key_code(int key);
 
 private:
     std::filesystem::path mumu_path_;

@@ -188,17 +188,20 @@ bool MumuExtras::key_down(int android_keycode)
         return false;
     }
 
+    auto key_code = android_keycode_to_linux_key_code(android_keycode);
+    if (!key_code) {
+        return false;
+    }
+
     auto display_id = get_display_id();
     if (!display_id) {
         LogError << "Failed to get display id, skip key_down" << VAR(android_keycode);
         return false;
     }
 
-    int key_code = android_keycode_to_linux_key_code(android_keycode);
-
-    int ret = input_event_key_down_func_(mumu_handle_, *display_id, key_code);
+    int ret = input_event_key_down_func_(mumu_handle_, *display_id, *key_code);
     if (ret) {
-        LogError << "Failed to key_down" << VAR(ret) << VAR(android_keycode) << VAR(key_code) << VAR(*display_id);
+        LogError << "Failed to key_down" << VAR(ret) << VAR(android_keycode) << VAR(*key_code) << VAR(*display_id);
         return false;
     }
 
@@ -212,17 +215,20 @@ bool MumuExtras::key_up(int android_keycode)
         return false;
     }
 
+    auto key_code = android_keycode_to_linux_key_code(android_keycode);
+    if (!key_code) {
+        return false;
+    }
+
     auto display_id = get_display_id();
     if (!display_id) {
         LogError << "Failed to get display id, skip key_up" << VAR(android_keycode);
         return false;
     }
 
-    int key_code = android_keycode_to_linux_key_code(android_keycode);
-
-    int ret = input_event_key_up_func_(mumu_handle_, *display_id, key_code);
+    int ret = input_event_key_up_func_(mumu_handle_, *display_id, *key_code);
     if (ret) {
-        LogError << "Failed to key_up" << VAR(ret) << VAR(android_keycode) << VAR(key_code) << VAR(*display_id);
+        LogError << "Failed to key_up" << VAR(ret) << VAR(android_keycode) << VAR(*key_code) << VAR(*display_id);
         return false;
     }
 
@@ -236,7 +242,8 @@ bool MumuExtras::input_text(const std::string& text)
         return false;
     }
 
-    LogInfo << VAR(text) << VAR(text.size());
+    // 只记长度：输入内容可能含账号密码等敏感信息，不该进日志
+    LogDebug << VAR(text.size());
 
     int ret = input_text_func_(mumu_handle_, static_cast<int>(text.size()), text.c_str());
     if (ret) {
@@ -504,7 +511,7 @@ std::optional<int> MumuExtras::get_display_id()
     return id;
 }
 
-int MumuExtras::android_keycode_to_linux_key_code(int key)
+std::optional<int> MumuExtras::android_keycode_to_linux_key_code(int key)
 {
     // https://developer.android.com/reference/android/view/KeyEvent
     // https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h
@@ -589,20 +596,21 @@ int MumuExtras::android_keycode_to_linux_key_code(int key)
         { 118, 126 }, // KEYCODE_META_RIGHT -> KEY_RIGHTMETA
 
         // Symbols
-        { 76, 127 },  // KEYCODE_SLASH -> KEY_COMPOSE
+        { 76, 53 },   // KEYCODE_SLASH -> KEY_SLASH
         { 122, 102 }, // KEYCODE_MOVE_HOME -> KEY_HOME
         { 123, 107 }, // KEYCODE_MOVE_END -> KEY_END
-        { 124, 104 }, // KEYCODE_INSERT -> KEY_PAGEUP
-        { 92, 109 },  // KEYCODE_PAGE_UP -> KEY_PAGEDOWN
+        { 124, 110 }, // KEYCODE_INSERT -> KEY_INSERT
+        { 92, 104 },  // KEYCODE_PAGE_UP -> KEY_PAGEUP
+        { 93, 109 },  // KEYCODE_PAGE_DOWN -> KEY_PAGEDOWN
         { 112, 111 }, // KEYCODE_FORWARD_DEL -> KEY_DELETE
 
         // Misc
         { 4, 158 },   // KEYCODE_BACK -> KEY_BACK
         { 3, 102 },   // KEYCODE_HOME -> KEY_HOME
         { 82, 139 },  // KEYCODE_MENU -> KEY_MENU
-        { 84, 114 },  // KEYCODE_SEARCH -> KEY_SEARCH
+        { 84, 217 },  // KEYCODE_SEARCH -> KEY_SEARCH
         { 85, 164 },  // KEYCODE_MEDIA_PLAY_PAUSE -> KEY_PLAYPAUSE
-        { 86, 128 },  // KEYCODE_MEDIA_STOP -> KEY_STOPCD
+        { 86, 166 },  // KEYCODE_MEDIA_STOP -> KEY_STOPCD
         { 87, 163 },  // KEYCODE_MEDIA_NEXT -> KEY_NEXTSONG
         { 88, 165 },  // KEYCODE_MEDIA_PREVIOUS -> KEY_PREVIOUSSONG
         { 89, 168 },  // KEYCODE_MEDIA_REWIND -> KEY_REWIND
@@ -614,8 +622,9 @@ int MumuExtras::android_keycode_to_linux_key_code(int key)
 
     auto it = kMap.find(key);
     if (it == kMap.end()) {
-        LogWarn << "unknown android key" << VAR(key);
-        return key;
+        // 两套编码互不相干，原样透传几乎必然按错键，不如不按
+        LogError << "unknown android key, no linux keycode mapping" << VAR(key);
+        return std::nullopt;
     }
     return it->second;
 }
