@@ -153,21 +153,23 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     private void UpdateConnectionHistory(string address)
     {
-        var history = ConnectAddressHistory.ToList();
-        var index = history.IndexOf(address);
-        if (index != -1)
-        {
-            ConnectAddressHistory.Move(index, 0);
-        }
-        else
-        {
-            ConnectAddressHistory.Insert(0, address);
-            const int MaxHistoryCount = 5;
-            for (int i = ConnectAddressHistory.Count; i > MaxHistoryCount; i++)
+        Application.Current.Dispatcher.InvokeAsync(() => {
+            var history = ConnectAddressHistory.ToList();
+            var index = history.IndexOf(address);
+            if (index != -1)
             {
-                ConnectAddressHistory.RemoveAt(i - 1);
+                ConnectAddressHistory.Move(index, 0);
             }
-        }
+            else
+            {
+                ConnectAddressHistory.Insert(0, address);
+                const int MaxHistoryCount = 5;
+                for (int i = ConnectAddressHistory.Count; i > MaxHistoryCount; i++)
+                {
+                    ConnectAddressHistory.RemoveAt(i - 1);
+                }
+            }
+        });
     }
 
     // UI 绑定的方法
