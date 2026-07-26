@@ -980,6 +980,10 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
     Amiya_data["rangeId"] = json::array { "1-1", "1-1", "1-1" };
     Amiya_data["rarity"] = 5;
     Amiya_data["position"] = "MELEE";
+    if (auto amiya2_opt = chars_json[0].first.find<json::object>("char_1001_amiya2")) {
+        Amiya_data["sortIndex"] = amiya2_opt->get("sortIndex", -1);
+        Amiya_data["subProfessionId"] = amiya2_opt->get("subProfessionId", std::string());
+    }
     chars.emplace("char_1001_amiya2", std::move(Amiya_data));
 
     json::value Amiya_data3;
@@ -992,6 +996,10 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
     Amiya_data3["rangeId"] = json::array { "3-1", "3-3", "3-3" };
     Amiya_data3["rarity"] = 5;
     Amiya_data3["position"] = "RANGED";
+    if (auto amiya3_opt = chars_json[0].first.find<json::object>("char_1037_amiya3")) {
+        Amiya_data3["sortIndex"] = amiya3_opt->get("sortIndex", -1);
+        Amiya_data3["subProfessionId"] = amiya3_opt->get("subProfessionId", std::string());
+    }
     chars.emplace("char_1037_amiya3", std::move(Amiya_data3));
 
     const auto& out_file = output_dir / "battle_data.json";
