@@ -10,9 +10,10 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
+#nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
@@ -22,7 +23,7 @@ namespace MaaWpfGui.Services.Notification;
 
 public static class ExternalNotificationService
 {
-    private static readonly List<Task> _taskContainers = new List<Task>();
+    private static readonly List<Task> _taskContainers = [];
 
     private static readonly ILogger _logger = Log.Logger;
 
@@ -32,8 +33,7 @@ public static class ExternalNotificationService
 
         foreach (var enabledProvider in enabledProviders)
         {
-            IExternalNotificationProvider provider = enabledProvider switch
-            {
+            IExternalNotificationProvider provider = enabledProvider switch {
                 "Gotify" => new GotifyNotificationProvider(Instances.HttpService),
                 "ServerChan" => new ServerChanNotificationProvider(Instances.HttpService),
                 "Telegram" => new TelegramNotificationProvider(Instances.HttpService),
@@ -79,5 +79,27 @@ public static class ExternalNotificationService
         var task = SendAsync("[MAA] " + title, content, isTest);
         _taskContainers.RemoveAll(x => x.Status != TaskStatus.Running);
         _taskContainers.Add(task);
+    }
+
+    public static class Event
+    {
+        public static void AllTaskComplete(string title, string content, string? sanityReport)
+        {
+            if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
+            {
+                var logs = string.Empty;
+                if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails)
+                {
+                    logs = string.Join("\n", Instances.TaskQueueViewModel.LogItemViewModels.Select(logItem => $"[{logItem.Time}][{logItem.Color}]{logItem.Content}"));
+                }
+                logs += content;
+                if (!string.IsNullOrEmpty(sanityReport))
+                {
+                    logs += Environment.NewLine + sanityReport;
+                }
+
+                Send(title, logs);
+            }
+        }
     }
 }
