@@ -3,6 +3,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <unordered_set>
 #include <vector>
 
 #include "BlackFlowTaskPluginBase.h"
@@ -22,10 +23,24 @@ protected:
     virtual bool _run() override;
 
 private:
+    enum class PendingWork
+    {
+        None,
+        SelectMovement,
+        ObserveInventory,
+    };
+
     enum class SelectionOutcome
     {
         Selected,
         Unavailable,
+        Failed,
+    };
+
+    enum class InventoryAnalysisOutcome
+    {
+        Recognized,
+        NoCandidate,
         Failed,
     };
 
@@ -46,6 +61,23 @@ private:
         std::optional<MovementKind> loaded_movement;
     };
 
+    struct InventoryItem
+    {
+        MovementKind movement = MovementKind::Walk;
+        Rect name_rect;
+    };
+
+    struct InventoryFrame
+    {
+        std::unordered_set<MovementKind> movements;
+        std::optional<MovementKind> loaded_movement;
+    };
+
+    bool observe_inventory();
+    bool scan_inventory_frame(InventoryFrame& frame, std::string* error) const;
+    InventoryAnalysisOutcome
+        analyze_inventory_frame(const cv::Mat& image, InventoryFrame& frame, std::string* error) const;
+
     SelectionOutcome select_movement(MovementKind target, std::string* error);
     bool ensure_panel_open(std::string* error);
     bool close_panel(std::string* error);
@@ -63,7 +95,8 @@ private:
     static const MovementSpec* movement_from_name(std::string_view name) noexcept;
     static std::optional<int> remaining_uses_from_text(std::string_view text) noexcept;
     static std::vector<std::string> ocr_candidates();
+    static std::vector<std::string> inventory_ocr_candidates();
 
-    mutable bool m_selection_pending = false;
+    mutable PendingWork m_pending = PendingWork::None;
 };
 } // namespace asst::blackflow

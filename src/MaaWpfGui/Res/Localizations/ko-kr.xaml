@@ -1329,7 +1329,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowWarningTargetStateChanged">목표 상태가 변경되었습니다.</system:String>
     <system:String x:Key="BlackFlowWarningInferredEdge">낮은 신뢰도의 연결을 사용합니다</system:String>
     <system:String x:Key="BlackFlowWarningPostMoveMismatch">이동 후 노드 또는 행동력 상태가 일치하지 않습니다</system:String>
-    <system:String x:Key="BlackFlowWarningFloorMismatch">상태 기계 층과 화면 층이 일치하지 않습니다</system:String>
     <system:String x:Key="BlackFlowWarningUnknown">로그라이크에서 오류가 발생했습니다</system:String>
     <system:String x:Key="BlackFlowMilestoneChanged">단계 목표 {0}: {1}</system:String>
     <system:String x:Key="BlackFlowStrategyResult">로그라이크 전략 종료: {0} ({1})</system:String>

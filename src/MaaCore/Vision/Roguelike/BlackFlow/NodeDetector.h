@@ -59,8 +59,6 @@ struct NodeDetectorConfig
     double bright_delta_threshold = 14.0;
     double current_marker_threshold = 0.60;
     double current_marker_grid_tolerance = 58.0;
-    std::size_t minimum_anchor_count = 3;
-    double maximum_grid_residual = 8.0;
     GridRefinementMode refinement_mode = GridRefinementMode::FixedGrid;
     int guard_ring_shift_radius = 1;
     double guard_ring_outside_weight = 1.25;
@@ -96,8 +94,6 @@ struct NodeDetectionResult
     int observed_frames = 1;
     int current_marker_node_id = -1;
     double current_marker_score = 0.0;
-    bool map_valid = false;
-    std::string rejection_reason;
 };
 
 class NodeDetector

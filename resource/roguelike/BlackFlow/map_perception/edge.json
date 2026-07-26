@@ -11,8 +11,6 @@
     "large_center_tolerance": 14.0,
     "cell_roi_size": 44,
     "bright_delta_threshold": 14.0,
-    "minimum_anchor_count": 3,
-    "maximum_grid_residual": 8.0,
     "guard_ring_shift_radius": 1,
     "guard_ring_outside_weight": 1.25,
     "guard_ring_min_score_gain": 0.15,

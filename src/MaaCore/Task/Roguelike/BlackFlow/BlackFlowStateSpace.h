@@ -51,20 +51,6 @@ struct StateExpansionOptions
     std::size_t maximum_states = 2'000'000;
 };
 
-struct ExpandedSafetyProblem
-{
-    SafetyProblem problem;
-    SafetyStateId initial_state = 0;
-    std::vector<PlannerState> planner_states;
-    std::vector<int> maximum_reachable_action_points;
-    std::vector<NodeId> indexed_nodes;
-    std::unordered_map<NodeId, std::uint8_t> node_indices;
-    std::unordered_map<std::string, MoveCandidate> action_candidates;
-
-    [[nodiscard]] bool mask_contains(PlannerNodeMask mask, NodeId node) const noexcept;
-    [[nodiscard]] bool is_completed(SafetyStateId state, NodeId node) const noexcept;
-};
-
 struct OnDemandSafetyOutcome
 {
     SafetyStateId successor = 0;
@@ -140,19 +126,4 @@ struct ProjectedMoveOutcome
     int exact_action_point_cost,
     std::string* error = nullptr);
 
-class BlackFlowStateExpander
-{
-public:
-    [[nodiscard]] std::optional<ExpandedSafetyProblem> build(
-        const MapSnapshot& map,
-        const RunState& run,
-        const StateExpansionOptions& options,
-        std::string* error = nullptr) const;
-
-private:
-    [[nodiscard]] bool is_terminal(
-        const MapSnapshot& map,
-        const PlannerState& state,
-        const StateExpansionOptions& options) const noexcept;
-};
 } // namespace asst::blackflow

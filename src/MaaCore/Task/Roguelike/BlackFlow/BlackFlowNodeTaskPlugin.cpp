@@ -32,11 +32,6 @@ bool BlackFlowNodeTaskPlugin::verify(AsstMsg msg, const json::value& details) co
         m_pending_details = details;
         return true;
     }
-    if (msg == AsstMsg::SubTaskStart && task == "BlackFlow@Roguelike@PageFailure") {
-        m_pending = PendingWork::BeginRecovery;
-        m_pending_details = details;
-        return true;
-    }
     if (msg == AsstMsg::SubTaskCompleted && task == "BlackFlow@Roguelike@RecoverMapCompleted") {
         m_pending = PendingWork::RecoverMapCompleted;
         m_pending_details = details;
@@ -112,17 +107,6 @@ bool BlackFlowNodeTaskPlugin::_run()
         return true;
     }
 
-    if (work == PendingWork::BeginRecovery) {
-        restore_legacy_stages();
-        std::string error;
-        if (!m_session->mark_page_recovery(&error)) {
-            m_session->fail("page_recovery_failed", error);
-            Task.set_task_base("BlackFlow@Roguelike@RecoverMap", "BlackFlow@Roguelike@RecoverMapFailed");
-        }
-        report_outputs();
-        return true;
-    }
-
     if (work == PendingWork::ApplyResult) {
         restore_legacy_stages();
         const std::string task = m_pending_details.get("details", "task", "");
@@ -134,8 +118,16 @@ bool BlackFlowNodeTaskPlugin::_run()
             Task.set_task_base("BlackFlow@Roguelike@NodeResultAction", next_task);
         }
         else if (result->kind == NodeTaskResultKind::PageCompleted) {
-            next_task =
-                m_session->terminated() ? "BlackFlow@Roguelike@StrategyTerminated" : "BlackFlow@Roguelike@MapPrepare";
+            if (m_session->terminated()) {
+                next_task = "BlackFlow@Roguelike@StrategyTerminated";
+            }
+            else if (m_session->completed_page_changes_floor()) {
+                m_session->clear_current_floor();
+                next_task = "BlackFlow@Roguelike@NextLevel";
+            }
+            else {
+                next_task = "BlackFlow@Roguelike@MapPrepare";
+            }
             Task.set_task_base("BlackFlow@Roguelike@NodeResultAction", next_task);
         }
         else if (result->redispatch) {
@@ -154,7 +146,7 @@ bool BlackFlowNodeTaskPlugin::_run()
 
     if (work == PendingWork::RecoverMapFailed) {
         restore_legacy_stages();
-        m_session->fail("page_recovery_failed", "map recovery task reported failure");
+        m_session->fail("page_recovery_failed", "map recovery task reported failure", FailureDisposition::RestartRun);
         report_outputs();
         return true;
     }

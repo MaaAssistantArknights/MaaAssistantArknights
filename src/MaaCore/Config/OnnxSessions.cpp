@@ -26,22 +26,7 @@ bool asst::OnnxSessions::load(const std::filesystem::path& path)
     std::string name = utils::path_to_utf8_string(path.stem());
     std::lock_guard lock(m_mutex);
     if (auto iter = m_model_paths.find(name); iter == m_model_paths.end() || iter->second != path) {
-        const bool session_in_use = m_session_users.contains(name);
-        if (session_in_use && iter != m_model_paths.end()) {
-            const auto old_path = iter->second;
-            Log.warn(
-                __FUNCTION__,
-                "model path changed while session is in use; the current session keeps the old model and "
-                "the new model will take effect after release",
-                name,
-                "old path",
-                old_path,
-                "new path",
-                path);
-        }
-        if (!session_in_use) {
-            m_sessions.erase(name);
-        }
+        m_sessions.erase(name);
         m_model_paths.insert_or_assign(name, path);
     }
 
@@ -82,8 +67,7 @@ void asst::OnnxSessions::release(const std::string& name)
     }
     if (--found->second == 0) {
         m_session_users.erase(found);
-        m_sessions.erase(name);
-        Log.info(__FUNCTION__, "unloaded", name);
+        Log.info(__FUNCTION__, "released", name);
     }
 }
 

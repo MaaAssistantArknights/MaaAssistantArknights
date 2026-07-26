@@ -3,28 +3,12 @@
 #include <algorithm>
 #include <unordered_set>
 
+#include "Vision/Roguelike/BlackFlow/BlackFlowFloor.h"
+
 namespace asst::blackflow
 {
 namespace
 {
-std::optional<std::pair<int, int>> grid_shape(int floor) noexcept
-{
-    switch (floor) {
-    case 1:
-        return std::pair { 3, 5 };
-    case 2:
-        return std::pair { 4, 5 };
-    case 3:
-        return std::pair { 5, 7 };
-    case 4:
-        return std::pair { 5, 8 };
-    case 5:
-        return std::pair { 5, 10 };
-    default:
-        return std::nullopt;
-    }
-}
-
 NodeIdentityState identity_state_for(std::string_view type) noexcept
 {
     if (type == "unclassified") {
@@ -43,7 +27,7 @@ bool identity_revealed_for(std::string_view type) noexcept
 
 const PerceptionNodeObservation* infer_first_floor_shop(const BlackFlowMapObservation& source) noexcept
 {
-    if (source.state_machine_floor != 1) {
+    if (source.floor != 1) {
         return nullptr;
     }
 
@@ -68,13 +52,13 @@ std::optional<NodeType> BlackFlowObservationAdapter::map_node_type(std::string_v
 std::vector<GridPosition> BlackFlowObservationAdapter::expected_grid_positions(int floor)
 {
     std::vector<GridPosition> result;
-    const auto shape = grid_shape(floor);
-    if (!shape.has_value()) {
+    const auto profile = perception::floor_profile(floor);
+    if (!profile.has_value()) {
         return result;
     }
-    result.reserve(static_cast<std::size_t>(shape->first * shape->second));
-    for (int row = 0; row < shape->first; ++row) {
-        for (int column = 0; column < shape->second; ++column) {
+    result.reserve(static_cast<std::size_t>(profile->rows * profile->columns));
+    for (int row = 0; row < profile->rows; ++row) {
+        for (int column = 0; column < profile->columns; ++column) {
             result.emplace_back(GridPosition { row, column });
         }
     }
@@ -84,36 +68,31 @@ std::vector<GridPosition> BlackFlowObservationAdapter::expected_grid_positions(i
 std::optional<NormalizedPerceptionObservation>
     BlackFlowObservationAdapter::normalize(const BlackFlowMapObservation& source, std::string* error) const
 {
-    if (!source.recognition_ok || !source.map_valid || !source.graph_connected) {
+    if (!source.recognition_ok || !source.graph_connected) {
         if (error != nullptr) {
-            *error = "perception result failed the recognition, map, or connectivity validity gate";
+            *error = "perception result failed the recognition or connectivity gate";
         }
         return std::nullopt;
     }
-    if (source.state_machine_floor < 1 || source.current_marker_temporary_id < 0) {
+    if (source.floor < 1 || source.current_marker_temporary_id < 0) {
         if (error != nullptr) {
-            *error = "perception result has no valid state-machine floor or current marker";
-        }
-        return std::nullopt;
-    }
-    if (source.hud_floor.has_value() && *source.hud_floor != source.state_machine_floor) {
-        if (error != nullptr) {
-            *error = "HUD floor conflicts with the state-machine floor";
+            *error = "perception result has no valid observed floor or current marker";
         }
         return std::nullopt;
     }
 
     NormalizedPerceptionObservation result;
-    result.map.floor = source.state_machine_floor;
+    result.map.floor = source.floor;
     result.map.coverage = source.coverage;
     result.map.covered_positions = source.covered_positions;
     if (result.map.coverage == ObservationCoverage::FullMap && result.map.covered_positions.empty()) {
-        result.map.covered_positions = expected_grid_positions(source.state_machine_floor);
+        result.map.covered_positions = expected_grid_positions(source.floor);
     }
     result.hud_action_points = source.hud_action_points;
     result.viewport_revision = source.viewport_revision;
     result.summary.observation_id = source.observation_id;
-    result.summary.floor = source.state_machine_floor;
+    result.summary.floor = source.floor;
+    result.summary.floor_from_ocr = source.floor_from_ocr;
     result.summary.screenshot_us = source.screenshot_us;
     result.summary.recognition_us = source.recognition_us;
     result.summary.attempt_count = source.attempt_count;
@@ -127,7 +106,7 @@ std::optional<NormalizedPerceptionObservation>
             continue;
         }
         const auto type = map_node_type(source_node.type);
-        const auto stable = make_stable_node_id(source.state_machine_floor, source_node.position);
+        const auto stable = make_stable_node_id(source.floor, source_node.position);
         if (!type.has_value() || !stable.has_value() || source_node.temporary_id < 0 ||
             !by_temporary_id.emplace(source_node.temporary_id, &source_node).second) {
             if (error != nullptr) {

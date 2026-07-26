@@ -1327,7 +1327,6 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowWarningTargetStateChanged">The target state has changed.</system:String>
     <system:String x:Key="BlackFlowWarningInferredEdge">This move uses a low-evidence connection</system:String>
     <system:String x:Key="BlackFlowWarningPostMoveMismatch">Post-move node or AP state is inconsistent</system:String>
-    <system:String x:Key="BlackFlowWarningFloorMismatch">State-machine floor conflicts with the HUD floor</system:String>
     <system:String x:Key="BlackFlowWarningIdentityConflict">The previewed node identity conflicts with the current map</system:String>
     <system:String x:Key="BlackFlowWarningUnknown">Roguelike encountered an error</system:String>
     <system:String x:Key="BlackFlowMilestoneChanged">Objective {0}: {1}</system:String>

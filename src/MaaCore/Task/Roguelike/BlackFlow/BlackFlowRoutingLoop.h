@@ -14,6 +14,7 @@ enum class RoutingCycleStatus
     MoveCommitted,
     MoveCommittedToMap,
     MovementSelectionRequired,
+    MovementInventoryObservationRequired,
     ReplanRequired,
     PreviewNeedsDismiss,
     SessionTerminated,
@@ -31,9 +32,19 @@ struct RoutingCycleOutcome
 template <typename Session>
 bool refresh_with_retries(Session& session, IBlackFlowTaskPort& port, std::string* error)
 {
+    const std::optional<int> current_floor = session.current_floor();
+    if (!current_floor.has_value()) {
+        if (error != nullptr) {
+            *error = "current floor has not been recognized by NextLevel";
+        }
+        return false;
+    }
+
     std::string latest_error;
     for (int attempt = 0; attempt < 2; ++attempt) {
-        const BlackFlowObservationRequest request { session.expected_observation_floor(), attempt + 1 };
+        BlackFlowObservationRequest request;
+        request.floor = *current_floor;
+        request.attempt_count = attempt + 1;
         BlackFlowPerceptionSnapshot snapshot;
         std::string current_error;
         if (port.refresh(request, snapshot, &current_error) && session.update(snapshot, &current_error)) {
@@ -44,7 +55,7 @@ bool refresh_with_retries(Session& session, IBlackFlowTaskPort& port, std::strin
             Log.info(
                 "BlackFlow map rebuild attempt failed",
                 "floor",
-                request.expected_floor,
+                request.floor,
                 "attempt",
                 attempt + 1,
                 "of",
@@ -56,7 +67,7 @@ bool refresh_with_retries(Session& session, IBlackFlowTaskPort& port, std::strin
             Log.debug(
                 "BlackFlow map rebuild attempt failed",
                 "floor",
-                request.expected_floor,
+                request.floor,
                 "attempt",
                 attempt + 1,
                 "of",
@@ -72,6 +83,17 @@ bool refresh_with_retries(Session& session, IBlackFlowTaskPort& port, std::strin
         *error = latest_error.empty() ? "map rebuild failed twice" : std::move(latest_error);
     }
     return false;
+}
+
+template <typename Session>
+bool session_requires_movement_inventory_observation(const Session& session)
+{
+    if constexpr (requires { session.movement_inventory_refresh_required(); }) {
+        return session.movement_inventory_refresh_required();
+    }
+    else {
+        return false;
+    }
 }
 
 template <typename Session>
@@ -161,6 +183,9 @@ RoutingCycleOutcome execute_routing_cycle(Session& session, IBlackFlowTaskPort& 
     }
     if (session.terminated()) {
         return { RoutingCycleStatus::SessionTerminated, {}, {} };
+    }
+    if (session_requires_movement_inventory_observation(session)) {
+        return { RoutingCycleStatus::MovementInventoryObservationRequired, {}, {} };
     }
 
     BlackFlowPlan plan = session.plan(&error);

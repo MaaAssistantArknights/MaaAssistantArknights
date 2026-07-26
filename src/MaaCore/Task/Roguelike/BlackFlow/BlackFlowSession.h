@@ -14,6 +14,12 @@
 
 namespace asst::blackflow
 {
+enum class FailureDisposition
+{
+    RestartRun,
+    StopTask,
+};
+
 struct BlackFlowStrategyResult
 {
     std::string profile;
@@ -31,7 +37,6 @@ enum class PageExecutionStage
     None,
     PendingDispatch,
     Running,
-    Recovering,
     Resolved,
 };
 
@@ -102,6 +107,9 @@ public:
         MovementPanelObservation panel,
         std::optional<MovementKind> active_movement,
         std::string* error = nullptr);
+    bool apply_movement_inventory_observation(
+        const std::unordered_set<MovementKind>& visible_movements,
+        std::string* error = nullptr);
     bool report_movement_unavailable(MovementKind target, std::string* error = nullptr);
     [[nodiscard]] BlackFlowPlan plan(std::string* error = nullptr);
     bool save_pending_candidate(const MoveCandidate& candidate, std::string* error = nullptr);
@@ -115,15 +123,26 @@ public:
     [[nodiscard]] bool validate_commit(std::string* error = nullptr) const;
     bool commit(EnteredPageObservation entered_page = {}, std::string* error = nullptr);
     void cancel_transaction();
-    [[nodiscard]] int expected_observation_floor() const noexcept;
+    bool set_current_floor(int floor, std::string* error = nullptr);
+
+    void clear_current_floor() noexcept { m_current_floor.reset(); }
+
+    [[nodiscard]] std::optional<int> current_floor() const noexcept { return m_current_floor; }
+
+    [[nodiscard]] bool completed_page_changes_floor() const noexcept;
+
+    [[nodiscard]] bool movement_inventory_refresh_required() const noexcept
+    {
+        return m_movement_inventory_refresh_required;
+    }
+
     bool mark_page_running(std::string* error = nullptr);
-    bool mark_page_recovery(std::string* error = nullptr);
     bool apply_node_task_result(
         const NodeTaskResult& result,
         const json::value& callback_details,
         std::string* error = nullptr);
 
-    void fail(std::string outcome, std::string reason);
+    void fail(std::string outcome, std::string reason, FailureDisposition disposition = FailureDisposition::StopTask);
 
     [[nodiscard]] const std::optional<BlackFlowStrategyResult>& result() const noexcept { return m_result; }
 
@@ -189,6 +208,7 @@ private:
     NormalizedMap m_map;
     ViewportObservation m_viewport;
     RunState m_run;
+    std::optional<int> m_current_floor;
     ResourceRegistry m_resources;
     std::unordered_set<std::string> m_unreachable_actions;
     std::optional<NodeId> m_pending_probe_target;
@@ -199,6 +219,7 @@ private:
     std::optional<PageExecutionContext> m_page_context;
     std::optional<BlackFlowStrategyResult> m_result;
     bool m_result_reported = false;
+    bool m_movement_inventory_refresh_required = true;
     DiagnosticSettings m_diagnostics;
     std::size_t m_persisted_image_packages = 0;
     std::uint64_t m_run_revision = 0;

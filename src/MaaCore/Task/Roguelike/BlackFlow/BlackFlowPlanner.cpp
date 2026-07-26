@@ -17,21 +17,6 @@ namespace asst::blackflow
 {
 namespace
 {
-int action_requirement(const SafetyAction& action, const SafetySolution& solution)
-{
-    std::int64_t requirement = std::max(action.minimum_action_points_to_start, action.action_point_cost);
-    for (const auto& outcome : action.outcomes) {
-        const int successor = solution.requirement(outcome.successor);
-        if (successor >= UnreachableActionPointRequirement) {
-            return UnreachableActionPointRequirement;
-        }
-        requirement = std::max(
-            requirement,
-            static_cast<std::int64_t>(successor) + action.action_point_cost - outcome.action_point_gain);
-    }
-    return static_cast<int>(std::clamp<std::int64_t>(requirement, 0, UnreachableActionPointRequirement));
-}
-
 std::vector<std::string> sorted_types(const std::unordered_set<std::string>& types)
 {
     std::vector<std::string> result(types.begin(), types.end());
@@ -45,72 +30,6 @@ struct ReachableFeatures
     bool has_badged = false;
     bool has_badged_incident = false;
 };
-
-ReachableFeatures reachable_features(
-    const MapSnapshot& map,
-    const ExpandedSafetyProblem& expanded,
-    const SafetySolution& solution,
-    SafetyStateId initial,
-    int initial_action_points)
-{
-    std::unordered_map<SafetyStateId, std::vector<const SafetyAction*>> actions;
-    for (const auto& action : expanded.problem.actions) {
-        actions[action.source].emplace_back(&action);
-    }
-    std::unordered_map<SafetyStateId, int> best_action_points;
-    std::deque<std::pair<SafetyStateId, int>> pending;
-    pending.emplace_back(initial, initial_action_points);
-    best_action_points.emplace(initial, initial_action_points);
-    ReachableFeatures result;
-    while (!pending.empty()) {
-        const auto [state_id, action_points] = pending.front();
-        pending.pop_front();
-        if (state_id >= expanded.planner_states.size()) {
-            continue;
-        }
-        const Node* node = map.find_node(expanded.planner_states[state_id].node);
-        if (node != nullptr && node->type != NodeType::Empty) {
-            result.node_types.emplace(to_string(node->type));
-            result.has_badged = result.has_badged || node->badged;
-            result.has_badged_incident =
-                result.has_badged_incident || (node->badged && node->type == NodeType::Incident);
-        }
-        const auto outgoing = actions.find(state_id);
-        if (outgoing == actions.end()) {
-            continue;
-        }
-        for (const SafetyAction* action : outgoing->second) {
-            if (action_points < action_requirement(*action, solution)) {
-                continue;
-            }
-            for (const auto& outcome : action->outcomes) {
-                const int remaining =
-                    action_points_after(action_points, action->action_point_cost, outcome.action_point_gain);
-                if (remaining < solution.requirement(outcome.successor)) {
-                    continue;
-                }
-                const auto previous = best_action_points.find(outcome.successor);
-                if (previous == best_action_points.end() || remaining > previous->second) {
-                    best_action_points.insert_or_assign(outcome.successor, remaining);
-                    pending.emplace_back(outcome.successor, remaining);
-                }
-            }
-        }
-    }
-    return result;
-}
-
-int unknown_big_nodes_revealed(const MapSnapshot& map, NodeId node)
-{
-    int count = 0;
-    for (const NodeId id : map.nodes_within_manhattan(node, 2)) {
-        const Node* candidate = map.find_node(id);
-        if (candidate != nullptr && candidate->type != NodeType::Empty && !candidate->identity_revealed) {
-            ++count;
-        }
-    }
-    return count;
-}
 
 bool revealed_by_consumed_light(
     const MapSnapshot& map,
@@ -153,20 +72,6 @@ int unknown_big_nodes_revealed(
     return count;
 }
 
-NodeType
-    route_node_type(const MapSnapshot& map, const ExpandedSafetyProblem& expanded, SafetyStateId source, NodeId node)
-{
-    const Node* target = map.find_node(node);
-    if (target == nullptr) {
-        return NodeType::Unknown;
-    }
-    if (source < expanded.planner_states.size() && !target->traversal.repeatable &&
-        expanded.is_completed(source, node)) {
-        return NodeType::Empty;
-    }
-    return target->type;
-}
-
 int intermediate_interaction_cost(NodeType type) noexcept
 {
     return type == NodeType::Empty || type == NodeType::ScrapShop ? 0 : 1;
@@ -200,20 +105,6 @@ bool route_metric_weakly_better(const RouteMetric& lhs, const RouteMetric& rhs) 
 {
     return route_penalty(lhs) <= route_penalty(rhs) && std::tie(lhs.battles, lhs.processing_moves, lhs.duration) <=
                                                            std::tie(rhs.battles, rhs.processing_moves, rhs.duration);
-}
-
-RouteMetric move_metric(
-    const MapSnapshot& map,
-    const ExpandedSafetyProblem& expanded,
-    SafetyStateId source,
-    const MoveCandidate& move)
-{
-    const bool battle = is_combat_node_type(route_node_type(map, expanded, source, move.target));
-    return {
-        battle ? 1 : 0,
-        move.movement == MovementKind::Walk ? 0 : 1,
-        move.movement == MovementKind::Walk ? std::max(1, static_cast<int>(move.path.size())) : 1,
-    };
 }
 
 struct RouteMilestone
@@ -421,134 +312,6 @@ bool route_label_better(
                std::tie(rhs.metric.battles, rhs.metric.processing_moves, rhs.metric.duration);
     }
     return lhs.action_points > rhs.action_points;
-}
-
-RouteLabel best_route_after_outcome(
-    const MapSnapshot& map,
-    const ExpandedSafetyProblem& expanded,
-    const SafetySolution& solution,
-    const std::vector<RouteMilestone>& milestones,
-    const MissionState& mission,
-    const MoveCandidate& root_move,
-    const SafetyAction& root_action,
-    const SafetyOutcome& root_outcome,
-    int initial_action_points,
-    int remaining_action_points)
-{
-    RouteLabel initial;
-    initial.state = root_outcome.successor;
-    initial.action_points = remaining_action_points;
-    initial.progress.reserve(milestones.size());
-    initial.counted.resize(milestones.size());
-    for (std::size_t index = 0; index < milestones.size(); ++index) {
-        const RouteMilestone& milestone = milestones[index];
-        initial.progress.emplace_back(milestone.initial_progress);
-        const auto counted = mission.milestone_nodes.find(milestone.definition->id);
-        if (counted != mission.milestone_nodes.end()) {
-            initial.counted[index].assign(counted->second.begin(), counted->second.end());
-            std::ranges::sort(initial.counted[index]);
-        }
-    }
-    initial.metric = move_metric(map, expanded, expanded.initial_state, root_move);
-    initial.steps.emplace_back(
-        PlannedRouteStep {
-            root_move,
-            initial_action_points,
-            root_action.action_point_cost,
-            root_outcome.action_point_gain,
-            remaining_action_points,
-        });
-    NodeId entered_node = root_move.target;
-    if (entered_node == InvalidNodeId && root_outcome.successor < expanded.planner_states.size()) {
-        entered_node = expanded.planner_states[root_outcome.successor].node;
-    }
-    if (const Node* target = map.find_node(entered_node); target != nullptr) {
-        Node entered = *target;
-        entered.type = route_node_type(map, expanded, expanded.initial_state, target->id);
-        if (entered.type == NodeType::Empty) {
-            entered.name.clear();
-        }
-        initial.immediate_milestone_ids =
-            advance_milestones(entered, milestones, mission, initial.progress, initial.counted);
-        initial.route.emplace_back(target->id);
-    }
-
-    std::unordered_map<SafetyStateId, std::vector<const SafetyAction*>> actions;
-    for (const SafetyAction& action : expanded.problem.actions) {
-        actions[action.source].emplace_back(&action);
-    }
-    std::unordered_map<SafetyStateId, std::vector<RouteLabel>> labels;
-    labels[initial.state].emplace_back(initial);
-    std::deque<RouteLabel> pending;
-    pending.emplace_back(initial);
-    std::optional<RouteLabel> best;
-    while (!pending.empty()) {
-        RouteLabel current = std::move(pending.front());
-        pending.pop_front();
-        if (current.state < expanded.problem.states.size() && expanded.problem.states[current.state].safe_exit &&
-            (!best.has_value() || route_label_better(current, *best, milestones))) {
-            best = current;
-        }
-        const auto outgoing = actions.find(current.state);
-        if (outgoing == actions.end()) {
-            continue;
-        }
-        for (const SafetyAction* action : outgoing->second) {
-            if (action->outcomes.size() != 1 || current.action_points < action_requirement(*action, solution)) {
-                continue;
-            }
-            const auto move = expanded.action_candidates.find(action->id);
-            if (move == expanded.action_candidates.end()) {
-                continue;
-            }
-            const SafetyOutcome& outcome = action->outcomes.front();
-            const int remaining =
-                action_points_after(current.action_points, action->action_point_cost, outcome.action_point_gain);
-            if (remaining < solution.requirement(outcome.successor)) {
-                continue;
-            }
-            RouteLabel next = current;
-            next.state = outcome.successor;
-            next.action_points = remaining;
-            next.metric = add_metric(next.metric, move_metric(map, expanded, action->source, move->second));
-            MoveCandidate planned_move = move->second;
-            planned_move.action_point_requirement = action_requirement(*action, solution);
-            next.steps.emplace_back(
-                PlannedRouteStep {
-                    std::move(planned_move),
-                    current.action_points,
-                    action->action_point_cost,
-                    outcome.action_point_gain,
-                    remaining,
-                });
-            if (const Node* target = map.find_node(move->second.target); target != nullptr) {
-                Node entered = *target;
-                entered.type = route_node_type(map, expanded, action->source, target->id);
-                if (entered.type == NodeType::Empty) {
-                    entered.name.clear();
-                }
-                (void)advance_milestones(entered, milestones, mission, next.progress, next.counted);
-                next.route.emplace_back(target->id);
-            }
-            auto& existing = labels[next.state];
-            const bool dominated = std::ranges::any_of(existing, [&](const RouteLabel& value) {
-                return value.progress == next.progress && value.counted == next.counted &&
-                       value.action_points >= next.action_points &&
-                       route_metric_weakly_better(value.metric, next.metric);
-            });
-            if (dominated) {
-                continue;
-            }
-            std::erase_if(existing, [&](const RouteLabel& value) {
-                return value.progress == next.progress && value.counted == next.counted &&
-                       next.action_points >= value.action_points &&
-                       route_metric_weakly_better(next.metric, value.metric);
-            });
-            existing.emplace_back(next);
-            pending.emplace_back(std::move(next));
-        }
-    }
-    return best.value_or(initial);
 }
 
 bool boolean_fact(const FactStore& facts, std::string_view name)
@@ -1766,68 +1529,6 @@ FactStore on_demand_candidate_facts(
 }
 } // namespace
 
-FactStore BlackFlowPlanner::candidate_facts(
-    const MapSnapshot& map,
-    const ExpandedSafetyProblem& expanded,
-    const SafetySolution& solution,
-    const SafetyAction& root_action,
-    const RunState& run,
-    int current_action_points) const
-{
-    FactStore facts;
-    const auto move_iter = expanded.action_candidates.find(root_action.id);
-    if (move_iter == expanded.action_candidates.end()) {
-        return facts;
-    }
-    const MoveCandidate& move = move_iter->second;
-    const Node* target = map.find_node(move.target);
-    facts.set("candidate.node_type", std::string(target == nullptr ? "unclassified" : to_string(target->type)));
-    facts.set("candidate.node_name", target == nullptr ? std::string() : target->name);
-    facts.set("candidate.badged", target != nullptr && target->badged);
-    const bool combat = target != nullptr && is_combat_node_type(target->type);
-    facts.set("candidate.combat", combat);
-    facts.set("candidate.boss", combat && target->type == NodeType::BattleBoss);
-    facts.set(
-        "candidate.exit",
-        target != nullptr && (target->type == NodeType::Final || target->type == NodeType::BattleBoss));
-    facts.set("candidate.uses_processing_item", move.movement != MovementKind::Walk);
-    set_first_move_facts(facts, run, move);
-    facts.set(
-        "candidate.light_reveal_count",
-        static_cast<std::int64_t>(
-            target != nullptr && target->type == NodeType::Light ? unknown_big_nodes_revealed(map, target->id) : 0));
-
-    ReachableFeatures union_features;
-    std::optional<ReachableFeatures> guaranteed_features;
-    for (const auto& outcome : root_action.outcomes) {
-        const int remaining =
-            action_points_after(current_action_points, root_action.action_point_cost, outcome.action_point_gain);
-        auto features = reachable_features(map, expanded, solution, outcome.successor, remaining);
-        union_features.node_types.insert(features.node_types.begin(), features.node_types.end());
-        union_features.has_badged = union_features.has_badged || features.has_badged;
-        union_features.has_badged_incident = union_features.has_badged_incident || features.has_badged_incident;
-        if (!guaranteed_features.has_value()) {
-            guaranteed_features = std::move(features);
-        }
-        else {
-            std::erase_if(guaranteed_features->node_types, [&](const std::string& type) {
-                return !features.node_types.contains(type);
-            });
-            guaranteed_features->has_badged = guaranteed_features->has_badged && features.has_badged;
-            guaranteed_features->has_badged_incident =
-                guaranteed_features->has_badged_incident && features.has_badged_incident;
-        }
-    }
-    const ReachableFeatures guaranteed = guaranteed_features.value_or(ReachableFeatures {});
-    facts.set("candidate.route_node_types", sorted_types(union_features.node_types));
-    facts.set("candidate.guaranteed_route_node_types", sorted_types(guaranteed.node_types));
-    facts.set("candidate.route_has_badged", union_features.has_badged);
-    facts.set("candidate.guaranteed_route_has_badged", guaranteed.has_badged);
-    facts.set("candidate.route_has_badged_incident", union_features.has_badged_incident);
-    facts.set("candidate.guaranteed_route_has_badged_incident", guaranteed.has_badged_incident);
-    return facts;
-}
-
 PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
     const BlackFlowPlanRequest& request,
     const MoveCandidate& move,
@@ -1854,10 +1555,29 @@ PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
     }
     SafetyGoalProgressId preview_goal_progress = safety_goal->initial_progress_id();
     if (const Node* entered = request.map->find_node(move.target); entered != nullptr) {
+        int newly_revealed_unknown_big_nodes = 0;
+        if (entered->type == NodeType::Light) {
+            StateExpansionOptions source_options;
+            source_options.strategy_terminal_nodes = request.strategy_terminal_nodes;
+            source_options.graph_layer = GraphLayer::Confirmed;
+            source_options.maximum_states = request.maximum_states;
+            if (request.forbidden_actions != nullptr) {
+                source_options.forbidden_action_ids = *request.forbidden_actions;
+            }
+
+            OnDemandStateGraph source_graph;
+            if (!source_graph.initialize(*request.map, *request.run, std::move(source_options), &result.error)) {
+                result.error = "confirmed source graph initialization failed: " + result.error;
+                return result;
+            }
+            newly_revealed_unknown_big_nodes =
+                unknown_big_nodes_revealed(*request.map, source_graph, source_graph.initial_state(), entered->id);
+        }
+
         const auto advanced = safety_goal->advance_node(
             preview_goal_progress,
             *entered,
-            entered->type == NodeType::Light ? unknown_big_nodes_revealed(*request.map, entered->id) : 0,
+            newly_revealed_unknown_big_nodes,
             *request.facts,
             &goal_error);
         if (!advanced.has_value()) {
@@ -2110,6 +1830,11 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
                                           ? 10
                                           : candidate.battle_count * 4);
 
+        if (!candidate.safe) {
+            policy_candidates.emplace_back(std::move(candidate));
+            continue;
+        }
+
         bool first_outcome = true;
         ReachableFeatures possible_route_features;
         std::optional<ReachableFeatures> guaranteed_route_features;
@@ -2182,9 +1907,6 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         candidate.intermediate_interaction_count = worst_intermediate_interactions;
         candidate.processing_move_count = worst_metric.processing_moves;
         candidate.estimated_duration = worst_metric.duration;
-        candidate.facts.set(
-            "candidate.intermediate_interactions",
-            static_cast<std::int64_t>(candidate.intermediate_interaction_count));
         candidate.development_score = 0;
         policy_candidates.emplace_back(std::move(candidate));
     }

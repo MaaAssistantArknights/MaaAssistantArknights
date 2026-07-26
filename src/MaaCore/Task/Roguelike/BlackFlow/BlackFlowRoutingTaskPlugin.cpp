@@ -53,19 +53,28 @@ bool BlackFlowRoutingTaskPlugin::_run()
                                           ? execute_pending_routing_cycle(*m_session, *m_port)
                                           : execute_routing_cycle(*m_session, *m_port);
     if (cycle.status == RoutingCycleStatus::NeedsPageRecovery) {
-        if (!m_page_recovery_attempted) {
+        const bool completed_page = m_session->page_context().has_value() &&
+                                    m_session->page_context()->stage == PageExecutionStage::Resolved &&
+                                    m_session->transaction() != nullptr &&
+                                    m_session->transaction()->stage() == MoveTransactionStage::PageResolved;
+        if (completed_page && !m_page_recovery_attempted) {
             m_page_recovery_attempted = true;
             Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@RecoverMap");
         }
         else {
             m_page_recovery_attempted = false;
-            m_session->fail("map_rebuild_failed", cycle.error);
+            m_session->fail("map_rebuild_failed", cycle.error, FailureDisposition::RestartRun);
             Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated");
         }
         report_outputs();
         return true;
     }
     m_page_recovery_attempted = false;
+    if (cycle.status == RoutingCycleStatus::MovementInventoryObservationRequired) {
+        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@MovementInventoryCheck");
+        report_outputs();
+        return true;
+    }
     if (cycle.status == RoutingCycleStatus::MovementSelectionRequired) {
         Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@SelectMovement");
         report_outputs();
@@ -97,7 +106,7 @@ bool BlackFlowRoutingTaskPlugin::_run()
         return true;
     }
 
-    m_session->fail(cycle.failure_code, cycle.error);
+    m_session->fail(cycle.failure_code, cycle.error, FailureDisposition::RestartRun);
     Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated");
     report_outputs();
     return true;

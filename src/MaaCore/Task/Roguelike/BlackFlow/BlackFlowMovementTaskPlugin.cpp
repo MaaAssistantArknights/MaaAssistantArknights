@@ -20,6 +20,10 @@ namespace
 {
 constexpr std::string_view SelectMovementTrigger = "BlackFlow@Roguelike@SelectMovement";
 constexpr std::string_view SelectionAction = "BlackFlow@Roguelike@SelectMovementAction";
+constexpr std::string_view InventoryObservationTrigger = "BlackFlow@Roguelike@MovementInventoryObserve";
+constexpr std::string_view InventoryObservationAction = "BlackFlow@Roguelike@MovementInventoryObservationAction";
+constexpr std::string_view InventoryItemsTask = "BlackFlow@Roguelike@MovementInventoryItems";
+constexpr std::string_view InventoryCloseTask = "BlackFlow@Roguelike@MovementInventoryClose";
 constexpr std::string_view OpenPanelTask = "BlackFlow@Roguelike@MovementPanelOpenClick";
 constexpr std::string_view PanelTitleTask = "BlackFlow@Roguelike@MovementPanelTitle";
 constexpr std::string_view PanelItemsTask = "BlackFlow@Roguelike@MovementPanelItems";
@@ -34,6 +38,7 @@ constexpr int MaxForwardSwipes = 3;
 constexpr int LoadedMarkerMaximumGap = 32;
 constexpr int SelectionSettleDelay = 500;
 constexpr int RecognitionRetryDelay = 200;
+constexpr int InventoryLoadedMarkerMaximumVerticalGap = 32;
 
 void set_error(std::string* error, std::string message)
 {
@@ -50,27 +55,40 @@ int vertical_center(const Rect& rect) noexcept
 
 bool BlackFlowMovementTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask" ||
-        details.get("details", "task", "") != SelectMovementTrigger) {
+    if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
-    m_selection_pending = true;
-    return true;
+
+    const std::string task = details.get("details", "task", "");
+    if (task == SelectMovementTrigger) {
+        m_pending = PendingWork::SelectMovement;
+        return true;
+    }
+    if (task == InventoryObservationTrigger) {
+        m_pending = PendingWork::ObserveInventory;
+        return true;
+    }
+    return false;
 }
 
 void BlackFlowMovementTaskPlugin::reset_in_run_variables()
 {
-    m_selection_pending = false;
+    m_pending = PendingWork::None;
 }
 
 bool BlackFlowMovementTaskPlugin::_run()
 {
     LogTraceFunction;
-    if (!m_selection_pending) {
+    const PendingWork work = m_pending;
+    m_pending = PendingWork::None;
+    if (work == PendingWork::None) {
         return true;
     }
-    m_selection_pending = false;
-    Task.set_task_base(std::string(SelectionAction), "BlackFlow@Roguelike@PageFailure");
+    if (work == PendingWork::ObserveInventory) {
+        return observe_inventory();
+    }
+
+    Task.set_task_base(std::string(SelectionAction), "BlackFlow@Roguelike@RecoveryFailed");
 
     if (m_session == nullptr || !m_session->pending_candidate().has_value()) {
         Log.error("BlackFlow movement selection has no pending route candidate");
@@ -96,6 +114,123 @@ bool BlackFlowMovementTaskPlugin::_run()
     }
     report_outputs();
     return true;
+}
+
+bool BlackFlowMovementTaskPlugin::observe_inventory()
+{
+    Task.set_task_base(std::string(InventoryObservationAction), std::string(InventoryCloseTask));
+    if (m_session == nullptr) {
+        Log.error("BlackFlow movement inventory observation has no active session");
+        return true;
+    }
+
+    InventoryFrame frame;
+    std::string error;
+    if (!scan_inventory_frame(frame, &error) ||
+        !m_session->apply_movement_inventory_observation(frame.movements, &error)) {
+        m_session->fail(
+            "movement_inventory_observation_failed",
+            error.empty() ? "movement inventory OCR failed" : error,
+            FailureDisposition::StopTask);
+        Log.error("BlackFlow movement inventory observation failed", error);
+        report_outputs();
+        return true;
+    }
+
+    const MovementSpec* loaded =
+        frame.loaded_movement.has_value() ? find_movement_spec(*frame.loaded_movement) : nullptr;
+    Log.info(
+        "BlackFlow movement inventory observed",
+        "visible items",
+        frame.movements.size(),
+        "loaded marker",
+        loaded == nullptr ? std::string_view("none") : loaded->id);
+    report_outputs();
+    return true;
+}
+
+bool BlackFlowMovementTaskPlugin::scan_inventory_frame(InventoryFrame& frame, std::string* error) const
+{
+    int no_candidate_frames = 0;
+    std::string latest_error;
+    for (int attempt = 0; attempt < MaxFrameRecognitionAttempts; ++attempt) {
+        InventoryFrame candidate;
+        const InventoryAnalysisOutcome outcome =
+            analyze_inventory_frame(ctrler()->get_image(), candidate, &latest_error);
+        if (outcome == InventoryAnalysisOutcome::Recognized) {
+            frame = std::move(candidate);
+            return true;
+        }
+        if (outcome == InventoryAnalysisOutcome::NoCandidate) {
+            ++no_candidate_frames;
+        }
+        if (attempt + 1 < MaxFrameRecognitionAttempts) {
+            sleep(RecognitionRetryDelay);
+        }
+    }
+    if (no_candidate_frames == MaxFrameRecognitionAttempts) {
+        frame = InventoryFrame {};
+        return true;
+    }
+    set_error(error, latest_error.empty() ? "movement inventory OCR failed" : latest_error);
+    return false;
+}
+
+BlackFlowMovementTaskPlugin::InventoryAnalysisOutcome BlackFlowMovementTaskPlugin::analyze_inventory_frame(
+    const cv::Mat& image,
+    InventoryFrame& frame,
+    std::string* error) const
+{
+    if (image.empty()) {
+        set_error(error, "movement inventory screenshot is empty");
+        return InventoryAnalysisOutcome::Failed;
+    }
+
+    const auto task = Task.get<OcrTaskInfo>(std::string(InventoryItemsTask));
+    if (task == nullptr) {
+        set_error(error, "movement inventory OCR task is missing");
+        return InventoryAnalysisOutcome::Failed;
+    }
+
+    OCRer analyzer(image);
+    analyzer.set_task_info(task);
+    analyzer.set_required(inventory_ocr_candidates());
+    const auto results = analyzer.analyze();
+    if (!results.has_value()) {
+        return InventoryAnalysisOutcome::NoCandidate;
+    }
+
+    std::vector<InventoryItem> items;
+    std::vector<Rect> loaded_markers;
+    for (const auto& result : *results) {
+        if (const MovementSpec* movement = movement_from_name(result.text);
+            movement != nullptr && movement->kind != MovementKind::Walk) {
+            frame.movements.emplace(movement->kind);
+            items.emplace_back(InventoryItem { movement->kind, result.rect });
+        }
+        else if (result.text == LoadedText) {
+            loaded_markers.emplace_back(result.rect);
+        }
+    }
+
+    int best_horizontal_gap = std::numeric_limits<int>::max();
+    for (const Rect& marker : loaded_markers) {
+        const int marker_center = vertical_center(marker);
+        for (const InventoryItem& item : items) {
+            if (std::abs(vertical_center(item.name_rect) - marker_center) > InventoryLoadedMarkerMaximumVerticalGap) {
+                continue;
+            }
+            const int horizontal_gap = marker.x - (item.name_rect.x + item.name_rect.width);
+            if (horizontal_gap >= 0 && horizontal_gap < best_horizontal_gap) {
+                frame.loaded_movement = item.movement;
+                best_horizontal_gap = horizontal_gap;
+            }
+        }
+    }
+    if (!loaded_markers.empty() && !frame.loaded_movement.has_value()) {
+        Log.warn("BlackFlow movement inventory loaded marker has no recognized item on its left");
+    }
+    return InventoryAnalysisOutcome::Recognized;
 }
 
 BlackFlowMovementTaskPlugin::SelectionOutcome
@@ -424,6 +559,19 @@ std::vector<std::string> BlackFlowMovementTaskPlugin::ocr_candidates()
     candidates.emplace_back("剩余1次");
     candidates.emplace_back("剩余2次");
     candidates.emplace_back("剩余3次");
+    return candidates;
+}
+
+std::vector<std::string> BlackFlowMovementTaskPlugin::inventory_ocr_candidates()
+{
+    std::vector<std::string> candidates;
+    candidates.reserve(movement_specs().size());
+    for (const MovementSpec& movement : movement_specs()) {
+        if (movement.kind != MovementKind::Walk) {
+            candidates.emplace_back(movement.name);
+        }
+    }
+    candidates.emplace_back(LoadedText);
     return candidates;
 }
 } // namespace asst::blackflow

@@ -248,12 +248,6 @@
             "description": "执行候选首步前是否需要切换移动方式"
         },
         {
-            "name": "candidate.intermediate_interactions",
-            "type": "int",
-            "scope": "candidate",
-            "description": "抵达策略终点前需要处理的中途交互节点数"
-        },
-        {
             "name": "candidate.light_reveal_count",
             "type": "int",
             "scope": "candidate"

@@ -45,8 +45,6 @@ NodeDetectorConfig parse_node_config(const nlohmann::json& json)
     config.current_marker_threshold = json.value("current_marker_threshold", config.current_marker_threshold);
     config.current_marker_grid_tolerance =
         json.value("current_marker_grid_tolerance", config.current_marker_grid_tolerance);
-    config.minimum_anchor_count = json.value("minimum_anchor_count", config.minimum_anchor_count);
-    config.maximum_grid_residual = json.value("maximum_grid_residual", config.maximum_grid_residual);
     config.refinement_mode = GridRefinementMode::FixedGrid;
     config.guard_ring_shift_radius = json.value("guard_ring_shift_radius", config.guard_ring_shift_radius);
     config.guard_ring_outside_weight = json.value("guard_ring_outside_weight", config.guard_ring_outside_weight);
@@ -74,39 +72,22 @@ NodeDetectorConfig parse_node_config(const nlohmann::json& json)
 }
 } // namespace
 
-FloorProfile floor_profile(int floor)
-{
-    switch (floor) {
-    case 1:
-        return { 1, 3, 5 };
-    case 2:
-        return { 2, 4, 5 };
-    case 3:
-        return { 3, 5, 7 };
-    case 4:
-        return { 4, 5, 8 };
-    case 5:
-        return { 5, 5, 10 };
-    default:
-        throw std::runtime_error("floor must be an integer from 1 to 5");
-    }
-}
-
-bool BlackFlowMapAnalyzer::load(const std::filesystem::path& resource_root, std::string& error)
+bool BlackFlowMapAnalyzer::load(
+    const std::filesystem::path& template_manifest_path,
+    const std::filesystem::path& edge_config_path,
+    const std::filesystem::path& runtime_manifest_path,
+    std::string& error)
 {
     try {
-        const auto template_manifest = resource_root / "templates" / "manifest.json";
-        const auto node_config = resource_root / "edge.json";
-        const auto model_manifest = resource_root / "corridor_net.runtime.json";
-        if (!std::filesystem::is_regular_file(node_config)) {
-            error = "BlackFlow map node config does not exist: " + node_config.string();
+        if (!std::filesystem::is_regular_file(edge_config_path)) {
+            error = "BlackFlow map node config does not exist: " + edge_config_path.string();
             return false;
         }
-        if (!m_bridge.load(template_manifest, error)) {
+        if (!m_bridge.load(template_manifest_path, error)) {
             return false;
         }
-        m_node_detector = std::make_unique<NodeDetector>(m_bridge, parse_node_config(read_json(node_config)));
-        if (!m_edge_detector.load(model_manifest, error)) {
+        m_node_detector = std::make_unique<NodeDetector>(m_bridge, parse_node_config(read_json(edge_config_path)));
+        if (!m_edge_detector.load(runtime_manifest_path, error)) {
             m_node_detector.reset();
             return false;
         }
@@ -127,7 +108,7 @@ bool BlackFlowMapAnalyzer::load(const std::filesystem::path& resource_root, std:
     }
 }
 
-MapRecognitionResult BlackFlowMapAnalyzer::recognize(const cv::Mat& image, int floor) const
+MapRecognitionResult BlackFlowMapAnalyzer::recognize(const cv::Mat& image, int floor, bool render_overlay) const
 {
     MapRecognitionResult result;
     result.floor = floor;
@@ -143,9 +124,12 @@ MapRecognitionResult BlackFlowMapAnalyzer::recognize(const cv::Mat& image, int f
         if (image.empty() || image.type() != CV_8UC3) {
             throw std::runtime_error("BlackFlow map perception requires a non-empty BGR8 image");
         }
-        const FloorProfile profile = floor_profile(floor);
-        result.rows = profile.rows;
-        result.columns = profile.columns;
+        const auto profile = floor_profile(floor);
+        if (!profile.has_value()) {
+            throw std::runtime_error("floor must be an integer from 1 to 5");
+        }
+        result.rows = profile->rows;
+        result.columns = profile->columns;
         result.captured_bgr = image.clone();
 
         normalization_start = std::chrono::steady_clock::now();
@@ -165,22 +149,19 @@ MapRecognitionResult BlackFlowMapAnalyzer::recognize(const cv::Mat& image, int f
 
         recognition_start = std::chrono::steady_clock::now();
         recognition_started = true;
-        result.node_detection = m_node_detector->detect(result.normalized_bgr, profile.rows, profile.columns);
-        result.node_overlay_bgr = m_node_detector->draw_overlay(result.normalized_bgr, result.node_detection);
-        if (!result.node_detection.map_valid) {
-            throw std::runtime_error("Node map rejected: " + result.node_detection.rejection_reason);
-        }
+        result.node_detection = m_node_detector->detect(result.normalized_bgr, profile->rows, profile->columns);
         result.edge_detection = m_edge_detector.detect(
             std::vector<cv::Mat> { result.normalized_bgr },
             result.node_detection.nodes,
-            profile.rows,
-            profile.columns);
-        result.edge_overlay_bgr =
-            m_edge_detector.draw_overlay(result.normalized_bgr, result.node_detection.nodes, result.edge_detection);
+            profile->rows,
+            profile->columns);
         if (!result.edge_detection.error.empty()) {
             throw std::runtime_error(result.edge_detection.error);
         }
         result.ok = true;
+        if (render_overlay) {
+            result.overlay_bgr = draw_overlay(result);
+        }
     }
     catch (const std::exception& exception) {
         result.error = exception.what();
@@ -199,6 +180,15 @@ MapRecognitionResult BlackFlowMapAnalyzer::recognize(const cv::Mat& image, int f
                 .count();
     }
     return result;
+}
+
+cv::Mat BlackFlowMapAnalyzer::draw_overlay(const MapRecognitionResult& result) const
+{
+    if (result.normalized_bgr.empty() || m_node_detector == nullptr) {
+        return result.captured_bgr.clone();
+    }
+    cv::Mat overlay = m_node_detector->draw_overlay(result.normalized_bgr, result.node_detection);
+    return m_edge_detector.draw_overlay(overlay, result.node_detection.nodes, result.edge_detection);
 }
 
 bool BlackFlowMapAnalyzer::loaded() const noexcept

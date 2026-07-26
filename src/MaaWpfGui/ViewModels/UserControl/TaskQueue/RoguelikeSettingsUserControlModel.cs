@@ -1162,7 +1162,6 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                         "target_unreachable" => LocalizationHelper.GetString("BlackFlowWarningTargetUnreachable"),
                         "inferred_edge_selected" => LocalizationHelper.GetString("BlackFlowWarningInferredEdge"),
                         "post_move_mismatch" => LocalizationHelper.GetString("BlackFlowWarningPostMoveMismatch"),
-                        "floor_mismatch" => LocalizationHelper.GetString("BlackFlowWarningFloorMismatch"),
                         "identity_conflict" => LocalizationHelper.GetString("BlackFlowWarningIdentityConflict"),
                         _ => LocalizationHelper.GetString("BlackFlowWarningUnknown"),
                     };

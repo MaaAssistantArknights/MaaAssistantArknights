@@ -217,9 +217,13 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }
     }
 
-    if (!RoguelikeRecruit.copy_theme("JieGarden", "BlackFlow")) {
-        Log.error("Unable to reuse JieGarden recruitment configuration for BlackFlow");
-        return false;
+    const bool blackflow_recruit_available = RoguelikeRecruit.copy_theme("JieGarden", "BlackFlow");
+    BlackFlowMapPerception.set_dependency_status(
+        "recruitment",
+        blackflow_recruit_available,
+        "unable to reuse JieGarden recruitment configuration");
+    if (!blackflow_recruit_available) {
+        Log.error("Unable to reuse JieGarden recruitment configuration for BlackFlow; other themes remain available");
     }
 
     // Shopping Config
@@ -239,10 +243,26 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
             return false;
         }
     }
-    if (!load_with_custom.template operator()<RoguelikeStageEncounterConfig>(
-            roguelike_path("BlackFlow", "encounter"_p / "default.json"_p),
-            "RoguelikeStageEncounterConfig")) {
-        return false;
+    const auto blackflow_encounter_path = roguelike_path("BlackFlow", "encounter"_p / "default.json"_p);
+    const bool blackflow_encounter_layer_present = std::filesystem::exists(path / blackflow_encounter_path);
+    if (blackflow_encounter_layer_present) {
+        const bool blackflow_encounter_available = load_with_custom.template operator()<RoguelikeStageEncounterConfig>(
+            blackflow_encounter_path,
+            "RoguelikeStageEncounterConfig");
+        BlackFlowMapPerception.set_dependency_status(
+            "encounter",
+            blackflow_encounter_available,
+            "BlackFlow encounter configuration failed to load");
+        if (!blackflow_encounter_available) {
+            Log.error("BlackFlow encounter configuration failed to load; other themes remain available");
+        }
+    }
+    else if (!m_loaded) {
+        BlackFlowMapPerception.set_dependency_status(
+            "encounter",
+            false,
+            "BlackFlow encounter configuration is missing");
+        Log.error("BlackFlow encounter configuration is missing; other themes remain available");
     }
 
     // 额外的 encounter 配置（deposit / collapse）
@@ -269,15 +289,43 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     }
 
     // BlackFlow high-level route policy. Page tasks and visual resources are loaded separately.
-    if (!load_with_custom.template operator()<BlackFlowStrategyConfig>(
-            roguelike_path("BlackFlow", "strategy.json"_p),
-            "BlackFlowStrategyConfig")) {
-        return false;
+    const auto blackflow_strategy_path = roguelike_path("BlackFlow", "strategy.json"_p);
+    if (std::filesystem::exists(path / blackflow_strategy_path)) {
+        const bool available = load_with_custom.template operator()<BlackFlowStrategyConfig>(
+            blackflow_strategy_path,
+            "BlackFlowStrategyConfig");
+        BlackFlowMapPerception.set_dependency_status(
+            "strategy",
+            available,
+            "BlackFlow strategy configuration failed to load");
+        if (!available) {
+            Log.error("BlackFlow strategy configuration failed to load; other themes remain available");
+        }
     }
-    if (!load_with_custom.template operator()<BlackFlowNodeExecutionConfig>(
-            roguelike_path("BlackFlow", "node_execution.json"_p),
-            "BlackFlowNodeExecutionConfig")) {
-        return false;
+    else if (!m_loaded) {
+        BlackFlowMapPerception.set_dependency_status("strategy", false, "BlackFlow strategy configuration is missing");
+        Log.error("BlackFlow strategy configuration is missing; other themes remain available");
+    }
+
+    const auto blackflow_node_execution_path = roguelike_path("BlackFlow", "node_execution.json"_p);
+    if (std::filesystem::exists(path / blackflow_node_execution_path)) {
+        const bool available = load_with_custom.template operator()<BlackFlowNodeExecutionConfig>(
+            blackflow_node_execution_path,
+            "BlackFlowNodeExecutionConfig");
+        BlackFlowMapPerception.set_dependency_status(
+            "node_execution",
+            available,
+            "BlackFlow node execution configuration failed to load");
+        if (!available) {
+            Log.error("BlackFlow node execution configuration failed to load; other themes remain available");
+        }
+    }
+    else if (!m_loaded) {
+        BlackFlowMapPerception.set_dependency_status(
+            "node_execution",
+            false,
+            "BlackFlow node execution configuration is missing");
+        Log.error("BlackFlow node execution configuration is missing; other themes remain available");
     }
     const auto blackflow_map_perception_path = path / roguelike_path("BlackFlow", "map_perception"_p);
     const auto blackflow_model_path = path / "onnx"_p / "BlackFlow_corridor_net.onnx"_p;

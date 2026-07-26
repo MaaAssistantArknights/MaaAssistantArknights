@@ -123,6 +123,7 @@ bool BlackFlowSession::initialize(std::string profile, std::string* error)
     m_map.reset();
     m_viewport.clear(0, 0);
     m_run = RunState {};
+    m_current_floor.reset();
     m_unreachable_actions.clear();
     m_pending_probe_target.reset();
     m_verified_move_arc.reset();
@@ -132,6 +133,7 @@ bool BlackFlowSession::initialize(std::string profile, std::string* error)
     m_page_context.reset();
     m_result.reset();
     m_result_reported = false;
+    m_movement_inventory_refresh_required = true;
     m_persisted_image_packages = 0;
     ++m_run_revision;
     m_page_revision = 0;
@@ -393,6 +395,7 @@ void BlackFlowSession::queue_map_summary(const PerceptionSummary& summary)
         { "observation_id", summary.observation_id },
         { "map_revision", m_map.snapshot().revision },
         { "floor", summary.floor },
+        { "floor_from_ocr", summary.floor_from_ocr },
         { "current_node", summary.current_node },
         { "node_count", summary.node_count },
         { "confirmed_edge_count", summary.confirmed_edge_count },
@@ -409,6 +412,8 @@ void BlackFlowSession::queue_map_summary(const PerceptionSummary& summary)
         summary.observation_id,
         "floor",
         summary.floor,
+        "floor source",
+        summary.floor_from_ocr ? "ocr" : "fallback",
         "current",
         summary.current_node,
         "nodes",
@@ -712,6 +717,7 @@ bool BlackFlowSession::merge_perception(
     const NodeId previous_current_node = m_observed_current_node;
     const bool new_floor = m_run.floor != 0 && m_run.floor != normalized->map.floor;
     if (new_floor) {
+        m_movement_inventory_refresh_required = true;
         m_facts.begin_floor();
         m_unreachable_actions.clear();
         m_pending_probe_target.reset();
@@ -756,6 +762,7 @@ bool BlackFlowSession::merge_perception(
     }
     if (!reconcile_move) {
         m_run.floor = normalized->map.floor;
+        m_current_floor = normalized->map.floor;
         m_run.current_node = normalized->current_node;
         RunObservation effective = run;
         if (!effective.action_points.has_value()) {
@@ -954,6 +961,7 @@ bool BlackFlowSession::reconcile_committed_move(const BlackFlowPerceptionSnapsho
     }
 
     m_run.floor = observation.floor;
+    m_current_floor = observation.floor;
     m_run.current_node = observation.current_node;
     RunObservation effective = snapshot.run;
     if (!effective.action_points.has_value()) {
@@ -1016,6 +1024,36 @@ bool BlackFlowSession::apply_movement_panel_observation(
             }
         }
     }
+    if (!staged.synchronize_resource_facts(error)) {
+        return false;
+    }
+    *this = std::move(staged);
+    return true;
+}
+
+bool BlackFlowSession::apply_movement_inventory_observation(
+    const std::unordered_set<MovementKind>& visible_movements,
+    std::string* error)
+{
+    BlackFlowSession staged = *this;
+    const RunResources resources_before = staged.m_run.resources;
+    for (const MovementKind movement : visible_movements) {
+        const MovementSpec* spec = find_movement_spec(movement);
+        if (movement == MovementKind::Walk || spec == nullptr || spec->initial_charges <= 0) {
+            if (error != nullptr) {
+                *error = "movement inventory contains an invalid processing item";
+            }
+            return false;
+        }
+        const auto owned = staged.m_run.resources.movement_charges.find(movement);
+        if (owned == staged.m_run.resources.movement_charges.end() || owned->second <= 0) {
+            staged.m_run.resources.movement_charges.insert_or_assign(movement, spec->initial_charges);
+        }
+    }
+    if (staged.m_run.resources != resources_before) {
+        ++staged.m_run.resources_revision;
+    }
+    staged.m_movement_inventory_refresh_required = false;
     if (!staged.synchronize_resource_facts(error)) {
         return false;
     }
@@ -1529,17 +1567,30 @@ void BlackFlowSession::cancel_transaction()
     m_transaction_id.clear();
 }
 
-int BlackFlowSession::expected_observation_floor() const noexcept
+bool BlackFlowSession::set_current_floor(int floor, std::string* error)
 {
-    if (m_run.floor <= 0) {
-        return 1;
+    if (floor <= 0) {
+        if (error != nullptr) {
+            *error = "recognized floor must be positive";
+        }
+        m_current_floor.reset();
+        return false;
     }
-    if (m_transaction.has_value() && m_page_context.has_value() &&
-        m_transaction->stage() == MoveTransactionStage::PageResolved &&
-        (m_page_context->node_type == NodeType::Final || m_page_context->node_type == NodeType::BattleBoss)) {
-        return m_run.floor + 1;
+    m_current_floor = floor;
+    return true;
+}
+
+bool BlackFlowSession::completed_page_changes_floor() const noexcept
+{
+    if (!m_transaction.has_value() || !m_page_context.has_value() ||
+        m_transaction->stage() != MoveTransactionStage::PageResolved ||
+        m_page_context->stage != PageExecutionStage::Resolved) {
+        return false;
     }
-    return m_run.floor;
+
+    const NodeType node_type = m_page_context->node_type;
+    // Portal returns to the same main-map floor and does not require NextLevel.
+    return node_type == NodeType::Final || node_type == NodeType::Evacuate || node_type == NodeType::BattleBoss;
 }
 
 bool BlackFlowSession::mark_page_running(std::string* error)
@@ -1553,21 +1604,6 @@ bool BlackFlowSession::mark_page_running(std::string* error)
         return false;
     }
     m_page_context->stage = PageExecutionStage::Running;
-    return true;
-}
-
-bool BlackFlowSession::mark_page_recovery(std::string* error)
-{
-    if (!m_page_context.has_value() || !m_transaction.has_value() ||
-        m_transaction->stage() != MoveTransactionStage::Committed ||
-        (m_page_context->stage != PageExecutionStage::PendingDispatch &&
-         m_page_context->stage != PageExecutionStage::Running)) {
-        if (error != nullptr) {
-            *error = "page recovery has no unresolved committed BlackFlow page";
-        }
-        return false;
-    }
-    m_page_context->stage = PageExecutionStage::Recovering;
     return true;
 }
 
@@ -1737,6 +1773,8 @@ bool BlackFlowSession::apply_node_task_result(
             return false;
         }
         m_page_context->stage = PageExecutionStage::Resolved;
+        m_movement_inventory_refresh_required = true;
+
         queue_node_resolution(*m_page_context);
         m_page_context->resolution_reported = true;
     }
@@ -1755,7 +1793,7 @@ bool BlackFlowSession::apply_node_task_result(
     return true;
 }
 
-void BlackFlowSession::fail(std::string outcome, std::string reason)
+void BlackFlowSession::fail(std::string outcome, std::string reason, FailureDisposition disposition)
 {
     if (outcome == "map_rebuild_failed") {
         queue_warning("map_rebuild_failed", reason, DiagnosticTrigger::MapRebuildFailed);
@@ -1770,9 +1808,7 @@ void BlackFlowSession::fail(std::string outcome, std::string reason)
         static_cast<int>(std::clamp<std::int64_t>(integer_fact(m_facts.merged(), "cultivated_animals"), 0, 3)),
         false,
     };
-    if (m_policy.has_value()) {
-        m_result->next_action = m_policy->failure_action;
-    }
+    m_result->next_action = disposition == FailureDisposition::RestartRun ? "restart_current_run" : "stop_run";
 }
 
 bool BlackFlowSession::claim_result_report() noexcept

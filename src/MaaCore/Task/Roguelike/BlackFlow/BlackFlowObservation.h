@@ -42,14 +42,12 @@ struct BlackFlowMapObservation
     std::string observation_id;
     std::uint64_t sequence = 0;
     std::uint64_t viewport_revision = 0;
-    int state_machine_floor = 0;
-    std::optional<int> hud_floor;
-    std::string hud_area_name;
+    int floor = 0;
+    bool floor_from_ocr = false;
     std::optional<int> hud_action_points;
     ObservationCoverage coverage = ObservationCoverage::FullMap;
     std::vector<GridPosition> covered_positions;
     bool recognition_ok = false;
-    bool map_valid = false;
     bool graph_connected = false;
     int current_marker_temporary_id = -1;
     double current_marker_score = 0.0;
@@ -66,6 +64,7 @@ struct PerceptionSummary
 {
     std::string observation_id;
     int floor = 0;
+    bool floor_from_ocr = false;
     std::size_t node_count = 0;
     std::size_t confirmed_edge_count = 0;
     std::size_t forced_edge_count = 0;

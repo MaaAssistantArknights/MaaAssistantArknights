@@ -107,6 +107,8 @@ private:
     };
 
     [[nodiscard]] bool valid_id(SafetyGoalProgressId id) const noexcept;
+    [[nodiscard]] bool
+        route_requirement_satisfied(const SafetyGoalProgressSnapshot& state, std::size_t index) const noexcept;
     [[nodiscard]] bool prerequisites_satisfied(
         const SafetyGoalProgressSnapshot& state,
         const CompiledMilestone& milestone) const noexcept;

@@ -69,14 +69,5 @@ public:
         const BlackFlowPlanRequest& request,
         const MoveCandidate& move,
         int exact_action_point_cost) const;
-
-private:
-    [[nodiscard]] FactStore candidate_facts(
-        const MapSnapshot& map,
-        const ExpandedSafetyProblem& expanded,
-        const SafetySolution& solution,
-        const SafetyAction& root_action,
-        const RunState& run,
-        int current_action_points) const;
 };
 } // namespace asst::blackflow

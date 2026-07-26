@@ -17,6 +17,16 @@ protected:
     virtual bool _run() override;
 
 private:
-    mutable bool m_terminal_action_pending = false;
+    enum class PendingWork
+    {
+        None,
+        RecordCurrentFloor,
+        ResolveTerminalAction,
+        ResetAfterAbandon,
+    };
+
+    mutable PendingWork m_pending = PendingWork::None;
+    mutable json::value m_pending_details;
+    mutable std::string m_terminal_trigger;
 };
 } // namespace asst::blackflow

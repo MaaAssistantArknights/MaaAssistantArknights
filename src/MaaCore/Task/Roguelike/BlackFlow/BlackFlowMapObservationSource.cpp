@@ -104,6 +104,7 @@ bool BlackFlowMapObservationSource::recognize(
     std::string* error)
 {
     observed_facts.clear();
+    const int floor = request.floor;
     const int attempt_count = std::max(1, request.attempt_count);
     if (attempt_count == 1) {
         m_accumulated_screenshot_us = 0;
@@ -114,9 +115,10 @@ bool BlackFlowMapObservationSource::recognize(
     next.sequence = ++m_sequence;
     next.viewport_revision = next.sequence;
     next.observation_id = "BF-O" + std::to_string(next.sequence);
-    next.state_machine_floor = request.expected_floor;
+    next.floor = floor;
+    next.floor_from_ocr = true;
     next.coverage = ObservationCoverage::FullMap;
-    next.covered_positions = BlackFlowObservationAdapter::expected_grid_positions(request.expected_floor);
+    next.covered_positions = BlackFlowObservationAdapter::expected_grid_positions(floor);
     next.attempt_count = attempt_count;
     next.retry_count = attempt_count - 1;
     m_last_attempt_id = next.observation_id;
@@ -124,7 +126,7 @@ bool BlackFlowMapObservationSource::recognize(
     m_last_retry_count = next.retry_count;
 
     perception::MapRecognitionResult result;
-    result.floor = request.expected_floor;
+    result.floor = floor;
     bool timing_recorded = false;
     const auto record_timing = [&]() {
         if (timing_recorded) {
@@ -147,7 +149,7 @@ bool BlackFlowMapObservationSource::recognize(
             return false;
         }
 
-        result = m_analyzer->recognize(image, request.expected_floor);
+        result = m_analyzer->recognize(image, floor, m_diagnostics.level != DiagnosticLevel::Normal);
         record_timing();
         if (!result.ok) {
             set_error(error, result.error);
@@ -157,7 +159,6 @@ bool BlackFlowMapObservationSource::recognize(
         }
 
         next.recognition_ok = true;
-        next.map_valid = result.node_detection.map_valid;
         next.graph_connected = result.edge_detection.graph_connected;
         next.current_marker_temporary_id = result.node_detection.current_marker_node_id;
         next.current_marker_score = result.node_detection.current_marker_score;
@@ -230,11 +231,6 @@ bool BlackFlowMapObservationSource::persist_diagnostics(const DiagnosticArtifact
     try {
         const auto directory = UserDir.get() / "debug" / "BlackFlow" / request.artifact_set_id;
         std::filesystem::create_directories(directory);
-        std::ofstream snapshot_file(directory / "snapshot.json", std::ios::binary);
-        if (!snapshot_file) {
-            set_error(error, "failed to create BlackFlow diagnostic snapshot");
-            return false;
-        }
         json::object snapshot = request.snapshot;
         snapshot["accepted_observation_id"] = request.observation_id;
         snapshot["recognition_attempt_id"] = m_last_attempt_id;
@@ -242,21 +238,27 @@ bool BlackFlowMapObservationSource::persist_diagnostics(const DiagnosticArtifact
         snapshot["recognition_retry_count"] = m_last_retry_count;
         snapshot["recognition_screenshot_us"] = m_accumulated_screenshot_us;
         snapshot["recognition_us"] = m_accumulated_recognition_us;
-        snapshot_file << json::value(std::move(snapshot)).format();
+        snapshot["recognition_floor"] = m_last_result.floor;
+        snapshot["recognition_floor_source"] = "next_level_ocr";
         if (!m_last_result.error.empty()) {
-            std::ofstream error_file(directory / "recognition_error.txt", std::ios::binary);
-            if (!error_file) {
-                set_error(error, "failed to create BlackFlow recognition error diagnostic");
+            snapshot["recognition_error"] = m_last_result.error;
+        }
+        std::ofstream snapshot_file(directory / "snapshot.json", std::ios::binary);
+        if (!snapshot_file) {
+            set_error(error, "failed to create BlackFlow diagnostic snapshot");
+            return false;
+        }
+        snapshot_file << json::value(std::move(snapshot)).format();
+        if (request.include_images) {
+            cv::Mat overlay = m_last_result.overlay_bgr;
+            if (overlay.empty()) {
+                overlay = m_analyzer != nullptr ? m_analyzer->draw_overlay(m_last_result)
+                                                : m_last_result.captured_bgr.clone();
+            }
+            if (!write_image_if_present(directory / "captured.png", m_last_result.captured_bgr, error) ||
+                !write_image_if_present(directory / "overlay.png", overlay, error)) {
                 return false;
             }
-            error_file << m_last_result.error;
-        }
-        if (request.include_images &&
-            (!write_image_if_present(directory / "captured.png", m_last_result.captured_bgr, error) ||
-             !write_image_if_present(directory / "normalized.png", m_last_result.normalized_bgr, error) ||
-             !write_image_if_present(directory / "nodes.png", m_last_result.node_overlay_bgr, error) ||
-             !write_image_if_present(directory / "edges.png", m_last_result.edge_overlay_bgr, error))) {
-            return false;
         }
         return true;
     }

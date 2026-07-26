@@ -1,8 +1,10 @@
 #pragma once
 
+#include <map>
 #include <memory>
 #include <mutex>
 #include <optional>
+#include <string>
 
 #include "Config/AbstractResource.h"
 #include "Vision/Roguelike/BlackFlow/BlackFlowMapAnalyzer.h"
@@ -18,14 +20,21 @@ public:
     bool load(const std::filesystem::path& path) override;
     bool load(const std::filesystem::path& path, const std::optional<std::filesystem::path>& model_path);
 
+    void set_dependency_status(std::string component, bool available, std::string error = {});
+
     [[nodiscard]] std::shared_ptr<const blackflow::perception::BlackFlowMapAnalyzer> acquire(std::string& error);
 
 private:
-    std::filesystem::path m_resource_root;
-    std::optional<std::filesystem::path> m_pending_resource_root;
+    std::optional<std::filesystem::path> m_template_manifest_path;
+    std::optional<std::filesystem::path> m_edge_config_path;
+    std::optional<std::filesystem::path> m_runtime_manifest_path;
+    std::optional<std::filesystem::path> m_model_path;
+    std::optional<std::filesystem::path> m_pending_template_manifest_path;
+    std::optional<std::filesystem::path> m_pending_edge_config_path;
+    std::optional<std::filesystem::path> m_pending_runtime_manifest_path;
+    std::optional<std::filesystem::path> m_pending_model_path;
     std::weak_ptr<const blackflow::perception::BlackFlowMapAnalyzer> m_analyzer;
-    bool m_model_available = false;
-    bool m_pending_model_available = false;
+    std::map<std::string, std::string> m_dependency_errors;
     std::mutex m_mutex;
 };
 

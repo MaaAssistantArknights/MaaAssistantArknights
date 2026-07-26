@@ -45,7 +45,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     std::vector<std::string> event_names = RoguelikeStageEncounter.get_event_names(theme);
 
     if (theme == RoguelikeTheme::BlackFlow) {
-        Task.set_task_base("BlackFlow@Roguelike@StageEncounterResult", "BlackFlow@Roguelike@PageFailure");
+        Task.set_task_base("BlackFlow@Roguelike@StageEncounterResult", "BlackFlow@Roguelike@RecoveryFailed");
     }
 
     const std::string themed_ocr_task = theme + "@Roguelike@StageEncounterOcr";

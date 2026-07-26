@@ -6,6 +6,7 @@
 #include <limits>
 #include <opencv2/imgproc.hpp>
 #include <sstream>
+#include <stdexcept>
 
 namespace asst::blackflow::perception
 {
@@ -327,14 +328,12 @@ NodeDetectionResult NodeDetector::detect(const cv::Mat& image, int rows, int col
     NodeDetectionResult output;
     output.refinement_mode = GridRefinementMode::FixedGrid;
     if (image.empty()) {
-        output.rejection_reason = "Node detection input is empty";
-        return output;
+        throw std::invalid_argument("Node detection input is empty");
     }
 
     const auto baseline = fixed_grid(rows, columns);
     if (!baseline) {
-        output.rejection_reason = "No fixed grid is defined for the requested floor dimensions";
-        return output;
+        throw std::invalid_argument("No fixed grid is defined for the requested floor dimensions");
     }
     output.seed_grid = *baseline;
 
@@ -495,7 +494,6 @@ NodeDetectionResult NodeDetector::detect(const cv::Mat& image, int rows, int col
 
     cv::Mat gray;
     cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
-    output.map_valid = true;
     output.nodes.reserve(output.grid.centers.size());
     int id = 0;
     for (int row = 0; row < rows; ++row) {
@@ -552,18 +550,6 @@ NodeDetectionResult NodeDetector::detect(const cv::Mat& image, int rows, int col
 cv::Mat NodeDetector::draw_overlay(const cv::Mat& image, const NodeDetectionResult& result) const
 {
     cv::Mat overlay = image.clone();
-    if (!result.map_valid) {
-        cv::putText(
-            overlay,
-            "MAP REJECTED: " + result.rejection_reason,
-            cv::Point(40, 60),
-            cv::FONT_HERSHEY_SIMPLEX,
-            0.8,
-            cv::Scalar(0, 0, 255),
-            2,
-            cv::LINE_AA);
-        return overlay;
-    }
     for (const auto& node : result.nodes) {
         const cv::Scalar color = node.current_marker            ? cv::Scalar(255, 0, 255)
                                  : node.kind == NodeKind::Large ? cv::Scalar(255, 180, 0)

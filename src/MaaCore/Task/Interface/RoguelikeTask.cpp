@@ -174,6 +174,19 @@ bool asst::RoguelikeTask::run()
         std::string error;
         if (!m_blackflow_map_source_ptr->prepare(&error)) {
             Log.error("BlackFlow map perception preparation failed:", error);
+            if (m_blackflow_session_ptr != nullptr) {
+                m_blackflow_session_ptr->fail(
+                    "perception_port_missing",
+                    error.empty() ? "BlackFlow map recognition component failed to initialize" : error,
+                    blackflow::FailureDisposition::StopTask);
+                if (m_blackflow_session_ptr->claim_result_report()) {
+                    auto info = basic_info_with_what("BlackFlowStrategyResult");
+                    info["details"] = m_blackflow_session_ptr->result()->to_json();
+                    callback(AsstMsg::SubTaskExtraInfo, info);
+                }
+            }
+            finish_run();
+            return false;
         }
     }
     try {
@@ -191,8 +204,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 {
     LogTraceFunction;
     std::lock_guard lock(m_run_state_mutex);
-    if (m_run_started) {
-        Log.warn(__FUNCTION__, "RoguelikeTask is running, cannot set params");
+    if (m_running) {
+        Log.warn(__FUNCTION__, "RoguelikeTask has already started, cannot set params");
         return false;
     }
     if (!m_config_ptr->verify_and_load_params(params)) {

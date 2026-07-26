@@ -1,16 +1,22 @@
 #include "BlackFlowTaskPort.h"
 
+#include <algorithm>
 #include <chrono>
 #include <memory>
 #include <string>
+#include <string_view>
+#include <unordered_map>
 #include <utility>
 
 #include "BlackFlowMovementRecognition.h"
+
+#include "Vision/Roguelike/BlackFlow/BlackFlowFloor.h"
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/AbstractTask.h"
 #include "Task/ProcessTask.h"
+#include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Vision/OCRer.h"
 
@@ -19,12 +25,14 @@ namespace asst::blackflow
 namespace
 {
 constexpr std::string_view CurrentActionPointsTask = "BlackFlow@Roguelike@CurrentActionPoints";
-constexpr std::string_view CurrentFloorTask = "BlackFlow@Roguelike@CurrentFloor";
+constexpr std::string_view MovePreviewWaitTask = "BlackFlow@Roguelike@MovePreviewWait";
 constexpr std::string_view MovePreviewEnterTask = "BlackFlow@Roguelike@MovePreviewEnter";
 constexpr std::string_view MovePreviewCannotEnterTask = "BlackFlow@Roguelike@MovePreviewCannotEnter";
 constexpr std::string_view MovePreviewCostTask = "BlackFlow@Roguelike@MovePreviewCost";
+constexpr std::string_view MovePreviewDisplayedNameTask = "BlackFlow@Roguelike@MovePreviewDisplayedName";
 constexpr std::string_view MovePreviewConfirmTask = "BlackFlow@Roguelike@MovePreviewConfirm";
 constexpr std::string_view EnteredPageClassificationTask = "BlackFlow@Roguelike@EnteredPageClassification";
+constexpr std::string_view StageEncounterOcrTask = "BlackFlow@Roguelike@StageEncounterOcr";
 
 void set_error(std::string* error, std::string message)
 {
@@ -52,15 +60,9 @@ std::optional<int> recognize_integer(const cv::Mat& image, std::string_view task
     return value;
 }
 
-struct FloorRecognition
+std::optional<std::string> recognize_text(const cv::Mat& image, std::string_view task_name)
 {
-    std::string name;
-    std::optional<int> floor;
-};
-
-std::optional<FloorRecognition> recognize_floor(const cv::Mat& image)
-{
-    const auto task = Task.get<OcrTaskInfo>(CurrentFloorTask);
+    const auto task = Task.get<OcrTaskInfo>(task_name);
     if (task == nullptr) {
         return std::nullopt;
     }
@@ -71,27 +73,31 @@ std::optional<FloorRecognition> recognize_floor(const cv::Mat& image)
         return std::nullopt;
     }
     for (const auto& result : *results) {
-        if (result.text == "玻利瓦尔肤层") {
-            return FloorRecognition { result.text, 1 };
-        }
-        if (result.text == "甜美的伤口") {
-            return FloorRecognition { result.text, 2 };
-        }
-        if (result.text == "血色空脉") {
-            return FloorRecognition { result.text, 3 };
-        }
-        if (result.text == "受害者腐殖") {
-            return FloorRecognition { result.text, 4 };
-        }
-        if (result.text == "卡德霍之颅") {
-            return FloorRecognition { result.text, 5 };
-        }
-        if (result.text == "未萌生的摇篮") {
-            return FloorRecognition { result.text, std::nullopt };
+        if (std::ranges::find(task->text, result.text) != task->text.end()) {
+            return result.text;
         }
     }
     return std::nullopt;
 }
+
+std::optional<NodeType> node_type_from_displayed_name(std::string_view displayed_name)
+{
+    static const std::unordered_map<std::string_view, NodeType> Mapping = {
+        { "紧急作战", NodeType::BattleElite },  { "作战", NodeType::BattleNormal },
+        { "狭路相逢", NodeType::BattleSavage }, { "曲折密道", NodeType::Door },
+        { "应急助力", NodeType::Employ },       { "先行一步", NodeType::Expedition },
+        { "未知的凶戾", NodeType::HideBattle }, { "未知的诡秘", NodeType::HideInvisible },
+        { "不期而遇", NodeType::Incident },     { "羽瞰点", NodeType::Light },
+        { "误入奇境", NodeType::Portal },       { "安全的角落", NodeType::Rest },
+        { "失与得", NodeType::Sacrifice },      { "秘境行商", NodeType::ScrapShop },
+        { "诡意行商", NodeType::Shop },         { "得偿所愿", NodeType::Wish },
+        { "空节点", NodeType::Empty },          { "险路小径", NodeType::Evacuate },
+        { "险路尽头", NodeType::Final },        { "险路恶敌", NodeType::BattleBoss },
+    };
+    const auto iter = Mapping.find(displayed_name);
+    return iter == Mapping.end() ? std::nullopt : std::optional<NodeType> { iter->second };
+}
+
 } // namespace
 
 class BlackFlowTaskPort::ProcessTaskContext final : public AbstractTask
@@ -163,6 +169,10 @@ bool BlackFlowTaskPort::refresh(
             set_error(error, "BlackFlow map observation source is not attached");
             return false;
         }
+        if (!perception::floor_profile(request.floor).has_value()) {
+            set_error(error, "NextLevel recognized an unsupported floor: " + std::to_string(request.floor));
+            return false;
+        }
 
         const auto capture_start = std::chrono::steady_clock::now();
         const cv::Mat image = m_task_context->capture();
@@ -170,21 +180,24 @@ bool BlackFlowTaskPort::refresh(
         current_request.capture_us =
             std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - capture_start)
                 .count();
-        const auto recognized_floor = recognize_floor(image);
+
         BlackFlowPerceptionSnapshot next;
-        const auto apply_recognized_floor = [&]() {
-            if (!recognized_floor.has_value()) {
-                return;
-            }
-            next.observation.hud_area_name = recognized_floor->name;
-            next.observation.hud_floor = recognized_floor->floor;
-        };
-        if (!m_map_source->recognize(image, current_request, next.observation, next.observed_facts, error)) {
-            apply_recognized_floor();
+        std::string perception_error;
+        if (!m_map_source
+                 ->recognize(image, current_request, next.observation, next.observed_facts, &perception_error)) {
             snapshot = std::move(next);
+            set_error(
+                error,
+                "map_model_failed_after_next_level_floor: floor " + std::to_string(request.floor) + ": " +
+                    perception_error);
+            Log.warn(
+                "BlackFlow map model failed after NextLevel floor recognition",
+                "floor",
+                request.floor,
+                "error",
+                perception_error);
             return false;
         }
-        apply_recognized_floor();
         if (const auto action_points = recognize_action_points(image); action_points.has_value()) {
             next.run.action_points = *action_points;
             next.observation.hud_action_points = *action_points;
@@ -229,9 +242,7 @@ bool BlackFlowTaskPort::preview(
     }
     panel_open = true;
 
-    if (!m_task_context->execute(
-            { std::string(MovePreviewEnterTask), std::string(MovePreviewCannotEnterTask) },
-            error)) {
+    if (!m_task_context->execute({ std::string(MovePreviewWaitTask) }, error)) {
         return false;
     }
     const std::string& matched = m_task_context->last_task();
@@ -253,8 +264,22 @@ bool BlackFlowTaskPort::preview(
         set_error(error, "move preview action point cost OCR failed");
         return false;
     }
+    const auto displayed_name = recognize_text(image, MovePreviewDisplayedNameTask);
+    if (!displayed_name.has_value()) {
+        set_error(error, "move preview displayed name OCR failed");
+        return false;
+    }
+    const auto displayed_type = node_type_from_displayed_name(*displayed_name);
+    if (!displayed_type.has_value()) {
+        set_error(error, "move preview displayed name has no node type mapping: " + *displayed_name);
+        return false;
+    }
+
     preview.reachability = PreviewReachability::Reachable;
     preview.exact_action_point_cost = -*displayed_cost;
+    preview.displayed_type = *displayed_type;
+    preview.displayed_name = *displayed_name;
+    preview.identity_revealed = *displayed_type != NodeType::HideInvisible && *displayed_type != NodeType::HideBattle;
     return true;
 }
 
@@ -270,6 +295,10 @@ bool BlackFlowTaskPort::confirm(
     }
     if (!m_task_context->execute({ std::string(MovePreviewConfirmTask) }, error)) {
         return false;
+    }
+    entered_page = {};
+    if (transaction.preview()->identity_revealed) {
+        return true;
     }
     return classify_entered_page(m_task_context->capture(), entered_page, error);
 }
@@ -313,17 +342,23 @@ bool BlackFlowTaskPort::classify_entered_page(
     OCRer analyzer(image);
     analyzer.set_task_info(task);
     const auto results = analyzer.analyze();
-    observation = {};
-    if (!results.has_value()) {
+    std::vector<std::string> matched_texts;
+    if (results.has_value()) {
+        matched_texts.reserve(results->size());
+        for (const auto& result : *results) {
+            matched_texts.emplace_back(result.text);
+        }
+    }
+    observation = classify_entered_page_texts(std::move(matched_texts));
+    if (observation.classified_type.has_value() || observation.classification_conflict) {
         return true;
     }
 
-    std::vector<std::string> matched_texts;
-    matched_texts.reserve(results->size());
-    for (const auto& result : *results) {
-        matched_texts.emplace_back(result.text);
+    const auto encounter_title = recognize_text(image, StageEncounterOcrTask);
+    if (encounter_title.has_value()) {
+        observation.matched_texts.emplace_back(*encounter_title);
+        observation.classified_type = NodeType::Incident;
     }
-    observation = classify_entered_page_texts(std::move(matched_texts));
     return true;
 }
 } // namespace asst::blackflow

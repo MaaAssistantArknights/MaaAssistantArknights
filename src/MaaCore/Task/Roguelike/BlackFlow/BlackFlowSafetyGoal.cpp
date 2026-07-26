@@ -228,6 +228,16 @@ bool SafetyGoalProgram::valid_id(SafetyGoalProgressId id) const noexcept
     return id != InvalidSafetyGoalProgressId && static_cast<std::size_t>(id) < m_states.size();
 }
 
+bool SafetyGoalProgram::route_requirement_satisfied(const SafetyGoalProgressSnapshot& state, std::size_t index)
+    const noexcept
+{
+    if (index >= m_milestones.size() || index >= state.progress.size() || index >= state.satisfied.size()) {
+        return false;
+    }
+    const Milestone& milestone = m_milestones[index].definition;
+    return state.satisfied[index] != 0 || state.progress[index] >= milestone.required_count;
+}
+
 const SafetyGoalProgressSnapshot* SafetyGoalProgram::progress(SafetyGoalProgressId id) const noexcept
 {
     return valid_id(id) ? &m_states[id] : nullptr;
@@ -256,7 +266,7 @@ bool SafetyGoalProgram::prerequisites_satisfied(
     const CompiledMilestone& milestone) const noexcept
 {
     return std::ranges::all_of(milestone.prerequisite_indices, [&](const std::size_t index) {
-        return index < state.satisfied.size() && state.satisfied[index] != 0;
+        return route_requirement_satisfied(state, index);
     });
 }
 
@@ -306,10 +316,10 @@ std::optional<SafetyGoalProgressId> SafetyGoalProgram::advance_node(
     for (std::size_t index = 0; index < m_milestones.size(); ++index) {
         const CompiledMilestone& compiled = m_milestones[index];
         const Milestone& milestone = compiled.definition;
-        if (before.satisfied[index] != 0 || milestone.completion != MilestoneCompletion::VisitCount ||
-            node.floor < milestone.floor_begin || node.floor > milestone.floor_end ||
-            !milestone.active_if.evaluate(facts) || !prerequisites_satisfied(before, compiled) ||
-            !milestone.selector.matches(node) || milestone.minimum_unknown_nodes_revealed > unknown_nodes_revealed) {
+        if (route_requirement_satisfied(before, index) || node.floor < milestone.floor_begin ||
+            node.floor > milestone.floor_end || !milestone.active_if.evaluate(facts) ||
+            !prerequisites_satisfied(before, compiled) || !milestone.selector.matches(node) ||
+            milestone.minimum_unknown_nodes_revealed > unknown_nodes_revealed) {
             continue;
         }
         auto& counted = next.counted_nodes[index];
@@ -319,7 +329,8 @@ std::optional<SafetyGoalProgressId> SafetyGoalProgram::advance_node(
         }
         counted.insert(insertion, node.id);
         next.progress[index] = std::min(milestone.required_count, before.progress[index] + 1);
-        if (next.progress[index] >= milestone.required_count) {
+        if (milestone.completion == MilestoneCompletion::VisitCount &&
+            next.progress[index] >= milestone.required_count) {
             next.satisfied[index] = 1;
         }
     }
@@ -334,7 +345,7 @@ bool SafetyGoalProgram::mandatory_due_through_floor_satisfied(SafetyGoalProgress
     const SafetyGoalProgressSnapshot& state = m_states[id];
     for (std::size_t index = 0; index < m_milestones.size(); ++index) {
         if (m_milestones[index].mandatory && m_milestones[index].definition.floor_end <= floor &&
-            state.satisfied[index] == 0) {
+            !route_requirement_satisfied(state, index)) {
             return false;
         }
     }
@@ -348,7 +359,7 @@ bool SafetyGoalProgram::all_mandatory_satisfied(SafetyGoalProgressId id) const n
     }
     const SafetyGoalProgressSnapshot& state = m_states[id];
     for (std::size_t index = 0; index < m_milestones.size(); ++index) {
-        if (m_milestones[index].mandatory && state.satisfied[index] == 0) {
+        if (m_milestones[index].mandatory && !route_requirement_satisfied(state, index)) {
             return false;
         }
     }
