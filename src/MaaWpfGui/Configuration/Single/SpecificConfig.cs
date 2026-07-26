@@ -16,56 +16,42 @@ using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Configuration.Single.Settings;
 using ObservableCollections;
+using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Single;
 
-public class SpecificConfig : INotifyPropertyChanged, IJsonOnDeserialized
+public class SpecificConfig : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public SpecificConfig()
+    public void EventBinding(string prefix)
     {
-        AddDefaultTasks();
+        PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
+        Gui.EventBinding(prefix + nameof(Gui) + ".");
+        Toolbox.EventBinding(prefix + nameof(Toolbox) + ".");
+        Copilot.EventBinding(prefix + nameof(Copilot) + ".");
     }
-
-    [JsonInclude]
-    public ObservableDictionary<string, int> InfrastOrder { get; private set; } = [];
 
     [JsonInclude]
     public ObservableList<BaseTask> TaskQueue { get; private set; } = [];
 
     [JsonInclude]
-    public int TaskSelectedIndex { get; set; } = -1;
+    public Gui Gui { get; private set; } = new();
 
     [JsonInclude]
-    public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = [];
+    public Toolbox Toolbox { get; private set; } = new();
+
+    [JsonInclude]
+    public Copilot Copilot { get; private set; } = new();
+
+    [JsonInclude]
+    public int TaskSelectedIndex { get; set; } = -1;
 
     [UsedImplicitly]
     public void OnPropertyChanged(string propertyName, object before, object after)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
-    }
-
-    private void AddDefaultTasks()
-    {
-        TaskQueue.Add(new StartUpTask());
-        TaskQueue.Add(new FightTask());
-        TaskQueue.Add(new InfrastTask());
-        TaskQueue.Add(new RecruitTask());
-        TaskQueue.Add(new MallTask());
-        TaskQueue.Add(new AwardTask());
-        TaskQueue.Add(new RoguelikeTask());
-        TaskQueue.Add(new ReclamationTask());
-        TaskQueue.Add(new UserDataUpdateTask());
-    }
-
-    public void OnDeserialized()
-    {
-        if (TaskQueue.Count > 0)
-        {
-            return;
-        }
-        AddDefaultTasks();
     }
 }

@@ -45,7 +45,7 @@ jobs:
             
             感谢您的反馈！AI 正在自动分析该问题，预计耗时约 10 分钟。
           prompt-template: |
-            严格按照 .claude/skills/maa-issue-log-analysis/SKILL.md 中的规则，分析 GitHub Issue {{issue_number}}。把最终结论写到 {{answer_file}}。
+            严格按照 .agents/skills/maa-issue-log-analysis/SKILL.md 中的规则，分析 GitHub Issue {{issue_number}}。把最终结论写到 {{answer_file}}。
           extra-comment-content: |
             <!-- Skip all labels -->
 

@@ -15,7 +15,6 @@ using System;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Utilities;
@@ -53,6 +52,8 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
     public bool Reclamation { get => field; set => SetAndNotify(ref field, value); }
 
     public bool UserDataUpdate { get => field; set => SetAndNotify(ref field, value); }
+
+    public bool DepotMaintain { get => field; set => SetAndNotify(ref field, value); }
 
     public bool Custom { get => field; set => SetAndNotify(ref field, value); }
 
@@ -148,6 +149,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             RoguelikeTask => Roguelike = enable,
             ReclamationTask => Reclamation = enable,
             UserDataUpdateTask => UserDataUpdate = enable,
+            DepotMaintainTask => DepotMaintain = enable,
             CustomTask => Custom = enable,
             _ => throw new NotImplementedException(),
         };
@@ -188,6 +190,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         Roguelike = false;
         Reclamation = false;
         UserDataUpdate = false;
+        DepotMaintain = false;
         Custom = false;
     }
 
@@ -200,9 +203,9 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         PostAction = value;
     }
 
-    public bool EnableAdvancedSettings { get => field; set => SetAndNotify(ref field, value); }
+    public bool EnableAdvancedSettings { get; set => SetAndNotify(ref field, value); }
 
-    public bool AdvancedSettingsVisibility { get => field; set => SetAndNotify(ref field, value); }
+    public bool AdvancedSettingsVisibility { get; set => SetAndNotify(ref field, value); }
 
-    public bool Guide { get => field; set => SetAndNotify(ref field, value); } = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0) < SettingsViewModel.GuideMaxStep;
+    public bool Guide { get; set => SetAndNotify(ref field, value); } = ConfigFactory.Root.Gui.GuideStep < SettingsViewModel.GuideMaxStep;
 }

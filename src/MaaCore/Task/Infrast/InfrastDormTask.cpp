@@ -62,7 +62,19 @@ bool asst::InfrastDormTask::_run()
             return false;
         }
 
+        // m_selection_phase 是 MAA 内部的选人流程阶段，属于每间宿舍的独立逻辑，
+        // 不能跨宿舍继承，否则上一间跑完信赖补位后停留在 TrustAutofill /
+        // FillRemaining 的阶段会被下一间继承，导致跳过低心情扫描直接补满剩余位置。
+        m_selection_phase = SelectionPhase::LowMood;
+
         close_quick_formation_expand_role();
+
+        // 每间宿舍都复查排序状态：用户可能手动切到了其他排序（工作状态/信赖）
+        // 就开始任务，或上一间宿舍因卡顿退出主界面后重新进入导致状态丢失，
+        // 此时列表并非按心情排序，fill_dorm_slots 的低心情扫描会因找不到足够的
+        // 休息态干员而提前触发信赖补位。switch_to_mood_sort 是幂等的，已选中时
+        // 不会重复点击。
+        switch_to_mood_sort();
 
         const auto room_config = current_room_config();
         const bool room_uses_custom_opers = is_use_custom_opers();
@@ -283,10 +295,14 @@ bool asst::InfrastDormTask::fill_dorm_slots()
 
 bool asst::InfrastDormTask::set_notstationed_filter(bool enabled)
 {
-    if (m_notstationed_filter_active == enabled) {
-        return true;
-    }
-
+    // 不做 early-return：即使内存标志认为筛选已处于目标状态，也必须每间宿舍
+    // 都去 UI 上复查一遍。正常跨宿舍时游戏会保持筛选设置，但如果模拟器卡顿
+    // 导致误点两次返回、退出到主界面后再重新进入基建，游戏会丢失筛选状态，
+    // 此时内存标志仍为旧值，跳过 UI 操作会导致筛选实际未生效，从而把训练室
+    // 等已进驻干员选进宿舍。
+    // 底层 click_filter_menu_not_stationed_button() 已能幂等处理「已选中」
+    // 状态（识别 InfrastFilterMenuNotStationedSelected 后直接 Stop），所以
+    // 每次都真正执行是安全的，不会对已选中的「未进驻」二次点击。
     bool success = false;
     if (enabled) {
         Log.trace("click_filter_menu_not_stationed_button");

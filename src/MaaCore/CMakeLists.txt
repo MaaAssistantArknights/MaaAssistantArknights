@@ -41,6 +41,7 @@ if(ANDROID)
         polyclipping::polyclipping
         ONNXRuntime::ONNXRuntime ZLIB::ZLIB Boost::system)
     set_property(TARGET MaaCore PROPERTY NO_SYSTEM_FROM_IMPORTED TRUE)
+    target_compile_options(MaaCore PRIVATE -Wno-c11-extensions)
 else()
     target_link_libraries(MaaCore HeaderOnlyLibraries MaaUtils ${OpenCV_LIBS} fastdeploy_ppocr ONNXRuntime::ONNXRuntime ZLIB::ZLIB Boost::system)
 endif()

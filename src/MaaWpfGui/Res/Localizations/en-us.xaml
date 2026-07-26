@@ -52,6 +52,7 @@
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
     <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
+    <system:String x:Key="ExternalNotificationAddConfig">Add Notification</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA external notification test</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">This is MAA external notification test information. If you see this content, the notification was sent successfully!</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan Send Key</system:String>
@@ -349,7 +350,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
 • {key=Quantity}: uses the selected material's drop count in this combat task as the target, and stops when the set amount is reached.
 • {key=TargetInventory}: uses the saved inventory data from ｢{key=Toolbox}-{key=DepotRecognition}｣ and only farms until the target stock is reached.
   • Inventory data is cached and may differ from your real stock after manual farming, crafting, or material use. Sync it with ｢{key=UserDataUpdate}｣ or ｢{key=Toolbox}-{key=DepotRecognition}｣.
-  • When {key=TargetInventory} is enabled, the material and amount cannot be changed during a run.</system:String>
+  • Inventory is updated in real time based on drops during a run; materials farmed by earlier tasks will reduce the deficit of subsequent tasks.</system:String>
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdateAutoCheck">Scheduled Update Check</system:String>
     <system:String x:Key="UpdateAutoCheckTip">In-game 00:00 / 18:00 (Server local time 04:00 / 22:00)</system:String>
@@ -765,6 +766,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
     <system:String x:Key="UserDataUpdate">Update Doctor Data</system:String>
+    <system:String x:Key="DepotMaintain">Depot Maintain</system:String>
     <system:String x:Key="MiniGame">Useful Tasks</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">Permanent</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">Current Events</system:String>
@@ -822,10 +824,11 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="KeepInventory">Keep Inventory</system:String>
     <system:String x:Key="TargetInventory">Goal</system:String>
     <system:String x:Key="Series">Series</system:String>
+    <system:String x:Key="SeriesLockedTip">Not yet adapted after game update. Please set the proxy multiplier manually in the game.</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 Automatically identify the maximum proxy multiplier of the level, maintain the maximum proxy multiplier and do not overflow sanity after using sanity potion
 
-• Value (1~6):
+• Value (1~10):
 Execute proxy according to the set multiplier
 If the current sanity is not enough to complete the set multiplier (such as only enough for 5 times but set to 6 times), you cannot enter the battle
 Or
@@ -851,6 +854,21 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="Inventory">Inv: </system:String>
     <system:String x:Key="InventoryUpdateTip">Inventory data can be updated via  ｢{key=Toolbox}-{key=DepotRecognition}｣</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">Task "{0}" uses {key=TargetInventory}, but no inventory data is currently available, so it was skipped. Update it via ｢{key=Toolbox}-{key=DepotRecognition}｣.</system:String>
+    <!--  DepotMaintain  -->
+    <system:String x:Key="DepotUpdateBeforeStart">Update inventory before starting</system:String>
+    <system:String x:Key="AddPlan">Add</system:String>
+    <system:String x:Key="CollapseAll">Collapse</system:String>
+    <system:String x:Key="DepotPlanInvalidDropItem">Plan {0}: no drop item specified.</system:String>
+    <system:String x:Key="DepotPlanZeroDropCount">Plan {0}: target inventory is 0.</system:String>
+    <system:String x:Key="DepotPlanNoStage">Plan {0}: stage not specified or is "Current/Last".</system:String>
+    <system:String x:Key="DepotPlanInventoryEnough">Plan {0}: {1} inventory sufficient (current {2} / target {3}).</system:String>
+    <system:String x:Key="DepotPlanStageNotOpen">Plan {0}: stage '{1}' is not open.</system:String>
+    <system:String x:Key="DepotPlanAddTaskFailed">Plan {0}: add task failed.</system:String>
+    <system:String x:Key="DepotSkipDuringActivity">Skip during event</system:String>
+    <system:String x:Key="DepotSkipDuringResourceCollection">Skip during resource collection limited-time all-day open</system:String>
+    <system:String x:Key="DepotPlanSkippedActivity">An event is in progress, depot maintain skipped.</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">Resource collection limited-time all-day open is in progress, depot maintain skipped.</system:String>
+    <system:String x:Key="DepotPlanUpdateDepotFailed">Failed to update inventory data.</system:String>
     <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>
@@ -1067,8 +1085,6 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be imported by dragging the mouse</system:String>
     <system:String x:Key="PasteClipboardTip">Read clipboard, auto-detect job/job set</system:String>
-    <!-- TODO: 作业站迁移完成后删除 PasteClipboardCopilotSetTip -->
-    <system:String x:Key="PasteClipboardCopilotSetTip">Read the clipboard and add it as a job set</system:String>
     <system:String x:Key="ImportFilesTip">Import task files</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">Do you like this task file? Rate it!</system:String>
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
@@ -1144,8 +1160,7 @@ Right-click to clear inactive jobs</system:String>
         4. {key=ParadoxSimulation}: After selecting Skills, start from the Skill selection screen where the "Start Simulation" button appears. For 1/2★ {key=Operator}s (without Skills), start from the screen with the "Start Simulation" button in the bottom right. If using ｢{key=UseCopilotList}｣, please start from the ｢Level/Rarity｣ tab in the {key=Operator} list.\n\n
         5. {key=Operator}s marked as "Favorite" may affect ｢{key=AutoSquad}｣ recognition and selection. When using ｢{key=AutoSquad}｣, consider removing favorites, or if errors occur, turn off ｢{key=AutoSquad}｣ and manually supplement the missing {key=Operator}s as prompted.\n\n
         6. ZOOT workstation codes can be pasted via the paste button on the right side of the input box. Formats are auto-detected:\n
-        • prts://s = Job set prts:// = Single job\n
-        The third button is for legacy job sets and will be removed later.\n\n
+        • prts://s = Job set prts:// = Single job\n\n
         7. {key=UseCopilotList}:\n
         • After selecting a job, verify the stage name below is correct (e.g., CV-EX-1).\n
         • Add: Left-click for Normal difficulty, right-click for Challenge difficulty.\n

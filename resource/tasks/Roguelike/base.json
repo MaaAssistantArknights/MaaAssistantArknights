@@ -753,7 +753,7 @@
         "specificRect": [630, 630, 1, 1],
         "roi": [488, 206, 302, 289],
         "postDelay": 3000,
-        "next": ["Roguelike@GetDrops#next", "Roguelike@ChooseOperFlag", "Roguelike@ClickToDrops"]
+        "next": ["Roguelike@GetDrops#next", "Roguelike@ChooseOperFlag", "Roguelike@NextLevel", "Roguelike@ClickToDrops"]
     },
     "Roguelike@GetDropLeave": {
         "Doc": "base_task",
@@ -1312,7 +1312,8 @@
             ["入暂.*", "入暂亭"],
             [".*海的遗产", "大海的遗产"],
             ["狗眼婆.*", "狗眼婆娑"],
-            [".*里蒙旅行社特派团", "特里蒙旅行社特派团"]
+            [".*里蒙旅行社特派团", "特里蒙旅行社特派团"],
+            ["解脱[？?]?", "解脱？"]
         ],
         "preDelay": 600,
         "roi": [0, 405, 725, 225]

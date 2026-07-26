@@ -109,7 +109,8 @@ internal sealed class FaultTolerantRootConverter : JsonConverter<Root>
         }
 
         var message = ex.Message;
-        return message.Contains("could not be converted", StringComparison.OrdinalIgnoreCase);
+        return message.Contains("could not be converted", StringComparison.OrdinalIgnoreCase)
+            || message.Contains("unrecognized type discriminator", StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool TryRemovePropertyByMetadataPath(JsonObject root, string? path)
@@ -136,7 +137,23 @@ internal sealed class FaultTolerantRootConverter : JsonConverter<Root>
         }
 
         var leaf = segments[^1];
-        return parent is JsonObject leafObject && leafObject.Remove(leaf);
+
+        // 叶子节点在对象上：按键名删除属性
+        if (parent is JsonObject leafObject)
+        {
+            return leafObject.Remove(leaf);
+        }
+
+        // 叶子节点在数组上：按下标删除元素
+        // 场景：多态数组（如 TaskQueue）中存在未知 $type 判别符时，
+        // JsonException.Path 形如 $.Configurations.Default.TaskQueue[7]。
+        if (parent is JsonArray leafArray && int.TryParse(leaf, out var index) && index >= 0 && index < leafArray.Count)
+        {
+            leafArray.RemoveAt(index);
+            return true;
+        }
+
+        return false;
     }
 
     private static JsonNode? NavigateJsonPathSegment(JsonNode? current, string segment)

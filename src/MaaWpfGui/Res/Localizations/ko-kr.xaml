@@ -52,6 +52,7 @@
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
     <system:String x:Key="ExternalNotificationSendTest">테스트</system:String>
+    <system:String x:Key="ExternalNotificationAddConfig">알림 추가</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 외부 알림 테스트</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">MAA 외부 알림 테스트입니다. 이 메시지가 표시되었다면 알림 전송이 성공한 것입니다!</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 전송 키</system:String>
@@ -349,7 +350,7 @@
 • {key=Quantity}: 현재 전투 작업에서 해당 재료의 드롭 수를 목표로 삼아, 설정한 수량에 도달하면 멈춥니다.
 • {key=TargetInventory}: ｢{key=Toolbox}-{key=DepotRecognition}｣ 에 저장된 재고 데이터를 참고하여 설정한 재고 수량까지만 보충합니다.
   • 재고 데이터는 캐시이므로 수동 파밍, 제작, 재료 사용 후 실제 수량과 달라질 수 있습니다. ｢{key=UserDataUpdate}｣ 또는 ｢{key=Toolbox}-{key=DepotRecognition}｣ 에서 동기화해 주세요.
-  • {key=TargetInventory} 사용 중에는 실행 도중 재료와 수량을 바꿀 수 없습니다.</system:String>
+  • 실행 중에는 드롭에 따라 재고가 실시간 업데이트되며, 이전 작업에서 드롭된 재료가 후속 작업의 부족 수량에 반영됩니다.</system:String>
     <system:String x:Key="StartupUpdateCheck">시작 시 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheck">일정 시간마다 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheckTip">게임 내 00:00 / 18:00 (서버 현지 시간 04:00 / 22:00)</system:String>
@@ -767,6 +768,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">생존 연산</system:String>
     <system:String x:Key="UserDataUpdate">사용자 데이터 업데이트</system:String>
+    <system:String x:Key="DepotMaintain">재고 유지</system:String>
     <system:String x:Key="MiniGame">편의 기능</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">상시</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">현재 이벤트</system:String>
@@ -824,10 +826,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="KeepInventory">재고 유지</system:String>
     <system:String x:Key="TargetInventory">목표 재고</system:String>
     <system:String x:Key="Series">연속 전투</system:String>
+    <system:String x:Key="SeriesLockedTip">게임 업데이트 후 아직 적응되지 않았습니다. 게임 내에서 수동으로 대리 지휘 배수를 설정해 주세요.</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 스테이지의 가능한 최대 대리 지휘 횟수의 배수를 감지하고, 자동으로 최대 대리 지휘 횟수를 유지하며, 이성 회복제 사용 후 이성이 남지 않도록 합니다.
 
-• 단순 배수 (1~6):
+• 단순 배수 (1~10):
 설정된 배수에 따라 대리 지휘 횟수를 실행합니다.
 현재 이성 수치가 설정된 배수를 완료하기에 충분하지 않은 경우(예: 5회만 가능하지만 6회로 설정), 전투를 시작하지 않습니다.
 또는
@@ -853,6 +856,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Inventory">재고</system:String>
     <system:String x:Key="InventoryUpdateTip">재고 데이터는  ｢{key=Toolbox}-{key=DepotRecognition}｣ 을 통해 업데이트 가능</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">작업 "{0}" 에서 {key=TargetInventory} 가 켜져 있지만 현재 사용할 수 있는 재고 데이터가 없어 건너뜁니다. ｢{key=Toolbox}-{key=DepotRecognition}｣ 에서 재고를 업데이트해 주세요.</system:String>
+    <!--  재고 유지  -->
+    <system:String x:Key="DepotUpdateBeforeStart">작업 시작 전 재고 데이터 업데이트</system:String>
+    <system:String x:Key="AddPlan">추가</system:String>
+    <system:String x:Key="CollapseAll">접기</system:String>
+    <system:String x:Key="DepotPlanInvalidDropItem">계획 {0}: 드롭 아이템 미지정.</system:String>
+    <system:String x:Key="DepotPlanZeroDropCount">계획 {0}: 목표 재고가 0.</system:String>
+    <system:String x:Key="DepotPlanNoStage">계획 {0}: 스테이지 미지정 또는 \"현재/이전\".</system:String>
+    <system:String x:Key="DepotPlanInventoryEnough">계획 {0}: {1} 재고 충분 (현재 {2} / 목표 {3}).</system:String>
+    <system:String x:Key="DepotPlanStageNotOpen">계획 {0}: 스테이지 '{1}' 가 열려 있지 않습니다.</system:String>
+    <system:String x:Key="DepotPlanAddTaskFailed">계획 {0}: 작업 추가 실패.</system:String>
+    <system:String x:Key="DepotSkipDuringActivity">이벤트 기간 중 건너뛰기</system:String>
+    <system:String x:Key="DepotSkipDuringResourceCollection">자원 수집 한정 전일 개방 기간 중 건너뛰기</system:String>
+    <system:String x:Key="DepotPlanSkippedActivity">이벤트 진행 중이므로 재고 유지를 건너뛰었습니다.</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">자원 수집 한정 전일 개방 기간 중이므로 재고 유지를 건너뛰었습니다.</system:String>
+    <system:String x:Key="DepotPlanUpdateDepotFailed">재고 데이터 업데이트에 실패했습니다.</system:String>
     <system:String x:Key="LessThanOneDay">1일 미만</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>
@@ -1069,8 +1087,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
     <system:String x:Key="SelectTheFileTip">마우스로 작업 파일을 드래그해 선택할 수 있어요 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">클립보드에서 읽어 작업/작업 세트 자동 인식</system:String>
-    <!-- TODO: 作业站迁移完成后删除 PasteClipboardCopilotSetTip -->
-    <system:String x:Key="PasteClipboardCopilotSetTip">클립보드에서 작업 파일을 읽고 작업 목록에 추가합니다.</system:String>
     <system:String x:Key="ImportFilesTip">일괄 가져오기</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">이 작업 파일이 마음에 드셨나요? 평가해 주세요!</system:String>
     <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다: &lt;</system:String>
@@ -1146,8 +1162,7 @@ C:\\leidian\\LDPlayer9
         4. {key=ParadoxSimulation}: 스킬 선택 후, ｢시뮬레이션 시작｣ 버튼이 나타나는 스킬 선택 화면에서 시작하세요. 1/2★ 오퍼레이터(스킬 없음)의 경우, 우측 하단에 ｢시뮬레이션 시작｣ 버튼이 있는 화면에서 시작하세요. ｢{key=UseCopilotList}｣를 사용하는 경우, {key=Operator} 목록의 ｢레벨/레어도｣ 탭에서 시작하세요.\n\n
         5. ｢선호｣로 표시된 오퍼레이터는 ｢{key=AutoSquad}｣ 인식 및 선택에 영향을 줄 수 있습니다. ｢{key=AutoSquad}｣ 사용 시, 선호 표시를 해제하거나 오류 발생 시 ｢{key=AutoSquad}｣를 끄고 안내에 따라 누락된 오퍼레이터를 수동으로 편성하는 것을 고려하세요.\n\n
         6. ZOOT 작업 공간에서, 입력 상자 오른쪽의 붙여넣기 버튼을 클릭하여 코드를 붙여넣을 수 있습니다. 형식은 자동으로 인식됩니다:\n
-        • prts://s = 작업 세트 prts:// = 단일 작업\n
-        세 번째 버튼은 기존 작업 세트용이며 나중에 제거됩니다.\n\n
+        • prts://s = 작업 세트 prts:// = 단일 작업\n\n
         7. {key=UseCopilotList}:\n
         • 작업 선택 후, 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
         • 추가: 좌클릭은 일반, 우클릭은 하드 모드입니다.\n

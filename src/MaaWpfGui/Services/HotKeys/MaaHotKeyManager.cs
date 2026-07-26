@@ -10,21 +10,18 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using GlobalHotKey;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
-using Newtonsoft.Json;
 
 namespace MaaWpfGui.Services.HotKeys;
 
 public class MaaHotKeyManager : IMaaHotKeyManager
 {
-    private readonly Dictionary<MaaHotKeyAction, MaaHotKey> _actionHotKeyMapping = new();
-
-    private const string HotKeyConfigName = "HotKeys";
+    private readonly Dictionary<MaaHotKeyAction, MaaHotKey> _actionHotKeyMapping = [];
 
     public MaaHotKeyManager()
     {
@@ -115,11 +112,8 @@ public class MaaHotKeyManager : IMaaHotKeyManager
 
     private static Dictionary<MaaHotKeyAction, MaaHotKey> GetPersistentHotKeys()
     {
-        var hotKeysString = ConfigurationHelper.GetGlobalValue(HotKeyConfigName, null);
-
-        return hotKeysString is null
-            ? CreateInitialHotKeys()
-            : JsonConvert.DeserializeObject<Dictionary<MaaHotKeyAction, MaaHotKey>>(hotKeysString);
+        var hotKeys = new Dictionary<MaaHotKeyAction, MaaHotKey>(ConfigFactory.Root.Gui.HotKeys);
+        return hotKeys == null || hotKeys.Count == 0 ? CreateInitialHotKeys() : hotKeys;
     }
 
     private static Dictionary<MaaHotKeyAction, MaaHotKey> CreateInitialHotKeys()
@@ -139,6 +133,6 @@ public class MaaHotKeyManager : IMaaHotKeyManager
 
     private void PersistHotKeys()
     {
-        ConfigurationHelper.SetGlobalValue(HotKeyConfigName, JsonConvert.SerializeObject(_actionHotKeyMapping));
+        ConfigFactory.Root.Gui.HotKeys = new(_actionHotKeyMapping);
     }
 }

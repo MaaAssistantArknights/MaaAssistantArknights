@@ -51,7 +51,7 @@ jobs:
         id: cache_key
         continue-on-error: true
         run: |
-          echo "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', '3rdparty/include/**', 'include/**', 'cmake/**', 'CMakeLists.txt', 'tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}" >> $GITHUB_OUTPUT
+          echo "key=Smoke-testing-v2-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', '3rdparty/include/**', 'include/**', 'cmake/**', 'CMakeLists.txt', 'tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}" >> $GITHUB_OUTPUT
 
       - name: Restore cache for Smoke Test
         if: ${{ steps.cache_key.outputs.key != '' }}
@@ -64,8 +64,8 @@ jobs:
             ./install/libfastdeploy_ppocr.dylib
             ./install/libMaaCore.dylib
             ./install/libMaaUtils.dylib
-            ./install/libonnxruntime.1.19.2.dylib
-            ./install/libopencv_world4.4.11.0.dylib
+            ./install/libonnxruntime*.dylib
+            ./install/libopencv_world4*.dylib
             ./install/smoke_test
 
       - name: Fetch submodules
@@ -115,8 +115,8 @@ jobs:
             ./install/libfastdeploy_ppocr.dylib
             ./install/libMaaCore.dylib
             ./install/libMaaUtils.dylib
-            ./install/libonnxruntime.1.19.2.dylib
-            ./install/libopencv_world4.4.11.0.dylib
+            ./install/libonnxruntime*.dylib
+            ./install/libopencv_world4*.dylib
             ./install/smoke_test
 
       - name: Upload logs

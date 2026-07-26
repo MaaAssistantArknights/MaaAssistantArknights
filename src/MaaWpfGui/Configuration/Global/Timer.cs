@@ -11,39 +11,59 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Helper;
+using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels.UserControl.Settings;
+using Stylet;
 
 namespace MaaWpfGui.Configuration.Global;
 
-public class Timer
+public class Timer : PropertyChangedBase
 {
     [JsonConstructor]
-    public Timer(bool enable, string config, int hour, int minute)
+    public Timer(int id, bool? isEnabled, string config, int hour, int minute)
     {
-        Enable = enable;
+        Id = id;
+        IsEnabled = isEnabled;
         Config = config;
         Hour = hour;
         Minute = minute;
     }
 
-    public Timer()
+    public Timer(int id, string config)
     {
-        Enable = false;
-        Config = ConfigFactory.Root.Current;
-        Hour = 0;
-        Minute = 0;
+        Id = id;
+        IsEnabled = false;
+        Config = config;
+        Hour = DateTimeOffset.Now.Hour;
+        Minute = DateTimeOffset.Now.Minute;
     }
 
-    [JsonInclude]
-    public bool Enable { get; set; }
+    public Timer()
+        : this(-1, string.Empty)
+    {
+    }
+
+    public int Id { get; set; }
+
+    private static string _Name => LocalizationHelper.GetString("Timer");
+
+    [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
+    [JsonIgnore]
+    public string Name => $"{_Name} {Id + 1}";
 
     [JsonInclude]
-    public string Config { get; set; }
+    public bool? IsEnabled { get; set => SetAndNotify(ref field, value); } = false;
 
     [JsonInclude]
-    public int Hour { get; set; }
+    public string Config { get; set => SetAndNotify(ref field, value); }
 
     [JsonInclude]
-    public int Minute { get; set; }
+    public int Hour { get; set => SetAndNotify(ref field, value); }
+
+    [JsonInclude]
+    public int Minute { get; set => SetAndNotify(ref field, value); }
 }

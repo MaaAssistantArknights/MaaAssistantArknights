@@ -122,7 +122,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// 当作战任务进入进行中状态时，仅捕获一次目标库存值，并在需要时刷新当前选中的面板。
+    /// 当作战任务进入进行中状态时，用最新库存重算指定掉落缺口并更新参数。
     /// </summary>
     private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
     {
@@ -133,9 +133,18 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
         if (GetFightTaskByTaskId(taskId) is { } startedFight &&
             IsInventoryTargetDropEnabled(startedFight) &&
-            GetInventoryTargetRuntimeState(taskId) == null)
+            !string.IsNullOrEmpty(startedFight.DropId))
         {
-            SerializeTask(startedFight, taskId);
+            // 每次任务开始时用最新库存重算缺口（前序任务可能已经刷出了该材料）
+            var stage = GetFightStage(startedFight.StagePlan);
+            if (!string.IsNullOrEmpty(stage))
+            {
+                RefreshFightTaskDrops(taskId, startedFight.DropId, startedFight.DropCount,
+                    stage,
+                    startedFight.UseMedicine != false ? startedFight.MedicineCount : 0,
+                    startedFight.UseStone != false ? startedFight.StoneCount : 0,
+                    startedFight.NameOrTaskType);
+            }
         }
 
         Execute.OnUIThread(() => {
@@ -390,6 +399,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     public LocalizedObservableList<int> SeriesList { get; } = new(
         (0, "AUTO"),
+        (10, "10"),
+        (9, "9"),
+        (8, "8"),
+        (7, "7"),
         (6, "6"),
         (5, "5"),
         (4, "4"),
@@ -398,19 +411,92 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         (1, "1"),
         (-1, "NotSwitch"));
 
+    #region 代理倍率临时锁定（适配后删除）
+
+    // 游戏更新后（2026-08-01 鹰历）代理倍率上限从 6 提升至 10，但选择逻辑暂未适配
+    private static readonly DateTime _seriesLockDate = new(2026, 8, 1);
+
+    // 仅 Official / Bilibili 服需要锁定；其他服（YoStar/txwy）更新节奏不同，不屏蔽
+    private static bool NeedsSeriesLock =>
+        SettingsViewModel.GameSettings.ClientType is ClientType.Official or ClientType.Bilibili;
+
+    // 当前鹰历日期是否已到达/超过锁定日期
+    private static bool IsSeriesLockDateReached => DateTime.UtcNow.ToYjDate() >= _seriesLockDate;
+
+    /// <summary>
+    /// Gets a value indicating whether 代理倍率是否被锁定（游戏更新后、MAA 适配前）。
+    /// </summary>
+    public bool IsSeriesLocked => NeedsSeriesLock && IsSeriesLockDateReached;
+
+    // 记录上次检查时的锁定状态，仅在与当前状态不一致时通知界面刷新
+    private bool _lastSeriesLocked = NeedsSeriesLock && IsSeriesLockDateReached;
+
+    /// <summary>
+    /// 由定时器调用，仅在锁定状态发生变化（跨过 8/1 鹰历，或切换了客户端类型）时通知界面刷新。
+    /// </summary>
+    public void RefreshSeriesLockState()
+    {
+        var currentLocked = IsSeriesLocked;
+        if (currentLocked == _lastSeriesLocked)
+        {
+            return;
+        }
+
+        _lastSeriesLocked = currentLocked;
+        NotifyOfPropertyChange(nameof(IsSeriesLocked));
+        NotifyOfPropertyChange(nameof(Series));
+    }
+
+    #endregion 代理倍率临时锁定（适配后删除）
+
     /// <summary>
     /// Gets or sets 连战次数。
     /// </summary>
     public int Series
     {
-        get => GetTaskConfig<FightTask>().Series;
-        set {
-            if (!SetTaskConfig<FightTask>(t => t.Series == value, t => t.Series = value))
+        get
+        {
+            // 适配后删除 start
+            if (IsSeriesLocked)
             {
+                return -1;
+            }
+
+            // 适配后删除 end
+            return GetTaskConfig<FightTask>().Series;
+        }
+
+        set {
+            // 适配后删除 start
+            // 游戏更新后、MAA 适配前，强制锁定为不切换，不写入配置
+            if (IsSeriesLocked)
+            {
+                // 被钳制时延迟通知，绕过 WPF TwoWay binding writeback 期间的 PropertyChanged 忽略
+                Application.Current.Dispatcher.BeginInvoke(() => NotifyOfPropertyChange(nameof(Series)));
                 return;
             }
 
-            SetFightParams();
+            // 更新前选了 7~10，自动钳回 6
+            var clamped = value > 6;
+            if (clamped)
+            {
+                value = 6;
+            }
+
+            if (SetTaskConfig<FightTask>(t => t.Series == value, t => t.Series = value))
+            {
+                SetFightParams();
+            }
+
+            // 适配后删除 start
+            if (clamped)
+            {
+                // 值被钳制但配置未变（已经是 6），仍需通知 UI 回弹
+                // 被钳制时延迟通知，绕过 WPF TwoWay binding writeback 期间的 PropertyChanged 忽略
+                Application.Current.Dispatcher.BeginInvoke(() => NotifyOfPropertyChange(nameof(Series)));
+            }
+
+            // 适配后删除 end
         }
     }
 
@@ -723,8 +809,44 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
 
         AllDrops.Sort((a, b) => string.Compare(a.Value, b.Value, StringComparison.Ordinal));
-        DropsList = [.. AllDrops];
-        NotifyOfPropertyChange(nameof(DropsList));
+
+        // 原地更新 DropsList：只更新 Display 不增删项，避免 ComboBox SelectedValue 丢失
+        // 首次构建时 DropsList 为空，需要完整 Add；后续语言切换时只更新 Display
+        var allDropsDict = AllDrops.ToDictionary(i => i.Value, i => i.Display);
+        if (DropsList.Count == 0)
+        {
+            foreach (var item in AllDrops)
+            {
+                DropsList.Add(item);
+            }
+        }
+        else
+        {
+            // 更新已有项的 Display
+            foreach (var item in DropsList)
+            {
+                if (allDropsDict.TryGetValue(item.Value, out var newDisplay))
+                {
+                    item.Display = newDisplay;
+                }
+            }
+
+            // 补充新出现的项（如特有材料）
+            var existingValues = DropsList.Select(i => i.Value).ToHashSet();
+            foreach (var item in AllDrops.Where(i => !existingValues.Contains(i.Value)))
+            {
+                DropsList.Add(item);
+            }
+
+            // 删除不再存在的项（保留空值项即"不选择"）
+            for (int i = DropsList.Count - 1; i >= 0; i--)
+            {
+                if (!string.IsNullOrEmpty(DropsList[i].Value) && !allDropsDict.ContainsKey(DropsList[i].Value))
+                {
+                    DropsList.RemoveAt(i);
+                }
+            }
+        }
 
         foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>())
         {
@@ -758,6 +880,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
 
         RefreshDropName();
+
+        // 通知 DepotMaintain 刷新各 plan 的 DropName
+        DepotMaintainTaskUserControlModel.Instance.OnLanguageChanged();
     }
 
     /// <summary>
@@ -1051,12 +1176,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     public bool AutoRestartOnDrop
     {
-        get => field;
-        set {
+        get; set {
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.AutoRestartOnDrop = value;
             SetAndNotify(ref field, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AutoRestartOnDrop, value.ToString());
         }
-    } = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, true);
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.AutoRestartOnDrop;
 
     private static string ToUpperAndCheckStage(string value)
     {
@@ -1092,6 +1216,56 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         var stage = list?.FirstOrDefault(s => Instances.StageManager.IsStageOpen(s, Instances.TaskQueueViewModel.CurDayOfWeek));
         _logger.Information("GetFightStage: from {list}, selected {stage}", list, stage);
         return stage;
+    }
+
+    /// <summary>
+    /// 任务开始时用最新库存重算指定掉落材料的缺口，达标则 times=0，否则更新 drops 和 times。
+    /// 供理智作战和库存保持任务统一调用。
+    /// </summary>
+    /// <param name="taskId">core 任务 id</param>
+    /// <param name="dropId">指定掉落材料 ID</param>
+    /// <param name="dropCount">目标库存</param>
+    /// <param name="stage">关卡</param>
+    /// <param name="medicine">最大药剂数</param>
+    /// <param name="stone">最大源石数</param>
+    /// <param name="logLabel">日志标签（如计划序号）</param>
+    /// <returns>是否成功更新参数。</returns>
+    public static bool RefreshFightTaskDrops(int taskId, string dropId, int dropCount, string stage, int medicine, int stone, string? logLabel = null)
+    {
+        if (taskId <= 0 || string.IsNullOrEmpty(dropId) || dropCount <= 0)
+        {
+            return false;
+        }
+
+        var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
+        var currentCount = depotList.TryGetValue(dropId, out var value) ? value : 0;
+        var need = dropCount - currentCount;
+
+        var dropName = ItemListHelper.GetItemName(dropId) ?? dropId;
+        var task = new AsstFightTask() {
+            Stage = stage,
+            Medicine = medicine,
+            Stone = stone,
+            MaxTimes = int.MaxValue,
+        };
+
+        if (need <= 0)
+        {
+            // 库存已充足，times=0 阻止进入关卡
+            task.MaxTimes = 0;
+            task.Drops = new() { { dropId, 1 } };
+            Instances.TaskQueueViewModel.AddLog(
+                LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", logLabel ?? string.Empty, dropName, currentCount.ToString("N0"), dropCount.ToString("N0")),
+                UiLogColor.Info);
+        }
+        else
+        {
+            task.Drops = new() { { dropId, need } };
+            _logger.Information("FightTask {taskId} ({label}) re-calculated: {dropName} need {need} (current {current} / target {target})",
+                taskId, logLabel, dropName, need, currentCount, dropCount);
+        }
+
+        return Instances.AsstProxy.AsstSetTaskParamsEncoded(taskId, task);
     }
 
     /// <summary>
@@ -1490,11 +1664,25 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 effectiveMaxTimes = 0;
             }
 
+            // 适配后删除 start
+            // 游戏更新后、MAA 适配前，强制使用不切换，并提示用户
+            var effectiveSeries = Instance.IsSeriesLocked ? -1 : fight.Series;
+            if (Instance.IsSeriesLocked)
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("SeriesLockedTip"), UiLogColor.Warning);
+            }
+
+            // 适配后删除 end
             var task = new AsstFightTask() {
                 Stage = stage,
                 Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
                 Stone = fight.UseStone != false ? fight.StoneCount : 0,
-                Series = fight.Series,
+
+                // 适配后删除 start
+                Series = effectiveSeries,
+
+                // 适配后删除 end
+                // 适配后删除 恢复为 Series = fight.Series,
                 MaxTimes = effectiveMaxTimes,
                 MedicineExpireDays = Math.Max(expireDays, activityExpireDays),
                 IsDrGrandet = fight.IsDrGrandet,

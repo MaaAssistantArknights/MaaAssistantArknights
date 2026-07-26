@@ -144,30 +144,30 @@ icon: mdi:plug
 
 通常、これで接続できるはずです。接続できない場合、複数のシミュレータコアが存在するか、問題が発生している可能性がありますので、以下の追加設定をお読みください。
 
-#### `Bluestacks.Config.Keyword` を指定
+#### `ConfigKeyword` を指定
 
 ::: info 注意
 複数の起動機能が有効になっている場合や複数のシミュレータコアがインストールされている場合は、追加の設定が必要です。
 :::
 
-`.\config\gui.json` 内で `Bluestacks.Config.Keyword` フィールドを検索し、内容を `"bst.instance.<シミュレータ番号>.status.adb_port"` に設定します。シミュレータ番号はシミュレータパスの `BlueStacks_nxt\Engine` 内で確認できます。
+`gui.new.json` 内で現在の設定名フィールド（設定-切り替え設定 で確認できます。デフォルトは `Default`）の下にある `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigKeyword` フィールドを検索し、内容を `"bst.instance.<シミュレータ番号>.status.adb_port"` に設定します。シミュレータ番号はシミュレータパスの `BlueStacks_nxt\Engine` 内で確認できます。
 
 ::: details 例
 Nougat64 コア：
 
 ```json
-"Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
+"ConfigKeyword": "bst.instance.Nougat64.status.adb_port"
 ```
 
 Pie64_2 コア：（コア名の後の数字は複数の起動コアを示します）
 
 ```json
-"Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
+"ConfigKeyword": "bst.instance.Pie64_2.status.adb_port"
 ```
 
 :::
 
-#### `Bluestacks.Config.Path` を指定
+#### `ConfigPath` を指定
 
 ::: info 注意
 MAA は現在 `bluestacks.conf` の保存場所をレジストリから読み取ろうとしますが、この機能が機能しない場合は、手動で設定ファイルのパスを指定する必要があります。
@@ -181,7 +181,7 @@ MAA は現在 `bluestacks.conf` の保存場所をレジストリから読み取
 
 2. 初めて使用する場合は、一度 MAA を実行して、MAA が設定ファイルを自動生成するようにします。
 
-3. **MAA を閉じた後に**、`gui.json` を開き、`Configurations` の下の現在の設定名フィールド（設定-切り替え設定 で確認できます。デフォルトは `Default`）を検索し、`Bluestacks.Config.Path` フィールドを検索して、`bluestacks.conf` の完全なパスを入力します。（スラッシュはエスケープ `\\` を使用してください）
+3. **MAA を閉じた後に**、`gui.new.json` を開き、現在の設定名フィールド（設定-切り替え設定 で確認できます。デフォルトは `Default`）の下にある `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigPath` フィールドを検索して、`bluestacks.conf` の完全なパスを入力します。（スラッシュはエスケープ `\\` を使用してください）
 
 ::: details 例
 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` を使用しています。
@@ -190,8 +190,15 @@ MAA は現在 `bluestacks.conf` の保存場所をレジストリから読み取
 {
   "Configurations": {
     "Default": {
-      "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
-      // 残りの構成フィールドは、手入力しないで修正します。
+      "Gui": {
+        "ConnectSettings": {
+          "Extras": {
+            "BluestacksExtra": {
+              "ConfigPath": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
+            }
+          }
+        }
+      }
     }
   }
 }

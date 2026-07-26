@@ -13,7 +13,6 @@
 
 #nullable enable
 using System;
-using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,7 +29,7 @@ using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Serilog;
 using Stylet;
-using MonetModeType = MaaWpfGui.Configuration.Global.GUI.MonetModeType;
+using MonetModeType = MaaWpfGui.Configuration.Global.Gui.MonetModeType;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
@@ -62,14 +61,11 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
 
     public static BackgroundSettingsUserControlModel Instance { get; }
 
-    private static string _backgroundImagePath = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundImagePath, "background/background.png");
-
     public string BackgroundImagePath
     {
-        get => _backgroundImagePath;
-        set {
-            SetAndNotify(ref _backgroundImagePath, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.BackgroundImagePath, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.Background.ImagePath = value;
             BackgroundImage = RefreshBackgroundImage(value);
 
             // 背景图变更后，若莫奈自动取色开启，重新提取主色
@@ -77,7 +73,7 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
 
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.CustomizationMaster);
         }
-    }
+    } = ConfigFactory.Root.Gui.Background.ImagePath;
 
     public void SelectImagePath()
     {
@@ -91,7 +87,7 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private static BitmapImage? _backgroundImage = RefreshBackgroundImage(_backgroundImagePath);
+    private static BitmapImage? _backgroundImage = RefreshBackgroundImage(ConfigFactory.Root.Gui.Background.ImagePath);
 
     public BitmapImage? BackgroundImage
     {
@@ -101,16 +97,13 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private static Stretch _backgroundImageStretchMode = (Stretch)Enum.Parse(typeof(Stretch), ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundImageStretchMode, Stretch.Fill.ToString()));
-
     public Stretch BackgroundImageStretchMode
     {
-        get => _backgroundImageStretchMode;
-        set {
-            SetAndNotify(ref _backgroundImageStretchMode, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.BackgroundImageStretchMode, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.Background.StretchMode = value;
         }
-    }
+    } = ConfigFactory.Root.Gui.Background.StretchMode;
 
     public LocalizedObservableList<Stretch> BackgroundImageStretchModeList { get; } = new(
         (Stretch.None, "BackgroundImageStretchModeNone"),
@@ -144,13 +137,10 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private int _backgroundOpacity = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundOpacity, 50);
-
     public int BackgroundOpacity
     {
-        get => _backgroundOpacity;
-        set {
-            SetAndNotify(ref _backgroundOpacity, value);
+        get; set {
+            SetAndNotify(ref field, value);
 
             // 透明度变化后，若莫奈取色开启，重新生成调色板（文字色需根据新的有效背景明度选取）
             // 滑块拖动会高频触发，使用防抖避免阻塞 UI
@@ -159,17 +149,9 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
                 ScheduleMonetUpdate();
             }
         }
-    }
+    } = ConfigFactory.Root.Gui.Background.Opacity;
 
-    private static int _backgroundBlurEffectRadius = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, 5);
-
-    public int BackgroundBlurEffectRadius
-    {
-        get => _backgroundBlurEffectRadius;
-        set {
-            SetAndNotify(ref _backgroundBlurEffectRadius, value);
-        }
-    }
+    public int BackgroundBlurEffectRadius { get; set => SetAndNotify(ref field, value); } = ConfigFactory.Root.Gui.Background.BlurEffectRadius;
 
     public void PreviewSlider_MouseUp(object sender, MouseButtonEventArgs e)
     {
@@ -178,8 +160,8 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.BackgroundOpacity, BackgroundOpacity.ToString(CultureInfo.InvariantCulture));
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, BackgroundBlurEffectRadius.ToString(CultureInfo.InvariantCulture));
+        ConfigFactory.Root.Gui.Background.Opacity = BackgroundOpacity;
+        ConfigFactory.Root.Gui.Background.BlurEffectRadius = BackgroundBlurEffectRadius;
     }
 
     #region 莫奈取色（Monet Color）
@@ -189,9 +171,9 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public bool BackgroundMonetEnabled
     {
-        get => ConfigFactory.Root.GUI.BackgroundMonetEnabled;
+        get => ConfigFactory.Root.Gui.BackgroundMonetEnabled;
         set {
-            ConfigFactory.Root.GUI.BackgroundMonetEnabled = value;
+            ConfigFactory.Root.Gui.BackgroundMonetEnabled = value;
             NotifyOfPropertyChange();
             UpdateMonet();
         }
@@ -202,9 +184,9 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public MonetModeType BackgroundMonetMode
     {
-        get => ConfigFactory.Root.GUI.BackgroundMonetMode;
+        get => ConfigFactory.Root.Gui.BackgroundMonetMode;
         set {
-            ConfigFactory.Root.GUI.BackgroundMonetMode = value;
+            ConfigFactory.Root.Gui.BackgroundMonetMode = value;
             NotifyOfPropertyChange();
             UpdateMonet();
         }
@@ -228,9 +210,9 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public string BackgroundMonetCustomColor
     {
-        get => ConfigFactory.Root.GUI.BackgroundMonetCustomColor;
+        get => ConfigFactory.Root.Gui.BackgroundMonetCustomColor;
         set {
-            ConfigFactory.Root.GUI.BackgroundMonetCustomColor = value;
+            ConfigFactory.Root.Gui.BackgroundMonetCustomColor = value;
             NotifyOfPropertyChange();
             NotifyOfPropertyChange(nameof(CurrentMonetColor));
         }
@@ -266,7 +248,7 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     /// <returns>持久化缓存的颜色；无缓存或格式无效时返回 null。</returns>
     private static Color? LoadCachedMonetColor()
     {
-        var hex = ConfigFactory.Root.GUI.BackgroundMonetCachedColor;
+        var hex = ConfigFactory.Root.Gui.BackgroundMonetCachedColor;
         if (string.IsNullOrEmpty(hex))
         {
             return null;
@@ -287,7 +269,7 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     private static void SaveCachedMonetColor(Color color)
     {
-        ConfigFactory.Root.GUI.BackgroundMonetCachedColor = ThemeHelper.Color2HexString(color);
+        ConfigFactory.Root.Gui.BackgroundMonetCachedColor = ThemeHelper.Color2HexString(color);
     }
 
     /// <summary>

@@ -14,12 +14,21 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Services.Notification;
+using MaaWpfGui.Models.ExternalNotification;
+using MaaWpfGui.Services.ExternalNotification;
+using MaaWpfGui.Utilities.ValueType;
+using Serilog;
 using Stylet;
+using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
@@ -33,575 +42,215 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         Instance = new();
     }
 
+    public ExternalNotificationSettingsUserControlModel()
+    {
+        var config = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs;
+        var list = new List<BaseConfig>();
+        foreach (var configItem in config)
+        {
+            BaseConfig c = configItem switch {
+                Smtp smtp => new SmtpConfig(smtp),
+                ServerChan serverChan => new ServerChanConfig(serverChan),
+                Discord discord => new DiscordConfig(discord),
+                DingTalk dingTalk => new DingTalkConfig(dingTalk),
+                Telegram telegram => new TelegramConfig(telegram),
+                Bark bark => new BarkConfig(bark),
+                Qmsg qmsg => new QmsgConfig(qmsg),
+                Gotify gotify => new GotifyConfig(gotify),
+                CustomWebhook customWebhook => new CustomWebhookConfig(customWebhook),
+                _ => throw new NotSupportedException($"Unsupported config type: {configItem.GetType()}"),
+            };
+            list.Add(c);
+        }
+        ExternalNotificationConfigs = new ObservableCollection<BaseConfig>(list);
+        ExternalNotificationConfigs.CollectionChanged += (o, e) => {
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Clear();
+            }
+            else if (e.Action is NotifyCollectionChangedAction.Remove)
+            {
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.RemoveAt(e.OldStartingIndex);
+            }
+            else if (e.Action is NotifyCollectionChangedAction.Move)
+            {
+                var item = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs[e.OldStartingIndex];
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.RemoveAt(e.OldStartingIndex);
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Insert(e.NewStartingIndex, item);
+            }
+            else if (e.Action is NotifyCollectionChangedAction.Add)
+            {
+                e.NewItems?.OfType<BaseConfig>().ToList().ForEach(item => {
+                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(item.ToConfig());
+                });
+            }
+
+            if (e.Action is NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Replace)
+            {
+                e.NewItems?.OfType<BaseConfig>().ToList().ForEach(item => {
+                    item.PropertyChanged += (s, e) => {
+                        var index = ExternalNotificationConfigs.IndexOf(item);
+                        if (index < 0 || index >= ExternalNotificationConfigs.Count || ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count != ExternalNotificationConfigs.Count)
+                        {
+                            Log.Error("ExternalNotificationConfigs index out of range or count mismatch. Index: {Index}, ExternalNotificationConfigs Count: {ExternalNotificationConfigsCount}, Config Count: {ConfigCount}", index, ExternalNotificationConfigs.Count, ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count);
+                            return;
+                        }
+
+                        ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs[index] = item.ToConfig();
+                    };
+                });
+            }
+            NotifyOfPropertyChange(nameof(ConfigCount));
+            CheckAllChannelBroadcast();
+        };
+        foreach (var item in ExternalNotificationConfigs)
+        {
+            item.PropertyChanged += (s, e) => {
+                var index = ExternalNotificationConfigs.IndexOf(item);
+                if (index < 0 || index >= ExternalNotificationConfigs.Count || ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count != ExternalNotificationConfigs.Count)
+                {
+                    Log.Error("ExternalNotificationConfigs index out of range or count mismatch. Index: {Index}, ExternalNotificationConfigs Count: {ExternalNotificationConfigsCount}, Config Count: {ConfigCount}", index, ExternalNotificationConfigs.Count, ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count);
+                    return;
+                }
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs[index] = item.ToConfig();
+            };
+        }
+    }
+
     public static ExternalNotificationSettingsUserControlModel Instance { get; }
 
     // UI 绑定的方法
     [UsedImplicitly]
     public static void ExternalNotificationSendTest()
     {
-        ExternalNotificationService.Send(
-            LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
-            LocalizationHelper.GetString("ExternalNotificationSendTestContent"),
-            true);
+        ExternalNotificationService.Send(LocalizationHelper.GetString("ExternalNotificationSendTestTitle"), LocalizationHelper.GetString("ExternalNotificationSendTestContent"), true);
     }
 
-    private bool _externalNotificationSendWhenComplete = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, true);
+    public int ConfigCount => ExternalNotificationConfigs.Count;
+
+    /// <summary>
+    /// 外部通知支持的全部 provider 配置类型（与 <see cref="Base"/> 的派生 record 一一对应）。
+    /// </summary>
+    private static readonly HashSet<Type> _allProviderTypes =
+    [
+        typeof(Smtp),
+        typeof(ServerChan),
+        typeof(Discord),
+        typeof(DingTalk),
+        typeof(Telegram),
+        typeof(Bark),
+        typeof(Qmsg),
+        typeof(Gotify),
+        typeof(CustomWebhook),
+    ];
+
+    /// <summary>
+    /// 当配置项覆盖了全部支持的 provider 类型时，解锁「全频道广播」成就。
+    /// </summary>
+    private static void CheckAllChannelBroadcast()
+    {
+        var covered = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs
+            .Select(c => c.GetType())
+            .Where(t => _allProviderTypes.Contains(t))
+            .Distinct()
+            .Count();
+
+        if (covered == _allProviderTypes.Count)
+        {
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.AllChannelBroadcast);
+        }
+    }
 
     public bool ExternalNotificationSendWhenComplete
     {
-        get => _externalNotificationSendWhenComplete;
+        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenComplete;
         set {
-            SetAndNotify(ref _externalNotificationSendWhenComplete, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, value.ToString());
+            ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenComplete = value;
+            NotifyOfPropertyChange();
         }
     }
-
-    private bool _externalNotificationEnableDetails = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, false);
 
     public bool ExternalNotificationEnableDetails
     {
-        get => _externalNotificationEnableDetails;
+        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.ShowWhenCompleteWithDetails;
         set {
-            SetAndNotify(ref _externalNotificationEnableDetails, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnableDetails, value.ToString());
+            ConfigFactory.CurrentConfig.Gui.ExternalNotification.ShowWhenCompleteWithDetails = value;
+            NotifyOfPropertyChange();
         }
     }
-
-    private bool _externalNotificationSendWhenError = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, true);
 
     public bool ExternalNotificationSendWhenError
     {
-        get => _externalNotificationSendWhenError;
+        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenError;
         set {
-            SetAndNotify(ref _externalNotificationSendWhenError, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenError, value.ToString());
+            ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenError = value;
+            NotifyOfPropertyChange();
         }
     }
-
-    private bool _externalNotificationSendWhenStalled = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, false);
 
     public bool ExternalNotificationSendWhenStalled
     {
-        get => _externalNotificationSendWhenStalled;
+        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenStalled;
         set {
-            SetAndNotify(ref _externalNotificationSendWhenStalled, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, value.ToString());
+            ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenStalled = value;
+            NotifyOfPropertyChange();
         }
     }
 
-    public static readonly List<string> ExternalNotificationProviders =
+    private static readonly List<GenericCombinedData<Type>> ExternalNotificationProviders =
         [
-            "ServerChan",
-            "Telegram",
-            "Discord",
-            "DingTalk",
-            "Discord Webhook",
-            "SMTP",
-            "Bark",
-            "Qmsg",
-            "Gotify",
-            "Custom Webhook"
+            new GenericCombinedData<Type> { Display = "ServerChan", Value = typeof(ServerChanConfig) },
+            new GenericCombinedData<Type> { Display = "Telegram", Value = typeof(TelegramConfig) },
+            new GenericCombinedData<Type> { Display = "Discord", Value = typeof(DiscordConfig) },
+            new GenericCombinedData<Type> { Display = "DingTalk", Value = typeof(DingTalkConfig) },
+            new GenericCombinedData<Type> { Display = "SMTP", Value = typeof(SmtpConfig) },
+            new GenericCombinedData<Type> { Display = "Bark", Value = typeof(BarkConfig) },
+            new GenericCombinedData<Type> { Display = "Qmsg", Value = typeof(QmsgConfig) },
+            new GenericCombinedData<Type> { Display = "Gotify", Value = typeof(GotifyConfig) },
+            new GenericCombinedData<Type> { Display = "Custom Webhook", Value = typeof(CustomWebhookConfig) }
         ];
 
-    public static List<string> ExternalNotificationProvidersShow => ExternalNotificationProviders;
+    public static List<GenericCombinedData<Type>> ExternalNotificationProviderList => ExternalNotificationProviders;
 
-    private static object[] _enabledExternalNotificationProviders =
-        ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, string.Empty)
-        .Split(',')
-        .Where(s => ExternalNotificationProviders.Contains(s.ToString()))
-        .Distinct()
-        .ToArray();
-
-    public object[] EnabledExternalNotificationProviders
+    public void AddConfig(object sender, RoutedEventArgs e)
     {
-        get => _enabledExternalNotificationProviders;
-        set {
-            SetAndNotify(ref _enabledExternalNotificationProviders, value);
-            var validProviders = value
-                .Where(provider => ExternalNotificationProviders.Contains(provider.ToString() ?? string.Empty))
-                .Select(provider => provider.ToString())
-                .Distinct();
-            var validProviderList = validProviders.OfType<string>().ToArray();
+        if (e.OriginalSource is not MenuItem item || item.DataContext is not GenericCombinedData<Type> data)
+        {
+            return;
+        }
+        if (CreateInstance(data.Value) is BaseConfig config)
+        {
+            ExternalNotificationConfigs.Add(config);
+        }
+        else
+        {
+            throw new ArgumentException($"Invalid Config: {data.Display}");
+        }
 
-            var config = string.Join(",", validProviderList);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnabled, config);
-            UpdateExternalNotificationProvider();
-            NotifyOfPropertyChange(nameof(EnabledExternalNotificationProviderCount));
-            if (validProviderList.Length == ExternalNotificationProviders.Count)
+        static object? CreateInstance(Type type)
+        {
+            foreach (var ctor in type.GetConstructors())
             {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.AllChannelBroadcast);
+                var ps = ctor.GetParameters();
+                if (ps.All(p => p.HasDefaultValue))
+                {
+                    var args = ps.Select(p => p.DefaultValue).ToArray();
+                    return ctor.Invoke(args);
+                }
             }
+
+            return null;
         }
     }
 
-    public string[] EnabledExternalNotificationProviderList => [.. EnabledExternalNotificationProviders.Select(s => s.ToString() ?? string.Empty)];
-
-    public int EnabledExternalNotificationProviderCount => EnabledExternalNotificationProviders.Length;
-
-    #region External Enable
-
-    private bool _serverChanEnabled = false;
-
-    public bool ServerChanEnabled
+    public void RemoveConfig(BaseConfig config)
     {
-        get => _serverChanEnabled;
-        set => SetAndNotify(ref _serverChanEnabled, value);
+        ExternalNotificationConfigs.Remove(config);
     }
 
-    private bool _telegramEnabled = false;
-
-    public bool TelegramEnabled
-    {
-        get => _telegramEnabled;
-        set => SetAndNotify(ref _telegramEnabled, value);
-    }
-
-    private bool _discordEnabled = false;
-
-    public bool DiscordEnabled
-    {
-        get => _discordEnabled;
-        set => SetAndNotify(ref _discordEnabled, value);
-    }
-
-    private bool _dingTalkEnabled = false;
-
-    public bool DingTalkEnabled
-    {
-        get => _dingTalkEnabled;
-        set => SetAndNotify(ref _dingTalkEnabled, value);
-    }
-
-    private bool _discordWebhookEnabled = false;
-
-    public bool DiscordWebhookEnabled
-    {
-        get => _discordWebhookEnabled;
-        set => SetAndNotify(ref _discordWebhookEnabled, value);
-    }
-
-    private bool _smtpEnabled = false;
-
-    public bool SmtpEnabled
-    {
-        get => _smtpEnabled;
-        set => SetAndNotify(ref _smtpEnabled, value);
-    }
-
-    private bool _barkEnabled = false;
-
-    public bool BarkEnabled
-    {
-        get => _barkEnabled;
-        set => SetAndNotify(ref _barkEnabled, value);
-    }
-
-    private bool _qmsgEnabled = false;
-
-    public bool QmsgEnabled
-    {
-        get => _qmsgEnabled;
-        set => SetAndNotify(ref _qmsgEnabled, value);
-    }
-
-    private bool _gotifyEnabled = false;
-
-    public bool GotifyEnabled
-    {
-        get => _gotifyEnabled;
-        set => SetAndNotify(ref _gotifyEnabled, value);
-    }
-
-    private bool _customWebhookEnabled = false;
-
-    public bool CustomWebhookEnabled
-    {
-        get => _customWebhookEnabled;
-        set => SetAndNotify(ref _customWebhookEnabled, value);
-    }
-
-    public void UpdateExternalNotificationProvider()
-    {
-        ServerChanEnabled = _enabledExternalNotificationProviders.Contains("ServerChan");
-        TelegramEnabled = _enabledExternalNotificationProviders.Contains("Telegram");
-        DiscordEnabled = _enabledExternalNotificationProviders.Contains("Discord");
-        DingTalkEnabled = _enabledExternalNotificationProviders.Contains("DingTalk");
-        DiscordWebhookEnabled = _enabledExternalNotificationProviders.Contains("Discord Webhook");
-        SmtpEnabled = _enabledExternalNotificationProviders.Contains("SMTP");
-        BarkEnabled = _enabledExternalNotificationProviders.Contains("Bark");
-        QmsgEnabled = _enabledExternalNotificationProviders.Contains("Qmsg");
-        GotifyEnabled = _enabledExternalNotificationProviders.Contains("Gotify");
-        CustomWebhookEnabled = _enabledExternalNotificationProviders.Contains("Custom Webhook");
-    }
-
-    #endregion External Enable
+    public ObservableCollection<BaseConfig> ExternalNotificationConfigs { get; private set => SetAndNotify(ref field, value); }
 
     #region External Notification Config
-
-    private string _serverChanSendKey = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty));
-
-    public string ServerChanSendKey
-    {
-        get => _serverChanSendKey;
-        set {
-            SetAndNotify(ref _serverChanSendKey, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, value);
-        }
-    }
-
-    private string _barkSendKey = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, string.Empty));
-
-    public string BarkSendKey
-    {
-        get => _barkSendKey;
-        set {
-            SetAndNotify(ref _barkSendKey, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, value);
-        }
-    }
-
-    private string _barkServer = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, "https://api.day.app"), "https://api.day.app");
-
-    public string BarkServer
-    {
-        get => _barkServer;
-        set {
-            SetAndNotify(ref _barkServer, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationBarkServer, value);
-        }
-    }
-
-    private string _smtpServer = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty));
-
-    public string SmtpServer
-    {
-        get => _smtpServer;
-        set {
-            SetAndNotify(ref _smtpServer, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpServer, value);
-        }
-    }
-
-    private string _smtpPort = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPort, string.Empty));
-
-    public string SmtpPort
-    {
-        get => _smtpPort;
-        set {
-            SetAndNotify(ref _smtpPort, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpPort, value);
-        }
-    }
-
-    private string _smtpUser = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUser, string.Empty));
-
-    public string SmtpUser
-    {
-        get => _smtpUser;
-        set {
-            SetAndNotify(ref _smtpUser, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpUser, value);
-        }
-    }
-
-    private string _smtpPassword = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, string.Empty));
-
-    public string SmtpPassword
-    {
-        get => _smtpPassword;
-        set {
-            SetAndNotify(ref _smtpPassword, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, value);
-        }
-    }
-
-    private string _smtpFrom = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, string.Empty));
-
-    public string SmtpFrom
-    {
-        get => _smtpFrom;
-        set {
-            SetAndNotify(ref _smtpFrom, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, value);
-        }
-    }
-
-    private string _smtpTo = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty));
-
-    public string SmtpTo
-    {
-        get => _smtpTo;
-        set {
-            SetAndNotify(ref _smtpTo, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpTo, value);
-        }
-    }
-
-    private bool _smtpUseSsl = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, false);
-
-    public bool SmtpUseSsl
-    {
-        get => _smtpUseSsl;
-        set {
-            SetAndNotify(ref _smtpUseSsl, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, value.ToString());
-        }
-    }
-
-    private bool _smtpRequireAuthentication = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, false);
-
-    public bool SmtpRequireAuthentication
-    {
-        get => _smtpRequireAuthentication;
-        set {
-            SetAndNotify(ref _smtpRequireAuthentication, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, value.ToString());
-        }
-    }
-
-    private string _discordBotToken = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, string.Empty));
-
-    public string DiscordBotToken
-    {
-        get => _discordBotToken;
-        set {
-            SetAndNotify(ref _discordBotToken, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, value);
-        }
-    }
-
-    private string _discordUserId = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, string.Empty));
-
-    public string DiscordUserId
-    {
-        get => _discordUserId;
-        set {
-            SetAndNotify(ref _discordUserId, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, value);
-        }
-    }
-
-    private string _discordWebhookUrl = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl, string.Empty));
-
-    public string DiscordWebhookUrl
-    {
-        get => _discordWebhookUrl;
-        set {
-            SetAndNotify(ref _discordWebhookUrl, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl, value);
-        }
-    }
-
-    private string _dingTalkAccessToken = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDingTalkAccessToken, string.Empty));
-
-    public string DingTalkAccessToken
-    {
-        get => _dingTalkAccessToken;
-        set {
-            SetAndNotify(ref _dingTalkAccessToken, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDingTalkAccessToken, value);
-        }
-    }
-
-    private string _dingTalkSecret = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDingTalkSecret, string.Empty));
-
-    public string DingTalkSecret
-    {
-        get => _dingTalkSecret;
-        set {
-            SetAndNotify(ref _dingTalkSecret, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDingTalkSecret, value);
-        }
-    }
-
-    private string _telegramBotToken = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, string.Empty));
-
-    public string TelegramBotToken
-    {
-        get => _telegramBotToken;
-        set {
-            SetAndNotify(ref _telegramBotToken, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, value);
-        }
-    }
-
-    private string _telegramChatId = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, string.Empty));
-
-    public string TelegramChatId
-    {
-        get => _telegramChatId;
-        set {
-            SetAndNotify(ref _telegramChatId, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, value);
-        }
-    }
-
-    private string _telegramTopicId = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramTopicId, string.Empty));
-
-    public string TelegramTopicId
-    {
-        get => _telegramTopicId;
-        set {
-            SetAndNotify(ref _telegramTopicId, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramTopicId, value);
-        }
-    }
-
-    private string _qmsgServer = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgServer, string.Empty));
-
-    public string QmsgServer
-    {
-        get => _qmsgServer;
-        set {
-            SetAndNotify(ref _qmsgServer, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgServer, value);
-        }
-    }
-
-    private string _qmsgKey = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgKey, string.Empty));
-
-    public string QmsgKey
-    {
-        get => _qmsgKey;
-        set {
-            SetAndNotify(ref _qmsgKey, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgKey, value);
-        }
-    }
-
-    private string _qmsgUser = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgUser, string.Empty));
-
-    public string QmsgUser
-    {
-        get => _qmsgUser;
-        set {
-            SetAndNotify(ref _qmsgUser, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgUser, value);
-        }
-    }
-
-    private string _qmsgBot = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgBot, string.Empty));
-
-    public string QmsgBot
-    {
-        get => _qmsgBot;
-        set {
-            SetAndNotify(ref _qmsgBot, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgBot, value);
-        }
-    }
-
-    private string _gotifyServer = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationGotifyServer, string.Empty));
-
-    public string GotifyServer
-    {
-        get => _gotifyServer;
-        set {
-            SetAndNotify(ref _gotifyServer, value);
-            var encryptedValue = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationGotifyServer, encryptedValue);
-        }
-    }
-
-    private string _gotifyToken = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationGotifyToken, string.Empty));
-
-    public string GotifyToken
-    {
-        get => _gotifyToken;
-        set {
-            SetAndNotify(ref _gotifyToken, value);
-            var encryptedValue = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationGotifyToken, encryptedValue);
-        }
-    }
-
-    private string _customWebhookUrl = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, string.Empty));
-
-    public string CustomWebhookUrl
-    {
-        get => _customWebhookUrl;
-        set {
-            SetAndNotify(ref _customWebhookUrl, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, value);
-        }
-    }
-
-    private string _customWebhookBody = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, string.Empty));
-
-    public string CustomWebhookBody
-    {
-        get => _customWebhookBody;
-        set {
-            SetAndNotify(ref _customWebhookBody, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, value);
-        }
-    }
-
-    private string _customWebhookHeaders = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders, string.Empty));
-
-    public string CustomWebhookHeaders
-    {
-        get => _customWebhookHeaders;
-        set {
-            SetAndNotify(ref _customWebhookHeaders, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders, value);
-        }
-    }
-
-    public IReadOnlyList<WebhookPresetTemplate> PresetTemplateList => WebhookPresetTemplate.BuiltInTemplates;
-
-    private string _selectedPresetTemplateId = "__custom__";
-
-    public string SelectedPresetTemplateId
-    {
-        get => _selectedPresetTemplateId;
-        set
-        {
-            if (!SetAndNotify(ref _selectedPresetTemplateId, value))
-            {
-                return;
-            }
-
-            if (value == "__custom__")
-            {
-                return;
-            }
-
-            var template = WebhookPresetTemplate.BuiltInTemplates.FirstOrDefault(t => t.Id == value);
-            if (template == null)
-            {
-                return;
-            }
-
-            CustomWebhookUrl = template.Url;
-            CustomWebhookBody = template.BodyTemplate;
-            CustomWebhookHeaders = template.Headers;
-        }
-    }
 
     // FIXME: 不知道为什么 TextBox 在高度变化时会导致 ScrollViewer 的偏移位置变成 0，直接锁到第一个元素去了。在编辑的时候先给它禁用了
     // 不要用 static，s:Action 找不到

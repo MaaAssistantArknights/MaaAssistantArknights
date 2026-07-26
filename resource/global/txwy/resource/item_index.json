@@ -2287,6 +2287,14 @@
         "sortId": -10000,
         "usage": "以高空供氧裝置為靈感設計的新概念飲品，已然成為哥倫比亞人新的血液。為了品嚐一口新時代的、星莢之外的味道，沒有誰不願開出高價。"
     },
+    "act48side_token_ostracon": {
+        "classifyType": "NONE",
+        "description": "即使如今人們手中已擁有了安裝著各種程式的終端，在投票這件事上，米諾斯人依然選擇遵循古法。",
+        "icon": "act48side_token_ostracon.png",
+        "name": "投票用的陶片",
+        "sortId": -10000,
+        "usage": "雅賽努斯公民在投票時的必備品。至於用過的陶片該如何處理？理事官辦公室決定收集起來，將其放入精美的包裝內，販賣給來到雅賽努斯的遊客。這項創新的作法獲得了各方的好評。"
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
@@ -2727,6 +2735,22 @@
         "sortId": -10000,
         "usage": "一份精心準備的試喝套組，可兌換龍門幣。"
     },
+    "itempack_leaf_def": {
+        "classifyType": "NONE",
+        "description": "開創獨屬於你的潮流。",
+        "icon": "itempack_leaf_def.png",
+        "name": "特輯/羅德島風尚",
+        "sortId": -10000,
+        "usage": "形藝特輯的預設主題內包含的特輯封面和收藏貼，可用於快速完成版面編輯。"
+    },
+    "itempack_leaf_def2": {
+        "classifyType": "NONE",
+        "description": "為今日風采譜寫全新曲目。",
+        "icon": "itempack_leaf_def2.png",
+        "name": "特輯/串流媒體",
+        "sortId": -10000,
+        "usage": "形藝特輯的預設主題內包含的特輯封面和收藏貼，可用於快速完成版面編輯。"
+    },
     "itempack_main_1": {
         "classifyType": "NONE",
         "description": "配發理智樣品的材料補給箱，在恢復理智的同時還能獲得一種隨機材料。",
@@ -2830,6 +2854,54 @@
         "name": "2026感謝慶典招聘補給",
         "sortId": -10000,
         "usage": "為滿足招募需求而準備的人力資源包，供相關人員透過公開管道大量招募幹員。"
+    },
+    "itempack_stickers_rog1": {
+        "classifyType": "NONE",
+        "description": "一場氣勢恢宏的演出。",
+        "icon": "itempack_stickers_rog1.png",
+        "name": "貼紙包/猩紅孤鑽",
+        "sortId": -10000,
+        "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
+    },
+    "itempack_stickers_rog2": {
+        "classifyType": "NONE",
+        "description": "潮風在呼喚你前去旅行。",
+        "icon": "itempack_stickers_rog2.png",
+        "name": "貼紙包/深藍之樹",
+        "sortId": -10000,
+        "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
+    },
+    "itempack_stickers_rog3": {
+        "classifyType": "NONE",
+        "description": "追尋寒風中的神秘之美。",
+        "icon": "itempack_stickers_rog3.png",
+        "name": "貼紙包/銀淞止境",
+        "sortId": -10000,
+        "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
+    },
+    "itempack_stickers_rog4": {
+        "classifyType": "NONE",
+        "description": "大地見證薩卡茲的絢爛之姿。",
+        "icon": "itempack_stickers_rog4.png",
+        "name": "貼紙包/無終奇語",
+        "sortId": -10000,
+        "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
+    },
+    "itempack_stickers_rog5": {
+        "classifyType": "NONE",
+        "description": "山水何靈秀，遊人醉不休。",
+        "icon": "itempack_stickers_rog5.png",
+        "name": "貼紙包/界園志異",
+        "sortId": -10000,
+        "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
+    },
+    "itempack_stickers_sand1": {
+        "classifyType": "NONE",
+        "description": "欣賞荒漠與綠洲交織出的藝術。",
+        "icon": "itempack_stickers_sand1.png",
+        "name": "貼紙包/沙洲遺聞",
+        "sortId": -10000,
+        "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
     },
     "main16_spitem_1": {
         "classifyType": "NORMAL",

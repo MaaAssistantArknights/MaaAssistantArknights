@@ -222,21 +222,10 @@
                         Height="30"
                         MinWidth="30"
                         Padding="0,5"
-                        hc:BorderElement.CornerRadius="0"
+                        hc:BorderElement.CornerRadius="0,4,4,0"
                         hc:IconElement.Geometry="{StaticResource ClipboardLink20Regular}"
                         BorderThickness="0,1,1,1"
                         Command="{s:Action PasteClipboard}"
-                        IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}" />
-                    <!-- TODO: 作业站迁移完成后删除此按钮及下方的 TooltipBlock -->
-                    <Button
-                        Grid.Column="3"
-                        Height="30"
-                        MinWidth="30"
-                        Padding="0,5"
-                        hc:BorderElement.CornerRadius="0,4,4,0"
-                        hc:IconElement.Geometry="{StaticResource ClipboardLinkSet20Regular}"
-                        BorderThickness="0,1,1,1"
-                        Command="{s:Action PasteClipboardCopilotSet}"
                         IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}" />
                     <controls:TooltipBlock
                         Grid.Column="1"
@@ -252,14 +241,6 @@
                         MouseLeftButtonDown="{s:Action PasteClipboard}"
                         NormalOpacity="0.25"
                         TooltipText="{DynamicResource PasteClipboardTip}" />
-                    <!-- TODO: 作业站迁移完成后删除此 TooltipBlock -->
-                    <controls:TooltipBlock
-                        Grid.Column="3"
-                        Margin="0,0,-2,0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        NormalOpacity="0.25"
-                        TooltipText="{DynamicResource PasteClipboardCopilotSetTip}" />
                 </Grid>
             </StackPanel>
 

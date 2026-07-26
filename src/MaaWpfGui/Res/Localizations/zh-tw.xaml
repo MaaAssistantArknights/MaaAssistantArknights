@@ -52,6 +52,7 @@
     <system:String x:Key="ExternalNotificationSendSuccess">發送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">發送失敗</system:String>
     <system:String x:Key="ExternalNotificationSendTest">發送測試</system:String>
+    <system:String x:Key="ExternalNotificationAddConfig">添加推送</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知測試</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">這是 MAA 外部通知測試資訊。如果您看到了這段內容，就說明通知發送成功了！</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 發送金鑰</system:String>
@@ -349,7 +350,7 @@
 • {key=Quantity}：以目前理智作戰任務中該材料的掉落數量為目標，達到設定數量後停止。
 • {key=TargetInventory}：會參考 ｢{key=Toolbox}-{key=DepotRecognition}｣ 中保存的庫存資料，只補到設定庫存為止。
   • 庫存資料是快取值，手動刷關、合成或消耗材料後可能與實際不一致；可透過 ｢{key=UserDataUpdate}｣ 或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 同步。
-  • 使用 {key=TargetInventory} 時，開始後不能臨時修改材料與數量。</system:String>
+  • 執行時會根據掉落即時更新庫存，前序任務刷出的材料會影響後續任務的缺口計算。</system:String>
     <system:String x:Key="StartupUpdateCheck">啟動時檢查更新</system:String>
     <system:String x:Key="UpdateAutoCheck">定時檢查更新</system:String>
     <system:String x:Key="UpdateAutoCheckTip">遊戲內 00:00 / 18:00（對應伺服器當地時間 04:00 / 22:00）</system:String>
@@ -766,6 +767,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="UserDataUpdate">更新使用者資料</system:String>
+    <system:String x:Key="DepotMaintain">庫存保持</system:String>
     <system:String x:Key="MiniGame">快捷功能</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">常駐</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">目前活動</system:String>
@@ -823,10 +825,11 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="KeepInventory">保持庫存</system:String>
     <system:String x:Key="TargetInventory">目標庫存</system:String>
     <system:String x:Key="Series">代理倍率</system:String>
+    <system:String x:Key="SeriesLockedTip">遊戲更新後暫未適配，請手動在遊戲內設定代理倍率</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 自動辨識關卡最大代理倍率，保持最大代理倍率且使用理智藥後理智不溢出
 
-• 數值 (1~6):
+• 數值 (1~10):
 按設定倍率執行代理
 若目前理智不足以完成設定倍率 (如僅夠 5 次但設為 6 倍)，則無法進入戰鬥
  或者
@@ -852,6 +855,21 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="Inventory">庫存</system:String>
     <system:String x:Key="InventoryUpdateTip">可透過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存數據</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">任務 ｢{0}｣ 啟用了 {key=TargetInventory}，但目前沒有可用的庫存資料，已跳過。可透過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存。</system:String>
+    <!--  庫存保持  -->
+    <system:String x:Key="DepotUpdateBeforeStart">任務開始前更新庫存資料</system:String>
+    <system:String x:Key="AddPlan">新增</system:String>
+    <system:String x:Key="CollapseAll">折疊</system:String>
+    <system:String x:Key="DepotPlanInvalidDropItem">計劃 {0}：未指定掉落物。</system:String>
+    <system:String x:Key="DepotPlanZeroDropCount">計劃 {0}：目標庫存為 0。</system:String>
+    <system:String x:Key="DepotPlanNoStage">計劃 {0}：關卡未指定或為 ｢當前/上次｣。</system:String>
+    <system:String x:Key="DepotPlanInventoryEnough">計劃 {0}：{1} 庫存已充足（當前 {2} / 目標 {3}）。</system:String>
+    <system:String x:Key="DepotPlanStageNotOpen">計劃 {0}：關卡 ｢{1}｣ 未開放。</system:String>
+    <system:String x:Key="DepotPlanAddTaskFailed">計劃 {0}：新增任務失敗。</system:String>
+    <system:String x:Key="DepotSkipDuringActivity">活動期間跳過</system:String>
+    <system:String x:Key="DepotSkipDuringResourceCollection">資源收集限時全天開放期間跳過</system:String>
+    <system:String x:Key="DepotPlanSkippedActivity">目前有活動進行中，已跳過庫存保持。</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">目前處於資源收集限時全天開放期間，已跳過庫存保持。</system:String>
+    <system:String x:Key="DepotPlanUpdateDepotFailed">更新庫存資料失敗。</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>
@@ -1068,8 +1086,6 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">讀取剪貼簿，自動辨識作業/作業集</system:String>
-    <!--  TODO: 作业站迁移完成后删除 PasteClipboardCopilotSetTip  -->
-    <system:String x:Key="PasteClipboardCopilotSetTip">讀取剪貼簿並新增為作業集</system:String>
     <system:String x:Key="ImportFilesTip">批次匯入</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作業怎麼樣？評價一下吧！</system:String>
     <system:String x:Key="FailedToLikeWebJson">出現錯誤，評價失敗 : &lt;</system:String>
@@ -1145,8 +1161,7 @@ C:\\leidian\\LDPlayer9\n
         4. {key=ParadoxSimulation}：選好技能後，在技能選擇介面顯示 ｢開始模擬｣ 按鈕的畫面啟動；1/2★ {key=Operator}（無技能）在右下角顯示 ｢開始模擬｣ 按鈕的介面啟動。若使用 ｢{key=UseCopilotList}｣，請從{key=Operator}列表的 ｢等級 / 稀有度｣ 標籤頁啟動。\n\n
         5. {key=Operator}若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除特別關注，或在報錯後關閉 ｢{key=AutoSquad}｣，並依據提示手動補充缺少的{key=Operator}。\n\n
         6. ZOOT 作業站的神秘代碼可透過輸入框右側的貼上按鈕貼上，自動辨識格式：\n
-        • prts://s = 作業集 prts:// = 單個作業\n
-        第三按鈕為舊格式作業集入口，後續將移除。\n\n
+        • prts://s = 作業集 prts:// = 單個作業\n\n
         7. {key=UseCopilotList}：\n
         • 選擇作業後，檢查下方關卡名稱是否正確 (例: CV-EX-1)。\n
         • 加入：左鍵 = 普通難度，右鍵 = 突襲難度。\n

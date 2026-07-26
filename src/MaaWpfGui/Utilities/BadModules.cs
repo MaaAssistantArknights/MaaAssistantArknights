@@ -74,7 +74,7 @@ internal class BadModules
         }
 
         // 如果用户已经选择忽略警告并使用软件渲染，则不再显示警告
-        if (ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering)
+        if (ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering)
         {
             return;
         }
@@ -134,7 +134,7 @@ internal class BadModules
             // 如果用户确认，则保存设置
             if (confirmResult == TaskDialogButton.Yes)
             {
-                ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering = true;
+                ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering = true;
                 _logger.Information("User chose to ignore bad modules warning and use software rendering");
                 Bootstrapper.ShutdownAndRestartWithoutArgs();
             }

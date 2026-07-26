@@ -13,18 +13,11 @@
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type settings_vms:GuiSettingsUserControlModel}}"
-    d:DesignHeight="350"
     d:DesignWidth="550"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <controls:TextBlock
-            HorizontalAlignment="Center"
-            FontWeight="Bold"
-            Text="{DynamicResource GlobalConfigTip}"
-            TextAlignment="Center"
-            Visibility="{c:Binding 'ConfigurationList.Count > 1',
-                                   Source={x:Static helper:Instances.SettingsViewModel}}" />
+        <controls:GlobalConfigTip />
         <!--<controls:TextBlock Text="{DynamicResource CustomBackgroundTip}" TextWrapping="Wrap" />-->
         <Grid
             Margin="10"

@@ -12,7 +12,7 @@
 // </copyright>
 
 #nullable enable
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using Stylet;
 
@@ -30,71 +30,49 @@ public class RemoteControlUserControlModel : PropertyChangedBase
 
     public static RemoteControlUserControlModel Instance { get; }
 
-    private string _remoteControlGetTaskEndpointUri = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty));
-
     public string RemoteControlGetTaskEndpointUri
     {
-        get => _remoteControlGetTaskEndpointUri;
-        set {
-            if (!SetAndNotify(ref _remoteControlGetTaskEndpointUri, value))
+        get; set {
+            if (!SetAndNotify(ref field, value))
             {
                 return;
             }
 
             Instances.RemoteControlService.InitializePollJobTask();
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, value);
+            ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlGetTaskEndpointUri = SimpleEncryptionHelper.Encrypt(value);
         }
-    }
-
-    private string _remoteControlReportStatusUri = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty));
+    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlGetTaskEndpointUri);
 
     public string RemoteControlReportStatusUri
     {
-        get => _remoteControlReportStatusUri;
-        set {
-            SetAndNotify(ref _remoteControlReportStatusUri, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlReportStatusUri, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlReportStatusUri = SimpleEncryptionHelper.Encrypt(value);
         }
-    }
-
-    private string _remoteControlUserIdentity = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty));
+    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlReportStatusUri);
 
     public string RemoteControlUserIdentity
     {
-        get => _remoteControlUserIdentity;
-        set {
-            SetAndNotify(ref _remoteControlUserIdentity, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlUserIdentity, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlUserIdentity = SimpleEncryptionHelper.Encrypt(value);
         }
-    }
-
-    private string _remoteControlDeviceIdentity = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty));
+    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlUserIdentity);
 
     public string RemoteControlDeviceIdentity
     {
-        get => _remoteControlDeviceIdentity;
-        set {
-            SetAndNotify(ref _remoteControlDeviceIdentity, value);
-            value = SimpleEncryptionHelper.Encrypt(value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlDeviceIdentity, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlDeviceIdentity = SimpleEncryptionHelper.Encrypt(value);
         }
-    }
-
-    private int _remoteControlPollIntervalMs = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlPollIntervalMs, 1000);
+    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlDeviceIdentity);
 
     public int RemoteControlPollIntervalMs
     {
-        get => _remoteControlPollIntervalMs;
+        get => ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlPollIntervalMs;
         set {
-            if (!SetAndNotify(ref _remoteControlPollIntervalMs, value))
-            {
-                return;
-            }
-
-            ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlPollIntervalMs, value.ToString());
+            ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlPollIntervalMs = value;
+            NotifyOfPropertyChange();
         }
     }
 }

@@ -25,6 +25,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -68,7 +69,7 @@ public partial class CopilotViewModel : Screen
     /// 缓存的已解析作业，非即时添加的作业会使用该缓存
     /// </summary>
     private CopilotBase? _copilotCache;
-    private const string CopilotIdPrefix = "maa://"; // TODO: 作业站迁移完成后删除 maa:// 旧格式支持
+    private const string CopilotIdPrefix = "maa://";
     private const string CopilotNewIdPrefix = "prts://"; // 新格式前缀，prts://12345 为作业，prts://s12345 为作业集
     private const string CopilotNewSetIdPrefix = "prts://s"; // 新格式作业集前缀
     private static readonly string TempCopilotFile = Path.Combine(CacheDir, "_temp_copilot.json");
@@ -131,20 +132,12 @@ public partial class CopilotViewModel : Screen
             NotifyOfPropertyChange(nameof(UserAdditionalPopupVerticalOffset));
         };
 
-        var copilotTaskList = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotTaskList, string.Empty);
-        if (string.IsNullOrEmpty(copilotTaskList))
-        {
-            return;
-        }
-
-        var list = JsonConvert.DeserializeObject<List<CopilotItemViewModel>>(copilotTaskList) ?? [];
+        var list = ConfigFactory.CurrentConfig.Copilot.TaskList;
         for (int i = 0; i < list.Count; i++)
         {
-            list[i].Index = i;
             CopilotItemViewModels.Add(list[i]);
         }
 
-        SaveCopilotTask();
         CopilotItemViewModels.CollectionChanged += (_, e) => {
             _logger.Information("Copilot item collection changed: {Action}", e.Action);
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Move)
@@ -369,17 +362,6 @@ public partial class CopilotViewModel : Screen
         return TryParseCopilotCode(value, out _, out _);
     }
 
-    // TODO: 作业站迁移完成后删除此方法（旧格式 maa:// 和纯数字无法区分类型，届时所有格式都自带类型信息）
-
-    /// <summary>
-    /// 判断是否为类型不明确的旧格式代码（maa:// 或纯数字，无法区分作业/作业集）
-    /// </summary>
-    private static bool IsAmbiguousCopilotCode(string value)
-    {
-        return value.StartsWith(CopilotIdPrefix, StringComparison.OrdinalIgnoreCase)
-            || int.TryParse(value, out _);
-    }
-
     /// <summary>
     /// 作业站代码类型
     /// </summary>
@@ -399,7 +381,7 @@ public partial class CopilotViewModel : Screen
     /// 解析作业站代码，识别所有已知格式并提取数字 ID
     /// </summary>
     /// <param name="input">原始输入（maa://12345、prts://12345、prts://s12345、s12345、12345）</param>
-    /// <param name="type">解析出的类型；maa:// 和纯数字默认为 Copilot（按钮上下文可覆盖）</param>
+    /// <param name="type">解析出的类型</param>
     /// <param name="id">提取的数字 ID</param>
     /// <returns>是否成功解析</returns>
     private static bool TryParseCopilotCode(string input, out CopilotCodeType type, out int id)
@@ -425,10 +407,8 @@ public partial class CopilotViewModel : Screen
             return int.TryParse(input[CopilotNewIdPrefix.Length..], out id);
         }
 
-        // TODO: 作业站迁移完成后删除 maa:// 旧格式分支
         if (input.StartsWith(CopilotIdPrefix, StringComparison.OrdinalIgnoreCase))
         {
-            // maa:// 旧格式，默认当单个作业（按钮上下文可覆盖为作业集）
             type = CopilotCodeType.Copilot;
             return int.TryParse(input[CopilotIdPrefix.Length..], out id);
         }
@@ -493,52 +473,40 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     public bool AddUserAdditional
     {
-        get => field;
-        set {
+        get; set {
             SetAndNotify(ref field, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotAddUserAdditional, value.ToString());
+            ConfigFactory.CurrentConfig.Copilot.EnableUserAdditional = value;
         }
-    } = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, false);
-
-    private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, string.Empty).Trim();
+    } = ConfigFactory.CurrentConfig.Copilot.EnableUserAdditional;
 
     /// <summary>
     /// Gets or sets a value indicating whether to use auto-formation.
     /// </summary>
-    public string UserAdditional
+    public List<UserAdditional> UserAdditional
     {
-        get => _userAdditional;
-        set {
-            value = value.Trim();
-            SetAndNotify(ref _userAdditional, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotUserAdditional, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Copilot.UserAdditional = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.Copilot.UserAdditional;
 
     [PropertyDependsOn(nameof(UserAdditional))]
     public string UserAdditionalPrettyJson
     {
         get {
-            if (string.IsNullOrWhiteSpace(UserAdditional))
+            if (UserAdditional.Count == 0)
             {
                 return string.Empty;
             }
 
-            try
-            {
-                return JToken.Parse(UserAdditional).ToString(Formatting.None).Replace("},", "},\n");
-            }
-            catch
-            {
-                return UserAdditional; // 解析失败时返回原始字符串
-            }
+            return JArray.FromObject(UserAdditional).ToString(Formatting.None).Replace("},", "},\n");
         }
     }
 
     /// <summary>
     /// Gets or sets a value indicating whether the UserAdditional popup is open.
     /// </summary>
-    public bool IsUserAdditionalPopupOpen { get => field; set => SetAndNotify(ref field, value); }
+    public bool IsUserAdditionalPopupOpen { get; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets the view models of UserAdditional items.
@@ -568,72 +536,19 @@ public partial class CopilotViewModel : Screen
     {
         // 清空列表
         UserAdditionalItems.Clear();
-
-        // 优先按 JSON 反序列化
-        if (!string.IsNullOrWhiteSpace(UserAdditional))
+        foreach (var op in UserAdditional)
         {
-            try
+            if (string.IsNullOrWhiteSpace(op.Name))
             {
-                var list = JsonConvert.DeserializeObject<List<UserAdditional>>(UserAdditional) ?? [];
-                foreach (var op in list)
-                {
-                    if (string.IsNullOrWhiteSpace(op.Name))
-                    {
-                        continue;
-                    }
-
-                    int skill = op.Skill;
-                    if (skill < 0)
-                    {
-                        skill = 0;
-                    }
-                    else if (skill > 3)
-                    {
-                        skill = 3;
-                    }
-
-                    var item = new UserAdditionalItemViewModel {
-                        Name = op.Name,
-                        Skill = skill,
-                        Module = op.Module,
-                    };
-                    UserAdditionalItems.Add(item);
-                }
+                continue;
             }
-            catch
-            {
-                // 兼容旧格式：以 ; 和 , 解析 "name,skill;name,skill" 形式
-                try
-                {
-                    Regex regex = new(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))?(?=;)", RegexOptions.Compiled);
-                    var matches = regex.Matches(";" + UserAdditional + ";");
-                    foreach (Match match in matches)
-                    {
-                        var name = match.Groups["name"].Value.Trim();
-                        var skillStr = match.Groups["skill"].Value;
-                        int skill = string.IsNullOrEmpty(skillStr) ? 0 : int.Parse(skillStr);
-                        if (skill < 0)
-                        {
-                            skill = 0;
-                        }
-                        else if (skill > 3)
-                        {
-                            skill = 3;
-                        }
 
-                        var item = new UserAdditionalItemViewModel {
-                            Name = name,
-                            Skill = skill,
-                            Module = 0,
-                        };
-                        UserAdditionalItems.Add(item);
-                    }
-                }
-                catch
-                {
-                    // ignore
-                }
-            }
+            var item = new UserAdditionalItemViewModel {
+                Name = op.Name,
+                Skill = Math.Clamp(op.Skill, 0, 3),
+                Module = op.Module,
+            };
+            UserAdditionalItems.Add(item);
         }
 
         // 如果列表为空，添加一行空行
@@ -660,27 +575,14 @@ public partial class CopilotViewModel : Screen
                 continue; // 跳过空行
             }
 
-            int skill = item.Skill;
-            if (skill < 0)
-            {
-                skill = 0;
-            }
-            else if (skill > 3)
-            {
-                skill = 3;
-            }
-
             list.Add(new UserAdditional {
                 Name = item.Name.Trim(),
-                Skill = skill,
+                Skill = Math.Clamp(item.Skill, 0, 3),
                 Module = item.Module,
             });
         }
 
-        UserAdditional = list.Count > 0
-            ? JsonConvert.SerializeObject(list, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore })
-            : string.Empty;
-
+        UserAdditional = list;
         IsUserAdditionalPopupOpen = false;
     }
 
@@ -771,11 +673,7 @@ public partial class CopilotViewModel : Screen
 
     private bool _useFormation;
 
-    public bool UseFormation
-    {
-        get => _useFormation;
-        set => SetAndNotify(ref _useFormation, value);
-    }
+    public bool UseFormation { get => _useFormation; set => SetAndNotify(ref _useFormation, value); }
 
     public List<GenericCombinedData<int>> FormationSelectList { get; } =
     [
@@ -785,42 +683,36 @@ public partial class CopilotViewModel : Screen
         new() { Display = "4", Value = 4 },
     ];
 
-    private int _formationIndex = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSelectFormation, 1);
-
     public int FormationIndex
     {
-        get => _formationIndex;
-        set {
-            SetAndNotify(ref _formationIndex, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotSelectFormation, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Copilot.SelectFormation = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.Copilot.SelectFormation;
 
-    private bool _useSupportUnitUsage;
+    public bool UseSupportUnitUsage { get; set => SetAndNotify(ref field, value); }
 
-    public bool UseSupportUnitUsage
+    public CopilotSupportMode SupportUnitUsage
     {
-        get => _useSupportUnitUsage;
-        set => SetAndNotify(ref _useSupportUnitUsage, value);
-    }
-
-    private int _supportUnitUsage = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSupportUnitUsage, 1);
-
-    public int SupportUnitUsage
-    {
-        get => _supportUnitUsage;
-        set {
-            SetAndNotify(ref _supportUnitUsage, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotSupportUnitUsage, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Copilot.SupportMode = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.Copilot.SupportMode;
 
-    public List<GenericCombinedData<int>> SupportUnitUsageList { get; } =
+    public List<GenericCombinedData<CopilotSupportMode>> SupportUnitUsageList { get; } =
     [
         /* new() { Display = LocalizationHelper.GetString("SupportUnitUsage.None"), Value = 0 }, */
-        new() { Display = LocalizationHelper.GetString("SupportUnitUsage.WhenNeeded"), Value = 1 },
-        new() { Display = LocalizationHelper.GetString("SupportUnitUsage.Random"), Value = 3 },
+        new() { Display = LocalizationHelper.GetString("SupportUnitUsage.WhenNeeded"), Value = CopilotSupportMode.WhenNeeded },
+        new() { Display = LocalizationHelper.GetString("SupportUnitUsage.Random"), Value = CopilotSupportMode.Random },
     ];
+
+    public enum CopilotSupportMode
+    {
+        WhenNeeded = 1,
+        Random = 3,
+    }
 
     private bool _useCopilotList;
 
@@ -858,16 +750,13 @@ public partial class CopilotViewModel : Screen
 
     public bool Loop { get; set; }
 
-    private int _loopTimes = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotLoopTimes, 1);
-
     public int LoopTimes
     {
-        get => _loopTimes;
-        set {
-            SetAndNotify(ref _loopTimes, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotLoopTimes, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Copilot.LoopTimes = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.Copilot.LoopTimes;
 
     private const string CopilotUiUrl = MaaUrls.PrtsPlus;
 
@@ -955,39 +844,6 @@ public partial class CopilotViewModel : Screen
         {
             DropFile(Clipboard.GetFileDropList()[0]);
         }
-    }
-
-    // TODO: 作业站迁移完成后删除此方法及对应的 XAML 按钮（CopilotView.xaml Grid.Column=3）、
-    //  TooltipBlock（Grid.Column=3）、本地化字符串 PasteClipboardCopilotSetTip
-
-    /// <summary>
-    /// Paste clipboard contents.
-    /// UI 绑定的方法
-    /// </summary>
-    /// <returns>Task</returns>
-    [UsedImplicitly]
-    public async Task PasteClipboardCopilotSet()
-    {
-        if (!Clipboard.ContainsText())
-        {
-            return;
-        }
-
-        var text = Clipboard.GetText().Trim();
-
-        // 新格式自带类型信息，交给 Filename → UpdateFileDoc 自动路由
-        // 旧格式（maa:// / 纯数字）类型不明确，按按钮上下文当作业集处理
-        if (!IsAmbiguousCopilotCode(text))
-        {
-            Filename = text;
-            return;
-        }
-
-        StartEnabled = false;
-        ClearLog();
-        await GetCopilotSetAsync(text);
-        CopilotUrl = CopilotUiUrl;
-        StartEnabled = true;
     }
 
     /// <summary>
@@ -1911,8 +1767,7 @@ public partial class CopilotViewModel : Screen
 
     public void SaveCopilotTask()
     {
-        var task = JsonConvert.SerializeObject(CopilotItemViewModels, new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore });
-        ConfigurationHelper.SetValue(ConfigurationKeys.CopilotTaskList, task);
+        ConfigFactory.CurrentConfig.Copilot.TaskList = [.. CopilotItemViewModels];
     }
 
     /// <summary>
@@ -2123,69 +1978,17 @@ public partial class CopilotViewModel : Screen
 
     private IEnumerable<UserAdditional> ParseUserAdditionals()
     {
-        // 反序列化自定义追加干员列表（JSON），兼容旧格式
-        if (string.IsNullOrWhiteSpace(UserAdditional))
+        foreach (var op in UserAdditional)
         {
-            return [];
-        }
-
-        try
-        {
-            var list = JsonConvert.DeserializeObject<List<UserAdditional>>(UserAdditional) ?? [];
-            foreach (var op in list)
+            if (string.IsNullOrWhiteSpace(op.Name))
             {
-                if (string.IsNullOrWhiteSpace(op.Name))
-                {
-                    continue;
-                }
-
-                int skill = op.Skill;
-                if (skill < 0)
-                {
-                    skill = 0;
-                }
-                else if (skill > 3)
-                {
-                    skill = 3;
-                }
-
-                op.Skill = skill;
+                continue;
             }
 
-            return list.Where(op => !string.IsNullOrWhiteSpace(op.Name));
+            op.Skill = Math.Clamp(op.Skill, 0, 3);
         }
-        catch
-        {
-            // 兼容旧格式：以 ; 和 , 解析 "name,skill;name,skill" 形式
-            try
-            {
-                Regex regex = new(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))?(?=;)", RegexOptions.Compiled);
-                var matches = regex.Matches(";" + UserAdditional + ";").ToList();
-                return matches.Select(match => {
-                    var name = match.Groups[1].Value.Trim();
-                    var skillStr = match.Groups[2].Value;
-                    int skill = string.IsNullOrEmpty(skillStr) ? 0 : int.Parse(skillStr);
-                    if (skill < 0)
-                    {
-                        skill = 0;
-                    }
-                    else if (skill > 3)
-                    {
-                        skill = 3;
-                    }
 
-                    return new UserAdditional {
-                        Name = name,
-                        Skill = skill,
-                        Module = 0,
-                    };
-                }).Where(op => !string.IsNullOrWhiteSpace(op.Name));
-            }
-            catch
-            {
-                return [];
-            }
-        }
+        return UserAdditional.Where(op => !string.IsNullOrWhiteSpace(op.Name));
     }
 
     private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)
@@ -2205,7 +2008,7 @@ public partial class CopilotViewModel : Screen
             var task = new AsstCopilotTask() {
                 MultiTasks = [.. t],
                 Formation = Form,
-                SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+                SupportUnitUsage = UseSupportUnitUsage ? (int)SupportUnitUsage : 0,
                 AddTrust = AddTrust,
                 IgnoreRequirements = IgnoreRequirements,
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
@@ -2259,7 +2062,7 @@ public partial class CopilotViewModel : Screen
             var singleTask = new AsstCopilotTask() {
                 FileName = IsDataFromWeb ? TempCopilotFile : Filename,
                 Formation = Form,
-                SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+                SupportUnitUsage = UseSupportUnitUsage ? (int)SupportUnitUsage : 0,
                 AddTrust = AddTrust,
                 IgnoreRequirements = IgnoreRequirements,
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],

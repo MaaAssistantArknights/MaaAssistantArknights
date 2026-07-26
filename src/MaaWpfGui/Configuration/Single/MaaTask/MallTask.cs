@@ -45,7 +45,7 @@ public class MallTask : BaseTask
     /// <summary>
     /// Gets or sets 上次打信用战斗的时间
     /// </summary>
-    public string CreditFightLastTime { get; set; } = DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString();
+    public string CreditFightLastTime { get; set; } = DateTime.MinValue.ToFormattedString();
 
     /// <summary>
     /// Gets or sets a value indicating whether 信用战斗一天仅一次
@@ -65,7 +65,7 @@ public class MallTask : BaseTask
     /// <summary>
     /// Gets or sets 上次访问好友的时间
     /// </summary>
-    public string VisitFriendsLastTime { get; set; } = DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString();
+    public string VisitFriendsLastTime { get; set; } = DateTime.MinValue.ToFormattedString();
 
     /// <summary>
     /// Gets or sets 优先列表
@@ -94,8 +94,7 @@ public class MallTask : BaseTask
 
     public bool IsCreditFightAvailable
     {
-        get
-        {
+        get {
             if (!CreditFightOnceADay)
             {
                 return CreditFight;
@@ -114,8 +113,7 @@ public class MallTask : BaseTask
 
     public bool IsVisitFriendsAvailable
     {
-        get
-        {
+        get {
             if (!VisitFriendsOnceADay)
             {
                 return VisitFriends;
