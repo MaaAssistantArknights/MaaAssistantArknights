@@ -1822,14 +1822,64 @@ public class TaskQueueViewModel : Screen
     /// <returns>Task</returns>
     public async Task LinkStart()
     {
-        var test = ConfigFactory.Root.Gui.HotKeys;
-        _logger.Information("HotKeys: {HotKeys}", test);
-        return;
+        // 调试：按住 Ctrl + Shift 点击 LinkStart，不执行真实任务，改为灌入大量日志以压测日志列表
+#if DEBUG
+        if (System.Windows.Input.Keyboard.Modifiers == (System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Shift))
+        {
+            await RunLogVirtualizationStressTestAsync();
+            return;
+        }
+#endif
+
         using var log = new LogScope(_logger);
         await TaskQueueSerializingLock.WaitAsync();
         await LinkStartWithTasks(ConfigFactory.CurrentConfig.TaskQueue);
         TaskQueueSerializingLock.Release();
     }
+
+#if DEBUG
+    /// <summary>
+    /// 日志列表虚拟化压力测试：灌入大量卡片 + 日志 + 缩略图，用于验证滚动/渲染/句柄占用。
+    /// 触发方式：按住 Shift 点击 LinkStart。
+    /// </summary>
+    private async Task RunLogVirtualizationStressTestAsync()
+    {
+        ClearLog();
+        Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
+
+        const int cardCount = 500;        // 卡片数量
+        const int logsPerCard = 5;        // 每张卡片日志条数
+
+        AddLog(LocalizationHelper.GetString("LinkStart"), UiLogColor.Info, splitMode: LogCardSplitMode.Before);
+
+        for (int i = 1; i <= cardCount; i++)
+        {
+            // 每 10 张卡片前拆分一次，模拟任务边界；并为部分卡片附加缩略图
+            var split = (i % 10 == 1) ? LogCardSplitMode.Before : LogCardSplitMode.None;
+            string[] colors = [UiLogColor.Trace, UiLogColor.Message, UiLogColor.Info, UiLogColor.Warning, UiLogColor.Error];
+            var color = colors[i % 5];
+
+            for (int j = 1; j <= logsPerCard; j++)
+            {
+                AddLog(
+                    $"压力测试日志 #{i}-{j}：这是一条用于验证日志列表虚拟化的长文本，" +
+                    $"请观察滚动流畅度与任务管理器中的用户对象数量变化。",
+                    color,
+                    weight: j == 1 ? "Bold" : "Regular",
+                    splitMode: split);
+                split = LogCardSplitMode.None;  // 仅第一条带 Before
+            }
+
+            // 避免阻塞 UI 线程，每批让出一次
+            if (i % 20 == 0)
+            {
+                await Task.Delay(1).ConfigureAwait(false);
+            }
+        }
+
+        AddLog($"压力测试完成：共生成 {cardCount} 张卡片 × {logsPerCard} 条日志。", UiLogColor.Info, weight: "Bold", splitMode: LogCardSplitMode.Both);
+    }
+#endif
 
     public async Task LinkStartWithTasks(IEnumerable<BaseTask> tasks)
     {
