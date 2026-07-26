@@ -2381,11 +2381,19 @@
             "Infrast",
             "InfrastNotification",
             "InfrastEnteredFlag",
+            "InfrastBegin@InfrastLoading",
             "(Infrast@MainThemes)@QuickSwitch@ToInfrast#next",
             "Infrast@ReturnButtons#next",
             "Infrast@CloseAnnos#next",
             "Infrast@OfflineConfirm"
         ]
+    },
+    "InfrastLoading": {
+        "doc": "等待基建加载画面结束",
+        "template": "InfrastPic/InfrastLoading.png",
+        "templThreshold": 0.8,
+        "roi": [520, 330, 240, 180],
+        "next": ["#self", "#next", "#back"]
     },
     "Infrast@MainThemes": {
         "next": ["(InfrastBegin#next)^((Infrast@MainThemes)@QuickSwitch@ToInfrast#next)"]
