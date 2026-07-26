@@ -21,7 +21,6 @@ using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
-using ObservableCollections;
 using static MaaWpfGui.ViewModels.UI.OverlayViewModel;
 
 namespace MaaWpfGui.Configuration.Global;
@@ -88,7 +87,7 @@ public class Gui : INotifyPropertyChanged
     /// <summary>
     /// 设置页折叠框展开状态。
     /// </summary>
-    public ObservableCollection<SettingKey> ExpanderStates { get; set; } = [];
+    public ObservableCollection<SettingKey> ExpanderStates { get; set; } = [.. Enum.GetValues<SettingKey>()];
 
     /// <summary>
     /// 全局热键配置。
