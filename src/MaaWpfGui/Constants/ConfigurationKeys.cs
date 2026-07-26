@@ -73,6 +73,7 @@ public static class ConfigurationKeys
     public const string MuMu12ExtrasEnabled = "Connect.MuMu12Extras.Enabled"; // √
     public const string MuMu12EmulatorPath = "Connect.MuMu12EmulatorPath"; // √
     public const string MuMu12Index = "Connect.MuMu12Index"; // √
+    public const string MuMu12TouchEnabled = "Connect.MuMu12Extras.TouchEnabled"; // √
     public const string MuMu12Display = "Connect.MuMu12Display"; // 废弃
     public const string LdPlayerExtrasEnabled = "Connect.LdPlayerExtras.Enabled"; // √
     public const string LdPlayerEmulatorPath = "Connect.LdPlayerEmulatorPath"; // √

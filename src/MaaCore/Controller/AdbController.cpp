@@ -281,9 +281,11 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg, const std::str
     set_mumu_package(adb_cfg.extras.get("client_type", ""));
 
     std::filesystem::path mumu_path = utils::path(adb_cfg.extras.get("path", ""));
+    // 触控需要额外探测 MuMuManager 版本，只截图的用户不该付这份开销
+    bool enable_input = adb_cfg.extras.get("touch", false);
 
     if (adb_cfg.extras.contains("index")) { // MuMu index is provided directly
-        m_mumu_extras.init(mumu_path, adb_cfg.extras.get("index", 0));
+        m_mumu_extras.init(mumu_path, adb_cfg.extras.get("index", 0), enable_input);
     }
     else {
         auto mumu_index = get_mumu_index(address);
@@ -291,7 +293,7 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg, const std::str
             LogError << "Failed to parse MuMu index from address, skip MumuExtras init" << VAR(address);
             return;
         }
-        m_mumu_extras.init(mumu_path, mumu_index.value());
+        m_mumu_extras.init(mumu_path, mumu_index.value(), enable_input);
     }
 #endif
 }

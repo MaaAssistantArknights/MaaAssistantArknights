@@ -697,6 +697,7 @@ Only supports Official(CN), Bilibili and Traditional Chinese servers. Third-part
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
+    <system:String x:Key="MuMuExtrasTouchEnabled">Also use MuMu's input for touch (experimental, requires MuMu 6.3.2+)</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu Emulator path not found.</system:String>
     <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll was not found under the selected MuMu installation.\n
 Expected relative path: nx_device/15.0/shell/sdk/external_renderer_ipc.dll or
