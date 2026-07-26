@@ -1220,6 +1220,23 @@ public class TaskQueueViewModel : Screen
         bool needsBeforeSplit = splitMode == LogCardSplitMode.Before || splitMode == LogCardSplitMode.Both;
         bool needsAfterSplit = splitMode == LogCardSplitMode.After || splitMode == LogCardSplitMode.Both;
 
+        // 记录日志
+        if (!isEmpty)
+        {
+            switch (color)
+            {
+                case UiLogColor.Error:
+                    _logger.Error("{Content}", content);
+                    break;
+                case UiLogColor.Warning:
+                    _logger.Warning("{Content}", content);
+                    break;
+                default:
+                    _logger.Information("{Content}", content);
+                    break;
+            }
+        }
+
         Execute.OnUIThread(() => {
             if (needsBeforeSplit)
             {
@@ -1250,23 +1267,6 @@ public class TaskQueueViewModel : Screen
                 createNewCard();
             }
         });
-
-        // 记录日志
-        if (!isEmpty)
-        {
-            switch (color)
-            {
-                case UiLogColor.Error:
-                    _logger.Error("{Content}", content);
-                    break;
-                case UiLogColor.Warning:
-                    _logger.Warning("{Content}", content);
-                    break;
-                default:
-                    _logger.Information("{Content}", content);
-                    break;
-            }
-        }
     }
 
     private void createNewCard()
