@@ -350,7 +350,7 @@
 • {key=Quantity}：以当前理智作战任务中该材料的掉落数量为目标，达到设定数量后停止。
 • {key=TargetInventory}：会参考 ｢{key=Toolbox}-{key=DepotRecognition}｣ 中保存的库存数据，只补到设定库存为止。
   • 库存数据是缓存值，手动刷关、合成或消耗材料后可能与实际不一致；可通过 ｢{key=UserDataUpdate}｣ 或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 同步。
-  • 使用 {key=TargetInventory} 时，开始后不能临时修改材料和数量。</system:String>
+  • 运行时会根据掉落实时更新库存，前序任务刷出的材料会影响后续任务的缺口计算。</system:String>
     <system:String x:Key="StartupUpdateCheck">启动时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheck">定时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheckTip">游戏内 00:00 / 18:00（对应服务器当地时间 04:00 / 22:00）</system:String>
@@ -767,6 +767,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="UserDataUpdate">更新数据</system:String>
+    <system:String x:Key="DepotMaintain">库存保持</system:String>
     <system:String x:Key="MiniGame">牛杂</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">常驻活动</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">当期活动</system:String>
@@ -854,6 +855,21 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Inventory">库存</system:String>
     <system:String x:Key="InventoryUpdateTip">可通过 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存数据</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">任务 ｢{0}｣ 启用了 {key=TargetInventory}，但当前没有可用的库存数据，已跳过。可通过 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存。</system:String>
+    <!--  库存保持  -->
+    <system:String x:Key="DepotUpdateBeforeStart">任务开始前更新库存数据</system:String>
+    <system:String x:Key="AddPlan">添加</system:String>
+    <system:String x:Key="CollapseAll">折叠</system:String>
+    <system:String x:Key="DepotPlanInvalidDropItem">计划 {0}：未指定掉落物。</system:String>
+    <system:String x:Key="DepotPlanZeroDropCount">计划 {0}：目标库存为 0。</system:String>
+    <system:String x:Key="DepotPlanNoStage">计划 {0}：关卡未指定或为 ｢当前/上次｣。</system:String>
+    <system:String x:Key="DepotPlanInventoryEnough">计划 {0}：{1} 库存已充足（当前 {2} / 目标 {3}）。</system:String>
+    <system:String x:Key="DepotPlanStageNotOpen">计划 {0}：关卡 ｢{1}｣ 未开放。</system:String>
+    <system:String x:Key="DepotPlanAddTaskFailed">计划 {0}：添加任务失败。</system:String>
+    <system:String x:Key="DepotSkipDuringActivity">活动期间跳过</system:String>
+    <system:String x:Key="DepotSkipDuringResourceCollection">资源收集限时全天开放期间跳过</system:String>
+    <system:String x:Key="DepotPlanSkippedActivity">当前有活动进行中，已跳过库存保持。</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">当前处于资源收集限时全天开放期间，已跳过库存保持。</system:String>
+    <system:String x:Key="DepotPlanUpdateDepotFailed">更新库存数据失败。</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>

@@ -1,0 +1,296 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.TaskQueue.DepotMaintainTaskUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance {x:Type taskQueue_vms:DepotMaintainTaskUserControlModel}}"
+    d:DesignWidth="220"
+    s:View.ActionTarget="{Binding}"
+    mc:Ignorable="d">
+    <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+        <CheckBox Content="{DynamicResource DepotUpdateBeforeStart}" IsChecked="{Binding UpdateDepot}" />
+        <CheckBox
+            Margin="0,6,0,0"
+            Content="{DynamicResource DepotSkipDuringActivity}"
+            IsChecked="{Binding SkipDuringActivity}" />
+        <CheckBox
+            Margin="0,6,0,0"
+            Content="{DynamicResource DepotSkipDuringResourceCollection}"
+            IsChecked="{Binding SkipDuringResourceCollection}" />
+        <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+            <CheckBox Content="{DynamicResource CustomStageCode}" IsChecked="{Binding IsStageManually}" />
+            <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
+        </StackPanel>
+        <controls:TextBlock
+            Margin="0,5,0,0"
+            HorizontalAlignment="Left"
+            d:Text="1: 当前/上次 - 不选择 x0"
+            Text="{Binding PlanInfo}"
+            TextWrapping="Wrap" />
+        <StackPanel Orientation="Horizontal">
+            <Button
+                Margin="6"
+                VerticalAlignment="Bottom"
+                d:IsHitTestVisible="True"
+                Command="{s:Action AddPlan}"
+                Content="{DynamicResource AddPlan}"
+                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
+            <Button
+                Margin="6"
+                VerticalAlignment="Bottom"
+                d:IsHitTestVisible="True"
+                Command="{s:Action CollapseAll}"
+                Content="{DynamicResource CollapseAll}"
+                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
+        </StackPanel>
+        <ListBox
+            Padding="0"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Stretch"
+            d:ItemsSource="{d:SampleData ItemCount=2}"
+            dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
+            dd:DragDrop.IsDragSource="True"
+            dd:DragDrop.IsDropTarget="True"
+            BorderThickness="0"
+            ClipToBounds="False"
+            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
+            ItemsSource="{Binding Path=PlanList}"
+            PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
+                                         Target={x:Type helper:MouseWheelHelper}}">
+            <ListBox.ItemContainerStyle>
+                <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="1" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Expander HorizontalContentAlignment="Stretch" IsExpanded="{Binding IsExpanded}">
+                        <Expander.Header>
+                            <Grid HorizontalAlignment="Stretch" Background="Transparent">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <controls:TextBlock
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding Title}"
+                                    TextTrimming="CharacterEllipsis" />
+                                <Button
+                                    Grid.Column="1"
+                                    Width="25"
+                                    Height="25"
+                                    Margin="0,0,6,0"
+                                    Padding="0"
+                                    hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                    hc:IconElement.Height="15"
+                                    hc:IconElement.Width="15"
+                                    Command="{s:Action RemovePlan,
+                                                       Target={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}"
+                                    CommandParameter="{Binding}"
+                                    ToolTip="{DynamicResource Delete}">
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
+                        </Expander.Header>
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <Grid Margin="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!--  关卡选择  -->
+                                <controls:TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="0,0,6,0"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource StageSelect}" />
+                                <Grid
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Height="30">
+                                    <!--  当 IsStageManually 为 false 时显示 ComboBox  -->
+                                    <ComboBox
+                                        ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}"
+                                        ScrollViewer.CanContentScroll="False"
+                                        SelectedValue="{Binding Stage}"
+                                        SelectedValuePath="Value"
+                                        Visibility="{c:Binding !IsStageManually,
+                                                               Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}">
+
+                                        <ComboBox.ItemContainerStyle>
+                                            <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ComboBox.ItemContainerStyle>
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Display}">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsOutdated}" Value="True">
+                                                                    <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                                    <Setter Property="Foreground" Value="{DynamicResource ErrorLogBrush}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding IsOpen}" Value="False">
+                                                                    <Setter Property="Opacity" Value="0.5" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding IsOpen}" Value="True">
+                                                                    <Setter Property="Opacity" Value="1" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+
+                                    <!--  当 IsStageManually 为 true 时显示 TextBox  -->
+                                    <TextBox
+                                        Height="30"
+                                        hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
+                                        IsEnabled="{c:Binding !IsStageItemDragging,
+                                                              Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
+                                        Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
+                                        Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
+                                        ToolTip="{DynamicResource IsStageManuallyTip}"
+                                        Visibility="{c:Binding IsStageManually,
+                                                               Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}" />
+                                </Grid>
+
+                                <!--  指定材料  -->
+                                <controls:TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="0,6,6,0"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource AssignedMaterial}" />
+                                <ComboBox
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Height="30"
+                                    Margin="0,6,0,0"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Center"
+                                    s:View.ActionTarget="{Binding}"
+                                    DisplayMemberPath="Display"
+                                    DropDownClosed="{s:Action DropsListDropDownClosed}"
+                                    IsEditable="True"
+                                    IsTextSearchEnabled="False"
+                                    ItemsSource="{Binding DropsList, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
+                                    Loaded="{s:Action MakeComboBoxSearchable,
+                                                      Target={x:Type ui_vms:SettingsViewModel}}"
+                                    SelectedValue="{Binding DropId}"
+                                    SelectedValuePath="Value"
+                                    Text="{Binding DropName}" />
+
+                                <!--  目标库存  -->
+                                <controls:TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Margin="0,6,6,0"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource TargetInventory}" />
+                                <hc:NumericUpDown
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Width="70"
+                                    Height="30"
+                                    Margin="0,6,0,0"
+                                    HorizontalAlignment="Left"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Maximum="1145141919"
+                                    Minimum="0"
+                                    Value="{Binding DropCount, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <!--  使用药剂  -->
+                                <CheckBox
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Margin="0,6,0,0"
+                                    VerticalAlignment="Center"
+                                    Content="{DynamicResource UseSanityPotion}"
+                                    IsChecked="{Binding UseMedicine}" />
+                                <hc:NumericUpDown
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    Width="70"
+                                    Height="30"
+                                    Margin="0,6,0,0"
+                                    HorizontalAlignment="Left"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Maximum="999"
+                                    Minimum="0"
+                                    Value="{Binding MedicineCount, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <!--  使用源石  -->
+                                <CheckBox
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    Margin="0,6,0,0"
+                                    VerticalAlignment="Center"
+                                    Content="{DynamicResource UseOriginitePrime}"
+                                    IsChecked="{Binding UseStone}" />
+                                <hc:NumericUpDown
+                                    Grid.Row="4"
+                                    Grid.Column="1"
+                                    Width="70"
+                                    Height="30"
+                                    Margin="0,6,0,0"
+                                    HorizontalAlignment="Left"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Maximum="999"
+                                    Minimum="0"
+                                    Value="{Binding StoneCount, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+                        </Border>
+                    </Expander>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </StackPanel>
+</UserControl>

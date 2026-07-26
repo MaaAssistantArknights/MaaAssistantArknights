@@ -76,6 +76,28 @@ public class StageManager
 
     public IReadOnlyDictionary<string, SideStoryActivity> ActivityList => _activityList.AsReadOnly();
 
+    // 资源全开放活动（resourceCollection），用于判断当前是否处于资源全开放期间
+    private StageActivityInfo _resourceCollection = new() { IsResourceCollection = true };
+
+    /// <summary>
+    /// 判断当前是否有 SideStory（SideStory/故事集/别的限时）活动进行中。
+    /// </summary>
+    /// <returns>存在进行中的活动则返回 <c>true</c>。</returns>
+    public bool IsActivityOpen()
+    {
+        var time = DateTimeOffset.Now;
+        return _activityList.Any(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
+    }
+
+    /// <summary>
+    /// 判断当前是否处于资源全开放活动（resourceCollection）期间。
+    /// </summary>
+    /// <returns>处于资源全开放期间则返回 <c>true</c>。</returns>
+    public bool IsResourceCollectionOpen()
+    {
+        return _resourceCollection.BeingOpen;
+    }
+
     // mini game entries exposed from StageActivityV2 (richer model including Tip/TipKey)
     private List<MiniGameEntry> _miniGameEntries = InitializeDefaultMiniGameEntries();
 
@@ -268,6 +290,7 @@ public class StageManager
         AddPermanentStages(tempStage, resourceCollection);
 
         _stages = tempStage;
+        _resourceCollection = resourceCollection;
 
         // parse mini-game tasks from activity json if provided (use helper to populate temp list)
         var tempMiniGames = InitializeDefaultMiniGameEntries();
