@@ -972,7 +972,7 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
         chars[oper_id]["tokens"] = json::array(token_names_list);
     }
 
-    const auto& patch_json = chars_patch_opt->get("patchChars")->as_object();
+    const auto& patch_json = chars_patch_opt.value()["patchChars"];
     json::value Amiya_data;
     Amiya_data["name"] = "阿米娅-WARRIOR";
     Amiya_data["name_en"] = "Amiya-WARRIOR";
