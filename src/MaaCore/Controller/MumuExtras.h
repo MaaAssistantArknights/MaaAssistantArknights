@@ -53,7 +53,8 @@ private:
     bool connect_mumu();
     bool init_screencap();
     void disconnect_mumu();
-    int get_display_id();
+    // 0 是合法的 display id，查询失败必须和它区分开，否则会把输入打到错误的 display
+    std::optional<int> get_display_id();
     void invalidate_display_id() { display_id_cache_ = kInvalidDisplayId; }
 
     // MuMuManager.exe version >= 6.3.2.0 才支持 external renderer 输入，低版本行为异常
@@ -76,6 +77,9 @@ private:
     // swipe 的 move 每几毫秒一次，不缓存 display_id 会把 dll 调用打满
     static constexpr int kInvalidDisplayId = -1;
     std::atomic<int> display_id_cache_ = kInvalidDisplayId;
+
+    // 本对象是否持有一份 LibraryHolder 引用，reload 时用来先还再取，避免引用计数泄漏
+    bool library_loaded_ = false;
 
     bool inited_ = false;
     bool input_enabled_ = false;   // 上层是否请求了触控

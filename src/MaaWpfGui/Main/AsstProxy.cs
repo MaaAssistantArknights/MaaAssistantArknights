@@ -157,9 +157,6 @@ public class AsstProxy
         return ret;
     }
 
-    /// <summary>Core 侧 MuMu external renderer IPC 输入对应的 TouchMode 取值。</summary>
-    private const string MumuExtrasTouchMode = "MumuExtras";
-
     private static void AsstSetConnectionExtrasMuMu(string extras)
     {
         AsstSetConnectionExtras("MuMuEmulator12", extras);
@@ -2626,13 +2623,11 @@ public class AsstProxy
         {
             AsstSetConnectionExtrasMuMu(mumu12.Config);
 
-            // MuMu 触控是 MuMu Extras 的子选项而非独立触控模式，这里翻译成 core 的 TouchMode。
-            // 模拟器实际不支持时 core 会自己降级回 maatouch。
+            // 勾了「同时用于触控」时 EffectiveTouchMode 会给出 MumuExtras，
+            // 模拟器实际不支持时 core 会自己降级回 maatouch
             AsstSetInstanceOption(
                 InstanceOptionKey.TouchMode,
-                mumu12 is { Enable: true, EnableTouch: true }
-                    ? MumuExtrasTouchMode
-                    : SettingsViewModel.ConnectSettings.TouchMode.ToCustomString());
+                ConnectSettingsUserControlModel.Instance.EffectiveTouchMode);
         }
         else if (ConnectSettingsUserControlModel.Instance.ExtraConfig is LDPlayerExtra ldPlayer)
         {

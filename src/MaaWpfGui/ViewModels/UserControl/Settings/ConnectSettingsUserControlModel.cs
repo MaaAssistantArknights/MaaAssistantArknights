@@ -687,9 +687,22 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.TouchMode;
 
+    /// <summary>
+    /// Gets the touch mode actually sent to the core.
+    /// MuMu 触控是 MuMu Extras 的子选项而非独立触控模式，勾上后要覆写掉用户选的 TouchMode。
+    /// 这里集中一处，避免改动其他设置时把它冲掉。
+    /// </summary>
+    public string EffectiveTouchMode =>
+        ExtraConfig is MuMu12Extra { Enable: true, EnableTouch: true }
+            ? MumuExtrasTouchMode
+            : TouchMode.ToCustomString();
+
+    /// <summary>Core 侧 MuMu external renderer IPC 输入对应的 TouchMode 取值。</summary>
+    public const string MumuExtrasTouchMode = "MumuExtras";
+
     public void UpdateInstanceSettings()
     {
-        Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode.ToCustomString());
+        Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, EffectiveTouchMode);
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.KillAdbOnExit, KillAdbOnExit ? "1" : "0");

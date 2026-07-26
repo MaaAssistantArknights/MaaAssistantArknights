@@ -51,6 +51,15 @@ void MumuExtras::set_package_name(const std::string& package_name)
 bool MumuExtras::reload()
 {
     invalidate_display_id();
+
+    // LibraryHolder::load_library 对已加载的库只是 ++ref_count_，
+    // 不先释放的话每次 reload 都会多留一份引用，dll 永远不会被卸载
+    if (library_loaded_) {
+        disconnect_mumu();
+        unload_library();
+        library_loaded_ = false;
+    }
+
     inited_ = load_mumu_library() && connect_mumu() && init_screencap();
     LogInfo << "Reload MumuExtras: " << VAR(inited_) << VAR(input_available_);
     return inited_;
@@ -71,10 +80,15 @@ std::optional<cv::Mat> MumuExtras::screencap()
         return std::nullopt;
     }
 
-    int display_id = get_display_id();
+    auto display_id = get_display_id();
+    if (!display_id) {
+        LogError << "Failed to get display id";
+        return std::nullopt;
+    }
+
     int ret = capture_display_func_(
         mumu_handle_,
-        display_id,
+        *display_id,
         static_cast<int>(display_buffer_.size()),
         &display_width_,
         &display_height_,
@@ -84,21 +98,25 @@ std::optional<cv::Mat> MumuExtras::screencap()
         // Try reloading once before giving up.
         if (!reload()) {
             LogError << "Failed to capture display and failed to reload. " << VAR(ret) << VAR(mumu_handle_)
-                     << VAR(display_id) << VAR(display_buffer_.size()) << VAR(display_width_) << VAR(display_height_);
+                     << VAR(*display_id) << VAR(display_buffer_.size()) << VAR(display_width_) << VAR(display_height_);
             return std::nullopt;
         }
         // Reload 之后 display_id 可能变化，重新获取后再重试一次 capture。
         display_id = get_display_id();
+        if (!display_id) {
+            LogError << "Failed to get display id after reload";
+            return std::nullopt;
+        }
         ret = capture_display_func_(
             mumu_handle_,
-            display_id,
+            *display_id,
             static_cast<int>(display_buffer_.size()),
             &display_width_,
             &display_height_,
             display_buffer_.data());
         if (ret) {
             LogError << "Failed to capture display even after reload. " << VAR(ret) << VAR(mumu_handle_)
-                     << VAR(display_id) << VAR(display_buffer_.size()) << VAR(display_width_) << VAR(display_height_);
+                     << VAR(*display_id) << VAR(display_buffer_.size()) << VAR(display_width_) << VAR(display_height_);
             return std::nullopt;
         }
     }
@@ -119,12 +137,16 @@ bool MumuExtras::touch_down(int contact, int x, int y)
         return false;
     }
 
-    int display_id = get_display_id();
+    auto display_id = get_display_id();
+    if (!display_id) {
+        LogError << "Failed to get display id, skip touch_down" << VAR(contact) << VAR(x) << VAR(y);
+        return false;
+    }
 
     // contact 从 0 开始，mumu 的 finger_id 从 1 开始
-    int ret = input_event_finger_touch_down_func_(mumu_handle_, display_id, contact + 1, x, y);
+    int ret = input_event_finger_touch_down_func_(mumu_handle_, *display_id, contact + 1, x, y);
     if (ret) {
-        LogError << "Failed to touch_down" << VAR(ret) << VAR(contact) << VAR(x) << VAR(y) << VAR(display_id);
+        LogError << "Failed to touch_down" << VAR(ret) << VAR(contact) << VAR(x) << VAR(y) << VAR(*display_id);
         return false;
     }
 
@@ -144,11 +166,15 @@ bool MumuExtras::touch_up(int contact)
         return false;
     }
 
-    int display_id = get_display_id();
+    auto display_id = get_display_id();
+    if (!display_id) {
+        LogError << "Failed to get display id, skip touch_up" << VAR(contact);
+        return false;
+    }
 
-    int ret = input_event_finger_touch_up_func_(mumu_handle_, display_id, contact + 1);
+    int ret = input_event_finger_touch_up_func_(mumu_handle_, *display_id, contact + 1);
     if (ret) {
-        LogError << "Failed to touch_up" << VAR(ret) << VAR(contact) << VAR(display_id);
+        LogError << "Failed to touch_up" << VAR(ret) << VAR(contact) << VAR(*display_id);
         return false;
     }
 
@@ -162,12 +188,17 @@ bool MumuExtras::key_down(int android_keycode)
         return false;
     }
 
-    int display_id = get_display_id();
+    auto display_id = get_display_id();
+    if (!display_id) {
+        LogError << "Failed to get display id, skip key_down" << VAR(android_keycode);
+        return false;
+    }
+
     int key_code = android_keycode_to_linux_key_code(android_keycode);
 
-    int ret = input_event_key_down_func_(mumu_handle_, display_id, key_code);
+    int ret = input_event_key_down_func_(mumu_handle_, *display_id, key_code);
     if (ret) {
-        LogError << "Failed to key_down" << VAR(ret) << VAR(android_keycode) << VAR(key_code) << VAR(display_id);
+        LogError << "Failed to key_down" << VAR(ret) << VAR(android_keycode) << VAR(key_code) << VAR(*display_id);
         return false;
     }
 
@@ -181,12 +212,17 @@ bool MumuExtras::key_up(int android_keycode)
         return false;
     }
 
-    int display_id = get_display_id();
+    auto display_id = get_display_id();
+    if (!display_id) {
+        LogError << "Failed to get display id, skip key_up" << VAR(android_keycode);
+        return false;
+    }
+
     int key_code = android_keycode_to_linux_key_code(android_keycode);
 
-    int ret = input_event_key_up_func_(mumu_handle_, display_id, key_code);
+    int ret = input_event_key_up_func_(mumu_handle_, *display_id, key_code);
     if (ret) {
-        LogError << "Failed to key_up" << VAR(ret) << VAR(android_keycode) << VAR(key_code) << VAR(display_id);
+        LogError << "Failed to key_up" << VAR(ret) << VAR(android_keycode) << VAR(key_code) << VAR(*display_id);
         return false;
     }
 
@@ -226,6 +262,7 @@ bool MumuExtras::load_mumu_library()
         if (load_library(lib_path)) {
             LogInfo << "Successfully loaded MuMu external renderer library from: " << lib_path;
             loaded = true;
+            library_loaded_ = true;
             break;
         }
     }
@@ -411,14 +448,18 @@ bool MumuExtras::init_screencap()
         return false;
     }
 
-    int display_id = get_display_id();
-    LogInfo << "Get display id" << VAR(display_id);
+    auto display_id = get_display_id();
+    if (!display_id) {
+        LogError << "Failed to get display id";
+        return false;
+    }
+    LogInfo << "Get display id" << VAR(*display_id);
 
-    int ret = capture_display_func_(mumu_handle_, display_id, 0, &display_width_, &display_height_, nullptr);
+    int ret = capture_display_func_(mumu_handle_, *display_id, 0, &display_width_, &display_height_, nullptr);
 
     // mumu 的文档给错了，这里 0 才是成功
     if (ret) {
-        LogError << "Failed to capture display" << VAR(ret) << VAR(mumu_handle_) << VAR(display_id);
+        LogError << "Failed to capture display" << VAR(ret) << VAR(mumu_handle_) << VAR(*display_id);
         return false;
     }
 
@@ -432,12 +473,14 @@ void MumuExtras::disconnect_mumu()
 {
     LogInfo << VAR(mumu_handle_);
 
-    if (mumu_handle_ != 0) {
+    if (mumu_handle_ != 0 && disconnect_func_) {
         disconnect_func_(mumu_handle_);
+        // 清零，避免 reload 路径下拿旧 handle 重复 disconnect
+        mumu_handle_ = 0;
     }
 }
 
-int MumuExtras::get_display_id()
+std::optional<int> MumuExtras::get_display_id()
 {
     // swipe 的 move 每几毫秒一次，每次都问一遍 dll 太贵了
     int cached = display_id_cache_.load(std::memory_order_relaxed);
@@ -446,14 +489,15 @@ int MumuExtras::get_display_id()
     }
 
     if (!get_display_id_func_) {
-        LogError << "get_display_id_func_ is null, please update your MuMu Player";
+        // 旧版本 mumu 没这个函数，此时只有 display 0，按 0 处理
+        LogWarn << "get_display_id_func_ is null, fallback to 0, please update your MuMu Player";
         return 0;
     }
 
     int id = get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
     if (id < 0) {
         LogWarn << "Failed to get display id" << VAR(id) << VAR(package_name_);
-        return 0;
+        return std::nullopt;
     }
 
     display_id_cache_.store(id, std::memory_order_relaxed);

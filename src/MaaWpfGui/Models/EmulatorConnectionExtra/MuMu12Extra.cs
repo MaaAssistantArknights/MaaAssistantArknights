@@ -245,6 +245,8 @@ public class MuMu12Extra() : ExtraConfig, IJsonOnDeserialized
                 return;
             }
 
+            // 立刻把 TouchMode 同步给 core，取消勾选时会自动还原成用户选的模式
+            ConnectSettingsUserControlModel.Instance.UpdateInstanceSettings();
             Instances.AsstProxy.Connected = false;
         }
     }
