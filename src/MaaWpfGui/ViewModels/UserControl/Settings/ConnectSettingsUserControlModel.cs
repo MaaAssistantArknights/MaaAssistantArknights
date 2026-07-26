@@ -153,7 +153,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     private void UpdateConnectionHistory(string address)
     {
-        Application.Current.Dispatcher.InvokeAsync(() => {
+        Execute.OnUIThread(() => {
             var history = ConnectAddressHistory.ToList();
             var index = history.IndexOf(address);
             if (index != -1)
