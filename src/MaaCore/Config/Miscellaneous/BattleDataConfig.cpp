@@ -12,6 +12,9 @@ bool asst::BattleDataConfig::parse(const json::value& json)
     m_ranges.clear();
     m_opers.clear();
     m_drones_confusing.clear();
+    m_opers.clear();
+    m_chars.clear();
+    m_ranges.clear();
     for (const auto& [id, char_data_json] : json.at("chars").as_object()) {
         std::shared_ptr<battle::OperProps> data_ptr = std::make_shared<battle::OperProps>();
         data_ptr->id = id;
@@ -26,6 +29,8 @@ bool asst::BattleDataConfig::parse(const json::value& json)
         data_ptr->name_jp = name_jp;
         data_ptr->name_kr = name_kr;
         data_ptr->name_tw = name_tw;
+        data_ptr->name_display = char_data_json.get("name_display", "");
+
         static const std::unordered_map<std::string, battle::Role> RoleMap = {
             { "CASTER", battle::Role::Caster },   { "MEDIC", battle::Role::Medic },
             { "PIONEER", battle::Role::Pioneer }, { "SNIPER", battle::Role::Sniper },
