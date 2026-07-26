@@ -1940,6 +1940,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <!--  !SimpleEncryptionHelper  -->
     <!--  TimeOutTimer  -->
     <!-- <system:String x:Key="TaskTimeoutMinutes">작업 타임아웃 시간 (분)</system:String> -->
+    <system:String x:Key="BattleStartTimeoutSeconds">전투 시작 대기 제한(초)</system:String>
     <system:String x:Key="ReminderIntervalMinutes">알림 간격 (분)</system:String>
     <system:String x:Key="StallTimeoutMinutes">로그 출력 정지 타임아웃 (분)</system:String>
     <system:String x:Key="StallTimeoutEnabled">정지 감지 활성화</system:String>

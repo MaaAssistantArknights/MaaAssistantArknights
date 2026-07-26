@@ -3,6 +3,7 @@
 #include <future>
 #include <thread>
 
+#include "Assistant.h"
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/AvatarCacheManager.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -715,7 +716,7 @@ bool asst::BattleHelper::wait_until_start(bool weak)
 {
     LogTraceFunction;
 
-    constexpr auto timeout_duration = std::chrono::minutes(1);
+    const auto timeout_duration = std::chrono::seconds(m_inst_helper.inst()->battle_start_timeout_seconds());
     const auto start_time = std::chrono::steady_clock::now();
 
     cv::Mat image = m_inst_helper.ctrler()->get_image();

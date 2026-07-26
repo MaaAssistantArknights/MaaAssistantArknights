@@ -1,5 +1,6 @@
 #pragma once
 
+#include <atomic>
 #include <condition_variable>
 #include <future>
 #include <list>
@@ -126,6 +127,8 @@ public:
 
     bool need_exit() const { return m_thread_idle && m_running; }
 
+    int battle_start_timeout_seconds() const noexcept { return m_battle_start_timeout_seconds; }
+
 private:
     void append_callback(AsstMsg msg, const json::value& detail);
     static void append_callback_for_inst(AsstMsg msg, const json::value& detail, Assistant* inst);
@@ -208,6 +211,8 @@ private:
 
     std::shared_ptr<Controller> m_ctrler = nullptr;
     std::shared_ptr<Status> m_status = nullptr;
+
+    std::atomic_int m_battle_start_timeout_seconds = BattleStartTimeoutSecondsDefault;
 
     std::atomic_bool m_thread_exit = false;
     std::list<std::pair<TaskId, std::shared_ptr<InterfaceTask>>> m_tasks_list;

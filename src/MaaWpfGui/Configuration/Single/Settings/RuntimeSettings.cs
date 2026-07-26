@@ -53,6 +53,8 @@ public partial class RuntimeSettings : IJsonOnDeserialized
 
     public bool ReportToYituliu { get; set; } = true;
 
+    public int BattleStartTimeoutSeconds { get; set; } = GameSettingsUserControlModel.BattleStartTimeoutDefaultSeconds;
+
     public bool EnableStallTimeout { get; set; } = true;
 
     public int StallTimeoutReminderIntervalMinutes { get; set; } = 30;
@@ -61,6 +63,10 @@ public partial class RuntimeSettings : IJsonOnDeserialized
 
     public void OnDeserialized()
     {
+        BattleStartTimeoutSeconds = Math.Clamp(
+            BattleStartTimeoutSeconds,
+            GameSettingsUserControlModel.BattleStartTimeoutMinSeconds,
+            GameSettingsUserControlModel.BattleStartTimeoutMaxSeconds);
         StallTimeoutMinutes = Math.Clamp(StallTimeoutMinutes, 0, GameSettingsUserControlModel.TimeoutMaxMinutes);
         StallTimeoutReminderIntervalMinutes = Math.Clamp(StallTimeoutReminderIntervalMinutes, 1, GameSettingsUserControlModel.TimeoutMaxMinutes);
     }
