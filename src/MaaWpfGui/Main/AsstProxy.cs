@@ -792,8 +792,7 @@ public class AsstProxy
                 // 检测 MuMu 后台保活是否开启（异步执行，避免阻塞 UI 线程）
                 if (SettingsViewModel.ConnectSettings.ConnectConfig == "MuMuEmulator12")
                 {
-                    _ = Task.Run(() =>
-                    {
+                    _ = Task.Run(() => {
                         if (EmulatorHelper.CheckMuMuKeepAlive())
                         {
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuEmulator12KeepAliveOn"), UiLogColor.Warning);
@@ -1051,9 +1050,9 @@ public class AsstProxy
         }
     }
 
-    private DispatcherTimer? _toastNotificationTimer;
+    private DispatcherTimer? _sanityRecoveryTimer;
 
-    private void OnToastNotificationTimerTick(object? sender, EventArgs e)
+    private void OnSanityRecoveryTimer(object? sender, EventArgs e)
     {
         if (FightSetting.SanityReport is not null)
         {
@@ -1068,14 +1067,14 @@ public class AsstProxy
 
     public void DisposeTimer()
     {
-        if (_toastNotificationTimer is null)
+        if (_sanityRecoveryTimer is null)
         {
             return;
         }
 
-        _toastNotificationTimer.Stop();
-        _toastNotificationTimer.Tick -= OnToastNotificationTimerTick;
-        _toastNotificationTimer = null;
+        _sanityRecoveryTimer.Stop();
+        _sanityRecoveryTimer.Tick -= OnSanityRecoveryTimer;
+        _sanityRecoveryTimer = null;
     }
 
     private void ProcTaskChainMsg(AsstMsg msg, JObject details)
@@ -1297,7 +1296,7 @@ public class AsstProxy
                             ExternalNotificationService.Send(allTaskCompleteTitle, logs + Environment.NewLine + sanityReport);
                         }
 
-                        if (_toastNotificationTimer is not null)
+                        if (_sanityRecoveryTimer is not null)
                         {
                             DisposeTimer();
                         }
@@ -1305,11 +1304,11 @@ public class AsstProxy
                         var interval = recoveryTime - DateTimeOffset.Now.AddMinutes(6);
                         if (interval > TimeSpan.Zero)
                         {
-                            _toastNotificationTimer = new DispatcherTimer {
+                            _sanityRecoveryTimer = new DispatcherTimer {
                                 Interval = interval,
                             };
-                            _toastNotificationTimer.Tick += OnToastNotificationTimerTick;
-                            _toastNotificationTimer.Start();
+                            _sanityRecoveryTimer.Tick += OnSanityRecoveryTimer;
+                            _sanityRecoveryTimer.Start();
                         }
                     }
                     else
