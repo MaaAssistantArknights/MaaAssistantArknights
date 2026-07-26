@@ -42,7 +42,7 @@ enum class InstanceOptionKey
 {
     Invalid = 0,
     /* Deprecated */         // MinitouchEnabled = 1,
-    TouchMode = 2,           // 触控模式设置， "minitouch" | "maatouch" | "adb"
+    TouchMode = 2,           // 触控模式设置， "minitouch" | "maatouch" | "adb" | "MaaFwAdb" | "MumuExtras"
     DeploymentWithPause = 3, // 自动战斗、肉鸽、保全 是否使用 暂停下干员， "0" | "1"
     AdbLiteEnabled = 4,      // 是否使用 AdbLite， "0" | "1"
     KillAdbOnExit = 5,       // 退出时是否杀掉 Adb 进程， "0" | "1"
@@ -58,6 +58,7 @@ enum class TouchMode
     MacPlayTools = 3,
     MaaFwAdb = 4,
     Android = 5,
+    MumuExtras = 6, // MuMu external renderer IPC，不可用时自动降级为 Maatouch
 };
 
 #ifdef _WIN32

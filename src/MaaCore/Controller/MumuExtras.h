@@ -2,6 +2,7 @@
 
 #if ASST_WITH_EMULATOR_EXTRAS
 
+#include <atomic>
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -22,19 +23,43 @@ public:
 
     bool inited() const { return inited_; }
 
-    bool init(const std::filesystem::path& mumu_path, int mumu_inst_index);
+    // 触控是否可用：需要 dll 导出了 input 相关符号，且 MuMuManager 版本达标
+    bool input_available() const { return inited_ && input_available_; }
+
+    // enable_input 为 false 时只初始化截图，跳过 input 符号解析和 MuMuManager 版本探测
+    bool init(const std::filesystem::path& mumu_path, int mumu_inst_index, bool enable_input);
     void set_package_name(const std::string& package_name);
     bool reload();
     void uninit();
 
     std::optional<cv::Mat> screencap();
 
+    std::pair<int, int> get_display_size() const { return { display_width_, display_height_ }; }
+
+    // contact 为 0 起始，内部转换为 mumu 的 1 起始 finger_id
+    bool touch_down(int contact, int x, int y);
+    bool touch_move(int contact, int x, int y);
+    bool touch_up(int contact);
+
+    // keycode 为 Android KeyEvent 值，内部转换为 Linux input-event-code
+    bool key_down(int android_keycode);
+    bool key_up(int android_keycode);
+
+    bool input_text(const std::string& text);
+
 private:
     bool load_mumu_library();
+    bool load_input_functions();
     bool connect_mumu();
     bool init_screencap();
     void disconnect_mumu();
     int get_display_id();
+    void invalidate_display_id() { display_id_cache_ = kInvalidDisplayId; }
+
+    // MuMuManager.exe version >= 6.3.2.0 才支持 external renderer 输入，低版本行为异常
+    bool check_input_version() const;
+
+    static int android_keycode_to_linux_key_code(int key);
 
 private:
     std::filesystem::path mumu_path_;
@@ -48,7 +73,16 @@ private:
     int display_height_ = 0;
     std::vector<unsigned char> display_buffer_;
 
+    // swipe 的 move 每几毫秒一次，不缓存 display_id 会把 dll 调用打满
+    static constexpr int kInvalidDisplayId = -1;
+    std::atomic<int> display_id_cache_ = kInvalidDisplayId;
+
     bool inited_ = false;
+    bool input_enabled_ = false;   // 上层是否请求了触控
+    bool input_available_ = false; // 触控是否真的可用（符号齐全 + 版本达标）
+    // 版本探测要起子进程，reload() 时不重复执行
+    bool input_version_checked_ = false;
+    bool input_version_ok_ = false;
 
 private:
     inline static const std::string kConnectFuncName = "nemu_connect";
@@ -56,8 +90,8 @@ private:
     inline static const std::string kGetDisplayIdFuncName = "nemu_get_display_id";
     inline static const std::string kCaptureDisplayFuncName = "nemu_capture_display";
     inline static const std::string kInputTextFuncName = "nemu_input_text";
-    inline static const std::string kInputEventTouchDownFuncName = "nemu_input_event_touch_down";
-    inline static const std::string kInputEventTouchUpFuncName = "nemu_input_event_touch_up";
+    inline static const std::string kInputEventFingerTouchDownFuncName = "nemu_input_event_finger_touch_down";
+    inline static const std::string kInputEventFingerTouchUpFuncName = "nemu_input_event_finger_touch_up";
     inline static const std::string kInputEventKeyDownFuncName = "nemu_input_event_key_down";
     inline static const std::string kInputEventKeyUpFuncName = "nemu_input_event_key_up";
 
@@ -67,8 +101,8 @@ private:
     std::function<decltype(nemu_get_display_id)> get_display_id_func_;
     std::function<decltype(nemu_capture_display)> capture_display_func_;
     std::function<decltype(nemu_input_text)> input_text_func_;
-    std::function<decltype(nemu_input_event_touch_down)> input_event_touch_down_func_;
-    std::function<decltype(nemu_input_event_touch_up)> input_event_touch_up_func_;
+    std::function<decltype(nemu_input_event_finger_touch_down)> input_event_finger_touch_down_func_;
+    std::function<decltype(nemu_input_event_finger_touch_up)> input_event_finger_touch_up_func_;
     std::function<decltype(nemu_input_event_key_down)> input_event_key_down_func_;
     std::function<decltype(nemu_input_event_key_up)> input_event_key_up_func_;
 };
