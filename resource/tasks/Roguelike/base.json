@@ -753,7 +753,7 @@
         "specificRect": [630, 630, 1, 1],
         "roi": [488, 206, 302, 289],
         "postDelay": 3000,
-        "next": ["Roguelike@GetDrops#next", "Roguelike@ChooseOperFlag", "Roguelike@ClickToDrops"]
+        "next": ["Roguelike@GetDrops#next", "Roguelike@ChooseOperFlag", "Roguelike@NextLevel", "Roguelike@ClickToDrops"]
     },
     "Roguelike@GetDropLeave": {
         "Doc": "base_task",
