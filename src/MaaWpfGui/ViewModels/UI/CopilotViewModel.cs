@@ -152,6 +152,12 @@ public partial class CopilotViewModel : Screen
         };
     }
 
+    protected override void OnActivate()
+    {
+        base.OnActivate();
+        NotifyOfPropertyChange(nameof(OperBoxLastSyncTimeText));
+    }
+
     #region UI绑定及操作
 
     #region Log
@@ -465,32 +471,28 @@ public partial class CopilotViewModel : Screen
 
     public bool EnableOperBoxAssist { get => field; set => SetAndNotify(ref field, value); }
 
-    private string _operBoxDataPath = ConfigurationHelper.GetValue(
-        ConfigurationKeys.CopilotOperBoxDataPath,
-        Path.Combine(DataDir, "OperBoxData.json")).Trim();
-
     public string OperBoxDataPath
     {
-        get => _operBoxDataPath;
-        set {
-            SetAndNotify(ref _operBoxDataPath, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotOperBoxDataPath, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Copilot.CopilotOperBoxDataPath = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.Copilot.CopilotOperBoxDataPath;
 
     [PropertyDependsOn(nameof(OperBoxDataPath))]
     public string OperBoxDisplayPath =>
-        !string.IsNullOrEmpty(_operBoxDataPath) && _operBoxDataPath.StartsWith(BaseDir, StringComparison.OrdinalIgnoreCase)
-            ? Path.GetRelativePath(BaseDir, _operBoxDataPath)
-            : _operBoxDataPath;
+        !string.IsNullOrEmpty(OperBoxDataPath) && OperBoxDataPath.StartsWith(BaseDir, StringComparison.OrdinalIgnoreCase)
+            ? Path.GetRelativePath(BaseDir, OperBoxDataPath)
+            : OperBoxDataPath;
 
     [PropertyDependsOn(nameof(OperBoxDataPath))]
+    [PropertyDependsOn(nameof(EnableOperBoxAssist))]
     public string OperBoxLastSyncTimeText
     {
         get {
             try {
-                if (!string.IsNullOrEmpty(_operBoxDataPath) && File.Exists(_operBoxDataPath)) {
-                    var json = JObject.Parse(File.ReadAllText(_operBoxDataPath));
+                if (!string.IsNullOrEmpty(OperBoxDataPath) && File.Exists(OperBoxDataPath)) {
+                    var json = JObject.Parse(File.ReadAllText(OperBoxDataPath));
                     var syncTime = json["syncTime"]?.Value<string>();
                     if (!string.IsNullOrEmpty(syncTime) && DateTimeOffset.TryParse(syncTime, out var dto)) {
                         return Extensions.DateTimeExtension.ToLocalTimeString(dto);
@@ -499,7 +501,7 @@ public partial class CopilotViewModel : Screen
                 }
             }
             catch (Exception ex) {
-                _logger.Warning(ex, "Failed to read OperBox syncTime from {Path}", _operBoxDataPath);
+                _logger.Warning(ex, "Failed to read OperBox syncTime from {Path}", OperBoxDataPath);
             }
             return string.Empty;
         }
