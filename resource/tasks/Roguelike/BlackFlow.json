@@ -308,8 +308,7 @@
     "BlackFlow@Roguelike@CloseCollection": {
         "template": "BlackFlow@Roguelike@CloseCollection.png",
         "action": "ClickSelf",
-        "templThreshold": 0.9,
-        "roi": [560, 500, 160, 100],
+        "roi": [1, 447, 1275, 166],
         "onErrorNext": ["#back"],
         "next": ["#next"]
     },
@@ -385,14 +384,15 @@
             "BlackFlow@Roguelike@RecruitOther"
         ]
     },
-    "BlackFlow@Roguelike@GetDrop1": {
-        "template": "BlackFlow@Roguelike@GetDrop.png"
-    },
-    "BlackFlow@Roguelike@GetDrop2": {
-        "template": "BlackFlow@Roguelike@GetDrop.png"
-    },
-    "BlackFlow@Roguelike@GetDrop3": {
-        "template": "BlackFlow@Roguelike@GetDrop.png"
+    "BlackFlow@Roguelike@GetDrop": {
+        "next": [
+            "BlackFlow@Roguelike@GetDrop@(BlackFlow@Roguelike@CloseCollectionContinue)",
+            "BlackFlow@Roguelike@GetDrop@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@ChooseOperFlag",
+            "BlackFlow@Roguelike@DropsFlag",
+            "BlackFlow@Roguelike@GetDropCompleted",
+            "BlackFlow@Roguelike@ClickToDrops"
+        ]
     },
     "BlackFlow@Roguelike@GetDropCompleted": {
         "template": "BlackFlow@Roguelike@GetDropCompleted.png",
@@ -428,9 +428,7 @@
             "BlackFlow@Roguelike@GetDrops@(BlackFlow@Roguelike@CloseCollectionContinue)",
             "BlackFlow@Roguelike@GetDrops@(BlackFlow@Roguelike@CloseCollection)",
             "BlackFlow@Roguelike@CloseEvent",
-            "BlackFlow@Roguelike@GetDrop1",
-            "BlackFlow@Roguelike@GetDrop2",
-            "BlackFlow@Roguelike@GetDrop3",
+            "BlackFlow@Roguelike@GetDrop",
             "BlackFlow@Roguelike@GetDropSelectReward",
             "BlackFlow@Roguelike@GetDropSelect",
             "BlackFlow@Roguelike@GetDropRecruit"
@@ -552,6 +550,7 @@
     },
     "BlackFlow@Roguelike@StartAction": {
         "template": "Roguelike@StartAction.png",
+        "sub": ["BlackFlow@Roguelike@TemporaryOperatorCheck"],
         "next": [
             "BlackFlow@Roguelike@NoneSelected",
             "BlackFlow@Roguelike@InBattleFlag",
@@ -570,6 +569,41 @@
     "BlackFlow@Roguelike@StartAction-NextLevel": {
         "baseTask": "BlackFlow@Roguelike@NextLevel",
         "next": ["BlackFlow@Roguelike@NodeCompletionAction"]
+    },
+    "BlackFlow@Roguelike@TemporaryOperatorCheck": {
+        "algorithm": "JustReturn",
+        "preDelay": 1000,
+        "next": ["BlackFlow@Roguelike@TemporaryOperatorFlag", "BlackFlow@Roguelike@TemporaryOperatorSkip"]
+    },
+    "BlackFlow@Roguelike@TemporaryOperatorSkip": {
+        "algorithm": "JustReturn"
+    },
+    "BlackFlow@Roguelike@TemporaryOperatorFlag": {
+        "template": "BlackFlow@Roguelike@TemporaryOperatorConfirm.png",
+        "roi": [756, 389, 461, 177],
+        "next": [
+            "BlackFlow@Roguelike@TemporaryOperatorNoPromptChecked",
+            "BlackFlow@Roguelike@TemporaryOperatorNoPrompt"
+        ]
+    },
+    "BlackFlow@Roguelike@TemporaryOperatorNoPrompt": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [536, 376, 16, 17],
+        "postDelay": 300,
+        "maxTimes": 3,
+        "next": ["BlackFlow@Roguelike@TemporaryOperatorNoPromptChecked", "#self"],
+        "exceededNext": ["BlackFlow@Roguelike@TemporaryOperatorConfirm"]
+    },
+    "BlackFlow@Roguelike@TemporaryOperatorNoPromptChecked": {
+        "roi": [516, 355, 54, 56],
+        "next": ["BlackFlow@Roguelike@TemporaryOperatorConfirm"],
+        "reduceOtherTimes": ["BlackFlow@Roguelike@TemporaryOperatorNoPrompt*3"]
+    },
+    "BlackFlow@Roguelike@TemporaryOperatorConfirm": {
+        "roi": [756, 389, 461, 177],
+        "action": "ClickSelf",
+        "postDelay": 500
     },
     "BlackFlow@Roguelike@Stages": {
         "baseTask": "BlackFlow@Roguelike@Stages_default",
@@ -1053,6 +1087,10 @@
             "溯源"
         ],
         "ocrReplace": []
+    },
+    "BlackFlow@Roguelike@StageEncounterSpecialClose": {
+        "template": "BlackFlow@Roguelike@CloseCollection.png",
+        "roi": [1, 447, 1275, 166]
     },
     "BlackFlow@Roguelike@StageEncounterLeaveConfirm": {
         "baseTask": "Roguelike@StageEncounterLeaveConfirm",
