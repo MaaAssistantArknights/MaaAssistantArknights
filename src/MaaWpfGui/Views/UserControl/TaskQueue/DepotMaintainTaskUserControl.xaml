@@ -31,6 +31,10 @@
             <CheckBox Content="{DynamicResource CustomStageCode}" IsChecked="{Binding IsStageManually}" />
             <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
         </StackPanel>
+        <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+            <CheckBox Content="{DynamicResource DepotUseAutoSeries}" IsChecked="{Binding UseAutoSeries}" />
+            <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotUseAutoSeriesTip}" />
+        </StackPanel>
         <controls:TextBlock
             Margin="0,5,0,0"
             HorizontalAlignment="Left"

@@ -111,11 +111,22 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         var stage = GetFightStage([plan.Stage]);
         if (!string.IsNullOrEmpty(stage))
         {
-            FightSettingsUserControlModel.RefreshFightTaskDrops(taskId, plan.DropId, plan.DropCount,
-                stage,
-                plan.UseMedicine ? plan.MedicineCount : 0,
-                plan.UseStone ? plan.StoneCount : 0,
-                $"{task.PlanList.IndexOf(plan) + 1}");
+            var fight = new AsstFightTask() {
+                Stage = stage,
+                Medicine = plan.UseMedicine ? plan.MedicineCount : 0,
+                Stone = plan.UseStone ? plan.StoneCount : 0,
+                Series = task.UseAutoSeries ? 0 : 1,
+                MaxTimes = int.MaxValue,
+                ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+                ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+                PenguinId = SettingsViewModel.GameSettings.PenguinId,
+                YituliuId = SettingsViewModel.GameSettings.PenguinId,
+                ServerType = Instances.SettingsViewModel.ServerType,
+                ClientType = SettingsViewModel.GameSettings.ClientType,
+            };
+            RefreshFightTaskDrops(taskId, plan.DropId, plan.DropCount,
+                $"{task.PlanList.IndexOf(plan) + 1}",
+                fight);
         }
     }
 
@@ -143,6 +154,16 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     {
         get => GetTaskConfig<DepotMaintainTask>().SkipDuringResourceCollection;
         set => SetTaskConfig<DepotMaintainTask>(t => t.SkipDuringResourceCollection == value, t => t.SkipDuringResourceCollection = value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 使用 AUTO 代理倍率（Series = 0）。
+    /// 默认关闭（按 1 倍刷取）；开启后单次进入可能因高倍率超过目标库存上限。
+    /// </summary>
+    public bool UseAutoSeries
+    {
+        get => GetTaskConfig<DepotMaintainTask>().UseAutoSeries;
+        set => SetTaskConfig<DepotMaintainTask>(t => t.UseAutoSeries == value, t => t.UseAutoSeries = value);
     }
 
     public ObservableCollection<Plan> PlanList { get; private set => SetAndNotify(ref field, value); } = [];
@@ -501,6 +522,14 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     MaxTimes = need > 0 ? int.MaxValue : 0,
                     Medicine = plan.UseMedicine ? plan.MedicineCount : 0,
                     Stone = plan.UseStone ? plan.StoneCount : 0,
+
+                    Series = depot.UseAutoSeries ? 0 : 1,
+                    ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+                    ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+                    PenguinId = SettingsViewModel.GameSettings.PenguinId,
+                    YituliuId = SettingsViewModel.GameSettings.PenguinId,
+                    ServerType = Instances.SettingsViewModel.ServerType,
+                    ClientType = SettingsViewModel.GameSettings.ClientType,
                 };
                 var (ret, id) = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, fight);
                 if (!ret)

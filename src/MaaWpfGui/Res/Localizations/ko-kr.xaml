@@ -872,6 +872,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPlanSkippedActivity">이벤트 진행 중이므로 재고 유지를 건너뛰었습니다.</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">자원 수집 한정 전일 개방 기간 중이므로 재고 유지를 건너뛰었습니다.</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">재고 데이터 업데이트에 실패했습니다.</system:String>
+    <system:String x:Key="DepotUseAutoSeries">AUTO 대리 배수</system:String>
+    <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">체크 해제 시 1배로 대리; 체크 시 현재 이성으로 가능한 최대 배수로 대리 작전하며, 1회 진행 시 목표 재고 상한을 초과할 수 있습니다.</system:String>
     <system:String x:Key="LessThanOneDay">1일 미만</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>
