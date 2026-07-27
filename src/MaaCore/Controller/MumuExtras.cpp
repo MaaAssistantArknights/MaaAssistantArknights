@@ -378,8 +378,10 @@ bool MumuExtras::check_input_version() const
         return false;
     }
 
+    // 与 MaaFramework 一致：在 MuMuManager 所在目录启动，并设超时，避免 call_command 卡死拖垮连接
     std::string cmd = "\"" + utils::path_to_utf8_string(mgr_path) + "\" version";
-    std::string output = utils::call_command(cmd);
+    constexpr int kVersionTimeoutMs = 5000;
+    std::string output = utils::call_command(cmd, nullptr, mgr_path.parent_path(), kVersionTimeoutMs);
     LogDebug << VAR(cmd) << VAR(output);
 
     // { "version": "6.3.2.0" }
