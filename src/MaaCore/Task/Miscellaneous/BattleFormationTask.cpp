@@ -1173,38 +1173,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
         return false;
     }
 
-    std::sort(oper_data.begin(), oper_data.end(), [](const OperBoxInfo& a, const OperBoxInfo& b) {
-        if (a.elite != b.elite) {
-            return a.elite > b.elite;
-        }
-        if (a.level != b.level) {
-            return a.level > b.level;
-        }
-        if (a.rarity != b.rarity) {
-            return a.rarity > b.rarity;
-        }
-        if (a.potential != b.potential) {
-            return a.potential > b.potential;
-        }
-        auto get_id_num = [](const std::string& id) {
-            auto first_underscore = id.find('_');
-            if (first_underscore == std::string::npos) {
-                return 0;
-            }
-            auto second_underscore = id.find('_', first_underscore + 1);
-            if (second_underscore == std::string::npos) {
-                return 0;
-            }
-            std::string num_str = id.substr(first_underscore + 1, second_underscore - first_underscore - 1);
-            try {
-                return std::stoi(num_str);
-            }
-            catch (...) {
-                return 0;
-            }
-        };
-        return get_id_num(a.id) > get_id_num(b.id);
-    });
+    std::sort(oper_data.begin(), oper_data.end(), OperBoxInfo::SortCmp {});
 
     std::vector<OperGroup> flat_groups;
     for (const auto& [role, oper_groups] : m_formation) {
@@ -1301,7 +1270,8 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             fake_oper.level = 30 + (fake_oper.elite * 25) + (fake_oper.rarity > 3) * 10 * (fake_oper.rarity - 5);
             fake_oper.potential = 6;
             fake_oper.own = true;
-            cur_data.push_back(std::move(fake_oper));
+            auto insert_pos = std::ranges::lower_bound(cur_data, fake_oper, OperBoxInfo::SortCmp {}) - cur_data.begin();
+            cur_data.insert(cur_data.begin() + insert_pos, std::move(fake_oper));
 
             auto retry =
                 algorithm::bipartite::bipartite_max_match<OperGroup, OperBoxInfo>(flat_groups, cur_data, can_match);
