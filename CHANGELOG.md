@@ -1,4 +1,4 @@
-## v6.15.0-beta.2
+## v6.15.0-beta.3
 
 ### Highlights
 
@@ -8,7 +8,11 @@
 
 #### 库存保持任务
 
-新增「库存保持」任务，支持在单个任务中添加多组保持计划，按从上到下的优先级将指定材料刷取至目标数量；可在任务开始前更新库存数据，并支持在 SideStory 活动与资源关卡限时全开放期间自动跳过，方便保持芯片、红票、龙门币等各类资源数量。
+新增「库存保持」任务，支持在单个任务中添加多组保持计划，按从上到下的优先级将指定材料刷取至目标数量；可在任务开始前更新库存数据，并支持在 SideStory 活动与资源关卡限时全开放期间自动跳过，方便保持芯片、红票、龙门币等各类资源数量。本测试版起支持可选 AUTO 代理倍率。
+
+#### MuMu 触控增强
+
+支持通过 MuMu 外置渲染器进行触控输入（实验性，需 MuMu 6.3.2+）。在启用截图增强的基础上勾选触控增强后，可在模拟器后台保活场景下更稳定地完成截图与操作；触控失败时自动回退至现有触控通路。
 
 #### 配置迁移至 gui.new.json
 
@@ -23,7 +27,11 @@ The upstream copilot site PRTS.plus updated its copilot code format on July 20, 
 
 #### Depot Maintain Task
 
-Added a Depot Maintain task that supports multiple plans within a single task, farming specified materials up to target quantities in top-to-bottom priority order. It can refresh depot data before the task starts and automatically skips during SideStory events and limited full-day resource stages, making it easy to maintain stocks of chips, vouchers, LMD, and other resources.
+Added a Depot Maintain task that supports multiple plans within a single task, farming specified materials up to target quantities in top-to-bottom priority order. It can refresh depot data before the task starts and automatically skips during SideStory events and limited full-day resource stages, making it easy to maintain stocks of chips, vouchers, LMD, and other resources. This beta adds an optional AUTO series multiplier.
+
+#### MuMu Touch Enhancement
+
+Adds touch input via MuMu's external renderer (experimental, requires MuMu 6.3.2+). With both screenshot enhancement and touch enhancement enabled, screenshot and input remain more stable under MuMu background keep-alive; touch automatically falls back to existing input paths on failure.
 
 #### Configuration Migration to gui.new.json
 
@@ -36,6 +44,27 @@ GUI configuration has been migrated to `gui.new.json`; future versions will no l
 以下是详细内容：
 
 <details open>
+<summary><b>v6.15.0-beta.3 (2026-07-27)</b></summary>
+
+### 新增 | New
+
+* 支持 MuMu 模拟器触控增强：通过外置渲染器 IPC 发送触控/按键/文本输入（需 MuMu 6.3.2+，失败时自动回退现有触控通路）；WPF 在截图增强下新增触控增强开关，同时开启截图与触控增强时可在后台保活下更稳定运行 ([#17425](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17425)) @MistEO
+* 库存保持任务支持 AUTO 代理倍率（默认按 1 倍刷取；开启后按当前理智可用的最大倍率代理，单次可能超过目标库存上限） @ABA2396
+
+### 改进 | Improved
+
+* 任务队列支持 Ctrl+清空：按住 Ctrl 点击清空可一键移除全部任务（需确认） @status102
+* 库存保持在 8/1 游戏更新后代理倍率暂未适配期间，与作战设置一致锁定倍率切换 @ABA2396
+* 完善异格阿米娅（升变）干员数据生成逻辑，补充 sortIndex、子职业等字段 @status102
+
+### 修复 | Fix
+
+* 修复 Windows 下 `call_command` 因管道/重叠 IO 处理不当可能卡死的问题，并支持指定工作目录与超时 @MistEO
+* 修复 MuMu 在 `client_type` 缺失时包名与 display id 获取失败的问题，改进查询失败时的降级逻辑 @MistEO
+
+</details>
+
+<details>
 <summary><b>v6.15.0-beta.2 (2026-07-26)</b></summary>
 
 ### 修复 | Fix
