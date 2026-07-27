@@ -154,9 +154,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     private void UpdateConnectionHistory(string address)
     {
         Execute.OnUIThread(() => {
-            var history = ConnectAddressHistory.ToList();
-            var index = history.IndexOf(address);
-            if (index != -1)
+            var index = ConnectAddressHistory.IndexOf(address);
+            if (index >= 0)
             {
                 ConnectAddressHistory.Move(index, 0);
             }
@@ -164,9 +163,9 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             {
                 ConnectAddressHistory.Insert(0, address);
                 const int MaxHistoryCount = 5;
-                for (int i = ConnectAddressHistory.Count; i > MaxHistoryCount; i++)
+                while (ConnectAddressHistory.Count > MaxHistoryCount)
                 {
-                    ConnectAddressHistory.RemoveAt(i - 1);
+                    ConnectAddressHistory.RemoveAt(ConnectAddressHistory.Count - 1);
                 }
             }
         });
