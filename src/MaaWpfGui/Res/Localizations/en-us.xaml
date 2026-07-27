@@ -723,7 +723,7 @@ Note:
     <system:String x:Key="MuMu12Display">Display Number</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu background keep-alive is on. To run stably in the background, enable both "MuMu screenshot enhancement" and "MuMu touch" in Settings.</system:String>
-    <system:String x:Key="MuMuEmulator12FullExtrasReady">Full MuMu enhancement online — screenshot & touch dual-link engaged. Background keep-alive bows to our will!</system:String>
+    <system:String x:Key="MuMuEmulator12FullExtrasReady">Full MuMu enhancement online — screenshot &amp; touch dual-link engaged. Background keep-alive bows to our will!</system:String>
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer emulator path not found.</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">ldopengl64.dll was not found in the selected LDPlayer path. Please verify the installation directory.</system:String>
