@@ -115,7 +115,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 Stage = stage,
                 Medicine = plan.UseMedicine ? plan.MedicineCount : 0,
                 Stone = plan.UseStone ? plan.StoneCount : 0,
-                Series = task.UseAutoSeries ? 0 : 1,
+
+                // 适配后删除 恢复为 Series = task.UseAutoSeries ? 0 : 1,
+                Series = FightSettingsUserControlModel.Instance.IsSeriesLocked ? -1 : (task.UseAutoSeries ? 0 : 1),
                 MaxTimes = int.MaxValue,
                 ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
                 ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
@@ -523,7 +525,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     Medicine = plan.UseMedicine ? plan.MedicineCount : 0,
                     Stone = plan.UseStone ? plan.StoneCount : 0,
 
-                    Series = depot.UseAutoSeries ? 0 : 1,
+                    // 适配后删除 恢复为 Series = depot.UseAutoSeries ? 0 : 1,
+                    Series = FightSettingsUserControlModel.Instance.IsSeriesLocked ? -1 : (depot.UseAutoSeries ? 0 : 1),
                     ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
                     ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
                     PenguinId = SettingsViewModel.GameSettings.PenguinId,
