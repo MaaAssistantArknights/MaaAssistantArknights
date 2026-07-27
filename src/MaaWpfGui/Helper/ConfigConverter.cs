@@ -18,7 +18,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
-using GlobalHotKey;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -722,7 +721,18 @@ public class ConfigConverter
 
             // 运行设置
             {
-                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, ClientType.Official);
+                var clientTypeStr = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
+                if (!string.IsNullOrEmpty(clientTypeStr))
+                {
+                    ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType = clientTypeStr switch {
+                        ClientTypeExtension.Official => ClientType.Official,
+                        ClientTypeExtension.Bilibili => ClientType.Bilibili,
+                        ClientTypeExtension.EN => ClientType.EN,
+                        ClientTypeExtension.JP => ClientType.JP,
+                        ClientTypeExtension.KR => ClientType.KR,
+                        _ => ClientType.Official,
+                    };
+                }
                 ConfigFactory.CurrentConfig.Gui.RuntimeSettings.DeployWithPause = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, false);
                 ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PreRunScript = ConfigurationHelper.GetValue(ConfigurationKeys.StartsWithScript, string.Empty);
                 ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PostRunScript = ConfigurationHelper.GetValue(ConfigurationKeys.EndsWithScript, string.Empty);
