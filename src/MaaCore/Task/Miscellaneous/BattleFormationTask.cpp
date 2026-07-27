@@ -62,9 +62,6 @@ bool asst::BattleFormationTask::_run()
     if (!parse_formation()) {
         return false;
     }
-    if (!do_operbox_precheck()) {
-        return false;
-    }
     if (compare_formation()) { // 与上一个作业的编队进行对比，相同则跳过
         Log.info(__FUNCTION__, "| Formation is the same as last time, skip");
         for (auto& [name, _, __, opers] : m_formation | std::views::values | std::views::join) {
@@ -85,6 +82,9 @@ bool asst::BattleFormationTask::_run()
             }
         }
         return true; // 编队未变更，跳过
+    }
+    if (!do_operbox_precheck()) {
+        return false;
     }
 
     if (m_select_formation_index > 0 && !select_formation(m_select_formation_index, img)) {
@@ -1257,11 +1257,10 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             }
         }
 
-        for (const auto& borrow_id : candidate_ids) {
+        const auto& all_chars = BattleData.get_all_chars();
+        auto try_borrow = [&](const std::string& borrow_id) -> bool {
             auto cur_data = oper_data;
             std::erase_if(cur_data, [&](const OperBoxInfo& o) { return o.id == borrow_id; });
-            auto fake_idx = cur_data.size();
-            const auto& all_chars = BattleData.get_all_chars();
             OperBoxInfo fake_oper {};
             fake_oper.id = borrow_id;
             fake_oper.name = all_chars.at(borrow_id)->name;
@@ -1279,7 +1278,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             if (retry.unmatched_left.empty()) {
                 std::unordered_map<std::string, std::string> new_assigned;
                 for (const auto& [left, right] : retry.matched) {
-                    if (right == fake_idx) {
+                    if (cur_data[right].id == borrow_id) {
                         Log.info("OperBox precheck: borrow", borrow_id, "for", flat_groups[left].name);
                         m_operbox_unmatched_group = flat_groups[left].name;
                     }
@@ -1292,6 +1291,23 @@ bool asst::BattleFormationTask::do_operbox_precheck()
                 info["details"]["group_name"] = m_operbox_unmatched_group;
                 info["details"]["may_borrow_oper"] = all_chars.at(borrow_id)->name;
                 callback(AsstMsg::SubTaskExtraInfo, info);
+                return true;
+            }
+            return false;
+        };
+
+        auto& unmatched_group = flat_groups[result.unmatched_left[0]];
+        for (const auto& op : unmatched_group.opers) {
+            auto borrow_id = BattleData.get_id(op.name);
+            if (borrow_id.empty() || !candidate_ids.erase(borrow_id)) {
+                continue;
+            }
+            if (try_borrow(borrow_id)) {
+                return true;
+            }
+        }
+        for (const auto& borrow_id : candidate_ids) {
+            if (try_borrow(borrow_id)) {
                 return true;
             }
         }
