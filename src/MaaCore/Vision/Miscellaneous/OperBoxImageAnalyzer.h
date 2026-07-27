@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Vision/VisionHelper.h"
 
 namespace asst
@@ -15,6 +16,29 @@ struct OperBoxInfo
 
     Rect rect;
     bool own = false;
+
+    struct SortCmp
+    {
+        bool operator()(const OperBoxInfo& lhs, const OperBoxInfo& rhs) const
+        {
+            if (lhs.elite != rhs.elite) {
+                return lhs.elite > rhs.elite;
+            }
+            if (lhs.level != rhs.level) {
+                return lhs.level > rhs.level;
+            }
+            if (lhs.rarity != rhs.rarity) {
+                return lhs.rarity > rhs.rarity;
+            }
+            const auto& all_chars = BattleData.get_all_chars();
+            const auto& lhs_iter = all_chars.at(lhs.id);
+            const auto& rhs_iter = all_chars.at(rhs.id);
+            if (lhs_iter->role != rhs_iter->role) {
+                return lhs_iter->role < rhs_iter->role;
+            }
+            return lhs_iter->sort_index < rhs_iter->sort_index;
+        }
+    };
 };
 
 class OperBoxImageAnalyzer final : public VisionHelper
