@@ -795,9 +795,24 @@ public class AsstProxy
                 if (SettingsViewModel.ConnectSettings.ConnectConfig == ConnectConfig.MuMuEmulator12)
                 {
                     _ = Task.Run(() => {
-                        if (EmulatorHelper.CheckMuMuKeepAlive())
+                        if (!EmulatorHelper.CheckMuMuKeepAlive())
                         {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuEmulator12KeepAliveOn"), UiLogColor.Warning);
+                            return;
+                        }
+
+                        // 截图增强 + 触控均已开启时，MuMu extras 可在后台保活下稳定工作
+                        var fullExtras = SettingsViewModel.ConnectSettings.ExtraConfig is MuMu12Extra { Enable: true, EnableTouch: true };
+                        if (fullExtras)
+                        {
+                            Instances.TaskQueueViewModel.AddLog(
+                                LocalizationHelper.GetString("MuMuEmulator12FullExtrasReady"),
+                                UiLogColor.Rainbow);
+                        }
+                        else
+                        {
+                            Instances.TaskQueueViewModel.AddLog(
+                                LocalizationHelper.GetString("MuMuEmulator12KeepAliveOn"),
+                                UiLogColor.Info);
                         }
                     });
                 }

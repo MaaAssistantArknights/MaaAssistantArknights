@@ -178,6 +178,11 @@
                                     d:Visibility="Visible"
                                     Orientation="Vertical"
                                     Visibility="{c:Binding Enable}">
+                                    <CheckBox
+                                        Margin="10"
+                                        HorizontalAlignment="Center"
+                                        Content="{DynamicResource MuMuExtrasTouchEnabled}"
+                                        IsChecked="{Binding EnableTouch}" />
                                     <hc:TextBox
                                         Width="420"
                                         Height="30"
@@ -186,11 +191,6 @@
                                         hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
                                         hc:TitleElement.TitlePlacement="Left"
                                         Text="{Binding EmulatorPath}" />
-                                    <CheckBox
-                                        Margin="10"
-                                        HorizontalAlignment="Center"
-                                        Content="{DynamicResource MuMuExtrasTouchEnabled}"
-                                        IsChecked="{Binding EnableTouch}" />
                                     <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
                                         <CheckBox
                                             Margin="10"

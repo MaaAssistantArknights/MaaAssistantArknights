@@ -697,7 +697,7 @@ Only supports Official(CN), Bilibili and Traditional Chinese servers. Third-part
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
-    <system:String x:Key="MuMuExtrasTouchEnabled">Also use MuMu's input for touch (experimental, requires MuMu 6.3.2+)</system:String>
+    <system:String x:Key="MuMuExtrasTouchEnabled">Enable MuMu touch enhancement (experimental, requires 6.3.2+, supports background keep-alive)</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu Emulator path not found.</system:String>
     <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll was not found under the selected MuMu installation.\n
 Expected relative path: nx_device/15.0/shell/sdk/external_renderer_ipc.dll or
@@ -722,7 +722,8 @@ Note:
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
     <system:String x:Key="MuMu12Display">Display Number</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
-    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu emulator background keep-alive is enabled, which may cause screenshot failures and abnormal operations. Please disable "background keep-alive" (or "app keep-alive", etc.) in MuMu settings</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu background keep-alive is on. To run stably in the background, enable both "MuMu screenshot enhancement" and "MuMu touch" in Settings.</system:String>
+    <system:String x:Key="MuMuEmulator12FullExtrasReady">Full MuMu enhancement online — screenshot & touch dual-link engaged. Background keep-alive bows to our will!</system:String>
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer emulator path not found.</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">ldopengl64.dll was not found in the selected LDPlayer path. Please verify the installation directory.</system:String>

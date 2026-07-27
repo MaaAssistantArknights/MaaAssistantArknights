@@ -209,6 +209,10 @@
                                 d:Visibility="Visible"
                                 Orientation="Vertical"
                                 Visibility="{c:Binding Enable}">
+                                <CheckBox
+                                    Margin="0,5"
+                                    Content="{DynamicResource MuMuExtrasTouchEnabled}"
+                                    IsChecked="{Binding EnableTouch}" />
                                 <hc:TextBox
                                     Margin="0,5"
                                     hc:InfoElement.Placeholder="Example: C:\Program Files\Netease\MuMuPlayer"
