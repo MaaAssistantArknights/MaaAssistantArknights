@@ -4,10 +4,19 @@
         {
             "id": "final_encounter",
             "page_intent": "default",
-            "node_types": ["final", "battle_boss"],
+            "node_types": ["final"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
             "task": "BlackFlow@Roguelike@Page-FinalEncounter",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "combat",
+            "page_intent": "default",
+            "node_types": ["battle_normal", "battle_elite", "battle_savage", "hide_battle", "battle_boss"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Combat",
             "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {

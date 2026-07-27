@@ -83,7 +83,7 @@ void BlackFlowLifecycleTaskPlugin::reset_in_run_variables()
     m_pending = PendingWork::None;
     m_pending_details = {};
     m_terminal_trigger.clear();
-    Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", "RoguelikeControlTaskPlugin-ExitThenStop");
+    Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", "BlackFlow@Roguelike@ExitThenStop-Enter");
     if (m_session != nullptr && !m_session->profile().empty()) {
         m_session->reset_run();
     }
@@ -160,8 +160,9 @@ bool BlackFlowLifecycleTaskPlugin::_run()
 
     const std::string next_action =
         m_session != nullptr && m_session->result().has_value() ? m_session->result()->next_action : "stop_run";
+    // 停止一支经 -Enter 转发，让 RoguelikeControlTaskPlugin-ExitThenStop 以自己的名字执行，控制插件才会收到回调。
     const std::string task = next_action == "restart_current_run" ? "BlackFlow@Roguelike@ExitThenAbandon"
-                                                                  : "RoguelikeControlTaskPlugin-ExitThenStop";
+                                                                  : "BlackFlow@Roguelike@ExitThenStop-Enter";
     Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", task);
     Log.info("BlackFlow strategy terminal action", trigger, next_action, task);
     report_outputs();

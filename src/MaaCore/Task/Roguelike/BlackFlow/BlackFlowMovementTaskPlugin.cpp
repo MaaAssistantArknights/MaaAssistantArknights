@@ -23,7 +23,8 @@ constexpr std::string_view SelectionAction = "BlackFlow@Roguelike@SelectMovement
 constexpr std::string_view InventoryObservationTrigger = "BlackFlow@Roguelike@MovementInventoryObserve";
 constexpr std::string_view InventoryObservationAction = "BlackFlow@Roguelike@MovementInventoryObservationAction";
 constexpr std::string_view InventoryItemsTask = "BlackFlow@Roguelike@MovementInventoryItems";
-constexpr std::string_view InventoryCloseTask = "BlackFlow@Roguelike@MovementInventoryClose";
+// 经 -Enter 转发，避免占位任务从 MovementInventoryClose 继承 maxTimes。
+constexpr std::string_view InventoryCloseTask = "BlackFlow@Roguelike@MovementInventoryClose-Enter";
 constexpr std::string_view OpenPanelTask = "BlackFlow@Roguelike@MovementPanelOpenClick";
 constexpr std::string_view PanelTitleTask = "BlackFlow@Roguelike@MovementPanelTitle";
 constexpr std::string_view PanelItemsTask = "BlackFlow@Roguelike@MovementPanelItems";

@@ -25,7 +25,7 @@ private:
         RecoverMapFailed,
     };
 
-    void restore_legacy_stages();
+    void restore_node_completion_action();
 
     mutable PendingWork m_pending = PendingWork::None;
     mutable json::value m_pending_details;
