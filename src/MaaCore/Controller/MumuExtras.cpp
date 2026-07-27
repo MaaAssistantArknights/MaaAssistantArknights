@@ -500,15 +500,23 @@ std::optional<int> MumuExtras::get_display_id()
     if (!get_display_id_func_) {
         // 旧版本 mumu 没这个函数，此时只有 display 0，按 0 处理
         LogWarn << "get_display_id_func_ is null, fallback to 0, please update your MuMu Player";
+        display_id_cache_.store(0, std::memory_order_relaxed);
         return 0;
     }
 
+    // 优先用真实包名（明日方舟），失败再退到 mumu 约定的 "default"（最前端 tab），
+    // 都失败则对齐 MaaFramework 退回 0（主 display）
     int id = get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
+    if (id < 0 && package_name_ != kDefaultPackage) {
+        LogWarn << "Failed to get display id for package, try default" << VAR(id) << VAR(package_name_);
+        id = get_display_id_func_(mumu_handle_, kDefaultPackage.c_str(), 0);
+    }
     if (id < 0) {
-        LogWarn << "Failed to get display id" << VAR(id) << VAR(package_name_);
-        return std::nullopt;
+        LogWarn << "Failed to get display id, fallback to 0" << VAR(id) << VAR(package_name_);
+        id = 0;
     }
 
+    LogInfo << "MuMu display id" << VAR(id) << VAR(package_name_);
     display_id_cache_.store(id, std::memory_order_relaxed);
     return id;
 }

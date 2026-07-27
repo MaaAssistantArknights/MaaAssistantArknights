@@ -18,7 +18,9 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Windows;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
@@ -280,6 +282,8 @@ public class MuMu12Extra() : ExtraConfig, IJsonOnDeserialized
             var configObject = new JObject {
                 ["path"] = EmulatorPath,
                 ["touch"] = EnableTouch,
+                // MuMu get_display_id 需要包名，按当前客户端类型映射明日方舟包名
+                ["client_type"] = SettingsViewModel.GameSettings.ClientType.ToCustomString(),
             };
 
             if (EnableBridgeConnection)
