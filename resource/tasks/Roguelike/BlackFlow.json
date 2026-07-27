@@ -265,7 +265,6 @@
             "BlackFlow@Roguelike@MovePreviewWait*3",
             "BlackFlow@Roguelike@NodePageDepartConfirm*3",
             "BlackFlow@Roguelike@StageEncounterLeaveConfirm*3",
-            "BlackFlow@Roguelike@StageEncounterRewardContinue*3",
             "BlackFlow@Roguelike@StageTraderInvestSystemEnter*3",
             "BlackFlow@Roguelike@StageTraderInvestCancel*3",
             "BlackFlow@Roguelike@StageTraderInvestSystemLeave*3",
@@ -306,6 +305,7 @@
         "template": "BlackFlow@Roguelike@TodoEnter.png"
     },
     "BlackFlow@Roguelike@CloseCollection": {
+        "Doc": "关掉藏品、资源等获得类弹窗，只在 某任务@(本任务) 的形式下使用。",
         "template": "BlackFlow@Roguelike@CloseCollection.png",
         "action": "ClickSelf",
         "roi": [1, 447, 1275, 166],
@@ -324,7 +324,15 @@
         "template": "BlackFlow@Roguelike@CloseCollection.png"
     },
     "BlackFlow@Roguelike@CloseEvent": {
-        "template": "BlackFlow@Roguelike@CloseEvent.png"
+        "Doc": "关掉事件结算弹窗。进入节点由规划器负责，这里不接节点进入。",
+        "template": "BlackFlow@Roguelike@CloseEvent.png",
+        "next": [
+            "BlackFlow@Roguelike@CloseEvent@(BlackFlow@Roguelike@CloseCollectionContinue)",
+            "BlackFlow@Roguelike@CloseEvent@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@Stages#next",
+            "BlackFlow@Roguelike@DropsFlag",
+            "BlackFlow@Roguelike@CloseEvent"
+        ]
     },
     "BlackFlow@Roguelike@EnterAfterRecruit": {
         "template": "BlackFlow@Roguelike@EnterAfterRecruit.png",
@@ -363,7 +371,6 @@
             "BlackFlow@Roguelike@GetDropCompleted",
             "BlackFlow@Roguelike@GetDropLeave",
             "BlackFlow@Roguelike@Stages#next",
-            "BlackFlow@Roguelike@StageEncounterOptions#next",
             "BlackFlow@Roguelike@StageEncounterSpecialClose",
             "BlackFlow@Roguelike@StageTraderLeave",
             "BlackFlow@Roguelike@CloseEvent",
@@ -377,7 +384,6 @@
             "BlackFlow@Roguelike@GetDrops#next",
             "BlackFlow@Roguelike@GetDropCompleted",
             "BlackFlow@Roguelike@Stages#next",
-            "BlackFlow@Roguelike@StageEncounterOptions#next",
             "BlackFlow@Roguelike@StageEncounterSpecialClose",
             "BlackFlow@Roguelike@StageTraderLeave",
             "BlackFlow@Roguelike@CloseEvent",
@@ -513,12 +519,13 @@
         "template": "BlackFlow@Roguelike@RolesDefault.png"
     },
     "BlackFlow@Roguelike@SquadConfirm": {
+        "Doc": "开局分队确认，之后可能出现藏品弹窗、干员选择或招募界面。",
         "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
         "next": [
             "BlackFlow@Roguelike@LastReward-EnterPoint",
             "BlackFlow@Roguelike@RolesDefault",
             "BlackFlow@Roguelike@RecruitMain",
-            "BlackFlow@Roguelike@CloseCollection",
+            "BlackFlow@Roguelike@SquadConfirm@(BlackFlow@Roguelike@CloseCollection)",
             "BlackFlow@Roguelike@Stages#next"
         ]
     },
@@ -1089,6 +1096,7 @@
         "ocrReplace": []
     },
     "BlackFlow@Roguelike@StageEncounterSpecialClose": {
+        "Doc": "同样是关藏品弹窗，供 ClickToDrops 与 DropsFlag 继承下来的列表使用。",
         "template": "BlackFlow@Roguelike@CloseCollection.png",
         "roi": [1, 447, 1275, 166]
     },
@@ -1107,29 +1115,17 @@
         "reduceOtherTimes": ["BlackFlow@Roguelike@StageEncounterLeaveConfirm*3"]
     },
     "BlackFlow@Roguelike@StageEncounterReward": {
+        "Doc": "事件选完之后领取奖励，可能连续弹出多个藏品或资源弹窗。",
         "algorithm": "JustReturn",
         "next": [
-            "BlackFlow@Roguelike@StageEncounterRewardContinue",
-            "BlackFlow@Roguelike@StageEncounterRewardClose",
+            "BlackFlow@Roguelike@StageEncounterReward@(BlackFlow@Roguelike@CloseCollectionContinue)",
+            "BlackFlow@Roguelike@StageEncounterReward@(BlackFlow@Roguelike@CloseCollection)",
             "BlackFlow@Roguelike@CloseEventAfterEncounter"
         ]
     },
-    "BlackFlow@Roguelike@StageEncounterRewardContinue": {
-        "baseTask": "BlackFlow@Roguelike@CloseCollectionContinue",
-        "template": "BlackFlow@Roguelike@CloseCollectionContinue.png",
-        "maxTimes": 3,
-        "next": ["BlackFlow@Roguelike@StageEncounterReward"],
-        "exceededNext": ["BlackFlow@Roguelike@CloseEventAfterEncounter"]
-    },
-    "BlackFlow@Roguelike@StageEncounterRewardClose": {
-        "baseTask": "BlackFlow@Roguelike@CloseCollection",
-        "template": "BlackFlow@Roguelike@CloseCollection.png",
-        "next": ["BlackFlow@Roguelike@CloseEventAfterEncounter"],
-        "reduceOtherTimes": ["BlackFlow@Roguelike@StageEncounterRewardContinue*3"]
-    },
     "BlackFlow@Roguelike@CloseEventAfterEncounter": {
         "template": "BlackFlow@Roguelike@CloseEvent.png",
-        "roi": [525, 579, 239, 135],
+        "roi": [567, 584, 145, 136],
         "action": "ClickSelf",
         "postDelay": 600,
         "next": ["BlackFlow@Roguelike@Stages"]
