@@ -34,8 +34,8 @@ inline flow::FlowGraph
     }
     for (size_t i = 0; i < left_count; ++i) {
         for (size_t j : adjacency[i]) {
-            // magic: 第一项优先满足左边前面的。第二项是反四边形不等式，让前面的组尽可能匹配前面的干员
-            int64_t cost = (i + 1) * 10000 - (i + 1) * (j + 1);
+            // magic: 第一项优先满足选强的干员。第二项是反四边形不等式，让前面的组尽可能匹配前面的干员
+            int64_t cost = (j + 1) * 10000 - (i + 1) * (j + 1);
             fg.add_edge(static_cast<int>(i + 1), static_cast<int>(left_count + j + 1), 1, cost);
         }
     }
