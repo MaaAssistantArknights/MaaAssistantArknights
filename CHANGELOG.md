@@ -12,7 +12,7 @@
 
 #### MuMu 模拟器触控增强
 
-新增 MuMu 外置渲染器触控模式（实验性）：在启用截图增强的基础上可勾选「同时用于触控」，通过 MuMu IPC 直连输入并支持后台保活稳定运行；低版本或失败时自动回退至既有触控通路。需 MuMuManager 6.3.2 及以上。
+新增 MuMu 外置渲染器触控模式（实验性）：在启用截图增强后可作为触控模式选择，通过 MuMu IPC 直连输入并支持后台保活稳定运行；连接时检测是否实际生效，未生效且开启保活时将停止任务并提示，低版本或失败时自动回退至既有触控通路。需 MuMuManager 6.3.2 及以上。
 
 #### 配置迁移至 gui.new.json
 
@@ -31,7 +31,7 @@ Added a Depot Maintain task that supports multiple plans within a single task, f
 
 #### MuMu Emulator Touch Enhancement
 
-Added experimental MuMu external-renderer touch mode: with screenshot extras enabled, you can also enable touch via MuMu IPC for stable background keep-alive operation, with automatic fallback to existing touch paths on older versions or failure. Requires MuMuManager 6.3.2 or later.
+Added experimental MuMu external-renderer touch mode: with screenshot extras enabled, it appears as a selectable touch mode and uses MuMu IPC for stable background keep-alive operation. Connection checks whether touch actually takes effect; if keep-alive is on but touch is unavailable the task stops with a prompt, and older versions or failures fall back to existing touch paths. Requires MuMuManager 6.3.2 or later.
 
 #### Configuration Migration to gui.new.json
 
@@ -48,7 +48,7 @@ GUI configuration has been migrated to `gui.new.json`; future versions will no l
 
 ### 新增 | New
 
-* 支持 MuMu 模拟器触控增强（实验性，需 MuMuManager 6.3.2+；在截图增强下可勾选同时用于触控，支持后台保活，失败时自动回退） ([#17425](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17425)) @MistEO
+* 支持 MuMu 模拟器触控增强（实验性，需 MuMuManager 6.3.2+；启用截图增强后可在触控模式中选择，支持后台保活；连接时检测是否实际生效，未生效且开启保活时停止任务并提示，失败时自动回退） ([#17425](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17425)) @MistEO @ABA2396
 * 库存保持任务支持使用 AUTO 代理倍率，并在游戏更新后倍战锁定期间同步禁用该选项 @ABA2396
 * 任务队列支持按住 Ctrl 点击清空以移除全部任务 @status102
 
@@ -56,6 +56,7 @@ GUI configuration has been migrated to `gui.new.json`; future versions will no l
 
 * 增强跨平台 `call_command` 实现（工作目录、超时与管道/进程清理），避免子进程输出读取卡死 @MistEO
 * 完善 MuMu Extras 包名与 display id 解析，缺失客户端类型时回退至有效默认值 @MistEO
+* 优化连接配置界面布局与间距 @ABA2396
 
 ### 修复 | Fix
 
