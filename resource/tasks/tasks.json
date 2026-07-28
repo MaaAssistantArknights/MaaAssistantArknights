@@ -2391,7 +2391,6 @@
     "InfrastLoading": {
         "doc": "等待基建加载画面结束",
         "template": "InfrastPic/InfrastLoading.png",
-        "templThreshold": 0.8,
         "roi": [520, 330, 240, 180],
         "next": ["#self", "#next", "#back"]
     },
