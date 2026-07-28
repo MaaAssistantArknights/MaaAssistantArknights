@@ -62,7 +62,7 @@
                 TextAlignment="Left"
                 TextWrapping="Wrap" />
             <CheckBox
-                Margin="0,10"
+                Margin="0,5"
                 Content="{DynamicResource StartGameLaunchClient}"
                 IsChecked="{Binding StartGame, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}" />
             <hc:ComboBox
@@ -79,12 +79,12 @@
 
         <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
             <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
-                <StackPanel Margin="0,10" Orientation="Horizontal">
+                <StackPanel Margin="0,5" Orientation="Horizontal">
                     <CheckBox Content="{DynamicResource AutoDetectConnection}" IsChecked="{Binding AutoDetectConnection}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource AutoDetectConnectionTip}" />
                 </StackPanel>
                 <StackPanel
-                    Margin="0,10"
+                    Margin="0,5"
                     Orientation="Horizontal"
                     Visibility="{c:Binding AutoDetectConnection}">
                     <CheckBox
@@ -105,7 +105,7 @@
                 SelectedValuePath="Value" />
 
             <TextBlock
-                Margin="10,0"
+                Margin="5,0"
                 HorizontalAlignment="Center"
                 d:Visibility="Visible"
                 Foreground="Red"
@@ -227,6 +227,7 @@
                                 </StackPanel>
                                 <hc:TextBox
                                     Margin="0,5"
+                                    HorizontalAlignment="Left"
                                     HorizontalContentAlignment="Center"
                                     d:Visibility="Visible"
                                     hc:TitleElement.Title="{DynamicResource MuMu12Index}"

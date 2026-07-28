@@ -28,7 +28,6 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel
             Grid.Row="0"
@@ -61,7 +60,7 @@
             <hc:ComboBox
                 Width="300"
                 Height="30"
-                Margin="10"
+                Margin="5"
                 HorizontalAlignment="Center"
                 hc:TitleElement.Title="{DynamicResource ConnectionPreset}"
                 hc:TitleElement.TitlePlacement="Left"
@@ -74,7 +73,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
                 <TextBlock
-                    Margin="10,0"
+                    Margin="5,0"
                     HorizontalAlignment="Center"
                     d:Visibility="Visible"
                     Foreground="Red"
@@ -86,7 +85,7 @@
             <!--  ADB 连接配置区域  -->
             <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
                 <StackPanel
-                    Margin="10"
+                    Margin="5"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
                     <controls:TooltipBlock Visibility="Hidden" />
@@ -130,7 +129,7 @@
                     <controls:TooltipBlock TooltipText="{DynamicResource ConnectionAddressTip}" />
                 </StackPanel>
                 <StackPanel
-                    Margin="10"
+                    Margin="5"
                     HorizontalAlignment="Center"
                     IsEnabled="{c:Binding !AutoDetectConnection}"
                     Orientation="Horizontal">
@@ -169,7 +168,7 @@
                         <DataTemplate DataType="{x:Type extra:MuMu12Extra}">
                             <StackPanel d:DataContext="{d:DesignInstance {x:Type extra:MuMu12Extra}}">
                                 <CheckBox
-                                    Margin="10"
+                                    Margin="5"
                                     HorizontalAlignment="Center"
                                     Content="{DynamicResource MuMu12ExtrasEnabled}"
                                     IsChecked="{Binding Enable}" />
@@ -179,28 +178,28 @@
                                     Orientation="Vertical"
                                     Visibility="{c:Binding Enable}">
                                     <CheckBox
-                                        Margin="10"
+                                        Margin="5"
                                         HorizontalAlignment="Center"
                                         Content="{DynamicResource MuMuExtrasTouchEnabled}"
                                         IsChecked="{Binding EnableTouch}" />
                                     <hc:TextBox
                                         Width="420"
                                         Height="30"
-                                        Margin="10"
+                                        Margin="5"
                                         hc:InfoElement.Placeholder="Example: C:\Program Files\Netease\MuMuPlayer"
                                         hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
                                         hc:TitleElement.TitlePlacement="Left"
                                         Text="{Binding EmulatorPath}" />
                                     <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
                                         <CheckBox
-                                            Margin="10"
+                                            Margin="5"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             Content="{DynamicResource MuMuBridgeConnection}"
                                             IsChecked="{Binding EnableBridgeConnection}" />
                                         <hc:TextBox
                                             Height="30"
-                                            Margin="10"
+                                            Margin="5"
                                             HorizontalContentAlignment="Center"
                                             d:Visibility="Visible"
                                             hc:TitleElement.Title="{DynamicResource MuMu12Index}"
@@ -214,7 +213,7 @@
                         <DataTemplate DataType="{x:Type extra:LDPlayerExtra}">
                             <StackPanel d:DataContext="{d:DesignInstance {x:Type extra:LDPlayerExtra}}">
                                 <CheckBox
-                                    Margin="10"
+                                    Margin="5"
                                     HorizontalAlignment="Center"
                                     Content="{DynamicResource LdExtrasEnabled}"
                                     IsChecked="{Binding Enable}" />
@@ -222,7 +221,7 @@
                                     <hc:TextBox
                                         Width="420"
                                         Height="30"
-                                        Margin="10"
+                                        Margin="5"
                                         hc:InfoElement.Placeholder="Example: C:\leidian\LDPlayer9"
                                         hc:TitleElement.Title="{DynamicResource LdEmulatorPath}"
                                         hc:TitleElement.TitlePlacement="Left"
@@ -236,7 +235,7 @@
                                         <hc:TextBox
                                             Width="130"
                                             Height="30"
-                                            Margin="10"
+                                            Margin="5"
                                             d:Visibility="Visible"
                                             hc:InfoElement.Placeholder="0"
                                             hc:TitleElement.Title="{DynamicResource LdIndex}"
@@ -250,7 +249,7 @@
                         <DataTemplate DataType="{x:Type extra:Win32Extra}">
                             <StackPanel d:DataContext="{d:DesignInstance {x:Type extra:Win32Extra}}">
                                 <StackPanel
-                                    Margin="10"
+                                    Margin="5"
                                     HorizontalAlignment="Center"
                                     Orientation="Horizontal">
                                     <hc:ComboBox
@@ -265,7 +264,7 @@
                                 </StackPanel>
 
                                 <StackPanel
-                                    Margin="10"
+                                    Margin="5"
                                     HorizontalAlignment="Center"
                                     Orientation="Horizontal">
                                     <hc:ComboBox
@@ -280,7 +279,7 @@
                                 </StackPanel>
 
                                 <StackPanel
-                                    Margin="10"
+                                    Margin="5"
                                     HorizontalAlignment="Center"
                                     Orientation="Horizontal">
                                     <hc:ComboBox
@@ -320,7 +319,7 @@
 
         <controls:TextBlock
             Grid.Row="4"
-            Margin="10"
+            Margin="5"
             HorizontalAlignment="Center"
             Text="{c:Binding ScreencapCost}" />
 
@@ -329,19 +328,21 @@
             HorizontalAlignment="Center"
             d:Visibility="Visible"
             Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                 <CheckBox
-                    Margin="20,10,0,10"
+                    Margin="5"
                     Content="{DynamicResource RetryOnDisconnected}"
                     IsChecked="{Binding RetryOnDisconnected}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource RetryOnDisconnectedTip}" />
             </StackPanel>
             <CheckBox
-                Margin="20,10"
+                Margin="5"
+                HorizontalAlignment="Left"
                 Content="{DynamicResource AllowAdbRestart}"
                 IsChecked="{Binding AllowAdbRestart}" />
             <CheckBox
-                Margin="20,10"
+                Margin="5"
+                HorizontalAlignment="Left"
                 Content="{DynamicResource AllowAdbHardRestart}"
                 IsChecked="{Binding AllowAdbHardRestart}" />
         </StackPanel>
@@ -354,7 +355,7 @@
             Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
             <hc:ComboBox
                 Height="30"
-                Margin="10,10,0,10"
+                Margin="5,5,0,5"
                 hc:TitleElement.Title="{DynamicResource TouchMode}"
                 hc:TitleElement.TitlePlacement="Left"
                 DisplayMemberPath="Display"
@@ -382,7 +383,7 @@
             </controls:TooltipBlock>
             <Button
                 Height="30"
-                Margin="10,10,0,10"
+                Margin="5,5,0,5"
                 HorizontalAlignment="Left"
                 Command="{s:Action ReplaceAdb}"
                 Content="{DynamicResource ForcedReplaceAdb}" />
@@ -395,24 +396,18 @@
             Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <CheckBox
-                    Margin="20,10"
+                    Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="{DynamicResource KillAdbOnExit}"
                     IsChecked="{Binding KillAdbOnExit}" />
                 <CheckBox
-                    Margin="20,10"
+                    Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="{DynamicResource AdbLiteEnabled}"
                     IsChecked="{Binding AdbLiteEnabled}" />
             </StackPanel>
         </StackPanel>
-
-        <StackPanel
-            Grid.Row="8"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Orientation="Horizontal" />
     </Grid>
 </UserControl>
