@@ -2408,7 +2408,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Infrast-Entry"],
-        "next": ["InfrastEnteredFlag", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"]
+        "next": ["InfrastEnteredFlag", "Infrast@InfrastLoading", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"]
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
