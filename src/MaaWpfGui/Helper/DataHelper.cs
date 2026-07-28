@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
