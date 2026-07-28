@@ -1099,9 +1099,6 @@ bool BlackFlowSession::update_in_place(const BlackFlowPerceptionSnapshot& snapsh
 
     refresh_mission();
     evaluate_terminal_rules();
-    if (!m_result.has_value() && m_mission.viability == MissionViability::Impossible) {
-        fail("mandatory_milestone_failed", "a mandatory strategy milestone was missed or became impossible");
-    }
     return true;
 }
 

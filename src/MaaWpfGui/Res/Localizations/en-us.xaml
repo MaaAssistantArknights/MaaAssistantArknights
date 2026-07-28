@@ -1401,6 +1401,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding3Floor5Boss">Defeat the floor 5 boss</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding3Floor6">Complete Ending 3 on floor 6</system:String>
     <system:String x:Key="BlackFlowOutcomeInvestmentCompleted">Investment route completed</system:String>
+    <system:String x:Key="BlackFlowOutcomeInvestmentMissed">Investment route missed</system:String>
     <system:String x:Key="BlackFlowOutcomeFloor3RouteCompleted">Floor 3 speed route completed</system:String>
     <system:String x:Key="BlackFlowOutcomeBabyCultivationCompleted">Swaddled-animal cultivation completed</system:String>
     <system:String x:Key="BlackFlowOutcomeBabyNoSeed">No seed obtained</system:String>
@@ -1412,7 +1413,6 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowOutcomeEnding2PrerequisiteFailed">Ending 2 prerequisite not completed</system:String>
     <system:String x:Key="BlackFlowOutcomeEnding3PrerequisiteFailed">Ending 3 prerequisite not completed</system:String>
     <system:String x:Key="BlackFlowOutcomeBabyScrapShopMissing">No scrap trader found on floor 3</system:String>
-    <system:String x:Key="BlackFlowOutcomeMandatoryMilestoneFailed">A mandatory objective failed</system:String>
     <system:String x:Key="BlackFlowOutcomeTaskEventFailed">Failed to process the node result</system:String>
     <system:String x:Key="BlackFlowOutcomePerceptionPortMissing">Map perception interface is unavailable</system:String>
     <system:String x:Key="BlackFlowOutcomeMapRebuildFailed">Map rebuild failed</system:String>
@@ -1432,6 +1432,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowOutcomeInternalFailure">Internal state error</system:String>
     <system:String x:Key="BlackFlowOutcomeUnknown">Roguelike encountered an error</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentFinished">Investment completed; this run has ended</system:String>
+    <system:String x:Key="BlackFlowTerminationInvestmentShopWindowClosed">Left the first floor without investing; restarting this run</system:String>
     <system:String x:Key="BlackFlowTerminationFloor3Reached">Reached floor 3; this run's route is complete</system:String>
     <system:String x:Key="BlackFlowTerminationCultivationReported">Cultivation result received; this run has ended</system:String>
     <system:String x:Key="BlackFlowTerminationFloor1ShopNoSeed">The floor 1 shop had no seed; this run has ended</system:String>
@@ -1444,7 +1445,6 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowTerminationEnding3RelicMissing">The Ending 3 relic was not obtained before floor 5</system:String>
     <system:String x:Key="BlackFlowTerminationNoBoskyPassage">No bosky passage was found on floor 3; this run's route is complete</system:String>
     <system:String x:Key="BlackFlowTerminationNoScrapShop">No scrap trader was found on floor 3</system:String>
-    <system:String x:Key="BlackFlowTerminationMandatoryMilestoneFailed">A mandatory objective was missed or became impossible</system:String>
     <system:String x:Key="BlackFlowTerminationRecoveryPortUnavailable">Map recovery interface is unavailable</system:String>
     <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">Map perception and task interfaces are unavailable</system:String>
     <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">Map rebuild failed twice consecutively</system:String>

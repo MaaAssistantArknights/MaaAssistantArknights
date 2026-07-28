@@ -147,7 +147,6 @@ enum class MissionViability
 {
     Confirmed,
     Possible,
-    Impossible,
 };
 
 enum class MilestoneKind

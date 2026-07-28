@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <functional>
-#include <map>
 #include <ranges>
 #include <tuple>
 #include <unordered_set>
@@ -74,9 +73,16 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
     std::unordered_set<std::string> selected_ids;
     std::function<bool(const std::string&)> include_with_prerequisites;
     include_with_prerequisites = [&](const std::string& id) {
+        // 已经错过或不可能的里程碑不再是目标，连同它的前置一起退出安全目标图。
+        // MissionState::refresh 会沿 requires 链把它的后继一并标成 Impossible，
+        // 所以这样跳过不会留下仍在追求、却依赖已死目标的里程碑。
+        const MilestoneStatus status = mission.status(id);
+        if (status == MilestoneStatus::Missed || status == MilestoneStatus::Impossible) {
+            return true;
+        }
         const auto definition = definitions.find(id);
         if (definition == definitions.end()) {
-            if (mission.status(id) == MilestoneStatus::Satisfied) {
+            if (status == MilestoneStatus::Satisfied) {
                 return true;
             }
             set_error(error, "mandatory safety goal has an unresolved prerequisite: " + id);
@@ -105,11 +111,6 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
         if (milestone.kind != MilestoneKind::Mandatory) {
             continue;
         }
-        const MilestoneStatus status = mission.status(milestone.id);
-        if (status == MilestoneStatus::Missed || status == MilestoneStatus::Impossible) {
-            set_error(error, "mandatory safety goal is already failed: " + milestone.id);
-            return std::nullopt;
-        }
         if (!include_with_prerequisites(milestone.id)) {
             return std::nullopt;
         }
@@ -126,25 +127,11 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
 
     SafetyGoalProgram program;
     program.m_milestones.reserve(selected.size());
-    program.m_milestone_info.reserve(selected.size());
     for (const Milestone* milestone : selected) {
         const std::size_t index = program.m_milestones.size();
         program.m_indices.emplace(milestone->id, index);
         const bool mandatory = milestone->kind == MilestoneKind::Mandatory;
-        program.m_milestones.emplace_back(CompiledMilestone { *milestone, mandatory, !mandatory, {} });
-        program.m_milestone_info.emplace_back(
-            SafetyGoalMilestoneInfo {
-                milestone->id,
-                milestone->kind,
-                milestone->completion,
-                milestone->floor_begin,
-                milestone->floor_end,
-                milestone->rank,
-                milestone->required_count,
-                milestone->weight,
-                mandatory,
-                !mandatory,
-            });
+        program.m_milestones.emplace_back(CompiledMilestone { *milestone, mandatory, {} });
     }
 
     for (CompiledMilestone& milestone : program.m_milestones) {
@@ -153,23 +140,15 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
             if (found != program.m_indices.end()) {
                 milestone.prerequisite_indices.emplace_back(found->second);
             }
-            else if (mission.status(prerequisite) != MilestoneStatus::Satisfied) {
+            // 前置没有被编进来，只有两种合法情形：它已经完成，或者它已经失效而被跳过。
+            else if (const MilestoneStatus status = mission.status(prerequisite);
+                     status != MilestoneStatus::Satisfied && status != MilestoneStatus::Missed &&
+                     status != MilestoneStatus::Impossible) {
                 set_error(error, "mandatory safety goal cannot track prerequisite: " + prerequisite);
                 return std::nullopt;
             }
         }
         std::ranges::sort(milestone.prerequisite_indices);
-    }
-
-    std::map<std::pair<int, int>, std::vector<std::size_t>> phase_indices;
-    for (std::size_t index = 0; index < program.m_milestones.size(); ++index) {
-        const CompiledMilestone& milestone = program.m_milestones[index];
-        if (milestone.mandatory) {
-            phase_indices[{ milestone.definition.floor_end, milestone.definition.rank }].emplace_back(index);
-        }
-    }
-    for (auto& [key, indices] : phase_indices) {
-        program.m_phases.emplace_back(SafetyGoalPhase { key.first, key.second, std::move(indices) });
     }
 
     SafetyGoalProgressSnapshot initial;
@@ -179,10 +158,6 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
     for (std::size_t index = 0; index < program.m_milestones.size(); ++index) {
         const CompiledMilestone& milestone = program.m_milestones[index];
         const MilestoneStatus status = mission.status(milestone.definition.id);
-        if (status == MilestoneStatus::Missed || status == MilestoneStatus::Impossible) {
-            set_error(error, "mandatory safety prerequisite is already failed: " + milestone.definition.id);
-            return std::nullopt;
-        }
         initial.progress[index] =
             std::min(std::max(mission.progress(milestone.definition.id), 0), milestone.definition.required_count);
         const auto counted = mission.milestone_nodes.find(milestone.definition.id);
@@ -197,8 +172,11 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
                                             milestone.definition.complete_if.evaluate(facts);
         const bool completed_by_progress = milestone.definition.completion == MilestoneCompletion::VisitCount &&
                                            initial.progress[index] >= milestone.definition.required_count;
+        // 失效的里程碑也算作不再追求，安全求解不必再为它保留可达性。
+        // 正常情况下它已被 include_with_prerequisites 跳过，这里只是兜住未刷新的 MissionState。
         initial.satisfied[index] = static_cast<std::uint8_t>(
-            status == MilestoneStatus::Satisfied || completed_by_condition || completed_by_progress);
+            status == MilestoneStatus::Satisfied || status == MilestoneStatus::Missed ||
+            status == MilestoneStatus::Impossible || completed_by_condition || completed_by_progress);
     }
 
     program.m_initial_progress_id = program.intern(std::move(initial));
@@ -352,59 +330,8 @@ bool SafetyGoalProgram::mandatory_due_through_floor_satisfied(SafetyGoalProgress
     return true;
 }
 
-bool SafetyGoalProgram::all_mandatory_satisfied(SafetyGoalProgressId id) const noexcept
-{
-    if (!valid_id(id)) {
-        return false;
-    }
-    const SafetyGoalProgressSnapshot& state = m_states[id];
-    for (std::size_t index = 0; index < m_milestones.size(); ++index) {
-        if (m_milestones[index].mandatory && !route_requirement_satisfied(state, index)) {
-            return false;
-        }
-    }
-    return true;
-}
-
 bool SafetyGoalProgram::is_floor_terminal_legal(SafetyGoalProgressId id, int floor, bool endpoint_legal) const noexcept
 {
     return endpoint_legal && mandatory_due_through_floor_satisfied(id, floor);
-}
-
-bool SafetyGoalProgram::is_final_terminal_legal(SafetyGoalProgressId id, bool endpoint_legal) const noexcept
-{
-    return endpoint_legal && all_mandatory_satisfied(id);
-}
-
-std::vector<int> SafetyGoalProgram::mandatory_progress_score(SafetyGoalProgressId id) const
-{
-    std::vector<int> score;
-    if (!valid_id(id)) {
-        return score;
-    }
-    const SafetyGoalProgressSnapshot& state = m_states[id];
-    std::size_t begin = 0;
-    while (begin < m_milestones.size()) {
-        while (begin < m_milestones.size() && !m_milestones[begin].mandatory) {
-            ++begin;
-        }
-        if (begin == m_milestones.size()) {
-            break;
-        }
-        const int rank = m_milestones[begin].definition.rank;
-        int completed = 0;
-        int weighted_progress = 0;
-        std::size_t end = begin;
-        while (end < m_milestones.size() && m_milestones[end].mandatory && m_milestones[end].definition.rank == rank) {
-            completed += state.satisfied[end] != 0 ? 1 : 0;
-            weighted_progress += m_milestones[end].definition.weight *
-                                 std::min(state.progress[end], m_milestones[end].definition.required_count);
-            ++end;
-        }
-        score.emplace_back(completed);
-        score.emplace_back(weighted_progress);
-        begin = end;
-    }
-    return score;
 }
 } // namespace asst::blackflow

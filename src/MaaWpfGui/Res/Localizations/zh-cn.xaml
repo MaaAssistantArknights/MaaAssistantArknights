@@ -1402,6 +1402,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowMilestoneEnding3Floor5Boss">完成第五层首领战斗</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding3Floor6">在第六层完成三结局</system:String>
     <system:String x:Key="BlackFlowOutcomeInvestmentCompleted">投资路线完成</system:String>
+    <system:String x:Key="BlackFlowOutcomeInvestmentMissed">投资路线错过</system:String>
     <system:String x:Key="BlackFlowOutcomeFloor3RouteCompleted">第三层速通路线完成</system:String>
     <system:String x:Key="BlackFlowOutcomeBabyCultivationCompleted">襁褓动物培育完成</system:String>
     <system:String x:Key="BlackFlowOutcomeBabyNoSeed">没有获得种子</system:String>
@@ -1413,7 +1414,6 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowOutcomeEnding2PrerequisiteFailed">二结局前置条件未完成</system:String>
     <system:String x:Key="BlackFlowOutcomeEnding3PrerequisiteFailed">三结局前置条件未完成</system:String>
     <system:String x:Key="BlackFlowOutcomeBabyScrapShopMissing">第三层未发现秘境行商</system:String>
-    <system:String x:Key="BlackFlowOutcomeMandatoryMilestoneFailed">必须完成的阶段目标失败</system:String>
     <system:String x:Key="BlackFlowOutcomeTaskEventFailed">节点结果处理失败</system:String>
     <system:String x:Key="BlackFlowOutcomePerceptionPortMissing">地图识别接口不可用</system:String>
     <system:String x:Key="BlackFlowOutcomeMapRebuildFailed">地图重建失败</system:String>
@@ -1433,6 +1433,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowOutcomeInternalFailure">内部状态异常</system:String>
     <system:String x:Key="BlackFlowOutcomeUnknown">肉鸽出现异常</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentFinished">投资已经完成，本局结束</system:String>
+    <system:String x:Key="BlackFlowTerminationInvestmentShopWindowClosed">已经离开第一层且尚未投资，本局重开</system:String>
     <system:String x:Key="BlackFlowTerminationFloor3Reached">已抵达第三层，本局路线完成</system:String>
     <system:String x:Key="BlackFlowTerminationCultivationReported">已经取得培育结果，本局结束</system:String>
     <system:String x:Key="BlackFlowTerminationFloor1ShopNoSeed">第一层商店没有种子，本局结束</system:String>
@@ -1445,7 +1446,6 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowTerminationEnding3RelicMissing">第五层前仍未取得三结局所需藏品</system:String>
     <system:String x:Key="BlackFlowTerminationNoBoskyPassage">第三层未发现误入奇境，本局路线完成</system:String>
     <system:String x:Key="BlackFlowTerminationNoScrapShop">第三层未发现秘境行商</system:String>
-    <system:String x:Key="BlackFlowTerminationMandatoryMilestoneFailed">必须完成的阶段目标已经错过或无法完成</system:String>
     <system:String x:Key="BlackFlowTerminationRecoveryPortUnavailable">地图恢复接口不可用</system:String>
     <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">地图识别与任务接口不可用</system:String>
     <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">连续两次地图重建失败</system:String>

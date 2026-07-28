@@ -397,15 +397,8 @@ void MissionState::refresh(const std::vector<Milestone>& definitions, int floor,
         }
     }
 
-    const bool mandatory_failed = std::ranges::any_of(definitions, [&](const Milestone& milestone) {
-        const MilestoneStatus current = status(milestone.id);
-        return milestone.kind == MilestoneKind::Mandatory &&
-               (current == MilestoneStatus::Missed || current == MilestoneStatus::Impossible);
-    });
-    if (mandatory_failed) {
-        viability = MissionViability::Impossible;
-        return;
-    }
+    // 错过一条里程碑只说明这一层没按计划走，不代表整局作废：真正的失败判据由策略的
+    // terminal_rules 显式声明，那里才能区分「这局不值得再打」和「继续按剩下的目标走」。
     const bool mandatory_complete = std::ranges::all_of(definitions, [&](const Milestone& milestone) {
         return milestone.kind != MilestoneKind::Mandatory || status(milestone.id) == MilestoneStatus::Satisfied;
     });

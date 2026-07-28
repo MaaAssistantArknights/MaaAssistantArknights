@@ -1635,11 +1635,6 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
     const bool minimize_intermediate_interactions =
         std::ranges::find(request.policy->route_preferences, RoutePreference::MinimizeIntermediateInteractions) !=
         request.policy->route_preferences.end();
-    if (request.mission->viability == MissionViability::Impossible) {
-        result.error = "active strategy has an impossible mandatory milestone";
-        return result;
-    }
-
     std::string error;
     auto safety_goal = SafetyGoalProgram::compile(*request.policy, *request.mission, *request.facts, &error);
     if (!safety_goal.has_value()) {

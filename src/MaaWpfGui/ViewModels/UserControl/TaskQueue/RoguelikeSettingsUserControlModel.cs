@@ -952,6 +952,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     private static string LocalizeBlackFlowStrategyOutcome(string? outcome) => outcome switch
     {
         "investment_completed" => LocalizationHelper.GetString("BlackFlowOutcomeInvestmentCompleted"),
+        "investment_missed" => LocalizationHelper.GetString("BlackFlowOutcomeInvestmentMissed"),
         "burn_completed" => LocalizationHelper.GetString("BlackFlowOutcomeFloor3RouteCompleted"),
         "baby_cultivation_completed" => LocalizationHelper.GetString("BlackFlowOutcomeBabyCultivationCompleted"),
         "baby_no_seed" => LocalizationHelper.GetString("BlackFlowOutcomeBabyNoSeed"),
@@ -963,7 +964,6 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         "ending2_prerequisite_failed" => LocalizationHelper.GetString("BlackFlowOutcomeEnding2PrerequisiteFailed"),
         "ending3_prerequisite_failed" => LocalizationHelper.GetString("BlackFlowOutcomeEnding3PrerequisiteFailed"),
         "baby_scrap_shop_missing" => LocalizationHelper.GetString("BlackFlowOutcomeBabyScrapShopMissing"),
-        "mandatory_milestone_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMandatoryMilestoneFailed"),
         "task_event_failed" => LocalizationHelper.GetString("BlackFlowOutcomeTaskEventFailed"),
         "perception_port_missing" => LocalizationHelper.GetString("BlackFlowOutcomePerceptionPortMissing"),
         "map_rebuild_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMapRebuildFailed"),
@@ -987,6 +987,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     private static string LocalizeBlackFlowTerminationReason(string? reason) => reason switch
     {
         "investment_finished" => LocalizationHelper.GetString("BlackFlowTerminationInvestmentFinished"),
+        "investment_shop_window_closed" => LocalizationHelper.GetString("BlackFlowTerminationInvestmentShopWindowClosed"),
         "third_floor_portal_entered" => LocalizationHelper.GetString("BlackFlowTerminationFloor3Reached"),
         "cultivation_result_reported" => LocalizationHelper.GetString("BlackFlowTerminationCultivationReported"),
         "floor1_shop_has_no_seed" => LocalizationHelper.GetString("BlackFlowTerminationFloor1ShopNoSeed"),
@@ -999,7 +1000,6 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         "fifth_floor_reached_without_special_device" => LocalizationHelper.GetString("BlackFlowTerminationEnding3RelicMissing"),
         "third_floor_has_no_portal" => LocalizationHelper.GetString("BlackFlowTerminationNoBoskyPassage"),
         "third_floor_has_no_scrap_shop" => LocalizationHelper.GetString("BlackFlowTerminationNoScrapShop"),
-        "a mandatory strategy milestone was missed or became impossible" => LocalizationHelper.GetString("BlackFlowTerminationMandatoryMilestoneFailed"),
         "map recovery port is unavailable" => LocalizationHelper.GetString("BlackFlowTerminationRecoveryPortUnavailable"),
         "BlackFlow perception and task port is not attached" => LocalizationHelper.GetString("BlackFlowTerminationPerceptionPortUnavailable"),
         "map rebuild failed twice" => LocalizationHelper.GetString("BlackFlowTerminationMapRebuildFailedTwice"),

@@ -1405,7 +1405,7 @@
             "id": "ending1",
             "description": "一结局保底",
             "modules": ["common_navigation", "ending_development", "ending1_exit"],
-            "failure_action": "stop_run"
+            "failure_action": "restart_current_run"
         },
         {
             "id": "investment",
@@ -1423,9 +1423,30 @@
                     "reason": "investment_finished",
                     "succeeded": true,
                     "next_action": "restart_current_run"
+                },
+                {
+                    "id": "investment_wrong_floor",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "ge",
+                                "value": 2
+                            },
+                            {
+                                "fact": "investment_completed",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "outcome": "investment_missed",
+                    "reason": "investment_shop_window_closed",
+                    "succeeded": false,
+                    "next_action": "restart_current_run"
                 }
             ],
-            "failure_action": "stop_run"
+            "failure_action": "restart_current_run"
         },
         {
             "id": "burn",
@@ -1471,7 +1492,7 @@
                     "next_action": "restart_current_run"
                 }
             ],
-            "failure_action": "stop_run"
+            "failure_action": "restart_current_run"
         },
         {
             "id": "burn_with_investment",
@@ -1517,7 +1538,7 @@
                     "next_action": "restart_current_run"
                 }
             ],
-            "failure_action": "stop_run"
+            "failure_action": "restart_current_run"
         },
         {
             "id": "baby_animal",
@@ -1654,7 +1675,7 @@
                     "succeeded": false
                 }
             ],
-            "failure_action": "stop_run"
+            "failure_action": "restart_current_run"
         },
         {
             "id": "ending3",
@@ -1693,7 +1714,7 @@
                     "succeeded": false
                 }
             ],
-            "failure_action": "stop_run"
+            "failure_action": "restart_current_run"
         }
     ]
 }
