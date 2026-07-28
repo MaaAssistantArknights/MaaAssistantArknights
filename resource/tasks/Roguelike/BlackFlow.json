@@ -289,6 +289,7 @@
             "BlackFlow@Roguelike@MapPrepare-ZoomOut*3",
             "BlackFlow@Roguelike@MovePreviewConfirm*3",
             "BlackFlow@Roguelike@MovePreviewWait*3",
+            "BlackFlow@Roguelike@MovementInventoryClose*3",
             "BlackFlow@Roguelike@Page-Door-Wait*10",
             "BlackFlow@Roguelike@StageEncounterLeaveConfirm*3",
             "BlackFlow@Roguelike@StageTraderInvestSystemEnter*3",
@@ -692,6 +693,7 @@
         "reduceOtherTimes": [
             "BlackFlow@Roguelike@MapPrepare-ZoomOut*3",
             "BlackFlow@Roguelike@Stages-ZoomOut*3",
+            "BlackFlow@Roguelike@MovementInventoryClose*3",
             "BlackFlow@Roguelike@Page-Door-Wait*10"
         ]
     },
@@ -777,7 +779,7 @@
         "templThreshold": 0.94,
         "roi": [24, 468, 62, 153],
         "next": ["BlackFlow@Roguelike@Routing"],
-        "reduceOtherTimes": ["BlackFlow@Roguelike@MapPrepare-ZoomOut*3"]
+        "reduceOtherTimes": ["BlackFlow@Roguelike@MapPrepare-ZoomOut*3", "BlackFlow@Roguelike@MovementInventoryClose*3"]
     },
     "BlackFlow@Roguelike@MapPrepare-ZoomOut": {
         "template": "BlackFlow@Roguelike@MapZoomOut.png",
@@ -794,7 +796,8 @@
         "postDelay": 1000,
         "maxTimes": 3,
         "next": ["BlackFlow@Roguelike@MapPrepare"],
-        "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"]
+        "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"],
+        "reduceOtherTimes": ["BlackFlow@Roguelike@MovementInventoryClose*3"]
     },
     "BlackFlow@Roguelike@CurrentActionPoints": {
         "algorithm": "OcrDetect",
@@ -984,7 +987,8 @@
         "action": "ClickSelf",
         "postDelay": 500,
         "next": ["BlackFlow@Roguelike@MapPrepare-Ready", "BlackFlow@Roguelike@MapPrepare-ZoomOut", "#self"],
-        "maxTimes": 3
+        "maxTimes": 3,
+        "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
     "BlackFlow@Roguelike@MovementPanelOpenClick": {
         "algorithm": "JustReturn",
