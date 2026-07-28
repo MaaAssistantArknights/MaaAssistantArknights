@@ -698,7 +698,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
     <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 강화 기능 활성화</system:String>
-    <system:String x:Key="MuMuExtrasTouchEnabled">MuMu 터치 강화 활성화 (실험적, 6.3.2+ 필요, 백그라운드 유지 지원)</system:String>
+    <system:String x:Key="MuMuExtrasTouchEnabled">MuMu 터치 강화 활성화 (실험적, MuMu 에뮬레이터 6.3.2+ 필요, 백그라운드 유지 지원)</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
     <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">선택한 MuMu 설치 폴더에서 external_renderer_ipc.dll을 찾을 수 없습니다.\n
 예상 상대 경로:
