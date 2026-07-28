@@ -697,6 +697,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <system:String x:Key="ScreenshotTest">スクリーンショットテスト</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
+    <system:String x:Key="MuMuExtrasTouchEnabled">MuMu タッチ強化を有効化（実験的、6.3.2+、バックグラウンド常駐対応）</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu エミュレータのパスが見つかりません。</system:String>
     <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll が選択した MuMu インストール内に見つかりませんでした。\n
 想定される相対パス：
@@ -722,7 +723,8 @@ C:\\Program Files\\Netease\\MuMuPlayer を入力してください。\n
     <system:String x:Key="MuMu12Index">インスタンス番号</system:String>
     <system:String x:Key="MuMu12Display">表示番号</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
-    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu エミュレータのバックグラウンド常駐が有効になっています。スクリーンショットの失敗や操作異常が発生する可能性があります。MuMuの設定で ｢バックグラウンド常駐｣ （または ｢アプリ常駐｣ など）をオフにしてください</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu のバックグラウンド常駐が有効です。バックグラウンドで安定動作させるには、設定で「MuMu スクリーンショット強化」と「MuMu タッチ」の両方を有効にしてください。</system:String>
+    <system:String x:Key="MuMuEmulator12FullExtrasReady">完全 MuMu 強化が起動——スクリーンショットとタッチの双核直結が貫通、バックグラウンド常駐も我らが掌中に！</system:String>
     <system:String x:Key="LdExtrasEnabled">LD のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer のインストールパスが見つかりません。</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">選択した LDPlayer パスに ldopengl64.dll が見つかりません。インストールディレクトリを確認してください。</system:String>
@@ -870,6 +872,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPlanSkippedActivity">イベント開催中のため、在庫維持をスキップしました。</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">資源收集限時全日開放期間中のため、在庫維持をスキップしました。</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">在庫データの更新に失敗しました。</system:String>
+    <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
+    <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未チェック時は 1 倍で代理；チェック後は現在の理性で可能な最大倍率で代理し、1回の周回で目標在庫上限を超える場合があります。</system:String>
     <system:String x:Key="LessThanOneDay">1日以内</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6(CE-6)</system:String>

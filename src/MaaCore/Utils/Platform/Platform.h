@@ -16,7 +16,12 @@
 
 namespace asst::platform
 {
-std::string call_command(const std::string& cmdline, bool* exit_flag = nullptr);
+// work_dir 为空时继承当前进程目录；timeout_ms < 0 表示不设超时（仍会在子进程退出后尽快收尾）
+std::string call_command(
+    const std::string& cmdline,
+    bool* exit_flag = nullptr,
+    const std::filesystem::path& work_dir = {},
+    int timeout_ms = -1);
 
 using os_string = std::filesystem::path::string_type;
 

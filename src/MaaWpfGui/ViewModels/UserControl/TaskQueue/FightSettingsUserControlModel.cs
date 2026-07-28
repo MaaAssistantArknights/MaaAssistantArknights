@@ -139,11 +139,23 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             var stage = GetFightStage(startedFight.StagePlan);
             if (!string.IsNullOrEmpty(stage))
             {
-                RefreshFightTaskDrops(taskId, startedFight.DropId, startedFight.DropCount,
-                    stage,
-                    startedFight.UseMedicine != false ? startedFight.MedicineCount : 0,
-                    startedFight.UseStone != false ? startedFight.StoneCount : 0,
-                    startedFight.NameOrTaskType);
+                // 与 SerializeTask 一致的锁定钳制语义
+                var effectiveSeries = Instance.IsSeriesLocked ? -1 : startedFight.Series;
+                var task = new AsstFightTask() {
+                    Stage = stage,
+                    Medicine = startedFight.UseMedicine != false ? startedFight.MedicineCount : 0,
+                    Stone = startedFight.UseStone != false ? startedFight.StoneCount : 0,
+                    Series = effectiveSeries,
+                    MaxTimes = int.MaxValue,
+                    IsDrGrandet = startedFight.IsDrGrandet,
+                    ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+                    ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+                    PenguinId = SettingsViewModel.GameSettings.PenguinId,
+                    YituliuId = SettingsViewModel.GameSettings.PenguinId,
+                    ServerType = Instances.SettingsViewModel.ServerType,
+                    ClientType = SettingsViewModel.GameSettings.ClientType,
+                };
+                RefreshFightTaskDrops(taskId, startedFight.DropId, startedFight.DropCount, startedFight.NameOrTaskType, task);
             }
         }
 
@@ -1225,12 +1237,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// <param name="taskId">core 任务 id</param>
     /// <param name="dropId">指定掉落材料 ID</param>
     /// <param name="dropCount">目标库存</param>
-    /// <param name="stage">关卡</param>
-    /// <param name="medicine">最大药剂数</param>
-    /// <param name="stone">最大源石数</param>
     /// <param name="logLabel">日志标签（如计划序号）</param>
+    /// <param name="task">包含全量字段的作战任务参数；本方法仅按库存缺口覆盖 Drops/MaxTimes，其余字段原样下发。</param>
     /// <returns>是否成功更新参数。</returns>
-    public static bool RefreshFightTaskDrops(int taskId, string dropId, int dropCount, string stage, int medicine, int stone, string? logLabel = null)
+    public static bool RefreshFightTaskDrops(int taskId, string dropId, int dropCount, string? logLabel, AsstFightTask task)
     {
         if (taskId <= 0 || string.IsNullOrEmpty(dropId) || dropCount <= 0)
         {
@@ -1242,12 +1252,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         var need = dropCount - currentCount;
 
         var dropName = ItemListHelper.GetItemName(dropId) ?? dropId;
-        var task = new AsstFightTask() {
-            Stage = stage,
-            Medicine = medicine,
-            Stone = stone,
-            MaxTimes = int.MaxValue,
-        };
 
         if (need <= 0)
         {

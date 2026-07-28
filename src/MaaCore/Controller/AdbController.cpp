@@ -278,12 +278,19 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg, const std::str
         return;
     }
 
-    set_mumu_package(adb_cfg.extras.get("client_type", ""));
+    // extras.client_type 由 GUI 传入；若缺失则回退到 instance option 的 client_type
+    std::string client_type = adb_cfg.extras.get("client_type", "");
+    if (client_type.empty() && ctrler()) {
+        client_type = ctrler()->get_client_type();
+    }
+    set_mumu_package(client_type);
 
     std::filesystem::path mumu_path = utils::path(adb_cfg.extras.get("path", ""));
+    // 触控需要额外探测 MuMuManager 版本，只截图的用户不该付这份开销
+    bool enable_input = adb_cfg.extras.get("touch", false);
 
     if (adb_cfg.extras.contains("index")) { // MuMu index is provided directly
-        m_mumu_extras.init(mumu_path, adb_cfg.extras.get("index", 0));
+        m_mumu_extras.init(mumu_path, adb_cfg.extras.get("index", 0), enable_input);
     }
     else {
         auto mumu_index = get_mumu_index(address);
@@ -291,7 +298,7 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg, const std::str
             LogError << "Failed to parse MuMu index from address, skip MumuExtras init" << VAR(address);
             return;
         }
-        m_mumu_extras.init(mumu_path, mumu_index.value());
+        m_mumu_extras.init(mumu_path, mumu_index.value(), enable_input);
     }
 #endif
 }
@@ -302,7 +309,10 @@ void asst::AdbController::set_mumu_package(const std::string& client_type)
     std::ignore = client_type;
     Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
 #else
-    std::string package_name = Config.get_package_name(client_type).value_or("");
+    // MuMu get_display_id 需要真实包名。client_type 为空时默认官服明日方舟
+    const std::string type = client_type.empty() ? "Official" : client_type;
+    std::string package_name = Config.get_package_name(type).value_or("com.hypergryph.arknights");
+    LogInfo << "MuMu package" << VAR(type) << VAR(package_name);
     m_mumu_extras.set_package_name(package_name);
 #endif
 }

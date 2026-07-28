@@ -74,7 +74,9 @@
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": ["1-1", "1-1", "1-1"],
-            "rarity": 5
+            "rarity": 5,
+            "sortIndex": 0,
+            "subProfessionId": "artsfghter"
         },
         "char_1011_lava2": {
             "name": "炎狱炎熔",
@@ -402,7 +404,9 @@
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": ["3-1", "3-3", "3-3"],
-            "rarity": 5
+            "rarity": 5,
+            "sortIndex": 0,
+            "subProfessionId": "incantationmedic"
         },
         "char_1038_whitw2": {
             "name": "荒芜拉普兰德",

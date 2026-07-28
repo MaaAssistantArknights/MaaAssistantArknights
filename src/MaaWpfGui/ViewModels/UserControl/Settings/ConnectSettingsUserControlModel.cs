@@ -154,9 +154,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     private void UpdateConnectionHistory(string address)
     {
         Execute.OnUIThread(() => {
-            var history = ConnectAddressHistory.ToList();
-            var index = history.IndexOf(address);
-            if (index != -1)
+            var index = ConnectAddressHistory.IndexOf(address);
+            if (index >= 0)
             {
                 ConnectAddressHistory.Move(index, 0);
             }
@@ -164,9 +163,9 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             {
                 ConnectAddressHistory.Insert(0, address);
                 const int MaxHistoryCount = 5;
-                for (int i = ConnectAddressHistory.Count; i > MaxHistoryCount; i++)
+                while (ConnectAddressHistory.Count > MaxHistoryCount)
                 {
-                    ConnectAddressHistory.RemoveAt(i - 1);
+                    ConnectAddressHistory.RemoveAt(ConnectAddressHistory.Count - 1);
                 }
             }
         });
@@ -689,9 +688,22 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.TouchMode;
 
+    /// <summary>
+    /// Gets the touch mode actually sent to the core.
+    /// MuMu 触控是 MuMu Extras 的子选项而非独立触控模式，勾上后要覆写掉用户选的 TouchMode。
+    /// 这里集中一处，避免改动其他设置时把它冲掉。
+    /// </summary>
+    public string EffectiveTouchMode =>
+        ExtraConfig is MuMu12Extra { Enable: true, EnableTouch: true }
+            ? MumuExtrasTouchMode
+            : TouchMode.ToCustomString();
+
+    /// <summary>Core 侧 MuMu external renderer IPC 输入对应的 TouchMode 取值。</summary>
+    public const string MumuExtrasTouchMode = "MumuExtras";
+
     public void UpdateInstanceSettings()
     {
-        Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode.ToCustomString());
+        Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, EffectiveTouchMode);
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.KillAdbOnExit, KillAdbOnExit ? "1" : "0");

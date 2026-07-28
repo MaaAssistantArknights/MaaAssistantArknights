@@ -133,6 +133,11 @@ public static class UiLogColor
     public const string Download = "DownloadLogBrush";
 
     /// <summary>
+    /// Rainbow flowing brush for celebratory / fully-enhanced logs.
+    /// </summary>
+    public const string Rainbow = "RainbowFlowBrush";
+
+    /// <summary>
     /// The recommended color for MuMu special screenshot.
     /// </summary>
     public const string MuMuSpecialScreenshot = "MuMuSpecialScreenshot";

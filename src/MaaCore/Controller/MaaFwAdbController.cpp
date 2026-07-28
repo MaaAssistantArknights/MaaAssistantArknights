@@ -91,7 +91,11 @@ bool MaaFwAdbController::connect(const std::string& adb_path, const std::string&
         adb_path.c_str(),
         address.c_str(),
         MaaAdbScreencapMethod::Default,
-        MaaAdbInputMethod::AdbShell | MaaAdbInputMethod::EmulatorExtras,
+        // 不要加 EmulatorExtras：MaaFramework 的 MuMuPlayerExtras::click/swipe 是空实现，
+        // 它靠 get_features() 返回 UseMouseDownAndUpInsteadOfClick 让上层改走 touch_down/up，
+        // 而这里的 click()/swipe() 直接透传给 ControlUnit，从不读 features，会全部失败。
+        // MuMu 触控走 MumuController（TouchMode::MumuExtras）。
+        MaaAdbInputMethod::AdbShell,
         config == "AVD" ? "{\"extras\":{\"avd\":{\"enable\":true}}}" : "{}",
         // MaaAgentBinary目录
         utils::path_to_utf8_string(ResDir.get()).c_str());

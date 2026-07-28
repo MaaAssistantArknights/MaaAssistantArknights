@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Styles.Controls;
@@ -61,6 +62,7 @@ public class TextBlock : System.Windows.Controls.TextBlock
             if (TryFindResource(value) is Brush)
             {
                 SetResourceReference(ForegroundProperty, value);
+                TryStartRainbowAnimation();
                 return;
             }
 
@@ -73,6 +75,24 @@ public class TextBlock : System.Windows.Controls.TextBlock
 
             SetValue(ForegroundProperty, brush);
         }
+    }
+
+
+    private void TryStartRainbowAnimation()
+    {
+        if (Foreground is not LinearGradientBrush { Transform: TranslateTransform translate })
+        {
+            return;
+        }
+
+        var anim = new DoubleAnimation
+        {
+            From = 0,
+            To = 4000,
+            Duration = new Duration(System.TimeSpan.FromSeconds(20)),
+            RepeatBehavior = RepeatBehavior.Forever,
+        };
+        translate.BeginAnimation(TranslateTransform.XProperty, anim);
     }
 
     public static readonly DependencyProperty BindableInlinesProperty =

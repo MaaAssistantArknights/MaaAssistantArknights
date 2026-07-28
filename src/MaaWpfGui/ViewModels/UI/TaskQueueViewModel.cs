@@ -27,7 +27,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
@@ -213,6 +212,11 @@ public class TaskQueueViewModel : Screen
                     task ??= TaskItemViewModels.FirstOrDefault(i => i.Index == e.OldStartingIndex - 1);
                     task?.EnableSetting = true;
                 }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                ConfigFactory.CurrentConfig.TaskQueue.Clear();
+                TaskSettingVisibilities.SetPostAction(true);
             }
         });
     }
@@ -1651,10 +1655,29 @@ public class TaskQueueViewModel : Screen
         }
         else
         {
-            foreach (var item in TaskItemViewModels)
+            DeselectTasks();
+        }
+    }
+
+    private void DeselectTasks()
+    {
+        if (System.Windows.Input.Keyboard.Modifiers == System.Windows.Input.ModifierKeys.Control)
+        {
+            var result = MessageBoxHelper.Show(
+                "Clear all tasks?",
+                "Clear tasks warning!",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
             {
-                item.IsEnable = false;
+                TaskItemViewModels.Clear();
             }
+
+            return;
+        }
+        foreach (var item in TaskItemViewModels)
+        {
+            item.IsEnable = false;
         }
     }
 

@@ -894,8 +894,10 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
     auto chars_jp_opt = json::open(overseas_dir / "jp" / to_char_json);
     auto chars_kr_opt = json::open(overseas_dir / "kr" / to_char_json);
     auto chars_tw_opt = json::open(overseas_dir / "tw" / to_char_json);
+    auto chars_patch_opt = json::open(official_dir / "char_patch_table.json");
 
-    if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !chars_tw_opt || !range_opt) {
+    if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !chars_tw_opt || !range_opt ||
+        !chars_patch_opt) {
         return false;
     }
 
@@ -970,16 +972,26 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
         chars[oper_id]["tokens"] = json::array(token_names_list);
     }
 
+    const auto& patch_json = chars_patch_opt.value()["patchChars"].as_object();
     json::value Amiya_data;
     Amiya_data["name"] = "阿米娅-WARRIOR";
     Amiya_data["name_en"] = "Amiya-WARRIOR";
     Amiya_data["name_jp"] = "アーミヤ-WARRIOR";
     Amiya_data["name_kr"] = "아미야-WARRIOR";
     Amiya_data["name_tw"] = "阿米婭-WARRIOR";
-    Amiya_data["profession"] = "WARRIOR";
-    Amiya_data["rangeId"] = json::array { "1-1", "1-1", "1-1" };
-    Amiya_data["rarity"] = 5;
-    Amiya_data["position"] = "MELEE";
+    if (auto amiya2_opt = patch_json.find<json::object>("char_1001_amiya2")) {
+        Amiya_data["profession"] = amiya2_opt->at("profession");
+        Amiya_data["rarity"] = static_cast<int>(amiya2_opt->at("rarity")) + 1;
+        Amiya_data["position"] = amiya2_opt->at("position");
+        Amiya_data["sortIndex"] = amiya2_opt->at("sortIndex");
+        Amiya_data["subProfessionId"] = amiya2_opt->at("subProfessionId");                
+        const std::string& default_range = amiya2_opt->get("phases", 0, "rangeId", "0-1");
+        Amiya_data["rangeId"] = json::array {
+            default_range,
+            amiya2_opt->get("phases", 1, "rangeId", default_range),
+            amiya2_opt->get("phases", 2, "rangeId", default_range),
+        };
+    }
     chars.emplace("char_1001_amiya2", std::move(Amiya_data));
 
     json::value Amiya_data3;
@@ -988,10 +1000,19 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
     Amiya_data3["name_jp"] = "アーミヤ-MEDIC";
     Amiya_data3["name_kr"] = "아미야-MEDIC";
     Amiya_data3["name_tw"] = "阿米婭-MEDIC";
-    Amiya_data3["profession"] = "MEDIC";
-    Amiya_data3["rangeId"] = json::array { "3-1", "3-3", "3-3" };
-    Amiya_data3["rarity"] = 5;
-    Amiya_data3["position"] = "RANGED";
+    if (auto amiya3_opt = patch_json.find<json::object>("char_1037_amiya3")) {
+        Amiya_data3["profession"] = amiya3_opt->at("profession");
+        Amiya_data3["rarity"] = static_cast<int>(amiya3_opt->at("rarity")) + 1;
+        Amiya_data3["position"] = amiya3_opt->at("position");
+        Amiya_data3["sortIndex"] = amiya3_opt->at("sortIndex");
+        Amiya_data3["subProfessionId"] = amiya3_opt->at("subProfessionId");
+        const std::string& default_range = amiya3_opt->get("phases", 0, "rangeId", "0-1");
+        Amiya_data3["rangeId"] = json::array {
+            default_range,
+            amiya3_opt->get("phases", 1, "rangeId", default_range),
+            amiya3_opt->get("phases", 2, "rangeId", default_range),
+        };
+    }
     chars.emplace("char_1037_amiya3", std::move(Amiya_data3));
 
     const auto& out_file = output_dir / "battle_data.json";
@@ -1004,8 +1025,8 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
 
 bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, bool is_base)
 {
-    using std::ranges::find_if, std::ranges::range;
     using asst::utils::string_replace_all_in_place;
+    using std::ranges::find_if, std::ranges::range;
     using std::views::filter, std::views::split, std::views::transform, std::views::drop_while;
 
     auto not_empty = []<range Rng>(Rng str) -> bool {

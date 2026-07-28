@@ -24,7 +24,11 @@ void asst::platform::aligned_free(void* ptr)
     ::free(ptr);
 }
 
-std::string asst::platform::call_command(const std::string& cmdline, bool* exit_flag)
+std::string asst::platform::call_command(
+    const std::string& cmdline,
+    bool* exit_flag,
+    const std::filesystem::path& work_dir,
+    int timeout_ms)
 {
     constexpr int PipeBuffSize = 4096;
     std::string pipe_str;
@@ -54,11 +58,16 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
         ::close(pipe_out[PIPE_READ]);
         ::close(pipe_out[PIPE_WRITE]);
 
+        if (!work_dir.empty()) {
+            ::chdir(work_dir.c_str());
+        }
+
         exit_ret = execlp("sh", "sh", "-c", cmdline.c_str(), nullptr);
         ::exit(exit_ret);
     }
     else if (child > 0) {
         // parent process
+        (void)timeout_ms;
 
         // close unused file descriptors, these are for child only
         ::close(pipe_in[PIPE_READ]);

@@ -178,6 +178,11 @@
                                     d:Visibility="Visible"
                                     Orientation="Vertical"
                                     Visibility="{c:Binding Enable}">
+                                    <CheckBox
+                                        Margin="10"
+                                        HorizontalAlignment="Center"
+                                        Content="{DynamicResource MuMuExtrasTouchEnabled}"
+                                        IsChecked="{Binding EnableTouch}" />
                                     <hc:TextBox
                                         Width="420"
                                         Height="30"

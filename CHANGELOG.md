@@ -1,4 +1,4 @@
-## v6.15.0-beta.2
+## v6.15.0-beta.3
 
 ### Highlights
 
@@ -8,7 +8,11 @@
 
 #### 库存保持任务
 
-新增「库存保持」任务，支持在单个任务中添加多组保持计划，按从上到下的优先级将指定材料刷取至目标数量；可在任务开始前更新库存数据，并支持在 SideStory 活动与资源关卡限时全开放期间自动跳过，方便保持芯片、红票、龙门币等各类资源数量。
+新增「库存保持」任务，支持在单个任务中添加多组保持计划，按从上到下的优先级将指定材料刷取至目标数量；可在任务开始前更新库存数据，并支持在 SideStory 活动与资源关卡限时全开放期间自动跳过，方便保持芯片、红票、龙门币等各类资源数量。本版本起亦支持 AUTO 代理倍率。
+
+#### MuMu 模拟器触控增强
+
+新增 MuMu 外置渲染器触控模式（实验性）：在启用截图增强的基础上可勾选「同时用于触控」，通过 MuMu IPC 直连输入并支持后台保活稳定运行；低版本或失败时自动回退至既有触控通路。需 MuMuManager 6.3.2 及以上。
 
 #### 配置迁移至 gui.new.json
 
@@ -23,7 +27,11 @@ The upstream copilot site PRTS.plus updated its copilot code format on July 20, 
 
 #### Depot Maintain Task
 
-Added a Depot Maintain task that supports multiple plans within a single task, farming specified materials up to target quantities in top-to-bottom priority order. It can refresh depot data before the task starts and automatically skips during SideStory events and limited full-day resource stages, making it easy to maintain stocks of chips, vouchers, LMD, and other resources.
+Added a Depot Maintain task that supports multiple plans within a single task, farming specified materials up to target quantities in top-to-bottom priority order. It can refresh depot data before the task starts and automatically skips during SideStory events and limited full-day resource stages, making it easy to maintain stocks of chips, vouchers, LMD, and other resources. This version also adds AUTO series multiplier support.
+
+#### MuMu Emulator Touch Enhancement
+
+Added experimental MuMu external-renderer touch mode: with screenshot extras enabled, you can also enable touch via MuMu IPC for stable background keep-alive operation, with automatic fallback to existing touch paths on older versions or failure. Requires MuMuManager 6.3.2 or later.
 
 #### Configuration Migration to gui.new.json
 
@@ -36,6 +44,27 @@ GUI configuration has been migrated to `gui.new.json`; future versions will no l
 以下是详细内容：
 
 <details open>
+<summary><b>v6.15.0-beta.3 (2026-07-28)</b></summary>
+
+### 新增 | New
+
+* 支持 MuMu 模拟器触控增强（实验性，需 MuMuManager 6.3.2+；在截图增强下可勾选同时用于触控，支持后台保活，失败时自动回退） ([#17425](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17425)) @MistEO
+* 库存保持任务支持使用 AUTO 代理倍率，并在游戏更新后倍战锁定期间同步禁用该选项 @ABA2396
+* 任务队列支持按住 Ctrl 点击清空以移除全部任务 @status102
+
+### 改进 | Improved
+
+* 增强跨平台 `call_command` 实现（工作目录、超时与管道/进程清理），避免子进程输出读取卡死 @MistEO
+* 完善 MuMu Extras 包名与 display id 解析，缺失客户端类型时回退至有效默认值 @MistEO
+
+### 修复 | Fix
+
+* 修复外服游戏客户端类型从旧配置迁移失败的问题 @status102
+* 修复删除多余连接地址时可能抛出 Index was out of range 异常的问题 ([#17441](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17441)) @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.15.0-beta.2 (2026-07-26)</b></summary>
 
 ### 修复 | Fix

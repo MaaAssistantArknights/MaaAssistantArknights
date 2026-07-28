@@ -697,6 +697,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
     <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 강화 기능 활성화</system:String>
+    <system:String x:Key="MuMuExtrasTouchEnabled">MuMu 터치 강화 활성화 (실험적, 6.3.2+ 필요, 백그라운드 유지 지원)</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
     <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">선택한 MuMu 설치 폴더에서 external_renderer_ipc.dll을 찾을 수 없습니다.\n
 예상 상대 경로:
@@ -722,7 +723,8 @@ C:\\Program Files\\Netease\\MuMuPlayer으로 입력해야 합니다.\n
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
     <system:String x:Key="MuMu12Display">표시 번호</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu 스크린샷 강화 기능이 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
-    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu 에뮬레이터 백그라운드 유지가 활성화되어 있습니다. 스크린샷 실패 및 작동 오류가 발생할 수 있습니다. MuMu 설정에서 "백그라운드 유지"(또는 "앱 유지" 등)를 비활성화하세요</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu 백그라운드 유지가 켜져 있습니다. 백그라운드에서 안정적으로 실행하려면 설정에서 "MuMu 스크린샷 강화"와 "MuMu 터치"를 모두 체크하세요.</system:String>
+    <system:String x:Key="MuMuEmulator12FullExtrasReady">완전한 MuMu 강화 가동——스크린샷과 터치 듀얼 링크 개통, 백그라운드 유지마저도 우리 손안에!</system:String>
     <system:String x:Key="LdExtrasEnabled">LD 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">선택한 LDPlayer 경로에서 ldopengl64.dll을 찾을 수 없습니다. 설치 디렉터리를 확인하세요.</system:String>
@@ -871,6 +873,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPlanSkippedActivity">이벤트 진행 중이므로 재고 유지를 건너뛰었습니다.</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">자원 수집 한정 전일 개방 기간 중이므로 재고 유지를 건너뛰었습니다.</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">재고 데이터 업데이트에 실패했습니다.</system:String>
+    <system:String x:Key="DepotUseAutoSeries">AUTO 대리 배수</system:String>
+    <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">체크 해제 시 1배로 대리; 체크 시 현재 이성으로 가능한 최대 배수로 대리 작전하며, 1회 진행 시 목표 재고 상한을 초과할 수 있습니다.</system:String>
     <system:String x:Key="LessThanOneDay">1일 미만</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>

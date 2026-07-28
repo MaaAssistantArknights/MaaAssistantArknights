@@ -35,6 +35,12 @@ public class DepotMaintainTask : BaseTask
     /// </summary>
     public bool SkipDuringResourceCollection { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 使用 AUTO 代理倍率（Series = 0）。
+    /// 默认关闭（按 1 倍刷取）；开启后单次进入可能因高倍率超过目标库存上限。
+    /// </summary>
+    public bool UseAutoSeries { get; set; }
+
     public List<Plan> PlanList { get; set; } = [];
 
     public record class Plan(string Stage = "", string DropId = "", int DropCount = 0, bool UseMedicine = false, int MedicineCount = 0, bool UseStone = false, int StoneCount = 0, int TaskId = 0);

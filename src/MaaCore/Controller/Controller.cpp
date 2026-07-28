@@ -24,6 +24,9 @@
 #include "MaatouchController.h"
 #include "MinitouchController.h"
 #include "PlayToolsController.h"
+#if ASST_WITH_EMULATOR_EXTRAS
+#include "MumuController.h"
+#endif
 #ifdef _WIN32
 #include "Win32Controller.h"
 #endif
@@ -62,6 +65,10 @@ std::shared_ptr<asst::ControllerAPI>
             return std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
         case ControllerType::MaaFwAdb:
             return std::make_shared<MaaFwAdbController>(m_callback, m_inst, platform_type);
+#if ASST_WITH_EMULATOR_EXTRAS
+        case ControllerType::Mumu:
+            return std::make_shared<MumuController>(m_callback, m_inst, platform_type);
+#endif
 #ifdef __ANDROID__
         case ControllerType::MaaFwAndroidNative:
             Log.debug("Use Android");
@@ -380,6 +387,11 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
     case TouchMode::MaaFwAdb:
         m_controller_type = ControllerType::MaaFwAdb;
         break;
+#if ASST_WITH_EMULATOR_EXTRAS
+    case TouchMode::MumuExtras:
+        m_controller_type = ControllerType::Mumu;
+        break;
+#endif
 #ifdef __ANDROID__
     case TouchMode::Android:
         m_controller_type = ControllerType::MaaFwAndroidNative;
