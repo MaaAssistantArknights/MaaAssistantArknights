@@ -522,6 +522,7 @@ D:\
     <system:String x:Key="MaaTouchMode">MaaTouch（实验功能）</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input（不推荐使用）</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework（实验功能）</system:String>
+    <system:String x:Key="MumuExtrasTouchMode">MuMu 触控增强（实验功能）</system:String>
     <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 用于兼容系统版本过低、无法运行 Minitouch 或 MaaTouch 的实体机设备。能用前两种模式时，不要选择 ADB Input。&#10;ADB Input 的滑动容易拖飞，为避免此问题，滑动速度会设置得非常慢，且滑动距离与前两种模式不同；在需要精确控制坐标的场景下无法使用。</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用于指定模拟器启动参数（如 ｢--instance 1｣ 表示启动 1 号实例）。&#10;不同模拟器的命令格式不同，通常包括实例编号、窗口模式等参数，请参考您使用的模拟器文档</system:String>
@@ -723,7 +724,7 @@ C:\\Program Files\\Netease\\MuMuPlayer。\n
     <system:String x:Key="MuMu12Index">实例编号</system:String>
     <system:String x:Key="MuMu12Display">屏幕编号</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截图增强未生效，请检查相关设置</system:String>
-    <system:String x:Key="MuMuEmulator12KeepAliveOn">检测到 MuMu 开启了后台保活。若要在后台稳定运行，请到设置中同时勾选「MuMu 截图增强」与「MuMu 触控」。</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">检测到 MuMu 开启了后台保活。若要在后台稳定运行，请到设置中勾选 ｢{key=MuMu12ExtrasEnabled}｣ 与 ｢{key=MuMuExtrasTouchEnabled}｣。</system:String>
     <system:String x:Key="MuMuEmulator12FullExtrasReady">完整 MuMu 增强已就位——截图与触控双核直连贯通，后台保活亦为我所用！</system:String>
     <system:String x:Key="LdExtrasEnabled">启用 LD 截图增强模式</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">未找到 LDPlayer 模拟器路径。</system:String>

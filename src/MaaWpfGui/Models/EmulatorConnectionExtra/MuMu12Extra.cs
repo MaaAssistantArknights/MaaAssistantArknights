@@ -19,6 +19,7 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Windows;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -66,6 +67,8 @@ public class MuMu12Extra() : ExtraConfig, IJsonOnDeserialized
                 AutoDetectEmulatorPath();
             }
 
+            // 通知 ConnectSettings 动态增删触控模式下拉项并自动切换
+            ConnectSettingsUserControlModel.Instance.OnMuMuExtrasEnableChanged(value);
             Instances.AsstProxy.Connected = false;
         }
     }
@@ -236,6 +239,7 @@ public class MuMu12Extra() : ExtraConfig, IJsonOnDeserialized
 
     /// <summary>
     /// Gets or sets a value indicating whether MuMu extras is also used for touch input, not just screencap.
+    /// 勾选时自动切换触控模式为 MuMu 触控，取消勾选时回到默认 Minitouch。
     /// </summary>
     [JsonIgnore]
     public bool EnableTouch
@@ -247,9 +251,7 @@ public class MuMu12Extra() : ExtraConfig, IJsonOnDeserialized
                 return;
             }
 
-            // 立刻把 TouchMode 同步给 core，取消勾选时会自动还原成用户选的模式
-            ConnectSettingsUserControlModel.Instance.UpdateInstanceSettings();
-            Instances.AsstProxy.Connected = false;
+            ConnectSettingsUserControlModel.Instance.TouchMode = value ? TouchMode.MumuExtras : TouchMode.MiniTouch;
         }
     }
 

@@ -2637,12 +2637,6 @@ public class AsstProxy
         if (ConnectSettingsUserControlModel.Instance.ExtraConfig is MuMu12Extra mumu12)
         {
             AsstSetConnectionExtrasMuMu(mumu12.Config);
-
-            // 勾了「同时用于触控」时 EffectiveTouchMode 会给出 MumuExtras，
-            // 模拟器实际不支持时 core 会自己降级回 maatouch
-            AsstSetInstanceOption(
-                InstanceOptionKey.TouchMode,
-                ConnectSettingsUserControlModel.Instance.EffectiveTouchMode);
         }
         else if (ConnectSettingsUserControlModel.Instance.ExtraConfig is LDPlayerExtra ldPlayer)
         {
