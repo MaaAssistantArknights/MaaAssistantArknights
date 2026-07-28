@@ -104,6 +104,28 @@
     "BlackFlow@Roguelike@Page-Cultivate": {
         "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
     },
+    "BlackFlow@Roguelike@Page-Door": {
+        "Doc": "曲折密道，进去只有一段过场动画，等它放完回到主地图，中途可能弹藏品。",
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@Page-Door-Wait"]
+    },
+    "BlackFlow@Roguelike@Page-Door-Wait": {
+        "algorithm": "JustReturn",
+        "postDelay": 1000,
+        "maxTimes": 10,
+        "next": [
+            "BlackFlow@Roguelike@Page-Door-Wait@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@Stages-MapReady",
+            "BlackFlow@Roguelike@Stages-ZoomOut",
+            "BlackFlow@Roguelike@Page-Door-Wait"
+        ],
+        "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"]
+    },
+    "BlackFlow@Roguelike@Page-PassThrough": {
+        "Doc": "羽瞰点和空节点没有节点页，走过去就直接回主地图。",
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@Stages"]
+    },
     "BlackFlow@Roguelike@Page-Ending2SandtableA": {
         "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
     },
@@ -153,6 +175,10 @@
     "BlackFlow@Roguelike@Event-BabyCultivationCompleted": {
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@NodeResultDispatch"]
+    },
+    "BlackFlow@Roguelike@RecoverMap-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RecoverMap"]
     },
     "BlackFlow@Roguelike@RecoverMap": {
         "baseTask": "BlackFlow@Roguelike@RecoverMap-Exit",
@@ -263,7 +289,7 @@
             "BlackFlow@Roguelike@MapPrepare-ZoomOut*3",
             "BlackFlow@Roguelike@MovePreviewConfirm*3",
             "BlackFlow@Roguelike@MovePreviewWait*3",
-            "BlackFlow@Roguelike@NodePageDepartConfirm*3",
+            "BlackFlow@Roguelike@Page-Door-Wait*10",
             "BlackFlow@Roguelike@StageEncounterLeaveConfirm*3",
             "BlackFlow@Roguelike@StageTraderInvestSystemEnter*3",
             "BlackFlow@Roguelike@StageTraderInvestCancel*3",
@@ -274,6 +300,10 @@
             "BlackFlow@Roguelike@RecoverMap-Exit*3",
             "BlackFlow@Roguelike@RecoverMap-Continue*3"
         ]
+    },
+    "BlackFlow@Roguelike@ExitThenAbandon-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@ExitThenAbandon"]
     },
     "BlackFlow@Roguelike@ExitThenAbandon": {
         "template": "Roguelike@ExitThenAbandon.png",
@@ -489,7 +519,14 @@
         ]
     },
     "BlackFlow@Roguelike@LastRewardConfirm": {
-        "template": "BlackFlow@Roguelike@LastRewardConfirm.png"
+        "Doc": "base 的 next 里裸引用了 CloseCollection，黑流那个是 #next 型的，必须换成 A@(B) 形式。",
+        "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
+        "next": [
+            "BlackFlow@Roguelike@RolesDefault",
+            "BlackFlow@Roguelike@LastRewardConfirm@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@RecruitMain",
+            "BlackFlow@Roguelike@Stages#next"
+        ]
     },
     "BlackFlow@Roguelike@RecruitMain": {
         "template": "BlackFlow@Roguelike@Recruit.png"
@@ -508,7 +545,19 @@
     "BlackFlow@Roguelike@RecruitOther": {
         "template": "BlackFlow@Roguelike@Recruit.png"
     },
-    "BlackFlow@Roguelike@RecruitWithoutButton": {},
+    "BlackFlow@Roguelike@RecruitWithoutButton": {
+        "next": [
+            "BlackFlow@Roguelike@RecruitOther",
+            "BlackFlow@Roguelike@TraderRandomShopping",
+            "BlackFlow@Roguelike@StageTraderLeave",
+            "BlackFlow@Roguelike@DropsFlag",
+            "BlackFlow@Roguelike@ChooseOperFlag",
+            "BlackFlow@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "BlackFlow@Roguelike@NextLevel",
+            "BlackFlow@Roguelike@NextLevel#next",
+            "BlackFlow@Roguelike@RecruitWithoutButton"
+        ]
+    },
     "BlackFlow@RoguelikeRecruit-GiveUp": {
         "template": "BlackFlow@RoguelikeRecruit-GiveUp.png"
     },
@@ -635,7 +684,11 @@
         "template": "BlackFlow@Roguelike@MapZoomIn.png",
         "baseTask": "BlackFlow@Roguelike@MapPrepare-Ready",
         "next": ["BlackFlow@Roguelike@NodeCompletionAction"],
-        "reduceOtherTimes": ["BlackFlow@Roguelike@MapPrepare-ZoomOut*3", "BlackFlow@Roguelike@Stages-ZoomOut*3"]
+        "reduceOtherTimes": [
+            "BlackFlow@Roguelike@MapPrepare-ZoomOut*3",
+            "BlackFlow@Roguelike@Stages-ZoomOut*3",
+            "BlackFlow@Roguelike@Page-Door-Wait*10"
+        ]
     },
     "BlackFlow@Roguelike@Stages-ZoomOut": {
         "template": "BlackFlow@Roguelike@MapZoomOut.png",
@@ -670,20 +723,28 @@
     "BlackFlow@Roguelike@NodeCompletionAction": {
         "Doc": [
             "以 Action 结尾的都是占位任务：自己不做识别，由 C++ 调 set_task_base 改写 baseTask，以此决定下一步走到哪里。",
-            "被指向的目标任务要同时满足下面两条，否则不能直接指过去。",
+            "被指向的目标任务要同时满足下面三条，否则不能直接指过去。",
             "一、不能有插件在监听这个目标的任务名。",
             "任务是以占位任务的名字执行的，目标的名字不会出现在回调里，监听它的插件收不到消息。",
             "二、目标自己不能写 maxTimes。",
             "maxTimes 会随 baseTask 继承到占位任务上，而占位任务的执行次数按整局累计，也没有 reduceOtherTimes 给它减，跑几次就会被判超限跳过。",
             "所以次数上限要写在只以自己的名字执行的任务上，例如循环里被反复点击的那一个，而不是写在被指向的入口上。",
             "另外，次数用尽时若没写 exceededNext，整条 ProcessTask 会直接静默结束，所以写 maxTimes 时要一并想好用尽后往哪走。",
+            "三、目标不能是需要模板的识别任务，也就是算法只能是 JustReturn。",
+            "template 不随 baseTask 继承到已声明的任务上，占位任务会去找自己名字的图，例如 RoutingAction 会去找 RoutingAction.png。",
+            "这张图不存在，于是永远匹配不上，重试耗尽后整条 ProcessTask 结束。",
             "目标不满足上述任何一条时，改指一个同名加 -Enter 的转发任务：算法 JustReturn，next 里只写那个目标。",
-            "这样目标就会以自己的名字执行一次，插件收得到回调，占位任务也不会继承到次数上限。",
+            "这样目标就会以自己的名字执行一次，插件收得到回调，占位任务也不会继承到次数上限，模板也由目标自己解析。",
             "哪些任务名被插件监听，见对应插件 verify() 里的任务名字符串，本文件也在这些任务上写了 Doc。"
         ],
         "baseTask": "BlackFlow@Roguelike@MapPrepare"
     },
+    "BlackFlow@Roguelike@StrategyTerminated-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@StrategyTerminated"]
+    },
     "BlackFlow@Roguelike@StrategyTerminated": {
+        "Doc": "本任务注册了插件 BlackFlowLifecycleTaskPlugin，改基只能指向 StrategyTerminated-Enter。",
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@StrategyTerminalAction"]
     },
@@ -804,32 +865,12 @@
         "fullMatch": true
     },
     "BlackFlow@Roguelike@MovePreviewDisplayedName": {
+        "Doc": "候选词由 roguelike/BlackFlow/node_execution.json 的 preview_names 提供，那里同时给出对应的节点类型。",
         "algorithm": "OcrDetect",
         "roi": [912, 101, 195, 96],
         "withoutDet": false,
         "fullMatch": true,
-        "text": [
-            "紧急作战",
-            "作战",
-            "狭路相逢",
-            "曲折密道",
-            "应急助力",
-            "先行一步",
-            "未知的凶戾",
-            "未知的诡秘",
-            "不期而遇",
-            "羽瞰点",
-            "误入奇境",
-            "安全的角落",
-            "失与得",
-            "秘境行商",
-            "诡意行商",
-            "得偿所愿",
-            "空节点",
-            "险路小径",
-            "险路尽头",
-            "险路恶敌"
-        ]
+        "text": []
     },
     "BlackFlow@Roguelike@MovePreviewEnter": {
         "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
@@ -859,18 +900,6 @@
     },
     "BlackFlow@Roguelike@MovePreviewConfirmCompletedDone": {
         "algorithm": "JustReturn"
-    },
-    "BlackFlow@Roguelike@NodePageDepartConfirm": {
-        "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
-        "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
-        "action": "ClickSelf",
-        "next": ["#self", "BlackFlow@Roguelike@NodePageDepartCompleted"],
-        "maxTimes": 3
-    },
-    "BlackFlow@Roguelike@NodePageDepartCompleted": {
-        "algorithm": "JustReturn",
-        "postDelay": 600,
-        "reduceOtherTimes": ["BlackFlow@Roguelike@NodePageDepartConfirm*3"]
     },
     "BlackFlow@Roguelike@EnteredPageClassification": {
         "algorithm": "OcrDetect",

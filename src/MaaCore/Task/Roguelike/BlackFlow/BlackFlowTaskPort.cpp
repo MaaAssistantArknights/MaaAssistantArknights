@@ -5,13 +5,14 @@
 #include <memory>
 #include <string>
 #include <string_view>
-#include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "BlackFlowMovementRecognition.h"
 
 #include "Vision/Roguelike/BlackFlow/BlackFlowFloor.h"
 
+#include "Config/Roguelike/BlackFlow/BlackFlowNodeExecutionConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/AbstractTask.h"
@@ -60,7 +61,8 @@ std::optional<int> recognize_integer(const cv::Mat& image, std::string_view task
     return value;
 }
 
-std::optional<std::string> recognize_text(const cv::Mat& image, std::string_view task_name)
+std::optional<std::string>
+    recognize_text(const cv::Mat& image, std::string_view task_name, const std::vector<std::string>& required = {})
 {
     const auto task = Task.get<OcrTaskInfo>(task_name);
     if (task == nullptr) {
@@ -68,34 +70,27 @@ std::optional<std::string> recognize_text(const cv::Mat& image, std::string_view
     }
     OCRer analyzer(image);
     analyzer.set_task_info(task);
+    if (!required.empty()) {
+        analyzer.set_required(required);
+    }
     const auto results = analyzer.analyze();
     if (!results.has_value()) {
         return std::nullopt;
     }
+    const std::vector<std::string>& whitelist = required.empty() ? task->text : required;
     for (const auto& result : *results) {
-        if (std::ranges::find(task->text, result.text) != task->text.end()) {
+        if (std::ranges::find(whitelist, result.text) != whitelist.end()) {
             return result.text;
         }
     }
     return std::nullopt;
 }
 
-std::optional<NodeType> node_type_from_displayed_name(std::string_view displayed_name)
+Rect shrink_to_center(const Rect& rect, double ratio)
 {
-    static const std::unordered_map<std::string_view, NodeType> Mapping = {
-        { "紧急作战", NodeType::BattleElite },  { "作战", NodeType::BattleNormal },
-        { "狭路相逢", NodeType::BattleSavage }, { "曲折密道", NodeType::Door },
-        { "应急助力", NodeType::Employ },       { "先行一步", NodeType::Expedition },
-        { "未知的凶戾", NodeType::HideBattle }, { "未知的诡秘", NodeType::HideInvisible },
-        { "不期而遇", NodeType::Incident },     { "羽瞰点", NodeType::Light },
-        { "误入奇境", NodeType::Portal },       { "安全的角落", NodeType::Rest },
-        { "失与得", NodeType::Sacrifice },      { "秘境行商", NodeType::ScrapShop },
-        { "诡意行商", NodeType::Shop },         { "得偿所愿", NodeType::Wish },
-        { "空节点", NodeType::Empty },          { "险路小径", NodeType::Evacuate },
-        { "险路尽头", NodeType::Final },        { "险路恶敌", NodeType::BattleBoss },
-    };
-    const auto iter = Mapping.find(displayed_name);
-    return iter == Mapping.end() ? std::nullopt : std::optional<NodeType> { iter->second };
+    const int width = std::max(1, static_cast<int>(rect.width * ratio));
+    const int height = std::max(1, static_cast<int>(rect.height * ratio));
+    return Rect { rect.x + (rect.width - width) / 2, rect.y + (rect.height - height) / 2, width, height };
 }
 
 } // namespace
@@ -236,7 +231,8 @@ bool BlackFlowTaskPort::preview(
         set_error(error, "target node has no current viewport rectangle");
         return false;
     }
-    if (!m_task_context->click(*click_rect)) {
+    // 缩到图标框中心一半再点，边缘落空会让预览面板弹不出来。
+    if (!m_task_context->click(shrink_to_center(*click_rect, 0.5))) {
         set_error(error, "target node click failed");
         return false;
     }
@@ -264,12 +260,13 @@ bool BlackFlowTaskPort::preview(
         set_error(error, "move preview action point cost OCR failed");
         return false;
     }
-    const auto displayed_name = recognize_text(image, MovePreviewDisplayedNameTask);
+    const auto displayed_name =
+        recognize_text(image, MovePreviewDisplayedNameTask, BlackFlowNodeExecution.preview_names());
     if (!displayed_name.has_value()) {
         set_error(error, "move preview displayed name OCR failed");
         return false;
     }
-    const auto displayed_type = node_type_from_displayed_name(*displayed_name);
+    const auto displayed_type = BlackFlowNodeExecution.preview_node_type(*displayed_name);
     if (!displayed_type.has_value()) {
         set_error(error, "move preview displayed name has no node type mapping: " + *displayed_name);
         return false;

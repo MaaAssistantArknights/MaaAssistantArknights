@@ -974,6 +974,13 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         "move_confirmation_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMoveConfirmationFailed"),
         "post_move_validation_failed" => LocalizationHelper.GetString("BlackFlowOutcomePostMoveValidationFailed"),
         "planning_retry_exhausted" => LocalizationHelper.GetString("BlackFlowOutcomePlanningRetryExhausted"),
+        "state_machine_dead_end" => LocalizationHelper.GetString("BlackFlowOutcomeStateMachineDeadEnd"),
+        "map_recovery_exhausted" => LocalizationHelper.GetString("BlackFlowOutcomeMapRecoveryExhausted"),
+        "floor_recognition_failed" => LocalizationHelper.GetString("BlackFlowOutcomeFloorRecognitionFailed"),
+        "movement_inventory_observation_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMovementInventoryFailed"),
+        "node_dispatch_failed" => LocalizationHelper.GetString("BlackFlowOutcomeNodeDispatchFailed"),
+        "node_result_failed" => LocalizationHelper.GetString("BlackFlowOutcomeNodeResultFailed"),
+        "internal_failure" => LocalizationHelper.GetString("BlackFlowOutcomeInternalFailure"),
         _ => LocalizationHelper.GetString("BlackFlowOutcomeUnknown"),
     };
 

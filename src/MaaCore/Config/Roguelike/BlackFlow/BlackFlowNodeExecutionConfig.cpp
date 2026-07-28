@@ -421,6 +421,22 @@ NodeTaskResult parse_task_result(const json::value& value)
     }
     return result;
 }
+
+std::pair<std::string, NodeType> parse_preview_name(const json::value& value)
+{
+    check_keys(value, { "text", "node_type" }, { "text", "node_type" }, "preview name");
+
+    const std::string text = value.at("text").as_string();
+    if (text.empty()) {
+        invalid_config("preview name text must not be empty");
+    }
+    const std::string type_name = value.at("node_type").as_string();
+    const auto type = node_type_from_string(type_name);
+    if (!type.has_value()) {
+        invalid_config("preview name references an unsupported node type: " + type_name);
+    }
+    return { text, *type };
+}
 } // namespace
 
 const blackflow::NodeExecutionRoute*
@@ -434,6 +450,13 @@ const blackflow::NodeTaskResult* BlackFlowNodeExecutionConfig::get_task_result(c
 {
     const auto found = m_task_results.find(task);
     return found == m_task_results.end() ? nullptr : &found->second;
+}
+
+std::optional<blackflow::NodeType>
+    BlackFlowNodeExecutionConfig::preview_node_type(const std::string& text) const noexcept
+{
+    const auto found = m_preview_name_types.find(text);
+    return found == m_preview_name_types.end() ? std::nullopt : std::optional<blackflow::NodeType>(found->second);
 }
 
 bool BlackFlowNodeExecutionConfig::parse_for_test(const json::value& json, std::string* error)
@@ -453,15 +476,15 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
 {
     check_keys(
         json,
-        { "schema_version", "routes", "task_results" },
-        { "schema_version", "routes", "task_results" },
+        { "schema_version", "routes", "task_results", "preview_names" },
+        { "schema_version", "routes", "task_results", "preview_names" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
     if (schema_version != 3) {
         invalid_config("unsupported schema_version: " + std::to_string(schema_version));
     }
-    if (!json.at("routes").is_array() || !json.at("task_results").is_array()) {
-        invalid_config("routes and task_results must be arrays");
+    if (!json.at("routes").is_array() || !json.at("task_results").is_array() || !json.at("preview_names").is_array()) {
+        invalid_config("routes, task_results and preview_names must be arrays");
     }
 
     std::vector<NodeExecutionRoute> routes;
@@ -517,9 +540,25 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
         }
     }
 
+    std::vector<std::string> preview_names;
+    std::unordered_map<std::string, NodeType> preview_name_types;
+    for (const auto& value : json.at("preview_names").as_array()) {
+        auto [text, type] = parse_preview_name(value);
+        if (!preview_name_types.emplace(text, type).second) {
+            invalid_config("duplicate preview name: " + text);
+        }
+        preview_names.emplace_back(std::move(text));
+    }
+    if (preview_names.empty()) {
+        invalid_config("preview_names must not be empty");
+    }
+    std::ranges::sort(preview_names);
+
     m_schema_version = schema_version;
     m_routes = std::move(routes);
     m_task_results = std::move(task_results);
+    m_preview_names = std::move(preview_names);
+    m_preview_name_types = std::move(preview_name_types);
     return true;
 }
 } // namespace asst

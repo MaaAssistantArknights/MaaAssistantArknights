@@ -204,8 +204,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 {
     LogTraceFunction;
     std::lock_guard lock(m_run_state_mutex);
-    if (m_running) {
-        Log.warn(__FUNCTION__, "RoguelikeTask has already started, cannot set params");
+    if (m_run_started) {
+        Log.warn(__FUNCTION__, "RoguelikeTask is running, cannot set params");
         return false;
     }
     if (!m_config_ptr->verify_and_load_params(params)) {

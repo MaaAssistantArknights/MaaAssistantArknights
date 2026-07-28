@@ -119,7 +119,7 @@ bool BlackFlowNodeTaskPlugin::_run()
         }
         else if (result->kind == NodeTaskResultKind::PageCompleted) {
             if (m_session->terminated()) {
-                next_task = "BlackFlow@Roguelike@StrategyTerminated";
+                next_task = "BlackFlow@Roguelike@StrategyTerminated-Enter";
             }
             else if (m_session->completed_page_changes_floor()) {
                 m_session->clear_current_floor();

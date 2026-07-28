@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iterator>
+#include <utility>
 
 #include "Config/TaskData.h"
 
@@ -9,6 +10,20 @@
 
 namespace asst::blackflow
 {
+namespace
+{
+std::pair<std::string, std::string> classify_unreported_termination(const std::string& pre_task)
+{
+    if (pre_task == "BlackFlow@Roguelike@RecoveryFailed") {
+        return { "state_machine_dead_end", "task chain reached RecoveryFailed without a strategy result" };
+    }
+    if (pre_task == "BlackFlow@Roguelike@RecoverMapFailed") {
+        return { "map_recovery_exhausted", "map recovery was exhausted without a strategy result" };
+    }
+    return { "internal_failure", "terminal action was requested without a strategy result" };
+}
+} // namespace
+
 bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
 {
     if (!BlackFlowTaskPluginBase::load_params(params)) {
@@ -60,12 +75,14 @@ bool BlackFlowLifecycleTaskPlugin::verify(AsstMsg msg, const json::value& detail
         m_pending = PendingWork::RecordCurrentFloor;
         m_pending_details = details;
         m_terminal_trigger.clear();
+        m_terminal_pre_task.clear();
         return true;
     }
     if (msg == AsstMsg::SubTaskCompleted && task == "BlackFlow@Roguelike@AbandonConfirm") {
         m_pending = PendingWork::ResetAfterAbandon;
         m_pending_details = {};
         m_terminal_trigger.clear();
+        m_terminal_pre_task.clear();
         return true;
     }
     if (msg != AsstMsg::SubTaskStart || task != "BlackFlow@Roguelike@StrategyTerminated") {
@@ -75,6 +92,7 @@ bool BlackFlowLifecycleTaskPlugin::verify(AsstMsg msg, const json::value& detail
     m_pending = PendingWork::ResolveTerminalAction;
     m_pending_details = {};
     m_terminal_trigger = task;
+    m_terminal_pre_task = details.get("pre_task", "");
     return true;
 }
 
@@ -83,6 +101,7 @@ void BlackFlowLifecycleTaskPlugin::reset_in_run_variables()
     m_pending = PendingWork::None;
     m_pending_details = {};
     m_terminal_trigger.clear();
+    m_terminal_pre_task.clear();
     Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", "BlackFlow@Roguelike@ExitThenStop-Enter");
     if (m_session != nullptr && !m_session->profile().empty()) {
         m_session->reset_run();
@@ -97,9 +116,11 @@ bool BlackFlowLifecycleTaskPlugin::_run()
     const PendingWork work = m_pending;
     const json::value details = std::move(m_pending_details);
     const std::string trigger = std::move(m_terminal_trigger);
+    const std::string pre_task = std::move(m_terminal_pre_task);
     m_pending = PendingWork::None;
     m_pending_details = {};
     m_terminal_trigger.clear();
+    m_terminal_pre_task.clear();
 
     if (work == PendingWork::RecordCurrentFloor) {
         if (m_session == nullptr) {
@@ -152,19 +173,26 @@ bool BlackFlowLifecycleTaskPlugin::_run()
     }
 
     if (m_session != nullptr && !m_session->terminated()) {
-        m_session->fail(
-            "internal_failure",
-            "terminal action was requested without a strategy result",
-            FailureDisposition::StopTask);
+        auto [outcome, reason] = classify_unreported_termination(pre_task);
+        Log.error("BlackFlow terminated without a strategy result", trigger, pre_task, outcome, reason);
+        m_session->fail(std::move(outcome), std::move(reason), FailureDisposition::StopTask);
+    }
+
+    std::string outcome;
+    std::string reason;
+    if (m_session != nullptr && m_session->result().has_value()) {
+        outcome = m_session->result()->outcome;
+        reason = m_session->result()->termination_reason;
     }
 
     const std::string next_action =
         m_session != nullptr && m_session->result().has_value() ? m_session->result()->next_action : "stop_run";
-    // 停止一支经 -Enter 转发，让 RoguelikeControlTaskPlugin-ExitThenStop 以自己的名字执行，控制插件才会收到回调。
-    const std::string task = next_action == "restart_current_run" ? "BlackFlow@Roguelike@ExitThenAbandon"
+    // 两支都经 -Enter 转发：停止一支要让控制插件收到自己的任务名，
+    // 重开一支的目标带模板，占位任务继承不到。
+    const std::string task = next_action == "restart_current_run" ? "BlackFlow@Roguelike@ExitThenAbandon-Enter"
                                                                   : "BlackFlow@Roguelike@ExitThenStop-Enter";
     Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", task);
-    Log.info("BlackFlow strategy terminal action", trigger, next_action, task);
+    Log.info("BlackFlow strategy terminal action", trigger, pre_task, outcome, reason, next_action, task);
     report_outputs();
     return true;
 }

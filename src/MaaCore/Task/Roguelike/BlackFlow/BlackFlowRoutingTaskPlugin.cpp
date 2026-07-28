@@ -44,7 +44,7 @@ bool BlackFlowRoutingTaskPlugin::_run()
         if (m_session != nullptr) {
             m_session->fail("perception_port_missing", "BlackFlow perception and task port is not attached");
         }
-        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated");
+        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated-Enter");
         report_outputs();
         return true;
     }
@@ -59,12 +59,12 @@ bool BlackFlowRoutingTaskPlugin::_run()
                                     m_session->transaction()->stage() == MoveTransactionStage::PageResolved;
         if (completed_page && !m_page_recovery_attempted) {
             m_page_recovery_attempted = true;
-            Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@RecoverMap");
+            Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@RecoverMap-Enter");
         }
         else {
             m_page_recovery_attempted = false;
             m_session->fail("map_rebuild_failed", cycle.error, FailureDisposition::RestartRun);
-            Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated");
+            Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated-Enter");
         }
         report_outputs();
         return true;
@@ -101,13 +101,13 @@ bool BlackFlowRoutingTaskPlugin::_run()
         return true;
     }
     if (cycle.status == RoutingCycleStatus::SessionTerminated) {
-        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated");
+        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated-Enter");
         report_outputs();
         return true;
     }
 
     m_session->fail(cycle.failure_code, cycle.error, FailureDisposition::RestartRun);
-    Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated");
+    Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated-Enter");
     report_outputs();
     return true;
 }

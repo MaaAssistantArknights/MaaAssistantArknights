@@ -28,5 +28,6 @@ private:
     mutable PendingWork m_pending = PendingWork::None;
     mutable json::value m_pending_details;
     mutable std::string m_terminal_trigger;
+    mutable std::string m_terminal_pre_task;
 };
 } // namespace asst::blackflow

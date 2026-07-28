@@ -1423,6 +1423,13 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowOutcomeMoveConfirmationFailed">Failed to confirm the move</system:String>
     <system:String x:Key="BlackFlowOutcomePostMoveValidationFailed">Post-move state validation failed</system:String>
     <system:String x:Key="BlackFlowOutcomePlanningRetryExhausted">Route replanning limit reached</system:String>
+    <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">Interface flow reached a dead end</system:String>
+    <system:String x:Key="BlackFlowOutcomeMapRecoveryExhausted">Map recovery retries exhausted</system:String>
+    <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">Floor recognition failed</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">Movement item recognition failed</system:String>
+    <system:String x:Key="BlackFlowOutcomeNodeDispatchFailed">Node dispatch failed</system:String>
+    <system:String x:Key="BlackFlowOutcomeNodeResultFailed">Node result handling failed</system:String>
+    <system:String x:Key="BlackFlowOutcomeInternalFailure">Internal state error</system:String>
     <system:String x:Key="BlackFlowOutcomeUnknown">Roguelike encountered an error</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentFinished">Investment completed; this run has ended</system:String>
     <system:String x:Key="BlackFlowTerminationFloor3Reached">Reached floor 3; this run's route is complete</system:String>

@@ -1424,6 +1424,13 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowOutcomeMoveConfirmationFailed">无法确认本次移动</system:String>
     <system:String x:Key="BlackFlowOutcomePostMoveValidationFailed">移动后的状态校验失败</system:String>
     <system:String x:Key="BlackFlowOutcomePlanningRetryExhausted">路线重新规划次数已经用尽</system:String>
+    <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">界面流程走不下去了</system:String>
+    <system:String x:Key="BlackFlowOutcomeMapRecoveryExhausted">地图恢复重试次数已经用尽</system:String>
+    <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">楼层识别失败</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">移动加工品识别失败</system:String>
+    <system:String x:Key="BlackFlowOutcomeNodeDispatchFailed">节点分派失败</system:String>
+    <system:String x:Key="BlackFlowOutcomeNodeResultFailed">节点结果处理失败</system:String>
+    <system:String x:Key="BlackFlowOutcomeInternalFailure">内部状态异常</system:String>
     <system:String x:Key="BlackFlowOutcomeUnknown">肉鸽出现异常</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentFinished">投资已经完成，本局结束</system:String>
     <system:String x:Key="BlackFlowTerminationFloor3Reached">已抵达第三层，本局路线完成</system:String>

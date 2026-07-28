@@ -22,10 +22,28 @@
         {
             "id": "encounter",
             "page_intent": "default",
-            "node_types": ["incident"],
+            "node_types": ["incident", "wish", "rest", "sacrifice", "evacuate"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
             "task": "BlackFlow@Roguelike@Page-Encounter",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "door",
+            "page_intent": "default",
+            "node_types": ["door"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Door",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "pass_through",
+            "page_intent": "default",
+            "node_types": ["light", "empty"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-PassThrough",
             "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {
@@ -437,6 +455,88 @@
                 }
             ],
             "result_kind": "page_completed"
+        }
+    ],
+    "preview_names": [
+        {
+            "text": "紧急作战",
+            "node_type": "battle_elite"
+        },
+        {
+            "text": "作战",
+            "node_type": "battle_normal"
+        },
+        {
+            "text": "狭路相逢",
+            "node_type": "battle_savage"
+        },
+        {
+            "text": "曲折密道",
+            "node_type": "door"
+        },
+        {
+            "text": "应急助力",
+            "node_type": "employ"
+        },
+        {
+            "text": "先行一步",
+            "node_type": "expedition"
+        },
+        {
+            "text": "未知的凶戾",
+            "node_type": "hide_battle"
+        },
+        {
+            "text": "未知的诡秘",
+            "node_type": "hide_invisible"
+        },
+        {
+            "text": "不期而遇",
+            "node_type": "incident"
+        },
+        {
+            "text": "羽瞰点",
+            "node_type": "light"
+        },
+        {
+            "text": "误入奇境",
+            "node_type": "portal"
+        },
+        {
+            "text": "安全的角落",
+            "node_type": "rest"
+        },
+        {
+            "text": "失与得",
+            "node_type": "sacrifice"
+        },
+        {
+            "text": "秘境行商",
+            "node_type": "scrap_shop"
+        },
+        {
+            "text": "诡意行商",
+            "node_type": "shop"
+        },
+        {
+            "text": "得偿所愿",
+            "node_type": "wish"
+        },
+        {
+            "text": "空节点",
+            "node_type": "empty"
+        },
+        {
+            "text": "险路小径",
+            "node_type": "evacuate"
+        },
+        {
+            "text": "险路尽头",
+            "node_type": "final"
+        },
+        {
+            "text": "险路恶敌",
+            "node_type": "battle_boss"
         }
     ]
 }
