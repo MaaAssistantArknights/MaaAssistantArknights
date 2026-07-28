@@ -678,7 +678,12 @@
     },
     "BlackFlow@Roguelike@Stages_default": {
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@Stages-MapReady", "BlackFlow@Roguelike@Stages-ZoomOut"]
+        "next": [
+            "BlackFlow@Roguelike@Stages@(BlackFlow@Roguelike@CloseCollectionContinue)",
+            "BlackFlow@Roguelike@Stages@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@Stages-MapReady",
+            "BlackFlow@Roguelike@Stages-ZoomOut"
+        ]
     },
     "BlackFlow@Roguelike@Stages-MapReady": {
         "template": "BlackFlow@Roguelike@MapZoomIn.png",
@@ -757,18 +762,33 @@
     },
     "BlackFlow@Roguelike@MapPrepare": {
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@MapPrepare-Ready", "BlackFlow@Roguelike@MapPrepare-ZoomOut"]
+        "next": ["BlackFlow@Roguelike@MapPrepare-Ready", "BlackFlow@Roguelike@MapPrepare-ZoomOut"],
+        "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
     "BlackFlow@Roguelike@MapPrepare-Ready": {
         "template": "BlackFlow@Roguelike@MapZoomIn.png",
-        "templThreshold": 0.98,
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [180, 180, 180],
+                [255, 255, 255]
+            ]
+        ],
+        "templThreshold": 0.94,
         "roi": [24, 468, 62, 153],
         "next": ["BlackFlow@Roguelike@Routing"],
         "reduceOtherTimes": ["BlackFlow@Roguelike@MapPrepare-ZoomOut*3"]
     },
     "BlackFlow@Roguelike@MapPrepare-ZoomOut": {
         "template": "BlackFlow@Roguelike@MapZoomOut.png",
-        "templThreshold": 0.98,
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [180, 180, 180],
+                [255, 255, 255]
+            ]
+        ],
+        "templThreshold": 0.94,
         "roi": [24, 468, 62, 153],
         "action": "ClickSelf",
         "postDelay": 1000,
