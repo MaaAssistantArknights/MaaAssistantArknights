@@ -70,16 +70,36 @@ asst::battle::OperUsage asst::CopilotConfig::parse_oper_usage(const json::value&
 
     // 解析练度需求
     if (auto req_opt = json.find("requirements")) {
-        oper.requirements.elite = req_opt->get("elite", 0);
-        oper.requirements.level = req_opt->get("level", 0);
-        oper.requirements.skill_level = req_opt->get("skill_level", 0);
+        oper.requirements.elite = req_opt->get("elite", -1);
+        oper.requirements.level = req_opt->get("level", -1);
+        oper.requirements.skill_level = req_opt->get("skill_level", -1);
         oper.requirements.module = req_opt->get("module", -1);
-        // oper.requirements.potentiality = req_opt->get("potentiality", 0);
+        // oper.requirements.potentiality = req_opt->get("potentiality", -1);
+    }
+
+    // 下面 2 个改 elite 的 if 顺序不要换
+    if ((oper.requirements.skill_level > 7 || oper.requirements.module > 0) && oper.requirements.elite < 2) {
+        auto log = oper.requirements.elite == -1 ? LogWarn : LogError;
+        auto msg = std::string("| Oper ") + oper.name + " has skill_level " +
+                   std::to_string(oper.requirements.skill_level) + " or module " +
+                   std::to_string(oper.requirements.module) + ", which requires elite 2, but current requirement is " +
+                   std::to_string(oper.requirements.elite) + ". Adjusting elite requirement.";
+        log << __FUNCTION__ << msg;
+        if (oper.requirements.elite != -1) {
+            throw std::invalid_argument(msg);
+        }
+        oper.requirements.elite = 2;
     }
 
     if (int elite = oper.skill - 1; elite > oper.requirements.elite) {
-        LogError << __FUNCTION__ << "| Oper " << oper.name << " use skill " << oper.skill << " requires elite " << elite
-                 << ", but current requirement is " << oper.requirements.elite << ". Adjusting elite requirement.";
+        auto log = oper.requirements.elite == -1 ? LogWarn : LogError;
+        auto log_msg = std::string("| Oper ") + oper.name + " use skill " + std::to_string(oper.skill) +
+                       " requires elite " + std::to_string(elite) + ", but current requirement is " +
+                       std::to_string(oper.requirements.elite) + ". Adjusting elite requirement.";
+        log << __FUNCTION__ << log_msg;
+        if (oper.requirements.elite != -1) {
+            throw std::invalid_argument(log_msg);
+        }
         oper.requirements.elite = elite;
     }
 
