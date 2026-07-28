@@ -342,14 +342,14 @@
                     }
                 },
                 {
-                    "id": "light_reveals_two",
+                    "id": "light_reveals_three",
                     "kind": "prefer",
                     "tier": "development",
                     "rank": 20,
                     "candidate_if": {
                         "fact": "candidate.light_reveal_count",
                         "op": "ge",
-                        "value": 2
+                        "value": 3
                     }
                 },
                 {

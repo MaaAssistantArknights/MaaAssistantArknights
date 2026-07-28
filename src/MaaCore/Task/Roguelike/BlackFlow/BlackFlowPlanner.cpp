@@ -31,6 +31,10 @@ struct ReachableFeatures
     bool has_badged_incident = false;
 };
 
+// 羽瞰点无需前往就会揭示曼哈顿距离 2 以内的节点，前往之后揭示范围扩大到 3。
+// 前两圈在观测里本来就是已揭示的，所以规划器只需要预测踩上去多开出来的第三圈。
+constexpr int LightRevealRadius = 3;
+
 bool revealed_by_consumed_light(
     const MapSnapshot& map,
     const OnDemandStateGraph& graph,
@@ -41,7 +45,7 @@ bool revealed_by_consumed_light(
         if (light.type != NodeType::Light || !graph.is_light_consumed(state, light_id)) {
             continue;
         }
-        const auto revealed = map.nodes_within_manhattan(light_id, 2);
+        const auto revealed = map.nodes_within_manhattan(light_id, LightRevealRadius);
         if (std::ranges::find(revealed, node) != revealed.end()) {
             return true;
         }
@@ -60,7 +64,7 @@ int unknown_big_nodes_revealed(
         return 0;
     }
     int count = 0;
-    for (const NodeId id : map.nodes_within_manhattan(light, 2)) {
+    for (const NodeId id : map.nodes_within_manhattan(light, LightRevealRadius)) {
         const Node* candidate = map.find_node(id);
         if (candidate == nullptr || candidate->type == NodeType::Empty || candidate->identity_revealed ||
             graph.is_completed(state, id) || graph.source_run().revealed_nodes.contains(id) ||
