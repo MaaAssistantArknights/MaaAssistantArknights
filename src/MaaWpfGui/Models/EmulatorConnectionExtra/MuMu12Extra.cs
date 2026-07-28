@@ -251,7 +251,16 @@ public class MuMu12Extra() : ExtraConfig, IJsonOnDeserialized
                 return;
             }
 
-            ConnectSettingsUserControlModel.Instance.TouchMode = value ? TouchMode.MumuExtras : TouchMode.MiniTouch;
+            if (value)
+            {
+                ConnectSettingsUserControlModel.Instance.TouchMode = TouchMode.MumuExtras;
+            }
+            else if (ConnectSettingsUserControlModel.Instance.TouchMode == TouchMode.MumuExtras)
+            {
+                // 仅在当前仍处于 MuMu 触控时才回退到默认，
+                // 避免用户主动切换到其他触控模式时被覆盖
+                ConnectSettingsUserControlModel.Instance.TouchMode = TouchMode.MiniTouch;
+            }
         }
     }
 
