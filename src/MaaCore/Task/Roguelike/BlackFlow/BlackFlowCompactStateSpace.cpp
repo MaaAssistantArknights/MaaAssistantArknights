@@ -365,7 +365,7 @@ bool BlackFlowCompactStateSpace::is_terminal(const PlannerState& state) const no
     if (!index.has_value() || !m_options.final_is_terminal) {
         return false;
     }
-    return m_nodes[*index].type == NodeType::Final || m_nodes[*index].type == NodeType::BattleBoss;
+    return is_exit_node_type(m_nodes[*index].type);
 }
 
 bool BlackFlowCompactStateSpace::unavailable_target(const PlannerState& source, NodeId target) const noexcept
@@ -515,8 +515,7 @@ std::optional<std::vector<CompactMoveAction>>
                         action.candidate.landing_action_point_gains.emplace(
                             action.candidate.landing,
                             action.candidate.predicted_action_point_gain);
-                        action.candidate.terminal_on_completion =
-                            node.type == NodeType::Final || node.type == NodeType::BattleBoss;
+                        action.candidate.terminal_on_completion = is_exit_node_type(node.type);
                         action.possible_landings.emplace_back(action.candidate.landing);
                         const int existing_index = walk_action_indices[edge.index];
                         if (existing_index < 0) {
@@ -612,8 +611,7 @@ std::optional<std::vector<CompactMoveAction>>
             action.candidate.possible_landings.emplace_back(landing);
             action.candidate.landing_action_point_gains.emplace(landing, action.candidate.predicted_action_point_gain);
             action.candidate.controllable = true;
-            action.candidate.terminal_on_completion =
-                m_nodes[target].type == NodeType::Final || m_nodes[target].type == NodeType::BattleBoss;
+            action.candidate.terminal_on_completion = is_exit_node_type(m_nodes[target].type);
             action.possible_landings.emplace_back(landing);
             generated.emplace_back(std::move(action));
         }

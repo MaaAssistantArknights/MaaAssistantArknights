@@ -591,6 +591,14 @@ bool is_combat_node_type(NodeType type) noexcept
            type == NodeType::HideBattle || type == NodeType::BattleBoss;
 }
 
+// 能离开当前区域进入下一层的三种节点。险路小径通常亏损，一般不走，
+// 但它会阻断通往险路尽头的路径，所以必须算作出口，否则阻断时会被判定成无路可走。
+// 走不走由倾向决定，这里只回答能不能走。
+bool is_exit_node_type(NodeType type) noexcept
+{
+    return type == NodeType::Final || type == NodeType::BattleBoss || type == NodeType::Evacuate;
+}
+
 std::optional<NodeType> node_type_from_string(std::string_view value) noexcept
 {
     static const std::unordered_map<std::string_view, NodeType> Mapping = {
@@ -952,8 +960,7 @@ std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const Run
                         action.candidate.landing_action_point_gains.emplace(
                             action.candidate.landing,
                             action.candidate.predicted_action_point_gain);
-                        action.candidate.terminal_on_completion =
-                            node->type == NodeType::Final || node->type == NodeType::BattleBoss;
+                        action.candidate.terminal_on_completion = is_exit_node_type(node->type);
                         action.possible_landings.emplace_back(action.candidate.landing);
                         const auto existing_action = walk_action_indices.find(neighbor);
                         if (existing_action == walk_action_indices.end()) {
@@ -1053,8 +1060,7 @@ std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const Run
             action.candidate.possible_landings.emplace_back(landing);
             action.candidate.landing_action_point_gains.emplace(landing, action.candidate.predicted_action_point_gain);
             action.candidate.controllable = true;
-            action.candidate.terminal_on_completion =
-                target_node->type == NodeType::Final || target_node->type == NodeType::BattleBoss;
+            action.candidate.terminal_on_completion = is_exit_node_type(target_node->type);
             action.possible_landings.emplace_back(landing);
             result.emplace_back(std::move(action));
         }
@@ -1219,6 +1225,8 @@ bool MoveTransaction::mark_page_resolved(std::string* error)
     return true;
 }
 
+// 确认这次移动是否真的落到了预期的地方。两种都算成功：
+// 留在本层且落点符合预期，或者走的是出口、观察到已经身处下一层。
 bool MoveTransaction::observe(MoveObservation observation, std::string* error)
 {
     const bool returned_to_same_floor = observation.floor == m_source_floor;
@@ -1226,8 +1234,8 @@ bool MoveTransaction::observe(MoveObservation observation, std::string* error)
                                      ? observation.current_node == m_proposal.landing
                                      : std::ranges::find(m_proposal.possible_landings, observation.current_node) !=
                                            m_proposal.possible_landings.end();
-    const bool advanced_after_terminal = observation.floor == m_source_floor + 1 &&
-                                         (m_target_type == NodeType::Final || m_target_type == NodeType::BattleBoss);
+    // 走出口之后落点在下一层，本层的 landing 无从比对，只能用楼层推进来确认。
+    const bool advanced_after_terminal = observation.floor == m_source_floor + 1 && is_exit_node_type(m_target_type);
     const bool stage_accepts_observation =
         m_stage == MoveTransactionStage::Committed || m_stage == MoveTransactionStage::PageResolved;
     if (!stage_accepts_observation || observation.viewport_revision <= m_viewport_revision ||

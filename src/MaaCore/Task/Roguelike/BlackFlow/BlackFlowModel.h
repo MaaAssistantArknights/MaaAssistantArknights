@@ -247,6 +247,7 @@ private:
 [[nodiscard]] NodeTraversal default_traversal_for(NodeType type) noexcept;
 [[nodiscard]] bool is_transfer_node(NodeType type) noexcept;
 [[nodiscard]] bool is_combat_node_type(NodeType type) noexcept;
+[[nodiscard]] bool is_exit_node_type(NodeType type) noexcept;
 [[nodiscard]] std::optional<NodeType> node_type_from_string(std::string_view value) noexcept;
 
 enum class MovementKind

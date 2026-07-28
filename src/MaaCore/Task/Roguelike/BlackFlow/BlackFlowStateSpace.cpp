@@ -438,16 +438,19 @@ RunState OnDemandStateGraph::materialize(const PlannerState& state) const
     return materialize_run_state(*m_run, state, m_indexed_nodes, 1);
 }
 
+// 出口有两个来源：策略用 terminal_on_reach 指定的节点，以及游戏规则里天然能离开的类型。
 bool OnDemandStateGraph::state_is_endpoint(const PlannerState& state) const noexcept
 {
     if (m_options.strategy_terminal_nodes.contains(state.node)) {
         return true;
     }
     const Node* node = m_map->find_node(state.node);
-    return node != nullptr && m_options.final_is_terminal &&
-           (node->type == NodeType::Final || node->type == NodeType::BattleBoss);
+    return node != nullptr && m_options.final_is_terminal && is_exit_node_type(node->type);
 }
 
+// 安全求解的目标状态，只看站在哪里。
+// 里程碑完成度不能掺进来：未完成的里程碑会让出口不被识别，安全求解随即认为无解，
+// 于是所有候选都不安全、整局规划死掉。该不该离开是排序问题，由 Policy 层决定。
 bool OnDemandStateGraph::state_is_terminal(const PlannerState& state) const noexcept
 {
     return state_is_endpoint(state);
@@ -463,14 +466,14 @@ bool OnDemandStateGraph::is_terminal(SafetyStateId id) const noexcept
     return id < m_states.size() && m_states[id].terminal;
 }
 
+// 与 state_is_endpoint 同一判据，供只拿得到节点号、没有完整状态的调用方使用。
 bool OnDemandStateGraph::is_terminal_node(NodeId node_id) const noexcept
 {
     if (m_options.strategy_terminal_nodes.contains(node_id)) {
         return true;
     }
     const Node* node = m_map == nullptr ? nullptr : m_map->find_node(node_id);
-    return node != nullptr && m_options.final_is_terminal &&
-           (node->type == NodeType::Final || node->type == NodeType::BattleBoss);
+    return node != nullptr && m_options.final_is_terminal && is_exit_node_type(node->type);
 }
 
 bool OnDemandStateGraph::is_completed(SafetyStateId id, NodeId node) const noexcept
