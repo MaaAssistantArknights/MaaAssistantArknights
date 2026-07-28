@@ -724,7 +724,7 @@ C:\\Program Files\\Netease\\MuMuPlayer\n
     <system:String x:Key="MuMu12Index">實例編號</system:String>
     <system:String x:Key="MuMu12Display">螢幕編號</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截圖增強未生效，請檢查相關設定</system:String>
-    <system:String x:Key="MuMuEmulator12KeepAliveOn">偵測到 MuMu 開啟了背景保活。若要在背景穩定運行，請到設定中同時勾選 ｢{key=MuMu12ExtrasEnabled}｣ 與 ｢{key=MuMuExtrasTouchEnabled}｣。</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">偵測到 MuMu 開啟了背景保活，但 MuMu 觸控增強未生效，在背景保活下無法操作。請勾選 ｢{key=MuMuExtrasTouchEnabled}｣ 或在 MuMu 設定中關閉 ｢背景保活｣（或 ｢應用保活｣ ｢背景掛機時保活運行｣ 等）。</system:String>
     <system:String x:Key="MuMuEmulator12FullExtrasReady">完整 MuMu 增強已就位——截圖與觸控雙核直連貫通，背景保活亦為我所用！</system:String>
     <system:String x:Key="LdExtrasEnabled">啟用 LD 截圖增強模式</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">找不到 LDPlayer 模擬器路徑。</system:String>

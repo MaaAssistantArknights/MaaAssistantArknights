@@ -40,6 +40,15 @@ bool MumuController::connect(const std::string& adb_path, const std::string& add
         if (mumu_width == m_width && mumu_height == m_height) {
             m_mumu_input_ready = true;
             LogInfo << "MuMu extras input is ready" << VAR(m_width) << VAR(m_height);
+
+            // 通知 GUI：MuMu 触控增强已实际生效
+            json::value input_info = json::object {
+                { "uuid", m_uuid },
+                { "what", "MuMuExtrasInputStatus" },
+                { "details", json::object { { "available", true } } },
+            };
+            callback(AsstMsg::ConnectionInfo, input_info);
+
             return true;
         }
         LogWarn << "MuMu display size mismatches adb screen size" << VAR(mumu_width) << VAR(mumu_height) << VAR(m_width)
@@ -47,6 +56,14 @@ bool MumuController::connect(const std::string& adb_path, const std::string& add
     }
 
     LogInfo << "MuMu extras input is not available, fallback to maatouch";
+
+    // 通知 GUI：MuMu 触控增强未生效（版本不支持或路径错误等），已降级
+    json::value input_info = json::object {
+        { "uuid", m_uuid },
+        { "what", "MuMuExtrasInputStatus" },
+        { "details", json::object { { "available", false } } },
+    };
+    callback(AsstMsg::ConnectionInfo, input_info);
 
     m_minitouch_available = probe_minitouch();
     if (!m_minitouch_available) {

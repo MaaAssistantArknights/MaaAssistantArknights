@@ -779,6 +779,11 @@ public class AsstProxy
     private string _connectedAddress = string.Empty;
     private string _lastConnectionError = string.Empty;
 
+    /// <summary>
+    /// MuMu 触控增强是否实际生效（由 core 连接后通过 MuMuExtrasInputStatus 回调报告）。
+    /// </summary>
+    private bool _mumuExtrasInputAvailable;
+
     private void ProcConnectInfo(JObject details)
     {
         var what = details["what"]?.ToString() ?? string.Empty;
@@ -790,32 +795,6 @@ public class AsstProxy
                 _connectedAddress = details["details"]!["address"]!.ToString();
                 SettingsViewModel.ConnectSettings.ConnectAddress = _connectedAddress;
                 _lastConnectionError = string.Empty;
-
-                // 检测 MuMu 后台保活是否开启（异步执行，避免阻塞 UI 线程）
-                if (SettingsViewModel.ConnectSettings.ConnectConfig == ConnectConfig.MuMuEmulator12)
-                {
-                    _ = Task.Run(() => {
-                        if (!EmulatorHelper.CheckMuMuKeepAlive())
-                        {
-                            return;
-                        }
-
-                        // 截图增强 + 触控均已开启时，MuMu extras 可在后台保活下稳定工作
-                        var fullExtras = SettingsViewModel.ConnectSettings.ExtraConfig is MuMu12Extra { Enable: true, EnableTouch: true };
-                        if (fullExtras)
-                        {
-                            Instances.TaskQueueViewModel.AddLog(
-                                LocalizationHelper.GetString("MuMuEmulator12FullExtrasReady"),
-                                UiLogColor.Rainbow);
-                        }
-                        else
-                        {
-                            Instances.TaskQueueViewModel.AddLog(
-                                LocalizationHelper.GetString("MuMuEmulator12KeepAliveOn"),
-                                UiLogColor.Info);
-                        }
-                    });
-                }
 
                 break;
 
@@ -841,6 +820,11 @@ public class AsstProxy
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ResolutionInfoYoStarEN"), UiLogColor.Error);
                     }
                 }
+                break;
+
+            case "MuMuExtrasInputStatus":
+                // core 连接后报告 MuMu 触控增强是否实际生效
+                _mumuExtrasInputAvailable = details["details"]?["available"]?.ToObject<bool>() ?? false;
                 break;
 
             case "ResolutionError":
@@ -928,6 +912,18 @@ public class AsstProxy
                                 break;
                             }
 
+                            // 保活开启但触控未生效 → 后台保活下无法操作，直接停止
+                            if (!_mumuExtrasInputAvailable && EmulatorHelper.CheckMuMuKeepAlive())
+                            {
+                                Instances.TaskQueueViewModel.AddLog(
+                                    LocalizationHelper.GetString("MuMuEmulator12KeepAliveOn"),
+                                    UiLogColor.Error);
+                                Instances.CopilotViewModel.AddLog(
+                                    LocalizationHelper.GetString("MuMuEmulator12KeepAliveOn"),
+                                    UiLogColor.Error, showTime: false);
+                                needToStop = true;
+                            }
+
                             if (method != "MumuExtras")
                             {
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Error);
@@ -937,6 +933,14 @@ public class AsstProxy
                             else if (timeCost < 100)
                             {
                                 color = UiLogColor.MuMuSpecialScreenshot;
+
+                                // 截图 + 触控均生效，完整增强就绪
+                                if (_mumuExtrasInputAvailable)
+                                {
+                                    Instances.TaskQueueViewModel.AddLog(
+                                        LocalizationHelper.GetString("MuMuEmulator12FullExtrasReady"),
+                                        UiLogColor.Rainbow);
+                                }
                             }
 
                             break;
