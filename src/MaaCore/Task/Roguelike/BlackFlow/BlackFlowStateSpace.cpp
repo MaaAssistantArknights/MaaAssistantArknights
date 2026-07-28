@@ -450,12 +450,7 @@ bool OnDemandStateGraph::state_is_endpoint(const PlannerState& state) const noex
 
 bool OnDemandStateGraph::state_is_terminal(const PlannerState& state) const noexcept
 {
-    const bool endpoint_legal = state_is_endpoint(state);
-    if (!endpoint_legal) {
-        return false;
-    }
-    return m_options.safety_goal == nullptr ||
-           m_options.safety_goal->is_floor_terminal_legal(state.goal_progress_id, m_run->floor, endpoint_legal);
+    return state_is_endpoint(state);
 }
 
 std::optional<PlannerNodeMask> OnDemandStateGraph::bit(NodeId node) const noexcept
