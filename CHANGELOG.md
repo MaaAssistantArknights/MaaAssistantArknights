@@ -12,11 +12,7 @@
 
 #### MuMu 模拟器触控增强
 
-新增 MuMu 外置渲染器触控模式（实验性）：在启用截图增强的基础上可勾选「同时用于触控」，通过 MuMu IPC 直连输入并支持后台保活稳定运行；低版本或失败时自动回退至既有触控通路。需 MuMuManager 6.3.2 及以上。
-
-#### 配置迁移至 gui.new.json
-
-GUI 配置正式迁移至 `gui.new.json`，后续版本将不再使用 `gui.json`；配合 WPF 配置体系全量迁移至强类型 JSON，统一管理外部通知、性能、远程控制等设置，提升配置可靠性与可维护性。
+新增 MuMu 触控增强模式（实验性）：在启用截图增强的基础上可在触控模式中直接选择「MuMu 触控增强」，通过 MuMu IPC 直连输入并支持后台保活稳定运行；连接后自动检测触控是否实际生效，不支持时停止任务并提示用户。需 MuMu 模拟器 6.3.2 及以上。
 
 <details>
 <summary><b>English</b></summary>
@@ -31,11 +27,7 @@ Added a Depot Maintain task that supports multiple plans within a single task, f
 
 #### MuMu Emulator Touch Enhancement
 
-Added experimental MuMu external-renderer touch mode: with screenshot extras enabled, you can also enable touch via MuMu IPC for stable background keep-alive operation, with automatic fallback to existing touch paths on older versions or failure. Requires MuMuManager 6.3.2 or later.
-
-#### Configuration Migration to gui.new.json
-
-GUI configuration has been migrated to `gui.new.json`; future versions will no longer use `gui.json`. Combined with the full WPF configuration migration to strongly typed JSON (covering external notification, performance, remote control, and more), this improves reliability and maintainability.
+Added experimental MuMu touch enhancement mode: with screenshot extras enabled, you can directly select "MuMu Touch" in the touch mode dropdown for stable background keep-alive operation via MuMu IPC, with automatic detection of touch availability that stops the task and notifies the user if unsupported. Requires MuMu emulator 6.3.2 or later.
 
 </details>
 
@@ -48,7 +40,7 @@ GUI configuration has been migrated to `gui.new.json`; future versions will no l
 
 ### 新增 | New
 
-* 支持 MuMu 模拟器触控增强（实验性，需 MuMuManager 6.3.2+；在截图增强下可勾选同时用于触控，支持后台保活，失败时自动回退） ([#17425](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17425)) @MistEO
+* 新增 MuMu 触控增强模式（实验性）：在截图增强启用时可在触控模式下直接选择「MuMu 触控增强」，通过 MuMu IPC 直连输入并支持后台保活稳定运行 ([#17425](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17425)) @MistEO @ABA2396
 * 库存保持任务支持使用 AUTO 代理倍率，并在游戏更新后倍战锁定期间同步禁用该选项 @ABA2396
 * 任务队列支持按住 Ctrl 点击清空以移除全部任务 @status102
 
@@ -56,6 +48,8 @@ GUI configuration has been migrated to `gui.new.json`; future versions will no l
 
 * 增强跨平台 `call_command` 实现（工作目录、超时与管道/进程清理），避免子进程输出读取卡死 @MistEO
 * 完善 MuMu Extras 包名与 display id 解析，缺失客户端类型时回退至有效默认值 @MistEO
+* 优化连接设置页面布局，缩减各控件间距并调整对齐方式 @ABA2396
+* 当 MuMu 后台保活开启但触控增强未实际生效时，直接停止任务并提示用户，避免进入无法操作的后台状态 @ABA2396
 
 ### 修复 | Fix
 
