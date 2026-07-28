@@ -77,7 +77,6 @@ public class TextBlock : System.Windows.Controls.TextBlock
         }
     }
 
-
     private void TryStartRainbowAnimation()
     {
         if (Foreground is not LinearGradientBrush { Transform: TranslateTransform translate })
@@ -89,7 +88,7 @@ public class TextBlock : System.Windows.Controls.TextBlock
         {
             From = 0,
             To = 4000,
-            Duration = new Duration(System.TimeSpan.FromSeconds(20)),
+            Duration = new Duration(System.TimeSpan.FromSeconds(100)),
             RepeatBehavior = RepeatBehavior.Forever,
         };
         translate.BeginAnimation(TranslateTransform.XProperty, anim);

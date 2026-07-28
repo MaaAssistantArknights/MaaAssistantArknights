@@ -26,6 +26,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models.EmulatorConnectionExtra;
@@ -56,6 +57,15 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     private ConnectSettingsUserControlModel()
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
+
+        // 从配置恢复时，若 MuMu 截图增强已启用，需将 MuMu 触控加入下拉列表
+        if (ExtraConfig is MuMu12Extra { Enable: true })
+        {
+            if (!TouchModeList.Items.Any(item => item.Value == TouchMode.MumuExtras))
+            {
+                TouchModeList.Add(TouchMode.MumuExtras, "MumuExtrasTouchMode");
+            }
+        }
     }
 
     public static ConnectSettingsUserControlModel Instance { get; }
@@ -221,6 +231,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref field, value);
             ConfigFactory.CurrentConfig.Gui.ConnectSettings.Config = value;
             Instances.SettingsViewModel.UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
+
+            // 切换连接配置时，若不再使用 MuMu 截图增强，需移除 MuMu 触控选项
+            var mumuEnabled = ExtraConfig is MuMu12Extra { Enable: true };
+            OnMuMuExtrasEnableChanged(mumuEnabled);
         }
     } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Config;
 
@@ -668,7 +682,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// Gets the list of touch modes
+    /// Gets the list of touch modes.
+    /// MuMu 触控选项仅在 MuMu 截图增强启用时动态加入列表。
     /// </summary>
     public LocalizedObservableList<TouchMode> TouchModeList { get; } = new(
         (TouchMode.MiniTouch, "MiniTouchMode"),
@@ -681,29 +696,53 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public TouchMode TouchMode
     {
         get; set {
-            SetAndNotify(ref field, value);
+            if (!SetAndNotify(ref field, value))
+            {
+                return;
+            }
+
             UpdateInstanceSettings();
             ConfigFactory.CurrentConfig.Gui.ConnectSettings.TouchMode = value;
-            SettingsViewModel.AskRestartToApplySettings();
+
+            // 同步 MuMu 触控增强勾选框状态（SetAndNotify 会自动去重，不会循环）
+            if (ExtraConfig is MuMu12Extra mumu)
+            {
+                mumu.EnableTouch = value == TouchMode.MumuExtras;
+            }
+
+            // 触控模式决定控制器子类，Core 侧需重连才能重建控制器实例
+            Instances.AsstProxy.Connected = false;
         }
     } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.TouchMode;
 
     /// <summary>
-    /// Gets the touch mode actually sent to the core.
-    /// MuMu 触控是 MuMu Extras 的子选项而非独立触控模式，勾上后要覆写掉用户选的 TouchMode。
-    /// 这里集中一处，避免改动其他设置时把它冲掉。
+    /// 根据 MuMu 截图增强的开关状态，动态增删触控模式下拉列表中的「MuMu 触控」选项。
+    /// 仅增删下拉项，不自动切换当前触控模式——切换由触控增强勾选框负责。
     /// </summary>
-    public string EffectiveTouchMode =>
-        ExtraConfig is MuMu12Extra { Enable: true, EnableTouch: true }
-            ? MumuExtrasTouchMode
-            : TouchMode.ToCustomString();
-
-    /// <summary>Core 侧 MuMu external renderer IPC 输入对应的 TouchMode 取值。</summary>
-    public const string MumuExtrasTouchMode = "MumuExtras";
+    /// <param name="mumuExtrasEnabled">MuMu 截图增强是否已启用。</param>
+    public void OnMuMuExtrasEnableChanged(bool mumuExtrasEnabled)
+    {
+        Execute.OnUIThread(() =>
+        {
+            var hasMumu = TouchModeList.Items.Any(item => item.Value == TouchMode.MumuExtras);
+            if (mumuExtrasEnabled && !hasMumu)
+            {
+                TouchModeList.Add(TouchMode.MumuExtras, "MumuExtrasTouchMode");
+            }
+            else if (!mumuExtrasEnabled && hasMumu)
+            {
+                TouchModeList.Remove(TouchMode.MumuExtras);
+                if (TouchMode == TouchMode.MumuExtras)
+                {
+                    TouchMode = TouchMode.MiniTouch; // 回到默认
+                }
+            }
+        });
+    }
 
     public void UpdateInstanceSettings()
     {
-        Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, EffectiveTouchMode);
+        Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode.ToCustomString());
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.KillAdbOnExit, KillAdbOnExit ? "1" : "0");

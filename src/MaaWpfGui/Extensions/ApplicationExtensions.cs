@@ -13,7 +13,7 @@
 
 using System.Windows;
 
-namespace MaaWpfGui.Helper;
+namespace MaaWpfGui.Extensions;
 
 internal static class ApplicationExtensions
 {

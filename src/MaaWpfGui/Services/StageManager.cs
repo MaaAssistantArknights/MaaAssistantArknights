@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.MaaApi;

@@ -522,6 +522,7 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (Deprecated)</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (Experimental)</system:String>
+    <system:String x:Key="MumuExtrasTouchMode">MuMu Touch (Experimental)</system:String>
     <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input is for physical devices running an older OS version that cannot use Minitouch or MaaTouch. Do not use ADB Input if the other two modes work.&#10;ADB Input swipes tend to drift. To avoid this, swipe speed is set very slow and swipe distances differ from the other two modes. It cannot be used in scenarios requiring precise coordinate control.</system:String>
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">Additional commands for emulator parameters (e.g. ｢--instance 1｣ for instance 1).&#10;Command formats vary by emulator, typically including instance numbers and window modes, please consult your emulator's documentation.</system:String>
@@ -722,7 +723,7 @@ Note:
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
     <system:String x:Key="MuMu12Display">Display Number</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
-    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu background keep-alive is on. To run stably in the background, enable both "MuMu screenshot enhancement" and "MuMu touch" in Settings.</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu background keep-alive is on, but MuMu touch enhancement is not working. Operations are not possible under keep-alive. Please enable ｢{key=MuMuExtrasTouchEnabled}｣ or disable ｢Keep Alive in Background｣ in MuMu settings.</system:String>
     <system:String x:Key="MuMuEmulator12FullExtrasReady">Full MuMu enhancement online — screenshot &amp; touch dual-link engaged. Background keep-alive bows to our will!</system:String>
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer emulator path not found.</system:String>

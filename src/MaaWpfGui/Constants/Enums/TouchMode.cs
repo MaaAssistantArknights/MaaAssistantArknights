@@ -17,22 +17,28 @@ namespace MaaWpfGui.Constants.Enums;
 
 public enum TouchMode
 {
+    /// <summary>
+    /// MiniTouch 触控模式，适用于大多数设备，默认。
+    /// </summary>
     MiniTouch,
-    MaaTouch,
-    Adb,
-    MaaFwAdb,
-}
 
-public static class TouchModeExtensions
-{
-    public static string ToCustomString(this TouchMode touchMode)
-    {
-        return touchMode switch {
-            TouchMode.MiniTouch => "minitouch",
-            TouchMode.MaaTouch => "maatouch",
-            TouchMode.Adb => "adb",
-            TouchMode.MaaFwAdb => "MaaFwAdb",
-            _ => throw new ArgumentOutOfRangeException(nameof(touchMode), touchMode, null),
-        };
-    }
+    /// <summary>
+    /// MaaTouch 触控模式，适用于部分设备，雷电模拟器用可能会有拖动问题。
+    /// </summary>
+    MaaTouch,
+
+    /// <summary>
+    /// Adb 触控模式，适用于部分设备，巨几把慢。
+    /// </summary>
+    Adb,
+
+    /// <summary>
+    /// MaaFwAdb 触控模式。
+    /// </summary>
+    MaaFwAdb,
+
+    /// <summary>
+    /// MuMu external renderer IPC 触控，仅截图增强启用时可选。
+    /// </summary>
+    MumuExtras,
 }

@@ -15,7 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 
-namespace MaaWpfGui.Helper;
+namespace MaaWpfGui.Extensions;
 
 public static class BitmapImageExtensions
 {

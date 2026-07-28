@@ -15,8 +15,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MaaWpfGui.Constants.Enums;
 
-namespace MaaWpfGui.Constants.Enums;
+namespace MaaWpfGui.Extensions;
 
 public static class ClientTypeExtension
 {
