@@ -239,8 +239,8 @@
             hc:InfoElement.Title="{DynamicResource BattleStartTimeoutSeconds}"
             hc:TitleElement.TitlePlacement="Left"
             InputMethod.IsInputMethodEnabled="False"
-            Maximum="{x:Static settings_vms:GameSettingsUserControlModel.BattleStartTimeoutMaxSeconds}"
-            Minimum="{x:Static settings_vms:GameSettingsUserControlModel.BattleStartTimeoutMinSeconds}"
+            Maximum="{Binding Source={x:Static settings_vms:GameSettingsUserControlModel.BattleStartTimeoutMaxSeconds}, Mode=OneTime}"
+            Minimum="{Binding Source={x:Static settings_vms:GameSettingsUserControlModel.BattleStartTimeoutMinSeconds}, Mode=OneTime}"
             Value="{Binding BattleStartTimeoutSeconds}" />
     </StackPanel>
 </UserControl>
