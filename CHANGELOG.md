@@ -55,6 +55,7 @@ Added experimental MuMu touch enhancement mode: with screenshot extras enabled, 
 
 * 修复外服游戏客户端类型从旧配置迁移失败的问题 @status102
 * 修复删除多余连接地址时可能抛出 Index was out of range 异常的问题 ([#17441](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17441)) @ABA2396
+* 修复关闭 MuMu 截图增强时会强制覆盖用户已选择的其他非 minitouch 触控模式的问题 @ABA2396
 
 </details>
 
