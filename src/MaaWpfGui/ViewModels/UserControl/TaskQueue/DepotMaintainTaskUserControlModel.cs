@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -219,24 +220,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         return item?.Count >= 0 ? item.Count.ToString() : "--";
     }
 
-    /// <summary>
-    /// 单个 Plan 属性变化时，保存配置并通知 UI 刷新。
-    /// </summary>
-    /// <param name="notifyProperties">需要通知刷新的属性名。</param>
-    public void OnPlanChanged(params string[] notifyProperties)
-    {
-        if (IsRefreshingUI)
-        {
-            return;
-        }
-
-        SavePlan();
-        foreach (var prop in notifyProperties)
-        {
-            NotifyOfPropertyChange(prop);
-        }
-    }
-
     private void SavePlan()
     {
         if (IsRefreshingUI)
@@ -321,7 +304,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             get; set {
                 SetAndNotify(ref field, value);
                 NotifyOfPropertyChange(nameof(Title));
-                Instance.OnPlanChanged(nameof(PlanInfo));
             }
         } = string.Empty;
 
@@ -333,7 +315,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             get; set {
                 SetAndNotify(ref field, value);
                 NotifyOfPropertyChange(nameof(Title));
-                Instance.OnPlanChanged(nameof(PlanInfo));
             }
         } = string.Empty;
 
@@ -345,7 +326,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             get; set {
                 SetAndNotify(ref field, value);
                 NotifyOfPropertyChange(nameof(Title));
-                Instance.OnPlanChanged(nameof(PlanInfo));
             }
         } = LocalizationHelper.GetString("NotSelected");
 
@@ -354,41 +334,16 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             get; set {
                 SetAndNotify(ref field, value);
                 NotifyOfPropertyChange(nameof(Title));
-                Instance.OnPlanChanged(nameof(PlanInfo));
             }
         }
 
-        public bool UseMedicine
-        {
-            get; set {
-                SetAndNotify(ref field, value);
-                Instance.OnPlanChanged();
-            }
-        }
+        public bool UseMedicine { get; set => SetAndNotify(ref field, value); }
 
-        public int MedicineCount
-        {
-            get; set {
-                SetAndNotify(ref field, value);
-                Instance.OnPlanChanged();
-            }
-        }
+        public int MedicineCount { get; set => SetAndNotify(ref field, value); }
 
-        public bool UseStone
-        {
-            get; set {
-                SetAndNotify(ref field, value);
-                Instance.OnPlanChanged();
-            }
-        }
+        public bool UseStone { get; set => SetAndNotify(ref field, value); }
 
-        public int StoneCount
-        {
-            get; set {
-                SetAndNotify(ref field, value);
-                Instance.OnPlanChanged();
-            }
-        }
+        public int StoneCount { get; set => SetAndNotify(ref field, value); }
 
         public int TaskId { get; set; }
 
@@ -431,10 +386,14 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 TaskId = plan.TaskId,
 
                 // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
-                DropName = FightSettingsUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display
-                    ?? LocalizationHelper.GetString("NotSelected"),
+                DropName = FightSettingsUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("NotSelected"),
             };
             list.Add(uiPlan);
+            uiPlan.PropertyChanged += PlanItem_PropertyChanged;
+        }
+        foreach (var plan in PlanList)
+        {
+            plan.PropertyChanged -= PlanItem_PropertyChanged;
         }
         PlanList = [.. list];
         PlanList.CollectionChanged += PlanList_CollectionChanged;
@@ -443,13 +402,34 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         Refresh();
     }
 
-    private void PlanList_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    private void PlanItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        SavePlan();
+        if (e.PropertyName is nameof(Plan.Stage) or nameof(Plan.DropId) or nameof(Plan.DropName) or nameof(Plan.DropCount))
+        {
+            NotifyOfPropertyChange(nameof(PlanInfo));
+        }
+    }
+
+    private void PlanList_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         SavePlan();
         NotifyOfPropertyChange(nameof(PlanInfo));
         foreach (var plan in PlanList)
         {
             plan.RefreshTitle();
+        }
+        if (e.Action is NotifyCollectionChangedAction.Remove or NotifyCollectionChangedAction.Replace)
+        {
+            e.OldItems?.OfType<Plan>().ToList().ForEach(plan => {
+                plan.PropertyChanged -= PlanItem_PropertyChanged;
+            });
+        }
+        if (e.Action is NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Replace)
+        {
+            e.NewItems?.OfType<Plan>().ToList().ForEach(plan => {
+                plan.PropertyChanged += PlanItem_PropertyChanged;
+            });
         }
     }
 
