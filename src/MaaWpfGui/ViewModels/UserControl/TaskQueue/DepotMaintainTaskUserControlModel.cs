@@ -31,6 +31,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -196,14 +197,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         set => SetTaskConfig<DepotMaintainTask>(t => t.UseExpiringMedicine == value, t => t.UseExpiringMedicine = value);
     }
 
-    public ObservableCollection<Plan> PlanList { get; private set => SetAndNotify(ref field, value); } = [];
+    public ObservableCollection<DepotPlanItemViewModel> PlanList { get; private set => SetAndNotify(ref field, value); } = [];
 
-    public void AddPlan()
-    {
-        PlanList.Add(new Plan());
-    }
+    public void AddPlan() => PlanList.Add(new());
 
-    public void RemovePlan(Plan plan)
+    public void RemovePlan(DepotPlanItemViewModel plan)
     {
         PlanList.Remove(plan);
     }
@@ -374,17 +372,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         return item?.Count >= 0 ? item.Count.ToString() : "--";
     }
 
-    private void SavePlan()
-    {
-        if (IsRefreshingUI)
-        {
-            return;
-        }
-
-        var list = PlanList.Select(i => new DepotMaintainTask.Plan(i.Stage, i.DropId, i.DropCount, i.UseMedicine, i.MedicineCount, i.UseStone, i.StoneCount, i.TaskId));
-        SetTaskConfig<DepotMaintainTask>(t => t.PlanList.SequenceEqual(list), t => t.PlanList = [.. list]);
-    }
-
     /// <summary>
     /// 更新关卡列表。
     /// 使用手动输入时，只更新关卡列表，不更新关卡选择
@@ -442,87 +429,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
     }
 
-    public class Plan(string stage, string dropId, string? dropName = null, int dropCount = 0, bool useMedicine = false, int medicineCount = 0, bool useStone = false, int stoneCount = 0, int taskId = 0) : PropertyChangedBase
-    {
-        public Plan()
-            : this(string.Empty, string.Empty, null, 0, false, 0, false, 0, 0)
-        {
-        }
-
-        public bool IsExpanded { get; set => SetAndNotify(ref field, value); }
-
-        public string Title => $"{Instance.PlanList.IndexOf(this) + 1}: {Instance.StageListSource.FirstOrDefault(i => i.Value == Stage)?.Display ?? Stage} - {DropName} x{DropCount.FormatNumber(false)}";
-
-        /// <summary>
-        /// 增删 plan 或语言切换后刷新 Title 显示（序号/关卡名/材料名）。
-        /// </summary>
-        public void RefreshTitle() => NotifyOfPropertyChange(nameof(Title));
-
-        public string Stage
-        {
-            get; set {
-                SetAndNotify(ref field, value);
-                NotifyOfPropertyChange(nameof(Title));
-            }
-        } = stage;
-
-        /// <summary>
-        /// Gets or sets 指定掉落材料 ID。
-        /// </summary>
-        public string DropId
-        {
-            get; set {
-                SetAndNotify(ref field, value);
-                NotifyOfPropertyChange(nameof(Title));
-            }
-        } = dropId;
-
-        /// <summary>
-        /// Gets or sets 指定掉落材料名称。
-        /// </summary>
-        public string DropName
-        {
-            get; set {
-                SetAndNotify(ref field, value);
-                NotifyOfPropertyChange(nameof(Title));
-            }
-        } = dropName ?? LocalizationHelper.GetString("NotSelected");
-
-        public int DropCount
-        {
-            get; set {
-                SetAndNotify(ref field, value);
-                NotifyOfPropertyChange(nameof(Title));
-            }
-        } = dropCount;
-
-        public bool UseMedicine { get; set => SetAndNotify(ref field, value); } = useMedicine;
-
-        public int MedicineCount { get; set => SetAndNotify(ref field, value); } = medicineCount;
-
-        public bool UseStone { get; set => SetAndNotify(ref field, value); } = useStone;
-
-        public int StoneCount { get; set => SetAndNotify(ref field, value); } = stoneCount;
-
-        public int TaskId { get; set; } = taskId;
-
-        // UI 绑定的方法
-        [UsedImplicitly]
-        public void DropsListDropDownClosed()
-        {
-            if (FightSettingsUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Display == DropName) is { } item)
-            {
-                DropId = item.Value;
-            }
-            else
-            {
-                DropId = string.Empty;
-                DropName = LocalizationHelper.GetString("NotSelected");
-                NotifyOfPropertyChange(nameof(DropName));
-            }
-        }
-    }
-
     public override void RefreshUI(BaseTask baseTask)
     {
         if (baseTask is not DepotMaintainTask task)
@@ -531,7 +437,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
 
         using var refresh = new UiRefreshingScope();
-        var list = new List<Plan>();
+        var list = new List<DepotPlanItemViewModel>();
         foreach (var plan in task.PlanList)
         {
             // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
@@ -554,8 +460,16 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     private void PlanItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        SavePlan();
-        if (e.PropertyName is nameof(Plan.Stage) or nameof(Plan.DropId) or nameof(Plan.DropName) or nameof(Plan.DropCount))
+        if (!IsRefreshingUI)
+        {
+            if (e.PropertyName is not nameof(DepotPlanItemViewModel.IsExpanded) && sender is DepotPlanItemViewModel plan)
+            {
+                var list = GetTaskConfig<DepotMaintainTask>().PlanList.ToList();
+                list[plan.Index] = new DepotMaintainTask.Plan(plan.Stage, plan.DropId, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId);
+                SetTaskConfig<DepotMaintainTask>(t => t.PlanList.SequenceEqual(list), t => t.PlanList = list);
+            }
+        }
+        if (e.PropertyName is nameof(DepotPlanItemViewModel.Stage) or nameof(DepotPlanItemViewModel.DropId) or nameof(DepotPlanItemViewModel.DropName) or nameof(DepotPlanItemViewModel.DropCount))
         {
             NotifyOfPropertyChange(nameof(PlanInfo));
         }
@@ -563,23 +477,26 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     private void PlanList_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        SavePlan();
         NotifyOfPropertyChange(nameof(PlanInfo));
-        foreach (var plan in PlanList)
-        {
-            plan.RefreshTitle();
-        }
         if (e.Action is NotifyCollectionChangedAction.Remove or NotifyCollectionChangedAction.Replace)
         {
-            e.OldItems?.OfType<Plan>().ToList().ForEach(plan => {
+            e.OldItems?.OfType<DepotPlanItemViewModel>().ToList().ForEach(plan => {
                 plan.PropertyChanged -= PlanItem_PropertyChanged;
             });
         }
         if (e.Action is NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Replace)
         {
-            e.NewItems?.OfType<Plan>().ToList().ForEach(plan => {
+            foreach (var plan in PlanList)
+            {
+                plan.RefreshTitle();
+            }
+            e.NewItems?.OfType<DepotPlanItemViewModel>().ToList().ForEach(plan => {
                 plan.PropertyChanged += PlanItem_PropertyChanged;
             });
+        }
+        foreach (var (plan, index) in PlanList.Select((plan, index) => (plan, index)))
+        {
+            plan.Index = index;
         }
     }
 
