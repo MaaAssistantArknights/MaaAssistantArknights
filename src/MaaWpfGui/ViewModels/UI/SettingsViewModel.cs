@@ -252,6 +252,12 @@ public class SettingsViewModel : Screen
     {
         ConfigFactory.Root.Gui.SettingOrders = [.. Settings.Select(item => Enum.Parse<SettingKey>(item.Key))];
         Execute.OnUIThread(() => {
+            // 集合变更后，根据新的顺序更新各 item 的 Value（右边 Grid.Row 绑定依赖此值）
+            for (int i = 0; i < Settings.Count; i++)
+            {
+                Settings[i].Value = i;
+            }
+
             if (e?.Action == NotifyCollectionChangedAction.Move)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.SortingMaster);

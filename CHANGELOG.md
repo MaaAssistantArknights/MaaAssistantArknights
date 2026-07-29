@@ -1,4 +1,4 @@
-## v6.15.0
+## v6.15.1
 
 ### Highlights
 
@@ -36,6 +36,15 @@ Added experimental MuMu touch enhancement mode: with screenshot extras enabled, 
 以下是详细内容：
 
 <details open>
+<summary><b>v6.15.1 (2026-07-29)</b></summary>
+
+### 修复 | Fix
+
+* 修复设置页面拖动左侧排序后右侧需在重启后才能重排的问题 @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.15.0 (2026-07-29)</b></summary>
 
 ### 新增 | New
