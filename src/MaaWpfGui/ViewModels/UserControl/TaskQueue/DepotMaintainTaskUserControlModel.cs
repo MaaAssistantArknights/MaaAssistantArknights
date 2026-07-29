@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -48,16 +49,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     public DepotMaintainTaskUserControlModel()
     {
-        PlanList.CollectionChanged += (_, __) => {
-            SavePlan();
-            NotifyOfPropertyChange(nameof(PlanInfo));
-
-            // 增删后序号变化，通知所有 plan 刷新 Title
-            foreach (var plan in PlanList)
-            {
-                plan.RefreshTitle();
-            }
-        };
+        PlanList.CollectionChanged += PlanList_CollectionChanged;
 
         // 仓库数据变化时刷新计划显示（当前库存数量）
         if (Instances.ToolboxViewModel is { } toolbox)
@@ -238,7 +230,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             return;
         }
 
-        SavePlan();
         foreach (var prop in notifyProperties)
         {
             NotifyOfPropertyChange(prop);
@@ -419,19 +410,29 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     ?? LocalizationHelper.GetString("NotSelected"),
             };
             list.Add(uiPlan);
+            uiPlan.PropertyChanged += (_, __) => SavePlan();
         }
         PlanList = [.. list];
-        PlanList.CollectionChanged += (_, __) => {
-            SavePlan();
-            NotifyOfPropertyChange(nameof(PlanInfo));
-            foreach (var plan in PlanList)
-            {
-                plan.RefreshTitle();
-            }
-        };
+        PlanList.CollectionChanged += PlanList_CollectionChanged;
         NotifyOfPropertyChange(nameof(PlanInfo));
         RefreshStageList();
         Refresh();
+    }
+
+    private void PlanList_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        SavePlan();
+        NotifyOfPropertyChange(nameof(PlanInfo));
+        foreach (var plan in PlanList)
+        {
+            plan.RefreshTitle();
+        }
+        if (e.Action is NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Replace)
+        {
+            e.NewItems?.OfType<Plan>().ToList().ForEach(plan => {
+                plan.PropertyChanged += (_, __) => SavePlan();
+            });
+        }
     }
 
     public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
