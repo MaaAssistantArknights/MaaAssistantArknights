@@ -479,6 +479,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             for (int i = 0; i < depot.PlanList.Count; i++)
             {
                 var plan = depot.PlanList[i];
+                depot.PlanList[i] = plan with { TaskId = 0 }; // 主动重置 TaskId
                 if (string.IsNullOrEmpty(plan.DropId))
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInvalidDropItem", i + 1), UiLogColor.Error);
