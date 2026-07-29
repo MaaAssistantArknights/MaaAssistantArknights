@@ -748,8 +748,7 @@
         "postDelay": 600,
         "next": [
             "BlackFlow@Roguelike@NextLevel@(BlackFlow@Roguelike@CloseCollection)",
-            "BlackFlow@Roguelike@MapPrepare-Ready",
-            "BlackFlow@Roguelike@MapPrepare-ZoomOut",
+            "BlackFlow@Roguelike@MapPrepare-FloorEnterZoom",
             "BlackFlow@Roguelike@NextLevel"
         ]
     },
@@ -832,6 +831,14 @@
         "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"],
         "reduceOtherTimes": ["BlackFlow@Roguelike@MovementInventoryClose*3"]
     },
+    "BlackFlow@Roguelike@MapPrepare-FloorEnterZoom": {
+        "Doc": "刚进入楼层时比例尺必定是大的，但这一刻两种放大镜状态分不清，所以不判状态、直接切一次再重新识别。",
+        "baseTask": "BlackFlow@Roguelike@MapPrepare-Ready",
+        "template": ["BlackFlow@Roguelike@MapZoomIn.png", "BlackFlow@Roguelike@MapZoomOut.png"],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["BlackFlow@Roguelike@MapPrepare"]
+    },
     "BlackFlow@Roguelike@CurrentActionPoints": {
         "algorithm": "OcrDetect",
         "roi": [1106, 102, 78, 75],
@@ -908,7 +915,7 @@
     },
     "BlackFlow@Roguelike@MovePreviewWait": {
         "algorithm": "JustReturn",
-        "postDelay": 500,
+        "postDelay": 800,
         "next": ["BlackFlow@Roguelike@MovePreviewEnter", "BlackFlow@Roguelike@MovePreviewCannotEnter", "#self"],
         "maxTimes": 3
     },
