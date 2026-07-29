@@ -732,13 +732,16 @@ Note:
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
 LDPlayer 9 V9.1.32 or later is required.
 It's strongly recommended to run a screenshot test immediately after enabling this feature.
-MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
+MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.
+
 The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
 C:\\leidian\\LDPlayer9\\dnplayer.exe
 then it should be filled in as
-C:\\leidian\\LDPlayer9。\n
+C:\\leidian\\LDPlayer9
+
 The instance number can be viewed in LDPlayer Multi-Instance Manager,
-The primary instance is 0, and other instances are the numbers after the version/instance ID.\n
+The primary instance is 0, and other instances are the numbers after the version/instance ID.
+
 The screenshot enhancement feature requires the emulator resolution to be set to landscape mode and the screen orientation not to be changed during connection.
 If the game is launched in portrait mode and then switched to landscape, it may cause screen tearing or other issues.
     </system:String>

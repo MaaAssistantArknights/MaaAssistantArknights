@@ -733,13 +733,16 @@ C:\\Program Files\\Netease\\MuMuPlayer。\n
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
 需使用官版或国际版雷电模拟器 9 V9.1.32 或更新版本。
 强烈建议在开启本功能后立刻运行一次截图测试。
-MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。\n
+MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。
+
 安装路径应填写模拟器安装目录的根目录，例如模拟器进程文件路径为
 C:\\leidian\\LDPlayer9\\dnplayer.exe
 则应填写
-C:\\leidian\\LDPlayer9。\n
+C:\\leidian\\LDPlayer9
+
 实例编号可在雷电多开器中查看，
-主多开为 0，其他多开为 版本/编号 ID 后的数字。\n
+主多开为 0，其他多开为 版本/编号 ID 后的数字。
+
 截图增强功能强制要求模拟器分辨率设置为横屏模式，且在连接过程中请勿翻转屏幕。
 如在竖屏状态下启动游戏后切换为横屏，可能导致画面撕裂等问题。
     </system:String>
