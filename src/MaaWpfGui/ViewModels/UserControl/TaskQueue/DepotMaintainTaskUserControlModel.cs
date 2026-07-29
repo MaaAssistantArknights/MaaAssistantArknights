@@ -288,8 +288,13 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
     }
 
-    public class Plan : PropertyChangedBase
+    public class Plan(string stage, string dropId, string? dropName = null, int dropCount = 0, bool useMedicine = false, int medicineCount = 0, bool useStone = false, int stoneCount = 0, int taskId = 0) : PropertyChangedBase
     {
+        public Plan()
+            : this(string.Empty, string.Empty, null, 0, false, 0, false, 0, 0)
+        {
+        }
+
         public bool IsExpanded { get; set => SetAndNotify(ref field, value); }
 
         public string Title => $"{Instance.PlanList.IndexOf(this) + 1}: {Instance.StageListSource.FirstOrDefault(i => i.Value == Stage)?.Display ?? Stage} - {DropName} x{DropCount.FormatNumber(false)}";
@@ -305,7 +310,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 SetAndNotify(ref field, value);
                 NotifyOfPropertyChange(nameof(Title));
             }
-        } = string.Empty;
+        } = stage;
 
         /// <summary>
         /// Gets or sets 指定掉落材料 ID。
@@ -316,7 +321,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 SetAndNotify(ref field, value);
                 NotifyOfPropertyChange(nameof(Title));
             }
-        } = string.Empty;
+        } = dropId;
 
         /// <summary>
         /// Gets or sets 指定掉落材料名称。
@@ -327,7 +332,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 SetAndNotify(ref field, value);
                 NotifyOfPropertyChange(nameof(Title));
             }
-        } = LocalizationHelper.GetString("NotSelected");
+        } = dropName ?? LocalizationHelper.GetString("NotSelected");
 
         public int DropCount
         {
@@ -335,17 +340,17 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 SetAndNotify(ref field, value);
                 NotifyOfPropertyChange(nameof(Title));
             }
-        }
+        } = dropCount;
 
-        public bool UseMedicine { get; set => SetAndNotify(ref field, value); }
+        public bool UseMedicine { get; set => SetAndNotify(ref field, value); } = useMedicine;
 
-        public int MedicineCount { get; set => SetAndNotify(ref field, value); }
+        public int MedicineCount { get; set => SetAndNotify(ref field, value); } = medicineCount;
 
-        public bool UseStone { get; set => SetAndNotify(ref field, value); }
+        public bool UseStone { get; set => SetAndNotify(ref field, value); } = useStone;
 
-        public int StoneCount { get; set => SetAndNotify(ref field, value); }
+        public int StoneCount { get; set => SetAndNotify(ref field, value); } = stoneCount;
 
-        public int TaskId { get; set; }
+        public int TaskId { get; set; } = taskId;
 
         // UI 绑定的方法
         [UsedImplicitly]
@@ -375,19 +380,10 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         var list = new List<Plan>();
         foreach (var plan in task.PlanList)
         {
-            var uiPlan = new Plan {
-                Stage = plan.Stage,
-                DropId = plan.DropId,
-                DropCount = plan.DropCount,
-                UseMedicine = plan.UseMedicine,
-                MedicineCount = plan.MedicineCount,
-                UseStone = plan.UseStone,
-                StoneCount = plan.StoneCount,
-                TaskId = plan.TaskId,
+            // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
+            var dropName = FightSettingsUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("NotSelected");
 
-                // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
-                DropName = FightSettingsUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("NotSelected"),
-            };
+            var uiPlan = new Plan(plan.Stage, plan.DropId, dropName, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId);
             list.Add(uiPlan);
             uiPlan.PropertyChanged += PlanItem_PropertyChanged;
         }
