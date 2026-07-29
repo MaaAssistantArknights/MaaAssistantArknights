@@ -199,7 +199,10 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     public ObservableCollection<DepotPlanItemViewModel> PlanList { get; private set => SetAndNotify(ref field, value); } = [];
 
-    public void AddPlan() => PlanList.Add(new());
+    public void AddPlan()
+    {
+        PlanList.Add(new() { Index = PlanList.Count, });
+    }
 
     public void RemovePlan(DepotPlanItemViewModel plan)
     {
