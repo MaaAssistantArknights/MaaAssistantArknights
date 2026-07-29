@@ -76,7 +76,7 @@ bool BlackFlowRoutingTaskPlugin::_run()
         return true;
     }
     if (cycle.status == RoutingCycleStatus::MovementSelectionRequired) {
-        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@SelectMovement");
+        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@SelectMovement-Enter");
         report_outputs();
         return true;
     }

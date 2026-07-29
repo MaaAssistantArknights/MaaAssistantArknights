@@ -18,9 +18,17 @@
     "BlackFlow@Roguelike@RoutingAction": {
         "baseTask": "BlackFlow@Roguelike@RecoveryFailed"
     },
+    "BlackFlow@Roguelike@RoutingResume-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RoutingResume"]
+    },
     "BlackFlow@Roguelike@RoutingResume": {
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@RoutingAction"]
+    },
+    "BlackFlow@Roguelike@SelectMovement-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@SelectMovement"]
     },
     "BlackFlow@Roguelike@SelectMovement": {
         "algorithm": "JustReturn",
@@ -32,6 +40,10 @@
     "BlackFlow@Roguelike@NodeDispatch": {
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@NodeDispatchAction"]
+    },
+    "BlackFlow@Roguelike@NodeRedispatch-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@NodeRedispatch"]
     },
     "BlackFlow@Roguelike@NodeRedispatch": {
         "algorithm": "JustReturn",

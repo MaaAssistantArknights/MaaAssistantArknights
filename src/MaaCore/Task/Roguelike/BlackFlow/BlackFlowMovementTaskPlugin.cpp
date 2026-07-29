@@ -101,7 +101,7 @@ bool BlackFlowMovementTaskPlugin::_run()
     std::string error;
     const SelectionOutcome outcome = select_movement(target, &error);
     if (outcome == SelectionOutcome::Selected) {
-        Task.set_task_base(std::string(SelectionAction), "BlackFlow@Roguelike@RoutingResume");
+        Task.set_task_base(std::string(SelectionAction), "BlackFlow@Roguelike@RoutingResume-Enter");
         Log.info("BlackFlow movement selected", target_spec == nullptr ? std::string_view("unknown") : target_spec->id);
     }
     else if (outcome == SelectionOutcome::Unavailable) {

@@ -132,7 +132,7 @@ bool BlackFlowNodeTaskPlugin::_run()
             Task.set_task_base("BlackFlow@Roguelike@NodeResultAction", next_task);
         }
         else if (result->redispatch) {
-            Task.set_task_base("BlackFlow@Roguelike@NodeResultAction", "BlackFlow@Roguelike@NodeRedispatch");
+            Task.set_task_base("BlackFlow@Roguelike@NodeResultAction", "BlackFlow@Roguelike@NodeRedispatch-Enter");
         }
         report_outputs();
         return true;
