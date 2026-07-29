@@ -745,6 +745,7 @@
         "withoutDet": false,
         "text": ["玻利瓦尔肤层", "甜美的伤口", "血色空脉", "受害者腐殖", "卡德霍之颅", "未萌生的摇篮"],
         "fullMatch": true,
+        "postDelay": 600,
         "next": [
             "BlackFlow@Roguelike@NextLevel@(BlackFlow@Roguelike@CloseCollection)",
             "BlackFlow@Roguelike@MapPrepare-Ready",

@@ -196,6 +196,21 @@
             "scope": "run"
         },
         {
+            "name": "start_core_char",
+            "type": "string",
+            "scope": "run"
+        },
+        {
+            "name": "start_squad",
+            "type": "string",
+            "scope": "run"
+        },
+        {
+            "name": "start_roles",
+            "type": "string",
+            "scope": "run"
+        },
+        {
             "name": "page_kind",
             "type": "string",
             "scope": "page"
@@ -792,12 +807,149 @@
         },
         {
             "id": "burn_investment_shop",
+            "description": "刷等级时先去一层商店：拿得到结构性原理就硬性要求，拿不到则按权重择优",
+            "rules": [
+                {
+                    "id": "burn_require_shop_when_flight_guaranteed",
+                    "description": "开局配置保证精二机械师时，一层的路线必须经过商店",
+                    "kind": "require",
+                    "tier": "strategy_constraint",
+                    "rank": 0,
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "start_core_char",
+                                "op": "eq",
+                                "value": "机械师"
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "start_squad",
+                                        "op": "eq",
+                                        "value": "特勤分队"
+                                    },
+                                    {
+                                        "fact": "start_squad",
+                                        "op": "eq",
+                                        "value": "堡垒战术分队"
+                                    }
+                                ]
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "start_roles",
+                                        "op": "eq",
+                                        "value": "稳扎稳打"
+                                    },
+                                    {
+                                        "fact": "start_roles",
+                                        "op": "eq",
+                                        "value": "坚不可摧"
+                                    }
+                                ]
+                            },
+                            {
+                                "fact": "current_floor",
+                                "op": "eq",
+                                "value": 1
+                            },
+                            {
+                                "fact": "burn_shop_done",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "fact": "persistent_long_range_count",
+                                "op": "ge",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "fact": "candidate.route_node_types",
+                        "op": "contains",
+                        "value": "shop"
+                    }
+                },
+                {
+                    "id": "burn_require_flight_on_floor2",
+                    "description": "同样的开局配置下，二层直接用结构性原理飞向层出口",
+                    "kind": "require",
+                    "tier": "strategy_constraint",
+                    "rank": 0,
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "start_core_char",
+                                "op": "eq",
+                                "value": "机械师"
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "start_squad",
+                                        "op": "eq",
+                                        "value": "特勤分队"
+                                    },
+                                    {
+                                        "fact": "start_squad",
+                                        "op": "eq",
+                                        "value": "堡垒战术分队"
+                                    }
+                                ]
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "start_roles",
+                                        "op": "eq",
+                                        "value": "稳扎稳打"
+                                    },
+                                    {
+                                        "fact": "start_roles",
+                                        "op": "eq",
+                                        "value": "坚不可摧"
+                                    }
+                                ]
+                            },
+                            {
+                                "fact": "current_floor",
+                                "op": "eq",
+                                "value": 2
+                            },
+                            {
+                                "fact": "persistent_long_range_count",
+                                "op": "ge",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.movement",
+                                "op": "eq",
+                                "value": "rogue_6_scrap_M_11"
+                            },
+                            {
+                                "fact": "candidate.exit",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
+                    }
+                }
+            ],
             "milestones": [
                 {
                     "id": "burn_floor1_shop",
+                    "description": "权重按「值得为商店多绕两步」定价，够不到商店时这一维不参与排序",
                     "kind": "preferred",
                     "floor_window": [1, 1],
                     "rank": 0,
+                    "weight": 5,
                     "complete_if": {
                         "fact": "burn_shop_done",
                         "op": "eq",

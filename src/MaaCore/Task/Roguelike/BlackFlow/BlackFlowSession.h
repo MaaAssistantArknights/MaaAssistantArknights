@@ -136,6 +136,10 @@ public:
         return m_movement_inventory_refresh_required;
     }
 
+    // 开局干员、分队、职业组整局不变，策略条件靠它们判断这一局能不能拿到结构性原理。
+    // 必须在 initialize() 之前设置：事实是在 initialize() 末尾写入的，reset_run() 也会再写一次。
+    void set_start_loadout(std::string core_char, std::string squad, std::string roles);
+
     bool mark_page_running(std::string* error = nullptr);
     bool apply_node_task_result(
         const NodeTaskResult& result,
@@ -201,6 +205,9 @@ private:
     bool apply_node_signal(const NodeStrategySignal& signal, const json::value& callback_details, std::string* error);
 
     std::string m_profile;
+    std::string m_start_core_char;
+    std::string m_start_squad;
+    std::string m_start_roles;
     std::optional<ResolvedPolicy> m_policy;
     FactContext m_facts;
     MissionState m_mission;

@@ -40,6 +40,13 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
         }
     }
 
+    // 三项都直接读 params：分队要等真正在选择界面点中才会写回 RoguelikeConfig，此刻取不到。
+    // 必须先于 initialize()，事实是在它末尾写入的。
+    m_session->set_start_loadout(
+        params.get("core_char", std::string()),
+        params.get("squad", std::string()),
+        params.get("roles", std::string()));
+
     std::string error;
     if (!m_session->initialize(std::move(profile), &error)) {
         Log.error("BlackFlow strategy initialization failed:", error);

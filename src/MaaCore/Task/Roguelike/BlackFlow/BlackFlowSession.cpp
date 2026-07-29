@@ -170,7 +170,20 @@ bool BlackFlowSession::initialize(std::string profile, std::string* error)
     m_transaction_id.clear();
     m_telemetry_events.clear();
     m_diagnostic_requests.clear();
+    // 开局配置整局不变，但事实刚被重置成默认值，所以每次初始化都要重新写回去；
+    // reset_run() 走的也是这里，否则重开一局后依赖开局配置的策略条件会静默失效。
+    if (!set_fact("start_core_char", m_start_core_char, error) || !set_fact("start_squad", m_start_squad, error) ||
+        !set_fact("start_roles", m_start_roles, error)) {
+        return false;
+    }
     return true;
+}
+
+void BlackFlowSession::set_start_loadout(std::string core_char, std::string squad, std::string roles)
+{
+    m_start_core_char = std::move(core_char);
+    m_start_squad = std::move(squad);
+    m_start_roles = std::move(roles);
 }
 
 void BlackFlowSession::reset_run()
