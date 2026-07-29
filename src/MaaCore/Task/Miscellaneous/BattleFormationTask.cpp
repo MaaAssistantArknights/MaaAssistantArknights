@@ -674,7 +674,7 @@ bool asst::BattleFormationTask::check_oper_level(
     const battle::OperUsage& oper,
     bool ignore)
 {
-    if (oper.requirements.elite <= 0 && oper.requirements.level <= 0) {
+    if (oper.requirements.elite == 0 && oper.requirements.level == 0) {
         return true; // 无等级要求
     }
     auto [_elite, _level] = m_quick_formation_ui.analyze_oper_level(image, flag);
@@ -729,7 +729,7 @@ bool asst::BattleFormationTask::check_and_select_skill(const battle::OperUsage& 
         return true;
     }*/
 
-    auto result = m_quick_formation_ui.find_oper_skill(oper.skill, oper.requirements.skill_level <= 0);
+    auto result = m_quick_formation_ui.find_oper_skill(oper.skill, oper.requirements.skill_level == 0);
     if (!result) {
         LogError << __FUNCTION__ << "| Skill" << oper.skill << "not found in quick detection";
         return false;

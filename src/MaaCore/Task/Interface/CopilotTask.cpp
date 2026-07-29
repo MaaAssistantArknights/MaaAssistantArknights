@@ -85,9 +85,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
         m_multi_copilot_plugin_ptr->set_enable(false);
         m_battle_task_ptr->set_wait_until_end(false);
         auto copilot_opt = parse_copilot_filename(*filename_opt);
-        if (!copilot_opt) {
-            return false;
-        }
         m_stage_name = Copilot.get_stage_name();
         if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
             Log.error("Not support stage");

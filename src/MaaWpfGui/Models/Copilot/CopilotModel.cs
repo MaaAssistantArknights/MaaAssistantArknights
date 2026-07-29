@@ -14,7 +14,6 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -95,7 +94,7 @@ public class CopilotModel : CopilotBase
 
     private static string PrintLevelInfo(Oper oper)
     {
-        if (oper.Requirements is not { } req || (req.Elite <= 0 && req.Level <= 0))
+        if (oper.Requirements is not { } req || (req.Elite == 0 && req.Level <= 0))
         {
             return string.Empty;
         }
@@ -165,7 +164,7 @@ public class CopilotModel : CopilotBase
         /// <summary>
         /// Gets or sets 练度要求。保留接口，暂未实现。可选，默认为空
         /// </summary>
-        [JsonProperty("requirements", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("requirements")]
         public Requirements? Requirements { get; set; }
     }
 
@@ -298,47 +297,41 @@ public class CopilotModel : CopilotBase
     public class Requirements
     {
         /// <summary>
-        /// Gets or sets 精英化等级。可选，默认为 -1, 不要求精英化等级。
+        /// Gets or sets 精英化等级。可选，默认为 0, 不要求精英化等级。
         /// </summary>
-        [DefaultValue(-1)]
-        [JsonProperty("elite", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Elite { get; set; } = -1;
+        [JsonProperty("elite")]
+        public int Elite { get; set; }
 
         /// <summary>
-        /// Gets or sets 干员等级。可选，默认为 -1。
+        /// Gets or sets 干员等级。可选，默认为 0。
         /// </summary>
-        [DefaultValue(-1)]
-        [JsonProperty("level", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Level { get; set; } = -1;
+        [JsonProperty("level")]
+        public int Level { get; set; }
 
         /// <summary>
-        /// Gets or sets 技能等级。可选，默认为 -1。
+        /// Gets or sets 技能等级。可选，默认为 0。
         /// </summary>
-        [DefaultValue(-1)]
-        [JsonProperty("skill_level", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int SkillLevel { get; set; } = -1;
+        [JsonProperty("skill_level")]
+        public int SkillLevel { get; set; }
 
         /// <summary>
         /// Gets or sets 模组编号。可选，默认为 -1。
         /// </summary>
-        [DefaultValue(-1)]
-        [JsonProperty("module", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty("module")]
         public int Module { get; set; } = -1;
         /*
         /// <summary>
         /// Gets or sets 模组编号。可选，默认为 -1。
         /// </summary>
-        [DefaultValue(-1)]
         [JsonProperty("module_level")]
-        public int ModuleLevel { get; set; } = -1;
+        public int ModuleLevel { get; set; } = 0;
         */
 
         /// <summary>
-        /// Gets or sets 潜能要求。可选，默认为 -1。
+        /// Gets or sets 潜能要求。可选，默认为 0。
         /// </summary>
-        [DefaultValue(-1)]
-        [JsonProperty("potentiality", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Potentiality { get; set; } = -1;
+        [JsonProperty("potentiality")]
+        public int Potentiality { get; set; }
     }
 
     [Flags]
