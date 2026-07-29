@@ -542,6 +542,7 @@
                         x:Name="CopilotList"
                         Grid.Row="0"
                         Grid.ColumnSpan="4"
+                        MaxWidth="200"
                         HorizontalContentAlignment="Stretch"
                         d:ItemsSource="{d:SampleData ItemCount=7}"
                         dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
