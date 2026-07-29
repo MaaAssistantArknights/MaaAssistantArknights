@@ -13,6 +13,7 @@
 
 #nullable enable
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -43,5 +44,5 @@ public class DepotMaintainTask : BaseTask
 
     public List<Plan> PlanList { get; set; } = [];
 
-    public record class Plan(string Stage = "", string DropId = "", int DropCount = 0, bool UseMedicine = false, int MedicineCount = 0, bool UseStone = false, int StoneCount = 0, int TaskId = 0);
+    public record class Plan(string Stage = "", string DropId = "", int DropCount = 0, bool UseMedicine = false, int MedicineCount = 0, bool UseStone = false, int StoneCount = 0, [property: JsonIgnore] int TaskId = 0);
 }
