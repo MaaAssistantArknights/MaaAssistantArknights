@@ -199,7 +199,8 @@ bool BlackFlowCompactStateSpace::initialize(
             m_initial_state.consumed_lights |= PlannerNodeMask { 1 } << found->second;
         }
     }
-    m_initial_state.terminal = is_terminal(m_initial_state);
+    m_initial_state.terminal =
+        m_options.strategy_goal_nodes.contains(m_initial_state.node) || is_endpoint(m_initial_state);
     m_run = &run;
     return true;
 }
@@ -356,16 +357,15 @@ NodeId BlackFlowCompactStateSpace::resolve_landing(std::uint8_t target) const no
     return m_nodes[target].transfer_landing.has_value() ? m_nodes[*m_nodes[target].transfer_landing].id : InvalidNodeId;
 }
 
+bool BlackFlowCompactStateSpace::is_endpoint(const PlannerState& state) const noexcept
+{
+    const auto index = node_index(state.node);
+    return index.has_value() && m_options.final_is_terminal && is_exit_node_type(m_nodes[*index].type);
+}
+
 bool BlackFlowCompactStateSpace::is_terminal(const PlannerState& state) const noexcept
 {
-    if (state.terminal || m_options.strategy_terminal_nodes.contains(state.node)) {
-        return true;
-    }
-    const auto index = node_index(state.node);
-    if (!index.has_value() || !m_options.final_is_terminal) {
-        return false;
-    }
-    return is_exit_node_type(m_nodes[*index].type);
+    return state.terminal;
 }
 
 bool BlackFlowCompactStateSpace::unavailable_target(const PlannerState& source, NodeId target) const noexcept
@@ -411,7 +411,7 @@ PlannerState BlackFlowCompactStateSpace::transition(
             successor.consumed_lights |= node_mask;
         }
     }
-    successor.terminal = is_terminal(successor);
+    successor.terminal = m_options.strategy_goal_nodes.contains(successor.node) || is_endpoint(successor);
     return successor;
 }
 
@@ -447,7 +447,7 @@ std::optional<std::vector<CompactMoveAction>>
         }
         return std::nullopt;
     }
-    if (source.terminal) {
+    if (is_endpoint(source)) {
         return std::vector<CompactMoveAction> {};
     }
     const std::uint8_t source_index = *source_index_value;

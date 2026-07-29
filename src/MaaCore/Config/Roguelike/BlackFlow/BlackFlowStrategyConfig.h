@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #include "Config/AbstractConfig.h"
 #include "Task/Roguelike/BlackFlow/BlackFlowPolicy.h"
@@ -47,6 +48,7 @@ private:
 
     int m_schema_version = 0;
     std::unordered_map<std::string, blackflow::ResourceDefinition> m_resources;
+    std::vector<blackflow::HiddenNodeReveal> m_hidden_node_reveals;
     std::unordered_map<std::string, blackflow::FactDefinition> m_facts;
     std::unordered_map<std::string, blackflow::PolicyModule> m_modules;
     std::unordered_map<std::string, blackflow::PolicyProfile> m_profiles;

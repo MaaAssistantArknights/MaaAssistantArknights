@@ -54,21 +54,45 @@ bool has_node_type(const MapSnapshot& map, NodeType type)
     });
 }
 
-std::unordered_set<NodeId> terminal_nodes_for(
+struct StrategyGoals
+{
+    std::unordered_set<NodeId> nodes;
+    std::unordered_set<std::string> unresolved_hidden_end_milestone_ids;
+};
+
+StrategyGoals strategy_goals_for(
     const ResolvedPolicy& policy,
     const MissionState& mission,
     const FactStore& facts,
     const MapSnapshot& map,
     int floor)
 {
-    std::unordered_set<NodeId> result;
+    StrategyGoals result;
     for (const Milestone& milestone : policy.milestones) {
-        if (!milestone.terminal_on_reach || !milestone_is_active(milestone, floor, facts, mission)) {
+        if (!milestone.end || !milestone_is_active(milestone, floor, facts, mission)) {
             continue;
         }
+        bool has_visible_goal = false;
+        bool has_hidden_carrier = false;
         for (const auto& [id, node] : map.nodes()) {
-            if (milestone_matches_node(milestone, node) && node.progress != NodeProgress::Removed) {
-                result.emplace(id);
+            if (node.progress == NodeProgress::Removed) {
+                continue;
+            }
+            if (milestone_matches_node(milestone, node)) {
+                result.nodes.emplace(id);
+                has_visible_goal = true;
+            }
+            else if (hidden_node_may_reveal_milestone(policy, milestone, node)) {
+                has_hidden_carrier = true;
+            }
+        }
+        if (!has_visible_goal && has_hidden_carrier) {
+            result.unresolved_hidden_end_milestone_ids.emplace(milestone.id);
+            for (const auto& [id, node] : map.nodes()) {
+                if (node.progress != NodeProgress::Removed &&
+                    hidden_node_may_reveal_milestone(policy, milestone, node)) {
+                    result.nodes.emplace(id);
+                }
             }
         }
     }
@@ -1119,8 +1143,9 @@ BlackFlowPlan BlackFlowSession::plan(std::string* error)
         request.policy = &*m_policy;
         request.facts = &merged;
         request.mission = &m_mission;
-        request.strategy_terminal_nodes =
-            terminal_nodes_for(*m_policy, m_mission, merged, m_map.snapshot(), m_run.floor);
+        const StrategyGoals goals = strategy_goals_for(*m_policy, m_mission, merged, m_map.snapshot(), m_run.floor);
+        request.strategy_goal_nodes = goals.nodes;
+        request.unresolved_hidden_end_milestone_ids = goals.unresolved_hidden_end_milestone_ids;
         request.forbidden_actions = &m_unreachable_actions;
         request.probe_target = m_pending_probe_target;
         result = BlackFlowPlanner {}.plan(request);
@@ -1382,8 +1407,9 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
         request.policy = &*m_policy;
         request.facts = &merged;
         request.mission = &m_mission;
-        request.strategy_terminal_nodes =
-            terminal_nodes_for(*m_policy, m_mission, merged, m_map.snapshot(), m_run.floor);
+        const StrategyGoals goals = strategy_goals_for(*m_policy, m_mission, merged, m_map.snapshot(), m_run.floor);
+        request.strategy_goal_nodes = goals.nodes;
+        request.unresolved_hidden_end_milestone_ids = goals.unresolved_hidden_end_milestone_ids;
         request.forbidden_actions = &m_unreachable_actions;
         const PreviewSafetyVerification verification =
             BlackFlowPlanner {}.verify_previewed_move(request, proposal, preview.exact_action_point_cost);

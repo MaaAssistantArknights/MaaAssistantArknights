@@ -46,19 +46,19 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
     definitions.reserve(milestones.size());
     for (const Milestone& milestone : milestones) {
         if (milestone.id.empty()) {
-            set_error(error, "mandatory safety goal contains an empty milestone id");
+            set_error(error, "strategy safety goal contains an empty milestone id");
             return std::nullopt;
         }
         if (milestone.floor_begin > milestone.floor_end) {
-            set_error(error, "mandatory safety goal has an invalid floor interval: " + milestone.id);
+            set_error(error, "strategy safety goal has an invalid floor interval: " + milestone.id);
             return std::nullopt;
         }
         if (milestone.required_count < 0) {
-            set_error(error, "mandatory safety goal has a negative required count: " + milestone.id);
+            set_error(error, "strategy safety goal has a negative required count: " + milestone.id);
             return std::nullopt;
         }
         if (!definitions.emplace(milestone.id, &milestone).second) {
-            set_error(error, "mandatory safety goal contains duplicate milestone id: " + milestone.id);
+            set_error(error, "strategy safety goal contains duplicate milestone id: " + milestone.id);
             return std::nullopt;
         }
     }
@@ -85,12 +85,12 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
             if (status == MilestoneStatus::Satisfied) {
                 return true;
             }
-            set_error(error, "mandatory safety goal has an unresolved prerequisite: " + id);
+            set_error(error, "strategy safety goal has an unresolved prerequisite: " + id);
             return false;
         }
         const VisitMark mark = marks[id];
         if (mark == VisitMark::Visiting) {
-            set_error(error, "mandatory safety goal contains a prerequisite cycle at: " + id);
+            set_error(error, "strategy safety goal contains a prerequisite cycle at: " + id);
             return false;
         }
         if (mark == VisitMark::Complete) {
@@ -108,7 +108,7 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
     };
 
     for (const Milestone& milestone : milestones) {
-        if (milestone.kind != MilestoneKind::Mandatory) {
+        if (!milestone.end || mission.status(milestone.id) != MilestoneStatus::Available) {
             continue;
         }
         if (!include_with_prerequisites(milestone.id)) {
@@ -130,8 +130,8 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
     for (const Milestone* milestone : selected) {
         const std::size_t index = program.m_milestones.size();
         program.m_indices.emplace(milestone->id, index);
-        const bool mandatory = milestone->kind == MilestoneKind::Mandatory;
-        program.m_milestones.emplace_back(CompiledMilestone { *milestone, mandatory, {} });
+        const bool is_end = milestone->end;
+        program.m_milestones.emplace_back(CompiledMilestone { *milestone, is_end, {} });
     }
 
     for (CompiledMilestone& milestone : program.m_milestones) {
@@ -144,7 +144,7 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
             else if (const MilestoneStatus status = mission.status(prerequisite);
                      status != MilestoneStatus::Satisfied && status != MilestoneStatus::Missed &&
                      status != MilestoneStatus::Impossible) {
-                set_error(error, "mandatory safety goal cannot track prerequisite: " + prerequisite);
+                set_error(error, "strategy safety goal cannot track prerequisite: " + prerequisite);
                 return std::nullopt;
             }
         }
@@ -264,7 +264,7 @@ std::optional<SafetyGoalProgressId>
     SafetyGoalProgram::refresh_conditions(SafetyGoalProgressId id, const FactStore& facts, std::string* error)
 {
     if (!valid_id(id)) {
-        set_error(error, "mandatory safety goal references an invalid progress id");
+        set_error(error, "strategy safety goal references an invalid progress id");
         return std::nullopt;
     }
     SafetyGoalProgressSnapshot next = m_states[id];
@@ -315,23 +315,4 @@ std::optional<SafetyGoalProgressId> SafetyGoalProgram::advance_node(
     return intern(std::move(next));
 }
 
-bool SafetyGoalProgram::mandatory_due_through_floor_satisfied(SafetyGoalProgressId id, int floor) const noexcept
-{
-    if (!valid_id(id)) {
-        return false;
-    }
-    const SafetyGoalProgressSnapshot& state = m_states[id];
-    for (std::size_t index = 0; index < m_milestones.size(); ++index) {
-        if (m_milestones[index].mandatory && m_milestones[index].definition.floor_end <= floor &&
-            !route_requirement_satisfied(state, index)) {
-            return false;
-        }
-    }
-    return true;
-}
-
-bool SafetyGoalProgram::is_floor_terminal_legal(SafetyGoalProgressId id, int floor, bool endpoint_legal) const noexcept
-{
-    return endpoint_legal && mandatory_due_through_floor_satisfied(id, floor);
-}
 } // namespace asst::blackflow

@@ -126,7 +126,7 @@ enum class PolicyTier
 {
     Legality,
     Safety,
-    MandatoryMilestone,
+    StrategyConstraint,
     ResourceReserve,
     PreferredMilestone,
     Development,
@@ -151,7 +151,7 @@ enum class MissionViability
 
 enum class MilestoneKind
 {
-    Mandatory,
+    None,
     Preferred,
     Opportunistic,
 };
@@ -196,18 +196,24 @@ struct NodeSelector
     [[nodiscard]] bool matches(const Node& node) const noexcept;
 };
 
+struct HiddenNodeReveal
+{
+    NodeType hidden_node_type = NodeType::Unknown;
+    std::vector<NodeType> revealed_node_types;
+};
+
 struct Milestone
 {
     std::string id;
     std::string description;
-    MilestoneKind kind = MilestoneKind::Preferred;
+    MilestoneKind kind = MilestoneKind::None;
     MilestoneCompletion completion = MilestoneCompletion::VisitCount;
     int floor_begin = 0;
     int floor_end = 0;
     int rank = 0;
     int required_count = 1;
     int weight = 1;
-    bool terminal_on_reach = false;
+    bool end = false;
     int minimum_unknown_nodes_revealed = 0;
     Condition active_if;
     Condition complete_if { ConditionKind::Constant, false };
@@ -272,6 +278,7 @@ struct ResolvedPolicy
     std::string description;
     std::vector<std::string> modules;
     std::vector<RoutePreference> route_preferences;
+    std::vector<HiddenNodeReveal> hidden_node_reveals;
     std::vector<PolicyRule> rules;
     std::vector<ResourceReserve> reserves;
     std::vector<Milestone> milestones;
@@ -324,7 +331,7 @@ struct PolicyCandidate
 
 enum class DecisionReasonCategory
 {
-    MandatoryGoal,
+    StrategyEnd,
     ResourceReserve,
     PreferredGoal,
     Development,
@@ -368,6 +375,10 @@ public:
 [[nodiscard]] bool
     rule_matches_candidate(const PolicyRule& rule, const FactStore& facts, const FactStore& candidate_facts);
 [[nodiscard]] bool milestone_matches_node(const Milestone& milestone, const Node& node) noexcept;
+[[nodiscard]] bool hidden_node_may_reveal_milestone(
+    const ResolvedPolicy& policy,
+    const Milestone& milestone,
+    const Node& node) noexcept;
 [[nodiscard]] bool milestone_is_active(
     const Milestone& milestone,
     int floor,

@@ -1,6 +1,7 @@
 #include "BlackFlowPolicy.h"
 
 #include <algorithm>
+#include <iterator>
 #include <tuple>
 
 namespace asst::blackflow
@@ -399,10 +400,10 @@ void MissionState::refresh(const std::vector<Milestone>& definitions, int floor,
 
     // 错过一条里程碑只说明这一层没按计划走，不代表整局作废：真正的失败判据由策略的
     // terminal_rules 显式声明，那里才能区分「这局不值得再打」和「继续按剩下的目标走」。
-    const bool mandatory_complete = std::ranges::all_of(definitions, [&](const Milestone& milestone) {
-        return milestone.kind != MilestoneKind::Mandatory || status(milestone.id) == MilestoneStatus::Satisfied;
+    const bool ends_complete = std::ranges::all_of(definitions, [&](const Milestone& milestone) {
+        return !milestone.end || status(milestone.id) == MilestoneStatus::Satisfied;
     });
-    viability = mandatory_complete ? MissionViability::Confirmed : MissionViability::Possible;
+    viability = ends_complete ? MissionViability::Confirmed : MissionViability::Possible;
 }
 
 ResourceRegistry::ResourceRegistry()
@@ -510,6 +511,29 @@ bool milestone_matches_node(const Milestone& milestone, const Node& node) noexce
     return node.floor >= milestone.floor_begin && node.floor <= milestone.floor_end && milestone.selector.matches(node);
 }
 
+bool hidden_node_may_reveal_milestone(
+    const ResolvedPolicy& policy,
+    const Milestone& milestone,
+    const Node& node) noexcept
+{
+    if (node.floor < milestone.floor_begin || node.floor > milestone.floor_end) {
+        return false;
+    }
+    const NodeSelector& selector = milestone.selector;
+    if ((selector.badged.has_value() && node.badged != *selector.badged) ||
+        (selector.identity_state.has_value() && node.identity_state != *selector.identity_state) ||
+        (selector.identity_revealed.has_value() && node.identity_revealed != *selector.identity_revealed)) {
+        return false;
+    }
+    const auto reveal = std::ranges::find(policy.hidden_node_reveals, node.type, &HiddenNodeReveal::hidden_node_type);
+    if (reveal == policy.hidden_node_reveals.end()) {
+        return false;
+    }
+    return std::ranges::any_of(selector.node_types, [&](NodeType type) {
+        return std::ranges::binary_search(reveal->revealed_node_types, type);
+    });
+}
+
 bool milestone_is_active(
     const Milestone& milestone,
     int floor,
@@ -545,8 +569,8 @@ PolicyDecision PolicyExecutor::choose(
     };
     auto category_for_tier = [](PolicyTier tier) {
         switch (tier) {
-        case PolicyTier::MandatoryMilestone:
-            return DecisionReasonCategory::MandatoryGoal;
+        case PolicyTier::StrategyConstraint:
+            return DecisionReasonCategory::StrategyEnd;
         case PolicyTier::ResourceReserve:
             return DecisionReasonCategory::ResourceReserve;
         case PolicyTier::PreferredMilestone:
@@ -656,6 +680,37 @@ PolicyDecision PolicyExecutor::choose(
             entry.score.emplace_back(value);
             entry.origins.emplace_back(ScoreOrigin { category, std::move(id), std::move(milestone_ids) });
         };
+        auto append_end_groups = [&] {
+            std::vector<const Milestone*> ends;
+            std::ranges::copy_if(active_milestones, std::back_inserter(ends), [](const Milestone* milestone) {
+                return milestone->end;
+            });
+            std::ranges::sort(ends, [](const Milestone* lhs, const Milestone* rhs) {
+                return std::tie(lhs->rank, lhs->id) < std::tie(rhs->rank, rhs->id);
+            });
+            std::size_t begin = 0;
+            while (begin < ends.size()) {
+                const int rank = ends[begin]->rank;
+                std::size_t end = begin;
+                int completed = 0;
+                int progress_sum = 0;
+                while (end < ends.size() && ends[end]->rank == rank) {
+                    const Milestone& milestone = *ends[end];
+                    const int value = milestone_value(*candidate, milestone);
+                    completed += value >= milestone.required_count ? 1 : 0;
+                    progress_sum += milestone.weight * value;
+                    ++end;
+                }
+                std::vector<std::string> group_milestone_ids;
+                group_milestone_ids.reserve(end - begin);
+                for (std::size_t index = begin; index < end; ++index) {
+                    group_milestone_ids.emplace_back(ends[index]->id);
+                }
+                add_score(-completed, DecisionReasonCategory::StrategyEnd, {}, group_milestone_ids);
+                add_score(-progress_sum, DecisionReasonCategory::StrategyEnd, {}, group_milestone_ids);
+                begin = end;
+            }
+        };
         auto append_milestone_groups = [&](MilestoneKind kind, DecisionReasonCategory category) {
             std::size_t begin = 0;
             while (begin < active_milestones.size()) {
@@ -667,54 +722,45 @@ PolicyDecision PolicyExecutor::choose(
                 }
                 const int rank = active_milestones[begin]->rank;
                 std::size_t end = begin;
-                int completed = 0;
                 int progress_sum = 0;
                 while (end < active_milestones.size() && active_milestones[end]->kind == kind &&
                        active_milestones[end]->rank == rank) {
                     const Milestone& milestone = *active_milestones[end];
-                    const int value = milestone_value(*candidate, milestone);
-                    completed += value >= milestone.required_count ? 1 : 0;
-                    progress_sum += milestone.weight * value;
+                    progress_sum += milestone.weight * milestone_value(*candidate, milestone);
                     ++end;
                 }
-                std::vector<std::string> group_milestone_ids;
-                group_milestone_ids.reserve(end - begin);
-                for (std::size_t index = begin; index < end; ++index) {
-                    group_milestone_ids.emplace_back(active_milestones[index]->id);
-                }
-                if (kind == MilestoneKind::Mandatory) {
-                    add_score(-completed, category, {}, group_milestone_ids);
-                    add_score(-progress_sum, category, {}, group_milestone_ids);
-                }
-                else {
-                    const auto group_reward = [&](const PolicyCandidate& current) {
-                        int value = 0;
-                        for (std::size_t index = begin; index < end; ++index) {
-                            const Milestone& milestone = *active_milestones[index];
-                            value += milestone.weight * milestone_value(current, milestone);
-                        }
-                        return value;
-                    };
-                    const int reference = group_reward(*eligible.front());
-                    const bool varies = std::ranges::any_of(eligible, [&](const PolicyCandidate* other) {
-                        return group_reward(*other) != reference;
-                    });
-                    if (varies) {
-                        add_score(
-                            candidate->estimated_duration + candidate->battle_count + candidate->processing_move_count +
-                                (minimize_intermediate_interactions ? candidate->intermediate_interaction_count : 0) -
-                                progress_sum,
-                            category,
-                            {},
-                            group_milestone_ids);
-                        add_score(-progress_sum, category, {}, group_milestone_ids);
+                const auto group_reward = [&](const PolicyCandidate& current) {
+                    int value = 0;
+                    for (std::size_t index = begin; index < end; ++index) {
+                        const Milestone& milestone = *active_milestones[index];
+                        value += milestone.weight * milestone_value(current, milestone);
                     }
+                    return value;
+                };
+                const int reference = group_reward(*eligible.front());
+                const bool varies = std::ranges::any_of(eligible, [&](const PolicyCandidate* other) {
+                    return group_reward(*other) != reference;
+                });
+                if (varies) {
+                    std::vector<std::string> group_milestone_ids;
+                    group_milestone_ids.reserve(end - begin);
+                    for (std::size_t index = begin; index < end; ++index) {
+                        group_milestone_ids.emplace_back(active_milestones[index]->id);
+                    }
+                    add_score(
+                        candidate->estimated_duration + candidate->battle_count + candidate->processing_move_count +
+                            (minimize_intermediate_interactions ? candidate->intermediate_interaction_count : 0) -
+                            progress_sum,
+                        category,
+                        {},
+                        group_milestone_ids);
+                    add_score(-progress_sum, category, {}, group_milestone_ids);
                 }
                 begin = end;
             }
         };
 
-        append_milestone_groups(MilestoneKind::Mandatory, DecisionReasonCategory::MandatoryGoal);
+        append_end_groups();
         for (const PolicyRule* rule : active_rules) {
             if (rule->kind == RuleKind::Prefer && rule->tier == PolicyTier::ResourceReserve) {
                 add_score(
@@ -861,8 +907,8 @@ std::string_view to_string(PolicyTier tier) noexcept
         return "legality";
     case PolicyTier::Safety:
         return "safety";
-    case PolicyTier::MandatoryMilestone:
-        return "mandatory_milestone";
+    case PolicyTier::StrategyConstraint:
+        return "strategy_constraint";
     case PolicyTier::ResourceReserve:
         return "resource_reserve";
     case PolicyTier::PreferredMilestone:
@@ -880,8 +926,8 @@ std::string_view to_string(PolicyTier tier) noexcept
 std::string_view to_string(DecisionReasonCategory category) noexcept
 {
     switch (category) {
-    case DecisionReasonCategory::MandatoryGoal:
-        return "mandatory_goal";
+    case DecisionReasonCategory::StrategyEnd:
+        return "strategy_end";
     case DecisionReasonCategory::ResourceReserve:
         return "resource_reserve";
     case DecisionReasonCategory::PreferredGoal:

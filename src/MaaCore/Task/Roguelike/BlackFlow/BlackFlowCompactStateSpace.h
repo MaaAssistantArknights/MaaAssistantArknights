@@ -85,6 +85,7 @@ private:
         transition(const PlannerState& source, const MoveCandidate& candidate, NodeId landing) const;
     [[nodiscard]] int
         outcome_gain(const PlannerState& source, const MoveCandidate& candidate, NodeId landing) const noexcept;
+    [[nodiscard]] bool is_endpoint(const PlannerState& state) const noexcept;
     [[nodiscard]] bool unavailable_target(const PlannerState& source, NodeId target) const noexcept;
     void precompute_adjacency(const MapSnapshot& map);
     void precompute_geometry();

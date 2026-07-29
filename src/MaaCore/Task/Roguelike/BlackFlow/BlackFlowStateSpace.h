@@ -40,7 +40,7 @@ struct PlannerStateHash
 
 struct StateExpansionOptions
 {
-    std::unordered_set<NodeId> strategy_terminal_nodes;
+    std::unordered_set<NodeId> strategy_goal_nodes;
     std::unordered_set<std::string> forbidden_action_ids;
     GraphLayer graph_layer = GraphLayer::Confirmed;
     bool final_is_terminal = true;
@@ -98,7 +98,7 @@ private:
     [[nodiscard]] std::optional<SafetyStateId> intern(PlannerState state, std::string* error);
     [[nodiscard]] RunState materialize(const PlannerState& state) const;
     [[nodiscard]] bool state_is_endpoint(const PlannerState& state) const noexcept;
-    [[nodiscard]] bool state_is_terminal(const PlannerState& state) const noexcept;
+    [[nodiscard]] bool state_is_goal(const PlannerState& state) const noexcept;
     [[nodiscard]] std::optional<PlannerNodeMask> bit(NodeId node) const noexcept;
 
     const MapSnapshot* m_map = nullptr;

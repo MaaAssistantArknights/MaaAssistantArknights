@@ -114,11 +114,17 @@ bool route_metric_weakly_better(const RouteMetric& lhs, const RouteMetric& rhs) 
 struct RouteMilestone
 {
     const Milestone* definition = nullptr;
+    const ResolvedPolicy* policy = nullptr;
     int initial_progress = 0;
+    bool project_hidden_identity = false;
 };
 
-std::vector<RouteMilestone>
-    route_milestones(const ResolvedPolicy& policy, const MissionState& mission, int floor, const FactStore& facts)
+std::vector<RouteMilestone> route_milestones(
+    const ResolvedPolicy& policy,
+    const MissionState& mission,
+    int floor,
+    const FactStore& facts,
+    const std::unordered_set<std::string>& unresolved_hidden_end_milestone_ids)
 {
     std::vector<RouteMilestone> result;
     for (const Milestone& milestone : policy.milestones) {
@@ -128,13 +134,29 @@ std::vector<RouteMilestone>
             !milestone.active_if.evaluate(facts) || milestone.selector.empty()) {
             continue;
         }
-        result.emplace_back(RouteMilestone { &milestone, mission.progress(milestone.id) });
+        result.emplace_back(
+            RouteMilestone {
+                &milestone,
+                &policy,
+                mission.progress(milestone.id),
+                unresolved_hidden_end_milestone_ids.contains(milestone.id),
+            });
     }
     std::ranges::sort(result, [](const RouteMilestone& lhs, const RouteMilestone& rhs) {
+        if (lhs.definition->end != rhs.definition->end) {
+            return lhs.definition->end;
+        }
         return std::tie(lhs.definition->kind, lhs.definition->rank, lhs.definition->id) <
                std::tie(rhs.definition->kind, rhs.definition->rank, rhs.definition->id);
     });
     return result;
+}
+
+bool route_milestone_matches_node(const RouteMilestone& milestone, const Node& node) noexcept
+{
+    return milestone_matches_node(*milestone.definition, node) ||
+           (milestone.project_hidden_identity && milestone.policy != nullptr &&
+            hidden_node_may_reveal_milestone(*milestone.policy, *milestone.definition, node));
 }
 
 bool simulated_prerequisites_satisfied(
@@ -169,39 +191,36 @@ std::vector<std::string> advance_milestones(
     std::vector<std::string> advanced;
     const std::vector<int> before = progress;
     for (std::size_t index = 0; index < milestones.size(); ++index) {
-        const Milestone& milestone = *milestones[index].definition;
-        if (before[index] >= milestone.required_count || !milestone_matches_node(milestone, node) ||
+        const RouteMilestone& route_milestone = milestones[index];
+        const Milestone& milestone = *route_milestone.definition;
+        const bool exact_match = milestone_matches_node(milestone, node);
+        if (before[index] >= milestone.required_count ||
+            (!exact_match && !route_milestone_matches_node(route_milestone, node)) ||
             milestone.minimum_unknown_nodes_revealed > unknown_nodes_revealed ||
             std::ranges::find(counted[index], node.id) != counted[index].end() ||
             !simulated_prerequisites_satisfied(milestone, milestones, before, mission)) {
             continue;
         }
+        progress[index] = std::min(milestone.required_count, before[index] + 1);
         counted[index].emplace_back(node.id);
         std::ranges::sort(counted[index]);
-        progress[index] = std::min(milestone.required_count, before[index] + 1);
-        advanced.emplace_back(milestone.id);
+        if (exact_match) {
+            advanced.emplace_back(milestone.id);
+        }
     }
     return advanced;
 }
 
-std::vector<int>
-    mandatory_progress_score(const std::vector<RouteMilestone>& milestones, const std::vector<int>& progress)
+std::vector<int> end_progress_score(const std::vector<RouteMilestone>& milestones, const std::vector<int>& progress)
 {
     std::vector<int> score;
     std::size_t begin = 0;
-    while (begin < milestones.size()) {
-        while (begin < milestones.size() && milestones[begin].definition->kind != MilestoneKind::Mandatory) {
-            ++begin;
-        }
-        if (begin == milestones.size()) {
-            break;
-        }
+    while (begin < milestones.size() && milestones[begin].definition->end) {
         const int rank = milestones[begin].definition->rank;
         int completed = 0;
         int sum = 0;
         std::size_t end = begin;
-        while (end < milestones.size() && milestones[end].definition->kind == MilestoneKind::Mandatory &&
-               milestones[end].definition->rank == rank) {
+        while (end < milestones.size() && milestones[end].definition->end && milestones[end].definition->rank == rank) {
             completed += progress[end] >= milestones[end].definition->required_count ? 1 : 0;
             sum += milestones[end].definition->weight *
                    std::min(progress[end], milestones[end].definition->required_count);
@@ -271,12 +290,12 @@ bool route_label_better(
     const std::vector<RouteMilestone>& milestones,
     bool minimize_intermediate_interactions = false)
 {
-    const auto lhs_mandatory = mandatory_progress_score(milestones, lhs.progress);
-    const auto rhs_mandatory = mandatory_progress_score(milestones, rhs.progress);
-    if (score_greater(lhs_mandatory, rhs_mandatory)) {
+    const auto lhs_end = end_progress_score(milestones, lhs.progress);
+    const auto rhs_end = end_progress_score(milestones, rhs.progress);
+    if (score_greater(lhs_end, rhs_end)) {
         return true;
     }
-    if (score_greater(rhs_mandatory, lhs_mandatory)) {
+    if (score_greater(rhs_end, lhs_end)) {
         return false;
     }
     const auto lhs_preferred = preferred_progress_score(milestones, lhs.progress);
@@ -702,7 +721,7 @@ bool route_may_beat(
     for (std::size_t index = 0; index < milestones.size(); ++index) {
         const Milestone& milestone = *milestones[index].definition;
         int matching_nonterminals = 0;
-        bool matching_terminal = false;
+        bool matching_exact_terminal = false;
         for (const auto& [id, stored] : map.nodes()) {
             if (stored.progress == NodeProgress::Removed ||
                 std::ranges::find(current.counted[index], id) != current.counted[index].end()) {
@@ -713,27 +732,28 @@ bool route_may_beat(
             if (node.type == NodeType::Empty) {
                 node.name.clear();
             }
-            if (!milestone_matches_node(milestone, node)) {
+            const bool exact_match = milestone_matches_node(milestone, node);
+            if (!exact_match && !route_milestone_matches_node(milestones[index], node)) {
                 continue;
             }
             if (graph.is_terminal_node(id)) {
-                matching_terminal = true;
+                matching_exact_terminal = matching_exact_terminal || exact_match;
             }
             else {
                 ++matching_nonterminals;
             }
         }
-        const int possible_increment =
-            std::min(matching_nonterminals, nonterminal_entry_limit) + (entry_limit > 0 && matching_terminal ? 1 : 0);
+        const int possible_increment = std::min(matching_nonterminals, nonterminal_entry_limit) +
+                                       (entry_limit > 0 && matching_exact_terminal ? 1 : 0);
         upper_progress[index] = std::min(milestone.required_count, current.progress[index] + possible_increment);
     }
 
-    const auto upper_mandatory = mandatory_progress_score(milestones, upper_progress);
-    const auto incumbent_mandatory = mandatory_progress_score(milestones, incumbent.progress);
-    if (score_greater(upper_mandatory, incumbent_mandatory)) {
+    const auto upper_end = end_progress_score(milestones, upper_progress);
+    const auto incumbent_end = end_progress_score(milestones, incumbent.progress);
+    if (score_greater(upper_end, incumbent_end)) {
         return true;
     }
-    if (score_greater(incumbent_mandatory, upper_mandatory)) {
+    if (score_greater(incumbent_end, upper_end)) {
         return false;
     }
 
@@ -803,7 +823,7 @@ bool route_may_beat(
                     if (current.progress[milestone_index] >= milestone.required_count ||
                         std::ranges::find(current.counted[milestone_index], id) !=
                             current.counted[milestone_index].end() ||
-                        !milestone_matches_node(milestone, node)) {
+                        !route_milestone_matches_node(milestones[milestone_index], node)) {
                         continue;
                     }
                     reward += milestone.weight;
@@ -1102,12 +1122,12 @@ RouteLabel best_route_after_outcome(
         return score;
     };
     const auto heuristic_better = [&](const RouteLabel& lhs, const RouteLabel& rhs) {
-        const auto lhs_mandatory = mandatory_progress_score(milestones, lhs.progress);
-        const auto rhs_mandatory = mandatory_progress_score(milestones, rhs.progress);
-        if (score_greater(lhs_mandatory, rhs_mandatory)) {
+        const auto lhs_end = end_progress_score(milestones, lhs.progress);
+        const auto rhs_end = end_progress_score(milestones, rhs.progress);
+        if (score_greater(lhs_end, rhs_end)) {
             return true;
         }
-        if (score_greater(rhs_mandatory, lhs_mandatory)) {
+        if (score_greater(rhs_end, lhs_end)) {
             return false;
         }
         const auto lhs_preferred = preferred_progress_score(milestones, lhs.progress);
@@ -1505,7 +1525,8 @@ FactStore on_demand_candidate_facts(
     const MapSnapshot& map,
     OnDemandStateGraph& graph,
     const OnDemandSafetyAction& root_action,
-    const RunState& run)
+    const RunState& run,
+    bool strategy_end)
 {
     FactStore facts;
     const MoveCandidate& move = root_action.candidate;
@@ -1519,6 +1540,7 @@ FactStore on_demand_candidate_facts(
     facts.set(
         "candidate.exit",
         target != nullptr && (target->type == NodeType::Final || target->type == NodeType::BattleBoss));
+    facts.set("candidate.strategy_end", strategy_end);
     facts.set("candidate.uses_processing_item", move.movement != MovementKind::Walk);
     set_first_move_facts(facts, run, move);
     facts.set(
@@ -1554,7 +1576,7 @@ PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
     std::string goal_error;
     auto safety_goal = SafetyGoalProgram::compile(*request.policy, *request.mission, *request.facts, &goal_error);
     if (!safety_goal.has_value()) {
-        result.error = "mandatory preview safety goal compilation failed: " + goal_error;
+        result.error = "strategy preview safety goal compilation failed: " + goal_error;
         return result;
     }
     SafetyGoalProgressId preview_goal_progress = safety_goal->initial_progress_id();
@@ -1562,7 +1584,7 @@ PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
         int newly_revealed_unknown_big_nodes = 0;
         if (entered->type == NodeType::Light) {
             StateExpansionOptions source_options;
-            source_options.strategy_terminal_nodes = request.strategy_terminal_nodes;
+            source_options.strategy_goal_nodes = request.strategy_goal_nodes;
             source_options.graph_layer = GraphLayer::Confirmed;
             source_options.maximum_states = request.maximum_states;
             if (request.forbidden_actions != nullptr) {
@@ -1585,14 +1607,14 @@ PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
             *request.facts,
             &goal_error);
         if (!advanced.has_value()) {
-            result.error = "mandatory preview safety goal transition failed: " + goal_error;
+            result.error = "strategy preview safety goal transition failed: " + goal_error;
             return result;
         }
         preview_goal_progress = *advanced;
     }
 
     StateExpansionOptions options;
-    options.strategy_terminal_nodes = request.strategy_terminal_nodes;
+    options.strategy_goal_nodes = request.strategy_goal_nodes;
     options.graph_layer = GraphLayer::Confirmed;
     options.safety_goal = &*safety_goal;
     options.safety_goal_facts = request.facts;
@@ -1642,13 +1664,13 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
     std::string error;
     auto safety_goal = SafetyGoalProgram::compile(*request.policy, *request.mission, *request.facts, &error);
     if (!safety_goal.has_value()) {
-        result.error = "mandatory safety goal compilation failed: " + error;
+        result.error = "strategy safety goal compilation failed: " + error;
         return result;
     }
     SafetyGoalProgram relaxed_safety_goal = *safety_goal;
 
     StateExpansionOptions confirmed_options;
-    confirmed_options.strategy_terminal_nodes = request.strategy_terminal_nodes;
+    confirmed_options.strategy_goal_nodes = request.strategy_goal_nodes;
     confirmed_options.graph_layer = GraphLayer::Confirmed;
     confirmed_options.safety_goal = &*safety_goal;
     confirmed_options.safety_goal_facts = request.facts;
@@ -1773,7 +1795,12 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         return result;
     }
 
-    const auto milestones = route_milestones(*request.policy, *request.mission, request.run->floor, *request.facts);
+    const auto milestones = route_milestones(
+        *request.policy,
+        *request.mission,
+        request.run->floor,
+        *request.facts,
+        request.unresolved_hidden_end_milestone_ids);
     RouteSearchBudget route_search_budget {
         std::chrono::steady_clock::now() + std::chrono::milliseconds(request.route_search.time_budget_ms),
         request.route_search.total_expansions,
@@ -1811,7 +1838,12 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         candidate.safe = confirmed_safe || (relaxed_safe && candidate.move.controllable);
         const bool probing_target = request.probe_target.has_value() && candidate.move.target == *request.probe_target;
         candidate.move.requires_preview_verification = candidate.safe && (!confirmed_safe || probing_target);
-        candidate.facts = on_demand_candidate_facts(*request.map, relaxed_graph, action, *request.run);
+        candidate.facts = on_demand_candidate_facts(
+            *request.map,
+            relaxed_graph,
+            action,
+            *request.run,
+            request.strategy_goal_nodes.contains(action.candidate.target));
         if (!error.empty() || !relaxed_oracle.error().empty()) {
             result.error =
                 "candidate reachability calculation failed: " + (!error.empty() ? error : relaxed_oracle.error());

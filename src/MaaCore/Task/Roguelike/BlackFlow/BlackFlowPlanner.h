@@ -27,7 +27,8 @@ struct BlackFlowPlanRequest
     const ResolvedPolicy* policy = nullptr;
     const FactStore* facts = nullptr;
     const MissionState* mission = nullptr;
-    std::unordered_set<NodeId> strategy_terminal_nodes;
+    std::unordered_set<NodeId> strategy_goal_nodes;
+    std::unordered_set<std::string> unresolved_hidden_end_milestone_ids;
     const std::unordered_set<std::string>* forbidden_actions = nullptr;
     std::optional<NodeId> probe_target;
     std::size_t maximum_states = 2'000'000;

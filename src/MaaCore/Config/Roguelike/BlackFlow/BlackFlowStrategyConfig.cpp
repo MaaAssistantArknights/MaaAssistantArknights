@@ -237,7 +237,7 @@ PolicyTier parse_policy_tier(const std::string& value)
     static const std::unordered_map<std::string, PolicyTier> Values = {
         { "legality", PolicyTier::Legality },
         { "safety", PolicyTier::Safety },
-        { "mandatory_milestone", PolicyTier::MandatoryMilestone },
+        { "strategy_constraint", PolicyTier::StrategyConstraint },
         { "resource_reserve", PolicyTier::ResourceReserve },
         { "preferred_milestone", PolicyTier::PreferredMilestone },
         { "development", PolicyTier::Development },
@@ -254,7 +254,6 @@ PolicyTier parse_policy_tier(const std::string& value)
 MilestoneKind parse_milestone_kind(const std::string& value)
 {
     static const std::unordered_map<std::string, MilestoneKind> Values = {
-        { "mandatory", MilestoneKind::Mandatory },
         { "preferred", MilestoneKind::Preferred },
         { "opportunistic", MilestoneKind::Opportunistic },
     };
@@ -441,6 +440,54 @@ NodeSelector parse_node_selector(const json::value& value)
     return result;
 }
 
+std::vector<HiddenNodeReveal> parse_hidden_node_reveals(const json::value& value)
+{
+    if (!value.is_object()) {
+        invalid_config("hidden_node_reveals must be an object");
+    }
+    std::vector<HiddenNodeReveal> result;
+    for (const auto& [hidden_type_name, revealed_types] : value.as_object()) {
+        const auto hidden_type = node_type_from_string(hidden_type_name);
+        if (!hidden_type.has_value() ||
+            (*hidden_type != NodeType::HideInvisible && *hidden_type != NodeType::HideBattle)) {
+            invalid_config("hidden_node_reveals contains an unsupported hidden node type: " + hidden_type_name);
+        }
+        if (!revealed_types.is_array()) {
+            invalid_config("hidden_node_reveals values must be node type arrays");
+        }
+        HiddenNodeReveal reveal;
+        reveal.hidden_node_type = *hidden_type;
+        for (const auto& revealed_type_value : revealed_types.as_array()) {
+            if (!revealed_type_value.is_string()) {
+                invalid_config("hidden_node_reveals node types must be strings");
+            }
+            const std::string revealed_type_name = revealed_type_value.as_string();
+            const auto revealed_type = node_type_from_string(revealed_type_name);
+            if (!revealed_type.has_value() || *revealed_type == NodeType::Unknown ||
+                *revealed_type == NodeType::HideInvisible || *revealed_type == NodeType::HideBattle) {
+                invalid_config("hidden_node_reveals contains an unsupported revealed node type: " + revealed_type_name);
+            }
+            reveal.revealed_node_types.emplace_back(*revealed_type);
+        }
+        std::ranges::sort(reveal.revealed_node_types, {}, [](NodeType type) { return static_cast<int>(type); });
+        if (reveal.revealed_node_types.empty() ||
+            std::ranges::adjacent_find(reveal.revealed_node_types) != reveal.revealed_node_types.end()) {
+            invalid_config("hidden_node_reveals node type arrays must be nonempty and contain no duplicates");
+        }
+        result.emplace_back(std::move(reveal));
+    }
+    std::ranges::sort(result, {}, [](const HiddenNodeReveal& reveal) {
+        return static_cast<int>(reveal.hidden_node_type);
+    });
+    if (result.empty() ||
+        std::ranges::adjacent_find(result, [](const HiddenNodeReveal& lhs, const HiddenNodeReveal& rhs) {
+            return lhs.hidden_node_type == rhs.hidden_node_type;
+        }) != result.end()) {
+        invalid_config("hidden_node_reveals must be nonempty and contain no duplicate hidden node types");
+    }
+    return result;
+}
+
 Milestone parse_milestone(const json::value& value)
 {
     check_keys(
@@ -453,7 +500,7 @@ Milestone parse_milestone(const json::value& value)
           "rank",
           "count",
           "weight",
-          "terminal_on_reach",
+          "end",
           "minimum_unknown_nodes_revealed",
           "active_if",
           "complete_if",
@@ -461,17 +508,19 @@ Milestone parse_milestone(const json::value& value)
           "page_intent",
           "reserves",
           "requires" },
-        { "id", "kind", "floor_window", "selector" },
+        { "id", "floor_window", "selector" },
         "milestone");
     Milestone result;
     result.id = value.at("id").as_string();
     result.description = value.get("description", std::string());
-    result.kind = parse_milestone_kind(value.at("kind").as_string());
+    if (const auto kind = value.find("kind"); kind) {
+        result.kind = parse_milestone_kind(kind->as_string());
+    }
     result.completion = parse_milestone_completion(value.get("completion", std::string("visit_count")));
     result.rank = value.get("rank", 0);
     result.required_count = value.get("count", 1);
     result.weight = value.get("weight", 1);
-    result.terminal_on_reach = value.get("terminal_on_reach", false);
+    result.end = value.get("end", false);
     result.minimum_unknown_nodes_revealed = value.get("minimum_unknown_nodes_revealed", 0);
     result.active_if = optional_condition(value, "active_if", true);
     result.complete_if = optional_condition(value, "complete_if", false);
@@ -486,6 +535,9 @@ Milestone parse_milestone(const json::value& value)
     }
     result.floor_begin = window.at(0).as_integer();
     result.floor_end = window.at(1).as_integer();
+    if ((result.kind == MilestoneKind::None) != result.end) {
+        invalid_config("milestone must define exactly one of kind or end");
+    }
     if (result.id.empty() || result.floor_begin < 1 || result.floor_end < result.floor_begin ||
         result.required_count < 1 || result.weight < 1 || result.minimum_unknown_nodes_revealed < 0) {
         invalid_config("milestone id, floor window, count, weight, or reveal threshold is invalid");
@@ -840,6 +892,7 @@ std::optional<blackflow::ResolvedPolicy>
     result.modules = profile->modules;
     result.terminal_rules = profile->terminal_rules;
     result.failure_action = profile->failure_action;
+    result.hidden_node_reveals = m_hidden_node_reveals;
 
     std::unordered_set<std::string> rule_ids;
     std::unordered_set<std::string> reserve_ids;
@@ -880,11 +933,11 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
 {
     check_keys(
         json,
-        { "schema_version", "resources", "facts", "modules", "profiles" },
-        { "schema_version", "resources", "facts", "modules", "profiles" },
+        { "schema_version", "resources", "hidden_node_reveals", "facts", "modules", "profiles" },
+        { "schema_version", "resources", "hidden_node_reveals", "facts", "modules", "profiles" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
-    if (schema_version != 5) {
+    if (schema_version != 6) {
         invalid_config("unsupported schema_version: " + std::to_string(schema_version));
     }
     for (const auto key : { "resources", "facts", "modules", "profiles" }) {
@@ -905,6 +958,9 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
             invalid_config("resource id is empty, unknown, or duplicated: " + definition.id);
         }
     }
+
+    std::vector<blackflow::HiddenNodeReveal> hidden_node_reveals =
+        parse_hidden_node_reveals(json.at("hidden_node_reveals"));
 
     std::unordered_map<std::string, blackflow::FactDefinition> facts;
     for (const auto& value : json.at("facts").as_array()) {
@@ -941,6 +997,7 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
 
     m_schema_version = schema_version;
     m_resources = std::move(resources);
+    m_hidden_node_reveals = std::move(hidden_node_reveals);
     m_facts = std::move(facts);
     m_modules = std::move(modules);
     m_profiles = std::move(profiles);

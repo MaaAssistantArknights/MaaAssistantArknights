@@ -955,7 +955,6 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         "investment_missed" => LocalizationHelper.GetString("BlackFlowOutcomeInvestmentMissed"),
         "burn_completed" => LocalizationHelper.GetString("BlackFlowOutcomeFloor3RouteCompleted"),
         "baby_cultivation_completed" => LocalizationHelper.GetString("BlackFlowOutcomeBabyCultivationCompleted"),
-        "baby_no_seed" => LocalizationHelper.GetString("BlackFlowOutcomeBabyNoSeed"),
         "ending_prerequisite_failed" => LocalizationHelper.GetString("BlackFlowOutcomeEndingPrerequisiteFailed"),
         "strategy_completed" => LocalizationHelper.GetString("BlackFlowOutcomeStrategyCompleted"),
         "page_recovery_failed" => LocalizationHelper.GetString("BlackFlowOutcomePageRecoveryFailed"),

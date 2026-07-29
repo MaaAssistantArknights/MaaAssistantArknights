@@ -284,16 +284,6 @@
                     "kind": "set",
                     "fact": "shop_seed_checked",
                     "value": true
-                },
-                {
-                    "kind": "set",
-                    "fact": "baby_no_seed",
-                    "value": true
-                },
-                {
-                    "kind": "set",
-                    "fact": "strategy_result_code",
-                    "value": "baby_no_seed"
                 }
             ],
             "result_kind": "page_completed"

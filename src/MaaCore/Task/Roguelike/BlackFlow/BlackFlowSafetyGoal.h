@@ -57,14 +57,11 @@ public:
         const FactStore& facts,
         std::string* error = nullptr);
 
-    [[nodiscard]] bool mandatory_due_through_floor_satisfied(SafetyGoalProgressId id, int floor) const noexcept;
-    [[nodiscard]] bool is_floor_terminal_legal(SafetyGoalProgressId id, int floor, bool endpoint_legal) const noexcept;
-
 private:
     struct CompiledMilestone
     {
         Milestone definition;
-        bool mandatory = false;
+        bool end = false;
         std::vector<std::size_t> prerequisite_indices;
     };
 
