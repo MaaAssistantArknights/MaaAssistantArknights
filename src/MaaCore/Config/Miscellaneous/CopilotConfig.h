@@ -8,8 +8,8 @@ class CopilotConfig : public MAA_NS::SingletonHolder<CopilotConfig>, public Abst
 {
 public:
     static battle::copilot::BasicInfo parse_basic_info(const json::value& json);
-    static battle::OperUsage parse_oper_usage(const json::value& json);
-    static battle::copilot::OperUsageGroups parse_groups(const json::value& json);
+    static std::optional<asst::battle::OperUsage> parse_oper_usage(const json::value& json);
+    static std::optional<asst::battle::copilot::OperUsageGroups> parse_groups(const json::value& json);
     static std::vector<battle::copilot::Action> parse_actions(const json::value& json);
     static battle::RoleCounts parse_role_counts(const json::value& json);
     static battle::DeployDirection string_to_direction(const std::string& str);

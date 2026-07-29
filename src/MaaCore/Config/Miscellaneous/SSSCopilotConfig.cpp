@@ -22,7 +22,12 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
     clear();
 
     m_data.info = CopilotConfig::parse_basic_info(json);
-    m_data.groups = CopilotConfig::parse_groups(json);
+    if (auto groups = CopilotConfig::parse_groups(json)) {
+        m_data.groups = *groups;
+    }
+    else {
+        return false;
+    }
 
     m_data.buff = json.get("buff", std::string());
     m_data.strategy = json.get("strategy", std::string());

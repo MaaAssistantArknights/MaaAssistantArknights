@@ -21,7 +21,12 @@ bool asst::CopilotConfig::parse(const json::value& json)
     clear();
 
     m_data.info = parse_basic_info(json);
-    m_data.groups = parse_groups(json);
+    if (auto groups = parse_groups(json)) {
+        m_data.groups = *groups;
+    }
+    else {
+        return false;
+    }
     m_data.actions = parse_actions(json);
 
     return true;
@@ -43,7 +48,7 @@ asst::battle::copilot::BasicInfo asst::CopilotConfig::parse_basic_info(const jso
     return info;
 }
 
-asst::battle::OperUsage asst::CopilotConfig::parse_oper_usage(const json::value& json)
+std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(const json::value& json)
 {
     OperUsage oper;
     oper.name = json.at("name").as_string();
@@ -70,23 +75,25 @@ asst::battle::OperUsage asst::CopilotConfig::parse_oper_usage(const json::value&
 
     // 解析练度需求
     if (auto req_opt = json.find("requirements")) {
-        oper.requirements.elite = req_opt->get("elite", 0);
         oper.requirements.level = req_opt->get("level", 0);
         oper.requirements.skill_level = req_opt->get("skill_level", 0);
         oper.requirements.module = req_opt->get("module", -1);
         // oper.requirements.potentiality = req_opt->get("potentiality", 0);
-    }
 
-    if (int elite = oper.skill - 1; elite > oper.requirements.elite) {
-        LogError << __FUNCTION__ << "| Oper " << oper.name << " use skill " << oper.skill << " requires elite " << elite
-                 << ", but current requirement is " << oper.requirements.elite << ". Adjusting elite requirement.";
-        oper.requirements.elite = elite;
+        if (auto elite_opt = req_opt->find<int>("elite"); elite_opt) {
+            oper.requirements.elite = *elite_opt;
+            if (int elite_require = oper.skill - 1; elite_require > oper.requirements.elite) {
+                LogError << __FUNCTION__ << "| Oper " << oper.name << " use skill " << oper.skill << " requires elite "
+                         << elite_require << ", but current requirement is lower:" << oper.requirements.elite;
+                return std::nullopt;
+            }
+        }
     }
 
     return oper;
 }
 
-asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const json::value& json)
+std::optional<asst::battle::copilot::OperUsageGroups> asst::CopilotConfig::parse_groups(const json::value& json)
 {
     LogTraceFunction;
 
@@ -94,10 +101,14 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
 
     if (auto opt = json.find<json::array>("opers")) {
         for (const auto& oper_info : opt.value()) {
-            OperUsage oper = parse_oper_usage(oper_info);
+            auto oper = parse_oper_usage(oper_info);
+            if (!oper) {
+                LogError << __FUNCTION__ << "| Failed to parse oper" << oper_info;
+                return std::nullopt;
+            }
             // 单个干员的，干员名直接作为组名
-            std::string group_name = oper.name;
-            groups.emplace_back(OperUsageGroup { std::move(group_name), std::vector { std::move(oper) } });
+            std::string group_name = oper->name;
+            groups.emplace_back(OperUsageGroup { std::move(group_name), std::vector { std::move(*oper) } });
         }
     }
 
@@ -106,7 +117,12 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
             std::string group_name = group_info.at("name").as_string();
             std::vector<OperUsage> oper_vec;
             for (const auto& oper_info : group_info.at("opers").as_array()) {
-                oper_vec.emplace_back(parse_oper_usage(oper_info));
+                auto oper = parse_oper_usage(oper_info);
+                if (!oper) {
+                    LogError << __FUNCTION__ << "| Failed to parse oper" << oper_info;
+                    return std::nullopt;
+                }
+                oper_vec.emplace_back(std::move(*oper));
             }
             groups.emplace_back(OperUsageGroup { std::move(group_name), std::move(oper_vec) });
         }
