@@ -7,6 +7,17 @@
 
 namespace asst::blackflow
 {
+namespace
+{
+// 只有这两种阶段才有东西可派发：PendingDispatch 是首次派发，Running 是重派发。
+// 页面已 Resolved 却还没销毁，只出现在对账失败、路由正准备走地图恢复的那一拍；
+// 那一拍属于路由，抢过来既掐死了恢复，又会用假原因盖掉真正的失败。
+bool dispatchable(PageExecutionStage stage) noexcept
+{
+    return stage == PageExecutionStage::PendingDispatch || stage == PageExecutionStage::Running;
+}
+} // namespace
+
 void BlackFlowNodeTaskPlugin::reset_in_run_variables()
 {
     m_pending = PendingWork::None;
@@ -27,7 +38,8 @@ bool BlackFlowNodeTaskPlugin::verify(AsstMsg msg, const json::value& details) co
     const std::string task = details.get("details", "task", "");
     if (msg == AsstMsg::SubTaskStart &&
         (task == "BlackFlow@Roguelike@RoutingAction" || task == "BlackFlow@Roguelike@NodeRedispatch") &&
-        m_session != nullptr && m_session->page_context().has_value()) {
+        m_session != nullptr && m_session->page_context().has_value() &&
+        dispatchable(m_session->page_context()->stage)) {
         m_pending = PendingWork::BindDispatch;
         m_pending_details = details;
         return true;
