@@ -328,7 +328,8 @@
                                 hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
                                 Foreground="{DynamicResource PrimaryTextBrush}"
                                 IsEnabled="{c:Binding 'Idle or !Inited'}"
-                                Style="{StaticResource MaaButtonDefaultStyle}">
+                                Style="{StaticResource MaaButtonDefaultStyle}"
+                                ToolTip="{DynamicResource AddTaskQueueTask}">
                                 <hc:ContextMenuButton.Menu>
                                     <ContextMenu
                                         Width="200"

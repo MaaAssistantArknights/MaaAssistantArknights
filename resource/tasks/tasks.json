@@ -2381,11 +2381,18 @@
             "Infrast",
             "InfrastNotification",
             "InfrastEnteredFlag",
+            "InfrastBegin@InfrastLoading",
             "(Infrast@MainThemes)@QuickSwitch@ToInfrast#next",
             "Infrast@ReturnButtons#next",
             "Infrast@CloseAnnos#next",
             "Infrast@OfflineConfirm"
         ]
+    },
+    "InfrastLoading": {
+        "doc": "等待基建加载画面结束",
+        "template": "InfrastPic/InfrastLoading.png",
+        "roi": [520, 330, 240, 180],
+        "next": ["#self", "#next", "#back"]
     },
     "Infrast@MainThemes": {
         "next": ["(InfrastBegin#next)^((Infrast@MainThemes)@QuickSwitch@ToInfrast#next)"]
@@ -2401,7 +2408,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Infrast-Entry"],
-        "next": ["InfrastEnteredFlag", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"]
+        "next": ["InfrastEnteredFlag", "Infrast@InfrastLoading", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"]
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",

@@ -622,7 +622,7 @@ public class ConfigConverter
                 if (discordWebhookEnabled)
                 {
                     var webhookUrl = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl, string.Empty);
-                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new CustomWebhook(webhookUrl, Body: $"{{\"content\": {{content}}}}"));
+                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new CustomWebhook(webhookUrl, Body: $"{{\"content\": \"{{content}}\"}}"));
                 }
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl);
 

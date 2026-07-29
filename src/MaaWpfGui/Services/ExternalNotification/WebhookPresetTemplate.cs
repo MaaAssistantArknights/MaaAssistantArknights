@@ -52,7 +52,7 @@ public class WebhookPresetTemplate
         {
             Id = "Discord Webhook",
             Name = "Discord Webhook",
-            Body = $"{{\"content\": {{content}}}}",
+            Body = $"{{\"content\": \"{{content}}\"}}",
         },
     ];
 
