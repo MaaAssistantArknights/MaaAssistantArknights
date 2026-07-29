@@ -212,15 +212,35 @@
         "baseTask": "BlackFlow@Roguelike@Continue",
         "template": "BlackFlow@Roguelike@Continue.png",
         "maxTimes": 3,
-        "next": ["#self", "BlackFlow@Roguelike@RecoverMapCompleted"],
+        "postDelay": 500,
+        "next": ["#self", "BlackFlow@Roguelike@RecoverMap-Dismiss"],
         "onErrorNext": ["BlackFlow@Roguelike@RecoverMapFailed"],
         "exceededNext": ["BlackFlow@Roguelike@RecoverMapFailed"],
         "reduceOtherTimes": ["BlackFlow@Roguelike@RecoverMap*3"]
     },
+    "BlackFlow@Roguelike@RecoverMap-Dismiss": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1, 154, 45, 261],
+        "maxTimes": 5,
+        "postDelay": 500,
+        "next": ["BlackFlow@Roguelike@RecoverMap-OnMap", "#self"],
+        "exceededNext": ["BlackFlow@Roguelike@RecoverMapFailed"]
+    },
+    "BlackFlow@Roguelike@RecoverMap-OnMap": {
+        "baseTask": "BlackFlow@Roguelike@MapPrepare-Ready",
+        "template": ["BlackFlow@Roguelike@MapZoomIn.png", "BlackFlow@Roguelike@MapZoomOut.png"],
+        "action": "DoNothing",
+        "next": ["BlackFlow@Roguelike@RecoverMapCompleted"]
+    },
     "BlackFlow@Roguelike@RecoverMapCompleted": {
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@MapPrepare"],
-        "reduceOtherTimes": ["BlackFlow@Roguelike@RecoverMap-Continue*3", "BlackFlow@Roguelike@RecoverMap-Exit*3"]
+        "reduceOtherTimes": [
+            "BlackFlow@Roguelike@RecoverMap-Continue*3",
+            "BlackFlow@Roguelike@RecoverMap-Dismiss*5",
+            "BlackFlow@Roguelike@RecoverMap-Exit*3"
+        ]
     },
     "BlackFlow@Roguelike@RecoverMapFailed": {
         "algorithm": "JustReturn",
@@ -887,6 +907,7 @@
     },
     "BlackFlow@Roguelike@MovePreviewWait": {
         "algorithm": "JustReturn",
+        "postDelay": 500,
         "next": ["BlackFlow@Roguelike@MovePreviewEnter", "BlackFlow@Roguelike@MovePreviewCannotEnter", "#self"],
         "maxTimes": 3
     },
