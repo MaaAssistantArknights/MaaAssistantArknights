@@ -1613,6 +1613,14 @@ bool BlackFlowSession::set_current_floor(int floor, std::string* error)
         return false;
     }
     m_current_floor = floor;
+    // 进了新楼层，旧楼层与旧页面的观测立即作废，否则终止规则会拿上一层的覆盖率、商店有无来判这一层。
+    m_facts.begin_floor();
+    if (!set_fact("current_floor", static_cast<std::int64_t>(floor), error)) {
+        return false;
+    }
+    // 有些终点只看楼层号，认出标题就该收工，不必等这一层的地图重建成功。
+    // 这里不刷新里程碑：它按 m_run.floor 算窗口，而那还是上一层的值。
+    evaluate_terminal_rules();
     return true;
 }
 

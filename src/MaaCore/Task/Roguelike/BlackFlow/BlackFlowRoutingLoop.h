@@ -178,11 +178,12 @@ template <typename Session>
 RoutingCycleOutcome execute_routing_cycle(Session& session, IBlackFlowTaskPort& port)
 {
     std::string error;
-    if (!refresh_with_retries(session, port, &error)) {
-        return { RoutingCycleStatus::NeedsPageRecovery, "map_rebuild_failed", std::move(error) };
-    }
+    // 终止判定先于地图重建：楼层识别就可能已经把这一局判完，那就不该再为一张用不上的地图折腾。
     if (session.terminated()) {
         return { RoutingCycleStatus::SessionTerminated, {}, {} };
+    }
+    if (!refresh_with_retries(session, port, &error)) {
+        return { RoutingCycleStatus::NeedsPageRecovery, "map_rebuild_failed", std::move(error) };
     }
     if (session_requires_movement_inventory_observation(session)) {
         return { RoutingCycleStatus::MovementInventoryObservationRequired, {}, {} };

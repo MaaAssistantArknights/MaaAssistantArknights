@@ -586,6 +586,7 @@
             "BlackFlow@Roguelike@DropsFlag",
             "BlackFlow@Roguelike@ChooseOperFlag",
             "BlackFlow@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "BlackFlow@Roguelike@MapPrepare-FloorEnterZoom",
             "BlackFlow@Roguelike@NextLevel",
             "BlackFlow@Roguelike@NextLevel#next",
             "BlackFlow@Roguelike@RecruitWithoutButton"
@@ -622,6 +623,7 @@
         "next": [
             "BlackFlow@Roguelike@ChooseDifficulty",
             "BlackFlow@Roguelike@StartExplore",
+            "BlackFlow@Roguelike@MapPrepare-FloorEnterZoom",
             "BlackFlow@Roguelike@NextLevel",
             "BlackFlow@Roguelike@Stages#next",
             "BlackFlow@Roguelike@GetDrops#next",
@@ -736,11 +738,12 @@
     },
     "BlackFlow@Roguelike@NextLevel-Enter": {
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@NextLevel"]
+        "next": ["BlackFlow@Roguelike@MapPrepare-FloorEnterZoom", "BlackFlow@Roguelike@NextLevel"]
     },
     "BlackFlow@Roguelike@NextLevel": {
         "Doc": "本任务注册了插件 BlackFlowLifecycleTaskPlugin，识别成功后记录当前楼层。",
         "algorithm": "OcrDetect",
+        "action": "DoNothing",
         "roi": [524, 0, 246, 42],
         "withoutDet": false,
         "text": ["玻利瓦尔肤层", "甜美的伤口", "血色空脉", "受害者腐殖", "卡德霍之颅", "未萌生的摇篮"],
@@ -748,7 +751,8 @@
         "postDelay": 600,
         "next": [
             "BlackFlow@Roguelike@NextLevel@(BlackFlow@Roguelike@CloseCollection)",
-            "BlackFlow@Roguelike@MapPrepare-FloorEnterZoom",
+            "BlackFlow@Roguelike@MapPrepare-Ready",
+            "BlackFlow@Roguelike@MapPrepare-ZoomOut",
             "BlackFlow@Roguelike@NextLevel"
         ]
     },
@@ -832,12 +836,13 @@
         "reduceOtherTimes": ["BlackFlow@Roguelike@MovementInventoryClose*3"]
     },
     "BlackFlow@Roguelike@MapPrepare-FloorEnterZoom": {
-        "Doc": "刚进入楼层时比例尺必定是大的，但这一刻两种放大镜状态分不清，所以不判状态、直接切一次再重新识别。",
+        "Doc": "刚进入楼层时比例尺必定是大的，此刻两种放大镜状态分不清，所以不判状态直接切一次；比例尺缩小后节点不会压到顶部标题，楼层 OCR 才干净。",
         "baseTask": "BlackFlow@Roguelike@MapPrepare-Ready",
         "template": ["BlackFlow@Roguelike@MapZoomIn.png", "BlackFlow@Roguelike@MapZoomOut.png"],
         "action": "ClickSelf",
+        "preDelay": 500,
         "postDelay": 1000,
-        "next": ["BlackFlow@Roguelike@MapPrepare"]
+        "next": ["BlackFlow@Roguelike@NextLevel"]
     },
     "BlackFlow@Roguelike@CurrentActionPoints": {
         "algorithm": "OcrDetect",
