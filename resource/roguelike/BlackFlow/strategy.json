@@ -831,36 +831,6 @@
                     "selector": {
                         "node_types": ["final"]
                     }
-                },
-                {
-                    "id": "burn_floor3_portal",
-                    "floor_window": [3, 3],
-                    "rank": 0,
-                    "complete_if": {
-                        "fact": "burn_completed",
-                        "op": "eq",
-                        "value": true
-                    },
-                    "active_if": {
-                        "all": [
-                            {
-                                "fact": "map_full_coverage",
-                                "op": "eq",
-                                "value": true
-                            },
-                            {
-                                "fact": "portal_available",
-                                "op": "eq",
-                                "value": true
-                            }
-                        ]
-                    },
-                    "end": true,
-                    "selector": {
-                        "node_types": ["portal"]
-                    },
-                    "page_intent": "portal.enter",
-                    "completion": "condition"
                 }
             ]
         },
@@ -1435,44 +1405,18 @@
         },
         {
             "id": "burn",
-            "description": "携带结构性原理快速抵达第三层并在树洞存在时进入",
+            "description": "尽快抵达第三层，到达即重开",
             "modules": ["common_navigation", "burn_route"],
             "terminal_rules": [
                 {
-                    "id": "burn_portal_completed",
+                    "id": "burn_third_floor_reached",
                     "when": {
-                        "fact": "burn_completed",
-                        "op": "eq",
-                        "value": true
+                        "fact": "current_floor",
+                        "op": "ge",
+                        "value": 3
                     },
                     "outcome": "burn_completed",
-                    "reason": "third_floor_portal_entered",
-                    "succeeded": true,
-                    "next_action": "restart_current_run"
-                },
-                {
-                    "id": "burn_third_floor_without_portal",
-                    "when": {
-                        "all": [
-                            {
-                                "fact": "current_floor",
-                                "op": "eq",
-                                "value": 3
-                            },
-                            {
-                                "fact": "map_full_coverage",
-                                "op": "eq",
-                                "value": true
-                            },
-                            {
-                                "fact": "portal_available",
-                                "op": "eq",
-                                "value": false
-                            }
-                        ]
-                    },
-                    "outcome": "burn_completed",
-                    "reason": "third_floor_has_no_portal",
+                    "reason": "third_floor_reached",
                     "succeeded": true,
                     "next_action": "restart_current_run"
                 }
@@ -1481,44 +1425,18 @@
         },
         {
             "id": "burn_with_investment",
-            "description": "第一层完成投资后快速抵达第三层并在树洞存在时进入",
+            "description": "第一层完成投资后尽快抵达第三层，到达即重开",
             "modules": ["common_navigation", "burn_investment_shop", "burn_route"],
             "terminal_rules": [
                 {
-                    "id": "burn_portal_completed",
+                    "id": "burn_third_floor_reached",
                     "when": {
-                        "fact": "burn_completed",
-                        "op": "eq",
-                        "value": true
+                        "fact": "current_floor",
+                        "op": "ge",
+                        "value": 3
                     },
                     "outcome": "burn_completed",
-                    "reason": "third_floor_portal_entered",
-                    "succeeded": true,
-                    "next_action": "restart_current_run"
-                },
-                {
-                    "id": "burn_third_floor_without_portal",
-                    "when": {
-                        "all": [
-                            {
-                                "fact": "current_floor",
-                                "op": "eq",
-                                "value": 3
-                            },
-                            {
-                                "fact": "map_full_coverage",
-                                "op": "eq",
-                                "value": true
-                            },
-                            {
-                                "fact": "portal_available",
-                                "op": "eq",
-                                "value": false
-                            }
-                        ]
-                    },
-                    "outcome": "burn_completed",
-                    "reason": "third_floor_has_no_portal",
+                    "reason": "third_floor_reached",
                     "succeeded": true,
                     "next_action": "restart_current_run"
                 }
