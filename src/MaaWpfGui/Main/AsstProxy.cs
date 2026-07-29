@@ -907,10 +907,6 @@ public class AsstProxy
                     switch (SettingsViewModel.ConnectSettings.ConnectConfig)
                     {
                         case ConnectConfig.MuMuEmulator12:
-                            if (SettingsViewModel.ConnectSettings.ExtraConfig is not MuMu12Extra muMu12 || !muMu12.Enable)
-                            {
-                                break;
-                            }
 
                             // 保活开启但触控未生效 → 后台保活下无法操作，直接停止
                             if (!_mumuExtrasInputAvailable && EmulatorHelper.CheckMuMuKeepAlive())
@@ -922,6 +918,12 @@ public class AsstProxy
                                     LocalizationHelper.GetString("MuMuEmulator12KeepAliveOn"),
                                     UiLogColor.Error, showTime: false);
                                 needToStop = true;
+                            }
+
+                            // 以下是截图增强相关逻辑
+                            if (SettingsViewModel.ConnectSettings.ExtraConfig is not MuMu12Extra muMu12 || !muMu12.Enable)
+                            {
+                                break;
                             }
 
                             if (method != "MumuExtras")
