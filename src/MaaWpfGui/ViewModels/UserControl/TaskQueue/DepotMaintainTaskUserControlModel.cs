@@ -18,6 +18,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows;
 using System.Windows.Controls;
 using JetBrains.Annotations;
@@ -465,14 +466,14 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     {
         if (!IsRefreshingUI)
         {
-            if (e.PropertyName is not nameof(DepotPlanItemViewModel.IsExpanded) && sender is DepotPlanItemViewModel plan)
+            if (e.PropertyName is not nameof(DepotPlanItemViewModel.IsExpanded) and not nameof(DepotPlanItemViewModel.Title) and not nameof(DepotPlanItemViewModel.Index) && sender is DepotPlanItemViewModel plan)
             {
                 var list = GetTaskConfig<DepotMaintainTask>().PlanList.ToList();
                 list[plan.Index] = new DepotMaintainTask.Plan(plan.Stage, plan.DropId, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId);
                 SetTaskConfig<DepotMaintainTask>(t => t.PlanList.SequenceEqual(list), t => t.PlanList = list);
             }
         }
-        if (e.PropertyName is nameof(DepotPlanItemViewModel.Stage) or nameof(DepotPlanItemViewModel.DropId) or nameof(DepotPlanItemViewModel.DropName) or nameof(DepotPlanItemViewModel.DropCount))
+        if (e.PropertyName is nameof(DepotPlanItemViewModel.Title))
         {
             NotifyOfPropertyChange(nameof(PlanInfo));
         }
@@ -489,10 +490,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
         if (e.Action is NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Replace)
         {
-            foreach (var plan in PlanList)
-            {
-                plan.RefreshTitle();
-            }
             e.NewItems?.OfType<DepotPlanItemViewModel>().ToList().ForEach(plan => {
                 plan.PropertyChanged += PlanItem_PropertyChanged;
             });
@@ -501,6 +498,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             plan.Index = index;
         }
+        var list = PlanList.Select(plan => new DepotMaintainTask.Plan(plan.Stage, plan.DropId, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId)).ToList();
+        SetTaskConfig<DepotMaintainTask>(t => t.PlanList.SequenceEqual(list), t => t.PlanList = list);
     }
 
     public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);

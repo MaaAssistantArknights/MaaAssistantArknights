@@ -19,9 +19,23 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Stylet;
 
+[assembly: PropertyChanged.FilterType("MaaWpfGui.ViewModels.Items.DepotPlanItemViewModel")]
+
 namespace MaaWpfGui.ViewModels.Items;
 
-public class DepotPlanItemViewModel(string stage, string dropId, string? dropName = null, int dropCount = 0, bool useMedicine = false, int medicineCount = 0, bool useStone = false, int stoneCount = 0, int taskId = 0) : PropertyChangedBase
+/// <summary>
+/// 库存维持ItemModel
+/// </summary>
+/// <param name="stage">关卡名</param>
+/// <param name="dropId">掉落物id</param>
+/// <param name="dropName">掉落物名称</param>
+/// <param name="dropCount">掉落物数量</param>
+/// <param name="useMedicine">是否使用理智药</param>
+/// <param name="medicineCount">理智药数量</param>
+/// <param name="useStone">是否碎石</param>
+/// <param name="stoneCount">碎石数量</param>
+/// <param name="taskId">任务AsstId</param>
+public partial class DepotPlanItemViewModel(string stage, string dropId, string? dropName = null, int dropCount = 0, bool useMedicine = false, int medicineCount = 0, bool useStone = false, int stoneCount = 0, int taskId = 0) : PropertyChangedBase
 {
     public DepotPlanItemViewModel()
         : this(string.Empty, string.Empty, null, 0, false, 0, false, 0, 0)
@@ -30,13 +44,7 @@ public class DepotPlanItemViewModel(string stage, string dropId, string? dropNam
 
     public bool IsExpanded { get; set => SetAndNotify(ref field, value); }
 
-    public int Index
-    {
-        get; set {
-            field = value;
-            NotifyOfPropertyChange(nameof(Title));
-        }
-    }
+    public int Index { get; set; }
 
     public string Title => $"{Index + 1}: {DepotMaintainTaskUserControlModel.Instance.StageListSource.FirstOrDefault(i => i.Value == Stage)?.Display ?? Stage} - {DropName} x{DropCount.FormatNumber(false)}";
 
@@ -45,55 +53,19 @@ public class DepotPlanItemViewModel(string stage, string dropId, string? dropNam
     /// </summary>
     public void RefreshTitle() => NotifyOfPropertyChange(nameof(Title));
 
-    public string Stage
-    {
-        get; set {
-            if (!SetAndNotify(ref field, value))
-            {
-                return;
-            }
-            NotifyOfPropertyChange(nameof(Title));
-        }
-    } = stage;
+    public string Stage { get; set => SetAndNotify(ref field, value); } = stage;
 
     /// <summary>
     /// Gets or sets 指定掉落材料 ID。
     /// </summary>
-    public string DropId
-    {
-        get; set {
-            if (!SetAndNotify(ref field, value))
-            {
-                return;
-            }
-            NotifyOfPropertyChange(nameof(Title));
-        }
-    } = dropId;
+    public string DropId { get; set => SetAndNotify(ref field, value); } = dropId;
 
     /// <summary>
     /// Gets or sets 指定掉落材料名称。
     /// </summary>
-    public string DropName
-    {
-        get; set {
-            if (!SetAndNotify(ref field, value))
-            {
-                return;
-            }
-            NotifyOfPropertyChange(nameof(Title));
-        }
-    } = dropName ?? LocalizationHelper.GetString("NotSelected");
+    public string DropName { get; set => SetAndNotify(ref field, value); } = dropName ?? LocalizationHelper.GetString("NotSelected");
 
-    public int DropCount
-    {
-        get; set {
-            if (!SetAndNotify(ref field, value))
-            {
-                return;
-            }
-            NotifyOfPropertyChange(nameof(Title));
-        }
-    } = dropCount;
+    public int DropCount { get; set => SetAndNotify(ref field, value); } = dropCount;
 
     public bool UseMedicine { get; set => SetAndNotify(ref field, value); } = useMedicine;
 
