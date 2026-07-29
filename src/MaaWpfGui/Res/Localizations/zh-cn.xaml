@@ -1428,6 +1428,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowOutcomeMapRecoveryExhausted">地图恢复重试次数已经用尽</system:String>
     <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">楼层识别失败</system:String>
     <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">移动加工品识别失败</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovementSelectionFailed">移动加工品选择失败</system:String>
     <system:String x:Key="BlackFlowOutcomeNodeDispatchFailed">节点分派失败</system:String>
     <system:String x:Key="BlackFlowOutcomeNodeResultFailed">节点结果处理失败</system:String>
     <system:String x:Key="BlackFlowOutcomeInternalFailure">内部状态异常</system:String>

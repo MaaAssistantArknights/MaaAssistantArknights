@@ -1001,6 +1001,7 @@
     "BlackFlow@Roguelike@MovementInventoryItems": {
         "algorithm": "OcrDetect",
         "roi": [348, 132, 930, 495],
+        "ocrReplace": [["^垫底座$", "气垫底座"]],
         "text": [
             "报废轮子",
             "报废假肢",
@@ -1047,6 +1048,7 @@
     "BlackFlow@Roguelike@MovementPanelItems": {
         "algorithm": "OcrDetect",
         "roi": [877, 191, 400, 527],
+        "ocrReplace": [["^垫底座$", "气垫底座"]],
         "text": [
             "报废轮子",
             "报废假肢",

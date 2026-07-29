@@ -1427,6 +1427,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowOutcomeMapRecoveryExhausted">Map recovery retries exhausted</system:String>
     <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">Floor recognition failed</system:String>
     <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">Movement item recognition failed</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovementSelectionFailed">Movement item selection failed</system:String>
     <system:String x:Key="BlackFlowOutcomeNodeDispatchFailed">Node dispatch failed</system:String>
     <system:String x:Key="BlackFlowOutcomeNodeResultFailed">Node result handling failed</system:String>
     <system:String x:Key="BlackFlowOutcomeInternalFailure">Internal state error</system:String>
