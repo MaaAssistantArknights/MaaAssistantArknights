@@ -230,6 +230,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             return;
         }
 
+        SavePlan();
         foreach (var prop in notifyProperties)
         {
             NotifyOfPropertyChange(prop);
@@ -357,13 +358,37 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             }
         }
 
-        public bool UseMedicine { get; set => SetAndNotify(ref field, value); }
+        public bool UseMedicine
+        {
+            get; set {
+                SetAndNotify(ref field, value);
+                Instance.OnPlanChanged();
+            }
+        }
 
-        public int MedicineCount { get; set => SetAndNotify(ref field, value); }
+        public int MedicineCount
+        {
+            get; set {
+                SetAndNotify(ref field, value);
+                Instance.OnPlanChanged();
+            }
+        }
 
-        public bool UseStone { get; set => SetAndNotify(ref field, value); }
+        public bool UseStone
+        {
+            get; set {
+                SetAndNotify(ref field, value);
+                Instance.OnPlanChanged();
+            }
+        }
 
-        public int StoneCount { get; set => SetAndNotify(ref field, value); }
+        public int StoneCount
+        {
+            get; set {
+                SetAndNotify(ref field, value);
+                Instance.OnPlanChanged();
+            }
+        }
 
         public int TaskId { get; set; }
 
@@ -410,7 +435,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     ?? LocalizationHelper.GetString("NotSelected"),
             };
             list.Add(uiPlan);
-            uiPlan.PropertyChanged += (_, __) => SavePlan();
         }
         PlanList = [.. list];
         PlanList.CollectionChanged += PlanList_CollectionChanged;
@@ -426,12 +450,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         foreach (var plan in PlanList)
         {
             plan.RefreshTitle();
-        }
-        if (e.Action is NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Replace)
-        {
-            e.NewItems?.OfType<Plan>().ToList().ForEach(plan => {
-                plan.PropertyChanged += (_, __) => SavePlan();
-            });
         }
     }
 
