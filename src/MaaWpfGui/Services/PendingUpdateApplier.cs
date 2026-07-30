@@ -450,7 +450,9 @@ internal static partial class PendingUpdateApplier
         string updaterExecutablePath = PrepareDelegatedUpdaterExecutable(context);
         string relaunchExecutablePath = Path.Combine(context.RootDir, "MAA.exe");
 
-        File.WriteAllText(planPath, CreatePendingUpdatePlan(packageType, removeEntries, moveEntries));
+        // 将当前进程需要转发的启动参数写入 plan，供 Updater 原样传给下次 MAA.exe
+        string[] relaunchArgs = Bootstrapper.GetForwardableRestartArgs();
+        File.WriteAllText(planPath, CreatePendingUpdatePlan(packageType, removeEntries, moveEntries, relaunchArgs));
 
         var startInfo = new ProcessStartInfo {
             FileName = updaterExecutablePath,
@@ -512,13 +514,25 @@ internal static partial class PendingUpdateApplier
         return string.Equals(Path.GetFileName(ex.FileName), "MAA.Updater.exe", StringComparison.OrdinalIgnoreCase);
     }
 
-    private static string CreatePendingUpdatePlan(string packageType, IReadOnlyList<string> removeEntries, IReadOnlyList<string> moveEntries)
+    private static string CreatePendingUpdatePlan(
+        string packageType,
+        IReadOnlyList<string> removeEntries,
+        IReadOnlyList<string> moveEntries,
+        IReadOnlyList<string>? relaunchArgs = null)
     {
-        return new JObject {
+        var plan = new JObject {
             ["packageType"] = packageType,
             ["removeList"] = JArray.FromObject(removeEntries),
             ["moveList"] = JArray.FromObject(moveEntries),
-        }.ToString();
+        };
+
+        // relaunchArgs：Updater 成功后传给 MAA.exe 的启动参数（如 --skip-startup-auto-run）
+        if (relaunchArgs is { Count: > 0 })
+        {
+            plan["relaunchArgs"] = JArray.FromObject(relaunchArgs);
+        }
+
+        return plan.ToString();
     }
 
     private static string[] GetFullPackageRemoveEntries(PendingUpdateContext context)

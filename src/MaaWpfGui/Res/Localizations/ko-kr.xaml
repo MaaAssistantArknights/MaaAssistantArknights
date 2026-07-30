@@ -497,6 +497,13 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
         관리자 권한으로 실행 시 부팅 시 자동 실행이 지원되지 않습니다. MAA를 관리자 권한으로 장시간 실행하는 것은 권장하지 않습니다.\n필요할 경우 제어판 &gt; Windows 도구 &gt; 작업 스케줄러에서 커스텀 작업을 생성하세요. 트리거를 설정할 때 ｢가장 높은 권한으로 실행｣을 반드시 선택하세요.
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">MAA 실행 후 작업 자동 시작</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdate">업데이트 후 즉시 재시작할 때 자동 실행 안 함</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdateTip" xml:space="preserve">｢{key=AutoInstallUpdatePackage}｣ 이 켜져 있거나, 업데이트 안내에서 즉시 재시작을 선택한 경우에만 적용됩니다.
+｢{key=ManualRestart}｣ 를 선택한 뒤 나중에 수동으로 MAA를 실행하면 ｢{key=RunTaskAfterLaunch}｣ / ｢{key=OpenEmulatorAfterLaunch}｣ 는 평소처럼 동작합니다.</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTitle">자동 시작 예정</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskOnly">곧 작업을 자동 실행합니다. 취소할까요?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">곧 에뮬레이터를 자동 실행합니다. 취소할까요?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">곧 작업을 자동 실행하고 에뮬레이터를 시작합니다. 취소할까요?</system:String>
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
     <system:String x:Key="StartGameLaunchClient">시작 시 클라이언트 실행</system:String>

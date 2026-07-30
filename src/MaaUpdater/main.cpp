@@ -9,7 +9,12 @@
 //                   [--mutex-name <name>] [--show-console] [--no-progress-ui]
 //
 // Plan file format (UTF-8 JSON):
-//   { "packageType": "full|ota", "removeList": ["rel/path", ...], "moveList": ["rel/path", ...] }
+//   {
+//     "packageType": "full|ota",
+//     "removeList": ["rel/path", ...],
+//     "moveList": ["rel/path", ...],
+//     "relaunchArgs": ["--skip-startup-auto-run", ...]   // optional, forwarded to MAA.exe
+//   }
 
 #include <windows.h>
 #include <commctrl.h>
@@ -1394,6 +1399,8 @@ struct PendingUpdatePlan
     std::wstring packageType;
     std::vector<std::wstring> removeList;
     std::vector<std::wstring> moveList;
+    // Optional args forwarded to MAA.exe on relaunch (e.g. --skip-startup-auto-run).
+    std::vector<std::wstring> relaunchArgs;
 };
 
 static bool LoadPendingUpdatePlan(
@@ -1427,7 +1434,47 @@ static bool LoadPendingUpdatePlan(
     outPlan.packageType = ParseJsonStringProperty(planJson, "packageType");
     outPlan.removeList = ParseJsonStringArray(planJson, "removeList");
     outPlan.moveList = ParseJsonStringArray(planJson, "moveList");
+    outPlan.relaunchArgs = ParseJsonStringArray(planJson, "relaunchArgs");
     return true;
+}
+
+// Build a CreateProcess command line: "exe" [quoted args...]
+static std::wstring BuildRelaunchCommandLine(
+    const std::wstring& executable,
+    const std::vector<std::wstring>& args)
+{
+    auto needsQuotes = [](const std::wstring& value) {
+        return value.find_first_of(L" \t\"") != std::wstring::npos;
+    };
+    auto appendQuoted = [&](std::wstring& dest, const std::wstring& value) {
+        if (!needsQuotes(value)) {
+            dest += value;
+            return;
+        }
+
+        dest.push_back(L'"');
+        for (wchar_t ch : value) {
+            if (ch == L'"') {
+                dest += L"\\\"";
+            } else {
+                dest.push_back(ch);
+            }
+        }
+        dest.push_back(L'"');
+    };
+
+    std::wstring cmdLine;
+    appendQuoted(cmdLine, executable);
+    for (const std::wstring& arg : args) {
+        if (arg.empty()) {
+            continue;
+        }
+
+        cmdLine.push_back(L' ');
+        appendQuoted(cmdLine, arg);
+    }
+
+    return cmdLine;
 }
 
 static void PrintPlanEntries(const std::wstring& title, const std::vector<std::wstring>& entries)
@@ -1465,6 +1512,7 @@ static int RunPlanParserTest(const std::wstring& initialPlanFile)
         L" | Package type: " + (plan.packageType.empty() ? std::wstring(L"<empty>") : plan.packageType), true);
     PrintPlanEntries(L"待删除文件列表 | Files to remove", plan.removeList);
     PrintPlanEntries(L"待安装文件列表 | Files to install", plan.moveList);
+    PrintPlanEntries(L"重启参数 | Relaunch args", plan.relaunchArgs);
     return 0;
 }
 
@@ -1829,6 +1877,8 @@ int wmain(int argc, wchar_t* argv[])
     bool success = false;
     std::wstring failureReason;
     HANDLE hUpdateMutex = nullptr;
+    // Copied from plan for CreateProcess after a successful update.
+    std::vector<std::wstring> relaunchArgs;
 
     // ------------------------------------------------------------------
     // Wait for parent process to exit
@@ -1898,6 +1948,8 @@ int wmain(int argc, wchar_t* argv[])
             break;
         }
 
+        relaunchArgs = plan.relaunchArgs;
+
         bool isFullPackage = EqualsIgnoreCase(plan.packageType, L"full");
         const std::vector<std::wstring>& removeList = plan.removeList;
         const std::vector<std::wstring>& moveList = plan.moveList;
@@ -1907,7 +1959,7 @@ int wmain(int argc, wchar_t* argv[])
             L"正在分析更新内容... | Analyzing update contents...",
             L"更新计划读取完成 | Update plan loaded");
 
-        WriteLog((L"Plan loaded, package type: " + plan.packageType + L", remove entries: " + std::to_wstring(removeList.size()) + L", install entries: " + std::to_wstring(moveList.size())).c_str());
+        WriteLog((L"Plan loaded, package type: " + plan.packageType + L", remove entries: " + std::to_wstring(removeList.size()) + L", install entries: " + std::to_wstring(moveList.size()) + L", relaunch args: " + std::to_wstring(relaunchArgs.size())).c_str());
         WriteLogEntries(L"Files to remove", removeList);
         WriteLogEntries(L"Files to install", moveList);
 
@@ -2123,7 +2175,9 @@ int wmain(int argc, wchar_t* argv[])
         STARTUPINFOW si {};
         si.cb = sizeof(si);
         PROCESS_INFORMATION pi {};
-        std::wstring cmdLine = L"\"" + relaunchExecutable + L"\"";
+        // Forward plan.relaunchArgs to the next MAA process (e.g. --skip-startup-auto-run).
+        std::wstring cmdLine = BuildRelaunchCommandLine(relaunchExecutable, relaunchArgs);
+        WriteLog((L"Relaunch command line: " + cmdLine).c_str());
         if (CreateProcessW(
                 relaunchExecutable.c_str(),
                 cmdLine.data(),

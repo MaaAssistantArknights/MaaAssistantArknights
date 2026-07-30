@@ -497,6 +497,13 @@ D:\
         管理员权限启动不支持开机自启。不建议长期以管理员权限运行 MAA。\n如确有需要，请前往 控制面板 > Windows 工具 > 任务计划程序 创建自定义任务。设置触发器时，请确保勾选 ｢使用最高权限运行｣。
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">启动 MAA 后直接运行</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdate">更新后立即重启时不自动运行</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdateTip" xml:space="preserve">仅在 ｢{key=AutoInstallUpdatePackage}｣ 或更新提示中选择立即重启时生效。
+若选择 ｢{key=ManualRestart}｣ 再手动启动 MAA，仍会按 ｢{key=RunTaskAfterLaunch}｣ / ｢{key=OpenEmulatorAfterLaunch}｣ 正常执行。</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTitle">即将自动启动</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskOnly">即将自动运行任务，是否取消？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">即将自动启动模拟器，是否取消？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">即将自动运行任务并启动模拟器，是否取消？</system:String>
     <system:String x:Key="MinimizeAfterLaunch">启动 MAA 后直接最小化</system:String>
     <system:String x:Key="ClientType">客户端类型</system:String>
     <system:String x:Key="StartGameLaunchClient">是否启动客户端</system:String>
