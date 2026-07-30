@@ -73,20 +73,48 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
         oper.skill = 0;
     }
 
-    // 解析练度需求
+    // 解析练度需求并检查非法设置
     if (auto req_opt = json.find("requirements")) {
         oper.requirements.level = req_opt->get("level", 0);
-        oper.requirements.skill_level = req_opt->get("skill_level", 0);
-        oper.requirements.module = req_opt->get("module", -1);
         // oper.requirements.potentiality = req_opt->get("potentiality", 0);
 
+        int elite_require = oper.skill - 1;
+        if (auto skill_level_opt = req_opt->find<int>("skill_level"); !skill_level_opt) {
+            oper.requirements.skill_level = 0;
+        }
+        else {
+            oper.requirements.skill_level = *skill_level_opt;
+            if (*skill_level_opt > 7) {
+                elite_require = std::max(2, elite_require); // 技能专精要求精二
+            }
+            else if (*skill_level_opt > 4) {
+                elite_require = std::max(1, elite_require);
+            }
+        }
+        if (auto module_opt = req_opt->find<int>("module"); module_opt) {
+            oper.requirements.module = *module_opt;
+            if (*module_opt > 0) {
+                elite_require = std::max(2, elite_require); // 模组要求精2
+            }
+        }
+        else {
+            oper.requirements.module = -1;
+        }
         if (auto elite_opt = req_opt->find<int>("elite"); elite_opt) {
-            oper.requirements.elite = *elite_opt;
-            if (int elite_require = oper.skill - 1; elite_require > oper.requirements.elite) {
-                LogError << __FUNCTION__ << "| Oper " << oper.name << " use skill " << oper.skill << " requires elite "
-                         << elite_require << ", but current requirement is lower:" << oper.requirements.elite;
+            if (elite_require > *elite_opt) {
+                LogError << __FUNCTION__ << "| Oper" << oper.name << "has higher elite requirement:" << elite_require
+                         << ", but elite requirement is set to" << *elite_opt;
                 return std::nullopt;
             }
+
+            oper.requirements.elite = std::max(*elite_opt, elite_require);
+        }
+    }
+    else {
+        if (oper.skill - 1 > 0) {
+            LogWarn << __FUNCTION__ << "| Oper" << oper.name << "has skill" << oper.skill
+                    << ", but no requirements specified, set elite requirement to" << oper.requirements.elite;
+            oper.requirements.elite = std::max(oper.skill - 1, 0); // 默认精英化要求为技能序号 - 1
         }
     }
 
