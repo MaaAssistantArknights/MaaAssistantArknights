@@ -112,14 +112,14 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
         else if (elite_require > 0) {
             LogWarn << __FUNCTION__ << "| Oper" << oper.name << "has skill" << oper.skill
                     << ", but no requirements specified, set elite requirement to" << oper.requirements.elite;
-            oper.requirements.elite = std::max(oper.skill - 1, 0); // 默认精英化要求为技能序号 - 1
+            oper.requirements.elite = std::max(elite_require, 0); // 默认精英化要求为技能序号 - 1
         }
     }
     else {
         if (elite_require > 0) {
             LogWarn << __FUNCTION__ << "| Oper" << oper.name << "has skill" << oper.skill
                     << ", but no requirements specified, set elite requirement to" << oper.requirements.elite;
-            oper.requirements.elite = std::max(oper.skill - 1, 0); // 默认精英化要求为技能序号 - 1
+            oper.requirements.elite = std::max(elite_require, 0); // 默认精英化要求为技能序号 - 1
         }
     }
 
