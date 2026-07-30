@@ -101,11 +101,10 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
             }
 
             List<int> ids = [];
-            bool ret = false;
             if (operBoxTriggerDue)
             {
-                ret = Instances.ToolboxViewModel.StartOperBoxRecognitionTask(startImmediately: false);
-                if (!ret)
+                bool operBoxRet = Instances.ToolboxViewModel.StartOperBoxRecognitionTask(startImmediately: false);
+                if (!operBoxRet)
                 {
                     return (false, []);
                 }
@@ -123,18 +122,16 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanUpdateDepotFailed"), UiLogColor.Error);
                     return (false, []);
                 }
-
-                ret = result;
                 Instances.ToolboxViewModel.MarkDepotRecognitionSyncTimeForReset(depotTaskId);
                 ids.Add(depotTaskId);
             }
 
-            if (ret && operBoxTriggerDue && depotTriggerDue)
+            if (operBoxTriggerDue && depotTriggerDue)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.DoubleSync);
             }
 
-            return ret ? (true, ids) : (null, []);
+            return ids.Count > 0 ? (true, ids) : (null, []);
         }
 
         private static bool IsTriggerDue(DateTimeOffset? lastSyncTime, UserDataUpdateTriggerInterval triggerInterval)
