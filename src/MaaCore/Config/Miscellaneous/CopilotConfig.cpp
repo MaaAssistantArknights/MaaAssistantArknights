@@ -73,12 +73,12 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
         oper.skill = 0;
     }
 
+    int elite_require = oper.skill - 1;
     // 解析练度需求并检查非法设置
     if (auto req_opt = json.find("requirements")) {
         oper.requirements.level = req_opt->get("level", 0);
         // oper.requirements.potentiality = req_opt->get("potentiality", 0);
 
-        int elite_require = oper.skill - 1;
         if (auto skill_level_opt = req_opt->find<int>("skill_level"); !skill_level_opt) {
             oper.requirements.skill_level = 0;
         }
@@ -109,9 +109,14 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
 
             oper.requirements.elite = std::max(*elite_opt, elite_require);
         }
+        else if (elite_require > 0) {
+            LogWarn << __FUNCTION__ << "| Oper" << oper.name << "has skill" << oper.skill
+                    << ", but no requirements specified, set elite requirement to" << oper.requirements.elite;
+            oper.requirements.elite = std::max(oper.skill - 1, 0); // 默认精英化要求为技能序号 - 1
+        }
     }
     else {
-        if (oper.skill - 1 > 0) {
+        if (elite_require > 0) {
             LogWarn << __FUNCTION__ << "| Oper" << oper.name << "has skill" << oper.skill
                     << ", but no requirements specified, set elite requirement to" << oper.requirements.elite;
             oper.requirements.elite = std::max(oper.skill - 1, 0); // 默认精英化要求为技能序号 - 1
