@@ -123,6 +123,8 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanUpdateDepotFailed"), UiLogColor.Error);
                     return (false, []);
                 }
+
+                ret = result;
                 Instances.ToolboxViewModel.MarkDepotRecognitionSyncTimeForReset(depotTaskId);
                 ids.Add(depotTaskId);
             }
