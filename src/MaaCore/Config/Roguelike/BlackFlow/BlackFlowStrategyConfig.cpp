@@ -555,11 +555,32 @@ Milestone parse_milestone(const json::value& value)
     return result;
 }
 
+GrantedScrap parse_granted_scrap(const json::value& value)
+{
+    check_keys(value, { "movement", "description", "when" }, { "movement", "when" }, "granted scrap");
+    GrantedScrap result;
+    result.id = value.at("movement").as_string();
+    result.description = value.get("description", std::string());
+    const auto& specs = movement_specs();
+    const auto spec = std::ranges::find_if(specs, [&](const MovementSpec& candidate) {
+        return candidate.kind != MovementKind::Walk && candidate.id == result.id;
+    });
+    if (spec == specs.end()) {
+        invalid_config("granted scrap references unknown processing item: " + result.id);
+    }
+    if (spec->initial_charges <= 0) {
+        invalid_config("granted scrap has no usable charges: " + result.id);
+    }
+    result.movement = spec->kind;
+    result.when = parse_condition(value.at("when"));
+    return result;
+}
+
 PolicyModule parse_module(const json::value& value)
 {
     check_keys(
         value,
-        { "id", "description", "route_preferences", "rules", "reserves", "milestones" },
+        { "id", "description", "route_preferences", "rules", "reserves", "milestones", "granted_scraps" },
         { "id" },
         "module");
     PolicyModule result;
@@ -597,6 +618,14 @@ PolicyModule parse_module(const json::value& value)
         }
         for (const auto& milestone : milestones->as_array()) {
             result.milestones.emplace_back(parse_milestone(milestone));
+        }
+    }
+    if (const auto granted = value.find("granted_scraps"); granted) {
+        if (!granted->is_array()) {
+            invalid_config("module granted_scraps must be an array");
+        }
+        for (const auto& scrap : granted->as_array()) {
+            result.granted_scraps.emplace_back(parse_granted_scrap(scrap));
         }
     }
     return result;
@@ -742,6 +771,12 @@ void validate_module(
         validate_condition(milestone.active_if, facts, false);
         validate_condition(milestone.complete_if, facts, false);
     }
+    for (const auto& scrap : module.granted_scraps) {
+        if (!ids.emplace("granted_scrap:" + scrap.id).second) {
+            invalid_config("module contains duplicate granted scrap: " + scrap.id);
+        }
+        validate_condition(scrap.when, facts, false);
+    }
 }
 
 template <typename Item>
@@ -798,6 +833,7 @@ void validate_profile_definition(
     std::unordered_set<std::string> rule_ids;
     std::unordered_set<std::string> reserve_ids;
     std::unordered_set<std::string> milestone_ids;
+    std::unordered_set<std::string> granted_scrap_ids;
     std::string error;
     for (const auto& module_id : profile.modules) {
         const auto module = modules.find(module_id);
@@ -806,7 +842,13 @@ void validate_profile_definition(
         }
         if (!append_unique(resolved.rules, module->second.rules, rule_ids, &error, "rule") ||
             !append_unique(resolved.reserves, module->second.reserves, reserve_ids, &error, "reserve") ||
-            !append_unique(resolved.milestones, module->second.milestones, milestone_ids, &error, "milestone")) {
+            !append_unique(resolved.milestones, module->second.milestones, milestone_ids, &error, "milestone") ||
+            !append_unique(
+                resolved.granted_scraps,
+                module->second.granted_scraps,
+                granted_scrap_ids,
+                &error,
+                "granted scrap")) {
             invalid_config(error);
         }
     }
@@ -897,11 +939,13 @@ std::optional<blackflow::ResolvedPolicy>
     std::unordered_set<std::string> rule_ids;
     std::unordered_set<std::string> reserve_ids;
     std::unordered_set<std::string> milestone_ids;
+    std::unordered_set<std::string> granted_scrap_ids;
     for (const auto& module_id : profile->modules) {
         const blackflow::PolicyModule* module = get_module(module_id);
         if (module == nullptr || !append_unique(result.rules, module->rules, rule_ids, error, "rule") ||
             !append_unique(result.reserves, module->reserves, reserve_ids, error, "reserve") ||
-            !append_unique(result.milestones, module->milestones, milestone_ids, error, "milestone")) {
+            !append_unique(result.milestones, module->milestones, milestone_ids, error, "milestone") ||
+            !append_unique(result.granted_scraps, module->granted_scraps, granted_scrap_ids, error, "granted scrap")) {
             if (module == nullptr && error != nullptr) {
                 *error = "profile references unknown module: " + module_id;
             }
@@ -937,7 +981,7 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
         { "schema_version", "resources", "hidden_node_reveals", "facts", "modules", "profiles" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
-    if (schema_version != 6) {
+    if (schema_version != 7) {
         invalid_config("unsupported schema_version: " + std::to_string(schema_version));
     }
     for (const auto key : { "resources", "facts", "modules", "profiles" }) {

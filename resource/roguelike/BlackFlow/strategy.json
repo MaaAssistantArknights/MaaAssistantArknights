@@ -1,5 +1,5 @@
 {
-    "schema_version": 6,
+    "schema_version": 7,
     "hidden_node_reveals": {
         "hide_invisible": [
             "employ",
@@ -808,6 +808,49 @@
         {
             "id": "burn_investment_shop",
             "description": "刷等级时先去一层商店：拿得到结构性原理就硬性要求，拿不到则按权重择优",
+            "granted_scraps": [
+                {
+                    "movement": "rogue_6_scrap_M_11",
+                    "description": "精二机械师的开局配置必定持有结构性原理，无需观测背包",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "start_core_char",
+                                "op": "eq",
+                                "value": "机械师"
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "start_squad",
+                                        "op": "eq",
+                                        "value": "特勤分队"
+                                    },
+                                    {
+                                        "fact": "start_squad",
+                                        "op": "eq",
+                                        "value": "堡垒战术分队"
+                                    }
+                                ]
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "start_roles",
+                                        "op": "eq",
+                                        "value": "稳扎稳打"
+                                    },
+                                    {
+                                        "fact": "start_roles",
+                                        "op": "eq",
+                                        "value": "坚不可摧"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ],
             "rules": [
                 {
                     "id": "burn_require_shop_when_flight_guaranteed",
@@ -859,11 +902,6 @@
                                 "fact": "burn_shop_done",
                                 "op": "eq",
                                 "value": false
-                            },
-                            {
-                                "fact": "persistent_long_range_count",
-                                "op": "ge",
-                                "value": 1
                             }
                         ]
                     },
@@ -918,11 +956,6 @@
                                 "fact": "current_floor",
                                 "op": "eq",
                                 "value": 2
-                            },
-                            {
-                                "fact": "persistent_long_range_count",
-                                "op": "ge",
-                                "value": 1
                             }
                         ]
                     },

@@ -176,7 +176,32 @@ bool BlackFlowSession::initialize(std::string profile, std::string* error)
         !set_fact("start_roles", m_start_roles, error)) {
         return false;
     }
-    return true;
+    return apply_granted_scraps(error);
+}
+
+bool BlackFlowSession::apply_granted_scraps(std::string* error)
+{
+    m_movement_inventory_assumed = false;
+    if (!m_policy.has_value() || m_policy->granted_scraps.empty()) {
+        return true;
+    }
+    const FactStore facts = m_facts.merged();
+    for (const GrantedScrap& scrap : m_policy->granted_scraps) {
+        if (!scrap.when.evaluate(facts)) {
+            continue;
+        }
+        const MovementSpec* spec = find_movement_spec(scrap.movement);
+        if (spec == nullptr) {
+            continue;
+        }
+        m_run.resources.movement_charges.insert_or_assign(scrap.movement, spec->initial_charges);
+        m_movement_inventory_assumed = true;
+    }
+    if (!m_movement_inventory_assumed) {
+        return true;
+    }
+    ++m_run.resources_revision;
+    return synchronize_resource_facts(error);
 }
 
 void BlackFlowSession::set_start_loadout(std::string core_char, std::string squad, std::string roles)

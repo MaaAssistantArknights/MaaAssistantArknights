@@ -133,8 +133,17 @@ public:
 
     [[nodiscard]] bool movement_inventory_refresh_required() const noexcept
     {
-        return m_movement_inventory_refresh_required;
+        return !m_movement_inventory_assumed && m_movement_inventory_refresh_required;
     }
+
+    // 跳过背包时没人消费这个标志了，改由路由循环丢掉这一帧、重新观测一次。
+    // 节点结算完的第一帧地图还在做揭示动画，目标节点可能没有屏幕坐标。
+    [[nodiscard]] bool map_settle_required() const noexcept
+    {
+        return m_movement_inventory_assumed && m_movement_inventory_refresh_required;
+    }
+
+    void mark_map_settled() noexcept { m_movement_inventory_refresh_required = false; }
 
     // 开局干员、分队、职业组整局不变，策略条件靠它们判断这一局能不能拿到结构性原理。
     // 必须在 initialize() 之前设置：事实是在 initialize() 末尾写入的，reset_run() 也会再写一次。
@@ -184,6 +193,7 @@ public:
 private:
     bool update_in_place(const BlackFlowPerceptionSnapshot& snapshot, std::string* error);
     bool synchronize_resource_facts(std::string* error);
+    bool apply_granted_scraps(std::string* error);
     void refresh_mission();
     void evaluate_terminal_rules();
     bool apply_run_observation(const RunObservation& observation, std::string* error);
@@ -227,6 +237,7 @@ private:
     std::optional<BlackFlowStrategyResult> m_result;
     bool m_result_reported = false;
     bool m_movement_inventory_refresh_required = true;
+    bool m_movement_inventory_assumed = false;
     DiagnosticSettings m_diagnostics;
     std::size_t m_persisted_image_packages = 0;
     std::uint64_t m_run_revision = 0;

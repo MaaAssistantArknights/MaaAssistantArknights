@@ -97,6 +97,24 @@ bool session_requires_movement_inventory_observation(const Session& session)
 }
 
 template <typename Session>
+bool session_requires_map_settle(Session& session)
+{
+    if constexpr (requires {
+                      session.map_settle_required();
+                      session.mark_map_settled();
+                  }) {
+        if (!session.map_settle_required()) {
+            return false;
+        }
+        session.mark_map_settled();
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+template <typename Session>
 bool validate_session_commit(Session& session, std::string* error)
 {
     if constexpr (requires { session.validate_commit(error); }) {
@@ -187,6 +205,9 @@ RoutingCycleOutcome execute_routing_cycle(Session& session, IBlackFlowTaskPort& 
     }
     if (session_requires_movement_inventory_observation(session)) {
         return { RoutingCycleStatus::MovementInventoryObservationRequired, {}, {} };
+    }
+    if (session_requires_map_settle(session)) {
+        return { RoutingCycleStatus::ReplanRequired, {}, {} };
     }
 
     BlackFlowPlan plan = session.plan(&error);

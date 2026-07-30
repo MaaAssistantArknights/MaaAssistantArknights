@@ -243,6 +243,14 @@ enum class RoutePreference
     MinimizeIntermediateInteractions,
 };
 
+struct GrantedScrap
+{
+    std::string id;
+    std::string description;
+    MovementKind movement = MovementKind::Walk;
+    Condition when;
+};
+
 struct PolicyModule
 {
     std::string id;
@@ -251,6 +259,7 @@ struct PolicyModule
     std::vector<PolicyRule> rules;
     std::vector<ResourceReserve> reserves;
     std::vector<Milestone> milestones;
+    std::vector<GrantedScrap> granted_scraps;
 };
 
 struct StrategyTerminalRule
@@ -282,6 +291,7 @@ struct ResolvedPolicy
     std::vector<PolicyRule> rules;
     std::vector<ResourceReserve> reserves;
     std::vector<Milestone> milestones;
+    std::vector<GrantedScrap> granted_scraps;
     std::vector<StrategyTerminalRule> terminal_rules;
     std::string failure_action = "stop_run";
 };

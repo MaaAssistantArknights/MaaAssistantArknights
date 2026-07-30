@@ -343,10 +343,10 @@
         "next": ["BlackFlow@Roguelike@ExitThenAbandon", "BlackFlow@Roguelike@Abandon"]
     },
     "BlackFlow@Roguelike@CheckLevel": {
-        "text": ["沉沦者的黑流树海", "黑流树海", "沉沦于树海"]
+        "text": ["源流堆栈"]
     },
     "BlackFlow@Roguelike@SelectTheme": {
-        "text": ["沉沦者的黑流树海", "黑流树海", "沉沦于树海"]
+        "text": ["源流堆栈"]
     },
     "BlackFlow@Roguelike@ChooseDifficulty": {
         "template": "BlackFlow@Roguelike@ChooseDifficulty.png",
