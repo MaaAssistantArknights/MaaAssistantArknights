@@ -25,7 +25,6 @@
         </Grid.ColumnDefinitions>
         <StackPanel
             Grid.Column="0"
-            Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Vertical">
@@ -33,7 +32,6 @@
             <StackPanel Margin="10" Orientation="Horizontal">
                 <CheckBox
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
                     Block.TextAlignment="Center"
                     Content="{DynamicResource LaunchOnSystemStartup}"
                     IsChecked="{Binding StartSelf}" />
@@ -42,7 +40,6 @@
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Top"
                 Block.TextAlignment="Center"
                 Content="{DynamicResource MinimizeAfterLaunch}"
                 IsChecked="{Binding MinimizeDirectly}" />
@@ -50,33 +47,23 @@
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Top"
                 Block.TextAlignment="Center"
                 Content="{DynamicResource RunTaskAfterLaunch}"
                 IsChecked="{Binding RunDirectly}" />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Top"
                 Block.TextAlignment="Center"
                 Content="{DynamicResource OpenEmulatorAfterLaunch}"
                 IsChecked="{Binding OpenEmulatorAfterLaunch}" />
-            <StackPanel Orientation="Horizontal">
-                <CheckBox
-                    Grid.Column="0"
-                    Margin="10,10,0,10"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Block.TextAlignment="Center"
-                    Content="{DynamicResource SkipStartupAutoRunAfterUpdate}"
-                    IsChecked="{Binding SkipStartupAutoRunAfterUpdate}" />
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <CheckBox MaxWidth="210" IsChecked="{Binding SkipStartupAutoRunAfterUpdate}">
+                    <controls:TextBlock Text="{DynamicResource SkipStartupAutoRunAfterUpdate}" TextWrapping="Wrap" />
+                </CheckBox>
                 <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource SkipStartupAutoRunAfterUpdateTip}" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <CheckBox
-                    Grid.Column="0"
-                    Margin="10,10,0,10"
-                    IsChecked="{Binding RetryOnDisconnected, Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <CheckBox MaxWidth="210" IsChecked="{Binding RetryOnDisconnected, Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
                     <controls:TextBlock Text="{DynamicResource RetryOnDisconnected}" TextWrapping="Wrap" />
                 </CheckBox>
                 <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource RetryOnDisconnectedTip}" />
