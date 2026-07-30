@@ -497,6 +497,13 @@ D:\
         ｢以系統管理員身分執行｣ 不支援開機自動啟動。不建議長期以系統管理員身分執行 MAA。\n如有需要，請前往 控制台 &gt; 系統管理工具 &gt; 工作排程器 建立工作。設定安全性選項時，請確保已勾選 ｢以最高權限執行｣。
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">啟動 MAA 後直接執行</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdate">更新後立即重啟時不自動執行</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdateTip" xml:space="preserve">僅在 ｢{key=AutoInstallUpdatePackage}｣ 或更新提示中選擇立即重啟時生效。
+若選擇 ｢{key=ManualRestart}｣ 再手動啟動 MAA，仍會依 ｢{key=RunTaskAfterLaunch}｣ / ｢{key=OpenEmulatorAfterLaunch}｣ 正常執行。</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTitle">即將自動啟動</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskOnly">即將自動執行任務，是否取消？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">即將自動啟動模擬器，是否取消？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">即將自動執行任務並啟動模擬器，是否取消？</system:String>
     <system:String x:Key="MinimizeAfterLaunch">啟動 MAA 後直接最小化</system:String>
     <system:String x:Key="ClientType">用戶端類型</system:String>
     <system:String x:Key="StartGameLaunchClient">是否啟動用戶端</system:String>

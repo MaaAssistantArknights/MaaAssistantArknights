@@ -497,6 +497,13 @@ MAA は非インストール型のアプリケーションであり、レジス�
         管理者権限での起動は、起動時の自動実行をサポートしていません。MAAを長時間管理者権限で実行することはお勧めしません。\n必要な場合は、 ｢コントロールパネル &gt; Windowsツール &gt; タスクスケジューラ｣ に移動してカスタムタスクを作成してください。トリガーを設定する際に、 ｢最も高い特権で実行｣ を必ず選択してください。
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdate">更新のため直ちに再起動する時は自動実行しない</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdateTip" xml:space="preserve">｢{key=AutoInstallUpdatePackage}｣ が有効な場合、または更新確認で直ちに再起動を選んだ場合のみ適用されます。
+｢{key=ManualRestart}｣ を選んで後から手動起動した場合は、｢{key=RunTaskAfterLaunch}｣ / ｢{key=OpenEmulatorAfterLaunch}｣ は通常どおり実行されます。</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTitle">自動起動の準備中</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskOnly">まもなくタスクを自動実行します。キャンセルしますか？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">まもなくエミュレータを自動起動します。キャンセルしますか？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">まもなくタスクを自動実行し、エミュレータを起動します。キャンセルしますか？</system:String>
     <system:String x:Key="MinimizeAfterLaunch">アプリの起動時に自動的に最小化</system:String>
     <system:String x:Key="ClientType">クライアントバージョン</system:String>
     <system:String x:Key="StartGameLaunchClient">起動時にクライアントを開始する</system:String>

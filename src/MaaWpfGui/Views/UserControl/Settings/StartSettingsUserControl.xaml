@@ -61,11 +61,18 @@
                 Block.TextAlignment="Center"
                 Content="{DynamicResource OpenEmulatorAfterLaunch}"
                 IsChecked="{Binding OpenEmulatorAfterLaunch}" />
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox
+                    Grid.Column="0"
+                    Margin="10,10,0,10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Block.TextAlignment="Center"
+                    Content="{DynamicResource SkipStartupAutoRunAfterUpdate}"
+                    IsChecked="{Binding SkipStartupAutoRunAfterUpdate}" />
+                <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource SkipStartupAutoRunAfterUpdateTip}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
                 <CheckBox
                     Grid.Column="0"
                     Margin="10,10,0,10"
@@ -73,17 +80,17 @@
                     <controls:TextBlock Text="{DynamicResource RetryOnDisconnected}" TextWrapping="Wrap" />
                 </CheckBox>
                 <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource RetryOnDisconnectedTip}" />
-            </Grid>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-            <StackPanel>
+            <StackPanel Margin="10">
                 <StackPanel
-                    Margin="10,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
                     <controls:TextBlock
+                        Margin="0,5"
                         VerticalAlignment="Center"
                         Block.TextAlignment="Center"
                         Text="{DynamicResource EmulatorPath}" />
@@ -99,20 +106,18 @@
                         Command="{s:Action TestEmulatorExec}"
                         Content="{DynamicResource Test}" />
                 </StackPanel>
-                <TextBox Margin="20,5" Text="{Binding EmulatorPath}" />
+                <TextBox Text="{Binding EmulatorPath}" />
             </StackPanel>
-            <StackPanel>
+            <StackPanel Margin="10">
                 <StackPanel
+                    Margin="0,0,0,5"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
                     <controls:TextBlock Block.TextAlignment="Center" Text="{DynamicResource AdditionCommand}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource AdditionCommandTip}" />
                 </StackPanel>
-                <TextBox
-                    Margin="20,5"
-                    IsEnabled="{Binding EmulatorPath.Length}"
-                    Text="{Binding EmulatorAddCommand}" />
+                <TextBox IsEnabled="{Binding EmulatorPath.Length}" Text="{Binding EmulatorAddCommand}" />
             </StackPanel>
             <StackPanel
                 Margin="10"
