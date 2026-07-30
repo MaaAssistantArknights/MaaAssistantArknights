@@ -593,7 +593,8 @@
         ]
     },
     "BlackFlow@RoguelikeRecruit-GiveUp": {
-        "template": "BlackFlow@RoguelikeRecruit-GiveUp.png"
+        "template": "BlackFlow@RoguelikeRecruit-GiveUp.png",
+        "roi": [843, 639, 200, 76]
     },
     "BlackFlow@Roguelike@RolesConfirm": {
         "template": "BlackFlow@Roguelike@LastRewardConfirm.png"
