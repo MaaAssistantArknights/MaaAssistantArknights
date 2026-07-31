@@ -2148,6 +2148,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="BadModules.Warning.Prolog">检测到以下第三方软件向 MAA 注入了 DLL。这些注入的 DLL 会破坏 WPF 渲染和 ONNX/DML 推理，导致 MAA 闪退、界面渲染异常或 OCR 识别失败：</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">如果您注意到 MAA 存在相关问题，请尝试将 MAA 加入相关软件的排除名单，或卸载相关软件后检查问题是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再显示此警告</system:String>
+    <system:String x:Key="BadModules.Warning.Fallback">系统对话框崩溃，已改用备用方式显示此警告</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">警告：性能影响</system:String>
     <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">选择不再显示警告后，MAA 将使用软件渲染而不是硬件渲染。这将导致以下后果：&#x0a;&#x0a;• 性能下降&#x0a;• 界面卡顿&#x0a;• CPU 占用率增高&#x0a;&#x0a;是否确认忽略警告并接受这些影响？</system:String>
     <system:String x:Key="BadModules.UseSoftwareRendering">使用软件渲染</system:String>

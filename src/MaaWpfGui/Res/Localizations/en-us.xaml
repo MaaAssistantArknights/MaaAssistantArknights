@@ -2146,6 +2146,7 @@ These locations are too high-level and can lead to file overwrites, config write
     <system:String x:Key="BadModules.Warning.Prolog">The following third-party software has injected DLL(s) into MAA, which will interfere with WPF rendering and ONNX/DML inference, causing MAA to crash, display rendering anomalies, or OCR recognition failures:</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">If you encounter such issues with MAA, please try adding MAA to the exclusion list of the relevant software, or uninstall the related software and check if the problem persists.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">Do not show this warning again</system:String>
+    <system:String x:Key="BadModules.Warning.Fallback">The system dialog crashed; showing this warning via fallback method.</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">Warning: Performance Impact</system:String>
     <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">If you choose to suppress this warning, MAA will use software rendering instead of hardware rendering. This will cause:&#x0a;&#x0a;• Performance degradation&#x0a;• UI lag&#x0a;• Increased CPU usage&#x0a;&#x0a;&#x0a;Do you confirm to suppress the warning and accept these consequences?</system:String>
     <system:String x:Key="BadModules.UseSoftwareRendering">Use Software Rendering</system:String>

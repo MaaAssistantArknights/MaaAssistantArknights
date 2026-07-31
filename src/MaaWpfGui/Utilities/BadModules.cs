@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using System.Windows.Forms;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
@@ -96,30 +97,46 @@ internal class BadModules
         sb.AppendLine();
         sb.Append(LocalizationHelper.GetString("BadModules.Warning.Epilog"));
 
-        var page = new TaskDialogPage
-        {
+        var page = new TaskDialogPage {
             Caption = "MAA",
             Heading = LocalizationHelper.GetString("BadModules.Warning.Heading"),
             Text = sb.ToString(),
             Icon = TaskDialogIcon.Warning,
             Buttons = { TaskDialogButton.OK },
             SizeToContent = true,
-            Verification = new()
-            {
+            Verification = new() {
                 Text = LocalizationHelper.GetString("BadModules.Warning.DoNotShowAgain"),
                 Checked = false,
             },
         };
 
-        var result = TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), page);
+        bool doNotShowAgain;
+        try
+        {
+            // throw new NotImplementedException();
+            TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), page);
+            doNotShowAgain = page.Verification.Checked;
+        }
+        catch (Exception e)
+        {
+            // https://github.com/dotnet/winforms/issues/14831
+            _logger.Warning(e, "TaskDialog failed, falling back to WPF MessageBox");
+            var msgResult = MessageBoxHelper.Show(
+                LocalizationHelper.GetString("BadModules.Warning.Fallback") + "\n\n" + sb,
+                LocalizationHelper.GetString("BadModules.Warning.Heading"),
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Warning,
+                ok: LocalizationHelper.GetString("BadModules.Warning.DoNotShowAgain"));
+            doNotShowAgain = msgResult == MessageBoxResult.OK;
+        }
+
         _logger.Warning("Detected bad injected modules:\n{Modules}", sb.ToString());
 
         // 如果用户勾选了"不再显示"选项
-        if (page.Verification.Checked)
+        if (doNotShowAgain)
         {
             // 弹出第二个确认对话框
-            var confirmPage = new TaskDialogPage
-            {
+            var confirmPage = new TaskDialogPage {
                 Caption = "MAA",
                 Heading = LocalizationHelper.GetString("BadModules.Confirmation.Heading"),
                 Text = LocalizationHelper.GetString("BadModules.Confirmation.Text"),
@@ -129,10 +146,26 @@ internal class BadModules
                 DefaultButton = TaskDialogButton.No,
             };
 
-            var confirmResult = TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), confirmPage);
+            bool confirmed;
+            try
+            {
+                // throw new NotImplementedException();
+                var confirmResult = TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), confirmPage);
+                confirmed = confirmResult == TaskDialogButton.Yes;
+            }
+            catch (Exception e)
+            {
+                _logger.Warning(e, "TaskDialog (confirmation) failed, falling back to WPF MessageBox");
+                var confirmMsgResult = MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("BadModules.Warning.Fallback") + "\n\n" + LocalizationHelper.GetString("BadModules.Confirmation.Text"),
+                    LocalizationHelper.GetString("BadModules.Confirmation.Heading"),
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+                confirmed = confirmMsgResult == MessageBoxResult.Yes;
+            }
 
             // 如果用户确认，则保存设置
-            if (confirmResult == TaskDialogButton.Yes)
+            if (confirmed)
             {
                 ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering = true;
                 _logger.Information("User chose to ignore bad modules warning and use software rendering");
