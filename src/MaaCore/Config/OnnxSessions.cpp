@@ -36,6 +36,11 @@ bool asst::OnnxSessions::load(const std::filesystem::path& path)
 Ort::Session& asst::OnnxSessions::get(const std::string& name)
 {
     if (m_sessions.find(name) == m_sessions.end()) {
+        if (gpu_enabled && !gpu_options_initialized && !initialize_gpu_options()) {
+            Log.error(__FUNCTION__, "Failed to initialize configured GPU; falling back to CPU mode");
+            use_cpu();
+        }
+
         Log.info(__FUNCTION__, "lazy load", name);
         Ort::Session session(m_env, m_model_paths.at(name).c_str(), m_options);
         m_sessions.emplace(name, std::move(session));
@@ -71,18 +76,39 @@ bool asst::OnnxSessions::use_cpu()
 
     Log.info("CPU OCR enabled with", cpu_threads, "threads");
 
+    m_gpu_selector = std::nullopt;
     gpu_enabled = false;
+    gpu_options_initialized = false;
     return true;
 }
 
-bool asst::OnnxSessions::use_gpu(int device_id)
+bool asst::OnnxSessions::use_gpu(GpuDeviceSelector selector)
 {
     if (gpu_enabled) {
-        return true;
+        return m_gpu_selector == selector;
     }
     if (m_sessions.size() != 0) {
         return false;
     }
+
+    m_options = Ort::SessionOptions();
+    m_gpu_selector = std::move(selector);
+    gpu_enabled = true;
+    gpu_options_initialized = false;
+    return true;
+}
+
+bool asst::OnnxSessions::initialize_gpu_options()
+{
+    if (!m_gpu_selector) {
+        return false;
+    }
+
+    const auto device_id = m_gpu_selector->resolve_device_id();
+    if (!device_id) {
+        return false;
+    }
+
     auto all_providers = Ort::GetAvailableProviders();
     bool support_cuda = false;
     bool support_dml = false;
@@ -99,18 +125,20 @@ bool asst::OnnxSessions::use_gpu(int device_id)
         }
     }
 
-    bool any_gpu = support_cuda || support_dml || support_coreml;
+    bool provider_configured = false;
 
     if (support_cuda) {
         OrtCUDAProviderOptions cuda_options;
-        cuda_options.device_id = device_id;
+        cuda_options.device_id = *device_id;
         m_options.AppendExecutionProvider_CUDA(cuda_options);
+        provider_configured = true;
     }
 #ifdef WITH_DML
     else if (support_dml) {
-        if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_DML(m_options, device_id)).IsOK()) {
+        if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_DML(m_options, *device_id)).IsOK()) {
             return false;
         }
+        provider_configured = true;
     }
 #endif
 #ifdef WITH_COREML
@@ -118,14 +146,15 @@ bool asst::OnnxSessions::use_gpu(int device_id)
         if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_CoreML((OrtSessionOptions*)m_options, 0)).IsOK()) {
             return false;
         }
+        provider_configured = true;
     }
 #endif
-    if (!any_gpu) {
+    if (!provider_configured) {
         Log.error(__FUNCTION__, "No GPU execution provider available");
         return false;
     }
 
-    gpu_enabled = true;
+    gpu_options_initialized = true;
     return true;
 }
 
