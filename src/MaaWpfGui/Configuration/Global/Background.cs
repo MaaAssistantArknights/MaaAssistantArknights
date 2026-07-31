@@ -23,7 +23,6 @@ namespace MaaWpfGui.Configuration.Global;
 [AddINotifyPropertyChangedInterface]
 public partial class Background
 {
-    public string ImagePath { get; set; } = "background/background.png";
     public string ImagePath { get; set; } = "Res/Backgrounds/Wallpapers/background.png";
 
     public Stretch StretchMode { get; set; } = Stretch.Fill;
