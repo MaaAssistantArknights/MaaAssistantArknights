@@ -209,7 +209,7 @@ jobs:
       - name: Generate global.json
         shell: bash
         run: |
-          echo '{"sdk":{"version":"10.0.203","rollForward":"disable"}}' > global.json
+          echo '{"sdk":{"version":"10.0.302","rollForward":"disable"}}' > global.json
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v6
