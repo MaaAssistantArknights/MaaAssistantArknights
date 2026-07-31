@@ -230,6 +230,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             Instances.AsstProxy.Connected = false;
             SetAndNotify(ref field, value);
             ConfigFactory.CurrentConfig.Gui.ConnectSettings.Config = value;
+            if (value == ConnectConfig.PC)
+            {
+                AutoDetectConnection = false;
+            }
+
             Instances.SettingsViewModel.UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
 
             // 切换连接配置时，若不再使用 MuMu 截图增强，需移除 MuMu 触控选项
