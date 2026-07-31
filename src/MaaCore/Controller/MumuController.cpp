@@ -98,8 +98,14 @@ bool MumuController::click(const Point& p)
     Log.trace("mumu click:", p);
 
     // 无条件抬手，避免 down 出错后手指卡在屏幕上
+    // down/up 之间保持一小段时间，模拟器才能识别为一次完整的点击（hold time）。
+    // 之后 up 再等同样时间，为下一次 click 留出间隔。与 minitouch 的 down w50、up w50 对齐。
     bool down = m_mumu_extras.touch_down(0, p.x, p.y);
-    return m_mumu_extras.touch_up(0) && down;
+    std::this_thread::sleep_for(std::chrono::milliseconds(Minitoucher::DefaultClickDelay));
+    bool up = m_mumu_extras.touch_up(0);
+    std::this_thread::sleep_for(std::chrono::milliseconds(Minitoucher::DefaultClickDelay));
+
+    return up && down;
 }
 
 bool MumuController::swipe(

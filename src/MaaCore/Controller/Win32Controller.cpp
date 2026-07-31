@@ -210,13 +210,17 @@ bool Win32Controller::click(const Point& p)
 
     // MaaWin32ControlUnit 返回 MaaControllerFeature_UseMouseDownAndUpInsteadOfClick
     // 需要使用 touch_down/touch_up 替代 click
-    if (!unit_touch_down(0, p.x, p.y, 0)) {
-        return false;
-    }
+    // down/up 之间保持一小段时间（hold time），模拟器才能识别为一次完整的点击；
+    // up 之后再等同样时间，为下一次 click 留出间隔。
+    // 与 Minitoucher::DefaultClickDelay（50ms）对齐。
+    constexpr int click_delay_ms = 50;
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    bool down = unit_touch_down(0, p.x, p.y, 0);
+    std::this_thread::sleep_for(std::chrono::milliseconds(click_delay_ms));
+    bool up = unit_touch_up(0);
+    std::this_thread::sleep_for(std::chrono::milliseconds(click_delay_ms));
 
-    return unit_touch_up(0);
+    return up && down;
 }
 
 bool Win32Controller::input(const std::string& text)
