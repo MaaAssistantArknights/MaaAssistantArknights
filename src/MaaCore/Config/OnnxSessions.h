@@ -27,6 +27,7 @@ public:
     bool use_gpu(GpuDeviceSelector selector);
 
 private:
+    int reset_session_options();
     bool initialize_gpu_options();
 
     Ort::Env m_env;

@@ -53,9 +53,13 @@ bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& val
             return false;
         }
 
+        if (!OnnxSessions::get_instance().use_gpu(*selector)) {
+            return false;
+        }
+
         WordOcr::get_instance().use_gpu(*selector);
         CharOcr::get_instance().use_gpu(*selector);
-        return OnnxSessions::get_instance().use_gpu(*selector);
+        return true;
     } break;
     default:
         Log.error(__FUNCTION__, "| unknown key:", static_cast<int>(key));

@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <optional>
 #include <string_view>
+#include <system_error>
 
 namespace asst
 {
@@ -17,6 +18,9 @@ public:
         GpuDeviceSelector result;
 
         if (value.starts_with(LuidPrefix)) {
+#ifndef _WIN32
+            return std::nullopt;
+#else
             const auto luid_value = value.substr(LuidPrefix.size());
             if (luid_value.empty() || luid_value.size() > 16) {
                 return std::nullopt;
@@ -31,6 +35,7 @@ public:
 
             result.m_adapter_luid = adapter_luid;
             return result;
+#endif
         }
 
         int device_id = 0;

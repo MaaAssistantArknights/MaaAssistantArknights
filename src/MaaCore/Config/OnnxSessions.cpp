@@ -48,14 +48,11 @@ Ort::Session& asst::OnnxSessions::get(const std::string& name)
     return m_sessions.at(name);
 }
 
-bool asst::OnnxSessions::use_cpu()
+int asst::OnnxSessions::reset_session_options()
 {
-    if (m_sessions.size() != 0) {
-        return false;
-    }
     m_options = Ort::SessionOptions();
 
-    int logical = std::max(1u, std::thread::hardware_concurrency());
+    const int logical = std::max(1u, std::thread::hardware_concurrency());
     int cpu_threads;
     if (logical <= 2) {
         cpu_threads = 1;
@@ -74,6 +71,16 @@ bool asst::OnnxSessions::use_cpu()
     m_options.SetExecutionMode(ExecutionMode::ORT_SEQUENTIAL);
     m_options.SetIntraOpNumThreads(cpu_threads);
 
+    return cpu_threads;
+}
+
+bool asst::OnnxSessions::use_cpu()
+{
+    if (m_sessions.size() != 0) {
+        return false;
+    }
+
+    const auto cpu_threads = reset_session_options();
     Log.info("CPU OCR enabled with", cpu_threads, "threads");
 
     m_gpu_selector = std::nullopt;
@@ -85,13 +92,19 @@ bool asst::OnnxSessions::use_cpu()
 bool asst::OnnxSessions::use_gpu(GpuDeviceSelector selector)
 {
     if (gpu_enabled) {
-        return m_gpu_selector == selector;
+        if (m_gpu_selector == selector) {
+            return true;
+        }
+
+        Log.error(__FUNCTION__, "GPU OCR is already configured with a different device selector");
+        return false;
     }
     if (m_sessions.size() != 0) {
+        Log.error(__FUNCTION__, "GPU OCR cannot be configured after ONNX sessions have been created");
         return false;
     }
 
-    m_options = Ort::SessionOptions();
+    reset_session_options();
     m_gpu_selector = std::move(selector);
     gpu_enabled = true;
     gpu_options_initialized = false;
@@ -128,7 +141,7 @@ bool asst::OnnxSessions::initialize_gpu_options()
     bool provider_configured = false;
 
     if (support_cuda) {
-        OrtCUDAProviderOptions cuda_options;
+        OrtCUDAProviderOptions cuda_options {};
         cuda_options.device_id = *device_id;
         m_options.AppendExecutionProvider_CUDA(cuda_options);
         provider_configured = true;
