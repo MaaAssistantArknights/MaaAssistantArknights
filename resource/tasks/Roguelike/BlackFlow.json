@@ -480,6 +480,7 @@
             "BlackFlow@Roguelike@GetDropSelect@(BlackFlow@Roguelike@CloseCollection)",
             "BlackFlow@Roguelike@CloseEvent",
             "BlackFlow@Roguelike@GetDropSelectRecruit",
+            "BlackFlow@Roguelike@GetDrop",
             "BlackFlow@Roguelike@GetDropSelectReward",
             "BlackFlow@Roguelike@ChooseOperFlag",
             "BlackFlow@Roguelike@GetDropCompleted",
