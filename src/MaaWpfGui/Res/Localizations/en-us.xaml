@@ -661,7 +661,6 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="UseCardLog">Use card style log</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">Maximum number of log thumbnails</system:String>
     <system:String x:Key="TitleBarDisplayContent">Title Bar Display Content</system:String>
-    <system:String x:Key="CustomBackgroundTip">Manually create a ｢background｣ folder and place ｢background.png｣ inside to customize the background</system:String>
     <system:String x:Key="UseLogItemDateFormat">Custom log date format</system:String>
     <system:String x:Key="LogItemDateFormatString">Date format string</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">Restart immediately to apply changes?</system:String>
