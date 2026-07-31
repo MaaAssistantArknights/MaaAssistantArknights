@@ -12,15 +12,17 @@
 // </copyright>
 
 #nullable enable
-using System.ComponentModel;
 using System.Windows.Media;
+using PropertyChanged;
 
 namespace MaaWpfGui.Configuration.Global;
 
-public class Background : INotifyPropertyChanged
+/// <summary>
+/// 背景设置
+/// </summary>
+[AddINotifyPropertyChangedInterface]
+public partial class Background
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public string ImagePath { get; set; } = "background/background.png";
 
     public Stretch StretchMode { get; set; } = Stretch.Fill;

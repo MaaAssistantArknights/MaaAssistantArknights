@@ -50,7 +50,7 @@ public class Win32Extra() : ExtraConfig
 #pragma warning restore SA1602 // Enumeration items should be documented
     #endregion Enums
 
-    public Win32Extra(AsstWin32ScreencapMethod screencapMethod,AsstWin32InputMethod inputMethod, AsstWin32KeyboardInputMethod keyboardInputMethod)
+    public Win32Extra(AsstWin32ScreencapMethod screencapMethod, AsstWin32InputMethod inputMethod, AsstWin32KeyboardInputMethod keyboardInputMethod)
         : this()
     {
         _screencapMethod = screencapMethod;

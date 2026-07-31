@@ -15,14 +15,17 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Models.EmulatorConnectionExtra;
+using PropertyChanged;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
-public class ConnectSettings : INotifyPropertyChanged
+/// <summary>
+/// 模拟器连接设置
+/// </summary>
+[AddINotifyPropertyChangedInterface]
+public partial class ConnectSettings
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     private static string _bindingPrefix = string.Empty;
 
     public void EventBinding(string key)

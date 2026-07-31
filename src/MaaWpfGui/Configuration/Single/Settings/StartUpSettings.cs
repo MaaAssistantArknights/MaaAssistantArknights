@@ -12,14 +12,16 @@
 // </copyright>
 
 #nullable enable
-using System.ComponentModel;
+using PropertyChanged;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
-public class StartUpSettings : INotifyPropertyChanged
+/// <summary>
+/// 模拟器启动设置
+/// </summary>
+[AddINotifyPropertyChangedInterface]
+public partial class StartUpSettings
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public bool RunDirectly { get; set; }
 
     /// <summary>

@@ -14,17 +14,19 @@
 #nullable enable
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 using System.Text.Json.Serialization;
+using PropertyChanged;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Global;
 
-public class TimerSettings : INotifyPropertyChanged
+/// <summary>
+/// 定时运行设置
+/// </summary>
+[AddINotifyPropertyChangedInterface]
+public partial class TimerSettings
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public void EventBinding(string prefix)
     {
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(TimerSettings) + ".");

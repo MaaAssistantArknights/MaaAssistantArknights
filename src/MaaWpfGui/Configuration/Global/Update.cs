@@ -11,15 +11,17 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System.ComponentModel;
+using PropertyChanged;
 using static MaaWpfGui.ViewModels.UserControl.Settings.VersionUpdateSettingsUserControlModel;
 
 namespace MaaWpfGui.Configuration.Global;
 
-public class Update : INotifyPropertyChanged
+/// <summary>
+/// 更新设置(全局)
+/// </summary>
+[AddINotifyPropertyChangedInterface]
+public partial class Update
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public string Name { get; set; } = string.Empty;
 
     public string UpdatePackage { get; set; } = string.Empty;
