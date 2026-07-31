@@ -103,6 +103,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             }
 
             ConfigFactory.CurrentConfig.Gui.ConnectSettings.AutoDetect = value;
+            if (!value)
+            {
+                AlwaysAutoDetectConnection = false;
+            }
+
             if (value)
             {
                 Instances.AsstProxy.Connected = false;
