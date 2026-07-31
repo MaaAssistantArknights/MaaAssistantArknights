@@ -2146,9 +2146,9 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="BadModules.Warning.Prolog">偵測到以下第三方軟體向 MAA 注入了 DLL。這些注入的 DLL 會破壞 WPF 算繪和 ONNX/DML 推論，導致 MAA 閃退、介面算繪異常或 OCR 識別失敗：</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">如果您發現 MAA 存在相關問題，請嘗試將 MAA 加入相關軟體的排除名單，或解除安裝相關軟體後檢查問題是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再顯示此警告</system:String>
-    <system:String x:Key="BadModules.Warning.Fallback">系統對話框崩潰，已改用備用方式顯示此警告</system:String>
+    <system:String x:Key="BadModules.Warning.Fallback">此外，系統的彈窗元件已被破壞並發生崩潰，MAA 的後續彈窗均可能無法正常顯示，其他系統功能也可能受到影響。點擊「是」下次不再提醒，點擊「否」僅本次關閉。</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">警告：效能影響</system:String>
-    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">選擇不再顯示警告後，MAA 將使用軟體渲染而不是硬體渲染。這將導致以下後果：&#x0a;&#x0a;• 效能下降&#x0a;• 介面卡頓&#x0a;• CPU 佔用率增高&#x0a;&#x0a;是否確認忽略警告並接受這些影響？</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">選擇不再顯示警告後，MAA 將使用軟體渲染而不是硬體渲染，這可以緩解介面渲染相關的問題，但不能保證解決所有問題（如彈窗崩潰等）。此外還將導致以下後果：&#x0a;&#x0a;• 效能下降&#x0a;• 介面卡頓&#x0a;• CPU 佔用率增高&#x0a;&#x0a;是否確認忽略警告並接受這些影響？</system:String>
     <system:String x:Key="BadModules.UseSoftwareRendering">使用軟體渲染</system:String>
     <system:String x:Key="BadModules.UseSoftwareRenderingTip">啟用後將不再顯示壞模組警告，並使用軟體渲染模式。這會導致效能下降、介面卡頓、CPU 佔用增高等後果。取消勾選可恢復硬體渲染。</system:String>
     <system:String x:Key="BadModules.ResetWarning">已啟用軟體渲染模式。該設定需要重新啟動 MAA 才能生效。</system:String>

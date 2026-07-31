@@ -36,6 +36,9 @@ SetWindowLong
 //BadInjectedDllChecker
 GetModuleHandle
 GetModuleFileName
+MessageBox
+MESSAGEBOX_STYLE
+MESSAGEBOX_RESULT
 
 //ToastNotification
 FlashWindowEx

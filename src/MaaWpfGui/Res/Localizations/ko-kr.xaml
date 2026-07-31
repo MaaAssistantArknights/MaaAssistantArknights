@@ -2146,9 +2146,9 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="BadModules.Warning.Prolog">다음 타사 소프트웨어가 MAA에 DLL을 주입했습니다. 이는 WPF 렌더링과 ONNX/DML 추론을 방해하여 MAA가 충돌하거나 UI 렌더링에 문제가 발생하거나 OCR 인식이 실패할 수 있습니다:</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">MAA에서 관련 문제가 발생하는 경우, 관련 소프트웨어의 제외 목록에 MAA를 추가하거나 관련 소프트웨어를 제거한 후 문제가 계속 발생하는지 확인하세요.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">이 경고를 다시 표시하지 않음</system:String>
-    <system:String x:Key="BadModules.Warning.Fallback">시스템 대화 상자가 충돌하여 폴백 방식으로 표시됩니다.</system:String>
+    <system:String x:Key="BadModules.Warning.Fallback">또한 시스템의 대화 상자 구성 요소가 손상되어 충돌이 발생했으며, MAA의 후속 대화 상자가 모두 표시되지 않을 뿐만 아니라 다른 시스템 기능에도 영향이 있을 수 있습니다. "예"를 클릭하면 다시 표시하지 않고, "아니요"를 클릭하면 지금은 닫습니다.</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">경고: 성능 영향</system:String>
-    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">경고를 숨기도록 선택하면 MAA는 하드웨어 렌더링 대신 소프트웨어 렌더링을 사용합니다. 이로 인해 다음과 같은 문제가 발생합니다:&#x0a;&#x0a;• 성능 저하&#x0a;• UI 지연&#x0a;• CPU 사용량 증가&#x0a;&#x0a;경고를 숨기고 이러한 결과를 수락하시겠습니까?</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">경고를 숨기도록 선택하면 MAA는 하드웨어 렌더링 대신 소프트웨어 렌더링을 사용합니다. 이를 통해 렌더링 관련 문제는 완화될 수 있지만, 모든 문제(예: 대화 상자 충돌)가 해결되는 것은 아닙니다. 또한 다음과 같은 문제가 발생합니다:&#x0a;&#x0a;• 성능 저하&#x0a;• UI 지연&#x0a;• CPU 사용량 증가&#x0a;&#x0a;경고를 숨기고 이러한 결과를 수락하시겠습니까?</system:String>
     <system:String x:Key="BadModules.UseSoftwareRendering">소프트웨어 렌더링 사용</system:String>
     <system:String x:Key="BadModules.UseSoftwareRenderingTip">활성화하면 잘못된 모듈 경고가 표시되지 않고 소프트웨어 렌더링 모드가 사용됩니다. 이로 인해 성능 저하, UI 지연 및 CPU 사용량 증가가 발생합니다. 체크 해제하면 하드웨어 렌더링으로 복원됩니다.</system:String>
     <system:String x:Key="BadModules.ResetWarning">소프트웨어 렌더링 모드가 활성화되었습니다. 이 설정을 적용하려면 MAA를 다시 시작하세요.</system:String>

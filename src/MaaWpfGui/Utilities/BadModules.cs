@@ -15,13 +15,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows;
 using System.Windows.Forms;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using Serilog;
 using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace MaaWpfGui.Utilities;
 
@@ -120,14 +121,17 @@ internal class BadModules
         catch (Exception e)
         {
             // https://github.com/dotnet/winforms/issues/14831
-            _logger.Warning(e, "TaskDialog failed, falling back to WPF MessageBox");
-            var msgResult = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("BadModules.Warning.Fallback") + "\n\n" + sb,
+            // TaskDialog 和 WPF MessageBox 在注入环境下都会崩溃，只能用 Win32 原生 MessageBox
+            _logger.Warning(e, "TaskDialog failed, falling back to native Win32 MessageBox");
+            _logger.Warning("Detected bad injected modules:\n{Modules}", sb.ToString());
+            var hwnd = System.Windows.Application.Current.MainWindow is null
+                ? IntPtr.Zero
+                : new System.Windows.Interop.WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
+            var ret = PInvoke.MessageBox((HWND)hwnd,
+                sb + "\n\n" + LocalizationHelper.GetString("BadModules.Warning.Fallback"),
                 LocalizationHelper.GetString("BadModules.Warning.Heading"),
-                MessageBoxButton.OKCancel,
-                MessageBoxImage.Warning,
-                ok: LocalizationHelper.GetString("BadModules.Warning.DoNotShowAgain"));
-            doNotShowAgain = msgResult == MessageBoxResult.OK;
+                MESSAGEBOX_STYLE.MB_ICONERROR | MESSAGEBOX_STYLE.MB_YESNO | MESSAGEBOX_STYLE.MB_DEFBUTTON2);
+            doNotShowAgain = ret == MESSAGEBOX_RESULT.IDYES;
         }
 
         _logger.Warning("Detected bad injected modules:\n{Modules}", sb.ToString());
@@ -150,18 +154,20 @@ internal class BadModules
             try
             {
                 // throw new NotImplementedException();
-                var confirmResult = TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), confirmPage);
+                var confirmResult = TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow!), confirmPage);
                 confirmed = confirmResult == TaskDialogButton.Yes;
             }
             catch (Exception e)
             {
-                _logger.Warning(e, "TaskDialog (confirmation) failed, falling back to WPF MessageBox");
-                var confirmMsgResult = MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("BadModules.Warning.Fallback") + "\n\n" + LocalizationHelper.GetString("BadModules.Confirmation.Text"),
+                _logger.Warning(e, "TaskDialog (confirmation) failed, falling back to native Win32 MessageBox");
+                var hwnd = System.Windows.Application.Current.MainWindow is null
+                    ? IntPtr.Zero
+                    : new System.Windows.Interop.WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
+                var ret = PInvoke.MessageBox((HWND)hwnd,
+                    LocalizationHelper.GetString("BadModules.Confirmation.Text"),
                     LocalizationHelper.GetString("BadModules.Confirmation.Heading"),
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Warning);
-                confirmed = confirmMsgResult == MessageBoxResult.Yes;
+                    MESSAGEBOX_STYLE.MB_ICONWARNING | MESSAGEBOX_STYLE.MB_YESNO | MESSAGEBOX_STYLE.MB_DEFBUTTON2);
+                confirmed = ret == MESSAGEBOX_RESULT.IDYES;
             }
 
             // 如果用户确认，则保存设置
