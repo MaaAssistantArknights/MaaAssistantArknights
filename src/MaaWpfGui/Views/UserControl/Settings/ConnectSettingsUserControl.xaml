@@ -161,7 +161,7 @@
 
         </StackPanel>
 
-        <StackPanel Grid.Row="2" IsEnabled="{c:Binding !AutoDetectConnection}">
+        <StackPanel Grid.Row="2">
             <StackPanel>
                 <ContentControl d:Content="{d:DesignInstance Type={x:Type extra:MuMu12Extra}}" Content="{Binding ExtraConfig}">
                     <ContentControl.Resources>
