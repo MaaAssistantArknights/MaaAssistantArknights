@@ -123,6 +123,7 @@ internal class BadModules
             // https://github.com/dotnet/winforms/issues/14831
             // TaskDialog 和 WPF MessageBox 在注入环境下都会崩溃，只能用 Win32 原生 MessageBox
             _logger.Warning(e, "TaskDialog failed, falling back to native Win32 MessageBox");
+            sb.AppendLine().AppendLine().Append(LocalizationHelper.GetString("BadModules.Warning.Fallback"));
             _logger.Warning("Detected bad injected modules:\n{Modules}", sb.ToString());
             var hwnd = System.Windows.Application.Current.MainWindow is null
                 ? IntPtr.Zero
