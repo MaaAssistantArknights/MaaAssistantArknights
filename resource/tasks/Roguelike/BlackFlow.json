@@ -1001,8 +1001,7 @@
         "next": ["BlackFlow@Roguelike@MovementInventoryObservationAction"]
     },
     "BlackFlow@Roguelike@MovementInventoryObservationAction": {
-        "baseTask": "BlackFlow@Roguelike@RecoveryFailed",
-        "template": "BlackFlow@Roguelike@MovementInventoryCollapse.png"
+        "baseTask": "BlackFlow@Roguelike@RecoveryFailed"
     },
     "BlackFlow@Roguelike@MovementInventoryItems": {
         "algorithm": "OcrDetect",
@@ -1248,7 +1247,8 @@
         "Doc": ["匹配事件选项时用于 Matcher。", "specificRect 用于截取单个事件选项。"],
         "template": "empty.png",
         "roi": [835, 50, 300, 585],
-        "specificRect": [835, 0, 300, 40]
+        "specificRect": [835, 0, 300, 40],
+        "specificRect_Doc": "供 RoguelikeEncounterOptionAnalyzer 截取单个事件选项，y 坐标由分析器按识别结果覆盖。"
     },
     "BlackFlow@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
         "Doc": "识别事件选项头部时用于 MultiMatcher。",
