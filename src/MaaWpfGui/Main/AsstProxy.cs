@@ -615,7 +615,7 @@ public class AsstProxy
                 }
             }
 
-            AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, x.Index.ToString());
+            AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, x.DeviceSelector);
         }
 
         bool loaded = LoadResource();
