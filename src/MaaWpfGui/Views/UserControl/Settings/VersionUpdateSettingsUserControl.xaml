@@ -14,7 +14,7 @@
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type settings_vms:VersionUpdateSettingsUserControlModel}}"
-    d:DesignWidth="550"
+    d:DesignWidth="540"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <Grid>
@@ -29,7 +29,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
@@ -67,18 +67,16 @@
                     Content="{DynamicResource AutoInstallUpdatePackage}"
                     IsChecked="{Binding AutoInstallUpdatePackage}" />
                 <CheckBox
-                    MaxWidth="150"
+                    MaxWidth="200"
                     Margin="8"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     IsChecked="{Binding ShowUpdaterConsole}">
                     <TextBlock Text="{DynamicResource ShowUpdaterConsole}" TextWrapping="Wrap" />
                 </CheckBox>
-                <StackPanel
-                    Margin="8"
-                    Orientation="Horizontal">
+                <StackPanel Margin="8" Orientation="Horizontal">
                     <CheckBox
-                        MaxWidth="150"
+                        MaxWidth="200"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         IsChecked="{Binding ShowUpdaterProgress}">

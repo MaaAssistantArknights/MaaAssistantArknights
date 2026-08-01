@@ -11,6 +11,10 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
+
+using System;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -19,8 +23,13 @@ using System.Windows.Media;
 
 namespace MaaWpfGui.Helper;
 
+/// <summary>
+/// 滚轮与弹层滚动相关的通用处理。
+/// </summary>
 public static class MouseWheelHelper
 {
+    private static readonly ConditionalWeakTable<Popup, PopupScrollIsolationState> PopupIsolationStates = [];
+
     public static void RouteMouseWheelToParent(object sender, MouseWheelEventArgs e)
     {
         if (e.Handled)
@@ -29,8 +38,7 @@ public static class MouseWheelHelper
         }
 
         e.Handled = true;
-        var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
-        {
+        var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta) {
             RoutedEvent = UIElement.MouseWheelEvent,
         };
         var parent = ((Control)sender).Parent as UIElement;
@@ -38,7 +46,7 @@ public static class MouseWheelHelper
     }
 
     /// <summary>
-    /// 将鼠标滚轮事件路由到父元素，但如果事件源在可滚动的子控件内部，则不路由
+    /// 将鼠标滚轮事件路由到父元素，但如果事件源在可滚动的子控件内部，则不路由。
     /// </summary>
     /// <param name="sender">要检查的元素</param>
     /// <param name="e">滚动事件参数</param>
@@ -56,8 +64,7 @@ public static class MouseWheelHelper
         }
 
         e.Handled = true;
-        var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
-        {
+        var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta) {
             RoutedEvent = UIElement.MouseWheelEvent,
         };
         var parent = ((Control)sender).Parent as UIElement;
@@ -65,11 +72,11 @@ public static class MouseWheelHelper
     }
 
     /// <summary>
-    /// 检查元素是否在可滚动的控件内部（如 ComboBox 的 Popup、ScrollViewer 等）
+    /// 检查元素是否在可滚动的控件内部（如 ComboBox 的 Popup、ScrollViewer 等）。
     /// </summary>
     /// <param name="element">要检查的元素</param>
     /// <param name="stopAt">停止查找的元素（通常是 sender），不包括此元素本身</param>
-    private static bool IsInsideScrollableControl(DependencyObject element, DependencyObject stopAt)
+    private static bool IsInsideScrollableControl(DependencyObject? element, DependencyObject? stopAt)
     {
         while (element != null && element != stopAt)
         {
@@ -101,5 +108,355 @@ public static class MouseWheelHelper
         {
             e.Handled = true; // 阻止滚动
         }
+    }
+
+    #region IsolateParentScroll（Popup 打开时锁定外层页面滚动）
+
+    /// <summary>
+    /// 附加到 <see cref="Popup"/>：打开期间锁定最近的外层 <see cref="ScrollViewer"/>，
+    /// 并拦截 <see cref="FrameworkElement.RequestBringIntoViewEvent"/>，
+    /// 避免下拉内容滚动/展开时带动页面一起滚。
+    /// </summary>
+    public static readonly DependencyProperty IsolateParentScrollProperty =
+        DependencyProperty.RegisterAttached(
+            "IsolateParentScroll",
+            typeof(bool),
+            typeof(MouseWheelHelper),
+            new PropertyMetadata(false, OnIsolateParentScrollChanged));
+
+    public static bool GetIsolateParentScroll(DependencyObject element) =>
+        (bool)element.GetValue(IsolateParentScrollProperty);
+
+    public static void SetIsolateParentScroll(DependencyObject element, bool value) =>
+        element.SetValue(IsolateParentScrollProperty, value);
+
+    private static void OnIsolateParentScrollChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not Popup popup)
+        {
+            return;
+        }
+
+        if ((bool)e.NewValue)
+        {
+            var state = PopupIsolationStates.GetValue(popup, static p => new PopupScrollIsolationState(p));
+            state.Attach();
+        }
+        else if (PopupIsolationStates.TryGetValue(popup, out var state))
+        {
+            state.Detach();
+        }
+    }
+
+    /// <summary>
+    /// 单个 Popup 的外层滚动隔离状态。
+    /// </summary>
+    private sealed class PopupScrollIsolationState
+    {
+        private readonly Popup _popup;
+        private bool _attached;
+        private bool _outerScrollLocked;
+        private bool _restoringOuterScroll;
+        private bool _bringIntoViewHooked;
+        private double _lockedOuterScrollOffset;
+        private ScrollViewer? _outerScrollViewer;
+        private UIElement? _bringIntoViewTarget;
+
+        public PopupScrollIsolationState(Popup popup)
+        {
+            _popup = popup;
+        }
+
+        public void Attach()
+        {
+            if (_attached)
+            {
+                return;
+            }
+
+            _popup.Opened += OnPopupOpened;
+            _popup.Closed += OnPopupClosed;
+            _attached = true;
+
+            if (_popup.IsOpen)
+            {
+                OnPopupOpened(_popup, EventArgs.Empty);
+            }
+        }
+
+        public void Detach()
+        {
+            if (!_attached)
+            {
+                return;
+            }
+
+            _popup.Opened -= OnPopupOpened;
+            _popup.Closed -= OnPopupClosed;
+            UnlockOuterScroll();
+            UnhookBringIntoView();
+            _attached = false;
+        }
+
+        private void OnPopupOpened(object? sender, EventArgs e)
+        {
+            HookBringIntoView();
+            LockOuterScroll();
+        }
+
+        private void OnPopupClosed(object? sender, EventArgs e)
+        {
+            UnlockOuterScroll();
+            UnhookBringIntoView();
+        }
+
+        private void HookBringIntoView()
+        {
+            UnhookBringIntoView();
+
+            // Popup.Child 在打开后才稳定；拦截其 RequestBringIntoView，防止冒泡到页面 ScrollViewer
+            if (_popup.Child is not UIElement child)
+            {
+                return;
+            }
+
+            child.AddHandler(
+                FrameworkElement.RequestBringIntoViewEvent,
+                new RequestBringIntoViewEventHandler(OnRequestBringIntoView),
+                handledEventsToo: true);
+            _bringIntoViewTarget = child;
+            _bringIntoViewHooked = true;
+        }
+
+        private void UnhookBringIntoView()
+        {
+            if (!_bringIntoViewHooked || _bringIntoViewTarget == null)
+            {
+                return;
+            }
+
+            _bringIntoViewTarget.RemoveHandler(
+                FrameworkElement.RequestBringIntoViewEvent,
+                new RequestBringIntoViewEventHandler(OnRequestBringIntoView));
+            _bringIntoViewTarget = null;
+            _bringIntoViewHooked = false;
+        }
+
+        private static void OnRequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
+        {
+            // 阻断弹层内元素请求滚动到可视区域，避免外层页面跟着滚
+            e.Handled = true;
+        }
+
+        private void LockOuterScroll()
+        {
+            var outer = FindParentScrollViewer(_popup);
+            if (outer == null)
+            {
+                return;
+            }
+
+            if (_outerScrollLocked && ReferenceEquals(_outerScrollViewer, outer))
+            {
+                _lockedOuterScrollOffset = outer.VerticalOffset;
+                return;
+            }
+
+            UnlockOuterScroll();
+
+            _outerScrollViewer = outer;
+            _lockedOuterScrollOffset = outer.VerticalOffset;
+            _outerScrollViewer.ScrollChanged += OuterScrollViewer_ScrollChanged;
+            _outerScrollViewer.PreviewMouseWheel += OuterScrollViewer_PreviewMouseWheel;
+            _outerScrollLocked = true;
+        }
+
+        private void UnlockOuterScroll()
+        {
+            if (!_outerScrollLocked || _outerScrollViewer == null)
+            {
+                _outerScrollLocked = false;
+                _outerScrollViewer = null;
+                return;
+            }
+
+            _outerScrollViewer.ScrollChanged -= OuterScrollViewer_ScrollChanged;
+            _outerScrollViewer.PreviewMouseWheel -= OuterScrollViewer_PreviewMouseWheel;
+            _outerScrollLocked = false;
+            _outerScrollViewer = null;
+        }
+
+        private void OuterScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (!_outerScrollLocked || _restoringOuterScroll || _outerScrollViewer == null || !_popup.IsOpen)
+            {
+                return;
+            }
+
+            if (Math.Abs(e.VerticalChange) < 0.01 &&
+                Math.Abs(_outerScrollViewer.VerticalOffset - _lockedOuterScrollOffset) < 0.01)
+            {
+                return;
+            }
+
+            _restoringOuterScroll = true;
+            try
+            {
+                _outerScrollViewer.ScrollToVerticalOffset(_lockedOuterScrollOffset);
+            }
+            finally
+            {
+                _restoringOuterScroll = false;
+            }
+        }
+
+        private void OuterScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (!_popup.IsOpen || e.Handled)
+            {
+                return;
+            }
+
+            // 弹层打开期间：外层页面一律不响应滚轮。
+            // 若指针在弹层上，把滚轮转给弹层内第一个可滚动 ScrollViewer。
+            if (IsMouseOverElement(_popup.Child as FrameworkElement))
+            {
+                var inner = FindDescendantScrollViewer(_popup.Child);
+                if (inner != null)
+                {
+                    ScrollScrollViewer(inner, e.Delta);
+                }
+            }
+
+            e.Handled = true;
+        }
+    }
+
+    #endregion
+
+    #region HandleMouseWheel（ScrollViewer 自行消化滚轮）
+
+    /// <summary>
+    /// 附加到 <see cref="ScrollViewer"/>：自行处理滚轮并标记 Handled，避免继续影响外层。
+    /// </summary>
+    public static readonly DependencyProperty HandleMouseWheelProperty =
+        DependencyProperty.RegisterAttached(
+            "HandleMouseWheel",
+            typeof(bool),
+            typeof(MouseWheelHelper),
+            new PropertyMetadata(false, OnHandleMouseWheelChanged));
+
+    public static bool GetHandleMouseWheel(DependencyObject element) =>
+        (bool)element.GetValue(HandleMouseWheelProperty);
+
+    public static void SetHandleMouseWheel(DependencyObject element, bool value) =>
+        element.SetValue(HandleMouseWheelProperty, value);
+
+    private static void OnHandleMouseWheelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not UIElement element)
+        {
+            return;
+        }
+
+        if ((bool)e.NewValue)
+        {
+            element.PreviewMouseWheel += HandleMouseWheel_OnPreviewMouseWheel;
+        }
+        else
+        {
+            element.PreviewMouseWheel -= HandleMouseWheel_OnPreviewMouseWheel;
+        }
+    }
+
+    private static void HandleMouseWheel_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (e.Handled)
+        {
+            return;
+        }
+
+        var scrollViewer = sender as ScrollViewer ?? FindDescendantScrollViewer(sender as DependencyObject);
+        if (scrollViewer == null)
+        {
+            return;
+        }
+
+        ScrollScrollViewer(scrollViewer, e.Delta);
+        e.Handled = true;
+    }
+
+    #endregion
+
+    private static void ScrollScrollViewer(ScrollViewer scrollViewer, int delta)
+    {
+        scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - (delta / 3.0));
+    }
+
+    private static bool IsMouseOverElement(FrameworkElement? element)
+    {
+        if (element == null || !element.IsVisible)
+        {
+            return false;
+        }
+
+        try
+        {
+            var pos = Mouse.GetPosition(element);
+            return pos.X >= 0 && pos.Y >= 0 && pos.X <= element.ActualWidth && pos.Y <= element.ActualHeight;
+        }
+        catch
+        {
+            return element.IsMouseOver;
+        }
+    }
+
+    private static ScrollViewer? FindParentScrollViewer(DependencyObject? current)
+    {
+        // Popup 本身不在 PlacementTarget 的可视树中，优先从 PlacementTarget 向上找页面 ScrollViewer
+        if (current is Popup popup)
+        {
+            current = popup.PlacementTarget as DependencyObject
+                      ?? LogicalTreeHelper.GetParent(popup) as DependencyObject
+                      ?? VisualTreeHelper.GetParent(popup);
+        }
+
+        while (current != null)
+        {
+            if (current is ScrollViewer scrollViewer)
+            {
+                return scrollViewer;
+            }
+
+            current = VisualTreeHelper.GetParent(current)
+                      ?? LogicalTreeHelper.GetParent(current) as DependencyObject;
+        }
+
+        return null;
+    }
+
+    private static ScrollViewer? FindDescendantScrollViewer(DependencyObject? root)
+    {
+        if (root == null)
+        {
+            return null;
+        }
+
+        if (root is ScrollViewer scrollViewer)
+        {
+            return scrollViewer;
+        }
+
+        var count = VisualTreeHelper.GetChildrenCount(root);
+        for (var i = 0; i < count; i++)
+        {
+            var result = FindDescendantScrollViewer(VisualTreeHelper.GetChild(root, i));
+            if (result != null)
+            {
+                return result;
+            }
+        }
+
+        return null;
     }
 }

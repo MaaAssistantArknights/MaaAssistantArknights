@@ -798,7 +798,6 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         set => SetTaskConfig<RoguelikeTask>(t => t.StopWhenLevelMax == value, t => t.StopWhenLevelMax = value);
     }
 
-
     /// <summary>
     /// Gets or sets a value indicating whether delay abort until battle complete
     /// </summary>

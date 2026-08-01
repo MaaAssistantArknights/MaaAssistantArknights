@@ -12,16 +12,18 @@
 // </copyright>
 #nullable enable
 using System;
-using System.ComponentModel;
 using System.Text.Json.Serialization;
 using MaaWpfGui.ViewModels.UserControl.Settings;
+using PropertyChanged;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
-public class RuntimeSettings : INotifyPropertyChanged, IJsonOnDeserialized
+/// <summary>
+/// wpf运行时设置
+/// </summary>
+[AddINotifyPropertyChangedInterface]
+public partial class RuntimeSettings : IJsonOnDeserialized
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public Constants.Enums.ClientType ClientType { get; set; } = Constants.Enums.ClientType.Official;
 
     public bool StartGame { get; set; } = true;

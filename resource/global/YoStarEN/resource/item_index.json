@@ -2063,6 +2063,14 @@
         "sortId": -10000,
         "usage": "Used to perform Data Iteration on Limiter Units."
     },
+    "act2break_milestone_point": {
+        "classifyType": "NONE",
+        "description": "An ordinary floor sign. After being used to denote acceleration points in stool racing competitions, operators interested in these competitions have become rather fond of it, eventually turning it into a collectible.",
+        "icon": "act2break_milestone_point.png",
+        "name": "'Caution! Wet Floor!'",
+        "sortId": -10000,
+        "usage": "Can be exchanged at Breakthrough Milestones for rewards."
+    },
     "act2collection_point_token": {
         "classifyType": "NONE",
         "description": "Rhodes Island issues special reward points as an incentive to field operators contributing to Integrated Strategies operations. These points can be used to redeem important supplies.",

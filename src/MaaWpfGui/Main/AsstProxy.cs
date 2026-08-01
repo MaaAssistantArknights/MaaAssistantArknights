@@ -640,7 +640,36 @@ public class AsstProxy
         // ReSharper disable once AsyncVoidLambda
         Execute.OnUIThread(
             async () => {
-                if (SettingsViewModel.StartSettings.RunDirectly)
+                bool runDirectly = SettingsViewModel.StartSettings.RunDirectly;
+                bool openEmulator = SettingsViewModel.StartSettings.OpenEmulatorAfterLaunch;
+
+                // 更新重启链写入的 --skip-startup-auto-run：跳过启动后自动开任务/模拟器
+                if (Bootstrapper.ShouldSkipStartupAutoRun)
+                {
+                    _logger.Information("Skip startup auto-run due to {Arg}", Bootstrapper.SkipStartupAutoRunArg);
+                    return;
+                }
+
+                // 会自动开任务或模拟器时，先给 10 秒反悔倒计时（不强制拉起主窗口）
+                if (runDirectly || openEmulator)
+                {
+                    string tipKey = (runDirectly, openEmulator) switch {
+                        (true, true) => "StartupAutoRunCountdownTaskAndEmulator",
+                        (true, false) => "StartupAutoRunCountdownTaskOnly",
+                        _ => "StartupAutoRunCountdownEmulatorOnly",
+                    };
+
+                    if (await Instances.TaskQueueViewModel.ConfirmStartupAutoRunAsync(
+                            LocalizationHelper.GetString("StartupAutoRunCountdownTitle"),
+                            LocalizationHelper.GetString(tipKey),
+                            seconds: 10))
+                    {
+                        _logger.Information("Startup auto-run canceled by user during countdown");
+                        return;
+                    }
+                }
+
+                if (runDirectly)
                 {
                     // 如果是直接运行模式，就先让按钮显示为运行
                     _runningState.SetIdle(false);
@@ -656,7 +685,7 @@ public class AsstProxy
                 }
 
                 // ReSharper disable once InvertIf
-                if (SettingsViewModel.StartSettings.RunDirectly)
+                if (runDirectly)
                 {
                     // 重置按钮状态，不影响LinkStart判断
                     _runningState.SetIdle(true);
@@ -907,10 +936,6 @@ public class AsstProxy
                     switch (SettingsViewModel.ConnectSettings.ConnectConfig)
                     {
                         case ConnectConfig.MuMuEmulator12:
-                            if (SettingsViewModel.ConnectSettings.ExtraConfig is not MuMu12Extra muMu12 || !muMu12.Enable)
-                            {
-                                break;
-                            }
 
                             // 保活开启但触控未生效 → 后台保活下无法操作，直接停止
                             if (!_mumuExtrasInputAvailable && EmulatorHelper.CheckMuMuKeepAlive())
@@ -922,6 +947,12 @@ public class AsstProxy
                                     LocalizationHelper.GetString("MuMuEmulator12KeepAliveOn"),
                                     UiLogColor.Error, showTime: false);
                                 needToStop = true;
+                            }
+
+                            // 以下是截图增强相关逻辑
+                            if (SettingsViewModel.ConnectSettings.ExtraConfig is not MuMu12Extra muMu12 || !muMu12.Enable)
+                            {
+                                break;
                             }
 
                             if (method != "MumuExtras")

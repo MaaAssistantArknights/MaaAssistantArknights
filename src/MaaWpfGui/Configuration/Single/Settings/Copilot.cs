@@ -13,18 +13,20 @@
 
 #nullable enable
 using System.Collections.Generic;
-using System.ComponentModel;
 using MaaWpfGui.ViewModels.Items;
+using PropertyChanged;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 using static MaaWpfGui.Models.AsstTasks.AsstCopilotTask;
 using static MaaWpfGui.ViewModels.UI.CopilotViewModel;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
-public class Copilot : INotifyPropertyChanged
+/// <summary>
+/// 自动战斗设置
+/// </summary>
+[AddINotifyPropertyChangedInterface]
+public partial class Copilot
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public void EventBinding(string prefix)
     {
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix);

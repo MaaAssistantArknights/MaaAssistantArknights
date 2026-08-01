@@ -788,8 +788,6 @@ public class TaskQueueViewModel : Screen
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
 
-            FightTask.RefreshSeriesLockState();
-
             InfrastTask.RefreshInfrastTimeRotationDisplay();
 
             await HandleTimerLogic(currentTime);
@@ -983,6 +981,24 @@ public class TaskQueueViewModel : Screen
         await LinkStart();
 
         AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.ScheduleMasterGroup);
+    }
+
+    /// <summary>
+    /// 启动后自动运行前的倒计时确认。超时返回 <see langword="false"/>（继续自动开），
+    /// 用户点取消返回 <see langword="true"/>（本次不自动开）。
+    /// 不强制显示主窗口（与关机倒计时不同）。
+    /// </summary>
+    /// <param name="content">主文案</param>
+    /// <param name="tipContent">提示文案</param>
+    /// <param name="seconds">倒计时秒数</param>
+    /// <returns>是否被用户取消</returns>
+    public Task<bool> ConfirmStartupAutoRunAsync(string content, string tipContent, int seconds = 10)
+    {
+        return TimerCanceledAsync(
+            content,
+            tipContent,
+            LocalizationHelper.GetString("Cancel"),
+            seconds);
     }
 
     private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent = "", int seconds = 10)

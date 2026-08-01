@@ -497,6 +497,13 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
         관리자 권한으로 실행 시 부팅 시 자동 실행이 지원되지 않습니다. MAA를 관리자 권한으로 장시간 실행하는 것은 권장하지 않습니다.\n필요할 경우 제어판 &gt; Windows 도구 &gt; 작업 스케줄러에서 커스텀 작업을 생성하세요. 트리거를 설정할 때 ｢가장 높은 권한으로 실행｣을 반드시 선택하세요.
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">MAA 실행 후 작업 자동 시작</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdate">업데이트 후 즉시 재시작할 때 자동 실행 안 함</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdateTip" xml:space="preserve">｢{key=AutoInstallUpdatePackage}｣ 이 켜져 있거나, 업데이트 안내에서 즉시 재시작을 선택한 경우에만 적용됩니다.
+｢{key=ManualRestart}｣ 를 선택한 뒤 나중에 수동으로 MAA를 실행하면 ｢{key=RunTaskAfterLaunch}｣ / ｢{key=OpenEmulatorAfterLaunch}｣ 는 평소처럼 동작합니다.</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTitle">자동 시작 예정</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskOnly">곧 작업을 자동 실행합니다. 취소할까요?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">곧 에뮬레이터를 자동 실행합니다. 취소할까요?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">곧 작업을 자동 실행하고 에뮬레이터를 시작합니다. 취소할까요?</system:String>
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
     <system:String x:Key="StartGameLaunchClient">시작 시 클라이언트 실행</system:String>
@@ -654,7 +661,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="UseCardLog">카드 스타일 로그 사용</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">로그 썸네일 최대 개수</system:String>
     <system:String x:Key="TitleBarDisplayContent">제목 표시줄 표시 내용</system:String>
-    <system:String x:Key="CustomBackgroundTip">｢background｣ 폴더를 직접 생성한 후 background.png를 넣으면 배경 이미지를 변경할 수 있습니다</system:String>
     <system:String x:Key="UseLogItemDateFormat">커스텀 로그 시간 형식</system:String>
     <system:String x:Key="LogItemDateFormatString">시간 형식 문자열</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">변경 사항을 적용을 위해 지금 재시작하시겠습니까?</system:String>
@@ -833,7 +839,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="KeepInventory">재고 유지</system:String>
     <system:String x:Key="TargetInventory">목표 재고</system:String>
     <system:String x:Key="Series">연속 전투</system:String>
-    <system:String x:Key="SeriesLockedTip">게임 업데이트 후 아직 적응되지 않았습니다. 게임 내에서 수동으로 대리 지휘 배수를 설정해 주세요.</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 스테이지의 가능한 최대 대리 지휘 횟수의 배수를 감지하고, 자동으로 최대 대리 지휘 횟수를 유지하며, 이성 회복제 사용 후 이성이 남지 않도록 합니다.
 
@@ -856,7 +861,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DefaultStage">현재/최근</system:String>
     <!--<system:String x:Key="InvalidStage">잘못된 스테이지</system:String>-->
     <system:String x:Key="ClosedStage">미개방 스테이지</system:String>
-    <system:String x:Key="UnsupportedStages">미지원 스테이지</system:String>
+    <system:String x:Key="UnsupportedStages">미지원 스테이지 {0}. 신규 이벤트 스테이지인 경우 지도 리소스 업데이트 후 자동 전투를 사용할 수 있습니다</system:String>
     <system:String x:Key="LowVersion">낮은 버전</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">최소 요구사항: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">남은 오픈일 수: </system:String>
@@ -1218,8 +1223,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
     <system:String x:Key="ErrorCrashMessageHeader">위 문제로 인해 프로그램이 비정상 종료되었습니다.</system:String>
-    <system:String x:Key="ErrorCrashMessageOpenLog"> ｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ 로 로그를 확인하고 오류가 발생한 구체적인 원인을 확인할 수 있습니다.</system:String>
-    <system:String x:Key="ErrorCrashMessageGenerateReport"> ｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 을 사용하여 오류 보고서를 생성한 후, 파란색 ｢{key=Issue}｣ 링크를 클릭하여 피드백을 제출해 주세요.</system:String>
+    <system:String x:Key="ErrorCrashMessageOpenLog">｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ 로 로그를 확인하고 오류가 발생한 구체적인 원인을 확인할 수 있습니다.</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 을 사용하여 오류 보고서를 생성한 후, 파란색 ｢{key=Issue}｣ 링크를 클릭하여 피드백을 제출해 주세요.</system:String>
     <system:String x:Key="ErrorCrashMessageHelpTip">다른 사람에게 도움을 요청할 경우, 이 창의 스크린샷, 화면 녹화, 화면 사진, 촬영한 영상, 손그림, 옮겨 적은 내용이 아니라 생성된 오류 보고서 파일을 보내 주세요.</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">마지막 충돌 원인</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
@@ -1423,7 +1428,7 @@ MAA Team의 개발 여력이 제한되어 있어 이 기능은 커뮤니티에�
 1. MAA를 관리자 권한으로 실행해야 합니다
 2. 일부 스크린샷 방식에서는 게임 창을 최소화할 수 없습니다
 3. 명일방주 설정 → 게임 → UI 배율을 100%로 설정해야 합니다
-4. 게임 해상도는 16:9이어야 하며, 권장 설정: 720×1280 또는 1080×1920</system:String>
+4. 게임 해상도는 16:9이어야 하며, 권장 설정: 1280x720 또는 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
@@ -1769,7 +1774,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
 
     <system:String x:Key="Achievement.SanityExpire.Title">배신자!</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">유통기한이 다 될 때까지 뭐 하셨어요? 너무해요!</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions"> ｢{key=UseExpiringMedicine}｣  기능으로 한 번에 8개 이상의 이성 회복제 사용</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">｢{key=UseExpiringMedicine}｣  기능으로 한 번에 8개 이상의 이성 회복제 사용</system:String>
 
     <system:String x:Key="Achievement.OverLimitAgent.Title">스테이지 파괴자</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Description">이제 여기는 눈감고도 돌 수 있겠어요</system:String>
@@ -2140,8 +2145,9 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="BadModules.Warning.Prolog">다음 타사 소프트웨어가 MAA에 DLL을 주입했습니다. 이는 WPF 렌더링과 ONNX/DML 추론을 방해하여 MAA가 충돌하거나 UI 렌더링에 문제가 발생하거나 OCR 인식이 실패할 수 있습니다:</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">MAA에서 관련 문제가 발생하는 경우, 관련 소프트웨어의 제외 목록에 MAA를 추가하거나 관련 소프트웨어를 제거한 후 문제가 계속 발생하는지 확인하세요.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">이 경고를 다시 표시하지 않음</system:String>
+    <system:String x:Key="BadModules.Warning.Fallback">또한 시스템의 대화 상자 구성 요소가 손상되어 충돌이 발생했으며, MAA의 후속 대화 상자가 모두 표시되지 않을 뿐만 아니라 다른 시스템 기능에도 영향이 있을 수 있습니다. "예"를 클릭하면 다시 표시하지 않고, "아니요"를 클릭하면 지금은 닫습니다.</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">경고: 성능 영향</system:String>
-    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">경고를 숨기도록 선택하면 MAA는 하드웨어 렌더링 대신 소프트웨어 렌더링을 사용합니다. 이로 인해 다음과 같은 문제가 발생합니다:&#x0a;&#x0a;• 성능 저하&#x0a;• UI 지연&#x0a;• CPU 사용량 증가&#x0a;&#x0a;경고를 숨기고 이러한 결과를 수락하시겠습니까?</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">경고를 숨기도록 선택하면 MAA는 하드웨어 렌더링 대신 소프트웨어 렌더링을 사용합니다. 이를 통해 렌더링 관련 문제는 완화될 수 있지만, 모든 문제(예: 대화 상자 충돌)가 해결되는 것은 아닙니다. 또한 다음과 같은 문제가 발생합니다:&#x0a;&#x0a;• 성능 저하&#x0a;• UI 지연&#x0a;• CPU 사용량 증가&#x0a;&#x0a;경고를 숨기고 이러한 결과를 수락하시겠습니까?</system:String>
     <system:String x:Key="BadModules.UseSoftwareRendering">소프트웨어 렌더링 사용</system:String>
     <system:String x:Key="BadModules.UseSoftwareRenderingTip">활성화하면 잘못된 모듈 경고가 표시되지 않고 소프트웨어 렌더링 모드가 사용됩니다. 이로 인해 성능 저하, UI 지연 및 CPU 사용량 증가가 발생합니다. 체크 해제하면 하드웨어 렌더링으로 복원됩니다.</system:String>
     <system:String x:Key="BadModules.ResetWarning">소프트웨어 렌더링 모드가 활성화되었습니다. 이 설정을 적용하려면 MAA를 다시 시작하세요.</system:String>

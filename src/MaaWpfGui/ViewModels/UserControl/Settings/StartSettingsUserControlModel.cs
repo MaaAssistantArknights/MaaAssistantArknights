@@ -89,6 +89,18 @@ public class StartSettingsUserControlModel : PropertyChangedBase
     } = ConfigFactory.CurrentConfig.Gui.StartUpSettings.RunDirectly;
 
     /// <summary>
+    /// Gets or sets a value indicating whether to skip startup auto-run when restarting immediately for an update
+    /// (auto-install or choosing restart now). Choosing “later” then starting MAA manually is a normal launch.
+    /// </summary>
+    public bool SkipStartupAutoRunAfterUpdate
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.StartUpSettings.SkipStartupAutoRunAfterUpdate = value;
+        }
+    } = ConfigFactory.CurrentConfig.Gui.StartUpSettings.SkipStartupAutoRunAfterUpdate;
+
+    /// <summary>
     /// Gets or sets a value indicating whether to minimize directly.
     /// </summary>
     public bool MinimizeDirectly

@@ -6,6 +6,10 @@
         "algorithm": "JustReturn",
         "baseTask": "#none"
     },
+    "FightSeries-OldMethodFlag": {
+        "algorithm": "JustReturn",
+        "doc": "whether to use old series method"
+    },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -1205,6 +1209,20 @@
     "AnnihilationSwitchButton": {
         "text": ["변경"]
     },
+    "FightSeries-Opened": {
+        "template": "FightSeries-Indicator.png",
+        "roi": [940, 190, 80, 380],
+        "templThreshold": 0.9,
+        "maskRange": [1, 255]
+    },
+    "FightSeries-List-Multiply": {
+        "Doc": "连战次数列表每个选项的乘号, rectMove到次数, 灰度低于150为碎石才能打",
+        "action": "ClickRect",
+        "roi": [970, 200, 40, 360],
+        "rectMove": [25, 10, 20, 25],
+        "specificRect": [0, 0, 55, 40],
+        "specialParams": [150]
+    },
     "StartButton1": {
         "ocrReplace": [["개.+", "개시"]],
         "text": ["작전개시"]
@@ -1720,6 +1738,10 @@
             ["외적방어", "御外侮"],
             ["곳곳의복음", "遍地福音"]
         ]
+    },
+    "BattleQuickFormationClear": {
+        "docs": "Added as Vector Breakthrough formation clear differs from normal formation clear",
+        "template": ["BattleQuickFormationClear", "BattleQuickFormationClear2"]
     },
     "BattleQuickFormationFilter-Cost": {
         "text": ["배치코스트"]

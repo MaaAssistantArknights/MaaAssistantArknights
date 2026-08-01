@@ -497,6 +497,13 @@ If you are concerned about leftover entries, please disable this option before d
         Administrator mode does not support startup on boot. It is not recommended to run MAA with administrator privileges for an extended period.\nIf necessary, please go to Control Panel &gt; Windows Tools &gt; Task Scheduler to create a custom task. When setting the trigger, make sure to check ｢Run with highest privileges｣
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdate">Do not auto-run when restarting immediately for update</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdateTip" xml:space="preserve">Only applies when ｢{key=AutoInstallUpdatePackage}｣ is on, or when you choose to restart immediately in the update prompt.
+If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=RunTaskAfterLaunch}｣ / ｢{key=OpenEmulatorAfterLaunch}｣ still run as usual.</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTitle">Auto-start pending</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskOnly">About to auto-run tasks. Cancel?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">About to start the emulator automatically. Cancel?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">About to auto-run tasks and start the emulator. Cancel?</system:String>
     <system:String x:Key="MinimizeAfterLaunch">Auto Minimize after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="StartGameLaunchClient">Launch Client on Start</system:String>
@@ -654,7 +661,6 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="UseCardLog">Use card style log</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">Maximum number of log thumbnails</system:String>
     <system:String x:Key="TitleBarDisplayContent">Title Bar Display Content</system:String>
-    <system:String x:Key="CustomBackgroundTip">Manually create a ｢background｣ folder and place ｢background.png｣ inside to customize the background</system:String>
     <system:String x:Key="UseLogItemDateFormat">Custom log date format</system:String>
     <system:String x:Key="LogItemDateFormatString">Date format string</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">Restart immediately to apply changes?</system:String>
@@ -831,7 +837,6 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="KeepInventory">Keep Inventory</system:String>
     <system:String x:Key="TargetInventory">Goal</system:String>
     <system:String x:Key="Series">Series</system:String>
-    <system:String x:Key="SeriesLockedTip">Not yet adapted after game update. Please set the proxy multiplier manually in the game.</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 Automatically identify the maximum proxy multiplier of the level, maintain the maximum proxy multiplier and do not overflow sanity after using sanity potion
 
@@ -854,11 +859,11 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DefaultStage">Cur/Last</system:String>
     <!--<system:String x:Key="InvalidStage">Invalid</system:String>-->
     <system:String x:Key="ClosedStage">The event is not open</system:String>
-    <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
+    <system:String x:Key="UnsupportedStages">Unsupported stage {0}. If this is a stage from a new event, please wait for the map resource update before using auto-combat</system:String>
     <system:String x:Key="LowVersion">Old Version, Update required</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">Minimum Requirements:&#160;</system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">Days left open:&#160;</system:String>
-    <system:String x:Key="Inventory">Inv: </system:String>
+    <system:String x:Key="Inventory">Inv:</system:String>
     <system:String x:Key="InventoryUpdateTip">Inventory data can be updated via  ｢{key=Toolbox}-{key=DepotRecognition}｣</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">Task "{0}" uses {key=TargetInventory}, but no inventory data is currently available, so it was skipped. Update it via ｢{key=Toolbox}-{key=DepotRecognition}｣.</system:String>
     <!--  DepotMaintain  -->
@@ -1421,7 +1426,7 @@ Before use, please ensure:
 1. MAA is launched with administrator privileges
 2. For some screencap methods, the game window cannot be minimized
 3. Arknights Settings → Game → UI Scaling is set to 100%
-4. Game resolution must be 16:9, recommended settings: 720×1280 or 1080×1920</system:String>
+4. Game resolution must be 16:9, recommended settings: 1280x720 or 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
@@ -2139,8 +2144,9 @@ These locations are too high-level and can lead to file overwrites, config write
     <system:String x:Key="BadModules.Warning.Prolog">The following third-party software has injected DLL(s) into MAA, which will interfere with WPF rendering and ONNX/DML inference, causing MAA to crash, display rendering anomalies, or OCR recognition failures:</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">If you encounter such issues with MAA, please try adding MAA to the exclusion list of the relevant software, or uninstall the related software and check if the problem persists.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">Do not show this warning again</system:String>
+    <system:String x:Key="BadModules.Warning.Fallback">Additionally, the system's dialog component has been damaged and crashed — all subsequent dialogs may fail to display, and other system functionality may also be affected. Click "Yes" to suppress this warning, or "No" to dismiss for now.</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">Warning: Performance Impact</system:String>
-    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">If you choose to suppress this warning, MAA will use software rendering instead of hardware rendering. This will cause:&#x0a;&#x0a;• Performance degradation&#x0a;• UI lag&#x0a;• Increased CPU usage&#x0a;&#x0a;&#x0a;Do you confirm to suppress the warning and accept these consequences?</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">If you choose to suppress this warning, MAA will use software rendering instead of hardware rendering, which can mitigate rendering-related issues but does not guarantee resolving all problems (such as dialog crashes). This will also cause:&#x0a;&#x0a;• Performance degradation&#x0a;• UI lag&#x0a;• Increased CPU usage&#x0a;&#x0a;Do you confirm to suppress the warning and accept these consequences?</system:String>
     <system:String x:Key="BadModules.UseSoftwareRendering">Use Software Rendering</system:String>
     <system:String x:Key="BadModules.UseSoftwareRenderingTip">When enabled, bad module warnings will be suppressed and software rendering mode will be used. This causes performance degradation, UI lag, and increased CPU usage. Uncheck to restore hardware rendering.</system:String>
     <system:String x:Key="BadModules.ResetWarning">Software rendering mode is now enabled. Restart MAA to apply this setting.</system:String>

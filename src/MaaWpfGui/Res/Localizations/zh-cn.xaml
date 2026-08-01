@@ -497,6 +497,13 @@ D:\
         管理员权限启动不支持开机自启。不建议长期以管理员权限运行 MAA。\n如确有需要，请前往 控制面板 > Windows 工具 > 任务计划程序 创建自定义任务。设置触发器时，请确保勾选 ｢使用最高权限运行｣。
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">启动 MAA 后直接运行</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdate">更新后立即重启时不自动运行</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdateTip" xml:space="preserve">仅在 ｢{key=AutoInstallUpdatePackage}｣ 或更新提示中选择立即重启时生效。
+若选择 ｢{key=ManualRestart}｣ 再手动启动 MAA，仍会按 ｢{key=RunTaskAfterLaunch}｣ / ｢{key=OpenEmulatorAfterLaunch}｣ 正常执行。</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTitle">即将自动启动</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskOnly">即将自动运行任务，是否取消？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">即将自动启动模拟器，是否取消？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">即将自动运行任务并启动模拟器，是否取消？</system:String>
     <system:String x:Key="MinimizeAfterLaunch">启动 MAA 后直接最小化</system:String>
     <system:String x:Key="ClientType">客户端类型</system:String>
     <system:String x:Key="StartGameLaunchClient">是否启动客户端</system:String>
@@ -654,7 +661,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="UseCardLog">使用卡片样式日志</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">日志缩略图最大数量</system:String>
     <system:String x:Key="TitleBarDisplayContent">标题栏显示内容</system:String>
-    <system:String x:Key="CustomBackgroundTip">手动创建 background 文件夹，将 background.png 放入即可自定义背景图片</system:String>
     <system:String x:Key="UseLogItemDateFormat">自选日志日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字符串</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>
@@ -832,7 +838,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="KeepInventory">保持库存</system:String>
     <system:String x:Key="TargetInventory">目标库存</system:String>
     <system:String x:Key="Series">代理倍率</system:String>
-    <system:String x:Key="SeriesLockedTip">8/1 游戏更新后暂未适配，请手动在游戏内设置代理倍率</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 自动识别关卡最大代理倍率, 保持最大代理倍率且使用理智药后理智不溢出
 
@@ -855,7 +860,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DefaultStage">当前/上次</system:String>
     <!--<system:String x:Key="InvalidStage">无效关卡</system:String>-->
     <system:String x:Key="ClosedStage">活动未开放</system:String>
-    <system:String x:Key="UnsupportedStages">不支持的关卡</system:String>
+    <system:String x:Key="UnsupportedStages">不支持的关卡 {0}，如果是新活动的关卡，请等待地图资源更新后再使用自动战斗</system:String>
     <system:String x:Key="LowVersion">版本过低</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低需求: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩余天数: </system:String>
@@ -1422,7 +1427,7 @@ C:\\leidian\\LDPlayer9
 1. 需要以管理员身份启动 MAA
 2. 部分截图方式下，游戏窗口不能最小化
 3. 明日方舟设置 → 游戏 → UI 缩放需设为 100%
-4. 游戏分辨率需为 16:9，推荐设置 720×1280 或 1080×1920</system:String>
+4. 游戏分辨率需为 16:9，推荐设置 1280x720 或 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截图方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">鼠标输入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">键盘输入</system:String>
@@ -2141,8 +2146,9 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="BadModules.Warning.Prolog">检测到以下第三方软件向 MAA 注入了 DLL。这些注入的 DLL 会破坏 WPF 渲染和 ONNX/DML 推理，导致 MAA 闪退、界面渲染异常或 OCR 识别失败：</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">如果您注意到 MAA 存在相关问题，请尝试将 MAA 加入相关软件的排除名单，或卸载相关软件后检查问题是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再显示此警告</system:String>
+    <system:String x:Key="BadModules.Warning.Fallback">此外，系统的弹窗组件已被破坏并发生崩溃，MAA 的后续弹窗均可能无法正常显示，其他系统功能也可能受到影响。点击“是”下次不再提醒，点击“否”仅本次关闭。</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">警告：性能影响</system:String>
-    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">选择不再显示警告后，MAA 将使用软件渲染而不是硬件渲染。这将导致以下后果：&#x0a;&#x0a;• 性能下降&#x0a;• 界面卡顿&#x0a;• CPU 占用率增高&#x0a;&#x0a;是否确认忽略警告并接受这些影响？</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">选择不再显示警告后，MAA 将使用软件渲染而不是硬件渲染，这可以缓解界面渲染相关的问题，但不能保证解决所有问题（如弹窗崩溃等）。此外还将导致以下后果：&#x0a;&#x0a;• 性能下降&#x0a;• 界面卡顿&#x0a;• CPU 占用率增高&#x0a;&#x0a;是否确认忽略警告并接受这些影响？</system:String>
     <system:String x:Key="BadModules.UseSoftwareRendering">使用软件渲染</system:String>
     <system:String x:Key="BadModules.UseSoftwareRenderingTip">启用后将不再显示坏模块警告，并使用软件渲染模式。这会导致性能下降、界面卡顿、CPU占用增高等后果。取消勾选可恢复硬件渲染。</system:String>
     <system:String x:Key="BadModules.ResetWarning">已启用软件渲染模式。该设置需要重启 MAA 才能生效。</system:String>

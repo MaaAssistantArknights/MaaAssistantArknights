@@ -11,18 +11,20 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System.ComponentModel;
 using System.Text.Json.Serialization;
+using PropertyChanged;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
 using static MaaWpfGui.Models.PostActionSetting;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
-public class Gui : INotifyPropertyChanged
+/// <summary>
+/// Wpf相关设置
+/// </summary>
+[AddINotifyPropertyChangedInterface]
+public partial class Gui
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public void EventBinding(string prefix)
     {
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix);

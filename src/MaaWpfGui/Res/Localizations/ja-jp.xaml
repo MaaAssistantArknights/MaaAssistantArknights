@@ -126,8 +126,8 @@
     <system:String x:Key="GuideDocumentationTitle">📖 公式サイトとドキュメント</system:String>
     <system:String x:Key="GuideDocumentationPath">MAA の公式サイトと完全なドキュメントは ｢{key=Settings} - {key=AboutUs} - {key=Website}｣ でご覧いただけます。</system:String>
     <system:String x:Key="GuideIssueReportSubtitle">🔧 問題が発生した場合</system:String>
-    <system:String x:Key="GuideViewLog"> ｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ にアクセスしてログを確認し、エラーの具体的な原因を把握できます。</system:String>
-    <system:String x:Key="GuideGenerateReport"> ｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ を使用してエラーレポートを生成し、青い ｢{key=Issue}｣ リンクをクリックしてフィードバックを送信してください。</system:String>
+    <system:String x:Key="GuideViewLog">｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ にアクセスしてログを確認し、エラーの具体的な原因を把握できます。</system:String>
+    <system:String x:Key="GuideGenerateReport">｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ を使用してエラーレポートを生成し、青い ｢{key=Issue}｣ リンクをクリックしてフィードバックを送信してください。</system:String>
     <system:String x:Key="GuideGitHubIssueTitle">⚠️ フィードバックガイドライン</system:String>
     <system:String x:Key="GuideGitHubIssueDescription">MAA Team は、Issue テンプレートの仕様に従って GitHub プラットフォームを通じてユーザーから提出されたフィードバックのみを受け付け、すべてのフィードバックの処理に関する決定権を留保します。</system:String>
     <system:String x:Key="GuideOpenSourceTitle">💡 オープンソースへの参加</system:String>
@@ -228,14 +228,14 @@
     <system:String x:Key="StartingCoreChar">最初の{key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">この{key=Operator}がbattle_dataにありません。</system:String>
-    <system:String x:Key="RoguelikeStartWithEliteTwo"> ｢{key=StartingCoreChar}｣ 直接昇進</system:String>
-    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo"> ｢{key=StartingCoreChar}｣ の昇進招集までリセマラし、戦闘を行わない</system:String>
+    <system:String x:Key="RoguelikeStartWithEliteTwo">｢{key=StartingCoreChar}｣ 直接昇進</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">｢{key=StartingCoreChar}｣ の昇進招集までリセマラし、戦闘を行わない</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">第一層遠見で指定された啓示板を取得し、戦闘を行わない</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活重視分隊で開始、指定された啓示板を取得する</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最大3つ書き込み、半角セミコロン;で区切る</system:String>
     <system:String x:Key="RoguelikeCollapseList">崩壊パラダイムリスト</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">英語のセミコロン ｢;｣ で区切る、空白のままにするとデフォルトリストが使用されます。</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit"> ｢{key=StartingCoreChar}｣ をサポートから選択</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ をサポートから選択</system:String>
     <system:String x:Key="RoguelikeRequireStartingCoreChar">まず ｢{key=StartingCoreChar}｣ を入力してください</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">戦友以外のサポートの使用を許可</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自動ローグ 戦闘終了まえに ｢{key=Stop}｣ を遅らせる</system:String>
@@ -415,7 +415,7 @@
     <system:String x:Key="ForceGithubGlobalSource">GitHub を強制使用</system:String>
     <system:String x:Key="ForceGithubGlobalSourceTip">更新を検出後、Githubから強制的に更新パッケージをダウンロード</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
-    <system:String x:Key="MirrorChyanSelectedButNoCdk"> ｢{key=Settings} - {key=UpdateSettings}｣ に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
+    <system:String x:Key="MirrorChyanSelectedButNoCdk">｢{key=Settings} - {key=UpdateSettings}｣ に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">リソース更新 {0} が検出されました。 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ に移動して手動で更新するか、MirrorChayn CDK を入力して自動的に更新してください。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">リソース更新 {0} が検出されました</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK の有効期限が切れました。新しい CDK を使用して認証してください。</system:String>
@@ -426,8 +426,8 @@
     <system:String x:Key="MirrorChyanCdkRemainingDays">CDK の有効期限は残り {0} 日です。</system:String>
     <system:String x:Key="MirrorChyanCdkFetchFailed">CDK 情報の取得に失敗しました。前回正常に取得した結果を表示しています。</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource"> ｢{key=GlobalSource}｣ からダウンロード中...</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan"> ｢{key=MirrorChyan}｣ からダウンロード中...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">｢{key=GlobalSource}｣ からダウンロード中...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">｢{key=MirrorChyan}｣ からダウンロード中...</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">バージョン: </system:String>
     <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">内容: </system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">Webサイトで確認</system:String>
@@ -497,6 +497,13 @@ MAA は非インストール型のアプリケーションであり、レジス�
         管理者権限での起動は、起動時の自動実行をサポートしていません。MAAを長時間管理者権限で実行することはお勧めしません。\n必要な場合は、 ｢コントロールパネル &gt; Windowsツール &gt; タスクスケジューラ｣ に移動してカスタムタスクを作成してください。トリガーを設定する際に、 ｢最も高い特権で実行｣ を必ず選択してください。
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdate">更新のため直ちに再起動する時は自動実行しない</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdateTip" xml:space="preserve">｢{key=AutoInstallUpdatePackage}｣ が有効な場合、または更新確認で直ちに再起動を選んだ場合のみ適用されます。
+｢{key=ManualRestart}｣ を選んで後から手動起動した場合は、｢{key=RunTaskAfterLaunch}｣ / ｢{key=OpenEmulatorAfterLaunch}｣ は通常どおり実行されます。</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTitle">自動起動の準備中</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskOnly">まもなくタスクを自動実行します。キャンセルしますか？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">まもなくエミュレータを自動起動します。キャンセルしますか？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">まもなくタスクを自動実行し、エミュレータを起動します。キャンセルしますか？</system:String>
     <system:String x:Key="MinimizeAfterLaunch">アプリの起動時に自動的に最小化</system:String>
     <system:String x:Key="ClientType">クライアントバージョン</system:String>
     <system:String x:Key="StartGameLaunchClient">起動時にクライアントを開始する</system:String>
@@ -614,7 +621,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30FP獲得できます。
 この機能は、ステージを ｢{key=DefaultStage}｣ に選択している場合は無効です。
 ステージOF-1がアンロックされていない場合は、チェックしないでください。</system:String>
-    <system:String x:Key="CreditFightWhenOF-1Warning"> ｢{key=Fight}｣ タスクのステージリストに ｢{key=DefaultStage}｣ が存在するし、 ｢{key=Mall}｣ タスクはOF-1での戦友サポート借用の戦闘をスキップします。タスク名: {0} (シーケンス番号 {1})、レベル シーケンス番号 {2}</system:String>
+    <system:String x:Key="CreditFightWhenOF-1Warning">｢{key=Fight}｣ タスクのステージリストに ｢{key=DefaultStage}｣ が存在するし、 ｢{key=Mall}｣ タスクはOF-1での戦友サポート借用の戦闘をスキップします。タスク名: {0} (シーケンス番号 {1})、レベル シーケンス番号 {2}</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
     <system:String x:Key="HighPriorityDefault">求人票</system:String>
@@ -646,7 +653,7 @@ MAA は非インストール型のポータブルソフトウェアで、通知�
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings
 該当するパスのキーを削除してください。
 </system:String>
-    <system:String x:Key="HideCloseButton"> ｢閉じる｣ ボタンを隠す</system:String>
+    <system:String x:Key="HideCloseButton">｢閉じる｣ ボタンを隠す</system:String>
     <system:String x:Key="WindowTitleScrollable">タイトルのスクロール機能</system:String>
     <system:String x:Key="MainTasksNullFunctionality">メインタスクの右クリック効果を反転</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">デフォルト：1回のみ有効、チェック後：1回のみスキップ</system:String>
@@ -654,7 +661,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="UseCardLog">カードスタイルのログを使用</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">ログサムネイルの最大数</system:String>
     <system:String x:Key="TitleBarDisplayContent">タイトルバー表示コンテンツ</system:String>
-    <system:String x:Key="CustomBackgroundTip"> ｢background｣ フォルダを手動で作成し、background.png を配置すると背景画像をカスタマイズできます</system:String>
     <system:String x:Key="UseLogItemDateFormat">カスタムログ日付形式</system:String>
     <system:String x:Key="LogItemDateFormatString">日付書式文字列</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">変更を適用するためにすぐに再起動しますか？</system:String>
@@ -747,7 +753,7 @@ C:\\leidian\\LDPlayer9
 縦画面状態でゲームを起動した後、横画面に切り替えると、画面の乱れ（ティアリング）などの問題が発生する可能性があります。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD エミュレータパス</system:String>
-    <system:String x:Key="LdManualSetIndex"> ｢{key=LdIndex}｣ を手動で入力</system:String>
+    <system:String x:Key="LdManualSetIndex">｢{key=LdIndex}｣ を手動で入力</system:String>
     <system:String x:Key="LdIndex">インスタンス番号</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB接続が失敗した場合、エミュレータの起動を試みる</system:String>
@@ -832,7 +838,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="KeepInventory">在庫を維持</system:String>
     <system:String x:Key="TargetInventory">目標在庫</system:String>
     <system:String x:Key="Series">連戦回数</system:String>
-    <system:String x:Key="SeriesLockedTip">ゲーム更新後の適応が未完了です。ゲーム内で手動で代理乗数を設定してください。</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• 自動:
 レベルの最大代理乗数を自動で判別し、最大代理乗数を維持し、正気ポーション使用後に正気度オーバーフローが発生しないようにします。
 
@@ -855,7 +860,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DefaultStage">現在/前回</system:String>
     <!--<system:String x:Key="InvalidStage">無効なレベル</system:String>-->
     <system:String x:Key="ClosedStage">ステージが未公開か既に終了している</system:String>
-    <system:String x:Key="UnsupportedStages">未サポートステージ</system:String>
+    <system:String x:Key="UnsupportedStages">未サポートステージ {0}。新イベントのステージの場合は、マップリソースの更新を待ってから自動戦闘を使用してください</system:String>
     <system:String x:Key="LowVersion">バージョンの更新が必要</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低バージョン要件: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">公開日まで: </system:String>
@@ -980,7 +985,7 @@ C:\\leidian\\LDPlayer9
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}</system:String>
     <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
-    <system:String x:Key="OperBoxRecognitionTip"> ｢戦術要員｣ は、{key=Operator}識別の正確性に影響します。戦術要員の{key=Operator}の識別が誤っている場合は、自己判断してください。</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">｢戦術要員｣ は、{key=Operator}識別の正確性に影響します。戦術要員の{key=Operator}の識別が誤っている場合は、自己判断してください。</system:String>
     <system:String x:Key="OperBoxHaveList">所有している: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">所有していない: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">認識開始</system:String>
@@ -1112,7 +1117,7 @@ C:\\leidian\\LDPlayer9
 この項目を選択するとこれらのチェックをスキップしますが、タスクが正常に動作しなくなる可能性があります。
 オペレーターのエリートレベルはスキップできません。いずれかの条件をスキップした場合、戦闘後にオペレーションは自動的に評価されなくなります。</system:String>
     <system:String x:Key="AddUserAdditional">カスタム{key=Operator}追加</system:String>
-    <system:String x:Key="AddUserAdditionalTip"> ｢;｣ はセパレータ、 ｢,｣ で{key=Operator}の名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla, 1</system:String>
+    <system:String x:Key="AddUserAdditionalTip">｢;｣ はセパレータ、 ｢,｣ で{key=Operator}の名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla, 1</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
     <system:String x:Key="UserAdditional.Skill">スキル</system:String>
     <system:String x:Key="UserAdditional.Action">操作</system:String>
@@ -1194,8 +1199,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTasksWithEmptyName">ステージ名が空の作業があります</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">コパイロットタスクをファイルに保存できませんでした: </system:String>
     <system:String x:Key="CopilotStartWithEmptyList">タスクなしで ｢{key=UseCopilotList}｣ を使用した</system:String>
-    <system:String x:Key="CopilotSingleTaskWarning"> ｢{key=UseCopilotList}｣ を使用して単一ジョブを実行しています。これは推奨されません。単一ジョブを直接実行してください。</system:String>
-    <system:String x:Key="CopilotTaskListMixedModeNotAllowed"> ｢{key=UseCopilotList}｣ を使用中ですが、異なるジョブタイプの混在はサポートされていません。</system:String>
+    <system:String x:Key="CopilotSingleTaskWarning">｢{key=UseCopilotList}｣ を使用して単一ジョブを実行しています。これは推奨されません。単一ジョブを直接実行してください。</system:String>
+    <system:String x:Key="CopilotTaskListMixedModeNotAllowed">｢{key=UseCopilotList}｣ を使用中ですが、異なるジョブタイプの混在はサポートされていません。</system:String>
     <system:String x:Key="CopilotTaskTypeParseFailedSkipCheck">一部のジョブタイプの解析に失敗しました。タイプチェックをスキップします。</system:String>
     <system:String x:Key="CopilotIllegalOperName">オペレーター名が不正です: {0}</system:String>
     <!--  !Logs  -->
@@ -1217,8 +1222,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorFeedbackLinkText">GitHub issueを作成する</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQグループに入ります</system:String>
     <system:String x:Key="ErrorCrashMessageHeader">上記の問題により、プログラムが異常終了しました。</system:String>
-    <system:String x:Key="ErrorCrashMessageOpenLog"> ｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ に移動してログを確認し、エラーが発生した具体的な原因を確認できます。</system:String>
-    <system:String x:Key="ErrorCrashMessageGenerateReport"> ｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ を使用してエラーレポートを生成し、青色の ｢{key=Issue}｣ リンクをクリックしてフィードバックを送信してください。</system:String>
+    <system:String x:Key="ErrorCrashMessageOpenLog">｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ に移動してログを確認し、エラーが発生した具体的な原因を確認できます。</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ を使用してエラーレポートを生成し、青色の ｢{key=Issue}｣ リンクをクリックしてフィードバックを送信してください。</system:String>
     <system:String x:Key="ErrorCrashMessageHelpTip">他人に助けを求める場合は、このウィンドウのスクリーンショット、画面録画、写真、撮影した動画、手描きの図、写し書きした内容ではなく、生成されたエラーレポートファイルを送信してください。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">前回のクラッシュ原因</system:String>
     <system:String x:Key="CopyErrorMessage">エラー情報をコピーする</system:String>
@@ -1323,7 +1328,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BoskyDoubts">スポット: 雑疑</system:String>
     <system:String x:Key="BoskyDisaster">スポット: 禍乱</system:String>
     <system:String x:Key="RoguelikeCoppersExchange">通宝交換: {0} → {1}</system:String>
-    <system:String x:Key="RoguelikeCoppersRecognitionError">通宝認識失敗:  ｢{0}｣ </system:String>
+    <system:String x:Key="RoguelikeCoppersRecognitionError">通宝認識失敗:  ｢{0}｣</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">{0} 件の選択肢を検出しました:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">選択可能な選択肢: {0}</system:String>
@@ -1403,7 +1408,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
     <system:String x:Key="RestartAdb">ADBサーバーの再起動を試みています</system:String>
     <system:String x:Key="HardRestartAdb">ADBプロセスの再起動を試みています</system:String>
-    <system:String x:Key="CheckSettings"> ｢接続設定を確認｣ → ｢エミュレーターとADBを再起動してみる｣ → ｢コンピュータを再起動｣ してください</system:String>
+    <system:String x:Key="CheckSettings">｢接続設定を確認｣ → ｢エミュレーターとADBを再起動してみる｣ → ｢コンピュータを再起動｣ してください</system:String>
     <system:String x:Key="AttachWindowNotFound">ウィンドウ "{0}" が見つかりません。ゲームが起動していることを確認してください</system:String>
     <system:String x:Key="AttachWindowMultipleFound">{0} 個の "{1}" ウィンドウが見つかりました。最初のものを使用します</system:String>
     <system:String x:Key="AttachWindowFound">ウィンドウ "{0}" が見つかりました</system:String>
@@ -1422,7 +1427,7 @@ MAA Team の開発リソースが限られているため、この機能はコ�
 1. MAA を管理者権限で起動してください
 2. 一部のスクリーンキャプチャ方式では、ゲームウィンドウを最小化できません
 3. アークナイツ設定 → ゲーム → UI スケーリングを 100% に設定してください
-4. ゲーム解像度は 16:9 である必要があります。推奨設定：720×1280 または 1080×1920</system:String>
+4. ゲーム解像度は 16:9 である必要があります。推奨設定：1280x720 または 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>
@@ -1526,7 +1531,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="ApiUpdateFailed">ホットアップデートデータの取得に失敗しました</system:String>
     <system:String x:Key="ApiCacheLoaded">ローカルキャッシュデータを使用しています</system:String>
     <system:String x:Key="GameResourceUpdating">ゲームリソースが更新中です。</system:String>
-    <system:String x:Key="GameResourceUpdatingMirrorChyan"> ｢{key=MirrorChyan}｣ からリソース {0} を更新しています...</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">｢{key=MirrorChyan}｣ からリソース {0} を更新しています...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">索引の作成中</system:String>
     <system:String x:Key="GameResourceNotModified">ゲームリソースが更新されました。</system:String>
     <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。</system:String>
@@ -1696,7 +1701,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.SanitySpender3.Conditions">自動作戦を 1000 回達成する</system:String>
 
     <system:String x:Key="Achievement.QuickCloser.Title">YOLO!</system:String>
-    <system:String x:Key="Achievement.QuickCloser.Description"> ｢私は自分がやっていることを知っている。｣ ――あるユーザーがクリックする前に。</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Description">｢私は自分がやっていることを知っている。｣ ――あるユーザーがクリックする前に。</system:String>
     <system:String x:Key="Achievement.QuickCloser.Conditions">1秒以内にポップアップを閉じる（おそらく見ていなかったのでしょう）</system:String>
 
     <system:String x:Key="Achievement.TacticalRetreat.Title">臨陣脱逃</system:String>
@@ -1769,7 +1774,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.SanityExpire.Title">もうすぐ期限切れ</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">急いで！！！</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions"> ｢{key=UseExpiringMedicine}｣ を使用し、1回のタスクで 8 本以上の期限切れ理性回復剤を使用する</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">｢{key=UseExpiringMedicine}｣ を使用し、1回のタスクで 8 本以上の期限切れ理性回復剤を使用する</system:String>
 
     <system:String x:Key="Achievement.OverLimitAgent.Title">限界を超える代理</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Description">大道を磨り減らすような代理タスクを実行しました。</system:String>
@@ -1793,27 +1798,27 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.UseCopilot1.Title">課題をコピー</system:String>
     <system:String x:Key="Achievement.UseCopilot1.Description">本当に放置してクリアしました。</system:String>
-    <system:String x:Key="Achievement.UseCopilot1.Conditions"> ｢{key=Copilot}｣ 機能で 1 回クリアする</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Conditions">｢{key=Copilot}｣ 機能で 1 回クリアする</system:String>
 
     <system:String x:Key="Achievement.UseCopilot2.Title">ずっと放置</system:String>
     <system:String x:Key="Achievement.UseCopilot2.Description">イベントを全部MAAに任せました。</system:String>
-    <system:String x:Key="Achievement.UseCopilot2.Conditions"> ｢{key=Copilot}｣ 機能で 10 回クリアする</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Conditions">｢{key=Copilot}｣ 機能で 10 回クリアする</system:String>
 
     <system:String x:Key="Achievement.UseCopilot3.Title">次回の調査も非常に簡単</system:String>
     <system:String x:Key="Achievement.UseCopilot3.Description">最後までボスの仕組みが分かりませんでした。</system:String>
-    <system:String x:Key="Achievement.UseCopilot3.Conditions"> ｢{key=Copilot}｣ 機能で 100 回クリアする</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Conditions">｢{key=Copilot}｣ 機能で 100 回クリアする</system:String>
 
     <system:String x:Key="Achievement.RecruitNoSixStar.Title">玄学無効</system:String>
     <system:String x:Key="Achievement.RecruitNoSixStar.Description">事はここまでです、まずは寝ましょう。</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions"> ｢{key=Recruiting}｣ 中に6星のタグが 500 回出なかった</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">｢{key=Recruiting}｣ 中に6星のタグが 500 回出なかった</system:String>
 
     <system:String x:Key="Achievement.RecruitNoSixStarStreak.Title">MAAがやったに違いない！</system:String>
     <system:String x:Key="Achievement.RecruitNoSixStarStreak.Description">乆乆乆乆乆乆乆乆乆乆！</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions"> ｢{key=Recruiting}｣ 中に6星のタグが 500 回連続で出なかった</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">｢{key=Recruiting}｣ 中に6星のタグが 500 回連続で出なかった</system:String>
 
     <system:String x:Key="Achievement.MosquitoLeg.Title">少しずつ積み上げていく</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Description">あなたは少しずつ積み上げていくことの大切さを深く理解しています。</system:String>
-    <system:String x:Key="Achievement.MosquitoLeg.Conditions"> ｢{key=CreditFight}｣ 機能を5回以上使用する</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Conditions">｢{key=CreditFight}｣ 機能を5回以上使用する</system:String>
 
     <system:String x:Key="Achievement.Pioneer1.Title">テストパイオニア</system:String>
     <system:String x:Key="Achievement.Pioneer1.Description">あなたはテスト中のバージョンを先行体験しました。</system:String>
@@ -1829,10 +1834,10 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.Irreplaceable.Title">替代不可</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">たぶん、別の作業を変更すべきですか？</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Conditions"> ｢{key=Copilot} - {key=AutoSquad}｣ 使用時、少なくとも2名の{key=Operator}が不足している。</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">｢{key=Copilot} - {key=AutoSquad}｣ 使用時、少なくとも2名の{key=Operator}が不足している。</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge1.Title">高遅延危機</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge1.Description"> ｢kale｣ </system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Description">｢kale｣</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge1.Conditions">平均スクリーンショット時間が 800ms を超えている</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge2.Title">少し遅くないですか？</system:String>
@@ -1892,15 +1897,15 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.RoguelikeGoldMax.Conditions">ローグライクで、源石錐投資が999に到達する</system:String>
 
     <system:String x:Key="Achievement.CopilotLikeGiven1.Title">励ましの一言</system:String>
-    <system:String x:Key="Achievement.CopilotLikeGiven1.Description"> ｢Like｣ は作者への最大の励ましです！</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Description">｢Like｣ は作者への最大の励ましです！</system:String>
     <system:String x:Key="Achievement.CopilotLikeGiven1.Conditions">作業に 1 回 ｢Like｣ を付ける</system:String>
 
     <system:String x:Key="Achievement.CopilotLikeGiven2.Title">積極的な交流</system:String>
-    <system:String x:Key="Achievement.CopilotLikeGiven2.Description"> ｢Like｣ を10回付けて、コミュニティに積極的に参加しています。</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Description">｢Like｣ を10回付けて、コミュニティに積極的に参加しています。</system:String>
     <system:String x:Key="Achievement.CopilotLikeGiven2.Conditions">作業に累計 10 回 ｢Like｣ を付ける</system:String>
 
     <system:String x:Key="Achievement.CopilotLikeGiven3.Title">いいね達人</system:String>
-    <system:String x:Key="Achievement.CopilotLikeGiven3.Description"> ｢Like｣ を50回付けたあなたは、すでに ｢Like｣ の達人です！</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Description">｢Like｣ を50回付けたあなたは、すでに ｢Like｣ の達人です！</system:String>
     <system:String x:Key="Achievement.CopilotLikeGiven3.Conditions">作業に累計 50 回 ｢Like｣ を付ける</system:String>
 
     <system:String x:Key="Achievement.TaskStartCancel.Title">まさにジジジジジ</system:String>
@@ -1909,7 +1914,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.CopilotError.Title">あらら</system:String>
     <system:String x:Key="Achievement.CopilotError.Description">事故が起きました…</system:String>
-    <system:String x:Key="Achievement.CopilotError.Conditions"> ｢{key=Copilot}｣ 中にエラーが発生</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">｢{key=Copilot}｣ 中にエラーが発生</system:String>
 
     <system:String x:Key="Achievement.LongTaskTimeout.Title">長いタスク</system:String>
     <system:String x:Key="Achievement.LongTaskTimeout.Description">少し待ってみませんか？</system:String>
@@ -1945,19 +1950,19 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.RoguelikeN04.Title">簡単なこと</system:String>
     <system:String x:Key="Achievement.RoguelikeN04.Description">この難易度は私を困らせることはできない。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN04.Conditions"> ｢{key=AutoRoguelike}｣ で、任意のテーマで N4 難易度以上をクリアする</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Conditions">｢{key=AutoRoguelike}｣ で、任意のテーマで N4 難易度以上をクリアする</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN08.Title">困難に挑戦する</system:String>
     <system:String x:Key="Achievement.RoguelikeN08.Description">困難を恐れない。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN08.Conditions"> ｢{key=AutoRoguelike}｣ で、任意のテーマで N8 難易度以上をクリアする</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Conditions">｢{key=AutoRoguelike}｣ で、任意のテーマで N8 難易度以上をクリアする</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN12.Title">人間を超越</system:String>
     <system:String x:Key="Achievement.RoguelikeN12.Description">普通の人よりも上手くプレイしています。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN12.Conditions"> ｢{key=AutoRoguelike}｣ で、任意のテーマで N12 難易度以上をクリアする</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Conditions">｢{key=AutoRoguelike}｣ で、任意のテーマで N12 難易度以上をクリアする</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN15.Title">仙術杯選手</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">本物の仙術だなあ。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN15.Conditions"> ｢{key=AutoRoguelike}｣ で、任意のテーマで N15 難易度以上をクリアする</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Conditions">｢{key=AutoRoguelike}｣ で、任意のテーマで N15 難易度以上をクリアする</system:String>
 
     <system:String x:Key="Achievement.LogSupervisor.Title">スーパーバイザー</system:String>
     <system:String x:Key="Achievement.LogSupervisor.Description">MAAのログを見つめていると、自動戦闘の成功率が上がるらしい。</system:String>
@@ -2045,7 +2050,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.PallasCheers.Title">パラスに一杯</system:String>
     <system:String x:Key="Achievement.PallasCheers.Description">次はもう飲みすぎちゃだめだよ。。。</system:String>
-    <system:String x:Key="Achievement.PallasCheers.Conditions"> ｢{key=AchievementSettings}｣ でパラスのアイコンをクリックする</system:String>
+    <system:String x:Key="Achievement.PallasCheers.Conditions">｢{key=AchievementSettings}｣ でパラスのアイコンをクリックする</system:String>
 
     <system:String x:Key="Achievement.SortingMaster.Title">並べ替えマスター</system:String>
     <system:String x:Key="Achievement.SortingMaster.Description">これもドラッグできるの？</system:String>
@@ -2053,7 +2058,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.TimeManagementMaster.Title">時間管理マスター</system:String>
     <system:String x:Key="Achievement.TimeManagementMaster.Description">わずかな時間も無駄にしない。</system:String>
-    <system:String x:Key="Achievement.TimeManagementMaster.Conditions"> ｢{key=ScheduleSettings}｣ のすべてのタイマーをチェックする</system:String>
+    <system:String x:Key="Achievement.TimeManagementMaster.Conditions">｢{key=ScheduleSettings}｣ のすべてのタイマーをチェックする</system:String>
 
     <system:String x:Key="Achievement.DoubleSync.Title">人も物もきっちり</system:String>
     <system:String x:Key="Achievement.DoubleSync.Description">人員も把握して、物資も数え終えた。</system:String>
@@ -2065,7 +2070,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.ChangelogReader.Title">まず更新内容を確認</system:String>
     <system:String x:Key="Achievement.ChangelogReader.Description">新バージョンは急いで入れなくてもいいが、何が変わったかは見ておきたい。</system:String>
-    <system:String x:Key="Achievement.ChangelogReader.Conditions"> ｢{key=ShowChangelog}｣ を手動で1回開く</system:String>
+    <system:String x:Key="Achievement.ChangelogReader.Conditions">｢{key=ShowChangelog}｣ を手動で1回開く</system:String>
 
     <system:String x:Key="Achievement.LatestVersionInspector.Title">空振りチェッカー</system:String>
     <system:String x:Key="Achievement.LatestVersionInspector.Description">空振りだったけど、少なくとも安心はできた。</system:String>
@@ -2081,31 +2086,31 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.AchievementObserver.Title">実績観測者</system:String>
     <system:String x:Key="Achievement.AchievementObserver.Description">自分が何をしてきたか見てみよう。</system:String>
-    <system:String x:Key="Achievement.AchievementObserver.Conditions"> ｢{key=AchievementList}｣ を1回開く</system:String>
+    <system:String x:Key="Achievement.AchievementObserver.Conditions">｢{key=AchievementList}｣ を1回開く</system:String>
 
     <system:String x:Key="Achievement.DisappearTrick.Title">消失トリック</system:String>
     <system:String x:Key="Achievement.DisappearTrick.Description">見えなければ、気にもならない。</system:String>
-    <system:String x:Key="Achievement.DisappearTrick.Conditions"> ｢{key=MinimizeToTray}｣ を有効にする</system:String>
+    <system:String x:Key="Achievement.DisappearTrick.Conditions">｢{key=MinimizeToTray}｣ を有効にする</system:String>
 
     <system:String x:Key="Achievement.TitleTweaker.Title">タイトルいじり</system:String>
     <system:String x:Key="Achievement.TitleTweaker.Description">このタイトルは、自分の思いどおりにしたい。</system:String>
-    <system:String x:Key="Achievement.TitleTweaker.Conditions"> ｢{key=TitleBarDisplayContent}｣ を1回変更する</system:String>
+    <system:String x:Key="Achievement.TitleTweaker.Conditions">｢{key=TitleBarDisplayContent}｣ を1回変更する</system:String>
 
     <system:String x:Key="Achievement.AllChannelBroadcast.Title">全チャンネル放送</system:String>
     <system:String x:Key="Achievement.AllChannelBroadcast.Description">これでもう誰も見逃せない。</system:String>
-    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions"> ｢{key=ExternalNotificationSettings}｣ ですべてのプラットフォームを同時に有効にする</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">｢{key=ExternalNotificationSettings}｣ ですべてのプラットフォームを同時に有効にする</system:String>
 
     <system:String x:Key="Achievement.BackstageExplorer.Title">バックヤード探検家</system:String>
     <system:String x:Key="Achievement.BackstageExplorer.Description">裏で何が記録されているか見てみよう。</system:String>
-    <system:String x:Key="Achievement.BackstageExplorer.Conditions"> ｢{key=OpenDebugFolder}｣ を1回使う</system:String>
+    <system:String x:Key="Achievement.BackstageExplorer.Conditions">｢{key=OpenDebugFolder}｣ を1回使う</system:String>
 
     <system:String x:Key="Achievement.ConnectionTester.Title">接続テスター</system:String>
     <system:String x:Key="Achievement.ConnectionTester.Description">先に一度見ておかないと、どうも落ち着かない。</system:String>
-    <system:String x:Key="Achievement.ConnectionTester.Conditions"> ｢{key=ScreenshotTest}｣ を1回成功させ、スクリーンショットを表示する</system:String>
+    <system:String x:Key="Achievement.ConnectionTester.Conditions">｢{key=ScreenshotTest}｣ を1回成功させ、スクリーンショットを表示する</system:String>
 
     <system:String x:Key="Achievement.OneMoreLook.Title">もう一度見る</system:String>
     <system:String x:Key="Achievement.OneMoreLook.Description">せっかく見たんだから、もう1枚更新しよう。</system:String>
-    <system:String x:Key="Achievement.OneMoreLook.Conditions"> ｢{key=ScreenshotTest}｣ のプレビュー画像でもう一度クリックして、スクリーンショットを更新する</system:String>
+    <system:String x:Key="Achievement.OneMoreLook.Conditions">｢{key=ScreenshotTest}｣ のプレビュー画像でもう一度クリックして、スクリーンショットを更新する</system:String>
 
     <system:String x:Key="Achievement.QueueExpansion.Title">隊列拡張</system:String>
     <system:String x:Key="Achievement.QueueExpansion.Description">まずはフローを組み上げよう。</system:String>
@@ -2121,7 +2126,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.PrivateDormManager.Title">プライベート宿舎管理人</system:String>
     <system:String x:Key="Achievement.PrivateDormManager.Description">シフト表はもちろん自分のものを使う。</system:String>
-    <system:String x:Key="Achievement.PrivateDormManager.Conditions"> ｢{key=InfrastModeCustom}｣ を1回正常に読み込む</system:String>
+    <system:String x:Key="Achievement.PrivateDormManager.Conditions">｢{key=InfrastModeCustom}｣ を1回正常に読み込む</system:String>
 
     <system:String x:Key="Achievement.OperatorRoster.Title">名簿</system:String>
     <system:String x:Key="Achievement.OperatorRoster.Description">この一覧、先に1部保存しておこう。</system:String>
@@ -2140,8 +2145,9 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="BadModules.Warning.Prolog">以下のサードパーティ製ソフトウェアが MAA に DLL を注入しています。これにより WPF レンダリングと ONNX/DML 推論が破壊され、MAA のクラッシュ、インターフェースのレンダリング異常、または OCR 認識失敗が発生する可能性があります：</system:String>
     <system:String x:Key="BadModules.Warning.Epilog">MAA に関連する問題がある場合は、関連ソフトウェアの除外リストに MAA を追加するか、関連ソフトウェアをアンインストールした後、問題がまだ存在するかどうかを確認してください。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">この警告を再表示しない</system:String>
+    <system:String x:Key="BadModules.Warning.Fallback">さらに、システムのダイアログコンポーネントが破損してクラッシュしており、MAA の後続のダイアログがすべて表示されないだけでなく、他のシステム機能にも影響が出る可能性があります。「はい」で次回から表示しない、「いいえ」で今回のみ閉じる。</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">警告：パフォーマンスへの影響</system:String>
-    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">警告を表示しないように選択すると、MAA はハードウェアレンダリングではなくソフトウェアレンダリングを使用します。これにより以下の結果が生じます：&#x0a;&#x0a;• パフォーマンスの低下&#x0a;• UI のラグ&#x0a;• CPU 使用率の増加&#x0a;&#x0a;警告を抑制し、これらの影響を受け入れることを確認しますか？</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">警告を表示しないように選択すると、MAA はハードウェアレンダリングではなくソフトウェアレンダリングを使用します。これによりレンダリング関連の問題は緩和されますが、すべての問題（ダイアログのクラッシュなど）が解決されるわけではありません。また以下の結果も生じます：&#x0a;&#x0a;• パフォーマンスの低下&#x0a;• UI のラグ&#x0a;• CPU 使用率の増加&#x0a;&#x0a;警告を抑制し、これらの影響を受け入れることを確認しますか？</system:String>
     <system:String x:Key="BadModules.UseSoftwareRendering">ソフトウェアレンダリングを使用</system:String>
     <system:String x:Key="BadModules.UseSoftwareRenderingTip">有効にすると、不良モジュールの警告が表示されなくなり、ソフトウェアレンダリングモードが使用されます。これにより、パフォーマンスの低下、UI のラグ、CPU 使用率の増加が発生します。チェックを外すとハードウェアレンダリングに戻ります。</system:String>
     <system:String x:Key="BadModules.ResetWarning">ソフトウェアレンダリングモードが有効になりました。この設定を適用するには MAA を再起動してください。</system:String>

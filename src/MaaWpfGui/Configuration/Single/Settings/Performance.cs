@@ -11,14 +11,16 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System.ComponentModel;
+using PropertyChanged;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
-public class Performance : INotifyPropertyChanged
+/// <summary>
+/// 性能设置
+/// </summary>
+[AddINotifyPropertyChangedInterface]
+public partial class Performance
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public bool UseGpu { get; set; }
 
     public string GpuDescription { get; set; } = string.Empty;

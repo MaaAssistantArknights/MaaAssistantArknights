@@ -108,9 +108,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 Stage = stage,
                 Medicine = plan.UseMedicine ? plan.MedicineCount : 0,
                 Stone = plan.UseStone ? plan.StoneCount : 0,
-
-                // 适配后删除 恢复为 Series = task.UseAutoSeries ? 0 : 1,
-                Series = FightSettingsUserControlModel.Instance.IsSeriesLocked ? -1 : (task.UseAutoSeries ? 0 : 1),
+                Series = task.UseAutoSeries ? 0 : 1,
                 MaxTimes = int.MaxValue,
                 ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
                 ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
@@ -288,8 +286,13 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
     }
 
-    public class Plan : PropertyChangedBase
+    public class Plan(string stage, string dropId, string? dropName = null, int dropCount = 0, bool useMedicine = false, int medicineCount = 0, bool useStone = false, int stoneCount = 0, int taskId = 0) : PropertyChangedBase
     {
+        public Plan()
+            : this(string.Empty, string.Empty, null, 0, false, 0, false, 0, 0)
+        {
+        }
+
         public bool IsExpanded { get; set => SetAndNotify(ref field, value); }
 
         public string Title => $"{Instance.PlanList.IndexOf(this) + 1}: {Instance.StageListSource.FirstOrDefault(i => i.Value == Stage)?.Display ?? Stage} - {DropName} x{DropCount.FormatNumber(false)}";
@@ -305,7 +308,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 SetAndNotify(ref field, value);
                 NotifyOfPropertyChange(nameof(Title));
             }
-        } = string.Empty;
+        } = stage;
 
         /// <summary>
         /// Gets or sets 指定掉落材料 ID。
@@ -316,7 +319,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 SetAndNotify(ref field, value);
                 NotifyOfPropertyChange(nameof(Title));
             }
-        } = string.Empty;
+        } = dropId;
 
         /// <summary>
         /// Gets or sets 指定掉落材料名称。
@@ -327,7 +330,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 SetAndNotify(ref field, value);
                 NotifyOfPropertyChange(nameof(Title));
             }
-        } = LocalizationHelper.GetString("NotSelected");
+        } = dropName ?? LocalizationHelper.GetString("NotSelected");
 
         public int DropCount
         {
@@ -335,17 +338,17 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 SetAndNotify(ref field, value);
                 NotifyOfPropertyChange(nameof(Title));
             }
-        }
+        } = dropCount;
 
-        public bool UseMedicine { get; set => SetAndNotify(ref field, value); }
+        public bool UseMedicine { get; set => SetAndNotify(ref field, value); } = useMedicine;
 
-        public int MedicineCount { get; set => SetAndNotify(ref field, value); }
+        public int MedicineCount { get; set => SetAndNotify(ref field, value); } = medicineCount;
 
-        public bool UseStone { get; set => SetAndNotify(ref field, value); }
+        public bool UseStone { get; set => SetAndNotify(ref field, value); } = useStone;
 
-        public int StoneCount { get; set => SetAndNotify(ref field, value); }
+        public int StoneCount { get; set => SetAndNotify(ref field, value); } = stoneCount;
 
-        public int TaskId { get; set; }
+        public int TaskId { get; set; } = taskId;
 
         // UI 绑定的方法
         [UsedImplicitly]
@@ -375,19 +378,10 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         var list = new List<Plan>();
         foreach (var plan in task.PlanList)
         {
-            var uiPlan = new Plan {
-                Stage = plan.Stage,
-                DropId = plan.DropId,
-                DropCount = plan.DropCount,
-                UseMedicine = plan.UseMedicine,
-                MedicineCount = plan.MedicineCount,
-                UseStone = plan.UseStone,
-                StoneCount = plan.StoneCount,
-                TaskId = plan.TaskId,
+            // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
+            var dropName = FightSettingsUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("NotSelected");
 
-                // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
-                DropName = FightSettingsUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("NotSelected"),
-            };
+            var uiPlan = new Plan(plan.Stage, plan.DropId, dropName, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId);
             list.Add(uiPlan);
             uiPlan.PropertyChanged += PlanItem_PropertyChanged;
         }
@@ -492,6 +486,16 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     continue;
                 }
 
+                var currentCount = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
+                var need = plan.DropCount - currentCount;
+                if (need <= 0)
+                {
+                    var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1, dropName, currentCount.ToString("N0"), plan.DropCount.ToString("N0")));
+                    taskIds.Add(0);
+                    continue;
+                }
+
                 var stage = GetFightStage([plan.Stage]);
                 if (string.IsNullOrEmpty(stage))
                 {
@@ -508,25 +512,13 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     continue;
                 }
 
-                var currentCount = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
-                var need = plan.DropCount - currentCount;
-                if (need <= 0)
-                {
-                    var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1, dropName, currentCount.ToString("N0"), plan.DropCount.ToString("N0")));
-                    taskIds.Add(0);
-                    continue;
-                }
-
                 var fight = new AsstFightTask() {
                     Stage = stage,
                     Drops = new() { { plan.DropId, need } },
                     MaxTimes = need > 0 ? int.MaxValue : 0,
                     Medicine = plan.UseMedicine ? plan.MedicineCount : 0,
                     Stone = plan.UseStone ? plan.StoneCount : 0,
-
-                    // 适配后删除 恢复为 Series = depot.UseAutoSeries ? 0 : 1,
-                    Series = FightSettingsUserControlModel.Instance.IsSeriesLocked ? -1 : (depot.UseAutoSeries ? 0 : 1),
+                    Series = depot.UseAutoSeries ? 0 : 1,
                     ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
                     ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
                     PenguinId = SettingsViewModel.GameSettings.PenguinId,

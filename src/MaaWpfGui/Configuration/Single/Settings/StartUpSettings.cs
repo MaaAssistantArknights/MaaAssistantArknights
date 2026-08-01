@@ -12,15 +12,24 @@
 // </copyright>
 
 #nullable enable
-using System.ComponentModel;
+using PropertyChanged;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
-public class StartUpSettings : INotifyPropertyChanged
+/// <summary>
+/// 模拟器启动设置
+/// </summary>
+[AddINotifyPropertyChangedInterface]
+public partial class StartUpSettings
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public bool RunDirectly { get; set; }
+
+    /// <summary>
+    /// 更新后「立即重启」时是否跳过「启动后直接运行 / 启动模拟器」。
+    /// 默认开启：｢自动安装更新包｣ 或更新提示中选择立即重启时，在该重启链写入 <c>--skip-startup-auto-run</c>。
+    /// 选择「稍后」再手动启动不属于该链，仍按正常启动流程执行。
+    /// </summary>
+    public bool SkipStartupAutoRunAfterUpdate { get; set; } = true;
 
     public bool StartEmulator { get; set; }
 

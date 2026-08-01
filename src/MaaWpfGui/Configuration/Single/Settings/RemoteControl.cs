@@ -11,14 +11,16 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System.ComponentModel;
+using PropertyChanged;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
-public class RemoteControl : INotifyPropertyChanged
+/// <summary>
+/// 远程控制设置
+/// </summary>
+[AddINotifyPropertyChangedInterface]
+public partial class RemoteControl
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public string RemoteControlGetTaskEndpointUri { get; set; } = string.Empty;
 
     public string RemoteControlReportStatusUri { get; set; } = string.Empty;

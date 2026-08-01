@@ -1287,6 +1287,14 @@
         "sortId": 10325,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
     },
+    "LMTGS_COIN_7601": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_7601.png",
+        "name": "寻访数据契约",
+        "sortId": 10326,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
     "LMTGS_COIN_903": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -2487,6 +2495,14 @@
         "sortId": -10000,
         "usage": "未寄出信件的残片。捡到它们的人，可以选择将其作为证据封存，也可以选择将它们投入尚未熄灭的火堆，换取片刻的温暖。"
     },
+    "act53side_token_photo": {
+        "classifyType": "NONE",
+        "description": "或许是邂逅了有趣的人物，或许是收获了深刻的感悟，又或许只是发生了一件想起来就会发笑的趣事。一次旅程结束了，她们有太多想要分享的回忆。",
+        "icon": "act53side_token_photo.png",
+        "name": "沿途的点滴",
+        "sortId": -10000,
+        "usage": "好奇远行归来的少女们经历了怎样的旅程？找个舒服的角落坐下，再来一杯胡萝卜汁。她们不仅乐于讲故事，还会与你分享从远方带回的礼物。"
+    },
     "act5bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模拟中的对错并不重要，它们只是种辅助，帮助你在实战中做出正确的选择。",
@@ -2694,6 +2710,14 @@
         "name": "清爽运动饮料",
         "sortId": 30006,
         "usage": "清爽运动饮料，可用于恢复理智。"
+    },
+    "ark_odc_act53side_spitem_1": {
+        "classifyType": "NORMAL",
+        "description": "来自荒野的善意被仔细地夹在了少女的旅行笔记里。",
+        "icon": "ark_odc_act53side_spitem_1.png",
+        "name": "温泉度假村体验券",
+        "sortId": 10606,
+        "usage": "一张“黄昏突进号”温泉度假村的免费体验券，来自友人的馈赠。"
     },
     "base_ap": {
         "classifyType": "NONE",
@@ -3062,6 +3086,14 @@
         "name": "2025感谢庆典招聘补给",
         "sortId": -10000,
         "usage": "为满足招募需求而准备的人力资源包，供相关人员通过公开渠道大量招聘干员。"
+    },
+    "itempack_stickers_act5unique": {
+        "classifyType": "NONE",
+        "description": "满载着浪花与积云的美好记忆。",
+        "icon": "itempack_stickers_act5unique.png",
+        "name": "特辑/夏日音轨",
+        "sortId": -10000,
+        "usage": "形艺特辑专用的特辑封面和特辑收藏贴，可用于版面编辑。"
     },
     "itempack_stickers_rog1": {
         "classifyType": "NONE",
@@ -3479,6 +3511,14 @@
         "sortId": 60118,
         "usage": "用于雪灾救援的物资补给包，包含多种随机材料。"
     },
+    "randomMaterial_act53side": {
+        "classifyType": "CONSUME",
+        "description": "“谁说《健身热身指南》没用？在雷姆必拓你很有可能打不过一只有袋牙兽！”",
+        "icon": "randomMaterial_act53side.png",
+        "name": "“幸福在途”补给包",
+        "sortId": 60123,
+        "usage": "由热心播客乌露露倾情赞助的大礼包，包含红砂镇杂货铺卖剩的各种物资。"
+    },
     "randomMaterial_amiya": {
         "classifyType": "CONSUME",
         "description": "里面不仅装着各种物资，还有大家对小寿星最真诚的祝愿。",
@@ -3518,6 +3558,14 @@
         "name": "生命标本",
         "sortId": 60122,
         "usage": "一块包裹着树叶的琥珀标本，可兑换龙门币。"
+    },
+    "randomMaterial_message4": {
+        "classifyType": "CONSUME",
+        "description": "你端详了一会儿，确信背包的原型是一种你未曾见过的动物。背包上还开了一个毛茸茸的口袋，里面藏着安洁莉娜希望你亲自去发现的惊喜。",
+        "icon": "randomMaterial_message4.png",
+        "name": "“神秘动物的口袋”",
+        "sortId": 60124,
+        "usage": "一个以某种神秘动物为原型制作的背包，可兑换龙门币。"
     },
     "randomMaterial_rhine2": {
         "classifyType": "CONSUME",

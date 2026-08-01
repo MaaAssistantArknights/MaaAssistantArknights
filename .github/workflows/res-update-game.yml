@@ -161,7 +161,7 @@ jobs:
         with:
           key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
           path: |
-            ./tools/ResourceUpdater/libopencv_world4.4.11.0.dylib
+            ./tools/ResourceUpdater/libopencv_world4*.dylib
             ./tools/ResourceUpdater/res_updater
 
       - name: Fetch submodules
@@ -201,7 +201,7 @@ jobs:
         with:
           key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
           path: |
-            ./tools/ResourceUpdater/libopencv_world4.4.11.0.dylib
+            ./tools/ResourceUpdater/libopencv_world4*.dylib
             ./tools/ResourceUpdater/res_updater
 
       - name: Wait for resource cloning

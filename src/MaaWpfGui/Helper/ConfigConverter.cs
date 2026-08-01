@@ -1061,7 +1061,7 @@ public class ConfigConverter
             ConfigFactory.Root.Gui.WindowTitleSelectShowList = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, "2 3 4");
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, out var _);
 
-            ConfigFactory.Root.Gui.Background.ImagePath = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundImagePath, "background/background.png");
+            ConfigFactory.Root.Gui.Background.ImagePath = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundImagePath, "Res/Backgrounds/Wallpapers/background.png");
             ConfigFactory.Root.Gui.Background.StretchMode = Enum.Parse<Stretch>(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundImageStretchMode, Stretch.Fill.ToString()));
             ConfigFactory.Root.Gui.Background.Opacity = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundOpacity, 50);
             ConfigFactory.Root.Gui.Background.BlurEffectRadius = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.BackgroundBlurEffectRadius, 5);

@@ -12,16 +12,18 @@
 // </copyright>
 
 #nullable enable
-using System.ComponentModel;
+using PropertyChanged;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 using static MaaWpfGui.ViewModels.UI.ToolboxViewModel;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
-public class Toolbox : INotifyPropertyChanged
+/// <summary>
+/// 小工具相关设置
+/// </summary>
+[AddINotifyPropertyChangedInterface]
+public partial class Toolbox
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public void EventBinding(string prefix)
     {
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix);

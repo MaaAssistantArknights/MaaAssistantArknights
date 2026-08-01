@@ -6,6 +6,10 @@
         "algorithm": "JustReturn",
         "baseTask": "#none"
     },
+    "FightSeries-OldMethodFlag": {
+        "algorithm": "JustReturn",
+        "doc": "whether to use old series method"
+    },
     "ClickChapter1": {
         "text": ["覺醒"]
     },
@@ -837,7 +841,10 @@
             ["噴泉水池", "喷泉水池"],
             ["擺渡人", "摆渡人"],
             ["擷英調香師", "撷英调香师"],
-            ["緹緹", "缇缇"]
+            ["緹緹", "缇缇"],
+            ["冰浪脈衝模組", "冰浪脉冲模块"],
+            ["低溫傳導模組", "低温传导模块"],
+            ["冷爆機", "冷爆机"]
         ]
     },
     "Settings": {
@@ -895,6 +902,20 @@
     },
     "AnnihilationSwitchButton": {
         "text": ["切換"]
+    },
+    "FightSeries-Opened": {
+        "template": "FightSeries-Indicator.png",
+        "roi": [940, 190, 80, 380],
+        "templThreshold": 0.9,
+        "maskRange": [1, 255]
+    },
+    "FightSeries-List-Multiply": {
+        "Doc": "连战次数列表每个选项的乘号, rectMove到次数, 灰度低于150为碎石才能打",
+        "action": "ClickRect",
+        "roi": [970, 200, 40, 360],
+        "rectMove": [25, 10, 20, 25],
+        "specificRect": [0, 0, 55, 40],
+        "specialParams": [150]
     },
     "StartButton1": {
         "text": ["開始行動", "開始作戰", "開始推演"]
@@ -1278,7 +1299,20 @@
             ["驅蟲", "驱虫"],
             ["天數將易", "天数将易"],
             ["憑票入內", "凭票入内"],
-            ["夕江訣", "夕江诀"]
+            ["夕江訣", "夕江诀"],
+            ["礪鋒", "砺锋"],
+            ["忍氣不吞聲", "忍气不吞声"],
+            ["時封", "时封"],
+            ["止變", "止变"],
+            ["止變", "止变"],
+            ["止變", "止变"],
+            ["錄憶", "录忆"],
+            ["忍氣不吞聲", "忍气不吞声"],
+            ["禦外侮", "御外侮"],
+            ["止變", "止变"],
+            ["止變", "止变"],
+            ["礪鋒", "砺锋"],
+            ["禦外侮", "御外侮"]
         ]
     },
     "BattleQuickFormationFilter-Cost": {

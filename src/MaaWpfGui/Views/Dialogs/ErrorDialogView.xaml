@@ -101,7 +101,7 @@
             Visibility="{c:Binding CongratulationsOnError,
                                    ElementName=ErrorDialogViewWindow}">
             <RichTextBox.Background>
-                <ImageBrush ImageSource="/Res/Backgrounds/Congratulations.png" Stretch="UniformToFill" />
+                <ImageBrush ImageSource="/Res/Backgrounds/Internal/Congratulations.png" Stretch="UniformToFill" />
             </RichTextBox.Background>
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type ScrollViewer}">
