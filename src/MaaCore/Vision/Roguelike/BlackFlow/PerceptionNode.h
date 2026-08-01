@@ -80,6 +80,9 @@ struct Node
     bool ocr_exact_match = false;
     bool current_marker = false;
     double current_marker_score = 0.0;
+    std::string marker_type;
+    std::string marker_display_name;
+    double marker_score = 0.0;
     int observed_frames = 1;
     int presence_frame_hits = 0;
     int empty_frame_hits = 0;

@@ -188,6 +188,7 @@ struct NodeSelector
 {
     std::vector<NodeType> node_types;
     std::vector<std::string> node_names;
+    std::vector<std::string> marker_types;
     std::optional<bool> badged;
     std::optional<NodeIdentityState> identity_state;
     std::optional<bool> identity_revealed;

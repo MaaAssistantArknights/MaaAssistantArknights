@@ -512,6 +512,29 @@ NodeDetectionResult NodeDetector::detect(const cv::Mat& image, int rows, int col
         }
     }
 
+    for (const auto& spec : m_bridge.node_marker_templates()) {
+        for (const auto& hit : m_bridge.query_multi(atlas, map_roi, spec, spec.threshold, 12)) {
+            const auto index = nearest_cell(output.grid, hit.center(), m_config.marker_grid_tolerance);
+            if (!index) {
+                continue;
+            }
+            Node& node = output.nodes[*index];
+            if (hit.score > node.marker_score) {
+                node.marker_type = spec.marker_type;
+                node.marker_display_name = spec.display_name;
+                node.marker_score = hit.score;
+            }
+        }
+    }
+    for (auto& node : output.nodes) {
+        if (node.marker_type == "informant") {
+            node.evidence.push_back("maa_informant_marker_score_atlas");
+        }
+        else if (node.marker_type == "savage") {
+            node.evidence.push_back("maa_savage_marker_score_atlas");
+        }
+    }
+
     const TemplateHit marker_hit = m_bridge.query_best(atlas, map_roi, m_bridge.current_marker_template());
     if (marker_hit.score >= m_config.current_marker_threshold && marker_hit.rect.area() > 0) {
         double best_distance = std::numeric_limits<double>::infinity();

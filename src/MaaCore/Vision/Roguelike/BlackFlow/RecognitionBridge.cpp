@@ -186,6 +186,9 @@ TemplateRole parse_role(
     const std::vector<std::string>& special_prefixes)
 {
     const std::string role = entry.value("role", std::string());
+    if (role == "node_marker") {
+        return TemplateRole::NodeMarker;
+    }
     if (role == "empty" || node_type == "empty") {
         return TemplateRole::Empty;
     }
@@ -224,6 +227,7 @@ bool RecognitionBridge::load(const std::filesystem::path& manifest_path, std::st
 
         m_empty_template = {};
         m_current_marker_template = {};
+        m_node_marker_templates.clear();
         m_ordinary_templates.clear();
         m_special_templates.clear();
         m_templates.clear();
@@ -272,7 +276,8 @@ bool RecognitionBridge::load(const std::filesystem::path& manifest_path, std::st
             const std::string relative_file = entry.at("file").get<std::string>();
             TemplateSpec spec;
             spec.name = std::filesystem::path(relative_file).filename().string();
-            spec.node_type = entry.at("node_type").get<std::string>();
+            spec.node_type = entry.value("node_type", std::string());
+            spec.marker_type = entry.value("marker_type", std::string());
             spec.resource_name = template_resource_root + "/" + relative_file;
             std::replace(spec.resource_name.begin(), spec.resource_name.end(), '\\', '/');
             spec.threshold = entry.value("threshold", 0.8);
@@ -289,6 +294,13 @@ bool RecognitionBridge::load(const std::filesystem::path& manifest_path, std::st
             }
             else if (spec.role == TemplateRole::CurrentMarker) {
                 m_current_marker_template = spec;
+            }
+            else if (spec.role == TemplateRole::NodeMarker) {
+                if (spec.marker_type.empty()) {
+                    error = "Node marker template must define marker_type: " + spec.name;
+                    return false;
+                }
+                m_node_marker_templates.push_back(spec);
             }
             else if (spec.role == TemplateRole::Special) {
                 m_special_templates.push_back(spec);
@@ -320,6 +332,7 @@ bool RecognitionBridge::load(const std::filesystem::path& manifest_path, std::st
         }
 
         std::vector<TemplateSpec> matched { m_empty_template, m_current_marker_template };
+        matched.insert(matched.end(), m_node_marker_templates.begin(), m_node_marker_templates.end());
         matched.insert(matched.end(), m_special_templates.begin(), m_special_templates.end());
         for (auto& spec : matched) {
             cv::Mat image = TemplResource::get_instance().get_templ(spec.resource_name);
@@ -372,6 +385,7 @@ RecognitionScoreAtlas RecognitionBridge::build_score_atlas(const cv::Mat& image,
     }
 
     std::vector<TemplateSpec> matched { m_empty_template, m_current_marker_template };
+    matched.insert(matched.end(), m_node_marker_templates.begin(), m_node_marker_templates.end());
     matched.insert(matched.end(), m_special_templates.begin(), m_special_templates.end());
     for (const auto& spec : matched) {
         const cv::Mat& templ = image_for(spec);

@@ -59,6 +59,7 @@ struct NodeDetectorConfig
     double bright_delta_threshold = 14.0;
     double current_marker_threshold = 0.60;
     double current_marker_grid_tolerance = 58.0;
+    double marker_grid_tolerance = 50.0;
     GridRefinementMode refinement_mode = GridRefinementMode::FixedGrid;
     int guard_ring_shift_radius = 1;
     double guard_ring_outside_weight = 1.25;

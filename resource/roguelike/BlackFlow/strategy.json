@@ -587,7 +587,7 @@
                     "count": 99,
                     "weight": 4,
                     "selector": {
-                        "node_types": ["battle_savage"]
+                        "node_types": ["duel"]
                     }
                 },
                 {
@@ -1392,7 +1392,7 @@
                     },
                     "selector": {
                         "node_types": ["incident"],
-                        "badged": true
+                        "marker_types": ["informant"]
                     },
                     "page_intent": "incident.ending2_sandtable_a",
                     "completion": "condition"

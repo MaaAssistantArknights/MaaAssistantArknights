@@ -13,7 +13,7 @@
         {
             "id": "combat",
             "page_intent": "default",
-            "node_types": ["battle_normal", "battle_elite", "battle_savage", "hide_battle", "battle_boss"],
+            "node_types": ["battle_normal", "battle_elite", "battle_savage", "duel", "hide_battle", "battle_boss"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
             "task": "BlackFlow@Roguelike@Page-Combat",
@@ -458,6 +458,10 @@
         },
         {
             "text": "狭路相逢",
+            "node_type": "duel"
+        },
+        {
+            "text": "\"居民\"据点",
             "node_type": "battle_savage"
         },
         {

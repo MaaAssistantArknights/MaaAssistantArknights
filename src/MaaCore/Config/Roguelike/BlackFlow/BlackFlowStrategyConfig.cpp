@@ -393,7 +393,7 @@ NodeSelector parse_node_selector(const json::value& value)
 {
     check_keys(
         value,
-        { "node_types", "node_names", "badged", "identity_state", "identity_revealed" },
+        { "node_types", "node_names", "marker_types", "badged", "identity_state", "identity_revealed" },
         {},
         "node selector");
     NodeSelector result;
@@ -415,6 +415,14 @@ NodeSelector parse_node_selector(const json::value& value)
     std::ranges::sort(result.node_names);
     if (std::ranges::adjacent_find(result.node_names) != result.node_names.end()) {
         invalid_config("node selector node_names contains duplicates");
+    }
+    result.marker_types = parse_string_array(value, "marker_types");
+    if (std::ranges::any_of(result.marker_types, [](const std::string& type) { return type.empty(); })) {
+        invalid_config("node selector marker_types must not contain empty types");
+    }
+    std::ranges::sort(result.marker_types);
+    if (std::ranges::adjacent_find(result.marker_types) != result.marker_types.end()) {
+        invalid_config("node selector marker_types contains duplicates");
     }
     if (const auto badged = value.find("badged"); badged) {
         if (!badged->is_boolean()) {

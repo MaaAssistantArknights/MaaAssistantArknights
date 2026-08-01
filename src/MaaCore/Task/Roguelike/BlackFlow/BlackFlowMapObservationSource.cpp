@@ -176,6 +176,9 @@ bool BlackFlowMapObservationSource::recognize(
                     node.existence_source,
                     visual_rect(node, result.normalized_bgr.size()),
                     std::nullopt,
+                    node.marker_type,
+                    node.marker_display_name,
+                    node.marker_score,
                     false,
                     std::nullopt,
                 });

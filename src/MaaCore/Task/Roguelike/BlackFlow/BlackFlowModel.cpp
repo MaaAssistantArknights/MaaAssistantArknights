@@ -14,11 +14,11 @@ namespace asst::blackflow
 namespace
 {
 const std::vector<NodeType> AllTargetTypes = {
-    NodeType::Unknown,    NodeType::BattleElite, NodeType::BattleNormal, NodeType::BattleSavage,  NodeType::Door,
-    NodeType::Employ,     NodeType::Expedition,  NodeType::HideBattle,   NodeType::HideInvisible, NodeType::Incident,
-    NodeType::Light,      NodeType::Portal,      NodeType::Rest,         NodeType::Sacrifice,     NodeType::ScrapShop,
-    NodeType::Shop,       NodeType::Wish,        NodeType::Empty,        NodeType::Evacuate,      NodeType::Final,
-    NodeType::BattleBoss,
+    NodeType::Unknown,   NodeType::BattleElite, NodeType::BattleNormal, NodeType::BattleSavage, NodeType::Duel,
+    NodeType::Door,      NodeType::Employ,      NodeType::Expedition,   NodeType::HideBattle,   NodeType::HideInvisible,
+    NodeType::Incident,  NodeType::Light,       NodeType::Portal,       NodeType::Rest,         NodeType::Sacrifice,
+    NodeType::ScrapShop, NodeType::Shop,        NodeType::Wish,         NodeType::Empty,        NodeType::Evacuate,
+    NodeType::Final,     NodeType::BattleBoss,
 };
 
 const std::vector<NodeType> NonCombatTargetTypes = {
@@ -391,6 +391,15 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
         if (observed.identity_revealed.has_value() && !preserve_door_identity) {
             node.identity_revealed = *observed.identity_revealed;
         }
+        if (observed.marker_type.has_value()) {
+            node.marker_type = *observed.marker_type;
+        }
+        if (observed.marker_display_name.has_value()) {
+            node.marker_display_name = *observed.marker_display_name;
+        }
+        if (observed.marker_score.has_value()) {
+            node.marker_score = *observed.marker_score;
+        }
         if (observed.badged.has_value() && !preserve_door_identity) {
             node.badged = *observed.badged;
         }
@@ -447,6 +456,9 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
         empty.traversal = default_traversal_for(NodeType::Empty);
         empty.identity_state = NodeIdentityState::Classified;
         empty.identity_revealed = true;
+        empty.marker_type.clear();
+        empty.marker_display_name.clear();
+        empty.marker_score = 0.0;
         empty.badged = false;
 
         working.m_snapshot.upsert_node(std::move(empty));
@@ -588,7 +600,7 @@ bool is_transfer_node(NodeType type) noexcept
 bool is_combat_node_type(NodeType type) noexcept
 {
     return type == NodeType::BattleNormal || type == NodeType::BattleElite || type == NodeType::BattleSavage ||
-           type == NodeType::HideBattle || type == NodeType::BattleBoss;
+           type == NodeType::Duel || type == NodeType::HideBattle || type == NodeType::BattleBoss;
 }
 
 // 能离开当前区域进入下一层的三种节点。险路小径通常亏损，一般不走，
@@ -606,6 +618,7 @@ std::optional<NodeType> node_type_from_string(std::string_view value) noexcept
         { "battle_elite", NodeType::BattleElite },
         { "battle_normal", NodeType::BattleNormal },
         { "battle_savage", NodeType::BattleSavage },
+        { "duel", NodeType::Duel },
         { "door", NodeType::Door },
         { "employ", NodeType::Employ },
         { "expedition", NodeType::Expedition },
@@ -1352,6 +1365,8 @@ std::string_view to_string(NodeType type) noexcept
         return "battle_normal";
     case NodeType::BattleSavage:
         return "battle_savage";
+    case NodeType::Duel:
+        return "duel";
     case NodeType::Door:
         return "door";
     case NodeType::Employ:

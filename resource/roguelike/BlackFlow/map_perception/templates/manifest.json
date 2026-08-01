@@ -44,6 +44,16 @@
         {
             "file": "BlackFlow@Roguelike@battle_savage.png",
             "node_type": "battle_savage",
+            "display_name": "“居民”据点",
+            "role": "ordinary",
+            "threshold": 0.8,
+            "seed_anchor": false,
+            "width": 50,
+            "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@duel.png",
+            "node_type": "duel",
             "display_name": "狭路相逢",
             "role": "ordinary",
             "threshold": 0.8,
@@ -180,6 +190,24 @@
             "seed_anchor": false,
             "width": 50,
             "height": 40
+        },
+        {
+            "file": "BlackFlow@Roguelike@informant.png",
+            "marker_type": "informant",
+            "display_name": "线人",
+            "role": "node_marker",
+            "seed_anchor": false,
+            "width": 25,
+            "height": 25
+        },
+        {
+            "file": "BlackFlow@Roguelike@savage.png",
+            "marker_type": "savage",
+            "display_name": "流窜居民",
+            "role": "node_marker",
+            "seed_anchor": false,
+            "width": 25,
+            "height": 25
         },
         {
             "file": "BlackFlow@Roguelike@empty.png",

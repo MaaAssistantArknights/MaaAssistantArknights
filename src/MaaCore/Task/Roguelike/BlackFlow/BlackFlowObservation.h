@@ -22,6 +22,9 @@ struct PerceptionNodeObservation
     std::string existence_source;
     Rect icon_rect;
     std::optional<Rect> text_rect;
+    std::string marker_type;
+    std::string marker_display_name;
+    double marker_score = 0.0;
     bool badged = false;
     std::optional<GridPosition> transfer_target;
 };

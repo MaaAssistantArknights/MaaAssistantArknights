@@ -286,8 +286,8 @@ bool Condition::evaluate(const FactStore& facts) const
 
 bool NodeSelector::empty() const noexcept
 {
-    return node_types.empty() && node_names.empty() && !badged.has_value() && !identity_state.has_value() &&
-           !identity_revealed.has_value();
+    return node_types.empty() && node_names.empty() && marker_types.empty() && !badged.has_value() &&
+           !identity_state.has_value() && !identity_revealed.has_value();
 }
 
 bool NodeSelector::matches(const Node& node) const noexcept
@@ -296,6 +296,9 @@ bool NodeSelector::matches(const Node& node) const noexcept
         return false;
     }
     if (!node_names.empty() && std::ranges::find(node_names, node.name) == node_names.end()) {
+        return false;
+    }
+    if (!marker_types.empty() && std::ranges::find(marker_types, node.marker_type) == marker_types.end()) {
         return false;
     }
     if (badged.has_value() && node.badged != *badged) {
@@ -520,7 +523,9 @@ bool hidden_node_may_reveal_milestone(
         return false;
     }
     const NodeSelector& selector = milestone.selector;
-    if ((selector.badged.has_value() && node.badged != *selector.badged) ||
+    if ((!selector.marker_types.empty() &&
+         std::ranges::find(selector.marker_types, node.marker_type) == selector.marker_types.end()) ||
+        (selector.badged.has_value() && node.badged != *selector.badged) ||
         (selector.identity_state.has_value() && node.identity_state != *selector.identity_state) ||
         (selector.identity_revealed.has_value() && node.identity_revealed != *selector.identity_revealed)) {
         return false;

@@ -45,6 +45,7 @@ NodeDetectorConfig parse_node_config(const nlohmann::json& json)
     config.current_marker_threshold = json.value("current_marker_threshold", config.current_marker_threshold);
     config.current_marker_grid_tolerance =
         json.value("current_marker_grid_tolerance", config.current_marker_grid_tolerance);
+    config.marker_grid_tolerance = json.value("marker_grid_tolerance", config.marker_grid_tolerance);
     config.refinement_mode = GridRefinementMode::FixedGrid;
     config.guard_ring_shift_radius = json.value("guard_ring_shift_radius", config.guard_ring_shift_radius);
     config.guard_ring_outside_weight = json.value("guard_ring_outside_weight", config.guard_ring_outside_weight);

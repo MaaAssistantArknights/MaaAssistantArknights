@@ -15,6 +15,7 @@ enum class TemplateRole
 {
     Empty,
     CurrentMarker,
+    NodeMarker,
     Ordinary,
     Special
 };
@@ -23,6 +24,7 @@ struct TemplateSpec
 {
     std::string name;
     std::string node_type;
+    std::string marker_type;
     std::string resource_name;
     double threshold = 0.8;
     bool seed_anchor = false;
@@ -79,6 +81,8 @@ public:
 
     const TemplateSpec& current_marker_template() const noexcept { return m_current_marker_template; }
 
+    const std::vector<TemplateSpec>& node_marker_templates() const noexcept { return m_node_marker_templates; }
+
     const std::vector<TemplateSpec>& special_templates() const noexcept { return m_special_templates; }
 
     RecognitionScoreAtlas build_score_atlas(const cv::Mat& image, const cv::Rect& roi) const;
@@ -132,6 +136,7 @@ private:
 
     TemplateSpec m_empty_template;
     TemplateSpec m_current_marker_template;
+    std::vector<TemplateSpec> m_node_marker_templates;
     std::vector<TemplateSpec> m_ordinary_templates;
     std::vector<TemplateSpec> m_special_templates;
     std::unordered_map<std::string, cv::Mat> m_templates;

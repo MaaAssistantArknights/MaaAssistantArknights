@@ -116,14 +116,22 @@ std::optional<NormalizedPerceptionObservation>
         }
         stable_ids.emplace(source_node.temporary_id, *stable);
 
+        const bool savage_override =
+            source_node.marker_type == "savage" &&
+            (*type == NodeType::Empty || *type == NodeType::BattleNormal || *type == NodeType::BattleElite ||
+             *type == NodeType::HideInvisible || *type == NodeType::HideBattle);
         const bool is_inferred_shop = inferred_shop == &source_node;
         ObservedNode node;
         node.position = source_node.position;
-        node.type = is_inferred_shop ? NodeType::Shop : *type;
+        node.type = is_inferred_shop ? NodeType::Shop : savage_override ? NodeType::BattleNormal : *type;
         node.name = source_node.displayed_name;
 
-        node.identity_state = is_inferred_shop ? NodeIdentityState::Classified : identity_state_for(source_node.type);
-        node.identity_revealed = is_inferred_shop || identity_revealed_for(source_node.type);
+        node.identity_state =
+            is_inferred_shop || savage_override ? NodeIdentityState::Classified : identity_state_for(source_node.type);
+        node.identity_revealed = is_inferred_shop || savage_override || identity_revealed_for(source_node.type);
+        node.marker_type = source_node.marker_type;
+        node.marker_display_name = source_node.marker_display_name;
+        node.marker_score = source_node.marker_score;
         node.badged = source_node.badged;
         if (source_node.transfer_target.has_value()) {
             node.transfer_target = source_node.transfer_target;

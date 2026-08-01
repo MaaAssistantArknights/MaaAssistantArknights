@@ -41,6 +41,7 @@ enum class NodeType
     BattleElite,
     BattleNormal,
     BattleSavage,
+    Duel,
     Door,
     Employ,
     Expedition,
@@ -108,6 +109,9 @@ struct Node
     NodeTraversal traversal;
     NodeIdentityState identity_state = NodeIdentityState::Unclassified;
     bool identity_revealed = false;
+    std::string marker_type;
+    std::string marker_display_name;
+    double marker_score = 0.0;
     bool badged = false;
     std::optional<NodeId> transfer_target;
 
@@ -173,6 +177,9 @@ struct ObservedNode
     std::optional<NodeTraversal> traversal;
     std::optional<NodeIdentityState> identity_state;
     std::optional<bool> identity_revealed;
+    std::optional<std::string> marker_type;
+    std::optional<std::string> marker_display_name;
+    std::optional<double> marker_score;
     std::optional<bool> badged;
     std::optional<std::optional<GridPosition>> transfer_target;
 };
