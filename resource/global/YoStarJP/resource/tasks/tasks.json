@@ -1125,6 +1125,24 @@
     "AnnihilationSwitchButton": {
         "text": ["切替"]
     },
+    "FightSeries-OldMethodFlag": {
+        "doc": "whether to use old series method",
+        "algorithm": "JustReturn"
+    },
+    "FightSeries-List-Multiply": {
+        "Doc": "连战次数列表每个选项的乘号, rectMove到次数, 灰度低于150为碎石才能打",
+        "action": "ClickRect",
+        "roi": [970, 200, 40, 360],
+        "rectMove": [25, 10, 20, 25],
+        "specificRect": [0, 0, 55, 40],
+        "specialParams": [150]
+    },
+    "FightSeries-Opened": {
+        "template": "FightSeries-Indicator.png",
+        "roi": [940, 190, 80, 380],
+        "templThreshold": 0.9,
+        "maskRange": [1, 255]
+    },
     "StartButton1": {
         "ocrReplace": [["行重動", "行動"]],
         "text": ["行動開始", "作戦開始", "推論開始"]

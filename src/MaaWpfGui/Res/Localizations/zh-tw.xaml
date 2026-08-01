@@ -838,7 +838,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="KeepInventory">保持庫存</system:String>
     <system:String x:Key="TargetInventory">目標庫存</system:String>
     <system:String x:Key="Series">代理倍率</system:String>
-    <system:String x:Key="SeriesLockedTip">遊戲更新後暫未適配，請手動在遊戲內設定代理倍率</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 自動辨識關卡最大代理倍率，保持最大代理倍率且使用理智藥後理智不溢出
 
