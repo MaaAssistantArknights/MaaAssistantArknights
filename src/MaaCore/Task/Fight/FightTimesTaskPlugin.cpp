@@ -197,8 +197,13 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series_new(int sanity_curr
         }
         // 吃药后理智超限, 减少了吃药量, 选择剩余次数
     }
-    auto cost = sanity_cost / series;
-    auto target_times = sanity_current / cost;
+    int cost = sanity_cost / series;
+    if (cost <= 0) { // OCR 误识别导致单次理智消耗为 0，避免后续 target_times 除零
+        LogWarn << __FUNCTION__ << "invalid sanity cost per time, skip change_series_new";
+        // 未做任何调整，返回 nullopt 让调用方沿用当前倍率继续战斗
+        return std::nullopt;
+    }
+    auto target_times = std::clamp(sanity_current / cost, 1, 10);
     LogInfo << __FUNCTION__ << "sanity_current:" << sanity_current << ", sanity_cost:" << sanity_cost
             << ", series:" << series << ", stage sanity cost per time:" << cost << ", target_times:" << target_times;
     if (target_times == series) {

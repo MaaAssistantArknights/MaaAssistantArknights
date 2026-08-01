@@ -839,7 +839,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="KeepInventory">재고 유지</system:String>
     <system:String x:Key="TargetInventory">목표 재고</system:String>
     <system:String x:Key="Series">연속 전투</system:String>
-    <system:String x:Key="SeriesLockedTip">게임 업데이트 후 아직 적응되지 않았습니다. 게임 내에서 수동으로 대리 지휘 배수를 설정해 주세요.</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 스테이지의 가능한 최대 대리 지휘 횟수의 배수를 감지하고, 자동으로 최대 대리 지휘 횟수를 유지하며, 이성 회복제 사용 후 이성이 남지 않도록 합니다.
 

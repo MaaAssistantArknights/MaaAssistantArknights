@@ -139,13 +139,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             var stage = GetFightStage(startedFight.StagePlan);
             if (!string.IsNullOrEmpty(stage))
             {
-                // 与 SerializeTask 一致的锁定钳制语义
-                var effectiveSeries = Instance.IsSeriesLocked ? -1 : startedFight.Series;
                 var task = new AsstFightTask() {
                     Stage = stage,
                     Medicine = startedFight.UseMedicine != false ? startedFight.MedicineCount : 0,
                     Stone = startedFight.UseStone != false ? startedFight.StoneCount : 0,
-                    Series = effectiveSeries,
+                    Series = startedFight.Series,
                     MaxTimes = int.MaxValue,
                     IsDrGrandet = startedFight.IsDrGrandet,
                     ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
@@ -423,91 +421,18 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         (1, "1"),
         (-1, "NotSwitch"));
 
-    #region 代理倍率临时锁定（适配后删除）
-
-    // 游戏更新后（2026-08-01 鹰历）代理倍率上限从 6 提升至 10，但选择逻辑暂未适配
-    private static readonly DateTime _seriesLockDate = new(2026, 8, 1);
-
-    // 仅 Official / Bilibili 服需要锁定；其他服（YoStar/txwy）更新节奏不同，不屏蔽
-    private static bool NeedsSeriesLock =>
-        SettingsViewModel.GameSettings.ClientType is ClientType.Official or ClientType.Bilibili;
-
-    // 当前鹰历日期是否已到达/超过锁定日期
-    private static bool IsSeriesLockDateReached => DateTime.UtcNow.ToYjDate() >= _seriesLockDate;
-
-    /// <summary>
-    /// Gets a value indicating whether 代理倍率是否被锁定（游戏更新后、MAA 适配前）。
-    /// </summary>
-    public bool IsSeriesLocked => false;
-
-    // 记录上次检查时的锁定状态，仅在与当前状态不一致时通知界面刷新
-    private bool _lastSeriesLocked = NeedsSeriesLock && IsSeriesLockDateReached;
-
-    /// <summary>
-    /// 由定时器调用，仅在锁定状态发生变化（跨过 8/1 鹰历，或切换了客户端类型）时通知界面刷新。
-    /// </summary>
-    public void RefreshSeriesLockState()
-    {
-        var currentLocked = IsSeriesLocked;
-        if (currentLocked == _lastSeriesLocked)
-        {
-            return;
-        }
-
-        _lastSeriesLocked = currentLocked;
-        NotifyOfPropertyChange(nameof(IsSeriesLocked));
-        NotifyOfPropertyChange(nameof(Series));
-    }
-
-    #endregion 代理倍率临时锁定（适配后删除）
-
     /// <summary>
     /// Gets or sets 连战次数。
     /// </summary>
     public int Series
     {
-        get {
-            // 适配后删除 start
-            if (IsSeriesLocked)
-            {
-                return -1;
-            }
-
-            // 适配后删除 end
-            return GetTaskConfig<FightTask>().Series;
-        }
+        get => GetTaskConfig<FightTask>().Series;
 
         set {
-            // 适配后删除 start
-            // 游戏更新后、MAA 适配前，强制锁定为不切换，不写入配置
-            if (IsSeriesLocked)
-            {
-                // 被钳制时延迟通知，绕过 WPF TwoWay binding writeback 期间的 PropertyChanged 忽略
-                Application.Current.Dispatcher.BeginInvoke(() => NotifyOfPropertyChange(nameof(Series)));
-                return;
-            }
-
-            // 更新前选了 7~10，自动钳回 6
-            var clamped = value > 6;
-            if (clamped)
-            {
-                value = 6;
-            }
-
             if (SetTaskConfig<FightTask>(t => t.Series == value, t => t.Series = value))
             {
                 SetFightParams();
             }
-
-            // 适配后删除 start
-            if (clamped)
-            {
-                // 值被钳制但配置未变（已经是 6），仍需通知 UI 回弹
-                // 被钳制时延迟通知，绕过 WPF TwoWay binding writeback 期间的 PropertyChanged 忽略
-                Application.Current.Dispatcher.BeginInvoke(() => NotifyOfPropertyChange(nameof(Series)));
-            }
-
-            // 适配后删除 end
         }
     }
 
@@ -1667,25 +1592,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 effectiveMaxTimes = 0;
             }
 
-            // 适配后删除 start
-            // 游戏更新后、MAA 适配前，强制使用不切换，并提示用户
-            var effectiveSeries = Instance.IsSeriesLocked ? -1 : fight.Series;
-            if (Instance.IsSeriesLocked)
-            {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("SeriesLockedTip"), UiLogColor.Warning);
-            }
-
-            // 适配后删除 end
             var task = new AsstFightTask() {
                 Stage = stage,
                 Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
                 Stone = fight.UseStone != false ? fight.StoneCount : 0,
-
-                // 适配后删除 start
-                Series = effectiveSeries,
-
-                // 适配后删除 end
-                // 适配后删除 恢复为 Series = fight.Series,
+                Series = fight.Series,
                 MaxTimes = effectiveMaxTimes,
                 MedicineExpireDays = Math.Max(expireDays, activityExpireDays),
                 IsDrGrandet = fight.IsDrGrandet,
