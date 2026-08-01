@@ -710,7 +710,10 @@ public partial class CopilotViewModel : Screen
 
     public enum CopilotSupportMode
     {
+        /// <summary>仅补充必要</summary>
         WhenNeeded = 1,
+
+        /// <summary>随机加一个, 刷信用点用</summary>
         Random = 3,
     }
 
@@ -1633,7 +1636,7 @@ public partial class CopilotViewModel : Screen
         var stageId = mapInfo?.StageId;
         if (mapInfo is null)
         {
-            AddLog(LocalizationHelper.GetStringFormat("CopilotStageNameNotFound", stageCode), UiLogColor.Error, showTime: false);
+            AddLog(LocalizationHelper.GetStringFormat("CopilotStageNameNotFound", $"{navigateName}"), UiLogColor.Error, showTime: false);
             return false;
         }
 
