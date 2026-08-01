@@ -14,6 +14,11 @@
         "sub": ["TO-9@TO-OpenOpt"],
         "next": ["TO-9@SideStoryStage", "TO-9@SwipeToStage"]
     },
+    "TO-5": {
+        "algorithm": "JustReturn",
+        "sub": ["TO-5@TO-OpenOpt"],
+        "next": ["TO-5@SideStoryStage", "TO-5@SwipeToStage"]
+    },
     "TO-7@SideStoryStage": {
         "text": ["TO-7"],
         "ocrReplace": [["T0-", "TO-"]]
@@ -24,6 +29,10 @@
     },
     "TO-9@SideStoryStage": {
         "text": ["TO-9"],
+        "ocrReplace": [["T0-", "TO-"]]
+    },
+    "TO-5@SideStoryStage": {
+        "text": ["TO-5"],
         "ocrReplace": [["T0-", "TO-"]]
     },
     "TO-OpenOpt": {

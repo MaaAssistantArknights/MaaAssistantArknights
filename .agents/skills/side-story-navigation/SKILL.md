@@ -134,9 +134,9 @@ description: 新增/更新 SideStory 活动关卡导航。涵盖 tasks/Stages �
 
 ### 2.5 排列顺序规则
 
-> **tasks 导航文件中关卡按编号从小到大排列。**
+> **tasks 导航文件中关卡按编号从小到大排列；搓玉关放最后。**
 
-先放所有入口任务（`XX-4`/`XX-7`/`XX-8`/`XX-9`），再放所有 `@SideStoryStage`（`XX-4@SideStoryStage`/`XX-7@SideStoryStage`/…），最后放 Open/Chapter 相关。
+先放所有入口任务，再放所有 `@SideStoryStage`，最后放 Open/Chapter 相关。排列时：常规关卡按编号从小到大，**搓玉关**（低编号如 `XX-4`/`XX-5`，Drop 为搓玉描述）放在常规关之后。
 
 ### 2.6 roi 坐标
 
@@ -231,13 +231,13 @@ Test-Path ..\MaaRelease
 
 | 文件 | 顺序 |
 |------|------|
-| `resource/tasks/Stages/XX.json` | 关卡编号**从小到大** |
-| MaaRelease `api/resource/tasks.json` | 同上，**从小到大** |
-| `StageActivityV2.json` 的 `Stages` 数组 | 关卡编号**从大到小** |
+| `resource/tasks/Stages/XX.json` | 常规关卡编号**从小到大**，**搓玉关放最后** |
+| MaaRelease `api/resource/tasks.json` | 同上 |
+| `StageActivityV2.json` 的 `Stages` 数组 | 关卡编号**从大到小**（搓玉关天然在末尾） |
 
 ## 6. 完整操作清单
 
-1. ✅ 创建/修改 `resource/tasks/Stages/XX.json`（导航任务，关卡从小到大）
+1. ✅ 创建/修改 `resource/tasks/Stages/XX.json`（导航任务，常规关卡从小到大，搓玉关放最后）
 2. ✅ 修改 `build/bin/Debug/cache/gui/StageActivityV2.json`（本地测试缓存，替换活动，关卡从大到小，Drop 查表或用用户描述）
    - 若 `XXChapterToXX` 用模板图：修改 `MinimumRequired` 为下一个版本，通知用户复查
 3. 🔶 检查 `../MaaRelease/` 是否存在；存在则：
