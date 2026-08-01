@@ -6,6 +6,10 @@
         "algorithm": "JustReturn",
         "baseTask": "#none"
     },
+    "FightSeries-OldMethodFlag": {
+        "algorithm": "JustReturn",
+        "doc": "whether to use old series method"
+    },
     "ClickChapter1": {
         "text": ["覺醒"]
     },
@@ -899,9 +903,11 @@
     "AnnihilationSwitchButton": {
         "text": ["切換"]
     },
-    "FightSeries-OldMethodFlag": {
-        "doc": "whether to use old series method",
-        "algorithm": "JustReturn"
+    "FightSeries-Opened": {
+        "template": "FightSeries-Indicator.png",
+        "roi": [940, 190, 80, 380],
+        "templThreshold": 0.9,
+        "maskRange": [1, 255]
     },
     "FightSeries-List-Multiply": {
         "Doc": "连战次数列表每个选项的乘号, rectMove到次数, 灰度低于150为碎石才能打",
@@ -910,12 +916,6 @@
         "rectMove": [25, 10, 20, 25],
         "specificRect": [0, 0, 55, 40],
         "specialParams": [150]
-    },
-    "FightSeries-Opened": {
-        "template": "FightSeries-Indicator.png",
-        "roi": [940, 190, 80, 380],
-        "templThreshold": 0.9,
-        "maskRange": [1, 255]
     },
     "StartButton1": {
         "text": ["開始行動", "開始作戰", "開始推演"]
