@@ -864,7 +864,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="LowVersion">Old Version, Update required</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">Minimum Requirements:&#160;</system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">Days left open:&#160;</system:String>
-    <system:String x:Key="Inventory">Inv: </system:String>
+    <system:String x:Key="Inventory">Inv:</system:String>
     <system:String x:Key="InventoryUpdateTip">Inventory data can be updated via  ｢{key=Toolbox}-{key=DepotRecognition}｣</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">Task "{0}" uses {key=TargetInventory}, but no inventory data is currently available, so it was skipped. Update it via ｢{key=Toolbox}-{key=DepotRecognition}｣.</system:String>
     <!--  DepotMaintain  -->
@@ -1427,7 +1427,7 @@ Before use, please ensure:
 1. MAA is launched with administrator privileges
 2. For some screencap methods, the game window cannot be minimized
 3. Arknights Settings → Game → UI Scaling is set to 100%
-4. Game resolution must be 16:9, recommended settings: 720×1280 or 1080×1920</system:String>
+4. Game resolution must be 16:9, recommended settings: 1280x720 or 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
