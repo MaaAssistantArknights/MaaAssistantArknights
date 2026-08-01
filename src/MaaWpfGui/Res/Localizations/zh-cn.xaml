@@ -873,6 +873,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPreset">预设</system:String>
     <system:String x:Key="DepotPresetChip1">低级芯片（全职业）</system:String>
     <system:String x:Key="DepotPresetChip2">高级芯片组（全职业）</system:String>
+    <system:String x:Key="DepotPresetLmd">龙门币</system:String>
+    <system:String x:Key="DepotPresetCertificate">采购凭证（红票）</system:String>
+    <system:String x:Key="DepotPresetSkillSummary">技巧概要·卷3</system:String>
     <system:String x:Key="CollapseAll">折叠</system:String>
     <system:String x:Key="ClearPlans">清空</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">计划 {0}：未指定掉落物。</system:String>

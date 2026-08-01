@@ -874,6 +874,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPreset">프리셋</system:String>
     <system:String x:Key="DepotPresetChip1">저급 칩 (전 직업)</system:String>
     <system:String x:Key="DepotPresetChip2">고급 칩 세트 (전 직업)</system:String>
+    <system:String x:Key="DepotPresetLmd">용문폐</system:String>
+    <system:String x:Key="DepotPresetCertificate">구매 증명서 (레드 티켓)</system:String>
+    <system:String x:Key="DepotPresetSkillSummary">스킬 개론 - 3</system:String>
     <system:String x:Key="CollapseAll">접기</system:String>
     <system:String x:Key="ClearPlans">전체 삭제</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">계획 {0}: 드롭 아이템 미지정.</system:String>

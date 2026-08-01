@@ -227,29 +227,34 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     }
 
     /// <summary>
-    /// 芯片预设列表，低级芯片（PR-X-1）和高级芯片组（PR-X-2）各一组。
+    /// 预设列表。
     /// </summary>
     public static LocalizedObservableList<string> PresetList { get; } = new(
         ("Chip1", "DepotPresetChip1"),
-        ("Chip2", "DepotPresetChip2"));
+        ("Chip2", "DepotPresetChip2"),
+        ("CE6", "DepotPresetLmd"),
+        ("AP5", "DepotPresetCertificate"),
+        ("CA5", "DepotPresetSkillSummary"));
 
     /// <summary>
-    /// 芯片预设数据：关卡 → [(掉落物 itemId, 掉落物名称), ...]。
+    /// 预设数据：关卡 → [(掉落物 itemId, 掉落物名称), ...]。
     /// </summary>
-    private static readonly Dictionary<string, (string Stage, string[] Drops)[]> PresetData = new()
-    {
+    private static readonly Dictionary<string, (string Stage, string[] Drops, int DefaultCount)[]> PresetData = new() {
         ["Chip1"] = [
-            ("PR-A-1", ["3261", "3231"]),  // 医疗芯片、重装芯片
-            ("PR-B-1", ["3251", "3241"]),  // 术师芯片、狙击芯片
-            ("PR-C-1", ["3211", "3271"]),  // 先锋芯片、辅助芯片
-            ("PR-D-1", ["3221", "3281"]),  // 近卫芯片、特种芯片
+            ("PR-A-1", ["3261", "3231"], 20),  // 医疗芯片、重装芯片
+            ("PR-B-1", ["3251", "3241"], 20),  // 术师芯片、狙击芯片
+            ("PR-C-1", ["3211", "3271"], 20),  // 先锋芯片、辅助芯片
+            ("PR-D-1", ["3221", "3281"], 20),  // 近卫芯片、特种芯片
         ],
         ["Chip2"] = [
-            ("PR-A-2", ["3262", "3232"]),  // 医疗芯片组、重装芯片组
-            ("PR-B-2", ["3252", "3242"]),  // 术师芯片组、狙击芯片组
-            ("PR-C-2", ["3212", "3272"]),  // 先锋芯片组、辅助芯片组
-            ("PR-D-2", ["3222", "3282"]),  // 近卫芯片组、特种芯片组
+            ("PR-A-2", ["3262", "3232"], 20),  // 医疗芯片组、重装芯片组
+            ("PR-B-2", ["3252", "3242"], 20),  // 术师芯片组、狙击芯片组
+            ("PR-C-2", ["3212", "3272"], 20),  // 先锋芯片组、辅助芯片组
+            ("PR-D-2", ["3222", "3282"], 20),  // 近卫芯片组、特种芯片组
         ],
+        ["CE6"] = [("CE-6", ["4001"], 2000000)],    // 龙门币
+        ["AP5"] = [("AP-5", ["4006"], 5000)],       // 采购凭证（红票）
+        ["CA5"] = [("CA-5", ["3303"], 200)],        // 技巧概要·卷3
     };
 
     public void AddPresetPlan(string presetValue)
@@ -263,12 +268,12 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         PlanList.CollectionChanged -= PlanList_CollectionChanged;
         try
         {
-            foreach (var (stage, drops) in stages)
+            foreach (var (stage, drops, defaultCount) in stages)
             {
                 foreach (var dropId in drops)
                 {
                     var dropName = ItemListHelper.GetItemName(dropId) ?? LocalizationHelper.GetString("NotSelected");
-                    var plan = new Plan(stage, dropId, dropName, 20);
+                    var plan = new Plan(stage, dropId, dropName, defaultCount);
                     plan.PropertyChanged += PlanItem_PropertyChanged;
                     PlanList.Add(plan);
                 }

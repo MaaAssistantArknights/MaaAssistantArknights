@@ -873,6 +873,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPreset">プリセット</system:String>
     <system:String x:Key="DepotPresetChip1">低級チップ（全職業）</system:String>
     <system:String x:Key="DepotPresetChip2">上級チップ組（全職業）</system:String>
+    <system:String x:Key="DepotPresetLmd">龍門幣</system:String>
+    <system:String x:Key="DepotPresetCertificate">購買資格証（赤チケ）</system:String>
+    <system:String x:Key="DepotPresetSkillSummary">アーツ学・Ⅲ</system:String>
     <system:String x:Key="CollapseAll">折りたたむ</system:String>
     <system:String x:Key="ClearPlans">クリア</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">プラン {0}：ドロップアイテム未指定。</system:String>
