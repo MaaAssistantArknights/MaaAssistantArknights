@@ -438,7 +438,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// <summary>
     /// Gets a value indicating whether 代理倍率是否被锁定（游戏更新后、MAA 适配前）。
     /// </summary>
-    public bool IsSeriesLocked => NeedsSeriesLock && IsSeriesLockDateReached;
+    public bool IsSeriesLocked => false;
 
     // 记录上次检查时的锁定状态，仅在与当前状态不一致时通知界面刷新
     private bool _lastSeriesLocked = NeedsSeriesLock && IsSeriesLockDateReached;
@@ -466,8 +466,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// </summary>
     public int Series
     {
-        get
-        {
+        get {
             // 适配后删除 start
             if (IsSeriesLocked)
             {

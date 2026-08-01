@@ -1277,7 +1277,7 @@
     },
     "FightSeries-Opened": {
         "template": "FightSeries-Indicator.png",
-        "roi": [940, 190, 80, 380],
+        "roi": [900, 370, 70, 40],
         "templThreshold": 0.9,
         "maskRange": [1, 255]
     },
@@ -1316,10 +1316,22 @@
     "FightSeries-List-Multiply": {
         "Doc": "连战次数列表每个选项的乘号, rectMove到次数, 灰度低于150为碎石才能打",
         "action": "ClickRect",
-        "roi": [970, 200, 40, 360],
-        "rectMove": [25, 10, 20, 25],
-        "specificRect": [0, 0, 55, 40],
+        "roi": [960, 200, 40, 360],
+        "rectMove": [25, 13, 32, 25],
+        "specificRect": [0, -1, 75, 45],
         "specialParams": [150]
+    },
+    "FightSeries-List-SlideDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [930, 520, 140, 40],
+        "rectMove": [930, 230, 140, 40],
+        "postDelay": 500
+    },
+    "FightSeries-List-SlideUp": {
+        "baseTask": "FightSeries-List-SlideDown",
+        "specificRect": [930, 230, 140, 40],
+        "rectMove": [930, 520, 140, 40]
     },
     "StartButton1": {
         "doc": "绑定插件调整连战次数",
