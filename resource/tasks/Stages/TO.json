@@ -15,13 +15,16 @@
         "next": ["TO-9@SideStoryStage", "TO-9@SwipeToStage"]
     },
     "TO-7@SideStoryStage": {
-        "text": ["TO-7"]
+        "text": ["TO-7"],
+        "ocrReplace": [["T0-", "TO-"]]
     },
     "TO-8@SideStoryStage": {
-        "text": ["TO-8"]
+        "text": ["TO-8"],
+        "ocrReplace": [["T0-", "TO-"]]
     },
     "TO-9@SideStoryStage": {
-        "text": ["TO-9"]
+        "text": ["TO-9"],
+        "ocrReplace": [["T0-", "TO-"]]
     },
     "TO-OpenOpt": {
         "algorithm": "JustReturn",
