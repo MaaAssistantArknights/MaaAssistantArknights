@@ -1721,6 +1721,10 @@
             ["곳곳의복음", "遍地福音"]
         ]
     },
+    "BattleQuickFormationClear": {
+        "docs": "Added as Vector Breakthrough formation clear differs from normal formation clear",
+        "template": ["BattleQuickFormationClear", "BattleQuickFormationClear2"]
+    },
     "BattleQuickFormationFilter-Cost": {
         "text": ["배치코스트"]
     },
