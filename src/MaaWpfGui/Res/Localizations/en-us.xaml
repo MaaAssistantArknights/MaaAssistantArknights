@@ -869,7 +869,11 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <!--  DepotMaintain  -->
     <system:String x:Key="DepotUpdateBeforeStart">Update inventory before starting</system:String>
     <system:String x:Key="AddPlan">Add</system:String>
+    <system:String x:Key="DepotPreset">Preset</system:String>
+    <system:String x:Key="DepotPresetChip1">Chips (All Classes)</system:String>
+    <system:String x:Key="DepotPresetChip2">Chip Packs (All Classes)</system:String>
     <system:String x:Key="CollapseAll">Collapse</system:String>
+    <system:String x:Key="ClearPlans">Clear</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">Plan {0}: no drop item specified.</system:String>
     <system:String x:Key="DepotPlanZeroDropCount">Plan {0}: target inventory is 0.</system:String>
     <system:String x:Key="DepotPlanNoStage">Plan {0}: stage not specified or is "Current/Last".</system:String>

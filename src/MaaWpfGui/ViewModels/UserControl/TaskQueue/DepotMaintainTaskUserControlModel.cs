@@ -18,6 +18,8 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -29,6 +31,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using ObservableCollections;
@@ -68,6 +71,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     public void OnLanguageChanged()
     {
+        // 刷新预设列表的本地化显示
+        PresetList.RefreshLocalization();
+
         // DropsList 已由 RebuildDropsList 原地更新 Display（不增删项），ComboBox SelectedValue 不会丢失
         // 只需刷新各 plan 的 DropName
         foreach (var plan in PlanList)
@@ -200,6 +206,100 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     public void RemovePlan(Plan plan)
     {
         PlanList.Remove(plan);
+    }
+
+    public void ClearPlans()
+    {
+        if (PlanList.Count == 0)
+        {
+            return;
+        }
+
+        // 先取消所有 PropertyChanged 订阅，避免 Clear 逐条触发
+        foreach (var plan in PlanList)
+        {
+            plan.PropertyChanged -= PlanItem_PropertyChanged;
+        }
+
+        PlanList.Clear();
+        SavePlan();
+        NotifyOfPropertyChange(nameof(PlanInfo));
+    }
+
+    /// <summary>
+    /// 芯片预设列表，低级芯片（PR-X-1）和高级芯片组（PR-X-2）各一组。
+    /// </summary>
+    public static LocalizedObservableList<string> PresetList { get; } = new(
+        ("Chip1", "DepotPresetChip1"),
+        ("Chip2", "DepotPresetChip2"));
+
+    /// <summary>
+    /// 芯片预设数据：关卡 → [(掉落物 itemId, 掉落物名称), ...]。
+    /// </summary>
+    private static readonly Dictionary<string, (string Stage, string[] Drops)[]> PresetData = new()
+    {
+        ["Chip1"] = [
+            ("PR-A-1", ["3261", "3231"]),  // 医疗芯片、重装芯片
+            ("PR-B-1", ["3251", "3241"]),  // 术师芯片、狙击芯片
+            ("PR-C-1", ["3211", "3271"]),  // 先锋芯片、辅助芯片
+            ("PR-D-1", ["3221", "3281"]),  // 近卫芯片、特种芯片
+        ],
+        ["Chip2"] = [
+            ("PR-A-2", ["3262", "3232"]),  // 医疗芯片组、重装芯片组
+            ("PR-B-2", ["3252", "3242"]),  // 术师芯片组、狙击芯片组
+            ("PR-C-2", ["3212", "3272"]),  // 先锋芯片组、辅助芯片组
+            ("PR-D-2", ["3222", "3282"]),  // 近卫芯片组、特种芯片组
+        ],
+    };
+
+    public void AddPresetPlan(string presetValue)
+    {
+        if (!PresetData.TryGetValue(presetValue, out var stages))
+        {
+            return;
+        }
+
+        // 批量添加时挂起 CollectionChanged，避免逐条触发 SavePlan/RefreshTitle 导致卡顿
+        PlanList.CollectionChanged -= PlanList_CollectionChanged;
+        try
+        {
+            foreach (var (stage, drops) in stages)
+            {
+                foreach (var dropId in drops)
+                {
+                    var dropName = ItemListHelper.GetItemName(dropId) ?? LocalizationHelper.GetString("NotSelected");
+                    var plan = new Plan(stage, dropId, dropName, 20);
+                    plan.PropertyChanged += PlanItem_PropertyChanged;
+                    PlanList.Add(plan);
+                }
+            }
+        }
+        finally
+        {
+            PlanList.CollectionChanged += PlanList_CollectionChanged;
+        }
+
+        // 统一触发一次
+        SavePlan();
+        NotifyOfPropertyChange(nameof(PlanInfo));
+        foreach (var plan in PlanList)
+        {
+            plan.RefreshTitle();
+        }
+    }
+
+    /// <summary>
+    /// Menu 的 MenuItem.Click 事件处理，从点击的菜单项 DataContext 提取预设 Value。
+    /// </summary>
+    /// <param name="sender">事件发送者。</param>
+    /// <param name="e">路由事件参数。</param>
+    [UsedImplicitly]
+    public void PresetMenuClick(object sender, RoutedEventArgs e)
+    {
+        if (e.OriginalSource is MenuItem { DataContext: GenericCombinedData<string> item })
+        {
+            AddPresetPlan(item.Value);
+        }
     }
 
     public bool IsStageManually

@@ -870,7 +870,11 @@ C:\\leidian\\LDPlayer9
     <!--  庫存保持  -->
     <system:String x:Key="DepotUpdateBeforeStart">任務開始前更新庫存資料</system:String>
     <system:String x:Key="AddPlan">新增</system:String>
+    <system:String x:Key="DepotPreset">預設</system:String>
+    <system:String x:Key="DepotPresetChip1">低級晶片（全職業）</system:String>
+    <system:String x:Key="DepotPresetChip2">高級晶片組（全職業）</system:String>
     <system:String x:Key="CollapseAll">折疊</system:String>
+    <system:String x:Key="ClearPlans">清空</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">計劃 {0}：未指定掉落物。</system:String>
     <system:String x:Key="DepotPlanZeroDropCount">計劃 {0}：目標庫存為 0。</system:String>
     <system:String x:Key="DepotPlanNoStage">計劃 {0}：關卡未指定或為 ｢當前/上次｣。</system:String>

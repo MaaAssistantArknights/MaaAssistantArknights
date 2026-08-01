@@ -24,7 +24,8 @@
                 HorizontalAlignment="Left"
                 d:Text="1: 当前/上次 - 不选择 x0"
                 Text="{Binding PlanInfo}"
-                TextWrapping="Wrap" />
+                TextWrapping="Wrap"
+                Visibility="{c:Binding 'PlanInfo != &quot;&quot;'}" />
             <ListBox
                 Padding="0"
                 VerticalAlignment="Top"
@@ -164,7 +165,6 @@
                                             hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                             IsEnabled="{c:Binding !IsStageItemDragging,
                                                                   Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
-                                            Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
                                             Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
                                             ToolTip="{DynamicResource IsStageManuallyTip}"
                                             Visibility="{c:Binding IsStageManually,
@@ -272,28 +272,53 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <StackPanel Orientation="Horizontal">
+            <WrapPanel HorizontalAlignment="Center">
                 <Button
-                    Margin="6"
-                    VerticalAlignment="Bottom"
-                    d:IsHitTestVisible="True"
-                    Command="{s:Action AddPlan}"
-                    Content="{DynamicResource AddPlan}"
-                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
-                <Button
-                    Margin="6"
-                    VerticalAlignment="Bottom"
-                    d:IsHitTestVisible="True"
+                    Margin="0,0,-1,0"
+                    hc:BorderElement.CornerRadius="4,0,0,4"
                     Command="{s:Action CollapseAll}"
                     Content="{DynamicResource CollapseAll}"
                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                  Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
-            </StackPanel>
+                <Button
+                    Margin="0,0,-1,0"
+                    hc:BorderElement.CornerRadius="0"
+                    Command="{s:Action ClearPlans}"
+                    Content="{DynamicResource ClearPlans}"
+                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
+                <Button
+                    Margin="0,0,-1,0"
+                    hc:BorderElement.CornerRadius="0"
+                    Command="{s:Action AddPlan}"
+                    Content="{DynamicResource AddPlan}"
+                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
+                <hc:SplitButton
+                    hc:BorderElement.CornerRadius="0,4,4,0"
+                    Content="{DynamicResource DepotPreset}"
+                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+                    <hc:SplitButton.DropDownContent>
+                        <Menu ItemsSource="{Binding PresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}" MenuItem.Click="{s:Action PresetMenuClick}">
+                            <Menu.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </Menu.ItemsPanel>
+                            <Menu.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="MenuItem">
+                                    <Setter Property="Header" Value="{Binding Display}" />
+                                </Style>
+                            </Menu.ItemContainerStyle>
+                        </Menu>
+                    </hc:SplitButton.DropDownContent>
+                </hc:SplitButton>
+            </WrapPanel>
         </StackPanel>
 
         <!--  高级设置  -->
-        <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+        <StackPanel d:Visibility="Collapsed" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <hc:Divider Content="{DynamicResource DepotGroupTaskBehavior}" />
             <CheckBox
                 Margin="0,6,0,0"
