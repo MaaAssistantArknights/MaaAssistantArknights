@@ -61,7 +61,7 @@ description: 新增/更新 SideStory 活动关卡导航。涵盖 tasks/Stages �
     // —— 关卡入口（按编号从小到大）——
     "XX-4": {
         "algorithm": "JustReturn",
-        "sub": ["XX-OpenOpt"],
+        "sub": ["XX-4@XX-OpenOpt"],
         "next": ["XX-4@SideStoryStage", "XX-4@SwipeToStage"]
     },
     "XX-7": { ... },
