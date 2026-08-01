@@ -724,6 +724,7 @@
                             Margin="0,0,0,10"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Top"
+                            d:Content="{d:SampleData ItemCount=1}"
                             Content="{Binding DownloadLogItemViewModel}"
                             Visibility="{c:Binding 'DownloadLogItemViewModel.Content.Length > 0'}">
                             <ContentControl.ContentTemplate>
@@ -786,7 +787,7 @@
                                                 <Grid Width="60">
                                                     <controls:TextBlock
                                                         Grid.Row="0"
-                                                        Margin="0,5,0,0"
+                                                        Margin="0,5,10,0"
                                                         HorizontalAlignment="Center"
                                                         Foreground="{DynamicResource TraceLogBrush}"
                                                         Text="{Binding Time}"
@@ -794,7 +795,7 @@
                                                 </Grid>
                                                 <Grid
                                                     Grid.Column="1"
-                                                    Margin="10,0,0,0"
+                                                    Margin="0,5,0,0"
                                                     HorizontalAlignment="Left"
                                                     ToolTip="{Binding ToolTip}"
                                                     ToolTipService.InitialShowDelay="200">
@@ -804,7 +805,6 @@
                                                     </Grid.ColumnDefinitions>
                                                     <controls:TextBlock
                                                         Grid.Column="0"
-                                                        Margin="0,5,0,0"
                                                         FontWeight="{Binding Weight}"
                                                         ForegroundKey="{Binding Color}"
                                                         Text="{Binding DisplayContent}"
