@@ -8,7 +8,7 @@
 
 #### 背景选择器增强
 
-背景设置支持树形结构选择与缩略图预览，扩展支持 jpeg / bmp / gif / webp 等更多图片格式，并内置「牛牛表情包」壁纸包，自定义界面更方便。
+背景设置支持树形结构选择与缩略图预览，自定义界面更方便。
 
 #### 更新后自动运行可控
 
@@ -23,7 +23,7 @@ In-game series (proxy) multiplier cap is now up to 10x. This version fully adapt
 
 #### Enhanced Background Picker
 
-Background settings now support a tree-style picker with thumbnail previews, more image formats (jpeg / bmp / gif / webp), and a built-in "Niuniu sticker" wallpaper pack for easier customization.
+Background settings now support a tree-style picker with thumbnail previews for easier customization.
 
 #### Controllable Auto-Run After Update
 
@@ -41,10 +41,9 @@ Added an option to skip auto-run after an immediate post-update restart, plus a 
 ### 新增 | New
 
 * 适配游戏新代理倍率设置与列表界面，支持最高 10 倍连战，并移除临时锁定限制 ([#17500](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17500)) @status102 @ABA2396
-* 背景设置支持树形选择器与缩略图预览，扩展 jpeg / bmp / gif / webp 等图片格式，并内置「牛牛表情包」壁纸包 @ABA2396
+* 背景设置支持树形选择器与缩略图预览 @ABA2396
 * 新增「更新后立即重启时不自动运行」选项，启动自动运行前增加 10 秒倒计时确认 ([#17483](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17483)) @ABA2396
 * 新增「直到大地变成一颗酸橙」活动关卡导航 @ABA2396
-* 幸运墙 OCR 新增「零号公路」关键词 ([#17494](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17494)) @Copilot
 
 ### 改进 | Improved
 
