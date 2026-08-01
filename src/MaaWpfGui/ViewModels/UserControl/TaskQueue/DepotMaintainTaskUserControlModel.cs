@@ -488,6 +488,16 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     continue;
                 }
 
+                var currentCount = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
+                var need = plan.DropCount - currentCount;
+                if (need <= 0)
+                {
+                    var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1, dropName, currentCount.ToString("N0"), plan.DropCount.ToString("N0")));
+                    taskIds.Add(0);
+                    continue;
+                }
+
                 var stage = GetFightStage([plan.Stage]);
                 if (string.IsNullOrEmpty(stage))
                 {
@@ -500,16 +510,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanStageNotOpen", i + 1, plan.Stage));
                     }
 
-                    taskIds.Add(0);
-                    continue;
-                }
-
-                var currentCount = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
-                var need = plan.DropCount - currentCount;
-                if (need <= 0)
-                {
-                    var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1, dropName, currentCount.ToString("N0"), plan.DropCount.ToString("N0")));
                     taskIds.Add(0);
                     continue;
                 }
