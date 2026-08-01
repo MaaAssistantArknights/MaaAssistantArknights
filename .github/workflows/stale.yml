@@ -22,7 +22,7 @@ jobs:
       contents: none
     steps:
       - name: Handle stale issues
-        uses: actions/stale@v10
+        uses: actions/stale@v11
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           days-before-stale: ${{ env.daysBeforeStale }}

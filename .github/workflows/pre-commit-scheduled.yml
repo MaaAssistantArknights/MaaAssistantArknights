@@ -17,7 +17,7 @@ jobs:
           show-progress: false
 
       - name: Setup and run Prek
-        uses: j178/prek-action@v2
+        uses: j178/prek-action@v2.0.6
         id: pre-commit
         continue-on-error: true
         with:
@@ -25,7 +25,7 @@ jobs:
 
       - name: Commit and push changes
         if: steps.pre-commit.outcome == 'failure' && github.repository_owner == 'MaaAssistantArknights'
-        uses: actions-js/push@5a7cbd780d82c0c937b5977586e641b2fd94acc5 # master as of 2026-05-06
+        uses: actions-js/push@968f4695ca558093eadb24ad83cc5891f47e0cdc # master as of 2026-05-06
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           message: "chore: Auto update by pre-commit hooks

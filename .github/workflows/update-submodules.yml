@@ -21,7 +21,7 @@ jobs:
         run: bash ./.github/scripts/sync-optional-submodules.sh --remote src/MAAUnified src/MaaMacGui src/maa-cli
 
       - name: Commit and push changes
-        uses: actions-js/push@5a7cbd780d82c0c937b5977586e641b2fd94acc5 # master as of 2026-05-06
+        uses: actions-js/push@968f4695ca558093eadb24ad83cc5891f47e0cdc # master as of 2026-05-06
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           message: "feat: Update Submodules MAAUnified, MaaMacGui, maa-cli
