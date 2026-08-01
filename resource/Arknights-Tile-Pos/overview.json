@@ -17513,6 +17513,114 @@
         "stageId": "act51side_tr01",
         "width": 9
     },
+    "act53side_01-activities/act53side/level_act53side_01": {
+        "code": "TO-1",
+        "filename": "act53side_01-activities-act53side-level_act53side_01.json",
+        "height": 8,
+        "levelId": "activities/act53side/level_act53side_01",
+        "name": "收件信：终点",
+        "stageId": "act53side_01",
+        "width": 12
+    },
+    "act53side_02-activities/act53side/level_act53side_02": {
+        "code": "TO-2",
+        "filename": "act53side_02-activities-act53side-level_act53side_02.json",
+        "height": 8,
+        "levelId": "activities/act53side/level_act53side_02",
+        "name": "记新友的混乱",
+        "stageId": "act53side_02",
+        "width": 11
+    },
+    "act53side_03-activities/act53side/level_act53side_03": {
+        "code": "TO-3",
+        "filename": "act53side_03-activities-act53side-level_act53side_03.json",
+        "height": 8,
+        "levelId": "activities/act53side/level_act53side_03",
+        "name": "露营奇“叽”",
+        "stageId": "act53side_03",
+        "width": 12
+    },
+    "act53side_04-activities/act53side/level_act53side_04": {
+        "code": "TO-4",
+        "filename": "act53side_04-activities-act53side-level_act53side_04.json",
+        "height": 7,
+        "levelId": "activities/act53side/level_act53side_04",
+        "name": "谷里升起太阳",
+        "stageId": "act53side_04",
+        "width": 13
+    },
+    "act53side_05-activities/act53side/level_act53side_05": {
+        "code": "TO-5",
+        "filename": "act53side_05-activities-act53side-level_act53side_05.json",
+        "height": 7,
+        "levelId": "activities/act53side/level_act53side_05",
+        "name": "勇敢的短耳朵",
+        "stageId": "act53side_05",
+        "width": 10
+    },
+    "act53side_06-activities/act53side/level_act53side_06": {
+        "code": "TO-6",
+        "filename": "act53side_06-activities-act53side-level_act53side_06.json",
+        "height": 8,
+        "levelId": "activities/act53side/level_act53side_06",
+        "name": "最难坦诚",
+        "stageId": "act53side_06",
+        "width": 12
+    },
+    "act53side_07-activities/act53side/level_act53side_07": {
+        "code": "TO-7",
+        "filename": "act53side_07-activities-act53side-level_act53side_07.json",
+        "height": 9,
+        "levelId": "activities/act53side/level_act53side_07",
+        "name": "谎言的重量",
+        "stageId": "act53side_07",
+        "width": 11
+    },
+    "act53side_08-activities/act53side/level_act53side_08": {
+        "code": "TO-8",
+        "filename": "act53side_08-activities-act53side-level_act53side_08.json",
+        "height": 9,
+        "levelId": "activities/act53side/level_act53side_08",
+        "name": "用决心做邮戳",
+        "stageId": "act53side_08",
+        "width": 12
+    },
+    "act53side_09-activities/act53side/level_act53side_09": {
+        "code": "TO-9",
+        "filename": "act53side_09-activities-act53side-level_act53side_09.json",
+        "height": 11,
+        "levelId": "activities/act53side/level_act53side_09",
+        "name": "绘我们的黎明",
+        "stageId": "act53side_09",
+        "width": 15
+    },
+    "act53side_sp01-activities/act53side/level_act53side_sp01": {
+        "code": "TO-P-1",
+        "filename": "act53side_sp01-activities-act53side-level_act53side_sp01.json",
+        "height": 7,
+        "levelId": "activities/act53side/level_act53side_sp01",
+        "name": "冒昧的请求",
+        "stageId": "act53side_sp01",
+        "width": 10
+    },
+    "act53side_sp02-activities/act53side/level_act53side_sp02": {
+        "code": "TO-P-2",
+        "filename": "act53side_sp02-activities-act53side-level_act53side_sp02.json",
+        "height": 7,
+        "levelId": "activities/act53side/level_act53side_sp02",
+        "name": "信使的素养",
+        "stageId": "act53side_sp02",
+        "width": 11
+    },
+    "act53side_tr01-activities/act53side/level_act53side_tr01": {
+        "code": "TO-TR-1",
+        "filename": "act53side_tr01-activities-act53side-level_act53side_tr01.json",
+        "height": 6,
+        "levelId": "activities/act53side/level_act53side_tr01",
+        "name": "写临行的迷惘",
+        "stageId": "act53side_tr01",
+        "width": 12
+    },
     "act5bossrush_01-activities/act5bossrush/level_bossrush5_01": {
         "code": "TN-1",
         "filename": "act5bossrush_01-activities-act5bossrush-level_bossrush5_01.json",
