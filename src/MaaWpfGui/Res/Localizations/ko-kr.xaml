@@ -862,7 +862,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DefaultStage">현재/최근</system:String>
     <!--<system:String x:Key="InvalidStage">잘못된 스테이지</system:String>-->
     <system:String x:Key="ClosedStage">미개방 스테이지</system:String>
-    <system:String x:Key="UnsupportedStages">미지원 스테이지</system:String>
+    <system:String x:Key="UnsupportedStages">미지원 스테이지 {0}. 신규 이벤트 스테이지인 경우 지도 리소스 업데이트 후 자동 전투를 사용할 수 있습니다</system:String>
     <system:String x:Key="LowVersion">낮은 버전</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">최소 요구사항: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">남은 오픈일 수: </system:String>

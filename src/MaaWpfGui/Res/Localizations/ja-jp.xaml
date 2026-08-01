@@ -861,7 +861,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DefaultStage">現在/前回</system:String>
     <!--<system:String x:Key="InvalidStage">無効なレベル</system:String>-->
     <system:String x:Key="ClosedStage">ステージが未公開か既に終了している</system:String>
-    <system:String x:Key="UnsupportedStages">未サポートステージ</system:String>
+    <system:String x:Key="UnsupportedStages">未サポートステージ {0}。新イベントのステージの場合は、マップリソースの更新を待ってから自動戦闘を使用してください</system:String>
     <system:String x:Key="LowVersion">バージョンの更新が必要</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低バージョン要件: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">公開日まで: </system:String>

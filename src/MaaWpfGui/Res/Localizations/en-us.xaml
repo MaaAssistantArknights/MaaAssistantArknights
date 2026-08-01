@@ -860,7 +860,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DefaultStage">Cur/Last</system:String>
     <!--<system:String x:Key="InvalidStage">Invalid</system:String>-->
     <system:String x:Key="ClosedStage">The event is not open</system:String>
-    <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
+    <system:String x:Key="UnsupportedStages">Unsupported stage {0}. If this is a stage from a new event, please wait for the map resource update before using auto-combat</system:String>
     <system:String x:Key="LowVersion">Old Version, Update required</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">Minimum Requirements:&#160;</system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">Days left open:&#160;</system:String>

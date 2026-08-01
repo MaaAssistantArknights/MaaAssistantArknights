@@ -861,7 +861,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DefaultStage">目前/上次</system:String>
     <!--<system:String x:Key="InvalidStage">無效關卡</system:String>-->
     <system:String x:Key="ClosedStage">活動未開放</system:String>
-    <system:String x:Key="UnsupportedStages">不支援的關卡</system:String>
+    <system:String x:Key="UnsupportedStages">不支援的關卡 {0}，如果是新活動的關卡，請等待地圖資源更新後再使用自動戰鬥</system:String>
     <system:String x:Key="LowVersion">版本過低</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低需求: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩餘天數: </system:String>
