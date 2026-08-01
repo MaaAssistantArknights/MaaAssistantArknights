@@ -884,6 +884,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPlanUpdateDepotFailed">更新庫存資料失敗。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未勾選時按單倍代理；勾選後按目前理智可刷的最大倍率代理，單次刷取可能超過目標庫存上限。</system:String>
+    <system:String x:Key="DepotEnableUseMedicine">啟用「{key=UseSanityPotion}」勾選框</system:String>
+    <system:String x:Key="DepotEnableUseStone">啟用「{key=UseOriginitePrime}」勾選框</system:String>
+    <system:String x:Key="DepotUseExpiringMedicine">使用 48 小時內過期的理智藥</system:String>
+    <system:String x:Key="DepotGroupTaskBehavior">任務行為</system:String>
+    <system:String x:Key="DepotGroupStageAndBattle">關卡與戰鬥</system:String>
+    <system:String x:Key="DepotGroupSanityRecovery">理智恢復</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>

@@ -884,6 +884,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPlanUpdateDepotFailed">在庫データの更新に失敗しました。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未チェック時は 1 倍で代理；チェック後は現在の理性で可能な最大倍率で代理し、1回の周回で目標在庫上限を超える場合があります。</system:String>
+    <system:String x:Key="DepotEnableUseMedicine">「{key=UseSanityPotion}」チェックボックスを有効化</system:String>
+    <system:String x:Key="DepotEnableUseStone">「{key=UseOriginitePrime}」チェックボックスを有効化</system:String>
+    <system:String x:Key="DepotUseExpiringMedicine">48 時間以内に期限切れの理性薬を使用</system:String>
+    <system:String x:Key="DepotGroupTaskBehavior">タスク動作</system:String>
+    <system:String x:Key="DepotGroupStageAndBattle">ステージと戦闘</system:String>
+    <system:String x:Key="DepotGroupSanityRecovery">理性回復</system:String>
     <system:String x:Key="LessThanOneDay">1日以内</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6(CE-6)</system:String>

@@ -106,8 +106,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             var fight = new AsstFightTask() {
                 Stage = stage,
-                Medicine = plan.UseMedicine ? plan.MedicineCount : 0,
-                Stone = plan.UseStone ? plan.StoneCount : 0,
+                Medicine = task.UseMedicine && plan.UseMedicine ? plan.MedicineCount : 0,
+                Stone = task.UseStone && plan.UseStone ? plan.StoneCount : 0,
+                MedicineExpireDays = task.UseExpiringMedicine ? 2 : 0,
                 Series = task.UseAutoSeries ? 0 : 1,
                 MaxTimes = int.MaxValue,
                 ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
@@ -157,6 +158,36 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     {
         get => GetTaskConfig<DepotMaintainTask>().UseAutoSeries;
         set => SetTaskConfig<DepotMaintainTask>(t => t.UseAutoSeries == value, t => t.UseAutoSeries = value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 启用「使用药剂」勾选框。
+    /// 默认开启；关闭后各 Plan 不显示药剂行，序列化时强制传 0。
+    /// </summary>
+    public bool UseMedicine
+    {
+        get => GetTaskConfig<DepotMaintainTask>().UseMedicine;
+        set => SetTaskConfig<DepotMaintainTask>(t => t.UseMedicine == value, t => t.UseMedicine = value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 启用「使用源石」勾选框。
+    /// 默认开启；关闭后各 Plan 不显示源石行，序列化时强制传 0。
+    /// </summary>
+    public bool UseStone
+    {
+        get => GetTaskConfig<DepotMaintainTask>().UseStone;
+        set => SetTaskConfig<DepotMaintainTask>(t => t.UseStone == value, t => t.UseStone = value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 使用 48 小时内过期的理智药。
+    /// 默认关闭；开启后所有 Plan 均使用临期药（固定 2 天阈值）。
+    /// </summary>
+    public bool UseExpiringMedicine
+    {
+        get => GetTaskConfig<DepotMaintainTask>().UseExpiringMedicine;
+        set => SetTaskConfig<DepotMaintainTask>(t => t.UseExpiringMedicine == value, t => t.UseExpiringMedicine = value);
     }
 
     public ObservableCollection<Plan> PlanList { get; private set => SetAndNotify(ref field, value); } = [];
@@ -516,8 +547,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     Stage = stage,
                     Drops = new() { { plan.DropId, need } },
                     MaxTimes = need > 0 ? int.MaxValue : 0,
-                    Medicine = plan.UseMedicine ? plan.MedicineCount : 0,
-                    Stone = plan.UseStone ? plan.StoneCount : 0,
+                    Medicine = depot.UseMedicine && plan.UseMedicine ? plan.MedicineCount : 0,
+                    Stone = depot.UseStone && plan.UseStone ? plan.StoneCount : 0,
+                    MedicineExpireDays = depot.UseExpiringMedicine ? 2 : 0,
                     Series = depot.UseAutoSeries ? 0 : 1,
                     ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
                     ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,

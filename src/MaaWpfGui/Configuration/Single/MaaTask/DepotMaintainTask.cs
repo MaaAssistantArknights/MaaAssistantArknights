@@ -42,6 +42,24 @@ public class DepotMaintainTask : BaseTask
     /// </summary>
     public bool UseAutoSeries { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 启用「使用药剂」勾选框。
+    /// 默认开启；关闭后各 Plan 不显示药剂行，序列化时强制传 0。
+    /// </summary>
+    public bool UseMedicine { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 启用「使用源石」勾选框。
+    /// 默认开启；关闭后各 Plan 不显示源石行，序列化时强制传 0。
+    /// </summary>
+    public bool UseStone { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 使用 48 小时内过期的理智药。
+    /// 默认关闭；开启后所有 Plan 均使用临期药（固定 2 天阈值）。
+    /// </summary>
+    public bool UseExpiringMedicine { get; set; }
+
     public List<Plan> PlanList { get; set; } = [];
 
     public record class Plan(string Stage = "", string DropId = "", int DropCount = 0, bool UseMedicine = false, int MedicineCount = 0, bool UseStone = false, int StoneCount = 0, [property: JsonIgnore] int TaskId = 0);
