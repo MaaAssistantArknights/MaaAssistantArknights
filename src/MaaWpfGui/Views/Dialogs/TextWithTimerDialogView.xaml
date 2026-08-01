@@ -41,16 +41,5 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
             FontSize="{StaticResource HeadFontSize}" />
-        <Button
-            Width="22"
-            Height="22"
-            Margin="0,4,4,0"
-            Padding="0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            hc:IconElement.Geometry="{StaticResource ErrorGeometry}"
-            Command="hc:ControlCommands.Close"
-            Foreground="{DynamicResource PrimaryBrush}"
-            Style="{StaticResource ButtonIcon}" />
     </hc:SimplePanel>
 </Border>
