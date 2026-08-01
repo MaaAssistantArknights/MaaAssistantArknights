@@ -27719,6 +27719,15 @@
         "stageId": "mem_skgoat_1",
         "width": 10
     },
+    "mem_skybx_1-obt/memory/level_memory_skybx_1": {
+        "code": "mem_skybx_1",
+        "filename": "mem_skybx_1-obt-memory-level_memory_skybx_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_skybx_1",
+        "name": "“天空征服者”展会",
+        "stageId": "mem_skybx_1",
+        "width": 10
+    },
     "mem_slbell_1-obt/memory/level_memory_slbell_1": {
         "code": "mem_slbell_1",
         "filename": "mem_slbell_1-obt-memory-level_memory_slbell_1.json",

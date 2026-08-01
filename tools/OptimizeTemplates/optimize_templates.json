@@ -4177,5 +4177,11 @@
     "resource/template/items/act21mini_token_shred": "c150cbe57879bcb9a4dddda682351b85465e073d1ee7ef7009f420bf06df340e",
     "resource/template/items/SINGLE_75_0_1_GACHA": "8a5646380eb80159d86807a79395380d6ce76efd1858eacc93c10b15c69a93b5",
     "resource/template/items/rogue_6_token_bp": "c7d6a0bb83525cacf85c490414d7029f93eae814f1bd29f8c2396260c965f337",
-    "resource/template/infrast/Bskill_man_spd_mechanist": "d20a0313f4583ac0325a0770b1c260aa32f351fdba85e0323baa8d2851e779e5"
+    "resource/template/infrast/Bskill_man_spd_mechanist": "d20a0313f4583ac0325a0770b1c260aa32f351fdba85e0323baa8d2851e779e5",
+    "resource/template/items/act53side_token_photo": "9f5f4cfdf0665c54c74a5a196ab81fb8b3bd5896252e0ca1230ed0fb510c1191",
+    "resource/template/items/ark_odc_act53side_spitem_1": "77cdda27eac513e92330de75ba8197e0ea81537030d0c99a31749f3d46fcd9f2",
+    "resource/template/items/randomMaterial_act53side": "ebb9125e9708c60afa1d1712cfcb24df416732149f104a7a4f0def6a653dd5e1",
+    "resource/template/items/randomMaterial_message4": "8dd3833256df990dd60708eff60c57bdf5db569bb5b9b591144c87638a7e28ec",
+    "resource/template/items/LMTGS_COIN_7601": "a0cffa35955e98bb92e8e4352de98c0ca24930c91b66cdcdc581f86204da4605",
+    "resource/template/items/itempack_stickers_act5unique": "47d5206c1ae8d5fcc51c5b7ffda214403f594883be95e17ad71ac1e552990214"
 }
