@@ -124,18 +124,26 @@ bool asst::OnnxSessions::initialize_gpu_options()
 
     auto all_providers = Ort::GetAvailableProviders();
     bool support_cuda = false;
+#ifdef WITH_DML
     bool support_dml = false;
+#endif
+#ifdef WITH_COREML
     bool support_coreml = false;
+#endif
     for (const auto& provider : all_providers) {
         if (provider == "CUDAExecutionProvider") {
             support_cuda = true;
         }
+#ifdef WITH_DML
         if (provider == "DmlExecutionProvider") {
             support_dml = true;
         }
+#endif
+#ifdef WITH_COREML
         if (provider == "CoreMLExecutionProvider") {
             support_coreml = true;
         }
+#endif
     }
 
     bool provider_configured = false;
