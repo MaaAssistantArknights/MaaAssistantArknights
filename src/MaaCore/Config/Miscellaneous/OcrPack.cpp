@@ -41,7 +41,7 @@ OcrPack::OcrPack() :
 OcrPack::~OcrPack()
 {
     LogTraceFunction;
-    if (m_gpu_id) {
+    if (m_gpu_active) {
         // FIXME: leak fastdeploy objects to avoid crash (double free?)
         (void)m_impl->det.release();
         (void)m_impl->rec.release();
@@ -195,11 +195,17 @@ bool OcrPack::check_and_load()
     rec_option.UseOrtBackend();
 
 #ifdef _WIN32
-    if (m_gpu_id) {
-        det_option.UseDirectML(*m_gpu_id);
-        rec_option.UseDirectML(*m_gpu_id);
+    const auto device_id = m_gpu_selector ? m_gpu_selector->resolve_device_id() : std::nullopt;
+    if (device_id) {
+        m_gpu_active = true;
+        det_option.UseDirectML(*device_id);
+        rec_option.UseDirectML(*device_id);
     }
     else {
+        m_gpu_active = false;
+        if (m_gpu_selector) {
+            Log.error("Failed to resolve configured GPU; falling back to FastDeploy CPU mode");
+        }
         // CPU 模式下限制线程数，避免过高的 CPU 占用
         det_option.SetCpuThreadNum(cpu_threads);
         rec_option.SetCpuThreadNum(cpu_threads);

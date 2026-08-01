@@ -506,9 +506,18 @@ std::optional<int> MumuExtras::get_display_id()
 
     // 优先用真实包名（明日方舟），失败再退到 mumu 约定的 "default"（最前端 tab），
     // 都失败则对齐 MaaFramework 退回 0（主 display）
+    // 只有真实包名命中时才缓存：连接时游戏可能还没开，包名查不到只能拿到桌面 display，
+    // 如果把 fallback 结果也缓存了，等游戏启动后截图/触控会一直锁在错误的 display 上
     int id = get_display_id_func_(mumu_handle_, package_name_.c_str(), 0);
-    if (id < 0 && package_name_ != kDefaultPackage) {
-        LogWarn << "Failed to get display id for package, try default" << VAR(id) << VAR(package_name_);
+    if (id >= 0) {
+        LogInfo << "MuMu display id" << VAR(id) << VAR(package_name_);
+        display_id_cache_.store(id, std::memory_order_relaxed);
+        return id;
+    }
+
+    // fallback 路径：不缓存，下次会重新尝试真实包名
+    LogWarn << "Failed to get display id for package, try default" << VAR(id) << VAR(package_name_);
+    if (package_name_ != kDefaultPackage) {
         id = get_display_id_func_(mumu_handle_, kDefaultPackage.c_str(), 0);
     }
     if (id < 0) {
@@ -516,8 +525,7 @@ std::optional<int> MumuExtras::get_display_id()
         id = 0;
     }
 
-    LogInfo << "MuMu display id" << VAR(id) << VAR(package_name_);
-    display_id_cache_.store(id, std::memory_order_relaxed);
+    LogInfo << "MuMu display id (not cached)" << VAR(id) << VAR(package_name_);
     return id;
 }
 

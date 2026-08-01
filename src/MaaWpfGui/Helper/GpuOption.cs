@@ -15,6 +15,7 @@
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using MaaWpfGui.Configuration.Factory;
@@ -495,6 +496,8 @@ public abstract class GpuOption
         public abstract uint Index { get; }
 
         public abstract GpuDriverInformation GpuInfo { get; }
+
+        public virtual string DeviceSelector => Index.ToString(CultureInfo.InvariantCulture);
     }
 
     public class SystemDefaultOption(GpuDriverInformation info) : EnableOption
@@ -532,6 +535,9 @@ public abstract class GpuOption
         }
 
         public override uint Index => _index;
+
+        public override string DeviceSelector =>
+            $"luid:{unchecked((ulong)_description.AdapterLuid.AsLong()).ToString("X16", CultureInfo.InvariantCulture)}";
 
         public string InstancePath => _instancePath;
 

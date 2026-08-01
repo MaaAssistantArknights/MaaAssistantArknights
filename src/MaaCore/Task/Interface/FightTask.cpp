@@ -91,7 +91,9 @@ bool asst::FightTask::set_params(const json::value& params)
     const int series = params.get("series", 1);
 
     m_fight_times_prt->set_fight_times(times);
-    if (series < -1 || series > 6) {
+
+    bool is_new_series_list = Task.get("FightSeries-OldMethodFlag") == nullptr;
+    if (series < -1 || (series > 10 && is_new_series_list) || (series > 6 && !is_new_series_list)) {
         Log.error("Invalid series");
         return false;
     }

@@ -1,18 +1,23 @@
 {
     "TO-7": {
         "algorithm": "JustReturn",
-        "sub": ["TO-OpenOpt"],
+        "sub": ["TO-7@TO-OpenOpt"],
         "next": ["TO-7@SideStoryStage", "TO-7@SwipeToStage"]
     },
     "TO-8": {
         "algorithm": "JustReturn",
-        "sub": ["TO-OpenOpt"],
+        "sub": ["TO-8@TO-OpenOpt"],
         "next": ["TO-8@SideStoryStage", "TO-8@SwipeToStage"]
     },
     "TO-9": {
         "algorithm": "JustReturn",
-        "sub": ["TO-OpenOpt"],
+        "sub": ["TO-9@TO-OpenOpt"],
         "next": ["TO-9@SideStoryStage", "TO-9@SwipeToStage"]
+    },
+    "TO-5": {
+        "algorithm": "JustReturn",
+        "sub": ["TO-5@TO-OpenOpt"],
+        "next": ["TO-5@SideStoryStage", "TO-5@SwipeToStage"]
     },
     "TO-7@SideStoryStage": {
         "text": ["TO-7"],
@@ -24,6 +29,10 @@
     },
     "TO-9@SideStoryStage": {
         "text": ["TO-9"],
+        "ocrReplace": [["T0-", "TO-"]]
+    },
+    "TO-5@SideStoryStage": {
+        "text": ["TO-5"],
         "ocrReplace": [["T0-", "TO-"]]
     },
     "TO-OpenOpt": {
@@ -43,6 +52,7 @@
             "踏上归家长途",
             "眺望待行之路",
             "直到大地",
+            "大地变成",
             "一颗酸橙",
             "踏上归家",
             "归家长途",

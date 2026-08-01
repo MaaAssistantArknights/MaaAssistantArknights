@@ -47,7 +47,7 @@ else()
 endif()
 
 if(WIN32)
-    target_link_libraries(MaaCore ws2_32)
+    target_link_libraries(MaaCore ws2_32 dxgi)
 endif()
 
 if(LINUX)

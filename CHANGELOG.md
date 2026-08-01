@@ -1,4 +1,4 @@
-## v6.16.0
+## v6.16.1
 
 ### Highlights
 
@@ -36,6 +36,24 @@ Added an option to skip auto-run after an immediate post-update restart, plus a 
 以下是详细内容：
 
 <details open>
+<summary><b>v6.16.1 (2026-08-02)</b></summary>
+
+~~MAA不会在周██凌晨更新。如果收到更新提示，请忽略，不要查看更新公告，直到周██。~~
+
+### 改进 | Improved
+
+* 更新后自动运行倒计时弹窗移除关闭按钮，避免误关后仍继续自动运行 @ABA2396
+
+### 修复 | Fix
+
+* 使用 DXGI 适配器 LUID 解析 GPU OCR 设备，避免多显卡环境下绑定错误 GPU；解析失败或执行提供程序不可用时回退 CPU ([#17488](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17488)) @GSY707
+* 修复 MuMu display id 在 fallback 时被错误缓存，避免连接时游戏未启动导致截图/触控锁死在错误窗口 @ABA2396
+* 修复「直到大地变成一颗酸橙」活动上次战斗关卡未在后三关结束时关卡导航错误 @ABA2396
+* 修复 FightTask 在新代理倍率列表下无法指定 7~10 倍的参数校验 @status102
+
+</details>
+
+<details>
 <summary><b>v6.16.0 (2026-08-01)</b></summary>
 
 ### 新增 | New
