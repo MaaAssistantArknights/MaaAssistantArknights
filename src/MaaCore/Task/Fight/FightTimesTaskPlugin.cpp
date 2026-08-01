@@ -350,14 +350,14 @@ std::optional<int> asst::FightTimesTaskPlugin::analyze_stage_series(const cv::Ma
         return std::nullopt;
     }
 
-    int sanity = 0;
-    if (!utils::chars_to_number(analyzer.get_result().text, sanity)) [[unlikely]] {
-        Log.warn(__FUNCTION__, "Sanity ocr result could not convert to int:", analyzer.get_result().text);
-        analyzer.save_img(utils::path("debug") / utils::path("sanity"));
+    int times = 0;
+    if (!utils::chars_to_number(analyzer.get_result().text, times)) [[unlikely]] {
+        Log.warn(__FUNCTION__, "Series ocr result could not convert to int:", analyzer.get_result().text);
+        analyzer.save_img(utils::path("debug") / utils::path("times"));
         return std::nullopt;
     }
 
-    return sanity;
+    return times;
 }
 
 std::optional<int> asst::FightTimesTaskPlugin::analyze_sanity_cost(const cv::Mat& image)

@@ -1273,7 +1273,7 @@
         "method": "RGBCount",
         "colorScales": [[30, 70]],
         "roi": [927, 567, 122, 66],
-        "rectMove": [27, -10, 25, 32]
+        "rectMove": [20, -10, 32, 32]
     },
     "FightSeries-Opened": {
         "template": "FightSeries-Indicator.png",
