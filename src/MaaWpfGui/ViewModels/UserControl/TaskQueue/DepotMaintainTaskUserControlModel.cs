@@ -75,14 +75,14 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         PresetList.RefreshLocalization();
 
         // DropsList 已由 RebuildDropsList 原地更新 Display（不增删项），ComboBox SelectedValue 不会丢失
-        // 只需刷新各 plan 的 DropName
+        // 刷新各 plan 的 DropName（包括未选择时的占位文本，也需随语言切换）
         foreach (var plan in PlanList)
         {
-            if (!string.IsNullOrEmpty(plan.DropId))
-            {
-                plan.DropName = ItemListHelper.GetItemName(plan.DropId) ?? LocalizationHelper.GetString("NotSelected");
+            var newName = !string.IsNullOrEmpty(plan.DropId)
+                ? ItemListHelper.GetItemName(plan.DropId) ?? LocalizationHelper.GetString("NotSelected")
+                : LocalizationHelper.GetString("NotSelected");
+            plan.DropName = newName;
             }
-        }
 
         // 刷新关卡列表（关卡名随语言变化）
         RefreshStageList();
