@@ -52,4 +52,15 @@ public partial class DepotMaintainTaskUserControl : System.Windows.Controls.User
             window.PreviewMouseLeftButtonUp -= Window_PreviewMouseLeftButtonUp;
         }
     }
+
+    /// <summary>
+    /// SplitButton 左半边点击时也展开下拉，避免用户只能点右侧箭头。
+    /// </summary>
+    private void PresetSplitButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is HandyControl.Controls.SplitButton splitButton)
+        {
+            splitButton.IsDropDownOpen = true;
+        }
+    }
 }
