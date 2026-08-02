@@ -1,4 +1,4 @@
-## v6.16.2
+## v6.16.3
 
 ### Highlights
 
@@ -44,6 +44,19 @@ Refactored the depot maintain task UI with global medicine/originium toggles and
 以下是详细内容：
 
 <details open>
+<summary><b>v6.16.3 (2026-08-02)</b></summary>
+
+### 改进 | Improved
+
+* 重构库存保持计划项为独立 ViewModel，按索引同步任务配置 ([#17468](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17468)) @status102
+
+### 修复 | Fix
+
+* 修复刷理智选择代理倍率后未关闭次数列表 @status102
+
+</details>
+
+<details>
 <summary><b>v6.16.2 (2026-08-02)</b></summary>
 
 ### 新增 | New
