@@ -877,6 +877,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotPresetSkillSummary">Skill Summary - III</system:String>
     <system:String x:Key="CollapseAll">Collapse</system:String>
     <system:String x:Key="ClearPlans">Clear</system:String>
+    <system:String x:Key="ClearPlansConfirm">Are you sure you want to clear all plans?</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">Plan {0}: no drop item specified.</system:String>
     <system:String x:Key="DepotPlanZeroDropCount">Plan {0}: target inventory is 0.</system:String>
     <system:String x:Key="DepotPlanNoStage">Plan {0}: stage not specified or is "Current/Last".</system:String>

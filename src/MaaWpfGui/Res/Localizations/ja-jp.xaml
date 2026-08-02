@@ -878,6 +878,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPresetSkillSummary">アーツ学・Ⅲ</system:String>
     <system:String x:Key="CollapseAll">折りたたむ</system:String>
     <system:String x:Key="ClearPlans">クリア</system:String>
+    <system:String x:Key="ClearPlansConfirm">すべてのプランを削除しますか？</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">プラン {0}：ドロップアイテム未指定。</system:String>
     <system:String x:Key="DepotPlanZeroDropCount">プラン {0}：目標在庫が 0。</system:String>
     <system:String x:Key="DepotPlanNoStage">プラン {0}：ステージ未指定または ｢現在/前回｣。</system:String>

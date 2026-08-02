@@ -82,7 +82,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 ? ItemListHelper.GetItemName(plan.DropId) ?? LocalizationHelper.GetString("NotSelected")
                 : LocalizationHelper.GetString("NotSelected");
             plan.DropName = newName;
-            }
+        }
 
         // 刷新关卡列表（关卡名随语言变化）
         RefreshStageList();
@@ -211,6 +211,16 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     public void ClearPlans()
     {
         if (PlanList.Count == 0)
+        {
+            return;
+        }
+
+        var result = MessageBoxHelper.Show(
+            LocalizationHelper.GetString("ClearPlansConfirm"),
+            LocalizationHelper.GetString("Warning"),
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning);
+        if (result != MessageBoxResult.Yes)
         {
             return;
         }

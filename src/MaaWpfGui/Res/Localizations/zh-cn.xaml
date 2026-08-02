@@ -878,6 +878,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPresetSkillSummary">技巧概要·卷3</system:String>
     <system:String x:Key="CollapseAll">折叠</system:String>
     <system:String x:Key="ClearPlans">清空</system:String>
+    <system:String x:Key="ClearPlansConfirm">确认要清空所有计划吗？</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">计划 {0}：未指定掉落物。</system:String>
     <system:String x:Key="DepotPlanZeroDropCount">计划 {0}：目标库存为 0。</system:String>
     <system:String x:Key="DepotPlanNoStage">计划 {0}：关卡未指定或为 ｢当前/上次｣。</system:String>

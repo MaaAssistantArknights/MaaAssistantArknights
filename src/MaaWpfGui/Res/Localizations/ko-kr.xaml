@@ -879,6 +879,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPresetSkillSummary">스킬 개론 - 3</system:String>
     <system:String x:Key="CollapseAll">접기</system:String>
     <system:String x:Key="ClearPlans">전체 삭제</system:String>
+    <system:String x:Key="ClearPlansConfirm">모든 계획을 삭제하시겠습니까?</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">계획 {0}: 드롭 아이템 미지정.</system:String>
     <system:String x:Key="DepotPlanZeroDropCount">계획 {0}: 목표 재고가 0.</system:String>
     <system:String x:Key="DepotPlanNoStage">계획 {0}: 스테이지 미지정 또는 \"현재/이전\".</system:String>
