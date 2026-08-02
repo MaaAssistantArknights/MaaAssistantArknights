@@ -412,14 +412,18 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
         using var refresh = new UiRefreshingScope();
         var list = new List<DepotPlanItemViewModel>();
+        int index = 0;
         foreach (var plan in task.PlanList)
         {
             // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
             var dropName = FightSettingsUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("NotSelected");
 
-            var uiPlan = new DepotPlanItemViewModel(plan.Stage, plan.DropId, dropName, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId);
+            var uiPlan = new DepotPlanItemViewModel(plan.Stage, plan.DropId, dropName, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId) {
+                Index = index,
+            };
             list.Add(uiPlan);
             uiPlan.PropertyChanged += PlanItem_PropertyChanged;
+            ++index;
         }
         foreach (var plan in PlanList)
         {
