@@ -93,30 +93,9 @@
                                 BorderBrush="{DynamicResource BorderBrush}"
                                 BorderThickness="1,0,1,1"
                                 CornerRadius="0,0,4,4">
-                                <Grid Margin="6">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" MinWidth="100" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-
+                                <StackPanel Margin="6">
                                     <!--  关卡选择  -->
-                                    <controls:TextBlock
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Margin="0,0,6,0"
-                                        VerticalAlignment="Center"
-                                        Text="{DynamicResource StageSelect}" />
-                                    <Grid
-                                        Grid.Row="0"
-                                        Grid.Column="1"
-                                        Height="30">
+                                    <Grid Height="30">
                                         <!--  当 IsStageManually 为 false 时显示 ComboBox  -->
                                         <ComboBox
                                             ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}"
@@ -171,109 +150,87 @@
                                                                    Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}" />
                                     </Grid>
 
-                                    <!--  指定材料  -->
-                                    <controls:TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        Margin="0,6,6,0"
-                                        VerticalAlignment="Center"
-                                        Text="{DynamicResource AssignedMaterial}" />
-                                    <ComboBox
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Height="30"
-                                        Margin="0,6,0,0"
-                                        HorizontalContentAlignment="Stretch"
-                                        VerticalContentAlignment="Center"
-                                        s:View.ActionTarget="{Binding}"
-                                        DisplayMemberPath="Display"
-                                        DropDownClosed="{s:Action DropsListDropDownClosed}"
-                                        IsEditable="True"
-                                        IsTextSearchEnabled="False"
-                                        ItemsSource="{Binding DropsList, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
-                                        Loaded="{s:Action MakeComboBoxSearchable,
-                                                          Target={x:Type ui_vms:SettingsViewModel}}"
-                                        SelectedValue="{Binding DropId}"
-                                        SelectedValuePath="Value"
-                                        Text="{Binding DropName}" />
-
-                                    <!--  目标库存  -->
-                                    <controls:TextBlock
-                                        Grid.Row="2"
-                                        Grid.Column="0"
-                                        Margin="0,6,6,0"
-                                        VerticalAlignment="Center"
-                                        Text="{DynamicResource TargetInventory}" />
-                                    <hc:NumericUpDown
-                                        Grid.Row="2"
-                                        Grid.Column="1"
-                                        Width="70"
-                                        Height="30"
-                                        Margin="0,6,0,0"
-                                        HorizontalAlignment="Left"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Maximum="1145141919"
-                                        Minimum="0"
-                                        Value="{Binding DropCount, UpdateSourceTrigger=PropertyChanged}" />
+                                    <!--  指定材料 + 目标库存（同一行，独立 Grid）  -->
+                                    <Grid Margin="0,6,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <ComboBox
+                                            Grid.Column="0"
+                                            Height="30"
+                                            Margin="0,0,6,0"
+                                            HorizontalContentAlignment="Stretch"
+                                            VerticalContentAlignment="Center"
+                                            s:View.ActionTarget="{Binding}"
+                                            DisplayMemberPath="Display"
+                                            DropDownClosed="{s:Action DropsListDropDownClosed}"
+                                            IsEditable="True"
+                                            IsTextSearchEnabled="False"
+                                            ItemsSource="{Binding DropsList, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
+                                            Loaded="{s:Action MakeComboBoxSearchable,
+                                                              Target={x:Type ui_vms:SettingsViewModel}}"
+                                            SelectedValue="{Binding DropId}"
+                                            SelectedValuePath="Value"
+                                            Text="{Binding DropName}" />
+                                        <hc:NumericUpDown
+                                            Grid.Column="1"
+                                            Height="30"
+                                            MinWidth="70"
+                                            MaxWidth="110"
+                                            Maximum="1145141919"
+                                            Minimum="0"
+                                            Value="{Binding DropCount, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Grid>
 
                                     <!--  使用药剂  -->
-                                    <CheckBox
-                                        Grid.Row="3"
-                                        Grid.Column="0"
-                                        Margin="0,6,0,0"
-                                        VerticalAlignment="Center"
-                                        Content="{DynamicResource UseSanityPotion}"
-                                        IsChecked="{Binding UseMedicine}"
-                                        Visibility="{c:Binding UseMedicine,
-                                                               Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}" />
-                                    <hc:NumericUpDown
-                                        Grid.Row="3"
-                                        Grid.Column="1"
-                                        Width="70"
-                                        Height="30"
-                                        Margin="0,6,0,0"
-                                        HorizontalAlignment="Left"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Maximum="999"
-                                        Minimum="0"
-                                        Visibility="{c:Binding UseMedicine,
-                                                               Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}"
-                                        Value="{Binding MedicineCount, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Grid Margin="0,6,0,0" Visibility="{c:Binding UseMedicine, Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <CheckBox
+                                            Grid.Column="0"
+                                            Content="{DynamicResource UseSanityPotion}"
+                                            IsChecked="{Binding UseMedicine}" />
+                                        <hc:NumericUpDown
+                                            Grid.Column="1"
+                                            Width="70"
+                                            Height="30"
+                                            Margin="6,0,0,0"
+                                            Maximum="999"
+                                            Minimum="0"
+                                            Value="{Binding MedicineCount, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Grid>
 
                                     <!--  使用源石  -->
-                                    <CheckBox
-                                        Grid.Row="4"
-                                        Grid.Column="0"
-                                        Margin="0,6,0,0"
-                                        VerticalAlignment="Center"
-                                        Content="{DynamicResource UseOriginitePrime}"
-                                        IsChecked="{Binding UseStone}"
-                                        Visibility="{c:Binding UseStone,
-                                                               Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}" />
-                                    <hc:NumericUpDown
-                                        Grid.Row="4"
-                                        Grid.Column="1"
-                                        Width="70"
-                                        Height="30"
-                                        Margin="0,6,0,0"
-                                        HorizontalAlignment="Left"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Maximum="999"
-                                        Minimum="0"
-                                        Visibility="{c:Binding UseStone,
-                                                               Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}"
-                                        Value="{Binding StoneCount, UpdateSourceTrigger=PropertyChanged}" />
-                                </Grid>
+                                    <Grid Margin="0,6,0,0" Visibility="{c:Binding UseStone, Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <CheckBox
+                                            Grid.Column="0"
+                                            Content="{DynamicResource UseOriginitePrime}"
+                                            IsChecked="{Binding UseStone}" />
+                                        <hc:NumericUpDown
+                                            Grid.Column="1"
+                                            Width="70"
+                                            Height="30"
+                                            Margin="6,0,0,0"
+                                            Maximum="999"
+                                            Minimum="0"
+                                            Value="{Binding StoneCount, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Grid>
+                                </StackPanel>
                             </Border>
                         </Expander>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <WrapPanel HorizontalAlignment="Center">
+            <WrapPanel Margin="0,6,0,0" HorizontalAlignment="Center">
                 <Button
+                    MinWidth="50"
                     Margin="0,0,-1,0"
                     hc:BorderElement.CornerRadius="4,0,0,4"
                     Command="{s:Action CollapseAll}"
@@ -281,6 +238,7 @@
                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                  Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
                 <Button
+                    MinWidth="50"
                     Margin="0,0,-1,0"
                     hc:BorderElement.CornerRadius="0"
                     Command="{s:Action ClearPlans}"
@@ -288,6 +246,7 @@
                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                  Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
                 <Button
+                    MinWidth="50"
                     Margin="0,0,-1,0"
                     hc:BorderElement.CornerRadius="0"
                     Command="{s:Action AddPlan}"
