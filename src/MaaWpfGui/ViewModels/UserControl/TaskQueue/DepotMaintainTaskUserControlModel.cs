@@ -18,6 +18,8 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -29,6 +31,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using ObservableCollections;
@@ -68,6 +71,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     public void OnLanguageChanged()
     {
+        // 刷新预设列表的本地化显示
+        PresetList.RefreshLocalization();
+
         // DropsList 已由 RebuildDropsList 原地更新 Display（不增删项），ComboBox SelectedValue 不会丢失
         // 只需刷新各 plan 的 DropName
         foreach (var plan in PlanList)
@@ -106,8 +112,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             var fight = new AsstFightTask() {
                 Stage = stage,
-                Medicine = plan.UseMedicine ? plan.MedicineCount : 0,
-                Stone = plan.UseStone ? plan.StoneCount : 0,
+                Medicine = task.UseMedicine && plan.UseMedicine ? plan.MedicineCount : 0,
+                Stone = task.UseStone && plan.UseStone ? plan.StoneCount : 0,
+                MedicineExpireDays = task.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
                 Series = task.UseAutoSeries ? 0 : 1,
                 MaxTimes = int.MaxValue,
                 ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
@@ -159,6 +166,36 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         set => SetTaskConfig<DepotMaintainTask>(t => t.UseAutoSeries == value, t => t.UseAutoSeries = value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 启用「使用药剂」勾选框。
+    /// 默认开启；关闭后各 Plan 不显示药剂行，序列化时强制传 0。
+    /// </summary>
+    public bool UseMedicine
+    {
+        get => GetTaskConfig<DepotMaintainTask>().UseMedicine;
+        set => SetTaskConfig<DepotMaintainTask>(t => t.UseMedicine == value, t => t.UseMedicine = value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 启用「使用源石」勾选框。
+    /// 默认开启；关闭后各 Plan 不显示源石行，序列化时强制传 0。
+    /// </summary>
+    public bool UseStone
+    {
+        get => GetTaskConfig<DepotMaintainTask>().UseStone;
+        set => SetTaskConfig<DepotMaintainTask>(t => t.UseStone == value, t => t.UseStone = value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 使用 48 小时内过期的理智药。
+    /// 默认关闭；开启后所有 Plan 均使用临期药（固定 2 天阈值）。
+    /// </summary>
+    public bool UseExpiringMedicine
+    {
+        get => GetTaskConfig<DepotMaintainTask>().UseExpiringMedicine;
+        set => SetTaskConfig<DepotMaintainTask>(t => t.UseExpiringMedicine == value, t => t.UseExpiringMedicine = value);
+    }
+
     public ObservableCollection<Plan> PlanList { get; private set => SetAndNotify(ref field, value); } = [];
 
     public void AddPlan()
@@ -169,6 +206,115 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     public void RemovePlan(Plan plan)
     {
         PlanList.Remove(plan);
+    }
+
+    public void ClearPlans()
+    {
+        if (PlanList.Count == 0)
+        {
+            return;
+        }
+
+        // 先取消所有 PropertyChanged 订阅，避免 Clear 逐条触发
+        foreach (var plan in PlanList)
+        {
+            plan.PropertyChanged -= PlanItem_PropertyChanged;
+        }
+
+        // 挂起 CollectionChanged，避免 Clear() 触发 Reset 事件导致 SavePlan/PlanInfo 重复执行
+        PlanList.CollectionChanged -= PlanList_CollectionChanged;
+        try
+        {
+            PlanList.Clear();
+        }
+        finally
+        {
+            PlanList.CollectionChanged += PlanList_CollectionChanged;
+        }
+
+        SavePlan();
+        NotifyOfPropertyChange(nameof(PlanInfo));
+    }
+
+    /// <summary>
+    /// 预设列表。
+    /// </summary>
+    public static LocalizedObservableList<string> PresetList { get; } = new(
+        ("Chip1", "DepotPresetChip1"),
+        ("Chip2", "DepotPresetChip2"),
+        ("CE6", "DepotPresetLmd"),
+        ("AP5", "DepotPresetCertificate"),
+        ("CA5", "DepotPresetSkillSummary"));
+
+    /// <summary>
+    /// 预设数据：关卡 → [(掉落物 itemId, 掉落物名称), ...]。
+    /// </summary>
+    private static readonly Dictionary<string, (string Stage, string[] Drops, int DefaultCount)[]> PresetData = new() {
+        ["Chip1"] = [
+            ("PR-A-1", ["3261", "3231"], 20),  // 医疗芯片、重装芯片
+            ("PR-B-1", ["3251", "3241"], 20),  // 术师芯片、狙击芯片
+            ("PR-C-1", ["3211", "3271"], 20),  // 先锋芯片、辅助芯片
+            ("PR-D-1", ["3221", "3281"], 20),  // 近卫芯片、特种芯片
+        ],
+        ["Chip2"] = [
+            ("PR-A-2", ["3262", "3232"], 20),  // 医疗芯片组、重装芯片组
+            ("PR-B-2", ["3252", "3242"], 20),  // 术师芯片组、狙击芯片组
+            ("PR-C-2", ["3212", "3272"], 20),  // 先锋芯片组、辅助芯片组
+            ("PR-D-2", ["3222", "3282"], 20),  // 近卫芯片组、特种芯片组
+        ],
+        ["CE6"] = [("CE-6", ["4001"], 2000000)],    // 龙门币
+        ["AP5"] = [("AP-5", ["4006"], 5000)],       // 采购凭证（红票）
+        ["CA5"] = [("CA-5", ["3303"], 200)],        // 技巧概要·卷3
+    };
+
+    public void AddPresetPlan(string presetValue)
+    {
+        if (!PresetData.TryGetValue(presetValue, out var stages))
+        {
+            return;
+        }
+
+        // 批量添加时挂起 CollectionChanged，避免逐条触发 SavePlan/RefreshTitle 导致卡顿
+        PlanList.CollectionChanged -= PlanList_CollectionChanged;
+        try
+        {
+            foreach (var (stage, drops, defaultCount) in stages)
+            {
+                foreach (var dropId in drops)
+                {
+                    var dropName = ItemListHelper.GetItemName(dropId) ?? LocalizationHelper.GetString("NotSelected");
+                    var plan = new Plan(stage, dropId, dropName, defaultCount);
+                    plan.PropertyChanged += PlanItem_PropertyChanged;
+                    PlanList.Add(plan);
+                }
+            }
+        }
+        finally
+        {
+            PlanList.CollectionChanged += PlanList_CollectionChanged;
+        }
+
+        // 统一触发一次
+        SavePlan();
+        NotifyOfPropertyChange(nameof(PlanInfo));
+        foreach (var plan in PlanList)
+        {
+            plan.RefreshTitle();
+        }
+    }
+
+    /// <summary>
+    /// Menu 的 MenuItem.Click 事件处理，从点击的菜单项 DataContext 提取预设 Value。
+    /// </summary>
+    /// <param name="sender">事件发送者。</param>
+    /// <param name="e">路由事件参数。</param>
+    [UsedImplicitly]
+    public void PresetMenuClick(object sender, RoutedEventArgs e)
+    {
+        if (e.OriginalSource is MenuItem { DataContext: GenericCombinedData<string> item })
+        {
+            AddPresetPlan(item.Value);
+        }
     }
 
     public bool IsStageManually
@@ -516,8 +662,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     Stage = stage,
                     Drops = new() { { plan.DropId, need } },
                     MaxTimes = need > 0 ? int.MaxValue : 0,
-                    Medicine = plan.UseMedicine ? plan.MedicineCount : 0,
-                    Stone = plan.UseStone ? plan.StoneCount : 0,
+                    Medicine = depot.UseMedicine && plan.UseMedicine ? plan.MedicineCount : 0,
+                    Stone = depot.UseStone && plan.UseStone ? plan.StoneCount : 0,
+                    MedicineExpireDays = depot.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
                     Series = depot.UseAutoSeries ? 0 : 1,
                     ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
                     ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,

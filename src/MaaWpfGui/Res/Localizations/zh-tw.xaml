@@ -870,7 +870,14 @@ C:\\leidian\\LDPlayer9
     <!--  庫存保持  -->
     <system:String x:Key="DepotUpdateBeforeStart">任務開始前更新庫存資料</system:String>
     <system:String x:Key="AddPlan">新增</system:String>
+    <system:String x:Key="DepotPreset">預設</system:String>
+    <system:String x:Key="DepotPresetChip1">低級晶片（全職業）</system:String>
+    <system:String x:Key="DepotPresetChip2">高級晶片組（全職業）</system:String>
+    <system:String x:Key="DepotPresetLmd">龍門幣</system:String>
+    <system:String x:Key="DepotPresetCertificate">採購憑證（紅票）</system:String>
+    <system:String x:Key="DepotPresetSkillSummary">技巧概要·卷3</system:String>
     <system:String x:Key="CollapseAll">折疊</system:String>
+    <system:String x:Key="ClearPlans">清空</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">計劃 {0}：未指定掉落物。</system:String>
     <system:String x:Key="DepotPlanZeroDropCount">計劃 {0}：目標庫存為 0。</system:String>
     <system:String x:Key="DepotPlanNoStage">計劃 {0}：關卡未指定或為 ｢當前/上次｣。</system:String>
@@ -884,6 +891,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPlanUpdateDepotFailed">更新庫存資料失敗。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未勾選時按單倍代理；勾選後按目前理智可刷的最大倍率代理，單次刷取可能超過目標庫存上限。</system:String>
+    <system:String x:Key="DepotEnableUseMedicine">啟用「{key=UseSanityPotion}」勾選框</system:String>
+    <system:String x:Key="DepotEnableUseStone">啟用「{key=UseOriginitePrime}」勾選框</system:String>
+    <system:String x:Key="DepotUseExpiringMedicine">使用 48 小時內過期的理智藥</system:String>
+    <system:String x:Key="DepotGroupTaskBehavior">任務行為</system:String>
+    <system:String x:Key="DepotGroupStageAndBattle">關卡與戰鬥</system:String>
+    <system:String x:Key="DepotGroupSanityRecovery">理智恢復</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>

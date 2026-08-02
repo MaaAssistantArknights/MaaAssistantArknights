@@ -871,7 +871,14 @@ C:\\leidian\\LDPlayer9
     <!--  재고 유지  -->
     <system:String x:Key="DepotUpdateBeforeStart">작업 시작 전 재고 데이터 업데이트</system:String>
     <system:String x:Key="AddPlan">추가</system:String>
+    <system:String x:Key="DepotPreset">프리셋</system:String>
+    <system:String x:Key="DepotPresetChip1">저급 칩 (전 직업)</system:String>
+    <system:String x:Key="DepotPresetChip2">고급 칩 세트 (전 직업)</system:String>
+    <system:String x:Key="DepotPresetLmd">용문폐</system:String>
+    <system:String x:Key="DepotPresetCertificate">구매 증명서 (레드 티켓)</system:String>
+    <system:String x:Key="DepotPresetSkillSummary">스킬 개론 - 3</system:String>
     <system:String x:Key="CollapseAll">접기</system:String>
+    <system:String x:Key="ClearPlans">전체 삭제</system:String>
     <system:String x:Key="DepotPlanInvalidDropItem">계획 {0}: 드롭 아이템 미지정.</system:String>
     <system:String x:Key="DepotPlanZeroDropCount">계획 {0}: 목표 재고가 0.</system:String>
     <system:String x:Key="DepotPlanNoStage">계획 {0}: 스테이지 미지정 또는 \"현재/이전\".</system:String>
@@ -885,6 +892,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPlanUpdateDepotFailed">재고 데이터 업데이트에 실패했습니다.</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 대리 배수</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">체크 해제 시 1배로 대리; 체크 시 현재 이성으로 가능한 최대 배수로 대리 작전하며, 1회 진행 시 목표 재고 상한을 초과할 수 있습니다.</system:String>
+    <system:String x:Key="DepotEnableUseMedicine">「{key=UseSanityPotion}」 체크박스 활성화</system:String>
+    <system:String x:Key="DepotEnableUseStone">「{key=UseOriginitePrime}」 체크박스 활성화</system:String>
+    <system:String x:Key="DepotUseExpiringMedicine">48시간 이내 만료되는 이성 포션 사용</system:String>
+    <system:String x:Key="DepotGroupTaskBehavior">작업 동작</system:String>
+    <system:String x:Key="DepotGroupStageAndBattle">스테이지 및 전투</system:String>
+    <system:String x:Key="DepotGroupSanityRecovery">이성 회복</system:String>
     <system:String x:Key="LessThanOneDay">1일 미만</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>
