@@ -7,6 +7,7 @@
 
         <!--  按钮与交互控件  -->
         <ResourceDictionary Source="Styles/Button.xaml" />
+        <ResourceDictionary Source="Styles/SplitButton.xaml" />
         <ResourceDictionary Source="Styles/CheckBox.xaml" />
         <ResourceDictionary Source="Styles/CheckComboBox.xaml" />
         <ResourceDictionary Source="Styles/ComboBox.xaml" />
