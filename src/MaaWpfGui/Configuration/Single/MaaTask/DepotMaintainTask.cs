@@ -22,6 +22,11 @@ public class DepotMaintainTask : BaseTask
 {
     public DepotMaintainTask() => TaskType = TaskType.DepotMaintain;
 
+    /// <summary>
+    /// 临期药阈值（天）：仅使用 N 天内将过期的理智药。
+    /// </summary>
+    public const int ExpiringMedicineDays = 2;
+
     public bool UpdateDepot { get; set; } = true;
 
     public bool IsStageManually { get; set; }
@@ -41,6 +46,24 @@ public class DepotMaintainTask : BaseTask
     /// 默认关闭（按 1 倍刷取）；开启后单次进入可能因高倍率超过目标库存上限。
     /// </summary>
     public bool UseAutoSeries { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 启用「使用药剂」勾选框。
+    /// 默认开启；关闭后各 Plan 不显示药剂行，序列化时强制传 0。
+    /// </summary>
+    public bool UseMedicine { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 启用「使用源石」勾选框。
+    /// 默认开启；关闭后各 Plan 不显示源石行，序列化时强制传 0。
+    /// </summary>
+    public bool UseStone { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 使用 48 小时内过期的理智药。
+    /// 默认关闭；开启后所有 Plan 均使用临期药（固定 2 天阈值）。
+    /// </summary>
+    public bool UseExpiringMedicine { get; set; }
 
     public List<Plan> PlanList { get; set; } = [];
 
