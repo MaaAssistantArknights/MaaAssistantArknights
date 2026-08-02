@@ -22,6 +22,11 @@ public class DepotMaintainTask : BaseTask
 {
     public DepotMaintainTask() => TaskType = TaskType.DepotMaintain;
 
+    /// <summary>
+    /// 临期药阈值（天）：仅使用 N 天内将过期的理智药。
+    /// </summary>
+    public const int ExpiringMedicineDays = 2;
+
     public bool UpdateDepot { get; set; } = true;
 
     public bool IsStageManually { get; set; }

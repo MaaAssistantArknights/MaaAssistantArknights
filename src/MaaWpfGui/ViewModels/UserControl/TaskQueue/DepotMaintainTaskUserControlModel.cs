@@ -114,7 +114,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 Stage = stage,
                 Medicine = task.UseMedicine && plan.UseMedicine ? plan.MedicineCount : 0,
                 Stone = task.UseStone && plan.UseStone ? plan.StoneCount : 0,
-                MedicineExpireDays = task.UseExpiringMedicine ? 2 : 0,
+                MedicineExpireDays = task.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
                 Series = task.UseAutoSeries ? 0 : 1,
                 MaxTimes = int.MaxValue,
                 ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
@@ -221,7 +221,17 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             plan.PropertyChanged -= PlanItem_PropertyChanged;
         }
 
-        PlanList.Clear();
+        // 挂起 CollectionChanged，避免 Clear() 触发 Reset 事件导致 SavePlan/PlanInfo 重复执行
+        PlanList.CollectionChanged -= PlanList_CollectionChanged;
+        try
+        {
+            PlanList.Clear();
+        }
+        finally
+        {
+            PlanList.CollectionChanged += PlanList_CollectionChanged;
+        }
+
         SavePlan();
         NotifyOfPropertyChange(nameof(PlanInfo));
     }
@@ -654,7 +664,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     MaxTimes = need > 0 ? int.MaxValue : 0,
                     Medicine = depot.UseMedicine && plan.UseMedicine ? plan.MedicineCount : 0,
                     Stone = depot.UseStone && plan.UseStone ? plan.StoneCount : 0,
-                    MedicineExpireDays = depot.UseExpiringMedicine ? 2 : 0,
+                    MedicineExpireDays = depot.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
                     Series = depot.UseAutoSeries ? 0 : 1,
                     ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
                     ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
