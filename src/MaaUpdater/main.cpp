@@ -385,7 +385,7 @@ static bool InitializeProgressUi()
     int originY = (GetSystemMetrics(SM_CYSCREEN) - PROGRESS_WINDOW_HEIGHT) / 2;
 
     HWND window = CreateWindowExW(
-        WS_EX_TOPMOST | WS_EX_APPWINDOW | WS_EX_DLGMODALFRAME,
+        WS_EX_APPWINDOW | WS_EX_DLGMODALFRAME,
         PROGRESS_WINDOW_CLASS_NAME,
         L"MAA 正在更新 | MAA Updating",
         WS_CAPTION,
@@ -400,6 +400,9 @@ static bool InitializeProgressUi()
     if (window == nullptr) {
         return false;
     }
+
+    // 弹出时带到前台一次，不强制永久置顶，避免打断全屏游戏或其他操作
+    SetForegroundWindow(window);
 
     HWND statusLabel = CreateWindowExW(
         0,
