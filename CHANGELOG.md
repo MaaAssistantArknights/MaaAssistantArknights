@@ -1,4 +1,4 @@
-## v6.16.1
+## v6.16.2
 
 ### Highlights
 
@@ -13,6 +13,10 @@
 #### 更新后自动运行可控
 
 新增「更新后立即重启时不自动运行」选项；启动自动运行任务或模拟器前增加 10 秒倒计时确认，避免更新重启后非预期地直接开跑。
+
+#### 库存保持任务增强
+
+库存保持任务 UI 重构：新增理智药/源石全局开关与临期药支持，并提供芯片、龙门币、采购凭证、技巧概要等刷图预设，计划管理更方便。
 
 <details>
 <summary><b>English</b></summary>
@@ -29,6 +33,10 @@ Background settings now support a tree-style picker with thumbnail previews for 
 
 Added an option to skip auto-run after an immediate post-update restart, plus a 10-second countdown confirmation before automatically starting tasks or the emulator, preventing unexpected runs after update restarts.
 
+#### Enhanced Depot Maintain Task
+
+Refactored the depot maintain task UI with global medicine/originium toggles and expiring-medicine support, plus farming presets for chips, LMD, certificates, and skill summaries for easier plan management.
+
 </details>
 
 ----
@@ -36,6 +44,24 @@ Added an option to skip auto-run after an immediate post-update restart, plus a 
 以下是详细内容：
 
 <details open>
+<summary><b>v6.16.2 (2026-08-02)</b></summary>
+
+### 新增 | New
+
+* 库存保持任务 UI 重构：新增理智药/源石全局开关与临期药支持，并提供芯片、龙门币、采购凭证、技巧概要等刷图预设 ([#17512](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17512)) @ABA2396
+
+### 改进 | Improved
+
+* 优化库存保持界面布局与显示，清空计划时增加确认弹窗 @ABA2396
+
+### 修复 | Fix
+
+* 修复库存保持界面未选择掉落物时切换语言无法正确显示的问题 @ABA2396
+* YostarEN fix Mountain OCR regex matching @Constrat
+
+</details>
+
+<details>
 <summary><b>v6.16.1 (2026-08-02)</b></summary>
 
 ~~MAA不会在周██凌晨更新。如果收到更新提示，请忽略，不要查看更新公告，直到周██。~~
