@@ -302,9 +302,9 @@ public class SettingsViewModel : Screen
     private void InitConfiguration()
     {
         var configurations = new ObservableCollection<CombinedData>();
-        foreach (var conf in ConfigurationHelper.GetConfigurationList())
+        foreach (var conf in ConfigFactory.Root.Configurations)
         {
-            configurations.Add(new CombinedData { Display = conf, Value = conf });
+            configurations.Add(new CombinedData { Display = conf.Key, Value = conf.Key });
         }
 
         ConfigurationList = configurations;
