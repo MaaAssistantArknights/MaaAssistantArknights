@@ -1,6 +1,6 @@
 ---
 name: maa-issue-log-analysis
-description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/...` 或 `#1234`）。自动抓取 issue 正文和评论中的 `report_*.zip` 附件，优先读取 `debug/asst.log`、`debug/gui.log`、`config/gui.new.json`、`cache/resource/tasks.json`，并在有后续分卷时补看 `debug/interface/*.png`、`debug/drops/*.png`、`debug/infrast/**`、`debug/dumps/*` 等现场证据；结合 MAA Core/WPF/资源任务代码与文档判断根因、给出修复方案，供用户让你分析 MAA issue、日志包、ADB 连接失败、关卡导航、识别失败、任务出错、闪退时使用。
+description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/...` 或 `#1234`）。自动抓取 issue 正文和评论中的 `report_*.zip` 附件，优先读取 `debug/asst.log`、`debug/gui.log`、`config/gui.new.json`、`cache/resource/tasks.json`，并在有后续分卷时补看 `debug/interface/*.png`、`debug/drops/*.png`、`debug/infrast/**`、`debug/dumps/*` 等现场证据；结合 MAA Core/WPF/资源任务代码与文档判断根因、给出修复方案，供用户让你分析 MAA issue、日志包、ADB 连接失败、关卡导航、识别失败、任务出错、闪退时使用。内置的「诉求评估」方法论（三道筛：合理性 / 必要性 / 优先级）可脱离日志单独引用，用于评估 B 站评论、群聊反馈、纯文字 feature request 等无日志场景中的用户诉求。
 ---
 
 # MAA Issue Log Analysis
@@ -10,6 +10,7 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 - 开始分析前，先读取同目录的 `KNOWLEDGE.md`，先用其中的通用误判规则校正自己的分析路径，再读 issue 和日志。
 - 如果 issue 涉及会客室、线索、快捷按钮、批量按钮、自动领取/赠送/放置这类“会先改变界面状态再继续执行”的流程，必须先套用 `KNOWLEDGE.md` 中的 `Stateful UI Automation Checks` 与 `Reception Clue Analysis`。
 - 如果用户没有贴出日志、报告包、报错文本、截图或导出诊断等有效证据，不要进入严肃分析；改用 `maa-cyber-fortune-master/SKILL.md` 引导补证据（详见 Scope 和 Workflow Step 2）。
+- 本 skill 内置「诉求评估」方法论（Workflow Step 9 的三道筛：合理性 / 必要性 / 优先级）。即使没有日志、报告包、截图——例如面对 B 站评论、群聊反馈、纯文字 feature request——只要用户提出了明确的诉求，就可以单独引用这套框架做判断，不需要走完整 Workflow 或输出模板。
 
 ## Scope
 
