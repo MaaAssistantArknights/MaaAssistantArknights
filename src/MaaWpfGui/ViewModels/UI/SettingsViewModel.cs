@@ -525,14 +525,12 @@ public class SettingsViewModel : Screen
             }
 
             var previousConfiguration = _currentConfiguration;
-            bool ret = ConfigurationHelper.SwitchConfiguration(value);
-            ret &= ConfigFactory.SwitchConfig(value);
+            bool ret = ConfigFactory.SwitchConfig(value);
 
             if (!ret)
             {
                 if (!string.IsNullOrEmpty(previousConfiguration))
                 {
-                    ConfigurationHelper.SwitchConfiguration(previousConfiguration);
                     ConfigFactory.SwitchConfig(previousConfiguration);
                 }
 
