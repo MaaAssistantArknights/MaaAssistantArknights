@@ -180,7 +180,7 @@ protected:
     // ————————————————————————————————
     bool m_operbox_assist_enabled = false;
     std::string m_operbox_data_path;
-    std::unordered_map<std::string, std::string> m_operbox_assigned;
+    std::unordered_map<std::string, std::string> m_operbox_assigned; // 组名 - 干员id
     std::string m_operbox_unmatched_group;
 
     std::vector<OperBoxInfo> parse_operbox_data(const std::string& path);

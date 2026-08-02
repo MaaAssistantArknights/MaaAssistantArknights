@@ -236,6 +236,16 @@ void asst::BattleFormationTask::formation_with_last_opers()
         const battle::OperNameTag& oper_tag = it->first;
         const std::string& group_name = it->second;
 
+        if (m_operbox_assist_enabled) {
+            // compare_formation 后剩下的是完全相同的干员组, 但是可能预匹配结果不同
+            auto pre_assigned_it = m_operbox_assigned.find(group_name);
+            if (pre_assigned_it == m_operbox_assigned.end() ||
+                pre_assigned_it->second != BattleData.get_id(oper_name)) {
+                ++it;
+                continue; // 该干员不是这次预匹配的干员, 跳过
+            }
+        }
+
         const auto& oper_in_page_it = std::ranges::find_if(opers_result, [&](const QuickFormationOper& op) {
             return !op.is_selected && op.role == oper_tag.role && op.text == oper_tag.name;
         }); // 编队页中的干员
