@@ -102,7 +102,11 @@ public class ConfigConverter
         var currentConfigName = ConfigurationHelper.GetCurrentConfiguration();
         foreach (var configName in ConfigurationHelper.GetConfigurationList())
         {
-            ConfigurationHelper.SwitchConfiguration(configName);
+            if (!ConfigurationHelper.SwitchConfiguration(configName))
+            {
+                _logger.Error("配置迁移失败，无法切换到old配置: {ConfigName}", configName);
+                continue;
+            }
             if (ConfigFactory.Root.Configurations.ContainsKey(configName))
             {
             }
@@ -541,7 +545,11 @@ public class ConfigConverter
         var currentConfigName = ConfigurationHelper.GetCurrentConfiguration();
         foreach (var configName in ConfigurationHelper.GetConfigurationList())
         {
-            ConfigurationHelper.SwitchConfiguration(configName);
+            if (!ConfigurationHelper.SwitchConfiguration(configName))
+            {
+                _logger.Error("配置迁移失败，无法切换到old配置: {ConfigName}", configName);
+                continue;
+            }
             if (!ConfigFactory.SwitchConfig(configName))
             {
                 _logger.Error("配置迁移失败，无法切换到配置: {ConfigName}", configName);
