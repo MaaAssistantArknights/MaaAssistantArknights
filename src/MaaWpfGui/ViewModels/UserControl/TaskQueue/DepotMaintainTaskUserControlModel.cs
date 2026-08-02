@@ -227,25 +227,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             return;
         }
 
-        // 先取消所有 PropertyChanged 订阅，避免 Clear 逐条触发
-        foreach (var plan in PlanList)
-        {
-            plan.PropertyChanged -= PlanItem_PropertyChanged;
-        }
-
-        // 挂起 CollectionChanged，避免 Clear() 触发 Reset 事件导致 SavePlan/PlanInfo 重复执行
-        PlanList.CollectionChanged -= PlanList_CollectionChanged;
-        try
-        {
-            PlanList.Clear();
-        }
-        finally
-        {
-            PlanList.CollectionChanged += PlanList_CollectionChanged;
-        }
-
-        SavePlan();
-        NotifyOfPropertyChange(nameof(PlanInfo));
+        PlanList.Clear();
     }
 
     /// <summary>
@@ -286,7 +268,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             return;
         }
 
-        // 批量添加时挂起 CollectionChanged，避免逐条触发 SavePlan/RefreshTitle 导致卡顿
+        // 批量添加时挂起 CollectionChanged，避免逐条触发 SyncPlanListToTaskConfig/RefreshTitle 导致卡顿
         PlanList.CollectionChanged -= PlanList_CollectionChanged;
         try
         {
@@ -295,7 +277,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 foreach (var dropId in drops)
                 {
                     var dropName = ItemListHelper.GetItemName(dropId) ?? LocalizationHelper.GetString("NotSelected");
-                    var plan = new Plan(stage, dropId, dropName, defaultCount);
+                    var plan = new DepotPlanItemViewModel(stage, dropId, dropName, defaultCount);
                     plan.PropertyChanged += PlanItem_PropertyChanged;
                     PlanList.Add(plan);
                 }
@@ -307,7 +289,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
 
         // 统一触发一次
-        SavePlan();
+        SyncPlanListToTaskConfig();
         NotifyOfPropertyChange(nameof(PlanInfo));
         foreach (var plan in PlanList)
         {
@@ -447,7 +429,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
             var dropName = FightSettingsUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("NotSelected");
 
-            var uiPlan = new Plan(plan.Stage, plan.DropId, dropName, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId);
+            var uiPlan = new DepotPlanItemViewModel(plan.Stage, plan.DropId, dropName, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId);
             list.Add(uiPlan);
             uiPlan.PropertyChanged += PlanItem_PropertyChanged;
         }
@@ -498,6 +480,17 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             plan.Index = index;
         }
+
+        SyncPlanListToTaskConfig();
+    }
+
+    /// <summary>
+    /// 将 <see cref="PlanList"/> 同步回 <see cref="DepotMaintainTask.PlanList"/>。
+    /// 供 <see cref="PlanList_CollectionChanged"/>、<see cref="ClearPlans"/>、<see cref="AddPresetPlan"/>
+    /// 等挂起 CollectionChanged 的批量操作复用，替代已删除的 SavePlan。
+    /// </summary>
+    private void SyncPlanListToTaskConfig()
+    {
         var list = PlanList.Select(plan => new DepotMaintainTask.Plan(plan.Stage, plan.DropId, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId)).ToList();
         SetTaskConfig<DepotMaintainTask>(t => t.PlanList.SequenceEqual(list), t => t.PlanList = list);
     }
