@@ -18,7 +18,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using System.Windows;
 using System.Windows.Controls;
 using JetBrains.Annotations;
@@ -32,8 +31,8 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities;
-using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using ObservableCollections;
@@ -268,33 +267,22 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             return;
         }
 
-        // 批量添加时挂起 CollectionChanged，避免逐条触发 SyncPlanListToTaskConfig/RefreshTitle 导致卡顿
-        PlanList.CollectionChanged -= PlanList_CollectionChanged;
-        try
+        var list = PlanList.ToList();
+        foreach (var (stage, drops, defaultCount) in stages)
         {
-            foreach (var (stage, drops, defaultCount) in stages)
+            foreach (var dropId in drops)
             {
-                foreach (var dropId in drops)
-                {
-                    var dropName = ItemListHelper.GetItemName(dropId) ?? LocalizationHelper.GetString("NotSelected");
-                    var plan = new DepotPlanItemViewModel(stage, dropId, dropName, defaultCount);
-                    plan.PropertyChanged += PlanItem_PropertyChanged;
-                    PlanList.Add(plan);
-                }
+                var dropName = ItemListHelper.GetItemName(dropId) ?? LocalizationHelper.GetString("NotSelected");
+                var plan = new DepotPlanItemViewModel(stage, dropId, dropName, defaultCount);
+                plan.PropertyChanged += PlanItem_PropertyChanged;
+                list.Add(plan);
             }
         }
-        finally
-        {
-            PlanList.CollectionChanged += PlanList_CollectionChanged;
-        }
 
-        // 统一触发一次
+        PlanList = new(list);
+        PlanList.CollectionChanged += PlanList_CollectionChanged;
         SyncPlanListToTaskConfig();
         NotifyOfPropertyChange(nameof(PlanInfo));
-        foreach (var plan in PlanList)
-        {
-            plan.RefreshTitle();
-        }
     }
 
     /// <summary>
