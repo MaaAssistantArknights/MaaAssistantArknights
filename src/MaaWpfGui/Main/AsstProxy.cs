@@ -1321,7 +1321,7 @@ public class AsstProxy
                     var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
                     var sanityReport = string.Empty;
 
-                    var configurationPreset = ConfigurationHelper.GetCurrentConfiguration();
+                    var configurationPreset = ConfigFactory.Root.Current;
 
                     allTaskCompleteMessage = allTaskCompleteMessage
                         .Replace("{DateTime}", dateTimeNow.ToString("yyyy-MM-dd HH:mm:ss"))
