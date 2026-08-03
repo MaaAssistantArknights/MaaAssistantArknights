@@ -235,10 +235,16 @@ std::optional<int> asst::Win32IO::call_command(
                 CloseHandle(process_info.hProcess);
                 CloseHandle(process_info.hThread);
                 if (recv_by_socket) {
-                    CloseHandle(sockov.hEvent);
+                    if (accept_pending) {
+                        CancelIoEx(reinterpret_cast<HANDLE>(m_server_sock), &sockov);
+                    }
+                    else if (!socket_eof) {
+                        CancelIoEx(reinterpret_cast<HANDLE>(client_socket), &sockov);
+                    }
                     if (client_socket != INVALID_SOCKET) {
                         closesocket(client_socket);
                     }
+                    CloseHandle(sockov.hEvent);
                 }
                 return std::nullopt;
                 // break;
