@@ -1,0 +1,12 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:hc="https://handyorg.github.io/handycontrol">
+
+    <Style
+        x:Key="MaaSplitButtonDefaultStyle"
+        BasedOn="{StaticResource SplitButtonBaseStyle}"
+        TargetType="{x:Type hc:SplitButton}">
+        <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
+    </Style>
+
+    <Style BasedOn="{StaticResource MaaSplitButtonDefaultStyle}" TargetType="{x:Type hc:SplitButton}" />
+
+</ResourceDictionary>

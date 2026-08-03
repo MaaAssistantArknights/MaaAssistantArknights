@@ -176,32 +176,6 @@ public static class ConfigFactory
                 parsed.Configurations.Add(parsed.Current, new SpecificConfig());
             }
 
-            if (ParseJsonFile(ConfigurationHelper.ConfigFile) is JsonObject oldConfigJson && oldConfigJson["Configurations"] is JsonObject configurationsObj)
-            {
-                var configNames = configurationsObj.Select(i => i.Key);
-                foreach (var name in parsed.Configurations.Select(i => i.Key).Except(configNames))
-                {
-                    _brokenConfigs.Add(name);
-                    ConfigurationHelper.AddConfiguration(name, parsed.Current); // old config补全
-                    _logger.Information("Config {ConfigName} does not exist in old configuration, add into old configuration copy from {Current}", name, parsed.Current);
-                }
-
-                foreach (var name in configNames)
-                {
-                    if (!parsed.Configurations.ContainsKey(name))
-                    {
-                        _brokenConfigs.Add(name);
-                        parsed.Configurations.Add(name, parsed.CurrentConfig); // new config补全
-                        _logger.Information("Config {ConfigName} exists in old configuration but not in new config, copy from {Current}", name, parsed.Current);
-                    }
-                }
-                if (oldConfigJson["Current"]?.GetValue<string>() is string oldCurrent && parsed.Current != oldCurrent)
-                {
-                    _logger.Warning("Current configuration in old configuration is {OldCurrent}, but in new config is {NewCurrent}, switching to old current", oldCurrent, parsed.Current);
-                    ConfigurationHelper.SwitchConfiguration(parsed.Current); // 检查 Current 一致性
-                }
-            }
-
             return parsed;
 
             void SpecificConfigBind(string name, SpecificConfig config)

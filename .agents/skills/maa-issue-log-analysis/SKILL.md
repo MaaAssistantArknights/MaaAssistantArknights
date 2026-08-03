@@ -1,6 +1,6 @@
 ---
 name: maa-issue-log-analysis
-description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/...` 或 `#1234`）。自动抓取 issue 正文和评论中的 `report_*.zip` 附件，优先读取 `debug/asst.log`、`debug/gui.log`、`config/gui.json` / `config/gui.new.json`、`cache/resource/tasks.json`，并在有后续分卷时补看 `debug/interface/*.png`、`debug/drops/*.png`、`debug/infrast/**`、`debug/dumps/*` 等现场证据；结合 MAA Core/WPF/资源任务代码与文档判断根因、给出修复方案，供用户让你分析 MAA issue、日志包、ADB 连接失败、关卡导航、识别失败、任务出错、闪退时使用。
+description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/...` 或 `#1234`）。自动抓取 issue 正文和评论中的 `report_*.zip` 附件，优先读取 `debug/asst.log`、`debug/gui.log`、`config/gui.new.json`、`cache/resource/tasks.json`，并在有后续分卷时补看 `debug/interface/*.png`、`debug/drops/*.png`、`debug/infrast/**`、`debug/dumps/*` 等现场证据；结合 MAA Core/WPF/资源任务代码与文档判断根因、给出修复方案，供用户让你分析 MAA issue、日志包、ADB 连接失败、关卡导航、识别失败、任务出错、闪退时使用。内置的「诉求评估」方法论（三道筛：合理性 / 必要性 / 优先级）可脱离日志单独引用，用于评估 B 站评论、群聊反馈、纯文字 feature request 等无日志场景中的用户诉求。
 ---
 
 # MAA Issue Log Analysis
@@ -9,16 +9,17 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 
 - 开始分析前，先读取同目录的 `KNOWLEDGE.md`，先用其中的通用误判规则校正自己的分析路径，再读 issue 和日志。
 - 如果 issue 涉及会客室、线索、快捷按钮、批量按钮、自动领取/赠送/放置这类“会先改变界面状态再继续执行”的流程，必须先套用 `KNOWLEDGE.md` 中的 `Stateful UI Automation Checks` 与 `Reception Clue Analysis`。
-- 如果用户没有贴出日志、报告包、报错文本、截图或导出诊断等有效证据，不要直接进入严肃日志分析；先转用同目录技能 `maa-cyber-fortune-master/SKILL.md` 生成一段短小的玄学回复，把对话自然引导到“补日志 / 截图 / 报错 / 诊断信息”。
+- 如果用户没有贴出日志、报告包、报错文本、截图或导出诊断等有效证据，不要进入严肃分析；改用 `maa-cyber-fortune-master/SKILL.md` 引导补证据（详见 Scope 和 Workflow Step 2）。
+- 本 skill 内置「诉求评估」方法论（Workflow Step 9 的三道筛：合理性 / 必要性 / 优先级）。即使没有日志、报告包、截图——例如面对 B 站评论、群聊反馈、纯文字 feature request——只要用户提出了明确的诉求，就可以单独引用这套框架做判断，不需要走完整 Workflow 或输出模板。
 
 ## Scope
 
 - 仅用于上游公开仓库 `https://github.com/MaaAssistantArknights/MaaAssistantArknights`。
 - 输入可以是完整 issue URL，或 `#1234` 形式的 issue 编号。
 - 只分析公开 issue 中可直接访问的附件。
-- 如果没有可下载的 `report_*.zip`，先判断用户是否至少提供了其他有效证据（报错文本、截图、导出诊断、清晰复现步骤）。
-- 如果连这些也没有，优先转用 `maa-cyber-fortune-master/SKILL.md`，不要直接输出严肃分析模板。
-- 如果没有 `report_*.zip` 但仍有其他有效证据，再明确说明证据不足，并尽量基于 issue 文本、截图、代码和文档给出初步判断。
+- 如果没有可下载的 `report_*.zip`，看用户是否提供了其他有效证据（报错文本、截图、导出诊断、清晰复现步骤）。
+    - 有其他证据 → 基于现有证据给出初步判断，明确说明证据不足。
+    - 无其他证据 → 转用 `maa-cyber-fortune-master/SKILL.md`，不要输出严肃分析模板。
 - 如果评论里有机器人提示“日志没有上传成功”，不要直接放弃；正文里的附件链接仍可能可下载。
 
 ## Workflow
@@ -71,14 +72,14 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
  - 再用 `asst.log` 还原底层行为。
  - 关卡或任务问题时，优先用 `gui.log` 中的 `Start Task Chain`、`GetFightStage`、`任务出错` 锁定时间窗，再回到 `asst.log` 里的 `taskid`、`SubTaskError`、`TaskChainError`。
  - 连接问题时，优先把 `gui.log` 中的重试流程和 `asst.log` 中的 `adb devices`、`adb connect`、`ConnectionInfo` 串起来。
-- 如果 `ConnectConfig` 是 `PC`，改走 `AttachWindow` / `Win32Controller` 这条线：
-- 先在 `gui.log` 确认 `AttachWindow: Found window`
-- 再在 `asst.log` 里看 `Win32Controller::screencap`、`Win32Controller::click`
-- 不要再按 ADB 端口或 `ConnectionInfo.ConnectFailed` 的思路分析
-- 如果问题属于状态型 UI 自动化（例如会客室线索、批量按钮、快捷按钮、先拆后放一类流程），时间线里必须单独标出：
-- 自动化在什么时刻先修改了用户原状态
-- 后续进入下一步或恢复终态由哪个条件控制
-- 条件不满足时流程是停止、跳过，还是按设计停在别的状态
+ - 如果 `ConnectConfig` 是 `PC`，改走 `AttachWindow` / `Win32Controller` 这条线：
+     - 先在 `gui.log` 确认 `AttachWindow: Found window`
+     - 再在 `asst.log` 里看 `Win32Controller::screencap`、`Win32Controller::click`
+     - 不要再按 ADB 端口或 `ConnectionInfo.ConnectFailed` 的思路分析
+ - 如果问题属于状态型 UI 自动化（例如会客室线索、批量按钮、快捷按钮、先拆后放一类流程），时间线里必须单独标出：
+     - 自动化在什么时刻先修改了用户原状态
+     - 后续进入下一步或恢复终态由哪个条件控制
+     - 条件不满足时流程是停止、跳过，还是按设计停在别的状态
 
 7. 区分 issue 当时环境和当前分支。
 
@@ -123,26 +124,23 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
  - 程序重启前的上下文
  - 更早一次复现
 
-### `config/gui.json`、`config/gui.new.json`、备份文件
+### `config/gui.new.json`、备份文件
 
-- 模块归属：GUI 配置快照。
+- 模块归属：GUI 配置快照（dev-v2 起 `gui.new.json` 为新配置系统主文件；旧 `gui.json` 已废弃，仅作为迁移残留或旧版本回退时可能存在）。
 - 常见文件：
- - `config/gui.json`
- - `config/gui.new.json`
- - `config/gui.json.old`
- - `config/gui.json.bak`
+ - `config/gui.new.json`（主）
+ - `config/gui.new.json.bak`（每次启动自动备份）
+ - `config/gui.json.old`（迁移前的旧配置备份，仅迁移时产生一次）
+ - `config/gui.new.json.err`（解析失败时保存的损坏配置）
 - 最适合看：
  - 实际连接配置
  - 模拟器路径、ADB 地址、是否开启截图增强
  - 任务队列、`StagePlan`
  - 是否真的选择了 `15-13-hard` 之类的硬难度关卡
 - 注意：
- - `gui.new.json` 可能比 `gui.json` 更接近用户当前界面上的任务配置，不能只看一个文件。
-- 如果 `gui.new.json` 与 `gui.log` / `asst.log` 的实际运行状态冲突，继续检查：
-- `gui.new.json.bak`
-- `gui.json.old`
-- `gui.json.bak`
-- 报告导出时用户可能已经改过勾选项，当前文件不一定就是复现时那一份。
+ - `gui.new.json` 与 `gui.log` / `asst.log` 的实际运行状态冲突时，先检查 `gui.new.json.bak`。
+ - 如果 issue 用户版本较旧（迁移前），可能仍使用旧 `gui.json`，此时 `gui.json` 和 `gui.json.old` 才有参考价值。
+ - 报告导出时用户可能已经改过勾选项，当前文件不一定就是复现时那一份。
 
 ### `cache/resource/tasks.json` 和 `cache/resource/tasks/tasks.json`
 
@@ -226,36 +224,36 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
  - `adb.exe devices` 里有没有 `offline`
  - `adb.exe connect` 是否报 `10061`
  - `ConnectionInfo.what` / `why`
- - `config/gui.json` 中的：
- - `ConnectConfig`
- - `Connect.Address`
- - `Connect.AllowADBRestart`
- - `Connect.AllowADBHardRestart`
- - `Connect.MuMu12Extras.Enabled`
+ - `config/gui.new.json` 中的：
+     - `ConnectConfig`
+     - `Connect.Address`
+     - `Connect.AllowADBRestart`
+     - `Connect.AllowADBHardRestart`
+     - `Connect.MuMu12Extras.Enabled`
  - 默认 MuMu 12 端口列表是否和日志中的轮询顺序一致
 
 5. 对 PC / AttachWindow 问题，重点看：
 
- - `config/gui.json` 中 `Connect.ConnectConfig == "PC"`
+ - `config/gui.new.json` 中 `Connect.ConnectConfig == "PC"`
  - `gui.log` 中：
- - `连接 PC 端（实验性功能，稳定性无法保证）`
- - `AttachWindow: Found window`
- - `handle: ..., hwnd: ..., screencapMethod: ..., mouseMethod: ..., keyboardMethod: ...`
+     - `连接 PC 端（实验性功能，稳定性无法保证）`
+     - `AttachWindow: Found window`
+     - `handle: ..., hwnd: ..., screencapMethod: ..., mouseMethod: ..., keyboardMethod: ...`
  - `asst.log` 中：
- - `Win32Controller::screencap`
- - `Win32Controller::click`
+     - `Win32Controller::screencap`
+     - `Win32Controller::click`
  - 点击后的下一次识别结果是否真的改变
  - 如果点击日志存在，但后续截图和 OCR 状态完全没变，要优先判断为“输入未生效”，而不是“流程已正确前进”
 
 6. 对关卡导航 / 磨难切换问题，重点看：
 
- - `config/gui.new.json` / `gui.json` 中的 `StagePlan`
+ - `config/gui.new.json` 中的 `StagePlan`
  - `gui.log` 中的 `GetFightStage`
  - `asst.log` 中的：
- - `Episode15`
- - `ChapterDifficultyHard`
- - `EnterChapterDifficultyHard`
- - `SubTaskError`
+     - `Episode15`
+     - `ChapterDifficultyHard`
+     - `EnterChapterDifficultyHard`
+     - `SubTaskError`
  - `debug/interface/*.png`
  - `resource/tasks/tasks.json` 与 `cache/resource/tasks*.json`
 
@@ -269,6 +267,20 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
  - 先判断日志中的状态变化是否符合游戏规则、资源任务定义和当前实现。
  - 如果流程与设计一致，不要把用户不喜欢的中间状态直接归为 bug。
  - 只有当日志、资源任务和代码彼此冲突，或流程没有达到设计要求的终态时，再归类为实现缺陷。
+
+9. 对用户诉求做合理性 / 必要性 / 优先级判断，不要默认认同。
+
+ - issue 用户通常会带一个隐含或明确的期望："应该支持 X""应该改成 Y"。分析完根因后，对这个期望本身单独评估，不要因为它写在 issue 里就当成既定需求。
+ - 判断前先搜索仓库中是否有相关 / 重复 issue：用 GitHub Issue Search 按关键词、标题或描述搜同类诉求。如果有类似 issue，先看维护者的回复和最终状态（已关闭 / 已实现 / 已拒绝 / Won't fix / 标签），再结合本次日志和代码做独立判断。不要直接复述旧 issue 的结论，但维护者对同类诉求的一贯态度是重要参考。
+ - 三道筛：
+     1. **合理性**：该诉求是否符合 MAA 的设计目标和定位？是否与已有功能、文档说明或已知约束冲突？如果它实质上是在要求 MAA 做它本来就不打算做的事（例如多开、多账号、PC 实验性功能全量维护、违背游戏机制的操作），直接标记为超出范围或不合理。
+     2. **必要性**：这个诉求对应的是真实缺陷，还是只是个人偏好 / 边缘场景 / 可以用现有功能绕过的？如果不实现也不会影响正确性和核心流程，必要性低。
+     3. **优先级**：相对其他 issue，这个诉求影响面有多大？是高频路径还是极少数用户的偶发场景？维护成本和收益是否匹配？只发生在单一环境、单一版本、且已有替代方案的，优先级低。
+ - 判断后的措辞要诚实，不要为了迎合用户而模糊结论：
+     - 不合理 → 写明“该诉求与 MAA 当前设计/定位不符”，给出理由，不要留“可以考虑”这种暧昧余地。
+     - 不必要 → 写明“当前已有替代方案 / 不影响正确性”，不建议为此投入。
+     - 低优先级 → 写明影响面和成本，标为“可延后”，不要和真正的缺陷并列。
+ - 只有当诉求通过三筛（合理、必要、有影响面）时，才在“修复方案”里给出具体实现建议。
 
 ## Common Patterns
 
@@ -286,7 +298,7 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
     - 先确认用户版本，必要时切到对应 tag（例如 `git checkout vXXX`）核对旧逻辑。
     - 不要用当前分支否定旧日志；旧版本问题可能真实存在。
     - 如果主线已修复，再看修复 commit 是否已进入 tag / release：已发版建议升级，未发版建议等待 release。
-- `gui.new.json`、`gui.json` 和实际日志不一致时，不要急着判“用户配置写错了”；先看 `gui.new.json.bak` 和 `gui.json.old`，尤其是用户复现后又改回开关的场景。
+- `gui.new.json` 和实际日志不一致时，不要急着判"用户配置写错了"；先看 `gui.new.json.bak`，尤其是用户复现后又改回开关的场景。
 - 在 `ConnectConfig=PC` 的 issue 里，`Win32Controller::click` 正常返回不代表点击真的生效；要看点击后的下一帧中，按钮状态、数量 OCR、场景识别有没有变化。
 - `gui.log` 中"已使用即将过期的理智药"这类高层提示，不一定等价于底层逐药 OCR 结论；如果 `asst.log` 明确识别到 `3天`、`NotExpiring` 等相反证据，应优先相信 `asst.log`。注意过期天数阈值现为可配置参数 `medicine_expire_days`，不再是固定 48 小时。
 
@@ -366,7 +378,7 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 
 如果 issue 像 `#16014` 一样是 MuMu ADB 连接随机失败，并且同时出现：
 
-- `config/gui.json` 里 `ConnectConfig` 是 `MuMuEmulator12`
+- `config/gui.new.json` 里 `ConnectConfig` 是 `MuMuEmulator12`
 - 地址是 `127.0.0.1:16384`
 - `gui.log` 在复现时段从 `16384` 轮询到 `16576`
 - `asst.log` 里 `adb devices` 返回 `127.0.0.1:16384 offline`
@@ -444,7 +456,7 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 
 - `debug/gui.log`：
 - `debug/asst.log`：
-- `config/gui.json` / `config/gui.new.json`：
+- `config/gui.new.json`：
 - `cache/resource` / `cache/gui`：
 - `debug/interface` / `debug/drops`：
 - 代码依据：如需指向具体实现，直接附远端 GitHub 行号链接
@@ -455,6 +467,14 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 
 - 直接结论：
 - 证据链：
+
+## 诉求评估
+
+- 用户诉求（一句话）：
+- 合理性：合理 / 不合理（写明与哪个设计目标、文档说明或已知约束冲突）
+- 必要性：必要 / 不必要（写明是否已有替代方案、是否仅个人偏好）
+- 优先级：高 / 中 / 低 / 可延后（写明影响面和维护成本）
+- 结论：采纳 / 部分采纳 / 不采纳（不采纳时给出一句话理由）
 
 ## 给用户的建议
 
@@ -503,15 +523,15 @@ Translate the complete conclusion directly into English and paste it here. Note 
 
 ## Reminders
 
-- 如果用户没有贴出日志、报告包、截图、报错文本或导出诊断，不要硬套本 skill 的完整分析模板；优先改用 `maa-cyber-fortune-master/SKILL.md`，先把气氛接住，再把话题引回补证据。
-- 如果是“无有效证据”分支，赛博算卦段落应该放在最开头，并直接结束在“请补证据”；不要再追加长篇的 Issue 摘要、猜测性根因、修复方案或英文翻译。
+- 无有效证据时不要套完整模板，改用赛博算卦并直接收束到"请补证据"（详见 Output Format 分流规则）。
 - 不要只看 `gui.log` 下结论。
 - 不要把 issue 评论或机器人提示当成唯一证据。
 - 不要把当前分支资源直接当成 issue 当时的真实环境；先看报告包里的 `cache/resource`。
 - 日志和截图冲突时，优先相信现场图，再回头解释 OCR / 模板为何误判。
 - 如果问题本身没有在当前日志中复现，要明确写“证据未复现”，不要硬凑结论。
-- 如果 issue 版本很旧，要明确区分“当时的根因”和“当前分支是否已修复”。
-- 如果用户日志与当前代码不一致，先按用户版本 tag 复核；若确认已修，再看修复是否已进入 tag / release：已发版建议升级，未发版建议等待 release。
-- 如果回答里出现任务名、设置项、按钮名、提示文案，优先使用 `src/MaaWpfGui/Res/Localizations/zh-cn.xaml` 的中文文案；必要时才在括号里补原始 key / `taskChain` / 枚举名。
-- 如果回答里引用了具体代码行，直接给远端 GitHub `blob` 行号链接，用尖括号包裹，不要给本地路径加行号。
+- 如果 issue 版本很旧或用户日志与当前代码不一致，先按用户版本 tag 复核，再判断是否已修复（详见 Common Patterns）。
+- 回答中出现任务名、设置项、按钮名、提示文案时，优先使用 `zh-cn.xaml` 的中文文案（详见 Localized Copy）。
+- 引用具体代码行时给远端 GitHub `blob` 行号链接，不给本地路径加行号（详见 Linking Code Evidence）。
 - 如果证据表明问题已在新版本修复，明确建议用户升级；如果怀疑安装包、资源文件或配置损坏，明确建议重新下载或重建；如果判断为真实代码缺陷且暂无 workaround，明确建议等待开发者修复。
+- 对用户诉求做独立评估，不要因为有 issue 就默认认同；判断前先搜同类 issue 看维护者一贯态度；不合理、不必要或低优先级的诉求要诚实写明理由，只有通过三筛的才给修复方案。
+```

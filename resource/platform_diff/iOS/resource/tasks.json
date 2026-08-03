@@ -20,6 +20,9 @@
     "InfrastControlMini": {
         "templThreshold": 0.85
     },
+    "InfrastOfficeMini": {
+        "templThreshold": 0.9
+    },
     "InfrastSmileyOnRest": {
         "templThreshold": 0.7
     },

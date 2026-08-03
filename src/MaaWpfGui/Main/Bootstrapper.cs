@@ -1287,7 +1287,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static bool UpdateConfiguration(string desiredConfig)
     {
         // 配置名可能就包在引号中，需要转义符，如 \"a\"
-        string currentConfig = ConfigurationHelper.GetCurrentConfiguration();
-        return currentConfig != desiredConfig && ConfigurationHelper.SwitchConfiguration(desiredConfig) && ConfigFactory.SwitchConfig(desiredConfig);
+        return ConfigFactory.Root.Current != desiredConfig && ConfigFactory.SwitchConfig(desiredConfig);
     }
 }

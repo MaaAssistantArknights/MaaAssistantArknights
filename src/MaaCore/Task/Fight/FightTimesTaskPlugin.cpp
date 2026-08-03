@@ -374,6 +374,7 @@ bool asst::FightTimesTaskPlugin::select_series_new(int times)
             if (item.times == times) {
                 ctrler()->click(item.rect);
                 sleep(Config.get_options().task_delay);
+                close_series_list();
                 return true;
             }
         }

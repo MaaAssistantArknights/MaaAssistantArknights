@@ -255,6 +255,7 @@
                                                  Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
                 <hc:SplitButton
                     hc:BorderElement.CornerRadius="0,4,4,0"
+                    Click="PresetSplitButton_Click"
                     Content="{DynamicResource DepotPreset}"
                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                  Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
