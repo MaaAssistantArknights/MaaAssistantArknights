@@ -454,6 +454,31 @@
                                 <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
                             </StackPanel>
 
+                            <!--  Auto restart for single and multi copilot  -->
+                            <StackPanel
+                                Margin="2.5,5"
+                                Orientation="Horizontal"
+                                Visibility="{c:Binding 'CopilotTabIndex == 0 or CopilotTabIndex == 3'}">
+                                <CheckBox
+                                    VerticalAlignment="Center"
+                                    Content="{DynamicResource AutoRestart}"
+                                    IsChecked="{Binding AutoRestart}" />
+                                <controls:TextBlock
+                                    Margin="12,0,4,0"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource AutoRestartTimes}" />
+                                <hc:NumericUpDown
+                                    Width="55"
+                                    Height="20"
+                                    VerticalAlignment="Center"
+                                    InputMethod.IsInputMethodEnabled="False"
+                                    IsEnabled="{Binding AutoRestart}"
+                                    Maximum="999"
+                                    Minimum="1"
+                                    Value="{Binding AutoRestartTimes}" />
+                                <controls:TooltipBlock TooltipText="{DynamicResource AutoRestartTip}" />
+                            </StackPanel>
+
                             <!--  UseSanityPotion  -->
                             <CheckBox
                                 Margin="2.5,5"
