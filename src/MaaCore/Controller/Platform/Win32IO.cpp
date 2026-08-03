@@ -224,6 +224,11 @@ std::optional<int> asst::Win32IO::call_command(
                 if (process_running) {
                     TerminateProcess(process_info.hProcess, 0);
                 }
+                // 取消挂起的 pipe 读并同步等待取消完成，避免内核在 OVERLAPPED/缓冲区失效后写入
+                if (!pipe_eof && CancelIoEx(pipe_parent_read, &pipeov)) {
+                    DWORD cancelled_len = 0;
+                    GetOverlappedResult(pipe_parent_read, &pipeov, &cancelled_len, TRUE);
+                }
                 // 处理超时后返回 std::nullopt
                 CloseHandle(pipe_parent_read);
                 CloseHandle(pipeov.hEvent);
@@ -354,7 +359,11 @@ std::optional<int> asst::Win32IO::call_command(
     GetExitCodeProcess(process_info.hProcess, &exit_ret);
     CloseHandle(process_info.hProcess);
     CloseHandle(process_info.hThread);
-    CancelIoEx(pipe_parent_read, &pipeov);
+    // 取消挂起的 pipe 读并同步等待取消完成，避免内核在 OVERLAPPED/缓冲区失效后写入
+    if (!pipe_eof && CancelIoEx(pipe_parent_read, &pipeov)) {
+        DWORD cancelled_len = 0;
+        GetOverlappedResult(pipe_parent_read, &pipeov, &cancelled_len, TRUE);
+    }
     CloseHandle(pipe_parent_read);
     CloseHandle(pipeov.hEvent);
     return static_cast<int>(exit_ret);
