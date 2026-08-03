@@ -443,8 +443,16 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             if (e.PropertyName is not nameof(DepotPlanItemViewModel.IsExpanded) and not nameof(DepotPlanItemViewModel.Title) and not nameof(DepotPlanItemViewModel.Index) && sender is DepotPlanItemViewModel plan)
             {
                 var list = GetTaskConfig<DepotMaintainTask>().PlanList.ToList();
-                list[plan.Index] = new DepotMaintainTask.Plan(plan.Stage, plan.DropId, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId);
-                SetTaskConfig<DepotMaintainTask>(t => t.PlanList.SequenceEqual(list), t => t.PlanList = list);
+                if (plan.Index < 0 || plan.Index >= list.Count)
+                {
+                    _logger.Warning("PlanItem_PropertyChanged: index {Index} out of range (Count={Count}), skip and resync", plan.Index, list.Count);
+                    SyncPlanListToTaskConfig();
+                }
+                else
+                {
+                    list[plan.Index] = new DepotMaintainTask.Plan(plan.Stage, plan.DropId, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId);
+                    SetTaskConfig<DepotMaintainTask>(t => t.PlanList.SequenceEqual(list), t => t.PlanList = list);
+                }
             }
         }
         if (e.PropertyName is nameof(DepotPlanItemViewModel.Title))
