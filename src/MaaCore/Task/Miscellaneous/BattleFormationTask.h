@@ -53,7 +53,7 @@ public:
     // 设置对指定编队自动编队
     void set_select_formation(int index) { m_select_formation_index = index; }
 
-    std::shared_ptr<std::unordered_map<std::string, std::string>> get_opers_in_formation() const
+    std::shared_ptr<std::unordered_map<battle::OperNameTag, std::string>> get_opers_in_formation() const
     {
         return m_opers_in_formation;
     }
@@ -126,8 +126,8 @@ protected:
     std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;      // 作业编队
     std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation_last; // 上次的编队
     // 编队中的干员名称-所属组名, 传递给外部使用, 编入的干员需要存入该表
-    std::shared_ptr<std::unordered_map<std::string, std::string>> m_opers_in_formation =
-        std::make_shared<std::unordered_map<std::string, std::string>>();
+    std::shared_ptr<std::unordered_map<battle::OperNameTag, std::string>> m_opers_in_formation =
+        std::make_shared<std::unordered_map<battle::OperNameTag, std::string>>();
     bool m_add_trust = false;                                   // 是否需要追加信赖干员
     bool m_ignore_requirements = false;                         // 是否跳过未满足的干员属性要求
     std::vector<std::pair<std::string, int>> m_user_additional; // 追加干员表，从头往后加

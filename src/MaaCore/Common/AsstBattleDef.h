@@ -10,6 +10,20 @@
 
 namespace asst::battle
 {
+enum class Role
+{
+    Unknown,
+    Pioneer, // 先锋
+    Warrior, // 近卫
+    Tank,    // 重装
+    Sniper,  // 狙击
+    Caster,  // 术士
+    Medic,   // 医疗
+    Support, // 辅助
+    Special, // 特种
+    Drone    // 无人机
+};
+
 // 统一变量名：
 // loc, location, 表示格子坐标，例如 [1, 1], [5, 5]
 // pos, position, 表示像素坐标，例如 [1280, 720], [500, 300]
@@ -48,8 +62,9 @@ enum class OperStatus
     // Unknown,     // 未知状态
 };
 
-struct OperUsage // 干员用法
+struct OperUsage                                  // 干员用法
 {
+    battle::Role role = battle::Role::Unknown;    // 干员职业
     std::string name;
     int skill = 0;                                // 技能序号，取值范围 [0, 3]，0时使用默认技能 或 上次编队时使用的技能
     SkillUsage skill_usage = SkillUsage::NotUse;
@@ -62,6 +77,8 @@ struct OperUsage // 干员用法
         return name == other.name && skill == other.skill && skill_usage == other.skill_usage &&
                skill_times == other.skill_times && requirements == other.requirements;
     }
+
+    auto operator<=>(const OperUsage&) const = default;
 };
 
 enum class DeployDirection
@@ -71,20 +88,6 @@ enum class DeployDirection
     Left = 2,
     Up = 3,
     None = 4 // 没有方向，通常是无人机之类的
-};
-
-enum class Role
-{
-    Unknown,
-    Pioneer, // 先锋
-    Warrior, // 近卫
-    Tank,    // 重装
-    Sniper,  // 狙击
-    Caster,  // 术士
-    Medic,   // 医疗
-    Support, // 辅助
-    Special, // 特种
-    Drone    // 无人机
 };
 
 inline static Role get_role_type(const std::string& role_name)
@@ -418,7 +421,8 @@ struct Action
     int cost_changes = 0;
     int cooling = 0;
     ActionType type = ActionType::Deploy;
-    std::string name; // 目标名，若 type >= SwitchSpeed, name 为空
+    battle::Role role = battle::Role::Unknown; // 目标职业
+    std::string name;                          // 目标名，若 type >= SwitchSpeed, name 为空
     Point location;
     DeployDirection direction = DeployDirection::Right;
     SkillUsage modify_usage = SkillUsage::NotUse;
@@ -606,3 +610,30 @@ inline std::string enum_to_string(const battle::OperModule module)
     return "Unknown";
 }
 } // namespace asst
+
+namespace asst::battle
+{
+struct OperNameTag
+{
+    Role role = Role::Unknown; // 干员职业
+    std::string name;          // 干员名
+
+    auto operator<=>(const OperNameTag&) const = default;
+
+    std::string to_string() const { return "(" + enum_to_string(role) + ", " + name + ")"; }
+
+    explicit operator std::string() const { return to_string(); }
+};
+}
+
+namespace std
+{
+template <>
+struct hash<asst::battle::OperNameTag>
+{
+    std::size_t operator()(const asst::battle::OperNameTag& k) const noexcept
+    {
+        return std::hash<std::string> {}(k.name) ^ (std::hash<int> {}(static_cast<int>(k.role)) << 1);
+    }
+};
+}
