@@ -116,7 +116,24 @@ std::optional<int> asst::Win32IO::call_command(
     bool socket_eof = false;
 
     OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
-    (void)ReadFile(pipe_parent_read, pipe_buffer.get(), (DWORD)pipe_buffer.size(), nullptr, &pipeov);
+    // 与 PlatformWin32.cpp 的 arm_pipe_read 保持一致：ReadFile 可能同步完成或同步失败，
+    // 必须正确处理三种情况，否则 (void) 忽略返回值后 event 可能永远不会 signal。
+    auto arm_pipe_read = [&]() {
+        if (pipe_eof) {
+            return;
+        }
+        if (ReadFile(pipe_parent_read, pipe_buffer.get(), (DWORD)pipe_buffer.size(), nullptr, &pipeov)) {
+            // 同步完成：手动置位 event，走统一的 GetOverlappedResult 路径
+            SetEvent(pipeov.hEvent);
+            return;
+        }
+        DWORD err = GetLastError();
+        if (err != ERROR_IO_PENDING) {
+            // 典型场景：子进程已退出且写端关闭，ReadFile 同步返回 ERROR_BROKEN_PIPE
+            pipe_eof = true;
+        }
+    };
+    arm_pipe_read();
 
     OVERLAPPED sockov {};
     SOCKET client_socket = INVALID_SOCKET;
@@ -165,8 +182,16 @@ std::optional<int> asst::Win32IO::call_command(
         auto elapsed = steady_clock::now() - start_time;
         // TODO: 这里目前是隔 5000ms 判断一次，应该可以加一个 wait_handle 来判断外部中断（need_exit）
         auto wait_time = (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), 5LL * 1000);
-        if (wait_time < 0 || !process_running) {
+        if (wait_time < 0) {
             wait_time = 0;
+        }
+        // 子进程退出后不能再无限等 pipe：若末次 ReadFile 同步失败且 event 未置位，会卡死。
+        // 给一个短 drain 窗口把残余输出收完即可（对齐 PlatformWin32.cpp 的 kPostExitDrainMs）。
+        if (!process_running) {
+            constexpr int64_t kPostExitDrainMs = 1000;
+            if (wait_time > kPostExitDrainMs) {
+                wait_time = kPostExitDrainMs;
+            }
         }
         auto wait_result =
             WaitForMultipleObjectsEx((DWORD)wait_handles.size(), wait_handles.data(), FALSE, (DWORD)wait_time, TRUE);
@@ -175,6 +200,10 @@ std::optional<int> asst::Win32IO::call_command(
             signaled_object = wait_handles[(size_t)wait_result - WAIT_OBJECT_0];
         }
         else if (wait_result == WAIT_TIMEOUT) {
+            // 进程已退出后的 drain 超时：pipe 数据应已收完（或无法再收），正常返回 exit code
+            if (!process_running) {
+                break;
+            }
             if (wait_time == 0) {
                 std::vector<std::string> handle_string {};
                 for (auto handle : wait_handles) {
@@ -227,7 +256,7 @@ std::optional<int> asst::Win32IO::call_command(
             DWORD len = 0;
             if (GetOverlappedResult(pipe_parent_read, &pipeov, &len, FALSE)) {
                 pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + len);
-                (void)ReadFile(pipe_parent_read, pipe_buffer.get(), (DWORD)pipe_buffer.size(), nullptr, &pipeov);
+                arm_pipe_read();
             }
             else {
                 DWORD err = GetLastError();
