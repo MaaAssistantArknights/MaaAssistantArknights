@@ -1,4 +1,4 @@
-## v6.16.2
+## v6.16.3
 
 ### Highlights
 
@@ -44,6 +44,23 @@ Refactored the depot maintain task UI with global medicine/originium toggles and
 以下是详细内容：
 
 <details open>
+<summary><b>v6.16.3 (2026-08-03)</b></summary>
+
+### 改进 | Improved
+
+* 重构库存保持计划项为独立 ViewModel，按索引同步任务配置 ([#17468](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17468)) @status102
+* 优化库存保持预设按钮：左侧区域可点击展开下拉，并统一 SplitButton 背景样式 @ABA2396
+* 更新进度窗口不再强制置顶，仅在开始更新时前置一次，避免打断全屏游戏或其他操作 ([#17525](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17525)) @ABA2396
+* 统一配置与启动设置下拉列表中的删除按钮样式 @ABA2396
+
+### 修复 | Fix
+
+* 修复刷理智选择代理倍率后未关闭次数列表的问题 @status102
+* 修复 iOS/PlayCover 基建办公室入口模板阈值过高导致识别失败的问题 ([#17527](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17527)) @Rememorio
+
+</details>
+
+<details>
 <summary><b>v6.16.2 (2026-08-02)</b></summary>
 
 ### 新增 | New
