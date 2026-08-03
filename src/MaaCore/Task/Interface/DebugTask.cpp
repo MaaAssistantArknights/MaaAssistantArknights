@@ -29,19 +29,6 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
-    struct RoguelikeOperInfo : battle::OperNameTag
-    {
-        std::vector<int> group_id = {};
-    };
-
-    RoguelikeOperInfo tag1 { { .role = battle::Role::Medic, .name = "阿米娅" } };
-    RoguelikeOperInfo tag2 { { .role = battle::Role::Medic, .name = "阿米娅" } };
-    RoguelikeOperInfo tag3 { { .role = battle::Role::Caster, .name = "阿米娅" } };
-
-
-    LogInfo << "tag1 == tag2: " << (tag1 == tag2);
-    LogInfo << "tag1 == tag3: " << (tag1 == tag3);
-
     return true;
 }
 

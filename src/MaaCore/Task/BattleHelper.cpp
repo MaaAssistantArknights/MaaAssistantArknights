@@ -583,7 +583,7 @@ bool asst::BattleHelper::retreat_oper(battle::Role role, const std::string& name
         return false;
     }
 
-    m_battlefield_opers.erase({ role, name });
+    m_battlefield_opers.erase(oper_iter);
     return true;
 }
 
