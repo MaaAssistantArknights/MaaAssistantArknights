@@ -46,10 +46,7 @@ struct OperatorRequirements
     int module = -1;      // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
                           // int potentiality = -1; // 潜能要求
 
-    bool operator==(const OperatorRequirements& req) const
-    {
-        return elite == req.elite && level == req.level && skill_level == req.skill_level && module == req.module;
-    }
+    auto operator<=>(const OperatorRequirements&) const = default;
 };
 
 // 干员编队状态
@@ -72,13 +69,11 @@ struct OperUsage                                  // 干员用法
     battle::OperatorRequirements requirements {}; // 练度需求
     OperStatus status = OperStatus::Unchecked;    // 编队状态, 可能有其他更好的位置存储
 
-    bool operator==(const OperUsage& other) const
+    auto operator<=>(const OperUsage& other) const
     {
-        return name == other.name && skill == other.skill && skill_usage == other.skill_usage &&
-               skill_times == other.skill_times && requirements == other.requirements;
+        return std::tie(role, name, skill, skill_usage, skill_times, requirements) <=>
+               std::tie(other.role, other.name, other.skill, other.skill_usage, other.skill_times, other.requirements);
     }
-
-    auto operator<=>(const OperUsage&) const = default;
 };
 
 enum class DeployDirection
