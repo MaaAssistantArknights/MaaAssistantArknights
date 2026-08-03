@@ -255,12 +255,21 @@ std::optional<int> asst::Win32IO::call_command(
             // pipe read
             DWORD len = 0;
             if (GetOverlappedResult(pipe_parent_read, &pipeov, &len, FALSE)) {
-                pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + len);
-                arm_pipe_read();
+                if (len == 0) {
+                    pipe_eof = true;
+                }
+                else {
+                    pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + len);
+                    arm_pipe_read();
+                }
             }
             else {
                 DWORD err = GetLastError();
-                if (err == ERROR_HANDLE_EOF || err == ERROR_BROKEN_PIPE) {
+                if (err == ERROR_HANDLE_EOF || err == ERROR_BROKEN_PIPE || err == ERROR_OPERATION_ABORTED) {
+                    pipe_eof = true;
+                }
+                else {
+                    Log.error(__FUNCTION__, "GetOverlappedResult failed", err);
                     pipe_eof = true;
                 }
             }
@@ -345,6 +354,7 @@ std::optional<int> asst::Win32IO::call_command(
     GetExitCodeProcess(process_info.hProcess, &exit_ret);
     CloseHandle(process_info.hProcess);
     CloseHandle(process_info.hThread);
+    CancelIoEx(pipe_parent_read, &pipeov);
     CloseHandle(pipe_parent_read);
     CloseHandle(pipeov.hEvent);
     return static_cast<int>(exit_ret);
