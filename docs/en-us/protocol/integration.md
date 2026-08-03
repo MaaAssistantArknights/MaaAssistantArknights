@@ -1177,6 +1177,18 @@ Each object contains:
   @optional
   Whether to use sanity potions when sanity is insufficient.  
   :::  
+  ::: field auto_restart  
+  @type boolean
+  @default false
+  @optional
+  Whether to restart the current stage after detecting an enemy leak or battle failure. Available in both single-job and multi-job modes; a leaked battle is abandoned before settlement.  
+  :::  
+  ::: field auto_restart_times  
+  @type number
+  @default 3
+  @optional
+  Maximum number of automatic restarts allowed for each execution, from 1 to 999. Effective only when `auto_restart` is `true`.  
+  :::  
   ::: field formation  
   @type boolean
   @default false
