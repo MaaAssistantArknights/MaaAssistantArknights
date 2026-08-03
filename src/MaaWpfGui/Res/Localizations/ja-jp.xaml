@@ -2168,6 +2168,11 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="BadModules.ResetSuccess">ハードウェアレンダリングモードに戻しました。変更を適用するには MAA を再起動する必要があります。今すぐ再起動しますか？</system:String>
     <!--  !BadModules  -->
 
+    <!--  InjectionGuard  -->
+    <system:String x:Key="InjectionGuard.Warning.Heading">DLL 注入を検出</system:String>
+    <system:String x:Key="InjectionGuard.Warning.Text" xml:space="preserve">MAA は以下の DLL がプロセスに注入されたことを検出し、レンダリング異常やクラッシュを防ぐために自動アンロードを試みました：&#x0a;{0}&#x0a;&#x0a;この警告が繰り返し表示される場合は、関連ソフトウェアのゲーム内オーバーレイ（OSD）機能を無効にするか、サービス管理で関連サービス（例：NahimicService）を無効にしてください。無効にしないと MAA が正常に動作しない可能性があります。</system:String>
+    <!--  !InjectionGuard  -->
+
     <!--  ItemSelection  -->
     <system:String x:Key="SelectItem">項目を選択</system:String>
     <system:String x:Key="SelectEmulatorPath">エミュレータのパスを選択</system:String>

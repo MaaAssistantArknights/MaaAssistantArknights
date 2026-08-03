@@ -2168,6 +2168,11 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="BadModules.ResetSuccess">하드웨어 렌더링 모드로 복원되었습니다. 변경 사항을 적용하려면 MAA를 다시 시작해야 합니다. 지금 다시 시작하시겠습니까?</system:String>
     <!--  !BadModules  -->
 
+    <!--  InjectionGuard  -->
+    <system:String x:Key="InjectionGuard.Warning.Heading">DLL 주입 감지됨</system:String>
+    <system:String x:Key="InjectionGuard.Warning.Text" xml:space="preserve">MAA가 다음 DLL이 프로세스에 주입되었음을 감지하여 렌더링 오류나 충돌을 방지하기 위해 자동으로 언로드를 시도했습니다:&#x0a;{0}&#x0a;&#x0a;이 경고가 계속 나타나면 관련 소프트웨어의 게임 내 오버레이(OSD) 기능을 끄거나 서비스 관리자에서 관련 서비스(예: NahimicService)를 비활성화하세요. 그렇지 않으면 MAA가 정상적으로 실행되지 않을 수 있습니다.</system:String>
+    <!--  !InjectionGuard  -->
+
     <!--  ItemSelection  -->
     <system:String x:Key="SelectItem">항목 선택</system:String>
     <system:String x:Key="SelectEmulatorPath">에뮬레이터 경로 선택</system:String>
