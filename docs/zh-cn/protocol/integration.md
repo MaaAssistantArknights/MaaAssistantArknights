@@ -1177,6 +1177,18 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
   @optional
   是否允许在剩余理智不足时使用理智药。  
   :::  
+  ::: field auto_restart  
+  @type boolean
+  @default false
+  @optional
+  是否在战斗中检测到漏怪或战斗失败时自动重开当前关卡。单一作业和多作业模式均可使用；漏怪时会在结算前主动退出战斗。  
+  :::  
+  ::: field auto_restart_times  
+  @type number
+  @default 3
+  @optional
+  每次作业执行允许自动重开的最大次数，取值范围为 1 至 999。仅在 `auto_restart` 为 `true` 时有效。  
+  :::  
   ::: field formation  
   @type boolean
   @default false

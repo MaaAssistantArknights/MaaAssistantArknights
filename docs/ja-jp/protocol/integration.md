@@ -1177,6 +1177,18 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   @optional
   理智が不足した場合に理智薬を使用するかどうか。  
   :::  
+  ::: field auto_restart  
+  @type boolean
+  @default false
+  @optional
+  敵を通した場合、または戦闘に失敗した場合に現在のステージを自動で再開するかどうか。単一作業とマルチジョブの両方で使用でき、敵を通した場合はリザルト前に戦闘を中止します。  
+  :::  
+  ::: field auto_restart_times  
+  @type number
+  @default 3
+  @optional
+  1 回の作業実行で許可する自動再開の最大回数（1～999）。`auto_restart` が `true` の場合のみ有効。  
+  :::  
   ::: field formation  
   @type boolean
   @default false

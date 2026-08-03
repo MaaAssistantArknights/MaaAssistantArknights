@@ -42,4 +42,8 @@ public partial class Copilot : NotifyPropertyChangedWithValue
     public int SelectFormation { get; set; } = 1;
 
     public int LoopTimes { get; set; } = 1;
+
+    public bool AutoRestart { get; set; } = false;
+
+    public int AutoRestartTimes { get; set; } = 3;
 }

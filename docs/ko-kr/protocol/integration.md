@@ -1162,6 +1162,18 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
   @optional
   이성 부족 시 이성 회복제 사용 허용 여부  
   :::  
+  ::: field auto_restart  
+  @type boolean
+  @default false
+  @optional
+  전투 중 적을 놓치거나 전투에 실패하면 현재 스테이지를 자동으로 다시 시작할지 여부. 단일 작업과 다중 작업 모드에서 모두 사용할 수 있으며, 적을 놓친 경우 정산 전에 전투를 포기합니다.  
+  :::  
+  ::: field auto_restart_times  
+  @type number
+  @default 3
+  @optional
+  작업 실행 1회당 허용할 자동 재시작 최대 횟수(1~999). `auto_restart`가 `true`일 때만 유효  
+  :::  
   ::: field formation  
   @type boolean
   @default false
