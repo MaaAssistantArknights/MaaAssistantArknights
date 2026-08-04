@@ -41,10 +41,11 @@ public static class ResourceUpdater
     {
         ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdating"));
 
-        const string GithubZipFile = "MaaResourceGithub.zip";
-        const string ExtractFolder = "MaaResourceGithub";
+        const string GithubZipFileName = "MaaResourceGithub.zip";
+        string githubZipFile = Path.Combine(PathsHelper.BaseDir, GithubZipFileName);
+        string extractFolder = Path.Combine(PathsHelper.BaseDir, "MaaResourceGithub");
 
-        if (!await DownloadFullPackageAsync(MaaUrls.GithubResourceUpdate, GithubZipFile, true).ConfigureAwait(false))
+        if (!await DownloadFullPackageAsync(MaaUrls.GithubResourceUpdate, githubZipFile, true).ConfigureAwait(false))
         {
             Fail();
             return false;
@@ -52,13 +53,13 @@ public static class ResourceUpdater
 
         OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("GameResourceUpdatePreparing"));
 
-        if (!ExtractAndMergeResourcePackage(GithubZipFile, ExtractFolder))
+        if (!ExtractAndMergeResourcePackage(githubZipFile, extractFolder))
         {
             Fail();
             return false;
         }
 
-        SafeDeleteFile(GithubZipFile);
+        SafeDeleteFile(githubZipFile);
 
         SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Empty;
         OutputDownloadProgress(
@@ -416,15 +417,13 @@ public static class ResourceUpdater
     }
 
     /// <summary>
-    /// 检测压缩包是否为资源更新包（包含 resource/version.json），并尝试读取其版本时间戳。
-    /// </summary>
-    /// <remarks>
+    /// 检测压缩包是否为资源更新包，并尝试读取其版本时间戳。
     /// 只认 <c>MaaResource-main/resource/version.json</c> 这一层固定前缀结构，
     /// 避免误匹配完整包根目录的 <c>resource/version.json</c> 或 global 子目录中的同名文件。
-    /// </remarks>
+    /// </summary>
     /// <param name="packagePath">压缩包路径。</param>
     /// <param name="versionDateTime">包内资源版本时间戳（last_updated），无法读取则为 MinValue。</param>
-    /// <returns>包含 resource/version.json 则返回 true。</returns>
+    /// <returns>匹配 <c>MaaResource-main/resource/version.json</c> 则返回 true。</returns>
     public static bool IsResourcePackage(string packagePath, out DateTimeOffset versionDateTime)
     {
         versionDateTime = DateTimeOffset.MinValue;
@@ -452,11 +451,15 @@ public static class ResourceUpdater
     /// 导入本地资源更新包。校验版本（小于等于本地则拒绝）、解压合并到 resource 目录并重载。
     /// </summary>
     /// <param name="packagePath">压缩包路径。</param>
+    /// <param name="packageDateTime">由 <see cref="IsResourcePackage"/> 预检测得到的时间戳，避免重复扫描 zip。</param>
     /// <returns>导入结果状态。</returns>
-    public static async Task<LocalResourcePackageImportStatus> ImportLocalResourcePackageAsync(string packagePath)
+    public static async Task<LocalResourcePackageImportStatus> ImportLocalResourcePackageAsync(
+        string packagePath,
+        DateTimeOffset packageDateTime)
     {
         if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
         {
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
             return LocalResourcePackageImportStatus.Failed;
         }
 
@@ -464,18 +467,6 @@ public static class ResourceUpdater
         try
         {
             var localDateTime = SettingsViewModel.VersionUpdateSettings.ResourceDateTime;
-
-            // 读取 zip 内的版本信息（后台线程，避免阻塞 UI）
-            var (isResource, packageDateTime) = await Task.Run(() =>
-            {
-                bool result = IsResourcePackage(packagePath, out var dt);
-                return (result, dt);
-            }).ConfigureAwait(false);
-
-            if (!isResource)
-            {
-                return LocalResourcePackageImportStatus.NotResourcePackage;
-            }
 
             // 版本校验：包内版本小于等于本地版本则拒绝（不执行解压）
             if (packageDateTime != DateTimeOffset.MinValue && packageDateTime <= localDateTime)
@@ -496,9 +487,9 @@ public static class ResourceUpdater
             ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdating"));
 
             // 解压 + 合并到本地 resource 目录（后台线程）
-            const string ExtractFolder = "MaaResourceImport";
+            string extractFolder = Path.Combine(PathsHelper.BaseDir, "MaaResourceImport");
             bool extractSuccess = await Task.Run(() =>
-                ExtractAndMergeResourcePackage(packagePath, ExtractFolder)).ConfigureAwait(false);
+                ExtractAndMergeResourcePackage(packagePath, extractFolder)).ConfigureAwait(false);
 
             if (!extractSuccess)
             {
@@ -507,9 +498,6 @@ public static class ResourceUpdater
             }
 
             SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Empty;
-
-            // 重载资源（内部会显示更新完成提示）
-            await ResourceReloadWhenIdleAsync();
             return LocalResourcePackageImportStatus.Imported;
         }
         finally
@@ -519,11 +507,31 @@ public static class ResourceUpdater
     }
 
     /// <summary>
+    /// 导入本地资源更新包并重载资源。重载采用 fire-and-forget，避免长时间占用 <see cref="VersionUpdateSettings.IsCheckingForUpdates"/>。
+    /// </summary>
+    /// <param name="packagePath">压缩包路径。</param>
+    /// <param name="packageDateTime">由 <see cref="IsResourcePackage"/> 预检测得到的时间戳。</param>
+    /// <returns>导入结果状态（重载是否完成不包含在内）。</returns>
+    public static async Task<LocalResourcePackageImportStatus> ImportLocalResourcePackageAndReloadAsync(
+        string packagePath,
+        DateTimeOffset packageDateTime)
+    {
+        var status = await ImportLocalResourcePackageAsync(packagePath, packageDateTime).ConfigureAwait(false);
+        if (status == LocalResourcePackageImportStatus.Imported)
+        {
+            // 先释放 IsCheckingForUpdates，再异步重载（可能等待任务队列空闲，耗时较长）
+            _ = ResourceReloadWhenIdleAsync();
+        }
+
+        return status;
+    }
+
+    /// <summary>
     /// 解压资源包并合并到本地 resource 目录（GitHub / MirrorChyan / 拖入导入共用）。
-    /// 支持 resource/ 在根目录或子目录（如 MaaResource-main/resource/）两种结构。
+    /// 包内须含 <c>MaaResource-main/resource/</c> 目录。
     /// </summary>
     /// <param name="zipPath">压缩包路径。</param>
-    /// <param name="extractFolder">临时解压目录。</param>
+    /// <param name="extractFolder">临时解压目录（应为绝对路径）。</param>
     /// <returns>成功返回 true。</returns>
     private static bool ExtractAndMergeResourcePackage(string zipPath, string extractFolder)
     {
@@ -544,7 +552,7 @@ public static class ResourceUpdater
             return false;
         }
 
-        // 查找 resource 目录（根目录 resource/ 或子目录 XXX/resource/）
+        // 查找 resource 目录（固定 MaaResource-main/resource/）
         string? resourceDir = FindResourceDirectory(extractFolder);
         if (resourceDir == null)
         {

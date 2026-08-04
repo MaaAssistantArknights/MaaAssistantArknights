@@ -128,11 +128,6 @@ internal static partial class PendingUpdateApplier
         return updateTag != string.Empty && updatePackageName != string.Empty && File.Exists(updatePackageName);
     }
 
-    public static LocalPackageImportResult TryRegisterLocalPackage(string packagePath, string currentVersion, string architecture)
-    {
-        return TryRegisterLocalPackage(packagePath, currentVersion, architecture, null);
-    }
-
     public static LocalPackageImportResult TryRegisterLocalPackage(
         string packagePath,
         string currentVersion,

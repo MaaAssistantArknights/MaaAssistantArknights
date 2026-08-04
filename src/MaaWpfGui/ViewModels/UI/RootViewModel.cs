@@ -343,10 +343,10 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         // 不是版本更新包文件名模式时，尝试作为资源更新包导入（需读取 zip entry，开销较高）
         if (!packageInspection.MatchedPattern)
         {
-            if (ResourceUpdater.IsResourcePackage(packagePath, out _))
+            if (ResourceUpdater.IsResourcePackage(packagePath, out var resourceDateTime))
             {
                 _logger.Information("Dropped package detected as resource package: {PackagePath}", packagePath);
-                _ = ResourceUpdater.ImportLocalResourcePackageAsync(packagePath);
+                _ = ResourceUpdater.ImportLocalResourcePackageAndReloadAsync(packagePath, resourceDateTime);
                 return;
             }
 
