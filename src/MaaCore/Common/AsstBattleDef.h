@@ -74,6 +74,12 @@ struct OperUsage                                  // 干员用法
         return std::tie(role, name, skill, skill_usage, skill_times, requirements) <=>
                std::tie(other.role, other.name, other.skill, other.skill_usage, other.skill_times, other.requirements);
     }
+
+    bool operator==(const OperUsage& other) const
+    {
+        return std::tie(role, name, skill, skill_usage, skill_times, requirements) ==
+               std::tie(other.role, other.name, other.skill, other.skill_usage, other.skill_times, other.requirements);
+    }
 };
 
 enum class DeployDirection
