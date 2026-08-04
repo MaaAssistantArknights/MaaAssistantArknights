@@ -1,4 +1,4 @@
-## v6.16.3
+## v6.16.4
 
 ### Highlights
 
@@ -44,6 +44,17 @@ Refactored the depot maintain task UI with global medicine/originium toggles and
 以下是详细内容：
 
 <details open>
+<summary><b>v6.16.4 (2026-08-04)</b></summary>
+
+### 修复 | Fix
+
+* 修复 Win32IO 竞争条件导致的 `am start` 误判失败，并修正超时路径的异步 I/O 取消与资源释放 ([#17545](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17545)) @ABA2396
+* 修复 SplitButton 在亮色模式下显示异常 @ABA2396
+* YostarJP fix TA (SS) activity OCR mismatch causing wrong activity navigation @Jason's-Miku
+
+</details>
+
+<details>
 <summary><b>v6.16.3 (2026-08-03)</b></summary>
 
 ### 改进 | Improved
