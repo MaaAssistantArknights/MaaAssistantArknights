@@ -34,7 +34,7 @@
             ],
             "settings": {
                 // Color theme
-                "workbench.colorTheme": "Default Dark Modern",
+                "workbench.colorTheme": "Dark Modern",
 
                 // Editor formatting
                 "editor.formatOnSave": true,
