@@ -1014,23 +1014,31 @@ public class TaskQueueViewModel : Screen
         {
             var canceled = false;
             var delay = TimeSpan.FromSeconds(seconds);
-            var dialogUserControl = new Views.Dialogs.TextWithTimerDialogView(
-                content,
-                tipContent,
-                buttonContent,
-                delay.TotalMilliseconds);
-            var dialog = HandyControl.Controls.Dialog.Show(dialogUserControl, nameof(Views.UI.RootView));
-            var tcs = new TaskCompletionSource<bool>();
-            dialogUserControl.Click += (_, _) => {
-                canceled = true;
+            RunningState.Instance.SetCountingDown(true);
+            try
+            {
+                var dialogUserControl = new Views.Dialogs.TextWithTimerDialogView(
+                    content,
+                    tipContent,
+                    buttonContent,
+                    delay.TotalMilliseconds);
+                var dialog = HandyControl.Controls.Dialog.Show(dialogUserControl, nameof(Views.UI.RootView));
+                var tcs = new TaskCompletionSource<bool>();
+                dialogUserControl.Click += (_, _) => {
+                    canceled = true;
+                    dialog.Close();
+                    tcs.TrySetResult(true);
+                };
+                _logger.Information("Timer wait time: {Seconds}", seconds);
+                await Task.WhenAny(Task.Delay(delay), tcs.Task);
                 dialog.Close();
-                tcs.TrySetResult(true);
-            };
-            _logger.Information("Timer wait time: {Seconds}", seconds);
-            await Task.WhenAny(Task.Delay(delay), tcs.Task);
-            dialog.Close();
-            _logger.Information("Timer canceled: {Canceled}", canceled);
-            return canceled;
+                _logger.Information("Timer canceled: {Canceled}", canceled);
+                return canceled;
+            }
+            finally
+            {
+                RunningState.Instance.SetCountingDown(false);
+            }
         }
     }
 

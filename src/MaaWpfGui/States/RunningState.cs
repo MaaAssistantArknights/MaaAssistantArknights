@@ -227,6 +227,32 @@ public class RunningState
         Idle = idle;
     }
 
+    private volatile bool _countingDown;
+
+    /// <summary>
+    /// 设置是否正在进行倒计时（关机/休眠/启动等）。
+    /// 倒计时期间不属于真正的空闲，UntilIdleAsync 会持续等待。
+    /// </summary>
+    /// <param name="value">是否正在倒计时</param>
+    /// <param name="caller">调用方名称</param>
+    public void SetCountingDown(bool value, [CallerMemberName] string caller = "")
+    {
+        if (_countingDown == value)
+        {
+            return;
+        }
+
+        _logger.Information("CountingDown: {Old} to {New} (called from {Caller})", _countingDown, value, caller);
+        _countingDown = value;
+    }
+
+    /// <summary>
+    /// 空闲且没在倒计时。
+    /// 倒计时（关机/休眠/启动自动运行等）期间不属于可安全操作的状态。
+    /// </summary>
+    /// <returns>空闲且没在倒计时返回 <see langword="true"/>，否则返回 <see langword="false"/>。</returns>
+    public bool GetIdleAndNotCountingDown() => _idle && !_countingDown;
+
     private bool _inited;
 
     public bool Inited
@@ -291,7 +317,7 @@ public class RunningState
     {
         while (true)
         {
-            while (!GetIdle())
+            while (!GetIdleAndNotCountingDown())
             {
                 await Task.Delay(time);
             }
@@ -301,7 +327,7 @@ public class RunningState
             {
                 await Task.Delay(confirmInterval);
 
-                if (GetIdle())
+                if (GetIdleAndNotCountingDown())
                 {
                     confirmed++;
                 }
