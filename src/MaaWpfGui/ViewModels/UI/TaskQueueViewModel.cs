@@ -468,7 +468,7 @@ public class TaskQueueViewModel : Screen
     /// <returns>Task</returns>
     public async Task CheckAfterCompleted()
     {
-        RunningState.Instance.EnterCountingDown();
+        RunningState.Instance.LockInterrupt();
         try
         {
             await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
@@ -548,7 +548,7 @@ public class TaskQueueViewModel : Screen
         }
         finally
         {
-            RunningState.Instance.LeaveCountingDown();
+            RunningState.Instance.UnlockInterrupt();
         }
 
         return;
@@ -1023,7 +1023,7 @@ public class TaskQueueViewModel : Screen
         {
             var canceled = false;
             var delay = TimeSpan.FromSeconds(seconds);
-            RunningState.Instance.EnterCountingDown();
+            RunningState.Instance.LockInterrupt();
             try
             {
                 var dialogUserControl = new Views.Dialogs.TextWithTimerDialogView(
@@ -1046,7 +1046,7 @@ public class TaskQueueViewModel : Screen
             }
             finally
             {
-                RunningState.Instance.LeaveCountingDown();
+                RunningState.Instance.UnlockInterrupt();
             }
         }
     }

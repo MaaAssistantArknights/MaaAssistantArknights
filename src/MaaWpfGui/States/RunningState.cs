@@ -223,7 +223,7 @@ public class RunningState
     /// <summary>
     /// 是否空闲（仅反映任务运行状态）。
     /// 仅供 UI 绑定和按钮状态使用。需要判断"是否可以安全执行打断性操作"（如自动更新重启）时，
-    /// 应使用 <see cref="CanInterrupt"/>，它会额外排除倒计时等情况。
+    /// 应使用 <see cref="CanInterrupt"/>，它会额外排除中断锁定（结束后脚本、倒计时等）的情况。
     /// </summary>
     /// <returns>当前是否空闲。</returns>
     public bool GetIdle() => Idle;
@@ -234,51 +234,51 @@ public class RunningState
         Idle = idle;
     }
 
-    // 引用计数：CheckAfterCompleted 外层和 TimerCanceledAsync 内层各自 Enter/Leave，
-    // 只有当计数归零时才真正清除倒计时状态，避免嵌套 try-finally 提前清零的竞态。
-    private int _countingDownDepth;
+    // 引用计数：CheckAfterCompleted 外层和 TimerCanceledAsync 内层各自 Lock/Unlock，
+    // 只有当计数归零时才真正解除锁定，避免嵌套 try-finally 提前解锁的竞态。
+    private int _interruptLockDepth;
 
     /// <summary>
-    /// 进入倒计时状态（引用计数 +1）。
-    /// 倒计时（关机/休眠/启动自动运行等）期间，<see cref="CanInterrupt"/> 返回 false，
-    /// <see cref="UntilIdleAsync"/> 会持续等待。
+    /// 锁定中断（引用计数 +1）。
+    /// 锁定期间（关机/休眠倒计时、结束后脚本、退出游戏、杀模拟器等），
+    /// <see cref="CanInterrupt"/> 返回 false，<see cref="UntilIdleAsync"/> 会持续等待。
     /// </summary>
     /// <param name="caller">调用方名称。</param>
-    public void EnterCountingDown([CallerMemberName] string caller = "")
+    public void LockInterrupt([CallerMemberName] string caller = "")
     {
-        var newValue = Interlocked.Increment(ref _countingDownDepth);
-        _logger.Information("CountingDown enter: depth={Depth} (called from {Caller})", newValue, caller);
+        var newValue = Interlocked.Increment(ref _interruptLockDepth);
+        _logger.Information("InterruptLock: depth={Depth} (called from {Caller})", newValue, caller);
     }
 
     /// <summary>
-    /// 离开倒计时状态（引用计数 -1，不小于 0）。
+    /// 解除锁定（引用计数 -1，不小于 0）。
     /// </summary>
     /// <param name="caller">调用方名称。</param>
-    public void LeaveCountingDown([CallerMemberName] string caller = "")
+    public void UnlockInterrupt([CallerMemberName] string caller = "")
     {
-        var newValue = Interlocked.Decrement(ref _countingDownDepth);
+        var newValue = Interlocked.Decrement(ref _interruptLockDepth);
         if (newValue < 0)
         {
-            _logger.Warning("CountingDown leave: depth underflow, clamping to 0 (called from {Caller})", caller);
-            newValue = Interlocked.Exchange(ref _countingDownDepth, 0);
+            _logger.Warning("InterruptLock unlock: depth underflow, clamping to 0 (called from {Caller})", caller);
+            newValue = Interlocked.Exchange(ref _interruptLockDepth, 0);
         }
         else
         {
-            _logger.Information("CountingDown leave: depth={Depth} (called from {Caller})", newValue, caller);
+            _logger.Information("InterruptLock: depth={Depth} (called from {Caller})", newValue, caller);
         }
     }
 
     /// <summary>
-    /// 当前是否正处于倒计时状态。
+    /// 当前中断是否被锁定。
     /// </summary>
-    public bool GetCountingDown() => Volatile.Read(ref _countingDownDepth) > 0;
+    public bool IsInterruptLocked() => Volatile.Read(ref _interruptLockDepth) > 0;
 
     /// <summary>
-    /// 当前是否可以安全打断（空闲且没在倒计时）。
-    /// 倒计时（关机/休眠/启动自动运行等）期间不属于可安全打断的状态。
+    /// 当前是否可以安全打断（空闲且中断未锁定）。
+    /// 中断锁定期间（关机/休眠倒计时、结束后脚本、退出游戏、杀模拟器等）不属于可安全打断的状态。
     /// </summary>
-    /// <returns>空闲且没在倒计时返回 <see langword="true"/>，否则返回 <see langword="false"/>。</returns>
-    public bool CanInterrupt() => GetIdle() && !GetCountingDown();
+    /// <returns>空闲且中断未锁定返回 <see langword="true"/>，否则返回 <see langword="false"/>。</returns>
+    public bool CanInterrupt() => GetIdle() && !IsInterruptLocked();
 
     private bool _inited;
 
