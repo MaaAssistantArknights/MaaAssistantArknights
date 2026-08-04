@@ -1,0 +1,853 @@
+{
+    "BlackFlowTemporary@Begin": {
+        "doc": "入口任务：根据当前界面选择从 <开始探索>、<选择支援>、首次主题说明、地图行动力或 <驻足于> 开始",
+        "algorithm": "JustReturn",
+        "next": [
+            "BlackFlowTemporary@StartExplore",
+            "BlackFlowTemporary@ChooseSupport",
+            "BlackFlowTemporary@GiveUpRecruitConfirm",
+            "BlackFlowTemporary@GiveUpSniperRecruitConfirm",
+            "BlackFlowTemporary@CloseThemeTutorial",
+            "BlackFlowTemporary@ActionPoint",
+            "BlackFlowTemporary@StopAt"
+        ]
+    },
+    "BlackFlowTemporary@StartExplore": {
+        "doc": "识别 <开始探索> 并点击，进入肉鸽流程；点击后将 WaitForExploreRestart 的剩余次数重置回 10",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "开始探索"
+        ],
+        "roi": [
+            1000,
+            560,
+            200,
+            100
+        ],
+        "reduceOtherTimes": [
+            "BlackFlowTemporary@WaitForExploreRestart*20"
+        ],
+        "next": [
+            "BlackFlowTemporary@SpecialMissionVideo",
+            "BlackFlowTemporary@ChooseSpecialSquad",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@SpecialMissionVideo": {
+        "doc": "识别 <特勤任务影像> 弹窗，存在则点击 [640,655] 关闭",
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "text": [
+            "特勤任务影像"
+        ],
+        "roi": [
+            560,
+            300,
+            170,
+            50
+        ],
+        "specificRect": [
+            640,
+            655,
+            1,
+            1
+        ],
+        "postDelay": 500,
+        "next": [
+            "BlackFlowTemporary@ChooseSpecialSquad",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@ChooseSpecialSquad": {
+        "doc": "识别 <特勤分队> 并点击，进入特勤选择界面；未出现确认弹窗则重复点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "特勤分队"
+        ],
+        "roi": [
+            0,
+            385,
+            1280,
+            110
+        ],
+        "next": [
+            "BlackFlowTemporary@ChooseSpecialSquad-Confirm",
+            "BlackFlowTemporary@ChooseSupport",
+            "#self",
+            "BlackFlowTemporary@ChooseStrategy",
+            "BlackFlowTemporary@ChooseRecruitVoucher",
+            "BlackFlowTemporary@ChooseMechanic"
+        ]
+    },
+    "BlackFlowTemporary@ChooseSpecialSquad-Confirm": {
+        "doc": "识别 <你确定要这么做> 确认弹窗并点击；如果网络卡顿可能存在二次点击触发分队的选择界面，而且两个确认按钮是相同的，扩大识别范围并回到识别上一步骤",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "你确定要这么做"
+        ],
+        "roi": [
+            380,
+            535,
+            150,
+            30
+        ],
+        "postDelay": 1000,
+        "next": [
+            "BlackFlowTemporary@ChooseSupport",
+            "BlackFlowTemporary@ChooseStrategy",
+            "BlackFlowTemporary@ChooseSpecialSquad",
+            "BlackFlowTemporary@ChooseRecruitVoucher",
+            "BlackFlowTemporary@ChooseMechanic"
+        ]
+    },
+    "BlackFlowTemporary@ChooseSupport": {
+        "doc": "识别全部随机开局支援：6 种行动奖励与 6 种襁褓生灵；先进入择优选择分支，不依赖固定卡片",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "未编号物",
+            "调查预付款",
+            "空间租赁",
+            "退行补偿",
+            "林间代步",
+            "巢寄生",
+            "襁褓天马",
+            "襁褓骏鹰",
+            "襁褓巨龙",
+            "襁褓九头蛇",
+            "襁褓白泽",
+            "襁褓金乌"
+        ],
+        "roi": [
+            180,
+            300,
+            940,
+            270
+        ],
+        "next": [
+            "BlackFlowTemporary@ChooseSupport-Prepayment",
+            "BlackFlowTemporary@ChooseSupport-Safe",
+            "BlackFlowTemporary@ChooseSupport-Fallback"
+        ]
+    },
+    "BlackFlowTemporary@ChooseSupport-Prepayment": {
+        "doc": "刷钱优先：若出现 <调查预付款>，优先选择以获得 8 源石锭",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "调查预付款"
+        ],
+        "roi": [
+            180,
+            300,
+            940,
+            270
+        ],
+        "postDelay": 500,
+        "next": [
+            "BlackFlowTemporary@ChooseSupport-Confirm-Prepayment"
+        ]
+    },
+    "BlackFlowTemporary@ChooseSupport-Safe": {
+        "doc": "未出现调查预付款时，从不消耗源石锭的随机支援中任选可识别项",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "未编号物",
+            "林间代步",
+            "退行补偿",
+            "巢寄生",
+            "襁褓天马",
+            "襁褓骏鹰",
+            "襁褓巨龙",
+            "襁褓白泽",
+            "襁褓金乌"
+        ],
+        "roi": [
+            180,
+            300,
+            940,
+            270
+        ],
+        "postDelay": 500,
+        "next": [
+            "BlackFlowTemporary@ChooseSupport-Confirm-Safe"
+        ]
+    },
+    "BlackFlowTemporary@ChooseSupport-Fallback": {
+        "doc": "仅在没有更优选项时兜底选择空间租赁或襁褓九头蛇",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "空间租赁",
+            "襁褓九头蛇"
+        ],
+        "roi": [
+            180,
+            300,
+            940,
+            270
+        ],
+        "postDelay": 500,
+        "next": [
+            "BlackFlowTemporary@ChooseSupport-Confirm-Fallback"
+        ]
+    },
+    "BlackFlowTemporary@ChooseSupport-Confirm-Prepayment": {
+        "doc": "再次点击已选中的 <调查预付款> 以确认",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "调查预付款"
+        ],
+        "roi": [
+            180,
+            300,
+            940,
+            270
+        ],
+        "postDelay": 1000,
+        "next": [
+            "BlackFlowTemporary@ChooseSupport",
+            "BlackFlowTemporary@ChooseStrategy",
+            "BlackFlowTemporary@ChooseSpecialSquad",
+            "BlackFlowTemporary@ChooseRecruitVoucher",
+            "BlackFlowTemporary@ChooseMechanic"
+        ]
+    },
+    "BlackFlowTemporary@ChooseSupport-Confirm-Safe": {
+        "doc": "再次点击已选中的非源石锭消耗支援以确认",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "未编号物",
+            "林间代步",
+            "退行补偿",
+            "巢寄生",
+            "襁褓天马",
+            "襁褓骏鹰",
+            "襁褓巨龙",
+            "襁褓白泽",
+            "襁褓金乌"
+        ],
+        "roi": [
+            180,
+            300,
+            940,
+            270
+        ],
+        "postDelay": 1000,
+        "next": [
+            "BlackFlowTemporary@ChooseSupport",
+            "BlackFlowTemporary@ChooseStrategy",
+            "BlackFlowTemporary@ChooseSpecialSquad",
+            "BlackFlowTemporary@ChooseRecruitVoucher",
+            "BlackFlowTemporary@ChooseMechanic"
+        ]
+    },
+    "BlackFlowTemporary@ChooseSupport-Confirm-Fallback": {
+        "doc": "再次点击已选中的兜底支援以确认",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "空间租赁",
+            "襁褓九头蛇"
+        ],
+        "roi": [
+            180,
+            300,
+            940,
+            270
+        ],
+        "postDelay": 1000,
+        "next": [
+            "BlackFlowTemporary@ChooseSupport",
+            "BlackFlowTemporary@ChooseStrategy",
+            "BlackFlowTemporary@ChooseSpecialSquad",
+            "BlackFlowTemporary@ChooseRecruitVoucher",
+            "BlackFlowTemporary@ChooseMechanic"
+        ]
+    },
+    "BlackFlowTemporary@ChooseStrategy": {
+        "doc": "识别 <稳扎稳打> 并点击；未出现确认弹窗则重复点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "稳扎稳打"
+        ],
+        "roi": [
+            0,
+            385,
+            1280,
+            110
+        ],
+        "next": [
+            "BlackFlowTemporary@ChooseStrategy-Confirm",
+            "#self",
+            "BlackFlowTemporary@ChooseRecruitVoucher",
+            "BlackFlowTemporary@ChooseMechanic"
+        ]
+    },
+    "BlackFlowTemporary@ChooseStrategy-Confirm": {
+        "doc": "识别 <你确定要这么做> 确认弹窗并点击；同理，如果网络卡顿可能直接点进招募券，但重装的位置刚好在这里，因为该模式为临时使用所以不考虑后续兼容",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "你确定要这么做"
+        ],
+        "roi": [
+            380,
+            535,
+            150,
+            30
+        ],
+        "postDelay": 1000,
+        "next": [
+            "BlackFlowTemporary@ChooseRecruitVoucher",
+            "BlackFlowTemporary@ChooseStrategy",
+            "BlackFlowTemporary@ChooseMechanic"
+        ]
+    },
+    "BlackFlowTemporary@ChooseRecruitVoucher": {
+        "doc": "识别 <重装招募券> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "重装招募券"
+        ],
+        "roi": [
+            270,
+            300,
+            160,
+            50
+        ],
+        "next": [
+            "BlackFlowTemporary@ChooseMechanic",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@ChooseMechanic": {
+        "doc": "识别 <机械师> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "机械师"
+        ],
+        "roi": [
+            610,
+            0,
+            80,
+            720
+        ],
+        "next": [
+            "BlackFlowTemporary@ConfirmRecruit",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@ConfirmRecruit": {
+        "doc": "识别 <确认招募> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "确认招募"
+        ],
+        "roi": [
+            1080,
+            650,
+            150,
+            50
+        ],
+        "next": [
+            "#self",
+            "BlackFlowTemporary@WaitInitialRecruit"
+        ]
+    },
+    "BlackFlowTemporary@WaitInitialRecruit": {
+        "doc": "持续点击 [670,40]，直到识别到 <初始招募>",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            670,
+            40,
+            1,
+            1
+        ],
+        "next": [
+            "BlackFlowTemporary@InitialRecruit",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@InitialRecruit": {
+        "doc": "识别到 <初始招募> 即结束本步",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "初始招募"
+        ],
+        "roi": [
+            610,
+            0,
+            120,
+            60
+        ],
+        "next": [
+            "BlackFlowTemporary@ChooseCasterVoucher",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@ChooseCasterVoucher": {
+        "doc": "识别 <术师招募券> 并点击（范围同重装招募券）",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "术师招募券"
+        ],
+        "roi": [
+            570,
+            300,
+            160,
+            50
+        ],
+        "next": [
+            "BlackFlowTemporary@GiveUpRecruit",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@GiveUpRecruit": {
+        "doc": "识别 <放弃> 并点击，放弃本次招募",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "放弃"
+        ],
+        "roi": [
+            930,
+            650,
+            80,
+            50
+        ],
+        "next": [
+            "BlackFlowTemporary@GiveUpRecruitConfirm",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@GiveUpRecruitConfirm": {
+        "doc": "模板匹配放弃招募确认弹窗并点击",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
+        "roi": [
+            613,
+            410,
+            424,
+            171
+        ],
+        "next": [
+            "BlackFlowTemporary@ChooseSniperVoucher",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@ChooseSniperVoucher": {
+        "doc": "识别 <狙击招募券> 并点击（范围同重装招募券），之后直接放弃",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "狙击招募券"
+        ],
+        "roi": [
+            850,
+            300,
+            160,
+            50
+        ],
+        "next": [
+            "BlackFlowTemporary@GiveUpSniperRecruit",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@GiveUpSniperRecruit": {
+        "doc": "识别 <放弃> 并点击，放弃本次招募",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "放弃"
+        ],
+        "roi": [
+            930,
+            650,
+            80,
+            50
+        ],
+        "next": [
+            "BlackFlowTemporary@GiveUpSniperRecruitConfirm",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@GiveUpSniperRecruitConfirm": {
+        "doc": "模板匹配放弃招募确认弹窗并点击",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
+        "roi": [
+            613,
+            410,
+            424,
+            171
+        ],
+        "next": [
+            "BlackFlowTemporary@ChooseTreeSea",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@ChooseTreeSea": {
+        "doc": "识别 <沉沦于树海> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "沉沦于树海"
+        ],
+        "roi": [
+            1060,
+            395,
+            160,
+            55
+        ],
+        "postDelay": 5000,
+        "next": [
+            "BlackFlowTemporary@CloseThemeTutorial",
+            "BlackFlowTemporary@ActionPoint",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@CloseThemeTutorial": {
+        "doc": "首次进入沉沦于树海时会弹出主题说明；识别 <关闭> 后点击左上角 X",
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "text": [
+            "关闭"
+        ],
+        "roi": [
+            90,
+            70,
+            150,
+            100
+        ],
+        "specificRect": [
+            123,
+            108,
+            1,
+            1
+        ],
+        "postDelay": 800,
+        "next": [
+            "BlackFlowTemporary@ActionPoint"
+        ]
+    },
+    "BlackFlowTemporary@ActionPoint": {
+        "doc": "识别 <行动力> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "行动力",
+            "行动",
+            "动力"
+        ],
+        "roi": [
+            1125,
+            70,
+            60,
+            40
+        ],
+        "next": [
+            "BlackFlowTemporary@StructuralPrinciple",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@StructuralPrinciple": {
+        "doc": "识别 <结构性原理> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "结构性原理"
+        ],
+        "roi": [
+            1130,
+            200,
+            125,
+            500
+        ],
+        "next": [
+            "BlackFlowTemporary@BolivarSkin",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@BolivarSkin": {
+        "doc": "识别 <玻利瓦尔肤层> 并点击，等 1s；若未出现 <未知的诡秘> 则直接放弃本次探索",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "玻利",
+            "瓦尔",
+            "肤层"
+        ],
+        "roi": [
+            555,
+            0,
+            250,
+            35
+        ],
+        "postDelay": 1000,
+        "next": [
+            "BlackFlowTemporary@UnknownMystery",
+            "BlackFlowTemporary@ExitThenAbandon"
+        ]
+    },
+    "BlackFlowTemporary@UnknownMystery": {
+        "doc": "识别 <未知的诡秘> 并点击；若未出现 <出发前往> 则直接放弃本次探索",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "未知的诡秘"
+        ],
+        "roi": [
+            888,
+            380,
+            200,
+            45
+        ],
+        "postDelay": 1000,
+        "next": [
+            "BlackFlowTemporary@DepartFor",
+            "BlackFlowTemporary@ExitThenAbandon"
+        ]
+    },
+    "BlackFlowTemporary@DepartFor": {
+        "doc": "识别 <出发前往> 并点击；若点击后未出现 <投资系统> 则直接放弃本次探索",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "出发前往"
+        ],
+        "roi": [
+            1140,
+            520,
+            120,
+            55
+        ],
+        "postDelay": 2000,
+        "next": [
+            "BlackFlowTemporary@InvestSystem",
+            "BlackFlowTemporary@ExitThenAbandon"
+        ]
+    },
+    "BlackFlowTemporary@InvestSystem": {
+        "doc": "识别 <投资系统> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "投资",
+            "系统"
+        ],
+        "roi": [
+            420,
+            170,
+            170,
+            40
+        ],
+        "next": [
+            "BlackFlowTemporary@InvestEntry",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@InvestEntry": {
+        "doc": "识别 <投资入口> 并点击",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "投资入口"
+        ],
+        "roi": [
+            470,
+            280,
+            140,
+            60
+        ],
+        "next": [
+            "BlackFlowTemporary@InvestConfirmLoop",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@InvestConfirmLoop": {
+        "doc": "识别 <确认投资> 并点击；同位置出现 <源石锭不足> 或出现 <投资受限> 均结束循环，若出现 <已达上限> 则结束任务",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "确认投资"
+        ],
+        "roi": [
+            920,
+            460,
+            145,
+            55
+        ],
+        "next": [
+            "BlackFlowTemporary@InvestLimited",
+            "BlackFlowTemporary@InvestShortMoney",
+            "BlackFlowTemporary@InvestMax",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@InvestShortMoney": {
+        "doc": "识别到 <源石锭不足>，结束投资循环并放弃本次探索",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "源石锭不足"
+        ],
+        "roi": [
+            920,
+            460,
+            145,
+            55
+        ],
+        "next": [
+            "BlackFlowTemporary@ExitThenAbandon",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@InvestLimited": {
+        "doc": "识别到 <投资受限> 即结束循环",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "投资受限"
+        ],
+        "roi": [
+            700,
+            280,
+            160,
+            50
+        ],
+        "next": [
+            "BlackFlowTemporary@ExitThenAbandon",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@InvestMax": {
+        "doc": "识别到 <已达上限> 即结束任务",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "已达上限"
+        ],
+        "roi": [
+            1150,
+            95,
+            120,
+            45
+        ],
+        "next": [
+            "Stop"
+        ]
+    },
+    "BlackFlowTemporary@ExitThenAbandon": {
+        "doc": "模板匹配退出按钮并点击",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "Roguelike@ExitThenAbandon.png",
+        "roi": [
+            0,
+            0,
+            90,
+            90
+        ],
+        "next": [
+            "BlackFlowTemporary@StopAt",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@StopAt": {
+        "doc": "识别到 <驻足于>，点击 [1140,325] 进入放弃确认",
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "text": [
+            "驻足于"
+        ],
+        "roi": [
+            1010,
+            420,
+            90,
+            40
+        ],
+        "specificRect": [
+            1140,
+            325,
+            1,
+            1
+        ],
+        "next": [
+            "BlackFlowTemporary@AbandonConfirm",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@AbandonConfirm": {
+        "doc": "模板匹配放弃确认按钮并点击",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "Roguelike@AbandonConfirm.png",
+        "roi": [
+            0,
+            0,
+            1280,
+            720
+        ],
+        "next": [
+            "#self",
+            "BlackFlowTemporary@WaitForExploreRestart"
+        ]
+    },
+    "BlackFlowTemporary@WaitForExploreRestart": {
+        "doc": "放弃后持续点击 [600,610] 最多 10 次，直到识别到 <开始探索> 回到入口；若出现 <正在初始化> 则进入循环等待；超过 10 次仍未回到入口则强制放弃",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            600,
+            610,
+            1,
+            1
+        ],
+        "postDelay": 1500,
+        "maxTimes": 10,
+        "exceededNext": [
+            "Stop"
+        ],
+        "next": [
+            "BlackFlowTemporary@StartExplore",
+            "BlackFlowTemporary@WaitInitializing",
+            "#self"
+        ]
+    },
+    "BlackFlowTemporary@WaitInitializing": {
+        "doc": "识别到 <正在初始化>，等待 1s 后继续",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "正在初始化"
+        ],
+        "roi": [
+            1075,
+            590,
+            120,
+            45
+        ],
+        "postDelay": 1000,
+        "next": [
+            "#self",
+            "BlackFlowTemporary@StartExplore",
+            "BlackFlowTemporary@WaitForExploreRestart"
+        ]
+    }
+}
