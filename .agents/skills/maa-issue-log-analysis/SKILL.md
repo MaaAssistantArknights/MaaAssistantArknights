@@ -130,8 +130,8 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 - 常见文件：
  - `config/gui.new.json`（主）
  - `config/gui.new.json.bak`（每次启动自动备份）
- - `config/gui.json.old`（迁移前的旧配置备份，仅迁移时产生一次）
  - `config/gui.new.json.err`（解析失败时保存的损坏配置）
+ - `config/gui.json.old`（旧系统迁移前的配置备份，仅迁移时产生一次；issue 用户版本较旧时才需要看）
 - 最适合看：
  - 实际连接配置
  - 模拟器路径、ADB 地址、是否开启截图增强
@@ -272,6 +272,7 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 
  - issue 用户通常会带一个隐含或明确的期望："应该支持 X""应该改成 Y"。分析完根因后，对这个期望本身单独评估，不要因为它写在 issue 里就当成既定需求。
  - 判断前先搜索仓库中是否有相关 / 重复 issue：用 GitHub Issue Search 按关键词、标题或描述搜同类诉求。如果有类似 issue，先看维护者的回复和最终状态（已关闭 / 已实现 / 已拒绝 / Won't fix / 标签），再结合本次日志和代码做独立判断。不要直接复述旧 issue 的结论，但维护者对同类诉求的一贯态度是重要参考。
+ - 先区分"表面诉求"和"根本需求"：issue 用户经常提的是"解决方案"（应该加 X 功能、应该改成 Y 行为），而不是需求本身。先从现象和上下文还原用户的根本需求（用户到底想达成什么目的），再对根本需求做下面的三筛。例如用户说"希望能支持多开"，但根本需求可能是"想同时挂两个账号"——而 MAA 设计上只针对单账号，多开超出范围；这种情况下根本需求本身就不合理，不需要进一步判断。再例如用户说"希望能自定义基建换班的干员排列顺序"，但根本需求可能是"想优先让某些干员上班"——而现有的自定义基建换班（`resource/custom_infrast/`）已经能实现，属于已有替代方案，必要性低。
  - 三道筛：
      1. **合理性**：该诉求是否符合 MAA 的设计目标和定位？是否与已有功能、文档说明或已知约束冲突？如果它实质上是在要求 MAA 做它本来就不打算做的事（例如多开、多账号、PC 实验性功能全量维护、违背游戏机制的操作），直接标记为超出范围或不合理。
      2. **必要性**：这个诉求对应的是真实缺陷，还是只是个人偏好 / 边缘场景 / 可以用现有功能绕过的？如果不实现也不会影响正确性和核心流程，必要性低。
@@ -284,23 +285,7 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 
 ## Common Patterns
 
-- `gui.log` 只显示“连接失败”，但 `asst.log` 里已经给出 `adb devices`、`adb connect`、端口轮询和 `ConnectionInfo`。连接类问题必须以 `asst.log` 为准。
-- `adb devices` 显示目标地址 `offline`，随后 MuMu 备选端口都 `10061`，通常更像模拟器 / ADB 状态异常，或自动探测到的端口不可达，而不是任务逻辑问题。
-- `gui.log` 显示选中的关卡是 `15-13-hard` 一类 hard 代码，而 `asst.log` 长时间卡在 `ChapterDifficultyHard`，OCR 却反复识别到和按钮无关的文字，通常说明当前画面没有进入预期的难度切换界面。
-- `asst.log` 明确写了 `Save image` 到 `debug/interface/*.png` 或 `debug/drops/*.png`，但上传包没有相应分卷时，要把“缺失的现场证据”单独写出来。
-- `part02` 可以是空包，也可以只包含图片；不要因为没有文本日志就把它判成“无用分卷”。
-- issue 机器人评论“日志没有上传成功”时，不要自动当真；先验证正文附件是否仍可下载。
-- 如果 `gui.log` 说“任务出错”，但对应 `taskid` 的 `asst.log` 实际 `AllTasksCompleted`，要明确写“本次日志未复现用户描述的问题”。
-- 对会客室 / 线索 issue，如果 `asst.log` 里出现 `InfrastClueQuickInsert`、`remove_clue`、`SendClues` 或 `InfrastClueQuickSendDuplicates`，先对照资源任务判断这是不是当前设计流程，不要只看线索板中途是否为空。
-- 如果线索流程里出现“取下线索 -> 赠送重复线索 -> 条件满足后统一放置”，默认先按 by design 处理；只有当日志显示本应统一放置却没有发生时，再继续追实现问题。
-- 用户日志里的任务流程与当前主线代码明显不一致，且当前代码看起来已经修掉了该问题：
-
-    - 先确认用户版本，必要时切到对应 tag（例如 `git checkout vXXX`）核对旧逻辑。
-    - 不要用当前分支否定旧日志；旧版本问题可能真实存在。
-    - 如果主线已修复，再看修复 commit 是否已进入 tag / release：已发版建议升级，未发版建议等待 release。
-- `gui.new.json` 和实际日志不一致时，不要急着判"用户配置写错了"；先看 `gui.new.json.bak`，尤其是用户复现后又改回开关的场景。
-- 在 `ConnectConfig=PC` 的 issue 里，`Win32Controller::click` 正常返回不代表点击真的生效；要看点击后的下一帧中，按钮状态、数量 OCR、场景识别有没有变化。
-- `gui.log` 中"已使用即将过期的理智药"这类高层提示，不一定等价于底层逐药 OCR 结论；如果 `asst.log` 明确识别到 `3天`、`NotExpiring` 等相反证据，应优先相信 `asst.log`。注意过期天数阈值现为可配置参数 `medicine_expire_days`，不再是固定 48 小时。
+> 本节的具体误判陷阱已迁移至 `KNOWLEDGE.md` 的 `Common Pitfalls` 节，分析时直接查阅。
 
 ## Correlating With Code
 
@@ -356,7 +341,7 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
     - 任务开始 / 完成 / 出错等 GUI 日志前缀：优先查 `StartTask`、`CompleteTask`、`TaskError`、`ConnectFailed`、`TryToReconnect` 等 key。
     - 设置项、按钮、界面提示：先在对应 `*.xaml` / `*.cs` 里找 `DynamicResource SomeKey` 或 `LocalizationHelper.GetString("SomeKey")`，再到 `src/MaaWpfGui/Res/Localizations/zh-cn.xaml` 查中文。
     - issue 反馈相关入口：优先查 `Issue`、`GenerateSupportPayload`、`OpenDebugFolder` 等 key。
-- 如果 `config/gui*.json` 里任务有用户自定义 `Name`，输出时优先保留用户自定义名称；必要时再括号补默认任务类型中文，例如 `刷理智（理智作战 / Fight）`。
+- 如果 `config/gui.new.json` 里任务有用户自定义 `Name`，输出时优先保留用户自定义名称；必要时再括号补默认任务类型中文，例如 `刷理智（理智作战 / Fight）`。
 - 输出时优先写中文，必要时在括号里补原始 key / `taskChain` / 枚举名，例如 `基建换班（Infrast）`。
 - 如果 `src/MaaWpfGui/Res/Localizations/zh-cn.xaml` 没有对应 key，再退回原始 key 或代码里的英文字符串，并明确说明“未在 `src/MaaWpfGui/Res/Localizations/zh-cn.xaml` 找到对应文案”。
 
@@ -470,7 +455,8 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 
 ## 诉求评估
 
-- 用户诉求（一句话）：
+- 用户表面诉求（一句话）：
+- 根本需求（用户真正想达成什么）：
 - 合理性：合理 / 不合理（写明与哪个设计目标、文档说明或已知约束冲突）
 - 必要性：必要 / 不必要（写明是否已有替代方案、是否仅个人偏好）
 - 优先级：高 / 中 / 低 / 可延后（写明影响面和维护成本）

@@ -5,6 +5,8 @@
         BasedOn="{StaticResource SplitButtonBaseStyle}"
         TargetType="{x:Type hc:SplitButton}">
         <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
     </Style>
 
     <Style BasedOn="{StaticResource MaaSplitButtonDefaultStyle}" TargetType="{x:Type hc:SplitButton}" />
