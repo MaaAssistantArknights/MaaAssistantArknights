@@ -1135,6 +1135,12 @@
         "templThreshold": 0.9,
         "maskRange": [1, 255]
     },
+    "FightSeries-Close": {
+        "baseTask": "FightSeries-Icon",
+        "template": "FightSeries-Icon.png",
+        "action": "ClickSelf",
+        "next": ["FightSeries-CloseList"]
+    },
     "FightSeries-List-Multiply": {
         "Doc": "连战次数列表每个选项的乘号, rectMove到次数, 灰度低于150为碎石才能打",
         "action": "ClickRect",
@@ -1142,12 +1148,6 @@
         "rectMove": [25, 10, 20, 25],
         "specificRect": [0, 0, 55, 40],
         "specialParams": [150]
-    },
-    "FightSeries-Close": {
-        "baseTask": "FightSeries-Icon",
-        "template": "FightSeries-Icon.png",
-        "action": "ClickSelf",
-        "next": ["FightSeries-CloseList"]
     },
     "StartButton1": {
         "ocrReplace": [["行重動", "行動"]],
