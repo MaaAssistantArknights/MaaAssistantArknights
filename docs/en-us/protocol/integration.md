@@ -751,6 +751,12 @@ Each object contains:
   ::: field name="use_sanity_potion" type="boolean" optional default="false"  
   Whether to use sanity potions when sanity is insufficient.  
   :::  
+  ::: field name="auto_restart" type="boolean" optional default="false"  
+  In Multi-Job mode, restart the current stage when an enemy leak is detected during battle or the battle fails. A leaked battle is abandoned before settlement.  
+  :::  
+  ::: field name="auto_restart_times" type="number" optional default="3"  
+  Maximum number of automatic restarts allowed for each job, from 1 to 999. Effective only when `auto_restart` is `true`.  
+  :::  
   ::: field name="formation" type="boolean" optional default="false"  
   Whether to enable auto formation.  
   :::  

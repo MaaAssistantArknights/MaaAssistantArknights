@@ -68,6 +68,16 @@ public class AsstCopilotTask : AsstBaseTask
     public bool UseSanityPotion { get; set; }
 
     /// <summary>
+    /// 获取或设置是否在多作业模式下，漏怪或战斗失败后重开当前作业。
+    /// </summary>
+    public bool AutoRestart { get; set; }
+
+    /// <summary>
+    /// 获取或设置多作业模式下每个作业允许的最大自动重开次数。
+    /// </summary>
+    public int AutoRestartTimes { get; set; } = 3;
+
+    /// <summary>
     /// Gets or sets 自定干员列表
     /// </summary>
     public List<UserAdditional>? UserAdditionals { get; set; }
@@ -87,6 +97,8 @@ public class AsstCopilotTask : AsstBaseTask
             ["ignore_requirements"] = IgnoreRequirements,
             ["loop_times"] = LoopTimes,
             ["use_sanity_potion"] = UseSanityPotion,
+            ["auto_restart"] = AutoRestart,
+            ["auto_restart_times"] = AutoRestartTimes,
         };
 
         if (!string.IsNullOrEmpty(FileName) && MultiTasks.Count > 0)

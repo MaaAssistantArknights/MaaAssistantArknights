@@ -1138,6 +1138,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UserAdditional.Add">新增</system:String>
     <system:String x:Key="CopilotList">作業列表</system:String>
     <system:String x:Key="UseCopilotList">多作業模式</system:String>
+    <system:String x:Key="AutoRestart">自動重開</system:String>
+    <system:String x:Key="AutoRestartTimes">最大重開次數</system:String>
+    <system:String x:Key="AutoRestartTip" xml:space="preserve">漏怪後會在結算前退出，避免以非三星結果結算。&#10;最大重開次數可設定為 1 至 999。</system:String>
+    <system:String x:Key="CopilotAutoRestartEnabledLog">自動重開已啟用：共 {0} 個作業，每個作業最多重開 {1} 次</system:String>
+    <system:String x:Key="CopilotAutoRestartReasonEnemyLeak">漏怪</system:String>
+    <system:String x:Key="CopilotAutoRestartReasonBattleFailed">戰鬥失敗</system:String>
+    <system:String x:Key="CopilotAutoRestartLog">作業 {0}/{1}：偵測到{2}，正在自動重開目前關卡（{3}/{4}）</system:String>
+    <system:String x:Key="CopilotAutoRestartRecoveredLog">作業 {0}/{1}：自動重開成功，已恢復執行</system:String>
+    <system:String x:Key="CopilotAutoRestartLimitLog">作業 {0}/{1}：因持續{2}達到自動重開上限（{3}/{4}），已停止目前任務</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">僅支援以下模式：
   1. {key=MainStage}：同一章節內導航
   2. {key=SideStory}：目前頁面內導航（普通/EX/S 不能互跳）

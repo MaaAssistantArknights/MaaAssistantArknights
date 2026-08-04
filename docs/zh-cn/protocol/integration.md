@@ -751,6 +751,12 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
   ::: field name="use_sanity_potion" type="boolean" optional default="false"  
   是否允许在剩余理智不足时使用理智药。  
   :::  
+  ::: field name="auto_restart" type="boolean" optional default="false"  
+  多作业模式下，是否在战斗中检测到漏怪或战斗失败时重开当前关卡。漏怪时会在结算前退出战斗。  
+  :::  
+  ::: field name="auto_restart_times" type="number" optional default="3"  
+  每个作业允许自动重开的最大次数，可设置为 1 至 999。仅在 `auto_restart` 为 `true` 时有效。  
+  :::  
   ::: field name="formation" type="boolean" optional default="false"  
   是否进行自动编队。  
   :::  

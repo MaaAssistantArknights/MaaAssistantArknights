@@ -52,13 +52,16 @@ bool asst::BattleProcessTask::_run()
     for (size_t i = 0; i < action_size && !need_exit() && m_in_battle; ++i) {
         const auto& action = get_combat_data().actions.at(i);
         do_action(action, i);
+        if (m_has_leaked) {
+            break;
+        }
     }
 
-    if (need_to_wait_until_end()) {
+    if (need_to_wait_until_end() && !m_has_leaked) {
         wait_until_end();
     }
 
-    return true;
+    return !m_has_leaked;
 }
 
 void asst::BattleProcessTask::clear()
@@ -67,6 +70,41 @@ void asst::BattleProcessTask::clear()
 
     m_oper_in_group.clear();
     m_in_bullet_time = false;
+    m_has_leaked = false;
+}
+
+bool asst::BattleProcessTask::do_strategic_action(const cv::Mat& reusable)
+{
+    // 等待作业时机或条件期间会反复执行策略动作，在此识别可避免因下一条脚本动作较晚而漏掉漏怪事件。
+    if (m_abort_on_leak && check_and_abandon_on_leak(reusable)) {
+        return true;
+    }
+    return BattleHelper::do_strategic_action(reusable);
+}
+
+bool asst::BattleProcessTask::check_and_abandon_on_leak(const cv::Mat& image)
+{
+    if (m_has_leaked) {
+        return true;
+    }
+
+    BattlefieldMatcher analyzer(image);
+    if (!analyzer.leak_flag_analyze()) {
+        return false;
+    }
+
+    // 放弃战斗成功前不能把本次尝试标记为可重开，否则下一次尝试可能在上一场战斗尚未退出时启动。
+    Log.warn("Enemy leak detected, abandoning the battle before settlement");
+
+    if (check_pause_button(image)) {
+        pause();
+    }
+    if (!abandon()) {
+        Log.error("Failed to abandon the battle after detecting an enemy leak");
+        return false;
+    }
+    m_has_leaked = true;
+    return true;
 }
 
 bool asst::BattleProcessTask::set_stage_name(const std::string& stage_name)
@@ -197,6 +235,10 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 {
     LogTraceFunction;
 
+    if (m_abort_on_leak && check_and_abandon_on_leak(ctrler()->get_image())) {
+        return false;
+    }
+
     notify_action(action);
 
     thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
@@ -217,6 +259,9 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     if (action.pre_delay > 0) {
         sleep_and_do_strategy(action.pre_delay);
+        if (m_has_leaked) {
+            return false;
+        }
         if (action.type == ActionType::Deploy) {
             update_deployment(); // 等待之后画面可能会变化, 更新下干员信息, 但若为非部署动作, 则无需更新
         }

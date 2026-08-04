@@ -56,6 +56,9 @@ public:
     void set_image_prev(const cv::Mat& image);
     ResultOpt analyze() const;
 
+    // 匹配敌人进入保护目标后出现的红色战场生命值标记（漏怪标记）。
+    bool leak_flag_analyze() const;
+
 protected:
     bool hp_flag_analyze() const;
     bool kills_flag_analyze() const;

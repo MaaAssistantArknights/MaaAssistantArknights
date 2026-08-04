@@ -17,7 +17,7 @@
 bool asst::MultiCopilotTaskPlugin::_run()
 {
     LogTraceFunction;
-    if (m_copilot_configs.size() < (size_t)m_index_current) {
+    if (m_copilot_configs.size() <= static_cast<size_t>(m_index_current)) {
         LogError << __FUNCTION__ << "configs size:" << m_copilot_configs.size() << ", current index:" << m_index_current
                  << ", out of range";
         return false;
@@ -226,4 +226,3 @@ bool asst::MultiCopilotTaskPlugin::confirm_stage_name(const cv::Mat& image, cons
     LogError << __FUNCTION__ << "confirm stage name failed after retrying 3 times, stage name:" << stage_name;
     return false;
 }
-
