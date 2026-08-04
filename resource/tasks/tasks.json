@@ -1297,8 +1297,8 @@
         "next": ["FightSeries-Close"]
     },
     "FightSeries-Close": {
-        "baseTask": "FightSeries-Icon",
-        "template": "FightSeries-Icon.png",
+        "baseTask": "FightSeries-Opened",
+        "template": "FightSeries-Indicator.png",
         "action": "ClickSelf",
         "next": ["FightSeries-CloseList"]
     },

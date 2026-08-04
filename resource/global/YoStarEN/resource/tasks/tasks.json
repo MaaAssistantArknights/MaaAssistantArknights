@@ -1164,6 +1164,12 @@
         "specificRect": [0, 0, 55, 40],
         "specialParams": [150]
     },
+    "FightSeries-Close": {
+        "baseTask": "FightSeries-Icon",
+        "template": "FightSeries-Icon.png",
+        "action": "ClickSelf",
+        "next": ["FightSeries-CloseList"]
+    },
     "StartButton1": {
         "text": ["Start"]
     },

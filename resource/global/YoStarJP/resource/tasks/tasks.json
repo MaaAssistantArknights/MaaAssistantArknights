@@ -1143,6 +1143,12 @@
         "specificRect": [0, 0, 55, 40],
         "specialParams": [150]
     },
+    "FightSeries-Close": {
+        "baseTask": "FightSeries-Icon",
+        "template": "FightSeries-Icon.png",
+        "action": "ClickSelf",
+        "next": ["FightSeries-CloseList"]
+    },
     "StartButton1": {
         "ocrReplace": [["行重動", "行動"]],
         "text": ["行動開始", "作戦開始", "推論開始"]

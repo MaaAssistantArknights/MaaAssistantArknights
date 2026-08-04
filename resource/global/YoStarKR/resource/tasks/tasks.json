@@ -1223,6 +1223,12 @@
         "specificRect": [0, 0, 55, 40],
         "specialParams": [150]
     },
+    "FightSeries-Close": {
+        "baseTask": "FightSeries-Icon",
+        "template": "FightSeries-Icon.png",
+        "action": "ClickSelf",
+        "next": ["FightSeries-CloseList"]
+    },
     "StartButton1": {
         "ocrReplace": [["개.+", "개시"]],
         "text": ["작전개시"]

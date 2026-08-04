@@ -917,6 +917,12 @@
         "specificRect": [0, 0, 55, 40],
         "specialParams": [150]
     },
+    "FightSeries-Close": {
+        "baseTask": "FightSeries-Icon",
+        "template": "FightSeries-Icon.png",
+        "action": "ClickSelf",
+        "next": ["FightSeries-CloseList"]
+    },
     "StartButton1": {
         "text": ["開始行動", "開始作戰", "開始推演"]
     },
