@@ -89,9 +89,16 @@ internal static partial class PendingUpdateApplier
 
     public enum FullPackageInspectionStatus
     {
+        /// <summary>文件不存在。</summary>
         MissingFile,
+
+        /// <summary>文件名不匹配完整包命名模式（也不是 OTA 包）。</summary>
         NotMatched,
+
+        /// <summary>文件名匹配完整包模式，但架构或版本升级方向不符合要求。</summary>
         Rejected,
+
+        /// <summary>文件名匹配且架构、版本方向均符合要求。</summary>
         Supported,
     }
 

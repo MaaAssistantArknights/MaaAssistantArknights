@@ -27,11 +27,13 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Serilog;
 using Stylet;
+using Point = System.Windows.Point;
 
 namespace MaaWpfGui.ViewModels.UI;
 
@@ -328,8 +330,29 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         PendingUpdateApplier.FullPackageInspectionResult fullPackageInspection =
             PendingUpdateApplier.InspectSupportedLocalFullPackage(packagePath, currentVersion, architecture);
 
-        if (fullPackageInspection.IsSupported
-            && !Dialogs.VersionUpdateDialogViewModel.ConfirmFullPackageUpdate(packagePath))
+        // 不是版本更新包文件名模式时，尝试作为资源更新包导入（需读取 zip entry，开销较高）
+        if (!fullPackageInspection.MatchedPattern)
+        {
+            if (ResourceUpdater.IsResourcePackage(packagePath, out _))
+            {
+                _logger.Information("Dropped package detected as resource package: {PackagePath}", packagePath);
+                _ = ResourceUpdater.ImportLocalResourcePackageAsync(packagePath);
+                return;
+            }
+
+            ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
+            return;
+        }
+
+        // 版本更新包模式匹配，但架构或版本方向被拒
+        if (!fullPackageInspection.IsSupported)
+        {
+            ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
+            return;
+        }
+
+        // 完整包：用户二次确认
+        if (!Dialogs.VersionUpdateDialogViewModel.ConfirmFullPackageUpdate(packagePath))
         {
             _logger.Information("Dropped full package import canceled by user before registration: {PackagePath}", packagePath);
             return;
@@ -346,36 +369,39 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             importResult.SourceVersion,
             importResult.TargetVersion);
 
-        switch (importResult.Status)
+        if (importResult.Status
+            is PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered
+            or PendingUpdateApplier.LocalPackageImportStatus.FullPackageRegistered)
         {
-            case PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered:
-            case PendingUpdateApplier.LocalPackageImportStatus.FullPackageRegistered:
-                string targetVersion = importResult.TargetVersion ?? string.Empty;
-                bool preserveExistingUpdateInfo = PendingUpdateApplier.ShouldPreserveExistingUpdateBody(targetVersion);
-                Instances.VersionUpdateDialogViewModel.UpdateTag = targetVersion;
-                if (!preserveExistingUpdateInfo)
-                {
-                    Instances.VersionUpdateDialogViewModel.UpdateInfo = string.Empty;
-                }
+            string targetVersion = importResult.TargetVersion ?? string.Empty;
+            bool preserveExistingUpdateInfo = PendingUpdateApplier.ShouldPreserveExistingUpdateBody(targetVersion);
+            Instances.VersionUpdateDialogViewModel.UpdateTag = targetVersion;
+            if (!preserveExistingUpdateInfo)
+            {
+                Instances.VersionUpdateDialogViewModel.UpdateInfo = string.Empty;
+            }
 
-                Instances.VersionUpdateDialogViewModel.UpdatePackageName = packagePath;
-                _logger.Information(
-                    "Showing restart prompt for imported update package: {PackagePath}, status={Status}",
-                    packagePath,
-                    importResult.Status);
-                _ = Instances.VersionUpdateDialogViewModel.AskToRestartForImportedPackage();
-                return;
-
-            default:
-                _logger.Warning("Showing unsupported package warning for dropped package: {PackagePath}", packagePath);
-                MessageBoxHelper.Show(
-                    LocalizationHelper.GetStringFormat("LocalUpdatePackageUnsupported", Path.GetFileName(packagePath), currentVersion, normalizedArchitecture),
-                    LocalizationHelper.GetString("Warning"),
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning,
-                    ok: LocalizationHelper.GetString("Ok"));
-                return;
+            Instances.VersionUpdateDialogViewModel.UpdatePackageName = packagePath;
+            _logger.Information(
+                "Showing restart prompt for imported update package: {PackagePath}, status={Status}",
+                packagePath,
+                importResult.Status);
+            _ = Instances.VersionUpdateDialogViewModel.AskToRestartForImportedPackage();
+            return;
         }
+
+        ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
+    }
+
+    private static void ShowUnsupportedPackageWarning(string packagePath, string currentVersion, string normalizedArchitecture)
+    {
+        _logger.Warning("Showing unsupported package warning for dropped package: {PackagePath}", packagePath);
+        MessageBoxHelper.Show(
+            LocalizationHelper.GetStringFormat("LocalUpdatePackageUnsupported", Path.GetFileName(packagePath), currentVersion, normalizedArchitecture),
+            LocalizationHelper.GetString("Warning"),
+            MessageBoxButton.OK,
+            MessageBoxImage.Warning,
+            ok: LocalizationHelper.GetString("Ok"));
     }
 
     public string GifPath

@@ -16,6 +16,7 @@
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
@@ -40,7 +41,10 @@ public static class ResourceUpdater
     {
         ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdating"));
 
-        if (!await DownloadFullPackageAsync(MaaUrls.GithubResourceUpdate, "MaaResourceGithub.zip", true).ConfigureAwait(false))
+        const string GithubZipFile = "MaaResourceGithub.zip";
+        const string ExtractFolder = "MaaResourceGithub";
+
+        if (!await DownloadFullPackageAsync(MaaUrls.GithubResourceUpdate, GithubZipFile, true).ConfigureAwait(false))
         {
             Fail();
             return false;
@@ -48,54 +52,13 @@ public static class ResourceUpdater
 
         OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("GameResourceUpdatePreparing"));
 
-        const string GithubZipFile = "MaaResourceGithub.zip";
-        const string ExtractFolder = "MaaResourceGithub";
-
-        // 解压到 MaaResource 文件夹
-        try
+        if (!ExtractAndMergeResourcePackage(GithubZipFile, ExtractFolder))
         {
-            if (Directory.Exists(ExtractFolder))
-            {
-                Directory.Delete(ExtractFolder, true);
-            }
-
-            ZipFile.ExtractToDirectory(GithubZipFile, ExtractFolder);
-        }
-        catch (Exception e)
-        {
-            _logger.Error("Failed to extract MaaResourceGithub.zip: " + e.Message);
             Fail();
             return false;
         }
 
-        // 把 \MaaResource-main 中的 resource 文件夹复制到当前目录
-        try
-        {
-            string basePath = Path.Combine(ExtractFolder, "MaaResource-main");
-            foreach (var folder in new[] { "resource" })
-            {
-                DirectoryMerge(
-                    Path.Combine(basePath, folder),
-                    Path.Combine(PathsHelper.BaseDir, folder));
-            }
-        }
-        catch (Exception e)
-        {
-            _logger.Error("Failed to copy folders: " + e.Message);
-            Fail();
-            return false;
-        }
-
-        // 删除 MaaResource 文件夹 和 MaaResource.zip
-        try
-        {
-            Directory.Delete(ExtractFolder, true);
-            File.Delete(GithubZipFile);
-        }
-        catch (Exception e)
-        {
-            _logger.Error("Failed to delete MaaResource files: " + e.Message);
-        }
+        SafeDeleteFile(GithubZipFile);
 
         SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Empty;
         OutputDownloadProgress(
@@ -432,6 +395,260 @@ public static class ResourceUpdater
         SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
         ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
         _isReloading = false;
+    }
+
+    /// <summary>
+    /// 本地资源包导入结果。
+    /// </summary>
+    public enum LocalResourcePackageImportStatus
+    {
+        /// <summary>不是资源更新包。</summary>
+        NotResourcePackage,
+
+        /// <summary>资源版本低于或等于本地版本，已拒绝。</summary>
+        VersionTooOld,
+
+        /// <summary>导入成功。</summary>
+        Imported,
+
+        /// <summary>导入失败。</summary>
+        Failed,
+    }
+
+    /// <summary>
+    /// 检测压缩包是否为资源更新包（包含 resource/version.json），并尝试读取其版本时间戳。
+    /// </summary>
+    /// <param name="packagePath">压缩包路径。</param>
+    /// <param name="versionDateTime">包内资源版本时间戳（last_updated），无法读取则为 MinValue。</param>
+    /// <returns>包含 resource/version.json 则返回 true。</returns>
+    public static bool IsResourcePackage(string packagePath, out DateTimeOffset versionDateTime)
+    {
+        versionDateTime = DateTimeOffset.MinValue;
+        try
+        {
+            using var archive = ZipFile.OpenRead(packagePath);
+            // 只匹配根目录的 resource/version.json，排除 global/*/resource/version.json
+            var versionEntry = archive.Entries.FirstOrDefault(e =>
+                (e.FullName.Equals("resource/version.json", StringComparison.OrdinalIgnoreCase) ||
+                 e.FullName.EndsWith("/resource/version.json", StringComparison.OrdinalIgnoreCase)) &&
+                !e.FullName.Contains("/global/", StringComparison.OrdinalIgnoreCase));
+            if (versionEntry == null)
+            {
+                return false;
+            }
+
+            TryReadLastUpdated(versionEntry, out versionDateTime);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to inspect zip for resource package detection: {PackagePath}", packagePath);
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// 导入本地资源更新包。校验版本（小于等于本地则拒绝）、解压合并到 resource 目录并重载。
+    /// </summary>
+    /// <param name="packagePath">压缩包路径。</param>
+    /// <returns>导入结果状态。</returns>
+    public static async Task<LocalResourcePackageImportStatus> ImportLocalResourcePackageAsync(string packagePath)
+    {
+        if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
+        {
+            return LocalResourcePackageImportStatus.Failed;
+        }
+
+        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
+        try
+        {
+            var localDateTime = SettingsViewModel.VersionUpdateSettings.ResourceDateTime;
+
+            // 读取 zip 内的版本信息（后台线程，避免阻塞 UI）
+            var (isResource, packageDateTime) = await Task.Run(() =>
+            {
+                bool result = IsResourcePackage(packagePath, out var dt);
+                return (result, dt);
+            }).ConfigureAwait(false);
+
+            if (!isResource)
+            {
+                return LocalResourcePackageImportStatus.NotResourcePackage;
+            }
+
+            // 版本校验：包内版本小于等于本地版本则拒绝（不执行解压）
+            if (packageDateTime != DateTimeOffset.MinValue && packageDateTime <= localDateTime)
+            {
+                _logger.Information(
+                    "Resource package rejected: package version {PackageVersion} (UTC) / {PackageVersionLocal} (local) is not newer than local {LocalVersion} (UTC) / {LocalVersionLocal} (local)",
+                    packageDateTime,
+                    packageDateTime.ToLocalTime(),
+                    localDateTime,
+                    localDateTime.ToLocalTime());
+                ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat(
+                    "LocalResourcePackageTooOld",
+                    packageDateTime.ToLocalTimeString(),
+                    localDateTime.ToLocalTimeString()));
+                return LocalResourcePackageImportStatus.VersionTooOld;
+            }
+
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdating"));
+
+            // 解压 + 合并到本地 resource 目录（后台线程）
+            const string ExtractFolder = "MaaResourceImport";
+            bool extractSuccess = await Task.Run(() =>
+                ExtractAndMergeResourcePackage(packagePath, ExtractFolder)).ConfigureAwait(false);
+
+            if (!extractSuccess)
+            {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                return LocalResourcePackageImportStatus.Failed;
+            }
+
+            SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Empty;
+
+            // 重载资源（内部会显示更新完成提示）
+            await ResourceReloadWhenIdleAsync();
+            return LocalResourcePackageImportStatus.Imported;
+        }
+        finally
+        {
+            SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+        }
+    }
+
+    /// <summary>
+    /// 解压资源包并合并到本地 resource 目录（GitHub / MirrorChyan / 拖入导入共用）。
+    /// 支持 resource/ 在根目录或子目录（如 MaaResource-main/resource/）两种结构。
+    /// </summary>
+    /// <param name="zipPath">压缩包路径。</param>
+    /// <param name="extractFolder">临时解压目录。</param>
+    /// <returns>成功返回 true。</returns>
+    private static bool ExtractAndMergeResourcePackage(string zipPath, string extractFolder)
+    {
+        // 解压
+        try
+        {
+            if (Directory.Exists(extractFolder))
+            {
+                Directory.Delete(extractFolder, true);
+            }
+
+            ZipFile.ExtractToDirectory(zipPath, extractFolder);
+        }
+        catch (Exception e)
+        {
+            _logger.Error("Failed to extract resource package {ZipPath}: {Message}", zipPath, e.Message);
+            SafeDeleteDirectory(extractFolder);
+            return false;
+        }
+
+        // 查找 resource 目录（根目录 resource/ 或子目录 XXX/resource/）
+        string? resourceDir = FindResourceDirectory(extractFolder);
+        if (resourceDir == null)
+        {
+            _logger.Warning("No resource/ directory found in package: {ZipPath}", zipPath);
+            SafeDeleteDirectory(extractFolder);
+            return false;
+        }
+
+        // 合并到本地 resource 目录
+        try
+        {
+            DirectoryMerge(resourceDir, PathsHelper.ResourceDir);
+        }
+        catch (Exception e)
+        {
+            _logger.Error("Failed to merge resource package: {Message}", e.Message);
+            SafeDeleteDirectory(extractFolder);
+            return false;
+        }
+
+        SafeDeleteDirectory(extractFolder);
+        return true;
+    }
+
+    /// <summary>
+    /// 在解压目录中查找 resource 文件夹（支持根目录或一级子目录下的 resource/）。
+    /// </summary>
+    /// <param name="extractFolder">解压目录路径。</param>
+    /// <returns>resource 目录完整路径，未找到则返回 null。</returns>
+    private static string? FindResourceDirectory(string extractFolder)
+    {
+        // 先检查根目录下是否有 resource/
+        string directPath = Path.Combine(extractFolder, "resource");
+        if (Directory.Exists(directPath))
+        {
+            return directPath;
+        }
+
+        // 再检查子目录下（如 MaaResource-main/resource/）
+        string[] matches = Directory.GetDirectories(extractFolder, "resource", SearchOption.AllDirectories);
+        return matches.Length > 0 ? matches[0] : null;
+    }
+
+    /// <summary>
+    /// 从 zip entry 中读取 version.json 的 last_updated 时间戳。
+    /// </summary>
+    /// <param name="entry">version.json 的 zip entry。</param>
+    /// <param name="dateTime">解析出的时间戳。</param>
+    /// <returns>解析成功返回 true。</returns>
+    private static bool TryReadLastUpdated(ZipArchiveEntry entry, out DateTimeOffset dateTime)
+    {
+        dateTime = DateTimeOffset.MinValue;
+        try
+        {
+            using var stream = entry.Open();
+            using var reader = new StreamReader(stream);
+            var json = JsonConvert.DeserializeObject<JObject>(reader.ReadToEnd());
+            var lastUpdated = json?["last_updated"]?.ToString();
+            if (string.IsNullOrEmpty(lastUpdated))
+            {
+                return false;
+            }
+
+            dateTime = DateTimeOffset.ParseExact(
+                lastUpdated,
+                "yyyy-MM-dd HH:mm:ss.fff",
+                null,
+                System.Globalization.DateTimeStyles.AssumeUniversal);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to parse resource version.json from zip entry: {Entry}", entry.FullName);
+            return false;
+        }
+    }
+
+    private static void SafeDeleteFile(string filePath)
+    {
+        try
+        {
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.Error("Failed to delete {FilePath}: {Message}", filePath, e.Message);
+        }
+    }
+
+    private static void SafeDeleteDirectory(string dirPath)
+    {
+        try
+        {
+            if (Directory.Exists(dirPath))
+            {
+                Directory.Delete(dirPath, true);
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.Error("Failed to cleanup directory {DirPath}: {Message}", dirPath, e.Message);
+        }
     }
 
     private static async Task<bool> DownloadFullPackageAsync(string url, string saveTo, bool globalSource)
