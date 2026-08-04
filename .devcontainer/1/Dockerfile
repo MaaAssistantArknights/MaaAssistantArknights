@@ -24,6 +24,7 @@ RUN sudo apt update \
     && sudo apt upgrade -y \
     && sudo apt install -y \
     cmake \
+    ninja-build \
     fish \
     && sudo rm -rf /var/lib/apt/lists/*
 
