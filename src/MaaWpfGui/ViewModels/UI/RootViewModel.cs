@@ -25,6 +25,7 @@ using HandyControl.Data;
 using HandyControl.Tools;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
@@ -327,11 +328,20 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             ? "arm64"
             : "x64";
 
-        PendingUpdateApplier.FullPackageInspectionResult fullPackageInspection =
-            PendingUpdateApplier.InspectSupportedLocalFullPackage(packagePath, currentVersion, architecture);
+        PendingUpdateApplier.PackageInspectionResult packageInspection =
+            PendingUpdateApplier.InspectLocalUpdatePackage(packagePath, currentVersion, architecture);
+
+#if DEBUG
+        // Debug 专用：Ctrl+Shift 拖入时只做检测判断，不实际注册，用于快速验证正则匹配
+        if (Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift))
+        {
+            DebugInspectDroppedPackage(packagePath, packageInspection, currentVersion, normalizedArchitecture);
+            return;
+        }
+#endif
 
         // 不是版本更新包文件名模式时，尝试作为资源更新包导入（需读取 zip entry，开销较高）
-        if (!fullPackageInspection.MatchedPattern)
+        if (!packageInspection.MatchedPattern)
         {
             if (ResourceUpdater.IsResourcePackage(packagePath, out _))
             {
@@ -345,14 +355,15 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         }
 
         // 版本更新包模式匹配，但架构或版本方向被拒
-        if (!fullPackageInspection.IsSupported)
+        if (!packageInspection.IsSupported)
         {
             ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
             return;
         }
 
-        // 完整包：用户二次确认
-        if (!Dialogs.VersionUpdateDialogViewModel.ConfirmFullPackageUpdate(packagePath))
+        // 完整包覆盖安装需用户二次确认（OTA 增量包不需要）
+        if (packageInspection.Status == PendingUpdateApplier.PackageInspectionStatus.FullSupported
+            && !Dialogs.VersionUpdateDialogViewModel.ConfirmFullPackageUpdate(packagePath))
         {
             _logger.Information("Dropped full package import canceled by user before registration: {PackagePath}", packagePath);
             return;
@@ -362,7 +373,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             packagePath,
             currentVersion,
             architecture,
-            fullPackageInspection);
+            packageInspection);
         _logger.Information(
             "Dropped zip import result: status={Status}, sourceVersion={SourceVersion}, targetVersion={TargetVersion}",
             importResult.Status,
@@ -403,6 +414,56 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             MessageBoxImage.Warning,
             ok: LocalizationHelper.GetString("Ok"));
     }
+
+#if DEBUG
+    /// <summary>
+    /// Debug 专用：展示拖入包的检测结果（状态、版本、架构），不执行注册或解压。
+    /// 触发方式：按住 Ctrl+Shift 拖入 zip。
+    /// </summary>
+    private static void DebugInspectDroppedPackage(
+        string packagePath,
+        PendingUpdateApplier.PackageInspectionResult inspection,
+        string currentVersion,
+        string normalizedArchitecture)
+    {
+        bool isResource = ResourceUpdater.IsResourcePackage(packagePath, out var resourceDateTime);
+
+        string detail = string.Format(
+            """
+            [DebugInspectDroppedPackage] 仅检测，不注册
+
+            文件: {0}
+            当前版本: {1}
+            当前架构: {2}
+
+            检测状态: {3}
+            MatchedPattern: {4}
+            IsSupported: {5}
+            SourceVersion: {6}
+            TargetVersion: {7}
+
+            是资源包: {8}
+            资源包版本: {9}
+            """,
+            Path.GetFileName(packagePath),
+            currentVersion,
+            normalizedArchitecture,
+            inspection.Status,
+            inspection.MatchedPattern,
+            inspection.IsSupported,
+            inspection.SourceVersion ?? "(null)",
+            inspection.TargetVersion ?? "(null)",
+            isResource,
+            isResource ? resourceDateTime.ToLocalTimeString() : "—");
+
+        _logger.Information("DebugInspectDroppedPackage:\n{Detail}", detail);
+        MessageBoxHelper.Show(
+            detail,
+            "DebugInspectDroppedPackage",
+            MessageBoxButton.OK,
+            MessageBoxImage.Information);
+    }
+#endif
 
     public string GifPath
     {
