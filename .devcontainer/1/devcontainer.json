@@ -56,6 +56,9 @@
 
                 // Python runtime
                 "python.terminal.launchArgs": ["-u"],
+                "python-envs.alwaysUseUv": true,
+                "python-envs.defaultEnvManager": "ms-python.python:venv",
+                "python-envs.defaultPackageManager": "ms-python.python:pip",
                 "python.defaultInterpreterPath": "/home/vscode/.venv/maa/bin/python",
                 "python.terminal.activateEnvironment": false,
 
