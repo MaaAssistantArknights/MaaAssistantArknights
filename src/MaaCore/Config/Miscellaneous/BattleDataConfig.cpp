@@ -62,6 +62,8 @@ bool asst::BattleDataConfig::parse(const json::value& json)
 
         const auto& rarity = char_data_json.at("rarity").as_integer();
         data_ptr->rarity = rarity;
+        const auto& sort_index = char_data_json.at("sortIndex").as_integer();
+        data_ptr->sort_index = sort_index;
         if (auto tokens_opt = char_data_json.find<json::array>("tokens")) {
             for (const auto& token : *tokens_opt) {
                 data_ptr->tokens.emplace_back(token.as_string());
