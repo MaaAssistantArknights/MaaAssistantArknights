@@ -103,11 +103,11 @@ public class CopilotModel : CopilotBase
 
     private static string PrintSkillLevel(Oper oper)
     {
-        if (oper.Requirements is not { } req || req.SkillLevel <= 0 || req.SkillLevel > 10)
+        if (oper.Requirements is not { } req || req.SkillLevel is not int skillLevel || skillLevel <= 0 || skillLevel > 10)
         {
             return string.Empty;
         }
-        return $" [Lv.{req.SkillLevel}]";
+        return $" [Lv.{skillLevel}]";
     }
 
     private static string GetModuleInfo(Requirements? req)
