@@ -16,6 +16,7 @@
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -422,8 +423,8 @@ public static class ResourceUpdater
     /// 避免误匹配完整包根目录的 <c>resource/version.json</c> 或 global 子目录中的同名文件。
     /// </summary>
     /// <param name="packagePath">压缩包路径。</param>
-    /// <param name="versionDateTime">包内资源版本时间戳（last_updated），无法读取则为 MinValue。</param>
-    /// <returns>匹配 <c>MaaResource-main/resource/version.json</c> 则返回 true。</returns>
+    /// <param name="versionDateTime">包内资源版本时间戳（last_updated）；无法读取则为 MinValue，且方法返回 false。</param>
+    /// <returns>匹配 <c>MaaResource-main/resource/version.json</c> 且能解析出版本时间戳则返回 true。</returns>
     public static bool IsResourcePackage(string packagePath, out DateTimeOffset versionDateTime)
     {
         versionDateTime = DateTimeOffset.MinValue;
@@ -437,8 +438,8 @@ public static class ResourceUpdater
                 return false;
             }
 
-            TryReadLastUpdated(versionEntry, out versionDateTime);
-            return true;
+            // 必须能解析出版本时间戳才算有效资源包，避免绕过版本校验
+            return TryReadLastUpdated(versionEntry, out versionDateTime);
         }
         catch (Exception ex)
         {
@@ -527,7 +528,7 @@ public static class ResourceUpdater
     }
 
     /// <summary>
-    /// 解压资源包并合并到本地 resource 目录（GitHub / 拖入导入共用）。
+    /// 解压资源包并合并到本地 resource 目录（GitHub 更新 / 拖入导入共用）。
     /// 包内须含 <c>MaaResource-main/resource/</c> 目录。
     /// </summary>
     /// <param name="zipPath">压缩包路径。</param>
@@ -547,7 +548,7 @@ public static class ResourceUpdater
         }
         catch (Exception e)
         {
-            _logger.Error("Failed to extract resource package {ZipPath}: {Message}", zipPath, e.Message);
+            _logger.Error(e, "Failed to extract resource package {ZipPath}", zipPath);
             SafeDeleteDirectory(extractFolder);
             return false;
         }
@@ -568,7 +569,7 @@ public static class ResourceUpdater
         }
         catch (Exception e)
         {
-            _logger.Error("Failed to merge resource package: {Message}", e.Message);
+            _logger.Error(e, "Failed to merge resource package from {ZipPath}", zipPath);
             SafeDeleteDirectory(extractFolder);
             return false;
         }
@@ -612,8 +613,8 @@ public static class ResourceUpdater
             dateTime = DateTimeOffset.ParseExact(
                 lastUpdated,
                 "yyyy-MM-dd HH:mm:ss.fff",
-                null,
-                System.Globalization.DateTimeStyles.AssumeUniversal);
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal);
             return true;
         }
         catch (Exception ex)
