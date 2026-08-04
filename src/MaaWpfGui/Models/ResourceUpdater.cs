@@ -527,7 +527,7 @@ public static class ResourceUpdater
     }
 
     /// <summary>
-    /// 解压资源包并合并到本地 resource 目录（GitHub / MirrorChyan / 拖入导入共用）。
+    /// 解压资源包并合并到本地 resource 目录（GitHub / 拖入导入共用）。
     /// 包内须含 <c>MaaResource-main/resource/</c> 目录。
     /// </summary>
     /// <param name="zipPath">压缩包路径。</param>
