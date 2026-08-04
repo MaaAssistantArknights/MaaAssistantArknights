@@ -468,80 +468,89 @@ public class TaskQueueViewModel : Screen
     /// <returns>Task</returns>
     public async Task CheckAfterCompleted()
     {
-        await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
-        var actions = PostActionSetting;
-        _logger.Information("Post actions: " + actions.ActionDescription);
-
-        if (actions.BackToAndroidHome)
+        RunningState.Instance.EnterCountingDown();
+        try
         {
-            Instances.AsstProxy.AsstBackToHome();
-            await Task.Delay(1000);
-        }
+            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
+            var actions = PostActionSetting;
+            _logger.Information("Post actions: " + actions.ActionDescription);
 
-        if (actions.ExitArknights)
-        {
-            var clientType = SettingsViewModel.GameSettings.ClientType;
-            if (!Instances.AsstProxy.AsstStartCloseDown(clientType))
+            if (actions.BackToAndroidHome)
             {
-                AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
+                Instances.AsstProxy.AsstBackToHome();
+                await Task.Delay(1000);
             }
 
-            await Task.Delay(1000);
-        }
+            if (actions.ExitArknights)
+            {
+                var clientType = SettingsViewModel.GameSettings.ClientType;
+                if (!Instances.AsstProxy.AsstStartCloseDown(clientType))
+                {
+                    AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
+                }
 
-        if (actions.ExitEmulator && !SettingsViewModel.ConnectSettings.IsPCConnectConfig)
-        {
-            DoKillEmulator();
-            await Task.Delay(1000);
-        }
+                await Task.Delay(1000);
+            }
 
-        if (actions.ExitSelf && !(actions.Hibernate || actions.Shutdown || actions.Sleep))
-        {
-            Bootstrapper.Shutdown();
-        }
+            if (actions.ExitEmulator && !SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+            {
+                DoKillEmulator();
+                await Task.Delay(1000);
+            }
 
-        if (actions.Hibernate)
-        {
-            if (actions.IfNoOtherMaa && HasOtherMaa())
+            if (actions.ExitSelf && !(actions.Hibernate || actions.Shutdown || actions.Sleep))
             {
                 Bootstrapper.Shutdown();
             }
-            else
-            {
-                await DoHibernate();
-            }
-        }
 
-        if (actions.Shutdown)
-        {
-            if (actions.IfNoOtherMaa && HasOtherMaa())
+            if (actions.Hibernate)
+            {
+                if (actions.IfNoOtherMaa && HasOtherMaa())
+                {
+                    Bootstrapper.Shutdown();
+                }
+                else
+                {
+                    await DoHibernate();
+                }
+            }
+
+            if (actions.Shutdown)
+            {
+                if (actions.IfNoOtherMaa && HasOtherMaa())
+                {
+                    Bootstrapper.Shutdown();
+                }
+                else
+                {
+                    await DoShutDown();
+                }
+            }
+
+            if (actions.Sleep)
+            {
+                if (actions.IfNoOtherMaa && HasOtherMaa())
+                {
+                    Bootstrapper.Shutdown();
+                }
+                else
+                {
+                    await DoSleep();
+                }
+            }
+
+            if (actions.ExitSelf)
             {
                 Bootstrapper.Shutdown();
             }
-            else
-            {
-                await DoShutDown();
-            }
-        }
 
-        if (actions.Sleep)
+            actions.LoadPostActions();
+        }
+        finally
         {
-            if (actions.IfNoOtherMaa && HasOtherMaa())
-            {
-                Bootstrapper.Shutdown();
-            }
-            else
-            {
-                await DoSleep();
-            }
+            RunningState.Instance.LeaveCountingDown();
         }
 
-        if (actions.ExitSelf)
-        {
-            Bootstrapper.Shutdown();
-        }
-
-        actions.LoadPostActions();
         return;
 
         bool HasOtherMaa()
@@ -902,7 +911,7 @@ public class TaskQueueViewModel : Screen
 
     private async Task HandleTimerLogic(DateTime currentTime)
     {
-        if (!_runningState.GetIdle() && !SettingsViewModel.TimerSettings.ForceScheduledStart)
+        if (!_runningState.CanInterrupt() && !SettingsViewModel.TimerSettings.ForceScheduledStart)
         {
             return;
         }
@@ -1014,7 +1023,7 @@ public class TaskQueueViewModel : Screen
         {
             var canceled = false;
             var delay = TimeSpan.FromSeconds(seconds);
-            RunningState.Instance.SetCountingDown(true);
+            RunningState.Instance.EnterCountingDown();
             try
             {
                 var dialogUserControl = new Views.Dialogs.TextWithTimerDialogView(
@@ -1037,7 +1046,7 @@ public class TaskQueueViewModel : Screen
             }
             finally
             {
-                RunningState.Instance.SetCountingDown(false);
+                RunningState.Instance.LeaveCountingDown();
             }
         }
     }

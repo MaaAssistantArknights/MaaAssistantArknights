@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
@@ -219,6 +220,12 @@ public class RunningState
         }
     }
 
+    /// <summary>
+    /// 是否空闲（仅反映任务运行状态）。
+    /// 仅供 UI 绑定和按钮状态使用。需要判断"是否可以安全执行打断性操作"（如自动更新重启）时，
+    /// 应使用 <see cref="CanInterrupt"/>，它会额外排除倒计时等情况。
+    /// </summary>
+    /// <returns>当前是否空闲。</returns>
     public bool GetIdle() => Idle;
 
     public void SetIdle(bool idle, [CallerMemberName] string caller = "")
@@ -227,31 +234,51 @@ public class RunningState
         Idle = idle;
     }
 
-    private volatile bool _countingDown;
+    // 引用计数：CheckAfterCompleted 外层和 TimerCanceledAsync 内层各自 Enter/Leave，
+    // 只有当计数归零时才真正清除倒计时状态，避免嵌套 try-finally 提前清零的竞态。
+    private int _countingDownDepth;
 
     /// <summary>
-    /// 设置是否正在进行倒计时（关机/休眠/启动等）。
-    /// 倒计时期间不属于真正的空闲，UntilIdleAsync 会持续等待。
+    /// 进入倒计时状态（引用计数 +1）。
+    /// 倒计时（关机/休眠/启动自动运行等）期间，<see cref="CanInterrupt"/> 返回 false，
+    /// <see cref="UntilIdleAsync"/> 会持续等待。
     /// </summary>
-    /// <param name="value">是否正在倒计时</param>
-    /// <param name="caller">调用方名称</param>
-    public void SetCountingDown(bool value, [CallerMemberName] string caller = "")
+    /// <param name="caller">调用方名称。</param>
+    public void EnterCountingDown([CallerMemberName] string caller = "")
     {
-        if (_countingDown == value)
-        {
-            return;
-        }
-
-        _logger.Information("CountingDown: {Old} to {New} (called from {Caller})", _countingDown, value, caller);
-        _countingDown = value;
+        var newValue = Interlocked.Increment(ref _countingDownDepth);
+        _logger.Information("CountingDown enter: depth={Depth} (called from {Caller})", newValue, caller);
     }
 
     /// <summary>
-    /// 空闲且没在倒计时。
-    /// 倒计时（关机/休眠/启动自动运行等）期间不属于可安全操作的状态。
+    /// 离开倒计时状态（引用计数 -1，不小于 0）。
+    /// </summary>
+    /// <param name="caller">调用方名称。</param>
+    public void LeaveCountingDown([CallerMemberName] string caller = "")
+    {
+        var newValue = Interlocked.Decrement(ref _countingDownDepth);
+        if (newValue < 0)
+        {
+            _logger.Warning("CountingDown leave: depth underflow, clamping to 0 (called from {Caller})", caller);
+            newValue = Interlocked.Exchange(ref _countingDownDepth, 0);
+        }
+        else
+        {
+            _logger.Information("CountingDown leave: depth={Depth} (called from {Caller})", newValue, caller);
+        }
+    }
+
+    /// <summary>
+    /// 当前是否正处于倒计时状态。
+    /// </summary>
+    public bool GetCountingDown() => Volatile.Read(ref _countingDownDepth) > 0;
+
+    /// <summary>
+    /// 当前是否可以安全打断（空闲且没在倒计时）。
+    /// 倒计时（关机/休眠/启动自动运行等）期间不属于可安全打断的状态。
     /// </summary>
     /// <returns>空闲且没在倒计时返回 <see langword="true"/>，否则返回 <see langword="false"/>。</returns>
-    public bool GetIdleAndNotCountingDown() => _idle && !_countingDown;
+    public bool CanInterrupt() => GetIdle() && !GetCountingDown();
 
     private bool _inited;
 
@@ -317,7 +344,7 @@ public class RunningState
     {
         while (true)
         {
-            while (!GetIdleAndNotCountingDown())
+            while (!CanInterrupt())
             {
                 await Task.Delay(time);
             }
@@ -327,7 +354,7 @@ public class RunningState
             {
                 await Task.Delay(confirmInterval);
 
-                if (GetIdleAndNotCountingDown())
+                if (CanInterrupt())
                 {
                     confirmed++;
                 }
