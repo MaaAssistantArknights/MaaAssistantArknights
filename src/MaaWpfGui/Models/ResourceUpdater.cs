@@ -418,6 +418,10 @@ public static class ResourceUpdater
     /// <summary>
     /// 检测压缩包是否为资源更新包（包含 resource/version.json），并尝试读取其版本时间戳。
     /// </summary>
+    /// <remarks>
+    /// 只认 <c>MaaResource-main/resource/version.json</c> 这一层固定前缀结构，
+    /// 避免误匹配完整包根目录的 <c>resource/version.json</c> 或 global 子目录中的同名文件。
+    /// </remarks>
     /// <param name="packagePath">压缩包路径。</param>
     /// <param name="versionDateTime">包内资源版本时间戳（last_updated），无法读取则为 MinValue。</param>
     /// <returns>包含 resource/version.json 则返回 true。</returns>
@@ -427,11 +431,8 @@ public static class ResourceUpdater
         try
         {
             using var archive = ZipFile.OpenRead(packagePath);
-            // 只匹配根目录的 resource/version.json，排除 global/*/resource/version.json
             var versionEntry = archive.Entries.FirstOrDefault(e =>
-                (e.FullName.Equals("resource/version.json", StringComparison.OrdinalIgnoreCase) ||
-                 e.FullName.EndsWith("/resource/version.json", StringComparison.OrdinalIgnoreCase)) &&
-                !e.FullName.Contains("/global/", StringComparison.OrdinalIgnoreCase));
+                e.FullName.Equals("MaaResource-main/resource/version.json", StringComparison.OrdinalIgnoreCase));
             if (versionEntry == null)
             {
                 return false;
@@ -569,22 +570,15 @@ public static class ResourceUpdater
     }
 
     /// <summary>
-    /// 在解压目录中查找 resource 文件夹（支持根目录或一级子目录下的 resource/）。
+    /// 在解压目录中查找 resource 文件夹（<c>MaaResource-main/resource/</c>）。
     /// </summary>
     /// <param name="extractFolder">解压目录路径。</param>
     /// <returns>resource 目录完整路径，未找到则返回 null。</returns>
     private static string? FindResourceDirectory(string extractFolder)
     {
-        // 先检查根目录下是否有 resource/
-        string directPath = Path.Combine(extractFolder, "resource");
-        if (Directory.Exists(directPath))
-        {
-            return directPath;
-        }
-
-        // 再检查子目录下（如 MaaResource-main/resource/）
-        string[] matches = Directory.GetDirectories(extractFolder, "resource", SearchOption.AllDirectories);
-        return matches.Length > 0 ? matches[0] : null;
+        // 固定结构：MaaResource-main/resource/
+        string path = Path.Combine(extractFolder, "MaaResource-main", "resource");
+        return Directory.Exists(path) ? path : null;
     }
 
     /// <summary>
