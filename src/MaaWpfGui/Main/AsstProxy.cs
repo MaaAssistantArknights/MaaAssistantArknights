@@ -1249,10 +1249,18 @@ public class AsstProxy
                     _tasksStatus.TryGetValue(taskId, out var value);
 
                     // 只统计左侧任务队列里的任务，Copilot / 小工具（如公招识别）的报错不应阻止后处理动作
-                    var failedIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
-                    if (failedIndex >= 0 && failedIndex < ConfigFactory.CurrentConfig.TaskQueue.Count)
+                    var failedItem = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId));
+                    if (failedItem is not null)
                     {
-                        Instances.TaskQueueViewModel.RecordFailedTask(ConfigFactory.CurrentConfig.TaskQueue[failedIndex].NameOrTaskType);
+                        var failedIndex = failedItem.Index;
+                        var failedTask = failedIndex >= 0 && failedIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
+                            ? ConfigFactory.CurrentConfig.TaskQueue[failedIndex]
+                            : null;
+
+                        // 以 Core 任务 id 为准去重记录；任务名只是出错当时的快照，仅用于日志
+                        Instances.TaskQueueViewModel.RecordFailedTask(
+                            taskId,
+                            failedTask?.NameOrTaskType ?? $"({LocalizationHelper.GetString(taskChain)})");
                     }
 
                     // details.error 为 Core 侧 TaskExceptionKind 名（如 OutOfMemory），普通识别错误无此字段

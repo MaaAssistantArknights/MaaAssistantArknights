@@ -465,7 +465,13 @@ public class TaskQueueViewModel : Screen
     private readonly object _failedTasksLock = new();
 
     /// <summary>
-    /// 本次运行中出错的任务名。用于 ｢出错时跳过后处理动作｣。
+    /// 本次运行中出错的主任务队列任务。用于 ｢出错时跳过后处理动作｣。
+    /// <para>
+    /// key 为 Core 任务 id（稳定标识，同一任务重复报错时天然去重）；下发阶段就失败、
+    /// 尚未拿到 Core id 的任务用递减的负数合成 id，与 Core 的正数 id 不会冲突。
+    /// value 是出错当时的任务显示名，只用于日志 —— 刻意做快照而非事后反查：
+    /// 任务队列在运行期间可被拖动排序或改名，事后按下标反查会拿到错误的名字。
+    /// </para>
     /// <para>
     /// 不能改用 <see cref="TaskItemViewModel.StatusDisplay"/> 判断：
     /// <see cref="ResetAllTemporaryVariable"/> 会在 <see cref="CheckAfterCompleted"/> 之前
@@ -478,31 +484,32 @@ public class TaskQueueViewModel : Screen
     /// 若不在消费后清空，上一轮的失败会错误地跳过这一轮的后处理动作。
     /// </para>
     /// </summary>
-    private readonly List<string> _failedTaskNames = [];
+    private readonly Dictionary<int, string> _failedTasks = [];
 
-    /// <summary>
-    /// Gets a value indicating whether 本次运行中有任务出错。
-    /// </summary>
-    public bool HasFailedTask
-    {
-        get
-        {
-            lock (_failedTasksLock)
-            {
-                return _failedTaskNames.Count > 0;
-            }
-        }
-    }
+    private int _syntheticFailedTaskId;
 
     /// <summary>
     /// 记录一个出错的主任务队列任务。由 <see cref="AsstProxy"/> 在 TaskChainError 时调用。
     /// </summary>
-    /// <param name="taskName">出错的任务名</param>
+    /// <param name="taskId">Core 任务 id</param>
+    /// <param name="taskName">出错当时的任务显示名，仅用于日志</param>
+    public void RecordFailedTask(int taskId, string taskName)
+    {
+        lock (_failedTasksLock)
+        {
+            _failedTasks[taskId] = taskName;
+        }
+    }
+
+    /// <summary>
+    /// 记录一个在下发阶段就失败、尚未拿到 Core 任务 id 的任务。
+    /// </summary>
+    /// <param name="taskName">出错当时的任务显示名，仅用于日志</param>
     public void RecordFailedTask(string taskName)
     {
         lock (_failedTasksLock)
         {
-            _failedTaskNames.Add(taskName);
+            _failedTasks[--_syntheticFailedTaskId] = taskName;
         }
     }
 
@@ -510,7 +517,7 @@ public class TaskQueueViewModel : Screen
     {
         lock (_failedTasksLock)
         {
-            return [.. _failedTaskNames];
+            return [.. _failedTasks.Values];
         }
     }
 
@@ -518,7 +525,8 @@ public class TaskQueueViewModel : Screen
     {
         lock (_failedTasksLock)
         {
-            _failedTaskNames.Clear();
+            _failedTasks.Clear();
+            _syntheticFailedTaskId = 0;
         }
     }
 
