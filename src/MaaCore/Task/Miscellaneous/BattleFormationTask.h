@@ -183,6 +183,8 @@ protected:
     std::unordered_map<std::string, std::string> m_operbox_assigned; // 组名 - 干员id
     std::string m_operbox_unmatched_group;
 
+    bool is_operbox_for_assignment() const { return m_operbox_assist_enabled && m_ignore_requirements; }
+
     std::vector<OperBoxInfo> parse_operbox_data(const std::string& path);
     bool do_operbox_precheck();
 
