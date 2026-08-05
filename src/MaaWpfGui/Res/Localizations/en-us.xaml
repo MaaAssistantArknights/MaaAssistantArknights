@@ -892,6 +892,10 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">When checked, option changes will not be saved and will revert the next time MAA starts or after {key=LinkStart}
 After unchecking this option, other option states will be saved normally
 Right-clicking other options will check/uncheck this option simultaneously</system:String>
+    <system:String x:Key="SkipPostActionOnError">Skip if any task failed</system:String>
+    <system:String x:Key="SkipPostActionOnErrorTip" xml:space="preserve">When checked, all actions above will be skipped if one or more tasks in the task list failed.
+Only failures of tasks in the left-hand task list count; Copilot and Toolbox errors are ignored.</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">Post actions skipped, failed task(s): {0}</system:String>
     <system:String x:Key="IfNoOtherMaa">If no other running MAA</system:String>
     <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>

@@ -894,6 +894,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">체크 시 옵션 변경 사항이 저장되지 않으며 다음 번 MAA 시작 또는 {key=LinkStart} 이후에 복원됩니다
 이 옵션의 체크를 해제하면 다른 옵션 상태가 정상적으로 저장됩니다
 다른 옵션을 마우스 오른쪽 버튼으로 클릭하면 이 옵션도 함께 체크/체크 해제됩니다</system:String>
+    <system:String x:Key="SkipPostActionOnError">작업 실패 시 건너뛰기</system:String>
+    <system:String x:Key="SkipPostActionOnErrorTip" xml:space="preserve">선택하면 작업 목록의 작업이 하나 이상 실패한 경우 위의 모든 동작을 건너뜁니다.
+왼쪽 작업 목록의 작업만 집계되며, 자동 전투와 도구 상자의 오류는 포함되지 않습니다.</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">작업이 실패하여 완료 후 동작을 건너뛰었습니다: {0}</system:String>
     <system:String x:Key="IfNoOtherMaa">다른 MAA가 없는 경우</system:String>
     <system:String x:Key="BackToAndroidHome">에뮬레이터 홈 화면으로 이동</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>

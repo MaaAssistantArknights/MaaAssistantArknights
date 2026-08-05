@@ -462,6 +462,66 @@ public class TaskQueueViewModel : Screen
         }
     }
 
+    private readonly object _failedTasksLock = new();
+
+    /// <summary>
+    /// 本次运行中出错的任务名。用于 ｢出错时跳过后处理动作｣。
+    /// <para>
+    /// 不能改用 <see cref="TaskItemViewModel.StatusDisplay"/> 判断：
+    /// <see cref="ResetAllTemporaryVariable"/> 会在 <see cref="CheckAfterCompleted"/> 之前
+    /// 把半选（<see langword="null"/>）任务的状态重置为 Idle，导致出错信息丢失。
+    /// </para>
+    /// <para>
+    /// 生命周期：<see cref="LinkStartWithTasks"/> 开始时清空；<see cref="CheckAfterCompleted"/>
+    /// 消费后清空；<see cref="SetStopped"/>（异常结束）时清空。三者保证状态不会跨轮次残留 ——
+    /// 例如 <c>RemoteControlService</c> 会绕过 <see cref="LinkStartWithTasks"/> 直接 AsstStart，
+    /// 若不在消费后清空，上一轮的失败会错误地跳过这一轮的后处理动作。
+    /// </para>
+    /// </summary>
+    private readonly List<string> _failedTaskNames = [];
+
+    /// <summary>
+    /// Gets a value indicating whether 本次运行中有任务出错。
+    /// </summary>
+    public bool HasFailedTask
+    {
+        get
+        {
+            lock (_failedTasksLock)
+            {
+                return _failedTaskNames.Count > 0;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 记录一个出错的主任务队列任务。由 <see cref="AsstProxy"/> 在 TaskChainError 时调用。
+    /// </summary>
+    /// <param name="taskName">出错的任务名</param>
+    public void RecordFailedTask(string taskName)
+    {
+        lock (_failedTasksLock)
+        {
+            _failedTaskNames.Add(taskName);
+        }
+    }
+
+    private string[] GetFailedTaskNames()
+    {
+        lock (_failedTasksLock)
+        {
+            return [.. _failedTaskNames];
+        }
+    }
+
+    private void ClearFailedTasks()
+    {
+        lock (_failedTasksLock)
+        {
+            _failedTaskNames.Clear();
+        }
+    }
+
     /// <summary>
     /// Checks after completion.
     /// </summary>
@@ -474,6 +534,18 @@ public class TaskQueueViewModel : Screen
             await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
             var actions = PostActionSetting;
             _logger.Information("Post actions: " + actions.ActionDescription);
+
+            var failedTasks = GetFailedTaskNames();
+            if (actions.SkipOnError && failedTasks.Length > 0)
+            {
+                var failedTasksText = string.Join(", ", failedTasks);
+                _logger.Information("Post actions skipped, failed tasks: {FailedTasks}", failedTasksText);
+                AddLog(LocalizationHelper.GetStringFormat("PostActionSkippedDueToError", failedTasksText), UiLogColor.Warning);
+
+                // 仍需还原 ｢仅当次｣ 的临时勾选，保持与正常路径一致
+                actions.LoadPostActions();
+                return;
+            }
 
             if (actions.BackToAndroidHome)
             {
@@ -619,6 +691,8 @@ public class TaskQueueViewModel : Screen
         }
         finally
         {
+            // 消费后清空：避免本轮的失败残留到下一轮（RemoteControlService 会绕过 LinkStartWithTasks）
+            ClearFailedTasks();
             RunningState.Instance.UnlockInterrupt();
         }
     }
@@ -2022,6 +2096,7 @@ public class TaskQueueViewModel : Screen
 
         MainTasksCompletedCount = 0;
         ResetTaskItemStatuses();
+        ClearFailedTasks();
 
         // 所有提前 return 都要放在 _runningState.SetIdle(false) 之前，否则会导致无法再次点击开始
         _runningState.SetIdle(false);
@@ -2091,6 +2166,7 @@ public class TaskQueueViewModel : Screen
                         taskRet = false;
                         AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType), UiLogColor.Error);
                         SetTaskStatus(index, TaskItemStatus.Error);
+                        RecordFailedTask(item.NameOrTaskType);
                         break;
                     case null:
                         AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Skip", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType), UiLogColor.Info);
@@ -2102,6 +2178,7 @@ public class TaskQueueViewModel : Screen
             {
                 taskRet = false;
                 AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType) + "\n" + ex.Message, UiLogColor.Error);
+                RecordFailedTask(item.NameOrTaskType);
             }
         }
 
@@ -2277,6 +2354,9 @@ public class TaskQueueViewModel : Screen
         Waiting = false;
         _runningState.SetStopping(false);
         _runningState.SetIdle(true);
+
+        // 异常结束（未走到 AllTasksCompleted），清空失败记录避免残留到下一轮
+        ClearFailedTasks();
 
         // 只抑制“本轮任务期间”的自动开启；任务结束后应允许下一轮自动开启 LiveView。
         return true;
