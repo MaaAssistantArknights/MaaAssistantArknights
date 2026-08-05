@@ -26,13 +26,13 @@ Depot data is cached and may differ from your actual stock after manual farming,
 
 Each plan contains the following:
 
-| Setting | Description |
-| :--- | :--- |
-| Stage Selection | Select the stage to farm. Supports regular stages, chip stages, resource stages, etc. "Current/Last" is not supported. |
-| Specified Drop | Select the target drop material. Each stage may have multiple drops; choose the one you actually need. |
-| Target Inventory | Set the target quantity for the material. The plan completes automatically when reached. |
-| Use Sanity Potion | Check to set the number of sanity potions to use. |
-| Use Originium | Check to set the number of Originium to use. |
+| Setting           | Description                                                                                                            |
+| :---------------- | :--------------------------------------------------------------------------------------------------------------------- |
+| Stage Selection   | Select the stage to farm. Supports regular stages, chip stages, resource stages, etc. "Current/Last" is not supported. |
+| Specified Drop    | Select the target drop material. Each stage may have multiple drops; choose the one you actually need.                 |
+| Target Inventory  | Set the target quantity for the material. The plan completes automatically when reached.                               |
+| Use Sanity Potion | Check to set the number of sanity potions to use.                                                                      |
+| Use Originium     | Check to set the number of Originium to use.                                                                           |
 
 Items in the plan list can be **dragged to reorder**. Plans are executed in order during the task.
 

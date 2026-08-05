@@ -163,45 +163,45 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
   <br>
   - 新列表（國服 2026/8/1 後主資源，無該 flag）：接受 `-1~10`
   - 舊列表（外服資源帶該 flag）：僅接受 `-1~6`，更大值會被拒絕
-  <br>
-  外服預計約半年後跟進，屆時上限隨資源變為 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手動選擇 7~10，任務下發時會被 Core 拒絕。
-  :::  
-  :::  
-  ::: field name="drops" type="object" optional  
-  指定物品掉落數量，預設不指定。key 為 `item_id`，value 為數量。key 可參考 `resource/item_index.json` 檔案。  
-  <br>
-  例如：`{ "30011": 10, "30062": 5 }`  
-  <br>
-  上述所有條件（次數、掉落等）均為「或」的關係，任一條件達成即停止任務。  
-  :::  
-  ::: field name="report_to_penguin" type="boolean" optional default="false"  
-  是否回報企鵝物流  
-  :::  
-  ::: field name="penguin_id" type="string" optional  
-  企鵝物流回報 ID，預設為空。僅在 `report_to_penguin` 為 `true` 時有效。  
-  :::  
-  ::: field name="report_to_yituliu" type="boolean" optional default="false"  
-  是否回報一圖流。  
-  :::  
-  ::: field name="yituliu_id" type="string" optional  
-  一圖流回報 ID，預設為空。僅在 `report_to_yituliu` 為 `true` 時有效。  
-  :::  
-  ::: field name="server" type="string" optional default="CN"  
-  遊戲伺服器，會影響掉落物辨識及數據上傳。  
-  <br>
-  選項：`CN` | `US` | `JP` | `KR`  
-  :::  
-  ::: field name="client_type" type="string" optional  
-  用戶端版本，預設為空。用於遊戲崩潰後自動重啟並接續任務；若為空則不啟用自動重啟功能。
-  <br>
-  選項：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-  :::  
-  ::: field name="DrGrandet" type="boolean" optional default="false"  
-  博朗台模式（節省理智碎石模式），僅在產生碎石需求時才起作用。
-  <br>
-  在碎石確認介面等待，直到目前理智自動恢復 1 點後，再立刻執行碎石回復，以避免浪費自然恢復。  
-  :::  
-  ::::
+    <br>
+    外服預計約半年後跟進，屆時上限隨資源變為 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手動選擇 7~10，任務下發時會被 Core 拒絕。
+    :::  
+    :::  
+    ::: field name="drops" type="object" optional  
+    指定物品掉落數量，預設不指定。key 為 `item_id`，value 為數量。key 可參考 `resource/item_index.json` 檔案。  
+    <br>
+    例如：`{ "30011": 10, "30062": 5 }`  
+    <br>
+    上述所有條件（次數、掉落等）均為「或」的關係，任一條件達成即停止任務。  
+    :::  
+    ::: field name="report_to_penguin" type="boolean" optional default="false"  
+    是否回報企鵝物流  
+    :::  
+    ::: field name="penguin_id" type="string" optional  
+    企鵝物流回報 ID，預設為空。僅在 `report_to_penguin` 為 `true` 時有效。  
+    :::  
+    ::: field name="report_to_yituliu" type="boolean" optional default="false"  
+    是否回報一圖流。  
+    :::  
+    ::: field name="yituliu_id" type="string" optional  
+    一圖流回報 ID，預設為空。僅在 `report_to_yituliu` 為 `true` 時有效。  
+    :::  
+    ::: field name="server" type="string" optional default="CN"  
+    遊戲伺服器，會影響掉落物辨識及數據上傳。  
+    <br>
+    選項：`CN` | `US` | `JP` | `KR`  
+    :::  
+    ::: field name="client_type" type="string" optional  
+    用戶端版本，預設為空。用於遊戲崩潰後自動重啟並接續任務；若為空則不啟用自動重啟功能。
+    <br>
+    選項：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+    :::  
+    ::: field name="DrGrandet" type="boolean" optional default="false"  
+    博朗台模式（節省理智碎石模式），僅在產生碎石需求時才起作用。
+    <br>
+    在碎石確認介面等待，直到目前理智自動恢復 1 點後，再立刻執行碎石回復，以避免浪費自然恢復。  
+    :::  
+    ::::
 
 <details>
 <summary>Example</summary>

@@ -35,10 +35,10 @@ The difference between this task and [Tools - Depot Recognition](./tools.md#depo
 
 Set the execution frequency of the task:
 
-| Option | Description |
-| :--- | :--- |
-| Every time | Execute the update every time the task queue runs. |
-| Daily | Execute at most once per day; automatically skipped on subsequent triggers the same day. |
-| Weekly | Execute at most once per week. |
+| Option     | Description                                                                              |
+| :--------- | :--------------------------------------------------------------------------------------- |
+| Every time | Execute the update every time the task queue runs.                                       |
+| Daily      | Execute at most once per day; automatically skipped on subsequent triggers the same day. |
+| Weekly     | Execute at most once per week.                                                           |
 
 Recommended to set to "Daily" for automatic daily data sync on first run, avoiding frequent OCR that impacts efficiency.

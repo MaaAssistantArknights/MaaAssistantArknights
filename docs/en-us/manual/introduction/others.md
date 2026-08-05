@@ -86,10 +86,10 @@ If the interface prompts that your version is too low and the minimum required v
 
 In `Settings` - `Update Settings`, you can choose the update source:
 
-| Update Source | Description |
-| :--- | :--- |
+| Update Source              | Description                                                                                                                                                                                                |
+| :------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Global Source** (GitHub) | Software version pulled from GitHub; resource version uses [MirrorChyan](https://mirrorchyan.com/en/projects?rid=MAA) for free update detection, manually click `Resource Update` to download from GitHub. |
-| **MirrorChyan** | Enter CDK to enable automatic updates for both software and resources, prioritizing high-speed CDN downloads. More stable and faster. |
+| **MirrorChyan**            | Enter CDK to enable automatic updates for both software and resources, prioritizing high-speed CDN downloads. More stable and faster.                                                                      |
 
 You can toggle the following options in update settings:
 
@@ -139,9 +139,10 @@ If your MAA version is too old to support drag-and-drop (before v6.8.0-beta.2), 
 If the dragged file is not one of the above update packages (e.g., software package filename mismatch, resource package not in GitHub zip layout, version mismatch, etc.), MAA will display a notification that it cannot be recognized.
 
 ::: warning Package contents are not fully verified
+
 - **Software packages** (full / OTA): matched mainly by filename; the archive is **not** checked for the real architecture or version contents. Renaming (e.g. arm64 → x64) may still extract and install the wrong build. Do not change the original filename.
 - **Resource packages**: only checks for a GitHub direct-download zip layout and parses `version.json`; other resource files are **not** fully validated for completeness or correctness. Missing some files may still allow import.
-:::
+  :::
 
 ## Additional Notes
 

@@ -162,46 +162,46 @@ B服：`张三`，可输入 `张三`、`张`、`三`
   <br>
   - 新列表（国服 2026/8/1 后主资源，无该 flag）：接受 `-1~10`
   - 旧列表（外服资源带该 flag）：仅接受 `-1~6`，更大值会被拒绝
-  <br>
-  外服预计约半年后跟进，届时上限随资源变为 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手动选择 7~10，任务下发时会被 Core 拒绝。
-  :::  
-  :::  
-  ::: field name="drops" type="object" optional  
-  指定掉落数量，默认不指定。key 为 item_id, value 为数量。key 可参考 `resource/item_index.json` 文件。  
-  <br>
-  例如: `{ "30011": 10, "30062": 5 }`  
-  <br>
-  以上全部是或的关系，即任一达到即停止任务。  
-  :::  
-  ::: field name="report_to_penguin" type="boolean" optional default="false"  
-  是否汇报企鹅数据。  
-  :::  
-  ::: field name="penguin_id" type="string" optional  
-  企鹅数据汇报 id, 默认为空。仅在 `report_to_penguin` 为 true 时有效。  
-  :::  
-  :::  
-  ::: field name="report_to_yituliu" type="boolean" optional default="false"  
-  是否汇报一图流。  
-  :::  
-  ::: field name="yituliu_id" type="string" optional  
-  一图流汇报 id, 默认为空。仅在 `report_to_yituliu` 为 true 时有效。  
-  :::  
-  ::: field name="server" type="string" optional default="CN"  
-  服务器，会影响掉落识别及上传。
-  <br>
-  选项：`CN` | `US` | `JP` | `KR`  
-  :::  
-  ::: field name="client_type" type="string" optional  
-  客户端版本，默认为空。用于游戏崩溃时重启并连回去继续刷，若为空则不启用该功能。
-  <br>
-  选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-  :::  
-  ::: field name="DrGrandet" type="boolean" optional default="false"  
-  节省理智碎石模式，仅在可能产生碎石效果时生效。
-  <br>
-  在碎石确认界面等待，直到当前的 1 点理智恢复完成后再立刻碎石。  
-  :::  
-  ::::
+    <br>
+    外服预计约半年后跟进，届时上限随资源变为 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手动选择 7~10，任务下发时会被 Core 拒绝。
+    :::  
+    :::  
+    ::: field name="drops" type="object" optional  
+    指定掉落数量，默认不指定。key 为 item_id, value 为数量。key 可参考 `resource/item_index.json` 文件。  
+    <br>
+    例如: `{ "30011": 10, "30062": 5 }`  
+    <br>
+    以上全部是或的关系，即任一达到即停止任务。  
+    :::  
+    ::: field name="report_to_penguin" type="boolean" optional default="false"  
+    是否汇报企鹅数据。  
+    :::  
+    ::: field name="penguin_id" type="string" optional  
+    企鹅数据汇报 id, 默认为空。仅在 `report_to_penguin` 为 true 时有效。  
+    :::  
+    :::  
+    ::: field name="report_to_yituliu" type="boolean" optional default="false"  
+    是否汇报一图流。  
+    :::  
+    ::: field name="yituliu_id" type="string" optional  
+    一图流汇报 id, 默认为空。仅在 `report_to_yituliu` 为 true 时有效。  
+    :::  
+    ::: field name="server" type="string" optional default="CN"  
+    服务器，会影响掉落识别及上传。
+    <br>
+    选项：`CN` | `US` | `JP` | `KR`  
+    :::  
+    ::: field name="client_type" type="string" optional  
+    客户端版本，默认为空。用于游戏崩溃时重启并连回去继续刷，若为空则不启用该功能。
+    <br>
+    选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+    :::  
+    ::: field name="DrGrandet" type="boolean" optional default="false"  
+    节省理智碎石模式，仅在可能产生碎石效果时生效。
+    <br>
+    在碎石确认界面等待，直到当前的 1 点理智恢复完成后再立刻碎石。  
+    :::  
+    ::::
 
 <details>
 <summary>Example</summary>
