@@ -149,13 +149,17 @@ Currently supported stages for navigation include:
   Number of battles.  
   :::  
   ::: field name="series" type="number" optional  
-  Number of consecutive battles, -1~6.
+  Number of consecutive battles, -1~10.
   <br>
   `-1` to disable switching.
   <br>
-  `0` to automatically switch to the current maximum available times, if current sanity is not enough for 6 times, select the minimum available times.
+  `0` to automatically switch to the current maximum available times, if current sanity is not enough for the maximum times, select the minimum available times.
   <br>
-  `1~6` to specify number of consecutive battles.  
+  `1~10` to specify number of consecutive battles.
+  <br>
+  ::: info Server Difference
+  The CN server increased the max consecutive battles from 6 to 10 after the 2026/8/1 update. Overseas servers are expected to follow suit approximately 6 months later; the limit will take effect automatically at that time.
+  :::  
   :::  
   ::: field name="drops" type="object" optional  
   Specifying the number of drops, no specification by default. key is item_id, value is quantity. key can refer to `resource/item_index.json` file.  

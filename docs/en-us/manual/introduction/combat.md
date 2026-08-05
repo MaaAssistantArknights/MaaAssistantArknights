@@ -86,7 +86,7 @@ MAA will use the specified battle multiplier setting:
 - **AUTO mode** (0):
   - Automatically identifies and uses the maximum possible multiplier without wasting sanity
 
-- **Fixed value mode** (1-6):
+- **Fixed value mode** (1-10 for CN, 1-6 for overseas servers):
   - Uses exactly the specified multiplier
   - If current sanity is insufficient for the set multiplier (e.g., only enough for 5× but set to 6×), ends the task
 
