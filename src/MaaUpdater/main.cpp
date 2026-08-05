@@ -1866,10 +1866,6 @@ int wmain(int argc, wchar_t* argv[])
 
     g_logFile = rootDir + L"\\debug\\pending-update-applier.log";
     RotateLogIfNeeded();
-    InitializeProgressUi();
-    SetProgressUiStatus(
-        L"正在准备更新... | Preparing update...",
-        L"等待 MAA 主程序退出 | Waiting for the main MAA process to exit");
 
     WriteLog(L"MAA.Updater started (C++ external updater).");
     WriteLog((std::wstring(L"Console output: ") + (g_writeConsoleLog ? L"enabled" : L"disabled")).c_str());
@@ -1885,24 +1881,24 @@ int wmain(int argc, wchar_t* argv[])
 
     // ------------------------------------------------------------------
     // Wait for parent process to exit
+    // 进度窗口延后到主程序退出后再显示，避免与正在退出的 MAA 抢前台
     // ------------------------------------------------------------------
     HANDLE hParent = OpenProcess(SYNCHRONIZE, FALSE, parentPid);
     if (hParent != nullptr) {
         WriteLog((L"Waiting for parent process to exit, PID=" + std::to_wstring(parentPid)).c_str());
-        while (WaitForSingleObject(hParent, 100) == WAIT_TIMEOUT) {
-            PumpProgressUiMessages();
-        }
+        // 进度窗口尚未创建，无需泵消息；直接阻塞等待父进程退出
+        WaitForSingleObject(hParent, INFINITE);
         CloseHandle(hParent);
         WriteLog(L"Parent process exited.");
-        SetProgressUiStatus(
-            L"正在准备更新... | Preparing update...",
-            L"已确认主程序退出，开始读取更新计划 | Parent process exited, reading update plan");
     } else {
         WriteLog((L"Could not open the parent process, it may have already exited, PID=" + std::to_wstring(parentPid) + L". Continuing.").c_str());
-        SetProgressUiStatus(
-            L"正在准备更新... | Preparing update...",
-            L"主程序已退出，开始读取更新计划 | Main process already exited, reading update plan");
     }
+
+    // 主程序已退出（或无法打开句柄时视为已退出）后再弹出进度窗口
+    InitializeProgressUi();
+    SetProgressUiStatus(
+        L"正在准备更新... | Preparing update...",
+        L"已确认主程序退出，开始读取更新计划 | Parent process exited, reading update plan");
 
     // ------------------------------------------------------------------
     // Acquire update mutex to prevent new MAA instances from starting
