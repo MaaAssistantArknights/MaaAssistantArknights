@@ -472,6 +472,7 @@ D:\
     <system:String x:Key="LocalUpdatePackageImportedTitle">本機更新包已就緒</system:String>
     <system:String x:Key="LocalUpdatePackageImportedDesc">偵測到可用的本機更新包，是否立即更新 MAA？（將重啟程式）</system:String>
     <system:String x:Key="LocalUpdatePackageUnsupported">無法識別壓縮檔：{0}\n僅支援拖入目前架構的完整包，或目前版本到更高版本的 OTA 更新包。\n目前版本：{1}\n目前架構：{2}\n支援的包名範例：MAA-v新版本-win-{2}.zip\n或 MAAComponent-OTA-{1}_v新版本-win-{2}.zip</system:String>
+    <system:String x:Key="LocalResourcePackageTooOld">資源包版本（{0}）小於等於目前版本（{1}），已跳過匯入。</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">偵測到新版本，但未找到更新檔</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">請手動下載完整檔案更新！</system:String>
     <system:String x:Key="ForceScheduledStart">強制定時啟動</system:String>

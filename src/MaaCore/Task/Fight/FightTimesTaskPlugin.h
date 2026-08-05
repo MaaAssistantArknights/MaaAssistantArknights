@@ -22,7 +22,7 @@ public:
         NeedStone = 3,    // 3 - 需要源石
     };
 
-    int times = 0;                   // 连战次数
+    int times = 0;                   // 代理倍率
     asst::Rect rect;                 // 点击区域
     Status status = Status::Unknown; // 是否可用
 };

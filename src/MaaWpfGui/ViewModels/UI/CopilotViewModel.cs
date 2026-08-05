@@ -2059,7 +2059,7 @@ public partial class CopilotViewModel : Screen
         bool appended;
         if (CopilotTabIndex == 2)
         {
-            var singleTask = new AsstParadoxCopilotTask() { FileName = TempCopilotFile };
+            var singleTask = new AsstParadoxCopilotTask() { FileName = IsDataFromWeb ? TempCopilotFile : Filename };
             appended = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, singleTask).IsSuccess;
         }
         else

@@ -57,7 +57,7 @@ public class MaaHotKeyActionHandler : IMaaHotKeyActionHandler
             return;
         }
 
-        if (_runningState.GetIdle())
+        if (_runningState.CanInterrupt())
         {
             _ = Instances.TaskQueueViewModel.LinkStart();
 

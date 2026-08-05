@@ -26,6 +26,8 @@ icon: octicon:tools-16
 
 支持从首页自动进入仓库。若自动跳转失败，请手动切换到仓库 `养成材料` 界面并**滑动到最左侧**后开始功能。
 
+识别后的库存数据会缓存保存，供 [库存保持](./depot-maintain.md) 任务和 [理智作战](./combat.md) 中的 `目标库存` 模式使用。也可通过 [更新数据](./user-data-update.md) 任务自动同步。
+
 目前支持以下导出格式：
 
 - [企鹅物流刷图规划器](https://penguin-stats.cn/planner)（ArkPlanner）

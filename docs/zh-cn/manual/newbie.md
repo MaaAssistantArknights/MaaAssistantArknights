@@ -7,6 +7,12 @@ icon: ri:guide-fill
 
 一句话教学！
 
+::: info 关于本文档
+本手册以 **Windows 版 MAA（WPF 桌面端）** 为主进行介绍。MAA Team 主要维护的就是 Windows 端的 WPF UI，maa-cli 和 macOS 版由团队中少数开发者维护，功能可能存在差异或滞后。
+
+部分功能（如库存保持、定时执行、拖入压缩包更新等）由 UI 层实现，核心（MaaCore）不包含此逻辑。使用 maa-cli、macOS 版或直接调用 MaaCore 的第三方 UI 时，这些功能可能不可用，需自行实现。涉及 UI 专属功能的文档页面顶部会有标注。
+:::
+
 ## 前置准备
 
 :::: steps
