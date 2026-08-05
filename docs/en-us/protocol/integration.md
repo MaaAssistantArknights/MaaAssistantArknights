@@ -158,7 +158,9 @@ Currently supported stages for navigation include:
   `1~10` to specify number of consecutive battles.
   <br>
   ::: info Server Difference
-  The CN server increased the max consecutive battles from 6 to 10 after the 2026/8/1 update. Overseas servers are expected to follow suit approximately 6 months later; the limit will take effect automatically at that time.
+  Core dynamically identifies available series values from the in-game series list via OCR, without hardcoding the upper limit. Input validation depends on the resource version:
+  <br>
+  The CN server adopted the new list style after the 2026/8/1 update, accepting `-1~10`; overseas servers still use the old style, accepting only `-1~6` — values exceeding this range are rejected. Overseas servers are expected to follow suit approximately 6 months later; the limit will take effect automatically at that time.
   :::  
   :::  
   ::: field name="drops" type="object" optional  
