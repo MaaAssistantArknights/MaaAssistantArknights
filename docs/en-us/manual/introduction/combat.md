@@ -118,12 +118,12 @@ MAA will use the specified battle multiplier setting:
 
 ### Perform Battles
 
-MAA will run up to the specified number of battles.
+MAA will run up to the specified number of battles. Actual battle count is floored to whole series runs: `floor(Perform Battles / series) × series`. It will not split a partial series just to fill the remaining count (except AUTO, see below).
 
-Example: Assuming you have 100 sanity and the stage costs 6 sanity:
+Example: Assuming you have 100 sanity, the stage costs 6 sanity, and the stage max series is 10:
 
-- If `Perform Battles` is 10 and multiplier is 4: MAA will do 2 runs × 4× multiplier = 8 battles (floor(10/4) × 4 = 8), using 48 sanity. It won't do another 4× run since that would be 12 battles, exceeding the set limit of 10.
-- If `Perform Battles` is 10 and multiplier is AUTO: MAA will do one 6× run plus one 4× run = 10 battles (6 + 4 = 10), using 60 sanity.
+- If `Perform Battles` is 12 and series is 5: MAA will do 2 start-ops × 5× = 10 battles (`floor(12 / 5) × 5 = 10`), using 10 × 6 = 60 sanity. Another 5× run would reach 15 and exceed 12, so it stops at 10.
+- If `Perform Battles` is 12 and series is AUTO: first take the smaller of remaining count and current max available series, run 10× for 10 battles; then run 2× for the remaining 2, totaling 12 battles and using 12 × 6 = 72 sanity.
 
 ### Drop Recognition
 

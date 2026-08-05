@@ -158,9 +158,12 @@ Currently supported stages for navigation include:
   `1~10` to specify number of consecutive battles.
   <br>
   ::: info Server Difference
-  Core dynamically identifies available series values from the in-game series list via OCR, without hardcoding the upper limit. Input validation depends on the resource version:
+  Input validation depends on whether the resource contains `FightSeries-OldMethodFlag`:
   <br>
-  The CN server adopted the new list style after the 2026/8/1 update, accepting `-1~10`; overseas servers still use the old style, accepting only `-1~6` — values exceeding this range are rejected. Overseas servers are expected to follow suit approximately 6 months later; the limit will take effect automatically at that time.
+  - New list (CN main resources after 2026/8/1, without this flag): accepts `-1~10`
+  - Old list (overseas resources with this flag): accepts only `-1~6`; larger values are rejected
+  <br>
+  Overseas servers are expected to follow in about six months, after which the limit becomes 10 with the resource update. The Windows GUI series dropdown currently always offers up to 10; on overseas clients, manually selecting 7~10 will be rejected by Core when the task is submitted.
   :::  
   :::  
   ::: field name="drops" type="object" optional  

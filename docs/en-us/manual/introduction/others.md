@@ -102,7 +102,7 @@ When a resource update is detected during a task, it will be automatically loade
 
 ### Manual Update
 
-If automatic downloads fail or your network is poor, you can manually download the update package and **drag the `.zip` file directly into the MAA main window** to complete the update. MAA identifies the package type via the filename and processes it accordingly.
+If automatic downloads fail or your network is poor, you can manually download the update package and **drag the `.zip` file directly into the MAA main window** to complete the update. MAA identifies the package type and processes it: software packages mainly by filename; resource packages mainly by recognizing a GitHub resource-repo zip and parsing `version.json` inside.
 
 - Dragging **software update packages** (full / OTA): Supported since v6.8.0-beta.2.
 - Dragging **resource update packages**: Supported since v6.16.5.
@@ -129,17 +129,18 @@ If your MAA version is too old to support drag-and-drop (before v6.8.0-beta.2), 
 
 #### Resource Update Packages
 
-- Download the resource repository zip from [GitHub](https://github.com/MaaAssistantArknights/MaaResource/archive/refs/heads/main.zip).
-- After dragging, MAA will verify the resource version (packages older than the current version are rejected), extract and merge into the `resource` directory, and automatically reload.
+- Download the resource repository zip from [GitHub](https://github.com/MaaAssistantArknights/MaaResource/archive/refs/heads/main.zip) (keep the GitHub direct-download layout, e.g. containing `MaaResource-main/resource/...`).
+- After dragging, MAA parses `version.json` inside the package to determine the resource version (packages older than the current one are rejected), then extracts and merges into the `resource` directory and reloads automatically.
 - Resource packages are incremental and do not delete existing resource files.
 - Without drag-and-drop, you can also manually extract and overwrite the `resource` folder (⚠️ incremental content — do not delete the original folder).
 
 #### Unsupported Packages
 
-If the dragged file is not one of the above update packages (e.g., modified filename causing regex mismatch, version mismatch, etc.), MAA will display a notification that it cannot be recognized.
+If the dragged file is not one of the above update packages (e.g., software package filename mismatch, resource package not in GitHub zip layout, version mismatch, etc.), MAA will display a notification that it cannot be recognized.
 
-::: warning File contents are not verified
-MAA only matches by filename and does not verify the actual contents of the archive. If you manually rename a file (e.g., renaming an arm64 package to x64), MAA will still extract it, potentially installing the wrong version. Do not modify the original filename of update packages.
+::: warning Package contents are not fully verified
+- **Software packages** (full / OTA): matched mainly by filename; the archive is **not** checked for the real architecture or version contents. Renaming (e.g. arm64 → x64) may still extract and install the wrong build. Do not change the original filename.
+- **Resource packages**: only checks for a GitHub direct-download zip layout and parses `version.json`; other resource files are **not** fully validated for completeness or correctness. Missing some files may still allow import.
 :::
 
 ## Additional Notes
