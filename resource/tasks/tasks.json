@@ -1271,7 +1271,7 @@
         "next": ["StartButton1"]
     },
     "FightSeries-Icon": {
-        "doc": "代理指挥左侧的连战乘号, rectMove为乘号到次数偏移",
+        "doc": "代理指挥左侧的代理倍率乘号, rectMove为乘号到次数偏移",
         "method": "RGBCount",
         "colorScales": [[30, 70]],
         "roi": [927, 567, 122, 66],
@@ -1312,11 +1312,11 @@
         "next": ["FightSeries-NotClosed", "FightSeries-Closed"]
     },
     "FightSeries-List-Exceeded": {
-        "doc": "连战列表中需要使用理智药才能打的次数会带+号标记",
+        "doc": "代理倍率列表中需要使用理智药才能打的次数会带+号标记",
         "roi": [965, 200, 70, 325]
     },
     "FightSeries-List-Multiply": {
-        "Doc": "连战次数列表每个选项的乘号, rectMove到次数, 灰度低于150为碎石才能打",
+        "Doc": "代理倍率列表每个选项的乘号, rectMove到次数, 灰度低于150为碎石才能打",
         "action": "ClickRect",
         "roi": [960, 200, 40, 360],
         "rectMove": [25, 13, 32, 25],
@@ -1336,7 +1336,7 @@
         "rectMove": [930, 520, 140, 40]
     },
     "StartButton1": {
-        "doc": "绑定插件调整连战次数",
+        "doc": "绑定插件调整代理倍率",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["开始行动", "开始作战", "开始推演"],

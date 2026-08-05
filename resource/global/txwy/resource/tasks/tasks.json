@@ -916,7 +916,7 @@
         "next": ["FightSeries-CloseList"]
     },
     "FightSeries-List-Multiply": {
-        "Doc": "连战次数列表每个选项的乘号, rectMove到次数, 灰度低于150为碎石才能打",
+        "Doc": "代理倍率列表每个选项的乘号, rectMove到次数, 灰度低于150为碎石才能打",
         "action": "ClickRect",
         "roi": [970, 200, 40, 360],
         "rectMove": [25, 10, 20, 25],
