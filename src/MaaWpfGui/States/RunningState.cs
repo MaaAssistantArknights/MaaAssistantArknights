@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
@@ -219,6 +220,12 @@ public class RunningState
         }
     }
 
+    /// <summary>
+    /// 是否空闲（仅反映任务运行状态）。
+    /// 仅供 UI 绑定和按钮状态使用。需要判断"是否可以安全执行打断性操作"（如自动更新重启）时，
+    /// 应使用 <see cref="CanInterrupt"/>，它会额外排除中断锁定（结束后脚本、倒计时等）的情况。
+    /// </summary>
+    /// <returns>当前是否空闲。</returns>
     public bool GetIdle() => Idle;
 
     public void SetIdle(bool idle, [CallerMemberName] string caller = "")
@@ -226,6 +233,52 @@ public class RunningState
         _logger.Information("Idle: {Old} to {New} (called from {Caller})", Idle, idle, caller);
         Idle = idle;
     }
+
+    // 引用计数：CheckAfterCompleted 外层和 TimerCanceledAsync 内层各自 Lock/Unlock，
+    // 只有当计数归零时才真正解除锁定，避免嵌套 try-finally 提前解锁的竞态。
+    private int _interruptLockDepth;
+
+    /// <summary>
+    /// 锁定中断（引用计数 +1）。
+    /// 锁定期间（关机/休眠倒计时、结束后脚本、退出游戏、杀模拟器等），
+    /// <see cref="CanInterrupt"/> 返回 false，<see cref="UntilIdleAsync"/> 会持续等待。
+    /// </summary>
+    /// <param name="caller">调用方名称。</param>
+    public void LockInterrupt([CallerMemberName] string caller = "")
+    {
+        var newValue = Interlocked.Increment(ref _interruptLockDepth);
+        _logger.Information("InterruptLock: depth={Depth} (called from {Caller})", newValue, caller);
+    }
+
+    /// <summary>
+    /// 解除锁定（引用计数 -1，不小于 0）。
+    /// </summary>
+    /// <param name="caller">调用方名称。</param>
+    public void UnlockInterrupt([CallerMemberName] string caller = "")
+    {
+        var newValue = Interlocked.Decrement(ref _interruptLockDepth);
+        if (newValue < 0)
+        {
+            _logger.Warning("InterruptLock unlock: depth underflow, clamping to 0 (called from {Caller})", caller);
+            newValue = Interlocked.Exchange(ref _interruptLockDepth, 0);
+        }
+        else
+        {
+            _logger.Information("InterruptLock: depth={Depth} (called from {Caller})", newValue, caller);
+        }
+    }
+
+    /// <summary>
+    /// 当前中断是否被锁定。
+    /// </summary>
+    public bool IsInterruptLocked() => Volatile.Read(ref _interruptLockDepth) > 0;
+
+    /// <summary>
+    /// 当前是否可以安全打断（空闲且中断未锁定）。
+    /// 中断锁定期间（关机/休眠倒计时、结束后脚本、退出游戏、杀模拟器等）不属于可安全打断的状态。
+    /// </summary>
+    /// <returns>空闲且中断未锁定返回 <see langword="true"/>，否则返回 <see langword="false"/>。</returns>
+    public bool CanInterrupt() => GetIdle() && !IsInterruptLocked();
 
     private bool _inited;
 
@@ -291,7 +344,7 @@ public class RunningState
     {
         while (true)
         {
-            while (!GetIdle())
+            while (!CanInterrupt())
             {
                 await Task.Delay(time);
             }
@@ -301,7 +354,7 @@ public class RunningState
             {
                 await Task.Delay(confirmInterval);
 
-                if (GetIdle())
+                if (CanInterrupt())
                 {
                     confirmed++;
                 }
