@@ -399,6 +399,11 @@ public static class ResourceUpdater
             SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
             ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
         }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to reload resource after import");
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+        }
         finally
         {
             _isReloading = false;
@@ -506,6 +511,12 @@ public static class ResourceUpdater
 
             SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Empty;
             return LocalResourcePackageImportStatus.Imported;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to import local resource package: {PackagePath}", packagePath);
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+            return LocalResourcePackageImportStatus.Failed;
         }
         finally
         {

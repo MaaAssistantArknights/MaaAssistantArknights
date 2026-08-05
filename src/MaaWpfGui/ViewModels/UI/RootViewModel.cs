@@ -268,7 +268,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     }
 
     [UsedImplicitly]
-    public void ManualPackageDrop(object sender, DragEventArgs e)
+    public async void ManualPackageDrop(object sender, DragEventArgs e)
     {
         if (!TryGetDroppedZipFile(e, out string packagePath))
         {
@@ -277,7 +277,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
 
         _logger.Information("Dropped zip file detected in main window: {PackagePath}", packagePath);
         e.Handled = true;
-        HandleImportedPackage(packagePath);
+        await HandleImportedPackageAsync(packagePath);
     }
 
     /// <inheritdoc/>
@@ -320,7 +320,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         return true;
     }
 
-    private static void HandleImportedPackage(string packagePath)
+    private static async Task HandleImportedPackageAsync(string packagePath)
     {
         string currentVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
         string architecture = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
@@ -335,7 +335,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         // Debug 专用：Ctrl+Shift 拖入时只做检测判断，不实际注册，用于快速验证正则匹配
         if (Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift))
         {
-            DebugInspectDroppedPackage(packagePath, packageInspection, currentVersion, normalizedArchitecture);
+            await DebugInspectDroppedPackageAsync(packagePath, packageInspection, currentVersion, normalizedArchitecture);
             return;
         }
 #endif
@@ -343,7 +343,14 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         // 不是版本更新包文件名模式时，尝试作为资源更新包导入（需读取 zip entry，开销较高）
         if (!packageInspection.MatchedPattern)
         {
-            if (ResourceUpdater.IsResourcePackage(packagePath, out var resourceDateTime))
+            // zip 扫描开销较高（万级 entry），放到后台线程避免卡 UI
+            var (isResourcePackage, resourceDateTime) = await Task.Run(() =>
+            {
+                bool result = ResourceUpdater.IsResourcePackage(packagePath, out DateTimeOffset dt);
+                return (result, dt);
+            });
+
+            if (isResourcePackage)
             {
                 _logger.Information("Dropped package detected as resource package: {PackagePath}", packagePath);
                 _ = ResourceUpdater.ImportLocalResourcePackageAndReloadAsync(packagePath, resourceDateTime);
@@ -420,13 +427,18 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     /// Debug 专用：展示拖入包的检测结果（状态、版本、架构），不执行注册或解压。
     /// 触发方式：按住 Ctrl+Shift 拖入 zip。
     /// </summary>
-    private static void DebugInspectDroppedPackage(
+    private static async Task DebugInspectDroppedPackageAsync(
         string packagePath,
         PendingUpdateApplier.PackageInspectionResult inspection,
         string currentVersion,
         string normalizedArchitecture)
     {
-        bool isResource = ResourceUpdater.IsResourcePackage(packagePath, out var resourceDateTime);
+        DateTimeOffset resourceDateTime = await Task.Run(() =>
+        {
+            ResourceUpdater.IsResourcePackage(packagePath, out var dt);
+            return dt;
+        });
+        bool isResource = resourceDateTime != DateTimeOffset.MinValue;
 
         string detail = string.Format(
             """

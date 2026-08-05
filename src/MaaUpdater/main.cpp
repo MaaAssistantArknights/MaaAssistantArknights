@@ -1886,16 +1886,29 @@ int wmain(int argc, wchar_t* argv[])
     HANDLE hParent = OpenProcess(SYNCHRONIZE, FALSE, parentPid);
     if (hParent != nullptr) {
         WriteLog((L"Waiting for parent process to exit, PID=" + std::to_wstring(parentPid)).c_str());
-        // 进度窗口尚未创建，无需泵消息；直接阻塞等待父进程退出
-        WaitForSingleObject(hParent, INFINITE);
+        // 快路径：15 秒内父进程退出则不弹窗，避免与正在退出的 MAA 抢前台；
+        // 超时后创建进度窗口并泵消息继续等待，防止父进程退出卡住时 Updater
+        // 变成不可见、永不退出的幽灵进程
+        if (WaitForSingleObject(hParent, 15000) == WAIT_TIMEOUT) {
+            InitializeProgressUi();
+            SetProgressUiStatus(
+                L"正在准备更新... | Preparing update...",
+                L"等待 MAA 主程序退出 | Waiting for the main MAA process to exit");
+            while (WaitForSingleObject(hParent, 100) == WAIT_TIMEOUT) {
+                PumpProgressUiMessages();
+            }
+        }
         CloseHandle(hParent);
         WriteLog(L"Parent process exited.");
     } else {
         WriteLog((L"Could not open the parent process, it may have already exited, PID=" + std::to_wstring(parentPid) + L". Continuing.").c_str());
     }
 
-    // 主程序已退出（或无法打开句柄时视为已退出）后再弹出进度窗口
-    InitializeProgressUi();
+    // 主程序已退出（或无法打开句柄时视为已退出）后再弹出进度窗口。
+    // 若超时路径已创建窗口，则跳过，避免重复创建
+    if (!g_progressUi.enabled) {
+        InitializeProgressUi();
+    }
     SetProgressUiStatus(
         L"正在准备更新... | Preparing update...",
         L"已确认主程序退出，开始读取更新计划 | Parent process exited, reading update plan");

@@ -260,7 +260,9 @@ public class RunningState
         if (newValue < 0)
         {
             _logger.Warning("InterruptLock unlock: depth underflow, clamping to 0 (called from {Caller})", caller);
-            newValue = Interlocked.Exchange(ref _interruptLockDepth, 0);
+
+            // 仅当值仍为该负数时才归零，避免与并发 LockInterrupt 竞态抹掉合法的锁
+            Interlocked.CompareExchange(ref _interruptLockDepth, 0, newValue);
         }
         else
         {
