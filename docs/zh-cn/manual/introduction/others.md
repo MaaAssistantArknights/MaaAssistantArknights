@@ -5,6 +5,10 @@ icon: icon-park-solid:other
 
 # 其他
 
+::: info UI 专属功能
+本页多数功能由 UI 层实现，详见[新手上路](../newbie.md#关于本文档)中的说明。
+:::
+
 ## GPU 加速推理
 
 使用 DirectML 调用 GPU 进行识别推理加速<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9236)</sup>，可通过少量的 GPU 占用降低大量的 CPU 占用，推荐启用。
@@ -39,10 +43,6 @@ v4.13.0 后支持设置开始前/结束后脚本，可在任务前后自动执�
 在 Windows 版本中，MAA 的所有配置都存放在 `config` 文件夹里。迁移此文件夹即可迁移 MAA 的所有设置。
 
 ## 定时执行
-
-::: warning 平台限制
-定时执行功能由 MAA GUI（Windows WPF 版）实现。使用 maa-cli、macOS 版或直接调用 MaaCore 的第三方 UI 无法使用此功能，需自行实现。
-:::
 
 在 `设置` - `定时执行` 中可设置最多 8 组定时任务。每组包含启用开关、时间（时:分）和对应的配置。
 
@@ -102,14 +102,10 @@ MAA 的更新分为两种内容：
 
 ### 手动更新
 
-::: warning 平台限制
-拖入压缩包更新功能由 MAA GUI（Windows WPF 版）实现。使用 maa-cli、macOS 版或直接调用 MaaCore 的第三方 UI 无法使用此功能，需自行实现。
+如果自动下载失败或网络不佳，可以手动下载更新包，然后**直接将 `.zip` 压缩包拖入 MAA 主窗口**即可完成更新。MAA 会通过文件名自动识别包类型并处理。
 
 - 拖入**软件更新包**（完整包 / OTA）：v6.8.0-beta.2 起支持。
 - 拖入**资源更新包**：v6.16.5 起支持。
-:::
-
-如果自动下载失败或网络不佳，可以手动下载更新包，然后**直接将 `.zip` 压缩包拖入 MAA 主窗口**即可完成更新。MAA 会通过文件名自动识别包类型并处理。
 
 ::: tip
 仅支持从 [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载的包。[Mirror酱](https://mirrorchyan.com/zh/projects?rid=MAA) 的更新包格式不同，且为自动更新专用，**不支持拖入**。

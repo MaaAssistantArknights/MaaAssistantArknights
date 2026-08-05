@@ -5,8 +5,8 @@ icon: mdi:package-variant-closed
 
 # 库存保持
 
-::: warning 平台限制
-本功能由 MAA GUI（Windows WPF 版）实现，核心（MaaCore）不包含此逻辑。使用 maa-cli、macOS 版或直接调用 MaaCore 的第三方 UI 无法使用本功能，需自行实现。
+::: info UI 专属功能
+本页功能由 UI 层实现，详见[新手上路](../newbie.md#关于本文档)中的说明。
 :::
 
 库存保持是一个**自动化刷材料到目标库存**的任务。它会根据 [仓库识别](./tools.md#仓库识别) 中缓存的库存数据，自动计算缺口并刷取指定关卡，直到材料数量达到目标值后停止。

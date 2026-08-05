@@ -5,8 +5,8 @@ icon: mdi:account-sync
 
 # 更新数据
 
-::: warning 平台限制
-本功能由 MAA GUI（Windows WPF 版）实现，核心（MaaCore）不包含此逻辑。使用 maa-cli、macOS 版或直接调用 MaaCore 的第三方 UI 无法使用本功能，需自行实现。
+::: info UI 专属功能
+本页功能由 UI 层实现，详见[新手上路](../newbie.md#关于本文档)中的说明。
 :::
 
 更新数据任务用于**同步干员名册和仓库库存**的缓存数据，为 [库存保持](./depot-maintain.md) 等功能提供准确的库存基准。
