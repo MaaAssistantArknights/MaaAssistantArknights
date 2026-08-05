@@ -490,6 +490,10 @@ public partial class CopilotViewModel : Screen
     public string OperBoxLastSyncTimeText
     {
         get {
+            if (!EnableOperBoxAssist)
+            {
+                return string.Empty;
+            }
             try {
                 if (!string.IsNullOrEmpty(OperBoxDataPath) && File.Exists(OperBoxDataPath)) {
                     var json = JObject.Parse(File.ReadAllText(OperBoxDataPath));
