@@ -11,9 +11,12 @@ icon: hugeicons:brain-02
   - `Use Sanity Potion` specifies how many times to replenish sanity (may use multiple potions at once).
   - `Use Originium` specifies how many Originium to use (one at a time). Originium won't be used if sanity potions are available.
   - `Perform Battles` specifies the number of battles to complete (e.g., "stop after 15 runs").
-  - `Material` specifies how many of a specific material to obtain (e.g., "stop after getting 5 Orirock").
+  - `Material` specifies how many of a specific material to obtain (e.g., "stop after getting 5 Orirock"), with two counting modes:
+    - `Drop Quantity`: Counts the number of that material dropped during this task.
+    - `Target Inventory`: References the depot data saved in [Depot Recognition](./tools.md#depot-recognition) and only farms up to the set inventory level. Requires depot data obtained via [Update Doctor Data](./user-data-update.md) or [Depot Recognition](./tools.md#depot-recognition). This mode is implemented by the UI (MaaCore only supports drop quantity mode; the UI calculates the shortfall from the depot cache and converts it to a drop count).
 
 - `Material` and `Stage Selection` are independent options. `Material` only uses the material count as a stopping condition and doesn't automatically navigate to stages that drop that material.
+- To manage multiple material inventory targets at once, use the [Depot Maintain](./depot-maintain.md) task, which supports multiple plans farmed in sequence.
 - `Use Originium` is only checked after `Use Sanity Potion`. Since MAA only uses Originium when no sanity potions remain, checking `Use Originium` will automatically set `Use Sanity Potion` to 999, ensuring all potions are used first.
 
 ::: details Examples

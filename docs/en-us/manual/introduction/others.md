@@ -33,6 +33,93 @@ Since v4.13.0, MAA supports setting scripts to run before starting and after fin
 
 In the Windows version, all MAA configurations are stored in the `config` folder. Migrating this folder transfers all MAA settings.
 
+## Update
+
+MAA updates come in two types of content:
+
+- **Software version**: Updates to the main program's UI and features.
+- **Resource version**: Material data updates, including new stage maps, drop item icons, recruitment operator tags, etc. Software releases typically include the latest resources at the time of release.
+
+::: tip Navigation Hot Update
+There is also a "navigation hot update" that triggers automatically to update the main interface prompts and event stage entries. A notification appears in the top-right corner upon success.
+:::
+
+### Update Channel
+
+You can switch update channels in `Settings` - `Update Settings`:
+
+- **Stable**: Fewer bugs, slower support for new features and themes. New features may take weeks to be supported.
+- **Beta**: May have minor bugs, faster support for new features and themes.
+- **Nightly**: Contains unstable features, for testing only. Do not discuss nightly issues elsewhere.
+
+::: tip
+If the interface prompts that your version is too low and the minimum required version is beta, but you are already on the latest version, this means the feature is currently only available in the beta channel. Wait for the stable release or switch to beta to get it.
+:::
+
+### Auto Update
+
+In `Settings` - `Update Settings`, you can choose the update source:
+
+| Update Source | Description |
+| :--- | :--- |
+| **Global Source** (GitHub) | Software version pulled from GitHub; resource version uses [MirrorChyan](https://mirrorchyan.com/en/projects?rid=MAA) for free update detection, manually click `Resource Update` to download from GitHub. |
+| **MirrorChyan** | Enter CDK to enable automatic updates for both software and resources, prioritizing high-speed CDN downloads. More stable and faster. |
+
+You can toggle the following options in update settings:
+
+- `Check for updates on startup`
+- `Scheduled update check` (server local time 04:00 / 22:00, corresponding to daily reset and full sanity recovery times)
+- `Auto-download update packages`: When disabled, only notifications are shown; you can download the package yourself and drag it into MAA (see Manual Update below).
+- `Auto-install update packages`
+
+When a resource update is detected during a task, it will be automatically loaded when the system is idle, taking effect on the next task.
+
+### Manual Update
+
+::: warning Platform Limitation
+The drag-and-drop package update feature is implemented by MAA GUI (Windows WPF version). Users of maa-cli, macOS version, or third-party UIs that directly call MaaCore cannot use this feature and must implement it themselves.
+
+- Dragging **software update packages** (full / OTA): Supported since v6.8.0-beta.2.
+- Dragging **resource update packages**: Supported since v6.16.5.
+:::
+
+If automatic downloads fail or your network is poor, you can manually download the update package and **drag the `.zip` file directly into the MAA main window** to complete the update. MAA identifies the package type via the filename and processes it accordingly.
+
+::: tip
+Only packages downloaded from [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) are supported. [MirrorChyan](https://mirrorchyan.com/en/projects?rid=MAA) packages have a different format and are for automatic updates only — **they cannot be dragged in**.
+:::
+
+#### Software Update Packages (Full / OTA)
+
+- Download the corresponding update package from [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases). Do not modify the filename format:
+  - **Full package**: `MAA-<version>-win-<arch>.zip`, e.g., `MAA-v5.20.0-win-x64.zip`.
+  - **OTA package**: `MAAComponent-OTA-<current_version>_<target_version>-win-<arch>.zip`. The source version must match your current version.
+- After dragging, MAA will automatically extract and apply the update on next restart.
+- **Full package updates require manual confirmation**: Full packages clean old files in the installation directory (preserving `config`, `data`, `debug`, `cache`, `achievement`, `background`, etc.). Ensure MAA is installed in a standalone folder.
+
+::: danger Full Package Update Risk
+If you place MAA directly in a disk root, Desktop, Downloads, or mix it with other programs/personal files at the same directory level, full package updates may delete sibling files. Always install MAA in a standalone folder and manually back up before updating.
+:::
+
+::: details Traditional method (without drag-and-drop)
+If your MAA version is too old to support drag-and-drop (before v6.8.0-beta.2), extract the full package into a **new** folder, then copy the `config` and `data` folders from the old directory to preserve your data. ⚠️ Do not overwrite the old folder directly — incorrect operations may cause resource corruption.
+:::
+
+#### Resource Update Packages
+
+- Download the resource repository zip from [GitHub](https://github.com/MaaAssistantArknights/MaaResource/archive/refs/heads/main.zip).
+- After dragging, MAA will verify the resource version (packages older than the current version are rejected), extract and merge into the `resource` directory, and automatically reload.
+- Resource packages are incremental and do not delete existing resource files.
+- Without drag-and-drop, you can also manually extract and overwrite the `resource` folder (⚠️ incremental content — do not delete the original folder).
+
+#### Unsupported Packages
+
+If the dragged file is not one of the above update packages (e.g., modified filename causing regex mismatch, version mismatch, etc.), MAA will display a notification that it cannot be recognized.
+
+::: warning File contents are not verified
+MAA only matches by filename and does not verify the actual contents of the archive. If you manually rename a file (e.g., renaming an arm64 package to x64), MAA will still extract it, potentially installing the wrong version. Do not modify the original filename of update packages.
+:::
+
 ## Additional Notes
 
 - Tasks on the left side of the main page can be dragged to change their order, as can facilities in the base management settings.
