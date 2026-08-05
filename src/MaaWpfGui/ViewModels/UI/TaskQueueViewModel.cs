@@ -545,82 +545,81 @@ public class TaskQueueViewModel : Screen
             }
 
             actions.LoadPostActions();
+            return;
+
+            bool HasOtherMaa()
+            {
+                var processesCount = Process.GetProcessesByName("MAA").Length;
+                _logger.Information("MAA processes count: {ProcessesCount}", processesCount);
+                return processesCount > 1;
+            }
+
+            void DoKillEmulator()
+            {
+                if (!EmulatorHelper.KillEmulatorModeSwitcher())
+                {
+                    AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
+                }
+            }
+
+            async Task DoHibernate()
+            {
+                actions.LoadPostActions();
+
+                await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
+                if (await TimerCanceledAsync(
+                        LocalizationHelper.GetString("Hibernate"),
+                        LocalizationHelper.GetString("HibernatePrompt"),
+                        LocalizationHelper.GetString("Cancel"),
+                        60))
+                {
+                    return;
+                }
+
+                _logger.Information("Hibernate not canceled, proceeding to hibernate.");
+                PowerManagement.Hibernate();
+            }
+
+            async Task DoShutDown()
+            {
+                PowerManagement.Shutdown();
+
+                await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
+                if (await TimerCanceledAsync(
+                        LocalizationHelper.GetString("Shutdown"),
+                        LocalizationHelper.GetString("AboutToShutdown"),
+                        LocalizationHelper.GetString("Cancel"),
+                        60))
+                {
+                    PowerManagement.AbortShutdown();
+                    return;
+                }
+
+                _logger.Information("Shutdown not canceled, proceeding to exit application.");
+                Bootstrapper.Shutdown();
+            }
+
+            async Task DoSleep()
+            {
+                actions.LoadPostActions();
+
+                await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
+                if (await TimerCanceledAsync(
+                        LocalizationHelper.GetString("Sleep"),
+                        LocalizationHelper.GetString("SleepPrompt"),
+                        LocalizationHelper.GetString("Cancel"),
+                        60))
+                {
+                    return;
+                }
+
+                _logger.Information("Sleep not canceled, proceeding to sleep.");
+                PowerManagement.Sleep();
+            }
         }
         finally
         {
             RunningState.Instance.UnlockInterrupt();
-        }
-
-        return;
-
-        bool HasOtherMaa()
-        {
-            var processesCount = Process.GetProcessesByName("MAA").Length;
-            _logger.Information("MAA processes count: {ProcessesCount}", processesCount);
-            return processesCount > 1;
-        }
-
-        void DoKillEmulator()
-        {
-            if (!EmulatorHelper.KillEmulatorModeSwitcher())
-            {
-                AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
-            }
-        }
-
-        async Task DoHibernate()
-        {
-            actions.LoadPostActions();
-
-            await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
-            if (await TimerCanceledAsync(
-                    LocalizationHelper.GetString("Hibernate"),
-                    LocalizationHelper.GetString("HibernatePrompt"),
-                    LocalizationHelper.GetString("Cancel"),
-                    60))
-            {
-                return;
-            }
-
-            _logger.Information("Hibernate not canceled, proceeding to hibernate.");
-            PowerManagement.Hibernate();
-        }
-
-        async Task DoShutDown()
-        {
-            PowerManagement.Shutdown();
-
-            await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
-            if (await TimerCanceledAsync(
-                    LocalizationHelper.GetString("Shutdown"),
-                    LocalizationHelper.GetString("AboutToShutdown"),
-                    LocalizationHelper.GetString("Cancel"),
-                    60))
-            {
-                PowerManagement.AbortShutdown();
-                return;
-            }
-
-            _logger.Information("Shutdown not canceled, proceeding to exit application.");
-            Bootstrapper.Shutdown();
-        }
-
-        async Task DoSleep()
-        {
-            actions.LoadPostActions();
-
-            await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
-            if (await TimerCanceledAsync(
-                    LocalizationHelper.GetString("Sleep"),
-                    LocalizationHelper.GetString("SleepPrompt"),
-                    LocalizationHelper.GetString("Cancel"),
-                    60))
-            {
-                return;
-            }
-
-            _logger.Information("Sleep not canceled, proceeding to sleep.");
-            PowerManagement.Sleep();
         }
     }
 
