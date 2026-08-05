@@ -236,7 +236,7 @@ void asst::BattleFormationTask::formation_with_last_opers()
         const battle::OperNameTag& oper_tag = it->first;
         const std::string& group_name = it->second;
 
-        if (m_operbox_assist_enabled) {
+        if (is_operbox_for_assignment()) {
             // compare_formation 后剩下的是完全相同的干员组, 但是可能预匹配结果不同
             auto pre_assigned_it = m_operbox_assigned.find(group_name);
             if (pre_assigned_it == m_operbox_assigned.end() ||
@@ -302,7 +302,7 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, const std::vect
         if (select_opers_in_cur_page(oper_group)) {
             has_error = false;
             bool exit = std::ranges::all_of(oper_group, [&](OperGroup* group) {
-                if (m_operbox_assist_enabled && group->name == m_operbox_unmatched_group) {
+                if (is_operbox_for_assignment() && group->name == m_operbox_unmatched_group) {
                     // Mark as missing so the existing support-unit filling logic can build required_opers.
                     for (auto& oper : group->opers) {
                         if (oper.status == battle::OperStatus::Unchecked) {
@@ -648,7 +648,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             level_last = oper_cache_it->second.level;
         }
         const auto& iter = std::ranges::find_if(groups, [&](OperGroup* group) {
-            if (m_operbox_assist_enabled) {
+            if (is_operbox_for_assignment()) {
                 if (auto it = m_operbox_assigned.find(group->name);
                     it != m_operbox_assigned.end() && it->second == BattleData.get_id(res.text)) {
                     auto sel = std::ranges::find_if(group->opers, is_selectable);
@@ -1171,7 +1171,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
 
     m_operbox_assigned.clear();
     m_operbox_unmatched_group.clear();
-    if (!m_operbox_assist_enabled) {
+    if (!is_operbox_for_assignment()) {
         return true;
     }
 

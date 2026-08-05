@@ -2085,7 +2085,7 @@ public partial class CopilotViewModel : Screen
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
-                OperBoxAssist = EnableOperBoxAssist && IgnoreRequirements,
+                OperBoxAssist = EnableOperBoxAssist,
                 OperBoxDataPath = OperBoxDataPath,
             };
 
@@ -2142,7 +2142,7 @@ public partial class CopilotViewModel : Screen
                 LoopTimes = Loop ? LoopTimes : 1,
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
-                OperBoxAssist = EnableOperBoxAssist && IgnoreRequirements,
+                OperBoxAssist = EnableOperBoxAssist,
                 OperBoxDataPath = OperBoxDataPath,
             };
 
