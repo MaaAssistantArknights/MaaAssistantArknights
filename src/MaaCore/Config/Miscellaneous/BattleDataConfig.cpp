@@ -62,8 +62,8 @@ bool asst::BattleDataConfig::parse(const json::value& json)
 
         const auto& rarity = char_data_json.at("rarity").as_integer();
         data_ptr->rarity = rarity;
-        const auto& sort_index = char_data_json.at("sortIndex").as_integer();
-        data_ptr->sort_index = sort_index;
+        // sortIndex 是唯一值，缺失时给 -1（0 是合法值，保留）
+        data_ptr->sort_index = char_data_json.get("sortIndex", -1);
         if (auto tokens_opt = char_data_json.find<json::array>("tokens")) {
             for (const auto& token : *tokens_opt) {
                 data_ptr->tokens.emplace_back(token.as_string());
