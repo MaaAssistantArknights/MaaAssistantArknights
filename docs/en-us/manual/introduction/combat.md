@@ -13,7 +13,7 @@ icon: hugeicons:brain-02
   - `Perform Battles` specifies the number of battles to complete (e.g., "stop after 15 runs").
   - `Material` specifies how many of a specific material to obtain (e.g., "stop after getting 5 Orirock"), with two counting modes:
     - `Drop Quantity`: Counts the number of that material dropped during this task.
-    - `Target Inventory`: References the depot data saved in [Depot Recognition](./tools.md#depot-recognition) and only farms up to the set inventory level. Requires depot data obtained via [Update Doctor Data](./user-data-update.md) or [Depot Recognition](./tools.md#depot-recognition). This mode is implemented by the UI (MaaCore only supports drop quantity mode; the UI calculates the shortfall from the depot cache and converts it to a drop count).
+    - `Target Inventory`: References the depot data saved in [Depot Recognition](./tools.md#depot-recognition) and only farms up to the set inventory level. Requires depot data obtained via [Update Doctor Data](./user-data-update.md) or [Depot Recognition](./tools.md#depot-recognition). This mode is implemented by the UI (Core only supports drop quantity mode).
 
 - `Material` and `Stage Selection` are independent options. `Material` only uses the material count as a stopping condition and doesn't automatically navigate to stages that drop that material.
 - To manage multiple material inventory targets at once, use the [Depot Maintain](./depot-maintain.md) task, which supports multiple plans farmed in sequence.
@@ -65,6 +65,12 @@ icon: hugeicons:brain-02
 
 - MAA navigates to Annihilation using the button at the top-right of the terminal home screen. Ensure your selected Annihilation stage has unlocked `Full Delegation` and that you have enough `PRTS Annihilation Delegation Cards`.
 - This feature is only recommended for stages where you've already achieved the 400-kill milestone.
+- If the Annihilation entry cannot be found during navigation, the weekly Annihilation is treated as completed and the task ends immediately (not counted as a failure).
+- During navigation, MAA checks whether `Full Delegation` (sweep) is available. If not, the task fails and exits.
+- During runtime, MAA does **not** continuously check whether sweep tickets are sufficient. If tickets run out mid-run, later battles may fall back to normal auto-deploy and take much longer.
+- At settlement, MAA recognizes the weekly Orundum progress (e.g. `1800 / 1800`) and automatically stops when the weekly cap is reached.
+- Annihilation is a permanent stage: if it is selected in stage selection / alternative stages, later alternative stages will not continue to be recognized or run.
+- Annihilation drops are not uploaded to Penguin Statistics or Yituliu.
 
 ## Advanced Settings
 
@@ -78,6 +84,7 @@ Example: Alternative Stages are `CE-6/5`, `1-7` and `LS-6/5`:
 - If `CE-6/5` is open today, MAA will run it and ignore the alternatives. If you haven't unlocked auto-deploy for CE-6/5, the task will fail.
 - If `CE-6/5` is closed today, MAA will run `1-7` instead. If you haven't unlocked auto-deploy for 1-7, the task will fail.
 - Since `1-7` is a permanent stage that appears before `LS-6/5` in the list, MAA will never run `LS-6/5` in this scenario.
+- Likewise, if a permanent stage such as `Annihilation` is selected in the alternatives, later stages will not continue to be recognized.
 
 ### Multiplier
 

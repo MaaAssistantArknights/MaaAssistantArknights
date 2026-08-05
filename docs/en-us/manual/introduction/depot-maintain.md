@@ -5,8 +5,8 @@ icon: mdi:package-variant-closed
 
 # Depot Maintain
 
-::: warning Platform Limitation
-This feature is implemented by MAA GUI (Windows WPF version). The core (MaaCore) does not contain this logic. Users of maa-cli, macOS version, or third-party UIs that directly call MaaCore cannot use this feature and must implement it themselves.
+::: info UI-Only Feature
+This page covers UI-layer features. See [Getting Started](../newbie.md#about-this-documentation) for details.
 :::
 
 Depot Maintain is a task that **automatically farms materials to a target inventory level**. It calculates the shortfall based on the cached depot data from [Depot Recognition](./tools.md#depot-recognition) and farms the specified stage until the target quantity is reached.

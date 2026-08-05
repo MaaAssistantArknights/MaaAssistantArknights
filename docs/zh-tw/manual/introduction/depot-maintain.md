@@ -5,8 +5,8 @@ icon: mdi:package-variant-closed
 
 # 倉庫維持
 
-::: warning 平台限制
-本功能由 MAA GUI（Windows WPF 版）實作，核心（MaaCore）不包含此邏輯。使用 maa-cli、macOS 版或直接呼叫 MaaCore 的第三方 UI 無法使用本功能，需自行實作。
+::: info UI 專屬功能
+本頁功能由 UI 層實作，詳見[新手上路](../newbie.md#關於本文檔)中的說明。
 :::
 
 倉庫維持是一個**自動化刷材料到目標庫存**的任務。它會根據 [倉庫辨識](./tools.md#倉庫辨識) 中快取的庫存資料，自動計算缺口並刷取指定關卡，直到材料數量達到目標值後停止。

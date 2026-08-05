@@ -5,6 +5,10 @@ icon: icon-park-solid:other
 
 # Others
 
+::: info UI-Only Feature
+Most features on this page are implemented by the UI layer. See [Getting Started](../newbie.md#about-this-documentation) for details.
+:::
+
 ## GPU-Accelerated Inference
 
 Uses DirectML to call the GPU for recognition inference acceleration<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9236)</sup>, reducing CPU usage significantly with minimal GPU usage. Recommended to enable.
@@ -39,10 +43,6 @@ Since v4.13.0, MAA supports setting scripts to run before starting and after fin
 In the Windows version, all MAA configurations are stored in the `config` folder. Migrating this folder transfers all MAA settings.
 
 ## Scheduled Execution
-
-::: warning Platform Limitation
-Scheduled execution is implemented by MAA GUI (Windows WPF version). Users of maa-cli, macOS version, or third-party UIs that directly call MaaCore cannot use this feature and must implement it themselves.
-:::
 
 In `Settings` - `Scheduled Execution`, you can set up to 8 timed tasks. Each includes an enable toggle, time (hour:minute), and a corresponding configuration.
 
@@ -102,14 +102,10 @@ When a resource update is detected during a task, it will be automatically loade
 
 ### Manual Update
 
-::: warning Platform Limitation
-The drag-and-drop package update feature is implemented by MAA GUI (Windows WPF version). Users of maa-cli, macOS version, or third-party UIs that directly call MaaCore cannot use this feature and must implement it themselves.
+If automatic downloads fail or your network is poor, you can manually download the update package and **drag the `.zip` file directly into the MAA main window** to complete the update. MAA identifies the package type via the filename and processes it accordingly.
 
 - Dragging **software update packages** (full / OTA): Supported since v6.8.0-beta.2.
 - Dragging **resource update packages**: Supported since v6.16.5.
-:::
-
-If automatic downloads fail or your network is poor, you can manually download the update package and **drag the `.zip` file directly into the MAA main window** to complete the update. MAA identifies the package type via the filename and processes it accordingly.
 
 ::: tip
 Only packages downloaded from [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) are supported. [MirrorChyan](https://mirrorchyan.com/en/projects?rid=MAA) packages have a different format and are for automatic updates only — **they cannot be dragged in**.

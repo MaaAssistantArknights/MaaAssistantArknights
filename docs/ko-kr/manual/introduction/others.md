@@ -5,6 +5,10 @@ icon: icon-park-solid:other
 
 # Others
 
+::: info UI 전용 기능
+이 페이지의 대부분 기능은 UI 계층에서 구현됩니다. 자세한 내용은 [초보자 가이드](../newbie.md#이-문서에-대해)를 참고하세요.
+:::
+
 ## GPU 가속 추론
 
 DirectML을 사용하여 GPU를 호출하여 인식 추론을 가속화합니다<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9236)</sup>. 적은 GPU 사용량으로 CPU 사용량을 크게 줄일 수 있으므로 활성화하는 것을 권장합니다.
@@ -41,10 +45,6 @@ v4.13.0 이후에는 시작 전/후 스크립트를 설정할 수 있으며, 작
 Windows 버전에서는 MAA의 모든 구성이 `config` 폴더에 저장됩니다. 이 폴더를 마이그레이션하면 모든 MAA 설정이 이전됩니다.
 
 ## 정기 실행
-
-::: warning 플랫폼 제한
-정기 실행 기능은 MAA GUI(Windows WPF 버전)에서 구현됩니다. maa-cli, macOS 버전, 또는 MaaCore를 직접 호출하는 서드파티 UI에서는 이 기능을 사용할 수 없으며, 직접 구현해야 합니다.
-:::
 
 `설정` - `정기 실행`에서 최대 8개의 예약 작업을 설정할 수 있습니다. 각 항목에는 활성화 토글, 시간(시:분), 해당 구성이 포함됩니다.
 
@@ -104,14 +104,10 @@ MAA의 업데이트는 두 가지 콘텐츠로 나뉩니다:
 
 ### 수동 업데이트
 
-::: warning 플랫폼 제한
-압축 패키지 드래그 앤 드롭 업데이트 기능은 MAA GUI(Windows WPF 버전)에서 구현됩니다. maa-cli, macOS 버전, 또는 MaaCore를 직접 호출하는 서드파티 UI에서는 이 기능을 사용할 수 없으며, 직접 구현해야 합니다.
+자동 다운로드가 실패하거나 네트워크가 불량한 경우, 수동으로 업데이트 패키지를 다운로드한 후 **`.zip` 압축 패키지를 MAA 메인 창에 직접 드래그**하여 업데이트를 완료할 수 있습니다. MAA는 파일 이름으로 패키지 유형을 자동으로 인식하여 처리합니다.
 
 - **소프트웨어 업데이트 패키지**(전체 / OTA) 드래그: v6.8.0-beta.2부터 지원.
 - **리소스 업데이트 패키지** 드래그: v6.16.5부터 지원.
-:::
-
-자동 다운로드가 실패하거나 네트워크가 불량한 경우, 수동으로 업데이트 패키지를 다운로드한 후 **`.zip` 압축 패키지를 MAA 메인 창에 직접 드래그**하여 업데이트를 완료할 수 있습니다. MAA는 파일 이름으로 패키지 유형을 자동으로 인식하여 처리합니다.
 
 ::: tip
 [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)에서 다운로드한 패키지만 지원됩니다. [MirrorChyan](https://mirrorchyan.com/zh/projects?rid=MAA)의 업데이트 패키지는 형식이 다르며, 자동 업데이트 전용이므로 **드래그를 지원하지 않습니다**.

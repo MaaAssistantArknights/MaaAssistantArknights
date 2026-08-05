@@ -5,8 +5,8 @@ icon: mdi:account-sync
 
 # Update Doctor Data
 
-::: warning Platform Limitation
-This feature is implemented by MAA GUI (Windows WPF version). The core (MaaCore) does not contain this logic. Users of maa-cli, macOS version, or third-party UIs that directly call MaaCore cannot use this feature and must implement it themselves.
+::: info UI-Only Feature
+This page covers UI-layer features. See [Getting Started](../newbie.md#about-this-documentation) for details.
 :::
 
 The Update Doctor Data task is used to **sync operator roster and depot inventory** cache data, providing accurate inventory baselines for features like [Depot Maintain](./depot-maintain.md).
