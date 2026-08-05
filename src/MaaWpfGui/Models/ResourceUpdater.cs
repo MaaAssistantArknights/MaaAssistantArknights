@@ -392,11 +392,17 @@ public static class ResourceUpdater
         }
 
         _isReloading = true;
-        await Instances.AsstProxy.LoadResourceWhenIdleAsync();
-        DataHelper.Reload();
-        SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
-        ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
-        _isReloading = false;
+        try
+        {
+            await Instances.AsstProxy.LoadResourceWhenIdleAsync();
+            DataHelper.Reload();
+            SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
+        }
+        finally
+        {
+            _isReloading = false;
+        }
     }
 
     /// <summary>
@@ -469,8 +475,8 @@ public static class ResourceUpdater
         {
             var localDateTime = SettingsViewModel.VersionUpdateSettings.ResourceDateTime;
 
-            // 版本校验：包内版本小于等于本地版本则拒绝（不执行解压）
-            if (packageDateTime != DateTimeOffset.MinValue && packageDateTime <= localDateTime)
+            // 版本校验：无效时间戳或包内版本小于等于本地版本则拒绝（不执行解压）
+            if (packageDateTime == DateTimeOffset.MinValue || packageDateTime <= localDateTime)
             {
                 _logger.Information(
                     "Resource package rejected: package version {PackageVersion} (UTC) / {PackageVersionLocal} (local) is not newer than local {LocalVersion} (UTC) / {LocalVersionLocal} (local)",
