@@ -5,6 +5,10 @@ icon: hugeicons:brain-02
 
 # Sanity Farming
 
+::: info UI-Only Feature
+Some features on this page are implemented by the UI layer (such as Target Inventory, Weekly Schedule, and multi-task ordering). See [Getting Started](../newbie.md#about-this-documentation) for details.
+:::
+
 ## General Settings
 
 - The `Use Sanity Potion` + `Use Originium` and `Perform Battles`+ `Material` options work as OR conditions - the task will stop when any of these conditions is met.
@@ -71,6 +75,7 @@ icon: hugeicons:brain-02
 - At settlement, MAA recognizes the weekly Orundum progress (e.g. `1800 / 1800`) and automatically stops when the weekly cap is reached.
 - Annihilation is a permanent stage: if it is selected in stage selection / alternative stages, later alternative stages will not continue to be recognized or run.
 - Annihilation drops are not uploaded to Penguin Statistics or Yituliu.
+- To run Annihilation first, add a separate Sanity Farming task with only Annihilation selected, and drag it above your existing Sanity Farming task. You can enable Weekly Schedule in Advanced Settings and check only Monday so it runs on Mondays only.
 
 ## Advanced Settings
 
