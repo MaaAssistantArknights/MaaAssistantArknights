@@ -5,9 +5,6 @@ icon: solar:streets-map-point-linear
 
 # 生息演算
 
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
-:::
 現在、生息演算のサポートはまだ初期段階にあり、自動攻略は推奨されず、現段階では安定性を保証できません。
 
 ## 熱砂秘聞（Tales）

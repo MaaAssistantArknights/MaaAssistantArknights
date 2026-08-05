@@ -25,12 +25,12 @@ All features involving Copilot require the following prerequisites, including bu
 
 ## Recommended Starts
 
-::: details _Last updated on 2025/8/30_
+::: details _Last updated on 2025/9/27_
 
-| Theme   | Difficulty             | Squad                                           | Strategy                      | Operator |
-| ------- | ---------------------- | ----------------------------------------------- | ----------------------------- | -------- |
-| Phantom | Formal Investigation·2 | Leader Squad / Tactical Assault Squad           | Overcoming Your Weaknesses    | Thorns   |
-| Mizuki  | Surging Waves·3~7      | People-Oriented Squad / Mind Over Matter Squad  | Slow and Steady Wins the Race | Wiš'adel |
+| Theme   | Difficulty             | Squad                                           | Strategy                      | Operator            |
+| ------- | ---------------------- | ----------------------------------------------- | ----------------------------- | ------------------- |
+| Phantom | Formal Investigation·2 | Leader Squad / Tactical Assault Squad           | Overcoming Your Weaknesses    | Degenbrecher/Thorns |
+| Mizuki  | Surging Waves·3~10     | People-Oriented Squad / Mind Over Matter Squad  | Slow and Steady Wins the Race | Wiš'adel            |
 | Sami    | Braving Nature·4~10    | Special Training Squad / Tactical Ranged Squad  | Slow and Steady Wins the Race | Wiš'adel |
 | Sarkaz  | Facing Souls·4~10      | Blueprint Mapping Squad / Tactical Ranged Squad | Slow and Steady Wins the Race | Wiš'adel |
 | Garden  | Guided Tour·3~10       | Leader Squad / Tactical Ranged Squad            | Slow and Steady Wins the Race | Wiš'adel |

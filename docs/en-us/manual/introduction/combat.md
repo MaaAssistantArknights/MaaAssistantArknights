@@ -5,15 +5,22 @@ icon: hugeicons:brain-02
 
 # Sanity Farming
 
+::: info UI-Only Feature
+Some features on this page are implemented by the UI layer (such as Target Inventory, Weekly Schedule, and multi-task ordering). See [Getting Started](../newbie.md#about-this-documentation) for details.
+:::
+
 ## General Settings
 
 - The `Use Sanity Potion` + `Use Originium` and `Perform Battles`+ `Material` options work as OR conditions - the task will stop when any of these conditions is met.
   - `Use Sanity Potion` specifies how many times to replenish sanity (may use multiple potions at once).
   - `Use Originium` specifies how many Originium to use (one at a time). Originium won't be used if sanity potions are available.
   - `Perform Battles` specifies the number of battles to complete (e.g., "stop after 15 runs").
-  - `Material` specifies how many of a specific material to obtain (e.g., "stop after getting 5 Orirock").
+  - `Material` specifies how many of a specific material to obtain (e.g., "stop after getting 5 Orirock"), with two counting modes:
+    - `Drop Quantity`: Counts the number of that material dropped during this task.
+    - `Target Inventory`: References the depot data saved in [Depot Recognition](./tools.md#depot-recognition) and only farms up to the set inventory level. Requires depot data obtained via [Update Doctor Data](./user-data-update.md) or [Depot Recognition](./tools.md#depot-recognition). This mode is implemented by the UI (Core only supports drop quantity mode).
 
 - `Material` and `Stage Selection` are independent options. `Material` only uses the material count as a stopping condition and doesn't automatically navigate to stages that drop that material.
+- To manage multiple material inventory targets at once, use the [Depot Maintain](./depot-maintain.md) task, which supports multiple plans farmed in sequence.
 - `Use Originium` is only checked after `Use Sanity Potion`. Since MAA only uses Originium when no sanity potions remain, checking `Use Originium` will automatically set `Use Sanity Potion` to 999, ensuring all potions are used first.
 
 ::: details Examples
@@ -62,6 +69,13 @@ icon: hugeicons:brain-02
 
 - MAA navigates to Annihilation using the button at the top-right of the terminal home screen. Ensure your selected Annihilation stage has unlocked `Full Delegation` and that you have enough `PRTS Annihilation Delegation Cards`.
 - This feature is only recommended for stages where you've already achieved the 400-kill milestone.
+- If the Annihilation entry cannot be found during navigation, the weekly Annihilation is treated as completed and the task ends immediately (not counted as a failure).
+- During navigation, MAA checks whether `Full Delegation` (sweep) is available. If not, the task fails and exits.
+- During runtime, MAA does **not** continuously check whether sweep tickets are sufficient. If tickets run out mid-run, later battles may fall back to normal auto-deploy and take much longer.
+- At settlement, MAA recognizes the weekly Orundum progress (e.g. `1800 / 1800`) and automatically stops when the weekly cap is reached.
+- Annihilation is a permanent stage: if it is selected in stage selection / alternative stages, later alternative stages will not continue to be recognized or run.
+- Annihilation drops are not uploaded to Penguin Statistics or Yituliu.
+- To run Annihilation first, add a separate Sanity Farming task with only Annihilation selected, and drag it above your existing Sanity Farming task. You can enable Weekly Schedule in Advanced Settings and check only Monday so it runs on Mondays only.
 
 ## Advanced Settings
 
@@ -75,15 +89,26 @@ Example: Alternative Stages are `CE-6/5`, `1-7` and `LS-6/5`:
 - If `CE-6/5` is open today, MAA will run it and ignore the alternatives. If you haven't unlocked auto-deploy for CE-6/5, the task will fail.
 - If `CE-6/5` is closed today, MAA will run `1-7` instead. If you haven't unlocked auto-deploy for 1-7, the task will fail.
 - Since `1-7` is a permanent stage that appears before `LS-6/5` in the list, MAA will never run `LS-6/5` in this scenario.
+- Likewise, if a permanent stage such as `Annihilation` is selected in the alternatives, later stages will not continue to be recognized.
 
-### Multiplier
+### Weekly Schedule
 
-MAA will use the specified battle multiplier setting:
+- Enable it under `Task Settings` - `Sanity Farming` - `Advanced Settings`. This feature is implemented by the UI.
+- After enabling, you can check which **in-game weekdays** (Sunday–Saturday) this Sanity Farming task should run.
+- The weekday is calculated from in-game time (client timezone + daily 4:00 reset), not the local calendar day. For example, on CN servers, 3:59 local time still counts as the previous day.
+- When starting tasks: if Weekly Schedule is enabled and today is not checked, this Sanity Farming task is **skipped** (log shows task skipped; not a failure), and later tasks continue.
+- If Weekly Schedule is not enabled, the task is attempted every day.
+- Enabling Weekly Schedule turns off and disables “Hide today's not open stages”.
+- Typical use: add a separate Sanity Farming task for Annihilation only, check only Monday in Weekly Schedule, and it will run on Mondays only. See [Annihilation Mode](#annihilation-mode) above.
+
+### Series
+
+MAA will use the specified Series setting:
 
 - **AUTO mode** (0):
   - Automatically identifies and uses the maximum possible multiplier without wasting sanity
 
-- **Fixed value mode** (1-6):
+- **Fixed value mode** (1-10 for CN, 1-6 for overseas servers):
   - Uses exactly the specified multiplier
   - If current sanity is insufficient for the set multiplier (e.g., only enough for 5× but set to 6×), ends the task
 
@@ -93,12 +118,12 @@ MAA will use the specified battle multiplier setting:
 
 ### Perform Battles
 
-MAA will run up to the specified number of battles.
+MAA will run up to the specified number of battles. Actual battle count is floored to whole series runs: `floor(Perform Battles / series) × series`. It will not split a partial series just to fill the remaining count (except AUTO, see below).
 
-Example: Assuming you have 100 sanity and the stage costs 6 sanity:
+Example: Assuming you have 100 sanity, the stage costs 6 sanity, and the stage max series is 10:
 
-- If `Perform Battles` is 10 and multiplier is 4: MAA will do 2 runs × 4× multiplier = 8 battles (floor(10/4) × 4 = 8), using 48 sanity. It won't do another 4× run since that would be 12 battles, exceeding the set limit of 10.
-- If `Perform Battles` is 10 and multiplier is AUTO: MAA will do one 6× run plus one 4× run = 10 battles (6 + 4 = 10), using 60 sanity.
+- If `Perform Battles` is 12 and series is 5: MAA will do 2 start-ops × 5× = 10 battles (`floor(12 / 5) × 5 = 10`), using 10 × 6 = 60 sanity. Another 5× run would reach 15 and exceed 12, so it stops at 10.
+- If `Perform Battles` is 12 and series is AUTO: first take the smaller of remaining count and current max available series, run 10× for 10 battles; then run 2× for the remaining 2, totaling 12 battles and using 12 × 6 = 72 sanity.
 
 ### Drop Recognition
 
