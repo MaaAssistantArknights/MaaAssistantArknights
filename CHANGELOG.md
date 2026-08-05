@@ -1,4 +1,4 @@
-## v6.16.4
+## v6.16.5
 
 ### Highlights
 
@@ -44,6 +44,32 @@ Refactored the depot maintain task UI with global medicine/originium toggles and
 以下是详细内容：
 
 <details open>
+<summary><b>v6.16.5 (2026-08-06)</b></summary>
+
+### 新增 | New
+
+* 支持拖入资源包更新资源版本，并收窄完整包/OTA 包识别以避免误匹配；拖入检测改为异步避免卡 UI，导入失败时显示提示 ([#17569](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17569)) @ABA2396
+
+### 改进 | Improved
+
+* 更新器进度窗口延后至主窗口退出后再显示，避免与正在退出的 MAA 抢占前台；等待超时后自动弹出窗口并提示等待状态，防止主进程退出卡住时更新器变成不可见进程 @ABA2396
+
+### 修复 | Fix
+
+* 倒计时、关闭模拟器、完成后脚本等非可打断期间阻止自动更新重启 ([#17566](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17566)) @ABA2396
+* 修复刷理智未能关闭代理倍率列表的问题 @status102
+* 修复悖论自动战斗作业使用本地文件时始终读取临时文件的问题 @status102
+* 修复干员 `sortIndex` 缺失时误用默认值 0 导致排序错误的问题 @ABA2396
+* 修复中断锁引用计数下溢时钳制操作的竞态，避免误抹合法锁 @ABA2396
+* YostarJP fix OCR replace chain mangling operator names (e.g. FEater) and TA single-character rules ([#17516](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17516)) @Ronnoc @Manicsteiner
+
+### 文档 | Docs
+
+* 新增库存保持与更新数据文档，补充手动更新、代理倍率、定时执行与剿灭等说明，并同步各语言文档 ([#17576](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17576)) @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.16.4 (2026-08-04)</b></summary>
 
 ### 修复 | Fix
