@@ -328,87 +328,95 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             ? "arm64"
             : "x64";
 
-        PendingUpdateApplier.PackageInspectionResult packageInspection =
-            PendingUpdateApplier.InspectLocalUpdatePackage(packagePath, currentVersion, architecture);
+        try
+        {
+            PendingUpdateApplier.PackageInspectionResult packageInspection =
+                PendingUpdateApplier.InspectLocalUpdatePackage(packagePath, currentVersion, architecture);
 
 #if DEBUG
-        // Debug 专用：Ctrl+Shift 拖入时只做检测判断，不实际注册，用于快速验证正则匹配
-        if (Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift))
-        {
-            await DebugInspectDroppedPackageAsync(packagePath, packageInspection, currentVersion, normalizedArchitecture);
-            return;
-        }
+            // Debug 专用：Ctrl+Shift 拖入时只做检测判断，不实际注册，用于快速验证正则匹配
+            if (Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift))
+            {
+                await DebugInspectDroppedPackageAsync(packagePath, packageInspection, currentVersion, normalizedArchitecture);
+                return;
+            }
 #endif
 
-        // 不是版本更新包文件名模式时，尝试作为资源更新包导入（需读取 zip entry，开销较高）
-        if (!packageInspection.MatchedPattern)
-        {
-            // zip 扫描开销较高（万级 entry），放到后台线程避免卡 UI
-            var (isResourcePackage, resourceDateTime) = await Task.Run(() =>
+            // 不是版本更新包文件名模式时，尝试作为资源更新包导入（需读取 zip entry，开销较高）
+            if (!packageInspection.MatchedPattern)
             {
-                bool result = ResourceUpdater.IsResourcePackage(packagePath, out DateTimeOffset dt);
-                return (result, dt);
-            });
+                // zip 扫描开销较高（万级 entry），放到后台线程避免卡 UI
+                var (isResourcePackage, resourceDateTime) = await Task.Run(() =>
+                {
+                    bool result = ResourceUpdater.IsResourcePackage(packagePath, out DateTimeOffset dt);
+                    return (result, dt);
+                });
 
-            if (isResourcePackage)
+                if (isResourcePackage)
+                {
+                    _logger.Information("Dropped package detected as resource package: {PackagePath}", packagePath);
+                    _ = ResourceUpdater.ImportLocalResourcePackageAndReloadAsync(packagePath, resourceDateTime);
+                    return;
+                }
+
+                ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
+                return;
+            }
+
+            // 版本更新包模式匹配，但架构或版本方向被拒
+            if (!packageInspection.IsSupported)
             {
-                _logger.Information("Dropped package detected as resource package: {PackagePath}", packagePath);
-                _ = ResourceUpdater.ImportLocalResourcePackageAndReloadAsync(packagePath, resourceDateTime);
+                ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
+                return;
+            }
+
+            // 完整包覆盖安装需用户二次确认（OTA 增量包不需要）
+            if (packageInspection.Status == PendingUpdateApplier.PackageInspectionStatus.FullSupported
+                && !Dialogs.VersionUpdateDialogViewModel.ConfirmFullPackageUpdate(packagePath))
+            {
+                _logger.Information("Dropped full package import canceled by user before registration: {PackagePath}", packagePath);
+                return;
+            }
+
+            var importResult = PendingUpdateApplier.TryRegisterLocalPackage(
+                packagePath,
+                currentVersion,
+                architecture,
+                packageInspection);
+            _logger.Information(
+                "Dropped zip import result: status={Status}, sourceVersion={SourceVersion}, targetVersion={TargetVersion}",
+                importResult.Status,
+                importResult.SourceVersion,
+                importResult.TargetVersion);
+
+            if (importResult.Status
+                is PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered
+                or PendingUpdateApplier.LocalPackageImportStatus.FullPackageRegistered)
+            {
+                string targetVersion = importResult.TargetVersion ?? string.Empty;
+                bool preserveExistingUpdateInfo = PendingUpdateApplier.ShouldPreserveExistingUpdateBody(targetVersion);
+                Instances.VersionUpdateDialogViewModel.UpdateTag = targetVersion;
+                if (!preserveExistingUpdateInfo)
+                {
+                    Instances.VersionUpdateDialogViewModel.UpdateInfo = string.Empty;
+                }
+
+                Instances.VersionUpdateDialogViewModel.UpdatePackageName = packagePath;
+                _logger.Information(
+                    "Showing restart prompt for imported update package: {PackagePath}, status={Status}",
+                    packagePath,
+                    importResult.Status);
+                _ = Instances.VersionUpdateDialogViewModel.AskToRestartForImportedPackage();
                 return;
             }
 
             ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
-            return;
         }
-
-        // 版本更新包模式匹配，但架构或版本方向被拒
-        if (!packageInspection.IsSupported)
+        catch (Exception ex)
         {
+            _logger.Error(ex, "Failed to handle imported package: {PackagePath}", packagePath);
             ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
-            return;
         }
-
-        // 完整包覆盖安装需用户二次确认（OTA 增量包不需要）
-        if (packageInspection.Status == PendingUpdateApplier.PackageInspectionStatus.FullSupported
-            && !Dialogs.VersionUpdateDialogViewModel.ConfirmFullPackageUpdate(packagePath))
-        {
-            _logger.Information("Dropped full package import canceled by user before registration: {PackagePath}", packagePath);
-            return;
-        }
-
-        var importResult = PendingUpdateApplier.TryRegisterLocalPackage(
-            packagePath,
-            currentVersion,
-            architecture,
-            packageInspection);
-        _logger.Information(
-            "Dropped zip import result: status={Status}, sourceVersion={SourceVersion}, targetVersion={TargetVersion}",
-            importResult.Status,
-            importResult.SourceVersion,
-            importResult.TargetVersion);
-
-        if (importResult.Status
-            is PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered
-            or PendingUpdateApplier.LocalPackageImportStatus.FullPackageRegistered)
-        {
-            string targetVersion = importResult.TargetVersion ?? string.Empty;
-            bool preserveExistingUpdateInfo = PendingUpdateApplier.ShouldPreserveExistingUpdateBody(targetVersion);
-            Instances.VersionUpdateDialogViewModel.UpdateTag = targetVersion;
-            if (!preserveExistingUpdateInfo)
-            {
-                Instances.VersionUpdateDialogViewModel.UpdateInfo = string.Empty;
-            }
-
-            Instances.VersionUpdateDialogViewModel.UpdatePackageName = packagePath;
-            _logger.Information(
-                "Showing restart prompt for imported update package: {PackagePath}, status={Status}",
-                packagePath,
-                importResult.Status);
-            _ = Instances.VersionUpdateDialogViewModel.AskToRestartForImportedPackage();
-            return;
-        }
-
-        ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
     }
 
     private static void ShowUnsupportedPackageWarning(string packagePath, string currentVersion, string normalizedArchitecture)
@@ -433,12 +441,11 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         string currentVersion,
         string normalizedArchitecture)
     {
-        DateTimeOffset resourceDateTime = await Task.Run(() =>
+        var (isResource, resourceDateTime) = await Task.Run(() =>
         {
-            ResourceUpdater.IsResourcePackage(packagePath, out var dt);
-            return dt;
+            bool ok = ResourceUpdater.IsResourcePackage(packagePath, out var dt);
+            return (ok, dt);
         });
-        bool isResource = resourceDateTime != DateTimeOffset.MinValue;
 
         string detail = string.Format(
             """
