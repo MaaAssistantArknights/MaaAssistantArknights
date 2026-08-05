@@ -101,9 +101,9 @@ Example: Alternative Stages are `CE-6/5`, `1-7` and `LS-6/5`:
 - Enabling Weekly Schedule turns off and disables “Hide today's not open stages”.
 - Typical use: add a separate Sanity Farming task for Annihilation only, check only Monday in Weekly Schedule, and it will run on Mondays only. See [Annihilation Mode](#annihilation-mode) above.
 
-### Multiplier
+### Series
 
-MAA will use the specified battle multiplier setting:
+MAA will use the specified Series setting:
 
 - **AUTO mode** (0):
   - Automatically identifies and uses the maximum possible multiplier without wasting sanity
