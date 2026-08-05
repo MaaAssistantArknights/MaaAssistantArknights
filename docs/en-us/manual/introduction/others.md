@@ -19,6 +19,11 @@ Configuration changes in the main interface and settings are usually saved autom
 - Options marked with `(One-time only)`
 - Half-selected checkboxes obtained by right-clicking
 
+Many checkboxes support right-clicking for a half-selected state (one-time only, resets after MAA restart). Common use cases include:
+
+- **Main task list**: Right-click a task to half-select it — it will run this time but revert after restart. By default, right-click means "apply once"; this can be switched to "skip once" (i.e., the half-selected task is skipped this time) in `Settings` - `GUI` - `Reverse right-click effect for main task`.
+- **Combat settings**: `Use Sanity Potion`, `Use Originium` and similar options become one-time only when half-selected via right-click.
+
 ## Auto-Switch Configuration at Startup
 
 MAA supports automatically switching configurations via launch parameters by adding `--config <configuration name>` after the MAA process name. Example: `./MAA/MAA.exe --config Official`.
@@ -32,6 +37,27 @@ Since v4.13.0, MAA supports setting scripts to run before starting and after fin
 ## Configuration Migration
 
 In the Windows version, all MAA configurations are stored in the `config` folder. Migrating this folder transfers all MAA settings.
+
+## Scheduled Execution
+
+::: warning Platform Limitation
+Scheduled execution is implemented by MAA GUI (Windows WPF version). Users of maa-cli, macOS version, or third-party UIs that directly call MaaCore cannot use this feature and must implement it themselves.
+:::
+
+In `Settings` - `Scheduled Execution`, you can set up to 8 timed tasks. Each includes an enable toggle, time (hour:minute), and a corresponding configuration.
+
+- When the scheduled time is reached, MAA will automatically connect to the emulator and start executing the tasks checked in the current configuration.
+- Each timer's checkbox supports right-click half-select (one-time only), effective only for the current session and resetting after MAA restart.
+
+### Force Scheduled Start
+
+When checked, MAA will **stop the currently running task**, restart the game, and start a new task. Useful for handling the daily 04:00 (server local time) flash update — after the flash update, it forcibly restarts the game and re-executes tasks to prevent them from getting stuck.
+
+To automatically reconnect and continue tasks after a flash update, also enable the `Start Up` task.
+
+### Custom Configuration Selection
+
+When checked, each timer item can specify a different configuration. MAA will restart and switch to the corresponding configuration **two minutes before** the scheduled trigger, then start executing tasks.
 
 ## Update
 
