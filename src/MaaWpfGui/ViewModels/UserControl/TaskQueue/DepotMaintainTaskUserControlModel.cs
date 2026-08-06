@@ -536,6 +536,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 taskIds.Add(depotTaskId);
             }
 
+            Instances.TaskQueueViewModel.AddLog($"-----{depot.NameOrTaskType}-----", splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+
             var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
             for (int i = 0; i < depot.PlanList.Count; i++)
             {
@@ -556,9 +558,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
                 var currentCount = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
                 var need = plan.DropCount - currentCount;
+                var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
                 if (need <= 0)
                 {
-                    var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1, dropName, currentCount.ToString("N0"), plan.DropCount.ToString("N0")));
                     taskIds.Add(0);
                     continue;
@@ -605,8 +607,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 {
                     taskIds.Add(id);
                     depot.PlanList[i] = plan with { TaskId = id };
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryInsufficient", i + 1, dropName, currentCount.ToString("N0"), plan.DropCount.ToString("N0"), need.ToString("N0")));
                 }
             }
+
+            Instances.TaskQueueViewModel.AddLog(string.Empty, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
 
             if (taskIds.Any(id => id > 0))
             {
