@@ -732,7 +732,7 @@ C:\\Program Files\\Netease\\MuMuPlayer으로 입력해야 합니다.\n
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
     <system:String x:Key="MuMu12Display">표시 번호</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu 스크린샷 강화 기능이 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
-    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu 백그라운드 유지가 켜져 있지만 MuMu 터치 강화가 작동하지 않습니다. 백그라운드 유지 중에는 조작할 수 없습니다. ｢{key=MuMuExtrasTouchEnabled}｣ 를 활성화하거나 MuMu 설정에서 ｢백그라운드 유지｣ 를 비활성화하세요.</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu 에뮬레이터에서 ｢앱 유지｣ 가 켜져 있지만 MAA 터치 강화가 작동하지 않습니다. 앱 유지 중에는 조작할 수 없습니다. MAA ｢{key=ConnectionSettings}｣ 에서 ｢{key=MuMu12ExtrasEnabled}｣ 와 그 아래의 ｢{key=MuMuExtrasTouchEnabled}｣ 를 함께 활성화하세요. 강화를 사용하지 않으려면 MuMu 설정에서 ｢앱 유지｣ 를 비활성화하세요(일부 버전에서는 ｢백그라운드 유지｣ ｢백그라운드 방치 시 유지 실행｣ 등으로 불렸습니다).</system:String>
     <system:String x:Key="MuMuEmulator12FullExtrasReady">완전한 MuMu 강화 가동——스크린샷과 터치 듀얼 링크 개통, 백그라운드 유지마저도 우리 손안에!</system:String>
     <system:String x:Key="LdExtrasEnabled">LD 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer 에뮬레이터 경로를 찾을 수 없습니다.</system:String>

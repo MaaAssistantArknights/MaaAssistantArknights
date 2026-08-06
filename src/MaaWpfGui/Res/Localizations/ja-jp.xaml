@@ -732,7 +732,7 @@ C:\\Program Files\\Netease\\MuMuPlayer を入力してください。\n
     <system:String x:Key="MuMu12Index">インスタンス番号</system:String>
     <system:String x:Key="MuMu12Display">表示番号</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
-    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu のバックグラウンド常駐が有効ですが、MuMu タッチ強化が機能していません。バックグラウンド常駐下では操作できません。｢{key=MuMuExtrasTouchEnabled}｣ を有効にするか、MuMu 設定で ｢バックグラウンド常駐｣ を無効にしてください。</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu エミュレータで ｢アプリ保活｣ が有効になっていますが、MAA のタッチ強化が機能していません。アプリ保活下では操作できません。MAA の ｢{key=ConnectionSettings}｣ で ｢{key=MuMu12ExtrasEnabled}｣ とその下の ｢{key=MuMuExtrasTouchEnabled}｣ を両方有効にしてください。強化を使わない場合は、MuMu 設定で ｢アプリ保活｣ を無効にしてください（一部バージョンでは ｢バックグラウンド常駐｣ ｢バックグラウンド放置時の常駐実行｣ などと呼ばれていました）。</system:String>
     <system:String x:Key="MuMuEmulator12FullExtrasReady">完全 MuMu 強化が起動——スクリーンショットとタッチの双核直結が貫通、バックグラウンド常駐も我らが掌中に！</system:String>
     <system:String x:Key="LdExtrasEnabled">LD のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer のインストールパスが見つかりません。</system:String>
