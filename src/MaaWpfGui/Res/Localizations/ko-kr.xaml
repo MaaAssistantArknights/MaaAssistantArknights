@@ -871,6 +871,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">작업 "{0}" 에서 {key=TargetInventory} 가 켜져 있지만 현재 사용할 수 있는 재고 데이터가 없어 건너뜁니다. ｢{key=Toolbox}-{key=DepotRecognition}｣ 에서 재고를 업데이트해 주세요.</system:String>
     <!--  재고 유지  -->
     <system:String x:Key="DepotUpdateBeforeStart">작업 시작 전 재고 데이터 업데이트</system:String>
+    <system:String x:Key="DepotUpdateBeforeStartTip" xml:space="preserve">체크하면 작업 맨 앞에 창고 인식을 추가하여 캐시를 갱신합니다.&#10;주의: ｢Link Start!｣ 클릭 후, 모든 작업 실행 전에 사전 점검이 이루어집니다.&#10;이 시점에는 창고 인식이 아직 실행되지 않았으므로 사전 점검은 이전 캐시 데이터를 사용합니다.&#10;캐시 수량이 이미 목표에 도달한 계획은 건너뛰어지며, 이후 재고 업데이트로 인해 재점검되지 않습니다.</system:String>
     <system:String x:Key="AddPlan">추가</system:String>
     <system:String x:Key="DepotPreset">프리셋</system:String>
     <system:String x:Key="DepotPresetChip1">저급 칩 (전 직업)</system:String>

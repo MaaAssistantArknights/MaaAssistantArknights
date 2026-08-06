@@ -280,10 +280,10 @@
         <!--  高级设置  -->
         <StackPanel d:Visibility="Collapsed" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <hc:Divider Content="{DynamicResource DepotGroupTaskBehavior}" />
-            <CheckBox
-                Margin="0,6,0,0"
-                Content="{DynamicResource DepotUpdateBeforeStart}"
-                IsChecked="{Binding UpdateDepot}" />
+            <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource DepotUpdateBeforeStart}" IsChecked="{Binding UpdateDepot}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotUpdateBeforeStartTip}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,6,0,0"
                 Content="{DynamicResource DepotSkipDuringActivity}"

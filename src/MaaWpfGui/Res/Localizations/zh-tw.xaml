@@ -870,6 +870,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">任務 ｢{0}｣ 啟用了 {key=TargetInventory}，但目前沒有可用的庫存資料，已跳過。可透過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存。</system:String>
     <!--  庫存保持  -->
     <system:String x:Key="DepotUpdateBeforeStart">任務開始前更新庫存資料</system:String>
+    <system:String x:Key="DepotUpdateBeforeStartTip" xml:space="preserve">勾選後會在任務最前面追加一次倉庫辨識以重新整理快取。&#10;注意：點擊 ｢Link Start!｣ 後、所有任務執行前會先進行預檢，&#10;此時倉庫辨識尚未執行，預檢仍使用舊快取資料，&#10;快取數量已達標的計畫會被直接跳過，不會因後續庫存更新而重新檢查。</system:String>
     <system:String x:Key="AddPlan">新增</system:String>
     <system:String x:Key="DepotPreset">預設</system:String>
     <system:String x:Key="DepotPresetChip1">低級晶片（全職業）</system:String>

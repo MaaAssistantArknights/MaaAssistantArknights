@@ -870,6 +870,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">タスク ｢{0}｣ では {key=TargetInventory} が有効ですが、利用可能な在庫データがないためスキップされました。｢{key=Toolbox}-{key=DepotRecognition}｣ で在庫を更新してください。</system:String>
     <!--  在庫維持  -->
     <system:String x:Key="DepotUpdateBeforeStart">タスク開始前に在庫データを更新</system:String>
+    <system:String x:Key="DepotUpdateBeforeStartTip" xml:space="preserve">チェックすると、タスクの先頭に倉庫認識を追加してキャッシュを更新します。&#10;注意：｢Link Start!｣ クリック後、全タスク実行前に事前チェックが行われます。&#10;この時点では倉庫認識がまだ実行されていないため、事前チェックは古いキャッシュデータを使用します。&#10;キャッシュ数量が目標に達している計画はスキップされ、以降の在庫更新によって再チェックされることはありません。</system:String>
     <system:String x:Key="AddPlan">追加</system:String>
     <system:String x:Key="DepotPreset">プリセット</system:String>
     <system:String x:Key="DepotPresetChip1">低級チップ（全職業）</system:String>
