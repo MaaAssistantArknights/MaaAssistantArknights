@@ -86,7 +86,7 @@
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">訊息本文範本</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">可用佔位符：{title}、{content}、{time}</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Presets">預製模板</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">請將預製模板中除 {title}、{content}、{time} 以外的 {} 佔位符（如 {nickname}）替換為實際值</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">請將預製模板中的 &lt;&gt; 佔位符（如 &lt;nickname&gt;）替換為實際值</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.TemplateCustom">自訂</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.TemplateMeoW">MeoW</system:String>
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>

@@ -86,7 +86,7 @@
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">Message body template</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">Placeholders: {title}, {content}, {time}</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Presets">Preset Template</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">Please replace placeholders wrapped in {} other than {title}, {content}, {time} (e.g. {nickname}) with actual values</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">Please replace the &lt;&gt; placeholders in the preset template (e.g. &lt;nickname&gt;) with actual values</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.TemplateCustom">Custom</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.TemplateMeoW">MeoW</system:String>
     <system:String x:Key="UseGpuForInference">Use GPU for inference acceleration</system:String>
