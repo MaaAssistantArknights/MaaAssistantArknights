@@ -1222,14 +1222,16 @@ bool asst::BattleFormationTask::do_operbox_precheck()
         "groups");
 
     // 匹配的干员组
+    const auto& all_chars = BattleData.get_all_chars();
     std::unordered_map<std::string, std::string> assigned;
     json::array matched_groups;
     for (const auto& [left, right] : result.matched) {
         assigned[flat_groups[left].name] = oper_data[right].id;
-        Log.info("  Matched group:", flat_groups[left].name, "with oper:", oper_data[right].name);
+        std::string oper_name = all_chars.at(oper_data[right].id)->name;
+        Log.info("  Matched group:", flat_groups[left].name, "with oper:", oper_name);
         matched_groups.emplace_back(
             std::unordered_map<std::string, std::string> { { "group_name", flat_groups[left].name },
-                                                           { "oper_name", oper_data[right].name } });
+                                                           { "oper_name", oper_name } });
     }
     if (!matched_groups.empty()) {
         json::value info = basic_info_with_what("BattleFormationOperboxMatched");
@@ -1295,6 +1297,20 @@ bool asst::BattleFormationTask::do_operbox_precheck()
                     else {
                         new_assigned[flat_groups[left].name] = cur_data[right].id;
                     }
+                }
+                if (assigned != new_assigned) {
+                    Log.info("OperBox precheck: assigned changed after borrow, update");
+                    json::value info = basic_info_with_what("BattleFormationOperboxMatched");
+                    json::array assigned_groups;
+                    for (const auto& [group_name, oper_id] : new_assigned) {
+                        std::string oper_name = all_chars.at(oper_id)->name;
+                        Log.info("  Matched group:", group_name, "with oper:", oper_name);
+                        assigned_groups.emplace_back(
+                            std::unordered_map<std::string, std::string> { { "group_name", group_name },
+                                                                           { "oper_name", oper_name } });
+                    }
+                    info["details"]["matched_groups"] = std::move(assigned_groups);
+                    callback(AsstMsg::SubTaskExtraInfo, info);
                 }
                 m_operbox_assigned = std::move(new_assigned);
                 json::value info = basic_info_with_what("BattleFormationOperbox1Unmatched");
