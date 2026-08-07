@@ -14,6 +14,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings="clr-namespace:MaaWpfGui.Views.UserControl.Settings"
+    xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     xmlns:taskQueue="clr-namespace:MaaWpfGui.Views.UserControl.TaskQueue"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
@@ -272,16 +273,39 @@
                                         </hc:ComboBox>
                                     </StackPanel>
 
-                                    <hc:ComboBox
-                                        Width="200"
-                                        Margin="0,5"
-                                        hc:InfoElement.Title="{DynamicResource TouchMode}"
-                                        hc:TitleElement.HorizontalAlignment="Center"
-                                        DisplayMemberPath="Display"
-                                        IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                                        ItemsSource="{Binding TouchModeList}"
-                                        SelectedValue="{Binding TouchMode}"
-                                        SelectedValuePath="Value" />
+                                    <StackPanel Margin="0,5">
+                                        <StackPanel
+                                            Margin="8,0,0,5"
+                                            HorizontalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <controls:TextBlock Text="{DynamicResource TouchMode}" />
+                                            <controls:TooltipBlock>
+                                                <controls:TooltipBlock.CustomToolTip>
+                                                    <StackPanel MaxWidth="400">
+                                                        <MediaElement
+                                                            Width="252"
+                                                            Height="268"
+                                                            IsMuted="True"
+                                                            LoadedBehavior="Play"
+                                                            Source="{Binding Source={x:Static settings_vms:ConnectSettingsUserControlModel.TouchModeVideoPath}}" />
+                                                        <TextBlock
+                                                            Margin="0,8,0,0"
+                                                            FontSize="12"
+                                                            Foreground="{DynamicResource PrimaryTextBrush}"
+                                                            Text="{DynamicResource TouchModeTip}"
+                                                            TextWrapping="Wrap" />
+                                                    </StackPanel>
+                                                </controls:TooltipBlock.CustomToolTip>
+                                            </controls:TooltipBlock>
+                                        </StackPanel>
+                                        <hc:ComboBox
+                                            Width="200"
+                                            DisplayMemberPath="Display"
+                                            IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                                            ItemsSource="{Binding TouchModeList}"
+                                            SelectedValue="{Binding TouchMode}"
+                                            SelectedValuePath="Value" />
+                                    </StackPanel>
 
                                     <!--  额外配置  -->
                                     <ContentControl d:Content="{d:DesignInstance Type=extra:MuMu12Extra}" Content="{Binding ExtraConfig}">

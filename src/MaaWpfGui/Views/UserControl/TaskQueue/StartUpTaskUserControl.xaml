@@ -135,20 +135,16 @@
                         Content="{DynamicResource Select}" />
                 </Grid>
 
-                <Grid Margin="0,5" Visibility="{c:Binding !AutoDetectConnection}">
+                <StackPanel Margin="0,5" Visibility="{c:Binding !AutoDetectConnection}">
                     <StackPanel
+                        Margin="8,0,0,5"
                         HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
                         Orientation="Horizontal">
-                        <TextBlock
-                            Margin="8,0,0,0"
-                            Text="{DynamicResource ConnectionAddress}"
-                            Visibility="Hidden" />
-                        <controls:TooltipBlock Margin="0,0,5,0" TooltipText="{DynamicResource ConnectionAddressTip}" />
+                        <controls:TextBlock Text="{DynamicResource ConnectionAddress}" />
+                        <controls:TooltipBlock TooltipText="{DynamicResource ConnectionAddressTip}" />
                     </StackPanel>
                     <hc:ComboBox
                         HorizontalContentAlignment="Stretch"
-                        hc:InfoElement.Title="{DynamicResource ConnectionAddress}"
                         IsEditable="True"
                         ItemsSource="{Binding ConnectAddressHistory}"
                         Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}">
@@ -180,17 +176,14 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </hc:ComboBox>
-                </Grid>
+                </StackPanel>
 
-                <Grid Margin="0,5">
+                <StackPanel Margin="0,5">
                     <StackPanel
+                        Margin="8,0,0,5"
                         HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
                         Orientation="Horizontal">
-                        <TextBlock
-                            Margin="8,0,0,0"
-                            Text="{DynamicResource TouchMode}"
-                            Visibility="Hidden" />
+                        <controls:TextBlock Text="{DynamicResource TouchMode}" />
                         <controls:TooltipBlock>
                             <controls:TooltipBlock.CustomToolTip>
                                 <StackPanel MaxWidth="400">
@@ -211,13 +204,12 @@
                         </controls:TooltipBlock>
                     </StackPanel>
                     <hc:ComboBox
-                        hc:InfoElement.Title="{DynamicResource TouchMode}"
                         DisplayMemberPath="Display"
                         IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                         ItemsSource="{Binding TouchModeList}"
                         SelectedValue="{Binding TouchMode}"
                         SelectedValuePath="Value" />
-                </Grid>
+                </StackPanel>
             </StackPanel>
 
             <!--  额外配置  -->
