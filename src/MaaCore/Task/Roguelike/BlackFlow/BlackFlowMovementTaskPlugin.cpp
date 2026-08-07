@@ -466,16 +466,29 @@ bool BlackFlowMovementTaskPlugin::analyze_frame(const cv::Mat& image, PanelFrame
 
     // 「装载中」就贴在它那张卡片的名字上方，取垂直距离最近的名字即可；两者相距约 20px，
     // 邻卡在 120px 开外。上限只用来挡「名字被 roi 下边界切掉、标记却还在」这一种情况。
+    // frame.items 按移动类型合并后只保留最高分框；用原始 OCR 结果判断装载归属，避免丢失实际贴近标记的低分框。
     PanelItem* loaded_item = nullptr;
     int loaded_distance = std::numeric_limits<int>::max();
     for (const Rect& marker : loaded_markers) {
         const int marker_center = vertical_center(marker);
-        for (auto& item : frame.items) {
-            const int distance = std::abs(vertical_center(item.name_rect) - marker_center);
-            if (distance <= LoadedMarkerMaximumDistance && distance < loaded_distance) {
-                loaded_item = &item;
-                loaded_distance = distance;
+        for (const auto& result : *results) {
+            const MovementSpec* movement = movement_from_name(result.text);
+            if (movement == nullptr) {
+                continue;
             }
+            const int distance = std::abs(vertical_center(result.rect) - marker_center);
+            if (distance > LoadedMarkerMaximumDistance || distance >= loaded_distance) {
+                continue;
+            }
+            const auto item =
+                std::find_if(frame.items.begin(), frame.items.end(), [movement](const PanelItem& candidate) {
+                    return candidate.movement == movement->kind;
+                });
+            if (item == frame.items.end()) {
+                continue;
+            }
+            loaded_item = &*item;
+            loaded_distance = distance;
         }
     }
     if (loaded_item != nullptr) {
