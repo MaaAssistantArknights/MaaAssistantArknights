@@ -1185,7 +1185,7 @@
     },
     "BlackFlow@Roguelike@MovePreviewWait": {
         "algorithm": "JustReturn",
-        "postDelay": 800,
+        "postDelay": 3000,
         "next": ["BlackFlow@Roguelike@MovePreviewEnter", "BlackFlow@Roguelike@MovePreviewCannotEnter", "#self"],
         "maxTimes": 3
     },
@@ -1287,7 +1287,10 @@
     "BlackFlow@Roguelike@MovementInventoryItems": {
         "algorithm": "OcrDetect",
         "roi": [348, 132, 930, 495],
-        "ocrReplace": [["^垫底座$", "气垫底座"]],
+        "ocrReplace": [
+            ["^垫底座$", "气垫底座"],
+            ["^次性喷气背包$", "一次性喷气背包"]
+        ],
         "text": [
             "报废轮子",
             "报废假肢",
@@ -1334,7 +1337,10 @@
     "BlackFlow@Roguelike@MovementPanelItems": {
         "algorithm": "OcrDetect",
         "roi": [877, 191, 400, 527],
-        "ocrReplace": [["^垫底座$", "气垫底座"]],
+        "ocrReplace": [
+            ["^垫底座$", "气垫底座"],
+            ["^次性喷气背包$", "一次性喷气背包"]
+        ],
         "text": [
             "报废轮子",
             "报废假肢",
