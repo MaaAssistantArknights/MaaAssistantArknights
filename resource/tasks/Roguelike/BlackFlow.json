@@ -138,6 +138,36 @@
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@Stages"]
     },
+    "BlackFlow@Roguelike@Page-Employ": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@EmployLeave"]
+    },
+    "BlackFlow@Roguelike@EmployLeave": {
+        "template": "BlackFlow@Roguelike@EmployLeave.png",
+        "roi": [1099, 541, 179, 86],
+        "action": "ClickSelf",
+        "next": ["BlackFlow@Roguelike@EmployLeaveConfirm", "#self"],
+        "maxTimes": 3,
+        "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"]
+    },
+    "BlackFlow@Roguelike@EmployLeaveConfirm": {
+        "template": "BlackFlow@Roguelike@EmployLeaveConfirm.png",
+        "roi": [1099, 541, 179, 86],
+        "action": "ClickSelf",
+        "next": ["#self", "BlackFlow@Roguelike@EmployLeaveConfirmCompleted"],
+        "maxTimes": 3,
+        "reduceOtherTimes": ["BlackFlow@Roguelike@EmployLeave*3"],
+        "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"]
+    },
+    "BlackFlow@Roguelike@EmployLeaveConfirmCompleted": {
+        "algorithm": "JustReturn",
+        "reduceOtherTimes": ["BlackFlow@Roguelike@EmployLeaveConfirm*3"],
+        "next": ["BlackFlow@Roguelike@NodeCompletionAction"]
+    },
+    "BlackFlow@Roguelike@Page-Shop": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@StageTraderLeave"]
+    },
     "BlackFlow@Roguelike@Page-Ending2SandtableA": {
         "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
     },

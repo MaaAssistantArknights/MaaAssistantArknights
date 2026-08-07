@@ -47,6 +47,33 @@
             "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {
+            "id": "default_employ",
+            "page_intent": "default",
+            "node_types": ["employ"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Employ",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "default_shop",
+            "page_intent": "default",
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Shop",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "default_expedition",
+            "page_intent": "default",
+            "node_types": ["expedition"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Encounter",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
             "id": "default_node_page",
             "page_intent": "default",
             "rank": 100,
