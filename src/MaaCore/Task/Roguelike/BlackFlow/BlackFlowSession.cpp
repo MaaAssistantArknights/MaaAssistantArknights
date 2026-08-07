@@ -57,6 +57,7 @@ bool has_node_type(const MapSnapshot& map, NodeType type)
 struct StrategyGoals
 {
     std::unordered_set<NodeId> nodes;
+    bool has_active_end = false;
     std::unordered_set<std::string> unresolved_hidden_end_milestone_ids;
 };
 
@@ -72,6 +73,7 @@ StrategyGoals strategy_goals_for(
         if (!milestone.end || !milestone_is_active(milestone, floor, facts, mission)) {
             continue;
         }
+        result.has_active_end = true;
         bool has_visible_goal = false;
         bool has_hidden_carrier = false;
         for (const auto& [id, node] : map.nodes()) {
@@ -658,6 +660,7 @@ void BlackFlowSession::queue_decision()
         { "run_revision", m_run_revision },
         { "observation_id", m_observation_id },
         { "decision_id", m_decision_id },
+        { "profile", m_profile },
         { "transaction_id", m_transaction_id },
         { "map_revision", m_map.snapshot().revision },
         { "floor", m_run.floor },
@@ -735,6 +738,12 @@ void BlackFlowSession::queue_decision()
     Log.info(
         "BlackFlow decision",
         m_decision_id,
+        "profile",
+        m_profile,
+        "rule",
+        decision.decisive_rule_id,
+        "milestone",
+        decision.decisive_milestone_id,
         "floor",
         m_run.floor,
         "target",
@@ -1182,7 +1191,20 @@ BlackFlowPlan BlackFlowSession::plan(std::string* error)
         request.facts = &merged;
         request.mission = &m_mission;
         const StrategyGoals goals = strategy_goals_for(*m_policy, m_mission, merged, m_map.snapshot(), m_run.floor);
+        Log.info(
+            "BlackFlow strategy goals",
+            "profile",
+            m_profile,
+            "floor",
+            m_run.floor,
+            "active end",
+            goals.has_active_end,
+            "visible goal nodes",
+            goals.nodes.size(),
+            "projected hidden ends",
+            goals.unresolved_hidden_end_milestone_ids.size());
         request.strategy_goal_nodes = goals.nodes;
+        request.has_active_strategy_end = goals.has_active_end;
         request.unresolved_hidden_end_milestone_ids = goals.unresolved_hidden_end_milestone_ids;
         request.forbidden_actions = &m_unreachable_actions;
         request.probe_target = m_pending_probe_target;
@@ -1447,6 +1469,7 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
         request.mission = &m_mission;
         const StrategyGoals goals = strategy_goals_for(*m_policy, m_mission, merged, m_map.snapshot(), m_run.floor);
         request.strategy_goal_nodes = goals.nodes;
+        request.has_active_strategy_end = goals.has_active_end;
         request.unresolved_hidden_end_milestone_ids = goals.unresolved_hidden_end_milestone_ids;
         request.forbidden_actions = &m_unreachable_actions;
         const PreviewSafetyVerification verification =

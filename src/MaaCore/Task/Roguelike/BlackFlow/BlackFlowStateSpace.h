@@ -41,6 +41,7 @@ struct PlannerStateHash
 struct StateExpansionOptions
 {
     std::unordered_set<NodeId> strategy_goal_nodes;
+    bool has_active_strategy_end = false;
     std::unordered_set<std::string> forbidden_action_ids;
     GraphLayer graph_layer = GraphLayer::Confirmed;
     bool final_is_terminal = true;

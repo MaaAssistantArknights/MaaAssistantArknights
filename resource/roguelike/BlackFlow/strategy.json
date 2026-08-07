@@ -1023,37 +1023,69 @@
             "id": "baby_animal_route",
             "rules": [
                 {
-                    "id": "baby_delay_floor3_scrap_shop",
+                    "id": "baby_use_processing_item_for_floor1_shop",
+                    "description": "第一层优先使用当前背包中的可用加工品抵达普通商店",
                     "kind": "prefer",
-                    "tier": "development",
-                    "rank": 1,
+                    "tier": "resource_reserve",
+                    "rank": 0,
                     "when": {
                         "all": [
                             {
                                 "fact": "current_floor",
                                 "op": "eq",
-                                "value": 3
+                                "value": 1
                             },
                             {
-                                "fact": "action_points",
-                                "op": "gt",
-                                "value": 2
-                            },
-                            {
-                                "fact": "floor_development_exhausted",
+                                "fact": "shop_seed_checked",
                                 "op": "eq",
                                 "value": false
                             }
                         ]
                     },
                     "candidate_if": {
-                        "fact": "candidate.node_type",
-                        "op": "ne",
-                        "value": "scrap_shop"
+                        "all": [
+                            {
+                                "fact": "candidate.node_type",
+                                "op": "eq",
+                                "value": "shop"
+                            },
+                            {
+                                "fact": "candidate.uses_processing_item",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
                     }
                 },
                 {
-                    "id": "baby_enter_floor3_scrap_shop_late",
+                    "id": "baby_walk_after_floor1_shop",
+                    "description": "第一层检查商店后优先徒步探索并保留加工品",
+                    "kind": "prefer",
+                    "tier": "resource_reserve",
+                    "rank": 0,
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "eq",
+                                "value": 1
+                            },
+                            {
+                                "fact": "shop_seed_checked",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "fact": "candidate.uses_processing_item",
+                        "op": "eq",
+                        "value": false
+                    }
+                },
+                {
+                    "id": "baby_explore_hidden_for_scrap_shop",
+                    "description": "第二、三层尚未发现秘境行商时优先探索未知的诡秘",
                     "kind": "prefer",
                     "tier": "development",
                     "rank": 0,
@@ -1061,34 +1093,30 @@
                         "all": [
                             {
                                 "fact": "current_floor",
-                                "op": "eq",
+                                "op": "ge",
+                                "value": 2
+                            },
+                            {
+                                "fact": "current_floor",
+                                "op": "le",
                                 "value": 3
                             },
                             {
-                                "any": [
-                                    {
-                                        "fact": "action_points",
-                                        "op": "le",
-                                        "value": 2
-                                    },
-                                    {
-                                        "fact": "floor_development_exhausted",
-                                        "op": "eq",
-                                        "value": true
-                                    },
-                                    {
-                                        "fact": "safety_margin_low",
-                                        "op": "eq",
-                                        "value": true
-                                    }
-                                ]
+                                "fact": "scrap_shop_available",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "fact": "cultivation_completed",
+                                "op": "eq",
+                                "value": false
                             }
                         ]
                     },
                     "candidate_if": {
-                        "fact": "candidate.route_node_types",
-                        "op": "contains",
-                        "value": "scrap_shop"
+                        "fact": "candidate.node_type",
+                        "op": "eq",
+                        "value": "hide_invisible"
                     }
                 },
                 {
@@ -1139,6 +1167,11 @@
                                 "value": 2
                             },
                             {
+                                "fact": "scrap_shop_available",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
                                 "any": [
                                     {
                                         "fact": "floor_development_exhausted",
@@ -1164,126 +1197,22 @@
                         "op": "contains",
                         "value": "final"
                     }
-                },
-                {
-                    "id": "baby_keep_floor3_until_cultivation",
-                    "description": "第三层已确认秘境行商时，培育完成前不离层",
-                    "kind": "forbid",
-                    "tier": "strategy_constraint",
-                    "rank": 0,
-                    "when": {
-                        "all": [
-                            {
-                                "fact": "current_floor",
-                                "op": "eq",
-                                "value": 3
-                            },
-                            {
-                                "fact": "cultivation_completed",
-                                "op": "eq",
-                                "value": false
-                            },
-                            {
-                                "fact": "map_full_coverage",
-                                "op": "eq",
-                                "value": true
-                            },
-                            {
-                                "fact": "scrap_shop_available",
-                                "op": "eq",
-                                "value": true
-                            }
-                        ]
-                    },
-                    "candidate_if": {
-                        "fact": "candidate.exit",
-                        "op": "eq",
-                        "value": true
-                    }
-                },
-                {
-                    "id": "baby_route_to_floor3_scrap_shop_when_ready",
-                    "description": "第三层进入培育时机后只保留通往秘境行商的安全路线",
-                    "kind": "require",
-                    "tier": "strategy_constraint",
-                    "rank": 0,
-                    "when": {
-                        "all": [
-                            {
-                                "fact": "current_floor",
-                                "op": "eq",
-                                "value": 3
-                            },
-                            {
-                                "fact": "cultivation_completed",
-                                "op": "eq",
-                                "value": false
-                            },
-                            {
-                                "fact": "map_full_coverage",
-                                "op": "eq",
-                                "value": true
-                            },
-                            {
-                                "fact": "scrap_shop_available",
-                                "op": "eq",
-                                "value": true
-                            },
-                            {
-                                "any": [
-                                    {
-                                        "fact": "action_points",
-                                        "op": "le",
-                                        "value": 2
-                                    },
-                                    {
-                                        "fact": "floor_development_exhausted",
-                                        "op": "eq",
-                                        "value": true
-                                    },
-                                    {
-                                        "fact": "safety_margin_low",
-                                        "op": "eq",
-                                        "value": true
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    "candidate_if": {
-                        "fact": "candidate.guaranteed_route_node_types",
-                        "op": "contains",
-                        "value": "scrap_shop"
-                    }
                 }
             ],
             "reserves": [
                 {
-                    "id": "baby_keep_floor3_movement",
+                    "id": "baby_keep_cultivation_movement",
                     "resource": "persistent_long_range_movement",
                     "minimum": 1,
                     "active_if": {
-                        "all": [
-                            {
-                                "fact": "cultivation_completed",
-                                "op": "eq",
-                                "value": false
-                            }
-                        ]
+                        "fact": "cultivation_completed",
+                        "op": "eq",
+                        "value": false
                     },
                     "release_if": {
-                        "all": [
-                            {
-                                "fact": "current_floor",
-                                "op": "eq",
-                                "value": 3
-                            },
-                            {
-                                "fact": "candidate.node_type",
-                                "op": "eq",
-                                "value": "scrap_shop"
-                            }
-                        ]
+                        "fact": "candidate.node_type",
+                        "op": "eq",
+                        "value": "scrap_shop"
                     }
                 }
             ],
@@ -1293,19 +1222,10 @@
                     "kind": "preferred",
                     "floor_window": [1, 1],
                     "rank": 0,
-                    "active_if": {
-                        "fact": "seeds",
-                        "op": "le",
-                        "value": 0
-                    },
                     "complete_if": {
-                        "any": [
-                            {
-                                "fact": "shop_seed_checked",
-                                "op": "eq",
-                                "value": true
-                            }
-                        ]
+                        "fact": "shop_seed_checked",
+                        "op": "eq",
+                        "value": true
                     },
                     "selector": {
                         "node_types": ["shop"]
@@ -1314,23 +1234,18 @@
                     "completion": "condition"
                 },
                 {
-                    "id": "baby_cultivate_floor3",
-                    "floor_window": [3, 3],
+                    "id": "baby_cultivate_scrap_shop",
+                    "floor_window": [2, 3],
                     "rank": 0,
                     "active_if": {
                         "any": [
                             {
-                                "fact": "action_points",
-                                "op": "le",
-                                "value": 2
-                            },
-                            {
-                                "fact": "floor_development_exhausted",
+                                "fact": "current_floor",
                                 "op": "eq",
-                                "value": true
+                                "value": 3
                             },
                             {
-                                "fact": "safety_margin_low",
+                                "fact": "scrap_shop_available",
                                 "op": "eq",
                                 "value": true
                             }
@@ -1341,7 +1256,7 @@
                         "op": "eq",
                         "value": true
                     },
-                    "reserves": ["baby_keep_floor3_movement"],
+                    "reserves": ["baby_keep_cultivation_movement"],
                     "end": true,
                     "selector": {
                         "node_types": ["scrap_shop"]
@@ -1630,7 +1545,7 @@
         },
         {
             "id": "baby_animal",
-            "description": "第一层检查种子并在第三层尽量低行动力培育全部种子",
+            "description": "第一层检查普通商店，第二、三层探索并进入秘境行商培育种子",
             "modules": ["common_navigation", "baby_animal_route"],
             "terminal_rules": [
                 {
@@ -1645,7 +1560,7 @@
                     "succeeded": true
                 },
                 {
-                    "id": "baby_third_floor_without_scrap_shop",
+                    "id": "baby_third_floor_action_points_exhausted",
                     "when": {
                         "all": [
                             {
@@ -1654,19 +1569,19 @@
                                 "value": 3
                             },
                             {
-                                "fact": "map_full_coverage",
-                                "op": "eq",
-                                "value": true
+                                "fact": "action_points",
+                                "op": "le",
+                                "value": 0
                             },
                             {
-                                "fact": "scrap_shop_available",
+                                "fact": "cultivation_completed",
                                 "op": "eq",
                                 "value": false
                             }
                         ]
                     },
-                    "outcome": "baby_scrap_shop_missing",
-                    "reason": "third_floor_has_no_scrap_shop",
+                    "outcome": "baby_cultivation_unfinished",
+                    "reason": "third_floor_action_points_exhausted",
                     "succeeded": false
                 }
             ],

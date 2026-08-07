@@ -114,7 +114,165 @@
         "reduceOtherTimes": ["BlackFlow@Roguelike@StageTraderInvestCancel*3"]
     },
     "BlackFlow@Roguelike@Page-Cultivate": {
-        "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@CultivateEnter"]
+    },
+    "BlackFlow@Roguelike@CultivateEnter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@CultivateState"]
+    },
+    "BlackFlow@Roguelike@CultivateState": {
+        "algorithm": "JustReturn",
+        "next": [
+            "BlackFlow@Roguelike@CultivateSellingFlag",
+            "BlackFlow@Roguelike@CultivateToggleToSell"
+        ]
+    },
+    "BlackFlow@Roguelike@CultivateToggleToSell": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [986, 123, 214, 25],
+        "next": ["BlackFlow@Roguelike@CultivateSellingFlag", "#self"]
+    },
+    "BlackFlow@Roguelike@CultivateSellingFlag": {
+        "template": "BlackFlow@Roguelike@CultivateBulkSell.png",
+        "roi": [729, 103, 216, 66],
+        "action": "DoNothing",
+        "next": ["BlackFlow@Roguelike@CultivateSellDecision"]
+    },
+    "BlackFlow@Roguelike@CultivateBuying": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@CultivateBuyDecision"]
+    },
+    "BlackFlow@Roguelike@CultivateSellItems": {
+        "algorithm": "OcrDetect",
+        "roi": [395, 159, 857, 290],
+        "ocrReplace": [["^垫底座$", "气垫底座"]],
+        "text": [
+            "血蕈",
+            "雾滚草",
+            "回声玉米",
+            "浪花",
+            "霜晶树",
+            "多生苔藓",
+            "枯苔藓球",
+            "板藤",
+            "恋家果",
+            "光彩松露",
+            "笼控器",
+            "报废轮子",
+            "报废假肢",
+            "标准引擎",
+            "重弹簧",
+            "气垫底座",
+            "试作外骨骼",
+            "小八界",
+            "一次性喷气背包",
+            "老妈妈的融雪",
+            "坎诺特的触须",
+            "结构性原理",
+            "“简易遥控器”",
+            "简易遥控器",
+            "白模鸟",
+            "白模狗",
+            "白模鱼",
+            "涂装黎博利",
+            "涂装佩洛",
+            "涂装阿戈尔"
+        ],
+        "fullMatch": true
+    },
+    "BlackFlow@Roguelike@CultivateSellDecision": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@CultivateSellAction"]
+    },
+    "BlackFlow@Roguelike@CultivateSellAction": {
+        "baseTask": "BlackFlow@Roguelike@RecoveryFailed"
+    },
+    "BlackFlow@Roguelike@CultivateSellConfirm-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@CultivateSellConfirm"]
+    },
+    "BlackFlow@Roguelike@CultivateSellConfirm": {
+        "template": "BlackFlow@Roguelike@CultivateSellConfirm.png",
+        "roi": [442, 361, 725, 179],
+        "action": "ClickSelf",
+        "next": ["#self", "BlackFlow@Roguelike@CultivateSellDecision"]
+    },
+    "BlackFlow@Roguelike@CultivateToggleToBuy": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [986, 123, 214, 25],
+        "next": ["BlackFlow@Roguelike@CultivateBuying"]
+    },
+    "BlackFlow@Roguelike@CultivateShelfSeed": {
+        "algorithm": "OcrDetect",
+        "roi": [395, 159, 857, 290],
+        "text": ["种子"],
+        "fullMatch": true
+    },
+    "BlackFlow@Roguelike@CultivateWallet": {
+        "algorithm": "OcrDetect",
+        "roi": [1136, 15, 124, 43],
+        "text": [],
+        "isAscii": true,
+        "withoutDet": true
+    },
+    "BlackFlow@Roguelike@CultivateHeldSeedCount": {
+        "algorithm": "OcrDetect",
+        "roi": [512, 245, 94, 68],
+        "text": [],
+        "isAscii": true,
+        "withoutDet": true
+    },
+    "BlackFlow@Roguelike@CultivateBuyDecision": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@CultivateBuyAction"]
+    },
+    "BlackFlow@Roguelike@CultivateBuyAction": {
+        "baseTask": "BlackFlow@Roguelike@RecoveryFailed"
+    },
+    "BlackFlow@Roguelike@CultivateBuyConfirm-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@CultivateBuyConfirm"]
+    },
+    "BlackFlow@Roguelike@CultivateBuyConfirm": {
+        "template": "BlackFlow@Roguelike@CultivateBuyConfirm.png",
+        "roi": [442, 361, 725, 179],
+        "action": "ClickSelf",
+        "next": ["#self", "BlackFlow@Roguelike@CultivateBuyDecision"]
+    },
+    "BlackFlow@Roguelike@CultivateRefresh-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@CultivateRefresh"]
+    },
+    "BlackFlow@Roguelike@CultivateRefresh": {
+        "template": "BlackFlow@Roguelike@CultivateRefresh.png",
+        "roi": [271, 163, 126, 59],
+        "action": "ClickSelf",
+        "next": ["BlackFlow@Roguelike@CultivateRefreshConfirm"]
+    },
+    "BlackFlow@Roguelike@CultivateRefreshConfirm": {
+        "template": "BlackFlow@Roguelike@CultivateRefreshConfirm.png",
+        "roi": [751, 409, 483, 157],
+        "action": "ClickSelf",
+        "next": ["#self", "BlackFlow@Roguelike@CultivateRefreshCompleted"]
+    },
+    "BlackFlow@Roguelike@CultivateRefreshCompleted": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@CultivateBuyDecision"]
+    },
+    "BlackFlow@Roguelike@CultivateStartButton-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@CultivateStartButton"]
+    },
+    "BlackFlow@Roguelike@CultivateStartButton": {
+        "algorithm": "OcrDetect",
+        "roi": [395, 159, 857, 290],
+        "text": ["开始培育"],
+        "fullMatch": true,
+        "action": "ClickSelf",
+        "next": ["BlackFlow@Roguelike@CultivateAtMost"]
     },
     "BlackFlow@Roguelike@Page-Door": {
         "Doc": "曲折密道，进去只有一段过场动画，等它放完回到主地图，中途可能弹藏品。",
@@ -187,12 +345,57 @@
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@Event-BurnCompleted"]
     },
-    "BlackFlow@Roguelike@CultivationResult": {
-        "baseTask": "BlackFlow@Roguelike@CultivationResult-Unconfigured"
+    "BlackFlow@Roguelike@CultivateAtMost": {
+        "template": "BlackFlow@Roguelike@CultivateAtMost.png",
+        "roi": [442, 361, 725, 179],
+        "action": "DoNothing",
+        "next": ["BlackFlow@Roguelike@CultivateConfirm"]
     },
-    "BlackFlow@Roguelike@CultivationResult-Unconfigured": {
+    "BlackFlow@Roguelike@CultivateConfirm": {
+        "template": "BlackFlow@Roguelike@CultivateConfirm.png",
+        "roi": [442, 361, 725, 179],
+        "action": "ClickSelf",
+        "next": ["#self", "BlackFlow@Roguelike@CultivateConfirmCompleted"]
+    },
+    "BlackFlow@Roguelike@CultivateConfirmCompleted": {
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@RecoveryFailed"]
+        "postDelay": 4000,
+        "next": ["BlackFlow@Roguelike@CultivateHarvestReady"]
+    },
+    "BlackFlow@Roguelike@CultivateHarvestItems": {
+        "algorithm": "OcrDetect",
+        "roi": [1, 292, 1277, 99],
+        "text": [
+            "襁褓中的猫",
+            "襁褓羽蛇",
+            "襁褓中的狗",
+            "襁褓三头犬"
+        ],
+        "fullMatch": true
+    },
+    "BlackFlow@Roguelike@CultivateHarvestReady": {
+        "template": "BlackFlow@Roguelike@CultivateConfirm1.png",
+        "roi": [560, 590, 162, 104],
+        "action": "DoNothing",
+        "next": ["BlackFlow@Roguelike@CultivationResult"]
+    },
+    "BlackFlow@Roguelike@CultivationResult": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@CultivateHarvestConfirm"]
+    },
+    "BlackFlow@Roguelike@CultivateHarvestConfirm": {
+        "template": "BlackFlow@Roguelike@CultivateConfirm1.png",
+        "roi": [560, 590, 162, 104],
+        "action": "ClickSelf",
+        "next": ["#self", "BlackFlow@Roguelike@CultivateHarvestCompleted"]
+    },
+    "BlackFlow@Roguelike@CultivateHarvestCompleted": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@StageTraderLeave"]
+    },
+    "BlackFlow@Roguelike@CultivateLeave-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@StageTraderLeave"]
     },
     "BlackFlow@Roguelike@LegacyCompletion-NodePage": {
         "algorithm": "JustReturn",
@@ -201,6 +404,10 @@
     "BlackFlow@Roguelike@LegacyCompletion-Investment": {
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@Event-InvestmentCompleted"]
+    },
+    "BlackFlow@Roguelike@LegacyCompletion-BabyShop": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@Event-BabyShopChecked"]
     },
     "BlackFlow@Roguelike@Event-NodeCompleted": {
         "algorithm": "JustReturn",
@@ -213,6 +420,10 @@
     "BlackFlow@Roguelike@Event-BurnCompleted": {
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@NodeResultDispatch"]
+    },
+    "BlackFlow@Roguelike@Event-BabyCultivationCompleted-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@Event-BabyCultivationCompleted"]
     },
     "BlackFlow@Roguelike@Event-BabyCultivationCompleted": {
         "algorithm": "JustReturn",
@@ -279,6 +490,14 @@
     "BlackFlow@Roguelike@RecoveryFailed": {
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@StrategyTerminated"]
+    },
+    "BlackFlow@Roguelike@Event-BabyShopChecked": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@NodeResultDispatch"]
+    },
+    "BlackFlow@Roguelike@Event-BabyNoSeed-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@Event-BabyNoSeed"]
     },
     "BlackFlow@Roguelike@Event-BabyNoSeed": {
         "algorithm": "JustReturn",

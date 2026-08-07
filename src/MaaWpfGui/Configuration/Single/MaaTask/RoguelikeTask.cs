@@ -243,6 +243,11 @@ public enum RoguelikeMode
     /// 20001 - 刷常乐节点，第一层进洞，找不到需要的节点就重开
     /// </summary>
     FindPlaytime = 20001,
+
+    /// <summary>
+    /// 30001 - 刷襁褓动物（主题专用 GUI 模式）
+    /// </summary>
+    BlackFlowBabyAnimal = 30001,
 }
 
 /// <summary>

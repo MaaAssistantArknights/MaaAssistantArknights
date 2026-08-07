@@ -108,8 +108,8 @@
             "node_types": ["shop"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-SeedPriority",
-            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+            "task": "BlackFlow@Roguelike@Page-Investment",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-BabyShop"
         },
         {
             "id": "floor3_seed_priority_shop",
@@ -118,8 +118,8 @@
             "node_types": ["shop"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-SeedPriorityFloor3",
-            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+            "task": "BlackFlow@Roguelike@Page-Investment",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-BabyShop"
         },
         {
             "id": "cultivate_scrap_shop",
@@ -300,6 +300,22 @@
             "result_kind": "page_completed"
         },
         {
+            "task": "BlackFlow@Roguelike@Event-BabyShopChecked",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "shop_seed_checked",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
             "task": "BlackFlow@Roguelike@Event-BabyNoSeed",
             "node": {
                 "progress": "completed",
@@ -310,6 +326,11 @@
                 {
                     "kind": "set",
                     "fact": "shop_seed_checked",
+                    "value": true
+                },
+                {
+                    "kind": "set",
+                    "fact": "cultivation_completed",
                     "value": true
                 }
             ],
@@ -544,7 +565,7 @@
             "node_type": "wish"
         },
         {
-            "text": "空节点",
+            "text": "林间空地",
             "node_type": "empty"
         },
         {

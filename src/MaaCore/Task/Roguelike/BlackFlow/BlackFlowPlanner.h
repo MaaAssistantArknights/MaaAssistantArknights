@@ -28,6 +28,7 @@ struct BlackFlowPlanRequest
     const FactStore* facts = nullptr;
     const MissionState* mission = nullptr;
     std::unordered_set<NodeId> strategy_goal_nodes;
+    bool has_active_strategy_end = false;
     std::unordered_set<std::string> unresolved_hidden_end_milestone_ids;
     const std::unordered_set<std::string>* forbidden_actions = nullptr;
     std::optional<NodeId> probe_target;

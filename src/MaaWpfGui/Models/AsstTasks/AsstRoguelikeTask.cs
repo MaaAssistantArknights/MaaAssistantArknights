@@ -210,6 +210,11 @@ public class AsstRoguelikeTask : AsstBaseTask
             ["investment_enabled"] = InvestmentEnabled,
         };
 
+        if (Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.BlackFlowBabyAnimal)
+        {
+            taskParams["blackflow_strategy"] = "baby_animal";
+        }
+
         if (InvestmentEnabled)
         {
             taskParams["investment_with_more_score"] = InvestmentWithMoreScore;

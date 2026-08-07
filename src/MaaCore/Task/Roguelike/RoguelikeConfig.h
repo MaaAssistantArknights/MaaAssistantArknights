@@ -38,7 +38,10 @@ enum class RoguelikeMode
     FastPass = 10001, // 10001 - 快速通过第一层
 
     // ------------------ 界园主题专用模式 ------------------
-    FindPlaytime = 20001 // 20001 - 刷常乐节点，第一层进洞，找不到需要的节点就重开
+    FindPlaytime = 20001, // 20001 - 刷常乐节点，第一层进洞，找不到需要的节点就重开
+
+    // ------------------ 黑流树海主题专用模式 ------------------
+    BlackFlowBabyAnimal = 30001 // 30001 - 刷襁褓动物
 };
 
 struct RoguelikeOper
@@ -95,7 +98,8 @@ public:
     static constexpr bool is_valid_mode(RoguelikeMode mode, std::string_view theme = RoguelikeTheme::Sami)
     {
         if (theme == RoguelikeTheme::BlackFlow) {
-            return mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment;
+            return mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment ||
+                   mode == RoguelikeMode::BlackFlowBabyAnimal;
         }
         return mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible ||
                mode == RoguelikeMode::Squad || mode == RoguelikeMode::Exploration ||

@@ -47,6 +47,7 @@
 
 // ------------------ 黑流树海主题专用配置及插件 ------------------
 #include "Task/Roguelike/BlackFlow/BlackFlowLifecycleTaskPlugin.h"
+#include "Task/Roguelike/BlackFlow/BlackFlowCultivationTaskPlugin.h"
 #include "Task/Roguelike/BlackFlow/BlackFlowMapObservationSource.h"
 #include "Task/Roguelike/BlackFlow/BlackFlowMovementTaskPlugin.h"
 #include "Task/Roguelike/BlackFlow/BlackFlowNodeTaskPlugin.h"
@@ -136,6 +137,11 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
         m_blackflow_session_ptr,
         m_blackflow_port_ptr);
     m_roguelike_task_ptr->register_plugin<blackflow::BlackFlowMovementTaskPlugin>(
+        m_config_ptr,
+        m_control_ptr,
+        m_blackflow_session_ptr,
+        m_blackflow_port_ptr);
+    m_roguelike_task_ptr->register_plugin<blackflow::BlackFlowCultivationTaskPlugin>(
         m_config_ptr,
         m_control_ptr,
         m_blackflow_session_ptr,

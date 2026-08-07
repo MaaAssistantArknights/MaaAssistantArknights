@@ -111,6 +111,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             [
                 new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowExp"), Value = Mode.Exp },
                 new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowInvestment"), Value = Mode.Investment },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowBabyAnimal"), Value = Mode.BlackFlowBabyAnimal },
             ];
         }
         else
@@ -873,6 +874,14 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         }
     }
 
+    private static string LocalizeBlackFlowProfile(string? profile) => profile switch
+    {
+        "investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowInvestment"),
+        "burn" or "burn_with_investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowExp"),
+        "baby_animal" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowBabyAnimal"),
+        _ => LocalizationHelper.GetString("BlackFlowStrategyUnknown"),
+    };
+
     private static string LocalizeBlackFlowIdentifier(string prefix, string? identifier, string fallbackKey)
     {
         if (string.IsNullOrWhiteSpace(identifier))
@@ -962,7 +971,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         "ending3_completed" => LocalizationHelper.GetString("BlackFlowOutcomeEnding3Completed"),
         "ending2_prerequisite_failed" => LocalizationHelper.GetString("BlackFlowOutcomeEnding2PrerequisiteFailed"),
         "ending3_prerequisite_failed" => LocalizationHelper.GetString("BlackFlowOutcomeEnding3PrerequisiteFailed"),
-        "baby_scrap_shop_missing" => LocalizationHelper.GetString("BlackFlowOutcomeBabyScrapShopMissing"),
+        "baby_cultivation_unfinished" => LocalizationHelper.GetString("BlackFlowOutcomeBabyCultivationUnfinished"),
         "task_event_failed" => LocalizationHelper.GetString("BlackFlowOutcomeTaskEventFailed"),
         "perception_port_missing" => LocalizationHelper.GetString("BlackFlowOutcomePerceptionPortMissing"),
         "map_rebuild_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMapRebuildFailed"),
@@ -999,7 +1008,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         "fifth_floor_reached_without_valid_sandtable_payment" => LocalizationHelper.GetString("BlackFlowTerminationEnding2PrerequisiteMissing"),
         "fifth_floor_reached_without_special_device" => LocalizationHelper.GetString("BlackFlowTerminationEnding3RelicMissing"),
         "third_floor_has_no_portal" => LocalizationHelper.GetString("BlackFlowTerminationNoBoskyPassage"),
-        "third_floor_has_no_scrap_shop" => LocalizationHelper.GetString("BlackFlowTerminationNoScrapShop"),
+        "third_floor_action_points_exhausted" => LocalizationHelper.GetString("BlackFlowTerminationActionPointsExhaustedBeforeCultivation"),
         "map recovery port is unavailable" => LocalizationHelper.GetString("BlackFlowTerminationRecoveryPortUnavailable"),
         "BlackFlow perception and task port is not attached" => LocalizationHelper.GetString("BlackFlowTerminationPerceptionPortUnavailable"),
         "map rebuild failed twice" => LocalizationHelper.GetString("BlackFlowTerminationMapRebuildFailedTwice"),
@@ -1190,6 +1199,15 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                     var status = LocalizeBlackFlowMilestoneStatus(statusCode);
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat("BlackFlowMilestoneChanged", milestone, status),
+                        UiLogColor.Info);
+                    break;
+                }
+
+            case "BlackFlowStrategyStarted":
+                {
+                    var profile = LocalizeBlackFlowProfile(subTaskDetails?["profile"]?.ToString());
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("BlackFlowStrategyStarted", profile),
                         UiLogColor.Info);
                     break;
                 }

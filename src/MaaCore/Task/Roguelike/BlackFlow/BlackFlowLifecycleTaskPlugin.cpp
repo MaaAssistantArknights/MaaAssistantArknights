@@ -39,6 +39,7 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
             profile = params.get("investment_enabled", true) ? "burn_with_investment" : "burn";
         }
     }
+    const std::string selected_profile = profile;
 
     // 三项都直接读 params：分队要等真正在选择界面点中才会写回 RoguelikeConfig，此刻取不到。
     // 必须先于 initialize()，事实是在它末尾写入的。
@@ -68,6 +69,11 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
     if (m_port != nullptr) {
         m_port->configure_diagnostics(settings);
     }
+
+    Log.info("BlackFlow strategy initialized", "profile", selected_profile);
+    auto info = basic_info_with_what("BlackFlowStrategyStarted");
+    info["details"] = json::object { { "profile", selected_profile } };
+    callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
 }
 
@@ -185,9 +191,11 @@ bool BlackFlowLifecycleTaskPlugin::_run()
         m_session->fail(std::move(outcome), std::move(reason), FailureDisposition::StopTask);
     }
 
+    std::string profile;
     std::string outcome;
     std::string reason;
     if (m_session != nullptr && m_session->result().has_value()) {
+        profile = m_session->result()->profile;
         outcome = m_session->result()->outcome;
         reason = m_session->result()->termination_reason;
     }
@@ -199,7 +207,7 @@ bool BlackFlowLifecycleTaskPlugin::_run()
     const std::string task = next_action == "restart_current_run" ? "BlackFlow@Roguelike@ExitThenAbandon-Enter"
                                                                   : "BlackFlow@Roguelike@ExitThenStop-Enter";
     Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", task);
-    Log.info("BlackFlow strategy terminal action", trigger, pre_task, outcome, reason, next_action, task);
+    Log.info("BlackFlow strategy terminal action", "profile", profile, trigger, pre_task, outcome, reason, next_action, task);
     report_outputs();
     return true;
 }

@@ -446,7 +446,8 @@ bool OnDemandStateGraph::state_is_endpoint(const PlannerState& state) const noex
 
 bool OnDemandStateGraph::state_is_goal(const PlannerState& state) const noexcept
 {
-    return m_options.strategy_goal_nodes.contains(state.node) || state_is_endpoint(state);
+    return m_options.has_active_strategy_end ? m_options.strategy_goal_nodes.contains(state.node)
+                                            : state_is_endpoint(state);
 }
 
 std::optional<PlannerNodeMask> OnDemandStateGraph::bit(NodeId node) const noexcept
@@ -461,9 +462,11 @@ bool OnDemandStateGraph::is_terminal(SafetyStateId id) const noexcept
 
 bool OnDemandStateGraph::is_terminal_node(NodeId node_id) const noexcept
 {
+    if (m_options.has_active_strategy_end) {
+        return m_options.strategy_goal_nodes.contains(node_id);
+    }
     const Node* node = m_map == nullptr ? nullptr : m_map->find_node(node_id);
-    return m_options.strategy_goal_nodes.contains(node_id) ||
-           (node != nullptr && m_options.final_is_terminal && is_exit_node_type(node->type));
+    return node != nullptr && m_options.final_is_terminal && is_exit_node_type(node->type);
 }
 
 bool OnDemandStateGraph::is_completed(SafetyStateId id, NodeId node) const noexcept

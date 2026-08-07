@@ -199,8 +199,9 @@ bool BlackFlowCompactStateSpace::initialize(
             m_initial_state.consumed_lights |= PlannerNodeMask { 1 } << found->second;
         }
     }
-    m_initial_state.terminal =
-        m_options.strategy_goal_nodes.contains(m_initial_state.node) || is_endpoint(m_initial_state);
+    m_initial_state.terminal = m_options.has_active_strategy_end
+                                   ? m_options.strategy_goal_nodes.contains(m_initial_state.node)
+                                   : is_endpoint(m_initial_state);
     m_run = &run;
     return true;
 }
@@ -411,7 +412,8 @@ PlannerState BlackFlowCompactStateSpace::transition(
             successor.consumed_lights |= node_mask;
         }
     }
-    successor.terminal = m_options.strategy_goal_nodes.contains(successor.node) || is_endpoint(successor);
+    successor.terminal = m_options.has_active_strategy_end ? m_options.strategy_goal_nodes.contains(successor.node)
+                                                          : is_endpoint(successor);
     return successor;
 }
 

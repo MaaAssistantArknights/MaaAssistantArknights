@@ -201,6 +201,8 @@ std::vector<std::string> advance_milestones(
             !simulated_prerequisites_satisfied(milestone, milestones, before, mission)) {
             continue;
         }
+        // 隐藏载体的投影进度只用于本轮路线排序；只有精确身份匹配才写入 advanced 并触发页面意图。
+        // SafetyGoal 继续按精确身份推进，不跟随投影。
         progress[index] = std::min(milestone.required_count, before[index] + 1);
         counted[index].emplace_back(node.id);
         std::ranges::sort(counted[index]);
@@ -1585,6 +1587,7 @@ PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
         if (entered->type == NodeType::Light) {
             StateExpansionOptions source_options;
             source_options.strategy_goal_nodes = request.strategy_goal_nodes;
+            source_options.has_active_strategy_end = request.has_active_strategy_end;
             source_options.graph_layer = GraphLayer::Confirmed;
             source_options.maximum_states = request.maximum_states;
             if (request.forbidden_actions != nullptr) {
@@ -1615,6 +1618,7 @@ PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
 
     StateExpansionOptions options;
     options.strategy_goal_nodes = request.strategy_goal_nodes;
+    options.has_active_strategy_end = request.has_active_strategy_end;
     options.graph_layer = GraphLayer::Confirmed;
     options.safety_goal = &*safety_goal;
     options.safety_goal_facts = request.facts;
@@ -1671,6 +1675,7 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
 
     StateExpansionOptions confirmed_options;
     confirmed_options.strategy_goal_nodes = request.strategy_goal_nodes;
+    confirmed_options.has_active_strategy_end = request.has_active_strategy_end;
     confirmed_options.graph_layer = GraphLayer::Confirmed;
     confirmed_options.safety_goal = &*safety_goal;
     confirmed_options.safety_goal_facts = request.facts;

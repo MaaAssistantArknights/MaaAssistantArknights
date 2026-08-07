@@ -213,6 +213,7 @@
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，投资完成后自动退出</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowExp">刷等级，快速飞三层</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">刷源石锭，投资完成后自动退出</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">刷襁褓动物</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二{key=Operator}开局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">烧水使用分队</system:String>
@@ -1332,6 +1333,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowWarningUnknown">肉鸽出现异常</system:String>
     <system:String x:Key="BlackFlowMilestoneChanged">阶段目标：{0}（{1}）</system:String>
     <system:String x:Key="BlackFlowStrategyResult">肉鸽策略结束：{0}（{1}）</system:String>
+    <system:String x:Key="BlackFlowStrategyStarted">黑流策略已启动：{0}</system:String>
+    <system:String x:Key="BlackFlowStrategyUnknown">未知策略</system:String>
     <system:String x:Key="BlackFlowDecisionProbeUnknownNode">探测路线前方最近的未分类节点</system:String>
     <system:String x:Key="BlackFlowDecisionPolicyOrder">按照策略设定的优先顺序选择</system:String>
     <system:String x:Key="BlackFlowDecisionDetailUnknown">按照路线优先级选择</system:String>
@@ -1380,20 +1383,20 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowRuleEnding1LateScrapShop">后续楼层优先秘境行商</system:String>
     <system:String x:Key="BlackFlowRuleEnding1LateEmergencyAid">后续楼层优先应急助力</system:String>
     <system:String x:Key="BlackFlowRuleEnding1AvoidLateCombat">已经形成基本精二队伍，避开非必要战斗</system:String>
-    <system:String x:Key="BlackFlowRuleBabyFloor1SeedShop">前往第一层普通商店寻找种子</system:String>
-    <system:String x:Key="BlackFlowRuleBabyFloor3NormalShop">第三层优先普通商店</system:String>
-    <system:String x:Key="BlackFlowRuleBabyDelayFloor3ScrapShop">行动力充足时暂缓进入秘境行商</system:String>
-    <system:String x:Key="BlackFlowRuleBabyEnterFloor3ScrapShopLate">第三层行动力较低时进入秘境行商培育种子</system:String>
+    <system:String x:Key="BlackFlowRuleBabyUseProcessingItemForFloor1Shop">第一层使用加工品前往普通商店</system:String>
+    <system:String x:Key="BlackFlowRuleBabyWalkAfterFloor1Shop">第一层检查普通商店后徒步探索并保留加工品</system:String>
+    <system:String x:Key="BlackFlowRuleBabyExploreHiddenForScrapShop">第二、三层未发现秘境行商时探索未知的诡秘</system:String>
     <system:String x:Key="BlackFlowRuleBabyDelayExitBeforeFloor3">第三层前仍有发育空间，暂缓前往出口</system:String>
     <system:String x:Key="BlackFlowRuleBabyExitBeforeFloor3WhenRequired">第三层前发育已经完成或安全余量不足，前往出口</system:String>
-    <system:String x:Key="BlackFlowRuleBabyFloor2NormalShop">第二层优先普通商店</system:String>
     <system:String x:Key="BlackFlowMilestoneInvestmentShop">进入第一层固定商店并完成投资</system:String>
     <system:String x:Key="BlackFlowMilestoneBurnFloor1Shop">第一层进入商店</system:String>
     <system:String x:Key="BlackFlowMilestoneBurnFloor1Final">第一层抵达险路尽头</system:String>
     <system:String x:Key="BlackFlowMilestoneBurnFloor2Final">第二层抵达险路尽头</system:String>
     <system:String x:Key="BlackFlowMilestoneBurnFloor3Bosky">第三层进入误入奇境</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCheckSeedShop">第一层检查商店中的种子</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyCultivateFloor3">第三层在秘境行商培育种子</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">第二、三层进入秘境行商培育种子</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">第二层经过普通商店时继续获取种子</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">第三层经过普通商店时卖货、刷新并尽量购买种子</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">获得沙盘 A</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableB">获得沙盘 B</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2Fate">第五层进入命运所指并完成二结局</system:String>
@@ -1413,7 +1416,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowOutcomeEnding3Completed">三结局已经完成</system:String>
     <system:String x:Key="BlackFlowOutcomeEnding2PrerequisiteFailed">二结局前置条件未完成</system:String>
     <system:String x:Key="BlackFlowOutcomeEnding3PrerequisiteFailed">三结局前置条件未完成</system:String>
-    <system:String x:Key="BlackFlowOutcomeBabyScrapShopMissing">第三层未发现秘境行商</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationUnfinished">襁褓动物培育未完成</system:String>
     <system:String x:Key="BlackFlowOutcomeTaskEventFailed">节点结果处理失败</system:String>
     <system:String x:Key="BlackFlowOutcomePerceptionPortMissing">地图识别接口不可用</system:String>
     <system:String x:Key="BlackFlowOutcomeMapRebuildFailed">地图重建失败</system:String>
@@ -1446,7 +1449,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowTerminationEnding2PrerequisiteMissing">第五层前仍未满足二结局的沙盘要求</system:String>
     <system:String x:Key="BlackFlowTerminationEnding3RelicMissing">第五层前仍未取得三结局所需藏品</system:String>
     <system:String x:Key="BlackFlowTerminationNoBoskyPassage">第三层未发现误入奇境，本局路线完成</system:String>
-    <system:String x:Key="BlackFlowTerminationNoScrapShop">第三层未发现秘境行商</system:String>
+    <system:String x:Key="BlackFlowTerminationActionPointsExhaustedBeforeCultivation">第三层行动力耗尽，未完成培育</system:String>
     <system:String x:Key="BlackFlowTerminationRecoveryPortUnavailable">地图恢复接口不可用</system:String>
     <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">地图识别与任务接口不可用</system:String>
     <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">连续两次地图重建失败</system:String>
