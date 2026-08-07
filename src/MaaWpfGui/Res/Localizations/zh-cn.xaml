@@ -532,7 +532,7 @@ D:\
     <system:String x:Key="AdbTouchMode">ADB Input（不推荐使用）</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework（实验功能）</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu 触控增强（实验功能）</system:String>
-    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 用于兼容系统版本过低、无法运行 Minitouch 或 MaaTouch 的实体机设备。能用前两种模式时，不要选择 ADB Input。&#10;ADB Input 的滑动容易拖飞，为避免此问题，滑动速度会设置得非常慢，且滑动距离与前两种模式不同；在需要精确控制坐标的场景下无法使用。</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 仅用于兼容系统版本过低的实体机设备。能用其他模式时，不要选择 ADB Input。&#10;ADB Input 的滑动容易拖飞，为避免此问题，滑动速度会设置得非常慢，且滑动距离与其他模式不同；在需要精确控制坐标的场景下无法使用。</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用于指定模拟器启动参数（如 ｢--instance 1｣ 表示启动 1 号实例）。&#10;不同模拟器的命令格式不同，通常包括实例编号、窗口模式等参数，请参考您使用的模拟器文档</system:String>
     <system:String x:Key="StartsWithScript">开始前脚本</system:String>
