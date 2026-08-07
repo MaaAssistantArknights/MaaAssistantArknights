@@ -124,8 +124,7 @@
         "next": ["#next"]
     },
     "JieGarden@Roguelike@CloseEvent": {
-        "action": "ClickRect",
-        "specificRect": [153, 79, 63, 29],
+        "action": "ClickSelf",
         "next": [
             "JieGarden@Roguelike@StageEncounterEnter",
             "JieGarden@Roguelike@CloseEvent@(JieGarden@Roguelike@CloseCollectionContinue)",
