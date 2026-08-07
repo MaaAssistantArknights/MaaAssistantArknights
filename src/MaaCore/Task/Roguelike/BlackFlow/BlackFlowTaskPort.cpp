@@ -33,6 +33,8 @@ constexpr std::string_view MovePreviewCostTask = "BlackFlow@Roguelike@MovePrevie
 constexpr std::string_view MovePreviewDisplayedNameTask = "BlackFlow@Roguelike@MovePreviewDisplayedName";
 constexpr std::string_view MovePreviewConfirmTask = "BlackFlow@Roguelike@MovePreviewConfirm";
 constexpr std::string_view EnteredPageClassificationTask = "BlackFlow@Roguelike@EnteredPageClassification";
+constexpr std::string_view EnteredPageClassificationEncounterPrepareTask =
+    "BlackFlow@Roguelike@EnteredPageClassificationEncounterPrepare";
 constexpr std::string_view StageEncounterOcrTask = "BlackFlow@Roguelike@StageEncounterOcr";
 
 void set_error(std::string* error, std::string message)
@@ -351,7 +353,10 @@ bool BlackFlowTaskPort::classify_entered_page(
         return true;
     }
 
-    const auto encounter_title = recognize_text(image, StageEncounterOcrTask);
+    if (!m_task_context->execute({ std::string(EnteredPageClassificationEncounterPrepareTask) }, error)) {
+        return false;
+    }
+    const auto encounter_title = recognize_text(m_task_context->capture(), StageEncounterOcrTask);
     if (encounter_title.has_value()) {
         observation.matched_texts.emplace_back(*encounter_title);
         observation.classified_type = NodeType::Incident;

@@ -856,6 +856,20 @@
         "Doc": "开局分队确认，之后可能出现藏品弹窗、干员选择或招募界面。",
         "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
         "next": [
+            "BlackFlow@Roguelike@SquadConfirmRewardPopup",
+            "BlackFlow@Roguelike@LastReward-EnterPoint",
+            "BlackFlow@Roguelike@RolesDefault",
+            "BlackFlow@Roguelike@RecruitMain",
+            "BlackFlow@Roguelike@SquadConfirm@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@Stages#next"
+        ]
+    },
+    "BlackFlow@Roguelike@SquadConfirmRewardPopup": {
+        "template": "BlackFlow@Roguelike@Confirm.png",
+        "roi": [581, 555, 118, 76],
+        "action": "ClickSelf",
+        "next": [
+            "#self",
             "BlackFlow@Roguelike@LastReward-EnterPoint",
             "BlackFlow@Roguelike@RolesDefault",
             "BlackFlow@Roguelike@RecruitMain",
@@ -1227,6 +1241,23 @@
         "withoutDet": false,
         "text": ["险路尽头", "前瞻性投资系统", "机械师的园圃", "刷新"],
         "fullMatch": true
+    },
+    "BlackFlow@Roguelike@EnteredPageClassificationEncounterPrepare": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "BlackFlow@Roguelike@EnteredPageClassificationEncounterPrepareClick*2",
+            "BlackFlow@Roguelike@EnteredPageClassificationEncounterPrepareWait"
+        ]
+    },
+    "BlackFlow@Roguelike@EnteredPageClassificationEncounterPrepareClick": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [640, 360, 1, 1],
+        "preDelay": 150
+    },
+    "BlackFlow@Roguelike@EnteredPageClassificationEncounterPrepareWait": {
+        "algorithm": "JustReturn",
+        "postDelay": 1000
     },
     "BlackFlow@Roguelike@MovementInventoryCheck": {
         "algorithm": "JustReturn",
