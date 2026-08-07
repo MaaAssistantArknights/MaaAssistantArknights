@@ -143,6 +143,12 @@ bool asst::Controller::back_to_home()
     return true;
 }
 
+bool asst::Controller::inactive()
+{
+    CHECK_EXIST(m_controller, false);
+    return m_controller->inactive();
+}
+
 cv::Mat asst::Controller::get_resized_image_cache() const
 {
     const cv::Size d_size(m_scale_size.first, m_scale_size.second);

@@ -34,6 +34,7 @@ public:
 
     virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) = 0;
     virtual bool inited() const noexcept = 0;
+    virtual bool inactive() { return true; }
 
     virtual void set_swipe_with_pause([[maybe_unused]] bool enable) noexcept {}
 

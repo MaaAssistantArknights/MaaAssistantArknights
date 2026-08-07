@@ -48,6 +48,7 @@ public:
         Win32InputMethod keyboard_method);
 #endif
     bool inited() noexcept;
+    bool inactive();
     void set_touch_mode(const TouchMode& mode) noexcept;
     void set_swipe_with_pause(bool enable) noexcept;
     void set_adb_lite_enabled(bool enable) noexcept;

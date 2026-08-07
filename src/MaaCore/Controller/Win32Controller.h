@@ -37,6 +37,7 @@ public:
 public: // ControllerAPI 接口
     virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) override;
     virtual bool inited() const noexcept override;
+    virtual bool inactive() override;
 
     virtual const std::string& get_uuid() const override;
 

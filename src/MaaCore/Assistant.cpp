@@ -552,11 +552,17 @@ void Assistant::working_proc()
         append_callback(msg, callback_json);
 
         if (m_thread_idle) {
+            if (!m_ctrler->inactive()) {
+                Log.warn("Failed to set controller inactive after task stopped");
+            }
             finished_tasks.clear();
             continue;
         }
 
         if (m_tasks_list.empty()) {
+            if (!m_ctrler->inactive()) {
+                Log.warn("Failed to set controller inactive after all tasks completed");
+            }
             callback_json["finished_tasks"] = json::array(finished_tasks);
             append_callback(AsstMsg::AllTasksCompleted, callback_json);
             finished_tasks.clear();
@@ -568,6 +574,9 @@ void Assistant::working_proc()
         m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
 
         if (m_thread_idle) {
+            if (!m_ctrler->inactive()) {
+                Log.warn("Failed to set controller inactive after task stopped");
+            }
             append_callback(AsstMsg::TaskChainStopped, callback_json);
         }
     }

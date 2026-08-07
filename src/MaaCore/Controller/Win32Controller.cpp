@@ -107,6 +107,14 @@ bool Win32Controller::inited() const noexcept
     return m_inited && m_unit_handle;
 }
 
+bool Win32Controller::inactive()
+{
+    if (!m_unit_handle) {
+        return true;
+    }
+    return static_cast<MaaFwControlUnitAPI*>(m_unit_handle)->inactive();
+}
+
 const std::string& Win32Controller::get_uuid() const
 {
     return m_uuid;
