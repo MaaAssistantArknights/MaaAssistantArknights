@@ -702,7 +702,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AdbPathFileSelectionErrorImSure">確かに間違って選択していないと思います</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">はい、もう一度選択します</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
-    <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください</system:String>
+    <system:String x:Key="ConnectionAddressTip">｢{key=AutoDetectConnection}｣ を有効にして成功すると自動的に入力されます。検出に失敗した場合は、エミュレータの実際のポートを確認して入力してください。</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <system:String x:Key="ScreenshotTest">スクリーンショットテスト</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>

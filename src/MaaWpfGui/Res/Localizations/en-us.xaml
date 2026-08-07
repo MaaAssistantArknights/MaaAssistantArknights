@@ -702,7 +702,7 @@ Only supports Official(CN), Bilibili and Traditional Chinese servers. Third-part
     <system:String x:Key="AdbPathFileSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">Okay, I will choose again</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
-    <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
+    <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when ｢{key=AutoDetectConnection}｣ is enabled and succeeds. If detection fails, find the emulator's actual port and fill it in.</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
