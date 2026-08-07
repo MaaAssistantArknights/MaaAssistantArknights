@@ -1339,13 +1339,32 @@ public class TaskQueueViewModel : Screen
 
     private void createNewCard()
     {
-        if (LogCardViewModels.Count > 0 && LogCardViewModels[^1].Items.Count <= 0)
+        if (LogCardViewModels.Count > 0 && LogCardViewModels[^1].Items.Count <= 0 && !LogCardViewModels[^1].IsDivider)
         {
             return;
         }
 
         var card = new LogCardItemViewModel();
         LogCardViewModels.Add(card);
+    }
+
+    /// <summary>
+    /// Inserts a section divider into the log: an <c>hc:Divider</c> card (card log style)
+    /// plus a "-----{header}-----" text line (plain-text log style).
+    /// Pass <paramref name="header"/> to show a title, or <see langword="null"/> for a plain line.
+    /// </summary>
+    /// <param name="header">Optional divider title text.</param>
+    public void AddLogSection(string? header = null)
+    {
+        Execute.OnUIThread(() => {
+            // Plain-text log style: fall back to a "-----{header}-----" line.
+            LogItemViewModels.Add(new LogItemViewModel(header is null ? "-----" : $"-----{header}-----"));
+
+            // Card log style: render a real hc:Divider as its own card.
+            var divider = new LogCardItemViewModel { IsDivider = true, Header = header };
+            LogCardViewModels.Add(divider);
+            createNewCard();
+        });
     }
 
     /// <summary>

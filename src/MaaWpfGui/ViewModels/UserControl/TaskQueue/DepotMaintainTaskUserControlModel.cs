@@ -536,7 +536,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 taskIds.Add(depotTaskId);
             }
 
-            Instances.TaskQueueViewModel.AddLog($"-----{depot.NameOrTaskType}-----", splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+            Instances.TaskQueueViewModel.AddLogSection(depot.NameOrTaskType);
 
             var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
             for (int i = 0; i < depot.PlanList.Count; i++)
