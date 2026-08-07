@@ -86,7 +86,7 @@
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">메시지 본문 템플릿</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">플레이스홀더: {title}, {content}, {time}</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Presets">사전 설정 템플릿</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">{title}, {content}, {time} 외에 {}로 감싸진 플레이스홀더(예: {nickname})를 실제 값으로 바꿔주세요</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">사전 설정 템플릿의 &lt;&gt; 플레이스홀더(예: &lt;nickname&gt;)를 실제 값으로 바꿔주세요</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.TemplateCustom">사용자 정의</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.TemplateMeoW">MeoW</system:String>
     <system:String x:Key="UseGpuForInference">추론 가속화를 위해 GPU 사용</system:String>

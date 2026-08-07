@@ -54,6 +54,22 @@ public class WebhookPresetTemplate
             Name = "Discord Webhook",
             Body = $"{{\"content\": \"{{content}}\"}}",
         },
+        new()
+        {
+            Id = "Kook Channel",
+            Name = "KOOK Channel",
+            Url = "https://www.kookapp.cn/api/v3/message/create",
+            Headers = "Authorization: Bot <bot_token>",
+            Body = @"{""type"": 9, ""target_id"": ""<channel_id>"", ""content"": ""**{title}**\n{content}""}",
+        },
+        new()
+        {
+            Id = "Kook Direct",
+            Name = "KOOK Direct",
+            Url = "https://www.kookapp.cn/api/v3/direct-message/create",
+            Headers = "Authorization: Bot <bot_token>",
+            Body = @"{""type"": 9, ""target_id"": ""<user_id>"", ""content"": ""**{title}**\n{content}""}",
+        },
     ];
 
     public static IReadOnlyList<WebhookPresetTemplate> BuiltInTemplates => _builtInTemplates;
