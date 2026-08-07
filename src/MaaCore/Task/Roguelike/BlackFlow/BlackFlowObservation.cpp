@@ -33,7 +33,14 @@ const PerceptionNodeObservation* infer_first_floor_shop(const BlackFlowMapObserv
 
     const PerceptionNodeObservation* result = nullptr;
     for (const auto& node : source.nodes) {
-        if (!node.exists || node.position.row != 1 || node.type != "hide_invisible") {
+        if (!node.exists || node.position.row != 1) {
+            continue;
+        }
+        // 第一层第二行的固定商店揭示后直接沿用，避免中途进入时将剩余的未知节点重新推断为商店。
+        if (node.type == "shop") {
+            return &node;
+        }
+        if (node.type != "hide_invisible") {
             continue;
         }
         if (result == nullptr || node.position.column > result->position.column) {
