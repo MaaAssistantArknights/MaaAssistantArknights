@@ -182,14 +182,42 @@
                     </hc:ComboBox>
                 </Grid>
 
-                <hc:ComboBox
-                    Margin="0,5"
-                    hc:InfoElement.Title="{DynamicResource TouchMode}"
-                    DisplayMemberPath="Display"
-                    IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    ItemsSource="{Binding TouchModeList}"
-                    SelectedValue="{Binding TouchMode}"
-                    SelectedValuePath="Value" />
+                <Grid Margin="0,5">
+                    <StackPanel
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="8,0,0,0"
+                            Text="{DynamicResource TouchMode}"
+                            Visibility="Hidden" />
+                        <controls:TooltipBlock>
+                            <controls:TooltipBlock.CustomToolTip>
+                                <StackPanel MaxWidth="400">
+                                    <MediaElement
+                                        Width="252"
+                                        Height="268"
+                                        IsMuted="True"
+                                        LoadedBehavior="Play"
+                                        Source="{Binding Source={x:Static settings_vms:ConnectSettingsUserControlModel.TouchModeVideoPath}}" />
+                                    <TextBlock
+                                        Margin="0,8,0,0"
+                                        FontSize="12"
+                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                        Text="{DynamicResource TouchModeTip}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                            </controls:TooltipBlock.CustomToolTip>
+                        </controls:TooltipBlock>
+                    </StackPanel>
+                    <hc:ComboBox
+                        hc:InfoElement.Title="{DynamicResource TouchMode}"
+                        DisplayMemberPath="Display"
+                        IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                        ItemsSource="{Binding TouchModeList}"
+                        SelectedValue="{Binding TouchMode}"
+                        SelectedValuePath="Value" />
+                </Grid>
             </StackPanel>
 
             <!--  额外配置  -->
