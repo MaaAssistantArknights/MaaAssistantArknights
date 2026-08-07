@@ -41,6 +41,17 @@ namespace MaaWpfGui.ViewModels.Items
 
         public ObservableCollection<LogItemViewModel> Items { get; } = new();
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this card is a section divider
+        /// (rendered as <c>hc:Divider</c> instead of a normal log card).
+        /// </summary>
+        public bool IsDivider { get; set => SetAndNotify(ref field, value); }
+
+        /// <summary>
+        /// Gets or sets the optional header text shown inside the divider.
+        /// </summary>
+        public string? Header { get; set => SetAndNotify(ref field, value); }
+
         private ImageSource? _thumbnail;
 
         public ImageSource? Thumbnail
