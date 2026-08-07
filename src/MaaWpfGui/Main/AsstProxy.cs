@@ -1195,7 +1195,7 @@ public class AsstProxy
                         ? ConfigFactory.CurrentConfig.TaskQueue[taskIndex]
                         : null;
                     var taskName = task?.NameOrTaskType ?? $"({LocalizationHelper.GetString(taskChain)})";
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + taskName, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                    Instances.TaskQueueViewModel.AddLogSection(LocalizationHelper.GetString("StartTask") + taskName, decoratePlainText: false);
                     _logger.Information("Start Task Chain: {TaskChain}, Task ID: {TaskId}", taskChain, taskId);
                     UpdateTaskStatus(taskId, TaskStatus.InProgress);
 

@@ -1350,15 +1350,23 @@ public class TaskQueueViewModel : Screen
 
     /// <summary>
     /// Inserts a section divider into the log: an <c>hc:Divider</c> card (card log style)
-    /// plus a "-----{header}-----" text line (plain-text log style).
-    /// Pass <paramref name="header"/> to show a title, or <see langword="null"/> for a plain line.
+    /// plus a text line (plain-text log style). By default the plain-text line is
+    /// decorated as "-----{header}-----"; set <paramref name="decoratePlainText"/> to
+    /// <see langword="false"/> to show <paramref name="header"/> verbatim instead.
+    /// Pass <see langword="null"/> for <paramref name="header"/> to insert a plain divider line.
     /// </summary>
     /// <param name="header">Optional divider title text.</param>
-    public void AddLogSection(string? header = null)
+    /// <param name="decoratePlainText">Whether to wrap the header as "-----{header}-----"
+    /// in plain-text log style. When <see langword="false"/>, <paramref name="header"/>
+    /// is shown verbatim. Defaults to <see langword="true"/>.</param>
+    public void AddLogSection(string? header = null, bool decoratePlainText = true)
     {
         Execute.OnUIThread(() => {
-            // Plain-text log style: fall back to a "-----{header}-----" line.
-            LogItemViewModels.Add(new LogItemViewModel(header is null ? "-----" : $"-----{header}-----"));
+            // Plain-text log style: either a decorated "-----{header}-----" line or the header verbatim.
+            var plainText = header is null
+                ? "-----"
+                : decoratePlainText ? $"-----{header}-----" : header;
+            LogItemViewModels.Add(new LogItemViewModel(plainText));
 
             // Card log style: render a real hc:Divider as its own card.
             var divider = new LogCardItemViewModel { IsDivider = true, Header = header };

@@ -901,13 +901,15 @@
                                         <DataTemplate>
                                             <Grid>
                                                 <hc:Divider
-                                                    Margin="0,4"
+                                                    MaxWidth="420"
+                                                    Margin="0,0,0,2.5"
+                                                    HorizontalContentAlignment="Center"
                                                     Content="{Binding Header}"
                                                     Visibility="{c:Binding IsDivider}" />
                                                 <Border
                                                     MaxWidth="420"
                                                     Margin="0,0,0,2.5"
-                                                    Padding="5,0,1,5"
+                                                    Padding="2.5,0,1,5"
                                                     Background="{DynamicResource MouseOverRegionBrushOpacity10}"
                                                     BorderBrush="{DynamicResource BorderBrush}"
                                                     BorderThickness="1"
@@ -954,7 +956,7 @@
                                                                 TextWrapping="Wrap"
                                                                 Visibility="{c:Binding 'StartTime != EndTime or Items.Count > 1'}" />
                                                         </Grid>
-                                                        <Grid Grid.Column="1" Margin="10,0,0,0">
+                                                        <Grid Grid.Column="1" Margin="5,0,0,0">
                                                             <ItemsControl ItemsSource="{Binding Items}">
                                                                 <ItemsControl.ItemTemplate>
                                                                     <DataTemplate>
