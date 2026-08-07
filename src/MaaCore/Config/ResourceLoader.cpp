@@ -193,7 +193,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     // 参考: https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/6188
     // 原先使用异步加载，但存在竞态问题，现改为同步加载
 
-    constexpr std::array roguelike_themes = { "Phantom", "Mizuki", "Sami", "Sarkaz", "JieGarden" };
+    constexpr std::array roguelike_themes = { "Phantom", "Mizuki", "Sami", "Sarkaz", "JieGarden", "BlackFlow" };
 
     auto roguelike_path = [](std::string_view theme, const std::filesystem::path& subpath) {
         return "roguelike"_p / theme / subpath;
@@ -217,15 +217,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }
     }
 
-    const bool blackflow_recruit_available = RoguelikeRecruit.copy_theme("JieGarden", "BlackFlow");
-    BlackFlowMapPerception.set_dependency_status(
-        "recruitment",
-        blackflow_recruit_available,
-        "unable to reuse JieGarden recruitment configuration");
-    if (!blackflow_recruit_available) {
-        Log.error("Unable to reuse JieGarden recruitment configuration for BlackFlow; other themes remain available");
-    }
-
     // Shopping Config
     for (auto theme : roguelike_themes) {
         if (!load_with_custom.template operator()<RoguelikeShoppingConfig>(
@@ -243,28 +234,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
             return false;
         }
     }
-    const auto blackflow_encounter_path = roguelike_path("BlackFlow", "encounter"_p / "default.json"_p);
-    const bool blackflow_encounter_layer_present = std::filesystem::exists(path / blackflow_encounter_path);
-    if (blackflow_encounter_layer_present) {
-        const bool blackflow_encounter_available = load_with_custom.template operator()<RoguelikeStageEncounterConfig>(
-            blackflow_encounter_path,
-            "RoguelikeStageEncounterConfig");
-        BlackFlowMapPerception.set_dependency_status(
-            "encounter",
-            blackflow_encounter_available,
-            "BlackFlow encounter configuration failed to load");
-        if (!blackflow_encounter_available) {
-            Log.error("BlackFlow encounter configuration failed to load; other themes remain available");
-        }
-    }
-    else if (!m_loaded) {
-        BlackFlowMapPerception.set_dependency_status(
-            "encounter",
-            false,
-            "BlackFlow encounter configuration is missing");
-        Log.error("BlackFlow encounter configuration is missing; other themes remain available");
-    }
-
     // 额外的 encounter 配置（deposit / collapse）
     for (auto theme : { "Phantom", "Mizuki", "Sami" }) {
         if (!load_with_custom.template operator()<RoguelikeStageEncounterConfig>(
