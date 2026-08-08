@@ -811,6 +811,12 @@ PolicyDecision PolicyExecutor::choose(
                 DecisionReasonCategory::TieBreak,
                 "intermediate_interaction_count");
         }
+        // 行动力本层用不完就作废，残值为零；跨层保留的加工品省下来下一层还能用，残值为正。
+        // 所以收益打平时先比加工品，再比步数，不能反过来。
+        add_score(
+            candidate->persistent_processing_move_count,
+            DecisionReasonCategory::ResourceReserve,
+            "persistent_processing_move_count");
         add_score(candidate->estimated_duration, DecisionReasonCategory::TieBreak, "estimated_duration");
         add_score(candidate->processing_move_count, DecisionReasonCategory::ResourceReserve, "processing_move_count");
         add_score(candidate->risk_score, DecisionReasonCategory::RiskAvoidance, "risk_score");

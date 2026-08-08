@@ -363,6 +363,8 @@ struct PolicyCandidate
     int battle_count = 0;
     int intermediate_interaction_count = 0;
     int processing_move_count = 0;
+    // 只计跨层保留的加工品。过期的下楼即作废，省下来没有意义。
+    int persistent_processing_move_count = 0;
     int estimated_duration = 0;
     std::unordered_map<std::string, int> milestone_progress;
     std::vector<std::string> immediate_milestone_ids;

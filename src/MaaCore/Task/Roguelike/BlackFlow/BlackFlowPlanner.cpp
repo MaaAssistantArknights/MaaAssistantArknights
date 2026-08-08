@@ -85,6 +85,9 @@ struct RouteMetric
 {
     int battles = 0;
     int processing_moves = 0;
+    // 跨层保留的加工品才有残值。过期的（M04、M07）下楼即作废，本层不用就是白扔，
+    // 所以比较取舍时只看这一项，过期的不计。
+    int persistent_processing_moves = 0;
     int duration = 0;
 };
 
@@ -96,6 +99,7 @@ RouteMetric add_metric(RouteMetric lhs, const RouteMetric& rhs) noexcept
     };
     lhs.battles = add(lhs.battles, rhs.battles);
     lhs.processing_moves = add(lhs.processing_moves, rhs.processing_moves);
+    lhs.persistent_processing_moves = add(lhs.persistent_processing_moves, rhs.persistent_processing_moves);
     lhs.duration = add(lhs.duration, rhs.duration);
     return lhs;
 }
@@ -105,10 +109,12 @@ std::int64_t route_penalty(const RouteMetric& metric) noexcept
     return static_cast<std::int64_t>(metric.battles) + metric.processing_moves + metric.duration;
 }
 
+// 行动力残值为零，跨层保留的加工品残值为正，所以打平时先比后者。
 bool route_metric_weakly_better(const RouteMetric& lhs, const RouteMetric& rhs) noexcept
 {
-    return route_penalty(lhs) <= route_penalty(rhs) && std::tie(lhs.battles, lhs.processing_moves, lhs.duration) <=
-                                                           std::tie(rhs.battles, rhs.processing_moves, rhs.duration);
+    return route_penalty(lhs) <= route_penalty(rhs) &&
+           std::tie(lhs.battles, lhs.persistent_processing_moves, lhs.duration) <=
+               std::tie(rhs.battles, rhs.persistent_processing_moves, rhs.duration);
 }
 
 struct RouteMilestone
@@ -307,22 +313,22 @@ bool route_label_better(
         const auto lhs_metric = std::tie(
             lhs.metric.battles,
             lhs.intermediate_interactions,
-            lhs.metric.processing_moves,
+            lhs.metric.persistent_processing_moves,
             lhs.metric.duration);
         const auto rhs_metric = std::tie(
             rhs.metric.battles,
             rhs.intermediate_interactions,
-            rhs.metric.processing_moves,
+            rhs.metric.persistent_processing_moves,
             rhs.metric.duration);
         if (lhs_metric != rhs_metric) {
             return lhs_metric < rhs_metric;
         }
     }
     else if (
-        std::tie(lhs.metric.battles, lhs.metric.processing_moves, lhs.metric.duration) !=
-        std::tie(rhs.metric.battles, rhs.metric.processing_moves, rhs.metric.duration)) {
-        return std::tie(lhs.metric.battles, lhs.metric.processing_moves, lhs.metric.duration) <
-               std::tie(rhs.metric.battles, rhs.metric.processing_moves, rhs.metric.duration);
+        std::tie(lhs.metric.battles, lhs.metric.persistent_processing_moves, lhs.metric.duration) !=
+        std::tie(rhs.metric.battles, rhs.metric.persistent_processing_moves, rhs.metric.duration)) {
+        return std::tie(lhs.metric.battles, lhs.metric.persistent_processing_moves, lhs.metric.duration) <
+               std::tie(rhs.metric.battles, rhs.metric.persistent_processing_moves, rhs.metric.duration);
     }
     return lhs.action_points > rhs.action_points;
 }
@@ -575,10 +581,14 @@ RouteMetric move_metric(
     const MoveCandidate& move)
 {
     const bool battle = is_combat_node_type(route_node_type(map, graph, source, move.target));
+    const MovementSpec* spec = find_movement_spec(move.movement);
+    const bool processing = move.movement != MovementKind::Walk;
+    const bool persistent = processing && spec != nullptr && !spec->expires_on_floor_end;
     return {
         battle ? 1 : 0,
-        move.movement == MovementKind::Walk ? 0 : 1,
-        move.movement == MovementKind::Walk ? std::max(1, static_cast<int>(move.path.size())) : 1,
+        processing ? 1 : 0,
+        persistent ? 1 : 0,
+        processing ? 1 : std::max(1, static_cast<int>(move.path.size())),
     };
 }
 
@@ -748,7 +758,7 @@ bool route_may_beat(
 
     RouteMetric minimum_metric = current.metric;
     if (!graph.is_terminal(current.state)) {
-        minimum_metric.duration = add_metric(minimum_metric, RouteMetric { 0, 0, 1 }).duration;
+        minimum_metric.duration = add_metric(minimum_metric, RouteMetric { .duration = 1 }).duration;
         bool has_terminal = false;
         bool every_terminal_is_combat = true;
         for (const auto& [id, node] : map.nodes()) {
@@ -759,7 +769,7 @@ bool route_may_beat(
             every_terminal_is_combat = every_terminal_is_combat && is_combat_node_type(node.type);
         }
         if (has_terminal && every_terminal_is_combat) {
-            minimum_metric.battles = add_metric(minimum_metric, RouteMetric { 1, 0, 0 }).battles;
+            minimum_metric.battles = add_metric(minimum_metric, RouteMetric { .battles = 1 }).battles;
         }
     }
 
@@ -881,12 +891,12 @@ bool route_may_beat(
         const auto minimum_tie = std::tie(
             minimum_metric.battles,
             current.intermediate_interactions,
-            minimum_metric.processing_moves,
+            minimum_metric.persistent_processing_moves,
             minimum_metric.duration);
         const auto incumbent_tie = std::tie(
             incumbent.metric.battles,
             incumbent.intermediate_interactions,
-            incumbent.metric.processing_moves,
+            incumbent.metric.persistent_processing_moves,
             incumbent.metric.duration);
         if (minimum_tie != incumbent_tie) {
             return minimum_tie < incumbent_tie;
@@ -894,9 +904,9 @@ bool route_may_beat(
     }
     else {
         const auto minimum_tie =
-            std::tie(minimum_metric.battles, minimum_metric.processing_moves, minimum_metric.duration);
+            std::tie(minimum_metric.battles, minimum_metric.persistent_processing_moves, minimum_metric.duration);
         const auto incumbent_tie =
-            std::tie(incumbent.metric.battles, incumbent.metric.processing_moves, incumbent.metric.duration);
+            std::tie(incumbent.metric.battles, incumbent.metric.persistent_processing_moves, incumbent.metric.duration);
         if (minimum_tie != incumbent_tie) {
             return minimum_tie < incumbent_tie;
         }
@@ -2007,6 +2017,8 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
                 });
                 worst_metric.battles = std::max(worst_metric.battles, route.metric.battles);
                 worst_metric.processing_moves = std::max(worst_metric.processing_moves, route.metric.processing_moves);
+                worst_metric.persistent_processing_moves =
+                    std::max(worst_metric.persistent_processing_moves, route.metric.persistent_processing_moves);
                 worst_metric.duration = std::max(worst_metric.duration, route.metric.duration);
                 candidate.planned_route.clear();
                 candidate.planned_route_steps.clear();
@@ -2022,6 +2034,7 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         candidate.battle_count = worst_metric.battles;
         candidate.intermediate_interaction_count = worst_intermediate_interactions;
         candidate.processing_move_count = worst_metric.processing_moves;
+        candidate.persistent_processing_move_count = worst_metric.persistent_processing_moves;
         candidate.estimated_duration = worst_metric.duration;
         candidate.development_score = 0;
         policy_candidates.emplace_back(std::move(candidate));
