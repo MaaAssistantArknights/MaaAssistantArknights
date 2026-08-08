@@ -273,6 +273,7 @@ public class RunningState
     /// <summary>
     /// 当前中断是否被锁定。
     /// </summary>
+    /// <returns>是否被锁定。</returns>
     public bool IsInterruptLocked() => Volatile.Read(ref _interruptLockDepth) > 0;
 
     /// <summary>
