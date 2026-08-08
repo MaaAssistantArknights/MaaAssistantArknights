@@ -1417,7 +1417,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DrawCard">调配干员</system:String>
     <system:String x:Key="CheckIfStartOver">检查是否重开</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 尝试更新资源版本！</system:String>
-    <system:String x:Key="UnsupportedSkill">{0} 不支持技能 {1}, 不再选择技能</system:String>
+    <system:String x:Key="Copilot.UnsupportedSkill">{0} 不支持技能 {1}, 不再选择技能</system:String>
+    <system:String x:Key="Copilot.EliteEmpty">{0} 未设置精英等级要求, 但其他属性要求 精{1}, 已自动补全</system:String>
+    <system:String x:Key="Copilot.EliteAjust">{0} 设置为要求 精{1}, 但是其他属性要求 精{2}, 已自动调整</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在尝试重连</system:String>
