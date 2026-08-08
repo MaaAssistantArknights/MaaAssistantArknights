@@ -2,7 +2,7 @@
     "theme": "BlackFlow",
     "stage": [
         { "name": "未涉足之树", "choose": 3 },
-        { "name": "回滚文明" },
+        { "name": "回滚文明", "choose": 3 },
         { "name": "无人商店" },
         { "name": "三重身" },
         { "name": "思乡心切", "choose": 2 },

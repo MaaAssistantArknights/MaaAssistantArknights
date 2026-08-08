@@ -1203,6 +1203,7 @@
         "algorithm": "OcrDetect",
         "roi": [912, 101, 195, 96],
         "withoutDet": false,
+        "ocrReplace": [["^秘必境行商$", "秘境行商"]],
         "fullMatch": true,
         "text": []
     },
@@ -1516,7 +1517,7 @@
         "roi": [567, 584, 145, 136],
         "action": "ClickSelf",
         "postDelay": 600,
-        "next": ["BlackFlow@Roguelike@Stages"]
+        "next": ["#self", "BlackFlow@Roguelike@Stages"]
     },
     "BlackFlow@RoguelikeEncounter-InitialMoveUp": {
         "baseTask": "JieGarden@RoguelikeEncounter-InitialMoveUp",
