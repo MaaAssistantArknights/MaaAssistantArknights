@@ -80,9 +80,6 @@
         "action": "ClickRect",
         "specificRect": [50, 50, 10, 10],
         "postDelay": 500,
-        "next": [
-            "MiniGame@InteractiveExhibition@CheckEncounter-Collected",
-            "MiniGame@InteractiveExhibition@Loop"
-        ]
+        "next": ["MiniGame@InteractiveExhibition@CheckEncounter-Collected", "MiniGame@InteractiveExhibition@Loop"]
     }
 }
