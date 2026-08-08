@@ -601,12 +601,14 @@ public class StartSettingsUserControlModel : PropertyChangedBase
 
         try
         {
+            var (fileName, _) = ResolveShortcut(GameExePath);
+            _logger.Information("Try to start game exe: {GameExePath}", fileName);
+
             using Process process = new Process {
-                StartInfo = new ProcessStartInfo(GameExePath) {
+                StartInfo = new ProcessStartInfo(fileName) {
                     UseShellExecute = true,
                 },
             };
-            _logger.Information("Try to start game exe: {GameExePath}", GameExePath);
             process.Start();
         }
         catch (Exception e)

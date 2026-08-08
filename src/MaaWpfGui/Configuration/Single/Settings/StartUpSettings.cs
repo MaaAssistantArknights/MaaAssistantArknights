@@ -41,7 +41,5 @@ public partial class StartUpSettings
 
     public int EmulatorWaitSeconds { get; set; } = 60;
 
-    public bool StartGameExe { get; set; }
-
     public string GameExePath { get; set; } = string.Empty;
 }

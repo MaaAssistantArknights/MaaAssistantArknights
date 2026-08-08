@@ -1795,7 +1795,6 @@ public class TaskQueueViewModel : Screen
 
             // 等待游戏窗口出现，最多等 30 秒
             const int MaxWaitSeconds = 30;
-            const string TargetWindowName = "明日方舟";
             var gameStarted = false;
 
             for (var i = 0; i < MaxWaitSeconds; ++i)
@@ -1815,7 +1814,7 @@ public class TaskQueueViewModel : Screen
                 }
 
                 // 检测窗口是否出现
-                var found = await Task.Run(() => AsstProxy.FindWindowsByName(TargetWindowName));
+                var found = await Task.Run(() => AsstProxy.FindWindowsByName(AsstProxy.AttachWindowName));
                 if (found.Count > 0)
                 {
                     gameStarted = true;

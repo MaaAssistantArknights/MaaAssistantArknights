@@ -71,6 +71,11 @@ namespace MaaWpfGui.Main;
 /// </summary>
 public class AsstProxy
 {
+    /// <summary>
+    /// PC 端窗口绑定模式下的目标窗口标题（完全匹配）
+    /// </summary>
+    public const string AttachWindowName = "明日方舟";
+
     private readonly RunningState _runningState;
     private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
 
@@ -2604,14 +2609,13 @@ public class AsstProxy
 
         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindowWarning"), UiLogColor.Warning);
 
-        const string TargetWindowName = "明日方舟";
-        var foundWindows = FindWindowsByName(TargetWindowName);
+        var foundWindows = FindWindowsByName(AttachWindowName);
 
         if (foundWindows.Count == 0)
         {
-            error = LocalizationHelper.GetStringFormat("AttachWindowNotFound", TargetWindowName);
+            error = LocalizationHelper.GetStringFormat("AttachWindowNotFound", AttachWindowName);
             Instances.TaskQueueViewModel.AddLog(error, UiLogColor.Error);
-            _logger.Warning("AttachWindow: No window found with name {WindowName}", TargetWindowName);
+            _logger.Warning("AttachWindow: No window found with name {WindowName}", AttachWindowName);
             return false;
         }
 
@@ -2620,15 +2624,15 @@ public class AsstProxy
         if (foundWindows.Count > 1)
         {
             // 找到多个窗口，使用第一个并记录日志
-            var multipleMsg = LocalizationHelper.GetStringFormat("AttachWindowMultipleFound", foundWindows.Count, TargetWindowName);
+            var multipleMsg = LocalizationHelper.GetStringFormat("AttachWindowMultipleFound", foundWindows.Count, AttachWindowName);
             Instances.TaskQueueViewModel.AddLog(multipleMsg, UiLogColor.Info);
-            _logger.Warning("AttachWindow: Multiple windows found with name {WindowName}, count: {Count}, using first one: {Hwnd}", TargetWindowName, foundWindows.Count, hwnd);
+            _logger.Warning("AttachWindow: Multiple windows found with name {WindowName}, count: {Count}, using first one: {Hwnd}", AttachWindowName, foundWindows.Count, hwnd);
         }
         else
         {
-            var foundMsg = LocalizationHelper.GetStringFormat("AttachWindowFound", TargetWindowName);
+            var foundMsg = LocalizationHelper.GetStringFormat("AttachWindowFound", AttachWindowName);
             Instances.TaskQueueViewModel.AddLog(foundMsg, UiLogColor.Info);
-            _logger.Information("AttachWindow: Found window \"{WindowName}\" with HWND: {Hwnd}", TargetWindowName, hwnd);
+            _logger.Information("AttachWindow: Found window \"{WindowName}\" with HWND: {Hwnd}", AttachWindowName, hwnd);
         }
 
         if (SettingsViewModel.ConnectSettings.ExtraConfig is not Win32Extra win32Extra)
