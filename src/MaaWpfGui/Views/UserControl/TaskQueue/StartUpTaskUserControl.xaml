@@ -212,6 +212,38 @@
                 </StackPanel>
             </StackPanel>
 
+            <!--  游戏路径（PC端启动游戏 exe） -->
+            <StackPanel
+                d:Visibility="Visible"
+                Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.PC'}"
+                DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.StartSettings}}"
+                s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}">
+                <StackPanel
+                    Margin="0,5"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <controls:TextBlock
+                        Margin="3"
+                        VerticalAlignment="Center"
+                        Block.TextAlignment="Center"
+                        Text="{DynamicResource GameExePath}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource GameExePathTip}" />
+                    <Button
+                        Margin="10,0,0,0"
+                        hc:BorderElement.CornerRadius="4,0,0,4"
+                        Command="{s:Action SelectGameExeExec}"
+                        Content="{DynamicResource Browse}" />
+                    <Button
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        BorderThickness="0,1,1,1"
+                        Command="{s:Action TestGameExeExec}"
+                        Content="{DynamicResource Test}" />
+                </StackPanel>
+                <TextBox
+                    Margin="0,5"
+                    Text="{Binding GameExePath}" />
+            </StackPanel>
+
             <!--  额外配置  -->
             <ContentControl d:Content="{d:DesignInstance Type=extra:MuMu12Extra}" Content="{Binding ExtraConfig}">
                 <ContentControl.Resources>

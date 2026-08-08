@@ -1781,11 +1781,65 @@ public class TaskQueueViewModel : Screen
         ResetTaskSelection();
     }
 
-    private async Task<bool> ConnectToEmulator()
+    private async Task<bool> ConnectToEmulator(bool hasStartUpTask)
     {
         string errMsg = string.Empty;
         bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
 
+        // 尝试启动游戏（PC端）
+        if (!connected && SettingsViewModel.ConnectSettings.IsPCConnectConfig && hasStartUpTask)
+        {
+            AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartGameExe"));
+
+            SettingsViewModel.StartSettings.TryToStartGameExe();
+
+            // 等待游戏窗口出现，最多等 30 秒
+            const int MaxWaitSeconds = 30;
+            const string TargetWindowName = "明日方舟";
+            var gameStarted = false;
+
+            for (var i = 0; i < MaxWaitSeconds; ++i)
+            {
+                if (_runningState.GetStopping())
+                {
+                    SetStopped();
+                    return false;
+                }
+
+                await Task.Delay(1000);
+
+                // 每 5 秒播报一次等待进度
+                if (i % 5 == 0)
+                {
+                    AddLog(LocalizationHelper.GetStringFormat("WaitForGameWindow", i, MaxWaitSeconds), UiLogColor.Info);
+                }
+
+                // 检测窗口是否出现
+                var found = await Task.Run(() => AsstProxy.FindWindowsByName(TargetWindowName));
+                if (found.Count > 0)
+                {
+                    gameStarted = true;
+                    break;
+                }
+            }
+
+            if (gameStarted)
+            {
+                // 窗口已出现，调用一次 AsstConnect
+                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+                if (connected)
+                {
+                    return true;
+                }
+            }
+
+            AddLog(errMsg, UiLogColor.Error);
+            _runningState.SetIdle(true);
+            SetStopped();
+            return false;
+        }
+
+        // PC 模式无开始唤醒任务时，直接失败
         if (!connected && SettingsViewModel.ConnectSettings.IsPCConnectConfig)
         {
             AddLog(errMsg, UiLogColor.Error);
@@ -2043,7 +2097,7 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        if (!await ConnectToEmulator())
+        if (!await ConnectToEmulator(tasks.Any(t => t.IsEnable == true && t.TaskType == AsstProxy.TaskType.StartUp)))
         {
             return;
         }

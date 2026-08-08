@@ -516,6 +516,13 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">待ち時間は終わりました</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>
+    <system:String x:Key="GameExePath">ゲームパス</system:String>
+    <system:String x:Key="GameExePathTip">ゲーム本体またはショートカットを選択してください</system:String>
+    <system:String x:Key="OpenGameAfterLaunch">MAA 起動時にゲームを自動起動</system:String>
+    <system:String x:Key="GameExePathEmptyWarning">ゲームパスを入力してください</system:String>
+    <system:String x:Key="GameExePathNotExist">ゲームパスが存在しません</system:String>
+    <system:String x:Key="Browse">参照</system:String>
+    <system:String x:Key="GameExeStartFailed">ゲームの起動に失敗しました。パスを確認し、管理者権限で MAA を実行してください</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">エミュレーター本体を選択（ ｢{key=AdditionCommand}｣ 起動パラメータでインスタンス指定可能）、または直接エミュレーター/ゲームのショートカットを選択できます。&#10; ｢{key=WakeUp}｣ タスクがエミュレーター起動遅延で失敗する場合、ゲームショートカットを使用し ｢{key=WaitForEmulator}｣ を延長することを推奨します。</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">バーでバーを注文したいですか？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">確かに間違って選択していないと思います</system:String>
@@ -1422,6 +1429,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
+    <system:String x:Key="TryToStartGameExe">ゲームを起動しようとしています</system:String>
     <system:String x:Key="RestartAdb">ADBサーバーの再起動を試みています</system:String>
     <system:String x:Key="HardRestartAdb">ADBプロセスの再起動を試みています</system:String>
     <system:String x:Key="CheckSettings">｢接続設定を確認｣ → ｢エミュレーターとADBを再起動してみる｣ → ｢コンピュータを再起動｣ してください</system:String>

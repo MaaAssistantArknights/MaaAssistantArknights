@@ -514,8 +514,16 @@ D:\
     <system:String x:Key="HelpUsWithOverseasServersTip">外服支援人力吃緊，幫幫我們！不會寫程式也可以參與。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動 MAA 後自動開啟模擬器</system:String>
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
+    <system:String x:Key="WaitForGameWindow">正在等待視窗喚起，已等待 {0} 秒（最多 {1} 秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待結束</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
+    <system:String x:Key="GameExePath">遊戲路徑</system:String>
+    <system:String x:Key="GameExePathTip">可選擇遊戲本體或捷徑</system:String>
+    <system:String x:Key="OpenGameAfterLaunch">啟動 MAA 後自動開啟遊戲</system:String>
+    <system:String x:Key="GameExePathEmptyWarning">遊戲路徑不能為空</system:String>
+    <system:String x:Key="GameExePathNotExist">遊戲路徑不存在</system:String>
+    <system:String x:Key="Browse">瀏覽</system:String>
+    <system:String x:Key="GameExeStartFailed">啟動遊戲失敗，請確認遊戲路徑正確且 MAA 以系統管理員權限執行</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">可選擇模擬器本體（配合 ｢{key=AdditionCommand}｣ 啟動參數可指定啟動模擬器實例），也可直接選擇模擬器或遊戲的捷徑。&#10;如因模擬器啟動時間過長導致 ｢{key=WakeUp}｣ 任務失敗，推薦填寫遊戲捷徑並延長 ｢{key=WaitForEmulator}｣。</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧裡點酒吧？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我確定沒選錯</system:String>
@@ -1422,6 +1430,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ConnectFailed">連線失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在嘗試重連</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>
+    <system:String x:Key="TryToStartGameExe">正在嘗試啟動遊戲</system:String>
     <system:String x:Key="RestartAdb">正在嘗試重開 ADB 服務</system:String>
     <system:String x:Key="HardRestartAdb">正在嘗試重開 ADB</system:String>
     <system:String x:Key="CheckSettings">請 ｢檢查連接設定｣ → ｢嘗試重開模擬器與 ADB｣ → ｢重開電腦｣</system:String>

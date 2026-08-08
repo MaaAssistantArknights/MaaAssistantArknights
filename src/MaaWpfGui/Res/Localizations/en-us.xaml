@@ -514,8 +514,16 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
+    <system:String x:Key="WaitForGameWindow">Waiting for game window to appear, {0}s elapsed (max {1}s)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">End of wait</system:String>
     <system:String x:Key="EmulatorPath">Emulator path</system:String>
+    <system:String x:Key="GameExePath">Game path</system:String>
+    <system:String x:Key="GameExePathTip">Select the game executable or a shortcut</system:String>
+    <system:String x:Key="OpenGameAfterLaunch">Launch game when MAA starts</system:String>
+    <system:String x:Key="GameExePathEmptyWarning">Game path cannot be empty</system:String>
+    <system:String x:Key="GameExePathNotExist">Game path does not exist</system:String>
+    <system:String x:Key="Browse">Browse</system:String>
+    <system:String x:Key="GameExeStartFailed">Failed to start the game, please verify the game path and ensure MAA is running with administrator privileges</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">You may select the emulator executable (with ｢{key=AdditionCommand}｣ launch parameters to specify the instance), or directly choose the emulator/game shortcut.&#10;If the ｢{key=WakeUp}｣ task fails due to prolonged emulator startup, it's recommended to use the game shortcut and increase ｢{key=WaitForEmulator}｣.</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">Do you also want to order a bar in a bar?</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
@@ -1421,6 +1429,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
+    <system:String x:Key="TryToStartGameExe">Trying to start the game</system:String>
     <system:String x:Key="RestartAdb">Trying to restart the ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">Trying to kill and restart the ADB process</system:String>
     <system:String x:Key="CheckSettings">Please ｢Check connection settings｣ → ｢Try restarting the emulator and ADB｣ → ｢Restart the computer｣</system:String>

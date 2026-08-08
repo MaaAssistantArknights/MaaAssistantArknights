@@ -27,6 +27,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
@@ -206,6 +207,30 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             ConfigFactory.CurrentConfig.Gui.StartUpSettings.EmulatorWaitSeconds = value;
         }
     } = ConfigFactory.CurrentConfig.Gui.StartUpSettings.EmulatorWaitSeconds;
+
+    /// <summary>
+    /// Gets or sets游戏路径（PC端）
+    /// </summary>
+    public string GameExePath
+    {
+        get; set {
+            value = value.Trim();
+
+            // 这里不用 SetAndNotify 判断
+            if (value == field)
+            {
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(value) && !File.Exists(value))
+            {
+                Growl.Warning(LocalizationHelper.GetString("GameExePathNotExist"));
+            }
+
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.StartUpSettings.GameExePath = value;
+        }
+    } = ConfigFactory.CurrentConfig.Gui.StartUpSettings.GameExePath;
 
     private (string FileName, string Arguments) ResolveShortcut(string path)
     {
@@ -493,5 +518,100 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         }
 
         Task.Run(() => TryToStartEmulator(test: true));
+    }
+
+    /// <summary>
+    /// 浏览选择游戏 exe
+    /// UI 绑定的方法
+    /// </summary>
+    [UsedImplicitly]
+    public void SelectGameExeExec()
+    {
+        var dialog = new OpenFileDialog {
+            Filter = LocalizationHelper.GetString("Executable") + "|*.exe;*.bat;*.lnk",
+        };
+
+        if (dialog.ShowDialog() == true)
+        {
+            GameExePath = dialog.FileName;
+        }
+    }
+
+    /// <summary>
+    /// 测试启动游戏 exe
+    /// UI 绑定的方法
+    /// </summary>
+    [UsedImplicitly]
+    public void TestGameExeExec()
+    {
+        if (GameExePath.Length == 0)
+        {
+            MessageBoxHelper.Show(LocalizationHelper.GetString("GameExePathEmptyWarning"), LocalizationHelper.GetString("Warning"), icon: MessageBoxImage.Warning);
+            return;
+        }
+
+        if (!File.Exists(GameExePath))
+        {
+            MessageBoxHelper.Show(LocalizationHelper.GetString("GameExePathNotExist"), LocalizationHelper.GetString("Warning"), icon: MessageBoxImage.Warning);
+            return;
+        }
+
+        if (!Bootstrapper.IsUserAdministrator())
+        {
+            var result = MessageBoxHelper.Show(
+                LocalizationHelper.GetString("AttachWindowNeedAdmin"),
+                "MAA",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+
+            Bootstrapper.RestartAsAdmin();
+            return;
+        }
+
+        try
+        {
+            using Process process = new Process {
+                StartInfo = new ProcessStartInfo(GameExePath) {
+                    UseShellExecute = true,
+                },
+            };
+            process.Start();
+        }
+        catch (Exception e)
+        {
+            _logger.Warning("Game exe start failed with error: {ErrorMessage}", e.Message);
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameExeStartFailed"), UiLogColor.Warning);
+        }
+    }
+
+    /// <summary>
+    /// 尝试启动游戏（PC端）
+    /// </summary>
+    public void TryToStartGameExe()
+    {
+        if (GameExePath.Length == 0 || !File.Exists(GameExePath))
+        {
+            return;
+        }
+
+        try
+        {
+            using Process process = new Process {
+                StartInfo = new ProcessStartInfo(GameExePath) {
+                    UseShellExecute = true,
+                },
+            };
+            _logger.Information("Try to start game exe: {GameExePath}", GameExePath);
+            process.Start();
+        }
+        catch (Exception e)
+        {
+            _logger.Warning("Game exe start failed with error: {ErrorMessage}", e.Message);
+        }
     }
 }

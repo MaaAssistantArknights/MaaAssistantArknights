@@ -2542,7 +2542,7 @@ public class AsstProxy
     /// </summary>
     /// <param name="windowName">窗口标题（完全匹配）。</param>
     /// <returns>找到的窗口句柄列表。</returns>
-    private static List<IntPtr> FindWindowsByName(string windowName)
+    internal static List<IntPtr> FindWindowsByName(string windowName)
     {
         var results = new List<IntPtr>();
 

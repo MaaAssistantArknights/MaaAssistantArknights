@@ -13,6 +13,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type settings_vms:ConnectSettingsUserControlModel}}"
     d:DesignWidth="550"
@@ -248,6 +249,37 @@
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type extra:Win32Extra}">
                             <StackPanel d:DataContext="{d:DesignInstance {x:Type extra:Win32Extra}}">
+                                <!--  游戏路径（PC端启动游戏 exe） -->
+                                <StackPanel
+                                    Margin="5"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.StartSettings}}"
+                                    s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}">
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                        <controls:TextBlock
+                                            Margin="3"
+                                            VerticalAlignment="Center"
+                                            Block.TextAlignment="Center"
+                                            Text="{DynamicResource GameExePath}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource GameExePathTip}" />
+                                        <Button
+                                            Margin="10,0,0,0"
+                                            hc:BorderElement.CornerRadius="4,0,0,4"
+                                            Command="{s:Action SelectGameExeExec}"
+                                            Content="{DynamicResource Browse}" />
+                                        <Button
+                                            hc:BorderElement.CornerRadius="0,4,4,0"
+                                            BorderThickness="0,1,1,1"
+                                            Command="{s:Action TestGameExeExec}"
+                                            Content="{DynamicResource Test}" />
+                                    </StackPanel>
+                                    <hc:TextBox
+                                        Width="300"
+                                        Height="30"
+                                        Margin="5"
+                                        hc:TitleElement.TitlePlacement="Left"
+                                        Text="{Binding GameExePath}" />
+                                </StackPanel>
                                 <StackPanel
                                     Margin="5"
                                     HorizontalAlignment="Center"
