@@ -396,6 +396,8 @@ struct PolicyDecision
     std::string decisive_rule_id;
     std::string decisive_milestone_id;
     std::vector<std::string> decisive_milestone_ids;
+    // 因为无法满足而被放弃的资源预留。放弃它们是为了不让本轮变成无路可走。
+    std::vector<std::string> released_reserve_ids;
     std::string reason;
 };
 

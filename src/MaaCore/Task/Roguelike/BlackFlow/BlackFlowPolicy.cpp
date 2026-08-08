@@ -607,22 +607,45 @@ PolicyDecision PolicyExecutor::choose(
         return false;
     });
 
+    // 资源预留是硬过滤：一条预留若把候选全部毙光，这一拍就等于无路可走。手上只剩最后一件、
+    // 而它正是唯一出路时就会这样。
+    //
+    // 处置与里程碑的可行性阶梯同一个原则：先证明「加上这条约束仍有候选」，证不出就放弃这条预留。
+    // 逐条按声明顺序施加，因此先声明的预留优先保住；被放弃的记进 released_reserve_ids 供诊断。
     const ResourceReserve* decisive_reserve = nullptr;
-    std::erase_if(eligible, [&](const PolicyCandidate* candidate) {
-        for (const auto& reserve : policy.reserves) {
+    for (const auto& reserve : policy.reserves) {
+        if (!reserve.active_if.evaluate(facts)) {
+            continue;
+        }
+        std::vector<const PolicyCandidate*> kept;
+        std::vector<const PolicyCandidate*> dropped;
+        kept.reserve(eligible.size());
+        for (const PolicyCandidate* candidate : eligible) {
             const FactStore reserve_facts = facts.overlay(candidate->facts);
-            if (!reserve.active_if.evaluate(facts) || reserve.release_if.evaluate(reserve_facts)) {
+            if (reserve.release_if.evaluate(reserve_facts)) {
+                kept.emplace_back(candidate);
                 continue;
             }
             const auto after = resources.read_after(reserve.resource, run, candidate->move);
             if (!after.has_value() || *after < reserve.minimum) {
-                reject(*candidate, "resource_reserve", "resource reserve " + reserve.id);
-                decisive_reserve = decisive_reserve == nullptr ? &reserve : decisive_reserve;
-                return true;
+                dropped.emplace_back(candidate);
+            }
+            else {
+                kept.emplace_back(candidate);
             }
         }
-        return false;
-    });
+        if (kept.empty()) {
+            decision.released_reserve_ids.emplace_back(reserve.id);
+            continue;
+        }
+        for (const PolicyCandidate* candidate : dropped) {
+            reject(*candidate, "resource_reserve", "resource reserve " + reserve.id);
+        }
+        if (!dropped.empty() && decisive_reserve == nullptr) {
+            decisive_reserve = &reserve;
+        }
+        eligible = std::move(kept);
+    }
 
     decision.eligible_candidates = eligible.size();
     if (eligible.empty()) {
