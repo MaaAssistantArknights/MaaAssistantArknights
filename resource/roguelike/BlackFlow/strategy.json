@@ -513,7 +513,19 @@
                     "count": 99,
                     "weight": 2,
                     "selector": {
-                        "node_types": ["battle_normal", "battle_elite"]
+                        "node_types": ["battle_normal", "battle_elite", "hide_battle"]
+                    }
+                },
+                {
+                    "id": "ending1_floor1_hidden",
+                    "description": "第一层在核心节点之外尽量探索未知事件",
+                    "kind": "preferred",
+                    "floor_window": [1, 1],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["hide_invisible"]
                     }
                 },
                 {
