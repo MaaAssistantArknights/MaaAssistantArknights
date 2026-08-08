@@ -2162,7 +2162,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <!--  BadModules  -->
     <system:String x:Key="BadModules.Warning.Heading">悲报</system:String>
     <system:String x:Key="BadModules.Warning.Prolog">检测到以下第三方软件向 MAA 注入了 DLL。这些注入的 DLL 会破坏 WPF 渲染和 ONNX/DML 推理，导致 MAA 闪退、界面渲染异常或 OCR 识别失败：</system:String>
-    <system:String x:Key="BadModules.Warning.Epilog">如果您注意到 MAA 存在相关问题，请尝试将 MAA 加入相关软件的排除名单，或卸载相关软件后检查问题是否仍然存在。</system:String>
+    <system:String x:Key="BadModules.Warning.Epilog" xml:space="preserve">建议通过 Windows 安全中心从系统层面阻止注入：应用和浏览器控制 → 攻击防护 → 攻击防护设置 → 程序设置 → 添加 MAA.exe → 将 ｢禁用扩展点｣ 设置为 ｢替代系统设置 - 开｣，启用后重启 MAA。&#x0a;&#x0a;您也可以尝试将 MAA 加入相关软件的排除名单，或卸载相关软件后检查问题是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再显示此警告</system:String>
     <system:String x:Key="BadModules.Warning.Fallback">此外，系统的弹窗组件已被破坏并发生崩溃，MAA 的后续弹窗均可能无法正常显示，其他系统功能也可能受到影响。点击“是”下次不再提醒，点击“否”仅本次关闭。</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">警告：性能影响</system:String>

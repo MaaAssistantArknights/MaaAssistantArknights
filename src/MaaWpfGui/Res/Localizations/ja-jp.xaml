@@ -2161,7 +2161,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <!--  BadModules  -->
     <system:String x:Key="BadModules.Warning.Heading">悲報</system:String>
     <system:String x:Key="BadModules.Warning.Prolog">以下のサードパーティ製ソフトウェアが MAA に DLL を注入しています。これにより WPF レンダリングと ONNX/DML 推論が破壊され、MAA のクラッシュ、インターフェースのレンダリング異常、または OCR 認識失敗が発生する可能性があります：</system:String>
-    <system:String x:Key="BadModules.Warning.Epilog">MAA に関連する問題がある場合は、関連ソフトウェアの除外リストに MAA を追加するか、関連ソフトウェアをアンインストールした後、問題がまだ存在するかどうかを確認してください。</system:String>
+    <system:String x:Key="BadModules.Warning.Epilog" xml:space="preserve">Windows セキュリティからシステムレベルでインジェクションをブロックすることを推奨します：アプリとブラウザーのコントロール → Exploit Protection → Exploit Protection 設定 → プログラム設定 → MAA.exe を追加 →「拡張ポイントの無効化」を「システム設定の上書き - オン」に設定し、有効化してから MAA を再起動してください。&#x0a;&#x0a;また、関連ソフトウェアの除外リストに MAA を追加するか、関連ソフトウェアをアンインストールした後、問題がまだ存在するかどうかを確認することもできます。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">この警告を再表示しない</system:String>
     <system:String x:Key="BadModules.Warning.Fallback">さらに、システムのダイアログコンポーネントが破損してクラッシュしており、MAA の後続のダイアログがすべて表示されないだけでなく、他のシステム機能にも影響が出る可能性があります。「はい」で次回から表示しない、「いいえ」で今回のみ閉じる。</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">警告：パフォーマンスへの影響</system:String>

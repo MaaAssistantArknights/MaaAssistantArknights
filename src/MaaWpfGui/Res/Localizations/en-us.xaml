@@ -2160,7 +2160,7 @@ These locations are too high-level and can lead to file overwrites, config write
     <!--  BadModules  -->
     <system:String x:Key="BadModules.Warning.Heading">Compatibility Warning</system:String>
     <system:String x:Key="BadModules.Warning.Prolog">The following third-party software has injected DLL(s) into MAA, which will interfere with WPF rendering and ONNX/DML inference, causing MAA to crash, display rendering anomalies, or OCR recognition failures:</system:String>
-    <system:String x:Key="BadModules.Warning.Epilog">If you encounter such issues with MAA, please try adding MAA to the exclusion list of the relevant software, or uninstall the related software and check if the problem persists.</system:String>
+    <system:String x:Key="BadModules.Warning.Epilog" xml:space="preserve">It is recommended to block injection at the system level via Windows Security: App &amp; browser control → Exploit protection → Exploit protection settings → Program settings → Add MAA.exe → Set "Disable extension points" to "Override system settings - On", then restart MAA.&#x0a;&#x0a;You may also try adding MAA to the exclusion list of the relevant software, or uninstall the related software and check if the problem persists.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">Do not show this warning again</system:String>
     <system:String x:Key="BadModules.Warning.Fallback">Additionally, the system's dialog component has been damaged and crashed — all subsequent dialogs may fail to display, and other system functionality may also be affected. Click "Yes" to suppress this warning, or "No" to dismiss for now.</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">Warning: Performance Impact</system:String>
