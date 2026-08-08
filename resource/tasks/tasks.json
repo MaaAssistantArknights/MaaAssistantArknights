@@ -2347,12 +2347,28 @@
         "roi": [850, 340, 220, 170]
     },
     "RecruitRefreshConfirm": {
+        "Doc": "PC 客户端会在刷新按钮位置保留游戏内光标，使用亮部掩膜避免遮挡确认按钮模板",
         "template": "PopupConfirm.png",
         "action": "ClickSelf",
         "roi": [630, 400, 650, 160],
+        "templThreshold": 0.7,
+        "maskRange": [150, 255],
+        "maxTimes": 3,
         "preDelay": 500,
         "postDelay": 500,
-        "next": ["RecruitRefreshConfirm@LoadingText", "Recruit@OfflineConfirm", "SleepThenStop"]
+        "next": ["RecruitRefreshConfirm@LoadingText", "Recruit@OfflineConfirm", "#self", "SleepThenStop"]
+    },
+    "RecruitRefreshCancel": {
+        "Doc": "刷新确认失败时取消弹窗并返回公招主页，避免阻塞后续任务",
+        "template": "PopupCancel.png",
+        "action": "ClickSelf",
+        "roi": [0, 400, 650, 160],
+        "templThreshold": 0.7,
+        "maskRange": [150, 255],
+        "maxTimes": 3,
+        "postDelay": 500,
+        "next": ["Return", "#self"],
+        "exceededNext": ["Return"]
     },
     "SleepThenStop": {
         "algorithm": "JustReturn",

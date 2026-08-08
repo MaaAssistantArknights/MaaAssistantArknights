@@ -347,7 +347,7 @@ asst::AutoRecruitTask::recruit_result asst::AutoRecruitTask::recruit_one(const R
             info["why"] = "识别错误";
             callback(AsstMsg::SubTaskError, info);
         }
-        if (!ProcessTask(*this, { "RecruitContinue", "Return" }).run()) {
+        if (!ProcessTask(*this, { "RecruitRefreshCancel", "RecruitContinue", "Return" }).run()) {
             m_force_skipped.emplace(slot_index_from_rect(button));
         }
         return recruit_result::failed;
@@ -639,7 +639,10 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 return {};
             }
 
-            refresh();
+            if (!refresh()) {
+                Log.error("Failed to refresh recruit tags.", "slot index:", index, "refresh count:", refresh_count);
+                return {};
+            }
 
             ++refresh_count;
 
