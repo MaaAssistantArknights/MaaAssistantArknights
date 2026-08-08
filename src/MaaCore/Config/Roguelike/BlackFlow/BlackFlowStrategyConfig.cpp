@@ -672,7 +672,7 @@ PolicyProfile parse_profile(const json::value& value)
 {
     check_keys(
         value,
-        { "id", "description", "modules", "terminal_rules", "failure_action" },
+        { "id", "description", "modules", "terminal_rules", "failure_action", "no_AP_is_terminal" },
         { "id", "modules" },
         "profile");
     PolicyProfile result;
@@ -693,6 +693,7 @@ PolicyProfile parse_profile(const json::value& value)
         }
     }
     result.failure_action = value.get("failure_action", std::string("stop_run"));
+    result.no_AP_is_terminal = value.get("no_AP_is_terminal", false);
     if (result.id.empty() || result.modules.empty() || result.failure_action.empty()) {
         invalid_config("profile id, module list, and failure action must be present");
     }
@@ -942,6 +943,7 @@ std::optional<blackflow::ResolvedPolicy>
     result.modules = profile->modules;
     result.terminal_rules = profile->terminal_rules;
     result.failure_action = profile->failure_action;
+    result.no_AP_is_terminal = profile->no_AP_is_terminal;
 
     std::unordered_set<std::string> rule_ids;
     std::unordered_set<std::string> reserve_ids;
@@ -988,7 +990,7 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
         { "schema_version", "resources", "facts", "modules", "profiles" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
-    if (schema_version != 8) {
+    if (schema_version != 9) {
         invalid_config("unsupported schema_version: " + std::to_string(schema_version));
     }
     for (const auto key : { "resources", "facts", "modules", "profiles" }) {

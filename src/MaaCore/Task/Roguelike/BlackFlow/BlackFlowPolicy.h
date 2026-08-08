@@ -311,6 +311,9 @@ struct PolicyProfile
     std::vector<std::string> modules;
     std::vector<StrategyTerminalRule> terminal_rules;
     std::string failure_action = "stop_run";
+    // 走出本层与耗尽行动力结局相同的策略打开它。打开后，没有锁定目标的那几轮不再为出口
+    // 预留行动力，路线一直走到付不起下一步为止。一结局这类必须抵达终点的策略不能打开。
+    bool no_AP_is_terminal = false;
 };
 
 struct ResolvedPolicy
@@ -325,6 +328,9 @@ struct ResolvedPolicy
     std::vector<GrantedScrap> granted_scraps;
     std::vector<StrategyTerminalRule> terminal_rules;
     std::string failure_action = "stop_run";
+    // 走出本层与耗尽行动力结局相同的策略打开它。打开后，没有锁定目标的那几轮不再为出口
+    // 预留行动力，路线一直走到付不起下一步为止。一结局这类必须抵达终点的策略不能打开。
+    bool no_AP_is_terminal = false;
 };
 
 class ResourceRegistry

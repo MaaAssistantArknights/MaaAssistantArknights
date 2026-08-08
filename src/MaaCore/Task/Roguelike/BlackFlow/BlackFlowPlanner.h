@@ -35,6 +35,9 @@ struct BlackFlowPlanRequest
     std::vector<std::string> binding_milestone_candidates;
     // 候选里最前面这几条是无条件必达的，阶梯不会降级它们；不可达时本层照声明判成无解。
     std::size_t undemotable_binding_count = 0;
+    // 走出本层与耗尽行动力结局相同的策略打开它。打开后锁定目标为空的那几轮不再为出口
+    // 预留行动力，路线可以一直走到付不起下一步为止。
+    bool no_AP_is_terminal = false;
     const std::unordered_set<std::string>* forbidden_actions = nullptr;
     std::optional<NodeId> probe_target;
     std::size_t maximum_states = 2'000'000;

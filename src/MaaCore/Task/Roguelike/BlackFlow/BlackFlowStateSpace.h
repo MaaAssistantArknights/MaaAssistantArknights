@@ -46,6 +46,9 @@ struct StateExpansionOptions
     std::unordered_set<std::string> forbidden_action_ids;
     GraphLayer graph_layer = GraphLayer::Confirmed;
     bool final_is_terminal = true;
+    // 行动力耗尽视为合法收工。走出本层与耗尽行动力结局相同的策略打开它，
+    // 为出口预留行动力就不再有意义。
+    bool no_AP_is_terminal = false;
     SafetyGoalProgram* safety_goal = nullptr;
     const FactStore* safety_goal_facts = nullptr;
     SafetyGoalProgressId initial_goal_progress_id = InvalidSafetyGoalProgressId;
@@ -85,6 +88,7 @@ public:
     [[nodiscard]] const PlannerState& state(SafetyStateId id) const { return m_states.at(id); }
 
     [[nodiscard]] bool is_terminal(SafetyStateId id) const noexcept;
+    [[nodiscard]] bool exhaustion_terminates() const noexcept;
     [[nodiscard]] bool is_terminal_node(NodeId node) const noexcept;
     [[nodiscard]] bool is_completed(SafetyStateId id, NodeId node) const noexcept;
     [[nodiscard]] bool is_light_consumed(SafetyStateId id, NodeId node) const noexcept;

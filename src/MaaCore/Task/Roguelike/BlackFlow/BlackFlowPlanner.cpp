@@ -413,8 +413,13 @@ public:
         return exact_action_requirement(action, maximum_action_points);
     }
 
+    // 安全层关闭时没有可证的命题，证明深度与见证动作都不存在。求解器对这两问会按
+    // 「未求解」报错，因此在这里一并短路。
     std::optional<std::size_t> cached_depth(SafetyStateId state, int action_points)
     {
+        if (m_graph.exhaustion_terminates()) {
+            return std::size_t { 0 };
+        }
         std::string error;
         const auto depth = m_solver.bounded_proof_depth(state, action_points, &error);
         if (!error.empty()) {
@@ -425,6 +430,9 @@ public:
 
     std::optional<std::string> lexicographic_first_action(SafetyStateId state, int action_points)
     {
+        if (m_graph.exhaustion_terminates()) {
+            return std::nullopt;
+        }
         std::string error;
         const auto action = m_solver.bounded_witness(state, action_points, &error);
         if (!error.empty()) {
@@ -447,8 +455,13 @@ private:
         std::string action_id;
     };
 
+    // 锁定目标为空且策略允许耗尽收工时，任何走法都能合法收场，安全层没有可证的命题。
+    // 直接返回零比让求解器把整个闭包展开一遍再得出同一结论便宜得多。
     int exact_requirement(SafetyStateId state, int maximum_action_points)
     {
+        if (m_graph.exhaustion_terminates()) {
+            return 0;
+        }
         std::string error;
         const int required = m_solver.N_bounded(state, maximum_action_points, &error);
         if (!error.empty()) {
@@ -460,6 +473,11 @@ private:
     int exact_action_requirement(const OnDemandSafetyAction& action, int maximum_action_points)
     {
         const int first_budget = std::max(action.minimum_action_points_to_start, action.action_point_cost);
+        // 下面的扫描在预算不足时一次都不进循环，因而「付不起」与「不可达」共用同一个返回值，
+        // 调用方只检查这一个。短路必须保持同一约定，否则付不起的动作会被当成可行。
+        if (m_graph.exhaustion_terminates()) {
+            return first_budget <= maximum_action_points ? first_budget : UnreachableActionPointRequirement;
+        }
         for (int action_points = first_budget; action_points <= maximum_action_points; ++action_points) {
             bool safe = true;
             for (const OnDemandSafetyOutcome& outcome : action.outcomes) {
@@ -480,7 +498,7 @@ private:
 
     std::optional<Proof> proof(SafetyStateId state, int action_points)
     {
-        if (m_graph.is_terminal(state)) {
+        if (m_graph.is_terminal(state) || m_graph.exhaustion_terminates()) {
             return Proof {};
         }
         const BudgetStateKey key { state, action_points };
@@ -496,7 +514,7 @@ private:
         int action_points,
         std::unordered_set<BudgetStateKey, BudgetStateKeyHash>& visiting)
     {
-        if (m_graph.is_terminal(state)) {
+        if (m_graph.is_terminal(state) || m_graph.exhaustion_terminates()) {
             return Proof {};
         }
         const BudgetStateKey key { state, action_points };
@@ -1087,6 +1105,24 @@ RouteLabel best_route_after_outcome(
         return next;
     };
 
+    // 一条路线走到头的两种方式：站在合法收工点上，或者行动力再也付不起任何一步。
+    // 后者只在策略允许耗尽收工时成立，此时安全层已经关闭，路线不必再为出口留行动力。
+    const auto route_is_complete = [&](const RouteLabel& route) {
+        if (graph.is_terminal(route.state)) {
+            return true;
+        }
+        if (!graph.exhaustion_terminates()) {
+            return false;
+        }
+        const auto* actions = graph.actions(route.state, error);
+        if (actions == nullptr) {
+            return true;
+        }
+        return std::ranges::none_of(*actions, [&](const OnDemandSafetyAction& action) {
+            return route.action_points >= std::max(action.minimum_action_points_to_start, action.action_point_cost);
+        });
+    };
+
     const auto flexibility_score = [&](const RouteLabel& route) {
         const PlannerState& state = graph.state(route.state);
         int score = 0;
@@ -1170,7 +1206,7 @@ RouteLabel best_route_after_outcome(
         };
 
         std::unordered_set<BudgetStateKey, BudgetStateKeyHash> greedy_seen;
-        while (!graph.is_terminal(greedy.state) &&
+        while (!route_is_complete(greedy) &&
                greedy_seen.emplace(BudgetStateKey { greedy.state, greedy.action_points }).second) {
             const auto* actions = graph.actions(greedy.state, error);
             if (actions == nullptr) {
@@ -1374,7 +1410,7 @@ RouteLabel best_route_after_outcome(
             }
             greedy = std::move(*selected);
         }
-        return graph.is_terminal(greedy.state) ? std::optional<RouteLabel>(std::move(greedy)) : std::nullopt;
+        return route_is_complete(greedy) ? std::optional<RouteLabel>(std::move(greedy)) : std::nullopt;
     };
     if (auto greedy = complete_greedy(initial); greedy.has_value()) {
         best = std::move(*greedy);
@@ -1383,7 +1419,7 @@ RouteLabel best_route_after_outcome(
         RouteLabel current = pending.top().route;
         pending.pop();
         ++expanded_routes;
-        if (graph.is_terminal(current.state)) {
+        if (route_is_complete(current)) {
             if (!best.has_value() ||
                 route_label_better(current, *best, milestones, minimize_intermediate_interactions)) {
                 best = current;
@@ -1585,6 +1621,7 @@ BindingResolution resolve_binding_milestones(const BlackFlowPlanRequest& request
 
         StateExpansionOptions options;
         options.strategy_terminal_nodes = request.strategy_terminal_nodes;
+        options.no_AP_is_terminal = request.no_AP_is_terminal;
         options.graph_layer = GraphLayer::Confirmed;
         options.safety_goal = &*goal;
         options.safety_goal_facts = request.facts;
@@ -1651,6 +1688,7 @@ PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
         if (entered->type == NodeType::Light) {
             StateExpansionOptions source_options;
             source_options.strategy_terminal_nodes = request.strategy_terminal_nodes;
+            source_options.no_AP_is_terminal = request.no_AP_is_terminal;
             source_options.graph_layer = GraphLayer::Confirmed;
             source_options.maximum_states = request.maximum_states;
             if (request.forbidden_actions != nullptr) {
@@ -1681,6 +1719,7 @@ PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
 
     StateExpansionOptions options;
     options.strategy_terminal_nodes = request.strategy_terminal_nodes;
+    options.no_AP_is_terminal = request.no_AP_is_terminal;
     options.graph_layer = GraphLayer::Confirmed;
     options.safety_goal = &*safety_goal;
     options.safety_goal_facts = request.facts;
@@ -1766,6 +1805,7 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
 
     StateExpansionOptions confirmed_options;
     confirmed_options.strategy_terminal_nodes = request.strategy_terminal_nodes;
+    confirmed_options.no_AP_is_terminal = request.no_AP_is_terminal;
     confirmed_options.graph_layer = GraphLayer::Confirmed;
     confirmed_options.safety_goal = &*safety_goal;
     confirmed_options.safety_goal_facts = request.facts;
