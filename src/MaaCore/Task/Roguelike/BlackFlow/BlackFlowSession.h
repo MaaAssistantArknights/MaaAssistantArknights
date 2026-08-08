@@ -195,6 +195,10 @@ private:
     bool synchronize_resource_facts(std::string* error);
     bool apply_granted_scraps(std::string* error);
     void refresh_mission();
+    void publish_milestone_facts();
+    void evaluate_milestone_miss_actions();
+    [[nodiscard]] std::string
+        resolve_page_intent(const PageIdentityResolution& identity, NodeId node, int floor) const;
     void evaluate_terminal_rules();
     bool apply_run_observation(const RunObservation& observation, std::string* error);
     bool merge_perception(

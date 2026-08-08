@@ -402,11 +402,12 @@ void MissionState::refresh(const std::vector<Milestone>& definitions, int floor,
     }
 
     // 错过一条里程碑只说明这一层没按计划走，不代表整局作废：真正的失败判据由策略的
-    // terminal_rules 显式声明，那里才能区分「这局不值得再打」和「继续按剩下的目标走」。
-    const bool ends_complete = std::ranges::all_of(definitions, [&](const Milestone& milestone) {
-        return !milestone.end || status(milestone.id) == MilestoneStatus::Satisfied;
+    // terminal_rules 与里程碑自己的 on_miss 声明，那里才能区分「这局不值得再打」和
+    // 「继续按剩下的目标走」。
+    const bool binding_complete = std::ranges::all_of(definitions, [&](const Milestone& milestone) {
+        return !milestone.binding_candidate() || status(milestone.id) == MilestoneStatus::Satisfied;
     });
-    viability = ends_complete ? MissionViability::Confirmed : MissionViability::Possible;
+    viability = binding_complete ? MissionViability::Confirmed : MissionViability::Possible;
 }
 
 ResourceRegistry::ResourceRegistry()
@@ -514,31 +515,6 @@ bool milestone_matches_node(const Milestone& milestone, const Node& node) noexce
     return node.floor >= milestone.floor_begin && node.floor <= milestone.floor_end && milestone.selector.matches(node);
 }
 
-bool hidden_node_may_reveal_milestone(
-    const ResolvedPolicy& policy,
-    const Milestone& milestone,
-    const Node& node) noexcept
-{
-    if (node.floor < milestone.floor_begin || node.floor > milestone.floor_end) {
-        return false;
-    }
-    const NodeSelector& selector = milestone.selector;
-    if ((!selector.marker_types.empty() &&
-         std::ranges::find(selector.marker_types, node.marker_type) == selector.marker_types.end()) ||
-        (selector.badged.has_value() && node.badged != *selector.badged) ||
-        (selector.identity_state.has_value() && node.identity_state != *selector.identity_state) ||
-        (selector.identity_revealed.has_value() && node.identity_revealed != *selector.identity_revealed)) {
-        return false;
-    }
-    const auto reveal = std::ranges::find(policy.hidden_node_reveals, node.type, &HiddenNodeReveal::hidden_node_type);
-    if (reveal == policy.hidden_node_reveals.end()) {
-        return false;
-    }
-    return std::ranges::any_of(selector.node_types, [&](NodeType type) {
-        return std::ranges::binary_search(reveal->revealed_node_types, type);
-    });
-}
-
 bool milestone_is_active(
     const Milestone& milestone,
     int floor,
@@ -561,6 +537,7 @@ PolicyDecision PolicyExecutor::choose(
     const MissionState& mission,
     const RunState& run,
     const ResourceRegistry& resources,
+    const std::unordered_set<std::string>& binding_milestone_ids,
     const std::vector<PolicyCandidate>& candidates) const
 {
     PolicyDecision decision;
@@ -653,6 +630,10 @@ PolicyDecision PolicyExecutor::choose(
         return decision;
     }
 
+    const auto is_binding = [&](const Milestone& milestone) {
+        return binding_milestone_ids.contains(milestone.id);
+    };
+
     std::vector<const Milestone*> active_milestones;
     for (const auto& milestone : policy.milestones) {
         const MilestoneStatus status = mission.status(milestone.id);
@@ -662,7 +643,13 @@ PolicyDecision PolicyExecutor::choose(
             active_milestones.emplace_back(&milestone);
         }
     }
-    std::ranges::sort(active_milestones, [](const Milestone* lhs, const Milestone* rhs) {
+    // 已锁定的目标排在最前，页面意图也按这个顺序取第一条匹配的，因此硬目标的意图优先于顺路目标。
+    std::ranges::sort(active_milestones, [&](const Milestone* lhs, const Milestone* rhs) {
+        const bool lhs_binding = is_binding(*lhs);
+        const bool rhs_binding = is_binding(*rhs);
+        if (lhs_binding != rhs_binding) {
+            return lhs_binding;
+        }
         return std::tie(lhs->kind, lhs->rank, lhs->id) < std::tie(rhs->kind, rhs->rank, rhs->id);
     });
 
@@ -685,22 +672,24 @@ PolicyDecision PolicyExecutor::choose(
             entry.score.emplace_back(value);
             entry.origins.emplace_back(ScoreOrigin { category, std::move(id), std::move(milestone_ids) });
         };
-        auto append_end_groups = [&] {
-            std::vector<const Milestone*> ends;
-            std::ranges::copy_if(active_milestones, std::back_inserter(ends), [](const Milestone* milestone) {
-                return milestone->end;
+        // 已锁定的目标占字典序最高位。可行性阶梯已经证明过“锁定之后仍然有安全解”，
+        // 所以这里可以放心地让它压过一切顺路收益。
+        auto append_binding_groups = [&] {
+            std::vector<const Milestone*> bindings;
+            std::ranges::copy_if(active_milestones, std::back_inserter(bindings), [&](const Milestone* milestone) {
+                return is_binding(*milestone);
             });
-            std::ranges::sort(ends, [](const Milestone* lhs, const Milestone* rhs) {
+            std::ranges::sort(bindings, [](const Milestone* lhs, const Milestone* rhs) {
                 return std::tie(lhs->rank, lhs->id) < std::tie(rhs->rank, rhs->id);
             });
             std::size_t begin = 0;
-            while (begin < ends.size()) {
-                const int rank = ends[begin]->rank;
+            while (begin < bindings.size()) {
+                const int rank = bindings[begin]->rank;
                 std::size_t end = begin;
                 int completed = 0;
                 int progress_sum = 0;
-                while (end < ends.size() && ends[end]->rank == rank) {
-                    const Milestone& milestone = *ends[end];
+                while (end < bindings.size() && bindings[end]->rank == rank) {
+                    const Milestone& milestone = *bindings[end];
                     const int value = milestone_value(*candidate, milestone);
                     completed += value >= milestone.required_count ? 1 : 0;
                     progress_sum += milestone.weight * value;
@@ -709,17 +698,20 @@ PolicyDecision PolicyExecutor::choose(
                 std::vector<std::string> group_milestone_ids;
                 group_milestone_ids.reserve(end - begin);
                 for (std::size_t index = begin; index < end; ++index) {
-                    group_milestone_ids.emplace_back(ends[index]->id);
+                    group_milestone_ids.emplace_back(bindings[index]->id);
                 }
                 add_score(-completed, DecisionReasonCategory::StrategyEnd, {}, group_milestone_ids);
                 add_score(-progress_sum, DecisionReasonCategory::StrategyEnd, {}, group_milestone_ids);
                 begin = end;
             }
         };
+        // 软层按 kind 分档。已锁定的目标不参与，降级后的强制目标则按它自己的 kind 回到这里，
+        // 于是“证不出可行”只让它从硬约束退成倾向，不会让它整个消失。
         auto append_milestone_groups = [&](MilestoneKind kind, DecisionReasonCategory category) {
             std::size_t begin = 0;
             while (begin < active_milestones.size()) {
-                while (begin < active_milestones.size() && active_milestones[begin]->kind != kind) {
+                while (begin < active_milestones.size() &&
+                       (active_milestones[begin]->kind != kind || is_binding(*active_milestones[begin]))) {
                     ++begin;
                 }
                 if (begin >= active_milestones.size()) {
@@ -765,7 +757,7 @@ PolicyDecision PolicyExecutor::choose(
             }
         };
 
-        append_end_groups();
+        append_binding_groups();
         for (const PolicyRule* rule : active_rules) {
             if (rule->kind == RuleKind::Prefer && rule->tier == PolicyTier::ResourceReserve) {
                 add_score(
@@ -821,24 +813,9 @@ PolicyDecision PolicyExecutor::choose(
         return lhs.candidate->move.action_id < rhs.candidate->move.action_id;
     });
 
+    // 页面意图不在这里决定。地图阶段只知道节点在地图上的身份，隐藏节点要进去才认得出，
+    // 提前绑定会把秘境行商这类节点分流到通用页面。意图由 BlackFlowSession 在进入并分类之后解析。
     decision.selected = ranked.front().candidate->move;
-    const auto& immediate_milestones = ranked.front().candidate->immediate_milestone_ids;
-    for (const Milestone* milestone : active_milestones) {
-        if (milestone->page_intent.empty() ||
-            std::ranges::find(immediate_milestones, milestone->id) == immediate_milestones.end()) {
-            continue;
-        }
-        decision.selected_page_intent = milestone->page_intent;
-        break;
-    }
-    if (decision.selected_page_intent.empty()) {
-        for (const PolicyRule* rule : active_rules) {
-            if (!rule->page_intent.empty() && rule_matches_candidate(*rule, facts, ranked.front().candidate->facts)) {
-                decision.selected_page_intent = rule->page_intent;
-                break;
-            }
-        }
-    }
     decision.planned_route = ranked.front().candidate->planned_route;
     decision.planned_route_steps = ranked.front().candidate->planned_route_steps;
     decision.planned_milestone_progress = ranked.front().candidate->milestone_progress;
@@ -926,6 +903,23 @@ std::string_view to_string(PolicyTier tier) noexcept
         return "tie_break";
     }
     return "development";
+}
+
+std::string_view to_string(MilestoneStatus status) noexcept
+{
+    switch (status) {
+    case MilestoneStatus::Inactive:
+        return "inactive";
+    case MilestoneStatus::Available:
+        return "available";
+    case MilestoneStatus::Satisfied:
+        return "satisfied";
+    case MilestoneStatus::Missed:
+        return "missed";
+    case MilestoneStatus::Impossible:
+        return "impossible";
+    }
+    return "inactive";
 }
 
 std::string_view to_string(DecisionReasonCategory category) noexcept

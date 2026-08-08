@@ -438,16 +438,23 @@ RunState OnDemandStateGraph::materialize(const PlannerState& state) const
     return materialize_run_state(*m_run, state, m_indexed_nodes, 1);
 }
 
+// 端点只回答「这里还有没有后继」，因此只认物理出口。策略终点虽然可以就地收工，但仍然走得开，
+// 把它算成端点会让站在上面的状态一个动作都展开不出来。
 bool OnDemandStateGraph::state_is_endpoint(const PlannerState& state) const noexcept
 {
     const Node* node = m_map->find_node(state.node);
     return node != nullptr && m_options.final_is_terminal && is_exit_node_type(node->type);
 }
 
+// 成功状态是「站在合法收工点」与「锁定目标已满足」的合取。
+//
+// 少了合取，走到出口就算赢，为策略目标预留的行动力会被最近的出口顶掉；少了收工点这一项，
+// 目标一旦不在图上就没有任何成功状态，整层被判成无解——投影当初正是为了填这个洞而加的。
 bool OnDemandStateGraph::state_is_goal(const PlannerState& state) const noexcept
 {
-    return m_options.has_active_strategy_end ? m_options.strategy_goal_nodes.contains(state.node)
-                                            : state_is_endpoint(state);
+    const bool stop_point = state_is_endpoint(state) || m_options.strategy_terminal_nodes.contains(state.node);
+    return stop_point &&
+           (m_options.safety_goal == nullptr || m_options.safety_goal->binding_goals_satisfied(state.goal_progress_id));
 }
 
 std::optional<PlannerNodeMask> OnDemandStateGraph::bit(NodeId node) const noexcept
@@ -460,10 +467,11 @@ bool OnDemandStateGraph::is_terminal(SafetyStateId id) const noexcept
     return id < m_states.size() && m_states[id].terminal;
 }
 
+// 路线搜索用它判断「走到这里路线是否就结束了」，因此只看端点，不看目标进度。
 bool OnDemandStateGraph::is_terminal_node(NodeId node_id) const noexcept
 {
-    if (m_options.has_active_strategy_end) {
-        return m_options.strategy_goal_nodes.contains(node_id);
+    if (m_options.strategy_terminal_nodes.contains(node_id)) {
+        return true;
     }
     const Node* node = m_map == nullptr ? nullptr : m_map->find_node(node_id);
     return node != nullptr && m_options.final_is_terminal && is_exit_node_type(node->type);

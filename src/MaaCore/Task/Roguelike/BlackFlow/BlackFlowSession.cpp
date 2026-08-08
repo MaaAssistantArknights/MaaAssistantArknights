@@ -56,9 +56,11 @@ bool has_node_type(const MapSnapshot& map, NodeType type)
 
 struct StrategyGoals
 {
-    std::unordered_set<NodeId> nodes;
-    bool has_active_end = false;
-    std::unordered_set<std::string> unresolved_hidden_end_milestone_ids;
+    // 声明「达成即收工」的目标节点。它与物理出口取并集，所以端点集合恒非空。
+    std::unordered_set<NodeId> terminal_nodes;
+    // 待锁定的强制目标，按优先级从高到低。前 undemotable_count 条是无条件必达的，阶梯不会降级它们。
+    std::vector<std::string> binding_candidates;
+    std::size_t undemotable_count = 0;
 };
 
 StrategyGoals strategy_goals_for(
@@ -69,34 +71,41 @@ StrategyGoals strategy_goals_for(
     int floor)
 {
     StrategyGoals result;
+    std::vector<const Milestone*> candidates;
     for (const Milestone& milestone : policy.milestones) {
-        if (!milestone.end || !milestone_is_active(milestone, floor, facts, mission)) {
+        if (!milestone_is_active(milestone, floor, facts, mission)) {
             continue;
         }
-        result.has_active_end = true;
-        bool has_visible_goal = false;
-        bool has_hidden_carrier = false;
+        bool has_matching_node = false;
         for (const auto& [id, node] : map.nodes()) {
-            if (node.progress == NodeProgress::Removed) {
+            if (node.progress == NodeProgress::Removed || !milestone_matches_node(milestone, node)) {
                 continue;
             }
-            if (milestone_matches_node(milestone, node)) {
-                result.nodes.emplace(id);
-                has_visible_goal = true;
-            }
-            else if (hidden_node_may_reveal_milestone(policy, milestone, node)) {
-                has_hidden_carrier = true;
+            has_matching_node = true;
+            if (milestone.terminality == MilestoneTerminality::IsTerminal) {
+                result.terminal_nodes.emplace(id);
             }
         }
-        if (!has_visible_goal && has_hidden_carrier) {
-            result.unresolved_hidden_end_milestone_ids.emplace(milestone.id);
-            for (const auto& [id, node] : map.nodes()) {
-                if (node.progress != NodeProgress::Removed &&
-                    hidden_node_may_reveal_milestone(policy, milestone, node)) {
-                    result.nodes.emplace(id);
-                }
-            }
+        if (!milestone.binding_candidate() || mission.progress(milestone.id) >= milestone.required_count) {
+            continue;
         }
+        // 目标在本层地图上没有任何匹配节点时，可行性求解一定得出无解。可行则必达的目标直接跳过，
+        // 省掉一次白跑的安全求解；无条件必达的目标仍然送进去，让它按声明把本层判成无解。
+        if (milestone.enforcement == MilestoneEnforcement::FeasibleHard && !has_matching_node) {
+            continue;
+        }
+        candidates.emplace_back(&milestone);
+    }
+    std::ranges::sort(candidates, [](const Milestone* lhs, const Milestone* rhs) {
+        if (lhs->enforcement != rhs->enforcement) {
+            // Hard 排在 FeasibleHard 之前，阶梯从末尾开始降级，因此永远不会降到 Hard。
+            return lhs->enforcement > rhs->enforcement;
+        }
+        return std::tie(lhs->rank, lhs->id) < std::tie(rhs->rank, rhs->id);
+    });
+    for (const Milestone* milestone : candidates) {
+        result.binding_candidates.emplace_back(milestone->id);
+        result.undemotable_count += milestone->enforcement == MilestoneEnforcement::Hard ? 1 : 0;
     }
     return result;
 }
@@ -270,33 +279,111 @@ void BlackFlowSession::refresh_mission()
 {
     const auto previous = m_mission.milestones;
     m_mission.refresh(m_policy->milestones, m_run.floor, m_facts.merged());
-    auto status_name = [](MilestoneStatus status) {
-        switch (status) {
-        case MilestoneStatus::Inactive:
-            return "inactive";
-        case MilestoneStatus::Available:
-            return "available";
-        case MilestoneStatus::Satisfied:
-            return "satisfied";
-        case MilestoneStatus::Missed:
-            return "missed";
-        case MilestoneStatus::Impossible:
-            return "impossible";
-        }
-        return "inactive";
-    };
+    publish_milestone_facts();
     for (const auto& [id, status] : m_mission.milestones) {
         const auto old = previous.find(id);
         if (status == MilestoneStatus::Inactive || (old != previous.end() && old->second == status)) {
             continue;
         }
         json::object details {
-            { "run_revision", m_run_revision }, { "observation_id", m_observation_id },
-            { "floor", m_run.floor },           { "milestone_id", id },
-            { "status", status_name(status) },  { "progress", m_mission.progress(id) },
+            { "run_revision", m_run_revision },
+            { "observation_id", m_observation_id },
+            { "floor", m_run.floor },
+            { "milestone_id", id },
+            { "status", std::string(to_string(status)) },
+            { "progress", m_mission.progress(id) },
         };
         m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowMilestoneChanged", std::move(details) });
     }
+}
+
+// 里程碑状态发布成事实，条件语言和终止规则才能读到它。事实名由配置解析时自动登记，
+// 形如 milestone.<id>.status 与 milestone.<id>.progress。
+void BlackFlowSession::publish_milestone_facts()
+{
+    if (!m_policy.has_value()) {
+        return;
+    }
+    std::string ignored;
+    for (const Milestone& milestone : m_policy->milestones) {
+        (void)set_fact(
+            "milestone." + milestone.id + ".status",
+            std::string(to_string(m_mission.status(milestone.id))),
+            &ignored);
+        (void)set_fact(
+            "milestone." + milestone.id + ".progress",
+            static_cast<std::int64_t>(m_mission.progress(milestone.id)),
+            &ignored);
+    }
+}
+
+// 声明了 on_miss 的里程碑一旦错过或不可能，直接结算本局，省得每条策略再写一遍同样的终止规则。
+void BlackFlowSession::evaluate_milestone_miss_actions()
+{
+    if (m_result.has_value() || !m_policy.has_value()) {
+        return;
+    }
+    for (const Milestone& milestone : m_policy->milestones) {
+        if (milestone.on_miss != MilestoneMissAction::Terminate) {
+            continue;
+        }
+        const MilestoneStatus status = m_mission.status(milestone.id);
+        if (status != MilestoneStatus::Missed && status != MilestoneStatus::Impossible) {
+            continue;
+        }
+        const FactStore facts = m_facts.merged();
+        const int cultivated =
+            static_cast<int>(std::clamp<std::int64_t>(integer_fact(facts, "cultivated_animals"), 0, 3));
+        BlackFlowStrategyResult result {
+            m_profile, milestone.miss_outcome, milestone.miss_reason, cultivated, milestone.miss_succeeded,
+        };
+        result.next_action = milestone.miss_succeeded ? "stop_run" : m_policy->failure_action;
+        m_result = std::move(result);
+        return;
+    }
+}
+
+// 页面意图按进入之后确定的真实身份重新解析：取第一条匹配该节点且带意图的活跃里程碑。
+// 排序与策略排序一致，锁定候选优先，因此硬目标的意图压过顺路目标。
+std::string BlackFlowSession::resolve_page_intent(
+    const PageIdentityResolution& identity,
+    NodeId node,
+    int floor) const
+{
+    if (!m_policy.has_value()) {
+        return "default";
+    }
+    Node probe;
+    if (const Node* stored = m_map.snapshot().find_node(node); stored != nullptr) {
+        probe = *stored;
+    }
+    probe.id = node;
+    probe.floor = floor;
+    probe.type = identity.type;
+    probe.name = identity.name;
+    probe.identity_revealed = true;
+    probe.identity_state = NodeIdentityState::Classified;
+
+    const FactStore facts = m_facts.merged();
+    std::vector<const Milestone*> active;
+    for (const Milestone& milestone : m_policy->milestones) {
+        if (milestone.page_intent.empty() || !milestone_is_active(milestone, floor, facts, m_mission)) {
+            continue;
+        }
+        active.emplace_back(&milestone);
+    }
+    std::ranges::sort(active, [](const Milestone* lhs, const Milestone* rhs) {
+        if (lhs->binding_candidate() != rhs->binding_candidate()) {
+            return lhs->binding_candidate();
+        }
+        return std::tie(lhs->kind, lhs->rank, lhs->id) < std::tie(rhs->kind, rhs->rank, rhs->id);
+    });
+    for (const Milestone* milestone : active) {
+        if (milestone_matches_node(*milestone, probe)) {
+            return milestone->page_intent;
+        }
+    }
+    return "default";
 }
 
 void BlackFlowSession::evaluate_terminal_rules()
@@ -1169,6 +1256,8 @@ bool BlackFlowSession::update_in_place(const BlackFlowPerceptionSnapshot& snapsh
     }
 
     refresh_mission();
+    // 结算只放在观测这一拍。提交事务途中也会刷新里程碑，那时候终止会把页面丢在半路。
+    evaluate_milestone_miss_actions();
     evaluate_terminal_rules();
     return true;
 }
@@ -1191,24 +1280,26 @@ BlackFlowPlan BlackFlowSession::plan(std::string* error)
         request.facts = &merged;
         request.mission = &m_mission;
         const StrategyGoals goals = strategy_goals_for(*m_policy, m_mission, merged, m_map.snapshot(), m_run.floor);
+        request.strategy_terminal_nodes = goals.terminal_nodes;
+        request.binding_milestone_candidates = goals.binding_candidates;
+        request.undemotable_binding_count = goals.undemotable_count;
+        request.forbidden_actions = &m_unreachable_actions;
+        request.probe_target = m_pending_probe_target;
+        result = BlackFlowPlanner {}.plan(request);
         Log.info(
             "BlackFlow strategy goals",
             "profile",
             m_profile,
             "floor",
             m_run.floor,
-            "active end",
-            goals.has_active_end,
-            "visible goal nodes",
-            goals.nodes.size(),
-            "projected hidden ends",
-            goals.unresolved_hidden_end_milestone_ids.size());
-        request.strategy_goal_nodes = goals.nodes;
-        request.has_active_strategy_end = goals.has_active_end;
-        request.unresolved_hidden_end_milestone_ids = goals.unresolved_hidden_end_milestone_ids;
-        request.forbidden_actions = &m_unreachable_actions;
-        request.probe_target = m_pending_probe_target;
-        result = BlackFlowPlanner {}.plan(request);
+            "binding candidates",
+            goals.binding_candidates.size(),
+            "locked",
+            result.binding_milestone_ids.size(),
+            "demoted",
+            result.demoted_milestone_ids.size(),
+            "strategy terminal nodes",
+            goals.terminal_nodes.size());
         if (result && m_pending_probe_target.has_value() &&
             result.decision.selected->target != *m_pending_probe_target) {
             m_pending_probe_target.reset();
@@ -1468,9 +1559,15 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
         request.facts = &merged;
         request.mission = &m_mission;
         const StrategyGoals goals = strategy_goals_for(*m_policy, m_mission, merged, m_map.snapshot(), m_run.floor);
-        request.strategy_goal_nodes = goals.nodes;
-        request.has_active_strategy_end = goals.has_active_end;
-        request.unresolved_hidden_end_milestone_ids = goals.unresolved_hidden_end_milestone_ids;
+        request.strategy_terminal_nodes = goals.terminal_nodes;
+        // 预览验证沿用上一次规划锁定的目标，锁定集合的变化留给下一次规划。
+        if (m_last_plan.has_value()) {
+            request.binding_milestone_candidates.assign(
+                m_last_plan->binding_milestone_ids.begin(),
+                m_last_plan->binding_milestone_ids.end());
+            std::ranges::sort(request.binding_milestone_candidates);
+        }
+        request.undemotable_binding_count = request.binding_milestone_candidates.size();
         request.forbidden_actions = &m_unreachable_actions;
         const PreviewSafetyVerification verification =
             BlackFlowPlanner {}.verify_previewed_move(request, proposal, preview.exact_action_point_cost);
@@ -1619,6 +1716,24 @@ bool BlackFlowSession::commit(EnteredPageObservation entered_page, std::string* 
     }
     PageIdentityResolution identity = resolve_page_identity(map_type, map_name, preview, entered_page);
 
+    // 隐藏节点要进来才认得出身份。地图阶段算出的意图是按 hide_invisible 定的，沿用它会把
+    // 秘境行商这类节点分流到通用页面。这里按真实身份重新解析一次。
+    //
+    // 顺序不能颠倒：意图来自里程碑，而里程碑的 active_if 可能依赖身份带来的派生事实，
+    // 所以要先补事实、再刷新里程碑、最后解析意图。地图节点本身仍由 finalize_entered_node
+    // 在页面结束后写回，避免在事务提交之后改动地图版本。
+    if (identity.type != map_type) {
+        std::string identity_error;
+        if (identity.type == NodeType::ScrapShop) {
+            (void)set_fact("scrap_shop_available", true, &identity_error);
+        }
+        else if (identity.type == NodeType::Portal) {
+            (void)set_fact("portal_available", true, &identity_error);
+        }
+        refresh_mission();
+    }
+    std::string page_intent = resolve_page_intent(identity, page_node, page_floor);
+
     m_page_context = PageExecutionContext {
         m_run_revision,
         ++m_page_revision,
@@ -1628,9 +1743,7 @@ bool BlackFlowSession::commit(EnteredPageObservation entered_page, std::string* 
         page_node,
         identity.type,
         std::move(identity.name),
-        m_last_plan.has_value() && !m_last_plan->decision.selected_page_intent.empty()
-            ? m_last_plan->decision.selected_page_intent
-            : "default",
+        std::move(page_intent),
         std::move(entered_page.matched_texts),
         PageExecutionStage::PendingDispatch,
     };

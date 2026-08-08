@@ -27,15 +27,17 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
     const ResolvedPolicy& policy,
     const MissionState& mission,
     const FactStore& facts,
+    const std::unordered_set<std::string>& binding_ids,
     std::string* error)
 {
-    return compile(policy.milestones, mission, facts, error);
+    return compile(policy.milestones, mission, facts, binding_ids, error);
 }
 
 std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
     const std::vector<Milestone>& milestones,
     const MissionState& mission,
     const FactStore& facts,
+    const std::unordered_set<std::string>& binding_ids,
     std::string* error)
 {
     if (error != nullptr) {
@@ -107,11 +109,11 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
         return true;
     };
 
-    for (const Milestone& milestone : milestones) {
-        if (!milestone.end || mission.status(milestone.id) != MilestoneStatus::Available) {
+    for (const std::string& id : binding_ids) {
+        if (mission.status(id) != MilestoneStatus::Available) {
             continue;
         }
-        if (!include_with_prerequisites(milestone.id)) {
+        if (!include_with_prerequisites(id)) {
             return std::nullopt;
         }
     }
@@ -130,8 +132,10 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
     for (const Milestone* milestone : selected) {
         const std::size_t index = program.m_milestones.size();
         program.m_indices.emplace(milestone->id, index);
-        const bool is_end = milestone->end;
-        program.m_milestones.emplace_back(CompiledMilestone { *milestone, is_end, {} });
+        // 只有被点名锁定的目标进合取；顺带编进来的前置只用于 prerequisites 判定。
+        const bool binding = binding_ids.contains(milestone->id);
+        program.m_binding_count += binding ? 1 : 0;
+        program.m_milestones.emplace_back(CompiledMilestone { *milestone, binding, {} });
     }
 
     for (CompiledMilestone& milestone : program.m_milestones) {
@@ -214,6 +218,21 @@ bool SafetyGoalProgram::route_requirement_satisfied(const SafetyGoalProgressSnap
     }
     const Milestone& milestone = m_milestones[index].definition;
     return state.satisfied[index] != 0 || state.progress[index] >= milestone.required_count;
+}
+
+bool SafetyGoalProgram::binding_goals_satisfied(SafetyGoalProgressId id) const noexcept
+{
+    if (!valid_id(id)) {
+        // 进度句柄失效时不能谎称成功，否则安全求解会把一条没做完目标的路线判成合法。
+        return m_binding_count == 0;
+    }
+    const SafetyGoalProgressSnapshot& state = m_states[id];
+    for (std::size_t index = 0; index < m_milestones.size(); ++index) {
+        if (m_milestones[index].binding && !route_requirement_satisfied(state, index)) {
+            return false;
+        }
+    }
+    return true;
 }
 
 const SafetyGoalProgressSnapshot* SafetyGoalProgram::progress(SafetyGoalProgressId id) const noexcept

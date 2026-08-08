@@ -40,8 +40,9 @@ struct PlannerStateHash
 
 struct StateExpansionOptions
 {
-    std::unordered_set<NodeId> strategy_goal_nodes;
-    bool has_active_strategy_end = false;
+    // 策略声明「达成即收工」的目标节点。它与物理出口取并集构成端点集合，因此端点集合恒非空；
+    // 目标做没做完由 safety_goal 的合取项回答，不会因为策略目标暂时不存在就让求解无终点。
+    std::unordered_set<NodeId> strategy_terminal_nodes;
     std::unordered_set<std::string> forbidden_action_ids;
     GraphLayer graph_layer = GraphLayer::Confirmed;
     bool final_is_terminal = true;

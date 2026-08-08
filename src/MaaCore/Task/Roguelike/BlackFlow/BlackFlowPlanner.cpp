@@ -114,9 +114,9 @@ bool route_metric_weakly_better(const RouteMetric& lhs, const RouteMetric& rhs) 
 struct RouteMilestone
 {
     const Milestone* definition = nullptr;
-    const ResolvedPolicy* policy = nullptr;
     int initial_progress = 0;
-    bool project_hidden_identity = false;
+    // 本轮被可行性阶梯锁定。锁定的目标排在字典序最高位，降级的回到软层按 kind 计分。
+    bool binding = false;
 };
 
 std::vector<RouteMilestone> route_milestones(
@@ -124,7 +124,7 @@ std::vector<RouteMilestone> route_milestones(
     const MissionState& mission,
     int floor,
     const FactStore& facts,
-    const std::unordered_set<std::string>& unresolved_hidden_end_milestone_ids)
+    const std::unordered_set<std::string>& binding_milestone_ids)
 {
     std::vector<RouteMilestone> result;
     for (const Milestone& milestone : policy.milestones) {
@@ -137,26 +137,18 @@ std::vector<RouteMilestone> route_milestones(
         result.emplace_back(
             RouteMilestone {
                 &milestone,
-                &policy,
                 mission.progress(milestone.id),
-                unresolved_hidden_end_milestone_ids.contains(milestone.id),
+                binding_milestone_ids.contains(milestone.id),
             });
     }
     std::ranges::sort(result, [](const RouteMilestone& lhs, const RouteMilestone& rhs) {
-        if (lhs.definition->end != rhs.definition->end) {
-            return lhs.definition->end;
+        if (lhs.binding != rhs.binding) {
+            return lhs.binding;
         }
         return std::tie(lhs.definition->kind, lhs.definition->rank, lhs.definition->id) <
                std::tie(rhs.definition->kind, rhs.definition->rank, rhs.definition->id);
     });
     return result;
-}
-
-bool route_milestone_matches_node(const RouteMilestone& milestone, const Node& node) noexcept
-{
-    return milestone_matches_node(*milestone.definition, node) ||
-           (milestone.project_hidden_identity && milestone.policy != nullptr &&
-            hidden_node_may_reveal_milestone(*milestone.policy, *milestone.definition, node));
 }
 
 bool simulated_prerequisites_satisfied(
@@ -191,38 +183,33 @@ std::vector<std::string> advance_milestones(
     std::vector<std::string> advanced;
     const std::vector<int> before = progress;
     for (std::size_t index = 0; index < milestones.size(); ++index) {
-        const RouteMilestone& route_milestone = milestones[index];
-        const Milestone& milestone = *route_milestone.definition;
-        const bool exact_match = milestone_matches_node(milestone, node);
-        if (before[index] >= milestone.required_count ||
-            (!exact_match && !route_milestone_matches_node(route_milestone, node)) ||
+        const Milestone& milestone = *milestones[index].definition;
+        if (before[index] >= milestone.required_count || !milestone_matches_node(milestone, node) ||
             milestone.minimum_unknown_nodes_revealed > unknown_nodes_revealed ||
             std::ranges::find(counted[index], node.id) != counted[index].end() ||
             !simulated_prerequisites_satisfied(milestone, milestones, before, mission)) {
             continue;
         }
-        // 隐藏载体的投影进度只用于本轮路线排序；只有精确身份匹配才写入 advanced 并触发页面意图。
-        // SafetyGoal 继续按精确身份推进，不跟随投影。
         progress[index] = std::min(milestone.required_count, before[index] + 1);
         counted[index].emplace_back(node.id);
         std::ranges::sort(counted[index]);
-        if (exact_match) {
-            advanced.emplace_back(milestone.id);
-        }
+        advanced.emplace_back(milestone.id);
     }
     return advanced;
 }
 
-std::vector<int> end_progress_score(const std::vector<RouteMilestone>& milestones, const std::vector<int>& progress)
+// 已锁定目标占字典序最高位。锁定过的目标一定排在 milestones 的前缀，所以这里从头扫到第一个
+// 非锁定项为止即可。
+std::vector<int> binding_progress_score(const std::vector<RouteMilestone>& milestones, const std::vector<int>& progress)
 {
     std::vector<int> score;
     std::size_t begin = 0;
-    while (begin < milestones.size() && milestones[begin].definition->end) {
+    while (begin < milestones.size() && milestones[begin].binding) {
         const int rank = milestones[begin].definition->rank;
         int completed = 0;
         int sum = 0;
         std::size_t end = begin;
-        while (end < milestones.size() && milestones[end].definition->end && milestones[end].definition->rank == rank) {
+        while (end < milestones.size() && milestones[end].binding && milestones[end].definition->rank == rank) {
             completed += progress[end] >= milestones[end].definition->required_count ? 1 : 0;
             sum += milestones[end].definition->weight *
                    std::min(progress[end], milestones[end].definition->required_count);
@@ -242,7 +229,8 @@ std::vector<std::int64_t>
     for (const MilestoneKind kind : { MilestoneKind::Preferred, MilestoneKind::Opportunistic }) {
         std::size_t begin = 0;
         while (begin < milestones.size()) {
-            while (begin < milestones.size() && milestones[begin].definition->kind != kind) {
+            while (begin < milestones.size() &&
+                   (milestones[begin].binding || milestones[begin].definition->kind != kind)) {
                 ++begin;
             }
             if (begin == milestones.size()) {
@@ -251,7 +239,7 @@ std::vector<std::int64_t>
             const int rank = milestones[begin].definition->rank;
             std::int64_t reward = 0;
             std::size_t end = begin;
-            while (end < milestones.size() && milestones[end].definition->kind == kind &&
+            while (end < milestones.size() && !milestones[end].binding && milestones[end].definition->kind == kind &&
                    milestones[end].definition->rank == rank) {
                 const Milestone& milestone = *milestones[end].definition;
                 const int gained = std::max(
@@ -292,8 +280,8 @@ bool route_label_better(
     const std::vector<RouteMilestone>& milestones,
     bool minimize_intermediate_interactions = false)
 {
-    const auto lhs_end = end_progress_score(milestones, lhs.progress);
-    const auto rhs_end = end_progress_score(milestones, rhs.progress);
+    const auto lhs_end = binding_progress_score(milestones, lhs.progress);
+    const auto rhs_end = binding_progress_score(milestones, rhs.progress);
     if (score_greater(lhs_end, rhs_end)) {
         return true;
     }
@@ -734,12 +722,11 @@ bool route_may_beat(
             if (node.type == NodeType::Empty) {
                 node.name.clear();
             }
-            const bool exact_match = milestone_matches_node(milestone, node);
-            if (!exact_match && !route_milestone_matches_node(milestones[index], node)) {
+            if (!milestone_matches_node(milestone, node)) {
                 continue;
             }
             if (graph.is_terminal_node(id)) {
-                matching_exact_terminal = matching_exact_terminal || exact_match;
+                matching_exact_terminal = true;
             }
             else {
                 ++matching_nonterminals;
@@ -750,8 +737,8 @@ bool route_may_beat(
         upper_progress[index] = std::min(milestone.required_count, current.progress[index] + possible_increment);
     }
 
-    const auto upper_end = end_progress_score(milestones, upper_progress);
-    const auto incumbent_end = end_progress_score(milestones, incumbent.progress);
+    const auto upper_end = binding_progress_score(milestones, upper_progress);
+    const auto incumbent_end = binding_progress_score(milestones, incumbent.progress);
     if (score_greater(upper_end, incumbent_end)) {
         return true;
     }
@@ -792,7 +779,8 @@ bool route_may_beat(
     for (const MilestoneKind kind : { MilestoneKind::Preferred, MilestoneKind::Opportunistic }) {
         std::size_t begin = 0;
         while (begin < milestones.size()) {
-            while (begin < milestones.size() && milestones[begin].definition->kind != kind) {
+            while (begin < milestones.size() &&
+                   (milestones[begin].binding || milestones[begin].definition->kind != kind)) {
                 ++begin;
             }
             if (begin == milestones.size()) {
@@ -800,7 +788,7 @@ bool route_may_beat(
             }
             const int rank = milestones[begin].definition->rank;
             std::size_t end = begin;
-            while (end < milestones.size() && milestones[end].definition->kind == kind &&
+            while (end < milestones.size() && !milestones[end].binding && milestones[end].definition->kind == kind &&
                    milestones[end].definition->rank == rank) {
                 ++end;
             }
@@ -825,7 +813,7 @@ bool route_may_beat(
                     if (current.progress[milestone_index] >= milestone.required_count ||
                         std::ranges::find(current.counted[milestone_index], id) !=
                             current.counted[milestone_index].end() ||
-                        !route_milestone_matches_node(milestones[milestone_index], node)) {
+                        !milestone_matches_node(milestone, node)) {
                         continue;
                     }
                     reward += milestone.weight;
@@ -1124,8 +1112,8 @@ RouteLabel best_route_after_outcome(
         return score;
     };
     const auto heuristic_better = [&](const RouteLabel& lhs, const RouteLabel& rhs) {
-        const auto lhs_end = end_progress_score(milestones, lhs.progress);
-        const auto rhs_end = end_progress_score(milestones, rhs.progress);
+        const auto lhs_end = binding_progress_score(milestones, lhs.progress);
+        const auto rhs_end = binding_progress_score(milestones, rhs.progress);
         if (score_greater(lhs_end, rhs_end)) {
             return true;
         }
@@ -1555,6 +1543,66 @@ FactStore on_demand_candidate_facts(
     set_route_feature_facts(facts, ReachableFeatures {}, ReachableFeatures {});
     return facts;
 }
+
+struct BindingResolution
+{
+    std::vector<std::string> locked;
+    std::vector<std::string> demoted;
+    std::string error;
+};
+
+// 可行性阶梯。候选按优先级从高到低给出，这里从全体开始，每次证不出「加上这些约束仍有安全解」
+// 就把优先级最低的一个降级，直到证得出为止。
+//
+// 关键在于约束只在证明通过之后才施加：被拒绝的路线一定有一条已经证明存在的合规路线可以替代，
+// 所以强制目标不会像无条件必达那样把整层判成无解。候选为空时一次求解都不做。
+//
+// 判定放在 Confirmed 层：它只认已确认的地图事实，因而是保守的。偶尔会因为通路只存在于推断边
+// 而误判不可行，代价仅是这一轮降级成倾向，等地图确认更多之后重规划会重新锁上。
+BindingResolution resolve_binding_milestones(const BlackFlowPlanRequest& request)
+{
+    BindingResolution resolution;
+    resolution.locked = request.binding_milestone_candidates;
+    const int current_action_points = request.run->resources.action_points;
+    while (resolution.locked.size() > request.undemotable_binding_count) {
+        const std::unordered_set<std::string> ids(resolution.locked.begin(), resolution.locked.end());
+        std::string error;
+        auto goal = SafetyGoalProgram::compile(*request.policy, *request.mission, *request.facts, ids, &error);
+        if (!goal.has_value()) {
+            resolution.error = "binding feasibility goal compilation failed: " + error;
+            return resolution;
+        }
+
+        StateExpansionOptions options;
+        options.strategy_terminal_nodes = request.strategy_terminal_nodes;
+        options.graph_layer = GraphLayer::Confirmed;
+        options.safety_goal = &*goal;
+        options.safety_goal_facts = request.facts;
+        options.maximum_states = request.maximum_states;
+        if (request.forbidden_actions != nullptr) {
+            options.forbidden_action_ids = *request.forbidden_actions;
+        }
+
+        OnDemandStateGraph graph;
+        if (!graph.initialize(*request.map, *request.run, std::move(options), &error)) {
+            resolution.error = "binding feasibility graph initialization failed: " + error;
+            return resolution;
+        }
+        OnDemandSafetyOracle oracle(graph, "Binding feasibility", request.route_search.safety_resource_dominance);
+        const int requirement = oracle.requirement(graph.initial_state(), current_action_points);
+        if (!oracle.error().empty()) {
+            resolution.error = "binding feasibility calculation failed: " + oracle.error();
+            return resolution;
+        }
+        // N_bounded 以当前行动力为上界，取到有限值就等于「现在的行动力够」。
+        if (requirement < UnreachableActionPointRequirement) {
+            return resolution;
+        }
+        resolution.demoted.emplace_back(std::move(resolution.locked.back()));
+        resolution.locked.pop_back();
+    }
+    return resolution;
+}
 } // namespace
 
 PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
@@ -1575,8 +1623,14 @@ PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
     }
     result.action_points_after = projected->run.resources.action_points;
 
+    // 预览验证沿用规划当轮已经定下的锁定集合，不再重跑可行性阶梯：这一步只回答
+    // 「这一步落地之后还走得完」，锁定集合改变属于下一次规划的事。
+    const std::unordered_set<std::string> binding_ids(
+        request.binding_milestone_candidates.begin(),
+        request.binding_milestone_candidates.end());
     std::string goal_error;
-    auto safety_goal = SafetyGoalProgram::compile(*request.policy, *request.mission, *request.facts, &goal_error);
+    auto safety_goal =
+        SafetyGoalProgram::compile(*request.policy, *request.mission, *request.facts, binding_ids, &goal_error);
     if (!safety_goal.has_value()) {
         result.error = "strategy preview safety goal compilation failed: " + goal_error;
         return result;
@@ -1586,8 +1640,7 @@ PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
         int newly_revealed_unknown_big_nodes = 0;
         if (entered->type == NodeType::Light) {
             StateExpansionOptions source_options;
-            source_options.strategy_goal_nodes = request.strategy_goal_nodes;
-            source_options.has_active_strategy_end = request.has_active_strategy_end;
+            source_options.strategy_terminal_nodes = request.strategy_terminal_nodes;
             source_options.graph_layer = GraphLayer::Confirmed;
             source_options.maximum_states = request.maximum_states;
             if (request.forbidden_actions != nullptr) {
@@ -1617,8 +1670,7 @@ PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
     }
 
     StateExpansionOptions options;
-    options.strategy_goal_nodes = request.strategy_goal_nodes;
-    options.has_active_strategy_end = request.has_active_strategy_end;
+    options.strategy_terminal_nodes = request.strategy_terminal_nodes;
     options.graph_layer = GraphLayer::Confirmed;
     options.safety_goal = &*safety_goal;
     options.safety_goal_facts = request.facts;
@@ -1666,7 +1718,36 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         std::ranges::find(request.policy->route_preferences, RoutePreference::MinimizeIntermediateInteractions) !=
         request.policy->route_preferences.end();
     std::string error;
-    auto safety_goal = SafetyGoalProgram::compile(*request.policy, *request.mission, *request.facts, &error);
+
+    auto binding = resolve_binding_milestones(request);
+    if (!binding.error.empty()) {
+        result.error = std::move(binding.error);
+        return result;
+    }
+    result.binding_milestone_ids.insert(binding.locked.begin(), binding.locked.end());
+    result.demoted_milestone_ids = binding.demoted;
+
+    // 已锁定目标的匹配节点。策略规则靠 candidate.strategy_end 区分「这个商店是本轮的硬目标」
+    // 和「只是顺路的商店」，例如没资源时不进秘境行商的那条禁止规则就要放行硬目标。
+    std::unordered_set<NodeId> binding_goal_nodes;
+    for (const std::string& id : binding.locked) {
+        const auto definition = std::ranges::find(request.policy->milestones, id, &Milestone::id);
+        if (definition == request.policy->milestones.end()) {
+            continue;
+        }
+        for (const auto& [node_id, node] : request.map->nodes()) {
+            if (node.progress != NodeProgress::Removed && milestone_matches_node(*definition, node)) {
+                binding_goal_nodes.emplace(node_id);
+            }
+        }
+    }
+
+    auto safety_goal = SafetyGoalProgram::compile(
+        *request.policy,
+        *request.mission,
+        *request.facts,
+        result.binding_milestone_ids,
+        &error);
     if (!safety_goal.has_value()) {
         result.error = "strategy safety goal compilation failed: " + error;
         return result;
@@ -1674,8 +1755,7 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
     SafetyGoalProgram relaxed_safety_goal = *safety_goal;
 
     StateExpansionOptions confirmed_options;
-    confirmed_options.strategy_goal_nodes = request.strategy_goal_nodes;
-    confirmed_options.has_active_strategy_end = request.has_active_strategy_end;
+    confirmed_options.strategy_terminal_nodes = request.strategy_terminal_nodes;
     confirmed_options.graph_layer = GraphLayer::Confirmed;
     confirmed_options.safety_goal = &*safety_goal;
     confirmed_options.safety_goal_facts = request.facts;
@@ -1805,7 +1885,7 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         *request.mission,
         request.run->floor,
         *request.facts,
-        request.unresolved_hidden_end_milestone_ids);
+        result.binding_milestone_ids);
     RouteSearchBudget route_search_budget {
         std::chrono::steady_clock::now() + std::chrono::milliseconds(request.route_search.time_budget_ms),
         request.route_search.total_expansions,
@@ -1848,7 +1928,7 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
             relaxed_graph,
             action,
             *request.run,
-            request.strategy_goal_nodes.contains(action.candidate.target));
+            binding_goal_nodes.contains(action.candidate.target));
         if (!error.empty() || !relaxed_oracle.error().empty()) {
             result.error =
                 "candidate reachability calculation failed: " + (!error.empty() ? error : relaxed_oracle.error());
@@ -1991,13 +2071,27 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         if (!probe_candidates.empty()) {
             result.decision =
                 executor
-                    .choose(*request.policy, policy_facts, *request.mission, *request.run, resources, probe_candidates);
+                    .choose(
+                        *request.policy,
+                        policy_facts,
+                        *request.mission,
+                        *request.run,
+                        resources,
+                        result.binding_milestone_ids,
+                        probe_candidates);
         }
     }
     if (!result.decision.selected.has_value()) {
         result.decision =
             executor
-                .choose(*request.policy, policy_facts, *request.mission, *request.run, resources, policy_candidates);
+                .choose(
+                    *request.policy,
+                    policy_facts,
+                    *request.mission,
+                    *request.run,
+                    resources,
+                    result.binding_milestone_ids,
+                    policy_candidates);
     }
     if (!result.decision.selected.has_value()) {
         result.error = result.decision.reason;

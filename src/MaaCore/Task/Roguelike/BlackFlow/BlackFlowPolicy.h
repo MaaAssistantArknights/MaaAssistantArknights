@@ -156,6 +156,35 @@ enum class MilestoneKind
     Opportunistic,
 };
 
+// 目标对规划的约束强度。它与 MilestoneTerminality 相互独立：前者决定“必不必须做”，
+// 后者决定“做完了算不算收工”。同一个选择器换一组取值就是另一条策略，不需要另写代码。
+enum class MilestoneEnforcement
+{
+    // 只进路线效用评分，达不成也不影响求解。
+    Soft,
+    // 可行则必达：先证明“加上这条约束仍有安全解”，证明通过才升为终局合取项；
+    // 证不通过就降级成 Soft，因此不会像无条件强制那样把本层判成无解。
+    FeasibleHard,
+    // 无条件必达。留给物理上不可能缺席的目标，代价是不可达时本层直接无解。
+    Hard,
+};
+
+// 达成之后本局是否就此结束。None 表示还得走到物理出口，IsTerminal 表示目标节点
+// 本身就是合法终点（例如襁褓动物进了秘境行商就收工）。
+enum class MilestoneTerminality
+{
+    None,
+    IsTerminal,
+};
+
+// 目标被判定错过或不可能时的收尾方式。Terminate 直接结算本局，省得每条策略
+// 都去重写一遍同样的终止规则。
+enum class MilestoneMissAction
+{
+    Ignore,
+    Terminate,
+};
+
 enum class MilestoneCompletion
 {
     VisitCount,
@@ -171,7 +200,6 @@ struct PolicyRule
     int rank = 0;
     Condition when;
     Condition candidate_if { ConditionKind::Constant, false };
-    std::string page_intent;
 };
 
 struct ResourceReserve
@@ -197,16 +225,17 @@ struct NodeSelector
     [[nodiscard]] bool matches(const Node& node) const noexcept;
 };
 
-struct HiddenNodeReveal
-{
-    NodeType hidden_node_type = NodeType::Unknown;
-    std::vector<NodeType> revealed_node_types;
-};
-
 struct Milestone
 {
     std::string id;
     std::string description;
+    MilestoneEnforcement enforcement = MilestoneEnforcement::Soft;
+    MilestoneTerminality terminality = MilestoneTerminality::None;
+    MilestoneMissAction on_miss = MilestoneMissAction::Ignore;
+    std::string miss_outcome;
+    std::string miss_reason;
+    bool miss_succeeded = false;
+    // kind 只在 enforcement 为 Soft、或强制目标被降级之后决定软层分档。
     MilestoneKind kind = MilestoneKind::None;
     MilestoneCompletion completion = MilestoneCompletion::VisitCount;
     int floor_begin = 0;
@@ -214,7 +243,6 @@ struct Milestone
     int rank = 0;
     int required_count = 1;
     int weight = 1;
-    bool end = false;
     int minimum_unknown_nodes_revealed = 0;
     Condition active_if;
     Condition complete_if { ConditionKind::Constant, false };
@@ -222,6 +250,9 @@ struct Milestone
     std::string page_intent;
     std::vector<std::string> reserve_ids;
     std::vector<std::string> prerequisites;
+
+    // 参与绑定候选的目标。是否真的绑定还要看可行性阶梯的结论。
+    [[nodiscard]] bool binding_candidate() const noexcept { return enforcement != MilestoneEnforcement::Soft; }
 };
 
 struct MissionState
@@ -288,7 +319,6 @@ struct ResolvedPolicy
     std::string description;
     std::vector<std::string> modules;
     std::vector<RoutePreference> route_preferences;
-    std::vector<HiddenNodeReveal> hidden_node_reveals;
     std::vector<PolicyRule> rules;
     std::vector<ResourceReserve> reserves;
     std::vector<Milestone> milestones;
@@ -366,7 +396,6 @@ struct PolicyDecision
     std::string decisive_rule_id;
     std::string decisive_milestone_id;
     std::vector<std::string> decisive_milestone_ids;
-    std::string selected_page_intent;
     std::string reason;
 };
 
@@ -379,6 +408,7 @@ public:
         const MissionState& mission,
         const RunState& run,
         const ResourceRegistry& resources,
+        const std::unordered_set<std::string>& binding_milestone_ids,
         const std::vector<PolicyCandidate>& candidates) const;
 };
 
@@ -386,10 +416,6 @@ public:
 [[nodiscard]] bool
     rule_matches_candidate(const PolicyRule& rule, const FactStore& facts, const FactStore& candidate_facts);
 [[nodiscard]] bool milestone_matches_node(const Milestone& milestone, const Node& node) noexcept;
-[[nodiscard]] bool hidden_node_may_reveal_milestone(
-    const ResolvedPolicy& policy,
-    const Milestone& milestone,
-    const Node& node) noexcept;
 [[nodiscard]] bool milestone_is_active(
     const Milestone& milestone,
     int floor,
@@ -399,6 +425,7 @@ public:
 
 [[nodiscard]] std::string_view to_string(RuleKind kind) noexcept;
 [[nodiscard]] std::string_view to_string(PolicyTier tier) noexcept;
+[[nodiscard]] std::string_view to_string(MilestoneStatus status) noexcept;
 [[nodiscard]] std::string_view to_string(DecisionReasonCategory category) noexcept;
 } // namespace asst::blackflow
 

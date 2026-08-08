@@ -4,6 +4,7 @@
 #include <optional>
 #include <string>
 #include <unordered_set>
+#include <vector>
 
 #include "BlackFlowPolicy.h"
 #include "BlackFlowSafetyPlanner.h"
@@ -27,9 +28,13 @@ struct BlackFlowPlanRequest
     const ResolvedPolicy* policy = nullptr;
     const FactStore* facts = nullptr;
     const MissionState* mission = nullptr;
-    std::unordered_set<NodeId> strategy_goal_nodes;
-    bool has_active_strategy_end = false;
-    std::unordered_set<std::string> unresolved_hidden_end_milestone_ids;
+    // 策略声明「达成即收工」的目标节点，与物理出口一起构成端点集合。
+    std::unordered_set<NodeId> strategy_terminal_nodes;
+    // 待锁定的强制目标，按优先级从高到低排好。plan() 会沿这个序做可行性阶梯：
+    // 证得出安全解就锁定，证不出就从末尾降级一个再试，因此不会出现整层无解。
+    std::vector<std::string> binding_milestone_candidates;
+    // 候选里最前面这几条是无条件必达的，阶梯不会降级它们；不可达时本层照声明判成无解。
+    std::size_t undemotable_binding_count = 0;
     const std::unordered_set<std::string>* forbidden_actions = nullptr;
     std::optional<NodeId> probe_target;
     std::size_t maximum_states = 2'000'000;
@@ -50,6 +55,9 @@ struct BlackFlowPlan
     SafetyAssessment safety;
     SafetyAssessment relaxed_safety;
     PolicyDecision decision;
+    // 本轮实际锁定的强制目标，以及因为证不出可行而降级成倾向的那些。
+    std::unordered_set<std::string> binding_milestone_ids;
+    std::vector<std::string> demoted_milestone_ids;
     std::optional<MoveCandidate> escape_first_action;
     std::uint64_t map_revision = 0;
     std::uint64_t cost_revision = 0;

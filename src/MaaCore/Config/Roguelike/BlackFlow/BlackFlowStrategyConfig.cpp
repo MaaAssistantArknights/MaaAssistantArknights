@@ -264,6 +264,42 @@ MilestoneKind parse_milestone_kind(const std::string& value)
     return found->second;
 }
 
+MilestoneEnforcement parse_milestone_enforcement(const std::string& value)
+{
+    static const std::unordered_map<std::string, MilestoneEnforcement> Values = {
+        { "soft", MilestoneEnforcement::Soft },
+        { "feasible_hard", MilestoneEnforcement::FeasibleHard },
+        { "hard", MilestoneEnforcement::Hard },
+    };
+    const auto found = Values.find(value);
+    if (found == Values.end()) {
+        invalid_config("unknown milestone enforcement: " + value);
+    }
+    return found->second;
+}
+
+MilestoneTerminality parse_milestone_terminality(const std::string& value)
+{
+    if (value == "none") {
+        return MilestoneTerminality::None;
+    }
+    if (value == "is_terminal") {
+        return MilestoneTerminality::IsTerminal;
+    }
+    invalid_config("unknown milestone terminality: " + value);
+}
+
+MilestoneMissAction parse_milestone_miss_action(const std::string& value)
+{
+    if (value == "ignore") {
+        return MilestoneMissAction::Ignore;
+    }
+    if (value == "terminate") {
+        return MilestoneMissAction::Terminate;
+    }
+    invalid_config("unknown milestone on_miss action: " + value);
+}
+
 MilestoneCompletion parse_milestone_completion(const std::string& value)
 {
     if (value == "visit_count") {
@@ -337,7 +373,7 @@ PolicyRule parse_rule(const json::value& value)
 {
     check_keys(
         value,
-        { "id", "description", "kind", "tier", "rank", "when", "candidate_if", "page_intent" },
+        { "id", "description", "kind", "tier", "rank", "when", "candidate_if" },
         { "id", "kind", "tier", "candidate_if" },
         "rule");
     PolicyRule result;
@@ -348,7 +384,6 @@ PolicyRule parse_rule(const json::value& value)
     result.rank = value.get("rank", 0);
     result.when = optional_condition(value, "when", true);
     result.candidate_if = parse_condition(value.at("candidate_if"));
-    result.page_intent = optional_page_intent(value);
     if (result.id.empty()) {
         invalid_config("rule id must not be empty");
     }
@@ -448,67 +483,24 @@ NodeSelector parse_node_selector(const json::value& value)
     return result;
 }
 
-std::vector<HiddenNodeReveal> parse_hidden_node_reveals(const json::value& value)
-{
-    if (!value.is_object()) {
-        invalid_config("hidden_node_reveals must be an object");
-    }
-    std::vector<HiddenNodeReveal> result;
-    for (const auto& [hidden_type_name, revealed_types] : value.as_object()) {
-        const auto hidden_type = node_type_from_string(hidden_type_name);
-        if (!hidden_type.has_value() ||
-            (*hidden_type != NodeType::HideInvisible && *hidden_type != NodeType::HideBattle)) {
-            invalid_config("hidden_node_reveals contains an unsupported hidden node type: " + hidden_type_name);
-        }
-        if (!revealed_types.is_array()) {
-            invalid_config("hidden_node_reveals values must be node type arrays");
-        }
-        HiddenNodeReveal reveal;
-        reveal.hidden_node_type = *hidden_type;
-        for (const auto& revealed_type_value : revealed_types.as_array()) {
-            if (!revealed_type_value.is_string()) {
-                invalid_config("hidden_node_reveals node types must be strings");
-            }
-            const std::string revealed_type_name = revealed_type_value.as_string();
-            const auto revealed_type = node_type_from_string(revealed_type_name);
-            if (!revealed_type.has_value() || *revealed_type == NodeType::Unknown ||
-                *revealed_type == NodeType::HideInvisible || *revealed_type == NodeType::HideBattle) {
-                invalid_config("hidden_node_reveals contains an unsupported revealed node type: " + revealed_type_name);
-            }
-            reveal.revealed_node_types.emplace_back(*revealed_type);
-        }
-        std::ranges::sort(reveal.revealed_node_types, {}, [](NodeType type) { return static_cast<int>(type); });
-        if (reveal.revealed_node_types.empty() ||
-            std::ranges::adjacent_find(reveal.revealed_node_types) != reveal.revealed_node_types.end()) {
-            invalid_config("hidden_node_reveals node type arrays must be nonempty and contain no duplicates");
-        }
-        result.emplace_back(std::move(reveal));
-    }
-    std::ranges::sort(result, {}, [](const HiddenNodeReveal& reveal) {
-        return static_cast<int>(reveal.hidden_node_type);
-    });
-    if (result.empty() ||
-        std::ranges::adjacent_find(result, [](const HiddenNodeReveal& lhs, const HiddenNodeReveal& rhs) {
-            return lhs.hidden_node_type == rhs.hidden_node_type;
-        }) != result.end()) {
-        invalid_config("hidden_node_reveals must be nonempty and contain no duplicate hidden node types");
-    }
-    return result;
-}
-
 Milestone parse_milestone(const json::value& value)
 {
     check_keys(
         value,
         { "id",
           "description",
+          "enforcement",
+          "terminality",
+          "on_miss",
+          "miss_outcome",
+          "miss_reason",
+          "miss_succeeded",
           "kind",
           "completion",
           "floor_window",
           "rank",
           "count",
           "weight",
-          "end",
           "minimum_unknown_nodes_revealed",
           "active_if",
           "complete_if",
@@ -521,14 +513,23 @@ Milestone parse_milestone(const json::value& value)
     Milestone result;
     result.id = value.at("id").as_string();
     result.description = value.get("description", std::string());
+    result.enforcement = parse_milestone_enforcement(value.get("enforcement", std::string("soft")));
+    result.terminality = parse_milestone_terminality(value.get("terminality", std::string("none")));
+    result.on_miss = parse_milestone_miss_action(value.get("on_miss", std::string("ignore")));
+    result.miss_outcome = value.get("miss_outcome", std::string());
+    result.miss_reason = value.get("miss_reason", std::string());
+    result.miss_succeeded = value.get("miss_succeeded", false);
     if (const auto kind = value.find("kind"); kind) {
         result.kind = parse_milestone_kind(kind->as_string());
+    }
+    else if (result.enforcement != MilestoneEnforcement::Soft) {
+        // 强制目标被可行性阶梯降级之后仍要在软层有位置，否则它会从评分里彻底消失。
+        result.kind = MilestoneKind::Preferred;
     }
     result.completion = parse_milestone_completion(value.get("completion", std::string("visit_count")));
     result.rank = value.get("rank", 0);
     result.required_count = value.get("count", 1);
     result.weight = value.get("weight", 1);
-    result.end = value.get("end", false);
     result.minimum_unknown_nodes_revealed = value.get("minimum_unknown_nodes_revealed", 0);
     result.active_if = optional_condition(value, "active_if", true);
     result.complete_if = optional_condition(value, "complete_if", false);
@@ -543,8 +544,12 @@ Milestone parse_milestone(const json::value& value)
     }
     result.floor_begin = window.at(0).as_integer();
     result.floor_end = window.at(1).as_integer();
-    if ((result.kind == MilestoneKind::None) != result.end) {
-        invalid_config("milestone must define exactly one of kind or end");
+    if (result.enforcement == MilestoneEnforcement::Soft && result.kind == MilestoneKind::None) {
+        invalid_config("soft milestone must define kind: " + result.id);
+    }
+    if ((result.on_miss == MilestoneMissAction::Terminate) ==
+        (result.miss_outcome.empty() || result.miss_reason.empty())) {
+        invalid_config("milestone on_miss terminate requires miss_outcome and miss_reason: " + result.id);
     }
     if (result.id.empty() || result.floor_begin < 1 || result.floor_end < result.floor_begin ||
         result.required_count < 1 || result.weight < 1 || result.minimum_unknown_nodes_revealed < 0) {
@@ -912,11 +917,6 @@ std::unordered_set<std::string> BlackFlowStrategyConfig::page_intents() const
     std::unordered_set<std::string> result;
     for (const auto& [id, module] : m_modules) {
         (void)id;
-        for (const auto& rule : module.rules) {
-            if (!rule.page_intent.empty()) {
-                result.emplace(rule.page_intent);
-            }
-        }
         for (const auto& milestone : module.milestones) {
             if (!milestone.page_intent.empty()) {
                 result.emplace(milestone.page_intent);
@@ -942,7 +942,6 @@ std::optional<blackflow::ResolvedPolicy>
     result.modules = profile->modules;
     result.terminal_rules = profile->terminal_rules;
     result.failure_action = profile->failure_action;
-    result.hidden_node_reveals = m_hidden_node_reveals;
 
     std::unordered_set<std::string> rule_ids;
     std::unordered_set<std::string> reserve_ids;
@@ -985,11 +984,11 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
 {
     check_keys(
         json,
-        { "schema_version", "resources", "hidden_node_reveals", "facts", "modules", "profiles" },
-        { "schema_version", "resources", "hidden_node_reveals", "facts", "modules", "profiles" },
+        { "schema_version", "resources", "facts", "modules", "profiles" },
+        { "schema_version", "resources", "facts", "modules", "profiles" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
-    if (schema_version != 7) {
+    if (schema_version != 8) {
         invalid_config("unsupported schema_version: " + std::to_string(schema_version));
     }
     for (const auto key : { "resources", "facts", "modules", "profiles" }) {
@@ -1011,9 +1010,6 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
         }
     }
 
-    std::vector<blackflow::HiddenNodeReveal> hidden_node_reveals =
-        parse_hidden_node_reveals(json.at("hidden_node_reveals"));
-
     std::unordered_map<std::string, blackflow::FactDefinition> facts;
     for (const auto& value : json.at("facts").as_array()) {
         auto definition = parse_fact_definition(value);
@@ -1025,10 +1021,37 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
     std::unordered_map<std::string, blackflow::PolicyModule> modules;
     for (const auto& value : json.at("modules").as_array()) {
         auto module = parse_module(value);
-        validate_module(module, facts, resources);
         if (!modules.emplace(module.id, module).second) {
             invalid_config("duplicate module id: " + module.id);
         }
+    }
+
+    // 里程碑状态与进度自动登记成事实，终止规则和条件才能读到「这条目标错过了/不可能了」。
+    // 必须在校验模块之前登记，否则引用了这些名字的条件会被判成未声明事实。
+    for (const auto& [module_id, module] : modules) {
+        (void)module_id;
+        for (const blackflow::Milestone& milestone : module.milestones) {
+            facts.emplace(
+                "milestone." + milestone.id + ".status",
+                blackflow::FactDefinition {
+                    "milestone." + milestone.id + ".status",
+                    blackflow::FactType::String,
+                    blackflow::FactScope::Run,
+                    milestone.description,
+                });
+            facts.emplace(
+                "milestone." + milestone.id + ".progress",
+                blackflow::FactDefinition {
+                    "milestone." + milestone.id + ".progress",
+                    blackflow::FactType::Integer,
+                    blackflow::FactScope::Run,
+                    milestone.description,
+                });
+        }
+    }
+    for (const auto& [module_id, module] : modules) {
+        (void)module_id;
+        validate_module(module, facts, resources);
     }
 
     std::unordered_map<std::string, blackflow::PolicyProfile> profiles;
@@ -1049,7 +1072,6 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
 
     m_schema_version = schema_version;
     m_resources = std::move(resources);
-    m_hidden_node_reveals = std::move(hidden_node_reveals);
     m_facts = std::move(facts);
     m_modules = std::move(modules);
     m_profiles = std::move(profiles);
