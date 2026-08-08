@@ -25,7 +25,7 @@ jobs:
 
       - name: Commit and push changes
         if: steps.pre-commit.outcome == 'failure' && github.repository_owner == 'MaaAssistantArknights'
-        uses: actions-js/push@968f4695ca558093eadb24ad83cc5891f47e0cdc # master as of 2026-05-06
+        uses: actions-js/push@968f4695ca558093eadb24ad83cc5891f47e0cdc # v1.6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           message: "chore: Auto update by pre-commit hooks
