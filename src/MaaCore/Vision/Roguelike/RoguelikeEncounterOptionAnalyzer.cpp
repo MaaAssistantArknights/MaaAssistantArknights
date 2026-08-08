@@ -45,7 +45,7 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
         Option option;
 
         if (m_theme == RoguelikeTheme::BlackFlow) {
-            const Rect enabled_rect { rect.x + 40, rect.y, 160, rect.height };
+            const Rect enabled_rect { rect.x + 40, rect.y, 50, rect.height };
             if (enabled_rect.x < 0 || enabled_rect.y < 0 || enabled_rect.width <= 0 || enabled_rect.height <= 0 ||
                 enabled_rect.x + enabled_rect.width > m_image.cols ||
                 enabled_rect.y + enabled_rect.height > m_image.rows) {
