@@ -75,11 +75,14 @@
         "next": ["Stop"]
     },
     "MiniGame@InteractiveExhibition@ExitBattle": {
-        "doc": "已收录：按左上角退出 [50,50,10,10]，点一次直接返回地图。postDelay 500 等待转场，再进入下一轮走路循环。",
+        "doc": "已收录：按左上角退出 [50,50,10,10]，点一次后等待转场。点完再回 CheckEncounter-Collected 复查：若仍能看到「已收录」（退出按钮没点中/转场未完成），允许继续点，直到确实退出回到地图。",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [50, 50, 10, 10],
         "postDelay": 500,
-        "next": ["MiniGame@InteractiveExhibition@Loop"]
+        "next": [
+            "MiniGame@InteractiveExhibition@CheckEncounter-Collected",
+            "MiniGame@InteractiveExhibition@Loop"
+        ]
     }
 }
