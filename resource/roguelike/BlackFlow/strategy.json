@@ -80,6 +80,11 @@
             "scope": "run"
         },
         {
+            "name": "persistent_full_map_count",
+            "type": "int",
+            "scope": "run"
+        },
+        {
             "name": "floor_development_exhausted",
             "type": "bool",
             "scope": "floor"
@@ -449,6 +454,28 @@
         },
         {
             "id": "ending_development",
+            "reserves": [
+                {
+                    "id": "keep_full_map_before_floor4",
+                    "description": "前三层保留一次全图移动，留给第四、五层的远端节点",
+                    "resource": "persistent_full_map_movement",
+                    "minimum": 1,
+                    "active_if": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "le",
+                                "value": 3
+                            },
+                            {
+                                "fact": "persistent_full_map_count",
+                                "op": "ge",
+                                "value": 1
+                            }
+                        ]
+                    }
+                }
+            ],
             "rules": [
                 {
                     "id": "ending1_avoid_late_combat",
@@ -1154,9 +1181,18 @@
                     "resource": "persistent_long_range_movement",
                     "minimum": 1,
                     "active_if": {
-                        "fact": "cultivation_completed",
-                        "op": "eq",
-                        "value": false
+                        "all": [
+                            {
+                                "fact": "cultivation_completed",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "fact": "persistent_long_range_count",
+                                "op": "ge",
+                                "value": 1
+                            }
+                        ]
                     },
                     "release_if": {
                         "fact": "candidate.node_type",
