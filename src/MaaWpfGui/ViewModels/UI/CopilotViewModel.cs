@@ -165,6 +165,10 @@ public partial class CopilotViewModel : Screen
     /// <param name="showTime">Whether show time.</param>
     public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
     {
+        // Copilot 自动战斗期间也会启动停滞计时器（Start 通过 SetIdle(false) 进入运行态），
+        // 这里的日志同样属于"有输出活动"，需要重置计时器，否则会误报任务卡住。
+        RunningState.Instance.NotifyOutputActivity();
+
         if (string.IsNullOrEmpty(content))
         {
             return;
