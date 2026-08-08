@@ -63,6 +63,7 @@
         "action": "DoNothing",
         "text": ["已收录"],
         "roi": [300, 500, 120, 45],
+        "postDelay": 500,
         "next": ["MiniGame@InteractiveExhibition@ExitBattle"]
     },
     "MiniGame@InteractiveExhibition@CheckEncounter-Uncollected": {
