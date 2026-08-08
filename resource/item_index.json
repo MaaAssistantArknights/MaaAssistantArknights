@@ -1783,6 +1783,14 @@
         "sortId": -10000,
         "usage": "关卡首通报酬，用于在博物馆兑换台换取奖励；首通后复刷不会再次获得。"
     },
+    "act1arkhub_token_seal": {
+        "classifyType": "NONE",
+        "description": "巡展主办方制作的纪念章，印有奇象巡展的标志。",
+        "icon": "act1arkhub_token_seal.png",
+        "name": "巡展纪念章",
+        "sortId": -10000,
+        "usage": "在奇象巡展期间获得的纪念章，可用于兑换各种奖励。"
+    },
     "act1autochess_token_chess": {
         "classifyType": "NONE",
         "description": "罗德岛工坊为参与卫戍协议的干员准备的勋章，带有磁性，听说集齐一定数量便可合成一个堡垒棋子。",
