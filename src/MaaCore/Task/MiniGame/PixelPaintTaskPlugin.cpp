@@ -216,7 +216,8 @@ bool asst::PixelPaintTaskPlugin::draw_group(const Group& group, int& done_cells,
         }
     }
 
-    int checked_at = 0; // 上次识别时的已画格数
+    // done_cells 为跨 group 累计值，初值取当前累计，避免每个 group 开头白跑一次识别
+    int checked_at = done_cells;
     for (const auto& seg : segments) {
         if (need_exit()) {
             Log.info("PixelPaint | stopped by exit request");
