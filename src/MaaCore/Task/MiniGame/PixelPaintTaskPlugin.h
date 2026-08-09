@@ -30,6 +30,9 @@ public:
 
     const std::vector<Group>& get_groups() const { return m_groups; }
 
+    // 是否用拖动绘制同色同行连续格；关闭则全部逐格点击
+    void set_swipe_enabled(bool enabled) { m_swipe_enabled = enabled; }
+
 protected:
     virtual bool _run() override;
 
@@ -57,7 +60,10 @@ private:
 
     std::vector<Group> m_groups;
 
-    // 固定节奏（ms）
+    bool m_swipe_enabled = true;
+
+    // 固定节奏（ms）。click 间隔由各控制方式自带（minitouch/maatouch
+    // DefaultClickDelay=50，adb 已在 AdbController::click 对齐 50ms）
     inline static constexpr unsigned GridClickDelay = 0;
     inline static constexpr unsigned PaletteClickDelay = 50;
 

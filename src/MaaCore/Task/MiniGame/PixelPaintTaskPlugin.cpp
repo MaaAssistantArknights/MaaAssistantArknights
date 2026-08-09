@@ -230,7 +230,7 @@ bool asst::PixelPaintTaskPlugin::draw_group(const Group& group, int& done_cells,
             return false;
         }
 
-        if (seg.len < MinSwipeSegmentLen) {
+        if (!m_swipe_enabled || seg.len < MinSwipeSegmentLen) {
             // 短线段逐格点
             for (int x = seg.start.x; x <= seg.end.x; ++x) {
                 const auto pos = grid_center(x, seg.start.y);

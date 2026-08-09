@@ -1109,6 +1109,8 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@PixelPaint@Brightness">Brightness</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Saturation">Saturation</system:String>
     <system:String x:Key="MiniGame@PixelPaint@PaintWhite">Paint white too</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Swipe">Enable swipe drawing</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@SwipeTip">Draws consecutive cells of the same color in a single drag for much faster painting. Some touch modes may behave abnormally; disable if you run into issues.</system:String>
     <system:String x:Key="MiniGame@PixelPaint@LoadFailed">Failed to load image</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ConvertFailed">Conversion failed</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ReadyStatus">{0} cells / {1} colors</system:String>

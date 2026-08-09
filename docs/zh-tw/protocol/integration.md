@@ -1002,6 +1002,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ::: field name="params" type="object" optional  
 任務附加參數。目前僅像素畫任務（`MiniGame@PixelPaint@Begin`）使用：  
 - `params.pixel_paint.groups`：按色分組點列。`color` 為色板序號（0~39，與遊戲右側色板順序一致），`points` 為 `[x, y]` 格子座標陣列（0~23，左上為原點）。
+- `params.pixel_paint.swipe`（bool，可選，預設 true）：同色同行的連續格用拖動一次畫完，更快但部分觸控模式可能異常。  
 :::  
 ::::
 

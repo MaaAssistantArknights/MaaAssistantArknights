@@ -3057,13 +3057,15 @@ public class AsstProxy
     /// 像素画自动填色（牛杂）。短 task 入口 + params.pixel_paint 分组点列。
     /// </summary>
     /// <param name="groups">按色分组后的格子，color 为 0~39。</param>
+    /// <param name="swipeEnabled">是否启用拖动绘制（同色同行连续格一次画完）。</param>
     /// <returns>是否成功启动。</returns>
-    public bool AsstPixelPaint(IReadOnlyList<PixelPaintHelper.ColorGroup> groups)
+    public bool AsstPixelPaint(IReadOnlyList<PixelPaintHelper.ColorGroup> groups, bool swipeEnabled = true)
     {
         var task = new AsstCustomTask {
             CustomTasks = ["MiniGame@PixelPaint@Begin"],
             Params = JObject.FromObject(new {
                 pixel_paint = new {
+                    swipe = swipeEnabled,
                     groups = groups.Select(g => new {
                         color = g.Color,
                         points = g.Points,
