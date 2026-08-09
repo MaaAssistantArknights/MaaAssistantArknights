@@ -32,6 +32,7 @@ public class ETagCache
     private static readonly string _lastModifiedFile = Path.Combine(PathsHelper.CacheDir, "last_modified.json");
     private static Dictionary<string, string> _etagCache = [];
     private static Dictionary<string, DateTimeOffset> _lastModifiedCache = [];
+    private static bool _isDirty;
 
     public static void Load()
     {
@@ -72,6 +73,8 @@ public class ETagCache
                 _lastModifiedCache = [];
             }
         }
+
+        _isDirty = false;
     }
 
     public static void Save()
@@ -84,8 +87,21 @@ public class ETagCache
 
     private static void SaveCore()
     {
-        File.WriteAllText(_etagFile, JsonConvert.SerializeObject(_etagCache, Formatting.Indented));
-        File.WriteAllText(_lastModifiedFile, JsonConvert.SerializeObject(_lastModifiedCache, Formatting.Indented));
+        if (!_isDirty)
+        {
+            return;
+        }
+
+        try
+        {
+            File.WriteAllText(_etagFile, JsonConvert.SerializeObject(_etagCache, Formatting.Indented));
+            File.WriteAllText(_lastModifiedFile, JsonConvert.SerializeObject(_lastModifiedCache, Formatting.Indented));
+            _isDirty = false;
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to save HTTP cache metadata");
+        }
     }
 
     public static string GetETag(string? url)
@@ -108,19 +124,39 @@ public class ETagCache
     {
         lock (_lock)
         {
-            _etagCache[url] = etag;
+            SetETagCore(url, etag);
         }
+    }
+
+    private static void SetETagCore(string url, string etag)
+    {
+        if (_etagCache.TryGetValue(url, out var cachedETag) && cachedETag == etag)
+        {
+            return;
+        }
+
+        _etagCache[url] = etag;
+        _isDirty = true;
     }
 
     public static void SetLastModified(string url, DateTimeOffset? dt)
     {
         lock (_lock)
         {
-            if (dt.HasValue)
-            {
-                _lastModifiedCache[url] = dt.Value;
-            }
+            SetLastModifiedCore(url, dt);
         }
+    }
+
+    private static void SetLastModifiedCore(string url, DateTimeOffset? dt)
+    {
+        if (!dt.HasValue ||
+            (_lastModifiedCache.TryGetValue(url, out var cachedLastModified) && cachedLastModified == dt.Value))
+        {
+            return;
+        }
+
+        _lastModifiedCache[url] = dt.Value;
+        _isDirty = true;
     }
 
     // UPDATE: 重定向会导致 uri 变成其他地址，导致存的 ETag 无法匹配原始地址，所以要传入原始地址
@@ -138,13 +174,10 @@ public class ETagCache
         {
             if (!string.IsNullOrEmpty(etag))
             {
-                _etagCache[uri] = etag;
+                SetETagCore(uri, etag);
             }
 
-            if (lastModified.HasValue)
-            {
-                _lastModifiedCache[uri] = lastModified.Value;
-            }
+            SetLastModifiedCore(uri, lastModified);
 
             SaveCore();
         }
