@@ -19,11 +19,12 @@ public:
     struct MultiCopilotConfig
     {
         int id = -1;
-        std::string filename;   // 文件名
-        std::string stage_name; // 关卡名
-        bool is_raid = false;   // 是否是突袭
+        std::string filename;            // 文件名
+        std::string stage_name;          // 关卡名
+        int difficulty = 0;              // 难度; 0 default, 1 Normal 普通/险地/磨难, 2 Raid 突袭, 4 Sandbox 沙盘
+        std::array<int, 2> sandbox = {}; // 沙盘选项
 
-        MEO_JSONIZATION(MEO_OPT id, filename, stage_name, MEO_OPT is_raid);
+        MEO_JSONIZATION(MEO_OPT id, filename, stage_name, MEO_OPT difficulty, MEO_OPT sandbox);
     };
 
 public:

@@ -1729,6 +1729,12 @@ public partial class CopilotViewModel : Screen
                 var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, };
                 CopilotItemViewModels.Add(item);
             }
+
+            if (flags.HasFlag(CopilotModel.DifficultyFlags.Sandbox))
+            {
+                var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, };
+                CopilotItemViewModels.Add(item);
+            }
         }
 
         _semaphore.Release();

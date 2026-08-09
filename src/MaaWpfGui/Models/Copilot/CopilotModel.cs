@@ -343,7 +343,7 @@ public class CopilotModel : CopilotBase
         None = 0,
 
         /// <summary>
-        /// 普通
+        /// 普通; 险地 / 磨难, 运行前手动切换到对应难度
         /// </summary>
         Normal = 1,
 
@@ -351,5 +351,10 @@ public class CopilotModel : CopilotBase
         /// 突袭
         /// </summary>
         Raid = 2,
+
+        /// <summary>
+        /// 沙盒推演
+        /// </summary>
+        Sandbox = 4,
     }
 }

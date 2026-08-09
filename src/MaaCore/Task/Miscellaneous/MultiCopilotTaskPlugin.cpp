@@ -1,6 +1,7 @@
 #include "MultiCopilotTaskPlugin.h"
 
 #include <ranges>
+#include <algorithm>
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
@@ -57,9 +58,14 @@ bool asst::MultiCopilotTaskPlugin::_run()
     }
 
     ProcessTask(*this, { "NotUsePrts" }).set_ignore_error(true).set_retry_times(0).run();
-    if (config.is_raid) {
+
+    if (config.difficulty == 2) {
         // 选择突袭模式
         ret = ret && ProcessTask(*this, { "RaidConfirm", "ChangeToRaidDifficulty" }).set_retry_times(20).run();
+    }else if (config.difficulty == 4) {
+        // 选择沙盘模式
+        ret = ret && ProcessTask(*this, { "SandboxOptionToggle", "SandboxButton" }).set_retry_times(20).run();
+
     }
 
     return ret;

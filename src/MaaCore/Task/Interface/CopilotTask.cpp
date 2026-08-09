@@ -99,7 +99,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
         m_battle_task_ptr->set_wait_until_end(true);
         auto configs = static_cast<std::vector<MultiCopilotConfig>>(*multi_tasks_opt);
         std::vector<MultiCopilotTaskPlugin::MultiCopilotConfig> configs_cvt;
-        for (const auto& [id, filename, stage_name, is_raid] : configs) {
+        for (const auto& [id, filename, stage_name, difficulty, sandbox] : configs) {
             MultiCopilotTaskPlugin::MultiCopilotConfig config_cvt;
             auto copilot_opt = parse_copilot_filename(filename);
             if (!copilot_opt) {
@@ -111,8 +111,9 @@ bool asst::CopilotTask::set_params(const json::value& params)
             }
             config_cvt.copilot_file = *copilot_opt;
             config_cvt.nav_name = stage_name;
-            config_cvt.is_raid = is_raid;
             config_cvt.id = id; // ID 从0开始
+            config_cvt.difficulty = difficulty;
+            config_cvt.sandbox = sandbox;
             configs_cvt.emplace_back(std::move(config_cvt));
         }
 
