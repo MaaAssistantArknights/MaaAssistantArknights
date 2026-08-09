@@ -1292,6 +1292,28 @@
                     }
                 },
                 {
+                    "id": "baby_visit_incident",
+                    "kind": "preferred",
+                    "floor_window": [2, 3],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["incident"]
+                    }
+                },
+                {
+                    "id": "baby_visit_light",
+                    "kind": "preferred",
+                    "floor_window": [2, 3],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "selector": {
+                        "node_types": ["light"]
+                    }
+                },
+                {
                     "id": "baby_floor2_shops",
                     "description": "第二层经过普通商店时继续优先获取种子",
                     "kind": "preferred",

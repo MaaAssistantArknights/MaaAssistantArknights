@@ -1399,6 +1399,9 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowMilestoneBurnFloor3Bosky">Enter a bosky passage on floor 3</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCheckSeedShop">Check the floor 1 shop for seeds</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">Enter a scrap trader on floors 1-3 to cultivate seeds</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">Reveal as many unknown nodes as possible until a scrap trader is found</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">Visit an encounter along the way</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyVisitLight">Visit a vantage point along the way</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">Continue collecting seeds when visiting a normal shop on floor 2</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">Sell items, refresh stock, and collect seeds when visiting a normal shop on floor 3</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">Obtain Sandtable A</system:String>
