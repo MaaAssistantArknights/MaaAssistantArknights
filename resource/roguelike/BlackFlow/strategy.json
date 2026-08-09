@@ -1125,7 +1125,7 @@
                         "all": [
                             {
                                 "fact": "current_floor",
-                                "op": "le",
+                                "op": "eq",
                                 "value": 2
                             },
                             {
