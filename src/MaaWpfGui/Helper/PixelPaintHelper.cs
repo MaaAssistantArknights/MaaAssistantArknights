@@ -118,12 +118,16 @@ public static class PixelPaintHelper
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(options);
 
-        var bgra = LoadBgra(source);
-        if (options.TrimEmptyBorder)
-        {
-            bgra = TrimBorder(bgra) ?? bgra;
-        }
+        return Convert(Prepare(source, options.TrimEmptyBorder), options, skipWhite);
+    }
 
+    /// <summary>用预处理好的图像转换，适合需要多次调参实时预览的场景。</summary>
+    public static ConvertResult Convert(PreparedImage prepared, ConvertOptions options, bool skipWhite = true)
+    {
+        ArgumentNullException.ThrowIfNull(prepared);
+        ArgumentNullException.ThrowIfNull(options);
+
+        var bgra = prepared.Data;
         var sample = SampleToGrid(bgra, options);
         ApplyCssLikeFilters(
             sample,
@@ -246,13 +250,34 @@ public static class PixelPaintHelper
         return best;
     }
 
-    private sealed class BgraImage
+    /// <summary>预处理后的源图（去边后），供多次转换复用，避免每次全图解码。</summary>
+    public sealed class PreparedImage
+    {
+        internal PreparedImage(BgraImage data) => Data = data;
+
+        internal BgraImage Data { get; }
+    }
+
+    internal sealed class BgraImage
     {
         public required int Width { get; init; }
 
         public required int Height { get; init; }
 
         public required byte[] Pixels { get; init; } // BGRA
+    }
+
+    /// <summary>解码并（可选）去边，结果可复用于多次转换。</summary>
+    public static PreparedImage Prepare(BitmapSource source, bool trimEmptyBorder = true)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        var bgra = LoadBgra(source);
+        if (trimEmptyBorder)
+        {
+            bgra = TrimBorder(bgra) ?? bgra;
+        }
+
+        return new PreparedImage(bgra);
     }
 
     private static BgraImage LoadBgra(BitmapSource source)
@@ -369,7 +394,8 @@ public static class PixelPaintHelper
                 break;
             case FitMode.Contain:
             {
-                var scale = Math.Min(srcW / GridSize, srcH / GridSize);
+                // 外接矩形包含整张源图（Max），等比装入目标并留白
+                var scale = Math.Max(srcW / GridSize, srcH / GridSize);
                 mapW = GridSize * scale;
                 mapH = GridSize * scale;
                 mapX0 = srcX0 + ((srcW - mapW) / 2.0);
@@ -379,7 +405,8 @@ public static class PixelPaintHelper
 
             default: // Crop = cover
             {
-                var scale = Math.Max(srcW / GridSize, srcH / GridSize);
+                // 源图内最大的 1:1 采样矩形（Min），裁掉多余边并铺满
+                var scale = Math.Min(srcW / GridSize, srcH / GridSize);
                 mapW = GridSize * scale;
                 mapH = GridSize * scale;
                 mapX0 = srcX0 + ((srcW - mapW) / 2.0);
@@ -456,7 +483,7 @@ public static class PixelPaintHelper
     }
 
     /// <summary>
-    /// 近似 CSS filter: contrast() brightness() saturate()，在线性 RGB 上操作。
+    /// 在 sRGB 0~255 上近似 CSS filter（固定顺序：亮度 → 对比度 → 饱和度）。
     /// </summary>
     private static void ApplyCssLikeFilters((double R, double G, double B)[,] grid, double contrast, double brightness, double saturation)
     {

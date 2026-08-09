@@ -2440,6 +2440,8 @@ public class ToolboxViewModel : Screen
         private set => SetAndNotify(ref _pixelPaintStatusText, value);
     }
 
+    private PixelPaintHelper.PreparedImage? _pixelPaintPrepared;
+
     private PixelPaintHelper.ConvertResult? _pixelPaintResult;
 
     private bool _pixelPaintParametersLocked;
@@ -2692,6 +2694,7 @@ public class ToolboxViewModel : Screen
             bmp.Freeze();
 
             _pixelPaintSourceImage = bmp;
+            _pixelPaintPrepared = PixelPaintHelper.Prepare(bmp, trimEmptyBorder: true);
             _pixelPaintView = new System.Windows.Rect(0, 0, 1, 1);
             ReconvertPixelPaint();
         }
@@ -2732,7 +2735,12 @@ public class ToolboxViewModel : Screen
                 TrimEmptyBorder = true,
             };
 
-            var result = PixelPaintHelper.Convert(_pixelPaintSourceImage, options, skipWhite: !PixelPaintPaintWhite);
+            if (_pixelPaintPrepared == null)
+            {
+                return;
+            }
+
+            var result = PixelPaintHelper.Convert(_pixelPaintPrepared, options, skipWhite: !PixelPaintPaintWhite);
             _pixelPaintResult = result;
             PixelPaintPreview = result.Preview;
             PixelPaintStatusText = string.Format(

@@ -886,8 +886,12 @@
                     VerticalAlignment="Top"
                     IsEnabled="{Binding Idle}">
                     <Grid Visibility="{c:Binding 'SelectedMiniGameItem != null'}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
                         <!--  像素画  -->
-                        <Grid Visibility="{c:Binding 'SelectedMiniGameItem.IsPixelPaint'}">
+                        <Grid Grid.Row="0" Visibility="{c:Binding 'SelectedMiniGameItem.IsPixelPaint'}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -912,7 +916,10 @@
                                         MouseMove="{s:Action PixelPaintPreviewMouseMove}"
                                         PreviewMouseWheel="{s:Action PixelPaintPreviewMouseWheel}">
                                         <Grid>
-                                            <Image Source="{Binding PixelPaintPreview}" Stretch="None" />
+                                            <Image
+                                                Source="{Binding PixelPaintPreview}"
+                                                Stretch="None"
+                                                RenderOptions.BitmapScalingMode="NearestNeighbor" />
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
@@ -1010,7 +1017,7 @@
                             </ScrollViewer>
                         </Grid>
                         <!--  隐秘战线  -->
-                        <Grid Visibility="{c:Binding 'SelectedMiniGameItem.IsSecretFront'}">
+                        <Grid Grid.Row="0" Visibility="{c:Binding 'SelectedMiniGameItem.IsSecretFront'}">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
@@ -1031,6 +1038,7 @@
                         </Grid>
 
                         <Viewbox
+                            Grid.Row="1"
                             Margin="0,12,0,0"
                             Stretch="Uniform"
                             StretchDirection="Both"
