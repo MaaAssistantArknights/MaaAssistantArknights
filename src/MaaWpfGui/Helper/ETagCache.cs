@@ -25,6 +25,7 @@ namespace MaaWpfGui.Helper;
 
 public class ETagCache
 {
+    private static readonly object _lock = new();
     private static readonly ILogger _logger = Log.ForContext<ETagCache>();
 
     private static readonly string _etagFile = Path.Combine(PathsHelper.CacheDir, "etag.json");
@@ -33,6 +34,14 @@ public class ETagCache
     private static Dictionary<string, DateTimeOffset> _lastModifiedCache = [];
 
     public static void Load()
+    {
+        lock (_lock)
+        {
+            LoadCore();
+        }
+    }
+
+    private static void LoadCore()
     {
         // ETag
         if (File.Exists(_etagFile))
@@ -67,26 +76,50 @@ public class ETagCache
 
     public static void Save()
     {
+        lock (_lock)
+        {
+            SaveCore();
+        }
+    }
+
+    private static void SaveCore()
+    {
         File.WriteAllText(_etagFile, JsonConvert.SerializeObject(_etagCache, Formatting.Indented));
         File.WriteAllText(_lastModifiedFile, JsonConvert.SerializeObject(_lastModifiedCache, Formatting.Indented));
     }
 
-    public static string GetETag(string? url) =>
-        url != null && _etagCache.TryGetValue(url, out var etag) ? etag : string.Empty;
+    public static string GetETag(string? url)
+    {
+        lock (_lock)
+        {
+            return url != null && _etagCache.TryGetValue(url, out var etag) ? etag : string.Empty;
+        }
+    }
 
-    public static DateTimeOffset? GetLastModified(string? url) =>
-        url != null && _lastModifiedCache.TryGetValue(url, out var lm) ? lm : null;
+    public static DateTimeOffset? GetLastModified(string? url)
+    {
+        lock (_lock)
+        {
+            return url != null && _lastModifiedCache.TryGetValue(url, out var lm) ? lm : null;
+        }
+    }
 
     public static void SetETag(string url, string etag)
     {
-        _etagCache[url] = etag;
+        lock (_lock)
+        {
+            _etagCache[url] = etag;
+        }
     }
 
     public static void SetLastModified(string url, DateTimeOffset? dt)
     {
-        if (dt.HasValue)
+        lock (_lock)
         {
-            _lastModifiedCache[url] = dt.Value;
+            if (dt.HasValue)
+            {
+                _lastModifiedCache[url] = dt.Value;
+            }
         }
     }
 
@@ -101,17 +134,20 @@ public class ETagCache
         var etag = response.Headers.ETag?.Tag;
         var lastModified = response.Content?.Headers?.LastModified;
 
-        if (!string.IsNullOrEmpty(etag))
+        lock (_lock)
         {
-            SetETag(uri, etag);
-        }
+            if (!string.IsNullOrEmpty(etag))
+            {
+                _etagCache[uri] = etag;
+            }
 
-        if (lastModified.HasValue)
-        {
-            SetLastModified(uri, lastModified.Value);
-        }
+            if (lastModified.HasValue)
+            {
+                _lastModifiedCache[uri] = lastModified.Value;
+            }
 
-        Save();
+            SaveCore();
+        }
     }
 
     public static async Task<HttpResponseMessage?> FetchResponseWithEtag(string url, bool force = false)
