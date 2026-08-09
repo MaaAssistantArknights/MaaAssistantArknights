@@ -1102,9 +1102,18 @@
                         ]
                     },
                     "candidate_if": {
-                        "fact": "candidate.uses_processing_item",
-                        "op": "eq",
-                        "value": false
+                        "all": [
+                            {
+                                "fact": "candidate.uses_processing_item",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "fact": "candidate.combat",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
                     }
                 },
                 {
