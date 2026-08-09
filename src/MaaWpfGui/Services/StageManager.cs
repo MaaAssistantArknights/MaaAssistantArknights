@@ -330,9 +330,6 @@ public class StageManager
             new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), DisplayKey = "MiniGameNameYellowTicketStore", Value = "YellowTicket@Store@Begin", TipKey = "MiniGameNameYellowTicketStoreTip" },
             new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), DisplayKey = "MiniGameNameRAStore", Value = "RA@Store@Begin", TipKey = "MiniGameNameRAStoreTip" },
             new() { Display = LocalizationHelper.GetString("MiniGame@SecretFront"), DisplayKey = "MiniGame@SecretFront", Value = "MiniGame@SecretFront", TipKey = "MiniGame@SecretFrontTip" },
-
-            // TODO: 正式应走当期 activity.miniGame；开发期先常驻方便调试转换 UI
-            new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint"), DisplayKey = "MiniGame@PixelPaint", Value = "MiniGame@PixelPaint", TipKey = "MiniGame@PixelPaintTip" },
         };
 
         return entries;
