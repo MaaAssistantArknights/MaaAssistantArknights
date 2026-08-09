@@ -25,6 +25,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
@@ -69,6 +70,11 @@ public class ToolboxViewModel : Screen
             Idle = e.NewState.Idle;
             Inited = e.NewState.Inited;
             Stopping = e.NewState.Stopping;
+
+            if (e.NewState.Idle)
+            {
+                PixelPaintParametersLocked = false;
+            }
 
             if (e.NewState.Stopping && Peeping && !IsPeepTransitioning)
             {
@@ -2262,6 +2268,8 @@ public class ToolboxViewModel : Screen
         public string Category { get; set; } = string.Empty;
 
         public bool IsSecretFront => Value == "MiniGame@SecretFront";
+
+        public bool IsPixelPaint => Value is "MiniGame@PixelPaint" or "MiniGame@PixelPaint@Begin";
     }
 
     public ObservableCollection<MiniGameCategoryItem> MiniGameCategoryItems { get; } = [];
@@ -2280,6 +2288,8 @@ public class ToolboxViewModel : Screen
             MiniGameTaskName = value.Value;
         }
     }
+
+    public bool IsPixelPaintSelected => SelectedMiniGameItem?.IsPixelPaint == true;
 
     public static void UpdateMiniGameTaskList()
     {
@@ -2410,6 +2420,345 @@ public class ToolboxViewModel : Screen
 
     public string SecretFrontEvent { get; set => SetAndNotify(ref field, value); } = string.Empty;
 
+    #region PixelPaint
+
+    private BitmapSource? _pixelPaintSourceImage;
+
+    private BitmapSource? _pixelPaintPreview;
+
+    public BitmapSource? PixelPaintPreview
+    {
+        get => _pixelPaintPreview;
+        private set => SetAndNotify(ref _pixelPaintPreview, value);
+    }
+
+    private string _pixelPaintStatusText = string.Empty;
+
+    public string PixelPaintStatusText
+    {
+        get => _pixelPaintStatusText;
+        private set => SetAndNotify(ref _pixelPaintStatusText, value);
+    }
+
+    private PixelPaintHelper.PreparedImage? _pixelPaintPrepared;
+
+    private PixelPaintHelper.ConvertResult? _pixelPaintResult;
+
+    private bool _pixelPaintParametersLocked;
+
+    public bool PixelPaintParametersLocked
+    {
+        get => _pixelPaintParametersLocked;
+        private set => SetAndNotify(ref _pixelPaintParametersLocked, value);
+    }
+
+    /// <summary>相对去边后内容图的归一化取景（0~1）。</summary>
+    private System.Windows.Rect _pixelPaintView = new(0, 0, 1, 1);
+
+    private System.Windows.Point? _pixelPaintDragStart;
+
+    private System.Windows.Rect _pixelPaintDragOriginView;
+
+    public List<GenericCombinedData<string>> PixelPaintFitModeList { get; } =
+    [
+        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@FitCrop"), Value = "Crop" },
+        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@FitContain"), Value = "Contain" },
+        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@FitStretch"), Value = "Stretch" },
+    ];
+
+    public string PixelPaintFitMode
+    {
+        get; set {
+            if (SetAndNotify(ref field, value))
+            {
+                ReconvertPixelPaint();
+            }
+        }
+    } = "Crop";
+
+    public List<GenericCombinedData<string>> PixelPaintDitherModeList { get; } =
+    [
+        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherNone"), Value = "None" },
+        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherFS"), Value = "FloydSteinberg" },
+        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherAtkinson"), Value = "Atkinson" },
+    ];
+
+    public string PixelPaintDitherMode
+    {
+        get; set {
+            if (SetAndNotify(ref field, value))
+            {
+                ReconvertPixelPaint();
+            }
+        }
+    } = "FloydSteinberg";
+
+    public double PixelPaintContrast
+    {
+        get; set {
+            if (SetAndNotify(ref field, value))
+            {
+                ReconvertPixelPaint();
+            }
+        }
+    } = 100;
+
+    public double PixelPaintBrightness
+    {
+        get; set {
+            if (SetAndNotify(ref field, value))
+            {
+                ReconvertPixelPaint();
+            }
+        }
+    } = 100;
+
+    public double PixelPaintSaturation
+    {
+        get; set {
+            if (SetAndNotify(ref field, value))
+            {
+                ReconvertPixelPaint();
+            }
+        }
+    } = 100;
+
+    public bool PixelPaintPaintWhite
+    {
+        get; set {
+            if (SetAndNotify(ref field, value))
+            {
+                ReconvertPixelPaint();
+            }
+        }
+    }
+
+    public void PixelPaintPickImage()
+    {
+        if (PixelPaintParametersLocked)
+        {
+            return;
+        }
+
+        var dialog = new Microsoft.Win32.OpenFileDialog {
+            Filter = "Image|*.png;*.jpg;*.jpeg;*.bmp;*.webp;*.gif|All|*.*",
+            CheckFileExists = true,
+            Multiselect = false,
+        };
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        LoadPixelPaintImage(dialog.FileName);
+    }
+
+    public void PixelPaintDrop(object sender, DragEventArgs e)
+    {
+        if (PixelPaintParametersLocked || e.Data == null)
+        {
+            return;
+        }
+
+        if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+        {
+            return;
+        }
+
+        if (e.Data.GetData(DataFormats.FileDrop) is not string[] files || files.Length == 0)
+        {
+            return;
+        }
+
+        LoadPixelPaintImage(files[0]);
+    }
+
+    public void PixelPaintDragOver(object sender, DragEventArgs e)
+    {
+        e.Effects = (!PixelPaintParametersLocked && e.Data?.GetDataPresent(DataFormats.FileDrop) == true)
+            ? DragDropEffects.Copy
+            : DragDropEffects.None;
+        e.Handled = true;
+    }
+
+    public void PixelPaintPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (PixelPaintParametersLocked || _pixelPaintSourceImage == null)
+        {
+            return;
+        }
+
+        // 滚轮缩放取景：向上放大（缩小 view），向下缩小（放大 view）
+        var factor = e.Delta > 0 ? 0.9 : 1.0 / 0.9;
+        var cx = _pixelPaintView.X + (_pixelPaintView.Width / 2);
+        var cy = _pixelPaintView.Y + (_pixelPaintView.Height / 2);
+        var nw = Math.Clamp(_pixelPaintView.Width * factor, 0.05, 1.0);
+        var nh = Math.Clamp(_pixelPaintView.Height * factor, 0.05, 1.0);
+        var nx = Math.Clamp(cx - (nw / 2), 0, 1 - nw);
+        var ny = Math.Clamp(cy - (nh / 2), 0, 1 - nh);
+        _pixelPaintView = new System.Windows.Rect(nx, ny, nw, nh);
+        ReconvertPixelPaint();
+        e.Handled = true;
+    }
+
+    public void PixelPaintPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (PixelPaintParametersLocked || _pixelPaintSourceImage == null)
+        {
+            return;
+        }
+
+        if (sender is not IInputElement el)
+        {
+            return;
+        }
+
+        _pixelPaintDragStart = e.GetPosition(el);
+        _pixelPaintDragOriginView = _pixelPaintView;
+        el.CaptureMouse();
+        e.Handled = true;
+    }
+
+    public void PixelPaintPreviewMouseMove(object sender, MouseEventArgs e)
+    {
+        if (_pixelPaintDragStart is null || PixelPaintParametersLocked)
+        {
+            return;
+        }
+
+        if (sender is not FrameworkElement el)
+        {
+            return;
+        }
+
+        var pos = e.GetPosition(el);
+        var dx = (pos.X - _pixelPaintDragStart.Value.X) / Math.Max(1.0, el.ActualWidth);
+        var dy = (pos.Y - _pixelPaintDragStart.Value.Y) / Math.Max(1.0, el.ActualHeight);
+
+        // 拖图像：鼠标右移时内容左移（view.X 减小）
+        var nx = Math.Clamp(_pixelPaintDragOriginView.X - (dx * _pixelPaintDragOriginView.Width), 0, 1 - _pixelPaintDragOriginView.Width);
+        var ny = Math.Clamp(_pixelPaintDragOriginView.Y - (dy * _pixelPaintDragOriginView.Height), 0, 1 - _pixelPaintDragOriginView.Height);
+        _pixelPaintView = new System.Windows.Rect(nx, ny, _pixelPaintDragOriginView.Width, _pixelPaintDragOriginView.Height);
+        ReconvertPixelPaint();
+        e.Handled = true;
+    }
+
+    public void PixelPaintPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is IInputElement el && el.IsMouseCaptured)
+        {
+            el.ReleaseMouseCapture();
+        }
+
+        _pixelPaintDragStart = null;
+        e.Handled = true;
+    }
+
+    public void PixelPaintResetView()
+    {
+        if (PixelPaintParametersLocked)
+        {
+            return;
+        }
+
+        _pixelPaintView = new System.Windows.Rect(0, 0, 1, 1);
+        ReconvertPixelPaint();
+    }
+
+    public void PixelPaintResetParameters()
+    {
+        if (PixelPaintParametersLocked)
+        {
+            return;
+        }
+
+        _pixelPaintView = new System.Windows.Rect(0, 0, 1, 1);
+        PixelPaintFitMode = "Crop";
+        PixelPaintDitherMode = "FloydSteinberg";
+        PixelPaintContrast = 100;
+        PixelPaintBrightness = 100;
+        PixelPaintSaturation = 100;
+        PixelPaintPaintWhite = false;
+        ReconvertPixelPaint();
+    }
+
+    private void LoadPixelPaintImage(string path)
+    {
+        try
+        {
+            var bmp = new BitmapImage();
+            bmp.BeginInit();
+            bmp.CacheOption = BitmapCacheOption.OnLoad;
+            bmp.UriSource = new Uri(path);
+            bmp.EndInit();
+            bmp.Freeze();
+
+            _pixelPaintSourceImage = bmp;
+            _pixelPaintPrepared = PixelPaintHelper.Prepare(bmp, trimEmptyBorder: true);
+            _pixelPaintView = new System.Windows.Rect(0, 0, 1, 1);
+            ReconvertPixelPaint();
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Load pixel paint image failed: {Path}", path);
+            PixelPaintStatusText = LocalizationHelper.GetString("MiniGame@PixelPaint@LoadFailed");
+        }
+    }
+
+    private void ReconvertPixelPaint()
+    {
+        if (PixelPaintParametersLocked || _pixelPaintSourceImage == null)
+        {
+            return;
+        }
+
+        try
+        {
+            var fit = PixelPaintFitMode switch {
+                "Contain" => PixelPaintHelper.FitMode.Contain,
+                "Stretch" => PixelPaintHelper.FitMode.Stretch,
+                _ => PixelPaintHelper.FitMode.Crop,
+            };
+            var dither = PixelPaintDitherMode switch {
+                "None" => PixelPaintHelper.DitherMode.None,
+                "Atkinson" => PixelPaintHelper.DitherMode.Atkinson,
+                _ => PixelPaintHelper.DitherMode.FloydSteinberg,
+            };
+
+            var options = new PixelPaintHelper.ConvertOptions {
+                Fit = fit,
+                Dither = dither,
+                ContrastPercent = PixelPaintContrast,
+                BrightnessPercent = PixelPaintBrightness,
+                SaturationPercent = PixelPaintSaturation,
+                ContentViewNormalized = _pixelPaintView,
+                TrimEmptyBorder = true,
+            };
+
+            if (_pixelPaintPrepared == null)
+            {
+                return;
+            }
+
+            var result = PixelPaintHelper.Convert(_pixelPaintPrepared, options, skipWhite: !PixelPaintPaintWhite);
+            _pixelPaintResult = result;
+            PixelPaintPreview = result.Preview;
+            PixelPaintStatusText = string.Format(
+                LocalizationHelper.GetString("MiniGame@PixelPaint@ReadyStatus"),
+                result.PaintedCellCount,
+                result.Groups.Count);
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Pixel paint convert failed");
+            _pixelPaintResult = null;
+            PixelPaintPreview = null;
+            PixelPaintStatusText = LocalizationHelper.GetString("MiniGame@PixelPaint@ConvertFailed");
+        }
+    }
+
+    #endregion
+
     public void StartMiniGame()
     {
         _ = StartMiniGameAsync();
@@ -2423,28 +2772,60 @@ public class ToolboxViewModel : Screen
             return;
         }
 
+        var isPixelPaint = IsPixelPaintSelected;
+        if (isPixelPaint && (_pixelPaintResult == null || _pixelPaintResult.Groups.Count == 0))
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MiniGame@PixelPaint@NeedImage"), UiLogColor.Warning);
+            return;
+        }
+
         Instances.TaskQueueViewModel.ClearLog();
 
         _runningState.SetIdle(false);
+        if (isPixelPaint)
+        {
+            PixelPaintParametersLocked = true;
+        }
 
         string errMsg = string.Empty;
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
         {
             _runningState.SetIdle(true);
+            PixelPaintParametersLocked = false;
             return;
         }
 
         if (_runningState.GetStopping())
         {
             Instances.TaskQueueViewModel.SetStopped();
+            PixelPaintParametersLocked = false;
             return;
         }
 
-        caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
+        if (isPixelPaint)
+        {
+            var groups = _pixelPaintResult!.Groups;
+            caught = Instances.AsstProxy.AsstPixelPaint(groups);
+            if (caught)
+            {
+                Instances.TaskQueueViewModel.AddLog(
+                    string.Format(
+                        LocalizationHelper.GetString("MiniGame@PixelPaint@StartLog"),
+                        groups.Sum(g => g.Points.Count),
+                        groups.Count),
+                    UiLogColor.Info);
+            }
+        }
+        else
+        {
+            caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
+        }
+
         if (!caught)
         {
             _runningState.SetIdle(true);
+            PixelPaintParametersLocked = false;
         }
         else
         {

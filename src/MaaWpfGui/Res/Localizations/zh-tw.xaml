@@ -1092,6 +1092,32 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">詭影迷蹤</system:String>
     <system:String x:Key="MiniGame@SecretFront">隱秘戰線</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內 ｢繼承上一支隊伍發回的資料｣ 。</system:String>
+    <system:String x:Key="MiniGame@PixelPaint">像素畫自動填色</system:String>
+    <system:String x:Key="MiniGame@PixelPaintTip">請先手動進入遊戲內 24×24 像素畫編輯頁，再開始。&#10;中間預覽可拖移/滾輪取景；預設跳過白色。&#10;開始後參數鎖定，進度見右側日誌。</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DropHint">拖入圖片或點下方選圖</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PickImage">選擇圖片</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetView">重置取景</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetParams">重置參數</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Fit">適配</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitCrop">裁切鋪滿</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitContain">完整裝入</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitStretch">拉伸</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Dither">抖動</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">無</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Contrast">對比度</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Brightness">亮度</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Saturation">飽和度</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PaintWhite">也畫白色</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@LoadFailed">圖片載入失敗</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ConvertFailed">轉換失敗</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ReadyStatus">可畫 {0} 格 / {1} 色</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@NeedImage">請先導入圖片並生成預覽</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@StartLog">開始像素畫：{0} 格，{1} 色</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ProgressLog">像素畫 {0}/{1}</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DoneLog">像素畫完成</system:String>
+
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">第 1 層全買。&#10;第 2 層買 ｢尋訪憑證｣ 和 ｢招聘許可｣ 。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黃票商店</system:String>
