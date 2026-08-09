@@ -3375,9 +3375,12 @@
     },
     "ClueFriendName": {
         "algorithm": "OcrDetect",
+        "Doc": "好友名 OCR；specialParams 依次为好友列表最大页数、单次任务最多赠送线索数",
         "text": [],
         "fullMatch": true,
-        "roi": [550, 60, 280, 600]
+        "roi": [550, 60, 280, 600],
+        "specialParams": [15, 20],
+        "specialParams_Doc": ["好友列表最大页数", "单次任务最多赠送线索数"]
     },
     "ClueGiveTo1st": {
         "template": "ClueCanBeSent.png",
@@ -3453,6 +3456,13 @@
             "ClueGiveToNextPage",
             "ClueGiveTo1stConfirm"
         ]
+    },
+    "ClueGiveToPreviousPage": {
+        "baseTask": "ClueGiveToNextPage",
+        "Doc": "好友列表上一页按钮；Core 会在匹配前水平翻转下一页按钮模板",
+        "template": "ClueGiveToNextPage.png",
+        "roi": [1094, 655, 50, 48],
+        "next": []
     },
     "InfrastTrainingIdle": {
         "algorithm": "OcrDetect",
