@@ -198,24 +198,60 @@ bool asst::PixelPaintTaskPlugin::draw_group(const Group& group, int& done_cells,
     ctrler()->click(*slot);
     sleep(PaletteClickDelay);
 
-    int clicked = 0;
+    // 同色同行连续格合并为线段：len=1 用点画，len>=3 用拖动画完
+    struct Segment
+    {
+        Point start;
+        Point end;
+        int len = 0;
+    };
+    std::vector<Segment> segments;
     for (const auto& p : group.points) {
+        if (!segments.empty() && segments.back().end.y == p.y && segments.back().end.x + 1 == p.x) {
+            segments.back().end = p;
+            ++segments.back().len;
+        }
+        else {
+            segments.push_back(Segment { p, p, 1 });
+        }
+    }
+
+    int checked_at = 0; // 上次识别时的已画格数
+    for (const auto& seg : segments) {
         if (need_exit()) {
             Log.info("PixelPaint | stopped by exit request");
             return false;
         }
 
-        const auto pos = grid_center(p.x, p.y);
-        if (!pos) {
+        const auto start = grid_center(seg.start.x, seg.start.y);
+        const auto end = grid_center(seg.end.x, seg.end.y);
+        if (!start || !end) {
             return false;
         }
-        click_grid(*pos);
-        ++clicked;
-        ++done_cells;
 
-        // 每 CheckEveryGridClicks 次点格做一次识别，防跑飞后继续乱点。
+        if (seg.len < MinSwipeSegmentLen) {
+            // 短线段逐格点
+            for (int x = seg.start.x; x <= seg.end.x; ++x) {
+                const auto pos = grid_center(x, seg.start.y);
+                if (!pos) {
+                    return false;
+                }
+                click_grid(*pos);
+            }
+        }
+        else {
+            ctrler()->swipe(*start, *end, static_cast<int>(seg.len * SwipeMsPerCell));
+            sleep(50);
+            // 终点格可能漏画，补点一次
+            click_grid(*end);
+        }
+        done_cells += seg.len;
+
+        // 每画满 CheckEveryGridClicks 格识别一次，防跑飞后继续乱点。
+        // 拖动一次跨多格，按累计格数而非操作次数判断。
         // 最后一组恰好整倍时由循环后的 report 统一收尾，避免「完成」打两遍。
-        if (clicked % CheckEveryGridClicks == 0 && done_cells < total_cells) {
+        if (done_cells - checked_at >= CheckEveryGridClicks && done_cells < total_cells) {
+            checked_at = done_cells;
             report_progress(done_cells, total_cells, group.color);
             if (!in_editor_page()) {
                 Log.error("PixelPaint | left editor page while painting color", group.color);

@@ -61,6 +61,12 @@ private:
     inline static constexpr unsigned GridClickDelay = 0;
     inline static constexpr unsigned PaletteClickDelay = 50;
 
+    // 同色同行连续格用拖动绘制，每格滑动时长（ms）
+    inline static constexpr unsigned SwipeMsPerCell = 20;
+
+    // 超过该长度的线段才用拖动（短线段逐格点更快更稳）
+    inline static constexpr int MinSwipeSegmentLen = 3;
+
     // 每 N 次点格做一次识别
     inline static constexpr int CheckEveryGridClicks = 10;
 };
