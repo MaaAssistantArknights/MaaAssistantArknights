@@ -41,9 +41,6 @@ bool asst::CustomTask::set_params(const json::value& params)
         else if (parse_and_register_pixel_paint(task_name, params)) {
             Log.info("Parsed and registered PixelPaint task: ", task_name);
         }
-        else {
-            resolved_task = task_name;
-        }
 
         if (Task.get(resolved_task) == nullptr) {
             Log.error("set_params failed, task not found: ", resolved_task);
@@ -59,8 +56,8 @@ bool asst::CustomTask::set_params(const json::value& params)
 
 bool asst::CustomTask::parse_and_register_pixel_paint(const std::string& task_name, const json::value& params)
 {
-    // 仅当任务名确实是像素画入口时才解析
-    if (task_name != "MiniGame@PixelPaint" && task_name != "MiniGame@PixelPaint@Begin") {
+    // 仅当任务名确实是像素画入口时才解析（资源只定义了 @Begin）
+    if (task_name != "MiniGame@PixelPaint@Begin") {
         return false;
     }
 
@@ -85,13 +82,26 @@ bool asst::CustomTask::parse_and_register_pixel_paint(const std::string& task_na
     for (const auto& g : *groups_opt) {
         PixelPaintTaskPlugin::Group group;
         group.color = g.get("color", 0);
+        if (group.color < 0 || group.color >= PixelPaintTaskPlugin::Group::PaletteSize) {
+            Log.error("set_params failed, pixel paint color out of range:", group.color);
+            continue;
+        }
         if (auto points_opt = g.find<json::array>("points"); points_opt) {
             for (const auto& p : *points_opt) {
-                auto arr = p.as_array();
-                if (arr.size() < 2) {
+                // 畸形点直接丢弃，避免 as_array 抛异常穿过 C ABI
+                if (!p.is_array()) {
                     continue;
                 }
-                group.points.emplace_back(arr[0].as_integer(), arr[1].as_integer());
+                auto arr = p.as_array();
+                if (arr.size() < 2 || !arr[0].is_number() || !arr[1].is_number()) {
+                    continue;
+                }
+                const int x = arr[0].as_integer();
+                const int y = arr[1].as_integer();
+                if (x < 0 || x >= PixelPaintTaskPlugin::Group::GridSize || y < 0 || y >= PixelPaintTaskPlugin::Group::GridSize) {
+                    continue;
+                }
+                group.points.emplace_back(x, y);
             }
         }
         if (!group.points.empty()) {

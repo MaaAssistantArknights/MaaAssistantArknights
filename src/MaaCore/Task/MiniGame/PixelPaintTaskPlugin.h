@@ -4,6 +4,7 @@
 
 #include "Common/AsstTypes.h"
 
+#include <optional>
 #include <vector>
 
 namespace asst
@@ -18,6 +19,9 @@ public:
 
     struct Group
     {
+        inline static constexpr int GridSize = 24;
+        inline static constexpr int PaletteSize = 40;
+
         int color = 0; // 0~39，与游戏色板顺序一致
         std::vector<Point> points; // 格坐标，x/y ∈ 0..23
     };
@@ -36,11 +40,11 @@ private:
     // 滚动色板到顶/底（两端锚定），返回是否成功
     bool scroll_palette(bool to_bottom) const;
 
-    // 色号 → 色板槽位 720p 坐标
-    Point palette_slot_pos(int color) const;
+    // 色号 → 色板槽位 720p 坐标；任务缺失返回空
+    std::optional<Point> palette_slot_pos(int color) const;
 
-    // 格坐标 → 画布格心 720p 坐标
-    Point grid_center(int x, int y) const;
+    // 格坐标 → 画布格心 720p 坐标；任务缺失返回空
+    std::optional<Point> grid_center(int x, int y) const;
 
     // 点一个格子并等待
     void click_grid(const Point& pos) const;
@@ -58,6 +62,6 @@ private:
     inline static constexpr unsigned PaletteClickDelay = 50;
 
     // 每 N 次点格做一次识别
-    inline static constexpr int CheckEveryGridClicks = 5;
+    inline static constexpr int CheckEveryGridClicks = 10;
 };
 } // namespace asst

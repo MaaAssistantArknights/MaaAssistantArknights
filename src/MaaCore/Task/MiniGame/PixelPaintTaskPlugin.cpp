@@ -5,6 +5,8 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
+#include <cmath>
+
 bool asst::PixelPaintTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
@@ -12,7 +14,7 @@ bool asst::PixelPaintTaskPlugin::verify(AsstMsg msg, const json::value& details)
     }
 
     const std::string& task = details.get("details", "task", "");
-    return task == "MiniGame@PixelPaint@Begin";
+    return task.ends_with("MiniGame@PixelPaint@Begin");
 }
 
 void asst::PixelPaintTaskPlugin::set_groups(std::vector<Group> groups)
@@ -85,10 +87,9 @@ bool asst::PixelPaintTaskPlugin::_run()
 
 bool asst::PixelPaintTaskPlugin::in_editor_page() const
 {
-    // 开发期未配模板时跳过识别
     if (Task.get("MiniGame@PixelPaint@EditorCheck") == nullptr) {
-        Log.info("PixelPaint | EditorCheck not configured, skip recognition");
-        return true;
+        Log.error("PixelPaint | EditorCheck not configured");
+        return false;
     }
 
     auto ret = ProcessTask(*this, { "MiniGame@PixelPaint@EditorCheck" })
@@ -124,7 +125,7 @@ bool asst::PixelPaintTaskPlugin::scroll_palette(bool to_bottom) const
     return true;
 }
 
-asst::Point asst::PixelPaintTaskPlugin::palette_slot_pos(int color) const
+std::optional<asst::Point> asst::PixelPaintTaskPlugin::palette_slot_pos(int color) const
 {
     static const std::string top_task = "MiniGame@PixelPaint@PaletteTop";
     static const std::string bottom_task = "MiniGame@PixelPaint@PaletteBottom";
@@ -133,21 +134,36 @@ asst::Point asst::PixelPaintTaskPlugin::palette_slot_pos(int color) const
     const int col = color % 4;
 
     if (color < 24) {
-        auto params = Task.get(top_task)->special_params;
+        auto task = Task.get(top_task);
+        if (task == nullptr) {
+            Log.error("PixelPaint | task not found:", top_task);
+            return std::nullopt;
+        }
+        auto params = task->special_params;
         // [x0,x1,x2,x3, y0..y5]
-        return { params[col], params[4 + row] };
+        return asst::Point { params[col], params[4 + row] };
     }
 
-    auto params = Task.get(bottom_task)->special_params;
+    auto task = Task.get(bottom_task);
+    if (task == nullptr) {
+        Log.error("PixelPaint | task not found:", bottom_task);
+        return std::nullopt;
+    }
+    auto params = task->special_params;
     // [x0..x3, y0..y5, bottom_first_global_row]
     const int first_global_row = params[10];
     const int visible_row = row - first_global_row;
-    return { params[col], params[4 + visible_row] };
+    return asst::Point { params[col], params[4 + visible_row] };
 }
 
-asst::Point asst::PixelPaintTaskPlugin::grid_center(int x, int y) const
+std::optional<asst::Point> asst::PixelPaintTaskPlugin::grid_center(int x, int y) const
 {
-    auto params = Task.get("MiniGame@PixelPaint@Grid")->special_params;
+    auto task = Task.get("MiniGame@PixelPaint@Grid");
+    if (task == nullptr) {
+        Log.error("PixelPaint | task not found: MiniGame@PixelPaint@Grid");
+        return std::nullopt;
+    }
+    auto params = task->special_params;
     // [left, top, right, bottom]
     const int left = params[0];
     const int top = params[1];
@@ -157,7 +173,7 @@ asst::Point asst::PixelPaintTaskPlugin::grid_center(int x, int y) const
     constexpr int GridSize = 24;
     const double cell_w = static_cast<double>(right - left) / GridSize;
     const double cell_h = static_cast<double>(bottom - top) / GridSize;
-    return {
+    return asst::Point {
         static_cast<int>(std::llround(left + (x + 0.5) * cell_w)),
         static_cast<int>(std::llround(top + (y + 0.5) * cell_h)),
     };
@@ -175,7 +191,11 @@ bool asst::PixelPaintTaskPlugin::draw_group(const Group& group, int& done_cells,
 
     // 点色板选色
     const auto slot = palette_slot_pos(group.color);
-    ctrler()->click(slot);
+    if (!slot) {
+        Log.error("PixelPaint | failed to resolve palette slot for color", group.color);
+        return false;
+    }
+    ctrler()->click(*slot);
     sleep(PaletteClickDelay);
 
     int clicked = 0;
@@ -185,12 +205,17 @@ bool asst::PixelPaintTaskPlugin::draw_group(const Group& group, int& done_cells,
             return false;
         }
 
-        click_grid(grid_center(p.x, p.y));
+        const auto pos = grid_center(p.x, p.y);
+        if (!pos) {
+            return false;
+        }
+        click_grid(*pos);
         ++clicked;
         ++done_cells;
 
-        // 每 CheckEveryGridClicks 次点格做一次识别，防跑飞后继续乱点
-        if (clicked % CheckEveryGridClicks == 0) {
+        // 每 CheckEveryGridClicks 次点格做一次识别，防跑飞后继续乱点。
+        // 最后一组恰好整倍时由循环后的 report 统一收尾，避免「完成」打两遍。
+        if (clicked % CheckEveryGridClicks == 0 && done_cells < total_cells) {
             report_progress(done_cells, total_cells, group.color);
             if (!in_editor_page()) {
                 Log.error("PixelPaint | left editor page while painting color", group.color);
