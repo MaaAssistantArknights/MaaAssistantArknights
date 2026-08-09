@@ -929,14 +929,15 @@ const blackflow::PolicyProfile* BlackFlowStrategyConfig::get_profile(const std::
     return found == m_profiles.end() ? nullptr : &found->second;
 }
 
-std::unordered_set<std::string> BlackFlowStrategyConfig::page_intents() const
+std::vector<BlackFlowStrategyConfig::PageIntentWindow> BlackFlowStrategyConfig::page_intent_windows() const
 {
-    std::unordered_set<std::string> result;
+    std::vector<PageIntentWindow> result;
     for (const auto& [id, module] : m_modules) {
         (void)id;
         for (const auto& milestone : module.milestones) {
             if (!milestone.page_intent.empty()) {
-                result.emplace(milestone.page_intent);
+                result.emplace_back(
+                    PageIntentWindow { milestone.page_intent, milestone.floor_begin, milestone.floor_end });
             }
         }
     }

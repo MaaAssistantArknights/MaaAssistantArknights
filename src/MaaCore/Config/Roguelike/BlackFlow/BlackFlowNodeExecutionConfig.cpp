@@ -499,9 +499,18 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
     if (routes.empty()) {
         invalid_config("routes must not be empty");
     }
-    for (const std::string& intent : BlackFlowStrategy.page_intents()) {
-        if (std::ranges::none_of(routes, [&](const auto& route) { return route.page_intent == intent; })) {
-            invalid_config("strategy page_intent has no execution route: " + intent);
+    // 里程碑的层段与路由的层段是两份配置，只能在这里对齐。里程碑在某一层活跃却没有覆盖该层的
+    // 路由时，走到节点就无从分派，本局会以节点分派失败结束，因此逐层校验而不只看意图是否存在。
+    for (const auto& window : BlackFlowStrategy.page_intent_windows()) {
+        for (int floor = window.floor_begin; floor <= window.floor_end; ++floor) {
+            const bool covered = std::ranges::any_of(routes, [&](const auto& route) {
+                return route.page_intent == window.intent && floor >= route.floor_begin && floor <= route.floor_end;
+            });
+            if (!covered) {
+                invalid_config(
+                    "strategy page_intent has no execution route on floor " + std::to_string(floor) + ": " +
+                    window.intent);
+            }
         }
     }
     std::ranges::stable_sort(routes, [](const auto& left, const auto& right) {

@@ -39,7 +39,16 @@ public:
 
     [[nodiscard]] int schema_version() const noexcept { return m_schema_version; }
 
-    [[nodiscard]] std::unordered_set<std::string> page_intents() const;
+    // 一条里程碑声明的页面意图及其生效层段。层段同时写在 node_execution.json 的路由里，
+    // 两份必须对齐，交叉校验取用此处。
+    struct PageIntentWindow
+    {
+        std::string intent;
+        int floor_begin = 1;
+        int floor_end = 1;
+    };
+
+    [[nodiscard]] std::vector<PageIntentWindow> page_intent_windows() const;
 
     bool parse_for_test(const json::value& json, std::string* error = nullptr);
 
