@@ -14,6 +14,10 @@
 namespace asst
 {
 
+// 与 Minitoucher::DefaultClickDelay 对齐：按下与抬起各等待一次。
+// 抬起后同样要留间隔，否则高频连点会被并成同一手势而丢点
+constexpr int ClickDelay = 50;
+
 MaaFwAndroidNativeController::MaaFwAndroidNativeController(const AsstCallback& callback, Assistant* inst) :
     InstHelper(inst),
     m_callback(callback)
@@ -209,8 +213,10 @@ bool MaaFwAndroidNativeController::click(const Point& p)
     if (!m_unit_handle->touch_down(0, p.x, p.y, 1)) {
         return false;
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    return m_unit_handle->touch_up(0);
+    std::this_thread::sleep_for(std::chrono::milliseconds(ClickDelay));
+    const bool ret = m_unit_handle->touch_up(0);
+    std::this_thread::sleep_for(std::chrono::milliseconds(ClickDelay));
+    return ret;
 }
 
 bool MaaFwAndroidNativeController::input(const std::string& text)
@@ -324,6 +330,7 @@ bool MaaFwAndroidNativeController::swipe(
     }
 
     m_unit_handle->touch_up(0);
+    std::this_thread::sleep_for(std::chrono::milliseconds(ClickDelay));
     return true;
 }
 
