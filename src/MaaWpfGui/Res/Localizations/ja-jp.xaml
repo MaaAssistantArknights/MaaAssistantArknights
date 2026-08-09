@@ -1092,6 +1092,32 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">揺蕩う影</system:String>
     <system:String x:Key="MiniGame@SecretFront">隠密戦線</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">小隊選択画面で開始します。セーブデータがある場合は手動で削除する必要があります。ゲーム内の ｢前の小隊からのデータを引き継ぐ｣ にチェックすることを推奨します。</system:String>
+    <system:String x:Key="MiniGame@PixelPaint">ピクセル画自動描画</system:String>
+    <system:String x:Key="MiniGame@PixelPaintTip">ゲーム内の 24×24 ピクセル画編集ページに手動で入ってから開始してください。&#10;プレビューはドラッグ/ホイールで構図調整。デフォルトで白はスキップ。&#10;開始後はパラメータ固定。進捗は右のログ参照。</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DropHint">画像をドロップ、または下のボタンで選択</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PickImage">画像を選択</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetView">構図をリセット</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetParams">パラメータをリセット</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Fit">フィット</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitCrop">クロップ</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitContain">全体表示</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitStretch">ストレッチ</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Dither">ディザ</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">なし</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Contrast">コントラスト</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Brightness">明るさ</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Saturation">彩度</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PaintWhite">白も描く</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@LoadFailed">画像の読み込みに失敗</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ConvertFailed">変換に失敗</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ReadyStatus">描画可能 {0} マス / {1} 色</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@NeedImage">先に画像を読み込んでプレビューを生成してください</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@StartLog">ピクセル画を開始：{0} マス、{1} 色</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ProgressLog">ピクセル画 {0}/{1}</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DoneLog">ピクセル画完了</system:String>
+
     <system:String x:Key="MiniGameNameGreenTicketStore">緑チケット商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1階は全部購入。&#10;2階はスカウト券と求人票を購入のみ。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黄チケット商店</system:String>

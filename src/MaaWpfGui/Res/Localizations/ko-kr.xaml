@@ -1093,6 +1093,32 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">수상한 그림자</system:String>
     <system:String x:Key="MiniGame@SecretFront">비밀 전선</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내  ｢이전 소대의 데이터 전승받기｣  옵션을 체크하는 것을 권장합니다.</system:String>
+    <system:String x:Key="MiniGame@PixelPaint">픽셀 아트 자동 그리기</system:String>
+    <system:String x:Key="MiniGame@PixelPaintTip">게임 내 24×24 픽셀 아트 편집 페이지에 직접 들어간 뒤 시작하세요.&#10;미리보기는 드래그/휠로 구도 조정. 기본적으로 흰색은 건너뜀.&#10;시작 후 파라미터는 고정. 진행 상황은 오른쪽 로그 참조.</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DropHint">이미지를 드래그하거나 아래 버튼으로 선택</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PickImage">이미지 선택</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetView">구도 초기화</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetParams">파라미터 초기화</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Fit">맞춤</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitCrop">크롭</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitContain">전체 표시</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitStretch">늘리기</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Dither">디더링</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">없음</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Contrast">대비</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Brightness">밝기</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Saturation">채도</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PaintWhite">흰색도 그리기</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@LoadFailed">이미지 로드 실패</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ConvertFailed">변환 실패</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ReadyStatus">그릴 수 있음 {0}칸 / {1}색</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@NeedImage">먼저 이미지를 불러와 미리보기를 생성하세요</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@StartLog">픽셀 아트 시작: {0}칸, {1}색</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ProgressLog">픽셀 아트 {0}/{1}</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DoneLog">픽셀 아트 완료</system:String>
+
     <system:String x:Key="MiniGameNameGreenTicketStore">자격증명서 상점</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1단계는 전부 구매하고&#10;2단계는 헤드헌팅 허가증과 모집 허가증을 구매해요</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">고급증명서 상점</system:String>
