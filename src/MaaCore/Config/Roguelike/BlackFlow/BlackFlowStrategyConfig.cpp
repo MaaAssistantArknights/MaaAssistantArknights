@@ -693,7 +693,23 @@ PolicyProfile parse_profile(const json::value& value)
         }
     }
     result.failure_action = value.get("failure_action", std::string("stop_run"));
-    result.no_AP_is_terminal = value.get("no_AP_is_terminal", false);
+    if (value.contains("no_AP_is_terminal")) {
+        const json::value& exhaustion = value.at("no_AP_is_terminal");
+        check_keys(exhaustion, { "floors" }, { "floors" }, "profile no_AP_is_terminal");
+        if (!exhaustion.at("floors").is_array()) {
+            invalid_config("profile no_AP_is_terminal floors must be an array");
+        }
+        for (const auto& floor : exhaustion.at("floors").as_array()) {
+            if (!floor.is_number()) {
+                invalid_config("profile no_AP_is_terminal floors must contain integers");
+            }
+            const int value_floor = floor.as_integer();
+            if (value_floor < 1) {
+                invalid_config("profile no_AP_is_terminal floor must be positive");
+            }
+            result.no_AP_is_terminal_floors.emplace(value_floor);
+        }
+    }
     if (result.id.empty() || result.modules.empty() || result.failure_action.empty()) {
         invalid_config("profile id, module list, and failure action must be present");
     }
@@ -943,7 +959,7 @@ std::optional<blackflow::ResolvedPolicy>
     result.modules = profile->modules;
     result.terminal_rules = profile->terminal_rules;
     result.failure_action = profile->failure_action;
-    result.no_AP_is_terminal = profile->no_AP_is_terminal;
+    result.no_AP_is_terminal_floors = profile->no_AP_is_terminal_floors;
 
     std::unordered_set<std::string> rule_ids;
     std::unordered_set<std::string> reserve_ids;
@@ -990,7 +1006,7 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
         { "schema_version", "resources", "facts", "modules", "profiles" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
-    if (schema_version != 9) {
+    if (schema_version != 10) {
         invalid_config("unsupported schema_version: " + std::to_string(schema_version));
     }
     for (const auto key : { "resources", "facts", "modules", "profiles" }) {

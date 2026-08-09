@@ -475,6 +475,10 @@ private:
         const int first_budget = std::max(action.minimum_action_points_to_start, action.action_point_cost);
         // 下面的扫描在预算不足时一次都不进循环，因而「付不起」与「不可达」共用同一个返回值，
         // 调用方只检查这一个。短路必须保持同一约定，否则付不起的动作会被当成可行。
+        //
+        // 这条短路同时跳过了对全部结果的遍历，随机落点的动作（目前只有 M07 小八界）因此
+        // 不再按最坏落点定价。襁褓动物在最后一层可以接受——落到哪里都算收工，而 M07 本层
+        // 不用就作废。换到「走不出去有代价」的层或策略上复用时，这一条必须重新评估。
         if (m_graph.exhaustion_terminates()) {
             return first_budget <= maximum_action_points ? first_budget : UnreachableActionPointRequirement;
         }

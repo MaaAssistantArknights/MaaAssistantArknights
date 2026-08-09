@@ -1370,7 +1370,7 @@ BlackFlowPlan BlackFlowSession::plan(std::string* error)
         request.strategy_terminal_nodes = goals.terminal_nodes;
         request.binding_milestone_candidates = goals.binding_candidates;
         request.undemotable_binding_count = goals.undemotable_count;
-        request.no_AP_is_terminal = m_policy->no_AP_is_terminal;
+        request.no_AP_is_terminal = m_policy->no_AP_is_terminal_floors.contains(m_run.floor);
         request.forbidden_actions = &m_unreachable_actions;
         request.probe_target = m_pending_probe_target;
         result = BlackFlowPlanner {}.plan(request);
@@ -1656,7 +1656,7 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
             std::ranges::sort(request.binding_milestone_candidates);
         }
         request.undemotable_binding_count = request.binding_milestone_candidates.size();
-        request.no_AP_is_terminal = m_policy->no_AP_is_terminal;
+        request.no_AP_is_terminal = m_policy->no_AP_is_terminal_floors.contains(m_run.floor);
         request.forbidden_actions = &m_unreachable_actions;
         const PreviewSafetyVerification verification =
             BlackFlowPlanner {}.verify_previewed_move(request, proposal, preview.exact_action_point_cost);

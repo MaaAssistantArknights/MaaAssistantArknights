@@ -311,9 +311,12 @@ struct PolicyProfile
     std::vector<std::string> modules;
     std::vector<StrategyTerminalRule> terminal_rules;
     std::string failure_action = "stop_run";
-    // 走出本层与耗尽行动力结局相同的策略打开它。打开后，没有锁定目标的那几轮不再为出口
-    // 预留行动力，路线一直走到付不起下一步为止。一结局这类必须抵达终点的策略不能打开。
-    bool no_AP_is_terminal = false;
+    // 走出本层与耗尽行动力结局相同的层。这些层没有锁定目标的那几轮不再为出口预留行动力，
+    // 路线一直走到付不起下一步为止。
+    //
+    // 按层声明而非整体开关：策略可能只在部分层这样收工，例如只打第二、四层的追猎，
+    // 区间表达不了这种层集合。必须抵达终点的层一律不要列进来。
+    std::unordered_set<int> no_AP_is_terminal_floors;
 };
 
 struct ResolvedPolicy
@@ -328,9 +331,12 @@ struct ResolvedPolicy
     std::vector<GrantedScrap> granted_scraps;
     std::vector<StrategyTerminalRule> terminal_rules;
     std::string failure_action = "stop_run";
-    // 走出本层与耗尽行动力结局相同的策略打开它。打开后，没有锁定目标的那几轮不再为出口
-    // 预留行动力，路线一直走到付不起下一步为止。一结局这类必须抵达终点的策略不能打开。
-    bool no_AP_is_terminal = false;
+    // 走出本层与耗尽行动力结局相同的层。这些层没有锁定目标的那几轮不再为出口预留行动力，
+    // 路线一直走到付不起下一步为止。
+    //
+    // 按层声明而非整体开关：策略可能只在部分层这样收工，例如只打第二、四层的追猎，
+    // 区间表达不了这种层集合。必须抵达终点的层一律不要列进来。
+    std::unordered_set<int> no_AP_is_terminal_floors;
 };
 
 class ResourceRegistry

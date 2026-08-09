@@ -1,5 +1,5 @@
 {
-    "schema_version": 9,
+    "schema_version": 10,
     "resources": [
         {
             "id": "action_points",
@@ -1614,7 +1614,9 @@
                 }
             ],
             "failure_action": "restart_current_run",
-            "no_AP_is_terminal": true
+            "no_AP_is_terminal": {
+                "floors": [3]
+            }
         },
         {
             "id": "ending2",
