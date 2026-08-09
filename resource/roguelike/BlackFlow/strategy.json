@@ -1232,7 +1232,7 @@
                 },
                 {
                     "id": "baby_cultivate_scrap_shop",
-                    "floor_window": [2, 3],
+                    "floor_window": [1, 3],
                     "rank": 0,
                     "active_if": {
                         "any": [

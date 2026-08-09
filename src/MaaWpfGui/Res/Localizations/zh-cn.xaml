@@ -1399,7 +1399,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowMilestoneBurnFloor2Final">第二层抵达险路尽头</system:String>
     <system:String x:Key="BlackFlowMilestoneBurnFloor3Bosky">第三层进入误入奇境</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCheckSeedShop">第一层检查商店中的种子</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">第二、三层进入秘境行商培育种子</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">第一至三层进入秘境行商培育种子</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">第二层经过普通商店时继续获取种子</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">第三层经过普通商店时卖货、刷新并尽量购买种子</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">获得沙盘 A</system:String>

@@ -124,7 +124,7 @@
         {
             "id": "cultivate_scrap_shop",
             "page_intent": "scrap_shop.cultivate",
-            "floor_window": [2, 3],
+            "floor_window": [1, 3],
             "node_types": ["scrap_shop"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
