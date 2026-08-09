@@ -997,6 +997,11 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field name="task_names" type="array<string>" required  
 执行数组中第一个匹配上的任务（及后续 next 等）。若想执行多个任务，可多次 append Custom task。  
+支持秘密前线（`MiniGame@SecretFront`）拼接形式：`MiniGame@SecretFront@Begin@Ending[A-E](@事件名)?`，事件名可选（支援作战平台 / 游侠 / 诡影迷踪），例如 `MiniGame@SecretFront@Begin@EndingA@支援作战平台`。  
+:::  
+::: field name="params" type="object" optional  
+任务附加参数。目前仅像素画任务（`MiniGame@PixelPaint` / `MiniGame@PixelPaint@Begin`）使用：  
+- `params.pixel_paint.groups`：按色分组点列。`color` 为色板序号（0~39，与游戏右侧色板顺序一致），`points` 为 `[x, y]` 格子坐标数组（0~23，左上为原点）。
 :::  
 ::::
 
@@ -1007,6 +1012,20 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 {
    "enable": true,
    "task_names": ["StartUp", "Infrast", "Fight"]
+}
+```
+
+```json
+{
+   "enable": true,
+   "task_names": ["MiniGame@PixelPaint@Begin"],
+   "params": {
+      "pixel_paint": {
+         "groups": [
+            { "color": 7, "points": [[0, 1], [3, 4]] }
+         ]
+      }
+   }
 }
 ```
 

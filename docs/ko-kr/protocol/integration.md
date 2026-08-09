@@ -987,6 +987,11 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 :::  
 ::: field name="task_names" type="array<string>" required  
 배열 중 첫 번째로 매칭된 작업(및 후속 next 등)을 실행. 여러 작업을 실행하려면 Custom task를 여러 번 append  
+시크릿 프론트(`MiniGame@SecretFront`) 연결 형식 지원: `MiniGame@SecretFront@Begin@Ending[A-E](@이벤트명)?`, 이벤트명은 생략 가능(支援作战平台 / 游侠 / 诡影迷踪), 예: `MiniGame@SecretFront@Begin@EndingA@支援作战平台`。  
+:::  
+::: field name="params" type="object" optional  
+작업 추가 파라미터. 현재는 픽셀 아트 작업(`MiniGame@PixelPaint` / `MiniGame@PixelPaint@Begin`)에서만 사용:  
+- `params.pixel_paint.groups`: 색상별 칸 좌표 목록. `color`는 팔레트 슬롯 번호(0~39, 게임 오른쪽 팔레트 순서와 동일), `points`는 `[x, y]` 칸 좌표 배열(0~23, 왼쪽 위 원점).
 :::  
 ::::
 
@@ -997,6 +1002,20 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 {
    "enable": true,
    "task_names": ["StartUp", "Infrast", "Fight"]
+}
+```
+
+```json
+{
+   "enable": true,
+   "task_names": ["MiniGame@PixelPaint@Begin"],
+   "params": {
+      "pixel_paint": {
+         "groups": [
+            { "color": 7, "points": [[0, 1], [3, 4]] }
+         ]
+      }
+   }
 }
 ```
 
