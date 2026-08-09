@@ -185,6 +185,11 @@ public class AsstRoguelikeTask : AsstBaseTask
     public RoguelikeBoskySubNodeType FindPlaytimeTarget { get; set; } = RoguelikeBoskySubNodeType.Ling;
 
     /// <summary>
+    /// Gets or sets 刷襁褓动物模式的目标品种
+    /// </summary>
+    public RoguelikeBlackFlowCultivationTarget BlackFlowCultivationTarget { get; set; } = RoguelikeBlackFlowCultivationTarget.Cat;
+
+    /// <summary>
     /// Gets or sets a value indicating whether 是否在五层BOSS前停下来
     /// </summary>
     public bool StopAtFinalBoss { get; set; }
@@ -213,6 +218,14 @@ public class AsstRoguelikeTask : AsstBaseTask
         if (Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.BlackFlowBabyAnimal)
         {
             taskParams["blackflow_strategy"] = "baby_animal";
+            taskParams["blackflow_cultivation_target"] = BlackFlowCultivationTarget switch
+            {
+                RoguelikeBlackFlowCultivationTarget.Cat => "swaddled_cat",
+                RoguelikeBlackFlowCultivationTarget.FeatheredSerpent => "swaddled_feathered_serpent",
+                RoguelikeBlackFlowCultivationTarget.Dog => "swaddled_dog",
+                RoguelikeBlackFlowCultivationTarget.Cerberus => "swaddled_cerberus",
+                _ => "swaddled_cat",
+            };
         }
 
         if (InvestmentEnabled)

@@ -41,5 +41,6 @@ private:
     mutable json::value m_pending_details;
     int m_refresh_count = 0;
     int m_cultivated_animals = 0;
+    std::vector<CultivatedAnimalType> m_cultivated_animal_types;
 };
 } // namespace asst::blackflow

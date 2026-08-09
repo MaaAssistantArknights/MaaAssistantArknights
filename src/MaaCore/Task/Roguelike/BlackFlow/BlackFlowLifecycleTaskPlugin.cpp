@@ -40,6 +40,16 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
         }
     }
     const std::string selected_profile = profile;
+    if (selected_profile == "baby_animal") {
+        const std::string target_text =
+            params.get("blackflow_cultivation_target", std::string("swaddled_cat"));
+        const auto target = parse_cultivated_animal_type(target_text);
+        if (!target.has_value()) {
+            Log.error("Invalid BlackFlow cultivation target:", target_text);
+            return false;
+        }
+        m_session->set_cultivation_target(*target);
+    }
 
     // 三项都直接读 params：分队要等真正在选择界面点中才会写回 RoguelikeConfig，此刻取不到。
     // 必须先于 initialize()，事实是在它末尾写入的。

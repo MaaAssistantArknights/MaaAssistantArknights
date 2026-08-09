@@ -4,6 +4,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_set>
 #include <vector>
 
@@ -20,6 +21,18 @@ enum class FailureDisposition
     StopTask,
 };
 
+enum class CultivatedAnimalType
+{
+    Cat,
+    FeatheredSerpent,
+    Dog,
+    Cerberus,
+};
+
+[[nodiscard]] std::string_view to_string(CultivatedAnimalType type) noexcept;
+[[nodiscard]] std::optional<CultivatedAnimalType> parse_cultivated_animal_type(std::string_view value) noexcept;
+[[nodiscard]] std::optional<CultivatedAnimalType> cultivated_animal_type_from_name(std::string_view name) noexcept;
+
 struct BlackFlowStrategyResult
 {
     std::string profile;
@@ -28,6 +41,8 @@ struct BlackFlowStrategyResult
     int cultivated_animals = 0;
     bool succeeded = false;
     std::string next_action = "stop_run";
+    std::string cultivation_target;
+    std::vector<std::string> cultivated_animal_types;
 
     [[nodiscard]] json::object to_json() const;
 };
@@ -148,6 +163,8 @@ public:
     // 开局干员、分队、职业组整局不变，策略条件靠它们判断这一局能不能拿到结构性原理。
     // 必须在 initialize() 之前设置：事实是在 initialize() 末尾写入的，reset_run() 也会再写一次。
     void set_start_loadout(std::string core_char, std::string squad, std::string roles);
+    void set_cultivation_target(CultivatedAnimalType target) noexcept { m_cultivation_target = target; }
+    void set_cultivated_animal_types(std::vector<CultivatedAnimalType> types);
 
     bool mark_page_running(std::string* error = nullptr);
     bool apply_node_task_result(
@@ -222,6 +239,8 @@ private:
     std::string m_start_core_char;
     std::string m_start_squad;
     std::string m_start_roles;
+    CultivatedAnimalType m_cultivation_target = CultivatedAnimalType::Cat;
+    std::vector<CultivatedAnimalType> m_cultivated_animal_types;
     std::optional<ResolvedPolicy> m_policy;
     FactContext m_facts;
     MissionState m_mission;

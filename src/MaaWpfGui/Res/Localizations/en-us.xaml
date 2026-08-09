@@ -214,6 +214,11 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeStrategyBlackFlowExp">Farm levels, quickly reach Floor 3</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">Farm Originium Ingots, exit after investing</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">Cultivation strategy</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTarget">Target swaddled animal</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCat">Swaddled Cat</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpent">Swaddled Feathered Serpent</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetDog">Swaddled Dog</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">Swaddled Cerberus</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">Grind to obtain Hot Water Kettle or Elite 2 {key=Operator}s</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">Farm collapse paradigms, restart immediately after encountering a non-rare collapse paradigm</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">Squad to get collectibles</system:String>
@@ -1406,7 +1411,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowOutcomeInvestmentCompleted">Investment route completed</system:String>
     <system:String x:Key="BlackFlowOutcomeInvestmentMissed">Investment route missed</system:String>
     <system:String x:Key="BlackFlowOutcomeFloor3RouteCompleted">Floor 3 speed route completed</system:String>
-    <system:String x:Key="BlackFlowOutcomeBabyCultivationCompleted">Swaddled-animal cultivation completed</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationCompleted">Target swaddled animal obtained</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationTargetMissed">Target swaddled animal not obtained</system:String>
     <system:String x:Key="BlackFlowOutcomeBabyNoSeed">No seed obtained</system:String>
     <system:String x:Key="BlackFlowOutcomeEndingPrerequisiteFailed">Ending prerequisite not completed</system:String>
     <system:String x:Key="BlackFlowOutcomeStrategyCompleted">Run objective completed</system:String>
@@ -1439,6 +1445,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentShopWindowClosed">Left the first floor without investing; restarting this run</system:String>
     <system:String x:Key="BlackFlowTerminationFloor3Reached">Reached floor 3; this run's route is complete</system:String>
     <system:String x:Key="BlackFlowTerminationCultivationReported">Cultivation result received; this run has ended</system:String>
+    <system:String x:Key="BlackFlowTerminationCultivationTargetObtained">The cultivation result contains the target; stopping the task</system:String>
+    <system:String x:Key="BlackFlowTerminationCultivationTargetNotObtained">The cultivation result does not contain the target; restarting this run</system:String>
     <system:String x:Key="BlackFlowTerminationFloor1ShopNoSeed">The floor 1 shop had no seed; this run has ended</system:String>
     <system:String x:Key="BlackFlowTerminationMandatoryPrerequisiteMissed">A mandatory ending prerequisite was missed</system:String>
     <system:String x:Key="BlackFlowTerminationStrategyTerminalReached">Reached the strategy destination</system:String>

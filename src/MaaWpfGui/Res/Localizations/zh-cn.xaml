@@ -214,6 +214,11 @@
     <system:String x:Key="RoguelikeStrategyBlackFlowExp">刷等级，快速飞三层</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">刷源石锭，投资完成后自动退出</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">刷襁褓动物</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTarget">目标襁褓动物</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCat">襁褓中的猫</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpent">襁褓羽蛇</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetDog">襁褓中的狗</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">襁褓三头犬</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二{key=Operator}开局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">烧水使用分队</system:String>
@@ -1407,7 +1412,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowOutcomeInvestmentCompleted">投资路线完成</system:String>
     <system:String x:Key="BlackFlowOutcomeInvestmentMissed">投资路线错过</system:String>
     <system:String x:Key="BlackFlowOutcomeFloor3RouteCompleted">第三层速通路线完成</system:String>
-    <system:String x:Key="BlackFlowOutcomeBabyCultivationCompleted">襁褓动物培育完成</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationCompleted">目标襁褓动物培育完成</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationTargetMissed">未获得目标襁褓动物</system:String>
     <system:String x:Key="BlackFlowOutcomeBabyNoSeed">没有获得种子</system:String>
     <system:String x:Key="BlackFlowOutcomeEndingPrerequisiteFailed">结局前置条件未完成</system:String>
     <system:String x:Key="BlackFlowOutcomeStrategyCompleted">本局策略目标已经完成</system:String>
@@ -1440,6 +1446,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowTerminationInvestmentShopWindowClosed">已经离开第一层且尚未投资，本局重开</system:String>
     <system:String x:Key="BlackFlowTerminationFloor3Reached">已抵达第三层，本局路线完成</system:String>
     <system:String x:Key="BlackFlowTerminationCultivationReported">已经取得培育结果，本局结束</system:String>
+    <system:String x:Key="BlackFlowTerminationCultivationTargetObtained">培育结果包含目标品种，任务结束</system:String>
+    <system:String x:Key="BlackFlowTerminationCultivationTargetNotObtained">培育结果未包含目标品种，本局重开</system:String>
     <system:String x:Key="BlackFlowTerminationFloor1ShopNoSeed">第一层商店没有种子，本局结束</system:String>
     <system:String x:Key="BlackFlowTerminationMandatoryPrerequisiteMissed">必须完成的结局前置条件已经错过</system:String>
     <system:String x:Key="BlackFlowTerminationStrategyTerminalReached">已经抵达策略终点</system:String>

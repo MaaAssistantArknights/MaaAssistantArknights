@@ -13,6 +13,55 @@
 
 namespace asst::blackflow
 {
+std::string_view to_string(CultivatedAnimalType type) noexcept
+{
+    switch (type) {
+    case CultivatedAnimalType::Cat:
+        return "swaddled_cat";
+    case CultivatedAnimalType::FeatheredSerpent:
+        return "swaddled_feathered_serpent";
+    case CultivatedAnimalType::Dog:
+        return "swaddled_dog";
+    case CultivatedAnimalType::Cerberus:
+        return "swaddled_cerberus";
+    }
+    return "swaddled_cat";
+}
+
+std::optional<CultivatedAnimalType> parse_cultivated_animal_type(std::string_view value) noexcept
+{
+    if (value == "swaddled_cat") {
+        return CultivatedAnimalType::Cat;
+    }
+    if (value == "swaddled_feathered_serpent") {
+        return CultivatedAnimalType::FeatheredSerpent;
+    }
+    if (value == "swaddled_dog") {
+        return CultivatedAnimalType::Dog;
+    }
+    if (value == "swaddled_cerberus") {
+        return CultivatedAnimalType::Cerberus;
+    }
+    return std::nullopt;
+}
+
+std::optional<CultivatedAnimalType> cultivated_animal_type_from_name(std::string_view name) noexcept
+{
+    if (name == "襁褓中的猫") {
+        return CultivatedAnimalType::Cat;
+    }
+    if (name == "襁褓羽蛇") {
+        return CultivatedAnimalType::FeatheredSerpent;
+    }
+    if (name == "襁褓中的狗") {
+        return CultivatedAnimalType::Dog;
+    }
+    if (name == "襁褓三头犬") {
+        return CultivatedAnimalType::Cerberus;
+    }
+    return std::nullopt;
+}
+
 namespace
 {
 FactValue default_fact_value(FactType type)
@@ -121,6 +170,8 @@ json::object BlackFlowStrategyResult::to_json() const
         { "cultivated_animals", cultivated_animals },
         { "succeeded", succeeded },
         { "next_action", next_action },
+        { "cultivation_target", cultivation_target },
+        { "cultivated_animal_types", json::array(cultivated_animal_types) },
     };
 }
 
@@ -159,6 +210,7 @@ bool BlackFlowSession::initialize(std::string profile, std::string* error)
     m_viewport.clear(0, 0);
     m_run = RunState {};
     m_current_floor.reset();
+    m_cultivated_animal_types.clear();
     m_unreachable_actions.clear();
     m_pending_probe_target.reset();
     m_verified_move_arc.reset();
@@ -220,6 +272,18 @@ void BlackFlowSession::set_start_loadout(std::string core_char, std::string squa
     m_start_core_char = std::move(core_char);
     m_start_squad = std::move(squad);
     m_start_roles = std::move(roles);
+}
+
+void BlackFlowSession::set_cultivated_animal_types(std::vector<CultivatedAnimalType> types)
+{
+    m_cultivated_animal_types.clear();
+    m_cultivated_animal_types.reserve(types.size());
+    for (const CultivatedAnimalType type : types) {
+        if (std::find(m_cultivated_animal_types.begin(), m_cultivated_animal_types.end(), type) ==
+            m_cultivated_animal_types.end()) {
+            m_cultivated_animal_types.emplace_back(type);
+        }
+    }
 }
 
 void BlackFlowSession::reset_run()
@@ -404,6 +468,28 @@ void BlackFlowSession::evaluate_terminal_rules()
         };
         result.next_action =
             rule.next_action.empty() ? (rule.succeeded ? "stop_run" : m_policy->failure_action) : rule.next_action;
+        if (m_profile == "baby_animal" && result.outcome == "baby_cultivation_completed") {
+            result.cultivation_target = std::string(to_string(m_cultivation_target));
+            result.cultivated_animal_types.reserve(m_cultivated_animal_types.size());
+            for (const CultivatedAnimalType type : m_cultivated_animal_types) {
+                result.cultivated_animal_types.emplace_back(to_string(type));
+            }
+
+            const bool target_obtained =
+                std::find(m_cultivated_animal_types.begin(), m_cultivated_animal_types.end(), m_cultivation_target) !=
+                m_cultivated_animal_types.end();
+            if (target_obtained) {
+                result.termination_reason = "cultivation_target_obtained";
+                result.succeeded = true;
+                result.next_action = "stop_run";
+            }
+            else {
+                result.outcome = "baby_cultivation_target_missed";
+                result.termination_reason = "cultivation_target_not_obtained";
+                result.succeeded = false;
+                result.next_action = m_policy->failure_action;
+            }
+        }
         m_result = std::move(result);
         return;
     }

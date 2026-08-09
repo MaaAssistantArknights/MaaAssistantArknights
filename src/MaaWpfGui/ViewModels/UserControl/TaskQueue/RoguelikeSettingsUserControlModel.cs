@@ -30,6 +30,7 @@ using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
+using CultivationTarget = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeBlackFlowCultivationTarget;
 using Mode = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeMode;
 using RoguelikeBoskySubNodeType = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeBoskySubNodeType;
 using Theme = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeTheme;
@@ -820,6 +821,29 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     ];
 
     /// <summary>
+    /// Gets or sets the target animal type for BlackFlow cultivation.
+    /// </summary>
+    public CultivationTarget RoguelikeBlackFlowCultivationTarget
+    {
+        get => GetTaskConfig<RoguelikeTask>().BlackFlowCultivationTarget;
+        set => SetTaskConfig<RoguelikeTask>(
+            t => t.BlackFlowCultivationTarget == value,
+            t => t.BlackFlowCultivationTarget = value);
+    }
+
+    /// <summary>
+    /// Gets the available BlackFlow cultivation targets.
+    /// </summary>
+    public ObservableCollection<GenericCombinedData<CultivationTarget>>
+        RoguelikeBlackFlowCultivationTargetList { get; } =
+    [
+        new() { Display = LocalizationHelper.GetString("RoguelikeBlackFlowCultivationTargetCat"), Value = CultivationTarget.Cat },
+        new() { Display = LocalizationHelper.GetString("RoguelikeBlackFlowCultivationTargetFeatheredSerpent"), Value = CultivationTarget.FeatheredSerpent },
+        new() { Display = LocalizationHelper.GetString("RoguelikeBlackFlowCultivationTargetDog"), Value = CultivationTarget.Dog },
+        new() { Display = LocalizationHelper.GetString("RoguelikeBlackFlowCultivationTargetCerberus"), Value = CultivationTarget.Cerberus },
+    ];
+
+    /// <summary>
     /// Gets a value indicating whether the FindPlaytime target selection should be visible.
     /// </summary>
     public bool RoguelikeFindPlaytimeTargetVisible => RoguelikeMode == Mode.FindPlaytime && RoguelikeTheme == Theme.JieGarden;
@@ -964,6 +988,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         "investment_missed" => LocalizationHelper.GetString("BlackFlowOutcomeInvestmentMissed"),
         "burn_completed" => LocalizationHelper.GetString("BlackFlowOutcomeFloor3RouteCompleted"),
         "baby_cultivation_completed" => LocalizationHelper.GetString("BlackFlowOutcomeBabyCultivationCompleted"),
+        "baby_cultivation_target_missed" => LocalizationHelper.GetString("BlackFlowOutcomeBabyCultivationTargetMissed"),
         "ending_prerequisite_failed" => LocalizationHelper.GetString("BlackFlowOutcomeEndingPrerequisiteFailed"),
         "strategy_completed" => LocalizationHelper.GetString("BlackFlowOutcomeStrategyCompleted"),
         "page_recovery_failed" => LocalizationHelper.GetString("BlackFlowOutcomePageRecoveryFailed"),
@@ -999,6 +1024,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         "investment_shop_window_closed" => LocalizationHelper.GetString("BlackFlowTerminationInvestmentShopWindowClosed"),
         "third_floor_portal_entered" => LocalizationHelper.GetString("BlackFlowTerminationFloor3Reached"),
         "cultivation_result_reported" => LocalizationHelper.GetString("BlackFlowTerminationCultivationReported"),
+        "cultivation_target_obtained" => LocalizationHelper.GetString("BlackFlowTerminationCultivationTargetObtained"),
+        "cultivation_target_not_obtained" => LocalizationHelper.GetString("BlackFlowTerminationCultivationTargetNotObtained"),
         "floor1_shop_has_no_seed" => LocalizationHelper.GetString("BlackFlowTerminationFloor1ShopNoSeed"),
         "mandatory_prerequisite_missed" => LocalizationHelper.GetString("BlackFlowTerminationMandatoryPrerequisiteMissed"),
         "strategy_terminal_reached" => LocalizationHelper.GetString("BlackFlowTerminationStrategyTerminalReached"),
@@ -1368,6 +1395,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
                 // 刷常乐节点
                 FindPlaytimeTarget = roguelike.FindPlaytimeTarget, // 等待添加到 RoguelikeTask
+
+                BlackFlowCultivationTarget = roguelike.BlackFlowCultivationTarget,
 
                 SamiFirstFloorFoldartal = roguelike.Theme == Theme.Sami && roguelike.Mode == Mode.Collectible && roguelike.SamiFirstFloorFoldartal,
                 SamiStartFloorFoldartal = roguelike.SamiFirstFloorFoldartals,

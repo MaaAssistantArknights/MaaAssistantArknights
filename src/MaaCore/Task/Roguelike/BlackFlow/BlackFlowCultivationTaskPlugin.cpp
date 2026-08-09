@@ -93,6 +93,7 @@ void BlackFlowCultivationTaskPlugin::reset_in_run_variables()
     m_pending_details = {};
     m_refresh_count = 0;
     m_cultivated_animals = 0;
+    m_cultivated_animal_types.clear();
 }
 
 bool BlackFlowCultivationTaskPlugin::_run()
@@ -104,6 +105,7 @@ bool BlackFlowCultivationTaskPlugin::_run()
     if (work == PendingWork::Enter) {
         m_refresh_count = 0;
         m_cultivated_animals = 0;
+        m_cultivated_animal_types.clear();
         return true;
     }
 
@@ -163,8 +165,14 @@ bool BlackFlowCultivationTaskPlugin::_run()
     }
 
     if (work == PendingWork::ReadHarvest) {
-        m_cultivated_animals =
-            static_cast<int>(recognize(ctrler()->get_image(), std::string(HarvestItemsTask)).size());
+        const auto items = recognize(ctrler()->get_image(), std::string(HarvestItemsTask));
+        m_cultivated_animals = static_cast<int>(items.size());
+        m_cultivated_animal_types.clear();
+        for (const TextRect& item : items) {
+            if (const auto type = cultivated_animal_type_from_name(item.text); type.has_value()) {
+                m_cultivated_animal_types.emplace_back(*type);
+            }
+        }
         Log.info("BlackFlow cultivation harvest recognized", "count", m_cultivated_animals);
         return true;
     }
@@ -212,6 +220,8 @@ void BlackFlowCultivationTaskPlugin::apply_cultivation_result(const std::string&
     if (result == nullptr) {
         return;
     }
+
+    m_session->set_cultivated_animal_types(m_cultivated_animal_types);
 
     json::value details = m_pending_details;
     details["details"]["result"] = json::object { { "text", std::to_string(m_cultivated_animals) } };
