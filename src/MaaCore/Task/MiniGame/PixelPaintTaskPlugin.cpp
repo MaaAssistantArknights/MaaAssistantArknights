@@ -92,9 +92,7 @@ bool asst::PixelPaintTaskPlugin::in_editor_page() const
         return false;
     }
 
-    auto ret = ProcessTask(*this, { "MiniGame@PixelPaint@EditorCheck" })
-                   .set_retry_times(0)
-                   .run();
+    auto ret = ProcessTask(*this, { "MiniGame@PixelPaint@EditorCheck" }).set_retry_times(0).run();
     if (!ret) {
         Log.error("PixelPaint | editor page check failed");
     }
@@ -205,6 +203,7 @@ bool asst::PixelPaintTaskPlugin::draw_group(const Group& group, int& done_cells,
         Point end;
         int len = 0;
     };
+
     std::vector<Segment> segments;
     for (const auto& p : group.points) {
         if (!segments.empty() && segments.back().end.y == p.y && segments.back().end.x + 1 == p.x) {

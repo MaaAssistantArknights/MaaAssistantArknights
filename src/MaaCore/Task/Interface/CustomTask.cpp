@@ -98,7 +98,8 @@ bool asst::CustomTask::parse_and_register_pixel_paint(const std::string& task_na
                 }
                 const int x = arr[0].as_integer();
                 const int y = arr[1].as_integer();
-                if (x < 0 || x >= PixelPaintTaskPlugin::Group::GridSize || y < 0 || y >= PixelPaintTaskPlugin::Group::GridSize) {
+                if (x < 0 || x >= PixelPaintTaskPlugin::Group::GridSize || y < 0 ||
+                    y >= PixelPaintTaskPlugin::Group::GridSize) {
                     continue;
                 }
                 group.points.emplace_back(x, y);

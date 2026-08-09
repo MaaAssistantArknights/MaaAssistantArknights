@@ -22,7 +22,7 @@ public:
         inline static constexpr int GridSize = 24;
         inline static constexpr int PaletteSize = 40;
 
-        int color = 0; // 0~39，与游戏色板顺序一致
+        int color = 0;             // 0~39，与游戏色板顺序一致
         std::vector<Point> points; // 格坐标，x/y ∈ 0..23
     };
 
