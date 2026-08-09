@@ -218,6 +218,17 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ReceptionSendClue}">
                 <controls:TextBlock Text="{DynamicResource InfrastReceptionSendClue}" TextWrapping="Wrap" />
             </CheckBox>
+            <TextBox
+                MinHeight="60"
+                Margin="0,0,0,10"
+                AcceptsReturn="True"
+                hc:InfoElement.Placeholder="{DynamicResource InfrastReceptionSendClueFriendPriorityPlaceholder}"
+                hc:InfoElement.Title="{DynamicResource InfrastReceptionSendClueFriendPriority}"
+                IsEnabled="{Binding ReceptionSendClue}"
+                Text="{Binding ReceptionSendClueFriendPriority, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap"
+                ToolTip="{DynamicResource InfrastReceptionSendClueFriendPriorityTip}"
+                VerticalScrollBarVisibility="Auto" />
             <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
                 <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
             </CheckBox>

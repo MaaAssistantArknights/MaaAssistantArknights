@@ -1,16 +1,49 @@
 #include "InfrastReceptionTask.h"
 
+#include <array>
+#include <limits>
 #include <ranges>
 
+#include "Config/Miscellaneous/OcrConfig.h"
 #include "Config/TaskData.h"
+#include "Config/TemplResource.h"
 #include "Controller/Controller.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Vision/Infrast/InfrastClueVacancyImageAnalyzer.h"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
+
+namespace
+{
+constexpr int ClueFriendRowsPerPage = 4;
+constexpr int ClueFriendMaxPages = 15;
+const std::array<std::string, ClueFriendRowsPerPage> ClueFriendRowTasks = {
+    "ClueGiveTo1st",
+    "ClueGiveTo2nd",
+    "ClueGiveTo3rd",
+    "ClueGiveTo4th",
+};
+const std::array<std::string, ClueFriendRowsPerPage> ClueFriendConfirmTasks = {
+    "ClueGiveTo1stConfirm",
+    "ClueGiveTo2ndConfirm",
+    "ClueGiveTo3rdConfirm",
+    "ClueGiveTo4thConfirm",
+};
+
+struct ClueRecipient
+{
+    size_t priority = std::numeric_limits<size_t>::max();
+    int page = -1;
+    int row = -1;
+
+    explicit operator bool() const noexcept { return page >= 0 && row >= 0; }
+};
+} // namespace
 
 bool asst::InfrastReceptionTask::_run()
 {
@@ -322,9 +355,188 @@ bool asst::InfrastReceptionTask::back_to_reception_main()
 
 bool asst::InfrastReceptionTask::send_clue()
 {
+    if (!m_send_clue_friend_priority.empty()) {
+        return send_clue_with_friend_priority();
+    }
+
     // 优先检测是否存在“快捷传递重复线索”按钮（官服特性），若存在则点击一次
     ProcessTask task(*this, { "SendClues" });
     return task.set_retry_times(20).run();
+}
+
+bool asst::InfrastReceptionTask::send_clue_with_friend_priority()
+{
+    LogTraceFunction;
+
+    auto move_friend_page = [&](bool previous) {
+        cv::Mat image = ctrler()->get_image();
+        Matcher analyzer(image);
+        const auto next_page_task = Task.get<MatchTaskInfo>("ClueGiveToNextPage");
+        analyzer.set_task_info(next_page_task);
+
+        if (previous) {
+            cv::Mat previous_page_templ;
+            const cv::Mat& next_page_templ =
+                TemplResource::get_instance().get_templ(next_page_task->templ_names.front());
+            cv::flip(next_page_templ, previous_page_templ, 1);
+            analyzer.set_templ(std::move(previous_page_templ));
+
+            Rect previous_page_roi = next_page_task->roi;
+            previous_page_roi.x -= 90;
+            analyzer.set_roi(previous_page_roi);
+        }
+
+        auto result = analyzer.analyze();
+        if (!result) {
+            return false;
+        }
+        ctrler()->click(result->rect);
+        sleep(500);
+        return true;
+    };
+
+    auto reset_friend_pages = [&]() {
+        for (int i = 1; i < ClueFriendMaxPages && !need_exit(); ++i) {
+            if (!move_friend_page(true)) {
+                break;
+            }
+        }
+    };
+
+    auto navigate_to_page = [&](int page) {
+        reset_friend_pages();
+        for (int i = 0; i < page; ++i) {
+            if (need_exit() || !move_friend_page(false)) {
+                return false;
+            }
+        }
+        return !need_exit();
+    };
+
+    auto row_from_ocr_result = [](const OcrPack::Result& result) -> int {
+        const int center_y = result.rect.y + result.rect.height / 2;
+        for (int row = 0; row < ClueFriendRowsPerPage; ++row) {
+            const Rect& row_roi = Task.get(ClueFriendRowTasks.at(row))->roi;
+            if (center_y >= row_roi.y - 20 && center_y <= row_roi.y + row_roi.height + 20) {
+                return row;
+            }
+        }
+        return -1;
+    };
+
+    auto is_row_available = [](const cv::Mat& image, int row) {
+        Matcher analyzer(image);
+        analyzer.set_task_info(ClueFriendRowTasks.at(row));
+        return analyzer.analyze().has_value();
+    };
+
+    auto find_recipient = [&]() {
+        ClueRecipient preferred;
+        ClueRecipient fallback;
+        auto& ocr_config = OcrConfig::get_instance();
+
+        reset_friend_pages();
+        for (int page = 0; page < ClueFriendMaxPages && !need_exit(); ++page) {
+            cv::Mat image = ctrler()->get_image();
+
+            for (int row = 0; row < ClueFriendRowsPerPage && !fallback; ++row) {
+                if (is_row_available(image, row)) {
+                    fallback = ClueRecipient { .page = page, .row = row };
+                }
+            }
+
+            OCRer name_analyzer(image);
+            name_analyzer.set_task_info("ClueFriendName");
+            name_analyzer.set_required(m_send_clue_friend_priority);
+            if (auto names = name_analyzer.analyze()) {
+                for (const auto& result : *names) {
+                    const std::string recognized = ocr_config.process_equivalence_class(result.text);
+                    auto iter = std::ranges::find_if(m_send_clue_friend_priority, [&](const std::string& name) {
+                        return ocr_config.process_equivalence_class(name) == recognized;
+                    });
+                    if (iter == m_send_clue_friend_priority.end()) {
+                        continue;
+                    }
+
+                    const int row = row_from_ocr_result(result);
+                    const size_t priority = static_cast<size_t>(iter - m_send_clue_friend_priority.begin());
+                    if (row >= 0 && priority < preferred.priority && is_row_available(image, row)) {
+                        preferred = ClueRecipient { .priority = priority, .page = page, .row = row };
+                    }
+                }
+            }
+
+            if (preferred.priority == 0 || !move_friend_page(false)) {
+                break;
+            }
+        }
+
+        return preferred ? preferred : fallback;
+    };
+
+    auto send_to_recipient = [&](const ClueRecipient& recipient) {
+        if (!navigate_to_page(recipient.page)) {
+            return false;
+        }
+
+        cv::Mat image = ctrler()->get_image();
+        if (!is_row_available(image, recipient.row)) {
+            Log.warn(__FUNCTION__, "| recipient is no longer available", recipient.page, recipient.row);
+            return false;
+        }
+
+        Matcher confirm_analyzer(image);
+        const std::string& confirm_task_name = ClueFriendConfirmTasks.at(recipient.row);
+        confirm_analyzer.set_task_info(confirm_task_name);
+        auto confirm = confirm_analyzer.analyze();
+        if (!confirm) {
+            return false;
+        }
+
+        if (recipient.priority < m_send_clue_friend_priority.size()) {
+            Log.info(
+                __FUNCTION__,
+                "| send clue to preferred friend",
+                m_send_clue_friend_priority.at(recipient.priority),
+                "priority",
+                recipient.priority + 1);
+        }
+        else {
+            Log.info(__FUNCTION__, "| no preferred friend available, fallback to the first available friend");
+        }
+
+        ctrler()->click(confirm->rect);
+        sleep(Task.get(confirm_task_name)->post_delay);
+        return true;
+    };
+
+    // 有优先级配置时不走游戏内“快捷传递重复线索”，否则游戏会自行决定接收人。
+    if (!ProcessTask(*this, { "SendCluesWithFriendPriority" }).set_retry_times(20).run()) {
+        return false;
+    }
+
+    for (int clue_count = 0; clue_count < 20 && !need_exit(); ++clue_count) {
+        ProcessTask select_task(*this, { "SelectClueWithFriendPriority" });
+        if (!select_task.set_retry_times(3).run() ||
+            select_task.get_last_task_name() != "ClueSelectedWithFriendPriority") {
+            return ProcessTask(*this, { "CloseSendClue" }).set_retry_times(20).run();
+        }
+
+        ClueRecipient recipient = find_recipient();
+        if (!recipient) {
+            Log.info(__FUNCTION__, "| no friend can receive the selected clue");
+            return ProcessTask(*this, { "CloseSendClue" }).set_retry_times(20).run();
+        }
+        if (!send_to_recipient(recipient)) {
+            return false;
+        }
+    }
+
+    if (need_exit()) {
+        return false;
+    }
+    Log.warn(__FUNCTION__, "| reached the clue send safety limit");
+    return ProcessTask(*this, { "CloseSendClue" }).set_retry_times(20).run();
 }
 
 bool asst::InfrastReceptionTask::shift()

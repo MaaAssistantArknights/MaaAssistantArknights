@@ -17,6 +17,11 @@ public:
 
     void set_send_clue(bool value) noexcept { m_send_clue = value; }
 
+    void set_send_clue_friend_priority(std::vector<std::string> value) noexcept
+    {
+        m_send_clue_friend_priority = std::move(value);
+    }
+
 protected:
     virtual bool _run() override;
     virtual bool on_run_fails() override;
@@ -35,6 +40,7 @@ private:
     bool unlock_clue_exchange();
     bool back_to_reception_main();
     bool send_clue();
+    bool send_clue_with_friend_priority();
     bool shift();
 
     bool swipe_to_the_bottom_of_clue_list_on_the_right();
@@ -42,5 +48,6 @@ private:
     bool m_receive_message_board = true;
     bool m_enable_clue_exchange = true;
     bool m_send_clue = true;
+    std::vector<std::string> m_send_clue_friend_priority;
 };
 }

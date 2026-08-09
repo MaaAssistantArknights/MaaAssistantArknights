@@ -160,6 +160,9 @@
     <system:String x:Key="InfrastReceptionClueExchange">進行線索交流</system:String>
     <system:String x:Key="ClueExchangeUnlocked">已開啟線索交流</system:String>
     <system:String x:Key="InfrastReceptionSendClue">贈送線索</system:String>
+    <system:String x:Key="InfrastReceptionSendClueFriendPriority">線索贈送好友優先順序</system:String>
+    <system:String x:Key="InfrastReceptionSendClueFriendPriorityPlaceholder">每行輸入一個完整好友名稱</system:String>
+    <system:String x:Key="InfrastReceptionSendClueFriendPriorityTip">從上到下依次優先贈送；無人可接收時回退到好友列表順序。設定後不使用遊戲內的快速傳遞。</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中設定並執行</system:String>
     <system:String x:Key="ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
     <system:String x:Key="TrainingIdle">訓練室空閒中</system:String>

@@ -160,6 +160,9 @@
     <system:String x:Key="InfrastReceptionClueExchange">Conduct Clue Exchange</system:String>
     <system:String x:Key="ClueExchangeUnlocked">Clue Exchange Unlocked</system:String>
     <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
+    <system:String x:Key="InfrastReceptionSendClueFriendPriority">Clue recipient priority</system:String>
+    <system:String x:Key="InfrastReceptionSendClueFriendPriorityPlaceholder">One complete friend name per line</system:String>
+    <system:String x:Key="InfrastReceptionSendClueFriendPriorityTip">Friends are tried from top to bottom. If none can receive the clue, MAA falls back to friend-list order. In-game Quick Send is not used when configured.</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">The following functions require configuration and execution within {key=Infrast}.</system:String>
     <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
     <system:String x:Key="TrainingIdle">Training room is vacant</system:String>

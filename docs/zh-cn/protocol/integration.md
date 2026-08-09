@@ -387,6 +387,11 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="reception_send_clue" type="boolean" optional default="true"  
 是否赠送线索。  
 :::  
+::: field name="reception_send_clue_friend_priority" type="array<string>" optional default="[]"
+线索赠送的好友优先级，按数组顺序优先赠送，好友名需与游戏界面显示完全一致。若配置的好友均无法接收，则按好友列表顺序赠送。
+<br>
+非空时不使用游戏内“快捷传递重复线索”。
+:::
 ::: field name="filename" type="string" required  
 自定义配置路径。不支持运行中设置。
 <br>
@@ -415,6 +420,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    "reception_message_board": true,
    "reception_clue_exchange": true,
    "reception_send_clue": true,
+   "reception_send_clue_friend_priority": ["好友A", "好友B"],
    "filename": "schedules/base.json",
    "plan_index": 1
 }

@@ -387,6 +387,11 @@ Whether to perform clue exchange.
 ::: field name="reception_send_clue" type="boolean" optional default="true"  
 Whether to send clues.  
 :::  
+::: field name="reception_send_clue_friend_priority" type="array<string>" optional default="[]"
+Friend priority for clue recipients, in descending order. Names must exactly match the complete names shown in game. If none of the configured friends can receive the clue, MAA falls back to friend-list order.
+<br>
+When non-empty, the in-game "Quick Send Duplicate Clues" feature is not used.
+:::
 ::: field name="filename" type="string" required  
 Custom config path. Editing in run-time is not supported.
 <br>
@@ -415,6 +420,7 @@ Plan index number in the configuration. Editing in run-time is not supported.
    "reception_message_board": true,
    "reception_clue_exchange": true,
    "reception_send_clue": true,
+   "reception_send_clue_friend_priority": ["Friend A", "Friend B"],
    "filename": "schedules/base.json",
    "plan_index": 1
 }

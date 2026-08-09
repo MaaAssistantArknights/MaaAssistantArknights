@@ -3321,6 +3321,11 @@
         "postDelay": 1000,
         "next": ["InfrastClueQuickSendDuplicates", "SelectClue", "CloseSendClue"]
     },
+    "SendCluesWithFriendPriority": {
+        "baseTask": "SendClues",
+        "template": "SendClues.png",
+        "next": []
+    },
     "SelectClue": {
         "action": "ClickSelf",
         "roi": [99, 222, 177, 147],
@@ -3351,6 +3356,28 @@
             "ClueGiveToNextPage",
             "ClueGiveTo1stConfirm"
         ]
+    },
+    "SelectClueWithFriendPriority": {
+        "baseTask": "SelectClue",
+        "template": "SelectClue.png",
+        "exceededNext": ["NoClueToSendWithFriendPriority"],
+        "next": ["ClueSelectedWithFriendPriority", "#self"]
+    },
+    "ClueSelectedWithFriendPriority": {
+        "baseTask": "ClueSelected",
+        "template": "ClueSelected.png",
+        "action": "Stop",
+        "next": []
+    },
+    "NoClueToSendWithFriendPriority": {
+        "algorithm": "JustReturn",
+        "action": "Stop"
+    },
+    "ClueFriendName": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "roi": [550, 60, 280, 600]
     },
     "ClueGiveTo1st": {
         "template": "ClueCanBeSent.png",
