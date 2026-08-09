@@ -64,18 +64,18 @@ bool asst::CustomTask::parse_and_register_pixel_paint(const std::string& task_na
     auto params_opt = params.find<json::object>("params");
     if (!params_opt) {
         Log.error("set_params failed, params not found for pixel paint");
-        return true;
+        return false;
     }
     auto pixel_opt = params_opt->find<json::object>("pixel_paint");
     if (!pixel_opt) {
         Log.error("set_params failed, params.pixel_paint not found");
-        return true;
+        return false;
     }
 
     auto groups_opt = pixel_opt->find<json::array>("groups");
     if (!groups_opt || groups_opt->empty()) {
         Log.error("set_params failed, params.pixel_paint.groups not found");
-        return true;
+        return false;
     }
 
     std::vector<PixelPaintTaskPlugin::Group> groups;
@@ -111,7 +111,7 @@ bool asst::CustomTask::parse_and_register_pixel_paint(const std::string& task_na
 
     if (groups.empty()) {
         Log.error("set_params failed, params.pixel_paint.groups is empty");
-        return true;
+        return false;
     }
 
     auto plugin_ptr = m_custom_task_ptr->register_plugin<PixelPaintTaskPlugin>();
