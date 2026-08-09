@@ -3054,22 +3054,22 @@ public class AsstProxy
     }
 
     /// <summary>
-    /// 像素画自动填色（牛杂）。短 task 入口 + pixel_paint 分组点列。
+    /// 像素画自动填色（牛杂）。短 task 入口 + params.pixel_paint 分组点列。
     /// </summary>
     /// <param name="groups">按色分组后的格子，color 为 0~39。</param>
     /// <returns>是否成功启动。</returns>
     public bool AsstPixelPaint(IReadOnlyList<PixelPaintHelper.ColorGroup> groups)
     {
-        var task = new AsstPixelPaintTask {
+        var task = new AsstCustomTask {
             CustomTasks = ["MiniGame@PixelPaint@Begin"],
-            Params = new AsstPixelPaintTask.PixelPaintParams {
-                PixelPaint = new AsstPixelPaintTask.PixelPaintPayload {
-                    Groups = groups.Select(g => new AsstPixelPaintTask.PixelPaintGroup {
-                        Color = g.Color,
-                        Points = g.Points,
+            Params = JObject.FromObject(new {
+                pixel_paint = new {
+                    groups = groups.Select(g => new {
+                        color = g.Color,
+                        points = g.Points,
                     }).ToList(),
                 },
-            },
+            }),
         };
         var (type, param) = task.Serialize();
         return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
