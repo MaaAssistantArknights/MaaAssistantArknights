@@ -459,7 +459,10 @@ bool asst::AdbController::click(const Point& p)
 
     std::string cur_cmd =
         utils::string_replace_all(m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
-    return call_command(cur_cmd).has_value();
+    bool ret = call_command(cur_cmd).has_value();
+    // adb click 没有内置间隔，与 minitouch/maatouch 的 DefaultClickDelay 对齐，避免高频连点丢点
+    sleep(50);
+    return ret;
 }
 
 bool asst::AdbController::input(const std::string& text)

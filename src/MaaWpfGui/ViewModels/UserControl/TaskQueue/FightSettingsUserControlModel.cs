@@ -1189,6 +1189,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         else
         {
             task.Drops = new() { { dropId, need } };
+            Instances.TaskQueueViewModel.AddLog(
+                LocalizationHelper.GetStringFormat("DepotPlanInventoryInsufficient", logLabel ?? string.Empty, dropName, currentCount.ToString("N0"), dropCount.ToString("N0"), need.ToString("N0")));
             _logger.Information("FightTask {taskId} ({label}) re-calculated: {dropName} need {need} (current {current} / target {target})",
                 taskId, logLabel, dropName, need, currentCount, dropCount);
         }

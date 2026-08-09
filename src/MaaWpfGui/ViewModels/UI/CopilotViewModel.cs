@@ -165,6 +165,10 @@ public partial class CopilotViewModel : Screen
     /// <param name="showTime">Whether show time.</param>
     public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
     {
+        // Copilot 自动战斗期间也会启动停滞计时器（Start 通过 SetIdle(false) 进入运行态），
+        // 这里的日志同样属于"有输出活动"，需要重置计时器，否则会误报任务卡住。
+        RunningState.Instance.NotifyOutputActivity();
+
         if (string.IsNullOrEmpty(content))
         {
             return;
@@ -1161,24 +1165,44 @@ public partial class CopilotViewModel : Screen
             }
         }
 
+        bool is_corrected = false;
         var list = copilot.Opers.Concat(copilot.Groups.SelectMany(g => g.Opers)).ToList();
         foreach (var oper in list)
         {
             int rarity = DataHelper.GetCharacterByNameOrAlias(oper.Name)?.Rarity ?? -1;
-            if (oper.Skill == 3 && rarity < 6)
+            switch (oper.Skill)
             {
-                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
-                oper.Skill = 0;
+                case 3 when rarity < 6:
+                case 2 when rarity < 4:
+                case 1 when rarity < 3:
+                    AddLog(LocalizationHelper.GetStringFormat("Copilot.UnsupportedSkill", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
+                    is_corrected = true;
+                    oper.Skill = 0;
+                    break;
             }
-            else if (oper.Skill == 2 && rarity < 4)
+            int skillElite = oper.Skill - 1;
+            int skilLevelElite = oper.Requirements?.SkillLevel switch {
+                <= 4 => 0,
+                <= 7 => 1,
+                <= 10 => 2,
+                _ => 0,
+            };
+            int moduleElite = oper.Requirements?.Module > 0 ? 2 : 0;
+            int eliteReq = Math.Max(skillElite, Math.Max(skilLevelElite, moduleElite));
+            if (eliteReq > 0)
             {
-                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
-                oper.Skill = 0;
-            }
-            else if (oper.Skill == 1 && rarity < 3)
-            {
-                AddLog(LocalizationHelper.GetStringFormat("UnsupportedSkill", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
-                oper.Skill = 0;
+                if (oper.Requirements is null || oper.Requirements.Elite is null)
+                {
+                    oper.Requirements ??= new();
+                    oper.Requirements.Elite = eliteReq;
+                    AddLog(LocalizationHelper.GetStringFormat("Copilot.EliteEmpty", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, eliteReq), UiLogColor.Info, showTime: false);
+                }
+                else if (oper.Requirements.Elite < eliteReq)
+                {
+                    AddLog(LocalizationHelper.GetStringFormat("Copilot.EliteAjust", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Requirements.Elite, eliteReq), UiLogColor.Warning, showTime: false);
+                    oper.Requirements.Elite = eliteReq;
+                    is_corrected = true;
+                }
             }
         }
         if (printInfo)
@@ -1223,10 +1247,10 @@ public partial class CopilotViewModel : Screen
             switch (copilot.Difficulty)
             {
                 case CopilotModel.DifficultyFlags.None:
-                    await AddCopilotTaskToList(copilot, CopilotModel.DifficultyFlags.Normal, navigateName, copilotId);
+                    await AddCopilotTaskToList(copilot, CopilotModel.DifficultyFlags.Normal, navigateName, is_corrected ? default : copilotId);
                     break;
                 default:
-                    await AddCopilotTaskToList(copilot, copilot.Difficulty, navigateName, copilotId);
+                    await AddCopilotTaskToList(copilot, copilot.Difficulty, navigateName, is_corrected ? default : copilotId);
                     break;
             }
         }

@@ -4185,5 +4185,6 @@
     "resource/template/items/LMTGS_COIN_7601": "a0cffa35955e98bb92e8e4352de98c0ca24930c91b66cdcdc581f86204da4605",
     "resource/template/items/itempack_stickers_act5unique": "47d5206c1ae8d5fcc51c5b7ffda214403f594883be95e17ad71ac1e552990214",
     "resource/global/YoStarKR/resource/template/Battle/Formation/BattleQuickFormation/BattleQuickFormationClear2": "1945f12a292972170aa9587664526838997ee93c233732883d2be95194052a86",
-    "resource/template/InfrastPic/InfrastLoading": "9d99bb1387f999dd4b4ad897fc176c9f8044508b8e14add3f83f7a9fcfd91e2d"
+    "resource/template/InfrastPic/InfrastLoading": "9d99bb1387f999dd4b4ad897fc176c9f8044508b8e14add3f83f7a9fcfd91e2d",
+    "resource/template/items/act1arkhub_token_seal": "0ceff21147950925c4ab4cd088bb3ccc70b4455593a611ab2b69d2373fe91a30"
 }

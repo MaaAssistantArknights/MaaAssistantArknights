@@ -86,7 +86,7 @@
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">Message body template</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">Placeholders: {title}, {content}, {time}</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Presets">Preset Template</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">Please replace placeholders wrapped in {} other than {title}, {content}, {time} (e.g. {nickname}) with actual values</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">Please replace the &lt;&gt; placeholders in the preset template (e.g. &lt;nickname&gt;) with actual values</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.TemplateCustom">Custom</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.TemplateMeoW">MeoW</system:String>
     <system:String x:Key="UseGpuForInference">Use GPU for inference acceleration</system:String>
@@ -532,7 +532,7 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="AdbTouchMode">ADB Input (Deprecated)</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (Experimental)</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu Touch (Experimental)</system:String>
-    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input is for physical devices running an older OS version that cannot use Minitouch or MaaTouch. Do not use ADB Input if the other two modes work.&#10;ADB Input swipes tend to drift. To avoid this, swipe speed is set very slow and swipe distances differ from the other two modes. It cannot be used in scenarios requiring precise coordinate control.</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input is only for physical devices running an older OS version. Do not use ADB Input if other modes work.&#10;ADB Input swipes tend to drift. To avoid this, swipe speed is set very slow and swipe distances differ from other modes. It cannot be used in scenarios requiring precise coordinate control.</system:String>
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">Additional commands for emulator parameters (e.g. ｢--instance 1｣ for instance 1).&#10;Command formats vary by emulator, typically including instance numbers and window modes, please consult your emulator's documentation.</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
@@ -702,7 +702,7 @@ Only supports Official(CN), Bilibili and Traditional Chinese servers. Third-part
     <system:String x:Key="AdbPathFileSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">Okay, I will choose again</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
-    <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
+    <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when ｢{key=AutoDetectConnection}｣ is enabled and succeeds. If detection fails, find the emulator's actual port and fill it in.</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
@@ -731,7 +731,7 @@ Note:
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
     <system:String x:Key="MuMu12Display">Display Number</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
-    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu background keep-alive is on, but MuMu touch enhancement is not working. Operations are not possible under keep-alive. Please enable ｢{key=MuMuExtrasTouchEnabled}｣ or disable ｢Keep Alive in Background｣ in MuMu settings.</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu emulator has ｢App Keep-Alive｣ enabled, but MAA touch enhancement is not working. Operations are not possible under app keep-alive. Please enable both ｢{key=MuMu12ExtrasEnabled}｣ and its sub-option ｢{key=MuMuExtrasTouchEnabled}｣ in MAA ｢{key=ConnectionSettings}｣; or if you don't want to use enhancement, disable ｢App Keep-Alive｣ in MuMu settings (some versions previously called it ｢Keep Alive in Background｣, ｢Keep running while AFK in background｣, etc.).</system:String>
     <system:String x:Key="MuMuEmulator12FullExtrasReady">Full MuMu enhancement online — screenshot &amp; touch dual-link engaged. Background keep-alive bows to our will!</system:String>
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer emulator path not found.</system:String>
@@ -879,12 +879,13 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="CollapseAll">Collapse</system:String>
     <system:String x:Key="ClearPlans">Clear</system:String>
     <system:String x:Key="ClearPlansConfirm">Are you sure you want to clear all plans?</system:String>
-    <system:String x:Key="DepotPlanInvalidDropItem">Plan {0}: no drop item specified.</system:String>
-    <system:String x:Key="DepotPlanZeroDropCount">Plan {0}: target inventory is 0.</system:String>
-    <system:String x:Key="DepotPlanNoStage">Plan {0}: stage not specified or is "Current/Last".</system:String>
-    <system:String x:Key="DepotPlanInventoryEnough">Plan {0}: {1} inventory sufficient (current {2} / target {3}).</system:String>
-    <system:String x:Key="DepotPlanStageNotOpen">Plan {0}: stage '{1}' is not open.</system:String>
-    <system:String x:Key="DepotPlanAddTaskFailed">Plan {0}: add task failed.</system:String>
+    <system:String x:Key="DepotPlanInvalidDropItem">#{0}: no drop item specified</system:String>
+    <system:String x:Key="DepotPlanZeroDropCount">#{0}: target inventory is 0</system:String>
+    <system:String x:Key="DepotPlanNoStage">#{0}: stage not specified or is "Current/Last"</system:String>
+    <system:String x:Key="DepotPlanInventoryEnough">#{0}: {1} sufficient {2}/{3}</system:String>
+    <system:String x:Key="DepotPlanInventoryInsufficient">#{0}: {1} insufficient {2}/{3}, need {4}</system:String>
+    <system:String x:Key="DepotPlanStageNotOpen">#{0}: stage '{1}' is not open</system:String>
+    <system:String x:Key="DepotPlanAddTaskFailed">#{0}: add task failed</system:String>
     <system:String x:Key="DepotSkipDuringActivity">Skip during event</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">Skip during resource collection limited-time all-day open</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">An event is in progress, depot maintain skipped.</system:String>
@@ -1090,6 +1091,33 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@SecretFront@Event3">Sly Shadows</system:String>
     <system:String x:Key="MiniGame@SecretFront">Hidden Front</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip" xml:space="preserve">Start from the squad selection screen;&#10;If there is a saved game, please delete it manually.&#10;Close the tutorial after playing it for the first time.&#10;Recommended to enable in-game ｢Inherit previous squad's data｣.</system:String>
+    <system:String x:Key="MiniGame@PixelPaint">Pixel Paint Autofill</system:String>
+    <system:String x:Key="MiniGame@PixelPaintTip" xml:space="preserve">Enter the in-game 24×24 pixel editor first, then start.&#10;Drag/scroll the preview to reframe; white is skipped by default.&#10;Parameters lock while running; see the right log for progress.</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DropHint">Drop an image or pick below</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PickImage">Pick Image</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetView">Reset View</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetParams">Reset Parameters</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Fit">Fit</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitCrop">Crop</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitContain">Contain</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitStretch">Stretch</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Dither">Dither</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">None</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Contrast">Contrast</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Brightness">Brightness</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Saturation">Saturation</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PaintWhite">Paint white too</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Swipe">Enable swipe drawing</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@SwipeTip">Draws consecutive cells of the same color in a single drag for much faster painting. Some touch modes may behave abnormally; disable if you run into issues.</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@LoadFailed">Failed to load image</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ConvertFailed">Conversion failed</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ReadyStatus">{0} cells / {1} colors</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@NeedImage">Import an image and generate a preview first</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@StartLog">Start pixel paint: {0} cells, {1} colors</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ProgressLog">Pixel paint {0}/{1}</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DoneLog">Pixel paint done</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">Green Ticket Store</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">Buy everything on the 1st floor.&#10;Buy Headhunting Permits and Recruitment Permits on the 2nd floor.</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">Yellow Ticket Store</system:String>
@@ -1415,7 +1443,9 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="DrawCard">Deploy Operator</system:String>
     <system:String x:Key="CheckIfStartOver">Check If Restart</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ and try updating the resource version!</system:String>
-    <system:String x:Key="UnsupportedSkill">{0} does not support Skill {1}, so the Skill will no longer be selected.</system:String>
+    <system:String x:Key="Copilot.UnsupportedSkill">{0} does not support Skill {1}, so the Skill will no longer be selected.</system:String>
+    <system:String x:Key="Copilot.EliteEmpty">{0} No Elite Level requirement was set, but the requirement for other attributes is Elite {1}; this has been auto-filled.</system:String>
+    <system:String x:Key="Copilot.EliteAjust">{0} Was set to require Elite {1}, but the requirement for other attributes is Elite {2}; this has been auto-adjusted.</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results:&#160;</system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>
@@ -2157,7 +2187,7 @@ These locations are too high-level and can lead to file overwrites, config write
     <!--  BadModules  -->
     <system:String x:Key="BadModules.Warning.Heading">Compatibility Warning</system:String>
     <system:String x:Key="BadModules.Warning.Prolog">The following third-party software has injected DLL(s) into MAA, which will interfere with WPF rendering and ONNX/DML inference, causing MAA to crash, display rendering anomalies, or OCR recognition failures:</system:String>
-    <system:String x:Key="BadModules.Warning.Epilog">If you encounter such issues with MAA, please try adding MAA to the exclusion list of the relevant software, or uninstall the related software and check if the problem persists.</system:String>
+    <system:String x:Key="BadModules.Warning.Epilog" xml:space="preserve">It is recommended to block injection at the system level via Windows Security: App &amp; browser control → Exploit protection → Exploit protection settings → Program settings → Add MAA.exe → Set "Disable extension points" to "Override system settings - On", then restart MAA.&#x0a;&#x0a;You may also try adding MAA to the exclusion list of the relevant software, or uninstall the related software and check if the problem persists.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">Do not show this warning again</system:String>
     <system:String x:Key="BadModules.Warning.Fallback">Additionally, the system's dialog component has been damaged and crashed — all subsequent dialogs may fail to display, and other system functionality may also be affected. Click "Yes" to suppress this warning, or "No" to dismiss for now.</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">Warning: Performance Impact</system:String>

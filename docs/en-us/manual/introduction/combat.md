@@ -106,15 +106,16 @@ Example: Alternative Stages are `CE-6/5`, `1-7` and `LS-6/5`:
 MAA will use the specified Series setting:
 
 - **AUTO mode** (0):
-  - Automatically identifies and uses the maximum possible multiplier without wasting sanity
+  - Automatically selects a multiplier based on remaining battle count (capped at the stage's maximum); reduces medicine usage to avoid sanity overflow, while Originium is used one at a time per setting
+  - If sanity is insufficient for a full run of that multiplier, recovers sanity as configured (medicines first, then Originium); ends the task if none are set or exhausted
 
 - **Fixed value mode** (1-10 for CN, 1-6 for overseas servers):
   - Uses exactly the specified multiplier
-  - If current sanity is insufficient for the set multiplier (e.g., only enough for 5× but set to 6×), ends the task
+  - If current sanity is insufficient for a full run of the set multiplier (e.g., only enough for 5× but set to 6×), recovers sanity as configured (medicines first, then Originium); ends the task if none are set or exhausted
 
 - **Disabled mode** (-1):
   - Doesn't change the in-game multiplier setting
-  - If sanity is insufficient for the current in-game multiplier setting, ends the task
+  - If sanity is insufficient for a full run of the current in-game multiplier, recovers sanity as configured (medicines first, then Originium); ends the task if none are set or exhausted
 
 ### Perform Battles
 

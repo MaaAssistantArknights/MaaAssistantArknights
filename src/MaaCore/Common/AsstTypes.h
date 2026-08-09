@@ -58,7 +58,7 @@ enum class TouchMode
     MacPlayTools = 3,
     MaaFwAdb = 4,
     Android = 5,
-    MumuExtras = 6, // MuMu external renderer IPC，不可用时自动降级为 Maatouch
+    MumuExtras = 6, // MuMu external renderer IPC，不可用时自动降级为 Minitouch
 };
 
 #ifdef _WIN32

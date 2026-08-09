@@ -87,9 +87,9 @@ public class TextBlock : System.Windows.Controls.TextBlock
         var anim = new DoubleAnimation
         {
             From = 0,
-            To = 4000,
-            Duration = new Duration(System.TimeSpan.FromSeconds(100)),
-            RepeatBehavior = RepeatBehavior.Forever,
+            To = 2000,
+            Duration = new Duration(System.TimeSpan.FromSeconds(60)),
+            EasingFunction = new PowerEase { Power = 3, EasingMode = EasingMode.EaseOut },
         };
         translate.BeginAnimation(TranslateTransform.XProperty, anim);
     }

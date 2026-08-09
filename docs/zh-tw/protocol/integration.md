@@ -163,45 +163,45 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
   <br>
   - 新列表（國服 2026/8/1 後主資源，無該 flag）：接受 `-1~10`
   - 舊列表（外服資源帶該 flag）：僅接受 `-1~6`，更大值會被拒絕
-  <br>
-  外服預計約半年後跟進，屆時上限隨資源變為 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手動選擇 7~10，任務下發時會被 Core 拒絕。
-  :::  
-  :::  
-  ::: field name="drops" type="object" optional  
-  指定物品掉落數量，預設不指定。key 為 `item_id`，value 為數量。key 可參考 `resource/item_index.json` 檔案。  
-  <br>
-  例如：`{ "30011": 10, "30062": 5 }`  
-  <br>
-  上述所有條件（次數、掉落等）均為「或」的關係，任一條件達成即停止任務。  
-  :::  
-  ::: field name="report_to_penguin" type="boolean" optional default="false"  
-  是否回報企鵝物流  
-  :::  
-  ::: field name="penguin_id" type="string" optional  
-  企鵝物流回報 ID，預設為空。僅在 `report_to_penguin` 為 `true` 時有效。  
-  :::  
-  ::: field name="report_to_yituliu" type="boolean" optional default="false"  
-  是否回報一圖流。  
-  :::  
-  ::: field name="yituliu_id" type="string" optional  
-  一圖流回報 ID，預設為空。僅在 `report_to_yituliu` 為 `true` 時有效。  
-  :::  
-  ::: field name="server" type="string" optional default="CN"  
-  遊戲伺服器，會影響掉落物辨識及數據上傳。  
-  <br>
-  選項：`CN` | `US` | `JP` | `KR`  
-  :::  
-  ::: field name="client_type" type="string" optional  
-  用戶端版本，預設為空。用於遊戲崩潰後自動重啟並接續任務；若為空則不啟用自動重啟功能。
-  <br>
-  選項：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-  :::  
-  ::: field name="DrGrandet" type="boolean" optional default="false"  
-  博朗台模式（節省理智碎石模式），僅在產生碎石需求時才起作用。
-  <br>
-  在碎石確認介面等待，直到目前理智自動恢復 1 點後，再立刻執行碎石回復，以避免浪費自然恢復。  
-  :::  
-  ::::
+    <br>
+    外服預計約半年後跟進，屆時上限隨資源變為 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手動選擇 7~10，任務下發時會被 Core 拒絕。
+    :::  
+    :::  
+    ::: field name="drops" type="object" optional  
+    指定物品掉落數量，預設不指定。key 為 `item_id`，value 為數量。key 可參考 `resource/item_index.json` 檔案。  
+    <br>
+    例如：`{ "30011": 10, "30062": 5 }`  
+    <br>
+    上述所有條件（次數、掉落等）均為「或」的關係，任一條件達成即停止任務。  
+    :::  
+    ::: field name="report_to_penguin" type="boolean" optional default="false"  
+    是否回報企鵝物流  
+    :::  
+    ::: field name="penguin_id" type="string" optional  
+    企鵝物流回報 ID，預設為空。僅在 `report_to_penguin` 為 `true` 時有效。  
+    :::  
+    ::: field name="report_to_yituliu" type="boolean" optional default="false"  
+    是否回報一圖流。  
+    :::  
+    ::: field name="yituliu_id" type="string" optional  
+    一圖流回報 ID，預設為空。僅在 `report_to_yituliu` 為 `true` 時有效。  
+    :::  
+    ::: field name="server" type="string" optional default="CN"  
+    遊戲伺服器，會影響掉落物辨識及數據上傳。  
+    <br>
+    選項：`CN` | `US` | `JP` | `KR`  
+    :::  
+    ::: field name="client_type" type="string" optional  
+    用戶端版本，預設為空。用於遊戲崩潰後自動重啟並接續任務；若為空則不啟用自動重啟功能。
+    <br>
+    選項：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+    :::  
+    ::: field name="DrGrandet" type="boolean" optional default="false"  
+    博朗台模式（節省理智碎石模式），僅在產生碎石需求時才起作用。
+    <br>
+    在碎石確認介面等待，直到目前理智自動恢復 1 點後，再立刻執行碎石回復，以避免浪費自然恢復。  
+    :::  
+    ::::
 
 <details>
 <summary>Example</summary>
@@ -997,6 +997,12 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 :::  
 ::: field name="task_names" type="array<string>" required  
 執行清單中第一個符合的任務名稱（及其後續的 `next` 任務等）。若想執行多個任務，可多次 append Custom task。  
+支援秘密前線（`MiniGame@SecretFront`）拼接形式：`MiniGame@SecretFront@Begin@Ending[A-E](@事件名)?`，事件名可選（支援作戰平台 / 遊俠 / 詭影迷蹤），例如 `MiniGame@SecretFront@Begin@EndingA@支援作戰平台`。  
+:::  
+::: field name="params" type="object" optional  
+任務附加參數。目前僅像素畫任務（`MiniGame@PixelPaint@Begin`）使用：  
+- `params.pixel_paint.groups`：按色分組點列。`color` 為色板序號（0~39，與遊戲右側色板順序一致），`points` 為 `[x, y]` 格子座標陣列（0~23，左上為原點）。  
+- `params.pixel_paint.swipe`（bool，可選，預設 true）：同色同行的連續格用拖動一次畫完，更快但部分觸控模式可能異常。  
 :::  
 ::::
 
@@ -1007,6 +1013,20 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 {
    "enable": true,
    "task_names": ["StartUp", "Infrast", "Fight"]
+}
+```
+
+```json
+{
+   "enable": true,
+   "task_names": ["MiniGame@PixelPaint@Begin"],
+   "params": {
+      "pixel_paint": {
+         "groups": [
+            { "color": 7, "points": [[0, 1], [3, 4]] }
+         ]
+      }
+   }
 }
 ```
 

@@ -26,7 +26,7 @@ bool MumuController::connect(const std::string& adb_path, const std::string& add
     }
 #endif
 
-    // 这里不能直接调 MaatouchController::connect()：它在 maatouch 探测失败时会抛出
+    // 这里不能直接调 MinitouchController::connect()：它在 minitouch 探测失败时会抛出
     // TouchModeNotAvailable 并返回 false，而此时 MuMu 触控可能是好的。
     // 所以自己接管探测顺序：先 adb 连接（顺带 init_mumu_extras），再优先试 MuMu。
     if (!AdbController::connect(adb_path, address, config)) {
@@ -55,7 +55,7 @@ bool MumuController::connect(const std::string& adb_path, const std::string& add
                 << VAR(m_height);
     }
 
-    LogInfo << "MuMu extras input is not available, fallback to maatouch";
+    LogInfo << "MuMu extras input is not available, fallback to minitouch";
 
     // 通知 GUI：MuMu 触控增强未生效（版本不支持或路径错误等），已降级
     json::value input_info = json::object {
@@ -88,7 +88,7 @@ bool MumuController::connect(const std::string& adb_path, const std::string& add
 bool MumuController::click(const Point& p)
 {
     if (!use_mumu_input()) {
-        return MaatouchController::click(p);
+        return MinitouchController::click(p);
     }
 
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
@@ -118,7 +118,7 @@ bool MumuController::swipe(
     bool with_pause)
 {
     if (!use_mumu_input()) {
-        return MaatouchController::swipe(p1, p2, duration, extra_swipe, slope_in, slope_out, with_pause);
+        return MinitouchController::swipe(p1, p2, duration, extra_swipe, slope_in, slope_out, with_pause);
     }
 
     int x1 = p1.x, y1 = p1.y;
@@ -214,7 +214,7 @@ bool MumuController::swipe(
 bool MumuController::inject_input_event(const InputEvent& event)
 {
     if (!use_mumu_input()) {
-        return MaatouchController::inject_input_event(event);
+        return MinitouchController::inject_input_event(event);
     }
 
     switch (event.type) {
@@ -245,7 +245,7 @@ bool MumuController::inject_input_event(const InputEvent& event)
 bool MumuController::input(const std::string& text)
 {
     if (!use_mumu_input()) {
-        return MaatouchController::input(text);
+        return MinitouchController::input(text);
     }
 
     return m_mumu_extras.input_text(text);
@@ -254,7 +254,7 @@ bool MumuController::input(const std::string& text)
 bool MumuController::press_esc()
 {
     if (!use_mumu_input()) {
-        return MaatouchController::press_esc();
+        return MinitouchController::press_esc();
     }
 
     constexpr int EscKeyCode = 111;
@@ -264,7 +264,7 @@ bool MumuController::press_esc()
 ControlFeat::Feat MumuController::support_features() const noexcept
 {
     if (!use_mumu_input()) {
-        return MaatouchController::support_features();
+        return MinitouchController::support_features();
     }
 
     // nemu 的坐标就是 display 原生坐标，不像 minitouch 要按 max_x/max_y 换算，
@@ -275,17 +275,17 @@ ControlFeat::Feat MumuController::support_features() const noexcept
 std::optional<std::string> MumuController::reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket)
 {
     if (!use_mumu_input()) {
-        return MaatouchController::reconnect(cmd, timeout, recv_by_socket);
+        return MinitouchController::reconnect(cmd, timeout, recv_by_socket);
     }
 
-    // 走 MuMu 触控时没有探测过 maatouch，跳过基类的 maatouch 重新拉起，
+    // 走 MuMu 触控时没有探测过 minitouch，跳过基类的 minitouch 重新拉起，
     // 否则会拿着空命令去起交互式 shell。nemu 的连接由 MumuExtras 自己维护。
     return AdbController::reconnect(cmd, timeout, recv_by_socket);
 }
 
 void MumuController::clear_info() noexcept
 {
-    MaatouchController::clear_info();
+    MinitouchController::clear_info();
     m_mumu_input_ready = false;
 }
 } // namespace asst

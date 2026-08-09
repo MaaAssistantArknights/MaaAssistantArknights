@@ -2,18 +2,18 @@
 
 #if ASST_WITH_EMULATOR_EXTRAS
 
-#include "MaatouchController.h"
+#include "MinitouchController.h"
 
 namespace asst
 {
 // 通过 MuMu 的 external renderer IPC 直接下发触控，绕开 adb。
-// 继承 MaatouchController 是为了拿到现成的降级链：MuMu 触控不可用时（模拟器版本过低、
-// dll 缺少 input 符号、非 MuMu 连接配置等）所有操作自动落回 maatouch。
-class MumuController : public MaatouchController
+// 继承 MinitouchController 是为了拿到现成的降级链：MuMu 触控不可用时（模拟器版本过低、
+// dll 缺少 input 符号、非 MuMu 连接配置等）所有操作自动落回 minitouch。
+class MumuController : public MinitouchController
 {
 public:
     MumuController(const AsstCallback& callback, Assistant* inst, PlatformType type) :
-        MaatouchController(callback, inst, type)
+        MinitouchController(callback, inst, type)
     {
     }
 
@@ -51,7 +51,7 @@ protected:
     virtual void clear_info() noexcept override;
 
 private:
-    // MuMu 触控是否就绪。未就绪时全部操作降级到 MaatouchController
+    // MuMu 触控是否就绪。未就绪时全部操作降级到 MinitouchController
     bool use_mumu_input() const noexcept { return m_mumu_input_ready; }
 
     bool m_mumu_input_ready = false;

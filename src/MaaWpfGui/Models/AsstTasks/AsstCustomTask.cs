@@ -26,5 +26,9 @@ public class AsstCustomTask : AsstBaseTask
     [JsonProperty("task_names")]
     public List<string> CustomTasks { get; set; } = [];
 
+    /// <summary>任务附加参数，如像素画的 params.pixel_paint.groups。无参数时不出现在 JSON 中。</summary>
+    [JsonProperty("params", NullValueHandling = NullValueHandling.Ignore)]
+    public JObject? Params { get; set; }
+
     public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
 }

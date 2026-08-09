@@ -162,46 +162,46 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
   <br>
   - 新リスト（中国版 2026/8/1 以降の主リソース、当該 flag なし）：`-1～10` を受け付け
   - 旧リスト（海外リソースに当該 flag あり）：`-1～6` のみ受け付け、それより大きい値は拒否
-  <br>
-  海外サーバーは約半年後に追従予定で、その際に上限はリソースに合わせて 10 になります。Windows GUI の連戦回数ドロップダウンは現在固定で 10 まで表示されます。海外で手動で 7～10 を選ぶと、タスク投入時に Core に拒否されます。
-  :::  
-  :::  
-  ::: field name="drops" type="object" optional  
-  ドロップ数を指定します。デフォルトで指定なし。キーは item_id、値は数量です。キーは `resource/item_index.json` ファイルを参照できます。  
-  <br>
-  例：`{ "30011": 10, "30062": 5 }`  
-  <br>
-  上記はすべて OR 関係です。つまり、いずれかに達するとタスクが停止します。  
-  :::  
-  ::: field name="report_to_penguin" type="boolean" optional default="false"  
-  ペンギン統計にレポートするかどうか。  
-  :::  
-  ::: field name="penguin_id" type="string" optional  
-  ペンギン統計レポート ID。デフォルトは空です。`report_to_penguin` が true の場合のみ有効です。  
-  :::  
-  :::  
-  ::: field name="report_to_yituliu" type="boolean" optional default="false"  
-  一图流にレポートするかどうか。  
-  :::  
-  ::: field name="yituliu_id" type="string" optional  
-  一图流レポート ID。デフォルトは空です。`report_to_yituliu` が true の場合のみ有効です。  
-  :::  
-  ::: field name="server" type="string" optional default="CN"  
-  サーバー。ドロップ認識とアップロードに影響します。
-  <br>
-  オプション：`CN` | `US` | `JP` | `KR`  
-  :::  
-  ::: field name="client_type" type="string" optional  
-  クライアント バージョン。デフォルトは空です。ゲームがクラッシュした場合にクライアントを再起動して接続し直すために使用されます。空の場合、この機能は有効になりません。
-  <br>
-  オプション：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-  :::  
-  ::: field name="DrGrandet" type="boolean" optional default="false"  
-  理智節約源石モード。源石効果が発生する可能性がある場合にのみ有効です。
-  <br>
-  源石確認画面で待機し、現在の 1 ポイントの理智回復が完了するまで待ってから、すぐに源石を使用します。  
-  :::  
-  ::::
+    <br>
+    海外サーバーは約半年後に追従予定で、その際に上限はリソースに合わせて 10 になります。Windows GUI の連戦回数ドロップダウンは現在固定で 10 まで表示されます。海外で手動で 7～10 を選ぶと、タスク投入時に Core に拒否されます。
+    :::  
+    :::  
+    ::: field name="drops" type="object" optional  
+    ドロップ数を指定します。デフォルトで指定なし。キーは item_id、値は数量です。キーは `resource/item_index.json` ファイルを参照できます。  
+    <br>
+    例：`{ "30011": 10, "30062": 5 }`  
+    <br>
+    上記はすべて OR 関係です。つまり、いずれかに達するとタスクが停止します。  
+    :::  
+    ::: field name="report_to_penguin" type="boolean" optional default="false"  
+    ペンギン統計にレポートするかどうか。  
+    :::  
+    ::: field name="penguin_id" type="string" optional  
+    ペンギン統計レポート ID。デフォルトは空です。`report_to_penguin` が true の場合のみ有効です。  
+    :::  
+    :::  
+    ::: field name="report_to_yituliu" type="boolean" optional default="false"  
+    一图流にレポートするかどうか。  
+    :::  
+    ::: field name="yituliu_id" type="string" optional  
+    一图流レポート ID。デフォルトは空です。`report_to_yituliu` が true の場合のみ有効です。  
+    :::  
+    ::: field name="server" type="string" optional default="CN"  
+    サーバー。ドロップ認識とアップロードに影響します。
+    <br>
+    オプション：`CN` | `US` | `JP` | `KR`  
+    :::  
+    ::: field name="client_type" type="string" optional  
+    クライアント バージョン。デフォルトは空です。ゲームがクラッシュした場合にクライアントを再起動して接続し直すために使用されます。空の場合、この機能は有効になりません。
+    <br>
+    オプション：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+    :::  
+    ::: field name="DrGrandet" type="boolean" optional default="false"  
+    理智節約源石モード。源石効果が発生する可能性がある場合にのみ有効です。
+    <br>
+    源石確認画面で待機し、現在の 1 ポイントの理智回復が完了するまで待ってから、すぐに源石を使用します。  
+    :::  
+    ::::
 
 <details>
 <summary>Example</summary>
@@ -997,6 +997,12 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 :::  
 ::: field name="task_names" type="array<string>" required  
 配列内の最初の一致（および後続の next など）でタスクを実行。複数のタスクを実行したい場合は、Custom task を複数回 append できます。  
+シークレットフロント（`MiniGame@SecretFront`）の連結形式に対応：`MiniGame@SecretFront@Begin@Ending[A-E](@イベント名)?`。イベント名は省略可（支援作战平台 / 游侠 / 诡影迷踪）、例：`MiniGame@SecretFront@Begin@EndingA@支援作战平台`。  
+:::  
+::: field name="params" type="object" optional  
+タスクの追加パラメータ。現在はピクセル画タスク（`MiniGame@PixelPaint@Begin`）のみで使用：  
+- `params.pixel_paint.groups`：色ごとのマス座標リスト。`color` はパレットのスロット番号（0~39、ゲーム右側パレットの順序と一致）、`points` は `[x, y]` のマス座標配列（0~23、左上原点）。  
+- `params.pixel_paint.swipe`（bool、任意、デフォルト true）：同じ色の連続マスを1回のドラッグで描画し高速化。一部のタッチ方式では正常に動作しない可能性があります。  
 :::  
 ::::
 
@@ -1007,6 +1013,20 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 {
    "enable": true,
    "task_names": ["StartUp", "Infrast", "Fight"]
+}
+```
+
+```json
+{
+   "enable": true,
+   "task_names": ["MiniGame@PixelPaint@Begin"],
+   "params": {
+      "pixel_paint": {
+         "groups": [
+            { "color": 7, "points": [[0, 1], [3, 4]] }
+         ]
+      }
+   }
 }
 ```
 

@@ -86,7 +86,7 @@
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">메시지 본문 템플릿</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">플레이스홀더: {title}, {content}, {time}</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Presets">사전 설정 템플릿</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">{title}, {content}, {time} 외에 {}로 감싸진 플레이스홀더(예: {nickname})를 실제 값으로 바꿔주세요</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">사전 설정 템플릿의 &lt;&gt; 플레이스홀더(예: &lt;nickname&gt;)를 실제 값으로 바꿔주세요</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.TemplateCustom">사용자 정의</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.TemplateMeoW">MeoW</system:String>
     <system:String x:Key="UseGpuForInference">추론 가속화를 위해 GPU 사용</system:String>
@@ -532,7 +532,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="AdbTouchMode">ADB Input (비권장)</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (실험적)</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu 터치 (실험적)</system:String>
-    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input는 OS 버전이 낮아 Minitouch나 MaaTouch를 사용할 수 없는 물리적 기기용입니다. 다른 두 모드를 사용할 수 있다면 ADB Input를 선택하지 마세요.&#10;ADB Input 스와이프는 오프셋이 발생하기 쉬우며, 이 문제를 방지하기 위해 스와이프 속도가 매우 느리게 설정되고 스와이프 거리도 다른 두 모드와 다릅니다. 정확한 좌표 제어가 필요한 상황에서는 사용할 수 없습니다.</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input는 OS 버전이 낮은 물리적 기기 전용입니다. 다른 모드를 사용할 수 있다면 ADB Input를 선택하지 마세요.&#10;ADB Input 스와이프는 오프셋이 발생하기 쉬우며, 이 문제를 방지하기 위해 스와이프 속도가 매우 느리게 설정되고 스와이프 거리도 다른 모드와 다릅니다. 정확한 좌표 제어가 필요한 상황에서는 사용할 수 없습니다.</system:String>
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">에뮬레이터 실행 매개변수 추가 명령 (예: ｢--instance 1｣ 은 1 번 인스턴스).&#10;명령 형식은 에뮬레이터마다 다르며 일반적으로 인스턴스 번호나 창 모드 등을 포함합니다.</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
@@ -702,7 +702,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AdbPathFileSelectionErrorImSure">잘못 선택한 것이 확실히 아닙니다</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">다시 선택하겠습니다</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
-    <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
+    <system:String x:Key="ConnectionAddressTip">｢{key=AutoDetectConnection}｣ 을(를) 활성화하고 성공하면 자동으로 입력됩니다. 감지에 실패한 경우, 에뮬레이터의 실제 포트를 확인하여 입력해 주세요.</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
     <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 강화 기능 활성화</system:String>
@@ -732,7 +732,7 @@ C:\\Program Files\\Netease\\MuMuPlayer으로 입력해야 합니다.\n
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
     <system:String x:Key="MuMu12Display">표시 번호</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu 스크린샷 강화 기능이 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
-    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu 백그라운드 유지가 켜져 있지만 MuMu 터치 강화가 작동하지 않습니다. 백그라운드 유지 중에는 조작할 수 없습니다. ｢{key=MuMuExtrasTouchEnabled}｣ 를 활성화하거나 MuMu 설정에서 ｢백그라운드 유지｣ 를 비활성화하세요.</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu 에뮬레이터에서 ｢앱 유지｣ 가 켜져 있지만 MAA 터치 강화가 작동하지 않습니다. 앱 유지 중에는 조작할 수 없습니다. MAA ｢{key=ConnectionSettings}｣ 에서 ｢{key=MuMu12ExtrasEnabled}｣ 와 그 아래의 ｢{key=MuMuExtrasTouchEnabled}｣ 를 함께 활성화하세요. 강화를 사용하지 않으려면 MuMu 설정에서 ｢앱 유지｣ 를 비활성화하세요(일부 버전에서는 ｢백그라운드 유지｣ ｢백그라운드 방치 시 유지 실행｣ 등으로 불렸습니다).</system:String>
     <system:String x:Key="MuMuEmulator12FullExtrasReady">완전한 MuMu 강화 가동——스크린샷과 터치 듀얼 링크 개통, 백그라운드 유지마저도 우리 손안에!</system:String>
     <system:String x:Key="LdExtrasEnabled">LD 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
@@ -881,12 +881,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CollapseAll">접기</system:String>
     <system:String x:Key="ClearPlans">전체 삭제</system:String>
     <system:String x:Key="ClearPlansConfirm">모든 계획을 삭제하시겠습니까?</system:String>
-    <system:String x:Key="DepotPlanInvalidDropItem">계획 {0}: 드롭 아이템 미지정.</system:String>
-    <system:String x:Key="DepotPlanZeroDropCount">계획 {0}: 목표 재고가 0.</system:String>
-    <system:String x:Key="DepotPlanNoStage">계획 {0}: 스테이지 미지정 또는 \"현재/이전\".</system:String>
-    <system:String x:Key="DepotPlanInventoryEnough">계획 {0}: {1} 재고 충분 (현재 {2} / 목표 {3}).</system:String>
-    <system:String x:Key="DepotPlanStageNotOpen">계획 {0}: 스테이지 '{1}' 가 열려 있지 않습니다.</system:String>
-    <system:String x:Key="DepotPlanAddTaskFailed">계획 {0}: 작업 추가 실패.</system:String>
+    <system:String x:Key="DepotPlanInvalidDropItem">#{0}: 드롭 아이템 미지정</system:String>
+    <system:String x:Key="DepotPlanZeroDropCount">#{0}: 목표 재고가 0</system:String>
+    <system:String x:Key="DepotPlanNoStage">#{0}: 스테이지 미지정 또는 \"현재/이전\"</system:String>
+    <system:String x:Key="DepotPlanInventoryEnough">#{0}: {1} 충분 {2}/{3}</system:String>
+    <system:String x:Key="DepotPlanInventoryInsufficient">#{0}: {1} 부족 {2}/{3}, {4}개 필요</system:String>
+    <system:String x:Key="DepotPlanStageNotOpen">#{0}: 스테이지 '{1}' 가 열려 있지 않습니다</system:String>
+    <system:String x:Key="DepotPlanAddTaskFailed">#{0}: 작업 추가 실패</system:String>
     <system:String x:Key="DepotSkipDuringActivity">이벤트 기간 중 건너뛰기</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">자원 수집 한정 전일 개방 기간 중 건너뛰기</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">이벤트 진행 중이므로 재고 유지를 건너뛰었습니다.</system:String>
@@ -1092,6 +1093,34 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">수상한 그림자</system:String>
     <system:String x:Key="MiniGame@SecretFront">비밀 전선</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내  ｢이전 소대의 데이터 전승받기｣  옵션을 체크하는 것을 권장합니다.</system:String>
+    <system:String x:Key="MiniGame@PixelPaint">픽셀 아트 자동 그리기</system:String>
+    <system:String x:Key="MiniGame@PixelPaintTip">게임 내 24×24 픽셀 아트 편집 페이지에 직접 들어간 뒤 시작하세요.&#10;미리보기는 드래그/휠로 구도 조정. 기본적으로 흰색은 건너뜀.&#10;시작 후 파라미터는 고정. 진행 상황은 오른쪽 로그 참조.</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DropHint">이미지를 드래그하거나 아래 버튼으로 선택</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PickImage">이미지 선택</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetView">구도 초기화</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetParams">파라미터 초기화</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Fit">맞춤</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitCrop">크롭</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitContain">전체 표시</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitStretch">늘리기</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Dither">디더링</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">없음</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Contrast">대비</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Brightness">밝기</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Saturation">채도</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PaintWhite">흰색도 그리기</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Swipe">스와이프 그리기 사용</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@SwipeTip">같은 색 연속 칸을 한 번의 드래그로 그려 속도를 크게 높입니다. 일부 터치 방식에서는 이상 동작이 있을 수 있습니다. 문제가 생기면 꺼주세요.</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@LoadFailed">이미지 로드 실패</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ConvertFailed">변환 실패</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ReadyStatus">그릴 수 있음 {0}칸 / {1}색</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@NeedImage">먼저 이미지를 불러와 미리보기를 생성하세요</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@StartLog">픽셀 아트 시작: {0}칸, {1}색</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ProgressLog">픽셀 아트 {0}/{1}</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DoneLog">픽셀 아트 완료</system:String>
+
     <system:String x:Key="MiniGameNameGreenTicketStore">자격증명서 상점</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1단계는 전부 구매하고&#10;2단계는 헤드헌팅 허가증과 모집 허가증을 구매해요</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">고급증명서 상점</system:String>
@@ -1417,7 +1446,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DrawCard">오퍼레이터 배치</system:String>
     <system:String x:Key="CheckIfStartOver">재시작 여부 확인</system:String>
     <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
-    <system:String x:Key="UnsupportedSkill">{0}은 {1} 스킬을 지원하지 않으므로, 스킬이 선택되지 않음</system:String>
+    <system:String x:Key="Copilot.UnsupportedSkill">{0}은 {1} 스킬을 지원하지 않으므로, 스킬이 선택되지 않음</system:String>
+    <system:String x:Key="Copilot.EliteEmpty">{0} 엘리트 레벨 요구 사항이 설정되지 않았지만, 다른 속성에 대한 요구 사항은 엘리트 {1}입니다. 이 값은 자동으로 채워졌습니다.</system:String>
+    <system:String x:Key="Copilot.EliteAjust">{0} 엘리트 {1}을 요구하도록 설정되었지만, 다른 속성에 대한 요구 사항은 엘리트 {2}입니다. 이 값은 자동으로 조정되었습니다.</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToReconnectByAdb">재접속을 시도하고 있습니다</system:String>
@@ -2158,7 +2189,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <!--  BadModules  -->
     <system:String x:Key="BadModules.Warning.Heading">호환성 경고</system:String>
     <system:String x:Key="BadModules.Warning.Prolog">다음 타사 소프트웨어가 MAA에 DLL을 주입했습니다. 이는 WPF 렌더링과 ONNX/DML 추론을 방해하여 MAA가 충돌하거나 UI 렌더링에 문제가 발생하거나 OCR 인식이 실패할 수 있습니다:</system:String>
-    <system:String x:Key="BadModules.Warning.Epilog">MAA에서 관련 문제가 발생하는 경우, 관련 소프트웨어의 제외 목록에 MAA를 추가하거나 관련 소프트웨어를 제거한 후 문제가 계속 발생하는지 확인하세요.</system:String>
+    <system:String x:Key="BadModules.Warning.Epilog" xml:space="preserve">Windows 보안을 통해 시스템 수준에서 인젝션을 차단하는 것을 권장합니다: 앱 및 브라우저 제어 → Exploit Protection → Exploit Protection 설정 → 프로그램 설정 → MAA.exe 추가 → "확장 지점 사용 안 함"을 "시스템 설정 재정의 - 켬"으로 설정한 후 활성화하고 MAA를 다시 시작하세요.&#x0a;&#x0a;또한 관련 소프트웨어의 제외 목록에 MAA를 추가하거나, 관련 소프트웨어를 제거한 후 문제가 계속 발생하는지 확인할 수도 있습니다.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">이 경고를 다시 표시하지 않음</system:String>
     <system:String x:Key="BadModules.Warning.Fallback">또한 시스템의 대화 상자 구성 요소가 손상되어 충돌이 발생했으며, MAA의 후속 대화 상자가 모두 표시되지 않을 뿐만 아니라 다른 시스템 기능에도 영향이 있을 수 있습니다. "예"를 클릭하면 다시 표시하지 않고, "아니요"를 클릭하면 지금은 닫습니다.</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">경고: 성능 영향</system:String>

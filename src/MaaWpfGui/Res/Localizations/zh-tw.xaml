@@ -86,7 +86,7 @@
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">訊息本文範本</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">可用佔位符：{title}、{content}、{time}</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Presets">預製模板</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">請將預製模板中除 {title}、{content}、{time} 以外的 {} 佔位符（如 {nickname}）替換為實際值</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">請將預製模板中的 &lt;&gt; 佔位符（如 &lt;nickname&gt;）替換為實際值</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.TemplateCustom">自訂</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.TemplateMeoW">MeoW</system:String>
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
@@ -532,7 +532,7 @@ D:\
     <system:String x:Key="AdbTouchMode">ADB Input（不推薦使用）</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework（實驗功能）</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu 觸控增強（實驗功能）</system:String>
-    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 用於相容系統版本過低、無法運行 Minitouch 或 MaaTouch 的實體機裝置。能用前兩種模式時，不要選擇 ADB Input。&#10;ADB Input 的滑動容易拖飛，為避免此問題，滑動速度會設定得非常慢，且滑動距離與前兩種模式不同；在需要精確控制座標的場景下無法使用。</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 僅用於相容系統版本過低的實體機裝置。能用其他模式時，不要選擇 ADB Input。&#10;ADB Input 的滑動容易拖飛，為避免此問題，滑動速度會設定得非常慢，且滑動距離與其他模式不同；在需要精確控制座標的場景下無法使用。</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用於指定模擬器啟動參數（如 ｢--instance 1｣ 表示啟動 1 號實例）。&#10;不同模擬器的命令格式不同，通常包括實例編號、視窗模式等參數，請參考您使用的模擬器說明文件。</system:String>
     <system:String x:Key="StartsWithScript">開始前腳本</system:String>
@@ -702,10 +702,10 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
     <system:String x:Key="ConnectionAddress">連線位址</system:String>
-    <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
+    <system:String x:Key="ConnectionAddressTip">開啟 ｢{key=AutoDetectConnection}｣ 並成功後會自動填入。若偵測失敗，請查到模擬器的實際連接埠後填入。</system:String>
     <system:String x:Key="ConnectionPreset">連線配置</system:String>
     <system:String x:Key="ScreenshotTest">截圖測試</system:String>
-    <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強模式</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">啟用 MuMu 觸控增強（實驗性，需 MuMu 模擬器 6.3.2+，支援背景保活）</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">找不到 MuMu 模擬器路徑。</system:String>
     <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll 未在所選 MuMu 安裝目錄中找到。\n
@@ -732,9 +732,9 @@ C:\\Program Files\\Netease\\MuMuPlayer\n
     <system:String x:Key="MuMu12Index">實例編號</system:String>
     <system:String x:Key="MuMu12Display">螢幕編號</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截圖增強未生效，請檢查相關設定</system:String>
-    <system:String x:Key="MuMuEmulator12KeepAliveOn">偵測到 MuMu 開啟了背景保活，但 MuMu 觸控增強未生效，在背景保活下無法操作。請勾選 ｢{key=MuMuExtrasTouchEnabled}｣ 或在 MuMu 設定中關閉 ｢背景保活｣（或 ｢應用保活｣ ｢背景掛機時保活運行｣ 等）。</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">偵測到 MuMu 模擬器開啟了 ｢應用保活｣，但 MAA 的觸控增強未生效，在應用保活下無法操作。請在 MAA ｢{key=ConnectionSettings}｣ 中同時勾選 ｢{key=MuMu12ExtrasEnabled}｣ 及其下的 ｢{key=MuMuExtrasTouchEnabled}｣；或不想使用增強時，請在 MuMu 設定中關閉 ｢應用保活｣（部分版本曾稱 ｢背景保活｣ ｢背景掛機時保活運行｣ 等）。</system:String>
     <system:String x:Key="MuMuEmulator12FullExtrasReady">完整 MuMu 增強已就位——截圖與觸控雙核直連貫通，背景保活亦為我所用！</system:String>
-    <system:String x:Key="LdExtrasEnabled">啟用 LD 截圖增強模式</system:String>
+    <system:String x:Key="LdExtrasEnabled">啟用 LD 截圖增強</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">找不到 LDPlayer 模擬器路徑。</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">在所選 LDPlayer 路徑中未找到 ldopengl64.dll，請確認安裝目錄。</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
@@ -880,12 +880,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CollapseAll">折疊</system:String>
     <system:String x:Key="ClearPlans">清空</system:String>
     <system:String x:Key="ClearPlansConfirm">確認要清空所有計劃嗎？</system:String>
-    <system:String x:Key="DepotPlanInvalidDropItem">計劃 {0}：未指定掉落物。</system:String>
-    <system:String x:Key="DepotPlanZeroDropCount">計劃 {0}：目標庫存為 0。</system:String>
-    <system:String x:Key="DepotPlanNoStage">計劃 {0}：關卡未指定或為 ｢當前/上次｣。</system:String>
-    <system:String x:Key="DepotPlanInventoryEnough">計劃 {0}：{1} 庫存已充足（當前 {2} / 目標 {3}）。</system:String>
-    <system:String x:Key="DepotPlanStageNotOpen">計劃 {0}：關卡 ｢{1}｣ 未開放。</system:String>
-    <system:String x:Key="DepotPlanAddTaskFailed">計劃 {0}：新增任務失敗。</system:String>
+    <system:String x:Key="DepotPlanInvalidDropItem">#{0}：未指定掉落物</system:String>
+    <system:String x:Key="DepotPlanZeroDropCount">#{0}：目標庫存為 0</system:String>
+    <system:String x:Key="DepotPlanNoStage">#{0}：關卡未指定或為 ｢當前/上次｣</system:String>
+    <system:String x:Key="DepotPlanInventoryEnough">#{0}：{1} 已充足 {2}/{3}</system:String>
+    <system:String x:Key="DepotPlanInventoryInsufficient">#{0}：{1} 不足 {2}/{3}，需刷取 {4}</system:String>
+    <system:String x:Key="DepotPlanStageNotOpen">#{0}：關卡 ｢{1}｣ 未開放</system:String>
+    <system:String x:Key="DepotPlanAddTaskFailed">#{0}：新增任務失敗</system:String>
     <system:String x:Key="DepotSkipDuringActivity">活動期間跳過</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">資源收集限時全天開放期間跳過</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">目前有活動進行中，已跳過庫存保持。</system:String>
@@ -1091,6 +1092,34 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">詭影迷蹤</system:String>
     <system:String x:Key="MiniGame@SecretFront">隱秘戰線</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內 ｢繼承上一支隊伍發回的資料｣ 。</system:String>
+    <system:String x:Key="MiniGame@PixelPaint">像素畫自動填色</system:String>
+    <system:String x:Key="MiniGame@PixelPaintTip">請先手動進入遊戲內 24×24 像素畫編輯頁，再開始。&#10;中間預覽可拖移/滾輪取景；預設跳過白色。&#10;開始後參數鎖定，進度見右側日誌。</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DropHint">拖入圖片或點下方選圖</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PickImage">選擇圖片</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetView">重置取景</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetParams">重置參數</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Fit">適配</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitCrop">裁切鋪滿</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitContain">完整裝入</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitStretch">拉伸</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Dither">抖動</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">無</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Contrast">對比度</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Brightness">亮度</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Saturation">飽和度</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PaintWhite">也畫白色</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Swipe">啟用滑動繪製</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@SwipeTip">同色同行的連續格用拖動一次畫完，可顯著加快畫圖速度。部分觸控模式下可能異常，如遇問題請關閉。</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@LoadFailed">圖片載入失敗</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ConvertFailed">轉換失敗</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ReadyStatus">可畫 {0} 格 / {1} 色</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@NeedImage">請先導入圖片並生成預覽</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@StartLog">開始像素畫：{0} 格，{1} 色</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ProgressLog">像素畫 {0}/{1}</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DoneLog">像素畫完成</system:String>
+
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">第 1 層全買。&#10;第 2 層買 ｢尋訪憑證｣ 和 ｢招聘許可｣ 。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黃票商店</system:String>
@@ -1416,7 +1445,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DrawCard">調配幹員</system:String>
     <system:String x:Key="CheckIfStartOver">檢查是否重開</system:String>
     <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 嘗試更新資源版本！</system:String>
-    <system:String x:Key="UnsupportedSkill">{0} 不支援技能 {1}, 不再選擇技能</system:String>
+    <system:String x:Key="Copilot.UnsupportedSkill">{0} 不支援技能 {1}, 不再選擇技能</system:String>
+    <system:String x:Key="Copilot.EliteEmpty">{0} 未設定精英等級要求, 但其他屬性要求 精{1}, 已自動補全</system:String>
+    <system:String x:Key="Copilot.EliteAjust">{0} 設定為要求 精{1}, 但是其他屬性需求 精{2}, 已自動調整</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果：</system:String>
     <system:String x:Key="ConnectFailed">連線失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在嘗試重連</system:String>
@@ -2158,7 +2189,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <!--  BadModules  -->
     <system:String x:Key="BadModules.Warning.Heading">悲報</system:String>
     <system:String x:Key="BadModules.Warning.Prolog">偵測到以下第三方軟體向 MAA 注入了 DLL。這些注入的 DLL 會破壞 WPF 算繪和 ONNX/DML 推論，導致 MAA 閃退、介面算繪異常或 OCR 識別失敗：</system:String>
-    <system:String x:Key="BadModules.Warning.Epilog">如果您發現 MAA 存在相關問題，請嘗試將 MAA 加入相關軟體的排除名單，或解除安裝相關軟體後檢查問題是否仍然存在。</system:String>
+    <system:String x:Key="BadModules.Warning.Epilog" xml:space="preserve">建議透過 Windows 安全中心從系統層面阻止注入：應用程式與瀏覽器控制 → 入侵防護 → 入侵防護設定 → 程式設定 → 新增 MAA.exe → 將「停用擴充點」設為「覆寫系統設定 - 開啟」，啟用後重新啟動 MAA。&#x0a;&#x0a;您也可以嘗試將 MAA 加入相關軟體的排除名單，或解除安裝相關軟體後檢查問題是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再顯示此警告</system:String>
     <system:String x:Key="BadModules.Warning.Fallback">此外，系統的彈窗元件已被破壞並發生崩潰，MAA 的後續彈窗均可能無法正常顯示，其他系統功能也可能受到影響。點擊「是」下次不再提醒，點擊「否」僅本次關閉。</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">警告：效能影響</system:String>

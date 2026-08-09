@@ -1,0 +1,85 @@
+{
+    "MiniGame@InteractiveExhibition@Begin": {
+        "doc": "奇象巡展（InteractiveExhibition）：类似宝可梦的探索玩法。在指定区域用摇杆来回走动，遇敌进入战斗前预览界面，OCR 判断「已收录/暂未收录」：已收录则按左上角退出继续循环；暂未收录则结束任务交给玩家手动战斗。",
+        "algorithm": "JustReturn",
+        "next": ["MiniGame@InteractiveExhibition@Loop"]
+    },
+    "MiniGame@InteractiveExhibition@Loop": {
+        "doc": "走路循环入口。先确认联网正常再走动；走动后优先判断是否遇敌。",
+        "algorithm": "JustReturn",
+        "next": [
+            "MiniGame@InteractiveExhibition@CheckConnection-Then-WalkRight",
+            "MiniGame@InteractiveExhibition@CheckConnection"
+        ]
+    },
+    "MiniGame@InteractiveExhibition@CheckConnection": {
+        "doc": "联网门禁：OCR 左上角延迟「数字ms」(roi [15,90,80,50])。命中=在活动界面且联网正常，可继续走动；未命中则原地重试。",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["ONLINE"],
+        "ocrReplace": [["\\d+ms", "ONLINE"]],
+        "roi": [15, 90, 80, 50],
+        "next": ["MiniGame@InteractiveExhibition@CheckConnection"]
+    },
+    "MiniGame@InteractiveExhibition@CheckConnection-Then-WalkRight": {
+        "doc": "确认联网后往右走。复用 CheckConnection 的 OCR，命中即触发 WalkRight。",
+        "baseTask": "MiniGame@InteractiveExhibition@CheckConnection",
+        "next": ["MiniGame@InteractiveExhibition@WalkRight"]
+    },
+    "MiniGame@InteractiveExhibition@CheckConnection-Then-WalkLeft": {
+        "doc": "确认联网后往左走。复用 CheckConnection 的 OCR，命中即触发 WalkLeft。",
+        "baseTask": "MiniGame@InteractiveExhibition@CheckConnection",
+        "next": ["MiniGame@InteractiveExhibition@WalkLeft"]
+    },
+    "MiniGame@InteractiveExhibition@WalkRight": {
+        "doc": "摇杆往右走：在 [100,620] 按下唤出摇杆，向右拖到 [200,620]。拖动持续 2000ms，比往左更久，保证角色稳定停在地图靠右侧，避免走到一半遇敌造成定位累计偏差。",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [100, 620, 1, 1],
+        "rectMove": [200, 620, 1, 1],
+        "specialParams": [2000, 0, 3, 0],
+        "next": [
+            "MiniGame@InteractiveExhibition@CheckEncounter-Collected",
+            "MiniGame@InteractiveExhibition@CheckEncounter-Uncollected",
+            "MiniGame@InteractiveExhibition@CheckConnection-Then-WalkLeft"
+        ]
+    },
+    "MiniGame@InteractiveExhibition@WalkLeft": {
+        "doc": "摇杆往左走：在 [100,620] 按下唤出摇杆，向左拖到 [0,620]。拖动持续 1500ms。",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [100, 620, 1, 1],
+        "rectMove": [0, 620, 1, 1],
+        "specialParams": [1500, 0, 3, 0],
+        "next": [
+            "MiniGame@InteractiveExhibition@CheckEncounter-Collected",
+            "MiniGame@InteractiveExhibition@CheckEncounter-Uncollected",
+            "MiniGame@InteractiveExhibition@CheckConnection-Then-WalkRight"
+        ]
+    },
+    "MiniGame@InteractiveExhibition@CheckEncounter-Collected": {
+        "doc": "遇敌检测：已收录。命中→按左上角退出返回地图，继续循环。",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["已收录"],
+        "roi": [300, 500, 120, 45],
+        "postDelay": 1000,
+        "next": ["MiniGame@InteractiveExhibition@ExitBattle"]
+    },
+    "MiniGame@InteractiveExhibition@CheckEncounter-Uncollected": {
+        "doc": "遇敌检测：暂未收录。命中→结束任务，交给玩家手动战斗。",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["暂未收录"],
+        "roi": [300, 500, 120, 45],
+        "next": ["Stop"]
+    },
+    "MiniGame@InteractiveExhibition@ExitBattle": {
+        "doc": "已收录：按左上角退出 [50,50,10,10]，点一次后等待转场。点完再回 CheckEncounter-Collected 复查：若仍能看到「已收录」（退出按钮没点中/转场未完成），允许继续点，直到确实退出回到地图。",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [50, 50, 10, 10],
+        "postDelay": 500,
+        "next": ["MiniGame@InteractiveExhibition@CheckEncounter-Collected", "MiniGame@InteractiveExhibition@Loop"]
+    }
+}
