@@ -1000,7 +1000,7 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 シークレットフロント（`MiniGame@SecretFront`）の連結形式に対応：`MiniGame@SecretFront@Begin@Ending[A-E](@イベント名)?`。イベント名は省略可（支援作战平台 / 游侠 / 诡影迷踪）、例：`MiniGame@SecretFront@Begin@EndingA@支援作战平台`。  
 :::  
 ::: field name="params" type="object" optional  
-タスクの追加パラメータ。現在はピクセル画タスク（`MiniGame@PixelPaint` / `MiniGame@PixelPaint@Begin`）のみで使用：  
+タスクの追加パラメータ。現在はピクセル画タスク（`MiniGame@PixelPaint@Begin`）のみで使用：  
 - `params.pixel_paint.groups`：色ごとのマス座標リスト。`color` はパレットのスロット番号（0~39、ゲーム右側パレットの順序と一致）、`points` は `[x, y]` のマス座標配列（0~23、左上原点）。
 :::  
 ::::

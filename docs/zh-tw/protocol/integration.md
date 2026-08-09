@@ -1000,7 +1000,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 支援秘密前線（`MiniGame@SecretFront`）拼接形式：`MiniGame@SecretFront@Begin@Ending[A-E](@事件名)?`，事件名可選（支援作戰平台 / 遊俠 / 詭影迷蹤），例如 `MiniGame@SecretFront@Begin@EndingA@支援作戰平台`。  
 :::  
 ::: field name="params" type="object" optional  
-任務附加參數。目前僅像素畫任務（`MiniGame@PixelPaint` / `MiniGame@PixelPaint@Begin`）使用：  
+任務附加參數。目前僅像素畫任務（`MiniGame@PixelPaint@Begin`）使用：  
 - `params.pixel_paint.groups`：按色分組點列。`color` 為色板序號（0~39，與遊戲右側色板順序一致），`points` 為 `[x, y]` 格子座標陣列（0~23，左上為原點）。
 :::  
 ::::
