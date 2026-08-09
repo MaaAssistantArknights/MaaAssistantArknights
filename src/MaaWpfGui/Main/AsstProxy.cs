@@ -2360,6 +2360,26 @@ public class AsstProxy
             case "StageQueueMissionCompleted":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails!["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
                 break;
+
+            case "PixelPaintProgress":
+                {
+                    var done = (int)(subTaskDetails?["done"] ?? 0);
+                    var total = (int)(subTaskDetails?["total"] ?? 0);
+                    if (done >= total && total > 0)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(
+                            LocalizationHelper.GetString("MiniGame@PixelPaint@DoneLog"),
+                            UiLogColor.Success);
+                    }
+                    else
+                    {
+                        Instances.TaskQueueViewModel.AddLog(
+                            string.Format(LocalizationHelper.GetString("MiniGame@PixelPaint@ProgressLog"), done, total),
+                            UiLogColor.Trace);
+                    }
+
+                    break;
+                }
         }
     }
 
@@ -3028,6 +3048,28 @@ public class AsstProxy
     {
         var task = new AsstCustomTask() {
             CustomTasks = [taskName],
+        };
+        var (type, param) = task.Serialize();
+        return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
+    }
+
+    /// <summary>
+    /// 像素画自动填色（牛杂）。短 task 入口 + pixel_paint 分组点列。
+    /// </summary>
+    /// <param name="groups">按色分组后的格子，color 为 0~39。</param>
+    /// <returns>是否成功启动。</returns>
+    public bool AsstPixelPaint(IReadOnlyList<PixelPaintHelper.ColorGroup> groups)
+    {
+        var task = new AsstPixelPaintTask {
+            CustomTasks = ["MiniGame@PixelPaint@Begin"],
+            Params = new AsstPixelPaintTask.PixelPaintParams {
+                PixelPaint = new AsstPixelPaintTask.PixelPaintPayload {
+                    Groups = groups.Select(g => new AsstPixelPaintTask.PixelPaintGroup {
+                        Color = g.Color,
+                        Points = g.Points,
+                    }).ToList(),
+                },
+            },
         };
         var (type, param) = task.Serialize();
         return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
