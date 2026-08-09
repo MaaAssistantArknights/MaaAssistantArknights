@@ -145,6 +145,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                     Stone = startedFight.UseStone != false ? startedFight.StoneCount : 0,
                     Series = startedFight.Series,
                     MaxTimes = int.MaxValue,
+                    MedicineExpireDays = startedFight.UseExpiringMedicine ? startedFight.MedicineExpireDays : 0,
                     IsDrGrandet = startedFight.IsDrGrandet,
                     ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
                     ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
