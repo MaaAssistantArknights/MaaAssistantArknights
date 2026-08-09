@@ -365,6 +365,12 @@
     "BlackFlow@Roguelike@CultivateHarvestItems": {
         "algorithm": "OcrDetect",
         "roi": [1, 292, 1277, 99],
+        "ocrReplace": [
+            ["^.*猫$", "襁褓中的猫"],
+            ["^.*羽蛇$", "襁褓羽蛇"],
+            ["^.*狗$", "襁褓中的狗"],
+            ["^.*三头犬$", "襁褓三头犬"]
+        ],
         "text": [
             "襁褓中的猫",
             "襁褓羽蛇",
@@ -1194,8 +1200,8 @@
         "roi": [1089, 544, 38, 27],
         "isAscii": true,
         "withoutDet": true,
-        "text": ["0", "-1", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "-9"],
-        "ocrReplace": [["^-*([1-9])$", "-$1"]],
+        "text": ["0", "-0", "-1", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "-9"],
+        "ocrReplace": [["^.*-([0-9])$", "-$1"]],
         "fullMatch": true
     },
     "BlackFlow@Roguelike@MovePreviewDisplayedName": {
