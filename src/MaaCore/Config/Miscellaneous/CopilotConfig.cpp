@@ -103,6 +103,7 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
                          << ", but elite requirement is set to" << *elite_opt;
                 return std::nullopt;
             }
+            oper.requirements.elite = *elite_opt;
         }
     }
 

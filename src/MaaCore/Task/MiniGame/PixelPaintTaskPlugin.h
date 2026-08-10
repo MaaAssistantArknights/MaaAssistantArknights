@@ -22,7 +22,7 @@ public:
         inline static constexpr int GridSize = 24;
         inline static constexpr int PaletteSize = 40;
 
-        int color = 0; // 0~39，与游戏色板顺序一致
+        int color = 0;             // 0~39，与游戏色板顺序一致
         std::vector<Point> points; // 格坐标，x/y ∈ 0..23
     };
 
@@ -32,6 +32,9 @@ public:
 
     // 是否用拖动绘制同色同行连续格；关闭则全部逐格点击
     void set_swipe_enabled(bool enabled) { m_swipe_enabled = enabled; }
+
+    // 逐格点击的额外等待（ms），UI 可配；各触控方式自带基础间隔
+    void set_grid_click_delay(unsigned delay) { m_grid_click_delay = delay; }
 
 protected:
     virtual bool _run() override;
@@ -62,9 +65,9 @@ private:
 
     bool m_swipe_enabled = true;
 
-    // 固定节奏（ms）。click 间隔由各控制方式自带（minitouch/maatouch
-    // DefaultClickDelay=50，adb 已在 AdbController::click 对齐 50ms）
-    inline static constexpr unsigned GridClickDelay = 0;
+    unsigned m_grid_click_delay = 0;
+
+    // 固定节奏（ms）。click 基础间隔由各控制方式自带
     inline static constexpr unsigned PaletteClickDelay = 50;
 
     // 同色同行连续格用拖动绘制，每格滑动时长（ms）

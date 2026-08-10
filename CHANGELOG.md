@@ -1,4 +1,4 @@
-## v6.16.6
+## v6.16.7
 
 ### Highlights
 
@@ -44,6 +44,21 @@ Refactored the depot maintain task UI with global medicine/originium toggles and
 以下是详细内容：
 
 <details open>
+<summary><b>v6.16.7 (2026-08-10)</b></summary>
+
+### 新增 | New
+
+* 奇象巡展识别新增「本日不再提醒」与「是否离开当前展会」弹窗处理 @ABA2396
+* 像素画自动填色新增可调节的点击间隔选项，允许用户在低性能设备上增大间隔值 @ABA2396
+
+### 修复 | Fix
+
+* 修复理智作战使用指定材料+目标库存时无法执行「无限吃 N 小时内过期的理智药」的问题 ([#17628](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17628)) @ABA2396
+* 修复自动战斗作业隐式精英化等级需求未解析生效的问题 ([#17639](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17639)) @yali-hzy
+
+</details>
+
+<details>
 <summary><b>v6.16.6 (2026-08-09)</b></summary>
 
 ### 新增 | New

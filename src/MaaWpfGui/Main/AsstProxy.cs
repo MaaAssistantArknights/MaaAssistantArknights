@@ -3058,14 +3058,16 @@ public class AsstProxy
     /// </summary>
     /// <param name="groups">按色分组后的格子，color 为 0~39。</param>
     /// <param name="swipeEnabled">是否启用拖动绘制（同色同行连续格一次画完）。</param>
+    /// <param name="gridClickDelay">逐格点击的额外等待（ms），默认 0。</param>
     /// <returns>是否成功启动。</returns>
-    public bool AsstPixelPaint(IReadOnlyList<PixelPaintHelper.ColorGroup> groups, bool swipeEnabled = true)
+    public bool AsstPixelPaint(IReadOnlyList<PixelPaintHelper.ColorGroup> groups, bool swipeEnabled = true, int gridClickDelay = 0)
     {
         var task = new AsstCustomTask {
             CustomTasks = ["MiniGame@PixelPaint@Begin"],
             Params = JObject.FromObject(new {
                 pixel_paint = new {
                     swipe = swipeEnabled,
+                    grid_click_delay = gridClickDelay,
                     groups = groups.Select(g => new {
                         color = g.Color,
                         points = g.Points,

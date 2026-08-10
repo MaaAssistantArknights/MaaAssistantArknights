@@ -1113,6 +1113,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@PaintWhite">흰색도 그리기</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Swipe">스와이프 그리기 사용</system:String>
     <system:String x:Key="MiniGame@PixelPaint@SwipeTip">같은 색 연속 칸을 한 번의 드래그로 그려 속도를 크게 높입니다. 일부 터치 방식에서는 이상 동작이 있을 수 있습니다. 문제가 생기면 꺼주세요.</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@GridClickDelay">클릭 간격(ms)</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@GridClickDelayTip">칸 클릭 사이의 추가 대기 시간. 각 터치 방식에 기본 간격이 있어 기본 0으로 충분합니다. 저사양 기기에서는 문제가 있을 수 있으니 필요에 따라 조정하세요.</system:String>
     <system:String x:Key="MiniGame@PixelPaint@LoadFailed">이미지 로드 실패</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ConvertFailed">변환 실패</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ReadyStatus">그릴 수 있음 {0}칸 / {1}색</system:String>

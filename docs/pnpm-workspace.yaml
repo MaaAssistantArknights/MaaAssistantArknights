@@ -1,7 +1,5 @@
 packages:
   - .
-
-onlyBuiltDependencies:
-  - "@parcel/watcher"
-  - esbuild
-  - vue-demi
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
