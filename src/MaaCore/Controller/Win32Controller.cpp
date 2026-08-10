@@ -116,6 +116,14 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
 {
     LogTraceFunction;
 
+    // 截图前把鼠标移到窗口左下角，避免光标出现在截图中影响识别
+    if (m_screen_size.second > 0) {
+        unit_touch_move(0, 0, m_screen_size.second - 1, 0);
+        if (m_mouse_method & (Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos)) {
+            unit_touch_up(0);
+        }
+    }
+
     if (!unit_screencap(image_payload)) {
         return false;
     }
