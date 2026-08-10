@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/base:ubuntu
+FROM mcr.microsoft.com/devcontainers/base:ubuntu24.04
 
 USER vscode
 
@@ -24,6 +24,7 @@ RUN sudo apt update \
     && sudo apt upgrade -y \
     && sudo apt install -y \
     cmake \
+    ninja-build \
     fish \
     && sudo rm -rf /var/lib/apt/lists/*
 

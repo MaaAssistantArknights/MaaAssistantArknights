@@ -16,4 +16,4 @@ echo "===================="
 cd "$WORKSPACE"/docs
 echo "Installing node modules..."
 npm install -g pnpm
-pnpm install --frozen-lockfile
+pnpm install
