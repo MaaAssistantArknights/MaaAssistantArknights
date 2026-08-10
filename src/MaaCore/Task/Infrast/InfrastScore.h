@@ -31,6 +31,9 @@ struct ScoreContext
     int virtual_power_station_num = 0;
     int total_station_level = 0;
     int workbench_num = 0;
+    bool use_pinus_sylvestris = false;
+    bool use_perception_information = false;
+    bool use_worldly_plight = false;
     bool use_abyssal_hunter = false;
     std::unordered_set<std::string> selected_operator_ids;
 };

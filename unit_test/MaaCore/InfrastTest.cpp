@@ -103,6 +103,7 @@ TEST_CASE("infrast dorm reacts only to committed stable identities", "[infrast][
     ScoreContext context;
     context.facility = "Dorm";
     context.slots = 2;
+    context.use_perception_information = true;
     context.selected_operator_ids = { "char_391_rosmon" };
     const std::vector<ScoreOper> opers = {
         { { "bskill_dorm_all3" }, "", "generic", 1.0 },
@@ -276,6 +277,8 @@ TEST_CASE("infrast control prefers swire and lungmen guard pair", "[infrast][sco
     ScoreContext context;
     context.facility = "Control";
     context.slots = 5;
+    context.use_pinus_sylvestris = true;
+    context.use_perception_information = true;
     context.selected_operator_ids = { "char_436_whispr" };
     const std::vector<ScoreOper> opers = {
         { { "bskill_ctrl_t_spd" }, "char_308_swire", "swire", 1.0 },
@@ -311,6 +314,119 @@ TEST_CASE("infrast control prefers swire and lungmen guard pair", "[infrast][sco
     CHECK(select_best_opers(opers, oversized_context).indices.size() == 5);
 }
 
+TEST_CASE("infrast pinus sylvestris team is opt in", "[infrast][score][options]")
+{
+    ScoreContext context;
+    context.facility = "Control";
+    context.slots = 5;
+    const std::vector<ScoreOper> opers = {
+        { { "bskill_ctrl_psk" }, "char_420_flamtl", "flametail", 1.0 },
+        { { "bskill_ctrl_fraction_knight" }, "char_4098_vvana", "viviana", 1.0 },
+        { { "bskill_ctrl_cost" }, "", "generic-a", 1.0 },
+        { { "bskill_ctrl_cost" }, "", "generic-b", 1.0 },
+        { { "bskill_ctrl_cost" }, "", "generic-c", 1.0 },
+        { { "bskill_ctrl_cost" }, "", "generic-d", 1.0 },
+        { { "bskill_ctrl_cost" }, "", "generic-e", 1.0 },
+    };
+
+    CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 2, 3, 4, 5, 6 });
+
+    context.use_pinus_sylvestris = true;
+    const auto enabled = select_best_opers(opers, context);
+    CHECK(std::ranges::find(enabled.indices, 0) != enabled.indices.end());
+    CHECK(std::ranges::find(enabled.indices, 1) != enabled.indices.end());
+}
+
+TEST_CASE("infrast perception information team is opt in", "[infrast][score][options]")
+{
+    ScoreContext context;
+    context.facility = "Office";
+    context.slots = 1;
+    const std::vector<ScoreOper> opers = {
+        { { "bskill_hire_spd_memento" }, "char_436_whispr", "whisperain", 1.0 },
+        { { "bskill_hire_spd2" }, "", "ordinary", 1.0 },
+    };
+
+    CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 1 });
+
+    context.use_perception_information = true;
+    CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 0 });
+}
+
+TEST_CASE("infrast perception information bonuses are opt in", "[infrast][score][options]")
+{
+    ScoreContext context;
+    context.facility = "Mfg";
+    context.product = "CombatRecord";
+    context.level = 3;
+    context.slots = 1;
+    context.selected_operator_ids = { "char_436_whispr" };
+    const std::vector<ScoreOper> opers = {
+        { { "bskill_man_spd_bd2" }, "char_391_rosmon", "rosmontis", 1.0 },
+        { { "bskill_man_spd3" }, "", "ordinary", 1.0 },
+    };
+
+    CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 1 });
+
+    context.use_perception_information = true;
+    CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 0 });
+}
+
+TEST_CASE("infrast worldly plight team is opt in", "[infrast][score][options]")
+{
+    ScoreContext context;
+    context.facility = "Office";
+    context.slots = 1;
+    const std::vector<ScoreOper> opers = {
+        { { "bskill_hire_spd_bd_n2" }, "char_473_mberry", "mulberry", 1.0 },
+        { { "bskill_hire_spd2" }, "", "ordinary", 1.0 },
+    };
+
+    CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 1 });
+
+    context.use_worldly_plight = true;
+    CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 0 });
+}
+
+TEST_CASE("infrast worldly plight bonuses are opt in", "[infrast][score][options]")
+{
+    ScoreContext context;
+    context.facility = "Trade";
+    context.product = "Money";
+    context.level = 3;
+    context.slots = 1;
+    context.dormitory_capacity = 20;
+    context.selected_operator_ids = { "char_473_mberry", "char_2024_chyue" };
+    const std::vector<ScoreOper> opers = {
+        { { "bskill_tra_bd_n2" }, "char_455_nothin", "mr-nothing", 1.0 },
+        { { "bskill_tra_spd3" }, "", "ordinary", 1.0 },
+    };
+
+    CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 1 });
+
+    context.use_worldly_plight = true;
+    CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 0 });
+}
+
+TEST_CASE("infrast abyssal hunter control operator is opt in", "[infrast][score][options]")
+{
+    ScoreContext context;
+    context.facility = "Control";
+    context.slots = 5;
+    const std::vector<ScoreOper> opers = {
+        { { "bskill_ctrl_aegir2", "bskill_ctrl_cost" }, "char_474_glady", "gladiia", 1.0 },
+        { { "bskill_ctrl_cost" }, "", "generic-a", 1.0 },
+        { { "bskill_ctrl_cost" }, "", "generic-b", 1.0 },
+        { { "bskill_ctrl_cost" }, "", "generic-c", 1.0 },
+    };
+
+    CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 1, 2, 3 });
+
+    context.use_abyssal_hunter = true;
+    const auto enabled = select_best_opers(opers, context);
+    CHECK(std::ranges::find(enabled.indices, 0) != enabled.indices.end());
+}
+
 TEST_CASE("infrast manufacturing identifies pinus operators for control linkage", "[infrast][score][identity]")
 {
     ScoreContext context;
@@ -328,6 +444,9 @@ TEST_CASE("infrast manufacturing identifies pinus operators for control linkage"
         { { "bskill_man_spd3" }, "", "generic-c", 1.0 },
     };
 
+    CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 3, 4, 5 });
+
+    context.use_pinus_sylvestris = true;
     CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 0, 1, 2 });
 
     auto ambiguous_opers = opers;
@@ -342,6 +461,7 @@ TEST_CASE("infrast perception linkage propagates through every facility", "[infr
     ScoreContext context;
     context.facility = "Office";
     context.slots = 1;
+    context.use_perception_information = true;
     const std::vector<ScoreOper> office_opers = {
         { { "bskill_hire_spd_bd_n1_n1", "bskill_hire_spd_memento" }, "char_436_whispr", "whisperain", 1.0 },
         { { "bskill_hire_skgoat2" }, "", "ordinary", 1.0 },

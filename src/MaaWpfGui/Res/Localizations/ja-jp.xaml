@@ -165,7 +165,10 @@
     <system:String x:Key="InfrastReceptionSendClue">手がかりを贈る</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">{key=Infrast} で以下の関数を設定して実行する必要があります</system:String>
     <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
-    <system:String x:Key="InfrastUseAbyssalHunter">製造所でアビサルハンターチームを使用</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestris">ピヌス・シルベストリス連携を使用</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformation">知覚情報連携を使用</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlight">俗世の憂い連携を使用</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">アビサルハンター連携を使用</system:String>
     <system:String x:Key="InfrastMfgShortCircuit">高効率な製造所のオペレーターを維持</system:String>
     <system:String x:Key="InfrastMfgShortCircuitThreshold">製造所の平均効率しきい値</system:String>
     <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>

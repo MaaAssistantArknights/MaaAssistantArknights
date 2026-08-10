@@ -277,6 +277,26 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         set => SetTaskConfig<InfrastTask>(t => t.ContinueTraining == value, t => t.ContinueTraining = value);
     }
 
+    public bool UsePinusSylvestris
+    {
+        get => GetTaskConfig<InfrastTask>().UsePinusSylvestris;
+        set => SetTaskConfig<InfrastTask>(t => t.UsePinusSylvestris == value, t => t.UsePinusSylvestris = value);
+    }
+
+    public bool UsePerceptionInformation
+    {
+        get => GetTaskConfig<InfrastTask>().UsePerceptionInformation;
+        set => SetTaskConfig<InfrastTask>(
+            t => t.UsePerceptionInformation == value,
+            t => t.UsePerceptionInformation = value);
+    }
+
+    public bool UseWorldlyPlight
+    {
+        get => GetTaskConfig<InfrastTask>().UseWorldlyPlight;
+        set => SetTaskConfig<InfrastTask>(t => t.UseWorldlyPlight == value, t => t.UseWorldlyPlight = value);
+    }
+
     public bool UseAbyssalHunter
     {
         get => GetTaskConfig<InfrastTask>().UseAbyssalHunter;
@@ -641,6 +661,9 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                 ReceptionMessageBoard = infrast.ReceptionMessageBoard,
                 ReceptionClueExchange = infrast.ReceptionClueExchange,
                 ReceptionSendClue = infrast.SendClue,
+                UsePinusSylvestris = infrast.UsePinusSylvestris,
+                UsePerceptionInformation = infrast.UsePerceptionInformation,
+                UseWorldlyPlight = infrast.UseWorldlyPlight,
                 UseAbyssalHunter = infrast.UseAbyssalHunter,
                 MfgShortCircuit = infrast.MfgShortCircuit,
                 MfgShortCircuitThreshold = infrast.MfgShortCircuitThreshold / 100.0,

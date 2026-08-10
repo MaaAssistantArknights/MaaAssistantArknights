@@ -165,7 +165,10 @@
     <system:String x:Key="InfrastReceptionSendClue">赠送线索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中设置并执行</system:String>
     <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
-    <system:String x:Key="InfrastUseAbyssalHunter">制造站使用深海猎人组合</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestris">使用红松骑士团跨设施组合</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformation">使用感知信息跨设施组合</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlight">使用人间烟火跨设施组合</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">使用深海猎人跨设施组合</system:String>
     <system:String x:Key="InfrastMfgShortCircuit">保留高效率制造站当前干员</system:String>
     <system:String x:Key="InfrastMfgShortCircuitThreshold">制造站平均效率阈值</system:String>
     <system:String x:Key="TrainingIdle">训练室空闲中</system:String>

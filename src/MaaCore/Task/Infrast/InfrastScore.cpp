@@ -145,7 +145,8 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
             else if (icon == "bskill_tra_spd_bd2") { // 怅惘和声：黑键
                 base += 0.005 * context.dormitory_capacity;
                 // 迷迭香或絮雨已入驻时，补入对应的感知信息收益
-                if (is_selected(context, "char_391_rosmon") || is_selected(context, "char_436_whispr")) {
+                if (context.use_perception_information &&
+                    (is_selected(context, "char_391_rosmon") || is_selected(context, "char_436_whispr"))) {
                     base += 0.44;// 手动定义，使之高于0.4
                 }
             }
@@ -256,10 +257,10 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
             else if (icon == "bskill_tra_bd_n2") { // “愿者上钩”：乌有
                 base += 0.01 * context.dormitory_capacity;
                 // 桑葚在办公室、重岳在控制中枢时分别补入人间烟火收益。
-                if (is_selected(context, "char_473_mberry")) {
+                if (context.use_worldly_plight && is_selected(context, "char_473_mberry")) {
                     base += 0.21;
                 }
-                if (is_selected(context, "char_2024_chyue")) {
+                if (context.use_worldly_plight && is_selected(context, "char_2024_chyue")) {
                     base += 0.15;
                 }
             }
@@ -476,7 +477,7 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                     ++metallics;
                 }
                 // 薇薇安娜在控制中枢时，为红松骑士团及砾追加制造效率。
-                if (is_selected(context, "char_4098_vvana")) {
+                if (context.use_pinus_sylvestris && is_selected(context, "char_4098_vvana")) {
                     base += 0.07;
                 }
             }
@@ -510,16 +511,16 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
             }
             else if (icon == "bskill_man_spd_bd2") { // 意识实体：迷迭香
                 // 絮雨在办公室时提供感知信息，迷迭香才获得完整制造效率。
-                if (is_selected(context, "char_436_whispr")) {
+                if (context.use_perception_information && is_selected(context, "char_436_whispr")) {
                     base += 0.40999;// 手动调整，使之高于0.4（槐琥）低于0.41（苍苔+引星棘刺）
                 }
             }
             else if (icon == "bskill_man_spd_bd6") { // 问枯荣：截云
                 // 桑葚、重岳、令、夕分别提供人间烟火；技能按 2.5 点信息折算效率。
-                if (is_selected(context, "char_473_mberry")) {
+                if (context.use_worldly_plight && is_selected(context, "char_473_mberry")) {
                     base += 0.4 / 2.5;
                 }
-                if (is_selected(context, "char_2024_chyue")) {
+                if (context.use_worldly_plight && is_selected(context, "char_2024_chyue")) {
                     base += 0.05 / 2.5;
                     if (is_selected(context, "char_2023_ling")) {
                         base += 0.05 / 2.5;
@@ -528,16 +529,16 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                         base += 0.05 / 2.5;
                     }
                 }
-                if (is_selected(context, "char_2023_ling")) {
+                if (context.use_worldly_plight && is_selected(context, "char_2023_ling")) {
                     base += 0.15 / 2.5;
                 }
             }
             else if (icon == "bskill_man_spd_bd7") { // 稻禾厚，顺秋收：黍
                 // 黍自身已占 1 点人间烟火，其他成员贡献按 3 点信息折算效率。
-                if (is_selected(context, "char_473_mberry")) {
+                if (context.use_worldly_plight && is_selected(context, "char_473_mberry")) {
                     base += 0.4 / 3;
                 }
-                if (is_selected(context, "char_2024_chyue")) {
+                if (context.use_worldly_plight && is_selected(context, "char_2024_chyue")) {
                     base += 0.1 / 3;
                     if (is_selected(context, "char_2023_ling")) {
                         base += 0.05 / 3;
@@ -546,7 +547,7 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                         base += 0.05 / 3;
                     }
                 }
-                if (is_selected(context, "char_2023_ling")) {
+                if (context.use_worldly_plight && is_selected(context, "char_2023_ling")) {
                     base += 0.15 / 3;
                 }
             }
@@ -576,7 +577,8 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                     ++rhine;
                 }
                 // 红松骑士团：远牙、灰毫、野鬃；受薇薇安娜、焰尾和正义骑士号联动影响。
-                else if (is_operator(oper, { "char_430_fartth", "char_431_ashlok", "char_496_wildmn" })) {
+                else if (context.use_pinus_sylvestris &&
+                         is_operator(oper, { "char_430_fartth", "char_431_ashlok", "char_496_wildmn" })) {
                     if (is_selected(context, "char_4098_vvana")) {
                         base += 0.07;
                     }
@@ -655,7 +657,8 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                     ++rhine;
                 }
                 // 红松骑士团：远牙、灰毫、野鬃；联动规则与 β 技能相同。
-                else if (is_operator(oper, { "char_430_fartth", "char_431_ashlok", "char_496_wildmn" })) {
+                else if (context.use_pinus_sylvestris &&
+                         is_operator(oper, { "char_430_fartth", "char_431_ashlok", "char_496_wildmn" })) {
                     if (is_selected(context, "char_4098_vvana")) {
                         base += 0.07;
                     }
@@ -992,7 +995,8 @@ double power_score(const ScoreOper& oper, const ScoreContext& context)
                 score -= 1;
             }
             // 焰尾或薇薇安娜在控制中枢时，启用红松骑士团联动。
-            else if (is_selected(context, "char_420_flamtl") || is_selected(context, "char_4098_vvana")) {
+            else if (context.use_pinus_sylvestris &&
+                     (is_selected(context, "char_420_flamtl") || is_selected(context, "char_4098_vvana"))) {
                 score += 0.101;
             }
         }
@@ -1004,6 +1008,16 @@ ScoreResult select_single(const std::vector<ScoreOper>& opers, const ScoreContex
 {
     ScoreResult result;
     for (const size_t index : eligible_indices(opers, context)) {
+        if (context.facility == "Office" && !context.use_perception_information &&
+            (has_skill(opers[index], "bskill_hire_spd_memento") ||
+             is_operator(opers[index], { "char_436_whispr" }))) {
+            continue;
+        }
+        if (context.facility == "Office" && !context.use_worldly_plight &&
+            (has_skill(opers[index], "bskill_hire_spd_bd_n2") ||
+             is_operator(opers[index], { "char_473_mberry" }))) {
+            continue;
+        }
         const double score =
             context.facility == "Office" ? office_score(opers[index]) : power_score(opers[index], context);
         if (result.indices.empty() || score > result.score) {
@@ -1053,12 +1067,27 @@ ScoreResult select_reception(const std::vector<ScoreOper>& opers, const ScoreCon
 ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreContext& context)
 {
     // 控制中枢按固定优先级选择；同类制造加速、贸易加速、其他设施心情减免、办公室加速不重复占位。
-    const auto eligible = eligible_indices(opers, context);
+    auto eligible = eligible_indices(opers, context);
+    if (!context.use_pinus_sylvestris) {
+        std::erase_if(eligible, [&](size_t index) {
+            return has_any_skill(opers[index], { "bskill_ctrl_psk", "bskill_ctrl_fraction_knight" }) ||
+                   is_operator(opers[index], { "char_420_flamtl", "char_4098_vvana" });
+        });
+    }
+    if (!context.use_abyssal_hunter) {
+        std::erase_if(eligible, [&](size_t index) {
+            return has_skill(opers[index], "bskill_ctrl_aegir2") ||
+                   is_operator(opers[index], { "char_474_glady" });
+        });
+    }
     std::vector<size_t> best;
     bool manu_acc = false;    // 制造加速
     bool trading_acc = false; // 贸易加速
     bool mood_reduce = false; // 其他设施心情减免
     bool office_acc = false;  // 办公室加速
+    const bool perception_information =
+        context.use_perception_information && is_selected(context, "char_436_whispr");
+    const bool worldly_plight = context.use_worldly_plight && is_selected(context, "char_473_mberry");
     constexpr size_t ControlSlotCount = 5;
     // context.slots 在缺员复查时是本轮仍需补入的人数；控制中枢的实际槽位始终是 5。
     // Lua 中的 #best 必须对应 best.size()，不能用本轮选择上限代替。
@@ -1135,7 +1164,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
     }
 
     // 絮雨在办公室时，选择高心情的夕提供感知信息。
-    if (best.size() < ControlSlotCount && is_selected(context, "char_436_whispr")) {
+    if (best.size() < ControlSlotCount && perception_information) {
         add_first([](const ScoreOper& oper) {
             // “不以物喜” + “不以己悲”：夕。
             return has_skill(oper, "bskill_ctrl_cost_bd1") && has_skill(oper, "bskill_ctrl_cost_bd2") &&
@@ -1143,7 +1172,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         });
     }
     // 桑葚在办公室时，选择高心情的令提供人间烟火。
-    if (best.size() < ControlSlotCount && is_selected(context, "char_473_mberry")) {
+    if (best.size() < ControlSlotCount && worldly_plight) {
         add_first([](const ScoreOper& oper) {
             return has_skill(oper, "bskill_ctrl_cost_bd1&bd2") && // “山河远阔”：令
                    oper.mood_ratio > 22.0 / 24.0;
@@ -1162,7 +1191,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
 
     // 感知信息或人间烟火组合需要琴柳补办公室加速。
     if (best.size() < ControlSlotCount &&
-        (is_selected(context, "char_436_whispr") || is_selected(context, "char_473_mberry")) &&
+        (perception_information || worldly_plight) &&
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_h_spd"); })) { // 感染力：琴柳
         office_acc = true;
     }
@@ -1178,7 +1207,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
     }
 
     // 桑葚在办公室时，重岳提供人间烟火并承担全局心情减免。
-    if (best.size() < ControlSlotCount && is_selected(context, "char_473_mberry") &&
+    if (best.size() < ControlSlotCount && worldly_plight &&
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_cost_bd3"); })) { // 知我为我：重岳
         mood_reduce = true;
     }
@@ -1214,8 +1243,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_token_p_spd"); })) { // 超频：布丁
         manu_acc = true;
     }
-    if (best.size() < ControlSlotCount && !is_selected(context, "char_436_whispr") &&
-        !is_selected(context, "char_473_mberry")) {
+    if (best.size() < ControlSlotCount && !perception_information && !worldly_plight) {
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_t_limit&spd"); }); // 精密计算：灵知
     }
 
@@ -1229,8 +1257,8 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         }
     }
 
-    if (best.size() < ControlSlotCount && !is_selected(context, "char_436_whispr") &&
-        !is_selected(context, "char_473_mberry") && is_selected(context, "char_285_medic2")) {
+    if (best.size() < ControlSlotCount && !perception_information && !worldly_plight &&
+        is_selected(context, "char_285_medic2")) {
         // 森蚺只在 Lancet-2 已入驻发电站时加入候选，启用作业平台联动。
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_p_bot"); }); // 我寻思能行：森蚺
     }
@@ -1274,7 +1302,8 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
     const size_t limit = static_cast<size_t>(std::max(0, context.slots));
 
     // 迷迭香在制造站或絮雨在办公室时，优先选择感知信息与无声共鸣体系的宿舍联动干员。
-    if (is_selected(context, "char_391_rosmon") || is_selected(context, "char_436_whispr")) {
+    if (context.use_perception_information &&
+        (is_selected(context, "char_391_rosmon") || is_selected(context, "char_436_whispr"))) {
         for (const size_t index : eligible) {
             const auto& oper = opers[index];
             // 琴键漫步 + 慢板行歌：车尔尼；梦境呓语 + 睡前故事：爱丽丝；

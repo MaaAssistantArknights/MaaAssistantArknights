@@ -84,7 +84,22 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     public bool ContinueTraining { get; set; } = false;
 
     /// <summary>
-    /// Gets or sets a value indicating whether the named manufacturing team is enabled.
+    /// Gets or sets a value indicating whether the Pinus Sylvestris cross-facility team is enabled.
+    /// </summary>
+    public bool UsePinusSylvestris { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the Perception Information cross-facility team is enabled.
+    /// </summary>
+    public bool UsePerceptionInformation { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the Worldly Plight cross-facility team is enabled.
+    /// </summary>
+    public bool UseWorldlyPlight { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the Abyssal Hunter cross-facility team is enabled.
     /// </summary>
     public bool UseAbyssalHunter { get; set; } = false;
 

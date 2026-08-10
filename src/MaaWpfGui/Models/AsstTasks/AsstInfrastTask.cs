@@ -90,6 +90,12 @@ public class AsstInfrastTask : AsstBaseTask
     /// </summary>
     public bool ReceptionSendClue { get; set; }
 
+    public bool UsePinusSylvestris { get; set; }
+
+    public bool UsePerceptionInformation { get; set; }
+
+    public bool UseWorldlyPlight { get; set; }
+
     public bool UseAbyssalHunter { get; set; }
 
     public bool MfgShortCircuit { get; set; }
@@ -120,6 +126,9 @@ public class AsstInfrastTask : AsstBaseTask
             ["reception_message_board"] = ReceptionMessageBoard,
             ["reception_clue_exchange"] = ReceptionClueExchange,
             ["reception_send_clue"] = ReceptionSendClue,
+            ["use_pinus_sylvestris"] = UsePinusSylvestris,
+            ["use_perception_information"] = UsePerceptionInformation,
+            ["use_worldly_plight"] = UseWorldlyPlight,
             ["use_abyssal_hunter"] = UseAbyssalHunter,
             ["mfg_short_circuit"] = MfgShortCircuit,
             ["mfg_short_circuit_threshold"] = MfgShortCircuitThreshold,

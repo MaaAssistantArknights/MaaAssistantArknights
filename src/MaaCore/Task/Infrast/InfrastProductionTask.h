@@ -33,6 +33,12 @@ public:
 
     void set_abyssal_hunter_enabled(bool enabled) noexcept { m_abyssal_hunter_enabled = enabled; }
 
+    void set_pinus_sylvestris_enabled(bool enabled) noexcept { m_pinus_sylvestris_enabled = enabled; }
+
+    void set_perception_information_enabled(bool enabled) noexcept { m_perception_information_enabled = enabled; }
+
+    void set_worldly_plight_enabled(bool enabled) noexcept { m_worldly_plight_enabled = enabled; }
+
 protected:
     bool shift_facility_list();
     bool facility_list_detect();
@@ -60,6 +66,9 @@ protected:
     bool m_skip_shift = false;
     bool m_mfg_short_circuit = false;
     double m_mfg_short_circuit_threshold = 0.38;
+    bool m_pinus_sylvestris_enabled = false;
+    bool m_perception_information_enabled = false;
+    bool m_worldly_plight_enabled = false;
     bool m_abyssal_hunter_enabled = false;
     bool m_default_mode = false;
     bool m_inspect_only = false;

@@ -711,7 +711,6 @@ bool asst::InfrastProductionTask::optimal_calc()
             }
         }
         context.mood_threshold = m_mood_threshold;
-        context.use_abyssal_hunter = m_abyssal_hunter_enabled;
         if (m_task_data) {
             context.dormitory_capacity = m_task_data->dormitory_capacity;
             context.dormitory_level_sum = m_task_data->dormitory_level_sum;
@@ -723,6 +722,10 @@ bool asst::InfrastProductionTask::optimal_calc()
             context.workbench_num = m_task_data->workbench_num;
             context.selected_operator_ids = m_task_data->operator_ids;
         }
+        context.use_pinus_sylvestris = m_pinus_sylvestris_enabled;
+        context.use_perception_information = m_perception_information_enabled;
+        context.use_worldly_plight = m_worldly_plight_enabled;
+        context.use_abyssal_hunter = m_abyssal_hunter_enabled;
 
         std::vector<infrast::ScoreOper> score_opers;
         score_opers.reserve(m_all_available_opers.size());

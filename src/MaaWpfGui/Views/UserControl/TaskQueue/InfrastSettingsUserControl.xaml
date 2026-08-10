@@ -243,6 +243,24 @@
             </CheckBox>
             <CheckBox
                 Margin="0,10"
+                Content="{DynamicResource InfrastUsePinusSylvestris}"
+                IsChecked="{Binding UsePinusSylvestris}"
+                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
+                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource InfrastUsePerceptionInformation}"
+                IsChecked="{Binding UsePerceptionInformation}"
+                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
+                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource InfrastUseWorldlyPlight}"
+                IsChecked="{Binding UseWorldlyPlight}"
+                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
+                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
+            <CheckBox
+                Margin="0,10"
                 Content="{DynamicResource InfrastUseAbyssalHunter}"
                 IsChecked="{Binding UseAbyssalHunter}"
                 Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
