@@ -53,21 +53,18 @@
                         IsEnabled="{c:Binding 'AccountName != &quot;&quot;'}" />
                 </Grid>
             </StackPanel>
-        </StackPanel>
 
-        <controls:TextBlock
-            Margin="0,5"
-            HorizontalAlignment="Center"
-            FontWeight="Bold"
-            Text="{DynamicResource MultiTasksShareTip}"
-            TextAlignment="Left"
-            TextWrapping="Wrap" />
-        <CheckBox
-            Margin="0,5"
-            Content="{DynamicResource StartGameLaunchClient}"
-            IsChecked="{Binding StartGame, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}" />
-
-        <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
+            <controls:TextBlock
+                Margin="0,5"
+                HorizontalAlignment="Center"
+                FontWeight="Bold"
+                Text="{DynamicResource MultiTasksShareTip}"
+                TextAlignment="Left"
+                TextWrapping="Wrap" />
+            <CheckBox
+                Margin="0,5"
+                Content="{DynamicResource StartGameLaunchClient}"
+                IsChecked="{Binding StartGame, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}" />
             <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource ClientType}"
@@ -295,32 +292,6 @@
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type extra:Win32Extra}">
                         <StackPanel d:DataContext="{d:DesignInstance {x:Type extra:Win32Extra}}">
-                            <Grid Margin="0,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <hc:TextBox
-                                    Grid.Column="0"
-                                    hc:BorderElement.CornerRadius="4,0,0,4"
-                                    hc:InfoElement.Placeholder="C:\Program Files\Hypergryph Launcher\games\Arknights\Arknights.exe"
-                                    hc:InfoElement.Title="{DynamicResource PcClientPath}"
-                                    Text="{Binding GamePath, UpdateSourceTrigger=LostFocus}" />
-                                <Button
-                                    Grid.Column="1"
-                                    Width="60"
-                                    VerticalAlignment="Bottom"
-                                    hc:BorderElement.CornerRadius="0,4,4,0"
-                                    BorderThickness="0,1,1,1"
-                                    Command="{s:Action SelectGameExecutable}"
-                                    Content="{DynamicResource Select}" />
-                            </Grid>
-                            <controls:TextBlock
-                                Margin="0,0,0,5"
-                                Foreground="{DynamicResource SecondaryTextBrush}"
-                                Text="{DynamicResource PcClientPathTip}"
-                                TextWrapping="Wrap" />
-
                             <hc:ComboBox
                                 Margin="0,5"
                                 hc:InfoElement.Title="{DynamicResource AttachWindowScreencapMethod}"

@@ -944,6 +944,7 @@ public class TaskQueueViewModel : Screen
 
     private async Task HandleScheduledStart(int configIndex)
     {
+        var isPcConnect = SettingsViewModel.ConnectSettings.IsPCConnectConfig;
         if (SettingsViewModel.TimerSettings.ForceScheduledStart)
         {
             if (SettingsViewModel.TimerSettings.CustomConfig &&
@@ -970,6 +971,12 @@ public class TaskQueueViewModel : Screen
                 return;
             }
 
+            if (isPcConnect && !SettingsViewModel.StartSettings.OpenEmulatorAfterLaunch)
+            {
+                AddLog(LocalizationHelper.GetString("PcClientAutoStartDisabled"), UiLogColor.Error);
+                return;
+            }
+
             if (!_runningState.GetIdle())
             {
                 _logger.Information("Not idle, Stop and CloseDown");
@@ -977,13 +984,50 @@ public class TaskQueueViewModel : Screen
                 SetStopped();
             }
 
-            var mode = SettingsViewModel.GameSettings.ClientType;
-            if (!Instances.AsstProxy.AsstAppendCloseDown(mode))
+            var clientType = SettingsViewModel.GameSettings.ClientType;
+            if (isPcConnect)
+            {
+                if (Instances.AsstProxy.IsPcClientWindowAvailable())
+                {
+                    if (!Instances.AsstProxy.Connected)
+                    {
+                        string connectError = string.Empty;
+                        var connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref connectError));
+                        if (!connected)
+                        {
+                            AddLog(connectError, UiLogColor.Error);
+                            return;
+                        }
+                    }
+
+                    if (!await Instances.AsstProxy.AsstStartCloseDownAndWaitAsync(clientType))
+                    {
+                        AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
+                        return;
+                    }
+                }
+            }
+            else if (!Instances.AsstProxy.AsstAppendCloseDown(clientType))
             {
                 AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
             }
 
             ResetAllTemporaryVariable();
+        }
+
+        if (isPcConnect)
+        {
+            string pcClientError = string.Empty;
+            var pcClientReady = await Task.Run(() => Instances.AsstProxy.EnsurePcClientWindowAvailable(ref pcClientError));
+            if (!pcClientReady)
+            {
+                if (!_runningState.GetStopping() && !string.IsNullOrEmpty(pcClientError))
+                {
+                    AddLog(pcClientError, UiLogColor.Error);
+                }
+
+                return;
+            }
         }
 
         await LinkStart();
@@ -1979,8 +2023,6 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        var taskList = tasks.ToList();
-
         _taskStartTime = DateTime.Now;
         ClearLog();
 
@@ -2028,6 +2070,8 @@ public class TaskQueueViewModel : Screen
         // InfrastTask.InfrastOrderSelectionChanged();
         await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
 
+        AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+
         /*
         // 现在的主流模拟器都已经更新过自带的 adb 了，不再需要替换
         if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
@@ -2042,28 +2086,6 @@ public class TaskQueueViewModel : Screen
             SetStopped();
             return;
         }
-
-        var shouldStartPcClient = SettingsViewModel.ConnectSettings.IsPCConnectConfig &&
-                                  SettingsViewModel.GameSettings.StartGame &&
-                                  taskList.Any(task => task is StartUpTask && IsTaskEnable(task));
-        if (shouldStartPcClient && Bootstrapper.IsUserAdministrator())
-        {
-            string pcClientError = string.Empty;
-            var pcClientReady = await Task.Run(() => Instances.AsstProxy.EnsurePcClientWindowAvailable(ref pcClientError));
-            if (!pcClientReady)
-            {
-                if (!_runningState.GetStopping() && !string.IsNullOrEmpty(pcClientError))
-                {
-                    AddLog(pcClientError, UiLogColor.Error);
-                }
-
-                _runningState.SetIdle(true);
-                SetStopped();
-                return;
-            }
-        }
-
-        AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
         if (!await ConnectToEmulator())
         {
@@ -2081,7 +2103,7 @@ public class TaskQueueViewModel : Screen
 
         // 直接遍历TaskItemViewModels里面的内容，是排序后的
         int count = 0;
-        foreach (var item in taskList)
+        foreach (var item in tasks)
         {
             var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(item);
             _logger.Information("Index {Index}, Type {TaskType}, Name {TaskName}, IsEnable {IsEnable}",

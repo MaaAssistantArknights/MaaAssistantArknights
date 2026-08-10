@@ -17,7 +17,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json.Serialization;
-using JetBrains.Annotations;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
@@ -87,14 +86,6 @@ public class Win32Extra() : ExtraConfig
     }
 
     /// <summary>
-    /// Gets a value indicating whether the selected capture and input methods support minimized operation.
-    /// </summary>
-    [JsonIgnore]
-    public bool ShouldMinimizeWindow =>
-        MouseMethod == AsstWin32InputMethod.SendMessageWithWindowPos &&
-        ScreencapMethod is AsstWin32ScreencapMethod.FramePool or AsstWin32ScreencapMethod.PrintWindow;
-
-    /// <summary>
     /// Detects the PC client path, reusing a valid successful result when possible.
     /// </summary>
     /// <returns>A detected executable path, or <see langword="null"/>.</returns>
@@ -120,51 +111,6 @@ public class Win32Extra() : ExtraConfig
 
             _cachedDetectedGamePath = DetectInstalledGameExecutablePath();
             return _cachedDetectedGamePath;
-        }
-    }
-
-    /// <summary>
-    /// Resolves the executable path, preferring automatic detection over the configured fallback.
-    /// </summary>
-    /// <returns>A valid executable path, or an empty string.</returns>
-    public string ResolveGameExecutablePath()
-    {
-        var detectedPath = DetectGameExecutablePath();
-        if (!string.IsNullOrEmpty(detectedPath))
-        {
-            _logger.Information("Detected Arknights PC client: {Path}", detectedPath);
-            return detectedPath;
-        }
-
-        if (File.Exists(GamePath))
-        {
-            _logger.Information("Using configured Arknights PC client path: {Path}", GamePath);
-            return Path.GetFullPath(GamePath);
-        }
-
-        return string.Empty;
-    }
-
-    /// <summary>
-    /// Selects the PC game executable.
-    /// </summary>
-    [UsedImplicitly]
-    public void SelectGameExecutable()
-    {
-        var dialog = new OpenFileDialog {
-            CheckFileExists = true,
-            FileName = GameExecutableName,
-            Filter = $"{GameExecutableName}|{GameExecutableName}|{LocalizationHelper.GetString("Executable")}|*.exe",
-        };
-
-        if (File.Exists(GamePath))
-        {
-            dialog.InitialDirectory = Path.GetDirectoryName(GamePath);
-        }
-
-        if (dialog.ShowDialog() == true)
-        {
-            GamePath = dialog.FileName;
         }
     }
 

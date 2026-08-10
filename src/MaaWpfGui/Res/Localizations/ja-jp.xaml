@@ -502,9 +502,12 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="SkipStartupAutoRunAfterUpdateTip" xml:space="preserve">｢{key=AutoInstallUpdatePackage}｣ が有効な場合、または更新確認で直ちに再起動を選んだ場合のみ適用されます。
 ｢{key=ManualRestart}｣ を選んで後から手動起動した場合は、｢{key=RunTaskAfterLaunch}｣ / ｢{key=OpenEmulatorAfterLaunch}｣ は通常どおり実行されます。</system:String>
     <system:String x:Key="StartupAutoRunCountdownTitle">自動起動の準備中</system:String>
+    <system:String x:Key="StartupAutoRunCountdownPcClientTitle">PC クライアントを自動起動します</system:String>
     <system:String x:Key="StartupAutoRunCountdownTaskOnly">まもなくタスクを自動実行します。キャンセルしますか？</system:String>
     <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">まもなくエミュレータを自動起動します。キャンセルしますか？</system:String>
     <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">まもなくタスクを自動実行し、エミュレータを起動します。キャンセルしますか？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownPcClientOnly">まもなく PC クライアントを自動起動します。キャンセルしますか？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndPcClient">まもなくタスクを自動実行し、PC クライアントを起動します。キャンセルしますか？</system:String>
     <system:String x:Key="MinimizeAfterLaunch">アプリの起動時に自動的に最小化</system:String>
     <system:String x:Key="ClientType">クライアントバージョン</system:String>
     <system:String x:Key="StartGameLaunchClient">起動時にクライアントを開始する</system:String>
@@ -513,7 +516,9 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="UseWeeklyScheduleTip">ここでの曜日はゲーム内時間に基づいており、現実時間ではありません。例えば、ゲームが4:00にリセットされる場合、3:59は前日としてカウントされます。</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunch">MAA 起動後またはスケジュールタスク開始時に PC クライアントを自動起動</system:String>
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
+    <system:String x:Key="WaitForPcClient">PC クライアントのウィンドウを待つ時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">待ち時間は終わりました</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">エミュレーター本体を選択（ ｢{key=AdditionCommand}｣ 起動パラメータでインスタンス指定可能）、または直接エミュレーター/ゲームのショートカットを選択できます。&#10; ｢{key=WakeUp}｣ タスクがエミュレーター起動遅延で失敗する場合、ゲームショートカットを使用し ｢{key=WaitForEmulator}｣ を延長することを推奨します。</system:String>
@@ -1466,8 +1471,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartAsAdminFailed">手動で管理者として MAA を実行してください。</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow の接続に失敗しました。スクリーンキャプチャ/入力方法の設定を確認してください</system:String>
     <system:String x:Key="PcClientPath">PC クライアントのパス</system:String>
-    <system:String x:Key="PcClientPathTip">「開始」を実行すると、Hypergryph Launcher または実行中のクライアントを先に自動検出し、見つからない場合は手動設定した Arknights.exe を使用します。WGC/PrintWindow + SendMsg-WindowPos は自動的に最小化され、その他の組み合わせは最小化されません。</system:String>
-    <system:String x:Key="PcClientPathNotFound">アークナイツ PC クライアントが見つかりません。PC 接続設定で Arknights.exe を選択してください。</system:String>
+    <system:String x:Key="PcClientPathTip">実行中のクライアント、Hypergryph Launcher のレジストリ情報、既定のインストール先を自動検出します。検出できない場合は、ここで Arknights.exe を選択してください。</system:String>
+    <system:String x:Key="PcClientPathNotFound">アークナイツ PC クライアントが見つかりません。起動設定で Arknights.exe を選択してください。</system:String>
+    <system:String x:Key="PcClientAutoStartDisabled">PC クライアントが起動していません。起動設定で PC クライアントの自動起動を有効にしてください。</system:String>
     <system:String x:Key="PcClientStarting">アークナイツ PC クライアントを起動しています</system:String>
     <system:String x:Key="PcClientStartFailed">アークナイツ PC クライアントの起動に失敗しました：{0}</system:String>
     <system:String x:Key="PcClientWindowWaitTimeout">アークナイツ PC クライアントは起動しましたが、ゲームウィンドウの待機がタイムアウトしました。</system:String>

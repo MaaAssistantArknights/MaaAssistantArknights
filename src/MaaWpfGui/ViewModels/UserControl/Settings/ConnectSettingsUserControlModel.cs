@@ -114,6 +114,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             }
 
             win32Extra.GamePath = detectedPath;
+            StartSettingsUserControlModel.Instance.RefreshLaunchTarget();
         });
     }
 
@@ -279,6 +280,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             var mumuEnabled = ExtraConfig is MuMu12Extra { Enable: true };
             OnMuMuExtrasEnableChanged(mumuEnabled);
 
+            StartSettingsUserControlModel.Instance.RefreshLaunchTarget();
             StartPcClientPathAutoDetection();
         }
     } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Config;
