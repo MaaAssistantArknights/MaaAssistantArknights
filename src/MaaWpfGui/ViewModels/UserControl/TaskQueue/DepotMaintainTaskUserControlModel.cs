@@ -281,6 +281,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
         PlanList = new(list);
         PlanList.CollectionChanged += PlanList_CollectionChanged;
+
+        // new(list) 的 Reset 发生在构造阶段，此时 CollectionChanged 尚未挂载，需手动重排一次
+        ReindexPlans();
         SyncPlanListToTaskConfig();
         NotifyOfPropertyChange(nameof(PlanInfo));
     }
@@ -476,12 +479,20 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 plan.PropertyChanged += PlanItem_PropertyChanged;
             });
         }
+        ReindexPlans();
+        SyncPlanListToTaskConfig();
+    }
+
+    /// <summary>
+    /// 按当前 <see cref="PlanList"/> 顺序重排每项 <see cref="DepotPlanItemViewModel.Index"/>。
+    /// Title 依赖 Index，Fody 已在 Index setter 织入 Title 的通知，赋值即自动刷新显示。
+    /// </summary>
+    private void ReindexPlans()
+    {
         foreach (var (plan, index) in PlanList.Select((plan, index) => (plan, index)))
         {
             plan.Index = index;
         }
-
-        SyncPlanListToTaskConfig();
     }
 
     /// <summary>
