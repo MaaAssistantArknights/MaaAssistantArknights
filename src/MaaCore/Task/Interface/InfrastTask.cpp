@@ -23,14 +23,17 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     m_queue_rotation_task(std::make_shared<ProcessTask>(callback, inst, TaskType)),
     m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, inst, TaskType)),
     m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, inst, TaskType)),
+    m_mfg_info_task_ptr(std::make_shared<InfrastMfgTask>(callback, inst, TaskType)),
     m_trade_task_ptr(std::make_shared<InfrastTradeTask>(callback, inst, TaskType)),
     m_power_task_ptr(std::make_shared<InfrastPowerTask>(callback, inst, TaskType)),
     m_control_task_ptr(std::make_shared<InfrastControlTask>(callback, inst, TaskType)),
+    m_control_task_ptr_post(std::make_shared<InfrastControlTask>(callback, inst, TaskType)),
     m_reception_task_ptr(std::make_shared<InfrastReceptionTask>(callback, inst, TaskType)),
     m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, inst, TaskType)),
     m_processing_task_ptr(std::make_shared<InfrastProcessingTask>(callback, inst, TaskType)),
     m_training_task_ptr(std::make_shared<InfrastTrainingTask>(callback, inst, TaskType)),
-    m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, inst, TaskType))
+    m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, inst, TaskType)),
+    m_dorm_task_ptr_post(std::make_shared<InfrastDormTask>(callback, inst, TaskType))
 {
     LogTraceFunction;
 
@@ -39,15 +42,24 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     m_queue_rotation_task->set_tasks({ "InfrastEnterRotation" }).set_ignore_error(true);
     m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
     m_info_task_ptr->set_ignore_error(true);
+    // InfrastInfoTask 内部按布局完整性最多尝试三轮，避免框架重试再次放大次数。
+    m_info_task_ptr->set_retry_times(0);
     m_mfg_task_ptr->set_ignore_error(true);
+    m_mfg_info_task_ptr->set_ignore_error(true);
+    m_mfg_info_task_ptr->set_inspect_only(true);
     m_trade_task_ptr->set_ignore_error(true);
     m_power_task_ptr->set_ignore_error(true);
     m_control_task_ptr->set_ignore_error(true);
+    m_control_task_ptr_post->set_ignore_error(true);
+    m_control_task_ptr_post->set_vacancy_only(true);
     m_reception_task_ptr->set_ignore_error(true);
     m_office_task_ptr->set_ignore_error(true);
     m_training_task_ptr->set_ignore_error(true);
     m_processing_task_ptr->set_ignore_error(true);
     m_dorm_task_ptr->set_ignore_error(true);
+    m_dorm_task_ptr_post->set_ignore_error(true);
+    m_dorm_task_ptr->set_prepare_phase(true);
+    m_dorm_task_ptr_post->set_prepare_phase(false);
 
     m_subtasks.emplace_back(m_infrast_begin_task_ptr);
 }
@@ -67,10 +79,29 @@ bool asst::InfrastTask::set_params(const json::value& params)
         }
     }
 
+    const std::initializer_list<std::shared_ptr<InfrastProductionTask>> selection_tasks = {
+        m_mfg_task_ptr,          m_mfg_info_task_ptr,  m_trade_task_ptr,  m_power_task_ptr, m_control_task_ptr,
+        m_control_task_ptr_post, m_reception_task_ptr, m_office_task_ptr, m_dorm_task_ptr,  m_dorm_task_ptr_post,
+    };
+    for (const auto& task : selection_tasks) {
+        task->set_default_mode(mode == Mode::Default);
+    }
+
     if (!m_running) {
         auto facility_opt = params.find<json::array>("facility");
         if (!facility_opt) {
             return false;
+        }
+
+        m_task_data = std::make_shared<infrast::TaskData>();
+        const std::initializer_list<std::shared_ptr<InfrastAbstractTask>> data_tasks = {
+            m_info_task_ptr,      m_mfg_task_ptr,        m_mfg_info_task_ptr,     m_trade_task_ptr,
+            m_power_task_ptr,     m_control_task_ptr,    m_control_task_ptr_post, m_reception_task_ptr,
+            m_office_task_ptr,    m_processing_task_ptr, m_training_task_ptr,     m_dorm_task_ptr,
+            m_dorm_task_ptr_post,
+        };
+        for (const auto& task : data_tasks) {
+            task->set_task_data(m_task_data);
         }
 
         auto append_infrast_begin = [&]() {
@@ -86,57 +117,69 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
         m_subtasks.emplace_back(m_info_task_ptr);
 
-        const std::unordered_set<std::string> rotation_skip_facilities = { "Dorm", "Power", "Office", "Control" };
+        auto add_facility = [&](const std::shared_ptr<InfrastAbstractTask>& task) {
+            m_subtasks.emplace_back(task);
+            append_infrast_begin();
+        };
 
+        auto get_task = [&](infrast::FacilityStep step) -> std::shared_ptr<InfrastAbstractTask> {
+            switch (step) {
+            case infrast::FacilityStep::DormPrepare:
+                return m_dorm_task_ptr;
+            case infrast::FacilityStep::DormFill:
+                return m_dorm_task_ptr_post;
+            case infrast::FacilityStep::MfgInspect:
+                return m_mfg_info_task_ptr;
+            case infrast::FacilityStep::Mfg:
+                return m_mfg_task_ptr;
+            case infrast::FacilityStep::Trade:
+                return m_trade_task_ptr;
+            case infrast::FacilityStep::Power:
+                return m_power_task_ptr;
+            case infrast::FacilityStep::Office:
+                return m_office_task_ptr;
+            case infrast::FacilityStep::ControlForce:
+                return m_control_task_ptr;
+            case infrast::FacilityStep::ControlVacancy:
+                return m_control_task_ptr_post;
+            case infrast::FacilityStep::Reception:
+                return m_reception_task_ptr;
+            case infrast::FacilityStep::Processing:
+                return m_processing_task_ptr;
+            case infrast::FacilityStep::Training:
+                return m_training_task_ptr;
+            }
+            return nullptr;
+        };
+
+        std::vector<std::string> facilities;
+        facilities.reserve(facility_opt->size());
         for (const auto& facility_json : facility_opt.value()) {
             if (!facility_json.is_string()) {
                 m_subtasks.clear();
                 append_infrast_begin();
                 return false;
             }
-
-            std::string facility = facility_json.as_string();
-
-            if (mode == Mode::Rotation && rotation_skip_facilities.find(facility) != rotation_skip_facilities.cend()) {
-                Log.info("skip facility in rotation mode", facility);
-                continue;
-            }
-
-            if (facility == "Dorm") {
-                m_subtasks.emplace_back(m_dorm_task_ptr);
-            }
-            else if (facility == "Mfg") {
-                m_subtasks.emplace_back(m_mfg_task_ptr);
-            }
-            else if (facility == "Trade") {
-                m_subtasks.emplace_back(m_trade_task_ptr);
-            }
-            else if (facility == "Power") {
-                m_subtasks.emplace_back(m_power_task_ptr);
-            }
-            else if (facility == "Office") {
-                m_subtasks.emplace_back(m_office_task_ptr);
-            }
-            else if (facility == "Reception") {
-                m_subtasks.emplace_back(m_reception_task_ptr);
-            }
-            else if (facility == "Control") {
-                m_subtasks.emplace_back(m_control_task_ptr);
-            }
-            else if (facility == "Processing") {
-                m_subtasks.emplace_back(m_processing_task_ptr);
-            }
-            else if (facility == "Training") {
-                m_subtasks.emplace_back(m_training_task_ptr);
-            }
-            else {
-                Log.error(__FUNCTION__, "| Unknown facility", facility);
-                m_subtasks.clear();
-                append_infrast_begin();
-                return false;
-            }
-            append_infrast_begin();
+            facilities.emplace_back(facility_json.as_string());
         }
+
+        const auto plan_mode = mode == Mode::Default  ? infrast::FacilityPlanMode::Default
+                               : mode == Mode::Custom ? infrast::FacilityPlanMode::Custom
+                                                      : infrast::FacilityPlanMode::Rotation;
+        const auto plan = infrast::build_facility_plan(plan_mode, facilities);
+        if (!plan) {
+            Log.error(__FUNCTION__, "| Unknown facility in configuration");
+            m_subtasks.clear();
+            append_infrast_begin();
+            return false;
+        }
+        for (const auto step : *plan) {
+            // 贸易站评分依赖赤金生产线数量。制造站未启用时只读取产品类型，
+            // 不进入干员选择，也不执行无人机或补货操作。
+            add_facility(get_task(step));
+        }
+        m_info_task_ptr->set_layout_required(mode == Mode::Default);
+        m_info_task_ptr->set_ignore_error(mode != Mode::Default);
     }
 
     bool continue_training = params.get("continue_training", false);
@@ -155,16 +198,30 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_trade_task_ptr->set_mood_threshold(threshold);
     m_power_task_ptr->set_mood_threshold(threshold);
     m_control_task_ptr->set_mood_threshold(threshold);
+    m_control_task_ptr_post->set_mood_threshold(threshold);
     m_reception_task_ptr->set_mood_threshold(threshold);
     m_office_task_ptr->set_mood_threshold(threshold);
     m_processing_task_ptr->set_mood_threshold(threshold);
     m_dorm_task_ptr->set_mood_threshold(threshold);
+    m_dorm_task_ptr_post->set_mood_threshold(threshold);
 
     bool dorm_notstationed_enabled = params.get("dorm_notstationed_enabled", false);
     m_dorm_task_ptr->set_notstationed_enabled(dorm_notstationed_enabled);
 
     bool dorm_trust_enabled = params.get("dorm_trust_enabled", false);
     m_dorm_task_ptr->set_trust_enabled(dorm_trust_enabled);
+    m_dorm_task_ptr_post->set_notstationed_enabled(dorm_notstationed_enabled);
+    m_dorm_task_ptr_post->set_trust_enabled(dorm_trust_enabled);
+
+    const bool abyssal_hunter_enabled = params.get("use_abyssal_hunter", false);
+    const bool mfg_short_circuit = params.get("mfg_short_circuit", false);
+    double mfg_short_circuit_threshold = params.get("mfg_short_circuit_threshold", 0.38);
+    if (mfg_short_circuit_threshold < 0 || mfg_short_circuit_threshold > 1) {
+        Log.error("mfg_short_circuit_threshold must be between 0 and 1");
+        return false;
+    }
+    m_mfg_task_ptr->set_abyssal_hunter_enabled(abyssal_hunter_enabled);
+    m_mfg_task_ptr->set_mfg_short_circuit(mfg_short_circuit, mfg_short_circuit_threshold);
 
     bool reception_message_board = params.get("reception_message_board", true);
     m_reception_task_ptr->set_receive_message_board(reception_message_board);

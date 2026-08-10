@@ -146,6 +146,21 @@
                 <ListBox
                     Margin="0,5"
                     d:ItemsSource="{d:SampleData ItemCount=3}"
+                    ItemsSource="{Binding Path=InfrastRoomModels}"
+                    PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
+                                                 Target={x:Type helper:MouseWheelHelper}}"
+                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
+                    Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
+                                           Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsEnabled}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ListBox
+                    Margin="0,5"
+                    d:ItemsSource="{d:SampleData ItemCount=3}"
                     dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
                     dd:DragDrop.IsDragSource="True"
                     dd:DragDrop.IsDropTarget="True"
@@ -153,7 +168,9 @@
                     PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
                                                  Target={x:Type helper:MouseWheelHelper}}"
                     Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
-                    ToolTip="{DynamicResource LabelSequenceTip}">
+                    ToolTip="{DynamicResource LabelSequenceTip}"
+                    Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Normal',
+                                           Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -224,6 +241,35 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
                 <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
             </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource InfrastUseAbyssalHunter}"
+                IsChecked="{Binding UseAbyssalHunter}"
+                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
+                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource InfrastMfgShortCircuit}"
+                IsChecked="{Binding MfgShortCircuit}"
+                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
+                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
+            <StackPanel
+                Margin="0,5"
+                IsEnabled="{Binding MfgShortCircuit}"
+                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
+                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <controls:TextBlock Text="{DynamicResource InfrastMfgShortCircuitThreshold}" TextWrapping="Wrap" />
+                    <controls:TextBlock Text=": " />
+                    <controls:TextBlock Text="{Binding MfgShortCircuitThreshold}" />
+                    <controls:TextBlock Text="%" />
+                </StackPanel>
+                <Slider
+                    Margin="0,5"
+                    Maximum="100"
+                    Minimum="0"
+                    Value="{Binding MfgShortCircuitThreshold}" />
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </UserControl>

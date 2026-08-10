@@ -90,6 +90,12 @@ public class AsstInfrastTask : AsstBaseTask
     /// </summary>
     public bool ReceptionSendClue { get; set; }
 
+    public bool UseAbyssalHunter { get; set; }
+
+    public bool MfgShortCircuit { get; set; }
+
+    public double MfgShortCircuitThreshold { get; set; } = 0.38;
+
     /// <summary>
     /// Gets or sets 自定义配置文件路径
     /// </summary>
@@ -114,6 +120,9 @@ public class AsstInfrastTask : AsstBaseTask
             ["reception_message_board"] = ReceptionMessageBoard,
             ["reception_clue_exchange"] = ReceptionClueExchange,
             ["reception_send_clue"] = ReceptionSendClue,
+            ["use_abyssal_hunter"] = UseAbyssalHunter,
+            ["mfg_short_circuit"] = MfgShortCircuit,
+            ["mfg_short_circuit_threshold"] = MfgShortCircuitThreshold,
             ["mode"] = (int)Mode,
         };
 

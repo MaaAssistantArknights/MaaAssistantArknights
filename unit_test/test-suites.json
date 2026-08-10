@@ -14,6 +14,22 @@
         "src/MaaCore/Utils/Algorithm.hpp",
         "unit_test/MaaCore/AlgorithmTest.cpp"
       ]
+    },
+    {
+      "id": "maa-infrast-test",
+      "name": "Infrastructure",
+      "buildTarget": "maa-infrast-test",
+      "ctestRegex": "^infrast::",
+      "paths": [
+        "resource/infrast.json",
+        "src/MaaCore/Common/AsstInfrastDef.h",
+        "src/MaaCore/Config/Miscellaneous/InfrastConfig.cpp",
+        "src/MaaCore/Task/Infrast/**",
+        "src/MaaCore/Task/Interface/InfrastTask.cpp",
+        "src/MaaCore/Task/Interface/InfrastTask.h",
+        "src/MaaCore/Vision/Infrast/**",
+        "unit_test/MaaCore/InfrastTest.cpp"
+      ]
     }
   ]
 }

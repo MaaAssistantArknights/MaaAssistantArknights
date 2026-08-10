@@ -1,6 +1,11 @@
 #include "InfrastProductionTask.h"
+#include "InfrastScore.h"
 
 #include <algorithm>
+#include <array>
+#include <cctype>
+#include <cmath>
+#include <cstdlib>
 #include <ranges>
 
 #include <calculator/calculator.hpp>
@@ -17,6 +22,39 @@
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
+
+namespace
+{
+bool is_white_pixel(const cv::Mat& image, const asst::Point& point)
+{
+    if (point.x < 0 || point.y < 0 || point.x >= image.cols || point.y >= image.rows) {
+        return false;
+    }
+    const auto pixel = image.at<cv::Vec3b>(point.y, point.x);
+    return pixel[0] >= 235 && pixel[1] >= 235 && pixel[2] >= 235;
+}
+
+int detect_mfg_occupied_slots(const cv::Mat& image, int room_slots)
+{
+    // 空位图标的三个白色边缘点。沿用现有 1280x720 控制坐标，不新增模板，
+    // 避免干员头像、技能图标和不同客户端文字影响满员判断。
+    constexpr std::array<std::array<asst::Point, 3>, 3> VacancyPoints = {
+        std::array { asst::Point { 329, 627 }, asst::Point { 331, 646 }, asst::Point { 312, 645 } },
+        std::array { asst::Point { 419, 645 }, asst::Point { 437, 645 }, asst::Point { 437, 627 } },
+        std::array { asst::Point { 543, 627 }, asst::Point { 543, 645 }, asst::Point { 525, 645 } },
+    };
+
+    int vacancies = 0;
+    for (int index = 0; index < std::clamp(room_slots, 0, 3); ++index) {
+        if (std::ranges::all_of(VacancyPoints[index], [&](const asst::Point& point) {
+                return is_white_pixel(image, point);
+            })) {
+            ++vacancies;
+        }
+    }
+    return room_slots - vacancies;
+}
+} // namespace
 
 asst::InfrastProductionTask& asst::InfrastProductionTask::set_drones_usage_from_params(std::string usage) noexcept
 {
@@ -356,6 +394,29 @@ bool asst::InfrastProductionTask::shift_facility_list()
             cur_product_for_non_custom_drone.clear();
         }
 
+        if (m_default_mode && m_task_data && (facility_name() == "Mfg" || facility_name() == "Trade")) {
+            const int room_level =
+                InfrastData.get_facility_info(facility_name()).max_num_of_opers - m_cur_num_of_locked_opers;
+            auto& facilities = m_task_data->facilities[facility_name()];
+            if (static_cast<size_t>(m_cur_facility_index) < facilities.size()) {
+                facilities[m_cur_facility_index].level = room_level;
+            }
+
+            if (facility_name() == "Mfg") {
+                if (cur_product_detection_valid && m_product == "PureGold") {
+                    m_task_data->gold_station_indices.emplace(m_cur_facility_index);
+                }
+                else {
+                    m_task_data->gold_station_indices.erase(m_cur_facility_index);
+                }
+                m_task_data->gold_station_num = static_cast<int>(m_task_data->gold_station_indices.size());
+            }
+        }
+
+        if (m_inspect_only) {
+            continue;
+        }
+
         /*启用自定义基建时，如果产物不一致则直接更换产物*/
         if (m_is_custom && m_is_product_incorrect) {
             if (!change_product()) {
@@ -371,6 +432,39 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
 
+        if (m_mfg_short_circuit && facility_name() == "Mfg") {
+            // 短路只在制造站满员且效率识别成功时生效。OCR 失败必须继续正常换班，
+            // 否则一次空识别会把低效率房间错误地当成高效率房间跳过。
+            const int room_slots = InfrastData.get_facility_info("Mfg").max_num_of_opers - m_cur_num_of_locked_opers;
+            const int occupied_slots = detect_mfg_occupied_slots(image, room_slots);
+            const Rect efficiency_roi(852, 633, 49, 21);
+            RegionOCRer efficiency_analyzer(ctrler()->get_image());
+            efficiency_analyzer.set_roi(efficiency_roi);
+            std::optional<double> total_efficiency;
+            if (auto result = efficiency_analyzer.analyze()) {
+                std::string text = result->text;
+                const auto begin =
+                    std::ranges::find_if(text, [](unsigned char c) { return std::isdigit(c) || c == '.'; });
+                if (begin != text.end()) {
+                    char* end = nullptr;
+                    const double total = std::strtod(text.c_str() + std::distance(text.begin(), begin), &end);
+                    if (end != text.c_str() + std::distance(text.begin(), begin) && std::isfinite(total)) {
+                        total_efficiency = total > 2.0 ? total / 100.0 : total;
+                    }
+                }
+            }
+            if (infrast::should_short_circuit_mfg(
+                    m_mfg_short_circuit,
+                    m_abyssal_hunter_enabled,
+                    occupied_slots,
+                    room_slots,
+                    total_efficiency,
+                    m_mfg_short_circuit_threshold)) {
+                Log.info("manufacturing facility is full and above efficiency threshold, skip shift");
+                continue;
+            }
+        }
+
         /* 进入干员选择页面 */
         if (!m_skip_shift) {
             ctrler()->click(add_button);
@@ -383,6 +477,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 match_operator_groups();
             }
 
+            bool selection_ready = false;
             for (int i = 0; i <= OperSelectRetryTimes; ++i) {
                 if (need_exit()) {
                     return false;
@@ -418,9 +513,16 @@ bool asst::InfrastProductionTask::shift_facility_list()
                     swipe_to_the_left_of_operlist();
                     continue;
                 }
+                selection_ready = true;
                 break;
             }
-            click_confirm_button();
+            if (!selection_ready) {
+                discard_pending_selection();
+                return false;
+            }
+            if (!click_confirm_button()) {
+                return false;
+            }
         }
         else {
             Log.info("skip shift in rotation mode");
@@ -494,6 +596,25 @@ size_t asst::InfrastProductionTask::opers_detect()
         if (cur_oper.skills.empty()) {
             continue;
         }
+        auto resolved_oper = cur_oper;
+        if (m_default_mode && m_abyssal_hunter_enabled && facility_name() == "Mfg") {
+            RegionOCRer name_analyzer(resolved_oper.name_img);
+            name_analyzer.set_replace(
+                Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
+                Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
+            if (auto name = name_analyzer.analyze()) {
+                const static std::unordered_map<std::string, std::string> AbyssalOperatorIds = {
+                    { "斯卡蒂", "char_263_skadi" },
+                    { "幽灵鲨", "char_143_ghost" },
+                    { "乌尔比安", "char_4145_ulpia" },
+                    { "安哲拉", "char_218_cuttle" },
+                };
+                if (const auto iter = AbyssalOperatorIds.find(name->text); iter != AbyssalOperatorIds.end()) {
+                    resolved_oper.operator_ids = { iter->second };
+                    resolved_oper.operator_id = iter->second;
+                }
+            }
+        }
         {
             std::string skills_str = "[";
             for (const auto& skill : cur_oper.skills) {
@@ -512,7 +633,7 @@ size_t asst::InfrastProductionTask::opers_detect()
                 return false;
             }
             // 有可能是同一个干员，比一下hash
-            int dist = Hasher::hamming(cur_oper.face_hash, oper.face_hash);
+            int dist = Hasher::hamming(resolved_oper.face_hash, oper.face_hash);
             Log.debug("opers_detect hash dist |", dist);
             return dist < face_hash_thres;
         });
@@ -520,7 +641,7 @@ size_t asst::InfrastProductionTask::opers_detect()
         if (find_iter != m_all_available_opers.cend()) {
             continue;
         }
-        m_all_available_opers.emplace_back(cur_oper);
+        m_all_available_opers.emplace_back(std::move(resolved_oper));
     }
     return m_all_available_opers.size() - pre_size;
 }
@@ -536,6 +657,79 @@ bool asst::InfrastProductionTask::optimal_calc()
     if (cur_max_num_of_opers == 0) {
         Log.warn("no need select opers");
         m_optimal_combs.clear();
+        return true;
+    }
+
+    if (m_default_mode) {
+        infrast::ScoreContext context;
+        context.facility = facility_name();
+        context.product = m_product;
+        context.slots = cur_max_num_of_opers;
+        context.level = cur_max_num_of_opers;
+        if (m_task_data) {
+            const auto facilities_iter = m_task_data->facilities.find(facility_name());
+            if (facilities_iter != m_task_data->facilities.end() &&
+                static_cast<size_t>(m_cur_facility_index) < facilities_iter->second.size()) {
+                context.level = facilities_iter->second[m_cur_facility_index].level;
+            }
+        }
+        context.mood_threshold = m_mood_threshold;
+        context.use_abyssal_hunter = m_abyssal_hunter_enabled;
+        if (m_task_data) {
+            context.dormitory_capacity = m_task_data->dormitory_capacity;
+            context.dormitory_level_sum = m_task_data->dormitory_level_sum;
+            context.gold_station_num = m_task_data->gold_station_num;
+            context.trading_station_num = m_task_data->trading_station_num;
+            context.power_station_num = m_task_data->power_station_num;
+            context.virtual_power_station_num = m_task_data->virtual_power_station_num;
+            context.total_station_level = m_task_data->total_station_level;
+            context.workbench_num = m_task_data->workbench_num;
+            context.selected_operator_ids = m_task_data->operator_ids;
+        }
+
+        std::vector<infrast::ScoreOper> score_opers;
+        score_opers.reserve(m_all_available_opers.size());
+        for (const auto& oper : m_all_available_opers) {
+            infrast::ScoreOper score_oper;
+            for (const auto& skill : oper.skills) {
+                score_oper.skills.emplace(skill.id);
+            }
+            score_oper.operator_id = oper.operator_id;
+            score_oper.face_hash = oper.face_hash;
+            score_oper.mood_ratio = oper.mood_ratio;
+            score_opers.emplace_back(std::move(score_oper));
+        }
+
+        if (m_abyssal_hunter_enabled && facility_name() == "Mfg") {
+            constexpr std::array<std::string_view, 4> RequiredIds = { "char_263_skadi",
+                                                                      "char_143_ghost",
+                                                                      "char_4145_ulpia",
+                                                                      "char_218_cuttle" };
+            const bool complete = std::ranges::all_of(RequiredIds, [&](std::string_view id) {
+                return context.selected_operator_ids.contains(std::string(id)) ||
+                       std::ranges::any_of(score_opers, [&](const infrast::ScoreOper& oper) {
+                           return oper.operator_id == id;
+                       });
+            });
+            if (!complete) {
+                Log.warn("abyssal hunter operators are incomplete, use normal manufacturing score");
+                context.use_abyssal_hunter = false;
+            }
+        }
+
+        const auto result = infrast::select_best_opers(score_opers, context);
+        m_optimal_combs.clear();
+        m_optimal_combs.reserve(result.indices.size());
+        for (const size_t index : result.indices) {
+            const auto& oper = m_all_available_opers.at(index);
+            auto comb = efficient_regex_calc(oper.skills);
+            comb.face_hash = oper.face_hash;
+            comb.operator_ids = oper.operator_ids;
+            comb.operator_id = oper.operator_id;
+            comb.name_img = oper.name_img;
+            m_optimal_combs.emplace_back(std::move(comb));
+        }
+        Log.info("infrastructure optimal score", facility_name(), result.score, "operators", result.indices.size());
         return true;
     }
 
@@ -772,6 +966,7 @@ bool asst::InfrastProductionTask::optimal_calc()
 bool asst::InfrastProductionTask::opers_choose()
 {
     LogTraceFunction;
+    discard_pending_selection();
     bool has_error = false;
 
     auto& facility_info = InfrastData.get_facility_info(facility_name());
@@ -821,6 +1016,13 @@ bool asst::InfrastProductionTask::opers_choose()
                 if (lhs.skills != opt_iter->skills) {
                     return false;
                 }
+                if (!opt_iter->face_hash.empty()) {
+                    const int dist = Hasher::hamming(lhs.face_hash, opt_iter->face_hash);
+                    Log.debug("opers_choose | expected face hash dist", dist);
+                    if (dist >= face_hash_thres) {
+                        return false;
+                    }
+                }
                 if (opt_iter->name_filter.empty()) {
                     return true;
                 }
@@ -864,6 +1066,7 @@ bool asst::InfrastProductionTask::opers_choose()
                     return dist < face_hash_thres;
                 });
                 if (avlb_iter != m_all_available_opers.cend()) {
+                    stage_operator_selection(avlb_iter->operator_id);
                     m_all_available_opers.erase(avlb_iter);
                 }
                 else {

@@ -298,7 +298,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             else if (possible_skills.size() > 1) {
                 // 匹配得分最高的id作为基准，排除有识别错误，其他的技能混进来了的情况
                 // 即排除容器中，除了有同一个技能的不同等级，还有别的技能的情况
-                auto max_iter = std::ranges::max_element(possible_skills, std::less {}, [](const auto& pair) {
+                auto max_iter = std::ranges::max_element(possible_skills, std::less { }, [](const auto& pair) {
                     return pair.second.score;
                 });
                 double base_score = max_iter->second.score;
@@ -336,6 +336,11 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             oper.skills.emplace(std::move(most_confident_skills));
         }
         if (!oper.skills.empty()) {
+            std::vector<infrast::Skill> skills(oper.skills.begin(), oper.skills.end());
+            oper.operator_ids = infrast::Oper::intersect_operator_ids(skills);
+            if (oper.operator_ids.size() == 1) {
+                oper.operator_id = *oper.operator_ids.begin();
+            }
             ++m_num_of_opers_with_skills;
         }
         Log.trace(log_str, "]");

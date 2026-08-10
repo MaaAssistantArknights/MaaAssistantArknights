@@ -165,6 +165,9 @@
     <system:String x:Key="InfrastReceptionSendClue">贈送線索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中設定並執行</system:String>
     <system:String x:Key="ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">製造站使用深海獵人組合</system:String>
+    <system:String x:Key="InfrastMfgShortCircuit">保留高效率製造站目前幹員</system:String>
+    <system:String x:Key="InfrastMfgShortCircuitThreshold">製造站平均效率閾值</system:String>
     <system:String x:Key="TrainingIdle">訓練室空閒中</system:String>
     <system:String x:Key="TrainingCompleted">訓練完成</system:String>
     <system:String x:Key="TrainingLevel">專精等級</system:String>

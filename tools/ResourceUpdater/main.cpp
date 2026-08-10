@@ -58,6 +58,10 @@ int main([[maybe_unused]] int argc, char** argv)
     SetConsoleOutputCP(CP_UTF8);
 #endif
 
+    if (argc == 4 && std::string_view(argv[1]) == "--infrast-data") {
+        return update_infrast_data(fs::path(argv[2]), fs::path(argv[3])) ? 0 : 1;
+    }
+
     // ---- PATH DECLARATION ----
 
     int result;
@@ -570,6 +574,36 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
     }
     auto& buffs = buffs_opt.value();
 
+    std::unordered_map<std::string, std::set<std::string>> operator_ids_by_skill;
+    if (auto chars_opt = input_json.find<json::object>("chars")) {
+        for (const auto& [char_id, char_json] : chars_opt.value()) {
+            if (auto buff_chars_opt = char_json.find<json::array>("buffChar")) {
+                for (const auto& buff_char : buff_chars_opt.value()) {
+                    if (auto buff_data_opt = buff_char.find<json::array>("buffData")) {
+                        for (const auto& buff_data : buff_data_opt.value()) {
+                            const std::string buff_id = buff_data.get("buffId", std::string());
+                            if (buff_id.empty() || !buffs.contains(buff_id)) {
+                                continue;
+                            }
+
+                            std::string skill_icon = buffs.at(buff_id).get("skillIcon", std::string());
+                            if (skill_icon == "bskill_man_exp4") {
+                                skill_icon = "bskill_man_exp0";
+                            }
+                            if (!skill_icon.empty()) {
+                                operator_ids_by_skill[skill_icon].emplace(char_id);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // 维护资源可能先于输入数据包含新技能。已确认唯一归属的技能在此补齐稳定身份，
+    // 输入数据后续包含相同归属时，集合会自然去重。
+    operator_ids_by_skill["bskill_ctrl_hire_tmoris"].emplace("char_4186_tmoris");
+    operator_ids_by_skill["bskill_ctrl_t_limit&spd_tmoris"].emplace("char_4186_tmoris");
+
     // 这里面有些是手动修改的，要保留
     json::value& root = old_json;
     std::unordered_set<std::string> rooms;
@@ -624,6 +658,18 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
         std::string filename = raw_key + ".png";
         filename[0] -= 32;
         skill["template"] = std::move(filename);
+    }
+
+    for (const auto& room_type : rooms) {
+        auto& skills = root[room_type]["skills"].as_object();
+        for (auto& [skill_id, skill] : skills) {
+            if (auto iter = operator_ids_by_skill.find(skill_id); iter != operator_ids_by_skill.cend()) {
+                skill["operatorIds"] = json::array(iter->second);
+            }
+            else {
+                skill["operatorIds"] = json::array();
+            }
+        }
     }
     root["roomType"] = json::array(rooms);
 

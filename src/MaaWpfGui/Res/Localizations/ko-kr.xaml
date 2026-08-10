@@ -165,6 +165,9 @@
     <system:String x:Key="InfrastReceptionSendClue">단서 보내기</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">다음 기능들은 {key=Infrast}에서 설정 및 실행해야 합니다</system:String>
     <system:String x:Key="ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">제조소에서 어비설 헌터 조합 사용</system:String>
+    <system:String x:Key="InfrastMfgShortCircuit">고효율 제조소의 현재 오퍼레이터 유지</system:String>
+    <system:String x:Key="InfrastMfgShortCircuitThreshold">제조소 평균 효율 임계값</system:String>
     <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>
     <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
     <system:String x:Key="TrainingLevel">마스터리 랭크</system:String>

@@ -232,6 +232,26 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         set => SetTaskConfig<InfrastTask>(t => t.ContinueTraining == value, t => t.ContinueTraining = value);
     }
 
+    public bool UseAbyssalHunter
+    {
+        get => GetTaskConfig<InfrastTask>().UseAbyssalHunter;
+        set => SetTaskConfig<InfrastTask>(t => t.UseAbyssalHunter == value, t => t.UseAbyssalHunter = value);
+    }
+
+    public bool MfgShortCircuit
+    {
+        get => GetTaskConfig<InfrastTask>().MfgShortCircuit;
+        set => SetTaskConfig<InfrastTask>(t => t.MfgShortCircuit == value, t => t.MfgShortCircuit = value);
+    }
+
+    public int MfgShortCircuitThreshold
+    {
+        get => GetTaskConfig<InfrastTask>().MfgShortCircuitThreshold;
+        set => SetTaskConfig<InfrastTask>(
+            t => t.MfgShortCircuitThreshold == value,
+            t => t.MfgShortCircuitThreshold = value);
+    }
+
     public const string UserDefined = "user_defined";
 
     /// <summary>
@@ -574,6 +594,9 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                 ReceptionMessageBoard = infrast.ReceptionMessageBoard,
                 ReceptionClueExchange = infrast.ReceptionClueExchange,
                 ReceptionSendClue = infrast.SendClue,
+                UseAbyssalHunter = infrast.UseAbyssalHunter,
+                MfgShortCircuit = infrast.MfgShortCircuit,
+                MfgShortCircuitThreshold = infrast.MfgShortCircuitThreshold / 100.0,
                 Filename = infrast.Filename,
             };
 

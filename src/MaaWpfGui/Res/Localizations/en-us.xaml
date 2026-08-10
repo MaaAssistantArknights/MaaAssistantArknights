@@ -165,6 +165,9 @@
     <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">The following functions require configuration and execution within {key=Infrast}.</system:String>
     <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">Use Abyssal Hunter manufacturing team</system:String>
+    <system:String x:Key="InfrastMfgShortCircuit">Keep operators in efficient factories</system:String>
+    <system:String x:Key="InfrastMfgShortCircuitThreshold">Average factory efficiency threshold</system:String>
     <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
     <system:String x:Key="TrainingLevel">Skill Rank</system:String>

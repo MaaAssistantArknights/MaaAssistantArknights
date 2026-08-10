@@ -1,19 +1,20 @@
 #pragma once
 
-#include "InfrastAbstractTask.h"
+#include "InfrastProductionTask.h"
 
 namespace asst
 {
-class InfrastDormTask final : public InfrastAbstractTask
+class InfrastDormTask final : public InfrastProductionTask
 {
 public:
-    using InfrastAbstractTask::InfrastAbstractTask;
+    using InfrastProductionTask::InfrastProductionTask;
     virtual ~InfrastDormTask() override = default;
 
     virtual size_t max_num_of_opers() const noexcept override { return 5ULL; }
 
     InfrastDormTask& set_notstationed_enabled(bool notstationed_filter_enabled) noexcept;
     InfrastDormTask& set_trust_enabled(bool trust_autofill_enabled) noexcept;
+    InfrastDormTask& set_prepare_phase(bool enabled) noexcept;
 
 protected:
     virtual bool on_run_fails() override;
@@ -21,7 +22,9 @@ protected:
 private:
     virtual bool _run() override;
 
-    bool fill_dorm_slots();
+    bool fill_dorm_slots(bool low_mood_only);
+    bool select_dorm_managers();
+    bool try_select_fiammetta_pair();
     bool set_notstationed_filter(bool enabled);
     bool restore_list_sort_for_selection_phase(asst::infrast::CustomRoomConfig const& room_config);
     bool switch_to_mood_sort();
@@ -43,5 +46,7 @@ private:
 
     SelectionPhase m_selection_phase = SelectionPhase::LowMood;
     bool m_notstationed_filter_active = false;
+    bool m_prepare_phase = false;
+    bool m_fiammetta_checked = false;
 };
 } // namespace asst

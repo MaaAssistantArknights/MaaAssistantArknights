@@ -21,6 +21,18 @@ public:
 
     void set_skip_shift(bool skip) noexcept { m_skip_shift = skip; }
 
+    void set_default_mode(bool enabled) noexcept { m_default_mode = enabled; }
+
+    void set_inspect_only(bool enabled) noexcept { m_inspect_only = enabled; }
+
+    void set_mfg_short_circuit(bool enabled, double threshold) noexcept
+    {
+        m_mfg_short_circuit = enabled;
+        m_mfg_short_circuit_threshold = threshold;
+    }
+
+    void set_abyssal_hunter_enabled(bool enabled) noexcept { m_abyssal_hunter_enabled = enabled; }
+
 protected:
     bool shift_facility_list();
     bool facility_list_detect();
@@ -45,6 +57,11 @@ protected:
     bool m_is_use_drones_from_custom = false;
     infrast::CustomDronesConfig m_custom_drones_config;
     bool m_skip_shift = false;
+    bool m_mfg_short_circuit = false;
+    double m_mfg_short_circuit_threshold = 0.38;
+    bool m_abyssal_hunter_enabled = false;
+    bool m_default_mode = false;
+    bool m_inspect_only = false;
 
 protected:
     bool change_product();

@@ -1,11 +1,15 @@
 #include "InfrastDormTask.h"
 
+#include <functional>
+#include <ranges>
+
 #include <boost/regex.hpp>
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
@@ -35,6 +39,12 @@ asst::InfrastDormTask& asst::InfrastDormTask::set_trust_enabled(bool trust_autof
     return *this;
 }
 
+asst::InfrastDormTask& asst::InfrastDormTask::set_prepare_phase(bool enabled) noexcept
+{
+    m_prepare_phase = enabled;
+    return *this;
+}
+
 bool asst::InfrastDormTask::on_run_fails()
 {
     m_notstationed_filter_active = false;
@@ -43,6 +53,9 @@ bool asst::InfrastDormTask::on_run_fails()
 
 bool asst::InfrastDormTask::_run()
 {
+    if (m_cur_facility_index == 0) {
+        m_fiammetta_checked = false;
+    }
     for (; m_cur_facility_index < m_max_num_of_dorm; ++m_cur_facility_index) {
         if (need_exit()) {
             return false;
@@ -108,23 +121,44 @@ bool asst::InfrastDormTask::_run()
             }
         }
         else {
-            // If no custom dorm operators are configured, clear first and refill by the default flow.
+            // 前置阶段清空并安排低心情干员；后置阶段保留已经休息的干员，只补空位。
+            if (m_prepare_phase || m_is_custom) {
+                click_clear_button();
+            }
+        }
+
+        if (m_prepare_phase && !m_is_custom && !m_fiammetta_checked && m_cur_facility_index < 3 &&
+            try_select_fiammetta_pair()) {
+            if (!click_confirm_button()) {
+                return false;
+            }
+            click_return_button();
+            if (!enter_facility(m_cur_facility_index) || !enter_oper_list_page()) {
+                return false;
+            }
+            close_quick_formation_expand_role();
+            switch_to_mood_sort();
             click_clear_button();
         }
 
         if (!m_is_custom || current_room_config().autofill) {
-            if (!fill_dorm_slots()) {
+            if (!m_prepare_phase && !m_is_custom && !select_dorm_managers()) {
+                return false;
+            }
+            if (!fill_dorm_slots(m_prepare_phase && !m_is_custom)) {
                 return false;
             }
         }
 
-        click_confirm_button();
+        if (!click_confirm_button()) {
+            return false;
+        }
         click_return_button();
     }
     return true;
 }
 
-bool asst::InfrastDormTask::fill_dorm_slots()
+bool asst::InfrastDormTask::fill_dorm_slots(bool low_mood_only)
 {
     size_t num_of_selected = m_is_custom ? current_room_config().selected : 0;
     size_t num_of_fulltrust = 0;
@@ -145,6 +179,9 @@ bool asst::InfrastDormTask::fill_dorm_slots()
         }
         oper_analyzer.sort_by_mood();
         const auto& opers = oper_analyzer.get_result();
+        num_of_selected =
+            (std::max)(num_of_selected,
+                       static_cast<size_t>(std::ranges::count_if(opers, std::mem_fn(&infrast::Oper::selected))));
 
         size_t num_of_resting = 0;
         for (const auto& oper : opers) {
@@ -234,6 +271,9 @@ bool asst::InfrastDormTask::fill_dorm_slots()
                 }
                 else if (++num_of_resting >= RestingOperCountThreshold) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
+                    if (low_mood_only) {
+                        return true;
+                    }
                     if (m_trust_autofill_enabled) {
                         // We have exhausted the low-mood pass on this page. Switch to the
                         // trust-autofill view and let the next iteration re-read the list.
@@ -291,6 +331,135 @@ bool asst::InfrastDormTask::fill_dorm_slots()
     }
 
     return true;
+}
+
+bool asst::InfrastDormTask::select_dorm_managers()
+{
+    InfrastOperImageAnalyzer stationed_analyzer(ctrler()->get_image());
+    stationed_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
+    stationed_analyzer.set_facility(facility_name());
+    if (!stationed_analyzer.analyze()) {
+        return false;
+    }
+    m_cur_num_of_locked_opers =
+        static_cast<int>(std::ranges::count_if(stationed_analyzer.get_result(), std::mem_fn(&infrast::Oper::selected)));
+    if (m_cur_num_of_locked_opers >= static_cast<int>(max_num_of_opers())) {
+        return true;
+    }
+
+    if (!opers_detect_with_swipe()) {
+        return false;
+    }
+    std::erase_if(m_all_available_opers, std::mem_fn(&infrast::Oper::selected));
+    swipe_to_the_left_of_operlist();
+    if (!optimal_calc()) {
+        return false;
+    }
+    if (m_optimal_combs.empty()) {
+        return true;
+    }
+    const bool selected = opers_choose();
+    switch_to_mood_sort();
+    return selected;
+}
+
+bool asst::InfrastDormTask::try_select_fiammetta_pair()
+{
+    struct Candidate
+    {
+        std::string face_hash;
+        std::string operator_id;
+        int page = 0;
+    };
+
+    std::optional<Candidate> target;
+    std::optional<Candidate> fiammetta;
+    const double target_mood_limit = m_mood_threshold + 1.0 / 24.0;
+    const int max_pages = operlist_swipe_times() + 1;
+
+    for (int page = 0; page < max_pages; ++page) {
+        InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
+        analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
+        analyzer.set_facility(facility_name());
+        if (!analyzer.analyze()) {
+            return false;
+        }
+        for (const auto& oper : analyzer.get_result()) {
+            if (!fiammetta && oper.operator_id == "char_300_phenxi" && oper.mood_ratio >= 0.99) {
+                fiammetta = Candidate { oper.face_hash, oper.operator_id, page };
+            }
+            if (target || oper.mood_ratio >= target_mood_limit) {
+                continue;
+            }
+
+            RegionOCRer name_analyzer(oper.name_img);
+            name_analyzer.set_replace(
+                Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
+                Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
+            if (auto name = name_analyzer.analyze()) {
+                const static std::unordered_map<std::string, std::string> TargetIds = {
+                    { "清流", "char_385_finlpp" },
+                    { "但书", "char_4032_provs" },
+                    { "可露希尔", "" },
+                };
+                if (const auto iter = TargetIds.find(name->text); iter != TargetIds.end()) {
+                    target = Candidate { oper.face_hash, iter->second, page };
+                }
+            }
+        }
+        if (page + 1 < max_pages) {
+            swipe_of_operlist();
+        }
+    }
+
+    swipe_to_the_left_of_operlist();
+    if (!target) {
+        return false;
+    }
+
+    // 找到交换目标后，本次任务只尝试一次；菲亚梅塔必须满心情才有效。
+    m_fiammetta_checked = true;
+    if (!fiammetta) {
+        Log.warn("full-mood Fiammetta was not found");
+        return false;
+    }
+
+    const int face_hash_threshold = Task.get("InfrastOperFace")->special_params[0];
+    auto select_candidate = [&](const Candidate& candidate) {
+        swipe_to_the_left_of_operlist();
+        for (int page = 0; page <= candidate.page; ++page) {
+            InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
+            analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
+            analyzer.set_facility(facility_name());
+            if (!analyzer.analyze()) {
+                return false;
+            }
+            const auto iter = std::ranges::find_if(analyzer.get_result(), [&](const infrast::Oper& oper) {
+                return Hasher::hamming(oper.face_hash, candidate.face_hash) < face_hash_threshold;
+            });
+            if (iter != analyzer.get_result().end()) {
+                if (!iter->selected) {
+                    ctrler()->click(iter->rect);
+                }
+                stage_operator_selection(candidate.operator_id);
+                return true;
+            }
+            if (page < candidate.page) {
+                swipe_of_operlist();
+            }
+        }
+        return false;
+    };
+
+    // 菲亚梅塔必须位于目标后一位，交换对象才是预期干员。
+    discard_pending_selection();
+    if (select_candidate(*target) && select_candidate(*fiammetta)) {
+        return true;
+    }
+    discard_pending_selection();
+    click_clear_button();
+    swipe_to_the_left_of_operlist();
+    return false;
 }
 
 bool asst::InfrastDormTask::set_notstationed_filter(bool enabled)
