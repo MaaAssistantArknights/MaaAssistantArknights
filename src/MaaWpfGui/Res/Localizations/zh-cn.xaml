@@ -1112,6 +1112,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@PaintWhite">也画白色</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Swipe">启用滑动绘制</system:String>
     <system:String x:Key="MiniGame@PixelPaint@SwipeTip">同色同行的连续格用拖动一次画完，可显著加快画图速度。部分触控模式下可能异常，如遇问题请关闭。</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@GridClickDelay">点击间隔(ms)</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@GridClickDelayTip">逐格点击之间的额外等待时长。各触控方式自带基础间隔，默认 0 即可；某些低性能设备可能遇到问题，可按需调整。</system:String>
     <system:String x:Key="MiniGame@PixelPaint@LoadFailed">图片加载失败</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ConvertFailed">转换失败</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ReadyStatus">可画 {0} 格 / {1} 色</system:String>

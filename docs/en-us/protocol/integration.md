@@ -1005,8 +1005,10 @@ Additional task parameters. Currently only used by the pixel paint task (`MiniGa
 
 - `params.pixel_paint.groups`: color-grouped cell list. `color` is the palette slot index (0~39, same order as the in-game right-side palette), `points` is an array of `[x, y]` grid coordinates (0~23, origin at top-left).
 - `params.pixel_paint.swipe` (bool, optional, default true): consecutive cells of the same color are drawn in a single drag for speed; some touch modes may behave abnormally.  
-  :::  
-  ::::
+- `params.pixel_paint.grid_click_delay` (int, optional, default 0): extra wait between cell clicks (ms). Each touch mode already has its own base interval; usually no need to adjust.
+
+:::  
+::::
 
 <details>
 <summary>Example</summary>

@@ -180,7 +180,7 @@ std::optional<asst::Point> asst::PixelPaintTaskPlugin::grid_center(int x, int y)
 void asst::PixelPaintTaskPlugin::click_grid(const Point& pos) const
 {
     ctrler()->click(pos);
-    sleep(GridClickDelay);
+    sleep(m_grid_click_delay);
 }
 
 bool asst::PixelPaintTaskPlugin::draw_group(const Group& group, int& done_cells, int total_cells)
@@ -241,7 +241,7 @@ bool asst::PixelPaintTaskPlugin::draw_group(const Group& group, int& done_cells,
         }
         else {
             ctrler()->swipe(*start, *end, static_cast<int>(seg.len * SwipeMsPerCell));
-            sleep(50);
+            sleep(m_grid_click_delay + 50);
             // 终点格可能漏画，补点一次
             click_grid(*end);
         }
