@@ -718,16 +718,8 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& output_
         }
         const std::string& stem = entry.path().stem().string();
 
-        const std::vector<std::string> BlackList = { "[style]", "bskill_dorm", "bskill_train", "bskill_ws" };
-
-        bool is_blacklist = false;
-        for (const auto& bl : BlackList) {
-            if (stem.find(bl) != std::string::npos) {
-                is_blacklist = true;
-                break;
-            }
-        }
-        if (is_blacklist) {
+        // Style assets are UI decorations rather than infrastructure skill icons.
+        if (stem.find("[style]") != std::string::npos) {
             continue;
         }
 
@@ -1517,4 +1509,3 @@ bool update_version_info(const fs::path& input_dir, const fs::path& output_dir)
 
     return true;
 }
-

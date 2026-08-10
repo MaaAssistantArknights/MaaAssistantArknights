@@ -27,7 +27,7 @@ bool asst::InfrastConfig::parse(const json::value& json)
             std::string templ_name = skill_json.at("template").as_string();
             skill.templ_name = templ_name;
             if (!templ_name.starts_with("Bskill_dorm_")) {
-                // 宿舍技能跳过，没有图片
+                // 宿舍换班不识别基建技能，无需加载对应模板
                 m_templ_required.emplace(skill.templ_name);
             }
             skill.id = id;
