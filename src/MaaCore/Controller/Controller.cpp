@@ -3,6 +3,7 @@
 #include "Utils/Platform.hpp"
 
 #include <boost/regex.hpp>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -187,6 +188,11 @@ bool asst::Controller::input(const std::string& text)
     return m_controller->input(text);
 }
 
+bool asst::Controller::resolve_swipe_with_pause(bool with_pause) const noexcept
+{
+    return with_pause && m_swipe_with_pause;
+}
+
 bool asst::Controller::swipe(
     const Point& p1,
     const Point& p2,
@@ -197,8 +203,8 @@ bool asst::Controller::swipe(
     bool with_pause)
 {
     CHECK_EXIST(m_controller, false);
-    const bool effective_with_pause = with_pause && m_swipe_with_pause;
-    return m_scale_proxy->swipe(p1, p2, duration, extra_swipe, slope_in, slope_out, effective_with_pause);
+    return m_scale_proxy->swipe(
+        p1, p2, duration, extra_swipe, slope_in, slope_out, resolve_swipe_with_pause(with_pause));
 }
 
 bool asst::Controller::swipe(
@@ -212,9 +218,15 @@ bool asst::Controller::swipe(
     bool high_resolution_swipe_fix)
 {
     CHECK_EXIST(m_controller, false);
-    const bool effective_with_pause = with_pause && m_swipe_with_pause;
-    return m_scale_proxy
-        ->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out, effective_with_pause, high_resolution_swipe_fix);
+    return m_scale_proxy->swipe(
+        r1,
+        r2,
+        duration,
+        extra_swipe,
+        slope_in,
+        slope_out,
+        resolve_swipe_with_pause(with_pause),
+        high_resolution_swipe_fix);
 }
 
 bool asst::Controller::inject_input_event(InputEvent& event)
@@ -233,6 +245,11 @@ bool asst::Controller::press_esc()
 
 asst::ControlFeat::Feat asst::Controller::support_features()
 {
+    static_assert(std::is_integral_v<ControlFeat::Feat>, "ControlFeat::Feat must be an integral bitmask type");
+    static_assert(
+        (ControlFeat::SWIPE_WITH_PAUSE & (ControlFeat::SWIPE_WITH_PAUSE - 1)) == 0,
+        "ControlFeat::SWIPE_WITH_PAUSE must be a single bit flag");
+
     CHECK_EXIST(m_controller, ControlFeat::NONE);
     auto feat = m_controller->support_features();
     if (!m_swipe_with_pause) {
