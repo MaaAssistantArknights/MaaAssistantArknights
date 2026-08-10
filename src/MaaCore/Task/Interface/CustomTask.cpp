@@ -119,8 +119,8 @@ bool asst::CustomTask::parse_and_register_pixel_paint(const std::string& task_na
     plugin_ptr->set_groups(std::move(groups));
     plugin_ptr->set_swipe_enabled(pixel_opt->get("swipe", true));
     // grid_delay：每格额外等待；兼容旧键 grid_click_delay
-    plugin_ptr->set_grid_delay(static_cast<unsigned>(
-        pixel_opt->get("grid_delay", pixel_opt->get("grid_click_delay", 0))));
+    plugin_ptr->set_grid_delay(
+        static_cast<unsigned>(pixel_opt->get("grid_delay", pixel_opt->get("grid_click_delay", 0))));
     Log.info("PixelPaint groups:", plugin_ptr->get_groups().size());
     return true;
 }
