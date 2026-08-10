@@ -65,6 +65,14 @@ public:
 
     ControllerAPI* get_underlying() const noexcept { return m_controller.get(); }
 
+    // 任务结束时恢复窗口位置
+    void restore_window_position()
+    {
+        if (m_controller) {
+            m_controller->restore_window_position();
+        }
+    }
+
     cv::Mat get_image(bool raw = false);
     cv::Mat get_image_cache() const;
     bool screencap(bool allow_reconnect = false);

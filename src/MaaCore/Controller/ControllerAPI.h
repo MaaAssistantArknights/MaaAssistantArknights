@@ -73,6 +73,7 @@ public:
 
     virtual void back_to_home() noexcept {}
     virtual void set_main_screen_recognition(bool /*on*/) {}
+    virtual void restore_window_position() {}
 };
 
 struct InputEvent
