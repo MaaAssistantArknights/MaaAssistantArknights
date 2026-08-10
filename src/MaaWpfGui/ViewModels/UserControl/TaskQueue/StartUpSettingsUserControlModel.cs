@@ -100,7 +100,7 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
 
             var task = new AsstStartUpTask() {
                 ClientType = clientType,
-                StartGame = SettingsViewModel.GameSettings.StartGame,
+                StartGame = !SettingsViewModel.ConnectSettings.IsPCConnectConfig && SettingsViewModel.GameSettings.StartGame,
                 AccountName = accountName,
             };
 

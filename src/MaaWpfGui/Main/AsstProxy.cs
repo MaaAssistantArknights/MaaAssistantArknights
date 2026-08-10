@@ -55,6 +55,8 @@ using ObservableCollections;
 using Serilog;
 using Stylet;
 using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 using static MaaWpfGui.Helper.Instances.Data;
 using AsstHandle = nint;
 using AsstInstanceOptionKey = System.Int32;
@@ -73,6 +75,9 @@ public class AsstProxy
 {
     private readonly RunningState _runningState;
     private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
+    private const string AttachWindowTargetName = "明日方舟";
+    private const string AttachWindowProcessName = "Arknights";
+    private const int AttachWindowStartTimeoutSeconds = 120;
 
     public DateTimeOffset StartTaskTime { get; set; }
 
@@ -2594,6 +2599,103 @@ public class AsstProxy
     }
 
     /// <summary>
+    /// Starts the PC client when necessary and waits for its game window before attaching.
+    /// </summary>
+    /// <param name="error">The startup error.</param>
+    /// <returns>Whether the game window is available.</returns>
+    public bool EnsurePcClientWindowAvailable(ref string error)
+    {
+        if (FindWindowsByName(AttachWindowTargetName).Count > 0)
+        {
+            return true;
+        }
+
+        if (SettingsViewModel.ConnectSettings.ExtraConfig is not Win32Extra win32Extra)
+        {
+            error = LocalizationHelper.GetString("PcClientPathNotFound");
+            return false;
+        }
+
+        var runningProcesses = Process.GetProcessesByName(AttachWindowProcessName);
+        var processRunning = runningProcesses.Length > 0;
+        foreach (var process in runningProcesses)
+        {
+            process.Dispose();
+        }
+
+        if (!processRunning)
+        {
+            var executablePath = win32Extra.ResolveGameExecutablePath();
+            if (string.IsNullOrEmpty(executablePath))
+            {
+                error = LocalizationHelper.GetString("PcClientPathNotFound");
+                _logger.Warning("Unable to resolve Arknights PC client executable");
+                return false;
+            }
+
+            try
+            {
+                var startInfo = new ProcessStartInfo {
+                    FileName = executablePath,
+                    WorkingDirectory = Path.GetDirectoryName(executablePath) ?? string.Empty,
+                    UseShellExecute = true,
+                };
+                using var process = Process.Start(startInfo);
+                if (process is null)
+                {
+                    throw new InvalidOperationException("Process.Start returned null");
+                }
+
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("PcClientStarting"), UiLogColor.Info);
+                _logger.Information("Started Arknights PC client: {Path}, PID: {Pid}", executablePath, process.Id);
+            }
+            catch (Exception e)
+            {
+                error = LocalizationHelper.GetStringFormat("PcClientStartFailed", e.Message);
+                _logger.Error(e, "Failed to start Arknights PC client");
+                return false;
+            }
+        }
+
+        var deadline = DateTime.UtcNow.AddSeconds(AttachWindowStartTimeoutSeconds);
+        while (DateTime.UtcNow < deadline)
+        {
+            if (_runningState.GetStopping())
+            {
+                return false;
+            }
+
+            if (FindWindowsByName(AttachWindowTargetName).Count > 0)
+            {
+                return true;
+            }
+
+            System.Threading.Thread.Sleep(500);
+        }
+
+        error = LocalizationHelper.GetString("PcClientWindowWaitTimeout");
+        _logger.Warning("Timed out waiting for Arknights PC client window");
+        return false;
+    }
+
+    private static void ApplyAttachWindowState(IntPtr hwnd, Win32Extra win32Extra)
+    {
+        var window = (HWND)hwnd;
+        var minimized = PInvoke.IsIconic(window);
+
+        if (win32Extra.ShouldMinimizeWindow && !minimized)
+        {
+            PInvoke.ShowWindow(window, SHOW_WINDOW_CMD.SW_MINIMIZE);
+            _logger.Information("Minimized AttachWindow target for full-background operation: {Hwnd}", hwnd);
+        }
+        else if (!win32Extra.ShouldMinimizeWindow && minimized)
+        {
+            PInvoke.ShowWindow(window, SHOW_WINDOW_CMD.SW_RESTORE);
+            _logger.Information("Restored AttachWindow target for foreground operation: {Hwnd}", hwnd);
+        }
+    }
+
+    /// <summary>
     /// 通过 AttachWindow 绑定 Win32 窗口。
     /// 自动搜索 "明日方舟" 窗口。
     /// </summary>
@@ -2624,14 +2726,13 @@ public class AsstProxy
 
         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindowWarning"), UiLogColor.Warning);
 
-        const string TargetWindowName = "明日方舟";
-        var foundWindows = FindWindowsByName(TargetWindowName);
+        var foundWindows = FindWindowsByName(AttachWindowTargetName);
 
         if (foundWindows.Count == 0)
         {
-            error = LocalizationHelper.GetStringFormat("AttachWindowNotFound", TargetWindowName);
+            error = LocalizationHelper.GetStringFormat("AttachWindowNotFound", AttachWindowTargetName);
             Instances.TaskQueueViewModel.AddLog(error, UiLogColor.Error);
-            _logger.Warning("AttachWindow: No window found with name {WindowName}", TargetWindowName);
+            _logger.Warning("AttachWindow: No window found with name {WindowName}", AttachWindowTargetName);
             return false;
         }
 
@@ -2640,21 +2741,24 @@ public class AsstProxy
         if (foundWindows.Count > 1)
         {
             // 找到多个窗口，使用第一个并记录日志
-            var multipleMsg = LocalizationHelper.GetStringFormat("AttachWindowMultipleFound", foundWindows.Count, TargetWindowName);
+            var multipleMsg = LocalizationHelper.GetStringFormat("AttachWindowMultipleFound", foundWindows.Count, AttachWindowTargetName);
             Instances.TaskQueueViewModel.AddLog(multipleMsg, UiLogColor.Info);
-            _logger.Warning("AttachWindow: Multiple windows found with name {WindowName}, count: {Count}, using first one: {Hwnd}", TargetWindowName, foundWindows.Count, hwnd);
+            _logger.Warning("AttachWindow: Multiple windows found with name {WindowName}, count: {Count}, using first one: {Hwnd}", AttachWindowTargetName, foundWindows.Count, hwnd);
         }
         else
         {
-            var foundMsg = LocalizationHelper.GetStringFormat("AttachWindowFound", TargetWindowName);
+            var foundMsg = LocalizationHelper.GetStringFormat("AttachWindowFound", AttachWindowTargetName);
             Instances.TaskQueueViewModel.AddLog(foundMsg, UiLogColor.Info);
-            _logger.Information("AttachWindow: Found window \"{WindowName}\" with HWND: {Hwnd}", TargetWindowName, hwnd);
+            _logger.Information("AttachWindow: Found window \"{WindowName}\" with HWND: {Hwnd}", AttachWindowTargetName, hwnd);
         }
 
         if (SettingsViewModel.ConnectSettings.ExtraConfig is not Win32Extra win32Extra)
         {
             return false;
         }
+
+        ApplyAttachWindowState(hwnd, win32Extra);
+
         var screencapMethod = (ulong)win32Extra.ScreencapMethod;
         var mouseMethod = (ulong)win32Extra.MouseMethod;
         var keyboardMethod = (ulong)win32Extra.KeyboardMethod;

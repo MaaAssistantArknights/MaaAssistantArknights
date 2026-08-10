@@ -1465,6 +1465,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartingAsAdmin">管理者として再起動しています…</system:String>
     <system:String x:Key="RestartAsAdminFailed">手動で管理者として MAA を実行してください。</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow の接続に失敗しました。スクリーンキャプチャ/入力方法の設定を確認してください</system:String>
+    <system:String x:Key="PcClientPath">PC クライアントのパス</system:String>
+    <system:String x:Key="PcClientPathTip">「開始」を実行すると、Hypergryph Launcher または実行中のクライアントを先に自動検出し、見つからない場合は手動設定した Arknights.exe を使用します。WGC/PrintWindow + SendMsg-WindowPos は自動的に最小化され、その他の組み合わせは最小化されません。</system:String>
+    <system:String x:Key="PcClientPathNotFound">アークナイツ PC クライアントが見つかりません。PC 接続設定で Arknights.exe を選択してください。</system:String>
+    <system:String x:Key="PcClientStarting">アークナイツ PC クライアントを起動しています</system:String>
+    <system:String x:Key="PcClientStartFailed">アークナイツ PC クライアントの起動に失敗しました：{0}</system:String>
+    <system:String x:Key="PcClientWindowWaitTimeout">アークナイツ PC クライアントは起動しましたが、ゲームウィンドウの待機がタイムアウトしました。</system:String>
     <system:String x:Key="UseAttachWindowTip">エミュレータや携帯電話への ADB 接続ではなく、アークナイツ PC クライアントに Win32 ウィンドウバインディングを使用します</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC 接続（実験的機能・動作の安定性は保証されません）
 MAA Team の開発リソースが限られているため、この機能はコミュニティによって保守されており、MAA Team が継続的にサポートしているものではありません。機能面や安定性が十分でない場合があり、問題が発生してもすぐには修正できない可能性があります。

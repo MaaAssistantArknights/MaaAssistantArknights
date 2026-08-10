@@ -1979,6 +1979,8 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
+        var taskList = tasks.ToList();
+
         _taskStartTime = DateTime.Now;
         ClearLog();
 
@@ -2026,8 +2028,6 @@ public class TaskQueueViewModel : Screen
         // InfrastTask.InfrastOrderSelectionChanged();
         await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
 
-        AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
-
         /*
         // 现在的主流模拟器都已经更新过自带的 adb 了，不再需要替换
         if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
@@ -2042,6 +2042,28 @@ public class TaskQueueViewModel : Screen
             SetStopped();
             return;
         }
+
+        var shouldStartPcClient = SettingsViewModel.ConnectSettings.IsPCConnectConfig &&
+                                  SettingsViewModel.GameSettings.StartGame &&
+                                  taskList.Any(task => task is StartUpTask && IsTaskEnable(task));
+        if (shouldStartPcClient && Bootstrapper.IsUserAdministrator())
+        {
+            string pcClientError = string.Empty;
+            var pcClientReady = await Task.Run(() => Instances.AsstProxy.EnsurePcClientWindowAvailable(ref pcClientError));
+            if (!pcClientReady)
+            {
+                if (!_runningState.GetStopping() && !string.IsNullOrEmpty(pcClientError))
+                {
+                    AddLog(pcClientError, UiLogColor.Error);
+                }
+
+                _runningState.SetIdle(true);
+                SetStopped();
+                return;
+            }
+        }
+
+        AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
         if (!await ConnectToEmulator())
         {
@@ -2059,7 +2081,7 @@ public class TaskQueueViewModel : Screen
 
         // 直接遍历TaskItemViewModels里面的内容，是排序后的
         int count = 0;
-        foreach (var item in tasks)
+        foreach (var item in taskList)
         {
             var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(item);
             _logger.Information("Index {Index}, Type {TaskType}, Name {TaskName}, IsEnable {IsEnable}",

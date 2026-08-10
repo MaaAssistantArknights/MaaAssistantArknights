@@ -66,6 +66,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 TouchModeList.Add(TouchMode.MumuExtras, "MumuExtrasTouchMode");
             }
         }
+
+        if (ExtraConfig is Win32Extra win32Extra && !File.Exists(win32Extra.GamePath))
+        {
+            win32Extra.AutoDetectGamePath();
+        }
     }
 
     public static ConnectSettingsUserControlModel Instance { get; }
@@ -235,6 +240,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             // 切换连接配置时，若不再使用 MuMu 截图增强，需移除 MuMu 触控选项
             var mumuEnabled = ExtraConfig is MuMu12Extra { Enable: true };
             OnMuMuExtrasEnableChanged(mumuEnabled);
+
+            if (ExtraConfig is Win32Extra win32Extra && !File.Exists(win32Extra.GamePath))
+            {
+                win32Extra.AutoDetectGamePath();
+            }
         }
     } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Config;
 

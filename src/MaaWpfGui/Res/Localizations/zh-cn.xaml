@@ -1464,6 +1464,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartingAsAdmin">正在以管理员身份重启…</system:String>
     <system:String x:Key="RestartAsAdminFailed">请手动以管理员身份运行 MAA</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 绑定窗口失败，请检查截图/输入方式配置</system:String>
+    <system:String x:Key="PcClientPath">PC 客户端路径</system:String>
+    <system:String x:Key="PcClientPathTip">启动“开始唤醒”时会优先自动检测鹰角启动器及正在运行的客户端；未找到时使用这里手动设置的 Arknights.exe。WGC/PrintWindow + SendMsg-WindowPos 会自动最小化，其他组合保持非最小化。</system:String>
+    <system:String x:Key="PcClientPathNotFound">未找到明日方舟 PC 客户端，请在 PC 连接配置中手动选择 Arknights.exe</system:String>
+    <system:String x:Key="PcClientStarting">正在启动明日方舟 PC 客户端</system:String>
+    <system:String x:Key="PcClientStartFailed">启动明日方舟 PC 客户端失败：{0}</system:String>
+    <system:String x:Key="PcClientWindowWaitTimeout">明日方舟 PC 客户端已启动，但等待游戏窗口超时</system:String>
     <system:String x:Key="UseAttachWindowTip">使用 Win32 窗口绑定明日方舟 PC 端，而非 ADB 连接模拟器或手机</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">连接 PC 端（实验性）
 由于 MAA Team 开发人手有限，此功能由社区维护，非 MAA Team 持续支持，功能和稳定性可能不尽如人意，遇到问题时也可能无法第一时间修复。

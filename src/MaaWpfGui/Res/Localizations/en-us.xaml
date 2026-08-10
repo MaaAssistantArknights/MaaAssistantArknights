@@ -1463,6 +1463,12 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="RestartingAsAdmin">Restarting as administrator…</system:String>
     <system:String x:Key="RestartAsAdminFailed">Please run MAA as administrator manually.</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow failed, please check screencap/input method settings</system:String>
+    <system:String x:Key="PcClientPath">PC Client Path</system:String>
+    <system:String x:Key="PcClientPathTip">When Start Up runs, MAA first detects the Hypergryph Launcher or a running client, then falls back to the manually selected Arknights.exe. WGC/PrintWindow + SendMsg-WindowPos is minimized automatically; other combinations stay restored.</system:String>
+    <system:String x:Key="PcClientPathNotFound">Arknights PC client was not found. Select Arknights.exe in the PC connection settings.</system:String>
+    <system:String x:Key="PcClientStarting">Starting the Arknights PC client</system:String>
+    <system:String x:Key="PcClientStartFailed">Failed to start the Arknights PC client: {0}</system:String>
+    <system:String x:Key="PcClientWindowWaitTimeout">The Arknights PC client started, but waiting for its game window timed out.</system:String>
     <system:String x:Key="UseAttachWindowTip">Use Win32 window binding for Arknights PC client instead of ADB connection for emulators or phones</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC connection (experimental feature, stability not guaranteed)
 Due to limited development resources within the MAA Team, this feature is community-maintained and is not continuously supported by the MAA Team. Functionality and stability may fall short of expectations, and issues may not be fixed promptly.

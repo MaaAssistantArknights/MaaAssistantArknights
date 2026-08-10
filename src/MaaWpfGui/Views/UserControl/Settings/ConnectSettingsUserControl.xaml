@@ -251,6 +251,40 @@
                                 <StackPanel
                                     Margin="5"
                                     HorizontalAlignment="Center"
+                                    Orientation="Vertical">
+                                    <Grid Width="300">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <hc:TextBox
+                                            Grid.Column="0"
+                                            Height="30"
+                                            hc:BorderElement.CornerRadius="4,0,0,4"
+                                            hc:InfoElement.Placeholder="C:\Program Files\Hypergryph Launcher\games\Arknights\Arknights.exe"
+                                            hc:TitleElement.Title="{DynamicResource PcClientPath}"
+                                            hc:TitleElement.TitlePlacement="Left"
+                                            Text="{Binding GamePath, UpdateSourceTrigger=LostFocus}" />
+                                        <Button
+                                            Grid.Column="1"
+                                            Width="60"
+                                            Height="30"
+                                            hc:BorderElement.CornerRadius="0,4,4,0"
+                                            BorderThickness="0,1,1,1"
+                                            Command="{s:Action SelectGameExecutable}"
+                                            Content="{DynamicResource Select}" />
+                                    </Grid>
+                                    <controls:TextBlock
+                                        Width="300"
+                                        Margin="0,5,0,0"
+                                        Foreground="{DynamicResource SecondaryTextBrush}"
+                                        Text="{DynamicResource PcClientPathTip}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+
+                                <StackPanel
+                                    Margin="5"
+                                    HorizontalAlignment="Center"
                                     Orientation="Horizontal">
                                     <hc:ComboBox
                                         Width="300"
