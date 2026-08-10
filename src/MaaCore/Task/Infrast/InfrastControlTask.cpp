@@ -4,6 +4,7 @@
 #include <ranges>
 
 #include "Controller/Controller.h"
+#include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 
@@ -67,6 +68,11 @@ bool asst::InfrastControlTask::_run()
             }
         }
 
+        if (m_default_mode) {
+            // 按技能排序后，同设施技能的干员会连续排列。否则前序设施留下的工作状态排序
+            // 可能让正在宿舍休息的候选落到无关技能之后，扫描会在中间空页提前结束。
+            ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
+        }
         if (!opers_detect_with_swipe()) {
             return false;
         }

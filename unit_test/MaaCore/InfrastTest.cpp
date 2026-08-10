@@ -278,13 +278,14 @@ TEST_CASE("infrast control prefers swire and lungmen guard pair", "[infrast][sco
     context.slots = 5;
     context.selected_operator_ids = { "char_436_whispr" };
     const std::vector<ScoreOper> opers = {
-        { { }, "char_308_swire", "swire", 1.0 },
+        { { "bskill_ctrl_t_spd" }, "char_308_swire", "swire", 1.0 },
         { { "bskill_token_prod_spd3_lungmenguard" }, "char_1044_hsgma2", "hoshiguma", 1.0 },
         { { "bskill_ctrl_token_p_spd2", "bskill_ctrl_cost_felyne" }, "char_1029_yato2", "yato", 1.0 },
         { { "bskill_ctrl_token_t_spd" }, "char_1030_noirc2", "noir", 1.0 },
         { { "bskill_ctrl_psk" }, "char_420_flamtl", "flametail", 1.0 },
         { { "bskill_ctrl_fraction_knight" }, "char_4098_vvana", "viviana", 1.0 },
         { { "bskill_ctrl_cost_bd1", "bskill_ctrl_cost_bd2" }, "char_2015_dusk", "dusk", 1.0 },
+        { { "bskill_ctrl_t_spd" }, "char_4071_peper", "paprika", 1.0 },
     };
 
     const auto result = select_best_opers(opers, context);
@@ -296,6 +297,18 @@ TEST_CASE("infrast control prefers swire and lungmen guard pair", "[infrast][sco
     CHECK(std::ranges::find(result.indices, 4) != result.indices.end());
     CHECK(std::ranges::find(result.indices, 5) != result.indices.end());
     CHECK(std::ranges::find(result.indices, 6) != result.indices.end());
+
+    auto ambiguous_opers = opers;
+    ambiguous_opers[0].operator_id.clear();
+    const auto fallback = select_best_opers(ambiguous_opers, context);
+    REQUIRE(fallback.indices.size() == 5);
+    CHECK(fallback.indices[0] == 2);
+    CHECK(fallback.indices[1] == 3);
+    CHECK(std::ranges::find(fallback.indices, 0) == fallback.indices.end());
+
+    auto oversized_context = context;
+    oversized_context.slots = 7;
+    CHECK(select_best_opers(opers, oversized_context).indices.size() == 5);
 }
 
 TEST_CASE("infrast manufacturing identifies pinus operators for control linkage", "[infrast][score][identity]")
