@@ -103,30 +103,30 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 :::: steps
 
-1. 指定 `Bluestacks.Config.Keyword`
+1. 指定 `ConfigKeyword`
 
    ::: info 注意
    若啟用了多開功能或安裝了多個模擬器核心，則需要指定使用的模擬器編號。
    :::
 
-   在 `.\config\gui.json` 中搜尋 `Bluestacks.Config.Keyword` 欄位，內容格式為 `"bst.instance.<模擬器編號>.status.adb_port"`。編號可於模擬器路徑的 `BlueStacks_nxt\Engine` 中確認。
+   在 `gui.new.json` 中找到目前設定名稱（可在 `設定-切換配置` 中查看，預設為 `Default`）下的 `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigKeyword` 欄位，內容格式為 `"bst.instance.<模擬器編號>.status.adb_port"`。編號可於模擬器路徑的 `BlueStacks_nxt\Engine` 中確認。
 
    ::: details 範例
    Nougat64 核心：
 
    ```json
-   "Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
+   "ConfigKeyword": "bst.instance.Nougat64.status.adb_port"
    ```
 
    Pie64_2 核心（核心名稱後的數字代表這是一個多開核心）：
 
    ```json
-   "Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
+   "ConfigKeyword": "bst.instance.Pie64_2.status.adb_port"
    ```
 
    :::
 
-2. 指定 `Bluestacks.Config.Path`
+2. 指定 `ConfigPath`
 
    ::: info 注意
    MAA 現在會嘗試從登錄檔（Registry）讀取 `bluestacks.conf` 的位置，若偵測失敗才需要手動指定路徑。
@@ -138,7 +138,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
       備註：`C:\ProgramData` 為隱藏目錄，請直接在檔案總管地址欄貼上路徑進入。
 
    2. 初次使用請先執行一次 MAA 以產生設定檔。
-   3. **先關閉** MAA，**再**開啟 `gui.json`。找到 `Configurations` 下目前的設定名稱（可在 `設定-切換配置` 中查看，預設為 `Default`），搜尋 `Bluestacks.Config.Path` 並填入 `bluestacks.conf` 的完整路徑（斜線請使用轉義符 `\\`）。
+   3. **先關閉** MAA，**再**開啟 `gui.new.json`。找到目前設定名稱（可在 `設定-切換配置` 中查看，預設為 `Default`）下的 `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigPath` 並填入 `bluestacks.conf` 的完整路徑（斜線請使用轉義符 `\\`）。
 
    ::: details 範例
    以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 為例：
@@ -147,8 +147,15 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
    {
      "Configurations": {
        "Default": {
-         "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
-         // 其餘配置欄位，不要手動輸入修改
+         "Gui": {
+           "ConnectSettings": {
+             "Extras": {
+               "BluestacksExtra": {
+                 "ConfigPath": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
+               }
+             }
+           }
+         }
        }
      }
    }

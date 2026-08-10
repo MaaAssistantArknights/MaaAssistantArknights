@@ -31,11 +31,13 @@ body:
     attributes:
       label: Version
       description: |
-        Please provide the MAA version. Can be found in MAA -> Settings -> Update. Click to copy.  
-        Click on `Resource Version` and `MAA Version` and paste them respectively. There should be 5 lines of version information in total.
+        Please provide the MAA version. Can be found in MAA -> Settings -> Update Settings. Click on any version number to copy all 5 lines of version information.
       placeholder: |
+        UI Version:
+        Core Version:
         Resource Version:
-        MAA Version:
+        Build Time:
+        Resource Time:
     validations:
       required: true
   - type: textarea

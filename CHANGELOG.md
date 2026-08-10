@@ -1,33 +1,41 @@
-## v6.11.0-beta.2
+## v6.16.7
 
 ### Highlights
 
-#### 任务队列交互全面升级
+#### 新增像素画自动填色
 
-一键长草列表新增悬停操作按钮（复制、重命名、删除），支持一键复制任务配置；游戏内新增任务间快速导航，部分跨页面任务可通过小房子导航栏直接跳转，减少页面切换耗时。
+新增像素画自动填色功能：可将图片转换为 24×24 像素画，通过 Custom 任务在游戏像素画编辑器中自动填色，支持取景、滤镜、抖动与按色分组等转换选项。
 
-#### 公招与理智作战功能增强
+#### 适配新代理倍率
 
-公招新增"保留指定词条"功能，识别到指定 Tag 时自动跳过当前槽位；理智作战新增目标材料最大库存模式，可参考仓库数据自动计算需刷取数量。
+游戏代理倍率上限已提升至 10 倍。本版本全面适配新的倍率列表界面与识别逻辑，支持最高 10 倍连战，并移除此前因未适配而临时锁定的限制，AUTO 与手动倍率切换可正常使用。
 
-#### 设置页面搜索支持
+#### 背景选择器增强
 
-设置页面新增搜索功能，支持关键词高亮与自动筛选，快速定位目标配置项。
+背景设置支持树形结构选择与缩略图预览，自定义界面更方便。
+
+#### 库存保持任务增强
+
+库存保持任务 UI 重构：新增理智药/源石全局开关与临期药支持，并提供芯片、龙门币、采购凭证、技巧概要等刷图预设，计划管理更方便。
 
 <details>
 <summary><b>English</b></summary>
 
-#### Task Queue Interaction Overhaul
+#### Auto Pixel Art Filling
 
-The farming list now shows hover action buttons (copy, rename, delete) for quick task management. In-game QuickSwitch navigation lets certain cross-screen tasks jump directly via the dock bar, reducing page-switching overhead.
+MAA can now convert an image into 24×24 pixel art and automatically fill it into the in-game pixel art editor via a Custom task, with options for framing, filters, dithering and color grouping.
 
-#### Recruitment & Sanity Combat Enhancements
+#### New Series Multiplier Support
 
-Recruitment now supports "preserve tags" — automatically skipping a slot when specified tags are detected. Sanity combat adds a target material inventory mode that calculates required runs based on depot data.
+In-game series (proxy) multiplier cap is now up to 10x. This version fully adapts to the new series list UI and recognition logic, supports up to 10x consecutive battles, and removes the temporary lock used before adaptation so AUTO and manual multiplier switching work normally again.
 
-#### Settings Page Search
+#### Enhanced Background Picker
 
-The settings page now features a search bar with keyword highlighting and section filtering for quick configuration lookup.
+Background settings now support a tree-style picker with thumbnail previews for easier customization.
+
+#### Enhanced Depot Maintain Task
+
+Refactored the depot maintain task UI with global medicine/originium toggles and expiring-medicine support, plus farming presets for chips, LMD, certificates, and skill summaries for easier plan management.
 
 </details>
 
@@ -36,58 +44,168 @@ The settings page now features a search bar with keyword highlighting and sectio
 以下是详细内容：
 
 <details open>
-<summary><b>v6.11.0-beta.2 (2026-05-29)</b></summary>
+<summary><b>v6.16.7 (2026-08-10)</b></summary>
+
+### 新增 | New
+
+* 奇象巡展识别新增「本日不再提醒」与「是否离开当前展会」弹窗处理 @ABA2396
+* 像素画自动填色新增可调节的点击间隔选项，允许用户在低性能设备上增大间隔值 @ABA2396
 
 ### 修复 | Fix
 
-* 修复 adb-lite 在连接阶段未正确绑定当前设备，减少切换设备或并发执行命令时的连接异常 (#16853) @wangl-cc
-* 修复快捷切换在开启基建退出提醒时无法退出基建的问题 @ABA2396
-* 修复快捷切换在遇到 LoadingText 时无法跳出循环的问题 @ABA2396
+* 修复理智作战使用指定材料+目标库存时无法执行「无限吃 N 小时内过期的理智药」的问题 ([#17628](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17628)) @ABA2396
+* 修复自动战斗作业隐式精英化等级需求未解析生效的问题 ([#17639](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17639)) @yali-hzy
 
 </details>
 
 <details>
-<summary><b>v6.11.0-beta.1 (2026-05-29)</b></summary>
+<summary><b>v6.16.6 (2026-08-09)</b></summary>
 
 ### 新增 | New
 
-* 新增 MarkdownDataHelper 统一公告数据读写 @ABA2396
-* 一键长草列表新增任务复制、悬停操作按钮，替代原有右键菜单 (#16733) @H2O-MERO @status102 @ABA2396
-* 公招支持保留指定词条，识别到指定 Tag 时自动跳过 (#16586) @ABA2396 @status102
-* 理智作战支持设定目标材料最大库存，参考仓库数据自动计算刷取数量 (#16487) @ABA2396 @status102
-* 游戏内新增任务间快速导航，部分跨页面任务可通过小房子导航栏直接跳转以减少切换耗时 (#16869) @ABA2396
-* 触控模式下拉框新增 ToolTip 视频演示 (#16812) @ABA2396
+* 新增像素画自动填色：支持通过牛杂在游戏像素画编辑器中自动填色，并提供图片转 24×24 像素画的转换管线 ([#17629](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17629)) @ABA2396
+* 新增奇象巡展自动探索：自动来回走动寻找未收录生物，遇到已收录生物自动退出战斗继续寻找，遇到未收录生物时停止并交给玩家手动战斗 @ABA2396
+* CustomWebhook 预置模板新增 KOOK 频道与私聊选项 ([#17596](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17596)) @墨染
 
 ### 改进 | Improved
 
-* 设置页面新增搜索支持，支持关键词高亮与自动筛选 (#16833) @H2O-MERO @ABA2396
-* 优化配置转换器嵌套逻辑 @ABA2396
-* 启动时检测 WinRT Toast 通知可用性，不可用时在日志中显示具体原因 (#16877) @status102 @momomochi987
-* 统一使用强类型 GetValue 重载替换 Convert.To 调用 (#16866) @ABA2396
-* 优化任务队列选中状态的视觉表现，突出当前选中项 @status102
-* 任务队列 CheckBox 与添加任务按钮对齐 @status102
+* 自动战斗额外检查干员技能选择、技能等级与模组所要求的精英化等级，不满足时禁止运行并提示 ([#17448](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17448)) @yali-hzy @status102
+* 优化库存保持提示与显示效果：任务日志分段展示库存保持计划与库存充足/不足状态，重算掉落需求时记录库存不足详情 ([#17597](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17597)) @ABA2396
+* MuMu 触控增强不可用时自动降级方式由 maatouch 改为 minitouch，提升触控兼容性 @ABA2396
+* 更新肉鸽干员招募逻辑，新增予愿安洁莉娜等干员 @Saratoga-Official
+* 优化任务日志显示：开始任务日志分段展示，彩虹字动画最多显示 60 秒 @ABA2396
+* 统一连接设置与设置指引/开始唤醒中的触控模式提示样式，并优化连接地址与触控模式提示文案 @ABA2396
 
 ### 修复 | Fix
 
-* 修复通过小房子导航后无法切换基建设施的问题 @ABA2396
-* 修复繁中服界园肉鸽无法放弃探索的问题 (#16887) @momomochi987
-* 修复界园肉鸽"见钱问柳"事件选择逻辑 @Saratoga-Official
-* 修复界园司岁台分队招募券连续 NEXT 弹窗无法关闭的问题 (#16806) @ZiyinLin @status102
-* 修复 ROI 高度越界及多次坐标校正后返回全图区域的问题 @status102
-* 修复 Release 构建下日志宏输出多余作用域信息的问题 @status102
-* 修复调试图清理时异常导致 Core SIGABRT 的问题 (#16233) @FireflySentinel
-* 修复 POSIX 平台 fork 后子进程 exec 失败时缺少 _exit 的问题 @FireflySentinel
-* 更新检查失败时优先尝试备用 API 而非直接使用过期缓存 (#16873) @glimmertouch
-* 降低 macOS 平台 RA4、RA15 二倍速识别阈值 (#16860) @ColdSpellhere
+* 修复自动战斗期间日志输出未重置停滞计时器导致误报任务卡住的问题 @ABA2396
+* 修复 PC 应用宝未处理横屏方向导致显示异常的问题 ([#17343](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17343)) @srdr0p
 
 ### 文档 | Docs
 
-* 补全理智药过期天数可配置参数的相关文档 @ABA2396
-* 公招保留词条参数术语从 skip_tags 更新为 preserve_tags @ABA2396
+* 新增通过 Windows 安全中心阻止 DLL 注入解决方法的 FAQ 文档 @ABA2396
+* 补充代理倍率在有回复理智情况下的说明 @ABA2396
 
-### 其他 | Other
+</details>
 
-* 繁中服「天想」主题 UI 模板 (#16893) @momomochi987
-* CI GitHub Action 固定到 commit SHA 以加固安全性 (#16502) @FireflySentinel
+<details>
+<summary><b>v6.16.5 (2026-08-06)</b></summary>
+
+### 新增 | New
+
+* 支持拖入资源包更新资源版本，并收窄完整包/OTA 包识别以避免误匹配；拖入检测改为异步避免卡 UI，导入失败时显示提示 ([#17569](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17569)) @ABA2396
+
+### 改进 | Improved
+
+* 更新器进度窗口延后至主窗口退出后再显示，避免与正在退出的 MAA 抢占前台；等待超时后自动弹出窗口并提示等待状态，防止主进程退出卡住时更新器变成不可见进程 @ABA2396
+
+### 修复 | Fix
+
+* 倒计时、关闭模拟器、完成后脚本等非可打断期间阻止自动更新重启 ([#17566](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17566)) @ABA2396
+* 修复刷理智未能关闭代理倍率列表的问题 @status102
+* 修复悖论自动战斗作业使用本地文件时始终读取临时文件的问题 @status102
+* 修复干员 `sortIndex` 缺失时误用默认值 0 导致排序错误的问题 @ABA2396
+* 修复中断锁引用计数下溢时钳制操作的竞态，避免误抹合法锁 @ABA2396
+* YostarJP fix OCR replace chain mangling operator names (e.g. FEater) and TA single-character rules ([#17516](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17516)) @Ronnoc @Manicsteiner
+
+### 文档 | Docs
+
+* 新增库存保持与更新数据文档，补充手动更新、代理倍率、定时执行与剿灭等说明，并同步各语言文档 ([#17576](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17576)) @ABA2396
+
+</details>
+
+<details>
+<summary><b>v6.16.4 (2026-08-04)</b></summary>
+
+### 修复 | Fix
+
+* 修复 Win32IO 竞争条件导致的 `am start` 误判失败，并修正超时路径的异步 I/O 取消与资源释放 ([#17545](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17545)) @ABA2396
+* 修复 SplitButton 在亮色模式下显示异常 @ABA2396
+* YostarJP fix TA (SS) activity OCR mismatch causing wrong activity navigation @Jason's-Miku
+
+</details>
+
+<details>
+<summary><b>v6.16.3 (2026-08-03)</b></summary>
+
+### 改进 | Improved
+
+* 重构库存保持计划项为独立 ViewModel，按索引同步任务配置 ([#17468](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17468)) @status102
+* 优化库存保持预设按钮：左侧区域可点击展开下拉，并统一 SplitButton 背景样式 @ABA2396
+* 更新进度窗口不再强制置顶，仅在开始更新时前置一次，避免打断全屏游戏或其他操作 ([#17525](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17525)) @ABA2396
+* 统一配置与启动设置下拉列表中的删除按钮样式 @ABA2396
+
+### 修复 | Fix
+
+* 修复刷理智选择代理倍率后未关闭次数列表的问题 @status102
+* 修复 iOS/PlayCover 基建办公室入口模板阈值过高导致识别失败的问题 ([#17527](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17527)) @Rememorio
+
+</details>
+
+<details>
+<summary><b>v6.16.2 (2026-08-02)</b></summary>
+
+### 新增 | New
+
+* 库存保持任务 UI 重构：新增理智药/源石全局开关与临期药支持，并提供芯片、龙门币、采购凭证、技巧概要等刷图预设 ([#17512](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17512)) @ABA2396
+
+### 改进 | Improved
+
+* 优化库存保持界面布局与显示，清空计划时增加确认弹窗 @ABA2396
+
+### 修复 | Fix
+
+* 修复库存保持界面未选择掉落物时切换语言无法正确显示的问题 @ABA2396
+* YostarEN fix Mountain OCR regex matching @Constrat
+
+</details>
+
+<details>
+<summary><b>v6.16.1 (2026-08-02)</b></summary>
+
+~~MAA不会在周██凌晨更新。如果收到更新提示，请忽略，不要查看更新公告，直到周██。~~
+
+### 改进 | Improved
+
+* 更新后自动运行倒计时弹窗移除关闭按钮，避免误关后仍继续自动运行 @ABA2396
+
+### 修复 | Fix
+
+* 使用 DXGI 适配器 LUID 解析 GPU OCR 设备，避免多显卡环境下绑定错误 GPU；解析失败或执行提供程序不可用时回退 CPU ([#17488](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17488)) @GSY707
+* 修复 MuMu display id 在 fallback 时被错误缓存，避免连接时游戏未启动导致截图/触控锁死在错误窗口 @ABA2396
+* 修复「直到大地变成一颗酸橙」活动上次战斗关卡未在后三关结束时关卡导航错误 @ABA2396
+* 修复 FightTask 在新代理倍率列表下无法指定 7~10 倍的参数校验 @status102
+
+</details>
+
+<details>
+<summary><b>v6.16.0 (2026-08-01)</b></summary>
+
+### 新增 | New
+
+* 适配游戏新代理倍率设置与列表界面，支持最高 10 倍连战，并移除临时锁定限制 ([#17500](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17500)) @status102 @ABA2396
+* 背景设置支持树形选择器与缩略图预览 @ABA2396
+* 新增「更新后立即重启时不自动运行」选项，启动自动运行前增加 10 秒倒计时确认 ([#17483](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17483)) @ABA2396
+* 新增「直到大地变成一颗酸橙」活动关卡导航 @ABA2396
+
+### 改进 | Improved
+
+* 增强 MouseWheelHelper：弹层打开时隔离外层页面滚动，避免滚动穿透 @ABA2396
+* 库存保持任务先比较库存数量再判断关卡开放状态，已满足目标时直接跳过 @ABA2396
+* MuMu / Win32 触控对齐 minitouch 默认延迟，提升点击稳定性 @ABA2396
+* 优化自动战斗新活动关卡提示文案 @ABA2396
+* 优化库存保持 Item 初始化与作业解析干员属性要求默认值处理 @status102
+
+### 修复 | Fix
+
+* 修复未开启截图增强时 MuMu 后台保活检测失效的问题 @ABA2396
+* 修复开启自动检测连接时无法修改 Extra 配置的问题 ([#17480](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17480)) @ABA2396
+* 修复更新数据任务仅勾选仓库识别时被跳过的问题 ([#17482](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17482)) @2436238575 @ABA2396
+* 修复自动战斗多作业模式超长关卡名显示异常 @ABA2396
+* 修复自动战斗添加作业时地图信息不存在的提示错误使用 stageCode 的问题 @status102
+* 修复「直到大地变成一颗酸橙」关卡 OCR 可能将 TO 识别为 T0 的问题 @ABA2396
+* 修复 BadModules 在注入环境下弹窗崩溃，回退至 Win32 MessageBox @ABA2396
+* 修正 PC 端推荐分辨率文案为 1280x720 / 1920x1080 @ABA2396
+* YostarKR add BattleQuickFormationClear2 for Vector Breakthrough @HX3N
 
 </details>

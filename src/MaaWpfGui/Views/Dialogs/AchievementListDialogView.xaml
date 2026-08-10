@@ -53,7 +53,9 @@
                                     <TextBlock
                                         FontSize="11"
                                         Foreground="{DynamicResource InfoLogBrush}"
-                                        Text="{Binding ReleasePhaseTag}" />
+                                        Text="{Binding ReleasePhaseTag}"
+                                        ToolTip="{Binding ReleasePhaseToolTip}"
+                                        ToolTipService.InitialShowDelay="100" />
                                 </Border>
                                 <TextBlock Text=" (NEW)" Visibility="{c:Binding IsNewUnlock}" />
                             </VirtualizingStackPanel>
@@ -128,10 +130,9 @@
             Margin="25,5"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Background="{DynamicResource MouseOverRegionBrushOpacity75}"
             Command="{Binding SearchCmd, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
             CommandParameter="{Binding SearchText, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
-            Text="{Binding SearchText, Source={x:Static helper:AchievementTrackerHelper.Instance}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            IsRealTime="True" />
+            IsRealTime="True"
+            Text="{Binding SearchText, Source={x:Static helper:AchievementTrackerHelper.Instance}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </hc:Window>

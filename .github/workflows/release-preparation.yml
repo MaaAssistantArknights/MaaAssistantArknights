@@ -7,92 +7,126 @@ on:
       - reopened
       - ready_for_review
   workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Release PR number for changelog generation'
+        required: false
+        type: number
 
 jobs:
   generate-changelog:
     name: Generate Changelog
-    # startsWith 表达式不区分大小写
-    if: github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
+    if: |
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '') ||
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+       github.event.pull_request.draft == false &&
+       startsWith(github.event.pull_request.title, 'Release v'))
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
+      - name: Checkout dev-v2 with full history
+        uses: actions/checkout@v7
         with:
+          ref: dev-v2
           fetch-depth: 0
           show-progress: false
 
-      - name: Extract release information
-        id: extract_tag
+      - name: Extract version from Release PR
+        id: version
         env:
-          PR_BODY: ${{ format('{0}/{1}', runner.temp, 'output' ) }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          tag_name=$(echo "${{ github.event.pull_request.title }}" | sed -E 's/(Release|release)//' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-          echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
+          title="${PR_TITLE:-$(gh pr view "$PR_NUMBER" --json title -q .title)}"
+          version=$(echo "$title" | sed -E 's/[Rr]elease\s*//')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Release version: $version"
 
-          pr_title="docs: Auto Update Changelogs of "$tag_name
-          echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
+      - name: Generate changelog with AI
+        id: analysis
+        continue-on-error: true
+        uses: MistEO/ai-issue-analysis@main
+        with:
+          agent: ${{ secrets.BOT_AI_AGENT }}
+          api-key: ${{ secrets.BOT_AI_API_KEY }}
+          api-base-url: ${{ secrets.BOT_AI_API_BASE_URL }}
+          model: ${{ secrets.BOT_AI_MODEL }}
+          github-token: ${{ secrets.MAA_BOT_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+          checkout-repository: false
+          initial-comment-body: |
+            🤖 **AI 正在生成 Changelog...**
 
-          latest_stable_tag=$(git tag -l 'v*' | grep -v '-' | sort -V | tail -n 1) # 上一个 stable 版本
-          newest_tag=$(git describe --tags --match "v*" --abbrev=0) # 最新版本
-          echo "latest_stable_tag=$latest_stable_tag" >> $GITHUB_OUTPUT
-          echo "newest_tag=$newest_tag" >> $GITHUB_OUTPUT
+            正在根据提交记录自动生成 Changelog，预计耗时约 10 分钟。
+          prompt-template: |
+            你是 MAA 项目的 Changelog 生成专员。
 
-          if [[ $tag_name == *-* ]]; then # 判断新版本是否为 beta 版本
-            latest=$newest_tag            # 若是，则将 latest 参数设置为最新版本
-          else
-            latest=$latest_stable_tag     # 若否，则设置为上一个 stable 版本
+            当前 Release PR 编号为 #{{issue_number}}（仓库 {{repository}}），请从该 PR 标题中提取目标版本号。
+            严格按照 .agents/skills/changelog/SKILL.md 中的规则，分析 git 提交记录（tag 间的 commit 及其 diff）和现有 CHANGELOG.md，
+            生成完整的新版本 Changelog Markdown 并写到 {{answer_file}}。
+
+            {{answer_file}} 的内容应当是可以直接替换 CHANGELOG.md 整个文件的完整内容（包含新版本和所有历史版本）。
+          details-summary: 点击此处展开生成过程
+
+      - name: Write CHANGELOG.md from AI output
+        if: steps.analysis.outcome == 'success'
+        run: |
+          if [ ! -f answer.md ] || [ ! -s answer.md ]; then
+            echo "::error::answer.md not found or empty, cannot update CHANGELOG.md"
+            exit 1
           fi
 
-          echo "latest=$latest" >> $GITHUB_OUTPUT
+          cp answer.md CHANGELOG.md
+          echo "CHANGELOG.md updated from AI output ($(wc -l < CHANGELOG.md) lines)"
 
-          cat $GITHUB_OUTPUT
-
-          echo '======='
-
-          echo 'Target PR: ${{ github.event.pull_request.html_url }}' >> $PR_BODY
-          echo '' >> $PR_BODY
-          echo '<details><summary>Debug information</summary>' >> $PR_BODY
-          echo '' >> $PR_BODY
-          echo '```' >> $PR_BODY
-          sed 's/=/: /1' $GITHUB_OUTPUT >> $PR_BODY
-          echo '```' >> $PR_BODY
-          echo '' >> $PR_BODY
-          echo '</details>' >> $PR_BODY
-
-          cat $PR_BODY
-
-      - name: Generate changelog
-        run: |
-          git switch dev-v2
-          python3 tools/ChangelogGenerator/changelog_generator.py --tag "${{ steps.extract_tag.outputs.tag_name }}" --latest "${{ steps.extract_tag.outputs.latest }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Commit changes
-        run: |
-          git status
-
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git add .
-
-          commit_msg="docs: Auto Generate Changelog of Release ""${{ steps.extract_tag.outputs.tag_name }}"
-          git commit -m "$commit_msg"
+          if git diff --quiet CHANGELOG.md 2>/dev/null; then
+            echo "::warning::AI output is identical to existing CHANGELOG.md, no PR will be created"
+          else
+            echo "Changes detected:"
+            git diff --stat CHANGELOG.md
+          fi
 
       - name: Create changelog PR
+        if: steps.analysis.outcome == 'success'
         uses: peter-evans/create-pull-request@v8
         with:
-          sign-commits: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          title: ${{ steps.extract_tag.outputs.pr_title }}
-          body-path: ${{ format('{0}/{1}', runner.temp, 'output' ) }}
-          base: "dev-v2"
-          branch: "changelog"
+          commit-message: "docs: Auto Generate Changelog of Release ${{ steps.version.outputs.version }}"
+          sign-commits: true
+          title: "docs: Auto Update Changelogs of ${{ steps.version.outputs.version }}"
+          body: |
+            Auto-generated changelog for **${{ steps.version.outputs.version }}**.
+
+            Target Release PR: #${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+          base: dev-v2
+          branch: changelog
           delete-branch: true
+          add-paths: CHANGELOG.md
           reviewers: |
             AnnAngela
           assignees: |
             AnnAngela
+
+      - name: Show outputs
+        if: always()
+        env:
+          COMMENT_URL: ${{ steps.analysis.outputs.comment-url }}
+        run: |
+          echo "comment_url=$COMMENT_URL"
+          echo "(Full agent-output and final-conclusion are available in the uploaded artifacts)"
+
+  assign-release-reviewers:
+    name: Assign Reviewers to Release PR
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
 
       - name: Assign reviewers to release PR
         uses: kentaro-m/auto-assign-action@v2.0.2
@@ -101,7 +135,7 @@ jobs:
 
   update-submodules:
     name: Update Submodules
-    if: github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
     runs-on: ubuntu-latest
     steps:
       - name: Trigger submodule update workflow

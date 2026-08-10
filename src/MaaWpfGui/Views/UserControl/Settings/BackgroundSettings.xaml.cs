@@ -11,6 +11,11 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Threading.Tasks;
+using System.Windows;
+using MaaWpfGui.Models;
+using MaaWpfGui.ViewModels.UserControl.Settings;
+
 namespace MaaWpfGui.Views.UserControl.Settings;
 
 /// <summary>
@@ -18,11 +23,41 @@ namespace MaaWpfGui.Views.UserControl.Settings;
 /// </summary>
 public partial class BackgroundSettingsUserControl : System.Windows.Controls.UserControl
 {
+    private bool _lostFocus;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="BackgroundSettingsUserControl"/> class.
     /// </summary>
     public BackgroundSettingsUserControl()
     {
         InitializeComponent();
+    }
+
+    private void BackgroundTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+    {
+        if (DataContext is BackgroundSettingsUserControlModel viewModel && e.NewValue is BackgroundImageItem imageItem && !imageItem.IsFolder)
+        {
+            viewModel.OnBackgroundImageSelected(imageItem);
+        }
+    }
+
+    private async void BackgroundImagePopup_LostFocus(object sender, RoutedEventArgs e)
+    {
+        _lostFocus = true;
+        await Task.Delay(500);
+        _lostFocus = false;
+    }
+
+    private void BackgroundDropdownBorder_MouseUp(object sender, RoutedEventArgs e)
+    {
+        if (_lostFocus)
+        {
+            return;
+        }
+
+        if (DataContext is BackgroundSettingsUserControlModel viewModel)
+        {
+            viewModel.ToggleBackgroundImagePopup();
+        }
     }
 }

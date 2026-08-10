@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using HandyControl.Controls;
@@ -21,10 +22,12 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
-using DarkModeType = MaaWpfGui.Configuration.Global.GUI.DarkModeType;
+using static MaaWpfGui.Configuration.Global.Gui;
+using DarkModeType = MaaWpfGui.Configuration.Global.Gui.DarkModeType;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
@@ -33,6 +36,12 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     static GuiSettingsUserControlModel()
     {
         Instance = new();
+    }
+
+    public GuiSettingsUserControlModel()
+    {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
+        LocalizationHelper.LanguageChanged += RefreshLocalization;
     }
 
     public static GuiSettingsUserControlModel Instance { get; }
@@ -45,111 +54,93 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets or sets the list of operator name language settings
     /// </summary>
-    public List<CombinedData> OperNameLanguageModeList { get; set; } =
-        [
-            new() { Display = LocalizationHelper.GetString("OperNameLanguageMAA"), Value = "OperNameLanguageMAA" },
-            new() { Display = LocalizationHelper.GetString("OperNameLanguageClient"), Value = "OperNameLanguageClient" }
-        ];
+    public LocalizedObservableList<string> OperNameLanguageModeList { get; } = new(
+        ("OperNameLanguageMAA", "OperNameLanguageMAA"),
+        ("OperNameLanguageClient", "OperNameLanguageClient"));
 
     /// <summary>
     /// Gets the list of dark mode.
     /// </summary>
-    public List<GenericCombinedData<DarkModeType>> DarkModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("Light"), Value = DarkModeType.Light },
-            new() { Display = LocalizationHelper.GetString("Dark"), Value = DarkModeType.Dark },
-            new() { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOs },
-        ];
+    public LocalizedObservableList<DarkModeType> DarkModeList { get; } = new(
+        (DarkModeType.Light, "Light"),
+        (DarkModeType.Dark, "Dark"),
+        (DarkModeType.SyncWithOs, "SyncWithOs"));
 
     /// <summary>
     /// Gets the list of inverse clear modes.
     /// </summary>
-    public List<CombinedData> InverseClearModeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("Clear"), Value = "Clear" },
-            new() { Display = LocalizationHelper.GetString("Inverse"), Value = "Inverse" },
-            new() { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
-         ];
-
-    private bool _useTray = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, true);
+    public LocalizedObservableList<InverseClearType> InverseClearModeList { get; } = new(
+        (InverseClearType.Clear, "Clear"),
+        (InverseClearType.Inverse, "Inverse"),
+        (InverseClearType.ClearInverse, "Switchable"));
 
     /// <summary>
     /// Gets or sets a value indicating whether to use tray icon.
     /// </summary>
     public bool UseTray
     {
-        get => _useTray;
-        set {
+        get; set {
             if (!value)
             {
                 MinimizeToTray = false;
             }
 
-            SetAndNotify(ref _useTray, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UseTray, value.ToString());
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.UseTray = value;
             Instances.MainWindowManager.SetUseTrayIcon(value);
         }
-    }
-
-    private bool _minimizeToTray = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MinimizeToTray, false);
+    } = ConfigFactory.Root.Gui.UseTray;
 
     /// <summary>
     /// Gets or sets a value indicating whether to minimize to tray.
     /// </summary>
     public bool MinimizeToTray
     {
-        get => _minimizeToTray;
-        set {
-            SetAndNotify(ref _minimizeToTray, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MinimizeToTray, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.MinimizeToTray = value;
             Instances.MainWindowManager.SetMinimizeToTray(value);
-            if (_minimizeToTray)
+            if (value)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.DisappearTrick);
             }
         }
-    }
-
-    private bool _windowTitleScrollable = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleScrollable, false);
+    } = ConfigFactory.Root.Gui.MinimizeToTray;
 
     /// <summary>
     /// Gets or sets a value indicating whether to make window title scrollable.
     /// </summary>
     public bool WindowTitleScrollable
     {
-        get => _windowTitleScrollable;
-        set {
-            SetAndNotify(ref _windowTitleScrollable, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.WindowTitleScrollable, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.WindowTitleScrollable = value;
             var rvm = (RootViewModel)Instances.SettingsViewModel.Parent;
             rvm.WindowTitleScrollable = value;
         }
-    }
-
-    private bool _hideCloseButton = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HideCloseButton, false);
+    } = ConfigFactory.Root.Gui.WindowTitleScrollable;
 
     /// <summary>
     /// Gets or sets a value indicating whether to hide close button.
     /// </summary>
     public bool HideCloseButton
     {
-        get => _hideCloseButton;
-        set {
-            SetAndNotify(ref _hideCloseButton, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.HideCloseButton, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.HideCloseButton = value;
             var rvm = (RootViewModel)Instances.SettingsViewModel.Parent;
             rvm.ShowCloseButton = !value;
         }
-    }
+    } = ConfigFactory.Root.Gui.HideCloseButton;
 
     /// <summary>
     /// Gets or sets a value indicating whether to use notification.
     /// </summary>
     public bool UseNotify
     {
-        get => ConfigFactory.Root.GUI.UseNotify;
+        get => ConfigFactory.Root.Gui.UseNotify;
         set {
-            ConfigFactory.Root.GUI.UseNotify = value;
+            ConfigFactory.Root.Gui.UseNotify = value;
             NotifyOfPropertyChange();
             if (value)
             {
@@ -165,9 +156,9 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
 
     public bool MainTasksInvertNullFunction
     {
-        get => ConfigFactory.Root.GUI.MainTasksInvertNullFunction;
+        get => ConfigFactory.Root.Gui.MainTasksInvertNullFunction;
         set {
-            ConfigFactory.Root.GUI.MainTasksInvertNullFunction = value;
+            ConfigFactory.Root.Gui.MainTasksInvertNullFunction = value;
             NotifyOfPropertyChange();
         }
     }
@@ -183,25 +174,22 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         "dd.MM  HH:mm:ss",
     ];
 
-    private string _logItemDateFormatString = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.LogItemDateFormat, "HH:mm:ss");
-
     public string LogItemDateFormatString
     {
-        get => _logItemDateFormatString;
-        set {
-            SetAndNotify(ref _logItemDateFormatString, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.LogItemDateFormat, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.LogItemDateFormat = value;
         }
-    }
+    } = ConfigFactory.Root.Gui.LogItemDateFormat;
 
     /// <summary>
     /// Gets or sets the dark mode.
     /// </summary>
     public DarkModeType DarkMode
     {
-        get => ConfigFactory.Root.GUI.DarkMode;
+        get => ConfigFactory.Root.Gui.DarkMode;
         set {
-            ConfigFactory.Root.GUI.DarkMode = value;
+            ConfigFactory.Root.Gui.DarkMode = value;
             NotifyOfPropertyChange();
             SwitchDarkMode();
 
@@ -213,7 +201,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
 
     public void SwitchDarkMode()
     {
-        DarkModeType darkModeType = ConfigFactory.Root.GUI.DarkMode;
+        DarkModeType darkModeType = ConfigFactory.Root.Gui.DarkMode;
         switch (darkModeType)
         {
             case DarkModeType.Light:
@@ -233,33 +221,15 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private enum InverseClearType
-    {
-        Clear,
-        Inverse,
-        ClearInverse,
-    }
-
-    private InverseClearType _inverseClearMode =
-        Enum.TryParse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.InverseClearMode, InverseClearType.Clear.ToString()), out InverseClearType temp)
-            ? temp
-            : InverseClearType.Clear;
-
     /// <summary>
     /// Gets or sets the inverse clear mode.
     /// </summary>
-    public string InverseClearMode
+    public InverseClearType InverseClearMode
     {
-        get => _inverseClearMode.ToString();
-        set {
-            if (!Enum.TryParse(value, out InverseClearType tempEnumValue))
-            {
-                return;
-            }
-
-            SetAndNotify(ref _inverseClearMode, tempEnumValue);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.InverseClearMode, value);
-            switch (tempEnumValue)
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.InverseClearMode = value;
+            switch (value)
             {
                 case InverseClearType.Clear:
                     Instances.TaskQueueViewModel.InverseMode = false;
@@ -282,50 +252,60 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                     throw new ArgumentOutOfRangeException();
             }
         }
-    }
-
-    private bool _useCardLog = ConfigurationHelper.GetValue(ConfigurationKeys.UseCardLog, true);
+    } = ConfigFactory.Root.Gui.InverseClearMode;
 
     /// <summary>
     /// Gets or sets a value indicating whether to use card log format.
     /// </summary>
     public bool UseCardLog
     {
-        get => _useCardLog;
-        set {
-            if (!SetAndNotify(ref _useCardLog, value))
+        get; set {
+            if (!SetAndNotify(ref field, value))
             {
                 return;
             }
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseCardLog, value.ToString());
+            ConfigFactory.Root.Gui.UseCardLog = value;
         }
-    }
-
-    private int _maxNumberOfLogThumbnails = ConfigurationHelper.GetValue(ConfigurationKeys.MaxNumberOfLogThumbnails, 100);
+    } = ConfigFactory.Root.Gui.UseCardLog;
 
     public int MaxNumberOfLogThumbnails
     {
-        get => _maxNumberOfLogThumbnails;
-        set {
-            SetAndNotify(ref _maxNumberOfLogThumbnails, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.MaxNumberOfLogThumbnails, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.MaxNumberOfLogThumbnails = value;
         }
-    }
+    } = ConfigFactory.Root.Gui.MaxNumberOfLogThumbnails;
 
-    private static readonly Dictionary<string, string> _windowTitleAllShowDict = new()
+    private static ObservableCollection<KeyValuePair<string, string>> _windowTitleAllShowDict = new(new Dictionary<string, string>
     {
         { "1", LocalizationHelper.GetString("ConfigurationName") },
         { "2", LocalizationHelper.GetString("ConnectionPreset") },
         { "3", LocalizationHelper.GetString("ConnectionAddress") },
         { "4", LocalizationHelper.GetString("ClientType") },
-    };
+    });
 
-    public static Dictionary<string, string> WindowTitleAllShowDict { get => _windowTitleAllShowDict; }
+    private void RefreshWindowTitleAllShowDict()
+    {
+        // 重建 SelectedItems 数组，保持当前选中的 key
+        var config = ConfigFactory.Root.Gui.WindowTitleSelectShowList;
 
-    private static object[] _windowTitleSelectShowList = [.. ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, "2 3 4")
+        WindowTitleAllShowDict[0] = new("1", LocalizationHelper.GetString("ConfigurationName"));
+        WindowTitleAllShowDict[1] = new("2", LocalizationHelper.GetString("ConnectionPreset"));
+        WindowTitleAllShowDict[2] = new("3", LocalizationHelper.GetString("ConnectionAddress"));
+        WindowTitleAllShowDict[3] = new("4", LocalizationHelper.GetString("ClientType"));
+        NotifyOfPropertyChange(nameof(WindowTitleAllShowDict));
+        WindowTitleSelectShowList = [.. config
+            .Split(' ')
+            .Where(s => _windowTitleAllShowDict.Any(kv => kv.Key == s))
+            .Select(s => (object)new KeyValuePair<string, string>(s, _windowTitleAllShowDict.First(kv => kv.Key == s).Value))];
+    }
+
+    public ObservableCollection<KeyValuePair<string, string>> WindowTitleAllShowDict { get => _windowTitleAllShowDict; }
+
+    private static object[] _windowTitleSelectShowList = [.. ConfigFactory.Root.Gui.WindowTitleSelectShowList
         .Split(' ')
-        .Where(s => _windowTitleAllShowDict.ContainsKey(s.ToString()))
-        .Select(s => (object)new KeyValuePair<string, string>(s, _windowTitleAllShowDict[s]))];
+        .Where(s => _windowTitleAllShowDict.Any(kv => kv.Key == s))
+        .Select(s => (object)new KeyValuePair<string, string>(s, _windowTitleAllShowDict.First(kv => kv.Key == s).Value))];
 
     public object[] WindowTitleSelectShowList
     {
@@ -334,7 +314,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             SetAndNotify(ref _windowTitleSelectShowList, value);
             Instances.SettingsViewModel.UpdateWindowTitle();
             var config = string.Join(' ', _windowTitleSelectShowList.Cast<KeyValuePair<string, string>>().Select(pair => pair.Key).ToList());
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.WindowTitleSelectShowList, config);
+            ConfigFactory.Root.Gui.WindowTitleSelectShowList = config;
             if (config != "2 3 4")
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.TitleTweaker);
@@ -342,7 +322,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private string _language = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+    private string _language = ConfigFactory.Root.Gui.Localization;
 
     /// <summary>
     /// Gets or sets the language.
@@ -356,19 +336,12 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 return;
             }
 
-            if (_language == SettingsViewModel.PallasLangKey)
-            {
-                Instances.SettingsViewModel.Hangover = true;
-                Instances.SettingsViewModel.Cheers = false;
-            }
-
             if (value != SettingsViewModel.PallasLangKey)
             {
                 Instances.SettingsViewModel.SoberLanguage = value;
             }
 
-            // var backup = _language;
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Localization, value);
+            ConfigFactory.Root.Gui.Localization = value;
 
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.Linguist);
 
@@ -383,16 +356,30 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             var result = MessageBoxHelper.Show(
                 FormatText("{0}\n{1}", "LanguageChangedTip"),
                 FormatText("{0}({1})", "Tip"),
-                MessageBoxButton.OKCancel,
+                MessageBoxButton.YesNoCancel,
                 MessageBoxImage.Question,
-                ok: FormatText("{0}({1})", "Ok"),
-                cancel: FormatText("{0}({1})", "ManualRestart"));
-            if (result == MessageBoxResult.OK)
+                yes: FormatText("{0}/{1}", "LanguageSwitchNow"),
+                no: FormatText("{0}/{1}", "LanguageRestartNow"),
+                cancel: FormatText("{0}/{1}", "ManualRestart"));
+            if (result == MessageBoxResult.Yes)
             {
+                // 时序要求：先静默更新 _language，使 Reload 触发 LanguageChanged 时，
+                // 订阅者读到的 Language 属性已是新值；Reload 内部先替换字典再触发事件；
+                // 最后 NotifyOfPropertyChange 触发 PropertyDependsOn(Language) 回调。
+                _language = value;
+                LocalizationHelper.Reload(value);
+                NotifyOfPropertyChange(nameof(Language));
+            }
+            else if (result == MessageBoxResult.No)
+            {
+                // 重启以完整应用语言更改
                 Bootstrapper.ShutdownAndRestartWithoutArgs();
             }
-
-            SetAndNotify(ref _language, value);
+            else
+            {
+                // 稍后：仅保存配置，下次重启时生效
+                SetAndNotify(ref _language, value);
+            }
 
             return;
 
@@ -402,8 +389,27 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
+    /// 直接热切换语言，不弹确认窗、不触发 pallas 宿醉等 setter 副作用。
+    /// 供彩蛋逻辑（GetDrunk / HangoverEnd）在已完成状态转换后调用。
+    /// </summary>
+    /// <param name="value">目标语言代码</param>
+    public void SetLanguageInternal(string value)
+    {
+        if (value == _language)
+        {
+            return;
+        }
+
+        ConfigFactory.Root.Gui.Localization = value;
+        _language = value;
+        LocalizationHelper.Reload(value);
+        NotifyOfPropertyChange(nameof(Language));
+    }
+
+    /// <summary>
     /// Gets the language info.
     /// </summary>
+    [PropertyDependsOn(nameof(Language))]
     public string LanguageInfo
     {
         get {
@@ -415,27 +421,30 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Opername display language, can set force display when it was set as "OperNameLanguageForce.en-us"
     /// </summary>
-    private string _operNameLanguage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
-
     public string OperNameLanguage
     {
         get {
-            if (!_operNameLanguage.Contains('.'))
+            if (!field.Contains('.'))
             {
-                return _operNameLanguage;
+                return field;
             }
 
-            if (_operNameLanguage.Split('.')[0] != "OperNameLanguageForce" || !LocalizationHelper.SupportedLanguages.ContainsKey(_operNameLanguage.Split('.')[1]))
+            if (field.Split('.')[0] != "OperNameLanguageForce" || !LocalizationHelper.SupportedLanguages.ContainsKey(field.Split('.')[1]))
             {
-                return _operNameLanguage;
+                return field;
             }
 
-            OperNameLanguageModeList.Add(new CombinedData { Display = LocalizationHelper.GetString("OperNameLanguageForce"), Value = "OperNameLanguageForce" });
+            // 去重：getter 每次绑定时都可能被读取，避免重复添加"强制指定语言"选项
+            if (!OperNameLanguageModeList.Items.Any(i => i.Value == "OperNameLanguageForce"))
+            {
+                OperNameLanguageModeList.Add("OperNameLanguageForce", "OperNameLanguageForce");
+            }
+
             return "OperNameLanguageForce";
         }
 
         set {
-            if (value == _operNameLanguage.Split('.')[0])
+            if (value == field.Split('.')[0])
             {
                 return;
             }
@@ -443,56 +452,45 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             switch (value)
             {
                 case "OperNameLanguageClient":
-                    ConfigurationHelper.SetGlobalValue(ConfigurationKeys.OperNameLanguage, value);
+                    ConfigFactory.Root.Gui.OperNameLanguage = value;
                     break;
 
                 case "OperNameLanguageMAA":
                 default:
-                    ConfigurationHelper.SetGlobalValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
+                    ConfigFactory.Root.Gui.OperNameLanguage = "OperNameLanguageMAA";
                     break;
             }
 
-            var mainWindow = Application.Current.MainWindow;
+            SetAndNotify(ref field, value);
 
-            if (mainWindow != null)
-            {
-                mainWindow.Show();
-                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
-                mainWindow.Activate();
-            }
+            // 切换到非 Force 选项后，移除运行时动态插入的 Force 项，避免下拉框残留
+            OperNameLanguageModeList.Remove("OperNameLanguageForce");
 
-            var result = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("LanguageChangedTip"),
-                LocalizationHelper.GetString("Tip"),
-                MessageBoxButton.OKCancel,
-                MessageBoxImage.Question,
-                ok: LocalizationHelper.GetString("Ok"),
-                cancel: LocalizationHelper.GetString("ManualRestart"));
-            if (result == MessageBoxResult.OK)
-            {
-                Bootstrapper.ShutdownAndRestartWithoutArgs();
-            }
-
-            SetAndNotify(ref _operNameLanguage, value);
+            OperNameLanguageChanged?.Invoke();
         }
-    }
+    } = ConfigFactory.Root.Gui.OperNameLanguage;
+
+    /// <summary>
+    /// 干员名语言变更事件，订阅者应刷新干员相关数据。
+    /// </summary>
+    public event Action? OperNameLanguageChanged;
 
     public string OperNameLocalization
     {
         get {
-            if (_operNameLanguage == "OperNameLanguageClient")
+            if (OperNameLanguage == "OperNameLanguageClient")
             {
                 return DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType];
             }
 
-            if (!_operNameLanguage.Contains('.'))
+            if (!OperNameLanguage.Contains('.'))
             {
                 return _language;
             }
 
-            if (_operNameLanguage.Split('.')[0] == "OperNameLanguageForce" && LocalizationHelper.SupportedLanguages.ContainsKey(_operNameLanguage.Split('.')[1]))
+            if (OperNameLanguage.Split('.')[0] == "OperNameLanguageForce" && LocalizationHelper.SupportedLanguages.ContainsKey(OperNameLanguage.Split('.')[1]))
             {
-                return _operNameLanguage.Split('.')[1];
+                return OperNameLanguage.Split('.')[1];
             }
 
             return _language;
@@ -504,9 +502,9 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public bool IgnoreBadModulesAndUseSoftwareRendering
     {
-        get => ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering;
+        get => ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering;
         set {
-            ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering = value;
+            ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering = value;
             NotifyOfPropertyChange();
             if (value)
             {
@@ -539,5 +537,18 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    public void RefreshLocalization()
+    {
+        OperNameLanguageModeList.RefreshLocalization();
+
+        DarkModeList.RefreshLocalization();
+        InverseClearModeList.RefreshLocalization();
+        RefreshWindowTitleAllShowDict();
+        Instances.SettingsViewModel.UpdateWindowTitle();
     }
 }

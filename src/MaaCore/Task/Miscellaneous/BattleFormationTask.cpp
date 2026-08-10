@@ -674,7 +674,7 @@ bool asst::BattleFormationTask::check_oper_level(
     const battle::OperUsage& oper,
     bool ignore)
 {
-    if (oper.requirements.elite == 0 && oper.requirements.level == 0) {
+    if (oper.requirements.elite <= 0 && oper.requirements.level <= 0) {
         return true; // 无等级要求
     }
     auto [_elite, _level] = m_quick_formation_ui.analyze_oper_level(image, flag);

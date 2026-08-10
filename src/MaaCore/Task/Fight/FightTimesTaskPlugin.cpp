@@ -70,12 +70,12 @@ bool asst::FightTimesTaskPlugin::_run()
 
     auto sanity_cost = analyze_sanity_cost(image);
     auto series = analyze_stage_series(image);
-    if (sanity_cost.value_or(-1) < 0 || (series && (*series < 1 || *series > 6))) [[unlikely]] {
+    if (sanity_cost.value_or(-1) < 0 || (series && (*series < 1 || *series > 10))) [[unlikely]] {
         Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
         callback(AsstMsg::SubTaskExtraInfo, fight);
         return false;
     }
-    if (!series) { // 默认连续战斗次数为1, 部分关卡不支持连战
+    if (!series) { // 默认代理倍率为1, 部分关卡不支持代理倍率
         m_series_current = 1;
         fight["details"]["series"] = 1;
         fight["details"]["sanity_cost"] = *sanity_cost;
@@ -84,26 +84,37 @@ bool asst::FightTimesTaskPlugin::_run()
         return true;
     }
 
+    const auto& flag_task = Task.get("FightSeries-OldMethodFlag");
+    bool is_new_series_list = flag_task == nullptr;
+
     if (m_series == -1) { // 禁用切换
     }
-    else if (m_series == 0 && change_series(sanity->current, *sanity_cost, *series)) {
-        image = ctrler()->get_image();
-        sanity_cost = analyze_sanity_cost(image);
-        series = analyze_stage_series(image);
-        if (sanity_cost.value_or(-1) < 0 || !series || *series < 1 || *series > 6) [[unlikely]] {
-            Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
-            callback(AsstMsg::SubTaskExtraInfo, fight);
-            return false;
+    else if (m_series == 0) {
+        auto ret = is_new_series_list ? change_series_new(sanity->current, *sanity_cost, *series)
+                                      : change_series(sanity->current, *sanity_cost, *series);
+        if (ret) {
+            // 调整完代理倍率后，获取当前的理智消耗及代理倍率
+            image = ctrler()->get_image();
+            sanity_cost = analyze_sanity_cost(image);
+            series = analyze_stage_series(image);
+            if (sanity_cost.value_or(-1) < 0 || !series || *series < 1 || *series > 10) [[unlikely]] {
+                Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
+                callback(AsstMsg::SubTaskExtraInfo, fight);
+                return false;
+            }
         }
     }
-    else if (m_series > 0 && m_series < 7 && *series != m_series && select_series(m_series)) {
-        image = ctrler()->get_image();
-        sanity_cost = analyze_sanity_cost(image);
-        series = analyze_stage_series(image);
-        if (sanity_cost.value_or(-1) < 0 || !series || *series < 1 || *series > 6) [[unlikely]] {
-            Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
-            callback(AsstMsg::SubTaskExtraInfo, fight);
-            return false;
+    else if (m_series > 0 && m_series < 11 && *series != m_series) {
+        auto ret = is_new_series_list ? select_series_new(m_series) : select_series(m_series);
+        if (ret) {
+            image = ctrler()->get_image();
+            sanity_cost = analyze_sanity_cost(image);
+            series = analyze_stage_series(image);
+            if (sanity_cost.value_or(-1) < 0 || !series || *series < 1 || *series > 10) [[unlikely]] {
+                Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
+                callback(AsstMsg::SubTaskExtraInfo, fight);
+                return false;
+            }
         }
     }
 
@@ -165,7 +176,45 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series(int sanity_current,
         m_task_ptr->set_enable(false);
     }
     else if (!ret) {
-        ret = select_series(1);
+        ret = select_series(1) ? 1 : std::optional<int>();
+    }
+    return ret;
+}
+
+std::optional<int> asst::FightTimesTaskPlugin::change_series_new(int sanity_current, int sanity_cost, int series)
+{
+    int fight_times_remain = std::min(m_fight_times_max - m_fight_times, 10);
+    if (!m_has_used_medicine && !m_is_medicine_exhausted) {
+        if (fight_times_remain != series) {
+            return select_series_new(fight_times_remain); // 调整到剩余次数
+        }
+        return series;
+    }
+
+    if (m_has_used_medicine) {               // 用过药品, 认为已选择最大可用次数
+        if (sanity_cost <= sanity_current) { // 吃药前一般选择最大可用次数, 吃完药已经够理智了
+            return series;
+        }
+        // 吃药后理智超限, 减少了吃药量, 选择剩余次数
+    }
+    int cost = sanity_cost / series;
+    if (cost <= 0) { // OCR 误识别导致单次理智消耗为 0，避免后续 target_times 除零
+        LogWarn << __FUNCTION__ << "invalid sanity cost per time, skip change_series_new";
+        // 未做任何调整，返回 nullopt 让调用方沿用当前倍率继续战斗
+        return std::nullopt;
+    }
+    auto target_times = std::clamp(sanity_current / cost, 1, 10);
+    LogInfo << __FUNCTION__ << "sanity_current:" << sanity_current << ", sanity_cost:" << sanity_cost
+            << ", series:" << series << ", stage sanity cost per time:" << cost << ", target_times:" << target_times;
+    if (target_times == series) {
+        return series;
+    }
+    std::optional<int> ret = select_series_new(target_times) ? target_times : std::optional<int>();
+    if (!ret && m_is_medicine_exhausted) { // 药品用完, 且没有次数可用, 理智作战结束
+        m_task_ptr->set_enable(false);
+    }
+    else if (!ret) {
+        ret = select_series_new(1) ? 1 : std::optional<int>();
     }
     return ret;
 }
@@ -178,6 +227,35 @@ std::optional<int> asst::FightTimesTaskPlugin::select_series(bool available_only
     int fight_times_remain = std::min(m_fight_times_max - m_fight_times, 6);
     auto image = ctrler()->get_image();
     auto list = analyze_series_list(image);
+    if (list.empty()) {
+        close_series_list();
+        Log.error(__FUNCTION__, "unable to analyze series list");
+        return std::nullopt;
+    }
+    for (const auto& item : list) {
+        if (item.times > fight_times_remain) {
+            continue;
+        }
+
+        if (!available_only || item.status == asst::FightSeriesListItem::Status::Available) {
+            ctrler()->click(item.rect);
+            sleep(Config.get_options().task_delay);
+            return item.times;
+        }
+    }
+    close_series_list();
+    LogInfo << __FUNCTION__ << "no available series found";
+    return std::nullopt;
+}
+
+std::optional<int> asst::FightTimesTaskPlugin::select_series_new(bool available_only)
+{
+    if (!open_series_list()) {
+        return std::nullopt;
+    }
+    int fight_times_remain = std::min(m_fight_times_max - m_fight_times, 10);
+    auto image = ctrler()->get_image();
+    auto list = analyze_series_list_new(image);
     if (list.empty()) {
         close_series_list();
         Log.error(__FUNCTION__, "unable to analyze series list");
@@ -224,17 +302,99 @@ bool asst::FightTimesTaskPlugin::select_series(int times)
     return false;
 }
 
+bool asst::FightTimesTaskPlugin::select_series_new(int times)
+{
+    if (!open_series_list()) {
+        return false;
+    }
+
+    auto image = ctrler()->get_image();
+    auto list = analyze_series_list_new(image);
+    if (list.empty()) {
+        close_series_list();
+        Log.error(__FUNCTION__, "unable to analyze series list");
+        return false;
+    }
+    const auto reanalyze = [&]() {
+        image = ctrler()->get_image();
+        list = analyze_series_list_new(image);
+        if (list.empty()) {
+            close_series_list();
+            Log.error(__FUNCTION__, "unable to analyze series list");
+            return false;
+        }
+        return true;
+    };
+    static auto range_out = [](int value, int min, int max) {
+        if (value < min) {
+            return value - min;
+        }
+        if (value > max) {
+            return value - max;
+        }
+        return 0;
+    };
+    for (int i = 0; i < 5 && !need_exit(); i++) {
+        int dis = range_out(times, list.back().times, list.front().times);
+        if (std::abs(dis) > 4) {
+            if (dis > 0) {
+                const auto& task = Task.get("FightSeries-List-SlideUp");
+                ctrler()->swipe(task->specific_rect, task->rect_move, 300, false, 3.7, 0.1);
+                sleep(task->post_delay);
+                if (!reanalyze()) {
+                    return false;
+                }
+            }
+            else if (dis < 0) {
+                const auto& task = Task.get("FightSeries-List-SlideDown");
+                ctrler()->swipe(task->specific_rect, task->rect_move, 300, false, 3.7, 0.1);
+                sleep(task->post_delay);
+                if (!reanalyze()) {
+                    return false;
+                }
+            }
+        }
+        else if (times > list.front().times) {
+            // 最大次数仍小
+            ctrler()->click(list.front().rect);
+            sleep(500);
+            if (!reanalyze()) {
+                return false;
+            }
+        }
+        else if (times < list.back().times) {
+            // 最小次数仍大
+            ctrler()->click(list.back().rect);
+            sleep(500);
+            if (!reanalyze()) {
+                return false;
+            }
+        }
+        for (const auto& item : list) {
+            if (item.times == times) {
+                ctrler()->click(item.rect);
+                sleep(Config.get_options().task_delay);
+                close_series_list();
+                return true;
+            }
+        }
+    }
+    close_series_list();
+    Log.error(__FUNCTION__, "no available series found");
+    return false;
+}
+
 std::vector<asst::FightSeriesListItem> asst::FightTimesTaskPlugin::analyze_series_list(const cv::Mat& image)
 {
     std::vector<asst::FightSeriesListItem> list;
     const auto& task = Task.get("FightSeries-List-Multiply");
-    MultiMatcher ocr(image);
-    ocr.set_task_info(task);
-    if (!ocr.analyze()) {
+    MultiMatcher flag_Match(image);
+    flag_Match.set_task_info(task);
+    if (!flag_Match.analyze()) {
         Log.error(__FUNCTION__, "unable to analyze series list");
         return list;
     }
-    auto result = ocr.get_result();
+    auto result = flag_Match.get_result();
     if (result.size() != 6) {
         Log.error(__FUNCTION__, "no series found");
         return list;
@@ -267,7 +427,7 @@ std::vector<asst::FightSeriesListItem> asst::FightTimesTaskPlugin::analyze_serie
                                         .rect = rect,
                                         .status = match.analyze() ? asst::FightSeriesListItem::Status::NeedMedicine
                                                                   : asst::FightSeriesListItem::Status::Available });
-        /* 假设 连战列表 为6-1
+        /* 假设 代理倍率列表 为6-1
         RegionOCRer analyzer(image);
         analyzer.set_roi(item.rect.move(task->rect_move));
         analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
@@ -285,6 +445,60 @@ std::vector<asst::FightSeriesListItem> asst::FightTimesTaskPlugin::analyze_serie
         }*/
     }
     // std::ranges::reverse(list);
+    return list;
+}
+
+std::vector<asst::FightSeriesListItem> asst::FightTimesTaskPlugin::analyze_series_list_new(const cv::Mat& image)
+{
+    using Item = asst::FightSeriesListItem;
+    std::vector<Item> list;
+    const auto& task = Task.get("FightSeries-List-Multiply");
+    MultiMatcher flag_Match(image);
+    flag_Match.set_task_info(task);
+    if (!flag_Match.analyze()) {
+        Log.error(__FUNCTION__, "unable to analyze series list");
+    }
+    auto result = flag_Match.get_result();
+    sort_by_vertical_(result);
+
+    double min_val = 0.0, max_val = 0.0;
+    cv::Mat number_img, number_img_gray;
+    cv::Point min_loc, max_loc;
+    for (const auto& item : result) {
+        int times = -1;
+        RegionOCRer analyzer(image);
+        analyzer.set_roi(item.rect.move(task->rect_move));
+        analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
+        analyzer.set_use_char_model(true);
+        analyzer.set_bin_threshold(0);
+        if (!analyzer.analyze()) {
+            Log.error(__FUNCTION__, "unable to analyze series");
+        }
+        else {
+            if (!utils::chars_to_number(analyzer.get_result().text, times)) [[unlikely]] {
+                LogWarn << __FUNCTION__ << "Series ocr result could not convert to int:" << analyzer.get_result().text
+                        << "has analyzed:" << list.size();
+            }
+        }
+
+        auto rect = item.rect.move(task->specific_rect);
+        number_img = make_roi(image, item.rect.move(task->rect_move));
+        cv::cvtColor(number_img, number_img_gray, cv::COLOR_BGR2GRAY);
+        cv::minMaxLoc(number_img_gray, &min_val, &max_val, &min_loc, &max_loc);
+        if (max_val < task->special_params[0]) {
+            list.emplace_back(Item { .times = times, .rect = rect, .status = Item::Status::NeedStone });
+            continue;
+        }
+
+        Matcher match(image);
+        match.set_task_info("FightSeries-List-Exceeded");
+        match.set_roi(rect);
+        bool need_medicine = match.analyze().has_value();
+        list.emplace_back(
+            Item { .times = times,
+                   .rect = rect,
+                   .status = need_medicine ? Item::Status::NeedMedicine : Item::Status::Available });
+    }
     return list;
 }
 
@@ -350,14 +564,14 @@ std::optional<int> asst::FightTimesTaskPlugin::analyze_stage_series(const cv::Ma
         return std::nullopt;
     }
 
-    int sanity = 0;
-    if (!utils::chars_to_number(analyzer.get_result().text, sanity)) [[unlikely]] {
-        Log.warn(__FUNCTION__, "Sanity ocr result could not convert to int:", analyzer.get_result().text);
-        analyzer.save_img(utils::path("debug") / utils::path("sanity"));
+    int times = 0;
+    if (!utils::chars_to_number(analyzer.get_result().text, times)) [[unlikely]] {
+        Log.warn(__FUNCTION__, "Series ocr result could not convert to int:", analyzer.get_result().text);
+        analyzer.save_img(utils::path("debug") / utils::path("times"));
         return std::nullopt;
     }
 
-    return sanity;
+    return times;
 }
 
 std::optional<int> asst::FightTimesTaskPlugin::analyze_sanity_cost(const cv::Mat& image)

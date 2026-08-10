@@ -495,6 +495,13 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         _logger.Information("===================================");
 
+        // 尽早解析 skip 参数：pending 更新早退重启需要原样转发
+        _skipStartupAutoRun = args.Any(arg => string.Equals(arg, SkipStartupAutoRunArg, StringComparison.OrdinalIgnoreCase));
+        if (_skipStartupAutoRun)
+        {
+            _logger.Information("Startup auto-run will be skipped due to {Arg}", SkipStartupAutoRunArg);
+        }
+
         ConfigurationHelper.Load();
         LocalizationHelper.Load();
         if (PendingUpdateApplier.TryConsumeDelegatedUpdateSuccess())
@@ -565,7 +572,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         ConfigConverter.ConvertConfig();
         ETagCache.Load();
 
-        if (ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering)
+        if (ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering)
         {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             _logger.Information("Using software rendering mode due to user preference (bad modules detected)");
@@ -674,10 +681,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     private static bool HandleMultipleInstances()
     {
-        string instanceKey = GetSingleInstanceKey();
-        string mutexName = "MAA_" + instanceKey;
-        string activationEventName = "MAA_SHOW_" + instanceKey;
-        _mutex = new Mutex(true, mutexName, out var isOnlyInstance);
+        string activationEventName = "MAA_SHOW_" + InstanceKey;
+        _mutex = new Mutex(true, MutexName, out var isOnlyInstance);
 
         try
         {
@@ -709,13 +714,18 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
     }
 
-    private static string GetSingleInstanceKey()
+    public static string InstanceKey
     {
-        var normalizedBaseDir = Path.GetFullPath(PathsHelper.BaseDir)
-            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
-            .ToUpperInvariant();
-        return normalizedBaseDir.StableHash();
+        get
+        {
+            var normalizedBaseDir = Path.GetFullPath(PathsHelper.BaseDir)
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                .ToUpperInvariant();
+            return normalizedBaseDir.StableHash();
+        }
     }
+
+    public static string MutexName => "MAA_" + InstanceKey;
 
     private static void EnsureInstanceActivationEvent(string activationEventName)
     {
@@ -993,25 +1003,66 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         _mutex?.Dispose();
     }
 
+    /// <summary>
+    /// 更新后「立即重启」链写入的启动参数：本次进程跳过「启动后直接运行 / 启动模拟器」。
+    /// 选择「稍后」再手动启动不会带此参数。
+    /// </summary>
+    public const string SkipStartupAutoRunArg = "--skip-startup-auto-run";
+
     private static bool _isRestartingWithoutArgs;
     private static ProcessStartInfo _restartStartInfo;
+    private static bool _skipStartupAutoRun;
+
+    /// <summary>
+    /// Gets a value indicating whether the current process should skip startup auto-run
+    /// (tasks / emulator launch after MAA start).
+    /// </summary>
+    public static bool ShouldSkipStartupAutoRun => _skipStartupAutoRun;
 
     /// <summary>
     /// 在完整 GUI 尚未初始化前，应用待处理更新后立即重启。
+    /// 若当前进程已带 <see cref="SkipStartupAutoRunArg"/>，则原样转发给下一进程。
     /// </summary>
     private static void RestartAfterPendingUpdateEarly()
     {
         _logger.Information("Pending update package applied, restarting application");
         if (Environment.ProcessPath is not null)
         {
-            Process.Start(new ProcessStartInfo {
+            var startInfo = new ProcessStartInfo {
                 FileName = Environment.ProcessPath,
                 WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
-                UseShellExecute = true,
-            });
+                UseShellExecute = false,
+            };
+            foreach (string arg in GetForwardableRestartArgs())
+            {
+                startInfo.ArgumentList.Add(arg);
+            }
+
+            Process.Start(startInfo);
         }
 
         Environment.Exit(0);
+    }
+
+    /// <summary>
+    /// 获取需要转发给下一进程的启动参数（当前仅转发 skip-startup-auto-run）。
+    /// </summary>
+    /// <returns>需要转发的参数数组；无需转发时为空数组。</returns>
+    public static string[] GetForwardableRestartArgs()
+    {
+        return ShouldSkipStartupAutoRun ? [SkipStartupAutoRunArg] : [];
+    }
+
+    /// <summary>
+    /// 若启动设置允许，返回「更新后立即重启」链应写入的参数；否则返回空。
+    /// 仅用于自动安装或更新提示中选择立即重启；「稍后」手动启动不调用此方法。
+    /// </summary>
+    /// <returns>应写入的参数数组；选项关闭时为空数组。</returns>
+    public static string[] GetUpdateRestartArgsIfEnabled()
+    {
+        return ConfigFactory.CurrentConfig.Gui.StartUpSettings.SkipStartupAutoRunAfterUpdate
+            ? [SkipStartupAutoRunArg]
+            : [];
     }
 
     private static void ShowPendingUpdateRecoveryDialog()
@@ -1039,6 +1090,34 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         _isRestartingWithoutArgs = true;
         _logger.Information("Shutdown and restart without Args, call by `{Caller}`", caller);
         Execute.OnUIThread(Application.Current.Shutdown);
+    }
+
+    /// <summary>
+    /// 重启，并带上指定启动参数。
+    /// </summary>
+    /// <param name="args">传给下一进程的参数，例如 <c>--skip-startup-auto-run</c>。</param>
+    public static void ShutdownAndRestartWithArgs(params string[] args)
+    {
+        if (Environment.ProcessPath is null)
+        {
+            ShutdownAndRestartWithoutArgs();
+            return;
+        }
+
+        var startInfo = new ProcessStartInfo {
+            FileName = Environment.ProcessPath,
+            WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
+            UseShellExecute = false,
+        };
+        if (args is not null)
+        {
+            foreach (string arg in args.Where(static a => !string.IsNullOrWhiteSpace(a)))
+            {
+                startInfo.ArgumentList.Add(arg);
+            }
+        }
+
+        ShutdownAndRestartWith(startInfo);
     }
 
     /// <summary>
@@ -1086,7 +1165,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     private static bool _isWaitingToRestart;
 
-    public static async Task RestartAfterIdleAsync()
+    /// <summary>
+    /// 等待空闲后重启。可选带上启动参数（如更新链的 <see cref="SkipStartupAutoRunArg"/>）。
+    /// </summary>
+    /// <param name="args">传给下一进程的参数；为空则无参重启。</param>
+    /// <returns>表示异步等待的任务。</returns>
+    public static async Task RestartAfterIdleAsync(params string[] args)
     {
         if (_isWaitingToRestart)
         {
@@ -1096,7 +1180,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         _isWaitingToRestart = true;
 
         await RunningState.Instance.UntilIdleAsync(60000);
-        ShutdownAndRestartWithoutArgs();
+        if (args is { Length: > 0 })
+        {
+            ShutdownAndRestartWithArgs(args);
+        }
+        else
+        {
+            ShutdownAndRestartWithoutArgs();
+        }
     }
 
     /// <inheritdoc/>
@@ -1118,11 +1209,24 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static void ShowErrorDialog(Exception exception)
     {
         Application.Current.Dispatcher.Invoke(() => {
-            // DragDrop.DoDragSourceMove 会导致崩溃，但不需要退出程序
+            // 这些异常虽然会导致崩溃，但不需要退出程序
             // 这是一坨屎，但是没办法，只能这样了
-            var isDragDropException = exception is COMException && exception.ToString()!.Contains("DragDrop.DoDragSourceMove");
+            var comEx = exception as COMException;
 
-            var shouldExit = !isDragDropException;
+            var details = exception.ToString();
+
+            // DragDrop.DoDragSourceMove 会在拖拽时偶发崩溃
+            var isDragDropException = comEx != null && details.Contains("DragDrop.DoDragSourceMove");
+
+            // DWM 桌面组合被禁用（0x80263001），通常是瞬时的显卡驱动问题，DWM 会自行恢复
+            // 同时用 HResult 与异常文本双重判断，避免不同 .NET 版本/语言环境下 HRESULT 暴露不一致
+            const int DwmECompositionDisabled = unchecked((int)0x80263001);
+            var isDwmCompositionDisabledException = comEx != null &&
+                (comEx.HResult == DwmECompositionDisabled ||
+                 details.Contains("Desktop composition is disabled") ||
+                 details.Contains("0x80263001"));
+
+            var shouldExit = !isDragDropException && !isDwmCompositionDisabledException;
 
             var errorView = new ErrorDialogView(exception, shouldExit);
             errorView.ShowDialog();
@@ -1183,7 +1287,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static bool UpdateConfiguration(string desiredConfig)
     {
         // 配置名可能就包在引号中，需要转义符，如 \"a\"
-        string currentConfig = ConfigurationHelper.GetCurrentConfiguration();
-        return currentConfig != desiredConfig && ConfigurationHelper.SwitchConfiguration(desiredConfig) && ConfigFactory.SwitchConfig(desiredConfig);
+        return ConfigFactory.Root.Current != desiredConfig && ConfigFactory.SwitchConfig(desiredConfig);
     }
 }

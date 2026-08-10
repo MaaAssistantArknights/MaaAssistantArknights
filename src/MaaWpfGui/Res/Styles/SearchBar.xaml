@@ -1,0 +1,12 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls" xmlns:hc="https://handyorg.github.io/handycontrol">
+
+    <Style
+        x:Key="MaaSearchBarDefaultStyle"
+        BasedOn="{StaticResource SearchBarBaseStyle}"
+        TargetType="{x:Type hc:SearchBar}">
+        <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
+    </Style>
+
+    <Style BasedOn="{StaticResource MaaSearchBarDefaultStyle}" TargetType="{x:Type hc:SearchBar}" />
+
+</ResourceDictionary>

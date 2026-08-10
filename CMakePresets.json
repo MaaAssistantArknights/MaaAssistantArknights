@@ -217,11 +217,6 @@
             "cacheVariables": {
                 "BUILD_WPF_GUI": "ON"
             },
-            "$comment": [
-                "github actions only support Visual Studio 17 2022",
-                "see https://github.com/actions/runner-images/issues/13291"
-            ],
-            "generator": "Visual Studio 17 2022",
             "displayName": "Windows x64 Publish"
         },
         {
@@ -233,11 +228,6 @@
             "cacheVariables": {
                 "BUILD_WPF_GUI": "ON"
             },
-            "$comment": [
-                "github actions only support Visual Studio 17 2022",
-                "see https://github.com/actions/runner-images/issues/13291"
-            ],
-            "generator": "Visual Studio 17 2022",
             "displayName": "Windows arm64 Publish"
         },
         {

@@ -64,6 +64,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 Official：`123****4567`、入力可能：`123****4567`、`4567`、`123`、`3****4567`  
 <br>
 Bilibili：`张三`、入力可能：`张三`、`张`、`三`  
+<br>
+繁体字中国語サーバー：Eメール形式（例：`ab****01@gmail.com`）。アスタリスクを含まない明文部分（例：`01@gmail`）の入力を推奨  
 :::  
 ::::
 
@@ -147,50 +149,59 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
   戦闘回数。  
   :::  
   ::: field name="series" type="number" optional  
-  連戦回数。-1～6。
+  連戦回数。-1～10。
   <br>
   `-1` は切り替えを無効にします。
   <br>
-  `0` は現在利用可能な最大回数に自動的に切り替わります。現在の理智が 6 回未満の場合は、利用可能な最小回数を選択します。
+  `0` は現在利用可能な最大回数に自動的に切り替わります。現在の理智が最大回数未満の場合は、利用可能な最小回数を選択します。
   <br>
-  `1～6` は指定した連戦回数です。  
-  :::  
-  ::: field name="drops" type="object" optional  
-  ドロップ数を指定します。デフォルトで指定なし。キーは item_id、値は数量です。キーは `resource/item_index.json` ファイルを参照できます。  
+  `1～10` は指定した連戦回数です。
   <br>
-  例：`{ "30011": 10, "30062": 5 }`  
+  ::: info サーバー差異
+  入力検証はリソースに `FightSeries-OldMethodFlag` が存在するかどうかで決まります：
   <br>
-  上記はすべて OR 関係です。つまり、いずれかに達するとタスクが停止します。  
-  :::  
-  ::: field name="report_to_penguin" type="boolean" optional default="false"  
-  ペンギン統計にレポートするかどうか。  
-  :::  
-  ::: field name="penguin_id" type="string" optional  
-  ペンギン統計レポート ID。デフォルトは空です。`report_to_penguin` が true の場合のみ有効です。  
-  :::  
-  :::  
-  ::: field name="report_to_yituliu" type="boolean" optional default="false"  
-  一图流にレポートするかどうか。  
-  :::  
-  ::: field name="yituliu_id" type="string" optional  
-  一图流レポート ID。デフォルトは空です。`report_to_yituliu` が true の場合のみ有効です。  
-  :::  
-  ::: field name="server" type="string" optional default="CN"  
-  サーバー。ドロップ認識とアップロードに影響します。
-  <br>
-  オプション：`CN` | `US` | `JP` | `KR`  
-  :::  
-  ::: field name="client_type" type="string" optional  
-  クライアント バージョン。デフォルトは空です。ゲームがクラッシュした場合にクライアントを再起動して接続し直すために使用されます。空の場合、この機能は有効になりません。
-  <br>
-  オプション：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-  :::  
-  ::: field name="DrGrandet" type="boolean" optional default="false"  
-  理智節約源石モード。源石効果が発生する可能性がある場合にのみ有効です。
-  <br>
-  源石確認画面で待機し、現在の 1 ポイントの理智回復が完了するまで待ってから、すぐに源石を使用します。  
-  :::  
-  ::::
+  - 新リスト（中国版 2026/8/1 以降の主リソース、当該 flag なし）：`-1～10` を受け付け
+  - 旧リスト（海外リソースに当該 flag あり）：`-1～6` のみ受け付け、それより大きい値は拒否
+    <br>
+    海外サーバーは約半年後に追従予定で、その際に上限はリソースに合わせて 10 になります。Windows GUI の連戦回数ドロップダウンは現在固定で 10 まで表示されます。海外で手動で 7～10 を選ぶと、タスク投入時に Core に拒否されます。
+    :::  
+    :::  
+    ::: field name="drops" type="object" optional  
+    ドロップ数を指定します。デフォルトで指定なし。キーは item_id、値は数量です。キーは `resource/item_index.json` ファイルを参照できます。  
+    <br>
+    例：`{ "30011": 10, "30062": 5 }`  
+    <br>
+    上記はすべて OR 関係です。つまり、いずれかに達するとタスクが停止します。  
+    :::  
+    ::: field name="report_to_penguin" type="boolean" optional default="false"  
+    ペンギン統計にレポートするかどうか。  
+    :::  
+    ::: field name="penguin_id" type="string" optional  
+    ペンギン統計レポート ID。デフォルトは空です。`report_to_penguin` が true の場合のみ有効です。  
+    :::  
+    :::  
+    ::: field name="report_to_yituliu" type="boolean" optional default="false"  
+    一图流にレポートするかどうか。  
+    :::  
+    ::: field name="yituliu_id" type="string" optional  
+    一图流レポート ID。デフォルトは空です。`report_to_yituliu` が true の場合のみ有効です。  
+    :::  
+    ::: field name="server" type="string" optional default="CN"  
+    サーバー。ドロップ認識とアップロードに影響します。
+    <br>
+    オプション：`CN` | `US` | `JP` | `KR`  
+    :::  
+    ::: field name="client_type" type="string" optional  
+    クライアント バージョン。デフォルトは空です。ゲームがクラッシュした場合にクライアントを再起動して接続し直すために使用されます。空の場合、この機能は有効になりません。
+    <br>
+    オプション：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+    :::  
+    ::: field name="DrGrandet" type="boolean" optional default="false"  
+    理智節約源石モード。源石効果が発生する可能性がある場合にのみ有効です。
+    <br>
+    源石確認画面で待機し、現在の 1 ポイントの理智回復が完了するまで待ってから、すぐに源石を使用します。  
+    :::  
+    ::::
 
 <details>
 <summary>Example</summary>
@@ -731,7 +742,7 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 ::: field name="filename" type="string"  
 単一作業 JSON ファイルのパス。copilot_list と二択（必須）。相対/絶対パスの両方対応。  
 :::  
-::: field name="copilot_list" type="array<object>"  
+::: field name="copilot_list" type="array`<object>`"  
 作業リスト。filename と二択（必須）。filename と copilot_list が同時に存在する場合、copilot_list を無視。このパラメータが有効な場合、set_params は 1 回のみ実行可能。
 <br>
 各オブジェクトには以下を含みます：
@@ -757,7 +768,7 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   <br>
   0～4 の整数。0 は現在の編成を意味し、1～4 は第 1～第 4 編成を表します。  
   :::  
-  ::: field name="user_additional" type="array<object>" optional default="[]"  
+  ::: field name="user_additional" type="array`<object>`" optional default="[]"  
   カスタム追加オペレーター リスト。formation が true の場合のみ有効。
   <br>
   各オブジェクトには以下を含みます：
@@ -986,6 +997,15 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 :::  
 ::: field name="task_names" type="array<string>" required  
 配列内の最初の一致（および後続の next など）でタスクを実行。複数のタスクを実行したい場合は、Custom task を複数回 append できます。  
+シークレットフロント（`MiniGame@SecretFront`）の連結形式に対応：`MiniGame@SecretFront@Begin@Ending[A-E](@イベント名)?`。イベント名は省略可（支援作战平台 / 游侠 / 诡影迷踪）、例：`MiniGame@SecretFront@Begin@EndingA@支援作战平台`。  
+:::  
+::: field name="params" type="object" optional  
+タスクの追加パラメータ。現在はピクセル画タスク（`MiniGame@PixelPaint@Begin`）のみで使用：
+
+- `params.pixel_paint.groups`：色ごとのマス座標リスト。`color` はパレットのスロット番号（0~39、ゲーム右側パレットの順序と一致）、`points` は `[x, y]` のマス座標配列（0~23、左上原点）。
+- `params.pixel_paint.swipe`（bool、任意、デフォルト true）：同じ色の連続マスを1回のドラッグで描画し高速化。一部のタッチ方式では正常に動作しない可能性があります。  
+- `params.pixel_paint.grid_delay`（int、任意、デフォルト 0）：マスごとの追加待機時間（ms）。クリック後の待機とドラッグ時間の両方に加算されます。各タッチ方式に基礎間隔があるため、通常は調整不要。旧キー `grid_click_delay` も受け付けます。
+
 :::  
 ::::
 
@@ -996,6 +1016,20 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 {
    "enable": true,
    "task_names": ["StartUp", "Infrast", "Fight"]
+}
+```
+
+```json
+{
+   "enable": true,
+   "task_names": ["MiniGame@PixelPaint@Begin"],
+   "params": {
+      "pixel_paint": {
+         "groups": [
+            { "color": 7, "points": [[0, 1], [3, 4]] }
+         ]
+      }
+   }
 }
 ```
 

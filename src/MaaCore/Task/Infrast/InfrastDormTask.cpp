@@ -10,21 +10,34 @@
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
-asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool dorm_notstationed_enabled) noexcept
+namespace
 {
-    m_dorm_notstationed_enabled = dorm_notstationed_enabled;
+constexpr int OperFullTrustValue = 200;
+// After enough full-trust candidates are seen on one page, trust autofill is
+// considered exhausted and the flow falls back to regular filling.
+constexpr size_t TrustAutofillThreshold = 6;
+// Seeing enough resting entries means the low-mood scan on the current page is
+// effectively finished, so the flow can switch to the next phase.
+constexpr size_t RestingOperCountThreshold = 6;
+// Active facility labels are expected to look like 1F01 or B101.
+constexpr size_t ActiveFacilityNumberLength = 4;
+}
+
+asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool notstationed_filter_enabled) noexcept
+{
+    m_notstationed_filter_enabled = notstationed_filter_enabled;
     return *this;
 }
 
-asst::InfrastDormTask& asst::InfrastDormTask::set_trust_enabled(bool dorm_trust_enabled) noexcept
+asst::InfrastDormTask& asst::InfrastDormTask::set_trust_enabled(bool trust_autofill_enabled) noexcept
 {
-    m_dorm_trust_enabled = dorm_trust_enabled;
+    m_trust_autofill_enabled = trust_autofill_enabled;
     return *this;
 }
 
 bool asst::InfrastDormTask::on_run_fails()
 {
-    m_if_filter_notstationed_haspressed = false;
+    m_notstationed_filter_active = false;
     return asst::InfrastAbstractTask::on_run_fails();
 }
 
@@ -39,7 +52,6 @@ bool asst::InfrastDormTask::_run()
             continue;
         }
 
-        // 进不去说明设施数量不够
         if (!enter_facility(m_cur_facility_index)) {
             swipe_to_the_left_of_main_ui();
             if (!enter_facility(m_cur_facility_index)) {
@@ -50,54 +62,73 @@ bool asst::InfrastDormTask::_run()
             return false;
         }
 
+        // m_selection_phase 是 MAA 内部的选人流程阶段，属于每间宿舍的独立逻辑，
+        // 不能跨宿舍继承，否则上一间跑完信赖补位后停留在 TrustAutofill /
+        // FillRemaining 的阶段会被下一间继承，导致跳过低心情扫描直接补满剩余位置。
+        m_selection_phase = SelectionPhase::LowMood;
+
         close_quick_formation_expand_role();
 
-        // EDIT: 25.7.17 把未进驻的筛选移到了清空之前，看看会不会有问题
-        // 按原来的逻辑先清空再筛选的话，会把第一个宿舍的人隐藏，假设当前只有 20 个人需要回复心情
-        // 会导致第宿舍全塞入信赖干员，使得 5 人最后不能休息
-        Log.trace("m_dorm_notstationed_enabled:", m_dorm_notstationed_enabled);
-        if (m_dorm_notstationed_enabled && !m_if_filter_notstationed_haspressed) {
-            Log.trace("click_filter_menu_not_stationed_button");
-            click_filter_menu_not_stationed_button();
-            m_if_filter_notstationed_haspressed = true;
-        }
+        // 每间宿舍都复查排序状态：用户可能手动切到了其他排序（工作状态/信赖）
+        // 就开始任务，或上一间宿舍因卡顿退出主界面后重新进入导致状态丢失，
+        // 此时列表并非按心情排序，fill_dorm_slots 的低心情扫描会因找不到足够的
+        // 休息态干员而提前触发信赖补位。switch_to_mood_sort 是幂等的，已选中时
+        // 不会重复点击。
+        switch_to_mood_sort();
 
-        auto origin_room_config = current_room_config();
-        if (is_use_custom_opers()) {
-            swipe_and_select_custom_opers(true);
-        }
-        else {
-            click_clear_button(); // 宿舍若未指定干员，则清空后按照原约定逻辑选择干员
-        }
+        const auto room_config = current_room_config();
+        const bool room_uses_custom_opers = is_use_custom_opers();
 
-        if (!m_is_custom || current_room_config().autofill) {
-            if (!opers_choose(origin_room_config)) {
+        Log.trace("m_notstationed_filter_enabled:", m_notstationed_filter_enabled);
+        if (m_notstationed_filter_enabled && !room_uses_custom_opers) {
+            if (!set_notstationed_filter(true)) {
                 return false;
             }
         }
-        // else {
-        //     if (!select_opers_review(origin_room_config)) {
-        //         current_room_config() = std::move(origin_room_config);
-        //         return false;
-        //     }
-        // }
+
+        if (room_uses_custom_opers) {
+            // Custom dorm operators may already be resting in other dorms.
+            const bool filter_was_active_before_custom_select = m_notstationed_filter_active;
+            // Restore the room's original filter intent after the temporary custom search.
+            const bool should_restore_notstationed_filter =
+                filter_was_active_before_custom_select || m_notstationed_filter_enabled;
+
+            if (filter_was_active_before_custom_select && !set_notstationed_filter(false)) {
+                return false;
+            }
+
+            swipe_and_select_custom_opers(true);
+
+            if (should_restore_notstationed_filter && !set_notstationed_filter(true)) {
+                return false;
+            }
+
+            if (!restore_list_sort_for_selection_phase(room_config)) {
+                return false;
+            }
+        }
+        else {
+            // If no custom dorm operators are configured, clear first and refill by the default flow.
+            click_clear_button();
+        }
+
+        if (!m_is_custom || current_room_config().autofill) {
+            if (!fill_dorm_slots()) {
+                return false;
+            }
+        }
 
         click_confirm_button();
         click_return_button();
-
-        if (m_next_step == NextStep::AllDone) { // 不蹭信赖或所有干员满信赖
-            break;
-        }
     }
     return true;
 }
 
-bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& origin_room_config)
+bool asst::InfrastDormTask::fill_dorm_slots()
 {
     size_t num_of_selected = m_is_custom ? current_room_config().selected : 0;
     size_t num_of_fulltrust = 0;
-    bool to_fill = false;
-    int swipe_times [[maybe_unused]] = 0;
+    bool fill_remaining_slots = false;
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
@@ -113,10 +144,10 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
             return false;
         }
         oper_analyzer.sort_by_mood();
-        const auto& oper_result = oper_analyzer.get_result();
+        const auto& opers = oper_analyzer.get_result();
 
         size_t num_of_resting = 0;
-        for (const auto& oper : oper_result) {
+        for (const auto& oper : opers) {
             if (need_exit()) {
                 return false;
             }
@@ -124,177 +155,205 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                 Log.info("num_of_selected:", num_of_selected, ", just break");
                 break;
             }
-            if (to_fill) {
+            if (fill_remaining_slots) {
                 if (oper.doing != infrast::Doing::Working && !oper.selected) {
-                    Log.info("to fill");
+                    Log.info("fill remaining slots");
                     ctrler()->click(oper.rect);
                     ++num_of_selected;
                 }
                 continue;
             }
+
             switch (oper.smiley.type) {
             case infrast::SmileyType::Rest:
-                if (m_next_step == NextStep::Fill) {
-                    to_fill = true;
-                    Log.info("set to_fill = true;");
+                if (m_selection_phase == SelectionPhase::FillRemaining) {
+                    fill_remaining_slots = true;
+                    Log.info("switch to fill remaining slots");
                     if (oper.doing != infrast::Doing::Working && !oper.selected) {
-                        Log.info("to fill");
+                        Log.info("fill remaining slots");
                         ctrler()->click(oper.rect);
                         ++num_of_selected;
                     }
                     continue;
                 }
-                // 如果所有心情不满的干员已经放入宿舍，就把信赖不满的干员放入宿舍
-                if (m_dorm_trust_enabled && m_next_step != NextStep::Rest && oper.selected == false &&
+
+                if (m_trust_autofill_enabled && m_selection_phase != SelectionPhase::LowMood && !oper.selected &&
                     oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
-                    // 获得干员信赖值
                     RegionOCRer trust_analyzer(oper.name_img);
                     if (!trust_analyzer.analyze()) {
                         Log.trace("ERROR:!trust_analyzer.analyze()");
                         break;
                     }
 
-                    std::string opertrust = trust_analyzer.get_result().text;
-                    boost::regex rule("[^0-9]"); // 只保留数字
-                    opertrust = boost::regex_replace(opertrust, rule, "");
-                    Log.trace("opertrust:", opertrust);
+                    std::string oper_trust_text = trust_analyzer.get_result().text;
+                    boost::regex trust_rule("[^0-9]");
+                    oper_trust_text = boost::regex_replace(oper_trust_text, trust_rule, "");
+                    Log.trace("oper_trust_text:", oper_trust_text);
 
-                    bool if_opertrust_not_full = false;
-                    if (!opertrust.empty()) {
-                        int trust = std::stoi(opertrust);
-                        if (trust < 200) {
-                            if_opertrust_not_full = true;
+                    bool has_incomplete_trust = false;
+                    if (!oper_trust_text.empty()) {
+                        const int trust = std::stoi(oper_trust_text);
+                        if (trust < OperFullTrustValue) {
+                            has_incomplete_trust = true;
                         }
                         else {
-                            num_of_fulltrust++;
+                            ++num_of_fulltrust;
                         }
                     }
-                    if (num_of_fulltrust >= 6) { // 所有干员都满信赖了
+                    if (num_of_fulltrust >= TrustAutofillThreshold) {
                         Log.trace("num_of_fulltrust:", num_of_fulltrust);
-                        m_next_step = NextStep::Fill;
-                        to_fill = true;
-                        if (!m_dorm_notstationed_enabled && m_if_filter_notstationed_haspressed) {
-                            click_filter_menu_cancel_not_stationed_button();
+                        m_selection_phase = SelectionPhase::FillRemaining;
+                        fill_remaining_slots = true;
+                        if (!m_notstationed_filter_enabled && m_notstationed_filter_active) {
+                            set_notstationed_filter(false);
                         }
-                        click_order_by_mood();
+                        switch_to_mood_sort();
                         break;
                     }
 
-                    // 获得干员所在设施
                     RegionOCRer facility_analyzer(oper.facility_img);
                     if (!facility_analyzer.analyze()) {
                         Log.trace("ERROR:!facility_analyzer.analyze()");
                         break;
                     }
 
-                    std::string facilityname = facility_analyzer.get_result().text;
-                    boost::regex rule2("[^BF0-9]"); // 只保留B、F和数字
-                    facilityname = boost::regex_replace(facilityname, rule2, "");
+                    std::string facility_name = facility_analyzer.get_result().text;
+                    boost::regex facility_rule("[^BF0-9]");
+                    facility_name = boost::regex_replace(facility_name, facility_rule, "");
 
-                    Log.trace("facilityname:<" + facilityname + ">");
-                    bool if_oper_not_stationed = facilityname.length() < 4; // 只有形如1F01或B101才是设施标签
+                    Log.trace("facility_name:<" + facility_name + ">");
+                    const bool is_not_stationed = facility_name.length() < ActiveFacilityNumberLength;
 
-                    // 判断要不要把人放进宿舍if_opertrust_not_full && if_oper_not_stationed
-                    if (if_opertrust_not_full && if_oper_not_stationed) {
+                    if (has_incomplete_trust && is_not_stationed) {
                         ctrler()->click(oper.rect);
                         ++num_of_selected;
                     }
                     else {
-                        Log.trace("not put oper in");
+                        Log.trace("skip trust autofill candidate");
                     }
                 }
-                // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
-                else if (++num_of_resting >= 6) {
+                else if (++num_of_resting >= RestingOperCountThreshold) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
-                    if (m_dorm_trust_enabled) {
-                        Log.trace("m_dorm_trust_enabled:", m_dorm_trust_enabled);
-                        if (!m_if_filter_notstationed_haspressed) {
-                            Log.trace("click_filter_menu_not_stationed_button");
-                            click_filter_menu_not_stationed_button();
-                            m_if_filter_notstationed_haspressed = true;
-                        }
-                        Log.trace("click_sort_by_trust_button");
-                        click_sort_by_trust_button();
-                        m_next_step = NextStep::RestDone; // 选中未进驻标签并按信赖值排序
+                    if (m_trust_autofill_enabled) {
+                        // We have exhausted the low-mood pass on this page. Switch to the
+                        // trust-autofill view and let the next iteration re-read the list.
+                        switch_to_trust_autofill_phase();
                     }
                     else {
-                        Log.trace("m_dorm_trust_enabled:", m_dorm_trust_enabled);
-                        m_next_step = NextStep::Fill;
-                        // click_filter_menu_cancel_not_stationed_button();
-                        // click_order_by_mood();
+                        m_selection_phase = SelectionPhase::FillRemaining;
                     }
                 }
                 break;
+
             case infrast::SmileyType::Work:
             case infrast::SmileyType::Distract:
-                // 干员没有被选择的情况下，且不在工作，就进驻宿舍
-                if (oper.selected == false && oper.doing != infrast::Doing::Working) {
+                if (!oper.selected && oper.doing != infrast::Doing::Working) {
                     ctrler()->click(oper.rect);
                     ++num_of_selected;
                 }
                 break;
+
             default:
                 break;
             }
-            // 按信赖排序后需要重新识图，中断循环
-            if (m_next_step == NextStep::RestDone) {
+
+            // Sorting changes the visible list order, so stop this pass and OCR again.
+            if (m_selection_phase == SelectionPhase::ResortForTrust) {
                 break;
             }
 
-            // 如果是之前设置的to_fill，走不到这里，一定是当次设置的
-            if (to_fill) {
+            if (fill_remaining_slots) {
                 swipe_of_operlist();
-                ++swipe_times;
                 break;
             }
         }
+
         if (num_of_selected >= max_num_of_opers()) {
             Log.trace("num_of_selected:", num_of_selected, ", just break");
-            // 若当前宿舍已满人，则按信赖排序后不需要跳过滑动列表
-            if (m_next_step == NextStep::RestDone) {
-                m_next_step = NextStep::Trust;
-            }
+            advance_after_trust_sort();
             break;
         }
 
-        // 若当前宿舍未满人，则按信赖排序后需要跳过一次滑动列表
-        if (m_next_step == NextStep::RestDone) {
-            m_next_step = NextStep::Trust;
+        if (m_selection_phase == SelectionPhase::ResortForTrust) {
+            advance_after_trust_sort();
         }
         else {
             swipe_of_operlist();
-            ++swipe_times;
         }
     }
 
     ProcessTask(*this, { "InfrastOperListTabMoodClick", "InfrastOperListTabWorkStatusUnClicked" }).run();
-    // if (swipe_times) swipe_to_the_left_of_operlist(swipe_times + 1);
-    // swipe_times = 0;
-    // bool review = select_opers_review(origin_room_config, num_of_selected);
-    if (m_next_step == NextStep::RestDone || m_next_step == NextStep::Trust) {
+    if (is_in_trust_autofill_phase()) {
         click_sort_by_trust_button();
     }
     else {
         ProcessTask(*this, { "InfrastOperListTabMoodClick" }).run();
     }
-    // if (!review) {
-    //     current_room_config() = origin_room_config;
-    //     return false;
-    // }
-    std::ignore = origin_room_config;
 
     return true;
 }
 
-bool asst::InfrastDormTask::click_order_by_mood()
+bool asst::InfrastDormTask::set_notstationed_filter(bool enabled)
+{
+    // 不做 early-return：即使内存标志认为筛选已处于目标状态，也必须每间宿舍
+    // 都去 UI 上复查一遍。正常跨宿舍时游戏会保持筛选设置，但如果模拟器卡顿
+    // 导致误点两次返回、退出到主界面后再重新进入基建，游戏会丢失筛选状态，
+    // 此时内存标志仍为旧值，跳过 UI 操作会导致筛选实际未生效，从而把训练室
+    // 等已进驻干员选进宿舍。
+    // 底层 click_filter_menu_not_stationed_button() 已能幂等处理「已选中」
+    // 状态（识别 InfrastFilterMenuNotStationedSelected 后直接 Stop），所以
+    // 每次都真正执行是安全的，不会对已选中的「未进驻」二次点击。
+    bool success = false;
+    if (enabled) {
+        Log.trace("click_filter_menu_not_stationed_button");
+        success = click_filter_menu_not_stationed_button();
+    }
+    else {
+        Log.trace("click_filter_menu_cancel_not_stationed_button");
+        success = click_filter_menu_cancel_not_stationed_button();
+    }
+
+    if (success) {
+        m_notstationed_filter_active = enabled;
+    }
+
+    return success;
+}
+
+bool asst::InfrastDormTask::restore_list_sort_for_selection_phase(asst::infrast::CustomRoomConfig const& room_config)
+{
+    // Custom dorm selection leaves the list sorted by mood. Restore trust sort
+    // before continuing trust autofill in the same room flow.
+    if (room_config.autofill && m_trust_autofill_enabled && is_in_trust_autofill_phase()) {
+        Log.trace("click_sort_by_trust_button");
+        return click_sort_by_trust_button();
+    }
+
+    return true;
+}
+
+bool asst::InfrastDormTask::switch_to_mood_sort()
 {
     return ProcessTask(*this, { "InfrastOperListTabMoodDoubleClickWhenUnclicked", "Stop" }).run();
 }
 
-// bool asst::InfrastDormTask::click_confirm_button()
-//{
-//     LogTraceFunction;
-//
-//     ProcessTask task(*this, { "InfrastDormConfirmButton" });
-//     return task.run();
-// }
+void asst::InfrastDormTask::switch_to_trust_autofill_phase()
+{
+    Log.trace("m_trust_autofill_enabled:", m_trust_autofill_enabled);
+    set_notstationed_filter(true);
+    Log.trace("click_sort_by_trust_button");
+    click_sort_by_trust_button();
+    m_selection_phase = SelectionPhase::ResortForTrust;
+}
+
+void asst::InfrastDormTask::advance_after_trust_sort()
+{
+    if (m_selection_phase == SelectionPhase::ResortForTrust) {
+        m_selection_phase = SelectionPhase::TrustAutofill;
+    }
+}
+
+bool asst::InfrastDormTask::is_in_trust_autofill_phase() const noexcept
+{
+    return m_selection_phase == SelectionPhase::ResortForTrust || m_selection_phase == SelectionPhase::TrustAutofill;
+}

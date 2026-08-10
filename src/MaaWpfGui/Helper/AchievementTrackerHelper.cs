@@ -16,13 +16,13 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Threading;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Threading;
 using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Tools.Command;
@@ -568,7 +568,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
     public void CheckTimeManagementMaster()
     {
         var timerSettings = SettingsViewModel.TimerSettings;
-        if (timerSettings.TimerModels.Timers.Any(timer => timer.IsOn != true))
+        if (timerSettings.TimerList.Any(timer => timer.IsEnabled != true))
         {
             return;
         }
@@ -691,7 +691,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
         FeatureExploration(id: AchievementIds.Pioneer2, group: AchievementIds.PioneerGroup, isHidden: true, groupIndex: 2), // 将 MAA 更新至内测版（隐藏）
         FeatureExploration(id: AchievementIds.Pioneer3, group: AchievementIds.PioneerGroup, isHidden: true, groupIndex: 3), // 使用未发布版本的 MAA（隐藏）
 
-        FeatureExploration(id: AchievementIds.MosquitoLeg, target: 5), // 使用「借助战打 OF-1」功能超过 5 次
+        FeatureExploration(id: AchievementIds.MosquitoLeg, target: 5), // 使用 ｢借助战打 OF-1｣ 功能超过 5 次
         FeatureExploration(id: AchievementIds.RealGacha, isHidden: true), // 真正的抽卡
         FeatureExploration(id: AchievementIds.PeekScreen, isHidden: true), // 窥屏
         FeatureExploration(id: AchievementIds.CustomizationMaster, isHidden: true), // 自定义背景

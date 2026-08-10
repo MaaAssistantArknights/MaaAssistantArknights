@@ -222,3 +222,6 @@ dotnet_diagnostic.SA1500.severity = none
 # SA1513: Closing brace should be followed by blank line
 # Allow compact code style
 dotnet_diagnostic.SA1513.severity = none
+
+# SA1623: Property summary documentation should match accessors
+dotnet_diagnostic.SA1623.severity = none

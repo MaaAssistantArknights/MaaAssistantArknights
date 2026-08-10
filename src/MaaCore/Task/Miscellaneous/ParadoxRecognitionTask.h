@@ -25,7 +25,7 @@ private:
 public:
     using AbstractTask::AbstractTask;
     virtual ~ParadoxRecognitionTask() override = default;
-    void add_oper(const std::string& navigate_name);
+    void add_file(int id, const std::string& navigate_name);
 
     void set_battle_task_ptr(const std::shared_ptr<BattleProcessTask>& ptr) { m_battle_task_ptr = ptr; }
 
@@ -40,7 +40,7 @@ private:
     static std::string standardize_name(const std::string& navigate_name);
     void enter_paradox(int skill_num, int rarity) const; // 进悖论模拟
 
-    std::vector<std::string> m_paradox_opers;
+    std::vector<std::pair<int, std::string>> m_paradox_files;
     OperName m_oper_name {};
     std::string m_navigate_name;
     asst::Rect m_navigate_rect;

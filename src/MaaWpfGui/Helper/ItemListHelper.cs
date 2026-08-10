@@ -20,7 +20,9 @@ using System.IO;
 using System.Text.Json;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Models;
 using Serilog;
 
@@ -28,13 +30,26 @@ namespace MaaWpfGui.Helper;
 
 public static class ItemListHelper
 {
-    public static Dictionary<string, ArkItem> ArkItems { get; }
+    public static Dictionary<string, ArkItem> ArkItems { get; private set; }
 
     private static readonly ILogger _logger = Log.ForContext("SourceContext", "ItemListHelper");
 
     static ItemListHelper()
     {
-        var language = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+        ArkItems = LoadItems();
+    }
+
+    /// <summary>
+    /// 重新加载物品列表（语言切换时调用）。
+    /// </summary>
+    public static void Reload()
+    {
+        ArkItems = LoadItems();
+    }
+
+    private static Dictionary<string, ArkItem> LoadItems()
+    {
+        var language = ConfigFactory.Root.Gui.Localization;
         string filename = string.Empty;
         switch (language)
         {
@@ -46,7 +61,7 @@ public static class ItemListHelper
                 break;
 
             default:
-                filename = Path.Combine(PathsHelper.ResourceDir, "global", DataHelper.ClientDirectoryMapper[language], "resource", "item_index.json");
+                filename = Path.Combine(PathsHelper.ResourceDir, "global", DataHelper.ClientDirectoryMapper[language].ToCustomString(), "resource", "item_index.json");
                 break;
         }
 
@@ -54,9 +69,8 @@ public static class ItemListHelper
 
         if (File.Exists(filename) is false)
         {
-            ArkItems = tempItems;
             _logger.Warning("Item list file not found: {Filename}", filename);
-            return;
+            return tempItems;
         }
 
         try
@@ -70,7 +84,7 @@ public static class ItemListHelper
             _logger.Error(e, "Failed to load item list from {filename}", filename);
         }
 
-        ArkItems = tempItems ?? new Dictionary<string, ArkItem>();
+        return tempItems ?? [];
     }
 
     /// <summary>
@@ -82,7 +96,7 @@ public static class ItemListHelper
     {
         return ArkItems.TryGetValue(itemId, out var item)
             ? item.Name
-            : null;
+            : itemId;
     }
 
     private static readonly ConcurrentDictionary<string, BitmapSource?> _imageCache = new();

@@ -20,18 +20,21 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Tools;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Serilog;
 using Stylet;
+using Point = System.Windows.Point;
 
 namespace MaaWpfGui.ViewModels.UI;
 
@@ -47,6 +50,12 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
         InitViewModels();
         _ = InitProxy();
+
+        // 宿醉彩蛋弹窗依赖 RootView 已渲染完毕的 Dialog 容器，
+        // 必须在主窗口显示之后再弹出，否则弹不出
+        // 必须在其他内容初始化之前执行，否则其他内容语言可能已经被初始化为非宿醉语言
+        Instances.SettingsViewModel.HangoverEnd();
+
         ShowVersionMismatchWarningOnStartup();
         if (SettingsViewModel.VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly &&
             !SettingsViewModel.VersionUpdateSettings.HasAcknowledgedNightlyWarning)
@@ -90,10 +99,16 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
 
     private static void ToastNotificationCheck()
     {
+        if (!SettingsViewModel.GuiSettings.UseNotify)
+        {
+            return;
+        }
+
         var (isAvailable, detail) = ToastNotification.ToastNotificationCheck();
         if (!isAvailable)
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail), UiLogColor.Error);
+            Growl.Error(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail));
+            _logger.Error(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail));
         }
     }
 
@@ -208,27 +223,15 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         }
     }
 
-    private bool _windowTitleScrollable = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.WindowTitleScrollable, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to scroll the window title.
     /// </summary>
-    public bool WindowTitleScrollable
-    {
-        get => _windowTitleScrollable;
-        set => SetAndNotify(ref _windowTitleScrollable, value);
-    }
-
-    private bool _showCloseButton = !ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HideCloseButton, false);
+    public bool WindowTitleScrollable { get; set => SetAndNotify(ref field, value); } = ConfigFactory.Root.Gui.WindowTitleScrollable;
 
     /// <summary>
     /// Gets or sets a value indicating whether to show close button.
     /// </summary>
-    public bool ShowCloseButton
-    {
-        get => _showCloseButton;
-        set => SetAndNotify(ref _showCloseButton, value);
-    }
+    public bool ShowCloseButton { get; set => SetAndNotify(ref field, value); } = !ConfigFactory.Root.Gui.HideCloseButton;
 
     private bool _isWindowTopMost;
 
@@ -265,7 +268,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     }
 
     [UsedImplicitly]
-    public void ManualPackageDrop(object sender, DragEventArgs e)
+    public async void ManualPackageDrop(object sender, DragEventArgs e)
     {
         if (!TryGetDroppedZipFile(e, out string packagePath))
         {
@@ -274,7 +277,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
 
         _logger.Information("Dropped zip file detected in main window: {PackagePath}", packagePath);
         e.Handled = true;
-        HandleImportedPackage(packagePath);
+        await HandleImportedPackageAsync(packagePath);
     }
 
     /// <inheritdoc/>
@@ -317,7 +320,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         return true;
     }
 
-    private static void HandleImportedPackage(string packagePath)
+    private static async Task HandleImportedPackageAsync(string packagePath)
     {
         string currentVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
         string architecture = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
@@ -325,31 +328,71 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             ? "arm64"
             : "x64";
 
-        PendingUpdateApplier.FullPackageInspectionResult fullPackageInspection =
-            PendingUpdateApplier.InspectSupportedLocalFullPackage(packagePath, currentVersion, architecture);
-
-        if (fullPackageInspection.IsSupported
-            && !Dialogs.VersionUpdateDialogViewModel.ConfirmFullPackageUpdate(packagePath))
+        try
         {
-            _logger.Information("Dropped full package import canceled by user before registration: {PackagePath}", packagePath);
-            return;
-        }
+            PendingUpdateApplier.PackageInspectionResult packageInspection =
+                PendingUpdateApplier.InspectLocalUpdatePackage(packagePath, currentVersion, architecture);
 
-        var importResult = PendingUpdateApplier.TryRegisterLocalPackage(
-            packagePath,
-            currentVersion,
-            architecture,
-            fullPackageInspection);
-        _logger.Information(
-            "Dropped zip import result: status={Status}, sourceVersion={SourceVersion}, targetVersion={TargetVersion}",
-            importResult.Status,
-            importResult.SourceVersion,
-            importResult.TargetVersion);
+#if DEBUG
+            // Debug 专用：Ctrl+Shift 拖入时只做检测判断，不实际注册，用于快速验证正则匹配
+            if (Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift))
+            {
+                await DebugInspectDroppedPackageAsync(packagePath, packageInspection, currentVersion, normalizedArchitecture);
+                return;
+            }
+#endif
 
-        switch (importResult.Status)
-        {
-            case PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered:
-            case PendingUpdateApplier.LocalPackageImportStatus.FullPackageRegistered:
+            // 不是版本更新包文件名模式时，尝试作为资源更新包导入（需读取 zip entry，开销较高）
+            if (!packageInspection.MatchedPattern)
+            {
+                // zip 扫描开销较高（万级 entry），放到后台线程避免卡 UI
+                var (isResourcePackage, resourceDateTime) = await Task.Run(() =>
+                {
+                    bool result = ResourceUpdater.IsResourcePackage(packagePath, out DateTimeOffset dt);
+                    return (result, dt);
+                });
+
+                if (isResourcePackage)
+                {
+                    _logger.Information("Dropped package detected as resource package: {PackagePath}", packagePath);
+                    _ = ResourceUpdater.ImportLocalResourcePackageAndReloadAsync(packagePath, resourceDateTime);
+                    return;
+                }
+
+                ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
+                return;
+            }
+
+            // 版本更新包模式匹配，但架构或版本方向被拒
+            if (!packageInspection.IsSupported)
+            {
+                ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
+                return;
+            }
+
+            // 完整包覆盖安装需用户二次确认（OTA 增量包不需要）
+            if (packageInspection.Status == PendingUpdateApplier.PackageInspectionStatus.FullSupported
+                && !Dialogs.VersionUpdateDialogViewModel.ConfirmFullPackageUpdate(packagePath))
+            {
+                _logger.Information("Dropped full package import canceled by user before registration: {PackagePath}", packagePath);
+                return;
+            }
+
+            var importResult = PendingUpdateApplier.TryRegisterLocalPackage(
+                packagePath,
+                currentVersion,
+                architecture,
+                packageInspection);
+            _logger.Information(
+                "Dropped zip import result: status={Status}, sourceVersion={SourceVersion}, targetVersion={TargetVersion}",
+                importResult.Status,
+                importResult.SourceVersion,
+                importResult.TargetVersion);
+
+            if (importResult.Status
+                is PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered
+                or PendingUpdateApplier.LocalPackageImportStatus.FullPackageRegistered)
+            {
                 string targetVersion = importResult.TargetVersion ?? string.Empty;
                 bool preserveExistingUpdateInfo = PendingUpdateApplier.ShouldPreserveExistingUpdateBody(targetVersion);
                 Instances.VersionUpdateDialogViewModel.UpdateTag = targetVersion;
@@ -365,18 +408,81 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
                     importResult.Status);
                 _ = Instances.VersionUpdateDialogViewModel.AskToRestartForImportedPackage();
                 return;
+            }
 
-            default:
-                _logger.Warning("Showing unsupported package warning for dropped package: {PackagePath}", packagePath);
-                MessageBoxHelper.Show(
-                    LocalizationHelper.GetStringFormat("LocalUpdatePackageUnsupported", Path.GetFileName(packagePath), currentVersion, normalizedArchitecture),
-                    LocalizationHelper.GetString("Warning"),
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning,
-                    ok: LocalizationHelper.GetString("Ok"));
-                return;
+            ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to handle imported package: {PackagePath}", packagePath);
+            ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
         }
     }
+
+    private static void ShowUnsupportedPackageWarning(string packagePath, string currentVersion, string normalizedArchitecture)
+    {
+        _logger.Warning("Showing unsupported package warning for dropped package: {PackagePath}", packagePath);
+        MessageBoxHelper.Show(
+            LocalizationHelper.GetStringFormat("LocalUpdatePackageUnsupported", Path.GetFileName(packagePath), currentVersion, normalizedArchitecture),
+            LocalizationHelper.GetString("Warning"),
+            MessageBoxButton.OK,
+            MessageBoxImage.Warning,
+            ok: LocalizationHelper.GetString("Ok"));
+    }
+
+#if DEBUG
+    /// <summary>
+    /// Debug 专用：展示拖入包的检测结果（状态、版本、架构），不执行注册或解压。
+    /// 触发方式：按住 Ctrl+Shift 拖入 zip。
+    /// </summary>
+    private static async Task DebugInspectDroppedPackageAsync(
+        string packagePath,
+        PendingUpdateApplier.PackageInspectionResult inspection,
+        string currentVersion,
+        string normalizedArchitecture)
+    {
+        var (isResource, resourceDateTime) = await Task.Run(() =>
+        {
+            bool ok = ResourceUpdater.IsResourcePackage(packagePath, out var dt);
+            return (ok, dt);
+        });
+
+        string detail = string.Format(
+            """
+            [DebugInspectDroppedPackage] 仅检测，不注册
+
+            文件: {0}
+            当前版本: {1}
+            当前架构: {2}
+
+            检测状态: {3}
+            MatchedPattern: {4}
+            IsSupported: {5}
+            SourceVersion: {6}
+            TargetVersion: {7}
+
+            是资源包: {8}
+            资源包版本: {9}
+            """,
+            Path.GetFileName(packagePath),
+            currentVersion,
+            normalizedArchitecture,
+            inspection.Status,
+            inspection.MatchedPattern,
+            inspection.IsSupported,
+            inspection.SourceVersion ?? "(null)",
+            inspection.TargetVersion ?? "(null)",
+            isResource,
+            isResource ? resourceDateTime.ToLocalTimeString() : "—");
+
+        _logger.Information("DebugInspectDroppedPackage:\n{Detail}", detail);
+        MessageBoxHelper.Show(
+            detail,
+            "DebugInspectDroppedPackage",
+            MessageBoxButton.OK,
+            MessageBoxImage.Information);
+    }
+#endif
 
     public string GifPath
     {

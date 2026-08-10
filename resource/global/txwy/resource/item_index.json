@@ -1175,6 +1175,14 @@
         "sortId": 10322,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_6701": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_6701.png",
+        "name": "尋訪數據契約",
+        "sortId": 10323,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_903": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -1630,6 +1638,14 @@
         "name": "積點卡券",
         "sortId": -10000,
         "usage": "關卡首通獎勵，用於在博物館兌換台換取獎勵，首通後重複通關無法再次獲得。"
+    },
+    "act1autochess_token_chess": {
+        "classifyType": "NONE",
+        "description": "羅德島工坊為參與衛戍協議的幹員準備的勛章，帶有磁性，聽說集齊一定數量便可合成一個堡壘棋子。",
+        "icon": "act1autochess_token_chess.png",
+        "name": "衛戍認證",
+        "sortId": -10000,
+        "usage": "用於在衛戍協議中兌換各類物資。"
     },
     "act1bossrush_milestone_point": {
         "classifyType": "NONE",
@@ -2255,6 +2271,30 @@
         "sortId": -10000,
         "usage": "美輪美奐的夢境拼圖碎片。碎片遍布城堡的各個角落，將其悉心收集起來，可以拼湊出一幅幅定格美夢的畫面。"
     },
+    "act46side_token_detector": {
+        "classifyType": "NONE",
+        "description": "萊茵生命研發的專用於謝拉格境內的探測儀器，用來收集這片神秘雪境的各種資料，在低溫環境下也能保持穩定性。“神話只是未明緣由的現實，科學總有一天會扯下祂的面紗。”——埃琳娜堅定地相信著。",
+        "icon": "act46side_token_detector.png",
+        "name": "雪地用多功能探測器",
+        "sortId": -10000,
+        "usage": "因雪崩而散落在各處的多功能探測儀器，撿到的話請交回觀測站，工作人員會用實際物資表示感謝。"
+    },
+    "act47side_token_bottle": {
+        "classifyType": "NONE",
+        "description": "只是在豐蹄能量飲料的基礎上微調了香精比例的廉價糖水？誰在乎呢。如今，只有那些想不到把產品裝進火箭瓶子的可悲破產廠商，才會酸澀地吐出這種無趣的事實。",
+        "icon": "act47side_token_bottle.png",
+        "name": "天空氧氣瓶",
+        "sortId": -10000,
+        "usage": "以高空供氧裝置為靈感設計的新概念飲品，已然成為哥倫比亞人新的血液。為了品嚐一口新時代的、星莢之外的味道，沒有誰不願開出高價。"
+    },
+    "act48side_token_ostracon": {
+        "classifyType": "NONE",
+        "description": "即使如今人們手中已擁有了安裝著各種程式的終端，在投票這件事上，米諾斯人依然選擇遵循古法。",
+        "icon": "act48side_token_ostracon.png",
+        "name": "投票用的陶片",
+        "sortId": -10000,
+        "usage": "雅賽努斯公民在投票時的必備品。至於用過的陶片該如何處理？理事官辦公室決定收集起來，將其放入精美的包裝內，販賣給來到雅賽努斯的遊客。這項創新的作法獲得了各方的好評。"
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
@@ -2374,6 +2414,14 @@
         "name": "元宵通寶",
         "sortId": -10000,
         "usage": "在年關過後搜集到的道具，可以用來兌換報酬。"
+    },
+    "act7collection_point_token": {
+        "classifyType": "NONE",
+        "description": "為了激勵在各項集成戰略行動中表現傑出的外勤人員，羅德島發送了一定數量的特殊獎勵兌換點數，使用兌換點數可兌換急需的物資。",
+        "icon": "act7collection_point_token.png",
+        "name": "“戰略家”點數",
+        "sortId": -10000,
+        "usage": "用於兌換相應的階段性活動獎勵。"
     },
     "act7d5_point_coupon": {
         "classifyType": "NONE",
@@ -2695,6 +2743,22 @@
         "sortId": -10000,
         "usage": "一份精心準備的試喝套組，可兌換龍門幣。"
     },
+    "itempack_leaf_def": {
+        "classifyType": "NONE",
+        "description": "開創獨屬於你的潮流。",
+        "icon": "itempack_leaf_def.png",
+        "name": "特輯/羅德島風尚",
+        "sortId": -10000,
+        "usage": "形藝特輯的預設主題內包含的特輯封面和收藏貼，可用於快速完成版面編輯。"
+    },
+    "itempack_leaf_def2": {
+        "classifyType": "NONE",
+        "description": "為今日風采譜寫全新曲目。",
+        "icon": "itempack_leaf_def2.png",
+        "name": "特輯/串流媒體",
+        "sortId": -10000,
+        "usage": "形藝特輯的預設主題內包含的特輯封面和收藏貼，可用於快速完成版面編輯。"
+    },
     "itempack_main_1": {
         "classifyType": "NONE",
         "description": "配發理智樣品的材料補給箱，在恢復理智的同時還能獲得一種隨機材料。",
@@ -2791,6 +2855,62 @@
         "sortId": -10000,
         "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據重裝幹員們的需求，可以輕鬆印刻出晶片組合。"
     },
+    "itempack_recruit_1": {
+        "classifyType": "NONE",
+        "description": "活動即宣傳，因此這段時間人事部業務繁忙也是情有可原，記住了，你欠■■■一個人情。",
+        "icon": "itempack_recruit_1.png",
+        "name": "2026感謝慶典招聘補給",
+        "sortId": -10000,
+        "usage": "為滿足招募需求而準備的人力資源包，供相關人員透過公開管道大量招募幹員。"
+    },
+    "itempack_stickers_rog1": {
+        "classifyType": "NONE",
+        "description": "一場氣勢恢宏的演出。",
+        "icon": "itempack_stickers_rog1.png",
+        "name": "貼紙包/猩紅孤鑽",
+        "sortId": -10000,
+        "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
+    },
+    "itempack_stickers_rog2": {
+        "classifyType": "NONE",
+        "description": "潮風在呼喚你前去旅行。",
+        "icon": "itempack_stickers_rog2.png",
+        "name": "貼紙包/深藍之樹",
+        "sortId": -10000,
+        "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
+    },
+    "itempack_stickers_rog3": {
+        "classifyType": "NONE",
+        "description": "追尋寒風中的神秘之美。",
+        "icon": "itempack_stickers_rog3.png",
+        "name": "貼紙包/銀淞止境",
+        "sortId": -10000,
+        "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
+    },
+    "itempack_stickers_rog4": {
+        "classifyType": "NONE",
+        "description": "大地見證薩卡茲的絢爛之姿。",
+        "icon": "itempack_stickers_rog4.png",
+        "name": "貼紙包/無終奇語",
+        "sortId": -10000,
+        "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
+    },
+    "itempack_stickers_rog5": {
+        "classifyType": "NONE",
+        "description": "山水何靈秀，遊人醉不休。",
+        "icon": "itempack_stickers_rog5.png",
+        "name": "貼紙包/界園志異",
+        "sortId": -10000,
+        "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
+    },
+    "itempack_stickers_sand1": {
+        "classifyType": "NONE",
+        "description": "欣賞荒漠與綠洲交織出的藝術。",
+        "icon": "itempack_stickers_sand1.png",
+        "name": "貼紙包/沙洲遺聞",
+        "sortId": -10000,
+        "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
+    },
     "main16_spitem_1": {
         "classifyType": "NORMAL",
         "description": "從前，人們說苦難自它的出現萌生；如今，人們說悲劇從它的消失肇始。",
@@ -2854,6 +2974,14 @@
         "name": "數據增補儀",
         "sortId": 90002,
         "usage": "用於升級幹員的模組。"
+    },
+    "precious_material_voucher_perm": {
+        "classifyType": "CONSUME",
+        "description": "為應對加工時部分材料緊缺的問題，採購部發行了提貨券供幹員們自行取用所需的材料。",
+        "icon": "precious_material_voucher_perm.png",
+        "name": "稀有材料提貨券",
+        "sortId": 60004,
+        "usage": "羅德島採購部特別發行的提貨券，憑此券可領取一份稀有品質的精英材料。"
     },
     "premium_material_issue_voucher": {
         "classifyType": "CONSUME",
@@ -3071,6 +3199,14 @@
         "sortId": 60106,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
+    "randomMaterial_6d5": {
+        "classifyType": "CONSUME",
+        "description": "羅德島從各地採購、儲備的材料補給箱。不過因為缺乏系統性的整理收納，每一個箱子裡都裝著截然不同的材料。",
+        "icon": "randomMaterial_6d5.png",
+        "name": "2026感謝慶典物資補給",
+        "sortId": 60117,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
     "randomMaterial_7": {
         "classifyType": "CONSUME",
         "description": "羅德島從各地採購、儲備的材料補給箱。不過因為缺乏系統性的整理收納，每一個箱子裡都裝著截然不同的材料。",
@@ -3111,6 +3247,14 @@
         "sortId": 60116,
         "usage": "裝有銃械工坊送來的各種物資補給，包含多種隨機材料。"
     },
+    "randomMaterial_act46side": {
+        "classifyType": "CONSUME",
+        "description": "維多利亞在謝拉格大量投放的物資包，上面用維多利亞語和謝拉格語寫著“偉大的耶拉岡德護佑維多利亞與謝拉格友誼長存”。",
+        "icon": "randomMaterial_act46side.png",
+        "name": "緊急避難包",
+        "sortId": 60118,
+        "usage": "用於雪災救援的物資補給包，包含多種隨機材料。"
+    },
     "randomMaterial_amiya": {
         "classifyType": "CONSUME",
         "description": "裡面不僅裝著各種物資，還有大家對小壽星最真誠的祝願。",
@@ -3126,6 +3270,14 @@
         "name": "查訪補給",
         "sortId": 60115,
         "usage": "不知何人將其交予你，裝有各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterial_message1": {
+        "classifyType": "CONSUME",
+        "description": "在模型的一側簽有諾希斯和恩希歐迪斯的名字。很顯然，放眼整片大地，這樣的模型不會有第二座。值得一提的是，隨模型一起送來的，還有一個帶有蔓珠院標誌的盒子，盒子裡放著各種可以擺在模型上的小人——都是你認識的人。這讓人不禁覺得，用它來兌換龍門幣有點可惜。",
+        "icon": "randomMaterial_message1.png",
+        "name": "一號計劃決定版",
+        "sortId": 60119,
+        "usage": "一座高速戰艦的模型，可兌換龍門幣。"
     },
     "randomMaterial_rhine2": {
         "classifyType": "CONSUME",

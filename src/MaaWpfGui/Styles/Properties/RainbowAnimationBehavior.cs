@@ -64,7 +64,7 @@ public static class RainbowAnimationBehavior
             return;
         }
 
-        Brush brush = element switch
+        Brush? brush = element switch
         {
             TextBlock tb => tb.Foreground,
             Control ctrl => ctrl.Foreground,

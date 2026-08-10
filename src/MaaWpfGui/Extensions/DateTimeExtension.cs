@@ -15,7 +15,8 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Extensions;
@@ -24,16 +25,16 @@ public static class DateTimeExtension
 {
     private const int YjDayStartHour = 4;
 
-    private static string ClientType => ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, Constants.Enums.ClientType.Official);
+    private static ClientType ClientType => ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType;
 
-    private static readonly Dictionary<string, int> _clientTypeTimezone = new()
+    private static readonly Dictionary<ClientType, int> _clientTypeTimezone = new()
     {
-        { Constants.Enums.ClientType.Official, 8 },
-        { Constants.Enums.ClientType.Bilibili, 8 },
-        { Constants.Enums.ClientType.Txwy, 8 },
-        { Constants.Enums.ClientType.EN, -7 },
-        { Constants.Enums.ClientType.JP, 9 },
-        { Constants.Enums.ClientType.KR, 9 },
+        { ClientType.Official, 8 },
+        { ClientType.Bilibili, 8 },
+        { ClientType.Txwy, 8 },
+        { ClientType.EN, -7 },
+        { ClientType.JP, 9 },
+        { ClientType.KR, 9 },
     };
 
     public static DateTime ToYjDateTime(this DateTime dt)
@@ -51,9 +52,20 @@ public static class DateTimeExtension
         return dt.ToOffset(TimeSpan.FromHours(_clientTypeTimezone[ClientType])).AddHours(-YjDayStartHour);
     }
 
+    public static string ToFormattedString(this DateTimeOffset dt)
+    {
+        return dt.ToString("yyyy/MM/dd HH:mm:ss zzz", DateTimeFormatInfo.InvariantInfo);
+    }
+
     public static string ToFormattedString(this DateTime dt)
     {
         return dt.ToString("yyyy/MM/dd HH:mm:ss", DateTimeFormatInfo.InvariantInfo);
+    }
+
+    public static bool IsAprilFoolsDay(this DateTimeOffset dt)
+    {
+        // return true;
+        return dt is { Month: 4, Day: 1 };
     }
 
     public static bool IsAprilFoolsDay(this DateTime dt)

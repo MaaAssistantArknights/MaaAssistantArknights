@@ -111,30 +111,30 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
 
 :::: steps
 
-1. `Bluestacks.Config.Keyword` 지정
+1. `ConfigKeyword` 지정
 
    ::: info 주의
    멀티 인스턴스 기능을 활성화했거나 여러 에뮬레이터 코어를 설치한 경우, 사용 중인 에뮬레이터 번호를 지정해야 합니다.
    :::
 
-   `.\config\gui.json`에서 `Bluestacks.Config.Keyword` 필드를 검색합니다. 내용은 `"bst.instance.<에뮬레이터 번호>.status.adb_port"`입니다. 에뮬레이터 번호는 에뮬레이터 경로의 `BlueStacks_nxt\Engine`에서 확인할 수 있습니다.
+   `gui.new.json`에서 현재 구성 이름 필드(설정-구성 전환에서 확인할 수 있으며, 기본값은 `Default`입니다) 아래의 `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigKeyword` 필드를 찾습니다. 내용은 `"bst.instance.<에뮬레이터 번호>.status.adb_port"`입니다. 에뮬레이터 번호는 에뮬레이터 경로의 `BlueStacks_nxt\Engine`에서 확인할 수 있습니다.
 
    ::: details 예시
    Nougat64 코어：
 
    ```json
-   "Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
+   "ConfigKeyword": "bst.instance.Nougat64.status.adb_port"
    ```
 
    Pie64_2 코어：（코어 이름 뒤의 숫자는 멀티 인스턴스 코어를 나타냅니다）
 
    ```json
-   "Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
+   "ConfigKeyword": "bst.instance.Pie64_2.status.adb_port"
    ```
 
    :::
 
-2. `Bluestacks.Config.Path` 지정
+2. `ConfigPath` 지정
 
    ::: info 주의
    MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어오려고 시도합니다. 이 기능이 작동하지 않을 경우 수동으로 구성 파일 경로를 지정해야 합니다.
@@ -146,7 +146,7 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
       참고: `C:\ProgramData`는 숨겨진 디렉터리입니다. 필요한 경우, 파일 탐색기의 주소 표시줄에 이 주소를 직접 붙여넣어 접근하세요.
 
    2. 처음 사용하는 경우, MAA를 한 번 실행하여 MAA가 자동으로 구성 파일을 생성하게 합니다.
-   3. **MAA를 종료**한 후, `gui.json`을 열어 `Configurations` 아래의 현재 구성 이름 필드를 찾습니다(설정-구성 전환에서 확인할 수 있으며, 기본값은 `Default`입니다). 그 안에서 `Bluestacks.Config.Path` 필드를 찾아 `bluestacks.conf`의 전체 경로를 입력합니다. (슬래시를 이스케이프 `\\`해서 사용해야 합니다.)
+   3. **MAA를 종료**한 후, `gui.new.json`을 열어 현재 구성 이름 필드(설정-구성 전환에서 확인할 수 있으며, 기본값은 `Default`입니다) 아래의 `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigPath` 필드를 찾아 `bluestacks.conf`의 전체 경로를 입력합니다. (슬래시를 이스케이프 `\\`해서 사용해야 합니다.)
 
    ::: details 예시
    `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 경로 예시
@@ -155,8 +155,15 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
    {
      "Configurations": {
        "Default": {
-         "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
-         // 다른 구성 필드, 수동으로 입력하지 마세요.
+         "Gui": {
+           "ConnectSettings": {
+             "Extras": {
+               "BluestacksExtra": {
+                 "ConfigPath": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
+               }
+             }
+           }
+         }
        }
      }
    }

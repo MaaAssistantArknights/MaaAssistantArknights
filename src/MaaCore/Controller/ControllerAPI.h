@@ -19,6 +19,9 @@ enum class ControllerType
     Win32,
 #endif
     MaaFwAdb,
+#if ASST_WITH_EMULATOR_EXTRAS
+    Mumu,
+#endif
 #ifdef __ANDROID__
     MaaFwAndroidNative,
 #endif

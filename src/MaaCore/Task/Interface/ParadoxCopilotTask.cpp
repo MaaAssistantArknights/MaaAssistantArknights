@@ -15,7 +15,7 @@ asst::ParadoxCopilotTask::ParadoxCopilotTask(const AsstCallback& callback, Assis
 {
     m_paradox_task_ptr->set_battle_task_ptr(m_battle_task_ptr);
     m_battle_task_ptr->set_retry_times(0);
-    m_stop_task_ptr->set_tasks({ "Copilot@WaitUntilEndOfAction" });
+    m_stop_task_ptr->set_tasks({ "Copilot@WaitUntilEndOfAction-Bypass" });
     m_start_task_ptr->set_tasks({ "BattleStartAll" }).set_retry_times(3).set_ignore_error(false);
 
     /*
@@ -50,12 +50,23 @@ bool asst::ParadoxCopilotTask::set_params(const json::value& params)
         return true;
     }
 
-    auto batch_opt = params.find<std::vector<std::string>>("list");
-    if (batch_opt) {
+    if (auto batch_opt = params.find<std::vector<CopilotConfig>>("list")) {
         m_battle_task_ptr->set_wait_until_end(true);
         m_subtasks.reserve(batch_opt->size() * 4);
         for (const auto& item : *batch_opt) {
-            m_paradox_task_ptr->add_oper(item);
+            m_paradox_task_ptr->add_file(item.id, item.filename);
+            m_subtasks.emplace_back(m_paradox_task_ptr);
+            m_subtasks.emplace_back(m_start_task_ptr);
+            m_subtasks.emplace_back(m_battle_task_ptr);
+            m_subtasks.emplace_back(m_stop_task_ptr);
+        }
+        return true;
+    }
+    else if (auto old_batch_opt = params.find<std::vector<std::string>>("list"); old_batch_opt) {
+        m_battle_task_ptr->set_wait_until_end(true);
+        m_subtasks.reserve(old_batch_opt->size() * 4);
+        for (const auto& filename : *old_batch_opt) {
+            m_paradox_task_ptr->add_file(-1, filename);
             m_subtasks.emplace_back(m_paradox_task_ptr);
             m_subtasks.emplace_back(m_start_task_ptr);
             m_subtasks.emplace_back(m_battle_task_ptr);

@@ -9,6 +9,7 @@
 #include "Task/Fight/SideStoryReopenTask.h"
 #include "Task/Fight/StageDropsTaskPlugin.h"
 #include "Task/Fight/StageNavigationTask.h"
+#include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include <ranges>
@@ -34,6 +35,7 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst) :
         .set_times_limit("PRTS3", 0)
         .set_times_limit("EndOfAction", 0)
         .set_retry_times(5);
+    m_start_up_task_ptr->register_plugin<ScreenshotTaskPlugin>();
 
     m_stage_navigation_task_ptr->set_fight_task_ptr(m_fight_task_ptr);
     m_stage_navigation_task_ptr->set_enable(false).set_retry_times(0);
@@ -89,7 +91,9 @@ bool asst::FightTask::set_params(const json::value& params)
     const int series = params.get("series", 1);
 
     m_fight_times_prt->set_fight_times(times);
-    if (series < -1 || series > 6) {
+
+    bool is_new_series_list = Task.get("FightSeries-OldMethodFlag") == nullptr;
+    if (series < -1 || (series > 10 && is_new_series_list) || (series > 6 && !is_new_series_list)) {
         Log.error("Invalid series");
         return false;
     }

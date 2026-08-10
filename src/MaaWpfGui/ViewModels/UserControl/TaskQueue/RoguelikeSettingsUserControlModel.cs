@@ -17,11 +17,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -40,13 +43,14 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     static RoguelikeSettingsUserControlModel()
     {
         Instance = new();
+        Instances.AsstProxy.AsstSubTaskMsgEvent += Instance.ProcSubTaskMsg;
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     public static RoguelikeSettingsUserControlModel Instance { get; }
 
     public void InitRoguelike()
     {
-        GenerateRoguelikeThemeList();
         UpdateRoguelikeParams();
     }
 
@@ -59,15 +63,6 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         UpdateRoguelikeSquadList();
         UpdateRoguelikeStartWithAllDict();
         UpdateRoguelikeCoreCharList();
-    }
-
-    private void GenerateRoguelikeThemeList()
-    {
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = Theme.Phantom });
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = Theme.Mizuki });
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = Theme.Sami });
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = Theme.Sarkaz });
-        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeJieGarden"), Value = Theme.JieGarden });
     }
 
     private void UpdateRoguelikeDifficultyList()
@@ -93,7 +88,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         }
 
         // 验证当前选中的难度是否在新列表中
-        RoguelikeDifficulty = RoguelikeDifficultyList.Any(item => item.Value == RoguelikeDifficulty) ? difficulty : -1;
+        RoguelikeDifficulty = RoguelikeDifficultyList.Any(item => item.Value == difficulty) ? difficulty : -1;
+        NotifyOfPropertyChange(nameof(RoguelikeDifficulty));
     }
 
     private static int GetMaxDifficultyForTheme(Theme theme) => theme switch {
@@ -302,7 +298,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                         continue;
                     }
 
-                    if (!DataHelper.IsCharacterAvailableInClient(name, SettingsViewModel.GameSettings.ClientType))
+                    if (!DataHelper.IsCharacterAvailableInClient(name, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
                     {
                         continue;
                     }
@@ -363,7 +359,12 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     /// <summary>
     /// Gets the list of roguelike lists.
     /// </summary>
-    public List<GenericCombinedData<Theme>> RoguelikeThemeList { get; } = [];
+    public LocalizedObservableList<Theme> RoguelikeThemeList { get; } = new(
+        (Theme.Phantom, "RoguelikeThemePhantom"),
+        (Theme.Mizuki, "RoguelikeThemeMizuki"),
+        (Theme.Sami, "RoguelikeThemeSami"),
+        (Theme.Sarkaz, "RoguelikeThemeSarkaz"),
+        (Theme.JieGarden, "RoguelikeThemeJieGarden"));
 
     /// <summary>
     /// Gets or sets the Roguelike theme.
@@ -459,7 +460,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 return;
             }
 
-            Instances.TaskQueueViewModel.AddLog("Core Char:" + value);
+            Instances.TaskQueueViewModel.AddLog("Core Char: " + value);
         }
     }
 
@@ -797,19 +798,16 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         set => SetTaskConfig<RoguelikeTask>(t => t.StopWhenLevelMax == value, t => t.StopWhenLevelMax = value);
     }
 
-    private bool _roguelikeDelayAbortUntilCombatComplete = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether delay abort until battle complete
     /// </summary>
     public bool RoguelikeDelayAbortUntilCombatComplete
     {
-        get => _roguelikeDelayAbortUntilCombatComplete;
-        set {
-            SetAndNotify(ref _roguelikeDelayAbortUntilCombatComplete, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, value.ToString());
+        get; set {
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.RoguelikeDelayAbortUntilCombatComplete = value;
+            SetAndNotify(ref field, value);
         }
-    }
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.RoguelikeDelayAbortUntilCombatComplete;
 
     /// <summary>
     /// Gets or sets a value indicating whether start with seed
@@ -838,15 +836,15 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         }
     }
 
-    public override void ProcSubTaskMsg(AsstMsg msg, JObject details)
+    public void ProcSubTaskMsg(AsstMsg msg, AsstSubTaskMsg? details)
     {
         if (msg != AsstMsg.SubTaskExtraInfo)
         {
             return;
         }
 
-        var subTaskDetails = details["details"];
-        switch (details["what"]?.ToString() ?? string.Empty)
+        var subTaskDetails = details?.Details;
+        switch (details?.What ?? string.Empty)
         {
             case "RoguelikeInvestmentReachFull":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeInvestmentReachFull"), UiLogColor.Info);
@@ -1147,5 +1145,17 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 return result;
             }
         }
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        RoguelikeThemeList.RefreshLocalization();
+        UpdateRoguelikeDifficultyList();
+        UpdateRoguelikeModeList();
+        UpdateRoguelikeRolesList();
+        UpdateRoguelikeSquadList();
     }
 }

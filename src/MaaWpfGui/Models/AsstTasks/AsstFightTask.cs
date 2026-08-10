@@ -13,6 +13,8 @@
 
 #nullable enable
 using System.Collections.Generic;
+using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -103,8 +105,7 @@ public class AsstFightTask : AsstBaseTask
     /// <summary>
     /// Gets or sets 客户端类型
     /// </summary>
-    [JsonProperty("client_type")]
-    public string ClientType { get; set; } = string.Empty;
+    public ClientType ClientType { get; set; } = ClientType.Official;
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
@@ -123,6 +124,7 @@ public class AsstFightTask : AsstBaseTask
         {
             param["drops"] = JObject.FromObject(Drops);
         }
+        param["client_type"] = ClientType.ToCustomString();
 
         return (TaskType, param);
     }

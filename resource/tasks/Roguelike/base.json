@@ -688,7 +688,13 @@
         "action": "ClickSelf",
         "postDelay": 3000,
         "postDelay_Doc": "多加点延迟防止出现一个一闪而过的跳过被GamePassSkip2识别到",
-        "roi": [715, 282, 171, 155]
+        "roi": [715, 282, 171, 155],
+        "next": [
+            "Roguelike@GamePassSkip2",
+            "Roguelike@GamePassTheEndConfirm",
+            "Roguelike@GamePass",
+            "Roguelike@GamePassSkip1Confirm@LoadingText"
+        ]
     },
     "Roguelike@GamePassSkip2": {
         "action": "ClickSelf",
@@ -714,21 +720,31 @@
         "template": "empty.png",
         "baseTask": "Roguelike@GetDrop",
         "Doc2": "源石锭，绿色的“拿走”按钮",
-        "next": ["Roguelike@DropsFlag", "Roguelike@ChooseOperFlag"]
+        "next": ["Roguelike@DropsFlag", "Roguelike@ChooseOperFlag", "Roguelike@GetDrop1@LoadingText"]
     },
     "Roguelike@GetDrop2": {
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@GetDrop",
         "Doc2": "希望，黄色的“拿走”按钮",
-        "next": ["Roguelike@DropsFlag", "Roguelike@ChooseOperFlag", "Roguelike@ClickToDrops"]
+        "next": [
+            "Roguelike@DropsFlag",
+            "Roguelike@ChooseOperFlag",
+            "Roguelike@GetDrop2@LoadingText",
+            "Roguelike@ClickToDrops"
+        ]
     },
     "Roguelike@GetDrop3": {
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@GetDrop",
         "Doc2": "未知的剧目，黄色的“翻开”按钮",
-        "next": ["Roguelike@ChooseOperFlag", "Roguelike@DropsFlag", "Roguelike@ClickToDrops"]
+        "next": [
+            "Roguelike@ChooseOperFlag",
+            "Roguelike@DropsFlag",
+            "Roguelike@GetDrop3@LoadingText",
+            "Roguelike@ClickToDrops"
+        ]
     },
     "Roguelike@GetDropCompleted": {
         "Doc": "base_task",
@@ -737,7 +753,7 @@
         "specificRect": [630, 630, 1, 1],
         "roi": [488, 206, 302, 289],
         "postDelay": 3000,
-        "next": ["Roguelike@GetDrops#next", "Roguelike@ChooseOperFlag", "Roguelike@ClickToDrops"]
+        "next": ["Roguelike@GetDrops#next", "Roguelike@ChooseOperFlag", "Roguelike@NextLevel", "Roguelike@ClickToDrops"]
     },
     "Roguelike@GetDropLeave": {
         "Doc": "base_task",
@@ -1064,7 +1080,8 @@
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@RecruitMain",
-        "roi": [80, 470, 1120, 154]
+        "roi": [80, 470, 1120, 154],
+        "next": ["Roguelike@ChooseOperFlag", "Roguelike@RecruitCloseGuide", "#self"]
     },
     "Roguelike@RecruitSkip": {
         "template": "RecruitSkip.png",
@@ -1292,7 +1309,11 @@
             ["祠堂(口)?", "祠堂口"],
             ["见字祠立于际山之", "祠堂口"],
             [".*地有声", "掷地有声"],
-            ["入暂.*", "入暂亭"]
+            ["入暂.*", "入暂亭"],
+            [".*海的遗产", "大海的遗产"],
+            ["狗眼婆.*", "狗眼婆娑"],
+            [".*里蒙旅行社特派团", "特里蒙旅行社特派团"],
+            ["解脱[？?]?", "解脱？"]
         ],
         "preDelay": 600,
         "roi": [0, 405, 725, 225]

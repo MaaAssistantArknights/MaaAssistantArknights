@@ -64,6 +64,8 @@ Only supports switching to already logged-in accounts, using login name for iden
 Official server: `123****4567`, can input `123****4567`, `4567`, `123`, or `3****4567`  
 <br>
 Bilibili server: `Zhang San`, can input `Zhang San`, `Zhang`, or `San`  
+<br>
+Traditional Chinese server: Email-based, e.g. `ab****01@gmail.com`. Entering the plain-text portion without asterisks is recommended, e.g. `01@gmail`  
 :::  
 ::::
 
@@ -147,50 +149,59 @@ Currently supported stages for navigation include:
   Number of battles.  
   :::  
   ::: field name="series" type="number" optional  
-  Number of consecutive battles, -1~6.
+  Number of consecutive battles, -1~10.
   <br>
   `-1` to disable switching.
   <br>
-  `0` to automatically switch to the current maximum available times, if current sanity is not enough for 6 times, select the minimum available times.
+  `0` to automatically switch to the current maximum available times, if current sanity is not enough for the maximum times, select the minimum available times.
   <br>
-  `1~6` to specify number of consecutive battles.  
-  :::  
-  ::: field name="drops" type="object" optional  
-  Specifying the number of drops, no specification by default. key is item_id, value is quantity. key can refer to `resource/item_index.json` file.  
+  `1~10` to specify number of consecutive battles.
   <br>
-  Example: `{ "30011": 10, "30062": 5 }`  
+  ::: info Server Difference
+  Input validation depends on whether the resource contains `FightSeries-OldMethodFlag`:
   <br>
-  All above are OR relations, i.e. task stops when any one is reached.  
-  :::  
-  ::: field name="report_to_penguin" type="boolean" optional default="false"  
-  Whether to upload data to Penguin Statistics.  
-  :::  
-  ::: field name="penguin_id" type="string" optional  
-  Penguin Statistics report id, empty by default. Only effective when `report_to_penguin` is true.  
-  :::  
-  :::  
-  ::: field name="report_to_yituliu" type="boolean" optional default="false"  
-  Whether to report to YITULIU.  
-  :::  
-  ::: field name="yituliu_id" type="string" optional  
-  YITULIU report id, empty by default. Only effective when `report_to_yituliu` is true.  
-  :::  
-  ::: field name="server" type="string" optional default="CN"  
-  Server, will affect drop recognition and upload.
-  <br>
-  Options: `CN` | `US` | `JP` | `KR`  
-  :::  
-  ::: field name="client_type" type="string" optional  
-  Client version, empty by default. Used to restart and reconnect after game crash, does not enable this feature if empty.
-  <br>
-  Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-  :::  
-  ::: field name="DrGrandet" type="boolean" optional default="false"  
-  Sanity-saving Originite usage mode, only effective when Originite usage may occur.
-  <br>
-  Wait at the Originite confirmation screen until the current 1 sanity point is restored, then immediately use Originite.  
-  :::  
-  ::::
+  - New list (CN main resources after 2026/8/1, without this flag): accepts `-1~10`
+  - Old list (overseas resources with this flag): accepts only `-1~6`; larger values are rejected
+    <br>
+    Overseas servers are expected to follow in about six months, after which the limit becomes 10 with the resource update. The Windows GUI series dropdown currently always offers up to 10; on overseas clients, manually selecting 7~10 will be rejected by Core when the task is submitted.
+    :::  
+    :::  
+    ::: field name="drops" type="object" optional  
+    Specifying the number of drops, no specification by default. key is item_id, value is quantity. key can refer to `resource/item_index.json` file.  
+    <br>
+    Example: `{ "30011": 10, "30062": 5 }`  
+    <br>
+    All above are OR relations, i.e. task stops when any one is reached.  
+    :::  
+    ::: field name="report_to_penguin" type="boolean" optional default="false"  
+    Whether to upload data to Penguin Statistics.  
+    :::  
+    ::: field name="penguin_id" type="string" optional  
+    Penguin Statistics report id, empty by default. Only effective when `report_to_penguin` is true.  
+    :::  
+    :::  
+    ::: field name="report_to_yituliu" type="boolean" optional default="false"  
+    Whether to report to YITULIU.  
+    :::  
+    ::: field name="yituliu_id" type="string" optional  
+    YITULIU report id, empty by default. Only effective when `report_to_yituliu` is true.  
+    :::  
+    ::: field name="server" type="string" optional default="CN"  
+    Server, will affect drop recognition and upload.
+    <br>
+    Options: `CN` | `US` | `JP` | `KR`  
+    :::  
+    ::: field name="client_type" type="string" optional  
+    Client version, empty by default. Used to restart and reconnect after game crash, does not enable this feature if empty.
+    <br>
+    Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+    :::  
+    ::: field name="DrGrandet" type="boolean" optional default="false"  
+    Sanity-saving Originite usage mode, only effective when Originite usage may occur.
+    <br>
+    Wait at the Originite confirmation screen until the current 1 sanity point is restored, then immediately use Originite.  
+    :::  
+    ::::
 
 <details>
 <summary>Example</summary>
@@ -731,7 +742,7 @@ Whether to enable this task.
 ::: field name="filename" type="string"  
 Path to a single job JSON file, mutually exclusive with copilot_list (required, choose one); both relative and absolute paths are supported.  
 :::  
-::: field name="copilot_list" type="array<object>"  
+::: field name="copilot_list" type="array`<object>`"  
 List of jobs, mutually exclusive with filename (required, choose one); when both filename and copilot_list are present, copilot_list will be ignored; set_params can only be executed once when this parameter is in effect.
 <br>
 Each object contains:
@@ -757,7 +768,7 @@ Each object contains:
   <br>
   An integer between 0–4: 0 means the current formation, 1–4 refer to the 1st–4th formations.  
   :::  
-  ::: field name="user_additional" type="array<object>" optional default="[]"  
+  ::: field name="user_additional" type="array`<object>`" optional default="[]"  
   Custom additional operators list. Only effective when formation is true.
   <br>
   Each object contains:
@@ -987,6 +998,15 @@ Whether to enable this task.
 :::  
 ::: field name="task_names" type="array<string>" required  
 Execute the task on the first match in the array (and subsequent next, etc.). If you want to perform multiple tasks, you can append Custom task multiple times.  
+Supports the Secret Front (`MiniGame@SecretFront`) concatenated form: `MiniGame@SecretFront@Begin@Ending[A-E](@event)?`, where event is optional (支援作战平台 / 游侠 / 诡影迷踪), e.g. `MiniGame@SecretFront@Begin@EndingA@支援作战平台`.  
+:::  
+::: field name="params" type="object" optional  
+Additional task parameters. Currently only used by the pixel paint task (`MiniGame@PixelPaint@Begin`):
+
+- `params.pixel_paint.groups`: color-grouped cell list. `color` is the palette slot index (0~39, same order as the in-game right-side palette), `points` is an array of `[x, y]` grid coordinates (0~23, origin at top-left).
+- `params.pixel_paint.swipe` (bool, optional, default true): consecutive cells of the same color are drawn in a single drag for speed; some touch modes may behave abnormally.  
+- `params.pixel_paint.grid_delay` (int, optional, default 0): extra per-cell wait (ms). Applied after clicks and added to drag duration. Each touch mode already has its own base interval; usually no need to adjust. Legacy key `grid_click_delay` is still accepted.
+
 :::  
 ::::
 
@@ -997,6 +1017,20 @@ Execute the task on the first match in the array (and subsequent next, etc.). If
 {
    "enable": true,
    "task_names": ["StartUp", "Infrast", "Fight"]
+}
+```
+
+```json
+{
+   "enable": true,
+   "task_names": ["MiniGame@PixelPaint@Begin"],
+   "params": {
+      "pixel_paint": {
+         "groups": [
+            { "color": 7, "points": [[0, 1], [3, 4]] }
+         ]
+      }
+   }
 }
 ```
 

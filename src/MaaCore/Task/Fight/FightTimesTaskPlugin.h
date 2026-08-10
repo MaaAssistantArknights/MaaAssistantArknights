@@ -22,7 +22,7 @@ public:
         NeedStone = 3,    // 3 - 需要源石
     };
 
-    int times = 0;                   // 连战次数
+    int times = 0;                   // 代理倍率
     asst::Rect rect;                 // 点击区域
     Status status = Status::Unknown; // 是否可用
 };
@@ -43,14 +43,16 @@ public:
 
     void set_has_used_medicine() { m_has_used_medicine = true; }
 
-    // 获取 当前理智/最大理智
+    // 识别 当前理智/最大理智
     static std::optional<asst::SanityResult> analyze_sanity_remain(const cv::Mat& image);
-    // 获取 连战次数
+    // 识别 代理倍率
     static std::optional<int> analyze_stage_series(const cv::Mat& image);
-    // 获取 理智消耗
+    // 识别 理智消耗
     static std::optional<int> analyze_sanity_cost(const cv::Mat& image);
-    // 获取 连战列表
+    // 识别 倍率列表
     static std::vector<asst::FightSeriesListItem> analyze_series_list(const cv::Mat& image);
+    // 识别 倍率列表
+    static std::vector<asst::FightSeriesListItem> analyze_series_list_new(const cv::Mat& image);
 
 protected:
     virtual bool _run() override;
@@ -58,16 +60,23 @@ protected:
 private:
     bool open_series_list(const cv::Mat& image = cv::Mat());
     void close_series_list(const cv::Mat& image = cv::Mat());
-    // 计算并调整连续战斗次数; 返回是否修改了次数
-    std::optional<int> change_series(int sanity_remain, int sanity_cost, int series);
-    // 选择连战次数, available_only: 是否选择当前可用的次数; 返回调整到的次数
+    // 计算并调整连续代理倍率; 返回是否修改了次数
+    std::optional<int> change_series(int sanity_current, int sanity_cost, int series);
+    // 计算并调整连续代理倍率; 返回调整到的次数
+    std::optional<int> change_series_new(int sanity_current, int sanity_cost, int series);
+    // 选择代理倍率, available_only: 是否选择当前可用的次数; 返回调整到的次数
     std::optional<int> select_series(bool available_only);
+    // 选择代理倍率, available_only: 是否选择当前可用的次数; 返回调整到的次数
+    std::optional<int> select_series_new(bool available_only);
+    // 选择指定代理倍率
     bool select_series(int times);
+    // 选择指定代理倍率
+    bool select_series_new(int times);
 
     mutable int m_fight_times = 0;                // 已战斗次数
     int m_fight_times_max = INT_MAX;              // 最大战斗次数
-    int m_series = -1;                            // 连续战斗次数
-    int m_series_current = 1;                     // 当前连战次数
+    int m_series = -1;                            // 代理倍率
+    int m_series_current = 1;                     // 当前代理倍率
     mutable bool m_has_used_medicine = false;     // 是否使用过药品
     mutable bool m_is_medicine_exhausted = false; // 是否药品、石头用完
 };

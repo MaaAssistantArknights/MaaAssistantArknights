@@ -21,6 +21,8 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using Serilog;
 using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace MaaWpfGui.Utilities;
 
@@ -74,7 +76,7 @@ internal class BadModules
         }
 
         // 如果用户已经选择忽略警告并使用软件渲染，则不再显示警告
-        if (ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering)
+        if (ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering)
         {
             return;
         }
@@ -96,30 +98,50 @@ internal class BadModules
         sb.AppendLine();
         sb.Append(LocalizationHelper.GetString("BadModules.Warning.Epilog"));
 
-        var page = new TaskDialogPage
-        {
+        var page = new TaskDialogPage {
             Caption = "MAA",
             Heading = LocalizationHelper.GetString("BadModules.Warning.Heading"),
             Text = sb.ToString(),
             Icon = TaskDialogIcon.Warning,
             Buttons = { TaskDialogButton.OK },
             SizeToContent = true,
-            Verification = new()
-            {
+            Verification = new() {
                 Text = LocalizationHelper.GetString("BadModules.Warning.DoNotShowAgain"),
                 Checked = false,
             },
         };
 
-        var result = TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), page);
+        bool doNotShowAgain;
+        try
+        {
+            // throw new NotImplementedException();
+            TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), page);
+            doNotShowAgain = page.Verification.Checked;
+        }
+        catch (Exception e)
+        {
+            // https://github.com/dotnet/winforms/issues/14831
+            // TaskDialog 和 WPF MessageBox 在注入环境下都会崩溃，只能用 Win32 原生 MessageBox
+            _logger.Warning(e, "TaskDialog failed, falling back to native Win32 MessageBox");
+            sb.AppendLine().AppendLine().Append(LocalizationHelper.GetString("BadModules.Warning.Fallback"));
+            _logger.Warning("Detected bad injected modules:\n{Modules}", sb.ToString());
+            var hwnd = System.Windows.Application.Current.MainWindow is null
+                ? IntPtr.Zero
+                : new System.Windows.Interop.WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
+            var ret = PInvoke.MessageBox((HWND)hwnd,
+                sb + "\n\n" + LocalizationHelper.GetString("BadModules.Warning.Fallback"),
+                LocalizationHelper.GetString("BadModules.Warning.Heading"),
+                MESSAGEBOX_STYLE.MB_ICONERROR | MESSAGEBOX_STYLE.MB_YESNO | MESSAGEBOX_STYLE.MB_DEFBUTTON2);
+            doNotShowAgain = ret == MESSAGEBOX_RESULT.IDYES;
+        }
+
         _logger.Warning("Detected bad injected modules:\n{Modules}", sb.ToString());
 
         // 如果用户勾选了"不再显示"选项
-        if (page.Verification.Checked)
+        if (doNotShowAgain)
         {
             // 弹出第二个确认对话框
-            var confirmPage = new TaskDialogPage
-            {
+            var confirmPage = new TaskDialogPage {
                 Caption = "MAA",
                 Heading = LocalizationHelper.GetString("BadModules.Confirmation.Heading"),
                 Text = LocalizationHelper.GetString("BadModules.Confirmation.Text"),
@@ -129,12 +151,30 @@ internal class BadModules
                 DefaultButton = TaskDialogButton.No,
             };
 
-            var confirmResult = TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), confirmPage);
+            bool confirmed;
+            try
+            {
+                // throw new NotImplementedException();
+                var confirmResult = TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow!), confirmPage);
+                confirmed = confirmResult == TaskDialogButton.Yes;
+            }
+            catch (Exception e)
+            {
+                _logger.Warning(e, "TaskDialog (confirmation) failed, falling back to native Win32 MessageBox");
+                var hwnd = System.Windows.Application.Current.MainWindow is null
+                    ? IntPtr.Zero
+                    : new System.Windows.Interop.WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
+                var ret = PInvoke.MessageBox((HWND)hwnd,
+                    LocalizationHelper.GetString("BadModules.Confirmation.Text"),
+                    LocalizationHelper.GetString("BadModules.Confirmation.Heading"),
+                    MESSAGEBOX_STYLE.MB_ICONWARNING | MESSAGEBOX_STYLE.MB_YESNO | MESSAGEBOX_STYLE.MB_DEFBUTTON2);
+                confirmed = ret == MESSAGEBOX_RESULT.IDYES;
+            }
 
             // 如果用户确认，则保存设置
-            if (confirmResult == TaskDialogButton.Yes)
+            if (confirmed)
             {
-                ConfigFactory.Root.GUI.IgnoreBadModulesAndUseSoftwareRendering = true;
+                ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering = true;
                 _logger.Information("User chose to ignore bad modules warning and use software rendering");
                 Bootstrapper.ShutdownAndRestartWithoutArgs();
             }

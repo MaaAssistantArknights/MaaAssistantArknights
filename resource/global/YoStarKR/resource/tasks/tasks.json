@@ -6,6 +6,10 @@
         "algorithm": "JustReturn",
         "baseTask": "#none"
     },
+    "FightSeries-OldMethodFlag": {
+        "algorithm": "JustReturn",
+        "doc": "whether to use old series method"
+    },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -30,17 +34,14 @@
     },
     "ClickChapterNewDefaultProgress": {
         "ocrReplace": [[".?본", "기본"]],
+        "roi": [715, 26, 85, 38],
         "text": ["기본"]
     },
     "ClickChapterNewOverview": {
         "text": ["서사"]
     },
-    "EnterEpisodeNew": {
-        "baseTask": "#none",
-        "baseTaskDoc": "26.2.10 Add a secondary interface and delete it after subsequent updates",
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf"
+    "EnterEpisodeNew-Click": {
+        "text": ["진입하기"]
     },
     "LevelOfDifficulty": {
         "text": ["환경", "PRTS"]
@@ -63,7 +64,7 @@
             ["Blitz", "闪击"],
             ["Tachanka", "战车"],
             ["Fr[O0o]st", "霜华"],
-            ["^Doc$", "医生"],
+            ["^D[O0o]c$", "医生"],
             ["^E[lI1][aа]$", "艾拉"],
             ["^.?[aа]n[aа]$", "双月"],
             ["^Fu[zZ]e$", "导火索"],
@@ -77,7 +78,7 @@
             ["Mon3tr?", "Mon3tr"],
             ["^w$", "W"],
             ["실버애.{0,2}$", "银灰"],
-            ["^블레이즈$", "煌"],
+            ["^[블플]레이즈$", "煌"],
             ["^수*르트$", "史尔特尔"],
             ["^첸$", "陈"],
             ["(쓴|쏟)(즈|츠|죠|不)", "쏜즈"],
@@ -144,7 +145,7 @@
             ["^안셀$", "安赛尔"],
             ["^미르$", "末药"],
             ["^가비(알|말)$", "嘉维尔"],
-            ["퍼퓨(머|며)", "调香师"],
+            ["^퍼퓨(머|며)$", "调香师"],
             ["프틸롭시스", "白面鸮"],
             ["^사일런스$", "赫默"],
             ["와파린", "华法琳"],
@@ -186,8 +187,7 @@
             ["(.+스티스나이트|^나이트$)", "저스티스나이트"],
             ["저스티스나이트", "正义骑士号"],
             ["파투스", "远牙"],
-            [".*(홀|훌)(룽|롱)데이*", "첸더홀룽데이"],
-            ["첸더홀룽데이", "假日威龙陈"],
+            ["(첸더|.*)[홀훌][룽롱]데이*", "假日威龙陈"],
             ["토디폰스", "熔泉"],
             ["아르케토", "空弦"],
             ["파인콘", "松果"],
@@ -912,7 +912,7 @@
             ["다이얼전화기", "菜单电话机"],
             ["점수기록판", "大战记分站"],
             [".?축음기.?받침대", "“留声机”底座"],
-            ["(블.+즈디.+|블레이즈디이그나이팅스파크)", "烛煌"],
+            ["^[블플].+즈디.+", "烛煌"],
             ["^위$", "余"],
             ["^서퍼$", "寻澜"],
             ["^싱주$", "行箸"],
@@ -1072,7 +1072,7 @@
             [".?응급하중팀.?", "“应急承重小组”"],
             ["방어포인트.?빙결상태.?", "保护目标（冻结状态）"],
             ["눈보라의눈", "风雪之眼"],
-            ["아스트젠더.+", "溯光星源"],
+            ["[마아]스트[젠펜]더.+", "溯光星源"],
             ["적설고정장치", "积雪固定装置"],
             ["아코르트", "协律"],
             ["스노우헌터", "雪猎"],
@@ -1131,7 +1131,30 @@
             ["냉폭기", "冷爆机"],
             ["스카이박스", "天空盒"],
             ["^내스.?$", "娜斯提"],
-            ["^케언$", "响石"]
+            ["^케언$", "响石"],
+            ["^숙오$", "宿傲"],
+            ["^숙노$", "宿怒"],
+            ["분수대수조", "喷泉水池"],
+            ["바르카리스", "摆渡人"],
+            ["퍼퓨(머|며)더.+", "撷英调香师"],
+            ["^티티$", "缇缇"],
+            ["연출용왕", "演出望"],
+            ["^인$", "印字"],
+            ["쉐이용산", "岁用山"],
+            ["^병$", "兵字"],
+            ["쉐이진압기둥", "镇岁柱"],
+            ["^서도$", "书刀"],
+            ["산등성이", "山脊"],
+            ["^산$", "山字"],
+            ["타락사쿰", "风絮"],
+            ["바둑돌", "棋子"],
+            ["^재$", "财字"],
+            ["^왕$", "望"],
+            ["^쥐$", "矩"],
+            ["^단$", "断"],
+            ["^우$", "友字"],
+            ["^식$", "食字"],
+            ["첸더던스트릭", "赤刃明霄陈"]
         ]
     },
     "StartUpThemes": {
@@ -1185,6 +1208,26 @@
     },
     "AnnihilationSwitchButton": {
         "text": ["변경"]
+    },
+    "FightSeries-Opened": {
+        "template": "FightSeries-Indicator.png",
+        "roi": [940, 190, 80, 380],
+        "templThreshold": 0.9,
+        "maskRange": [1, 255]
+    },
+    "FightSeries-Close": {
+        "baseTask": "FightSeries-Icon",
+        "template": "FightSeries-Icon.png",
+        "action": "ClickSelf",
+        "next": ["FightSeries-CloseList"]
+    },
+    "FightSeries-List-Multiply": {
+        "Doc": "代理倍率列表每个选项的乘号, rectMove到次数, 灰度低于150为碎石才能打",
+        "action": "ClickRect",
+        "roi": [970, 200, 40, 360],
+        "rectMove": [25, 10, 20, 25],
+        "specificRect": [0, 0, 55, 40],
+        "specialParams": [150]
     },
     "StartButton1": {
         "ocrReplace": [["개.+", "개시"]],
@@ -1328,6 +1371,9 @@
     "InfrastEnterOperList": {
         "text": ["컨디션", "휴식중", "업무중", "배치"]
     },
+    "InfrastFilterMenuAllButton": {
+        "text": ["전부"]
+    },
     "InfrastConfirmButtonWait": {
         "text": ["피드백", "전달"],
         "roi": [700, 620, 400, 80]
@@ -1348,6 +1394,10 @@
     },
     "InfrastTrainingCompleted": {
         "text": ["훈련완료"]
+    },
+    "InfrastTrainingOperatorAndSkill": {
+        "doc": "Expanded roi to cover two-line wrapping of long operator names",
+        "roi": [150, 585, 365, 70]
     },
     "BattleStageName": {
         "Doc": "이 작업의 'ocrReplace'는 로그라이크 스테이지 이름과 관련된 모든 인식 작업에서 사용됩니다",
@@ -1683,8 +1733,21 @@
             ["산해를넘어", "越山海"],
             ["뒤바뀔운명", "天数将易"],
             ["석강결전", "夕江诀"],
-            ["^사방$", "四方"]
+            ["^사방$", "四方"],
+            ["^결합$", "相合"],
+            ["날벼리기", "砺锋"],
+            ["화는못참아", "忍气不吞声"],
+            ["시간봉인", "时封"],
+            ["^절변$", "止变"],
+            ["기억기록", "录忆"],
+            ["^건곤$", "定乾坤"],
+            ["외적방어", "御外侮"],
+            ["곳곳의복음", "遍地福音"]
         ]
+    },
+    "BattleQuickFormationClear": {
+        "docs": "Added as Vector Breakthrough formation clear differs from normal formation clear",
+        "template": ["BattleQuickFormationClear", "BattleQuickFormationClear2"]
     },
     "BattleQuickFormationFilter-Cost": {
         "text": ["배치코스트"]
@@ -1757,7 +1820,8 @@
             ["보안인재.*", "保全人才合作协议"],
             ["소형조준.*", "轻型瞄准测距仪"],
             ["천공야행세트", "天工夜行套装"],
-            ["역제압장갑세트", "反制装甲套组"]
+            ["역제압장갑세트", "反制装甲套组"],
+            ["냉폭기", "冷爆机"]
         ]
     },
     "SSSBuffChooseConfirm": {

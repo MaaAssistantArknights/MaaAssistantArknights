@@ -1,0 +1,15 @@
+{
+    "TA-Open": {
+        "baseTask": "SS-Open",
+        "postDelay": 3000,
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["TAChapterToTA"]
+    },
+    "TA-OpenOcr": {
+        "ocrReplace": [["辞.*行", "辞歳行"]],
+        "text": ["辞歳行", "望春拾遺", "望春", "拾遺", "待筆新編", "新編"]
+    },
+    "TAChapterToTA": {
+        "text": ["霜秋写録", "霜秋", "秋写", "写録"]
+    }
+}

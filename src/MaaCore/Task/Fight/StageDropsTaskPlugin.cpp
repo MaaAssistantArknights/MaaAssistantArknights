@@ -311,7 +311,7 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
 void asst::StageDropsTaskPlugin::set_start_button_delay()
 {
     // 影响多实例 + 占用也不高
-    // 因AUTO模式连战 ban了
+    // 因 AUTO 模式代理倍率被禁用
     if (m_is_annihilation) {
         return;
     }

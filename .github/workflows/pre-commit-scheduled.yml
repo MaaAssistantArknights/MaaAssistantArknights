@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           show-progress: false
@@ -25,7 +25,7 @@ jobs:
 
       - name: Commit and push changes
         if: steps.pre-commit.outcome == 'failure' && github.repository_owner == 'MaaAssistantArknights'
-        uses: actions-js/push@5a7cbd780d82c0c937b5977586e641b2fd94acc5 # master as of 2026-05-06
+        uses: actions-js/push@968f4695ca558093eadb24ad83cc5891f47e0cdc # v1.6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           message: "chore: Auto update by pre-commit hooks

@@ -91,7 +91,9 @@
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
     <Resource Include="newlogo.ico" />
-    <Resource Include="Res\Backgrounds\*" />
+    <!--  Internal 为内部资源（喜报等，嵌入）；Wallpapers 为用户可选壁纸，复制到输出目录供下拉列表读取  -->
+    <Resource Include="Res\Backgrounds\Internal\**\*" />
+    <Content Include="Res\Backgrounds\Wallpapers\**\*" CopyToOutputDirectory="PreserveNewest" />
     <Resource Include="Res\Img\*" />
     <Resource Include="Res\Img\EasterEgg\*" />
     <Resource Include="Res\Img\Operator\*" />

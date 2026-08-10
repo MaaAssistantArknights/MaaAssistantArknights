@@ -76,14 +76,14 @@ enum class DeployDirection
 enum class Role
 {
     Unknown,
+    Pioneer, // 先锋
+    Warrior, // 近卫
+    Tank,    // 重装
+    Sniper,  // 狙击
     Caster,  // 术士
     Medic,   // 医疗
-    Pioneer, // 先锋
-    Sniper,  // 狙击
-    Special, // 特种
     Support, // 辅助
-    Tank,    // 重装
-    Warrior, // 近卫
+    Special, // 特种
     Drone    // 无人机
 };
 
@@ -378,6 +378,7 @@ struct OperProps
     Role role = Role::Unknown;
     std::array<std::string, 3> ranges;
     int rarity = 0;                  // 稀有度 1-6
+    int sort_index = 0;              // 排序索引
     LocationType location_type = LocationType::None;
     std::vector<std::string> tokens; // 召唤物名字
 };

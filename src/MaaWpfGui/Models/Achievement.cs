@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -91,6 +92,20 @@ public class Achievement
 
     [JsonIgnore]
     public string ReleasePhaseTag => $"#{(int)ReleasePhase}";
+
+    [JsonIgnore]
+    public string ReleasePhaseToolTip
+    {
+        get
+        {
+            var notice = LocalizationHelper.GetString("AchievementDlcProgressNotice");
+            var date = ReleasePhase.ReleaseDate();
+            return date != DateOnly.MinValue ? $"{notice}\n{ReleasePhaseTag} {LocalizationHelper.GetString("AchievementDlcReleaseDate")}: {date}" : notice;
+        }
+    }
+
+    [JsonIgnore]
+    public bool IsPhase2OrLater => ReleasePhase >= AchievementReleasePhase.Phase2;
 
     [JsonIgnore]
     public string MedalBrushKey

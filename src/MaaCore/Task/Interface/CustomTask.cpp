@@ -1,6 +1,7 @@
 #include "CustomTask.h"
 
 #include "Config/TaskData.h"
+#include "Task/MiniGame/PixelPaintTaskPlugin.h"
 #include "Task/MiniGame/SecretFrontTaskPlugin.h"
 #include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
@@ -37,9 +38,8 @@ bool asst::CustomTask::set_params(const json::value& params)
         if (parse_and_register_secretfront(task_name, resolved_task)) {
             Log.info("Parsed and registered SecretFront task: ", task_name, " -> ", resolved_task);
         }
-        /* else if (parse_and_register_xxx) */
-        else {
-            resolved_task = task_name;
+        else if (parse_and_register_pixel_paint(task_name, params)) {
+            Log.info("Parsed and registered PixelPaint task: ", task_name);
         }
 
         if (Task.get(resolved_task) == nullptr) {
@@ -51,6 +51,77 @@ bool asst::CustomTask::set_params(const json::value& params)
     }
     m_custom_task_ptr->set_tasks(std::move(tasks));
     m_subtasks.emplace_back(m_custom_task_ptr);
+    return true;
+}
+
+bool asst::CustomTask::parse_and_register_pixel_paint(const std::string& task_name, const json::value& params)
+{
+    // 仅当任务名确实是像素画入口时才解析（资源只定义了 @Begin）
+    if (task_name != "MiniGame@PixelPaint@Begin") {
+        return false;
+    }
+
+    auto params_opt = params.find<json::object>("params");
+    if (!params_opt) {
+        Log.error("set_params failed, params not found for pixel paint");
+        return false;
+    }
+    auto pixel_opt = params_opt->find<json::object>("pixel_paint");
+    if (!pixel_opt) {
+        Log.error("set_params failed, params.pixel_paint not found");
+        return false;
+    }
+
+    auto groups_opt = pixel_opt->find<json::array>("groups");
+    if (!groups_opt || groups_opt->empty()) {
+        Log.error("set_params failed, params.pixel_paint.groups not found");
+        return false;
+    }
+
+    std::vector<PixelPaintTaskPlugin::Group> groups;
+    for (const auto& g : *groups_opt) {
+        PixelPaintTaskPlugin::Group group;
+        group.color = g.get("color", 0);
+        if (group.color < 0 || group.color >= PixelPaintTaskPlugin::Group::PaletteSize) {
+            Log.error("set_params failed, pixel paint color out of range:", group.color);
+            continue;
+        }
+        if (auto points_opt = g.find<json::array>("points"); points_opt) {
+            for (const auto& p : *points_opt) {
+                // 畸形点直接丢弃，避免 as_array 抛异常穿过 C ABI
+                if (!p.is_array()) {
+                    continue;
+                }
+                auto arr = p.as_array();
+                if (arr.size() < 2 || !arr[0].is_number() || !arr[1].is_number()) {
+                    continue;
+                }
+                const int x = arr[0].as_integer();
+                const int y = arr[1].as_integer();
+                if (x < 0 || x >= PixelPaintTaskPlugin::Group::GridSize || y < 0 ||
+                    y >= PixelPaintTaskPlugin::Group::GridSize) {
+                    continue;
+                }
+                group.points.emplace_back(x, y);
+            }
+        }
+        if (!group.points.empty()) {
+            groups.emplace_back(std::move(group));
+        }
+    }
+
+    if (groups.empty()) {
+        Log.error("set_params failed, params.pixel_paint.groups is empty");
+        return false;
+    }
+
+    auto plugin_ptr = m_custom_task_ptr->register_plugin<PixelPaintTaskPlugin>();
+    plugin_ptr->set_groups(std::move(groups));
+    plugin_ptr->set_swipe_enabled(pixel_opt->get("swipe", true));
+    // grid_delay：每格额外等待；兼容旧键 grid_click_delay
+    plugin_ptr->set_grid_delay(static_cast<unsigned>(
+        pixel_opt->get("grid_delay", pixel_opt->get("grid_click_delay", 0))));
+    Log.info("PixelPaint groups:", plugin_ptr->get_groups().size());
     return true;
 }
 

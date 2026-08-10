@@ -2,6 +2,7 @@
 
 #include "Task/Miscellaneous/CreditFightTask.h"
 #include "Task/Miscellaneous/CreditShoppingTask.h"
+#include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
 
 #include "Utils/Logger.hpp"
@@ -19,6 +20,8 @@ asst::MallTask::MallTask(const AsstCallback& callback, Assistant* inst) :
 
     m_visit_task_ptr->set_tasks({ "VisitBegin" });
     m_mall_task_ptr->set_tasks({ "MallBegin" });
+    m_visit_task_ptr->register_plugin<ScreenshotTaskPlugin>();
+    m_mall_task_ptr->register_plugin<ScreenshotTaskPlugin>();
     m_shopping_first_task_ptr->set_enable(false).set_retry_times(1);
     m_shopping_task_ptr->set_enable(false).set_retry_times(1);
     m_shopping_force_task_ptr->set_enable(false).set_retry_times(1);

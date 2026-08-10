@@ -64,6 +64,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 官服：`123****4567`，可输入 `123****4567`、`4567`、`123`、`3****4567`  
 <br>
 B服：`张三`，可输入 `张三`、`张`、`三`  
+<br>
+繁中服：账号为 Email，如 `ab****01@gmail.com`，建议填不含星号的明文片段，如 `01@gmail`  
 :::  
 ::::
 
@@ -147,50 +149,59 @@ B服：`张三`，可输入 `张三`、`张`、`三`
   战斗次数。  
   :::  
   ::: field name="series" type="number" optional  
-  连战次数, -1~6。
+  代理倍率, -1~10。
   <br>
   `-1` 为禁用切换。
   <br>
-  `0` 为自动切换为当前可用的最大次数, 如当前理智不够6次, 则选择最低可用次数。
+  `0` 为自动切换为当前可用的最大倍率, 如当前理智不够最大倍率, 则选择最低可用倍率。
   <br>
-  `1~6` 为指定连战次数。  
-  :::  
-  ::: field name="drops" type="object" optional  
-  指定掉落数量，默认不指定。key 为 item_id, value 为数量。key 可参考 `resource/item_index.json` 文件。  
+  `1~10` 为指定代理倍率。
   <br>
-  例如: `{ "30011": 10, "30062": 5 }`  
+  ::: info 服务器差异
+  输入校验取决于资源是否存在 `FightSeries-OldMethodFlag`：
   <br>
-  以上全部是或的关系，即任一达到即停止任务。  
-  :::  
-  ::: field name="report_to_penguin" type="boolean" optional default="false"  
-  是否汇报企鹅数据。  
-  :::  
-  ::: field name="penguin_id" type="string" optional  
-  企鹅数据汇报 id, 默认为空。仅在 `report_to_penguin` 为 true 时有效。  
-  :::  
-  :::  
-  ::: field name="report_to_yituliu" type="boolean" optional default="false"  
-  是否汇报一图流。  
-  :::  
-  ::: field name="yituliu_id" type="string" optional  
-  一图流汇报 id, 默认为空。仅在 `report_to_yituliu` 为 true 时有效。  
-  :::  
-  ::: field name="server" type="string" optional default="CN"  
-  服务器，会影响掉落识别及上传。
-  <br>
-  选项：`CN` | `US` | `JP` | `KR`  
-  :::  
-  ::: field name="client_type" type="string" optional  
-  客户端版本，默认为空。用于游戏崩溃时重启并连回去继续刷，若为空则不启用该功能。
-  <br>
-  选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-  :::  
-  ::: field name="DrGrandet" type="boolean" optional default="false"  
-  节省理智碎石模式，仅在可能产生碎石效果时生效。
-  <br>
-  在碎石确认界面等待，直到当前的 1 点理智恢复完成后再立刻碎石。  
-  :::  
-  ::::
+  - 新列表（国服 2026/8/1 后主资源，无该 flag）：接受 `-1~10`
+  - 旧列表（外服资源带该 flag）：仅接受 `-1~6`，更大值会被拒绝
+    <br>
+    外服预计约半年后跟进，届时上限随资源变为 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手动选择 7~10，任务下发时会被 Core 拒绝。
+    :::  
+    :::  
+    ::: field name="drops" type="object" optional  
+    指定掉落数量，默认不指定。key 为 item_id, value 为数量。key 可参考 `resource/item_index.json` 文件。  
+    <br>
+    例如: `{ "30011": 10, "30062": 5 }`  
+    <br>
+    以上全部是或的关系，即任一达到即停止任务。  
+    :::  
+    ::: field name="report_to_penguin" type="boolean" optional default="false"  
+    是否汇报企鹅数据。  
+    :::  
+    ::: field name="penguin_id" type="string" optional  
+    企鹅数据汇报 id, 默认为空。仅在 `report_to_penguin` 为 true 时有效。  
+    :::  
+    :::  
+    ::: field name="report_to_yituliu" type="boolean" optional default="false"  
+    是否汇报一图流。  
+    :::  
+    ::: field name="yituliu_id" type="string" optional  
+    一图流汇报 id, 默认为空。仅在 `report_to_yituliu` 为 true 时有效。  
+    :::  
+    ::: field name="server" type="string" optional default="CN"  
+    服务器，会影响掉落识别及上传。
+    <br>
+    选项：`CN` | `US` | `JP` | `KR`  
+    :::  
+    ::: field name="client_type" type="string" optional  
+    客户端版本，默认为空。用于游戏崩溃时重启并连回去继续刷，若为空则不启用该功能。
+    <br>
+    选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+    :::  
+    ::: field name="DrGrandet" type="boolean" optional default="false"  
+    节省理智碎石模式，仅在可能产生碎石效果时生效。
+    <br>
+    在碎石确认界面等待，直到当前的 1 点理智恢复完成后再立刻碎石。  
+    :::  
+    ::::
 
 <details>
 <summary>Example</summary>
@@ -731,7 +742,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="filename" type="string"  
 单一作业 JSON 文件的路径，与 copilot_list 二选一（必填）；相对路径与绝对路径均可。  
 :::  
-::: field name="copilot_list" type="array<object>"  
+::: field name="copilot_list" type="array`<object>`"  
 作业列表，与 filename 二选一（必填）；当 filename 与 copilot_list 同时存在时，忽视 copilot_list；此参数生效时仅可执行 set_params 一次。
 <br>
 每个对象包含：
@@ -757,7 +768,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
   <br>
   为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队。  
   :::  
-  ::: field name="user_additional" type="array<object>" optional default="[]"  
+  ::: field name="user_additional" type="array`<object>`" optional default="[]"  
   自定义追加干员列表。仅在 formation 为 true 时有效。
   <br>
   每个对象包含：
@@ -986,6 +997,15 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field name="task_names" type="array<string>" required  
 执行数组中第一个匹配上的任务（及后续 next 等）。若想执行多个任务，可多次 append Custom task。  
+支持秘密前线（`MiniGame@SecretFront`）拼接形式：`MiniGame@SecretFront@Begin@Ending[A-E](@事件名)?`，事件名可选（支援作战平台 / 游侠 / 诡影迷踪），例如 `MiniGame@SecretFront@Begin@EndingA@支援作战平台`。  
+:::  
+::: field name="params" type="object" optional  
+任务附加参数。目前仅像素画任务（`MiniGame@PixelPaint@Begin`）使用：
+
+- `params.pixel_paint.groups`：按色分组点列。`color` 为色板序号（0~39，与游戏右侧色板顺序一致），`points` 为 `[x, y]` 格子坐标数组（0~23，左上为原点）。
+- `params.pixel_paint.swipe`（bool，可选，默认 true）：同色同行连续格用拖动一次画完，更快但部分触控模式可能异常。  
+- `params.pixel_paint.grid_delay`（int，可选，默认 0）：每格额外等待（ms）。点击后 sleep，拖动时长按格累加。各触控方式自带基础间隔，一般无需调整。兼容旧键 `grid_click_delay`。
+
 :::  
 ::::
 
@@ -996,6 +1016,20 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 {
    "enable": true,
    "task_names": ["StartUp", "Infrast", "Fight"]
+}
+```
+
+```json
+{
+   "enable": true,
+   "task_names": ["MiniGame@PixelPaint@Begin"],
+   "params": {
+      "pixel_paint": {
+         "groups": [
+            { "color": 7, "points": [[0, 1], [3, 4]] }
+         ]
+      }
+   }
 }
 ```
 

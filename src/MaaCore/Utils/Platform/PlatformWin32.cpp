@@ -3,6 +3,7 @@
 #include "Platform.h"
 
 #include <atomic>
+#include <chrono>
 #include <format>
 #include <mbctype.h>
 #include <winioctl.h>
@@ -138,7 +139,11 @@ std::string asst::platform::from_osstring(const os_string& os_str)
     return result;
 }
 
-std::string asst::platform::call_command(const std::string& cmdline, bool* exit_flag)
+std::string asst::platform::call_command(
+    const std::string& cmdline,
+    bool* exit_flag,
+    const std::filesystem::path& work_dir,
+    int timeout_ms)
 {
     constexpr int PipeBuffSize = 4096;
     auto pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
@@ -173,6 +178,8 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
     if (attrsize == 0) {
         DWORD err = GetLastError();
         Log.error("Call `", cmdline, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        CloseHandle(pipe_parent_read);
+        CloseHandle(pipe_child_write);
         return {};
     }
     attrs.resize(attrsize);
@@ -181,6 +188,8 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
     if (!attr_success) {
         DWORD err = GetLastError();
         Log.error("Call `", cmdline, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        CloseHandle(pipe_parent_read);
+        CloseHandle(pipe_child_write);
         return {};
     }
     attr_success = UpdateProcThreadAttribute(
@@ -194,28 +203,44 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
     if (!attr_success) {
         DWORD err = GetLastError();
         Log.error("Call `", cmdline, "` UpdateProcThreadAttribute failed, ret error code:", err);
+        DeleteProcThreadAttributeList(si.lpAttributeList);
+        CloseHandle(pipe_parent_read);
+        CloseHandle(pipe_child_write);
         return {};
     }
+
     auto cmdline_osstr = to_osstring(cmdline);
+    std::wstring work_dir_osstr;
+    const wchar_t* work_dir_ptr = nullptr;
+    if (!work_dir.empty()) {
+        work_dir_osstr = work_dir.wstring();
+        work_dir_ptr = work_dir_osstr.c_str();
+    }
+
+    // CREATE_NO_WINDOW: 从 GUI 进程拉起控制台子进程时避免额外 console 附着带来的异常行为
     BOOL create_ret = CreateProcessW(
         nullptr,
         cmdline_osstr.data(),
         nullptr,
         nullptr,
         TRUE,
-        EXTENDED_STARTUPINFO_PRESENT,
+        EXTENDED_STARTUPINFO_PRESENT | CREATE_NO_WINDOW,
         nullptr,
-        nullptr,
+        work_dir_ptr,
         &si.StartupInfo,
         &process_info);
     DeleteProcThreadAttributeList(si.lpAttributeList);
     if (!create_ret) {
         DWORD err = GetLastError();
         Log.error("Call `", cmdline, "` create process failed, ret", create_ret, "error code:", err);
+        CloseHandle(pipe_parent_read);
+        CloseHandle(pipe_child_write);
         return {};
     }
 
+    // 父进程必须关掉写端，否则子进程退出后 pipe 也不会 EOF
     CloseHandle(pipe_child_write);
+    pipe_child_write = INVALID_HANDLE_VALUE;
 
     std::vector<HANDLE> wait_handles;
     wait_handles.reserve(2);
@@ -223,7 +248,26 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
     bool pipe_eof = false;
 
     OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
-    (void)ReadFile(pipe_parent_read, pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
+    auto arm_pipe_read = [&]() {
+        if (pipe_eof) {
+            return;
+        }
+        if (ReadFile(pipe_parent_read, pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov)) {
+            // 同步完成：手动置位 event，走统一的 GetOverlappedResult 路径
+            SetEvent(pipeov.hEvent);
+            return;
+        }
+        DWORD err = GetLastError();
+        if (err != ERROR_IO_PENDING) {
+            // 典型场景：子进程已退出且写端关闭，ReadFile 同步返回 ERROR_BROKEN_PIPE。
+            // 旧实现 (void)ReadFile 忽略错误后继续 INFINITE 等 event，会永久卡死。
+            pipe_eof = true;
+        }
+    };
+    arm_pipe_read();
+
+    using clock = std::chrono::steady_clock;
+    const auto start_time = clock::now();
 
     while (!(exit_flag && *exit_flag)) {
         wait_handles.clear();
@@ -236,19 +280,41 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
         if (wait_handles.empty()) {
             break;
         }
+
+        DWORD wait_time = INFINITE;
+        if (timeout_ms >= 0) {
+            const auto elapsed =
+                std::chrono::duration_cast<std::chrono::milliseconds>(clock::now() - start_time).count();
+            if (elapsed >= timeout_ms) {
+                wait_time = 0;
+            }
+            else {
+                wait_time = static_cast<DWORD>(timeout_ms - elapsed);
+            }
+        }
+        // 子进程退出后不能再无限等 pipe：若末次 ReadFile 同步失败且 event 未置位，会卡死。
+        // 给一个短 drain 窗口把残余输出收完即可。
+        if (!process_running) {
+            constexpr DWORD kPostExitDrainMs = 1000;
+            if (wait_time == INFINITE || wait_time > kPostExitDrainMs) {
+                wait_time = kPostExitDrainMs;
+            }
+        }
+
         auto wait_result =
-            WaitForMultipleObjectsEx((DWORD)wait_handles.size(), wait_handles.data(), FALSE, INFINITE, TRUE);
+            WaitForMultipleObjectsEx((DWORD)wait_handles.size(), wait_handles.data(), FALSE, wait_time, TRUE);
         HANDLE signaled_object = INVALID_HANDLE_VALUE;
         if (wait_result >= WAIT_OBJECT_0 && wait_result < WAIT_OBJECT_0 + wait_handles.size()) {
             signaled_object = wait_handles[(size_t)wait_result - WAIT_OBJECT_0];
         }
         else if (wait_result == WAIT_TIMEOUT) {
+            if (!process_running || (timeout_ms >= 0 && wait_time == 0)) {
+                break;
+            }
             continue;
         }
         else {
-            // something bad happened
             DWORD err = GetLastError();
-            // throw std::system_error(std::error_code(err, std::system_category()));
             Log.error(__FUNCTION__, "A fatal error occurred", err);
             break;
         }
@@ -257,25 +323,40 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
             process_running = false;
         }
         else if (signaled_object == pipeov.hEvent) {
-            // pipe read
             DWORD len = 0;
             if (GetOverlappedResult(pipe_parent_read, &pipeov, &len, FALSE)) {
-                pipe_str.insert(pipe_str.end(), pipe_buffer.get(), pipe_buffer.get() + len);
-                (void)ReadFile(pipe_parent_read, pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
+                if (len == 0) {
+                    pipe_eof = true;
+                }
+                else {
+                    pipe_str.insert(pipe_str.end(), pipe_buffer.get(), pipe_buffer.get() + len);
+                    arm_pipe_read();
+                }
             }
             else {
                 DWORD err = GetLastError();
-                if (err == ERROR_HANDLE_EOF || err == ERROR_BROKEN_PIPE) {
+                if (err == ERROR_HANDLE_EOF || err == ERROR_BROKEN_PIPE || err == ERROR_OPERATION_ABORTED) {
+                    pipe_eof = true;
+                }
+                else {
+                    Log.error(__FUNCTION__, "GetOverlappedResult failed", err);
                     pipe_eof = true;
                 }
             }
         }
     }
 
+    if (process_running) {
+        // 超时或外部退出：强杀，避免调用方被失控子进程拖死
+        TerminateProcess(process_info.hProcess, 1);
+        WaitForSingleObject(process_info.hProcess, 1000);
+    }
+
     DWORD exit_ret = 0;
     GetExitCodeProcess(process_info.hProcess, &exit_ret);
     CloseHandle(process_info.hProcess);
     CloseHandle(process_info.hThread);
+    CancelIo(pipe_parent_read);
     CloseHandle(pipe_parent_read);
     if (pipeov.hEvent) {
         CloseHandle(pipeov.hEvent);

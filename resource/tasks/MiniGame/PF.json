@@ -1,0 +1,74 @@
+{
+    "MiniGame@PF@Begin": {
+        "doc": "阵地足球锦标赛",
+        "algorithm": "JustReturn",
+        "next": ["MiniGame@PF@PF-1", "MiniGame@PF@StartCompetition"]
+    },
+    "MiniGame@PF@PF-1": {
+        "action": "ClickSelf",
+        "roi": [373, 94, 152, 141],
+        "next": ["MiniGame@PF@StartCompetition", "#self"]
+    },
+    "MiniGame@PF@StartCompetition": {
+        "action": "ClickSelf",
+        "roi": [931, 563, 241, 151],
+        "postDelay": 500,
+        "next": ["MiniGame@PF@StartAction", "#self"]
+    },
+    "MiniGame@PF@StartAction": {
+        "action": "ClickSelf",
+        "roi": [986, 341, 236, 376],
+        "next": ["#self", "MiniGame@PF@WaitTimeTo0158"]
+    },
+    "MiniGame@PF@WaitTimeTo0158": {
+        "algorithm": "JustReturn",
+        "next": ["MiniGame@PF@TimeTo0158", "MiniGame@PF@WaitTimeTo0158"]
+    },
+    "MiniGame@PF@TimeTo0158": {
+        "algorithm": "OcrDetect",
+        "text": ["01:58"],
+        "ocrReplace": [[".*1.*([0-4]\\d|5[0-8])", "01:58"]],
+        "isAscii": true,
+        "roi": [611, 58, 63, 25],
+        "next": ["MiniGame@PF@Deployment"]
+    },
+    "MiniGame@PF@Deployment": {
+        "template": "BattleOperRoleSniper.png",
+        "roi": [1180, 590, 50, 50],
+        "action": "Swipe",
+        "specificRect": [1224, 661, 1, 1],
+        "rectMove": [710, 325, 1, 1],
+        "specialParams": [500, 0, 3, 0],
+        "postDelay": 500,
+        "next": ["MiniGame@PF@ConfirmDirection"]
+    },
+    "MiniGame@PF@ConfirmDirection": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [710, 325, 1, 1],
+        "rectMove": [1000, 325, 1, 1],
+        "specialParams": [500, 0, 3, 0],
+        "postDelay": 500,
+        "next": ["MiniGame@PF@Deployment", "MiniGame@PF@WaitToEnd"]
+    },
+    "MiniGame@PF@DoubleSpeed": {
+        "action": "ClickSelf",
+        "roi": [1017, 0, 169, 160],
+        "next": ["MiniGame@PF@WaitToEnd"]
+    },
+    "MiniGame@PF@WaitToEnd": {
+        "algorithm": "JustReturn",
+        "postDelay": 500,
+        "next": ["MiniGame@PF@DoubleSpeed", "MiniGame@PF@Victory", "#self"]
+    },
+    "MiniGame@PF@Victory": {
+        "action": "ClickSelf",
+        "roi": [0, 58, 535, 227],
+        "next": ["#self", "MiniGame@PF@WaitToBegin"]
+    },
+    "MiniGame@PF@WaitToBegin": {
+        "algorithm": "JustReturn",
+        "postDelay": 500,
+        "next": ["MiniGame@PF@PF-1", "#self"]
+    }
+}

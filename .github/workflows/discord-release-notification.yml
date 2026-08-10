@@ -42,27 +42,31 @@ jobs:
           URL="${{ steps.release.outputs.url }}"
 
           BASE_URL="https://github.com/${{ github.repository }}/releases/download/${TAG}"
-          WIN_URL="${BASE_URL}/MAA-${TAG}-win-x64.zip"
+          WIN64_URL="${BASE_URL}/MAA-${TAG}-win-x64.zip"
+          WINARM_URL="${BASE_URL}/MAA-${TAG}-win-arm64.zip"
           MAC_URL="${BASE_URL}/MAA-${TAG}-macos-universal.dmg"
-          LIN_URL="${BASE_URL}/MAA-${TAG}-linux-amd64.tar.gz"
+          LIN64_URL="${BASE_URL}/MAA-${TAG}-linux-x86_64.tar.gz"
+          LINARM_URL="${BASE_URL}/MAA-${TAG}-linux-aarch64.tar.gz"
 
-          DESCRIPTION=$(printf 'Read the full release note [here](%s).\n\nOpen or reopen your MAA client to get automatic updates.\nOr, download `MAA %s` for your platform by clicking the buttons below.' "$URL" "$TAG")
+          DESCRIPTION=$(printf 'Read the full release note [here](%s).\n\nReopen your MAA client to get automatic updates.\nDownload MAA `%s` for your platform below.' "$URL" "$TAG")
 
           PAYLOAD=$(jq -n \
             --arg tag "$TAG" \
             --arg description "$DESCRIPTION" \
-            --arg win_url "$WIN_URL" \
+            --arg win64_url "$WIN64_URL" \
+            --arg winarm_url "$WINARM_URL" \
             --arg mac_url "$MAC_URL" \
-            --arg lin_url "$LIN_URL" \
+            --arg lin64_url "$LIN64_URL" \
+            --arg linarm_url "$LINARM_URL" \
             '{
               embeds: [{
                 title: ("🎉 New MAA Release:  " + $tag),
                 description: $description,
                 color: 10246582,
                 fields: [
-                  { name: "Windows (x64)", value: ("[↗ Download](" + $win_url + ")"), inline: true },
-                  { name: "macOS (Universal, dmg)", value: ("[↗ Download](" + $mac_url + ")"), inline: true },
-                  { name: "Linux (amd64, tar.gz)", value: ("[↗ Download](" + $lin_url + ")"), inline: true }
+                  { name: "Windows", value: ("[x64](" + $win64_url + ") ❘ [ARM](" + $winarm_url + ")"), inline: true },
+                  { name: "macOS", value: ("[Universal](" + $mac_url + ")"), inline: true },
+                  { name: "Linux", value: ("[x64](" + $lin64_url + ") ❘ [ARM](" + $linarm_url + ")"), inline: true }
                 ]
               }]
             }')

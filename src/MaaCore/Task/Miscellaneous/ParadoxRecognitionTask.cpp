@@ -10,12 +10,13 @@
 bool asst::ParadoxRecognitionTask::_run()
 {
     LogTraceFunction;
-    if (m_paradox_opers.empty()) {
+    if (m_paradox_files.empty()) {
         LogError << __FUNCTION__ << "no paradox oper set";
         return false;
     }
 
-    const auto& path = utils::path(m_paradox_opers.front());
+    const auto& [id, raw_path] = m_paradox_files.front();
+    const auto& path = utils::path(raw_path);
     std::string file_name;
     if (!Copilot.load(path)) {
         Log.error("CopilotConfig parse failed");
@@ -31,11 +32,12 @@ bool asst::ParadoxRecognitionTask::_run()
     json::value info = basic_info_with_what("CopilotListLoadTaskFileSuccess");
     info["details"]["stage_name"] = Copilot.get_stage_name();
     info["details"]["file_name"] = file_name;
+    info["details"]["id"] = id;
     callback(AsstMsg::SubTaskExtraInfo, info);
 
     m_navigate_name = standardize_name(stage_name);
     LogInfo << __FUNCTION__ << "navigate name:" << m_navigate_name;
-    m_paradox_opers.erase(m_paradox_opers.begin());
+    m_paradox_files.erase(m_paradox_files.begin());
 
     const auto& all_oper_names = BattleData.get_all_chars();
     const auto& it = std::find_if(all_oper_names.begin(), all_oper_names.end(), [&](const auto& pair) {
@@ -91,9 +93,9 @@ void asst::ParadoxRecognitionTask::enter_paradox(const int skill_num, const int 
     }
 }
 
-void asst::ParadoxRecognitionTask::add_oper(const std::string& navigate_name)
+void asst::ParadoxRecognitionTask::add_file(int id, const std::string& navigate_name)
 {
-    m_paradox_opers.emplace_back(navigate_name);
+    m_paradox_files.emplace_back(id, navigate_name);
 }
 
 void asst::ParadoxRecognitionTask::swipe_page() const

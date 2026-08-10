@@ -22,8 +22,10 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using Stylet;
+using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -32,6 +34,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
     static UserDataUpdateSettingsUserControlModel()
     {
         Instance = new();
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     public static UserDataUpdateSettingsUserControlModel Instance { get; }
@@ -54,12 +57,10 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
         set => SetTaskConfig<UserDataUpdateTask>(t => t.TriggerInterval == value, t => t.TriggerInterval = value);
     }
 
-    public List<GenericCombinedData<UserDataUpdateTriggerInterval>> TriggerIntervalList { get; } =
-    [
-        new() { Display = LocalizationHelper.GetString("EveryTime"), Value = UserDataUpdateTriggerInterval.EveryTime },
-        new() { Display = LocalizationHelper.GetString("Daily"), Value = UserDataUpdateTriggerInterval.Daily },
-        new() { Display = LocalizationHelper.GetString("Weekly"), Value = UserDataUpdateTriggerInterval.Weekly },
-    ];
+    public LocalizedObservableList<UserDataUpdateTriggerInterval> TriggerIntervalList { get; } = new(
+        (UserDataUpdateTriggerInterval.EveryTime, "EveryTime"),
+        (UserDataUpdateTriggerInterval.Daily, "Daily"),
+        (UserDataUpdateTriggerInterval.Weekly, "Weekly"));
 
     public override void RefreshUI(BaseTask baseTask)
     {
@@ -100,11 +101,10 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
             }
 
             List<int> ids = [];
-            bool ret = false;
             if (operBoxTriggerDue)
             {
-                ret = Instances.ToolboxViewModel.StartOperBoxRecognitionTask(startImmediately: false);
-                if (!ret)
+                bool operBoxRet = Instances.ToolboxViewModel.StartOperBoxRecognitionTask(startImmediately: false);
+                if (!operBoxRet)
                 {
                     return (false, []);
                 }
@@ -116,23 +116,22 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
 
             if (depotTriggerDue)
             {
-                ret = Instances.ToolboxViewModel.StartDepotRecognitionTask(false);
-                if (!ret)
+                var (result, depotTaskId) = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Depot, (AsstTaskType.Depot, null));
+                if (!result)
                 {
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanUpdateDepotFailed"), UiLogColor.Error);
                     return (false, []);
                 }
-
-                int depotTaskId = Instances.AsstProxy.TasksStatus.Last().Key;
                 Instances.ToolboxViewModel.MarkDepotRecognitionSyncTimeForReset(depotTaskId);
                 ids.Add(depotTaskId);
             }
 
-            if (ret && operBoxTriggerDue && depotTriggerDue)
+            if (operBoxTriggerDue && depotTriggerDue)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.DoubleSync);
             }
 
-            return ret ? (true, ids) : (null, []);
+            return ids.Count > 0 ? (true, ids) : (null, []);
         }
 
         private static bool IsTriggerDue(DateTimeOffset? lastSyncTime, UserDataUpdateTriggerInterval triggerInterval)
@@ -156,5 +155,13 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                 _ => true,
             };
         }
+    }
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        TriggerIntervalList.RefreshLocalization();
     }
 }

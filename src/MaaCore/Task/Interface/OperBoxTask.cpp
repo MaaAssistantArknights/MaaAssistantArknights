@@ -1,6 +1,7 @@
 #include "OperBoxTask.h"
 
 #include "Task/Miscellaneous/OperBoxRecognitionTask.h"
+#include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
 
 asst::OperBoxTask::OperBoxTask(const AsstCallback& callback, Assistant* inst) :
@@ -8,6 +9,7 @@ asst::OperBoxTask::OperBoxTask(const AsstCallback& callback, Assistant* inst) :
 {
     auto enter_task = std::make_shared<ProcessTask>(m_callback, m_inst, TaskType);
     enter_task->set_tasks({ "OperBoxBegin" }).set_ignore_error(true);
+    enter_task->register_plugin<ScreenshotTaskPlugin>();
     m_subtasks.emplace_back(enter_task);
 
     auto recognition_task = std::make_shared<OperBoxRecognitionTask>(m_callback, m_inst, TaskType);

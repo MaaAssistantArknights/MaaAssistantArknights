@@ -36,6 +36,7 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 [JsonDerivedType(typeof(OperBoxTask), typeDiscriminator: nameof(OperBoxTask))]
 [JsonDerivedType(typeof(UserDataUpdateTask), typeDiscriminator: nameof(UserDataUpdateTask))]
 [JsonDerivedType(typeof(ReclamationTask), typeDiscriminator: nameof(ReclamationTask))]
+[JsonDerivedType(typeof(DepotMaintainTask), typeDiscriminator: nameof(DepotMaintainTask))]
 [JsonDerivedType(typeof(CustomTask), typeDiscriminator: nameof(CustomTask))]
 public class BaseTask : INotifyPropertyChanged
 {

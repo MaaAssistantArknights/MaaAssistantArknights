@@ -83,6 +83,8 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     /// </summary>
     public bool ContinueTraining { get; set; } = false;
 
+    public string CustomFileType { get; set; } = InfrastSettingsUserControlModel.UserDefined;
+
     /// <summary>
     /// Gets or sets 自定义配置文件路径
     /// </summary>

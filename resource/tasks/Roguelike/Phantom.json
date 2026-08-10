@@ -82,13 +82,7 @@
         "template": ["Phantom@Roguelike@GamePass.png", "Phantom@Roguelike@GamePass4.png"]
     },
     "Phantom@Roguelike@GamePassSkip1": {},
-    "Phantom@Roguelike@GamePassSkip1Confirm": {
-        "next": [
-            "Phantom@Roguelike@GamePassSkip2",
-            "Phantom@Roguelike@GamePassTheEndConfirm",
-            "Phantom@Roguelike@GamePass"
-        ]
-    },
+    "Phantom@Roguelike@GamePassSkip1Confirm": {},
     "Phantom@Roguelike@GetDrop1": {},
     "Phantom@Roguelike@GetDrop2": {},
     "Phantom@Roguelike@GetDrop3": {},

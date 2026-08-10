@@ -24,6 +24,12 @@
     <system:String x:Key="BackgroundImageStretchModeFill">늘려 채움</system:String>
     <system:String x:Key="BackgroundImageStretchModeUniform">비율 유지 (맞춤)</system:String>
     <system:String x:Key="BackgroundImageStretchModeUniformToFill">비율 유지 (자르기)</system:String>
+    <system:String x:Key="BackgroundMonet">모네 색상</system:String>
+    <system:String x:Key="BackgroundMonetMode">색상 모드</system:String>
+    <system:String x:Key="BackgroundMonetAuto">자동 추출</system:String>
+    <system:String x:Key="BackgroundMonetCustom">사용자 지정 색상</system:String>
+    <system:String x:Key="BackgroundMonetSelectColor">색상 선택</system:String>
+    <system:String x:Key="BackgroundMonetAutoTip">배경 이미지에서 주요 색상을 추출하여 테마 색상을 생성합니다</system:String>
     <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">업데이트</system:String>
     <system:String x:Key="AchievementSettings">도전과제</system:String>
@@ -46,6 +52,7 @@
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
     <system:String x:Key="ExternalNotificationSendTest">테스트</system:String>
+    <system:String x:Key="ExternalNotificationAddConfig">알림 추가</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 외부 알림 테스트</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">MAA 외부 알림 테스트입니다. 이 메시지가 표시되었다면 알림 전송이 성공한 것입니다!</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 전송 키</system:String>
@@ -74,9 +81,14 @@
     <system:String x:Key="ExternalNotificationGotifyServer">서버 URL</system:String>
     <system:String x:Key="ExternalNotificationGotifyToken">애플리케이션 토큰</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookUrl">Webhook URL</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookBody">메시지 본문 템플릿</system:String>
-    <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">플레이스홀더: {title}, {content}, {time}</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Url">Webhook URL</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Body">메시지 본문 템플릿</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">플레이스홀더: {title}, {content}, {time}</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.Presets">사전 설정 템플릿</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.PresetsPlaceholders">사전 설정 템플릿의 &lt;&gt; 플레이스홀더(예: &lt;nickname&gt;)를 실제 값으로 바꿔주세요</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.TemplateCustom">사용자 정의</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.TemplateMeoW">MeoW</system:String>
     <system:String x:Key="UseGpuForInference">추론 가속화를 위해 GPU 사용</system:String>
     <system:String x:Key="UseGpuForInferenceTip">GPU 추론을 사용하면 매우 적은 GPU 점유로 CPU 부담을 크게 줄일 수 있습니다</system:String>
     <system:String x:Key="GpuOptionDisable">미사용</system:String>
@@ -88,9 +100,9 @@
     <!--  Toast 不可用  -->
     <system:String x:Key="ToastNotificationUnavailable">Toast 알림을 사용할 수 없습니다, {0}</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">사용자가 Windows 설정에서 이 앱의 알림을 비활성화했습니다</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">사용자가 모든 앱 알림을 비활성화했습니다</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">그룹 정책에 의해 비활성화됨</system:String>
-    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">매니페스트에 의해 비활성화됨</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">사용자가 Windows 설정에서 모든 앱 알림을 비활성화했습니다</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByGroupPolicy">Windows 그룹 정책에 의해 비활성화됨</system:String>
+    <system:String x:Key="ToastNotificationUnavailable.DisabledByManifest">앱 매니페스트(Package.appxmanifest)에 의해 비활성화됨</system:String>
     <!--  !Toast 不可用  -->
     <!--  설정 가이드  -->
     <system:String x:Key="LeftClick">왼쪽 클릭</system:String>
@@ -261,9 +273,9 @@
     <system:String x:Key="IS5NewSquad6">꽃다발 분대</system:String>
     <system:String x:Key="IS5NewSquad7">초강수 분대</system:String>
     <system:String x:Key="IS5NewSquad8">쉐이 울림 분대</system:String>
-    <system:String x:Key="IS5NewSquad9">대리인 분대 (不支持)</system:String>
-    <system:String x:Key="IS5NewSquad10">지학 분대 (知学分队)</system:String>
-    <system:String x:Key="IS5NewSquad11">상고 분대 (商贾分队)</system:String>
+    <system:String x:Key="IS5NewSquad9">대리인 분대 (미지원)</system:String>
+    <system:String x:Key="IS5NewSquad10">학자 분대</system:String>
+    <system:String x:Key="IS5NewSquad11">상인 분대</system:String>
     <system:String x:Key="SpecialForceSquad">특근 분대</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
@@ -306,7 +318,9 @@
     <system:String x:Key="EmulatorStartFailed">에뮬레이터를 시작하지 못했습니다.\n사용하지 않는 에뮬레이터를 종료하거나\n또는 에뮬레이터를 수동으로 시작하세요.</system:String>
     <system:String x:Key="SwitchLanguage">언어 전환 🌐</system:String>
     <system:String x:Key="Language">언어</system:String>
-    <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 바로 재시작하시겠습니까?</system:String>
+    <system:String x:Key="LanguageChangedTip">언어 설정이 변경되었습니다. 일부 콘텐츠는 재시작 후 완전히 적용됩니다.</system:String>
+    <system:String x:Key="LanguageRestartNow">재시작</system:String>
+    <system:String x:Key="LanguageSwitchNow">전환</system:String>
     <system:String x:Key="ManualRestart">나중에</system:String>
     <system:String x:Key="Tip">도움말</system:String>
     <system:String x:Key="Warning">경고</system:String>
@@ -319,6 +333,7 @@
     <system:String x:Key="Delete">삭제</system:String>
     <system:String x:Key="RenameTask">작업 이름 변경</system:String>
     <system:String x:Key="RenameTaskPrompt">새 작업 이름을 입력하세요:</system:String>
+    <system:String x:Key="AddTaskQueueTask">새 작업 추가</system:String>
     <system:String x:Key="ConfirmDeleteTask">삭제 확인</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">정말로 {0} 번째 작업 "{1}"을 삭제하시겠습니까?</system:String>
     <system:String x:Key="TaskRenamed">작업 이름 변경: {0}</system:String>
@@ -336,13 +351,25 @@
 • {key=Quantity}: 현재 전투 작업에서 해당 재료의 드롭 수를 목표로 삼아, 설정한 수량에 도달하면 멈춥니다.
 • {key=TargetInventory}: ｢{key=Toolbox}-{key=DepotRecognition}｣ 에 저장된 재고 데이터를 참고하여 설정한 재고 수량까지만 보충합니다.
   • 재고 데이터는 캐시이므로 수동 파밍, 제작, 재료 사용 후 실제 수량과 달라질 수 있습니다. ｢{key=UserDataUpdate}｣ 또는 ｢{key=Toolbox}-{key=DepotRecognition}｣ 에서 동기화해 주세요.
-  • {key=TargetInventory} 사용 중에는 실행 도중 재료와 수량을 바꿀 수 없습니다.</system:String>
+  • 실행 중에는 드롭에 따라 재고가 실시간 업데이트되며, 이전 작업에서 드롭된 재료가 후속 작업의 부족 수량에 반영됩니다.</system:String>
     <system:String x:Key="StartupUpdateCheck">시작 시 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheck">일정 시간마다 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheckTip">게임 내 00:00 / 18:00 (서버 현지 시간 04:00 / 22:00)</system:String>
     <system:String x:Key="UpdateAutoDownload">업데이트 자동 다운로드</system:String>
+    <system:String x:Key="UpdateAutoDownloadTip" xml:space="preserve">체크 해제 시, 업데이트 감지 시（수동으로 ｢{key=UpdateCheckNow}｣ 실행 포함）자동 다운로드가 중지되고 다운로드 링크가 포함된 시스템 알림만 표시됩니다. 링크에서 업데이트 패키지를 직접 다운로드한 후 MAA에 끌어다 놓아 수동으로 업데이트할 수 있습니다.
+시스템 알림이 꺼져 있는 경우 앱 내 알림으로 전환되지만, 앱 내 알림에는 조작 가능한 다운로드 버튼이 제공되지 않습니다.</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">업데이트 패키지 자동 설치</system:String>
-    <system:String x:Key="ShowUpdaterConsole">업데이트 중 MAA.Updater 콘솔 출력 표시</system:String>
+    <system:String x:Key="ShowUpdaterConsole">업데이트 중 업데이터 콘솔 출력 표시</system:String>
+    <system:String x:Key="ShowUpdaterProgress">업데이터 진행 창 표시</system:String>
+    <system:String x:Key="ShowUpdaterProgressTip" xml:space="preserve">업데이트 시 업데이터가 별도의 진행 창을 표시하여 현재 상태와 파일 처리 진행률을 보여줍니다.
+끄면 업데이트 진행 상황을 직관적으로 확인할 수 없습니다. 업데이트 중에는 MAA를 다시 실행하지 마세요. 업데이트가 중단되거나 파일이 손상될 수 있습니다.</system:String>
+    <system:String x:Key="ShowUpdaterProgressWarning" xml:space="preserve">업데이트 진행 창을 끄면 업데이트 중에 진행 상황이 표시되지 않습니다.
+
+주의 사항:
+1. 업데이트 중에는 MAA를 다시 실행하지 마세요. 파일 점유로 인해 업데이트가 실패하거나 파일이 손상될 수 있습니다.
+2. 진행 창과 콘솔 출력을 모두 끄면 업데이트 중에 UI 피드백이 전혀 표시되지 않아 중단 또는 실패 여부를 판단하기 어렵습니다.
+
+업데이트 진행 창을 끄시겠습니까?</system:String>
     <system:String x:Key="UpdateCheckStable">안정 버전</system:String>
     <system:String x:Key="UpdateCheckBeta">베타 버전</system:String>
     <system:String x:Key="UpdateCheckNightly">개발 버전</system:String>
@@ -445,6 +472,7 @@ D:\
     <system:String x:Key="LocalUpdatePackageImportedTitle">로컬 업데이트 패키지가 준비되었습니다</system:String>
     <system:String x:Key="LocalUpdatePackageImportedDesc">사용 가능한 로컬 업데이트 패키지를 감지했습니다. 지금 MAA를 업데이트하시겠습니까? (프로세스 재시작)</system:String>
     <system:String x:Key="LocalUpdatePackageUnsupported">압축 파일을 인식할 수 없습니다: {0}\n현재 아키텍처용 전체 패키지 또는 현재 버전에서 더 높은 버전으로 가는 OTA 패키지만 가져올 수 있습니다.\n현재 버전: {1}\n현재 아키텍처: {2}\n지원되는 파일명 예시: MAA-vTARGET_VERSION-win-{2}.zip\n또는 MAAComponent-OTA-{1}_vTARGET_VERSION-win-{2}.zip</system:String>
+    <system:String x:Key="LocalResourcePackageTooOld">리소스 패키지 버전({0})이 현재 버전({1})보다 새롭지 않아 가져오기를 건너뛰었습니다.</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">새로운 버전이 확인되지만 업데이트 패키지가 없음</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">전체 패키지를 수동으로 다운로드해 업데이트해 주세요!</system:String>
     <system:String x:Key="ForceScheduledStart">강제 예약 시작</system:String>
@@ -470,6 +498,13 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
         관리자 권한으로 실행 시 부팅 시 자동 실행이 지원되지 않습니다. MAA를 관리자 권한으로 장시간 실행하는 것은 권장하지 않습니다.\n필요할 경우 제어판 &gt; Windows 도구 &gt; 작업 스케줄러에서 커스텀 작업을 생성하세요. 트리거를 설정할 때 ｢가장 높은 권한으로 실행｣을 반드시 선택하세요.
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">MAA 실행 후 작업 자동 시작</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdate">업데이트 후 즉시 재시작할 때 자동 실행 안 함</system:String>
+    <system:String x:Key="SkipStartupAutoRunAfterUpdateTip" xml:space="preserve">｢{key=AutoInstallUpdatePackage}｣ 이 켜져 있거나, 업데이트 안내에서 즉시 재시작을 선택한 경우에만 적용됩니다.
+｢{key=ManualRestart}｣ 를 선택한 뒤 나중에 수동으로 MAA를 실행하면 ｢{key=RunTaskAfterLaunch}｣ / ｢{key=OpenEmulatorAfterLaunch}｣ 는 평소처럼 동작합니다.</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTitle">자동 시작 예정</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskOnly">곧 작업을 자동 실행합니다. 취소할까요?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">곧 에뮬레이터를 자동 실행합니다. 취소할까요?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">곧 작업을 자동 실행하고 에뮬레이터를 시작합니다. 취소할까요?</system:String>
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
     <system:String x:Key="StartGameLaunchClient">시작 시 클라이언트 실행</system:String>
@@ -488,6 +523,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="EmulatorPathNotExist">에뮬레이터 경로가 존재하지 않습니다</system:String>
     <system:String x:Key="EmulatorPathEmptyWarning">에뮬레이터 경로가 비어 있습니다. ｢{key=RetryOnDisconnected}｣ 및 ｢{key=OpenEmulatorAfterLaunch}｣ 선택 상태가 초기화되었습니다</system:String>
     <system:String x:Key="Select">선택</system:String>
+    <system:String x:Key="Test">테스트</system:String>
     <system:String x:Key="ForcedReplaceAdb">ADB 강제 교체</system:String>
     <system:String x:Key="ForcedReplaceAdbTip" xml:space="preserve">현재 에뮬레이터에 포함된 ADB 버전은 보통 최신이므로 수동 교체는 일반적으로 불필요합니다.&#10;클릭 시 Google에서 최신 ADB를 다운로드하여 로컬 경로의 ADB 파일을 교체합니다. 명확한 ADB 호환성 문제가 발생한 경우에만 사용하세요.</system:String>
     <system:String x:Key="TouchMode">터치 수행 방식</system:String>
@@ -495,7 +531,8 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="MaaTouchMode">MaaTouch (실험적)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (비권장)</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (실험적)</system:String>
-    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input는 OS 버전이 낮아 Minitouch나 MaaTouch를 사용할 수 없는 물리적 기기용입니다. 다른 두 모드를 사용할 수 있다면 ADB Input를 선택하지 마세요.&#10;ADB Input 스와이프는 오프셋이 발생하기 쉬우며, 이 문제를 방지하기 위해 스와이프 속도가 매우 느리게 설정되고 스와이프 거리도 다른 두 모드와 다릅니다. 정확한 좌표 제어가 필요한 상황에서는 사용할 수 없습니다.</system:String>
+    <system:String x:Key="MumuExtrasTouchMode">MuMu 터치 (실험적)</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input는 OS 버전이 낮은 물리적 기기 전용입니다. 다른 모드를 사용할 수 있다면 ADB Input를 선택하지 마세요.&#10;ADB Input 스와이프는 오프셋이 발생하기 쉬우며, 이 문제를 방지하기 위해 스와이프 속도가 매우 느리게 설정되고 스와이프 거리도 다른 모드와 다릅니다. 정확한 좌표 제어가 필요한 상황에서는 사용할 수 없습니다.</system:String>
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">에뮬레이터 실행 매개변수 추가 명령 (예: ｢--instance 1｣ 은 1 번 인스턴스).&#10;명령 형식은 에뮬레이터마다 다르며 일반적으로 인스턴스 번호나 창 모드 등을 포함합니다.</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
@@ -625,7 +662,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="UseCardLog">카드 스타일 로그 사용</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">로그 썸네일 최대 개수</system:String>
     <system:String x:Key="TitleBarDisplayContent">제목 표시줄 표시 내용</system:String>
-    <system:String x:Key="CustomBackgroundTip">｢background｣ 폴더를 직접 생성한 후 background.png를 넣으면 배경 이미지를 변경할 수 있습니다</system:String>
     <system:String x:Key="UseLogItemDateFormat">커스텀 로그 시간 형식</system:String>
     <system:String x:Key="LogItemDateFormatString">시간 형식 문자열</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">변경 사항을 적용을 위해 지금 재시작하시겠습니까?</system:String>
@@ -657,58 +693,65 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 포트가 자주 변경되고 단일 에뮬레이터만 실행 중임을 확인한 경우에만 이 옵션을 활성화하세요.</system:String>
     <system:String x:Key="AccountSwitch">계정 전환</system:String>
     <system:String x:Key="AccountSwitchManualRun">수동 스위치</system:String>
-    <system:String x:Key="AccountSwitchTip" xml:space="preserve">전환할 계정을 입력하고, 계정 전환을 종료하려면 공백으로 남겨두세요.
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">전환할 계정을 입력하고, 계정 전환을 비활성화하려면 공백으로 남겨두세요.
 ｢123****4567｣ 과 같이 로그인 인터페이스에 표시된 내용을 입력하세요. ｢123****4567｣, ｢4567｣ 또는 ｢23****45｣ 를 입력할 수 있습니다.
-공식(CN) 및 Bilibili 서버만 지원합니다. 로그인 계정은 지원되지 않습니다.</system:String>
+번체 중국어 서버의 계정은 Email 형식입니다(예: ｢ab****01@gmail.com｣). 별표가 없는 평문 부분(예: ｢01@gmail｣) 입력을 권장합니다.
+공식(CN), Bilibili 및 번체 중국어 서버만 지원합니다. 서드파티 로그인 방식은 지원되지 않습니다.</system:String>
     <system:String x:Key="AdbPath">ADB 경로</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">선택한 파일 이름에 ADB가 포함되어 있지 않습니다.\n잘못된 파일/에뮬레이터를 선택한 것은 아닌지 확인하세요.</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">잘못 선택한 것이 확실히 아닙니다</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">다시 선택하겠습니다</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
-    <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
+    <system:String x:Key="ConnectionAddressTip">｢{key=AutoDetectConnection}｣ 을(를) 활성화하고 성공하면 자동으로 입력됩니다. 감지에 실패한 경우, 에뮬레이터의 실제 포트를 확인하여 입력해 주세요.</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
     <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
     <system:String x:Key="WindowRestore">창 복원</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 강화 기능 활성화</system:String>
-    <system:String x:Key="MuMuEmulatorPathNotFound">MuMu Emulator 12 경로를 찾을 수 없습니다.</system:String>
+    <system:String x:Key="MuMuExtrasTouchEnabled">MuMu 터치 강화 활성화 (실험적, MuMu 에뮬레이터 6.3.2+ 필요, 백그라운드 유지 지원)</system:String>
+    <system:String x:Key="MuMuEmulatorPathNotFound">MuMu 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
     <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">선택한 MuMu 설치 폴더에서 external_renderer_ipc.dll을 찾을 수 없습니다.\n
 예상 상대 경로:
-nx_device/12.0/shell/sdk/external_renderer_ipc/external_renderer_ipc.dll 또는
-shell/sdk/external_renderer_ipc/external_renderer_ipc.dll\n
+nx_device/15.0/shell/sdk/external_renderer_ipc.dll 또는
+nx_device/12.0/shell/sdk/external_renderer_ipc.dll 또는
+shell/sdk/external_renderer_ipc.dll\n
 설치 폴더를 확인하세요.</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
 MuMu / MuMu Arknights V4.0.0 이상 버전이 필요합니다. MuMu Global은 V5.21.3 이상 버전이 필요합니다.
 이 기능을 활성화한 후 즉시 스크린샷 테스트를 실행하는 것을 강력히 권장합니다.
 MAA는 레지스트리를 통해 설치 경로를 자동으로 가져옵니다. 가져오지 못한 경우 수동으로 입력해 주세요.\n
 설치 경로는 에뮬레이터 경로의 최상위 폴더를 입력해야 합니다. 예를 들어, 에뮬레이터 프로세스 파일 경로가
-C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe 또는
-C:\\Program Files\\Netease\\MuMuPlayer-12.0\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
+C:\\Program Files\\Netease\\MuMuPlayer\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
 인 경우
-C:\\Program Files\\Netease\\MuMuPlayer-12.0으로 입력해야 합니다.\n
+C:\\Program Files\\Netease\\MuMuPlayer으로 입력해야 합니다.\n
 주의:
 1. 연결 주소의 포트 번호가 7555일 경우, 포트 번호를 16384로 변경해야 합니다.
 2. 네트워크 브리징을 사용 중인 경우 MuMu 네트워크 브리징 모드를 선택하고 일련 번호를 수동으로 입력해야 합니다.
     </system:String>
-    <system:String x:Key="MuMu12EmulatorPath">MuMu12 에뮬레이터 경로</system:String>
+    <system:String x:Key="MuMu12EmulatorPath">MuMu 에뮬레이터 경로</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu 네트워크 브리지 모드</system:String>
     <system:String x:Key="MuMuBridgeConnectionTip">무슨 역할을 하는지 잘 모른다면 이 옵션을 활성화하지 마세요</system:String>
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
     <system:String x:Key="MuMu12Display">표시 번호</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu 스크린샷 강화 기능이 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
+    <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu 에뮬레이터에서 ｢앱 유지｣ 가 켜져 있지만 MAA 터치 강화가 작동하지 않습니다. 앱 유지 중에는 조작할 수 없습니다. MAA ｢{key=ConnectionSettings}｣ 에서 ｢{key=MuMu12ExtrasEnabled}｣ 와 그 아래의 ｢{key=MuMuExtrasTouchEnabled}｣ 를 함께 활성화하세요. 강화를 사용하지 않으려면 MuMu 설정에서 ｢앱 유지｣ 를 비활성화하세요(일부 버전에서는 ｢백그라운드 유지｣ ｢백그라운드 방치 시 유지 실행｣ 등으로 불렸습니다).</system:String>
+    <system:String x:Key="MuMuEmulator12FullExtrasReady">완전한 MuMu 강화 가동——스크린샷과 터치 듀얼 링크 개통, 백그라운드 유지마저도 우리 손안에!</system:String>
     <system:String x:Key="LdExtrasEnabled">LD 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">선택한 LDPlayer 경로에서 ldopengl64.dll을 찾을 수 없습니다. 설치 디렉터리를 확인하세요.</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
 LDPlayer 9 V9.1.32 이상이 필요합니다.
 이 기능을 활성화한 후 즉시 스크린샷 테스트를 실행하는 것을 강력히 권장합니다.
-MAA는 레지스트리를 통해 설치 경로를 자동으로 가져옵니다. 가져오지 못한 경우 수동으로 입력해 주세요.\n
+MAA는 레지스트리를 통해 설치 경로를 자동으로 가져옵니다. 가져오지 못한 경우 수동으로 입력해 주세요.
+
 설치 경로는 에뮬레이터 경로의 최상위 폴더를 입력해야 합니다. 예를 들어, 에뮬레이터 프로세스 파일 경로가
 C:\\leidian\\LDPlayer9\\dnplayer.exe
 인 경우
 C:\\leidian\\LDPlayer9
-을 입력해야 합니다.\n
+을 입력해야 합니다.
+
 인스턴스 번호는 LD플레이어 멀티 인스턴스 매니저에서 확인할 수 있습니다.
-메인 인스턴스는 0이고, 다른 인스턴스는 버전/ID 뒤에 오는 숫자입니다.\n
+메인 인스턴스는 0이고, 다른 인스턴스는 버전/ID 뒤에 오는 숫자입니다.
+
 스크린샷 향상 기능은 에뮬레이터 해상도를 가로 모드로 설정해야 하며, 연결 과정에서 화면을 회전시키지 마세요.
 세로 화면 상태에서 게임을 실행한 후 가로 화면으로 전환하면 화면 찢어짐 등의 문제가 발생할 수 있습니다.
     </system:String>
@@ -740,6 +783,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">생존 연산</system:String>
     <system:String x:Key="UserDataUpdate">사용자 데이터 업데이트</system:String>
+    <system:String x:Key="DepotMaintain">재고 유지</system:String>
     <system:String x:Key="MiniGame">편의 기능</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">상시</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">현재 이벤트</system:String>
@@ -800,7 +844,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 스테이지의 가능한 최대 대리 지휘 횟수의 배수를 감지하고, 자동으로 최대 대리 지휘 횟수를 유지하며, 이성 회복제 사용 후 이성이 남지 않도록 합니다.
 
-• 단순 배수 (1~6):
+• 단순 배수 (1~10):
 설정된 배수에 따라 대리 지휘 횟수를 실행합니다.
 현재 이성 수치가 설정된 배수를 완료하기에 충분하지 않은 경우(예: 5회만 가능하지만 6회로 설정), 전투를 시작하지 않습니다.
 또는
@@ -819,13 +863,45 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DefaultStage">현재/최근</system:String>
     <!--<system:String x:Key="InvalidStage">잘못된 스테이지</system:String>-->
     <system:String x:Key="ClosedStage">미개방 스테이지</system:String>
-    <system:String x:Key="UnsupportedStages">미지원 스테이지</system:String>
+    <system:String x:Key="UnsupportedStages">미지원 스테이지 {0}. 신규 이벤트 스테이지인 경우 지도 리소스 업데이트 후 자동 전투를 사용할 수 있습니다</system:String>
     <system:String x:Key="LowVersion">낮은 버전</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">최소 요구사항: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">남은 오픈일 수: </system:String>
     <system:String x:Key="Inventory">재고</system:String>
     <system:String x:Key="InventoryUpdateTip">재고 데이터는  ｢{key=Toolbox}-{key=DepotRecognition}｣ 을 통해 업데이트 가능</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">작업 "{0}" 에서 {key=TargetInventory} 가 켜져 있지만 현재 사용할 수 있는 재고 데이터가 없어 건너뜁니다. ｢{key=Toolbox}-{key=DepotRecognition}｣ 에서 재고를 업데이트해 주세요.</system:String>
+    <!--  재고 유지  -->
+    <system:String x:Key="DepotUpdateBeforeStart">작업 시작 전 재고 데이터 업데이트</system:String>
+    <system:String x:Key="AddPlan">추가</system:String>
+    <system:String x:Key="DepotPreset">프리셋</system:String>
+    <system:String x:Key="DepotPresetChip1">저급 칩 (전 직업)</system:String>
+    <system:String x:Key="DepotPresetChip2">고급 칩 세트 (전 직업)</system:String>
+    <system:String x:Key="DepotPresetLmd">용문폐</system:String>
+    <system:String x:Key="DepotPresetCertificate">구매 증명서 (레드 티켓)</system:String>
+    <system:String x:Key="DepotPresetSkillSummary">스킬 개론 - 3</system:String>
+    <system:String x:Key="CollapseAll">접기</system:String>
+    <system:String x:Key="ClearPlans">전체 삭제</system:String>
+    <system:String x:Key="ClearPlansConfirm">모든 계획을 삭제하시겠습니까?</system:String>
+    <system:String x:Key="DepotPlanInvalidDropItem">#{0}: 드롭 아이템 미지정</system:String>
+    <system:String x:Key="DepotPlanZeroDropCount">#{0}: 목표 재고가 0</system:String>
+    <system:String x:Key="DepotPlanNoStage">#{0}: 스테이지 미지정 또는 \"현재/이전\"</system:String>
+    <system:String x:Key="DepotPlanInventoryEnough">#{0}: {1} 충분 {2}/{3}</system:String>
+    <system:String x:Key="DepotPlanInventoryInsufficient">#{0}: {1} 부족 {2}/{3}, {4}개 필요</system:String>
+    <system:String x:Key="DepotPlanStageNotOpen">#{0}: 스테이지 '{1}' 가 열려 있지 않습니다</system:String>
+    <system:String x:Key="DepotPlanAddTaskFailed">#{0}: 작업 추가 실패</system:String>
+    <system:String x:Key="DepotSkipDuringActivity">이벤트 기간 중 건너뛰기</system:String>
+    <system:String x:Key="DepotSkipDuringResourceCollection">자원 수집 한정 전일 개방 기간 중 건너뛰기</system:String>
+    <system:String x:Key="DepotPlanSkippedActivity">이벤트 진행 중이므로 재고 유지를 건너뛰었습니다.</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">자원 수집 한정 전일 개방 기간 중이므로 재고 유지를 건너뛰었습니다.</system:String>
+    <system:String x:Key="DepotPlanUpdateDepotFailed">재고 데이터 업데이트에 실패했습니다.</system:String>
+    <system:String x:Key="DepotUseAutoSeries">AUTO 대리 배수</system:String>
+    <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">체크 해제 시 1배로 대리; 체크 시 현재 이성으로 가능한 최대 배수로 대리 작전하며, 1회 진행 시 목표 재고 상한을 초과할 수 있습니다.</system:String>
+    <system:String x:Key="DepotEnableUseMedicine">「{key=UseSanityPotion}」 체크박스 활성화</system:String>
+    <system:String x:Key="DepotEnableUseStone">「{key=UseOriginitePrime}」 체크박스 활성화</system:String>
+    <system:String x:Key="DepotUseExpiringMedicine">48시간 이내 만료되는 이성 포션 사용</system:String>
+    <system:String x:Key="DepotGroupTaskBehavior">작업 동작</system:String>
+    <system:String x:Key="DepotGroupStageAndBattle">스테이지 및 전투</system:String>
+    <system:String x:Key="DepotGroupSanityRecovery">이성 회복</system:String>
     <system:String x:Key="LessThanOneDay">1일 미만</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>
@@ -845,6 +921,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UseCustomAnnihilation">커스텀 {key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">섬멸 모드</system:String>
     <system:String x:Key="Annihilation.Current">이번 섬멸 작전</system:String>
+    <system:String x:Key="PermanentStageBlocksStages">선택된 스테이지 ｢{0}｣ 는 상설 스테이지 또는 현재/마지막이므로 이후 스테이지는 선택되지 않습니다</system:String>
     <system:String x:Key="Chernobog">체르노보그</system:String>
     <system:String x:Key="LungmenOutskirts">용문 외곽</system:String>
     <system:String x:Key="LungmenDowntown">용문 시내</system:String>
@@ -870,9 +947,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TaskAppend.Skip">{0}: {1} 작업 스킵</system:String>
     <system:String x:Key="TaskAppend.Error">{0}: {1} 작업 추가 실패</system:String>
     <system:String x:Key="AdbReplacementTips">작업이 전혀 반응하지 않을 경우, ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣를 사용하거나, 터치 모드에서 ADB Input(권장하지 않음)을 선택해 보세요.</system:String>
+    <system:String x:Key="LDPlayerMaaTouchWarning">LDPlayer 에뮬레이터와 MaaTouch 터치 모드 조합이 감지되었습니다. 이 조합은 스와이프 작업이 비정상적으로 느려지는 것으로 알려져 있습니다(실제 스와이프 지속 시간이 설정값을 훨씬 초과함). 스와이프가 끝나기 전에 다음 작업이 실행되어 다양한 문제가 발생할 수 있습니다. 다른 터치 모드로 전환하는 것을 권장합니다.</system:String>
     <system:String x:Key="Waiting">전투가 끝나기를 기다리며……</system:String>
     <system:String x:Key="Stopping">중지 중……</system:String>
     <system:String x:Key="Stopped">중지됨</system:String>
+    <system:String x:Key="StopTimeout">중지 시간 초과: Core가 중지 요청에 시간 내 응답하지 않았습니다</system:String>
+    <system:String x:Key="RestartRecommendation">MAA를 다시 시작하여 정상 상태로 복원하는 것을 권장합니다</system:String>
     <system:String x:Key="UnknownErrorOccurs">예상치 못한 오류가 발생했습니다</system:String>
     <system:String x:Key="SetSuccessfully">설정 성공</system:String>
     <system:String x:Key="SetFailed">설정 실패</system:String>
@@ -982,6 +1062,8 @@ C:\\leidian\\LDPlayer9
     <!--  미니게임  -->
     <system:String x:Key="MiniGameName">미니게임 이름</system:String>
     <system:String x:Key="MiniGameNameEmptyTip">위에서 미니게임을 선택하여 실행을 시작하세요.</system:String>
+    <system:String x:Key="MiniGame@PF">진지 축구 선수권 대회</system:String>
+    <system:String x:Key="MiniGame@PFTip">튜토리얼 스테이지를 수동으로 클리어한 후, PF-1에 진입하여 수동으로 편성하세요. ｢크루스｣만 단독으로 편성하고, 이벤트 스테이지 화면으로 돌아가 PF-1을 탭하여 임무를 시작하세요.</system:String>
     <system:String x:Key="MiniGame@PV">PV-불꽃놀이 집행위원회</system:String>
     <system:String x:Key="MiniGame@PVTip">선택한 스테이지부터 자동으로 클리어합니다. 첫 번째 스테이지를 선택한 경우에는 이벤트 페이지의 가장 왼쪽에서 시작하세요. 다른 스테이지를 선택한 경우에는 위치 보정을 위해 이전 스테이지에 먼저 들어갔다가 돌아오세요.</system:String>
     <system:String x:Key="MiniGame@SPA">위수 협의: 맹약</system:String>
@@ -1011,7 +1093,37 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event2">레인저</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event3">수상한 그림자</system:String>
     <system:String x:Key="MiniGame@SecretFront">비밀 전선</system:String>
-    <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내 「이전 소대의 데이터 전승받기」 옵션을 체크하는 것을 권장합니다.</system:String>
+    <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내  ｢이전 소대의 데이터 전승받기｣  옵션을 체크하는 것을 권장합니다.</system:String>
+    <system:String x:Key="MiniGame@PixelPaint">픽셀 아트 자동 그리기</system:String>
+    <system:String x:Key="MiniGame@PixelPaintTip">게임 내 24×24 픽셀 아트 편집 페이지에 직접 들어간 뒤 시작하세요.&#10;미리보기는 드래그/휠로 구도 조정. 기본적으로 흰색은 건너뜀.&#10;시작 후 파라미터는 고정. 진행 상황은 오른쪽 로그 참조.</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DropHint">이미지를 드래그하거나 아래 버튼으로 선택</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PickImage">이미지 선택</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetView">구도 초기화</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetParams">파라미터 초기화</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Fit">맞춤</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitCrop">크롭</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitContain">전체 표시</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@FitStretch">늘리기</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Dither">디더링</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">없음</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Contrast">대비</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Brightness">밝기</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Saturation">채도</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@PaintWhite">흰색도 그리기</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@Swipe">스와이프 그리기 사용</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@SwipeTip">같은 색 연속 칸을 한 번의 드래그로 그려 속도를 크게 높입니다. 일부 터치 방식에서는 이상 동작이 있을 수 있습니다. 문제가 생기면 꺼주세요.</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@GridDelay">그리기 간격(ms)</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@GridDelayTip">칸당 추가 대기 시간. 클릭 후 대기와 드래그 시간에 모두 가산됩니다. 각 터치 방식에 기본 간격이 있어 기본 0으로 충분합니다. 저사양 기기에서는 문제가 있을 수 있으니 필요에 따라 조정하세요.</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@LoadFailed">이미지 로드 실패</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ConvertFailed">변환 실패</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ReadyStatus">그릴 수 있음 {0}칸 / {1}색</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@NeedImage">먼저 이미지를 불러와 미리보기를 생성하세요</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@StartLog">픽셀 아트 시작: {0}칸, {1}색</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ProgressLog">픽셀 아트 {0}/{1}</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DoneLog">픽셀 아트 완료</system:String>
+
     <system:String x:Key="MiniGameNameGreenTicketStore">자격증명서 상점</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1단계는 전부 구매하고&#10;2단계는 헤드헌팅 허가증과 모집 허가증을 구매해요</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">고급증명서 상점</system:String>
@@ -1035,8 +1147,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTaskNameTip">스테이지 코드, 예시: 1-7</system:String>
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
     <system:String x:Key="SelectTheFileTip">마우스로 작업 파일을 드래그해 선택할 수 있어요 (oﾟvﾟ)ノ</system:String>
-    <system:String x:Key="PasteClipboardTip">클립보드에서 작업 파일을 읽고 추가합니다</system:String>
-    <system:String x:Key="PasteClipboardCopilotSetTip">클립보드에서 작업 파일을 읽고 작업 목록에 추가합니다.</system:String>
+    <system:String x:Key="PasteClipboardTip">클립보드에서 읽어 작업/작업 세트 자동 인식</system:String>
     <system:String x:Key="ImportFilesTip">일괄 가져오기</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">이 작업 파일이 마음에 드셨나요? 평가해 주세요!</system:String>
     <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다: &lt;</system:String>
@@ -1111,9 +1222,8 @@ C:\\leidian\\LDPlayer9
         3. {key=SSS}: resource/copilot 폴더에 여러 파일이 있습니다. 먼저 수동으로 분대를 편성한 다음, 우측 하단에 ｢작전 개시｣ 버튼이 나타나는 화면에서 시작하세요. ｢{key=LoopTimes}｣와 함께 사용할 수 있습니다.\n\n
         4. {key=ParadoxSimulation}: 스킬 선택 후, ｢시뮬레이션 시작｣ 버튼이 나타나는 스킬 선택 화면에서 시작하세요. 1/2★ 오퍼레이터(스킬 없음)의 경우, 우측 하단에 ｢시뮬레이션 시작｣ 버튼이 있는 화면에서 시작하세요. ｢{key=UseCopilotList}｣를 사용하는 경우, {key=Operator} 목록의 ｢레벨/레어도｣ 탭에서 시작하세요.\n\n
         5. ｢선호｣로 표시된 오퍼레이터는 ｢{key=AutoSquad}｣ 인식 및 선택에 영향을 줄 수 있습니다. ｢{key=AutoSquad}｣ 사용 시, 선호 표시를 해제하거나 오류 발생 시 ｢{key=AutoSquad}｣를 끄고 안내에 따라 누락된 오퍼레이터를 수동으로 편성하는 것을 고려하세요.\n\n
-        6. 자동지휘 작업 공간에서, 입력 상자 오른쪽의 붙여넣기 버튼을 클릭하여 코드를 붙여넣을 수 있습니다:\n
-        • 두 번째 버튼을 왼쪽 클릭 = 작업 추가.\n
-        • 세 번째 버튼을 클릭 = 작업 목록 추가.\n\n
+        6. ZOOT 작업 공간에서, 입력 상자 오른쪽의 붙여넣기 버튼을 클릭하여 코드를 붙여넣을 수 있습니다. 형식은 자동으로 인식됩니다:\n
+        • prts://s = 작업 세트 prts:// = 단일 작업\n\n
         7. {key=UseCopilotList}:\n
         • 작업 선택 후, 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
         • 추가: 좌클릭은 일반, 우클릭은 하드 모드입니다.\n
@@ -1136,7 +1246,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTaskTypeMismatch">선택한 작업이 현재 탭과 일치하지 않습니다</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">스테이지 이름이 비어 있는 작업이 있습니다</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">부조종사 작업을 파일에 저장할 수 없습니다.: </system:String>
-    <system:String x:Key="CopilotStartWithEmptyList">작업 없이 ｢{key=UseCopilotList}」를 사용 중입니다.</system:String>
+    <system:String x:Key="CopilotStartWithEmptyList">작업 없이 ｢{key=UseCopilotList}｣ 를 사용 중입니다.</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">｢{key=UseCopilotList}｣를 사용하여 단일 작업을 실행하는 것은 권장되지 않습니다. 단일 작업은 직접 실행해 주세요.</system:String>
     <system:String x:Key="CopilotTaskListMixedModeNotAllowed">현재 ｢{key=UseCopilotList}｣를 사용 중입니다. 서로 다른 작업 유형을 혼합하는 것은 지원되지 않습니다.</system:String>
     <system:String x:Key="CopilotTaskTypeParseFailedSkipCheck">일부 작업 유형을 해석하지 못했습니다. 유형 검사를 건너뜁니다.</system:String>
@@ -1154,12 +1264,14 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">업데이트 패키지 압축 해제에 실패했습니다. 먼저 MAA.exe를 재시작해 보세요. 문제가 계속되면 컴퓨터를 재부팅한 후 다시 시도해 주세요. 필수 파일 삭제가 누락될 수 있으므로 수동으로 압축을 해제하지 마세요.</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">에뮬레이터와 ADB를 종료하거나 컴퓨터를 재시작하고 관리자 권한으로 MAA를 실행해 주세요.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">파일이 사용 중입니다. 컴퓨터를 재시작한 후 다시 시도하세요.</system:String>
+    <system:String x:Key="ErrorSolutionDesktopCompositionDisabled">이는 일반적으로 그래픽 드라이버의 일시적인 문제로 인해 DWM 데스크톱 합성이 비활성화된 것입니다. MAA는 계속 실행을 시도합니다. UI가 비정상적으로 표시되면 MAA를 수동으로 다시 시작하고, 그래픽 드라이버를 확인하고 업데이트하세요.</system:String>
+    <system:String x:Key="ErrorSolutionDragDrop">이는 일반적으로 드래그 조작이 진행 중일 때 반복적으로 드래그하여 발생한 우발적인 크래시입니다. 기능에 영향을 주지 않으며 무시해도 됩니다. 자주 발생한다면 조작 중 반복 드래그를 피해 주세요.</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">링크 열기 실패. ｢Windows 설정｣으로 이동하여 기본 브라우저를 선택하세요.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
     <system:String x:Key="ErrorCrashMessageHeader">위 문제로 인해 프로그램이 비정상 종료되었습니다.</system:String>
-    <system:String x:Key="ErrorCrashMessageOpenLog">「{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}」로 로그를 확인하고 오류가 발생한 구체적인 원인을 확인할 수 있습니다.</system:String>
-    <system:String x:Key="ErrorCrashMessageGenerateReport">「{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}」을 사용하여 오류 보고서를 생성한 후, 파란색 ｢{key=Issue}｣ 링크를 클릭하여 피드백을 제출해 주세요.</system:String>
+    <system:String x:Key="ErrorCrashMessageOpenLog">｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ 로 로그를 확인하고 오류가 발생한 구체적인 원인을 확인할 수 있습니다.</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 을 사용하여 오류 보고서를 생성한 후, 파란색 ｢{key=Issue}｣ 링크를 클릭하여 피드백을 제출해 주세요.</system:String>
     <system:String x:Key="ErrorCrashMessageHelpTip">다른 사람에게 도움을 요청할 경우, 이 창의 스크린샷, 화면 녹화, 화면 사진, 촬영한 영상, 손그림, 옮겨 적은 내용이 아니라 생성된 오류 보고서 파일을 보내 주세요.</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">마지막 충돌 원인</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
@@ -1187,8 +1299,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. ｢{key=Settings} - {key=ConnectionSettings}｣에서 다른 방식으로 변경해 주세요.</system:String>
     <system:String x:Key="ScreencapFailed">스크린샷 캡처에 실패했습니다. 반복적으로 발생 시 에뮬레이터를 다시 시작하거나 변경해 보세요!</system:String>
     <system:String x:Key="FastestWayToScreencap">스크린샷 캡처 속도: {0}ms ({1})</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷 캡처 속도가 느려서 (평균: {0}ms) Copilot 기능에서 일부 비정상적인 동작이 발생할 수 있습니다. MuMu12 또는 LDPlayer를 사용하는 경우 스크린샷 향상 기능을 활성화해 보세요.</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷 캡처 속도가 너무 느려서 (평균: {0}ms) Copliot 기능이 제대로 실행되지 않을 수 있습니다. 에뮬레이터를 재시작하거나 변경하는 것을 권장합니다! MuMu12 또는 LDPlayer를 사용하는 경우 스크린샷 향상 기능을 활성화해 보세요.</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷 캡처 속도가 느려서 (평균: {0}ms) Copilot 기능에서 일부 비정상적인 동작이 발생할 수 있습니다. MuMu 또는 LDPlayer를 사용하는 경우 스크린샷 향상 기능을 활성화해 보세요.</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷 캡처 속도가 너무 느려서 (평균: {0}ms) Copliot 기능이 제대로 실행되지 않을 수 있습니다. 에뮬레이터를 재시작하거나 변경하는 것을 권장합니다! MuMu 또는 LDPlayer를 사용하는 경우 스크린샷 향상 기능을 활성화해 보세요.</system:String>
+    <system:String x:Key="EmulatorFpsWarningTip">에뮬레이터 설정 주사율이 {0} FPS로 게임의 기본 프레임 속도(60 FPS)보다 낮습니다. 백그라운드 프레임 저하가 활성화되어 있거나 주사율이 너무 낮게 설정되어 있을 수 있습니다. 에뮬레이터 프레임 속도를 60 FPS로 설정하는 것을 권장합니다</system:String>
+    <system:String x:Key="EmulatorFpsErrorTip">에뮬레이터 설정 주사율이 너무 낮습니다 ({0} FPS). 작업에 문제가 발생할 수 있습니다. 에뮬레이터 설정에서 백그라운드 프레임 저하를 끄고 프레임 속도를 60 FPS로 설정해 주세요</system:String>
+    <system:String x:Key="EmulatorFpsHighTip">에뮬레이터 설정 주사율이 {0} FPS로 게임의 기본 프레임 속도 상한(60 FPS)을 초과합니다. 이는 에뮬레이터의 프레임 보간 기능일 수 있으며, 화면 왜곡이나 인식 불안정을 유발할 수 있습니다. 프레임 보간을 비활성화하고 프레임 속도를 60 FPS로 설정하는 것을 권장합니다</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
@@ -1221,6 +1336,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}  </system:String>
     <system:String x:Key="MedicineUsed">이성 회복제를 사용했습니다</system:String>
     <system:String x:Key="ExpiringMedicineUsed">{0}시간 이내 만료되는 이성 회복제를 사용했습니다</system:String>
+    <system:String x:Key="UseMedicine.MedicineInfo">의약품: {0}, 재고: {1}</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
     <system:String x:Key="ActingCommandError">대리 지휘 오류 발생</system:String>
     <system:String x:Key="FightMissionFailedAndStop">대리 지휘 실패 횟수 초과로 작업을 중단합니다</system:String>
@@ -1333,7 +1449,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DrawCard">오퍼레이터 배치</system:String>
     <system:String x:Key="CheckIfStartOver">재시작 여부 확인</system:String>
     <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
-    <system:String x:Key="UnsupportedSkill">{0}은 {1} 스킬을 지원하지 않으므로, 스킬이 선택되지 않음</system:String>
+    <system:String x:Key="Copilot.UnsupportedSkill">{0}은 {1} 스킬을 지원하지 않으므로, 스킬이 선택되지 않음</system:String>
+    <system:String x:Key="Copilot.EliteEmpty">{0} 엘리트 레벨 요구 사항이 설정되지 않았지만, 다른 속성에 대한 요구 사항은 엘리트 {1}입니다. 이 값은 자동으로 채워졌습니다.</system:String>
+    <system:String x:Key="Copilot.EliteAjust">{0} 엘리트 {1}을 요구하도록 설정되었지만, 다른 속성에 대한 요구 사항은 엘리트 {2}입니다. 이 값은 자동으로 조정되었습니다.</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToReconnectByAdb">재접속을 시도하고 있습니다</system:String>
@@ -1359,7 +1477,7 @@ MAA Team의 개발 여력이 제한되어 있어 이 기능은 커뮤니티에�
 1. MAA를 관리자 권한으로 실행해야 합니다
 2. 일부 스크린샷 방식에서는 게임 창을 최소화할 수 없습니다
 3. 명일방주 설정 → 게임 → UI 배율을 100%로 설정해야 합니다
-4. 게임 해상도는 16:9이어야 하며, 권장 설정: 720×1280 또는 1080×1920</system:String>
+4. 게임 해상도는 16:9이어야 하며, 권장 설정: 1280x720 또는 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
@@ -1420,6 +1538,9 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="AutoSelectLevel4">★4 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel5">★5 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel6">★6 자동 모집</system:String>
+    <system:String x:Key="AutoSelectLevel6Tip">이 옵션은 설정 파일 편집으로만 활성화할 수 있습니다</system:String>
+    <system:String x:Key="AutoUseExpeditedTip" xml:space="preserve">한 번만 유효합니다.
+모집 허가증 획득 속도가 소비 속도보다 느리므로, 일반적으로 다음 모집 작업 실행 시 자연스럽게 시간이 경과합니다. 모집 허가증이 대량 남는 등 비상 시에만 사용하세요</system:String>
     <system:String x:Key="PreserveTagsTip">선택한 태그 중 하나라도 인식되면 해당 모집을 건너뛰고 슬롯을 유지합니다. 비워 두면 어떤 태그도 보류하지 않습니다.</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
@@ -1599,7 +1720,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="ReminderIntervalMinutes">알림 간격 (분)</system:String>
     <system:String x:Key="StallTimeoutMinutes">로그 출력 정지 타임아웃 (분)</system:String>
     <system:String x:Key="StallTimeoutEnabled">정지 감지 활성화</system:String>
-    <system:String x:Key="TaskStallWarning">작업 로그 출력이 {0}분 동안 업데이트되지 않았습니다(현재 {1}분 정지). 오랫동안 로그 출력이 없으면 수동 개입이 필요할 수 있습니다.</system:String>
+    <system:String x:Key="TaskStallWarning">작업 로그 출력이 {0}분 동안 업데이트되지 않았습니다(현재 {1}분 정지). 작업이 정상적으로 실행 중인지 확인하세요. 정상이라면 이 경고를 무시해도 됩니다. 응답이 없으면 수동 개입이 필요할 수 있습니다.</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 도전과제 달성</system:String>
@@ -1702,7 +1823,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
 
     <system:String x:Key="Achievement.SanityExpire.Title">배신자!</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">유통기한이 다 될 때까지 뭐 하셨어요? 너무해요!</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">「{key=UseExpiringMedicine}」 기능으로 한 번에 8개 이상의 이성 회복제 사용</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">｢{key=UseExpiringMedicine}｣  기능으로 한 번에 8개 이상의 이성 회복제 사용</system:String>
 
     <system:String x:Key="Achievement.OverLimitAgent.Title">스테이지 파괴자</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Description">이제 여기는 눈감고도 돌 수 있겠어요</system:String>
@@ -2063,15 +2184,19 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.SlackingOff.Title">월급 루팡</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">업무 효율을 위해서 가끔은 쉬어줘야죠.</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">미니게임 1회 실행</system:String>
+
+    <system:String x:Key="AchievementDlcProgressNotice">업적 DLC 식별자: #1은 시스템과 함께 출시, 이후 DLC는 업데이트로 추가됩니다. 일부 업적은 해당 DLC 공개 후에만 진행도가 누적됩니다.</system:String>
+    <system:String x:Key="AchievementDlcReleaseDate">출시일</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->
     <system:String x:Key="BadModules.Warning.Heading">호환성 경고</system:String>
-    <system:String x:Key="BadModules.Warning.Prolog">다음 DLL이 MAA에 주입되면 MAA가 충돌하거나 UI 렌더링에 문제가 발생할 수 있습니다:</system:String>
-    <system:String x:Key="BadModules.Warning.Epilog">MAA에서 관련 문제가 발생하는 경우, 관련 소프트웨어의 제외 목록에 MAA를 추가하거나 관련 소프트웨어를 제거한 후 문제가 계속 발생하는지 확인하세요.</system:String>
+    <system:String x:Key="BadModules.Warning.Prolog">다음 타사 소프트웨어가 MAA에 DLL을 주입했습니다. 이는 WPF 렌더링과 ONNX/DML 추론을 방해하여 MAA가 충돌하거나 UI 렌더링에 문제가 발생하거나 OCR 인식이 실패할 수 있습니다:</system:String>
+    <system:String x:Key="BadModules.Warning.Epilog" xml:space="preserve">Windows 보안을 통해 시스템 수준에서 인젝션을 차단하는 것을 권장합니다: 앱 및 브라우저 제어 → Exploit Protection → Exploit Protection 설정 → 프로그램 설정 → MAA.exe 추가 → "확장 지점 사용 안 함"을 "시스템 설정 재정의 - 켬"으로 설정한 후 활성화하고 MAA를 다시 시작하세요.&#x0a;&#x0a;또한 관련 소프트웨어의 제외 목록에 MAA를 추가하거나, 관련 소프트웨어를 제거한 후 문제가 계속 발생하는지 확인할 수도 있습니다.</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">이 경고를 다시 표시하지 않음</system:String>
+    <system:String x:Key="BadModules.Warning.Fallback">또한 시스템의 대화 상자 구성 요소가 손상되어 충돌이 발생했으며, MAA의 후속 대화 상자가 모두 표시되지 않을 뿐만 아니라 다른 시스템 기능에도 영향이 있을 수 있습니다. "예"를 클릭하면 다시 표시하지 않고, "아니요"를 클릭하면 지금은 닫습니다.</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">경고: 성능 영향</system:String>
-    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">경고를 숨기도록 선택하면 MAA는 하드웨어 렌더링 대신 소프트웨어 렌더링을 사용합니다. 이로 인해 다음과 같은 문제가 발생합니다:&#x0a;&#x0a;• 성능 저하&#x0a;• UI 지연&#x0a;• CPU 사용량 증가&#x0a;&#x0a;경고를 숨기고 이러한 결과를 수락하시겠습니까?</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">경고를 숨기도록 선택하면 MAA는 하드웨어 렌더링 대신 소프트웨어 렌더링을 사용합니다. 이를 통해 렌더링 관련 문제는 완화될 수 있지만, 모든 문제(예: 대화 상자 충돌)가 해결되는 것은 아닙니다. 또한 다음과 같은 문제가 발생합니다:&#x0a;&#x0a;• 성능 저하&#x0a;• UI 지연&#x0a;• CPU 사용량 증가&#x0a;&#x0a;경고를 숨기고 이러한 결과를 수락하시겠습니까?</system:String>
     <system:String x:Key="BadModules.UseSoftwareRendering">소프트웨어 렌더링 사용</system:String>
     <system:String x:Key="BadModules.UseSoftwareRenderingTip">활성화하면 잘못된 모듈 경고가 표시되지 않고 소프트웨어 렌더링 모드가 사용됩니다. 이로 인해 성능 저하, UI 지연 및 CPU 사용량 증가가 발생합니다. 체크 해제하면 하드웨어 렌더링으로 복원됩니다.</system:String>
     <system:String x:Key="BadModules.ResetWarning">소프트웨어 렌더링 모드가 활성화되었습니다. 이 설정을 적용하려면 MAA를 다시 시작하세요.</system:String>

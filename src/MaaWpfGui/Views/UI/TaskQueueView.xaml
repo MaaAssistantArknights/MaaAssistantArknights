@@ -85,8 +85,8 @@
                             HorizontalAlignment="Center"
                             d:ItemsSource="{d:SampleData ItemCount=16}"
                             dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
-                            dd:DragDrop.IsDragSource="{Binding Idle}"
-                            dd:DragDrop.IsDropTarget="{Binding Idle}"
+                            dd:DragDrop.IsDragSource="{c:Binding 'Idle or !Inited'}"
+                            dd:DragDrop.IsDropTarget="{c:Binding 'Idle or !Inited'}"
                             Background="Transparent"
                             BorderThickness="0"
                             ItemsSource="{Binding TaskItemViewModels}"
@@ -261,7 +261,9 @@
                                                                     <TextBlock Text="{DynamicResource TaskSettings}" />
 
                                                                     <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
-                                                                    <TextBlock Text="{DynamicResource RunTaskOnce}" />
+                                                                    <TextBlock>
+                                                                        <Run Text="{DynamicResource RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource Copy}" /><Run Text="/" /><Run Text="{DynamicResource Rename}" /><Run Text="/" /><Run Text="{DynamicResource Delete}" />
+                                                                    </TextBlock>
                                                                 </StackPanel>
                                                             </ToolTip>
                                                         </RadioButton.ToolTip>
@@ -272,6 +274,21 @@
                                                                                        Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                                     CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                                     Header="{DynamicResource RunTaskOnce}" />
+                                                                <MenuItem
+                                                                    Command="{s:Action CopyTask,
+                                                                                       Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                    Header="{DynamicResource Copy}" />
+                                                                <MenuItem
+                                                                    Command="{s:Action RenameTask,
+                                                                                       Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                    Header="{DynamicResource Rename}" />
+                                                                <MenuItem
+                                                                    Command="{s:Action RemoveTask,
+                                                                                       Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                    Header="{DynamicResource Delete}" />
                                                             </ContextMenu>
                                                         </RadioButton.ContextMenu>
                                                     </RadioButton>
@@ -310,8 +327,9 @@
                                 hc:BorderElement.CornerRadius="4,0,0,4"
                                 hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
                                 Foreground="{DynamicResource PrimaryTextBrush}"
-                                IsEnabled="{Binding Idle}"
-                                Style="{StaticResource MaaButtonDefaultStyle}">
+                                IsEnabled="{c:Binding 'Idle or !Inited'}"
+                                Style="{StaticResource MaaButtonDefaultStyle}"
+                                ToolTip="{DynamicResource AddTaskQueueTask}">
                                 <hc:ContextMenuButton.Menu>
                                     <ContextMenu
                                         Width="200"
@@ -373,7 +391,12 @@
                                             Padding="0,3"
                                             Command="{s:Action AddTaskQueueTask}"
                                             CommandParameter="{Binding TaskTypeList[9].Value}"
-                                            Header="{Binding TaskTypeList[9].Display}"
+                                            Header="{Binding TaskTypeList[9].Display}" />
+                                        <MenuItem
+                                            Padding="0,3"
+                                            Command="{s:Action AddTaskQueueTask}"
+                                            CommandParameter="{Binding TaskTypeList[10].Value}"
+                                            Header="{Binding TaskTypeList[10].Display}"
                                             Visibility="{c:Binding ShowDebugTask}" />
                                     </ContextMenu>
                                 </hc:ContextMenuButton.Menu>
@@ -387,7 +410,7 @@
                                 hc:BorderElement.CornerRadius="0"
                                 Command="{s:Action SelectedAll}"
                                 Content="{DynamicResource SelectAll}"
-                                IsEnabled="{Binding Idle}" />
+                                IsEnabled="{c:Binding 'Idle or !Inited'}" />
                             <hc:SplitButton
                                 Grid.Column="2"
                                 Height="30"
@@ -398,7 +421,7 @@
                                 Background="{DynamicResource RegionBrushOpacity25}"
                                 Command="{s:Action InverseSelected}"
                                 Content="{Binding InverseShowText}"
-                                IsEnabled="{Binding Idle}"
+                                IsEnabled="{c:Binding 'Idle or !Inited'}"
                                 Visibility="{c:Binding ShowInverse}">
                                 <hc:SplitButton.DropDownContent>
                                     <Menu>
@@ -426,9 +449,10 @@
                                 Height="30"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
+                                hc:BorderElement.CornerRadius="0,4,4,0"
                                 Command="{s:Action InverseSelected}"
                                 Content="{Binding InverseShowText}"
-                                IsEnabled="{Binding Idle}"
+                                IsEnabled="{c:Binding 'Idle or !Inited'}"
                                 Visibility="{c:Binding !ShowInverse}" />
                         </Grid>
                     </Grid>
@@ -608,6 +632,12 @@
                             Visibility="{c:Binding DataContext.TaskSettingVisibilities.UserDataUpdate,
                                                    RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                   AncestorType={x:Type UserControl}}}" />
+                        <taskQueue:DepotMaintainTaskUserControl
+                            DataContext="{Binding DepotMaintainTask}"
+                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.DepotMaintain,
+                                                   RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                  AncestorType={x:Type UserControl}}}" />
                         <taskQueue:CustomUserControl DataContext="{Binding CustomTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Custom, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                         <taskQueue:PostActionUserControl DataContext="{Binding PostActionSetting}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.PostAction, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                     </hc:SimpleStackPanel>
@@ -651,13 +681,16 @@
                             HorizontalAlignment="Right"
                             VerticalContentAlignment="Top"
                             NormalOpacity="0.5">
-                            <controls:TooltipBlock.TooltipText>
-                                <MultiBinding StringFormat="{}{0}&#x0a;{1}: {2}">
-                                    <Binding Source="{StaticResource InventoryUpdateTip}" />
-                                    <Binding Source="{StaticResource LastSyncTime}" />
-                                    <Binding Path="LastDepotSyncTimeText" Source="{x:Static helper:Instances.ToolboxViewModel}" />
-                                </MultiBinding>
-                            </controls:TooltipBlock.TooltipText>
+                            <controls:TooltipBlock.CustomToolTip>
+                                <StackPanel>
+                                    <controls:TextBlock Text="{DynamicResource InventoryUpdateTip}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <controls:TextBlock Text="{DynamicResource LastSyncTime}" />
+                                        <controls:TextBlock Text=": " />
+                                        <controls:TextBlock Text="{Binding LastDepotSyncTimeText, Mode=OneWay, Source={x:Static helper:Instances.ToolboxViewModel}}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </controls:TooltipBlock.CustomToolTip>
                         </controls:TooltipBlock>
                     </Border>
                 </Grid>
@@ -691,6 +724,7 @@
                             Margin="0,0,0,10"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Top"
+                            d:Content="{d:SampleData ItemCount=1}"
                             Content="{Binding DownloadLogItemViewModel}"
                             Visibility="{c:Binding 'DownloadLogItemViewModel.Content.Length > 0'}">
                             <ContentControl.ContentTemplate>
@@ -753,7 +787,7 @@
                                                 <Grid Width="60">
                                                     <controls:TextBlock
                                                         Grid.Row="0"
-                                                        Margin="0,5,0,0"
+                                                        Margin="0,5,10,0"
                                                         HorizontalAlignment="Center"
                                                         Foreground="{DynamicResource TraceLogBrush}"
                                                         Text="{Binding Time}"
@@ -761,7 +795,7 @@
                                                 </Grid>
                                                 <Grid
                                                     Grid.Column="1"
-                                                    Margin="10,0,0,0"
+                                                    Margin="0,5,0,0"
                                                     HorizontalAlignment="Left"
                                                     ToolTip="{Binding ToolTip}"
                                                     ToolTipService.InitialShowDelay="200">
@@ -771,7 +805,6 @@
                                                     </Grid.ColumnDefinitions>
                                                     <controls:TextBlock
                                                         Grid.Column="0"
-                                                        Margin="0,5,0,0"
                                                         FontWeight="{Binding Weight}"
                                                         ForegroundKey="{Binding Color}"
                                                         Text="{Binding DisplayContent}"
@@ -866,88 +899,96 @@
                                                            Source={x:Static ui_vms:SettingsViewModel.GuiSettings}}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border
-                                                MaxWidth="420"
-                                                Margin="0,0,0,2.5"
-                                                Padding="5,0,1,5"
-                                                Background="{DynamicResource MouseOverRegionBrushOpacity10}"
-                                                BorderBrush="{DynamicResource BorderBrush}"
-                                                BorderThickness="1"
-                                                CornerRadius="4"
-                                                Visibility="{c:Binding 'Items.Count > 0'}">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid
-                                                        Width="60"
-                                                        Margin="0,5,0,0"
-                                                        VerticalAlignment="Stretch">
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="*" />
-                                                            <RowDefinition Height="Auto" />
-                                                            <RowDefinition Height="Auto" />
-                                                        </Grid.RowDefinitions>
-                                                        <controls:TextBlock
-                                                            Grid.Row="0"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Top"
-                                                            Foreground="{DynamicResource TraceLogBrush}"
-                                                            Text="{Binding StartTime}"
-                                                            TextWrapping="Wrap" />
-                                                        <Image
-                                                            Grid.Row="1"
-                                                            Source="{Binding Thumbnail}"
-                                                            Stretch="UniformToFill"
-                                                            ToolTipService.InitialShowDelay="200"
-                                                            Visibility="{c:Binding ShowThumbnail}">
-                                                            <Image.ToolTip>
-                                                                <ToolTip>
-                                                                    <Image Source="{Binding Thumbnail}" />
-                                                                </ToolTip>
-                                                            </Image.ToolTip>
-                                                        </Image>
-                                                        <TextBlock
-                                                            Grid.Row="2"
-                                                            HorizontalAlignment="Center"
-                                                            Foreground="{DynamicResource TraceLogBrush}"
-                                                            Text="{Binding EndTime}"
-                                                            TextWrapping="Wrap"
-                                                            Visibility="{c:Binding 'StartTime != EndTime or Items.Count > 1'}" />
+                                            <Grid>
+                                                <hc:Divider
+                                                    MaxWidth="420"
+                                                    Margin="0,0,0,2.5"
+                                                    HorizontalContentAlignment="Center"
+                                                    Content="{Binding Header}"
+                                                    Visibility="{c:Binding IsDivider}" />
+                                                <Border
+                                                    MaxWidth="420"
+                                                    Margin="0,0,0,2.5"
+                                                    Padding="2.5,0,1,5"
+                                                    Background="{DynamicResource MouseOverRegionBrushOpacity10}"
+                                                    BorderBrush="{DynamicResource BorderBrush}"
+                                                    BorderThickness="1"
+                                                    CornerRadius="4"
+                                                    Visibility="{c:Binding '!IsDivider and Items.Count > 0'}">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid
+                                                            Width="60"
+                                                            Margin="0,5,0,0"
+                                                            VerticalAlignment="Stretch">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="*" />
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>
+                                                            <controls:TextBlock
+                                                                Grid.Row="0"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Top"
+                                                                Foreground="{DynamicResource TraceLogBrush}"
+                                                                Text="{Binding StartTime}"
+                                                                TextWrapping="Wrap" />
+                                                            <Image
+                                                                Grid.Row="1"
+                                                                Source="{Binding Thumbnail}"
+                                                                Stretch="UniformToFill"
+                                                                ToolTipService.InitialShowDelay="200"
+                                                                Visibility="{c:Binding ShowThumbnail}">
+                                                                <Image.ToolTip>
+                                                                    <ToolTip>
+                                                                        <Image Source="{Binding Thumbnail}" />
+                                                                    </ToolTip>
+                                                                </Image.ToolTip>
+                                                            </Image>
+                                                            <TextBlock
+                                                                Grid.Row="2"
+                                                                HorizontalAlignment="Center"
+                                                                Foreground="{DynamicResource TraceLogBrush}"
+                                                                Text="{Binding EndTime}"
+                                                                TextWrapping="Wrap"
+                                                                Visibility="{c:Binding 'StartTime != EndTime or Items.Count > 1'}" />
+                                                        </Grid>
+                                                        <Grid Grid.Column="1" Margin="5,0,0,0">
+                                                            <ItemsControl ItemsSource="{Binding Items}">
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <Grid
+                                                                            Margin="0,5,0,0"
+                                                                            HorizontalAlignment="Left"
+                                                                            ToolTip="{Binding ToolTip}"
+                                                                            ToolTipService.InitialShowDelay="200">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition />
+                                                                                <ColumnDefinition Width="Auto" />
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <controls:TextBlock
+                                                                                FontWeight="{Binding Weight}"
+                                                                                ForegroundKey="{Binding Color}"
+                                                                                Text="{Binding DisplayContent}"
+                                                                                TextWrapping="Wrap" />
+                                                                            <controls:TooltipBlock
+                                                                                Grid.Column="1"
+                                                                                Margin="10,0,0,0"
+                                                                                PathDate="{StaticResource LogToolTip}"
+                                                                                PathStrokeThickness="1.5"
+                                                                                TextBlockText=""
+                                                                                Visibility="{c:Binding ShowToolTip}" />
+                                                                        </Grid>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                        </Grid>
                                                     </Grid>
-                                                    <Grid Grid.Column="1" Margin="10,0,0,0">
-                                                        <ItemsControl ItemsSource="{Binding Items}">
-                                                            <ItemsControl.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <Grid
-                                                                        Margin="0,5,0,0"
-                                                                        HorizontalAlignment="Left"
-                                                                        ToolTip="{Binding ToolTip}"
-                                                                        ToolTipService.InitialShowDelay="200">
-                                                                        <Grid.ColumnDefinitions>
-                                                                            <ColumnDefinition />
-                                                                            <ColumnDefinition Width="Auto" />
-                                                                        </Grid.ColumnDefinitions>
-                                                                        <controls:TextBlock
-                                                                            FontWeight="{Binding Weight}"
-                                                                            ForegroundKey="{Binding Color}"
-                                                                            Text="{Binding DisplayContent}"
-                                                                            TextWrapping="Wrap" />
-                                                                        <controls:TooltipBlock
-                                                                            Grid.Column="1"
-                                                                            Margin="10,0,0,0"
-                                                                            PathDate="{StaticResource LogToolTip}"
-                                                                            PathStrokeThickness="1.5"
-                                                                            TextBlockText=""
-                                                                            Visibility="{c:Binding ShowToolTip}" />
-                                                                    </Grid>
-                                                                </DataTemplate>
-                                                            </ItemsControl.ItemTemplate>
-                                                        </ItemsControl>
-                                                    </Grid>
-                                                </Grid>
-                                            </Border>
+                                                </Border>
+                                            </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>

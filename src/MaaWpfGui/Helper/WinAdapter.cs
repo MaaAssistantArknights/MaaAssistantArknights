@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using MaaWpfGui.Constants.Enums;
 using Microsoft.Win32;
 using Serilog;
 
@@ -30,39 +31,39 @@ public class WinAdapter
 {
     private static readonly ILogger _logger = Log.ForContext<WinAdapter>();
 
-    public sealed class DetectedEmulatorInfo(string emulatorName, string? adbPath)
+    public sealed class DetectedEmulatorInfo(ConnectConfig emulatorName, string? adbPath)
     {
-        public string EmulatorName { get; } = emulatorName;
+        public ConnectConfig EmulatorName { get; } = emulatorName;
 
         public string? AdbPath { get; } = adbPath;
 
         public string SelectionDisplayText => string.IsNullOrEmpty(AdbPath)
-            ? EmulatorName
+            ? EmulatorName.ToString()
             : $"{EmulatorName} ({AdbPath})";
     }
 
-    private static readonly Dictionary<string, string> _emulatorIdDict = new()
+    private static readonly Dictionary<string, ConnectConfig> _emulatorIdDict = new()
     {
-        { "HD-Player", "BlueStacks" },
-        { "dnplayer", "LDPlayer" },
-        { "Nox", "Nox" },
-        { "MuMuPlayer", "MuMuEmulator12" }, // MuMu 12
-        { "MuMuNxDevice", "MuMuEmulator12" }, // MuMu 12 5.0
-        { "MEmu", "XYAZ" },
+        { "HD-Player", ConnectConfig.BlueStacks },
+        { "dnplayer", ConnectConfig.LDPlayer },
+        { "Nox", ConnectConfig.Nox },
+        { "MuMuPlayer", ConnectConfig.MuMuEmulator12 },
+        { "MuMuNxDevice", ConnectConfig.MuMuEmulator12 },
+        { "MEmu", ConnectConfig.XYAZ },
     };
 
-    private static readonly Dictionary<string, List<string>> _adbRelativePathDict = new()
+    private static readonly Dictionary<ConnectConfig, List<string>> _adbRelativePathDict = new()
     {
         {
-            "BlueStacks", [
+            ConnectConfig.BlueStacks, [
                 @".\HD-Adb.exe",
                 @".\Engine\ProgramFiles\HD-Adb.exe"
             ]
         },
-        { "LDPlayer", [@".\adb.exe"] },
-        { "Nox", [@".\nox_adb.exe"] },
+        { ConnectConfig.LDPlayer, [@".\adb.exe"] },
+        { ConnectConfig.Nox, [@".\nox_adb.exe"] },
         {
-            "MuMuEmulator12", [
+            ConnectConfig.MuMuEmulator12, [
                 @"..\..\..\nx_main\adb.exe",
 
                 @"..\vmonitor\bin\adb_server.exe",
@@ -70,7 +71,7 @@ public class WinAdapter
                 @".\adb.exe"
             ]
         },
-        { "XYAZ", [@".\adb.exe"] },
+        { ConnectConfig.XYAZ, [@".\adb.exe"] },
     };
 
     /// <summary>
@@ -100,7 +101,7 @@ public class WinAdapter
         var androwsAdbPath = GetAndrowsAdbPathFromRegistry();
         if (androwsAdbPath != null && detectedEmulators.Add($"Androws\n{androwsAdbPath}"))
         {
-            emulators.Add(new DetectedEmulatorInfo("Androws", androwsAdbPath));
+            emulators.Add(new DetectedEmulatorInfo(ConnectConfig.Androws, androwsAdbPath));
         }
 
         return emulators;
@@ -150,7 +151,7 @@ public class WinAdapter
     /// <param name="processPath">The emulator executable path.</param>
     /// <param name="emulatorName">The name of the emulator.</param>
     /// <returns>The ADB path of the emulator.</returns>
-    private static string? GetAdbPathByProcessPath(string? processPath, string emulatorName)
+    private static string? GetAdbPathByProcessPath(string? processPath, ConnectConfig emulatorName)
     {
         var processDirectory = Path.GetDirectoryName(processPath);
         if (string.IsNullOrEmpty(processDirectory))

@@ -11,6 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using HandyControl.Themes;
@@ -19,6 +22,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
+using Stylet;
 
 namespace MaaWpfGui.Helper;
 
@@ -36,6 +40,9 @@ public static class ThemeHelper
         }
 
         Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
+
+        // 系统主题切换后，莫奈调色板需要按新的明暗模式重新生成
+        ReapplyMonet();
     }
 
     public static void SwitchToLightMode()
@@ -44,6 +51,7 @@ public static class ThemeHelper
         ThemeManager.Current.UsingWindowsAppTheme = false;
         ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
         Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
+        ReapplyMonet();
     }
 
     public static void SwitchToDarkMode()
@@ -52,6 +60,7 @@ public static class ThemeHelper
         ThemeManager.Current.UsingWindowsAppTheme = false;
         ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
         Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
+        ReapplyMonet();
     }
 
     public static void SwitchToSyncWithOsMode()
@@ -67,9 +76,159 @@ public static class ThemeHelper
         }
 
         Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
+        ReapplyMonet();
     }
 
     #endregion Swith Theme
+
+    #region Monet（莫奈取色）
+
+    /// <summary>
+    /// 缓存的莫奈调色板的生成参数，用于明暗切换后重新生成。
+    /// 为 null 表示莫奈取色未启用。
+    /// </summary>
+    private static Color? _monetBaseColor;
+
+    /// <summary>
+    /// 缓存的背景图不透明度，用于 ReapplyMonet 时重新生成文字色。
+    /// </summary>
+    private static int _monetBackgroundOpacity = 50;
+
+    /// <summary>
+    /// 莫奈取色是否已启用（即是否已调用过 ApplyMonetPalette 且未 Revert）。
+    /// </summary>
+    public static bool IsMonetActive => _monetBaseColor != null;
+
+    /// <summary>
+    /// 获取当前是否处于深色模式。
+    /// </summary>
+    /// <returns>深色模式返回 true。</returns>
+    public static bool IsDarkMode()
+    {
+        return ThemeManager.Current.ApplicationTheme == ApplicationTheme.Dark;
+    }
+
+    /// <summary>
+    /// 应用莫奈调色板，覆盖主题资源中的主色系和背景色系。
+    /// 首次调用时会保存原始值以供回退。
+    /// </summary>
+    /// <param name="baseColor">提取或用户选定的主色。</param>
+    /// <param name="backgroundOpacity">背景图不透明度 (0~100)，影响文字色的明度选取。</param>
+    public static void ApplyMonetPalette(Color baseColor, int backgroundOpacity = 50)
+    {
+        var isDark = IsDarkMode();
+        _monetBaseColor = baseColor;
+        _monetBackgroundOpacity = backgroundOpacity;
+
+        // 调色板计算可在任意线程完成，无需占用 UI 线程
+        var palette = MonetPaletteHelper.Generate(baseColor, isDark, backgroundOpacity);
+
+        // 只有实际写入 WPF 资源才需要在 UI 线程执行
+        Execute.OnUIThread(() =>
+        {
+            ApplyPaletteToResources(palette, baseColor);
+        });
+    }
+
+    /// <summary>
+    /// 异步应用莫奈调色板：计算在后台线程，资源写入在 UI 线程。
+    /// 适用于滑块拖动等高频调用场景，避免阻塞 UI。
+    /// </summary>
+    /// <param name="baseColor">提取或用户选定的主色。</param>
+    /// <param name="backgroundOpacity">背景图不透明度 (0~100)，影响文字色的明度选取。</param>
+    /// <param name="cancellationToken">取消令牌，用于防抖时取消过期的调色板计算。</param>
+    /// <returns>表示异步操作的任务。</returns>
+    public static async Task ApplyMonetPaletteAsync(Color baseColor, int backgroundOpacity = 50, CancellationToken cancellationToken = default)
+    {
+        var isDark = IsDarkMode();
+        _monetBaseColor = baseColor;
+        _monetBackgroundOpacity = backgroundOpacity;
+
+        // 在后台线程计算调色板
+        var palette = await Task.Run(() => MonetPaletteHelper.Generate(baseColor, isDark, backgroundOpacity), cancellationToken)
+            .ConfigureAwait(true);
+
+        // 在 UI 线程写入资源
+        Execute.OnUIThread(() =>
+        {
+            ApplyPaletteToResources(palette, baseColor);
+        });
+    }
+
+    /// <summary>
+    /// 将已计算好的调色板写入 WPF 资源（必须在 UI 线程调用）。
+    /// </summary>
+    private static void ApplyPaletteToResources(Dictionary<string, Color> palette, Color baseColor)
+    {
+        // 先设置 AccentColor：HandyControl 的 ThemeManager 会根据它重新生成
+        // PrimaryBrush / DarkPrimaryBrush / TitleBrush 等内部资源，
+        // 因此必须在 AccentColor 之后再覆盖为莫奈调色板的值，否则会被覆盖回去
+        ThemeManager.Current.AccentColor = new SolidColorBrush(baseColor);
+
+        foreach (var (key, color) in palette)
+        {
+            Application.Current.Resources[key] = new SolidColorBrush(color);
+        }
+    }
+
+    /// <summary>
+    /// 回退莫奈调色板，恢复所有被覆盖的 brush 到原始值。
+    /// </summary>
+    public static void RevertMonetPalette()
+    {
+        if (_monetBaseColor == null)
+        {
+            return;
+        }
+
+        _monetBaseColor = null;
+
+        // 只有资源写入需要在 UI 线程
+        Execute.OnUIThread(() =>
+        {
+            // 移除莫奈写入 Application.Current.Resources 的直接覆盖项，
+            // 让底层主题字典的值（随明暗切换自动更新）重新生效。
+            // 不能将保存的原始 brush 写回——它们是启用莫奈时的快照，
+            // 写回后会成为永久的 app 级覆盖，导致后续亮色/暗色模式切换异常。
+            foreach (var key in MonetPaletteHelper.PaletteKeys)
+            {
+                Application.Current.Resources.Remove(key);
+            }
+
+            // 恢复 AccentColor 到系统值（HandyControl 会据此重写内部 brush）
+            if (!WineRuntimeInformation.IsRunningUnderWine)
+            {
+                ThemeManager.Current.AccentColor = ThemeManager.Current.GetAccentColorFromSystem();
+            }
+
+            Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
+        });
+    }
+
+    /// <summary>
+    /// 当莫奈取色启用时，使用缓存的 baseColor 重新生成调色板。
+    /// 用于明暗模式切换后同步更新。
+    /// </summary>
+    public static void ReapplyMonet()
+    {
+        if (_monetBaseColor is Color color)
+        {
+            // 明暗模式切换后，HandyControl 会通过 ThemeResources 切换底层主题字典，
+            // 但莫奈之前直接写入 Application.Current.Resources 的值会遮蔽新主题的值。
+            // 需要先移除这些直接覆盖项，让底层新主题值透出，再重新保存和生成。
+            Execute.OnUIThread(() =>
+            {
+                foreach (var key in MonetPaletteHelper.PaletteKeys)
+                {
+                    Application.Current.Resources.Remove(key);
+                }
+            });
+
+            ApplyMonetPalette(color, _monetBackgroundOpacity);
+        }
+    }
+
+    #endregion Monet（莫奈取色）
 
     #region Check UiLogColor
 

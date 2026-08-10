@@ -1,0 +1,47 @@
+{
+    "MiniGame@PixelPaint@Begin": {
+        "doc": "像素画自动填色入口。用户须已在 24×24 编辑页。点格循环由 PixelPaintTaskPlugin 执行，不在 pipeline 内展开。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": []
+    },
+    "MiniGame@PixelPaint@PaletteScrollToBottom": {
+        "doc": "色板滑到底：720p 锚点附近向上滑（手指上滑，内容上移，看到底部 24~39 色）。",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1100, 550, 1, 1],
+        "rectMove": [1100, 280, 1, 1],
+        "specialParams": [250, 0, 1, 0]
+    },
+    "MiniGame@PixelPaint@PaletteScrollToTop": {
+        "doc": "色板滑到顶：720p 锚点附近向下滑（手指下滑，内容下移，看到顶部 0~23 色）。",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1100, 350, 1, 1],
+        "rectMove": [1100, 620, 1, 1],
+        "specialParams": [250, 0, 1, 0]
+    },
+    "MiniGame@PixelPaint@Grid": {
+        "doc": "画布外框 720p：specialParams = left, top, right, bottom。",
+        "algorithm": "JustReturn",
+        "specialParams": [295, 119, 856, 680]
+    },
+    "MiniGame@PixelPaint@PaletteTop": {
+        "doc": "色板顶态：specialParams = 4 列 x + 6 行 y。",
+        "algorithm": "JustReturn",
+        "specialParams": [989, 1060, 1130, 1200, 285, 355, 425, 495, 565, 635]
+    },
+    "MiniGame@PixelPaint@PaletteBottom": {
+        "doc": "色板底态：specialParams = 4 列 x + 6 行 y + bottom_first_global_row。",
+        "algorithm": "JustReturn",
+        "specialParams": [989, 1060, 1130, 1200, 299, 369, 439, 509, 579, 649, 4]
+    },
+    "MiniGame@PixelPaint@EditorCheck": {
+        "doc": "编辑页识别闸：色板顶部区域模板。roi = x935+55 y190+55。",
+        "algorithm": "MatchTemplate",
+        "template": "MiniGame@PixelPaint@EditorCheck.png",
+        "roi": [935, 190, 55, 55],
+        "action": "DoNothing",
+        "next": []
+    }
+}

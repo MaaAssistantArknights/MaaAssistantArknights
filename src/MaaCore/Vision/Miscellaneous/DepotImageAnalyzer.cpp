@@ -38,11 +38,16 @@ bool asst::DepotImageAnalyzer::analyze()
     return ret;
 }
 
+const std::vector<std::string>& asst::DepotImageAnalyzer::get_ordered_item_ids() const
+{
+    return m_item_ids.empty() ? ItemData.get_ordered_material_item_id() : m_item_ids;
+}
+
 void asst::DepotImageAnalyzer::prepare_cached_templates()
 {
     LogTraceFunction;
 
-    for (const auto& item_id : ItemData.get_ordered_material_item_id()) {
+    for (const auto& item_id : get_ordered_item_ids()) {
         cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
         m_template_mean_colors[item_id] = cv::mean(templ(get_center_rect(templ)));
         // 抹去右下角 80x50 区域（防止影响匹配）
@@ -187,11 +192,16 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
         ItemInfo info;
         size_t cur_pos = match_item(roi, info, m_match_begin_pos);
         if (cur_pos == NPos) {
+            if (m_is_basic) {
+                continue; // 基础物品可能不连续，跳过空槽位
+            }
             break;
         }
         std::string item_id = info.item_id;
 
-        m_match_begin_pos = cur_pos + 1;
+        if (!m_is_basic) {
+            m_match_begin_pos = cur_pos + 1;
+        }
         info.quantity = match_quantity(info);
         info.item_name = ItemData.get_item_name(item_id);
 #ifdef ASST_DEBUG
@@ -261,7 +271,7 @@ size_t asst::DepotImageAnalyzer::match_item(
     std::string matched_item_id;
     size_t matched_index = NPos;
 
-    const auto& all_items = ItemData.get_ordered_material_item_id();
+    const auto& all_items = get_ordered_item_ids();
 
     // 按候选模板ID顺序过滤，且保证 index >= begin_index
     size_t extra_count = 0;

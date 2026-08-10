@@ -44,10 +44,15 @@
                             Text="{Binding}" />
                         <Button
                             Grid.Column="1"
+                            Width="25"
+                            Height="25"
+                            Padding="0"
                             HorizontalAlignment="Right"
+                            hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                            hc:IconElement.Height="15"
+                            hc:IconElement.Width="15"
                             Command="{s:Action DeleteConfiguration}"
                             CommandParameter="{Binding}"
-                            Content="×"
                             FontWeight="Bold"
                             Visibility="{c:Binding 'DataContext.ConfigurationList.Count > 1',
                                                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />

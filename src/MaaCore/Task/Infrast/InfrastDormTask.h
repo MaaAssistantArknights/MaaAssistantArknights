@@ -1,4 +1,5 @@
 #pragma once
+
 #include "InfrastAbstractTask.h"
 
 namespace asst
@@ -11,33 +12,36 @@ public:
 
     virtual size_t max_num_of_opers() const noexcept override { return 5ULL; }
 
-    InfrastDormTask& set_notstationed_enabled(bool dorm_notstationed_enabled) noexcept;
-    InfrastDormTask& set_trust_enabled(bool m_dorm_trust_enabled) noexcept;
+    InfrastDormTask& set_notstationed_enabled(bool notstationed_filter_enabled) noexcept;
+    InfrastDormTask& set_trust_enabled(bool trust_autofill_enabled) noexcept;
 
 protected:
     virtual bool on_run_fails() override;
 
 private:
     virtual bool _run() override;
-    // virtual bool click_confirm_button() override;
 
-    bool opers_choose(asst::infrast::CustomRoomConfig const& origin_room_config);
-    bool click_order_by_mood();
+    bool fill_dorm_slots();
+    bool set_notstationed_filter(bool enabled);
+    bool restore_list_sort_for_selection_phase(asst::infrast::CustomRoomConfig const& room_config);
+    bool switch_to_mood_sort();
+    void switch_to_trust_autofill_phase();
+    void advance_after_trust_sort();
+    bool is_in_trust_autofill_phase() const noexcept;
 
-    bool m_dorm_notstationed_enabled = false; // 设置是否启用未进驻筛选
-    bool m_dorm_trust_enabled = true;         // 设置是否启用蹭信赖
-
+    bool m_notstationed_filter_enabled = false;
+    bool m_trust_autofill_enabled = true;
     int m_max_num_of_dorm = 4;
 
-    enum class NextStep
+    enum class SelectionPhase
     {
-        Rest,
-        RestDone,
-        Trust,
-        Fill,
-        AllDone,
+        LowMood,
+        ResortForTrust,
+        TrustAutofill,
+        FillRemaining,
     };
-    NextStep m_next_step = NextStep::Rest;
-    bool m_if_filter_notstationed_haspressed = false;
+
+    SelectionPhase m_selection_phase = SelectionPhase::LowMood;
+    bool m_notstationed_filter_active = false;
 };
-}
+} // namespace asst

@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,6 +26,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
@@ -34,8 +34,10 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
+using ObservableCollections;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.Helper.Instances.Data;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -65,6 +67,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         _runningState = RunningState.Instance;
         _runningState.StateChanged += OnRunningStateChanged;
         Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
+        Instances.AsstProxy.AsstSubTaskMsgEvent += ProcSubTaskMsg;
 
         if (Instances.ToolboxViewModel is { } toolboxViewModel)
         {
@@ -79,6 +82,17 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         item.PropertyChanged += (_, __) => SaveStagePlan();
         StagePlan.Add(item);
         InitDrops();
+
+        // 本类型为 Instance 单例，构造仅执行一次，订阅后无需取消订阅
+        LocalizationHelper.LanguageChanged += RefreshLocalization;
+    }
+
+    private void RefreshLocalization()
+    {
+        RebuildDropsList();
+        SeriesList.RefreshLocalization();
+        AnnihilationModeList.RefreshLocalization();
+        StageResetModeList.RefreshLocalization();
     }
 
     /// <summary>
@@ -108,7 +122,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// 当作战任务进入进行中状态时，仅捕获一次目标库存值，并在需要时刷新当前选中的面板。
+    /// 当作战任务进入进行中状态时，用最新库存重算指定掉落缺口并更新参数。
     /// </summary>
     private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
     {
@@ -119,9 +133,29 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
         if (GetFightTaskByTaskId(taskId) is { } startedFight &&
             IsInventoryTargetDropEnabled(startedFight) &&
-            GetInventoryTargetRuntimeState(taskId) == null)
+            !string.IsNullOrEmpty(startedFight.DropId))
         {
-            SerializeTask(startedFight, taskId);
+            // 每次任务开始时用最新库存重算缺口（前序任务可能已经刷出了该材料）
+            var stage = GetFightStage(startedFight.StagePlan);
+            if (!string.IsNullOrEmpty(stage))
+            {
+                var task = new AsstFightTask() {
+                    Stage = stage,
+                    Medicine = startedFight.UseMedicine != false ? startedFight.MedicineCount : 0,
+                    Stone = startedFight.UseStone != false ? startedFight.StoneCount : 0,
+                    Series = startedFight.Series,
+                    MaxTimes = int.MaxValue,
+                    MedicineExpireDays = startedFight.UseExpiringMedicine ? startedFight.MedicineExpireDays : 0,
+                    IsDrGrandet = startedFight.IsDrGrandet,
+                    ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+                    ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+                    PenguinId = SettingsViewModel.GameSettings.PenguinId,
+                    YituliuId = SettingsViewModel.GameSettings.PenguinId,
+                    ServerType = Instances.SettingsViewModel.ServerType,
+                    ClientType = SettingsViewModel.GameSettings.ClientType,
+                };
+                RefreshFightTaskDrops(taskId, startedFight.DropId, startedFight.DropCount, startedFight.NameOrTaskType, task);
+            }
         }
 
         Execute.OnUIThread(() => {
@@ -148,8 +182,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// <summary>
     /// 当仓库识别数据变化时，刷新界面显示的目标库存信息。
     /// </summary>
-    private void OnDepotResultCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    private void OnDepotResultCollectionChanged(in NotifyCollectionChangedEventArgs<ToolboxViewModel.DepotResultDate> e)
     {
+        _ = e;
         if (!_runningState.Idle)
         {
             return;
@@ -288,8 +323,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public static string UseStoneString => LocalizationHelper.GetString("UseOriginitePrime");
-
     /// <summary>
     /// Gets or sets a value indicating whether 使用源石。
     /// </summary>
@@ -375,17 +408,19 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public static Dictionary<string, int> SeriesList { get; set; } = new()
-    {
-        { "AUTO", 0 },
-        { "6", 6 },
-        { "5", 5 },
-        { "4", 4 },
-        { "3", 3 },
-        { "2", 2 },
-        { "1", 1 },
-        { LocalizationHelper.GetString("NotSwitch"), -1 },
-    };
+    public LocalizedObservableList<int> SeriesList { get; } = new(
+        (0, "AUTO"),
+        (10, "10"),
+        (9, "9"),
+        (8, "8"),
+        (7, "7"),
+        (6, "6"),
+        (5, "5"),
+        (4, "4"),
+        (3, "3"),
+        (2, "2"),
+        (1, "1"),
+        (-1, "NotSwitch"));
 
     /// <summary>
     /// Gets or sets 连战次数。
@@ -393,13 +428,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     public int Series
     {
         get => GetTaskConfig<FightTask>().Series;
-        set {
-            if (!SetTaskConfig<FightTask>(t => t.Series == value, t => t.Series = value))
-            {
-                return;
-            }
 
-            SetFightParams();
+        set {
+            if (SetTaskConfig<FightTask>(t => t.Series == value, t => t.Series = value))
+            {
+                SetFightParams();
+            }
         }
     }
 
@@ -712,7 +746,44 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
 
         AllDrops.Sort((a, b) => string.Compare(a.Value, b.Value, StringComparison.Ordinal));
-        DropsList = [.. AllDrops];
+
+        // 原地更新 DropsList：只更新 Display 不增删项，避免 ComboBox SelectedValue 丢失
+        // 首次构建时 DropsList 为空，需要完整 Add；后续语言切换时只更新 Display
+        var allDropsDict = AllDrops.ToDictionary(i => i.Value, i => i.Display);
+        if (DropsList.Count == 0)
+        {
+            foreach (var item in AllDrops)
+            {
+                DropsList.Add(item);
+            }
+        }
+        else
+        {
+            // 更新已有项的 Display
+            foreach (var item in DropsList)
+            {
+                if (allDropsDict.TryGetValue(item.Value, out var newDisplay))
+                {
+                    item.Display = newDisplay;
+                }
+            }
+
+            // 补充新出现的项（如特有材料）
+            var existingValues = DropsList.Select(i => i.Value).ToHashSet();
+            foreach (var item in AllDrops.Where(i => !existingValues.Contains(i.Value)))
+            {
+                DropsList.Add(item);
+            }
+
+            // 删除不再存在的项（保留空值项即"不选择"）
+            for (int i = DropsList.Count - 1; i >= 0; i--)
+            {
+                if (!string.IsNullOrEmpty(DropsList[i].Value) && !allDropsDict.ContainsKey(DropsList[i].Value))
+                {
+                    DropsList.RemoveAt(i);
+                }
+            }
+        }
 
         foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>())
         {
@@ -727,6 +798,29 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// Gets 获取或私有设置掉落材料列表。
     /// </summary>
     public ObservableCollection<CombinedData> DropsList { get; private set; } = [];
+
+    /// <summary>
+    /// 语言切换时重建掉落材料列表。
+    /// </summary>
+    private void RebuildDropsList()
+    {
+        // 提前记录当前选中的掉落 ID，避免重建后丢失
+        var savedDropId = GetTaskConfig<FightTask>().DropId;
+        ItemListHelper.Reload();
+        AllDrops.Clear();
+        InitDrops();
+
+        // 恢复选中状态
+        if (!string.IsNullOrEmpty(savedDropId) && AllDrops.Any(i => i.Value == savedDropId))
+        {
+            SetTaskConfig<FightTask>(t => t.DropId == savedDropId, t => t.DropId = savedDropId);
+        }
+
+        RefreshDropName();
+
+        // 通知 DepotMaintain 刷新各 plan 的 DropName
+        DepotMaintainTaskUserControlModel.Instance.OnLanguageChanged();
+    }
 
     /// <summary>
     /// Gets or sets 指定掉落材料 ID。
@@ -819,13 +913,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public static Dictionary<string, string> AnnihilationModeList { get; } = new()
-    {
-        { LocalizationHelper.GetString("Annihilation.Current"), AnnihilationName },
-        { LocalizationHelper.GetString("Chernobog"), "Chernobog@Annihilation" },
-        { LocalizationHelper.GetString("LungmenOutskirts"), "LungmenOutskirts@Annihilation" },
-        { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@Annihilation" },
-    };
+    public LocalizedObservableList<string> AnnihilationModeList { get; } = new(
+        (AnnihilationName, "Annihilation.Current"),
+        ("Chernobog@Annihilation", "Chernobog"),
+        ("LungmenOutskirts@Annihilation", "LungmenOutskirts"),
+        ("LungmenDowntown@Annihilation", "LungmenDowntown"));
 
     public bool UseCustomAnnihilation
     {
@@ -834,7 +926,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             bool ret = SetTaskConfig<FightTask>(t => t.UseCustomAnnihilation == value, t => t.UseCustomAnnihilation = value);
             if (ret)
             {
-                StageListSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display = UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == AnnihilationStage).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
+                StageListSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display =
+                    UseCustomAnnihilation
+                        ? (AnnihilationModeList.FirstOrDefault(i => i.Value == AnnihilationStage)?.Display
+                            ?? LocalizationHelper.GetString("Annihilation.Current"))
+                        : LocalizationHelper.GetString("Annihilation.Current");
             }
         }
     }
@@ -844,7 +940,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         get => GetTaskConfig<FightTask>().AnnihilationStage;
         set {
             SetTaskConfig<FightTask>(t => t.AnnihilationStage == value, t => t.AnnihilationStage = value);
-            StageListSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display = UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == value).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
+            StageListSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display =
+                UseCustomAnnihilation
+                    ? (AnnihilationModeList.FirstOrDefault(i => i.Value == value)?.Display
+                        ?? LocalizationHelper.GetString("Annihilation.Current"))
+                    : LocalizationHelper.GetString("Annihilation.Current");
         }
     }
 
@@ -923,13 +1023,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     public List<GenericCombinedData<int>> MedicineExpireDayList { get; } = [
-        new() { Display = "24h", Value = 1 },
-        new() { Display = "48h", Value = 2 },
-        new() { Display = "72h", Value = 3 },
-        new() { Display = "96h", Value = 4 },
-        new() { Display = "120h", Value = 5 },
-        new() { Display = "144h", Value = 6 },
-        new() { Display = "168h", Value = 7 },
+        new() { Display = "24h x 1", Value = 1 },
+        new() { Display = "24h x 2", Value = 2 },
+        new() { Display = "24h x 3", Value = 3 },
+        new() { Display = "24h x 4", Value = 4 },
+        new() { Display = "24h x 5", Value = 5 },
+        new() { Display = "24h x 6", Value = 6 },
+        new() { Display = "24h x 7", Value = 7 },
     ];
 
     public int MedicineExpireDays
@@ -976,11 +1076,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public List<GenericCombinedData<FightStageResetMode>> StageResetModeList { get; } =
-    [
-        new() { Display = LocalizationHelper.GetString("DefaultStage"), Value = FightStageResetMode.Current },
-        new() { Display = LocalizationHelper.GetString("NotSwitch"), Value = FightStageResetMode.Ignore },
-    ];
+    public LocalizedObservableList<FightStageResetMode> StageResetModeList { get; } = new(
+        (FightStageResetMode.Current, "DefaultStage"),
+        (FightStageResetMode.Ignore, "NotSwitch"));
 
     public FightStageResetMode StageResetMode
     {
@@ -1015,12 +1113,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     public bool AutoRestartOnDrop
     {
-        get => field;
-        set {
+        get; set {
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.AutoRestartOnDrop = value;
             SetAndNotify(ref field, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AutoRestartOnDrop, value.ToString());
         }
-    } = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, true);
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.AutoRestartOnDrop;
 
     private static string ToUpperAndCheckStage(string value)
     {
@@ -1056,6 +1153,64 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         var stage = list?.FirstOrDefault(s => Instances.StageManager.IsStageOpen(s, Instances.TaskQueueViewModel.CurDayOfWeek));
         _logger.Information("GetFightStage: from {list}, selected {stage}", list, stage);
         return stage;
+    }
+
+    /// <summary>
+    /// 任务开始时用最新库存重算指定掉落材料的缺口，达标则 times=0，否则更新 drops 和 times。
+    /// 供理智作战和库存保持任务统一调用。
+    /// </summary>
+    /// <param name="taskId">core 任务 id</param>
+    /// <param name="dropId">指定掉落材料 ID</param>
+    /// <param name="dropCount">目标库存</param>
+    /// <param name="logLabel">日志标签（如计划序号）</param>
+    /// <param name="task">包含全量字段的作战任务参数；本方法仅按库存缺口覆盖 Drops/MaxTimes，其余字段原样下发。</param>
+    /// <returns>是否成功更新参数。</returns>
+    public static bool RefreshFightTaskDrops(int taskId, string dropId, int dropCount, string? logLabel, AsstFightTask task)
+    {
+        if (taskId <= 0 || string.IsNullOrEmpty(dropId) || dropCount <= 0)
+        {
+            return false;
+        }
+
+        var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
+        var currentCount = depotList.TryGetValue(dropId, out var value) ? value : 0;
+        var need = dropCount - currentCount;
+
+        var dropName = ItemListHelper.GetItemName(dropId) ?? dropId;
+
+        if (need <= 0)
+        {
+            // 库存已充足，times=0 阻止进入关卡
+            task.MaxTimes = 0;
+            task.Drops = new() { { dropId, 1 } };
+            Instances.TaskQueueViewModel.AddLog(
+                LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", logLabel ?? string.Empty, dropName, currentCount.ToString("N0"), dropCount.ToString("N0")),
+                UiLogColor.Info);
+        }
+        else
+        {
+            task.Drops = new() { { dropId, need } };
+            Instances.TaskQueueViewModel.AddLog(
+                LocalizationHelper.GetStringFormat("DepotPlanInventoryInsufficient", logLabel ?? string.Empty, dropName, currentCount.ToString("N0"), dropCount.ToString("N0"), need.ToString("N0")));
+            _logger.Information("FightTask {taskId} ({label}) re-calculated: {dropName} need {need} (current {current} / target {target})",
+                taskId, logLabel, dropName, need, currentCount, dropCount);
+        }
+
+        return Instances.AsstProxy.AsstSetTaskParamsEncoded(taskId, task);
+    }
+
+    /// <summary>
+    /// 判断指定关卡是否为常驻关卡（无周期限制且非限时活动，每天都开放）。
+    /// 资源关（如 LS-6）虽有关联活动但 IsResourceCollection 为 true 且无周期限制，同样视为常驻。
+    /// </summary>
+    /// <param name="stage">关卡代码。</param>
+    /// <returns>若该关卡为常驻关卡则返回 <c>true</c>。</returns>
+    private static bool IsPermanentStage(string stage)
+    {
+        var stageInfo = Instances.StageManager.GetStageInfo(stage);
+        bool noPeriodicLimit = stageInfo.OpenDaysOfWeek == null || !stageInfo.OpenDaysOfWeek.Any();
+        bool notLimitedActivity = stageInfo.Activity == null || stageInfo.Activity.IsResourceCollection;
+        return noPeriodicLimit && notLimitedActivity;
     }
 
     public override void RefreshUI(BaseTask baseTask)
@@ -1177,14 +1332,25 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         var stageList = Instances.StageManager.GetStageList().ToList();
         var listCurrent = current.StagePlan.ToList();
 
-        var listSource = stageList.Select(i => new StageSourceItem() { Display = i.Display, Value = i.Value, IsVisible = !HideUnavailableStage || i.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek), IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == i.Value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true }).ToList();
+        var listSource = stageList
+            .Select(i => new StageSourceItem() {
+                Display = i.Display,
+                Value = i.Value,
+                IsVisible = !HideUnavailableStage || i.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek),
+                IsOpen = Instances.StageManager.GetStageList()
+                    .FirstOrDefault(p => p.Value == i.Value)
+                    ?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true,
+            }).ToList();
 
         // 补过期关卡进来
         foreach (var item in listCurrent.Where(i => !listSource.Any(p => p.Value == i)))
         {
             listSource.Add(new StageSourceItem() { Display = item, Value = item, IsOpen = false, IsVisible = false, IsOutdated = true });
         }
-        listSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display = current.UseCustomAnnihilation ? (AnnihilationModeList.FirstOrDefault(i => i.Value == current.AnnihilationStage).Key ?? LocalizationHelper.GetString("Annihilation.Current")) : LocalizationHelper.GetString("Annihilation.Current");
+        listSource.FirstOrDefault(i => i.Value == AnnihilationName)?.Display = current.UseCustomAnnihilation
+            ? (AnnihilationModeList.FirstOrDefault(i => i.Value == current.AnnihilationStage)?.Display
+                ?? LocalizationHelper.GetString("Annihilation.Current"))
+            : LocalizationHelper.GetString("Annihilation.Current");
         StageListSource = [.. listSource];
         current.StagePlan = listCurrent; // StageListSource更新后, 恢复StagePlan
     }
@@ -1338,26 +1504,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     #endregion UI Item
 
-    private struct UiRefreshingScope : IDisposable
-    {
-        private static int _depth = 0;
-
-        public UiRefreshingScope()
-        {
-            ++_depth;
-            Instance.IsRefreshingUI = true;
-        }
-
-        readonly void IDisposable.Dispose()
-        {
-            --_depth;
-            if (_depth == 0)
-            {
-                Instance.IsRefreshingUI = false;
-            }
-        }
-    }
-
     private interface ISerialize : ITaskQueueModelSerialize
     {
         (bool? IsSuccess, IEnumerable<int> TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
@@ -1378,9 +1524,27 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 return (null, []);
             }
 
+            // 选关逻辑为从上至下找第一个开放关卡，
+            // 常驻关卡（如剿灭、1-7）或"当前/上次"（空字符串）一旦被选中便不会继续往下查找，
+            // 因此其后配置的关卡不会被选中执行
+            if (taskId is null && (stage == string.Empty || IsPermanentStage(stage)))
+            {
+                int stageIndex = fight.StagePlan.IndexOf(stage);
+                if (stageIndex >= 0 && stageIndex < fight.StagePlan.Count - 1)
+                {
+                    var stageName = stage == string.Empty
+                        ? LocalizationHelper.GetString("DefaultStage")
+                        : Instances.StageManager.GetStageInfo(stage).Display;
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("PermanentStageBlocksStages", stageName),
+                        UiLogColor.Warning);
+                }
+            }
+
             var time = DateTimeOffset.Now;
             var activityExpireIn2Days = false;
-            var activityList = Instances.StageManager.ActivityList.Where(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
+            var activityList = Instances.StageManager.ActivityList
+                .Where(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
             if (activityList.Any())
             {
                 var activity = activityList.First();
@@ -1483,5 +1647,89 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
+    private static void ProcSubTaskMsg(AsstMsg type, AsstSubTaskMsg? msg)
+    {
+        if (type != AsstMsg.SubTaskExtraInfo || msg is null)
+        {
+            return;
+        }
+
+        switch (msg.What)
+        {
+            case "UseMedicine":
+                var report = msg.Details?.ToObject<MedicineUsingInfo>();
+                if (report is null)
+                {
+                    break;
+                }
+
+                string medicineLog;
+                if (!report.IsExpiring)
+                {
+                    MedicineUsedTimes += report.Count;
+                    medicineLog = LocalizationHelper.GetString("MedicineUsed") + $" {MedicineUsedTimes}(+{report.Count})";
+                }
+                else
+                {
+                    ExpiringMedicineUsedTimes += report.Count;
+                    var item = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(msg.TaskId));
+                    var expireOut = "--";
+                    if (item is not null && item.Index >= 0 && item.Index < ConfigFactory.CurrentConfig.TaskQueue.Count)
+                    {
+                        if (ConfigFactory.CurrentConfig.TaskQueue[item.Index] is FightTask fightTask)
+                        {
+                            var yjTime = DateTimeOffset.Now.ToYjDateTime().ToLocalTime();
+                            var daysUntilEndOfWeek = ((7 - (int)yjTime.DayOfWeek + 7) % 7) + 1; // 距离本周结束的天数, 用鹰历计算
+                            var expireDays = Math.Max(
+                                fightTask.UseExpiringMedicine
+                                    ? fightTask.MedicineExpireDays : 0,
+                                Instance.ActivityExpireIn2Days && fightTask.UseExpireMedicineForActivity
+                                    ? daysUntilEndOfWeek : 0);
+                            expireOut = $"{expireDays * 24}";
+                        }
+                    }
+                    medicineLog = LocalizationHelper.GetStringFormat("ExpiringMedicineUsed", expireOut) + $" {ExpiringMedicineUsedTimes}(+{report.Count})";
+                    AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
+                }
+
+                AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, report.Count);
+                if (report.Medicines?.Count > 0)
+                {
+                    var list = report.Medicines?.Select(i => LocalizationHelper.GetStringFormat("UseMedicine.MedicineInfo", i.Use, i.Inventory)).ToList();
+                    medicineLog += "\n" + string.Join("\n", list ?? []);
+                }
+                Instances.TaskQueueViewModel.AddLog(medicineLog, UiLogColor.Info);
+                break;
+        }
+    }
+
+    private struct UiRefreshingScope : IDisposable
+    {
+        private static int _depth = 0;
+
+        public UiRefreshingScope()
+        {
+            ++_depth;
+            Instance.IsRefreshingUI = true;
+        }
+
+        readonly void IDisposable.Dispose()
+        {
+            --_depth;
+            if (_depth == 0)
+            {
+                Instance.IsRefreshingUI = false;
+            }
+        }
+    }
+
+    #region Model
+
+    private record MedicineUsingInfo([property: JsonProperty("is_expiring")] bool IsExpiring, [property: JsonProperty("count")] int Count, [property: JsonProperty("medicines")] List<MedicineInfo>? Medicines);
+
+    private record MedicineInfo([property: JsonProperty("use")] int Use, [property: JsonProperty("inventory")] int Inventory, [property: JsonProperty("expire_days")] int ExpireDays);
+
     private sealed record InventoryTargetRuntimeState(string DropId, int StartInventory, int EffectiveQuantity);
+
+    #endregion Model
 }

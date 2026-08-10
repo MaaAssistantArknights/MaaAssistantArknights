@@ -13,18 +13,11 @@
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type settings_vms:GuiSettingsUserControlModel}}"
-    d:DesignHeight="350"
     d:DesignWidth="550"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <controls:TextBlock
-            HorizontalAlignment="Center"
-            FontWeight="Bold"
-            Text="{DynamicResource GlobalConfigTip}"
-            TextAlignment="Center"
-            Visibility="{c:Binding 'ConfigurationList.Count > 1',
-                                   Source={x:Static helper:Instances.SettingsViewModel}}" />
+        <controls:GlobalConfigTip />
         <!--<controls:TextBlock Text="{DynamicResource CustomBackgroundTip}" TextWrapping="Wrap" />-->
         <Grid
             Margin="10"
@@ -44,10 +37,11 @@
                     IsChecked="{Binding UseTray}" />
                 <CheckBox
                     Margin="8"
-                    Content="{DynamicResource MinimizeToTray}"
                     IsChecked="{Binding MinimizeToTray}"
                     Visibility="{c:Binding UseTray,
-                                           FalseToVisibility=Collapsed}" />
+                                           FalseToVisibility=Collapsed}">
+                    <controls:TextBlock Text="{DynamicResource MinimizeToTray}" TextWrapping="Wrap" />
+                </CheckBox>
                 <StackPanel Margin="8" Orientation="Horizontal">
                     <CheckBox Content="{DynamicResource SystemNotification}" IsChecked="{Binding UseNotify}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource SystemNotificationInfo}" />
@@ -112,7 +106,7 @@
                 <ComboBox
                     x:Name="LanguageSelector"
                     Margin="8"
-                    hc:InfoElement.Title="{Binding LanguageInfo, Mode=OneTime}"
+                    hc:InfoElement.Title="{Binding LanguageInfo}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding LanguageList}"
                     SelectedValue="{Binding Language}"

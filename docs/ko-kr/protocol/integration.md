@@ -64,6 +64,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 공식 서버: `123****4567`인 경우 `123****4567`, `4567`, `123`, `3****4567` 입력 가능  
 <br>
 Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능  
+<br>
+번체 중국어 서버: 계정은 Email 형식이며(예: `ab****01@gmail.com`), 별표가 없는 평문 부분(예: `01@gmail`) 입력을 권장합니다  
 :::  
 ::::
 
@@ -141,43 +143,53 @@ v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.
 전투 횟수  
 :::  
 ::: field name="series" type="number" optional  
-연속 전투 횟수, -1~6
+연속 전투 횟수, -1~10
 <br>
 `-1`: 전환 비활성화
 <br>
-`0`: 현재 사용 가능한 최대 횟수로 자동 전환. 만약 현재 이성이 6회 미만이면 사용 가능한 최소 횟수 선택
+`0`: 현재 사용 가능한 최대 횟수로 자동 전환. 만약 현재 이성이 최대 횟수 미만이면 사용 가능한 최소 횟수 선택
 <br>
-`1~6`: 지정된 연속 전투 횟수  
-:::  
-::: field name="drops" type="object" optional  
-지정 드랍 수량, 기본값은 지정 안 함. key는 item_id, value는 수량. key는 `resource/item_index.json` 파일 참조
+`1~10`: 지정된 연속 전투 횟수
 <br>
-예: `{ "30011": 10, "30062": 5 }`  
+::: info 서버 차이
+입력 검증은 리소스에 `FightSeries-OldMethodFlag`가 있는지에 따라 달라집니다:
 <br>
-위 조건들은 OR 관계이므로, 어느 하나라도 도달하면 작업 중지  
-:::  
-::: field name="report_to_penguin" type="boolean" optional default="false"  
-펭귄 물류(Penguin Stats) 데이터 전송 여부  
-:::  
-::: field name="penguin_id" type="string" optional  
-펭귄 물류 전송 ID, 기본값 비어 있음. `report_to_penguin`이 true일 때만 유효  
-:::  
-::: field name="server" type="string" optional default="CN"  
-서버, 드랍 인식 및 업로드에 영향
-<br>
-옵션: `CN` | `US` | `JP` | `KR`  
-:::  
-::: field name="client_type" type="string" optional  
-클라이언트 버전, 기본값 비어 있음. 게임 크래시 시 재시작 후 재접속하여 계속 파밍하는 용도. 비워두면 해당 기능 비활성화
-<br>
-옵션: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-:::  
-::: field name="DrGrandet" type="boolean" optional default="false"  
-이성 절약 모드, 오리지늄 사용 가능성이 있을 때만 유효
-<br>
-오리지늄 사용 확인 창에서 대기하다가, 현재 1이성이 회복되면 즉시 오리지늄을 사용  
-:::  
-::::
+
+- 새 목록(중국 서버 2026/8/1 이후 주 리소스, 해당 flag 없음): `-1~10` 허용
+- 이전 목록(해외 리소스에 해당 flag 있음): `-1~6`만 허용, 더 큰 값은 거부
+  <br>
+  해외 서버는 약 반년 후 따를 예정이며, 그때 상한은 리소스에 맞춰 10이 됩니다. Windows GUI의 연속 전투 드롭다운은 현재 고정으로 10까지 제공합니다. 해외에서 수동으로 7~10을 선택하면 작업 전달 시 Core에서 거부됩니다.
+  :::  
+  :::  
+  ::: field name="drops" type="object" optional  
+  지정 드랍 수량, 기본값은 지정 안 함. key는 item_id, value는 수량. key는 `resource/item_index.json` 파일 참조
+  <br>
+  예: `{ "30011": 10, "30062": 5 }`  
+  <br>
+  위 조건들은 OR 관계이므로, 어느 하나라도 도달하면 작업 중지  
+  :::  
+  ::: field name="report_to_penguin" type="boolean" optional default="false"  
+  펭귄 물류(Penguin Stats) 데이터 전송 여부  
+  :::  
+  ::: field name="penguin_id" type="string" optional  
+  펭귄 물류 전송 ID, 기본값 비어 있음. `report_to_penguin`이 true일 때만 유효  
+  :::  
+  ::: field name="server" type="string" optional default="CN"  
+  서버, 드랍 인식 및 업로드에 영향
+  <br>
+  옵션: `CN` | `US` | `JP` | `KR`  
+  :::  
+  ::: field name="client_type" type="string" optional  
+  클라이언트 버전, 기본값 비어 있음. 게임 크래시 시 재시작 후 재접속하여 계속 파밍하는 용도. 비워두면 해당 기능 비활성화
+  <br>
+  옵션: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+  :::  
+  ::: field name="DrGrandet" type="boolean" optional default="false"  
+  이성 절약 모드, 오리지늄 사용 가능성이 있을 때만 유효
+  <br>
+  오리지늄 사용 확인 창에서 대기하다가, 현재 1이성이 회복되면 즉시 오리지늄을 사용  
+  :::  
+  ::::
 
 <details>
 <summary>Example</summary>
@@ -720,7 +732,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 ::: field name="filename" type="string"  
 단일 작전 JSON 파일 경로, copilot_list와 택일(필수); 상대/절대 경로 모두 가능  
 :::  
-::: field name="copilot_list" type="array<object>"  
+::: field name="copilot_list" type="array`<object>`"  
 작전 목록, filename과 택일(필수); filename과 copilot_list 동시 존재 시 copilot_list 무시; 이 파라미터 유효 시 set_params는 1회만 실행 가능
 <br>
 각 객체 포함:
@@ -746,7 +758,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
   <br>
   0–4 정수, 0은 현재 편성 선택, 1-4는 제1, 2, 3, 4 편성  
   :::  
-  ::: field name="user_additional" type="array<object>" optional default="[]"  
+  ::: field name="user_additional" type="array`<object>`" optional default="[]"  
   사용자 정의 추가 오퍼레이터 목록. `formation`이 true일 때 유효
   <br>
   각 객체 포함:
@@ -975,6 +987,15 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 :::  
 ::: field name="task_names" type="array<string>" required  
 배열 중 첫 번째로 매칭된 작업(및 후속 next 등)을 실행. 여러 작업을 실행하려면 Custom task를 여러 번 append  
+시크릿 프론트(`MiniGame@SecretFront`) 연결 형식 지원: `MiniGame@SecretFront@Begin@Ending[A-E](@이벤트명)?`, 이벤트명은 생략 가능(支援作战平台 / 游侠 / 诡影迷踪), 예: `MiniGame@SecretFront@Begin@EndingA@支援作战平台`。  
+:::  
+::: field name="params" type="object" optional  
+작업 추가 파라미터. 현재는 픽셀 아트 작업(`MiniGame@PixelPaint@Begin`)에서만 사용:
+
+- `params.pixel_paint.groups`: 색상별 칸 좌표 목록. `color`는 팔레트 슬롯 번호(0~39, 게임 오른쪽 팔레트 순서와 동일), `points`는 `[x, y]` 칸 좌표 배열(0~23, 왼쪽 위 원점).
+- `params.pixel_paint.swipe`(bool, 선택, 기본 true): 같은 색 연속 칸을 한 번의 드래그로 그려 속도를 높임. 일부 터치 방식에서는 이상 동작이 있을 수 있음.  
+- `params.pixel_paint.grid_delay`(int, 선택, 기본 0): 칸당 추가 대기 시간(ms). 클릭 후 대기와 드래그 시간에 모두 가산됩니다. 각 터치 방식에 기본 간격이 있어 보통 조정 불필요. 구 키 `grid_click_delay` 도 호환됩니다.
+
 :::  
 ::::
 
@@ -985,6 +1006,20 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 {
    "enable": true,
    "task_names": ["StartUp", "Infrast", "Fight"]
+}
+```
+
+```json
+{
+   "enable": true,
+   "task_names": ["MiniGame@PixelPaint@Begin"],
+   "params": {
+      "pixel_paint": {
+         "groups": [
+            { "color": 7, "points": [[0, 1], [3, 4]] }
+         ]
+      }
+   }
 }
 ```
 

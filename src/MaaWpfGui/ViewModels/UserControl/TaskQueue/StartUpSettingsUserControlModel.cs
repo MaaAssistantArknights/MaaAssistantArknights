@@ -22,7 +22,6 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.ViewModels.UI;
-using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -32,6 +31,7 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
     static StartUpSettingsUserControlModel()
     {
         Instance = new();
+        Instances.AsstProxy.AsstSubTaskMsgEvent += Instance.ProcSubTaskMsg;
     }
 
     public static StartUpSettingsUserControlModel Instance { get; }
@@ -45,6 +45,12 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
         }
     }
 
+    public bool AccountSwitchEnabled
+    {
+        get => GetTaskConfig<StartUpTask>().AccountSwitchEnabled ?? false;
+        set => SetTaskConfig<StartUpTask>(t => t.AccountSwitchEnabled == value, t => t.AccountSwitchEnabled = value);
+    }
+
     // UI 绑定的方法
     [UsedImplicitly]
     public async void AccountSwitchManualRun()
@@ -54,15 +60,15 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
             Instances.TaskQueueViewModel.AddLog("Current task is not StartUpTask", UiLogColor.Error);
             return;
         }
-        var task = new StartUpTask() { AccountName = startUp.AccountName };
+        var task = new StartUpTask() { AccountSwitchEnabled = true, AccountName = startUp.AccountName };
         await Instances.TaskQueueViewModel.LinkStartWithTasks([task]);
     }
 
-    public override void ProcSubTaskMsg(AsstMsg msg, JObject details)
+    public void ProcSubTaskMsg(AsstMsg msg, AsstSubTaskMsg? details)
     {
-        if (msg == AsstMsg.SubTaskExtraInfo && details["what"]?.ToString() == "AccountSwitch")
+        if (msg == AsstMsg.SubTaskExtraInfo && details?.What == "AccountSwitch")
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {details["details"]!["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {details?.Details?["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
         }
     }
 
@@ -86,8 +92,9 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
             }
 
             var clientType = SettingsViewModel.GameSettings.ClientType;
-            var accountName = !SettingsViewModel.ConnectSettings.UseAttachWindow &&
-                clientType is ClientType.Official or ClientType.Bilibili
+            var accountName = !SettingsViewModel.ConnectSettings.IsPCConnectConfig &&
+                clientType is ClientType.Official or ClientType.Bilibili or ClientType.Txwy &&
+                startUp.AccountSwitchEnabled is true
                     ? startUp.AccountName
                     : string.Empty;
 

@@ -17,10 +17,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
-using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Utilities;
-using Newtonsoft.Json.Linq;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels;
@@ -35,7 +33,7 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
     protected bool IsRefreshingUI { get; set; } = false; // 需手动赋值
 
     protected T GetTaskConfig<T>()
-        where T : BaseTask, new()
+        where T : notnull, BaseTask, new()
     {
         return TaskSettingVisibilityInfo.Instance.CurrentIndex >= 0 &&
             ConfigFactory.CurrentConfig.TaskQueue.Count > TaskSettingVisibilityInfo.Instance.CurrentIndex &&
@@ -61,11 +59,6 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
         }
 
         return false;
-    }
-
-    // 计划重构为event
-    public virtual void ProcSubTaskMsg(AsstMsg msg, JObject details)
-    {
     }
 
     /// <summary>

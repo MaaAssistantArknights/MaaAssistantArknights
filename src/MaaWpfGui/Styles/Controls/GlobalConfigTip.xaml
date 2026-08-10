@@ -1,0 +1,18 @@
+<UserControl
+    x:Class="MaaWpfGui.Styles.Controls.GlobalConfigTip"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <controls:TextBlock
+        HorizontalAlignment="Center"
+        FontWeight="Bold"
+        Text="{DynamicResource GlobalConfigTip}"
+        TextAlignment="Center"
+        Visibility="{c:Binding 'ConfigurationList.Count > 1',
+                               Source={x:Static helper:Instances.SettingsViewModel}}" />
+</UserControl>

@@ -23,14 +23,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <controls:TextBlock
-            Grid.Row="0"
-            HorizontalAlignment="Center"
-            FontWeight="Bold"
-            Text="{DynamicResource GlobalConfigTip}"
-            TextAlignment="Center"
-            Visibility="{c:Binding 'ConfigurationList.Count > 1',
-                                   Source={x:Static helper:Instances.SettingsViewModel}}" />
+        <controls:GlobalConfigTip Grid.Row="0" />
         <StackPanel
             Grid.Row="1"
             HorizontalAlignment="Center"
@@ -76,6 +69,7 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -89,8 +83,8 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerModels.Timers[0].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[0].IsOn}"
+                        Content="{Binding TimerList[0].Name}"
+                        IsChecked="{Binding TimerList[0].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -100,22 +94,22 @@
                             Margin="10"
                             d:Value="0"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[0].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[0].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="23"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[0].Hour}" />
+                            Value="{Binding TimerList[0].Hour}" />
                         <controls:TextBlock Text=":" />
                         <hc:NumericUpDown
                             Width="55"
                             Margin="10"
                             d:Value="0"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[0].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[0].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="59"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[0].Min}" />
+                            Value="{Binding TimerList[0].Minute}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -125,9 +119,9 @@
                     Focusable="False"
                     IsEnabled="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                     ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerModels.Timers[0].TimerConfig}"
+                    SelectedValue="{Binding TimerList[0].Config}"
                     SelectedValuePath="Value"
-                    ToolTip="{Binding TimerModels.Timers[0].TimerConfig}"
+                    ToolTip="{Binding TimerList[0].Config}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -138,8 +132,8 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerModels.Timers[1].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[1].IsOn}"
+                        Content="{Binding TimerList[1].Name}"
+                        IsChecked="{Binding TimerList[1].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -149,22 +143,22 @@
                             Margin="10"
                             d:Value="3"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[1].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[1].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="23"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[1].Hour}" />
+                            Value="{Binding TimerList[1].Hour}" />
                         <controls:TextBlock Text=":" />
                         <hc:NumericUpDown
                             Width="55"
                             Margin="10"
                             d:Value="5"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[1].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[1].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="59"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[1].Min}" />
+                            Value="{Binding TimerList[1].Minute}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -174,9 +168,9 @@
                     Focusable="False"
                     IsEnabled="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                     ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerModels.Timers[1].TimerConfig}"
+                    SelectedValue="{Binding TimerList[1].Config}"
                     SelectedValuePath="Value"
-                    ToolTip="{Binding TimerModels.Timers[1].TimerConfig}"
+                    ToolTip="{Binding TimerList[1].Config}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -187,8 +181,8 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerModels.Timers[2].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[2].IsOn}"
+                        Content="{Binding TimerList[2].Name}"
+                        IsChecked="{Binding TimerList[2].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -198,22 +192,22 @@
                             Margin="10"
                             d:Value="6"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[2].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[2].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="23"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[2].Hour}" />
+                            Value="{Binding TimerList[2].Hour}" />
                         <controls:TextBlock Text=":" />
                         <hc:NumericUpDown
                             Width="55"
                             Margin="10"
                             d:Value="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[2].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[2].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="59"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[2].Min}" />
+                            Value="{Binding TimerList[2].Minute}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -223,9 +217,9 @@
                     Focusable="False"
                     IsEnabled="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                     ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerModels.Timers[2].TimerConfig}"
+                    SelectedValue="{Binding TimerList[2].Config}"
                     SelectedValuePath="Value"
-                    ToolTip="{Binding TimerModels.Timers[2].TimerConfig}"
+                    ToolTip="{Binding TimerList[2].Config}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -236,8 +230,8 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerModels.Timers[3].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[3].IsOn}"
+                        Content="{Binding TimerList[3].Name}"
+                        IsChecked="{Binding TimerList[3].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -247,22 +241,22 @@
                             Margin="10"
                             d:Value="9"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[3].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[3].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="23"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[3].Hour}" />
+                            Value="{Binding TimerList[3].Hour}" />
                         <controls:TextBlock Text=":" />
                         <hc:NumericUpDown
                             Width="55"
                             Margin="10"
                             d:Value="15"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[3].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[3].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="59"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[3].Min}" />
+                            Value="{Binding TimerList[3].Minute}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -272,9 +266,9 @@
                     Focusable="False"
                     IsEnabled="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                     ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerModels.Timers[3].TimerConfig}"
+                    SelectedValue="{Binding TimerList[3].Config}"
                     SelectedValuePath="Value"
-                    ToolTip="{Binding TimerModels.Timers[3].TimerConfig}"
+                    ToolTip="{Binding TimerList[3].Config}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -285,8 +279,8 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerModels.Timers[4].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[4].IsOn}"
+                        Content="{Binding TimerList[4].Name}"
+                        IsChecked="{Binding TimerList[4].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -296,22 +290,22 @@
                             Margin="10"
                             d:Value="12"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[4].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[4].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="23"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[4].Hour}" />
+                            Value="{Binding TimerList[4].Hour}" />
                         <controls:TextBlock Text=":" />
                         <hc:NumericUpDown
                             Width="55"
                             Margin="10"
                             d:Value="20"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[4].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[4].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="59"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[4].Min}" />
+                            Value="{Binding TimerList[4].Minute}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -321,9 +315,9 @@
                     Focusable="False"
                     IsEnabled="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                     ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerModels.Timers[4].TimerConfig}"
+                    SelectedValue="{Binding TimerList[4].Config}"
                     SelectedValuePath="Value"
-                    ToolTip="{Binding TimerModels.Timers[4].TimerConfig}"
+                    ToolTip="{Binding TimerList[4].Config}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -334,8 +328,8 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerModels.Timers[5].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[5].IsOn}"
+                        Content="{Binding TimerList[5].Name}"
+                        IsChecked="{Binding TimerList[5].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -345,22 +339,22 @@
                             Margin="10"
                             d:Value="15"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[5].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[5].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="23"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[5].Hour}" />
+                            Value="{Binding TimerList[5].Hour}" />
                         <controls:TextBlock Text=":" />
                         <hc:NumericUpDown
                             Width="55"
                             Margin="10"
                             d:Value="30"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[5].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[5].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="59"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[5].Min}" />
+                            Value="{Binding TimerList[5].Minute}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -370,9 +364,9 @@
                     Focusable="False"
                     IsEnabled="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                     ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerModels.Timers[5].TimerConfig}"
+                    SelectedValue="{Binding TimerList[5].Config}"
                     SelectedValuePath="Value"
-                    ToolTip="{Binding TimerModels.Timers[5].TimerConfig}"
+                    ToolTip="{Binding TimerList[5].Config}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -383,8 +377,8 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerModels.Timers[6].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[6].IsOn}"
+                        Content="{Binding TimerList[6].Name}"
+                        IsChecked="{Binding TimerList[6].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -394,22 +388,22 @@
                             Margin="10"
                             d:Value="18"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[6].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[6].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="23"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[6].Hour}" />
+                            Value="{Binding TimerList[6].Hour}" />
                         <controls:TextBlock Text=":" />
                         <hc:NumericUpDown
                             Width="55"
                             Margin="10"
                             d:Value="40"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[6].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[6].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="59"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[6].Min}" />
+                            Value="{Binding TimerList[6].Minute}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -419,9 +413,9 @@
                     Focusable="False"
                     IsEnabled="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                     ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerModels.Timers[6].TimerConfig}"
+                    SelectedValue="{Binding TimerList[6].Config}"
                     SelectedValuePath="Value"
-                    ToolTip="{Binding TimerModels.Timers[6].TimerConfig}"
+                    ToolTip="{Binding TimerList[6].Config}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -432,8 +426,8 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerModels.Timers[7].TimerName}"
-                        IsChecked="{Binding TimerModels.Timers[7].IsOn}"
+                        Content="{Binding TimerList[7].Name}"
+                        IsChecked="{Binding TimerList[7].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -443,22 +437,22 @@
                             Margin="10"
                             d:Value="21"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[7].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[7].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="23"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[7].Hour}" />
+                            Value="{Binding TimerList[7].Hour}" />
                         <controls:TextBlock Text=":" />
                         <hc:NumericUpDown
                             Width="55"
                             Margin="10"
                             d:Value="50"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding TimerModels.Timers[7].IsOn}"
+                            IsEnabled="{c:Binding 'TimerList[7].IsEnabled ?? &quot;True&quot;'}"
                             Maximum="59"
                             Minimum="0"
                             ValueFormat="00"
-                            Value="{Binding TimerModels.Timers[7].Min}" />
+                            Value="{Binding TimerList[7].Minute}" />
                     </StackPanel>
                 </StackPanel>
                 <ComboBox
@@ -468,11 +462,12 @@
                     Focusable="False"
                     IsEnabled="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                     ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerModels.Timers[7].TimerConfig}"
+                    SelectedValue="{Binding TimerList[7].Config}"
                     SelectedValuePath="Value"
-                    ToolTip="{Binding TimerModels.Timers[7].TimerConfig}"
+                    ToolTip="{Binding TimerList[7].Config}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
+
         </Grid>
     </Grid>
 </UserControl>

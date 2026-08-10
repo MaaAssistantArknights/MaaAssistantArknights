@@ -17,8 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
@@ -37,7 +37,6 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
-using Newtonsoft.Json;
 using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -132,8 +131,6 @@ public class SettingsViewModel : Screen
 
         Init();
 
-        HangoverEnd();
-
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (_, e) => {
             Idle = e.NewState.Idle;
@@ -141,6 +138,17 @@ public class SettingsViewModel : Screen
             // Inited = e.Inited;
             // Stopping = e.Stopping;
         };
+
+        LocalizationHelper.LanguageChanged += RefreshLocalization;
+    }
+
+    /// <summary>
+    /// 刷新本地化文本。
+    /// </summary>
+    public void RefreshLocalization()
+    {
+        DisplayName = LocalizationHelper.GetString("Settings");
+        RefreshSettingsList();
     }
 
     #region Init
@@ -203,84 +211,56 @@ public class SettingsViewModel : Screen
 
     private void InitSettings()
     {
-        List<string> keyList =
-        [
-            "SwitchConfiguration",
-            "ScheduleSettings",
-            "PerformanceSettings",
-            "GameSettings",
-            "ConnectionSettings",
-            "StartupSettings",
-            "RemoteControlSettings",
-            "UiSettings",
-            "BackgroundSettings",
-            "ExternalNotificationSettings",
-            "HotKeySettings",
-            "AchievementSettings",
-            "UpdateSettings",
-            "IssueReport",
-            "AboutUs",
-        ];
+        var keyList = Enum.GetValues<SettingKey>();
 
-        var tempOrderList = new List<SettingItemViewModel?>(new SettingItemViewModel[keyList.Count]);
-        var nonOrderList = new List<SettingItemViewModel?>();
+        var tempOrderList = new List<SettingItemViewModel?>();
 
-        foreach (var key in keyList)
+        bool isAdded = false;
+        var orderList = ConfigFactory.Root.Gui.SettingOrders.ToList();
+        foreach (var key in keyList.Where(k => !orderList.Any(o => o == k)))
         {
-            int order = ConfigurationHelper.GetSettingOrder(key, -1);
-
-            var item = new SettingItemViewModel(key, LocalizationHelper.GetString(key), -1);
-
-            if (order < 0 || order >= tempOrderList.Count || tempOrderList[order] != null)
-            {
-                nonOrderList.Add(item);
-            }
-            else
-            {
-                item.Value = order;
-                tempOrderList[order] = item;
-            }
+            isAdded = true;
+            orderList.Add(key);
+        }
+        if (isAdded)
+        {
+            ConfigFactory.Root.Gui.SettingOrders = orderList;
         }
 
-        int fillIndex = 0;
-        foreach (var item in nonOrderList.OfType<SettingItemViewModel>())
+        foreach (var (i, key) in orderList.Select((key, index) => (index, key)))
         {
-            while (fillIndex < tempOrderList.Count && tempOrderList[fillIndex] != null)
-            {
-                fillIndex++;
-            }
-
-            if (fillIndex < tempOrderList.Count)
-            {
-                item.Value = fillIndex;
-                tempOrderList[fillIndex] = item;
-                ConfigurationHelper.SetSettingOrder(item.Key, fillIndex);
-            }
+            var item = new SettingItemViewModel(key.ToString(), LocalizationHelper.GetString(key.ToString()), i);
+            tempOrderList.Add(item);
         }
 
         Settings = [.. tempOrderList.OfType<SettingItemViewModel>()];
-
         Settings.CollectionChanged += Settings_CollectionChanged;
+    }
+
+    /// <summary>
+    /// 刷新设置菜单项的本地化文本。
+    /// </summary>
+    private void RefreshSettingsList()
+    {
+        foreach (var item in Settings)
+        {
+            item.Display = LocalizationHelper.GetString(item.Key);
+        }
     }
 
     private void Settings_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
     {
+        ConfigFactory.Root.Gui.SettingOrders = [.. Settings.Select(item => Enum.Parse<SettingKey>(item.Key))];
         Execute.OnUIThread(() => {
+            // 集合变更后，根据新的顺序更新各 item 的 Value（右边 Grid.Row 绑定依赖此值）
+            for (int i = 0; i < Settings.Count; i++)
+            {
+                Settings[i].Value = i;
+            }
+
             if (e?.Action == NotifyCollectionChangedAction.Move)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.SortingMaster);
-            }
-
-            for (int i = 0; i < Settings.Count; i++)
-            {
-                var item = Settings[i];
-                if (item.Value == i)
-                {
-                    continue;
-                }
-
-                item.Value = i;
-                ConfigurationHelper.SetSettingOrder(item.Key, i);
             }
 
             OnSettingItemValueChanged();
@@ -303,8 +283,7 @@ public class SettingsViewModel : Screen
     public string SearchText
     {
         get => _searchText;
-        set
-        {
+        set {
             if (SetAndNotify(ref _searchText, value))
             {
                 SearchRequested?.Invoke(this, value);
@@ -323,9 +302,9 @@ public class SettingsViewModel : Screen
     private void InitConfiguration()
     {
         var configurations = new ObservableCollection<CombinedData>();
-        foreach (var conf in ConfigurationHelper.GetConfigurationList())
+        foreach (var conf in ConfigFactory.Root.Configurations)
         {
-            configurations.Add(new CombinedData { Display = conf, Value = conf });
+            configurations.Add(new CombinedData { Display = conf.Key, Value = conf.Key });
         }
 
         ConfigurationList = configurations;
@@ -334,21 +313,24 @@ public class SettingsViewModel : Screen
     private void InitUiSettings()
     {
         var languageList = (from pair in LocalizationHelper.SupportedLanguages
-                            where pair.Key != PallasLangKey || Cheers
+                            where pair.Key != PallasLangKey || IsDrunk
                             select new CombinedData { Display = pair.Value, Value = pair.Key })
            .ToList();
 
         GuiSettings.LanguageList = languageList;
         GuiSettings.SwitchDarkMode();
+
+        // 主题初始化完成后，若莫奈取色已开启，恢复调色板（必须在主题切换之后执行）
+        // 跳过防抖延迟，避免界面先闪烁原版颜色再显示莫奈主题
+        BackgroundSettings.UpdateMonet(skipDebounce: true);
     }
 
     private void InitConnectConfig()
     {
-        var addressListJson = ConfigurationHelper.GetValue(ConfigurationKeys.AddressHistory, string.Empty);
-        if (!string.IsNullOrEmpty(addressListJson))
-        {
-            ConnectSettings.ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson) ?? [];
-        }
+        ConnectSettings.ConnectAddressHistory = new(ConfigFactory.CurrentConfig.Gui.ConnectSettings.AddressHistory);
+        ConnectSettings.ConnectAddressHistory.CollectionChanged += (_, _) => {
+            ConfigFactory.CurrentConfig.Gui.ConnectSettings.AddressHistory = [.. ConnectSettings.ConnectAddressHistory];
+        };
     }
 
     private void InitVersionUpdate()
@@ -368,92 +350,99 @@ public class SettingsViewModel : Screen
     /// </summary>
     public const string PallasLangKey = "pallas";
 
-    private bool _cheers = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Cheers, false);
+    /// <summary>
+    /// 当前是否处于喝醉状态（语言为 Pallas）。
+    /// </summary>
+    public bool IsDrunk => GuiSettings.Language == PallasLangKey;
 
     /// <summary>
-    /// Gets or sets a value indicating whether to cheer.
+    /// 喝醉：切换到 Pallas 语言。
     /// </summary>
-    public bool Cheers
+    public void GetDrunk()
     {
-        get => _cheers;
-        set {
-            if (_cheers == value)
-            {
-                return;
-            }
-
-            SetAndNotify(ref _cheers, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Cheers, value.ToString());
-            if (_cheers)
-            {
-                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Localization, PallasLangKey);
-            }
-        }
+        // 不走 Language setter 以避免弹出语言切换确认窗
+        GuiSettings.SetLanguageInternal(PallasLangKey);
     }
 
-    private bool _hangover = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Hangover, false);
-
     /// <summary>
-    /// Gets or sets a value indicating whether to hangover.
+    /// Gets or sets a value indicating whether need to show hangover dialog.
     /// </summary>
     public bool Hangover
     {
-        get => _hangover;
-        set {
-            SetAndNotify(ref _hangover, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Hangover, value.ToString());
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.Hangover = value;
         }
-    }
+    } = ConfigFactory.Root.Gui.Hangover;
 
-    private string _lastBuyWineTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.LastBuyWineTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
-
-    public string LastBuyWineTime
+    public DateTimeOffset LastBuyWineTime
     {
-        get => _lastBuyWineTime;
-        set {
-            SetAndNotify(ref _lastBuyWineTime, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.LastBuyWineTime, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.LastBuyWineTime = value;
         }
+    } = ConfigFactory.Root.Gui.LastBuyWineTime;
+
+    /// <summary>
+    /// 退出时调用：如果当前喝醉，切回清醒语言并留宿醉标记。
+    /// </summary>
+    public void Sober()
+    {
+        if (!IsDrunk)
+        {
+            return;
+        }
+
+        GuiSettings.SetLanguageInternal(SoberLanguage);
+        Hangover = true;
     }
 
     public void HangoverEnd()
     {
-        if (!Hangover)
+        // 同时检查标记和语言：正常退出走 Sober() 会留标记；
+        // 异常退出标记可能缺失，但语言仍是 pallas，据此兜底。
+        if (!Hangover && !IsDrunk)
         {
             return;
         }
 
         Hangover = false;
-        MessageBoxHelper.Show(
-            LocalizationHelper.GetString("Hangover"),
-            LocalizationHelper.GetString("Burping"),
-            iconKey: "HangoverGeometry",
-            iconBrushKey: "PallasBrush");
-        Bootstrapper.ShutdownAndRestartWithoutArgs();
-    }
-
-    public void Sober()
-    {
-        if (!Cheers || GuiSettings.Language != PallasLangKey)
+        if (IsDrunk)
         {
-            return;
+            // 异常退出兜底：语言仍为 pallas，这里补切回来
+            GuiSettings.SetLanguageInternal(SoberLanguage);
         }
 
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Localization, SoberLanguage);
-        Hangover = true;
-        Cheers = false;
+        ShowEasterEggDialog(
+            LocalizationHelper.GetString("Burping"),
+            LocalizationHelper.GetString("Hangover"),
+            LocalizationHelper.GetString("Ok"));
     }
 
-    private string _soberLanguage = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.SoberLanguage, LocalizationHelper.DefaultLanguage);
+    /// <summary>
+    /// 显示非阻塞彩蛋弹窗，用户点确认后执行回调。
+    /// </summary>
+    /// <param name="caption">标题</param>
+    /// <param name="message">提示内容</param>
+    /// <param name="confirmText">确认按钮文本</param>
+    /// <param name="onConfirm">用户点击确认后的回调（可为 null）</param>
+    public static void ShowEasterEggDialog(string caption, string message, string confirmText, Action? onConfirm = null)
+    {
+        var dialog = new Views.Dialogs.EasterEggDialogView(caption, message, confirmText);
+        var hcDialog = Dialog.Show(dialog, nameof(Views.UI.RootView));
+        dialog.ConfirmClicked += (_, _) => {
+            hcDialog.Close();
+            onConfirm?.Invoke();
+        };
+    }
 
     public string SoberLanguage
     {
-        get => _soberLanguage;
-        set {
-            SetAndNotify(ref _soberLanguage, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.SoberLanguage, value);
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.SoberLanguage = value;
         }
-    }
+    } = ConfigFactory.Root.Gui.SoberLanguage;
 
     /// <summary>
     /// Did you buy wine?
@@ -461,16 +450,17 @@ public class SettingsViewModel : Screen
     /// <returns>The answer.</returns>
     public bool DidYouBuyWine()
     {
-        var now = DateTime.UtcNow.ToYjDate();
-        if (now == DateTime.ParseExact(LastBuyWineTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+        var now = DateTimeOffset.UtcNow.ToYjDateTime();
+        if (now == ConfigFactory.Root.Gui.LastBuyWineTime)
         {
             return false;
         }
 
-        // if (now.IsAprilFoolsDay())
-        // {
-        //     return true;
-        // }
+        if (now.IsAprilFoolsDay())
+        {
+            return true;
+        }
+
         string[] wineList = ["酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶"];
         foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<MallTask>())
         {
@@ -523,7 +513,7 @@ public class SettingsViewModel : Screen
 
     public ObservableCollection<CombinedData> ConfigurationList { get; set; } = [];
 
-    private string? _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
+    private string? _currentConfiguration = ConfigFactory.Root.Current;
 
     public string? CurrentConfiguration
     {
@@ -535,14 +525,12 @@ public class SettingsViewModel : Screen
             }
 
             var previousConfiguration = _currentConfiguration;
-            bool ret = ConfigurationHelper.SwitchConfiguration(value);
-            ret &= ConfigFactory.SwitchConfig(value);
+            bool ret = ConfigFactory.SwitchConfig(value);
 
             if (!ret)
             {
                 if (!string.IsNullOrEmpty(previousConfiguration))
                 {
-                    ConfigurationHelper.SwitchConfiguration(previousConfiguration);
                     ConfigFactory.SwitchConfig(previousConfiguration);
                 }
 
@@ -571,11 +559,9 @@ public class SettingsViewModel : Screen
             NewConfigurationName = DateTime.Now.ToString("yy/MM/dd HH:mm:ss");
         }
 
-        bool existsInHelper = ConfigurationHelper.ConfigurationExists(NewConfigurationName);
         bool existsInFactory = ConfigFactory.ConfigurationExists(NewConfigurationName);
 
-        // 两边都已存在，提示并返回
-        if (existsInHelper && existsInFactory)
+        if (existsInFactory)
         {
             Growl.Info(new GrowlInfo {
                 IsCustom = true,
@@ -586,26 +572,8 @@ public class SettingsViewModel : Screen
             return;
         }
 
-        // 至少有一侧存在（两边都存在的情况已在上方 return），清理残余配置以便重新添加
-        if (existsInHelper)
+        if (!ConfigFactory.AddConfiguration(NewConfigurationName, CurrentConfiguration))
         {
-            ConfigurationHelper.DeleteConfiguration(NewConfigurationName);
-        }
-        if (existsInFactory)
-        {
-            ConfigFactory.DeleteConfiguration(NewConfigurationName);
-        }
-
-        // 两边都不存在，执行添加
-        bool helperAdded = ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration);
-        bool factoryAdded = ConfigFactory.AddConfiguration(NewConfigurationName, CurrentConfiguration);
-
-        if (!helperAdded || !factoryAdded)
-        {
-            // 任一侧添加失败，回滚另一侧
-            if (helperAdded) { ConfigurationHelper.DeleteConfiguration(NewConfigurationName); }
-            if (factoryAdded) { ConfigFactory.DeleteConfiguration(NewConfigurationName); }
-
             Growl.Info(new GrowlInfo {
                 IsCustom = true,
                 Message = LocalizationHelper.GetStringFormat("ConfigExists", NewConfigurationName),
@@ -632,7 +600,7 @@ public class SettingsViewModel : Screen
     [UsedImplicitly]
     public void DeleteConfiguration(CombinedData delete)
     {
-        if (ConfigurationHelper.DeleteConfiguration(delete.Display) && ConfigFactory.DeleteConfiguration(delete.Display))
+        if (ConfigFactory.DeleteConfiguration(delete.Display))
         {
             ConfigurationList.Remove(delete);
             if (ConfigurationList.Count <= 1)
@@ -648,16 +616,13 @@ public class SettingsViewModel : Screen
 
     public static int GuideMaxStep => 7;
 
-    private int _guideStepIndex = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0);
-
     public int GuideStepIndex
     {
-        get => _guideStepIndex;
-        set {
-            SetAndNotify(ref _guideStepIndex, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.GuideStepIndex, value.ToString());
+        get; set {
+            ConfigFactory.Root.Gui.GuideStep = value;
+            SetAndNotify(ref field, value);
         }
-    }
+    } = ConfigFactory.Root.Gui.GuideStep;
 
     private string _guideTransitionMode = "Bottom2Top";
 
@@ -874,154 +839,109 @@ public class SettingsViewModel : Screen
 
     #region 折叠框展开状态
 
+    private bool GetExpanderState(SettingKey key) => !ConfigFactory.Root.Gui.CollapesStates.Contains(key);
+
+    private void SetExpanderState(SettingKey key, bool value, [CallerMemberName] string propertyName = "")
+    {
+        if (!value)
+        {
+            ConfigFactory.Root.Gui.CollapesStates.Add(key);
+        }
+        else
+        {
+            ConfigFactory.Root.Gui.CollapesStates.Remove(key);
+        }
+        NotifyOfPropertyChange(propertyName);
+    }
+
     public bool IsSwitchConfigurationExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderSwitchConfiguration;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderSwitchConfiguration = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.SwitchConfiguration);
+        set => SetExpanderState(SettingKey.SwitchConfiguration, value);
     }
 
     public bool IsScheduleSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderScheduleSettings;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderScheduleSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.ScheduleSettings);
+        set => SetExpanderState(SettingKey.ScheduleSettings, value);
     }
 
     public bool IsPerformanceSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderPerformanceSettings;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderPerformanceSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.PerformanceSettings);
+        set => SetExpanderState(SettingKey.PerformanceSettings, value);
     }
 
     public bool IsGameSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderGameSettings;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderGameSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.GameSettings);
+        set => SetExpanderState(SettingKey.GameSettings, value);
     }
 
     public bool IsConnectionSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderConnectionSettings;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderConnectionSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.ConnectionSettings);
+        set => SetExpanderState(SettingKey.ConnectionSettings, value);
     }
 
     public bool IsStartupSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderStartupSettings;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderStartupSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.StartupSettings);
+        set => SetExpanderState(SettingKey.StartupSettings, value);
     }
 
     public bool IsRemoteControlSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderRemoteControlSettings;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderRemoteControlSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.RemoteControlSettings);
+        set => SetExpanderState(SettingKey.RemoteControlSettings, value);
     }
 
     public bool IsUiSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderUiSettings;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderUiSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.UiSettings);
+        set => SetExpanderState(SettingKey.UiSettings, value);
     }
 
     public bool IsBackgroundSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderBackgroundSettings;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderBackgroundSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.BackgroundSettings);
+        set => SetExpanderState(SettingKey.BackgroundSettings, value);
     }
 
     public bool IsExternalNotificationSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderExternalNotificationSettings;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderExternalNotificationSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.ExternalNotificationSettings);
+        set => SetExpanderState(SettingKey.ExternalNotificationSettings, value);
     }
 
     public bool IsHotKeySettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderHotKeySettings;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderHotKeySettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.HotKeySettings);
+        set => SetExpanderState(SettingKey.HotKeySettings, value);
     }
 
     public bool IsAchievementSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderAchievementSettings;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderAchievementSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.AchievementSettings);
+        set => SetExpanderState(SettingKey.AchievementSettings, value);
     }
 
     public bool IsUpdateSettingsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderUpdateSettings;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderUpdateSettings = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.UpdateSettings);
+        set => SetExpanderState(SettingKey.UpdateSettings, value);
     }
 
     public bool IsIssueReportExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderIssueReport;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderIssueReport = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.IssueReport);
+        set => SetExpanderState(SettingKey.IssueReport, value);
     }
 
     public bool IsAboutUsExpanded
     {
-        get => ConfigFactory.Root.GUI.ExpanderAboutUs;
-        set
-        {
-            ConfigFactory.Root.GUI.ExpanderAboutUs = value;
-            NotifyOfPropertyChange();
-        }
+        get => GetExpanderState(SettingKey.AboutUs);
+        set => SetExpanderState(SettingKey.AboutUs, value);
     }
 
     #endregion 折叠框展开状态
@@ -1122,7 +1042,7 @@ public class SettingsViewModel : Screen
 
         rvm.WindowResourceUpdateInfo = VersionUpdateSettings.NewResourceFoundInfo;
 
-        string prefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
+        string prefix = ConfigFactory.CurrentConfig.Gui.WindowTitlePrefix;
         if (!string.IsNullOrEmpty(prefix))
         {
             prefix += " - ";
@@ -1189,7 +1109,7 @@ public class SettingsViewModel : Screen
         }
     }
 
-    private static readonly Dictionary<string, string> _serverMapping = new()
+    private static readonly Dictionary<ClientType, string> _serverMapping = new()
     {
         { ClientType.Official, "CN" },
         { ClientType.Bilibili, "CN" },

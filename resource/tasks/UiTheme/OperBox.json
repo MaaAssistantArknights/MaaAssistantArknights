@@ -21,7 +21,8 @@
             "OperBoxAveMujica",
             "OperBoxTogether",
             "OperBoxLoneTrail",
-            "OperBoxReconstruct"
+            "OperBoxReconstruct",
+            "OperBoxHunting"
         ],
         "onErrorNext": ["OperBox-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -88,5 +89,10 @@
     "OperBoxReconstruct": {
         "baseTask": "OperBoxDefault",
         "template": "Reconstruct/OperBoxEnter.png"
+    },
+    "OperBoxHunting": {
+        "baseTask": "OperBoxDefault",
+        "template": "Hunting/OperBoxEnter.png",
+        "roi": [1045, 295, 165, 150]
     }
 }

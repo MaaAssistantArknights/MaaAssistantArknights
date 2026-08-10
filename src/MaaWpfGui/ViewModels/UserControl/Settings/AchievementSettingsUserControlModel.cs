@@ -18,12 +18,13 @@ using System.IO;
 using System.Windows.Forms;
 using HandyControl.Controls;
 using HandyControl.Data;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
+using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.Dialogs;
 using Stylet;
-using Window = System.Windows.Window;
 using WindowManager = MaaWpfGui.Helper.WindowManager;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
@@ -143,12 +144,19 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         if (_isTriggered)
         {
             ResetDebugState();
+            Instances.SettingsViewModel.Sober();
+            Instances.SettingsViewModel.HangoverEnd();
             return;
         }
 
         if (Instances.VersionUpdateDialogViewModel.IsDebugVersion())
         {
             EnableDebugMode();
+            SettingsViewModel.ShowEasterEggDialog(
+                LocalizationHelper.GetString("Burping"),
+                LocalizationHelper.GetString("DrunkAndStaggering"),
+                LocalizationHelper.GetString("Ok"),
+                () => Instances.SettingsViewModel.GetDrunk());
             return;
         }
 
@@ -163,6 +171,11 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         if (shouldTriggerDebug)
         {
             EnableDebugMode();
+            SettingsViewModel.ShowEasterEggDialog(
+                LocalizationHelper.GetString("Burping"),
+                LocalizationHelper.GetString("DrunkAndStaggering"),
+                LocalizationHelper.GetString("Ok"),
+                () => Instances.SettingsViewModel.GetDrunk());
         }
     }
 
@@ -208,31 +221,25 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         AchievementTrackerHelper.Instance.LockAll();
     }
 
-    private bool _achievementPopupDisabled = ConfigurationHelper.GetValue(ConfigurationKeys.AchievementPopupDisabled, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to disable achievement notifications.
     /// </summary>
     public bool AchievementPopupDisabled
     {
-        get => _achievementPopupDisabled;
-        set {
-            SetAndNotify(ref _achievementPopupDisabled, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AchievementPopupDisabled, value.ToString());
+        get; set {
+            ConfigFactory.CurrentConfig.Gui.AchievementPopupDisabled = value;
+            SetAndNotify(ref field, value);
         }
-    }
-
-    private bool _achievementPopupAutoClose = ConfigurationHelper.GetValue(ConfigurationKeys.AchievementPopupAutoClose, false);
+    } = ConfigFactory.CurrentConfig.Gui.AchievementPopupDisabled;
 
     /// <summary>
     /// Gets or sets a value indicating whether achievement bubbles should auto-close after some time.
     /// </summary>
     public bool AchievementPopupAutoClose
     {
-        get => _achievementPopupAutoClose;
-        set {
-            SetAndNotify(ref _achievementPopupAutoClose, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AchievementPopupAutoClose, value.ToString());
+        get; set {
+            ConfigFactory.CurrentConfig.Gui.AchievementPopupAutoClose = value;
+            SetAndNotify(ref field, value);
         }
-    }
+    } = ConfigFactory.CurrentConfig.Gui.AchievementPopupAutoClose;
 }

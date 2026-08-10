@@ -291,7 +291,7 @@ public class ToastNotification : IDisposable
     {
         Execute.OnUIThread(() => {
             // TODO: 整理过时代码
-            if (!ConfigFactory.Root.GUI.UseNotify)
+            if (!ConfigFactory.Root.Gui.UseNotify || !ToastNotificationCheck().IsAvailable)
             {
                 Growl.Info(_notificationTitle + _contentCollection);
                 return;

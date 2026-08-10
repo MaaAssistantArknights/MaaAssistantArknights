@@ -15,9 +15,10 @@
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Extensions;
 using Microsoft.Win32;
 using Windows.Win32;
@@ -39,8 +40,8 @@ public abstract class GpuOption
 
     public static bool AllowDeprecatedGpu
     {
-        get => ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, false);
-        set => ConfigurationHelper.SetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, value.ToString());
+        get => ConfigFactory.CurrentConfig.Gui.Performance.AllowDeprecatedGpu;
+        set => ConfigFactory.CurrentConfig.Gui.Performance.AllowDeprecatedGpu = value;
     }
 
     // use string literal to efficiently store uint16 array
@@ -76,6 +77,7 @@ public abstract class GpuOption
         "\u4C8B\u4C90\u4C9A\u4E71\u4E61\u4E57\u4E55\u4E51\u4557\u4555\u4571\u4551\u4541\u9A59\u9A78\u9A60\u9A70" +
         "\u9A68\u9A40\u9A49" +
         /* Xe-LPG (Meteor Lake) */ "\u7D40\u7D45\u7D55\u7DD5" +
+        /* Xe-LPG+ (Arrow Lake; Arc 140T 缺字问题, #17245 #17246) */ "\u7D51" +
         /* Gen11 */ "\u8A70\u8A71\u8A56\u8A58\u8A5B\u8A5D\u8A54\u8A5A\u8A5C\u8A57\u8A59\u8A50\u8A51\u8A52\u8A53" +
         /* Gen9  */ "\u3EA5\u3EA8\u3EA6\u3EA7\u3EA2\u3E90\u3E93\u3E99\u3E9C\u3EA1\u9BA5\u9BA8\u3EA4\u9B21\u9BA0" +
         "\u9BA2\u9BA4\u9BAA\u9BAB\u9BAC\u87CA\u3EA3\u9B41\u9BC0\u9BC2\u9BC4\u9BCA\u9BCB\u9BCC\u3E91\u3E92\u3E98" +
@@ -214,10 +216,8 @@ public abstract class GpuOption
     {
         try
         {
-            var req = new DISPLAYCONFIG_ADAPTER_NAME
-            {
-                header = new DISPLAYCONFIG_DEVICE_INFO_HEADER
-                {
+            var req = new DISPLAYCONFIG_ADAPTER_NAME {
+                header = new DISPLAYCONFIG_DEVICE_INFO_HEADER {
                     size = (uint)sizeof(DISPLAYCONFIG_ADAPTER_NAME),
                     adapterId = luid,
                     id = 0,
@@ -398,8 +398,7 @@ public abstract class GpuOption
             // Intel: pre-Xe (Gen9, Gen11)
             // AMD: pre-Polaris (Sea Islands, Volcanic Islands, Arctic Islands)
             // NVIDIA: maybe pre-Pascal? (Kepler, Maxwell)
-            ReadOnlySpan<ushort> devIdBlacklist = desc.VendorId switch
-            {
+            ReadOnlySpan<ushort> devIdBlacklist = desc.VendorId switch {
                 0x8086 => IntelBlacklist,
                 0x1002 => AmdBlacklist,
                 0x10de => NvidiaBlacklist,
@@ -416,11 +415,11 @@ public abstract class GpuOption
 
     public static GpuOption GetCurrent()
     {
-        var preferredGpuInstancePath = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty);
-        var preferredGpuDescription = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty);
+        var preferredGpuInstancePath = ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath;
+        var preferredGpuDescription = ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription;
 
         GpuOption result;
-        if (ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceUseGpu, false))
+        if (ConfigFactory.CurrentConfig.Gui.Performance.UseGpu)
         {
             var options = GetGpuOptions();
             if (ReferenceEquals(options, _unavailableOptions))
@@ -453,17 +452,19 @@ public abstract class GpuOption
         switch (option)
         {
             case DisableOption:
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformanceUseGpu, "false");
+                ConfigFactory.CurrentConfig.Gui.Performance.UseGpu = false;
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription = string.Empty;
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath = string.Empty;
                 break;
             case SystemDefaultOption:
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformanceUseGpu, "true");
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty);
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty);
+                ConfigFactory.CurrentConfig.Gui.Performance.UseGpu = true;
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription = string.Empty;
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath = string.Empty;
                 break;
             case SpecificGpuOption x:
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformanceUseGpu, "true");
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuDescription, x.GpuInfo.Description);
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, x.InstancePath);
+                ConfigFactory.CurrentConfig.Gui.Performance.UseGpu = true;
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription = x.GpuInfo.Description;
+                ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath = x.InstancePath;
                 break;
         }
     }
@@ -495,6 +496,8 @@ public abstract class GpuOption
         public abstract uint Index { get; }
 
         public abstract GpuDriverInformation GpuInfo { get; }
+
+        public virtual string DeviceSelector => Index.ToString(CultureInfo.InvariantCulture);
     }
 
     public class SystemDefaultOption(GpuDriverInformation info) : EnableOption
@@ -532,6 +535,9 @@ public abstract class GpuOption
         }
 
         public override uint Index => _index;
+
+        public override string DeviceSelector =>
+            $"luid:{unchecked((ulong)_description.AdapterLuid.AsLong()).ToString("X16", CultureInfo.InvariantCulture)}";
 
         public string InstancePath => _instancePath;
 

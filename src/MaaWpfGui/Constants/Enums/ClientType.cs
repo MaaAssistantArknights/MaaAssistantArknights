@@ -11,17 +11,31 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
+
 namespace MaaWpfGui.Constants.Enums;
 
 /// <summary>
 /// 客户端类型
 /// </summary>
-public static class ClientType
+///
+public enum ClientType
 {
-    public const string Official = "Official";
-    public const string Bilibili = "Bilibili";
-    public const string EN = "YoStarEN";
-    public const string JP = "YoStarJP";
-    public const string KR = "YoStarKR";
-    public const string Txwy = "txwy";
+    /// <summary> 官服 </summary>
+    Official,
+
+    /// <summary> B服 </summary>
+    Bilibili,
+
+    /// <summary> EN服 </summary>
+    EN,
+
+    /// <summary> JP服 </summary>
+    JP,
+
+    /// <summary> KR服 </summary>
+    KR,
+
+    /// <summary> 台服 </summary>
+    Txwy,
 }

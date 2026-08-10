@@ -14,7 +14,9 @@
 #nullable enable
 using System;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -68,27 +70,21 @@ public class RunningState
     private const int MaxMinutes = 11451;
     private const int LongTaskTimeoutMinutes = 60;
 
-    private int _reminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30).Clamp(1, MaxMinutes);
-
     public int ReminderIntervalMinutes
     {
-        get => _reminderIntervalMinutes;
-        set {
+        get; set {
             value = value.Clamp(1, MaxMinutes);
-            _reminderIntervalMinutes = value;
+            field = value;
             TimeoutReminderTimer_Elapsed(null, null);
             _timeoutReminderTimer.Interval = value * 60 * 1000;
         }
-    }
-
-    private int _stallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25).Clamp(0, MaxMinutes);
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
 
     public int StallTimeoutMinutes
     {
-        get => _stallTimeoutMinutes;
-        set {
+        get; set {
             value = value.Clamp(0, MaxMinutes);
-            _stallTimeoutMinutes = value;
+            field = value;
             _stallIsFirstFire = true;
             if (_stallTimer.Enabled)
             {
@@ -100,24 +96,21 @@ public class RunningState
                 }
             }
         }
-    }
-
-    private bool _stallTimeoutEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutEnabled, true);
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes;
 
     /// <summary>
     /// Gets or sets a value indicating whether 启用停滞检测
     /// </summary>
-    public bool StallTimeoutEnabled
+    public bool EnableStallTimeout
     {
-        get => _stallTimeoutEnabled;
-        set {
-            _stallTimeoutEnabled = value;
+        get; set {
+            field = value;
             if (!value && _stallTimer.Enabled)
             {
                 _stallTimer.Stop();
             }
         }
-    }
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableStallTimeout;
 
     public event EventHandler<string>? StallOccurred;
 
@@ -125,7 +118,7 @@ public class RunningState
     {
         _stallAccumulatedCount = 0;
         _stallIsFirstFire = true;
-        if (_stallTimer.Enabled && StallTimeoutEnabled && StallTimeoutMinutes > 0)
+        if (_stallTimer.Enabled && EnableStallTimeout && StallTimeoutMinutes > 0)
         {
             _stallTimer.Interval = StallTimeoutMinutes * 60 * 1000;
             _stallTimer.Stop();
@@ -140,7 +133,7 @@ public class RunningState
         _timeoutReminderTimer.Start();
         _stallAccumulatedCount = 0;
         _stallIsFirstFire = true;
-        if (StallTimeoutEnabled && StallTimeoutMinutes > 0)
+        if (EnableStallTimeout && StallTimeoutMinutes > 0)
         {
             _stallTimer.Interval = StallTimeoutMinutes * 60 * 1000;
             _stallTimer.Start();
@@ -187,7 +180,7 @@ public class RunningState
             accumulatedMinutes);
         StallOccurred?.Invoke(this, message);
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.LongTaskTimeout);
-        if (StallTimeoutEnabled && StallTimeoutMinutes > 0)
+        if (EnableStallTimeout && StallTimeoutMinutes > 0)
         {
             if (_stallIsFirstFire)
             {
@@ -227,6 +220,12 @@ public class RunningState
         }
     }
 
+    /// <summary>
+    /// 是否空闲（仅反映任务运行状态）。
+    /// 仅供 UI 绑定和按钮状态使用。需要判断"是否可以安全执行打断性操作"（如自动更新重启）时，
+    /// 应使用 <see cref="CanInterrupt"/>，它会额外排除中断锁定（结束后脚本、倒计时等）的情况。
+    /// </summary>
+    /// <returns>当前是否空闲。</returns>
     public bool GetIdle() => Idle;
 
     public void SetIdle(bool idle, [CallerMemberName] string caller = "")
@@ -234,6 +233,55 @@ public class RunningState
         _logger.Information("Idle: {Old} to {New} (called from {Caller})", Idle, idle, caller);
         Idle = idle;
     }
+
+    // 引用计数：CheckAfterCompleted 外层和 TimerCanceledAsync 内层各自 Lock/Unlock，
+    // 只有当计数归零时才真正解除锁定，避免嵌套 try-finally 提前解锁的竞态。
+    private int _interruptLockDepth;
+
+    /// <summary>
+    /// 锁定中断（引用计数 +1）。
+    /// 锁定期间（关机/休眠倒计时、结束后脚本、退出游戏、杀模拟器等），
+    /// <see cref="CanInterrupt"/> 返回 false，<see cref="UntilIdleAsync"/> 会持续等待。
+    /// </summary>
+    /// <param name="caller">调用方名称。</param>
+    public void LockInterrupt([CallerMemberName] string caller = "")
+    {
+        var newValue = Interlocked.Increment(ref _interruptLockDepth);
+        _logger.Information("InterruptLock: depth={Depth} (called from {Caller})", newValue, caller);
+    }
+
+    /// <summary>
+    /// 解除锁定（引用计数 -1，不小于 0）。
+    /// </summary>
+    /// <param name="caller">调用方名称。</param>
+    public void UnlockInterrupt([CallerMemberName] string caller = "")
+    {
+        var newValue = Interlocked.Decrement(ref _interruptLockDepth);
+        if (newValue < 0)
+        {
+            _logger.Warning("InterruptLock unlock: depth underflow, clamping to 0 (called from {Caller})", caller);
+
+            // 仅当值仍为该负数时才归零，避免与并发 LockInterrupt 竞态抹掉合法的锁
+            Interlocked.CompareExchange(ref _interruptLockDepth, 0, newValue);
+        }
+        else
+        {
+            _logger.Information("InterruptLock: depth={Depth} (called from {Caller})", newValue, caller);
+        }
+    }
+
+    /// <summary>
+    /// 当前中断是否被锁定。
+    /// </summary>
+    /// <returns>是否被锁定。</returns>
+    public bool IsInterruptLocked() => Volatile.Read(ref _interruptLockDepth) > 0;
+
+    /// <summary>
+    /// 当前是否可以安全打断（空闲且中断未锁定）。
+    /// 中断锁定期间（关机/休眠倒计时、结束后脚本、退出游戏、杀模拟器等）不属于可安全打断的状态。
+    /// </summary>
+    /// <returns>空闲且中断未锁定返回 <see langword="true"/>，否则返回 <see langword="false"/>。</returns>
+    public bool CanInterrupt() => GetIdle() && !IsInterruptLocked();
 
     private bool _inited;
 
@@ -299,7 +347,7 @@ public class RunningState
     {
         while (true)
         {
-            while (!GetIdle())
+            while (!CanInterrupt())
             {
                 await Task.Delay(time);
             }
@@ -309,7 +357,7 @@ public class RunningState
             {
                 await Task.Delay(confirmInterval);
 
-                if (GetIdle())
+                if (CanInterrupt())
                 {
                     confirmed++;
                 }

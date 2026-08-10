@@ -1,14 +1,22 @@
 #include "MultiCopilotTaskPlugin.h"
 
+#include <ranges>
+
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
+#include "Controller/Controller.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/ProcessTask.h"
+#include "Task/StageNavigationHelper.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
+#include "Vision/Matcher.h"
+#include "Vision/Miscellaneous/PipelineAnalyzer.h"
 
 bool asst::MultiCopilotTaskPlugin::_run()
 {
+    LogTraceFunction;
     if (m_copilot_configs.size() < (size_t)m_index_current) {
         LogError << __FUNCTION__ << "configs size:" << m_copilot_configs.size() << ", current index:" << m_index_current
                  << ", out of range";
@@ -33,10 +41,20 @@ bool asst::MultiCopilotTaskPlugin::_run()
     json::value info = basic_info_with_what("CopilotListLoadTaskFileSuccess");
     info["details"]["stage_name"] = Copilot.get_stage_name();
     info["details"]["file_name"] = std::move(file_name);
+    info["details"]["id"] = config.id;
     callback(AsstMsg::SubTaskExtraInfo, info);
 
     bool ret = true;
-    ret = ret && navigate_to_stage(config.nav_name);
+    for (int i = 0; i < m_max_retry; ++i) {
+        ret = navigate_to_stage(config.nav_name);
+        sleep(Config.get_options().task_delay);
+        if (ret) {
+            break;
+        }
+        if (need_exit()) {
+            return false;
+        }
+    }
 
     ProcessTask(*this, { "NotUsePrts" }).set_ignore_error(true).set_retry_times(0).run();
     if (config.is_raid) {
@@ -49,9 +67,163 @@ bool asst::MultiCopilotTaskPlugin::_run()
 
 bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_name)
 {
-    Task.get<OcrTaskInfo>(stage_name + "@Copilot@ClickStageName")->text = { stage_name };
-    std::string replace_navigate_name = stage_name;
-    utils::string_replace_all_in_place(replace_navigate_name, { { "-", "" } });
-    Task.get<OcrTaskInfo>(stage_name + "@Copilot@ClickedCorrectStage")->text = { stage_name, replace_navigate_name };
-    return ProcessTask(*this, { stage_name + "@Copilot@StageNavigationBegin" }).set_retry_times(20).run();
+    // 优先检查是否存在对应活动关卡名的模板资源，如果存在则走模板匹配
+    std::string templ_path = StageNavigationHelper::get_stage_template_path(stage_name);
+    if (!templ_path.empty()) {
+        Log.info("Stage template found, using template matching for", stage_name, ", templ:", templ_path);
+        // 动态注入模板路径到 MatchTaskInfo（需带 .png 后缀）
+        Task.get<MatchTaskInfo>(stage_name + "@Copilot@ClickStageByTemplate")->templ_names = { templ_path + ".png" };
+        Task.get<OcrTaskInfo>(stage_name + "@Copilot@ClickedCorrectStage")->text = { stage_name };
+        return ProcessTask(*this, { stage_name + "@Copilot@StageNavigationByTemplateMatchBegin" })
+            .set_retry_times(20)
+            .run();
+    }
+
+    // 模板不存在，使用基于图像分析的 OCR 方案
+    Log.info("No stage template available, using image-based OCR for", stage_name);
+
+    auto image = ctrler()->get_image();
+
+    if (is_stage_detail_opened(image)) { // 关卡介绍已展开
+        bool ret = confirm_stage_name(image, stage_name);
+        if (ret) {
+            return true;
+        }
+    }
+
+    const auto& task = Task.get<OcrTaskInfo>(stage_name + "@ClickStageName");
+    std::tuple<int, int, int> threshold_low {
+        task->special_params[0],
+        task->special_params[1],
+        task->special_params[2],
+    };
+    std::tuple<int, int, int> threshold_high {
+        task->special_params[3],
+        task->special_params[4],
+        task->special_params[5],
+    };
+    auto stages = find_stage(image, threshold_low, threshold_high);
+    auto it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
+    if (it != stages.end()) {
+        if (enter_stage(it->rect, stage_name)) {
+            return true;
+        }
+    }
+
+    ProcessTask(*this, { "Copilot@FullStageNavigation" }).set_retry_times(20).run();
+    sleep(Config.get_options().task_delay);
+    image = ctrler()->get_image();
+    stages = find_stage(image, threshold_low, threshold_high);
+    it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
+    if (it != stages.end()) {
+        if (enter_stage(it->rect, stage_name)) {
+            return true;
+        }
+    }
+
+    for (int i = 0; i < m_max_retry; ++i) {
+        if (need_exit()) {
+            return false;
+        }
+        ProcessTask(*this, { "Copilot@StageNavigationSlowlySwipeLeft" }).set_retry_times(20).run();
+        sleep(Config.get_options().task_delay);
+        image = ctrler()->get_image();
+        stages = find_stage(image, threshold_low, threshold_high);
+        it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
+        if (it != stages.end()) {
+            if (enter_stage(it->rect, stage_name)) {
+                return true;
+            }
+        }
+    }
+
+    // 划 10 次到最右，然后扫有无初见剧情
+    auto plot_task = ProcessTask(*this, { "Copilot@ChapterSwipeToTheRightAndPlot" });
+    if (need_exit()) {
+        return false;
+    }
+    if (plot_task.run()) {
+        sleep(Config.get_options().task_delay);
+        image = ctrler()->get_image();
+        stages = find_stage(image, threshold_low, threshold_high);
+        it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
+        if (it != stages.end()) {
+            if (enter_stage(it->rect, stage_name)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
+
+bool asst::MultiCopilotTaskPlugin::enter_stage(const Rect rect, const std::string& stage_name)
+{
+    ctrler()->click(rect);
+    sleep(Config.get_options().task_delay);
+    auto image_entered = ctrler()->get_image();
+    if (is_stage_detail_opened(image_entered)) { // 关卡介绍已展开
+        sleep(Config.get_options().task_delay);
+        return confirm_stage_name(image_entered, stage_name);
+    }
+
+    return false;
+}
+
+asst::OCRer::ResultsVec asst::MultiCopilotTaskPlugin::find_stage(
+    const cv::Mat& image,
+    std::tuple<int, int, int> threshold_low,
+    std::tuple<int, int, int> threshold_high)
+{
+    cv::Mat gray;
+    cv::cvtColor(image, gray, cv::COLOR_BGR2HSV);
+    auto [l1, l2, l3] = threshold_low;
+    auto [h1, h2, h3] = threshold_high;
+    cv::inRange(gray, cv::Scalar(l1, l2, l3), cv::Scalar(h1, h2, h3), gray);
+    cv::dilate(gray, gray, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(15, 8)), cv::Point(-1, -1), 1);
+    std::vector<cv::Mat> channels = { gray, gray, gray };
+    cv::Mat gray3;
+    cv::merge(channels, gray3);
+    cv::bitwise_and(image, gray3, gray3);
+    OCRer ocr(gray3);
+    ocr.set_task_info("ClickStageName");
+    if (!ocr.analyze()) {
+        return {};
+    }
+    auto result = ocr.get_result();
+    std::erase_if(result, [](const OcrPack::Result& r) { return r.text.size() == 1 || r.score < 0.5; });
+    LogInfo << __FUNCTION__ << "stage results:" << result;
+    return result;
+}
+
+bool asst::MultiCopilotTaskPlugin::is_stage_detail_opened(const cv::Mat& image)
+{
+    PipelineAnalyzer match(image);
+    match.set_tasks({ "StartButton1" });
+    return match.analyze().has_value();
+}
+
+bool asst::MultiCopilotTaskPlugin::confirm_stage_name(const cv::Mat& image, const std::string& stage_name)
+{
+    const auto ocr_check = [&](const OCRer::ResultsVecOpt& ret_opt) {
+        return ret_opt.has_value() &&
+               std::ranges::any_of(ret_opt.value(), [&](const OcrPack::Result& r) { return r.text == stage_name; });
+    };
+    OCRer ocr(image);
+    ocr.set_task_info("ClickedCorrectStage");
+    if (ocr_check(ocr.analyze())) {
+        return true;
+    }
+
+    for (int i = 0; i < 3; ++i) {
+        sleep(Config.get_options().task_delay);
+        OCRer re_OCR(ctrler()->get_image());
+        re_OCR.set_task_info("ClickedCorrectStage");
+        if (ocr_check(re_OCR.analyze())) {
+            return true;
+        }
+    }
+    LogError << __FUNCTION__ << "confirm stage name failed after retrying 3 times, stage name:" << stage_name;
+    return false;
+}
+

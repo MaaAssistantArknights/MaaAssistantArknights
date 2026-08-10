@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using MaaWpfGui.Helper;
+using MaaWpfGui.Configuration.Factory;
 
 namespace MaaWpfGui.Constants;
 
@@ -55,7 +55,7 @@ public static class MaaUrls
     public const string AdbMaaMirror2DownloadUrl = "https://api2.maa.plus/MaaAssistantArknights/api/binaries/adb-windows.zip";
     public const string GoogleAdbFilename = "adb-windows.zip";
 
-    private static string Language => ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+    private static string Language => ConfigFactory.Root.Gui.Localization;
 
     private const string MaaDocs = "https://docs.maa.plus";
 
@@ -74,8 +74,7 @@ public static class MaaUrls
     // 远程控制协议文档
     public static readonly string RemoteControlDocument = $"{MaaDocs}/{Language}/protocol/remote-control-schema.html";
 
-    public static string NewIssueUri => Language switch
-    {
+    public static string NewIssueUri => Language switch {
         "zh-cn" => $"{GitHubIssues}/new?assignees=&labels=bug&template=cn-bug-report.yaml",
         "zh-tw" => $"{GitHubIssues}/new?assignees=&labels=bug&template=cn-bug-report.yaml",
         _ => $"{GitHubIssues}/new?assignees=&labels=bug&template=en-bug-report.yaml",

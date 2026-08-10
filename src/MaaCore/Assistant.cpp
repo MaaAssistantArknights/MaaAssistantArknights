@@ -5,6 +5,7 @@
 #include <ranges>
 
 #include "Config/GeneralConfig.h"
+#include "Config/GpuDeviceSelector.h"
 #include "Config/Miscellaneous/OcrPack.h"
 #include "Config/OnnxSessions.h"
 #include "Config/ResourceLoader.h"
@@ -46,10 +47,18 @@ bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& val
         return true;
     } break;
     case StaticOptionKey::GpuOCR: {
-        int device_id = std::stoi(value);
-        WordOcr::get_instance().use_gpu(device_id);
-        CharOcr::get_instance().use_gpu(device_id);
-        OnnxSessions::get_instance().use_gpu(device_id);
+        const auto selector = GpuDeviceSelector::parse(value);
+        if (!selector) {
+            Log.error(__FUNCTION__, "| invalid GPU selector:", value);
+            return false;
+        }
+
+        if (!OnnxSessions::get_instance().use_gpu(*selector)) {
+            return false;
+        }
+
+        WordOcr::get_instance().use_gpu(*selector);
+        CharOcr::get_instance().use_gpu(*selector);
         return true;
     } break;
     default:
@@ -137,6 +146,12 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_touch_mode(TouchMode::MaaFwAdb);
             return true;
         }
+#if ASST_WITH_EMULATOR_EXTRAS
+        else if (constexpr std::string_view MumuExtras = "MumuExtras"; value == MumuExtras) {
+            m_ctrler->set_touch_mode(TouchMode::MumuExtras);
+            return true;
+        }
+#endif
 #ifdef __ANDROID__
         else if (constexpr std::string_view Android = "Android"; value == Android) {
             m_ctrler->set_touch_mode(TouchMode::Android);

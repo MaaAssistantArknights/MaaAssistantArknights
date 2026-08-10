@@ -14,7 +14,7 @@
 #nullable enable
 
 using System;
-using MaaWpfGui.Constants;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Main;
 
 namespace MaaWpfGui.Helper;
@@ -61,8 +61,8 @@ public static class FakeUpdateHelper
         }
 
         s_updateInfo.IsUpdated = true;
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionName, s_updateInfo.TargetVersion);
-        ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, bool.TrueString);
+        ConfigFactory.Root.Update.Name = s_updateInfo.TargetVersion;
+        ConfigFactory.Root.Update.IsFirstBoot = true;
         return SaveAndRestart();
     }
 

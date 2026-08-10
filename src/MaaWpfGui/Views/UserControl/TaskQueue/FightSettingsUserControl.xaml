@@ -46,11 +46,14 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
-                        Content="{c:Binding 'UseStoneString + (AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}"
                         IsChecked="{Binding UseStone}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
+                        ToolTip="{DynamicResource CheckBoxesNotSaved}">
+                        <TextBlock>
+                            <Run Text="{DynamicResource UseOriginitePrime}" /><Run Text="{c:Binding '(AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}" />
+                        </TextBlock>
+                    </CheckBox>
                     <CheckBox
                         Height="30"
                         Margin="6"
@@ -217,7 +220,7 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         d:IsHitTestVisible="True"
-                        DisplayMemberPath="Key"
+                        DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                      Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                         ItemsSource="{Binding SeriesList}"
@@ -394,7 +397,7 @@
                                             Grid.Column="1"
                                             Padding="2"
                                             VerticalAlignment="Stretch"
-                                            hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                            hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                             hc:IconElement.Height="10"
                                             hc:IconElement.Width="10"
                                             hc:VisualElement.HighlightBackground="Transparent"
@@ -424,7 +427,7 @@
                 <ComboBox
                     Height="30"
                     d:IsHitTestVisible="True"
-                    DisplayMemberPath="Key"
+                    DisplayMemberPath="Display"
                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                  Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                     ItemsSource="{Binding AnnihilationModeList}"
@@ -462,7 +465,7 @@
                     TextWrapping="Wrap" />
             </CheckBox>
             <StackPanel
-                Margin="0,5,10,0"
+                Margin="0,2,10,0"
                 Opacity="{c:Binding 'ActivityExpireIn2Days ? 1 : 0.5'}"
                 Orientation="Horizontal">
                 <controls:TextBlock Margin="4,0,8,0" Text="└" />

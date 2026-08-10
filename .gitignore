@@ -423,7 +423,6 @@ FodyWeavers.xsd
 
 # Claude Code
 .claude/*
-!.claude/skills/
 
 # Windows Installer files from build outputs
 *.cab

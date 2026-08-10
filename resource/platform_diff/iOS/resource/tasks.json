@@ -20,6 +20,9 @@
     "InfrastControlMini": {
         "templThreshold": 0.85
     },
+    "InfrastOfficeMini": {
+        "templThreshold": 0.9
+    },
     "InfrastSmileyOnRest": {
         "templThreshold": 0.7
     },
@@ -32,6 +35,12 @@
     "BattleQuickFormationRole": {
         "templThreshold": 0.65
     },
+    "Roguelike@StageTraderInvestCancel": {
+        "templThreshold": 0.75
+    },
+    "Roguelike@StageTraderInvestSystemLeave": {
+        "templThreshold": 0.75
+    },
     "Mizuki@Roguelike@MissionFailedFlag": {
         "templThreshold": 0.75
     },
@@ -42,6 +51,9 @@
         "templThreshold": 0.9
     },
     "Sarkaz@Roguelike@StageRefresh": {
+        "templThreshold": 0.7
+    },
+    "Sarkaz@RoguelikeRouting-RefreshNode": {
         "templThreshold": 0.7
     },
     "RelaunchAnchor@RA@RA1-DoubleSpeed": {

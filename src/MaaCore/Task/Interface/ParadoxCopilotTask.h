@@ -13,6 +13,15 @@ class BattleProcessTask;
 class ParadoxCopilotTask final : public InterfaceTask
 {
 public:
+    struct CopilotConfig
+    {
+        int id;
+        std::string filename;
+
+        MEO_JSONIZATION(id, filename);
+    };
+
+public:
     inline static constexpr std::string_view TaskType = "ParadoxCopilot";
 
     ParadoxCopilotTask(const AsstCallback& callback, Assistant* inst);

@@ -253,10 +253,11 @@ cv::Mat MaskedCcoeffMatcher::match(
     if (template_plan->K > 0 && template_plan->K < SPARSE_K_LIMIT &&
         static_cast<long long>(template_plan->K) * rh * rw < SPARSE_WORK_LIMIT) {
         cv::Mat numerator = cv::Mat::zeros(rh, rw, CV_32F);
-        cv::Mat sum_MI_r = cv::Mat::zeros(rh, rw, CV_32F);
-        cv::Mat sum_MI_g = cv::Mat::zeros(rh, rw, CV_32F);
-        cv::Mat sum_MI_b = cv::Mat::zeros(rh, rw, CV_32F);
-        cv::Mat sum_MI2 = cv::Mat::zeros(rh, rw, CV_32F); // Σ_c I_c²
+        // 用 CV_64F 避免大数相减时的 float32 catastrophic cancellation：
+        cv::Mat sum_MI_r = cv::Mat::zeros(rh, rw, CV_64F);
+        cv::Mat sum_MI_g = cv::Mat::zeros(rh, rw, CV_64F);
+        cv::Mat sum_MI_b = cv::Mat::zeros(rh, rw, CV_64F);
+        cv::Mat sum_MI2 = cv::Mat::zeros(rh, rw, CV_64F); // Σ_c I_c²
 
         for (const auto& [dx, dy, T_prime] : template_plan->sparse_entries) {
             for (int y = 0; y < rh; ++y) {
@@ -264,10 +265,10 @@ cv::Mat MaskedCcoeffMatcher::match(
                 const float* Ig = I_ch[1].ptr<float>(y + dy) + dx;
                 const float* Ib = I_ch[2].ptr<float>(y + dy) + dx;
                 auto* num_p = numerator.ptr<float>(y);
-                auto* smir_p = sum_MI_r.ptr<float>(y);
-                auto* smig_p = sum_MI_g.ptr<float>(y);
-                auto* smib_p = sum_MI_b.ptr<float>(y);
-                auto* smi2_p = sum_MI2.ptr<float>(y);
+                auto* smir_p = sum_MI_r.ptr<double>(y);
+                auto* smig_p = sum_MI_g.ptr<double>(y);
+                auto* smib_p = sum_MI_b.ptr<double>(y);
+                auto* smi2_p = sum_MI2.ptr<double>(y);
 
                 // 编译器会自动向量化的
                 for (int x = 0; x < rw; ++x) {
@@ -282,15 +283,18 @@ cv::Mat MaskedCcoeffMatcher::match(
         }
 
         // sigma_I² = sum_MI2 - (sum_MI_r² + sum_MI_g² + sum_MI_b²) / mask_area
+        // 全程保持 CV_64F，防止大数相减精度损失
         cv::Mat sq_sum, sq_g, sq_b;
         cv::multiply(sum_MI_r, sum_MI_r, sq_sum);
         cv::multiply(sum_MI_g, sum_MI_g, sq_g);
         cv::multiply(sum_MI_b, sum_MI_b, sq_b);
         cv::add(sq_sum, sq_g, sq_sum);
         cv::add(sq_sum, sq_b, sq_sum);
+        cv::Mat sigma_I_sq_64;
+        cv::subtract(sum_MI2, sq_sum * (1.0 / mask_area), sigma_I_sq_64);
+        cv::max(sigma_I_sq_64, 0.0, sigma_I_sq_64);
         cv::Mat sigma_I_sq;
-        cv::subtract(sum_MI2, sq_sum * (1.0 / mask_area), sigma_I_sq);
-        cv::max(sigma_I_sq, 0.0, sigma_I_sq);
+        sigma_I_sq_64.convertTo(sigma_I_sq, CV_32F);
 
         cv::Mat denom;
         cv::sqrt(sigma_I_sq * sigma_T_sq, denom);

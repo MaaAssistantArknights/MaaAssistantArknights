@@ -103,11 +103,11 @@ public class CopilotModel : CopilotBase
 
     private static string PrintSkillLevel(Oper oper)
     {
-        if (oper.Requirements is not { } req || req.SkillLevel <= 0 || req.SkillLevel > 10)
+        if (oper.Requirements is not { } req || req.SkillLevel is not int skillLevel || skillLevel <= 0 || skillLevel > 10)
         {
             return string.Empty;
         }
-        return $" [Lv.{req.SkillLevel}]";
+        return $" [Lv.{skillLevel}]";
     }
 
     private static string GetModuleInfo(Requirements? req)
@@ -124,7 +124,7 @@ public class CopilotModel : CopilotBase
         // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
         return req.Module switch {
             0 => $"{LocalizationHelper.GetString("CopilotWithoutModule")}",
-            1 or 2 or 3 or 4 => $"{LocalizationHelper.GetString("CopilotModule")} {moduleName[req.Module]}",
+            1 or 2 or 3 or 4 => $"{LocalizationHelper.GetString("CopilotModule")} {moduleName[req.Module ?? 0]}",
             _ => string.Empty,
         };
     }
@@ -300,7 +300,7 @@ public class CopilotModel : CopilotBase
         /// Gets or sets 精英化等级。可选，默认为 0, 不要求精英化等级。
         /// </summary>
         [JsonProperty("elite")]
-        public int Elite { get; set; }
+        public int? Elite { get; set; }
 
         /// <summary>
         /// Gets or sets 干员等级。可选，默认为 0。
@@ -312,13 +312,13 @@ public class CopilotModel : CopilotBase
         /// Gets or sets 技能等级。可选，默认为 0。
         /// </summary>
         [JsonProperty("skill_level")]
-        public int SkillLevel { get; set; }
+        public int? SkillLevel { get; set; }
 
         /// <summary>
         /// Gets or sets 模组编号。可选，默认为 -1。
         /// </summary>
         [JsonProperty("module")]
-        public int Module { get; set; } = -1;
+        public int? Module { get; set; }
         /*
         /// <summary>
         /// Gets or sets 模组编号。可选，默认为 -1。

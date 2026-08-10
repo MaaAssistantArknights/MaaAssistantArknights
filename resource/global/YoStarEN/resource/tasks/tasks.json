@@ -5,6 +5,10 @@
     "BattleQuickFormationSkillPage": {
         "text": "Skill"
     },
+    "FightSeries-OldMethodFlag": {
+        "algorithm": "JustReturn",
+        "doc": "whether to use old series method"
+    },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
@@ -28,12 +32,8 @@
         "roi": [1163, 27, 84, 28],
         "text": ["Movements"]
     },
-    "EnterEpisodeNew": {
-        "baseTask": "#none",
-        "baseTaskDoc": "26.2.10 Add a secondary interface and delete it after subsequent updates",
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf"
+    "EnterEpisodeNew-Click": {
+        "text": ["Go to Episode"]
     },
     "LevelOfDifficulty": {
         "text": ["Environment", "PRTS"]
@@ -74,7 +74,9 @@
             ["Estelle", "艾丝黛尔"],
             ["Hellagur", "赫拉格"],
             ["Pallas", "帕拉斯"],
-            ["Mountain", "山"],
+            ["Sui's Mountain", "岁用山"],
+            ["^Mountain'$", "山字"],
+            ["^Mountain$", "山"],
             ["^Skadi$", "斯卡蒂"],
             ["Ayerscarpe", "断崖"],
             ["Tequila", "龙舌兰"],
@@ -127,7 +129,7 @@
             ["Purestream", "清流"],
             ["Whisperain", "絮雨"],
             ["Tuye", "图耶"],
-            ["Kal'tsit", "凯尔希"],
+            ["^Kal'tsit$", "凯尔希"],
             ["Mulberry", "桑葚"],
             ["Honeyberry", "蜜莓"],
             ["Reserve Operator *-* *L[ogistics]*", "预备干员-后勤"],
@@ -144,7 +146,7 @@
             ["Grani", "格拉尼"],
             ["Siege", "推进之王"],
             ["^Texas$", "德克萨斯"],
-            ["Zima", "凛冬"],
+            ["^Zima$", "凛冬"],
             ["Vigna", "红豆"],
             ["Scavenger", "清道夫"],
             ["Courier", "讯使"],
@@ -353,7 +355,7 @@
             ["Tattered Pillar", "破碎支柱"],
             ["City Neon", "城市霓虹"],
             ["Knight Crest", "骑士之徽"],
-            ["Blizzard", "暴风雪"],
+            ["^Blizzard$", "暴风雪"],
             ["Broken Fog Machine", "失修舞台雾机"],
             ["'Gelato Stop'", "“冰淇淋机”"],
             ["Londinium Secondary Defense Artillery", "伦蒂尼姆城防副炮"],
@@ -478,7 +480,7 @@
             ["Hypnotic Censer", "安眠迷香"],
             ["Modular Computing Station", "模块演算设施"],
             ["Refreshing Potion", "醒神秘药"],
-            ["Base", "基地"],
+            ["^Base$", "基地"],
             ["Old Isin", "老伊辛"],
             ["Fortification", "防御工事"],
             ["Trap Net Launcher", "缚网发射台"],
@@ -1031,8 +1033,6 @@
             ["Eye of the Blizzard", "风雪之眼"],
             ["'Emergency Load-Bearing Squad'", "“应急承重小组”"],
             ["Protection Objective (Frozen)", "保护目标（冻结状态）"],
-            ["Eye of the Blizzard", "风雪之眼"],
-            ["Eye of the Blizzard", "风雪之眼"],
             ["Astgenne the Lightchaser", "溯光星源"],
             ["Snow Retention System", "积雪固定装置"],
             ["Akkord", "协律"],
@@ -1092,7 +1092,28 @@
             ["Ice Blast Machine", "冷爆机"],
             ["Skybox", "天空盒"],
             ["Nasti", "娜斯提"],
-            ["Cairn", "响石"]
+            ["Cairn", "响石"],
+            ["Olden Pride", "宿傲"],
+            ["Olden Grudge", "宿怒"],
+            ["Fountain", "喷泉水池"],
+            ["Vark.ris", "摆渡人"],
+            ["Perfumer the Distilled", "撷英调香师"],
+            ["Titi", "缇缇"],
+            ["Performer Wang", "演出望"],
+            ["Stamp'", "印字"],
+            ["Soldier'", "兵字"],
+            ["Suppression Pillar", "镇岁柱"],
+            ["Writing Knife", "书刀"],
+            ["Ridge", "山脊"],
+            ["Taraxacum", "风絮"],
+            ["Stone", "棋子"],
+            ["Wealth'", "财字"],
+            ["Wang", "望"],
+            ["Ju", "矩"],
+            ["Broken", "断"],
+            ["Friend'", "友字"],
+            ["Food'", "食字"],
+            ["Ch'en the Dawnstreak", "赤刃明霄陈"]
         ]
     },
     "GameStartCheckResourceOCR": {
@@ -1128,6 +1149,26 @@
     },
     "UsePrts": {
         "templThreshold": 0.7
+    },
+    "FightSeries-Opened": {
+        "template": "FightSeries-Indicator.png",
+        "roi": [940, 190, 80, 380],
+        "templThreshold": 0.9,
+        "maskRange": [1, 255]
+    },
+    "FightSeries-Close": {
+        "baseTask": "FightSeries-Icon",
+        "template": "FightSeries-Icon.png",
+        "action": "ClickSelf",
+        "next": ["FightSeries-CloseList"]
+    },
+    "FightSeries-List-Multiply": {
+        "Doc": "代理倍率列表每个选项的乘号, rectMove到次数, 灰度低于150为碎石才能打",
+        "action": "ClickRect",
+        "roi": [970, 200, 40, 360],
+        "rectMove": [25, 10, 20, 25],
+        "specificRect": [0, 0, 55, 40],
+        "specialParams": [150]
     },
     "StartButton1": {
         "text": ["Start"]
@@ -1265,6 +1306,9 @@
     "InfrastEnterOperList": {
         "fullMatch": true,
         "text": ["Morale", "Resting", "In Use", "Working", "Assign"]
+    },
+    "InfrastFilterMenuAllButton": {
+        "text": ["All"]
     },
     "InfrastConfirmButtonWait": {
         "text": ["Submitting feedback", "to the neural network"],
@@ -1632,26 +1676,28 @@
             ["Amidst Thunder", "迎雷"],
             ["Clarity", "分明"],
             ["Frivolous Tunes", "靡靡之音"],
-            ["Return to Your Roots", "落叶归根"],
             ["Difficult Beginnings", "震坎"],
             ["Force Redirection", "借力打力"],
             ["Rescue Mission", "救援行动"],
             ["Ticket Please", "凭票入内"],
             ["Pest Control", "驱虫"],
-            ["Rescue Mission", "救援行动"],
             ["Nanwu Vows", "南武约"],
             ["Near-Forgotten", "往昔难忆"],
             ["Toy Soldiers", "玩具兵将"],
             ["The Last Hunt", "末狩"],
-            ["Toy Soldiers", "玩具兵将"],
-            ["Pest Control", "驱虫"],
             ["Beyond Mount and Sea", "越山海"],
             ["A Change of Fate", "天数将易"],
-            ["Beyond Mount and Sea", "越山海"],
-            ["Ticket Please", "凭票入内"],
             ["Dusk River Sayings", "夕江诀"],
-            ["Force Redirection", "借力打力"],
-            ["Everywhere", "四方"]
+            ["Everywhere", "四方"],
+            ["Conformity", "相合"],
+            ["Honed Edge", "砺锋"],
+            ["Let It All Out", "忍气不吞声"],
+            ["Sealed Time", "时封"],
+            ["Stasis", "止变"],
+            ["Recorded Memory", "录忆"],
+            ["Defining the World", "定乾坤"],
+            ["Repel the Outsiders", "御外侮"],
+            ["Omnipresent Gospel", "遍地福音"]
         ]
     },
     "BattleQuickFormationClear": {
@@ -1759,7 +1805,8 @@
             ["Cloudstepper", "攀云机"],
             ["Pinnacle Insights? Port", "尖端研究成果共享终端"],
             ["Lightweight Range[finder]*", "轻型瞄准测距仪"],
-            ["Master Who Walks the[ Night Gear]*", "天工夜行套装"]
+            ["Master Who Walks the[ Night Gear]*", "天工夜行套装"],
+            ["Ice Blast Machine", "冷爆机"]
         ]
     },
     "SSSBuffChooseConfirm": {

@@ -2,29 +2,16 @@
 
 #include "Common/AsstTypes.h"
 #include "Config/AbstractResource.h"
+#include "Config/GpuDeviceSelector.h"
 
+#include <memory>
 #include <optional>
+#include <utility>
 #include <vector>
 
 namespace cv
 {
 class Mat;
-}
-
-namespace fastdeploy
-{
-namespace vision::ocr
-{
-class DBDetector;
-class Recognizer;
-}
-
-namespace pipeline
-{
-class PPOCRv3;
-}
-
-struct RuntimeOption;
 }
 
 namespace asst
@@ -40,9 +27,13 @@ public:
 
     virtual bool load(const std::filesystem::path& path) override;
 
-    void use_cpu() { m_gpu_id = std::nullopt; }
+    void use_cpu()
+    {
+        m_gpu_selector = std::nullopt;
+        m_gpu_active = false;
+    }
 
-    void use_gpu(int gpu_id) { m_gpu_id = gpu_id; }
+    void use_gpu(GpuDeviceSelector selector) { m_gpu_selector = std::move(selector); }
 
     ResultsVec recognize(const cv::Mat& image, bool without_det = false, const std::optional<Rect>& base_roi = {});
 
@@ -51,15 +42,10 @@ protected:
 
     bool check_and_load();
 
-    std::unique_ptr<fastdeploy::vision::ocr::DBDetector> m_det;
-    std::unique_ptr<fastdeploy::vision::ocr::Recognizer> m_rec;
-    std::unique_ptr<fastdeploy::pipeline::PPOCRv3> m_ocr;
-
-    std::filesystem::path m_det_model_path;
-    std::filesystem::path m_rec_model_path;
-    std::filesystem::path m_rec_label_path;
-
-    std::optional<int> m_gpu_id = std::nullopt;
+    struct Impl;
+    std::unique_ptr<Impl> m_impl;
+    std::optional<GpuDeviceSelector> m_gpu_selector = std::nullopt;
+    bool m_gpu_active = false;
 };
 
 class WordOcr final : public MAA_NS::SingletonHolder<WordOcr>, public OcrPack
