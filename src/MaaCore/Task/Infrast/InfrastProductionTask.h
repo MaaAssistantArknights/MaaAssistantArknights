@@ -39,6 +39,7 @@ protected:
     bool opers_detect_with_swipe();
     // 返回当前页面的干员数 (可用?
     size_t opers_detect();
+    bool resolve_operator_identity(infrast::Oper& oper) const;
     bool optimal_calc();
     bool opers_choose();
     bool use_drone();

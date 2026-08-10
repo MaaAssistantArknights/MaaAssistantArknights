@@ -4,6 +4,7 @@
 #include <iterator>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_set>
 #include <vector>
 
@@ -140,6 +141,12 @@ inline OperatorIds intersect_operator_ids(const std::vector<OperatorIds>& candid
         std::erase_if(result, [&](const std::string& id) { return !iter->contains(id); });
     }
     return result;
+}
+
+inline bool operator_id_matches_candidates(const OperatorIds& candidates, std::string_view recognized_id)
+{
+    return !recognized_id.empty() &&
+           (candidates.empty() || candidates.contains(std::string(recognized_id)));
 }
 
 struct OperatorSelection

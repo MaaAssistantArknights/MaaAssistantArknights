@@ -16,6 +16,16 @@ TEST_CASE("infrast skill identity candidates intersect", "[infrast]")
     CHECK(candidates.contains("char_b"));
 }
 
+TEST_CASE("infrast recognized identity must agree with skill candidates", "[infrast][identity]")
+{
+    using asst::infrast::operator_id_matches_candidates;
+
+    CHECK(operator_id_matches_candidates({ }, "char_a"));
+    CHECK(operator_id_matches_candidates({ "char_a", "char_b" }, "char_b"));
+    CHECK_FALSE(operator_id_matches_candidates({ "char_a", "char_b" }, "char_c"));
+    CHECK_FALSE(operator_id_matches_candidates({ }, ""));
+}
+
 TEST_CASE("infrast task data commits selected operators", "[infrast]")
 {
     asst::infrast::OperatorSelection data;
@@ -259,4 +269,113 @@ TEST_CASE("infrast control keeps required operator pairs together", "[infrast][s
     };
 
     CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 0, 1 });
+}
+
+TEST_CASE("infrast control prefers swire and lungmen guard pair", "[infrast][score][identity]")
+{
+    ScoreContext context;
+    context.facility = "Control";
+    context.slots = 5;
+    context.selected_operator_ids = { "char_436_whispr" };
+    const std::vector<ScoreOper> opers = {
+        { { }, "char_308_swire", "swire", 1.0 },
+        { { "bskill_token_prod_spd3_lungmenguard" }, "char_1044_hsgma2", "hoshiguma", 1.0 },
+        { { "bskill_ctrl_token_p_spd2", "bskill_ctrl_cost_felyne" }, "char_1029_yato2", "yato", 1.0 },
+        { { "bskill_ctrl_token_t_spd" }, "char_1030_noirc2", "noir", 1.0 },
+        { { "bskill_ctrl_psk" }, "char_420_flamtl", "flametail", 1.0 },
+        { { "bskill_ctrl_fraction_knight" }, "char_4098_vvana", "viviana", 1.0 },
+        { { "bskill_ctrl_cost_bd1", "bskill_ctrl_cost_bd2" }, "char_2015_dusk", "dusk", 1.0 },
+    };
+
+    const auto result = select_best_opers(opers, context);
+    REQUIRE(result.indices.size() == 5);
+    CHECK(result.indices[0] == 0);
+    CHECK(result.indices[1] == 1);
+    CHECK(std::ranges::find(result.indices, 2) == result.indices.end());
+    CHECK(std::ranges::find(result.indices, 3) == result.indices.end());
+    CHECK(std::ranges::find(result.indices, 4) != result.indices.end());
+    CHECK(std::ranges::find(result.indices, 5) != result.indices.end());
+    CHECK(std::ranges::find(result.indices, 6) != result.indices.end());
+}
+
+TEST_CASE("infrast manufacturing identifies pinus operators for control linkage", "[infrast][score][identity]")
+{
+    ScoreContext context;
+    context.facility = "Mfg";
+    context.product = "CombatRecord";
+    context.level = 3;
+    context.slots = 3;
+    context.selected_operator_ids = { "char_4098_vvana", "char_420_flamtl" };
+    const std::vector<ScoreOper> opers = {
+        { { "bskill_man_spd2" }, "char_430_fartth", "fartooth", 1.0 },
+        { { "bskill_man_spd2" }, "char_431_ashlok", "ashlock", 1.0 },
+        { { "bskill_man_spd2" }, "char_496_wildmn", "wild-mane", 1.0 },
+        { { "bskill_man_spd3" }, "", "generic-a", 1.0 },
+        { { "bskill_man_spd3" }, "", "generic-b", 1.0 },
+        { { "bskill_man_spd3" }, "", "generic-c", 1.0 },
+    };
+
+    CHECK(select_best_opers(opers, context).indices == std::vector<size_t> { 0, 1, 2 });
+
+    auto ambiguous_opers = opers;
+    for (size_t index = 0; index < 3; ++index) {
+        ambiguous_opers[index].operator_id.clear();
+    }
+    CHECK(select_best_opers(ambiguous_opers, context).indices == std::vector<size_t> { 3, 4, 5 });
+}
+
+TEST_CASE("infrast perception linkage propagates through every facility", "[infrast][score][identity]")
+{
+    ScoreContext context;
+    context.facility = "Office";
+    context.slots = 1;
+    const std::vector<ScoreOper> office_opers = {
+        { { "bskill_hire_spd_bd_n1_n1", "bskill_hire_spd_memento" }, "char_436_whispr", "whisperain", 1.0 },
+        { { "bskill_hire_skgoat2" }, "", "ordinary", 1.0 },
+    };
+    CHECK(select_best_opers(office_opers, context).indices == std::vector<size_t> { 0 });
+    context.selected_operator_ids.emplace(office_opers[0].operator_id);
+
+    context.facility = "Control";
+    context.slots = 5;
+    const std::vector<ScoreOper> control_opers = {
+        { { "bskill_ctrl_cost_bd1", "bskill_ctrl_cost_bd2" }, "char_2015_dusk", "dusk", 1.0 },
+        { { "bskill_ctrl_h_spd" }, "", "saileach", 1.0 },
+        { { "bskill_ctrl_sp" }, "", "generic-a", 1.0 },
+        { { "bskill_ctrl_cost" }, "", "generic-b", 1.0 },
+        { { "bskill_ctrl_cost_expand" }, "", "generic-c", 1.0 },
+    };
+    const auto control_result = select_best_opers(control_opers, context);
+    CHECK(std::ranges::find(control_result.indices, 0) != control_result.indices.end());
+    context.selected_operator_ids.emplace(control_opers[0].operator_id);
+
+    context.facility = "Mfg";
+    context.product = "CombatRecord";
+    context.level = 3;
+    context.slots = 1;
+    const std::vector<ScoreOper> mfg_opers = {
+        { { "bskill_man_spd_bd2" }, "char_391_rosmon", "rosmontis", 1.0 },
+        { { "bskill_man_spd3" }, "", "ordinary", 1.0 },
+    };
+    CHECK(select_best_opers(mfg_opers, context).indices == std::vector<size_t> { 0 });
+    context.selected_operator_ids.emplace(mfg_opers[0].operator_id);
+
+    context.facility = "Trade";
+    context.product = "Money";
+    context.dormitory_capacity = 20;
+    const std::vector<ScoreOper> trade_opers = {
+        { { "bskill_tra_spd_bd2" }, "char_4046_ebnhlz", "ebenholz", 1.0 },
+        { { "bskill_tra_spd3" }, "", "ordinary", 1.0 },
+    };
+    CHECK(select_best_opers(trade_opers, context).indices == std::vector<size_t> { 0 });
+
+    context.facility = "Dorm";
+    context.slots = 3;
+    const std::vector<ScoreOper> dorm_opers = {
+        { { "bskill_dorm_bdnum" }, "char_245_cello", "virtuosa", 1.0 },
+        { { "bskill_dorm_all&bd_n1", "bskill_dorm_all&bd_n1_n2" }, "char_338_iris", "iris", 1.0 },
+        { { "bskill_dorm_all&bd_n1_2", "bskill_dorm_all&bd_n1_n3" }, "char_4047_pianst", "czerny", 1.0 },
+        { { "bskill_dorm_all3" }, "", "ordinary", 1.0 },
+    };
+    CHECK(select_best_opers(dorm_opers, context).indices == std::vector<size_t> { 0, 1, 2 });
 }

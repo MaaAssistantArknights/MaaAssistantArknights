@@ -11,6 +11,7 @@
 #include <calculator/calculator.hpp>
 
 #include "Common/AsstTypes.h"
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/InfrastConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
@@ -593,28 +594,6 @@ size_t asst::InfrastProductionTask::opers_detect()
     const int face_hash_thres = Task.get("InfrastOperFace")->special_params[0];
     const size_t pre_size = m_all_available_opers.size();
     for (const auto& cur_oper : cur_all_opers) {
-        if (cur_oper.skills.empty()) {
-            continue;
-        }
-        auto resolved_oper = cur_oper;
-        if (m_default_mode && m_abyssal_hunter_enabled && facility_name() == "Mfg") {
-            RegionOCRer name_analyzer(resolved_oper.name_img);
-            name_analyzer.set_replace(
-                Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
-                Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
-            if (auto name = name_analyzer.analyze()) {
-                const static std::unordered_map<std::string, std::string> AbyssalOperatorIds = {
-                    { "斯卡蒂", "char_263_skadi" },
-                    { "幽灵鲨", "char_143_ghost" },
-                    { "乌尔比安", "char_4145_ulpia" },
-                    { "安哲拉", "char_218_cuttle" },
-                };
-                if (const auto iter = AbyssalOperatorIds.find(name->text); iter != AbyssalOperatorIds.end()) {
-                    resolved_oper.operator_ids = { iter->second };
-                    resolved_oper.operator_id = iter->second;
-                }
-            }
-        }
         {
             std::string skills_str = "[";
             for (const auto& skill : cur_oper.skills) {
@@ -628,12 +607,13 @@ size_t asst::InfrastProductionTask::opers_detect()
             //--cur_available_num;
             continue;
         }
+
         auto find_iter = std::ranges::find_if(m_all_available_opers, [&](const infrast::Oper& oper) -> bool {
             if (oper.skills != cur_oper.skills) {
                 return false;
             }
             // 有可能是同一个干员，比一下hash
-            int dist = Hasher::hamming(resolved_oper.face_hash, oper.face_hash);
+            int dist = Hasher::hamming(cur_oper.face_hash, oper.face_hash);
             Log.debug("opers_detect hash dist |", dist);
             return dist < face_hash_thres;
         });
@@ -641,9 +621,66 @@ size_t asst::InfrastProductionTask::opers_detect()
         if (find_iter != m_all_available_opers.cend()) {
             continue;
         }
+
+        auto resolved_oper = cur_oper;
+
+        // 技能集合无法唯一确定身份时，通过姓名确认具体干员。身份仍有歧义时只计算通用技能效果，
+        // 不触发依赖具体干员的特殊加成和跨设施联动。
+        if (m_default_mode && resolved_oper.operator_id.empty() &&
+            (!resolved_oper.skills.empty() || facility_name() == "Control" ||
+             (facility_name() == "Mfg" && m_abyssal_hunter_enabled))) {
+            resolve_operator_identity(resolved_oper);
+        }
+
+        if (resolved_oper.skills.empty()) {
+            const bool swire =
+                facility_name() == "Control" && resolved_oper.operator_id == "char_308_swire";
+            const bool abyssal_hunter =
+                facility_name() == "Mfg" && m_abyssal_hunter_enabled &&
+                (resolved_oper.operator_id == "char_263_skadi" ||
+                 resolved_oper.operator_id == "char_143_ghost" ||
+                 resolved_oper.operator_id == "char_4145_ulpia" ||
+                 resolved_oper.operator_id == "char_218_cuttle");
+            if (!swire && !abyssal_hunter) {
+                continue;
+            }
+        }
+
+        if (!resolved_oper.operator_id.empty()) {
+            Log.trace("infrastructure operator candidate", facility_name(), resolved_oper.operator_id);
+        }
         m_all_available_opers.emplace_back(std::move(resolved_oper));
     }
     return m_all_available_opers.size() - pre_size;
+}
+
+bool asst::InfrastProductionTask::resolve_operator_identity(infrast::Oper& oper) const
+{
+    if (!oper.operator_id.empty()) {
+        return true;
+    }
+
+    RegionOCRer name_analyzer(oper.name_img);
+    const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    name_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+    name_analyzer.set_bin_expansion(0);
+    const auto name = name_analyzer.analyze();
+    if (!name) {
+        return false;
+    }
+
+    const std::string operator_id = BattleData.get_id(name->text);
+    if (!infrast::operator_id_matches_candidates(oper.operator_ids, operator_id)) {
+        if (!operator_id.empty()) {
+            Log.warn("infrastructure operator identity conflicts with skills", name->text, operator_id);
+        }
+        return false;
+    }
+
+    oper.operator_ids = { operator_id };
+    oper.operator_id = operator_id;
+    Log.trace("infrastructure operator identity", facility_name(), name->text, operator_id);
+    return true;
 }
 
 bool asst::InfrastProductionTask::optimal_calc()
