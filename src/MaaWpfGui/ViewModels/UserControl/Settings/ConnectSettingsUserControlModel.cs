@@ -1300,6 +1300,21 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool UseAttachWindow => ConnectConfig == "PC";
 
     /// <summary>
+    /// Gets a value indicating whether to show the window restore button.
+    /// </summary>
+    [PropertyDependsOn(nameof(ConnectConfig), nameof(AttachWindowMouseMethod))]
+    public bool ShowWindowRestoreButton => UseAttachWindow && AttachWindowMouseMethod == "128";
+
+    /// <summary>
+    /// 将游戏窗口移动到主屏幕中央
+    /// </summary>
+    [UsedImplicitly]
+    public void RestoreWindowPosition()
+    {
+        Instances.AsstProxy.RestoreGameWindowPosition();
+    }
+
+    /// <summary>
     /// Gets win32 截图方式枚举（与 AsstCaller.h 中 AsstWin32ScreencapMethodEnum 对应）
     /// </summary>
     public List<CombinedData> AttachWindowScreencapMethodList { get; } =
