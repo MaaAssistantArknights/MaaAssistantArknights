@@ -75,11 +75,48 @@
         "next": ["Stop"]
     },
     "MiniGame@InteractiveExhibition@ExitBattle": {
-        "doc": "已收录：按左上角退出 [50,50,10,10]，点一次后等待转场。点完再回 CheckEncounter-Collected 复查：若仍能看到「已收录」（退出按钮没点中/转场未完成），允许继续点，直到确实退出回到地图。",
+        "doc": "已收录：按左上角退出 [50,50,10,10]，点一次后等待转场。随后优先处理「今日不再提醒」弹窗，再处理误点退出后的「是否离开展会」弹窗；若仍能看到「已收录」（退出按钮没点中/转场未完成），允许继续点，直到确实退出回到地图。",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [50, 50, 10, 10],
         "postDelay": 500,
-        "next": ["MiniGame@InteractiveExhibition@CheckEncounter-Collected", "MiniGame@InteractiveExhibition@Loop"]
+        "next": [
+            "MiniGame@InteractiveExhibition@DontRemindToday",
+            "MiniGame@InteractiveExhibition@LeaveExhibition",
+            "MiniGame@InteractiveExhibition@CheckEncounter-Collected",
+            "MiniGame@InteractiveExhibition@Loop"
+        ]
+    },
+    "MiniGame@InteractiveExhibition@DontRemindToday": {
+        "doc": "ExitBattle 后：OCR「本日不再提醒」[570,390,160,50]。命中则点一次勾选，再点确认。",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["本日不再提醒"],
+        "roi": [570, 390, 160, 50],
+        "next": ["MiniGame@InteractiveExhibition@DontRemindTodayConfirm"]
+    },
+    "MiniGame@InteractiveExhibition@DontRemindTodayConfirm": {
+        "doc": "「本日不再提醒」确认按钮：OCR「确认」[810,460,85,50]。点完回到 ExitBattle#next 继续后续判定。",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认"],
+        "roi": [810, 460, 85, 50],
+        "next": ["MiniGame@InteractiveExhibition@ExitBattle#next"]
+    },
+    "MiniGame@InteractiveExhibition@LeaveExhibition": {
+        "doc": "二次 ExitBattle 时：网络延迟导致退出后仍短暂看到「已收录」，再次点退出会弹出「是否离开当前展会」[520,310,220,45]。识别到后点取消，避免真正离开展会。",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["是否离开当前展会"],
+        "roi": [520, 310, 220, 45],
+        "next": ["MiniGame@InteractiveExhibition@LeaveExhibitionCancel"]
+    },
+    "MiniGame@InteractiveExhibition@LeaveExhibitionCancel": {
+        "doc": "「是否离开当前展会」取消按钮：OCR「取消」[415,460,65,50]。点取消后继续循环。",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["取消"],
+        "roi": [415, 460, 65, 50],
+        "next": ["MiniGame@InteractiveExhibition@Loop"]
     }
 }
