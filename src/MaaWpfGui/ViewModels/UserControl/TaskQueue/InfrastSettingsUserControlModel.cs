@@ -96,6 +96,10 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
 
         InfrastRoomModels = new ObservableCollection<InfrastRoomItemViewModel>(roomList);
         InfrastRoomModels.CollectionChanged += InfrastOrderSelectionChanged;
+        if (InfrastMode == Mode.Normal)
+        {
+            RestoreNormalFacilityOrder();
+        }
     }
 
     /// <summary>
@@ -172,6 +176,42 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         SetTaskConfig<InfrastTask>(t => t.RoomList.SequenceEqual(list), t => t.RoomList = list);
     }
 
+    private void RestoreNormalFacilityOrder()
+    {
+        if (InfrastRoomModels.Count == 0)
+        {
+            return;
+        }
+
+        InfrastRoomModels.CollectionChanged -= InfrastOrderSelectionChanged;
+        try
+        {
+            var targetIndex = 0;
+            foreach (var room in Enum.GetValues<InfrastRoomType>())
+            {
+                var item = InfrastRoomModels.FirstOrDefault(candidate => candidate.RoomType == room);
+                if (item is null)
+                {
+                    continue;
+                }
+
+                var currentIndex = InfrastRoomModels.IndexOf(item);
+                if (currentIndex != targetIndex)
+                {
+                    InfrastRoomModels.Move(currentIndex, targetIndex);
+                }
+
+                targetIndex++;
+            }
+        }
+        finally
+        {
+            InfrastRoomModels.CollectionChanged += InfrastOrderSelectionChanged;
+        }
+
+        InfrastOrderSelectionChanged(null, null);
+    }
+
     /// <summary>
     /// Gets the list of uses of infrast mode.
     /// </summary>
@@ -190,6 +230,11 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
             if (!SetTaskConfig<InfrastTask>(t => t.Mode == value, t => t.Mode = value))
             {
                 return;
+            }
+
+            if (value == Mode.Normal)
+            {
+                RestoreNormalFacilityOrder();
             }
 
             ParseCustomInfrastPlan();
@@ -582,9 +627,11 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                 return (null, []);
             }
 
+            IEnumerable<InfrastTask.RoomInfo> rooms =
+                infrast.Mode == Mode.Normal ? infrast.RoomList.OrderBy(i => i.Room) : infrast.RoomList;
             var task = new AsstInfrastTask {
                 Mode = infrast.Mode,
-                Facilitys = [.. infrast.RoomList.Where(i => i.IsEnabled).Select(i => i.Room.ToString())],
+                Facilitys = [.. rooms.Where(i => i.IsEnabled).Select(i => i.Room.ToString())],
                 UsesOfDrones = infrast.UsesOfDrones,
                 ContinueTraining = infrast.ContinueTraining,
                 DormThreshold = infrast.DormThreshold / 100.0,
