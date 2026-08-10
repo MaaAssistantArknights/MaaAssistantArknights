@@ -74,6 +74,7 @@ public: // ControllerAPI 接口
 private:
     void callback(AsstMsg msg, const json::value& details);
     bool should_avoid_window_cursor() const noexcept;
+    void avoid_window_cursor_after_input(const char* action, bool wait_for_window_pos_tracking);
     bool park_window_away_from_cursor();
     void restore_window_position();
 
