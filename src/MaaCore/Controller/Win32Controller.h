@@ -63,6 +63,7 @@ public: // ControllerAPI 接口
     virtual bool inject_input_event(const InputEvent& event) override;
 
     virtual bool press_esc() override;
+    virtual void set_main_screen_recognition(bool on) override;
     virtual ControlFeat::Feat support_features() const noexcept override;
 
     virtual std::pair<int, int> get_screen_res() const noexcept override;
@@ -96,6 +97,8 @@ private:
     Win32ScreencapMethod m_screencap_method = Win32Screencap::None;
     Win32InputMethod m_mouse_method = Win32Input::None;
     Win32InputMethod m_keyboard_method = Win32Input::None;
+
+    bool m_main_screen_recognition = false;
 };
 } // namespace asst
 

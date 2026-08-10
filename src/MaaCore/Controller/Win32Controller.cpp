@@ -116,11 +116,18 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
 {
     LogTraceFunction;
 
-    // 截图前把鼠标移到窗口左下角，避免光标出现在截图中影响识别
+    // 截图前把鼠标移走，避免光标出现在截图中影响识别
     if (m_screen_size.second > 0) {
-        unit_touch_move(0, 0, m_screen_size.second - 1, 0);
+        // 主界面识别时放在窗口中心，其他情况放在左下角
+        const int x = m_main_screen_recognition ? m_screen_size.first / 2 : 0;
+        const int y = m_main_screen_recognition ? m_screen_size.second / 2 : m_screen_size.second - 1;
+        unit_touch_move(0, x, y, 0);
         if (m_mouse_method & (Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos)) {
             unit_touch_up(0);
+        }
+        // 等待主界面的视差动画，300ms
+        if (m_main_screen_recognition) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(300));
         }
     }
 
@@ -344,6 +351,11 @@ bool Win32Controller::press_esc()
 {
     LogTraceFunction;
     return unit_click_key(VK_ESCAPE); // VK_ESCAPE = 0x1B, defined in WinUser.h
+}
+
+void Win32Controller::set_main_screen_recognition(bool on)
+{
+    m_main_screen_recognition = on;
 }
 
 ControlFeat::Feat Win32Controller::support_features() const noexcept
