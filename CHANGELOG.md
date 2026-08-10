@@ -1,4 +1,4 @@
-## v6.16.6
+## v6.16.7
 
 ### Highlights
 
@@ -44,6 +44,40 @@ Refactored the depot maintain task UI with global medicine/originium toggles and
 以下是详细内容：
 
 <details open>
+<summary><b>v6.16.7 (2026-08-10)</b></summary>
+
+### 新增 | New
+
+* 新增像素画自动填色：支持通过牛杂在游戏像素画编辑器中自动填色，并提供图片转 24×24 像素画的转换管线 ([#17629](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17629)) @ABA2396
+* 新增奇象巡展自动探索：自动来回走动寻找未收录生物，遇到已收录生物自动退出战斗继续寻找，遇到未收录生物时停止并交给玩家手动战斗 @ABA2396
+* 奇象巡展识别新增「本日不再提醒」与「是否离开当前展会」弹窗处理 @ABA2396
+* 像素画自动填色新增可调节的点击间隔选项，允许用户在低性能设备上增大间隔值 @ABA2396
+* CustomWebhook 预置模板新增 KOOK 频道与私聊选项 ([#17596](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17596)) @墨染
+
+### 改进 | Improved
+
+* 自动战斗额外检查干员技能选择、技能等级与模组所要求的精英化等级，不满足时禁止运行并提示 ([#17448](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17448)) @yali-hzy @status102
+* 优化库存保持提示与显示效果：任务日志分段展示库存保持计划与库存充足/不足状态，重算掉落需求时记录库存不足详情 ([#17597](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17597)) @ABA2396
+* MuMu 触控增强不可用时自动降级方式由 maatouch 改为 minitouch，提升触控兼容性 @ABA2396
+* 更新肉鸽干员招募逻辑，新增予愿安洁莉娜等干员 @Saratoga-Official
+* 优化任务日志显示：开始任务日志分段展示，彩虹字动画最多显示 60 秒 @ABA2396
+* 统一连接设置与设置指引/开始唤醒中的触控模式提示样式，并优化连接地址与触控模式提示文案 @ABA2396
+
+### 修复 | Fix
+
+* 修复自动战斗期间日志输出未重置停滞计时器导致误报任务卡住的问题 @ABA2396
+* 修复理智作战使用指定材料+目标库存时无法执行「无限吃 N 小时内过期的理智药」的问题 ([#17628](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17628)) @ABA2396
+* 修复自动战斗作业精英化等级需求未解析生效的问题 ([#17639](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17639)) @yali-hzy
+* 修复 PC 应用宝未处理横屏方向导致显示异常的问题 ([#17343](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17343)) @srdr0p
+
+### 文档 | Docs
+
+* 新增通过 Windows 安全中心阻止 DLL 注入解决方法的 FAQ 文档 @ABA2396
+* 补充代理倍率在有回复理智情况下的说明 @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.16.6 (2026-08-09)</b></summary>
 
 ### 新增 | New
