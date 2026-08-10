@@ -34,6 +34,9 @@ public class Win32Extra() : ExtraConfig
     private const string LauncherGameRelativePath = @"games\Arknights\Arknights.exe";
     private const string UninstallRegistryPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
 
+    private readonly object _gamePathDetectionLock = new();
+    private string? _cachedDetectedGamePath;
+
     #region Enums
 #pragma warning disable SA1602 // Enumeration items should be documented
     // 遵循 AsstCaller.h 中的定义，确保与 AsstCaller.h 中的枚举值对应
@@ -92,19 +95,32 @@ public class Win32Extra() : ExtraConfig
         ScreencapMethod is AsstWin32ScreencapMethod.FramePool or AsstWin32ScreencapMethod.PrintWindow;
 
     /// <summary>
-    /// Detects the PC client path and fills the path setting when successful.
+    /// Detects the PC client path, reusing a valid successful result when possible.
     /// </summary>
-    /// <returns>Whether a valid executable was detected.</returns>
-    public bool AutoDetectGamePath()
+    /// <returns>A detected executable path, or <see langword="null"/>.</returns>
+    internal string? DetectGameExecutablePath()
     {
-        var path = DetectGameExecutablePath();
-        if (string.IsNullOrEmpty(path))
+        var runningPath = DetectRunningGameExecutablePath();
+        if (!string.IsNullOrEmpty(runningPath))
         {
-            return false;
+            lock (_gamePathDetectionLock)
+            {
+                _cachedDetectedGamePath = runningPath;
+            }
+
+            return runningPath;
         }
 
-        GamePath = path;
-        return true;
+        lock (_gamePathDetectionLock)
+        {
+            if (IsGameExecutable(_cachedDetectedGamePath))
+            {
+                return Path.GetFullPath(_cachedDetectedGamePath!);
+            }
+
+            _cachedDetectedGamePath = DetectInstalledGameExecutablePath();
+            return _cachedDetectedGamePath;
+        }
     }
 
     /// <summary>
@@ -152,7 +168,7 @@ public class Win32Extra() : ExtraConfig
         }
     }
 
-    private static string? DetectGameExecutablePath()
+    private static string? DetectRunningGameExecutablePath()
     {
         var processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(GameExecutableName));
         try
@@ -181,13 +197,19 @@ public class Win32Extra() : ExtraConfig
             }
         }
 
+        return null;
+    }
+
+    private static string? DetectInstalledGameExecutablePath()
+    {
         var candidates = new List<string>();
         AddRegistryCandidates(candidates);
 
         AddProgramFilesCandidate(candidates, Environment.SpecialFolder.ProgramFiles);
         AddProgramFilesCandidate(candidates, Environment.SpecialFolder.ProgramFilesX86);
 
-        return candidates.FirstOrDefault(File.Exists);
+        var detectedPath = candidates.FirstOrDefault(File.Exists);
+        return string.IsNullOrEmpty(detectedPath) ? null : Path.GetFullPath(detectedPath);
     }
 
     private static void AddRegistryCandidates(List<string> candidates)

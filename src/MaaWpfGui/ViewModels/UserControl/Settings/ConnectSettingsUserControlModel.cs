@@ -67,10 +67,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             }
         }
 
-        if (ExtraConfig is Win32Extra win32Extra && !File.Exists(win32Extra.GamePath))
-        {
-            win32Extra.AutoDetectGamePath();
-        }
+        StartPcClientPathAutoDetection();
     }
 
     public static ConnectSettingsUserControlModel Instance { get; }
@@ -78,6 +75,47 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     private static readonly ILogger _logger = Log.ForContext<ConnectSettingsUserControlModel>();
 
     private static RunningState _runningState => RunningState.Instance;
+
+    private void StartPcClientPathAutoDetection()
+    {
+        if (ExtraConfig is not Win32Extra win32Extra || File.Exists(win32Extra.GamePath))
+        {
+            return;
+        }
+
+        var originalGamePath = win32Extra.GamePath;
+        _ = AutoDetectPcClientPathAsync(win32Extra, originalGamePath);
+    }
+
+    private async Task AutoDetectPcClientPathAsync(Win32Extra win32Extra, string originalGamePath)
+    {
+        string? detectedPath;
+        try
+        {
+            detectedPath = await Task.Run(win32Extra.DetectGameExecutablePath);
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to auto-detect Arknights PC client path");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(detectedPath))
+        {
+            return;
+        }
+
+        Execute.OnUIThread(() => {
+            if (ConnectConfig != ConnectConfig.PC ||
+                !ReferenceEquals(ExtraConfig, win32Extra) ||
+                !string.Equals(win32Extra.GamePath, originalGamePath, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            win32Extra.GamePath = detectedPath;
+        });
+    }
 
     /// <summary>
     /// Gets the list of the configuration of connection.
@@ -241,10 +279,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             var mumuEnabled = ExtraConfig is MuMu12Extra { Enable: true };
             OnMuMuExtrasEnableChanged(mumuEnabled);
 
-            if (ExtraConfig is Win32Extra win32Extra && !File.Exists(win32Extra.GamePath))
-            {
-                win32Extra.AutoDetectGamePath();
-            }
+            StartPcClientPathAutoDetection();
         }
     } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Config;
 
