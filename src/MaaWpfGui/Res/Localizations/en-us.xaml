@@ -1484,6 +1484,8 @@ Before use, please ensure:
     <system:String x:Key="AttachWindowInputSeize">Seize (Foreground, Fully Captures Mouse)</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos (Semi-background, Briefly Captures Mouse)</system:String>
     <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos (Full Background, No Mouse Capture, Window May Move, Recommend Minimizing)</system:String>
+    <system:String x:Key="AttachWindowCursorAvoidance">Avoid Physical Cursor Automatically</system:String>
+    <system:String x:Key="AttachWindowCursorAvoidanceTip">Only applies to WindowPos mouse input. Moves the game window away from the physical cursor after input and before screenshots so an app-rendered cursor does not obstruct recognition.</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg (Stable)</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg (Efficient)</system:String>
     <!--  !AsstProxy  -->

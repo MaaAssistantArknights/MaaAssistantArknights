@@ -418,6 +418,16 @@
                                                         SelectedValue="{Binding MouseMethod}"
                                                         SelectedValuePath="Value" />
 
+                                                    <StackPanel
+                                                        Margin="0,5"
+                                                        HorizontalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                                        <CheckBox
+                                                            Content="{DynamicResource AttachWindowCursorAvoidance}"
+                                                            IsChecked="{Binding WindowCursorAvoidance}" />
+                                                        <controls:TooltipBlock TooltipText="{DynamicResource AttachWindowCursorAvoidanceTip}" />
+                                                    </StackPanel>
+
                                                     <hc:ComboBox
                                                         Width="300"
                                                         Margin="0,5"

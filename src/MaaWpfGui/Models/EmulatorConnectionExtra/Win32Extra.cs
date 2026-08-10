@@ -119,6 +119,23 @@ public class Win32Extra() : ExtraConfig
         }
     }
 
+    [JsonInclude]
+    [JsonPropertyName("WindowCursorAvoidance")]
+    private bool _windowCursorAvoidance = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether WindowPos input should move the target window away from the physical cursor.
+    /// </summary>
+    [JsonIgnore]
+    public bool WindowCursorAvoidance
+    {
+        get => _windowCursorAvoidance;
+        set {
+            Instances.AsstProxy.Connected = false;
+            SetAndNotify(ref _windowCursorAvoidance, value);
+        }
+    }
+
     /// <summary>
     /// Win32 键盘输入方式枚举（与 AsstCaller.h 中 AsstWin32InputMethodEnum 对应）
     /// </summary>

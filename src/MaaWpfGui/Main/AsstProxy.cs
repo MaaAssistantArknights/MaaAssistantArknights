@@ -2658,6 +2658,7 @@ public class AsstProxy
         var screencapMethod = (ulong)win32Extra.ScreencapMethod;
         var mouseMethod = (ulong)win32Extra.MouseMethod;
         var keyboardMethod = (ulong)win32Extra.KeyboardMethod;
+        AsstSetInstanceOption(InstanceOptionKey.Win32WindowCursorAvoidance, win32Extra.WindowCursorAvoidance ? "1" : "0");
         bool ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
 
         if (!ret)
@@ -3349,4 +3350,9 @@ public enum InstanceOptionKey
     /// Indicates the client type (game channel) used for resolving PackageName on connect.
     /// </summary>
     ClientType = 6,
+
+    /// <summary>
+    /// Indicates whether WindowPos input moves the Win32 target window away from the physical cursor.
+    /// </summary>
+    Win32WindowCursorAvoidance = 7,
 }

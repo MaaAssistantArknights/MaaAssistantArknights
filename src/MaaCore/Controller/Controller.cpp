@@ -315,6 +315,7 @@ bool asst::Controller::attach_window(
     clear_info();
 
     auto win32_controller = std::make_shared<Win32Controller>(m_callback, m_inst);
+    win32_controller->set_window_cursor_avoidance(m_win32_window_cursor_avoidance);
     if (!win32_controller->attach(hwnd, screencap_method, mouse_method, keyboard_method)) {
         Log.error("attach_window failed");
         return false;
@@ -422,6 +423,16 @@ void asst::Controller::set_kill_adb_on_exit(bool enable) noexcept
 void asst::Controller::set_client_type(const std::string& client_type) noexcept
 {
     m_client_type = client_type;
+}
+
+void asst::Controller::set_win32_window_cursor_avoidance(bool enable) noexcept
+{
+    m_win32_window_cursor_avoidance = enable;
+#ifdef _WIN32
+    if (auto win32_controller = std::dynamic_pointer_cast<Win32Controller>(m_controller)) {
+        win32_controller->set_window_cursor_avoidance(enable);
+    }
+#endif
 }
 
 const std::string& asst::Controller::get_client_type() const noexcept

@@ -41,13 +41,14 @@ enum class StaticOptionKey
 enum class InstanceOptionKey
 {
     Invalid = 0,
-    /* Deprecated */         // MinitouchEnabled = 1,
-    TouchMode = 2,           // 触控模式设置， "minitouch" | "maatouch" | "adb" | "MaaFwAdb" | "MumuExtras"
-    DeploymentWithPause = 3, // 自动战斗、肉鸽、保全 是否使用 暂停下干员， "0" | "1"
-    AdbLiteEnabled = 4,      // 是否使用 AdbLite， "0" | "1"
-    KillAdbOnExit = 5,       // 退出时是否杀掉 Adb 进程， "0" | "1"
-    ClientType = 6,          // 客户端类型（游戏渠道）。仅当连接配置在 connect 阶段需要 [PackageName] 时使用，
-                             // 当前内置配置为 Androws / WSA；不替代 StartUpTask 的 client_type 参数。
+    /* Deprecated */                // MinitouchEnabled = 1,
+    TouchMode = 2,                  // 触控模式设置， "minitouch" | "maatouch" | "adb" | "MaaFwAdb" | "MumuExtras"
+    DeploymentWithPause = 3,        // 自动战斗、肉鸽、保全 是否使用 暂停下干员， "0" | "1"
+    AdbLiteEnabled = 4,             // 是否使用 AdbLite， "0" | "1"
+    KillAdbOnExit = 5,              // 退出时是否杀掉 Adb 进程， "0" | "1"
+    ClientType = 6,                 // 客户端类型（游戏渠道）。仅当连接配置在 connect 阶段需要 [PackageName] 时使用，
+                                    // 当前内置配置为 Androws / WSA；不替代 StartUpTask 的 client_type 参数。
+    Win32WindowCursorAvoidance = 7, // Win32 WindowPos 输入后及截图前是否移动窗口避开物理鼠标， "0" | "1"
 };
 
 enum class TouchMode

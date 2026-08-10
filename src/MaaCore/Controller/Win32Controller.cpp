@@ -2,6 +2,10 @@
 
 #include "Win32Controller.h"
 
+#include <algorithm>
+#include <chrono>
+#include <cstdlib>
+#include <optional>
 #include <sstream>
 #include <thread>
 
@@ -12,6 +16,136 @@
 
 namespace asst
 {
+namespace
+{
+constexpr LONG CursorAvoidancePadding = 8;
+constexpr int NormalWindowParkingAttempts = 3;
+constexpr auto WindowMoveSettleTimeout = std::chrono::milliseconds(250);
+constexpr auto WindowPosTrackingSettleDelay = std::chrono::milliseconds(40);
+
+struct WindowParkingCandidate
+{
+    LONG left = 0;
+    LONG top = 0;
+    long long overflow = 0;
+    long long movement = 0;
+    bool preferred = false;
+};
+
+LONG fit_window_axis(LONG current, LONG bound_begin, LONG bound_end, LONG size)
+{
+    const LONG available = bound_end - bound_begin;
+    if (size >= available) {
+        return bound_begin;
+    }
+    return std::clamp(current, bound_begin, bound_end - size);
+}
+
+long long rect_overflow(const RECT& rect, const RECT& bounds)
+{
+    return static_cast<long long>(std::max(bounds.left - rect.left, 0L)) +
+           static_cast<long long>(std::max(bounds.top - rect.top, 0L)) +
+           static_cast<long long>(std::max(rect.right - bounds.right, 0L)) +
+           static_cast<long long>(std::max(rect.bottom - bounds.bottom, 0L));
+}
+
+bool get_client_screen_rect(HWND hwnd, RECT& rect)
+{
+    RECT client_rect = {};
+    if (!GetClientRect(hwnd, &client_rect)) {
+        return false;
+    }
+
+    POINT top_left = { client_rect.left, client_rect.top };
+    POINT bottom_right = { client_rect.right, client_rect.bottom };
+    if (!ClientToScreen(hwnd, &top_left) || !ClientToScreen(hwnd, &bottom_right)) {
+        return false;
+    }
+
+    rect = { top_left.x, top_left.y, bottom_right.x, bottom_right.y };
+    return true;
+}
+
+std::optional<WindowParkingCandidate> make_parking_candidate(
+    LONG left,
+    LONG top,
+    bool preferred,
+    const POINT& cursor,
+    const RECT& window_rect,
+    const RECT& client_rect,
+    const RECT& monitor_rect,
+    LONG cursor_clearance)
+{
+    RECT predicted_window = window_rect;
+    OffsetRect(&predicted_window, left - window_rect.left, top - window_rect.top);
+
+    RECT predicted_client = client_rect;
+    OffsetRect(&predicted_client, left - window_rect.left, top - window_rect.top);
+    InflateRect(&predicted_client, cursor_clearance, cursor_clearance);
+    if (PtInRect(&predicted_client, cursor)) {
+        return std::nullopt;
+    }
+
+    return WindowParkingCandidate {
+        .left = left,
+        .top = top,
+        .overflow = rect_overflow(predicted_window, monitor_rect),
+        .movement = std::abs(static_cast<long long>(left) - window_rect.left) +
+                    std::abs(static_cast<long long>(top) - window_rect.top),
+        .preferred = preferred,
+    };
+}
+
+void select_parking_candidate(
+    std::optional<WindowParkingCandidate>& best,
+    std::optional<WindowParkingCandidate> candidate)
+{
+    if (!candidate) {
+        return;
+    }
+    if (!best || candidate->overflow < best->overflow ||
+        (candidate->overflow == best->overflow && candidate->preferred && !best->preferred) ||
+        (candidate->overflow == best->overflow && candidate->preferred == best->preferred &&
+         candidate->movement < best->movement)) {
+        best = candidate;
+    }
+}
+
+HWND find_mouse_target(HWND root, const POINT& cursor)
+{
+    HWND target = root;
+    while (target && IsWindow(target)) {
+        POINT local = cursor;
+        if (!ScreenToClient(target, &local)) {
+            break;
+        }
+
+        HWND child = ChildWindowFromPointEx(target, local, CWP_SKIPDISABLED | CWP_SKIPINVISIBLE | CWP_SKIPTRANSPARENT);
+        if (!child || child == target) {
+            break;
+        }
+        target = child;
+    }
+    return target;
+}
+
+void send_mouse_leave(HWND root, HWND target)
+{
+    auto send = [](HWND hwnd) {
+        if (!hwnd || !IsWindow(hwnd)) {
+            return;
+        }
+        DWORD_PTR result = 0;
+        SendMessageTimeoutW(hwnd, WM_MOUSELEAVE, 0, 0, SMTO_ABORTIFHUNG, 25, &result);
+    };
+
+    send(target);
+    if (target != root) {
+        send(root);
+    }
+}
+}
+
 Win32Controller::Win32Controller(const AsstCallback& callback, Assistant* inst) :
     InstHelper(inst),
     m_callback(callback),
@@ -28,6 +162,7 @@ Win32Controller::~Win32Controller()
         m_loader->destroy(m_unit_handle);
         m_unit_handle = nullptr;
     }
+    restore_window_position();
 }
 
 bool Win32Controller::attach(
@@ -39,16 +174,18 @@ bool Win32Controller::attach(
     LogTraceFunction;
 
     m_inited = false;
-    m_hwnd = hwnd;
-    m_screencap_method = screencap_method;
-    m_mouse_method = mouse_method;
-    m_keyboard_method = keyboard_method;
 
     // 销毁旧的控制单元
     if (m_unit_handle && m_loader) {
         m_loader->destroy(m_unit_handle);
         m_unit_handle = nullptr;
     }
+    restore_window_position();
+
+    m_hwnd = hwnd;
+    m_screencap_method = screencap_method;
+    m_mouse_method = mouse_method;
+    m_keyboard_method = keyboard_method;
 
     // 加载 DLL
     if (!m_loader->loaded()) {
@@ -115,6 +252,25 @@ const std::string& Win32Controller::get_uuid() const
 bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
 {
     LogTraceFunction;
+
+    if (should_avoid_window_cursor()) {
+        auto hwnd = static_cast<HWND>(m_hwnd);
+        constexpr auto PseudoMinimizeMethods = Win32Screencap::FramePool | Win32Screencap::PrintWindow;
+        if (hwnd && IsWindow(hwnd) && IsIconic(hwnd) && (m_screencap_method & PseudoMinimizeMethods) != 0) {
+            // These capture methods convert a real minimized window into a transparent pseudo-minimized
+            // window inside the control unit's screencap call. Discard that transition frame, then park
+            // the restored window before producing the image exposed to recognition.
+            cv::Mat transition_frame;
+            if (!unit_screencap(transition_frame)) {
+                return false;
+            }
+        }
+
+        if (!park_window_away_from_cursor()) {
+            Log.warn("Failed to move Win32 window away from the physical cursor; skip this screencap");
+            return false;
+        }
+    }
 
     if (!unit_screencap(image_payload)) {
         return false;
@@ -219,6 +375,9 @@ bool Win32Controller::click(const Point& p)
     std::this_thread::sleep_for(std::chrono::milliseconds(click_delay_ms));
     bool up = unit_touch_up(0);
     std::this_thread::sleep_for(std::chrono::milliseconds(click_delay_ms));
+    if (up && should_avoid_window_cursor() && !park_window_away_from_cursor()) {
+        Log.warn("Failed to move Win32 window away from the physical cursor after click");
+    }
 
     return up && down;
 }
@@ -301,7 +460,14 @@ bool Win32Controller::swipe(
         do_swipe(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
     }
 
-    return unit_touch_up(0);
+    bool up = unit_touch_up(0);
+    if (up && should_avoid_window_cursor()) {
+        std::this_thread::sleep_for(WindowPosTrackingSettleDelay);
+        if (!park_window_away_from_cursor()) {
+            Log.warn("Failed to move Win32 window away from the physical cursor after swipe");
+        }
+    }
+    return up;
 }
 
 bool Win32Controller::inject_input_event(const InputEvent& event)
@@ -311,8 +477,16 @@ bool Win32Controller::inject_input_event(const InputEvent& event)
     switch (event.type) {
     case InputEvent::Type::TOUCH_DOWN:
         return unit_touch_down(event.pointerId, event.point.x, event.point.y, 0);
-    case InputEvent::Type::TOUCH_UP:
-        return unit_touch_up(event.pointerId);
+    case InputEvent::Type::TOUCH_UP: {
+        bool up = unit_touch_up(event.pointerId);
+        if (up && should_avoid_window_cursor()) {
+            std::this_thread::sleep_for(WindowPosTrackingSettleDelay);
+            if (!park_window_away_from_cursor()) {
+                Log.warn("Failed to move Win32 window away from the physical cursor after touch up");
+            }
+        }
+        return up;
+    }
     case InputEvent::Type::TOUCH_MOVE:
         return unit_touch_move(event.pointerId, event.point.x, event.point.y, 0);
     case InputEvent::Type::KEY_DOWN: {
@@ -357,6 +531,317 @@ void Win32Controller::callback(AsstMsg msg, const json::value& details)
     if (m_callback) {
         m_callback(msg, details, m_inst);
     }
+}
+
+bool Win32Controller::should_avoid_window_cursor() const noexcept
+{
+    constexpr auto WindowPosMethods = Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos;
+    return m_window_cursor_avoidance.load() && (m_mouse_method & WindowPosMethods) != 0;
+}
+
+bool Win32Controller::park_window_away_from_cursor()
+{
+    if (!should_avoid_window_cursor()) {
+        return true;
+    }
+
+    auto hwnd = static_cast<HWND>(m_hwnd);
+    if (!hwnd || !IsWindow(hwnd)) {
+        return false;
+    }
+    if (IsIconic(hwnd)) {
+        return true;
+    }
+
+    std::scoped_lock lock(m_window_move_mutex);
+    auto previous_dpi_context = SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+
+    bool result = [&]() {
+        for (int attempt = 0; attempt <= NormalWindowParkingAttempts; ++attempt) {
+            const bool use_offscreen_fallback = attempt == NormalWindowParkingAttempts;
+            POINT cursor = {};
+            RECT window_rect = {};
+            RECT client_rect = {};
+            if (!GetCursorPos(&cursor) || !GetWindowRect(hwnd, &window_rect) ||
+                !get_client_screen_rect(hwnd, client_rect)) {
+                return false;
+            }
+
+            const LONG client_width = client_rect.right - client_rect.left;
+            const LONG client_height = client_rect.bottom - client_rect.top;
+            const LONG window_width = window_rect.right - window_rect.left;
+            const LONG window_height = window_rect.bottom - window_rect.top;
+            const LONG client_offset_x = client_rect.left - window_rect.left;
+            const LONG client_offset_y = client_rect.top - window_rect.top;
+            const LONG cursor_clearance = std::max(
+                                              { static_cast<LONG>(GetSystemMetrics(SM_CXCURSOR)),
+                                                static_cast<LONG>(GetSystemMetrics(SM_CYCURSOR)),
+                                                32L }) +
+                                          CursorAvoidancePadding;
+            if (client_width <= 0 || client_height <= 0) {
+                return false;
+            }
+
+            RECT anchor_rect = m_window_position_saved ? m_saved_window_rect : window_rect;
+            HMONITOR monitor = MonitorFromRect(&anchor_rect, MONITOR_DEFAULTTONEAREST);
+            MONITORINFO monitor_info = { sizeof(MONITORINFO) };
+            if (!monitor || !GetMonitorInfoW(monitor, &monitor_info)) {
+                return false;
+            }
+            const RECT& monitor_rect = monitor_info.rcMonitor;
+            const LONG fitted_left =
+                fit_window_axis(window_rect.left, monitor_rect.left, monitor_rect.right, window_width);
+            const LONG fitted_top =
+                fit_window_axis(window_rect.top, monitor_rect.top, monitor_rect.bottom, window_height);
+
+            RECT cursor_safe_client_rect = client_rect;
+            InflateRect(&cursor_safe_client_rect, cursor_clearance, cursor_clearance);
+            if (!PtInRect(&cursor_safe_client_rect, cursor)) {
+                return true;
+            }
+            HWND mouse_target = find_mouse_target(hwnd, cursor);
+
+            std::optional<WindowParkingCandidate> best;
+            if (!use_offscreen_fallback && m_window_position_saved) {
+                select_parking_candidate(
+                    best,
+                    make_parking_candidate(
+                        m_saved_window_rect.left,
+                        m_saved_window_rect.top,
+                        true,
+                        cursor,
+                        window_rect,
+                        client_rect,
+                        monitor_rect,
+                        cursor_clearance));
+            }
+            if (!use_offscreen_fallback) {
+                select_parking_candidate(
+                    best,
+                    make_parking_candidate(
+                        window_rect.left,
+                        window_rect.top,
+                        false,
+                        cursor,
+                        window_rect,
+                        client_rect,
+                        monitor_rect,
+                        cursor_clearance));
+                select_parking_candidate(
+                    best,
+                    make_parking_candidate(
+                        cursor.x + cursor_clearance + 1 - client_offset_x,
+                        fitted_top,
+                        false,
+                        cursor,
+                        window_rect,
+                        client_rect,
+                        monitor_rect,
+                        cursor_clearance));
+                select_parking_candidate(
+                    best,
+                    make_parking_candidate(
+                        cursor.x - cursor_clearance - client_width - client_offset_x,
+                        fitted_top,
+                        false,
+                        cursor,
+                        window_rect,
+                        client_rect,
+                        monitor_rect,
+                        cursor_clearance));
+                select_parking_candidate(
+                    best,
+                    make_parking_candidate(
+                        fitted_left,
+                        cursor.y + cursor_clearance + 1 - client_offset_y,
+                        false,
+                        cursor,
+                        window_rect,
+                        client_rect,
+                        monitor_rect,
+                        cursor_clearance));
+                select_parking_candidate(
+                    best,
+                    make_parking_candidate(
+                        fitted_left,
+                        cursor.y - cursor_clearance - client_height - client_offset_y,
+                        false,
+                        cursor,
+                        window_rect,
+                        client_rect,
+                        monitor_rect,
+                        cursor_clearance));
+            }
+            else {
+                const LONG virtual_left = GetSystemMetrics(SM_XVIRTUALSCREEN);
+                const LONG virtual_top = GetSystemMetrics(SM_YVIRTUALSCREEN);
+                const LONG virtual_width = GetSystemMetrics(SM_CXVIRTUALSCREEN);
+                const LONG virtual_height = GetSystemMetrics(SM_CYVIRTUALSCREEN);
+                if (virtual_width <= 0 || virtual_height <= 0) {
+                    return false;
+                }
+
+                const RECT virtual_screen = {
+                    virtual_left,
+                    virtual_top,
+                    virtual_left + virtual_width,
+                    virtual_top + virtual_height,
+                };
+                const LONG virtual_fitted_left =
+                    fit_window_axis(window_rect.left, virtual_screen.left, virtual_screen.right, window_width);
+                const LONG virtual_fitted_top =
+                    fit_window_axis(window_rect.top, virtual_screen.top, virtual_screen.bottom, window_height);
+
+                Log.info("Physical cursor kept entering the Win32 client; park the window outside the virtual screen");
+                select_parking_candidate(
+                    best,
+                    make_parking_candidate(
+                        virtual_screen.right + cursor_clearance + 1 - client_offset_x,
+                        virtual_fitted_top,
+                        false,
+                        cursor,
+                        window_rect,
+                        client_rect,
+                        monitor_rect,
+                        cursor_clearance));
+                select_parking_candidate(
+                    best,
+                    make_parking_candidate(
+                        virtual_screen.left - cursor_clearance - client_width - client_offset_x,
+                        virtual_fitted_top,
+                        false,
+                        cursor,
+                        window_rect,
+                        client_rect,
+                        monitor_rect,
+                        cursor_clearance));
+                select_parking_candidate(
+                    best,
+                    make_parking_candidate(
+                        virtual_fitted_left,
+                        virtual_screen.bottom + cursor_clearance + 1 - client_offset_y,
+                        false,
+                        cursor,
+                        window_rect,
+                        client_rect,
+                        monitor_rect,
+                        cursor_clearance));
+                select_parking_candidate(
+                    best,
+                    make_parking_candidate(
+                        virtual_fitted_left,
+                        virtual_screen.top - cursor_clearance - client_height - client_offset_y,
+                        false,
+                        cursor,
+                        window_rect,
+                        client_rect,
+                        monitor_rect,
+                        cursor_clearance));
+            }
+
+            if (!best) {
+                return false;
+            }
+
+            const bool needs_move = std::abs(static_cast<long long>(best->left) - window_rect.left) > 1 ||
+                                    std::abs(static_cast<long long>(best->top) - window_rect.top) > 1;
+            if (needs_move) {
+                const bool saved_now = !m_window_position_saved;
+                if (saved_now) {
+                    m_saved_window_rect = window_rect;
+                    m_window_position_saved = true;
+                    m_saved_window_placement.length = sizeof(m_saved_window_placement);
+                    m_window_placement_saved = GetWindowPlacement(hwnd, &m_saved_window_placement) != FALSE;
+                }
+                if (!SetWindowPos(
+                        hwnd,
+                        nullptr,
+                        best->left,
+                        best->top,
+                        0,
+                        0,
+                        SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING | SWP_ASYNCWINDOWPOS)) {
+                    if (saved_now) {
+                        m_window_position_saved = false;
+                        m_window_placement_saved = false;
+                    }
+                    continue;
+                }
+            }
+
+            if (needs_move) {
+                bool settled = false;
+                const auto settle_deadline = std::chrono::steady_clock::now() + WindowMoveSettleTimeout;
+                do {
+                    RECT settled_rect = {};
+                    if (GetWindowRect(hwnd, &settled_rect) &&
+                        std::abs(static_cast<long long>(settled_rect.left) - best->left) <= 1 &&
+                        std::abs(static_cast<long long>(settled_rect.top) - best->top) <= 1) {
+                        settled = true;
+                        break;
+                    }
+                    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+                } while (std::chrono::steady_clock::now() < settle_deadline);
+                if (!settled) {
+                    continue;
+                }
+            }
+
+            send_mouse_leave(hwnd, mouse_target);
+            if (needs_move) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(17));
+            }
+
+            POINT current_cursor = {};
+            RECT current_client_rect = {};
+            if (GetCursorPos(&current_cursor) && get_client_screen_rect(hwnd, current_client_rect)) {
+                InflateRect(&current_client_rect, cursor_clearance, cursor_clearance);
+                if (!PtInRect(&current_client_rect, current_cursor)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }();
+
+    if (previous_dpi_context) {
+        SetThreadDpiAwarenessContext(previous_dpi_context);
+    }
+    return result;
+}
+
+void Win32Controller::restore_window_position()
+{
+    std::scoped_lock lock(m_window_move_mutex);
+    auto hwnd = static_cast<HWND>(m_hwnd);
+    if (!m_window_position_saved || !hwnd || !IsWindow(hwnd)) {
+        m_window_position_saved = false;
+        m_window_placement_saved = false;
+        return;
+    }
+
+    bool restored = false;
+    if (IsIconic(hwnd) && m_window_placement_saved) {
+        WINDOWPLACEMENT current_placement = { sizeof(WINDOWPLACEMENT) };
+        if (GetWindowPlacement(hwnd, &current_placement)) {
+            current_placement.rcNormalPosition = m_saved_window_placement.rcNormalPosition;
+            restored = SetWindowPlacement(hwnd, &current_placement) != FALSE;
+        }
+    }
+
+    if (!restored && !SetWindowPos(
+                         hwnd,
+                         nullptr,
+                         m_saved_window_rect.left,
+                         m_saved_window_rect.top,
+                         0,
+                         0,
+                         SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING | SWP_ASYNCWINDOWPOS)) {
+        Log.warn("Failed to restore Win32 window position", GetLastError());
+    }
+    m_window_position_saved = false;
+    m_window_placement_saved = false;
 }
 
 bool Win32Controller::unit_connect()

@@ -1486,6 +1486,8 @@ MAA Team の開発リソースが限られているため、この機能はコ�
     <system:String x:Key="AttachWindowInputSeize">Seize（フォアグラウンド、マウスを完全に取得）</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos（半バックグラウンド、一時的にマウスを取得）</system:String>
     <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（フルバックグラウンド、マウス不要、ウィンドウが動く可能性あり、最小化推奨）</system:String>
+    <system:String x:Key="AttachWindowCursorAvoidance">物理カーソルを自動回避</system:String>
+    <system:String x:Key="AttachWindowCursorAvoidanceTip">WindowPos マウス入力でのみ有効です。入力後およびスクリーンショット前にゲームウィンドウを物理カーソルの外へ移動し、ゲームが描画するカーソルによる認識妨害を防ぎます。</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（安定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高効率）</system:String>
     <!--  !AsstProxy  -->

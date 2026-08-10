@@ -2,7 +2,9 @@
 
 #ifdef _WIN32
 
+#include <atomic>
 #include <memory>
+#include <mutex>
 #include <string>
 
 #include "MaaUtils/SafeWindows.hpp"
@@ -33,6 +35,8 @@ public:
         Win32ScreencapMethod screencap_method,
         Win32InputMethod mouse_method,
         Win32InputMethod keyboard_method);
+
+    void set_window_cursor_avoidance(bool enable) noexcept { m_window_cursor_avoidance.store(enable); }
 
 public: // ControllerAPI 接口
     virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) override;
@@ -69,6 +73,9 @@ public: // ControllerAPI 接口
 
 private:
     void callback(AsstMsg msg, const json::value& details);
+    bool should_avoid_window_cursor() const noexcept;
+    bool park_window_away_from_cursor();
+    void restore_window_position();
 
     // 封装 MaaWin32ControlUnit 的调用
     bool unit_connect();
@@ -96,6 +103,13 @@ private:
     Win32ScreencapMethod m_screencap_method = Win32Screencap::None;
     Win32InputMethod m_mouse_method = Win32Input::None;
     Win32InputMethod m_keyboard_method = Win32Input::None;
+
+    std::atomic_bool m_window_cursor_avoidance = false;
+    bool m_window_position_saved = false;
+    bool m_window_placement_saved = false;
+    RECT m_saved_window_rect = {};
+    WINDOWPLACEMENT m_saved_window_placement = { sizeof(WINDOWPLACEMENT) };
+    std::mutex m_window_move_mutex;
 };
 } // namespace asst
 

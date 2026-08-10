@@ -282,6 +282,16 @@
                                     Margin="5"
                                     HorizontalAlignment="Center"
                                     Orientation="Horizontal">
+                                    <CheckBox
+                                        Content="{DynamicResource AttachWindowCursorAvoidance}"
+                                        IsChecked="{Binding WindowCursorAvoidance}" />
+                                    <controls:TooltipBlock TooltipText="{DynamicResource AttachWindowCursorAvoidanceTip}" />
+                                </StackPanel>
+
+                                <StackPanel
+                                    Margin="5"
+                                    HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
                                     <hc:ComboBox
                                         Width="300"
                                         Height="30"

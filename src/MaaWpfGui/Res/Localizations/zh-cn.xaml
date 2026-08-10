@@ -1485,6 +1485,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowInputSeize">Seize（前台，完全抢鼠标）</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos（半后台，短暂抢鼠标）</system:String>
     <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（全后台，不抢鼠标，窗口会乱飞但不影响使用，建议最小化）</system:String>
+    <system:String x:Key="AttachWindowCursorAvoidance">自动避让物理鼠标</system:String>
+    <system:String x:Key="AttachWindowCursorAvoidanceTip">仅对 WindowPos 鼠标输入生效。点击后及截图前将游戏窗口移到物理鼠标之外，避免游戏自绘光标遮挡识别区域。</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（稳定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高效）</system:String>
     <!--  !AsstProxy  -->
