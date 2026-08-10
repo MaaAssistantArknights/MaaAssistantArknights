@@ -2536,8 +2536,8 @@ public class ToolboxViewModel : Screen
     /// <summary>拖动绘制开关：同色同行连续格一次画完（更快，部分触控模式可能丢点）。</summary>
     public bool PixelPaintSwipeEnabled { get; set; } = true;
 
-    /// <summary>逐格点击的额外等待（ms），默认 0（各触控方式自带基础间隔）。</summary>
-    public int PixelPaintGridClickDelay { get; set; } = 0;
+    /// <summary>每格额外等待（ms），默认 0；点击后等待与拖动时长均会累加（各触控方式自带基础间隔）。</summary>
+    public int PixelPaintGridDelay { get; set; } = 0;
 
     public void PixelPaintPickImage()
     {
@@ -2812,7 +2812,7 @@ public class ToolboxViewModel : Screen
         if (isPixelPaint)
         {
             var groups = _pixelPaintResult!.Groups;
-            caught = Instances.AsstProxy.AsstPixelPaint(groups, PixelPaintSwipeEnabled, PixelPaintGridClickDelay);
+            caught = Instances.AsstProxy.AsstPixelPaint(groups, PixelPaintSwipeEnabled, PixelPaintGridDelay);
             if (caught)
             {
                 Instances.TaskQueueViewModel.AddLog(

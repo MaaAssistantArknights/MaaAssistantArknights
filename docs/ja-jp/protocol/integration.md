@@ -1004,7 +1004,7 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 
 - `params.pixel_paint.groups`：色ごとのマス座標リスト。`color` はパレットのスロット番号（0~39、ゲーム右側パレットの順序と一致）、`points` は `[x, y]` のマス座標配列（0~23、左上原点）。
 - `params.pixel_paint.swipe`（bool、任意、デフォルト true）：同じ色の連続マスを1回のドラッグで描画し高速化。一部のタッチ方式では正常に動作しない可能性があります。  
-- `params.pixel_paint.grid_click_delay`（int、任意、デフォルト 0）：マスごとのクリック間の追加待機時間（ms）。各タッチ方式に基礎間隔があるため、通常は調整不要。
+- `params.pixel_paint.grid_delay`（int、任意、デフォルト 0）：マスごとの追加待機時間（ms）。クリック後の待機とドラッグ時間の両方に加算されます。各タッチ方式に基礎間隔があるため、通常は調整不要。旧キー `grid_click_delay` も受け付けます。
 
 :::  
 ::::

@@ -1004,7 +1004,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 - `params.pixel_paint.groups`：按色分組點列。`color` 為色板序號（0~39，與遊戲右側色板順序一致），`points` 為 `[x, y]` 格子座標陣列（0~23，左上為原點）。
 - `params.pixel_paint.swipe`（bool，可選，預設 true）：同色同行的連續格用拖動一次畫完，更快但部分觸控模式可能異常。  
-- `params.pixel_paint.grid_click_delay`（int，可選，預設 0）：逐格點擊的額外等待（ms）。各觸控方式自帶基礎間隔，一般無需調整。
+- `params.pixel_paint.grid_delay`（int，可選，預設 0）：每格額外等待（ms）。點擊後 sleep，拖動時長按格累加。各觸控方式自帶基礎間隔，一般無需調整。相容舊鍵 `grid_click_delay`。
 
 :::  
 ::::
