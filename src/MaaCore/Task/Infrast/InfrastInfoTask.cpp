@@ -10,6 +10,7 @@
 
 #include "MaaUtils/NoWarningCV.hpp"
 
+#include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Utils/Logger.hpp"
@@ -38,31 +39,96 @@ struct MiniDorm
     std::array<asst::Point, 5> level_points;
 };
 
+struct NormalLevelGeometry
+{
+    int station_begin_divisor = 0;
+    int dorm_end_offset = 0;
+    int station_end_offset = 0;
+    int max_segment_width = 0;
+};
+
+struct InfrastInfoGeometry
+{
+    std::array<MiniStation, 9> mini_stations;
+    std::array<MiniDorm, 4> mini_dorms;
+    std::array<asst::Point, 5> wide_probe_offsets;
+    std::array<asst::Point, 5> narrow_probe_offsets;
+    NormalLevelGeometry normal_level;
+};
+
 constexpr Rgb MfgColor { 0xFF, 0xCC, 0x00 };
 constexpr Rgb TradeColor { 0x33, 0xCC, 0xFF };
 constexpr Rgb PowerColor { 0xCC, 0xFF, 0x66 };
 constexpr Rgb DormColor { 0xFF, 0xFF, 0xFF };
 
-// 左侧九个设施及等级点均为 1280x720 最小视图坐标。等级点从左到右
-// 分别表示 1、2、3 级；识别时从最高等级向低等级回退。
-constexpr std::array<MiniStation, 9> MiniStations = {
-    MiniStation { { 124, 320 }, { asst::Point { 195, 308 }, { 200, 308 }, { 205, 308 } } },
-    MiniStation { { 277, 320 }, { asst::Point { 347, 308 }, { 352, 308 }, { 358, 308 } } },
-    MiniStation { { 425, 320 }, { asst::Point { 498, 308 }, { 504, 308 }, { 509, 308 } } },
-    MiniStation { { 51, 393 }, { asst::Point { 119, 382 }, { 125, 382 }, { 129, 382 } } },
-    MiniStation { { 199, 393 }, { asst::Point { 271, 382 }, { 277, 382 }, { 282, 382 } } },
-    MiniStation { { 350, 393 }, { asst::Point { 423, 382 }, { 428, 382 }, { 433, 382 } } },
-    MiniStation { { 124, 455 }, { asst::Point { 195, 459 }, { 200, 459 }, { 205, 459 } } },
-    MiniStation { { 277, 455 }, { asst::Point { 347, 459 }, { 352, 459 }, { 358, 459 } } },
-    MiniStation { { 425, 455 }, { asst::Point { 498, 459 }, { 504, 459 }, { 509, 459 } } },
-};
+template <size_t Size>
+std::optional<std::array<asst::Point, Size>> load_points(std::string_view task_name)
+{
+    const auto task = asst::Task.get(task_name);
+    const auto& params = task->special_params;
+    if (params.size() != Size * 2) {
+        Log.error("invalid point configuration", task_name, "expected", Size * 2, "actual", params.size());
+        return std::nullopt;
+    }
 
-constexpr std::array<MiniDorm, 4> MiniDorms = {
-    MiniDorm { { 698, 303 }, { asst::Point { 657, 307 }, { 663, 307 }, { 669, 307 }, { 674, 307 }, { 680, 307 } } },
-    MiniDorm { { 779, 383 }, { asst::Point { 732, 381 }, { 737, 381 }, { 744, 381 }, { 750, 381 }, { 755, 381 } } },
-    MiniDorm { { 698, 463 }, { asst::Point { 657, 456 }, { 663, 456 }, { 669, 456 }, { 674, 456 }, { 680, 456 } } },
-    MiniDorm { { 779, 543 }, { asst::Point { 732, 533 }, { 737, 533 }, { 744, 533 }, { 750, 533 }, { 755, 533 } } },
-};
+    std::array<asst::Point, Size> points;
+    for (size_t index = 0; index < Size; ++index) {
+        points[index] = { params[index * 2], params[index * 2 + 1] };
+    }
+    return points;
+}
+
+std::optional<InfrastInfoGeometry> load_info_geometry()
+{
+    const auto station_points = load_points<36>("InfrastInfoMiniStations");
+    const auto dorm_points = load_points<24>("InfrastInfoMiniDorms");
+    const auto probe_offsets = load_points<10>("InfrastInfoProbeOffsets");
+    const auto normal_task = asst::Task.get("InfrastInfoNormalLevelGeometry");
+    const auto& normal_params = normal_task->special_params;
+    if (!station_points || !dorm_points || !probe_offsets || normal_params.size() != 4 || normal_params[0] <= 0 ||
+        normal_params[3] <= 0) {
+        if (normal_params.size() != 4) {
+            Log.error("invalid InfrastInfoNormalLevelGeometry parameter count", normal_params.size());
+        }
+        else if (normal_params[0] <= 0 || normal_params[3] <= 0) {
+            Log.error("invalid InfrastInfoNormalLevelGeometry values", normal_params[0], normal_params[3]);
+        }
+        return std::nullopt;
+    }
+
+    InfrastInfoGeometry geometry;
+    size_t point_index = 0;
+    for (auto& station : geometry.mini_stations) {
+        station.position = station_points->at(point_index++);
+        for (auto& level_point : station.level_points) {
+            level_point = station_points->at(point_index++);
+        }
+    }
+
+    point_index = 0;
+    for (auto& dorm : geometry.mini_dorms) {
+        dorm.position = dorm_points->at(point_index++);
+        for (auto& level_point : dorm.level_points) {
+            level_point = dorm_points->at(point_index++);
+        }
+    }
+
+    std::ranges::copy_n(
+        probe_offsets->begin(),
+        geometry.wide_probe_offsets.size(),
+        geometry.wide_probe_offsets.begin());
+    std::ranges::copy_n(
+        probe_offsets->begin() + geometry.wide_probe_offsets.size(),
+        geometry.narrow_probe_offsets.size(),
+        geometry.narrow_probe_offsets.begin());
+    geometry.normal_level = {
+        .station_begin_divisor = normal_params[0],
+        .dorm_end_offset = normal_params[1],
+        .station_end_offset = normal_params[2],
+        .max_segment_width = normal_params[3],
+    };
+    return geometry;
+}
 
 bool is_color(const cv::Mat& image, const asst::Point& point, const Rgb& target, int tolerance = 42)
 {
@@ -75,36 +141,42 @@ bool is_color(const cv::Mat& image, const asst::Point& point, const Rgb& target,
            std::abs(static_cast<int>(pixel[0]) - target.blue) <= tolerance;
 }
 
-bool is_color_near(const cv::Mat& image, const asst::Point& point, const Rgb& target, bool wide_probe)
+bool is_color_near(
+    const cv::Mat& image,
+    const asst::Point& point,
+    const Rgb& target,
+    const std::array<asst::Point, 5>& offsets)
 {
-    const std::array<asst::Point, 5> offsets =
-        wide_probe ? std::array<asst::Point, 5> { asst::Point { 0, 0 }, { -5, -10 }, { -5, 10 }, { 5, 10 }, { 5, -10 } }
-                   : std::array<asst::Point, 5> { asst::Point { 0, 0 }, { -1, -3 }, { -1, 3 }, { 1, 3 }, { 1, -3 } };
     return std::ranges::any_of(offsets, [&](const asst::Point& offset) {
         return is_color(image, { point.x + offset.x, point.y + offset.y }, target);
     });
 }
 
 template <size_t Size>
-int recognize_level(const cv::Mat& image, const std::array<asst::Point, Size>& points, const Rgb& color)
+int recognize_level(
+    const cv::Mat& image,
+    const std::array<asst::Point, Size>& points,
+    const Rgb& color,
+    const std::array<asst::Point, 5>& offsets)
 {
     for (size_t index = Size; index > 0; --index) {
-        if (is_color_near(image, points[index - 1], color, false)) {
+        if (is_color_near(image, points[index - 1], color, offsets)) {
             return static_cast<int>(index);
         }
     }
     return 0;
 }
 
-std::optional<std::string> recognize_station_type(const cv::Mat& image, const asst::Point& position)
+std::optional<std::string>
+    recognize_station_type(const cv::Mat& image, const asst::Point& position, const std::array<asst::Point, 5>& offsets)
 {
-    if (is_color_near(image, position, MfgColor, true)) {
+    if (is_color_near(image, position, MfgColor, offsets)) {
         return "Mfg";
     }
-    if (is_color_near(image, position, TradeColor, true)) {
+    if (is_color_near(image, position, TradeColor, offsets)) {
         return "Trade";
     }
-    if (is_color_near(image, position, PowerColor, true)) {
+    if (is_color_near(image, position, PowerColor, offsets)) {
         return "Power";
     }
     return std::nullopt;
@@ -156,10 +228,20 @@ size_t nearest_unused_layout(
 
 // 正常视图没有固定的九宫格屏幕坐标，等级点跟随设施卡片移动。
 // 从卡片右侧的同色短线中取同一水平线上最多的分段数，避免把左侧类型色条算作等级。
-int recognize_normal_level(const cv::Mat& image, const asst::Rect& rect, const Rgb& color, int max_level, bool dorm)
+int recognize_normal_level(
+    const cv::Mat& image,
+    const asst::Rect& rect,
+    const Rgb& color,
+    int max_level,
+    bool dorm,
+    const NormalLevelGeometry& geometry)
 {
-    const int x_begin = std::clamp(dorm ? rect.x + rect.width : rect.x + rect.width / 5, 0, image.cols);
-    const int x_end = std::clamp(dorm ? rect.x + rect.width + 100 : rect.x + rect.width + 20, 0, image.cols);
+    const int x_begin =
+        std::clamp(dorm ? rect.x + rect.width : rect.x + rect.width / geometry.station_begin_divisor, 0, image.cols);
+    const int x_end = std::clamp(
+        rect.x + rect.width + (dorm ? geometry.dorm_end_offset : geometry.station_end_offset),
+        0,
+        image.cols);
     const int y_begin = std::clamp(rect.y, 0, image.rows);
     const int y_end = std::clamp(rect.y + rect.height, 0, image.rows);
 
@@ -173,7 +255,7 @@ int recognize_normal_level(const cv::Mat& image, const asst::Rect& rect, const R
                 ++run_length;
             }
             else if (run_length != 0) {
-                if (run_length <= 14) {
+                if (run_length <= geometry.max_segment_width) {
                     ++runs;
                 }
                 run_length = 0;
@@ -189,11 +271,13 @@ int recognize_normal_level(const cv::Mat& image, const asst::Rect& rect, const R
 bool recognize_mini_layout(
     const cv::Mat& image,
     const asst::InfrastFacilityImageAnalyzer& analyzer,
-    std::unordered_map<std::string, std::vector<asst::infrast::FacilityInfo>>& facilities)
+    std::unordered_map<std::string, std::vector<asst::infrast::FacilityInfo>>& facilities,
+    const InfrastInfoGeometry& geometry)
 {
-    std::array<std::optional<std::string>, MiniStations.size()> station_types;
-    for (size_t index = 0; index < MiniStations.size(); ++index) {
-        station_types[index] = recognize_station_type(image, MiniStations[index].position);
+    std::array<std::optional<std::string>, 9> station_types;
+    for (size_t index = 0; index < geometry.mini_stations.size(); ++index) {
+        station_types[index] =
+            recognize_station_type(image, geometry.mini_stations[index].position, geometry.wide_probe_offsets);
         if (!station_types[index]) {
             return false;
         }
@@ -208,22 +292,26 @@ bool recognize_mini_layout(
         auto& output = facilities[name];
         std::unordered_set<size_t> used;
         for (const auto& match : iter->second) {
-            size_t layout_index = MiniStations.size();
+            size_t layout_index = geometry.mini_stations.size();
             int best_distance = std::numeric_limits<int>::max();
-            for (size_t index = 0; index < MiniStations.size(); ++index) {
+            for (size_t index = 0; index < geometry.mini_stations.size(); ++index) {
                 if (used.contains(index) || station_types[index] != name) {
                     continue;
                 }
-                const int distance = squared_distance(center_of(match.rect), MiniStations[index].position);
+                const int distance = squared_distance(center_of(match.rect), geometry.mini_stations[index].position);
                 if (distance < best_distance) {
                     best_distance = distance;
                     layout_index = index;
                 }
             }
-            if (layout_index == MiniStations.size()) {
+            if (layout_index == geometry.mini_stations.size()) {
                 return false;
             }
-            const int level = recognize_level(image, MiniStations[layout_index].level_points, facility_color(name));
+            const int level = recognize_level(
+                image,
+                geometry.mini_stations[layout_index].level_points,
+                facility_color(name),
+                geometry.narrow_probe_offsets);
             if (level == 0) {
                 return false;
             }
@@ -238,11 +326,12 @@ bool recognize_mini_layout(
     }
     std::unordered_set<size_t> used_dorms;
     for (const auto& match : dorm_iter->second) {
-        const size_t index = nearest_unused_layout(center_of(match.rect), MiniDorms, used_dorms);
-        if (index == MiniDorms.size()) {
+        const size_t index = nearest_unused_layout(center_of(match.rect), geometry.mini_dorms, used_dorms);
+        if (index == geometry.mini_dorms.size()) {
             return false;
         }
-        const int level = recognize_level(image, MiniDorms[index].level_points, DormColor);
+        const int level =
+            recognize_level(image, geometry.mini_dorms[index].level_points, DormColor, geometry.narrow_probe_offsets);
         if (level == 0) {
             return false;
         }
@@ -255,7 +344,8 @@ bool recognize_mini_layout(
 bool recognize_normal_layout(
     const cv::Mat& image,
     const asst::InfrastFacilityImageAnalyzer& analyzer,
-    std::unordered_map<std::string, std::vector<asst::infrast::FacilityInfo>>& facilities)
+    std::unordered_map<std::string, std::vector<asst::infrast::FacilityInfo>>& facilities,
+    const NormalLevelGeometry& geometry)
 {
     for (const auto& name : { "Mfg", "Trade", "Power" }) {
         const auto iter = analyzer.get_result().find(name);
@@ -263,7 +353,7 @@ bool recognize_normal_layout(
             return false;
         }
         for (const auto& match : iter->second) {
-            const int level = recognize_normal_level(image, match.rect, facility_color(name), 3, false);
+            const int level = recognize_normal_level(image, match.rect, facility_color(name), 3, false, geometry);
             if (level == 0) {
                 return false;
             }
@@ -276,7 +366,7 @@ bool recognize_normal_layout(
         return false;
     }
     for (const auto& match : dorm_iter->second) {
-        const int level = recognize_normal_level(image, match.rect, DormColor, 5, true);
+        const int level = recognize_normal_level(image, match.rect, DormColor, 5, true, geometry);
         if (level == 0) {
             return false;
         }
@@ -299,14 +389,19 @@ bool has_complete_layout(const std::unordered_map<std::string, std::vector<asst:
 
 bool asst::InfrastInfoTask::try_zoom_out()
 {
+    const auto points = load_points<4>("InfrastInfoZoomOut");
+    if (!points) {
+        return false;
+    }
+
     // 两指从画面两侧向中心收拢。旧 ADB 和 PlayTools 控制器不支持多指输入，
     // 此时立即返回，后续仍同时使用正常/最小视图模板识别。
     const std::array<InputEvent, 9> events = {
-        InputEvent { .type = InputEvent::Type::TOUCH_DOWN, .pointerId = 0, .point = { 980, 180 } },
-        InputEvent { .type = InputEvent::Type::TOUCH_DOWN, .pointerId = 1, .point = { 300, 700 } },
+        InputEvent { .type = InputEvent::Type::TOUCH_DOWN, .pointerId = 0, .point = points->at(0) },
+        InputEvent { .type = InputEvent::Type::TOUCH_DOWN, .pointerId = 1, .point = points->at(1) },
         InputEvent { .type = InputEvent::Type::COMMIT },
-        InputEvent { .type = InputEvent::Type::TOUCH_MOVE, .pointerId = 0, .point = { 650, 350 } },
-        InputEvent { .type = InputEvent::Type::TOUCH_MOVE, .pointerId = 1, .point = { 630, 370 } },
+        InputEvent { .type = InputEvent::Type::TOUCH_MOVE, .pointerId = 0, .point = points->at(2) },
+        InputEvent { .type = InputEvent::Type::TOUCH_MOVE, .pointerId = 1, .point = points->at(3) },
         InputEvent { .type = InputEvent::Type::COMMIT },
         InputEvent { .type = InputEvent::Type::TOUCH_UP, .pointerId = 0 },
         InputEvent { .type = InputEvent::Type::TOUCH_UP, .pointerId = 1 },
@@ -343,6 +438,11 @@ bool asst::InfrastInfoTask::_run()
         return true;
     }
 
+    const auto geometry = load_info_geometry();
+    if (!geometry) {
+        return false;
+    }
+
     const bool zoom_sent = try_zoom_out();
     Log.info("InfrastInfoTask | zoom gesture", zoom_sent ? "sent" : "unsupported");
 
@@ -363,9 +463,10 @@ bool asst::InfrastInfoTask::_run()
         }
 
         std::unordered_map<std::string, std::vector<infrast::FacilityInfo>> facilities;
-        const bool levels_recognized = analyzer.get_view_type() == ViewType::Mini
-                                           ? recognize_mini_layout(image, analyzer, facilities)
-                                           : recognize_normal_layout(image, analyzer, facilities);
+        const bool levels_recognized =
+            analyzer.get_view_type() == ViewType::Mini
+                ? recognize_mini_layout(image, analyzer, facilities, *geometry)
+                : recognize_normal_layout(image, analyzer, facilities, geometry->normal_level);
 
         for (const auto& name : { "Control", "Reception", "Office", "Processing", "Training" }) {
             if (const auto iter = analyzer.get_result().find(name); iter != analyzer.get_result().end()) {

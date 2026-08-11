@@ -35,19 +35,24 @@ bool is_white_pixel(const cv::Mat& image, const asst::Point& point)
     return pixel[0] >= 235 && pixel[1] >= 235 && pixel[2] >= 235;
 }
 
-int detect_mfg_occupied_slots(const cv::Mat& image, int room_slots)
+std::optional<int> detect_mfg_occupied_slots(const cv::Mat& image, int room_slots)
 {
-    // 空位图标的三个白色边缘点。沿用现有 1280x720 控制坐标，不新增模板，
-    // 避免干员头像、技能图标和不同客户端文字影响满员判断。
-    constexpr std::array<std::array<asst::Point, 3>, 3> VacancyPoints = {
-        std::array { asst::Point { 329, 627 }, asst::Point { 331, 646 }, asst::Point { 312, 645 } },
-        std::array { asst::Point { 419, 645 }, asst::Point { 437, 645 }, asst::Point { 437, 627 } },
-        std::array { asst::Point { 543, 627 }, asst::Point { 543, 645 }, asst::Point { 525, 645 } },
-    };
+    const auto task = asst::Task.get("InfrastMfgVacancyPoints");
+    const auto& params = task->special_params;
+    constexpr size_t PointCount = 9;
+    if (params.size() != PointCount * 2) {
+        Log.error("invalid InfrastMfgVacancyPoints parameter count", params.size());
+        return std::nullopt;
+    }
+
+    std::array<std::array<asst::Point, 3>, 3> vacancy_points;
+    for (size_t index = 0; index < PointCount; ++index) {
+        vacancy_points[index / 3][index % 3] = { params[index * 2], params[index * 2 + 1] };
+    }
 
     int vacancies = 0;
     for (int index = 0; index < std::clamp(room_slots, 0, 3); ++index) {
-        if (std::ranges::all_of(VacancyPoints[index], [&](const asst::Point& point) {
+        if (std::ranges::all_of(vacancy_points[index], [&](const asst::Point& point) {
                 return is_white_pixel(image, point);
             })) {
             ++vacancies;
@@ -437,10 +442,14 @@ bool asst::InfrastProductionTask::shift_facility_list()
             // 短路只在制造站满员且效率识别成功时生效。OCR 失败必须继续正常换班，
             // 否则一次空识别会把低效率房间错误地当成高效率房间跳过。
             const int room_slots = InfrastData.get_facility_info("Mfg").max_num_of_opers - m_cur_num_of_locked_opers;
-            const int occupied_slots = detect_mfg_occupied_slots(image, room_slots);
-            const Rect efficiency_roi(852, 633, 49, 21);
+            const auto occupied_slots = detect_mfg_occupied_slots(image, room_slots);
+            const auto efficiency_task = Task.get<OcrTaskInfo>("InfrastMfgEfficiency");
+            if (!occupied_slots || !efficiency_task || efficiency_task->roi.empty()) {
+                Log.error("invalid manufacturing short-circuit recognition configuration");
+                return false;
+            }
             RegionOCRer efficiency_analyzer(ctrler()->get_image());
-            efficiency_analyzer.set_roi(efficiency_roi);
+            efficiency_analyzer.set_task_info(efficiency_task);
             std::optional<double> total_efficiency;
             if (auto result = efficiency_analyzer.analyze()) {
                 std::string text = result->text;
@@ -457,7 +466,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             if (infrast::should_short_circuit_mfg(
                     m_mfg_short_circuit,
                     m_abyssal_hunter_enabled,
-                    occupied_slots,
+                    *occupied_slots,
                     room_slots,
                     total_efficiency,
                     m_mfg_short_circuit_threshold)) {
