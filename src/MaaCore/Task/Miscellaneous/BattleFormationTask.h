@@ -89,9 +89,7 @@ public:
 
     bool set_specific_support_unit(const std::string& name = ""); // 设置指定助战干员
 
-    void set_operbox_assist_enabled(bool value) { m_operbox_assist_enabled = value; }
-
-    void set_operbox_assist_path(std::string path) { m_operbox_data_path = std::move(path); }
+    void set_operbox_data(std::optional<std::vector<OperBoxInfo>> data) { m_operbox_data = std::move(data); }
 
 protected:
     using OperGroup = battle::copilot::OperUsageGroup;
@@ -178,14 +176,12 @@ protected:
     // ————————————————————————————————
     // 干员识别辅助编队相关
     // ————————————————————————————————
-    bool m_operbox_assist_enabled = false;
-    std::string m_operbox_data_path;
+    std::optional<std::vector<OperBoxInfo>> m_operbox_data;
     std::unordered_map<std::string, std::string> m_operbox_assigned; // 组名 - 干员id
     std::string m_operbox_unmatched_group;
 
-    bool is_operbox_for_assignment() const { return m_operbox_assist_enabled && m_ignore_requirements; }
+    bool is_operbox_for_assignment() const { return m_operbox_data.has_value() && m_ignore_requirements; }
 
-    std::vector<OperBoxInfo> parse_operbox_data(const std::string& path);
     bool do_operbox_precheck();
 
 private:

@@ -1136,35 +1136,6 @@ std::optional<std::string> asst::BattleFormationTask::add_support_unit_from_supp
     return std::nullopt;
 }
 
-std::vector<asst::OperBoxInfo> asst::BattleFormationTask::parse_operbox_data(const std::string& path)
-{
-    LogTraceFunction;
-
-    std::vector<OperBoxInfo> result;
-    auto json_opt = json::open(path, true, true);
-    if (!json_opt) {
-        Log.error("Failed to open OperBox data file:", path);
-        return result;
-    }
-
-    auto& json_obj = json_opt.value();
-    auto own_opers = json_obj.get("own_opers", json::array());
-
-    for (auto& item : own_opers) {
-        OperBoxInfo info;
-        info.id = item.get("id", std::string());
-        info.name = item.get("name", std::string());
-        info.elite = item.get("elite", 0);
-        info.level = item.get("level", 0);
-        info.potential = item.get("potential", 0);
-        info.rarity = item.get("rarity", 0);
-        info.own = item.get("own", false);
-        result.emplace_back(std::move(info));
-    }
-
-    return result;
-}
-
 bool asst::BattleFormationTask::do_operbox_precheck()
 {
     LogTraceFunction;
@@ -1174,16 +1145,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
     if (!is_operbox_for_assignment()) {
         return true;
     }
-
-    auto oper_data = parse_operbox_data(m_operbox_data_path);
-    if (oper_data.empty()) {
-        Log.error("OperBox data is empty, cannot perform precheck");
-        json::value info = basic_info_with_what("BattleFormationOperboxDataParseFailed");
-        callback(AsstMsg::SubTaskExtraInfo, info);
-        return false;
-    }
-
-    std::sort(oper_data.begin(), oper_data.end(), OperBoxInfo::SortCmp {});
+    const auto& oper_data = *m_operbox_data;
 
     std::vector<OperGroup> flat_groups;
     for (const auto& [role, oper_groups] : m_formation) {
