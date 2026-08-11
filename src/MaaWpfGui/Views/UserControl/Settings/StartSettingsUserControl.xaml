@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:enums="clr-namespace:MaaWpfGui.Constants.Enums"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -55,14 +56,29 @@
                 HorizontalAlignment="Left"
                 Block.TextAlignment="Center"
                 Content="{DynamicResource OpenEmulatorAfterLaunch}"
-                IsChecked="{Binding OpenEmulatorAfterLaunch}" />
+                IsChecked="{Binding OpenEmulatorAfterLaunch}"
+                Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                Block.TextAlignment="Center"
+                IsChecked="{Binding OpenEmulatorAfterLaunch}"
+                Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.PC', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
+                <controls:TextBlock
+                    MaxWidth="210"
+                    Text="{DynamicResource OpenPcClientAfterLaunch}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
             <StackPanel Margin="10" Orientation="Horizontal">
                 <CheckBox MaxWidth="210" IsChecked="{Binding SkipStartupAutoRunAfterUpdate}">
                     <controls:TextBlock Text="{DynamicResource SkipStartupAutoRunAfterUpdate}" TextWrapping="Wrap" />
                 </CheckBox>
                 <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource SkipStartupAutoRunAfterUpdateTip}" />
             </StackPanel>
-            <StackPanel Margin="10" Orientation="Horizontal">
+            <StackPanel
+                Margin="10"
+                Orientation="Horizontal"
+                Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
                 <CheckBox MaxWidth="210" IsChecked="{Binding RetryOnDisconnected, Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
                     <controls:TextBlock Text="{DynamicResource RetryOnDisconnected}" TextWrapping="Wrap" />
                 </CheckBox>
@@ -80,8 +96,20 @@
                         Margin="0,5"
                         VerticalAlignment="Center"
                         Block.TextAlignment="Center"
-                        Text="{DynamicResource EmulatorPath}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource SelectShortcutTip}" />
+                        Text="{DynamicResource EmulatorPath}"
+                        Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}" />
+                    <controls:TextBlock
+                        Margin="0,5"
+                        VerticalAlignment="Center"
+                        Block.TextAlignment="Center"
+                        Text="{DynamicResource PcClientPath}"
+                        Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.PC', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}" />
+                    <controls:TooltipBlock
+                        TooltipText="{DynamicResource SelectShortcutTip}"
+                        Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}" />
+                    <controls:TooltipBlock
+                        TooltipText="{DynamicResource PcClientPathTip}"
+                        Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.PC', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}" />
                     <Button
                         Margin="10,0,0,0"
                         hc:BorderElement.CornerRadius="4,0,0,4"
@@ -95,7 +123,9 @@
                 </StackPanel>
                 <TextBox Text="{Binding EmulatorPath}" />
             </StackPanel>
-            <StackPanel Margin="10">
+            <StackPanel
+                Margin="10"
+                Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
                 <StackPanel
                     Margin="0,0,0,5"
                     HorizontalAlignment="Center"
@@ -114,7 +144,13 @@
                 <controls:TextBlock
                     Margin="3"
                     Block.TextAlignment="Center"
-                    Text="{DynamicResource WaitForEmulator}" />
+                    Text="{DynamicResource WaitForEmulator}"
+                    Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}" />
+                <controls:TextBlock
+                    Margin="3"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource WaitForPcClient}"
+                    Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.PC', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}" />
                 <TextBox
                     Width="50"
                     Margin="3"

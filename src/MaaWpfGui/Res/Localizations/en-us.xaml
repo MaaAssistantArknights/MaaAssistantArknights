@@ -502,9 +502,12 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="SkipStartupAutoRunAfterUpdateTip" xml:space="preserve">Only applies when ｢{key=AutoInstallUpdatePackage}｣ is on, or when you choose to restart immediately in the update prompt.
 If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=RunTaskAfterLaunch}｣ / ｢{key=OpenEmulatorAfterLaunch}｣ still run as usual.</system:String>
     <system:String x:Key="StartupAutoRunCountdownTitle">Auto-start pending</system:String>
+    <system:String x:Key="StartupAutoRunCountdownPcClientTitle">Starting PC client automatically</system:String>
     <system:String x:Key="StartupAutoRunCountdownTaskOnly">About to auto-run tasks. Cancel?</system:String>
     <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">About to start the emulator automatically. Cancel?</system:String>
     <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">About to auto-run tasks and start the emulator. Cancel?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownPcClientOnly">About to start the PC client automatically. Cancel?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndPcClient">About to auto-run tasks and start the PC client. Cancel?</system:String>
     <system:String x:Key="MinimizeAfterLaunch">Auto Minimize after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="StartGameLaunchClient">Launch Client on Start</system:String>
@@ -513,7 +516,9 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="UseWeeklyScheduleTip">The day of week here is based on in-game time, not real-world time. For example, if the game resets at 4:00, then 3:59 is still counted as the previous day.</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunch">Automatically start the PC client after MAA launches or when a scheduled task starts</system:String>
     <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
+    <system:String x:Key="WaitForPcClient">Wait for the PC client window (s)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">End of wait</system:String>
     <system:String x:Key="EmulatorPath">Emulator path</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">You may select the emulator executable (with ｢{key=AdditionCommand}｣ launch parameters to specify the instance), or directly choose the emulator/game shortcut.&#10;If the ｢{key=WakeUp}｣ task fails due to prolonged emulator startup, it's recommended to use the game shortcut and increase ｢{key=WaitForEmulator}｣.</system:String>
@@ -1464,6 +1469,13 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="RestartingAsAdmin">Restarting as administrator…</system:String>
     <system:String x:Key="RestartAsAdminFailed">Please run MAA as administrator manually.</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow failed, please check screencap/input method settings</system:String>
+    <system:String x:Key="PcClientPath">PC Client Path</system:String>
+    <system:String x:Key="PcClientPathTip">MAA automatically detects a running client, the Hypergryph Launcher registry entry, or the default install location. Select Arknights.exe here if detection fails.</system:String>
+    <system:String x:Key="PcClientPathNotFound">Arknights PC client was not found. Select Arknights.exe in Startup settings.</system:String>
+    <system:String x:Key="PcClientAutoStartDisabled">The PC client is not running. Enable automatic PC client startup in Startup settings.</system:String>
+    <system:String x:Key="PcClientStarting">Starting the Arknights PC client</system:String>
+    <system:String x:Key="PcClientStartFailed">Failed to start the Arknights PC client: {0}</system:String>
+    <system:String x:Key="PcClientWindowWaitTimeout">The Arknights PC client started, but waiting for its game window timed out.</system:String>
     <system:String x:Key="UseAttachWindowTip">Use Win32 window binding for Arknights PC client instead of ADB connection for emulators or phones</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">Arknights PC Connection (Community-maintained)
 

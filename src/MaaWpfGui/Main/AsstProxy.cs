@@ -73,6 +73,8 @@ public class AsstProxy
 {
     private readonly RunningState _runningState;
     private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
+    private const string AttachWindowTargetName = "明日方舟";
+    private const string AttachWindowProcessName = "Arknights";
 
     public DateTimeOffset StartTaskTime { get; set; }
 
@@ -642,6 +644,7 @@ public class AsstProxy
             async () => {
                 bool runDirectly = SettingsViewModel.StartSettings.RunDirectly;
                 bool openEmulator = SettingsViewModel.StartSettings.OpenEmulatorAfterLaunch;
+                bool isPcClient = SettingsViewModel.ConnectSettings.IsPCConnectConfig;
 
                 // 更新重启链写入的 --skip-startup-auto-run：跳过启动后自动开任务/模拟器
                 if (Bootstrapper.ShouldSkipStartupAutoRun)
@@ -653,14 +656,21 @@ public class AsstProxy
                 // 会自动开任务或模拟器时，先给 10 秒反悔倒计时（不强制拉起主窗口）
                 if (runDirectly || openEmulator)
                 {
-                    string tipKey = (runDirectly, openEmulator) switch {
-                        (true, true) => "StartupAutoRunCountdownTaskAndEmulator",
-                        (true, false) => "StartupAutoRunCountdownTaskOnly",
-                        _ => "StartupAutoRunCountdownEmulatorOnly",
-                    };
+                    string titleKey = isPcClient && openEmulator
+                        ? "StartupAutoRunCountdownPcClientTitle"
+                        : "StartupAutoRunCountdownTitle";
+                    string tipKey = isPcClient && openEmulator
+                        ? runDirectly
+                            ? "StartupAutoRunCountdownTaskAndPcClient"
+                            : "StartupAutoRunCountdownPcClientOnly"
+                        : (runDirectly, openEmulator) switch {
+                            (true, true) => "StartupAutoRunCountdownTaskAndEmulator",
+                            (true, false) => "StartupAutoRunCountdownTaskOnly",
+                            _ => "StartupAutoRunCountdownEmulatorOnly",
+                        };
 
                     if (await Instances.TaskQueueViewModel.ConfirmStartupAutoRunAsync(
-                            LocalizationHelper.GetString("StartupAutoRunCountdownTitle"),
+                            LocalizationHelper.GetString(titleKey),
                             LocalizationHelper.GetString(tipKey),
                             seconds: 10))
                     {
@@ -738,6 +748,9 @@ public class AsstProxy
     }
 
     private AsstHandle _handle;
+
+    private TaskCompletionSource<bool>? _closeDownCompletionSource;
+    private AsstTaskId _closeDownTaskId;
 
     public delegate void AsstSubTaskMsgDelegate(AsstMsg type, AsstSubTaskMsg? msg);
 
@@ -1136,6 +1149,15 @@ public class AsstProxy
         switch (taskChain)
         {
             case "CloseDown":
+                if (msg == AsstMsg.AllTasksCompleted)
+                {
+                    CompleteCloseDownWait(taskId, true);
+                }
+                else if (msg is AsstMsg.TaskChainError or AsstMsg.TaskChainStopped)
+                {
+                    CompleteCloseDownWait(taskId, false);
+                }
+
                 return;
 
             case "Recruit":
@@ -1311,7 +1333,6 @@ public class AsstProxy
 
                 Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
                 _runningState.SetIdle(true);
-
                 if (isMainTaskQueueAllCompleted)
                 {
                     var dateTimeNow = DateTimeOffset.Now;
@@ -1860,6 +1881,26 @@ public class AsstProxy
 
                 break;
         }
+    }
+
+    private void CompleteCloseDownWait(AsstTaskId taskId, bool result)
+    {
+        if (taskId == 0 || taskId != _closeDownTaskId)
+        {
+            return;
+        }
+
+        var completionSource = _closeDownCompletionSource;
+        _closeDownCompletionSource = null;
+        _closeDownTaskId = 0;
+        _tasksStatus.Remove(taskId);
+        if (result)
+        {
+            Connected = false;
+        }
+
+        _runningState.SetIdle(true);
+        completionSource?.TrySetResult(result);
     }
 
     private static void ProcSubTaskExtraInfo(JObject details)
@@ -2597,6 +2638,83 @@ public class AsstProxy
     }
 
     /// <summary>
+    /// Gets a value indicating whether the PC client game window is currently available.
+    /// </summary>
+    /// <returns>Whether the target window exists.</returns>
+    public bool IsPcClientWindowAvailable()
+    {
+        return FindWindowsByName(AttachWindowTargetName).Count > 0;
+    }
+
+    /// <summary>
+    /// Starts the PC client when necessary and waits for its game window before attaching.
+    /// </summary>
+    /// <param name="error">The startup error.</param>
+    /// <returns>Whether the game window is available.</returns>
+    public bool EnsurePcClientWindowAvailable(ref string error)
+    {
+        if (IsPcClientWindowAvailable())
+        {
+            return true;
+        }
+
+        var wasIdle = _runningState.GetIdle();
+        _runningState.SetIdle(false);
+        try
+        {
+            var runningProcesses = Process.GetProcessesByName(AttachWindowProcessName);
+            var processRunning = runningProcesses.Length > 0;
+            foreach (var process in runningProcesses)
+            {
+                process.Dispose();
+            }
+
+            if (!processRunning)
+            {
+                if (!SettingsViewModel.StartSettings.OpenEmulatorAfterLaunch)
+                {
+                    error = LocalizationHelper.GetString("PcClientAutoStartDisabled");
+                    return false;
+                }
+
+                if (!SettingsViewModel.StartSettings.TryToStartEmulator(waitForStart: false))
+                {
+                    error = LocalizationHelper.GetString("PcClientPathNotFound");
+                    _logger.Warning("Unable to resolve Arknights PC client executable");
+                    return false;
+                }
+
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("PcClientStarting"), UiLogColor.Info);
+            }
+
+            var waitSeconds = Math.Max(1, SettingsViewModel.StartSettings.EmulatorWaitSeconds);
+            var deadline = DateTime.UtcNow.AddSeconds(waitSeconds);
+            while (DateTime.UtcNow < deadline)
+            {
+                if (_runningState.GetStopping())
+                {
+                    return false;
+                }
+
+                if (IsPcClientWindowAvailable())
+                {
+                    return true;
+                }
+
+                System.Threading.Thread.Sleep(500);
+            }
+
+            error = LocalizationHelper.GetString("PcClientWindowWaitTimeout");
+            _logger.Warning("Timed out waiting for Arknights PC client window");
+            return false;
+        }
+        finally
+        {
+            _runningState.SetIdle(wasIdle);
+        }
+    }
+
+    /// <summary>
     /// 通过 AttachWindow 绑定 Win32 窗口。
     /// 自动搜索 "明日方舟" 窗口。
     /// </summary>
@@ -2627,14 +2745,13 @@ public class AsstProxy
 
         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindowWarning"), UiLogColor.Error);
 
-        const string TargetWindowName = "明日方舟";
-        var foundWindows = FindWindowsByName(TargetWindowName);
+        var foundWindows = FindWindowsByName(AttachWindowTargetName);
 
         if (foundWindows.Count == 0)
         {
-            error = LocalizationHelper.GetStringFormat("AttachWindowNotFound", TargetWindowName);
+            error = LocalizationHelper.GetStringFormat("AttachWindowNotFound", AttachWindowTargetName);
             Instances.TaskQueueViewModel.AddLog(error, UiLogColor.Error);
-            _logger.Warning("AttachWindow: No window found with name {WindowName}", TargetWindowName);
+            _logger.Warning("AttachWindow: No window found with name {WindowName}", AttachWindowTargetName);
             return false;
         }
 
@@ -2643,21 +2760,22 @@ public class AsstProxy
         if (foundWindows.Count > 1)
         {
             // 找到多个窗口，使用第一个并记录日志
-            var multipleMsg = LocalizationHelper.GetStringFormat("AttachWindowMultipleFound", foundWindows.Count, TargetWindowName);
+            var multipleMsg = LocalizationHelper.GetStringFormat("AttachWindowMultipleFound", foundWindows.Count, AttachWindowTargetName);
             Instances.TaskQueueViewModel.AddLog(multipleMsg, UiLogColor.Info);
-            _logger.Warning("AttachWindow: Multiple windows found with name {WindowName}, count: {Count}, using first one: {Hwnd}", TargetWindowName, foundWindows.Count, hwnd);
+            _logger.Warning("AttachWindow: Multiple windows found with name {WindowName}, count: {Count}, using first one: {Hwnd}", AttachWindowTargetName, foundWindows.Count, hwnd);
         }
         else
         {
-            var foundMsg = LocalizationHelper.GetStringFormat("AttachWindowFound", TargetWindowName);
+            var foundMsg = LocalizationHelper.GetStringFormat("AttachWindowFound", AttachWindowTargetName);
             Instances.TaskQueueViewModel.AddLog(foundMsg, UiLogColor.Info);
-            _logger.Information("AttachWindow: Found window \"{WindowName}\" with HWND: {Hwnd}", TargetWindowName, hwnd);
+            _logger.Information("AttachWindow: Found window \"{WindowName}\" with HWND: {Hwnd}", AttachWindowTargetName, hwnd);
         }
 
         if (SettingsViewModel.ConnectSettings.ExtraConfig is not Win32Extra win32Extra)
         {
             return false;
         }
+
         var screencapMethod = (ulong)win32Extra.ScreencapMethod;
         var mouseMethod = (ulong)win32Extra.MouseMethod;
         var keyboardMethod = (ulong)win32Extra.KeyboardMethod;
@@ -2999,6 +3117,57 @@ public class AsstProxy
     public bool AsstStartCloseDown(ClientType clientType)
     {
         return AsstAppendCloseDown(clientType) && AsstStart();
+    }
+
+    /// <summary>
+    /// Starts a standalone <c>CloseDown</c> task and waits for MaaCore to finish it.
+    /// </summary>
+    /// <param name="clientType">The game client type.</param>
+    /// <param name="timeoutSeconds">The maximum time to wait for completion.</param>
+    /// <returns>Whether the close-down task completed successfully.</returns>
+    public async Task<bool> AsstStartCloseDownAndWaitAsync(ClientType clientType, int timeoutSeconds = 30)
+    {
+        if (_closeDownCompletionSource is not null)
+        {
+            _logger.Warning("A CloseDown task is already being awaited");
+            return false;
+        }
+
+        if (!AsstStop())
+        {
+            _logger.Warning("Failed to stop Asst before CloseDown");
+        }
+
+        var (isSuccess, taskId) = AsstAppendTaskWithEncoding(
+            TaskType.CloseDown,
+            new AsstCloseDownTask() { ClientType = clientType });
+        if (!isSuccess)
+        {
+            return false;
+        }
+
+        var completionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        _closeDownTaskId = taskId;
+        _closeDownCompletionSource = completionSource;
+        _runningState.SetIdle(false);
+
+        if (!AsstStart())
+        {
+            CompleteCloseDownWait(taskId, false);
+            return false;
+        }
+
+        var completedTask = await Task.WhenAny(
+            completionSource.Task,
+            Task.Delay(TimeSpan.FromSeconds(Math.Max(1, timeoutSeconds))));
+        if (completedTask != completionSource.Task)
+        {
+            _logger.Warning("Timed out waiting for CloseDown task {TaskId}", taskId);
+            CompleteCloseDownWait(taskId, false);
+            return false;
+        }
+
+        return await completionSource.Task;
     }
 
     public bool AsstBackToHome()

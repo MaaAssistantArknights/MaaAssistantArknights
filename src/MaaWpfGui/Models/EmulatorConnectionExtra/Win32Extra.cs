@@ -11,10 +11,15 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities.ValueType;
+using Microsoft.Win32;
 using Serilog;
 
 namespace MaaWpfGui.Models.EmulatorConnectionExtra;
@@ -22,6 +27,14 @@ namespace MaaWpfGui.Models.EmulatorConnectionExtra;
 public class Win32Extra() : ExtraConfig
 {
     private static readonly ILogger _logger = Log.ForContext<Win32Extra>();
+
+    private const string GameExecutableName = "Arknights.exe";
+    private const string LauncherDirectoryName = "Hypergryph Launcher";
+    private const string LauncherGameRelativePath = @"games\Arknights\Arknights.exe";
+    private const string UninstallRegistryPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
+
+    private readonly object _gamePathDetectionLock = new();
+    private string? _cachedDetectedGamePath;
 
     #region Enums
 #pragma warning disable SA1602 // Enumeration items should be documented
@@ -57,6 +70,204 @@ public class Win32Extra() : ExtraConfig
         _mouseMethod = inputMethod;
         _KeyboardMethod = keyboardInputMethod;
     }
+
+    [JsonInclude]
+    [JsonPropertyName("GamePath")]
+    private string _gamePath = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the fallback path of the PC game executable.
+    /// </summary>
+    [JsonIgnore]
+    public string GamePath
+    {
+        get => _gamePath;
+        set => SetAndNotify(ref _gamePath, (value ?? string.Empty).Trim().Trim('"'));
+    }
+
+    /// <summary>
+    /// Detects the PC client path, reusing a valid successful result when possible.
+    /// </summary>
+    /// <returns>A detected executable path, or <see langword="null"/>.</returns>
+    internal string? DetectGameExecutablePath()
+    {
+        var runningPath = DetectRunningGameExecutablePath();
+        if (!string.IsNullOrEmpty(runningPath))
+        {
+            lock (_gamePathDetectionLock)
+            {
+                _cachedDetectedGamePath = runningPath;
+            }
+
+            return runningPath;
+        }
+
+        lock (_gamePathDetectionLock)
+        {
+            if (IsGameExecutable(_cachedDetectedGamePath))
+            {
+                return Path.GetFullPath(_cachedDetectedGamePath!);
+            }
+
+            _cachedDetectedGamePath = DetectInstalledGameExecutablePath();
+            return _cachedDetectedGamePath;
+        }
+    }
+
+    private static string? DetectRunningGameExecutablePath()
+    {
+        var processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(GameExecutableName));
+        try
+        {
+            foreach (var process in processes)
+            {
+                try
+                {
+                    var runningPath = process.MainModule?.FileName;
+                    if (IsGameExecutable(runningPath))
+                    {
+                        return Path.GetFullPath(runningPath!);
+                    }
+                }
+                catch (Exception e)
+                {
+                    _logger.Debug("Unable to read Arknights process path: {Message}", e.Message);
+                }
+            }
+        }
+        finally
+        {
+            foreach (var process in processes)
+            {
+                process.Dispose();
+            }
+        }
+
+        return null;
+    }
+
+    private static string? DetectInstalledGameExecutablePath()
+    {
+        var candidates = new List<string>();
+        AddRegistryCandidates(candidates);
+
+        AddProgramFilesCandidate(candidates, Environment.SpecialFolder.ProgramFiles);
+        AddProgramFilesCandidate(candidates, Environment.SpecialFolder.ProgramFilesX86);
+
+        var detectedPath = candidates.FirstOrDefault(File.Exists);
+        return string.IsNullOrEmpty(detectedPath) ? null : Path.GetFullPath(detectedPath);
+    }
+
+    private static void AddRegistryCandidates(List<string> candidates)
+    {
+        foreach (var hive in new[] { RegistryHive.LocalMachine, RegistryHive.CurrentUser })
+        {
+            foreach (var view in new[] { RegistryView.Registry64, RegistryView.Registry32 })
+            {
+                try
+                {
+                    using var baseKey = RegistryKey.OpenBaseKey(hive, view);
+                    using var uninstallKey = baseKey.OpenSubKey(UninstallRegistryPath);
+                    if (uninstallKey is null)
+                    {
+                        continue;
+                    }
+
+                    foreach (var subKeyName in uninstallKey.GetSubKeyNames())
+                    {
+                        using var appKey = uninstallKey.OpenSubKey(subKeyName);
+                        if (appKey is null || !IsHypergryphLauncherEntry(appKey))
+                        {
+                            continue;
+                        }
+
+                        AddLauncherDirectoryCandidate(candidates, appKey.GetValue("InstallLocation") as string);
+                        AddLauncherFileCandidate(candidates, appKey.GetValue("DisplayIcon") as string);
+                        AddLauncherFileCandidate(candidates, appKey.GetValue("UninstallString") as string);
+                    }
+                }
+                catch (Exception e)
+                {
+                    _logger.Debug("Unable to inspect {Hive} {View} uninstall registry: {Message}", hive, view, e.Message);
+                }
+            }
+        }
+    }
+
+    private static bool IsHypergryphLauncherEntry(RegistryKey appKey)
+    {
+        var displayName = appKey.GetValue("DisplayName") as string ?? string.Empty;
+        var installLocation = appKey.GetValue("InstallLocation") as string ?? string.Empty;
+        var displayIcon = appKey.GetValue("DisplayIcon") as string ?? string.Empty;
+
+        return displayName.Contains("鹰角启动器", StringComparison.OrdinalIgnoreCase) ||
+               displayName.Contains("Hypergryph Launcher", StringComparison.OrdinalIgnoreCase) ||
+               installLocation.Contains("Hypergryph Launcher", StringComparison.OrdinalIgnoreCase) ||
+               displayIcon.Contains("Hypergryph Launcher", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static void AddLauncherFileCandidate(List<string> candidates, string? fileValue)
+    {
+        if (string.IsNullOrWhiteSpace(fileValue))
+        {
+            return;
+        }
+
+        var path = fileValue.Trim();
+        if (path.StartsWith('"'))
+        {
+            var quote = path.IndexOf('"', 1);
+            path = quote > 1 ? path[1..quote] : path.Trim('"');
+        }
+        else
+        {
+            var executableEnd = path.IndexOf(".exe", StringComparison.OrdinalIgnoreCase);
+            if (executableEnd >= 0)
+            {
+                path = path[..(executableEnd + 4)];
+            }
+        }
+
+        if (IsGameExecutable(path))
+        {
+            AddCandidate(candidates, path);
+            return;
+        }
+
+        AddLauncherDirectoryCandidate(candidates, Path.GetDirectoryName(path));
+    }
+
+    private static void AddProgramFilesCandidate(List<string> candidates, Environment.SpecialFolder specialFolder)
+    {
+        var programFiles = Environment.GetFolderPath(specialFolder);
+        if (!string.IsNullOrWhiteSpace(programFiles))
+        {
+            AddLauncherDirectoryCandidate(candidates, Path.Combine(programFiles, LauncherDirectoryName));
+        }
+    }
+
+    private static void AddLauncherDirectoryCandidate(List<string> candidates, string? launcherDirectory)
+    {
+        if (string.IsNullOrWhiteSpace(launcherDirectory))
+        {
+            return;
+        }
+
+        AddCandidate(candidates, Path.Combine(launcherDirectory.Trim().Trim('"'), LauncherGameRelativePath));
+    }
+
+    private static void AddCandidate(List<string> candidates, string path)
+    {
+        if (!candidates.Contains(path, StringComparer.OrdinalIgnoreCase))
+        {
+            candidates.Add(path);
+        }
+    }
+
+    private static bool IsGameExecutable(string? path) =>
+        !string.IsNullOrWhiteSpace(path) &&
+        File.Exists(path) &&
+        Path.GetFileName(path).Equals(GameExecutableName, StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Gets win32 截图方式枚举（与 AsstCaller.h 中 AsstWin32ScreencapMethodEnum 对应）

@@ -502,9 +502,12 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="SkipStartupAutoRunAfterUpdateTip" xml:space="preserve">｢{key=AutoInstallUpdatePackage}｣ 이 켜져 있거나, 업데이트 안내에서 즉시 재시작을 선택한 경우에만 적용됩니다.
 ｢{key=ManualRestart}｣ 를 선택한 뒤 나중에 수동으로 MAA를 실행하면 ｢{key=RunTaskAfterLaunch}｣ / ｢{key=OpenEmulatorAfterLaunch}｣ 는 평소처럼 동작합니다.</system:String>
     <system:String x:Key="StartupAutoRunCountdownTitle">자동 시작 예정</system:String>
+    <system:String x:Key="StartupAutoRunCountdownPcClientTitle">PC 클라이언트 자동 시작 예정</system:String>
     <system:String x:Key="StartupAutoRunCountdownTaskOnly">곧 작업을 자동 실행합니다. 취소할까요?</system:String>
     <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">곧 에뮬레이터를 자동 실행합니다. 취소할까요?</system:String>
     <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">곧 작업을 자동 실행하고 에뮬레이터를 시작합니다. 취소할까요?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownPcClientOnly">곧 PC 클라이언트를 자동 시작합니다. 취소할까요?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndPcClient">곧 작업을 자동 실행하고 PC 클라이언트를 시작합니다. 취소할까요?</system:String>
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
     <system:String x:Key="StartGameLaunchClient">시작 시 클라이언트 실행</system:String>
@@ -513,7 +516,9 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="UseWeeklyScheduleTip">여기서 요일은 게임 내 시간을 기준으로 하며, 실제 시간이 아닙니다. 예를 들어 게임이 4:00에 초기화되면 3:59는 여전히 전날로 계산됩니다.</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다! 저희를 도와주세요! 전문 지식이 없어도 됩니다</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터 실행</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunch">MAA 실행 후 또는 예약 작업 시작 시 PC 클라이언트 자동 시작</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
+    <system:String x:Key="WaitForPcClient">PC 클라이언트 창 대기 시간 (초)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">대기 시간 종료</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">에뮬레이터 실행 파일 선택 (｢{key=AdditionCommand}｣ 매개변수로 인스턴스 지정 가능) 또는 직접 에뮬레이터/게임 바로 가기 선택 가능합니다.&#10;｢{key=WakeUp}｣ 작업이 에뮬레이터 시작 지연으로 실패할 경우, 게임 바로 가기 사용 후 ｢{key=WaitForEmulator}｣ 시간 연장을 권장합니다.</system:String>
@@ -1467,6 +1472,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartingAsAdmin">관리자로 다시 시작하는 중…</system:String>
     <system:String x:Key="RestartAsAdminFailed">MAA를 관리자 권한으로 직접 실행해 주세요.</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 연결에 실패했습니다. 스크린샷/입력 방법 설정을 확인하세요</system:String>
+    <system:String x:Key="PcClientPath">PC 클라이언트 경로</system:String>
+    <system:String x:Key="PcClientPathTip">실행 중인 클라이언트, Hypergryph Launcher 레지스트리 정보 또는 기본 설치 경로를 자동 감지합니다. 감지하지 못하면 여기에서 Arknights.exe를 선택하세요.</system:String>
+    <system:String x:Key="PcClientPathNotFound">명일방주 PC 클라이언트를 찾을 수 없습니다. 시작 설정에서 Arknights.exe를 선택하세요.</system:String>
+    <system:String x:Key="PcClientAutoStartDisabled">PC 클라이언트가 실행 중이 아닙니다. 시작 설정에서 PC 클라이언트 자동 시작을 활성화하세요.</system:String>
+    <system:String x:Key="PcClientStarting">명일방주 PC 클라이언트를 시작하는 중입니다</system:String>
+    <system:String x:Key="PcClientStartFailed">명일방주 PC 클라이언트를 시작하지 못했습니다: {0}</system:String>
+    <system:String x:Key="PcClientWindowWaitTimeout">명일방주 PC 클라이언트가 시작되었지만 게임 창을 기다리는 시간이 초과되었습니다.</system:String>
     <system:String x:Key="UseAttachWindowTip">에뮬레이터나 휴대폰용 ADB 연결 대신 명일방주 PC 클라이언트에 Win32 창 바인딩을 사용합니다</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">명일방주 PC 연결 (커뮤니티 유지보수)
 

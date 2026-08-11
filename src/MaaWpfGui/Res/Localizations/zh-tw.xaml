@@ -502,9 +502,12 @@ D:\
     <system:String x:Key="SkipStartupAutoRunAfterUpdateTip" xml:space="preserve">僅在 ｢{key=AutoInstallUpdatePackage}｣ 或更新提示中選擇立即重啟時生效。
 若選擇 ｢{key=ManualRestart}｣ 再手動啟動 MAA，仍會依 ｢{key=RunTaskAfterLaunch}｣ / ｢{key=OpenEmulatorAfterLaunch}｣ 正常執行。</system:String>
     <system:String x:Key="StartupAutoRunCountdownTitle">即將自動啟動</system:String>
+    <system:String x:Key="StartupAutoRunCountdownPcClientTitle">即將自動啟動 PC 用戶端</system:String>
     <system:String x:Key="StartupAutoRunCountdownTaskOnly">即將自動執行任務，是否取消？</system:String>
     <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">即將自動啟動模擬器，是否取消？</system:String>
     <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">即將自動執行任務並啟動模擬器，是否取消？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownPcClientOnly">即將自動啟動 PC 用戶端，是否取消？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndPcClient">即將自動執行任務並啟動 PC 用戶端，是否取消？</system:String>
     <system:String x:Key="MinimizeAfterLaunch">啟動 MAA 後直接最小化</system:String>
     <system:String x:Key="ClientType">用戶端類型</system:String>
     <system:String x:Key="StartGameLaunchClient">是否啟動用戶端</system:String>
@@ -513,7 +516,9 @@ D:\
     <system:String x:Key="UseWeeklyScheduleTip">此處的星期是根據遊戲時間計算的，並非現實時間。例如遊戲在 4:00 刷新，則 3:59 仍算作前一天。</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服支援人力吃緊，幫幫我們！不會寫程式也可以參與。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動 MAA 後自動開啟模擬器</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunch">啟動 MAA 後或定時任務啟動時自動開啟 PC 用戶端</system:String>
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
+    <system:String x:Key="WaitForPcClient">等待 PC 用戶端視窗時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待結束</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">可選擇模擬器本體（配合 ｢{key=AdditionCommand}｣ 啟動參數可指定啟動模擬器實例），也可直接選擇模擬器或遊戲的捷徑。&#10;如因模擬器啟動時間過長導致 ｢{key=WakeUp}｣ 任務失敗，推薦填寫遊戲捷徑並延長 ｢{key=WaitForEmulator}｣。</system:String>
@@ -1466,6 +1471,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartingAsAdmin">正在以管理員身分重啟…</system:String>
     <system:String x:Key="RestartAsAdminFailed">請手動以管理員身分執行 MAA</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 綁定視窗失敗，請檢查截圖/輸入方式配置</system:String>
+    <system:String x:Key="PcClientPath">PC 用戶端路徑</system:String>
+    <system:String x:Key="PcClientPathTip">會自動偵測正在執行的用戶端、鷹角啟動器登錄資訊及預設安裝目錄；偵測失敗時可在此手動選擇 Arknights.exe。</system:String>
+    <system:String x:Key="PcClientPathNotFound">找不到明日方舟 PC 用戶端，請在啟動設定中手動選擇 Arknights.exe</system:String>
+    <system:String x:Key="PcClientAutoStartDisabled">PC 用戶端未執行，請在啟動設定中啟用自動開啟 PC 用戶端</system:String>
+    <system:String x:Key="PcClientStarting">正在啟動明日方舟 PC 用戶端</system:String>
+    <system:String x:Key="PcClientStartFailed">啟動明日方舟 PC 用戶端失敗：{0}</system:String>
+    <system:String x:Key="PcClientWindowWaitTimeout">明日方舟 PC 用戶端已啟動，但等待遊戲視窗逾時</system:String>
     <system:String x:Key="UseAttachWindowTip">使用 Win32 視窗綁定明日方舟 PC 端，而非 ADB 連接模擬器或手機</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">連接明日方舟 PC 端（社群維護）
 

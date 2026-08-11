@@ -944,6 +944,7 @@ public class TaskQueueViewModel : Screen
 
     private async Task HandleScheduledStart(int configIndex)
     {
+        var isPcConnect = SettingsViewModel.ConnectSettings.IsPCConnectConfig;
         if (SettingsViewModel.TimerSettings.ForceScheduledStart)
         {
             if (SettingsViewModel.TimerSettings.CustomConfig &&
@@ -970,6 +971,12 @@ public class TaskQueueViewModel : Screen
                 return;
             }
 
+            if (isPcConnect && !SettingsViewModel.StartSettings.OpenEmulatorAfterLaunch)
+            {
+                AddLog(LocalizationHelper.GetString("PcClientAutoStartDisabled"), UiLogColor.Error);
+                return;
+            }
+
             if (!_runningState.GetIdle())
             {
                 _logger.Information("Not idle, Stop and CloseDown");
@@ -977,13 +984,50 @@ public class TaskQueueViewModel : Screen
                 SetStopped();
             }
 
-            var mode = SettingsViewModel.GameSettings.ClientType;
-            if (!Instances.AsstProxy.AsstAppendCloseDown(mode))
+            var clientType = SettingsViewModel.GameSettings.ClientType;
+            if (isPcConnect)
+            {
+                if (Instances.AsstProxy.IsPcClientWindowAvailable())
+                {
+                    if (!Instances.AsstProxy.Connected)
+                    {
+                        string connectError = string.Empty;
+                        var connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref connectError));
+                        if (!connected)
+                        {
+                            AddLog(connectError, UiLogColor.Error);
+                            return;
+                        }
+                    }
+
+                    if (!await Instances.AsstProxy.AsstStartCloseDownAndWaitAsync(clientType))
+                    {
+                        AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
+                        return;
+                    }
+                }
+            }
+            else if (!Instances.AsstProxy.AsstAppendCloseDown(clientType))
             {
                 AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
             }
 
             ResetAllTemporaryVariable();
+        }
+
+        if (isPcConnect)
+        {
+            string pcClientError = string.Empty;
+            var pcClientReady = await Task.Run(() => Instances.AsstProxy.EnsurePcClientWindowAvailable(ref pcClientError));
+            if (!pcClientReady)
+            {
+                if (!_runningState.GetStopping() && !string.IsNullOrEmpty(pcClientError))
+                {
+                    AddLog(pcClientError, UiLogColor.Error);
+                }
+
+                return;
+            }
         }
 
         await LinkStart();
