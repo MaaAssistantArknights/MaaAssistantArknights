@@ -243,30 +243,60 @@
             </CheckBox>
             <StackPanel
                 Margin="0,5"
+                HorizontalAlignment="Left"
                 Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
+                <StackPanel.Resources>
+                    <DataTemplate x:Key="FiammettaTargetTemplate">
+                        <TextBlock
+                            Text="{Binding Display}"
+                            TextTrimming="CharacterEllipsis"
+                            ToolTip="{Binding Display}" />
+                    </DataTemplate>
+                </StackPanel.Resources>
                 <controls:TextBlock
-                    Margin="0,0,0,5"
+                    Margin="8,0,0,5"
+                    HorizontalAlignment="Left"
                     Text="{DynamicResource InfrastFiammettaTargets}"
+                    TextAlignment="Left"
                     TextWrapping="Wrap" />
-                <ComboBox
-                    Margin="0,3"
-                    DisplayMemberPath="Display"
-                    ItemsSource="{Binding FiammettaTargetList}"
-                    SelectedValue="{Binding FiammettaTarget1}"
-                    SelectedValuePath="Value" />
-                <ComboBox
-                    Margin="0,3"
-                    DisplayMemberPath="Display"
-                    ItemsSource="{Binding OptionalFiammettaTargetList}"
-                    SelectedValue="{Binding FiammettaTarget2}"
-                    SelectedValuePath="Value" />
-                <ComboBox
-                    Margin="0,3"
-                    DisplayMemberPath="Display"
-                    ItemsSource="{Binding OptionalFiammettaTargetList}"
-                    SelectedValue="{Binding FiammettaTarget3}"
-                    SelectedValuePath="Value" />
+                <Grid Width="220" HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox
+                        Grid.Column="0"
+                        MinWidth="0"
+                        Margin="0,3,3,3"
+                        FontSize="12"
+                        HorizontalContentAlignment="Stretch"
+                        ItemTemplate="{StaticResource FiammettaTargetTemplate}"
+                        ItemsSource="{Binding FiammettaTargetList}"
+                        SelectedValue="{Binding FiammettaTarget1}"
+                        SelectedValuePath="Value" />
+                    <ComboBox
+                        Grid.Column="1"
+                        MinWidth="0"
+                        Margin="3"
+                        FontSize="12"
+                        HorizontalContentAlignment="Stretch"
+                        ItemTemplate="{StaticResource FiammettaTargetTemplate}"
+                        ItemsSource="{Binding OptionalFiammettaTargetList}"
+                        SelectedValue="{Binding FiammettaTarget2}"
+                        SelectedValuePath="Value" />
+                    <ComboBox
+                        Grid.Column="2"
+                        MinWidth="0"
+                        Margin="3,3,0,3"
+                        FontSize="12"
+                        HorizontalContentAlignment="Stretch"
+                        ItemTemplate="{StaticResource FiammettaTargetTemplate}"
+                        ItemsSource="{Binding OptionalFiammettaTargetList}"
+                        SelectedValue="{Binding FiammettaTarget3}"
+                        SelectedValuePath="Value" />
+                </Grid>
             </StackPanel>
             <CheckBox
                 Margin="0,10"
