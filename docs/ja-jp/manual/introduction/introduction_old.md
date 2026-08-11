@@ -85,7 +85,7 @@ icon: ic:baseline-article
 
 ### カスタム基地設定（テスト中）
 
-- [Yituliu](https://ark.yituliu.cn/)のエキスパートが、基地シフトをドキュメントでエクスポートできる[ジェネレーター](https://ark.yituliu.cn/tools/schedule)の作成に協力しました。[ドキュメント](../../protocol/base-scheduling-schema.md)を参照して使用できます。
+- [Yituliu](https://ark.yituliu.cn/)のエキスパートが、基地シフトをドキュメントでエクスポートできる[ジェネレーター](https://ark.yituliu.cn/tools/scheduleV3)の作成に協力しました。[ドキュメント](../../protocol/base-scheduling-schema.md)を参照して使用できます。
 - `/resource/custom_infrast/`のフォルダに、非常に効率的なタスクのセットがいくつか組み込まれており、参考として使用することができます。(昇進2の該当オペレーターがいれば、直接使用可能です。)
 
 ### FPと購買部

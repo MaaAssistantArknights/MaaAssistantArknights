@@ -695,8 +695,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AccountSwitchManualRun">수동 스위치</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">전환할 계정을 입력하고, 계정 전환을 비활성화하려면 공백으로 남겨두세요.
 ｢123****4567｣ 과 같이 로그인 인터페이스에 표시된 내용을 입력하세요. ｢123****4567｣, ｢4567｣ 또는 ｢23****45｣ 를 입력할 수 있습니다.
-번체 중국어 서버의 계정은 Email 형식입니다(예: ｢ab****01@gmail.com｣). 별표가 없는 평문 부분(예: ｢01@gmail｣) 입력을 권장합니다.
-공식(CN), Bilibili 및 번체 중국어 서버만 지원합니다. 서드파티 로그인 방식은 지원되지 않습니다.</system:String>
+번체 중국어 서버와 YostarKR 서버의 계정은 Email 형식입니다(예: ｢ab****01@gmail.com｣). 별표가 없는 평문 부분(예: ｢01@gmail｣) 입력을 권장합니다.
+공식(CN), Bilibili, 번체 중국어 및 YostarKR 서버만 지원합니다. 서드파티 로그인 방식은 지원되지 않습니다.</system:String>
     <system:String x:Key="AdbPath">ADB 경로</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">선택한 파일 이름에 ADB가 포함되어 있지 않습니다.\n잘못된 파일/에뮬레이터를 선택한 것은 아닌지 확인하세요.</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">잘못 선택한 것이 확실히 아닙니다</system:String>
@@ -1104,9 +1104,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@FitContain">전체 표시</system:String>
     <system:String x:Key="MiniGame@PixelPaint@FitStretch">늘리기</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Dither">디더링</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherNone">없음</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">디더링 없음</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">디더링 - 사진</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">디더링 - 부드럽게</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherIllustration">일러스트 우선</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Contrast">대비</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Brightness">밝기</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Saturation">채도</system:String>

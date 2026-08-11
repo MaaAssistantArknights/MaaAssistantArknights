@@ -13,7 +13,7 @@ icon: material-symbols:view-quilt-rounded
 JSONファイルはコメントをサポートしていません。テキスト内のコメントはプレゼンテーション用にのみ使用されます。直接コピーして使用しないでください。
 :::
 
-[ビジュアルスケジューリング生成ツール](https://ark.yituliu.cn/tools/schedule)
+[ビジュアルスケジューリング生成ツール](https://ark.yituliu.cn/tools/scheduleV3)
 
 ## 完全なフィールドの一覧
 

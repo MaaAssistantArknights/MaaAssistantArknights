@@ -695,8 +695,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AccountSwitchManualRun">今すぐ切り替える</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">切り替える必要があるアカウントを入力し、空白のままにしてアカウントの切り替えを停止します。
 ログインインターフェイスに表示される内容を入力します（ ｢123****4567｣ など）。 ｢123****4567｣ 、 ｢4567｣ または ｢23****45｣ を入力できます。
-繁体字中国語サーバーのアカウントはEメール形式です（ ｢ab****01@gmail.com｣ など）。アスタリスクを含まない明文部分（ ｢01@gmail｣ など）の入力を推奨します。
-公式(CN)、Bilibili、繁体字中国語サーバーのみをサポートします。サードパーティのログイン方式はサポートされていません。</system:String>
+繁体字中国語サーバーとYostarKRサーバーのアカウントはEメール形式です（ ｢ab****01@gmail.com｣ など）。アスタリスクを含まない明文部分（ ｢01@gmail｣ など）の入力を推奨します。
+公式(CN)、Bilibili、繁体字中国語、YostarKRサーバーのみをサポートします。サードパーティのログイン方式はサポートされていません。</system:String>
     <system:String x:Key="AdbPath">ADBパス</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">選択されたファイル名にADBが含まれていません。誤ったファイルを選択していないか、エミュレータ自体を選択していないか確認してください。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">確かに間違って選択していないと思います</system:String>
@@ -1103,9 +1103,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@FitContain">全体表示</system:String>
     <system:String x:Key="MiniGame@PixelPaint@FitStretch">ストレッチ</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Dither">ディザ</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherNone">なし</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">ディザなし</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">ディザ - 写真</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">ディザ - 柔らかめ</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherIllustration">イラスト優先</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Contrast">コントラスト</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Brightness">明るさ</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Saturation">彩度</system:String>

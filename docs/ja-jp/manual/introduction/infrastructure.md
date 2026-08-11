@@ -32,5 +32,5 @@ icon: material-symbols:view-quilt-rounded
 
 ## 基地シフトのカスタマイズ
 
-- ワンシート攻略の有志の方々が作成した [シフト生成ツール](https://ark.yituliu.cn/tools/schedule) があり、[基地スケジューリング仕様書](../../protocol/base-scheduling-schema.md) を参考に利用できます。
+- ワンシート攻略の有志の方々が作成した [シフト生成ツール](https://ark.yituliu.cn/tools/scheduleV3) があり、[基地スケジューリング仕様書](../../protocol/base-scheduling-schema.md) を参考に利用できます。
 - MAA フォルダー配下の `/resource/custom_infrast/` には、理論上の最大効率を目指したいくつかのシフトプランが同梱されています。参考用としてお使いください。オペレーターおよび育成度の要件が非常に高いため、直接の使用は推奨しません。

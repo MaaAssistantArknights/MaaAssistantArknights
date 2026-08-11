@@ -1,4 +1,4 @@
-## v6.16.7
+## v6.16.8
 
 ### Highlights
 
@@ -44,6 +44,22 @@ Refactored the depot maintain task UI with global medicine/originium toggles and
 以下是详细内容：
 
 <details open>
+<summary><b>v6.16.8 (2026-08-11)</b></summary>
+
+### 改进 | Improved
+
+* 像素画转换改用 OKLab 感知颜色距离，新增「插画优先」算法，保留干净色块并压制交界噪点 @ABA2396
+* 导入恰好 24×24 像素的图片时跳过去边与重采样，逐像素直接取色 @ABA2396
+* 像素画绘制进度日志按当前绘制色号以对应颜色显示，绘制间隔同样应用于滑动/拖动操作 @ABA2396
+
+### 修复 | Fix
+
+* 修复库存保持添加预设后 plan 标题序号显示异常 @ABA2396
+* YostarKR support account switch ([#17661](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17661)) @HX3N
+
+</details>
+
+<details>
 <summary><b>v6.16.7 (2026-08-10)</b></summary>
 
 ### 新增 | New

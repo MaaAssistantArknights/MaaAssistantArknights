@@ -93,7 +93,7 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
 
             var clientType = SettingsViewModel.GameSettings.ClientType;
             var accountName = !SettingsViewModel.ConnectSettings.IsPCConnectConfig &&
-                clientType is ClientType.Official or ClientType.Bilibili or ClientType.Txwy &&
+                clientType is ClientType.Official or ClientType.Bilibili or ClientType.Txwy or ClientType.KR &&
                 startUp.AccountSwitchEnabled is true
                     ? startUp.AccountName
                     : string.Empty;

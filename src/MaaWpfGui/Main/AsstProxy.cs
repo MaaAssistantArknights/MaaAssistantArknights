@@ -2373,9 +2373,12 @@ public class AsstProxy
                     }
                     else
                     {
+                        // 日志文字用当前绘制色号对应的实际颜色（浅色自动 fallback 到默认色）
+                        var color = (int)(subTaskDetails?["color"] ?? 0);
+                        var colorHex = PixelPaintHelper.GetPaletteColorHex(color) ?? UiLogColor.Trace;
                         Instances.TaskQueueViewModel.AddLog(
                             string.Format(LocalizationHelper.GetString("MiniGame@PixelPaint@ProgressLog"), done, total),
-                            UiLogColor.Trace);
+                            colorHex);
                     }
 
                     break;
