@@ -87,6 +87,11 @@ public class ToolboxViewModel : Screen
         LocalizationHelper.LanguageChanged += () => {
             DisplayName = LocalizationHelper.GetString("Toolbox");
             RecruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
+            foreach (var target in InteractiveExhibitionTargets)
+            {
+                target.RefreshDisplay();
+            }
+            NotifyOfPropertyChange(nameof(InteractiveExhibitionSelectedSummary));
             Application.Current.Dispatcher.InvokeAsync(
                 () => {
                     LoadDepotDetails();
@@ -109,6 +114,7 @@ public class ToolboxViewModel : Screen
         InitializeOperBoxRowPresentation();
         OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
 
+        InitializeInteractiveExhibitionTargets();
         UpdateMiniGameTaskList();
     }
 
@@ -2270,6 +2276,209 @@ public class ToolboxViewModel : Screen
         public bool IsSecretFront => Value == "MiniGame@SecretFront";
 
         public bool IsPixelPaint => Value is "MiniGame@PixelPaint" or "MiniGame@PixelPaint@Begin";
+
+        public bool IsInteractiveExhibition => Value == "MiniGame@InteractiveExhibition@Begin";
+    }
+
+    public sealed class InteractiveExhibitionTargetItem : PropertyChangedBase
+    {
+        private readonly Action<InteractiveExhibitionTargetItem> _selectionChanged;
+        private bool _isSelected;
+
+        public InteractiveExhibitionTargetItem(string attribute, int rarity, string name, bool isSelected, Action<InteractiveExhibitionTargetItem> selectionChanged)
+        {
+            Attribute = attribute;
+            Rarity = rarity;
+            Name = name;
+            _isSelected = isSelected;
+            _selectionChanged = selectionChanged;
+        }
+
+        public string Attribute { get; }
+
+        public int Rarity { get; }
+
+        public string Name { get; }
+
+        public string Display => LocalizationHelper.GetStringFormat("MiniGame@InteractiveExhibition@TargetDisplay", Rarity, Name);
+
+        public void RefreshDisplay() => NotifyOfPropertyChange(nameof(Display));
+
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set {
+                if (SetAndNotify(ref _isSelected, value))
+                {
+                    _selectionChanged(this);
+                }
+            }
+        }
+    }
+
+    private const string InteractiveExhibitionTask = "MiniGame@InteractiveExhibition@Begin";
+    private const string InteractiveExhibitionRuntimeTask = "MiniGame@InteractiveExhibition@Target@Runtime@Begin";
+
+    private static readonly (string Attribute, int Rarity, string Name)[] _interactiveExhibitionCreatures =
+    [
+        ("Arcane", 3, "锐爪巨翼兽"),
+        ("Arcane", 3, "星术绒绒"),
+        ("Arcane", 3, "奥术绒绒"),
+        ("Arcane", 3, "青花"),
+        ("Arcane", 3, "赤霞"),
+        ("Arcane", 3, "“酩酊”"),
+        ("Arcane", 2, "大个子绒绒"),
+        ("Arcane", 2, "灼热跳跳蜥"),
+        ("Arcane", 1, "活泼绒绒"),
+        ("Arcane", 1, "“阿咬”"),
+        ("Arcane", 1, "大嘴捕食草"),
+        ("Arcane", 1, "爬行鬼伞"),
+        ("Instinct", 3, "高普尼克"),
+        ("Instinct", 3, "石背岩壳蟹"),
+        ("Instinct", 3, "不知足吞噬者"),
+        ("Instinct", 3, "孤独的巨像"),
+        ("Instinct", 2, "密林锋脊裂兽"),
+        ("Instinct", 2, "枯焦锋脊裂兽"),
+        ("Instinct", 2, "寒山大角驮兽"),
+        ("Instinct", 2, "温和驮兽"),
+        ("Instinct", 1, "固海凿石者"),
+        ("Instinct", 1, "困困荪茸"),
+        ("Instinct", 1, "浪花小壳蟹"),
+        ("Instinct", 1, "熔火小壳蟹"),
+        ("Variable", 3, "未定义石兽"),
+        ("Variable", 3, "花冠园丁"),
+        ("Variable", 3, "黑毛花冠园丁"),
+        ("Variable", 3, "果冻清道夫"),
+        ("Variable", 3, "钵海收割者"),
+        ("Variable", 2, "蓝冠羽镖客"),
+        ("Variable", 2, "橙冠羽镖客"),
+        ("Variable", 2, "深林伪形兽"),
+        ("Variable", 2, "赤黑伪形兽"),
+        ("Variable", 1, "直立小雪怪"),
+        ("Variable", 1, "红宝石投石虫"),
+        ("Variable", 1, "石榴弩手"),
+        ("Variable", 1, "椰壳蟹"),
+    ];
+
+    public ObservableCollection<InteractiveExhibitionTargetItem> InteractiveExhibitionTargets { get; } = [];
+
+    public IEnumerable<InteractiveExhibitionTargetItem> InteractiveExhibitionArcaneTargets =>
+        InteractiveExhibitionTargets.Where(target => target.Attribute == "Arcane");
+
+    public IEnumerable<InteractiveExhibitionTargetItem> InteractiveExhibitionInstinctTargets =>
+        InteractiveExhibitionTargets.Where(target => target.Attribute == "Instinct");
+
+    public IEnumerable<InteractiveExhibitionTargetItem> InteractiveExhibitionVariableTargets =>
+        InteractiveExhibitionTargets.Where(target => target.Attribute == "Variable");
+
+    public bool InteractiveExhibitionStopOnUncollected
+    {
+        get; set {
+            if (SetAndNotify(ref field, value))
+            {
+                ConfigFactory.CurrentConfig.Toolbox.InteractiveExhibitionStopOnUncollected = value;
+            }
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.InteractiveExhibitionStopOnUncollected;
+
+    public bool InteractiveExhibitionStopOnRarity3
+    {
+        get; set {
+            if (SetAndNotify(ref field, value))
+            {
+                ConfigFactory.CurrentConfig.Toolbox.InteractiveExhibitionStopOnRarity3 = value;
+                NotifyOfPropertyChange(nameof(InteractiveExhibitionSelectedSummary));
+            }
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.InteractiveExhibitionStopOnRarity3;
+
+    public bool InteractiveExhibitionStopOnSelectedTargets
+    {
+        get; set {
+            if (SetAndNotify(ref field, value))
+            {
+                ConfigFactory.CurrentConfig.Toolbox.InteractiveExhibitionStopOnSelectedTargets = value;
+                if (!value)
+                {
+                    InteractiveExhibitionTargetSettingsExpanded = false;
+                }
+                NotifyOfPropertyChange(nameof(InteractiveExhibitionSelectedSummary));
+            }
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.InteractiveExhibitionStopOnSelectedTargets;
+
+    public bool InteractiveExhibitionTargetSettingsExpanded { get; set => SetAndNotify(ref field, value); }
+
+    public void ToggleInteractiveExhibitionTargetSettings()
+    {
+        if (InteractiveExhibitionStopOnSelectedTargets)
+        {
+            InteractiveExhibitionTargetSettingsExpanded = !InteractiveExhibitionTargetSettingsExpanded;
+        }
+    }
+
+    public string InteractiveExhibitionSelectedSummary
+    {
+        get {
+            int count = InteractiveExhibitionTargets.Count(target => target.IsSelected);
+            if (!InteractiveExhibitionStopOnSelectedTargets)
+            {
+                return LocalizationHelper.GetString("MiniGame@InteractiveExhibition@TargetSelectionDisabled");
+            }
+
+            return InteractiveExhibitionStopOnRarity3
+                ? LocalizationHelper.GetStringFormat("MiniGame@InteractiveExhibition@TargetSummaryWithRarity3", count)
+                : LocalizationHelper.GetStringFormat("MiniGame@InteractiveExhibition@TargetSummary", count);
+        }
+    }
+
+    private void InitializeInteractiveExhibitionTargets()
+    {
+        foreach (var (attribute, rarity, name) in _interactiveExhibitionCreatures)
+        {
+            InteractiveExhibitionTargets.Add(new InteractiveExhibitionTargetItem(attribute, rarity, name, false, OnInteractiveExhibitionTargetChanged));
+        }
+    }
+
+    private void OnInteractiveExhibitionTargetChanged(InteractiveExhibitionTargetItem targetItem)
+    {
+        NotifyOfPropertyChange(nameof(InteractiveExhibitionSelectedSummary));
+    }
+
+    public void SelectAllInteractiveExhibitionTargets()
+    {
+        foreach (var target in InteractiveExhibitionTargets)
+        {
+            target.IsSelected = true;
+        }
+    }
+
+    public void ClearInteractiveExhibitionTargets()
+    {
+        foreach (var target in InteractiveExhibitionTargets)
+        {
+            target.IsSelected = false;
+        }
+    }
+
+    public void SelectAllInteractiveExhibitionArcaneTargets() => SetInteractiveExhibitionAttribute("Arcane", true);
+
+    public void ClearInteractiveExhibitionArcaneTargets() => SetInteractiveExhibitionAttribute("Arcane", false);
+
+    public void SelectAllInteractiveExhibitionInstinctTargets() => SetInteractiveExhibitionAttribute("Instinct", true);
+
+    public void ClearInteractiveExhibitionInstinctTargets() => SetInteractiveExhibitionAttribute("Instinct", false);
+
+    public void SelectAllInteractiveExhibitionVariableTargets() => SetInteractiveExhibitionAttribute("Variable", true);
+
+    public void ClearInteractiveExhibitionVariableTargets() => SetInteractiveExhibitionAttribute("Variable", false);
+
+    private void SetInteractiveExhibitionAttribute(string attribute, bool isSelected)
+    {
+        foreach (var target in InteractiveExhibitionTargets.Where(target => target.Attribute == attribute))
+        {
+            target.IsSelected = isSelected;
+        }
     }
 
     public ObservableCollection<MiniGameCategoryItem> MiniGameCategoryItems { get; } = [];
@@ -2342,8 +2551,30 @@ public class ToolboxViewModel : Screen
     {
         return MiniGameTaskName switch {
             "MiniGame@SecretFront" => $"{MiniGameTaskName}@Begin@Ending{SecretFrontEnding}{(string.IsNullOrEmpty(SecretFrontEvent) ? string.Empty : $"@{SecretFrontEvent}")}",
+            InteractiveExhibitionTask => InteractiveExhibitionRuntimeTask,
             _ => MiniGameTaskName,
         };
+    }
+
+    private bool TryGetInteractiveExhibitionTargets(out List<string> targets)
+    {
+        targets = InteractiveExhibitionTargets
+            .Where(target =>
+                (InteractiveExhibitionStopOnSelectedTargets && target.IsSelected)
+                || (InteractiveExhibitionStopOnRarity3 && target.Rarity == 3))
+            .Select(target => target.Name)
+            .Distinct(StringComparer.Ordinal)
+            .ToList();
+
+        if (!InteractiveExhibitionStopOnUncollected && targets.Count == 0)
+        {
+            Instances.TaskQueueViewModel.AddLog(
+                LocalizationHelper.GetString("MiniGame@InteractiveExhibition@NoStopCondition"),
+                UiLogColor.Warning);
+            return false;
+        }
+
+        return true;
     }
 
     private string? _miniGameTip;
@@ -2359,6 +2590,11 @@ public class ToolboxViewModel : Screen
 
     private static string GetMiniGameTip(string name)
     {
+        if (name == InteractiveExhibitionTask)
+        {
+            return LocalizationHelper.GetString("MiniGame@InteractiveExhibitionTip");
+        }
+
         if (string.IsNullOrEmpty(name))
         {
             return LocalizationHelper.GetString("MiniGameNameEmptyTip");
@@ -2781,6 +3017,8 @@ public class ToolboxViewModel : Screen
         }
 
         var isPixelPaint = IsPixelPaintSelected;
+        var isInteractiveExhibition = MiniGameTaskName == InteractiveExhibitionTask;
+        List<string> interactiveExhibitionTargets = [];
         if (isPixelPaint && (_pixelPaintResult == null || _pixelPaintResult.Groups.Count == 0))
         {
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MiniGame@PixelPaint@NeedImage"), UiLogColor.Warning);
@@ -2793,6 +3031,12 @@ public class ToolboxViewModel : Screen
         if (isPixelPaint)
         {
             PixelPaintParametersLocked = true;
+        }
+
+        if (isInteractiveExhibition && !TryGetInteractiveExhibitionTargets(out interactiveExhibitionTargets))
+        {
+            _runningState.SetIdle(true);
+            return;
         }
 
         string errMsg = string.Empty;
@@ -2824,6 +3068,12 @@ public class ToolboxViewModel : Screen
                         groups.Count),
                     UiLogColor.Info);
             }
+        }
+        else if (isInteractiveExhibition)
+        {
+            caught = Instances.AsstProxy.AsstInteractiveExhibition(
+                interactiveExhibitionTargets,
+                InteractiveExhibitionStopOnUncollected);
         }
         else
         {

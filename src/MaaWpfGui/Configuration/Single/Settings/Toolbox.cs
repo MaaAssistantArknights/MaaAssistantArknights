@@ -50,4 +50,10 @@ public partial class Toolbox
     public bool AutoSetTime { get; set; } = true;
 
     public bool ShowPotential { get; set; } = true;
+
+    public bool InteractiveExhibitionStopOnUncollected { get; set; } = true;
+
+    public bool InteractiveExhibitionStopOnRarity3 { get; set; }
+
+    public bool InteractiveExhibitionStopOnSelectedTargets { get; set; } = true;
 }

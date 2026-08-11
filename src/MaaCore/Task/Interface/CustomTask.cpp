@@ -38,6 +38,12 @@ bool asst::CustomTask::set_params(const json::value& params)
         if (parse_and_register_secretfront(task_name, resolved_task)) {
             Log.info("Parsed and registered SecretFront task: ", task_name, " -> ", resolved_task);
         }
+        else if (task_name == "MiniGame@InteractiveExhibition@Target@Runtime@Begin") {
+            if (!parse_and_register_interactive_exhibition(task_name, params)) {
+                return false;
+            }
+            Log.info("Parsed and registered InteractiveExhibition task: ", task_name);
+        }
         else if (parse_and_register_pixel_paint(task_name, params)) {
             Log.info("Parsed and registered PixelPaint task: ", task_name);
         }
@@ -52,6 +58,81 @@ bool asst::CustomTask::set_params(const json::value& params)
     m_custom_task_ptr->set_tasks(std::move(tasks));
     m_subtasks.emplace_back(m_custom_task_ptr);
     return true;
+}
+
+bool
+    asst::CustomTask::parse_and_register_interactive_exhibition(const std::string& task_name, const json::value& params)
+{
+    if (task_name != "MiniGame@InteractiveExhibition@Target@Runtime@Begin") {
+        return false;
+    }
+
+    auto params_opt = params.find<json::object>("params");
+    if (!params_opt) {
+        Log.error("set_params failed, params not found for interactive exhibition");
+        return false;
+    }
+    auto exhibition_opt = params_opt->find<json::object>("interactive_exhibition");
+    if (!exhibition_opt) {
+        Log.error("set_params failed, params.interactive_exhibition not found");
+        return false;
+    }
+
+    const bool stop_on_uncollected = exhibition_opt->get("stop_on_uncollected", true);
+    json::array targets;
+    if (auto targets_opt = exhibition_opt->find<json::array>("targets")) {
+        for (const auto& target : *targets_opt) {
+            if (!target.is_string()) {
+                Log.error("set_params failed, interactive exhibition target is not string");
+                return false;
+            }
+            targets.emplace_back(target.as_string());
+        }
+    }
+    if (!stop_on_uncollected && targets.empty()) {
+        Log.error("set_params failed, no interactive exhibition stop condition");
+        return false;
+    }
+    json::object uncollected_task {
+        { "baseTask", "MiniGame@InteractiveExhibition@CheckEncounter-Uncollected" },
+    };
+    if (!stop_on_uncollected) {
+        uncollected_task["action"] = "DoNothing";
+        uncollected_task["sub"] = json::array { "MiniGame@InteractiveExhibition@Target@ExitEncounter@Begin" };
+        uncollected_task["next"] = json::array { task_name };
+    }
+
+    json::array runtime_next;
+    if (!targets.empty()) {
+        runtime_next.emplace_back("MiniGame@InteractiveExhibition@Target@Runtime@Match");
+    }
+    runtime_next.emplace_back("MiniGame@InteractiveExhibition@Target@Runtime@Uncollected");
+    runtime_next.emplace_back("MiniGame@InteractiveExhibition@Target@Runtime@Collected");
+    runtime_next.emplace_back("#self");
+
+    json::object runtime_tasks {
+        { task_name,
+          json::object {
+              { "baseTask", "MiniGame@InteractiveExhibition@Target@BeginBase" },
+              { "next", std::move(runtime_next) },
+          } },
+        { "MiniGame@InteractiveExhibition@Target@Runtime@Uncollected", std::move(uncollected_task) },
+        { "MiniGame@InteractiveExhibition@Target@Runtime@Collected",
+          json::object {
+              { "baseTask", "MiniGame@InteractiveExhibition@Target@CollectedBase" },
+              { "next", json::array { task_name } },
+          } },
+    };
+    if (!targets.empty()) {
+        runtime_tasks.emplace(
+            "MiniGame@InteractiveExhibition@Target@Runtime@Match",
+            json::object {
+                { "baseTask", "MiniGame@InteractiveExhibition@Target@MatchBase" },
+                { "text", std::move(targets) },
+            });
+    }
+
+    return Task.lazy_parse(runtime_tasks);
 }
 
 bool asst::CustomTask::parse_and_register_pixel_paint(const std::string& task_name, const json::value& params)
