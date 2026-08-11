@@ -15,7 +15,7 @@
         "algorithm": "OcrDetect",
         "doc": "This is a task for handling KR-specific announcements (linked StartUpThemes)",
         "next": ["StartUpThemes#next"],
-        "text": ["알겠습니다"]
+        "text": ["알겠습니다", "로그인계속하기"]
     },
     "YostarUserCenter": {
         "action": "ClickSelf",
