@@ -1,12 +1,64 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "Common/InfrastData.h"
+#include "Task/Infrast/InfrastDormSelection.h"
 #include "Task/Infrast/InfrastScore.h"
 
 using asst::infrast::ScoreContext;
 using asst::infrast::ScoreOper;
 using asst::infrast::select_best_opers;
 using asst::infrast::should_short_circuit_mfg;
+
+TEST_CASE("infrast normalizes Fiammetta targets", "[infrast][dorm][fiammetta]")
+{
+    CHECK(
+        asst::infrast::normalize_fiammetta_targets(
+            { "清流", "清流", "", "巫恋", "无效干员", "但书", "龙舌兰" }) ==
+        std::vector<std::string> { "清流", "巫恋", "但书" });
+    CHECK(
+        asst::infrast::normalize_fiammetta_targets({}) ==
+        std::vector<std::string> { "清流", "可露希尔", "但书" });
+}
+
+TEST_CASE(
+    "infrast dorm prepare uses only the first page for its target and full-mood Fiammetta",
+    "[infrast][dorm][fiammetta]")
+{
+    using asst::infrast::DormSelectionCandidate;
+    const std::vector<DormSelectionCandidate> low_mood_first_page = {
+        { "清流", "char_385_finlpp", 0.3 },
+        { "但书", "char_4032_provs", 0.25 },
+        { "巫恋", "char_254_vodfox", 0.1 },
+    };
+    const std::vector<DormSelectionCandidate> full_mood_first_page = {
+        { "", "char_300_phenxi", 0.98 },
+        { "", "char_300_phenxi", 0.99 },
+    };
+
+    CHECK(asst::infrast::find_fiammetta_target(low_mood_first_page, { "清流", "但书", "巫恋" }, 0.3) == 2);
+    CHECK(asst::infrast::find_full_mood_fiammetta(full_mood_first_page) == 1);
+}
+
+TEST_CASE("infrast dorm prepare falls back to at most five operators strictly below threshold", "[infrast][dorm]")
+{
+    using asst::infrast::DormSelectionCandidate;
+    const std::vector<DormSelectionCandidate> first_page = {
+        { "清流", "char_385_finlpp", 0.3 },
+        { "", "", 0.29 },
+        { "", "", 0.05 },
+        { "", "", 0.2, true },
+        { "", "", 0.1, false, false },
+        { "", "", 0.15 },
+        { "", "", 0.25 },
+        { "", "", 0.2 },
+        { "", "", 0.28 },
+    };
+
+    CHECK_FALSE(asst::infrast::find_fiammetta_target(first_page, { "清流" }, 0.3));
+    CHECK(
+        asst::infrast::find_low_mood_candidates(first_page, 0.3, 5) ==
+        std::vector<size_t> { 2, 5, 7, 6, 8 });
+}
 
 TEST_CASE("infrast skill identity candidates intersect", "[infrast]")
 {

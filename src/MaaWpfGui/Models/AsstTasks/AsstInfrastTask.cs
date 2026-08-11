@@ -13,6 +13,7 @@
 
 #nullable enable
 using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Services;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json.Linq;
@@ -90,6 +91,8 @@ public class AsstInfrastTask : AsstBaseTask
     /// </summary>
     public bool ReceptionSendClue { get; set; }
 
+    public List<string> FiammettaTargets { get; set; } = ["清流", "可露希尔", "但书"];
+
     public bool UsePinusSylvestris { get; set; }
 
     public bool UsePerceptionInformation { get; set; }
@@ -114,6 +117,10 @@ public class AsstInfrastTask : AsstBaseTask
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
+        var fiammettaTargets = FiammettaTargets
+            .Where(target => !string.IsNullOrWhiteSpace(target))
+            .Distinct()
+            .Take(3);
         var taskParams = new JObject
         {
             ["facility"] = JArray.FromObject(Facilitys),
@@ -126,6 +133,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["reception_message_board"] = ReceptionMessageBoard,
             ["reception_clue_exchange"] = ReceptionClueExchange,
             ["reception_send_clue"] = ReceptionSendClue,
+            ["fiammetta_targets"] = JArray.FromObject(fiammettaTargets),
             ["use_pinus_sylvestris"] = UsePinusSylvestris,
             ["use_perception_information"] = UsePerceptionInformation,
             ["use_worldly_plight"] = UseWorldlyPlight,

@@ -41,6 +41,7 @@ catch_discover_tests(maa-algorithm-test TEST_PREFIX "algorithm::")
 
 add_executable(maa-infrast-test
     MaaCore/InfrastTest.cpp
+    ../src/MaaCore/Task/Infrast/InfrastDormSelection.cpp
     ../src/MaaCore/Task/Infrast/InfrastScore.cpp
 )
 

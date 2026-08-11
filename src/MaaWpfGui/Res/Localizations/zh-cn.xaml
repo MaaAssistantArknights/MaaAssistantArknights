@@ -165,6 +165,14 @@
     <system:String x:Key="InfrastReceptionSendClue">赠送线索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中设置并执行</system:String>
     <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
+    <system:String x:Key="InfrastFiammettaTargets">菲亚梅塔恢复目标</system:String>
+    <system:String x:Key="InfrastFiammettaTargetNone">无</system:String>
+    <system:String x:Key="InfrastFiammettaTargetPurestream">清流</system:String>
+    <system:String x:Key="InfrastFiammettaTargetClosure">可露希尔</system:String>
+    <system:String x:Key="InfrastFiammettaTargetProviso">但书</system:String>
+    <system:String x:Key="InfrastFiammettaTargetShamare">巫恋</system:String>
+    <system:String x:Key="InfrastFiammettaTargetTequila">龙舌兰</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGladiia">歌蕾蒂娅</system:String>
     <system:String x:Key="InfrastUsePinusSylvestris">使用红松骑士团跨设施组合</system:String>
     <system:String x:Key="InfrastUsePerceptionInformation">使用感知信息跨设施组合</system:String>
     <system:String x:Key="InfrastUseWorldlyPlight">使用人间烟火跨设施组合</system:String>

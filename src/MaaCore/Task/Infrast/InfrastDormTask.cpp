@@ -9,7 +9,6 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
@@ -42,6 +41,12 @@ asst::InfrastDormTask& asst::InfrastDormTask::set_trust_enabled(bool trust_autof
 asst::InfrastDormTask& asst::InfrastDormTask::set_prepare_phase(bool enabled) noexcept
 {
     m_prepare_phase = enabled;
+    return *this;
+}
+
+asst::InfrastDormTask& asst::InfrastDormTask::set_fiammetta_targets(std::vector<std::string> targets) noexcept
+{
+    m_fiammetta_targets = std::move(targets);
     return *this;
 }
 
@@ -83,11 +88,15 @@ bool asst::InfrastDormTask::_run()
         close_quick_formation_expand_role();
 
         // 每间宿舍都复查排序状态：用户可能手动切到了其他排序（工作状态/信赖）
-        // 就开始任务，或上一间宿舍因卡顿退出主界面后重新进入导致状态丢失，
-        // 此时列表并非按心情排序，fill_dorm_slots 的低心情扫描会因找不到足够的
-        // 休息态干员而提前触发信赖补位。switch_to_mood_sort 是幂等的，已选中时
-        // 不会重复点击。
-        switch_to_mood_sort();
+        // 就开始任务，或上一间宿舍因卡顿退出主界面后重新进入导致状态丢失。
+        // 常规前置阶段还必须固定为低心情优先，否则即使只识别第一页，也可能
+        // 读到高心情一页。先切到其他排序再切回心情可以确定排序方向，全程不滑页。
+        const bool sort_succeeded = m_prepare_phase && m_default_mode && !m_is_custom
+            ? switch_to_low_mood_sort()
+            : switch_to_mood_sort();
+        if (!sort_succeeded) {
+            return false;
+        }
 
         const auto room_config = current_room_config();
         const bool room_uses_custom_opers = is_use_custom_opers();
@@ -127,18 +136,26 @@ bool asst::InfrastDormTask::_run()
             }
         }
 
-        if (m_prepare_phase && !m_is_custom && !m_fiammetta_checked && m_cur_facility_index < 3 &&
-            try_select_fiammetta_pair()) {
-            if (!click_confirm_button()) {
+        if (m_prepare_phase && m_default_mode && !m_is_custom && !m_fiammetta_targets.empty() &&
+            !m_fiammetta_checked) {
+            const FiammettaSelectionResult selection_result = try_select_fiammetta_pair();
+            if (selection_result == FiammettaSelectionResult::Error) {
                 return false;
             }
-            click_return_button();
-            if (!enter_facility(m_cur_facility_index) || !enter_oper_list_page()) {
-                return false;
+            if (selection_result == FiammettaSelectionResult::Selected) {
+                if (!click_confirm_button()) {
+                    return false;
+                }
+                click_return_button();
+                if (!enter_facility(m_cur_facility_index) || !enter_oper_list_page()) {
+                    return false;
+                }
+                close_quick_formation_expand_role();
+                if (!switch_to_low_mood_sort()) {
+                    return false;
+                }
+                click_clear_button();
             }
-            close_quick_formation_expand_role();
-            switch_to_mood_sort();
-            click_clear_button();
         }
 
         if (!m_is_custom || current_room_config().autofill) {
@@ -182,6 +199,28 @@ bool asst::InfrastDormTask::fill_dorm_slots(bool low_mood_only)
         num_of_selected =
             (std::max)(num_of_selected,
                        static_cast<size_t>(std::ranges::count_if(opers, std::mem_fn(&infrast::Oper::selected))));
+
+        // 常规模式的宿舍前置阶段只处理当前第一页，不向后翻页。
+        if (low_mood_only && m_default_mode) {
+            std::vector<infrast::DormSelectionCandidate> candidates;
+            candidates.reserve(opers.size());
+            for (const auto& oper : opers) {
+                candidates.emplace_back(infrast::DormSelectionCandidate {
+                    .operator_id = oper.operator_id,
+                    .mood_ratio = oper.mood_ratio,
+                    .selected = oper.selected,
+                    .available = oper.doing != infrast::Doing::Working,
+                });
+            }
+            const auto indices = infrast::find_low_mood_candidates(
+                candidates,
+                m_mood_threshold,
+                max_num_of_opers() - (std::min)(num_of_selected, max_num_of_opers()));
+            for (const size_t index : indices) {
+                ctrler()->click(opers[index].rect);
+            }
+            return true;
+        }
 
         size_t num_of_resting = 0;
         for (const auto& oper : opers) {
@@ -363,103 +402,96 @@ bool asst::InfrastDormTask::select_dorm_managers()
     return selected;
 }
 
-bool asst::InfrastDormTask::try_select_fiammetta_pair()
+asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_select_fiammetta_pair()
 {
-    struct Candidate
-    {
-        std::string face_hash;
-        std::string operator_id;
-        int page = 0;
-    };
+    // 宿舍前置阶段只识别当前第一页，不向后翻页。先在低心情优先的第一页
+    // OCR 适配干员；只有找到目标后，才切换排序方向寻找满心情菲亚梅塔。
+    m_fiammetta_checked = true;
+    InfrastOperImageAnalyzer target_analyzer(ctrler()->get_image());
+    target_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
+    target_analyzer.set_facility(facility_name());
+    if (!target_analyzer.analyze()) {
+        return FiammettaSelectionResult::Error;
+    }
 
-    std::optional<Candidate> target;
-    std::optional<Candidate> fiammetta;
-    const double target_mood_limit = m_mood_threshold + 1.0 / 24.0;
-    const int max_pages = operlist_swipe_times() + 1;
-
-    for (int page = 0; page < max_pages; ++page) {
-        InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
-        analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
-        analyzer.set_facility(facility_name());
-        if (!analyzer.analyze()) {
-            return false;
-        }
-        for (const auto& oper : analyzer.get_result()) {
-            if (!fiammetta && oper.operator_id == "char_300_phenxi" && oper.mood_ratio >= 0.99) {
-                fiammetta = Candidate { oper.face_hash, oper.operator_id, page };
-            }
-            if (target || oper.mood_ratio >= target_mood_limit) {
-                continue;
-            }
-
+    const auto& target_opers = target_analyzer.get_result();
+    std::vector<infrast::DormSelectionCandidate> target_candidates;
+    target_candidates.reserve(target_opers.size());
+    for (const auto& oper : target_opers) {
+        infrast::DormSelectionCandidate candidate {
+            .operator_id = oper.operator_id,
+            .mood_ratio = oper.mood_ratio,
+            .selected = oper.selected,
+            .available = oper.doing != infrast::Doing::Working,
+        };
+        if (!candidate.selected && candidate.available && candidate.mood_ratio < m_mood_threshold) {
             RegionOCRer name_analyzer(oper.name_img);
             name_analyzer.set_replace(
                 Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                 Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
             if (auto name = name_analyzer.analyze()) {
-                const static std::unordered_map<std::string, std::string> TargetIds = {
-                    { "清流", "char_385_finlpp" },
-                    { "但书", "char_4032_provs" },
-                    { "可露希尔", "" },
-                };
-                if (const auto iter = TargetIds.find(name->text); iter != TargetIds.end()) {
-                    target = Candidate { oper.face_hash, iter->second, page };
-                }
+                candidate.name = name->text;
             }
         }
-        if (page + 1 < max_pages) {
-            swipe_of_operlist();
-        }
+        target_candidates.emplace_back(std::move(candidate));
     }
 
-    swipe_to_the_left_of_operlist();
-    if (!target) {
-        return false;
+    const auto target_index =
+        infrast::find_fiammetta_target(target_candidates, m_fiammetta_targets, m_mood_threshold);
+    if (!target_index) {
+        return FiammettaSelectionResult::NotFound;
     }
-
-    // 找到交换目标后，本次任务只尝试一次；菲亚梅塔必须满心情才有效。
-    m_fiammetta_checked = true;
-    if (!fiammetta) {
-        Log.warn("full-mood Fiammetta was not found");
-        return false;
-    }
-
-    const int face_hash_threshold = Task.get("InfrastOperFace")->special_params[0];
-    auto select_candidate = [&](const Candidate& candidate) {
-        swipe_to_the_left_of_operlist();
-        for (int page = 0; page <= candidate.page; ++page) {
-            InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
-            analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
-            analyzer.set_facility(facility_name());
-            if (!analyzer.analyze()) {
-                return false;
-            }
-            const auto iter = std::ranges::find_if(analyzer.get_result(), [&](const infrast::Oper& oper) {
-                return Hasher::hamming(oper.face_hash, candidate.face_hash) < face_hash_threshold;
-            });
-            if (iter != analyzer.get_result().end()) {
-                if (!iter->selected) {
-                    ctrler()->click(iter->rect);
-                }
-                stage_operator_selection(candidate.operator_id);
-                return true;
-            }
-            if (page < candidate.page) {
-                swipe_of_operlist();
-            }
-        }
-        return false;
-    };
 
     // 菲亚梅塔必须位于目标后一位，交换对象才是预期干员。
     discard_pending_selection();
-    if (select_candidate(*target) && select_candidate(*fiammetta)) {
-        return true;
+    ctrler()->click(target_opers[*target_index].rect);
+    stage_operator_selection(std::string(infrast::fiammetta_target_id(target_candidates[*target_index].name)));
+
+    // 菲亚梅塔只在满心情时技能才有作用。按技能排序后她必然在第一页，
+    // 因而无需继续翻页识别；结束前切回低心情排序，供后续兜底选人使用。
+    auto cancel_pair = [&]() {
+        discard_pending_selection();
+        click_clear_button();
+        return switch_to_low_mood_sort();
+    };
+    if (!ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run()) {
+        discard_pending_selection();
+        click_clear_button();
+        return FiammettaSelectionResult::Error;
     }
-    discard_pending_selection();
-    click_clear_button();
-    swipe_to_the_left_of_operlist();
-    return false;
+
+    InfrastOperImageAnalyzer fiammetta_analyzer(ctrler()->get_image());
+    fiammetta_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
+    fiammetta_analyzer.set_facility(facility_name());
+    if (!fiammetta_analyzer.analyze()) {
+        cancel_pair();
+        return FiammettaSelectionResult::Error;
+    }
+    const auto& fiammetta_opers = fiammetta_analyzer.get_result();
+    std::vector<infrast::DormSelectionCandidate> fiammetta_candidates;
+    fiammetta_candidates.reserve(fiammetta_opers.size());
+    for (const auto& oper : fiammetta_opers) {
+        fiammetta_candidates.emplace_back(infrast::DormSelectionCandidate {
+            .operator_id = oper.operator_id,
+            .mood_ratio = oper.mood_ratio,
+            .selected = oper.selected,
+            .available = oper.doing != infrast::Doing::Working,
+        });
+    }
+    const auto fiammetta_index = infrast::find_full_mood_fiammetta(fiammetta_candidates);
+    if (!fiammetta_index) {
+        Log.warn("full-mood Fiammetta was not found on the first page");
+        return cancel_pair() ? FiammettaSelectionResult::NotFound : FiammettaSelectionResult::Error;
+    }
+
+    ctrler()->click(fiammetta_opers[*fiammetta_index].rect);
+    stage_operator_selection("char_300_phenxi");
+    if (!switch_to_low_mood_sort()) {
+        discard_pending_selection();
+        click_clear_button();
+        return FiammettaSelectionResult::Error;
+    }
+    return FiammettaSelectionResult::Selected;
 }
 
 bool asst::InfrastDormTask::set_notstationed_filter(bool enabled)
@@ -504,6 +536,16 @@ bool asst::InfrastDormTask::restore_list_sort_for_selection_phase(asst::infrast:
 bool asst::InfrastDormTask::switch_to_mood_sort()
 {
     return ProcessTask(*this, { "InfrastOperListTabMoodDoubleClickWhenUnclicked", "Stop" }).run();
+}
+
+bool asst::InfrastDormTask::switch_to_low_mood_sort()
+{
+    // 心情标签已选中时无法从模板判断升降序。先切到任意其他标签，再通过现有
+    // 两次心情点击固定为低心情优先；这些都是排序点击，不会改变当前列表页码。
+    if (!ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "InfrastOperListTabWorkStatusUnClicked" }).run()) {
+        return false;
+    }
+    return ProcessTask(*this, { "InfrastOperListTabMoodDoubleClickWhenUnclicked" }).run();
 }
 
 void asst::InfrastDormTask::switch_to_trust_autofill_phase()

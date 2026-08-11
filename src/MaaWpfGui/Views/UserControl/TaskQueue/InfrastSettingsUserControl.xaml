@@ -241,6 +241,33 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
                 <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
             </CheckBox>
+            <StackPanel
+                Margin="0,5"
+                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
+                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
+                <controls:TextBlock
+                    Margin="0,0,0,5"
+                    Text="{DynamicResource InfrastFiammettaTargets}"
+                    TextWrapping="Wrap" />
+                <ComboBox
+                    Margin="0,3"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding FiammettaTargetList}"
+                    SelectedValue="{Binding FiammettaTarget1}"
+                    SelectedValuePath="Value" />
+                <ComboBox
+                    Margin="0,3"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding OptionalFiammettaTargetList}"
+                    SelectedValue="{Binding FiammettaTarget2}"
+                    SelectedValuePath="Value" />
+                <ComboBox
+                    Margin="0,3"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding OptionalFiammettaTargetList}"
+                    SelectedValue="{Binding FiammettaTarget3}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource InfrastUsePinusSylvestris}"

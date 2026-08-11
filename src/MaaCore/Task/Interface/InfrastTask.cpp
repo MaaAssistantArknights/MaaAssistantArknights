@@ -214,6 +214,10 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_dorm_task_ptr_post->set_trust_enabled(dorm_trust_enabled);
 
     const bool default_mode = mode == Mode::Default;
+    const auto fiammetta_targets = default_mode
+        ? infrast::normalize_fiammetta_targets(params.get("fiammetta_targets", std::vector<std::string> {}))
+        : std::vector<std::string> {};
+    m_dorm_task_ptr->set_fiammetta_targets(fiammetta_targets);
     const bool pinus_sylvestris_enabled = default_mode && params.get("use_pinus_sylvestris", false);
     const bool perception_information_enabled = default_mode && params.get("use_perception_information", false);
     const bool worldly_plight_enabled = default_mode && params.get("use_worldly_plight", false);

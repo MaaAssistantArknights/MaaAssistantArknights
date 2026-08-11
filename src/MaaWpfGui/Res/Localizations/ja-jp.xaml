@@ -165,6 +165,14 @@
     <system:String x:Key="InfrastReceptionSendClue">手がかりを贈る</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">{key=Infrast} で以下の関数を設定して実行する必要があります</system:String>
     <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
+    <system:String x:Key="InfrastFiammettaTargets">フィアメッタの回復対象</system:String>
+    <system:String x:Key="InfrastFiammettaTargetNone">なし</system:String>
+    <system:String x:Key="InfrastFiammettaTargetPurestream">セイリュウ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetClosure">クロージャ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetProviso">プロヴァイゾ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetShamare">シャマレ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetTequila">テキーラ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGladiia">グレイディーア</system:String>
     <system:String x:Key="InfrastUsePinusSylvestris">ピヌス・シルベストリス連携を使用</system:String>
     <system:String x:Key="InfrastUsePerceptionInformation">知覚情報連携を使用</system:String>
     <system:String x:Key="InfrastUseWorldlyPlight">俗世の憂い連携を使用</system:String>

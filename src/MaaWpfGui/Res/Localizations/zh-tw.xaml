@@ -165,6 +165,14 @@
     <system:String x:Key="InfrastReceptionSendClue">贈送線索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中設定並執行</system:String>
     <system:String x:Key="ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
+    <system:String x:Key="InfrastFiammettaTargets">菲亞梅塔恢復目標</system:String>
+    <system:String x:Key="InfrastFiammettaTargetNone">無</system:String>
+    <system:String x:Key="InfrastFiammettaTargetPurestream">清流</system:String>
+    <system:String x:Key="InfrastFiammettaTargetClosure">可露希爾</system:String>
+    <system:String x:Key="InfrastFiammettaTargetProviso">但書</system:String>
+    <system:String x:Key="InfrastFiammettaTargetShamare">巫戀</system:String>
+    <system:String x:Key="InfrastFiammettaTargetTequila">龍舌蘭</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGladiia">歌蕾蒂婭</system:String>
     <system:String x:Key="InfrastUsePinusSylvestris">使用紅松騎士團跨設施組合</system:String>
     <system:String x:Key="InfrastUsePerceptionInformation">使用感知資訊跨設施組合</system:String>
     <system:String x:Key="InfrastUseWorldlyPlight">使用人間煙火跨設施組合</system:String>
