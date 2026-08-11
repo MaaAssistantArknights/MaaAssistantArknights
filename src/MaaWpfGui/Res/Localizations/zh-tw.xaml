@@ -203,7 +203,7 @@
     <system:String x:Key="Nox">夜神模擬器</system:String>
     <system:String x:Key="XYAZ">逍遙模擬器</system:String>
     <system:String x:Key="WSA">WSA 舊版本</system:String>
-    <system:String x:Key="PC">PC 端</system:String>
+    <system:String x:Key="PC">明日方舟 PC 端（社群維護）</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">相容模式</system:String>
     <system:String x:Key="SecondResolution">第二解析度</system:String>
@@ -1467,16 +1467,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartAsAdminFailed">請手動以管理員身分執行 MAA</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 綁定視窗失敗，請檢查截圖/輸入方式配置</system:String>
     <system:String x:Key="UseAttachWindowTip">使用 Win32 視窗綁定明日方舟 PC 端，而非 ADB 連接模擬器或手機</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">連接 PC 端（實驗性功能，穩定性無法保證）
-由於 MAA Team 開發人手有限，此功能由社群維護，並非由 MAA Team 持續支援，功能與穩定性可能不盡理想，遇到問題時也可能無法第一時間修復。
-如遇到影響使用的問題，建議改用 ADB 連接 Android 模擬器或行動裝置，以獲得更穩定的體驗。
-我們也始終歡迎有能力的開發者參與貢獻並提交 Pull Request，共同完善 PC 端支援。
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">連接明日方舟 PC 端（社群維護）
 
-使用前請確認：
+請注意：
+1. MAA Team 僅提供明日方舟 PC 端的連接功能，維護與問題修復均交由社群，不保證可用性。
+2. 遇到問題或功能不可用時，請在 GitHub 提交 issue，能否得到解決取決於社群開發者是否願意跟進。
+3. QQ 群、影片評論區等其他管道無法解決明日方舟 PC 端的相關問題，請勿在其中詢問。
+
+如非必要，建議優先使用 ADB 連接 Android 模擬器或行動裝置，體驗更穩定。
+
+如需使用，請確認：
 1. 需以系統管理員身分啟動 MAA
 2. 部分截圖方式下，遊戲視窗不可最小化
 3. 明日方舟設定 → 遊戲 → UI 縮放需設為 100%
-4. 遊戲解析度需為 16:9，推薦設定 1280x720 或 1920x1080</system:String>
+4. 在明日方舟設定中調小滑鼠指標比例，以減少對識別區域的遮擋
+5. 遊戲解析度需為 16:9，推薦設定 1280x720 或 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截圖方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">滑鼠輸入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">鍵盤輸入</system:String>

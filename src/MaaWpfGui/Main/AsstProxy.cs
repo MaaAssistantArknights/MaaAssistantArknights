@@ -2625,7 +2625,7 @@ public class AsstProxy
             return false;
         }
 
-        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindowWarning"), UiLogColor.Warning);
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindowWarning"), UiLogColor.Error);
 
         const string TargetWindowName = "明日方舟";
         var foundWindows = FindWindowsByName(TargetWindowName);

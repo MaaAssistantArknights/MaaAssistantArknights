@@ -193,7 +193,7 @@
                                 <TextBlock
                                     Margin="100,0"
                                     HorizontalAlignment="Center"
-                                    Foreground="Red"
+                                    Foreground="{DynamicResource ErrorLogBrush}"
                                     Text="{DynamicResource UseAttachWindowWarning}"
                                     TextWrapping="Wrap"
                                     Visibility="{c:Binding IsPCConnectConfig}" />

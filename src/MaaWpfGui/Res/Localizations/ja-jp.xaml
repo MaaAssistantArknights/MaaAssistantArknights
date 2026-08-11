@@ -203,7 +203,7 @@
     <system:String x:Key="Nox">NoxPlayer</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">古いバージョンのWSA</system:String>
-    <system:String x:Key="PC">PC クライアント</system:String>
+    <system:String x:Key="PC">アークナイツ PC クライアント（コミュニティ保守）</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">互換モード</system:String>
     <system:String x:Key="SecondResolution">2番目の決議</system:String>
@@ -1467,16 +1467,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartAsAdminFailed">手動で管理者として MAA を実行してください。</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow の接続に失敗しました。スクリーンキャプチャ/入力方法の設定を確認してください</system:String>
     <system:String x:Key="UseAttachWindowTip">エミュレータや携帯電話への ADB 接続ではなく、アークナイツ PC クライアントに Win32 ウィンドウバインディングを使用します</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC 接続（実験的機能・動作の安定性は保証されません）
-MAA Team の開発リソースが限られているため、この機能はコミュニティによって保守されており、MAA Team が継続的にサポートしているものではありません。機能面や安定性が十分でない場合があり、問題が発生してもすぐには修正できない可能性があります。
-使用に支障が出る問題がある場合は、より安定した利用のために、ADB モードで Android エミュレータまたはモバイルデバイスへ接続することをおすすめします。
-また、PC 対応の改善にご協力いただける開発者の Pull Request はいつでも歓迎しています。
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">アークナイツ PC 接続（コミュニティ保守）
 
-使用前にご確認ください：
+ご注意ください：
+1. MAA Team はアークナイツ PC クライアントの接続機能のみを提供しており、保守や不具合の修正はコミュニティに委ねられており、可用性は保証されません。
+2. 問題が発生したり機能が使えなくなった場合は、GitHub で issue を提出してください。解決されるかどうかは、コミュニティの開発者が対応を引き受けるかどうかにかかっています。
+3. QQ グループや動画のコメント欄など、他のチャンネルではアークナイツ PC 接続の関連問題に対応できません。そこでの質問はご遠慮ください。
+
+必須でない場合は、より安定した体験のため、ADB で Android エミュレータまたはモバイルデバイスに接続することをおすすめします。
+
+使用する必要がある場合は、以下をご確認ください：
 1. MAA を管理者権限で起動してください
 2. 一部のスクリーンキャプチャ方式では、ゲームウィンドウを最小化できません
 3. アークナイツ設定 → ゲーム → UI スケーリングを 100% に設定してください
-4. ゲーム解像度は 16:9 である必要があります。推奨設定：1280x720 または 1920x1080</system:String>
+4. アークナイツ設定でマウスポインタのスケールを小さくし、認識領域の隠れを軽減してください
+5. ゲーム解像度は 16:9 である必要があります。推奨設定：1280x720 または 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>

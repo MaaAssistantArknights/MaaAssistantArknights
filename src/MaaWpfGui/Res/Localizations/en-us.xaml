@@ -203,7 +203,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">Old version of WSA</system:String>
-    <system:String x:Key="PC">PC Client</system:String>
+    <system:String x:Key="PC">Arknights PC Client (Community-maintained)</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">Compatible Mode</system:String>
     <system:String x:Key="SecondResolution">2nd Resolution</system:String>
@@ -1465,16 +1465,21 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="RestartAsAdminFailed">Please run MAA as administrator manually.</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow failed, please check screencap/input method settings</system:String>
     <system:String x:Key="UseAttachWindowTip">Use Win32 window binding for Arknights PC client instead of ADB connection for emulators or phones</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC connection (experimental feature, stability not guaranteed)
-Due to limited development resources within the MAA Team, this feature is community-maintained and is not continuously supported by the MAA Team. Functionality and stability may fall short of expectations, and issues may not be fixed promptly.
-If you encounter problems that affect usability, we recommend switching to ADB mode with an Android emulator or mobile device for a more stable experience.
-We also always welcome Pull Requests from capable developers to help improve PC support.
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">Arknights PC Connection (Community-maintained)
 
-Before use, please ensure:
+Please note:
+1. The MAA Team only provides the connection feature for the Arknights PC client; ongoing maintenance and bug fixes are left to the community, and availability is not guaranteed.
+2. If you run into problems or unusable features, please open an issue on GitHub. Whether it gets resolved depends on whether a community developer is willing to follow up.
+3. Other channels such as QQ groups or video comment sections cannot resolve Arknights PC connection issues, so please do not ask about them there.
+
+If you don't strictly need it, we recommend using ADB to connect to an Android emulator or mobile device for a more stable experience.
+
+If you do need to use it, please ensure:
 1. MAA is launched with administrator privileges
 2. For some screencap methods, the game window cannot be minimized
 3. Arknights Settings → Game → UI Scaling is set to 100%
-4. Game resolution must be 16:9, recommended settings: 1280x720 or 1920x1080</system:String>
+4. Lower the mouse pointer scale in Arknights settings to reduce obstruction of recognition areas
+5. Game resolution must be 16:9; recommended settings: 1280x720 or 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>

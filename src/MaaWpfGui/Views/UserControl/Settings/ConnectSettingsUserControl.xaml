@@ -76,7 +76,7 @@
                     Margin="5,0"
                     HorizontalAlignment="Center"
                     d:Visibility="Visible"
-                    Foreground="Red"
+                    Foreground="{DynamicResource ErrorLogBrush}"
                     Text="{DynamicResource UseAttachWindowWarning}"
                     TextWrapping="Wrap"
                     Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.PC'}" />

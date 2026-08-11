@@ -203,7 +203,7 @@
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">WSA 레거시 버전</system:String>
-    <system:String x:Key="PC">PC 클라이언트</system:String>
+    <system:String x:Key="PC">명일방주 PC 클라이언트 (커뮤니티 유지보수)</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">호환 모드</system:String>
     <system:String x:Key="SecondResolution">분할 화면</system:String>
@@ -1468,16 +1468,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartAsAdminFailed">MAA를 관리자 권한으로 직접 실행해 주세요.</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 연결에 실패했습니다. 스크린샷/입력 방법 설정을 확인하세요</system:String>
     <system:String x:Key="UseAttachWindowTip">에뮬레이터나 휴대폰용 ADB 연결 대신 명일방주 PC 클라이언트에 Win32 창 바인딩을 사용합니다</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC 연결 (실험적 기능이며 안정성은 보장되지 않습니다)
-MAA Team의 개발 여력이 제한되어 있어 이 기능은 커뮤니티에서 유지보수하고 있으며, MAA Team이 지속적으로 지원하는 기능은 아닙니다. 기능이나 안정성이 기대에 못 미칠 수 있고, 문제가 발생해도 빠르게 수정되지 않을 수 있습니다.
-사용에 지장을 주는 문제가 있다면, 더 안정적인 사용을 위해 ADB 모드로 Android 에뮬레이터 또는 모바일 기기에 연결하는 것을 권장합니다.
-또한 PC 지원 개선에 기여할 수 있는 개발자의 Pull Request는 언제나 환영합니다.
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">명일방주 PC 연결 (커뮤니티 유지보수)
 
-사용 전 확인 사항:
+주의 사항:
+1. MAA Team은 명일방주 PC 클라이언트의 연결 기능만 제공하며, 유지보수 및 문제 수정은 커뮤니티에 맡겨져 있어 가용성을 보장하지 않습니다.
+2. 문제가 발생하거나 기능을 사용할 수 없는 경우, GitHub에 issue를 등록해 주세요. 해결 여부는 커뮤니티 개발자가 자발적으로 참여하느냐에 달려 있습니다.
+3. QQ 그룹, 영상 댓글란 등 다른 채널에서는 명일방주 PC 연결 관련 문제를 해결할 수 없으므로, 해당 채널에서 문의하지 마세요.
+
+반드시 필요한 것이 아니라면, 더 안정적인 경험을 위해 ADB로 Android 에뮬레이터 또는 모바일 기기에 연결하는 것을 권장합니다.
+
+사용이 필요한 경우, 다음을 확인해 주세요:
 1. MAA를 관리자 권한으로 실행해야 합니다
 2. 일부 스크린샷 방식에서는 게임 창을 최소화할 수 없습니다
 3. 명일방주 설정 → 게임 → UI 배율을 100%로 설정해야 합니다
-4. 게임 해상도는 16:9이어야 하며, 권장 설정: 1280x720 또는 1920x1080</system:String>
+4. 명일방주 설정에서 마우스 포인터 배율을 줄여 인식 영역 가림을 줄여 주세요
+5. 게임 해상도는 16:9이어야 하며, 권장 설정: 1280x720 또는 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
