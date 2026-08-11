@@ -40,4 +40,16 @@ public static class ClientTypeExtension
             _ => throw new ArgumentOutOfRangeException(nameof(clientType), clientType, null),
         };
     }
+
+    public static string ToGameWindowName(this ClientType clientType)
+    {
+        return clientType switch {
+            ClientType.Official or ClientType.Bilibili => "明日方舟",
+            ClientType.EN => "Arknights",
+            ClientType.JP => "アークナイツ",
+            ClientType.KR => "명일방주",
+            ClientType.Txwy => "明日方舟",
+            _ => throw new ArgumentOutOfRangeException(nameof(clientType), clientType, null),
+        };
+    }
 }
