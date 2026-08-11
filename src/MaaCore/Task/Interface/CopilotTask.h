@@ -1,5 +1,6 @@
 #pragma once
 #include "Task/InterfaceTask.h"
+#include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
 
 #include <memory>
 #include <meojson/json.hpp>
@@ -38,6 +39,7 @@ public:
 
 private:
     std::optional<std::filesystem::path> parse_copilot_filename(const std::string& name);
+    std::vector<OperBoxInfo> parse_operbox_data(const std::string& path);
 
     std::shared_ptr<MultiCopilotTaskPlugin> m_multi_copilot_plugin_ptr = nullptr;
     std::shared_ptr<ProcessTask> m_medicine_task_ptr = nullptr;

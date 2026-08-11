@@ -1651,10 +1651,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationOperUnavailable.Level">レベル不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">スキルレベルが低すぎる</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">必要なモジュールが未解除</system:String>
-    <system:String x:Key="BattleFormationOperboxDataParseFailed">{key=OperBoxRecognition}データ解析失敗</system:String>
     <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator}（グループ） {0} に一致する{key=Operator}なし、{key=Operator}{1}を借りる必要があるかもしれません</system:String>
     <system:String x:Key="BattleFormationOperboxMatched">事前マッチした{key=Operator}（グループ）：</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加のカスタム{key=Operator}名が無効です: {0}、スペルを確認してください</system:String>
+    <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition}データ解析失敗</system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">経過時間: {0}ms</system:String>
     <system:String x:Key="Deploy">配置</system:String>
