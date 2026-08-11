@@ -34,8 +34,9 @@ inline flow::FlowGraph
     }
     for (size_t i = 0; i < left_count; ++i) {
         for (size_t j : adjacency[i]) {
-            // magic: 第一项优先满足选强的干员。第二项是反四边形不等式，让前面的组尽可能匹配前面的干员
-            int64_t cost = (j + 1) * 10000 - (i + 1) * (j + 1);
+            // 明日方舟 7 年了，一共 425 个干员，不知道能不能等到有 1024 个干员的那一天
+            // 目前的位数需求是 21 (保全派驻) * log2(425) = 21 * 9 = 189 < 256
+            flow::Int256 cost = flow::Int256(static_cast<int64_t>(j)) << (10 * (left_count - i - 1));
             fg.add_edge(static_cast<int>(i + 1), static_cast<int>(left_count + j + 1), 1, cost);
         }
     }
