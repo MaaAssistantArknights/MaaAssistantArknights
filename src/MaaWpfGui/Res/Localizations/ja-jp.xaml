@@ -1103,9 +1103,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@FitContain">全体表示</system:String>
     <system:String x:Key="MiniGame@PixelPaint@FitStretch">ストレッチ</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Dither">ディザ</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherNone">なし</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">ディザなし</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">ディザ - 写真</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">ディザ - 柔らかめ</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherIllustration">イラスト優先</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Contrast">コントラスト</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Brightness">明るさ</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Saturation">彩度</system:String>

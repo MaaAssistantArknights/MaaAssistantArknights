@@ -1103,9 +1103,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@FitContain">完整装入</system:String>
     <system:String x:Key="MiniGame@PixelPaint@FitStretch">拉伸</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Dither">抖动</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherNone">无</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">不抖动</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">抖动 - 照片</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">抖动 - 柔和</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherIllustration">插画优先</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Contrast">对比度</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Brightness">亮度</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Saturation">饱和度</system:String>

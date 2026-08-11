@@ -2478,6 +2478,7 @@ public class ToolboxViewModel : Screen
 
     public List<GenericCombinedData<string>> PixelPaintDitherModeList { get; } =
     [
+        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherIllustration"), Value = "Illustration" },
         new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherNone"), Value = "None" },
         new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherFS"), Value = "FloydSteinberg" },
         new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherAtkinson"), Value = "Atkinson" },
@@ -2491,7 +2492,7 @@ public class ToolboxViewModel : Screen
                 ReconvertPixelPaint();
             }
         }
-    } = "FloydSteinberg";
+    } = "Illustration";
 
     public double PixelPaintContrast
     {
@@ -2680,7 +2681,7 @@ public class ToolboxViewModel : Screen
 
         _pixelPaintView = new System.Windows.Rect(0, 0, 1, 1);
         PixelPaintFitMode = "Crop";
-        PixelPaintDitherMode = "FloydSteinberg";
+        PixelPaintDitherMode = "Illustration";
         PixelPaintContrast = 100;
         PixelPaintBrightness = 100;
         PixelPaintSaturation = 100;
@@ -2728,6 +2729,7 @@ public class ToolboxViewModel : Screen
             var dither = PixelPaintDitherMode switch {
                 "None" => PixelPaintHelper.DitherMode.None,
                 "Atkinson" => PixelPaintHelper.DitherMode.Atkinson,
+                "Illustration" => PixelPaintHelper.DitherMode.Illustration,
                 _ => PixelPaintHelper.DitherMode.FloydSteinberg,
             };
 

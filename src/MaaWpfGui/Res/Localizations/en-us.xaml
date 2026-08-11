@@ -1102,9 +1102,10 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@PixelPaint@FitContain">Contain</system:String>
     <system:String x:Key="MiniGame@PixelPaint@FitStretch">Stretch</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Dither">Dither</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherNone">None</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">No dithering</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Dither - Photo</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Dither - Soft</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherIllustration">Illustration</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Contrast">Contrast</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Brightness">Brightness</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Saturation">Saturation</system:String>

@@ -1104,9 +1104,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@FitContain">전체 표시</system:String>
     <system:String x:Key="MiniGame@PixelPaint@FitStretch">늘리기</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Dither">디더링</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherNone">없음</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">디더링 없음</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">디더링 - 사진</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">디더링 - 부드럽게</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherIllustration">일러스트 우선</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Contrast">대비</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Brightness">밝기</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Saturation">채도</system:String>
