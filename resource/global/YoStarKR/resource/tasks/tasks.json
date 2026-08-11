@@ -1,4 +1,7 @@
 {
+    "AccountManagerYostar": {
+        "roi": [450, 150, 400, 110]
+    },
     "BattleQuickFormationModulePage": {
         "text": ["세부", "분류"]
     },
@@ -17,20 +20,17 @@
         "next": ["StartUpThemes#next"],
         "text": ["알겠습니다", "로그인계속하기"]
     },
-    "YostarUserCenter": {
-        "action": "ClickSelf",
-        "roi": [1205, 340, 57, 134],
-        "postDelay": 3000,
-        "next": ["LogoutOCR"]
-    },
-    "AccountManagerYostar": {
-        "roi": [450, 150, 400, 110]
-    },
     "YostarStartToWakeUp": {
         "Doc": "START after logout, which opens the account list instead of signing back in.",
-        "template": "StartToWakeUp.png",
         "action": "ClickSelf",
-        "next": ["LoginOther"]
+        "next": ["LoginOther"],
+        "template": "StartToWakeUp.png"
+    },
+    "YostarUserCenter": {
+        "action": "ClickSelf",
+        "next": ["LogoutOCR"],
+        "postDelay": 3000,
+        "roi": [1205, 340, 57, 134]
     },
     "ClickChapter1": {
         "text": ["각성"]
