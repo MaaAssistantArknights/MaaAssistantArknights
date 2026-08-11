@@ -298,6 +298,20 @@ public static class PixelPaintHelper
         return NearestPaletteIndex(Srgb8ToOklab(r, g, b));
     }
 
+    /// <summary>取色板下标对应的 #RRGGBB 颜色字符串，供日志等 UI 着色；越界返回 null。</summary>
+    /// <param name="index">色板下标 0~39。</param>
+    /// <returns>#RRGGBB 字符串；越界时 null。</returns>
+    public static string? GetPaletteColorHex(int index)
+    {
+        if (index < 0 || index >= Palette.Length)
+        {
+            return null;
+        }
+
+        var (r, g, b) = Palette[index];
+        return $"#{r:X2}{g:X2}{b:X2}";
+    }
+
     /// <summary>给定 OKLab 坐标，在预转换缓存中找最近色板项。</summary>
     /// <param name="c">OKLab 坐标。</param>
     /// <returns>最近色板下标 0~39。</returns>
