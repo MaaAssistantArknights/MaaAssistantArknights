@@ -415,7 +415,9 @@ public static class PixelPaintHelper
     {
         ArgumentNullException.ThrowIfNull(source);
         var bgra = LoadBgra(source);
-        if (trimEmptyBorder)
+
+        // 恰好 24×24 视为用户外部已处理好的像素画，不去边
+        if (trimEmptyBorder && !(bgra.Width == GridSize && bgra.Height == GridSize))
         {
             bgra = TrimBorder(bgra) ?? bgra;
         }
@@ -530,6 +532,22 @@ public static class PixelPaintHelper
     /// <returns>24×24 采样网格，每格含均值与子样。</returns>
     private static CellSample[,] SampleToGrid(BgraImage src, ConvertOptions options)
     {
+        // 源图恰好 24×24：逐像素直接取色，不做插值/面积采样，仅最近色匹配
+        if (src.Width == GridSize && src.Height == GridSize)
+        {
+            var exact = new CellSample[GridSize, GridSize];
+            for (var y = 0; y < GridSize; y++)
+            {
+                for (var x = 0; x < GridSize; x++)
+                {
+                    var (r, g, b) = GetRgb(src, x, y);
+                    exact[y, x] = new CellSample { R = r, G = g, B = b, Subs = [r, g, b] };
+                }
+            }
+
+            return exact;
+        }
+
         var view = options.ContentViewNormalized ?? new Rect(0, 0, 1, 1);
         view = NormalizeViewRect(view);
 
