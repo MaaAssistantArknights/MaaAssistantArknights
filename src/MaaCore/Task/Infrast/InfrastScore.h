@@ -1,8 +1,10 @@
 #pragma once
 
+#include <array>
 #include <cstddef>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_set>
 #include <vector>
 
@@ -43,6 +45,23 @@ struct ScoreResult
     std::vector<size_t> indices;
     double score = -1;
 };
+
+struct AbyssalHunterCandidate
+{
+    std::string_view operator_id;
+    std::string_view role;
+};
+
+inline constexpr std::string_view AbyssalHunterSkill = "abyssal_hunter";
+inline constexpr std::array<AbyssalHunterCandidate, 4> AbyssalHunterCandidates = {
+    AbyssalHunterCandidate { "char_263_skadi", "Warrior" },
+    AbyssalHunterCandidate { "char_143_ghost", "Warrior" },
+    AbyssalHunterCandidate { "char_4145_ulpia", "Warrior" },
+    AbyssalHunterCandidate { "char_218_cuttle", "Sniper" },
+};
+
+bool is_abyssal_hunter(std::string_view operator_id);
+void append_abyssal_hunter_candidates(std::vector<ScoreOper>& opers, const ScoreContext& context);
 
 ScoreResult select_best_opers(const std::vector<ScoreOper>& opers, const ScoreContext& context);
 

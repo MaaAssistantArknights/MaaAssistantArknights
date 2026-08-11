@@ -48,6 +48,7 @@ protected:
     bool resolve_operator_identity(infrast::Oper& oper) const;
     bool optimal_calc();
     bool opers_choose();
+    size_t select_abyssal_hunters(const std::vector<std::string>& operator_ids);
     bool use_drone();
     void set_product(std::string product_name) noexcept;
 

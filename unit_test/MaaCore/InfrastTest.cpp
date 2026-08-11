@@ -248,7 +248,7 @@ TEST_CASE("infrast manufacturing respects product slots and mood boundary", "[in
     }
 }
 
-TEST_CASE("infrast manufacturing can select a complete abyssal roster across rooms", "[infrast][score]")
+TEST_CASE("infrast manufacturing injects and selects abyssal hunters across rooms", "[infrast][score]")
 {
     ScoreContext context;
     context.facility = "Mfg";
@@ -258,21 +258,74 @@ TEST_CASE("infrast manufacturing can select a complete abyssal roster across roo
     context.use_abyssal_hunter = true;
     context.selected_operator_ids = { "char_474_glady" };
 
-    const std::vector<ScoreOper> opers = {
-        { { "bskill_man_spd3" }, "", "generic-a", 1.0 }, { { "bskill_man_spd3" }, "", "generic-b", 1.0 },
-        { { "bskill_man_spd3" }, "", "generic-c", 1.0 }, { { }, "char_263_skadi", "skadi", 1.0 },
-        { { }, "char_143_ghost", "specter", 1.0 },       { { }, "char_4145_ulpia", "ulpianus", 1.0 },
-        { { }, "char_218_cuttle", "andreana", 1.0 },
+    std::vector<ScoreOper> opers = {
+        { { "bskill_man_spd3" }, "", "generic-a", 1.0 },
+        { { "bskill_man_spd3" }, "", "generic-b", 1.0 },
+        { { "bskill_man_spd3" }, "", "generic-c", 1.0 },
     };
+    asst::infrast::append_abyssal_hunter_candidates(opers, context);
+
+    REQUIRE(opers.size() == 7);
+    for (size_t index = 3; index < opers.size(); ++index) {
+        CHECK(opers[index].skills.contains(std::string(asst::infrast::AbyssalHunterSkill)));
+        CHECK(asst::infrast::is_abyssal_hunter(opers[index].operator_id));
+    }
 
     const auto result = select_best_opers(opers, context);
     size_t abyssal_count = 0;
     for (const size_t index : result.indices) {
         if (index >= 3) {
             ++abyssal_count;
+            context.selected_operator_ids.emplace(opers[index].operator_id);
         }
     }
     CHECK(abyssal_count == 2);
+
+    std::vector<ScoreOper> next_room_opers = {
+        { { "bskill_man_spd3" }, "", "generic-a", 1.0 },
+        { { "bskill_man_spd3" }, "", "generic-b", 1.0 },
+        { { "bskill_man_spd3" }, "", "generic-c", 1.0 },
+    };
+    asst::infrast::append_abyssal_hunter_candidates(next_room_opers, context);
+    REQUIRE(next_room_opers.size() == 5);
+    CHECK(std::ranges::none_of(next_room_opers, [&](const ScoreOper& oper) {
+        return asst::infrast::is_abyssal_hunter(oper.operator_id) &&
+               context.selected_operator_ids.contains(oper.operator_id);
+    }));
+
+    const auto next_result = select_best_opers(next_room_opers, context);
+    CHECK(std::ranges::count_if(next_result.indices, [&](size_t index) { return index >= 3; }) == 2);
+}
+
+TEST_CASE("infrast abyssal hunter candidates carry role filters", "[infrast][score]")
+{
+    CHECK(std::ranges::count_if(asst::infrast::AbyssalHunterCandidates, [](const auto& candidate) {
+              return candidate.role == "Warrior";
+          }) == 3);
+    CHECK(std::ranges::count_if(asst::infrast::AbyssalHunterCandidates, [](const auto& candidate) {
+              return candidate.role == "Sniper";
+          }) == 1);
+}
+
+TEST_CASE("infrast abyssal hunter injection requires an active control operator", "[infrast][score]")
+{
+    ScoreContext context;
+    context.facility = "Mfg";
+    std::vector<ScoreOper> opers = { { { "bskill_man_spd3" }, "", "generic", 1.0 } };
+
+    asst::infrast::append_abyssal_hunter_candidates(opers, context);
+    CHECK(opers.size() == 1);
+
+    context.use_abyssal_hunter = true;
+    asst::infrast::append_abyssal_hunter_candidates(opers, context);
+    CHECK(opers.size() == 1);
+
+    context.selected_operator_ids.emplace("char_474_glady");
+    asst::infrast::append_abyssal_hunter_candidates(opers, context);
+    CHECK(opers.size() == 5);
+
+    asst::infrast::append_abyssal_hunter_candidates(opers, context);
+    CHECK(opers.size() == 5);
 }
 
 TEST_CASE("infrast trade prefers complete paired skills", "[infrast][score]")

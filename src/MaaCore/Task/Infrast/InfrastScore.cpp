@@ -427,18 +427,16 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
     // 不计算换班间隔和心情消耗，无法稳定量化的概率效果也不计入。
     // 一些组合效率相同时会调整让组合效率稍高一点，优先使用某些组合
 
-    // 深海队四名候选是否齐全已在枚举组合前按完整干员列表检查。单个制造站最多只有三个位置，
-    // 这里不能再要求四人同时出现在当前组合中，否则第一间制造站永远无法启用该组合。
-    const bool abyssal_roster_complete = context.use_abyssal_hunter && is_selected(context, "char_474_glady");
+    const bool abyssal_hunter_active = context.use_abyssal_hunter && is_selected(context, "char_474_glady");
 
     for (size_t index = 0; index < opers.size(); ++index) {
         const auto& oper = *opers[index];
         // 歌蕾蒂娅已在控制中枢时，斯卡蒂、幽灵鲨、乌尔比安、安哲拉组成制造站候选。
-        if (abyssal_roster_complete &&
+        if (abyssal_hunter_active &&
             is_operator(oper, { "char_263_skadi", "char_143_ghost", "char_4145_ulpia", "char_218_cuttle" })) {
             ++abyssal_hunter;
             if (abyssal_hunter < 3 && !is_selected(context, oper.operator_id)) {
-                base += 0.401;
+                base += 0.401; // 手动调整，使之高于 0.4（槐琥、至简），能够优先上
             }
         }
 
@@ -1430,6 +1428,33 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
     return { std::move(result), 0 };
 }
 } // namespace
+
+bool is_abyssal_hunter(std::string_view operator_id)
+{
+    return std::ranges::any_of(AbyssalHunterCandidates, [operator_id](const AbyssalHunterCandidate& candidate) {
+        return candidate.operator_id == operator_id;
+    });
+}
+
+void append_abyssal_hunter_candidates(std::vector<ScoreOper>& opers, const ScoreContext& context)
+{
+    if (!context.use_abyssal_hunter || context.facility != "Mfg" ||
+        !context.selected_operator_ids.contains("char_474_glady")) {
+        return;
+    }
+
+    opers.reserve(opers.size() + AbyssalHunterCandidates.size());
+    for (const auto& candidate : AbyssalHunterCandidates) {
+        if (context.selected_operator_ids.contains(std::string(candidate.operator_id)) ||
+            std::ranges::any_of(opers, [&](const ScoreOper& oper) {
+                return oper.operator_id == candidate.operator_id;
+            })) {
+            continue;
+        }
+        opers.emplace_back(
+            ScoreOper { { std::string(AbyssalHunterSkill) }, std::string(candidate.operator_id), "", 1.0 });
+    }
+}
 
 ScoreResult select_best_opers(const std::vector<ScoreOper>& opers, const ScoreContext& context)
 {
