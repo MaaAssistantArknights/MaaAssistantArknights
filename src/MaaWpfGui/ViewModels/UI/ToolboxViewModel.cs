@@ -2422,6 +2422,8 @@ public class ToolboxViewModel : Screen
 
     #region PixelPaint
 
+    private static readonly string[] _pixelPaintImageExtensions = [".png", ".jpg", ".jpeg", ".bmp", ".webp", ".gif"];
+
     private BitmapSource? _pixelPaintSourceImage;
 
     private BitmapSource? _pixelPaintPreview;
@@ -2547,7 +2549,7 @@ public class ToolboxViewModel : Screen
         }
 
         var dialog = new Microsoft.Win32.OpenFileDialog {
-            Filter = "Image|*.png;*.jpg;*.jpeg;*.bmp;*.webp;*.gif|All|*.*",
+            Filter = "Image|" + string.Join(";", _pixelPaintImageExtensions.Select(ext => "*" + ext)) + "|All|*.*",
             CheckFileExists = true,
             Multiselect = false,
         };
@@ -2585,6 +2587,106 @@ public class ToolboxViewModel : Screen
             ? DragDropEffects.Copy
             : DragDropEffects.None;
         e.Handled = true;
+    }
+
+    public void PixelPaintKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.V || Keyboard.Modifiers != ModifierKeys.Control || !IsPixelPaintSelected || PixelPaintParametersLocked)
+        {
+            return;
+        }
+
+        try
+        {
+            if (Clipboard.ContainsImage() || Clipboard.ContainsData(DataFormats.Dib))
+            {
+                var bmp = GetClipboardImage();
+                if (bmp != null)
+                {
+                    LoadPixelPaintImage(bmp);
+                }
+            }
+            else if (Clipboard.GetFileDropList() is { Count: > 0 } files && files[0] is { } file)
+            {
+                var ext = Path.GetExtension(file).ToLowerInvariant();
+                if (_pixelPaintImageExtensions.Contains(ext))
+                {
+                    LoadPixelPaintImage(file);
+                }
+            }
+        }
+        catch
+        {
+            
+        }
+    }
+
+    /// <summary> 优先用 DIB 原始数据自行解码 </summary>
+    private static BitmapSource? GetClipboardImage()
+    {
+        try
+        {
+            if (Clipboard.ContainsData(DataFormats.Dib) && Clipboard.GetData(DataFormats.Dib) is Stream dib)
+            {
+                return DecodeDibAsBmp(dib);
+            }
+        }
+        catch
+        {
+            // ignored
+        }
+
+        try
+        {
+            return Clipboard.GetImage();
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static BitmapSource? DecodeDibAsBmp(Stream dib)
+    {
+        if (dib.Length < 40)
+        {
+            return null;
+        }
+
+        var info = new byte[40];
+        dib.Position = 0;
+        dib.ReadExactly(info, 0, info.Length);
+        var biSize = BitConverter.ToInt32(info, 0);
+        var biBitCount = BitConverter.ToInt16(info, 14);
+        var biClrUsed = BitConverter.ToInt32(info, 32);
+        var paletteSize = biBitCount <= 8
+            ? (biClrUsed > 0 ? biClrUsed : 1 << biBitCount) * 4
+            : 0;
+        var offset = 14 + biSize + paletteSize;
+        if (biSize < 40 || offset > dib.Length)
+        {
+            return null;
+        }
+
+        var header = new byte[14];
+        header[0] = (byte)'B';
+        header[1] = (byte)'M';
+        BitConverter.GetBytes((int)dib.Length + 14).CopyTo(header, 2);
+        BitConverter.GetBytes(offset).CopyTo(header, 10);
+
+        var merged = new MemoryStream();
+        merged.Write(header, 0, header.Length);
+        dib.Position = 0;
+        dib.CopyTo(merged);
+        merged.Position = 0;
+
+        var bmp = new BitmapImage();
+        bmp.BeginInit();
+        bmp.CacheOption = BitmapCacheOption.OnLoad;
+        bmp.StreamSource = merged;
+        bmp.EndInit();
+        bmp.Freeze();
+        return bmp;
     }
 
     public void PixelPaintPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -2699,16 +2801,26 @@ public class ToolboxViewModel : Screen
             bmp.EndInit();
             bmp.Freeze();
 
-            _pixelPaintSourceImage = bmp;
-            _pixelPaintPrepared = PixelPaintHelper.Prepare(bmp, trimEmptyBorder: true);
-            _pixelPaintView = new System.Windows.Rect(0, 0, 1, 1);
-            ReconvertPixelPaint();
+            LoadPixelPaintImage(bmp);
         }
         catch (Exception ex)
         {
             _logger.Warning(ex, "Load pixel paint image failed: {Path}", path);
             PixelPaintStatusText = LocalizationHelper.GetString("MiniGame@PixelPaint@LoadFailed");
         }
+    }
+
+    private void LoadPixelPaintImage(BitmapSource bmp)
+    {
+        if (bmp.CanFreeze)
+        {
+            bmp.Freeze();
+        }
+
+        _pixelPaintSourceImage = bmp;
+        _pixelPaintPrepared = PixelPaintHelper.Prepare(bmp, trimEmptyBorder: true);
+        _pixelPaintView = new System.Windows.Rect(0, 0, 1, 1);
+        ReconvertPixelPaint();
     }
 
     private void ReconvertPixelPaint()
