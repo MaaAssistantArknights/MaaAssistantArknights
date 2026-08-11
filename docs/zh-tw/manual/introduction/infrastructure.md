@@ -32,5 +32,5 @@ icon: material-symbols:view-quilt-rounded
 
 ## 自定義基建換班
 
-- 一圖流的大佬們幫忙寫了一個 [排班產生器](https://ark.yituliu.cn/tools/schedule)，可參閱 [基建協定文件](../../protocol/base-scheduling-schema.md) 使用。
+- 一圖流的大佬們幫忙寫了一個 [排班產生器](https://ark.yituliu.cn/tools/scheduleV3)，可參閱 [基建協定文件](../../protocol/base-scheduling-schema.md) 使用。
 - MAA 資料夾下 `/resource/custom_infrast/` 中內建了幾套理論極限效率的作業，可用作參考。由於其對幹員及練度的需求極高，不推薦直接使用。

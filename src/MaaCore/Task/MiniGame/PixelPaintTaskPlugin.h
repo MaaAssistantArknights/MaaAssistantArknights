@@ -33,8 +33,8 @@ public:
     // 是否用拖动绘制同色同行连续格；关闭则全部逐格点击
     void set_swipe_enabled(bool enabled) { m_swipe_enabled = enabled; }
 
-    // 逐格点击的额外等待（ms），UI 可配；各触控方式自带基础间隔
-    void set_grid_click_delay(unsigned delay) { m_grid_click_delay = delay; }
+    // 每格额外等待（ms），UI 可配：点击后 sleep、拖动时长按格累加；各触控方式自带基础间隔
+    void set_grid_delay(unsigned delay) { m_grid_delay = delay; }
 
 protected:
     virtual bool _run() override;
@@ -65,7 +65,7 @@ private:
 
     bool m_swipe_enabled = true;
 
-    unsigned m_grid_click_delay = 0;
+    unsigned m_grid_delay = 0;
 
     // 固定节奏（ms）。click 基础间隔由各控制方式自带
     inline static constexpr unsigned PaletteClickDelay = 50;

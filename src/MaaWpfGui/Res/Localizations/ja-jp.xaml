@@ -695,8 +695,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AccountSwitchManualRun">今すぐ切り替える</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">切り替える必要があるアカウントを入力し、空白のままにしてアカウントの切り替えを停止します。
 ログインインターフェイスに表示される内容を入力します（ ｢123****4567｣ など）。 ｢123****4567｣ 、 ｢4567｣ または ｢23****45｣ を入力できます。
-繁体字中国語サーバーのアカウントはEメール形式です（ ｢ab****01@gmail.com｣ など）。アスタリスクを含まない明文部分（ ｢01@gmail｣ など）の入力を推奨します。
-公式(CN)、Bilibili、繁体字中国語サーバーのみをサポートします。サードパーティのログイン方式はサポートされていません。</system:String>
+繁体字中国語サーバーとYostarKRサーバーのアカウントはEメール形式です（ ｢ab****01@gmail.com｣ など）。アスタリスクを含まない明文部分（ ｢01@gmail｣ など）の入力を推奨します。
+公式(CN)、Bilibili、繁体字中国語、YostarKRサーバーのみをサポートします。サードパーティのログイン方式はサポートされていません。</system:String>
     <system:String x:Key="AdbPath">ADBパス</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">選択されたファイル名にADBが含まれていません。誤ったファイルを選択していないか、エミュレータ自体を選択していないか確認してください。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">確かに間違って選択していないと思います</system:String>
@@ -1103,17 +1103,18 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@FitContain">全体表示</system:String>
     <system:String x:Key="MiniGame@PixelPaint@FitStretch">ストレッチ</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Dither">ディザ</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherNone">なし</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherFS">Floyd-Steinberg</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">Atkinson</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherNone">ディザなし</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherFS">ディザ - 写真</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherAtkinson">ディザ - 柔らかめ</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DitherIllustration">イラスト優先</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Contrast">コントラスト</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Brightness">明るさ</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Saturation">彩度</system:String>
     <system:String x:Key="MiniGame@PixelPaint@PaintWhite">白も描く</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Swipe">スワイプ描画を有効化</system:String>
     <system:String x:Key="MiniGame@PixelPaint@SwipeTip">同じ色の連続マスを1回のドラッグで描画し、大幅に高速化。一部のタッチ方式では正常に動作しない可能性があります。問題が出たら無効化してください。</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@GridClickDelay">クリック間隔(ms)</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@GridClickDelayTip">マスごとのクリック間の追加待機時間。各タッチ方式に基礎間隔があるためデフォルト 0 で問題ありません。低性能デバイスでは問題が出ることがあるため、必要に応じて調整してください。</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@GridDelay">描画間隔(ms)</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@GridDelayTip">マスごとの追加待機時間。クリック後の待機とドラッグ時間の両方に加算されます。各タッチ方式に基礎間隔があるためデフォルト 0 で問題ありません。低性能デバイスでは問題が出ることがあるため、必要に応じて調整してください。</system:String>
     <system:String x:Key="MiniGame@PixelPaint@LoadFailed">画像の読み込みに失敗</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ConvertFailed">変換に失敗</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ReadyStatus">描画可能 {0} マス / {1} 色</system:String>

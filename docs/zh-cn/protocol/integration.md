@@ -1003,8 +1003,8 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 任务附加参数。目前仅像素画任务（`MiniGame@PixelPaint@Begin`）使用：
 
 - `params.pixel_paint.groups`：按色分组点列。`color` 为色板序号（0~39，与游戏右侧色板顺序一致），`points` 为 `[x, y]` 格子坐标数组（0~23，左上为原点）。
-- `params.pixel_paint.swipe`（bool，可选，默认 true）：同色同行连续格用拖动一次画完，更快但部分触控模式可能异常。  
-- `params.pixel_paint.grid_click_delay`（int，可选，默认 0）：逐格点击的额外等待（ms）。各触控方式自带基础间隔，一般无需调整。
+- `params.pixel_paint.swipe`（bool，可选，默认 true）：同色同行连续格用拖动一次画完，更快但部分触控模式可能异常。
+- `params.pixel_paint.grid_delay`（int，可选，默认 0）：每格额外等待（ms）。点击后 sleep，拖动时长按格累加。各触控方式自带基础间隔，一般无需调整。兼容旧键 `grid_click_delay`。
 
 :::  
 ::::

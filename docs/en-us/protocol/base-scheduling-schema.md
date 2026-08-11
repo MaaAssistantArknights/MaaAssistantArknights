@@ -11,7 +11,7 @@ Usage and field descriptions for `resource/custom_infrast/*.json`
 Please note that JSON files do not support comments. The comments in this document are for demonstration purposes only. Do not copy them directly into your JSON files.
 :::
 
-[Visual Schedule Generator Tool](https://ark.yituliu.cn/tools/schedule)
+[Visual Schedule Generator Tool](https://ark.yituliu.cn/tools/scheduleV3)
 
 ## Complete Field Reference
 

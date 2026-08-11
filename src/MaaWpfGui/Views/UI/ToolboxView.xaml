@@ -1020,15 +1020,15 @@
                                         TooltipText="{DynamicResource MiniGame@PixelPaint@SwipeTip}" />
                                 </StackPanel>
                                 <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                    <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource MiniGame@PixelPaint@GridClickDelay}" />
+                                    <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource MiniGame@PixelPaint@GridDelay}" />
                                     <hc:NumericUpDown
                                         Width="60"
                                         Margin="6,0,0,0"
                                         Increment="50"
                                         Maximum="500"
                                         Minimum="0"
-                                        Value="{Binding PixelPaintGridClickDelay}" />
-                                    <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource MiniGame@PixelPaint@GridClickDelayTip}" />
+                                        Value="{Binding PixelPaintGridDelay}" />
+                                    <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource MiniGame@PixelPaint@GridDelayTip}" />
                                 </StackPanel>
                                 <TextBlock
                                     Margin="0,12,0,0"

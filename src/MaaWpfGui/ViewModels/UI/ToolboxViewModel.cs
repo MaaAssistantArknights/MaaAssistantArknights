@@ -2478,6 +2478,7 @@ public class ToolboxViewModel : Screen
 
     public List<GenericCombinedData<string>> PixelPaintDitherModeList { get; } =
     [
+        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherIllustration"), Value = "Illustration" },
         new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherNone"), Value = "None" },
         new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherFS"), Value = "FloydSteinberg" },
         new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherAtkinson"), Value = "Atkinson" },
@@ -2491,7 +2492,7 @@ public class ToolboxViewModel : Screen
                 ReconvertPixelPaint();
             }
         }
-    } = "FloydSteinberg";
+    } = "Illustration";
 
     public double PixelPaintContrast
     {
@@ -2536,8 +2537,8 @@ public class ToolboxViewModel : Screen
     /// <summary>拖动绘制开关：同色同行连续格一次画完（更快，部分触控模式可能丢点）。</summary>
     public bool PixelPaintSwipeEnabled { get; set; } = true;
 
-    /// <summary>逐格点击的额外等待（ms），默认 0（各触控方式自带基础间隔）。</summary>
-    public int PixelPaintGridClickDelay { get; set; } = 0;
+    /// <summary>每格额外等待（ms），默认 0；点击后等待与拖动时长均会累加（各触控方式自带基础间隔）。</summary>
+    public int PixelPaintGridDelay { get; set; } = 0;
 
     public void PixelPaintPickImage()
     {
@@ -2680,7 +2681,7 @@ public class ToolboxViewModel : Screen
 
         _pixelPaintView = new System.Windows.Rect(0, 0, 1, 1);
         PixelPaintFitMode = "Crop";
-        PixelPaintDitherMode = "FloydSteinberg";
+        PixelPaintDitherMode = "Illustration";
         PixelPaintContrast = 100;
         PixelPaintBrightness = 100;
         PixelPaintSaturation = 100;
@@ -2728,6 +2729,7 @@ public class ToolboxViewModel : Screen
             var dither = PixelPaintDitherMode switch {
                 "None" => PixelPaintHelper.DitherMode.None,
                 "Atkinson" => PixelPaintHelper.DitherMode.Atkinson,
+                "Illustration" => PixelPaintHelper.DitherMode.Illustration,
                 _ => PixelPaintHelper.DitherMode.FloydSteinberg,
             };
 
@@ -2812,7 +2814,7 @@ public class ToolboxViewModel : Screen
         if (isPixelPaint)
         {
             var groups = _pixelPaintResult!.Groups;
-            caught = Instances.AsstProxy.AsstPixelPaint(groups, PixelPaintSwipeEnabled, PixelPaintGridClickDelay);
+            caught = Instances.AsstProxy.AsstPixelPaint(groups, PixelPaintSwipeEnabled, PixelPaintGridDelay);
             if (caught)
             {
                 Instances.TaskQueueViewModel.AddLog(

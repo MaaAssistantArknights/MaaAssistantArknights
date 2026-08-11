@@ -2373,9 +2373,12 @@ public class AsstProxy
                     }
                     else
                     {
+                        // 日志文字用当前绘制色号对应的实际颜色（浅色自动 fallback 到默认色）
+                        var color = (int)(subTaskDetails?["color"] ?? 0);
+                        var colorHex = PixelPaintHelper.GetPaletteColorHex(color) ?? UiLogColor.Trace;
                         Instances.TaskQueueViewModel.AddLog(
                             string.Format(LocalizationHelper.GetString("MiniGame@PixelPaint@ProgressLog"), done, total),
-                            UiLogColor.Trace);
+                            colorHex);
                     }
 
                     break;
@@ -3058,16 +3061,16 @@ public class AsstProxy
     /// </summary>
     /// <param name="groups">按色分组后的格子，color 为 0~39。</param>
     /// <param name="swipeEnabled">是否启用拖动绘制（同色同行连续格一次画完）。</param>
-    /// <param name="gridClickDelay">逐格点击的额外等待（ms），默认 0。</param>
+    /// <param name="gridDelay">每格额外等待（ms），默认 0；点击与拖动均会应用。</param>
     /// <returns>是否成功启动。</returns>
-    public bool AsstPixelPaint(IReadOnlyList<PixelPaintHelper.ColorGroup> groups, bool swipeEnabled = true, int gridClickDelay = 0)
+    public bool AsstPixelPaint(IReadOnlyList<PixelPaintHelper.ColorGroup> groups, bool swipeEnabled = true, int gridDelay = 0)
     {
         var task = new AsstCustomTask {
             CustomTasks = ["MiniGame@PixelPaint@Begin"],
             Params = JObject.FromObject(new {
                 pixel_paint = new {
                     swipe = swipeEnabled,
-                    grid_click_delay = gridClickDelay,
+                    grid_delay = gridDelay,
                     groups = groups.Select(g => new {
                         color = g.Color,
                         points = g.Points,

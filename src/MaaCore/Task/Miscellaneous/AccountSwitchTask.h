@@ -37,6 +37,7 @@ private:
     std::string m_client_type; // 客户端类型
     const std::vector<std::string> SupportedClientType = { "Official",
                                                            "Bilibili",
-                                                           "txwy" /*, "YoStarEN", "YoStarJP", "YoStarKR" */ };
+                                                           "txwy",
+                                                           "YoStarKR" /*, "YoStarEN", "YoStarJP" */ };
 };
 }

@@ -1,4 +1,7 @@
 {
+    "AccountManagerYostar": {
+        "roi": [450, 150, 400, 110]
+    },
     "BattleQuickFormationModulePage": {
         "text": ["세부", "분류"]
     },
@@ -15,7 +18,19 @@
         "algorithm": "OcrDetect",
         "doc": "This is a task for handling KR-specific announcements (linked StartUpThemes)",
         "next": ["StartUpThemes#next"],
-        "text": ["알겠습니다"]
+        "text": ["알겠습니다", "로그인계속하기"]
+    },
+    "YostarStartToWakeUp": {
+        "Doc": "START after logout, which opens the account list instead of signing back in.",
+        "action": "ClickSelf",
+        "next": ["LoginOther"],
+        "template": "StartToWakeUp.png"
+    },
+    "YostarUserCenter": {
+        "action": "ClickSelf",
+        "next": ["LogoutOCR"],
+        "postDelay": 3000,
+        "roi": [1205, 340, 57, 134]
     },
     "ClickChapter1": {
         "text": ["각성"]
@@ -1156,6 +1171,55 @@
             ["^식$", "食字"],
             ["첸더던스트릭", "赤刃明霄陈"]
         ]
+    },
+    "SwitchAccount@StartUpBegin": {
+        "Doc": "Unlike CN, Yostar has no account manager button on the title screen. If already logged in, it must route through YostarUserCenter first to log out.",
+        "next": [
+            "LoginOther#next",
+            "YostarUserCenter",
+            "SwitchAccount@StartUpThemes#next",
+            "SwitchAccount@LoadingIcon",
+            "SwitchAccount@ReturnButtons#next",
+            "Settings"
+        ]
+    },
+    "UserCenter": {
+        "postDelay": 3000,
+        "roi": [50, 550, 50, 75]
+    },
+    "LogoutOCR": {
+        "text": ["계정변경"],
+        "roi": [825, 170, 210, 50]
+    },
+    "LogoutConfirmOCR": {
+        "text": ["확인"],
+        "roi": [670, 385, 145, 55],
+        "next": ["SwitchAccount@StartToWakeUp"]
+    },
+    "SwitchAccount@StartToWakeUp": {
+        "Doc": "YostarUserCenter icon is gone once logged out, so the next list splits on it.",
+        "next": ["YostarUserCenter", "YostarStartToWakeUp"]
+    },
+    "LoginOther": {
+        "next": ["AccountManagerYostar"]
+    },
+    "AccountCurrentOCR": {
+        "roi": [460, 280, 350, 40]
+    },
+    "AccountManagerLoginButton": {
+        "text": ["로그인"],
+        "roi": [423, 400, 448, 70]
+    },
+    "AccountManagerListAccount": {
+        "roi": [830, 280, 85, 65]
+    },
+    "AccountListSwipe": {
+        "specificRect": [700, 430, 20, 20],
+        "rectMove": [700, 380, 20, 20]
+    },
+    "AccountListSwipeToTop": {
+        "specificRect": [700, 380, 20, 20],
+        "rectMove": [700, 430, 20, 20]
     },
     "StartUpThemes": {
         "next": [
