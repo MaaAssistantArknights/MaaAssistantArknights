@@ -1806,6 +1806,10 @@ public class AsstProxy
                         var operName = details["details"]?["name"]?.ToString();
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("CopilotUserAdditionalNameInvalid", operName ?? string.Empty), UiLogColor.Error);
                     }
+                    if (what == "OperboxDataParseFailed")
+                    {
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CopilotOperboxDataParseFailed"), UiLogColor.Error);
+                    }
                     break;
                 }
         }
@@ -2471,13 +2475,6 @@ public class AsstProxy
                     }
 
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("BattleFormationOperUnavailable", oper_name ?? string.Empty, type), isError ? UiLogColor.Error : UiLogColor.Warning);
-                    break;
-                }
-
-            case "BattleFormationOperboxDataParseFailed":
-                {
-                    Instances.CopilotViewModel.AddLog(
-                        LocalizationHelper.GetString("BattleFormationOperboxDataParseFailed"), UiLogColor.Error);
                     break;
                 }
 

@@ -155,8 +155,27 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_formation_task_ptr->set_ignore_requirements(ignore_requirements);
     m_formation_task_ptr->set_support_unit_usage(support_unit_usage);
     m_formation_task_ptr->set_specific_support_unit(support_unit_name);
-    m_formation_task_ptr->set_operbox_assist_enabled(operbox_assist);
-    m_formation_task_ptr->set_operbox_assist_path(operbox_data_path);
+    if (!operbox_assist) {
+        m_formation_task_ptr->set_operbox_data(std::nullopt);
+    }
+    else {
+        std::vector<OperBoxInfo> operbox_data;
+        if (!operbox_data_path.empty()) {
+            operbox_data = parse_operbox_data(operbox_data_path);
+            if (operbox_data.empty()) {
+                Log.error("OperBox data is empty, cannot perform precheck");
+                json::value info = basic_info_with_what("OperboxDataParseFailed");
+                callback(AsstMsg::SubTaskError, info);
+                return false;
+            }
+        }
+        else {
+            Log.error("CopilotTask set_params failed, operbox_assist is enabled but operbox_data_path is empty");
+            return false;
+        }
+        std::sort(operbox_data.begin(), operbox_data.end(), OperBoxInfo::SortCmp {});
+        m_formation_task_ptr->set_operbox_data(std::move(operbox_data));
+    }
 
     if (auto opt = params.find<json::array>("user_additional"); with_formation && add_user_additional && opt) {
         std::vector<std::pair<std::string, int>> user_additional;
@@ -216,4 +235,33 @@ std::optional<std::filesystem::path> asst::CopilotTask::parse_copilot_filename(c
         return std::nullopt;
     }
     return path;
+}
+
+std::vector<asst::OperBoxInfo> asst::CopilotTask::parse_operbox_data(const std::string& path)
+{
+    LogTraceFunction;
+
+    std::vector<OperBoxInfo> result;
+    auto json_opt = json::open(utils::path(path), true, true);
+    if (!json_opt) {
+        Log.error("Failed to open OperBox data file:", path);
+        return result;
+    }
+
+    auto& json_obj = json_opt.value();
+    auto own_opers = json_obj.get("own_opers", json::array());
+
+    for (auto& item : own_opers) {
+        OperBoxInfo info;
+        info.id = item.get("id", std::string());
+        info.name = item.get("name", std::string());
+        info.elite = item.get("elite", 0);
+        info.level = item.get("level", 0);
+        info.potential = item.get("potential", 0);
+        info.rarity = item.get("rarity", 0);
+        info.own = item.get("own", false);
+        result.emplace_back(std::move(info));
+    }
+
+    return result;
 }
