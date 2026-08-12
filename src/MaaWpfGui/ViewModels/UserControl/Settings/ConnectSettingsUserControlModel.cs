@@ -58,6 +58,17 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
 
+        // 鼠标输入方式变化时刷新窗口恢复按钮的可见性
+        if (ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra is { } win32Extra)
+        {
+            win32Extra.PropertyChanged += (_, e) => {
+                if (e.PropertyName == nameof(Win32Extra.MouseMethod))
+                {
+                    NotifyOfPropertyChange(nameof(ShowWindowRestoreButton));
+                }
+            };
+        }
+
         // 从配置恢复时，若 MuMu 截图增强已启用，需将 MuMu 触控加入下拉列表
         if (ExtraConfig is MuMu12Extra { Enable: true })
         {
@@ -831,10 +842,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool UseAttachWindow => ConnectConfig == ConnectConfig.PC;
 
     /// <summary>
-    /// Gets a value indicating whether to show the window restore button.
+    /// Gets a value indicating whether to show the window restore button (PC 端 + SendMessageWithWindowPos 输入方式)。
     /// </summary>
-    [PropertyDependsOn(nameof(ConnectConfig), nameof(AttachWindowMouseMethod))]
-    public bool ShowWindowRestoreButton => UseAttachWindow && AttachWindowMouseMethod == "128";
+    [PropertyDependsOn(nameof(ConnectConfig))]
+    public bool ShowWindowRestoreButton =>
+        UseAttachWindow && ExtraConfig is Win32Extra { MouseMethod: Win32Extra.AsstWin32InputMethod.SendMessageWithWindowPos };
 
     /// <summary>
     /// 将游戏窗口移动到主屏幕中央
