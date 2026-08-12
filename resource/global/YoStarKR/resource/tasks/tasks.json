@@ -13,7 +13,7 @@
         "algorithm": "JustReturn",
         "doc": "whether to use old series method"
     },
-    "StartUpNotificationKR": {
+    "StartUpNotification": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "doc": "This is a task for handling KR-specific announcements (linked StartUpThemes)",
@@ -1194,7 +1194,7 @@
     "LogoutConfirmOCR": {
         "text": ["확인"],
         "roi": [670, 385, 145, 55],
-        "next": ["SwitchAccount@StartToWakeUp"]
+        "next": ["SwitchAccount@StartUpNotification", "SwitchAccount@StartToWakeUp"]
     },
     "SwitchAccount@StartToWakeUp": {
         "Doc": "YostarUserCenter icon is gone once logged out, so the next list splits on it.",
@@ -1223,7 +1223,7 @@
     },
     "StartUpThemes": {
         "next": [
-            "StartUpNotificationKR",
+            "StartUpNotification",
             "LeidianGoogleFrameworkConfirm",
             "GameStart",
             "StartToWakeUp",
