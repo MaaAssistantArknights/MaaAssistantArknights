@@ -801,7 +801,7 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource MiniGame}">
-            <Grid Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20" KeyDown="{s:Action PixelPaintKeyDown}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
