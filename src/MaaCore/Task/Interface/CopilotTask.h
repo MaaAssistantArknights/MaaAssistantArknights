@@ -20,10 +20,10 @@ public:
     {
         int id = -1;
         std::string filename;   // 文件名
-        std::string stage_name; // 关卡名
+        std::optional<std::string> nav_name_override; // 关卡名
         bool is_raid = false;   // 是否是突袭
 
-        MEO_JSONIZATION(MEO_OPT id, filename, stage_name, MEO_OPT is_raid);
+        MEO_JSONIZATION(MEO_OPT id, filename, MEO_OPT nav_name_override, MEO_OPT is_raid);
     };
 
 public:
