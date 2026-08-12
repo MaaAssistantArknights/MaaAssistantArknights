@@ -1268,8 +1268,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="ErrorCrashMessageHeader">The above issue caused the program to crash.</system:String>
     <system:String x:Key="ErrorCrashMessageOpenLog">You can go to “{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}” to view the logs and check the specific cause of the error.</system:String>
-    <system:String x:Key="ErrorCrashMessageGenerateReport">Please use “{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}” to generate an error report, and click the blue ｢{key=Issue}｣ link to submit feedback.</system:String>
-    <system:String x:Key="ErrorCrashMessageHelpTip">If you need help from others, please send the generated error report file instead of sending screenshots, screen recordings, photos of the screen, recorded videos, hand-drawn pictures, or transcribed content of this window.</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">Please use “{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}” to generate an error report, and click the blue ｢{key=Issue}｣ link to submit feedback. If the program has already exited, manually compress the debug, config, and cache folders instead.</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">A single GitHub attachment cannot exceed 20 MB; please split it if larger. If you need help from others, please send the generated error report file instead of sending screenshots, screen recordings, photos of the screen, recorded videos, hand-drawn pictures, or transcribed content of this window.</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">Reason for the last crash</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
     <!--  !ErrorView  -->
