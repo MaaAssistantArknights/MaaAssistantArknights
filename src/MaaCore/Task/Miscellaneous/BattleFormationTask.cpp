@@ -1239,7 +1239,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             fake_oper.id = borrow_id;
             fake_oper.name = all_chars.at(borrow_id)->name;
             fake_oper.rarity = all_chars.at(borrow_id)->rarity;
-            fake_oper.elite = fake_oper.rarity / 4 + (fake_oper.rarity > 2); // magic: 满练
+            fake_oper.elite = (fake_oper.rarity >= 3) + (fake_oper.rarity >= 4); // magic: 满练
             fake_oper.level = 30 + (fake_oper.elite * 25) + (fake_oper.rarity > 3) * 10 * (fake_oper.rarity - 5);
             fake_oper.potential = 6;
             fake_oper.own = true;
@@ -1286,6 +1286,9 @@ bool asst::BattleFormationTask::do_operbox_precheck()
 
         auto& unmatched_group = flat_groups[result.unmatched_left[0]];
         for (const auto& op : unmatched_group.opers) {
+            if (need_exit()) {
+                break;
+            }
             auto borrow_id = BattleData.get_id(op.name);
             if (borrow_id.empty() || !candidate_ids.erase(borrow_id)) {
                 continue;
@@ -1295,6 +1298,9 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             }
         }
         for (const auto& borrow_id : candidate_ids) {
+            if (need_exit()) {
+                break;
+            }
             if (try_borrow(borrow_id)) {
                 return true;
             }
