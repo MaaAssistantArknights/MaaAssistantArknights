@@ -2592,9 +2592,10 @@ public class ToolboxViewModel : Screen
     }
 
     /// <summary>
-    /// 像素画：响应 Ctrl+V，从剪贴板粘贴图片。
-    /// 先按剪贴板位图处理（截图工具、浏览器 ｢复制图片｣ 等无文件场景），
-    /// 否则按已复制的图片文件处理；加载失败时与文件加载一致地提示。
+    /// 像素画：响应 Ctrl+V，从剪贴板粘贴。
+    /// 优先剪贴板位图（截图、浏览器 ｢复制图片｣ 等无文件场景），
+    /// 其次已复制的图片文件，最后剪贴板文字——文字会渲染成四角布局图片；
+    /// 加载失败时与文件加载一致地提示。
     /// </summary>
     /// <param name="sender">事件源（绑定 KeyDown 的 MiniGame Grid）。</param>
     /// <param name="e">按键事件数据。</param>
@@ -2621,6 +2622,15 @@ public class ToolboxViewModel : Screen
                 if (_pixelPaintImageExtensions.Contains(ext))
                 {
                     LoadPixelPaintImage(file);
+                }
+            }
+            else if (Clipboard.ContainsText())
+            {
+                // 复制的是文字：渲染成四角布局图片（取前 4 个字素）
+                var text = Clipboard.GetText().Trim();
+                if (text.Length > 0)
+                {
+                    LoadPixelPaintImage(PixelPaintHelper.RenderTextToBitmap(text));
                 }
             }
         }

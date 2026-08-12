@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -269,6 +270,171 @@ public static class PixelPaintHelper
         bmp.WritePixels(new Int32Rect(0, 0, PreviewPixelSize, PreviewPixelSize), pixels, PreviewPixelSize * 4, 0);
         bmp.Freeze();
         return bmp;
+    }
+
+    /// <summary>
+    /// 将最多 4 个字渲染为黑字白底位图。含非 ASCII 字符（如中文）时按四角布局（左上 / 右上 / 左下 / 右下，每字一象限）；
+    /// 纯英文 / 数字时改为单行横排。每字（或整行）按墨迹外接框最大化、不裁切字形，以提升 24×24 下的辨识度。
+    /// 未覆盖区域保持白色，由像素画流水线默认跳过。
+    /// </summary>
+    /// <param name="text">输入文字；取前 4 个字素（按 <see cref="StringInfo"/> 拆分，避免拆开代理对），超出忽略。</param>
+    /// <returns>已冻结的 512×512 Pbgra32 位图，可直接作为像素画原图。</returns>
+    public static BitmapSource RenderTextToBitmap(string text)
+    {
+        const int canvas = 512;
+        const int quadrant = canvas / 2;
+        const double emSize = 400;
+
+        // 按字素取前 4 个，正确处理代理对 / 组合字符
+        var chars = new List<string>(4);
+        var enumerator = StringInfo.GetTextElementEnumerator(text);
+        while (enumerator.MoveNext() && chars.Count < 4)
+        {
+            chars.Add((string)enumerator.Current);
+        }
+
+        var typeface = new Typeface(new FontFamily("Microsoft YaHei"), FontStyles.Normal, FontWeights.Bold, FontStretches.Normal);
+        var culture = CultureInfo.GetCultureInfo("zh-CN");
+
+        // 含非 ASCII 字符 → 四角布局；纯英文 / 数字 → 单行横排
+        var wide = chars.Exists(HasNonAscii);
+
+        var visual = new DrawingVisual();
+        using (var dc = visual.RenderOpen())
+        {
+            dc.DrawRectangle(Brushes.White, null, new Rect(0, 0, canvas, canvas));
+            if (wide)
+            {
+                for (var i = 0; i < chars.Count; i++)
+                {
+                    var glyph = RenderGlyph(chars[i], typeface, culture, emSize, quadrant);
+                    if (glyph.Bitmap == null)
+                    {
+                        continue;
+                    }
+
+                    var col = i % 2;
+                    var row = i / 2;
+                    var ox = col * quadrant;
+                    var oy = row * quadrant;
+
+                    // 居中放入象限（已按墨迹最大化，字形基本占满象限）
+                    var x = ox + ((quadrant - glyph.Width) / 2.0);
+                    var y = oy + ((quadrant - glyph.Height) / 2.0);
+                    dc.DrawImage(glyph.Bitmap, new Rect(x, y, glyph.Width, glyph.Height));
+                }
+            }
+            else
+            {
+                // 英文 / 数字：整串单行横排，最大化占满画布
+                var glyph = RenderGlyph(string.Concat(chars), typeface, culture, emSize, canvas);
+                if (glyph.Bitmap != null)
+                {
+                    var x = (canvas - glyph.Width) / 2.0;
+                    var y = (canvas - glyph.Height) / 2.0;
+                    dc.DrawImage(glyph.Bitmap, new Rect(x, y, glyph.Width, glyph.Height));
+                }
+            }
+        }
+
+        var bmp = new RenderTargetBitmap(canvas, canvas, 96, 96, PixelFormats.Pbgra32);
+        bmp.Render(visual);
+        bmp.Freeze();
+        return bmp;
+    }
+
+    /// <summary>
+    /// 判断字素中是否含非 ASCII 字符（如中文），用于决定四角布局还是单行横排。
+    /// </summary>
+    /// <param name="textElement">单个字素。</param>
+    /// <returns>含非 ASCII 字符返回 true。</returns>
+    private static bool HasNonAscii(string textElement)
+    {
+        foreach (var c in textElement)
+        {
+            if (c >= 128)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// 渲染单个字素，扫描 alpha 通道取墨迹外接框，裁剪后按较长边缩放到目标边长
+    /// （占满象限较长边、字形不裁切），最大化字形而避开字体的行距留白。
+    /// </summary>
+    /// <param name="ch">单个字素。</param>
+    /// <param name="typeface">字体。</param>
+    /// <param name="culture">区域信息。</param>
+    /// <param name="emSize">测量用字号。</param>
+    /// <param name="target">目标边长（象限大小）。</param>
+    /// <returns>缩放后的字形位图及其绘制尺寸；无墨迹（如空白）位图为 null。</returns>
+    private static (BitmapSource? Bitmap, double Width, double Height) RenderGlyph(string ch, Typeface typeface, CultureInfo culture, double emSize, int target)
+    {
+        var ft = new FormattedText(ch, culture, FlowDirection.LeftToRight, typeface, emSize, Brushes.Black, 1.0);
+        var pad = (int)Math.Ceiling(emSize * 0.15);
+        var w = (int)Math.Ceiling(ft.Width) + (pad * 2);
+        var h = (int)Math.Ceiling(ft.Height) + (pad * 2);
+
+        var mv = new DrawingVisual();
+        using (var dc = mv.RenderOpen())
+        {
+            dc.DrawText(ft, new Point(pad, pad));
+        }
+
+        var rtb = new RenderTargetBitmap(w, h, 96, 96, PixelFormats.Pbgra32);
+        rtb.Render(mv);
+
+        // 扫描 alpha 通道取墨迹外接框（>16 视为有墨迹，与 TrimBorder 一致）
+        var pixels = new byte[(long)w * h * 4];
+        rtb.CopyPixels(pixels, w * 4, 0);
+        var minX = w;
+        var minY = h;
+        var maxX = -1;
+        var maxY = -1;
+        for (var y = 0; y < h; y++)
+        {
+            for (var x = 0; x < w; x++)
+            {
+                if (pixels[(((y * w) + x) * 4) + 3] > 16)
+                {
+                    if (x < minX)
+                    {
+                        minX = x;
+                    }
+
+                    if (x > maxX)
+                    {
+                        maxX = x;
+                    }
+
+                    if (y < minY)
+                    {
+                        minY = y;
+                    }
+
+                    if (y > maxY)
+                    {
+                        maxY = y;
+                    }
+                }
+            }
+        }
+
+        if (maxX < 0)
+        {
+            return (null, 0, 0);
+        }
+
+        var gw = maxX - minX + 1;
+        var gh = maxY - minY + 1;
+
+        // 按较长边缩放到目标边长：字形占满象限且不裁切
+        var scale = target / (double)Math.Max(gw, gh);
+        var cropped = new CroppedBitmap(rtb, new Int32Rect(minX, minY, gw, gh));
+        return (cropped, gw * scale, gh * scale);
     }
 
     /// <summary>
