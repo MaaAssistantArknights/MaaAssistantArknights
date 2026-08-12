@@ -53,29 +53,32 @@
                         IsEnabled="{c:Binding 'AccountName != &quot;&quot;'}" />
                 </Grid>
             </StackPanel>
-
-            <controls:TextBlock
-                Margin="0,5"
-                HorizontalAlignment="Center"
-                FontWeight="Bold"
-                Text="{DynamicResource MultiTasksShareTip}"
-                TextAlignment="Left"
-                TextWrapping="Wrap" />
-            <CheckBox
-                Margin="0,5"
-                Content="{DynamicResource StartGameLaunchClient}"
-                IsChecked="{Binding StartGame, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}" />
-            <hc:ComboBox
-                Margin="0,5"
-                hc:InfoElement.Title="{DynamicResource ClientType}"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                ItemsSource="{Binding ClientTypeList, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}"
-                SelectedValue="{Binding ClientType, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}"
-                SelectedValuePath="Value"
-                Visibility="{c:Binding !TaskSettingVisibilities.Guide,
-                                       Source={x:Static helper:Instances.SettingsViewModel}}" />
         </StackPanel>
+
+        <controls:TextBlock
+            Margin="0,5"
+            HorizontalAlignment="Center"
+            FontWeight="Bold"
+            Text="{DynamicResource MultiTasksShareTip}"
+            TextAlignment="Left"
+            TextWrapping="Wrap" />
+        <CheckBox
+            Margin="0,5"
+            d:Visibility="Visible"
+            Content="{DynamicResource StartGameLaunchClient}"
+            IsChecked="{Binding StartGame, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}"
+            Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC',
+                                   Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}" />
+        <hc:ComboBox
+            Margin="0,5"
+            hc:InfoElement.Title="{DynamicResource ClientType}"
+            DisplayMemberPath="Display"
+            IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+            ItemsSource="{Binding ClientTypeList, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}"
+            SelectedValue="{Binding ClientType, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}"
+            SelectedValuePath="Value"
+            Visibility="{c:Binding !TaskSettingVisibilities.Guide,
+                                   Source={x:Static helper:Instances.SettingsViewModel}}" />
 
         <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
             <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
