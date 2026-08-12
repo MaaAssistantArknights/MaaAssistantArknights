@@ -828,7 +828,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// Gets a value indicating whether to use AttachWindow mode instead of ADB connection.
     /// </summary>
     [PropertyDependsOn(nameof(ConnectConfig))]
-    public bool UseAttachWindow => ConnectConfig == "PC";
+    public bool UseAttachWindow => ConnectConfig == ConnectConfig.PC;
 
     /// <summary>
     /// Gets a value indicating whether to show the window restore button.
@@ -883,8 +883,23 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     public List<CombinedData> AttachWindowMouseMethodList => _attachWindowMouseMethodList;
 
+    private string _attachWindowMouseMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowMouseMethod, "32"); // 默认 SendMessageWithCursorPos
+
     /// <summary>
-    /// Win32 键盘输入方式枚举（与 AsstCaller.h 中 AsstWin32InputMethodEnum 对应）
+    /// Gets or sets the mouse input method for AttachWindow mode.
+    /// </summary>
+    public string AttachWindowMouseMethod
+    {
+        get => _attachWindowMouseMethod;
+        set {
+            Instances.AsstProxy.Connected = false;
+            SetAndNotify(ref _attachWindowMouseMethod, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AttachWindowMouseMethod, value);
+        }
+    }
+
+    /// <summary>
+    /// Win32 键盘输入方式枚举
     /// </summary>
     private static readonly List<CombinedData> _attachWindowKeyboardMethodList =
     [
