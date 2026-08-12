@@ -324,20 +324,18 @@
             </ContentControl>
 
             <!--  截图测试  -->
-            <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
-                <Button
-                    Height="30"
-                    Margin="0,5"
-                    HorizontalAlignment="Left"
-                    Command="{s:Action TestLinkAndGetImage}"
-                    Content="{DynamicResource ScreenshotTest}" />
-                <controls:TextBlock
-                    Margin="0,5"
-                    HorizontalAlignment="Left"
-                    Text="{Binding TestLinkInfo}"
-                    TextWrapping="Wrap"
-                    Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
-            </StackPanel>
+            <Button
+                Height="30"
+                Margin="0,5"
+                HorizontalAlignment="Left"
+                Command="{s:Action TestLinkAndGetImage}"
+                Content="{DynamicResource ScreenshotTest}" />
+            <controls:TextBlock
+                Margin="0,5"
+                HorizontalAlignment="Left"
+                Text="{Binding TestLinkInfo}"
+                TextWrapping="Wrap"
+                Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
         </StackPanel>
     </StackPanel>
 </UserControl>
