@@ -1095,7 +1095,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFrontTip">小隊選択画面で開始します。セーブデータがある場合は手動で削除する必要があります。ゲーム内の ｢前の小隊からのデータを引き継ぐ｣ にチェックすることを推奨します。</system:String>
     <system:String x:Key="MiniGame@PixelPaint">ピクセル画自動描画</system:String>
     <system:String x:Key="MiniGame@PixelPaintTip">ゲーム内の 24×24 ピクセル画編集ページに手動で入ってから開始してください。&#10;プレビューはドラッグ/ホイールで構図調整。デフォルトで白はスキップ。&#10;開始後はパラメータ固定。進捗は右のログ参照。</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DropHint">画像をドロップ、貼り付け、または下のボタンで選択</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DropHint">画像をドロップ、画像/テキストを貼り付け、または下のボタンで選択</system:String>
     <system:String x:Key="MiniGame@PixelPaint@PickImage">画像を選択</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ResetView">構図をリセット</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ResetParams">パラメータをリセット</system:String>

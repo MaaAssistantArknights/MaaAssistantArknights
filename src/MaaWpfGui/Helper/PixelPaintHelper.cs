@@ -15,7 +15,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -269,6 +273,202 @@ public static class PixelPaintHelper
         bmp.WritePixels(new Int32Rect(0, 0, PreviewPixelSize, PreviewPixelSize), pixels, PreviewPixelSize * 4, 0);
         bmp.Freeze();
         return bmp;
+    }
+
+    /// <summary>
+    /// 将最多 4 个字渲染为黑字白底位图（24×24）。中文按自适应网格（1 字占满、2~4 字分 2 列）以 SimSun 直接绘制（点阵）；
+    /// 英文 / 数字单行横排，放大字号、无抗锯齿渲染后裁掉墨迹空白，1:1 放入（不降采样，保持锐利）。
+    /// </summary>
+    /// <param name="text">输入文字；取前 4 个字素（按 <see cref="StringInfo"/> 拆分，避免拆开代理对），超出忽略。</param>
+    /// <returns>已冻结的 24×24 Bgra32 位图，可直接作为像素画原图。</returns>
+    public static BitmapSource RenderTextToBitmap(string text)
+    {
+        // 按字素取前 4 个，正确处理代理对 / 组合字符
+        var chars = new List<string>(4);
+        var enumerator = StringInfo.GetTextElementEnumerator(text);
+        while (enumerator.MoveNext() && chars.Count < 4)
+        {
+            chars.Add((string)enumerator.Current);
+        }
+
+        var wide = chars.Exists(HasNonAscii);
+        const TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine;
+
+        const int size = 24;          // 目标网格分辨率，1:1 映射
+
+        using var bmp = new Bitmap(size, size, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+        using var g = Graphics.FromImage(bmp);
+        g.Clear(System.Drawing.Color.White);
+
+        if (wide)
+        {
+            // 中文：自适应网格，1 字占满整张、2~4 字分 2 列；每格 SimSun 该尺寸直接绘制（点阵）
+            var n = chars.Count;
+            var cols = Math.Min(n, 2);
+            var rows = (n + cols - 1) / cols;
+            var cellW = size / cols;
+            var cellH = size / rows;
+            using var cf = new Font("SimSun", Math.Min(cellW, cellH), System.Drawing.FontStyle.Regular, GraphicsUnit.Pixel);
+            for (var i = 0; i < n; i++)
+            {
+                var bounds = new Rectangle((i % cols) * cellW, (i / cols) * cellH, cellW, cellH);
+                TextRenderer.DrawText(g, chars[i], cf, bounds, System.Drawing.Color.Black, flags);
+            }
+        }
+        else
+        {
+            // 英文 / 数字：整串单行横排，放大字号、无抗锯齿渲染后裁墨迹空白，1:1 放入（不降采样）
+            DrawInkFit(g, string.Concat(chars), new Rectangle(0, 0, size, size));
+        }
+
+        // GDI Bitmap → WPF BitmapSource：逐像素拷贝
+        var lockRect = new Rectangle(0, 0, size, size);
+        var data = bmp.LockBits(lockRect, System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
+        var pixels = new byte[data.Stride * size];
+        Marshal.Copy(data.Scan0, pixels, 0, pixels.Length);
+        bmp.UnlockBits(data);
+
+        var wb = new WriteableBitmap(size, size, 96, 96, PixelFormats.Bgra32, null);
+        wb.WritePixels(new Int32Rect(0, 0, size, size), pixels, data.Stride, 0);
+        wb.Freeze();
+        return wb;
+    }
+
+    /// <summary>
+    /// 在目标区域内以 ｢能放下｣ 的最大字号绘制文本：放大字号渲染、裁掉墨迹空白，取墨迹外接框恰能放入区域的字号，
+    /// 再 1:1 居中绘制（不做降采样，保持锐利）。
+    /// </summary>
+    /// <param name="g">目标 GDI 绘图面。</param>
+    /// <param name="text">待绘制文本。</param>
+    /// <param name="rect">目标区域。</param>
+    private static void DrawInkFit(Graphics g, string text, Rectangle rect)
+    {
+        const TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine;
+
+        // 二分找最大字号，使墨迹外接框（裁空白后）放入 rect
+        var lo = 8f;
+        var hi = 128f;
+        for (var i = 0; i < 12; i++)
+        {
+            var mid = (lo + hi) / 2f;
+            using var probe = RenderInk(g, text, mid, flags);
+            if (probe != null && probe.Width <= rect.Width && probe.Height <= rect.Height)
+            {
+                lo = mid;
+            }
+            else
+            {
+                hi = mid;
+            }
+        }
+
+        using var ink = RenderInk(g, text, lo, flags);
+        if (ink == null)
+        {
+            return;
+        }
+
+        // 1:1 居中放入 rect（DrawImage 在整数坐标、原始尺寸下不重采样）
+        var dx = rect.X + ((rect.Width - ink.Width) / 2);
+        var dy = rect.Y + ((rect.Height - ink.Height) / 2);
+        g.DrawImage(ink, dx, dy);
+    }
+
+    /// <summary>
+    /// 以给定字号渲染文本，扫描 alpha 通道取墨迹外接框，裁掉四周空白后返回墨迹位图。
+    /// </summary>
+    /// <param name="g">GDI 绘图面（用于度量）。</param>
+    /// <param name="text">待绘制文本。</param>
+    /// <param name="emSize">字号（像素）。</param>
+    /// <param name="flags">文本格式标志。</param>
+    /// <returns>裁空白后的墨迹位图；无墨迹返回 null。</returns>
+    private static Bitmap? RenderInk(Graphics g, string text, float emSize, TextFormatFlags flags)
+    {
+        using var f = new Font("SimSun", emSize, System.Drawing.FontStyle.Regular, GraphicsUnit.Pixel);
+        var m = TextRenderer.MeasureText(g, text, f);
+        var pad = (int)Math.Ceiling(emSize * 0.2);
+        var w = m.Width + (pad * 2);
+        var h = m.Height + (pad * 2);
+
+        using var tmp = new Bitmap(w, h, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+        using (var tg = Graphics.FromImage(tmp))
+        {
+            // 透明底：让墨迹扫描只命中笔画；无抗锯齿：保持锐利
+            tg.Clear(System.Drawing.Color.Transparent);
+            tg.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+            TextRenderer.DrawText(tg, text, f, new Rectangle(0, 0, w, h), System.Drawing.Color.Black, flags);
+        }
+
+        var ld = tmp.LockBits(new Rectangle(0, 0, w, h), System.Drawing.Imaging.ImageLockMode.ReadOnly, tmp.PixelFormat);
+        var px = new byte[ld.Stride * h];
+        Marshal.Copy(ld.Scan0, px, 0, px.Length);
+        tmp.UnlockBits(ld);
+
+        var minX = w;
+        var minY = h;
+        var maxX = -1;
+        var maxY = -1;
+        for (var y = 0; y < h; y++)
+        {
+            for (var x = 0; x < w; x++)
+            {
+                if (px[(((y * w) + x) * 4) + 3] > 16)
+                {
+                    if (x < minX)
+                    {
+                        minX = x;
+                    }
+
+                    if (x > maxX)
+                    {
+                        maxX = x;
+                    }
+
+                    if (y < minY)
+                    {
+                        minY = y;
+                    }
+
+                    if (y > maxY)
+                    {
+                        maxY = y;
+                    }
+                }
+            }
+        }
+
+        if (maxX < 0)
+        {
+            return null;
+        }
+
+        var iw = maxX - minX + 1;
+        var ih = maxY - minY + 1;
+        var ink = new Bitmap(iw, ih, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+        using (var ig = Graphics.FromImage(ink))
+        {
+            ig.DrawImage(tmp, new Rectangle(0, 0, iw, ih), new Rectangle(minX, minY, iw, ih), GraphicsUnit.Pixel);
+        }
+
+        return ink;
+    }
+
+    /// <summary>
+    /// 判断字素中是否含非 ASCII 字符（如中文），用于决定四角布局还是单行横排。
+    /// </summary>
+    /// <param name="textElement">单个字素。</param>
+    /// <returns>含非 ASCII 字符返回 true。</returns>
+    private static bool HasNonAscii(string textElement)
+    {
+        foreach (var c in textElement)
+        {
+            if (c >= 128)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>
