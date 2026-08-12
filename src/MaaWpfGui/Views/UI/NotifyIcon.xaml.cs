@@ -42,6 +42,10 @@ public partial class NotifyIcon
         InitializeComponent();
 
         uint doubleClickTime = GetDoubleClickTime();
+        if (doubleClickTime == 0)
+        {
+            doubleClickTime = 500;
+        }
         _clickTimer = new(doubleClickTime) {
             AutoReset = false,
         };
