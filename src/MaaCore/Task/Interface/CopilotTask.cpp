@@ -106,11 +106,20 @@ bool asst::CopilotTask::set_params(const json::value& params)
                 return false;
             }
             m_stage_name = Copilot.get_stage_name();
-            if (auto result = Tile.find(m_stage_name); !result || !json::open(result->second)) {
+            auto result = Tile.find(m_stage_name);
+            if (!result || !json::open(result->second)) {
                 return false;
             }
+            auto level = std::move(result->first);
+            if (stage_name == level.code) {
+                config_cvt.nav_name = stage_name;
+            } else if (level.match(stage_name)) {
+                config_cvt.nav_name = level.code;
+            } else {
+                Log.warn("Mismatched stage names", "Tile:", level.code, "Input:", stage_name);
+                config_cvt.nav_name = stage_name;
+            }
             config_cvt.copilot_file = *copilot_opt;
-            config_cvt.nav_name = stage_name;
             config_cvt.is_raid = is_raid;
             config_cvt.id = id; // ID 从0开始
             configs_cvt.emplace_back(std::move(config_cvt));
