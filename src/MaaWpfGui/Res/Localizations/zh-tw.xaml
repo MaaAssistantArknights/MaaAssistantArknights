@@ -445,6 +445,7 @@
     <system:String x:Key="MirrorChyanBuildingOta">MirrorChyan 正在為此版本打包 OTA 增量更新檔，將在 10 秒後自動重試</system:String>
     <system:String x:Key="NewVersionNoOtaPackage">偵測到新版本，但無可用的 OTA 增量更新檔案。將下載完整安裝檔案，保留 cache、config、data、debug、achievement（通關截圖）、background（背景圖片）和 MAA.Updater.exe，其餘檔案將移至資源回收桶及 .old，如有需要請手動備份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在準備下載更新檔……</system:String>
+    <system:String x:Key="NewVersionDownloadRetrying">更新檔下載失敗，將在 {0} 秒後重試（第 {1}/{2} 次下載失敗）。</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下載失敗</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">請嘗試手動下載後，將壓縮檔放到目錄下 _(:з」∠)_</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">新版本下載完成</system:String>

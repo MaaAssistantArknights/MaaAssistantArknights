@@ -445,6 +445,7 @@
     <system:String x:Key="MirrorChyanBuildingOta">MirrorChyan がこのバージョンの OTA 増分アップデートをビルド中です。約 10 秒後に自動的に再試行します</system:String>
     <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されましたが、利用可能な OTA 増分アップデートパッケージはありません。完全パッケージをダウンロードし、cache、config、data、debug、achievement（クリアスクリーンショット）、background（背景画像）、MAA.Updater.exe は保持され、それ以外のファイルはごみ箱と .old に移動されます。必要に応じて手動でバックアップしてください。</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です……</system:String>
+    <system:String x:Key="NewVersionDownloadRetrying">アップデートパッケージのダウンロードに失敗しました。{0} 秒後に再試行します（{1}/{2} 回目のダウンロードに失敗）。</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">アップデートパッケージのダウンロードに失敗しました</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">アップデートパッケージのダウンロードが完了しました</system:String>
