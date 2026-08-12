@@ -110,12 +110,14 @@ bool asst::CopilotTask::set_params(const json::value& params)
             if (!result || !json::open(result->second)) {
                 return false;
             }
-            auto level = std::move(result->first);
+            const auto& level = result->first;
             if (stage_name == level.code) {
                 config_cvt.nav_name = stage_name;
-            } else if (level.match(stage_name)) {
+            }
+            else if (level.match(stage_name)) {
                 config_cvt.nav_name = level.code;
-            } else {
+            }
+            else {
                 Log.warn("Mismatched stage names", "Tile:", level.code, "Input:", stage_name);
                 config_cvt.nav_name = stage_name;
             }
