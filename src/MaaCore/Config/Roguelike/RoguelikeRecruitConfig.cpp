@@ -6,21 +6,6 @@
 
 #include "Utils/Logger.hpp"
 
-bool asst::RoguelikeRecruitConfig::copy_theme(const std::string& source, const std::string& target)
-{
-    if (!m_all_opers.contains(source) || !m_all_groups.contains(source) || !m_oper_groups.contains(source) ||
-        !m_team_complete_condition.contains(source) || !m_team_complete_require.contains(source)) {
-        return false;
-    }
-    clear(target);
-    m_all_opers[target] = m_all_opers.at(source);
-    m_all_groups[target] = m_all_groups.at(source);
-    m_oper_groups[target] = m_oper_groups.at(source);
-    m_team_complete_condition[target] = m_team_complete_condition.at(source);
-    m_team_complete_require[target] = m_team_complete_require.at(source);
-    return true;
-}
-
 const asst::RoguelikeOperInfo&
     asst::RoguelikeRecruitConfig::get_oper_info(const std::string& theme, const std::string& oper_name) noexcept
 {
