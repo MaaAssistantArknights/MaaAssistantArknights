@@ -2422,6 +2422,7 @@ public class ToolboxViewModel : Screen
 
     #region PixelPaint
 
+    /// <summary>像素画支持的图片扩展名，文件对话框过滤器与剪贴板文件判断共用。</summary>
     private static readonly string[] _pixelPaintImageExtensions = [".png", ".jpg", ".jpeg", ".bmp", ".webp", ".gif"];
 
     private BitmapSource? _pixelPaintSourceImage;
@@ -2589,6 +2590,13 @@ public class ToolboxViewModel : Screen
         e.Handled = true;
     }
 
+    /// <summary>
+    /// 像素画：响应 Ctrl+V，从剪贴板粘贴图片。
+    /// 先按剪贴板位图处理（截图工具、浏览器 ｢复制图片｣ 等无文件场景），
+    /// 否则按已复制的图片文件处理；加载失败时与文件加载一致地提示。
+    /// </summary>
+    /// <param name="sender">事件源（绑定 KeyDown 的 MiniGame Grid）。</param>
+    /// <param name="e">按键事件数据。</param>
     public void PixelPaintKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key != Key.V || Keyboard.Modifiers != ModifierKeys.Control || !IsPixelPaintSelected || PixelPaintParametersLocked)
@@ -2615,13 +2623,20 @@ public class ToolboxViewModel : Screen
                 }
             }
         }
-        catch
+        catch (Exception ex)
         {
-            
+            // 剪贴板位图加载异常（如格式不被 Prepare 支持），与文件加载一致地提示
+            _logger.Warning(ex, "Paste pixel paint image failed");
+            PixelPaintStatusText = LocalizationHelper.GetString("MiniGame@PixelPaint@LoadFailed");
         }
     }
 
-    /// <summary> 优先用 DIB 原始数据自行解码 </summary>
+    /// <summary>
+    /// 从剪贴板取图。优先用 DIB 原始数据自行解码——
+    /// WPF 的 Clipboard.GetImage() 对 DIB 的转换存在通道错乱/尺寸错乱问题，
+    /// 重建 BMP 文件头自行解码可规避该缺陷；失败则回退到 GetImage()。
+    /// </summary>
+    /// <returns>解码后的 BitmapSource；剪贴板无图或解码失败时返回 null。</returns>
     private static BitmapSource? GetClipboardImage()
     {
         try
@@ -2646,6 +2661,12 @@ public class ToolboxViewModel : Screen
         }
     }
 
+    /// <summary>
+    /// 将剪贴板 DIB（BITMAPINFOHEADER + 调色板 + 像素数据）解码为 BitmapSource：
+    /// 在前面补一个 14 字节的 BITMAPFILEHEADER，拼成完整 BMP 后交给解码器。
+    /// </summary>
+    /// <param name="dib">剪贴板 DIB 数据流（BITMAPINFOHEADER + 调色板 + 像素）。</param>
+    /// <returns>解码后的 BitmapSource；数据非法或过短时返回 null。</returns>
     private static BitmapSource? DecodeDibAsBmp(Stream dib)
     {
         if (dib.Length < 40)
@@ -2653,6 +2674,7 @@ public class ToolboxViewModel : Screen
             return null;
         }
 
+        // 读取 BITMAPINFOHEADER 固定前 40 字节，计算像素数据在文件中的偏移
         var info = new byte[40];
         dib.Position = 0;
         dib.ReadExactly(info, 0, info.Length);
@@ -2668,6 +2690,7 @@ public class ToolboxViewModel : Screen
             return null;
         }
 
+        // 构造 BMP 文件头：'BM' 标志、文件总长度、像素数据偏移
         var header = new byte[14];
         header[0] = (byte)'B';
         header[1] = (byte)'M';
