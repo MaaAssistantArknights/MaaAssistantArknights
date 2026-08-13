@@ -2015,6 +2015,9 @@ public class TaskQueueViewModel : Screen
             AddLog(LocalizationHelper.GetString("LDPlayerMaaTouchWarning"), UiLogColor.Warning);
         }
 
+        // GPU 相关提示在每次开始运行时重新输出，避免被 ClearLog 清空
+        Instances.AsstProxy.LogGpuStatus();
+
         MainTasksCompletedCount = 0;
         ResetTaskItemStatuses();
 

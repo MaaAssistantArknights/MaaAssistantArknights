@@ -581,40 +581,59 @@ public class AsstProxy
     }
 
     /// <summary>
+    /// 检查当前选中的 GPU，在任务队列与日志中输出相关提示。
+    /// </summary>
+    /// <remarks>
+    /// 当 GPU 不受推荐（存在兼容性问题）或驱动版本过旧（超过两年）时，
+    /// 会向任务队列写入警告级别的日志。
+    /// 本方法在程序启动（Init）与每次开始运行时都会调用，
+    /// 以保证提示在日志被清空后仍能重新显示，避免被自动运行刷掉。
+    /// </remarks>
+    public void LogGpuStatus()
+    {
+        if (GpuOption.GetCurrent() is not GpuOption.EnableOption x)
+        {
+            return;
+        }
+
+        var info = x.GpuInfo;
+        var description = info?.Description;
+        var version = info?.DriverVersion;
+        var date = info?.DriverDate?.ToString("yyyy-MM-dd");
+
+        if (x.IsDeprecated)
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("GpuDeprecatedMessage", description), UiLogColor.Warning);
+            _logger.Warning("Using deprecated GPU {0} (Driver {1} {2})", description, version, date);
+        }
+        else
+        {
+            _logger.Information("Using GPU {0} (Driver {1} {2})", description, version, date);
+        }
+
+        // Check if driver date is over two years old
+        if (info is { DriverDate: { } driverDate })
+        {
+            var twoYearsAgo = DateTime.Now.AddYears(-2);
+            if (driverDate < twoYearsAgo)
+            {
+                var dateStr = driverDate.ToString("yyyy-MM-dd");
+                var driverAgeYears = Math.Round((DateTime.Now - driverDate).TotalDays / 365.25, 1);
+                var message = LocalizationHelper.GetStringFormat("GpuDriverOutdatedMessage", description, version ?? "Unknown", dateStr, driverAgeYears);
+                Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
+                _logger.Warning("Using GPU {0} with outdated driver {1} (release date: {2}, over {3} years old)", description, version, dateStr, driverAgeYears);
+            }
+        }
+    }
+
+    /// <summary>
     /// 初始化。
     /// </summary>
     public void Init()
     {
         if (GpuOption.GetCurrent() is GpuOption.EnableOption x)
         {
-            var info = x.GpuInfo;
-            var description = info?.Description;
-            var version = info?.DriverVersion;
-            var date = info?.DriverDate?.ToString("yyyy-MM-dd");
-
-            if (x.IsDeprecated)
-            {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("GpuDeprecatedMessage", description), UiLogColor.Warning);
-                _logger.Warning("Using deprecated GPU {0} (Driver {1} {2})", description, version, date);
-            }
-            else
-            {
-                _logger.Information("Using GPU {0} (Driver {1} {2})", description, version, date);
-            }
-
-            // Check if driver date is over two years old
-            if (info is { DriverDate: { } driverDate })
-            {
-                var twoYearsAgo = DateTime.Now.AddYears(-2);
-                if (driverDate < twoYearsAgo)
-                {
-                    var dateStr = driverDate.ToString("yyyy-MM-dd");
-                    var message = LocalizationHelper.GetStringFormat("GpuDriverOutdatedMessage", description, version ?? "Unknown", dateStr);
-                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
-                    _logger.Warning("Using GPU {0} with outdated driver {1} (release date: {2}, over 2 years old)", description, version, dateStr);
-                }
-            }
-
+            LogGpuStatus();
             AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, x.DeviceSelector);
         }
 
