@@ -751,7 +751,7 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
         base += sum * 0.02 * vermeil_count;
     }
     if (const int count = skill_count(all, "bskill_man_spd_variable21")) { // 配合意识：槐琥
-        base += std::min(0.4, floor_step(base, 0.05) - abyssal_hunter * 0.4) * count;
+        base += std::min(0.4, floor_step(base, 0.05) - abyssal_hunter * 0.4) * count; // 槐琥和深海猎人共存时不起作用
     }
 
     // 发电站数量类技能只与同类设施加成组合，白板位置不强制占用。

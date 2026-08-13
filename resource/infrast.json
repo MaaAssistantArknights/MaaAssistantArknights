@@ -928,16 +928,16 @@
                 "operatorIds": [],
                 "template": "Bskill_dorm_buddy.png"
             },
-            "bskill_dorm_exchangeAp": {
+            "bskill_dorm_exchangeap": {
                 "desc": ["进驻宿舍时，如果自身为满心情，则与当前宿舍前一位进驻的干员互换心情"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["患难之交"],
                 "operatorIds": ["char_300_phenxi"],
-                "template": "Bskill_dorm_exchangeAp.png"
+                "template": "Bskill_dorm_exchangeap.png"
             },
-            "bskill_dorm_hireToRecAll1": {
+            "bskill_dorm_hiretorecall1": {
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.15，同时每个招募位（不包含初始招募位）额外+0.05恢复效果（叠加后的最终值同种效果取最高）"
                 ],
@@ -946,9 +946,9 @@
                 },
                 "name": ["寻同路人"],
                 "operatorIds": ["char_4065_judge"],
-                "template": "Bskill_dorm_hireToRecAll1.png"
+                "template": "Bskill_dorm_hiretorecall1.png"
             },
-            "bskill_dorm_hireToRecAll2": {
+            "bskill_dorm_hiretorecall2": {
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.1，同时每个招募位（不包含初始招募位）额外+0.05恢复效果（叠加后的最终值同种效果取最高）"
                 ],
@@ -957,9 +957,9 @@
                 },
                 "name": ["无瑕心·α"],
                 "operatorIds": [],
-                "template": "Bskill_dorm_hireToRecAll2.png"
+                "template": "Bskill_dorm_hiretorecall2.png"
             },
-            "bskill_dorm_hireToRecAll3": {
+            "bskill_dorm_hiretorecall3": {
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.1，同时每个招募位（不包含初始招募位）额外+0.1恢复效果（叠加后的最终值同种效果取最高）"
                 ],
@@ -968,7 +968,7 @@
                 },
                 "name": ["无瑕心·β"],
                 "operatorIds": [],
-                "template": "Bskill_dorm_hireToRecAll3.png"
+                "template": "Bskill_dorm_hiretorecall3.png"
             },
             "bskill_dorm_one": {
                 "desc": [
@@ -1042,7 +1042,7 @@
                 "operatorIds": ["char_263_skadi"],
                 "template": "Bskill_dorm_one5.png"
             },
-            "bskill_dorm_powToRecAll1": {
+            "bskill_dorm_powtorecall1": {
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.1，同时每有1间发电站，则恢复效果额外+0.05（叠加后的最终值同种效果取最高）"
                 ],
@@ -1051,9 +1051,9 @@
                 },
                 "name": ["柔和微光·α"],
                 "operatorIds": ["char_4042_lumen"],
-                "template": "Bskill_dorm_powToRecAll1.png"
+                "template": "Bskill_dorm_powtorecall1.png"
             },
-            "bskill_dorm_powToRecAll2": {
+            "bskill_dorm_powtorecall2": {
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15，同时每有1间发电站，则恢复效果额外+0.05（叠加后的最终值同种效果取最高）"
                 ],
@@ -1062,7 +1062,7 @@
                 },
                 "name": ["柔和微光·β"],
                 "operatorIds": ["char_4042_lumen"],
-                "template": "Bskill_dorm_powToRecAll2.png"
+                "template": "Bskill_dorm_powtorecall2.png"
             },
             "bskill_dorm_reborn": {
                 "desc": ["进驻宿舍时，自身心情每小时恢复+2，同时无法获得其他来源提供的心情恢复效果"],
@@ -1365,14 +1365,14 @@
                 "operatorIds": ["char_194_leto"],
                 "template": "Bskill_formula_spd_sunbr.png"
             },
-            "bskill_man_A1": {
+            "bskill_man_a1": {
                 "desc": ["进驻制造站时，当前制造站内每个A1小队干员为自身+10%的生产力"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["重聚时光"],
                 "operatorIds": ["char_1036_fang2"],
-                "template": "Bskill_man_A1.png"
+                "template": "Bskill_man_a1.png"
             },
             "bskill_man_bd1": {
                 "desc": ["进驻制造站时，每5点人间烟火转化为1点巫术结晶"],
@@ -1383,14 +1383,14 @@
                 "operatorIds": ["char_4078_bdhkgt"],
                 "template": "Bskill_man_bd1.png"
             },
-            "bskill_man_constrLv": {
+            "bskill_man_constrlv": {
                 "desc": ["进驻制造站时，基建内每间设施每级+1个工程机器人，上限64个"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["绘图设计"],
                 "operatorIds": ["char_4054_malist"],
-                "template": "Bskill_man_constrLv.png"
+                "template": "Bskill_man_constrlv.png"
             },
             "bskill_man_cost_all": {
                 "desc": ["进驻制造站时，消除当前制造站内所有干员自身心情消耗的影响"],
@@ -1470,7 +1470,7 @@
                 "operatorIds": [],
                 "template": "Bskill_man_exp&spd&limit&cost2.png"
             },
-            "bskill_man_exp0": {
+            "bskill_man_exp4": {
                 "desc": ["进驻制造站时，作战记录类配方的生产力+20%", "进驻制造站时，作战记录类配方的生产力+20%"],
                 "efficient": {
                     "CombatRecord": 20.1
@@ -2779,14 +2779,14 @@
         "maxNumOfOpers": 1,
         "products": ["HR"],
         "skills": {
-            "bskill_hire_bd_B": {
+            "bskill_hire_bd_b": {
                 "desc": ["进驻人力办公室时，每个招募位（不包含初始招募位）+15点无声共鸣"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["心声图绘"],
                 "operatorIds": ["char_4109_baslin"],
-                "template": "Bskill_hire_bd_B.png"
+                "template": "Bskill_hire_bd_b.png"
             },
             "bskill_hire_blitz": {
                 "desc": [
@@ -3267,23 +3267,23 @@
                 ],
                 "template": "Bskill_pow_spd3.png"
             },
-            "bskill_pow_spd_P": {
+            "bskill_pow_spd_p": {
                 "desc": ["进驻发电站时，如果凯尔希进驻在控制中枢，则无人机充能速度+5%"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["“愉快的对谈”"],
                 "operatorIds": ["char_4093_frston"],
-                "template": "Bskill_pow_spd_P.png"
+                "template": "Bskill_pow_spd_p.png"
             },
-            "bskill_pow_spd_P1": {
+            "bskill_pow_spd_p1": {
                 "desc": ["进驻发电站时，如果逻各斯进驻在训练室协助位，则无人机充能速度+5%"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["咒文共鸣"],
                 "operatorIds": ["char_4136_phonor"],
-                "template": "Bskill_pow_spd_P1.png"
+                "template": "Bskill_pow_spd_p1.png"
             },
             "bskill_power_rec_rhine": {
                 "desc": [
@@ -3407,14 +3407,14 @@
                 "operatorIds": [],
                 "template": "Bskill_meet_buddy.png"
             },
-            "bskill_meet_condChar": {
+            "bskill_meet_condchar": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升35%"],
                 "efficient": {
                     "General": 0
                 },
                 "name": ["得心应手"],
                 "operatorIds": ["char_4016_kazema"],
-                "template": "Bskill_meet_condChar.png"
+                "template": "Bskill_meet_condchar.png"
             },
             "bskill_meet_exchange": {
                 "desc": ["进驻会客室时，处于线索交流时线索搜集速度提升30%"],
@@ -3592,7 +3592,7 @@
                 "operatorIds": ["char_4102_threye"],
                 "template": "Bskill_meet_spd&bd.png"
             },
-            "bskill_meet_spd&bd&notOwned": {
+            "bskill_meet_spd&bd&notowned": {
                 "desc": [
                     "进驻会客室时，线索搜集速度提升10%，当与提丰进驻会客室一起工作时，线索搜集速度额外提升15%，自身心情每小时消耗+0.5，且更容易获得线索板上尚未拥有的线索"
                 ],
@@ -3601,7 +3601,7 @@
                 },
                 "name": ["未来之途"],
                 "operatorIds": ["char_4102_threye"],
-                "template": "Bskill_meet_spd&bd&notOwned.png"
+                "template": "Bskill_meet_spd&bd&notowned.png"
             },
             "bskill_meet_spd&bd2": {
                 "desc": ["进驻会客室时，当与铃兰进驻会客室一起工作时，线索搜集速度额外提升30%"],
@@ -3634,7 +3634,7 @@
                 "operatorIds": [],
                 "template": "Bskill_meet_spd&blacksteel2.png"
             },
-            "bskill_meet_spd&condChar_mustget": {
+            "bskill_meet_spd&condchar_mustget": {
                 "desc": [
                     "进驻会客室时，如果会客室内只有自身处于工作状态时，连续消耗超过16点心情下一次必定获得莱茵生命的线索"
                 ],
@@ -3643,9 +3643,9 @@
                 },
                 "name": ["文献学顾问"],
                 "operatorIds": ["char_4027_heyak"],
-                "template": "Bskill_meet_spd&condChar_mustget.png"
+                "template": "Bskill_meet_spd&condchar_mustget.png"
             },
-            "bskill_meet_spd&condChar_mustget2": {
+            "bskill_meet_spd&condchar_mustget2": {
                 "desc": [
                     "进驻会客室时，如果会客室内只有自身处于工作状态时，连续消耗超过16点心情下一次必定获得罗德岛制药的线索"
                 ],
@@ -3654,7 +3654,7 @@
                 },
                 "name": ["暗线"],
                 "operatorIds": ["char_4131_odda"],
-                "template": "Bskill_meet_spd&condChar_mustget2.png"
+                "template": "Bskill_meet_spd&condchar_mustget2.png"
             },
             "bskill_meet_spd&cost": {
                 "desc": ["进驻会客室时，线索搜集速度提升35%，心情每小时消耗+2"],
@@ -3665,7 +3665,7 @@
                 "operatorIds": ["char_4036_forcer"],
                 "template": "Bskill_meet_spd&cost.png"
             },
-            "bskill_meet_spd&cost_condChar": {
+            "bskill_meet_spd&cost_condchar": {
                 "desc": [
                     "进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升50%，心情每小时消耗+2",
                     "进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升50%，心情每小时消耗+2"
@@ -3675,37 +3675,37 @@
                 },
                 "name": ["双面间谍", "我自己的愿望"],
                 "operatorIds": ["char_297_hamoni"],
-                "template": "Bskill_meet_spd&cost_condChar.png"
+                "template": "Bskill_meet_spd&cost_condchar.png"
             },
-            "bskill_meet_spd&cost_condChar2": {
+            "bskill_meet_spd&cost_condchar2": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升15%，心情每小时消耗+1"],
                 "efficient": {
                     "General": 0
                 },
                 "name": ["“职业操守”·α"],
                 "operatorIds": ["char_4027_heyak", "char_4131_odda"],
-                "template": "Bskill_meet_spd&cost_condChar2.png"
+                "template": "Bskill_meet_spd&cost_condchar2.png"
             },
-            "bskill_meet_spd&cost_condChar3": {
+            "bskill_meet_spd&cost_condchar3": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升35%，心情每小时消耗+1"],
                 "efficient": {
                     "General": 0
                 },
                 "name": ["“职业操守”·β"],
                 "operatorIds": ["char_4027_heyak", "char_4131_odda"],
-                "template": "Bskill_meet_spd&cost_condChar3.png"
+                "template": "Bskill_meet_spd&cost_condchar3.png"
             },
-            "bskill_meet_spd&cost_condChargoat": {
+            "bskill_meet_spd&cost_condchargoat": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升15%，心情每小时消耗+1"],
                 "name": ["专业经理·α"],
                 "operatorIds": [],
-                "template": "Bskill_meet_spd&cost_condChargoat.png"
+                "template": "Bskill_meet_spd&cost_condchargoat.png"
             },
-            "bskill_meet_spd&cost_condChargoat2": {
+            "bskill_meet_spd&cost_condchargoat2": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升35%，心情每小时消耗+1"],
                 "name": ["专业经理·β"],
                 "operatorIds": [],
-                "template": "Bskill_meet_spd&cost_condChargoat2.png"
+                "template": "Bskill_meet_spd&cost_condchargoat2.png"
             },
             "bskill_meet_spd&sami": {
                 "desc": [
@@ -3785,16 +3785,7 @@
                 "operatorIds": ["char_010_chen", "char_109_fmout", "char_144_red", "char_274_astesi", "char_427_vigil"],
                 "template": "Bskill_meet_spd3.png"
             },
-            "bskill_meet_spd4": {
-                "desc": ["进驻会客室时，线索搜集速度提升25%"],
-                "efficient": {
-                    "General": 25
-                },
-                "name": ["领袖外交"],
-                "operatorIds": [],
-                "template": "Bskill_meet_spd4.png"
-            },
-            "bskill_meet_spdNotOwned1": {
+            "bskill_meet_spdnotowned1": {
                 "desc": [
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索",
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索",
@@ -3807,25 +3798,25 @@
                 },
                 "name": ["不容遗漏·α", "情报分析", "见微知著", "萍踪浪迹", "资深信使"],
                 "operatorIds": ["char_4017_puzzle", "char_497_ctable"],
-                "template": "Bskill_meet_spdNotOwned1.png"
+                "template": "Bskill_meet_spdnotowned1.png"
             },
-            "bskill_meet_spdNotOwned2": {
+            "bskill_meet_spdnotowned2": {
                 "desc": ["进驻会客室时，线索搜集速度提升10%，且更容易获得线索板上尚未拥有的线索"],
                 "efficient": {
                     "all": 11
                 },
                 "name": ["不容遗漏·β"],
                 "operatorIds": ["char_497_ctable"],
-                "template": "Bskill_meet_spdNotOwned2.png"
+                "template": "Bskill_meet_spdnotowned2.png"
             },
-            "bskill_meet_spdOwned1": {
+            "bskill_meet_spdowned1": {
                 "desc": ["进驻会客室时，更容易获得线索板上已经拥有的线索"],
                 "efficient": {
                     "General": 0
                 },
                 "name": ["显眼的调查者"],
                 "operatorIds": ["char_4091_ulika"],
-                "template": "Bskill_meet_spdOwned1.png"
+                "template": "Bskill_meet_spdowned1.png"
             },
             "bskill_meet_spd_clue": {
                 "desc": ["进驻会客室时，每个招募位（不包含初始招募位）提升5%线索搜集速度"],
@@ -3854,14 +3845,14 @@
                 "operatorIds": ["char_4087_ines"],
                 "template": "Bskill_meet_spd_hast1.png"
             },
-            "bskill_meet_spd_notOwned_exchange": {
+            "bskill_meet_spd_notowned_exchange": {
                 "desc": ["进驻会客室时，处于线索交流时更容易获得线索板上尚未拥有的线索"],
                 "efficient": {
                     "all": 1
                 },
                 "name": ["眼观六路"],
                 "operatorIds": [],
-                "template": "Bskill_meet_spd_notOwned_exchange.png"
+                "template": "Bskill_meet_spd_notowned_exchange.png"
             },
             "bskill_meet_ursus1": {
                 "desc": ["进驻会客室时，更容易获得乌萨斯学生自治团线索（工作时长影响概率）"],
@@ -3905,23 +3896,23 @@
                 "operatorIds": [],
                 "template": "Bskill_ord_spd&tag2.png"
             },
-            "bskill_tra_Lappland1": {
+            "bskill_tra_lappland1": {
                 "desc": ["当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+2"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["醉翁之意·α"],
                 "operatorIds": ["char_140_whitew"],
-                "template": "Bskill_tra_Lappland1.png"
+                "template": "Bskill_tra_lappland1.png"
             },
-            "bskill_tra_Lappland2": {
+            "bskill_tra_lappland2": {
                 "desc": ["当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+4"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["醉翁之意·β"],
                 "operatorIds": ["char_140_whitew"],
-                "template": "Bskill_tra_Lappland2.png"
+                "template": "Bskill_tra_lappland2.png"
             },
             "bskill_tra_against": {
                 "desc": ["进驻贸易站时，如果下笔赤金订单是违约订单，则赤金交付数额外+1"],
@@ -4639,7 +4630,7 @@
                         "efficient": {
                             "all": 0
                         },
-                        "skills": ["bskill_tra_Lappland2"]
+                        "skills": ["bskill_tra_lappland2"]
                     }
                 ],
                 "optional": [
@@ -4683,7 +4674,7 @@
                         "efficient": {
                             "all": 0
                         },
-                        "skills": ["bskill_tra_Lappland1"]
+                        "skills": ["bskill_tra_lappland1"]
                     }
                 ],
                 "optional": [
@@ -4713,7 +4704,7 @@
                         "efficient": {
                             "all": 0
                         },
-                        "skills": ["bskill_tra_Lappland2"]
+                        "skills": ["bskill_tra_lappland2"]
                     }
                 ],
                 "optional": [
@@ -4749,7 +4740,7 @@
                         "efficient": {
                             "all": 0
                         },
-                        "skills": ["bskill_tra_Lappland1"]
+                        "skills": ["bskill_tra_lappland1"]
                     }
                 ],
                 "optional": []
@@ -4899,5 +4890,1136 @@
         ],
         "skillsGroup_Doc": "相关技能组参考https://bbs.nga.cn/read.php?tid=25965441"
     },
-    "roomType": ["Power", "Reception", "Control", "Dorm", "Trade", "Office", "Mfg"]
+    "Processing": {
+        "skills": {
+            "bskill_ws_all_cost1": {
+                "desc": ["进驻加工站加工任意类材料时，心情消耗为4的配方全部-1心情消耗"],
+                "name": ["勤学不倦"],
+                "operatorIds": ["char_4119_wanqin"],
+                "template": "Bskill_ws_all_cost1.png"
+            },
+            "bskill_ws_all_cost2": {
+                "desc": ["进驻加工站加工任意类材料时，心情消耗为2的配方全部-1心情消耗"],
+                "name": ["拍摄日愉快"],
+                "operatorIds": ["char_4191_tippi"],
+                "template": "Bskill_ws_all_cost2.png"
+            },
+            "bskill_ws_alloyblock": {
+                "desc": ["进驻加工站加工炽合金块材料时，副产品的产出概率提升100%"],
+                "name": ["DIY·炽合金"],
+                "operatorIds": ["char_4039_horn"],
+                "template": "Bskill_ws_alloyblock.png"
+            },
+            "bskill_ws_asc1": {
+                "desc": [
+                    "进驻加工站加工芯片时，副产品的产出概率提升70%",
+                    "进驻加工站加工芯片时，副产品的产出概率提升70%"
+                ],
+                "name": ["特训记录", "被忽视的天赋"],
+                "operatorIds": ["char_009_12fce", "char_137_brownb", "char_301_cutter", "char_4236_tmslot"],
+                "template": "Bskill_ws_asc1.png"
+            },
+            "bskill_ws_asc2": {
+                "desc": ["进驻加工站加工芯片时，副产品的产出概率提升80%"],
+                "name": ["训练有素"],
+                "operatorIds": ["char_222_bpipe"],
+                "template": "Bskill_ws_asc2.png"
+            },
+            "bskill_ws_asc_cost1": {
+                "desc": ["进驻加工站加工芯片时，心情消耗为2的配方全部-1心情消耗"],
+                "name": ["淡泊"],
+                "operatorIds": ["char_301_cutter"],
+                "template": "Bskill_ws_asc_cost1.png"
+            },
+            "bskill_ws_bonus1": {
+                "desc": ["进驻加工站时，累积40点因果必定产出一次副产品"],
+                "name": ["因果"],
+                "operatorIds": ["char_4019_ncdeer"],
+                "template": "Bskill_ws_bonus1.png"
+            },
+            "bskill_ws_bonus2": {
+                "desc": ["进驻加工站时，累积80点业报必定产出一次副产品"],
+                "name": ["业报"],
+                "operatorIds": ["char_4019_ncdeer"],
+                "template": "Bskill_ws_bonus2.png"
+            },
+            "bskill_ws_build1": {
+                "desc": ["进驻加工站加工基建材料时，副产品的产出概率提升70%"],
+                "name": ["工程学"],
+                "operatorIds": ["char_277_sqrrel", "char_440_pinecn", "char_484_robrta"],
+                "template": "Bskill_ws_build1.png"
+            },
+            "bskill_ws_build2": {
+                "desc": [
+                    "进驻加工站加工基建材料时，副产品的产出概率提升75%",
+                    "进驻加工站加工基建材料时，副产品的产出概率提升75%"
+                ],
+                "name": ["结构力学", "突发好运"],
+                "operatorIds": ["char_373_lionhd", "char_488_buildr"],
+                "template": "Bskill_ws_build2.png"
+            },
+            "bskill_ws_build3": {
+                "desc": ["进驻加工站加工基建材料时，副产品的产出概率提升80%"],
+                "name": ["斩铁裂钢"],
+                "operatorIds": ["char_017_huang"],
+                "template": "Bskill_ws_build3.png"
+            },
+            "bskill_ws_build_cost": {
+                "desc": ["进驻加工站加工基建材料时，心情消耗为2的配方全部-1心情消耗"],
+                "name": ["便携蓄电池"],
+                "operatorIds": ["char_440_pinecn"],
+                "template": "Bskill_ws_build_cost.png"
+            },
+            "bskill_ws_build_cost2": {
+                "desc": [
+                    "进驻加工站加工基建材料时，心情消耗为4的配方全部-2心情消耗",
+                    "进驻加工站加工基建材料时，心情消耗为4的配方全部-2心情消耗"
+                ],
+                "name": ["选矿学", "不倒霉的一天"],
+                "operatorIds": ["char_373_lionhd", "char_488_buildr"],
+                "template": "Bskill_ws_build_cost2.png"
+            },
+            "bskill_ws_constant": {
+                "desc": ["进驻加工站加工精英材料时，相应配方的心情消耗恒定为2"],
+                "name": ["执著"],
+                "operatorIds": ["char_311_mudrok"],
+                "template": "Bskill_ws_constant.png"
+            },
+            "bskill_ws_constant2": {
+                "desc": ["进驻加工站加工精英材料时，相应配方的心情消耗恒定为4"],
+                "name": ["苦修之律"],
+                "operatorIds": ["char_4011_lessng"],
+                "template": "Bskill_ws_constant2.png"
+            },
+            "bskill_ws_constant3": {
+                "desc": ["进驻加工站加工精英材料时，相应配方的心情消耗恒定为3"],
+                "name": ["虔修之律"],
+                "operatorIds": ["char_4011_lessng"],
+                "template": "Bskill_ws_constant3.png"
+            },
+            "bskill_ws_cost": {
+                "desc": ["进驻加工站加工任意类材料时，心情消耗为4以上的配方全部-2心情消耗"],
+                "name": ["自动化流水线"],
+                "operatorIds": ["char_4162_cathy"],
+                "template": "Bskill_ws_cost.png"
+            },
+            "bskill_ws_cost&dorm": {
+                "desc": ["进驻加工站加工精英材料时，宿舍内每有10名心情12以下的干员时，心情消耗为4的配方心情消耗全部-1"],
+                "name": ["心相连"],
+                "operatorIds": ["char_4072_ironmn"],
+                "template": "Bskill_ws_cost&dorm.png"
+            },
+            "bskill_ws_cost_blemishine": {
+                "desc": ["进驻加工站加工精英材料时，副产品的产出概率提升40%，同时心情消耗为8以上的配方全部-4心情消耗"],
+                "name": ["热心修补匠"],
+                "operatorIds": ["char_423_blemsh"],
+                "template": "Bskill_ws_cost_blemishine.png"
+            },
+            "bskill_ws_cost_ju": {
+                "desc": ["进驻加工站加工精英材料时，副产品的产出概率提升60%，同时心情消耗为8以上的配方全部-2心情消耗"],
+                "name": ["大匠之心·α"],
+                "operatorIds": ["char_4221_ju"],
+                "template": "Bskill_ws_cost_ju.png"
+            },
+            "bskill_ws_cost_ju2": {
+                "desc": ["进驻加工站加工精英材料时，副产品的产出概率提升80%，同时心情消耗为4以上的配方全部-2心情消耗"],
+                "name": ["大匠之心·β"],
+                "operatorIds": ["char_4221_ju"],
+                "template": "Bskill_ws_cost_ju2.png"
+            },
+            "bskill_ws_cost_lolxh": {
+                "desc": ["进驻加工站加工任意类材料时，心情消耗为4以上的配方全部除以4心情消耗"],
+                "name": ["化猫"],
+                "operatorIds": ["char_4067_lolxh"],
+                "template": "Bskill_ws_cost_lolxh.png"
+            },
+            "bskill_ws_cost_magallan": {
+                "desc": ["进驻加工站加工任意类材料时，心情消耗为4以上的配方全部-2心情消耗"],
+                "name": ["龙腾式无人机"],
+                "operatorIds": ["char_248_mgllan"],
+                "template": "Bskill_ws_cost_magallan.png"
+            },
+            "bskill_ws_crystalline": {
+                "desc": ["进驻加工站加工晶体类材料时，副产品的产出概率提升80%"],
+                "name": ["DIY·晶体"],
+                "operatorIds": ["char_4164_tecno"],
+                "template": "Bskill_ws_crystalline.png"
+            },
+            "bskill_ws_device": {
+                "desc": ["进驻加工站加工装置类材料时，副产品的产出概率提升90%"],
+                "name": ["DIY·装置"],
+                "operatorIds": ["char_349_chiave"],
+                "template": "Bskill_ws_device.png"
+            },
+            "bskill_ws_drop_orirock": {
+                "desc": ["进驻加工站加工精英材料产出T3品质的副产品时，副产品必定为固源岩组"],
+                "name": ["岩体锚固"],
+                "operatorIds": ["char_4117_ray"],
+                "template": "Bskill_ws_drop_orirock.png"
+            },
+            "bskill_ws_drop_oriron": {
+                "desc": ["进驻加工站加工精英材料产出T3品质的副产品时，副产品必定为异铁组"],
+                "name": ["缓蚀技术"],
+                "operatorIds": ["char_489_serum"],
+                "template": "Bskill_ws_drop_oriron.png"
+            },
+            "bskill_ws_drop_polyester": {
+                "desc": ["进驻加工站加工精英材料产出T3品质的副产品时，副产品必定为聚酸酯组"],
+                "name": ["无用的赠予"],
+                "operatorIds": ["char_4040_rockr"],
+                "template": "Bskill_ws_drop_polyester.png"
+            },
+            "bskill_ws_evolve1": {
+                "desc": [
+                    "进驻加工站加工精英材料时，副产品的产出概率提升70%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升70%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升70%"
+                ],
+                "name": ["营养学", "高效回收", "气流传动"],
+                "operatorIds": ["char_120_hibisc", "char_4130_luton", "char_4165_ctrail"],
+                "template": "Bskill_ws_evolve1.png"
+            },
+            "bskill_ws_evolve2": {
+                "desc": [
+                    "进驻加工站加工精英材料时，副产品的产出概率提升75%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升75%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升75%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升75%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升75%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升75%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升75%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升75%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升75%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升75%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升75%"
+                ],
+                "name": [
+                    "药理学·α",
+                    "过度发挥",
+                    "毒理学·α",
+                    "爆破材料学·α",
+                    "腐蚀科学·α",
+                    "草药学·α",
+                    "必修课程",
+                    "探井人·α",
+                    "熟手的尊严",
+                    "修旧如旧·α",
+                    "工业设计"
+                ],
+                "operatorIds": [
+                    "char_117_myrrh",
+                    "char_129_bluep",
+                    "char_181_flower",
+                    "char_187_ccheal",
+                    "char_212_ansel",
+                    "char_219_meteo",
+                    "char_345_folnic",
+                    "char_379_sesa",
+                    "char_4056_titi",
+                    "char_4117_ray",
+                    "char_4173_nowell",
+                    "char_4213_skybx",
+                    "char_433_windft",
+                    "char_449_glider",
+                    "char_489_serum"
+                ],
+                "template": "Bskill_ws_evolve2.png"
+            },
+            "bskill_ws_evolve3": {
+                "desc": [
+                    "进驻加工站加工精英材料时，副产品的产出概率提升80%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升80%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升80%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升80%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升80%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升80%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升80%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升80%",
+                    "进驻加工站加工精英材料时，副产品的产出概率提升80%"
+                ],
+                "name": [
+                    "药理学·β",
+                    "毒理学·β",
+                    "爆破材料学·β",
+                    "腐蚀科学·β",
+                    "草药学·β",
+                    "探井人·β",
+                    "修旧如旧·β",
+                    "学者",
+                    "巫妖学识"
+                ],
+                "operatorIds": [
+                    "char_129_bluep",
+                    "char_219_meteo",
+                    "char_282_catap",
+                    "char_298_susuro",
+                    "char_348_ceylon",
+                    "char_4011_lessng",
+                    "char_4056_titi",
+                    "char_4117_ray",
+                    "char_449_glider",
+                    "char_489_serum"
+                ],
+                "template": "Bskill_ws_evolve3.png"
+            },
+            "bskill_ws_evolve4": {
+                "desc": ["进驻加工站加工精英材料时，副产品的产出概率提升100%"],
+                "name": ["稀有金属辨识"],
+                "operatorIds": ["char_2014_nian"],
+                "template": "Bskill_ws_evolve4.png"
+            },
+            "bskill_ws_evolve_cost": {
+                "desc": [
+                    "进驻加工站加工精英材料时，心情消耗为2的配方全部-1心情消耗",
+                    "进驻加工站加工精英材料时，心情消耗为2的配方全部-1心情消耗",
+                    "进驻加工站加工精英材料时，心情消耗为2的配方全部-1心情消耗"
+                ],
+                "name": ["一丝不苟", "谨慎加工", "长生的余裕"],
+                "operatorIds": ["char_345_folnic", "char_4107_vrdant", "char_4130_luton", "char_4173_nowell"],
+                "template": "Bskill_ws_evolve_cost.png"
+            },
+            "bskill_ws_evolve_cost1": {
+                "desc": [
+                    "进驻加工站加工精英材料时，心情消耗为4的配方全部-1心情消耗",
+                    "进驻加工站加工精英材料时，心情消耗为4的配方全部-1心情消耗",
+                    "进驻加工站加工精英材料时，心情消耗为4的配方全部-1心情消耗"
+                ],
+                "name": ["灵感", "熔铸", "军事工程学"],
+                "operatorIds": ["char_346_aosta", "char_349_chiave", "char_363_toddi", "char_4039_horn"],
+                "template": "Bskill_ws_evolve_cost1.png"
+            },
+            "bskill_ws_evolve_cost2": {
+                "desc": ["进驻加工站加工精英材料时，心情消耗为4的配方全部-2心情消耗"],
+                "name": ["极简实用主义"],
+                "operatorIds": ["char_379_sesa"],
+                "template": "Bskill_ws_evolve_cost2.png"
+            },
+            "bskill_ws_evolve_cost3": {
+                "desc": ["进驻加工站加工精英材料时，心情消耗为8的配方全部-4心情消耗"],
+                "name": ["与历史对话"],
+                "operatorIds": ["char_4056_titi"],
+                "template": "Bskill_ws_evolve_cost3.png"
+            },
+            "bskill_ws_evolve_cost4": {
+                "desc": ["进驻加工站加工晶体类材料时，全部心情消耗-1"],
+                "name": ["熟极而流"],
+                "operatorIds": ["char_4164_tecno"],
+                "template": "Bskill_ws_evolve_cost4.png"
+            },
+            "bskill_ws_evolve_dorm1": {
+                "desc": ["进驻加工站加工精英材料时，宿舍内每有1名心情4以下的干员，副产品的产出概率提升5%"],
+                "name": ["“物尽其用”"],
+                "operatorIds": ["char_271_spikes"],
+                "template": "Bskill_ws_evolve_dorm1.png"
+            },
+            "bskill_ws_evolve_dorm2": {
+                "desc": ["进驻加工站加工精英材料时，宿舍内每有1名心情12以下的干员，副产品的产出概率提升5%"],
+                "name": ["意相通"],
+                "operatorIds": ["char_4072_ironmn"],
+                "template": "Bskill_ws_evolve_dorm2.png"
+            },
+            "bskill_ws_evolve_dorm3": {
+                "desc": ["进驻加工站加工精英材料时，宿舍内每有1名心情20以下的干员，副产品的产出概率提升5%"],
+                "name": ["“人善其事”"],
+                "operatorIds": ["char_271_spikes"],
+                "template": "Bskill_ws_evolve_dorm3.png"
+            },
+            "bskill_ws_free": {
+                "desc": ["进驻加工站加工精英材料时，减免龙门币消耗"],
+                "name": ["精打细算"],
+                "operatorIds": ["char_423_blemsh"],
+                "template": "Bskill_ws_free.png"
+            },
+            "bskill_ws_frost": {
+                "desc": [
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升50%，每1点情报储备额外提升5%；如果乌萨斯特饮达到4瓶，则额外提升15%"
+                ],
+                "name": ["机械工程"],
+                "operatorIds": ["char_458_rfrost"],
+                "template": "Bskill_ws_frost.png"
+            },
+            "bskill_ws_ketone": {
+                "desc": ["进驻加工站加工酮凝集类材料时，副产品的产出概率提升80%"],
+                "name": ["DIY·酮凝集·α"],
+                "operatorIds": ["char_4107_vrdant"],
+                "template": "Bskill_ws_ketone.png"
+            },
+            "bskill_ws_lolxh": {
+                "desc": ["进驻加工站加工原始心情消耗为8的任意类材料时，副产品的产出概率提升50%"],
+                "name": ["御灵之力·金"],
+                "operatorIds": ["char_4067_lolxh"],
+                "template": "Bskill_ws_lolxh.png"
+            },
+            "bskill_ws_nian": {
+                "desc": ["进驻加工站加工精英材料时，相应配方全部+2心情消耗"],
+                "name": ["肆无忌惮"],
+                "operatorIds": ["char_2014_nian"],
+                "template": "Bskill_ws_nian.png"
+            },
+            "bskill_ws_orirock": {
+                "desc": ["进驻加工站加工源岩类材料时，副产品的产出概率提升90%"],
+                "name": ["DIY·源岩"],
+                "operatorIds": ["char_311_mudrok", "char_4229_aphris"],
+                "template": "Bskill_ws_orirock.png"
+            },
+            "bskill_ws_oriron": {
+                "desc": [
+                    "进驻加工站加工异铁类材料时，副产品的产出概率提升90%",
+                    "进驻加工站加工异铁组材料时，副产品的产出概率提升90%"
+                ],
+                "name": ["DIY·异铁", "余料利用"],
+                "operatorIds": ["char_363_toddi", "char_4207_branch"],
+                "template": "Bskill_ws_oriron.png"
+            },
+            "bskill_ws_p1": {
+                "desc": ["进驻加工站加工任意类材料时，副产品的产出概率提升40%"],
+                "name": ["专注·α"],
+                "operatorIds": ["char_208_melan", "char_237_gravel"],
+                "template": "Bskill_ws_p1.png"
+            },
+            "bskill_ws_p2": {
+                "desc": [
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升50%",
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升50%",
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升50%",
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升50%",
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升50%"
+                ],
+                "name": ["工效模范·α", "能工巧匠", "多功能测绘仪", "“炼金术”", "修修还能用"],
+                "operatorIds": [
+                    "char_211_adnach",
+                    "char_226_hmau",
+                    "char_248_mgllan",
+                    "char_253_greyy",
+                    "char_284_spot",
+                    "char_293_thorns",
+                    "char_4162_cathy",
+                    "char_491_humus"
+                ],
+                "template": "Bskill_ws_p2.png"
+            },
+            "bskill_ws_p3": {
+                "desc": [
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升60%",
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升60%"
+                ],
+                "name": ["专注·β", "老当益壮"],
+                "operatorIds": ["char_110_deepcl", "char_127_estell", "char_503_rang"],
+                "template": "Bskill_ws_p3.png"
+            },
+            "bskill_ws_p4": {
+                "desc": [
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升65%",
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升65%",
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升65%",
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升65%"
+                ],
+                "name": ["咪波·加工型", "舍弃的赘余", "天师府工艺", "蓝卡坞多面手"],
+                "operatorIds": ["char_242_otter", "char_4040_rockr", "char_4119_wanqin", "char_4191_tippi"],
+                "template": "Bskill_ws_p4.png"
+            },
+            "bskill_ws_p5": {
+                "desc": [
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升70%",
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升70%"
+                ],
+                "name": ["未知技术", "技术阐明"],
+                "operatorIds": ["char_003_kalts", "char_1052_kalts2"],
+                "template": "Bskill_ws_p5.png"
+            },
+            "bskill_ws_p7": {
+                "desc": ["进驻加工站加工任意类材料时，副产品的产出概率提升50%；如果白铁进驻在宿舍，则额外提升10%"],
+                "name": ["工效模范·β"],
+                "operatorIds": ["char_4162_cathy"],
+                "template": "Bskill_ws_p7.png"
+            },
+            "bskill_ws_p8": {
+                "desc": ["进驻加工站加工异铁组材料时，心情消耗为2的配方全部-1心情消耗"],
+                "name": ["铁匠天赋"],
+                "operatorIds": ["char_4207_branch"],
+                "template": "Bskill_ws_p8.png"
+            },
+            "bskill_ws_p_kalts2": {
+                "desc": ["进驻加工站加工任意类材料时，副产品的产出概率提升80%"],
+                "name": ["理论革新"],
+                "operatorIds": ["char_1052_kalts2"],
+                "template": "Bskill_ws_p_kalts2.png"
+            },
+            "bskill_ws_polyester": {
+                "desc": ["进驻加工站加工聚酸酯类材料时，副产品的产出概率提升90%"],
+                "name": ["DIY·聚酸酯"],
+                "operatorIds": ["char_346_aosta"],
+                "template": "Bskill_ws_polyester.png"
+            },
+            "bskill_ws_recovery": {
+                "desc": [
+                    "进驻加工站加工任意类材料时，每2次加工没有产出副产品，则恢复自身一次心情，恢复量为对应配方所需消耗的心情（加工结束后统一结算）"
+                ],
+                "name": ["“爆炸艺术”"],
+                "operatorIds": ["char_293_thorns"],
+                "template": "Bskill_ws_recovery.png"
+            },
+            "bskill_ws_rub": {
+                "desc": ["进驻加工站加工原始心情消耗为2的精英材料时，副产品的产出概率额外提升40%"],
+                "name": ["省省能更多"],
+                "operatorIds": ["char_491_humus"],
+                "template": "Bskill_ws_rub.png"
+            },
+            "bskill_ws_skill1": {
+                "desc": ["进驻加工站加工技巧概要时，副产品的产出概率提升70%"],
+                "name": ["技巧理论"],
+                "operatorIds": ["char_131_flameb", "char_230_savage", "char_289_gyuki"],
+                "template": "Bskill_ws_skill1.png"
+            },
+            "bskill_ws_skill2": {
+                "desc": [
+                    "进驻加工站加工技巧概要时，副产品的产出概率提升75%",
+                    "进驻加工站加工技巧概要时，副产品的产出概率提升75%",
+                    "进驻加工站加工技巧概要时，副产品的产出概率提升75%"
+                ],
+                "name": ["适应力", "獠牙的技艺", "灵感改装"],
+                "operatorIds": ["char_1502_crosly", "char_421_crow", "char_4223_botany"],
+                "template": "Bskill_ws_skill2.png"
+            },
+            "bskill_ws_skill3": {
+                "desc": [
+                    "进驻加工站加工技巧概要时，副产品的产出概率提升80%",
+                    "进驻加工站加工技巧概要时，副产品的产出概率提升80%",
+                    "进驻加工站加工技巧概要时，副产品的产出概率提升80%",
+                    "进驻加工站加工技巧概要时，副产品的产出概率提升80%"
+                ],
+                "name": ["兵者诡道", "荒野生存", "登峰造极", "克己严修"],
+                "operatorIds": ["char_1043_leizi2", "char_131_flameb", "char_188_helage", "char_4014_lunacu"],
+                "template": "Bskill_ws_skill3.png"
+            },
+            "bskill_ws_skill_cost1": {
+                "desc": ["进驻加工站加工技巧概要时，心情消耗为2的配方全部-1心情消耗"],
+                "name": ["放空"],
+                "operatorIds": ["char_421_crow"],
+                "template": "Bskill_ws_skill_cost1.png"
+            },
+            "bskill_ws_skill_cost2": {
+                "desc": ["进驻加工站加工技巧概要时，心情消耗为2的配方全部-1心情消耗"],
+                "name": ["宣传阵线"],
+                "operatorIds": ["char_4223_botany"],
+                "template": "Bskill_ws_skill_cost2.png"
+            }
+        }
+    },
+    "Training": {
+        "skills": {
+            "bskill_train1_caster1": {
+                "desc": [
+                    "进驻训练室协助位时，术师干员的专精技能训练速度+30%，如果本次训练专精技能至1级，则训练速度额外+45%"
+                ],
+                "name": ["一知半解"],
+                "operatorIds": ["char_411_tomimi"],
+                "template": "Bskill_train1_caster1.png"
+            },
+            "bskill_train1_defender1": {
+                "desc": [
+                    "进驻训练室协助位时，重装干员的专精技能训练速度+30%，如果本次训练专精技能至1级，则训练速度额外+45%"
+                ],
+                "name": ["极地生存"],
+                "operatorIds": ["char_422_aurora"],
+                "template": "Bskill_train1_defender1.png"
+            },
+            "bskill_train1_guard1": {
+                "desc": [
+                    "进驻训练室协助位时，近卫干员的专精技能训练速度+30%，如果本次训练专精技能至1级，则训练速度额外+45%"
+                ],
+                "name": ["信影流"],
+                "operatorIds": ["char_475_akafyu"],
+                "template": "Bskill_train1_guard1.png"
+            },
+            "bskill_train1_sniper2": {
+                "desc": [
+                    "进驻训练室协助位时，狙击干员的专精技能训练速度+30%，如果本次训练专精技能至1级，则训练速度额外+65%"
+                ],
+                "name": ["以身作则"],
+                "operatorIds": ["char_1013_chen2"],
+                "template": "Bskill_train1_sniper2.png"
+            },
+            "bskill_train1_specialist1": {
+                "desc": [
+                    "进驻训练室协助位时，特种干员的专精技能训练速度+30%，如果本次训练专精技能至1级，则训练速度额外+45%"
+                ],
+                "name": ["陷阱对焦"],
+                "operatorIds": ["char_451_robin"],
+                "template": "Bskill_train1_specialist1.png"
+            },
+            "bskill_train1_vanguard1": {
+                "desc": [
+                    "进驻训练室协助位时，先锋干员的专精技能训练速度+30%，如果本次训练专精技能至1级，则训练速度额外+45%"
+                ],
+                "name": ["战术研习"],
+                "operatorIds": ["char_476_blkngt"],
+                "template": "Bskill_train1_vanguard1.png"
+            },
+            "bskill_train2_caster1": {
+                "desc": [
+                    "进驻训练室协助位时，术师干员的专精技能训练速度+30%，如果本次训练专精技能至2级，则训练速度额外+45%"
+                ],
+                "name": ["博览群书"],
+                "operatorIds": ["char_388_mint"],
+                "template": "Bskill_train2_caster1.png"
+            },
+            "bskill_train2_defender1": {
+                "desc": [
+                    "进驻训练室协助位时，重装干员的专精技能训练速度+30%，如果本次训练专精技能至2级，则训练速度额外+45%"
+                ],
+                "name": ["阵地经验"],
+                "operatorIds": ["char_304_zebra"],
+                "template": "Bskill_train2_defender1.png"
+            },
+            "bskill_train2_guard1": {
+                "desc": [
+                    "进驻训练室协助位时，近卫干员的专精技能训练速度+30%，如果本次训练专精技能至2级，则训练速度额外+45%"
+                ],
+                "name": ["苦行"],
+                "operatorIds": ["char_415_flint"],
+                "template": "Bskill_train2_guard1.png"
+            },
+            "bskill_train2_medic1": {
+                "desc": [
+                    "进驻训练室协助位时，医疗干员的专精技能训练速度+30%，如果本次训练专精技能至2级，则训练速度额外+45%"
+                ],
+                "name": ["护理专精"],
+                "operatorIds": ["char_1024_hbisc2"],
+                "template": "Bskill_train2_medic1.png"
+            },
+            "bskill_train2_sniper1": {
+                "desc": [
+                    "进驻训练室协助位时，狙击干员的专精技能训练速度+30%，如果本次训练专精技能至2级，则训练速度额外+45%"
+                ],
+                "name": ["拂弦"],
+                "operatorIds": ["char_4043_erato"],
+                "template": "Bskill_train2_sniper1.png"
+            },
+            "bskill_train2_specialist&pioneer1": {
+                "desc": [
+                    "进驻训练室协助位时，特种与先锋干员的专精技能训练速度+30%，如果本次训练专精技能至2级，则训练速度额外+50%"
+                ],
+                "name": ["破斩桎梏"],
+                "operatorIds": ["char_1028_texas2"],
+                "template": "Bskill_train2_specialist&pioneer1.png"
+            },
+            "bskill_train3_caster2": {
+                "desc": [
+                    "进驻训练室协助位时，术师干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+65%"
+                ],
+                "name": ["死焰指引"],
+                "operatorIds": ["char_450_necras"],
+                "template": "Bskill_train3_caster2.png"
+            },
+            "bskill_train3_guard1": {
+                "desc": [
+                    "进驻训练室协助位时，近卫干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+45%",
+                    "进驻训练室协助位时，近卫干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+45%"
+                ],
+                "name": ["尽心尽力", "勇气传承"],
+                "operatorIds": ["char_333_sidero", "char_394_hadiya"],
+                "template": "Bskill_train3_guard1.png"
+            },
+            "bskill_train3_guard2": {
+                "desc": [
+                    "进驻训练室协助位时，近卫干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+65%"
+                ],
+                "name": ["实战指导"],
+                "operatorIds": ["char_1026_gvial2"],
+                "template": "Bskill_train3_guard2.png"
+            },
+            "bskill_train3_sniper1": {
+                "desc": [
+                    "进驻训练室协助位时，狙击干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+45%"
+                ],
+                "name": ["最终调试"],
+                "operatorIds": ["char_4006_melnte"],
+                "template": "Bskill_train3_sniper1.png"
+            },
+            "bskill_train3_sniper2": {
+                "desc": [
+                    "进驻训练室协助位时，狙击干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+65%"
+                ],
+                "name": ["伺机而动"],
+                "operatorIds": ["char_113_cqbw"],
+                "template": "Bskill_train3_sniper2.png"
+            },
+            "bskill_train3_specialist2": {
+                "desc": [
+                    "进驻训练室协助位时，特种干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+65%"
+                ],
+                "name": ["阿戈尔战术"],
+                "operatorIds": ["char_1023_ghost2"],
+                "template": "Bskill_train3_specialist2.png"
+            },
+            "bskill_train3_supporter2": {
+                "desc": [
+                    "进驻训练室协助位时，辅助干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+65%"
+                ],
+                "name": ["同化"],
+                "operatorIds": ["char_1012_skadi2"],
+                "template": "Bskill_train3_supporter2.png"
+            },
+            "bskill_train_abyssal": {
+                "desc": [
+                    "进驻训练室协助位时，心情每小时消耗+1，基建内（不包含副手及活动室使用者）每名深海猎人干员为当前干员的专精技能训练速度+10%（最多生效5名）"
+                ],
+                "name": ["“手段应当有效”"],
+                "operatorIds": ["char_4145_ulpia"],
+                "template": "Bskill_train_abyssal.png"
+            },
+            "bskill_train_accmu_guard1": {
+                "desc": [
+                    "进驻训练室协助位时，每完整协助完成1次专精训练，累计一定武道。武道达到上限时，下一次开始协助近卫干员训练专精技能至1级将立即完成，并消耗已有武道"
+                ],
+                "name": ["思而后行"],
+                "operatorIds": ["char_4121_zuole"],
+                "template": "Bskill_train_accmu_guard1.png"
+            },
+            "bskill_train_all": {
+                "desc": [
+                    "进驻训练室协助位时，干员的专精技能训练速度+25%",
+                    "进驻训练室协助位时，干员的专精技能训练速度+25%"
+                ],
+                "name": ["教官", "学无不精·α"],
+                "operatorIds": [
+                    "char_130_doberm",
+                    "char_265_sophia",
+                    "char_308_swire",
+                    "char_4121_zuole",
+                    "char_4196_reckpr"
+                ],
+                "template": "Bskill_train_all.png"
+            },
+            "bskill_train_artsprotector": {
+                "desc": [
+                    "进驻训练室协助位时，重装干员的专精技能训练速度+30%，如果训练位干员分支为驭法铁卫，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：驭法铁卫"],
+                "operatorIds": ["char_4025_aprot2"],
+                "template": "Bskill_train_artsprotector.png"
+            },
+            "bskill_train_attack": {
+                "desc": [
+                    "进驻训练室协助位时，基建内（不包含副手及活动室使用者）每名进攻方干员为当前干员的专精技能训练速度+10%（最多生效4名）"
+                ],
+                "name": ["战术指导·进攻"],
+                "operatorIds": ["char_4124_iana", "char_4126_fuze"],
+                "template": "Bskill_train_attack.png"
+            },
+            "bskill_train_bd": {
+                "desc": ["进驻训练室协助位时，心情每小时消耗+1，每1点人间烟火+1%专精技能训练速度"],
+                "name": ["与人乐"],
+                "operatorIds": ["char_2026_yu"],
+                "template": "Bskill_train_bd.png"
+            },
+            "bskill_train_caster&medic1": {
+                "desc": ["进驻训练室协助位时，术师与医疗干员的专精技能训练速度+30%"],
+                "name": ["红龙之血"],
+                "operatorIds": ["char_1020_reed2"],
+                "template": "Bskill_train_caster&medic1.png"
+            },
+            "bskill_train_caster&medic2": {
+                "desc": ["进驻训练室协助位时，术师与医疗干员的专精技能训练速度+45%"],
+                "name": ["红龙之血"],
+                "operatorIds": ["char_1020_reed2"],
+                "template": "Bskill_train_caster&medic2.png"
+            },
+            "bskill_train_caster&supporter1": {
+                "desc": ["进驻训练室协助位时，术师与辅助干员的专精技能训练速度+30%"],
+                "name": ["女妖之力"],
+                "operatorIds": ["char_4133_logos"],
+                "template": "Bskill_train_caster&supporter1.png"
+            },
+            "bskill_train_caster&vanguard1": {
+                "desc": [
+                    "进驻训练室协助位时，术师与近卫干员的专精技能训练速度+30%",
+                    "进驻训练室协助位时，术师与近卫干员的专精技能训练速度+30%"
+                ],
+                "name": ["恣意英杰", "“我不懂啊”"],
+                "operatorIds": ["char_1038_whitw2", "char_4226_veen"],
+                "template": "Bskill_train_caster&vanguard1.png"
+            },
+            "bskill_train_caster&vanguard2": {
+                "desc": ["进驻训练室协助位时，术师与近卫干员的专精技能训练速度+45%"],
+                "name": ["“触类旁通”"],
+                "operatorIds": ["char_4226_veen"],
+                "template": "Bskill_train_caster&vanguard2.png"
+            },
+            "bskill_train_caster1": {
+                "desc": ["进驻训练室协助位时，术师干员的专精技能训练速度+30%"],
+                "name": ["术师专精·α"],
+                "operatorIds": [
+                    "char_164_nightm",
+                    "char_166_skfire",
+                    "char_344_beewax",
+                    "char_388_mint",
+                    "char_426_billro",
+                    "char_450_necras"
+                ],
+                "template": "Bskill_train_caster1.png"
+            },
+            "bskill_train_caster2": {
+                "desc": ["进驻训练室协助位时，术师干员的专精技能训练速度+50%"],
+                "name": ["术师专精·β"],
+                "operatorIds": ["char_166_skfire", "char_344_beewax"],
+                "template": "Bskill_train_caster2.png"
+            },
+            "bskill_train_caster3": {
+                "desc": ["进驻训练室协助位时，术师干员的专精技能训练速度+60%"],
+                "name": ["尽在掌握"],
+                "operatorIds": ["char_426_billro"],
+                "template": "Bskill_train_caster3.png"
+            },
+            "bskill_train_chainhealer": {
+                "desc": [
+                    "进驻训练室协助位时，医疗干员的专精技能训练速度+30%，如果训练位干员分支为链愈师，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：链愈师"],
+                "operatorIds": ["char_4139_papyrs"],
+                "template": "Bskill_train_chainhealer.png"
+            },
+            "bskill_train_chen": {
+                "desc": ["进驻训练室协助狙击干员训练专精技能至1级时，心情每小时消耗+1"],
+                "name": ["工作狂"],
+                "operatorIds": ["char_1013_chen2"],
+                "template": "Bskill_train_chen.png"
+            },
+            "bskill_train_defender1": {
+                "desc": ["进驻训练室协助位时，重装干员的专精技能训练速度+30%"],
+                "name": ["重装专精·α"],
+                "operatorIds": [
+                    "char_136_hsguma",
+                    "char_260_durnar",
+                    "char_304_zebra",
+                    "char_4025_aprot2",
+                    "char_422_aurora"
+                ],
+                "template": "Bskill_train_defender1.png"
+            },
+            "bskill_train_defender2": {
+                "desc": ["进驻训练室协助位时，重装干员的专精技能训练速度+50%"],
+                "name": ["重装专精·β"],
+                "operatorIds": ["char_199_yak"],
+                "template": "Bskill_train_defender2.png"
+            },
+            "bskill_train_defender3": {
+                "desc": ["进驻训练室协助位时，重装干员的专精技能训练速度+60%"],
+                "name": ["般若"],
+                "operatorIds": ["char_136_hsguma"],
+                "template": "Bskill_train_defender3.png"
+            },
+            "bskill_train_defense": {
+                "desc": [
+                    "进驻训练室协助位时，基建内（不包含副手及活动室使用者）每名防守方干员为当前干员的专精技能训练速度+10%（最多生效4名）"
+                ],
+                "name": ["战术指导·防守"],
+                "operatorIds": ["char_4123_ela", "char_4125_rdoc"],
+                "template": "Bskill_train_defense.png"
+            },
+            "bskill_train_fastshot": {
+                "desc": [
+                    "进驻训练室协助位时，狙击干员的专精技能训练速度+30%，如果训练位干员分支为速射手，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：速射"],
+                "operatorIds": ["char_1021_kroos2"],
+                "template": "Bskill_train_fastshot.png"
+            },
+            "bskill_train_fighter": {
+                "desc": [
+                    "进驻训练室协助位时，近卫干员的专精技能训练速度+30%，如果训练位干员分支为斗士，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：斗士"],
+                "operatorIds": ["char_157_dagda"],
+                "template": "Bskill_train_fighter.png"
+            },
+            "bskill_train_gavial": {
+                "desc": ["进驻训练室协助近卫干员训练专精技能至3级时，心情每小时消耗+1"],
+                "name": ["过量训练"],
+                "operatorIds": ["char_1026_gvial2"],
+                "template": "Bskill_train_gavial.png"
+            },
+            "bskill_train_guard&supporter": {
+                "desc": ["进驻训练室协助位时，近卫与辅助干员的专精技能训练速度+30%"],
+                "name": ["“问题应当准确”"],
+                "operatorIds": ["char_4145_ulpia"],
+                "template": "Bskill_train_guard&supporter.png"
+            },
+            "bskill_train_guard1": {
+                "desc": ["进驻训练室协助位时，近卫干员的专精技能训练速度+30%"],
+                "name": ["近卫专精·α"],
+                "operatorIds": [
+                    "char_1026_gvial2",
+                    "char_106_franka",
+                    "char_137_brownb",
+                    "char_157_dagda",
+                    "char_194_leto",
+                    "char_265_sophia",
+                    "char_333_sidero",
+                    "char_350_surtr",
+                    "char_356_broca",
+                    "char_394_hadiya",
+                    "char_4082_qiubai",
+                    "char_415_flint",
+                    "char_4187_graceb",
+                    "char_475_akafyu"
+                ],
+                "template": "Bskill_train_guard1.png"
+            },
+            "bskill_train_guard2": {
+                "desc": ["进驻训练室协助位时，近卫干员的专精技能训练速度+50%"],
+                "name": ["近卫专精·β"],
+                "operatorIds": ["char_106_franka", "char_356_broca"],
+                "template": "Bskill_train_guard2.png"
+            },
+            "bskill_train_guard3": {
+                "desc": ["进驻训练室协助位时，近卫干员的专精技能训练速度+60%"],
+                "name": ["剑术记忆"],
+                "operatorIds": ["char_350_surtr"],
+                "template": "Bskill_train_guard3.png"
+            },
+            "bskill_train_knight_bd1": {
+                "desc": [
+                    "进驻训练室协助位时，基建内（不包含副手及活动室使用者）每名骑士干员为当前干员的专精技能训练速度+5%（最多生效5名）"
+                ],
+                "name": ["骑士训练"],
+                "operatorIds": ["char_1014_nearl2"],
+                "template": "Bskill_train_knight_bd1.png"
+            },
+            "bskill_train_knight_bd2": {
+                "desc": [
+                    "进驻训练室协助位时，基建内（不包含副手及活动室使用者）每名骑士干员为当前干员的专精技能训练速度+5%（最多生效8名）"
+                ],
+                "name": ["崇高准则"],
+                "operatorIds": ["char_1014_nearl2"],
+                "template": "Bskill_train_knight_bd2.png"
+            },
+            "bskill_train_lord": {
+                "desc": [
+                    "进驻训练室协助位时，近卫干员的专精技能训练速度+30%，如果训练位干员分支为领主，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：领主"],
+                "operatorIds": ["char_4082_qiubai"],
+                "template": "Bskill_train_lord.png"
+            },
+            "bskill_train_medic1": {
+                "desc": ["进驻训练室协助位时，医疗干员的专精技能训练速度+30%"],
+                "name": ["医疗专精·α"],
+                "operatorIds": [
+                    "char_1016_agoat2",
+                    "char_171_bldsk",
+                    "char_187_ccheal",
+                    "char_298_susuro",
+                    "char_4139_papyrs",
+                    "char_4196_reckpr"
+                ],
+                "template": "Bskill_train_medic1.png"
+            },
+            "bskill_train_medic2": {
+                "desc": ["进驻训练室协助位时，医疗干员的专精技能训练速度+50%"],
+                "name": ["医疗专精·β"],
+                "operatorIds": ["char_171_bldsk"],
+                "template": "Bskill_train_medic2.png"
+            },
+            "bskill_train_medic3": {
+                "desc": ["进驻训练室协助位时，医疗干员的专精技能训练速度+60%"],
+                "name": ["精准手术"],
+                "operatorIds": ["char_225_haak"],
+                "template": "Bskill_train_medic3.png"
+            },
+            "bskill_train_mh2_guard&sniper1": {
+                "desc": ["进驻训练室协助位时，近卫与狙击干员的专精技能训练速度+30%"],
+                "name": ["兴之所至·α"],
+                "operatorIds": ["char_1049_catap2"],
+                "template": "Bskill_train_mh2_guard&sniper1.png"
+            },
+            "bskill_train_mh2_guard&sniper2": {
+                "desc": ["进驻训练室协助位时，近卫与狙击干员的专精技能训练速度+50%，心情每小时消耗+1"],
+                "name": ["兴之所至·β"],
+                "operatorIds": ["char_1049_catap2"],
+                "template": "Bskill_train_mh2_guard&sniper2.png"
+            },
+            "bskill_train_necras": {
+                "desc": ["进驻训练室协助术师干员训练专精技能至3级时，心情每小时消耗+1"],
+                "name": ["何须解脱"],
+                "operatorIds": ["char_450_necras"],
+                "template": "Bskill_train_necras.png"
+            },
+            "bskill_train_reducetime": {
+                "desc": [
+                    "进驻训练室单次协助一名干员训练时长达5小时，则该名干员下次训练所需时间-50%（任意一方离开训练室时，效果消失）",
+                    "进驻训练室单次协助一名干员训练时长达5小时，则该名干员下次训练所需时间-50%（任意一方离开训练室时，效果消失）"
+                ],
+                "name": ["精神锻炼", "言语之义"],
+                "operatorIds": ["char_4009_irene", "char_4133_logos"],
+                "template": "Bskill_train_reducetime.png"
+            },
+            "bskill_train_sami": {
+                "desc": [
+                    "进驻训练室协助位时，基建内（不包含副手及活动室使用者）每名萨米干员为当前干员的专精技能训练速度+10%（最多生效3名）"
+                ],
+                "name": ["雪祀候补"],
+                "operatorIds": ["char_341_sntlla"],
+                "template": "Bskill_train_sami.png"
+            },
+            "bskill_train_siegesniper": {
+                "desc": [
+                    "进驻训练室协助位时，狙击干员的专精技能训练速度+30%，如果训练位干员分支为攻城手，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：攻城手"],
+                "operatorIds": ["char_2012_typhon"],
+                "template": "Bskill_train_siegesniper.png"
+            },
+            "bskill_train_siracusa": {
+                "desc": [
+                    "进驻训练室协助位时，基建内（不包含副手及活动室使用者）每名叙拉古干员为当前干员的专精技能训练速度+5%（最多生效7名）"
+                ],
+                "name": ["叙拉古狂欢"],
+                "operatorIds": ["char_1038_whitw2"],
+                "template": "Bskill_train_siracusa.png"
+            },
+            "bskill_train_skadi": {
+                "desc": ["进驻训练室协助辅助干员训练专精技能至3级时，心情每小时消耗+1"],
+                "name": ["变异"],
+                "operatorIds": ["char_1012_skadi2"],
+                "template": "Bskill_train_skadi.png"
+            },
+            "bskill_train_sniper1": {
+                "desc": ["进驻训练室协助位时，狙击干员的专精技能训练速度+30%"],
+                "name": ["狙击专精·α"],
+                "operatorIds": [
+                    "char_1013_chen2",
+                    "char_113_cqbw",
+                    "char_204_platnm",
+                    "char_279_excu",
+                    "char_4006_melnte",
+                    "char_4043_erato"
+                ],
+                "template": "Bskill_train_sniper1.png"
+            },
+            "bskill_train_sniper2": {
+                "desc": ["进驻训练室协助位时，狙击干员的专精技能训练速度+50%"],
+                "name": ["狙击专精·β"],
+                "operatorIds": ["char_204_platnm"],
+                "template": "Bskill_train_sniper2.png"
+            },
+            "bskill_train_sniper3": {
+                "desc": ["进驻训练室协助位时，狙击干员的专精技能训练速度+60%"],
+                "name": ["黑矢"],
+                "operatorIds": ["char_340_shwaz"],
+                "template": "Bskill_train_sniper3.png"
+            },
+            "bskill_train_spd&level": {
+                "desc": ["进驻训练室协助位时，如果本次训练专精技能至3级，专精技能训练速度+70%"],
+                "name": ["苦心孤诣"],
+                "operatorIds": ["char_2027_wang"],
+                "template": "Bskill_train_spd&level.png"
+            },
+            "bskill_train_spd&profession2": {
+                "desc": [
+                    "进驻训练室协助位时，先锋干员的专精技能训练速度+30%",
+                    "进驻训练室协助位时，先锋干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+50%"
+                ],
+                "name": ["先锋专精·α", "先驱者共识"],
+                "operatorIds": ["char_1045_svash2"],
+                "template": "Bskill_train_spd&profession2.png"
+            },
+            "bskill_train_specialist&pioneer1": {
+                "desc": ["进驻训练室协助位时，特种与先锋干员的专精技能训练速度+30%"],
+                "name": ["沉默为剑"],
+                "operatorIds": ["char_1028_texas2"],
+                "template": "Bskill_train_specialist&pioneer1.png"
+            },
+            "bskill_train_specialist1": {
+                "desc": ["进驻训练室协助位时，特种干员的专精技能训练速度+30%"],
+                "name": ["特种专精·α"],
+                "operatorIds": ["char_1023_ghost2", "char_215_mantic", "char_250_phatom", "char_451_robin"],
+                "template": "Bskill_train_specialist1.png"
+            },
+            "bskill_train_specialist2": {
+                "desc": ["进驻训练室协助位时，特种干员的专精技能训练速度+50%"],
+                "name": ["特种专精·β"],
+                "operatorIds": ["char_215_mantic", "char_4165_ctrail"],
+                "template": "Bskill_train_specialist2.png"
+            },
+            "bskill_train_specialist3": {
+                "desc": ["进驻训练室协助位时，特种干员的专精技能训练速度+60%"],
+                "name": ["假面魅影"],
+                "operatorIds": ["char_250_phatom"],
+                "template": "Bskill_train_specialist3.png"
+            },
+            "bskill_train_specter": {
+                "desc": ["进驻训练室协助特种干员训练专精技能至3级时，心情每小时消耗+1"],
+                "name": ["斗争渴望"],
+                "operatorIds": ["char_1023_ghost2"],
+                "template": "Bskill_train_specter.png"
+            },
+            "bskill_train_supporter1": {
+                "desc": ["进驻训练室协助位时，辅助干员的专精技能训练速度+30%"],
+                "name": ["辅助专精·α"],
+                "operatorIds": ["char_1012_skadi2", "char_195_glassb", "char_358_lisa", "char_4234_pedro"],
+                "template": "Bskill_train_supporter1.png"
+            },
+            "bskill_train_supporter2": {
+                "desc": ["进驻训练室协助位时，辅助干员的专精技能训练速度+50%"],
+                "name": ["辅助专精·β"],
+                "operatorIds": ["char_174_slbell"],
+                "template": "Bskill_train_supporter2.png"
+            },
+            "bskill_train_supporter3": {
+                "desc": ["进驻训练室协助位时，辅助干员的专精技能训练速度+60%"],
+                "name": ["共鸣"],
+                "operatorIds": ["char_358_lisa"],
+                "template": "Bskill_train_supporter3.png"
+            },
+            "bskill_train_supportiveranger": {
+                "desc": [
+                    "进驻训练室协助位时，辅助干员的专精技能训练速度+30%，如果训练位干员分支为游击手，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：游击手"],
+                "operatorIds": ["char_4234_pedro"],
+                "template": "Bskill_train_supportiveranger.png"
+            },
+            "bskill_train_vanguard&sniper": {
+                "desc": ["进驻训练室协助位时，近卫与狙击干员的专精技能训练速度+30%"],
+                "name": ["剑与手炮"],
+                "operatorIds": ["char_4009_irene"],
+                "template": "Bskill_train_vanguard&sniper.png"
+            },
+            "bskill_train_vanguard1": {
+                "desc": ["进驻训练室协助位时，先锋干员的专精技能训练速度+30%"],
+                "name": ["先锋专精·α"],
+                "operatorIds": ["char_192_falco", "char_220_grani", "char_362_saga", "char_476_blkngt"],
+                "template": "Bskill_train_vanguard1.png"
+            },
+            "bskill_train_vanguard2": {
+                "desc": ["进驻训练室协助位时，先锋干员的专精技能训练速度+50%"],
+                "name": ["先锋专精·β"],
+                "operatorIds": ["char_220_grani", "char_290_vigna"],
+                "template": "Bskill_train_vanguard2.png"
+            },
+            "bskill_train_vanguard3": {
+                "desc": ["进驻训练室协助位时，先锋干员的专精技能训练速度+60%"],
+                "name": ["入世"],
+                "operatorIds": ["char_362_saga"],
+                "template": "Bskill_train_vanguard3.png"
+            },
+            "bskill_train_w": {
+                "desc": ["进驻训练室协助狙击干员训练专精技能至3级时，心情每小时消耗+1"],
+                "name": ["索然无味"],
+                "operatorIds": ["char_113_cqbw"],
+                "template": "Bskill_train_w.png"
+            },
+            "bskill_train_wandermedic": {
+                "desc": [
+                    "进驻训练室协助位时，医疗干员的专精技能训练速度+30%，如果训练位干员分支为行医，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：行医"],
+                "operatorIds": ["char_1016_agoat2"],
+                "template": "Bskill_train_wandermedic.png"
+            }
+        }
+    },
+    "roomType": ["Power", "Reception", "Control", "Dorm", "Trade", "Office", "Mfg", "Processing", "Training"]
 }

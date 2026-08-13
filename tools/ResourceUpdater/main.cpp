@@ -1,7 +1,10 @@
+#include <array>
+#include <cctype>
 #include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <thread>
+#include <unordered_map>
 #include <unordered_set>
 
 #include <meojson/json.hpp>
@@ -14,6 +17,66 @@
 #include "Utils/StringMisc.hpp"
 
 namespace fs = std::filesystem;
+
+namespace
+{
+const std::unordered_map<std::string, std::string> InfrastRoomTypeMap = {
+    { "POWER", "Power" },         { "CONTROL", "Control" }, { "DORMITORY", "Dorm" },
+    { "WORKSHOP", "Processing" }, { "MANUFACTURE", "Mfg" }, { "TRADING", "Trade" },
+    { "MEETING", "Reception" },   { "HIRE", "Office" },     { "TRAINING", "Training" },
+};
+
+constexpr std::array<std::string_view, 9> InfrastRoomTypes = {
+    "Power", "Reception", "Control", "Dorm", "Trade", "Office", "Mfg", "Processing", "Training",
+};
+
+std::string normalize_infrast_skill_id(std::string id)
+{
+    std::ranges::transform(id, id.begin(), [](unsigned char ch) { return static_cast<char>(std::tolower(ch)); });
+    return id;
+}
+
+std::string infrast_template_filename(std::string skill_id)
+{
+    skill_id = normalize_infrast_skill_id(std::move(skill_id));
+    if (!skill_id.empty()) {
+        skill_id.front() = static_cast<char>(std::toupper(static_cast<unsigned char>(skill_id.front())));
+    }
+    return skill_id + ".png";
+}
+
+void normalize_infrast_skill_references(json::value& root)
+{
+    for (const auto& [_, room_type] : InfrastRoomTypeMap) {
+        if (!root.contains(room_type) || !root[room_type].contains("skills")) {
+            continue;
+        }
+
+        auto& skills = root[room_type]["skills"].as_object();
+        json::object normalized_skills;
+        for (auto& [skill_id, skill] : skills) {
+            normalized_skills.emplace(normalize_infrast_skill_id(skill_id), std::move(skill));
+        }
+        skills = std::move(normalized_skills);
+
+        if (!root[room_type].contains("skillsGroup")) {
+            continue;
+        }
+        for (auto& group : root[room_type]["skillsGroup"].as_array()) {
+            for (const std::string& category : { std::string("necessary"), std::string("optional") }) {
+                if (!group.contains(category)) {
+                    continue;
+                }
+                for (auto& comb : group[category].as_array()) {
+                    for (auto& skill : comb["skills"].as_array()) {
+                        skill = normalize_infrast_skill_id(skill.as_string());
+                    }
+                }
+            }
+        }
+    }
+}
+} // namespace
 
 inline static void ltrim(std::string& s)
 {
@@ -45,7 +108,9 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir);
 bool update_stages_data(const fs::path& input_dir, const fs::path& output_dir);
 bool update_roguelike_recruit(const fs::path& input_dir, const fs::path& output_dir, const fs::path& solution_dir);
 bool update_levels_json(const fs::path& input_file, const fs::path& output_dir);
-bool update_infrast_templates(const fs::path& input_dir, const fs::path& output_dir);
+bool
+    update_infrast_templates(const fs::path& input_dir, const fs::path& building_data_file, const fs::path& output_dir);
+bool validate_infrast_resources(const fs::path& resource_dir);
 bool generate_english_roguelike_stage_name_replacement(const fs::path& ch_file, const fs::path& en_file);
 bool update_battle_chars_info(const fs::path& input_dir, const fs::path& overseas_dir, const fs::path& output_dir);
 bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, bool is_base);
@@ -166,7 +231,10 @@ bool run_parallel_tasks(
             return;
         }
         std::cout << "------- Update infrast templates -------" << '\n';
-        if (!update_infrast_templates(official_data_dir / "building_skill", resource_dir / "template" / "infrast")) {
+        if (!update_infrast_templates(
+                official_data_dir / "building_skill",
+                official_data_dir / "gamedata" / "excel" / "building_data.json",
+                resource_dir / "template" / "infrast")) {
             std::cerr << "update_infrast_templates failed" << '\n';
             error_occurred.store(true);
         }
@@ -336,6 +404,11 @@ bool run_parallel_tasks(
     check_roguelike_thread.join();
     recruit_thread.join();
     items_data_thread.join();
+
+    if (!error_occurred.load() && !validate_infrast_resources(resource_dir)) {
+        std::cerr << "validate_infrast_resources failed" << '\n';
+        error_occurred.store(true);
+    }
 
     return error_occurred.load() ? false : true;
 }
@@ -586,10 +659,8 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
                                 continue;
                             }
 
-                            std::string skill_icon = buffs.at(buff_id).get("skillIcon", std::string());
-                            if (skill_icon == "bskill_man_exp4") {
-                                skill_icon = "bskill_man_exp0";
-                            }
+                            std::string skill_icon =
+                                normalize_infrast_skill_id(buffs.at(buff_id).get("skillIcon", std::string()));
                             if (!skill_icon.empty()) {
                                 operator_ids_by_skill[skill_icon].emplace(char_id);
                             }
@@ -606,38 +677,33 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
 
     // 这里面有些是手动修改的，要保留
     json::value& root = old_json;
+    normalize_infrast_skill_references(root);
     std::unordered_set<std::string> rooms;
-
-    static const std::unordered_map<std::string, std::string> RoomTypeMap = {
-        { "POWER", "Power" },       { "CONTROL", "Control" }, { "DORMITORY", "Dorm" },
-        { "WORKSHOP", "" },         { "MANUFACTURE", "Mfg" }, { "TRADING", "Trade" },
-        { "MEETING", "Reception" }, { "HIRE", "Office" },     { "TRAINING", "" },
-    };
+    std::unordered_map<std::string, std::unordered_set<std::string>> skill_ids_by_room;
 
     for (auto& [key, val] : buffs) {
         std::ignore = key;
         auto& buff_obj = val;
 
         std::string raw_room_type = buff_obj["roomType"].as_string();
-        std::string room_type = RoomTypeMap.at(raw_room_type);
-
-        if (room_type.empty()) {
+        auto room_iter = InfrastRoomTypeMap.find(raw_room_type);
+        if (room_iter == InfrastRoomTypeMap.end()) {
             continue;
         }
+        const std::string& room_type = room_iter->second;
 
         rooms.emplace(room_type);
 
-        std::string raw_key = static_cast<std::string>(buff_obj["skillIcon"]);
+        std::string json_key = normalize_infrast_skill_id(static_cast<std::string>(buff_obj["skillIcon"]));
+        if (json_key.empty()) {
+            continue;
+        }
+        skill_ids_by_room[room_type].emplace(json_key);
         std::string name = static_cast<std::string>(buff_obj["buffName"]);
         // 这玩意里面有类似 xml 的东西，全删一下
         std::string desc = static_cast<std::string>(buff_obj["description"]);
         remove_xml(desc);
 
-        std::string json_key = raw_key;
-        // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/5123#issuecomment-1589425675
-        if (json_key == "bskill_man_exp4") {
-            json_key = "bskill_man_exp0";
-        }
         auto& skill = root[room_type]["skills"][json_key];
         auto& name_arr = skill["name"].as_array();
         bool new_name = true;
@@ -652,26 +718,42 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
             skill["desc"].emplace(desc);
         }
 
-        // 历史遗留问题，以前的图片是从wiki上爬的，都是大写开头
-        // Windows下不区分大小写，现在新的小写文件名图片没法覆盖
-        // 所以干脆全用大写开头算了
-        std::string filename = raw_key + ".png";
-        filename[0] -= 32;
-        skill["template"] = std::move(filename);
+        skill["template"] = infrast_template_filename(json_key);
     }
 
     for (const auto& room_type : rooms) {
         auto& skills = root[room_type]["skills"].as_object();
-        for (auto& [skill_id, skill] : skills) {
-            if (auto iter = operator_ids_by_skill.find(skill_id); iter != operator_ids_by_skill.cend()) {
-                skill["operatorIds"] = json::array(iter->second);
+        for (auto iter = skills.begin(); iter != skills.end();) {
+            auto& [skill_id, skill] = *iter;
+            if (!skill_ids_by_room.at(room_type).contains(skill_id)) {
+                auto stale = iter++;
+                skills.erase(stale);
+                continue;
+            }
+            if (auto operator_iter = operator_ids_by_skill.find(skill_id);
+                operator_iter != operator_ids_by_skill.cend()) {
+                skill["operatorIds"] = json::array(operator_iter->second);
             }
             else {
                 skill["operatorIds"] = json::array();
             }
+            ++iter;
         }
     }
-    root["roomType"] = json::array(rooms);
+    json::array room_types;
+    for (const auto& room : root["roomType"].as_array()) {
+        const std::string room_type = room.as_string();
+        if (rooms.erase(room_type) != 0) {
+            room_types.emplace_back(room_type);
+        }
+    }
+    for (const std::string_view room_type : InfrastRoomTypes) {
+        const std::string room_type_string(room_type);
+        if (rooms.erase(room_type_string) != 0) {
+            room_types.emplace_back(room_type_string);
+        }
+    }
+    root["roomType"] = std::move(room_types);
 
     std::ofstream ofs(output_file, std::ios::out);
     ofs << root.format();
@@ -756,16 +838,73 @@ bool update_stages_data(const fs::path& input_dir, const fs::path& output_dir)
     return true;
 }
 
-bool update_infrast_templates(const fs::path& input_dir, const fs::path& output_dir)
+bool update_infrast_templates(const fs::path& input_dir, const fs::path& building_data_file, const fs::path& output_dir)
 {
+    std::unordered_set<std::string> expected_templates;
+    auto building_data_opt = json::open(building_data_file);
+    if (!building_data_opt) {
+        std::cerr << building_data_file << " parse error" << '\n';
+        return false;
+    }
+    const auto buffs_opt = building_data_opt->find<json::object>("buffs");
+    if (!buffs_opt) {
+        std::cerr << building_data_file << " has no buffs" << '\n';
+        return false;
+    }
+    for (const auto& [_, buff] : buffs_opt.value()) {
+        const std::string skill_icon = buff.get("skillIcon", std::string());
+        if (!skill_icon.empty()) {
+            expected_templates.emplace(infrast_template_filename(skill_icon));
+        }
+    }
+
+    std::unordered_set<std::string> available_templates;
+    for (const auto& entry : fs::directory_iterator(input_dir)) {
+        if (entry.path().extension() != ".png") {
+            continue;
+        }
+        const std::string stem = entry.path().stem().string();
+        if (stem.find("[style]") == std::string::npos) {
+            available_templates.emplace(infrast_template_filename(stem));
+        }
+    }
+    for (const auto& filename : expected_templates) {
+        if (!available_templates.contains(filename)) {
+            std::cerr << "Missing infrast template: " << filename << '\n';
+            return false;
+        }
+    }
+
+    for (const auto& entry : fs::directory_iterator(output_dir)) {
+        if (entry.path().extension() != ".png") {
+            continue;
+        }
+        const std::string canonical_name = infrast_template_filename(entry.path().stem().string());
+        if (!expected_templates.contains(canonical_name)) {
+            fs::remove(entry.path());
+            std::cout << "Remove stale infrast templ: " << fs::relative(entry.path()) << '\n';
+            continue;
+        }
+        if (entry.path().filename().string() != canonical_name) {
+            const fs::path temp_path = entry.path().parent_path() / (canonical_name + ".renaming");
+            fs::rename(entry.path(), temp_path);
+            fs::rename(temp_path, entry.path().parent_path() / canonical_name);
+        }
+    }
+
     for (auto&& entry : fs::directory_iterator(input_dir)) {
         if (entry.path().extension() != ".png") {
             continue;
         }
-        const std::string& stem = entry.path().stem().string();
+        const std::string stem = entry.path().stem().string();
 
         // Style assets are UI decorations rather than infrastructure skill icons.
         if (stem.find("[style]") != std::string::npos) {
+            continue;
+        }
+
+        const std::string filename = infrast_template_filename(stem);
+        if (!expected_templates.contains(filename)) {
             continue;
         }
 
@@ -780,11 +919,6 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& output_
                 }
             }
         }
-        std::string filename = entry.path().filename().string();
-        // 历史遗留问题，以前的图片是从wiki上爬的，都是大写开头
-        // Windows下不区分大小写，现在新的小写文件名图片没法覆盖
-        // 所以干脆全用大写开头算了
-        filename[0] -= 32;
         std::string out_file = (output_dir / filename).string();
 
         if (fs::exists(out_file)) {
@@ -815,6 +949,76 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& output_
             std::cout << "New infrast templ: " << fs::relative(out_file) << '\n';
         }
         cv::imwrite(out_file, dst);
+    }
+    return true;
+}
+
+bool validate_infrast_resources(const fs::path& resource_dir)
+{
+    auto infrast_opt = json::open(resource_dir / "infrast.json");
+    if (!infrast_opt) {
+        return false;
+    }
+
+    std::unordered_set<std::string> skill_ids;
+    std::unordered_set<std::string> expected_templates;
+    const auto& infrast = infrast_opt.value();
+    for (const auto& room : infrast.at("roomType").as_array()) {
+        const std::string room_type = room.as_string();
+        const auto& room_data = infrast.at(room_type);
+        std::unordered_set<std::string> room_skill_ids;
+        for (const auto& [skill_id, skill] : room_data.at("skills").as_object()) {
+            if (skill_id != normalize_infrast_skill_id(skill_id)) {
+                std::cerr << "Infrastructure skill ID is not lowercase: " << skill_id << '\n';
+                return false;
+            }
+            if (!skill_ids.emplace(skill_id).second) {
+                std::cerr << "Duplicate infrastructure skill ID: " << skill_id << '\n';
+                return false;
+            }
+            room_skill_ids.emplace(skill_id);
+            const std::string expected_template = infrast_template_filename(skill_id);
+            if (skill.at("template").as_string() != expected_template) {
+                std::cerr << "Infrastructure template field differs for " << skill_id << ": expected "
+                          << expected_template << '\n';
+                return false;
+            }
+            expected_templates.emplace(expected_template);
+        }
+
+        if (!room_data.contains("skillsGroup")) {
+            continue;
+        }
+        for (const auto& group : room_data.at("skillsGroup").as_array()) {
+            for (const std::string& category : { std::string("necessary"), std::string("optional") }) {
+                if (!group.contains(category)) {
+                    continue;
+                }
+                for (const auto& combination : group.at(category).as_array()) {
+                    for (const auto& skill : combination.at("skills").as_array()) {
+                        const std::string skill_id = skill.as_string();
+                        if (!room_skill_ids.contains(skill_id)) {
+                            std::cerr << "Infrastructure skillsGroup references missing skill in " << room_type << ": "
+                                      << skill_id << '\n';
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    std::unordered_set<std::string> templates;
+    for (const auto& entry : fs::directory_iterator(resource_dir / "template" / "infrast")) {
+        if (entry.is_regular_file() && entry.path().extension() == ".png") {
+            templates.emplace(entry.path().filename().string());
+        }
+    }
+
+    if (expected_templates != templates) {
+        std::cerr << "Infrastructure skill IDs and templates differ: " << skill_ids.size() << " IDs, "
+                  << templates.size() << " templates" << '\n';
+        return false;
     }
     return true;
 }
