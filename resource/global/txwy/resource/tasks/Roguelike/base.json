@@ -1180,5 +1180,17 @@
     },
     "Roguelike@StartExploreCD": {
         "text": ["等待重返城堡入口", "等待重返陸地", "等待科考隊重建", "等待", "正在清理思緒", "正在", "正在打掃園林"]
+    },
+    "Roguelike@StartExploreWithSeed-BackToMainPage": {
+        "text": ["停用參數"]
+    },
+    "Roguelike@StartExploreWithSeed-ClickInputBox": {
+        "text": ["參數"]
+    },
+    "Roguelike@StartExploreWithSeed-Open": {
+        "text": ["啟用", "參數"]
+    },
+    "Roguelike@StartExploreWithSeed-SetDifficulty": {
+        "text": ["設為", "該", "難度"]
     }
 }
