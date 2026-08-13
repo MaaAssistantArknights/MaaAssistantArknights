@@ -1194,6 +1194,27 @@
                         "op": "contains",
                         "value": "final"
                     }
+                },
+                {
+                    "id": "baby_avoid_combat",
+                    "description": "只要还有别的安全走法就不进作战节点",
+                    "kind": "forbid",
+                    "tier": "risk",
+                    "rank": 0,
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.combat",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "candidate.combat_is_optional",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
+                    }
                 }
             ],
             "reserves": [
@@ -1216,9 +1237,18 @@
                         ]
                     },
                     "release_if": {
-                        "fact": "candidate.node_type",
-                        "op": "eq",
-                        "value": "scrap_shop"
+                        "any": [
+                            {
+                                "fact": "candidate.node_type",
+                                "op": "eq",
+                                "value": "scrap_shop"
+                            },
+                            {
+                                "fact": "candidate.guaranteed_route_node_types",
+                                "op": "contains",
+                                "value": "scrap_shop"
+                            }
+                        ]
                     }
                 }
             ],

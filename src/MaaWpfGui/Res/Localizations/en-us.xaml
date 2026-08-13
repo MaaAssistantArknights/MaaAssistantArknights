@@ -1382,6 +1382,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowRuleBabyWalkAfterFloor1Shop">Explore on foot after checking the floor 1 shop and preserve processing items</system:String>
     <system:String x:Key="BlackFlowRuleBabyDelayExitBeforeFloor3">Delay the exit before floor 3 while development opportunities remain</system:String>
     <system:String x:Key="BlackFlowRuleBabyExitBeforeFloor3WhenRequired">Head to the exit before floor 3 when development is exhausted or the safety margin is low</system:String>
+    <system:String x:Key="BlackFlowRuleBabyAvoidCombat">Avoid battle nodes while another safe option remains</system:String>
     <system:String x:Key="BlackFlowRuleLightRevealsThree">Prioritize a light node that reveals at least three unknown major nodes</system:String>
     <system:String x:Key="BlackFlowRuleInvestmentKeepShortWalk">Stay on foot when the shop is within two tiles</system:String>
     <system:String x:Key="BlackFlowRuleInvestmentUseM11ForDirectShop">Use Structural Principle to reach the shop directly when no short walk exists</system:String>

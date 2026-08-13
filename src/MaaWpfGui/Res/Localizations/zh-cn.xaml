@@ -1383,6 +1383,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BlackFlowRuleBabyWalkAfterFloor1Shop">第一层检查普通商店后徒步探索并保留加工品</system:String>
     <system:String x:Key="BlackFlowRuleBabyDelayExitBeforeFloor3">第三层前仍有发育空间，暂缓前往出口</system:String>
     <system:String x:Key="BlackFlowRuleBabyExitBeforeFloor3WhenRequired">第三层前发育已经完成或安全余量不足，前往出口</system:String>
+    <system:String x:Key="BlackFlowRuleBabyAvoidCombat">仍有其他安全走法，避开作战节点</system:String>
     <system:String x:Key="BlackFlowRuleLightRevealsThree">羽瞰点预计可以揭示至少三个未知大节点</system:String>
     <system:String x:Key="BlackFlowRuleInvestmentKeepShortWalk">商店距离不超过两格时保持徒步</system:String>
     <system:String x:Key="BlackFlowRuleInvestmentUseM11ForDirectShop">没有短途徒步方案时使用结构性原理直达商店</system:String>
