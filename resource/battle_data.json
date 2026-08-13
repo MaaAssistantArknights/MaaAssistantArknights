@@ -3243,8 +3243,7 @@
         },
         "char_4031_liesel": {
             "name": "复奏",
-            "name_en": "复奏",
-            "name_en_unavailable": true,
+            "name_en": "Ripresa",
             "name_jp": "リプレーザ",
             "name_kr": "리프레사",
             "name_tw": "复奏",
@@ -3284,8 +3283,7 @@
         },
         "char_4037_demetr": {
             "name": "贝洛内",
-            "name_en": "贝洛内",
-            "name_en_unavailable": true,
+            "name_en": "Bellone",
             "name_jp": "ベッローネ",
             "name_kr": "벨로네",
             "name_tw": "贝洛内",
@@ -6914,8 +6912,7 @@
         },
         "token_10065_demetr_dmtpos": {
             "name": "牵绊",
-            "name_en": "牵绊",
-            "name_en_unavailable": true,
+            "name_en": "Bond",
             "name_jp": "絆",
             "name_kr": "결속",
             "name_tw": "牵绊",
@@ -8938,7 +8935,7 @@
         },
         "trap_1048_acarm048": {
             "name": "奥术法阵",
-            "name_en": "Pocket Arts Circle",
+            "name_en": "Arcane Arts Circle",
             "name_jp": "秘術法陣",
             "name_kr": "아케인 마법진",
             "name_tw": "口袋法陣",
@@ -9198,7 +9195,7 @@
         },
         "trap_1066_acarm066": {
             "name": "盟约之币",
-            "name_en": "Lucky Coin",
+            "name_en": "Alliance Coin",
             "name_jp": "盟約のコイン",
             "name_kr": "맹약코인",
             "name_tw": "幸運硬幣",
@@ -13505,7 +13502,7 @@
         },
         "trap_289_zicai": {
             "name": "财字",
-            "name_en": "Wealth'",
+            "name_en": "'Wealth'",
             "name_jp": "「財」",
             "name_kr": "'재'",
             "name_tw": "财字",
@@ -13519,7 +13516,7 @@
         },
         "trap_290_zishi": {
             "name": "食字",
-            "name_en": "Food'",
+            "name_en": "'Food'",
             "name_jp": "「食」",
             "name_kr": "'식'",
             "name_tw": "食字",
@@ -13533,7 +13530,7 @@
         },
         "trap_291_zibin": {
             "name": "兵字",
-            "name_en": "Soldier'",
+            "name_en": "'Soldier'",
             "name_jp": "「兵」",
             "name_kr": "'병'",
             "name_tw": "兵字",
@@ -13547,7 +13544,7 @@
         },
         "trap_292_zishan": {
             "name": "山字",
-            "name_en": "Mountain'",
+            "name_en": "'Mountain'",
             "name_jp": "「山」",
             "name_kr": "'산'",
             "name_tw": "山字",
@@ -13575,7 +13572,7 @@
         },
         "trap_294_ziyou": {
             "name": "友字",
-            "name_en": "Friend'",
+            "name_en": "'Friend'",
             "name_jp": "「友」",
             "name_kr": "'우'",
             "name_tw": "友字",
@@ -13589,7 +13586,7 @@
         },
         "trap_295_ziyin": {
             "name": "印字",
-            "name_en": "Stamp'",
+            "name_en": "'Stamp'",
             "name_jp": "「印」",
             "name_kr": "'인'",
             "name_tw": "印字",

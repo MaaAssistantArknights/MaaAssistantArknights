@@ -1113,7 +1113,10 @@
             ["Broken", "断"],
             ["Friend'", "友字"],
             ["Food'", "食字"],
-            ["Ch'en the Dawnstreak", "赤刃明霄陈"]
+            ["Ch'en the Dawnstreak", "赤刃明霄陈"],
+            ["Bond", "牵绊"],
+            ["Bellone", "贝洛内"],
+            ["Ripresa", "复奏"]
         ]
     },
     "GameStartCheckResourceOCR": {
