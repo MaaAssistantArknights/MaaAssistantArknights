@@ -15,33 +15,27 @@ Some features (such as Depot Maintain, scheduled execution, and drag-and-drop pa
 
 ## Prerequisites
 
+::::steps
+
 1. Confirm system version
 
    MAA on Windows only supports Windows 10 and 11. For older Windows versions, please refer to the system issues section in [FAQ](./faq.md#system-issues).
 
    Non-Windows users, please refer to [Emulator and Device Support](./device/).
 
-2. Download the correct version
-
-   The [MAA official website](https://maa.plus/) will automatically select the correct architecture for most users reading this article, which should be Windows x64.
-
-3. Extract correctly
-
-   Ensure the extraction is complete, and make sure to extract MAA to a separate folder. Do not extract MAA to paths requiring UAC permissions such as `C:\` or `C:\Program Files\`.
-
-4. Install runtime libraries
-
-   MAA now includes the .NET runtime (self-contained deployment), but still requires VCRedist x64. Please run `DependencySetup_依赖库安装.bat` in the MAA directory to install it.
-
-   For more information, please refer to the pinned section in [FAQ](./faq.md).
-
-5. Confirm emulator support
+2. Confirm emulator support
 
    Check [Emulator and Device Support](./device/) to verify the compatibility of your emulator.
 
-6. Set the correct emulator resolution
+3. Download and installation
+
+   See [Download & Installation](./install.md).
+
+4. Set the correct emulator resolution
 
    Emulator resolution should be landscape `1280x720` or `1920x1080`; for YostarEN players, it must be `1920x1080`.
+
+::::
 
 ## Initial Configuration
 
@@ -49,9 +43,9 @@ Some features (such as Depot Maintain, scheduled execution, and drag-and-drop pa
 
 1. Follow the setup guide for configuration. MAA will automatically detect the running emulator. If detection fails or you need multiple instances, refer to [Connection Settings](./connection.md).
 
-2. ~~When running MAA for the first time, it will perform a hot update. Please close and restart MAA when prompted in the log on the right.~~
+2. MAA automatically checks for and updates game resources on startup; updates are loaded automatically when the system is idle, without requiring a restart.
 
-3. Drag the task list on the left to reorder tasks, and check or uncheck the checkboxes to select tasks to run.
+3. Drag the task list on the left to reorder tasks, and check or uncheck the checkboxes to select tasks to run. Click the gear icon on the right of a task to expand its detailed settings.
 
 4. Link Start!
 
@@ -67,12 +61,12 @@ Read the documentation!
 **When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!**
 :::
 
-1. The logs are located in the `debug` folder inside the MAA directory. Logs are extremely important. When seeking help from others, always bring both `asst.log` and `gui.log` with you.
+1. Use `Settings` - `Issue Report` - `Generate Support Payload` to generate a log package convenient for sharing. Logs are extremely important. When seeking help from others, always bring the log package with you.
+   If MAA fails to start entirely and you cannot access the settings panel, manually go to the MAA installation directory (the folder containing `MAA.exe`) and package the `debug`, `config`, and `cache` folders yourself.
+   Feedback: [GitHub Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) (also accessible via `Settings` - `Issue Report` - `Issues`).
 
 2. MAA provides many customization options to meet all users' various needs. If you think MAA is missing a feature, it might just be hard to find rather than non-existent, such as `Manual stage name input` and `Do not place stationed operators in dormitory`.
 
-3. Hovering your mouse pointer over certain options will display detailed explanations, such as `Do not place stationed operators in dormitory`.
+3. For some checkboxes, right-clicking will change them to a half-selected state. Checkboxes in this state will automatically clear when MAA is next started, which can be understood as `one-time only`.
 
-4. For some checkboxes, right-clicking will change them to a half-selected state. Checkboxes in this state will automatically clear when MAA is next started, which can be understood as `one-time only`.
-
-5. ~~If you don't know what you need and can't easily resolve potential problems, do not use beta versions.~~
+4. ~~If you don't know what you need and can't easily resolve potential problems, do not use beta versions.~~
