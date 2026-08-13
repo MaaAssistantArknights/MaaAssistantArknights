@@ -912,6 +912,9 @@
     "GameStartCheckResourceOCR": {
         "text": ["驗證", "資源完整性", "行動網路", "數據"]
     },
+    "GameStartUpdateOCR": {
+        "text": ["正在釋放神經遞質", "MB"]
+    },
     "StartToWakeUpOCR": {
         "text": ["開始喚醒", "登錄", "登", "錄"]
     },
