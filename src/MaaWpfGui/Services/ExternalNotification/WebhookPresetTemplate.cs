@@ -70,6 +70,13 @@ public class WebhookPresetTemplate
             Headers = "Authorization: Bot <bot_token>",
             Body = @"{""type"": 9, ""target_id"": ""<user_id>"", ""content"": ""**{title}**\n{content}""}",
         },
+        new()
+        {
+            Id = "WeCom",
+            Name = "WeCom",
+            Url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=<key>",
+            Body = @"{""msgtype"": ""text"", ""text"": {""content"": ""{content}""}}",
+        },
     ];
 
     public static IReadOnlyList<WebhookPresetTemplate> BuiltInTemplates => _builtInTemplates;
