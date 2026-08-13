@@ -162,14 +162,15 @@ bool LinuxWindowController::capture_window(cv::Mat& image_payload)
 
 bool LinuxWindowController::start_game(const std::string& client_type [[maybe_unused]])
 {
-    Log.warn("start_game is not supported on LinuxWindowController");
-    return false;
+    // 游戏由用户在外部启动，这里作为无操作返回成功，使 StartUp 任务流程可以继续
+    Log.warn("start_game is a no-op on LinuxWindowController (launch the game externally)");
+    return true;
 }
 
 bool LinuxWindowController::stop_game(const std::string& client_type [[maybe_unused]])
 {
-    Log.warn("stop_game is not supported on LinuxWindowController");
-    return false;
+    Log.warn("stop_game is a no-op on LinuxWindowController");
+    return true;
 }
 
 bool LinuxWindowController::click(const Point& p)
