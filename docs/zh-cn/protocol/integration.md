@@ -750,7 +750,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 - `filename`: 作业 JSON 文件的路径；相对路径与绝对路径均可
   <br>
-- `stage_name`: 关卡名，具体请参考 [PRTS.Map](https://map.ark-nights.com)
+- `nav_name_override`: 导航用关卡名，可选，为 `null` 或者空字符串时自动从作业文件推导
   <br>
 - `is_raid`: 是否切换为突袭模式，可选，默认值 false
   :::  
