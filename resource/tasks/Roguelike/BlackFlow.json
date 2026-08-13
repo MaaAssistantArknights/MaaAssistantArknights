@@ -1000,11 +1000,25 @@
     "BlackFlow@Roguelike@Stages_default": {
         "algorithm": "JustReturn",
         "next": [
+            "BlackFlow@Roguelike@HuntedConfirm",
             "BlackFlow@Roguelike@Stages@(BlackFlow@Roguelike@CloseCollectionContinue)",
             "BlackFlow@Roguelike@Stages@(BlackFlow@Roguelike@CloseCollection)",
             "BlackFlow@Roguelike@Stages-MapReady",
             "BlackFlow@Roguelike@Stages-ZoomOut"
         ]
+    },
+    "BlackFlow@Roguelike@HuntedConfirm": {
+        "template": "BlackFlow@Roguelike@HuntedConfirm.png",
+        "roi": [496, 595, 297, 98],
+        "action": "ClickSelf",
+        "next": ["#self", "BlackFlow@Roguelike@HuntedConfirmCompleted"],
+        "maxTimes": 3,
+        "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"]
+    },
+    "BlackFlow@Roguelike@HuntedConfirmCompleted": {
+        "algorithm": "JustReturn",
+        "reduceOtherTimes": ["BlackFlow@Roguelike@HuntedConfirm*3"],
+        "next": ["BlackFlow@Roguelike@ExitThenAbandon-Enter"]
     },
     "BlackFlow@Roguelike@Stages-MapReady": {
         "template": "BlackFlow@Roguelike@MapZoomIn.png",
@@ -1088,7 +1102,11 @@
     },
     "BlackFlow@Roguelike@MapPrepare": {
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@MapPrepare-Ready", "BlackFlow@Roguelike@MapPrepare-ZoomOut"],
+        "next": [
+            "BlackFlow@Roguelike@HuntedConfirm",
+            "BlackFlow@Roguelike@MapPrepare-Ready",
+            "BlackFlow@Roguelike@MapPrepare-ZoomOut"
+        ],
         "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
     "BlackFlow@Roguelike@MapPrepare-Ready": {
