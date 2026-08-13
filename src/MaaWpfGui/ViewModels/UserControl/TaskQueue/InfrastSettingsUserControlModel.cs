@@ -56,6 +56,19 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     public static InfrastSettingsUserControlModel Instance { get; }
 
     private static readonly ILogger _logger = Log.ForContext<InfrastSettingsUserControlModel>();
+    private static readonly InfrastRoomType[] _normalFacilityOrder =
+    [
+        InfrastRoomType.Dorm,
+        InfrastRoomType.Power,
+        InfrastRoomType.Office,
+        InfrastRoomType.Control,
+        InfrastRoomType.Mfg,
+        InfrastRoomType.Trade,
+        InfrastRoomType.Reception,
+        InfrastRoomType.Processing,
+        InfrastRoomType.Training,
+    ];
+
     private static readonly (string Value, string LocalizationKey)[] _fiammettaTargetEntries =
     [
         ("清流", "InfrastFiammettaTargetPurestream"),
@@ -204,7 +217,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         try
         {
             var targetIndex = 0;
-            foreach (var room in Enum.GetValues<InfrastRoomType>())
+            foreach (var room in _normalFacilityOrder)
             {
                 var item = InfrastRoomModels.FirstOrDefault(candidate => candidate.RoomType == room);
                 if (item is null)

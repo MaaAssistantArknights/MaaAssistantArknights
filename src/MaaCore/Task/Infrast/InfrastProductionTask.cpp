@@ -400,23 +400,14 @@ bool asst::InfrastProductionTask::shift_facility_list()
             cur_product_for_non_custom_drone.clear();
         }
 
-        if (m_default_mode && m_task_data && (facility_name() == "Mfg" || facility_name() == "Trade")) {
-            const int room_level =
-                InfrastData.get_facility_info(facility_name()).max_num_of_opers - m_cur_num_of_locked_opers;
-            auto& facilities = m_task_data->facilities[facility_name()];
-            if (static_cast<size_t>(m_cur_facility_index) < facilities.size()) {
-                facilities[m_cur_facility_index].level = room_level;
+        if (m_default_mode && m_task_data && facility_name() == "Mfg") {
+            if (cur_product_detection_valid && m_product == "PureGold") {
+                m_task_data->gold_station_indices.emplace(m_cur_facility_index);
             }
-
-            if (facility_name() == "Mfg") {
-                if (cur_product_detection_valid && m_product == "PureGold") {
-                    m_task_data->gold_station_indices.emplace(m_cur_facility_index);
-                }
-                else {
-                    m_task_data->gold_station_indices.erase(m_cur_facility_index);
-                }
-                m_task_data->gold_station_num = static_cast<int>(m_task_data->gold_station_indices.size());
+            else {
+                m_task_data->gold_station_indices.erase(m_cur_facility_index);
             }
+            m_task_data->gold_station_num = static_cast<int>(m_task_data->gold_station_indices.size());
         }
 
         if (m_inspect_only) {
@@ -438,6 +429,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
 
+        bool skip_operator_shift = false;
         if (m_mfg_short_circuit && facility_name() == "Mfg") {
             // 短路只在制造站满员且效率识别成功时生效。OCR 失败必须继续正常换班，
             // 否则一次空识别会把低效率房间错误地当成高效率房间跳过。
@@ -471,12 +463,12 @@ bool asst::InfrastProductionTask::shift_facility_list()
                     total_efficiency,
                     m_mfg_short_circuit_threshold)) {
                 Log.info("manufacturing facility is full and above efficiency threshold, skip shift");
-                continue;
+                skip_operator_shift = true;
             }
         }
 
         /* 进入干员选择页面 */
-        if (!m_skip_shift) {
+        if (!m_skip_shift && !skip_operator_shift) {
             ctrler()->click(add_button);
             sleep(add_task_ptr->post_delay);
 
@@ -535,7 +527,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 return false;
             }
         }
-        else {
+        else if (m_skip_shift) {
             Log.info("skip shift in rotation mode");
         }
 
@@ -705,13 +697,6 @@ bool asst::InfrastProductionTask::optimal_calc()
         context.product = m_product;
         context.slots = cur_max_num_of_opers;
         context.level = cur_max_num_of_opers;
-        if (m_task_data) {
-            const auto facilities_iter = m_task_data->facilities.find(facility_name());
-            if (facilities_iter != m_task_data->facilities.end() &&
-                static_cast<size_t>(m_cur_facility_index) < facilities_iter->second.size()) {
-                context.level = facilities_iter->second[m_cur_facility_index].level;
-            }
-        }
         context.mood_threshold = m_mood_threshold;
         if (m_task_data) {
             context.dormitory_capacity = m_task_data->dormitory_capacity;

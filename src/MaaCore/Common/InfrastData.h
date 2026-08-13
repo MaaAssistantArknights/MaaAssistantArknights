@@ -1,7 +1,6 @@
 #pragma once
 
 #include <algorithm>
-#include <iterator>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -132,12 +131,16 @@ inline std::optional<std::vector<FacilityStep>>
 
 inline OperatorIds intersect_operator_ids(const std::vector<OperatorIds>& candidates)
 {
-    if (candidates.empty()) {
+    auto iter = std::ranges::find_if(candidates, [](const OperatorIds& ids) { return !ids.empty(); });
+    if (iter == candidates.end()) {
         return { };
     }
 
-    OperatorIds result = candidates.front();
-    for (auto iter = std::next(candidates.begin()); iter != candidates.end(); ++iter) {
+    OperatorIds result = *iter;
+    for (++iter; iter != candidates.end(); ++iter) {
+        if (iter->empty()) {
+            continue;
+        }
         std::erase_if(result, [&](const std::string& id) { return !iter->contains(id); });
     }
     return result;
