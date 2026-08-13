@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -26,6 +27,7 @@ private:
         Enter,
         SellDecision,
         BuyDecision,
+        BuyConfirmed,
         RefreshCompleted,
         ClickAtMost,
         ReadHarvest,
@@ -36,9 +38,12 @@ private:
     [[nodiscard]] int read_number(const cv::Mat& image, const std::string& task) const;
     void bind_completion(const std::string& task) const;
     void apply_cultivation_result(const std::string& completion_task);
+    [[nodiscard]] bool already_purchased(const Rect& rect) const;
 
     mutable PendingWork m_pending = PendingWork::None;
     mutable json::value m_pending_details;
+    std::optional<Rect> m_pending_purchase;
+    std::vector<Rect> m_purchased_shelf_rects;
     int m_refresh_count = 0;
     int m_cultivated_animals = 0;
     std::vector<CultivatedAnimalType> m_cultivated_animal_types;

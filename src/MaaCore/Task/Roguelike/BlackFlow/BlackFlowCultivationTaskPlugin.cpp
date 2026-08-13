@@ -1,5 +1,7 @@
 #include "BlackFlowCultivationTaskPlugin.h"
 
+#include <algorithm>
+#include <cstdlib>
 #include <string_view>
 #include <utility>
 
@@ -27,6 +29,7 @@ constexpr std::string_view ShelfSeedTask = "BlackFlow@Roguelike@CultivateShelfSe
 constexpr std::string_view WalletTask = "BlackFlow@Roguelike@CultivateWallet";
 constexpr std::string_view HeldSeedCountTask = "BlackFlow@Roguelike@CultivateHeldSeedCount";
 constexpr std::string_view BuyConfirmEntry = "BlackFlow@Roguelike@CultivateBuyConfirm-Enter";
+constexpr std::string_view BuyConfirmTask = "BlackFlow@Roguelike@CultivateBuyConfirm";
 constexpr std::string_view RefreshEntry = "BlackFlow@Roguelike@CultivateRefresh-Enter";
 constexpr std::string_view RefreshCompletedTask = "BlackFlow@Roguelike@CultivateRefreshCompleted";
 constexpr std::string_view StartCultivationEntry = "BlackFlow@Roguelike@CultivateStartButton-Enter";
@@ -42,6 +45,7 @@ constexpr std::string_view CultivatedCompletionEntry = "BlackFlow@Roguelike@Even
 constexpr int SeedPrice = 4;
 constexpr int RefreshPriceStep = 4;
 constexpr int MaxRefreshTimes = 4;
+constexpr int SameShelfSlotTolerance = 20;
 constexpr int AtMostClickTimes = 3;
 constexpr int RepeatedClickInterval = 100;
 } // namespace
@@ -80,6 +84,10 @@ bool BlackFlowCultivationTaskPlugin::verify(AsstMsg msg, const json::value& deta
             return true;
         }
     }
+    if (msg == AsstMsg::SubTaskCompleted && task == BuyConfirmTask) {
+        m_pending = PendingWork::BuyConfirmed;
+        return true;
+    }
     if (msg == AsstMsg::SubTaskCompleted && task == CultivationResultTask) {
         m_pending = PendingWork::ApplyCultivationResult;
         m_pending_details = details;
@@ -92,9 +100,21 @@ void BlackFlowCultivationTaskPlugin::reset_in_run_variables()
 {
     m_pending = PendingWork::None;
     m_pending_details = {};
+    m_pending_purchase.reset();
+    m_purchased_shelf_rects.clear();
     m_refresh_count = 0;
     m_cultivated_animals = 0;
     m_cultivated_animal_types.clear();
+}
+
+bool BlackFlowCultivationTaskPlugin::already_purchased(const Rect& rect) const
+{
+    const int center_x = rect.x + rect.width / 2;
+    const int center_y = rect.y + rect.height / 2;
+    return std::ranges::any_of(m_purchased_shelf_rects, [&](const Rect& bought) {
+        return std::abs(center_x - (bought.x + bought.width / 2)) <= SameShelfSlotTolerance &&
+               std::abs(center_y - (bought.y + bought.height / 2)) <= SameShelfSlotTolerance;
+    });
 }
 
 bool BlackFlowCultivationTaskPlugin::_run()
@@ -104,6 +124,8 @@ bool BlackFlowCultivationTaskPlugin::_run()
     m_pending = PendingWork::None;
 
     if (work == PendingWork::Enter) {
+        m_pending_purchase.reset();
+        m_purchased_shelf_rects.clear();
         m_refresh_count = 0;
         m_cultivated_animals = 0;
         m_cultivated_animal_types.clear();
@@ -124,15 +146,19 @@ bool BlackFlowCultivationTaskPlugin::_run()
         const cv::Mat image = ctrler()->get_image();
         const int wallet = read_number(image, std::string(WalletTask));
         const auto shelf_seeds = recognize(image, std::string(ShelfSeedTask));
+        const auto available =
+            std::ranges::find_if(shelf_seeds, [this](const TextRect& seed) { return !already_purchased(seed.rect); });
 
-        if (!shelf_seeds.empty() && wallet >= SeedPrice) {
-            ctrler()->click(shelf_seeds.front().rect);
+        if (available != shelf_seeds.end() && wallet >= SeedPrice) {
+            ctrler()->click(available->rect);
+            m_pending_purchase = available->rect;
             Task.set_task_base(std::string(BuyAction), std::string(BuyConfirmEntry));
             return true;
         }
 
         const int refresh_price = RefreshPriceStep * (m_refresh_count + 1);
-        if (shelf_seeds.empty() && m_refresh_count < MaxRefreshTimes && wallet >= refresh_price + SeedPrice) {
+        if (available == shelf_seeds.end() && m_refresh_count < MaxRefreshTimes &&
+            wallet >= refresh_price + SeedPrice) {
             Task.set_task_base(std::string(BuyAction), std::string(RefreshEntry));
             return true;
         }
@@ -149,7 +175,18 @@ bool BlackFlowCultivationTaskPlugin::_run()
         return true;
     }
 
+    if (work == PendingWork::BuyConfirmed) {
+        if (m_pending_purchase.has_value()) {
+            m_purchased_shelf_rects.emplace_back(*m_pending_purchase);
+            m_pending_purchase.reset();
+            Log.info("BlackFlow cultivation shelf purchased", "slots", m_purchased_shelf_rects.size());
+        }
+        return true;
+    }
+
     if (work == PendingWork::RefreshCompleted) {
+        m_pending_purchase.reset();
+        m_purchased_shelf_rects.clear();
         ++m_refresh_count;
         return true;
     }
