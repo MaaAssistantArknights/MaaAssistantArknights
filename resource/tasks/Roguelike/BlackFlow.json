@@ -1583,7 +1583,8 @@
         "Doc": "识别事件选项头部时用于 MultiMatcher。",
         "template": "BlackFlow@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-40.png",
         "roi": [835, 50, 40, 585],
-        "maskRange": [1, 255]
+        "maskRange": [1, 255],
+        "templThreshold": 0.75
     },
     "BlackFlow@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
         "Doc": "识别事件选项文字时用于 RegionOCRer。",
