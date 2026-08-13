@@ -1467,7 +1467,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartingAsAdmin">管理者として再起動しています…</system:String>
     <system:String x:Key="RestartAsAdminFailed">手動で管理者として MAA を実行してください。</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow の接続に失敗しました。スクリーンキャプチャ/入力方法の設定を確認してください</system:String>
-    <system:String x:Key="UseAttachWindowTip">エミュレータや携帯電話への ADB 接続ではなく、アークナイツ PC クライアントに Win32 ウィンドウバインディングを使用します</system:String>
+    <system:String x:Key="UseAttachWindowTip">エミュレータやスマホへの ADB 接続ではなく、アークナイツ PC クライアントに Win32 ウィンドウバインディングを使用します</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">アークナイツ PC 接続（コミュニティ保守）
 
 ご注意ください：
@@ -1480,8 +1480,8 @@ C:\\leidian\\LDPlayer9
 使用する必要がある場合は、以下をご確認ください：
 1. MAA を管理者権限で起動してください
 2. 一部のスクリーンキャプチャ方式では、ゲームウィンドウを最小化できません
-3. アークナイツ設定 → ゲーム → UI スケーリングを 100% に設定してください
-4. アークナイツ設定でマウスポインタのスケールを小さくし、認識領域の隠れを軽減してください
+3. アークナイツ設定 → ゲーム → UI スケール を 100% に設定してください
+4. アークナイツ設定で マウスカーソルサイズ を小さくし、認識領域の隠れを軽減してください
 5. ゲーム解像度は 16:9 である必要があります。推奨設定：1280x720 または 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
