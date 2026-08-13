@@ -60,6 +60,7 @@ bool asst::InfrastControlTask::_run()
         if (is_use_custom_opers()) {
             bool name_select_ret = swipe_and_select_custom_opers();
             if (name_select_ret) {
+                selection_ready = true;
                 break;
             }
             else {
