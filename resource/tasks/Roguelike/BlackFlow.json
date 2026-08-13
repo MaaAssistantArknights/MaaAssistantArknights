@@ -132,17 +132,21 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [986, 123, 214, 25],
-        "next": ["BlackFlow@Roguelike@CultivateSellingFlag", "#self"]
+        "next": ["BlackFlow@Roguelike@CultivateSellingFlag", "#self"],
+        "maxTimes": 3,
+        "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
     "BlackFlow@Roguelike@CultivateSellingFlag": {
         "template": "BlackFlow@Roguelike@CultivateBulkSell.png",
         "roi": [729, 103, 216, 66],
         "action": "DoNothing",
-        "next": ["BlackFlow@Roguelike@CultivateSellDecision"]
+        "next": ["BlackFlow@Roguelike@CultivateSellDecision"],
+        "reduceOtherTimes": ["BlackFlow@Roguelike@CultivateToggleToSell*3"]
     },
     "BlackFlow@Roguelike@CultivateBuying": {
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@CultivateBuyDecision"]
+        "next": ["BlackFlow@Roguelike@CultivateBuyDecision"],
+        "reduceOtherTimes": ["BlackFlow@Roguelike@CultivateStillSelling*3"]
     },
     "BlackFlow@Roguelike@CultivateSellItems": {
         "algorithm": "OcrDetect",
@@ -203,7 +207,18 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [986, 123, 214, 25],
-        "next": ["BlackFlow@Roguelike@CultivateBuying"]
+        "next": [
+            "BlackFlow@Roguelike@CultivateStillSelling",
+            "BlackFlow@Roguelike@CultivateBuying"
+        ]
+    },
+    "BlackFlow@Roguelike@CultivateStillSelling": {
+        "template": "BlackFlow@Roguelike@CultivateBulkSell.png",
+        "roi": [729, 103, 216, 66],
+        "action": "DoNothing",
+        "next": ["BlackFlow@Roguelike@CultivateToggleToBuy"],
+        "maxTimes": 3,
+        "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
     "BlackFlow@Roguelike@CultivateShelfSeed": {
         "algorithm": "OcrDetect",
@@ -1067,7 +1082,9 @@
     },
     "BlackFlow@Roguelike@ExitThenStop-Enter": {
         "algorithm": "JustReturn",
-        "next": ["RoguelikeControlTaskPlugin-ExitThenStop"]
+        "sub": ["BlackFlow@Roguelike@ExitThenAbandon-Enter"],
+        "subErrorIgnored": true,
+        "next": ["RoguelikeControlTaskPlugin-Stop"]
     },
     "BlackFlow@Roguelike@MapPrepare": {
         "algorithm": "JustReturn",
