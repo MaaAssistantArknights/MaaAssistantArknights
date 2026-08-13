@@ -2057,29 +2057,25 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
                 return candidate.safe && candidate.move.target == *request.probe_target;
             });
         if (!probe_candidates.empty()) {
-            result.decision =
-                executor
-                    .choose(
-                        *request.policy,
-                        policy_facts,
-                        *request.mission,
-                        *request.run,
-                        resources,
-                        result.binding_milestone_ids,
-                        probe_candidates);
+            result.decision = executor.choose(
+                *request.policy,
+                policy_facts,
+                *request.mission,
+                *request.run,
+                resources,
+                result.binding_milestone_ids,
+                probe_candidates);
         }
     }
     if (!result.decision.selected.has_value()) {
-        result.decision =
-            executor
-                .choose(
-                    *request.policy,
-                    policy_facts,
-                    *request.mission,
-                    *request.run,
-                    resources,
-                    result.binding_milestone_ids,
-                    policy_candidates);
+        result.decision = executor.choose(
+            *request.policy,
+            policy_facts,
+            *request.mission,
+            *request.run,
+            resources,
+            result.binding_milestone_ids,
+            policy_candidates);
     }
     if (!result.decision.selected.has_value()) {
         result.error = result.decision.reason;

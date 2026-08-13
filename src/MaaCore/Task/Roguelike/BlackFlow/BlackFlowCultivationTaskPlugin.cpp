@@ -222,8 +222,7 @@ bool BlackFlowCultivationTaskPlugin::_run()
     return true;
 }
 
-std::vector<TextRect>
-    BlackFlowCultivationTaskPlugin::recognize(const cv::Mat& image, const std::string& task) const
+std::vector<TextRect> BlackFlowCultivationTaskPlugin::recognize(const cv::Mat& image, const std::string& task) const
 {
     const auto task_info = Task.get<OcrTaskInfo>(task);
     if (task_info == nullptr) {

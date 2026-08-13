@@ -411,10 +411,7 @@ void BlackFlowSession::evaluate_milestone_miss_actions()
 
 // 页面意图按进入之后确定的真实身份重新解析：取第一条匹配该节点且带意图的活跃里程碑。
 // 排序与策略排序一致，锁定候选优先，因此硬目标的意图压过顺路目标。
-std::string BlackFlowSession::resolve_page_intent(
-    const PageIdentityResolution& identity,
-    NodeId node,
-    int floor) const
+std::string BlackFlowSession::resolve_page_intent(const PageIdentityResolution& identity, NodeId node, int floor) const
 {
     if (!m_policy.has_value()) {
         return "default";

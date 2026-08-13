@@ -46,8 +46,8 @@
 #include "Task/Roguelike/JieGarden/RoguelikeCoppersTaskPlugin.h"
 
 // ------------------ 黑流树海主题专用配置及插件 ------------------
-#include "Task/Roguelike/BlackFlow/BlackFlowLifecycleTaskPlugin.h"
 #include "Task/Roguelike/BlackFlow/BlackFlowCultivationTaskPlugin.h"
+#include "Task/Roguelike/BlackFlow/BlackFlowLifecycleTaskPlugin.h"
 #include "Task/Roguelike/BlackFlow/BlackFlowMapObservationSource.h"
 #include "Task/Roguelike/BlackFlow/BlackFlowMovementTaskPlugin.h"
 #include "Task/Roguelike/BlackFlow/BlackFlowNodeTaskPlugin.h"

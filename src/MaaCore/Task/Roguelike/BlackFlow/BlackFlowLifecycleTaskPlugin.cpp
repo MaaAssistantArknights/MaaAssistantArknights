@@ -41,8 +41,7 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
     }
     const std::string selected_profile = profile;
     if (selected_profile == "baby_animal") {
-        const std::string target_text =
-            params.get("blackflow_cultivation_target", std::string("swaddled_cat"));
+        const std::string target_text = params.get("blackflow_cultivation_target", std::string("swaddled_cat"));
         const auto target = parse_cultivated_animal_type(target_text);
         if (!target.has_value()) {
             Log.error("Invalid BlackFlow cultivation target:", target_text);
@@ -217,7 +216,16 @@ bool BlackFlowLifecycleTaskPlugin::_run()
     const std::string task = next_action == "restart_current_run" ? "BlackFlow@Roguelike@ExitThenAbandon-Enter"
                                                                   : "BlackFlow@Roguelike@ExitThenStop-Enter";
     Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", task);
-    Log.info("BlackFlow strategy terminal action", "profile", profile, trigger, pre_task, outcome, reason, next_action, task);
+    Log.info(
+        "BlackFlow strategy terminal action",
+        "profile",
+        profile,
+        trigger,
+        pre_task,
+        outcome,
+        reason,
+        next_action,
+        task);
     report_outputs();
     return true;
 }
