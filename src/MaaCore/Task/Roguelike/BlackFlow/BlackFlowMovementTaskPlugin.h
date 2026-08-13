@@ -3,6 +3,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
@@ -69,7 +70,7 @@ private:
 
     struct InventoryFrame
     {
-        std::unordered_set<MovementKind> movements;
+        std::unordered_map<MovementKind, int> movements;
         std::optional<MovementKind> loaded_movement;
     };
 

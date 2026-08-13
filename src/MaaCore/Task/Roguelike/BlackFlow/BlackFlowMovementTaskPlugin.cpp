@@ -213,7 +213,7 @@ BlackFlowMovementTaskPlugin::InventoryAnalysisOutcome BlackFlowMovementTaskPlugi
     for (const auto& result : *results) {
         if (const MovementSpec* movement = movement_from_name(result.text);
             movement != nullptr && movement->kind != MovementKind::Walk) {
-            frame.movements.emplace(movement->kind);
+            ++frame.movements[movement->kind];
             items.emplace_back(InventoryItem { movement->kind, result.rect });
         }
         else if (result.text == LoadedText) {

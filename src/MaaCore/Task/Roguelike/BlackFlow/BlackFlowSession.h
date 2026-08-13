@@ -123,7 +123,7 @@ public:
         std::optional<MovementKind> active_movement,
         std::string* error = nullptr);
     bool apply_movement_inventory_observation(
-        const std::unordered_set<MovementKind>& visible_movements,
+        const std::unordered_map<MovementKind, int>& visible_movements,
         std::string* error = nullptr);
     bool report_movement_unavailable(MovementKind target, std::string* error = nullptr);
     [[nodiscard]] BlackFlowPlan plan(std::string* error = nullptr);

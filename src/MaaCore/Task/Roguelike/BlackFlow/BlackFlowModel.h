@@ -346,6 +346,7 @@ struct RunResources
     int white_model_birds = 0;
     bool painted_liberi = false;
     std::unordered_map<MovementKind, int> movement_charges;
+    std::unordered_map<MovementKind, int> movement_pieces;
 
     bool operator==(const RunResources&) const noexcept = default;
 };

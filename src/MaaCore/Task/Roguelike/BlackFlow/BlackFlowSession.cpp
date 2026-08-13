@@ -258,6 +258,7 @@ bool BlackFlowSession::apply_granted_scraps(std::string* error)
             continue;
         }
         m_run.resources.movement_charges.insert_or_assign(scrap.movement, spec->initial_charges);
+        m_run.resources.movement_pieces.insert_or_assign(scrap.movement, 1);
         m_movement_inventory_assumed = true;
     }
     if (!m_movement_inventory_assumed) {
@@ -550,8 +551,10 @@ bool BlackFlowSession::apply_run_observation(const RunObservation& observation, 
     }
     if (observation.movement_charges.has_value()) {
         std::unordered_map<MovementKind, int> observed_charges;
+        std::unordered_map<MovementKind, int> observed_pieces;
         for (const auto& [movement, charges] : *observation.movement_charges) {
-            if (movement == MovementKind::Walk || find_movement_spec(movement) == nullptr || charges < 0) {
+            const MovementSpec* spec = find_movement_spec(movement);
+            if (movement == MovementKind::Walk || spec == nullptr || charges < 0) {
                 if (error != nullptr) {
                     *error = "movement charges contain an invalid movement or negative count";
                 }
@@ -559,9 +562,12 @@ bool BlackFlowSession::apply_run_observation(const RunObservation& observation, 
             }
             if (charges > 0) {
                 observed_charges.insert_or_assign(movement, charges);
+                const int per_piece = std::max(1, spec->initial_charges);
+                observed_pieces.insert_or_assign(movement, (charges + per_piece - 1) / per_piece);
             }
         }
         m_run.resources.movement_charges = std::move(observed_charges);
+        m_run.resources.movement_pieces = std::move(observed_pieces);
         if (m_run.active_movement.has_value() && *m_run.active_movement != MovementKind::Walk &&
             !m_run.resources.movement_charges.contains(*m_run.active_movement)) {
             m_run.active_movement.reset();
@@ -577,11 +583,14 @@ bool BlackFlowSession::apply_run_observation(const RunObservation& observation, 
         }
         const auto owned = m_run.resources.movement_charges.find(panel.target);
         if (panel.target != MovementKind::Walk && owned != m_run.resources.movement_charges.end()) {
+            const auto held = m_run.resources.movement_pieces.find(panel.target);
+            const bool single_piece = held == m_run.resources.movement_pieces.end() || held->second <= 1;
             const bool reliable_count = movement_panel_has_reliable_count(panel);
             const bool confirmed_absent = movement_panel_confirms_absent(panel);
-            if (reliable_count) {
+            if (reliable_count && single_piece) {
                 if (*panel.remaining_charges == 0) {
                     m_run.resources.movement_charges.erase(owned);
+                    m_run.resources.movement_pieces.erase(panel.target);
                     if (m_run.active_movement == panel.target) {
                         m_run.active_movement.reset();
                     }
@@ -592,6 +601,7 @@ bool BlackFlowSession::apply_run_observation(const RunObservation& observation, 
             }
             else if (confirmed_absent) {
                 m_run.resources.movement_charges.erase(owned);
+                m_run.resources.movement_pieces.erase(panel.target);
                 if (m_run.active_movement == panel.target) {
                     m_run.active_movement.reset();
                 }
@@ -1277,24 +1287,33 @@ bool BlackFlowSession::apply_movement_panel_observation(
 }
 
 bool BlackFlowSession::apply_movement_inventory_observation(
-    const std::unordered_set<MovementKind>& visible_movements,
+    const std::unordered_map<MovementKind, int>& visible_movements,
     std::string* error)
 {
     BlackFlowSession staged = *this;
     const RunResources resources_before = staged.m_run.resources;
-    for (const MovementKind movement : visible_movements) {
+    for (const auto& [movement, pieces] : visible_movements) {
         const MovementSpec* spec = find_movement_spec(movement);
-        if (movement == MovementKind::Walk || spec == nullptr || spec->initial_charges <= 0) {
+        if (movement == MovementKind::Walk || spec == nullptr || spec->initial_charges <= 0 || pieces <= 0) {
             if (error != nullptr) {
                 *error = "movement inventory contains an invalid processing item";
             }
             return false;
         }
-        const auto owned = staged.m_run.resources.movement_charges.find(movement);
-        if (owned == staged.m_run.resources.movement_charges.end() || owned->second <= 0) {
-            staged.m_run.resources.movement_charges.insert_or_assign(movement, spec->initial_charges);
+        int& charges = staged.m_run.resources.movement_charges[movement];
+        const auto known = staged.m_run.resources.movement_pieces.find(movement);
+        const int previous_pieces =
+            charges > 0 && known != staged.m_run.resources.movement_pieces.end() ? known->second : 0;
+        if (pieces > previous_pieces) {
+            charges += (pieces - previous_pieces) * spec->initial_charges;
         }
+        charges = std::clamp(charges, pieces, pieces * spec->initial_charges);
+        staged.m_run.resources.movement_pieces.insert_or_assign(movement, pieces);
     }
+    std::erase_if(staged.m_run.resources.movement_pieces, [&](const auto& entry) {
+        const auto charges = staged.m_run.resources.movement_charges.find(entry.first);
+        return charges == staged.m_run.resources.movement_charges.end() || charges->second <= 0;
+    });
     if (staged.m_run.resources != resources_before) {
         ++staged.m_run.resources_revision;
     }
