@@ -41,6 +41,7 @@ constexpr std::string_view CultivatedCompletionEntry = "BlackFlow@Roguelike@Even
 
 constexpr int SeedPrice = 4;
 constexpr int RefreshPriceStep = 4;
+constexpr int MaxRefreshTimes = 4;
 constexpr int AtMostClickTimes = 3;
 constexpr int RepeatedClickInterval = 100;
 } // namespace
@@ -131,7 +132,7 @@ bool BlackFlowCultivationTaskPlugin::_run()
         }
 
         const int refresh_price = RefreshPriceStep * (m_refresh_count + 1);
-        if (shelf_seeds.empty() && wallet >= refresh_price + SeedPrice) {
+        if (shelf_seeds.empty() && m_refresh_count < MaxRefreshTimes && wallet >= refresh_price + SeedPrice) {
             Task.set_task_base(std::string(BuyAction), std::string(RefreshEntry));
             return true;
         }
