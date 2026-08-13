@@ -346,11 +346,22 @@ Currently only `MuMuPro` preset is available. Issues and PRs for more presets ar
 
 #### Special Presets
 
-There are two special presets: `PlayCover (macOS)` and `Waydroid (Linux)`
+There are three special presets: `PlayCover (macOS)`, `Waydroid (Linux)` and `Window (Linux)`
 
 - `PlayCover` is for connecting to iOS apps running natively on macOS through PlayCover. In this case, `adb_path` is ignored and `address` is the address of `PlayTools`. See [PlayCover documentation][playcover-doc] for details.
 
 - `Waydroid` is for connecting to Android apps running natively on Linux through Waydroid. `adb_path` is still required. See [Waydroid documentation][waydroid-doc] for details.
+
+- `Window` is for controlling an X11 window (e.g. the Arknights PC client running under Wine/Proton) by its title, without moving the cursor or stealing focus. Requires a MaaCore built with X11 support (`ASST_WITH_X11`). `window_name` is the window title (defaults to `Arknights`); `focus_for_keys` moves input focus to the window before sending keys (Unity games only respond to keyboard while focused):
+
+  ```toml
+  [connection]
+  preset = "Window"
+  window_name = "Arknights"
+  focus_for_keys = false
+  ```
+
+  The game window must stay visible (do not minimize); being covered by other windows is fine.
 
 ### Resource
 
