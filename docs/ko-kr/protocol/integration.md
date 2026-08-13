@@ -740,8 +740,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 - `filename`: 작전 JSON 파일 경로; 상대/절대 경로 모두 가능
   <br>
-- `stage_name`: 스테이지명, 구체적인 건 [PRTS.Map](https://map.ark-nights.com) 참고
-  <br>
+- `nav_name_override`: 내비게이션용 스테이지명, 선택 사항; 제공되지 않았거나 `null`인 경우 작업 파일에서 자동으로 추론합니다
 - `is_raid`: 하드 모드 전환 여부, 선택 사항, 기본값 false
   :::  
   ::: field name="loop_times" type="number" optional default="1"  
