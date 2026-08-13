@@ -839,6 +839,11 @@ void BlackFlowSession::queue_decision()
     for (const std::string& milestone_id : decision.decisive_milestone_ids) {
         decisive_milestones.emplace_back(milestone_id);
     }
+    std::vector<json::value> released_reserves;
+    released_reserves.reserve(decision.released_reserve_ids.size());
+    for (const std::string& reserve_id : decision.released_reserve_ids) {
+        released_reserves.emplace_back(reserve_id);
+    }
 
     json::object details {
         { "run_revision", m_run_revision },
@@ -869,6 +874,7 @@ void BlackFlowSession::queue_decision()
         { "total_candidates", decision.total_candidates },
         { "eligible_candidates", decision.eligible_candidates },
         { "rejection_counts", std::move(rejected) },
+        { "released_reserve_ids", json::array(std::move(released_reserves)) },
         { "runners_up", json::array(std::move(runners_up)) },
         { "planned_milestone_progress", std::move(planned_progress) },
         { "uses_inferred_edge", move.uses_inferred_edge },
