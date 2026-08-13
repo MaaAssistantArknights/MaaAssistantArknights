@@ -77,6 +77,13 @@ public class WebhookPresetTemplate
             Url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=<key>",
             Body = @"{""msgtype"": ""text"", ""text"": {""content"": ""{content}""}}",
         },
+        new()
+        {
+            Id = "ntfy",
+            Name = "ntfy",
+            Url = "https://ntfy.sh/<topic>",
+            Body = @"{""message"": ""{content}"", ""title"": ""{title}""}",
+        },
     ];
 
     public static IReadOnlyList<WebhookPresetTemplate> BuiltInTemplates => _builtInTemplates;
