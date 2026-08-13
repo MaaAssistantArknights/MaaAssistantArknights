@@ -1,5 +1,5 @@
 module MaaCore {
-    umbrella header "AsstCaller.h"
+    umbrella header "MaaCore.h"
     export *
     link framework "Accelerate"
     link framework "OpenCL"
