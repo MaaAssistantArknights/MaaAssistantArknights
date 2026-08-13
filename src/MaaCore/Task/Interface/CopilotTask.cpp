@@ -105,8 +105,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
             if (!copilot_opt) {
                 return false;
             }
-            const auto& stage_data= Copilot.get_data();
-            const auto& stage_name = stage_data.info.stage_name;
+            const auto& stage_name = Copilot.get_stage_name();
             const auto& map_data = Tile.find(stage_name);
             if (!map_data || !json::open(map_data->second)) {
                 return false;
