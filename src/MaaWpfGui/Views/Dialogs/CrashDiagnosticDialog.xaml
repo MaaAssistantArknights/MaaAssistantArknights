@@ -1,0 +1,71 @@
+<hc:Window
+    x:Class="MaaWpfGui.Views.Dialogs.CrashDiagnosticDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    Title="MAA"
+    Width="680"
+    Height="640"
+    MinWidth="560"
+    MinHeight="460"
+    Icon="../../newlogo.ico"
+    ResizeMode="CanResize"
+    ShowInTaskbar="False"
+    WindowStartupLocation="CenterOwner">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            FontSize="24"
+            FontWeight="SemiBold"
+            Text="{Binding PromptTitle, RelativeSource={RelativeSource AncestorType=Window}}"
+            TextWrapping="Wrap" />
+
+        <StackPanel Grid.Row="1" Margin="0,14,0,0">
+            <TextBlock
+                FontSize="15"
+                Text="{Binding PromptMessage, RelativeSource={RelativeSource AncestorType=Window}}"
+                TextWrapping="Wrap" />
+            <Border Margin="0,12,0,0" Padding="12" Background="{DynamicResource RegionBrush}">
+                <TextBlock Text="{Binding FailureSummary, RelativeSource={RelativeSource AncestorType=Window}}" TextWrapping="Wrap" />
+            </Border>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="2" Margin="0,14,0,12" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Text="{Binding TechnicalDetailsHeading, RelativeSource={RelativeSource AncestorType=Window}}" />
+                <TextBox
+                    Margin="0,8,0,0"
+                    Height="220"
+                    AcceptsReturn="True"
+                    IsReadOnly="True"
+                    Text="{Binding TechnicalDetails, RelativeSource={RelativeSource AncestorType=Window}, Mode=OneWay}"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Auto" />
+                <TextBlock
+                    Margin="0,14,0,0"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Text="{Binding ReportOptionsHeading, RelativeSource={RelativeSource AncestorType=Window}}" />
+                <TextBlock Margin="0,6,0,0" Opacity="0.72" Text="{Binding PrivacyText, RelativeSource={RelativeSource AncestorType=Window}}" TextWrapping="Wrap" />
+                <CheckBox Margin="0,10,0,0" Content="{Binding IncludeConfigurationText, RelativeSource={RelativeSource AncestorType=Window}}" IsChecked="{Binding IncludeConfiguration, RelativeSource={RelativeSource AncestorType=Window}}" IsEnabled="{Binding CanInteract, RelativeSource={RelativeSource AncestorType=Window}}" />
+                <CheckBox Margin="0,5,0,0" Content="{Binding IncludeScreenshotsText, RelativeSource={RelativeSource AncestorType=Window}}" IsChecked="{Binding IncludeScreenshots, RelativeSource={RelativeSource AncestorType=Window}}" IsEnabled="{Binding CanInteract, RelativeSource={RelativeSource AncestorType=Window}}" />
+                <CheckBox Margin="0,5,0,0" Content="{Binding IncludeDumpsText, RelativeSource={RelativeSource AncestorType=Window}}" IsChecked="{Binding IncludeDumps, RelativeSource={RelativeSource AncestorType=Window}}" IsEnabled="{Binding CanInteract, RelativeSource={RelativeSource AncestorType=Window}}" />
+                <TextBlock Margin="0,10,0,0" Foreground="{DynamicResource PrimaryBrush}" Text="{Binding ReportResult, RelativeSource={RelativeSource AncestorType=Window}}" TextWrapping="Wrap" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <WrapPanel Grid.Row="3" HorizontalAlignment="Right">
+            <Button Margin="4" Click="Dismiss_Click" Content="{Binding DismissText, RelativeSource={RelativeSource AncestorType=Window}}" IsCancel="True" IsEnabled="{Binding CanInteract, RelativeSource={RelativeSource AncestorType=Window}}" />
+            <Button Margin="4" Click="BuildReport_Click" Content="{Binding BuildReportText, RelativeSource={RelativeSource AncestorType=Window}}" IsDefault="True" IsEnabled="{Binding CanInteract, RelativeSource={RelativeSource AncestorType=Window}}" />
+        </WrapPanel>
+    </Grid>
+</hc:Window>

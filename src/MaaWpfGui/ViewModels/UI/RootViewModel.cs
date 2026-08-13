@@ -63,29 +63,50 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             MessageBoxHelper.Show(LocalizationHelper.GetString("NightlyWarning"));
         }
 
-        Task.Run(async () => {
-            await Instances.AnnouncementDialogViewModel.CheckAndDownloadAnnouncement();
-            if (Instances.AnnouncementDialogViewModel.DoNotRemindThisAnnouncementAgain)
-            {
-                return;
-            }
-
-            if (Instances.AnnouncementDialogViewModel.DoNotShowAnnouncement)
-            {
-                return;
-            }
-
-            if (Instances.AnnouncementDialogViewModel.AnnouncementInfo != string.Empty)
-            {
-                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementDialogViewModel));
-            }
-        });
+        _ = Task.Run(ShowAnnouncementThenScheduleDiagnosticsAsync);
 
         _ = Instances.VersionUpdateDialogViewModel.ShowUpdateOrDownload();
 
         // 主窗口已显示，此时弹窗不会导致 WPF 因无窗口而退出
         Task.Run(ConfigBrokenCheck);
         Task.Run(ToastNotificationCheck);
+    }
+
+    private static async Task ShowAnnouncementThenScheduleDiagnosticsAsync()
+    {
+        bool waitForAnnouncementToClose = false;
+        try
+        {
+            await Instances.AnnouncementDialogViewModel.CheckAndDownloadAnnouncement();
+            bool shouldShowAnnouncement =
+                !Instances.AnnouncementDialogViewModel.DoNotRemindThisAnnouncementAgain &&
+                !Instances.AnnouncementDialogViewModel.DoNotShowAnnouncement &&
+                Instances.AnnouncementDialogViewModel.AnnouncementInfo != string.Empty;
+            if (!shouldShowAnnouncement)
+            {
+                return;
+            }
+
+            await Execute.OnUIThreadAsync(() => {
+                Instances.WindowManager.ShowWindow(Instances.AnnouncementDialogViewModel);
+                if (Instances.AnnouncementDialogViewModel.View is System.Windows.Window announcementWindow && announcementWindow.IsVisible)
+                {
+                    waitForAnnouncementToClose = true;
+                    announcementWindow.Closed += (_, _) => Bootstrapper.SchedulePendingDiagnosticReportPrompt();
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Failed to show startup announcement");
+        }
+        finally
+        {
+            if (!waitForAnnouncementToClose)
+            {
+                Bootstrapper.SchedulePendingDiagnosticReportPrompt();
+            }
+        }
     }
 
     private static void ConfigBrokenCheck()

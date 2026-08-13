@@ -1274,6 +1274,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorCrashMessageHelpTip">如果向他人寻求帮助，请发送生成的错误报告文件，而不是发送此窗口的截图、录屏视频、屏幕照片、拍摄的视频、手绘图片或誊抄的画面内容。上传至 GitHub 时单个附件不能超过 20 MB，超限请分卷压缩。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">上次程序崩溃原因</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
+    <system:String x:Key="DiagnosticGenerateCrashReport">生成崩溃报告</system:String>
+    <system:String x:Key="DiagnosticNoFailure">没有可用于生成报告的崩溃记录。</system:String>
+    <system:String x:Key="DiagnosticPreviousFailureTitle">运行异常诊断</system:String>
+    <system:String x:Key="DiagnosticPreviousFailurePrompt">MAA 检测到上次运行异常。是否现在生成一次诊断报告？报告只保存在本地，不会自动上传。</system:String>
+    <system:String x:Key="DiagnosticTechnicalDetails">技术详情</system:String>
+    <system:String x:Key="DiagnosticReportContents">诊断报告内容</system:String>
+    <system:String x:Key="DiagnosticDialogPrivacy">以下内容默认全部包含。报告只保存在本地且不会自动上传；内容未经脱敏，可能包含用户路径、账号信息、日志凭据、截图或 dmp，分享前请自行检查。</system:String>
+    <system:String x:Key="DiagnosticIncludeConfiguration">包含配置摘要</system:String>
+    <system:String x:Key="DiagnosticIncludeScreenshots">包含故障前后的识别截图（可能含游戏信息）</system:String>
+    <system:String x:Key="DiagnosticIncludeDumps">包含内存转储 dmp（可能含进程内存信息）</system:String>
+    <system:String x:Key="DiagnosticBuildReport">生成诊断报告</system:String>
+    <system:String x:Key="DiagnosticBuildingReport">正在生成诊断报告…</system:String>
+    <system:String x:Key="DiagnosticMinimalReportCreated">完整采集遇到问题，已生成精简诊断报告。</system:String>
+    <system:String x:Key="DiagnosticReportFailed">诊断报告暂时无法生成。</system:String>
+    <system:String x:Key="DiagnosticDismiss">忽略</system:String>
     <!--  !ErrorDialogView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="UpdateApplyFailed">更新失败，当前安装可能已不完整。请重新下载完整包，并按下方说明手动迁移 config、data 与 debug。\n\n{key=FullPackageUpgradeTips}</system:String>

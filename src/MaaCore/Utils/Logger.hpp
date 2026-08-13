@@ -33,6 +33,10 @@
 #include "Platform.hpp"
 #include "WorkingDir.hpp"
 
+#ifdef _WIN32
+#include "WindowsCrashDetails.hpp"
+#endif
+
 #if defined(__APPLE__) || defined(__linux__)
 #include <unistd.h>
 #endif
@@ -761,6 +765,14 @@ private:
         m_buff(nullptr),
         m_of(&m_buff)
     {
+#ifdef ASST_DEBUG
+        g_crash_path = UserDir.get() / "debug" / "crash.log";
+#else
+        g_crash_path = UserDir.get() / "crash.log";
+#endif // ASST_DEBUG
+#ifdef _WIN32
+        g_crash_fallback_path = UserDir.get() / std::format("crash-{}.log", GetCurrentProcessId());
+#endif // _WIN32
         initialize_exception_handlers();
 
         try {
@@ -857,6 +869,8 @@ private:
     }
 
     inline static std::atomic<int> g_last_signal { 0 };
+    inline static std::filesystem::path g_crash_path;
+    inline static std::filesystem::path g_crash_fallback_path;
 
     static const char* format_signal_reason(int sig) noexcept
     {
@@ -876,19 +890,14 @@ private:
 
     static void write_crash_file(const char* reason, const char* detail = nullptr) noexcept
     {
-        FILE* f = nullptr;
-#ifdef ASST_DEBUG
-        auto path = (UserDir.get() / "debug" / "crash.log").string();
-#else
-        auto path = (UserDir.get() / "crash.log").string();
-#endif // ASST_DEBUG
 #ifdef _WIN32
-        if (fopen_s(&f, path.c_str(), "a") != 0) {
-            return;
-        }
+        utils::write_windows_crash_file_with_fallback(
+            g_crash_path.c_str(),
+            g_crash_fallback_path.c_str(),
+            reason,
+            detail);
 #else
-        f = fopen(path.c_str(), "a");
-#endif // _WIN32
+        FILE* f = fopen(g_crash_path.c_str(), "a");
         if (!f) {
             return;
         }
@@ -902,28 +911,23 @@ private:
         fprintf(f, "===================\n\n");
         fflush(f);
         fclose(f);
+#endif // _WIN32
     }
 
 #ifdef _WIN32
     // SEH 未处理异常过滤器
-    static LONG WINAPI unhandled_exception_filter([[maybe_unused]] PEXCEPTION_POINTERS pExceptionInfo)
+    static LONG WINAPI unhandled_exception_filter(PEXCEPTION_POINTERS exception_info)
     {
-        try {
-            auto& logger = Logger::get_instance();
-            logger.error("=== UNHANDLED EXCEPTION ===");
-            logger.error("Version", MAA_VERSION);
-            logger.error("Built at", __DATE__, __TIME__);
-            logger.error("User Dir", UserDir.get());
-            logger.error("============================");
-            logger.flush();
-            write_crash_file("UNHANDLED EXCEPTION");
+        static volatile LONG handling = 0;
+        if (InterlockedExchange(&handling, 1) != 0) {
+            return EXCEPTION_EXECUTE_HANDLER;
         }
-        catch (...) {
-            std::cerr << "=== FATAL ERROR ===" << std::endl;
-            std::cerr << "Failed to log exception details to file" << std::endl;
-            std::cerr << "Unhandled exception caught, program terminating..." << std::endl;
-            std::cerr << "===================" << std::endl;
-        }
+
+        // 原生异常可能发生在常规日志线程持有互斥锁时；最后机会处理器不能重入 Logger，
+        // 否则进程可能在退出前死锁，连 crash.log 也无法落盘。
+        char detail[1024] {};
+        utils::format_windows_exception_detail(exception_info, detail, sizeof(detail));
+        write_crash_file("UNHANDLED EXCEPTION", detail);
 
         // 返回 EXCEPTION_EXECUTE_HANDLER 让程序正常终止
         return EXCEPTION_EXECUTE_HANDLER;
@@ -1121,9 +1125,8 @@ private:
         std::signal(SIGILL, signal_handler);
 
 #ifdef ASST_DEBUG
-        const auto& path = UserDir.get() / "debug" / "crash.log";
-        if (std::filesystem::exists(path)) {
-            std::filesystem::remove(path);
+        if (std::filesystem::exists(g_crash_path)) {
+            std::filesystem::remove(g_crash_path);
         }
 #endif // ASST_DEBUG
     }

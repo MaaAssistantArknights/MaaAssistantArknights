@@ -1275,6 +1275,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorCrashMessageHelpTip">若要尋求協助，請直接傳送產生的  ｢錯誤報告檔案｣ ；請勿傳送此視窗的截圖、錄影、螢幕照片、翻拍影片、手繪圖片或抄寫的內容。上傳至 GitHub 時單一附件不能超過 20 MB，超限請分卷壓縮。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">上次程式崩潰原因</system:String>
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
+    <system:String x:Key="DiagnosticGenerateCrashReport">產生崩潰報告</system:String>
+    <system:String x:Key="DiagnosticNoFailure">沒有可用於產生報告的崩潰記錄。</system:String>
+    <system:String x:Key="DiagnosticPreviousFailureTitle">執行異常診斷</system:String>
+    <system:String x:Key="DiagnosticPreviousFailurePrompt">MAA 偵測到上次執行異常。是否現在產生一次診斷報告？報告只會保存在本機，不會自動上傳。</system:String>
+    <system:String x:Key="DiagnosticTechnicalDetails">技術詳情</system:String>
+    <system:String x:Key="DiagnosticReportContents">診斷報告內容</system:String>
+    <system:String x:Key="DiagnosticDialogPrivacy">以下內容預設全部包含。報告只保存在本機且不會自動上傳；內容未經脫敏，可能包含使用者路徑、帳號資訊、日誌憑證、截圖或 dmp，分享前請自行檢查。</system:String>
+    <system:String x:Key="DiagnosticIncludeConfiguration">包含設定摘要</system:String>
+    <system:String x:Key="DiagnosticIncludeScreenshots">包含故障前後的辨識截圖（可能含遊戲資訊）</system:String>
+    <system:String x:Key="DiagnosticIncludeDumps">包含記憶體傾印 dmp（可能含程序記憶體資訊）</system:String>
+    <system:String x:Key="DiagnosticBuildReport">產生診斷報告</system:String>
+    <system:String x:Key="DiagnosticBuildingReport">正在產生診斷報告…</system:String>
+    <system:String x:Key="DiagnosticMinimalReportCreated">完整收集發生問題，已產生精簡診斷報告。</system:String>
+    <system:String x:Key="DiagnosticReportFailed">暫時無法產生診斷報告。</system:String>
+    <system:String x:Key="DiagnosticDismiss">忽略</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="UpdateApplyFailed">更新失敗，目前的安裝可能已不完整。請重新下載完整安裝檔案，並依照下方說明手動搬移 config、data 與 debug。\n\n{key=FullPackageUpgradeTips}</system:String>

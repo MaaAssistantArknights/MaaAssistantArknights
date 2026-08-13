@@ -1275,6 +1275,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorCrashMessageHelpTip">他人に助けを求める場合は、このウィンドウのスクリーンショット、画面録画、写真、撮影した動画、手描きの図、写し書きした内容ではなく、生成されたエラーレポートファイルを送信してください。GitHub の添付ファイルは 1 つにつき 20 MB までです。超える場合は分割圧縮してください。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">前回のクラッシュ原因</system:String>
     <system:String x:Key="CopyErrorMessage">エラー情報をコピーする</system:String>
+    <system:String x:Key="DiagnosticGenerateCrashReport">クラッシュ報告を作成</system:String>
+    <system:String x:Key="DiagnosticNoFailure">報告に使用できるクラッシュ記録がありません。</system:String>
+    <system:String x:Key="DiagnosticPreviousFailureTitle">実行異常の診断</system:String>
+    <system:String x:Key="DiagnosticPreviousFailurePrompt">前回の実行で問題が検出されました。診断報告を作成しますか？報告はローカルに保存され、自動送信されません。</system:String>
+    <system:String x:Key="DiagnosticTechnicalDetails">技術詳細</system:String>
+    <system:String x:Key="DiagnosticReportContents">診断報告の内容</system:String>
+    <system:String x:Key="DiagnosticDialogPrivacy">以下はすべて既定で含まれます。報告はローカルに保存され、自動送信されません。内容は匿名化されておらず、ユーザーパス、アカウント情報、ログ内の認証情報、画像、dmp が含まれる場合があります。共有前に確認してください。</system:String>
+    <system:String x:Key="DiagnosticIncludeConfiguration">設定概要を含める</system:String>
+    <system:String x:Key="DiagnosticIncludeScreenshots">障害時刻付近の画像を含める（ゲーム情報を含む場合があります）</system:String>
+    <system:String x:Key="DiagnosticIncludeDumps">メモリーダンプを含める（プロセスのメモリー情報を含む場合があります）</system:String>
+    <system:String x:Key="DiagnosticBuildReport">診断報告を作成</system:String>
+    <system:String x:Key="DiagnosticBuildingReport">診断報告を作成しています…</system:String>
+    <system:String x:Key="DiagnosticMinimalReportCreated">完全な収集で問題が発生したため、最小限の診断報告を作成しました。</system:String>
+    <system:String x:Key="DiagnosticReportFailed">診断報告を作成できませんでした。</system:String>
+    <system:String x:Key="DiagnosticDismiss">無視</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="UpdateApplyFailed">更新の適用に失敗し、現在のインストールが不完全になっている可能性があります。完全パッケージを再ダウンロードし、以下の説明に従って config、data、debug を手動で移行してください。\n\n{key=FullPackageUpgradeTips}</system:String>

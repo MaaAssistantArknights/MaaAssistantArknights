@@ -24,6 +24,7 @@ using HandyControl.Data;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Services.Diagnostics;
 using Serilog;
 using Stylet;
 
@@ -34,12 +35,71 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class IssueReportUserControlModel : PropertyChangedBase
 {
+    private bool _isGeneratingDiagnosticReport;
+
     static IssueReportUserControlModel()
     {
         Instance = new();
     }
 
     public static IssueReportUserControlModel Instance { get; }
+
+    public bool HasLatestDiagnosticFailure => WpfDiagnosticManager.Instance.GetLatestFailure() is not null;
+
+    public bool CanGenerateLatestDiagnosticReport => !_isGeneratingDiagnosticReport;
+
+    public string GenerateLatestDiagnosticReportText => LocalizationHelper.GetString(
+        _isGeneratingDiagnosticReport ? "DiagnosticBuildingReport" : "DiagnosticGenerateCrashReport");
+
+    public async void GenerateLatestDiagnosticReport()
+    {
+        if (_isGeneratingDiagnosticReport)
+        {
+            return;
+        }
+
+        SetDiagnosticReportBusy(true);
+        try
+        {
+            var failure = WpfDiagnosticManager.Instance.GetLatestFailure();
+            if (failure is null)
+            {
+                NotifyOfPropertyChange(nameof(HasLatestDiagnosticFailure));
+                ShowGrowl(LocalizationHelper.GetString("DiagnosticNoFailure"));
+                return;
+            }
+
+            var result = await WpfDiagnosticManager.Instance.BuildReportAsync(failure);
+            string successMessage = result.IsMinimal
+                ? LocalizationHelper.GetString("DiagnosticMinimalReportCreated")
+                : LocalizationHelper.GetString("GenerateSupportPayloadSuccessful");
+            ShowGrowl(successMessage);
+            try
+            {
+                Process.Start(new ProcessStartInfo("explorer.exe", $"/select,\"{result.ReportPath}\"") { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Diagnostic report was created but could not be revealed in Explorer");
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowGrowl(LocalizationHelper.GetString("DiagnosticReportFailed"));
+            Log.Error(ex, "Failed to create diagnostic report");
+        }
+        finally
+        {
+            SetDiagnosticReportBusy(false);
+        }
+    }
+
+    private void SetDiagnosticReportBusy(bool value)
+    {
+        _isGeneratingDiagnosticReport = value;
+        NotifyOfPropertyChange(nameof(CanGenerateLatestDiagnosticReport));
+        NotifyOfPropertyChange(nameof(GenerateLatestDiagnosticReportText));
+    }
 
     public void OpenDebugFolder()
     {
@@ -278,7 +338,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             // 清理临时目录
             Directory.Delete(tempPath, recursive: true);
 
-            ShowGrowl($"{LocalizationHelper.GetString("GenerateSupportPayloadSuccessful")}\n{fullZipPath}");
+            ShowGrowl(LocalizationHelper.GetString("GenerateSupportPayloadSuccessful"));
             OpenReportsFolder();
         }
         catch (Exception ex)

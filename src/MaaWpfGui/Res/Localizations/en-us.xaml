@@ -1273,6 +1273,21 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ErrorCrashMessageHelpTip">If you need help from others, please send the generated error report file instead of sending screenshots, screen recordings, photos of the screen, recorded videos, hand-drawn pictures, or transcribed content of this window. A single GitHub attachment cannot exceed 20 MB; please split it if larger.</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">Reason for the last crash</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
+    <system:String x:Key="DiagnosticGenerateCrashReport">Generate crash report</system:String>
+    <system:String x:Key="DiagnosticNoFailure">There is no crash record available for a report.</system:String>
+    <system:String x:Key="DiagnosticPreviousFailureTitle">Run diagnostics</system:String>
+    <system:String x:Key="DiagnosticPreviousFailurePrompt">MAA detected a problem during the previous run. Generate a diagnostic report now? It is saved locally and never uploaded automatically.</system:String>
+    <system:String x:Key="DiagnosticTechnicalDetails">Technical details</system:String>
+    <system:String x:Key="DiagnosticReportContents">Diagnostic report contents</system:String>
+    <system:String x:Key="DiagnosticDialogPrivacy">All items below are included by default. The report stays local and is not uploaded automatically. Its contents are not sanitized and may include user paths, account information, credentials from logs, screenshots, or dumps. Review it before sharing.</system:String>
+    <system:String x:Key="DiagnosticIncludeConfiguration">Include configuration summary</system:String>
+    <system:String x:Key="DiagnosticIncludeScreenshots">Include screenshots near the failure (may contain game information)</system:String>
+    <system:String x:Key="DiagnosticIncludeDumps">Include memory dumps (may contain process memory)</system:String>
+    <system:String x:Key="DiagnosticBuildReport">Build diagnostic report</system:String>
+    <system:String x:Key="DiagnosticBuildingReport">Building diagnostic report…</system:String>
+    <system:String x:Key="DiagnosticMinimalReportCreated">Full collection encountered a problem. A minimal diagnostic report was created.</system:String>
+    <system:String x:Key="DiagnosticReportFailed">The diagnostic report could not be generated.</system:String>
+    <system:String x:Key="DiagnosticDismiss">Ignore</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="UpdateApplyFailed">The update could not be applied and the current installation may be incomplete. Please download the full package again and migrate your config, data, and debug folders manually as described below.\n\n{key=FullPackageUpgradeTips}</system:String>

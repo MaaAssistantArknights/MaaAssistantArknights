@@ -1276,6 +1276,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorCrashMessageHelpTip">다른 사람에게 도움을 요청할 경우, 이 창의 스크린샷, 화면 녹화, 화면 사진, 촬영한 영상, 손그림, 옮겨 적은 내용이 아니라 생성된 오류 보고서 파일을 보내 주세요. GitHub 첨부파일은 1개당 20 MB까지이며, 초과 시 분할 압축해 주세요.</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">마지막 충돌 원인</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
+    <system:String x:Key="DiagnosticGenerateCrashReport">충돌 보고서 생성</system:String>
+    <system:String x:Key="DiagnosticNoFailure">보고서에 사용할 충돌 기록이 없습니다.</system:String>
+    <system:String x:Key="DiagnosticPreviousFailureTitle">실행 오류 진단</system:String>
+    <system:String x:Key="DiagnosticPreviousFailurePrompt">이전 실행 중 문제가 감지되었습니다. 지금 진단 보고서를 생성하시겠습니까? 보고서는 로컬에 저장되며 자동 업로드되지 않습니다.</system:String>
+    <system:String x:Key="DiagnosticTechnicalDetails">기술 세부 정보</system:String>
+    <system:String x:Key="DiagnosticReportContents">진단 보고서 내용</system:String>
+    <system:String x:Key="DiagnosticDialogPrivacy">아래 항목은 기본적으로 모두 포함됩니다. 보고서는 로컬에 저장되며 자동으로 업로드되지 않습니다. 내용은 익명화되지 않으며 사용자 경로, 계정 정보, 로그의 인증 정보, 스크린샷 또는 dmp가 포함될 수 있습니다. 공유 전에 확인하세요.</system:String>
+    <system:String x:Key="DiagnosticIncludeConfiguration">설정 요약 포함</system:String>
+    <system:String x:Key="DiagnosticIncludeScreenshots">오류 시점 주변의 스크린샷 포함(게임 정보가 포함될 수 있음)</system:String>
+    <system:String x:Key="DiagnosticIncludeDumps">메모리 덤프 포함(프로세스 메모리 정보가 포함될 수 있음)</system:String>
+    <system:String x:Key="DiagnosticBuildReport">진단 보고서 생성</system:String>
+    <system:String x:Key="DiagnosticBuildingReport">진단 보고서를 생성하는 중…</system:String>
+    <system:String x:Key="DiagnosticMinimalReportCreated">전체 수집 중 문제가 발생하여 최소 진단 보고서를 생성했습니다.</system:String>
+    <system:String x:Key="DiagnosticReportFailed">진단 보고서를 생성할 수 없습니다.</system:String>
+    <system:String x:Key="DiagnosticDismiss">무시</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="UpdateApplyFailed">업데이트 적용에 실패하여 현재 설치가 불완전할 수 있습니다. 전체 패키지를 다시 다운로드하고, 아래 안내에 따라 config, data 및 debug를 수동으로 옮겨 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>

@@ -77,6 +77,13 @@
                 <Button
                     Margin="5,2"
                     HorizontalAlignment="Left"
+                    Command="{s:Action GenerateLatestDiagnosticReport}"
+                    Content="{Binding GenerateLatestDiagnosticReportText}"
+                    IsEnabled="{Binding CanGenerateLatestDiagnosticReport}"
+                    Visibility="{c:Binding HasLatestDiagnosticFailure}" />
+                <Button
+                    Margin="5,2"
+                    HorizontalAlignment="Left"
                     Command="{s:Action GenerateSupportPayload}"
                     Content="{DynamicResource GenerateSupportPayload}" />
                 <Button

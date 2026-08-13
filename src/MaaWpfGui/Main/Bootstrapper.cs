@@ -32,8 +32,10 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models.Diagnostics;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
+using MaaWpfGui.Services.Diagnostics;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.RemoteControl;
@@ -51,6 +53,7 @@ using Serilog.Core;
 using Serilog.Events;
 using Stylet;
 using StyletIoC;
+using FailureSource = MaaWpfGui.Models.Diagnostics.DiagnosticSource;
 
 namespace MaaWpfGui.Main;
 
@@ -66,6 +69,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static EventWaitHandle _instanceActivationEvent;
     private static CancellationTokenSource _instanceActivationListenerCancellation;
 
+    private static WpfDiagnosticManager Diagnostics => WpfDiagnosticManager.Instance;
+
     public static readonly string UiLogFile = Path.Combine(PathsHelper.DebugDir, "gui.log");
     public static readonly string UiLogBakFile = Path.Combine(PathsHelper.DebugDir, "gui.bak.log");
     public static readonly string CoreLogFile = Path.Combine(PathsHelper.DebugDir, "asst.log");
@@ -76,6 +81,9 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
     private static extern bool FreeLibrary(IntPtr hModule);
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MessageBoxW")]
+    private static extern int NativeMessageBox(IntPtr owner, string text, string caption, uint type);
 
     private static List<string> UnknownDllDetected()
     {
@@ -308,118 +316,26 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             : path + Path.DirectorySeparatorChar;
     }
 
-    public static void ParseCrashLog()
-    {
-        var crashFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "crash.log");
-        if (!File.Exists(crashFile))
-        {
-            return;
-        }
-
-        try
-        {
-            var localAppData = Environment.GetEnvironmentVariable("LocalAppData");
-            if (localAppData is not null && Directory.Exists($"{localAppData}/CrashDumps"))
-            {
-                var crashDumpsSource = Path.Combine(localAppData, "CrashDumps");
-                var dumpDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug", "dumps");
-                if (Directory.Exists(dumpDir))
-                {
-                    Directory.Delete(dumpDir, true);
-                }
-                Directory.CreateDirectory(dumpDir);
-
-                var time = File.GetLastWriteTime(crashFile);
-                bool foundDump = false;
-                foreach (var file in new DirectoryInfo(crashDumpsSource).EnumerateFiles("MAA.exe.*.dmp"))
-                {
-                    if (file.LastWriteTime >= time.AddMinutes(-10) && file.LastWriteTime <= time.AddMinutes(10))
-                    {
-                        _logger.Information("Found crash dump file: {CrashDumpFile}", file.FullName);
-                        File.Copy(file.FullName, Path.Combine(dumpDir, file.Name), true);
-                        foundDump = true;
-                    }
-                }
-                if (foundDump)
-                {
-                    _logger.Information("Crash dumps are copied to {DumpDir}", dumpDir);
-                }
-            }
-            else
-            {
-                _logger.Information("%LocalAppData%/CrashDumps not found");
-            }
-
-            string[] lines = File.ReadAllLines(crashFile, Encoding.UTF8);
-
-            StringBuilder message = new StringBuilder();
-            string currentReason = null;
-            string currentDetail = null;
-
-            foreach (var line in lines)
-            {
-                if (line.StartsWith("Reason: "))
-                {
-                    currentReason = line[7..].Trim();
-                }
-                else if (line.StartsWith("Detail: "))
-                {
-                    currentDetail = line[8..].Trim();
-                }
-                else if (line.StartsWith("==================="))
-                {
-                    if (!string.IsNullOrEmpty(currentReason))
-                    {
-                        message.AppendLine($"Reason: {currentReason}");
-                        if (!string.IsNullOrEmpty(currentDetail))
-                        {
-                            message.AppendLine($"Detail: {currentDetail}");
-                        }
-
-                        message.AppendLine();
-                    }
-
-                    currentReason = null;
-                    currentDetail = null;
-                }
-            }
-
-            if (message.Length > 0)
-            {
-                message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageHeader"));
-                message.AppendLine();
-                message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageOpenLog"));
-                message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageGenerateReport"));
-                message.AppendLine();
-                message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageHelpTip"));
-
-                _logger.Warning(message.ToString());
-
-                MessageBoxHelper.Show(
-                    message.ToString(),
-                    LocalizationHelper.GetString("ErrorCrashDialogTitle"),
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-
-            try
-            {
-                File.Delete(crashFile);
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-        catch
-        {
-            // ignored
-        }
-    }
-
     /// <inheritdoc/>
     /// <remarks>初始化些啥自己加。</remarks>
     protected override void OnStart()
+    {
+        try
+        {
+            OnStartCore();
+        }
+        catch (Exception ex)
+        {
+            RunDiagnosticsSafely(static () => Diagnostics.Initialize(), "initialize diagnostics after startup failure");
+            var writeResult = RecordDiagnosticFailureSafely(ex, FailureSource.Startup);
+            RunDiagnosticsSafely(static () => Diagnostics.MarkPhase(DiagnosticStartupPhase.StartupFailed), "mark startup failed");
+            ShowImmediateFailureNotice(writeResult);
+
+            Environment.Exit(1);
+        }
+    }
+
+    private void OnStartCore()
     {
         Directory.SetCurrentDirectory(AppContext.BaseDirectory);
         if (!Directory.Exists("debug"))
@@ -442,6 +358,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
             .WriteTo.File(
                 UiLogFile,
+                shared: true,
                 outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
             .Enrich.With<ClassNameEnricher>()
             .Enrich.FromLogContext()
@@ -468,6 +385,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         Log.Logger = loggerConfiguration.CreateLogger();
         _logger = Log.Logger.ForContext<Bootstrapper>();
+        RunDiagnosticsSafely(static () => Diagnostics.Initialize(), "initialize diagnostics");
         _logger.Information("===================================");
         _logger.Information("MaaAssistantArknights GUI started");
         _logger.Information("Version {UiVersion}", uiVersion);
@@ -504,6 +422,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         ConfigurationHelper.Load();
         LocalizationHelper.Load();
+        RunDiagnosticsSafely(static () => Diagnostics.MarkPhase(DiagnosticStartupPhase.ConfigurationLoaded), "mark configuration loaded");
         if (PendingUpdateApplier.TryConsumeDelegatedUpdateSuccess())
         {
             _logger.Information("Delegated pending update completed successfully");
@@ -578,6 +497,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             _logger.Information("Using software rendering mode due to user preference (bad modules detected)");
         }
 
+        if (!HandleMultipleInstances())
+        {
+            Shutdown();
+            return;
+        }
+
+        RunDiagnosticsSafely(static () => Diagnostics.ImportNativeCrashLogs(), "import native crash log");
+
         // 检查 MaaCore.dll 是否存在
         if (!File.Exists("MaaCore.dll"))
         {
@@ -609,30 +536,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         if (!IsVCppInstalled())
         {
-            var ret = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("VC++NotInstalled"),
-                "MAA",
-                MessageBoxButton.OKCancel,
-                MessageBoxImage.Information,
-                ok: LocalizationHelper.GetString("Confirm"),
-                cancel: LocalizationHelper.GetString("Cancel"));
-            if (ret == MessageBoxResult.OK)
-            {
-                var startInfo = new ProcessStartInfo {
-                    FileName = "DependencySetup_依赖库安装.bat",
-                    WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory, // 设置工作目录
-                    WindowStyle = ProcessWindowStyle.Normal, // 显示窗口让用户看到进度
-                };
-
-                Process.Start(startInfo);
-            }
-
-            Shutdown();
-            return;
-        }
-
-        if (!HandleMultipleInstances())
-        {
+            var writeResult = RecordDiagnosticFailureSafely(
+                new DllNotFoundException("MaaCore could not be loaded because a VC++ runtime dependency such as VCRUNTIME or MSVCP is missing."),
+                FailureSource.Startup);
+            ShowImmediateFailureNotice(writeResult);
             Shutdown();
             return;
         }
@@ -642,8 +549,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
         }
 
-        Task.Run(ParseCrashLog);
-
+        RunDiagnosticsSafely(static () => Diagnostics.MarkPhase(DiagnosticStartupPhase.PreflightPassed), "mark preflight passed");
         base.OnStart();
         _hasMutex = true;
 
@@ -716,8 +622,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     public static string InstanceKey
     {
-        get
-        {
+        get {
             var normalizedBaseDir = Path.GetFullPath(PathsHelper.BaseDir)
                 .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
                 .ToUpperInvariant();
@@ -878,6 +783,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         bool wasFirstBoot = Instances.VersionUpdateDialogViewModel.IsFirstBootAfterUpdate;
 
         Instances.WindowManager.ShowWindow(rootViewModel);
+        RunDiagnosticsSafely(static () => Diagnostics.MarkMainWindowShown(), "mark main window shown");
         Instances.InstantiateOnRootViewDisplayed(Container);
         StartInstanceActivationListener();
 
@@ -1194,8 +1100,28 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e)
     {
         LogUnhandledException(e.Exception);
-        ShowErrorDialog(e.Exception);
+        var details = e.Exception.ToString();
+        var comException = e.Exception as COMException;
+        const int DwmECompositionDisabled = unchecked((int)0x80263001);
+        bool isDragDropException = comException is not null && details.Contains("DragDrop.DoDragSourceMove", StringComparison.Ordinal);
+        bool isDwmCompositionDisabledException = comException is not null &&
+                                                 (comException.HResult == DwmECompositionDisabled ||
+                                                  details.Contains("Desktop composition is disabled", StringComparison.OrdinalIgnoreCase) ||
+                                                  details.Contains("0x80263001", StringComparison.OrdinalIgnoreCase));
+
+        // 拖拽和 DWM 组合异常沿用原有的非致命处理，诊断只留痕，不能把它升级为下次启动提示。
+        if (isDragDropException || isDwmCompositionDisabledException)
+        {
+            _ = RecordDiagnosticFailureSafely(e.Exception, FailureSource.Dispatcher, makePending: false, severity: DiagnosticSeverity.Error);
+            new ErrorDialogView(e.Exception, shouldExit: false).ShowDialog();
+            e.Handled = true;
+            return;
+        }
+
+        var writeResult = RecordDiagnosticFailureSafely(e.Exception, FailureSource.Dispatcher);
+        ShowImmediateFailureNotice(writeResult);
         e.Handled = true;
+        Environment.Exit(1);
     }
 
     private static void LogUnhandledException(Exception exception)
@@ -1206,31 +1132,131 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
     }
 
-    private static void ShowErrorDialog(Exception exception)
+    private static void ShowImmediateFailureNotice(DiagnosticStoreWriteResult writeResult)
     {
-        Application.Current.Dispatcher.Invoke(() => {
-            // 这些异常虽然会导致崩溃，但不需要退出程序
-            // 这是一坨屎，但是没办法，只能这样了
-            var comEx = exception as COMException;
+        var failure = writeResult.Failure;
+        string culture = GetDiagnosticCulture();
+        bool zh = culture.StartsWith("zh", StringComparison.OrdinalIgnoreCase);
+        string followUp = (writeResult.HistoryWritten, writeResult.PendingWritten) switch {
+            (_, true) when zh => "下次正常启动后可选择生成诊断报告。",
+            (_, true) => "After the next successful startup, you can choose whether to generate a diagnostic report.",
+            (true, false) when zh => "诊断记录已保存；下次正常启动后可在“问题反馈”页面生成报告。",
+            (true, false) => "The diagnostic record was saved. After the next successful startup, you can generate a report from the Issue Report page.",
+            _ when zh => "诊断记录未能保存，请截图当前窗口并在反馈时提供错误码和诊断编号。",
+            _ => "The diagnostic record could not be saved. Take a screenshot of this window and include the error code and case ID when reporting the problem.",
+        };
+        string message = zh
+            ? $"MAA 遇到异常，将安全退出。\n\n错误码：{failure.Code}\n诊断编号：{failure.CaseId}\n\n{followUp}"
+            : $"MAA encountered an error and will exit safely.\n\nError code: {failure.Code}\nCase ID: {failure.CaseId}\n\n{followUp}";
+        try
+        {
+            NativeMessageBox(IntPtr.Zero, message, "MAA", 0x10);
+        }
+        catch
+        {
+            // Nothing else is safe to do in a last-chance exception handler.
+        }
+    }
 
-            var details = exception.ToString();
+    internal static void SchedulePendingDiagnosticReportPrompt()
+    {
+        try
+        {
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, PromptForPendingDiagnosticReport);
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Failed to schedule pending diagnostic report prompt");
+        }
+    }
 
-            // DragDrop.DoDragSourceMove 会在拖拽时偶发崩溃
-            var isDragDropException = comEx != null && details.Contains("DragDrop.DoDragSourceMove");
+    private static DiagnosticStoreWriteResult RecordDiagnosticFailureSafely(
+        Exception exception,
+        string source,
+        bool makePending = true,
+        string severity = DiagnosticSeverity.Fatal)
+    {
+        try
+        {
+            return Diagnostics.RecordException(exception, source, makePending, severity);
+        }
+        catch (Exception diagnosticException)
+        {
+            _logger.Warning(diagnosticException, "Diagnostics failed while recording {Source}", source);
+            var failure = new DiagnosticFailure {
+                Source = source,
+                StartupPhase = DiagnosticStartupPhase.Unknown,
+                Severity = severity,
+                Code = DiagnosticErrorCode.UiError,
+                Confidence = DiagnosticConfidence.Unknown,
+                ExceptionType = exception.GetType().FullName ?? exception.GetType().Name,
+                HResult = exception.HResult,
+                Message = exception.Message,
+                TechnicalDetails = exception.ToString(),
+            };
+            return new(failure, HistoryWritten: false, PendingWritten: false);
+        }
+    }
 
-            // DWM 桌面组合被禁用（0x80263001），通常是瞬时的显卡驱动问题，DWM 会自行恢复
-            // 同时用 HResult 与异常文本双重判断，避免不同 .NET 版本/语言环境下 HRESULT 暴露不一致
-            const int DwmECompositionDisabled = unchecked((int)0x80263001);
-            var isDwmCompositionDisabledException = comEx != null &&
-                (comEx.HResult == DwmECompositionDisabled ||
-                 details.Contains("Desktop composition is disabled") ||
-                 details.Contains("0x80263001"));
+    private static void RunDiagnosticsSafely(Action action, string operation)
+    {
+        try
+        {
+            action();
+        }
+        catch (Exception ex)
+        {
+            if (_logger != Logger.None)
+            {
+                _logger.Warning(ex, "Optional diagnostic operation failed: {Operation}", operation);
+            }
+        }
+    }
 
-            var shouldExit = !isDragDropException && !isDwmCompositionDisabledException;
+    private static void PromptForPendingDiagnosticReport()
+    {
+        try
+        {
+            var mainWindow = Application.Current.MainWindow;
+            var blockingWindow = Application.Current.Windows
+                .Cast<Window>()
+                .FirstOrDefault(window => window != mainWindow && window.IsVisible && window is not CrashDiagnosticDialog);
+            if (blockingWindow is not null)
+            {
+                EventHandler closedHandler = null;
+                closedHandler = (_, _) => {
+                    blockingWindow.Closed -= closedHandler;
+                    SchedulePendingDiagnosticReportPrompt();
+                };
+                blockingWindow.Closed += closedHandler;
+                return;
+            }
 
-            var errorView = new ErrorDialogView(exception, shouldExit);
-            errorView.ShowDialog();
-        });
+            var failure = Diagnostics.TryConsumePendingFailure();
+            if (failure is null)
+            {
+                return;
+            }
+
+            new CrashDiagnosticDialog(Diagnostics, failure).ShowDialog();
+        }
+        catch (Exception ex)
+        {
+            // A diagnostic prompt is optional UI and must never affect the running app.
+            _logger.Warning(ex, "Pending diagnostic report prompt failed and was skipped");
+        }
+    }
+
+    private static string GetDiagnosticCulture()
+    {
+        try
+        {
+            return LocalizationHelper.CurrentCulture;
+        }
+        catch
+        {
+            return LocalizationHelper.DefaultLanguage;
+        }
     }
 
     private static Dictionary<string, string> ParseArgs(string[] args, params string[] flags)
