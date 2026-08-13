@@ -602,7 +602,7 @@
                     }
                 },
                 {
-                    "id": "ending1_late_battle_savage",
+                    "id": "ending1_late_duel",
                     "description": "第三至第五层优先经过狭路相逢",
                     "kind": "preferred",
                     "floor_window": [3, 5],
