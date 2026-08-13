@@ -249,6 +249,30 @@ bool asst::Assistant::ctrl_attach_window(
 }
 #endif
 
+#if !defined(_WIN32) && ASST_WITH_X11
+bool asst::Assistant::ctrl_attach_linux_window(const std::string& window_name, bool focus_for_keys)
+{
+    LogTraceFunction;
+
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    // 仍有任务进行，attach 前需要 stop
+    if (!m_thread_idle) {
+        return false;
+    }
+
+    m_thread_idle = false;
+
+    bool ret = m_ctrler->attach_linux_window(window_name, focus_for_keys);
+    if (ret) {
+        m_uuid = m_ctrler->get_uuid();
+    }
+
+    m_thread_idle = true;
+    return ret;
+}
+#endif
+
 bool asst::Assistant::ctrl_click(int x, int y)
 {
     return m_ctrler->click(Point(x, y));
@@ -429,6 +453,28 @@ asst::Assistant::AsyncCallId asst::Assistant::async_attach_window(
                                             .screencap_method = screencap_method,
                                             .mouse_method = mouse_method,
                                             .keyboard_method = keyboard_method },
+        block);
+}
+#endif
+
+#if !defined(_WIN32) && ASST_WITH_X11
+bool asst::Assistant::attach_linux_window(const std::string& window_name, bool focus_for_keys)
+{
+    LogTraceFunction;
+
+    return ctrl_attach_linux_window(window_name, focus_for_keys);
+}
+
+asst::Assistant::AsyncCallId asst::Assistant::async_attach_linux_window(
+    const std::string& window_name,
+    bool focus_for_keys,
+    bool block)
+{
+    LogTraceFunction;
+
+    return append_async_call(
+        AsyncCallItem::Type::AttachLinuxWindow,
+        AsyncCallItem::AttachLinuxWindowParams { .window_name = window_name, .focus_for_keys = focus_for_keys },
         block);
 }
 #endif
@@ -673,6 +719,13 @@ void asst::Assistant::call_proc()
             const auto& [hwnd, screencap_method, mouse_method, keyboard_method] =
                 std::get<AsyncCallItem::AttachWindowParams>(call_item.params);
             ret = ctrl_attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
+        } break;
+#endif
+#if !defined(_WIN32) && ASST_WITH_X11
+        case AsyncCallItem::Type::AttachLinuxWindow: {
+            what = "AttachLinuxWindow";
+            const auto& [window_name, focus_for_keys] = std::get<AsyncCallItem::AttachLinuxWindowParams>(call_item.params);
+            ret = ctrl_attach_linux_window(window_name, focus_for_keys);
         } break;
 #endif
         case AsyncCallItem::Type::Click: {

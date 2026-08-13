@@ -53,6 +53,12 @@ endif()
 
 if(LINUX)
     target_link_libraries(MaaCore pthread dl)
+    # LinuxWindowController（X11 窗口控制）需要 X11 开发头文件，可选启用
+    find_package(X11)
+    if(X11_FOUND)
+        target_compile_definitions(MaaCore PRIVATE ASST_WITH_X11=1)
+        target_link_libraries(MaaCore X11::X11)
+    endif()
 endif()
 
 if(APPLE AND WITH_MAC_SCK)

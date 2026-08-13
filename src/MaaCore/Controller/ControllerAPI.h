@@ -18,6 +18,9 @@ enum class ControllerType
 #ifdef _WIN32
     Win32,
 #endif
+#if !defined(_WIN32) && ASST_WITH_X11
+    LinuxWindow,
+#endif
     MaaFwAdb,
 #if ASST_WITH_EMULATOR_EXTRAS
     Mumu,

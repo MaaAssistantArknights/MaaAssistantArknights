@@ -157,3 +157,36 @@ waydroid prop set persist.waydroid.height 720
 ### ✅ [redroid](https://github.com/remote-android/redroid-doc)
 
 安卓 11 版本的镜像可正常运行游戏, 需要暴露 5555 ADB 端口.
+
+## 明日方舟 PC 客户端（Wine/Proton）窗口控制
+
+MAA 可以直接控制 Linux 上通过 Wine/Proton 运行的**明日方舟 PC 客户端**窗口，无需模拟器或 ADB。
+控制方式为 X11 合成事件（`XSendEvent`）：**不移动光标、不抢占焦点**，自动化期间可正常使用桌面。
+
+### 前置要求
+
+- 运行在 X11（含 XWayland）环境，编译时检测到 X11 开发库（`libX11-devel`），即启用 `ASST_WITH_X11`
+- 游戏以**窗口化 1920×1080** 运行（MAA 对 16:9 分辨率的要求）。Arknights EN 客户端可通过修改
+  Wine 前缀下的 `user.reg`（`[Software\\Yostar\\Arknights_EN]`）实现：
+
+  ```text
+  "Screenmanager Fullscreen mode_h3630240806"=dword:00000003
+  "Screenmanager Resolution Width_h182942802"=dword:00000780   ; 1920
+  "Screenmanager Resolution Height_h2627697771"=dword:00000438 ; 1080
+  "Screenmanager Resolution Use Native_h1405027254"=dword:00000000
+  ```
+
+- 游戏窗口必须保持显示（**不可最小化**，最小化后游戏暂停且截图失败）；被其他窗口遮挡不影响运行
+
+### 使用
+
+通过 C API 按窗口标题绑定（如 `Arknights`）：
+
+```c
+AsstAsyncCallId id = AsstAsyncAttachWindowByName(handle, "Arknights", 0 /* focus_for_keys */, 1 /* block */);
+```
+
+`focus_for_keys`：发送按键（如 ESC、文本输入）前是否将输入焦点切换到游戏窗口。Unity 游戏仅在窗口聚焦时响应键盘，
+开启后按键总能生效，但会把键盘焦点从你当前的应用夺走；关闭时按键仅在游戏窗口恰好聚焦时生效。
+
+> 提示：鼠标点击/滑动通过合成事件直接投递到窗口，不受焦点影响，因此绝大多数 MAA 任务（如基建、刷图）无需开启该选项。

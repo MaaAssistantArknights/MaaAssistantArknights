@@ -48,6 +48,9 @@ public:
         Win32InputMethod mouse_method,
         Win32InputMethod keyboard_method);
 #endif
+#if !defined(_WIN32) && ASST_WITH_X11
+    bool attach_linux_window(const std::string& window_name, bool focus_for_keys);
+#endif
     bool inited() noexcept;
     void set_touch_mode(const TouchMode& mode) noexcept;
     void set_swipe_with_pause(bool enable) noexcept;

@@ -100,6 +100,10 @@ public:
         Win32InputMethod keyboard_method,
         bool block = false);
 #endif
+#if !defined(_WIN32) && ASST_WITH_X11
+    bool attach_linux_window(const std::string& window_name, bool focus_for_keys);
+    AsyncCallId async_attach_linux_window(const std::string& window_name, bool focus_for_keys, bool block = false);
+#endif
     virtual AsyncCallId async_click(int x, int y, bool block = false) override;
     virtual AsyncCallId async_screencap(bool block = false) override;
 
@@ -139,6 +143,9 @@ private:
 #ifdef _WIN32
             AttachWindow,
 #endif
+#if !defined(_WIN32) && ASST_WITH_X11
+            AttachLinuxWindow,
+#endif
             Click,
             Screencap,
         };
@@ -159,6 +166,13 @@ private:
             Win32InputMethod keyboard_method = Win32Input::None;
         };
 #endif
+#if !defined(_WIN32) && ASST_WITH_X11
+        struct AttachLinuxWindowParams
+        {
+            std::string window_name;
+            bool focus_for_keys = false;
+        };
+#endif
 
         struct ClickParams
         {
@@ -172,6 +186,8 @@ private:
 
 #ifdef _WIN32
         using Parmas = std::variant<ConnectParams, AttachWindowParams, ClickParams, ScreencapParams>;
+#elif defined(__linux__) && ASST_WITH_X11
+        using Parmas = std::variant<ConnectParams, AttachLinuxWindowParams, ClickParams, ScreencapParams>;
 #else
         using Parmas = std::variant<ConnectParams, ClickParams, ScreencapParams>;
 #endif
@@ -200,6 +216,9 @@ private:
         Win32ScreencapMethod screencap_method,
         Win32InputMethod mouse_method,
         Win32InputMethod keyboard_method);
+#endif
+#if !defined(_WIN32) && ASST_WITH_X11
+    bool ctrl_attach_linux_window(const std::string& window_name, bool focus_for_keys);
 #endif
     bool ctrl_click(int x, int y);
     bool ctrl_screencap();

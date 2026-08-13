@@ -31,6 +31,9 @@
 #ifdef _WIN32
 #include "Win32Controller.h"
 #endif
+#if !defined(_WIN32) && ASST_WITH_X11
+#include "LinuxWindowController.h"
+#endif
 
 #ifdef __ANDROID__
 #include "MaaFwAndroidNativeController.h"
@@ -362,6 +365,60 @@ bool asst::Controller::attach_window(
                   { "screencap_method", screencap_method },
                   { "mouse_method", mouse_method },
                   { "keyboard_method", keyboard_method },
+              } },
+        } | details;
+        callback(AsstMsg::ConnectionInfo, connection_info);
+    };
+
+    try {
+        m_scale_proxy = std::make_shared<ControlScaleProxy>(m_controller, m_controller_type, proxy_callback);
+    }
+    catch (const std::exception& e) {
+        Log.error("Cannot create controller proxy: {}", e.what());
+        return false;
+    }
+
+    if (!m_scale_proxy) {
+        Log.error("Cannot create controller proxy!");
+        return false;
+    }
+
+    m_scale_size = m_scale_proxy->get_scale_size();
+
+    return true;
+}
+#endif
+
+#if !defined(_WIN32) && ASST_WITH_X11
+bool asst::Controller::attach_linux_window(const std::string& window_name, bool focus_for_keys)
+{
+    LogTraceFunction;
+
+    clear_info();
+
+    auto linux_controller = std::make_shared<LinuxWindowController>(m_callback, m_inst);
+    if (!linux_controller->attach(window_name, focus_for_keys)) {
+        Log.error("attach_linux_window failed");
+        return false;
+    }
+
+    m_controller = linux_controller;
+    m_controller_type = ControllerType::LinuxWindow;
+    m_uuid = m_controller->get_uuid();
+
+    // 尝试截图
+    if (!screencap()) {
+        Log.error("Cannot screencap!");
+        return false;
+    }
+
+    auto proxy_callback = [&](const json::object& details) {
+        json::value connection_info = json::object {
+            { "uuid", m_uuid },
+            { "details",
+              json::object {
+                  { "window_name", window_name },
+                  { "focus_for_keys", focus_for_keys },
               } },
         } | details;
         callback(AsstMsg::ConnectionInfo, connection_info);

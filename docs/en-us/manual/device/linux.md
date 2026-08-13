@@ -157,3 +157,41 @@ To set up ADB IP address: Go to `Settings` - `About` - `IP address`, note the fi
 ### ✅ [redroid](https://github.com/remote-android/redroid-doc)
 
 Android 11 version images can run the game normally. Make sure to expose port 5555 for ADB.
+
+## Arknights PC Client (Wine/Proton) Window Control
+
+MAA can control the **Arknights PC client** running under Wine/Proton on Linux directly, without an emulator or ADB.
+Input is delivered via synthetic X11 events (`XSendEvent`): **the cursor is not moved and focus is not stolen**,
+so you can keep using your desktop while automation runs.
+
+### Requirements
+
+- An X11 (including XWayland) session, and X11 development headers (`libX11-devel`) at build time
+  (enables `ASST_WITH_X11`)
+- The game must run **windowed at 1920×1080** (MAA requires a 16:9 resolution). For the Arknights EN client,
+  edit `user.reg` in the Wine prefix (`[Software\\Yostar\\Arknights_EN]`):
+
+  ```text
+  "Screenmanager Fullscreen mode_h3630240806"=dword:00000003
+  "Screenmanager Resolution Width_h182942802"=dword:00000780   ; 1920
+  "Screenmanager Resolution Height_h2627697771"=dword:00000438 ; 1080
+  "Screenmanager Resolution Use Native_h1405027254"=dword:00000000
+  ```
+
+- The game window must stay visible (**do not minimize** — the game pauses and screencap fails when minimized);
+  being covered by other windows is fine
+
+### Usage
+
+Bind to the window by title (e.g. `Arknights`) via the C API:
+
+```c
+AsstAsyncCallId id = AsstAsyncAttachWindowByName(handle, "Arknights", 0 /* focus_for_keys */, 1 /* block */);
+```
+
+`focus_for_keys`: whether to move input focus to the game window before sending keys (ESC, text input).
+Unity games only respond to keyboard while focused, so enabling this makes keys always work but steals
+keyboard focus from your current app; when disabled, keys only work if the game window happens to be focused.
+
+> Note: mouse clicks/swipes are delivered directly to the window via synthetic events and are not affected by
+> focus, so most MAA tasks (e.g. base management, farming) work without enabling this option.

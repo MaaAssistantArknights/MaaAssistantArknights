@@ -121,6 +121,22 @@ extern "C"
         AsstBool block);
 #endif
 
+#ifndef _WIN32
+    // 绑定到 Linux X11 窗口（仅 Linux 平台）
+    // window_name: 目标窗口标题（完全匹配），如 "Arknights"
+    // focus_for_keys: 发送按键前是否将输入焦点切换到目标窗口（Unity 等游戏仅在窗口聚焦时响应键盘）
+    /* deprecated */ AsstBool ASSTAPI AsstAttachWindowByName(AsstHandle handle, const char* window_name, AsstBool focus_for_keys);
+
+    // 异步绑定到 Linux X11 窗口（仅 Linux 平台）
+    // window_name: 目标窗口标题（完全匹配），如 "Arknights"
+    // focus_for_keys: 发送按键前是否将输入焦点切换到目标窗口
+    AsstAsyncCallId ASSTAPI AsstAsyncAttachWindowByName(
+        AsstHandle handle,
+        const char* window_name,
+        AsstBool focus_for_keys,
+        AsstBool block);
+#endif
+
     AsstAsyncCallId ASSTAPI AsstAsyncClick(AsstHandle handle, int32_t x, int32_t y, AsstBool block);
     AsstAsyncCallId ASSTAPI AsstAsyncScreencap(AsstHandle handle, AsstBool block);
 

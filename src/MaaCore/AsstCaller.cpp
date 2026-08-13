@@ -219,6 +219,56 @@ AsstAsyncCallId AsstAsyncAttachWindow(
 }
 #endif
 
+#ifndef _WIN32
+#if ASST_WITH_X11
+AsstBool AsstAttachWindowByName(AsstHandle handle, const char* window_name, AsstBool focus_for_keys)
+{
+    if (!inited() || handle == nullptr || window_name == nullptr) {
+        Log.error(__FUNCTION__, "Cannot attach to window, asst not inited or handle/window_name is null", inited(), handle);
+        return AsstFalse;
+    }
+    auto* assistant = dynamic_cast<asst::Assistant*>(handle);
+    if (!assistant) {
+        return AsstFalse;
+    }
+    return assistant->attach_linux_window(window_name, focus_for_keys == AsstTrue) ? AsstTrue : AsstFalse;
+}
+
+AsstAsyncCallId AsstAsyncAttachWindowByName(
+    AsstHandle handle,
+    const char* window_name,
+    AsstBool focus_for_keys,
+    AsstBool block)
+{
+    if (!inited() || handle == nullptr || window_name == nullptr) {
+        return InvalidId;
+    }
+    auto* assistant = dynamic_cast<asst::Assistant*>(handle);
+    if (!assistant) {
+        return InvalidId;
+    }
+    return assistant->async_attach_linux_window(window_name, focus_for_keys == AsstTrue, block == AsstTrue);
+}
+#else
+// 未启用 X11 支持（ASST_WITH_X11）时提供空实现，保持符号导出
+AsstBool AsstAttachWindowByName(AsstHandle handle [[maybe_unused]], const char* window_name [[maybe_unused]], AsstBool focus_for_keys [[maybe_unused]])
+{
+    Log.error(__FUNCTION__, "X11 window controller is not built (ASST_WITH_X11 not enabled)");
+    return AsstFalse;
+}
+
+AsstAsyncCallId AsstAsyncAttachWindowByName(
+    AsstHandle handle [[maybe_unused]],
+    const char* window_name [[maybe_unused]],
+    AsstBool focus_for_keys [[maybe_unused]],
+    AsstBool block [[maybe_unused]])
+{
+    Log.error(__FUNCTION__, "X11 window controller is not built (ASST_WITH_X11 not enabled)");
+    return InvalidId;
+}
+#endif
+#endif
+
 AsstTaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
 {
     if (!inited() || handle == nullptr) {
