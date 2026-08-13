@@ -203,8 +203,8 @@ bool asst::Controller::swipe(
     bool with_pause)
 {
     CHECK_EXIST(m_controller, false);
-    return m_scale_proxy->swipe(
-        p1, p2, duration, extra_swipe, slope_in, slope_out, resolve_swipe_with_pause(with_pause));
+    return m_scale_proxy
+        ->swipe(p1, p2, duration, extra_swipe, slope_in, slope_out, resolve_swipe_with_pause(with_pause));
 }
 
 bool asst::Controller::swipe(
