@@ -915,6 +915,7 @@ public partial class CopilotViewModel : Screen
     public async Task AddCopilotTask()
     {
         await AddCopilotTaskToList(CopilotTaskName, false);
+        CopilotTaskName = string.Empty;
     }
 
     // UI 绑定的方法
@@ -922,6 +923,7 @@ public partial class CopilotViewModel : Screen
     public async Task AddCopilotTask_Adverse()
     {
         await AddCopilotTaskToList(CopilotTaskName, true);
+        CopilotTaskName = string.Empty;
     }
 
     // UI 绑定的方法
@@ -1225,7 +1227,6 @@ public partial class CopilotViewModel : Screen
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
             return true;
         }
-        CopilotTaskName = navigateName;
 
         if (mapInfo?.StageId is { } stageId)
         {
@@ -1247,10 +1248,10 @@ public partial class CopilotViewModel : Screen
             switch (copilot.Difficulty)
             {
                 case CopilotModel.DifficultyFlags.None:
-                    await AddCopilotTaskToList(copilot, CopilotModel.DifficultyFlags.Normal, navigateName, is_corrected ? default : copilotId);
+                    await AddCopilotTaskToList(copilot, CopilotModel.DifficultyFlags.Normal, copilotId: is_corrected ? default : copilotId);
                     break;
                 default:
-                    await AddCopilotTaskToList(copilot, copilot.Difficulty, navigateName, is_corrected ? default : copilotId);
+                    await AddCopilotTaskToList(copilot, copilot.Difficulty, copilotId: is_corrected ? default : copilotId);
                     break;
             }
         }
@@ -1600,7 +1601,7 @@ public partial class CopilotViewModel : Screen
 
     private async Task AddCopilotTaskToList(string? stageName, bool isRaid)
     {
-        if (string.IsNullOrEmpty(stageName) || InvalidStageNameRegex().IsMatch(stageName))
+        if (!string.IsNullOrEmpty(stageName) && InvalidStageNameRegex().IsMatch(stageName))
         {
             AddLog(LocalizationHelper.GetString("CopilotInvalidStageNameForNavigation"), UiLogColor.Error, showTime: false);
             return;
@@ -1632,10 +1633,10 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     /// <param name="copilot">作业</param>
     /// <param name="flags">难度等级</param>
-    /// <param name="navigateName">关卡 code，用于导航</param>
+    /// <param name="navName">关卡 code，用于导航</param>
     /// <param name="copilotId">作业站 id</param>
     /// <returns>是否添加了作业</returns>
-    private async Task<bool> AddCopilotTaskToList(CopilotModel copilot, CopilotModel.DifficultyFlags flags, string? navigateName = null, int copilotId = 0)
+    private async Task<bool> AddCopilotTaskToList(CopilotModel copilot, CopilotModel.DifficultyFlags flags, string? navName = null, int copilotId = 0)
     {
         if (string.IsNullOrEmpty(copilot.StageName))
         {
@@ -1660,18 +1661,18 @@ public partial class CopilotViewModel : Screen
         var stageId = mapInfo?.StageId;
         if (mapInfo is null)
         {
-            AddLog(LocalizationHelper.GetStringFormat("CopilotStageNameNotFound", $"{navigateName}"), UiLogColor.Error, showTime: false);
+            AddLog(LocalizationHelper.GetStringFormat("CopilotStageNameNotFound", $"{copilot.StageName}({navName})"), UiLogColor.Error, showTime: false);
             return false;
         }
 
-        navigateName = string.IsNullOrEmpty(navigateName) ? stageCode : navigateName;
+        var navigateName = string.IsNullOrEmpty(navName) ? stageCode : navName;
         if (stageCode != navigateName)
         {
             stageCode = navigateName;
             AddLog(LocalizationHelper.GetString("CopilotStageNameNotEqualWithNavigateName"), UiLogColor.Warning, showTime: false);
         }
 
-        if (stageId is null || stageCode is null || navigateName is null)
+        if (stageId is null || stageCode is null || string.IsNullOrEmpty(navigateName))
         {
             return false;
         }
@@ -1720,13 +1721,13 @@ public partial class CopilotViewModel : Screen
         {
             if (flags.HasFlag(CopilotModel.DifficultyFlags.Normal))
             {
-                var item = new CopilotItemViewModel(stageCode, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
+                var item = new CopilotItemViewModel(stageCode, cachePath, false, copilotId, isNavNameOverride: !string.IsNullOrEmpty(navName)) { Index = CopilotItemViewModels.Count, };
                 CopilotItemViewModels.Add(item);
             }
 
             if (flags.HasFlag(CopilotModel.DifficultyFlags.Raid))
             {
-                var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, };
+                var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId, isNavNameOverride: !string.IsNullOrEmpty(navName)) { Index = CopilotItemViewModels.Count, };
                 CopilotItemViewModels.Add(item);
             }
         }
@@ -2031,7 +2032,7 @@ public partial class CopilotViewModel : Screen
 
             var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i => {
                 _copilotIdList.Add(i.CopilotId);
-                return new MultiTask { Index = i.Index, FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
+                return new MultiTask { Index = i.Index, FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.IsNavNameOverride ? i.Name : null, };
             });
 
             var task = new AsstCopilotTask() {
