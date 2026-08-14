@@ -278,15 +278,19 @@ bool recognize_mini_layout(
     for (size_t index = 0; index < geometry.mini_stations.size(); ++index) {
         station_types[index] =
             recognize_station_type(image, geometry.mini_stations[index].position, geometry.wide_probe_offsets);
-        if (!station_types[index]) {
-            return false;
-        }
     }
 
     for (const auto& name : { "Mfg", "Trade", "Power" }) {
+        const size_t layout_count =
+            std::ranges::count_if(station_types, [&](const std::optional<std::string>& station_type) {
+                return station_type == name;
+            });
         const auto iter = analyzer.get_result().find(name);
         if (iter == analyzer.get_result().end()) {
-            return false;
+            if (layout_count != 0) {
+                return false;
+            }
+            continue;
         }
 
         auto& output = facilities[name];
@@ -318,11 +322,14 @@ bool recognize_mini_layout(
             used.emplace(layout_index);
             output.push_back({ match.rect, level });
         }
+        if (used.size() != layout_count) {
+            return false;
+        }
     }
 
     const auto dorm_iter = analyzer.get_result().find("Dorm");
     if (dorm_iter == analyzer.get_result().end()) {
-        return false;
+        return true;
     }
     std::unordered_set<size_t> used_dorms;
     for (const auto& match : dorm_iter->second) {
@@ -350,7 +357,7 @@ bool recognize_normal_layout(
     for (const auto& name : { "Mfg", "Trade", "Power" }) {
         const auto iter = analyzer.get_result().find(name);
         if (iter == analyzer.get_result().end()) {
-            return false;
+            continue;
         }
         for (const auto& match : iter->second) {
             const int level = recognize_normal_level(image, match.rect, facility_color(name), 3, false, geometry);
@@ -363,7 +370,7 @@ bool recognize_normal_layout(
 
     const auto dorm_iter = analyzer.get_result().find("Dorm");
     if (dorm_iter == analyzer.get_result().end()) {
-        return false;
+        return true;
     }
     for (const auto& match : dorm_iter->second) {
         const int level = recognize_normal_level(image, match.rect, DormColor, 5, true, geometry);
@@ -375,15 +382,54 @@ bool recognize_normal_layout(
     return true;
 }
 
-bool has_complete_layout(const std::unordered_map<std::string, std::vector<asst::infrast::FacilityInfo>>& facilities)
+struct FacilityLayoutCounts
+{
+    size_t mfg = 0;
+    size_t trade = 0;
+    size_t power = 0;
+    size_t dorm = 0;
+    size_t control = 0;
+    size_t reception = 0;
+    size_t office = 0;
+    size_t processing = 0;
+    size_t training = 0;
+
+    bool operator==(const FacilityLayoutCounts&) const = default;
+
+    size_t production_count() const noexcept { return mfg + trade + power; }
+};
+
+FacilityLayoutCounts
+    count_facilities(const std::unordered_map<std::string, std::vector<asst::infrast::FacilityInfo>>& facilities)
 {
     const auto count = [&](std::string_view name) {
         const auto iter = facilities.find(std::string(name));
         return iter == facilities.end() ? size_t { 0 } : iter->second.size();
     };
-    const size_t left_count = count("Mfg") + count("Trade") + count("Power");
-    return left_count == 9 && count("Mfg") != 0 && count("Trade") != 0 && count("Power") != 0 && count("Dorm") == 4 &&
-           count("Control") == 1 && count("Reception") == 1 && count("Office") == 1;
+    return {
+        .mfg = count("Mfg"),
+        .trade = count("Trade"),
+        .power = count("Power"),
+        .dorm = count("Dorm"),
+        .control = count("Control"),
+        .reception = count("Reception"),
+        .office = count("Office"),
+        .processing = count("Processing"),
+        .training = count("Training"),
+    };
+}
+
+bool is_usable_layout(const FacilityLayoutCounts& counts)
+{
+    const size_t production_count = counts.production_count();
+    return production_count > 0 && production_count <= 9 && counts.dorm <= 4 && counts.control == 1 &&
+           counts.reception <= 1 && counts.office <= 1 && counts.processing <= 1 && counts.training <= 1;
+}
+
+bool is_complete_layout(const FacilityLayoutCounts& counts)
+{
+    return counts.production_count() == 9 && counts.mfg != 0 && counts.trade != 0 && counts.power != 0 &&
+           counts.dorm == 4 && counts.control == 1 && counts.reception == 1 && counts.office == 1;
 }
 } // namespace
 
@@ -447,6 +493,7 @@ bool asst::InfrastInfoTask::_run()
     Log.info("InfrastInfoTask | zoom gesture", zoom_sent ? "sent" : "unsupported");
 
     constexpr int MaxAttempts = 3;
+    std::optional<FacilityLayoutCounts> partial_layout_candidate;
     for (int attempt = 1; attempt <= MaxAttempts; ++attempt) {
         if (need_exit()) {
             return false;
@@ -457,6 +504,7 @@ bool asst::InfrastInfoTask::_run()
         analyzer.set_to_be_analyzed(
             { "Mfg", "Trade", "Power", "Dorm", "Control", "Reception", "Office", "Processing", "Training" });
         if (!analyzer.analyze()) {
+            partial_layout_candidate.reset();
             Log.warn("InfrastInfoTask | no facility matched, attempt", attempt);
             sleep(300);
             continue;
@@ -477,12 +525,21 @@ bool asst::InfrastInfoTask::_run()
             }
         }
 
-        if (!levels_recognized || !has_complete_layout(facilities)) {
+        const auto layout_counts = count_facilities(facilities);
+        if (!levels_recognized || !is_usable_layout(layout_counts)) {
+            partial_layout_candidate.reset();
             Log.warn(
-                "InfrastInfoTask | incomplete facility layout, attempt",
+                "InfrastInfoTask | inconsistent facility layout, attempt",
                 attempt,
                 "view",
                 static_cast<int>(analyzer.get_view_type()));
+            sleep(300);
+            continue;
+        }
+
+        if (!is_complete_layout(layout_counts) && partial_layout_candidate != layout_counts) {
+            partial_layout_candidate = layout_counts;
+            Log.info("InfrastInfoTask | partial facility layout detected, confirming", attempt);
             sleep(300);
             continue;
         }
@@ -506,14 +563,24 @@ bool asst::InfrastInfoTask::_run()
             m_task_data->dormitory_level_sum += dorm.level;
         }
 
-        int left_level_sum = 0;
+        int recognized_level_sum = 0;
         for (const auto& name : { "Mfg", "Trade", "Power", "Dorm" }) {
             for (const auto& facility : m_task_data->facilities[name]) {
-                left_level_sum += facility.level;
+                recognized_level_sum += facility.level;
             }
         }
-        // 控制中枢与右侧满设施按其他站等级情况近似。
-        m_task_data->total_station_level = left_level_sum + static_cast<int>(std::round(left_level_sum * 17.0 / 47.0));
+        constexpr int StationMaxLevel = 3;
+        constexpr int DormMaxLevel = 5;
+        // 控制中枢等级由宿舍数量推导；其他右侧设施按已识别设施的平均升级比例估算。
+        const int recognized_max_level =
+            static_cast<int>(layout_counts.production_count() * StationMaxLevel + layout_counts.dorm * DormMaxLevel);
+        const int unrecognized_right_max_level = static_cast<int>(
+            (layout_counts.reception + layout_counts.office + layout_counts.processing + layout_counts.training) *
+            StationMaxLevel);
+        const int estimated_right_level = static_cast<int>(std::round(
+            recognized_level_sum * static_cast<double>(unrecognized_right_max_level) / recognized_max_level));
+        const int control_level = get_count("Dorm") + 1;
+        m_task_data->total_station_level = recognized_level_sum + estimated_right_level + control_level;
         return true;
     }
 
