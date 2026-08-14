@@ -1280,8 +1280,8 @@
     "FightSeries-Opened": {
         "template": "FightSeries-Indicator.png",
         "roi": [900, 370, 70, 40],
-        "templThreshold": 0.9,
-        "maskRange": [1, 255]
+        "method": "RGBCount",
+        "colorScales": [[0, 255]]
     },
     "FightSeries-Open": {
         "baseTask": "FightSeries-Icon",
