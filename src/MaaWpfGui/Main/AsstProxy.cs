@@ -750,7 +750,7 @@ public class AsstProxy
         // Console.WriteLine(json_str);
         var json = (JObject?)JsonConvert.DeserializeObject(jsonStr ?? string.Empty);
         MaaService.ProcCallbackMsg dlg = ProcMsg;
-        Execute.OnUIThread(
+        _ = Execute.OnUIThreadAsync(
             () => {
                 dlg((AsstMsg)msg, json);
             });
