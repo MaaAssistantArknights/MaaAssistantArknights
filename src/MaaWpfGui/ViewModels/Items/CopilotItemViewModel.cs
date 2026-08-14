@@ -29,13 +29,15 @@ public class CopilotItemViewModel : PropertyChangedBase
     /// <param name="isRaid">是否为突袭关</param>
     /// <param name="copilotId">作业站对应 id，本地作业应为默认值 0</param>
     /// <param name="isChecked">isChecked</param>
-    public CopilotItemViewModel(string name, string filePath, bool isRaid = false, int copilotId = 0, bool isChecked = true)
+    /// <param name="isNavNameOverride">是否覆盖导航识别名</param>
+    public CopilotItemViewModel(string name, string filePath, bool isRaid = false, int copilotId = 0, bool isChecked = true, bool isNavNameOverride = false)
     {
         Name = name;
         FilePath = filePath;
         _isRaid = isRaid;
         CopilotId = copilotId;
         _isChecked = isChecked;
+        IsNavNameOverride = isNavNameOverride;
     }
 
     [System.Text.Json.Serialization.JsonConstructor]
@@ -48,6 +50,8 @@ public class CopilotItemViewModel : PropertyChangedBase
     /// </summary>
     [JsonProperty("name")]
     public string Name { get; set; } = string.Empty;
+
+    public bool IsNavNameOverride { get; set; }
 
     /// <summary>
     /// Gets the original_name.

@@ -93,8 +93,8 @@
     <system:String x:Key="UseGpuForInferenceTip">使用 GPU 推理能以極低的 GPU 佔用顯著降低 CPU 的負擔</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系統預設 GPU</system:String>
-    <system:String x:Key="GpuDeprecatedMessage">目前選擇的推理加速 GPU（{0}）存在相容性問題，可能導致辨識錯誤、錯位或其他異常結果。\n\n建議前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更換其他 GPU。</system:String>
-    <system:String x:Key="GpuDriverOutdatedMessage">目前選擇的推理加速 GPU（{0}）的驅動版本（{1}，發布日期：{2}）距今已超過兩年，可能存在相容性問題。\n\n建議更新顯示卡驅動或前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更換其他 GPU。</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">目前選擇的推理加速 GPU（{0}）存在相容性問題，可能導致辨識錯誤、錯位或其他異常結果。\n建議前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更換其他 GPU。</system:String>
+    <system:String x:Key="GpuDriverOutdatedMessage">目前選擇的推理加速 GPU（{0}）的驅動版本（{1}，發布日期：{2}）距今已超過約 {3} 年，可能存在相容性問題。\n建議更新顯示卡驅動或前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更換其他 GPU。</system:String>
     <system:String x:Key="GpuAllowDeprecated">允許使用不推薦的 GPU</system:String>
     <system:String x:Key="Copy">複製</system:String>
     <!--  Toast 不可用  -->
@@ -203,7 +203,7 @@
     <system:String x:Key="Nox">夜神模擬器</system:String>
     <system:String x:Key="XYAZ">逍遙模擬器</system:String>
     <system:String x:Key="WSA">WSA 舊版本</system:String>
-    <system:String x:Key="PC">PC 端</system:String>
+    <system:String x:Key="PC">明日方舟 PC 端（社群維護）</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">相容模式</system:String>
     <system:String x:Key="SecondResolution">第二解析度</system:String>
@@ -273,9 +273,9 @@
     <system:String x:Key="IS5NewSquad6">花團錦簇分隊</system:String>
     <system:String x:Key="IS5NewSquad7">棋行險著分隊</system:String>
     <system:String x:Key="IS5NewSquad8">歲影回音分隊</system:String>
-    <system:String x:Key="IS5NewSquad9">代理人分隊（不支持）</system:String>
-    <system:String x:Key="IS5NewSquad10">知學分隊（待 DLC II 開放）</system:String>
-    <system:String x:Key="IS5NewSquad11">商賈分隊（待 DLC II 開放）</system:String>
+    <system:String x:Key="IS5NewSquad9">代理人分隊（不支援）</system:String>
+    <system:String x:Key="IS5NewSquad10">知學分隊</system:String>
+    <system:String x:Key="IS5NewSquad11">商賈分隊</system:String>
     <system:String x:Key="SpecialForceSquad">特勤分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
@@ -445,6 +445,7 @@
     <system:String x:Key="MirrorChyanBuildingOta">MirrorChyan 正在為此版本打包 OTA 增量更新檔，將在 10 秒後自動重試</system:String>
     <system:String x:Key="NewVersionNoOtaPackage">偵測到新版本，但無可用的 OTA 增量更新檔案。將下載完整安裝檔案，保留 cache、config、data、debug、achievement（通關截圖）、background（背景圖片）和 MAA.Updater.exe，其餘檔案將移至資源回收桶及 .old，如有需要請手動備份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在準備下載更新檔……</system:String>
+    <system:String x:Key="NewVersionDownloadRetrying">更新檔下載失敗，將在 {0} 秒後重試（第 {1}/{2} 次下載失敗）。</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下載失敗</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">請嘗試手動下載後，將壓縮檔放到目錄下 _(:з」∠)_</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">新版本下載完成</system:String>
@@ -1094,7 +1095,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內 ｢繼承上一支隊伍發回的資料｣ 。</system:String>
     <system:String x:Key="MiniGame@PixelPaint">像素畫自動填色</system:String>
     <system:String x:Key="MiniGame@PixelPaintTip">請先手動進入遊戲內 24×24 像素畫編輯頁，再開始。&#10;中間預覽可拖移/滾輪取景；預設跳過白色。&#10;開始後參數鎖定，進度見右側日誌。</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DropHint">拖入圖片或點下方選圖</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DropHint">拖入圖片、貼上圖片/文字或點下方選圖</system:String>
     <system:String x:Key="MiniGame@PixelPaint@PickImage">選擇圖片</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ResetView">重置取景</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ResetParams">重置參數</system:String>
@@ -1270,8 +1271,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群</system:String>
     <system:String x:Key="ErrorCrashMessageHeader">以上問題導致程式異常關閉。</system:String>
     <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往 ｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
-    <system:String x:Key="ErrorCrashMessageGenerateReport">請使用 ｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 產生錯誤報告，並點擊藍色的 ｢{key=Issue}｣ 連結提交回報。</system:String>
-    <system:String x:Key="ErrorCrashMessageHelpTip">若要尋求協助，請直接傳送產生的  ｢錯誤報告檔案｣ ；請勿傳送此視窗的截圖、錄影、螢幕照片、翻拍影片、手繪圖片或抄寫的內容。</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">請使用 ｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 產生錯誤報告，並點擊藍色的 ｢{key=Issue}｣ 連結提交回報。若程式已退出無法使用該功能，可手動打包 debug、config、cache 資料夾回報。</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">若要尋求協助，請直接傳送產生的  ｢錯誤報告檔案｣ ；請勿傳送此視窗的截圖、錄影、螢幕照片、翻拍影片、手繪圖片或抄寫的內容。上傳至 GitHub 時單一附件不能超過 20 MB，超限請分卷壓縮。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">上次程式崩潰原因</system:String>
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
     <!--  !ErrorView  -->
@@ -1467,16 +1468,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartAsAdminFailed">請手動以管理員身分執行 MAA</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 綁定視窗失敗，請檢查截圖/輸入方式配置</system:String>
     <system:String x:Key="UseAttachWindowTip">使用 Win32 視窗綁定明日方舟 PC 端，而非 ADB 連接模擬器或手機</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">連接 PC 端（實驗性功能，穩定性無法保證）
-由於 MAA Team 開發人手有限，此功能由社群維護，並非由 MAA Team 持續支援，功能與穩定性可能不盡理想，遇到問題時也可能無法第一時間修復。
-如遇到影響使用的問題，建議改用 ADB 連接 Android 模擬器或行動裝置，以獲得更穩定的體驗。
-我們也始終歡迎有能力的開發者參與貢獻並提交 Pull Request，共同完善 PC 端支援。
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">連接明日方舟 PC 端（社群維護）
 
-使用前請確認：
+請注意：
+1. MAA Team 僅提供明日方舟 PC 端的連接功能，維護與問題修復均交由社群，不保證可用性。
+2. 遇到問題或功能不可用時，請在 GitHub 提交 issue，能否得到解決取決於社群開發者是否願意跟進。
+3. QQ 群、影片評論區等其他管道無法解決明日方舟 PC 端的相關問題，請勿在其中詢問。
+
+如非必要，建議優先使用 ADB 連接 Android 模擬器或行動裝置，體驗更穩定。
+
+如需使用，請確認：
 1. 需以系統管理員身分啟動 MAA
 2. 部分截圖方式下，遊戲視窗不可最小化
 3. 明日方舟設定 → 遊戲 → UI 縮放需設為 100%
-4. 遊戲解析度需為 16:9，推薦設定 1280x720 或 1920x1080</system:String>
+4. 在明日方舟設定中調小滑鼠指標比例，以減少對識別區域的遮擋
+5. 遊戲解析度需為 16:9，推薦設定 1280x720 或 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截圖方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">滑鼠輸入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">鍵盤輸入</system:String>

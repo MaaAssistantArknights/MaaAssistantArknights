@@ -28,6 +28,7 @@ if(WITH_EMULATOR_EXTRAS)
 endif()
 
 target_compile_definitions(MaaCore PRIVATE ASST_WITH_EMULATOR_EXTRAS=$<BOOL:${WITH_EMULATOR_EXTRAS}>)
+target_compile_definitions(MaaCore PUBLIC ASST_WITH_EXTRA_CALLERS=$<BOOL:${WITH_EXTRA_CALLERS}>)
 target_compile_definitions(MaaCore PRIVATE ASST_WITH_MAC_SCK=$<BOOL:${WITH_MAC_SCK}>)
 
 target_include_directories(MaaCore PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE .)

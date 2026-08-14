@@ -93,8 +93,8 @@
     <system:String x:Key="UseGpuForInferenceTip">使用 GPU 推理能够以极低的 GPU 占用显著降低 CPU 的负担</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系统默认 GPU</system:String>
-    <system:String x:Key="GpuDeprecatedMessage">当前选择的推理加速 GPU（{0}）存在兼容性问题，可能导致识别错误、错位或其他异常结果。\n\n建议前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更换其他 GPU。</system:String>
-    <system:String x:Key="GpuDriverOutdatedMessage">当前选择的推理加速 GPU（{0}）的驱动版本（{1}，发布日期：{2}）距今已超过两年，可能存在兼容性问题。\n\n建议更新显卡驱动或前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更换其他 GPU。</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">当前选择的推理加速 GPU（{0}）存在兼容性问题，可能导致识别错误、错位或其他异常结果。\n建议前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更换其他 GPU。</system:String>
+    <system:String x:Key="GpuDriverOutdatedMessage">当前选择的推理加速 GPU（{0}）的驱动版本（{1}，发布日期：{2}）距今已超过约 {3} 年，可能存在兼容性问题。\n建议更新显卡驱动或前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更换其他 GPU。</system:String>
     <system:String x:Key="GpuAllowDeprecated">允许使用不推荐的 GPU</system:String>
     <system:String x:Key="Copy">复制</system:String>
     <!--  Toast 不可用  -->
@@ -203,7 +203,7 @@
     <system:String x:Key="Nox">夜神模拟器</system:String>
     <system:String x:Key="XYAZ">逍遥模拟器</system:String>
     <system:String x:Key="WSA">WSA 旧版本</system:String>
-    <system:String x:Key="PC">PC 端</system:String>
+    <system:String x:Key="PC">明日方舟 PC 端（社区维护）</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">兼容模式</system:String>
     <system:String x:Key="SecondResolution">第二分辨率</system:String>
@@ -445,6 +445,7 @@
     <system:String x:Key="MirrorChyanBuildingOta">MirrorChyan 正在为此版本打包 OTA 增量更新包，将在 10 秒后自动重试</system:String>
     <system:String x:Key="NewVersionNoOtaPackage">检测到新版本，但无可用的 OTA 增量更新包。将下载完整包，保留 cache、config、data、debug、achievement（通关截图）、background（背景图）和 MAA.Updater.exe，其余文件将移至回收站及 .old。如有需要请手动备份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在准备下载更新包……</system:String>
+    <system:String x:Key="NewVersionDownloadRetrying">更新包下载失败，将在 {0} 秒后重试（第 {1}/{2} 次下载失败）。</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下载失败</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">请尝试手动下载后，将压缩包放到目录下_(:з」∠)_</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">新版本下载完成</system:String>
@@ -1094,7 +1095,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFrontTip" xml:space="preserve">在选小队界面开始，如有存档须手动删除。&#10;第一次打自己看完把教程关了。&#10;推荐勾选游戏内 ｢继承上一支队伍发回的数据｣</system:String>
     <system:String x:Key="MiniGame@PixelPaint">像素画自动填色</system:String>
     <system:String x:Key="MiniGame@PixelPaintTip" xml:space="preserve">请先手动进入游戏内 24×24 像素画编辑页，再开始。&#10;中间预览可拖移/滚轮取景；默认跳过白色。&#10;开始后参数锁定，进度见右侧日志。</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DropHint">拖入图片或点下方选图</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DropHint">拖入图片、粘贴图片/文字或点下方选图</system:String>
     <system:String x:Key="MiniGame@PixelPaint@PickImage">选择图片</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ResetView">重置取景</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ResetParams">重置参数</system:String>
@@ -1269,8 +1270,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群</system:String>
     <system:String x:Key="ErrorCrashMessageHeader">以上问题导致程序异常退出。</system:String>
     <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往 ｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ 查看日志，了解错误发生的具体原因。</system:String>
-    <system:String x:Key="ErrorCrashMessageGenerateReport">请使用 ｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 生成错误报告，并点击蓝色的 ｢{key=Issue}｣ 链接提交反馈。</system:String>
-    <system:String x:Key="ErrorCrashMessageHelpTip">如果向他人寻求帮助，请发送生成的错误报告文件，而不是发送此窗口的截图、录屏视频、屏幕照片、拍摄的视频、手绘图片或誊抄的画面内容。</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">请使用 ｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 生成错误报告，并点击蓝色的 ｢{key=Issue}｣ 链接提交反馈。若程序已退出无法使用该功能，可手动打包 debug、config、cache 文件夹反馈。</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">如果向他人寻求帮助，请发送生成的错误报告文件，而不是发送此窗口的截图、录屏视频、屏幕照片、拍摄的视频、手绘图片或誊抄的画面内容。上传至 GitHub 时单个附件不能超过 20 MB，超限请分卷压缩。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">上次程序崩溃原因</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
     <!--  !ErrorDialogView  -->
@@ -1466,16 +1467,20 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartAsAdminFailed">请手动以管理员身份运行 MAA</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 绑定窗口失败，请检查截图/输入方式配置</system:String>
     <system:String x:Key="UseAttachWindowTip">使用 Win32 窗口绑定明日方舟 PC 端，而非 ADB 连接模拟器或手机</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">连接 PC 端（实验性）
-由于 MAA Team 开发人手有限，此功能由社区维护，非 MAA Team 持续支持，功能和稳定性可能不尽如人意，遇到问题时也可能无法第一时间修复。
-如遇到影响使用的问题，建议改用 ADB 连接 Android 模拟器或移动设备，获得更稳定的体验。
-我们也始终欢迎有能力的开发者参与贡献提交 Pull Request，共同完善 PC 端支持。
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">连接明日方舟 PC 端（社区维护）
+请注意：
+1. MAA Team 仅提供明日方舟 PC 端的连接功能，维护与问题修复均交由社区，不保证可用性。
+2. 遇到问题或功能不可用时，请在 GitHub 提交 issue，能否得到解决取决于社区开发者是否愿意跟进。
+3. QQ 群、视频评论区等其他渠道无法解决明日方舟 PC 端的相关问题，请勿在其中询问。
 
-使用前请确认：
+如非必要，建议优先使用 ADB 连接 Android 模拟器或手机，体验更稳定。
+
+如需使用，请确认：
 1. 需要以管理员身份启动 MAA
 2. 部分截图方式下，游戏窗口不能最小化
 3. 明日方舟设置 → 游戏 → UI 缩放需设为 100%
-4. 游戏分辨率需为 16:9，推荐设置 1280x720 或 1920x1080</system:String>
+4. 在明日方舟设置中调小鼠标指针比例，以减少对识别区域的遮挡
+5. 游戏分辨率需为 16:9，推荐设置 1280x720 或 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截图方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">鼠标输入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">键盘输入</system:String>

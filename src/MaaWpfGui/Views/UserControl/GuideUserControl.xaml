@@ -193,7 +193,7 @@
                                 <TextBlock
                                     Margin="100,0"
                                     HorizontalAlignment="Center"
-                                    Foreground="Red"
+                                    Foreground="{DynamicResource ErrorLogBrush}"
                                     Text="{DynamicResource UseAttachWindowWarning}"
                                     TextWrapping="Wrap"
                                     Visibility="{c:Binding IsPCConnectConfig}" />
@@ -433,8 +433,8 @@
                                     </ContentControl>
                                 </StackPanel>
 
-                                <!--  截图测试（ADB 模式）  -->
-                                <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding '!IsPCConnectConfig'}">
+                                <!--  截图测试  -->
+                                <StackPanel HorizontalAlignment="Center">
                                     <Button
                                         Height="30"
                                         Margin="5"

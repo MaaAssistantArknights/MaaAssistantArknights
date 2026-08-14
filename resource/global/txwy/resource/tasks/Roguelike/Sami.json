@@ -46,6 +46,9 @@
     "Sami@Roguelike@Collapsal": {
         "text": ["目空", "目空一些", "圖像", "圖像損壞"]
     },
+    "Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig": {
+        "text": ["坍縮範式加深"]
+    },
     "Sami@Roguelike@ContinueClick": {
         "ocrReplace": [
             [".*明凍(土|士)", "昧明凍土"],

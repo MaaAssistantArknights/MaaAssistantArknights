@@ -2422,6 +2422,9 @@ public class ToolboxViewModel : Screen
 
     #region PixelPaint
 
+    /// <summary>像素画支持的图片扩展名，文件对话框过滤器与剪贴板文件判断共用。</summary>
+    private static readonly string[] _pixelPaintImageExtensions = [".png", ".jpg", ".jpeg", ".bmp", ".webp", ".gif"];
+
     private BitmapSource? _pixelPaintSourceImage;
 
     private BitmapSource? _pixelPaintPreview;
@@ -2548,7 +2551,7 @@ public class ToolboxViewModel : Screen
         }
 
         var dialog = new Microsoft.Win32.OpenFileDialog {
-            Filter = "Image|*.png;*.jpg;*.jpeg;*.bmp;*.webp;*.gif|All|*.*",
+            Filter = "Image|" + string.Join(";", _pixelPaintImageExtensions.Select(ext => "*" + ext)) + "|All|*.*",
             CheckFileExists = true,
             Multiselect = false,
         };
@@ -2586,6 +2589,138 @@ public class ToolboxViewModel : Screen
             ? DragDropEffects.Copy
             : DragDropEffects.None;
         e.Handled = true;
+    }
+
+    /// <summary>
+    /// 像素画：响应 Ctrl+V，从剪贴板粘贴。
+    /// 优先剪贴板位图（截图、浏览器 ｢复制图片｣ 等无文件场景），
+    /// 其次已复制的图片文件，最后剪贴板文字——文字会渲染成四角布局图片；
+    /// 加载失败时与文件加载一致地提示。
+    /// </summary>
+    /// <param name="sender">事件源（绑定 KeyDown 的 MiniGame Grid）。</param>
+    /// <param name="e">按键事件数据。</param>
+    public void PixelPaintKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.V || Keyboard.Modifiers != ModifierKeys.Control || !IsPixelPaintSelected || PixelPaintParametersLocked)
+        {
+            return;
+        }
+
+        try
+        {
+            if (Clipboard.ContainsImage() || Clipboard.ContainsData(DataFormats.Dib))
+            {
+                var bmp = GetClipboardImage();
+                if (bmp != null)
+                {
+                    LoadPixelPaintImage(bmp);
+                }
+            }
+            else if (Clipboard.GetFileDropList() is { Count: > 0 } files && files[0] is { } file)
+            {
+                var ext = Path.GetExtension(file).ToLowerInvariant();
+                if (_pixelPaintImageExtensions.Contains(ext))
+                {
+                    LoadPixelPaintImage(file);
+                }
+            }
+            else if (Clipboard.ContainsText())
+            {
+                // 复制的是文字：渲染成四角布局图片（取前 4 个字素）
+                var text = Clipboard.GetText().Trim();
+                if (text.Length > 0)
+                {
+                    LoadPixelPaintImage(PixelPaintHelper.RenderTextToBitmap(text));
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // 剪贴板位图加载异常（如格式不被 Prepare 支持），与文件加载一致地提示
+            _logger.Warning(ex, "Paste pixel paint image failed");
+            PixelPaintStatusText = LocalizationHelper.GetString("MiniGame@PixelPaint@LoadFailed");
+        }
+    }
+
+    /// <summary>
+    /// 从剪贴板取图。优先用 DIB 原始数据自行解码——
+    /// WPF 的 Clipboard.GetImage() 对 DIB 的转换存在通道错乱/尺寸错乱问题，
+    /// 重建 BMP 文件头自行解码可规避该缺陷；失败则回退到 GetImage()。
+    /// </summary>
+    /// <returns>解码后的 BitmapSource；剪贴板无图或解码失败时返回 null。</returns>
+    private static BitmapSource? GetClipboardImage()
+    {
+        try
+        {
+            if (Clipboard.ContainsData(DataFormats.Dib) && Clipboard.GetData(DataFormats.Dib) is Stream dib)
+            {
+                return DecodeDibAsBmp(dib);
+            }
+        }
+        catch
+        {
+            // ignored
+        }
+
+        try
+        {
+            return Clipboard.GetImage();
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// 将剪贴板 DIB（BITMAPINFOHEADER + 调色板 + 像素数据）解码为 BitmapSource：
+    /// 在前面补一个 14 字节的 BITMAPFILEHEADER，拼成完整 BMP 后交给解码器。
+    /// </summary>
+    /// <param name="dib">剪贴板 DIB 数据流（BITMAPINFOHEADER + 调色板 + 像素）。</param>
+    /// <returns>解码后的 BitmapSource；数据非法或过短时返回 null。</returns>
+    private static BitmapSource? DecodeDibAsBmp(Stream dib)
+    {
+        if (dib.Length < 40)
+        {
+            return null;
+        }
+
+        // 读取 BITMAPINFOHEADER 固定前 40 字节，计算像素数据在文件中的偏移
+        var info = new byte[40];
+        dib.Position = 0;
+        dib.ReadExactly(info, 0, info.Length);
+        var biSize = BitConverter.ToInt32(info, 0);
+        var biBitCount = BitConverter.ToInt16(info, 14);
+        var biClrUsed = BitConverter.ToInt32(info, 32);
+        var paletteSize = biBitCount <= 8
+            ? (biClrUsed > 0 ? biClrUsed : 1 << biBitCount) * 4
+            : 0;
+        var offset = 14 + biSize + paletteSize;
+        if (biSize < 40 || offset > dib.Length)
+        {
+            return null;
+        }
+
+        // 构造 BMP 文件头：'BM' 标志、文件总长度、像素数据偏移
+        var header = new byte[14];
+        header[0] = (byte)'B';
+        header[1] = (byte)'M';
+        BitConverter.GetBytes((int)dib.Length + 14).CopyTo(header, 2);
+        BitConverter.GetBytes(offset).CopyTo(header, 10);
+
+        var merged = new MemoryStream();
+        merged.Write(header, 0, header.Length);
+        dib.Position = 0;
+        dib.CopyTo(merged);
+        merged.Position = 0;
+
+        var bmp = new BitmapImage();
+        bmp.BeginInit();
+        bmp.CacheOption = BitmapCacheOption.OnLoad;
+        bmp.StreamSource = merged;
+        bmp.EndInit();
+        bmp.Freeze();
+        return bmp;
     }
 
     public void PixelPaintPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -2700,16 +2835,26 @@ public class ToolboxViewModel : Screen
             bmp.EndInit();
             bmp.Freeze();
 
-            _pixelPaintSourceImage = bmp;
-            _pixelPaintPrepared = PixelPaintHelper.Prepare(bmp, trimEmptyBorder: true);
-            _pixelPaintView = new System.Windows.Rect(0, 0, 1, 1);
-            ReconvertPixelPaint();
+            LoadPixelPaintImage(bmp);
         }
         catch (Exception ex)
         {
             _logger.Warning(ex, "Load pixel paint image failed: {Path}", path);
             PixelPaintStatusText = LocalizationHelper.GetString("MiniGame@PixelPaint@LoadFailed");
         }
+    }
+
+    private void LoadPixelPaintImage(BitmapSource bmp)
+    {
+        if (bmp.CanFreeze)
+        {
+            bmp.Freeze();
+        }
+
+        _pixelPaintSourceImage = bmp;
+        _pixelPaintPrepared = PixelPaintHelper.Prepare(bmp, trimEmptyBorder: true);
+        _pixelPaintView = new System.Windows.Rect(0, 0, 1, 1);
+        ReconvertPixelPaint();
     }
 
     private void ReconvertPixelPaint()

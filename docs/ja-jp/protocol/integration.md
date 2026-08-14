@@ -750,7 +750,7 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 
 - `filename`: 作業 JSON ファイルのパス。相対/絶対パスの両方対応
   <br>
-- `stage_name`: ステージ名。[PRTS.Map](https://map.ark-nights.com)を参照
+- `nav_name_override`: ナビゲーション用のステージ名。可選、未指定または `null` の場合は、作業ファイルから自動的に推定されます
   <br>
 - `is_raid`: 強襲作戦モードに切り替えるかどうか。可選、デフォルト false
   :::  

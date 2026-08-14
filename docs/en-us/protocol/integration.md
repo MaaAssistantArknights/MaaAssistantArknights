@@ -750,7 +750,7 @@ Each object contains:
 
 - `filename`: Path to the job JSON file; both relative and absolute paths are supported
   <br>
-- `stage_name`: Stage name, refer to [PRTS.Map](https://map.ark-nights.com) for details
+- `nav_name_override`: Navigation stage name, optional; if omitted or `null`, automatically inferred from the task file
   <br>
 - `is_raid`: Whether to switch to Challenge Mode (Raid), optional, default false
   :::  

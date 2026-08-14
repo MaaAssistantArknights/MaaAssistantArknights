@@ -168,6 +168,7 @@ public class VersionUpdateDialogViewModel : Screen
     */
 
     private const string MaaUpdateApi = "version/summary.json";
+    private const int UpdatePackageDownloadMaxAttempts = 3;
 
     private JObject? _latestJson;
     private JObject? _assetsObject;
@@ -1165,10 +1166,13 @@ public class VersionUpdateDialogViewModel : Screen
     {
         try
         {
-            return await Instances.HttpService.DownloadFileAsync(
-                    new(url),
-                    assetsObject["name"]!.ToString(),
-                    assetsObject["content_type"]?.ToString())
+            var uri = new Uri(url);
+            return await DownloadUpdatePackageWithRetryAsync(
+                    () => Instances.HttpService.DownloadFileAsync(
+                        uri,
+                        assetsObject["name"]!.ToString(),
+                        assetsObject["content_type"]?.ToString()),
+                    uri)
                 .ConfigureAwait(false);
         }
         catch (Exception)
@@ -1181,14 +1185,52 @@ public class VersionUpdateDialogViewModel : Screen
     {
         try
         {
-            return await Instances.HttpService.DownloadFileAsync(
-                    new(url), filename)
+            var uri = new Uri(url);
+            return await DownloadUpdatePackageWithRetryAsync(
+                    () => Instances.HttpService.DownloadFileAsync(uri, filename),
+                    uri)
                 .ConfigureAwait(false);
         }
         catch (Exception)
         {
             return false;
         }
+    }
+
+    private static async Task<bool> DownloadUpdatePackageWithRetryAsync(Func<Task<bool>> download, Uri uri)
+    {
+        for (var attempt = 1; attempt <= UpdatePackageDownloadMaxAttempts; attempt++)
+        {
+            if (await download().ConfigureAwait(false))
+            {
+                return true;
+            }
+
+            if (attempt < UpdatePackageDownloadMaxAttempts)
+            {
+                var delay = TimeSpan.FromSeconds(attempt);
+                _logger.Warning(
+                    "Update package download failed for {Uri} (attempt {Attempt}/{MaxAttempts}); retrying in {Delay}",
+                    uri.GetLeftPart(UriPartial.Path),
+                    attempt,
+                    UpdatePackageDownloadMaxAttempts,
+                    delay);
+                OutputDownloadProgress(
+                    LocalizationHelper.GetStringFormat(
+                        "NewVersionDownloadRetrying",
+                        delay.TotalSeconds,
+                        attempt,
+                        UpdatePackageDownloadMaxAttempts),
+                    downloading: false);
+                await Task.Delay(delay).ConfigureAwait(false);
+            }
+        }
+
+        _logger.Error(
+            "Update package download finally failed after reaching maximum attempts for {Uri} (max attempts {MaxAttempts})",
+            uri.GetLeftPart(UriPartial.Path),
+            UpdatePackageDownloadMaxAttempts);
+        return false;
     }
 
     public static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1, string? toolTip = null)

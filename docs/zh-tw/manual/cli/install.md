@@ -105,7 +105,7 @@ nix run github:Cryolitia/nur-packages#maa-cli-nightly
 
 對於在 Linux 上使用 Homebrew 的使用者，請參考上述 macOS 的安裝方式。
 
-#### 其他发行版
+#### 其他發行版
 
 請使用 [預編譯執行檔](#預編譯執行檔) 或是 [自行編譯安裝](#編譯安裝)。
 

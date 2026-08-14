@@ -273,6 +273,7 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, const std::vect
 {
     LogTraceFunction;
 
+    click_role_table(battle::Role::Unknown);
     click_role_table(role);
     bool has_error = false;
     int swipe_times = 0;

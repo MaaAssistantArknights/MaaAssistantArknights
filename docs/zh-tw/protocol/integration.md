@@ -750,7 +750,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 - `filename`：作業 json 檔案路徑（相對或絕對路徑均可）。
   <br>
-- `stage_name`：關卡名稱，具體請參閱 [PRTS.Map](https://map.ark-nights.com)
+- `nav_name_override`：導航用關卡名稱，可選；未提供或為 `null` 時會自動從作業檔案推導
   <br>
 - `is_raid`：是否切換為突襲模式，選填，預設為 `false`。
   :::  

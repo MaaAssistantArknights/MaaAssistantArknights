@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Models.EmulatorConnectionExtra;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
@@ -522,7 +523,7 @@ public class EmulatorHelper
         int pid = 0;
         var windowName = new[]
         {
-            "明日方舟",
+            SettingsViewModel.GameSettings.ClientType.ToGameWindowName(),
             "明日方舟 - MuMu模拟器",
             "BlueStacks App Player",
             "BlueStacks",

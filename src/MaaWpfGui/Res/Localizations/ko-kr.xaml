@@ -93,8 +93,8 @@
     <system:String x:Key="UseGpuForInferenceTip">GPU 추론을 사용하면 매우 적은 GPU 점유로 CPU 부담을 크게 줄일 수 있습니다</system:String>
     <system:String x:Key="GpuOptionDisable">미사용</system:String>
     <system:String x:Key="GpuOptionSystemDefault">시스템 기본 GPU</system:String>
-    <system:String x:Key="GpuDeprecatedMessage">현재 선택된 추론 가속 GPU({0})는 호환성 문제가 있어, 인식 오류, 위치 이상 또는 기타 예기치 않은 문제가 발생할 수 있습니다.\n\n｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU로 변경하는 것을 권장합니다.</system:String>
-    <system:String x:Key="GpuDriverOutdatedMessage">현재 선택된 추론 가속 GPU({0})의 드라이버 버전({1}, 릴리스 날짜: {2})이 2년 이상 경과되어 호환성 문제가 발생할 수 있습니다.\n\n그래픽 드라이버를 업데이트하거나 ｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU로 변경하는 것을 권장합니다.</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">현재 선택된 추론 가속 GPU({0})는 호환성 문제가 있어, 인식 오류, 위치 이상 또는 기타 예기치 않은 문제가 발생할 수 있습니다.\n｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU로 변경하는 것을 권장합니다.</system:String>
+    <system:String x:Key="GpuDriverOutdatedMessage">현재 선택된 추론 가속 GPU({0})의 드라이버 버전({1}, 릴리스 날짜: {2})이 {3}년 이상 경과되어 호환성 문제가 발생할 수 있습니다.\n그래픽 드라이버를 업데이트하거나 ｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU로 변경하는 것을 권장합니다.</system:String>
     <system:String x:Key="GpuAllowDeprecated">권장되지 않는 GPU 사용 허용</system:String>
     <system:String x:Key="Copy">복사</system:String>
     <!--  Toast 不可用  -->
@@ -161,17 +161,17 @@
     <system:String x:Key="ClueExchangeUnlocked">단서 교환 시작</system:String>
     <system:String x:Key="InfrastReceptionSendClue">단서 보내기</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">다음 기능들은 {key=Infrast}에서 설정 및 실행해야 합니다</system:String>
-    <system:String x:Key="ContinueTraining">스킬 훈련 완료 시 이어서 훈련 시도</system:String>
+    <system:String x:Key="ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
     <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>
     <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
-    <system:String x:Key="TrainingLevel">스킬 랭크</system:String>
+    <system:String x:Key="TrainingLevel">마스터리 랭크</system:String>
     <system:String x:Key="TrainingTimeLeft">남은 시간</system:String>
     <system:String x:Key="InfrastMode">기반시설 모드</system:String>
     <system:String x:Key="InfrastModeNormal">표준 모드</system:String>
     <system:String x:Key="InfrastModeRotation">일괄 교대</system:String>
     <system:String x:Key="InfrastModeRotationTip">일괄 교대 사용 전에 게임 내에서 {key=Operator} 대열을 수동으로 설정해 주세요</system:String>
-    <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">｢{key=InfrastModeRotation}｣의 교대 로직은 게임 내 기지 우하단의 ｢{key=InfrastModeRotation}｣ 와 완전히 동일합니다.
-현재 근무조에 있는 오퍼레이터 중 한 명이라도 기분 수치가 0이 되면, 전체 조가 다음 근무조로 교체됩니다.
+    <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">｢{key=InfrastModeRotation}｣의 교대 로직은 게임 내 기반시설 우하단의 ｢{key=InfrastModeRotation}｣ 와 완전히 동일합니다.
+현재 근무조에 있는 오퍼레이터 중 한 명이라도 컨디션 수치가 0이 되면, 전체 조가 다음 근무조로 교체됩니다.
 교대 일정을 직접 설정하려면 ｢{key=InfrastModeCustom}｣을 사용하세요.</system:String>
     <system:String x:Key="InfrastModeCustom">커스텀 기반시설</system:String>
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
@@ -185,8 +185,8 @@
     <system:String x:Key="CustomInfrastTimeSchedule">로테이션 시간 ({0})</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">기반시설 구성 인식 실패!</system:String>
     <system:String x:Key="CustomInfrastFileHasPlanNoPeriod">{Key=InfrastModeCustom} 설정 중 일부 계획에만 시간대가 설정되어 있어, 예기치 않은 동작이 발생할 수 있습니다. 교대 시간대를 설정하려면 모든 계획에 시간대를 설정하거나, 그렇지 않으면 모두 비워 두세요.</system:String>
-    <system:String x:Key="CustomInfrastPlanSelectOutOfIndex">사용자 지정 인프라 구성 선택 항목이 인덱스를 초과했습니다.</system:String>
-    <system:String x:Key="CustomInfrastPlanNotFoundByPeriod">사용자 지정 인프라 구성에서 지정된 시간대에 대한 계획을 찾을 수 없습니다.</system:String>
+    <system:String x:Key="CustomInfrastPlanSelectOutOfIndex">사용자 지정 기반시설 구성 선택 항목이 인덱스를 초과했습니다.</system:String>
+    <system:String x:Key="CustomInfrastPlanNotFoundByPeriod">사용자 지정 기반시설 구성에서 지정된 시간대에 대한 계획을 찾을 수 없습니다.</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">기반시설 구성: </system:String>
     <system:String x:Key="CustomInfrastPlan">기반시설 계획</system:String>
     <system:String x:Key="CustomInfrastPlanToolTip">
@@ -203,7 +203,7 @@
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">WSA 레거시 버전</system:String>
-    <system:String x:Key="PC">PC 클라이언트</system:String>
+    <system:String x:Key="PC">명일방주 PC 클라이언트 (커뮤니티 유지보수)</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">호환 모드</system:String>
     <system:String x:Key="SecondResolution">분할 화면</system:String>
@@ -211,11 +211,11 @@
     <system:String x:Key="DormThreshold">{key=Operator} 컨디션 한계점</system:String>
     <system:String x:Key="InfrastThresholdTip">커스텀 교대 근무 변경이 활성화된 경우 이 필드는 자동 채우기 및 {key=Operator} 교체를 사용하는 회의실에만 유효합니다</system:String>
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>
-    <system:String x:Key="RoguelikeStrategyGold">각뿔 투자, 투자 완료 시 자동 종료</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">오리지늄각뿔 투자, 투자 완료 시 자동 종료</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">{key=Operator} 2차 정예화 또는 전기주전자 획득까지 반복</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">희귀 붕괴 패러다임 파밍, 일반 붕괴 패러다임 획득 시 재시작</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">전기주전자 획득 분대</system:String>
-    <system:String x:Key="RoguelikeStrategyMonthlySquad">월간 분대 파밍, 최대한 많은 구역 클리어</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">월간 스쿼드 파밍, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">심층 조사 파밍, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyFindPlaytime">여흥 노드 파밍, 1층 쉐이의 잔식에 진입, 필요한 노드를 찾지 못하면 재시작</system:String>
     <system:String x:Key="RoguelikeFindPlaytimeTarget">목표 여흥 노드</system:String>
@@ -235,16 +235,16 @@
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">최대 3개까지 지원하며 ｢;｣ 로 구분합니다</system:String>
     <system:String x:Key="RoguelikeCollapseList">붕괴 패러다임 목록</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">세미콜론 ｢;｣ 으로 구분, 비워 두면 기본 목록이 사용됩니다.</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ 지원유닛 사용</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeRequireStartingCoreChar">먼저 ｢{key=StartingCoreChar}｣를 입력하세요</system:String>
-    <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원유닛 사용</system:String>
+    <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">{key=AutoRoguelike} 중지 시 전투 종료 대기</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">5스테이지 보스 앞에서 일시정지</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">최대 레벨 달성 시 중지</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">지정 시드로 시작</system:String>
     <!--<system:String x:Key="RoguelikeStartWithSeed">투자 시드 활성화</system:String>-->
-    <system:String x:Key="RoguelikeMonthlySquadAutoIterate">월간 분대 자동 전환</system:String>
-    <system:String x:Key="RoguelikeMonthlySquadCheckComms">월간 분대 통신</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadAutoIterate">월간 스쿼드 자동 전환</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckComms">월간 스쿼드 통신</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">심층 조사 자동 전환</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">일시정지 후 배치 (실험적)</system:String>
     <system:String x:Key="AdbLiteEnabled">ADB Lite 사용 (실험적)</system:String>
@@ -297,7 +297,7 @@
     <system:String x:Key="AlgorithmFinish">연산 종료</system:String>
     <system:String x:Key="AlgorithmBadge">번영의 배지</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">빌드 포인트</system:String>
-    <system:String x:Key="AlgorithmDoneSmeltGold">단조 레드 골드</system:String>
+    <system:String x:Key="AlgorithmDoneSmeltGold">순금 단조</system:String>
     <system:String x:Key="ReclamationPnsModeError">현재 세이브 X 모드를 사용 중입니다. 기존 세이브를 수동으로 삭제한 후 다시 시도해 주세요. 세이브를 유지하려면 모드 전환을 고려하세요.</system:String>
     <system:String x:Key="ReclamationPisModeError">현재 세이브 O 모드는 합성 가능한 도구가 있는 세이브가 필요합니다. 모드 전환을 고려하세요.</system:String>
     <system:String x:Key="NotSwitch">미변경</system:String>
@@ -356,7 +356,7 @@
     <system:String x:Key="UpdateAutoCheck">일정 시간마다 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheckTip">게임 내 00:00 / 18:00 (서버 현지 시간 04:00 / 22:00)</system:String>
     <system:String x:Key="UpdateAutoDownload">업데이트 자동 다운로드</system:String>
-    <system:String x:Key="UpdateAutoDownloadTip" xml:space="preserve">체크 해제 시, 업데이트 감지 시（수동으로 ｢{key=UpdateCheckNow}｣ 실행 포함）자동 다운로드가 중지되고 다운로드 링크가 포함된 시스템 알림만 표시됩니다. 링크에서 업데이트 패키지를 직접 다운로드한 후 MAA에 끌어다 놓아 수동으로 업데이트할 수 있습니다.
+    <system:String x:Key="UpdateAutoDownloadTip" xml:space="preserve">체크 해제 시, 업데이트 감지 시 (수동으로 ｢{key=UpdateCheckNow}｣ 실행 포함) 자동 다운로드가 중지되고 다운로드 링크가 포함된 시스템 알림만 표시됩니다. 링크에서 업데이트 패키지를 직접 다운로드한 후 MAA에 끌어다 놓아 수동으로 업데이트할 수 있습니다.
 시스템 알림이 꺼져 있는 경우 앱 내 알림으로 전환되지만, 앱 내 알림에는 조작 가능한 다운로드 버튼이 제공되지 않습니다.</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">업데이트 패키지 자동 설치</system:String>
     <system:String x:Key="ShowUpdaterConsole">업데이트 중 업데이터 콘솔 출력 표시</system:String>
@@ -409,7 +409,7 @@
 📄 업데이트 설명:
     • {key=UpdateCheckNow}: UI 및 기능 업데이트가 포함됩니다. UI 변경 및 새로운 기능은 모두 {key=UpdateCheckNow}를 통해 제공됩니다
     • {key=ResourceUpdate}: 자동 전투용 신규 스테이지, 드롭 아이콘, 공개모집 태그 등의 리소스 데이터가 포함됩니다
-    • 내비 핫픽스: 자동으로 실행되어 메인 화면 하단의 안내 및 이벤트 스테이지 입구를 업데이트합니다. 성공 시 우측 상단에 “{key=ApiUpdateSuccess}” 메시지가 표시됩니다
+    • 내비 핫픽스: 자동으로 실행되어 메인 화면 하단의 안내 및 이벤트 스테이지 입구를 업데이트합니다. 성공 시 우측 상단에 ｢{key=ApiUpdateSuccess}｣ 메시지가 표시됩니다
 </system:String>
     <system:String x:Key="GlobalSource">글로벌 소스</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub 강제 사용</system:String>
@@ -445,6 +445,7 @@
     <system:String x:Key="MirrorChyanBuildingOta">MirrorChyan이 이 버전에 대한 OTA 증분 업데이트를 빌드 중입니다. 약 10초 후에 자동으로 다시 시도합니다</system:String>
     <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었지만 사용할 수 있는 OTA 증분 업데이트 패키지가 없습니다. 전체 패키지를 다운로드하며, cache, config, data, debug, achievement(클리어 스크린샷), background(배경 이미지), MAA.Updater.exe 는 유지되고 그 외의 파일은 휴지통과 .old 폴더로 이동합니다. 필요하다면 수동으로 백업해 주세요.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">업데이트 패키지 다운로드 준비 중……</system:String>
+    <system:String x:Key="NewVersionDownloadRetrying">업데이트 패키지 다운로드에 실패했습니다. {0}초 후 재시도합니다(다운로드 {1}/{2}회차 실패).</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">업데이트 패키지 다운로드 실패</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIP 파일을 수동으로 다운로드해 폴더 안에 놓아 주세요</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">업데이트 패키지 다운로드 완료</system:String>
@@ -508,7 +509,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
     <system:String x:Key="StartGameLaunchClient">시작 시 클라이언트 실행</system:String>
-    <system:String x:Key="AutoRestartOption">게임 연결이 끊어지면 자동으로 다시 연결</system:String>
+    <system:String x:Key="AutoRestartOption">게임 연결이 끊어질 시 자동 재시작</system:String>
     <system:String x:Key="UseWeeklySchedule">주간 일정 활성화</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">여기서 요일은 게임 내 시간을 기준으로 하며, 실제 시간이 아닙니다. 예를 들어 게임이 4:00에 초기화되면 3:59는 여전히 전날로 계산됩니다.</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다! 저희를 도와주세요! 전문 지식이 없어도 됩니다</system:String>
@@ -577,7 +578,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
 {key=StartingCoreChar}: 위셔델
 
 1. ｢{key=IS4NewSquad3}｣: 전투 회피 전략을 사용하며 클리어를 노리지 않는 빠른 레벨업에 적합해요
-2. ｢{key=IS4NewSquad6}｣를 사용하면 각뿔 투자 효율이 향상되지만, 전략을 ｢각뿔 투자｣로 설정해야 해요
+2. ｢{key=IS4NewSquad6}｣를 사용하면 오리지늄각뿔 투자 효율이 향상되지만, 전략을 ｢오리지늄각뿔 투자｣로 설정해야 해요
 3. 난이도 15 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가해요. 일부 분대에서는 시작 시 6성 오퍼레이터를 모집하지 못해 오류나 실패로 이어질 수 있어요</system:String>
     <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">{key=RoguelikeThemeJieGarden}추천 구성:
 
@@ -585,8 +586,8 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
 {key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
 {key=StartingCoreChar}: 위셔델
 
-1. 전략을 ｢각뿔 투자｣로 설정하고 난이도를 3 이상 또는 ｢MAX｣로, {key=StartingSquad}를 ｢{key=LeaderSquad}｣로 설정하면 지휘 회피 전투 전략이 활성화돼요
-2. 지휘 회피 전투 전략을 사용하면 각뿔 투자 효율이 크게 향상되고, 빠른 레벨업(클리어를 목표로 하지 않음)에도 사용할 수 있지만, 전략을 ｢각뿔 투자｣로 설정해야 해요
+1. 전략을 ｢오리지늄각뿔 투자｣로 설정하고 난이도를 3 이상 또는 ｢MAX｣로, {key=StartingSquad}를 ｢{key=LeaderSquad}｣로 설정하면 지휘 회피 전투 전략이 활성화돼요
+2. 지휘 회피 전투 전략을 사용하면 오리지늄각뿔 투자 효율이 크게 향상되고, 빠른 레벨업(클리어를 목표로 하지 않음)에도 사용할 수 있지만, 전략을 ｢오리지늄각뿔 투자｣로 설정해야 해요
 3. 해금된 최고 난이도가 3 미만이거나 관련 기술을 해금하지 않았다면 지휘 회피 전투 전략을 사용하지 마세요. 오류가 발생할 수 있어요
 4. 난이도 15 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가해요. 일부 분대에서는 시작 시 6성 오퍼레이터를 모집하지 못해 오류나 실패로 이어질 수 있어요</system:String>
     <system:String x:Key="RoguelikeDifficulty">난이도</system:String>
@@ -618,8 +619,8 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="DrGrandetTip">회복제나 순오리지늄 사용 시 이성이 자연 회복될 때까지 기다렸다가 회복되는 즉시 사용합니다.</system:String>
     <system:String x:Key="OnlyOnceADay">하루에 한 번만 실행</system:String>
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
-    <system:String x:Key="CreditFight">크레딧 수급 (지원유닛)</system:String>
-    <system:String x:Key="CreditFightTip" xml:space="preserve">OF-1 스테이지에서 지원유닛을 사용, 클리어하여 30 크레딧을 획득합니다.
+    <system:String x:Key="CreditFight">크레딧 수급 (지원 유닛)</system:String>
+    <system:String x:Key="CreditFightTip" xml:space="preserve">OF-1 스테이지에서 지원 유닛을 사용, 클리어하여 30 크레딧을 획득합니다.
 현재 스테이지가 ｢{key=DefaultStage}｣으로 설정되어 있을 경우, 이 기능은 작동하지 않습니다.
 OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</system:String>
     <system:String x:Key="CreditFightWhenOF-1Warning">｢{key=Fight}｣ 작업의 스테이지 목록에 ｢{key=DefaultStage}｣가 존재하여, ｢{key=Mall}｣ 작업은 OF-1에서 지원 유닛을 사용한 전투를 건너뜁니다. 작업 이름: {0} (순서 {1}), 스테이지 순서 {2}</system:String>
@@ -791,7 +792,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationTheme">생존 연산 테마</system:String>
     <system:String x:Key="ReclamationThemeFire">모래 속의 불</system:String>
     <system:String x:Key="ReclamationThemeTales">사막 이야기</system:String>
-    <system:String x:Key="ReclamationThemeRelaunchAnchor">RELAUNCH ANCHOR</system:String>
+    <system:String x:Key="ReclamationThemeRelaunchAnchor">Relaunch Anchor</system:String>
     <system:String x:Key="ReclamationMode">모드</system:String>
     <system:String x:Key="ReclamationModeRA1">RA-1</system:String>
     <system:String x:Key="ReclamationModeRA4">RA-4</system:String>
@@ -853,7 +854,7 @@ C:\\leidian\\LDPlayer9
 연속 대리 지휘 횟수를 조정하지 않습니다.</system:String>
     <system:String x:Key="StageSelect">스테이지 선택</system:String>
     <system:String x:Key="StageSelect2">대안</system:String>
-    <system:String x:Key="AddStage">스테이지 추가</system:String>
+    <system:String x:Key="AddStage">추가</system:String>
     <system:String x:Key="RemainingSanityStage">남은 이성</system:String>
     <system:String x:Key="NoUse">미사용</system:String>
     <!--<system:String x:Key="Amend">수정</system:String>-->
@@ -873,11 +874,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotUpdateBeforeStart">작업 시작 전 재고 데이터 업데이트</system:String>
     <system:String x:Key="AddPlan">추가</system:String>
     <system:String x:Key="DepotPreset">프리셋</system:String>
-    <system:String x:Key="DepotPresetChip1">저급 칩 (전 직업)</system:String>
-    <system:String x:Key="DepotPresetChip2">고급 칩 세트 (전 직업)</system:String>
+    <system:String x:Key="DepotPresetChip1">칩 (전 직군)</system:String>
+    <system:String x:Key="DepotPresetChip2">칩셋 (전 직군)</system:String>
     <system:String x:Key="DepotPresetLmd">용문폐</system:String>
-    <system:String x:Key="DepotPresetCertificate">구매 증명서 (레드 티켓)</system:String>
-    <system:String x:Key="DepotPresetSkillSummary">스킬 개론 - 3</system:String>
+    <system:String x:Key="DepotPresetCertificate">구매 증명서</system:String>
+    <system:String x:Key="DepotPresetSkillSummary">스킬개론 제3권</system:String>
     <system:String x:Key="CollapseAll">접기</system:String>
     <system:String x:Key="ClearPlans">전체 삭제</system:String>
     <system:String x:Key="ClearPlansConfirm">모든 계획을 삭제하시겠습니까?</system:String>
@@ -889,15 +890,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPlanStageNotOpen">#{0}: 스테이지 '{1}' 가 열려 있지 않습니다</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}: 작업 추가 실패</system:String>
     <system:String x:Key="DepotSkipDuringActivity">이벤트 기간 중 건너뛰기</system:String>
-    <system:String x:Key="DepotSkipDuringResourceCollection">자원 수집 한정 전일 개방 기간 중 건너뛰기</system:String>
+    <system:String x:Key="DepotSkipDuringResourceCollection">「물자 비축」 기간 한정 상시 개방 중 건너뛰기</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">이벤트 진행 중이므로 재고 유지를 건너뛰었습니다.</system:String>
-    <system:String x:Key="DepotPlanSkippedResourceCollection">자원 수집 한정 전일 개방 기간 중이므로 재고 유지를 건너뛰었습니다.</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">「물자 비축」 기간 한정 상시 개방 중이므로 재고 유지를 건너뛰었습니다.</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">재고 데이터 업데이트에 실패했습니다.</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 대리 배수</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">체크 해제 시 1배로 대리; 체크 시 현재 이성으로 가능한 최대 배수로 대리 작전하며, 1회 진행 시 목표 재고 상한을 초과할 수 있습니다.</system:String>
     <system:String x:Key="DepotEnableUseMedicine">「{key=UseSanityPotion}」 체크박스 활성화</system:String>
     <system:String x:Key="DepotEnableUseStone">「{key=UseOriginitePrime}」 체크박스 활성화</system:String>
-    <system:String x:Key="DepotUseExpiringMedicine">48시간 이내 만료되는 이성 포션 사용</system:String>
+    <system:String x:Key="DepotUseExpiringMedicine">48시간 이내 만료되는 이성 회복제 사용</system:String>
     <system:String x:Key="DepotGroupTaskBehavior">작업 동작</system:String>
     <system:String x:Key="DepotGroupStageAndBattle">스테이지 및 전투</system:String>
     <system:String x:Key="DepotGroupSanityRecovery">이성 회복</system:String>
@@ -1095,7 +1096,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내  ｢이전 소대의 데이터 전승받기｣  옵션을 체크하는 것을 권장합니다.</system:String>
     <system:String x:Key="MiniGame@PixelPaint">픽셀 아트 자동 그리기</system:String>
     <system:String x:Key="MiniGame@PixelPaintTip">게임 내 24×24 픽셀 아트 편집 페이지에 직접 들어간 뒤 시작하세요.&#10;미리보기는 드래그/휠로 구도 조정. 기본적으로 흰색은 건너뜀.&#10;시작 후 파라미터는 고정. 진행 상황은 오른쪽 로그 참조.</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@DropHint">이미지를 드래그하거나 아래 버튼으로 선택</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@DropHint">이미지를 드래그하거나 이미지/텍스트를 붙여넣거나 아래 버튼으로 선택</system:String>
     <system:String x:Key="MiniGame@PixelPaint@PickImage">이미지 선택</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ResetView">구도 초기화</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ResetParams">파라미터 초기화</system:String>
@@ -1154,7 +1155,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ThanksForLikeWebJson">감사합니다!\n웹사이트에 댓글을 남길 수도 있으니 의견을 남겨 주세요!</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣ 설정 된 {key=Operator}를 인식할 수 없습니다</system:String>
-    <system:String x:Key="SupportUnitUsage">지원유닛 모집</system:String>
+    <system:String x:Key="SupportUnitUsage">지원 유닛 모집</system:String>
     <system:String x:Key="SupportUnitUsage.Tip">오퍼레이터가 하나 부족한 것은 문제가 없지만, 둘 이상이 부족한 경우 다른 작업의 사용을 권장합니다.</system:String>
     <system:String x:Key="SupportUnitUsage.None">미사용</system:String>
     <system:String x:Key="SupportUnitUsage.WhenNeeded">필요 시</system:String>
@@ -1211,7 +1212,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="StoryCollection">에피소드</system:String>
     <system:String x:Key="SideStory">사이드</system:String>
     <system:String x:Key="MainStageStoryCollectionSideStory">{key=MainStage} / {key=StoryCollection} / {key=SideStory}</system:String>
-    <system:String x:Key="SSS">보안파견</system:String>
+    <system:String x:Key="SSS">보안 파견</system:String>
     <system:String x:Key="ParadoxSimulation">패러독스</system:String>
     <system:String x:Key="OtherActivityStage">기타</system:String>
     <!--  Logs  -->
@@ -1271,8 +1272,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
     <system:String x:Key="ErrorCrashMessageHeader">위 문제로 인해 프로그램이 비정상 종료되었습니다.</system:String>
     <system:String x:Key="ErrorCrashMessageOpenLog">｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ 로 로그를 확인하고 오류가 발생한 구체적인 원인을 확인할 수 있습니다.</system:String>
-    <system:String x:Key="ErrorCrashMessageGenerateReport">｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 을 사용하여 오류 보고서를 생성한 후, 파란색 ｢{key=Issue}｣ 링크를 클릭하여 피드백을 제출해 주세요.</system:String>
-    <system:String x:Key="ErrorCrashMessageHelpTip">다른 사람에게 도움을 요청할 경우, 이 창의 스크린샷, 화면 녹화, 화면 사진, 촬영한 영상, 손그림, 옮겨 적은 내용이 아니라 생성된 오류 보고서 파일을 보내 주세요.</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 을 사용하여 오류 보고서를 생성한 후, 파란색 ｢{key=Issue}｣ 링크를 클릭하여 피드백을 제출해 주세요. 프로그램이 종료된 경우 debug, config, cache 폴더를 수동으로 압축하여 제출해 주세요.</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">다른 사람에게 도움을 요청할 경우, 이 창의 스크린샷, 화면 녹화, 화면 사진, 촬영한 영상, 손그림, 옮겨 적은 내용이 아니라 생성된 오류 보고서 파일을 보내 주세요. GitHub 첨부파일은 1개당 20 MB까지이며, 초과 시 분할 압축해 주세요.</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">마지막 충돌 원인</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
     <!--  !ErrorView  -->
@@ -1324,9 +1325,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReportSkippedForPcClient">PC 클라이언트에서는 커서가 드롭 아이템과 수량 인식을 가릴 수 있습니다. 잘못된 데이터가 데이터 풀을 오염시키지 않도록 이번 보고는 자동으로 건너뜁니다</system:String>
     <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
     <system:String x:Key="MissingOperators">다음 {key=Operator}들이 누락되었습니다:</system:String>
-    <system:String x:Key="RecruitSupportOperator">지원유닛 추가: {0}</system:String>
+    <system:String x:Key="RecruitSupportOperator">지원 유닛 추가: {0}</system:String>
     <system:String x:Key="StageQueue">스테이지 대기열:</system:String>
-    <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
+    <system:String x:Key="UnableToAgent">대리 지휘를 사용할 수 없습니다</system:String>
     <system:String x:Key="MissionStart">작전 개시</system:String>
     <system:String x:Key="MissionStart.FightTask">작전 개시 {0}회 (-{1} 이성)</system:String>
     <system:String x:Key="UnitTime">회</system:String>
@@ -1336,7 +1337,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}  </system:String>
     <system:String x:Key="MedicineUsed">이성 회복제를 사용했습니다</system:String>
     <system:String x:Key="ExpiringMedicineUsed">{0}시간 이내 만료되는 이성 회복제를 사용했습니다</system:String>
-    <system:String x:Key="UseMedicine.MedicineInfo">의약품: {0}, 재고: {1}</system:String>
+    <system:String x:Key="UseMedicine.MedicineInfo">약품: {0}, 재고: {1}</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
     <system:String x:Key="ActingCommandError">대리 지휘 오류 발생</system:String>
     <system:String x:Key="FightMissionFailedAndStop">대리 지휘 실패 횟수 초과로 작업을 중단합니다</system:String>
@@ -1356,7 +1357,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GameDropNoRestart">게임 연결 끊김, 재연결 안 함 (작업 중단)</system:String>
     <system:String x:Key="RoguelikeGamePass">{key=AutoRoguelike} 클리어!</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">특별 상품을 구매했습니다!</system:String>
-    <system:String x:Key="MonthlySquadCompleted">월간 소대 보상을 모두 획득했습니다!</system:String>
+    <system:String x:Key="MonthlySquadCompleted">월간 스쿼드 보상을 모두 획득했습니다!</system:String>
     <system:String x:Key="DeepExplorationCompleted">심층 조사 보상을 모두 획득했습니다!</system:String>
     <system:String x:Key="DeepExplorationNotUnlockedComplain">심층 조사가 해금되지 않았습니다</system:String>
     <system:String x:Key="SSSGamePass">보안 파견 클리어!</system:String>
@@ -1450,8 +1451,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CheckIfStartOver">재시작 여부 확인</system:String>
     <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0}은 {1} 스킬을 지원하지 않으므로, 스킬이 선택되지 않음</system:String>
-    <system:String x:Key="Copilot.EliteEmpty">{0} 엘리트 레벨 요구 사항이 설정되지 않았지만, 다른 속성에 대한 요구 사항은 엘리트 {1}입니다. 이 값은 자동으로 채워졌습니다.</system:String>
-    <system:String x:Key="Copilot.EliteAjust">{0} 엘리트 {1}을 요구하도록 설정되었지만, 다른 속성에 대한 요구 사항은 엘리트 {2}입니다. 이 값은 자동으로 조정되었습니다.</system:String>
+    <system:String x:Key="Copilot.EliteEmpty">{0} 정예화 등급 요구 사항이 설정되지 않았지만, 다른 속성에 대한 요구 사항은 정예화 {1}입니다. 이 값은 자동으로 채워졌습니다.</system:String>
+    <system:String x:Key="Copilot.EliteAjust">{0} 정예화 {1}을 요구하도록 설정되었지만, 다른 속성에 대한 요구 사항은 정예화 {2}입니다. 이 값은 자동으로 조정되었습니다.</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToReconnectByAdb">재접속을 시도하고 있습니다</system:String>
@@ -1468,16 +1469,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RestartAsAdminFailed">MAA를 관리자 권한으로 직접 실행해 주세요.</system:String>
     <system:String x:Key="AttachWindowFailed">AttachWindow 연결에 실패했습니다. 스크린샷/입력 방법 설정을 확인하세요</system:String>
     <system:String x:Key="UseAttachWindowTip">에뮬레이터나 휴대폰용 ADB 연결 대신 명일방주 PC 클라이언트에 Win32 창 바인딩을 사용합니다</system:String>
-    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">PC 연결 (실험적 기능이며 안정성은 보장되지 않습니다)
-MAA Team의 개발 여력이 제한되어 있어 이 기능은 커뮤니티에서 유지보수하고 있으며, MAA Team이 지속적으로 지원하는 기능은 아닙니다. 기능이나 안정성이 기대에 못 미칠 수 있고, 문제가 발생해도 빠르게 수정되지 않을 수 있습니다.
-사용에 지장을 주는 문제가 있다면, 더 안정적인 사용을 위해 ADB 모드로 Android 에뮬레이터 또는 모바일 기기에 연결하는 것을 권장합니다.
-또한 PC 지원 개선에 기여할 수 있는 개발자의 Pull Request는 언제나 환영합니다.
+    <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">명일방주 PC 연결 (커뮤니티 유지보수)
 
-사용 전 확인 사항:
+주의 사항:
+1. MAA Team은 명일방주 PC 클라이언트의 연결 기능만 제공하며, 유지보수 및 문제 수정은 커뮤니티에 맡겨져 있어 가용성을 보장하지 않습니다.
+2. 문제가 발생하거나 기능을 사용할 수 없는 경우, GitHub에 issue를 등록해 주세요. 해결 여부는 커뮤니티 개발자가 자발적으로 참여하느냐에 달려 있습니다.
+3. QQ 그룹, 영상 댓글란 등 다른 채널에서는 명일방주 PC 연결 관련 문제를 해결할 수 없으므로, 해당 채널에서 문의하지 마세요.
+
+반드시 필요한 것이 아니라면, 더 안정적인 경험을 위해 ADB로 Android 에뮬레이터 또는 모바일 기기에 연결하는 것을 권장합니다.
+
+사용이 필요한 경우, 다음을 확인해 주세요:
 1. MAA를 관리자 권한으로 실행해야 합니다
 2. 일부 스크린샷 방식에서는 게임 창을 최소화할 수 없습니다
 3. 명일방주 설정 → 게임 → UI 배율을 100%로 설정해야 합니다
-4. 게임 해상도는 16:9이어야 하며, 권장 설정: 1280x720 또는 1920x1080</system:String>
+4. 명일방주 설정에서 마우스 포인터 배율을 줄여 인식 영역 가림을 줄여 주세요
+5. 게임 해상도는 16:9이어야 하며, 권장 설정: 1280x720 또는 1920x1080</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
@@ -1551,7 +1557,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA 정식 버전에는 디버그 모드가 없습니다. 실행 중에 디버그 옵션이 표시되면 소프트웨어를 즉시 닫고 클릭하지 말고 가까운 MAA 개발자에게 문의하세요.\n
 2. 기반시설 교대는 자동으로 진행됩니다. {key=Operator}가 72시간 이상 연속으로 작업하는 경우 수동으로 교대를 조정하고 시스템 시간이 올바른지 확인하세요.\n
-3. 공개 모집 태그는 변경되지 않습니다. 카운트다운이 끝나기 전에 태그가 변경된 것을 발견하면 모집을 계속하지 말고 MAA를 다시 시작한 후 작업하세요.\n
+3. 공개모집 태그는 변경되지 않습니다. 카운트다운이 끝나기 전에 태그가 변경된 것을 발견하면 모집을 계속하지 말고 MAA를 다시 시작한 후 작업하세요.\n
 4. MAA는 친구 요청을 보내지 않습니다. ｢MAA_System｣ 으로부터 친구 요청을 받으면 수락하지 말고 해당 계정을 삭제하세요.\n
 5. 통합 전략 지원은 제안만 제공합니다. 게임이 존재하지 않는 옵션을 자동으로 선택한 경우 강제로 종료하고 클라이언트를 다시 시작하세요.\n
 6. MAA의 로그 파일에는 깨진 문자가 포함되어 있지 않아야 합니다. ｢ERROR: 데이터 분석 실패｣ 외의 오류 정보가 로그에 표시되면 로그를 삭제하고 소프트웨어를 다시 설치하세요.\n
@@ -1634,39 +1640,39 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
 
 참고: 초기 추가 아이템 휴대 관련 기술을 해제한 경우, 기지 내에서 초기 추가 아이템을 휴대하게 하는 시설(식품 공급소, 음료 공급소, 축사 등)을 철거하세요
 
-작업 흐름：정경세작, 건설, 자원 납품, 결제를 자동 실행</system:String>
+작업 흐름: 정경세작, 건설, 자원 납품, 결제를 자동 실행</system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">
 수익 참고: 회당 약 417 토큰 + 통괄 포인트, 소요 시간 약 1분 40초
 
-오퍼레이터 요구 사항: 비샤델 (서포트 사용 가능)
+오퍼레이터 요구 사항: 위셔델 (지원 유닛 사용 가능)
 
 사전 조건:
 1. 메인 스토리를 진행하여 RA-4를 클리어한 상태로 만듭니다.
 2. "전략 계획 경영"을 해금합니다.
-3. 자신이 비샤델을 보유한 경우, 수동으로 스테이지를 열고 한 번 편성합니다. 비샤델보다 코스트가 낮은 임의의 5명의 오퍼레이터 + 비샤델로 하고, 비샤델을 6번째 슬롯(마지막으로 선택하는 자리)에 배치합니다. 그 후 모집을 확정하고, 이번 건설을 포기한 후 "건설 시작"에서 시작합니다.
-4. 서포트 비샤델을 사용하는 경우, 비샤델이 스나이퍼 서포트 첫 페이지에 있는지 확인합니다(친구 고려). 수동으로 스테이지를 열어 비샤델보다 코스트가 낮은 임의의 5명의 오퍼레이터를 편성하고, 6번째 슬롯에 서포트 비샤델을 선택한 후 모집을 확정합니다. 그 후 이번 건설을 포기하고 "건설 시작"에서 시작합니다 (앞의 5개 슬롯에 오퍼레이터가 있고 6번째는 비어 있는지 확인).
+3. 자신이 위셔델을 보유한 경우, 수동으로 스테이지를 열고 한 번 편성합니다. 위셔델보다 코스트가 낮은 임의의 5명의 오퍼레이터 + 위셔델로 하고, 위셔델을 6번째 슬롯(마지막으로 선택하는 자리)에 배치합니다. 그 후 모집을 확정하고, 이번 건설을 포기한 후 "건설 시작"에서 시작합니다.
+4. 지원 유닛 위셔델을 사용하는 경우, 위셔델이 스나이퍼 지원 첫 페이지에 있는지 확인합니다(친구 고려). 수동으로 스테이지를 열어 위셔델보다 코스트가 낮은 임의의 5명의 오퍼레이터를 편성하고, 6번째 슬롯에 지원 유닛 위셔델을 선택한 후 모집을 확정합니다. 그 후 이번 건설을 포기하고 "건설 시작"에서 시작합니다 (앞의 5개 슬롯에 오퍼레이터가 있고 6번째는 비어 있는지 확인).
 
 맵에서 RA-4를 열고 오른쪽 아래에 "건설 시작"이 나타나면 작업을 시작하여 자동 순환할 수 있습니다
 
 참고: 초기 추가 아이템 휴대 관련 기술을 해제한 경우, 기지 내에서 초기 추가 아이템을 휴대하게 하는 시설(식품 공급소, 음료 공급소, 축사 등)을 철거하세요
 
-작업 흐름: "경영 계획"으로 얻은 적금을 사용하여 지역을 해금하고, 비샤델로 보스 처치 임무를 완료합니다。
+작업 흐름: "경영 계획"으로 얻은 순금을 사용하여 지역을 해금하고, 위셔델로 보스 처치 임무를 완료합니다.
     </system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
 수익 참고: 회당 약 500 토큰 + 통괄 포인트, 소요 시간 약 3분
 
-오퍼레이터 요구 사항: 성령초설(서포트 유닛 사용 가능)
+오퍼레이터 요구 사항: 프라마닉스 더 프레리타 (지원 유닛 사용 가능)
 
 사전 조건:
 1. 메인 스토리에서 RA-15를 클리어해야 합니다
-2. 성령초설을 보유한 경우, 직접 RA-15를 열고 한 번 편성한다. 선봉 5명(육성 요구 없음) + 성령초설을 마지막에 선택하고 편성을 저장한 뒤 스테이지를 나간다
-3. 서포트의 성령초설을 사용하는 경우, 성령초설이 술사 서포트 첫 페이지에 있는지 확인한다 (친구 설정 권장)
+2. 프라마닉스 더 프레리타를 보유한 경우, 직접 RA-15를 열고 한 번 편성합니다. 뱅가드 5명(육성 요구 없음) + 프라마닉스 더 프레리타를 마지막에 선택하고 편성을 저장한 뒤 스테이지를 나갑니다
+3. 지원 유닛 프라마닉스 더 프레리타를 사용하는 경우, 프라마닉스 더 프레리타가 캐스터 지원 첫 페이지에 있는지 확인합니다 (친구 설정 권장)
 
 맵에서 RA-15를 열고 오른쪽 아래에 "건설 시작"이 나타나면 작업을 시작하여 자동 순환할 수 있습니다
 
 참고: 초기 추가 아이템 휴대 관련 기술을 해제한 경우, 기지 내에서 초기 추가 아이템을 휴대하게 하는 시설(식품 공급소, 음료 공급소, 축사 등)을 철거하세요
 
-작업 흐름： 서포트 오퍼레이터를 사용하여 60킬 미션을 자동 실행
+작업 흐름: 지원 오퍼레이터를 사용하여 60킬 미션을 자동 실행
     </system:String>
     <system:String x:Key="ReclamationTipFire">이 이벤트는 종료되어 사용할 수 없습니다</system:String>
     <system:String x:Key="ReclamationTipTales" xml:space="preserve">
@@ -2017,9 +2023,9 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.LogSupervisor.Description">MAA의 로그를 지켜보면 자동 전투 성공률이 효과적으로 향상된다고 합니다.</system:String>
     <system:String x:Key="Achievement.LogSupervisor.Conditions">로그 플로팅 창을 열고 작업을 1회 완료</system:String>
 
-    <system:String x:Key="Achievement.RecruitGambler.Title">공개 모집 도박꾼</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Title">공개모집 도박꾼</system:String>
     <system:String x:Key="Achievement.RecruitGambler.Description">한 번 해보자, 자전거가 오토바이가 된다.</system:String>
-    <system:String x:Key="Achievement.RecruitGambler.Conditions">공개 모집에서 태그를 50회 새로고침</system:String>
+    <system:String x:Key="Achievement.RecruitGambler.Conditions">공개모집에서 태그를 50회 새로고침</system:String>
 
     <system:String x:Key="Achievement.ClueCollector.Title">단서 수집가</system:String>
     <system:String x:Key="Achievement.ClueCollector.Description">로도스 아일랜드 사교계의 꽃.</system:String>
@@ -2063,11 +2069,11 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
 
     <system:String x:Key="Achievement.HrSpecialist.Title">인사부 전문가</system:String>
     <system:String x:Key="Achievement.HrSpecialist.Description">왜 다 예비 행동팀이에요!</system:String>
-    <system:String x:Key="Achievement.HrSpecialist.Conditions">단일 공개 모집 작업에서 연속 10회 모집</system:String>
+    <system:String x:Key="Achievement.HrSpecialist.Conditions">단일 공개모집 작업에서 연속 10회 모집</system:String>
 
     <system:String x:Key="Achievement.HrSeniorSpecialist.Title">인사부 고급 전문가</system:String>
     <system:String x:Key="Achievement.HrSeniorSpecialist.Description">고급 오퍼레이터 태그는 어디 있나요? 어디 있나요?🎶</system:String>
-    <system:String x:Key="Achievement.HrSeniorSpecialist.Conditions">단일 공개 모집 작업에서 연속 20회 모집</system:String>
+    <system:String x:Key="Achievement.HrSeniorSpecialist.Conditions">단일 공개모집 작업에서 연속 20회 모집</system:String>
 
     <system:String x:Key="Achievement.WarehouseKeeper.Title">저는 창고 관리원이에요!</system:String>
     <system:String x:Key="Achievement.WarehouseKeeper.Description">MAA가 MAA를 찾았어요!</system:String>
@@ -2173,7 +2179,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.MasterDirector.Description">이건 전부 직접 배치해야 직성이 풀리죠.</system:String>
     <system:String x:Key="Achievement.MasterDirector.Conditions">모든 작업 유형을 최소 1회씩 수동으로 추가</system:String>
 
-    <system:String x:Key="Achievement.PrivateDormManager.Title">개인 기숙사 관리자</system:String>
+    <system:String x:Key="Achievement.PrivateDormManager.Title">개인 숙소 관리자</system:String>
     <system:String x:Key="Achievement.PrivateDormManager.Description">당연히 스케줄표는 자기 자신의 것을 써야죠.</system:String>
     <system:String x:Key="Achievement.PrivateDormManager.Conditions">｢{key=InfrastModeCustom}｣를 1회 성공적으로 불러오기</system:String>
 
