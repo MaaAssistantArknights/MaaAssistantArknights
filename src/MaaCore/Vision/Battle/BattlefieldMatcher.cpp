@@ -10,6 +10,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/BestMatcher.h"
 #include "Vision/Matcher.h"
+#include "Vision/Miscellaneous/PixelAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 #include "Vision/TemplDetOCRer.h"
@@ -59,6 +60,14 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
         if (result.costs.status == MatchStatus::Invalid) {
             return std::nullopt;
         }
+    }
+
+    if (m_object_of_interest.cost_regeneration) {
+        result.cost_regeneration = cost_regeneration_analyze();
+    }
+
+    if (m_object_of_interest.mechanism_regeneration) {
+        result.mechanism_regeneration = mechanism_regeneration_analyze();
     }
 
     // 识别的不准，暂时不用了
@@ -438,6 +447,54 @@ bool asst::BattlefieldMatcher::hit_costs_cache() const
     // _5->_6 的分数最高, 0.85上下
     const double threshold = static_cast<double>(task->special_params[0]) / 100;
     return mark > threshold;
+}
+
+BattlefieldMatcher::MatchResult<int> BattlefieldMatcher::cost_regeneration_analyze() const
+{
+    static const MatchTaskPtr cost_regeneration_task_ptr = Task.get<MatchTaskInfo>("BattleCostRegenerationBar");
+    static const std::pair<int,int> cost_regeneration_color_scales =
+        std::get<std::pair<int,int>>(cost_regeneration_task_ptr->color_scales[0]);
+    PixelAnalyzer analyzer(m_image);
+    analyzer.set_roi(cost_regeneration_task_ptr->roi);
+    analyzer.set_gray_lb(cost_regeneration_color_scales.first);
+    analyzer.set_gray_ub(cost_regeneration_color_scales.second);
+    if (!analyzer.analyze()) {
+        return { .value = 0, .status = MatchStatus::Success };
+    }
+    int max_x = std::ranges::max(analyzer.get_result(), {}, &Point::x).x;
+    return { .value = max_x, .status = MatchStatus::Success };
+}
+
+BattlefieldMatcher::MatchResult<int> BattlefieldMatcher::mechanism_regeneration_analyze() const
+{
+    static const MatchTaskPtr mechanism_regeneration_task_ptr =
+        Task.get<MatchTaskInfo>("BattleMechanismRegenerationBar");
+    static const std::pair<std::array<int,3>, std::array<int,3>> mechanism_regeneration_color_scales_light =
+        std::get<std::pair<std::array<int,3>, std::array<int,3>>>(mechanism_regeneration_task_ptr->color_scales[0]);
+    static const std::pair<std::array<int,3>, std::array<int,3>> mechanism_regeneration_color_scales_dark =
+        std::get<std::pair<std::array<int,3>, std::array<int,3>>>(mechanism_regeneration_task_ptr->color_scales[1]);
+
+    int max_x = 0;
+
+    PixelAnalyzer analyzer_light(m_image);
+    analyzer_light.set_roi(mechanism_regeneration_task_ptr->roi);
+    analyzer_light.set_filter(PixelAnalyzer::Filter::RGB);
+    analyzer_light.set_lb(mechanism_regeneration_color_scales_light.first);
+    analyzer_light.set_ub(mechanism_regeneration_color_scales_light.second);
+    if (analyzer_light.analyze()) {
+        max_x = std::ranges::max(analyzer_light.get_result(), {}, &Point::x).x;
+    }
+
+    PixelAnalyzer analyzer_dark(m_image);
+    analyzer_dark.set_roi(mechanism_regeneration_task_ptr->roi);
+    analyzer_dark.set_filter(PixelAnalyzer::Filter::RGB);
+    analyzer_dark.set_lb(mechanism_regeneration_color_scales_dark.first);
+    analyzer_dark.set_ub(mechanism_regeneration_color_scales_dark.second);
+    if (analyzer_dark.analyze()) {
+        max_x = std::max(max_x, std::ranges::max(analyzer_dark.get_result(), {}, &Point::x).x);
+    }
+
+    return { .value = max_x, .status = MatchStatus::Success };
 }
 
 bool BattlefieldMatcher::pause_button_analyze() const

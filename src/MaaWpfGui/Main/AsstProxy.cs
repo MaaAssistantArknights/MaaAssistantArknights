@@ -2216,6 +2216,28 @@ public class AsstProxy
 
             case "CopilotAction":
                 {
+                    var cost_regenerated = subTaskDetails!["cost_regenerated"]?.ToString();
+                    var cost_regeneration = subTaskDetails!["cost_regeneration"]?.ToString();
+                    var cost_regeneration_delta = subTaskDetails!["cost_regeneration_delta"]?.ToString();
+                    Instances.CopilotViewModel.AddLog(
+                        string.Format(
+                            LocalizationHelper.GetString("CostRegeneration"),
+                            cost_regenerated,
+                            cost_regeneration,
+                            cost_regeneration_delta)
+                        ),
+                        UiLogColor.Message);
+
+                    var mechanism_regenerated = subTaskDetails!["mechanism_regenerated"]?.ToString();
+                    var mechanism_regeneration = subTaskDetails!["mechanism_regeneration"]?.ToString();
+                    Instances.CopilotViewModel.AddLog(
+                        string.Format(
+                            LocalizationHelper.GetString("MechanismRegeneration"),
+                            mechanism_regenerated,
+                            mechanism_regeneration
+                        ),
+                        UiLogColor.Message);
+
                     var doc = subTaskDetails!["doc"]?.ToString();
                     if (!string.IsNullOrEmpty(doc))
                     {

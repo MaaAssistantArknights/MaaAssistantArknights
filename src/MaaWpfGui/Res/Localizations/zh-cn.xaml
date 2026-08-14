@@ -1435,6 +1435,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationOperUnavailable.Module">所需模组未解锁</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加自定{key=Operator}名称无效: {0}，请检查拼写</system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
+    <system:String x:Key="CostRegeneration">当前费用回复: {0} ({1}/120); Delta: {2}</system:String>
+    <system:String x:Key="MechanismRegeneration">当前地图机制回复: {0} ({1}/556)</system:String>
     <system:String x:Key="ElapsedTime">当前计时器: {0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>
     <system:String x:Key="UseSkill">使用技能</system:String>

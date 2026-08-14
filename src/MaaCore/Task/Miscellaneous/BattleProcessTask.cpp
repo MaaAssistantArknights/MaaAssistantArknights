@@ -41,16 +41,37 @@ bool asst::BattleProcessTask::_run()
         return false;
     }
 
+    // 若第一个行动是暂停，则设置 m_need_pause_on_start
+    size_t action_size = get_combat_data().actions.size();
+    if (action_size > 0) {
+        const auto& init_action = get_combat_data().actions.at(0);
+        if (init_action.type == ActionType::Pause && init_action.kills == 0 && init_action.cost_changes == 0 &&
+            init_action.costs == 0 && init_action.cost_regenerated == 0 && init_action.cost_regeneration == 0 &&
+            init_action.cost_regeneration_delta == 0 &&
+            init_action.mechanism_regenerated == 0 && init_action.mechanism_regeneration == 0 &&
+            init_action.cooling == -1 && init_action.elapsed_time == 0) {
+            m_need_pause_on_start = true;
+        }
+    }
+
     if (!update_deployment(true)) {
         Log.error("update deployment failed");
         return false;
     }
 
+    update_cost_regeneration(ctrler()->get_image());
+    update_mechanism_regeneration(ctrler()->get_image());
+
     to_group();
 
-    size_t action_size = get_combat_data().actions.size();
-    for (size_t i = 0; i < action_size && !need_exit() && m_in_battle; ++i) {
+    for (size_t i = m_need_pause_on_start ? 1 : 0; i < action_size && !need_exit() && m_in_battle; ++i) {
         const auto& action = get_combat_data().actions.at(i);
+        if (m_paused) {
+            sleep(500);
+            if (action.type == ActionType::Deploy || action.type == ActionType::BulletTime) {
+                update_deployment();
+            }
+        }
         do_action(action, i);
     }
 
@@ -217,7 +238,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     if (action.pre_delay > 0) {
         sleep_and_do_strategy(action.pre_delay);
-        if (action.type == ActionType::Deploy) {
+        if (action.type == ActionType::Deploy || action.type == ActionType::BulletTime) {
             update_deployment(); // 等待之后画面可能会变化, 更新下干员信息, 但若为非部署动作, 则无需更新
         }
     }
@@ -264,6 +285,18 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         }
         break;
 
+    case ActionType::Pause:
+        if (m_paused) {
+            sleep(m_pause_esc_post_delay);
+        }
+        ctrler()->click(Task.get("BattlePause")->specific_rect);
+        m_paused = !m_paused;
+        if (m_paused) {
+            sleep(m_pause_esc_post_delay);
+        }
+        ret = true;
+        break;
+
     case ActionType::SkillUsage: {
         const auto set_usage = [this](const std::string& name, SkillUsage usage, int times) {
             m_skill_usage[name] = usage;
@@ -301,6 +334,11 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     case ActionType::MoveCamera:
         ret = move_camera(action.distance);
+        break;
+
+    case ActionType::SetCostRegenerationBaseline:
+        update_cost_regeneration(ctrler()->get_image());
+        m_cost_regeneration_baseline = cost_regeneration_delta();
         break;
 
     case ActionType::ResetStopwatch:
@@ -345,14 +383,26 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { ActionType::MoveCamera, "MoveCamera" },
         { ActionType::DrawCard, "DrawCard" },
         { ActionType::CheckIfStartOver, "CheckIfStartOver" },
+        { ActionType::SetCostRegenerationBaseline, "SetCostRegenerationBaseline" },
         { ActionType::ResetStopwatch, "ResetStopwatch" },
+        { ActionType::Pause, "Pause" },
     };
 
+    std::string action_type = ActionNames.at(action.type);
+    if (action_type == "Pause" && m_paused) {
+        action_type = "CancelPause";
+    }
+
     json::value info = basic_info_with_what("CopilotAction");
-    info["details"] |= json::object { { "action", ActionNames.at(action.type) },
+    info["details"] |= json::object { { "action", action_type },
                                       { "target", action.name },
                                       { "doc", action.doc },
                                       { "doc_color", action.doc_color },
+                                      { "cost_regenerated", m_cost_regenerated },
+                                      { "cost_regeneration", m_cost_regeneration },
+                                      { "cost_regeneration_delta", cost_regeneration_delta() },
+                                      { "mechanism_regenerated", m_mechanism_regenerated },
+                                      { "mechanism_regeneration", m_mechanism_regeneration },
                                       { "elapsed_time", elapsed_time() } };
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
@@ -365,12 +415,16 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             image_prev = cv::Mat();
             image = ctrler()->get_image();
             check_in_battle(image);
+            update_cost_regeneration(image);
+            update_mechanism_regeneration(image);
         }
     };
     auto do_strategy_and_update_image = [&]() {
         do_strategic_action(image);
         image_prev = std::move(image);
         image = ctrler()->get_image();
+        update_cost_regeneration(image);
+        update_mechanism_regeneration(image);
     };
 
     if (action.cost_changes != 0) {
@@ -386,6 +440,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
                     break;
                 }
             }
+            if (m_paused) {
+                advance_while_paused();
+            }
             if (!check_in_battle(image)) {
                 return false;
             }
@@ -399,6 +456,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             update_kills(image, image_prev);
             if (m_kills >= action.kills) {
                 break;
+            }
+            if (m_paused) {
+                advance_while_paused();
             }
             if (!check_in_battle(image)) {
                 return false;
@@ -414,6 +474,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             update_cost(image, image_prev);
             if (m_cost >= action.costs) {
                 break;
+            }
+            if (m_paused) {
+                advance_while_paused();
             }
             if (!check_in_battle(image)) {
                 return false;
@@ -434,6 +497,76 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             if (cooling_count == static_cast<size_t>(action.cooling)) {
                 break;
             }
+            if (m_paused) {
+                advance_while_paused();
+            }
+            do_strategy_and_update_image();
+        }
+    }
+
+    // 等待费用回复
+    if (action.cost_regenerated > 0) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            if (m_cost_regenerated >= action.cost_regenerated) {
+                break;
+            }
+            if (m_paused) {
+                advance_while_paused();
+            }
+            do_strategy_and_update_image();
+        }
+    }
+
+    if (action.cost_regeneration > 0) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            if (m_cost_regeneration >= action.cost_regeneration) {
+                break;
+            }
+            if (m_paused) {
+                advance_while_paused();
+            }
+            do_strategy_and_update_image();
+        }
+    }
+
+    if (action.cost_regeneration_delta > 0) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            if (cost_regeneration_delta() >= action.cost_regeneration_delta) {
+                break;
+            }
+            if (m_paused) {
+                advance_while_paused();
+            }
+            do_strategy_and_update_image();
+        }
+    }
+
+    // 等待地图机制回复
+    if (action.mechanism_regenerated > 0) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            if (m_mechanism_regenerated >= action.mechanism_regenerated) {
+                break;
+            }
+            if (m_paused) {
+                advance_while_paused();
+            }
+            do_strategy_and_update_image();
+        }
+    }
+
+    if (action.mechanism_regeneration > 0) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            if (m_mechanism_regeneration >= action.mechanism_regeneration) {
+                break;
+            }
+            if (m_paused) {
+                advance_while_paused();
+            }
             do_strategy_and_update_image();
         }
     }
@@ -445,6 +578,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             while (!need_exit()) {
                 if (elapsed_time() >= action.elapsed_time) {
                     break;
+                }
+                if (m_paused) {
+                    advance_while_paused();
                 }
                 if (!check_in_battle(image)) {
                     return false;
@@ -469,6 +605,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
                     std::ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
                 iter != m_cur_deployment_opers.end() && iter->available) {
                 break;
+            }
+            if (m_paused) {
+                advance_while_paused();
             }
             do_strategy_and_update_image();
         }
@@ -499,6 +638,11 @@ void asst::BattleProcessTask::sleep_and_do_strategy(unsigned millisecond)
 
     cv::Mat image = ctrler()->get_image();
     while (!need_exit() && check_in_battle(image) && std::chrono::steady_clock::now() - start < delay) {
+        if (m_paused) {
+            advance_while_paused();
+        }
+        update_cost_regeneration(image);
+        update_mechanism_regeneration(image);
         do_strategic_action(image);
         std::this_thread::yield();
 

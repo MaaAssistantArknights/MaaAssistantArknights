@@ -204,6 +204,16 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             { "摆完挂机", ActionType::SkillDaemon },
             { "开摆", ActionType::SkillDaemon },
 
+            { "Pause", ActionType::Pause },
+            { "PAUSE", ActionType::Pause },
+            { "pause", ActionType::Pause },
+            { "CancelPause", ActionType::Pause },
+            { "CANCELPAUSE", ActionType::Pause },
+            { "Cancelpause", ActionType::Pause },
+            { "cancelpause", ActionType::Pause },
+            { "暂停", ActionType::Pause },
+            { "取消暂停", ActionType::Pause },
+
             { "MoveCamera", ActionType::MoveCamera },
             { "movecamera", ActionType::MoveCamera },
             { "MOVECAMERA", ActionType::MoveCamera },
@@ -225,6 +235,12 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             { "checkifstartover", ActionType::CheckIfStartOver },
             { "检查重开", ActionType::CheckIfStartOver },
 
+            { "SetCostRegenerationBaseline", ActionType::SetCostRegenerationBaseline },
+            { "SETCOSTREGENERATIONBaseLine", ActionType::SetCostRegenerationBaseline },
+            { "setcostregenerationbaseline", ActionType::SetCostRegenerationBaseline },
+            { "Setcostregenerationbaseline", ActionType::SetCostRegenerationBaseline },
+            { "设置费用回复基准值", ActionType::SetCostRegenerationBaseline },
+
             { "ResetStopwatch", ActionType::ResetStopwatch },
             { "RESETSTOPWATCH", ActionType::ResetStopwatch },
             { "resetstopwatch", ActionType::ResetStopwatch },
@@ -244,6 +260,11 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
         action.kills = action_info.get("kills", 0);
         action.cost_changes = action_info.get("cost_changes", 0);
         action.costs = action_info.get("costs", 0);
+        action.cost_regenerated = action_info.get("cost_regenerated", 0);
+        action.cost_regeneration = action_info.get("cost_regeneration", 0);
+        action.cost_regeneration_delta = action_info.get("cost_regeneration_delta", 0);
+        action.mechanism_regenerated = action_info.get("mechanism_regenerated", 0);
+        action.mechanism_regeneration = action_info.get("mechanism_regeneration", 0);
         action.cooling = action_info.get("cooling", -1);
         action.name = action_info.get("name", std::string());
 

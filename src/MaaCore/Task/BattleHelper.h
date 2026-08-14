@@ -44,6 +44,7 @@ protected:
     bool calc_tiles_info(const std::string& stage_name, double shift_x = 0, double shift_y = 0);
 
     bool pause();
+    bool advance_while_paused();
     bool speed_up();
     bool abandon();
 
@@ -55,6 +56,8 @@ protected:
         bool stop_on_unknown);
     bool update_kills(const cv::Mat& image, const cv::Mat& image_prev = cv::Mat());
     bool update_cost(const cv::Mat& image, const cv::Mat& image_prev = cv::Mat());
+    bool update_cost_regeneration(const cv::Mat& reusable = cv::Mat());
+    bool update_mechanism_regeneration(const cv::Mat& reusable = cv::Mat());
 
     cv::Mat get_top_view(const cv::Mat& cam_img, bool side = true, bool has_multi_stages = false);
 
@@ -99,6 +102,8 @@ protected:
     std::string analyze_detail_page_oper_name(const cv::Mat& image, battle::Role role);
     std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
+
+    int cost_regeneration_delta() const;
     int elapsed_time();
 
     // 注册已部署干员及位置
@@ -113,6 +118,11 @@ protected:
     Point m_skill_button_pos;
     Point m_retreat_button_pos;
     bool m_has_multi_stages = false;
+    int m_pause_on_start_delay = 0;
+    int m_pause_esc_post_delay = 0;
+    int m_pause_pre_delay = 0;
+    int m_pause_post_delay = 0;
+    bool m_need_pause_on_start = false;
     std::unordered_map<std::string, battle::SkillUsage> m_skill_usage;
     std::unordered_map<std::string, int> m_skill_times;
     std::unordered_map<std::string, int> m_skill_error_count;
@@ -126,7 +136,15 @@ protected:
     int m_kills = 0;
     int m_total_kills = 0;
     int m_cost = 0;
+    int m_cost_regenerated = 0;
+    int m_cost_regeneration = 0;
+    int m_cost_regeneration_baseline = 0;
+    int m_mechanism_regenerated = 0;
+    int m_mechanism_regeneration = 0;
+    int m_mechanism_regeneration_raw_prev = -1;
+    bool m_mechanism_regeneration_reversed = false;
     bool m_stopwatch_enabled = false;
+    bool m_paused = false;
     std::chrono::steady_clock::time_point m_stopwatch_start_time;
 
     std::vector<battle::DeploymentOper> m_cur_deployment_opers;
