@@ -685,7 +685,7 @@ public class TaskQueueViewModel : Screen
             // 延迟到所有 LanguageChanged 回调执行完毕后再更新关卡列表
             // 确保 StageManager.RefreshLocalization 已更新 StageInfo 的 Display/Tip
             Application.Current.Dispatcher.InvokeAsync(
-                () => UpdateDatePromptAndStagesLocally(),
+                async () => await UpdateDatePromptAndStagesLocally(),
                 System.Windows.Threading.DispatcherPriority.Loaded);
         };
     }
@@ -793,7 +793,7 @@ public class TaskQueueViewModel : Screen
             }
 
             VersionUpdateSettingsUserControlModel.Instance.RefreshMirrorChyanCdkRemaining();
-            HandleDatePromptUpdate();
+            await HandleDatePromptUpdate();
             HandleCheckForUpdates();
 
             InfrastTask.RefreshInfrastTimeRotationDisplay();
@@ -815,7 +815,7 @@ public class TaskQueueViewModel : Screen
 
     private bool _isUpdatingDatePrompt;
 
-    private void HandleDatePromptUpdate()
+    private async Task HandleDatePromptUpdate()
     {
         if (!NeedToUpdateDatePrompt() || _isUpdatingDatePrompt)
         {
@@ -823,7 +823,7 @@ public class TaskQueueViewModel : Screen
         }
 
         _isUpdatingDatePrompt = true;
-        UpdateDatePromptAndStagesLocally(true);
+        await UpdateDatePromptAndStagesLocally(true);
         Execute.OnUIThread(() => NotifyOfPropertyChange(nameof(ShowDeepSleepIcon)));
 
         var delayTime = CalculateRandomDelay();
@@ -1097,7 +1097,7 @@ public class TaskQueueViewModel : Screen
         }
 
         NeedToUpdateDatePrompt();
-        UpdateDatePromptAndStagesLocally();
+        _ = UpdateDatePromptAndStagesLocally();
 
         if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
         {
@@ -1134,14 +1134,14 @@ public class TaskQueueViewModel : Screen
     /// 更新日期提示和关卡列表
     /// </summary>
     /// <param name="waitStageListUpdated">是否等待关卡列表更新完成</param>
-    public void UpdateDatePromptAndStagesLocally(bool waitStageListUpdated = false)
+    public async Task UpdateDatePromptAndStagesLocally(bool waitStageListUpdated = false)
     {
         UpdateDatePrompt();
         var task = FightTask.UpdateStageList();
         var task2 = DepotMaintainTask.UpdateStageList();
         if (waitStageListUpdated)
         {
-            Task.WaitAll(task, task2);
+            await Task.WhenAll(task, task2);
         }
         ToolboxViewModel.UpdateMiniGameTaskList();
     }
@@ -1153,7 +1153,7 @@ public class TaskQueueViewModel : Screen
     public async Task UpdateDatePromptAndStagesWeb()
     {
         await Instances.StageManager.UpdateStageWeb();
-        UpdateDatePromptAndStagesLocally();
+        await UpdateDatePromptAndStagesLocally();
     }
 
     private DateOnly _lastPromptDate;
@@ -2084,6 +2084,7 @@ public class TaskQueueViewModel : Screen
                     case true:
                         ++count;
                         Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index)?.SetTaskIds(taskIds);
+                        _logger.Information("Appended task: Index {Index}, TaskId(s) {TaskIds}", index, string.Join(",", taskIds));
                         break;
                     case false:
                         taskRet = false;
@@ -2114,7 +2115,10 @@ public class TaskQueueViewModel : Screen
 
         AchievementTrackerHelper.Instance.SetProgress(AchievementIds.TaskChainKing, count);
 
-        taskRet &= Instances.AsstProxy.AsstStart();
+        _logger.Information("All {Count} enabled tasks appended, calling AsstStart", count);
+        bool startRet = Instances.AsstProxy.AsstStart();
+        _logger.Information("AsstStart returned {Ret}", startRet);
+        taskRet &= startRet;
 
         if (taskRet)
         {
