@@ -1277,11 +1277,11 @@
         "text": ["변경"]
     },
     "FightSeries-Opened": {
+        "maskRange": [1, 255],
+        "templThreshold": 0.9,
         "template": "FightSeries-Indicator.png",
         "roi": [940, 190, 80, 380],
-        "method": "Ccoeff",
-        "templThreshold": 0.9,
-        "maskRange": [1, 255]
+        "method": "Ccoeff"
     },
     "FightSeries-Close": {
         "baseTask": "FightSeries-Icon",
