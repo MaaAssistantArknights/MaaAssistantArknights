@@ -16,14 +16,14 @@ namespace MaaWpfGui.Constants.Enums;
 public enum InfrastRoomType
 {
     /// <summary>
-    /// 制造站
-    /// </summary>
-    Mfg,
-
-    /// <summary>
     /// 贸易站
     /// </summary>
     Trade,
+
+    /// <summary>
+    /// 制造站
+    /// </summary>
+    Mfg,
 
     /// <summary>
     /// 控制中心
