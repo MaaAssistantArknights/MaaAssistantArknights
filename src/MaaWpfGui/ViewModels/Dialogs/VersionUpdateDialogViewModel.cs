@@ -725,6 +725,201 @@ public class VersionUpdateDialogViewModel : Screen
             LocalizationHelper.GetString("LocalUpdatePackageImportedTitle"));
     }
 
+    /// <summary>
+    /// 资源完整性修复：重新下载当前渠道的完整包并注册为待应用更新。
+    /// 用户已在启动时的完整性检查弹窗中确认，不做版本新旧判断（允许重装同版本）。
+    /// </summary>
+    /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
+    public async Task<bool> RunIntegrityRepairAsync()
+    {
+        _logger.Information("Starting integrity repair download");
+        OutputDownloadProgress(LocalizationHelper.GetString("ResourceIntegrityRepairDownloading"), downloading: false);
+
+        // 后续需要弹窗询问重启，保持 UI 上下文，不使用 ConfigureAwait(false)
+        string? packagePath = await TryDownloadFullPackageForRepairAsync();
+        if (packagePath is null)
+        {
+            _logger.Error("Integrity repair download failed from all sources");
+            OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("ResourceIntegrityRepairFailed"));
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("ResourceIntegrityRepairFailed"));
+            return false;
+        }
+
+        string arch = IsArm ? "arm64" : "x64";
+
+        // 完整包应用会覆盖安装目录，风险确认与其他完整包更新入口保持一致
+        if (!ConfirmFullPackageUpdate(packagePath))
+        {
+            _logger.Information("Integrity repair full package application canceled by user: {PackagePath}", packagePath);
+            return false;
+        }
+
+        var importResult = PendingUpdateApplier.TryRegisterLocalPackage(
+            packagePath,
+            _curVersion,
+            arch,
+            inspection: null,
+            allowSameVersion: true);
+        if (importResult.Status is not PendingUpdateApplier.LocalPackageImportStatus.FullPackageRegistered
+            and not PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered)
+        {
+            _logger.Error("Integrity repair package rejected: status={Status}, packagePath={PackagePath}", importResult.Status, packagePath);
+            OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("ResourceIntegrityRepairFailed"));
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("ResourceIntegrityRepairFailed"));
+            return false;
+        }
+
+        _logger.Information("Integrity repair package registered: {PackagePath}", packagePath);
+        OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
+        await AskToRestartForImportedPackage();
+        return true;
+    }
+
+    /// <summary>
+    /// 获取当前更新渠道的 MirrorChyan / maaApi 标识（stable / beta / alpha）。
+    /// </summary>
+    /// <returns>渠道标识字符串。</returns>
+    private static string GetUpdateChannel()
+    {
+        return SettingsViewModel.VersionUpdateSettings.VersionType switch {
+            VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta => "beta",
+            VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly => "alpha",
+            _ => "stable",
+        };
+    }
+
+    /// <summary>
+    /// 构造 MirrorChyan 更新查询 URL。
+    /// </summary>
+    /// <param name="cdk">MirrorChyan CDK。</param>
+    /// <param name="currentVersion">当前版本；传 null 时不携带，MirrorChyan 视为全新安装并直接返回完整包。</param>
+    /// <returns>查询 URL。</returns>
+    private string BuildMirrorChyanUpdateUrl(string cdk, string? currentVersion)
+    {
+        string arch = IsArm ? "arm64" : "x64";
+        var spid = HardwareInfoUtility.GetMachineGuid().StableHash();
+        string currentVersionPart = string.IsNullOrEmpty(currentVersion) ? string.Empty : $"current_version={currentVersion}&";
+        return $"{MaaUrls.MirrorChyanAppUpdate}?{currentVersionPart}cdk={cdk}&user_agent=MaaWpfGui&os=win&arch={arch}&channel={GetUpdateChannel()}&sp_id={spid}";
+    }
+
+    private async Task<string?> TryDownloadFullPackageForRepairAsync()
+    {
+        string? path = await TryDownloadMirrorChyanFullPackageForRepairAsync().ConfigureAwait(false);
+        if (path is not null)
+        {
+            return path;
+        }
+
+        return await TryDownloadMaaApiFullPackageForRepairAsync().ConfigureAwait(false);
+    }
+
+    private async Task<string?> TryDownloadMirrorChyanFullPackageForRepairAsync()
+    {
+        var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk.Trim();
+        if (SettingsViewModel.VersionUpdateSettings.UpdateSource != "MirrorChyan" || string.IsNullOrEmpty(cdk))
+        {
+            return null;
+        }
+
+        try
+        {
+            // 修复场景不传当前版本：MirrorChyan 视为全新安装，直接返回完整包，
+            // 避免已是最新版本时拿不到下载地址
+            string url = BuildMirrorChyanUpdateUrl(cdk, currentVersion: null);
+
+            var data = await FetchMirrorChyanJsonAsync(url).ConfigureAwait(false);
+            string? downloadUrl = data?["data"]?["url"]?.ToString();
+            string? versionName = data?["data"]?["version_name"]?.ToString();
+            if (string.IsNullOrEmpty(downloadUrl) || string.IsNullOrEmpty(versionName))
+            {
+                // 交给 maaApi 兜底
+                return null;
+            }
+
+            // 文件名需符合完整包命名规范（MAA-vX.X.X-win-x64.zip），否则注册时的包名校验不通过
+            string packageName = $"MAA-{versionName}-win-{(IsArm ? "arm64" : "x64")}.zip";
+            _logger.Information("Integrity repair: downloading full package {PackageName} from MirrorChyan", packageName);
+            OutputDownloadProgress(LocalizationHelper.GetString("ResourceIntegrityRepairDownloading"), downloading: true, globalSource: false);
+            if (!await DownloadFromMirrorChyan(downloadUrl, packageName).ConfigureAwait(false))
+            {
+                return null;
+            }
+
+            return GetPlannedUpdatePackagePath(packageName);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to download full package from MirrorChyan for integrity repair");
+            return null;
+        }
+    }
+
+    private async Task<string?> TryDownloadMaaApiFullPackageForRepairAsync()
+    {
+        try
+        {
+            string versionType = GetUpdateChannel();
+
+            var (_, json) = await Instances.MaaApiService.RequestMaaApiWithCache($"version/{versionType}.json", false).ConfigureAwait(false);
+            var assets = (JArray?)json?["details"]?["assets"];
+            if (assets is null)
+            {
+                return null;
+            }
+
+            JObject? fullPackage = null;
+            foreach (var asset in assets)
+            {
+                string? name = asset["name"]?.ToString().ToLower();
+                if (name is null || (IsArm ^ name.Contains("arm")) || !name.Contains("win") || name.Contains("ota"))
+                {
+                    continue;
+                }
+
+                fullPackage = asset as JObject;
+                break;
+            }
+
+            if (fullPackage is null)
+            {
+                _logger.Error("No full package asset found on maaApi for integrity repair");
+                return null;
+            }
+
+            string packageName = fullPackage["name"]!.ToString();
+            string? rawUrl = fullPackage["browser_download_url"]?.ToString();
+            if (string.IsNullOrEmpty(rawUrl))
+            {
+                return null;
+            }
+
+            var urls = new List<string>();
+            if (fullPackage["mirrors"]?.ToObject<List<string>>() is { } mirrors)
+            {
+                urls.AddRange(mirrors);
+            }
+
+            urls.Add(rawUrl);
+
+            _logger.Information("Integrity repair: downloading full package {PackageName} from maaApi", packageName);
+            OutputDownloadProgress(LocalizationHelper.GetString("ResourceIntegrityRepairDownloading"), downloading: true, globalSource: true);
+            foreach (string url in urls)
+            {
+                if (await DownloadGithubAssets(url, fullPackage).ConfigureAwait(false))
+                {
+                    return GetPlannedUpdatePackagePath(packageName);
+                }
+            }
+
+            return null;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to download full package from maaApi for integrity repair");
+            return null;
+        }
+    }
+
     public static bool ConfirmFullPackageUpdate(string packagePath)
     {
         string baseDir = Path.GetFullPath(PathsHelper.BaseDir);
@@ -836,15 +1031,11 @@ public class VersionUpdateDialogViewModel : Screen
 
         if (json is null)
         {
-            _logger.Error("Failed to get update info from Maa API.");
+            _logger.Error("Failed to get update info from MAA API.");
             return CheckUpdateRetT.FailedToGetInfo;
         }
 
-        string versionType = SettingsViewModel.VersionUpdateSettings.VersionType switch {
-            VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta => "beta",
-            VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly => "alpha",
-            _ => "stable",
-        };
+        string versionType = GetUpdateChannel();
 
         var latestVersion = json[versionType]?["version"]?.ToString();
 
@@ -941,21 +1132,14 @@ public class VersionUpdateDialogViewModel : Screen
         _requiresFullPackageConfirmation = false;
 
         var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk.Trim();
-        var arch = IsArm ? "arm64" : "x64";
-        string channel = SettingsViewModel.VersionUpdateSettings.VersionType switch {
-            VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta => "beta",
-            VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly => "alpha",
-            _ => "stable",
-        };
-        var spid = HardwareInfoUtility.GetMachineGuid().StableHash();
-
-        var url = $"{MaaUrls.MirrorChyanAppUpdate}?current_version={_curVersion}&cdk={cdk}&user_agent=MaaWpfGui&os=win&arch={arch}&channel={channel}&sp_id={spid}";
+        string url = BuildMirrorChyanUpdateUrl(cdk, currentVersion: _curVersion);
 
         var data = await FetchMirrorChyanJsonAsync(url);
         if (data is null)
         {
             _logger.Error("mirrorc failed");
-            _logger.Information("current_version: {CurVersion}, cdk: {Mask}, arch: {Arch}, channel: {Channel}", _curVersion, cdk.Mask(), arch, channel);
+            _logger.Information("current_version: {CurVersion}, cdk: {Mask}, arch: {Arch}, channel: {Channel}",
+                _curVersion, cdk.Mask(), IsArm ? "arm64" : "x64", GetUpdateChannel());
             SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = true;
             return CheckUpdateRetT.NetworkError;
         }
@@ -1016,7 +1200,7 @@ public class VersionUpdateDialogViewModel : Screen
         {
             using var response = await Instances.HttpService.GetAsync(new(url), uriPartial: UriPartial.Path);
             var jsonStr = await response.Content.ReadAsStringAsync();
-            _logger.Information("{JsonStr}", jsonStr);
+            _logger.Information("MirrorChyan response: {JsonStr}", jsonStr);
             try
             {
                 return (JObject?)JsonConvert.DeserializeObject(jsonStr);

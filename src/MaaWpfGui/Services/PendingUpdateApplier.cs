@@ -132,9 +132,10 @@ internal static partial class PendingUpdateApplier
         string packagePath,
         string currentVersion,
         string architecture,
-        PackageInspectionResult? inspection)
+        PackageInspectionResult? inspection,
+        bool allowSameVersion = false)
     {
-        inspection ??= InspectLocalUpdatePackage(packagePath, currentVersion, architecture);
+        inspection ??= InspectLocalUpdatePackage(packagePath, currentVersion, architecture, allowSameVersion);
 
         switch (inspection.Status)
         {
@@ -166,8 +167,9 @@ internal static partial class PendingUpdateApplier
     /// <param name="packagePath">拖入的压缩包路径。</param>
     /// <param name="currentVersion">当前 MAA 版本号（如 v5.10.0）。</param>
     /// <param name="architecture">当前系统架构（如 x64、arm64）。</param>
+    /// <param name="allowSameVersion">允许目标版本与当前版本相同（用于文件完整性修复的重装场景）。</param>
     /// <returns>检测结果，包含状态、源版本（OTA）、目标版本。</returns>
-    public static PackageInspectionResult InspectLocalUpdatePackage(string packagePath, string currentVersion, string architecture)
+    public static PackageInspectionResult InspectLocalUpdatePackage(string packagePath, string currentVersion, string architecture, bool allowSameVersion = false)
     {
         if (!File.Exists(packagePath))
         {
@@ -190,7 +192,8 @@ internal static partial class PendingUpdateApplier
             string targetVersion = fullPackageMatch.Groups["version"].Value;
             string packageArchitecture = fullPackageMatch.Groups["arch"].Value;
             bool architectureMatched = string.Equals(normalizedArchitecture, packageArchitecture, StringComparison.OrdinalIgnoreCase);
-            bool isUpgradeTarget = IsUpgradeTarget(currentVersion, targetVersion);
+            bool isUpgradeTarget = IsUpgradeTarget(currentVersion, targetVersion)
+                || (allowSameVersion && VersionsMatch(currentVersion, targetVersion));
 
             _logger.Information(
                 "Dropped package matched full package pattern: targetVersion={TargetVersion}, packageArchitecture={PackageArchitecture}",

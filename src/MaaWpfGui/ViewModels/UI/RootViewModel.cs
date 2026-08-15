@@ -15,6 +15,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -81,11 +82,49 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             }
         });
 
-        _ = Instances.VersionUpdateDialogViewModel.ShowUpdateOrDownload();
+        _ = StartupIntegrityCheckAndUpdateAsync();
 
         // 主窗口已显示，此时弹窗不会导致 WPF 因无窗口而退出
         Task.Run(ConfigBrokenCheck);
         Task.Run(ToastNotificationCheck);
+    }
+
+    /// <summary>
+    /// 启动时的完整性检查与更新检查。
+    /// 对照 filelist.txt 检查安装文件是否缺失，缺失时弹窗询问是否修复（重新下载完整包）；
+    /// 未缺失或用户选择忽略时走常规更新检查。
+    /// 必须在主窗口显示之后执行，否则弹窗会成为唯一窗口，关闭时触发 WPF 退出。
+    /// </summary>
+    private static async Task StartupIntegrityCheckAndUpdateAsync()
+    {
+        var missingFiles = await Task.Run(ResourceIntegrityChecker.GetMissingFiles);
+        if (missingFiles.Count > 0)
+        {
+            var shownFiles = string.Join(", ", missingFiles.Take(5));
+            if (missingFiles.Count > 5)
+            {
+                shownFiles += ", …";
+            }
+
+            var repairChoice = MessageBoxHelper.Show(
+                LocalizationHelper.GetStringFormat("ResourceIntegrityCheckDesc", missingFiles.Count, shownFiles),
+                LocalizationHelper.GetString("ResourceIntegrityCheckTitle"),
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Error,
+                yes: LocalizationHelper.GetString("ResourceIntegrityRepairYes"),
+                no: LocalizationHelper.GetString("ResourceIntegrityRepairNo"));
+            if (repairChoice == MessageBoxResult.Yes)
+            {
+                // 修复优先于常规更新检查，注册完成后会提示重启
+                _logger.Information("Integrity repair accepted by user, {Count} file(s) missing", missingFiles.Count);
+                await Instances.VersionUpdateDialogViewModel.RunIntegrityRepairAsync();
+                return;
+            }
+
+            _logger.Warning("Integrity repair declined by user, {Count} file(s) missing", missingFiles.Count);
+        }
+
+        await Instances.VersionUpdateDialogViewModel.ShowUpdateOrDownload();
     }
 
     private static void ConfigBrokenCheck()
