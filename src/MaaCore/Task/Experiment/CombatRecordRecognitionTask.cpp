@@ -149,7 +149,7 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
     auto& cb_formation = cb_info["details"]["formation"];
     for (const auto& [name, avatar] : m_formation) {
         std::vector<battle::OperUsage> opers;
-        opers.emplace_back(battle::OperUsage { name, 0, battle::SkillUsage::NotUse });
+        opers.emplace_back(battle::OperUsage { battle::Role::Unknown, name, 0, battle::SkillUsage::NotUse });
         json::object oper_json { { "name", name }, { "skill", 0 }, { "skill_usage", 0 } };
         m_copilot_json["opers"].emplace(std::move(oper_json));
 

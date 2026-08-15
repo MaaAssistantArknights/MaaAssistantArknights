@@ -90,6 +90,23 @@ public:
         return battle::Role::Unknown;
     }
 
+    std::unordered_set<battle::Role> get_roles(const std::string& name) const
+    {
+        std::unordered_set<battle::Role> roles;
+        if (name.empty()) {
+            return roles;
+        }
+        for (const auto& [role, oper_map] : m_chars_by_role) {
+            auto oper_it =
+                std::ranges::find_if(oper_map, [&name](const auto& pair) { return pair.second->name == name; });
+            if (oper_it != oper_map.cend()) {
+                roles.emplace(role);
+                continue;
+            }
+        }
+        return roles;
+    }
+
     int get_rarity(battle::Role role, const std::string& name) const
     {
         if (const auto& oper = find_oper(role, name); oper != nullptr) {

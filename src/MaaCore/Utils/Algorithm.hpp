@@ -21,9 +21,10 @@ enum class CharAllocationStatus
 struct CharAllocationResult
 {
     CharAllocationStatus status { CharAllocationStatus::NoSolution };
-    std::unordered_map<std::string, std::string> allocation;
+    std::unordered_map<battle::OperNameTag, battle::OperNameTag> allocation;
 
-    [[nodiscard]] static CharAllocationResult success(std::unordered_map<std::string, std::string>&& allocation_value)
+    [[nodiscard]] static CharAllocationResult
+        success(std::unordered_map<battle::OperNameTag, battle::OperNameTag>&& allocation_value)
     {
         return { CharAllocationStatus::Success, std::move(allocation_value) };
     }
@@ -58,11 +59,11 @@ struct CharAllocationResult
  *         其余状态表示求解过程中发生溢出或内部错误。
  */
 [[nodiscard]] inline static CharAllocationResult get_char_allocation_for_each_group(
-    const std::unordered_map<std::string, std::vector<std::string>>& group_list,
-    const std::unordered_set<std::string>& char_set)
+    const std::unordered_map<battle::OperNameTag, std::vector<battle::OperNameTag>>& group_list,
+    const std::unordered_set<battle::OperNameTag>& char_set)
 {
     if (group_list.empty()) {
-        return CharAllocationResult::success(std::unordered_map<std::string, std::string> {});
+        return CharAllocationResult::success(std::unordered_map<battle::OperNameTag, battle::OperNameTag> {});
     }
     if (char_set.empty()) {
         return CharAllocationResult::no_solution();
@@ -315,9 +316,9 @@ struct CharAllocationResult
 
     // 建立结点、组、干员与各自 id 的映射关系
     std::vector<CandidateNode> node_id_mapping;
-    std::vector<std::string> group_id_mapping;
-    std::vector<std::string> char_id_mapping;
-    std::unordered_map<std::string, size_t> char_name_mapping;
+    std::vector<battle::OperNameTag> group_id_mapping;
+    std::vector<battle::OperNameTag> char_id_mapping;
+    std::unordered_map<battle::OperNameTag, size_t> char_name_mapping;
 
     node_id_mapping.reserve(candidate_upper_bound);
     group_id_mapping.reserve(group_list.size());
@@ -329,7 +330,7 @@ struct CharAllocationResult
         group_id_mapping.emplace_back(group_name);
 
         bool has_candidate = false;
-        std::unordered_set<std::string> seen_candidates;
+        std::unordered_set<battle::OperNameTag> seen_candidates;
         seen_candidates.reserve(candidates.size());
 
         for (const auto& candidate_name : candidates) {
@@ -408,7 +409,7 @@ struct CharAllocationResult
         return CharAllocationResult::no_solution();
     }
 
-    std::unordered_map<std::string, std::string> return_value;
+    std::unordered_map<battle::OperNameTag, battle::OperNameTag> return_value;
     return_value.reserve(group_num);
 
     for (size_t i = 0; i < dancing_links_model.answer_stack_size; i++) {

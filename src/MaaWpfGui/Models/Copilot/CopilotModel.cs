@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 
@@ -132,7 +133,13 @@ public class CopilotModel : CopilotBase
     public class Oper
     {
         /// <summary>
-        /// Gets or sets 干员名，必选。
+        /// Gets or sets 职业名，可选
+        /// </summary>
+        [JsonProperty("role")]
+        public OperatorRole? Role { get; set; }
+
+        /// <summary>
+        /// Gets or sets 干员名，必选
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; } = string.Empty;
@@ -225,6 +232,12 @@ public class CopilotModel : CopilotBase
         /// </summary>
         [JsonProperty("cooling")]
         public int Cooling { get; set; } = -1;
+
+        /// <summary>
+        /// Gets or sets 职业名，可选
+        /// </summary>
+        [JsonProperty("role")]
+        public OperatorRole? Role { get; set; }
 
         /// <summary>
         /// Gets or sets 干员名 或 群组名， type 为 "部署" 时必选，为 "技能" | "撤退" 时可选。

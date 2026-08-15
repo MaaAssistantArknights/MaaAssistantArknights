@@ -31,6 +31,7 @@ struct CollectionPriorityOffset
 // 干员信息，战斗相关
 struct RoguelikeOperInfo
 {
+    battle::Role role = battle::Role::Unknown;                         // 干员职业
     std::string name;                                                  // 干员名
     std::vector<int> group_id = {};                                    // 干员组 id,允许一个干员存在于多个干员组
     std::unordered_map<int, int> order_in_group;                       // 干员在干员组内的顺序 干员组 id:干员组内顺序
@@ -71,9 +72,12 @@ public:
     virtual ~RoguelikeRecruitConfig() override = default;
 
     const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& oper_name) noexcept;
+    const RoguelikeOperInfo& get_oper_info(const std::string& theme, const battle::OperNameTag& oper_tag) noexcept;
     const RoguelikeGroupInfo& get_group_info(const std::string& theme, const std::string& group_name) noexcept;
     const std::vector<RecruitPriorityOffset> get_team_complete_info(const std::string& theme) const noexcept;
     std::vector<int> get_group_ids_of_oper(const std::string& theme, const std::string& oper_name)
+        const noexcept; // renamed from "get_group_id"
+    std::vector<int> get_group_ids_of_oper(const std::string& theme, const battle::OperNameTag& oper_tag)
         const noexcept; // renamed from "get_group_id"
     const std::vector<std::string> get_group_names(const std::string& theme)
         const noexcept; // 获取该肉鸽内用到的干员组[干员组1,干员组2, ...], renamed from "get_group_info"
@@ -93,7 +97,7 @@ protected:
 
     void clear(const std::string& theme);
 
-    std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeOperInfo>>
+    std::unordered_map<std::string, std::unordered_map<battle::OperNameTag, RoguelikeOperInfo>>
         m_all_opers;   // <theme, <oper_name, oper_info>>
     std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeGroupInfo>>
         m_all_groups;  // <theme, <group_name, group_info>>
