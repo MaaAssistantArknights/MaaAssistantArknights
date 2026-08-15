@@ -3,8 +3,9 @@
 // MAA.exe 本体是自包含发布生成的 apphost 启动器：若用户把 MAA.exe 单独拖出文件夹，
 // 它会在托管代码运行前就退出，报错只写 stderr（双击时无人接收），
 // GUI 里 MaaCore.dll / resource 的检查（ErrorSolutionMoveMaaExeOutOfFolder）执行不到。
-// 这里在进入 .NET 之前检查旁边的安装是否完整（MAA.dll、MaaCore.dll、resource、externals），
-// 缺失时弹出同样的提示文案；完整则加载同目录 hostfxr.dll，按 `dotnet MAA.dll` 相同的方式转发启动。
+// 这里在进入 .NET 之前检查安装是否完整：缺失时（或处于临时目录，如直接双击压缩包内
+// 文件）弹提示；完整则加载同目录 hostfxr.dll，经 hostfxr_main_startupinfo 转发启动，
+// 与 SDK apphost 的调用方式一致，托管侧 Main/GetCommandLineArgs 不会多收参数。
 
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -19,7 +20,8 @@ namespace
 
 // 标题取 ErrorCongratulations（与 GUI 喜报窗口同名），
 // 正文取 src/MaaWpfGui/Res/Localizations/*.xaml 的 ErrorSolutionMoveMaaExeOutOfFolder，
-// 临时目录场景的正文为 stub 自带文案（对应 GUI 侧 UnsupportedInstallLocationError 的场景）
+// 临时目录场景的正文为 stub 自带文案（对应 GUI 侧 UnsupportedInstallLocationError 的场景）。
+// 以上文案与 xaml 逐字同步，由 tools/CheckStubLocalization.py 在 CI 校验。
 struct FatalMessage
 {
     const wchar_t *title;
@@ -90,6 +92,122 @@ FatalMessage GetFatalMessage(const bool running_from_temp)
                   L"entire folder, or create a shortcut for MAA.exe in this folder and then drag the shortcut to "
                   L"another location.",
         };
+    }
+}
+
+// 尽力而为的日志：追加到 debug\apphost-stub.log（UTF-8），任何一步失败都直接放弃
+void AppendDebugLog(const std::wstring &dir, const std::wstring &detail)
+{
+    if (dir.empty())
+    {
+        return;
+    }
+
+    SYSTEMTIME time = {};
+    GetLocalTime(&time);
+    wchar_t line_w[1024] = {};
+    const int len = swprintf_s(
+        line_w,
+        L"[%04u-%02u-%02u %02u:%02u:%02u] %s\r\n",
+        static_cast<unsigned>(time.wYear),
+        static_cast<unsigned>(time.wMonth),
+        static_cast<unsigned>(time.wDay),
+        static_cast<unsigned>(time.wHour),
+        static_cast<unsigned>(time.wMinute),
+        static_cast<unsigned>(time.wSecond),
+        detail.c_str());
+    if (len <= 0)
+    {
+        return;
+    }
+
+    char line_u8[3072] = {};
+    const int u8_len = WideCharToMultiByte(CP_UTF8, 0, line_w, len, line_u8, sizeof(line_u8), nullptr, nullptr);
+    if (u8_len <= 0)
+    {
+        return;
+    }
+
+    const std::wstring debug_dir = dir + L"\\debug";
+    CreateDirectoryW(debug_dir.c_str(), nullptr);
+    HANDLE file = CreateFileW(
+        (debug_dir + L"\\apphost-stub.log").c_str(),
+        FILE_APPEND_DATA,
+        FILE_SHARE_READ,
+        nullptr,
+        OPEN_ALWAYS,
+        FILE_ATTRIBUTE_NORMAL,
+        nullptr);
+    if (file == INVALID_HANDLE_VALUE)
+    {
+        return;
+    }
+    DWORD written = 0;
+    WriteFile(file, line_u8, static_cast<DWORD>(u8_len), &written, nullptr);
+    CloseHandle(file);
+}
+
+HHOOK g_message_box_hook = nullptr;
+HICON g_dialog_small_icon = nullptr;
+HICON g_dialog_big_icon = nullptr;
+
+HICON LoadLogoIcon(const int size)
+{
+    return reinterpret_cast<HICON>(LoadImageW(
+        GetModuleHandleW(nullptr),
+        MAKEINTRESOURCEW(1),
+        IMAGE_ICON,
+        size,
+        size,
+        LR_DEFAULTCOLOR));
+}
+
+// MessageBox 弹出的对话框默认没有标题栏图标，在首次激活时补上资源里的 newlogo（ID 1）。
+// 图标句柄由 ShowFatalError 持有并在弹窗结束后销毁（未用 LR_SHARED，尺寸为自定义值）。
+LRESULT CALLBACK FatalMessageBoxCbtProc(const int code, const WPARAM wParam, const LPARAM lParam)
+{
+    if (code == HCBT_ACTIVATE && g_message_box_hook != nullptr)
+    {
+        const HWND dialog = reinterpret_cast<HWND>(wParam);
+        if (g_dialog_small_icon != nullptr)
+        {
+            SendMessageW(dialog, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(g_dialog_small_icon));
+        }
+        if (g_dialog_big_icon != nullptr)
+        {
+            SendMessageW(dialog, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(g_dialog_big_icon));
+        }
+
+        UnhookWindowsHookEx(g_message_box_hook);
+        g_message_box_hook = nullptr;
+    }
+    return CallNextHookEx(nullptr, code, wParam, lParam);
+}
+
+void ShowFatalError(const std::wstring &dir, const bool running_from_temp, const std::wstring &detail)
+{
+    AppendDebugLog(dir, detail);
+
+    const FatalMessage msg = GetFatalMessage(running_from_temp);
+
+    g_dialog_small_icon = LoadLogoIcon(GetSystemMetrics(SM_CXSMICON));
+    g_dialog_big_icon = LoadLogoIcon(GetSystemMetrics(SM_CXICON));
+    g_message_box_hook = SetWindowsHookExW(WH_CBT, FatalMessageBoxCbtProc, nullptr, GetCurrentThreadId());
+    MessageBoxW(nullptr, msg.text, msg.title, MB_OK | MB_ICONERROR | MB_SETFOREGROUND);
+    if (g_message_box_hook != nullptr)
+    {
+        UnhookWindowsHookEx(g_message_box_hook);
+        g_message_box_hook = nullptr;
+    }
+    if (g_dialog_small_icon != nullptr)
+    {
+        DestroyIcon(g_dialog_small_icon);
+        g_dialog_small_icon = nullptr;
+    }
+    if (g_dialog_big_icon != nullptr)
+    {
+        DestroyIcon(g_dialog_big_icon);
+        g_dialog_big_icon = nullptr;
     }
 }
 
@@ -164,47 +282,6 @@ bool IsRunningFromTempDirectory(const std::wstring &dir)
     return last_sep != std::wstring::npos && HasTempLikeName(dir.substr(0, last_sep));
 }
 
-HHOOK g_message_box_hook = nullptr;
-
-// MessageBox 弹出的对话框默认没有标题栏图标，在首次激活时补上资源里的 newlogo（ID 1）
-LRESULT CALLBACK FatalMessageBoxCbtProc(const int code, const WPARAM wParam, const LPARAM lParam)
-{
-    if (code == HCBT_ACTIVATE && g_message_box_hook != nullptr)
-    {
-        const HWND dialog = reinterpret_cast<HWND>(wParam);
-        const int small = GetSystemMetrics(SM_CXSMICON);
-        const int big = GetSystemMetrics(SM_CXICON);
-        const auto load = [](const int icon_size) {
-            return reinterpret_cast<LPARAM>(LoadImageW(
-                GetModuleHandleW(nullptr),
-                MAKEINTRESOURCEW(1),
-                IMAGE_ICON,
-                icon_size,
-                icon_size,
-                LR_DEFAULTCOLOR | LR_SHARED));
-        };
-        SendMessageW(dialog, WM_SETICON, ICON_SMALL, load(small));
-        SendMessageW(dialog, WM_SETICON, ICON_BIG, load(big));
-
-        UnhookWindowsHookEx(g_message_box_hook);
-        g_message_box_hook = nullptr;
-    }
-    return CallNextHookEx(nullptr, code, wParam, lParam);
-}
-
-void ShowFatalError(const bool running_from_temp)
-{
-    const FatalMessage msg = GetFatalMessage(running_from_temp);
-
-    g_message_box_hook = SetWindowsHookExW(WH_CBT, FatalMessageBoxCbtProc, nullptr, GetCurrentThreadId());
-    MessageBoxW(nullptr, msg.text, msg.title, MB_OK | MB_ICONERROR);
-    if (g_message_box_hook != nullptr)
-    {
-        UnhookWindowsHookEx(g_message_box_hook);
-        g_message_box_hook = nullptr;
-    }
-}
-
 } // namespace
 
 int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
@@ -213,7 +290,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     const DWORD path_len = GetModuleFileNameW(nullptr, self_path.data(), static_cast<DWORD>(self_path.size()));
     if (path_len == 0 || path_len >= self_path.size())
     {
-        ShowFatalError(false);
+        ShowFatalError(L"", false, L"GetModuleFileNameW failed");
         return 1;
     }
     self_path.resize(path_len);
@@ -221,53 +298,75 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     const auto last_sep = self_path.find_last_of(L"\\/");
     if (last_sep == std::wstring::npos)
     {
-        ShowFatalError(false);
+        ShowFatalError(L"", false, L"unexpected module path: " + self_path);
         return 1;
     }
     const std::wstring dir = self_path.substr(0, last_sep);
     const std::wstring app_dll = dir + L"\\MAA.dll";
     const std::wstring hostfxr_dll = dir + L"\\hostfxr.dll";
 
-    // 临时目录（典型：直接双击压缩包内的 MAA.exe）需要专门的文案，先于哨兵检查
-    if (IsRunningFromTempDirectory(dir))
-    {
-        ShowFatalError(true);
-        return 1;
-    }
-
-    // 哨兵与 GUI 内 Bootstrapper 的检查同源（MaaCore.dll、resource），
+    // 完整性哨兵与 GUI 内 Bootstrapper 的检查同源（MaaCore.dll、resource），
     // 外加 MAA.dll 和 externals（NetBeauty 打包后的 .NET 运行时目录）：
-    // 除移动整个文件夹外，任何部分移动都在这里拦下并弹提示。
+    // 除移动整个文件夹外，任何部分移动都在这里拦下并弹提示；目录类哨兵须校验
+    // FILE_ATTRIBUTE_DIRECTORY，防止同名文件骗过检查。
     // 注意开发构建目录没有 externals，stub 只用于打包产物。
-    const wchar_t *required_paths[] = {
+    const wchar_t *required_files[] = {
         L"\\MAA.dll",
         L"\\MaaCore.dll",
+    };
+    const wchar_t *required_dirs[] = {
         L"\\resource",
         L"\\externals",
     };
-    for (const wchar_t *name : required_paths)
+    const wchar_t *missing = nullptr;
+    for (const wchar_t *name : required_files)
     {
         if (GetFileAttributesW((dir + name).c_str()) == INVALID_FILE_ATTRIBUTES)
         {
-            ShowFatalError(false);
-            return 1;
+            missing = name;
+            break;
         }
+    }
+    if (missing == nullptr)
+    {
+        for (const wchar_t *name : required_dirs)
+        {
+            const DWORD attributes = GetFileAttributesW((dir + name).c_str());
+            if (attributes == INVALID_FILE_ATTRIBUTES || (attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+            {
+                missing = name;
+                break;
+            }
+        }
+    }
+    if (missing != nullptr)
+    {
+        // 文件缺失时才判断是否处于临时目录（如直接双击压缩包内的文件），以选择对应文案；
+        // 安装完整时的位置检查交给 GUI（UnsupportedInstallLocationError 的提示更详细）
+        ShowFatalError(dir, IsRunningFromTempDirectory(dir), std::wstring(L"missing ") + missing);
+        return 1;
     }
 
     const HMODULE fxr = LoadLibraryW(hostfxr_dll.c_str());
     if (fxr == nullptr)
     {
         // MAA.dll 在而 hostfxr.dll 不在，同样只可能是文件被单独挪走，提示相同文案
-        ShowFatalError(false);
+        ShowFatalError(dir, false, L"LoadLibraryW(hostfxr.dll) failed, GetLastError=" + std::to_wstring(GetLastError()));
         return 1;
     }
 
+    // 签名与 src/native/corehost/hostfxr.h 的 hostfxr_main_startupinfo_fn 一致：
+    // (argc, argv, host_path, dotnet_root, app_path)，五个平铺参数
     using hostfxr_main_fn = int (*)(const int argc, const wchar_t *const argv[]);
+    using hostfxr_main_startupinfo_fn =
+        int (*)(const int argc, const wchar_t *const argv[], const wchar_t *host_path, const wchar_t *dotnet_root, const wchar_t *app_path);
+    const auto hostfxr_main_startupinfo =
+        reinterpret_cast<hostfxr_main_startupinfo_fn>(GetProcAddress(fxr, "hostfxr_main_startupinfo"));
     const auto hostfxr_main = reinterpret_cast<hostfxr_main_fn>(GetProcAddress(fxr, "hostfxr_main"));
-    if (hostfxr_main == nullptr)
+    if (hostfxr_main_startupinfo == nullptr && hostfxr_main == nullptr)
     {
         FreeLibrary(fxr);
-        ShowFatalError(false);
+        ShowFatalError(dir, false, L"GetProcAddress(hostfxr_main_startupinfo/hostfxr_main) failed");
         return 1;
     }
 
@@ -276,20 +375,25 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     if (raw_argv == nullptr)
     {
         FreeLibrary(fxr);
-        ShowFatalError(false);
+        ShowFatalError(dir, false, L"CommandLineToArgvW failed, GetLastError=" + std::to_wstring(GetLastError()));
         return 1;
     }
 
+    // 原样转发 [exe, 用户参数...]：hostfxr 在 apphost 模式下会把 argv[1..] 作为托管参数，
+    // 额外插入 MAA.dll 会污染 Main(string[] args) / Environment.GetCommandLineArgs()
     std::vector<const wchar_t *> forward_argv;
-    forward_argv.reserve(static_cast<size_t>(argc) + 1);
+    forward_argv.reserve(static_cast<size_t>(argc));
     forward_argv.push_back(self_path.c_str());
-    forward_argv.push_back(app_dll.c_str());
     for (int i = 1; i < argc; ++i)
     {
         forward_argv.push_back(raw_argv[i]);
     }
 
-    const int exit_code = hostfxr_main(static_cast<int>(forward_argv.size()), forward_argv.data());
+    // 首选 hostfxr_main_startupinfo：显式给出三个路径，不依赖 argv[0] 的名字推导
+    const int exit_code = hostfxr_main_startupinfo != nullptr
+                              ? hostfxr_main_startupinfo(
+                                  static_cast<int>(forward_argv.size()), forward_argv.data(), self_path.c_str(), dir.c_str(), app_dll.c_str())
+                              : hostfxr_main(static_cast<int>(forward_argv.size()), forward_argv.data());
 
     LocalFree(raw_argv);
     return exit_code;
