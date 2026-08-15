@@ -139,9 +139,7 @@ bool asst::BattleFormationTask::_run()
         Log.info(__FUNCTION__, "| Left quick formation scene");
         if (auto opt = add_support_unit(required_opers)) {
             m_used_support_unit = true;
-            m_opers_in_formation->emplace(
-                battle::OperNameTag { required_opers.front().role, required_opers.front().name },
-                missing_group->first);
+            m_opers_in_formation->emplace(*opt, missing_group->first);
         }
         // 再到快速编队页面
         if (!ProcessTask(*this, { "Formation-EnterQuickFormation" }).set_retry_times(3).run()) {
@@ -927,7 +925,7 @@ bool asst::BattleFormationTask::is_formation_valid(cv::Mat& img) const
     return false;
 }
 
-std::optional<std::string> asst::BattleFormationTask::add_support_unit(
+std::optional<asst::battle::OperNameTag> asst::BattleFormationTask::add_support_unit(
     const std::vector<RequiredOper>& required_opers,
     const size_t max_refresh_times,
     const Friendship friendship)
@@ -944,7 +942,7 @@ std::optional<std::string> asst::BattleFormationTask::add_support_unit(
     if (required_opers.empty()) { // 随机模式
         for (size_t refresh_times = 0; refresh_times <= max_refresh_times && !need_exit(); ++refresh_times) {
             if (auto opt = add_support_unit_from_support_list(support_list, required_opers, friendship)) {
-                return opt;
+                return battle::OperNameTag { BattleData.get_role(*opt), *opt };
             }
             if (refresh_times < max_refresh_times) {
                 support_list.refresh_list();
@@ -973,7 +971,7 @@ std::optional<std::string> asst::BattleFormationTask::add_support_unit(
 
             for (size_t refresh_times = 0; refresh_times <= max_refresh_times && !need_exit(); ++refresh_times) {
                 if (auto opt = add_support_unit_from_support_list(support_list, filtered_required_opers, friendship)) {
-                    return opt;
+                    return battle::OperNameTag { role, *opt };
                 }
                 if (refresh_times < max_refresh_times) {
                     support_list.refresh_list();

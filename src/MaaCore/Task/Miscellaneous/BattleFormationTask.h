@@ -145,7 +145,7 @@ protected:
     using OperModule = battle::OperModule;
     using RequiredOper = battle::RequiredOper;
 
-    std::optional<std::string> add_support_unit(
+    std::optional<battle::OperNameTag> add_support_unit(
         const std::vector<RequiredOper>& required_opers = {},
         size_t max_refresh_times = 5,
         Friendship friendship = Friendship::Stranger);
