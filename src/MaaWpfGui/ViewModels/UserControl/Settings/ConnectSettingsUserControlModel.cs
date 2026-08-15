@@ -61,6 +61,9 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         // 鼠标输入方式变化时刷新窗口恢复按钮的可见性
         if (ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra is { } win32Extra)
         {
+            // 从配置恢复时，刷新截图方式选项的可用状态
+            win32Extra.UpdateScreencapMethodAvailability();
+
             win32Extra.PropertyChanged += (_, e) => {
                 if (e.PropertyName == nameof(Win32Extra.MouseMethod))
                 {

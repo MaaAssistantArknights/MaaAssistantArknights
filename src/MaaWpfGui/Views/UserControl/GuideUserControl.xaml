@@ -406,7 +406,18 @@
                                                         DisplayMemberPath="Display"
                                                         ItemsSource="{Binding ScreencapMethodList}"
                                                         SelectedValue="{Binding ScreencapMethod}"
-                                                        SelectedValuePath="Value" />
+                                                        SelectedValuePath="Value">
+                                                        <hc:ComboBox.ItemContainerStyle>
+                                                            <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="{x:Type ComboBoxItem}">
+                                                                <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsEnabled" Value="False">
+                                                                        <Setter Property="Opacity" Value="0.4" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </hc:ComboBox.ItemContainerStyle>
+                                                    </hc:ComboBox>
 
                                                     <hc:ComboBox
                                                         Width="300"
