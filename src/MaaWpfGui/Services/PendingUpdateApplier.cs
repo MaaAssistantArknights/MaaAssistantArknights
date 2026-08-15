@@ -52,12 +52,19 @@ internal static partial class PendingUpdateApplier
     private static readonly HashSet<string> s_fullPackagePreservedEntries = new(StringComparer.OrdinalIgnoreCase)
     {
         "achievement",
-        "background",
         "cache",
         "config",
         "data",
         "debug",
         "MAA.Updater.exe",
+    };
+
+    // 完整包清理时的嵌套保留目录（相对安装根目录，反斜杠分隔）：
+    // 用于随包发布、同时允许用户存放自有文件的目录（如壁纸目录 Res\Backgrounds\Wallpapers），
+    // 不随完整包更新清理，其上级目录（如 Res）下的其他内容仍正常清理
+    private static readonly HashSet<string> s_fullPackagePreservedNestedEntries = new(StringComparer.OrdinalIgnoreCase)
+    {
+        @"Res\Backgrounds\Wallpapers",
     };
 
     private static string DelegatedUpdateSuccessStatusFilePath => Path.Combine(PathsHelper.BaseDir, "pending-update-success.txt");
@@ -132,9 +139,10 @@ internal static partial class PendingUpdateApplier
         string packagePath,
         string currentVersion,
         string architecture,
-        PackageInspectionResult? inspection)
+        PackageInspectionResult? inspection,
+        bool allowSameVersion = false)
     {
-        inspection ??= InspectLocalUpdatePackage(packagePath, currentVersion, architecture);
+        inspection ??= InspectLocalUpdatePackage(packagePath, currentVersion, architecture, allowSameVersion);
 
         switch (inspection.Status)
         {
@@ -166,8 +174,9 @@ internal static partial class PendingUpdateApplier
     /// <param name="packagePath">拖入的压缩包路径。</param>
     /// <param name="currentVersion">当前 MAA 版本号（如 v5.10.0）。</param>
     /// <param name="architecture">当前系统架构（如 x64、arm64）。</param>
+    /// <param name="allowSameVersion">允许目标版本与当前版本相同（用于文件完整性修复的重装场景）。</param>
     /// <returns>检测结果，包含状态、源版本（OTA）、目标版本。</returns>
-    public static PackageInspectionResult InspectLocalUpdatePackage(string packagePath, string currentVersion, string architecture)
+    public static PackageInspectionResult InspectLocalUpdatePackage(string packagePath, string currentVersion, string architecture, bool allowSameVersion = false)
     {
         if (!File.Exists(packagePath))
         {
@@ -190,7 +199,8 @@ internal static partial class PendingUpdateApplier
             string targetVersion = fullPackageMatch.Groups["version"].Value;
             string packageArchitecture = fullPackageMatch.Groups["arch"].Value;
             bool architectureMatched = string.Equals(normalizedArchitecture, packageArchitecture, StringComparison.OrdinalIgnoreCase);
-            bool isUpgradeTarget = IsUpgradeTarget(currentVersion, targetVersion);
+            bool isUpgradeTarget = IsUpgradeTarget(currentVersion, targetVersion)
+                || (allowSameVersion && VersionsMatch(currentVersion, targetVersion));
 
             _logger.Information(
                 "Dropped package matched full package pattern: targetVersion={TargetVersion}, packageArchitecture={PackageArchitecture}",
@@ -562,27 +572,105 @@ internal static partial class PendingUpdateApplier
     private static string[] GetFullPackageRemoveEntries(PendingUpdateContext context)
     {
         HashSet<string> preservedEntries = CreateFullPackagePreservedEntries(context);
-        return [.. Directory.GetFileSystemEntries(context.RootDir)
-            .Select(Path.GetFileName)
-            .OfType<string>()
-            .Where(entry => !string.IsNullOrWhiteSpace(entry) && !preservedEntries.Contains(entry))
+
+        // 旧安装侧：嵌套保留目录连同内容整体跳过，不进入 .old
+        return [.. ExpandFullPackageEntries(context.RootDir, string.Empty, preservedEntries, includePreserved: false)
             .Distinct(StringComparer.OrdinalIgnoreCase)];
     }
 
     private static string[] GetFullPackageMoveEntries(string extractDir)
     {
-        return [.. GetTopLevelExtractEntries(extractDir)
-            .Where(entry => !IsFullPackagePreservedEntry(entry))
+        // 新包侧：嵌套保留目录只下钻输出其中的文件条目（逐文件覆盖、新增），不整体替换该目录
+        return [.. ExpandFullPackageEntries(extractDir, string.Empty, s_fullPackagePreservedEntries, includePreserved: true)
+            .Where(entry => !IsControlFile(entry))
             .Distinct(StringComparer.OrdinalIgnoreCase)];
     }
 
-    private static string[] GetTopLevelExtractEntries(string extractDir)
+    /// <summary>
+    /// 枚举完整包应用计划中的条目（相对根目录路径）。
+    /// 顶层保留条目（config、cache 等）整体跳过；
+    /// 包含嵌套保留目录的路径不整体输出，下钻拆分，保证保留目录之外的兄弟内容正常清理/写入。
+    /// </summary>
+    /// <param name="dir">待枚举目录（旧安装根目录或新包解压目录）。</param>
+    /// <param name="relativePrefix">当前目录相对根目录的前缀路径，根目录传空串。</param>
+    /// <param name="preservedTopLevel">顶层保留条目名集合。</param>
+    /// <param name="includePreserved">是否输出嵌套保留目录内部的文件条目（新包侧传 true）。</param>
+    /// <param name="insidePreserved">当前是否已处于嵌套保留目录内部。</param>
+    /// <returns>相对根目录的条目路径（反斜杠分隔）。</returns>
+    private static IEnumerable<string> ExpandFullPackageEntries(
+        string dir,
+        string relativePrefix,
+        HashSet<string> preservedTopLevel,
+        bool includePreserved,
+        bool insidePreserved = false)
     {
-        return [.. Directory.GetFileSystemEntries(extractDir)
-            .Select(entry => Path.GetRelativePath(extractDir, entry))
-            .Select(entry => entry.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar))
-            .Where(entry => !string.IsNullOrWhiteSpace(entry) && !IsControlFile(entry))
-            .Distinct(StringComparer.OrdinalIgnoreCase)];
+        bool topLevel = relativePrefix.Length == 0;
+        foreach (string entryPath in Directory.EnumerateFileSystemEntries(dir))
+        {
+            string name = Path.GetFileName(entryPath);
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                continue;
+            }
+
+            string relativePath = topLevel ? name : relativePrefix + Path.DirectorySeparatorChar + name;
+
+            if (topLevel && preservedTopLevel.Contains(name))
+            {
+                continue;
+            }
+
+            bool isDirectory = Directory.Exists(entryPath);
+            if (!insidePreserved && isDirectory && s_fullPackagePreservedNestedEntries.Contains(relativePath))
+            {
+                if (includePreserved)
+                {
+                    foreach (string child in ExpandFullPackageEntries(entryPath, relativePath, preservedTopLevel, includePreserved, insidePreserved: true))
+                    {
+                        yield return child;
+                    }
+                }
+
+                continue;
+            }
+
+            if (insidePreserved)
+            {
+                // 保留目录内部只输出文件，目录继续下钻，避免目录条目触发整体替换
+                if (isDirectory)
+                {
+                    foreach (string child in ExpandFullPackageEntries(entryPath, relativePath, preservedTopLevel, includePreserved, insidePreserved: true))
+                    {
+                        yield return child;
+                    }
+                }
+                else
+                {
+                    yield return relativePath;
+                }
+
+                continue;
+            }
+
+            if (isDirectory && ContainsNestedPreservedEntry(relativePath))
+            {
+                // 目录下存在更深的保留路径，不能整体输出
+                foreach (string child in ExpandFullPackageEntries(entryPath, relativePath, preservedTopLevel, includePreserved))
+                {
+                    yield return child;
+                }
+
+                continue;
+            }
+
+            yield return relativePath;
+        }
+    }
+
+    private static bool ContainsNestedPreservedEntry(string relativePath)
+    {
+        string prefix = relativePath + Path.DirectorySeparatorChar;
+        return s_fullPackagePreservedNestedEntries.Any(entry => entry.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
     }
 
     private static string PrepareDelegatedUpdaterExecutable(PendingUpdateContext context)
@@ -612,16 +700,6 @@ internal static partial class PendingUpdateApplier
         };
 
         return preservedEntries;
-    }
-
-    private static bool IsFullPackagePreservedEntry(string relativePath)
-    {
-        return s_fullPackagePreservedEntries.Contains(NormalizeRelativePath(relativePath));
-    }
-
-    private static string NormalizeRelativePath(string relativePath)
-    {
-        return relativePath.Trim().Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
     }
 
     private static bool ShouldDelegatePendingOtaApply(PendingUpdateManifest manifest, out string reason)

@@ -444,7 +444,7 @@
     <system:String x:Key="GetReleaseNoteFailed">获取更新信息失败。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先别急.jpg</system:String>
     <system:String x:Key="MirrorChyanBuildingOta">MirrorChyan 正在为此版本打包 OTA 增量更新包，将在 10 秒后自动重试</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">检测到新版本，但无可用的 OTA 增量更新包。将下载完整包，保留 cache、config、data、debug、achievement（通关截图）、background（背景图）和 MAA.Updater.exe，其余文件将移至回收站及 .old。如有需要请手动备份</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">检测到新版本，但无可用的 OTA 增量更新包。将下载完整包，保留 cache、config、data、debug、achievement（通关截图）和 MAA.Updater.exe，其余文件将移至回收站及 .old。如有需要请手动备份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在准备下载更新包……</system:String>
     <system:String x:Key="NewVersionDownloadRetrying">更新包下载失败，将在 {0} 秒后重试（第 {1}/{2} 次下载失败）。</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下载失败</system:String>
@@ -454,7 +454,7 @@
     <system:String x:Key="PendingFullUpdateManualConfirmTitle">完整包更新需要手动确认</system:String>
     <system:String x:Key="PendingFullUpdateManualConfirmDesc" xml:space="preserve">检测到需要使用完整包进行更新。
 
-更新逻辑：如果你继续下载或导入完整包，后续安装时会先清理当前安装根目录下除 cache、config、data、debug、achievement（通关截图）、background（背景图）和 MAA.Updater.exe 外的顶层文件和文件夹，再把完整包内容写入该目录。
+更新逻辑：如果你继续下载或导入完整包，后续安装时会先清理当前安装根目录下除 cache、config、data、debug、achievement（通关截图）和 MAA.Updater.exe 外的顶层文件和文件夹，再把完整包内容写入该目录。
 
 风险说明：如果你把 MAA 直接放在磁盘根目录、桌面、下载目录，或与其他程序、个人文件放在同一个目录层级，这些同级内容也可能被一起删除或移走。
 
@@ -1280,6 +1280,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UpdateApplyFailed">更新失败，当前安装可能已不完整。请重新下载完整包，并按下方说明手动迁移 config、data 与 debug。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="UpdateApplyMissingUpdater">更新失败，缺少 MAA.Updater.exe，无法启动外部更新程序。本次更新已取消。该文件可能被手动删除，也可能被某些安全软件拦截或删除。若为安全软件导致，请前往对应软件的隔离区寻找并恢复该文件，并建议将 MAA 所在文件夹加入对应软件白名单后再试。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">资源损坏，请重新下载完整安装包。\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceIntegrityCheckTitle">安装文件缺失</system:String>
+    <system:String x:Key="ResourceIntegrityCheckDesc">检测到 {0} 个安装文件缺失（{1}），部分功能可能无法使用。文件可能被某些安全软件拦截或删除，也可能被手动删除。若为安全软件导致，请前往对应软件的隔离区寻找并恢复文件，并建议将 MAA 所在文件夹加入对应软件白名单后再试。\n\n也可按下方说明手动重装：\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceIntegrityRepairYes">自动修复（下载完整包并在重启后恢复）</system:String>
+    <system:String x:Key="ResourceIntegrityRepairNo">暂不处理，继续启动</system:String>
+    <system:String x:Key="ResourceIntegrityRepairDownloading">正在下载完整包以修复缺失的资源文件…</system:String>
+    <system:String x:Key="ResourceIntegrityRepairFailed">自动修复失败，请按提示手动处理。\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceIntegrityRepairCanceled">已取消自动修复，缺失文件下次启动时仍会提醒</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 路径不存在</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下载失败</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">无法删除目录，可能已被替换或发生了其他问题。请检查日志获取更多信息。</system:String>

@@ -233,6 +233,9 @@ jobs:
 
           cp tools/DependencySetup_依赖库安装.bat install
 
+      - name: Generate file list
+        run: pwsh tools/GenerateFileList.ps1 -InstallDir install
+
       - name: Zip files
         run: |
           cd install
