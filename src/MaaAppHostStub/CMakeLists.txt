@@ -18,6 +18,13 @@ configure_file(Version.h.in Version.h @ONLY)
 add_executable(MaaAppHostStub WIN32 MaaAppHostStub.cpp MaaAppHostStub.rc)
 target_include_directories(MaaAppHostStub PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
+if(MSVC)
+    # 显式 /utf-8，不依赖源文件 BOM（与 src/MaaUpdater 对齐）
+    target_compile_options(MaaAppHostStub PRIVATE /utf-8)
+    # 清单已由 rc 以 RT_MANIFEST 嵌入（app.manifest），关闭链接器默认清单避免冲突
+    target_link_options(MaaAppHostStub PRIVATE /MANIFEST:NO)
+endif()
+
 # 静态链接 CRT：用户机器可能未安装 VC 运行库，stub 必须能独立启动
 set_target_properties(MaaAppHostStub PROPERTIES
     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"

@@ -5,6 +5,10 @@
 
 1 ICON "../MaaWpfGui/newlogo.ico"
 
+// 与 SDK apphost 保持一致：嵌入 WPF 的应用清单（DPI 感知、长路径、comctl v6），
+// 链接器的默认清单由 CMakeLists 以 /MANIFEST:NO 关闭，避免冲突
+1 24 "../MaaWpfGui/app.manifest"
+
 VS_VERSION_INFO VERSIONINFO
 FILEVERSION MAA_APPHOST_FILEVERSION
 PRODUCTVERSION MAA_APPHOST_FILEVERSION
@@ -26,6 +30,7 @@ BEGIN
             VALUE "FileDescription", "MAA"
             VALUE "FileVersion", MAA_APPHOST_VERSION_STRING
             VALUE "InternalName", "MAA.exe"
+            VALUE "LegalCopyright", "Copyright (c) 2021-2026 MAA Team"
             VALUE "OriginalFilename", "MAA.exe"
             VALUE "ProductName", "MAA"
             VALUE "ProductVersion", MAA_APPHOST_VERSION_STRING
