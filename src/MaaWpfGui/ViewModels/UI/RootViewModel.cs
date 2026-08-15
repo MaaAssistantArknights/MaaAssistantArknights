@@ -117,11 +117,19 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             {
                 // 修复优先于常规更新检查，注册完成后会提示重启
                 _logger.Information("Integrity repair accepted by user, {Count} file(s) missing", missingFiles.Count);
-                await Instances.VersionUpdateDialogViewModel.RunIntegrityRepairAsync();
-                return;
-            }
+                if (await Instances.VersionUpdateDialogViewModel.RunIntegrityRepairAsync())
+                {
+                    return;
+                }
 
-            _logger.Warning("Integrity repair declined by user, {Count} file(s) missing", missingFiles.Count);
+                // 修复失败时回退常规更新检查：完整包升级可补齐缺失文件，
+                // 但 OTA 增量只含版本间变化的文件，未变化的缺失文件不会被补上
+                _logger.Warning("Integrity repair failed, falling back to regular update check");
+            }
+            else
+            {
+                _logger.Warning("Integrity repair declined by user, {Count} file(s) missing", missingFiles.Count);
+            }
         }
 
         await Instances.VersionUpdateDialogViewModel.ShowUpdateOrDownload();
