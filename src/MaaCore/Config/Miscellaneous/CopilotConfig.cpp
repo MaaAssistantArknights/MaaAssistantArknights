@@ -74,7 +74,6 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
         oper.skill = 0;
     }
 
-
     int elite_require = oper.skill - 1;
     // 解析练度需求并检查非法设置
     if (auto req_opt = json.find("requirements")) {
