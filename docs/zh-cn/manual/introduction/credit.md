@@ -1,5 +1,5 @@
 ---
-order: 5
+order: 6
 icon: solar:shop-2-bold
 ---
 
