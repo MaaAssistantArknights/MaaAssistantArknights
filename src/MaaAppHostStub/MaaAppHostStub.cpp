@@ -106,8 +106,11 @@ void AppendDebugLog(const std::wstring &dir, const std::wstring &detail)
     SYSTEMTIME time = {};
     GetLocalTime(&time);
     wchar_t line_w[1024] = {};
-    const int len = swprintf_s(
+    // _TRUNCATE：detail 超长时截断而不是触发 invalid parameter handler 终止进程
+    const int len = _snwprintf_s(
         line_w,
+        _countof(line_w),
+        _TRUNCATE,
         L"[%04u-%02u-%02u %02u:%02u:%02u] %s\r\n",
         static_cast<unsigned>(time.wYear),
         static_cast<unsigned>(time.wMonth),
@@ -184,9 +187,16 @@ LRESULT CALLBACK FatalMessageBoxCbtProc(const int code, const WPARAM wParam, con
     return CallNextHookEx(nullptr, code, wParam, lParam);
 }
 
-void ShowFatalError(const std::wstring &dir, const bool running_from_temp, const std::wstring &detail)
+void ShowFatalError(
+    const std::wstring &dir,
+    const bool running_from_temp,
+    const std::wstring &detail,
+    const bool write_debug_log)
 {
-    AppendDebugLog(dir, detail);
+    if (write_debug_log)
+    {
+        AppendDebugLog(dir, detail);
+    }
 
     const FatalMessage msg = GetFatalMessage(running_from_temp);
 
@@ -284,13 +294,14 @@ bool IsRunningFromTempDirectory(const std::wstring &dir)
 
 } // namespace
 
-int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
+// 参数批注与 winbase.h 的 wWinMain 声明保持一致，避免 C28251（/analyze 下批注不一致）
+int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
 {
     std::wstring self_path(0x8000, L'\0');
     const DWORD path_len = GetModuleFileNameW(nullptr, self_path.data(), static_cast<DWORD>(self_path.size()));
     if (path_len == 0 || path_len >= self_path.size())
     {
-        ShowFatalError(L"", false, L"GetModuleFileNameW failed");
+        ShowFatalError(L"", false, L"GetModuleFileNameW failed", true);
         return 1;
     }
     self_path.resize(path_len);
@@ -298,7 +309,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     const auto last_sep = self_path.find_last_of(L"\\/");
     if (last_sep == std::wstring::npos)
     {
-        ShowFatalError(L"", false, L"unexpected module path: " + self_path);
+        ShowFatalError(L"", false, L"unexpected module path: " + self_path, true);
         return 1;
     }
     const std::wstring dir = self_path.substr(0, last_sep);
@@ -318,32 +329,54 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
         L"\\resource",
         L"\\externals",
     };
+    // 文件/目录哨兵对称校验：文件不得是目录，目录不得是文件，防止同名条目骗过检查
+    const auto sentinel_ok = [](const std::wstring &path, const bool require_directory) {
+        const DWORD attributes = GetFileAttributesW(path.c_str());
+        if (attributes == INVALID_FILE_ATTRIBUTES)
+        {
+            return false;
+        }
+        const bool is_directory = (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+        return require_directory ? is_directory : !is_directory;
+    };
     const wchar_t *missing = nullptr;
+    int present_count = 0;
     for (const wchar_t *name : required_files)
     {
-        if (GetFileAttributesW((dir + name).c_str()) == INVALID_FILE_ATTRIBUTES)
+        if (sentinel_ok(dir + name, false))
+        {
+            ++present_count;
+        }
+        else
         {
             missing = name;
-            break;
         }
     }
     if (missing == nullptr)
     {
         for (const wchar_t *name : required_dirs)
         {
-            const DWORD attributes = GetFileAttributesW((dir + name).c_str());
-            if (attributes == INVALID_FILE_ATTRIBUTES || (attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+            if (sentinel_ok(dir + name, true))
+            {
+                ++present_count;
+            }
+            else
             {
                 missing = name;
-                break;
             }
         }
     }
     if (missing != nullptr)
     {
         // 文件缺失时才判断是否处于临时目录（如直接双击压缩包内的文件），以选择对应文案；
-        // 安装完整时的位置检查交给 GUI（UnsupportedInstallLocationError 的提示更详细）
-        ShowFatalError(dir, IsRunningFromTempDirectory(dir), std::wstring(L"missing ") + missing);
+        // 安装完整时的位置检查交给 GUI（UnsupportedInstallLocationError 的提示更详细）。
+        // 仅当目录看起来像安装目录（至少命中一个哨兵）时才落日志，
+        // 避免在桌面等位置凭空创建 debug 目录
+        ShowFatalError(
+            dir,
+            IsRunningFromTempDirectory(dir),
+            std::wstring(L"missing ") + missing,
+            present_count > 0);
         return 1;
     }
 
@@ -351,7 +384,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     if (fxr == nullptr)
     {
         // MAA.dll 在而 hostfxr.dll 不在，同样只可能是文件被单独挪走，提示相同文案
-        ShowFatalError(dir, false, L"LoadLibraryW(hostfxr.dll) failed, GetLastError=" + std::to_wstring(GetLastError()));
+        ShowFatalError(dir, false, L"LoadLibraryW(hostfxr.dll) failed, GetLastError=" + std::to_wstring(GetLastError()), true);
         return 1;
     }
 
@@ -366,7 +399,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     if (hostfxr_main_startupinfo == nullptr && hostfxr_main == nullptr)
     {
         FreeLibrary(fxr);
-        ShowFatalError(dir, false, L"GetProcAddress(hostfxr_main_startupinfo/hostfxr_main) failed");
+        ShowFatalError(dir, false, L"GetProcAddress(hostfxr_main_startupinfo/hostfxr_main) failed", true);
         return 1;
     }
 
@@ -375,7 +408,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     if (raw_argv == nullptr)
     {
         FreeLibrary(fxr);
-        ShowFatalError(dir, false, L"CommandLineToArgvW failed, GetLastError=" + std::to_wstring(GetLastError()));
+        ShowFatalError(dir, false, L"CommandLineToArgvW failed, GetLastError=" + std::to_wstring(GetLastError()), true);
         return 1;
     }
 

@@ -1,5 +1,6 @@
 # 打包时用它覆盖 .NET SDK 生成的 apphost（MAA.exe）：
-# MAA.dll 不在旁边（如用户把 MAA.exe 单独拖出文件夹）时弹提示，否则转发 hostfxr_main
+# 安装不完整或处于临时目录（如用户把 MAA.exe 单独拖出文件夹、压缩包内直接双击）时弹提示，
+# 否则经 hostfxr_main_startupinfo 转发启动 MAA.dll
 
 if(NOT DEFINED MAA_HASH_VERSION)
     set(MAA_HASH_VERSION "0.0.1")
