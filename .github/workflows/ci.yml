@@ -225,6 +225,8 @@ jobs:
       - name: Organize install files
         shell: bash
         run: |
+          python tools/CheckStubLocalization.py
+
           rm -rf install/MAAComponent-DebugSymbol-*.zip
           rm -rf install/*.pdb
           rm -rf install/msvc-debug
@@ -232,7 +234,12 @@ jobs:
           rm -rf install/*.bak
 
           # 用原生启动器替换 SDK apphost：MAA.exe 被单独拖出文件夹时给出错误提示
-          if [ -f install/MAA.dll ] && [ -f build/bin/RelWithDebInfo/MaaAppHostStub.exe ]; then
+          # MAA.dll 缺失可能来自 continue-on-error 的 publish，静默保留 apphost；stub 缺失属于构建异常，直接失败
+          if [ ! -f build/bin/RelWithDebInfo/MaaAppHostStub.exe ]; then
+              echo "::error::MaaAppHostStub.exe missing from build output"
+              exit 1
+          fi
+          if [ -f install/MAA.dll ]; then
               cp build/bin/RelWithDebInfo/MaaAppHostStub.exe install/MAA.exe
           fi
 
