@@ -51,6 +51,7 @@ asst::battle::copilot::BasicInfo asst::CopilotConfig::parse_basic_info(const jso
 std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(const json::value& json)
 {
     OperUsage oper;
+    oper.role = get_role_type(oper_info.get("role", std::string()));
     oper.name = json.at("name").as_string();
     oper.skill = json.get("skill", 0);
     oper.skill_usage = static_cast<battle::SkillUsage>(json.get("skill_usage", 0));
@@ -72,6 +73,7 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
                  << " cannot use skill index 1, set to 0.";
         oper.skill = 0;
     }
+
 
     int elite_require = oper.skill - 1;
     // 解析练度需求并检查非法设置
