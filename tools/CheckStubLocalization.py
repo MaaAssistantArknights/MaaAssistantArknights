@@ -6,6 +6,9 @@ MaaAppHostStub.cpp 硬编码了 ErrorCongratulations / ErrorSolutionMoveMaaExeOu
 防止改动 xaml 后忘记同步 stub。在 ci.yml / release-nightly-ota.yml 中调用。
 """
 
+from __future__ import annotations
+
+import html
 import re
 import sys
 from pathlib import Path
@@ -20,7 +23,8 @@ def xaml_value(lang: str, key: str) -> str | None:
     path = ROOT / "src/MaaWpfGui/Res/Localizations" / f"{lang}.xaml"
     text = path.read_text(encoding="utf-8")
     match = re.search(rf'x:Key="{key}"[^>]*>(.*?)</system:String>', text, re.S)
-    return match.group(1) if match else None
+    # xaml 实体（&amp; 等）还原后再与 cpp 字面量比对
+    return html.unescape(match.group(1)) if match else None
 
 
 def main() -> int:

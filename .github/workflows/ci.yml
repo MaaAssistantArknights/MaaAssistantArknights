@@ -53,6 +53,9 @@ jobs:
           fetch-depth: 0
           show-progress: false
 
+      - name: Check stub localization
+        run: python3 tools/CheckStubLocalization.py
+
       - name: Set tag
         id: set_tag
         run: |
@@ -225,8 +228,6 @@ jobs:
       - name: Organize install files
         shell: bash
         run: |
-          python tools/CheckStubLocalization.py
-
           rm -rf install/MAAComponent-DebugSymbol-*.zip
           rm -rf install/*.pdb
           rm -rf install/msvc-debug

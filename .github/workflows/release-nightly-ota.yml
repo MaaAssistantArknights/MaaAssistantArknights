@@ -47,6 +47,9 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 250
 
+      - name: Check stub localization
+        run: python3 tools/CheckStubLocalization.py
+
       - name: Fetch tags
         run: |
           git fetch --depth=250 --tags
@@ -267,8 +270,6 @@ jobs:
       - name: Organize install files
         shell: bash
         run: |
-          python tools/CheckStubLocalization.py
-
           rm -rf install/MAAComponent-DebugSymbol-*.zip
           rm -rf install/*.pdb
           rm -rf install/msvc-debug
