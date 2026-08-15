@@ -106,8 +106,9 @@ void AppendDebugLog(const std::wstring &dir, const std::wstring &detail)
     SYSTEMTIME time = {};
     GetLocalTime(&time);
     wchar_t line_w[1024] = {};
-    // _TRUNCATE：detail 超长时截断而不是触发 invalid parameter handler 终止进程
-    const int len = _snwprintf_s(
+    // _TRUNCATE：detail 超长时截断而不是触发 invalid parameter handler 终止进程；
+    // 截断时返回 -1，缓冲区已保证 null 结尾，改取实际长度以保留截断后的内容
+    int len = _snwprintf_s(
         line_w,
         _countof(line_w),
         _TRUNCATE,
@@ -119,6 +120,10 @@ void AppendDebugLog(const std::wstring &dir, const std::wstring &detail)
         static_cast<unsigned>(time.wMinute),
         static_cast<unsigned>(time.wSecond),
         detail.c_str());
+    if (len < 0)
+    {
+        len = static_cast<int>(wcslen(line_w));
+    }
     if (len <= 0)
     {
         return;
@@ -341,29 +346,27 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
     };
     const wchar_t *missing = nullptr;
     int present_count = 0;
+    // 两个循环都无条件跑完：present_count 统计全部哨兵，missing 记录第一个缺失项
     for (const wchar_t *name : required_files)
     {
         if (sentinel_ok(dir + name, false))
         {
             ++present_count;
         }
-        else
+        else if (missing == nullptr)
         {
             missing = name;
         }
     }
-    if (missing == nullptr)
+    for (const wchar_t *name : required_dirs)
     {
-        for (const wchar_t *name : required_dirs)
+        if (sentinel_ok(dir + name, true))
         {
-            if (sentinel_ok(dir + name, true))
-            {
-                ++present_count;
-            }
-            else
-            {
-                missing = name;
-            }
+            ++present_count;
+        }
+        else if (missing == nullptr)
+        {
+            missing = name;
         }
     }
     if (missing != nullptr)
