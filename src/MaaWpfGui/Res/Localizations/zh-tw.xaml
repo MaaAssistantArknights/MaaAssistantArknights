@@ -158,6 +158,7 @@
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自動補貨</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">會客室資訊板收取信用</system:String>
     <system:String x:Key="InfrastReceptionClueExchange">進行線索交流</system:String>
+    <system:String x:Key="InfrastReceptionClueExchangeTips" xml:space="preserve">若無法開啟線索交流，換班時會把線索板上的所有線索都取下來；若能開啟，則會使用一鍵放置。&#10;個人線索上限為 10 張（含已放入會客室的線索），且已放入會客室的線索不計入重複判斷。&#10;提前放入過多線索可能導致到達上限卻無法一鍵贈送或獲取新線索，只能靠好友撈起來。</system:String>
     <system:String x:Key="ClueExchangeUnlocked">已開啟線索交流</system:String>
     <system:String x:Key="InfrastReceptionSendClue">贈送線索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中設定並執行</system:String>

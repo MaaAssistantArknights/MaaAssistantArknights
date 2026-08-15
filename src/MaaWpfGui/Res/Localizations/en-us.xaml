@@ -158,6 +158,7 @@
     <system:String x:Key="OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">Credit collection from message board in Reception Room</system:String>
     <system:String x:Key="InfrastReceptionClueExchange">Conduct Clue Exchange</system:String>
+    <system:String x:Key="InfrastReceptionClueExchangeTips" xml:space="preserve">If Clue Exchange cannot be started, all clues on the clue board will be taken off during shift change; otherwise, one-click placement will be used.&#10;The personal clue limit is 10 (including clues already placed in the Reception Room), and placed clues do not count toward duplicate detection.&#10;Pre-placing too many clues may fill the limit while they can neither be one-click sent nor replaced with new ones — only friends picking them up can help.</system:String>
     <system:String x:Key="ClueExchangeUnlocked">Clue Exchange Unlocked</system:String>
     <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">The following functions require configuration and execution within {key=Infrast}.</system:String>

@@ -158,6 +158,7 @@
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自动补货</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">会客室信息板收取信用</system:String>
     <system:String x:Key="InfrastReceptionClueExchange">进行线索交流</system:String>
+    <system:String x:Key="InfrastReceptionClueExchangeTips" xml:space="preserve">若无法开启线索交流，换班时会把线索板上的所有线索都取下来；若能开启，则会使用一键放置。&#10;个人线索上限为 10 张（含已放入会客室的线索），且已放入会客室的线索不计入重复判断。&#10;提前放入过多线索可能导致到达上限却无法一键赠送或获取新线索，只能靠好友捞起来。</system:String>
     <system:String x:Key="ClueExchangeUnlocked">已开启线索交流</system:String>
     <system:String x:Key="InfrastReceptionSendClue">赠送线索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中设置并执行</system:String>
