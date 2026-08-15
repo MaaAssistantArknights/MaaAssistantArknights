@@ -95,6 +95,36 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(
     }
 }
 
+std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(
+    const std::string& theme,
+    const battle::OperNameTag& oper_tag) const noexcept
+{
+    auto& opers = m_all_opers.at(theme);
+
+    if (oper_tag.role != battle::Role::Unknown) {
+        const auto& find_iter = std::ranges::find_if(opers, [&](const auto& pair) { return pair.first == oper_tag; });
+        if (find_iter != opers.end()) {
+            return find_iter->second.group_id;
+        }
+    }
+
+    const auto& find_iter =
+        std::ranges::find_if(opers, [&](const auto& pair) { return pair.first.name == oper_tag.name; });
+    if (find_iter != opers.end()) {
+        return find_iter->second.group_id;
+    }
+    else {
+        const auto& role = oper_tag.role != battle::Role::Unknown ? oper_tag.role : BattleData.get_role(oper_tag.name);
+        if (role != battle::Role::Pioneer && role != battle::Role::Tank && role != battle::Role::Warrior &&
+            role != battle::Role::Special) {
+            return { static_cast<int>(m_oper_groups.at(theme).size()) - 2 };
+        }
+        else {
+            return { static_cast<int>(m_oper_groups.at(theme).size()) - 1 };
+        }
+    }
+}
+
 int asst::RoguelikeRecruitConfig::get_group_id_from_name(
     const std::string& theme,
     const std::string& group_name) noexcept

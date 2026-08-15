@@ -77,6 +77,8 @@ public:
     const std::vector<RecruitPriorityOffset> get_team_complete_info(const std::string& theme) const noexcept;
     std::vector<int> get_group_ids_of_oper(const std::string& theme, const std::string& oper_name)
         const noexcept; // renamed from "get_group_id"
+    std::vector<int> get_group_ids_of_oper(const std::string& theme, const battle::OperNameTag& oper_tag)
+        const noexcept; // renamed from "get_group_id"
     const std::vector<std::string> get_group_names(const std::string& theme)
         const noexcept; // 获取该肉鸽内用到的干员组[干员组1,干员组2, ...], renamed from "get_group_info"
     int get_group_id_from_name(
