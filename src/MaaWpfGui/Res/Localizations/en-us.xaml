@@ -1723,7 +1723,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 Current install directory: {0}
 Matched unsupported location: {1}
 
-These locations are too high-level and can lead to file overwrites, config write failures, or data confusion. Please move MAA into a dedicated folder such as D:\\MAA\\ before starting it again.</system:String>
+These directories are not suitable places to keep MAA; files there can be easily wiped or overwritten. Please move MAA into a dedicated folder such as D:\\MAA\\ before starting it again.</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">Encryption and decryption failed, please reconfigure the relevant settings, otherwise the encrypted content will be stored in plain text in the configuration file.</system:String>
