@@ -356,6 +356,16 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 asst::battle::OperNameTag
     asst::BattleProcessTask::get_name_from_group(battle::Role role, const std::string& oper_name_in_action)
 {
+    if (role == battle::Role::Unknown) {
+        // 未指定职业, 先作为组名检查
+        auto it = std::ranges::find_if(m_oper_in_group, [&](const auto& pair) {
+            return pair.first.name == oper_name_in_action;
+        });
+        if (it != m_oper_in_group.end()) {
+            return it->second;
+        }
+    }
+
     auto iter = std::ranges::find_if(m_oper_in_group, [&](const auto& pair) {
         return (role == battle::Role::Unknown || pair.second.role == role) && pair.second.name == oper_name_in_action;
     });
