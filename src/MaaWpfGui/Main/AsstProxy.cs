@@ -752,7 +752,14 @@ public class AsstProxy
         MaaService.ProcCallbackMsg dlg = ProcMsg;
         _ = Execute.OnUIThreadAsync(
             () => {
-                dlg((AsstMsg)msg, json);
+                try
+                {
+                    dlg((AsstMsg)msg, json);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Failed to process core callback {Msg}", msg);
+                }
             });
     }
 
