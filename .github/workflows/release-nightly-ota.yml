@@ -274,6 +274,9 @@ jobs:
 
           cp tools/DependencySetup_依赖库安装.bat install
 
+      - name: Generate file list
+        run: pwsh tools/GenerateFileList.ps1 -InstallDir install
+
       - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v7
         with:
