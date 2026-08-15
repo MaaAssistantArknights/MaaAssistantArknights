@@ -377,6 +377,11 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 ::: field name="reception_send_clue" type="boolean" optional default="true"  
 단서 보내기 여부  
 :::  
+::: field name="reception_send_clue_friend_priority" type="array<string>" optional default="[]"
+단서를 받을 친구의 우선순위입니다. 배열 순서대로 우선하며, 이름은 게임 화면에 표시된 전체 이름과 정확히 일치해야 합니다. 설정한 친구가 모두 받을 수 없으면 친구 목록 순서로 돌아갑니다.
+<br>
+비어 있지 않으면 게임 내 중복 단서 빠른 보내기를 사용하지 않습니다.
+:::
 ::: field name="filename" type="string" required  
 사용자 정의 설정 경로. 실행 중 설정 불가
 <br>
@@ -405,6 +410,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
    "reception_message_board": true,
    "reception_clue_exchange": true,
    "reception_send_clue": true,
+   "reception_send_clue_friend_priority": ["친구A", "친구B"],
    "filename": "schedules/base.json",
    "plan_index": 1
 }

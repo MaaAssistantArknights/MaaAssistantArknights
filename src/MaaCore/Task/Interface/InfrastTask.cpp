@@ -1,6 +1,10 @@
 #include "InfrastTask.h"
 
+#include <algorithm>
+#include <unordered_set>
+
 #include "Utils/Logger.hpp"
+#include "Utils/StringMisc.hpp"
 
 #include "Task/Infrast/DronesForShamareTaskPlugin.h"
 #include "Task/Infrast/InfrastControlTask.h"
@@ -174,6 +178,15 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     bool reception_send_clue = params.get("reception_send_clue", true);
     m_reception_task_ptr->set_send_clue(reception_send_clue);
+
+    auto reception_send_clue_friend_priority =
+        params.get("reception_send_clue_friend_priority", std::vector<std::string> {});
+    std::unordered_set<std::string> seen_friend_names;
+    std::erase_if(reception_send_clue_friend_priority, [&](std::string& name) {
+        utils::string_trim(name);
+        return name.empty() || !seen_friend_names.emplace(name).second;
+    });
+    m_reception_task_ptr->set_send_clue_friend_priority(std::move(reception_send_clue_friend_priority));
 
     bool replenish = params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);

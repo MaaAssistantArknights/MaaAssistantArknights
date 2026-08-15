@@ -387,6 +387,11 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ::: field name="reception_send_clue" type="boolean" optional default="true"  
 是否贈送線索。  
 :::  
+::: field name="reception_send_clue_friend_priority" type="array<string>" optional default="[]"
+線索贈送的好友優先順序，按陣列順序優先贈送，好友名稱需與遊戲畫面顯示完全一致。若設定的好友均無法接收，則按好友列表順序贈送。
+<br>
+非空時不使用遊戲內「快速傳遞重複線索」。
+:::
 ::: field name="filename" type="string" required  
 自定義配置路徑。不支援在執行中更改設定。
 <br>
@@ -415,6 +420,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
    "reception_message_board": true,
    "reception_clue_exchange": true,
    "reception_send_clue": true,
+   "reception_send_clue_friend_priority": ["好友A", "好友B"],
    "filename": "schedules/base.json",
    "plan_index": 1
 }

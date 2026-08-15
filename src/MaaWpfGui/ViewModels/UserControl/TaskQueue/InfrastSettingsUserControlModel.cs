@@ -223,6 +223,14 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         set => SetTaskConfig<InfrastTask>(t => t.SendClue == value, t => t.SendClue = value);
     }
 
+    public string ReceptionSendClueFriendPriority
+    {
+        get => GetTaskConfig<InfrastTask>().SendClueFriendPriority;
+        set => SetTaskConfig<InfrastTask>(
+            t => t.SendClueFriendPriority == value,
+            t => t.SendClueFriendPriority = value);
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether to continue training after current training completed.
     /// </summary>
@@ -574,6 +582,9 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                 ReceptionMessageBoard = infrast.ReceptionMessageBoard,
                 ReceptionClueExchange = infrast.ReceptionClueExchange,
                 ReceptionSendClue = infrast.SendClue,
+                ReceptionSendClueFriendPriority = [.. infrast.SendClueFriendPriority
+                    .Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                    .Distinct(StringComparer.Ordinal)],
                 Filename = infrast.Filename,
             };
 

@@ -79,6 +79,11 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     public bool SendClue { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets 线索赠送好友优先级，每行一个好友名。
+    /// </summary>
+    public string SendClueFriendPriority { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets a value indicating whether 继续专精
     /// </summary>
     public bool ContinueTraining { get; set; } = false;

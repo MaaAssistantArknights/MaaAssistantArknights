@@ -160,6 +160,9 @@
     <system:String x:Key="InfrastReceptionClueExchange">단서 교환 수행</system:String>
     <system:String x:Key="ClueExchangeUnlocked">단서 교환 시작</system:String>
     <system:String x:Key="InfrastReceptionSendClue">단서 보내기</system:String>
+    <system:String x:Key="InfrastReceptionSendClueFriendPriority">단서 수신 친구 우선순위</system:String>
+    <system:String x:Key="InfrastReceptionSendClueFriendPriorityPlaceholder">한 줄에 전체 친구 이름 하나씩 입력</system:String>
+    <system:String x:Key="InfrastReceptionSendClueFriendPriorityTip">위에서부터 순서대로 우선합니다. 받을 수 있는 친구가 없으면 친구 목록 순서로 돌아갑니다. 설정하면 게임 내 빠른 보내기를 사용하지 않습니다.</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">다음 기능들은 {key=Infrast}에서 설정 및 실행해야 합니다</system:String>
     <system:String x:Key="ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
     <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>

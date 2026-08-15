@@ -160,6 +160,9 @@
     <system:String x:Key="InfrastReceptionClueExchange">手がかり交換を実施</system:String>
     <system:String x:Key="ClueExchangeUnlocked">手がかり交換を開始しました</system:String>
     <system:String x:Key="InfrastReceptionSendClue">手がかりを贈る</system:String>
+    <system:String x:Key="InfrastReceptionSendClueFriendPriority">手がかり送信先の優先順位</system:String>
+    <system:String x:Key="InfrastReceptionSendClueFriendPriorityPlaceholder">1 行に完全な戦友名を 1 件入力</system:String>
+    <system:String x:Key="InfrastReceptionSendClueFriendPriorityTip">上から順に優先します。受け取れる戦友がいない場合は戦友リスト順に戻ります。設定時はゲーム内の一括送信を使用しません。</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">{key=Infrast} で以下の関数を設定して実行する必要があります</system:String>
     <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>

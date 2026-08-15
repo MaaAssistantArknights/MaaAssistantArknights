@@ -387,6 +387,11 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 ::: field name="reception_send_clue" type="boolean" optional default="true"  
 手がかりを譲り渡すかどうか。  
 :::  
+::: field name="reception_send_clue_friend_priority" type="array<string>" optional default="[]"
+手がかりの送信先とする戦友の優先順位です。配列の順に優先し、名前はゲーム画面に表示される完全な名前と一致させてください。設定した戦友が受け取れない場合は、戦友リスト順に戻ります。
+<br>
+空でない場合、ゲーム内の「重複手がかりの一括送信」は使用しません。
+:::
 ::: field name="filename" type="string" required  
 カスタム構成パス。実行中の設定はサポートされていません。
 <br>
@@ -415,6 +420,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
    "reception_message_board": true,
    "reception_clue_exchange": true,
    "reception_send_clue": true,
+   "reception_send_clue_friend_priority": ["戦友A", "戦友B"],
    "filename": "schedules/base.json",
    "plan_index": 1
 }

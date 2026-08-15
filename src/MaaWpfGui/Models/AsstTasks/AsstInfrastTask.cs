@@ -91,6 +91,11 @@ public class AsstInfrastTask : AsstBaseTask
     public bool ReceptionSendClue { get; set; }
 
     /// <summary>
+    /// Gets or sets 线索赠送好友优先级。
+    /// </summary>
+    public List<string> ReceptionSendClueFriendPriority { get; set; } = [];
+
+    /// <summary>
     /// Gets or sets 自定义配置文件路径
     /// </summary>
     public string Filename { get; set; } = string.Empty;
@@ -114,6 +119,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["reception_message_board"] = ReceptionMessageBoard,
             ["reception_clue_exchange"] = ReceptionClueExchange,
             ["reception_send_clue"] = ReceptionSendClue,
+            ["reception_send_clue_friend_priority"] = JArray.FromObject(ReceptionSendClueFriendPriority),
             ["mode"] = (int)Mode,
         };
 
