@@ -867,11 +867,26 @@ public class VersionUpdateDialogViewModel : Screen
                 return null;
             }
 
+            // 与 GetVersionDetailsByMaaApi 一致，只认 MAA-<版本>-win-<架构>.zip 命名，
+            // 避免误选同样含 win 的 DebugSymbol 等组件资产
+            string? latestVersion = json?["version"]?.ToString();
+            if (string.IsNullOrEmpty(latestVersion))
+            {
+                _logger.Error("No version found on maaApi for integrity repair");
+                return null;
+            }
+
+            string versionPrefix = $"maa-{latestVersion.ToLower()}-";
             JObject? fullPackage = null;
             foreach (var asset in assets)
             {
                 string? name = asset["name"]?.ToString().ToLower();
                 if (name is null || (IsArm ^ name.Contains("arm")) || !name.Contains("win") || name.Contains("ota"))
+                {
+                    continue;
+                }
+
+                if (!name.Contains(versionPrefix))
                 {
                     continue;
                 }
