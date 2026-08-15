@@ -46,9 +46,16 @@ public class AsstInfrastTask : AsstBaseTask
     /// <item><c>PureGold</c></item>
     /// <item><c>OriginStone</c></item>
     /// <item><c>Chip</c></item>
+    /// <item><c>PureGold-Money</c></item>
+    /// <item><c>OriginStone-SyntheticJade</c></item>
     /// </list>
     /// </summary>
     public string UsesOfDrones { get; set; } = "_NotUse";
+
+    /// <summary>
+    /// Gets or sets 无人机自动平衡阈值（PureGold-Money / OriginStone-SyntheticJade 使用）
+    /// </summary>
+    public int DroneUsageThreshold { get; set; } = 10;
 
     /// <summary>
     /// Gets or sets a value indicating whether 训练室是否尝试连续专精
@@ -116,6 +123,11 @@ public class AsstInfrastTask : AsstBaseTask
             ["reception_send_clue"] = ReceptionSendClue,
             ["mode"] = (int)Mode,
         };
+
+        if (UsesOfDrones is "PureGold-Money" or "OriginStone-SyntheticJade")
+        {
+            taskParams["drones_usage_threshold"] = DroneUsageThreshold;
+        }
 
         if (Mode == InfrastMode.Custom)
         {

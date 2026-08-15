@@ -144,9 +144,21 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     if (mode != Mode::Custom) {
         std::string drones = params.get("drones", "_NotUse");
-        m_mfg_task_ptr->set_drones_usage_from_params(drones);
-        m_trade_task_ptr->set_drones_usage_from_params(drones);
-        m_trade_task_ptr->register_plugin<DronesForShamareTaskPlugin>()->set_retry_times(0);
+        if (drones == "PureGold-Money" || drones == "OriginStone-SyntheticJade") {
+            // 无人机自动平衡：贸易站消耗对应物品至低于阈值（消耗循环），制造站一次性清空剩余无人机用于生产对应物品
+            const int balance_threshold = params.get("drones_usage_threshold", 10);
+            const std::string target_product = (drones == "PureGold-Money") ? "PureGold" : "OriginStone";
+            m_mfg_task_ptr->set_drones_usage_from_params(target_product);
+            m_trade_task_ptr->set_drones_usage_from_params("_NotUse");
+            m_trade_task_ptr->set_drones_balance_config(drones, balance_threshold);
+            // 无人机已由平衡流程统一消耗，不再注册 Shamare 无人机插件
+        }
+        else {
+            m_mfg_task_ptr->set_drones_usage_from_params(drones);
+            m_trade_task_ptr->set_drones_usage_from_params(drones);
+            m_trade_task_ptr->set_drones_balance_config(std::string(), 0);
+            m_trade_task_ptr->register_plugin<DronesForShamareTaskPlugin>()->set_retry_times(0);
+        }
     }
 
     double threshold = params.get("threshold", 0.3);

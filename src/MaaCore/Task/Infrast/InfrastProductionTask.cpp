@@ -12,10 +12,12 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Utils/StringMisc.hpp"
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
 asst::InfrastProductionTask& asst::InfrastProductionTask::set_drones_usage_from_params(std::string usage) noexcept
@@ -27,6 +29,14 @@ asst::InfrastProductionTask& asst::InfrastProductionTask::set_drones_usage_from_
 std::string asst::InfrastProductionTask::get_drones_usage_from_params() const noexcept
 {
     return m_drones_usage_from_params;
+}
+
+asst::InfrastProductionTask& asst::InfrastProductionTask::set_drones_balance_config(std::string mode, int threshold) noexcept
+{
+    m_drones_balance_mode = std::move(mode);
+    m_drones_balance_threshold = threshold;
+    m_drones_balance_consume_done = m_drones_balance_mode.empty();
+    return *this;
 }
 
 void asst::InfrastProductionTask::set_custom_drones_config(infrast::CustomDronesConfig drones_config)
@@ -432,6 +442,11 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 m_custom_drones_config.index == m_cur_facility_index) {
                 use_drone();
             }
+        }
+        else if (
+            // 无人机自动平衡：贸易站消耗对应物品至低于阈值，制造站无人机走下方普通 params 分支
+            !m_drones_balance_mode.empty() && facility_name() == "Trade") {
+            drones_balance_consume();
         }
         else if (
             // 普通 params 无人机只在非自定义模式下使用
@@ -902,6 +917,127 @@ bool asst::InfrastProductionTask::use_drone()
     std::string task_name = "DroneAssist" + facility_name();
     ProcessTask task_temp(*this, { task_name });
     return task_temp.run();
+}
+
+bool asst::InfrastProductionTask::use_drone_once()
+{
+    ProcessTask task_temp(*this, { "DroneAssistTradeBalance" });
+    return task_temp.run();
+}
+
+bool asst::InfrastProductionTask::use_drone_once_deliver()
+{
+    ProcessTask task_temp(*this, { "DeliverableOrderBalance" });
+    return task_temp.run();
+}
+
+bool asst::InfrastProductionTask::is_accelerate_button_visible()
+{
+    Matcher analyzer(ctrler()->get_image());
+    analyzer.set_task_info("DroneAssistTrade");
+    return static_cast<bool>(analyzer.analyze());
+}
+
+void asst::InfrastProductionTask::drones_balance_consume()
+{
+    LogTraceFunction;
+    if (m_drones_balance_consume_done) {
+        return;
+    }
+    m_drones_balance_consume_done = true;
+
+    // 尽力切换订单类型，确保加速的是目标消耗订单
+    const std::string order_task =
+        (m_drones_balance_mode == "PureGold-Money") ? "ChangeToMoneyOrder" : "ChangeToSyntheticJadeFlagOrder";
+    if (!ProcessTask(*this, { order_task }).run()) {
+        Log.warn(__FUNCTION__, "| failed to switch order type, continue best-effort");
+    }
+
+    constexpr int ConsumeMaxTimes = 10;
+    int last_stock = -1;
+    int unchanged_times = 0;
+    for (int i = 0; i < ConsumeMaxTimes; ++i) {
+        if (need_exit()) {
+            return;
+        }
+
+        // 状态1（第一格无未完成订单，加速按钮可见）：加速生产一个订单。
+        // 无人机充足 → 弹窗消失 → 状态2；无人机不足 → 弹窗消失 → 仍状态1 → 停止。
+        if (is_accelerate_button_visible()) {
+            if (!use_drone_once()) {
+                Log.info(__FUNCTION__, "| use drone once failed, stop consuming");
+                return;
+            }
+            if (is_accelerate_button_visible()) {
+                Log.warn(__FUNCTION__, "| no enough drones to complete an order, stop consuming");
+                return;
+            }
+        }
+
+        // 状态2（有未完成订单，库存/消耗量 X/Y 可读）
+        int stock = 0, consumption = 0;
+        if (!try_get_stock_and_consumption(stock, consumption)) {
+            Log.warn(__FUNCTION__, "| failed to recognize stock/consumption, stop consuming");
+            return;
+        }
+        Log.info(__FUNCTION__, "| stock", stock, "| consumption", consumption,
+                 "| threshold", m_drones_balance_threshold);
+
+        // 记录本次消耗（相对上一轮读取的库存），并守卫“库存未下降”的空转
+        Log.info(__FUNCTION__, "| consumed in this order", last_stock >= 0 ? (last_stock - stock) : 0);
+        if (last_stock >= 0 && stock >= last_stock) {
+            if (++unchanged_times >= 2) {
+                Log.warn(__FUNCTION__, "| stock not decreasing, stop consuming");
+                return;
+            }
+        }
+        else {
+            unchanged_times = 0;
+        }
+        last_stock = stock;
+
+        // 交付订单消耗库存 → 回状态1
+        if (!use_drone_once_deliver()) {
+            Log.info(__FUNCTION__, "| deliver order failed, stop consuming");
+            return;
+        }
+
+        // 回状态1时根据读取到的数字判读是否要进行下一次循环
+        if (stock < m_drones_balance_threshold) {
+            Log.info(__FUNCTION__, "| below threshold, stop consuming");
+            return;
+        }
+    }
+}
+
+bool asst::InfrastProductionTask::try_get_stock_and_consumption(int& stock, int& consumption)
+{
+    LogTraceFunction;
+    OCRer analyzer(ctrler()->get_image());
+    analyzer.set_task_info("DroneTradeStock");
+    analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
+    analyzer.set_use_char_model(true);
+    if (!analyzer.analyze()) {
+        return false;
+    }
+    const std::string& text = analyzer.get_result().front().text;
+    // 库存/消耗量 形如 X/Y
+    auto slash_pos = text.find('/');
+    if (slash_pos == std::string::npos) {
+        Log.warn(__FUNCTION__, "| ocr result without '/':", text);
+        return false;
+    }
+    // 游戏内大于 999 会显示为 999+，按 1000 处理
+    auto parse_number = [](std::string_view num_text, int& out) -> bool {
+        if (num_text.find('+') != std::string_view::npos) {
+            out = 1000;
+            return true;
+        }
+        return utils::chars_to_number(num_text, out);
+    };
+    const std::string_view text_view(text);
+    return parse_number(text_view.substr(0, slash_pos), stock) &&
+           parse_number(text_view.substr(slash_pos + 1), consumption);
 }
 
 asst::infrast::SkillsComb

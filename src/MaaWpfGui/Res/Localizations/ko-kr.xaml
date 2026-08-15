@@ -152,6 +152,8 @@
     <system:String x:Key="PureGold">제조소-순금</system:String>
     <system:String x:Key="OriginStone">제조소-오리지늄 조각</system:String>
     <system:String x:Key="Chip">제조소-칩</system:String>
+    <system:String x:Key="PureGoldMoney">순금-용문폐</system:String>
+    <system:String x:Key="OriginStoneSyntheticJade">오리지늄 조각-합성옥</system:String>
     <system:String x:Key="DormTrustEnabled">숙소의 남은 자리로 신뢰도 증가</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">업무 중 {key=Operator} 휴식 제한</system:String>
     <system:String x:Key="DormFilterNotStationedTips">체크할 경우 아이린과 같은 {key=Operator}를 훈련실에서 제거하지 않고, 가공소의 {key=Operator}가 숙소에 배치되는 것을 방지합니다.</system:String>
@@ -645,6 +647,9 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="ReceiveMining">한정 채굴 일일 합성옥 수령</system:String>
     <system:String x:Key="ReceiveSpecialAccess">스페셜 액세스 보상 수령</system:String>
     <system:String x:Key="DroneUsage">드론 사용처</system:String>
+    <system:String x:Key="DroneUsageThreshold">남은 수량 임계값</system:String>
+    <system:String x:Key="DroneUsageThresholdToolTip">실행 시 먼저 무역소에서 드론으로 순금/오리지늄 조각을 임계값 미만까지 소모한 뒤, 남은 드론을 모두 생산에 사용합니다. 게임 내 재고가 999를 넘으면 999+로 표시되므로 여기서 상한 999는 1000으로 취급됩니다.</system:String>
+    <system:String x:Key="DroneBalanceOrderRollback">제조소( Mfg )는 무역소( Trade )보다 앞에 올 수 없습니다. 드론 자동 균형 모드에서는 무역소가 먼저 실행되어야 하므로 순서를 자동으로 되돌렸습니다.</system:String>
     <system:String x:Key="UseTray">트레이 아이콘 표시</system:String>
     <system:String x:Key="HideTray">트레이 아이콘 숨기기</system:String>
     <system:String x:Key="MinimizeToTray">최소화 시 트레이에 숨기기</system:String>
