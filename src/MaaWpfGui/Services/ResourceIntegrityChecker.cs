@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using MaaWpfGui.Helper;
 using Serilog;
 
@@ -23,10 +24,10 @@ namespace MaaWpfGui.Services;
 
 /// <summary>
 /// 检查安装文件完整性。
-/// filelist.txt 由 CI 在打完整包时生成（安装目录内全部文件的相对路径列表，每行一个，正斜杠分隔），
-/// 与 zipota 生成的 OTA 增量包内 filelist.txt 规则一致（均为全量清单）；
-/// OTA 增量包会携带新版本的 filelist.txt，应用更新后随之刷新，无需单独维护。
-/// 检查时跳过 dll/exe：程序文件缺失时 UI 或核心会直接报错，无需此检查兜底，
+/// filelist.txt 由 CI 在打完整包时生成（安装目录内全部文件的相对路径列表，每行一个，正斜杠分隔）；
+/// OTA 增量包在文件集合变化时会携带新版本的 filelist.txt，应用更新后随之刷新，无需单独维护。
+/// 检查时跳过 dll/exe/py：dll/exe 缺失时 UI 或核心会直接报错，无需此检查兜底，
+/// Python/ 目录供用户自行接入调用、允许删除，
 /// 也可避免打包与开发环境目录布局差异造成的误报。
 /// 只做存在性检查：资源更新链路只增不删且只覆盖，清单不会因日常资源更新误报；
 /// 文件缺失通常由安全软件拦截或手动删除造成，且在任务加载侧完全无提示。
@@ -87,8 +88,9 @@ internal static class ResourceIntegrityChecker
             }
 
             // 防御被篡改的清单：绝对路径或路径穿越会使检查指向安装目录之外
-            // （Path.Combine 遇到绝对路径的第二参数会直接丢弃 BaseDir）
-            if (Path.IsPathRooted(trimmedPath) || trimmedPath.Contains("..", StringComparison.Ordinal))
+            // （Path.Combine 遇到绝对路径的第二参数会直接丢弃 BaseDir；
+            // 路径穿越按段判断，避免误伤 a..b.txt 这类合法文件名）
+            if (Path.IsPathRooted(trimmedPath) || trimmedPath.Split('/', '\\').Contains(".."))
             {
                 _logger.Warning("Skipping suspicious path in file list: {Path}", trimmedPath);
                 continue;

@@ -1,6 +1,6 @@
 # 生成 filelist.txt：安装目录内全部文件（除清单自身）的相对路径列表，每行一个，正斜杠分隔。
-# 清单随完整包分发；OTA 增量包与 MirrorChyan 会携带新版本清单，应用更新后自动刷新。
-# UI 启动时读取清单做存在性检查，跳过 dll/exe 等程序文件。
+# 清单随完整包分发；OTA 增量包在文件集合变化时携带新版本清单，应用更新后自动刷新。
+# UI 启动时读取清单做存在性检查，跳过 dll/exe/py。
 param(
     [Parameter(Mandatory = $true)]
     [string]$InstallDir
