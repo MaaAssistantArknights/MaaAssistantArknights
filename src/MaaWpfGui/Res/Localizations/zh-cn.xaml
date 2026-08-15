@@ -1479,7 +1479,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowScreencapMethod">截图方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">鼠标输入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">键盘输入</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">WGC（后台，高效，可最小化）</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">WGC（后台，高效，不可最小化）</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow（后台，稳定，可最小化）</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（后台，备用，不可最小化）</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（前台，不可遮挡）</system:String>

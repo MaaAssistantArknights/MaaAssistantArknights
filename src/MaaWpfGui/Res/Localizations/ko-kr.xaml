@@ -1481,7 +1481,7 @@ MAA Team의 개발 여력이 제한되어 있어 이 기능은 커뮤니티에�
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (백그라운드, 효율적, 최소화 가능)</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (백그라운드, 효율적, 최소화 불가)</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (백그라운드, 안정적, 최소화 가능)</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (백그라운드, 백업, 최소화 불가)</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (포그라운드, 가림 불가)</system:String>

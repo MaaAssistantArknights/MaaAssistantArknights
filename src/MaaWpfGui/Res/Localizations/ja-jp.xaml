@@ -1480,7 +1480,7 @@ MAA Team の開発リソースが限られているため、この機能はコ�
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（バックグラウンド、高効率、最小化可）</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（バックグラウンド、高効率、最小化不可）</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow（バックグラウンド、安定、最小化可）</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（バックグラウンド、予備、最小化不可）</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（フォアグラウンド、遮蔽不可）</system:String>

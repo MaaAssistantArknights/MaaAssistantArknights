@@ -1478,7 +1478,7 @@ Before use, please ensure:
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Background, Efficient, Can Minimize)</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Background, Efficient, Cannot Minimize)</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (Background, Stable, Can Minimize)</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (Background, Backup, Cannot Minimize)</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (Foreground, No Occlusion)</system:String>
