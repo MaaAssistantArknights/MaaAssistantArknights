@@ -1288,6 +1288,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ResourceIntegrityRepairNo">나중에 처리</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">누락된 리소스 파일을 복구하기 위해 전체 패키지를 다운로드하는 중…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">자동 복구에 실패했습니다. 안내에 따라 수동으로 처리해 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceIntegrityRepairCanceled">자동 복구가 취소되었습니다. 누락된 파일은 다음 시작 시 다시 알림이 표시됩니다.</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 파일이 존재하지 않습니다</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 다운로드 실패</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">폴더 삭제에 실패했습니다. 폴더가 바뀌었거나 다른 문제가 발생했을 수 있습니다. 자세한 내용은 로그를 확인하세요.</system:String>

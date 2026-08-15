@@ -1285,6 +1285,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">Not now, continue starting</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">Downloading the full package to restore missing resource files…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">Automatic repair failed. Please follow the instructions below to fix it manually.\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceIntegrityRepairCanceled">Automatic repair canceled. You will be reminded about the missing files again on the next startup.</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB File NOT existing</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">Unable to delete directory, it may have been replaced or encountered other issues. Please check the logs for more information.</system:String>

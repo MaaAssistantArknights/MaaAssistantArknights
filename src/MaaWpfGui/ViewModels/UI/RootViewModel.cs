@@ -92,7 +92,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     /// <summary>
     /// 启动时的完整性检查与更新检查。
     /// 对照 filelist.txt 检查安装文件是否缺失，缺失时弹窗询问是否修复（重新下载完整包）；
-    /// 未缺失或用户选择忽略时走常规更新检查。
+    /// 未缺失、用户选择忽略、或修复未完成（失败/用户取消）时回退常规更新检查。
     /// 必须在主窗口显示之后执行，否则弹窗会成为唯一窗口，关闭时触发 WPF 退出。
     /// </summary>
     private static async Task StartupIntegrityCheckAndUpdateAsync()
@@ -117,14 +117,23 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             {
                 // 修复优先于常规更新检查，注册完成后会提示重启
                 _logger.Information("Integrity repair accepted by user, {Count} file(s) missing", missingFiles.Count);
-                if (await Instances.VersionUpdateDialogViewModel.RunIntegrityRepairAsync())
+                var repairResult = await Instances.VersionUpdateDialogViewModel.RunIntegrityRepairAsync();
+                if (repairResult == Dialogs.VersionUpdateDialogViewModel.IntegrityRepairResult.Succeeded)
                 {
                     return;
                 }
 
-                // 修复失败时回退常规更新检查：完整包升级可补齐缺失文件，
-                // 但 OTA 增量只含版本间变化的文件，未变化的缺失文件不会被补上
-                _logger.Warning("Integrity repair failed, falling back to regular update check");
+                if (repairResult == Dialogs.VersionUpdateDialogViewModel.IntegrityRepairResult.Canceled)
+                {
+                    // 用户主动取消修复：仍执行常规更新检查，持续取消时才不会一直收不到更新提示
+                    _logger.Information("Integrity repair canceled by user, falling back to regular update check");
+                }
+                else
+                {
+                    // 修复失败时回退常规更新检查：完整包升级可补齐缺失文件，
+                    // 但 OTA 增量只含版本间变化的文件，未变化的缺失文件不会被补上
+                    _logger.Warning("Integrity repair failed, falling back to regular update check");
+                }
             }
             else
             {

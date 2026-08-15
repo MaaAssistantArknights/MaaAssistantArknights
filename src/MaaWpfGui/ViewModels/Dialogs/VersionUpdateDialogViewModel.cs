@@ -726,33 +726,105 @@ public class VersionUpdateDialogViewModel : Screen
     }
 
     /// <summary>
+    /// 完整性修复流程的结果。
+    /// </summary>
+    public enum IntegrityRepairResult
+    {
+        /// <summary>
+        /// 完整包已注册为待应用更新，等待重启。
+        /// </summary>
+        Succeeded,
+
+        /// <summary>
+        /// 用户在完整包风险确认弹窗中主动取消。
+        /// </summary>
+        Canceled,
+
+        /// <summary>
+        /// 解析下载源、下载或注册包失败。
+        /// </summary>
+        Failed,
+    }
+
+    /// <summary>
     /// 资源完整性修复：重新下载当前渠道的完整包并注册为待应用更新。
     /// 用户已在启动时的完整性检查弹窗中确认，不做版本新旧判断（允许重装同版本）。
     /// </summary>
-    /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-    public async Task<bool> RunIntegrityRepairAsync()
+    /// <returns>修复流程的结果，用于区分成功、用户取消与失败。</returns>
+    public async Task<IntegrityRepairResult> RunIntegrityRepairAsync()
     {
-        _logger.Information("Starting integrity repair download");
+        _logger.Information("Starting integrity repair");
         OutputDownloadProgress(LocalizationHelper.GetString("ResourceIntegrityRepairDownloading"), downloading: false);
 
         // 后续需要弹窗询问重启，保持 UI 上下文，不使用 ConfigureAwait(false)
-        string? packagePath = await TryDownloadFullPackageForRepairAsync();
+
+        // 先解析下载源并确认完整包覆盖风险，再执行下载；
+        // 与其他完整包更新入口保持一致，用户拒绝时不必下载 200MB+ 的完整包
+        // 仅当更新来源配置为 MirrorChyan 且已填写 CDK 时走 MirrorChyan，其余来源直接走 maaApi
+        var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk.Trim();
+        bool useMirrorChyan = SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan" && !string.IsNullOrEmpty(cdk);
+
+        var mirrorChyanPackage = useMirrorChyan ? await ResolveMirrorChyanRepairPackageAsync(cdk) : null;
+        var maaApiPackage = mirrorChyanPackage is null ? await ResolveMaaApiRepairPackageAsync() : null;
+        if (mirrorChyanPackage is null && maaApiPackage is null)
+        {
+            FailIntegrityRepair("Integrity repair: no full package source resolved");
+            return IntegrityRepairResult.Failed;
+        }
+
+        string plannedPackagePath = GetPlannedUpdatePackagePath(mirrorChyanPackage?.PackageName ?? maaApiPackage!.PackageName);
+        if (!ConfirmFullPackageUpdate(plannedPackagePath))
+        {
+            _logger.Information("Integrity repair full package application canceled by user: {PackagePath}", plannedPackagePath);
+
+            // 反馈走任务队列的下载日志，与更新包下载失败的提示通道一致
+            OutputDownloadProgress(LocalizationHelper.GetString("ResourceIntegrityRepairCanceled"), downloading: false);
+            return IntegrityRepairResult.Canceled;
+        }
+
+        string? packagePath = null;
+        if (mirrorChyanPackage is not null)
+        {
+            _logger.Information("Integrity repair: downloading full package {PackageName} from MirrorChyan", mirrorChyanPackage.PackageName);
+            OutputDownloadProgress(LocalizationHelper.GetString("ResourceIntegrityRepairDownloading"), downloading: true, globalSource: false);
+            if (await DownloadFromMirrorChyan(mirrorChyanPackage.DownloadUrl, mirrorChyanPackage.PackageName))
+            {
+                packagePath = GetPlannedUpdatePackagePath(mirrorChyanPackage.PackageName);
+            }
+            else
+            {
+                _logger.Warning("Integrity repair: MirrorChyan download failed, falling back to maaApi");
+            }
+        }
+
         if (packagePath is null)
         {
-            _logger.Error("Integrity repair download failed from all sources");
-            OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("ResourceIntegrityRepairFailed"));
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("ResourceIntegrityRepairFailed"));
-            return false;
+            maaApiPackage ??= await ResolveMaaApiRepairPackageAsync();
+            if (maaApiPackage is null)
+            {
+                FailIntegrityRepair("Integrity repair: no full package resolved from maaApi");
+                return IntegrityRepairResult.Failed;
+            }
+
+            _logger.Information("Integrity repair: downloading full package {PackageName} from maaApi", maaApiPackage.PackageName);
+            OutputDownloadProgress(LocalizationHelper.GetString("ResourceIntegrityRepairDownloading"), downloading: true, globalSource: true);
+            foreach (string url in maaApiPackage.DownloadUrls)
+            {
+                if (await DownloadGithubAssets(url, maaApiPackage.Asset))
+                {
+                    packagePath = GetPlannedUpdatePackagePath(maaApiPackage.PackageName);
+                    break;
+                }
+            }
+        }
+
+        if (packagePath is null)
+        {
+            FailIntegrityRepair("Integrity repair download failed from all sources");
+            return IntegrityRepairResult.Failed;
         }
 
         string arch = IsArm ? "arm64" : "x64";
-
-        // 完整包应用会覆盖安装目录，风险确认与其他完整包更新入口保持一致
-        if (!ConfirmFullPackageUpdate(packagePath))
-        {
-            _logger.Information("Integrity repair full package application canceled by user: {PackagePath}", packagePath);
-            return false;
-        }
 
         var importResult = PendingUpdateApplier.TryRegisterLocalPackage(
             packagePath,
@@ -764,16 +836,29 @@ public class VersionUpdateDialogViewModel : Screen
             and not PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered)
         {
             _logger.Error("Integrity repair package rejected: status={Status}, packagePath={PackagePath}", importResult.Status, packagePath);
-            OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("ResourceIntegrityRepairFailed"));
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("ResourceIntegrityRepairFailed"));
-            return false;
+            FailIntegrityRepair("Integrity repair package rejected");
+            return IntegrityRepairResult.Failed;
         }
 
         _logger.Information("Integrity repair package registered: {PackagePath}", packagePath);
         OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
         await AskToRestartForImportedPackage();
-        return true;
+        return IntegrityRepairResult.Succeeded;
     }
+
+    /// <summary>
+    /// 输出完整性修复失败的状态（gui.log 与任务队列下载日志，不弹 Toast）。
+    /// </summary>
+    /// <param name="reason">失败原因（仅记录日志）。</param>
+    private void FailIntegrityRepair(string reason)
+    {
+        _logger.Error(reason);
+        OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("ResourceIntegrityRepairFailed"));
+    }
+
+    private sealed record MirrorChyanRepairPackage(string PackageName, string DownloadUrl);
+
+    private sealed record MaaApiRepairPackage(string PackageName, JObject Asset, IReadOnlyList<string> DownloadUrls);
 
     /// <summary>
     /// 获取当前更新渠道的 MirrorChyan / maaApi 标识（stable / beta / alpha）。
@@ -802,25 +887,13 @@ public class VersionUpdateDialogViewModel : Screen
         return $"{MaaUrls.MirrorChyanAppUpdate}?{currentVersionPart}cdk={cdk}&user_agent=MaaWpfGui&os=win&arch={arch}&channel={GetUpdateChannel()}&sp_id={spid}";
     }
 
-    private async Task<string?> TryDownloadFullPackageForRepairAsync()
+    /// <summary>
+    /// 从 MirrorChyan 解析当前渠道完整包的下载信息（不执行下载）。
+    /// </summary>
+    /// <param name="cdk">已非空的 MirrorChyan CDK（调用方保证更新来源为 MirrorChyan）。</param>
+    /// <returns>解析结果；解析失败时返回 null，交给 maaApi 兜底。</returns>
+    private async Task<MirrorChyanRepairPackage?> ResolveMirrorChyanRepairPackageAsync(string cdk)
     {
-        string? path = await TryDownloadMirrorChyanFullPackageForRepairAsync().ConfigureAwait(false);
-        if (path is not null)
-        {
-            return path;
-        }
-
-        return await TryDownloadMaaApiFullPackageForRepairAsync().ConfigureAwait(false);
-    }
-
-    private async Task<string?> TryDownloadMirrorChyanFullPackageForRepairAsync()
-    {
-        var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk.Trim();
-        if (SettingsViewModel.VersionUpdateSettings.UpdateSource != "MirrorChyan" || string.IsNullOrEmpty(cdk))
-        {
-            return null;
-        }
-
         try
         {
             // 修复场景不传当前版本：MirrorChyan 视为全新安装，直接返回完整包，
@@ -837,24 +910,20 @@ public class VersionUpdateDialogViewModel : Screen
             }
 
             // 文件名需符合完整包命名规范（MAA-vX.X.X-win-x64.zip），否则注册时的包名校验不通过
-            string packageName = $"MAA-{versionName}-win-{(IsArm ? "arm64" : "x64")}.zip";
-            _logger.Information("Integrity repair: downloading full package {PackageName} from MirrorChyan", packageName);
-            OutputDownloadProgress(LocalizationHelper.GetString("ResourceIntegrityRepairDownloading"), downloading: true, globalSource: false);
-            if (!await DownloadFromMirrorChyan(downloadUrl, packageName).ConfigureAwait(false))
-            {
-                return null;
-            }
-
-            return GetPlannedUpdatePackagePath(packageName);
+            return new MirrorChyanRepairPackage($"MAA-{versionName}-win-{(IsArm ? "arm64" : "x64")}.zip", downloadUrl);
         }
         catch (Exception ex)
         {
-            _logger.Error(ex, "Failed to download full package from MirrorChyan for integrity repair");
+            _logger.Error(ex, "Failed to resolve full package from MirrorChyan for integrity repair");
             return null;
         }
     }
 
-    private async Task<string?> TryDownloadMaaApiFullPackageForRepairAsync()
+    /// <summary>
+    /// 从 maaApi 解析当前渠道完整包的下载信息（不执行下载）。
+    /// </summary>
+    /// <returns>解析结果；解析失败时返回 null。</returns>
+    private async Task<MaaApiRepairPackage?> ResolveMaaApiRepairPackageAsync()
     {
         try
         {
@@ -877,7 +946,6 @@ public class VersionUpdateDialogViewModel : Screen
             }
 
             string versionPrefix = $"maa-{latestVersion.ToLower()}-";
-            JObject? fullPackage = null;
             foreach (var asset in assets)
             {
                 string? name = asset["name"]?.ToString().ToLower();
@@ -886,51 +954,34 @@ public class VersionUpdateDialogViewModel : Screen
                     continue;
                 }
 
-                if (!name.Contains(versionPrefix))
+                if (!name.Contains(versionPrefix) || asset is not JObject fullPackage)
                 {
                     continue;
                 }
 
-                fullPackage = asset as JObject;
-                break;
-            }
-
-            if (fullPackage is null)
-            {
-                _logger.Error("No full package asset found on maaApi for integrity repair");
-                return null;
-            }
-
-            string packageName = fullPackage["name"]!.ToString();
-            string? rawUrl = fullPackage["browser_download_url"]?.ToString();
-            if (string.IsNullOrEmpty(rawUrl))
-            {
-                return null;
-            }
-
-            var urls = new List<string>();
-            if (fullPackage["mirrors"]?.ToObject<List<string>>() is { } mirrors)
-            {
-                urls.AddRange(mirrors);
-            }
-
-            urls.Add(rawUrl);
-
-            _logger.Information("Integrity repair: downloading full package {PackageName} from maaApi", packageName);
-            OutputDownloadProgress(LocalizationHelper.GetString("ResourceIntegrityRepairDownloading"), downloading: true, globalSource: true);
-            foreach (string url in urls)
-            {
-                if (await DownloadGithubAssets(url, fullPackage).ConfigureAwait(false))
+                string packageName = fullPackage["name"]!.ToString();
+                string? rawUrl = fullPackage["browser_download_url"]?.ToString();
+                if (string.IsNullOrEmpty(rawUrl))
                 {
-                    return GetPlannedUpdatePackagePath(packageName);
+                    return null;
                 }
+
+                var urls = new List<string>();
+                if (fullPackage["mirrors"]?.ToObject<List<string>>() is { } mirrors)
+                {
+                    urls.AddRange(mirrors);
+                }
+
+                urls.Add(rawUrl);
+                return new MaaApiRepairPackage(packageName, fullPackage, urls);
             }
 
+            _logger.Error("No full package asset found on maaApi for integrity repair");
             return null;
         }
         catch (Exception ex)
         {
-            _logger.Error(ex, "Failed to download full package from maaApi for integrity repair");
+            _logger.Error(ex, "Failed to resolve full package from maaApi for integrity repair");
             return null;
         }
     }
