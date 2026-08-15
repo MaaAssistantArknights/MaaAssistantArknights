@@ -1254,6 +1254,7 @@ Right-click to clear inactive jobs</system:String>
     <!--  !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">Error</system:String>
+    <!--  ErrorCongratulations 与下方 ErrorSolutionMoveMaaExeOutOfFolder 修改时需同步 src/MaaAppHostStub/MaaAppHostStub.cpp，由 tools/CheckStubLocalization.py 校验  -->
     <system:String x:Key="ErrorCongratulations">Congratulations</system:String>
     <system:String x:Key="ErrorProlog">MAA has encountered an error</system:String>
     <system:String x:Key="ErrorDetails">Details</system:String>

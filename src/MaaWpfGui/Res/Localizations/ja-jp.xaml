@@ -1256,6 +1256,7 @@ C:\\leidian\\LDPlayer9
     <!--  !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">エラー</system:String>
+    <!--  ErrorCongratulations 与下方 ErrorSolutionMoveMaaExeOutOfFolder 修改时需同步 src/MaaAppHostStub/MaaAppHostStub.cpp，由 tools/CheckStubLocalization.py 校验  -->
     <system:String x:Key="ErrorCongratulations">おめでとうございます</system:String>
     <system:String x:Key="ErrorProlog">MAA に問題が発生しました</system:String>
     <system:String x:Key="ErrorDetails">詳細情報</system:String>
