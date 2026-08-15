@@ -1502,7 +1502,7 @@ If you do need to use it, please ensure:
     <!--  !TrayIcon  -->
     <!--  About  -->
     <system:String x:Key="Website">MAA Website</system:String>
-    <system:String x:Key="Github">Source code: GitHub</system:String>
+    <system:String x:Key="Github">GitHub</system:String>
     <system:String x:Key="PrtsPlus">Copilot JSON sharing site</system:String>
     <system:String x:Key="MapPrts">Copilot Map and Coordinate</system:String>
     <system:String x:Key="CustomInfrastGenerator">Custom Base JSON Generator</system:String>
