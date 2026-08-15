@@ -760,6 +760,12 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   ::: field name="use_sanity_potion" type="boolean" optional default="false"  
   理智が不足した場合に理智薬を使用するかどうか。  
   :::  
+  ::: field name="auto_restart" type="boolean" optional default="false"  
+  マルチジョブモードで、戦闘中に敵を通した場合、または戦闘に失敗した場合に現在のステージを再開するかどうか。敵を通した場合はリザルト前に戦闘を中止します。  
+  :::  
+  ::: field name="auto_restart_times" type="number" optional default="3"  
+  各ジョブで許可する自動再開の最大回数（1～999）。`auto_restart` が `true` の場合のみ有効。  
+  :::  
   ::: field name="formation" type="boolean" optional default="false"  
   自動編成を行うかどうか。  
   :::  

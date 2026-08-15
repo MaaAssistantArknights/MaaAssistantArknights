@@ -1174,6 +1174,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="CopilotList">작업 목록</system:String>
     <system:String x:Key="UseCopilotList">다중 작업 모드</system:String>
+    <system:String x:Key="AutoRestart">자동 재시작</system:String>
+    <system:String x:Key="AutoRestartTimes">최대 재시작 횟수</system:String>
+    <system:String x:Key="AutoRestartTip" xml:space="preserve">적을 놓친 경우 3성 미만 결과를 피하도록 정산 전에 전투를 포기합니다.&#10;작업별 최대 재시작 횟수는 1~999회로 설정할 수 있습니다.</system:String>
+    <system:String x:Key="CopilotAutoRestartEnabledLog">자동 재시작을 활성화했습니다. 총 {0}개 작업에서 각각 최대 {1}회 재시작합니다.</system:String>
+    <system:String x:Key="CopilotAutoRestartReasonEnemyLeak">적 통과</system:String>
+    <system:String x:Key="CopilotAutoRestartReasonBattleFailed">전투 실패</system:String>
+    <system:String x:Key="CopilotAutoRestartLog">작업 {0}/{1}: {2} 감지. 현재 스테이지를 자동으로 다시 시작합니다 ({3}/{4}).</system:String>
+    <system:String x:Key="CopilotAutoRestartRecoveredLog">작업 {0}/{1}: 자동 재시작에 성공하여 실행을 계속합니다.</system:String>
+    <system:String x:Key="CopilotAutoRestartLimitLog">작업 {0}/{1}: {2}이 계속되어 자동 재시작 한도({3}/{4})에 도달했으므로 중지했습니다.</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">다음 모드에서만 지원됩니다:
   1. {key=MainStage}: 동일 챕터 내에서 이동
   2. {key=SideStory}: 현재 페이지 내에서 이동 (일반/EX/S 간 이동 불가)

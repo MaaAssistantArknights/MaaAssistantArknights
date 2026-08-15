@@ -1171,6 +1171,15 @@ Operators' Elite level CANNOT be ignored. If any requirements are ignored, the o
     <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="CopilotList">Job List</system:String>
     <system:String x:Key="UseCopilotList">Multi-Job mode</system:String>
+    <system:String x:Key="AutoRestart">Auto Restart</system:String>
+    <system:String x:Key="AutoRestartTimes">Max Restarts</system:String>
+    <system:String x:Key="AutoRestartTip" xml:space="preserve">A leaked battle is abandoned before settlement to avoid a non-3-star result.&#10;Max restarts can be set from 1 to 999 per job.</system:String>
+    <system:String x:Key="CopilotAutoRestartEnabledLog">Auto Restart enabled for {0} job(s), with up to {1} restarts per job.</system:String>
+    <system:String x:Key="CopilotAutoRestartReasonEnemyLeak">an enemy leak</system:String>
+    <system:String x:Key="CopilotAutoRestartReasonBattleFailed">a battle failure</system:String>
+    <system:String x:Key="CopilotAutoRestartLog">Job {0}/{1}: detected {2}. Restarting the current stage ({3}/{4}).</system:String>
+    <system:String x:Key="CopilotAutoRestartRecoveredLog">Job {0}/{1}: Auto Restart succeeded and execution resumed.</system:String>
+    <system:String x:Key="CopilotAutoRestartLimitLog">Job {0}/{1}: stopped because repeated {2} reached the Auto Restart limit ({3}/{4}).</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">Only supported in the following modes:
   1. {key=MainStage}: Navigate within the same chapter
   2. {key=SideStory}: Navigate within the current page (cannot jump between Normal/EX/S)

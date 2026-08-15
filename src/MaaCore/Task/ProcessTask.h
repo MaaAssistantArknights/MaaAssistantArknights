@@ -39,6 +39,13 @@ public:
 
     const std::string& get_last_task_name() const noexcept { return m_last_task_name; }
 
+    // 提供只读执行次数，使组合任务能区分“明确命中失败节点”和其他流程停止原因。
+    int get_exec_times(const std::string& task_name) const noexcept
+    {
+        const auto iter = m_exec_times.find(task_name);
+        return iter == m_exec_times.cend() ? 0 : iter->second;
+    }
+
     const auto& get_last_hit() const noexcept { return m_last_hit_detail; }
 
 protected:

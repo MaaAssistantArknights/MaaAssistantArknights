@@ -765,6 +765,26 @@ public partial class CopilotViewModel : Screen
         }
     } = ConfigFactory.CurrentConfig.Copilot.LoopTimes;
 
+    public bool AutoRestart
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Copilot.AutoRestart = value;
+        }
+    } = ConfigFactory.CurrentConfig.Copilot.AutoRestart;
+
+    private const int MinAutoRestartTimes = 1;
+    private const int MaxAutoRestartTimes = 999;
+
+    public int AutoRestartTimes
+    {
+        get; set {
+            value = Math.Clamp(value, MinAutoRestartTimes, MaxAutoRestartTimes);
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Copilot.AutoRestartTimes = value;
+        }
+    } = Math.Clamp(ConfigFactory.CurrentConfig.Copilot.AutoRestartTimes, MinAutoRestartTimes, MaxAutoRestartTimes);
+
     private const string CopilotUiUrl = MaaUrls.PrtsPlus;
 
     private string _copilotUrl = CopilotUiUrl;
@@ -2044,6 +2064,8 @@ public partial class CopilotViewModel : Screen
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
+                AutoRestart = AutoRestart,
+                AutoRestartTimes = AutoRestartTimes,
             };
 
             // 能用列表的是主线/ss/故事集/悖论，都是 Copilot 类型

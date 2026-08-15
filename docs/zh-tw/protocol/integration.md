@@ -760,6 +760,12 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
   ::: field name="use_sanity_potion" type="boolean" optional default="false"  
   是否允許在理智不足時自動使用理智藥。  
   :::  
+  ::: field name="auto_restart" type="boolean" optional default="false"  
+  多作業模式下，是否在戰鬥中偵測到漏怪或戰鬥失敗時重開目前關卡。漏怪時會在結算前退出戰鬥。  
+  :::  
+  ::: field name="auto_restart_times" type="number" optional default="3"  
+  每個作業允許自動重開的最大次數，可設定為 1 至 999。僅在 `auto_restart` 為 `true` 時有效。  
+  :::  
   ::: field name="formation" type="boolean" optional default="false"  
   是否執行自動編隊。  
   :::  

@@ -1173,6 +1173,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="CopilotList">ジョブリスト</system:String>
     <system:String x:Key="UseCopilotList">マルチジョブモード</system:String>
+    <system:String x:Key="AutoRestart">自動再開</system:String>
+    <system:String x:Key="AutoRestartTimes">最大再開回数</system:String>
+    <system:String x:Key="AutoRestartTip" xml:space="preserve">敵を通した場合は、非★3の結果を避けるためリザルト前に戦闘を中止します。&#10;最大再開回数は1～999回に設定できます。</system:String>
+    <system:String x:Key="CopilotAutoRestartEnabledLog">自動再開を有効にしました。全 {0} ジョブで、それぞれ最大 {1} 回再開します。</system:String>
+    <system:String x:Key="CopilotAutoRestartReasonEnemyLeak">敵の通過</system:String>
+    <system:String x:Key="CopilotAutoRestartReasonBattleFailed">戦闘失敗</system:String>
+    <system:String x:Key="CopilotAutoRestartLog">ジョブ {0}/{1}：{2}を検出しました。現在のステージを自動再開します（{3}/{4}）。</system:String>
+    <system:String x:Key="CopilotAutoRestartRecoveredLog">ジョブ {0}/{1}：自動再開に成功し、実行を続行します。</system:String>
+    <system:String x:Key="CopilotAutoRestartLimitLog">ジョブ {0}/{1}：{2}が続き、自動再開の上限（{3}/{4}）に達したため停止しました。</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">以下のモードのみ対応:
   1. {key=MainStage}: 同じ章内でのナビゲーション
   2. {key=SideStory}: 現在のページ内でのナビゲーション（Normal/EX/S 間の移動は不可）

@@ -501,6 +501,46 @@
                             <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
                         </StackPanel>
 
+                        <!--  自动重开及每个作业允许的最大重开次数  -->
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Visibility="{c:Binding 'UseCopilotList and CopilotTabIndex == 0'}">
+                            <CheckBox
+                                x:Name="AutoRestartCheckBox"
+                                Margin="2.5,5"
+                                IsChecked="{Binding AutoRestart}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontFamily="{Binding ElementName=AutoRestartCheckBox, Path=FontFamily}"
+                                        FontSize="{Binding ElementName=AutoRestartCheckBox, Path=FontSize}"
+                                        FontStretch="{Binding ElementName=AutoRestartCheckBox, Path=FontStretch}"
+                                        FontStyle="{Binding ElementName=AutoRestartCheckBox, Path=FontStyle}"
+                                        FontWeight="{Binding ElementName=AutoRestartCheckBox, Path=FontWeight}"
+                                        Text="{DynamicResource AutoRestart}" />
+                                    <TextBlock
+                                        Margin="12,0,4,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{Binding ElementName=AutoRestartCheckBox, Path=FontFamily}"
+                                        FontSize="{Binding ElementName=AutoRestartCheckBox, Path=FontSize}"
+                                        FontStretch="{Binding ElementName=AutoRestartCheckBox, Path=FontStretch}"
+                                        FontStyle="{Binding ElementName=AutoRestartCheckBox, Path=FontStyle}"
+                                        FontWeight="{Binding ElementName=AutoRestartCheckBox, Path=FontWeight}"
+                                        Text="{DynamicResource AutoRestartTimes}" />
+                                </StackPanel>
+                            </CheckBox>
+                            <hc:NumericUpDown
+                                Width="55"
+                                Height="20"
+                                VerticalAlignment="Center"
+                                InputMethod.IsInputMethodEnabled="False"
+                                IsEnabled="{Binding AutoRestart}"
+                                Maximum="999"
+                                Minimum="1"
+                                Value="{Binding AutoRestartTimes}" />
+                            <controls:TooltipBlock TooltipText="{DynamicResource AutoRestartTip}" />
+                        </StackPanel>
+
                         <!--  UseSanityPotion  -->
                         <CheckBox
                             Margin="2.5,5"

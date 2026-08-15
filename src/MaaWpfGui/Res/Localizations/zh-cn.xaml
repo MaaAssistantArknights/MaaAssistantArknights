@@ -1172,6 +1172,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="CopilotList">作业列表</system:String>
     <system:String x:Key="UseCopilotList">多作业模式</system:String>
+    <system:String x:Key="AutoRestart">自动重开</system:String>
+    <system:String x:Key="AutoRestartTimes">最大重开次数</system:String>
+    <system:String x:Key="AutoRestartTip" xml:space="preserve">漏怪后会在结算前退出，避免以非三星结果结算。&#10;最大重开次数可设置为 1 至 999。</system:String>
+    <system:String x:Key="CopilotAutoRestartEnabledLog">自动重开已启用：共 {0} 个作业，每个作业最多重开 {1} 次</system:String>
+    <system:String x:Key="CopilotAutoRestartReasonEnemyLeak">漏怪</system:String>
+    <system:String x:Key="CopilotAutoRestartReasonBattleFailed">战斗失败</system:String>
+    <system:String x:Key="CopilotAutoRestartLog">作业 {0}/{1}：检测到{2}，正在自动重开当前关卡（{3}/{4}）</system:String>
+    <system:String x:Key="CopilotAutoRestartRecoveredLog">作业 {0}/{1}：自动重开成功，已恢复运行</system:String>
+    <system:String x:Key="CopilotAutoRestartLimitLog">作业 {0}/{1}：因持续{2}达到自动重开上限（{3}/{4}），已停止当前任务</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">仅支持以下模式:
   1. {key=MainStage}: 同一章节内导航
   2. {key=SideStory}: 当前页面内导航（普通/EX/S 不能互跳）
