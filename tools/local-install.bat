@@ -27,6 +27,12 @@ cmake --install build --config RelWithDebInfo --prefix install || goto :error
 dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -r win-x64 -o install /p:DisableBeauty=True || goto :error
 "%netbeauty_bin%" --usepatch --gitcdn="https://gitee.com/liesauer/HostFXRPatcher" "%CD%\install\." ./externals || goto :error
 
+if exist ".\build\bin\RelWithDebInfo\MaaAppHostStub.exe" (
+    copy /y ".\build\bin\RelWithDebInfo\MaaAppHostStub.exe" ".\install\MAA.exe" >nul || goto :error
+) else (
+    echo MaaAppHostStub.exe not found in build output, keeping dotnet apphost as MAA.exe
+)
+
 del /f .\install\*.h 2>nul
 rmdir /s /q .\install\msvc-debug 2>nul
 robocopy .\resource .\install\resource /MIR /MT:8

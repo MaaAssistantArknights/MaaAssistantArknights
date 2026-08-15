@@ -272,6 +272,11 @@ jobs:
           rm -rf install/msvc-debug
           rm -rf install/*.h
 
+          # 用原生启动器替换 SDK apphost：MAA.exe 被单独拖出文件夹时给出错误提示
+          if [ -f install/MAA.dll ] && [ -f build/bin/RelWithDebInfo/MaaAppHostStub.exe ]; then
+              cp build/bin/RelWithDebInfo/MaaAppHostStub.exe install/MAA.exe
+          fi
+
           cp tools/DependencySetup_依赖库安装.bat install
 
       - name: Generate file list
