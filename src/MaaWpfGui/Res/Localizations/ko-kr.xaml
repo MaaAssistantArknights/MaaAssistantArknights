@@ -444,7 +444,7 @@
     <system:String x:Key="GetReleaseNoteFailed">릴리즈 노트를 받아오지 못했습니다.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">새로운 버전이 빌드되는 중입니다. 다음에 다시 시도해 주세요</system:String>
     <system:String x:Key="MirrorChyanBuildingOta">MirrorChyan이 이 버전에 대한 OTA 증분 업데이트를 빌드 중입니다. 약 10초 후에 자동으로 다시 시도합니다</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었지만 사용할 수 있는 OTA 증분 업데이트 패키지가 없습니다. 전체 패키지를 다운로드하며, cache, config, data, debug, achievement(클리어 스크린샷), background(배경 이미지), MAA.Updater.exe 는 유지되고 그 외의 파일은 휴지통과 .old 폴더로 이동합니다. 필요하다면 수동으로 백업해 주세요.</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었지만 사용할 수 있는 OTA 증분 업데이트 패키지가 없습니다. 전체 패키지를 다운로드하며, cache, config, data, debug, achievement(클리어 스크린샷), MAA.Updater.exe 는 유지되고 그 외의 파일은 휴지통과 .old 폴더로 이동합니다. 필요하다면 수동으로 백업해 주세요.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">업데이트 패키지 다운로드 준비 중……</system:String>
     <system:String x:Key="NewVersionDownloadRetrying">업데이트 패키지 다운로드에 실패했습니다. {0}초 후 재시도합니다(다운로드 {1}/{2}회차 실패).</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">업데이트 패키지 다운로드 실패</system:String>
@@ -454,7 +454,7 @@
     <system:String x:Key="PendingFullUpdateManualConfirmTitle">전체 패키지 업데이트는 수동 확인이 필요합니다</system:String>
     <system:String x:Key="PendingFullUpdateManualConfirmDesc" xml:space="preserve">전체 패키지로 업데이트해야 합니다.
 
-업데이트 방식: 여기서 전체 패키지를 다운로드하거나 가져오면, 이후 설치 단계에서 MAA는 현재 설치 루트 바로 아래의 최상위 파일과 폴더 중 cache, config, data, debug, achievement(클리어 스크린샷), background(배경 이미지), MAA.Updater.exe 를 제외한 항목을 먼저 정리한 뒤, 전체 패키지 내용을 그 디렉터리에 다시 씁니다.
+업데이트 방식: 여기서 전체 패키지를 다운로드하거나 가져오면, 이후 설치 단계에서 MAA는 현재 설치 루트 바로 아래의 최상위 파일과 폴더 중 cache, config, data, debug, achievement(클리어 스크린샷), MAA.Updater.exe 를 제외한 항목을 먼저 정리한 뒤, 전체 패키지 내용을 그 디렉터리에 다시 씁니다.
 
 위험: MAA를 드라이브 루트, 바탕 화면, 다운로드 폴더, 또는 다른 프로그램이나 개인 파일과 같은 계층에 풀어 두었다면 그 같은 계층의 항목도 함께 삭제되거나 이동될 수 있습니다.
 
@@ -1282,6 +1282,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UpdateApplyFailed">업데이트 적용에 실패하여 현재 설치가 불완전할 수 있습니다. 전체 패키지를 다시 다운로드하고, 아래 안내에 따라 config, data 및 debug를 수동으로 옮겨 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="UpdateApplyMissingUpdater">MAA.Updater.exe가 없어 외부 업데이트 프로그램을 시작할 수 없어 업데이트를 계속할 수 없습니다. 이번 업데이트는 취소되었습니다. 이 파일은 수동으로 삭제되었거나 보안 소프트웨어에 의해 차단 또는 삭제되었을 수 있습니다. 보안 소프트웨어가 원인이라면 해당 소프트웨어의 격리소를 확인해 파일을 복원하고, MAA가 있는 폴더를 해당 소프트웨어의 허용 목록에 추가한 뒤 다시 시도해 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">리소스 파일이 손상되었습니다. 전체 패키지를 다시 다운로드하세요.\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceIntegrityCheckTitle">설치 파일 누락</system:String>
+    <system:String x:Key="ResourceIntegrityCheckDesc">설치 파일 {0}개가 누락된 것으로 확인되었습니다({1}). 일부 기능을 사용할 수 없을 수 있습니다. 파일이 보안 소프트웨어에 의해 차단 또는 삭제되었거나, 수동으로 삭제되었을 수 있습니다. 보안 소프트웨어가 원인이라면 해당 소프트웨어의 격리소를 확인해 파일을 복원하고, MAA가 있는 폴더를 해당 소프트웨어의 허용 목록에 추가한 뒤 다시 시도해 주세요.\n\n아래 안내에 따라 수동으로 재설치할 수도 있습니다:\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceIntegrityRepairYes">자동 복구(전체 패키지를 다운로드하고 재시작 후 복원)</system:String>
+    <system:String x:Key="ResourceIntegrityRepairNo">나중에 처리</system:String>
+    <system:String x:Key="ResourceIntegrityRepairDownloading">누락된 리소스 파일을 복구하기 위해 전체 패키지를 다운로드하는 중…</system:String>
+    <system:String x:Key="ResourceIntegrityRepairFailed">자동 복구에 실패했습니다. 안내에 따라 수동으로 처리해 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 파일이 존재하지 않습니다</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 다운로드 실패</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">폴더 삭제에 실패했습니다. 폴더가 바뀌었거나 다른 문제가 발생했을 수 있습니다. 자세한 내용은 로그를 확인하세요.</system:String>
