@@ -86,6 +86,14 @@ internal static class ResourceIntegrityChecker
                 continue;
             }
 
+            // 防御被篡改的清单：绝对路径或路径穿越会使检查指向安装目录之外
+            // （Path.Combine 遇到绝对路径的第二参数会直接丢弃 BaseDir）
+            if (Path.IsPathRooted(trimmedPath) || trimmedPath.Contains("..", StringComparison.Ordinal))
+            {
+                _logger.Warning("Skipping suspicious path in file list: {Path}", trimmedPath);
+                continue;
+            }
+
             // Python/ 目录供用户自行接入调用，允许删除
             if (s_skippedExtensions.Contains(Path.GetExtension(trimmedPath)))
             {
