@@ -40,7 +40,7 @@ jobs:
           show-progress: false
 
       - name: Install pnpm
-        uses: pnpm/setup@v1
+        uses: pnpm/setup@v2
         with:
           cache: true
           package-json-file: "./docs/package.json"
