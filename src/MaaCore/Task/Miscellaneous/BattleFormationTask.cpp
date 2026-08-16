@@ -240,7 +240,7 @@ void asst::BattleFormationTask::formation_with_last_opers()
             // compare_formation 后剩下的是完全相同的干员组, 但是可能预匹配结果不同
             auto pre_assigned_it = m_operbox_assigned.find(group_name);
             if (pre_assigned_it == m_operbox_assigned.end() ||
-                pre_assigned_it->second != BattleData.get_id(oper_name)) {
+                pre_assigned_it->second != BattleData.get_id(oper_tag.role, oper_tag.name)) {
                 ++it;
                 continue; // 该干员不是这次预匹配的干员, 跳过
             }
@@ -622,7 +622,8 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
     for (const auto& res :
          opers_result | std::views::filter([](const QuickFormationOper& op) { return !op.is_selected; })) {
         auto is_selectable = [&](const battle::OperUsage& op) {
-            return op.name == res.text && op.status != battle::OperStatus::Unavailable;
+            return (op.role == battle::Role::Unknown || op.role == res.role) && op.name == res.text &&
+                   op.status != battle::OperStatus::Unavailable;
         };
         auto oper_cache_it = m_opers.find({ res.role, res.text });
         if (oper_cache_it == m_opers.end()) {
@@ -650,7 +651,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
         const auto& iter = std::ranges::find_if(groups, [&](OperGroup* group) {
             if (is_operbox_for_assignment()) {
                 if (auto it = m_operbox_assigned.find(group->name);
-                    it != m_operbox_assigned.end() && it->second == BattleData.get_id(res.text)) {
+                    it != m_operbox_assigned.end() && it->second == BattleData.get_id(res.role, res.text)) {
                     auto sel = std::ranges::find_if(group->opers, is_selectable);
                     if (sel == group->opers.end()) {
                         return false;
@@ -1162,7 +1163,8 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             return false;
         }
         auto it = std::ranges::find_if(group.opers, [&](const battle::OperUsage& op) {
-            if (BattleData.get_id(op.name) != info.id) { // ! 用的是干员的 id 而不是 name，干员识别的 name 可能不是中文
+            // !!! 要用干员的 id 而不是 name，干员识别的 name 可能不是中文
+            if (BattleData.get_id(op.role, op.name) != info.id) {
                 return false;
             }
             if (op.requirements.elite <= 0 && op.requirements.level <= 0) {
@@ -1224,7 +1226,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
         std::unordered_set<std::string> candidate_ids;
         for (const auto& group : flat_groups) {
             for (const auto& op : group.opers) {
-                auto id = BattleData.get_id(op.name);
+                auto id = BattleData.get_id(op.role, op.name);
                 if (!id.empty()) {
                     candidate_ids.insert(id);
                 }
@@ -1289,7 +1291,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             if (need_exit()) {
                 break;
             }
-            auto borrow_id = BattleData.get_id(op.name);
+            auto borrow_id = BattleData.get_id(op.role, op.name);
             if (borrow_id.empty() || !candidate_ids.erase(borrow_id)) {
                 continue;
             }
