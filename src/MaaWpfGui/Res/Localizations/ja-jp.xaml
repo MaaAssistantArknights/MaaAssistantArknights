@@ -900,9 +900,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未チェック時は 1 倍で代理；チェック後は現在の理性で可能な最大倍率で代理し、1回の周回で目標在庫上限を超える場合があります。</system:String>
     <system:String x:Key="DepotEnableUseMedicine">「{key=UseSanityPotion}」チェックボックスを有効化</system:String>
     <system:String x:Key="DepotEnableUseStone">「{key=UseOriginitePrime}」チェックボックスを有効化</system:String>
-    <system:String x:Key="DepotUseExpiringMedicine">48 時間以内に期限切れの理性薬を使用</system:String>
+    <system:String x:Key="DepotUseExpiringMedicine">48 時間以内に期限切れの理性剤を使用</system:String>
     <system:String x:Key="DepotPlanBudgetTip" xml:space="preserve">このステージの薬剤/源石の使用上限で、ステージごとに独立して計算されます。&#10;チェックして数値を設定すると、このステージは理性不足でスキップされず、理性が足りなくても出撃してこの数まで薬剤/源石を使用して戦闘を続けます。&#10;予算未設定のステージは、理性不足の場合に出撃せず直接スキップされます。</system:String>
-    <system:String x:Key="DepotUseExpiringMedicineTip" xml:space="preserve">薬剤予算未設定のステージを含む全ステージに適用されます。&#10;有効にすると、予算未設定のステージも 48 時間以内に期限切れとなる理性薬の使用を試みます。&#10;予算未設定のステージが理性不足でスキップされるのは、このキューの実行中に既に理性不足で終了した戦闘タスクがあり、かつその臨期薬ウィンドウがこの設定以上である（＝このウィンドウ内の臨期薬を使い切った）場合のみです。</system:String>
+    <system:String x:Key="DepotUseExpiringMedicineTip" xml:space="preserve">薬剤予算未設定のステージを含む全ステージに適用されます。&#10;有効にすると、予算未設定のステージも 48 時間以内に期限切れとなる理性剤の使用を試みます。&#10;予算未設定のステージが理性不足でスキップされるのは、このキューの実行中に既に理性不足で終了した戦闘タスクがあり、かつその臨期薬ウィンドウがこの設定以上である（＝このウィンドウ内の臨期薬を使い切った）場合のみです。</system:String>
     <system:String x:Key="DepotGroupTaskBehavior">タスク動作</system:String>
     <system:String x:Key="DepotGroupStageAndBattle">ステージと戦闘</system:String>
     <system:String x:Key="DepotGroupSanityRecovery">理性回復</system:String>
