@@ -888,6 +888,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPlanNoStage">#{0}：關卡未指定或為 ｢當前/上次｣</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">#{0}：{1} 已充足 {2}/{3}</system:String>
     <system:String x:Key="DepotPlanInventoryInsufficient">#{0}：{1} 不足 {2}/{3}，需刷取 {4}</system:String>
+    <system:String x:Key="DepotPlanSanityInsufficient">#{0}：理智不足（當前 {1}，低於關卡消耗 {2}），已跳過</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}：關卡 ｢{1}｣ 未開放</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}：新增任務失敗</system:String>
     <system:String x:Key="DepotSkipDuringActivity">活動期間跳過</system:String>
@@ -900,6 +901,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotEnableUseMedicine">啟用「{key=UseSanityPotion}」勾選框</system:String>
     <system:String x:Key="DepotEnableUseStone">啟用「{key=UseOriginitePrime}」勾選框</system:String>
     <system:String x:Key="DepotUseExpiringMedicine">使用 48 小時內過期的理智藥</system:String>
+    <system:String x:Key="DepotPlanBudgetTip" xml:space="preserve">本關的藥劑/源石使用上限，各關卡獨立計算。&#10;勾選並設定數量後，本關不會因理智不足被跳過：理智不夠時仍會進圖，並按此數量使用藥劑/源石繼續作戰。&#10;未設定預算的關卡在理智不足時會被直接跳過，不進圖查看。</system:String>
+    <system:String x:Key="DepotUseExpiringMedicineTip" xml:space="preserve">對全部關卡生效，包括未設藥劑預算的關卡。&#10;開啟後，未設預算的關卡也會嘗試使用 48 小時內過期的理智藥。&#10;未設預算的關卡被理智不足跳過的前提：本輪任務佇列中已有戰鬥任務因理智不足結束，且其臨期藥窗口不小於本設定（本窗口內的臨期藥已用完）。</system:String>
     <system:String x:Key="DepotGroupTaskBehavior">任務行為</system:String>
     <system:String x:Key="DepotGroupStageAndBattle">關卡與戰鬥</system:String>
     <system:String x:Key="DepotGroupSanityRecovery">理智恢復</system:String>

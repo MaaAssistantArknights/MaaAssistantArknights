@@ -889,6 +889,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPlanNoStage">#{0}: 스테이지 미지정 또는 \"현재/이전\"</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">#{0}: {1} 충분 {2}/{3}</system:String>
     <system:String x:Key="DepotPlanInventoryInsufficient">#{0}: {1} 부족 {2}/{3}, {4}개 필요</system:String>
+    <system:String x:Key="DepotPlanSanityInsufficient">#{0}: 이성 부족(현재 {1}, 소모 {2} 미달), 건너뜀</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}: 스테이지 '{1}' 가 열려 있지 않습니다</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}: 작업 추가 실패</system:String>
     <system:String x:Key="DepotSkipDuringActivity">이벤트 기간 중 건너뛰기</system:String>
@@ -901,6 +902,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotEnableUseMedicine">「{key=UseSanityPotion}」 체크박스 활성화</system:String>
     <system:String x:Key="DepotEnableUseStone">「{key=UseOriginitePrime}」 체크박스 활성화</system:String>
     <system:String x:Key="DepotUseExpiringMedicine">48시간 이내 만료되는 이성 회복제 사용</system:String>
+    <system:String x:Key="DepotPlanBudgetTip" xml:space="preserve">이 스테이지의 이성 회복제/오리지늄 사용 한도이며 스테이지별로 독립적으로 계산됩니다.&#10;체크하고 수량을 설정하면 이 스테이지는 이성 부족으로 건너뛰지 않고, 이성이 부족해도 출격하여 이 수량만큼 회복제/오리지늄을 사용해 전투를 계속합니다.&#10;한도를 설정하지 않은 스테이지는 이성 부족 시 출격하지 않고 바로 건너뜁니다.</system:String>
+    <system:String x:Key="DepotUseExpiringMedicineTip" xml:space="preserve">이성 회복제 한도를 설정하지 않은 스테이지를 포함한 모든 스테이지에 적용됩니다.&#10;활성화하면 한도 미설정 스테이지도 48시간 이내 만료되는 이성 회복제 사용을 시도합니다.&#10;한도 미설정 스테이지가 이성 부족으로 건너뛰어지는 것은, 이 큐 실행 중 이성 부족으로 종료된 전투 작업이 이미 있고 그 만료 임박 회복제 창이 이 설정 이상일 때(즉 이 창 내의 회복제를 모두 소진했을 때)뿐입니다.</system:String>
     <system:String x:Key="DepotGroupTaskBehavior">작업 동작</system:String>
     <system:String x:Key="DepotGroupStageAndBattle">스테이지 및 전투</system:String>
     <system:String x:Key="DepotGroupSanityRecovery">이성 회복</system:String>

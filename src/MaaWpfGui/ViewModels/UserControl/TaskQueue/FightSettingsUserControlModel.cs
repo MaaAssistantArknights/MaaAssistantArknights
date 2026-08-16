@@ -122,11 +122,32 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// 当作战任务进入进行中状态时，用最新库存重算指定掉落缺口并更新参数。
+    /// 当指定掉落的作战任务完成时记录临期药耗尽证明；进入进行中状态时，用最新库存重算指定掉落缺口并更新参数。
     /// </summary>
     private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
     {
-        if (status != TaskItemStatus.InProgress || taskId <= 0)
+        if (taskId <= 0)
+        {
+            return;
+        }
+
+        if (status == TaskItemStatus.Completed)
+        {
+            // 指定掉落的作战任务无次数上限，未达库存目标即正常结束说明理智打不动了
+            if (GetFightTaskByTaskId(taskId) is { } completedFight &&
+                IsInventoryTargetDropEnabled(completedFight) &&
+                !string.IsNullOrEmpty(completedFight.DropId))
+            {
+                UpdateProvenExhaustedMedicineDays(
+                    completedFight.UseExpiringMedicine != false ? completedFight.MedicineExpireDays : 0,
+                    completedFight.DropId,
+                    completedFight.DropCount);
+            }
+
+            return;
+        }
+
+        if (status != TaskItemStatus.InProgress)
         {
             return;
         }
@@ -1156,14 +1177,42 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// 任务开始时用最新库存重算指定掉落材料的缺口，达标则 times=0，否则更新 drops 和 times。
+    /// 战斗任务正常结束但未达库存目标时，记录其临期药窗口为已耗尽。
+    /// 无次数上限的任务未达标即结束只可能是理智不足，且结束前已尝试用尽窗口内的临期药；
+    /// 运行内药剂库存只减不增，故窗口取历史最大值，供后续任务判定是否可跳过。
+    /// </summary>
+    /// <param name="expireDays">该任务的临期药天数（未启用传 0，无证明力）。</param>
+    /// <param name="dropId">指定掉落材料 ID。</param>
+    /// <param name="dropCount">目标库存。</param>
+    public static void UpdateProvenExhaustedMedicineDays(int expireDays, string dropId, int dropCount)
+    {
+        if (expireDays <= 0 || string.IsNullOrEmpty(dropId) || dropCount <= 0)
+        {
+            return;
+        }
+
+        var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
+        var currentCount = depotList.TryGetValue(dropId, out var value) ? value : 0;
+        if (currentCount >= dropCount)
+        {
+            return; // 已达库存目标，结束原因与理智无关，不构成耗尽证明
+        }
+
+        ProvenExhaustedMedicineDays = Math.Max(ProvenExhaustedMedicineDays, expireDays);
+        _logger.Information("Proven exhausted medicine days updated to {Days} ({DropId} {Current}/{Target} on normal completion)",
+            ProvenExhaustedMedicineDays, dropId, currentCount, dropCount);
+    }
+
+    /// <summary>
+    /// 任务开始时用最新库存重算指定掉落材料的缺口：达标则 times=0 跳过整个任务（核心侧不进终端不导航）；
+    /// 否则更新 drops，并在理智不足且无药剂/源石预算、临期药窗口已证明耗尽（或未启用）时同样 times=0 跳过。
     /// 供理智作战和库存保持任务统一调用。
     /// </summary>
     /// <param name="taskId">core 任务 id</param>
     /// <param name="dropId">指定掉落材料 ID</param>
     /// <param name="dropCount">目标库存</param>
     /// <param name="logLabel">日志标签（如计划序号）</param>
-    /// <param name="task">包含全量字段的作战任务参数；本方法仅按库存缺口覆盖 Drops/MaxTimes，其余字段原样下发。</param>
+    /// <param name="task">包含全量字段的作战任务参数；本方法仅按库存缺口或理智判定覆盖 Drops/MaxTimes，其余字段原样下发。</param>
     /// <returns>是否成功更新参数。</returns>
     public static bool RefreshFightTaskDrops(int taskId, string dropId, int dropCount, string? logLabel, AsstFightTask task)
     {
@@ -1180,9 +1229,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
         if (need <= 0)
         {
-            // 库存已充足，times=0 阻止进入关卡
+            // 库存已充足，times=0 跳过整个任务
             task.MaxTimes = 0;
-            task.Drops = new() { { dropId, 1 } };
             Instances.TaskQueueViewModel.AddLog(
                 LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", logLabel ?? string.Empty, dropName, currentCount.ToString("N0"), dropCount.ToString("N0")),
                 UiLogColor.Info);
@@ -1194,6 +1242,19 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 LocalizationHelper.GetStringFormat("DepotPlanInventoryInsufficient", logLabel ?? string.Empty, dropName, currentCount.ToString("N0"), dropCount.ToString("N0"), need.ToString("N0")));
             _logger.Information("FightTask {taskId} ({label}) re-calculated: {dropName} need {need} (current {current} / target {target})",
                 taskId, logLabel, dropName, need, currentCount, dropCount);
+
+            // 理智不足且无药剂/源石预算、临期药窗口已证明耗尽（或未启用）时，跳过整个任务，不再导航进图查看
+            if (task.Medicine <= 0 && task.Stone <= 0 &&
+                (task.MedicineExpireDays <= 0 || task.MedicineExpireDays <= Instances.Data.ProvenExhaustedMedicineDays) &&
+                SanityReport is { } sanity &&
+                StageApCostHelper.GetApCost(task.Stage) is { } apCost &&
+                sanity.SanityCurrent < apCost)
+            {
+                task.MaxTimes = 0;
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat("DepotPlanSanityInsufficient", logLabel ?? string.Empty, sanity.SanityCurrent, apCost),
+                    UiLogColor.Info);
+            }
         }
 
         return Instances.AsstProxy.AsstSetTaskParamsEncoded(taskId, task);

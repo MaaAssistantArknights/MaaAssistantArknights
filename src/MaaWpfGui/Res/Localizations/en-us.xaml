@@ -887,6 +887,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotPlanNoStage">#{0}: stage not specified or is "Current/Last"</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">#{0}: {1} sufficient {2}/{3}</system:String>
     <system:String x:Key="DepotPlanInventoryInsufficient">#{0}: {1} insufficient {2}/{3}, need {4}</system:String>
+    <system:String x:Key="DepotPlanSanityInsufficient">#{0}: Insufficient sanity ({1}, below stage cost {2}), skipped</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}: stage '{1}' is not open</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}: add task failed</system:String>
     <system:String x:Key="DepotSkipDuringActivity">Skip during event</system:String>
@@ -899,6 +900,8 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotEnableUseMedicine">Enable "{key=UseSanityPotion}" checkbox</system:String>
     <system:String x:Key="DepotEnableUseStone">Enable "{key=UseOriginitePrime}" checkbox</system:String>
     <system:String x:Key="DepotUseExpiringMedicine">Use expiring sanity potions (within 48 hours)</system:String>
+    <system:String x:Key="DepotPlanBudgetTip" xml:space="preserve">Per-stage limit of sanity potions/originite prime, independent for each plan.&#10;When checked with a count, this stage will not be skipped for insufficient sanity: it still enters the stage and uses up to this many potions/originite prime to keep fighting.&#10;Stages without a budget are skipped directly when sanity is insufficient, without entering the stage.</system:String>
+    <system:String x:Key="DepotUseExpiringMedicineTip" xml:space="preserve">Applies to all plans, including those without a potion budget.&#10;When enabled, plans without a budget will also try to use sanity potions expiring within 48 hours.&#10;Such plans are only skipped for insufficient sanity after some fight task in this queue run has ended due to insufficient sanity, with an expiring-medicine window not smaller than this setting (i.e., potions within this window are used up).</system:String>
     <system:String x:Key="DepotGroupTaskBehavior">Task Behavior</system:String>
     <system:String x:Key="DepotGroupStageAndBattle">Stage &amp; Battle</system:String>
     <system:String x:Key="DepotGroupSanityRecovery">Sanity Recovery</system:String>

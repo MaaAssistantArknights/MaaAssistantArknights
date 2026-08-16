@@ -48,6 +48,13 @@ public static class Instances
 
         public static int RecruitConfirmTime { get; set; } = 0;
 
+        /// <summary>
+        /// Gets or sets 本轮任务队列中已证明耗尽的临期药最大天数窗口。
+        /// 无次数上限的战斗任务正常结束且未达库存目标时，取其临期天数与现值的最大值；
+        /// 运行内药剂库存只减不增，窗口只增不减，队列开始时由 <see cref="ClearCache"/> 重置。
+        /// </summary>
+        public static int ProvenExhaustedMedicineDays { get; set; } = 0;
+
         public static void ClearCache()
         {
             FightSettingsUserControlModel.SanityReport = null;
@@ -55,6 +62,7 @@ public static class Instances
             ExpiringMedicineUsedTimes = 0;
             StoneUsedTimes = 0;
             RecruitConfirmTime = 0;
+            ProvenExhaustedMedicineDays = 0;
             HasPrintedScreencapWarning = false;
             HasPrintedFpsHighTip = false;
         }
