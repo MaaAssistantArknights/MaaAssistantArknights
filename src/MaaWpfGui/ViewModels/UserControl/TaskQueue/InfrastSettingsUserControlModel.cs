@@ -63,6 +63,9 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     // 程序性重排（平衡模式自动纠正顺序）时置位，避免触发“用户拖回”的弹窗检测
     private bool _isProgrammaticReorder;
 
+    // 上次检查时“无人机用途所需房间未勾选”的状态，用于仅在进入非法状态时弹窗一次
+    private bool _lastDroneRoomMissing;
+
     /// <summary>
     /// Gets the visibility of task setting views.
     /// </summary>
@@ -104,6 +107,9 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
 
         // 加载配置时同样保证平衡模式的“贸易站在制造站前”顺序
         EnsureDroneBalanceOrder();
+
+        // 加载配置时不弹窗，仅记录当前“无人机用途所需房间未勾选”的基线状态
+        _lastDroneRoomMissing = GetMissingDroneRooms().Count > 0;
     }
 
     /// <summary>
@@ -200,6 +206,9 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                 }
             }));
         }
+
+        // 无人机用途所需房间未勾选时提示
+        CheckDroneUsageRoomMissing();
     }
 
     /// <summary>
@@ -279,6 +288,72 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     }
 
     /// <summary>
+    /// 当前无人机用途所需、但未勾选的房间本地化名列表（Custom 模式或不使用无人机时为空）
+    /// </summary>
+    private List<string> GetMissingDroneRooms()
+        => GetMissingDroneRooms(UsesOfDrones, InfrastMode, InfrastRoomModels.Select(m => (m.RoomType, m.IsEnabled)));
+
+    /// <summary>
+    /// 根据无人机用途与房间勾选状态，返回所需但未勾选的房间本地化名列表（Custom 模式或不使用无人机时为空）
+    /// </summary>
+    /// <param name="usesOfDrones">无人机用途</param>
+    /// <param name="mode">基建模式</param>
+    /// <param name="rooms">房间类型与其勾选状态</param>
+    private static List<string> GetMissingDroneRooms(string usesOfDrones, Mode mode, IEnumerable<(InfrastRoomType Room, bool IsEnabled)> rooms)
+    {
+        if (mode == Mode.Custom || usesOfDrones == "_NotUse")
+        {
+            return [];
+        }
+
+        List<InfrastRoomType> required = usesOfDrones switch {
+            "Money" or "SyntheticJade" => [InfrastRoomType.Trade],
+            "CombatRecord" or "PureGold" or "OriginStone" or "Chip" => [InfrastRoomType.Mfg],
+            "PureGold-Money" or "OriginStone-SyntheticJade" => [InfrastRoomType.Trade, InfrastRoomType.Mfg],
+            _ => [],
+        };
+
+        return required.Where(r => rooms.FirstOrDefault(m => m.Room == r).IsEnabled != true)
+                       .Select(r => LocalizationHelper.GetString(r.ToString()))
+                       .ToList();
+    }
+
+    /// <summary>
+    /// 无人机用途所需房间未勾选时的非阻断提示（弹窗 + 日志）
+    /// </summary>
+    /// <param name="missing">缺失的房间本地化名列表</param>
+    /// <param name="usesOfDrones">无人机用途</param>
+    private static void ShowDroneUsageRoomMissingWarning(List<string> missing, string usesOfDrones)
+    {
+        if (missing.Count == 0)
+        {
+            return;
+        }
+
+        var usageDisplay = Instance.UsesOfDronesList.FirstOrDefault(i => i.Value == usesOfDrones)?.Display ?? usesOfDrones;
+        var message = LocalizationHelper.GetStringFormat("DroneUsageRoomMissing", string.Join(", ", missing), usageDisplay);
+        Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
+        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, (Action)(() => {
+            MessageBoxHelper.Show(message, LocalizationHelper.GetString("Warning"), MessageBoxButton.OK, MessageBoxImage.Warning);
+        }));
+    }
+
+    /// <summary>
+    /// 无人机用途所需房间检查：仅在配置从合法变为非法时提示一次（运行中配置被锁定，不会触发）
+    /// </summary>
+    private void CheckDroneUsageRoomMissing()
+    {
+        var missingRooms = GetMissingDroneRooms();
+        bool missing = missingRooms.Count > 0;
+        if (missing && !_lastDroneRoomMissing && !_isProgrammaticReorder)
+        {
+            ShowDroneUsageRoomMissingWarning(missingRooms, UsesOfDrones);
+        }
+
+        _lastDroneRoomMissing = missing;
+    }
+
+    /// <summary>
     /// Gets the list of uses of infrast mode.
     /// </summary>
     public LocalizedObservableList<Mode> InfrastModeList { get; } = new(
@@ -312,6 +387,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         set {
             SetTaskConfig<InfrastTask>(t => t.UsesOfDrones == value, t => t.UsesOfDrones = value);
             EnsureDroneBalanceOrder();
+            CheckDroneUsageRoomMissing();
         }
     }
 
@@ -687,6 +763,11 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
             {
                 return (null, []);
             }
+
+            // 启动时校验：无人机用途所需房间未勾选时弹窗 + 日志提醒（不阻断任务）
+            ShowDroneUsageRoomMissingWarning(
+                GetMissingDroneRooms(infrast.UsesOfDrones, infrast.Mode, infrast.RoomList.Select(r => (r.Room, r.IsEnabled))),
+                infrast.UsesOfDrones);
 
             var task = new AsstInfrastTask {
                 Mode = infrast.Mode,

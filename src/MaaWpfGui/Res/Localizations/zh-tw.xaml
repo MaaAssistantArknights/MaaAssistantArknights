@@ -649,6 +649,7 @@ D:\
     <system:String x:Key="DroneUsage">無人機用途</system:String>
     <system:String x:Key="DroneUsageThreshold">剩餘量閾值</system:String>
     <system:String x:Key="DroneUsageThresholdToolTip">執行時先進貿易站，用無人機加速對應訂單把赤金/源石碎片消耗到低於該值，再將剩餘無人機全部用於生產。遊戲內庫存大於 999 顯示為 999+，此處上限 999 即視為 1000。</system:String>
+    <system:String x:Key="DroneUsageRoomMissing">無人機用途「{1}」需要{0}，但該房間未勾選，無人機可能無法正常使用。</system:String>
     <system:String x:Key="DroneBalanceOrderRollback">製造站( Mfg )不可在貿易站( Trade )之前。無人機平衡模式下貿易站需先於製造站執行，已自動恢復順序。</system:String>
     <system:String x:Key="UseTray">顯示工作列圖示</system:String>
     <system:String x:Key="HideTray">隱藏工作列圖示</system:String>

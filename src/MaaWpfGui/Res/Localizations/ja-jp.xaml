@@ -649,6 +649,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
     <system:String x:Key="DroneUsageThreshold">残量閾値</system:String>
     <system:String x:Key="DroneUsageThresholdToolTip">実行時はまず貿易所でドローンを使って純金/源石の欠片を閾値未満まで消費し、残ったドローンを全て生産に使用します。ゲーム内で在庫が999を超えると999+と表示されるため、ここでの上限999は1000として扱われます。</system:String>
+    <system:String x:Key="DroneUsageRoomMissing">ドローンの使用「{1}」には{0}が必要ですが、この部屋は無効です。ドローンが正常に動作しない可能性があります。</system:String>
     <system:String x:Key="DroneBalanceOrderRollback">製造所( Mfg )を貿易所( Trade )より前に配置することはできません。ドローン自動平衡モードでは貿易所が先に実行される必要があるため、順序を自動的に戻しました。</system:String>
     <system:String x:Key="UseTray">トレイアイコンを表示</system:String>
     <system:String x:Key="HideTray">トレイアイコンを隠す</system:String>
