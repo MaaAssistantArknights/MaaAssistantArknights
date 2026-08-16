@@ -189,10 +189,18 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <CheckBox
-                                            Grid.Column="0"
-                                            Content="{DynamicResource UseSanityPotion}"
-                                            IsChecked="{Binding UseMedicine}" />
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                            <CheckBox
+                                                MaxWidth="110"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{Binding UseMedicine}">
+                                                <TextBlock Text="{DynamicResource UseSanityPotion}" TextWrapping="Wrap" />
+                                            </CheckBox>
+                                            <controls:TooltipBlock
+                                                Margin="3,0,0,0"
+                                                VerticalAlignment="Center"
+                                                TooltipText="{DynamicResource DepotPlanBudgetTip}" />
+                                        </StackPanel>
                                         <hc:NumericUpDown
                                             Grid.Column="1"
                                             Width="70"
@@ -209,10 +217,18 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <CheckBox
-                                            Grid.Column="0"
-                                            Content="{DynamicResource UseOriginitePrime}"
-                                            IsChecked="{Binding UseStone}" />
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                            <CheckBox
+                                                MaxWidth="110"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{Binding UseStone}">
+                                                <TextBlock Text="{DynamicResource UseOriginitePrime}" TextWrapping="Wrap" />
+                                            </CheckBox>
+                                            <controls:TooltipBlock
+                                                Margin="3,0,0,0"
+                                                VerticalAlignment="Center"
+                                                TooltipText="{DynamicResource DepotPlanBudgetTip}" />
+                                        </StackPanel>
                                         <hc:NumericUpDown
                                             Grid.Column="1"
                                             Width="70"
@@ -312,10 +328,10 @@
                 Margin="0,6,0,0"
                 Content="{DynamicResource DepotEnableUseStone}"
                 IsChecked="{Binding UseStone}" />
-            <CheckBox
-                Margin="0,6,0,0"
-                Content="{DynamicResource DepotUseExpiringMedicine}"
-                IsChecked="{Binding UseExpiringMedicine}" />
+            <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource DepotUseExpiringMedicine}" IsChecked="{Binding UseExpiringMedicine}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotUseExpiringMedicineTip}" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>
