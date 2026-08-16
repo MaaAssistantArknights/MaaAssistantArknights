@@ -254,6 +254,11 @@ std::vector<asst::OperBoxInfo> asst::CopilotTask::parse_operbox_data(const std::
     for (auto& item : own_opers) {
         OperBoxInfo info;
         info.id = item.get("id", std::string());
+        if (BattleData.find_oper_by_id(info.id) == nullptr) {
+            Log.error("OperBox data contains invalid oper id:", info.id);
+            result.clear();
+            break;
+        }
         info.name = item.get("name", std::string());
         info.elite = item.get("elite", 0);
         info.level = item.get("level", 0);
