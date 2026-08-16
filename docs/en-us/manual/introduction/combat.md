@@ -20,6 +20,7 @@ Some features on this page are implemented by the UI layer (such as Target Inven
     - `Target Inventory`: References the depot data saved in [Depot Recognition](./tools.md#depot-recognition) and only farms up to the set inventory level. Requires depot data obtained via [Update Doctor Data](./user-data-update.md) or [Depot Recognition](./tools.md#depot-recognition). This mode is implemented by the UI (Core only supports drop quantity mode).
 
 - `Material` and `Stage Selection` are independent options. `Material` only uses the material count as a stopping condition and doesn't automatically navigate to stages that drop that material.
+- The `Target Inventory` mode shares the start-time check with [Depot Maintain](./depot-maintain.md): when the task starts, the shortfall is recalculated with the latest depot data, and the task is skipped entirely if already reached. It is also skipped, without entering the stage, when the sanity reported by an earlier fight in this queue run is below the stage cost and this task has no potion/Originium budget (with expiring potions proven used up).
 - To manage multiple material inventory targets at once, use the [Depot Maintain](./depot-maintain.md) task, which supports multiple plans farmed in sequence.
 - `Use Originium` is only checked after `Use Sanity Potion`. Since MAA only uses Originium when no sanity potions remain, checking `Use Originium` will automatically set `Use Sanity Potion` to 999, ensuring all potions are used first.
 
