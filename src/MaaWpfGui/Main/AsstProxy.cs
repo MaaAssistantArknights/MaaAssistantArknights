@@ -1680,6 +1680,26 @@ public class AsstProxy
                             ToastNotification.ShowDirect(LocalizationHelper.GetString("FightMissionFailedAndStop"));
                             break;
 
+                        case "MiniGame@InteractiveExhibition@CheckEncounter-Uncollected":
+                            {
+                                var title = LocalizationHelper.GetString("MiniGame@InteractiveExhibition@UncollectedNotificationTitle");
+                                var content = LocalizationHelper.GetString("MiniGame@InteractiveExhibition@UncollectedNotificationContent");
+
+                                Instances.TaskQueueViewModel.AddLog(content, UiLogColor.Warning, updateCardImage: true);
+
+                                using (var toast = new ToastNotification(title))
+                                {
+                                    toast.AppendContentText(content).Show();
+                                }
+
+                                if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
+                                {
+                                    ExternalNotificationService.Send(title, content);
+                                }
+
+                                break;
+                            }
+
                         case "RecruitRefreshConfirm":
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("LabelsRefreshed"), UiLogColor.Info);
                             break;
