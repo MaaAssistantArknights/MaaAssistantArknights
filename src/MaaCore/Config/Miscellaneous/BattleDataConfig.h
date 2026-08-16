@@ -51,6 +51,9 @@ public:
         if (name.empty()) {
             return nullptr;
         }
+        if (role == battle::Role::Unknown) {
+            role = get_role_strict(name);
+        }
         auto role_it = m_chars_by_role.find(role);
         if (role_it == m_chars_by_role.cend()) {
             return nullptr;
@@ -86,6 +89,15 @@ public:
         const auto& oper_it = find_oper(name);
         if (oper_it) {
             return oper_it->role;
+        }
+        return battle::Role::Unknown;
+    }
+
+    battle::Role get_role_strict(const std::string& name) const
+    {
+        auto roles = get_roles(name);
+        if (roles.size() == 1) {
+            return *roles.begin();
         }
         return battle::Role::Unknown;
     }
