@@ -363,7 +363,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 选项：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip` | `PureGold-Money` | `OriginStone-SyntheticJade`  
 :::  
 ::: field name="drones_usage_threshold" type="number" optional default="10"  
-无人机自动平衡阈值，仅 `drones = PureGold-Money` / `OriginStone-SyntheticJade` 时生效。执行时先进贸易站，用无人机按「单个订单」粒度逐步把赤金/源石碎片消耗到低于该值：先加速生产一个订单，随后读取该订单的「库存/消耗量」并提交交付，交付完成后依据读取到的库存数字判读是否继续消耗（低于阈值即停止）；若加速后仍无未完成订单，说明无人机不足，直接停止。随后将剩余无人机全部用于生产。  
+无人机自动平衡阈值，仅 `drones = PureGold-Money` / `OriginStone-SyntheticJade` 时生效。执行时先进贸易站，用无人机按「单个订单」粒度逐步把赤金/源石碎片消耗到低于该值：先加速生产一个订单，随后读取该订单的「库存/消耗量」并提交交付，交付完成后依据读取到的库存数字判断是否继续消耗（低于阈值即停止）；若加速后仍无未完成订单，说明无人机不足，直接停止。随后将剩余无人机全部用于生产。  
 :::  
 
 ::: tip 无人机自动平衡模式的设施顺序  
