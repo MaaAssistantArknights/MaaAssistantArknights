@@ -161,6 +161,11 @@ bool asst::FightTask::set_params(const json::value& params)
         m_fight_task_ptr->set_enable(false);
         m_sidestory_reopen_task_ptr->set_enable(false);
     }
+    else if (!m_running) {
+        // times>0 重新下发时，恢复可能被 times=0 禁用的启动子任务，保证状态可逆；
+        // 其余子任务的 enable 由上方 !m_running 块按最新参数重算
+        m_start_up_task_ptr->set_enable(true);
+    }
 
     m_stage_drops_plugin_ptr->set_target_stage(stage);
     m_fight_task_ptr->set_times_limit("MedicineConfirm", medicine)
