@@ -1013,7 +1013,7 @@ bool asst::BattleHelper::click_retreat()
 bool asst::BattleHelper::click_skill(int timeout_ms)
 {
     LogTraceFunction;
-    const auto& start_time = std::chrono::steady_clock::now();
+    const auto start_time = std::chrono::steady_clock::now();
     bool deploy_with_pause =
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
 

@@ -281,6 +281,15 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             LogWarn << "================  DEPRECATED  ================";
             LogWarn << "The field 'skip_if_not_ready' is deprecated and will be removed in future versions.";
             LogWarn << "================  DEPRECATED  ================";
+            if (action_info.contains("timeout")) {
+                LogError << __FUNCTION__ << "| Both 'timeout' and 'skip_if_not_ready' are setted. Ignore step";
+                continue;
+            }
+            else {
+                if (action_info.get("skip_if_not_ready", false)) {
+                    action.timeout_ms = 0;
+                }
+            }
         }
 
         // 计时器
