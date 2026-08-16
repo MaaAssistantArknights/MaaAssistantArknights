@@ -30,13 +30,12 @@ struct OperBoxInfo
             if (lhs.rarity != rhs.rarity) {
                 return lhs.rarity > rhs.rarity;
             }
-            const auto& all_chars = BattleData.get_all_chars();
-            const auto& lhs_iter = all_chars.at(lhs.id);
-            const auto& rhs_iter = all_chars.at(rhs.id);
-            if (lhs_iter->role != rhs_iter->role) {
-                return lhs_iter->role < rhs_iter->role;
+            auto lhs_oper_props = BattleData.find_oper_by_id(lhs.id);
+            auto rhs_oper_props = BattleData.find_oper_by_id(rhs.id);
+            if (lhs_oper_props->role != rhs_oper_props->role) {
+                return lhs_oper_props->role < rhs_oper_props->role;
             }
-            return lhs_iter->sort_index < rhs_iter->sort_index;
+            return lhs_oper_props->sort_index < rhs_oper_props->sort_index;
         }
     };
 };
