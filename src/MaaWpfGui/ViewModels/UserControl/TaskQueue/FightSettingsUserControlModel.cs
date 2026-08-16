@@ -1247,13 +1247,20 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             if (task.Medicine <= 0 && task.Stone <= 0 &&
                 (task.MedicineExpireDays <= 0 || task.MedicineExpireDays <= Instances.Data.ProvenExhaustedMedicineDays) &&
                 SanityReport is { } sanity &&
-                StageApCostHelper.GetApCost(task.Stage) is { } apCost &&
-                sanity.SanityCurrent < apCost)
+                StageApCostHelper.GetApCost(task.Stage) is { } apCost)
             {
-                task.MaxTimes = 0;
-                Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetStringFormat("DepotPlanSanityInsufficient", logLabel ?? string.Empty, sanity.SanityCurrent, apCost),
-                    UiLogColor.Info);
+                // 按上报时间以 6 分钟 1 点估算自然回复（向上取整、封顶上限），估算值不低于真实值，长队列后也不会误跳
+                var regen = sanity.SanityCurrent < sanity.SanityMax
+                    ? Math.Max(0, (int)Math.Ceiling((DateTimeOffset.Now - sanity.ReportTime).TotalMinutes / 6))
+                    : 0;
+                var estimatedSanity = Math.Min(sanity.SanityCurrent + regen, sanity.SanityMax);
+                if (estimatedSanity < apCost)
+                {
+                    task.MaxTimes = 0;
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("DepotPlanSanityInsufficient", logLabel ?? string.Empty, estimatedSanity, apCost),
+                        UiLogColor.Info);
+                }
             }
         }
 
