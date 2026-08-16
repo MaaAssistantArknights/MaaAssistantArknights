@@ -153,6 +153,15 @@ bool asst::FightTask::set_params(const json::value& params)
         m_stage_drops_plugin_ptr->set_server(server);
     }
 
+    // times=0 视为跳过本任务（如库存保持判定无需进图）：禁用全部子任务。
+    // 任务排队中则瞬间以成功结束；已开始则在当前子任务的节点边界优雅中断。
+    if (times == 0) {
+        m_start_up_task_ptr->set_enable(false);
+        m_stage_navigation_task_ptr->set_enable(false);
+        m_fight_task_ptr->set_enable(false);
+        m_sidestory_reopen_task_ptr->set_enable(false);
+    }
+
     m_stage_drops_plugin_ptr->set_target_stage(stage);
     m_fight_task_ptr->set_times_limit("MedicineConfirm", medicine)
         .set_times_limit("ExpiringMedicineConfirm", medicine_expire_days == 0 ? 0 : 9999)
