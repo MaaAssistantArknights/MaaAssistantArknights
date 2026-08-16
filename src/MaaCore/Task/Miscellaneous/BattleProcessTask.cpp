@@ -203,7 +203,7 @@ bool asst::BattleProcessTask::to_group()
         // https://github.com/MaaAssistantArknights/MaaAssistantArknights/actions/runs/3779762713/jobs/6425284487
         // const std::string& oper_name_for_lambda = oper_tag;
         auto iter = std::ranges::find_if(this_group, [&](const auto& oper) {
-            return oper.role == oper_tag.role && oper.name == oper_tag.name;
+            return (oper.role == battle::Role::Unknown || oper.role == oper_tag.role) && oper.name == oper_tag.name;
         });
         if (iter == this_group.end()) {
             continue;
