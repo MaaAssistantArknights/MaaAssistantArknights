@@ -17,6 +17,7 @@ Depot Maintain is a task that **automatically farms materials to a target invent
 2. For each plan, the shortfall is calculated by subtracting the current quantity from the target.
 3. Fight tasks are automatically added for materials with shortfalls.
 4. After each stage drop, the depot cache is updated in real-time, so materials farmed by earlier plans affect the shortfall calculation of later plans.
+5. Right before each plan starts, MAA re-checks whether it needs to run: if the target inventory is already reached, or the current sanity estimated from the sanity reported by the most recent fight is below the stage's minimum entry cost and the plan has no potion/Originium budget, the plan is skipped entirely (no terminal, no navigation), with the reason logged. When expiring potions count as unavailable, see [Use expiring sanity potions within 48 hours](#use-expiring-sanity-potions-within-48-hours).
 
 ::: tip Depot Data Sync
 Depot data is cached and may differ from your actual stock after manual farming, crafting, or material use. Sync it with [Update Doctor Data](./user-data-update.md) or [Depot Recognition](./tools.md#depot-recognition).
@@ -35,6 +36,13 @@ Each plan contains the following:
 | Use Originium     | Check to set the number of Originium to use.                                                                           |
 
 Items in the plan list can be **dragged to reorder**. Plans are executed in order during the task.
+
+::: tip Skipping when sanity is insufficient
+- The sanity check is based on the sanity value reported by the most recent fight that actually entered a stage in this queue run (a Depot Maintain plan or a standalone Fight task), with the current value estimated at 1 point per 6 minutes (fractions of 6 minutes count as a full 6 minutes), capped at the sanity limit.
+- Plans with a sanity potion or Originium budget are never skipped for insufficient sanity: even when sanity is not enough, they still enter the stage and restore sanity with the budget to keep fighting.
+- Plans without a budget are skipped directly (without entering the stage) when the target inventory is already reached, or when the estimated current sanity is below the stage's minimum entry cost and expiring potions are unavailable (see "Use expiring sanity potions within 48 hours").
+- Decisions always use the latest state: after a middle plan restores sanity and reaches its target, the remaining sanity still flows to later plans.
+:::
 
 ### Presets
 
@@ -64,7 +72,7 @@ Controls whether the corresponding potion/Originium rows are shown in each plan.
 
 ### Use expiring sanity potions within 48 hours
 
-When checked, all plans will prioritize using sanity potions expiring within 48 hours (fixed 2-day threshold).
+When checked, all plans will prioritize using sanity potions expiring within 48 hours (fixed 2-day threshold). Plans without a potion budget will also try to use expiring potions. Such plans are only skipped for insufficient sanity under the following condition: some Depot Maintain plan or Target Inventory mode Fight task in this queue run has ended normally without reaching its target inventory, meaning potions within the window were tried and used up yet the fight still could not continue. Count-limited Fight tasks can end for other reasons and do not constitute this proof.
 
 ### Skip during events
 

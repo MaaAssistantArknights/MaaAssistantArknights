@@ -64,7 +64,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             };
         }
 
-        // 任务状态变化时，用最新库存重算该 plan 的缺口
+        // 任务开始时用最新库存重算该 plan 的缺口；任务正常结束但未达标时记录临期药耗尽证明
         Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
 
         // 语言切换时由 FightSettings.RebuildDropsList 显式调用 OnLanguageChanged
@@ -91,7 +91,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
     {
-        if (status != TaskItemStatus.InProgress || taskId <= 0)
+        if (taskId <= 0)
         {
             return;
         }
@@ -103,6 +103,21 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
 
         if (string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0)
+        {
+            return;
+        }
+
+        if (status == TaskItemStatus.Completed)
+        {
+            // 库存任务无次数上限，未达库存目标即正常结束说明理智打不动了，记录其临期药窗口为已耗尽
+            UpdateProvenExhaustedMedicineDays(
+                task.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
+                plan.DropId,
+                plan.DropCount);
+            return;
+        }
+
+        if (status != TaskItemStatus.InProgress)
         {
             return;
         }
