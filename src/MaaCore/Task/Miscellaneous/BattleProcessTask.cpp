@@ -299,13 +299,8 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
             break;
         }
         else if (location.empty()) {
-            auto tag_opt = get_oper_skill_tag({ role, name });
-            if (tag_opt) {
-                set_usage(*tag_opt, action.modify_usage, action.modify_times);
-            }
-            else {
-                LogError << __FUNCTION__ << "No oper" << enum_to_string(role) << name << "could not set skill usage";
-            }
+            auto tag_opt = get_oper_tag({ role, name });
+            set_usage(tag_opt, action.modify_usage, action.modify_times);
         }
         else {
             battle::Role _role;

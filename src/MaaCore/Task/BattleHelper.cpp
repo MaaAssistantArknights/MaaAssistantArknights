@@ -798,12 +798,9 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
     const auto now = std::chrono::steady_clock::now();
     const cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     for (const auto& [oper_tag, loc] : m_battlefield_opers) {
-        auto skill_opt = get_oper_skill_tag(oper_tag);
-        if (!skill_opt) {
-            continue;
-        }
-        auto& usage = m_skill_usage[*skill_opt];
-        auto& times = m_skill_times[*skill_opt];
+        const auto& skill_opt = get_oper_tag(oper_tag);
+        auto& usage = m_skill_usage[skill_opt];
+        auto& times = m_skill_times[skill_opt];
         auto& retry = m_skill_error_count[oper_tag];
         auto& last_use_time = m_last_use_skill_time[oper_tag];
         if (usage != SkillUsage::Possibly && usage != SkillUsage::Times) {
