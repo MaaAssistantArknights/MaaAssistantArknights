@@ -190,6 +190,7 @@ bool asst::BattleProcessTask::to_group()
         m_oper_in_group.emplace(tag, tag);
     }
 
+    // 对于实际编入战斗的干员, 从作业中读取技能用法并存入m_skill_usage和m_skill_times
     for (const auto& [group_tag, oper_tag] : m_oper_in_group) {
         const auto& group_it = std::ranges::find_if(get_combat_data().groups, [&](const OperUsageGroup& pair) {
             return pair.first == group_tag.name;
