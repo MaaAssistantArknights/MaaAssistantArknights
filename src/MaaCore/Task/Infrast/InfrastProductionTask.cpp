@@ -1017,7 +1017,8 @@ bool asst::InfrastProductionTask::try_get_stock_and_consumption(int& stock, int&
     analyzer.set_task_info("DroneTradeStock");
     analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
     analyzer.set_use_char_model(true);
-    if (!analyzer.analyze()) {
+    // OCR 成功但结果为空时同样视为失败，避免对空结果取 front()
+    if (!analyzer.analyze() || analyzer.get_result().empty()) {
         return false;
     }
     const std::string& text = analyzer.get_result().front().text;

@@ -41,7 +41,7 @@ protected:
     void set_product(std::string product_name) noexcept;
     // 贸易站无人机自动平衡：识别当前物品剩余量并加速消耗订单直至低于阈值，尽力而为
     void drones_balance_consume();
-    // 识别贸易站界面当前订单的「库存/消耗量」（OCR 形如 X/Y，999+ 按 1000 计），成功返回 true；失败表示第一格处于「无未完成订单」状态
+    // 识别贸易站界面当前订单的「库存/消耗量」（OCR 形如 X/Y，999+ 按 1000 计），成功返回 true；失败表示未能读取到「库存/消耗量」（OCR 失败或无未完成订单）
     bool try_get_stock_and_consumption(int& stock, int& consumption);
 
     infrast::SkillsComb efficient_regex_calc(std::unordered_set<infrast::Skill> skills) const;
