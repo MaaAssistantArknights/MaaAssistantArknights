@@ -430,7 +430,7 @@ struct Action
     int modify_times = 1; // 更改使用技能的次数，默认为 1，兼容曾经的作业
     int pre_delay = 0;
     int post_delay = 0;
-    int timeout_ms = INT_MAX; // 动作超时时间, 单位ms
+    int timeout_ms = -1; // 动作超时时间, 单位ms
     std::string doc;
     std::string doc_color;
     RoleCounts role_counts;

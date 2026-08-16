@@ -259,7 +259,7 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
         auto post_delay_opt = action_info.find<int>("post_delay");
         // 历史遗留字段，兼容一下
         action.post_delay = post_delay_opt ? *post_delay_opt : action_info.get("rear_delay", 0);
-        action.timeout_ms = action_info.get("timeout", INT_MAX);
+        action.timeout_ms = action_info.get("timeout", -1);
         action.doc = action_info.get("doc", std::string());
         action.doc_color = action_info.get("doc_color", std::string());
 
