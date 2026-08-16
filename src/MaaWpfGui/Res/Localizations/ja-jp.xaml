@@ -1256,6 +1256,7 @@ C:\\leidian\\LDPlayer9
     <!--  !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">エラー</system:String>
+    <!--  ErrorCongratulations 与下方 ErrorSolutionMoveMaaExeOutOfFolder 修改时需同步 src/MaaAppHostStub/MaaAppHostStub.cpp，由 tools/CheckStubLocalization.py 校验  -->
     <system:String x:Key="ErrorCongratulations">おめでとうございます</system:String>
     <system:String x:Key="ErrorProlog">MAA に問題が発生しました</system:String>
     <system:String x:Key="ErrorDetails">詳細情報</system:String>
@@ -1724,7 +1725,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 現在のインストール先: {0}
 該当した非対応の場所: {1}
 
-これらの場所は階層が高すぎるため、ファイルの上書き、設定書き込み失敗、データ混乱の原因になります。D:\\MAA\\ のような専用フォルダーへ移動してから再度起動してください。</system:String>
+これらのディレクトリは MAA の配置先に適しておらず、ファイルが削除・上書きされやすい場所です。D:\\MAA\\ のような専用フォルダーへ移動してから再度起動してください。</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">暗号化と復号化に失敗しました。関連設定を再設定してください。そうでないと、暗号化された内容は設定ファイルに平文で保存されます。</system:String>

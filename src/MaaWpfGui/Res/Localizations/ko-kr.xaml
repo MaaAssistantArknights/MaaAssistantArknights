@@ -1257,6 +1257,7 @@ C:\\leidian\\LDPlayer9
     <!--  !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">오류</system:String>
+    <!--  ErrorCongratulations 与下方 ErrorSolutionMoveMaaExeOutOfFolder 修改时需同步 src/MaaAppHostStub/MaaAppHostStub.cpp，由 tools/CheckStubLocalization.py 校验  -->
     <system:String x:Key="ErrorCongratulations">축하합니다</system:String>
     <system:String x:Key="ErrorProlog">MAA에서 오류가 발생했습니다</system:String>
     <system:String x:Key="ErrorDetails">세부 정보</system:String>
@@ -1724,7 +1725,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
 현재 설치 디렉터리: {0}
 감지된 비지원 위치: {1}
 
-이 위치들은 계층이 너무 높아 파일 덮어쓰기, 설정 저장 실패, 데이터 혼선을 일으킬 수 있습니다. D:\\MAA\\ 같은 전용 폴더로 옮긴 뒤 다시 실행해 주세요.</system:String>
+이 디렉터리는 MAA를 두기에 적합하지 않으며 파일이 지워지거나 덮어쓰이기 쉽습니다. D:\\MAA\\ 같은 전용 폴더로 옮긴 뒤 다시 실행해 주세요.</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">암호화 또는 복호화에 실패했습니다. 관련 설정을 다시 구성해 주세요. 그렇지 않으면 암호화된 내용이 설정 파일에 그대로 저장됩니다.</system:String>

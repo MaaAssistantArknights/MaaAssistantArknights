@@ -1255,6 +1255,7 @@ C:\\leidian\\LDPlayer9
     <!--  !自动战斗  -->
     <!--  ErrorDialogView  -->
     <system:String x:Key="Error">错误</system:String>
+    <!--  ErrorCongratulations 与下方 ErrorSolutionMoveMaaExeOutOfFolder 修改时需同步 src/MaaAppHostStub/MaaAppHostStub.cpp，由 tools/CheckStubLocalization.py 校验  -->
     <system:String x:Key="ErrorCongratulations">喜报</system:String>
     <system:String x:Key="ErrorProlog">MAA 遇到了问题</system:String>
     <system:String x:Key="ErrorDetails">详细信息</system:String>
@@ -1722,7 +1723,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 当前安装目录：{0}
 命中的不支持位置：{1}
 
-这些位置层级过高，容易引发文件覆盖、配置写入异常或数据混乱。请先将 MAA 移动到独立文件夹中，例如 D:\\MAA\\，再重新启动。</system:String>
+这些目录不适合放置 MAA，文件容易被清理或覆盖。请先将 MAA 移动到独立文件夹中，例如 D:\\MAA\\，再重新启动。</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">加解密失败，请重新配置相关设置，否则加密内容将以明文形式存储在配置文件中。</system:String>
