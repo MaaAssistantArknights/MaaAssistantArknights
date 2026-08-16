@@ -771,9 +771,7 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.StallTimeoutMinutes);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReminderIntervalMinutes);
 
-                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.AutoRestartOnDrop = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, true);
                 ConfigFactory.CurrentConfig.Gui.RuntimeSettings.RoguelikeDelayAbortUntilCombatComplete = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, false);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.AutoRestartOnDrop);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete);
             }
 

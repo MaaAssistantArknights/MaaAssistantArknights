@@ -1123,14 +1123,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     public ObservableCollection<WeeklyScheduleItem> WeeklyScheduleSource { get; set; } = [.. Enum.GetValues<DayOfWeek>().Select(i => new WeeklyScheduleItem(i))];
 
-    public bool AutoRestartOnDrop
-    {
-        get; set {
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.AutoRestartOnDrop = value;
-            SetAndNotify(ref field, value);
-        }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.AutoRestartOnDrop;
-
     private static string ToUpperAndCheckStage(string value)
     {
         if (string.IsNullOrEmpty(value))

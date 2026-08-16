@@ -508,7 +508,6 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
     <system:String x:Key="StartGameLaunchClient">시작 시 클라이언트 실행</system:String>
-    <system:String x:Key="AutoRestartOption">게임 연결이 끊어질 시 자동 재시작</system:String>
     <system:String x:Key="UseWeeklySchedule">주간 일정 활성화</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">여기서 요일은 게임 내 시간을 기준으로 하며, 실제 시간이 아닙니다. 예를 들어 게임이 4:00에 초기화되면 3:59는 여전히 전날로 계산됩니다.</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다! 저희를 도와주세요! 전문 지식이 없어도 됩니다</system:String>
@@ -1367,8 +1366,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FightTimesUnused">현재 {0}회 작전 완료. 다음은 {1}배수 대리 실행 예정이나, 진입 시 총 {2}회로 제한({3}회)을 초과하게 되어 전투에 진입하지 않습니다.</system:String>
     <system:String x:Key="UpperLimit">투자 상한 도달</system:String>
     <system:String x:Key="GameCrash">게임 충돌 발생, 재시작</system:String>
-    <system:String x:Key="GameDrop">게임 연결 끊김, 재연결 중</system:String>
-    <system:String x:Key="GameDropNoRestart">게임 연결 끊김, 재연결 안 함 (작업 중단)</system:String>
+    <system:String x:Key="GameDrop">게임 연결 끊김, 작업 중단</system:String>
     <system:String x:Key="RoguelikeGamePass">{key=AutoRoguelike} 클리어!</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">특별 상품을 구매했습니다!</system:String>
     <system:String x:Key="MonthlySquadCompleted">월간 스쿼드 보상을 모두 획득했습니다!</system:String>

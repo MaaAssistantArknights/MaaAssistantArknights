@@ -104,7 +104,6 @@ public static class ConfigurationKeys
     public const string EmulatorWaitSeconds = "Start.EmulatorWaitSeconds"; // √
 
     // 仅在理智作战的任务中会生效，前缀需要修改
-    public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop"; // √
     public const string StartsWithScript = "Start.StartsWithScript"; // √
     public const string EndsWithScript = "Start.EndsWithScript"; // √
     public const string CopilotWithScript = "Start.CopilotWithScript"; // √
