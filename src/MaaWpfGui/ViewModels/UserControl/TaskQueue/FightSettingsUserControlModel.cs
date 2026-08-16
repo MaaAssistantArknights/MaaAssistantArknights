@@ -53,12 +53,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     private readonly Lock _inventoryTargetRuntimeStateLock = new();
     private Dictionary<int, InventoryTargetRuntimeState> _inventoryTargetRuntimeStateByTaskId = [];
 
-    /// <summary>
-    /// InProgress 重算时成功下发过无次数上限（int.MaxValue）参数的 core 任务 id。
-    /// 只有这些任务与配置本身无次数限制的任务，正常结束才可能归因为理智不足。
-    /// </summary>
-    private HashSet<int> _unlimitedTimesConfirmedTaskIds = [];
-
     public static FightTimes? FightReport { get; set; }
 
     public static SanityInfo? SanityReport { get; set; }
@@ -115,49 +109,16 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// 重置各作战任务启动时捕获的目标库存运行时缓存，以及无次数上限确认记录。
+    /// 重置各作战任务启动时捕获的目标库存运行时缓存。
     /// </summary>
     private void ResetInventoryTargetRuntimeState()
     {
         lock (_inventoryTargetRuntimeStateLock)
         {
             _inventoryTargetRuntimeStateByTaskId = [];
-            _unlimitedTimesConfirmedTaskIds = [];
         }
 
         Execute.OnUIThread(NotifySpecifiedDropsStateChanged);
-    }
-
-    /// <summary>
-    /// 判断该作战任务是否确实以无次数上限运行：InProgress 重算成功下发过 int.MaxValue 次数，
-    /// 或任务配置本身即无次数限制。打满指定次数的正常结束不能归因为理智不足。
-    /// </summary>
-    /// <param name="taskId">core 任务 id。</param>
-    /// <param name="fight">理智作战任务配置。</param>
-    /// <returns>是否以无次数上限运行。</returns>
-    private bool IsUnlimitedTimesRun(int taskId, FightTask fight)
-    {
-        lock (_inventoryTargetRuntimeStateLock)
-        {
-            if (_unlimitedTimesConfirmedTaskIds.Contains(taskId))
-            {
-                return true;
-            }
-        }
-
-        return fight.EnableTimesLimit == false || fight.TimesLimit == int.MaxValue;
-    }
-
-    /// <summary>
-    /// 记录该 core 任务已成功下发无次数上限参数。
-    /// </summary>
-    /// <param name="taskId">core 任务 id。</param>
-    private void RememberUnlimitedTimesConfirmed(int taskId)
-    {
-        lock (_inventoryTargetRuntimeStateLock)
-        {
-            _unlimitedTimesConfirmedTaskIds.Add(taskId);
-        }
     }
 
     /// <summary>
@@ -172,12 +133,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
         if (status == TaskItemStatus.Completed)
         {
-            // 只有确实以无次数上限运行的任务，「未达库存目标的正常结束」才能归因为理智不足；
-            // 否则打满指定次数的正常结束会误记临期药耗尽证明，导致后续计划被错误跳过
+            // 有次数限制的目标库存任务可能打满次数而未达标，结束原因不唯一，不构成耗尽证明；
+            // 无次数限制时该模式下「未达库存目标的正常结束」只能是理智不足
             if (GetFightTaskByTaskId(taskId) is { } completedFight &&
                 IsInventoryTargetDropEnabled(completedFight) &&
                 !string.IsNullOrEmpty(completedFight.DropId) &&
-                IsUnlimitedTimesRun(taskId, completedFight))
+                (completedFight.EnableTimesLimit == false || completedFight.TimesLimit == int.MaxValue))
             {
                 UpdateProvenExhaustedMedicineDays(
                     completedFight.UseExpiringMedicine ? completedFight.MedicineExpireDays : 0,
@@ -201,12 +162,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             var stage = GetFightStage(startedFight.StagePlan);
             if (!string.IsNullOrEmpty(stage))
             {
-                // 与 append 序列化共用构建方法，强制无次数上限：库存目标才是停止条件
-                var task = BuildAsstFightTask(startedFight, stage, int.MaxValue);
-                if (RefreshFightTaskDrops(taskId, startedFight.DropId, startedFight.DropCount, startedFight.NameOrTaskType, task))
-                {
-                    RememberUnlimitedTimesConfirmed(taskId);
-                }
+                // 与 append 序列化共用构建方法与次数口径（或门：次数限制与库存目标先到先停），
+                // 库存已达标时由 RefreshFightTaskDrops 置 0 跳过
+                var maxTimes = startedFight.EnableTimesLimit != false ? startedFight.TimesLimit : int.MaxValue;
+                var task = BuildAsstFightTask(startedFight, stage, maxTimes);
+                RefreshFightTaskDrops(taskId, startedFight.DropId, startedFight.DropCount, startedFight.NameOrTaskType, task);
             }
         }
 
