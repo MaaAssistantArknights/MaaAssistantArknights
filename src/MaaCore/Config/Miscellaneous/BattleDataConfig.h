@@ -48,6 +48,9 @@ public:
 
     const std::shared_ptr<battle::OperProps> find_oper(battle::Role role, const std::string& name) const
     {
+        if (role == battle::Role::Unknown) {
+            return find_oper(name);
+        }
         if (name.empty()) {
             return nullptr;
         }
@@ -208,7 +211,7 @@ protected:
 
 private:
     std::map<battle::Role, std::unordered_map<std::string, std::shared_ptr<battle::OperProps>>>
-        m_chars_by_role;                                                         // role -> (name -> oper)
+        m_chars_by_role;                                                         // role -> (id -> oper)
     std::unordered_map<std::string, std::shared_ptr<battle::OperProps>> m_chars; // id -> oper
 
     std::unordered_map<std::string, battle::AttackRange> m_ranges;
