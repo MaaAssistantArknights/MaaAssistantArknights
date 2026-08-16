@@ -1246,20 +1246,29 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             // 理智不足且无药剂/源石预算、临期药窗口已证明耗尽（或未启用）时，跳过整个任务，不再导航进图查看
             if (task.Medicine <= 0 && task.Stone <= 0 &&
                 (task.MedicineExpireDays <= 0 || task.MedicineExpireDays <= Instances.Data.ProvenExhaustedMedicineDays) &&
-                SanityReport is { } sanity &&
-                StageApCostHelper.GetApCost(task.Stage) is { } apCost)
+                SanityReport is { } sanity)
             {
-                // 按上报时间以 6 分钟 1 点估算自然回复（向上取整、封顶上限），估算值不低于真实值，长队列后也不会误跳
-                var regen = sanity.SanityCurrent < sanity.SanityMax
-                    ? Math.Max(0, (int)Math.Ceiling((DateTimeOffset.Now - sanity.ReportTime).TotalMinutes / 6))
-                    : 0;
-                var estimatedSanity = Math.Min(sanity.SanityCurrent + regen, sanity.SanityMax);
-                if (estimatedSanity < apCost)
+                var apCost = StageApCostHelper.GetApCost(task.Stage);
+                if (apCost is null)
                 {
-                    task.MaxTimes = 0;
-                    Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetStringFormat("DepotPlanSanityInsufficient", logLabel ?? string.Empty, estimatedSanity, apCost),
-                        UiLogColor.Info);
+                    // 关卡消耗未知（手输关卡、复刻前缀等），无法进行理智判定，记录日志保持可观测
+                    _logger.Information("FightTask {taskId} ({label}) stage {Stage} has no apCost data, sanity skip check not performed",
+                        taskId, logLabel, task.Stage);
+                }
+                else
+                {
+                    // 按上报时间以 6 分钟 1 点估算自然回复（向上取整、封顶上限），估算值不低于真实值，长队列后也不会误跳
+                    var regen = sanity.SanityCurrent < sanity.SanityMax
+                        ? Math.Max(0, (int)Math.Ceiling((DateTimeOffset.Now - sanity.ReportTime).TotalMinutes / 6))
+                        : 0;
+                    var estimatedSanity = Math.Min(sanity.SanityCurrent + regen, sanity.SanityMax);
+                    if (estimatedSanity < apCost)
+                    {
+                        task.MaxTimes = 0;
+                        Instances.TaskQueueViewModel.AddLog(
+                            LocalizationHelper.GetStringFormat("DepotPlanSanityInsufficient", logLabel ?? string.Empty, estimatedSanity, apCost),
+                            UiLogColor.Info);
+                    }
                 }
             }
         }
