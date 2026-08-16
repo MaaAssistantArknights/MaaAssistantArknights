@@ -156,7 +156,9 @@ bool asst::BattleProcessTask::to_group()
     std::unordered_map<battle::OperNameTag, battle::OperNameTag> ungrouped;
     const auto& grouped_view = m_oper_in_group | std::views::values;
     for (const auto& tag : char_set) {
-        if (std::ranges::find(grouped_view, tag) != grouped_view.end()) {
+        if (std::ranges::find_if(grouped_view, [&](const battle::OperNameTag& oper) {
+                return (oper.role == battle::Role::Unknown || oper.role == tag.role) && oper.name == tag.name;
+            }) != grouped_view.end()) {
             continue;
         }
         ungrouped.emplace(tag, tag);
