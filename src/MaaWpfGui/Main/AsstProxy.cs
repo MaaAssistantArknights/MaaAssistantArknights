@@ -1748,6 +1748,7 @@ public class AsstProxy
                             break;
 
                         case "OfflineConfirm":
+                        case "OfflineConfirmAfterBattle":
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDrop"), UiLogColor.Warning);
                             ToastNotification.ShowDirect(LocalizationHelper.GetString("GameDrop"));
                             _ = Instances.TaskQueueViewModel.Stop();
