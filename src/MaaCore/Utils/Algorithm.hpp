@@ -343,9 +343,9 @@ struct CharAllocationResult
             }
 
             has_candidate = true;
-            const auto [char_it, inserted] = char_name_mapping.try_emplace(candidate_name, char_id_mapping.size());
+            const auto [char_it, inserted] = char_name_mapping.try_emplace(*it, char_id_mapping.size());
             if (inserted) {
-                char_id_mapping.emplace_back(candidate_name);
+                char_id_mapping.emplace_back(*it);
             }
             node_id_mapping.emplace_back(group_id, char_it->second);
         }
