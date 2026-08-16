@@ -40,7 +40,9 @@ def main() -> int:
                 failures.append(f"{lang}.xaml: 找不到 key {key}")
                 continue
             if value not in cpp_joined:
-                failures.append(f"{lang}.xaml: {key} 的文案未在 MaaAppHostStub.cpp 中找到，需同步")
+                failures.append(
+                    f"{lang}.xaml: {key} 的文案未在 MaaAppHostStub.cpp 中找到，需同步"
+                )
 
     if failures:
         for failure in failures:

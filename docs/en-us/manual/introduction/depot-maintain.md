@@ -38,11 +38,12 @@ Each plan contains the following:
 Items in the plan list can be **dragged to reorder**. Plans are executed in order during the task.
 
 ::: tip Skipping when sanity is insufficient
+
 - The sanity check is based on the sanity value reported by the most recent fight that actually entered a stage in this queue run (a Depot Maintain plan or a standalone Fight task), with the current value estimated at 1 point per 6 minutes (fractions of 6 minutes count as a full 6 minutes), capped at the sanity limit.
 - Plans with a sanity potion or Originium budget are never skipped for insufficient sanity: even when sanity is not enough, they still enter the stage and restore sanity with the budget to keep fighting.
 - Plans without a budget are skipped directly (without entering the stage) when the target inventory is already reached, or when the estimated current sanity is below the stage's minimum entry cost and expiring potions are unavailable (see "Use expiring sanity potions within 48 hours").
 - Decisions always use the latest state: after a middle plan restores sanity and reaches its target, the remaining sanity still flows to later plans.
-:::
+  :::
 
 ### Presets
 
