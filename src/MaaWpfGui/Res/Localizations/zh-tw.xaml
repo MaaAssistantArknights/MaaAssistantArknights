@@ -491,11 +491,9 @@ D:\
     <system:String x:Key="AddConfigSuccess">配置 &lt;{0}&gt; 新增成功</system:String>
     <system:String x:Key="ConfigExists">配置 &lt;{0}&gt; 已存在</system:String>
     <system:String x:Key="LaunchOnSystemStartup">開機自動啟動 MAA</system:String>
-    <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">
-此功能透過修改登錄檔來實現開機自動啟動。
+    <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">此功能透過修改登錄檔來實現開機自動啟動。
 由於 MAA 為非安裝軟體，不會自動清除登錄檔項目。
-若在意登錄檔殘留，請在刪除程式前先取消啟用此選項。
-</system:String>
+若在意登錄檔殘留，請在刪除程式前先取消啟用此選項。</system:String>
     <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
         ｢以系統管理員身分執行｣ 不支援開機自動啟動。不建議長期以系統管理員身分執行 MAA。\n如有需要，請前往 控制台 &gt; 系統管理工具 &gt; 工作排程器 建立工作。設定安全性選項時，請確保已勾選 ｢以最高權限執行｣。
     </system:String>
@@ -515,6 +513,7 @@ D:\
     <system:String x:Key="UseWeeklyScheduleTip">此處的星期是根據遊戲時間計算的，並非現實時間。例如遊戲在 4:00 刷新，則 3:59 仍算作前一天。</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服支援人力吃緊，幫幫我們！不會寫程式也可以參與。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動 MAA 後自動開啟模擬器</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunchTip">僅在啟動 MAA 時開啟一次模擬器，點擊 ｢{key=LinkStart}｣ 時不會自動開啟；\n如有此需求，請勾選 ｢{key=RetryOnDisconnected}｣</system:String>
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待結束</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>

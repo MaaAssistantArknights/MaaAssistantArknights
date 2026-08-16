@@ -491,11 +491,9 @@ D:\
     <system:String x:Key="AddConfigSuccess">構成&lt; {0}&gt;が正常に追加されました</system:String>
     <system:String x:Key="ConfigExists">構成 &lt; {0}&gt; は既に存在します</system:String>
     <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>
-    <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">
-この機能は、レジストリを変更してシステム起動時に自動起動するように設定します。
+    <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">この機能は、レジストリを変更してシステム起動時に自動起動するように設定します。
 MAA は非インストール型のアプリケーションであり、レジストリを自動で削除しません。
-レジストリの残留が気になる場合は、削除前にこのオプションを無効にしてください。
-</system:String>
+レジストリの残留が気になる場合は、削除前にこのオプションを無効にしてください。</system:String>
     <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
         管理者権限での起動は、起動時の自動実行をサポートしていません。MAAを長時間管理者権限で実行することはお勧めしません。\n必要な場合は、 ｢コントロールパネル &gt; Windowsツール &gt; タスクスケジューラ｣ に移動してカスタムタスクを作成してください。トリガーを設定する際に、 ｢最も高い特権で実行｣ を必ず選択してください。
     </system:String>
@@ -515,6 +513,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="UseWeeklyScheduleTip">ここでの曜日はゲーム内時間に基づいており、現実時間ではありません。例えば、ゲームが4:00にリセットされる場合、3:59は前日としてカウントされます。</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunchTip">エミュレータは MAA 起動時に一度だけ起動され、｢{key=LinkStart}｣ をクリックするたびに起動されるわけではありません。\nそのような動作が必要な場合は ｢{key=RetryOnDisconnected}｣ を有効にしてください</system:String>
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">待ち時間は終わりました</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>

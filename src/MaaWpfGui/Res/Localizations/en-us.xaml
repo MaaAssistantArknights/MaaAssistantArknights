@@ -491,11 +491,9 @@ Continue only after you have verified the directory layout and finished a manual
     <system:String x:Key="AddConfigSuccess">Configuration &lt;{0}&gt; added successfully</system:String>
     <system:String x:Key="ConfigExists">Configuration &lt;{0}&gt; already exists</system:String>
     <system:String x:Key="LaunchOnSystemStartup">Auto start with PC</system:String>
-    <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">
-This feature modifies the registry to enable launching on system startup.
+    <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">This feature modifies the registry to enable launching on system startup.
 Since MAA is a non-installed application, it does not remove registry entries automatically.
-If you are concerned about leftover entries, please disable this option before deleting the program.
-</system:String>
+If you are concerned about leftover entries, please disable this option before deleting the program.</system:String>
     <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
         Administrator mode does not support startup on boot. It is not recommended to run MAA with administrator privileges for an extended period.\nIf necessary, please go to Control Panel &gt; Windows Tools &gt; Task Scheduler to create a custom task. When setting the trigger, make sure to check ｢Run with highest privileges｣
     </system:String>
@@ -515,6 +513,7 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="UseWeeklyScheduleTip">The day of week here is based on in-game time, not real-world time. For example, if the game resets at 4:00, then 3:59 is still counted as the previous day.</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunchTip">The emulator is only started once when MAA launches, not every time you click ｢{key=LinkStart}｣.\nIf you need that, check ｢{key=RetryOnDisconnected}｣ instead</system:String>
     <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">End of wait</system:String>
     <system:String x:Key="EmulatorPath">Emulator path</system:String>
