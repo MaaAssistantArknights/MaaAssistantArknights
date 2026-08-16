@@ -1321,7 +1321,7 @@ public partial class CopilotViewModel : Screen
             }
         }
 
-        await AddSSSCopilotTaskToList(copilot, CopilotId);
+        // await AddSSSCopilotTaskToList(copilot, CopilotId); 保全作业浏览时不自动添加到列表
         return true;
     }
 
