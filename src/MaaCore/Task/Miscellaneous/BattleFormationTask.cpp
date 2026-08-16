@@ -725,7 +725,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             sleep(delay);
         }
         oper->status = battle::OperStatus::Selected;
-        m_opers_in_formation->emplace(battle::OperNameTag { oper->role, oper->name }, (*iter)->name);
+        m_opers_in_formation->emplace(battle::OperNameTag { res.role, res.text }, (*iter)->name);
         json::value info = basic_info_with_what("BattleFormationSelected");
         auto& details = info["details"];
         details["selected"] = oper->name;
