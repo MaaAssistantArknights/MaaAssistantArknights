@@ -559,7 +559,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             case ConnectConfig.MuMuEmulator12:
                 if (ExtraConfig is MuMu12Extra muMu12Extra && muMu12Extra.Enable && ScreencapMethod != "MumuExtras")
                 {
-                    TestLinkInfo = $"{LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage")}\n{ScreencapTestCost}";
+                    var mumuExtrasMsg = string.IsNullOrEmpty(muMu12Extra.EmulatorPath)
+                        ? LocalizationHelper.GetString("MuMuEmulatorPathEmptyError")
+                        : LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage");
+                    TestLinkInfo = $"{mumuExtrasMsg}\n{ScreencapTestCost}";
                     return;
                 }
 
@@ -568,7 +571,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             case ConnectConfig.LDPlayer:
                 if (ExtraConfig is LDPlayerExtra ldPlayerExtra && ldPlayerExtra.Enable && ScreencapMethod != "LDExtras")
                 {
-                    TestLinkInfo = $"{LocalizationHelper.GetString("LdExtrasNotEnabledMessage")}\n{ScreencapTestCost}";
+                    var ldExtrasMsg = string.IsNullOrEmpty(ldPlayerExtra.EmulatorPath)
+                        ? LocalizationHelper.GetString("LdEmulatorPathEmptyError")
+                        : LocalizationHelper.GetString("LdExtrasNotEnabledMessage");
+                    TestLinkInfo = $"{ldExtrasMsg}\n{ScreencapTestCost}";
                     return;
                 }
 

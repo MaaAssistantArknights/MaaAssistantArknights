@@ -728,11 +728,12 @@ C:\\Program Files\\Netease\\MuMuPlayer\n
 2. 若正在使用網路橋接，則需勾選 MuMu 網路橋接模式並手動填寫序號。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 模擬器路徑</system:String>
+    <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu 安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填寫實際路徑</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu 網路橋接模式</system:String>
     <system:String x:Key="MuMuBridgeConnectionTip">除非您知道自己在做什麼，否則不要啟用此選項</system:String>
     <system:String x:Key="MuMu12Index">實例編號</system:String>
     <system:String x:Key="MuMu12Display">螢幕編號</system:String>
-    <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu 截圖增強未生效，請檢查相關設定</system:String>
+    <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu 截圖增強未生效，請在 ｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ 檢查下方顯示的截圖增強設定</system:String>
     <system:String x:Key="MuMuEmulator12KeepAliveOn">偵測到 MuMu 模擬器開啟了 ｢應用保活｣，但 MAA 的觸控增強未生效，在應用保活下無法操作。請在 MAA ｢{key=ConnectionSettings}｣ 中同時勾選 ｢{key=MuMu12ExtrasEnabled}｣ 及其下的 ｢{key=MuMuExtrasTouchEnabled}｣；或不想使用增強時，請在 MuMu 設定中關閉 ｢應用保活｣（部分版本曾稱 ｢背景保活｣ ｢背景掛機時保活運行｣ 等）。</system:String>
     <system:String x:Key="MuMuEmulator12FullExtrasReady">完整 MuMu 增強已就位——截圖與觸控雙核直連貫通，背景保活亦為我所用！</system:String>
     <system:String x:Key="LdExtrasEnabled">啟用 LD 截圖增強</system:String>
@@ -755,9 +756,10 @@ C:\\leidian\\LDPlayer9
 如在縱向螢幕狀態下啟動遊戲後切換為橫向，可能導致畫面撕裂等問題。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 模擬器路徑</system:String>
+    <system:String x:Key="LdEmulatorPathEmptyError">雷電模擬器安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填寫實際路徑</system:String>
     <system:String x:Key="LdManualSetIndex">手動填寫 ｢{key=LdIndex}｣</system:String>
     <system:String x:Key="LdIndex">實例編號</system:String>
-    <system:String x:Key="LdExtrasNotEnabledMessage">LD 截圖增強未生效，請檢查相關設定</system:String>
+    <system:String x:Key="LdExtrasNotEnabledMessage">LD 截圖增強未生效，請在 ｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ 檢查下方顯示的截圖增強設定</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗後嘗試重啟模擬器；使用後台定時任務且設定任務完成後關閉模擬器時，必須勾選此項</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫 ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ 後重新勾選。</system:String>
@@ -1307,8 +1309,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TouchModeNotAvailable">觸控模式不可用。請進入 ｢{key=Settings} - {key=ConnectionSettings}｣ 切換其他觸控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截圖失敗，如反覆出現請嘗試重啟或更換模擬器！</system:String>
     <system:String x:Key="FastestWayToScreencap">最快截圖用時: {0}ms ({1})</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">截圖用時較長 (平均: {0}ms)，執行自動戰鬥類功能（如自動肉鴿）時可能表現異常。若使用 MuMu、雷電模擬器請嘗試開啟截圖增強</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">截圖用時過長 (平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）很可能無法正常執行，建議嘗試重啟或更換模擬器！若使用 MuMu、雷電模擬器請嘗試開啟截圖增強</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">截圖用時較長 (平均: {0}ms)，執行自動戰鬥類功能（如自動肉鴿）時可能表現異常。若使用 MuMu、雷電模擬器，請在 ｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">截圖用時過長 (平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）很可能無法正常執行，建議嘗試重啟或更換模擬器！若使用 MuMu、雷電模擬器，請在 ｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強</system:String>
     <system:String x:Key="EmulatorFpsWarningTip">偵測到模擬器設定幀率為 {0} FPS，低於遊戲原生幀率（60 FPS），可能開啟了背景降幀或幀率設定過低，建議將模擬器幀率設定為 60 FPS</system:String>
     <system:String x:Key="EmulatorFpsErrorTip">偵測到模擬器設定幀率過低（{0} FPS），可能導致任務異常，請關閉模擬器背景降幀並將幀率設定為 60 FPS</system:String>
     <system:String x:Key="EmulatorFpsHighTip">偵測到模擬器設定幀率為 {0} FPS，高於遊戲原生幀率上限（60 FPS），可能是模擬器插幀功能，可能導致畫面異常或辨識不穩定，建議關閉插幀並將幀率設定為 60 FPS</system:String>
