@@ -53,6 +53,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     private readonly Lock _inventoryTargetRuntimeStateLock = new();
     private Dictionary<int, InventoryTargetRuntimeState> _inventoryTargetRuntimeStateByTaskId = [];
 
+    /// <summary>
+    /// InProgress 重算时成功下发过无次数上限（int.MaxValue）参数的 core 任务 id。
+    /// 只有这些任务与配置本身无次数限制的任务，正常结束才可能归因为理智不足。
+    /// </summary>
+    private HashSet<int> _unlimitedTimesConfirmedTaskIds = [];
+
     public static FightTimes? FightReport { get; set; }
 
     public static SanityInfo? SanityReport { get; set; }
@@ -109,16 +115,49 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
-    /// 重置各作战任务启动时捕获的目标库存运行时缓存。
+    /// 重置各作战任务启动时捕获的目标库存运行时缓存，以及无次数上限确认记录。
     /// </summary>
     private void ResetInventoryTargetRuntimeState()
     {
         lock (_inventoryTargetRuntimeStateLock)
         {
             _inventoryTargetRuntimeStateByTaskId = [];
+            _unlimitedTimesConfirmedTaskIds = [];
         }
 
         Execute.OnUIThread(NotifySpecifiedDropsStateChanged);
+    }
+
+    /// <summary>
+    /// 判断该作战任务是否确实以无次数上限运行：InProgress 重算成功下发过 int.MaxValue 次数，
+    /// 或任务配置本身即无次数限制。打满指定次数的正常结束不能归因为理智不足。
+    /// </summary>
+    /// <param name="taskId">core 任务 id。</param>
+    /// <param name="fight">理智作战任务配置。</param>
+    /// <returns>是否以无次数上限运行。</returns>
+    private bool IsUnlimitedTimesRun(int taskId, FightTask fight)
+    {
+        lock (_inventoryTargetRuntimeStateLock)
+        {
+            if (_unlimitedTimesConfirmedTaskIds.Contains(taskId))
+            {
+                return true;
+            }
+        }
+
+        return fight.EnableTimesLimit == false || fight.TimesLimit == int.MaxValue;
+    }
+
+    /// <summary>
+    /// 记录该 core 任务已成功下发无次数上限参数。
+    /// </summary>
+    /// <param name="taskId">core 任务 id。</param>
+    private void RememberUnlimitedTimesConfirmed(int taskId)
+    {
+        lock (_inventoryTargetRuntimeStateLock)
+        {
+            _unlimitedTimesConfirmedTaskIds.Add(taskId);
+        }
     }
 
     /// <summary>
@@ -133,13 +172,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
         if (status == TaskItemStatus.Completed)
         {
-            // 指定掉落的作战任务无次数上限，未达库存目标即正常结束说明理智打不动了
+            // 只有确实以无次数上限运行的任务，「未达库存目标的正常结束」才能归因为理智不足；
+            // 否则打满指定次数的正常结束会误记临期药耗尽证明，导致后续计划被错误跳过
             if (GetFightTaskByTaskId(taskId) is { } completedFight &&
                 IsInventoryTargetDropEnabled(completedFight) &&
-                !string.IsNullOrEmpty(completedFight.DropId))
+                !string.IsNullOrEmpty(completedFight.DropId) &&
+                IsUnlimitedTimesRun(taskId, completedFight))
             {
                 UpdateProvenExhaustedMedicineDays(
-                    completedFight.UseExpiringMedicine != false ? completedFight.MedicineExpireDays : 0,
+                    completedFight.UseExpiringMedicine ? completedFight.MedicineExpireDays : 0,
                     completedFight.DropId,
                     completedFight.DropCount);
             }
@@ -160,22 +201,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             var stage = GetFightStage(startedFight.StagePlan);
             if (!string.IsNullOrEmpty(stage))
             {
-                var task = new AsstFightTask() {
-                    Stage = stage,
-                    Medicine = startedFight.UseMedicine != false ? startedFight.MedicineCount : 0,
-                    Stone = startedFight.UseStone != false ? startedFight.StoneCount : 0,
-                    Series = startedFight.Series,
-                    MaxTimes = int.MaxValue,
-                    MedicineExpireDays = startedFight.UseExpiringMedicine ? startedFight.MedicineExpireDays : 0,
-                    IsDrGrandet = startedFight.IsDrGrandet,
-                    ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-                    ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-                    PenguinId = SettingsViewModel.GameSettings.PenguinId,
-                    YituliuId = SettingsViewModel.GameSettings.PenguinId,
-                    ServerType = Instances.SettingsViewModel.ServerType,
-                    ClientType = SettingsViewModel.GameSettings.ClientType,
-                };
-                RefreshFightTaskDrops(taskId, startedFight.DropId, startedFight.DropCount, startedFight.NameOrTaskType, task);
+                // 与 append 序列化共用构建方法，强制无次数上限：库存目标才是停止条件
+                var task = BuildAsstFightTask(startedFight, stage, int.MaxValue);
+                if (RefreshFightTaskDrops(taskId, startedFight.DropId, startedFight.DropCount, startedFight.NameOrTaskType, task))
+                {
+                    RememberUnlimitedTimesConfirmed(taskId);
+                }
             }
         }
 
@@ -1245,7 +1276,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
             // 理智不足且无药剂/源石预算、临期药窗口已证明耗尽（或未启用）时，跳过整个任务，不再导航进图查看
             if (task.Medicine <= 0 && task.Stone <= 0 &&
-                (task.MedicineExpireDays <= 0 || task.MedicineExpireDays <= Instances.Data.ProvenExhaustedMedicineDays) &&
+                (task.MedicineExpireDays <= 0 || task.MedicineExpireDays <= ProvenExhaustedMedicineDays) &&
                 SanityReport is { } sanity)
             {
                 var apCost = StageApCostHelper.GetApCost(task.Stage);
@@ -1274,6 +1305,55 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
 
         return Instances.AsstProxy.AsstSetTaskParamsEncoded(taskId, task);
+    }
+
+    /// <summary>
+    /// 按理智作战配置构建核心 Fight 任务参数，append 序列化与任务开始时的重算共用，保证两处参数一致。
+    /// 含活动临期药窗口扩展（把窗口拉长到本周结束）与剿灭自定义关卡替换；次数上限由调用方决定，掉落目标由调用方追加。
+    /// </summary>
+    /// <param name="fight">理智作战任务配置。</param>
+    /// <param name="stage">已解析的关卡。</param>
+    /// <param name="maxTimes">最大战斗次数。</param>
+    /// <returns>核心 Fight 任务参数。</returns>
+    private static AsstFightTask BuildAsstFightTask(FightTask fight, string stage, int maxTimes)
+    {
+        var time = DateTimeOffset.Now;
+        var activityExpireIn2Days = false;
+        var activityList = Instances.StageManager.ActivityList
+            .Where(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
+        if (activityList.Any())
+        {
+            var activity = activityList.First();
+            activityExpireIn2Days = (activity.Value.Info.ExpireTimeUtc - time).Days < 2;
+        }
+
+        var expireDays = fight.UseExpiringMedicine ? fight.MedicineExpireDays : 0;
+        var yjTime = DateTimeOffset.Now.ToYjDateTime().ToLocalTime();
+        var daysUntilEndOfWeek = ((7 - (int)yjTime.DayOfWeek + 7) % 7) + 1; // 距离本周结束的天数, 用鹰历计算
+        var activityExpireDays = activityExpireIn2Days && fight.UseExpireMedicineForActivity ? daysUntilEndOfWeek : 0;
+
+        var task = new AsstFightTask() {
+            Stage = stage,
+            Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
+            Stone = fight.UseStone != false ? fight.StoneCount : 0,
+            Series = fight.Series,
+            MaxTimes = maxTimes,
+            MedicineExpireDays = Math.Max(expireDays, activityExpireDays),
+            IsDrGrandet = fight.IsDrGrandet,
+            ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+            ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+            PenguinId = SettingsViewModel.GameSettings.PenguinId,
+            YituliuId = SettingsViewModel.GameSettings.PenguinId,
+            ServerType = Instances.SettingsViewModel.ServerType,
+            ClientType = SettingsViewModel.GameSettings.ClientType,
+        };
+
+        if (task.Stage == AnnihilationName && fight.UseCustomAnnihilation)
+        {
+            task.Stage = fight.AnnihilationStage;
+        }
+
+        return task;
     }
 
     /// <summary>
@@ -1618,20 +1698,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 }
             }
 
-            var time = DateTimeOffset.Now;
-            var activityExpireIn2Days = false;
-            var activityList = Instances.StageManager.ActivityList
-                .Where(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
-            if (activityList.Any())
-            {
-                var activity = activityList.First();
-                activityExpireIn2Days = (activity.Value.Info.ExpireTimeUtc - time).Days < 2;
-            }
-
-            var expireDays = fight.UseExpiringMedicine ? fight.MedicineExpireDays : 0;
-            var yjTime = DateTimeOffset.Now.ToYjDateTime().ToLocalTime();
-            var daysUntilEndOfWeek = ((7 - (int)yjTime.DayOfWeek + 7) % 7) + 1; // 距离本周结束的天数, 用鹰历计算
-            var activityExpireDays = activityExpireIn2Days && fight.UseExpireMedicineForActivity ? daysUntilEndOfWeek : 0;
             InventoryTargetRuntimeState? inventoryTargetRuntimeState = null;
             bool shouldRememberInventoryTargetRuntimeState = false;
             int specifiedDropsQuantity = fight.DropCount;
@@ -1672,26 +1738,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 effectiveMaxTimes = 0;
             }
 
-            var task = new AsstFightTask() {
-                Stage = stage,
-                Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
-                Stone = fight.UseStone != false ? fight.StoneCount : 0,
-                Series = fight.Series,
-                MaxTimes = effectiveMaxTimes,
-                MedicineExpireDays = Math.Max(expireDays, activityExpireDays),
-                IsDrGrandet = fight.IsDrGrandet,
-                ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-                ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-                PenguinId = SettingsViewModel.GameSettings.PenguinId,
-                YituliuId = SettingsViewModel.GameSettings.PenguinId,
-                ServerType = Instances.SettingsViewModel.ServerType,
-                ClientType = SettingsViewModel.GameSettings.ClientType,
-            };
-
-            if (task.Stage == AnnihilationName && fight.UseCustomAnnihilation)
-            {
-                task.Stage = fight.AnnihilationStage;
-            }
+            var task = BuildAsstFightTask(fight, stage, effectiveMaxTimes);
 
             if (fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId) && specifiedDropsQuantity > 0)
             {
