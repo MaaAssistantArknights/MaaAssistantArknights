@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Newtonsoft.Json.Linq;
 using Serilog;
 
@@ -27,6 +28,12 @@ namespace MaaWpfGui.Helper;
 public static class StageApCostHelper
 {
     private static readonly ILogger _logger = Log.ForContext(typeof(StageApCostHelper));
+
+    /// <summary>
+    /// 保护 <see cref="_apCosts"/> 与 <see cref="_stamp"/> 这对相关字段的检查与重建；
+    /// 调用频率为每个战斗任务一次，加锁开销可忽略。
+    /// </summary>
+    private static readonly Lock _lock = new();
 
     private static Dictionary<string, int>? _apCosts;
 
@@ -47,15 +54,18 @@ public static class StageApCostHelper
             return null;
         }
 
-        var path = Path.Combine(PathsHelper.ResourceDir, "stages.json");
-        var stamp = File.Exists(path) ? File.GetLastWriteTimeUtc(path) : DateTime.MinValue;
-        if (_apCosts == null || stamp != _stamp)
+        lock (_lock)
         {
-            _stamp = stamp;
-            _apCosts = Load(path);
-        }
+            var path = Path.Combine(PathsHelper.ResourceDir, "stages.json");
+            var stamp = File.Exists(path) ? File.GetLastWriteTimeUtc(path) : DateTime.MinValue;
+            if (_apCosts == null || stamp != _stamp)
+            {
+                _stamp = stamp;
+                _apCosts = Load(path);
+            }
 
-        return _apCosts.TryGetValue(stage, out var cost) ? cost : null;
+            return _apCosts.TryGetValue(stage, out var cost) ? cost : null;
+        }
     }
 
     private static Dictionary<string, int> Load(string path)
