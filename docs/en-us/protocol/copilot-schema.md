@@ -106,7 +106,7 @@ Please note that JSON files do not support comments. The comments in this docume
             // "Left" | "Right" | "Up" | "Down" | "None"
             // "左"   |  "右"   | "上"  | "下"   |  "无"
             // Both English and Chinese are supported (e.g., "左" for "Left")
-            "skip_if_not_ready": false, // Only effective when type is "Skill". Allows skipping the current action if the skill is not ready, mainly used to disable unfinished ammo skills. Optional, defaults to false.
+            // "skip_if_not_ready": false, // Only effective when type is "Skill". Allows skipping the current action if the skill is not ready, mainly used to disable unfinished ammo skills. Optional, defaults to false. DEPRECATED, please use "timeout": 0 instead
             "skill_usage": 1, // Change skill usage method. Required when type is "SkillUsage"
             // Example: Initially need Myrtle to help attack without using skill, later need auto skill activation
             // Can set to 1 at the appropriate time
