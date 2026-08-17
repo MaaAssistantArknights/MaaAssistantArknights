@@ -1098,6 +1098,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">詭影迷蹤</system:String>
     <system:String x:Key="MiniGame@SecretFront">隱秘戰線</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內 ｢繼承上一支隊伍發回的資料｣ 。</system:String>
+    <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">奇象巡展：發現暫未收錄奇象</system:String>
+    <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationContent">MAA 已停止自動探索，請返回遊戲完成戰鬥。</system:String>
     <system:String x:Key="MiniGame@PixelPaint">像素畫自動填色</system:String>
     <system:String x:Key="MiniGame@PixelPaintTip">請先手動進入遊戲內 24×24 像素畫編輯頁，再開始。&#10;中間預覽可拖移/滾輪取景；預設跳過白色。&#10;開始後參數鎖定，進度見右側日誌。</system:String>
     <system:String x:Key="MiniGame@PixelPaint@DropHint">拖入圖片、貼上圖片/文字或點下方選圖</system:String>

@@ -1099,6 +1099,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">수상한 그림자</system:String>
     <system:String x:Key="MiniGame@SecretFront">비밀 전선</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내  ｢이전 소대의 데이터 전승받기｣  옵션을 체크하는 것을 권장합니다.</system:String>
+    <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">기상 순회전: 미수록 기상 발견</system:String>
+    <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationContent">MAA가 자동 탐색을 중지했습니다. 게임으로 돌아가 전투를 수동으로 완료하세요.</system:String>
     <system:String x:Key="MiniGame@PixelPaint">픽셀 아트 자동 그리기</system:String>
     <system:String x:Key="MiniGame@PixelPaintTip">게임 내 24×24 픽셀 아트 편집 페이지에 직접 들어간 뒤 시작하세요.&#10;미리보기는 드래그/휠로 구도 조정. 기본적으로 흰색은 건너뜀.&#10;시작 후 파라미터는 고정. 진행 상황은 오른쪽 로그 참조.</system:String>
     <system:String x:Key="MiniGame@PixelPaint@DropHint">이미지를 드래그하거나 이미지/텍스트를 붙여넣거나 아래 버튼으로 선택</system:String>
