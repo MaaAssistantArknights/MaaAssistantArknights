@@ -269,7 +269,8 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     case ActionType::UseSkill:
         ret = m_in_bullet_time ? click_skill(action.timeout_ms)
-                               : (location.empty() ? use_skill(role, name, action.timeout_ms) : use_skill(location, action.timeout_ms));
+                               : (location.empty() ? use_skill(role, name, action.timeout_ms)
+                                                   : use_skill(location, action.timeout_ms));
         if (ret) {
             m_in_bullet_time = false;
         }
