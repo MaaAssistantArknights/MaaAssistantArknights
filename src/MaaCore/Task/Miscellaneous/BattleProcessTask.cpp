@@ -503,7 +503,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
 
     // 部署干员还要额外等待费用够或 CD 转好
     if (action.type == ActionType::Deploy) {
-        const auto& oper_tag = get_oper_tag(get_name_from_group(action.role, action.name));
+        const auto& action_oper = get_name_from_group(action.role, action.name);
         update_image_if_empty();
         while (!need_exit()) {
             if (!update_deployment(false, image)) {
@@ -511,7 +511,10 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             }
             if (auto iter = std::ranges::find_if(
                     m_cur_deployment_opers,
-                    [&](const auto& oper) { return oper.role == oper_tag.role && oper.name == oper_tag.name; });
+                    [&](const auto& oper) {
+                        return (action_oper.role == battle::Role::Unknown || oper.role == action_oper.role) &&
+                               oper.name == action_oper.name;
+                    });
                 iter != m_cur_deployment_opers.end() && iter->available) {
                 break;
             }
