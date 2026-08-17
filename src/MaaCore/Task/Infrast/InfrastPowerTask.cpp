@@ -31,6 +31,10 @@ bool asst::InfrastPowerTask::_run()
 
         close_quick_formation_expand_role();
 
+        if (current_room_config().use_operator_groups) {
+            match_operator_groups();
+        }
+
         for (int j = 0; j <= OperSelectRetryTimes; ++j) {
             if (is_use_custom_opers()) {
                 bool name_select_ret = swipe_and_select_custom_opers();

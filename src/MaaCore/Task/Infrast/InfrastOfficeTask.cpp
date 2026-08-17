@@ -28,6 +28,10 @@ bool asst::InfrastOfficeTask::_run()
 
     close_quick_formation_expand_role();
 
+    if (current_room_config().use_operator_groups) {
+        match_operator_groups();
+    }
+
     for (int i = 0; i <= OperSelectRetryTimes; ++i) {
         if (need_exit()) {
             return false;

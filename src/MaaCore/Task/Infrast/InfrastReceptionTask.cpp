@@ -361,6 +361,10 @@ bool asst::InfrastReceptionTask::shift()
 
     close_quick_formation_expand_role();
 
+    if (current_room_config().use_operator_groups) {
+        match_operator_groups();
+    }
+
     int retry_times;
     for (retry_times = 0; retry_times <= OperSelectRetryTimes; ++retry_times) {
         if (need_exit()) {
