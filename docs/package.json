@@ -14,7 +14,6 @@
     },
     "devDependencies": {
         "@iconify/vue": "^5.0.1",
-        "@mathjax/src": "^4.1.3",
         "@vuepress/bundler-vite": "2.0.0-rc.30",
         "@vuepress/helper": "2.0.0-rc.131",
         "@vuepress/plugin-docsearch": "2.0.0-rc.132",
@@ -25,9 +24,7 @@
         "gray-matter": "^4.0.3",
         "markdown-it": "^14.3.0",
         "markdown-it-anchor": "^9.2.0",
-        "markdown-it-cjk-friendly": "2.0.3",
         "prettier": "^3.8.1",
-        "sass": "^1.102.0",
         "sass-embedded": "^1.102.0",
         "typescript": "^5.9.3",
         "vite": "^8.2.1",
