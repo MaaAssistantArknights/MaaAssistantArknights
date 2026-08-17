@@ -1,0 +1,3 @@
+// 由 CMake configure_file 生成，仅供 MaaAppHostStub.rc 使用
+#define MAA_APPHOST_FILEVERSION @maa_apphost_fileversion@
+#define MAA_APPHOST_VERSION_STRING "@maa_apphost_version_string@"

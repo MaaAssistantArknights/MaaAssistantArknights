@@ -55,7 +55,7 @@ public:
     /// <summary>
     /// 在 <c>image</c> 中匹配 <c>option_templ</c> 所对应的事件选项。
     /// </summary>
-    /// <param name="theme">集成战略主题；目前只适配了界园主题。</param>
+    /// <param name="theme">集成战略主题；目前适配界园和黑流树海主题。</param>
     /// <param name="image">目标图像。</param>
     /// <param name="option_templ">要匹配的事件选项的模版。</param>
     /// <returns>
@@ -117,7 +117,7 @@ private:
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
 
     /// <summary>
-    /// 集成战略主题；目前只适配了界园主题。
+    /// 集成战略主题；目前适配界园和黑流树海主题。
     /// </summary>
     std::string m_theme;
 

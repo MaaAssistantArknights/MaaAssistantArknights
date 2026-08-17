@@ -36,6 +36,7 @@ add_subdirectory(src/MaaCore)
 
 if(BUILD_WPF_GUI)
     add_subdirectory(src/MaaUpdater)
+    add_subdirectory(src/MaaAppHostStub)
 
     include_external_msproject(MaaWpfGui ${PROJECT_SOURCE_DIR}/src/MaaWpfGui/MaaWpfGui.csproj)
 

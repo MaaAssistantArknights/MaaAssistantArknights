@@ -1,0 +1,43 @@
+// MAA.exe 替代入口的版本资源，保持与 MaaWpfGui 程序集信息一致的外观
+
+#include <windows.h>
+#include "Version.h"
+
+1 ICON "../MaaWpfGui/newlogo.ico"
+
+// 与 SDK apphost 保持一致：嵌入 WPF 的应用清单（DPI 感知、长路径、comctl v6），
+// 链接器的默认清单由 CMakeLists 以 /MANIFEST:NO 关闭，避免冲突
+1 24 "../MaaWpfGui/app.manifest"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION MAA_APPHOST_FILEVERSION
+PRODUCTVERSION MAA_APPHOST_FILEVERSION
+FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+FILEFLAGS 0x1L
+#else
+FILEFLAGS 0x0L
+#endif
+FILEOS 0x40004L
+FILETYPE 0x1L
+FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "MAA Team"
+            VALUE "FileDescription", "MAA"
+            VALUE "FileVersion", MAA_APPHOST_VERSION_STRING
+            VALUE "InternalName", "MAA.exe"
+            VALUE "LegalCopyright", "Copyright (c) 2021-2026 MAA Team"
+            VALUE "OriginalFilename", "MAA.exe"
+            VALUE "ProductName", "MAA"
+            VALUE "ProductVersion", MAA_APPHOST_VERSION_STRING
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

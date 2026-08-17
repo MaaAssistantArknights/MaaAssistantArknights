@@ -1,5 +1,7 @@
 #include "RoguelikeTask.h"
 
+#include <utility>
+
 #include "Common/AsstBattleDef.h"
 #include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
@@ -42,6 +44,15 @@
 
 // ------------------ 界园主题专用配置及插件 ------------------
 #include "Task/Roguelike/JieGarden/RoguelikeCoppersTaskPlugin.h"
+
+// ------------------ 黑流树海主题专用配置及插件 ------------------
+#include "Task/Roguelike/BlackFlow/BlackFlowCultivationTaskPlugin.h"
+#include "Task/Roguelike/BlackFlow/BlackFlowLifecycleTaskPlugin.h"
+#include "Task/Roguelike/BlackFlow/BlackFlowMapObservationSource.h"
+#include "Task/Roguelike/BlackFlow/BlackFlowMovementTaskPlugin.h"
+#include "Task/Roguelike/BlackFlow/BlackFlowNodeTaskPlugin.h"
+#include "Task/Roguelike/BlackFlow/BlackFlowRoutingTaskPlugin.h"
+#include "Task/Roguelike/BlackFlow/BlackFlowTaskPort.h"
 
 #include "Utils/Logger.hpp"
 
@@ -110,13 +121,96 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     // ------------------ 界园主题专用插件 ------------------
     m_roguelike_task_ptr->register_plugin<RoguelikeCoppersTaskPlugin>(m_config_ptr, m_control_ptr);
 
+    // ------------------ 黑流树海主题专用插件 ------------------
+    m_blackflow_map_source_ptr = std::make_shared<blackflow::BlackFlowMapObservationSource>();
+    m_blackflow_port_ptr =
+        std::make_shared<blackflow::BlackFlowTaskPort>(callback, inst, TaskType, m_blackflow_map_source_ptr);
+    m_blackflow_session_ptr = std::make_shared<blackflow::BlackFlowSession>();
+    m_roguelike_task_ptr->register_plugin<blackflow::BlackFlowLifecycleTaskPlugin>(
+        m_config_ptr,
+        m_control_ptr,
+        m_blackflow_session_ptr,
+        m_blackflow_port_ptr);
+    m_roguelike_task_ptr->register_plugin<blackflow::BlackFlowRoutingTaskPlugin>(
+        m_config_ptr,
+        m_control_ptr,
+        m_blackflow_session_ptr,
+        m_blackflow_port_ptr);
+    m_roguelike_task_ptr->register_plugin<blackflow::BlackFlowMovementTaskPlugin>(
+        m_config_ptr,
+        m_control_ptr,
+        m_blackflow_session_ptr,
+        m_blackflow_port_ptr);
+    m_roguelike_task_ptr->register_plugin<blackflow::BlackFlowCultivationTaskPlugin>(
+        m_config_ptr,
+        m_control_ptr,
+        m_blackflow_session_ptr,
+        m_blackflow_port_ptr);
+    m_roguelike_task_ptr->register_plugin<blackflow::BlackFlowNodeTaskPlugin>(
+        m_config_ptr,
+        m_control_ptr,
+        m_blackflow_session_ptr,
+        m_blackflow_port_ptr);
     m_subtasks.emplace_back(m_roguelike_task_ptr);
+}
+
+bool asst::RoguelikeTask::run()
+{
+    bool use_blackflow_map = false;
+    {
+        std::lock_guard lock(m_run_state_mutex);
+        if (m_run_started) {
+            Log.warn(__FUNCTION__, "RoguelikeTask is already running");
+            return false;
+        }
+        m_run_started = true;
+        use_blackflow_map = get_enable() && m_config_ptr->get_theme() == RoguelikeTheme::BlackFlow &&
+                            m_blackflow_map_source_ptr != nullptr;
+    }
+
+    const auto finish_run = [&]() noexcept {
+        if (use_blackflow_map) {
+            m_blackflow_map_source_ptr->release();
+        }
+        std::lock_guard lock(m_run_state_mutex);
+        m_run_started = false;
+    };
+
+    if (use_blackflow_map) {
+        std::string error;
+        if (!m_blackflow_map_source_ptr->prepare(&error)) {
+            Log.error("BlackFlow map perception preparation failed:", error);
+            if (m_blackflow_session_ptr != nullptr) {
+                m_blackflow_session_ptr->fail(
+                    "perception_port_missing",
+                    error.empty() ? "BlackFlow map recognition component failed to initialize" : error,
+                    blackflow::FailureDisposition::StopTask);
+                if (m_blackflow_session_ptr->claim_result_report()) {
+                    auto info = basic_info_with_what("BlackFlowStrategyResult");
+                    info["details"] = m_blackflow_session_ptr->result()->to_json();
+                    callback(AsstMsg::SubTaskExtraInfo, info);
+                }
+            }
+            finish_run();
+            return false;
+        }
+    }
+    try {
+        const bool result = InterfaceTask::run();
+        finish_run();
+        return result;
+    }
+    catch (...) {
+        finish_run();
+        throw;
+    }
 }
 
 bool asst::RoguelikeTask::set_params(const json::value& params)
 {
     LogTraceFunction;
-    if (m_running) {
+    std::lock_guard lock(m_run_state_mutex);
+    if (m_run_started) {
         Log.warn(__FUNCTION__, "RoguelikeTask is running, cannot set params");
         return false;
     }

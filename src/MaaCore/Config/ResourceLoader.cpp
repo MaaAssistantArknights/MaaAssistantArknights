@@ -3,6 +3,7 @@
 #include <array>
 #include <filesystem>
 #include <future>
+#include <optional>
 
 #include "GeneralConfig.h"
 #include "Miscellaneous/AvatarCacheManager.h"
@@ -16,6 +17,9 @@
 #include "Miscellaneous/StageDropsConfig.h"
 #include "Miscellaneous/TilePack.h"
 #include "OnnxSessions.h"
+#include "Roguelike/BlackFlow/BlackFlowMapPerceptionResource.h"
+#include "Roguelike/BlackFlow/BlackFlowNodeExecutionConfig.h"
+#include "Roguelike/BlackFlow/BlackFlowStrategyConfig.h"
 #include "Roguelike/JieGarden/RoguelikeCoppersConfig.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
 #include "Roguelike/RoguelikeMapConfig.h"
@@ -143,7 +147,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "operators_det.onnx"_p, "OnnxSessions")) {
         return false;
     }
-
     // ==================== OCR 模型 ====================
     if (!load_with_custom.template operator()<WordOcr>("PaddleOCR"_p, "WordOcr") ||
         !load_with_custom.template operator()<CharOcr>("PaddleCharOCR"_p, "CharOcr")) {
@@ -190,7 +193,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     // 参考: https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/6188
     // 原先使用异步加载，但存在竞态问题，现改为同步加载
 
-    constexpr std::array roguelike_themes = { "Phantom", "Mizuki", "Sami", "Sarkaz", "JieGarden" };
+    constexpr std::array roguelike_themes = { "Phantom", "Mizuki", "Sami", "Sarkaz", "JieGarden", "BlackFlow" };
 
     auto roguelike_path = [](std::string_view theme, const std::filesystem::path& subpath) {
         return "roguelike"_p / theme / subpath;
@@ -254,6 +257,58 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }
     }
 
+    // BlackFlow high-level route policy. Page tasks and visual resources are loaded separately.
+    const auto blackflow_strategy_path = roguelike_path("BlackFlow", "strategy.json"_p);
+    if (std::filesystem::exists(path / blackflow_strategy_path)) {
+        const bool available = load_with_custom.template operator()<BlackFlowStrategyConfig>(
+            blackflow_strategy_path,
+            "BlackFlowStrategyConfig");
+        BlackFlowMapPerception.set_dependency_status(
+            "strategy",
+            available,
+            "BlackFlow strategy configuration failed to load");
+        if (!available) {
+            Log.error("BlackFlow strategy configuration failed to load; other themes remain available");
+        }
+    }
+    else if (!m_loaded) {
+        BlackFlowMapPerception.set_dependency_status("strategy", false, "BlackFlow strategy configuration is missing");
+        Log.error("BlackFlow strategy configuration is missing; other themes remain available");
+    }
+
+    const auto blackflow_node_execution_path = roguelike_path("BlackFlow", "node_execution.json"_p);
+    if (std::filesystem::exists(path / blackflow_node_execution_path)) {
+        const bool available = load_with_custom.template operator()<BlackFlowNodeExecutionConfig>(
+            blackflow_node_execution_path,
+            "BlackFlowNodeExecutionConfig");
+        BlackFlowMapPerception.set_dependency_status(
+            "node_execution",
+            available,
+            "BlackFlow node execution configuration failed to load");
+        if (!available) {
+            Log.error("BlackFlow node execution configuration failed to load; other themes remain available");
+        }
+    }
+    else if (!m_loaded) {
+        BlackFlowMapPerception.set_dependency_status(
+            "node_execution",
+            false,
+            "BlackFlow node execution configuration is missing");
+        Log.error("BlackFlow node execution configuration is missing; other themes remain available");
+    }
+    const auto blackflow_map_perception_path = path / roguelike_path("BlackFlow", "map_perception"_p);
+    const auto blackflow_model_path = path / "onnx"_p / "BlackFlow_corridor_net.onnx"_p;
+    std::optional<std::filesystem::path> blackflow_model;
+    if (std::filesystem::is_regular_file(blackflow_model_path)) {
+        blackflow_model = blackflow_model_path;
+    }
+    else {
+        Log.warn("Optional BlackFlow map model is missing, path:", blackflow_model_path);
+    }
+    if (!std::filesystem::is_directory(blackflow_map_perception_path)) {
+        Log.warn("Optional BlackFlow map perception metadata is missing, path:", blackflow_map_perception_path);
+    }
+    BlackFlowMapPerceptionResource::get_instance().load(blackflow_map_perception_path, blackflow_model);
     // ==================== 主题专属插件配置 ====================
     // Sami
     if (!load_with_custom.template operator()<RoguelikeFoldartalConfig>(

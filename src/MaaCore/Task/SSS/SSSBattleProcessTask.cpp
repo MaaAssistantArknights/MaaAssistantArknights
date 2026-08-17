@@ -198,7 +198,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
         else if (oper.is_usual_location && !m_all_action_opers.contains(oper.name)) {
             tool_men.emplace_back(oper);
             // 工具人的技能一概好了就用
-            m_skill_usage.try_emplace(oper.name, SkillUsage::Possibly);
+            m_skill_usage.try_emplace({ oper.role, oper.name }, SkillUsage::Possibly);
         }
     }
 
@@ -329,7 +329,10 @@ bool asst::SSSBattleProcessTask::check_if_start_over(const battle::copilot::Acti
 
     if (!action.name.empty() &&
         !std::ranges::any_of(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == action.name; }) &&
-        !m_battlefield_opers.contains(action.name)) {
+        !std::ranges::any_of(m_battlefield_opers, [&](const auto& pair) {
+            return (action.role == battle::Role::Unknown || pair.first.role == action.role) &&
+                   pair.first.name == action.name;
+        })) {
         to_abandon = true;
     }
     else if (!action.role_counts.empty()) {

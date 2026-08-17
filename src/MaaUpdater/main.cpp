@@ -2064,7 +2064,11 @@ int wmain(int argc, wchar_t* argv[])
                 // Use atomic file replacement for individual files
                 installOk = InstallFileAtomic(sourcePath, targetPath);
             } else {
-                // Directories: use the original move logic
+                // Directories: use the original move logic.
+                // Nested entries (e.g. Res\Video) may target a parent directory that is
+                // missing from the old install (files deleted by antivirus, etc.); create
+                // it before moving, otherwise MoveFileExW fails with ERROR_PATH_NOT_FOUND.
+                EnsureParentDirectory(targetPath);
                 auto moveOp = [&]() -> bool {
                     return MoveFileExW(sourcePath.c_str(), targetPath.c_str(),
                                        MOVEFILE_REPLACE_EXISTING) != FALSE;

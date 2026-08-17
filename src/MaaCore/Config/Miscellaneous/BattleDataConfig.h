@@ -48,6 +48,9 @@ public:
 
     const std::shared_ptr<battle::OperProps> find_oper(battle::Role role, const std::string& name) const
     {
+        if (role == battle::Role::Unknown) {
+            return find_oper(name);
+        }
         if (name.empty()) {
             return nullptr;
         }
@@ -88,6 +91,23 @@ public:
             return oper_it->role;
         }
         return battle::Role::Unknown;
+    }
+
+    std::unordered_set<battle::Role> get_roles(const std::string& name) const
+    {
+        std::unordered_set<battle::Role> roles;
+        if (name.empty()) {
+            return roles;
+        }
+        for (const auto& [role, oper_map] : m_chars_by_role) {
+            auto oper_it =
+                std::ranges::find_if(oper_map, [&name](const auto& pair) { return pair.second->name == name; });
+            if (oper_it != oper_map.cend()) {
+                roles.emplace(role);
+                continue;
+            }
+        }
+        return roles;
     }
 
     int get_rarity(battle::Role role, const std::string& name) const
@@ -191,7 +211,7 @@ protected:
 
 private:
     std::map<battle::Role, std::unordered_map<std::string, std::shared_ptr<battle::OperProps>>>
-        m_chars_by_role;                                                         // role -> (name -> oper)
+        m_chars_by_role;                                                         // role -> (id -> oper)
     std::unordered_map<std::string, std::shared_ptr<battle::OperProps>> m_chars; // id -> oper
 
     std::unordered_map<std::string, battle::AttackRange> m_ranges;

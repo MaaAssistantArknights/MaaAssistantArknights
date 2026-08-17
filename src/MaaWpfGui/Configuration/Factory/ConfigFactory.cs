@@ -216,27 +216,6 @@ public static class ConfigFactory
                     task.PropertyChanged += Handler.TaskQueueItemOnPropertyChangedFactory(config.TaskQueue, key);
                 }
             }
-
-            JsonObject? ParseJsonFile(string filePath)
-            {
-                if (File.Exists(filePath) is false)
-                {
-                    return null;
-                }
-
-                var str = File.ReadAllText(filePath);
-                try
-                {
-                    var obj = JsonSerializer.Deserialize<JsonObject>(str);
-                    return obj ?? throw new Exception("Failed to parse json file");
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex, "Failed to deserialize json file: {FilePath}", filePath);
-                }
-
-                return null;
-            }
         }
     });
 

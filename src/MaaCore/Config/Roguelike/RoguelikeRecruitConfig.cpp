@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <meojson/json.hpp>
+#include <ranges>
 
 #include "Utils/Logger.hpp"
 
@@ -10,15 +11,39 @@ const asst::RoguelikeOperInfo&
     asst::RoguelikeRecruitConfig::get_oper_info(const std::string& theme, const std::string& oper_name) noexcept
 {
     auto& opers = m_all_opers.at(theme);
-    if (opers.contains(oper_name)) {
-        return opers.at(oper_name);
+    const auto& it = std::ranges::find_if(opers, [&](const auto& pair) { return pair.first.name == oper_name; });
+    if (it != opers.end()) {
+        return it->second;
+    }
+
+    const auto& role = BattleData.get_role(oper_name);
+    battle::OperNameTag oper_tag { .role = role, .name = oper_name };
+    RoguelikeOperInfo info;
+    info.role = role;
+    info.name = oper_name;
+    info.group_id = get_group_ids_of_oper(theme, oper_name);
+    opers.emplace(oper_tag, std::move(info));
+    return opers.at(oper_tag);
+}
+
+const asst::RoguelikeOperInfo&
+    asst::RoguelikeRecruitConfig::get_oper_info(const std::string& theme, const battle::OperNameTag& oper_tag) noexcept
+{
+    auto& opers = m_all_opers.at(theme);
+    if (opers.contains(oper_tag)) {
+        return opers.at(oper_tag);
+    }
+    const auto& it = std::ranges::find_if(opers, [&](const auto& pair) { return pair.first.name == oper_tag.name; });
+    if (it != opers.end()) {
+        return it->second;
     }
     else {
         RoguelikeOperInfo info;
-        info.name = oper_name;
-        info.group_id = get_group_ids_of_oper(theme, oper_name);
-        opers.emplace(oper_name, std::move(info));
-        return opers.at(oper_name);
+        info.role = oper_tag.role;
+        info.name = oper_tag.name;
+        info.group_id = get_group_ids_of_oper(theme, oper_tag.name);
+        opers.emplace(oper_tag, std::move(info));
+        return opers.at(oper_tag);
     }
 }
 
@@ -53,11 +78,43 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(
     const std::string& oper_name) const noexcept
 {
     auto& opers = m_all_opers.at(theme);
-    if (auto find_iter = opers.find(oper_name); find_iter != opers.cend()) {
+
+    const auto& find_iter = std::ranges::find_if(opers, [&](const auto& pair) { return pair.first.name == oper_name; });
+    if (find_iter != opers.end()) {
         return find_iter->second.group_id;
     }
     else {
         const auto& role = BattleData.get_role(oper_name);
+        if (role != battle::Role::Pioneer && role != battle::Role::Tank && role != battle::Role::Warrior &&
+            role != battle::Role::Special) {
+            return { static_cast<int>(m_oper_groups.at(theme).size()) - 2 };
+        }
+        else {
+            return { static_cast<int>(m_oper_groups.at(theme).size()) - 1 };
+        }
+    }
+}
+
+std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(
+    const std::string& theme,
+    const battle::OperNameTag& oper_tag) const noexcept
+{
+    auto& opers = m_all_opers.at(theme);
+
+    if (oper_tag.role != battle::Role::Unknown) {
+        const auto& find_iter = std::ranges::find_if(opers, [&](const auto& pair) { return pair.first == oper_tag; });
+        if (find_iter != opers.end()) {
+            return find_iter->second.group_id;
+        }
+    }
+
+    const auto& find_iter =
+        std::ranges::find_if(opers, [&](const auto& pair) { return pair.first.name == oper_tag.name; });
+    if (find_iter != opers.end()) {
+        return find_iter->second.group_id;
+    }
+    else {
+        const auto& role = oper_tag.role != battle::Role::Unknown ? oper_tag.role : BattleData.get_role(oper_tag.name);
         if (role != battle::Role::Pioneer && role != battle::Role::Tank && role != battle::Role::Warrior &&
             role != battle::Role::Special) {
             return { static_cast<int>(m_oper_groups.at(theme).size()) - 2 };
@@ -118,11 +175,26 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
         int order_in_group = 0;
         // 遍历"opers"数组
         for (const auto& oper_json : group_json.at("opers").as_array()) {
+            battle::Role role = battle::Role::Unknown;
             std::string name = oper_json.at("name").as_string();
+            if (auto opt = oper_json.find<std::string>("role")) {
+                auto role_str = opt.value();
+                utils::tolowers(role_str);
+                role = battle::get_role_type(role_str);
+            }
+            else {
+                const auto& roles = BattleData.get_roles(name);
+                if (roles.size() == 1) {
+                    role = *roles.cbegin();
+                }
+                else if (roles.size() > 1) {
+                    LogWarn << __FUNCTION__ << "oper:" << name << "has multiple roles, but still not specific any";
+                }
+            }
             group_info.opers.emplace(name);
             // 肉鸽干员招募信息
             RoguelikeOperInfo oper_info;
-            auto iter = m_all_opers[theme].find(name);
+            auto iter = m_all_opers[theme].find({ role, name });
             if (iter != m_all_opers[theme].end()) {
                 // 干员已存在时仅做更新
                 oper_info = iter->second;
@@ -181,7 +253,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
                 }
             }
 
-            m_all_opers[theme][name] = std::move(oper_info);
+            m_all_opers[theme][{ role, name }] = std::move(oper_info);
             order_in_group++;
         }
         m_all_groups[theme][group_name] = std::move(group_info);

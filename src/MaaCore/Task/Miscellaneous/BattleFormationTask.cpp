@@ -70,8 +70,9 @@ bool asst::BattleFormationTask::_run()
                 continue;
             }
 
-            auto oper_it =
-                std::ranges::find_if(opers, [&](const battle::OperUsage& oper) { return oper.name == pair_it->first; });
+            auto oper_it = std::ranges::find_if(opers, [&](const battle::OperUsage& oper) {
+                return oper.role == pair_it->first.role && oper.name == pair_it->first.name;
+            });
             if (oper_it == opers.end()) {
                 Log.error(__FUNCTION__, "| Cannot find oper ", pair_it->first, " in m_formation");
             }
@@ -164,7 +165,10 @@ bool asst::BattleFormationTask::_run()
         std::unordered_map<battle::Role, std::vector<OperGroup>> user_formation; // 解析后用户自定编队
         auto limit = 12 + m_used_support_unit - (int)m_opers_in_formation->size();
         for (const auto& [name, skill] : m_user_additional) {
-            if (m_opers_in_formation->contains(name)) {
+            auto has_oper = std::ranges::any_of(
+                *m_opers_in_formation,
+                [&](const std::pair<battle::OperNameTag, std::string>& pair) { return pair.first.name == name; });
+            if (has_oper) {
                 continue;
             }
             if (--limit < 0) {
@@ -209,7 +213,7 @@ void asst::BattleFormationTask::formation_with_last_opers()
     if (m_opers_in_formation->empty()) {
         return;
     }
-    std::unordered_map<std::string, std::string> last_formation; // 上次作业的干员-组映射
+    std::unordered_map<battle::OperNameTag, std::string> last_formation; // 上次作业的干员-组映射
     m_opers_in_formation->swap(last_formation);
 
     // 此时的oper_in_formation是根据上次编队结果复用的, 但是task此时已清空, 重新选一下
@@ -225,14 +229,14 @@ void asst::BattleFormationTask::formation_with_last_opers()
     }
     const int delay = Task.get("BattleQuickFormationOCR")->post_delay;
     for (auto it = last_formation.begin(); !need_exit() && it != last_formation.end();) {
-        const std::string& oper_name = it->first;
+        const battle::OperNameTag& oper_tag = it->first;
         const std::string& group_name = it->second;
 
         const auto& oper_in_page_it = std::ranges::find_if(opers_result, [&](const QuickFormationOper& op) {
-            return !op.is_selected && op.text == oper_name;
+            return !op.is_selected && op.role == oper_tag.role && op.text == oper_tag.name;
         }); // 编队页中的干员
         if (oper_in_page_it == opers_result.end()) [[unlikely]] {
-            Log.warn(__FUNCTION__, "| Oper", oper_name, "was selected last time, but not found in current page");
+            Log.warn(__FUNCTION__, "| Oper", oper_tag.name, "was selected last time, but not found in current page");
             ++it;
             continue; // 该干员找不到, 一页只能放下10个干员, 可能被右侧挡住. 打回到正常编队逻辑
         }
@@ -246,10 +250,11 @@ void asst::BattleFormationTask::formation_with_last_opers()
         }
 
         // 在找到的组中查找具体的干员
-        auto oper_it =
-            std::ranges::find_if(*(group_it->second), [&](battle::OperUsage& op) { return op.name == oper_name; });
+        auto oper_it = std::ranges::find_if(*(group_it->second), [&](battle::OperUsage& op) {
+            return op.name == oper_tag.name && op.role == oper_tag.role;
+        });
         if (oper_it == group_it->second->end()) {
-            LogError << __FUNCTION__ << "| Group" << group_name << ",Oper" << oper_name
+            LogError << __FUNCTION__ << "| Group" << group_name << ",Oper" << oper_tag
                      << "was selected last time, but not found in current pair";
             ++it;
             continue; // 很怪, 按理说不会找不到, 有组相同但是找不到干员
@@ -261,10 +266,10 @@ void asst::BattleFormationTask::formation_with_last_opers()
         oper_it->status = battle::OperStatus::Selected;
         json::value info = basic_info_with_what("BattleFormationSelected");
         auto& details = info["details"];
-        details["selected"] = oper_name;
+        details["selected"] = oper_tag.name;
         details["group_name"] = group_name;
         callback(AsstMsg::SubTaskExtraInfo, info);
-        m_opers_in_formation->emplace(oper_name, group_name);
+        m_opers_in_formation->emplace(oper_tag, group_name);
         it = last_formation.erase(it);
     }
 }
@@ -306,7 +311,7 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, const std::vect
                     }
                     for (auto& oper : group->second) {
                         if (oper.status == battle::OperStatus::Unchecked &&
-                            !m_opers_in_formation->contains(oper.name)) {
+                            !m_opers_in_formation->contains(battle::OperNameTag { role, oper.name })) {
                             oper.status = battle::OperStatus::Missing;
                         }
                     }
@@ -657,10 +662,10 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             sleep(delay);
         }
         oper->status = battle::OperStatus::Selected;
-        m_opers_in_formation->emplace(res.text, (*iter)->first);
+        m_opers_in_formation->emplace(battle::OperNameTag { oper->role, oper->name }, (*iter)->first);
         json::value info = basic_info_with_what("BattleFormationSelected");
         auto& details = info["details"];
-        details["selected"] = res.text;
+        details["selected"] = oper->name;
         details["group_name"] = (*iter)->first;
         callback(AsstMsg::SubTaskExtraInfo, info);
         oper = nullptr; // reset oper pointer
@@ -867,7 +872,7 @@ bool asst::BattleFormationTask::compare_formation()
                          << "was selected last time, but no oper was selected";
                 continue; // 旧编队中该干员组有干员被选中，但找不到被选中的干员
             }
-            m_opers_in_formation->emplace(oper_last_it->name, group.first);
+            m_opers_in_formation->emplace(battle::OperNameTag { oper_last_it->role, oper_last_it->name }, group.first);
             last_groups.erase(last_group_it); // 移除已匹配的干员组
         }
     }
@@ -920,7 +925,7 @@ bool asst::BattleFormationTask::is_formation_valid(cv::Mat& img) const
     return false;
 }
 
-std::optional<std::string> asst::BattleFormationTask::add_support_unit(
+std::optional<asst::battle::OperNameTag> asst::BattleFormationTask::add_support_unit(
     const std::vector<RequiredOper>& required_opers,
     const size_t max_refresh_times,
     const Friendship friendship)
@@ -937,7 +942,7 @@ std::optional<std::string> asst::BattleFormationTask::add_support_unit(
     if (required_opers.empty()) { // 随机模式
         for (size_t refresh_times = 0; refresh_times <= max_refresh_times && !need_exit(); ++refresh_times) {
             if (auto opt = add_support_unit_from_support_list(support_list, required_opers, friendship)) {
-                return opt;
+                return battle::OperNameTag { BattleData.get_role(*opt), *opt };
             }
             if (refresh_times < max_refresh_times) {
                 support_list.refresh_list();
@@ -966,7 +971,7 @@ std::optional<std::string> asst::BattleFormationTask::add_support_unit(
 
             for (size_t refresh_times = 0; refresh_times <= max_refresh_times && !need_exit(); ++refresh_times) {
                 if (auto opt = add_support_unit_from_support_list(support_list, filtered_required_opers, friendship)) {
-                    return opt;
+                    return battle::OperNameTag { role, *opt };
                 }
                 if (refresh_times < max_refresh_times) {
                     support_list.refresh_list();

@@ -900,11 +900,14 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
-                                                <hc:Divider
+                                                <!--  日志分隔符需在窗口隐藏（最小化托盘）期间动态添加，
+                                                      hc:Divider 的 Row/Col 栅格在该场景下会永久渲染为 0 尺寸，
+                                                      详见 LogSectionDivider 头注释  -->
+                                                <controls:LogSectionDivider
                                                     MaxWidth="420"
                                                     Margin="0,0,0,2.5"
-                                                    HorizontalContentAlignment="Center"
-                                                    Content="{Binding Header}"
+                                                    HeaderHorizontalAlignment="Center"
+                                                    Header="{Binding Header}"
                                                     Visibility="{c:Binding IsDivider}" />
                                                 <Border
                                                     MaxWidth="420"

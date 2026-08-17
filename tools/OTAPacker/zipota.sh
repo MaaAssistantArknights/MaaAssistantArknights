@@ -20,11 +20,16 @@ cp -v "$to_zip" "$out_zip"
 
 echo "$comm_list" | cut -d\  -f2- | xargs zip --delete "$out_zip"
 
+# ziplist 已不再列出目录条目，上面的 --delete 删不到它们，需在此显式清除；
+# zip 内条目无层级关系，按名精确删除目录条目（名字以 / 结尾）不影响其下的文件条目
+zipinfo -1 "$out_zip" | grep '/$' | xargs -r zip --delete "$out_zip"
+
 tmpdir=$(mktemp -d /tmp/zipota-files.XXX)
 
 comm -23 <(echo "$from_fn") <(echo "$to_fn") > "$tmpdir"/removelist.txt
-echo "$to_fn" > "$tmpdir"/filelist.txt
 
-zip -X -r -j "$out_zip" "$tmpdir"/removelist.txt "$tmpdir"/filelist.txt
+# filelist.txt 由完整包自带（cp 自 to_zip），无需在此生成；
+# 若因与旧版内容相同被 --delete 剔除，本地旧清单与文件集合仍一致，完整性检查不受影响
+zip -X -r -j "$out_zip" "$tmpdir"/removelist.txt
 
 rm -rf $tmpdir

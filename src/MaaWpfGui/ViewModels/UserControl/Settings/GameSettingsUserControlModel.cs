@@ -86,6 +86,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
             if (!NeedRestartAfterClientTypeChange(oldValue, value))
             {
+                Instances.AsstProxy.Connected = false;
                 return;
             }
 

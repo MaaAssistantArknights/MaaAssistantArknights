@@ -976,8 +976,11 @@ public class AsstProxy
 
                             if (method != "MumuExtras")
                             {
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Error);
-                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Error, showTime: false);
+                                var mumuExtrasMsg = string.IsNullOrEmpty(muMu12.EmulatorPath)
+                                    ? LocalizationHelper.GetString("MuMuEmulatorPathEmptyError")
+                                    : LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage");
+                                Instances.TaskQueueViewModel.AddLog(mumuExtrasMsg, UiLogColor.Error);
+                                Instances.CopilotViewModel.AddLog(mumuExtrasMsg, UiLogColor.Error, showTime: false);
                                 needToStop = true;
                             }
                             else if (timeCost < 100)
@@ -1003,8 +1006,11 @@ public class AsstProxy
 
                             if (method != "LDExtras")
                             {
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("LdExtrasNotEnabledMessage"), UiLogColor.Error);
-                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("LdExtrasNotEnabledMessage"), UiLogColor.Error, showTime: false);
+                                var ldExtrasMsg = string.IsNullOrEmpty(ldPlayer.EmulatorPath)
+                                    ? LocalizationHelper.GetString("LdEmulatorPathEmptyError")
+                                    : LocalizationHelper.GetString("LdExtrasNotEnabledMessage");
+                                Instances.TaskQueueViewModel.AddLog(ldExtrasMsg, UiLogColor.Error);
+                                Instances.CopilotViewModel.AddLog(ldExtrasMsg, UiLogColor.Error, showTime: false);
                                 needToStop = true;
                             }
                             else if (timeCost < 100)
@@ -1064,6 +1070,12 @@ public class AsstProxy
 
                         default:
                             {
+                                // 高配电脑未开截图增强时耗时也常在 100ms 以上，此档不告警，仅提示可优化
+                                if (screencapCostAvgInt >= 100 && SettingsViewModel.ConnectSettings.ScreencapMethod is not ("MumuExtras" or "LDExtras"))
+                                {
+                                    AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapInfoTip", screencapCostAvgInt), UiLogColor.Info);
+                                }
+
                                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
 
                                 if (screencapCostAvgInt < 100)
@@ -1567,10 +1579,9 @@ public class AsstProxy
                     if (why == "OperatorMissing")
                     {
                         var missingOpers = details["details"]?["opers"]?.ToObject<Dictionary<string, JArray>>();
-                        if (missingOpers is not null && missingOpers.Count > 0)
+                        var str = new StringBuilder();
+                        if (missingOpers is not null)
                         {
-                            var str = new StringBuilder();
-                            str.AppendLine();
                             foreach (var (groupName, opers) in missingOpers)
                             {
                                 if (opers.Count == 1)
@@ -1584,13 +1595,9 @@ public class AsstProxy
                                     str.AppendLine($"{groupName}=> {string.Join(" / ", operList.Select(i => i.name).ToList())}");
                                 }
                             }
+                        }
 
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + str.ToString().TrimEnd(), UiLogColor.Error);
-                        }
-                        else
-                        {
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators"), UiLogColor.Error);
-                        }
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("MissingOperators", str.ToString()), UiLogColor.Error);
 
                         if (missingOpers is not null && missingOpers.Count >= 2)
                         {
@@ -1673,6 +1680,23 @@ public class AsstProxy
                             ToastNotification.ShowDirect(LocalizationHelper.GetString("FightMissionFailedAndStop"));
                             break;
 
+                        case "CheckEncounter-Uncollected":
+                            {
+                                var title = LocalizationHelper.GetString("MiniGame@InteractiveExhibition@UncollectedNotificationTitle");
+                                var content = LocalizationHelper.GetString("MiniGame@InteractiveExhibition@UncollectedNotificationContent");
+
+                                Instances.TaskQueueViewModel.AddLog(content, UiLogColor.Warning, updateCardImage: true);
+
+                                ToastNotification.ShowDirect($"{title}\n{content}");
+
+                                if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
+                                {
+                                    ExternalNotificationService.Send(title, content);
+                                }
+
+                                break;
+                            }
+
                         case "RecruitRefreshConfirm":
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("LabelsRefreshed"), UiLogColor.Info);
                             break;
@@ -1741,16 +1765,10 @@ public class AsstProxy
                             break;
 
                         case "OfflineConfirm":
-                            if (TaskQueueViewModel.FightTask.AutoRestartOnDrop)
-                            {
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDrop"), UiLogColor.Warning);
-                            }
-                            else
-                            {
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDropNoRestart"), UiLogColor.Warning);
-                                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameDropNoRestart"));
-                                _ = Instances.TaskQueueViewModel.Stop();
-                            }
+                        case "OfflineConfirmAfterBattle":
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDrop"), UiLogColor.Warning);
+                            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameDrop"));
+                            _ = Instances.TaskQueueViewModel.Stop();
 
                             break;
 

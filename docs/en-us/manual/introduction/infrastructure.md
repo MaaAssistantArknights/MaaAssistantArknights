@@ -1,5 +1,5 @@
 ---
-order: 4
+order: 5
 icon: material-symbols:view-quilt-rounded
 ---
 
@@ -22,6 +22,7 @@ icon: material-symbols:view-quilt-rounded
 - When `Drone Usage` is set to `Trading Post - LMD`, the `Shamare Group` will be prioritized.
 - Reception Room selects operators with corresponding clue affinity when only one clue type is missing; otherwise selects generic operators.
 - The Reception Room will attempt to send clues on every rotation. The Official (and Bilibili) clients added a "One‑click Send Duplicate Clues" feature on 2025-12-05: when MAA detects this button, it will automatically click it to batch-send duplicate clues; EN/JP/KR are expected to support this feature in about 6 months, and TW in about 1 year (TW may get it earlier due to accelerated updates).
+- If Clue Exchange cannot be started, all clues on the clue board are taken off during shift change; if it can be started, one-click placement is used instead. This is because the personal clue limit is 10 (including clues already placed in the Reception Room), and placed clues do not count toward duplicate detection. Pre-placing too many clues may therefore fill the limit while the clues in hand are mutually non-duplicate, leaving no way to one-click send them or receive new ones — only friends picking them up can help. For example, with 6 clue types on the board (7 distinct types are required to start the exchange) and 4 mutually non-duplicate clues in hand, no new clues can be received, and one-click sending cannot send anything either.
 - Enabling `Do not place stationed operators in dormitory` prevents operators like `Irene` and `Logos` from being assigned to dormitories when not training in the Training Room, but also prevents operators with low morale in the Processing Station from being moved to dormitories.
 - Control Center strategy is complex; currently only considers `Amiya`, `Swire`, `Kal'tsit`, `Team Rainbow`, and other operators with +0.05 morale bonus. This will be gradually optimized.
 - You can select which facility types MAA should manage (all are selected by default).

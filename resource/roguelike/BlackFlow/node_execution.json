@@ -1,0 +1,584 @@
+{
+    "schema_version": 3,
+    "routes": [
+        {
+            "id": "final_encounter",
+            "page_intent": "default",
+            "node_types": ["final"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-FinalEncounter",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "combat",
+            "page_intent": "default",
+            "node_types": ["battle_normal", "battle_elite", "battle_savage", "duel", "hide_battle", "battle_boss"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Combat",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "encounter",
+            "page_intent": "default",
+            "node_types": ["incident", "wish", "rest", "sacrifice", "evacuate"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Encounter",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "door",
+            "page_intent": "default",
+            "node_types": ["door"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Door",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "pass_through",
+            "page_intent": "default",
+            "node_types": ["light", "empty"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-PassThrough",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "default_employ",
+            "page_intent": "default",
+            "node_types": ["employ"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Employ",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "default_shop",
+            "page_intent": "default",
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Shop",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "default_expedition",
+            "page_intent": "default",
+            "node_types": ["expedition"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Encounter",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "default_node_page",
+            "page_intent": "default",
+            "rank": 100,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Default",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "floor1_burn_investment_shop",
+            "page_intent": "shop.invest_continue",
+            "floor_window": [1, 1],
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Investment",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-BurnShop"
+        },
+        {
+            "id": "floor1_investment_shop",
+            "page_intent": "shop.invest",
+            "floor_window": [1, 1],
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Investment",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-Investment"
+        },
+        {
+            "id": "seed_priority_shop",
+            "page_intent": "shop.seed_priority",
+            "floor_window": [1, 2],
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Investment",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-BabyShop"
+        },
+        {
+            "id": "floor3_seed_priority_shop",
+            "page_intent": "shop.seed_priority_floor3",
+            "floor_window": [3, 3],
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Investment",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-BabyShop"
+        },
+        {
+            "id": "cultivate_scrap_shop",
+            "page_intent": "scrap_shop.cultivate",
+            "floor_window": [1, 3],
+            "node_types": ["scrap_shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Cultivate",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "ending2_sandtable_a",
+            "page_intent": "incident.ending2_sandtable_a",
+            "floor_window": [1, 4],
+            "node_types": ["incident"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Ending2SandtableA",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "ending2_hidden_entry",
+            "page_intent": "incident.ending2_sandtable_a",
+            "floor_window": [1, 4],
+            "node_types": ["hide_invisible"],
+            "rank": 10,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Default",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "ending2_sandtable_b",
+            "page_intent": "shop.ending2_sandtable_b",
+            "floor_window": [1, 4],
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Ending2SandtableB",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "ending3_expedition_option2",
+            "page_intent": "expedition.ending3_option2",
+            "floor_window": [1, 4],
+            "node_types": ["expedition"],
+            "event_names": ["先行一步"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Ending3Option2",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "ending3_expedition_entry",
+            "page_intent": "expedition.ending3_option2",
+            "floor_window": [1, 4],
+            "node_types": ["expedition"],
+            "rank": 10,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Ending3Option2",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "ending3_hidden_entry",
+            "page_intent": "expedition.ending3_option2",
+            "floor_window": [1, 4],
+            "node_types": ["hide_invisible"],
+            "rank": 20,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Default",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "floor1_portal_entry",
+            "page_intent": "portal.enter",
+            "floor_window": [1, 1],
+            "node_types": ["portal"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-PortalFloor1",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "floor2_portal_entry",
+            "page_intent": "portal.enter",
+            "floor_window": [2, 2],
+            "node_types": ["portal"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-PortalFloor2",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "floor3_portal_entry",
+            "page_intent": "portal.enter",
+            "floor_window": [3, 3],
+            "node_types": ["portal"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-PortalFloor3",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        }
+    ],
+    "task_results": [
+        {
+            "task": "BlackFlow@Roguelike@Event-NodeCompleted",
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-InvestmentCompleted",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "investment_completed",
+                    "value": true
+                },
+                {
+                    "kind": "set",
+                    "fact": "strategy_result_code",
+                    "value": "investment_completed"
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-BurnCompleted",
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "burn_completed",
+                    "value": true
+                },
+                {
+                    "kind": "set",
+                    "fact": "strategy_result_code",
+                    "value": "burn_completed"
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@CultivationResult",
+            "signals": [
+                {
+                    "kind": "capture_integer",
+                    "fact": "cultivated_animals",
+                    "source": "details.result.text",
+                    "minimum": 0,
+                    "maximum": 3
+                }
+            ],
+            "result_kind": "intermediate"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-BabyCultivationCompleted",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "cultivation_completed",
+                    "value": true
+                },
+                {
+                    "kind": "set",
+                    "fact": "strategy_result_code",
+                    "value": "baby_cultivation_completed"
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-BabyShopChecked",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "shop_seed_checked",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-BabyNoSeed",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "shop_seed_checked",
+                    "value": true
+                },
+                {
+                    "kind": "set",
+                    "fact": "cultivation_completed",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-BurnShopDone",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "burn_shop_done",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-BabySeedFound",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "shop_seed_checked",
+                    "value": true
+                },
+                {
+                    "kind": "set",
+                    "fact": "shop_seed_found",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-BasicE2Team",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "basic_e2_team",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-SandtableA",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "sandtable_a",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-SandtableB",
+            "node": {
+                "progress": "completed",
+                "repeatable": true,
+                "becomes_empty": false
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "sandtable_b",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-Ending2Completed",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "ending2_completed",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-Ending3Device",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "ending3_device",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-Ending3Relic",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "add",
+                    "fact": "ending3_relic_count",
+                    "value": 1
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-Floor5BossCompleted",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "floor5_boss_completed",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        },
+        {
+            "task": "BlackFlow@Roguelike@Event-Ending3Completed",
+            "node": {
+                "progress": "completed",
+                "becomes_empty": true
+            },
+            "signals": [
+                {
+                    "kind": "set",
+                    "fact": "ending3_completed",
+                    "value": true
+                }
+            ],
+            "result_kind": "page_completed"
+        }
+    ],
+    "preview_names": [
+        {
+            "text": "紧急作战",
+            "node_type": "battle_elite"
+        },
+        {
+            "text": "作战",
+            "node_type": "battle_normal"
+        },
+        {
+            "text": "狭路相逢",
+            "node_type": "duel"
+        },
+        {
+            "text": "\"居民\"据点",
+            "node_type": "battle_savage"
+        },
+        {
+            "text": "曲折密道",
+            "node_type": "door"
+        },
+        {
+            "text": "应急助力",
+            "node_type": "employ"
+        },
+        {
+            "text": "先行一步",
+            "node_type": "expedition"
+        },
+        {
+            "text": "未知的凶戾",
+            "node_type": "hide_battle"
+        },
+        {
+            "text": "未知的诡秘",
+            "node_type": "hide_invisible"
+        },
+        {
+            "text": "不期而遇",
+            "node_type": "incident"
+        },
+        {
+            "text": "羽瞰点",
+            "node_type": "light"
+        },
+        {
+            "text": "误入奇境",
+            "node_type": "portal"
+        },
+        {
+            "text": "安全的角落",
+            "node_type": "rest"
+        },
+        {
+            "text": "失与得",
+            "node_type": "sacrifice"
+        },
+        {
+            "text": "秘境行商",
+            "node_type": "scrap_shop"
+        },
+        {
+            "text": "诡意行商",
+            "node_type": "shop"
+        },
+        {
+            "text": "得偿所愿",
+            "node_type": "wish"
+        },
+        {
+            "text": "林间空地",
+            "node_type": "empty"
+        },
+        {
+            "text": "险路小径",
+            "node_type": "evacuate"
+        },
+        {
+            "text": "险路尽头",
+            "node_type": "final"
+        },
+        {
+            "text": "险路恶敌",
+            "node_type": "battle_boss"
+        }
+    ]
+}

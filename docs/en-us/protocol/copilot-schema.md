@@ -106,7 +106,7 @@ Please note that JSON files do not support comments. The comments in this docume
             // "Left" | "Right" | "Up" | "Down" | "None"
             // "左"   |  "右"   | "上"  | "下"   |  "无"
             // Both English and Chinese are supported (e.g., "左" for "Left")
-            "skip_if_not_ready": false, // Only effective when type is "Skill". Allows skipping the current action if the skill is not ready, mainly used to disable unfinished ammo skills. Optional, defaults to false.
+            // "skip_if_not_ready": false, DEPRECATED, please use "timeout": 0 instead
             "skill_usage": 1, // Change skill usage method. Required when type is "SkillUsage"
             // Example: Initially need Myrtle to help attack without using skill, later need auto skill activation
             // Can set to 1 at the appropriate time
@@ -115,9 +115,7 @@ Please note that JSON files do not support comments. The comments in this docume
             // After all conditions for the current action are met, starts timing, executes the corresponding action when timing ends
             "post_delay": 0, // Post-delay. Optional, default is 0, unit is milliseconds
             // After the current action is executed, starts timing, begins next action when timing ends
-            //
-            // "timeout": 999999999,   // Reserved field, not yet implemented.
-            // Timeout. Optional when type is "Deploy"|"Skill". Default INT_MAX, unit is milliseconds
+            "timeout": 999999999, // Timeout. Optional when type is "Skill". Default -1, no limit, unit is milliseconds
             // Abandons current action and executes next action when timeout occurs
             "distance": [
                 4.5,

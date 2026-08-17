@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -193,22 +194,48 @@ public class HttpService : IHttpService
 
     public async Task<HttpResponseMessage> PostAsync(Uri uri, HttpContent content, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query)
     {
-        var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20 };
+        var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20, Content = content };
         if (extraHeader is not null)
         {
             foreach (var header in extraHeader)
             {
-                message.Headers.Add(header.Key, header.Value);
+                if (!IsValidHeaderName(header.Key))
+                {
+                    _logger.Warning("Skipped external header with invalid name: {Header}", header.Key);
+                    continue;
+                }
+
+                // 内容头（如 Content-Type）不属于请求头集合，Add 会抛 Misused header 异常；
+                // TryAddWithoutValidation 对此类头部返回 false，转而写入 Content.Headers
+                if (message.Headers.TryAddWithoutValidation(header.Key, header.Value))
+                {
+                    continue;
+                }
+
+                // 先移除内容头默认值（如 StringContent 自带的 Content-Type），避免重复发送
+                message.Content.Headers.Remove(header.Key);
+                if (!message.Content.Headers.TryAddWithoutValidation(header.Key, header.Value))
+                {
+                    _logger.Warning("Failed to add external header: {Header}", header.Key);
+                }
             }
         }
 
         message.Headers.Accept.ParseAdd("application/json");
-        message.Content = content;
         var stopwatch = Stopwatch.StartNew();
         var response = await _client.SendAsync(message);
         stopwatch.Stop();
         response.Log(uriPartial, stopwatch.Elapsed.TotalMilliseconds);
         return response;
+    }
+
+    /// <summary>
+    /// 检查 header 名称是否为 RFC 9110 定义的合法 token。用户误按 JSON 等格式填写时，
+    /// 名称会含大括号、引号等分隔符，此时 Remove/Add 等 API 会抛异常，需先行跳过。
+    /// </summary>
+    private static bool IsValidHeaderName(string name)
+    {
+        return name.Length > 0 && name.All(c => c is > ' ' and < '\u007f' && !"()<>@,;:\\\"/[]?={}".Contains(c));
     }
 
     public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = "application/octet-stream")

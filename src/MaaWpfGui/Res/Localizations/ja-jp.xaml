@@ -83,6 +83,8 @@
     <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Url">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.HeadersPlaceholders">1行に1つ、形式：名前: 値</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.HeadersTip" xml:space="preserve">カスタム HTTP ヘッダーは1行に1つ、形式：名前: 値&#10;例: Content-Type: application/json; charset=utf-8</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">メッセージ本文</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">プレホルダー: {title}、{content}、{time}</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Presets">プリセットテンプレート</system:String>
@@ -158,6 +160,7 @@
     <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片を自動で補充</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">受付室の掲示板からのクレジット収集</system:String>
     <system:String x:Key="InfrastReceptionClueExchange">手がかり交換を実施</system:String>
+    <system:String x:Key="InfrastReceptionClueExchangeTips" xml:space="preserve">手がかり交換を開始できない場合、シフト交代時に手がかりボード上のすべての手がかりを取り下げます。開始できる場合は一括配置を使用します。&#10;個人の手がかり所持上限は10枚（応接室に配置済みのものを含む）で、配置済みの手がかりは重複判定に含まれません。&#10;事前に多くを配置しすぎると、上限に達したのに一括送信も新しい手がかりの獲得もできなくなります。</system:String>
     <system:String x:Key="ClueExchangeUnlocked">手がかり交換を開始しました</system:String>
     <system:String x:Key="InfrastReceptionSendClue">手がかりを贈る</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">{key=Infrast} で以下の関数を設定して実行する必要があります</system:String>
@@ -212,6 +215,14 @@
     <system:String x:Key="InfrastThresholdTip">カスタム シフトが有効な場合、このフィールドは自動入力と{key=Operator} グループのあるルームに対してのみ有効です</system:String>
     <system:String x:Key="RoguelikeStrategyExp">経験値を取得し、できるだけクリア</system:String>
     <system:String x:Key="RoguelikeStrategyGold">源石錐を収集、投資完了後に自動で終了</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowExp">レベル稼ぎ、素早く第3層へ</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">源石錠稼ぎ、投資完了後に自動退出</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">襁褓動物を育成</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTarget">育成する襁褓動物</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCat">襁褓の猫</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpent">襁褓の羽蛇</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetDog">襁褓の犬</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">襁褓のケルベロス</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">支援選択あるいは昇進した{key=Operator}を得るため3層到着後に終了</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">パラダイムロストをファーミングして、非レアパラダイムロストに遭遇したらすぐに再起動します</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">支援選択を得るモードの分隊</system:String>
@@ -227,6 +238,7 @@
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初の{key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。</system:String>
+    <system:String x:Key="RoguelikeThemeTipRecommended">←必読推奨</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">この{key=Operator}がbattle_dataにありません。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">｢{key=StartingCoreChar}｣ 直接昇進</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">｢{key=StartingCoreChar}｣ の昇進招集までリセマラし、戦闘を行わない</system:String>
@@ -276,6 +288,11 @@
     <system:String x:Key="IS5NewSquad9">代理人分隊（サポートされていません）</system:String>
     <system:String x:Key="IS5NewSquad10">知学分隊</system:String>
     <system:String x:Key="IS5NewSquad11">商人分隊</system:String>
+    <system:String x:Key="IS6NewSquad1">本源研修分队</system:String>
+    <system:String x:Key="IS6NewSquad2">文明开化分队</system:String>
+    <system:String x:Key="IS6NewSquad3">开拓者分队</system:String>
+    <system:String x:Key="IS6NewSquad4">多边贸易分队</system:String>
+    <system:String x:Key="IS6NewSquad5">地质调查分队</system:String>
     <system:String x:Key="SpecialForceSquad">特別行動分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
@@ -443,7 +460,7 @@
     <system:String x:Key="GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">新しいバージョンの準備中です。時間をおいてからもう一度実行してください</system:String>
     <system:String x:Key="MirrorChyanBuildingOta">MirrorChyan がこのバージョンの OTA 増分アップデートをビルド中です。約 10 秒後に自動的に再試行します</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されましたが、利用可能な OTA 増分アップデートパッケージはありません。完全パッケージをダウンロードし、cache、config、data、debug、achievement（クリアスクリーンショット）、background（背景画像）、MAA.Updater.exe は保持され、それ以外のファイルはごみ箱と .old に移動されます。必要に応じて手動でバックアップしてください。</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されましたが、利用可能な OTA 増分アップデートパッケージはありません。完全パッケージをダウンロードし、cache、config、data、debug、achievement（クリアスクリーンショット）、MAA.Updater.exe は保持され、それ以外のファイルはごみ箱と .old に移動されます。必要に応じて手動でバックアップしてください。</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です……</system:String>
     <system:String x:Key="NewVersionDownloadRetrying">アップデートパッケージのダウンロードに失敗しました。{0} 秒後に再試行します（{1}/{2} 回目のダウンロードに失敗）。</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">アップデートパッケージのダウンロードに失敗しました</system:String>
@@ -453,7 +470,7 @@
     <system:String x:Key="PendingFullUpdateManualConfirmTitle">フルパッケージ更新には手動確認が必要です</system:String>
     <system:String x:Key="PendingFullUpdateManualConfirmDesc" xml:space="preserve">フルパッケージでの更新が必要です。
 
-更新の流れ: ここからフルパッケージをダウンロードまたは取り込んだ場合、後続のインストール処理では現在のインストール先ルート直下にある top-level のファイルとフォルダーを、cache、config、data、debug、achievement（クリアスクリーンショット）、background（背景画像）、MAA.Updater.exe を除いて先に整理し、その後でフルパッケージの内容を書き込みます。
+更新の流れ: ここからフルパッケージをダウンロードまたは取り込んだ場合、後続のインストール処理では現在のインストール先ルート直下にある top-level のファイルとフォルダーを、cache、config、data、debug、achievement（クリアスクリーンショット）、MAA.Updater.exe を除いて先に整理し、その後でフルパッケージの内容を書き込みます。
 
 リスク: MAA をドライブ直下、デスクトップ、ダウンロードフォルダー、または他のプログラムや個人ファイルと同じ階層に展開している場合、それらの同階層エントリも削除または移動される可能性があります。
 
@@ -490,11 +507,9 @@ D:\
     <system:String x:Key="AddConfigSuccess">構成&lt; {0}&gt;が正常に追加されました</system:String>
     <system:String x:Key="ConfigExists">構成 &lt; {0}&gt; は既に存在します</system:String>
     <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>
-    <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">
-この機能は、レジストリを変更してシステム起動時に自動起動するように設定します。
+    <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">この機能は、レジストリを変更してシステム起動時に自動起動するように設定します。
 MAA は非インストール型のアプリケーションであり、レジストリを自動で削除しません。
-レジストリの残留が気になる場合は、削除前にこのオプションを無効にしてください。
-</system:String>
+レジストリの残留が気になる場合は、削除前にこのオプションを無効にしてください。</system:String>
     <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
         管理者権限での起動は、起動時の自動実行をサポートしていません。MAAを長時間管理者権限で実行することはお勧めしません。\n必要な場合は、 ｢コントロールパネル &gt; Windowsツール &gt; タスクスケジューラ｣ に移動してカスタムタスクを作成してください。トリガーを設定する際に、 ｢最も高い特権で実行｣ を必ず選択してください。
     </system:String>
@@ -509,11 +524,11 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="MinimizeAfterLaunch">アプリの起動時に自動的に最小化</system:String>
     <system:String x:Key="ClientType">クライアントバージョン</system:String>
     <system:String x:Key="StartGameLaunchClient">起動時にクライアントを開始する</system:String>
-    <system:String x:Key="AutoRestartOption">ゲームが切断されたときに自動的に再接続する</system:String>
     <system:String x:Key="UseWeeklySchedule">週次スケジュールを有効にする</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">ここでの曜日はゲーム内時間に基づいており、現実時間ではありません。例えば、ゲームが4:00にリセットされる場合、3:59は前日としてカウントされます。</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunchTip">エミュレータは MAA 起動時に一度だけ起動され、｢{key=LinkStart}｣ をクリックするたびに起動されるわけではありません。\nそのような動作が必要な場合は ｢{key=RetryOnDisconnected}｣ を有効にしてください</system:String>
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">待ち時間は終わりました</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>
@@ -549,6 +564,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界園</system:String>
+    <system:String x:Key="RoguelikeThemeBlackFlow">黑流树海（日本語名未定）</system:String>
     <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}推奨構成:
 
 {key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
@@ -590,6 +606,23 @@ MAA は非インストール型のアプリケーションであり、レジス�
 2. 指揮回避戦闘戦術を使うと源石錐稼ぎ効率が大幅に向上し、高速レベリング（攻略を狙わない）にも使用できますが、戦略を ｢源石錐稼ぎ｣ に設定する必要があります
 3. 解放済みの最高難易度が N3 未満、または関連知識を解放していない場合は指揮回避戦闘戦術を使用しないでください。エラーの原因になります
 4. 最高難易度が N15 以上の場合、6★オペレーターの希望消費が+1になり、一部の分隊では開始時に6★オペレーターを招集できず、エラーや失敗を招く可能性があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipBlackFlow" xml:space="preserve">{key=RoguelikeThemeBlackFlow}推奨構成:
+
+{key=StartingCoreChar}: 機械師（昇進済みであること）
+{key=StartingSquad}: ｢{key=SpecialForceSquad}｣ / ｢{key=TacticalFortificationOperative}｣
+{key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
+
+1. 現時点では専用の戦闘戦略はなく、戦闘は募集スコアリングによる自動判断に任されています。
+    源石錠稼ぎ・レベル稼ぎ・襁褓動物育成は、いずれも昇進済み機械師の ｢飛び｣ を軸に回っています。
+    今回のローグライクは特殊なギミックが多く、上記の構成で開局しない場合はデフォルトの経路探索と戦闘しか使えず、ほぼ失敗します。
+    昇進済み機械師での開局を強く推奨します（機械師の昇進は N1 を一度クリアするだけで済み、比較的簡単です）
+2. 機械師を昇進させた後、｢募集精通 II｣ と ｢効果向上 II｣ のテクノロジーを解放すると、開局時から ｢構造性原理｣ を持ち込みできます（マップ全域へ 3 回飛べる）。
+    解放はとても簡単で、昇進後にパーツを合計 10 個売るだけなので、強く推奨します。
+    未解放の場合は周囲 8 マスへしか 3 回飛べず、プレイ自体は可能ですが効率がかなり落ちます
+3. レベル稼ぎでは、機械師（要昇進）+ 上記の分隊・職業グループ + 重装券の組み合わせで 3 層を一気に飛んで駆け抜けられます
+4. 昇進済みの機械師がない場合は選ばず、通常どおり源石錠を稼いでください。ただし戦闘はほぼ敗走します。
+    他の戦略は今後の最適化をお待ちください
+5. レベル稼ぎ + ｢{key=InvestmentEnabled}｣をチェックしないことで商店をスキップできます</system:String>
     <system:String x:Key="RoguelikeDifficulty">難易度</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">｢{key=RoguelikeThemeJieGarden}｣に関連する知識を解放すると、{key=LeaderSquad}で N3 以上の難易度を探索する際に ｢時の果て｣ を追加で携帯し、 ｢一戦一跳｣ の貯蓄戦術を行えます。
 まだ解放していない場合は、N3 以上の難易度（ ｢MAX｣ を含む）を選択しないでください。
@@ -728,11 +761,12 @@ C:\\Program Files\\Netease\\MuMuPlayer を入力してください。\n
 2. ネットワークブリッジを使用している場合は、MuMu ネットワークブリッジモードを選択し、シリアル番号を手動で入力する必要があります。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu エミュレータパス</system:String>
+    <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu のインストールパスが空です！プレースホルダーはあくまで例です。｢{key=Settings} - {key=ConnectionSettings}｣ で実際のパスを入力してください</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu ネットワークブリッジモード</system:String>
     <system:String x:Key="MuMuBridgeConnectionTip">自分が何をしているのか分かっていない限り、このオプションを有効にしないでください</system:String>
     <system:String x:Key="MuMu12Index">インスタンス番号</system:String>
     <system:String x:Key="MuMu12Display">表示番号</system:String>
-    <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
+    <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ の下部に表示される強化設定を確認してください</system:String>
     <system:String x:Key="MuMuEmulator12KeepAliveOn">MuMu エミュレータで ｢アプリ保活｣ が有効になっていますが、MAA のタッチ強化が機能していません。アプリ保活下では操作できません。MAA の ｢{key=ConnectionSettings}｣ で ｢{key=MuMu12ExtrasEnabled}｣ とその下の ｢{key=MuMuExtrasTouchEnabled}｣ を両方有効にしてください。強化を使わない場合は、MuMu 設定で ｢アプリ保活｣ を無効にしてください（一部バージョンでは ｢バックグラウンド常駐｣ ｢バックグラウンド放置時の常駐実行｣ などと呼ばれていました）。</system:String>
     <system:String x:Key="MuMuEmulator12FullExtrasReady">完全 MuMu 強化が起動——スクリーンショットとタッチの双核直結が貫通、バックグラウンド常駐も我らが掌中に！</system:String>
     <system:String x:Key="LdExtrasEnabled">LD のスクリーンショット拡張モードを有効にする</system:String>
@@ -755,9 +789,10 @@ C:\\leidian\\LDPlayer9
 縦画面状態でゲームを起動した後、横画面に切り替えると、画面の乱れ（ティアリング）などの問題が発生する可能性があります。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD エミュレータパス</system:String>
+    <system:String x:Key="LdEmulatorPathEmptyError">LDPlayer のインストールパスが空です！プレースホルダーはあくまで例です。｢{key=Settings} - {key=ConnectionSettings}｣ で実際のパスを入力してください</system:String>
     <system:String x:Key="LdManualSetIndex">｢{key=LdIndex}｣ を手動で入力</system:String>
     <system:String x:Key="LdIndex">インスタンス番号</system:String>
-    <system:String x:Key="LdExtrasNotEnabledMessage">LD スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
+    <system:String x:Key="LdExtrasNotEnabledMessage">LD スクリーンショットの強化 が有効になっていません。｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ の下部に表示される強化設定を確認してください</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB接続が失敗した場合、エミュレータの起動を試みる</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">再接続に失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">エミュレータのパスが空です！ ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ を入力してから再度選択してください。</system:String>
@@ -886,6 +921,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotPlanNoStage">#{0}：ステージ未指定または ｢現在/前回｣</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">#{0}：{1} 十分 {2}/{3}</system:String>
     <system:String x:Key="DepotPlanInventoryInsufficient">#{0}：{1} 不足 {2}/{3}、{4} 個必要</system:String>
+    <system:String x:Key="DepotPlanSanityInsufficient">#{0}：理性不足（現在 {1}、消費 {2} 未満）、スキップしました</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}：ステージ ｢{1}｣ は公開されていません</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}：タスクの追加に失敗しました</system:String>
     <system:String x:Key="DepotSkipDuringActivity">イベント期間中はスキップ</system:String>
@@ -897,7 +933,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未チェック時は 1 倍で代理；チェック後は現在の理性で可能な最大倍率で代理し、1回の周回で目標在庫上限を超える場合があります。</system:String>
     <system:String x:Key="DepotEnableUseMedicine">「{key=UseSanityPotion}」チェックボックスを有効化</system:String>
     <system:String x:Key="DepotEnableUseStone">「{key=UseOriginitePrime}」チェックボックスを有効化</system:String>
-    <system:String x:Key="DepotUseExpiringMedicine">48 時間以内に期限切れの理性薬を使用</system:String>
+    <system:String x:Key="DepotUseExpiringMedicine">48 時間以内に期限切れの理性剤を使用</system:String>
+    <system:String x:Key="DepotPlanBudgetTip" xml:space="preserve">このステージの理性剤/源石の使用上限で、ステージごとに独立して計算されます。&#10;チェックして数値を設定すると、このステージは理性不足でスキップされず、理性が足りなくても出撃してこの数まで理性剤/源石を使用して戦闘を続けます。&#10;予算未設定のステージは、理性不足の場合に出撃せず直接スキップされます。</system:String>
+    <system:String x:Key="DepotUseExpiringMedicineTip" xml:space="preserve">理性剤予算未設定のステージを含む全ステージに適用されます。&#10;有効にすると、予算未設定のステージも 48 時間以内に期限切れとなる理性剤の使用を試みます。&#10;予算未設定のステージが理性不足でスキップされるのは、このキューの実行中に既に理性不足で終了した戦闘タスクがあり、かつその期限間近の理性剤のウィンドウがこの設定以上である（＝このウィンドウ内の期限間近の理性剤を使い切った）場合のみです。</system:String>
     <system:String x:Key="DepotGroupTaskBehavior">タスク動作</system:String>
     <system:String x:Key="DepotGroupStageAndBattle">ステージと戦闘</system:String>
     <system:String x:Key="DepotGroupSanityRecovery">理性回復</system:String>
@@ -1093,6 +1131,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">揺蕩う影</system:String>
     <system:String x:Key="MiniGame@SecretFront">隠密戦線</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">小隊選択画面で開始します。セーブデータがある場合は手動で削除する必要があります。ゲーム内の ｢前の小隊からのデータを引き継ぐ｣ にチェックすることを推奨します。</system:String>
+    <system:String x:Key="MiniGame@InteractiveExhibition">奇象巡展-未収録の奇象を探す</system:String>
+    <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">選択したマップの高級エリアにある草原の右下からタスクを開始します。&#10;草原を行き来して未収録の生物を探し、見つかると自動的に停止します。&#10;生物に出会えるのは草原だけです。</system:String>
+    <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">奇象巡展：未収録の奇象を発見</system:String>
+    <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationContent">MAAは自動探索を停止しました。ゲームに戻って手動で戦闘を完了してください。</system:String>
     <system:String x:Key="MiniGame@PixelPaint">ピクセル画自動描画</system:String>
     <system:String x:Key="MiniGame@PixelPaintTip">ゲーム内の 24×24 ピクセル画編集ページに手動で入ってから開始してください。&#10;プレビューはドラッグ/ホイールで構図調整。デフォルトで白はスキップ。&#10;開始後はパラメータ固定。進捗は右のログ参照。</system:String>
     <system:String x:Key="MiniGame@PixelPaint@DropHint">画像をドロップ、画像/テキストを貼り付け、または下のボタンで選択</system:String>
@@ -1255,6 +1297,7 @@ C:\\leidian\\LDPlayer9
     <!--  !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">エラー</system:String>
+    <!--  ErrorCongratulations 与下方 ErrorSolutionMoveMaaExeOutOfFolder 修改时需同步 src/MaaAppHostStub/MaaAppHostStub.cpp，由 tools/CheckStubLocalization.py 校验  -->
     <system:String x:Key="ErrorCongratulations">おめでとうございます</system:String>
     <system:String x:Key="ErrorProlog">MAA に問題が発生しました</system:String>
     <system:String x:Key="ErrorDetails">詳細情報</system:String>
@@ -1280,6 +1323,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UpdateApplyFailed">更新の適用に失敗し、現在のインストールが不完全になっている可能性があります。完全パッケージを再ダウンロードし、以下の説明に従って config、data、debug を手動で移行してください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="UpdateApplyMissingUpdater">MAA.Updater.exe が見つからないため、外部更新プログラムを起動できず、更新を続行できませんでした。今回の更新はキャンセルされました。このファイルは手動で削除されたか、セキュリティソフトによってブロックまたは削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、MAA のフォルダーを当該ソフトの許可リストに追加してから、もう一度お試しください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください。\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceIntegrityCheckTitle">インストールファイルの欠落</system:String>
+    <system:String x:Key="ResourceIntegrityCheckDesc">{0} 個のインストールファイルが欠落していることが検出されました（{1}）。一部の機能が使用できない可能性があります。ファイルがセキュリティソフトによってブロックまたは削除されたか、手動で削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、MAA のフォルダーを当該ソフトの許可リストに追加してから、もう一度お試しください。\n\n以下の説明に従って手動で再インストールすることもできます：\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceIntegrityRepairYes">自動修復（完全パッケージをダウンロードし、再起動後に復元）</system:String>
+    <system:String x:Key="ResourceIntegrityRepairNo">後で行う</system:String>
+    <system:String x:Key="ResourceIntegrityRepairDownloading">欠落したリソースファイルを修復するため、完全パッケージをダウンロードしています…</system:String>
+    <system:String x:Key="ResourceIntegrityRepairFailed">自動修復に失敗しました。表示された手順に従って手動で処理してください。\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceIntegrityRepairCanceled">自動修復をキャンセルしました。欠落ファイルについては次回起動時に再度通知されます。</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADBファイルが存在しません</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADBのダウンロードに失敗しました</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">ディレクトリを削除できません。既に置換されたか、他の問題が発生している可能性があります。詳細な情報はログをご確認ください。</system:String>
@@ -1299,8 +1349,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TouchModeNotAvailable">タッチモードは利用できません。 ｢{key=Settings} - {key=ConnectionSettings}｣ に入って、他のタッチモードに変更してください。</system:String>
     <system:String x:Key="ScreencapFailed">スクリーンキャプチャに失敗しました。繰り返し発生する場合は、エミュレータの再起動または変更をお試しください！</system:String>
     <system:String x:Key="FastestWayToScreencap">スクリーンショット テストには: {0}ms ({1})</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">スクリーンキャップには時間がかかるため(平均: {0}ms)、自動戦闘機能 (Auto I.S. など) を使用すると異常な動作が発生する可能性があります。MuMuやLDPlayerを使用している場合は、スクリーンショット拡張を試してください。</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">スクリーンキャップに時間がかかりすぎるため(平均: {0}ms)、自動戦闘機能 (Auto I.S. など) が適切に動作しない可能性があります、シミュレータの再起動や交換をお勧めします！MuMuやLDPlayerを使用している場合は、スクリーンショット拡張を試してください。</system:String>
+    <system:String x:Key="FastestWayToScreencapInfoTip">スクリーンキャップに {0}ms かかっています。MuMuやLDPlayerを使用している場合は、｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ で対応するエミュレータを選択し、下部に表示されるスクリーンショット強化を有効にすると短縮できます。</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">スクリーンキャップには時間がかかるため(平均: {0}ms)、自動戦闘機能 (Auto I.S. など) を使用すると異常な動作が発生する可能性があります。MuMuやLDPlayerを使用している場合は、｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ で対応するエミュレータを選択し、下部に表示されるスクリーンショット強化を有効にしてください。</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">スクリーンキャップに時間がかかりすぎるため(平均: {0}ms)、自動戦闘機能 (Auto I.S. など) が適切に動作しない可能性があります、シミュレータの再起動や交換をお勧めします！MuMuやLDPlayerを使用している場合は、｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ で対応するエミュレータを選択し、下部に表示されるスクリーンショット強化を有効にしてください。</system:String>
     <system:String x:Key="EmulatorFpsWarningTip">エミュレータの設定フレームレートが {0} FPS で、ゲームのネイティブフレームレート（60 FPS）を下回っています。バックグラウンドのフレームレート低下が有効になっているか、フレームレートの設定が低すぎる可能性があります。エミュレータのフレームレートを 60 FPS に設定することを推奨します</system:String>
     <system:String x:Key="EmulatorFpsErrorTip">エミュレータの設定フレームレートが低すぎます（{0} FPS）。タスクが異常になる可能性があります。エミュレータの設定でバックグラウンドのフレームレート低下をオフにし、フレームレートを 60 FPS に設定してください</system:String>
     <system:String x:Key="EmulatorFpsHighTip">エミュレータの設定フレームレートが {0} FPS で、ゲームのネイティブフレームレート上限（60 FPS）を上回っています。これはエミュレータのフレーム補間機能の可能性があり、画面の異常や認識の不安定化を招くことがあります。フレーム補間を無効にし、フレームレートを 60 FPS に設定することを推奨します</system:String>
@@ -1323,7 +1374,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC クライアントではカーソルがドロップ品や個数の認識を遮る場合があります。誤ったデータでデータプールを汚染しないよう、今回のレポートは自動的にスキップしました</system:String>
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
-    <system:String x:Key="MissingOperators">次の{key=Operator}が{key=Operator}グループにありません：</system:String>
+    <system:String x:Key="MissingOperators">以下の{key=Operator}グループの{key=Operator}を所有していません（各グループ1体で足ります）：\n{0}｢戦術要員｣ マークは{key=Operator}の認識に影響する可能性があります。上記の{key=Operator}を所有している場合はマークを解除して再試行してください。所有していない場合は、不足グループが1つなら ｢{key=SupportUnitUsage}｣ で補えますが、2つ以上の場合は他の作業ファイルを使用してください。</system:String>
     <system:String x:Key="RecruitSupportOperator">サポートユニットを追加：{0}</system:String>
     <system:String x:Key="StageQueue">ステージキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
@@ -1352,8 +1403,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FightTimesUnused">{0} 回の戦闘を完了しました。次回は {1} 回の乗数プロキシを実行します。参加後、{2} 回の戦闘を完了します。{3} 回の制限を超えたため、戦闘には参加しません。</system:String>
     <system:String x:Key="UpperLimit">源石錐が上限に達しました</system:String>
     <system:String x:Key="GameCrash">ゲームがクラッシュ。再起動を行います</system:String>
-    <system:String x:Key="GameDrop">回線が落ちました。再接続を行います</system:String>
-    <system:String x:Key="GameDropNoRestart">ゲームが落ちたため、再接続せず任務を停止します</system:String>
+    <system:String x:Key="GameDrop">回線が落ちたため、タスクを停止します</system:String>
     <system:String x:Key="RoguelikeGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">スペシャルアイテムを購入しました！</system:String>
     <system:String x:Key="MonthlySquadCompleted">月間チーム全てクリアしました！おめでとうございます！</system:String>
@@ -1377,6 +1427,171 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BoskyDisaster">スポット: 禍乱</system:String>
     <system:String x:Key="RoguelikeCoppersExchange">通宝交換: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeCoppersRecognitionError">通宝認識失敗:  ｢{0}｣</system:String>
+    <system:String x:Key="BlackFlowRoutingDecision">第 {0} 層｜行動力 {1}→{2}｜{3}で {4} へ｜安全余裕 {5}</system:String>
+    <system:String x:Key="BlackFlowRoutingReason">理由：{0}｜詳細：{1}</system:String>
+    <system:String x:Key="BlackFlowMovementWalk">徒歩移動</system:String>
+    <system:String x:Key="BlackFlowMovementProcessing">加工品移動</system:String>
+    <system:String x:Key="BlackFlowReasonMandatoryGoal">必須目標</system:String>
+    <system:String x:Key="BlackFlowReasonResourceReserve">資源温存</system:String>
+    <system:String x:Key="BlackFlowReasonPreferredGoal">優先目標</system:String>
+    <system:String x:Key="BlackFlowReasonDevelopment">育成</system:String>
+    <system:String x:Key="BlackFlowReasonRiskAvoidance">リスク回避</system:String>
+    <system:String x:Key="BlackFlowReasonSafetyFallback">安全経路</system:String>
+    <system:String x:Key="BlackFlowReasonTieBreak">同点比較</system:String>
+    <system:String x:Key="BlackFlowWarningMapRebuildFailed">マップの再構築に失敗しました</system:String>
+    <system:String x:Key="BlackFlowWarningPageRecoveryFailed">ノード画面からマップに戻れません</system:String>
+    <system:String x:Key="BlackFlowWarningPreviewCostChanged">プレビューの行動力消費が変化したため再計画します</system:String>
+    <system:String x:Key="BlackFlowWarningTargetUnreachable">目標に到達できないため未知ノードを調査して再計画します</system:String>
+    <system:String x:Key="BlackFlowWarningRouteBlocked">経路が遮断されています。</system:String>
+    <system:String x:Key="BlackFlowWarningInsufficientActionPoints">行動力が不足しています。</system:String>
+    <system:String x:Key="BlackFlowWarningTargetStateChanged">目標の状態が変化しました。</system:String>
+    <system:String x:Key="BlackFlowWarningInferredEdge">低信頼の接続を使用します</system:String>
+    <system:String x:Key="BlackFlowWarningPostMoveMismatch">移動後のノードまたは行動力が一致しません</system:String>
+    <system:String x:Key="BlackFlowWarningIdentityConflict">プレビューのノード種別が現在のマップと一致しません</system:String>
+    <system:String x:Key="BlackFlowWarningUnknown">ローグライクで異常が発生しました</system:String>
+    <system:String x:Key="BlackFlowMilestoneChanged">段階目標 {0}: {1}</system:String>
+    <system:String x:Key="BlackFlowStrategyResult">ローグライク戦略終了：{0}（{1}）</system:String>
+    <system:String x:Key="BlackFlowStrategyStarted">ローグライク戦略を開始：{0}</system:String>
+    <system:String x:Key="BlackFlowStrategyUnknown">不明な戦略</system:String>
+    <system:String x:Key="BlackFlowDecisionProbeUnknownNode">経路上で最も近い未分類ノードを調査</system:String>
+    <system:String x:Key="BlackFlowDecisionPolicyOrder">戦略で設定された優先順位で選択</system:String>
+    <system:String x:Key="BlackFlowDecisionDetailUnknown">判断基準は不明</system:String>
+    <system:String x:Key="BlackFlowMilestoneUnknown">不明な段階目標</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusAvailable">実行可能</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusSatisfied">完了済み</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusMissed">既に逃した</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusImpossible">達成不可能</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusUnknown">状態不明</system:String>
+    <system:String x:Key="BlackFlowNodeUnknown">未知ノード</system:String>
+    <system:String x:Key="BlackFlowNodeEmpty">空ノード</system:String>
+    <system:String x:Key="BlackFlowNodeCombat">通常作戦</system:String>
+    <system:String x:Key="BlackFlowNodeEmergencyCombat">緊急作戦</system:String>
+    <system:String x:Key="BlackFlowNodeBoss">険路の悪敵</system:String>
+    <system:String x:Key="BlackFlowNodeBattleShop">通常商店</system:String>
+    <system:String x:Key="BlackFlowNodeScrapShop">秘境の行商人</system:String>
+    <system:String x:Key="BlackFlowNodeEncounter">不意の遭遇</system:String>
+    <system:String x:Key="BlackFlowNodeMysteriousPresage">未知の怪奇</system:String>
+    <system:String x:Key="BlackFlowNodeFerociousPresage">未知の凶悪</system:String>
+    <system:String x:Key="BlackFlowNodeScout">一足先に</system:String>
+    <system:String x:Key="BlackFlowNodeDuel">狭路の遭遇</system:String>
+    <system:String x:Key="BlackFlowNodeEmergencyAid">応急支援</system:String>
+    <system:String x:Key="BlackFlowNodeRest">休息ノード</system:String>
+    <system:String x:Key="BlackFlowNodeFeatherPoint">羽瞰点</system:String>
+    <system:String x:Key="BlackFlowNodeWindingPassage">曲折した隠し道</system:String>
+    <system:String x:Key="BlackFlowNodeSacrifice">奉納ノード</system:String>
+    <system:String x:Key="BlackFlowNodeWish">願いの成就</system:String>
+    <system:String x:Key="BlackFlowNodeBoskyPassage">迷い込んだ奇境</system:String>
+    <system:String x:Key="BlackFlowNodeResidentStronghold">｢住民｣の拠点</system:String>
+    <system:String x:Key="BlackFlowNodeFinal">険路の果て</system:String>
+    <system:String x:Key="BlackFlowNodeFate">運命の指す先</system:String>
+    <system:String x:Key="BlackFlowNodeEvacuate">撤退ノード</system:String>
+    <system:String x:Key="BlackFlowNodeTeleporter">転送ノード</system:String>
+    <system:String x:Key="BlackFlowNodeOther">その他のノード</system:String>
+    <system:String x:Key="BlackFlowRuleAvoidEmptyScrapShop">源石錠・種子・売却可能なパーツがない時は秘境の行商人を避ける</system:String>
+    <system:String x:Key="BlackFlowRulePreserveWhiteModelBird">白模の鳥を温存し、加工品移動が必要な選択制の戦闘を避ける</system:String>
+    <system:String x:Key="BlackFlowRuleTriggerBossProcessingBonus">加工品を使ってボスノードに入り、戦闘ボーナスを発動する</system:String>
+    <system:String x:Key="BlackFlowRuleExitWhenRequired">育成が完了または安全余裕が不足したため出口へ向かう</system:String>
+    <system:String x:Key="BlackFlowRuleEnding1AvoidLateCombat">基本的な昇進編成が整ったため、不要な戦闘を避ける</system:String>
+    <system:String x:Key="BlackFlowRuleBabyUseProcessingItemForFloor1Shop">第1層では加工品を使って通常商店へ向かう</system:String>
+    <system:String x:Key="BlackFlowRuleBabyWalkAfterFloor1Shop">第1層は通常商店を確認した後、徒歩で探索し加工品を温存する</system:String>
+    <system:String x:Key="BlackFlowRuleBabyDelayExitBeforeFloor3">第3層前にまだ育成の余地があるため出口への移動を保留</system:String>
+    <system:String x:Key="BlackFlowRuleBabyExitBeforeFloor3WhenRequired">第3層前に育成が完了または安全余裕が不足したため出口へ向かう</system:String>
+    <system:String x:Key="BlackFlowRuleBabyAvoidCombat">他に安全な選択肢がある間は戦闘ノードを避ける</system:String>
+    <system:String x:Key="BlackFlowRuleLightRevealsThree">羽瞰点が少なくとも3つの未知の大型ノードを明らかにできそう</system:String>
+    <system:String x:Key="BlackFlowRuleInvestmentKeepShortWalk">商店まで2マス以内の場合は徒歩を維持</system:String>
+    <system:String x:Key="BlackFlowRuleInvestmentUseM11ForDirectShop">短距離の徒歩ルートがない場合、構造性原理で商店へ直行</system:String>
+    <system:String x:Key="BlackFlowRuleBurnRequireShopWhenFlightGuaranteed">昇進済みの機械師が確定する開局構成では第1層の経路を商店経由にする</system:String>
+    <system:String x:Key="BlackFlowRuleBurnRequireFlightOnFloor2">この開局構成では第2層を構造性原理で出口まで一直線に進む</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">第1層は通常作戦を優先</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">第1層は未知の怪奇をできるだけ探索</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">第2層は一足先にを優先</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">第2層は秘境の行商人を優先</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">第2層は未知の怪奇をできるだけ探索</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Employ">第2層は道中で応急支援に立ち寄る</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Light">第2層は道中で羽瞰点に立ち寄る</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Wish">第2層は道中で願いの成就に立ち寄る</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateDuel">第3〜5層は狭路の遭遇を優先</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateExpedition">第3〜5層は一足先にを優先</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateScrapShop">第3〜5層は秘境の行商人を優先</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateEmploy">第3〜5層は応急支援を優先</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateHidden">第3〜5層は未知の怪奇をできるだけ探索</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateIncident">第3〜5層は不意の遭遇をできるだけ経由</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateCombat">第3〜5層は道中で通常作戦を通過</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateLight">第3〜5層は道中で羽瞰点に立ち寄る</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateWish">第3〜5層は道中で願いの成就に立ち寄る</system:String>
+    <system:String x:Key="BlackFlowMilestoneInvestmentShop">第1層の固定商店に入って投資を完了</system:String>
+    <system:String x:Key="BlackFlowMilestoneBurnFloor1Shop">第1層で商店に入る</system:String>
+    <system:String x:Key="BlackFlowMilestoneBurnFloor1Final">第1層の険路の果てに到達</system:String>
+    <system:String x:Key="BlackFlowMilestoneBurnFloor2Final">第2層の険路の果てに到達</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCheckSeedShop">第1層の商店で種子を確認</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">第1〜3層で秘境の行商人に入り種子を育成</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">秘境の行商人が見つかるまで未知の怪奇をできるだけ開拓</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">道中で不意の遭遇に入る</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyVisitLight">道中で羽瞰点に入る</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">第2層は通常商店に立ち寄って種子を入手し続ける</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">第3層は通常商店で売却・品揃え更新を行い種子をできるだけ購入</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">砂盤Aを入手</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding2SandtableB">砂盤Bを入手</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding2Fate">第5層で運命の指す先に入り第二エンディングを完了</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3DeviceOption2">一足先にで2番目の選択肢を選び第三エンディング用の収蔵品を入手</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3Relics">第三エンディングの難度を下げる特殊な収蔵品を3つ入手</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3Floor5Boss">第5層のボス戦を完了</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3Floor6">第6層で第三エンディングを完了</system:String>
+    <system:String x:Key="BlackFlowOutcomeInvestmentCompleted">投資ルートが完了</system:String>
+    <system:String x:Key="BlackFlowOutcomeInvestmentMissed">投資ルートを逃した</system:String>
+    <system:String x:Key="BlackFlowOutcomeFloor3RouteCompleted">第3層到達の高速ルートが完了</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationCompleted">目標の襁褓動物の育成が完了</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationTargetMissed">目標の襁褓動物を入手できず</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyNoSeed">種子を入手できず</system:String>
+    <system:String x:Key="BlackFlowOutcomeEndingPrerequisiteFailed">エンディングの前提条件を満たせず</system:String>
+    <system:String x:Key="BlackFlowOutcomeStrategyCompleted">今回の戦略目標は完了済み</system:String>
+    <system:String x:Key="BlackFlowOutcomePageRecoveryFailed">マップに戻れません</system:String>
+    <system:String x:Key="BlackFlowOutcomeEnding2Completed">第二エンディングが完了</system:String>
+    <system:String x:Key="BlackFlowOutcomeEnding3Completed">第三エンディングが完了</system:String>
+    <system:String x:Key="BlackFlowOutcomeEnding2PrerequisiteFailed">第二エンディングの前提条件を満たせず</system:String>
+    <system:String x:Key="BlackFlowOutcomeEnding3PrerequisiteFailed">第三エンディングの前提条件を満たせず</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationUnfinished">襁褓動物の育成が未完了</system:String>
+    <system:String x:Key="BlackFlowOutcomeTaskEventFailed">ノード結果の処理に失敗</system:String>
+    <system:String x:Key="BlackFlowOutcomePerceptionPortMissing">地図認識インターフェースが利用不可</system:String>
+    <system:String x:Key="BlackFlowOutcomeMapRebuildFailed">マップ再構築に失敗</system:String>
+    <system:String x:Key="BlackFlowOutcomePlanningFailed">経路計画に失敗</system:String>
+    <system:String x:Key="BlackFlowOutcomeTransactionProposalFailed">今回の移動を準備できず</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovePreviewFailed">移動プレビューを開けず</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovePreviewRejected">移動プレビューが現在の経路を拒否</system:String>
+    <system:String x:Key="BlackFlowOutcomeMoveConfirmationFailed">今回の移動を確定できず</system:String>
+    <system:String x:Key="BlackFlowOutcomePostMoveValidationFailed">移動後の状態検証に失敗</system:String>
+    <system:String x:Key="BlackFlowOutcomePlanningRetryExhausted">経路再計画の回数を使い切りました</system:String>
+    <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">画面フローが先へ進めません</system:String>
+    <system:String x:Key="BlackFlowOutcomeMapRecoveryExhausted">マップ復旧の再試行回数を使い切りました</system:String>
+    <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">階層認識に失敗</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">移動加工品の認識に失敗</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovementSelectionFailed">移動加工品の選択に失敗</system:String>
+    <system:String x:Key="BlackFlowOutcomeNodeDispatchFailed">ノード振り分けに失敗</system:String>
+    <system:String x:Key="BlackFlowOutcomeNodeResultFailed">ノード結果の処理に失敗</system:String>
+    <system:String x:Key="BlackFlowOutcomeInternalFailure">内部状態エラー</system:String>
+    <system:String x:Key="BlackFlowOutcomeUnknown">ローグライクで異常が発生しました</system:String>
+    <system:String x:Key="BlackFlowTerminationInvestmentFinished">投資が完了したため今回の探索を終了</system:String>
+    <system:String x:Key="BlackFlowTerminationInvestmentShopWindowClosed">第1層を離れても投資していないため今回の探索をやり直します</system:String>
+    <system:String x:Key="BlackFlowTerminationFloor3Reached">第3層に到達し今回の経路は完了</system:String>
+    <system:String x:Key="BlackFlowTerminationCultivationReported">育成結果を取得したため今回の探索を終了</system:String>
+    <system:String x:Key="BlackFlowTerminationCultivationTargetObtained">育成結果に目標品種が含まれたためタスクを終了</system:String>
+    <system:String x:Key="BlackFlowTerminationCultivationTargetNotObtained">育成結果に目標品種が含まれないため今回の探索をやり直します</system:String>
+    <system:String x:Key="BlackFlowTerminationFloor1ShopNoSeed">第1層の商店に種子がなく今回の探索を終了</system:String>
+    <system:String x:Key="BlackFlowTerminationMandatoryPrerequisiteMissed">必須のエンディング前提条件を逃しました</system:String>
+    <system:String x:Key="BlackFlowTerminationStrategyTerminalReached">戦略の終点に到達しました</system:String>
+    <system:String x:Key="BlackFlowTerminationNodePageRecoveryFailed">ノード画面からマップに戻れません</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding2Completed">第二エンディングの戦闘を完了しました</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding3Completed">第三エンディングの戦闘を完了しました</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding2PrerequisiteMissing">第5層までに第二エンディングの砂盤要件を満たせませんでした</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding3RelicMissing">第5層までに第三エンディング用の収蔵品を入手できませんでした</system:String>
+    <system:String x:Key="BlackFlowTerminationNoBoskyPassage">第3層で迷い込んだ奇境が見つからず今回の経路は完了</system:String>
+    <system:String x:Key="BlackFlowTerminationActionPointsExhaustedBeforeCultivation">第3層で行動力を使い切り育成を完了できませんでした</system:String>
+    <system:String x:Key="BlackFlowTerminationScrapShopNeverReached">秘境の行商人に到達できず今回の探索を終了</system:String>
+    <system:String x:Key="BlackFlowTerminationRecoveryPortUnavailable">マップ復旧インターフェースが利用不可</system:String>
+    <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">地図認識・タスクインターフェースが利用不可</system:String>
+    <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">マップ再構築が連続2回失敗</system:String>
+    <system:String x:Key="BlackFlowTerminationPlanningRetryExhausted">プレビューが経路を変え続け再計画回数の上限に達しました</system:String>
+    <system:String x:Key="BlackFlowTerminationUnknown">詳細はファイルログを確認してください</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">{0} 件の選択肢を検出しました:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">選択可能な選択肢: {0}</system:String>
@@ -1716,7 +1931,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 現在のインストール先: {0}
 該当した非対応の場所: {1}
 
-これらの場所は階層が高すぎるため、ファイルの上書き、設定書き込み失敗、データ混乱の原因になります。D:\\MAA\\ のような専用フォルダーへ移動してから再度起動してください。</system:String>
+これらのディレクトリは MAA の配置先に適しておらず、ファイルが削除・上書きされやすい場所です。D:\\MAA\\ のような専用フォルダーへ移動してから再度起動してください。</system:String>
     <!--  !Boot  -->
     <!--  SimpleEncryptionHelper  -->
     <system:String x:Key="EncryptionError">暗号化と復号化に失敗しました。関連設定を再設定してください。そうでないと、暗号化された内容は設定ファイルに平文で保存されます。</system:String>
