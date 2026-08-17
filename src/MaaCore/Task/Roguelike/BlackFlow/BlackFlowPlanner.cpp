@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <chrono>
 #include <deque>
-#include <future>
 #include <iterator>
 #include <limits>
 #include <queue>
@@ -1587,7 +1586,44 @@ BindingResolution resolve_binding_milestones(const BlackFlowPlanRequest& request
 }
 } // namespace
 
+BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
+{
+    try {
+        return plan_impl(request);
+    }
+    catch (const std::exception& exception) {
+        BlackFlowPlan result;
+        result.error = std::string("planner exception: ") + exception.what();
+        return result;
+    }
+    catch (...) {
+        BlackFlowPlan result;
+        result.error = "planner exception: unknown error";
+        return result;
+    }
+}
+
 PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
+    const BlackFlowPlanRequest& request,
+    const MoveCandidate& move,
+    int exact_action_point_cost) const
+{
+    try {
+        return verify_previewed_move_impl(request, move, exact_action_point_cost);
+    }
+    catch (const std::exception& exception) {
+        PreviewSafetyVerification result;
+        result.error = std::string("planner exception: ") + exception.what();
+        return result;
+    }
+    catch (...) {
+        PreviewSafetyVerification result;
+        result.error = "planner exception: unknown error";
+        return result;
+    }
+}
+
+PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move_impl(
     const BlackFlowPlanRequest& request,
     const MoveCandidate& move,
     int exact_action_point_cost) const
@@ -1683,7 +1719,7 @@ PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move(
     return result;
 }
 
-BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
+BlackFlowPlan BlackFlowPlanner::plan_impl(const BlackFlowPlanRequest& request) const
 {
     BlackFlowPlan result;
     if (request.map == nullptr || request.run == nullptr || request.policy == nullptr || request.facts == nullptr ||
@@ -1766,12 +1802,10 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
     const int current_action_points = request.run->resources.action_points;
     OnDemandSafetyOracle confirmed_oracle(confirmed_graph, "Confirmed", request.route_search.safety_resource_dominance);
     OnDemandSafetyOracle relaxed_oracle(relaxed_graph, "Relaxed", request.route_search.safety_resource_dominance);
-    auto confirmed_root_requirement_task = std::async(std::launch::async, [&] {
-        return confirmed_oracle.requirement(confirmed_graph.initial_state(), current_action_points);
-    });
+    result.safety.required_action_points =
+        confirmed_oracle.requirement(confirmed_graph.initial_state(), current_action_points);
     result.relaxed_safety.required_action_points =
         relaxed_oracle.requirement(relaxed_graph.initial_state(), current_action_points);
-    result.safety.required_action_points = confirmed_root_requirement_task.get();
     if (!confirmed_oracle.error().empty() || !relaxed_oracle.error().empty()) {
         result.error = "root safety calculation failed: " +
                        (!confirmed_oracle.error().empty() ? confirmed_oracle.error() : relaxed_oracle.error());

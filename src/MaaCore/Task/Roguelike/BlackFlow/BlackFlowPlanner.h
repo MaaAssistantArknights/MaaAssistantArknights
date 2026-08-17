@@ -83,8 +83,17 @@ struct BlackFlowPlan
 class BlackFlowPlanner
 {
 public:
+    // 框架层（Assistant::working_proc）不捕获任务异常；求解器分配失败等异常若从这里逃逸，
+    // 整个进程会 std::terminate，因此公开入口统一兜底转为 error 结果。
     [[nodiscard]] BlackFlowPlan plan(const BlackFlowPlanRequest& request) const;
     [[nodiscard]] PreviewSafetyVerification verify_previewed_move(
+        const BlackFlowPlanRequest& request,
+        const MoveCandidate& move,
+        int exact_action_point_cost) const;
+
+private:
+    [[nodiscard]] BlackFlowPlan plan_impl(const BlackFlowPlanRequest& request) const;
+    [[nodiscard]] PreviewSafetyVerification verify_previewed_move_impl(
         const BlackFlowPlanRequest& request,
         const MoveCandidate& move,
         int exact_action_point_cost) const;
