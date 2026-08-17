@@ -1098,6 +1098,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">揺蕩う影</system:String>
     <system:String x:Key="MiniGame@SecretFront">隠密戦線</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">小隊選択画面で開始します。セーブデータがある場合は手動で削除する必要があります。ゲーム内の ｢前の小隊からのデータを引き継ぐ｣ にチェックすることを推奨します。</system:String>
+    <system:String x:Key="MiniGame@InteractiveExhibition">奇象巡展-未収録の奇象を探す</system:String>
+    <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">選択したマップの高級エリアにある草原の右下からタスクを開始します。&#10;草原を行き来して未収録の生物を探し、見つかると自動的に停止します。&#10;生物に出会えるのは草原だけです。</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">奇象巡展：未収録の奇象を発見</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationContent">MAAは自動探索を停止しました。ゲームに戻って手動で戦闘を完了してください。</system:String>
     <system:String x:Key="MiniGame@PixelPaint">ピクセル画自動描画</system:String>
