@@ -83,6 +83,8 @@
     <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Url">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.HeadersPlaceholders">One per line: Name: Value</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.HeadersTip" xml:space="preserve">One custom HTTP header per line, format: Name: Value&#10;e.g. Content-Type: application/json; charset=utf-8</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">Message body template</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">Placeholders: {title}, {content}, {time}</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Presets">Preset Template</system:String>

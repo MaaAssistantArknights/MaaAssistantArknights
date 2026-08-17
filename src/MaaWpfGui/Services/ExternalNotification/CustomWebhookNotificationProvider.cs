@@ -38,11 +38,12 @@ public class CustomWebhookNotificationProvider(IHttpService httpService, CustomW
             return false;
         }
 
-        // 占位符替换
+        // 占位符替换；标题和内容会原样嵌入 JSON 模板的字符串字面量，
+        // 需转义反斜杠、引号和换行，否则含这些字符的任务日志会破坏 JSON 结构
         string now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         string body = bodyTemplate
-            .Replace("{title}", title.Replace("\r", string.Empty).Replace("\n", string.Empty))
-            .Replace("{content}", content.Replace("\r", string.Empty).Replace("\n", "\\n"))
+            .Replace("{title}", EscapeJsonString(title))
+            .Replace("{content}", EscapeJsonString(content))
             .Replace("{time}", now);
 
         var requestContent = new StringContent(body, Encoding.UTF8, "application/json");
@@ -70,4 +71,13 @@ public class CustomWebhookNotificationProvider(IHttpService httpService, CustomW
             return false;
         }
     }
+
+    /// <summary>
+    /// 转义嵌入 JSON 字符串字面量的特殊字符：反斜杠、引号；换行转为 \n 字面量，\r 丢弃。
+    /// </summary>
+    private static string EscapeJsonString(string value) => value
+        .Replace("\\", "\\\\")
+        .Replace("\"", "\\\"")
+        .Replace("\r", string.Empty)
+        .Replace("\n", "\\n");
 }

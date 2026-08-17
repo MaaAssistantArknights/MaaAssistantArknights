@@ -83,6 +83,8 @@
     <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Url">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.HeadersPlaceholders">한 줄에 하나, 형식: 이름: 값</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.HeadersTip" xml:space="preserve">사용자 지정 HTTP 헤더를 한 줄에 하나씩, 형식: 이름: 값&#10;예: Content-Type: application/json; charset=utf-8</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">메시지 본문 템플릿</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">플레이스홀더: {title}, {content}, {time}</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Presets">사전 설정 템플릿</system:String>

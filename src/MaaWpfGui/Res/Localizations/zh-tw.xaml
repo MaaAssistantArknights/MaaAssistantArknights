@@ -83,6 +83,8 @@
     <system:String x:Key="ExternalNotificationCustomWebhook">自定義 Webhook</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Url">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.HeadersPlaceholders">每行一條，格式：名稱: 值</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.HeadersTip" xml:space="preserve">每行一條自訂 HTTP Header，格式：名稱: 值&#10;例如：Content-Type: application/json; charset=utf-8</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">訊息本文範本</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">可用佔位符：{title}、{content}、{time}</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Presets">預製模板</system:String>

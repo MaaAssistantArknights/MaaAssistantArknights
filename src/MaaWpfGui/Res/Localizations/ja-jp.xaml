@@ -83,6 +83,8 @@
     <system:String x:Key="ExternalNotificationCustomWebhook">Custom Webhook</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Url">Webhook URL</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Headers">Webhook Headers</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.HeadersPlaceholders">1行に1つ、形式：名前: 値</system:String>
+    <system:String x:Key="ExternalNotificationCustomWebhook.HeadersTip" xml:space="preserve">カスタム HTTP ヘッダーは1行に1つ、形式：名前: 値&#10;例: Content-Type: application/json; charset=utf-8</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Body">メッセージ本文</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Placeholders">プレホルダー: {title}、{content}、{time}</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhook.Presets">プリセットテンプレート</system:String>
