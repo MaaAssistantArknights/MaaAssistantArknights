@@ -10,7 +10,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "BlackFlowSafetyPlanner.h"
+#include "BlackFlowStateSpace.h"
 
 namespace asst::blackflow
 {
@@ -95,8 +95,6 @@ private:
 
     [[nodiscard]] bool ensure_solved(SafetyStateId initial, std::string* error);
     [[nodiscard]] bool discover_closure(SafetyStateId initial);
-    [[nodiscard]] bool ensure_bounded_solved(SafetyStateId initial, int maximum_action_points, std::string* error);
-    [[nodiscard]] bool discover_bounded_closure(SafetyStateId initial, int maximum_action_points);
     [[nodiscard]] bool solve_fixed_point();
     [[nodiscard]] int action_value(const SafetyValueAction& action) const noexcept;
     [[nodiscard]] int solve_bounded_recursive(SafetyStateId state, int maximum_action_points);

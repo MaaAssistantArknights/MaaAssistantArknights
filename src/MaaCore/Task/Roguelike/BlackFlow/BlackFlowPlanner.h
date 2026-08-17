@@ -7,7 +7,6 @@
 #include <vector>
 
 #include "BlackFlowPolicy.h"
-#include "BlackFlowSafetyPlanner.h"
 #include "BlackFlowStateSpace.h"
 
 namespace asst::blackflow
@@ -53,6 +52,14 @@ struct PreviewSafetyVerification
     std::string error;
 };
 
+// 安全值的评估结论：当前状态距安全出口还需多少行动力，以及首个动作与证明深度。
+struct SafetyAssessment
+{
+    int required_action_points = UnreachableActionPointRequirement;
+    std::optional<std::string> first_action;
+    std::optional<std::size_t> proof_depth;
+};
+
 struct BlackFlowPlan
 {
     SafetyAssessment safety;
@@ -61,7 +68,6 @@ struct BlackFlowPlan
     // 本轮实际锁定的强制目标，以及因为证不出可行而降级成倾向的那些。
     std::unordered_set<std::string> binding_milestone_ids;
     std::vector<std::string> demoted_milestone_ids;
-    std::optional<MoveCandidate> escape_first_action;
     std::uint64_t map_revision = 0;
     std::uint64_t cost_revision = 0;
     std::size_t confirmed_state_count = 0;

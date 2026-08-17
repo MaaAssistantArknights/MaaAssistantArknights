@@ -1777,23 +1777,12 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
                        (!confirmed_oracle.error().empty() ? confirmed_oracle.error() : relaxed_oracle.error());
         return result;
     }
-    result.safety.solution.required_action_points.emplace(
-        confirmed_graph.initial_state(),
-        result.safety.required_action_points);
     if (result.safety.required_action_points < UnreachableActionPointRequirement) {
         result.safety.proof_depth =
             confirmed_oracle.cached_depth(confirmed_graph.initial_state(), result.safety.required_action_points);
         result.safety.first_action = confirmed_oracle.lexicographic_first_action(
             confirmed_graph.initial_state(),
             result.safety.required_action_points);
-        if (result.safety.proof_depth.has_value()) {
-            result.safety.solution.proof_depth.emplace(confirmed_graph.initial_state(), *result.safety.proof_depth);
-        }
-        if (result.safety.first_action.has_value()) {
-            result.safety.solution.selected_actions.emplace(
-                confirmed_graph.initial_state(),
-                *result.safety.first_action);
-        }
     }
 
     const auto* confirmed_root_action_list = confirmed_graph.actions(confirmed_graph.initial_state(), &error);
@@ -1801,34 +1790,13 @@ BlackFlowPlan BlackFlowPlanner::plan(const BlackFlowPlanRequest& request) const
         result.error = "confirmed root action generation failed: " + error;
         return result;
     }
-    if (result.safety.first_action.has_value()) {
-        const auto found = std::ranges::find_if(*confirmed_root_action_list, [&](const OnDemandSafetyAction& action) {
-            return action.candidate.action_id == *result.safety.first_action;
-        });
-        if (found != confirmed_root_action_list->end()) {
-            result.escape_first_action = found->candidate;
-        }
-    }
 
-    result.relaxed_safety.solution.required_action_points.emplace(
-        relaxed_graph.initial_state(),
-        result.relaxed_safety.required_action_points);
     if (result.relaxed_safety.required_action_points < UnreachableActionPointRequirement) {
         result.relaxed_safety.proof_depth =
             relaxed_oracle.cached_depth(relaxed_graph.initial_state(), result.relaxed_safety.required_action_points);
         result.relaxed_safety.first_action = relaxed_oracle.lexicographic_first_action(
             relaxed_graph.initial_state(),
             result.relaxed_safety.required_action_points);
-        if (result.relaxed_safety.proof_depth.has_value()) {
-            result.relaxed_safety.solution.proof_depth.emplace(
-                relaxed_graph.initial_state(),
-                *result.relaxed_safety.proof_depth);
-        }
-        if (result.relaxed_safety.first_action.has_value()) {
-            result.relaxed_safety.solution.selected_actions.emplace(
-                relaxed_graph.initial_state(),
-                *result.relaxed_safety.first_action);
-        }
     }
 
     const auto* relaxed_root_action_list = relaxed_graph.actions(relaxed_graph.initial_state(), &error);

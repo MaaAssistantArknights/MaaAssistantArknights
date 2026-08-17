@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <deque>
+#include <limits>
 #include <memory>
 #include <optional>
 #include <string>
@@ -13,11 +14,14 @@
 
 #include "BlackFlowModel.h"
 #include "BlackFlowSafetyGoal.h"
-#include "BlackFlowSafetyPlanner.h"
 
 namespace asst::blackflow
 {
 class BlackFlowCompactStateSpace;
+
+using SafetyStateId = std::uint32_t;
+inline constexpr int UnreachableActionPointRequirement = std::numeric_limits<int>::max() / 4;
+
 using PlannerNodeMask = std::uint64_t;
 
 struct PlannerState
