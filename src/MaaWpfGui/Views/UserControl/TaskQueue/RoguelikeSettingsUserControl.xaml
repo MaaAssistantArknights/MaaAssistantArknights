@@ -124,6 +124,7 @@
                     IsEditable="True"
                     IsTextSearchEnabled="False"
                     ItemsSource="{Binding RoguelikeCoreCharList}"
+                    ScrollViewer.CanContentScroll="False"
                     Loaded="{s:Action MakeComboBoxSearchable,
                                       Target={x:Type ui_vms:SettingsViewModel}}">
                     <hc:ComboBox.Text>
