@@ -135,6 +135,5 @@ Example: Assuming you have 100 sanity, the stage costs 6 sanity, and the stage m
 ## Error Handling
 
 - Automatically checks `Auto Deploy` if it's available.
-- Automatically reconnects and continues tasks after disconnections or the daily 4 AM server reset.
 - Continues tasks after level-ups.
 - If auto-deploy fails, abandons the current operation and retries the battle.

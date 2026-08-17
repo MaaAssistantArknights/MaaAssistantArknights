@@ -103,8 +103,10 @@ public static class ConfigurationKeys
     public const string EmulatorAddCommand = "Start.EmulatorAddCommand"; // √
     public const string EmulatorWaitSeconds = "Start.EmulatorWaitSeconds"; // √
 
+    // 旧版掉线重连开关，功能已移除，仅用于迁移时清理残留配置
+    public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop";
+
     // 仅在理智作战的任务中会生效，前缀需要修改
-    public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop"; // √
     public const string StartsWithScript = "Start.StartsWithScript"; // √
     public const string EndsWithScript = "Start.EndsWithScript"; // √
     public const string CopilotWithScript = "Start.CopilotWithScript"; // √

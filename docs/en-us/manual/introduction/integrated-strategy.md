@@ -60,6 +60,5 @@ For details, see the [Integrated Strategy Protocol](../../protocol/integrated-st
 
 - If a task encounters problems, it will automatically abandon the current exploration and retry.
 - If battle duration exceeds 5 minutes, all ground units will automatically retreat; if it exceeds 6 minutes, the current battle will be automatically abandoned to avoid time-consuming stalemates.
-- To automatically reconnect and continue tasks after intermittent disconnections or updates, please also enable the Start Wake-Up Task and set the corresponding time for forced scheduled start.
 
 If the program gets stuck at the same location multiple times, please submit an Issue with logs and screenshots.

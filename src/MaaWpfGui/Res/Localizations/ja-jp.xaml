@@ -508,7 +508,6 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="MinimizeAfterLaunch">アプリの起動時に自動的に最小化</system:String>
     <system:String x:Key="ClientType">クライアントバージョン</system:String>
     <system:String x:Key="StartGameLaunchClient">起動時にクライアントを開始する</system:String>
-    <system:String x:Key="AutoRestartOption">ゲームが切断されたときに自動的に再接続する</system:String>
     <system:String x:Key="UseWeeklySchedule">週次スケジュールを有効にする</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">ここでの曜日はゲーム内時間に基づいており、現実時間ではありません。例えば、ゲームが4:00にリセットされる場合、3:59は前日としてカウントされます。</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
@@ -1370,8 +1369,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FightTimesUnused">{0} 回の戦闘を完了しました。次回は {1} 回の乗数プロキシを実行します。参加後、{2} 回の戦闘を完了します。{3} 回の制限を超えたため、戦闘には参加しません。</system:String>
     <system:String x:Key="UpperLimit">源石錐が上限に達しました</system:String>
     <system:String x:Key="GameCrash">ゲームがクラッシュ。再起動を行います</system:String>
-    <system:String x:Key="GameDrop">回線が落ちました。再接続を行います</system:String>
-    <system:String x:Key="GameDropNoRestart">ゲームが落ちたため、再接続せず任務を停止します</system:String>
+    <system:String x:Key="GameDrop">回線が落ちたため、タスクを停止します</system:String>
     <system:String x:Key="RoguelikeGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">スペシャルアイテムを購入しました！</system:String>
     <system:String x:Key="MonthlySquadCompleted">月間チーム全てクリアしました！おめでとうございます！</system:String>

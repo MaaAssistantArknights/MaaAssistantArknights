@@ -508,7 +508,6 @@ D:\
     <system:String x:Key="MinimizeAfterLaunch">啟動 MAA 後直接最小化</system:String>
     <system:String x:Key="ClientType">用戶端類型</system:String>
     <system:String x:Key="StartGameLaunchClient">是否啟動用戶端</system:String>
-    <system:String x:Key="AutoRestartOption">遊戲斷線時自動重連</system:String>
     <system:String x:Key="UseWeeklySchedule">使用週計畫</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">此處的星期是根據遊戲時間計算的，並非現實時間。例如遊戲在 4:00 刷新，則 3:59 仍算作前一天。</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服支援人力吃緊，幫幫我們！不會寫程式也可以參與。</system:String>
@@ -1370,8 +1369,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FightTimesUnused">已完成 {0} 次戰鬥，下次將執行 {1} 倍率代理，進入後將完成 {2} 次戰鬥，超過 {3} 次限制，不進入戰鬥</system:String>
     <system:String x:Key="UpperLimit">投資已達上限</system:String>
     <system:String x:Key="GameCrash">遊戲崩潰，重新啟動</system:String>
-    <system:String x:Key="GameDrop">遊戲斷線，重新連線</system:String>
-    <system:String x:Key="GameDropNoRestart">遊戲斷線，不重新連線，停止任務</system:String>
+    <system:String x:Key="GameDrop">遊戲斷線，停止任務</system:String>
     <system:String x:Key="RoguelikeGamePass">肉鴿通關啦！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">購買了特殊商品！</system:String>
     <system:String x:Key="MonthlySquadCompleted">月度小隊清完啦！</system:String>
