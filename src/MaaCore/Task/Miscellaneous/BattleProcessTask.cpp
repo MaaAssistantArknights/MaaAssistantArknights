@@ -248,7 +248,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
     }
 
     bool ret = false;
-    const auto& [role, name] = get_name_from_group(action.role, action.name);
+    const auto& [/*可unknown*/ role, name] = get_name_from_group(action.role, action.name);
     const auto& location = action.location;
 
     switch (action.type) {
@@ -301,11 +301,18 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
             LogError << "Both name and location are set for SkillUsage action. Skip this step.";
             break;
         }
-        else if (location.empty()) {
-            auto tag_opt = get_oper_tag({ role, name });
-            set_usage(tag_opt, action.modify_usage, action.modify_times);
+        else if (location.empty()) { // 坐标为空, 指定oper name
+            auto tag_it = std::ranges::find_if(m_skill_usage, [&](const auto& pair) {
+                return (role == battle::Role::Unknown || pair.first.role == role) && pair.first.name == name;
+            });
+            if (tag_it != m_skill_usage.end()) {
+                set_usage(tag_it->first, action.modify_usage, action.modify_times);
+            }
+            else {
+                set_usage({ role, name }, action.modify_usage, action.modify_times);
+            }
         }
-        else {
+        else { // oper name为空, 指定坐标
             battle::Role _role;
             std::string drone_name;
             if (auto it = m_used_tiles.find(location); it == m_used_tiles.end()) {

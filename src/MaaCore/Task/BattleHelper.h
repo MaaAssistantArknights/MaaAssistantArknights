@@ -59,10 +59,6 @@ protected:
 
     cv::Mat get_top_view(const cv::Mat& cam_img, bool side = true, bool has_multi_stages = false);
 
-    // 从作业中的可空role干员匹配到实际的干员职业和名称
-    battle::OperNameTag get_oper_tag(battle::Role role, const std::string& name);
-    battle::OperNameTag get_oper_tag(const battle::OperNameTag& tag);
-    std::optional<battle::OperNameTag> get_oper_skill_tag(const battle::OperNameTag& tag);
     bool deploy_oper(const std::string& name, const Point& loc, battle::DeployDirection direction);
     bool deploy_oper(battle::Role role, const std::string& name, const Point& loc, battle::DeployDirection direction);
     bool retreat_oper(const std::string& name);
@@ -129,9 +125,13 @@ protected:
     Point m_skill_button_pos;
     Point m_retreat_button_pos;
     bool m_has_multi_stages = false;
+    // 技能用法, <可unknown职业,名称> -> <用法>
     std::unordered_map<battle::OperNameTag, battle::SkillUsage> m_skill_usage;
-    std::unordered_map<battle::OperNameTag, int> m_skill_times;
+    // 技能使用次数, <可unknown职业,名称> -> <次数>
+    std::unordered_map<battle::OperNameTag, int> m_skill_times; 
+    // 技能就绪状态错误计数, <可unknown职业,名称> -> <次数>
     std::unordered_map<battle::OperNameTag, int> m_skill_error_count;
+    // 上次使用技能的时间, <实际职业,名称> -> <时间>
     std::unordered_map<battle::OperNameTag, std::chrono::steady_clock::time_point> m_last_use_skill_time;
     int m_camera_count = 0;
     bool m_in_speedup = false; // 是否处于2倍速
@@ -147,8 +147,8 @@ protected:
 
     std::vector<battle::DeploymentOper> m_cur_deployment_opers;
 
-    std::map<battle::OperNameTag, Point> m_battlefield_opers;
-    std::map<Point, battle::OperNameTag> m_used_tiles;
+    std::map<battle::OperNameTag, Point> m_battlefield_opers; // 已部署的干员, <实际职业,名称> -> <坐标>
+    std::map<Point, battle::OperNameTag> m_used_tiles;        // 已占用的格子, <坐标> -> <实际职业,名称>
 
 private:
     InstHelper m_inst_helper;

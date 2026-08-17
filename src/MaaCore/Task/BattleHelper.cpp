@@ -402,44 +402,6 @@ bool asst::BattleHelper::update_cost(const cv::Mat& image, const cv::Mat& image_
     return true;
 }
 
-asst::battle::OperNameTag asst::BattleHelper::get_oper_tag(battle::Role role, const std::string& name)
-{
-    auto deployed_it = std::ranges::find_if(m_battlefield_opers, [&](const auto& pair) {
-        return (role == battle::Role::Unknown || pair.first.role == role) && pair.first.name == name;
-    });
-    if (deployed_it != m_battlefield_opers.cend()) {
-        return battle::OperNameTag { deployed_it->first.role, deployed_it->first.name };
-    }
-    auto it = std::ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) {
-        return (role == battle::Role::Unknown || oper.role == role) && oper.name == name;
-    });
-    if (it != m_cur_deployment_opers.cend()) {
-        return battle::OperNameTag { it->role, it->name };
-    }
-    return battle::OperNameTag { role, name };
-}
-
-asst::battle::OperNameTag asst::BattleHelper::get_oper_tag(const battle::OperNameTag& tag)
-{
-    return get_oper_tag(tag.role, tag.name);
-}
-
-std::optional<asst::battle::OperNameTag> asst::BattleHelper::get_oper_skill_tag(const battle::OperNameTag& tag)
-{
-    auto it = std::ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) {
-        return (tag.role == battle::Role::Unknown || oper.role == tag.role) && oper.name == tag.name;
-    });
-    if (it != m_cur_deployment_opers.cend()) {
-        return battle::OperNameTag { it->role, it->name };
-    }
-    it = std::ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == tag.name; });
-    if (it != m_cur_deployment_opers.cend()) {
-        return battle::OperNameTag { it->role, it->name };
-    }
-    LogError << __FUNCTION__ << "No oper" << tag;
-    return std::nullopt;
-}
-
 bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, DeployDirection direction)
 {
     return deploy_oper(battle::Role::Unknown, name, loc, direction);
@@ -798,10 +760,20 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
     const auto now = std::chrono::steady_clock::now();
     const cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     for (const auto& [oper_tag, loc] : m_battlefield_opers) {
-        const auto& skill_opt = get_oper_tag(oper_tag);
-        auto& usage = m_skill_usage[skill_opt];
-        auto& times = m_skill_times[skill_opt];
-        auto& retry = m_skill_error_count[oper_tag];
+        const auto& skill_it = std::ranges::find_if(m_skill_usage, [&](const auto& pair) {
+            return (oper_tag.role == battle::Role::Unknown || pair.first.role == oper_tag.role) &&
+                   pair.first.name == oper_tag.name;
+        });
+        battle::OperNameTag skill_tag;
+        if (skill_it == m_skill_usage.cend()) {
+            skill_tag = oper_tag;
+        }
+        else {
+            skill_tag = skill_it->first;
+        }
+        auto& usage = m_skill_usage[skill_tag];
+        auto& times = m_skill_times[skill_tag];
+        auto& retry = m_skill_error_count[skill_tag];
         auto& last_use_time = m_last_use_skill_time[oper_tag];
         if (usage != SkillUsage::Possibly && usage != SkillUsage::Times) {
             continue;
