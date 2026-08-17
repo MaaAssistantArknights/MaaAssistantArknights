@@ -483,6 +483,10 @@ NodeSelector parse_node_selector(const json::value& value)
     return result;
 }
 
+// 黑流树海共六层（三结局在第六层完成）；该上限同时约束 node_execution 配置的逐层交叉校验循环，
+// 缺了它时层段写飞会让校验按楼层数量空转。
+constexpr int MaximumMilestoneFloor = 6;
+
 Milestone parse_milestone(const json::value& value)
 {
     check_keys(
@@ -536,7 +540,8 @@ Milestone parse_milestone(const json::value& value)
         invalid_config("milestone on_miss terminate requires miss_outcome and miss_reason: " + result.id);
     }
     if (result.id.empty() || result.floor_begin < 1 || result.floor_end < result.floor_begin ||
-        result.required_count < 1 || result.weight < 1 || result.minimum_unknown_nodes_revealed < 0) {
+        result.floor_end > MaximumMilestoneFloor || result.required_count < 1 || result.weight < 1 ||
+        result.minimum_unknown_nodes_revealed < 0) {
         invalid_config("milestone id, floor window, count, weight, or reveal threshold is invalid");
     }
     if (result.minimum_unknown_nodes_revealed > 0 &&
