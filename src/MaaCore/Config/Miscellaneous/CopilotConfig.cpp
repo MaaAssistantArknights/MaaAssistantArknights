@@ -259,7 +259,7 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
         auto post_delay_opt = action_info.find<int>("post_delay");
         // 历史遗留字段，兼容一下
         action.post_delay = post_delay_opt ? *post_delay_opt : action_info.get("rear_delay", 0);
-        action.time_out = action_info.get("timeout", INT_MAX);
+        action.timeout_ms = action_info.get("timeout", -1);
         action.doc = action_info.get("doc", std::string());
         action.doc_color = action_info.get("doc_color", std::string());
 
@@ -276,9 +276,20 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
         // ————————————————————————————————————————————————————————————————
         // 实验性功能
         // ————————————————————————————————————————————————————————————————
-        // 跳过使用未准备好的技能，主要用于关闭技能的场景
-        if (action.type == ActionType::UseSkill) {
-            action.skip_if_not_ready = action_info.get("skip_if_not_ready", false);
+        // 跳过使用未准备好的技能，主要用于关闭技能的场景 已废弃
+        if (action_info.contains("skip_if_not_ready")) {
+            LogWarn << "================  DEPRECATED  ================";
+            LogWarn << "The field 'skip_if_not_ready' is deprecated and will be removed in future versions.";
+            LogWarn << "================  DEPRECATED  ================";
+            if (action_info.contains("timeout")) {
+                LogError << __FUNCTION__ << "| Both 'timeout' and 'skip_if_not_ready' are setted. Ignore step";
+                continue;
+            }
+            else {
+                if (action_info.get("skip_if_not_ready", false)) {
+                    action.timeout_ms = 0;
+                }
+            }
         }
 
         // 计时器

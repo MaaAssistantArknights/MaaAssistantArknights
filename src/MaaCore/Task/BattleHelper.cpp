@@ -603,12 +603,12 @@ bool asst::BattleHelper::is_skill_ready(battle::Role role, const std::string& na
     return is_skill_ready(oper_iter->second, reusable);
 }
 
-bool asst::BattleHelper::use_skill(const std::string& name, bool keep_waiting)
+bool asst::BattleHelper::use_skill(const std::string& name, int timeout_ms)
 {
-    return use_skill(battle::Role::Unknown, name, keep_waiting);
+    return use_skill(battle::Role::Unknown, name, timeout_ms);
 }
 
-bool asst::BattleHelper::use_skill(battle::Role role, const std::string& name, bool keep_waiting)
+bool asst::BattleHelper::use_skill(battle::Role role, const std::string& name, int timeout_ms)
 {
     LogTraceFunction;
 
@@ -620,14 +620,14 @@ bool asst::BattleHelper::use_skill(battle::Role role, const std::string& name, b
         return false;
     }
 
-    return use_skill(oper_iter->second, keep_waiting);
+    return use_skill(oper_iter->second, timeout_ms);
 }
 
-bool asst::BattleHelper::use_skill(const Point& loc, bool keep_waiting)
+bool asst::BattleHelper::use_skill(const Point& loc, int timeout_ms)
 {
     LogTraceFunction;
 
-    return click_oper_on_battlefield(loc) && click_skill(keep_waiting) && m_inst_helper.sleep(200);
+    return click_oper_on_battlefield(loc) && click_skill(timeout_ms) && m_inst_helper.sleep(200);
 }
 
 bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
@@ -979,25 +979,24 @@ bool asst::BattleHelper::click_retreat()
     return ret;
 }
 
-bool asst::BattleHelper::click_skill(bool keep_waiting)
+bool asst::BattleHelper::click_skill(int timeout_ms)
 {
     LogTraceFunction;
+    const auto start_time = std::chrono::steady_clock::now();
     bool deploy_with_pause =
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
 
     bool pausing = false;
-    if (!keep_waiting && deploy_with_pause) {
+    if (timeout_ms < 0 && deploy_with_pause) {
         pausing = ProcessTask(this_task(), { "BattlePause" }).run();
     }
 
     cv::Mat top_view;
     cv::Mat image;
-    for (int retry = 0; retry < (keep_waiting ? 1000 : 5); ++retry) {
-        if (m_inst_helper.need_exit()) {
-            return false;
-        }
+    int retry = 0;
+    while (!m_inst_helper.need_exit()) {
         image = m_inst_helper.ctrler()->get_image();
-        if (keep_waiting && retry > 0 && (retry % 10 == 0) && !check_in_battle(image)) {
+        if (retry > 0 && (retry % 10 == 0) && !check_in_battle(image)) {
             return false;
         }
         top_view = get_top_view(image, true, m_has_multi_stages);
@@ -1011,7 +1010,16 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
             }
             return true;
         }
+        if (timeout_ms > -1) {
+            const auto elapsed_ms =
+                std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time)
+                    .count();
+            if (elapsed_ms >= timeout_ms) {
+                break;
+            }
+        }
         m_inst_helper.sleep(Config.get_options().task_delay);
+        ++retry;
     }
 
     // this means false positive in skill ready detection
