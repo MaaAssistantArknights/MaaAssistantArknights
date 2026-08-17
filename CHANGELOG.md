@@ -1,33 +1,41 @@
-## v6.17.0-beta.1
+## v6.17.0-beta.2
 
 ### Highlights
+
+#### 黑流树海肉鸽适配
+
+新增适配黑流树海肉鸽，支持刷等级、刷源石锭、刷襁褓动物三个策略。
+
+#### 启动文件缺失检查
+
+启动时比对安装文件完整性，发现文件缺失时提示，并支持从更新源重新下载完整包自动修复。
+
+#### 移除掉线重连，通宵挂机改用定时启动
+
+掉线重连的恢复链状态复杂且维护成本高，已移除；通宵挂机场景请改用定时启动与强制定时启动。
 
 #### 外服 PC 端适配
 
 PC 端游戏窗口标题按客户端类型解析，外服明日方舟 PC 端也能识别与连接。明日方舟 PC 端为社区维护、不保证可用性，如非必要建议优先使用 ADB 连接模拟器或手机。
 
-#### 像素画支持粘贴
-
-像素画自动填色新增粘贴功能：可直接从剪贴板粘贴图片，也支持粘贴 4 字以内的文本生成像素画。
-
-#### 繁中服界园肉鸽 DLC 适配
-
-繁中服启用界园肉鸽 DLC 分队（知学分队、商贾分队等），并补充相关参数与 OCR 适配。
-
 <details>
 <summary><b>English</b></summary>
+
+#### BlackFlow Roguelike
+
+Added support for the BlackFlow (黑流树海) roguelike theme, with the level-farming, Originium Ingot investment, and cultivation strategies.
+
+#### Startup File Integrity Check
+
+On startup, installed files are now verified against the file list; missing files are reported and can be repaired automatically by re-downloading the full package from the update source.
+
+#### Reconnect Removed in Favor of Scheduled Startup
+
+The reconnect-after-disconnect logic has been removed due to the complexity and maintenance cost of restoring the chain state; for overnight sessions, please switch to scheduled startup and forced scheduled startup instead.
 
 #### PC Client Support for Global Servers
 
 The PC client window title is now resolved by client type, so global Arknights PC clients can also be recognized and connected. Note that the Arknights PC client is community-maintained with no availability guarantee — connecting via ADB to an emulator or a phone is still recommended.
-
-#### Pixel Art Paste
-
-Pixel art auto-filling now supports pasting: paste an image directly from the clipboard, or paste text of up to 4 characters to generate pixel art.
-
-#### txwy Jie Garden Roguelike DLC
-
-Enabled the Jie Garden roguelike DLC squads (e.g. Knowledge Squad, Merchant Squad) for txwy, along with related parameters and OCR adaptations.
 
 </details>
 
@@ -36,6 +44,43 @@ Enabled the Jie Garden roguelike DLC squads (e.g. Knowledge Squad, Merchant Squa
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.0-beta.2 (2026-08-18)</b></summary>
+
+### 新增 | New
+
+* 新增适配黑流树海肉鸽，支持 ｢刷等级，快速飞三层｣ ｢刷源石锭，投资完成后自动退出｣ ｢刷襁褓动物｣ 三个策略 ([#17380](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17380)) @DavidWang19 @ZiyinLin @sakevel @status102 @walkerljy @ABA2396
+* 新增启动文件缺失检查，发现安装文件缺失时提示，并支持从更新源重新下载完整包自动修复 ([#17725](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17725)) @ABA2396
+* 奇象巡展发现未收录奇象时发送通知，并简化通知文案 ([#17744](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17744)) @LengmoAngel @ABA2396
+* 自动战斗支持指定职业以区分同名干员，并兼容职业大小写 ([#17544](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17544)) @status102
+* 自动战斗使用技能支持超时参数 ([#17734](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17734)) @status102
+* 库存保持任务支持因理智不足跳过后续任务 ([#17741](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17741)) @ABA2396
+
+### 改进 | Improved
+
+* 移除掉线重连逻辑，恢复链状态复杂且维护成本高；通宵挂机请改用定时启动与强制定时启动 ([#17742](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17742)) @ABA2396
+* 查找干员在职业未知时回退到按名称匹配，避免检索失败 ([#17735](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17735)) @yali-hzy
+* 刷理智代理倍率识别改用 RGB 颜色匹配，提升识别稳定性 ([#17719](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17719)) @status102
+* 保全作业浏览时不自动添加到作业列表 @status102
+* 截图耗时 100ms 以上且未启用截图增强时，补充截图优化建议，并优化截图增强报错与设置指引 @ABA2396
+* 优化启动设置页提示与自动战斗缺少干员时的报错描述 @ABA2396
+* 繁中服补全并调整界园肉鸽通宝权重 ([#16306](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/16306)) @travellerse
+* 繁中服更新界园肉鸽干员管理入口模板 ([#16634](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/16634)) @abmcar
+* 打包时用原生启动器替换 MAA.exe 的 apphost，MAA.exe 被单独移动等文件不完整的情况能给出明确提示，不再误报未安装 .NET ([#17727](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17727)) @ABA2396
+* 切换客户端后断开现有连接 @ABA2396
+
+### 修复 | Fix
+
+* 修复自定义 Webhook 无法通过 Headers 设置 Content-Type 导致通知发送失败的问题，消息体占位符补全 Json 转义 @ABA2396
+* 修复 ｢开始任务：｣ 分隔栏在界面最小化时无法正确添加、Rectangle 无法显示的问题 @ABA2396
+* 修复自动战斗技能用法设置失效、待部署等待干员就绪检测阻塞、非自动编队下预分配失败后重复添加干员数据、编入干员分组算法无法比对等问题 @status102 @yali-hzy
+
+### 文档 | Docs
+
+* 补充会客室取下线索的说明 @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.17.0-beta.1 (2026-08-14)</b></summary>
 
 ### 新增 | New
