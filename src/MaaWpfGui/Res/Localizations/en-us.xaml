@@ -1490,6 +1490,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowTerminationEnding3RelicMissing">The Ending 3 relic was not obtained before floor 5</system:String>
     <system:String x:Key="BlackFlowTerminationNoBoskyPassage">No bosky passage was found on floor 3; this run's route is complete</system:String>
     <system:String x:Key="BlackFlowTerminationActionPointsExhaustedBeforeCultivation">Action points were exhausted on floor 3 before cultivation was completed</system:String>
+    <system:String x:Key="BlackFlowTerminationScrapShopNeverReached">No scrap trader was reached; this run has ended</system:String>
     <system:String x:Key="BlackFlowTerminationRecoveryPortUnavailable">Map recovery interface is unavailable</system:String>
     <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">Map perception and task interfaces are unavailable</system:String>
     <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">Map rebuild failed twice consecutively</system:String>

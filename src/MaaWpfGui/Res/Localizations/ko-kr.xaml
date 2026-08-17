@@ -1492,6 +1492,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowTerminationEnding3RelicMissing">5층 전까지 제3 엔딩용 수집품을 획득하지 못함</system:String>
     <system:String x:Key="BlackFlowTerminationNoBoskyPassage">3층에서 잘못 들어간 기경을 발견하지 못해 이번 경로 완료</system:String>
     <system:String x:Key="BlackFlowTerminationActionPointsExhaustedBeforeCultivation">3층에서 행동력이 소진되어 육성을 완료하지 못함</system:String>
+    <system:String x:Key="BlackFlowTerminationScrapShopNeverReached">비경 행상인에 도달하지 못해 이번 판 종료</system:String>
     <system:String x:Key="BlackFlowTerminationRecoveryPortUnavailable">지도 복구 인터페이스를 사용할 수 없음</system:String>
     <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">지도 인식·작업 인터페이스를 사용할 수 없음</system:String>
     <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">지도 재구축 2회 연속 실패</system:String>

@@ -1023,7 +1023,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     {
         "investment_finished" => LocalizationHelper.GetString("BlackFlowTerminationInvestmentFinished"),
         "investment_shop_window_closed" => LocalizationHelper.GetString("BlackFlowTerminationInvestmentShopWindowClosed"),
-        "third_floor_portal_entered" => LocalizationHelper.GetString("BlackFlowTerminationFloor3Reached"),
+        "third_floor_reached" => LocalizationHelper.GetString("BlackFlowTerminationFloor3Reached"),
         "cultivation_result_reported" => LocalizationHelper.GetString("BlackFlowTerminationCultivationReported"),
         "cultivation_target_obtained" => LocalizationHelper.GetString("BlackFlowTerminationCultivationTargetObtained"),
         "cultivation_target_not_obtained" => LocalizationHelper.GetString("BlackFlowTerminationCultivationTargetNotObtained"),
@@ -1037,6 +1037,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         "fifth_floor_reached_without_special_device" => LocalizationHelper.GetString("BlackFlowTerminationEnding3RelicMissing"),
         "third_floor_has_no_portal" => LocalizationHelper.GetString("BlackFlowTerminationNoBoskyPassage"),
         "third_floor_action_points_exhausted" => LocalizationHelper.GetString("BlackFlowTerminationActionPointsExhaustedBeforeCultivation"),
+        "scrap_shop_never_reached" => LocalizationHelper.GetString("BlackFlowTerminationScrapShopNeverReached"),
         "map recovery port is unavailable" => LocalizationHelper.GetString("BlackFlowTerminationRecoveryPortUnavailable"),
         "BlackFlow perception and task port is not attached" => LocalizationHelper.GetString("BlackFlowTerminationPerceptionPortUnavailable"),
         "map rebuild failed twice" => LocalizationHelper.GetString("BlackFlowTerminationMapRebuildFailedTwice"),

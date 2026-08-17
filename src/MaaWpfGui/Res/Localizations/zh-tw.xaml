@@ -1490,6 +1490,7 @@ C:\\leidian\\LDPlayer9\n
     <system:String x:Key="BlackFlowTerminationEnding3RelicMissing">第五層前仍未取得三結局所需藏品</system:String>
     <system:String x:Key="BlackFlowTerminationNoBoskyPassage">第三層未發現誤入奇境，本局路線完成</system:String>
     <system:String x:Key="BlackFlowTerminationActionPointsExhaustedBeforeCultivation">第三層行動力耗盡，未完成培育</system:String>
+    <system:String x:Key="BlackFlowTerminationScrapShopNeverReached">沒有到達秘境行商，本局結束</system:String>
     <system:String x:Key="BlackFlowTerminationRecoveryPortUnavailable">地圖恢復介面不可用</system:String>
     <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">地圖識別與任務介面不可用</system:String>
     <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">連續兩次地圖重建失敗</system:String>

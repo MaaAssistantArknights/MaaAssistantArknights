@@ -1491,6 +1491,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowTerminationEnding3RelicMissing">第5層までに第三エンディング用の収蔵品を入手できませんでした</system:String>
     <system:String x:Key="BlackFlowTerminationNoBoskyPassage">第3層で迷い込んだ奇境が見つからず今回の経路は完了</system:String>
     <system:String x:Key="BlackFlowTerminationActionPointsExhaustedBeforeCultivation">第3層で行動力を使い切り育成を完了できませんでした</system:String>
+    <system:String x:Key="BlackFlowTerminationScrapShopNeverReached">秘境の行商人に到達できず今回の探索を終了</system:String>
     <system:String x:Key="BlackFlowTerminationRecoveryPortUnavailable">マップ復旧インターフェースが利用不可</system:String>
     <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">地図認識・タスクインターフェースが利用不可</system:String>
     <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">マップ再構築が連続2回失敗</system:String>
