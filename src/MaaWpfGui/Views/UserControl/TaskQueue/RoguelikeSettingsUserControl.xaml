@@ -110,6 +110,12 @@
                             </MultiBinding>
                         </controls:TooltipBlock.TooltipText>
                     </controls:TooltipBlock>
+                    <controls:TextBlock
+                        MaxWidth="100"
+                        Margin="4,0,0,0"
+                        Foreground="{DynamicResource InfoBrush}"
+                        Text="{DynamicResource RoguelikeThemeTipRecommended}"
+                        TextWrapping="Wrap" />
                 </StackPanel>
                 <hc:ComboBox
                     Name="StartingCoreCharComboBox"

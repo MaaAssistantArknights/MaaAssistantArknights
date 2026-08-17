@@ -234,6 +234,7 @@
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初の{key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。</system:String>
+    <system:String x:Key="RoguelikeThemeTipRecommended">←必読推奨</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">この{key=Operator}がbattle_dataにありません。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo"> ｢{key=StartingCoreChar}｣ 直接昇進</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo"> ｢{key=StartingCoreChar}｣ の昇進招集までリセマラし、戦闘を行わない</system:String>
@@ -592,6 +593,23 @@ MAA は非インストール型のアプリケーションであり、レジス�
 2. 指揮回避戦闘戦術を使うと源石錐稼ぎ効率が大幅に向上し、高速レベリング（攻略を狙わない）にも使用できますが、戦略を ｢源石錐稼ぎ｣ に設定する必要があります
 3. 解放済みの最高難易度が N3 未満、または関連知識を解放していない場合は指揮回避戦闘戦術を使用しないでください。エラーの原因になります
 4. 最高難易度が N15 以上の場合、6★オペレーターの希望消費が+1になり、一部の分隊では開始時に6★オペレーターを招集できず、エラーや失敗を招く可能性があります</system:String>
+    <system:String x:Key="RoguelikeThemeTipBlackFlow" xml:space="preserve">{key=RoguelikeThemeBlackFlow}推奨構成:
+
+{key=StartingCoreChar}: 機械師（昇進済みであること）
+{key=StartingSquad}: ｢{key=SpecialForceSquad}｣ / ｢{key=TacticalFortificationOperative}｣
+{key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
+
+1. 現時点では専用の戦闘戦略はなく、戦闘は募集スコアリングによる自動判断に任されています。
+    源石錠稼ぎ・レベル稼ぎ・襁褓動物育成は、いずれも昇進済み機械師の ｢飛び｣ を軸に回っています。
+    今回のローグライクは特殊なギミックが多く、上記の構成で開局しない場合はデフォルトの経路探索と戦闘しか使えず、ほぼ失敗します。
+    昇進済み機械師での開局を強く推奨します（機械師の昇進は N1 を一度クリアするだけで済み、比較的簡単です）
+2. 機械師を昇進させた後、｢募集精通 II｣ と ｢効果向上 II｣ のテクノロジーを解放すると、開局時から ｢構造性原理｣ を持ち込みできます（マップ全域へ 3 回飛べる）。
+    解放はとても簡単で、昇進後にパーツを合計 10 個売るだけなので、強く推奨します。
+    未解放の場合は周囲 8 マスへしか 3 回飛べず、プレイ自体は可能ですが効率がかなり落ちます
+3. レベル稼ぎでは、機械師（要昇進）+ 上記の分隊・職業グループ + 重装券の組み合わせで 3 層を一気に飛んで駆け抜けられます
+4. 昇進済みの機械師がない場合は選ばず、通常どおり源石錠を稼いでください。ただし戦闘はほぼ敗走します。
+    他の戦略は今後の最適化をお待ちください
+5. レベル稼ぎ + ｢{key=InvestmentEnabled}｣をチェックしないことで商店をスキップできます</system:String>
     <system:String x:Key="RoguelikeDifficulty">難易度</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">｢{key=RoguelikeThemeJieGarden}｣に関連する知識を解放すると、{key=LeaderSquad}で N3 以上の難易度を探索する際に ｢時の果て｣ を追加で携帯し、 ｢一戦一跳｣ の貯蓄戦術を行えます。
 まだ解放していない場合は、N3 以上の難易度（ ｢MAX｣ を含む）を選択しないでください。

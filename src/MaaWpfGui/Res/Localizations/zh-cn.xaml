@@ -234,6 +234,7 @@
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局{key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">不填写则使用默认策略。</system:String>
+    <system:String x:Key="RoguelikeThemeTipRecommended">←强烈推荐看</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">输入的{key=Operator}未在 battle_data 中。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹 ｢{key=StartingCoreChar}｣ 直升精二</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹 ｢{key=StartingCoreChar}｣ 直升精二，不进行作战</system:String>
@@ -592,6 +593,22 @@ D:\
 2. 使用指挥避战策略将大幅提高刷源石锭效率，也可用于快速刷等级（不追求通关），但需要注意策略选择为 ｢刷源石锭｣
 3. 已解锁的最高难度 &lt;3 或未解锁相关科技时，请不要使用指挥避战策略，否则会导致出错
 4. 当前难度 ≥15 时，6★ 干员希望消耗 +1，使用部分分队时可能无法招募开局 6★ 干员，导致出错或失败</system:String>
+    <system:String x:Key="RoguelikeThemeTipBlackFlow" xml:space="preserve">{key=RoguelikeThemeBlackFlow}推荐配置：
+
+{key=StartingCoreChar}: 机械师（要精二）
+{key=StartingSquad}: ｢{key=SpecialForceSquad}｣ / ｢{key=TacticalFortificationOperative}｣
+{key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
+
+1. 目前没有专用战斗策略，作战由招募评分自动决策；
+    刷源石锭、刷等级、刷襁褓动物目前全部围绕精二机械师的飞展开。
+    本次肉鸽机制繁多，不按上述配置开局就只能使用默认寻路与战斗，大概率失败，
+    强烈推荐精二机械师开局（精二机械师只需通关一次 N1，相对简单）
+2. 机械师精二后，完成 ｢招募精通 II｣ ｢效果提升 II｣ 科技，开局即可携带 ｢结构性原理｣（全图任意飞 3 次）；
+    解锁很简单，精二后累计卖出 10 个零件即可，强烈推荐。
+    未解锁时只能向周围 8 格飞 3 次，虽然也能刷，但效率会低不少
+3. 刷等级时，机械师（要精二）+ 上述分队与职业组 + 重装券，可以快速飞完三层
+4. 没有精二机械师就不要选机械师，可以正常刷钱，但战斗大概率暴毙，其他策略待后续优化
+5. 刷等级 + 不勾选 ｢{key=InvestmentEnabled}｣，即可跳过商店</system:String>
     <system:String x:Key="RoguelikeDifficulty">难度</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解锁 ｢{key=RoguelikeThemeJieGarden}｣ 相关科技后，{key=LeaderSquad}在进行 N3 及以上难度的探索时，会额外携带一个 ｢时光之末｣，可以利用其进行 ｢一战一跳｣ 的存钱策略。
 若尚未解锁该科技，请不要选择 N3 及以上难度（包括 ｢MAX｣）进行探索；

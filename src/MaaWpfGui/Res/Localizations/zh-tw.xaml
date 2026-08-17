@@ -234,6 +234,7 @@
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局{key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">不填寫則使用預設策略。</system:String>
+    <system:String x:Key="RoguelikeThemeTipRecommended">←強烈推薦看</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">輸入的{key=Operator}未在戰鬥數據 (battle_data) 中。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹 ｢{key=StartingCoreChar}｣ 直升精二</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹 ｢{key=StartingCoreChar}｣ 直升精二，不進行作戰</system:String>
@@ -592,6 +593,22 @@ D:\
 2. 使用指揮避戰策略將大幅提高刷源石錠效率，也可用於快速刷等級（不追求通關），但需要注意策略選擇為 ｢刷源石錠｣
 3. 已解鎖的最高難度 &lt; 3 或未解鎖相關科技時，請不要使用指揮避戰策略，否則會導致出錯
 4. 目前難度 ≥ N15 時，6★ 幹員希望消耗 +1，使用部分分隊時可能無法招募開局 6★ 幹員，導致出錯或失敗</system:String>
+    <system:String x:Key="RoguelikeThemeTipBlackFlow" xml:space="preserve">{key=RoguelikeThemeBlackFlow}推薦配置：
+
+{key=StartingCoreChar}: 機械師（要精二）
+{key=StartingSquad}: ｢{key=SpecialForceSquad}｣ / ｢{key=TacticalFortificationOperative}｣
+{key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
+
+1. 目前沒有專用戰鬥策略，作戰由招募評分自動決策；
+    刷源石錠、刷等級、刷襁褓動物目前全部圍繞精二機械師的飛展開。
+    本次肉鴿機制繁多，不按上述配置開局就只能使用預設尋路與戰鬥，大概率失敗，
+    強烈推薦精二機械師開局（精二機械師只需通關一次 N1，相對簡單）
+2. 機械師精二後，完成 ｢招募精通 II｣ ｢效果提升 II｣ 科技，開局即可攜帶 ｢結構性原理｣（全圖任意飛 3 次）；
+    解鎖很簡單，精二後累計賣出 10 個零件即可，強烈推薦。
+    未解鎖時只能向周圍 8 格飛 3 次，雖然也能刷，但效率會低不少
+3. 刷等級時，機械師（要精二）+ 上述分隊與職業組 + 重裝券，可以快速飛完三層
+4. 沒有精二機械師就不要選機械師，可以正常刷錢，但戰鬥大概率暴斃，其他策略待後續優化
+5. 刷等級 + 不勾選 ｢{key=InvestmentEnabled}｣，即可跳過商店</system:String>
     <system:String x:Key="RoguelikeDifficulty">難度</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解鎖 ｢{key=RoguelikeThemeJieGarden}｣ 相關科技後，{key=LeaderSquad}在進行 N3 及以上難度的探索時，會額外攜帶一個 ｢時光之末｣，可以利用其進行 ｢一戰一跳｣ 的存錢策略。
 若尚未解鎖該科技，請不要選擇 N3 及以上難度（包括 ｢MAX｣）進行探索；

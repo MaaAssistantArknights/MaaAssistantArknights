@@ -234,6 +234,7 @@
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 {key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">작성하지 않으면 기본 설정이 사용됩니다.</system:String>
+    <system:String x:Key="RoguelikeThemeTipRecommended">←필독 추천</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">해당 {key=Operator}는 battle_data에 없습니다</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2차 정예화까지 반복</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2차 정예화까지 반복, 전투 X</system:String>
@@ -592,6 +593,23 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
 2. 지휘 회피 전투 전략을 사용하면 각뿔 투자 효율이 크게 향상되고, 빠른 레벨업(클리어를 목표로 하지 않음)에도 사용할 수 있지만, 전략을 ｢각뿔 투자｣로 설정해야 해요
 3. 해금된 최고 난이도가 3 미만이거나 관련 기술을 해금하지 않았다면 지휘 회피 전투 전략을 사용하지 마세요. 오류가 발생할 수 있어요
 4. 난이도 15 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가해요. 일부 분대에서는 시작 시 6성 오퍼레이터를 모집하지 못해 오류나 실패로 이어질 수 있어요</system:String>
+    <system:String x:Key="RoguelikeThemeTipBlackFlow" xml:space="preserve">{key=RoguelikeThemeBlackFlow} 추천 구성:
+
+{key=StartingCoreChar}: 기계사 (정예화 2 필요)
+{key=StartingSquad}: ｢{key=SpecialForceSquad}｣ / ｢{key=TacticalFortificationOperative}｣
+{key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
+
+1. 현재 전용 전투 전략은 없으며 전투는 모집 점수 시스템이 자동으로 판단합니다.
+    오리지늄 각괴 파밍, 레벨 파밍, 포대기 동물 육성 모두 현재 정예화 2 기계사의 비행을 중심으로 돌아갑니다.
+    이번 로그라이크는 특수 장치가 많아, 위 구성으로 시작하지 않으면 기본 경로 탐색과 전투만 쓸 수 있어 실패할 확률이 높습니다.
+    정예화 2 기계사로 시작할 것을 강력히 권장합니다 (기계사 정예화는 N1을 한 번만 클리어하면 되어 비교적 쉽습니다)
+2. 정예화 후 ｢모집 정통 II｣ ｢효과 향상 II｣ 기술을 해금하면 시작부터 ｢구조적 원리｣를 지참할 수 있습니다(맵 전역으로 3회 비행).
+    해금은 정말 쉬워서 정예화 후 부품을 누적 10개 판매하면 되므로 강력히 권장합니다.
+    해금 전에는 주변 8칸으로만 3회 비행할 수 있어, 파밍은 가능하지만 효율이 크게 떨어집니다
+3. 레벨 파밍 시 기계사(정예화 2 필요) + 위 분대·직업 그룹 + 중장 모집권을 조합하면 3층을 빠르게 날아서 통과할 수 있습니다
+4. 정예화 2 기계사가 없다면 선택하지 말고 평소처럼 오리지늄 각괴를 파세요. 다만 전투에서 패배할 확률이 높습니다.
+    다른 전략은 추후 최적화 예정입니다
+5. 레벨 파밍 + ｢{key=InvestmentEnabled}｣ 체크 해제 시 상점을 건너뜁니다</system:String>
     <system:String x:Key="RoguelikeDifficulty">난이도</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">｢{key=RoguelikeThemeJieGarden}｣ 관련 기술을 해금하면 난이도 3 이상에서 {key=LeaderSquad}로 탐색할 때 추가로 ｢시간의 끝｣을 소지해 ｢한 번 싸우고 한 번 포기｣하는 저축 전략을 쓸 수 있어요.
 아직 해금하지 않았다면 난이도 3 이상(｢MAX｣ 포함)을 선택하지 마세요.

@@ -570,7 +570,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 Theme.Sami => "RoguelikeThemeTipSami",
                 Theme.Sarkaz => "RoguelikeThemeTipSarkaz",
                 Theme.JieGarden => "RoguelikeThemeTipJieGarden",
-                Theme.BlackFlow => "RoguelikeThemeBlackFlow",
+                Theme.BlackFlow => "RoguelikeThemeTipBlackFlow",
                 _ => "RoguelikeThemeTipPhantom",
             };
 
