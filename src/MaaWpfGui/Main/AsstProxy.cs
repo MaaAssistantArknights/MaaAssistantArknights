@@ -1680,7 +1680,7 @@ public class AsstProxy
                             ToastNotification.ShowDirect(LocalizationHelper.GetString("FightMissionFailedAndStop"));
                             break;
 
-                        case "MiniGame@InteractiveExhibition@CheckEncounter-Uncollected":
+                        case "CheckEncounter-Uncollected":
                             {
                                 var title = LocalizationHelper.GetString("MiniGame@InteractiveExhibition@UncollectedNotificationTitle");
                                 var content = LocalizationHelper.GetString("MiniGame@InteractiveExhibition@UncollectedNotificationContent");
