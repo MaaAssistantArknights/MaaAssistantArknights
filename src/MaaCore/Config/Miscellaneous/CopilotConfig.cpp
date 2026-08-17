@@ -51,7 +51,9 @@ asst::battle::copilot::BasicInfo asst::CopilotConfig::parse_basic_info(const jso
 std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(const json::value& json)
 {
     OperUsage oper;
-    oper.role = get_role_type(json.get("role", std::string()));
+    auto role = json.get("role", std::string());
+    utils::tolowers(role);
+    oper.role = get_role_type(role);
     oper.name = json.at("name").as_string();
     oper.skill = json.get("skill", 0);
     oper.skill_usage = static_cast<battle::SkillUsage>(json.get("skill_usage", 0));
@@ -246,7 +248,9 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
         action.cost_changes = action_info.get("cost_changes", 0);
         action.costs = action_info.get("costs", 0);
         action.cooling = action_info.get("cooling", -1);
-        action.role = get_role_type(action_info.get("role", std::string()));
+        auto role = action_info.get("role", std::string());
+        utils::tolowers(role);
+        action.role = get_role_type(role);
         action.name = action_info.get("name", std::string());
 
         action.location.x = action_info.get("location", 0, 0);
