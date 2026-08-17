@@ -63,7 +63,7 @@ bool asst::BattleFormationTask::_run()
     }
     else if (compare_formation()) { // 与上一个作业的编队进行对比，相同则跳过
         Log.info(__FUNCTION__, "| Formation is the same as last time, skip");
-        for (auto& [name, opers] : m_formation | std::views::values | std::views::join) {
+        for (auto& [name, _, __, opers] : m_formation | std::views::values | std::views::join) {
             const auto& pair_it =
                 std::ranges::find_if(*m_opers_in_formation, [&](const auto& pair) { return pair.second == name; });
             if (pair_it == m_opers_in_formation->end()) {
@@ -94,13 +94,13 @@ bool asst::BattleFormationTask::_run()
     formation_with_last_opers();
     for (auto& [role, oper_groups] : m_formation) {
         bool need_check =
-            std::ranges::any_of(oper_groups, [&](const OperGroup& group) { return has_oper_unchecked(group.second); });
+            std::ranges::any_of(oper_groups, [&](const OperGroup& group) { return has_oper_unchecked(group.opers); });
         if (!need_check) {
             continue; // 干员已编入, 跳过
         }
         std::vector<OperGroup*> groups;
         for (auto& oper_group : oper_groups) {
-            if (has_oper_unchecked(oper_group.second)) {
+            if (has_oper_unchecked(oper_group.opers)) {
                 groups.emplace_back(&oper_group);
             }
         }
@@ -110,7 +110,7 @@ bool asst::BattleFormationTask::_run()
     // 记录缺失干员组的数量
     auto missing_groups = std::ranges::views::filter(
         m_formation | std::views::values /* 剔除职业 */ | std::views::join,
-        [&](const OperGroup& group) { return !has_oper_selected(group.second); }); // 拿到缺干员的组
+        [&](const OperGroup& group) { return !has_oper_selected(group.opers); }); // 拿到缺干员的组
 
     int missing_numbers = (int)std::ranges::distance(missing_groups);
     // 在有且仅有一个缺失干员组时尝试寻找助战干员补齐编队
@@ -119,7 +119,7 @@ bool asst::BattleFormationTask::_run()
         std::vector<battle::RequiredOper> required_opers;
         const auto& missing_group = missing_groups.begin(); // 只有一个缺失干员组，直接取第一个
         for (const battle::OperUsage& oper :
-             missing_group->second | std::views::filter([&](const battle::OperUsage& oper) {
+             missing_group->opers | std::views::filter([&](const battle::OperUsage& oper) {
                  return oper.status == battle::OperStatus::Missing || oper.status == battle::OperStatus::Unavailable;
              })) {
             // 如果指定助战干员正好可以补齐编队，则只招募指定助战干员就好了，记得再次确认一下 skill
@@ -139,7 +139,7 @@ bool asst::BattleFormationTask::_run()
         Log.info(__FUNCTION__, "| Left quick formation scene");
         if (auto opt = add_support_unit(required_opers)) {
             m_used_support_unit = true;
-            m_opers_in_formation->emplace(*opt, missing_group->first);
+            m_opers_in_formation->emplace(*opt, missing_group->name);
         }
         // 再到快速编队页面
         if (!ProcessTask(*this, { "Formation-EnterQuickFormation" }).set_retry_times(3).run()) {
@@ -152,7 +152,7 @@ bool asst::BattleFormationTask::_run()
     // 在尝试补齐编队后依然有缺失干员，自动编队失败
     bool has_missing = std::ranges::any_of(missing_groups, [&](const auto& pair) {
         // 缺失组未被助战补齐干员
-        return std::ranges::find_if(*m_opers_in_formation, [&](const auto& p) { return p.second == pair.first; }) ==
+        return std::ranges::find_if(*m_opers_in_formation, [&](const auto& p) { return p.second == pair.name; }) ==
                m_opers_in_formation->end();
     });
     if (has_missing) {
@@ -178,13 +178,13 @@ bool asst::BattleFormationTask::_run()
             oper.name = name;
             oper.skill = skill;
             std::vector<asst::battle::OperUsage> usage { std::move(oper) };
-            user_formation[BattleData.get_role(name)].emplace_back(name, std::move(usage));
+            user_formation[BattleData.get_role(name)].emplace_back(name, 0, 0, std::move(usage));
         }
         click_role_table(battle::Role::Unknown);
         for (auto& [role, oper_groups] : user_formation) {
             std::vector<OperGroup*> groups;
             for (auto& oper_group : oper_groups) {
-                if (has_oper_unchecked(oper_group.second)) {
+                if (has_oper_unchecked(oper_group.opers)) {
                     groups.emplace_back(&oper_group);
                 }
             }
@@ -225,7 +225,7 @@ void asst::BattleFormationTask::formation_with_last_opers()
     // 展平的干员组
     std::unordered_map<std::string, std::vector<asst::battle::OperUsage>*> formation_view;
     for (auto& group : m_formation | std::views::values | std::views::join) {
-        formation_view.emplace(group.first, &group.second);
+        formation_view.emplace(group.name, &group.opers);
     }
     const int delay = Task.get("BattleQuickFormationOCR")->post_delay;
     for (auto it = last_formation.begin(); !need_exit() && it != last_formation.end();) {
@@ -236,7 +236,8 @@ void asst::BattleFormationTask::formation_with_last_opers()
             return !op.is_selected && op.role == oper_tag.role && op.text == oper_tag.name;
         }); // 编队页中的干员
         if (oper_in_page_it == opers_result.end()) [[unlikely]] {
-            Log.warn(__FUNCTION__, "| Oper", oper_tag.name, "was selected last time, but not found in current page");
+            LogWarn << __FUNCTION__ << "| Oper" << oper_tag.name
+                    << "was selected last time, but not found in current page";
             ++it;
             continue; // 该干员找不到, 一页只能放下10个干员, 可能被右侧挡住. 打回到正常编队逻辑
         }
@@ -287,7 +288,7 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, const std::vect
         if (select_opers_in_cur_page(oper_group)) {
             has_error = false;
             bool exit =
-                std::ranges::all_of(oper_group, [&](OperGroup* group) { return !has_oper_unchecked(group->second); });
+                std::ranges::all_of(oper_group, [&](OperGroup* group) { return !has_oper_unchecked(group->opers); });
             if (exit) {
                 break;
             }
@@ -306,10 +307,10 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, const std::vect
         else {
             if (overall_swipe_times >= m_missing_retry_times) {
                 for (auto& group : oper_group) {
-                    if (has_oper_selected(group->second)) {
+                    if (has_oper_selected(group->opers)) {
                         continue;
                     }
-                    for (auto& oper : group->second) {
+                    for (auto& oper : group->opers) {
                         if (oper.status == battle::OperStatus::Unchecked &&
                             !m_opers_in_formation->contains(battle::OperNameTag { role, oper.name })) {
                             oper.status = battle::OperStatus::Missing;
@@ -440,12 +441,12 @@ void asst::BattleFormationTask::report_missing_operators()
 
     std::map<std::string, json::array> oper_names;
     for (const auto& [_, groups] : m_formation) {
-        for (const auto& [name, opers_in_group] : groups) {
-            if (has_oper_selected(opers_in_group)) {
+        for (const auto& group : groups) {
+            if (has_oper_selected(group.opers)) {
                 continue; // 该干员组中有干员已被选中
             }
             json::array opers_array;
-            for (const auto& oper : opers_in_group) {
+            for (const auto& oper : group.opers) {
                 json::object json { { "name", oper.name } };
                 switch (oper.status) {
                 case battle::OperStatus::Selected: // 理论上这里就不该进这case
@@ -464,7 +465,7 @@ void asst::BattleFormationTask::report_missing_operators()
                     break;
                 }
             }
-            oper_names.emplace(name, std::move(opers_array));
+            oper_names.emplace(group.name, std::move(opers_array));
         }
     }
 
@@ -592,17 +593,41 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
 
     const int delay = Task.get("BattleQuickFormationOCR")->post_delay;
     battle::OperUsage* oper = nullptr;
+    std::optional<int> elite_last = std::nullopt, level_last = std::nullopt;
     bool ret = true;
     for (const auto& res :
          opers_result | std::views::filter([](const QuickFormationOper& op) { return !op.is_selected; })) {
+        auto oper_cache_it = m_opers.find({ res.role, res.text });
+        if (oper_cache_it == m_opers.end()) {
+            auto [_elite, _level] = m_quick_formation_ui.analyze_oper_level(image, res.flag_rect);
+            if (_elite == -1 || _level == -1) {
+                LogWarn << __FUNCTION__ << "| Cannot recognize oper" << res.text << "level info, reset to 0,0";
+                _elite = 0;
+                _level = 0;
+            }
+            auto tag_insert = m_opers.emplace(
+                battle::OperNameTag { res.role, res.text },
+                OperInfo { res.role, res.text, _elite, _level });
+            if (tag_insert.second) {
+                oper_cache_it = tag_insert.first;
+            }
+            else {
+                LogError << __FUNCTION__ << "| Failed to add oper" << res.text << "to m_opers";
+                continue;
+            }
+        }
+        if (oper_cache_it->second.level != 0) { // 识别错误不写入
+            elite_last = oper_cache_it->second.elite;
+            level_last = oper_cache_it->second.level;
+        }
         const auto& iter = std::ranges::find_if(groups, [&](OperGroup* group) {
-            if (!has_oper_unchecked(group->second)) { // 干员组没有干员已选中且存在可用干员
+            if (!has_oper_unchecked(group->opers)) { // 干员组没有干员已选中且存在可用干员
                 return false;
             }
-            auto it = std::ranges::find_if(group->second, [&](const battle::OperUsage& op) {
+            auto it = std::ranges::find_if(group->opers, [&](const battle::OperUsage& op) {
                 return op.name == res.text && op.status != battle::OperStatus::Unavailable;
             });
-            if (it != group->second.cend()) {
+            if (it != group->opers.cend()) {
                 oper = &(*it);
                 return true; // 找到干员
             }
@@ -617,7 +642,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             continue;
         }
 
-        if (!check_oper_level(image, res.flag_rect, *oper, m_ignore_requirements)) {
+        if (!check_oper_level(oper_cache_it->second, *oper, m_ignore_requirements)) {
             // 继续检查同组其他干员
             oper->status = battle::OperStatus::Unavailable;
             continue;
@@ -625,7 +650,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
         ctrler()->click(res.flag_rect);
         sleep(delay);
         ret = ProcessTask(*this, { "BattleQuickFormationSkillPage" }).run(); // 矢量突破S2不会自动重置回技能页
-        if (!check_and_select_skill(*oper, m_ignore_requirements, delay)) {
+        if (!check_and_select_skill(oper_cache_it->second, *oper, m_ignore_requirements, delay)) {
             ctrler()->click(res.flag_rect);                                  // 选择技能失败时反选干员
             sleep(delay);
             // 继续检查同组其他干员
@@ -662,36 +687,47 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             sleep(delay);
         }
         oper->status = battle::OperStatus::Selected;
-        m_opers_in_formation->emplace(battle::OperNameTag { oper->role, oper->name }, (*iter)->first);
+        m_opers_in_formation->emplace(battle::OperNameTag { oper->role, oper->name }, (*iter)->name);
         json::value info = basic_info_with_what("BattleFormationSelected");
         auto& details = info["details"];
         details["selected"] = oper->name;
-        details["group_name"] = (*iter)->first;
+        details["group_name"] = (*iter)->name;
         callback(AsstMsg::SubTaskExtraInfo, info);
         oper = nullptr; // reset oper pointer
+    }
+    if (elite_last.has_value() && level_last.has_value()) {
+        bool is_any_group_could_match = std::ranges::any_of(groups, [&](OperGroup* group) {
+            if (!has_oper_unchecked(group->opers)) { // 干员组没有干员已选中且存在可用干员
+                return false;
+            }
+
+            if (elite_last > group->elite_min) {
+                return true;
+            }
+            else if (elite_last == group->elite_min && level_last >= group->level_min) {
+                return true;
+            }
+
+            return false;
+        });
+        if (!is_any_group_could_match) {
+            LogInfo << __FUNCTION__ << "| Last oper elite:" << *elite_last << ", level:" << *level_last
+                    << "lower than any group requirement, stop match";
+            return false;
+        }
     }
 
     return true;
 }
 
-bool asst::BattleFormationTask::check_oper_level(
-    const cv::Mat& image,
-    asst::Rect flag,
-    const battle::OperUsage& oper,
-    bool ignore)
+bool asst::BattleFormationTask::check_oper_level(const OperInfo& oper_info, const battle::OperUsage& oper, bool ignore)
 {
     if (oper.requirements.elite <= 0 && oper.requirements.level <= 0) {
         return true; // 无等级要求
     }
-    auto [_elite, _level] = m_quick_formation_ui.analyze_oper_level(image, flag);
-    if (_elite == -1 || _level == -1) {
-        LogWarn << __FUNCTION__ << "| Cannot recognize oper" << oper.name << "level info, reset to 0,0";
-        _elite = 0;
-        _level = 0;
-    }
 
-    if (_elite < oper.requirements.elite) {
-        LogWarn << __FUNCTION__ << "| Elite" << _elite << ", require:" << oper.requirements.elite;
+    if (oper_info.elite < oper.requirements.elite) {
+        LogWarn << __FUNCTION__ << "| Elite" << oper_info.elite << ", require:" << oper.requirements.elite;
         json::value info = basic_info_with_what("BattleFormationOperUnavailable");
         info["details"]["oper_name"] = oper.name;
         info["details"]["requirement_type"] = "elite";
@@ -699,9 +735,9 @@ bool asst::BattleFormationTask::check_oper_level(
         return false;
     }
 
-    if (_elite == oper.requirements.elite && _level < oper.requirements.level) {
-        LogWarn << __FUNCTION__ << "| Elite" << _elite << "level" << _level << ", require:" << oper.requirements.elite
-                << oper.requirements.level;
+    if (oper_info.elite == oper.requirements.elite && oper_info.level < oper.requirements.level) {
+        LogWarn << __FUNCTION__ << "| Elite" << oper_info.elite << "level" << oper_info.level
+                << ", require:" << oper.requirements.elite << oper.requirements.level;
         json::value info = basic_info_with_what("BattleFormationOperUnavailable");
         info["details"]["oper_name"] = oper.name;
         info["details"]["requirement_type"] = "level";
@@ -713,7 +749,11 @@ bool asst::BattleFormationTask::check_oper_level(
     return true;
 }
 
-bool asst::BattleFormationTask::check_and_select_skill(const battle::OperUsage& oper, bool ignore, int delay)
+bool asst::BattleFormationTask::check_and_select_skill(
+    OperInfo& oper_info,
+    const battle::OperUsage& oper,
+    bool ignore,
+    int delay)
 {
     if (oper.skill < 1 || oper.skill > 3) {
         return true;
@@ -740,6 +780,7 @@ bool asst::BattleFormationTask::check_and_select_skill(const battle::OperUsage& 
         LogError << __FUNCTION__ << "| Skill" << oper.skill << "not found in quick detection";
         return false;
     }
+    oper_info.skill_level = result->level;
     if (result->level < oper.requirements.skill_level) {
         LogWarn << __FUNCTION__ << "| Skill" << oper.skill << "level" << result->level
                 << ", require:" << oper.requirements.skill_level;
@@ -814,7 +855,7 @@ bool asst::BattleFormationTask::parse_formation()
     m_formation.clear();
     m_opers_in_formation->clear();
     m_last_oper_name = std::string();
-    for (const auto& [name, opers_vec] : *groups) {
+    for (const auto& [name, elite_min, level_min, opers_vec] : *groups) {
         if (opers_vec.empty()) {
             continue;
         }
@@ -837,7 +878,7 @@ bool asst::BattleFormationTask::parse_formation()
         }
 
         // for unknown, will use { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }
-        m_formation[same_role ? role : battle::Role::Unknown].emplace_back(name, opers_vec);
+        m_formation[same_role ? role : battle::Role::Unknown].emplace_back(name, elite_min, level_min, opers_vec);
     }
     callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
@@ -854,25 +895,25 @@ bool asst::BattleFormationTask::compare_formation()
         auto& last_groups = role_it->second;
         for (auto& group : groups_) {
             auto last_group_it = std::ranges::find_if(last_groups, [&](const OperGroup& g) {
-                return g.first == group.first && g.second == group.second;
+                return g.name == group.name && g.opers == group.opers;
             });
             if (last_group_it == last_groups.end()) { // fallback to only opers equal
                 last_group_it =
-                    std::ranges::find_if(last_groups, [&](const OperGroup& g) { return g.second == group.second; });
+                    std::ranges::find_if(last_groups, [&](const OperGroup& g) { return g.opers == group.opers; });
             }
             if (last_group_it == last_groups.end()) {
                 continue; // not find the same group in last formation
             }
 
-            const auto& oper_last_it = std::ranges::find_if(last_group_it->second, [&](const battle::OperUsage& op) {
+            const auto& oper_last_it = std::ranges::find_if(last_group_it->opers, [&](const battle::OperUsage& op) {
                 return op.status == battle ::OperStatus::Selected;
             });
-            if (oper_last_it == last_group_it->second.cend()) [[unlikely]] {
-                LogError << __FUNCTION__ << "| Group" << last_group_it->first
+            if (oper_last_it == last_group_it->opers.cend()) [[unlikely]] {
+                LogError << __FUNCTION__ << "| Group" << last_group_it->name
                          << "was selected last time, but no oper was selected";
                 continue; // 旧编队中该干员组有干员被选中，但找不到被选中的干员
             }
-            m_opers_in_formation->emplace(battle::OperNameTag { oper_last_it->role, oper_last_it->name }, group.first);
+            m_opers_in_formation->emplace(battle::OperNameTag { oper_last_it->role, oper_last_it->name }, group.name);
             last_groups.erase(last_group_it); // 移除已匹配的干员组
         }
     }
