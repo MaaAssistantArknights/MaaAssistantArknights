@@ -348,7 +348,16 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             }
         }
 
-        RoguelikeCoreCharList = roguelikeCoreCharList;
+        if (!string.IsNullOrEmpty(RoguelikeCoreChar) && !roguelikeCoreCharList.Contains(RoguelikeCoreChar))
+        {
+            roguelikeCoreCharList.Add(RoguelikeCoreChar);
+        }
+
+        RoguelikeCoreCharList.Clear();
+        foreach (var coreChar in roguelikeCoreCharList)
+        {
+            RoguelikeCoreCharList.Add(coreChar);
+        }
     }
 
     private ObservableCollection<GenericCombinedData<int>> _roguelikeDifficultyList = [];
