@@ -26,8 +26,14 @@ bool asst::OnnxSessions::load(const std::filesystem::path& path)
     std::string name = utils::path_to_utf8_string(path.stem());
     std::lock_guard lock(m_mutex);
     if (auto iter = m_model_paths.find(name); iter == m_model_paths.end() || iter->second != path) {
-        m_sessions.erase(name);
         m_model_paths.insert_or_assign(name, path);
+        // 引用归零前不能销毁会话，持有者（如地图感知）还握着裸引用；挂起待 release 时销毁
+        if (m_session_users.contains(name)) {
+            m_pending_reload.insert(name);
+        }
+        else {
+            m_sessions.erase(name);
+        }
     }
 
     return true;
@@ -67,6 +73,11 @@ void asst::OnnxSessions::release(const std::string& name)
     }
     if (--found->second == 0) {
         m_session_users.erase(found);
+        if (m_pending_reload.erase(name) > 0) {
+            // 持有期间模型路径变化过，最后一个引用释放后销毁旧会话，下次 acquire 按新路径重建
+            m_sessions.erase(name);
+            Log.info(__FUNCTION__, "stale session destroyed after last release", name);
+        }
         Log.info(__FUNCTION__, "released", name);
     }
 }
