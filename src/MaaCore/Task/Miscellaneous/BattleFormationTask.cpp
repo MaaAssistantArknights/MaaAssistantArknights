@@ -704,7 +704,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             if (elite_last > group->elite_min) {
                 return true;
             }
-            else if (elite_last == group->elite_min && level_last >= group->level_min) {
+            else if (elite_last == group->elite_min && (level_last >= group->level_min || m_ignore_requirements)) {
                 return true;
             }
 
