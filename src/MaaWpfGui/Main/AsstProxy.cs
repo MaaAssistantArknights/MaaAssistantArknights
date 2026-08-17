@@ -1687,10 +1687,7 @@ public class AsstProxy
 
                                 Instances.TaskQueueViewModel.AddLog(content, UiLogColor.Warning, updateCardImage: true);
 
-                                using (var toast = new ToastNotification(title))
-                                {
-                                    toast.AppendContentText(content).Show();
-                                }
+                                ToastNotification.ShowDirect($"{title}\n{content}");
 
                                 if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
                                 {
