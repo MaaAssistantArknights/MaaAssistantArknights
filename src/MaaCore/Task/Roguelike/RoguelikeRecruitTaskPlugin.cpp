@@ -42,6 +42,12 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
     }
 }
 
+bool asst::RoguelikeRecruitTaskPlugin::load_params(const json::value& params)
+{
+    m_start_roles = params.get("roles", std::string());
+    return true;
+}
+
 asst::battle::Role asst::RoguelikeRecruitTaskPlugin::get_oper_role(const std::string& name)
 {
     return BattleData.get_role(name);
@@ -90,6 +96,15 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             lazy_recruit();
             return true;
         }
+    }
+
+    // 精二机械师保证了结构性原理，整局都不必打架，多招干员只会拖慢开局
+    if (theme == RoguelikeTheme::BlackFlow && m_initail_recruit && m_recruit_count > 1 &&
+        (mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment) && m_config->get_core_char() == "机械师" &&
+        (squad == "特勤分队" || squad == "堡垒战术分队") &&
+        (m_start_roles == "稳扎稳打" || m_start_roles == "坚不可摧")) {
+        ProcessTask(*this, { "BlackFlow@RoguelikeRecruit-GiveUp" }).run();
+        return true;
     }
 
     // 时光之末的特殊用法

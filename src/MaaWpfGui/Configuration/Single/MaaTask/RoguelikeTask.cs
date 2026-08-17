@@ -116,6 +116,11 @@ public class RoguelikeTask : BaseTask
     public RoguelikeBoskySubNodeType FindPlaytimeTarget { get; set; } = RoguelikeBoskySubNodeType.Ling;
 
     /// <summary>
+    /// Gets or sets 刷襁褓动物模式的目标品种
+    /// </summary>
+    public RoguelikeBlackFlowCultivationTarget BlackFlowCultivationTarget { get; set; } = RoguelikeBlackFlowCultivationTarget.Cat;
+
+    /// <summary>
     /// Gets or sets a value indicating whether 使用好友助战
     /// </summary>
     public bool UseSupport { get; set; }
@@ -200,6 +205,11 @@ public enum RoguelikeTheme
     /// 界园
     /// </summary>
     JieGarden,
+
+    /// <summary>
+    /// 黑流树海
+    /// </summary>
+    BlackFlow,
 }
 
 public enum RoguelikeMode
@@ -238,6 +248,22 @@ public enum RoguelikeMode
     /// 20001 - 刷常乐节点，第一层进洞，找不到需要的节点就重开
     /// </summary>
     FindPlaytime = 20001,
+
+    /// <summary>
+    /// 30001 - 刷襁褓动物（主题专用 GUI 模式）
+    /// </summary>
+    BlackFlowBabyAnimal = 30001,
+}
+
+/// <summary>
+/// 黑流树海襁褓动物目标品种
+/// </summary>
+public enum RoguelikeBlackFlowCultivationTarget
+{
+    Cat = 0,
+    FeatheredSerpent = 1,
+    Dog = 2,
+    Cerberus = 3,
 }
 
 /// <summary>

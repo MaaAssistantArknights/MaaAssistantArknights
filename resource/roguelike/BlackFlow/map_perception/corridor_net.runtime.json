@@ -1,0 +1,32 @@
+{
+    "schema_version": 1,
+    "model_name": "BlackFlow_corridor_net",
+    "input": {
+        "name": "input",
+        "dtype": "float32",
+        "shape": ["batch", 3, 40, 160]
+    },
+    "output": {
+        "name": "logit",
+        "dtype": "float32",
+        "shape": ["batch"]
+    },
+    "preprocessing": {
+        "color_order": "RGB",
+        "scale": 0.00392156862745098,
+        "mean": [0.5, 0.5, 0.5],
+        "std": [0.25, 0.25, 0.25]
+    },
+    "corridor": {
+        "endpoint_margin_ratio": 0.16,
+        "width_ratio_of_edge_length": 0.3,
+        "minimum_width_pixels": 16.0,
+        "maximum_width_pixels": 64.0,
+        "interpolation": "bicubic"
+    },
+    "decision": {
+        "temperature": 1.0753384560557477,
+        "probability_threshold": 0.8894464550516084,
+        "raw_logit_threshold": 2.242187499999999
+    }
+}

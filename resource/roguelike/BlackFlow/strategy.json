@@ -1,0 +1,1799 @@
+{
+    "schema_version": 10,
+    "resources": [
+        {
+            "id": "action_points",
+            "description": "当前行动力"
+        },
+        {
+            "id": "ingots",
+            "description": "源石锭"
+        },
+        {
+            "id": "seeds",
+            "description": "可培育种子"
+        },
+        {
+            "id": "sellable_scraps",
+            "description": "可出售零件"
+        },
+        {
+            "id": "white_model_bird",
+            "description": "白模鸟数量"
+        },
+        {
+            "id": "painted_liberi",
+            "description": "涂装黎博利"
+        },
+        {
+            "id": "persistent_full_map_movement",
+            "description": "可跨层保留的全图移动加工品"
+        },
+        {
+            "id": "persistent_long_range_movement",
+            "description": "可跨层保留的长距离移动加工品"
+        },
+        {
+            "id": "rogue_6_scrap_M_11",
+            "description": "结构性原理"
+        }
+    ],
+    "facts": [
+        {
+            "name": "current_floor",
+            "type": "int",
+            "scope": "floor"
+        },
+        {
+            "name": "action_points",
+            "type": "int",
+            "scope": "floor"
+        },
+        {
+            "name": "ingots",
+            "type": "int",
+            "scope": "run"
+        },
+        {
+            "name": "seeds",
+            "type": "int",
+            "scope": "run"
+        },
+        {
+            "name": "sellable_scraps",
+            "type": "int",
+            "scope": "run"
+        },
+        {
+            "name": "white_model_bird_count",
+            "type": "int",
+            "scope": "run"
+        },
+        {
+            "name": "painted_liberi_owned",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "persistent_long_range_count",
+            "type": "int",
+            "scope": "run"
+        },
+        {
+            "name": "persistent_full_map_count",
+            "type": "int",
+            "scope": "run"
+        },
+        {
+            "name": "floor_development_exhausted",
+            "type": "bool",
+            "scope": "floor"
+        },
+        {
+            "name": "safety_margin_low",
+            "type": "bool",
+            "scope": "floor"
+        },
+        {
+            "name": "force_exit",
+            "type": "bool",
+            "scope": "floor"
+        },
+        {
+            "name": "basic_e2_team",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "investment_completed",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "burn_shop_done",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "burn_completed",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "shop_seed_checked",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "shop_seed_found",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "cultivated_animals",
+            "type": "int",
+            "scope": "run"
+        },
+        {
+            "name": "cultivation_completed",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "sandtable_a",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "sandtable_b",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "ending2_completed",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "ending3_device",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "ending3_relic_count",
+            "type": "int",
+            "scope": "run"
+        },
+        {
+            "name": "floor5_boss_completed",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "floor6_entered",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "ending3_completed",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
+            "name": "strategy_result_code",
+            "type": "string",
+            "scope": "run"
+        },
+        {
+            "name": "start_core_char",
+            "type": "string",
+            "scope": "run"
+        },
+        {
+            "name": "start_squad",
+            "type": "string",
+            "scope": "run"
+        },
+        {
+            "name": "start_roles",
+            "type": "string",
+            "scope": "run"
+        },
+        {
+            "name": "page_kind",
+            "type": "string",
+            "scope": "page"
+        },
+        {
+            "name": "page_result_text",
+            "type": "string",
+            "scope": "page"
+        },
+        {
+            "name": "candidate.node_type",
+            "type": "string",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.node_name",
+            "type": "string",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.badged",
+            "type": "bool",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.combat",
+            "type": "bool",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.boss",
+            "type": "bool",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.exit",
+            "type": "bool",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.strategy_end",
+            "type": "bool",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.uses_processing_item",
+            "type": "bool",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.movement",
+            "type": "string",
+            "scope": "candidate",
+            "description": "候选首步使用的移动方式 ID"
+        },
+        {
+            "name": "candidate.move_edges",
+            "type": "int",
+            "scope": "candidate",
+            "description": "候选首步徒步经过的确认边数；加工品移动为 0"
+        },
+        {
+            "name": "candidate.requires_movement_switch",
+            "type": "bool",
+            "scope": "candidate",
+            "description": "执行候选首步前是否需要切换移动方式"
+        },
+        {
+            "name": "candidate.light_reveal_count",
+            "type": "int",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.route_node_types",
+            "type": "string_list",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.guaranteed_route_node_types",
+            "type": "string_list",
+            "scope": "candidate"
+        },
+        {
+            "name": "map_full_coverage",
+            "type": "bool",
+            "scope": "page",
+            "description": "当前观察批次是否覆盖完整地图"
+        },
+        {
+            "name": "portal_available",
+            "type": "bool",
+            "scope": "page",
+            "description": "当前地图是否确认存在误入奇境"
+        },
+        {
+            "name": "scrap_shop_available",
+            "type": "bool",
+            "scope": "page",
+            "description": "当前地图是否确认存在秘境行商"
+        },
+        {
+            "name": "candidate.combat_is_optional",
+            "type": "bool",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.route_has_badged",
+            "type": "bool",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.guaranteed_route_has_badged",
+            "type": "bool",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.route_has_badged_incident",
+            "type": "bool",
+            "scope": "candidate"
+        },
+        {
+            "name": "candidate.guaranteed_route_has_badged_incident",
+            "type": "bool",
+            "scope": "candidate"
+        }
+    ],
+    "modules": [
+        {
+            "id": "common_navigation",
+            "description": "公共安全、出口时机、商店回避和加工品触发规则",
+            "rules": [
+                {
+                    "id": "avoid_empty_scrap_shop",
+                    "kind": "forbid",
+                    "tier": "legality",
+                    "rank": 0,
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "ingots",
+                                "op": "le",
+                                "value": 0
+                            },
+                            {
+                                "fact": "seeds",
+                                "op": "le",
+                                "value": 0
+                            },
+                            {
+                                "fact": "sellable_scraps",
+                                "op": "le",
+                                "value": 0
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.node_type",
+                                "op": "eq",
+                                "value": "scrap_shop"
+                            },
+                            {
+                                "fact": "candidate.strategy_end",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "light_reveals_three",
+                    "kind": "prefer",
+                    "tier": "development",
+                    "rank": 20,
+                    "candidate_if": {
+                        "fact": "candidate.light_reveal_count",
+                        "op": "ge",
+                        "value": 3
+                    }
+                },
+                {
+                    "id": "preserve_white_model_bird",
+                    "kind": "forbid",
+                    "tier": "resource_reserve",
+                    "rank": 0,
+                    "when": {
+                        "fact": "white_model_bird_count",
+                        "op": "gt",
+                        "value": 0
+                    },
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.combat",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "candidate.boss",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "fact": "candidate.uses_processing_item",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "candidate.combat_is_optional",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "trigger_boss_processing_bonus",
+                    "kind": "prefer",
+                    "tier": "risk",
+                    "rank": 0,
+                    "when": {
+                        "any": [
+                            {
+                                "fact": "white_model_bird_count",
+                                "op": "gt",
+                                "value": 0
+                            },
+                            {
+                                "fact": "painted_liberi_owned",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.boss",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "candidate.uses_processing_item",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": "ending_development",
+            "reserves": [
+                {
+                    "id": "keep_full_map_before_floor4",
+                    "description": "前三层保留一次全图移动，留给第四、五层的远端节点",
+                    "resource": "persistent_full_map_movement",
+                    "minimum": 1,
+                    "active_if": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "le",
+                                "value": 3
+                            },
+                            {
+                                "fact": "persistent_full_map_count",
+                                "op": "ge",
+                                "value": 1
+                            }
+                        ]
+                    }
+                }
+            ],
+            "rules": [
+                {
+                    "id": "ending1_avoid_late_combat",
+                    "kind": "prefer",
+                    "tier": "risk",
+                    "rank": 0,
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "ge",
+                                "value": 3
+                            },
+                            {
+                                "fact": "basic_e2_team",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "fact": "candidate.combat",
+                        "op": "eq",
+                        "value": false
+                    }
+                }
+            ],
+            "milestones": [
+                {
+                    "id": "ending1_floor1_battles",
+                    "description": "第一层尽量经过作战节点",
+                    "kind": "preferred",
+                    "floor_window": [1, 1],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "selector": {
+                        "node_types": ["battle_normal", "battle_elite", "hide_battle"]
+                    }
+                },
+                {
+                    "id": "ending1_floor1_hidden",
+                    "description": "第一层在核心节点之外尽量探索未知事件",
+                    "kind": "preferred",
+                    "floor_window": [1, 1],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["hide_invisible"]
+                    }
+                },
+                {
+                    "id": "ending1_floor2_expedition",
+                    "description": "第二层优先经过先行一步",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 1,
+                    "weight": 6,
+                    "selector": {
+                        "node_types": ["expedition"]
+                    }
+                },
+                {
+                    "id": "ending1_floor2_scrap_shop",
+                    "description": "第二层优先经过秘境行商",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 1,
+                    "weight": 6,
+                    "selector": {
+                        "node_types": ["scrap_shop"]
+                    }
+                },
+                {
+                    "id": "ending1_floor2_hidden",
+                    "description": "第二层在核心节点之外尽量探索未知事件",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["hide_invisible"]
+                    }
+                },
+                {
+                    "id": "ending1_floor2_employ",
+                    "description": "第二层顺路经过应急助力",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "selector": {
+                        "node_types": ["employ"]
+                    }
+                },
+                {
+                    "id": "ending1_floor2_light",
+                    "description": "第二层顺路经过羽瞰点",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "minimum_unknown_nodes_revealed": 2,
+                    "selector": {
+                        "node_types": ["light"]
+                    }
+                },
+                {
+                    "id": "ending1_floor2_wish",
+                    "description": "第二层顺路经过得偿所愿",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "selector": {
+                        "node_types": ["wish"]
+                    }
+                },
+                {
+                    "id": "ending1_late_duel",
+                    "description": "第三至第五层优先经过狭路相逢",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 4,
+                    "selector": {
+                        "node_types": ["duel"]
+                    }
+                },
+                {
+                    "id": "ending1_late_expedition",
+                    "description": "第三至第五层优先经过先行一步",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 6,
+                    "selector": {
+                        "node_types": ["expedition"]
+                    }
+                },
+                {
+                    "id": "ending1_late_scrap_shop",
+                    "description": "第三至第五层优先经过秘境行商",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 6,
+                    "selector": {
+                        "node_types": ["scrap_shop"]
+                    }
+                },
+                {
+                    "id": "ending1_late_employ",
+                    "description": "第三至第五层优先经过应急助力",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["employ"]
+                    }
+                },
+                {
+                    "id": "ending1_late_hidden",
+                    "description": "第三至第五层在核心节点之外探索未知事件",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["hide_invisible"]
+                    }
+                },
+                {
+                    "id": "ending1_late_incident",
+                    "description": "第三至第五层尽量经过常规事件",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["incident"]
+                    }
+                },
+                {
+                    "id": "ending1_late_combat",
+                    "description": "第三至第五层作战具有收益，同时低于同数量常规事件",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["hide_battle", "battle_normal", "battle_elite"]
+                    }
+                },
+                {
+                    "id": "ending1_late_light",
+                    "description": "第三至第五层顺路经过羽瞰点",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "minimum_unknown_nodes_revealed": 2,
+                    "selector": {
+                        "node_types": ["light"]
+                    }
+                },
+                {
+                    "id": "ending1_late_wish",
+                    "description": "第三至第五层顺路经过得偿所愿",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "selector": {
+                        "node_types": ["wish"]
+                    }
+                }
+            ],
+            "description": "各结局共享的一至五层发育偏好"
+        },
+        {
+            "id": "ending1_exit",
+            "description": "一结局在发育结束或安全余量不足时前往险路尽头",
+            "rules": [
+                {
+                    "id": "exit_when_required",
+                    "kind": "require",
+                    "tier": "strategy_constraint",
+                    "rank": 0,
+                    "when": {
+                        "any": [
+                            {
+                                "fact": "floor_development_exhausted",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "safety_margin_low",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "force_exit",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "fact": "candidate.route_node_types",
+                        "op": "contains",
+                        "value": "final"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "investment_route",
+            "route_preferences": ["minimize_intermediate_interactions"],
+            "rules": [
+                {
+                    "id": "investment_keep_short_walk",
+                    "description": "商店距离不超过两格时保持徒步",
+                    "kind": "prefer",
+                    "tier": "resource_reserve",
+                    "rank": 0,
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.node_type",
+                                "op": "eq",
+                                "value": "shop"
+                            },
+                            {
+                                "fact": "candidate.movement",
+                                "op": "eq",
+                                "value": "walk"
+                            },
+                            {
+                                "fact": "candidate.move_edges",
+                                "op": "le",
+                                "value": 2
+                            },
+                            {
+                                "fact": "candidate.requires_movement_switch",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "investment_use_m11_for_direct_shop",
+                    "description": "没有短途徒步方案时使用结构性原理直达商店",
+                    "kind": "prefer",
+                    "tier": "resource_reserve",
+                    "rank": 1,
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.node_type",
+                                "op": "eq",
+                                "value": "shop"
+                            },
+                            {
+                                "fact": "candidate.movement",
+                                "op": "eq",
+                                "value": "rogue_6_scrap_M_11"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "milestones": [
+                {
+                    "id": "investment_shop",
+                    "description": "以最少战斗和最短时间抵达第一层固定普通商店",
+                    "floor_window": [1, 1],
+                    "rank": 0,
+                    "count": 1,
+                    "weight": 1,
+                    "enforcement": "feasible_hard",
+                    "terminality": "is_terminal",
+                    "complete_if": {
+                        "fact": "investment_completed",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "selector": {
+                        "node_types": ["shop"]
+                    },
+                    "page_intent": "shop.invest",
+                    "completion": "condition"
+                }
+            ]
+        },
+        {
+            "id": "burn_investment_shop",
+            "description": "刷等级时先去一层商店：拿得到结构性原理就硬性要求，拿不到则按权重择优",
+            "granted_scraps": [
+                {
+                    "movement": "rogue_6_scrap_M_11",
+                    "description": "精二机械师的开局配置必定持有结构性原理，无需观测背包",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "start_core_char",
+                                "op": "eq",
+                                "value": "机械师"
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "start_squad",
+                                        "op": "eq",
+                                        "value": "特勤分队"
+                                    },
+                                    {
+                                        "fact": "start_squad",
+                                        "op": "eq",
+                                        "value": "堡垒战术分队"
+                                    }
+                                ]
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "start_roles",
+                                        "op": "eq",
+                                        "value": "稳扎稳打"
+                                    },
+                                    {
+                                        "fact": "start_roles",
+                                        "op": "eq",
+                                        "value": "坚不可摧"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ],
+            "rules": [
+                {
+                    "id": "burn_require_shop_when_flight_guaranteed",
+                    "description": "开局配置保证精二机械师时，一层的路线必须经过商店",
+                    "kind": "require",
+                    "tier": "strategy_constraint",
+                    "rank": 0,
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "start_core_char",
+                                "op": "eq",
+                                "value": "机械师"
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "start_squad",
+                                        "op": "eq",
+                                        "value": "特勤分队"
+                                    },
+                                    {
+                                        "fact": "start_squad",
+                                        "op": "eq",
+                                        "value": "堡垒战术分队"
+                                    }
+                                ]
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "start_roles",
+                                        "op": "eq",
+                                        "value": "稳扎稳打"
+                                    },
+                                    {
+                                        "fact": "start_roles",
+                                        "op": "eq",
+                                        "value": "坚不可摧"
+                                    }
+                                ]
+                            },
+                            {
+                                "fact": "current_floor",
+                                "op": "eq",
+                                "value": 1
+                            },
+                            {
+                                "fact": "burn_shop_done",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "fact": "candidate.route_node_types",
+                        "op": "contains",
+                        "value": "shop"
+                    }
+                },
+                {
+                    "id": "burn_require_flight_on_floor2",
+                    "description": "同样的开局配置下，二层直接用结构性原理飞向层出口",
+                    "kind": "require",
+                    "tier": "strategy_constraint",
+                    "rank": 0,
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "start_core_char",
+                                "op": "eq",
+                                "value": "机械师"
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "start_squad",
+                                        "op": "eq",
+                                        "value": "特勤分队"
+                                    },
+                                    {
+                                        "fact": "start_squad",
+                                        "op": "eq",
+                                        "value": "堡垒战术分队"
+                                    }
+                                ]
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "start_roles",
+                                        "op": "eq",
+                                        "value": "稳扎稳打"
+                                    },
+                                    {
+                                        "fact": "start_roles",
+                                        "op": "eq",
+                                        "value": "坚不可摧"
+                                    }
+                                ]
+                            },
+                            {
+                                "fact": "current_floor",
+                                "op": "eq",
+                                "value": 2
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.movement",
+                                "op": "eq",
+                                "value": "rogue_6_scrap_M_11"
+                            },
+                            {
+                                "fact": "candidate.exit",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
+                    }
+                }
+            ],
+            "milestones": [
+                {
+                    "id": "burn_floor1_shop",
+                    "description": "权重按「值得为商店多绕两步」定价，够不到商店时这一维不参与排序",
+                    "kind": "preferred",
+                    "floor_window": [1, 1],
+                    "rank": 0,
+                    "weight": 5,
+                    "complete_if": {
+                        "fact": "burn_shop_done",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "selector": {
+                        "node_types": ["shop"]
+                    },
+                    "page_intent": "shop.invest_continue",
+                    "completion": "condition"
+                }
+            ]
+        },
+        {
+            "id": "burn_route",
+            "milestones": [
+                {
+                    "id": "burn_floor1_final",
+                    "enforcement": "feasible_hard",
+                    "floor_window": [1, 1],
+                    "rank": 1,
+                    "selector": {
+                        "node_types": ["final"]
+                    }
+                },
+                {
+                    "id": "burn_floor2_final",
+                    "enforcement": "feasible_hard",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "selector": {
+                        "node_types": ["final"]
+                    }
+                }
+            ]
+        },
+        {
+            "id": "baby_animal_route",
+            "rules": [
+                {
+                    "id": "baby_use_processing_item_for_floor1_shop",
+                    "description": "第一层优先使用当前背包中的可用加工品抵达普通商店",
+                    "kind": "prefer",
+                    "tier": "resource_reserve",
+                    "rank": 0,
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "eq",
+                                "value": 1
+                            },
+                            {
+                                "fact": "shop_seed_checked",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.node_type",
+                                "op": "eq",
+                                "value": "shop"
+                            },
+                            {
+                                "fact": "candidate.uses_processing_item",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "baby_walk_after_floor1_shop",
+                    "description": "第一层检查商店后优先徒步探索并保留加工品",
+                    "kind": "prefer",
+                    "tier": "resource_reserve",
+                    "rank": 0,
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "eq",
+                                "value": 1
+                            },
+                            {
+                                "fact": "shop_seed_checked",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.uses_processing_item",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "fact": "candidate.combat",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "baby_delay_exit_before_floor3",
+                    "kind": "forbid",
+                    "tier": "strategy_constraint",
+                    "rank": 10,
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "eq",
+                                "value": 2
+                            },
+                            {
+                                "fact": "floor_development_exhausted",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "fact": "safety_margin_low",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "fact": "force_exit",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "fact": "candidate.exit",
+                        "op": "eq",
+                        "value": true
+                    }
+                },
+                {
+                    "id": "baby_exit_before_floor3_when_required",
+                    "kind": "require",
+                    "tier": "strategy_constraint",
+                    "rank": 0,
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "le",
+                                "value": 2
+                            },
+                            {
+                                "fact": "scrap_shop_available",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "floor_development_exhausted",
+                                        "op": "eq",
+                                        "value": true
+                                    },
+                                    {
+                                        "fact": "safety_margin_low",
+                                        "op": "eq",
+                                        "value": true
+                                    },
+                                    {
+                                        "fact": "force_exit",
+                                        "op": "eq",
+                                        "value": true
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "fact": "candidate.guaranteed_route_node_types",
+                        "op": "contains",
+                        "value": "final"
+                    }
+                },
+                {
+                    "id": "baby_avoid_combat",
+                    "description": "只要还有别的安全走法就不进作战节点",
+                    "kind": "forbid",
+                    "tier": "risk",
+                    "rank": 0,
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.combat",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "candidate.combat_is_optional",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
+                    }
+                }
+            ],
+            "reserves": [
+                {
+                    "id": "baby_keep_cultivation_movement",
+                    "resource": "persistent_long_range_movement",
+                    "minimum": 1,
+                    "active_if": {
+                        "all": [
+                            {
+                                "fact": "cultivation_completed",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "fact": "persistent_long_range_count",
+                                "op": "ge",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "release_if": {
+                        "any": [
+                            {
+                                "fact": "candidate.node_type",
+                                "op": "eq",
+                                "value": "scrap_shop"
+                            },
+                            {
+                                "fact": "candidate.guaranteed_route_node_types",
+                                "op": "contains",
+                                "value": "scrap_shop"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "milestones": [
+                {
+                    "id": "baby_check_seed_shop",
+                    "kind": "preferred",
+                    "floor_window": [1, 1],
+                    "rank": 0,
+                    "complete_if": {
+                        "fact": "shop_seed_checked",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "selector": {
+                        "node_types": ["shop"]
+                    },
+                    "page_intent": "shop.seed_priority",
+                    "completion": "condition"
+                },
+                {
+                    "id": "baby_cultivate_scrap_shop",
+                    "floor_window": [1, 3],
+                    "rank": 0,
+                    "active_if": {
+                        "any": [
+                            {
+                                "fact": "current_floor",
+                                "op": "eq",
+                                "value": 3
+                            },
+                            {
+                                "fact": "scrap_shop_available",
+                                "op": "eq",
+                                "value": true
+                            }
+                        ]
+                    },
+                    "complete_if": {
+                        "fact": "cultivation_completed",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "reserves": ["baby_keep_cultivation_movement"],
+                    "enforcement": "feasible_hard",
+                    "terminality": "is_terminal",
+                    "on_miss": "terminate",
+                    "miss_outcome": "baby_cultivation_unfinished",
+                    "miss_reason": "scrap_shop_never_reached",
+                    "selector": {
+                        "node_types": ["scrap_shop"]
+                    },
+                    "page_intent": "scrap_shop.cultivate",
+                    "completion": "condition"
+                },
+                {
+                    "id": "baby_explore_hidden",
+                    "description": "尚未发现秘境行商时，按路线计数尽量多开未知的诡秘",
+                    "kind": "preferred",
+                    "floor_window": [2, 3],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 4,
+                    "active_if": {
+                        "all": [
+                            {
+                                "fact": "scrap_shop_available",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "fact": "cultivation_completed",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "selector": {
+                        "node_types": ["hide_invisible"]
+                    }
+                },
+                {
+                    "id": "baby_visit_incident",
+                    "kind": "preferred",
+                    "floor_window": [2, 3],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["incident"]
+                    }
+                },
+                {
+                    "id": "baby_visit_light",
+                    "kind": "preferred",
+                    "floor_window": [2, 3],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "selector": {
+                        "node_types": ["light"]
+                    }
+                },
+                {
+                    "id": "baby_floor2_shops",
+                    "description": "第二层经过普通商店时继续优先获取种子",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "selector": {
+                        "node_types": ["shop"]
+                    },
+                    "page_intent": "shop.seed_priority"
+                },
+                {
+                    "id": "baby_floor3_shops",
+                    "description": "第三层经过普通商店时卖货、刷新并尽量购买种子",
+                    "kind": "preferred",
+                    "floor_window": [3, 3],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "selector": {
+                        "node_types": ["shop"]
+                    },
+                    "page_intent": "shop.seed_priority_floor3"
+                }
+            ]
+        },
+        {
+            "id": "ending2_route",
+            "milestones": [
+                {
+                    "id": "ending2_sandtable_a",
+                    "kind": "preferred",
+                    "floor_window": [1, 4],
+                    "rank": 0,
+                    "complete_if": {
+                        "fact": "sandtable_a",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "selector": {
+                        "node_types": ["incident"],
+                        "marker_types": ["informant"]
+                    },
+                    "page_intent": "incident.ending2_sandtable_a",
+                    "completion": "condition"
+                },
+                {
+                    "id": "ending2_sandtable_b",
+                    "kind": "preferred",
+                    "floor_window": [1, 4],
+                    "rank": 1,
+                    "complete_if": {
+                        "fact": "sandtable_b",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "selector": {
+                        "node_types": ["shop"]
+                    },
+                    "page_intent": "shop.ending2_sandtable_b",
+                    "completion": "condition"
+                },
+                {
+                    "id": "ending2_fate",
+                    "floor_window": [5, 5],
+                    "rank": 0,
+                    "active_if": {
+                        "any": [
+                            {
+                                "all": [
+                                    {
+                                        "fact": "sandtable_a",
+                                        "op": "eq",
+                                        "value": true
+                                    },
+                                    {
+                                        "fact": "sandtable_b",
+                                        "op": "eq",
+                                        "value": true
+                                    }
+                                ]
+                            },
+                            {
+                                "all": [
+                                    {
+                                        "any": [
+                                            {
+                                                "fact": "sandtable_a",
+                                                "op": "eq",
+                                                "value": true
+                                            },
+                                            {
+                                                "fact": "sandtable_b",
+                                                "op": "eq",
+                                                "value": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "fact": "ingots",
+                                        "op": "ge",
+                                        "value": 50
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "complete_if": {
+                        "fact": "ending2_completed",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "enforcement": "feasible_hard",
+                    "terminality": "is_terminal",
+                    "selector": {
+                        "node_names": ["命运所指"]
+                    },
+                    "completion": "condition"
+                }
+            ]
+        },
+        {
+            "id": "ending3_route",
+            "milestones": [
+                {
+                    "id": "ending3_device_option2",
+                    "kind": "preferred",
+                    "floor_window": [1, 4],
+                    "rank": 0,
+                    "complete_if": {
+                        "fact": "ending3_device",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "selector": {
+                        "node_types": ["expedition"]
+                    },
+                    "page_intent": "expedition.ending3_option2",
+                    "completion": "condition"
+                },
+                {
+                    "id": "ending3_relics",
+                    "kind": "preferred",
+                    "floor_window": [1, 5],
+                    "rank": 0,
+                    "complete_if": {
+                        "fact": "ending3_relic_count",
+                        "op": "ge",
+                        "value": 3
+                    },
+                    "selector": {
+                        "badged": true
+                    },
+                    "completion": "condition"
+                },
+                {
+                    "id": "ending3_floor5_boss",
+                    "enforcement": "feasible_hard",
+                    "floor_window": [5, 5],
+                    "rank": 0,
+                    "requires": ["ending3_device_option2"],
+                    "complete_if": {
+                        "fact": "floor5_boss_completed",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "selector": {
+                        "node_types": ["battle_boss"]
+                    },
+                    "completion": "condition"
+                },
+                {
+                    "id": "ending3_floor6",
+                    "enforcement": "feasible_hard",
+                    "floor_window": [6, 6],
+                    "rank": 0,
+                    "requires": ["ending3_floor5_boss"],
+                    "complete_if": {
+                        "fact": "ending3_completed",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "selector": {
+                        "node_types": ["final"]
+                    },
+                    "completion": "condition"
+                }
+            ]
+        }
+    ],
+    "profiles": [
+        {
+            "id": "ending1",
+            "description": "一结局保底",
+            "modules": ["common_navigation", "ending_development", "ending1_exit"],
+            "failure_action": "restart_current_run"
+        },
+        {
+            "id": "investment",
+            "description": "第一层以战斗次数最少、预计时间最短的完整路线抵达固定普通商店",
+            "modules": ["common_navigation", "investment_route"],
+            "terminal_rules": [
+                {
+                    "id": "investment_completed",
+                    "when": {
+                        "fact": "investment_completed",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "outcome": "investment_completed",
+                    "reason": "investment_finished",
+                    "succeeded": true,
+                    "next_action": "restart_current_run"
+                },
+                {
+                    "id": "investment_wrong_floor",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "ge",
+                                "value": 2
+                            },
+                            {
+                                "fact": "investment_completed",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "outcome": "investment_missed",
+                    "reason": "investment_shop_window_closed",
+                    "succeeded": false,
+                    "next_action": "restart_current_run"
+                }
+            ],
+            "failure_action": "restart_current_run"
+        },
+        {
+            "id": "burn",
+            "description": "尽快抵达第三层，到达即重开",
+            "modules": ["common_navigation", "burn_route"],
+            "terminal_rules": [
+                {
+                    "id": "burn_third_floor_reached",
+                    "when": {
+                        "fact": "current_floor",
+                        "op": "ge",
+                        "value": 3
+                    },
+                    "outcome": "burn_completed",
+                    "reason": "third_floor_reached",
+                    "succeeded": true,
+                    "next_action": "restart_current_run"
+                }
+            ],
+            "failure_action": "restart_current_run"
+        },
+        {
+            "id": "burn_with_investment",
+            "description": "第一层完成投资后尽快抵达第三层，到达即重开",
+            "modules": ["common_navigation", "burn_investment_shop", "burn_route"],
+            "terminal_rules": [
+                {
+                    "id": "burn_third_floor_reached",
+                    "when": {
+                        "fact": "current_floor",
+                        "op": "ge",
+                        "value": 3
+                    },
+                    "outcome": "burn_completed",
+                    "reason": "third_floor_reached",
+                    "succeeded": true,
+                    "next_action": "restart_current_run"
+                }
+            ],
+            "failure_action": "restart_current_run"
+        },
+        {
+            "id": "baby_animal",
+            "description": "第一层检查普通商店，第二、三层探索并进入秘境行商培育种子",
+            "modules": ["common_navigation", "baby_animal_route"],
+            "terminal_rules": [
+                {
+                    "id": "baby_cultivation_completed",
+                    "when": {
+                        "fact": "cultivation_completed",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "outcome": "baby_cultivation_completed",
+                    "reason": "cultivation_result_reported",
+                    "succeeded": true
+                },
+                {
+                    "id": "baby_third_floor_action_points_exhausted",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "eq",
+                                "value": 3
+                            },
+                            {
+                                "fact": "action_points",
+                                "op": "le",
+                                "value": 0
+                            },
+                            {
+                                "fact": "cultivation_completed",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "outcome": "baby_cultivation_unfinished",
+                    "reason": "third_floor_action_points_exhausted",
+                    "succeeded": false
+                }
+            ],
+            "failure_action": "restart_current_run",
+            "no_AP_is_terminal": {
+                "floors": [3]
+            }
+        },
+        {
+            "id": "ending2",
+            "description": "沙盘发育并在第五层进入命运所指",
+            "modules": ["common_navigation", "ending_development", "ending2_route"],
+            "terminal_rules": [
+                {
+                    "id": "ending2_completed",
+                    "when": {
+                        "fact": "ending2_completed",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "outcome": "ending2_completed",
+                    "reason": "ending2_terminal_completed",
+                    "succeeded": true
+                },
+                {
+                    "id": "ending2_prerequisite_failed",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "ge",
+                                "value": 5
+                            },
+                            {
+                                "not": {
+                                    "any": [
+                                        {
+                                            "all": [
+                                                {
+                                                    "fact": "sandtable_a",
+                                                    "op": "eq",
+                                                    "value": true
+                                                },
+                                                {
+                                                    "fact": "sandtable_b",
+                                                    "op": "eq",
+                                                    "value": true
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "all": [
+                                                {
+                                                    "any": [
+                                                        {
+                                                            "fact": "sandtable_a",
+                                                            "op": "eq",
+                                                            "value": true
+                                                        },
+                                                        {
+                                                            "fact": "sandtable_b",
+                                                            "op": "eq",
+                                                            "value": true
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "fact": "ingots",
+                                                    "op": "ge",
+                                                    "value": 50
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "outcome": "ending2_prerequisite_failed",
+                    "reason": "fifth_floor_reached_without_valid_sandtable_payment",
+                    "succeeded": false
+                }
+            ],
+            "failure_action": "restart_current_run"
+        },
+        {
+            "id": "ending3",
+            "description": "先行一步第二选项、减难藏品、第五层首领和第六层结局",
+            "modules": ["common_navigation", "ending_development", "ending3_route"],
+            "terminal_rules": [
+                {
+                    "id": "ending3_completed",
+                    "when": {
+                        "fact": "ending3_completed",
+                        "op": "eq",
+                        "value": true
+                    },
+                    "outcome": "ending3_completed",
+                    "reason": "ending3_terminal_completed",
+                    "succeeded": true
+                },
+                {
+                    "id": "ending3_prerequisite_failed",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "ge",
+                                "value": 5
+                            },
+                            {
+                                "fact": "ending3_device",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "outcome": "ending3_prerequisite_failed",
+                    "reason": "fifth_floor_reached_without_special_device",
+                    "succeeded": false
+                }
+            ],
+            "failure_action": "restart_current_run"
+        }
+    ]
+}

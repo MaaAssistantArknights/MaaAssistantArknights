@@ -44,7 +44,13 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     const std::string& theme = m_config->get_theme();
     std::vector<std::string> event_names = RoguelikeStageEncounter.get_event_names(theme);
 
-    const auto event_name_task_ptr = Task.get("Roguelike@StageEncounterOcr");
+    if (theme == RoguelikeTheme::BlackFlow) {
+        Task.set_task_base("BlackFlow@Roguelike@StageEncounterResult", "BlackFlow@Roguelike@RecoveryFailed");
+    }
+
+    const std::string themed_ocr_task = theme + "@Roguelike@StageEncounterOcr";
+    const auto event_name_task_ptr =
+        Task.get(themed_ocr_task) != nullptr ? Task.get(themed_ocr_task) : Task.get("Roguelike@StageEncounterOcr");
     sleep(event_name_task_ptr->pre_delay);
 
     if (need_exit()) {
@@ -164,12 +170,27 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         }
     }
 
-    // 界园肉鸽实验性功能 -- 识别选项数量后调整选项
-    if (theme == RoguelikeTheme::JieGarden) {
+    // 界园与黑流树海通过识别实际选项列表选择事件选项。
+    if (theme == RoguelikeTheme::JieGarden || theme == RoguelikeTheme::BlackFlow) {
         reset_option_list_and_view_data();
         if (update_option_list()) {
-            size_t choice = 0; // 以 0 作为 无效 index
-            if (!event.option_text.empty()) {
+            size_t choice = 0; // 以 0 作为无效 index。
+            if (theme == RoguelikeTheme::BlackFlow) {
+                if (choose_option > 0 && choose_option <= m_option_list.size() &&
+                    m_option_list[choose_option - 1].enabled) {
+                    choice = choose_option;
+                }
+                else {
+                    const auto enabled_it =
+                        std::ranges::find_if(m_option_list, [](const OptionAnalyzer::Option& option) {
+                            return option.enabled;
+                        });
+                    if (enabled_it != m_option_list.end()) {
+                        choice = std::distance(m_option_list.begin(), enabled_it) + 1;
+                    }
+                }
+            }
+            else if (!event.option_text.empty()) {
                 for (const std::string& event_text : event.option_text) {
                     const auto option_it =
                         std::ranges::find_if(m_option_list, [&event_text](const OptionAnalyzer::Option& option) {
@@ -192,6 +213,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
                     }
                 }
             }
+
             if (choice == 0) {
                 Log.error(
                     std::format(
@@ -199,15 +221,36 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
                         m_option_list.size()));
             }
             else if (select_analyzed_option(choice - 1)) {
+                if (theme == RoguelikeTheme::BlackFlow) {
+                    Task.set_task_base(
+                        "BlackFlow@Roguelike@StageEncounterResult",
+                        "BlackFlow@Roguelike@StageEncounterReward");
+                }
                 return next_event(event);
             }
 
-            // 兜底：从下到上依次选择
+            if (theme == RoguelikeTheme::BlackFlow) {
+                for (choice = 1; choice <= m_option_list.size(); ++choice) {
+                    if (m_option_list[choice - 1].enabled && select_analyzed_option(choice - 1)) {
+                        Task.set_task_base(
+                            "BlackFlow@Roguelike@StageEncounterResult",
+                            "BlackFlow@Roguelike@StageEncounterReward");
+                        return next_event(event);
+                    }
+                }
+                return std::nullopt;
+            }
+
+            // 界园兜底：从下到上依次选择。
             for (choice = m_option_list.size(); choice > 0; --choice) {
                 if (m_option_list[choice - 1].enabled && select_analyzed_option(choice - 1)) {
                     return next_event(event);
                 }
             }
+        }
+        else if (theme == RoguelikeTheme::BlackFlow) {
+            Log.error("BlackFlow encounter option analysis failed");
+            return std::nullopt;
         }
     }
 
@@ -426,16 +469,34 @@ bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t inde
 
     // click option
     Log.info(__FUNCTION__, std::format("| Clicking option {}: {}", index + 1, m_option_list[index].text));
-    Rect click_rect = Task.get("JieGarden@RoguelikeEncounter-ClickOption")->specific_rect;
-    click_rect.y = m_option_y_in_view[index];
-    for (int j = 0; j < 2; ++j) {
-        ctrler()->click(click_rect);
+    if (m_config->get_theme() == RoguelikeTheme::BlackFlow) {
+        const Rect& header_rect = m_option_rect_in_view[index];
+        if (header_rect.x == UNDEFINED) {
+            Log.error(__FUNCTION__, "| BlackFlow option header is unavailable in the current view");
+            return false;
+        }
+        const Point click_point {
+            header_rect.x + header_rect.width / 2 + 100,
+            header_rect.y + header_rect.height / 2,
+        };
+        ctrler()->click(click_point);
         sleep(300);
+        if (ProcessTask(*this, { "BlackFlow@Roguelike@StageEncounterLeaveConfirm" }).run()) {
+            return true;
+        }
     }
-    sleep(1500);
+    else {
+        Rect click_rect = Task.get("JieGarden@RoguelikeEncounter-ClickOption")->specific_rect;
+        click_rect.y = m_option_y_in_view[index];
+        for (int j = 0; j < 2; ++j) {
+            ctrler()->click(click_rect);
+            sleep(300);
+        }
+        sleep(1500);
 
-    if (hp(ctrler()->get_image()) < 0) {
-        return true;
+        if (hp(ctrler()->get_image()) < 0) {
+            return true;
+        }
     }
 
     Log.error(__FUNCTION__, "| The option doesn't respond to click");
@@ -492,6 +553,7 @@ void asst::RoguelikeStageEncounterTaskPlugin::update_view(const cv::Mat& image)
                 m_view_end = i + 1;
             }
             m_option_y_in_view[i] = option_match_ret.value().rect.y;
+            m_option_rect_in_view[i] = option_match_ret.value().rect;
         }
     }
 
@@ -503,6 +565,7 @@ void asst::RoguelikeStageEncounterTaskPlugin::reset_view()
     m_view_begin = m_option_list.size();
     m_view_end = 0;
     m_option_y_in_view.assign(m_option_list.size(), UNDEFINED);
+    m_option_rect_in_view.assign(m_option_list.size(), Rect { UNDEFINED, UNDEFINED, 0, 0 });
 }
 
 void asst::RoguelikeStageEncounterTaskPlugin::move_to_analyzed_option(size_t index)
