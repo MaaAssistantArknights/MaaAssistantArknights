@@ -902,6 +902,10 @@ NodeId resolve_landing(const MapSnapshot& map, NodeId target) noexcept
     return map.has_valid_transfer_pair(target) ? *node->transfer_target : InvalidNodeId;
 }
 
+// 注意：BlackFlowCompactStateSpace::actions 是本函数的位掩码紧凑翻版，两份必须保持语义一致，
+// 否则按需图与紧凑空间对同一局面会给出不同的动作集，安全值与路线互相矛盾。
+// 已知差异：那边以 opened_blockers 判定 walk 穿行（这里用 visited_nodes）、在生成期过滤
+// forbidden 动作（这里由 OnDemandStateGraph 展开期过滤）。改动任一份时同步检查另一份。
 std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const RunState& state, GraphLayer layer)
 {
     std::vector<MoveAction> result;
