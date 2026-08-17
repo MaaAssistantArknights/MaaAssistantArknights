@@ -20,6 +20,8 @@ std::optional<MovementKind> recognize_loaded_movement(const cv::Mat& image)
         LoadedTask { MovementKind::M01, "BlackFlow@Roguelike@MovementLoaded-M01" },
         LoadedTask { MovementKind::M02, "BlackFlow@Roguelike@MovementLoaded-M02" },
         LoadedTask { MovementKind::M03, "BlackFlow@Roguelike@MovementLoaded-M03" },
+        // M04（重弹簧）、M12（简易遥控器）缺少 Movement 模板与 MovementLoaded 任务
+        // LoadedTask { MovementKind::M04, "BlackFlow@Roguelike@MovementLoaded-M04" },
         LoadedTask { MovementKind::M05, "BlackFlow@Roguelike@MovementLoaded-M05" },
         LoadedTask { MovementKind::M06, "BlackFlow@Roguelike@MovementLoaded-M06" },
         LoadedTask { MovementKind::M07, "BlackFlow@Roguelike@MovementLoaded-M07" },
@@ -27,6 +29,7 @@ std::optional<MovementKind> recognize_loaded_movement(const cv::Mat& image)
         LoadedTask { MovementKind::M09, "BlackFlow@Roguelike@MovementLoaded-M09" },
         LoadedTask { MovementKind::M10, "BlackFlow@Roguelike@MovementLoaded-M10" },
         LoadedTask { MovementKind::M11, "BlackFlow@Roguelike@MovementLoaded-M11" },
+        // LoadedTask { MovementKind::M12, "BlackFlow@Roguelike@MovementLoaded-M12" },
     };
 
     std::optional<MovementKind> best;
