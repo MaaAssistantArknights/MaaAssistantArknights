@@ -1,6 +1,8 @@
 #pragma once
 #include "Task/InterfaceTask.h"
 
+#include <mutex>
+
 namespace asst
 {
 class ProcessTask;
@@ -12,6 +14,13 @@ class RoguelikeCustomStartTaskPlugin;
 class RoguelikeFoldartalStartTaskPlugin;
 class RoguelikeFoldartalUseTaskPlugin;
 
+namespace blackflow
+{
+class BlackFlowSession;
+class BlackFlowMapObservationSource;
+class IBlackFlowTaskPort;
+}
+
 class RoguelikeTask : public InterfaceTask
 {
 public:
@@ -20,6 +29,7 @@ public:
     RoguelikeTask(const AsstCallback& callback, Assistant* inst);
     virtual ~RoguelikeTask() override = default;
 
+    virtual bool run() override;
     virtual bool set_params(const json::value& params) override;
 
 private:
@@ -31,5 +41,10 @@ private:
     std::shared_ptr<RoguelikeCustomStartTaskPlugin> m_custom_ptr = nullptr;
     std::shared_ptr<RoguelikeFoldartalStartTaskPlugin> m_foldartal_start_ptr = nullptr;
     std::shared_ptr<RoguelikeFoldartalUseTaskPlugin> m_foldartal_use_ptr = nullptr;
+    std::shared_ptr<blackflow::BlackFlowSession> m_blackflow_session_ptr = nullptr;
+    std::shared_ptr<blackflow::BlackFlowMapObservationSource> m_blackflow_map_source_ptr = nullptr;
+    std::shared_ptr<blackflow::IBlackFlowTaskPort> m_blackflow_port_ptr = nullptr;
+    std::mutex m_run_state_mutex;
+    bool m_run_started = false;
 };
 }

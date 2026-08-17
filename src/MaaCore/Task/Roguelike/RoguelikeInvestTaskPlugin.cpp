@@ -216,7 +216,8 @@ std::optional<int> asst::RoguelikeInvestTaskPlugin::get_deposit_when_error(const
 
 std::optional<int> asst::RoguelikeInvestTaskPlugin::get_wallet(const cv::Mat& image) const
 {
-    return ocr_count(image, "Roguelike@StageTraderInvest-Wallet");
+    const std::string themed_task = m_config->get_theme() + "@Roguelike@StageTraderInvest-Wallet";
+    return ocr_count(image, Task.get(themed_task) != nullptr ? themed_task : "Roguelike@StageTraderInvest-Wallet");
 }
 
 void asst::RoguelikeInvestTaskPlugin::stop_roguelike() const

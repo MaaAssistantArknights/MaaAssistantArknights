@@ -215,6 +215,14 @@
     <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 和使用{key=Operator}编组的房间有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等级，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，投资完成后自动退出</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowExp">刷等级，快速飞三层</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">刷源石锭，投资完成后自动退出</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">刷襁褓动物</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTarget">目标襁褓动物</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCat">襁褓中的猫</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpent">襁褓羽蛇</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetDog">襁褓中的狗</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">襁褓三头犬</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二{key=Operator}开局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">烧水使用分队</system:String>
@@ -230,6 +238,7 @@
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局{key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">不填写则使用默认策略。</system:String>
+    <system:String x:Key="RoguelikeThemeTipRecommended">←强烈推荐看</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">输入的{key=Operator}未在 battle_data 中。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹 ｢{key=StartingCoreChar}｣ 直升精二</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹 ｢{key=StartingCoreChar}｣ 直升精二，不进行作战</system:String>
@@ -597,6 +606,22 @@ D:\
 2. 使用指挥避战策略将大幅提高刷源石锭效率，也可用于快速刷等级（不追求通关），但需要注意策略选择为 ｢刷源石锭｣
 3. 已解锁的最高难度 &lt;3 或未解锁相关科技时，请不要使用指挥避战策略，否则会导致出错
 4. 当前难度 ≥15 时，6★ 干员希望消耗 +1，使用部分分队时可能无法招募开局 6★ 干员，导致出错或失败</system:String>
+    <system:String x:Key="RoguelikeThemeTipBlackFlow" xml:space="preserve">{key=RoguelikeThemeBlackFlow}推荐配置：
+
+{key=StartingCoreChar}: 机械师（要精二）
+{key=StartingSquad}: ｢{key=SpecialForceSquad}｣ / ｢{key=TacticalFortificationOperative}｣
+{key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
+
+1. 目前没有专用战斗策略，作战由招募评分自动决策；
+    刷源石锭、刷等级、刷襁褓动物目前全部围绕精二机械师的飞展开。
+    本次肉鸽机制繁多，不按上述配置开局就只能使用默认寻路与战斗，大概率失败，
+    强烈推荐精二机械师开局（精二机械师只需通关一次 N1，相对简单）
+2. 机械师精二后，完成 ｢招募精通 II｣ ｢效果提升 II｣ 科技，开局即可携带 ｢结构性原理｣（全图任意飞 3 次）；
+    解锁很简单，精二后累计卖出 10 个零件即可，强烈推荐。
+    未解锁时只能向周围 8 格飞 3 次，虽然也能刷，但效率会低不少
+3. 刷等级时，机械师（要精二）+ 上述分队与职业组 + 重装券，可以快速飞完三层
+4. 没有精二机械师就不要选机械师，可以正常刷钱，但战斗大概率暴毙，其他策略待后续优化
+5. 刷等级 + 不勾选 ｢{key=InvestmentEnabled}｣，即可跳过商店</system:String>
     <system:String x:Key="RoguelikeDifficulty">难度</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解锁 ｢{key=RoguelikeThemeJieGarden}｣ 相关科技后，{key=LeaderSquad}在进行 N3 及以上难度的探索时，会额外携带一个 ｢时光之末｣，可以利用其进行 ｢一战一跳｣ 的存钱策略。
 若尚未解锁该科技，请不要选择 N3 及以上难度（包括 ｢MAX｣）进行探索；
@@ -1400,6 +1425,171 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BoskyDisaster">节点: 灾祸</system:String>
     <system:String x:Key="RoguelikeCoppersExchange">通宝交换: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeCoppersRecognitionError">通宝识别失败: "{0}"</system:String>
+    <system:String x:Key="BlackFlowRoutingDecision">第 {0} 层｜行动力 {1}→{2}｜{3}至 {4}｜安全余量 {5}</system:String>
+    <system:String x:Key="BlackFlowRoutingReason">原因：{0}｜说明：{1}</system:String>
+    <system:String x:Key="BlackFlowMovementWalk">徒步移动</system:String>
+    <system:String x:Key="BlackFlowMovementProcessing">加工品移动</system:String>
+    <system:String x:Key="BlackFlowReasonMandatoryGoal">强制目标</system:String>
+    <system:String x:Key="BlackFlowReasonResourceReserve">资源保留</system:String>
+    <system:String x:Key="BlackFlowReasonPreferredGoal">偏好目标</system:String>
+    <system:String x:Key="BlackFlowReasonDevelopment">发育</system:String>
+    <system:String x:Key="BlackFlowReasonRiskAvoidance">风险规避</system:String>
+    <system:String x:Key="BlackFlowReasonSafetyFallback">安全退路</system:String>
+    <system:String x:Key="BlackFlowReasonTieBreak">次级比较</system:String>
+    <system:String x:Key="BlackFlowWarningMapRebuildFailed">地图重建失败</system:String>
+    <system:String x:Key="BlackFlowWarningPageRecoveryFailed">无法从节点页面返回地图</system:String>
+    <system:String x:Key="BlackFlowWarningPreviewCostChanged">移动预览显示的行动力消耗发生变化，正在重新规划</system:String>
+    <system:String x:Key="BlackFlowWarningTargetUnreachable">目标当前不可达，正在探测未知节点并重新规划</system:String>
+    <system:String x:Key="BlackFlowWarningRouteBlocked">路线被阻断</system:String>
+    <system:String x:Key="BlackFlowWarningInsufficientActionPoints">当前行动力不足</system:String>
+    <system:String x:Key="BlackFlowWarningTargetStateChanged">目标状态已变化</system:String>
+    <system:String x:Key="BlackFlowWarningInferredEdge">本次移动使用了低证据连线</system:String>
+    <system:String x:Key="BlackFlowWarningPostMoveMismatch">移动后的节点或行动力状态不一致</system:String>
+    <system:String x:Key="BlackFlowWarningIdentityConflict">预览显示的节点类型与当前地图不一致</system:String>
+    <system:String x:Key="BlackFlowWarningUnknown">肉鸽出现异常</system:String>
+    <system:String x:Key="BlackFlowMilestoneChanged">阶段目标：{0}（{1}）</system:String>
+    <system:String x:Key="BlackFlowStrategyResult">肉鸽策略结束：{0}（{1}）</system:String>
+    <system:String x:Key="BlackFlowStrategyStarted">黑流策略已启动：{0}</system:String>
+    <system:String x:Key="BlackFlowStrategyUnknown">未知策略</system:String>
+    <system:String x:Key="BlackFlowDecisionProbeUnknownNode">探测路线前方最近的未分类节点</system:String>
+    <system:String x:Key="BlackFlowDecisionPolicyOrder">按照策略设定的优先顺序选择</system:String>
+    <system:String x:Key="BlackFlowDecisionDetailUnknown">决策依据未知</system:String>
+    <system:String x:Key="BlackFlowMilestoneUnknown">未知阶段目标</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusAvailable">可以执行</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusSatisfied">已经完成</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusMissed">已经错过</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusImpossible">无法完成</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusUnknown">状态未知</system:String>
+    <system:String x:Key="BlackFlowNodeUnknown">未知节点</system:String>
+    <system:String x:Key="BlackFlowNodeEmpty">空节点</system:String>
+    <system:String x:Key="BlackFlowNodeCombat">作战</system:String>
+    <system:String x:Key="BlackFlowNodeEmergencyCombat">紧急作战</system:String>
+    <system:String x:Key="BlackFlowNodeBoss">险路恶敌</system:String>
+    <system:String x:Key="BlackFlowNodeBattleShop">普通商店</system:String>
+    <system:String x:Key="BlackFlowNodeScrapShop">秘境行商</system:String>
+    <system:String x:Key="BlackFlowNodeEncounter">不期而遇</system:String>
+    <system:String x:Key="BlackFlowNodeMysteriousPresage">未知的诡秘</system:String>
+    <system:String x:Key="BlackFlowNodeFerociousPresage">未知的凶戾</system:String>
+    <system:String x:Key="BlackFlowNodeScout">先行一步</system:String>
+    <system:String x:Key="BlackFlowNodeDuel">狭路相逢</system:String>
+    <system:String x:Key="BlackFlowNodeEmergencyAid">应急助力</system:String>
+    <system:String x:Key="BlackFlowNodeRest">休整节点</system:String>
+    <system:String x:Key="BlackFlowNodeFeatherPoint">羽瞰点</system:String>
+    <system:String x:Key="BlackFlowNodeWindingPassage">曲折密道</system:String>
+    <system:String x:Key="BlackFlowNodeSacrifice">奉献节点</system:String>
+    <system:String x:Key="BlackFlowNodeWish">得偿所愿</system:String>
+    <system:String x:Key="BlackFlowNodeBoskyPassage">误入奇境</system:String>
+    <system:String x:Key="BlackFlowNodeResidentStronghold">“居民”据点</system:String>
+    <system:String x:Key="BlackFlowNodeFinal">险路尽头</system:String>
+    <system:String x:Key="BlackFlowNodeFate">命运所指</system:String>
+    <system:String x:Key="BlackFlowNodeEvacuate">撤离点</system:String>
+    <system:String x:Key="BlackFlowNodeTeleporter">传送点</system:String>
+    <system:String x:Key="BlackFlowNodeOther">其他节点</system:String>
+    <system:String x:Key="BlackFlowRuleAvoidEmptyScrapShop">没有源石锭、种子及可出售零件时避开秘境行商</system:String>
+    <system:String x:Key="BlackFlowRulePreserveWhiteModelBird">保留白模鸟，避开需要加工品移动的可选战斗</system:String>
+    <system:String x:Key="BlackFlowRuleTriggerBossProcessingBonus">使用加工品进入首领节点并触发战斗加成</system:String>
+    <system:String x:Key="BlackFlowRuleExitWhenRequired">发育已经完成或安全余量不足，前往出口</system:String>
+    <system:String x:Key="BlackFlowRuleEnding1AvoidLateCombat">已经形成基本精二队伍，避开非必要战斗</system:String>
+    <system:String x:Key="BlackFlowRuleBabyUseProcessingItemForFloor1Shop">第一层使用加工品前往普通商店</system:String>
+    <system:String x:Key="BlackFlowRuleBabyWalkAfterFloor1Shop">第一层检查普通商店后徒步探索并保留加工品</system:String>
+    <system:String x:Key="BlackFlowRuleBabyDelayExitBeforeFloor3">第三层前仍有发育空间，暂缓前往出口</system:String>
+    <system:String x:Key="BlackFlowRuleBabyExitBeforeFloor3WhenRequired">第三层前发育已经完成或安全余量不足，前往出口</system:String>
+    <system:String x:Key="BlackFlowRuleBabyAvoidCombat">仍有其他安全走法，避开作战节点</system:String>
+    <system:String x:Key="BlackFlowRuleLightRevealsThree">羽瞰点预计可以揭示至少三个未知大节点</system:String>
+    <system:String x:Key="BlackFlowRuleInvestmentKeepShortWalk">商店距离不超过两格时保持徒步</system:String>
+    <system:String x:Key="BlackFlowRuleInvestmentUseM11ForDirectShop">没有短途徒步方案时使用结构性原理直达商店</system:String>
+    <system:String x:Key="BlackFlowRuleBurnRequireShopWhenFlightGuaranteed">开局配置保证精二机械师时，第一层路线必须经过商店</system:String>
+    <system:String x:Key="BlackFlowRuleBurnRequireFlightOnFloor2">该开局配置下第二层直接用结构性原理飞向出口</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">第一层优先作战</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">第一层尽量探索未知的诡秘</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">第二层优先先行一步</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">第二层优先秘境行商</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">第二层尽量探索未知的诡秘</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Employ">第二层顺路经过应急助力</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Light">第二层顺路经过羽瞰点</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Wish">第二层顺路经过得偿所愿</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateDuel">第三至五层优先狭路相逢</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateExpedition">第三至五层优先先行一步</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateScrapShop">第三至五层优先秘境行商</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateEmploy">第三至五层优先应急助力</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateHidden">第三至五层尽量探索未知的诡秘</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateIncident">第三至五层尽量经过不期而遇</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateCombat">第三至五层顺路经过作战</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateLight">第三至五层顺路经过羽瞰点</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateWish">第三至五层顺路经过得偿所愿</system:String>
+    <system:String x:Key="BlackFlowMilestoneInvestmentShop">进入第一层固定商店并完成投资</system:String>
+    <system:String x:Key="BlackFlowMilestoneBurnFloor1Shop">第一层进入商店</system:String>
+    <system:String x:Key="BlackFlowMilestoneBurnFloor1Final">第一层抵达险路尽头</system:String>
+    <system:String x:Key="BlackFlowMilestoneBurnFloor2Final">第二层抵达险路尽头</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCheckSeedShop">第一层检查商店中的种子</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">第一至三层进入秘境行商培育种子</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">尚未发现秘境行商时尽量多开未知的诡秘</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">顺路进入不期而遇</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyVisitLight">顺路进入羽瞰点</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">第二层经过普通商店时继续获取种子</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">第三层经过普通商店时卖货、刷新并尽量购买种子</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">获得沙盘 A</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding2SandtableB">获得沙盘 B</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding2Fate">第五层进入命运所指并完成二结局</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3DeviceOption2">在先行一步选择第二项并获得三结局所需藏品</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3Relics">获得三件降低三结局难度的特殊藏品</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3Floor5Boss">完成第五层首领战斗</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3Floor6">在第六层完成三结局</system:String>
+    <system:String x:Key="BlackFlowOutcomeInvestmentCompleted">投资路线完成</system:String>
+    <system:String x:Key="BlackFlowOutcomeInvestmentMissed">投资路线错过</system:String>
+    <system:String x:Key="BlackFlowOutcomeFloor3RouteCompleted">第三层速通路线完成</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationCompleted">目标襁褓动物培育完成</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationTargetMissed">未获得目标襁褓动物</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyNoSeed">没有获得种子</system:String>
+    <system:String x:Key="BlackFlowOutcomeEndingPrerequisiteFailed">结局前置条件未完成</system:String>
+    <system:String x:Key="BlackFlowOutcomeStrategyCompleted">本局策略目标已经完成</system:String>
+    <system:String x:Key="BlackFlowOutcomePageRecoveryFailed">无法返回地图</system:String>
+    <system:String x:Key="BlackFlowOutcomeEnding2Completed">二结局已经完成</system:String>
+    <system:String x:Key="BlackFlowOutcomeEnding3Completed">三结局已经完成</system:String>
+    <system:String x:Key="BlackFlowOutcomeEnding2PrerequisiteFailed">二结局前置条件未完成</system:String>
+    <system:String x:Key="BlackFlowOutcomeEnding3PrerequisiteFailed">三结局前置条件未完成</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationUnfinished">襁褓动物培育未完成</system:String>
+    <system:String x:Key="BlackFlowOutcomeTaskEventFailed">节点结果处理失败</system:String>
+    <system:String x:Key="BlackFlowOutcomePerceptionPortMissing">地图识别接口不可用</system:String>
+    <system:String x:Key="BlackFlowOutcomeMapRebuildFailed">地图重建失败</system:String>
+    <system:String x:Key="BlackFlowOutcomePlanningFailed">路线规划失败</system:String>
+    <system:String x:Key="BlackFlowOutcomeTransactionProposalFailed">无法准备本次移动</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovePreviewFailed">无法打开移动预览</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovePreviewRejected">移动预览拒绝当前路线</system:String>
+    <system:String x:Key="BlackFlowOutcomeMoveConfirmationFailed">无法确认本次移动</system:String>
+    <system:String x:Key="BlackFlowOutcomePostMoveValidationFailed">移动后的状态校验失败</system:String>
+    <system:String x:Key="BlackFlowOutcomePlanningRetryExhausted">路线重新规划次数已经用尽</system:String>
+    <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">界面流程走不下去了</system:String>
+    <system:String x:Key="BlackFlowOutcomeMapRecoveryExhausted">地图恢复重试次数已经用尽</system:String>
+    <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">楼层识别失败</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">移动加工品识别失败</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovementSelectionFailed">移动加工品选择失败</system:String>
+    <system:String x:Key="BlackFlowOutcomeNodeDispatchFailed">节点分派失败</system:String>
+    <system:String x:Key="BlackFlowOutcomeNodeResultFailed">节点结果处理失败</system:String>
+    <system:String x:Key="BlackFlowOutcomeInternalFailure">内部状态异常</system:String>
+    <system:String x:Key="BlackFlowOutcomeUnknown">肉鸽出现异常</system:String>
+    <system:String x:Key="BlackFlowTerminationInvestmentFinished">投资已经完成，本局结束</system:String>
+    <system:String x:Key="BlackFlowTerminationInvestmentShopWindowClosed">已经离开第一层且尚未投资，本局重开</system:String>
+    <system:String x:Key="BlackFlowTerminationFloor3Reached">已抵达第三层，本局路线完成</system:String>
+    <system:String x:Key="BlackFlowTerminationCultivationReported">已经取得培育结果，本局结束</system:String>
+    <system:String x:Key="BlackFlowTerminationCultivationTargetObtained">培育结果包含目标品种，任务结束</system:String>
+    <system:String x:Key="BlackFlowTerminationCultivationTargetNotObtained">培育结果未包含目标品种，本局重开</system:String>
+    <system:String x:Key="BlackFlowTerminationFloor1ShopNoSeed">第一层商店没有种子，本局结束</system:String>
+    <system:String x:Key="BlackFlowTerminationMandatoryPrerequisiteMissed">必须完成的结局前置条件已经错过</system:String>
+    <system:String x:Key="BlackFlowTerminationStrategyTerminalReached">已经抵达策略终点</system:String>
+    <system:String x:Key="BlackFlowTerminationNodePageRecoveryFailed">无法从节点页面返回地图</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding2Completed">已完成二结局战斗</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding3Completed">已完成三结局战斗</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding2PrerequisiteMissing">第五层前仍未满足二结局的沙盘要求</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding3RelicMissing">第五层前仍未取得三结局所需藏品</system:String>
+    <system:String x:Key="BlackFlowTerminationNoBoskyPassage">第三层未发现误入奇境，本局路线完成</system:String>
+    <system:String x:Key="BlackFlowTerminationActionPointsExhaustedBeforeCultivation">第三层行动力耗尽，未完成培育</system:String>
+    <system:String x:Key="BlackFlowTerminationScrapShopNeverReached">没有到达秘境行商，本局结束</system:String>
+    <system:String x:Key="BlackFlowTerminationRecoveryPortUnavailable">地图恢复接口不可用</system:String>
+    <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">地图识别与任务接口不可用</system:String>
+    <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">连续两次地图重建失败</system:String>
+    <system:String x:Key="BlackFlowTerminationPlanningRetryExhausted">预览反复改变可选路线，已经超过重新规划次数</system:String>
+    <system:String x:Key="BlackFlowTerminationUnknown">详细原因请查看文件日志</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">识别到 {0} 个选项:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">可选选项: {0}</system:String>

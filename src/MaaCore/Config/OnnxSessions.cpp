@@ -24,21 +24,27 @@ bool asst::OnnxSessions::load(const std::filesystem::path& path)
     Log.info("record path", path.lexically_relative(UserDir.get()));
 
     std::string name = utils::path_to_utf8_string(path.stem());
-
+    std::lock_guard lock(m_mutex);
     if (auto iter = m_model_paths.find(name); iter == m_model_paths.end() || iter->second != path) {
-        m_sessions.erase(name);
         m_model_paths.insert_or_assign(name, path);
+        // 引用归零前不能销毁会话，持有者（如地图感知）还握着裸引用；挂起待 release 时销毁
+        if (m_session_users.contains(name)) {
+            m_pending_reload.insert(name);
+        }
+        else {
+            m_sessions.erase(name);
+        }
     }
 
     return true;
 }
 
-Ort::Session& asst::OnnxSessions::get(const std::string& name)
+Ort::Session& asst::OnnxSessions::get_or_create(const std::string& name)
 {
-    if (m_sessions.find(name) == m_sessions.end()) {
+    if (!m_sessions.contains(name)) {
         if (gpu_enabled && !gpu_options_initialized && !initialize_gpu_options()) {
             Log.error(__FUNCTION__, "Failed to initialize configured GPU; falling back to CPU mode");
-            use_cpu();
+            use_cpu_locked();
         }
 
         Log.info(__FUNCTION__, "lazy load", name);
@@ -46,6 +52,39 @@ Ort::Session& asst::OnnxSessions::get(const std::string& name)
         m_sessions.emplace(name, std::move(session));
     }
     return m_sessions.at(name);
+}
+
+Ort::Session& asst::OnnxSessions::get(const std::string& name)
+{
+    std::lock_guard lock(m_mutex);
+    return get_or_create(name);
+}
+
+Ort::Session& asst::OnnxSessions::acquire(const std::string& name)
+{
+    std::lock_guard lock(m_mutex);
+    Ort::Session& session = get_or_create(name);
+    ++m_session_users[name];
+    return session;
+}
+
+void asst::OnnxSessions::release(const std::string& name)
+{
+    std::lock_guard lock(m_mutex);
+    const auto found = m_session_users.find(name);
+    if (found == m_session_users.end()) {
+        Log.error(__FUNCTION__, "session was not acquired", name);
+        return;
+    }
+    if (--found->second == 0) {
+        m_session_users.erase(found);
+        if (m_pending_reload.erase(name) > 0) {
+            // 持有期间模型路径变化过，最后一个引用释放后销毁旧会话，下次 acquire 按新路径重建
+            m_sessions.erase(name);
+            Log.info(__FUNCTION__, "stale session destroyed after last release", name);
+        }
+        Log.info(__FUNCTION__, "released", name);
+    }
 }
 
 int asst::OnnxSessions::reset_session_options()
@@ -76,7 +115,13 @@ int asst::OnnxSessions::reset_session_options()
 
 bool asst::OnnxSessions::use_cpu()
 {
-    if (m_sessions.size() != 0) {
+    std::lock_guard lock(m_mutex);
+    return use_cpu_locked();
+}
+
+bool asst::OnnxSessions::use_cpu_locked()
+{
+    if (!m_sessions.empty()) {
         return false;
     }
 
@@ -91,6 +136,12 @@ bool asst::OnnxSessions::use_cpu()
 
 bool asst::OnnxSessions::use_gpu(GpuDeviceSelector selector)
 {
+    std::lock_guard lock(m_mutex);
+    return use_gpu_locked(std::move(selector));
+}
+
+bool asst::OnnxSessions::use_gpu_locked(GpuDeviceSelector selector)
+{
     if (gpu_enabled) {
         if (m_gpu_selector == selector) {
             return true;
@@ -99,7 +150,7 @@ bool asst::OnnxSessions::use_gpu(GpuDeviceSelector selector)
         Log.error(__FUNCTION__, "GPU OCR is already configured with a different device selector");
         return false;
     }
-    if (m_sessions.size() != 0) {
+    if (!m_sessions.empty()) {
         Log.error(__FUNCTION__, "GPU OCR cannot be configured after ONNX sessions have been created");
         return false;
     }

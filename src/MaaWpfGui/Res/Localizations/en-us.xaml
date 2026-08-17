@@ -215,6 +215,14 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="InfrastThresholdTip">If custom shifts are enabled, this field is only valid for rooms with autofill and {key=Operator} groups</system:String>
     <system:String x:Key="RoguelikeStrategyExp">Gain Experience Points, clear as many nodes as possible</system:String>
     <system:String x:Key="RoguelikeStrategyGold">Invests ingots, exits automatically after investment completes</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowExp">Farm levels, quickly reach Floor 3</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">Farm Originium Ingots, exit after investing</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">Cultivation strategy</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTarget">Target swaddled animal</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCat">Swaddled Cat</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpent">Swaddled Feathered Serpent</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetDog">Swaddled Dog</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">Swaddled Cerberus</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">Grind to obtain Hot Water Kettle or Elite 2 {key=Operator}s</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">Farm collapse paradigms, restart immediately after encountering a non-rare collapse paradigm</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">Squad to get collectibles</system:String>
@@ -230,6 +238,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting {key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">If not filled out, the default policy will be used.</system:String>
+    <system:String x:Key="RoguelikeThemeTipRecommended">← Highly recommended reading</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">The {key=Operator} is not in battle_data.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for ｢{key=StartingCoreChar}｣ Elite 2</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for ｢{key=StartingCoreChar}｣ Elite 2, No Battle</system:String>
@@ -597,6 +606,23 @@ When difficulty ≥ N6, 6★ Hope cost +1; some squads may be unable to recruit 
 2. The command-avoid-combat strategy greatly improves ingot farming efficiency and can also be used for quick leveling (without aiming to clear), but note the strategy must be set to "Farm Originium Ingots"
 3. If the highest unlocked difficulty is &lt; N3 or the relevant tech is not unlocked, do not use the command-avoid-combat strategy; otherwise, it may cause errors
 4. When difficulty ≥ N15, 6★ Hope cost +1; using some squads may make it impossible to recruit a 6★ operator at the start, causing errors or failures</system:String>
+    <system:String x:Key="RoguelikeThemeTipBlackFlow" xml:space="preserve">{key=RoguelikeThemeBlackFlow} recommended configuration:
+
+{key=StartingCoreChar}: Mechanic (Elite 2 required)
+{key=StartingSquad}: ｢{key=SpecialForceSquad}｣ / ｢{key=TacticalFortificationOperative}｣
+{key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
+
+1. There is no dedicated battle strategy yet; combat is decided automatically by the recruitment scoring system.
+    Ingot farming, level farming and swaddled-animal farming all currently revolve around the Elite 2 Mechanic's flight.
+    This roguelike is full of special mechanics — without the setup above you are stuck with the default pathfinding and combat, which will most likely fail.
+    Starting with an Elite 2 Mechanic is strongly recommended (getting one only requires clearing N1 once, which is fairly easy)
+2. After Elite 2, unlock the ｢Recruitment Mastery II｣ and ｢Effect Improvement II｣ techs so the ｢Structural Principle｣ is carried from the start (fly anywhere on the map 3 times).
+    The unlock is easy — just sell 10 parts in total after Elite 2 — and strongly recommended.
+    Without it you can only fly to the 8 surrounding tiles 3 times; still farmable, but much less efficient
+3. When farming levels, the Mechanic (Elite 2 required) + the squads and roles above + a Defender voucher let you fly through the three floors quickly
+4. Do not pick the Mechanic without Elite 2; you can farm money normally, but battles will most likely end in defeat.
+    Other strategies await future optimization
+5. Farming levels with ｢{key=InvestmentEnabled}｣ unchecked skips shops entirely</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the ｢Structural Classics｣ tech, related to ｢{key=RoguelikeThemeJieGarden}｣, using {key=LeaderSquad} to explore at difficulty N3 or higher will carry an additional ｢End of Time｣, enabling a ｢one-battle-one-skip｣ saving strategy.
 If this tech is not unlocked, do not select difficulty N3 or above (including ｢MAX｣);
@@ -1399,6 +1425,171 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BoskyDisaster">Bosky: Turmoil</system:String>
     <system:String x:Key="RoguelikeCoppersExchange">Tongbao Exchange: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeCoppersRecognitionError">Tongbao recognition failed: "{0}"</system:String>
+    <system:String x:Key="BlackFlowRoutingDecision">Floor {0} | AP {1}→{2} | {3} to {4} | Safety margin {5}</system:String>
+    <system:String x:Key="BlackFlowRoutingReason">Reason: {0} | Detail: {1}</system:String>
+    <system:String x:Key="BlackFlowMovementWalk">Walk</system:String>
+    <system:String x:Key="BlackFlowMovementProcessing">Processing-item move</system:String>
+    <system:String x:Key="BlackFlowReasonMandatoryGoal">Mandatory goal</system:String>
+    <system:String x:Key="BlackFlowReasonResourceReserve">Resource reserve</system:String>
+    <system:String x:Key="BlackFlowReasonPreferredGoal">Preferred goal</system:String>
+    <system:String x:Key="BlackFlowReasonDevelopment">Development</system:String>
+    <system:String x:Key="BlackFlowReasonRiskAvoidance">Risk avoidance</system:String>
+    <system:String x:Key="BlackFlowReasonSafetyFallback">Safe route</system:String>
+    <system:String x:Key="BlackFlowReasonTieBreak">Tie-break</system:String>
+    <system:String x:Key="BlackFlowWarningMapRebuildFailed">Map rebuild failed</system:String>
+    <system:String x:Key="BlackFlowWarningPageRecoveryFailed">Unable to return from the node page to the map</system:String>
+    <system:String x:Key="BlackFlowWarningPreviewCostChanged">The preview AP cost changed; replanning</system:String>
+    <system:String x:Key="BlackFlowWarningTargetUnreachable">The target is unreachable; probing an unknown node and replanning</system:String>
+    <system:String x:Key="BlackFlowWarningRouteBlocked">The route is blocked.</system:String>
+    <system:String x:Key="BlackFlowWarningInsufficientActionPoints">There are not enough action points.</system:String>
+    <system:String x:Key="BlackFlowWarningTargetStateChanged">The target state has changed.</system:String>
+    <system:String x:Key="BlackFlowWarningInferredEdge">This move uses a low-evidence connection</system:String>
+    <system:String x:Key="BlackFlowWarningPostMoveMismatch">Post-move node or AP state is inconsistent</system:String>
+    <system:String x:Key="BlackFlowWarningIdentityConflict">The previewed node identity conflicts with the current map</system:String>
+    <system:String x:Key="BlackFlowWarningUnknown">Roguelike encountered an error</system:String>
+    <system:String x:Key="BlackFlowMilestoneChanged">Objective {0}: {1}</system:String>
+    <system:String x:Key="BlackFlowStrategyResult">Roguelike strategy ended: {0} ({1})</system:String>
+    <system:String x:Key="BlackFlowStrategyStarted">BlackFlow strategy started: {0}</system:String>
+    <system:String x:Key="BlackFlowStrategyUnknown">Unknown strategy</system:String>
+    <system:String x:Key="BlackFlowDecisionProbeUnknownNode">Probe the nearest unclassified node on the route</system:String>
+    <system:String x:Key="BlackFlowDecisionPolicyOrder">Selected by the configured policy order</system:String>
+    <system:String x:Key="BlackFlowDecisionDetailUnknown">Decision detail unknown</system:String>
+    <system:String x:Key="BlackFlowMilestoneUnknown">Unknown objective</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusAvailable">Available</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusSatisfied">Completed</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusMissed">Missed</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusImpossible">Impossible</system:String>
+    <system:String x:Key="BlackFlowMilestoneStatusUnknown">Unknown status</system:String>
+    <system:String x:Key="BlackFlowNodeUnknown">Unknown node</system:String>
+    <system:String x:Key="BlackFlowNodeEmpty">Empty node</system:String>
+    <system:String x:Key="BlackFlowNodeCombat">Battle normal</system:String>
+    <system:String x:Key="BlackFlowNodeEmergencyCombat">Battle elite</system:String>
+    <system:String x:Key="BlackFlowNodeBoss">Battle boss</system:String>
+    <system:String x:Key="BlackFlowNodeBattleShop">Shop</system:String>
+    <system:String x:Key="BlackFlowNodeScrapShop">Scrap shop</system:String>
+    <system:String x:Key="BlackFlowNodeEncounter">Incident</system:String>
+    <system:String x:Key="BlackFlowNodeMysteriousPresage">Hide invisible</system:String>
+    <system:String x:Key="BlackFlowNodeFerociousPresage">Hide battle</system:String>
+    <system:String x:Key="BlackFlowNodeScout">Expedition</system:String>
+    <system:String x:Key="BlackFlowNodeDuel">Duel</system:String>
+    <system:String x:Key="BlackFlowNodeEmergencyAid">Employ</system:String>
+    <system:String x:Key="BlackFlowNodeRest">Rest</system:String>
+    <system:String x:Key="BlackFlowNodeFeatherPoint">Light</system:String>
+    <system:String x:Key="BlackFlowNodeWindingPassage">Door</system:String>
+    <system:String x:Key="BlackFlowNodeSacrifice">Sacrifice</system:String>
+    <system:String x:Key="BlackFlowNodeWish">Wish</system:String>
+    <system:String x:Key="BlackFlowNodeBoskyPassage">Portal</system:String>
+    <system:String x:Key="BlackFlowNodeResidentStronghold">Battle savage</system:String>
+    <system:String x:Key="BlackFlowNodeFinal">Final</system:String>
+    <system:String x:Key="BlackFlowNodeFate">Fate</system:String>
+    <system:String x:Key="BlackFlowNodeEvacuate">Evacuate</system:String>
+    <system:String x:Key="BlackFlowNodeTeleporter">Teleporter</system:String>
+    <system:String x:Key="BlackFlowNodeOther">Other node</system:String>
+    <system:String x:Key="BlackFlowRuleAvoidEmptyScrapShop">Avoid the scrap trader when there are no usable resources</system:String>
+    <system:String x:Key="BlackFlowRulePreserveWhiteModelBird">Preserve the White Model Bird by avoiding optional processing-item combat</system:String>
+    <system:String x:Key="BlackFlowRuleTriggerBossProcessingBonus">Use a processing item to enter the boss node and trigger combat bonuses</system:String>
+    <system:String x:Key="BlackFlowRuleExitWhenRequired">Head to the exit when development is exhausted or the safety margin is low</system:String>
+    <system:String x:Key="BlackFlowRuleEnding1AvoidLateCombat">Avoid unnecessary combat after forming a basic Elite 2 squad</system:String>
+    <system:String x:Key="BlackFlowRuleBabyUseProcessingItemForFloor1Shop">Use a processing item to reach the normal shop on floor 1</system:String>
+    <system:String x:Key="BlackFlowRuleBabyWalkAfterFloor1Shop">Explore on foot after checking the floor 1 shop and preserve processing items</system:String>
+    <system:String x:Key="BlackFlowRuleBabyDelayExitBeforeFloor3">Delay the exit before floor 3 while development opportunities remain</system:String>
+    <system:String x:Key="BlackFlowRuleBabyExitBeforeFloor3WhenRequired">Head to the exit before floor 3 when development is exhausted or the safety margin is low</system:String>
+    <system:String x:Key="BlackFlowRuleBabyAvoidCombat">Avoid battle nodes while another safe option remains</system:String>
+    <system:String x:Key="BlackFlowRuleLightRevealsThree">Prioritize a light node that reveals at least three unknown major nodes</system:String>
+    <system:String x:Key="BlackFlowRuleInvestmentKeepShortWalk">Stay on foot when the shop is within two tiles</system:String>
+    <system:String x:Key="BlackFlowRuleInvestmentUseM11ForDirectShop">Use Structural Principle to reach the shop directly when no short walk exists</system:String>
+    <system:String x:Key="BlackFlowRuleBurnRequireShopWhenFlightGuaranteed">Require the floor 1 route to pass a shop when the starting setup guarantees an Elite 2 mechanic</system:String>
+    <system:String x:Key="BlackFlowRuleBurnRequireFlightOnFloor2">Fly directly to the floor 2 exit with Structural Principle under the same setup</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">Prioritize battle nodes on floor 1</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">Explore hide invisible nodes on floor 1</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">Prioritize expedition on floor 2</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">Prioritize the scrap shop on floor 2</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">Explore hide invisible nodes on floor 2</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Employ">Visit employ on floor 2 along the way</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Light">Visit light nodes on floor 2 along the way</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Wish">Visit wish nodes on floor 2 along the way</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateDuel">Prioritize duel on floors 3-5</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateExpedition">Prioritize expedition on floors 3-5</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateScrapShop">Prioritize the scrap shop on floors 3-5</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateEmploy">Prioritize employ on floors 3-5</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateHidden">Explore hide invisible nodes on floors 3-5</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateIncident">Pass through incident nodes on floors 3-5</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateCombat">Pass through battle nodes on floors 3-5</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateLight">Visit light nodes on floors 3-5 along the way</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateWish">Visit wish nodes on floors 3-5 along the way</system:String>
+    <system:String x:Key="BlackFlowMilestoneInvestmentShop">Enter the fixed floor 1 shop and finish investing</system:String>
+    <system:String x:Key="BlackFlowMilestoneBurnFloor1Shop">Enter the shop on floor 1</system:String>
+    <system:String x:Key="BlackFlowMilestoneBurnFloor1Final">Reach the final node on floor 1</system:String>
+    <system:String x:Key="BlackFlowMilestoneBurnFloor2Final">Reach the final node on floor 2</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCheckSeedShop">Check the floor 1 shop for seeds</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">Enter a scrap trader on floors 1-3 to cultivate seeds</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">Reveal as many unknown nodes as possible until a scrap trader is found</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">Visit an encounter along the way</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyVisitLight">Visit a vantage point along the way</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">Continue collecting seeds when visiting a normal shop on floor 2</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">Sell items, refresh stock, and collect seeds when visiting a normal shop on floor 3</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">Obtain Sandtable A</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding2SandtableB">Obtain Sandtable B</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding2Fate">Enter the fated destination on floor 5 and complete Ending 2</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3DeviceOption2">Choose the second Scout option and obtain the Ending 3 relic</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3Relics">Obtain three special relics that reduce Ending 3 difficulty</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3Floor5Boss">Defeat the floor 5 boss</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3Floor6">Complete Ending 3 on floor 6</system:String>
+    <system:String x:Key="BlackFlowOutcomeInvestmentCompleted">Investment route completed</system:String>
+    <system:String x:Key="BlackFlowOutcomeInvestmentMissed">Investment route missed</system:String>
+    <system:String x:Key="BlackFlowOutcomeFloor3RouteCompleted">Floor 3 speed route completed</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationCompleted">Target swaddled animal obtained</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationTargetMissed">Target swaddled animal not obtained</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyNoSeed">No seed obtained</system:String>
+    <system:String x:Key="BlackFlowOutcomeEndingPrerequisiteFailed">Ending prerequisite not completed</system:String>
+    <system:String x:Key="BlackFlowOutcomeStrategyCompleted">Run objective completed</system:String>
+    <system:String x:Key="BlackFlowOutcomePageRecoveryFailed">Unable to return to the map</system:String>
+    <system:String x:Key="BlackFlowOutcomeEnding2Completed">Ending 2 completed</system:String>
+    <system:String x:Key="BlackFlowOutcomeEnding3Completed">Ending 3 completed</system:String>
+    <system:String x:Key="BlackFlowOutcomeEnding2PrerequisiteFailed">Ending 2 prerequisite not completed</system:String>
+    <system:String x:Key="BlackFlowOutcomeEnding3PrerequisiteFailed">Ending 3 prerequisite not completed</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyCultivationUnfinished">Cultivation not completed</system:String>
+    <system:String x:Key="BlackFlowOutcomeTaskEventFailed">Failed to process the node result</system:String>
+    <system:String x:Key="BlackFlowOutcomePerceptionPortMissing">Map perception interface is unavailable</system:String>
+    <system:String x:Key="BlackFlowOutcomeMapRebuildFailed">Map rebuild failed</system:String>
+    <system:String x:Key="BlackFlowOutcomePlanningFailed">Route planning failed</system:String>
+    <system:String x:Key="BlackFlowOutcomeTransactionProposalFailed">Failed to prepare the move</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovePreviewFailed">Failed to open the move preview</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovePreviewRejected">Move preview rejected the route</system:String>
+    <system:String x:Key="BlackFlowOutcomeMoveConfirmationFailed">Failed to confirm the move</system:String>
+    <system:String x:Key="BlackFlowOutcomePostMoveValidationFailed">Post-move state validation failed</system:String>
+    <system:String x:Key="BlackFlowOutcomePlanningRetryExhausted">Route replanning limit reached</system:String>
+    <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">Interface flow reached a dead end</system:String>
+    <system:String x:Key="BlackFlowOutcomeMapRecoveryExhausted">Map recovery retries exhausted</system:String>
+    <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">Floor recognition failed</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">Movement item recognition failed</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovementSelectionFailed">Movement item selection failed</system:String>
+    <system:String x:Key="BlackFlowOutcomeNodeDispatchFailed">Node dispatch failed</system:String>
+    <system:String x:Key="BlackFlowOutcomeNodeResultFailed">Node result handling failed</system:String>
+    <system:String x:Key="BlackFlowOutcomeInternalFailure">Internal state error</system:String>
+    <system:String x:Key="BlackFlowOutcomeUnknown">Roguelike encountered an error</system:String>
+    <system:String x:Key="BlackFlowTerminationInvestmentFinished">Investment completed; this run has ended</system:String>
+    <system:String x:Key="BlackFlowTerminationInvestmentShopWindowClosed">Left the first floor without investing; restarting this run</system:String>
+    <system:String x:Key="BlackFlowTerminationFloor3Reached">Reached floor 3; this run's route is complete</system:String>
+    <system:String x:Key="BlackFlowTerminationCultivationReported">Cultivation result received; this run has ended</system:String>
+    <system:String x:Key="BlackFlowTerminationCultivationTargetObtained">The cultivation result contains the target; stopping the task</system:String>
+    <system:String x:Key="BlackFlowTerminationCultivationTargetNotObtained">The cultivation result does not contain the target; restarting this run</system:String>
+    <system:String x:Key="BlackFlowTerminationFloor1ShopNoSeed">The floor 1 shop had no seed; this run has ended</system:String>
+    <system:String x:Key="BlackFlowTerminationMandatoryPrerequisiteMissed">A mandatory ending prerequisite was missed</system:String>
+    <system:String x:Key="BlackFlowTerminationStrategyTerminalReached">Reached the strategy destination</system:String>
+    <system:String x:Key="BlackFlowTerminationNodePageRecoveryFailed">Unable to return from the node page to the map</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding2Completed">Completed the Ending 2 battle</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding3Completed">Completed the Ending 3 battle</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding2PrerequisiteMissing">Ending 2 sandtable requirements were not met before floor 5</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding3RelicMissing">The Ending 3 relic was not obtained before floor 5</system:String>
+    <system:String x:Key="BlackFlowTerminationNoBoskyPassage">No bosky passage was found on floor 3; this run's route is complete</system:String>
+    <system:String x:Key="BlackFlowTerminationActionPointsExhaustedBeforeCultivation">Action points were exhausted on floor 3 before cultivation was completed</system:String>
+    <system:String x:Key="BlackFlowTerminationScrapShopNeverReached">No scrap trader was reached; this run has ended</system:String>
+    <system:String x:Key="BlackFlowTerminationRecoveryPortUnavailable">Map recovery interface is unavailable</system:String>
+    <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">Map perception and task interfaces are unavailable</system:String>
+    <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">Map rebuild failed twice consecutively</system:String>
+    <system:String x:Key="BlackFlowTerminationPlanningRetryExhausted">Preview changes exhausted the route replanning limit</system:String>
+    <system:String x:Key="BlackFlowTerminationUnknown">See the file log for details</system:String>
     <system:String x:Key="RoguelikeEvent">Event:&#160;</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">Detected {0} options:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">Available option: {0}</system:String>
