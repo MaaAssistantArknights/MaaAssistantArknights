@@ -1361,6 +1361,8 @@ public class TaskQueueViewModel : Screen
     /// is shown verbatim. Defaults to <see langword="true"/>.</param>
     public void AddLogSection(string? header = null, bool decoratePlainText = true)
     {
+        RunningState.Instance.NotifyOutputActivity();
+        _logger.Information("{Header}", header);
         Execute.OnUIThread(() => {
             // Plain-text log style: either a decorated "-----{header}-----" line or the header verbatim.
             var plainText = header is null
