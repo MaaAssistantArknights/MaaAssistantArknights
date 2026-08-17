@@ -2111,6 +2111,12 @@ bool BlackFlowSession::apply_node_task_result(
 
 void BlackFlowSession::fail(std::string outcome, std::string reason, FailureDisposition disposition)
 {
+    if (m_result.has_value()) {
+        // 终局规则可能已写入结果（如培育完成）；后到的失败路径不得改写已定局的本局结局，
+        // 与 apply_node_task_result 成功路径的 !m_result.has_value() 保护保持一致
+        Log.warn(__FUNCTION__, "ignore failure; strategy result already present", outcome, reason);
+        return;
+    }
     if (outcome == "map_rebuild_failed") {
         queue_warning("map_rebuild_failed", reason, DiagnosticTrigger::MapRebuildFailed);
     }
