@@ -28,13 +28,19 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 #### パラメータ説明
 
 :::: field-group  
-::: field name="handle" type="AsstHandle" required  
+::: field handle  
+@type AsstHandle
+@required
 インスタンス ハンドル  
 :::  
-::: field name="type" type="const char*" required  
+::: field type  
+@type const char*
+@required
 タスク タイプ  
 :::  
-::: field name="params" type="const char*" required  
+::: field params  
+@type const char*
+@required
 タスク パラメータ、JSON 文字列  
 :::  
 ::::
@@ -45,18 +51,28 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
   ゲーム起動
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="client_type" type="string" required  
+::: field client_type  
+@type string
+@required
 クライアント バージョン。  
 <br>
 オプション：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
 :::  
-::: field name="start_game_enabled" type="boolean" optional default="false"  
+::: field start_game_enabled  
+@type boolean
+@default false
+@optional
 クライアントを自動的に起動するかどうか。  
 :::  
-::: field name="account_name" type="string" optional  
+::: field account_name  
+@type string
+@optional
 アカウントを切り替えます。デフォルトでは切り替えません。  
 <br>
 ログイン済みのアカウントへの切り替えのみ可能で、ログイン名で検索し、入力内容がすべてのログイン済みアカウント間で一意であることを確認してください。  
@@ -87,10 +103,15 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
   ゲームを閉じます。
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="client_type" type="string" required  
+::: field client_type  
+@type string
+@required
 クライアント バージョン。空白を入力すると実行されません。  
 <br>
 オプション：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
@@ -113,10 +134,15 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
   理智作战
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="stage" type="string" optional  
+::: field stage  
+@type string
+@optional
 ステージ名。デフォルトは空で、現在/最後のステージを認識します。実行中の設定はサポートされていません。  
 ナビゲーション対象のステージは以下の通りです：
 
@@ -133,22 +159,40 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 - 当期 SS イベントの最後の 3 ステージ。[API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) にアクセスして、サポートされているステージ リストを取得できます。[tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) ファイルのイベント ステージ ナビゲーションを追加でロードする必要があります。
 - 復刻 SS イベント。`SSReopen-<ステージ プレフィックス>` と入力します。例えば `SSReopen-IC` と入力すると、XX-1～XX-9 ステージを一度に完了できます。
   :::  
-  ::: field name="medicine" type="number" optional default="0"  
+  ::: field medicine  
+  @type number
+  @default 0
+  @optional
   理性回復剤の最大使用数。  
   :::  
-  ::: field name="medicine_expire_days" type="number" optional default="0"  
+  ::: field medicine_expire_days  
+  @type number
+  @default 0
+  @optional
   指定日数以内に期限切れになる理性回復剤を使用します。`0` は期限切れの理性回復剤を使用しないことを意味します。  
   :::  
-  ::: field name="expiring_medicine" type="number" optional default="0" deprecated  
+  ::: field expiring_medicine  
+  @type number
+  @default 0
+  @optional
+  @deprecated
   v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を使用してください。  
   :::  
-  ::: field name="stone" type="number" optional default="0"  
+  ::: field stone  
+  @type number
+  @default 0
+  @optional
   純正源石の最大使用数。  
   :::  
-  ::: field name="times" type="number" optional default="2147483647"  
+  ::: field times  
+  @type number
+  @default 2147483647
+  @optional
   戦闘回数。  
   :::  
-  ::: field name="series" type="number" optional  
+  ::: field series  
+  @type number
+  @optional
   連戦回数。-1～10。
   <br>
   `-1` は切り替えを無効にします。
@@ -166,37 +210,57 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
     海外サーバーは約半年後に追従予定で、その際に上限はリソースに合わせて 10 になります。Windows GUI の連戦回数ドロップダウンは現在固定で 10 まで表示されます。海外で手動で 7～10 を選ぶと、タスク投入時に Core に拒否されます。
     :::  
     :::  
-    ::: field name="drops" type="object" optional  
+    ::: field drops  
+    @type object
+    @optional
     ドロップ数を指定します。デフォルトで指定なし。キーは item_id、値は数量です。キーは `resource/item_index.json` ファイルを参照できます。  
     <br>
     例：`{ "30011": 10, "30062": 5 }`  
     <br>
     上記はすべて OR 関係です。つまり、いずれかに達するとタスクが停止します。  
     :::  
-    ::: field name="report_to_penguin" type="boolean" optional default="false"  
+    ::: field report_to_penguin  
+    @type boolean
+    @default false
+    @optional
     ペンギン統計にレポートするかどうか。  
     :::  
-    ::: field name="penguin_id" type="string" optional  
+    ::: field penguin_id  
+    @type string
+    @optional
     ペンギン統計レポート ID。デフォルトは空です。`report_to_penguin` が true の場合のみ有効です。  
     :::  
     :::  
-    ::: field name="report_to_yituliu" type="boolean" optional default="false"  
+    ::: field report_to_yituliu  
+    @type boolean
+    @default false
+    @optional
     一图流にレポートするかどうか。  
     :::  
-    ::: field name="yituliu_id" type="string" optional  
+    ::: field yituliu_id  
+    @type string
+    @optional
     一图流レポート ID。デフォルトは空です。`report_to_yituliu` が true の場合のみ有効です。  
     :::  
-    ::: field name="server" type="string" optional default="CN"  
+    ::: field server  
+    @type string
+    @default CN
+    @optional
     サーバー。ドロップ認識とアップロードに影響します。
     <br>
     オプション：`CN` | `US` | `JP` | `KR`  
     :::  
-    ::: field name="client_type" type="string" optional  
+    ::: field client_type  
+    @type string
+    @optional
     クライアント バージョン。デフォルトは空です。ゲームがクラッシュした場合にクライアントを再起動して接続し直すために使用されます。空の場合、この機能は有効になりません。
     <br>
     オプション：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
     :::  
-    ::: field name="DrGrandet" type="boolean" optional default="false"  
+    ::: field DrGrandet  
+    @type boolean
+    @default false
+    @optional
     理智節約源石モード。源石効果が発生する可能性がある場合にのみ有効です。
     <br>
     源石確認画面で待機し、現在の 1 ポイントの理智回復が完了するまで待ってから、すぐに源石を使用します。  
@@ -234,24 +298,39 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
   公開求人
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="refresh" type="boolean" optional default="false"  
+::: field refresh  
+@type boolean
+@default false
+@optional
 3 星タグを更新するかどうか。  
 :::  
-::: field name="select" type="array<number>" required  
+::: field select  
+@type array<number>
+@required
 クリックするタグレベル。  
 :::  
-::: field name="confirm" type="array<number>" required  
+::: field confirm  
+@type array<number>
+@required
 確認するタグレベル。計算のみの場合は、空配列に設定できます。  
 :::  
-::: field name="first_tags" type="array<string>" optional  
+::: field first_tags  
+@type array<string>
+@optional
 優先タグ。タグレベルが 3 の場合のみ有効です。デフォルトは空です。
 <br>
 タグレベルが 3 の場合、ここのタグがあれば可能な限り多くを選択します（存在する場合）。強制選択であり、「3 星タグを選択しない」設定はすべて無視されます。  
 :::  
-::: field name="extra_tags_mode" type="number" optional default="0"  
+::: field extra_tags_mode  
+@type number
+@default 0
+@optional
 その他のタグを選択します。
 <br>
 `0` - デフォルト動作
@@ -260,46 +339,77 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 <br>
 `2` - 可能な限り、より多くの高星タグの組み合わせを選択します（競合の可能性あり）  
 :::  
-::: field name="times" type="number" optional default="0"  
+::: field times  
+@type number
+@default 0
+@optional
 何回採用するか。計算のみの場合は 0 に設定できます。  
 :::  
-::: field name="set_time" type="boolean" optional default="true"  
+::: field set_time  
+@type boolean
+@default true
+@optional
 採用時間制限を設定するかどうか。`times` が 0 の場合のみ有効です。  
 :::  
-::: field name="expedite" type="boolean" optional default="false"  
+::: field expedite  
+@type boolean
+@default false
+@optional
 緊急招集票を使用するかどうか。  
 :::  
-::: field name="expedite_times" type="number" optional  
+::: field expedite_times  
+@type number
+@optional
 緊急招集の回数。`expedite` が true の場合のみ有効です。デフォルトは制限なし（`times` の上限まで）です。  
 :::  
-::: field name="skip_robot" type="boolean" optional default="true"  
+::: field skip_robot  
+@type boolean
+@default true
+@optional
 非推奨です。旧パラメータ互換のためにのみ残されています。  
 <br>
 `preserve_tags` が指定されておらず、この値が `true` の場合は `支援机械` を認識したときのみスキップします。`元素` は旧来の 1★ タグとしては扱われません。  
 :::
-::: field name="preserve_tags" type="array<string>" optional  
+::: field preserve_tags  
+@type array<string>
+@optional
 現在の公開求人枠を保持したまま今回の募集をスキップしたい Tag 名の一覧です。デフォルトは空です。  
 <br>
 指定した Tag のいずれかを認識した場合、MAA はその枠を保持して今回の募集をスキップします。  
 :::  
-::: field name="recruitment_time" type="object" optional  
+::: field recruitment_time  
+@type object
+@optional
 タグレベル（3 以上）と対応する希望採用時間（分単位）。デフォルト値は 540（つまり 09:00:00）です。
 <br>
 例：`{ "3": 540, "4": 540 }`  
 :::  
-::: field name="report_to_penguin" type="boolean" optional default="false"  
+::: field report_to_penguin  
+@type boolean
+@default false
+@optional
 ペンギン統計にレポートするかどうか。  
 :::  
-::: field name="penguin_id" type="string" optional  
+::: field penguin_id  
+@type string
+@optional
 ペンギン統計レポート ID。デフォルトは空です。`report_to_penguin` が true の場合のみ有効です。  
 :::  
-::: field name="report_to_yituliu" type="boolean" optional default="false"  
+::: field report_to_yituliu  
+@type boolean
+@default false
+@optional
 一图流にレポートするかどうか。  
 :::  
-::: field name="yituliu_id" type="string" optional  
+::: field yituliu_id  
+@type string
+@optional
 一图流レポート ID。デフォルトは空です。`report_to_yituliu` が true の場合のみ有効です。  
 :::  
-::: field name="server" type="string" optional default="CN"  
+::: field server  
+@type string
+@default CN
+@optional
 サーバー。アップロードに影響します。
 <br>
 オプション：`CN` | `US` | `JP` | `KR`  
@@ -340,10 +450,16 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
   基地シフト
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="mode" type="number" optional default="0"  
+::: field mode  
+@type number
+@default 0
+@optional
 シフト作業モード。
 <br>
 `0` - `Default`：デフォルト シフト モード、単一施設の最適解。
@@ -352,47 +468,77 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 <br>
 `20000` - `Rotation`：ワンキー ローテーション モード。制御中枢、発電所、宿舎、および事務室をスキップします。他の施設はシフトを変更しませんが、基本的な操作は保持されます（ドローン使用、応接室ロジックなど）。  
 :::  
-::: field name="facility" type="array<string>" required  
+::: field facility  
+@type array<string>
+@required
 シフト対象施設（順序付け）。実行中の設定はサポートされていません。
 <br>
 施設名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
 :::  
-::: field name="drones" type="string" optional default="\_NotUse"  
+::: field drones  
+@type string
+@default \_NotUse
+@optional
 ドローン使用目的。`mode = 10000` の場合、このフィールドは無効です。
 <br>
 オプション：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
 :::  
-::: field name="threshold" type="number" optional default="0.3"  
+::: field threshold  
+@type number
+@default 0.3
+@optional
 作業心情しきい値。範囲は [0, 1.0] です。
 <br>
 `mode = 10000` の場合、このフィールドは「自動入力」にのみ有効です。
 <br>
 `mode = 20000` の場合、このフィールドは無効です。  
 :::  
-::: field name="replenish" type="boolean" optional default="false"  
+::: field replenish  
+@type boolean
+@default false
+@optional
 貿易所の「源石の欠片」を自動補充するかどうか。  
 :::  
-::: field name="dorm_notstationed_enabled" type="boolean" optional default="false"  
+::: field dorm_notstationed_enabled  
+@type boolean
+@default false
+@optional
 宿舎の「未配置」オプションを有効にするかどうか。  
 :::  
-::: field name="dorm_trust_enabled" type="boolean" optional default="false"  
+::: field dorm_trust_enabled  
+@type boolean
+@default false
+@optional
 宿舎の残りの位置を信頼が満たされていないオペレーターで追加するかどうか。  
 :::  
-::: field name="reception_message_board" type="boolean" optional default="true"  
+::: field reception_message_board  
+@type boolean
+@default true
+@optional
 応接室の伝言板FPを受け取るかどうか。  
 :::  
-::: field name="reception_clue_exchange" type="boolean" optional default="true"  
+::: field reception_clue_exchange  
+@type boolean
+@default true
+@optional
 情報共有を実施するかどうか。  
 :::  
-::: field name="reception_send_clue" type="boolean" optional default="true"  
+::: field reception_send_clue  
+@type boolean
+@default true
+@optional
 手がかりを譲り渡すかどうか。  
 :::  
-::: field name="filename" type="string" required  
+::: field filename  
+@type string
+@required
 カスタム構成パス。実行中の設定はサポートされていません。
 <br>
 <Badge type="warning" text="mode = 10000 の場合のみ有効" />  
 :::  
-::: field name="plan_index" type="number" required  
+::: field plan_index  
+@type number
+@required
 構成で使用する計画シーケンス番号。実行中の設定はサポートされていません。
 <br>
 <Badge type="warning" text="mode = 10000 の場合のみ有効" />  
@@ -427,34 +573,64 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
   まず `buy_first` にあるものを順番に 1 回購入し、次に左から右に 2 回購入して `blacklist` を回避し、FP溢出時はブラックリストを無視して左から右に 3 回購入して溢出しなくなるまで続けます。
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="visit_friends" type="boolean" optional default="true"  
+::: field visit_friends  
+@type boolean
+@default true
+@optional
 フレンドの基地にアクセスしてFPを獲得するかどうか。  
 :::  
-::: field name="shopping" type="boolean" optional default="true"  
+::: field shopping  
+@type boolean
+@default true
+@optional
 購物するかどうか。  
 :::  
-::: field name="buy_first" type="array<string>" optional default="[]"  
+::: field buy_first  
+@type array<string>
+@default []
+@optional
 優先購買リスト。商品名、例：`"招聘许可"`、`"龙门币"` など。  
 :::  
-::: field name="blacklist" type="array<string>" optional default="[]"  
+::: field blacklist  
+@type array<string>
+@default []
+@optional
 購物ブラックリスト。商品名、例：`"加急许可"`、`"家具零件"` など。  
 :::  
-::: field name="force_shopping_if_credit_full" type="boolean" optional default="false"  
+::: field force_shopping_if_credit_full  
+@type boolean
+@default false
+@optional
 FP溢出時にブラックリストを無視するかどうか。  
 :::  
-::: field name="only_buy_discount" type="boolean" optional default="false"  
+::: field only_buy_discount  
+@type boolean
+@default false
+@optional
 割引品のみを購入するかどうか。2 回目の購買にのみ適用されます。  
 :::  
-::: field name="reserve_max_credit" type="boolean" optional default="false"  
+::: field reserve_max_credit  
+@type boolean
+@default false
+@optional
 FP ポイントが 300 未満の場合、購買を停止するかどうか。2 回目の購買にのみ適用されます。  
 :::  
-::: field name="credit_fight" type="boolean" optional default="false"  
+::: field credit_fight  
+@type boolean
+@default false
+@optional
 サポートを借りて OF-1 を 1 回クリアし、翌日により多くのFPを獲得するかどうか。  
 :::  
-::: field name="formation_index" type="number" optional default="0"  
+::: field formation_index  
+@type number
+@default 0
+@optional
 OF-1 実行時に使用する編成スロットのインデックス。
 <br>
 0～4 の整数。0 は現在の編成を意味し、1～4 は第 1～第 4 編成を表します。  
@@ -485,25 +661,46 @@ OF-1 実行時に使用する編成スロットのインデックス。
   各種報酬の受け取り
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="award" type="boolean" optional default="true"  
+::: field award  
+@type boolean
+@default true
+@optional
 毎日/週間任務の報酬を受け取るかどうか。  
 :::  
-::: field name="mail" type="boolean" optional default="false"  
+::: field mail  
+@type boolean
+@default false
+@optional
 すべてのメール報酬を受け取るかどうか。  
 :::  
-::: field name="recruit" type="boolean" optional default="false"  
+::: field recruit  
+@type boolean
+@default false
+@optional
 限定ガチャから送信される毎日の無料 1 回引きを受け取るかどうか。  
 :::  
-::: field name="orundum" type="boolean" optional default="false"  
+::: field orundum  
+@type boolean
+@default false
+@optional
 ラッキー ウォール/おみくじの合成玉報酬を受け取るかどうか。  
 :::  
-::: field name="mining" type="boolean" optional default="false"  
+::: field mining  
+@type boolean
+@default false
+@optional
 期限付き採掘許可の合成玉報酬を受け取るかどうか。  
 :::  
-::: field name="specialaccess" type="boolean" optional default="false"  
+::: field specialaccess  
+@type boolean
+@default false
+@optional
 5 周年から送信された月パス報酬を受け取るかどうか。  
 :::  
 ::::
@@ -529,10 +726,16 @@ OF-1 実行時に使用する編成スロットのインデックス。
   統合戦略
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="theme" type="string" optional default="Phantom"  
+::: field theme  
+@type string
+@default Phantom
+@optional
 テーマ。
 <br>
 `Phantom` - ファントムと緋き貴石
@@ -545,7 +748,10 @@ OF-1 実行時に使用する編成スロットのインデックス。
 <br>
 `JieGarden` - 歳の界園志異  
 :::  
-::: field name="mode" type="number" optional default="0"  
+::: field mode  
+@type number
+@default 0
+@optional
 モード。
 <br>
 `0` - ポイント稼ぎ、より安定して層数を増やす。
@@ -564,65 +770,119 @@ OF-1 実行時に使用する編成スロットのインデックス。
 <br>
 `7` - 多面調査を稼ぎ、モード 0 と同じですがモード固有の適応あり。
 :::  
-::: field name="squad" type="string" optional default="指挥分队"  
+::: field squad  
+@type string
+@default 指挥分队
+@optional
 開局分隊名。  
 :::  
-::: field name="roles" type="string" optional default="取长补短"  
+::: field roles  
+@type string
+@default 取长补短
+@optional
 開局職業グループ。  
 :::  
-::: field name="core_char" type="string" optional  
+::: field core_char  
+@type string
+@optional
 開局オペレーター名。単一のオペレーター**中国語名**のみ対応、サーバー関係なし。空欄または空文字列 `""` の場合は練度に応じて自動選択。  
 :::  
-::: field name="use_support" type="boolean" optional default="false"  
+::: field use_support  
+@type boolean
+@default false
+@optional
 開局オペレーターがサポートかどうか。  
 :::  
-::: field name="use_nonfriend_support" type="boolean" optional default="false"  
+::: field use_nonfriend_support  
+@type boolean
+@default false
+@optional
 フレンド以外のサポートが使用可能かどうか。`use_support` が true の場合のみ有効。  
 :::  
-::: field name="starts_count" type="number" optional default="2147483647"  
+::: field starts_count  
+@type number
+@default 2147483647
+@optional
 探索を開始する回数。到達後自動でタスクを停止。  
 :::  
-::: field name="difficulty" type="number" optional default="0"  
+::: field difficulty  
+@type number
+@default 0
+@optional
 難易度を指定。未解放の場合は、現在解放されている最高難易度を選択。  
 :::  
-::: field name="stop_at_final_boss" type="boolean" optional default="false"  
+::: field stop_at_final_boss  
+@type boolean
+@default false
+@optional
 第 5 層の最終ボス ノードの前でタスクを停止するかどうか。**Phantom 以外**のテーマのみに対応。  
 :::  
-::: field name="stop_at_max_level" type="boolean" optional default="false"  
+::: field stop_at_max_level  
+@type boolean
+@default false
+@optional
 統合戦略レベルが最大に達した場合にタスクを停止するかどうか。  
 :::  
-::: field name="investment_enabled" type="boolean" optional default="true"  
+::: field investment_enabled  
+@type boolean
+@default true
+@optional
 源石錐を投資するかどうか。  
 :::  
-::: field name="investments_count" type="number" optional default="2147483647"  
+::: field investments_count  
+@type number
+@default 2147483647
+@optional
 源石錐の投資回数。到達後自動でタスクを停止。  
 :::  
-::: field name="stop_when_investment_full" type="boolean" optional default="false"  
+::: field stop_when_investment_full  
+@type boolean
+@default false
+@optional
 投資が上限に達した場合に自動でタスクを停止するかどうか。  
 :::  
-::: field name="investment_with_more_score" type="boolean" optional default="false"  
+::: field investment_with_more_score  
+@type boolean
+@default false
+@optional
 投資後に購物を試みるかどうか。モード 1 のみに適用。  
 :::  
-::: field name="start_with_elite_two" type="boolean" optional default="false"  
+::: field start_with_elite_two  
+@type boolean
+@default false
+@optional
 開局リセットと同時にエリート 2 昇格を狙うか。モード 4 のみに対応。  
 :::  
-::: field name="only_start_with_elite_two" type="boolean" optional default="false"  
+::: field only_start_with_elite_two  
+@type boolean
+@default false
+@optional
 開局エリート 2 昇格のみを狙い、他の条件を無視するか。モード 4 で `start_with_elite_two` が true の場合のみ有効。  
 :::  
-::: field name="refresh_trader_with_dice" type="boolean" optional default="false"  
+::: field refresh_trader_with_dice  
+@type boolean
+@default false
+@optional
 ダイスでショップをリフレッシュして特定の商品を購入するかどうか。Mizuki テーマのみに対応、ミチビキリンジュウ（指路鱗）を狙う。  
 :::  
-::: field name="first_floor_foldartal" type="string" optional  
+::: field first_floor_foldartal  
+@type string
+@optional
 第 1 層の遠見段階で取得を希望する啓示板。Sami テーマのみに対応、モード問わず。取得成功時はタスクを停止。  
 :::  
-::: field name="start_foldartal_list" type="array<string>" optional default="[]"  
+::: field start_foldartal_list  
+@type array<string>
+@default []
+@optional
 開局リセット時に取得を希望する啓示板リスト。Sami テーマでモード 4 の場合のみ対応。
 <br>
 開局時にリスト内のすべての啓示板を持つ場合のみ開局リセット成功と見なします。
 <br>
 注意、このパラメータは「生活重視分隊」と同時に使用する必要があります。他の分隊では開局報酬で啓示板を取得できません。  
 :::  
-::: field name="collectible_mode_start_list" type="object" optional  
+::: field collectible_mode_start_list  
+@type object
+@optional
 開局リセット時に取得したい報酬。デフォルトはすべて false。モード 4 の場合のみ有効。
 <br>
 `hot_water`: 電気ケトル報酬。お湯を沸かす機能のトリガー（共通）。
@@ -643,34 +903,58 @@ OF-1 実行時に使用する編成スロットのインデックス。
 <br>
 `ticket`: 遊覧券報酬。JieGarden テーマのみに有効。
 :::  
-::: field name="use_foldartal" type="boolean" optional  
+::: field use_foldartal  
+@type boolean
+@optional
 啓示板を使用するか。モード 5 ではデフォルト false、他のモードではデフォルト true。Sami テーマのみに対応。  
 :::  
-::: field name="check_collapsal_paradigms" type="boolean" optional  
+::: field check_collapsal_paradigms  
+@type boolean
+@optional
 取得したパラダイムロストを検査するか。モード 5 ではデフォルト true、他のモードではデフォルト false。  
 :::  
-::: field name="double_check_collapsal_paradigms" type="boolean" optional default="true"  
+::: field double_check_collapsal_paradigms  
+@type boolean
+@default true
+@optional
 パラダイムロスト検査の漏れ対策を行うか。テーマが Sami で `check_collapsal_paradigms` が true の場合のみ有効。モード 5 ではデフォルト true、他のモードではデフォルト false。  
 :::  
-::: field name="expected_collapsal_paradigms" type="array<string>" optional default="['目空一些', '睁眼瞎', '图像损坏', '一抹黑']"  
+::: field expected_collapsal_paradigms  
+@type array<string>
+@default ['目空一些', '睁眼瞎', '图像损坏', '一抹黑']
+@optional
 希望するパラダイムロスト。テーマが Sami でモード 5 の場合のみに対応。  
 :::  
-::: field name="monthly_squad_auto_iterate" type="boolean" optional  
+::: field monthly_squad_auto_iterate  
+@type boolean
+@optional
 月次小隊自動切り替えを有効にするかどうか。  
 :::  
-::: field name="monthly_squad_check_comms" type="boolean" optional  
+::: field monthly_squad_check_comms  
+@type boolean
+@optional
 月次小隊通信も切り替え根拠とするかどうか。  
 :::  
-::: field name="deep_exploration_auto_iterate" type="boolean" optional  
+::: field deep_exploration_auto_iterate  
+@type boolean
+@optional
 多面調査自動切り替えを有効にするかどうか。  
 :::  
-::: field name="collectible_mode_shopping" type="boolean" optional default="false"  
+::: field collectible_mode_shopping  
+@type boolean
+@default false
+@optional
 湯沸かしモードで購物を有効にするかどうか。  
 :::  
-::: field name="collectible_mode_squad" type="string" optional  
+::: field collectible_mode_squad  
+@type string
+@optional
 湯沸かしモードで使用する分隊、デフォルトで squad と同期、squad が空文字列で collectible_mode_squad が指定されていない場合は指揮分隊。  
 :::  
-::: field name="start_with_seed" type="boolean" optional default="false"  
+::: field start_with_seed  
+@type boolean
+@default false
+@optional
 シードモード刷錠を使用。
 <br>
 Sarkaz テーマ、Investment モード、「破棘成金分隊」または「支援分隊」の場合のみ true の可能性あり。
@@ -736,13 +1020,18 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   自動戦闘
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="filename" type="string"  
+::: field filename  
+@type string
 単一作業 JSON ファイルのパス。copilot_list と二択（必須）。相対/絶対パスの両方対応。  
 :::  
-::: field name="copilot_list" type="array`<object>`"  
+::: field copilot_list  
+@type array`<object>`
 作業リスト。filename と二択（必須）。filename と copilot_list が同時に存在する場合、copilot_list を無視。このパラメータが有効な場合、set_params は 1 回のみ実行可能。
 <br>
 各オブジェクトには以下を含みます：
@@ -754,21 +1043,36 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   <br>
 - `is_raid`: 強襲作戦モードに切り替えるかどうか。可選、デフォルト false
   :::  
-  ::: field name="loop_times" type="number" optional default="1"  
+  ::: field loop_times  
+  @type number
+  @default 1
+  @optional
   ループ回数。単一作業モード（filename 指定時）のみ有効。このパラメータが有効な場合、set_params は 1 回のみ実行可能。  
   :::  
-  ::: field name="use_sanity_potion" type="boolean" optional default="false"  
+  ::: field use_sanity_potion  
+  @type boolean
+  @default false
+  @optional
   理智が不足した場合に理智薬を使用するかどうか。  
   :::  
-  ::: field name="formation" type="boolean" optional default="false"  
+  ::: field formation  
+  @type boolean
+  @default false
+  @optional
   自動編成を行うかどうか。  
   :::  
-  ::: field name="formation_index" type="number" optional default="0"  
+  ::: field formation_index  
+  @type number
+  @default 0
+  @optional
   自動編成で使用する編成スロットのインデックス。formation が true の場合のみ有効。
   <br>
   0～4 の整数。0 は現在の編成を意味し、1～4 は第 1～第 4 編成を表します。  
   :::  
-  ::: field name="user_additional" type="array`<object>`" optional default="[]"  
+  ::: field user_additional  
+  @type array`<object>`
+  @default []
+  @optional
   カスタム追加オペレーター リスト。formation が true の場合のみ有効。
   <br>
   各オブジェクトには以下を含みます：
@@ -777,13 +1081,22 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   <br>
 - `skill`: 使用スキル。可選、デフォルト 1。1～3 の整数。範囲外の場合はゲーム内デフォルトを使用  
   :::  
-  ::: field name="add_trust" type="boolean" optional default="false"  
+  ::: field add_trust  
+  @type boolean
+  @default false
+  @optional
   自動編成時に信頼度の昇順で空き枠を自動補充するか。formation が true の場合のみ有効。  
   :::  
-  ::: field name="ignore_requirements" type="boolean" optional default="false"  
+  ::: field ignore_requirements  
+  @type boolean
+  @default false
+  @optional
   自動編成時にオペレーター属性要件を無視するか。formation が true の場合のみ有効。  
   :::  
-  ::: field name="support_unit_usage" type="number" optional default="0"  
+  ::: field support_unit_usage  
+  @type number
+  @default 0
+  @optional
   サポートオペレーターの使用モード。0～3 の整数。formation が true の場合のみ有効。
   <br>
   `0` - サポートオペレーターを使用しない
@@ -794,7 +1107,10 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   <br>
   `3` - 不足が 1 名のみの場合、サポートで補填。不足がなければランダムサポートを使用  
   :::  
-  ::: field name="support_unit_name" type="string" optional default=""  
+  ::: field support_unit_name  
+  @type string
+  @default
+  @optional
   指定サポートオペレーター名。support_unit_usage が 2 の場合のみ有効。  
   :::  
   ::::
@@ -831,13 +1147,20 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   自動戦闘保全駐在
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="filename" type="string" required  
+::: field filename  
+@type string
+@required
 作業 JSON のファイル パス。絶対/相対パスの両方対応。実行期設定非対応。  
 :::  
-::: field name="loop_times" type="number" optional  
+::: field loop_times  
+@type number
+@optional
 ループ実行回数。  
 :::  
 ::::  
@@ -860,13 +1183,20 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   自動戦闘逆理演算
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="filename" type="string" required  
+::: field filename  
+@type string
+@required
 単一作業 JSON ファイルのパス。絶対/相対パスの両方対応。実行期設定非対応。必須。list と二択。  
 :::  
-::: field name="list" type="array<string>" required  
+::: field list  
+@type array<string>
+@required
 作業 JSON リスト。絶対/相対パスの両方対応。実行期設定非対応。必須。filename と二択。  
 :::  
 ::::
@@ -888,7 +1218,10 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   倉庫識別
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
 ::::
@@ -908,7 +1241,10 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   オペレーター box 識別
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
 ::::
@@ -928,10 +1264,16 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   生息演算
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="theme" type="string" optional default="Tales"  
+::: field theme  
+@type string
+@default Tales
+@optional
 テーマ。
 <br>
 `Fire` - _砂中の火_（終了）
@@ -940,7 +1282,10 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 <br>
 `RelaunchAnchor` - _リローンチアンカー_  
 :::  
-::: field name="mode" type="number" optional default="0"  
+::: field mode  
+@type number
+@default 0
+@optional
 モード。テーマごとにサポートするモードが異なります：
 <br>
 **Tales（熱砂秘聞）：**
@@ -957,17 +1302,26 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 <br>
 `48` (`RA4`) - RA-4、「計画経営」で得た赤金を使ってエリアを解放し、ヴィシャデルでボス討伐を完了する。
 :::  
-::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
+::: field tools_to_craft  
+@type array<string>
+@default [&quot;荧光棒&quot;]
+@optional
 自動製造品。サブストリング入力推奨。Tales テーマのみ有効。  
 :::  
-::: field name="increment_mode" type="number" optional default="0"  
+::: field increment_mode  
+@type number
+@default 0
+@optional
 クリック型。Tales テーマのみ有効。
 <br>
 `0` - 連続クリック
 <br>
 `1` - 長押し  
 :::  
-::: field name="num_craft_batches" type="number" optional default="16"  
+::: field num_craft_batches  
+@type number
+@default 16
+@optional
 単次最大製造バッチ数。Tales テーマのみ有効。  
 :::  
 ::::
@@ -992,14 +1346,21 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   カスタム タスク
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="task_names" type="array<string>" required  
+::: field task_names  
+@type array<string>
+@required
 配列内の最初の一致（および後続の next など）でタスクを実行。複数のタスクを実行したい場合は、Custom task を複数回 append できます。  
 シークレットフロント（`MiniGame@SecretFront`）の連結形式に対応：`MiniGame@SecretFront@Begin@Ending[A-E](@イベント名)?`。イベント名は省略可（支援作战平台 / 游侠 / 诡影迷踪）、例：`MiniGame@SecretFront@Begin@EndingA@支援作战平台`。  
 :::  
-::: field name="params" type="object" optional  
+::: field params  
+@type object
+@optional
 タスクの追加パラメータ。現在はピクセル画タスク（`MiniGame@PixelPaint@Begin`）のみで使用：
 
 - `params.pixel_paint.groups`：色ごとのマス座標リスト。`color` はパレットのスロット番号（0~39、ゲーム右側パレットの順序と一致）、`points` は `[x, y]` のマス座標配列（0~23、左上原点）。
@@ -1039,13 +1400,21 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   単一ステップ タスク（現在は戦闘のみ対応）
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="type" type="string" required default="copilot"  
+::: field type  
+@type string
+@default copilot
+@required
 現在は `"copilot"` のみ対応。  
 :::  
-::: field name="subtask" type="string" required  
+::: field subtask  
+@type string
+@required
 サブタスク型。
 <br>
 `stage` - ステージ名を設定、`"details": { "stage": "xxxx" }` が必要。
@@ -1054,7 +1423,9 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 <br>
 `action` - 単一ステップ作戦操作、`details` は戦闘プロトコルの単一 action、例：`"details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }`、詳細は [戦闘流程プロトコル](./copilot-schema.md)を参照。  
 :::  
-::: field name="details" type="object" optional  
+::: field details  
+@type object
+@optional
 サブタスクの詳細パラメータ。  
 :::  
 ::::
@@ -1079,10 +1450,15 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   ビデオ識別、現在は作業（戦闘）ビデオのみ対応
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 このタスクを有効にするかどうか。  
 :::  
-::: field name="filename" type="string" required  
+::: field filename  
+@type string
+@required
 ビデオのファイル パス。絶対/相対パスの両方対応。実行期設定非対応。  
 :::  
 ::::
@@ -1119,13 +1495,19 @@ bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* par
 #### パラメータ説明
 
 :::: field-group  
-::: field name="handle" type="AsstHandle" required  
+::: field handle  
+@type AsstHandle
+@required
 インスタンス ハンドル  
 :::  
-::: field name="task" type="AsstTaskId" required  
+::: field task  
+@type AsstTaskId
+@required
 タスク ID、`AsstAppendTask` インターフェイスの返回値  
 :::  
-::: field name="params" type="const char\*" required  
+::: field params  
+@type const char\*
+@required
 タスク パラメータ、JSON 文字列、`AsstAppendTask` インターフェイスと同じ。  
 「実行期設定非対応」と注記されていないフィールドはすべてリアルタイム修正に対応。そうでなければ、タスク実行中は対応するフィールドを無視します  
 :::  
@@ -1151,10 +1533,14 @@ bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 #### パラメータ説明
 
 :::: field-group  
-::: field name="key" type="AsstStaticOptionKey" required  
+::: field key  
+@type AsstStaticOptionKey
+@required
 キー  
 :::  
-::: field name="value" type="const char\*" required  
+::: field value  
+@type const char\*
+@required
 値  
 :::  
 ::::
@@ -1183,13 +1569,19 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 #### パラメータ説明
 
 :::: field-group  
-::: field name="handle" type="AsstHandle" required  
+::: field handle  
+@type AsstHandle
+@required
 インスタンス ハンドル  
 :::  
-::: field name="key" type="AsstInstanceOptionKey" required  
+::: field key  
+@type AsstInstanceOptionKey
+@required
 キー  
 :::  
-::: field name="value" type="const char\*" required  
+::: field value  
+@type const char\*
+@required
 値  
 :::  
 ::::
@@ -1197,25 +1589,41 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 ##### キー値一覧
 
 :::: field-group  
-::: field name="Invalid" type="number" optional default="0"  
+::: field Invalid  
+@type number
+@default 0
+@optional
 無効なプレースホルダ。列挙値：0。  
 :::  
-::: field name="MinitouchEnabled" type="boolean" optional  
+::: field MinitouchEnabled  
+@type boolean
+@optional
 廃止済み。元は Minitouch を有効にするかどうか。"1" オン、"0" オフ。デバイスがサポートされていない可能性がります。列挙値：1（廃止済み）。  
 :::  
-::: field name="TouchMode" type="string" optional default="minitouch"  
+::: field TouchMode  
+@type string
+@default minitouch
+@optional
 タッチ モード設定。可能な値：minitouch | maatouch | adb | MaaFwAdb。デフォルト minitouch。列挙値：2。  
 :::  
-::: field name="DeploymentWithPause" type="boolean" optional  
+::: field DeploymentWithPause  
+@type boolean
+@optional
 暫停状態でオペレーターを配置するかどうか。自動戦闘、統合戦略、保全駐在に同時に影響。可能な値："1" または "0"。列挙値：3。  
 :::  
-::: field name="AdbLiteEnabled" type="boolean" optional  
+::: field AdbLiteEnabled  
+@type boolean
+@optional
 AdbLite を使用するかどうか。可能な値："0" または "1"。列挙値：4。  
 :::  
-::: field name="KillAdbOnExit" type="boolean" optional  
+::: field KillAdbOnExit  
+@type boolean
+@optional
 終了時に Adb プロセスをキルするかどうか。可能な値："0" または "1"。列挙値：5。  
 :::  
-::: field name="ClientType" type="string" optional  
+::: field ClientType  
+@type string
+@optional
 クライアント種別（ゲームチャネル）。ほとんどの接続設定では不要です。`AsstConnect` / `AsstAsyncConnect` に渡す `config` が、接続時に実行するコマンド内で `[PackageName]` を使用する場合にのみ、接続前に `AsstSetInstanceOption(..., ClientType, ...)` を設定してください。現在の組み込み設定では、`Androws` と `WSA` の `displayId` 取得のみがこの値に依存します。このオプションは StartUp / CloseDown などのタスクパラメータ `client_type` を置き換えるものではありません。列挙値：6。  
 :::  
 ::::
