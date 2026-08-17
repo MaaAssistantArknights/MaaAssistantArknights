@@ -47,17 +47,38 @@ public partial class LogSectionDivider : UserControl
         set => SetValue(HeaderProperty, value);
     }
 
-    private static void OnHorizontalContentAlignmentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    public static readonly DependencyProperty HeaderHorizontalAlignmentProperty = DependencyProperty.Register(
+        nameof(HeaderHorizontalAlignment), typeof(HorizontalAlignment), typeof(LogSectionDivider),
+        new PropertyMetadata(HorizontalAlignment.Center, OnHeaderHorizontalAlignmentChanged));
+
+    /// <summary>
+    /// Gets or sets 标题的水平对齐方式，语义与 <c>hc:Divider</c> 的 <c>HorizontalContentAlignment</c> 相同
+    /// （换回 <c>hc:Divider</c> 时属性名对应改写）：
+    /// <see cref="HorizontalAlignment.Center"/> 时两侧横线等长，<see cref="HorizontalAlignment.Left"/>/
+    /// <see cref="HorizontalAlignment.Right"/> 时对应一侧为 20px 短线。
+    /// <para>
+    /// 不能命名为 <c>HorizontalContentAlignment</c>：<see cref="UserControl"/> 继承的
+    /// <see cref="ContentControl"/> 已有同名属性且被默认模板的 ContentPresenter 绑定，
+    /// 无论遮蔽还是复用，设置非 <c>Stretch</c> 值都会让内容按文本宽对齐而不拉伸，两侧横线宽度变为 0。
+    /// </para>
+    /// </summary>
+    public HorizontalAlignment HeaderHorizontalAlignment
+    {
+        get => (HorizontalAlignment)GetValue(HeaderHorizontalAlignmentProperty);
+        set => SetValue(HeaderHorizontalAlignmentProperty, value);
+    }
+
+    private static void OnHeaderHorizontalAlignmentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         ((LogSectionDivider)d).UpdateLineColumns();
     }
 
     private void UpdateLineColumns()
     {
-        StartLineColumn.Width = HorizontalContentAlignment == HorizontalAlignment.Right
+        StartLineColumn.Width = HeaderHorizontalAlignment == HorizontalAlignment.Left
             ? new GridLength(20)
             : new GridLength(1, GridUnitType.Star);
-        EndLineColumn.Width = HorizontalContentAlignment == HorizontalAlignment.Left
+        EndLineColumn.Width = HeaderHorizontalAlignment == HorizontalAlignment.Right
             ? new GridLength(20)
             : new GridLength(1, GridUnitType.Star);
     }
