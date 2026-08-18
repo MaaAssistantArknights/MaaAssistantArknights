@@ -177,8 +177,6 @@
     <system:String x:Key="InfrastUsePerceptionInformation">Use Perception Information cross-facility team</system:String>
     <system:String x:Key="InfrastUseWorldlyPlight">Use Worldly Plight cross-facility team</system:String>
     <system:String x:Key="InfrastUseAbyssalHunter">Use Abyssal Hunter cross-facility team</system:String>
-    <system:String x:Key="InfrastMfgShortCircuit">Keep operators in efficient factories</system:String>
-    <system:String x:Key="InfrastMfgShortCircuitThreshold">Average factory efficiency threshold</system:String>
     <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
     <system:String x:Key="TrainingLevel">Skill Rank</system:String>

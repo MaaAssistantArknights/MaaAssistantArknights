@@ -2466,16 +2466,6 @@
         "specialParams_Doc": "双指缩小轨迹，依次为指针 0 起点、指针 1 起点、指针 0 终点、指针 1 终点的 x、y",
         "specialParams": [980, 180, 300, 700, 650, 350, 630, 370]
     },
-    "InfrastMfgVacancyPoints": {
-        "algorithm": "JustReturn",
-        "specialParams_Doc": "制造站三个槽位的空位图标白色采样点。每个槽位包含三组 x、y",
-        "specialParams": [329, 627, 331, 646, 312, 645, 419, 645, 437, 645, 437, 627, 543, 627, 543, 645, 525, 645]
-    },
-    "InfrastMfgEfficiency": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [852, 633, 49, 21]
-    },
     "InfrastLoading": {
         "doc": "等待基建加载画面结束",
         "template": "InfrastPic/InfrastLoading.png",

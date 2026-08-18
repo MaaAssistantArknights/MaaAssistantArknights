@@ -222,19 +222,12 @@ bool asst::InfrastTask::set_params(const json::value& params)
     const bool perception_information_enabled = default_mode && params.get("use_perception_information", false);
     const bool worldly_plight_enabled = default_mode && params.get("use_worldly_plight", false);
     const bool abyssal_hunter_enabled = default_mode && params.get("use_abyssal_hunter", false);
-    const bool mfg_short_circuit = default_mode && params.get("mfg_short_circuit", false);
-    double mfg_short_circuit_threshold = params.get("mfg_short_circuit_threshold", 0.38);
-    if (mfg_short_circuit_threshold < 0 || mfg_short_circuit_threshold > 1) {
-        Log.error("mfg_short_circuit_threshold must be between 0 and 1");
-        return false;
-    }
     for (const auto& task : selection_tasks) {
         task->set_pinus_sylvestris_enabled(pinus_sylvestris_enabled);
         task->set_perception_information_enabled(perception_information_enabled);
         task->set_worldly_plight_enabled(worldly_plight_enabled);
         task->set_abyssal_hunter_enabled(abyssal_hunter_enabled);
     }
-    m_mfg_task_ptr->set_mfg_short_circuit(mfg_short_circuit, mfg_short_circuit_threshold);
 
     bool reception_message_board = params.get("reception_message_board", true);
     m_reception_task_ptr->set_receive_message_board(reception_message_board);

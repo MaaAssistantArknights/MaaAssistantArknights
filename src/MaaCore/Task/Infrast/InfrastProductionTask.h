@@ -25,12 +25,6 @@ public:
 
     void set_inspect_only(bool enabled) noexcept { m_inspect_only = enabled; }
 
-    void set_mfg_short_circuit(bool enabled, double threshold) noexcept
-    {
-        m_mfg_short_circuit = enabled;
-        m_mfg_short_circuit_threshold = threshold;
-    }
-
     void set_abyssal_hunter_enabled(bool enabled) noexcept { m_abyssal_hunter_enabled = enabled; }
 
     void set_pinus_sylvestris_enabled(bool enabled) noexcept { m_pinus_sylvestris_enabled = enabled; }
@@ -65,8 +59,6 @@ protected:
     bool m_is_use_drones_from_custom = false;
     infrast::CustomDronesConfig m_custom_drones_config;
     bool m_skip_shift = false;
-    bool m_mfg_short_circuit = false;
-    double m_mfg_short_circuit_threshold = 0.38;
     bool m_pinus_sylvestris_enabled = false;
     bool m_perception_information_enabled = false;
     bool m_worldly_plight_enabled = false;

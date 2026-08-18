@@ -109,16 +109,6 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     /// </summary>
     public bool UseAbyssalHunter { get; set; } = false;
 
-    /// <summary>
-    /// Gets or sets a value indicating whether efficient manufacturing rooms may keep their current operators.
-    /// </summary>
-    public bool MfgShortCircuit { get; set; } = false;
-
-    /// <summary>
-    /// Gets or sets the average manufacturing efficiency threshold as a percentage.
-    /// </summary>
-    public int MfgShortCircuitThreshold { get; set; } = 38;
-
     public string CustomFileType { get; set; } = InfrastSettingsUserControlModel.UserDefined;
 
     /// <summary>

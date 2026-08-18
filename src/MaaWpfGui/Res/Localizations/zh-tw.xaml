@@ -177,8 +177,6 @@
     <system:String x:Key="InfrastUsePerceptionInformation">使用感知資訊跨設施組合</system:String>
     <system:String x:Key="InfrastUseWorldlyPlight">使用人間煙火跨設施組合</system:String>
     <system:String x:Key="InfrastUseAbyssalHunter">使用深海獵人跨設施組合</system:String>
-    <system:String x:Key="InfrastMfgShortCircuit">保留高效率製造站目前幹員</system:String>
-    <system:String x:Key="InfrastMfgShortCircuitThreshold">製造站平均效率閾值</system:String>
     <system:String x:Key="TrainingIdle">訓練室空閒中</system:String>
     <system:String x:Key="TrainingCompleted">訓練完成</system:String>
     <system:String x:Key="TrainingLevel">專精等級</system:String>

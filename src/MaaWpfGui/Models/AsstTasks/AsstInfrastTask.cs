@@ -101,10 +101,6 @@ public class AsstInfrastTask : AsstBaseTask
 
     public bool UseAbyssalHunter { get; set; }
 
-    public bool MfgShortCircuit { get; set; }
-
-    public double MfgShortCircuitThreshold { get; set; } = 0.38;
-
     /// <summary>
     /// Gets or sets 自定义配置文件路径
     /// </summary>
@@ -138,8 +134,6 @@ public class AsstInfrastTask : AsstBaseTask
             ["use_perception_information"] = UsePerceptionInformation,
             ["use_worldly_plight"] = UseWorldlyPlight,
             ["use_abyssal_hunter"] = UseAbyssalHunter,
-            ["mfg_short_circuit"] = MfgShortCircuit,
-            ["mfg_short_circuit_threshold"] = MfgShortCircuitThreshold,
             ["mode"] = (int)Mode,
         };
 

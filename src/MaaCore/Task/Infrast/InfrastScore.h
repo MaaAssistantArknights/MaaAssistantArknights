@@ -2,7 +2,6 @@
 
 #include <array>
 #include <cstddef>
-#include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_set>
@@ -64,12 +63,4 @@ bool is_abyssal_hunter(std::string_view operator_id);
 void append_abyssal_hunter_candidates(std::vector<ScoreOper>& opers, const ScoreContext& context);
 
 ScoreResult select_best_opers(const std::vector<ScoreOper>& opers, const ScoreContext& context);
-
-bool should_short_circuit_mfg(
-    bool enabled,
-    bool use_abyssal_hunter,
-    int occupied_slots,
-    int room_slots,
-    std::optional<double> total_efficiency,
-    double threshold);
 } // namespace asst::infrast

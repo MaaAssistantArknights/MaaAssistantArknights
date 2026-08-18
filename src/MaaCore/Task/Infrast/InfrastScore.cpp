@@ -1479,15 +1479,4 @@ ScoreResult select_best_opers(const std::vector<ScoreOper>& opers, const ScoreCo
     return { };
 }
 
-bool should_short_circuit_mfg(
-    bool enabled,
-    bool use_abyssal_hunter,
-    int occupied_slots,
-    int room_slots,
-    std::optional<double> total_efficiency,
-    double threshold)
-{
-    return enabled && !use_abyssal_hunter && room_slots > 0 && occupied_slots >= room_slots &&
-           total_efficiency.has_value() && (*total_efficiency / room_slots) > threshold;
-}
 } // namespace asst::infrast
