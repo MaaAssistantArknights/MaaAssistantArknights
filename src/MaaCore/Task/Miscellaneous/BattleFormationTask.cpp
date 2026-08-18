@@ -1187,7 +1187,13 @@ bool asst::BattleFormationTask::do_operbox_precheck()
     for (const auto& [left, right] : result.matched) {
         assigned[flat_groups[left].name] = oper_data[right].id;
         std::string oper_name = BattleData.find_oper_by_id(oper_data[right].id)->name;
-        LogInfo << __FUNCTION__ << "| Matched group:" << flat_groups[left].name << "with oper:" << oper_name;
+        auto req_it = std::ranges::find_if(flat_groups[left].opers, [&](const battle::OperUsage& op) {
+            return BattleData.get_id(op.role, op.name) == oper_data[right].id;
+        });
+        LogInfo << __FUNCTION__ << "| Matched group:" << flat_groups[left].name << "with oper:" << oper_name
+                << ". Usage elite:" << req_it->requirements.elite << ", level:" << req_it->requirements.level
+                << ", skill:" << req_it->skill << ". Operbox elite:" << oper_data[right].elite
+                << ", level:" << oper_data[right].level;
         matched_groups.emplace_back(
             std::unordered_map<std::string, std::string> { { "group_name", flat_groups[left].name },
                                                            { "oper_name", oper_name } });
@@ -1250,7 +1256,8 @@ bool asst::BattleFormationTask::do_operbox_precheck()
                 std::unordered_map<std::string, std::string> new_assigned;
                 for (const auto& [left, right] : retry.matched) {
                     if (cur_data[right].id == borrow_id) {
-                        LogInfo << __FUNCTION__ << "| borrow" << borrow_id << "for" << flat_groups[left].name;
+                        LogInfo << __FUNCTION__ << "| borrow" << BattleData.find_oper_by_id(borrow_id)->name << "for"
+                                << flat_groups[left].name;
                         m_operbox_unmatched_group = flat_groups[left].name;
                     }
                     else {
@@ -1263,10 +1270,24 @@ bool asst::BattleFormationTask::do_operbox_precheck()
                     json::array assigned_groups;
                     for (const auto& [group_name, oper_id] : new_assigned) {
                         std::string oper_name = BattleData.find_oper_by_id(oper_id)->name;
-                        LogInfo << __FUNCTION__ << "| Matched group:" << group_name << "with oper:" << oper_name;
                         assigned_groups.emplace_back(
                             std::unordered_map<std::string, std::string> { { "group_name", group_name },
                                                                            { "oper_name", oper_name } });
+                    }
+                    for (const auto& group : flat_groups) {
+                        if (new_assigned.find(group.name) != new_assigned.end()) {
+                            const auto& oper_id = new_assigned[group.name];
+                            auto oper_it = std::ranges::find_if(oper_data, [&](const OperBoxInfo& op) {
+                                return op.id == oper_id;
+                            });
+                            auto req_it = std::ranges::find_if(group.opers, [&](const battle::OperUsage& op) {
+                                return BattleData.get_id(op.role, op.name) == oper_id;
+                            });
+                            LogInfo << __FUNCTION__ << "| Matched group:" << group.name << "with oper:" << oper_it->name
+                                    << ". Usage elite:" << req_it->requirements.elite
+                                    << ", level:" << req_it->requirements.level << ", skill:" << req_it->skill
+                                    << ". Operbox elite:" << oper_it->elite << ", level:" << oper_it->level;
+                        }
                     }
                     info["details"]["matched_groups"] = std::move(assigned_groups);
                     callback(AsstMsg::SubTaskExtraInfo, info);
