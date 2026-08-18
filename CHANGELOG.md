@@ -1,4 +1,4 @@
-## v6.17.0-beta.2
+## v6.17.0-beta.3
 
 ### Highlights
 
@@ -44,6 +44,19 @@ The PC client window title is now resolved by client type, so global Arknights P
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.0-beta.3 (2026-08-18)</b></summary>
+
+### 改进 | Improved
+
+* 自动战斗自动编队将跳过浏览低等级干员，剩余干员无法满足分组精英/等级要求时停止翻页 ([#17751](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17751)) @status102
+
+### 修复 | Fix
+
+* 修复自动战斗作业保存时错误输出默认超时参数，技能动作默认超时仍为不限制 @status102
+
+</details>
+
+<details>
 <summary><b>v6.17.0-beta.2 (2026-08-18)</b></summary>
 
 ### 新增 | New
