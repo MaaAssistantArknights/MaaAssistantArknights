@@ -58,6 +58,7 @@ The PC client window title is now resolved by client type, so global Arknights P
 
 ### 修复 | Fix
 
+* 修复从公招的选择招募时限界面开始自动公招功能，会触发循环操作的问题 @ABA2396
 * 修复可搜索 ComboBox 在语言切换等场景下选项绑定失效、指定材料被清空，以及下拉列表滚轮一次滚到底的问题 ([#17759](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17759)) @status102 @ABA2396
 * 修复自动战斗作业保存时输出多余超时参数、编队反复切换职业的问题 @status102
 * 修复肉鸽开局干员提示无法随界面语言实时切换的问题 @ABA2396
