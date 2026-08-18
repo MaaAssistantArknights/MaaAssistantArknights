@@ -42,6 +42,17 @@ public static class ComboBoxExtensions
             typeof(ComboBoxExtensions),
             new PropertyMetadata(false));
 
+    // 承载原始 ItemsSource 及其绑定关系的附加属性。
+    // 初始化时把 ComboBox 的 ItemsSource 绑定整体迁移到此属性，由 WPF 绑定系统接管源属性通知：
+    // 源集合被整体替换（如语言切换重建，PropertyChanged 通知）时，属性变更回调会重建
+    // 独立 CollectionView 并回填 ItemsSource，避免本地赋值断开绑定导致的通知失效。
+    private static readonly DependencyProperty OriginItemsSourceProperty =
+        DependencyProperty.RegisterAttached(
+            "OriginItemsSource",
+            typeof(object),
+            typeof(ComboBoxExtensions),
+            new PropertyMetadata(null, OnOriginItemsSourceChanged));
+
     /// <summary>
     /// Make <seealso cref="ComboBox"/> searchable
     /// </summary>
@@ -61,12 +72,27 @@ public static class ComboBoxExtensions
 
         targetComboBox.SetValue(IsSearchableInitializedPropertyKey, true);
 
-        // 为每个 ComboBox 创建独立的 CollectionView，避免多个控件共享默认视图导致搜索过滤互相干扰
-        // 直接引用原始集合而非快照，保留源集合变更（如语言切换重建）的传播能力
-        if (targetComboBox.ItemsSource is { } itemsSource and not ICollectionView)
+        // 为每个 ComboBox 创建独立的 CollectionView，避免多个控件共享默认视图导致搜索过滤互相干扰。
+        // 注意不能直接把 ItemsSource 替换为独立视图：给依赖属性赋本地值会断开原有绑定，
+        // 且 CollectionViewSource.View 无变更通知（只是快照），源集合被整体替换（PropertyChanged）时无法生效。
+        // 因此把原始 ItemsSource 连同其绑定整体迁移到附加属性 OriginItemsSource 上，
+        // 源属性更新时由 WPF 绑定系统触发属性变更回调，在回调中重建独立视图并回填 ItemsSource。
+        if (targetComboBox.ItemsSource is not ICollectionView)
         {
-            var independentView = new CollectionViewSource { Source = itemsSource };
-            targetComboBox.ItemsSource = independentView.View;
+            var bindingExpression = targetComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty);
+            if (bindingExpression is { ParentBinding: { } parentBinding })
+            {
+                // 有绑定：整体迁移（保留相对绑定的 DataContext 语义），源属性替换时自动触发回调
+                BindingOperations.ClearBinding(targetComboBox, ItemsControl.ItemsSourceProperty);
+                BindingOperations.SetBinding(targetComboBox, OriginItemsSourceProperty, parentBinding);
+            }
+            else if (targetComboBox.ItemsSource is { } itemsSource)
+            {
+                // 无绑定：直接保存当前集合
+                targetComboBox.SetValue(OriginItemsSourceProperty, itemsSource);
+            }
+
+            UpdateItemsSourceFromOrigin(targetComboBox);
         }
 
         targetComboBox.Items.IsLiveFiltering = true;
@@ -153,5 +179,26 @@ public static class ComboBoxExtensions
                 targetTextBox.Select(targetTextBox.Text.Length, 0);
             }), System.Windows.Threading.DispatcherPriority.Background);
         };
+    }
+
+    private static void OnOriginItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is ComboBox comboBox)
+        {
+            UpdateItemsSourceFromOrigin(comboBox);
+        }
+    }
+
+    private static void UpdateItemsSourceFromOrigin(ComboBox comboBox)
+    {
+        var originSource = comboBox.GetValue(OriginItemsSourceProperty);
+        comboBox.ItemsSource = originSource switch
+        {
+            null => null,
+            ICollectionView view => view,
+            _ => new CollectionViewSource { Source = originSource }.View,
+        };
+
+        comboBox.Items.IsLiveFiltering = true;
     }
 }
