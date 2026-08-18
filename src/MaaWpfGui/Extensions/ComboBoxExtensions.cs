@@ -72,6 +72,12 @@ public static class ComboBoxExtensions
 
         targetComboBox.SetValue(IsSearchableInitializedPropertyKey, true);
 
+        // 必须在下方迁移 ItemsSource 之前关闭 currency 同步：ItemsSource 换成独立 CollectionView 后，
+        // Selector 的 IsSynchronizedWithCurrentItem=null 默认语义（ItemsSource 为 CollectionView 时同步）
+        // 会把选中项强制对齐到 view 的当前项，而新建 view 的当前项固定在第一位，
+        // TwoWay 的 Text/SelectedValue 绑定随之把 ｢列表第一项｣ 写回源属性（如开局干员、DropId）。
+        targetComboBox.IsSynchronizedWithCurrentItem = false;
+
         // 为每个 ComboBox 创建独立的 CollectionView，避免多个控件共享默认视图导致搜索过滤互相干扰。
         // 注意不能直接把 ItemsSource 替换为独立视图：给依赖属性赋本地值会断开原有绑定，
         // 且 CollectionViewSource.View 无变更通知（只是快照），源集合被整体替换（PropertyChanged）时无法生效。
