@@ -29,5 +29,6 @@ private:
     mutable json::value m_pending_details;
     mutable std::string m_terminal_trigger;
     mutable std::string m_terminal_pre_task;
+    bool m_stop_after_abandon = false;
 };
 } // namespace asst::blackflow
