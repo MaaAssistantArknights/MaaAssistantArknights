@@ -2426,45 +2426,134 @@
             "Infrast@OfflineConfirm"
         ]
     },
-    "InfrastInfoMiniStations": {
-        "algorithm": "JustReturn",
-        "specialParams_Doc": "1280x720 最小视图左侧九个设施的采样点。每组依次为设施锚点、1/2/3 级指示点的 x、y",
-        "specialParams": [
-            124, 320, 195, 308, 200, 308, 205, 308,
-            277, 320, 347, 308, 352, 308, 358, 308,
-            425, 320, 498, 308, 504, 308, 509, 308,
-            51, 393, 119, 382, 125, 382, 129, 382,
-            199, 393, 271, 382, 277, 382, 282, 382,
-            350, 393, 423, 382, 428, 382, 433, 382,
-            124, 455, 195, 459, 200, 459, 205, 459,
-            277, 455, 347, 459, 352, 459, 358, 459,
-            425, 455, 498, 459, 504, 459, 509, 459
-        ]
+    "InfrastInfoMfgLevel": {
+        "template": "ManufacturingLevel.png",
+        "templThreshold": 0.8,
+        "maskRange": [1, 255],
+        "rectMove": [102, 14, 35, 27]
     },
-    "InfrastInfoMiniDorms": {
-        "algorithm": "JustReturn",
-        "specialParams_Doc": "1280x720 最小视图四个宿舍的采样点。每组依次为宿舍锚点、1/2/3/4/5 级指示点的 x、y",
-        "specialParams": [
-            698, 303, 657, 307, 663, 307, 669, 307, 674, 307, 680, 307,
-            779, 383, 732, 381, 737, 381, 744, 381, 750, 381, 755, 381,
-            698, 463, 657, 456, 663, 456, 669, 456, 674, 456, 680, 456,
-            779, 543, 732, 533, 737, 533, 744, 533, 750, 533, 755, 533
-        ]
+    "InfrastInfoTradeLevel": {
+        "template": "TradeLevel.png",
+        "templThreshold": 0.8,
+        "maskRange": [1, 255],
+        "rectMove": [102, 14, 35, 27]
     },
-    "InfrastInfoProbeOffsets": {
-        "algorithm": "JustReturn",
-        "specialParams_Doc": "颜色采样偏移。前五组 x、y 用于设施类型宽探针，后五组用于等级窄探针",
-        "specialParams": [0, 0, -5, -10, -5, 10, 5, 10, 5, -10, 0, 0, -1, -3, -1, 3, 1, 3, 1, -3]
+    "InfrastInfoPowerLevel": {
+        "template": "PowerLevel.png",
+        "templThreshold": 0.8,
+        "maskRange": [1, 255],
+        "rectMove": [102, 14, 35, 27]
     },
-    "InfrastInfoNormalLevelGeometry": {
-        "algorithm": "JustReturn",
-        "specialParams_Doc": "依次为普通设施扫描起点的卡片宽度除数、宿舍扫描终点右移量、普通设施扫描终点右移量、等级线段最大宽度",
-        "specialParams": [5, 100, 20, 14]
+    "InfrastInfoDormLevel": {
+        "template": "DormLevel.png",
+        "templThreshold": 0.8,
+        "maskRange": [1, 255],
+        "rectMove": [64, 13, 50, 28]
     },
-    "InfrastInfoZoomOut": {
+    "InfrastInfoMiniMfgType": {
+        "template": "ManufacturingLevel.png",
+        "templThreshold": 0.5,
+        "maskRange": [1, 255],
+        "method": "RGBCount",
+        "colorScales": [[[180, 130, 0], [255, 255, 100]]]
+    },
+    "InfrastInfoMiniTradeType": {
+        "template": "TradeLevel.png",
+        "templThreshold": 0.5,
+        "maskRange": [1, 255],
+        "method": "RGBCount",
+        "colorScales": [[[0, 130, 180], [120, 255, 255]]]
+    },
+    "InfrastInfoMiniPowerType": {
+        "template": "PowerLevel.png",
+        "templThreshold": 0.5,
+        "maskRange": [1, 255],
+        "method": "RGBCount",
+        "colorScales": [[[130, 190, 40], [255, 255, 180]]]
+    },
+    "InfrastInfoMiniDormType": {
+        "template": "DormLevel.png",
+        "templThreshold": 0.5,
+        "maskRange": [1, 255],
+        "method": "RGBCount",
+        "colorScales": [[[180, 180, 180], [255, 255, 255]]]
+    },
+    "InfrastInfoMiniStation1Level": {
         "algorithm": "JustReturn",
-        "specialParams_Doc": "双指缩小轨迹，依次为指针 0 起点、指针 1 起点、指针 0 终点、指针 1 终点的 x、y",
-        "specialParams": [980, 180, 300, 700, 650, 350, 630, 370]
+        "roi": [190, 298, 22, 21],
+        "specificRect": [124, 320, 1, 1]
+    },
+    "InfrastInfoMiniStation2Level": {
+        "algorithm": "JustReturn",
+        "roi": [342, 298, 22, 21],
+        "specificRect": [277, 320, 1, 1]
+    },
+    "InfrastInfoMiniStation3Level": {
+        "algorithm": "JustReturn",
+        "roi": [494, 298, 22, 21],
+        "specificRect": [425, 320, 1, 1]
+    },
+    "InfrastInfoMiniStation4Level": {
+        "algorithm": "JustReturn",
+        "roi": [114, 374, 22, 21],
+        "specificRect": [51, 393, 1, 1]
+    },
+    "InfrastInfoMiniStation5Level": {
+        "algorithm": "JustReturn",
+        "roi": [266, 374, 22, 21],
+        "specificRect": [199, 393, 1, 1]
+    },
+    "InfrastInfoMiniStation6Level": {
+        "algorithm": "JustReturn",
+        "roi": [418, 374, 22, 21],
+        "specificRect": [350, 393, 1, 1]
+    },
+    "InfrastInfoMiniStation7Level": {
+        "algorithm": "JustReturn",
+        "roi": [190, 449, 22, 21],
+        "specificRect": [124, 455, 1, 1]
+    },
+    "InfrastInfoMiniStation8Level": {
+        "algorithm": "JustReturn",
+        "roi": [342, 449, 22, 21],
+        "specificRect": [277, 455, 1, 1]
+    },
+    "InfrastInfoMiniStation9Level": {
+        "algorithm": "JustReturn",
+        "roi": [494, 449, 22, 21],
+        "specificRect": [425, 455, 1, 1]
+    },
+    "InfrastInfoMiniDorm1Level": {
+        "algorithm": "JustReturn",
+        "roi": [655, 298, 34, 21],
+        "specificRect": [698, 303, 1, 1]
+    },
+    "InfrastInfoMiniDorm2Level": {
+        "algorithm": "JustReturn",
+        "roi": [729, 374, 35, 21],
+        "specificRect": [779, 383, 1, 1]
+    },
+    "InfrastInfoMiniDorm3Level": {
+        "algorithm": "JustReturn",
+        "roi": [655, 449, 34, 21],
+        "specificRect": [698, 463, 1, 1]
+    },
+    "InfrastInfoMiniDorm4Level": {
+        "algorithm": "JustReturn",
+        "roi": [729, 525, 35, 21],
+        "specificRect": [779, 543, 1, 1]
+    },
+    "InfrastInfoZoomOutPointer0": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [980, 180, 1, 1],
+        "rectMove": [650, 350, 1, 1]
+    },
+    "InfrastInfoZoomOutPointer1": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [300, 700, 1, 1],
+        "rectMove": [630, 370, 1, 1]
     },
     "InfrastLoading": {
         "doc": "等待基建加载画面结束",
