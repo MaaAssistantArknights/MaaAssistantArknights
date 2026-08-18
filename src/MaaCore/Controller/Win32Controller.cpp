@@ -342,6 +342,36 @@ bool Win32Controller::press_esc()
     return unit_click_key(VK_ESCAPE); // VK_ESCAPE = 0x1B, defined in WinUser.h
 }
 
+bool Win32Controller::press_esc_with_foreground()
+{
+    LogTraceFunction;
+
+    bool ret = unit_click_key(VK_ESCAPE);
+
+    if (m_hwnd) {
+        SetForegroundWindow(static_cast<HWND>(m_hwnd));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    INPUT inputs[2] = {};
+    inputs[0].type = INPUT_KEYBOARD;
+    inputs[0].ki.wVk = VK_ESCAPE;
+    inputs[1].type = INPUT_KEYBOARD;
+    inputs[1].ki.wVk = VK_ESCAPE;
+    inputs[1].ki.dwFlags = KEYEVENTF_KEYUP;
+
+    const UINT sent = SendInput(2, inputs, sizeof(INPUT));
+    if (sent != 2) {
+        Log.warn(
+            "press_esc_with_foreground: SendInput did not send all events, sent:",
+            sent,
+            "expected: 2, last_error:",
+            GetLastError());
+    }
+
+    return ret || sent == 2;
+}
+
 ControlFeat::Feat Win32Controller::support_features() const noexcept
 {
     return ControlFeat::PRECISE_SWIPE;

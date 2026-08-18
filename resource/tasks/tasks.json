@@ -912,7 +912,8 @@
             "StartUpBegin@LoadingIcon",
             "StartUp@ReturnButtons#next",
             "StartUp@EndOfAction",
-            "StartUp@PRTS#next"
+            "StartUp@PRTS#next",
+            "ClosePCEventPage"
         ]
     },
     "GameStart": {
@@ -948,7 +949,7 @@
     "StartToWakeUpOCR": {
         "baseTask": "StartToWakeUp",
         "algorithm": "OcrDetect",
-        "text": ["开始唤醒", "登录", "登", "录"],
+        "text": ["开始唤醒", "登录", "登", "录", "签到"],
         "fullMatch": true,
         "roi": [373, 145, 535, 430]
     },
@@ -981,7 +982,7 @@
         "next": ["Home"]
     },
     "StartUp": {
-        "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
+        "Doc": "主界面确认 — 多检测几次，一直在主界面才算完成",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "action": "DoNothing",
         "roi": [227, 327, 159, 152],
@@ -989,9 +990,94 @@
         "maxTimes": 3,
         "next": ["StartUp", "StartUp@LoadingText", "StartUp@CloseAnnos#next"]
     },
+    "ClosePCEventPage": {
+        "Doc": "PC端活动页面兜底检查 — 由插件识别左上角模糊主页图标，命中后通过ESC关闭",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 0,
+        "maxTimes": 1,
+        "next": ["ClosePCEventPageEsc"],
+        "exceededNext": ["ClosePCEventPageEsc"]
+    },
+    "ClosePCEventPageEsc": {
+        "Doc": "PC端活动页面ESC关闭 — 按ESC后延迟等待动画结束，再闭环检查主界面/弹窗",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 1000,
+        "maxTimes": 3,
+        "next": [
+            "StartUp",
+            "StartUp@LoadingText",
+            "MainThemes#next",
+            "StartUp@CloseAnnoTexas",
+            "StartUp@CloseAnnoSpecialAccess",
+            "StartUp@TodaysSupplies",
+            "StartUp@NotDownloadVoice",
+            "ClosePCEventPageEsc"
+        ],
+        "on_error_next": ["StartUp@AfterLoadingIcon"],
+        "exceededNext": ["StartUp@AfterLoadingIcon"]
+    },
     "CloseAnnos": {
         "algorithm": "JustReturn",
         "next": ["CloseAnno", "CloseAnnoTexas", "CloseAnnoSpecialAccess", "TodaysSupplies", "NotDownloadVoice"]
+    },
+    "StartUp@TodaysSupplies": {
+        "baseTask": "TodaysSupplies",
+        "next": ["StartUp@TodaysSuppliesPostCheck"]
+    },
+    "StartUp@TodaysSuppliesPostCheck": {
+        "Doc": "今日配给领取后先判定主页，未到主页则优先关闭签到/物资层",
+        "algorithm": "JustReturn",
+        "next": ["StartUp", "StartUp@LoadingText", "StartUp@TodaysSuppliesCloseAnno"]
+    },
+    "StartUp@TodaysSuppliesCloseAnno": {
+        "Doc": "今日配给后置关闭 — 最多关闭两层签到/物资弹窗，之后再进入活动页兜底",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [1100, 0, 180, 200],
+        "postDelay": 1000,
+        "maxTimes": 2,
+        "next": ["StartUp", "StartUp@LoadingText", "StartUp@TodaysSuppliesCloseAnno"],
+        "exceededNext": ["StartUp@TodaysSuppliesEventPageCheck"]
+    },
+    "StartUp@TodaysSuppliesEventPageCheck": {
+        "Doc": "今日配给后置二次主页判定 — 仍未到主页时按 PC 活动页处理",
+        "algorithm": "JustReturn",
+        "next": ["StartUp", "StartUp@LoadingText", "ClosePCEventPage"]
+    },
+    "StartUp@AfterLoadingIcon": {
+        "Doc": "开始唤醒加载后候选 — 先处理主页/签到/明确弹窗，再进入 PC 活动页兜底，最后普通公告关闭",
+        "algorithm": "JustReturn",
+        "next": [
+            "StartUp",
+            "StartUp@LoadingText",
+            "StartUp@TodaysSupplies",
+            "StartUp@CloseAnnoTexas",
+            "StartUp@CloseAnnoSpecialAccess",
+            "StartUp@NotDownloadVoice",
+            "ClosePCEventPage"
+        ]
+    },
+    "StartUp@GameStart@LoadingIcon": {
+        "baseTask": "LoadingIcon",
+        "template": "LoadingIcon.png",
+        "next": ["StartUp@GameStart@LoadingIcon", "StartUp@AfterLoadingIcon"]
+    },
+    "StartUp@StartToWakeUp@LoadingIcon": {
+        "baseTask": "LoadingIcon",
+        "template": "LoadingIcon.png",
+        "next": ["StartUp@StartToWakeUp@LoadingIcon", "StartUp@AfterLoadingIcon"]
+    },
+    "StartUp@StartLoginBServer@LoadingIcon": {
+        "baseTask": "LoadingIcon",
+        "template": "LoadingIcon.png",
+        "next": ["StartUp@StartLoginBServer@LoadingIcon", "StartUp@AfterLoadingIcon"]
+    },
+    "StartUp@StartUpConnectingFlag@LoadingIcon": {
+        "baseTask": "LoadingIcon",
+        "template": "LoadingIcon.png",
+        "next": ["StartUp@StartUpConnectingFlag@LoadingIcon", "StartUp@AfterLoadingIcon"]
     },
     "MainThemes": {
         "Doc": "使用本任务时带上 #next",
