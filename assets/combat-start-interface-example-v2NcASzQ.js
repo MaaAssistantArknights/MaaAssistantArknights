@@ -1,0 +1,1 @@
+var e=`/images/ja-jp/combat-start-interface-example.png`;export{e as t};
