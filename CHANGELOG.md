@@ -1,4 +1,4 @@
-## v6.17.0-beta.3
+## v6.17.0-beta.4
 
 ### Highlights
 
@@ -44,6 +44,21 @@ The PC client window title is now resolved by client type, so global Arknights P
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.0-beta.4 (2026-08-19)</b></summary>
+
+### 改进 | Improved
+
+* 可搜索 ComboBox 启用 UI 虚拟化，减轻肉鸽开局干员等大列表搜索时的卡顿 @ABA2396
+
+### 修复 | Fix
+
+* 修复黑流树海策略完成后无法正确停止并上报、未完成时无法重开下一局的问题 ([#17771](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17771)) @ZiyinLin
+* 修复可搜索 ComboBox 初始化时将已绑定值覆盖为列表第一项，导致肉鸽开局干员重启后被重置的问题 @ABA2396
+* 调整黑流树海左下角放大镜判定方法与阈值，避免部分设备下遇到流程无法继续 @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.17.0-beta.3 (2026-08-18)</b></summary>
 
 ### 新增 | New

@@ -124,7 +124,8 @@ void BlackFlowLifecycleTaskPlugin::reset_in_run_variables()
     m_pending_details = {};
     m_terminal_trigger.clear();
     m_terminal_pre_task.clear();
-    Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", "BlackFlow@Roguelike@ExitThenStop-Enter");
+    m_stop_after_abandon = false;
+    Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", "BlackFlow@Roguelike@ExitThenAbandon-Enter");
     if (m_session != nullptr && !m_session->profile().empty()) {
         m_session->reset_run();
     }
@@ -186,8 +187,13 @@ bool BlackFlowLifecycleTaskPlugin::_run()
         return true;
     }
     if (work == PendingWork::ResetAfterAbandon) {
+        const bool stop_after_abandon = m_stop_after_abandon;
         reset_in_run_variables();
         Log.info("BlackFlow run state reset after abandonment");
+        if (stop_after_abandon && m_task_ptr != nullptr) {
+            m_task_ptr->set_enable(false);
+            Log.info("BlackFlow task stopped after abandonment");
+        }
         return true;
     }
     if (work != PendingWork::ResolveTerminalAction) {
@@ -211,10 +217,9 @@ bool BlackFlowLifecycleTaskPlugin::_run()
 
     const std::string next_action =
         m_session != nullptr && m_session->result().has_value() ? m_session->result()->next_action : "stop_run";
-    // 两支都经 -Enter 转发：停止一支要让控制插件收到自己的任务名，
-    // 重开一支的目标带模板，占位任务继承不到。
-    const std::string task = next_action == "restart_current_run" ? "BlackFlow@Roguelike@ExitThenAbandon-Enter"
-                                                                  : "BlackFlow@Roguelike@ExitThenStop-Enter";
+    // 两支都在主 ProcessTask 上完成放弃；停止一支在 AbandonConfirm 完成后、StartExplore 之前停用主任务。
+    m_stop_after_abandon = next_action != "restart_current_run";
+    const std::string task = "BlackFlow@Roguelike@ExitThenAbandon-Enter";
     Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", task);
     Log.info(
         "BlackFlow strategy terminal action",
