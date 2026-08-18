@@ -1186,12 +1186,11 @@ bool asst::BattleFormationTask::do_operbox_precheck()
         "groups");
 
     // 匹配的干员组
-    const auto& all_chars = BattleData.get_all_chars();
     std::unordered_map<std::string, std::string> assigned;
     json::array matched_groups;
     for (const auto& [left, right] : result.matched) {
         assigned[flat_groups[left].name] = oper_data[right].id;
-        std::string oper_name = all_chars.at(oper_data[right].id)->name;
+        std::string oper_name = BattleData.find_oper_by_id(oper_data[right].id)->name;
         Log.info("  Matched group:", flat_groups[left].name, "with oper:", oper_name);
         matched_groups.emplace_back(
             std::unordered_map<std::string, std::string> { { "group_name", flat_groups[left].name },
@@ -1238,8 +1237,9 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             std::erase_if(cur_data, [&](const OperBoxInfo& o) { return o.id == borrow_id; });
             OperBoxInfo fake_oper {};
             fake_oper.id = borrow_id;
-            fake_oper.name = all_chars.at(borrow_id)->name;
-            fake_oper.rarity = all_chars.at(borrow_id)->rarity;
+            auto oper_ptr = BattleData.find_oper_by_id(borrow_id);
+            fake_oper.name = oper_ptr->name;
+            fake_oper.rarity = oper_ptr->rarity;
             fake_oper.elite = (fake_oper.rarity >= 3) + (fake_oper.rarity >= 4); // magic: 满练
             fake_oper.level = 30 + (fake_oper.elite * 25) + (fake_oper.rarity > 3) * 10 * (fake_oper.rarity - 5);
             fake_oper.potential = 6;
@@ -1266,7 +1266,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
                     json::value info = basic_info_with_what("BattleFormationOperboxMatched");
                     json::array assigned_groups;
                     for (const auto& [group_name, oper_id] : new_assigned) {
-                        std::string oper_name = all_chars.at(oper_id)->name;
+                        std::string oper_name = BattleData.find_oper_by_id(oper_id)->name;
                         Log.info("  Matched group:", group_name, "with oper:", oper_name);
                         assigned_groups.emplace_back(
                             std::unordered_map<std::string, std::string> { { "group_name", group_name },
@@ -1278,7 +1278,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
                 m_operbox_assigned = std::move(new_assigned);
                 json::value info = basic_info_with_what("BattleFormationOperbox1Unmatched");
                 info["details"]["group_name"] = m_operbox_unmatched_group;
-                info["details"]["may_borrow_oper"] = all_chars.at(borrow_id)->name;
+                info["details"]["may_borrow_oper"] = BattleData.find_oper_by_id(borrow_id)->name;
                 callback(AsstMsg::SubTaskExtraInfo, info);
                 return true;
             }
