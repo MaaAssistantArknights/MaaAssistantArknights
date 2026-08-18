@@ -110,7 +110,7 @@ bool asst::BattleProcessTask::to_group()
         }
     }
     // 补充剩余的干员
-    for (const auto& [group_name, oper_list] : get_combat_data().groups) {
+    for (const auto& [group_name, _, __, oper_list] : get_combat_data().groups) {
         if (groups.contains(battle::OperNameTag { battle::Role::Unknown, group_name })) {
             continue;
         }
@@ -195,13 +195,13 @@ bool asst::BattleProcessTask::to_group()
     // 对于实际编入战斗的干员, 从作业中读取技能用法并存入m_skill_usage和m_skill_times
     for (const auto& [group_tag, oper_tag] : m_oper_in_group) {
         const auto& group_it = std::ranges::find_if(get_combat_data().groups, [&](const OperUsageGroup& pair) {
-            return pair.first == group_tag.name;
+            return pair.name == group_tag.name;
         });
         if (group_it == get_combat_data().groups.end()) {
             LogError << __FUNCTION__ << "Group not found in combat data: " << group_tag.name;
             continue;
         }
-        const auto& this_group = group_it->second;
+        const auto& this_group = group_it->opers;
         // there is a build error on macOS
         // https://github.com/MaaAssistantArknights/MaaAssistantArknights/actions/runs/3779762713/jobs/6425284487
         // const std::string& oper_name_for_lambda = oper_tag;

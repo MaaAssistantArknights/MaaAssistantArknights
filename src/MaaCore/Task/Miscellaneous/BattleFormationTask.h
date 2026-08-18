@@ -89,7 +89,16 @@ public:
     bool set_specific_support_unit(const std::string& name = ""); // 设置指定助战干员
 
 protected:
-    using OperGroup = std::pair<std::string, std::vector<asst::battle::OperUsage>>;
+    using OperGroup = battle::copilot::OperUsageGroup;
+
+    struct OperInfo
+    {
+        battle::Role role;
+        std::string name;
+        int elite;
+        int level;
+        std::optional<int> skill_level;
+    };
 
     virtual bool _run() override;
     bool parse_formation();
@@ -108,9 +117,9 @@ protected:
     // 选择当前页中的干员, return 是否继续翻页
     bool select_opers_in_cur_page(const std::vector<OperGroup*>& groups);
     // 检查干员等级
-    bool check_oper_level(const cv::Mat& image, asst::Rect flag, const battle::OperUsage& oper, bool ignore);
+    bool check_oper_level(const OperInfo& oper_info, const battle::OperUsage& oper, bool ignore);
     // 检查并选中技能, return 技能是否达到要求
-    bool check_and_select_skill(const battle::OperUsage& oper, bool ignore, int delay);
+    bool check_and_select_skill(OperInfo& oper_info, const battle::OperUsage& oper, bool ignore, int delay);
     void swipe_page();
     void swipe_to_the_left(int times = 2);
     bool confirm_selection();
@@ -134,6 +143,7 @@ protected:
     DataResource m_data_resource = DataResource::Copilot;
     std::vector<AdditionalFormation> m_additional;
     std::string m_last_oper_name;
+    std::unordered_map<battle::OperNameTag, OperInfo> m_opers;
     int m_select_formation_index = 0;
     int m_missing_retry_times = 1; // 识别不到干员的重试次数
 
