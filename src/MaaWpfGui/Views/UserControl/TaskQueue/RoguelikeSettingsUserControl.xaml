@@ -102,14 +102,7 @@
             <StackPanel Margin="0,3">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource StartingCoreChar}" />
-                    <controls:TooltipBlock>
-                        <controls:TooltipBlock.TooltipText>
-                            <MultiBinding StringFormat="{}{0}&#x0a;&#x0a;{1}">
-                                <Binding Source="{StaticResource StartingCoreCharTip}" />
-                                <Binding Path="RoguelikeThemeTip" Source="{x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}" />
-                            </MultiBinding>
-                        </controls:TooltipBlock.TooltipText>
-                    </controls:TooltipBlock>
+                    <controls:TooltipBlock TooltipText="{Binding StartingCoreCharTip}" />
                     <controls:TextBlock
                         MaxWidth="100"
                         Margin="4,0,0,0"

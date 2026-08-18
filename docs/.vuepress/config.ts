@@ -81,6 +81,7 @@ export default defineUserConfig({
       },
 
       icon: { provider: 'iconify' },
+      math: { type: 'katex' },
       plot: true,
       field: true,
       bilibili: true,

@@ -1,4 +1,4 @@
-## v6.17.0-beta.2
+## v6.17.0-beta.3
 
 ### Highlights
 
@@ -44,6 +44,33 @@ The PC client window title is now resolved by client type, so global Arknights P
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.0-beta.3 (2026-08-18)</b></summary>
+
+### 新增 | New
+
+* CustomWebhook 预置模板新增企业微信（WeCom）与 ntfy 选项 ([#17695](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17695)) @H2O-MERO
+* 繁中服新增「辭歲行」活动关卡导航，并适配 SSS 10 ｢極寒安保派駐｣ ([#17766](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17766)) @momomochi987 @ABA2396
+
+### 改进 | Improved
+
+* 自动战斗自动编队按干员组最低练度跳过浏览低等级干员，缩短编队耗时 ([#17751](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17751)) @status102
+* YostarKR normalize BlackFlow roguelike terminology and fix mistranslations @HX3N
+
+### 修复 | Fix
+
+* 修复从公招的选择招募时限界面开始自动公招功能，会触发循环操作的问题 @ABA2396
+* 修复可搜索 ComboBox 在语言切换等场景下选项绑定失效、指定材料被清空，以及下拉列表滚轮一次滚到底的问题 ([#17759](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17759)) @status102 @ABA2396
+* 修复自动战斗作业保存时输出多余超时参数、编队反复切换职业的问题 @status102
+* 修复肉鸽开局干员提示无法随界面语言实时切换的问题 @ABA2396
+* YostarKR fix Roguelike recruitment giving up instead of recruiting @HX3N
+
+### 文档 | Docs
+
+* 肉鸽文档补充黑流树海推荐开局 ([#17753](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17753)) @Rbqwow @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.17.0-beta.2 (2026-08-18)</b></summary>
 
 ### 新增 | New

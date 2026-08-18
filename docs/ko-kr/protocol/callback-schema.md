@@ -64,13 +64,19 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### InitFailed
 
 :::: field-group
-::: field name="what" type="string" required
+::: field what
+@type string
+@required
 오류 유형
 :::  
-::: field name="why" type="string" required
+::: field why
+@type string
+@required
 오류 원인
 :::  
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 오류 상세
 :::  
 ::::
@@ -78,16 +84,23 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### ConnectionInfo
 
 :::: field-group
-::: field name="what" type="string" required
+::: field what
+@type string
+@required
 정보 유형
 :::
-::: field name="why" type="string" required
+::: field why
+@type string
+@required
 정보 원인
 :::
-::: field name="uuid" type="string"
+::: field uuid
+@type string
 장치 고유 코드(UUID) (연결 실패 시 비어 있음)
 :::
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 연결 상세 정보. 구조는 다음과 같습니다:
 
 - `adb` (string, required): `AsstConnect` 인터페이스의 `adb_path` 파라미터.
@@ -142,16 +155,24 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### AsyncCallInfo
 
 :::: field-group
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 장치 고유 코드
 :::
-::: field name="what" type="string" required
+::: field what
+@type string
+@required
 콜백 유형, 예: `Connect` | `Click` | `Screencap` 등
 :::
-::: field name="async_call_id" type="number" required
+::: field async_call_id
+@type number
+@required
 비동기 요청 id, 즉 `AsstAsyncXXX` 호출 시 반환값
 :::
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 비동기 호출 상세. 구조는 다음과 같습니다:
 
 - `ret` (boolean, required): 실제 호출의 반환값.
@@ -163,13 +184,19 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### AllTasksCompleted
 
 :::: field-group
-::: field name="taskchain" type="string" required
+::: field taskchain
+@type string
+@required
 마지막 작업 체인
 :::
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 장치 고유 코드
 :::
-::: field name="finished_tasks" type="array<number>" required
+::: field finished_tasks
+@type array<number>
+@required
 이미 실행된 작업 id 목록
 :::
 ::::
@@ -214,13 +241,19 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### TaskChain 관련 메시지
 
 :::: field-group
-::: field name="taskchain" type="string" required
+::: field taskchain
+@type string
+@required
 현재 작업 체인
 :::
-::: field name="taskid" type="number" required
+::: field taskid
+@type number
+@required
 현재 작업 TaskId
 :::
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 장치 고유 코드
 :::
 ::::
@@ -232,22 +265,34 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### SubTask 관련 메시지
 
 :::: field-group
-::: field name="subtask" type="string" required
+::: field subtask
+@type string
+@required
 서브 작업명
 :::
-::: field name="class" type="string" required
+::: field class
+@type string
+@required
 서브 작업 심볼명
 :::
-::: field name="taskchain" type="string" required
+::: field taskchain
+@type string
+@required
 현재 작업 체인
 :::
-::: field name="taskid" type="number" required
+::: field taskid
+@type number
+@required
 현재 작업 TaskId
 :::
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 상세 정보
 :::
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 장치 고유 코드
 :::
 ::::
@@ -258,19 +303,29 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
-  ::: field name="task" type="string" required
+  ::: field task
+  @type string
+  @required
   작업명
   :::
-  ::: field name="action" type="number" required
+  ::: field action
+  @type number
+  @required
   Action ID
   :::
-  ::: field name="exec_times" type="number" required
+  ::: field exec_times
+  @type number
+  @required
   실행된 횟수
   :::
-  ::: field name="max_times" type="number" required
+  ::: field max_times
+  @type number
+  @required
   최대 실행 횟수
   :::
-  ::: field name="algorithm" type="number" required
+  ::: field algorithm
+  @type number
+  @required
   인식 알고리즘
   :::
   ::::
@@ -330,19 +385,29 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### SubTaskExtraInfo
 
 :::: field-group
-::: field name="taskchain" type="string" required
+::: field taskchain
+@type string
+@required
 현재 작업 체인
 :::
-::: field name="class" type="string" required
+::: field class
+@type string
+@required
 서브 작업 유형
 :::
-::: field name="what" type="string" required
+::: field what
+@type string
+@required
 정보 유형
 :::
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 정보 상세
 :::
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 장치 고유 코드
 :::
 ::::
@@ -369,7 +434,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   공개모집 태그를 식별했습니다. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
-  ::: field name="tags" type="array<string>" required
+  ::: field tags
+  @type array<string>
+  @required
   식별된 태그 목록
   :::
   ::::
@@ -378,7 +445,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   공개모집 특수 태그를 식별했습니다. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
-  ::: field name="tag" type="string" required
+  ::: field tag
+  @type string
+  @required
   특수 태그 명칭, 예: `고급 특별 채용`
   :::
   ::::
@@ -387,7 +456,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   공개모집에서 보류 대상으로 설정된 태그를 식별했습니다. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
-  ::: field name="tag" type="string" required
+  ::: field tag
+  @type string
+  @required
   보류를 트리거한 태그 명칭, 예: `지원 기계`
   :::
   ::::
@@ -407,10 +478,14 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   공개모집 태그를 갱신했습니다. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
-  ::: field name="count" type="number" required
+  ::: field count
+  @type number
+  @required
   현재 슬롯 갱신 횟수
   :::
-  ::: field name="refresh_limit" type="number" required
+  ::: field refresh_limit
+  @type number
+  @required
   현재 슬롯 갱신 횟수 상한
   :::
   ::::
@@ -419,7 +494,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   모집 허가증이 없습니다. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
-  ::: field name="continue" type="boolean" required
+  ::: field continue
+  @type boolean
+  @required
   계속 갱신할지 여부
   :::
   ::::
@@ -428,7 +505,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   공개모집 태그를 선택했습니다. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
-  ::: field name="tags" type="array<string>" required
+  ::: field tags
+  @type array<string>
+  @required
   선택한 태그 목록
   :::
   ::::
@@ -443,10 +522,14 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   기반시설 시설에 진입했습니다. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
-  ::: field name="facility" type="string" required
+  ::: field facility
+  @type string
+  @required
   시설명
   :::
-  ::: field name="index" type="number" required
+  ::: field index
+  @type number
+  @required
   시설 순서(인덱스)
   :::
   ::::
@@ -455,10 +538,14 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   기반시설 가용 오퍼레이터 부족. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
-  ::: field name="facility" type="string" required
+  ::: field facility
+  @type string
+  @required
   시설명
   :::
-  ::: field name="index" type="number" required
+  ::: field index
+  @type number
+  @required
   시설 순서
   :::
   ::::
@@ -467,13 +554,19 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   기반시설 생산물. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
-  ::: field name="product" type="string" required
+  ::: field product
+  @type string
+  @required
   생산물명
   :::
-  ::: field name="facility" type="string" required
+  ::: field facility
+  @type string
+  @required
   시설명
   :::
-  ::: field name="index" type="number" required
+  ::: field index
+  @type number
+  @required
   시설 순서
   :::
   ::::
@@ -482,7 +575,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   자동 작전 노드 정보. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
-  ::: field name="name" type="string" required
+  ::: field name
+  @type string
+  @required
   노드명
   :::
   ::::
@@ -494,7 +589,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   펭귄 물류 ID. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
-  ::: field name="id" type="string" required
+  ::: field id
+  @type string
+  @required
   펭귄 물류 ID
   :::
   ::::
@@ -529,16 +626,24 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 이 필드는 주로 코어 모듈이 UI 계층에 네트워크 요청 정보를 전달하는 데 사용되며, UI가 구체적인 HTTP 보고(Report) 작업을 수행합니다
 
 :::: field-group
-::: field name="url" type="string" required
+::: field url
+@type string
+@required
 요청 전체 URL, 예: `https://penguin-stats.io/PenguinStats/api/v2/report`
 :::
-::: field name="headers" type="object" required
+::: field headers
+@type object
+@required
 요청 헤더 키-값 쌍 (`Content-Type` 미포함, UI 계층에서 자동 추가)
 :::
-::: field name="body" type="string" required
+::: field body
+@type string
+@required
 요청 본문 내용 (일반적으로 JSON 형식의 문자열)
 :::
-::: field name="subtask" type="string" required
+::: field subtask
+@type string
+@required
 서브 작업명, 구체적인 상보 임무 식별, 예: `ReportToPenguinStats`, `ReportToYituliu`
 :::
 ::::

@@ -1707,12 +1707,28 @@
         "algorithm": "JustReturn",
         "next": [
             "RecruitFlag",
+            "Recruit@FromRecruitTagsPage",
             "Recruit",
             "RecruitBegin@QuickSwitch@ToRecruit#next",
             "Recruit@ReturnButtons#next",
             "Recruit@CloseAnnos#next",
             "Recruit@OfflineConfirm"
         ]
+    },
+    "FromRecruitTagsPage": {
+        "algorithm": "OcrDetect",
+        "text": ["招募时限"],
+        "roi": [220, 200, 115, 50],
+        "maxTimes": 3,
+        "next": ["FromRecruitTagsPage@Return"]
+    },
+    "FromRecruitTagsPage@Return": {
+        "template": ["Return.png", "Return-White.png"],
+        "templThreshold": [0.7, 0.7],
+        "action": "ClickSelf",
+        "roi": [0, 0, 180, 80],
+        "postDelay": 500,
+        "next": ["RecruitFlag", "FromRecruitTagsPage@Return", "RecruitBegin@LoadingText", "#back"]
     },
     "Recruit": {
         "action": "DoNothing",

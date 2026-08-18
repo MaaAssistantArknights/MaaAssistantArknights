@@ -477,7 +477,30 @@ public static class MouseWheelHelper
 
     private static void ScrollScrollViewer(ScrollViewer scrollViewer, int delta)
     {
+        if (IsItemUnitScrolling(scrollViewer))
+        {
+            // 逻辑滚动（如 ComboBox 下拉）的偏移单位是项，像素口径的 delta / 3（一格 120 → 40）
+            // 会被解释成 40 个项直接见底，需按 WPF 默认滚轮行为换算：每格滚
+            // SystemParameters.WheelScrollLines 项（系统设 ｢一次一屏｣ 时滚一屏，设 ｢不滚动｣ 时按默认 3 项）
+            var wheelScrollLines = SystemParameters.WheelScrollLines;
+            var unitsPerNotch = wheelScrollLines switch
+            {
+                < 0 => Math.Max(1.0, scrollViewer.ViewportHeight),
+                0 => 3.0,
+                _ => (double)wheelScrollLines,
+            };
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - (Math.Sign(delta) * unitsPerNotch));
+            return;
+        }
+
         scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - (delta / 3.0));
+    }
+
+    private static bool IsItemUnitScrolling(ScrollViewer scrollViewer)
+    {
+        // CanContentScroll 只表示滚动交给内容的 IScrollInfo 接管，StackPanel 等接管时单位仍是像素；
+        // 项单位只出现在内容为 ItemsPresenter（面板为 VirtualizingStackPanel 等 ItemsHost）时
+        return scrollViewer.CanContentScroll && scrollViewer.Content is ItemsPresenter;
     }
 
     private static bool IsMouseOverElement(FrameworkElement? element)

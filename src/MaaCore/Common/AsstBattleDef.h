@@ -392,7 +392,15 @@ using RoleCounts = std::unordered_map<Role, int>;
 
 namespace copilot
 {
-using OperUsageGroup = std::pair<std::string, std::vector<OperUsage>>;
+
+struct OperUsageGroup
+{
+    std::string name;  // 干员组名
+    int elite_min = 0; // 组内干员的最小精英化等级
+    int level_min = 0; // 组内干员的最小等级
+    std::vector<asst::battle::OperUsage> opers;
+};
+
 using OperUsageGroups = std::vector<OperUsageGroup>;
 
 enum class ActionType

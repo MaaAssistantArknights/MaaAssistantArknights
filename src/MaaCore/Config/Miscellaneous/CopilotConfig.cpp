@@ -128,7 +128,11 @@ std::optional<asst::battle::copilot::OperUsageGroups> asst::CopilotConfig::parse
             }
             // 单个干员的，干员名直接作为组名
             std::string group_name = oper->name;
-            groups.emplace_back(OperUsageGroup { std::move(group_name), std::vector { std::move(*oper) } });
+            groups.emplace_back(
+                OperUsageGroup { std::move(group_name),
+                                 oper->requirements.elite,
+                                 oper->requirements.level,
+                                 std::vector { std::move(*oper) } });
         }
     }
 
@@ -136,15 +140,24 @@ std::optional<asst::battle::copilot::OperUsageGroups> asst::CopilotConfig::parse
         for (const auto& group_info : opt.value()) {
             std::string group_name = group_info.at("name").as_string();
             std::vector<OperUsage> oper_vec;
+            int elite_min = 2;
+            int level_min = 90;
             for (const auto& oper_info : group_info.at("opers").as_array()) {
                 auto oper = parse_oper_usage(oper_info);
                 if (!oper) {
                     LogError << __FUNCTION__ << "| Failed to parse oper" << oper_info;
                     return std::nullopt;
                 }
+                if (oper->requirements.elite < elite_min) {
+                    elite_min = oper->requirements.elite;
+                    level_min = std::min(elite_min == 1 ? 80 : 70, oper->requirements.level);
+                }
+                else if (oper->requirements.elite == elite_min) {
+                    level_min = std::min(level_min, oper->requirements.level);
+                }
                 oper_vec.emplace_back(std::move(*oper));
             }
-            groups.emplace_back(OperUsageGroup { std::move(group_name), std::move(oper_vec) });
+            groups.emplace_back(OperUsageGroup { std::move(group_name), elite_min, level_min, std::move(oper_vec) });
         }
     }
 

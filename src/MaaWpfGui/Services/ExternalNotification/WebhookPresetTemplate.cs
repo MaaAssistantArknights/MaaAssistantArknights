@@ -43,13 +43,6 @@ public class WebhookPresetTemplate
         },
         new()
         {
-            Id = "meow",
-            NameResourceKey = "ExternalNotificationCustomWebhook.TemplateMeoW",
-            Url = "https://api.chuckfang.com/<nickname>",
-            Body = "{\"title\":\"{title}\",\"msg\":\"{content}\\n{time}\"}",
-        },
-        new()
-        {
             Id = "Discord Webhook",
             Name = "Discord Webhook",
             Body = $"{{\"content\": \"{{content}}\"}}",
@@ -69,6 +62,27 @@ public class WebhookPresetTemplate
             Url = "https://www.kookapp.cn/api/v3/direct-message/create",
             Headers = "Authorization: Bot <bot_token>",
             Body = @"{""type"": 9, ""target_id"": ""<user_id>"", ""content"": ""**{title}**\n{content}""}",
+        },
+        new()
+        {
+            Id = "meow",
+            NameResourceKey = "ExternalNotificationCustomWebhook.TemplateMeoW",
+            Url = "https://api.chuckfang.com/<nickname>",
+            Body = "{\"title\":\"{title}\",\"msg\":\"{content}\\n{time}\"}",
+        },
+        new()
+        {
+            Id = "ntfy",
+            Name = "ntfy",
+            Url = "https://ntfy.sh/<topic>",
+            Body = @"{""message"": ""{content}"", ""title"": ""{title}""}",
+        },
+        new()
+        {
+            Id = "WeCom",
+            Name = "WeCom",
+            Url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=<key>",
+            Body = @"{""msgtype"": ""text"", ""text"": {""content"": ""{content}""}}",
         },
     ];
 
