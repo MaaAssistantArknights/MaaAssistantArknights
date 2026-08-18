@@ -696,11 +696,12 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
         oper = nullptr; // reset oper pointer
     }
     if (elite_last.has_value() && level_last.has_value()) {
+        bool has_group_unmatched = false;
         bool is_any_group_could_match = std::ranges::any_of(groups, [&](OperGroup* group) {
-            if (!has_oper_unchecked(group->opers)) { // 干员组没有干员已选中且存在可用干员
+            if (has_oper_selected(group->opers)) { // 干员组已选中干员
                 return false;
             }
-
+            has_group_unmatched = true;
             if (elite_last > group->elite_min) {
                 return true;
             }
@@ -710,7 +711,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
 
             return false;
         });
-        if (!is_any_group_could_match) {
+        if (has_group_unmatched && !is_any_group_could_match) {
             LogInfo << __FUNCTION__ << "| Last oper elite:" << *elite_last << ", level:" << *level_last
                     << "lower than any group requirement, stop match";
             return false;
