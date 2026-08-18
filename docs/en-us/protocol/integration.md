@@ -206,66 +206,64 @@ Currently supported stages for navigation include:
   <br>
   - New list (CN main resources after 2026/8/1, without this flag): accepts `-1~10`
   - Old list (overseas resources with this flag): accepts only `-1~6`; larger values are rejected
-    <br>
-    Overseas servers are expected to follow in about six months, after which the limit becomes 10 with the resource update. The Windows GUI series dropdown currently always offers up to 10; on overseas clients, manually selecting 7~10 will be rejected by Core when the task is submitted.
-    :::  
-    :::  
-    ::: field drops  
-    @type object
-    @optional
-    Specifying the number of drops, no specification by default. key is item_id, value is quantity. key can refer to `resource/item_index.json` file.  
-    <br>
-    Example: `{ "30011": 10, "30062": 5 }`  
-    <br>
-    All above are OR relations, i.e. task stops when any one is reached.  
-    :::  
-    ::: field report_to_penguin  
-    @type boolean
-    @default false
-    @optional
-    Whether to upload data to Penguin Statistics.  
-    :::  
-    ::: field penguin_id  
-    @type string
-    @optional
-    Penguin Statistics report id, empty by default. Only effective when `report_to_penguin` is true.  
-    :::  
-    :::  
-    ::: field report_to_yituliu  
-    @type boolean
-    @default false
-    @optional
-    Whether to report to YITULIU.  
-    :::  
-    ::: field yituliu_id  
-    @type string
-    @optional
-    YITULIU report id, empty by default. Only effective when `report_to_yituliu` is true.  
-    :::  
-    ::: field server  
-    @type string
-    @default CN
-    @optional
-    Server, will affect drop recognition and upload.
-    <br>
-    Options: `CN` | `US` | `JP` | `KR`  
-    :::  
-    ::: field client_type  
-    @type string
-    @optional
-    Client version, empty by default. Used to restart and reconnect after game crash, does not enable this feature if empty.
-    <br>
-    Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-    :::  
-    ::: field DrGrandet  
-    @type boolean
-    @default false
-    @optional
-    Sanity-saving Originite usage mode, only effective when Originite usage may occur.
-    <br>
-    Wait at the Originite confirmation screen until the current 1 sanity point is restored, then immediately use Originite.  
-    :::  
-    ::::
+
+  Overseas servers are expected to follow in about six months, after which the limit becomes 10 with the resource update. The Windows GUI series dropdown currently always offers up to 10; on overseas clients, manually selecting 7~10 will be rejected by Core when the task is submitted.
+  :::  
+  ::: field drops  
+  @type object
+  @optional
+  Specifying the number of drops, no specification by default. key is item_id, value is quantity. key can refer to `resource/item_index.json` file.  
+  <br>
+  Example: `{ "30011": 10, "30062": 5 }`  
+  <br>
+  All above are OR relations, i.e. task stops when any one is reached.  
+  :::  
+  ::: field report_to_penguin  
+  @type boolean
+  @default false
+  @optional
+  Whether to upload data to Penguin Statistics.  
+  :::  
+  ::: field penguin_id  
+  @type string
+  @optional
+  Penguin Statistics report id, empty by default. Only effective when `report_to_penguin` is true.  
+  :::  
+  ::: field report_to_yituliu  
+  @type boolean
+  @default false
+  @optional
+  Whether to report to YITULIU.  
+  :::  
+  ::: field yituliu_id  
+  @type string
+  @optional
+  YITULIU report id, empty by default. Only effective when `report_to_yituliu` is true.  
+  :::  
+  ::: field server  
+  @type string
+  @default CN
+  @optional
+  Server, will affect drop recognition and upload.
+  <br>
+  Options: `CN` | `US` | `JP` | `KR`  
+  :::  
+  ::: field client_type  
+  @type string
+  @optional
+  Client version, empty by default. Used to restart and reconnect after game crash, does not enable this feature if empty.
+  <br>
+  Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+  :::  
+  ::: field DrGrandet  
+  @type boolean
+  @default false
+  @optional
+  Sanity-saving Originite usage mode, only effective when Originite usage may occur.
+  <br>
+  Wait at the Originite confirmation screen until the current 1 sanity point is restored, then immediately use Originite.  
+  :::  
+  ::::
 
 <details>
 <summary>Example</summary>
