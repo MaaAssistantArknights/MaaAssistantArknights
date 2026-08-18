@@ -82,17 +82,18 @@ public static class ComboBoxExtensions
             var bindingExpression = targetComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty);
             if (bindingExpression is { ParentBinding: { } parentBinding })
             {
-                // 有绑定：整体迁移（保留相对绑定的 DataContext 语义），源属性替换时自动触发回调
-                BindingOperations.ClearBinding(targetComboBox, ItemsControl.ItemsSourceProperty);
+                // 有绑定：整体迁移（保留相对绑定的 DataContext 语义），源属性替换时自动触发回调。
+                // 不能先 ClearBinding 再迁移：清除绑定会让 ItemsSource 瞬时回落到 null，Selector 随即
+                // 清空选中项，TwoWay 的 SelectedValue/SelectedItem 把空值写回绑定源（如各 Plan 的 DropId），
+                // 表现为展开后指定材料被改成不选择。SetBinding 求值立即触发变更回调，回调中对
+                // ItemsSource 赋本地值会自然移除其上的原绑定，全程不经过 null。
                 BindingOperations.SetBinding(targetComboBox, OriginItemsSourceProperty, parentBinding);
             }
             else if (targetComboBox.ItemsSource is { } itemsSource)
             {
-                // 无绑定：直接保存当前集合
+                // 无绑定：直接保存当前集合，SetValue 触发回调回填独立视图
                 targetComboBox.SetValue(OriginItemsSourceProperty, itemsSource);
             }
-
-            UpdateItemsSourceFromOrigin(targetComboBox);
         }
 
         targetComboBox.Items.IsLiveFiltering = true;
