@@ -163,14 +163,14 @@ bool asst::CopilotTask::set_params(const json::value& params)
         if (!operbox_data_path.empty()) {
             operbox_data = parse_operbox_data(operbox_data_path);
             if (operbox_data.empty()) {
-                Log.error("OperBox data is empty, cannot perform precheck");
+                LogError << __FUNCTION__ << "| OperBox data is empty, cannot perform precheck";
                 json::value info = basic_info_with_what("OperboxDataParseFailed");
                 callback(AsstMsg::SubTaskError, info);
                 return false;
             }
         }
         else {
-            Log.error("CopilotTask set_params failed, operbox_assist is enabled but operbox_data_path is empty");
+            LogError << __FUNCTION__ << "| Operbox_assist is enabled but operbox_data_path is empty";
             return false;
         }
         std::sort(operbox_data.begin(), operbox_data.end(), OperBoxInfo::SortCmp {});
@@ -244,7 +244,7 @@ std::vector<asst::OperBoxInfo> asst::CopilotTask::parse_operbox_data(const std::
     std::vector<OperBoxInfo> result;
     auto json_opt = json::open(utils::path(path), true, true);
     if (!json_opt) {
-        Log.error("Failed to open OperBox data file:", path);
+        LogError << __FUNCTION__ << "| Failed to open OperBox data file:" << path;
         return result;
     }
 
@@ -255,7 +255,7 @@ std::vector<asst::OperBoxInfo> asst::CopilotTask::parse_operbox_data(const std::
         OperBoxInfo info;
         info.id = item.get("id", std::string());
         if (BattleData.find_oper_by_id(info.id) == nullptr) {
-            Log.error("OperBox data contains invalid oper id:", info.id);
+            LogError << __FUNCTION__ << "| OperBox data contains invalid oper id:" << info.id;
             result.clear();
             break;
         }
