@@ -447,7 +447,7 @@ There is no need to set up too many customised plans when there is a problem. It
    2. High ground position combinations commonly use [ "高台输出" (Ranged DPS), "其他高台" (Other High Ground)], if you want any high ground to be placed you can use [ "高台输出" (Ranged DPS), "狙击" (Sniper), "辅助" (Supporter), "盾法" (Shield Caster), "其他高台" (Other High Ground)]
 
    3. Some ground positions are suitable for both SilverAsh and ground trap operators [ "玛恩纳" (SilverAsh), "地刺" (Ground Traps)]
-   :::
+      :::
 
 2. Deployment of operators at a point in time
    ::: tip
