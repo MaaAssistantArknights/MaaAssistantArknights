@@ -771,28 +771,14 @@
     },
     "BlackFlow@Roguelike@MapPrepare-Ready": {
         "template": "BlackFlow@Roguelike@MapZoomIn.png",
-        "method": "RGBCount",
-        "colorScales": [
-            [
-                [180, 180, 180],
-                [255, 255, 255]
-            ]
-        ],
-        "templThreshold": 0.94,
+        "templThreshold": 0.9,
         "roi": [24, 468, 62, 153],
         "next": ["BlackFlow@Roguelike@Routing"],
         "reduceOtherTimes": ["BlackFlow@Roguelike@MapPrepare-ZoomOut*3", "BlackFlow@Roguelike@MovementInventoryClose*3"]
     },
     "BlackFlow@Roguelike@MapPrepare-ZoomOut": {
         "template": "BlackFlow@Roguelike@MapZoomOut.png",
-        "method": "RGBCount",
-        "colorScales": [
-            [
-                [180, 180, 180],
-                [255, 255, 255]
-            ]
-        ],
-        "templThreshold": 0.94,
+        "templThreshold": 0.9,
         "roi": [24, 468, 62, 153],
         "action": "ClickSelf",
         "postDelay": 1000,
