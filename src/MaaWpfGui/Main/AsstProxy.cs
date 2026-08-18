@@ -55,8 +55,6 @@ using ObservableCollections;
 using Serilog;
 using Stylet;
 using Windows.Win32;
-using Windows.Win32.Foundation;
-using Windows.Win32.UI.WindowsAndMessaging;
 using static MaaWpfGui.Helper.Instances.Data;
 using AsstHandle = nint;
 using AsstInstanceOptionKey = System.Int32;
@@ -828,7 +826,6 @@ public class AsstProxy
     private string _connectedAdb = string.Empty;
     private string _connectedAddress = string.Empty;
     private string _lastConnectionError = string.Empty;
-    private IntPtr _attachWindowHwnd = IntPtr.Zero;
 
     /// <summary>
     /// MuMu 触控增强是否实际生效（由 core 连接后通过 MuMuExtrasInputStatus 回调报告）。
@@ -2637,41 +2634,6 @@ public class AsstProxy
     }
 
     /// <summary>
-    /// 将连接时绑定的明日方舟窗口移动到主屏幕中央。
-    /// </summary>
-    public void RestoreGameWindowPosition()
-    {
-        if (_attachWindowHwnd == IntPtr.Zero)
-        {
-            _logger.Warning("RestoreGameWindowPosition: no attached window hwnd, connect first");
-            return;
-        }
-
-        var hwnd = (HWND)_attachWindowHwnd;
-        if (!PInvoke.GetWindowRect(hwnd, out var rect))
-        {
-            _logger.Warning("RestoreGameWindowPosition: GetWindowRect failed, hwnd: {Hwnd}", hwnd);
-            return;
-        }
-
-        int width = rect.right - rect.left;
-        int height = rect.bottom - rect.top;
-        int screenWidth = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSCREEN);
-        int screenHeight = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSCREEN);
-
-        PInvoke.SetWindowPos(
-            hwnd,
-            (HWND)IntPtr.Zero,
-            (screenWidth - width) / 2,
-            (screenHeight - height) / 2,
-            0,
-            0,
-            SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOZORDER | SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);
-
-        _logger.Information("RestoreGameWindowPosition: moved window to screen center, hwnd: {Hwnd}", hwnd);
-    }
-
-    /// <summary>
     /// 通过 AttachWindow 绑定 Win32 窗口。
     /// 自动搜索当前客户端版本对应的游戏窗口。
     /// </summary>
@@ -2714,7 +2676,6 @@ public class AsstProxy
         }
 
         var hwnd = foundWindows[0];
-        _attachWindowHwnd = hwnd;
 
         if (foundWindows.Count > 1)
         {

@@ -739,7 +739,6 @@ Only supports Official(CN), Bilibili, Traditional Chinese and YostarKR servers. 
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when ｢{key=AutoDetectConnection}｣ is enabled and succeeds. If detection fails, find the emulator's actual port and fill it in.</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
-    <system:String x:Key="WindowRestore">Window restore</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">Enable MuMu touch enhancement (experimental, requires MuMu Emulator 6.3.2+, supports background keep-alive)</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu Emulator path not found.</system:String>
@@ -1700,7 +1699,7 @@ If you do need to use it, please ensure:
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Background, Efficient, Cannot Minimize)</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Background, Efficient, Can Minimize)</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (Background, Stable, Can Minimize)</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (Background, Backup, Cannot Minimize)</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (Foreground, No Occlusion)</system:String>

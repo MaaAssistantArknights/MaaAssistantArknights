@@ -738,7 +738,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionAddressTip">開啟 ｢{key=AutoDetectConnection}｣ 並成功後會自動填入。若偵測失敗，請查到模擬器的實際連接埠後填入。</system:String>
     <system:String x:Key="ConnectionPreset">連線配置</system:String>
     <system:String x:Key="ScreenshotTest">截圖測試</system:String>
-    <system:String x:Key="WindowRestore">視窗復原</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">啟用 MuMu 觸控增強（實驗性，需 MuMu 模擬器 6.3.2+，支援背景保活）</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">找不到 MuMu 模擬器路徑。</system:String>
@@ -1701,7 +1700,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowScreencapMethod">截圖方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">滑鼠輸入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">鍵盤輸入</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（背景，高效，不可最小化）</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（背景，高效，可最小化）</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow（背景，穩定，可最小化）</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（背景，備用，不可最小化）</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（前台，不可遮擋）</system:String>

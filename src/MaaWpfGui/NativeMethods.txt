@@ -26,7 +26,6 @@ GetWindowThreadProcessId
 IsIconic
 IsWindowVisible
 GetWindowRect
-GetSystemMetrics
 SetWindowPos
 ShowWindow
 SetWinEventHook
