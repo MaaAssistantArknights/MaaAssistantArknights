@@ -54,6 +54,7 @@ The PC client window title is now resolved by client type, so global Arknights P
 
 * 修复黑流树海策略完成后无法正确停止并上报、未完成时无法重开下一局的问题 ([#17771](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17771)) @ZiyinLin
 * 修复可搜索 ComboBox 初始化时将已绑定值覆盖为列表第一项，导致肉鸽开局干员重启后被重置的问题 @ABA2396
+* 调整黑流树海左下角放大镜判定方法与阈值，避免部分设备下遇到流程无法继续 @ABA2396
 
 </details>
 
