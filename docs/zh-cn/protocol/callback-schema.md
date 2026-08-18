@@ -64,13 +64,19 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### InitFailed
 
 :::: field-group
-::: field name="what" type="string" required
+::: field what
+@type string
+@required
 错误类型。
 :::  
-::: field name="why" type="string" required
+::: field why
+@type string
+@required
 错误原因。
 :::  
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 错误详情。
 :::  
 ::::
@@ -78,16 +84,23 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### ConnectionInfo
 
 :::: field-group
-::: field name="what" type="string" required
+::: field what
+@type string
+@required
 信息类型。
 :::
-::: field name="why" type="string" required
+::: field why
+@type string
+@required
 信息原因。
 :::
-::: field name="uuid" type="string"
+::: field uuid
+@type string
 设备唯一码（连接失败时为空）。
 :::
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 连接详情。其结构如下：
 
 - `adb` (string, required): `AsstConnect` 接口 `adb_path` 参数。
@@ -142,16 +155,24 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### AsyncCallInfo
 
 :::: field-group
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 设备唯一码。
 :::
-::: field name="what" type="string" required
+::: field what
+@type string
+@required
 回调类型，例如 `Connect` | `Click` | `Screencap` 等。
 :::
-::: field name="async_call_id" type="number" required
+::: field async_call_id
+@type number
+@required
 异步请求 id，即调用 `AsstAsyncXXX` 时的返回值。
 :::
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 异步调用详情。其结构如下：
 
 - `ret` (boolean, required): 实际调用的返回值。
@@ -163,13 +184,19 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### AllTasksCompleted
 
 :::: field-group
-::: field name="taskchain" type="string" required
+::: field taskchain
+@type string
+@required
 最后的任务链。
 :::
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 设备唯一码。
 :::
-::: field name="finished_tasks" type="array<number>" required
+::: field finished_tasks
+@type array<number>
+@required
 已经运行过的任务 id 列表。
 :::
 ::::
@@ -214,13 +241,19 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### TaskChain 相关消息
 
 :::: field-group
-::: field name="taskchain" type="string" required
+::: field taskchain
+@type string
+@required
 当前的任务链。
 :::
-::: field name="taskid" type="number" required
+::: field taskid
+@type number
+@required
 当前任务 TaskId。
 :::
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 设备唯一码。
 :::
 ::::
@@ -232,22 +265,34 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### SubTask 相关消息
 
 :::: field-group
-::: field name="subtask" type="string" required
+::: field subtask
+@type string
+@required
 子任务名。
 :::
-::: field name="class" type="string" required
+::: field class
+@type string
+@required
 子任务符号名。
 :::
-::: field name="taskchain" type="string" required
+::: field taskchain
+@type string
+@required
 当前任务链。
 :::
-::: field name="taskid" type="number" required
+::: field taskid
+@type number
+@required
 当前任务 TaskId。
 :::
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 详情。
 :::
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 设备唯一码。
 :::
 ::::
@@ -258,19 +303,29 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   `details` 字段内容如下：
 
   :::: field-group
-  ::: field name="task" type="string" required
+  ::: field task
+  @type string
+  @required
   任务名。
   :::
-  ::: field name="action" type="number" required
+  ::: field action
+  @type number
+  @required
   Action ID。
   :::
-  ::: field name="exec_times" type="number" required
+  ::: field exec_times
+  @type number
+  @required
   已执行次数。
   :::
-  ::: field name="max_times" type="number" required
+  ::: field max_times
+  @type number
+  @required
   最大执行次数。
   :::
-  ::: field name="algorithm" type="number" required
+  ::: field algorithm
+  @type number
+  @required
   识别算法。
   :::
   ::::
@@ -330,19 +385,29 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### SubTaskExtraInfo
 
 :::: field-group
-::: field name="taskchain" type="string" required
+::: field taskchain
+@type string
+@required
 当前任务链。
 :::
-::: field name="class" type="string" required
+::: field class
+@type string
+@required
 子任务类型。
 :::
-::: field name="what" type="string" required
+::: field what
+@type string
+@required
 信息类型。
 :::
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 信息详情。
 :::
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 设备唯一码。
 :::
 ::::
@@ -369,7 +434,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   公招识别到了 Tags。`details` 字段内容如下：
 
   :::: field-group
-  ::: field name="tags" type="array<string>" required
+  ::: field tags
+  @type array<string>
+  @required
   识别到的 Tag 列表。
   :::
   ::::
@@ -378,7 +445,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   公招识别到了特殊 Tag。`details` 字段内容如下：
 
   :::: field-group
-  ::: field name="tag" type="string" required
+  ::: field tag
+  @type string
+  @required
   特殊 Tag 名称，例如 `高级资深干员`。
   :::
   ::::
@@ -387,7 +456,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   公招识别到了已配置为保留的 Tag。`details` 字段内容如下：
 
   :::: field-group
-  ::: field name="tag" type="string" required
+  ::: field tag
+  @type string
+  @required
   触发保留的 Tag 名称，例如 `支援机械`。
   :::
   ::::
@@ -407,10 +478,14 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   公招刷新了 Tags。`details` 字段内容如下：
 
   :::: field-group
-  ::: field name="count" type="number" required
+  ::: field count
+  @type number
+  @required
   当前槽位已刷新次数。
   :::
-  ::: field name="refresh_limit" type="number" required
+  ::: field refresh_limit
+  @type number
+  @required
   当前槽位刷新次数上限。
   :::
   ::::
@@ -419,7 +494,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   公招无招聘许可。`details` 字段内容如下：
 
   :::: field-group
-  ::: field name="continue" type="boolean" required
+  ::: field continue
+  @type boolean
+  @required
   是否继续刷新。
   :::
   ::::
@@ -428,7 +505,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   公招选择了 Tags。`details` 字段内容如下：
 
   :::: field-group
-  ::: field name="tags" type="array<string>" required
+  ::: field tags
+  @type array<string>
+  @required
   选择的 Tag 列表。
   :::
   ::::
@@ -443,10 +522,14 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   基建进入了设施。`details` 字段内容如下：
 
   :::: field-group
-  ::: field name="facility" type="string" required
+  ::: field facility
+  @type string
+  @required
   设施名。
   :::
-  ::: field name="index" type="number" required
+  ::: field index
+  @type number
+  @required
   设施序号。
   :::
   ::::
@@ -455,10 +538,14 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   基建可用干员不足。`details` 字段内容如下：
 
   :::: field-group
-  ::: field name="facility" type="string" required
+  ::: field facility
+  @type string
+  @required
   设施名。
   :::
-  ::: field name="index" type="number" required
+  ::: field index
+  @type number
+  @required
   设施序号。
   :::
   ::::
@@ -467,13 +554,19 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   基建产物。`details` 字段内容如下：
 
   :::: field-group
-  ::: field name="product" type="string" required
+  ::: field product
+  @type string
+  @required
   产物名。
   :::
-  ::: field name="facility" type="string" required
+  ::: field facility
+  @type string
+  @required
   设施名。
   :::
-  ::: field name="index" type="number" required
+  ::: field index
+  @type number
+  @required
   设施序号。
   :::
   ::::
@@ -482,7 +575,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   自动作战关卡信息。`details` 字段内容如下：
 
   :::: field-group
-  ::: field name="name" type="string" required
+  ::: field name
+  @type string
+  @required
   关卡名。
   :::
   ::::
@@ -494,7 +589,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   企鹅物流 ID。`details` 字段内容如下：
 
   :::: field-group
-  ::: field name="id" type="string" required
+  ::: field id
+  @type string
+  @required
   企鹅物流 ID。
   :::
   ::::
@@ -529,16 +626,24 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 该字段主要用于核心模块向 UI 层传递网络请求信息，UI 负责执行具体的 HTTP 上报操作。
 
 :::: field-group
-::: field name="url" type="string" required
+::: field url
+@type string
+@required
 请求的完整 URL，例如 `https://penguin-stats.io/PenguinStats/api/v2/report`。
 :::
-::: field name="headers" type="object" required
+::: field headers
+@type object
+@required
 请求头键值对（不包含 `Content-Type`，UI 层自行添加）。
 :::
-::: field name="body" type="string" required
+::: field body
+@type string
+@required
 请求体内容（通常是 JSON 格式的字符串）。
 :::
-::: field name="subtask" type="string" required
+::: field subtask
+@type string
+@required
 子任务名称，标识具体上报任务，如 `ReportToPenguinStats`、`ReportToYituliu`。
 :::
 ::::

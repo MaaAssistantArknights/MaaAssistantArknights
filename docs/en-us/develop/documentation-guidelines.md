@@ -241,20 +241,31 @@ This syntax is more complex. Please refer to the [official documentation](https:
 The effects are as follows:
 
 :::: field-group
-::: field name="theme" type="ThemeConfig" required default="{ base: '/' }"
+::: field theme
+@type ThemeConfig
+@default { base: '/' }
+@required
 Theme configuration
 :::
 
-::: field name="enabled" type="boolean" optional default="true"
+::: field enabled
+@type boolean
+@default true
+@optional
 Whether to enable
 :::
 
-::: field name="callback" type="(...args: any[]) => void" optional default="() => {}"
+::: field callback
+@type (...args: any[]) => void
+@default () => {}
+@optional
 <Badge type="tip" text="Added in v1.0.0"  />
 Callback function
 :::
 
-::: field name="other" type="string" deprecated
+::: field other
+@type string
+@deprecated
 <Badge type="danger" text="Deprecated in v0.9.0"  />
 Deprecated property
 :::

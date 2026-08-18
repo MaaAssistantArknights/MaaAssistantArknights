@@ -1109,7 +1109,6 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
   :::  
   ::: field support_unit_name  
   @type string
-  @default
   @optional
   指定助战干员名。仅在 support_unit_usage 为 2 时有效。  
   :::  

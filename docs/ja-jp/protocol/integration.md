@@ -1109,7 +1109,6 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   :::  
   ::: field support_unit_name  
   @type string
-  @default
   @optional
   指定サポートオペレーター名。support_unit_usage が 2 の場合のみ有効。  
   :::  

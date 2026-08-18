@@ -1109,7 +1109,6 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
   :::  
   ::: field support_unit_name  
   @type string
-  @default
   @optional
   指定助戰幹員名稱。僅在 `support_unit_usage` 為 2 時有效。  
   :::  

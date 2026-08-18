@@ -1093,7 +1093,6 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
   :::  
   ::: field support_unit_name  
   @type string
-  @default
   @optional
   지정 지원 유닛명. `support_unit_usage`가 2일 때 유효  
   :::  

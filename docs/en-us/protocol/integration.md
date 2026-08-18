@@ -1109,7 +1109,6 @@ Each object contains:
   :::  
   ::: field support_unit_name  
   @type string
-  @default
   @optional
   Specified support operator name. Only effective when support_unit_usage is 2.  
   :::  

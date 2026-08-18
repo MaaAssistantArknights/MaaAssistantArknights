@@ -239,20 +239,31 @@ MaaAssistantArknights 是由 ==很多猪== 开发的
 效果展示如下
 
 :::: field-group
-::: field name="theme" type="ThemeConfig" required default="{ base: '/' }"
+::: field theme
+@type ThemeConfig
+@default { base: '/' }
+@required
 主题配置
 :::
 
-::: field name="enabled" type="boolean" optional default="true"
+::: field enabled
+@type boolean
+@default true
+@optional
 是否启用
 :::
 
-::: field name="callback" type="(...args: any[]) => void" optional default="() => {}"
+::: field callback
+@type (...args: any[]) => void
+@default () => {}
+@optional
 <Badge type="tip" text="v1.0.0 新增"  />
 回调函数
 :::
 
-::: field name="other" type="string" deprecated
+::: field other
+@type string
+@deprecated
 <Badge type="danger" text="v0.9.0 弃用"  />
 已弃用属性
 :::
