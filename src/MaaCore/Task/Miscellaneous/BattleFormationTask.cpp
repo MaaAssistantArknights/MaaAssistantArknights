@@ -1178,12 +1178,8 @@ bool asst::BattleFormationTask::do_operbox_precheck()
     // 使用二分图最大权匹配算法，尝试将干员组与可用干员进行匹配
     auto result = algorithm::bipartite::bipartite_max_match<OperGroup, OperBoxInfo>(flat_groups, oper_data, can_match);
 
-    Log.info(
-        "OperBox precheck: matched",
-        result.matched.size(),
-        "groups, unmatched",
-        result.unmatched_left.size(),
-        "groups");
+    LogInfo << __FUNCTION__ << "| matched" << result.matched.size() << "groups, unmatched"
+            << result.unmatched_left.size() << "groups";
 
     // 匹配的干员组
     std::unordered_map<std::string, std::string> assigned;
@@ -1191,7 +1187,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
     for (const auto& [left, right] : result.matched) {
         assigned[flat_groups[left].name] = oper_data[right].id;
         std::string oper_name = BattleData.find_oper_by_id(oper_data[right].id)->name;
-        Log.info("  Matched group:", flat_groups[left].name, "with oper:", oper_name);
+        LogInfo << __FUNCTION__ << "| Matched group:" << flat_groups[left].name << "with oper:" << oper_name;
         matched_groups.emplace_back(
             std::unordered_map<std::string, std::string> { { "group_name", flat_groups[left].name },
                                                            { "oper_name", oper_name } });
@@ -1254,7 +1250,7 @@ bool asst::BattleFormationTask::do_operbox_precheck()
                 std::unordered_map<std::string, std::string> new_assigned;
                 for (const auto& [left, right] : retry.matched) {
                     if (cur_data[right].id == borrow_id) {
-                        Log.info("OperBox precheck: borrow", borrow_id, "for", flat_groups[left].name);
+                        LogInfo << __FUNCTION__ << "| borrow" << borrow_id << "for" << flat_groups[left].name;
                         m_operbox_unmatched_group = flat_groups[left].name;
                     }
                     else {
@@ -1262,12 +1258,12 @@ bool asst::BattleFormationTask::do_operbox_precheck()
                     }
                 }
                 if (assigned != new_assigned) {
-                    Log.info("OperBox precheck: assigned changed after borrow, update");
+                    LogInfo << __FUNCTION__ << "| assigned changed after borrow, update:";
                     json::value info = basic_info_with_what("BattleFormationOperboxMatched");
                     json::array assigned_groups;
                     for (const auto& [group_name, oper_id] : new_assigned) {
                         std::string oper_name = BattleData.find_oper_by_id(oper_id)->name;
-                        Log.info("  Matched group:", group_name, "with oper:", oper_name);
+                        LogInfo << __FUNCTION__ << "| Matched group:" << group_name << "with oper:" << oper_name;
                         assigned_groups.emplace_back(
                             std::unordered_map<std::string, std::string> { { "group_name", group_name },
                                                                            { "oper_name", oper_name } });
@@ -1314,9 +1310,9 @@ bool asst::BattleFormationTask::do_operbox_precheck()
 
     // 多个未匹配的干员组
     json::array unmatched_groups;
-    Log.info("OperBox precheck:", result.unmatched_left.size(), "slots unmatched, aborting formation");
+    LogInfo << __FUNCTION__ << "|" << result.unmatched_left.size() << "slots unmatched, aborting formation";
     for (size_t idx : result.unmatched_left) {
-        Log.info("  Unmatched slot:", flat_groups[idx].name);
+        LogInfo << __FUNCTION__ << "| Unmatched slot:" << flat_groups[idx].name;
         unmatched_groups.emplace_back(flat_groups[idx].name);
     }
     {
