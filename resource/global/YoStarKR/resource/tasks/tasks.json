@@ -1854,6 +1854,10 @@
         "templThreshold_Doc": "여기는 문자 간격 임계값으로 사용됩니다",
         "roi": [62, 90, 46, 22]
     },
+    "NumberOcrReplace": {
+        "Doc": "On some emulator/resolution setups, greyed-out Roguelike recruit cards' level digits exceed the default binarization floor and read as recruitable. Raised it from 140 to 160.",
+        "binThreshold": [160, 255]
+    },
     "OperBoxSortTabSelect": {
         "ocrReplace": [["레.?", "레벨"]],
         "text": ["레벨"]
