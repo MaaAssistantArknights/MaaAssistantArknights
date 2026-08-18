@@ -78,6 +78,13 @@ public static class ComboBoxExtensions
         // TwoWay 的 Text/SelectedValue 绑定随之把 ｢列表第一项｣ 写回源属性（如开局干员、DropId）。
         targetComboBox.IsSynchronizedWithCurrentItem = false;
 
+        // 搜索框每次输入都会更新 Items.Filter，触发视图整体刷新；下拉模板默认没有生效的 UI 虚拟化，
+        // 刷新时会为全部匹配项生成容器（如全干员列表 400+ 项，单次刷新数百毫秒），
+        // 逐字符输入/删除时成倍放大为明显卡顿。显式启用虚拟化 + 容器回收，只为可见项生成容器。
+        targetComboBox.ItemsPanel = new ItemsPanelTemplate(new FrameworkElementFactory(typeof(VirtualizingStackPanel)));
+        VirtualizingPanel.SetIsVirtualizing(targetComboBox, true);
+        VirtualizingPanel.SetVirtualizationMode(targetComboBox, VirtualizationMode.Recycling);
+
         // 为每个 ComboBox 创建独立的 CollectionView，避免多个控件共享默认视图导致搜索过滤互相干扰。
         // 注意不能直接把 ItemsSource 替换为独立视图：给依赖属性赋本地值会断开原有绑定，
         // 且 CollectionViewSource.View 无变更通知（只是快照），源集合被整体替换（PropertyChanged）时无法生效。
