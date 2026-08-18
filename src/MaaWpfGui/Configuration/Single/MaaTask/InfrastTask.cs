@@ -98,6 +98,11 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     /// </summary>
     public int PlanSelect { get; set; } = -1;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 手动选择班次时，任务完成后自动切换到下一班次
+    /// </summary>
+    public bool AutoAdvancePlanIndex { get; set; } = true;
+
     public List<RoomInfo> RoomList { get; set; } =
        [.. typeof(InfrastRoomType).GetEnumValues().OfType<InfrastRoomType>().Select<InfrastRoomType, RoomInfo>(i => new(i, true))];
 

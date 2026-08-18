@@ -4,6 +4,7 @@
 # Compiled Object files
 build
 build-*
+/debug/
 *.slo
 *.lo
 *.o

@@ -66,6 +66,12 @@
                         ItemsSource="{Binding CustomPlanListDisplay}"
                         SelectedValue="{Binding CustomInfrastPlanSelect}"
                         SelectedValuePath="Value" />
+                    <CheckBox
+                        Margin="0,4"
+                        Content="{DynamicResource CustomInfrastPlanIndexAutoSwitch}"
+                        IsChecked="{Binding CustomInfrastAutoAdvancePlanIndex}"
+                        Visibility="{c:Binding 'CustomInfrastPlanSelect != -1',
+                                               Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
                 </StackPanel>
                 <controls:TextBlock
                     Margin="0,5"

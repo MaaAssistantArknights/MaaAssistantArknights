@@ -2466,6 +2466,23 @@
         "action": "ClickSelf",
         "next": ["InfrastRotationClick"]
     },
+    "InfrastEnterPresetPage": {
+        "template": "InfrastOverviewEnter.png",
+        "method": "RGBCount",
+        "colorScales": [[250, 255]],
+        "roi": [120, 50, 160, 160],
+        "postDelay": 1000,
+        "action": "ClickSelf",
+        "next": ["Stop"]
+    },
+    "InfrastPresetSwitchButton": {
+        "template": [
+            "InfrastPresetSwitchButton.png",
+            "InfrastPresetSwitchButtonBlue.png"
+        ],
+        "roi": [1160, 60, 70, 640],
+        "maskRange": [1, 255]
+    },
     "InfrastRotationClick": {
         "template": "InfrastQueueRotation.png",
         "roi": [1020, 600, 150, 120],
