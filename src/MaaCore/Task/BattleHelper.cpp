@@ -987,7 +987,7 @@ bool asst::BattleHelper::click_skill(int timeout_ms)
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
 
     bool pausing = false;
-    if (timeout_ms < 0 && deploy_with_pause) {
+    if (timeout_ms == 0 && deploy_with_pause) {
         pausing = ProcessTask(this_task(), { "BattlePause" }).run();
     }
 

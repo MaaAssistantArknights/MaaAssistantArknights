@@ -296,8 +296,9 @@ public class CopilotModel : CopilotBase
         /// <summary>
         /// Gets or sets 超时时间。可选，默认为 -1, 不作限制, 单位毫秒。仅在 type 为 "技能" 时有效
         /// </summary>
+        [DefaultValue(-1)]
         [JsonProperty("timeout")]
-        public int TimeoutMs { get; set; }
+        public int TimeoutMs { get; set; } = -1;
 
         /// <summary>
         /// Gets or sets 移动镜头的距离。type 为 "移动镜头" 时必选。
