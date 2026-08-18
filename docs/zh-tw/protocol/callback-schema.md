@@ -64,13 +64,19 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### InitFailed
 
 :::: field-group
-::: field name="what" type="string" required
+::: field what
+@type string
+@required
 錯誤類型。
 :::  
-::: field name="why" type="string" required
+::: field why
+@type string
+@required
 錯誤原因。
 :::  
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 錯誤詳情。
 :::  
 ::::
@@ -78,16 +84,23 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### ConnectionInfo
 
 :::: field-group
-::: field name="what" type="string" required
+::: field what
+@type string
+@required
 資訊類型。
 :::
-::: field name="why" type="string" required
+::: field why
+@type string
+@required
 資訊原因。
 :::
-::: field name="uuid" type="string"
+::: field uuid
+@type string
 設備唯一碼（連線失敗時為空）。
 :::
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 連線詳情。其結構如下：
 
 - `adb` (string, required): `AsstConnect` 介面 `adb_path` 參數。
@@ -142,16 +155,24 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### AsyncCallInfo
 
 :::: field-group
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 設備唯一碼。
 :::
-::: field name="what" type="string" required
+::: field what
+@type string
+@required
 回呼類型，例如 `Connect` | `Click` | `Screencap` 等。
 :::
-::: field name="async_call_id" type="number" required
+::: field async_call_id
+@type number
+@required
 非同步請求 ID，即調用 `AsstAsyncXXX` 時的回傳值。
 :::
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 非同步調用詳情。其結構如下：
 
 - `ret` (boolean, required): 實際調用的回傳值。
@@ -163,13 +184,19 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### AllTasksCompleted
 
 :::: field-group
-::: field name="taskchain" type="string" required
+::: field taskchain
+@type string
+@required
 最後的任务鏈。
 :::
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 設備唯一碼。
 :::
-::: field name="finished_tasks" type="array<number>" required
+::: field finished_tasks
+@type array<number>
+@required
 已經執行過的任務 ID 列表。
 :::
 ::::
@@ -214,13 +241,19 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### TaskChain 相關消息
 
 :::: field-group
-::: field name="taskchain" type="string" required
+::: field taskchain
+@type string
+@required
 目前的任務鏈。
 :::
-::: field name="taskid" type="number" required
+::: field taskid
+@type number
+@required
 目前任務 TaskId。
 :::
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 設備唯一碼。
 :::
 ::::
@@ -232,22 +265,34 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### SubTask 相關消息
 
 :::: field-group
-::: field name="subtask" type="string" required
+::: field subtask
+@type string
+@required
 子任務名稱。
 :::
-::: field name="class" type="string" required
+::: field class
+@type string
+@required
 子任務符號名稱。
 :::
-::: field name="taskchain" type="string" required
+::: field taskchain
+@type string
+@required
 目前任務鏈。
 :::
-::: field name="taskid" type="number" required
+::: field taskid
+@type number
+@required
 目前任務 TaskId。
 :::
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 詳情。
 :::
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 設備唯一碼。
 :::
 ::::
@@ -258,19 +303,29 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   `details` 欄位内容如下：
 
   :::: field-group
-  ::: field name="task" type="string" required
+  ::: field task
+  @type string
+  @required
   任務名稱。
   :::
-  ::: field name="action" type="number" required
+  ::: field action
+  @type number
+  @required
   Action ID。
   :::
-  ::: field name="exec_times" type="number" required
+  ::: field exec_times
+  @type number
+  @required
   已執行次數。
   :::
-  ::: field name="max_times" type="number" required
+  ::: field max_times
+  @type number
+  @required
   最大執行次數。
   :::
-  ::: field name="algorithm" type="number" required
+  ::: field algorithm
+  @type number
+  @required
   辨識算法。
   :::
   ::::
@@ -330,19 +385,29 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ### SubTaskExtraInfo
 
 :::: field-group
-::: field name="taskchain" type="string" required
+::: field taskchain
+@type string
+@required
 目前任務鏈。
 :::
-::: field name="class" type="string" required
+::: field class
+@type string
+@required
 子任務類型。
 :::
-::: field name="what" type="string" required
+::: field what
+@type string
+@required
 資訊類型。
 :::
-::: field name="details" type="object" required
+::: field details
+@type object
+@required
 資訊詳情。
 :::
-::: field name="uuid" type="string" required
+::: field uuid
+@type string
+@required
 設備唯一碼。
 :::
 ::::
@@ -369,7 +434,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   公招辨識到了 Tags。`details` 欄位內容如下：
 
   :::: field-group
-  ::: field name="tags" type="array<string>" required
+  ::: field tags
+  @type array<string>
+  @required
   辨識到的 Tag 列表。
   :::
   ::::
@@ -378,7 +445,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   公招辨識到了特殊 Tag。`details` 欄位內容如下：
 
   :::: field-group
-  ::: field name="tag" type="string" required
+  ::: field tag
+  @type string
+  @required
   特殊 Tag 名稱，例如 高級資深幹員。
   :::
   ::::
@@ -387,7 +456,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
    公招辨識到了已設定為保留的 Tag。`details` 欄位內容如下：
 
   :::: field-group
-  ::: field name="tag" type="string" required
+  ::: field tag
+  @type string
+  @required
   觸發保留的 Tag 名稱，例如 `支援機械`。
   :::
   ::::
@@ -407,10 +478,14 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   公招刷新了 Tags。`details` 欄位內容如下：
 
   :::: field-group
-  ::: field name="count" type="number" required
+  ::: field count
+  @type number
+  @required
   目前槽位已刷新次數。
   :::
-  ::: field name="refresh_limit" type="number" required
+  ::: field refresh_limit
+  @type number
+  @required
   目前槽位刷新次數上限。
   :::
   ::::
@@ -419,7 +494,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   公招無招聘許可。`details` 欄位內容如下：
 
   :::: field-group
-  ::: field name="continue" type="boolean" required
+  ::: field continue
+  @type boolean
+  @required
   是否繼續刷新。
   :::
   ::::
@@ -428,7 +505,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   公招選擇了 Tags。`details` 欄位內容如下：
 
   :::: field-group
-  ::: field name="tags" type="array<string>" required
+  ::: field tags
+  @type array<string>
+  @required
   選擇的 Tag 列表。
   :::
   ::::
@@ -443,10 +522,14 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   基建進入了設施。`details` 欄位內容如下：
 
   :::: field-group
-  ::: field name="facility" type="string" required
+  ::: field facility
+  @type string
+  @required
   設施名稱。
   :::
-  ::: field name="index" type="number" required
+  ::: field index
+  @type number
+  @required
   設施序號。
   :::
   ::::
@@ -455,10 +538,14 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   基建可用幹員不足。`details` 欄位內容如下：
 
   :::: field-group
-  ::: field name="facility" type="string" required
+  ::: field facility
+  @type string
+  @required
   設施名稱。
   :::
-  ::: field name="index" type="number" required
+  ::: field index
+  @type number
+  @required
   設施序號。
   :::
   ::::
@@ -467,13 +554,19 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   基建產物。`details` 欄位內容如下：
 
   :::: field-group
-  ::: field name="product" type="string" required
+  ::: field product
+  @type string
+  @required
   產物名稱。
   :::
-  ::: field name="facility" type="string" required
+  ::: field facility
+  @type string
+  @required
   設施名稱。
   :::
-  ::: field name="index" type="number" required
+  ::: field index
+  @type number
+  @required
   設施序號。
   :::
   ::::
@@ -482,7 +575,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   自動作戰關卡資訊。`details` 欄位內容如下：
 
   :::: field-group
-  ::: field name="name" type="string" required
+  ::: field name
+  @type string
+  @required
   關卡名稱。
   :::
   ::::
@@ -494,7 +589,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   企鵝物流 ID。`details` 欄位內容如下：
 
   :::: field-group
-  ::: field name="id" type="string" required
+  ::: field id
+  @type string
+  @required
   企鵝物流 ID。
   :::
   ::::
@@ -529,16 +626,24 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 該欄位主要用於核心模組向 UI 層傳遞網路請求資訊，UI 負責執行具體的 HTTP 彙報操作。
 
 :::: field-group
-::: field name="url" type="string" required
+::: field url
+@type string
+@required
 請求的完整 URL，例如 `https://penguin-stats.io/PenguinStats/api/v2/report`。
 :::
-::: field name="headers" type="object" required
+::: field headers
+@type object
+@required
 請求 Headers 的 Key-Value 設定（不包含 `Content-Type`，由 UI 層自行加入）。
 :::
-::: field name="body" type="string" required
+::: field body
+@type string
+@required
 請求 Body 內容（通常為 json 格式的字串）。
 :::
-::: field name="subtask" type="string" required
+::: field subtask
+@type string
+@required
 子任務名稱，辨識具體彙報任務，如 `ReportToPenguinStats`、`ReportToYituliu`。
 :::
 ::::

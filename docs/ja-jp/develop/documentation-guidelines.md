@@ -241,20 +241,31 @@ Markdown 本文で `<ImageGrid>` コンポーネントを使用してこのメ�
 効果は以下の通りです：
 
 :::: field-group
-::: field name="theme" type="ThemeConfig" required default="{ base: '/' }"
+::: field theme
+@type ThemeConfig
+@default { base: '/' }
+@required
 テーマ設定
 :::
 
-::: field name="enabled" type="boolean" optional default="true"
+::: field enabled
+@type boolean
+@default true
+@optional
 有効かどうか
 :::
 
-::: field name="callback" type="(...args: any[]) => void" optional default="() => {}"
+::: field callback
+@type (...args: any[]) => void
+@default () => {}
+@optional
 <Badge type="tip" text="v1.0.0 追加"  />
 コールバック関数
 :::
 
-::: field name="other" type="string" deprecated
+::: field other
+@type string
+@deprecated
 <Badge type="danger" text="v0.9.0 廃止"  />
 廃止されたプロパティ
 :::

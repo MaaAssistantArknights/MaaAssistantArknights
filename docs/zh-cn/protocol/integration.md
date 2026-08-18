@@ -28,13 +28,19 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 #### 参数说明
 
 :::: field-group  
-::: field name="handle" type="AsstHandle" required  
+::: field handle  
+@type AsstHandle
+@required
 实例句柄  
 :::  
-::: field name="type" type="const char*" required  
+::: field type  
+@type const char*
+@required
 任务类型  
 :::  
-::: field name="params" type="const char*" required  
+::: field params  
+@type const char*
+@required
 任务参数，json string  
 :::  
 ::::
@@ -45,18 +51,28 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
   开始唤醒
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="client_type" type="string" required  
+::: field client_type  
+@type string
+@required
 客户端版本。  
 <br>
 选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
 :::  
-::: field name="start_game_enabled" type="boolean" optional default="false"  
+::: field start_game_enabled  
+@type boolean
+@default false
+@optional
 是否自动启动客户端。  
 :::  
-::: field name="account_name" type="string" optional  
+::: field account_name  
+@type string
+@optional
 切换账号，默认不切换。  
 <br>
 仅支持切换至已登录的账号，使用登录名进行查找，保证输入内容在所有已登录账号唯一即可。  
@@ -87,10 +103,15 @@ B服：`张三`，可输入 `张三`、`张`、`三`
    关闭游戏
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="client_type" type="string" required  
+::: field client_type  
+@type string
+@required
 客户端版本，填空则不执行。  
 <br>
 选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
@@ -113,10 +134,15 @@ B服：`张三`，可输入 `张三`、`张`、`三`
    理智作战
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="stage" type="string" optional  
+::: field stage  
+@type string
+@optional
 关卡名，默认为空，识别当前/上次的关卡。不支持运行中设置。  
 目前支持导航的关卡有：
 
@@ -133,22 +159,40 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 - 当期 SS 活动 后三关。可访问 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) 获取支持的关卡列表。需额外加载 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 文件中的活动关卡导航。
 - 复刻的 SS 活动。输入 `SSReopen-<关卡前缀>` ，可一次性刷完 XX-1 ~ XX-9 关，如 `SSReopen-IC`。
   :::  
-  ::: field name="medicine" type="number" optional default="0"  
+  ::: field medicine  
+  @type number
+  @default 0
+  @optional
   最大使用理智药数量。  
   :::  
-  ::: field name="medicine_expire_days" type="number" optional default="0"  
+  ::: field medicine_expire_days  
+  @type number
+  @default 0
+  @optional
   使用过期时间在指定天数内的理智药，0 表示不使用过期理智药。  
   :::  
-  ::: field name="expiring_medicine" type="number" optional default="0" deprecated  
+  ::: field expiring_medicine  
+  @type number
+  @default 0
+  @optional
+  @deprecated
   已弃用，自 v6.8.0 起请使用 `medicine_expire_days` 代替。  
   :::  
-  ::: field name="stone" type="number" optional default="0"  
+  ::: field stone  
+  @type number
+  @default 0
+  @optional
   最大吃石头数量。  
   :::  
-  ::: field name="times" type="number" optional default="2147483647"  
+  ::: field times  
+  @type number
+  @default 2147483647
+  @optional
   战斗次数。  
   :::  
-  ::: field name="series" type="number" optional  
+  ::: field series  
+  @type number
+  @optional
   代理倍率, -1~10。
   <br>
   `-1` 为禁用切换。
@@ -162,46 +206,64 @@ B服：`张三`，可输入 `张三`、`张`、`三`
   <br>
   - 新列表（国服 2026/8/1 后主资源，无该 flag）：接受 `-1~10`
   - 旧列表（外服资源带该 flag）：仅接受 `-1~6`，更大值会被拒绝
-    <br>
-    外服预计约半年后跟进，届时上限随资源变为 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手动选择 7~10，任务下发时会被 Core 拒绝。
-    :::  
-    :::  
-    ::: field name="drops" type="object" optional  
-    指定掉落数量，默认不指定。key 为 item_id, value 为数量。key 可参考 `resource/item_index.json` 文件。  
-    <br>
-    例如: `{ "30011": 10, "30062": 5 }`  
-    <br>
-    以上全部是或的关系，即任一达到即停止任务。  
-    :::  
-    ::: field name="report_to_penguin" type="boolean" optional default="false"  
-    是否汇报企鹅数据。  
-    :::  
-    ::: field name="penguin_id" type="string" optional  
-    企鹅数据汇报 id, 默认为空。仅在 `report_to_penguin` 为 true 时有效。  
-    :::  
-    :::  
-    ::: field name="report_to_yituliu" type="boolean" optional default="false"  
-    是否汇报一图流。  
-    :::  
-    ::: field name="yituliu_id" type="string" optional  
-    一图流汇报 id, 默认为空。仅在 `report_to_yituliu` 为 true 时有效。  
-    :::  
-    ::: field name="server" type="string" optional default="CN"  
-    服务器，会影响掉落识别及上传。
-    <br>
-    选项：`CN` | `US` | `JP` | `KR`  
-    :::  
-    ::: field name="client_type" type="string" optional  
-    客户端版本，默认为空。用于游戏崩溃时重启并连回去继续刷，若为空则不启用该功能。
-    <br>
-    选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-    :::  
-    ::: field name="DrGrandet" type="boolean" optional default="false"  
-    节省理智碎石模式，仅在可能产生碎石效果时生效。
-    <br>
-    在碎石确认界面等待，直到当前的 1 点理智恢复完成后再立刻碎石。  
-    :::  
-    ::::
+
+  外服预计约半年后跟进，届时上限随资源变为 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手动选择 7~10，任务下发时会被 Core 拒绝。
+  :::  
+  ::: field drops  
+  @type object
+  @optional
+  指定掉落数量，默认不指定。key 为 item_id, value 为数量。key 可参考 `resource/item_index.json` 文件。  
+  <br>
+  例如: `{ "30011": 10, "30062": 5 }`  
+  <br>
+  以上全部是或的关系，即任一达到即停止任务。  
+  :::  
+  ::: field report_to_penguin  
+  @type boolean
+  @default false
+  @optional
+  是否汇报企鹅数据。  
+  :::  
+  ::: field penguin_id  
+  @type string
+  @optional
+  企鹅数据汇报 id, 默认为空。仅在 `report_to_penguin` 为 true 时有效。  
+  :::  
+  ::: field report_to_yituliu  
+  @type boolean
+  @default false
+  @optional
+  是否汇报一图流。  
+  :::  
+  ::: field yituliu_id  
+  @type string
+  @optional
+  一图流汇报 id, 默认为空。仅在 `report_to_yituliu` 为 true 时有效。  
+  :::  
+  ::: field server  
+  @type string
+  @default CN
+  @optional
+  服务器，会影响掉落识别及上传。
+  <br>
+  选项：`CN` | `US` | `JP` | `KR`  
+  :::  
+  ::: field client_type  
+  @type string
+  @optional
+  客户端版本，默认为空。用于游戏崩溃时重启并连回去继续刷，若为空则不启用该功能。
+  <br>
+  选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+  :::  
+  ::: field DrGrandet  
+  @type boolean
+  @default false
+  @optional
+  节省理智碎石模式，仅在可能产生碎石效果时生效。
+  <br>
+  在碎石确认界面等待，直到当前的 1 点理智恢复完成后再立刻碎石。  
+  :::  
+  ::::
 
 <details>
 <summary>Example</summary>
@@ -234,24 +296,39 @@ B服：`张三`，可输入 `张三`、`张`、`三`
   公开招募
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="refresh" type="boolean" optional default="false"  
+::: field refresh  
+@type boolean
+@default false
+@optional
 是否刷新三星 Tags。  
 :::  
-::: field name="select" type="array<number>" required  
+::: field select  
+@type array<number>
+@required
 会去点击标签的 Tag 等级。  
 :::  
-::: field name="confirm" type="array<number>" required  
+::: field confirm  
+@type array<number>
+@required
 会去点击确认的 Tag 等级。若仅公招计算，可设置为空数组。  
 :::  
-::: field name="first_tags" type="array<string>" optional  
+::: field first_tags  
+@type array<string>
+@optional
 首选 Tags，仅在 Tag 等级为 3 时有效。默认为空。
 <br>
 当 Tag 等级为 3 时，会尽可能多地选择这里的 Tags（如果有），而且是强制选择，也就是会忽略所有“让 3 星 Tag 不被选择”的设置。  
 :::  
-::: field name="extra_tags_mode" type="number" optional default="0"  
+::: field extra_tags_mode  
+@type number
+@default 0
+@optional
 选择更多的 Tags。
 <br>
 `0` - 默认行为
@@ -260,46 +337,77 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 <br>
 `2` - 如果可能, 同时选择更多的高星 Tag 组合, 即使可能冲突  
 :::  
-::: field name="times" type="number" optional default="0"  
+::: field times  
+@type number
+@default 0
+@optional
 招募多少次。若仅公招计算，可设置为 0。  
 :::  
-::: field name="set_time" type="boolean" optional default="true"  
+::: field set_time  
+@type boolean
+@default true
+@optional
 是否设置招募时限。仅在 `times` 为 0 时生效。  
 :::  
-::: field name="expedite" type="boolean" optional default="false"  
+::: field expedite  
+@type boolean
+@default false
+@optional
 是否使用加急许可。  
 :::  
-::: field name="expedite_times" type="number" optional  
+::: field expedite_times  
+@type number
+@optional
 加急次数，仅在 `expedite` 为 true 时有效。默认无限使用（直到 `times` 达到上限）。  
 :::  
-::: field name="skip_robot" type="boolean" optional default="true"  
+::: field skip_robot  
+@type boolean
+@default true
+@optional
 已废弃，仅用于兼容旧参数。  
 <br>
 当未提供 `preserve_tags` 且该值为 `true` 时，会在识别到 `支援机械` 时跳过；`元素` 不再视为旧版 1 星词条。  
 :::
-::: field name="preserve_tags" type="array<string>" optional  
+::: field preserve_tags  
+@type array<string>
+@optional
 需要保留并跳过当前公招槽位的 Tag 名称列表。默认为空。  
 <br>
 当识别到任一指定 Tag 时，MAA 会保留该槽位并跳过本次招募。  
 :::  
-::: field name="recruitment_time" type="object" optional  
+::: field recruitment_time  
+@type object
+@optional
 Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟，默认值都为 540（即 09:00:00）。
 <br>
 例如: `{ "3": 540, "4": 540 }`  
 :::  
-::: field name="report_to_penguin" type="boolean" optional default="false"  
+::: field report_to_penguin  
+@type boolean
+@default false
+@optional
 是否汇报企鹅数据。  
 :::  
-::: field name="penguin_id" type="string" optional  
+::: field penguin_id  
+@type string
+@optional
 企鹅数据汇报 id, 默认为空。仅在 `report_to_penguin` 为 true 时有效。  
 :::  
-::: field name="report_to_yituliu" type="boolean" optional default="false"  
+::: field report_to_yituliu  
+@type boolean
+@default false
+@optional
 是否汇报一图流数据。  
 :::  
-::: field name="yituliu_id" type="string" optional  
+::: field yituliu_id  
+@type string
+@optional
 一图流汇报 id, 默认为空。仅在 `report_to_yituliu` 为 true 时有效。  
 :::  
-::: field name="server" type="string" optional default="CN"  
+::: field server  
+@type string
+@default CN
+@optional
 服务器，会影响上传。
 <br>
 选项：`CN` | `US` | `JP` | `KR`  
@@ -340,10 +448,16 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    基建换班
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="mode" type="number" optional default="0"  
+::: field mode  
+@type number
+@default 0
+@optional
 换班工作模式。
 <br>
 `0` - `Default`: 默认换班模式，单设施最优解。
@@ -352,47 +466,77 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `20000` - `Rotation`: 一键轮换模式，会跳过控制中枢、发电站、宿舍以及办公室，其余设施不进行换班但保留基本操作（如使用无人机、会客室逻辑）。  
 :::  
-::: field name="facility" type="array<string>" required  
+::: field facility  
+@type array<string>
+@required
 要换班的设施（有序）。不支持运行中设置。
 <br>
 设施名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
 :::  
-::: field name="drones" type="string" optional default="\_NotUse"  
+::: field drones  
+@type string
+@default \_NotUse
+@optional
 无人机用途。`mode = 10000` 时该字段无效。
 <br>
 选项：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
 :::  
-::: field name="threshold" type="number" optional default="0.3"  
+::: field threshold  
+@type number
+@default 0.3
+@optional
 工作心情阈值，取值范围 [0, 1.0]。
 <br>
 `mode = 10000` 时该字段仅针对 "autofill" 有效。
 <br>
 `mode = 20000` 时该字段无效。  
 :::  
-::: field name="replenish" type="boolean" optional default="false"  
+::: field replenish  
+@type boolean
+@default false
+@optional
 贸易站“源石碎片”是否自动补货。  
 :::  
-::: field name="dorm_notstationed_enabled" type="boolean" optional default="false"  
+::: field dorm_notstationed_enabled  
+@type boolean
+@default false
+@optional
 是否启用宿舍“未进驻”选项。  
 :::  
-::: field name="dorm_trust_enabled" type="boolean" optional default="false"  
+::: field dorm_trust_enabled  
+@type boolean
+@default false
+@optional
 是否将宿舍剩余位置填入信赖未满干员。  
 :::  
-::: field name="reception_message_board" type="boolean" optional default="true"  
+::: field reception_message_board  
+@type boolean
+@default true
+@optional
 是否领取会客室信息板信用。  
 :::  
-::: field name="reception_clue_exchange" type="boolean" optional default="true"  
+::: field reception_clue_exchange  
+@type boolean
+@default true
+@optional
 是否进行线索交流。  
 :::  
-::: field name="reception_send_clue" type="boolean" optional default="true"  
+::: field reception_send_clue  
+@type boolean
+@default true
+@optional
 是否赠送线索。  
 :::  
-::: field name="filename" type="string" required  
+::: field filename  
+@type string
+@required
 自定义配置路径。不支持运行中设置。
 <br>
 <Badge type="warning" text="仅在 mode = 10000 时生效" />  
 :::  
-::: field name="plan_index" type="number" required  
+::: field plan_index  
+@type number
+@required
 使用配置中的方案序号。不支持运行中设置。
 <br>
 <Badge type="warning" text="仅在 mode = 10000 时生效" />  
@@ -427,34 +571,64 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    会先有序的按 `buy_first` 购买一遍，再从左到右并避开 `blacklist` 购买第二遍，在信用溢出时则会无视黑名单从左到右购买第三遍直到不再溢出
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="visit_friends" type="boolean" optional default="true"  
+::: field visit_friends  
+@type boolean
+@default true
+@optional
 是否访问好友基建以获得信用。  
 :::  
-::: field name="shopping" type="boolean" optional default="true"  
+::: field shopping  
+@type boolean
+@default true
+@optional
 是否购物。  
 :::  
-::: field name="buy_first" type="array<string>" optional default="[]"  
+::: field buy_first  
+@type array<string>
+@default []
+@optional
 优先购买列表。商品名，如 `"招聘许可"`、`"龙门币"` 等。  
 :::  
-::: field name="blacklist" type="array<string>" optional default="[]"  
+::: field blacklist  
+@type array<string>
+@default []
+@optional
 购物黑名单列表。商品名，如 `"加急许可"`、`"家具零件"` 等。  
 :::  
-::: field name="force_shopping_if_credit_full" type="boolean" optional default="false"  
+::: field force_shopping_if_credit_full  
+@type boolean
+@default false
+@optional
 是否在信用溢出时无视黑名单。  
 :::  
-::: field name="only_buy_discount" type="boolean" optional default="false"  
+::: field only_buy_discount  
+@type boolean
+@default false
+@optional
 是否只购买折扣物品，只作用于第二轮购买。  
 :::  
-::: field name="reserve_max_credit" type="boolean" optional default="false"  
+::: field reserve_max_credit  
+@type boolean
+@default false
+@optional
 是否在信用点低于 300 时停止购买，只作用于第二轮购买。  
 :::  
-::: field name="credit_fight" type="boolean" optional default="false"  
+::: field credit_fight  
+@type boolean
+@default false
+@optional
 是否借助战打一局 OF-1 关卡以便在第二天获得更多信用。  
 :::  
-::: field name="formation_index" type="number" optional default="0"  
+::: field formation_index  
+@type number
+@default 0
+@optional
 打 OF-1 时所使用的编队栏位的编号。
 <br>
 为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队。  
@@ -485,25 +659,46 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    领取各种奖励
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="award" type="boolean" optional default="true"  
+::: field award  
+@type boolean
+@default true
+@optional
 领取每日/每周任务奖励。  
 :::  
-::: field name="mail" type="boolean" optional default="false"  
+::: field mail  
+@type boolean
+@default false
+@optional
 领取所有邮件奖励。  
 :::  
-::: field name="recruit" type="boolean" optional default="false"  
+::: field recruit  
+@type boolean
+@default false
+@optional
 领取限定池子赠送的每日免费单抽。  
 :::  
-::: field name="orundum" type="boolean" optional default="false"  
+::: field orundum  
+@type boolean
+@default false
+@optional
 领取幸运墙的合成玉奖励。  
 :::  
-::: field name="mining" type="boolean" optional default="false"  
+::: field mining  
+@type boolean
+@default false
+@optional
 领取限时开采许可的合成玉奖励。  
 :::  
-::: field name="specialaccess" type="boolean" optional default="false"  
+::: field specialaccess  
+@type boolean
+@default false
+@optional
 领取五周年赠送的月卡奖励。  
 :::  
 ::::
@@ -529,10 +724,16 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    无限刷肉鸽
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="theme" type="string" optional default="Phantom"  
+::: field theme  
+@type string
+@default Phantom
+@optional
 主题。
 <br>
 `Phantom` - 傀影与猩红血钻
@@ -545,7 +746,10 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `JieGarden` - 岁的界园志异  
 :::  
-::: field name="mode" type="number" optional default="0"  
+::: field mode  
+@type number
+@default 0
+@optional
 模式。
 <br>
 `0` - 刷分/奖励点数，尽可能稳定地打更多层数。
@@ -564,65 +768,119 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `7` - 刷深入调查蚊子腿，除了针对模式的适配以外和模式 0 相同。
 :::  
-::: field name="squad" type="string" optional default="指挥分队"  
+::: field squad  
+@type string
+@default 指挥分队
+@optional
 开局分队名。  
 :::  
-::: field name="roles" type="string" optional default="取长补短"  
+::: field roles  
+@type string
+@default 取长补短
+@optional
 开局职业组。  
 :::  
-::: field name="core_char" type="string" optional  
+::: field core_char  
+@type string
+@optional
 开局干员名。仅支持单个干员**中文名**，无论区服；若留空或设置为空字符串 `""` 则根据练度自动选择。  
 :::  
-::: field name="use_support" type="boolean" optional default="false"  
+::: field use_support  
+@type boolean
+@default false
+@optional
 开局干员是否为助战干员。  
 :::  
-::: field name="use_nonfriend_support" type="boolean" optional default="false"  
+::: field use_nonfriend_support  
+@type boolean
+@default false
+@optional
 是否可以是非好友助战干员。仅在 `use_support` 为 true 时有效。  
 :::  
-::: field name="starts_count" type="number" optional default="2147483647"  
+::: field starts_count  
+@type number
+@default 2147483647
+@optional
 开始探索的次数。达到后自动停止任务。  
 :::  
-::: field name="difficulty" type="number" optional default="0"  
+::: field difficulty  
+@type number
+@default 0
+@optional
 指定难度等级。若未解锁难度，则会选择当前已解锁的最高难度。  
 :::  
-::: field name="stop_at_final_boss" type="boolean" optional default="false"  
+::: field stop_at_final_boss  
+@type boolean
+@default false
+@optional
 是否在第 5 层险路恶敌节点前停止任务。仅适用于**除 Phantom 以外**的主题。  
 :::  
-::: field name="stop_at_max_level" type="boolean" optional default="false"  
+::: field stop_at_max_level  
+@type boolean
+@default false
+@optional
 是否在肉鸽等级刷满后停止任务。  
 :::  
-::: field name="investment_enabled" type="boolean" optional default="true"  
+::: field investment_enabled  
+@type boolean
+@default true
+@optional
 是否投资源石锭。  
 :::  
-::: field name="investments_count" type="number" optional default="2147483647"  
+::: field investments_count  
+@type number
+@default 2147483647
+@optional
 投资源石锭的次数。达到后自动停止任务。  
 :::  
-::: field name="stop_when_investment_full" type="boolean" optional default="false"  
+::: field stop_when_investment_full  
+@type boolean
+@default false
+@optional
 是否在投资到达上限后自动停止任务。  
 :::  
-::: field name="investment_with_more_score" type="boolean" optional default="false"  
+::: field investment_with_more_score  
+@type boolean
+@default false
+@optional
 是否在投资后尝试购物。仅适用于模式 1。  
 :::  
-::: field name="start_with_elite_two" type="boolean" optional default="false"  
+::: field start_with_elite_two  
+@type boolean
+@default false
+@optional
 是否在凹开局的同时凹干员精二直升。仅适用于模式 4。  
 :::  
-::: field name="only_start_with_elite_two" type="boolean" optional default="false"  
+::: field only_start_with_elite_two  
+@type boolean
+@default false
+@optional
 是否只凹开局干员精二直升而忽视其他开局条件。仅在模式为 4 且 `start_with_elite_two` 为 true 时有效。  
 :::  
-::: field name="refresh_trader_with_dice" type="boolean" optional default="false"  
+::: field refresh_trader_with_dice  
+@type boolean
+@default false
+@optional
 是否用骰子刷新商店购买特殊商品。仅适用于 Mizuki 主题，用于刷指路鳞。  
 :::  
-::: field name="first_floor_foldartal" type="string" optional  
+::: field first_floor_foldartal  
+@type string
+@optional
 希望在第一层远见阶段得到的密文版。仅适用于 Sami 主题，不限模式；若成功凹到则停止任务。  
 :::  
-::: field name="start_foldartal_list" type="array<string>" optional default="[]"  
+::: field start_foldartal_list  
+@type array<string>
+@default []
+@optional
 凹开局时希望在开局奖励阶段得到的密文板。仅在主题为 Sami 且模式为 4 时有效。
 <br>
 仅当开局拥有列表中所有的密文板时才算凹开局成功。
 <br>
 注意，此参数须与 “生活至上分队” 同时使用，其他分队在开局奖励阶段不会获得密文板。  
 :::  
-::: field name="collectible_mode_start_list" type="object" optional  
+::: field collectible_mode_start_list  
+@type object
+@optional
 凹开局时期望的奖励，默认全为 false。仅在模式为 4 时有效。
 <br>
 `hot_water`: 热水壶奖励，常用于触发烧水机制（通用）。
@@ -643,34 +901,58 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `ticket`: 票券奖励，仅在 JieGarden 主题时有效。
 :::  
-::: field name="use_foldartal" type="boolean" optional  
+::: field use_foldartal  
+@type boolean
+@optional
 是否使用密文板。模式 5 下默认值 `false`，其他模式下默认值 `true`。仅适用于 Sami 主题。  
 :::  
-::: field name="check_collapsal_paradigms" type="boolean" optional  
+::: field check_collapsal_paradigms  
+@type boolean
+@optional
 是否检测获取的坍缩范式。模式 5 下默认值 `true`，其他模式下默认值 `false`。  
 :::  
-::: field name="double_check_collapsal_paradigms" type="boolean" optional default="true"  
+::: field double_check_collapsal_paradigms  
+@type boolean
+@default true
+@optional
 是否执行坍缩范式检测防漏措施。仅在主题为 Sami 且 `check_collapsal_paradigms` 为 true 时有效。模式 5 下默认值 `true`，其他模式下默认值 `false`。  
 :::  
-::: field name="expected_collapsal_paradigms" type="array<string>" optional default="['目空一些', '睁眼瞎', '图像损坏', '一抹黑']"  
+::: field expected_collapsal_paradigms  
+@type array<string>
+@default ['目空一些', '睁眼瞎', '图像损坏', '一抹黑']
+@optional
 希望触发的坍缩范式。仅在主题为 Sami 且模式为 5 时有效。  
 :::  
-::: field name="monthly_squad_auto_iterate" type="boolean" optional  
+::: field monthly_squad_auto_iterate  
+@type boolean
+@optional
 是否启动月度小队自动切换。  
 :::  
-::: field name="monthly_squad_check_comms" type="boolean" optional  
+::: field monthly_squad_check_comms  
+@type boolean
+@optional
 是否将月度小队通信也作为切换依据。  
 :::  
-::: field name="deep_exploration_auto_iterate" type="boolean" optional  
+::: field deep_exploration_auto_iterate  
+@type boolean
+@optional
 是否启动深入调查自动切换。  
 :::  
-::: field name="collectible_mode_shopping" type="boolean" optional default="false"  
+::: field collectible_mode_shopping  
+@type boolean
+@default false
+@optional
 烧水是否启用购物。  
 :::  
-::: field name="collectible_mode_squad" type="string" optional  
+::: field collectible_mode_squad  
+@type string
+@optional
 烧水时使用的分队, 默认与squad同步, 当squad为空字符串且未指定collectible_mode_squad值时为指挥分队。  
 :::  
-::: field name="start_with_seed" type="boolean" optional default="false"  
+::: field start_with_seed  
+@type boolean
+@default false
+@optional
 使用种子刷钱。
 <br>
 仅在 Sarkaz 主题，Investment 模式，“点刺成锭分队” or “后勤分队” 时可能为 true。
@@ -736,13 +1018,18 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    自动抄作业
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="filename" type="string"  
+::: field filename  
+@type string
 单一作业 JSON 文件的路径，与 copilot_list 二选一（必填）；相对路径与绝对路径均可。  
 :::  
-::: field name="copilot_list" type="array`<object>`"  
+::: field copilot_list  
+@type array`<object>`
 作业列表，与 filename 二选一（必填）；当 filename 与 copilot_list 同时存在时，忽视 copilot_list；此参数生效时仅可执行 set_params 一次。
 <br>
 每个对象包含：
@@ -754,21 +1041,36 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
   <br>
 - `is_raid`: 是否切换为突袭模式，可选，默认值 false
   :::  
-  ::: field name="loop_times" type="number" optional default="1"  
+  ::: field loop_times  
+  @type number
+  @default 1
+  @optional
   循环次数。仅在单一作业模式下（即指定 filename 时）有效；此参数生效时仅可执行 set_params 一次。  
   :::  
-  ::: field name="use_sanity_potion" type="boolean" optional default="false"  
+  ::: field use_sanity_potion  
+  @type boolean
+  @default false
+  @optional
   是否允许在剩余理智不足时使用理智药。  
   :::  
-  ::: field name="formation" type="boolean" optional default="false"  
+  ::: field formation  
+  @type boolean
+  @default false
+  @optional
   是否进行自动编队。  
   :::  
-  ::: field name="formation_index" type="number" optional default="0"  
+  ::: field formation_index  
+  @type number
+  @default 0
+  @optional
   自动编队所使用的编队栏位的编号。仅在 formation 为 true 时有效。
   <br>
   为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队。  
   :::  
-  ::: field name="user_additional" type="array`<object>`" optional default="[]"  
+  ::: field user_additional  
+  @type array`<object>`
+  @default []
+  @optional
   自定义追加干员列表。仅在 formation 为 true 时有效。
   <br>
   每个对象包含：
@@ -777,13 +1079,22 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
   <br>
 - `skill`: 需要携带的技能，可选，默认值 1；为 1–3 的整数，若不在此范围内则遵从游戏内默认的技能选择  
   :::  
-  ::: field name="add_trust" type="boolean" optional default="false"  
+  ::: field add_trust  
+  @type boolean
+  @default false
+  @optional
   是否在自动编队时以信赖值升序自动填充空余栏位。仅在 formation 为 true 时有效。  
   :::  
-  ::: field name="ignore_requirements" type="boolean" optional default="false"  
+  ::: field ignore_requirements  
+  @type boolean
+  @default false
+  @optional
   是否在自动编队时忽视干员属性要求。仅在 formation 为 true 时有效。  
   :::  
-  ::: field name="support_unit_usage" type="number" optional default="0"  
+  ::: field support_unit_usage  
+  @type number
+  @default 0
+  @optional
   助战干员的使用模式。为 0–3 的整数。仅在 formation 为 true 时有效。
   <br>
   `0` - 表示不使用助战干员
@@ -794,7 +1105,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
   <br>
   `3` - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用随机助战干员  
   :::  
-  ::: field name="support_unit_name" type="string" optional default=""  
+  ::: field support_unit_name  
+  @type string
+  @optional
   指定助战干员名。仅在 support_unit_usage 为 2 时有效。  
   :::  
   ::::
@@ -831,13 +1144,20 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    自动抄保全作业
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="filename" type="string" required  
+::: field filename  
+@type string
+@required
 作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。  
 :::  
-::: field name="loop_times" type="number" optional  
+::: field loop_times  
+@type number
+@optional
 循环执行次数。  
 :::  
 ::::  
@@ -860,13 +1180,20 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
   自动抄悖论模拟作业
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="filename" type="string" required  
+::: field filename  
+@type string
+@required
 单个作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。必选，与 list 二选一。  
 :::  
-::: field name="list" type="array<string>" required  
+::: field list  
+@type array<string>
+@required
 作业 JSON 列表，绝对、相对路径均可。不支持运行期设置。必选，与 filename 二选一。  
 :::  
 ::::
@@ -888,7 +1215,10 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    仓库识别
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
 ::::
@@ -908,7 +1238,10 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    干员 box 识别
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
 ::::
@@ -928,10 +1261,16 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    生息演算
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="theme" type="string" optional default="Tales"  
+::: field theme  
+@type string
+@default Tales
+@optional
 主题。
 <br>
 `Fire` - _沙中之火_（已关闭）
@@ -940,7 +1279,10 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `RelaunchAnchor` - _重启锚点_  
 :::  
-::: field name="mode" type="number" optional default="0"  
+::: field mode  
+@type number
+@default 0
+@optional
 模式。不同主题支持的模式不同：
 <br>
 **Tales（沙洲遗闻）：**
@@ -957,17 +1299,26 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `48` (`RA4`) - RA-4，使用筹划经营策略给予的赤金解锁区域，使用维什戴尔完成击杀 boss 任务。
 :::  
-::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
+::: field tools_to_craft  
+@type array<string>
+@default [&quot;荧光棒&quot;]
+@optional
 自动制造的物品，建议填写子串。仅 Tales 主题有效。  
 :::  
-::: field name="increment_mode" type="number" optional default="0"  
+::: field increment_mode  
+@type number
+@default 0
+@optional
 点击类型。仅 Tales 主题有效。
 <br>
 `0` - 连点
 <br>
 `1` - 长按  
 :::  
-::: field name="num_craft_batches" type="number" optional default="16"  
+::: field num_craft_batches  
+@type number
+@default 16
+@optional
 单次最大制造轮数。仅 Tales 主题有效。  
 :::  
 ::::
@@ -992,14 +1343,21 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    自定义任务
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="task_names" type="array<string>" required  
+::: field task_names  
+@type array<string>
+@required
 执行数组中第一个匹配上的任务（及后续 next 等）。若想执行多个任务，可多次 append Custom task。  
 支持秘密前线（`MiniGame@SecretFront`）拼接形式：`MiniGame@SecretFront@Begin@Ending[A-E](@事件名)?`，事件名可选（支援作战平台 / 游侠 / 诡影迷踪），例如 `MiniGame@SecretFront@Begin@EndingA@支援作战平台`。  
 :::  
-::: field name="params" type="object" optional  
+::: field params  
+@type object
+@optional
 任务附加参数。目前仅像素画任务（`MiniGame@PixelPaint@Begin`）使用：
 
 - `params.pixel_paint.groups`：按色分组点列。`color` 为色板序号（0~39，与游戏右侧色板顺序一致），`points` 为 `[x, y]` 格子坐标数组（0~23，左上为原点）。
@@ -1039,13 +1397,21 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    单步任务（目前仅支持战斗）
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="type" type="string" required default="copilot"  
+::: field type  
+@type string
+@default copilot
+@required
 目前仅支持 `"copilot"`。  
 :::  
-::: field name="subtask" type="string" required  
+::: field subtask  
+@type string
+@required
 子任务类型。
 <br>
 `stage` - 设置关卡名，需要 `"details": { "stage": "xxxx" }`。
@@ -1054,7 +1420,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `action` - 单步作战操作，`details` 需为作战协议中的单个 action，例如：`"details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }`，详情参考 [战斗流程协议](./copilot-schema.md)。  
 :::  
-::: field name="details" type="object" optional  
+::: field details  
+@type object
+@optional
 子任务的详细参数。  
 :::  
 ::::
@@ -1079,10 +1447,15 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
   视频识别，目前仅支持作业（作战）视频
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 是否启用本任务。  
 :::  
-::: field name="filename" type="string" required  
+::: field filename  
+@type string
+@required
 视频的文件路径，绝对、相对路径均可。不支持运行期设置。  
 :::  
 ::::
@@ -1119,13 +1492,19 @@ bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* par
 #### 参数说明
 
 :::: field-group  
-::: field name="handle" type="AsstHandle" required  
+::: field handle  
+@type AsstHandle
+@required
 实例句柄  
 :::  
-::: field name="task" type="AsstTaskId" required  
+::: field task  
+@type AsstTaskId
+@required
 任务 ID, `AsstAppendTask` 接口的返回值  
 :::  
-::: field name="params" type="const char\*" required  
+::: field params  
+@type const char\*
+@required
 任务参数，json string，与 `AsstAppendTask` 接口相同。  
 未标注“不支持运行中设置”的字段都支持实时修改；否则若当前任务正在运行，会忽略对应的字段  
 :::  
@@ -1151,10 +1530,14 @@ bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 #### 参数说明
 
 :::: field-group  
-::: field name="key" type="AsstStaticOptionKey" required  
+::: field key  
+@type AsstStaticOptionKey
+@required
 键  
 :::  
-::: field name="value" type="const char\*" required  
+::: field value  
+@type const char\*
+@required
 值  
 :::  
 ::::
@@ -1183,13 +1566,19 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 #### 参数说明
 
 :::: field-group  
-::: field name="handle" type="AsstHandle" required  
+::: field handle  
+@type AsstHandle
+@required
 实例句柄  
 :::  
-::: field name="key" type="AsstInstanceOptionKey" required  
+::: field key  
+@type AsstInstanceOptionKey
+@required
 键  
 :::  
-::: field name="value" type="const char\*" required  
+::: field value  
+@type const char\*
+@required
 值  
 :::  
 ::::
@@ -1197,25 +1586,41 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 ##### 键值一览
 
 :::: field-group  
-::: field name="Invalid" type="number" optional default="0"  
+::: field Invalid  
+@type number
+@default 0
+@optional
 无效占位。枚举值：0。  
 :::  
-::: field name="MinitouchEnabled" type="boolean" optional  
+::: field MinitouchEnabled  
+@type boolean
+@optional
 已弃用。原为是否启用 Minitouch；"1" 开，"0" 关。注意设备可能不支持。枚举值：1（已弃用）。  
 :::  
-::: field name="TouchMode" type="string" optional default="minitouch"  
+::: field TouchMode  
+@type string
+@default minitouch
+@optional
 触控模式设置。可选值：minitouch | maatouch | adb | MaaFwAdb。默认 minitouch。枚举值：2。  
 :::  
-::: field name="DeploymentWithPause" type="boolean" optional  
+::: field DeploymentWithPause  
+@type boolean
+@optional
 是否暂停下干员，同时影响抄作业、肉鸽、保全。可用值："1" 或 "0"。枚举值：3。  
 :::  
-::: field name="AdbLiteEnabled" type="boolean" optional  
+::: field AdbLiteEnabled  
+@type boolean
+@optional
 是否使用 AdbLite。可用值："0" 或 "1"。枚举值：4。  
 :::  
-::: field name="KillAdbOnExit" type="boolean" optional  
+::: field KillAdbOnExit  
+@type boolean
+@optional
 退出时是否杀掉 Adb 进程。可用值："0" 或 "1"。枚举值：5。  
 :::  
-::: field name="ClientType" type="string" optional  
+::: field ClientType  
+@type string
+@optional
 客户端类型（游戏渠道）。大多数连接配置不需要设置。仅当传给 `AsstConnect` / `AsstAsyncConnect` 的 `config` 在连接阶段命令里使用 `[PackageName]` 时，才需要在连接前调用 `AsstSetInstanceOption(..., ClientType, ...)`。当前内置配置仅 `Androws` 和 `WSA` 的 `displayId` 查询依赖该值。该选项不替代 StartUp / CloseDown 等任务参数里的 `client_type`。枚举值：6。  
 :::  
 ::::
