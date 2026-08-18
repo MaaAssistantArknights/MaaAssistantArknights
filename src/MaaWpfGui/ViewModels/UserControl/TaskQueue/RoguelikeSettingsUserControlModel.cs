@@ -29,6 +29,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
@@ -500,6 +501,10 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             Instances.TaskQueueViewModel.AddLog("Core Char: " + value);
         }
     }
+
+    [PropertyDependsOn(nameof(RoguelikeTheme))]
+    [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
+    public string StartingCoreCharTip => LocalizationHelper.GetString("StartingCoreCharTip") + "\n\n" + RoguelikeThemeTip;
 
     private ObservableCollection<string> _roguelikeCoreCharList = [];
 
