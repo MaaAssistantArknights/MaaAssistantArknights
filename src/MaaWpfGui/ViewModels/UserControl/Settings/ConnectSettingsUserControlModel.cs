@@ -58,6 +58,20 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
 
+        // 鼠标输入方式变化时刷新窗口恢复按钮的可见性
+        if (ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra is { } win32Extra)
+        {
+            // 从配置恢复时，刷新截图方式选项的可用状态
+            win32Extra.UpdateScreencapMethodAvailability();
+
+            win32Extra.PropertyChanged += (_, e) => {
+                if (e.PropertyName == nameof(Win32Extra.MouseMethod))
+                {
+                    NotifyOfPropertyChange(nameof(ShowWindowRestoreButton));
+                }
+            };
+        }
+
         // 从配置恢复时，若 MuMu 截图增强已启用，需将 MuMu 触控加入下拉列表
         if (ExtraConfig is MuMu12Extra { Enable: true })
         {
@@ -834,6 +848,86 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// Gets a value indicating whether to use AttachWindow mode instead of ADB connection.
     /// </summary>
     [PropertyDependsOn(nameof(ConnectConfig))]
+    public bool UseAttachWindow => ConnectConfig == ConnectConfig.PC;
+
+    /// <summary>
+    /// Gets a value indicating whether to show the window restore button (PC 端 + SendMessageWithWindowPos 输入方式)。
+    /// </summary>
+    [PropertyDependsOn(nameof(ConnectConfig))]
+    public bool ShowWindowRestoreButton =>
+        UseAttachWindow && ExtraConfig is Win32Extra { MouseMethod: Win32Extra.AsstWin32InputMethod.SendMessageWithWindowPos };
+
+    /// <summary>
+    /// 将游戏窗口移动到主屏幕中央
+    /// </summary>
+    [UsedImplicitly]
+    public void RestoreWindowPosition()
+    {
+        Instances.AsstProxy.RestoreGameWindowPosition();
+    }
+
+    /// <summary>
+    /// Gets win32 截图方式枚举（与 AsstCaller.h 中 AsstWin32ScreencapMethodEnum 对应）
+    /// </summary>
+    public List<CombinedData> AttachWindowScreencapMethodList { get; } =
+    [
+        new() { Display = LocalizationHelper.GetString("AttachWindowScreencapFramePool"), Value = "2" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowScreencapPrintWindow"), Value = "16" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowScreencapScreenDC"), Value = "32" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowScreencapDesktopDupWindow"), Value = "8" },
+    ];
+
+    private string _attachWindowScreencapMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowScreencapMethod, "2"); // 默认 FramePool
+
+    /// <summary>
+    /// Gets or sets the screencap method for AttachWindow mode.
+    /// </summary>
+    public string AttachWindowScreencapMethod
+    {
+        get => _attachWindowScreencapMethod;
+        set {
+            Instances.AsstProxy.Connected = false;
+            SetAndNotify(ref _attachWindowScreencapMethod, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AttachWindowScreencapMethod, value);
+        }
+    }
+
+    /// <summary>
+    /// Win32 鼠标输入方式枚举（与 AsstCaller.h 中 AsstWin32InputMethodEnum 对应）
+    /// </summary>
+    private static readonly List<CombinedData> _attachWindowMouseMethodList =
+    [
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputSeize"), Value = "1" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputSendWithCursor"), Value = "32" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputSendWithWindowPos"), Value = "128" },
+    ];
+
+    public List<CombinedData> AttachWindowMouseMethodList => _attachWindowMouseMethodList;
+
+    private string _attachWindowMouseMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowMouseMethod, "32"); // 默认 SendMessageWithCursorPos
+
+    /// <summary>
+    /// Gets or sets the mouse input method for AttachWindow mode.
+    /// </summary>
+    public string AttachWindowMouseMethod
+    {
+        get => _attachWindowMouseMethod;
+        set {
+            Instances.AsstProxy.Connected = false;
+            SetAndNotify(ref _attachWindowMouseMethod, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AttachWindowMouseMethod, value);
+        }
+    }
+
+    /// <summary>
+    /// Win32 键盘输入方式枚举
+    /// </summary>
+    private static readonly List<CombinedData> _attachWindowKeyboardMethodList =
+    [
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputSeize"), Value = "1" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputSendMsg"), Value = "2" },
+        new() { Display = LocalizationHelper.GetString("AttachWindowInputPostMsg"), Value = "4" },
+    ];
     public bool IsPCConnectConfig => ConnectConfig == ConnectConfig.PC;
 
     #endregion

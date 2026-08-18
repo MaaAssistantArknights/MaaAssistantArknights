@@ -49,4 +49,15 @@ public class GenericCombinedData<TValueType>() : PropertyChangedBase
         get => _value;
         set => SetAndNotify(ref _value, value);
     }
+
+    private bool _isEnabled = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether this item is selectable.
+    /// </summary>
+    public bool IsEnabled
+    {
+        get => _isEnabled;
+        set => SetAndNotify(ref _isEnabled, value);
+    }
 }

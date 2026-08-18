@@ -739,6 +739,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionAddressTip">｢{key=AutoDetectConnection}｣ 을(를) 활성화하고 성공하면 자동으로 입력됩니다. 감지에 실패한 경우, 에뮬레이터의 실제 포트를 확인하여 입력해 주세요.</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
     <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
+    <system:String x:Key="WindowRestore">창 복원</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">MuMu 터치 강화 활성화 (실험적, MuMu 에뮬레이터 6.3.2+ 필요, 백그라운드 유지 지원)</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
@@ -1702,7 +1703,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (백그라운드, 효율적, 최소화 가능)</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (백그라운드, 효율적, 최소화 불가)</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (백그라운드, 안정적, 최소화 가능)</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (백그라운드, 백업, 최소화 불가)</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (포그라운드, 가림 불가)</system:String>
