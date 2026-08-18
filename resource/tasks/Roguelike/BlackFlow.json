@@ -594,12 +594,6 @@
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@ExitThenAbandon"]
     },
-    "BlackFlow@Roguelike@ExitThenStop-Enter": {
-        "algorithm": "JustReturn",
-        "sub": ["BlackFlow@Roguelike@ExitThenAbandon-Enter"],
-        "subErrorIgnored": true,
-        "next": ["RoguelikeControlTaskPlugin-Stop"]
-    },
     "BlackFlow@Roguelike@GamePass": {
         "template": "BlackFlow@Roguelike@GamePass.png"
     },
@@ -1514,7 +1508,7 @@
         "roi": [958, 530, 322, 189]
     },
     "BlackFlow@Roguelike@StrategyTerminalAction": {
-        "baseTask": "BlackFlow@Roguelike@ExitThenStop-Enter"
+        "baseTask": "BlackFlow@Roguelike@ExitThenAbandon-Enter"
     },
     "BlackFlow@Roguelike@StrategyTerminated": {
         "Doc": "本任务注册了插件 BlackFlowLifecycleTaskPlugin，改基只能指向 StrategyTerminated-Enter。",
