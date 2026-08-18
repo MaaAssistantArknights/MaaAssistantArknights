@@ -215,12 +215,12 @@
     <system:String x:Key="InfrastThresholdTip">커스텀 교대 근무 변경이 활성화된 경우 이 필드는 자동 채우기 및 {key=Operator} 교체를 사용하는 회의실에만 유효합니다</system:String>
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyGold">오리지늄각뿔 투자, 투자 완료 시 자동 종료</system:String>
-    <system:String x:Key="RoguelikeStrategyBlackFlowExp">레벨 파밍, 빠르게 3층으로 이동</system:String>
-    <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">오리지늄 각괴 파밍, 투자 완료 후 자동 종료</system:String>
-    <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">포대기 동물 파밍</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowExp">레벨 우선, 빠르게 3구역으로 이동</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">오리지늄각뿔 투자, 투자 완료 후 자동 종료</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">포대기 동물 육성</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTarget">목표 포대기 동물</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCat">포대기의 고양이</system:String>
-    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpent">포대기의 날개 뱀</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpent">포대기의 깃털 뱀</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetDog">포대기의 개</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">포대기의 케르베로스</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">{key=Operator} 2차 정예화 또는 전기주전자 획득까지 반복</system:String>
@@ -228,7 +228,7 @@
     <system:String x:Key="RoguelikeCollectibleModeSquad">전기주전자 획득 분대</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">월간 스쿼드 파밍, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">심층 조사 파밍, 최대한 많은 구역 클리어</system:String>
-    <system:String x:Key="RoguelikeStrategyFindPlaytime">여흥 노드 파밍, 1층 쉐이의 잔식에 진입, 필요한 노드를 찾지 못하면 재시작</system:String>
+    <system:String x:Key="RoguelikeStrategyFindPlaytime">여흥 노드 파밍, 1구역 쉐이의 잔식에 진입, 필요한 노드를 찾지 못하면 재시작</system:String>
     <system:String x:Key="RoguelikeFindPlaytimeTarget">목표 여흥 노드</system:String>
     <system:String x:Key="RoguelikePlaytimeLing">링 - 주화 놀이</system:String>
     <system:String x:Key="RoguelikePlaytimeShu">슈 - 인과</system:String>
@@ -242,7 +242,7 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">해당 {key=Operator}는 battle_data에 없습니다</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2차 정예화까지 반복</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2차 정예화까지 반복, 전투 X</system:String>
-    <system:String x:Key="Roguelike3FirstFloorFoldartal">1층 암호판 획득 반복, 전투 X</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartal">1구역 암호판 획득 반복, 전투 X</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">생존지상 분대 목표 암호판 설정</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">최대 3개까지 지원하며 ｢;｣ 로 구분합니다</system:String>
     <system:String x:Key="RoguelikeCollapseList">붕괴 패러다임 목록</system:String>
@@ -288,11 +288,11 @@
     <system:String x:Key="IS5NewSquad9">대리인 분대 (미지원)</system:String>
     <system:String x:Key="IS5NewSquad10">학자 분대</system:String>
     <system:String x:Key="IS5NewSquad11">상인 분대</system:String>
-    <system:String x:Key="IS6NewSquad1">本源研修分队</system:String>
-    <system:String x:Key="IS6NewSquad2">文明开化分队</system:String>
-    <system:String x:Key="IS6NewSquad3">开拓者分队</system:String>
-    <system:String x:Key="IS6NewSquad4">多边贸易分队</system:String>
-    <system:String x:Key="IS6NewSquad5">地质调查分队</system:String>
+    <system:String x:Key="IS6NewSquad1">프라이멀 연구 분대 (本源研修分队)</system:String>
+    <system:String x:Key="IS6NewSquad2">문명 개화 분대 (文明开化分队)</system:String>
+    <system:String x:Key="IS6NewSquad3">개척자 분대 (开拓者分队)</system:String>
+    <system:String x:Key="IS6NewSquad4">다자 무역 분대 (多边贸易分队)</system:String>
+    <system:String x:Key="IS6NewSquad5">지질 조사 분대 (地质调查分队)</system:String>
     <system:String x:Key="SpecialForceSquad">특근 분대</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
@@ -564,7 +564,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="RoguelikeThemeSami">사미</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">살카즈</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">쉐이</system:String>
-    <system:String x:Key="RoguelikeThemeBlackFlow">黑流树海(한국어명 미정)</system:String>
+    <system:String x:Key="RoguelikeThemeBlackFlow">블랙 플로우</system:String>
     <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}추천 구성:
 
 {key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
@@ -608,21 +608,21 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
 4. 난이도 15 이상일 경우 6성 오퍼레이터의 희망 소모가 1 증가해요. 일부 분대에서는 시작 시 6성 오퍼레이터를 모집하지 못해 오류나 실패로 이어질 수 있어요</system:String>
     <system:String x:Key="RoguelikeThemeTipBlackFlow" xml:space="preserve">{key=RoguelikeThemeBlackFlow} 추천 구성:
 
-{key=StartingCoreChar}: 기계사 (정예화 2 필요)
+{key=StartingCoreChar}: 메커니스트 (2차 정예화 필요)
 {key=StartingSquad}: ｢{key=SpecialForceSquad}｣ / ｢{key=TacticalFortificationOperative}｣
 {key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
 
 1. 현재 전용 전투 전략은 없으며 전투는 모집 점수 시스템이 자동으로 판단합니다.
-    오리지늄 각괴 파밍, 레벨 파밍, 포대기 동물 육성 모두 현재 정예화 2 기계사의 비행을 중심으로 돌아갑니다.
+    오리지늄각뿔 투자, 레벨 우선, 포대기 동물 육성 모두 현재 2차 정예화 메커니스트의 비행을 중심으로 돌아갑니다.
     이번 로그라이크는 특수 장치가 많아, 위 구성으로 시작하지 않으면 기본 경로 탐색과 전투만 쓸 수 있어 실패할 확률이 높습니다.
-    정예화 2 기계사로 시작할 것을 강력히 권장합니다 (기계사 정예화는 N1을 한 번만 클리어하면 되어 비교적 쉽습니다)
-2. 정예화 후 ｢모집 정통 II｣ ｢효과 향상 II｣ 기술을 해금하면 시작부터 ｢구조적 원리｣를 지참할 수 있습니다(맵 전역으로 3회 비행).
+    2차 정예화 메커니스트로 시작할 것을 강력히 권장합니다 (메커니스트 정예화는 난이도 1을 한 번만 클리어하면 되어 비교적 쉽습니다)
+2. 정예화 후 ｢모집 정통 II｣ ｢효과 향상 II｣ 기술을 해금하면 시작부터 ｢구조적 원리｣를 지참할 수 있습니다. (맵 전역으로 3회 비행)
     해금은 정말 쉬워서 정예화 후 부품을 누적 10개 판매하면 되므로 강력히 권장합니다.
     해금 전에는 주변 8칸으로만 3회 비행할 수 있어, 파밍은 가능하지만 효율이 크게 떨어집니다
-3. 레벨 파밍 시 기계사(정예화 2 필요) + 위 분대·직업 그룹 + 중장 모집권을 조합하면 3층을 빠르게 날아서 통과할 수 있습니다
-4. 정예화 2 기계사가 없다면 선택하지 말고 평소처럼 오리지늄 각괴를 파세요. 다만 전투에서 패배할 확률이 높습니다.
+3. 레벨 우선 시 메커니스트(2차 정예화 필요) + 위 분대·직업 그룹 + 디펜더 모집권을 조합하면 3구역을 빠르게 날아서 통과할 수 있습니다
+4. 2차 정예화 메커니스트가 없다면 선택하지 말고 평소처럼 오리지늄각뿔을 파밍하세요. 다만 전투에서 패배할 확률이 높습니다.
     다른 전략은 추후 최적화 예정입니다
-5. 레벨 파밍 + ｢{key=InvestmentEnabled}｣ 체크 해제 시 상점을 건너뜁니다</system:String>
+5. 레벨 우선 + ｢{key=InvestmentEnabled}｣ 체크 해제 시 상점을 건너뜁니다</system:String>
     <system:String x:Key="RoguelikeDifficulty">난이도</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">｢{key=RoguelikeThemeJieGarden}｣ 관련 기술을 해금하면 난이도 3 이상에서 {key=LeaderSquad}로 탐색할 때 추가로 ｢시간의 끝｣을 소지해 ｢한 번 싸우고 한 번 포기｣하는 저축 전략을 쓸 수 있어요.
 아직 해금하지 않았다면 난이도 3 이상(｢MAX｣ 포함)을 선택하지 마세요.
@@ -632,7 +632,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="GoldTimesLimit">N번 투자 후 작업 중지</system:String>
     <system:String x:Key="StopOnGoldLimit">예치금 잔액 최대 달성 시 중지</system:String>
     <system:String x:Key="InvestmentEnabled">오리지늄각뿔 투자 진행</system:String>
-    <system:String x:Key="InvestmentWithMoreScore">투자 도중 모집/2층 진입/쇼핑 진행</system:String>
+    <system:String x:Key="InvestmentWithMoreScore">투자 도중 모집/2구역 진입/쇼핑 진행</system:String>
     <system:String x:Key="RoguelikeCollectibleModeShopping">작전 지원 선택 모드 쇼핑 활성화</system:String>
     <system:String x:Key="RoguelikeStartWithSelectList">작전 지원 보상 선택</system:String>
     <system:String x:Key="RoguelikeStartWithKettle">전기주전자</system:String>
@@ -1429,7 +1429,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BoskyDisaster">잔식: 소란</system:String>
     <system:String x:Key="RoguelikeCoppersExchange">주화 교환: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeCoppersRecognitionError">주화 인식 실패: "{0}"</system:String>
-    <system:String x:Key="BlackFlowRoutingDecision">{0}층 | 행동력 {1}→{2} | {3}으로 {4} 이동 | 안전 여유 {5}</system:String>
+    <system:String x:Key="BlackFlowRoutingDecision">{0}구역 | 행동력 {1}→{2} | {4}까지 {3} | 안전 여유 {5}</system:String>
     <system:String x:Key="BlackFlowRoutingReason">이유: {0} | 설명: {1}</system:String>
     <system:String x:Key="BlackFlowMovementWalk">도보 이동</system:String>
     <system:String x:Key="BlackFlowMovementProcessing">가공품 이동</system:String>
@@ -1438,7 +1438,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowReasonPreferredGoal">선호 목표</system:String>
     <system:String x:Key="BlackFlowReasonDevelopment">성장</system:String>
     <system:String x:Key="BlackFlowReasonRiskAvoidance">위험 회피</system:String>
-    <system:String x:Key="BlackFlowReasonSafetyFallback">안전 경로</system:String>
+    <system:String x:Key="BlackFlowReasonSafetyFallback">안전 퇴로</system:String>
     <system:String x:Key="BlackFlowReasonTieBreak">동률 비교</system:String>
     <system:String x:Key="BlackFlowWarningMapRebuildFailed">지도 재구축 실패</system:String>
     <system:String x:Key="BlackFlowWarningPageRecoveryFailed">노드 화면에서 지도로 돌아갈 수 없습니다</system:String>
@@ -1453,7 +1453,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowWarningUnknown">로그라이크에서 오류가 발생했습니다</system:String>
     <system:String x:Key="BlackFlowMilestoneChanged">단계 목표 {0}: {1}</system:String>
     <system:String x:Key="BlackFlowStrategyResult">로그라이크 전략 종료: {0} ({1})</system:String>
-    <system:String x:Key="BlackFlowStrategyStarted">로그라이크 전략 시작: {0}</system:String>
+    <system:String x:Key="BlackFlowStrategyStarted">블랙 플로우 전략 시작: {0}</system:String>
     <system:String x:Key="BlackFlowStrategyUnknown">알 수 없는 전략</system:String>
     <system:String x:Key="BlackFlowDecisionProbeUnknownNode">경로상 가장 가까운 미분류 노드 탐색</system:String>
     <system:String x:Key="BlackFlowDecisionPolicyOrder">전략에 설정된 우선순위대로 선택</system:String>
@@ -1466,85 +1466,85 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneStatusUnknown">상태 알 수 없음</system:String>
     <system:String x:Key="BlackFlowNodeUnknown">미확인 노드</system:String>
     <system:String x:Key="BlackFlowNodeEmpty">빈 노드</system:String>
-    <system:String x:Key="BlackFlowNodeCombat">일반 전투</system:String>
+    <system:String x:Key="BlackFlowNodeCombat">일반 작전</system:String>
     <system:String x:Key="BlackFlowNodeEmergencyCombat">긴급 작전</system:String>
-    <system:String x:Key="BlackFlowNodeBoss">험로의 악적</system:String>
-    <system:String x:Key="BlackFlowNodeBattleShop">일반 상점</system:String>
-    <system:String x:Key="BlackFlowNodeScrapShop">비경 행상인</system:String>
-    <system:String x:Key="BlackFlowNodeEncounter">뜻밖의 만남</system:String>
+    <system:String x:Key="BlackFlowNodeBoss">험로의 난적</system:String>
+    <system:String x:Key="BlackFlowNodeBattleShop">교활한 상인</system:String>
+    <system:String x:Key="BlackFlowNodeScrapShop">신비한 상인</system:String>
+    <system:String x:Key="BlackFlowNodeEncounter">우연한 만남</system:String>
     <system:String x:Key="BlackFlowNodeMysteriousPresage">미지의 괴이</system:String>
-    <system:String x:Key="BlackFlowNodeFerociousPresage">미지의 흉악</system:String>
-    <system:String x:Key="BlackFlowNodeScout">한발 앞서</system:String>
-    <system:String x:Key="BlackFlowNodeDuel">협로의 조우</system:String>
-    <system:String x:Key="BlackFlowNodeEmergencyAid">응급 지원</system:String>
+    <system:String x:Key="BlackFlowNodeFerociousPresage">미지의 흉포</system:String>
+    <system:String x:Key="BlackFlowNodeScout">앞서 출발</system:String>
+    <system:String x:Key="BlackFlowNodeDuel">외나무다리</system:String>
+    <system:String x:Key="BlackFlowNodeEmergencyAid">응급 조력</system:String>
     <system:String x:Key="BlackFlowNodeRest">휴식 노드</system:String>
     <system:String x:Key="BlackFlowNodeFeatherPoint">깃털 조망점</system:String>
-    <system:String x:Key="BlackFlowNodeWindingPassage">굽이굽이 은밀 통로</system:String>
+    <system:String x:Key="BlackFlowNodeWindingPassage">굽이진 비밀 통로</system:String>
     <system:String x:Key="BlackFlowNodeSacrifice">봉헌 노드</system:String>
-    <system:String x:Key="BlackFlowNodeWish">소원 성취</system:String>
-    <system:String x:Key="BlackFlowNodeBoskyPassage">잘못 들어간 기경</system:String>
-    <system:String x:Key="BlackFlowNodeResidentStronghold">｢주민｣ 거점</system:String>
+    <system:String x:Key="BlackFlowNodeWish">소원성취</system:String>
+    <system:String x:Key="BlackFlowNodeBoskyPassage">잘못 들어선 비경</system:String>
+    <system:String x:Key="BlackFlowNodeResidentStronghold">'주민'의 거점</system:String>
     <system:String x:Key="BlackFlowNodeFinal">험로의 끝</system:String>
-    <system:String x:Key="BlackFlowNodeFate">운명이 가리키는 곳</system:String>
+    <system:String x:Key="BlackFlowNodeFate">운명의 암시</system:String>
     <system:String x:Key="BlackFlowNodeEvacuate">철수 지점</system:String>
-    <system:String x:Key="BlackFlowNodeTeleporter">워프 지점</system:String>
+    <system:String x:Key="BlackFlowNodeTeleporter">전송 지점</system:String>
     <system:String x:Key="BlackFlowNodeOther">기타 노드</system:String>
-    <system:String x:Key="BlackFlowRuleAvoidEmptyScrapShop">오리지늄 각괴·씨앗·판매 가능한 부품이 없을 때는 비경 행상인을 피함</system:String>
-    <system:String x:Key="BlackFlowRulePreserveWhiteModelBird">백모 새를 보존하고 가공품 이동이 필요한 선택적 전투를 피함</system:String>
+    <system:String x:Key="BlackFlowRuleAvoidEmptyScrapShop">오리지늄각뿔·종자·판매 가능한 부품이 없을 때는 신비한 상인을 피함</system:String>
+    <system:String x:Key="BlackFlowRulePreserveWhiteModelBird">하얀 새 모형을 보존하고 가공품 이동이 필요한 선택적 전투를 피함</system:String>
     <system:String x:Key="BlackFlowRuleTriggerBossProcessingBonus">가공품을 사용해 보스 노드에 진입해 전투 보너스 발동</system:String>
     <system:String x:Key="BlackFlowRuleExitWhenRequired">성장이 끝났거나 안전 여유가 부족해 출구로 이동</system:String>
-    <system:String x:Key="BlackFlowRuleEnding1AvoidLateCombat">기본 정예화 2 편성이 갖춰져 불필요한 전투를 피함</system:String>
-    <system:String x:Key="BlackFlowRuleBabyUseProcessingItemForFloor1Shop">1층에서 가공품을 사용해 일반 상점으로 이동</system:String>
-    <system:String x:Key="BlackFlowRuleBabyWalkAfterFloor1Shop">1층은 일반 상점 확인 후 도보로 탐색하고 가공품을 보존</system:String>
-    <system:String x:Key="BlackFlowRuleBabyDelayExitBeforeFloor3">3층 전까지 성장 여지가 있어 출구 이동을 보류</system:String>
-    <system:String x:Key="BlackFlowRuleBabyExitBeforeFloor3WhenRequired">3층 전에 성장이 끝났거나 안전 여유가 부족해 출구로 이동</system:String>
-    <system:String x:Key="BlackFlowRuleBabyAvoidCombat">다른 안전한 선택지가 있는 동안은 전투 노드를 피함</system:String>
+    <system:String x:Key="BlackFlowRuleEnding1AvoidLateCombat">기본 2차 정예화 편성이 갖춰져 불필요한 전투를 피함</system:String>
+    <system:String x:Key="BlackFlowRuleBabyUseProcessingItemForFloor1Shop">1구역에서 가공품을 사용해 교활한 상인으로 이동</system:String>
+    <system:String x:Key="BlackFlowRuleBabyWalkAfterFloor1Shop">1구역은 교활한 상인 확인 후 도보로 탐색하고 가공품을 보존</system:String>
+    <system:String x:Key="BlackFlowRuleBabyDelayExitBeforeFloor3">3구역 전까지 성장 여지가 있어 출구 이동을 보류</system:String>
+    <system:String x:Key="BlackFlowRuleBabyExitBeforeFloor3WhenRequired">3구역 전에 성장이 끝났거나 안전 여유가 부족해 출구로 이동</system:String>
+    <system:String x:Key="BlackFlowRuleBabyAvoidCombat">다른 안전한 선택지가 있는 동안은 작전 노드를 피함</system:String>
     <system:String x:Key="BlackFlowRuleLightRevealsThree">깃털 조망점에서 미확인 대형 노드 3개 이상을 밝힐 것으로 예상</system:String>
     <system:String x:Key="BlackFlowRuleInvestmentKeepShortWalk">상점이 2칸 이내면 도보 유지</system:String>
     <system:String x:Key="BlackFlowRuleInvestmentUseM11ForDirectShop">짧은 도보 경로가 없으면 구조적 원리로 상점에 직행</system:String>
-    <system:String x:Key="BlackFlowRuleBurnRequireShopWhenFlightGuaranteed">정예화 2 기계사가 확정되는 시작 구성에서는 1층 경로가 상점을 지나야 함</system:String>
-    <system:String x:Key="BlackFlowRuleBurnRequireFlightOnFloor2">이 시작 구성에서는 2층을 구조적 원리로 출구까지 직행</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">1층은 전투 우선</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">1층은 미지의 괴이를 최대한 탐색</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">2층은 한발 앞서 우선</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">2층은 비경 행상인 우선</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">2층은 미지의 괴이를 최대한 탐색</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Employ">2층은 가는 길에 응급 지원 경유</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Light">2층은 가는 길에 깃털 조망점 경유</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Wish">2층은 가는 길에 소원 성취 경유</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1LateDuel">3~5층은 협로의 조우 우선</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1LateExpedition">3~5층은 한발 앞서 우선</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1LateScrapShop">3~5층은 비경 행상인 우선</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1LateEmploy">3~5층은 응급 지원 우선</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1LateHidden">3~5층은 미지의 괴이를 최대한 탐색</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1LateIncident">3~5층은 뜻밖의 만남을 최대한 경유</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1LateCombat">3~5층은 가는 길에 전투 노드 경유</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1LateLight">3~5층은 가는 길에 깃털 조망점 경유</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1LateWish">3~5층은 가는 길에 소원 성취 경유</system:String>
-    <system:String x:Key="BlackFlowMilestoneInvestmentShop">1층 고정 상점에 들어가 투자 완료</system:String>
-    <system:String x:Key="BlackFlowMilestoneBurnFloor1Shop">1층 상점 진입</system:String>
-    <system:String x:Key="BlackFlowMilestoneBurnFloor1Final">1층 험로의 끝 도달</system:String>
-    <system:String x:Key="BlackFlowMilestoneBurnFloor2Final">2층 험로의 끝 도달</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyCheckSeedShop">1층 상점에서 씨앗 확인</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">1~3층 비경 행상인에 들어가 씨앗 육성</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">비경 행상인을 발견할 때까지 미지의 괴이를 최대한 개척</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">가는 길에 뜻밖의 만남 진입</system:String>
+    <system:String x:Key="BlackFlowRuleBurnRequireShopWhenFlightGuaranteed">2차 정예화 메커니스트가 확정되는 시작 구성에서는 1구역 경로가 상점을 지나야 함</system:String>
+    <system:String x:Key="BlackFlowRuleBurnRequireFlightOnFloor2">이 시작 구성에서는 2구역을 구조적 원리로 출구까지 직행</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">1구역은 작전 우선</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">1구역은 미지의 괴이를 최대한 탐색</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">2구역은 앞서 출발 우선</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">2구역은 신비한 상인 우선</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">2구역은 미지의 괴이를 최대한 탐색</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Employ">2구역은 가는 길에 응급 조력 경유</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Light">2구역은 가는 길에 깃털 조망점 경유</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Wish">2구역은 가는 길에 소원성취 경유</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateDuel">3~5구역은 외나무다리 우선</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateExpedition">3~5구역은 앞서 출발 우선</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateScrapShop">3~5구역은 신비한 상인 우선</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateEmploy">3~5구역은 응급 조력 우선</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateHidden">3~5구역은 미지의 괴이를 최대한 탐색</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateIncident">3~5구역은 우연한 만남을 최대한 경유</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateCombat">3~5구역은 가는 길에 작전 노드 경유</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateLight">3~5구역은 가는 길에 깃털 조망점 경유</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateWish">3~5구역은 가는 길에 소원성취 경유</system:String>
+    <system:String x:Key="BlackFlowMilestoneInvestmentShop">1구역 고정 상점에 들어가 투자 완료</system:String>
+    <system:String x:Key="BlackFlowMilestoneBurnFloor1Shop">1구역 상점 진입</system:String>
+    <system:String x:Key="BlackFlowMilestoneBurnFloor1Final">1구역 험로의 끝 도달</system:String>
+    <system:String x:Key="BlackFlowMilestoneBurnFloor2Final">2구역 험로의 끝 도달</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCheckSeedShop">1구역 상점에서 종자 확인</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">1~3구역 신비한 상인에 들어가 종자 육성</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">신비한 상인을 발견할 때까지 미지의 괴이를 최대한 개척</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">가는 길에 우연한 만남 진입</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyVisitLight">가는 길에 깃털 조망점 진입</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">2층은 일반 상점 경유 시 씨앗 계속 획득</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">3층은 일반 상점 경유 시 판매·진열 갱신 후 씨앗 최대한 구매</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">2구역은 교활한 상인 경유 시 종자 계속 획득</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">3구역은 교활한 상인 경유 시 판매·진열 갱신 후 종자 최대한 구매</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">사판 A 획득</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableB">사판 B 획득</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding2Fate">5층 운명이 가리키는 곳 진입 후 제2 엔딩 완료</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding3DeviceOption2">한발 앞서에서 두 번째 선택지를 골라 제3 엔딩용 수집품 획득</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding3Relics">제3 엔딩 난이도를 낮추는 특수 수집품 3개 획득</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding3Floor5Boss">5층 보스 전투 완료</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding3Floor6">6층에서 제3 엔딩 완료</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding2Fate">5구역 운명의 암시 진입 후 제2 엔딩 완료</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3DeviceOption2">앞서 출발에서 두 번째 선택지를 골라 제3 엔딩용 소장품 획득</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3Relics">제3 엔딩 난이도를 낮추는 특수 소장품 3개 획득</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3Floor5Boss">5구역 보스 전투 완료</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding3Floor6">6구역에서 제3 엔딩 완료</system:String>
     <system:String x:Key="BlackFlowOutcomeInvestmentCompleted">투자 경로 완료</system:String>
     <system:String x:Key="BlackFlowOutcomeInvestmentMissed">투자 경로 놓침</system:String>
-    <system:String x:Key="BlackFlowOutcomeFloor3RouteCompleted">3층 속달 경로 완료</system:String>
+    <system:String x:Key="BlackFlowOutcomeFloor3RouteCompleted">3구역 속달 경로 완료</system:String>
     <system:String x:Key="BlackFlowOutcomeBabyCultivationCompleted">목표 포대기 동물 육성 완료</system:String>
     <system:String x:Key="BlackFlowOutcomeBabyCultivationTargetMissed">목표 포대기 동물을 획득하지 못함</system:String>
-    <system:String x:Key="BlackFlowOutcomeBabyNoSeed">씨앗을 획득하지 못함</system:String>
+    <system:String x:Key="BlackFlowOutcomeBabyNoSeed">종자를 획득하지 못함</system:String>
     <system:String x:Key="BlackFlowOutcomeEndingPrerequisiteFailed">엔딩 선행 조건 미충족</system:String>
     <system:String x:Key="BlackFlowOutcomeStrategyCompleted">이번 판 전략 목표 완료</system:String>
     <system:String x:Key="BlackFlowOutcomePageRecoveryFailed">지도로 돌아갈 수 없음</system:String>
@@ -1565,7 +1565,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowOutcomePlanningRetryExhausted">경로 재계획 횟수를 모두 소진함</system:String>
     <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">화면 진행이 더 이상 불가능함</system:String>
     <system:String x:Key="BlackFlowOutcomeMapRecoveryExhausted">지도 복구 재시도 횟수를 모두 소진함</system:String>
-    <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">층 인식 실패</system:String>
+    <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">구역 인식 실패</system:String>
     <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">이동 가공품 인식 실패</system:String>
     <system:String x:Key="BlackFlowOutcomeMovementSelectionFailed">이동 가공품 선택 실패</system:String>
     <system:String x:Key="BlackFlowOutcomeNodeDispatchFailed">노드 배치 실패</system:String>
@@ -1573,22 +1573,22 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowOutcomeInternalFailure">내부 상태 오류</system:String>
     <system:String x:Key="BlackFlowOutcomeUnknown">로그라이크에서 오류가 발생했습니다</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentFinished">투자가 완료되어 이번 판 종료</system:String>
-    <system:String x:Key="BlackFlowTerminationInvestmentShopWindowClosed">1층을 떠났는데 투자하지 않아 이번 판 재시작</system:String>
-    <system:String x:Key="BlackFlowTerminationFloor3Reached">3층에 도달해 이번 경로 완료</system:String>
+    <system:String x:Key="BlackFlowTerminationInvestmentShopWindowClosed">1구역을 떠났는데 투자하지 않아 이번 판 재시작</system:String>
+    <system:String x:Key="BlackFlowTerminationFloor3Reached">3구역에 도달해 이번 경로 완료</system:String>
     <system:String x:Key="BlackFlowTerminationCultivationReported">육성 결과를 받아 이번 판 종료</system:String>
     <system:String x:Key="BlackFlowTerminationCultivationTargetObtained">육성 결과에 목표 품종이 포함되어 작업 종료</system:String>
     <system:String x:Key="BlackFlowTerminationCultivationTargetNotObtained">육성 결과에 목표 품종이 없어 이번 판 재시작</system:String>
-    <system:String x:Key="BlackFlowTerminationFloor1ShopNoSeed">1층 상점에 씨앗이 없어 이번 판 종료</system:String>
+    <system:String x:Key="BlackFlowTerminationFloor1ShopNoSeed">1구역 상점에 종자가 없어 이번 판 종료</system:String>
     <system:String x:Key="BlackFlowTerminationMandatoryPrerequisiteMissed">반드시 필요한 엔딩 선행 조건을 놓침</system:String>
     <system:String x:Key="BlackFlowTerminationStrategyTerminalReached">전략 종점에 도달함</system:String>
     <system:String x:Key="BlackFlowTerminationNodePageRecoveryFailed">노드 화면에서 지도로 돌아갈 수 없음</system:String>
     <system:String x:Key="BlackFlowTerminationEnding2Completed">제2 엔딩 전투 완료</system:String>
     <system:String x:Key="BlackFlowTerminationEnding3Completed">제3 엔딩 전투 완료</system:String>
-    <system:String x:Key="BlackFlowTerminationEnding2PrerequisiteMissing">5층 전까지 제2 엔딩 사판 요건을 충족하지 못함</system:String>
-    <system:String x:Key="BlackFlowTerminationEnding3RelicMissing">5층 전까지 제3 엔딩용 수집품을 획득하지 못함</system:String>
-    <system:String x:Key="BlackFlowTerminationNoBoskyPassage">3층에서 잘못 들어간 기경을 발견하지 못해 이번 경로 완료</system:String>
-    <system:String x:Key="BlackFlowTerminationActionPointsExhaustedBeforeCultivation">3층에서 행동력이 소진되어 육성을 완료하지 못함</system:String>
-    <system:String x:Key="BlackFlowTerminationScrapShopNeverReached">비경 행상인에 도달하지 못해 이번 판 종료</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding2PrerequisiteMissing">5구역 전까지 제2 엔딩 사판 요건을 충족하지 못함</system:String>
+    <system:String x:Key="BlackFlowTerminationEnding3RelicMissing">5구역 전까지 제3 엔딩용 소장품을 획득하지 못함</system:String>
+    <system:String x:Key="BlackFlowTerminationNoBoskyPassage">3구역에서 잘못 들어선 비경을 발견하지 못해 이번 경로 완료</system:String>
+    <system:String x:Key="BlackFlowTerminationActionPointsExhaustedBeforeCultivation">3구역에서 행동력이 소진되어 육성을 완료하지 못함</system:String>
+    <system:String x:Key="BlackFlowTerminationScrapShopNeverReached">신비한 상인에 도달하지 못해 이번 판 종료</system:String>
     <system:String x:Key="BlackFlowTerminationRecoveryPortUnavailable">지도 복구 인터페이스를 사용할 수 없음</system:String>
     <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">지도 인식·작업 인터페이스를 사용할 수 없음</system:String>
     <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">지도 재구축 2회 연속 실패</system:String>
@@ -1603,7 +1603,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RoguelikeInvestment">각뿔 투자: {1}(+{0}), 예금: {2}</system:String>
     <system:String x:Key="RoguelikeInvestmentReachLimit">설정된 오리지늄각뿔 투자 횟수({0}) 도달, 탐험을 종료합니다</system:String>
     <system:String x:Key="RoguelikeInvestmentReachFull">오리지늄각뿔 투자가 완료되어 탐험을 종료합니다</system:String>
-    <system:String x:Key="RoguelikeSettlement">{key=AutoRoguelike} 종착점: {0}\n클리어 : {1} 구역 {2} 노드\n전투 횟수: {3} 일반 / {4} 정예 / {5} 리더\n모집 횟수 : {6} 회\n수집: {7}\n난이도: {8}\n점수: {9}\n경험치: {10}, 스킬: {11}</system:String>
+    <system:String x:Key="RoguelikeSettlement">{key=AutoRoguelike} 종착점: {0}\n클리어 : {1} 구역 {2} 노드\n전투 횟수: {3} 일반 / {4} 정예 / {5} 리더\n모집 횟수 : {6} 회\n소장: {7}\n난이도: {8}\n점수: {9}\n경험치: {10}, 스킬: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">붕괴 패러다임 심화: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">붕괴 패러다임 {0}가 {1}로 심화되었습니다</system:String>
     <system:String x:Key="RoguelikeLoseParadigm">붕괴 패러다임 소멸: {1}</system:String>
