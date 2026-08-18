@@ -1233,7 +1233,6 @@ bool asst::BattleFormationTask::do_operbox_precheck()
             }
         }
 
-        const auto& all_chars = BattleData.get_all_chars();
         auto try_borrow = [&](const std::string& borrow_id) -> bool {
             auto cur_data = oper_data;
             std::erase_if(cur_data, [&](const OperBoxInfo& o) { return o.id == borrow_id; });
