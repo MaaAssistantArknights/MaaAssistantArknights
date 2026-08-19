@@ -28,14 +28,8 @@ public class SelectableGenericCombinedData<TValueType> : GenericCombinedData<TVa
     {
     }
 
-    private bool _isEnabled = true;
-
     /// <summary>
     /// Gets or sets a value indicating whether this item is selectable.
     /// </summary>
-    public bool IsEnabled
-    {
-        get => _isEnabled;
-        set => SetAndNotify(ref _isEnabled, value);
-    }
+    public bool IsEnabled { get; set => SetAndNotify(ref field, value); } = true;
 }
