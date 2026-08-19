@@ -3,8 +3,10 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <limits>
 #include <optional>
 #include <string_view>
+#include <unordered_set>
 #include <utility>
 
 #include "MaaUtils/NoWarningCV.hpp"
@@ -15,7 +17,6 @@
 #include "Status.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
-#include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 
 namespace
@@ -33,10 +34,11 @@ constexpr std::array<std::string_view, 4> MiniDormLevelRoiTasks = {
     "InfrastInfoMiniDorm3Level",
     "InfrastInfoMiniDorm4Level",
 };
-constexpr std::array<std::pair<std::string_view, std::string_view>, 3> MiniStationTypeTasks = {
-    std::pair { "Mfg", "InfrastInfoMiniMfgType" },
-    std::pair { "Trade", "InfrastInfoMiniTradeType" },
-    std::pair { "Power", "InfrastInfoMiniPowerType" },
+constexpr std::array<std::pair<std::string_view, std::string_view>, 4> MiniRightLevelRoiTasks = {
+    std::pair { "Reception", "InfrastInfoMiniReceptionLevel" },
+    std::pair { "Office", "InfrastInfoMiniOfficeLevel" },
+    std::pair { "Processing", "InfrastInfoMiniProcessingLevel" },
+    std::pair { "Training", "InfrastInfoMiniTrainingLevel" },
 };
 constexpr double NormalLevelTemplateScale = 1.45;
 constexpr int StationMaxLevel = 3;
@@ -56,30 +58,16 @@ std::string_view level_task_name(std::string_view facility)
     return "InfrastInfoDormLevel";
 }
 
-std::optional<std::string_view> recognize_mini_station_type(const cv::Mat& image, const asst::Rect& roi)
+asst::Point center_of(const asst::Rect& rect)
 {
-    std::optional<std::string_view> result;
-    double best_score = 0;
-    for (const auto& [facility, task_name] : MiniStationTypeTasks) {
-        asst::Matcher matcher(image);
-        matcher.set_task_info(asst::Task.get(task_name));
-        matcher.set_roi(roi);
-        const auto match = matcher.analyze();
-        if (!match || match->score <= best_score) {
-            continue;
-        }
-        best_score = match->score;
-        result = facility;
-    }
-    return result;
+    return { rect.x + rect.width / 2, rect.y + rect.height / 2 };
 }
 
-bool recognize_mini_dorm(const cv::Mat& image, const asst::Rect& roi)
+int squared_distance(const asst::Point& lhs, const asst::Point& rhs)
 {
-    asst::Matcher matcher(image);
-    matcher.set_task_info("InfrastInfoMiniDormType");
-    matcher.set_roi(roi);
-    return matcher.analyze().has_value();
+    const int dx = lhs.x - rhs.x;
+    const int dy = lhs.y - rhs.y;
+    return dx * dx + dy * dy;
 }
 
 int recognize_level(
@@ -122,37 +110,106 @@ int recognize_level(
 
 bool recognize_mini_layout(
     const cv::Mat& image,
+    const asst::InfrastFacilityImageAnalyzer& analyzer,
     std::unordered_map<std::string, std::vector<asst::infrast::FacilityInfo>>& facilities)
 {
-    for (const auto& roi_task_name : MiniStationLevelRoiTasks) {
-        const auto roi_task = asst::Task.get(roi_task_name);
-        const auto facility = recognize_mini_station_type(image, roi_task->roi);
-        if (!facility) {
+    // 设施分析器负责确定设施类别和数量，固定资源 ROI 只提供最小视图各槽位的等级标记区域。
+    std::unordered_set<size_t> used_station_slots;
+    for (const auto& facility_name : { "Mfg", "Trade", "Power" }) {
+        const auto iter = analyzer.get_result().find(facility_name);
+        if (iter == analyzer.get_result().end()) {
             continue;
         }
-        const int level =
-            recognize_level(image, level_task_name(*facility), roi_task->roi, ViewType::Mini, StationMaxLevel);
-        if (level == 0) {
-            return false;
+        for (const auto& match : iter->second) {
+            size_t best_slot = MiniStationLevelRoiTasks.size();
+            int best_distance = (std::numeric_limits<int>::max)();
+            for (size_t index = 0; index < MiniStationLevelRoiTasks.size(); ++index) {
+                if (used_station_slots.contains(index)) {
+                    continue;
+                }
+                const auto roi_task = asst::Task.get(MiniStationLevelRoiTasks[index]);
+                const int distance = squared_distance(center_of(match.rect), center_of(roi_task->roi));
+                if (distance < best_distance) {
+                    best_slot = index;
+                    best_distance = distance;
+                }
+            }
+            if (best_slot == MiniStationLevelRoiTasks.size()) {
+                Log.warn("no free mini station level ROI", facility_name, match.rect);
+                return false;
+            }
+
+            const auto roi_task = asst::Task.get(MiniStationLevelRoiTasks[best_slot]);
+            const int level = recognize_level(
+                image,
+                level_task_name(facility_name),
+                roi_task->roi,
+                ViewType::Mini,
+                StationMaxLevel);
+            if (level == 0) {
+                return false;
+            }
+            used_station_slots.emplace(best_slot);
+            facilities[facility_name].push_back({ match.rect, level });
         }
-        facilities[std::string(*facility)].push_back({ roi_task->specific_rect, level });
     }
 
-    for (const auto& roi_task_name : MiniDormLevelRoiTasks) {
-        const auto roi_task = asst::Task.get(roi_task_name);
-        if (!recognize_mini_dorm(image, roi_task->roi)) {
+    const auto dorm_iter = analyzer.get_result().find("Dorm");
+    if (dorm_iter != analyzer.get_result().end()) {
+        std::unordered_set<size_t> used_slots;
+        for (const auto& match : dorm_iter->second) {
+            size_t best_slot = MiniDormLevelRoiTasks.size();
+            int best_distance = (std::numeric_limits<int>::max)();
+            for (size_t index = 0; index < MiniDormLevelRoiTasks.size(); ++index) {
+                if (used_slots.contains(index)) {
+                    continue;
+                }
+                const auto roi_task = asst::Task.get(MiniDormLevelRoiTasks[index]);
+                const int distance = squared_distance(center_of(match.rect), center_of(roi_task->roi));
+                if (distance < best_distance) {
+                    best_slot = index;
+                    best_distance = distance;
+                }
+            }
+            if (best_slot == MiniDormLevelRoiTasks.size()) {
+                Log.warn("no free mini dorm level ROI", match.rect);
+                return false;
+            }
+
+            const auto roi_task = asst::Task.get(MiniDormLevelRoiTasks[best_slot]);
+            const int level = recognize_level(
+                image,
+                level_task_name("Dorm"),
+                roi_task->roi,
+                ViewType::Mini,
+                DormMaxLevel);
+            if (level == 0) {
+                return false;
+            }
+            used_slots.emplace(best_slot);
+            facilities["Dorm"].push_back({ match.rect, level });
+        }
+    }
+
+    // 右侧四类设施共用白色等级标记，资源任务保存相对于设施匹配矩形的标记区域。
+    for (const auto& [facility_name, roi_task_name] : MiniRightLevelRoiTasks) {
+        const auto iter = analyzer.get_result().find(std::string(facility_name));
+        if (iter == analyzer.get_result().end()) {
             continue;
         }
-        const int level = recognize_level(
-            image,
-            level_task_name("Dorm"),
-            roi_task->roi,
-            ViewType::Mini,
-            DormMaxLevel);
-        if (level == 0) {
-            return false;
+        const auto roi_task = asst::Task.get(roi_task_name);
+        for (const auto& match : iter->second) {
+            const int level = recognize_level(
+                image,
+                roi_task_name,
+                match.rect.move(roi_task->rect_move),
+                ViewType::Mini,
+                StationMaxLevel);
+            if (level == 0) {
+                return false;
+            }
+            facilities[std::string(facility_name)].push_back({ match.rect, level });
         }
-        facilities["Dorm"].push_back({ roi_task->specific_rect, level });
     }
     return true;
 }
@@ -332,16 +389,24 @@ bool asst::InfrastInfoTask::_run()
         std::unordered_map<std::string, std::vector<infrast::FacilityInfo>> facilities;
         const bool levels_recognized =
             analyzer.get_view_type() == ViewType::Mini
-                ? recognize_mini_layout(image, facilities)
+                ? recognize_mini_layout(image, analyzer, facilities)
                 : recognize_normal_layout(image, analyzer, facilities);
 
-        for (const auto& name : { "Control", "Reception", "Office", "Processing", "Training" }) {
-            if (const auto iter = analyzer.get_result().find(name); iter != analyzer.get_result().end()) {
-                auto& output = facilities[name];
-                std::ranges::transform(iter->second, std::back_inserter(output), [](const MatchRect& match) {
-                    return infrast::FacilityInfo { match.rect, 0 };
-                });
+        if (analyzer.get_view_type() != ViewType::Mini) {
+            for (const auto& name : { "Reception", "Office", "Processing", "Training" }) {
+                if (const auto iter = analyzer.get_result().find(name); iter != analyzer.get_result().end()) {
+                    auto& output = facilities[name];
+                    std::ranges::transform(iter->second, std::back_inserter(output), [](const MatchRect& match) {
+                        return infrast::FacilityInfo { match.rect, 0 };
+                    });
+                }
             }
+        }
+        if (const auto iter = analyzer.get_result().find("Control"); iter != analyzer.get_result().end()) {
+            auto& output = facilities["Control"];
+            std::ranges::transform(iter->second, std::back_inserter(output), [](const MatchRect& match) {
+                return infrast::FacilityInfo { match.rect, 0 };
+            });
         }
 
         const auto layout_counts = count_facilities(facilities);
@@ -383,19 +448,28 @@ bool asst::InfrastInfoTask::_run()
         }
 
         int recognized_level_sum = 0;
-        for (const auto& name : { "Mfg", "Trade", "Power", "Dorm" }) {
-            for (const auto& facility : m_task_data->facilities[name]) {
+        for (const auto& [name, facility_list] : m_task_data->facilities) {
+            if (name == "Control") {
+                continue;
+            }
+            for (const auto& facility : facility_list) {
                 recognized_level_sum += facility.level;
             }
         }
-        // 控制中枢等级由宿舍数量推导；其他右侧设施按已识别设施的平均升级比例估算。
-        const int recognized_max_level =
-            static_cast<int>(layout_counts.production_count() * StationMaxLevel + layout_counts.dorm * DormMaxLevel);
-        const int unrecognized_right_max_level = static_cast<int>(
-            (layout_counts.reception + layout_counts.office + layout_counts.processing + layout_counts.training) *
-            StationMaxLevel);
-        const int estimated_right_level = static_cast<int>(std::round(
-            recognized_level_sum * static_cast<double>(unrecognized_right_max_level) / recognized_max_level));
+        // 控制中枢等级由宿舍数量推导。普通视图没有固定的右侧等级 ROI，
+        // 因此保留原有的比例估算；最小视图则使用右侧资源 ROI 的实际识别结果。
+        int estimated_right_level = 0;
+        if (analyzer.get_view_type() == ViewType::Normal) {
+            const int recognized_max_level = static_cast<int>(
+                layout_counts.production_count() * StationMaxLevel + layout_counts.dorm * DormMaxLevel);
+            const int right_facility_count = static_cast<int>(
+                layout_counts.reception + layout_counts.office + layout_counts.processing + layout_counts.training);
+            if (recognized_max_level > 0) {
+                estimated_right_level = static_cast<int>(std::round(
+                    recognized_level_sum * static_cast<double>(right_facility_count * StationMaxLevel) /
+                    recognized_max_level));
+            }
+        }
         const int control_level = get_count("Dorm") + 1;
         m_task_data->total_station_level = recognized_level_sum + estimated_right_level + control_level;
         return true;

@@ -2427,56 +2427,28 @@
         ]
     },
     "InfrastInfoMfgLevel": {
-        "template": "ManufacturingLevel.png",
+        "template": "ManufacturingLevelMini.png",
         "templThreshold": 0.8,
         "maskRange": [1, 255],
         "rectMove": [102, 14, 35, 27]
     },
     "InfrastInfoTradeLevel": {
-        "template": "TradeLevel.png",
+        "template": "TradeLevelMini.png",
         "templThreshold": 0.8,
         "maskRange": [1, 255],
         "rectMove": [102, 14, 35, 27]
     },
     "InfrastInfoPowerLevel": {
-        "template": "PowerLevel.png",
+        "template": "PowerLevelMini.png",
         "templThreshold": 0.8,
         "maskRange": [1, 255],
         "rectMove": [102, 14, 35, 27]
     },
     "InfrastInfoDormLevel": {
-        "template": "DormLevel.png",
-        "templThreshold": 0.8,
+        "template": "DormLevelMini.png",
+        "templThreshold": 0.65,
         "maskRange": [1, 255],
         "rectMove": [64, 13, 50, 28]
-    },
-    "InfrastInfoMiniMfgType": {
-        "template": "ManufacturingLevel.png",
-        "templThreshold": 0.5,
-        "maskRange": [1, 255],
-        "method": "RGBCount",
-        "colorScales": [[[180, 130, 0], [255, 255, 100]]]
-    },
-    "InfrastInfoMiniTradeType": {
-        "template": "TradeLevel.png",
-        "templThreshold": 0.5,
-        "maskRange": [1, 255],
-        "method": "RGBCount",
-        "colorScales": [[[0, 130, 180], [120, 255, 255]]]
-    },
-    "InfrastInfoMiniPowerType": {
-        "template": "PowerLevel.png",
-        "templThreshold": 0.5,
-        "maskRange": [1, 255],
-        "method": "RGBCount",
-        "colorScales": [[[130, 190, 40], [255, 255, 180]]]
-    },
-    "InfrastInfoMiniDormType": {
-        "template": "DormLevel.png",
-        "templThreshold": 0.5,
-        "maskRange": [1, 255],
-        "method": "RGBCount",
-        "colorScales": [[[180, 180, 180], [255, 255, 255]]]
     },
     "InfrastInfoMiniStation1Level": {
         "algorithm": "JustReturn",
@@ -2542,6 +2514,34 @@
         "algorithm": "JustReturn",
         "roi": [729, 525, 35, 21],
         "specificRect": [779, 543, 1, 1]
+    },
+    "InfrastInfoMiniReceptionLevel": {
+        "doc": "最小视图会客室标题右侧的三级等级标记",
+        "template": "DormLevelMini.png",
+        "templThreshold": 0.65,
+        "maskRange": [1, 255],
+        "rectMove": [52, -4, 35, 26]
+    },
+    "InfrastInfoMiniOfficeLevel": {
+        "doc": "最小视图办公室标题右侧的三级等级标记",
+        "template": "DormLevelMini.png",
+        "templThreshold": 0.65,
+        "maskRange": [1, 255],
+        "rectMove": [56, 3, 35, 26]
+    },
+    "InfrastInfoMiniProcessingLevel": {
+        "doc": "最小视图加工站标题右侧的三级等级标记",
+        "template": "DormLevelMini.png",
+        "templThreshold": 0.65,
+        "maskRange": [1, 255],
+        "rectMove": [60, 4, 35, 26]
+    },
+    "InfrastInfoMiniTrainingLevel": {
+        "doc": "最小视图训练室标题右侧的三级等级标记",
+        "template": "DormLevelMini.png",
+        "templThreshold": 0.65,
+        "maskRange": [1, 255],
+        "rectMove": [56, 3, 35, 26]
     },
     "InfrastInfoZoomOutPointer0": {
         "algorithm": "JustReturn",
