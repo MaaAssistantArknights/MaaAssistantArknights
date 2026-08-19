@@ -89,7 +89,10 @@ public:
 
     bool set_specific_support_unit(const std::string& name = ""); // 设置指定助战干员
 
-    void set_operbox_data(std::optional<std::vector<OperBoxInfo>> data) { m_operbox_data = std::move(data); }
+    void set_assigned_groups(std::optional<battle::copilot::OperUsageGroups> groups)
+    {
+        m_assigned_groups = std::move(groups);
+    }
 
 protected:
     using OperGroup = battle::copilot::OperUsageGroup;
@@ -176,11 +179,7 @@ protected:
     // ————————————————————————————————
     // 干员识别辅助编队相关
     // ————————————————————————————————
-    std::optional<std::vector<OperBoxInfo>> m_operbox_data;
-
-    bool is_operbox_for_assignment() const { return m_operbox_data.has_value() && m_ignore_requirements; }
-
-    bool do_operbox_precheck();
+    std::optional<battle::copilot::OperUsageGroups> m_assigned_groups;
 
 private:
     static constexpr battle::Role Roles[] = { battle::Role::Caster,  battle::Role::Medic,   battle::Role::Pioneer,

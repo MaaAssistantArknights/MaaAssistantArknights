@@ -11,7 +11,6 @@
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
 #include "Task/ProcessTask.h"
-#include "Utils/BipartiteMatch.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/OperNameAnalyzer.h"
@@ -60,9 +59,6 @@ bool asst::BattleFormationTask::_run()
 
     m_used_support_unit = false;
     if (!parse_formation()) {
-        return false;
-    }
-    if (!do_operbox_precheck()) {
         return false;
     }
     if (compare_formation()) { // 与上一个作业的编队进行对比，相同则跳过
@@ -856,6 +852,9 @@ bool asst::BattleFormationTask::parse_formation()
     if (m_data_resource == DataResource::SSSCopilot) {
         groups = &SSSCopilot.get_data().groups;
     }
+    if (m_assigned_groups) {
+        groups = &m_assigned_groups.value();
+    }
 
     std::swap(m_formation, m_formation_last);
     m_formation.clear();
@@ -1102,219 +1101,4 @@ std::optional<std::string> asst::BattleFormationTask::add_support_unit_from_supp
     }
 
     return std::nullopt;
-}
-
-bool asst::BattleFormationTask::do_operbox_precheck()
-{
-    LogTraceFunction;
-
-    if (!is_operbox_for_assignment()) {
-        return true;
-    }
-    const auto& oper_data = *m_operbox_data;
-
-    std::vector<OperGroup*> flat_groups;
-    for (auto& [role, oper_groups] : m_formation) {
-        for (auto& group : oper_groups) {
-            flat_groups.emplace_back(&group);
-        }
-    }
-    if (flat_groups.empty()) {
-        return true;
-    }
-
-    auto can_match = [](OperGroup* group, const OperBoxInfo& info) { // 目前只考虑忽略干员练度情况
-        if (!info.own || info.id.empty()) {
-            return false;
-        }
-        auto it = std::ranges::find_if(group->opers, [&](const battle::OperUsage& op) {
-            // !!! 要用干员的 id 而不是 name，干员识别的 name 可能不是中文
-            if (BattleData.get_id(op.role, op.name) != info.id) {
-                return false;
-            }
-            if (op.requirements.elite <= 0 && op.requirements.level <= 0) {
-                return true;
-            }
-            return info.elite >= op.requirements.elite;
-        });
-        return it != group->opers.end();
-    };
-
-    // 使用二分图最大权匹配算法，尝试将干员组与可用干员进行匹配
-    auto result = algorithm::bipartite::bipartite_max_match<OperGroup*, OperBoxInfo>(flat_groups, oper_data, can_match);
-
-    LogInfo << __FUNCTION__ << "| matched" << result.matched.size() << "groups, unmatched"
-            << result.unmatched_left.size() << "groups";
-
-    // 匹配的干员组
-    std::unordered_map<std::string, std::string> assigned;
-    json::array matched_groups;
-    for (const auto& [left, right] : result.matched) {
-        assigned[flat_groups[left]->name] = oper_data[right].id;
-        std::string oper_name = BattleData.find_oper_by_id(oper_data[right].id)->name;
-        auto req_it = std::ranges::find_if(flat_groups[left]->opers, [&](const battle::OperUsage& op) {
-            return BattleData.get_id(op.role, op.name) == oper_data[right].id;
-        });
-        LogInfo << __FUNCTION__ << "| Matched group:" << flat_groups[left]->name << "with oper:" << oper_name
-                << ". Usage elite:" << req_it->requirements.elite << ", level:" << req_it->requirements.level
-                << ", skill:" << req_it->skill << ". Operbox elite:" << oper_data[right].elite
-                << ", level:" << oper_data[right].level;
-        matched_groups.emplace_back(
-            std::unordered_map<std::string, std::string> { { "group_name", flat_groups[left]->name },
-                                                           { "oper_name", oper_name } });
-    }
-    if (!matched_groups.empty()) {
-        json::value info = basic_info_with_what("BattleFormationOperboxMatched");
-        info["details"]["matched_groups"] = std::move(matched_groups);
-        callback(AsstMsg::SubTaskExtraInfo, info);
-    }
-
-    // 没有未匹配的干员组
-    if (result.unmatched_left.empty()) {
-        for (const auto& [left, right] : result.matched) {
-            auto req_it = std::ranges::find_if(flat_groups[left]->opers, [&](const battle::OperUsage& op) {
-                return BattleData.get_id(op.role, op.name) == oper_data[right].id;
-            });
-            flat_groups[left]->opers = { *req_it }; // 只保留匹配的干员
-        }
-        return true;
-    }
-
-    // 只有一个未匹配的干员组
-    std::string unmatched_group_name;
-    if (result.unmatched_left.size() == 1) {
-        unmatched_group_name = flat_groups[result.unmatched_left[0]]->name;
-        if (m_support_unit_usage == SupportUnitUsage::None) {
-            json::value info = basic_info_with_what("BattleFormationOperbox1Unmatched");
-            info["details"]["group_name"] = unmatched_group_name;
-            callback(AsstMsg::SubTaskExtraInfo, info);
-            return false;
-        }
-
-        // 枚举作业中所有干员，尝试借助战
-        // 不能改图结构，因为可能你有一个精1的干员，但作业1个组要求精1的干员，另1个要求精2的同名干员，借助战的干员可能是精2的，网络流做不了
-        // 不知道这么写效率够不够，应该是常数很小的O(n^4)，可能跟O(n^3)的差不多
-        std::unordered_set<std::string> candidate_ids;
-        for (const auto& group : flat_groups) {
-            for (const auto& op : group->opers) {
-                auto id = BattleData.get_id(op.role, op.name);
-                if (!id.empty()) {
-                    candidate_ids.insert(id);
-                }
-            }
-        }
-
-        auto try_borrow = [&](const std::string& borrow_id) -> bool {
-            auto cur_data = oper_data;
-            std::erase_if(cur_data, [&](const OperBoxInfo& o) { return o.id == borrow_id; });
-            OperBoxInfo fake_oper {};
-            fake_oper.id = borrow_id;
-            auto oper_ptr = BattleData.find_oper_by_id(borrow_id);
-            fake_oper.name = oper_ptr->name;
-            fake_oper.rarity = oper_ptr->rarity;
-            fake_oper.elite = (fake_oper.rarity >= 3) + (fake_oper.rarity >= 4); // magic: 满练
-            fake_oper.level = 30 + (fake_oper.elite * 25) + (fake_oper.rarity > 3) * 10 * (fake_oper.rarity - 5);
-            fake_oper.potential = 6;
-            fake_oper.own = true;
-            auto insert_pos = std::ranges::lower_bound(cur_data, fake_oper, OperBoxInfo::SortCmp {}) - cur_data.begin();
-            cur_data.insert(cur_data.begin() + insert_pos, std::move(fake_oper));
-
-            auto retry =
-                algorithm::bipartite::bipartite_max_match<OperGroup*, OperBoxInfo>(flat_groups, cur_data, can_match);
-
-            if (!retry.unmatched_left.empty()) {
-                return false;
-            }
-            std::unordered_map<std::string, std::string> new_assigned;
-            for (const auto& [left, right] : retry.matched) {
-                if (cur_data[right].id == borrow_id) {
-                    LogInfo << __FUNCTION__ << "| borrow" << BattleData.find_oper_by_id(borrow_id)->name << "for"
-                            << flat_groups[left]->name;
-                    unmatched_group_name = flat_groups[left]->name;
-                    for (auto& oper : flat_groups[left]->opers) {
-                        oper.status = battle::OperStatus::Unavailable;
-                    }
-                }
-                else {
-                    new_assigned[flat_groups[left]->name] = cur_data[right].id;
-                    auto req_it = std::ranges::find_if(flat_groups[left]->opers, [&](const battle::OperUsage& op) {
-                        return BattleData.get_id(op.role, op.name) == cur_data[right].id;
-                    });
-                    flat_groups[left]->opers = { *req_it }; // 只保留匹配的干员
-                }
-            }
-            if (assigned != new_assigned) {
-                LogInfo << __FUNCTION__ << "| assigned groups changed after borrow, update:";
-                json::value info = basic_info_with_what("BattleFormationOperboxMatched");
-                json::array assigned_groups;
-                for (const auto& group : flat_groups) {
-                    if (new_assigned.find(group->name) == new_assigned.end()) {
-                        continue;
-                    }
-                    const auto& oper_id = new_assigned[group->name];
-                    auto oper_it =
-                        std::ranges::find_if(oper_data, [&](const OperBoxInfo& op) { return op.id == oper_id; });
-                    auto req_it = std::ranges::find_if(group->opers, [&](const battle::OperUsage& op) {
-                        return BattleData.get_id(op.role, op.name) == oper_id;
-                    });
-                    LogInfo << __FUNCTION__ << "| Matched group:" << group->name << "with oper:" << oper_it->name
-                            << ". Usage elite:" << req_it->requirements.elite
-                            << ", level:" << req_it->requirements.level << ", skill:" << req_it->skill
-                            << ". Operbox elite:" << oper_it->elite << ", level:" << oper_it->level;
-                    assigned_groups.emplace_back(
-                        std::unordered_map<std::string, std::string> { { "group_name", group->name },
-                                                                       { "oper_name", oper_it->name } });
-                }
-                info["details"]["matched_groups"] = std::move(assigned_groups);
-                callback(AsstMsg::SubTaskExtraInfo, info);
-            }
-            json::value info = basic_info_with_what("BattleFormationOperbox1Unmatched");
-            info["details"]["group_name"] = unmatched_group_name;
-            info["details"]["may_borrow_oper"] = BattleData.find_oper_by_id(borrow_id)->name;
-            callback(AsstMsg::SubTaskExtraInfo, info);
-            return true;
-        };
-
-        auto& unmatched_group = flat_groups[result.unmatched_left[0]];
-        for (const auto& op : unmatched_group->opers) {
-            if (need_exit()) {
-                break;
-            }
-            auto borrow_id = BattleData.get_id(op.role, op.name);
-            if (borrow_id.empty() || !candidate_ids.erase(borrow_id)) {
-                continue;
-            }
-            if (try_borrow(borrow_id)) {
-                return true;
-            }
-        }
-        for (const auto& borrow_id : candidate_ids) {
-            if (need_exit()) {
-                break;
-            }
-            if (try_borrow(borrow_id)) {
-                return true;
-            }
-        }
-        json::value info = basic_info_with_what("BattleFormationOperbox1Unmatched");
-        info["details"]["group_name"] = unmatched_group_name;
-        callback(AsstMsg::SubTaskExtraInfo, info);
-        return false;
-    }
-
-    // 多个未匹配的干员组
-    json::array unmatched_groups;
-    LogInfo << __FUNCTION__ << "|" << result.unmatched_left.size() << "slots unmatched, aborting formation";
-    for (size_t idx : result.unmatched_left) {
-        LogInfo << __FUNCTION__ << "| Unmatched slot:" << flat_groups[idx]->name;
-        unmatched_groups.emplace_back(flat_groups[idx]->name);
-    }
-    {
-        json::value info = basic_info();
-        info["why"] = "OperboxMultipleUnmatched";
-        info["details"] = json::object { { "unmatched_groups", std::move(unmatched_groups) },
-                                         { "matched_groups", std::move(matched_groups) } };
-        callback(AsstMsg::SubTaskError, info);
-    }
-    return false;
 }

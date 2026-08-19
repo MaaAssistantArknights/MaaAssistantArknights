@@ -1604,16 +1604,6 @@ public class AsstProxy
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.Irreplaceable);
                         }
                     }
-                    if (why == "OperboxMultipleUnmatched")
-                    {
-                        var unmatched = details["details"]?["unmatched_groups"]?.ToObject<List<string>>() ?? [];
-                        var sb = new StringBuilder();
-                        sb.AppendLine(LocalizationHelper.GetString("OperboxMultipleUnmatched"));
-                        foreach (var g in unmatched) {
-                            sb.AppendLine($"{g}");
-                        }
-                        Instances.CopilotViewModel.AddLog(sb.ToString().TrimEnd(), UiLogColor.Error);
-                    }
                     break;
                 }
             case "CopilotTask":
@@ -1627,6 +1617,16 @@ public class AsstProxy
                     if (what == "OperboxDataParseFailed")
                     {
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CopilotOperboxDataParseFailed"), UiLogColor.Error);
+                    }
+                    if (what == "OperboxMultipleUnmatched")
+                    {
+                        var unmatched = details["details"]?["unmatched_groups"]?.ToObject<List<string>>() ?? [];
+                        var sb = new StringBuilder();
+                        sb.AppendLine(LocalizationHelper.GetString("OperboxMultipleUnmatched"));
+                        foreach (var g in unmatched) {
+                            sb.AppendLine($"{g}");
+                        }
+                        Instances.CopilotViewModel.AddLog(sb.ToString().TrimEnd(), UiLogColor.Error);
                     }
                     break;
                 }

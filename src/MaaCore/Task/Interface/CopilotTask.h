@@ -40,6 +40,11 @@ public:
 private:
     std::optional<std::filesystem::path> parse_copilot_filename(const std::string& name);
     std::vector<OperBoxInfo> parse_operbox_data(const std::string& path);
+    using OperUsageGroups = asst::battle::copilot::OperUsageGroups;
+    std::optional<OperUsageGroups> operbox_precheck(
+        const std::vector<OperBoxInfo>& operbox_data,
+        const OperUsageGroups& formation,
+        bool use_support_unit);
 
     std::shared_ptr<MultiCopilotTaskPlugin> m_multi_copilot_plugin_ptr = nullptr;
     std::shared_ptr<ProcessTask> m_medicine_task_ptr = nullptr;

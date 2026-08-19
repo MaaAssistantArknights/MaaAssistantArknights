@@ -6,6 +6,7 @@
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/ProcessTask.h"
 #include "Task/StageNavigationHelper.h"
@@ -31,6 +32,13 @@ bool asst::MultiCopilotTaskPlugin::_run()
         return false;
     }
     file_name = utils::path_to_utf8_string(config.copilot_file);
+
+    if (config.assigned_groups) {
+        m_formation_task_ptr->set_assigned_groups(*config.assigned_groups);
+    }
+    else {
+        m_formation_task_ptr->set_assigned_groups(std::nullopt);
+    }
 
     const auto& stage_name = Copilot.get_stage_name();
     if (!m_battle_task_ptr->set_stage_name(stage_name)) {
