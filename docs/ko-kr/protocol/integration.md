@@ -28,13 +28,19 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 #### 파라미터 설명
 
 :::: field-group  
-::: field name="handle" type="AsstHandle" required  
+::: field handle  
+@type AsstHandle
+@required
 인스턴스 핸들  
 :::  
-::: field name="type" type="const char*" required  
+::: field type  
+@type const char*
+@required
 작업 유형  
 :::  
-::: field name="params" type="const char*" required  
+::: field params  
+@type const char*
+@required
 작업 파라미터, json string  
 :::  
 ::::
@@ -45,18 +51,28 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
   시작 및 깨우기
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부
 :::  
-::: field name="client_type" type="string" required  
+::: field client_type  
+@type string
+@required
 클라이언트 버전  
 <br>
 옵션: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
 :::  
-::: field name="start_game_enabled" type="boolean" optional default="false"  
+::: field start_game_enabled  
+@type boolean
+@default false
+@optional
 클라이언트 자동 실행 여부  
 :::  
-::: field name="account_name" type="string" optional  
+::: field account_name  
+@type string
+@optional
 계정 전환, 기본값은 전환하지 않음  
 <br>
 로그인된 계정으로만 전환 가능하며, 로그인 이름으로 검색하므로 입력 내용이 로그인된 모든 계정 중 유일해야 함  
@@ -87,10 +103,15 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
    게임 종료
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
-::: field name="client_type" type="string" required  
+::: field client_type  
+@type string
+@required
 클라이언트 버전, 비워두면 실행하지 않음  
 <br>
 옵션: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
@@ -113,10 +134,15 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
    이성 사용 작전
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
-::: field name="stage" type="string" optional  
+::: field stage  
+@type string
+@optional
 스테이지명, 기본값은 비어 있음(현재/지난 스테이지 인식). 실행 중 설정 불가
 <br>
 `"1-7"`, `"S3-2"` 등 모든 메인 스토리 스테이지 지원
@@ -127,22 +153,40 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 <br>
 현재 진행 중인 SideStory의 뒤쪽 3개 스테이지는 반드시 전체 스테이지 번호를 입력해야 함  
 :::  
-::: field name="medicine" type="number" optional default="0"  
+::: field medicine  
+@type number
+@default 0
+@optional
 이성 회복제 최대 사용 개수  
 :::  
-::: field name="medicine_expire_days" type="number" optional default="0"  
+::: field medicine_expire_days  
+@type number
+@default 0
+@optional
 지정된 일수 이내에 만료되는 이성 회복제를 사용합니다. `0`은 만료 임박 이성 회복제를 사용하지 않음을 의미합니다.  
 :::  
-::: field name="expiring_medicine" type="number" optional default="0" deprecated  
+::: field expiring_medicine  
+@type number
+@default 0
+@optional
+@deprecated
 v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.  
 :::  
-::: field name="stone" type="number" optional default="0"  
+::: field stone  
+@type number
+@default 0
+@optional
 오리지늄 최대 사용 개수  
 :::  
-::: field name="times" type="number" optional default="2147483647"  
+::: field times  
+@type number
+@default 2147483647
+@optional
 전투 횟수  
 :::  
-::: field name="series" type="number" optional  
+::: field series  
+@type number
+@optional
 연속 전투 횟수, -1~10
 <br>
 `-1`: 전환 비활성화
@@ -157,39 +201,53 @@ v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.
 
 - 새 목록(중국 서버 2026/8/1 이후 주 리소스, 해당 flag 없음): `-1~10` 허용
 - 이전 목록(해외 리소스에 해당 flag 있음): `-1~6`만 허용, 더 큰 값은 거부
-  <br>
-  해외 서버는 약 반년 후 따를 예정이며, 그때 상한은 리소스에 맞춰 10이 됩니다. Windows GUI의 연속 전투 드롭다운은 현재 고정으로 10까지 제공합니다. 해외에서 수동으로 7~10을 선택하면 작업 전달 시 Core에서 거부됩니다.
-  :::  
-  :::  
-  ::: field name="drops" type="object" optional  
-  지정 드랍 수량, 기본값은 지정 안 함. key는 item_id, value는 수량. key는 `resource/item_index.json` 파일 참조
-  <br>
-  예: `{ "30011": 10, "30062": 5 }`  
-  <br>
-  위 조건들은 OR 관계이므로, 어느 하나라도 도달하면 작업 중지  
-  :::  
-  ::: field name="report_to_penguin" type="boolean" optional default="false"  
-  펭귄 물류(Penguin Stats) 데이터 전송 여부  
-  :::  
-  ::: field name="penguin_id" type="string" optional  
-  펭귄 물류 전송 ID, 기본값 비어 있음. `report_to_penguin`이 true일 때만 유효  
-  :::  
-  ::: field name="server" type="string" optional default="CN"  
-  서버, 드랍 인식 및 업로드에 영향
-  <br>
-  옵션: `CN` | `US` | `JP` | `KR`  
-  :::  
-  ::: field name="client_type" type="string" optional  
-  클라이언트 버전, 기본값 비어 있음. 게임 크래시 시 재시작 후 재접속하여 계속 파밍하는 용도. 비워두면 해당 기능 비활성화
-  <br>
-  옵션: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-  :::  
-  ::: field name="DrGrandet" type="boolean" optional default="false"  
-  이성 절약 모드, 오리지늄 사용 가능성이 있을 때만 유효
-  <br>
-  오리지늄 사용 확인 창에서 대기하다가, 현재 1이성이 회복되면 즉시 오리지늄을 사용  
-  :::  
-  ::::
+
+해외 서버는 약 반년 후 따를 예정이며, 그때 상한은 리소스에 맞춰 10이 됩니다. Windows GUI의 연속 전투 드롭다운은 현재 고정으로 10까지 제공합니다. 해외에서 수동으로 7~10을 선택하면 작업 전달 시 Core에서 거부됩니다.
+:::  
+::: field drops  
+ @type object
+@optional
+지정 드랍 수량, 기본값은 지정 안 함. key는 item_id, value는 수량. key는 `resource/item_index.json` 파일 참조
+<br>
+예: `{ "30011": 10, "30062": 5 }`  
+ <br>
+위 조건들은 OR 관계이므로, 어느 하나라도 도달하면 작업 중지  
+ :::  
+ ::: field report_to_penguin  
+ @type boolean
+@default false
+@optional
+펭귄 물류(Penguin Stats) 데이터 전송 여부  
+ :::  
+ ::: field penguin_id  
+ @type string
+@optional
+펭귄 물류 전송 ID, 기본값 비어 있음. `report_to_penguin`이 true일 때만 유효  
+ :::  
+ ::: field server  
+ @type string
+@default CN
+@optional
+서버, 드랍 인식 및 업로드에 영향
+<br>
+옵션: `CN` | `US` | `JP` | `KR`  
+ :::  
+ ::: field client_type  
+ @type string
+@optional
+클라이언트 버전, 기본값 비어 있음. 게임 크래시 시 재시작 후 재접속하여 계속 파밍하는 용도. 비워두면 해당 기능 비활성화
+<br>
+옵션: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+ :::  
+ ::: field DrGrandet  
+ @type boolean
+@default false
+@optional
+이성 절약 모드, 오리지늄 사용 가능성이 있을 때만 유효
+<br>
+오리지늄 사용 확인 창에서 대기하다가, 현재 1이성이 회복되면 즉시 오리지늄을 사용  
+ :::  
+ ::::
 
 <details>
 <summary>Example</summary>
@@ -224,24 +282,39 @@ v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.
   공개 모집
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
-::: field name="refresh" type="boolean" optional default="false"  
+::: field refresh  
+@type boolean
+@default false
+@optional
 3성 태그 새로고침 여부  
 :::  
-::: field name="select" type="array<number>" required  
+::: field select  
+@type array<number>
+@required
 클릭할 태그 등급  
 :::  
-::: field name="confirm" type="array<number>" required  
+::: field confirm  
+@type array<number>
+@required
 확인 클릭할 태그 등급. 공모 계산만 할 경우 빈 배열로 설정 가능  
 :::  
-::: field name="first_tags" type="array<string>" optional  
+::: field first_tags  
+@type array<string>
+@optional
 우선 태그, 태그 등급이 3일 때만 유효. 기본값 비어 있음
 <br>
 태그 등급이 3일 때, 여기에 있는 태그(존재하는 경우)를 가능한 많이 선택하며, 강제 선택이므로 "3성 태그 선택 안 함" 설정을 무시함
 :::  
-::: field name="extra_tags_mode" type="number" optional default="0"  
+::: field extra_tags_mode  
+@type number
+@default 0
+@optional
 추가 태그 선택 모드
 <br>
 `0` - 기본 동작
@@ -250,46 +323,77 @@ v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.
 <br>
 `2` - 충돌 가능성 무시하고 가능한 많은 고성급 태그 조합 동시 선택  
 :::  
-::: field name="times" type="number" optional default="0"  
+::: field times  
+@type number
+@default 0
+@optional
 모집 횟수. 공모 계산만 할 경우 0으로 설정 가능  
 :::  
-::: field name="set_time" type="boolean" optional default="true"  
+::: field set_time  
+@type boolean
+@default true
+@optional
 모집 시간 설정 여부. `times`가 0일 때만 유효  
 :::  
-::: field name="expedite" type="boolean" optional default="false"  
+::: field expedite  
+@type boolean
+@default false
+@optional
 즉시 완료 허가증 사용 여부  
 :::  
-::: field name="expedite_times" type="number" optional  
+::: field expedite_times  
+@type number
+@optional
 즉시 완료 사용 횟수, `expedite`가 true일 때만 유효. 기본값은 무제한(즉 `times` 상한까지)  
 :::  
-::: field name="skip_robot" type="boolean" optional default="true"  
+::: field skip_robot  
+@type boolean
+@default true
+@optional
 폐기 예정이며 구형 파라미터 호환용으로만 유지됩니다.  
 <br>
 `preserve_tags`가 없고 이 값이 `true`이면 `支援机械` 인식 시에만 건너뜁니다. `元素`는 더 이상 구형 1★ 태그로 취급하지 않습니다.  
 :::
-::: field name="preserve_tags" type="array<string>" optional  
+::: field preserve_tags  
+@type array<string>
+@optional
 현재 공개모집 슬롯을 유지한 채 이번 모집을 건너뛸 Tag 이름 목록입니다. 기본값은 빈 배열입니다.  
 <br>
 지정한 Tag 중 하나라도 인식되면 MAA는 해당 슬롯을 유지하고 이번 모집을 건너뜁니다.  
 :::  
-::: field name="recruitment_time" type="object" optional  
+::: field recruitment_time  
+@type object
+@optional
 태그 등급(3 이상)과 대응하는 희망 모집 시간(분 단위), 기본값은 모두 540(즉 09:00:00)
 <br>
 예: `{ "3": 540, "4": 540 }`  
 :::  
-::: field name="report_to_penguin" type="boolean" optional default="false"  
+::: field report_to_penguin  
+@type boolean
+@default false
+@optional
 펭귄 물류 데이터 전송 여부  
 :::  
-::: field name="penguin_id" type="string" optional  
+::: field penguin_id  
+@type string
+@optional
 펭귄 물류 전송 ID, 기본값 비어 있음. `report_to_penguin`이 true일 때만 유효  
 :::  
-::: field name="report_to_yituliu" type="boolean" optional default="false"  
+::: field report_to_yituliu  
+@type boolean
+@default false
+@optional
 Yituliu 데이터 전송 여부  
 :::  
-::: field name="yituliu_id" type="string" optional  
+::: field yituliu_id  
+@type string
+@optional
 Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때만 유효  
 :::  
-::: field name="server" type="string" optional default="CN"  
+::: field server  
+@type string
+@default CN
+@optional
 서버, 업로드에 영향
 <br>
 옵션: `CN` | `US` | `JP` | `KR`  
@@ -330,10 +434,16 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
    기반시설 교대
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
-::: field name="mode" type="number" optional default="0"  
+::: field mode  
+@type number
+@default 0
+@optional
 교대 작업 모드
 <br>
 `0` - `Default`: 기본 교대 모드, 단일 시설 최적해
@@ -342,47 +452,77 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 <br>
 `20000` - `Rotation`: 원터치 로테이션 모드. 제어 센터, 발전소, 숙소, 사무실은 건너뛰고, 나머지 시설은 교대하지 않지만 기본 조작(드론 사용, 응접실 로직 등)은 유지  
 :::  
-::: field name="facility" type="array<string>" required  
+::: field facility  
+@type array<string>
+@required
 교대할 시설(순서 있음). 실행 중 설정 불가
 <br>
 시설명: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
 :::  
-::: field name="drones" type="string" optional default="\_NotUse"  
+::: field drones  
+@type string
+@default \_NotUse
+@optional
 드론 용도. `mode = 10000`일 때 이 필드는 무효
 <br>
 옵션: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
 :::  
-::: field name="threshold" type="number" optional default="0.3"  
+::: field threshold  
+@type number
+@default 0.3
+@optional
 컨디션 임계값, 범위 [0, 1.0]
 <br>
 `mode = 10000`일 때 이 필드는 "autofill"에 대해서만 유효
 <br>
 `mode = 20000`일 때 이 필드는 무효  
 :::  
-::: field name="replenish" type="boolean" optional default="false"  
+::: field replenish  
+@type boolean
+@default false
+@optional
 무역소 "오리지늄 조각" 자동 보충 여부  
 :::  
-::: field name="dorm_notstationed_enabled" type="boolean" optional default="false"  
+::: field dorm_notstationed_enabled  
+@type boolean
+@default false
+@optional
 작업 오퍼레이터 숙소 "미배치" 옵션 활성화 여부  
 :::  
-::: field name="dorm_trust_enabled" type="boolean" optional default="false"  
+::: field dorm_trust_enabled  
+@type boolean
+@default false
+@optional
 숙소 남은 자리에 신뢰도 미만 오퍼레이터 배치 여부  
 :::  
-::: field name="reception_message_board" type="boolean" optional default="true"  
+::: field reception_message_board  
+@type boolean
+@default true
+@optional
 응접실 게시판 크레딧 수령 여부  
 :::  
-::: field name="reception_clue_exchange" type="boolean" optional default="true"  
+::: field reception_clue_exchange  
+@type boolean
+@default true
+@optional
 단서 교환 수행 여부  
 :::  
-::: field name="reception_send_clue" type="boolean" optional default="true"  
+::: field reception_send_clue  
+@type boolean
+@default true
+@optional
 단서 보내기 여부  
 :::  
-::: field name="filename" type="string" required  
+::: field filename  
+@type string
+@required
 사용자 정의 설정 경로. 실행 중 설정 불가
 <br>
 <Badge type="warning" text="mode = 10000일 때만 유효" />  
 :::  
-::: field name="plan_index" type="number" required  
+::: field plan_index  
+@type number
+@required
 설정 내 사용할 플랜 번호. 실행 중 설정 불가
 <br>
 <Badge type="warning" text="mode = 10000일 때만 유효" />  
@@ -417,34 +557,64 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
    먼저 `buy_first` 목록 순서대로 구매하고, 그 다음 `blacklist`를 제외하고 왼쪽에서 오른쪽으로 구매하며, 크레딧이 넘칠 경우 블랙리스트를 무시하고 넘치지 않을 때까지 구매
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
-::: field name="visit_friends" type="boolean" optional default="true"  
+::: field visit_friends  
+@type boolean
+@default true
+@optional
 친구 기반시설을 방문하여 크레딧 획득 여부  
 :::  
-::: field name="shopping" type="boolean" optional default="true"  
+::: field shopping  
+@type boolean
+@default true
+@optional
 크레딧 상점 구매 수행 여부  
 :::  
-::: field name="buy_first" type="array<string>" optional default="[]"  
+::: field buy_first  
+@type array<string>
+@default []
+@optional
 우선 구매 목록. 상품명, 예: `"채용 허가증"`, `"용문폐"` 등  
 :::  
-::: field name="blacklist" type="array<string>" optional default="[]"  
+::: field blacklist  
+@type array<string>
+@default []
+@optional
 구매 블랙리스트. 상품명, 예: `"즉시 완료 허가증"`, `"가구 부품"` 등  
 :::  
-::: field name="force_shopping_if_credit_full" type="boolean" optional default="false"  
+::: field force_shopping_if_credit_full  
+@type boolean
+@default false
+@optional
 크레딧 넘침 시 블랙리스트 무시 여부  
 :::  
-::: field name="only_buy_discount" type="boolean" optional default="false"  
+::: field only_buy_discount  
+@type boolean
+@default false
+@optional
 할인 상품만 구매 여부, 2차 구매(목록 순서 외)에만 적용  
 :::  
-::: field name="reserve_max_credit" type="boolean" optional default="false"  
+::: field reserve_max_credit  
+@type boolean
+@default false
+@optional
 크레딧이 300 미만일 때 구매 중지 여부, 2차 구매에만 적용  
 :::  
-::: field name="credit_fight" type="boolean" optional default="false"  
+::: field credit_fight  
+@type boolean
+@default false
+@optional
 다음 날 더 많은 크레딧을 얻기 위해 지원을 빌려 OF-1 스테이지를 1회 클리어할지 여부  
 :::  
-::: field name="formation_index" type="number" optional default="0"  
+::: field formation_index  
+@type number
+@default 0
+@optional
 OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 0~4의 정수, 0은 현재 편성, 1~4는 제1~4 편성  
@@ -475,25 +645,46 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
    각종 보상 수령
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
-::: field name="award" type="boolean" optional default="true"  
+::: field award  
+@type boolean
+@default true
+@optional
 일일/주간 임무 보상 수령  
 :::  
-::: field name="mail" type="boolean" optional default="false"  
+::: field mail  
+@type boolean
+@default false
+@optional
 모든 우편 보상 수령  
 :::  
-::: field name="recruit" type="boolean" optional default="false"  
+::: field recruit  
+@type boolean
+@default false
+@optional
 한정 헤드헌팅 매일 무료 단차 수령  
 :::  
-::: field name="orundum" type="boolean" optional default="false"  
+::: field orundum  
+@type boolean
+@default false
+@optional
 합성옥 추첨(LUCKY WALL 등) 보상 수령  
 :::  
-::: field name="mining" type="boolean" optional default="false"  
+::: field mining  
+@type boolean
+@default false
+@optional
 한정 채굴 허가(합성옥 채굴) 보상 수령  
 :::  
-::: field name="specialaccess" type="boolean" optional default="false"  
+::: field specialaccess  
+@type boolean
+@default false
+@optional
 5주년 등 이벤트 월정액 보상 수령  
 :::  
 ::::
@@ -519,10 +710,16 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
    통합 전략 무한 반복
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
-::: field name="theme" type="string" optional default="Phantom"  
+::: field theme  
+@type string
+@default Phantom
+@optional
 테마
 <br>
 `Phantom` - 팬텀 & 크림슨 솔리테어
@@ -535,7 +732,10 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 `JieGarden` - 쉐이의 기이한 계원  
 :::  
-::: field name="mode" type="number" optional default="0"  
+::: field mode  
+@type number
+@default 0
+@optional
 모드
 <br>
 `0` - 점수/보상 포인트 파밍, 가능한 안정적으로 많은 층수 도달
@@ -554,65 +754,119 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 `7` - 심층 조사 보상 파밍, 모드 적응 외엔 모드 0과 동일  
 :::  
-::: field name="squad" type="string" optional default="指挥分队"  
+::: field squad  
+@type string
+@default 指挥分队
+@optional
 시작 분대명  
 :::  
-::: field name="roles" type="string" optional default="取长补短"  
+::: field roles  
+@type string
+@default 取长补短
+@optional
 시작 모집 조합  
 :::  
-::: field name="core_char" type="string" optional  
+::: field core_char  
+@type string
+@optional
 시작 오퍼레이터명. 단일 오퍼레이터 **중문명**만 지원(서버 무관); 비워두거나 `""`이면 육성도에 따라 자동 선택  
 :::  
-::: field name="use_support" type="boolean" optional default="false"  
+::: field use_support  
+@type boolean
+@default false
+@optional
 시작 오퍼레이터를 지원 유닛으로 빌릴지 여부  
 :::  
-::: field name="use_nonfriend_support" type="boolean" optional default="false"  
+::: field use_nonfriend_support  
+@type boolean
+@default false
+@optional
 친구가 아닌 지원 유닛 사용 가능 여부. `use_support`가 true일 때만 유효  
 :::  
-::: field name="starts_count" type="number" optional default="2147483647"  
+::: field starts_count  
+@type number
+@default 2147483647
+@optional
 탐색 시작 횟수. 도달 시 자동 정지  
 :::  
-::: field name="difficulty" type="number" optional default="0"  
+::: field difficulty  
+@type number
+@default 0
+@optional
 지정 난이도 등급. 미해금 시 현재 해금된 최고 난이도 선택  
 :::  
-::: field name="stop_at_final_boss" type="boolean" optional default="false"  
+::: field stop_at_final_boss  
+@type boolean
+@default false
+@optional
 5층 보스 노드 앞에서 정지할지 여부. **Phantom 제외** 테마에만 적용  
 :::  
-::: field name="stop_at_max_level" type="boolean" optional default="false"  
+::: field stop_at_max_level  
+@type boolean
+@default false
+@optional
 통합 전략 만렙 도달 시 정지할지 여부  
 :::  
-::: field name="investment_enabled" type="boolean" optional default="true"  
+::: field investment_enabled  
+@type boolean
+@default true
+@optional
 오리지늄각뿔 투자 여부  
 :::  
-::: field name="investments_count" type="number" optional default="2147483647"  
+::: field investments_count  
+@type number
+@default 2147483647
+@optional
 투자 횟수. 도달 시 자동 정지  
 :::  
-::: field name="stop_when_investment_full" type="boolean" optional default="false"  
+::: field stop_when_investment_full  
+@type boolean
+@default false
+@optional
 투자 한도 도달 시 자동 정지 여부  
 :::  
-::: field name="investment_with_more_score" type="boolean" optional default="false"  
+::: field investment_with_more_score  
+@type boolean
+@default false
+@optional
 투자 후 쇼핑 시도 여부. 모드 1에만 적용  
 :::  
-::: field name="start_with_elite_two" type="boolean" optional default="false"  
+::: field start_with_elite_two  
+@type boolean
+@default false
+@optional
 스타트 리세마라 시 2차 정예화도 함께 노릴지 여부. 모드 4에만 적용  
 :::  
-::: field name="only_start_with_elite_two" type="boolean" optional default="false"  
+::: field only_start_with_elite_two  
+@type boolean
+@default false
+@optional
 다른 스타트 조건 무시하고 2차 정예화만 노릴지 여부. 모드 4이고 `start_with_elite_two`가 true일 때만 유효  
 :::  
-::: field name="refresh_trader_with_dice" type="boolean" optional default="false"  
+::: field refresh_trader_with_dice  
+@type boolean
+@default false
+@optional
 주사위로 상점을 새로고침하여 특수 상품 구매 시도 여부. Mizuki 테마 전용, 길잡이 비늘 파밍용  
 :::  
-::: field name="first_floor_foldartal" type="string" optional  
+::: field first_floor_foldartal  
+@type string
+@optional
 1층 원견 단계에서 얻길 희망하는 암호문. Sami 테마 전용, 모드 무관; 성공 시 정지  
 :::  
-::: field name="start_foldartal_list" type="array<string>" optional default="[]"  
+::: field start_foldartal_list  
+@type array<string>
+@default []
+@optional
 스타트 리세마라 시 시작 보상으로 얻길 희망하는 암호문 목록. Sami 테마 모드 4일 때만 유효
 <br>
 목록의 모든 암호문을 보유해야 성공으로 간주
 <br>
 주의: "생존지상 분대"와 함께 사용해야 함. 다른 분대는 시작 보상으로 암호문을 얻지 못함  
 :::  
-::: field name="collectible_mode_start_list" type="object" optional  
+::: field collectible_mode_start_list  
+@type object
+@optional
 스타트 리세마라 시 희망 보상, 기본값은 모두 false. 모드 4일 때만 유효
 <br>
 `hot_water`: 전기주전자 보상, 파밍 매커니즘 트리거용 (공통)
@@ -633,34 +887,58 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 `ticket`: 티켓 보상, JieGarden 테마 전용
 :::  
-::: field name="use_foldartal" type="boolean" optional  
+::: field use_foldartal  
+@type boolean
+@optional
 암호문 사용 여부. 모드 5 기본값 `false`, 기타 모드 기본값 `true`. Sami 테마 전용  
 :::  
-::: field name="check_collapsal_paradigms" type="boolean" optional  
+::: field check_collapsal_paradigms  
+@type boolean
+@optional
 획득한 붕괴 패러다임 감지 여부. 모드 5 기본값 `true`, 기타 모드 기본값 `false`  
 :::  
-::: field name="double_check_collapsal_paradigms" type="boolean" optional default="true"  
+::: field double_check_collapsal_paradigms  
+@type boolean
+@default true
+@optional
 붕괴 패러다임 누락 방지 검사 수행 여부. Sami 테마이고 `check_collapsal_paradigms`가 true일 때 유효. 모드 5 기본값 `true`, 기타 모드 기본값 `false`  
 :::  
-::: field name="expected_collapsal_paradigms" type="array<string>" optional default="['目空一些', '睁眼瞎', '图像损坏', '一抹黑']"  
+::: field expected_collapsal_paradigms  
+@type array<string>
+@default ['目空一些', '睁眼瞎', '图像损坏', '一抹黑']
+@optional
 희망하는 붕괴 패러다임. Sami 테마이고 모드 5일 때 유효  
 :::  
-::: field name="monthly_squad_auto_iterate" type="boolean" optional  
+::: field monthly_squad_auto_iterate  
+@type boolean
+@optional
 월간 소대 자동 전환 활성화 여부  
 :::  
-::: field name="monthly_squad_check_comms" type="boolean" optional  
+::: field monthly_squad_check_comms  
+@type boolean
+@optional
 월간 소대 통신 완료 여부도 전환 기준으로 삼을지 여부  
 :::  
-::: field name="deep_exploration_auto_iterate" type="boolean" optional  
+::: field deep_exploration_auto_iterate  
+@type boolean
+@optional
 심층 조사 자동 전환 활성화 여부  
 :::  
-::: field name="collectible_mode_shopping" type="boolean" optional default="false"  
+::: field collectible_mode_shopping  
+@type boolean
+@default false
+@optional
 파밍 중 쇼핑 활성화 여부  
 :::  
-::: field name="collectible_mode_squad" type="string" optional  
+::: field collectible_mode_squad  
+@type string
+@optional
 파밍 중 사용할 분대, 기본적으로 squad와 동기화, squad가 비었고 이 값도 없으면 지휘 분대  
 :::  
-::: field name="start_with_seed" type="boolean" optional default="false"  
+::: field start_with_seed  
+@type boolean
+@default false
+@optional
 시드를 사용하여 각뿔 파밍
 <br>
 Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 때만 true 가능
@@ -726,13 +1004,18 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
    자동지휘
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
-::: field name="filename" type="string"  
+::: field filename  
+@type string
 단일 작전 JSON 파일 경로, copilot_list와 택일(필수); 상대/절대 경로 모두 가능  
 :::  
-::: field name="copilot_list" type="array`<object>`"  
+::: field copilot_list  
+@type array`<object>`
 작전 목록, filename과 택일(필수); filename과 copilot_list 동시 존재 시 copilot_list 무시; 이 파라미터 유효 시 set_params는 1회만 실행 가능
 <br>
 각 객체 포함:
@@ -740,25 +1023,39 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 - `filename`: 작전 JSON 파일 경로; 상대/절대 경로 모두 가능
   <br>
-- `stage_name`: 스테이지명, 구체적인 건 [PRTS.Map](https://map.ark-nights.com) 참고
-  <br>
+- `nav_name_override`: 내비게이션용 스테이지명, 선택 사항; 제공되지 않았거나 `null`인 경우 작업 파일에서 자동으로 추론합니다
 - `is_raid`: 하드 모드 전환 여부, 선택 사항, 기본값 false
   :::  
-  ::: field name="loop_times" type="number" optional default="1"  
+  ::: field loop_times  
+  @type number
+  @default 1
+  @optional
   반복 횟수. 단일 작전 모드(filename 지정)에서만 유효; 이 파라미터 유효 시 set_params는 1회만 실행 가능  
   :::  
-  ::: field name="use_sanity_potion" type="boolean" optional default="false"  
+  ::: field use_sanity_potion  
+  @type boolean
+  @default false
+  @optional
   이성 부족 시 이성 회복제 사용 허용 여부  
   :::  
-  ::: field name="formation" type="boolean" optional default="false"  
+  ::: field formation  
+  @type boolean
+  @default false
+  @optional
   자동 편성 수행 여부  
   :::  
-  ::: field name="formation_index" type="number" optional default="0"  
+  ::: field formation_index  
+  @type number
+  @default 0
+  @optional
   자동 편성 시 사용할 편성 슬롯 번호. `formation`이 true일 때 유효
   <br>
   0–4 정수, 0은 현재 편성 선택, 1-4는 제1, 2, 3, 4 편성  
   :::  
-  ::: field name="user_additional" type="array`<object>`" optional default="[]"  
+  ::: field user_additional  
+  @type array`<object>`
+  @default []
+  @optional
   사용자 정의 추가 오퍼레이터 목록. `formation`이 true일 때 유효
   <br>
   각 객체 포함:
@@ -767,13 +1064,22 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
   <br>
 - `skill`: 휴대 스킬, 선택 사항, 기본값 1; 1–3 정수, 범위 벗어나면 게임 내 기본 스킬 선택 따름  
   :::  
-  ::: field name="add_trust" type="boolean" optional default="false"  
+  ::: field add_trust  
+  @type boolean
+  @default false
+  @optional
   자동 편성 시 남은 자리를 신뢰도 낮은 순으로 채울지 여부. `formation`이 true일 때 유효  
   :::  
-  ::: field name="ignore_requirements" type="boolean" optional default="false"  
+  ::: field ignore_requirements  
+  @type boolean
+  @default false
+  @optional
   자동 편성 시 오퍼레이터 육성 요구조건 무시 여부. `formation`이 true일 때 유효  
   :::  
-  ::: field name="support_unit_usage" type="number" optional default="0"  
+  ::: field support_unit_usage  
+  @type number
+  @default 0
+  @optional
   지원 유닛 사용 모드. 0–3 정수. `formation`이 true일 때 유효
   <br>
   `0` - 지원 유닛 사용 안 함
@@ -784,7 +1090,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
   <br>
   `3` - 결원이 딱 1명일 때 지원 유닛 보충 시도, 결원 없으면 랜덤 지원 유닛 사용  
   :::  
-  ::: field name="support_unit_name" type="string" optional default=""  
+  ::: field support_unit_name  
+  @type string
+  @optional
   지정 지원 유닛명. `support_unit_usage`가 2일 때 유효  
   :::  
   ::::
@@ -821,13 +1129,20 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
    보안 파견 자동지휘
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
-::: field name="filename" type="string" required  
+::: field filename  
+@type string
+@required
 작전 JSON 파일 경로, 절대/상대 경로 모두 가능. 실행 중 설정 불가  
 :::  
-::: field name="loop_times" type="number" optional  
+::: field loop_times  
+@type number
+@optional
 반복 실행 횟수  
 :::  
 ::::  
@@ -850,13 +1165,20 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
   패러독스 시뮬레이션 작전 계획 자동 수행
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부.  
 :::  
-::: field name="filename" type="string" required  
+::: field filename  
+@type string
+@required
 단일 작전 JSON 파일 경로, 절대/상대 경로 모두 가능. 실행 중 설정 불가. 필수, list와 택일.  
 :::  
-::: field name="list" type="array<string>" required  
+::: field list  
+@type array<string>
+@required
 작전 JSON 목록, 절대/상대 경로 모두 가능. 실행 중 설정 불가. 필수, filename과 택일.  
 :::  
 ::::
@@ -878,7 +1200,10 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
    창고 인식
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
 ::::
@@ -898,7 +1223,10 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
    오퍼레이터 인식
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
 ::::
@@ -918,10 +1246,16 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
    생존 연산
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
-::: field name="theme" type="string" optional default="Tales"  
+::: field theme  
+@type string
+@default Tales
+@optional
 테마
 <br>
 `Fire` - _모래 속의 불_（종료）
@@ -930,7 +1264,10 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 `RelaunchAnchor` - _리런치 앵커_  
 :::  
-::: field name="mode" type="number" optional default="0"  
+::: field mode  
+@type number
+@default 0
+@optional
 모드. 테마마다 지원하는 모드가 다릅니다:
 <br>
 **Tales（사막 이야기）：**
@@ -947,17 +1284,26 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 `48` (`RA4`) - RA-4, "경영 계획"으로 얻은 적금을 사용하여 지역을 해금하고, 비샤델로 보스 처치 임무를 완료합니다。
 :::  
-::: field name="tools_to_craft" type="array<string>" optional default="[&quot;荧光棒&quot;]"  
+::: field tools_to_craft  
+@type array<string>
+@default [&quot;荧光棒&quot;]
+@optional
 자동 제작 아이템, 부분 문자열 입력 권장. Tales 테마에서만 유효  
 :::  
-::: field name="increment_mode" type="number" optional default="0"  
+::: field increment_mode  
+@type number
+@default 0
+@optional
 클릭 유형. Tales 테마에서만 유효
 <br>
 `0` - 연타
 <br>
 `1` - 꾹 누르기
 :::  
-::: field name="num_craft_batches" type="number" optional default="16"  
+::: field num_craft_batches  
+@type number
+@default 16
+@optional
 1회 최대 제작 배치 수. Tales 테마에서만 유효  
 :::  
 ::::
@@ -982,18 +1328,25 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
    사용자 정의 작업
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
-::: field name="task_names" type="array<string>" required  
+::: field task_names  
+@type array<string>
+@required
 배열 중 첫 번째로 매칭된 작업(및 후속 next 등)을 실행. 여러 작업을 실행하려면 Custom task를 여러 번 append  
 시크릿 프론트(`MiniGame@SecretFront`) 연결 형식 지원: `MiniGame@SecretFront@Begin@Ending[A-E](@이벤트명)?`, 이벤트명은 생략 가능(支援作战平台 / 游侠 / 诡影迷踪), 예: `MiniGame@SecretFront@Begin@EndingA@支援作战平台`。  
 :::  
-::: field name="params" type="object" optional  
+::: field params  
+@type object
+@optional
 작업 추가 파라미터. 현재는 픽셀 아트 작업(`MiniGame@PixelPaint@Begin`)에서만 사용:
 
 - `params.pixel_paint.groups`: 색상별 칸 좌표 목록. `color`는 팔레트 슬롯 번호(0~39, 게임 오른쪽 팔레트 순서와 동일), `points`는 `[x, y]` 칸 좌표 배열(0~23, 왼쪽 위 원점).
-- `params.pixel_paint.swipe`(bool, 선택, 기본 true): 같은 색 연속 칸을 한 번의 드래그로 그려 속도를 높임. 일부 터치 방식에서는 이상 동작이 있을 수 있음.  
+- `params.pixel_paint.swipe`(bool, 선택, 기본 true): 같은 색 연속 칸을 한 번의 드래그로 그려 속도를 높임. 일부 터치 방식에서는 이상 동작이 있을 수 있음.
 - `params.pixel_paint.grid_delay`(int, 선택, 기본 0): 칸당 추가 대기 시간(ms). 클릭 후 대기와 드래그 시간에 모두 가산됩니다. 각 터치 방식에 기본 간격이 있어 보통 조정 불필요. 구 키 `grid_click_delay` 도 호환됩니다.
 
 :::  
@@ -1029,13 +1382,21 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
    단일 단계 작업 (현재 전투만 지원)
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
-::: field name="type" type="string" required default="copilot"  
+::: field type  
+@type string
+@default copilot
+@required
 현재 `"copilot"`만 지원  
 :::  
-::: field name="subtask" type="string" required  
+::: field subtask  
+@type string
+@required
 서브 작업 유형
 <br>
 `stage` - 스테이지명 설정, `"details": { "stage": "xxxx" }` 필요
@@ -1044,7 +1405,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 `action` - 단일 작전 조작, `details`는 작전 프로토콜 중 단일 action이어야 함. 예: `"details": { "name": "수르트", "location": [ 4, 5 ], "direction": "左" }`. 상세 내용은 [자동지휘 프로토콜](./copilot-schema.md) 참고  
 :::  
-::: field name="details" type="object" optional  
+::: field details  
+@type object
+@optional
 서브 작업 상세 파라미터  
 :::  
 ::::
@@ -1069,10 +1432,15 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
   영상 인식, 현재 작전(전투) 영상만 지원
 
 :::: field-group  
-::: field name="enable" type="boolean" optional default="true"  
+::: field enable  
+@type boolean
+@default true
+@optional
 본 작업 활성화 여부  
 :::  
-::: field name="filename" type="string" required  
+::: field filename  
+@type string
+@required
 영상 파일 경로, 절대/상대 경로 모두 가능. 실행 중 설정 불가  
 :::  
 ::::
@@ -1109,13 +1477,19 @@ bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* par
 #### 파라미터 설명
 
 :::: field-group  
-::: field name="handle" type="AsstHandle" required  
+::: field handle  
+@type AsstHandle
+@required
 인스턴스 핸들  
 :::  
-::: field name="task" type="AsstTaskId" required  
+::: field task  
+@type AsstTaskId
+@required
 작업 ID, `AsstAppendTask` 인터페이스 반환 값  
 :::  
-::: field name="params" type="const char\*" required  
+::: field params  
+@type const char\*
+@required
 작업 파라미터, json string, `AsstAppendTask` 인터페이스와 동일  
 "실행 중 설정 불가"로 표시되지 않은 필드는 실시간 수정 가능; 표시된 경우 현재 작업이 실행 중이면 해당 필드 무시  
 :::  
@@ -1141,10 +1515,14 @@ bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 #### 파라미터 설명
 
 :::: field-group  
-::: field name="key" type="AsstStaticOptionKey" required  
+::: field key  
+@type AsstStaticOptionKey
+@required
 Key  
 :::  
-::: field name="value" type="const char\*" required  
+::: field value  
+@type const char\*
+@required
 Value  
 :::  
 ::::
@@ -1173,13 +1551,19 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 #### 파라미터 설명
 
 :::: field-group  
-::: field name="handle" type="AsstHandle" required  
+::: field handle  
+@type AsstHandle
+@required
 인스턴스 핸들  
 :::  
-::: field name="key" type="AsstInstanceOptionKey" required  
+::: field key  
+@type AsstInstanceOptionKey
+@required
 Key  
 :::  
-::: field name="value" type="const char\*" required  
+::: field value  
+@type const char\*
+@required
 Value  
 :::  
 ::::
@@ -1187,25 +1571,41 @@ Value
 ##### 키-값 목록
 
 :::: field-group  
-::: field name="Invalid" type="number" optional default="0"  
+::: field Invalid  
+@type number
+@default 0
+@optional
 무효 점유. 열거값: 0  
 :::  
-::: field name="MinitouchEnabled" type="boolean" optional  
+::: field MinitouchEnabled  
+@type boolean
+@optional
 폐기됨. 원 Minitouch 활성화 여부; "1" 켜기, "0" 끄기. 장치가 지원하지 않을 수 있음. 열거값: 1 (폐기됨)  
 :::  
-::: field name="TouchMode" type="string" optional default="minitouch"  
+::: field TouchMode  
+@type string
+@default minitouch
+@optional
 터치 모드 설정. 옵션: minitouch | maatouch | adb | MaaFwAdb. 기본값 minitouch. 열거값: 2  
 :::  
-::: field name="DeploymentWithPause" type="boolean" optional  
+::: field DeploymentWithPause  
+@type boolean
+@optional
 오퍼레이터 배치 시 일시정지 여부, 자동지휘/통합 전략/보안파견에 모두 영향. 옵션: "1" 켜기, "0" 끄기. 열거값: 3  
 :::  
-::: field name="AdbLiteEnabled" type="boolean" optional  
+::: field AdbLiteEnabled  
+@type boolean
+@optional
 AdbLite 사용 여부. 옵션: "0" 끄기, "1" 켜기. 열거값: 4  
 :::  
-::: field name="KillAdbOnExit" type="boolean" optional  
+::: field KillAdbOnExit  
+@type boolean
+@optional
 종료 시 ADB 프로세스 종료 여부. 옵션: "0" 끄기, "1" 켜기. 열거값: 5  
 :::  
-::: field name="ClientType" type="string" optional  
+::: field ClientType  
+@type string
+@optional
 클라이언트 종류(게임 채널). 대부분의 연결 설정에서는 필요하지 않습니다. `AsstConnect` / `AsstAsyncConnect` 에 전달하는 `config` 가 연결 단계에서 실행되는 명령에 `[PackageName]` 을 사용할 때만, 연결 전에 `AsstSetInstanceOption(..., ClientType, ...)` 를 호출해 설정해야 합니다. 현재 내장 설정 중에서는 `Androws` 와 `WSA` 의 `displayId` 조회만 이 값에 의존합니다. 이 옵션은 StartUp / CloseDown 등의 작업 파라미터 `client_type` 를 대체하지 않습니다. 열거값: 6  
 :::  
 ::::

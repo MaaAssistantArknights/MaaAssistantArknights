@@ -1,5 +1,6 @@
 #pragma once
 
+#include <atomic>
 #include <memory>
 #include <optional>
 #include <random>
@@ -120,6 +121,7 @@ private:
     void clear_info() noexcept;
     void callback(AsstMsg msg, const json::value& details);
     void sync_params();
+    bool resolve_swipe_with_pause(bool with_pause) const noexcept;
 
     AsstCallback m_callback = nullptr;
 
@@ -135,7 +137,7 @@ private:
 
     std::pair<int, int> m_scale_size = { WindowWidthDefault, WindowHeightDefault };
 
-    bool m_swipe_with_pause = false;
+    std::atomic_bool m_swipe_with_pause = false;
     bool m_kill_adb_on_exit = false;
     std::string m_client_type;
 

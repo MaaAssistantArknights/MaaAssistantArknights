@@ -14,8 +14,10 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 
@@ -103,11 +105,11 @@ public class CopilotModel : CopilotBase
 
     private static string PrintSkillLevel(Oper oper)
     {
-        if (oper.Requirements is not { } req || req.SkillLevel is not int skillLevel || skillLevel <= 0 || skillLevel > 10)
+        if (oper.Requirements is not { } req || req.SkillLevel <= 0 || req.SkillLevel > 10)
         {
             return string.Empty;
         }
-        return $" [Lv.{skillLevel}]";
+        return $" [Lv.{req.SkillLevel}]";
     }
 
     private static string GetModuleInfo(Requirements? req)
@@ -124,7 +126,7 @@ public class CopilotModel : CopilotBase
         // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
         return req.Module switch {
             0 => $"{LocalizationHelper.GetString("CopilotWithoutModule")}",
-            1 or 2 or 3 or 4 => $"{LocalizationHelper.GetString("CopilotModule")} {moduleName[req.Module ?? 0]}",
+            1 or 2 or 3 or 4 => $"{LocalizationHelper.GetString("CopilotModule")} {moduleName[req.Module]}",
             _ => string.Empty,
         };
     }
@@ -132,7 +134,13 @@ public class CopilotModel : CopilotBase
     public class Oper
     {
         /// <summary>
-        /// Gets or sets 干员名，必选。
+        /// Gets or sets 职业名，可选
+        /// </summary>
+        [JsonProperty("role")]
+        public OperatorRole? Role { get; set; }
+
+        /// <summary>
+        /// Gets or sets 干员名，必选
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; } = string.Empty;
@@ -141,7 +149,7 @@ public class CopilotModel : CopilotBase
         /// Gets or sets 技能序号，可选，默认为 0，取值范围 [0, 3]
         /// </summary>
         [JsonProperty("skill")]
-        public int Skill { get; set; } = 0;
+        public int Skill { get; set; }
 
         /// <summary>
         /// Gets or sets 技能用法。可选，默认为 0
@@ -158,6 +166,7 @@ public class CopilotModel : CopilotBase
         /// <summary>
         /// Gets or sets 技能使用次数。可选，默认为 1
         /// </summary>
+        [DefaultValue(1)]
         [JsonProperty("skill_times")]
         public int SkillTimes { get; set; } = 1;
 
@@ -199,6 +208,7 @@ public class CopilotModel : CopilotBase
         /// <item>"MoveCamera" - 移动镜头</item>
         /// </list>
         /// </summary>
+        [DefaultValue("Deploy")]
         [JsonProperty("type")]
         public string Type { get; set; } = "Deploy";
 
@@ -223,8 +233,15 @@ public class CopilotModel : CopilotBase
         /// <summary>
         /// Gets or sets CD 中干员数量条件，如果没达到就一直等待。可选，默认为 -1，不识别。
         /// </summary>
+        [DefaultValue(-1)]
         [JsonProperty("cooling")]
         public int Cooling { get; set; } = -1;
+
+        /// <summary>
+        /// Gets or sets 职业名，可选
+        /// </summary>
+        [JsonProperty("role")]
+        public OperatorRole? Role { get; set; }
 
         /// <summary>
         /// Gets or sets 干员名 或 群组名， type 为 "部署" 时必选，为 "技能" | "撤退" 时可选。
@@ -260,6 +277,7 @@ public class CopilotModel : CopilotBase
         /// <summary>
         /// Gets or sets 技能使用次数。可选，默认为 1。
         /// </summary>
+        [DefaultValue(1)]
         [JsonProperty("skill_times")]
         public int SkillTimes { get; set; } = 1;
 
@@ -274,6 +292,13 @@ public class CopilotModel : CopilotBase
         /// </summary>
         [JsonProperty("post_delay")]
         public int PostDelay { get; set; }
+
+        /// <summary>
+        /// Gets or sets 超时时间。可选，默认为 -1, 不作限制, 单位毫秒。仅在 type 为 "技能" 时有效
+        /// </summary>
+        [DefaultValue(-1)]
+        [JsonProperty("timeout")]
+        public int TimeoutMs { get; set; } = -1;
 
         /// <summary>
         /// Gets or sets 移动镜头的距离。type 为 "移动镜头" 时必选。
@@ -300,7 +325,7 @@ public class CopilotModel : CopilotBase
         /// Gets or sets 精英化等级。可选，默认为 0, 不要求精英化等级。
         /// </summary>
         [JsonProperty("elite")]
-        public int? Elite { get; set; }
+        public int Elite { get; set; }
 
         /// <summary>
         /// Gets or sets 干员等级。可选，默认为 0。
@@ -312,13 +337,14 @@ public class CopilotModel : CopilotBase
         /// Gets or sets 技能等级。可选，默认为 0。
         /// </summary>
         [JsonProperty("skill_level")]
-        public int? SkillLevel { get; set; }
+        public int SkillLevel { get; set; }
 
         /// <summary>
         /// Gets or sets 模组编号。可选，默认为 -1。
         /// </summary>
+        [DefaultValue(-1)]
         [JsonProperty("module")]
-        public int? Module { get; set; }
+        public int Module { get; set; } = -1;
         /*
         /// <summary>
         /// Gets or sets 模组编号。可选，默认为 -1。

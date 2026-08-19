@@ -102,14 +102,13 @@
             <StackPanel Margin="0,3">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource StartingCoreChar}" />
-                    <controls:TooltipBlock>
-                        <controls:TooltipBlock.TooltipText>
-                            <MultiBinding StringFormat="{}{0}&#x0a;&#x0a;{1}">
-                                <Binding Source="{StaticResource StartingCoreCharTip}" />
-                                <Binding Path="RoguelikeThemeTip" Source="{x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}" />
-                            </MultiBinding>
-                        </controls:TooltipBlock.TooltipText>
-                    </controls:TooltipBlock>
+                    <controls:TooltipBlock TooltipText="{Binding StartingCoreCharTip}" />
+                    <controls:TextBlock
+                        MaxWidth="100"
+                        Margin="4,0,0,0"
+                        Foreground="{DynamicResource InfoBrush}"
+                        Text="{DynamicResource RoguelikeThemeTipRecommended}"
+                        TextWrapping="Wrap" />
                 </StackPanel>
                 <hc:ComboBox
                     Name="StartingCoreCharComboBox"
@@ -164,7 +163,7 @@
                 Margin="0,10"
                 d:Visibility="Visible"
                 IsChecked="{Binding RoguelikeInvestmentWithMoreScoreRaw}"
-                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Investment',
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Investment and RoguelikeTheme != task:RoguelikeTheme.BlackFlow',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
                 <TextBlock
                     Block.TextAlignment="Left"
@@ -402,6 +401,17 @@
                     </Binding>
                 </hc:TextBox.Text>
             </hc:TextBox>
+            <hc:ComboBox
+                Margin="0,3"
+                d:Visibility="Visible"
+                hc:InfoElement.Title="{DynamicResource RoguelikeBlackFlowCultivationTarget}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                ItemsSource="{Binding RoguelikeBlackFlowCultivationTargetList}"
+                SelectedValue="{Binding RoguelikeBlackFlowCultivationTarget}"
+                SelectedValuePath="Value"
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.BlackFlowBabyAnimal and RoguelikeTheme == task:RoguelikeTheme.BlackFlow',
+                                       Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
             <controls:TextBlock
                 Margin="0,5"
                 HorizontalAlignment="Center"

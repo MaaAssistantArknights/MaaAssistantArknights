@@ -100,9 +100,46 @@ public static class ScrollViewerBinding
                 return;
             }
 
+            // 下拉打开期间由 MouseWheelHelper.IsolateParentScroll 置位，暂停回写，
+            // 避免下拉触发的布局微小滚动被回写成 ScrollOffset，污染左侧导航联动。
+            if (GetIsVerticalOffsetSyncSuspended(scrollViewer))
+            {
+                return;
+            }
+
             SetVerticalOffset(scrollViewer, se.VerticalOffset);
         };
     }
+
+    /// <summary>
+    /// 暂停 <see cref="VerticalOffset"/> 由滚动到属性的回写。Popup（如 ComboBox 下拉）打开期间由
+    /// MouseWheelHelper.IsolateParentScroll 置位：下拉会触发外层 ScrollViewer 的瞬时滚动（布局微调、
+    /// 位置恢复等），若被回写成 ScrollOffset，会经设置页的滚动联动改写左侧导航 SelectedIndex
+    /// （高亮跳顶）。置位后 ScrollChanged 不回写，下拉关闭后自动恢复。
+    /// </summary>
+    public static readonly DependencyProperty IsVerticalOffsetSyncSuspendedProperty =
+        DependencyProperty.RegisterAttached(
+            "IsVerticalOffsetSyncSuspended",
+            typeof(bool),
+            typeof(ScrollViewerBinding),
+            new PropertyMetadata(false));
+
+    /// <summary>
+    /// Gets a value indicating whether vertical offset sync is suspended.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns>True if suspended.</returns>
+    [UsedImplicitly]
+    public static bool GetIsVerticalOffsetSyncSuspended(DependencyObject element) =>
+        (bool)element.GetValue(IsVerticalOffsetSyncSuspendedProperty);
+
+    /// <summary>
+    /// Sets a value indicating whether vertical offset sync is suspended.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <param name="value">The value.</param>
+    public static void SetIsVerticalOffsetSyncSuspended(DependencyObject element, bool value) =>
+        element.SetValue(IsVerticalOffsetSyncSuspendedProperty, value);
 
     #endregion VerticalOffset attached property
 

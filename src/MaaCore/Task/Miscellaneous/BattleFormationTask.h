@@ -53,7 +53,7 @@ public:
     // 设置对指定编队自动编队
     void set_select_formation(int index) { m_select_formation_index = index; }
 
-    std::shared_ptr<std::unordered_map<std::string, std::string>> get_opers_in_formation() const
+    std::shared_ptr<std::unordered_map<battle::OperNameTag, std::string>> get_opers_in_formation() const
     {
         return m_opers_in_formation;
     }
@@ -89,7 +89,16 @@ public:
     bool set_specific_support_unit(const std::string& name = ""); // 设置指定助战干员
 
 protected:
-    using OperGroup = std::pair<std::string, std::vector<asst::battle::OperUsage>>;
+    using OperGroup = battle::copilot::OperUsageGroup;
+
+    struct OperInfo
+    {
+        battle::Role role;
+        std::string name;
+        int elite;
+        int level;
+        std::optional<int> skill_level;
+    };
 
     virtual bool _run() override;
     bool parse_formation();
@@ -108,9 +117,9 @@ protected:
     // 选择当前页中的干员, return 是否继续翻页
     bool select_opers_in_cur_page(const std::vector<OperGroup*>& groups);
     // 检查干员等级
-    bool check_oper_level(const cv::Mat& image, asst::Rect flag, const battle::OperUsage& oper, bool ignore);
+    bool check_oper_level(const OperInfo& oper_info, const battle::OperUsage& oper, bool ignore);
     // 检查并选中技能, return 技能是否达到要求
-    bool check_and_select_skill(const battle::OperUsage& oper, bool ignore, int delay);
+    bool check_and_select_skill(OperInfo& oper_info, const battle::OperUsage& oper, bool ignore, int delay);
     void swipe_page();
     void swipe_to_the_left(int times = 2);
     bool confirm_selection();
@@ -126,14 +135,15 @@ protected:
     std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;      // 作业编队
     std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation_last; // 上次的编队
     // 编队中的干员名称-所属组名, 传递给外部使用, 编入的干员需要存入该表
-    std::shared_ptr<std::unordered_map<std::string, std::string>> m_opers_in_formation =
-        std::make_shared<std::unordered_map<std::string, std::string>>();
+    std::shared_ptr<std::unordered_map<battle::OperNameTag, std::string>> m_opers_in_formation =
+        std::make_shared<std::unordered_map<battle::OperNameTag, std::string>>();
     bool m_add_trust = false;                                   // 是否需要追加信赖干员
     bool m_ignore_requirements = false;                         // 是否跳过未满足的干员属性要求
     std::vector<std::pair<std::string, int>> m_user_additional; // 追加干员表，从头往后加
     DataResource m_data_resource = DataResource::Copilot;
     std::vector<AdditionalFormation> m_additional;
     std::string m_last_oper_name;
+    std::unordered_map<battle::OperNameTag, OperInfo> m_opers;
     int m_select_formation_index = 0;
     int m_missing_retry_times = 1; // 识别不到干员的重试次数
 
@@ -145,7 +155,7 @@ protected:
     using OperModule = battle::OperModule;
     using RequiredOper = battle::RequiredOper;
 
-    std::optional<std::string> add_support_unit(
+    std::optional<battle::OperNameTag> add_support_unit(
         const std::vector<RequiredOper>& required_opers = {},
         size_t max_refresh_times = 5,
         Friendship friendship = Friendship::Stranger);

@@ -14,9 +14,9 @@
 #nullable enable
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
-using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -700,11 +700,20 @@ public static class ResourceUpdater
             Directory.CreateDirectory(destDirName);
         }
 
+        // version.json 最后复制：若中途失败，本地资源版本仍是旧值，
+        // 下次启动会重新检测到资源更新并重试，避免留下 ｢部分新部分旧｣ 却被认为已是最新
+        FileInfo? versionFile = null;
         FileInfo[] files = dir.GetFiles();
         foreach (FileInfo file in files)
         {
             if (file.Name == ".gitignore")
             {
+                continue;
+            }
+
+            if (file.Name == "version.json")
+            {
+                versionFile = file;
                 continue;
             }
 
@@ -717,5 +726,7 @@ public static class ResourceUpdater
             string tempPath = Path.Combine(destDirName, subDir.Name);
             DirectoryMerge(subDir.FullName, tempPath);
         }
+
+        versionFile?.CopyTo(Path.Combine(destDirName, versionFile.Name), true);
     }
 }

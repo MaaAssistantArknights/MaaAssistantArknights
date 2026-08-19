@@ -612,7 +612,7 @@
                                 </Grid>
                                 <StackPanel Margin="10,10,0,10" Orientation="Horizontal">
                                     <hc:ComboBox
-                                        Width="300"
+                                        Width="400"
                                         hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Presets}"
                                         DisplayMemberPath="DisplayName"
                                         ItemsSource="{Binding Source={x:Static template:WebhookPresetTemplate.BuiltInTemplates}}"
@@ -620,29 +620,41 @@
                                         SelectedValuePath="Id" />
                                     <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationCustomWebhook.PresetsPlaceholders}" />
                                 </StackPanel>
-                                <hc:TextBox
-                                    Width="400"
-                                    Height="30"
-                                    Margin="10"
-                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Url}"
-                                    Text="{Binding Url}" />
-                                <hc:TextBox
-                                    Width="400"
-                                    MinHeight="20"
-                                    Margin="10"
-                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Headers}"
-                                    Text="{Binding Headers}" />
-                                <hc:TextBox
-                                    Width="400"
-                                    MinHeight="60"
-                                    Margin="10"
-                                    Padding="6,3"
-                                    VerticalContentAlignment="Top"
-                                    hc:InfoElement.Placeholder="{DynamicResource ExternalNotificationCustomWebhook.Placeholders}"
-                                    hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Body}"
-                                    AcceptsReturn="True"
-                                    Text="{Binding Body}"
-                                    TextWrapping="Wrap" />
+                                <StackPanel Margin="10" Orientation="Horizontal">
+                                    <hc:TextBox
+                                        Width="400"
+                                        Height="30"
+                                        hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Url}"
+                                        Text="{Binding Url}" />
+                                    <!--  隐藏占位，与 Headers 行的 TooltipBlock 对齐  -->
+                                    <controls:TooltipBlock TooltipText=" " Visibility="Hidden" />
+                                </StackPanel>
+                                <StackPanel Margin="10" Orientation="Horizontal">
+                                    <hc:TextBox
+                                        Width="400"
+                                        MinHeight="60"
+                                        VerticalContentAlignment="Top"
+                                        hc:InfoElement.Placeholder="{DynamicResource ExternalNotificationCustomWebhook.HeadersPlaceholders}"
+                                        hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Headers}"
+                                        AcceptsReturn="True"
+                                        Text="{Binding Headers}"
+                                        TextWrapping="Wrap" />
+                                    <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationCustomWebhook.HeadersTip}" />
+                                </StackPanel>
+                                <StackPanel Margin="10" Orientation="Horizontal">
+                                    <hc:TextBox
+                                        Width="400"
+                                        MinHeight="60"
+                                        Padding="6,3"
+                                        VerticalContentAlignment="Top"
+                                        hc:InfoElement.Placeholder="{DynamicResource ExternalNotificationCustomWebhook.Placeholders}"
+                                        hc:InfoElement.Title="{DynamicResource ExternalNotificationCustomWebhook.Body}"
+                                        AcceptsReturn="True"
+                                        Text="{Binding Body}"
+                                        TextWrapping="Wrap" />
+                                    <!--  隐藏占位，与 Headers 行的 TooltipBlock 对齐  -->
+                                    <controls:TooltipBlock TooltipText=" " Visibility="Hidden" />
+                                </StackPanel>
                             </StackPanel>
                         </Border>
                     </DataTemplate>

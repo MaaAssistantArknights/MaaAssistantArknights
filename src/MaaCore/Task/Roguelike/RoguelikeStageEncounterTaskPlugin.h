@@ -44,6 +44,7 @@ private:
     size_t m_view_begin = 0;
     size_t m_view_end = 0;
     std::vector<int> m_option_y_in_view;
+    std::vector<Rect> m_option_rect_in_view;
 
     static constexpr size_t MAX_SWIPE_TIMES = 1;
 

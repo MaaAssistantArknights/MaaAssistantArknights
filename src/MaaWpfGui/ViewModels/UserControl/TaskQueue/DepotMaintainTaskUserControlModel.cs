@@ -64,7 +64,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             };
         }
 
-        // 任务状态变化时，用最新库存重算该 plan 的缺口
+        // 任务开始时用最新库存重算该 plan 的缺口；任务正常结束但未达标时记录临期药耗尽证明
         Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
 
         // 语言切换时由 FightSettings.RebuildDropsList 显式调用 OnLanguageChanged
@@ -91,7 +91,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
     {
-        if (status != TaskItemStatus.InProgress || taskId <= 0)
+        if (taskId <= 0)
         {
             return;
         }
@@ -103,6 +103,21 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
 
         if (string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0)
+        {
+            return;
+        }
+
+        if (status == TaskItemStatus.Completed)
+        {
+            // 库存任务无次数上限，未达库存目标即正常结束说明理智打不动了，记录其临期药窗口为已耗尽
+            UpdateProvenExhaustedMedicineDays(
+                task.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
+                plan.DropId,
+                plan.DropCount);
+            return;
+        }
+
+        if (status != TaskItemStatus.InProgress)
         {
             return;
         }
@@ -281,6 +296,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
         PlanList = new(list);
         PlanList.CollectionChanged += PlanList_CollectionChanged;
+
+        // new(list) 的 Reset 发生在构造阶段，此时 CollectionChanged 尚未挂载，需手动重排一次
+        ReindexPlans();
         SyncPlanListToTaskConfig();
         NotifyOfPropertyChange(nameof(PlanInfo));
     }
@@ -476,12 +494,20 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 plan.PropertyChanged += PlanItem_PropertyChanged;
             });
         }
+        ReindexPlans();
+        SyncPlanListToTaskConfig();
+    }
+
+    /// <summary>
+    /// 按当前 <see cref="PlanList"/> 顺序重排每项 <see cref="DepotPlanItemViewModel.Index"/>。
+    /// Title 依赖 Index，Fody 已在 Index setter 织入 Title 的通知，赋值即自动刷新显示。
+    /// </summary>
+    private void ReindexPlans()
+    {
         foreach (var (plan, index) in PlanList.Select((plan, index) => (plan, index)))
         {
             plan.Index = index;
         }
-
-        SyncPlanListToTaskConfig();
     }
 
     /// <summary>

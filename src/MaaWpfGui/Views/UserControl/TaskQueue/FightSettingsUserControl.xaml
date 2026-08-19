@@ -523,17 +523,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <controls:TextBlock
-                Margin="0,5"
-                HorizontalAlignment="Center"
-                FontWeight="Bold"
-                Text="{DynamicResource MultiTasksShareTip}"
-                TextAlignment="Left"
-                TextWrapping="Wrap" />
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource AutoRestartOption}"
-                IsChecked="{Binding AutoRestartOnDrop}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

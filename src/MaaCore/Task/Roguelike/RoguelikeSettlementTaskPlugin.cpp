@@ -15,13 +15,15 @@ bool asst::RoguelikeSettlementTaskPlugin::verify(AsstMsg msg, const json::value&
     }
 
     const auto task_name = details.get("details", "task", "");
+    const RoguelikeMode mode = m_config->get_mode();
+    const bool report_settlement = mode == RoguelikeMode::Exp || mode == RoguelikeMode::BlackFlowBabyAnimal;
     if (task_name.ends_with("Roguelike@GamePass")) {
         m_game_pass = true;
-        return m_config->get_mode() == RoguelikeMode::Exp;
+        return report_settlement;
     }
     else if (task_name.ends_with("Roguelike@MissionFailedFlag2")) {
         m_game_pass = false;
-        return m_config->get_mode() == RoguelikeMode::Exp;
+        return report_settlement;
     }
     else {
         return false;

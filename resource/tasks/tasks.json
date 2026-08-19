@@ -1105,12 +1105,14 @@
         ]
     },
     "OfflineConfirm": {
+        "Doc": "掉线重连功能已移除：检测到掉线弹窗后直接停止任务。恢复重连时删除本节点的 action 即可走 OfflineConfirmImpl 原链路",
         "roi": [310, 409, 648, 165],
         "reduceOtherTimes": ["StartButton1", "StartButton2"],
+        "action": "Stop",
         "next": ["OfflineConfirmImpl"]
     },
     "OfflineConfirmImpl": {
-        "Doc": "防止 reduceOtherTimes 两次",
+        "Doc": "防止 reduceOtherTimes 两次。掉线重连移除后暂无引用，保留作恢复重连时的参考",
         "template": "OfflineConfirm.png",
         "action": "ClickSelf",
         "roi": [310, 409, 648, 165],
@@ -1280,8 +1282,8 @@
     "FightSeries-Opened": {
         "template": "FightSeries-Indicator.png",
         "roi": [900, 370, 70, 40],
-        "templThreshold": 0.9,
-        "maskRange": [1, 255]
+        "method": "RGBCount",
+        "colorScales": [[0, 255]]
     },
     "FightSeries-Open": {
         "baseTask": "FightSeries-Icon",
@@ -1458,7 +1460,8 @@
             "(ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self",
             "#self"
         ],
-        "exceededNext": ["RestartGameAndContinue"]
+        "exceededNext_Doc": "掉线重连移除前为 RestartGameAndContinue",
+        "exceededNext": ["Stop"]
     },
     "EndOfAction": {
         "Doc": "本任务注册了插件 StageDropsTaskPlugin",
@@ -1489,7 +1492,8 @@
             "ClickCorner@LoadingIcon",
             "#self"
         ],
-        "exceededNext": ["RestartGameAndContinue"]
+        "exceededNext_Doc": "掉线重连移除前为 RestartGameAndContinue",
+        "exceededNext": ["Stop"]
     },
     "ClickCornerThenStop": {
         "baseTask": "ClickCorner",
@@ -1641,8 +1645,9 @@
         "next": ["AbandonAction", "OfflineConfirmAfterBattle", "WaitAfterPRTS"]
     },
     "OfflineConfirmAfterBattle": {
+        "Doc": "掉线重连功能已移除：检测到掉线弹窗后直接停止任务。恢复重连时将 action 改回 ClickSelf 即可走原链路",
         "template": "PopupConfirm.png",
-        "action": "ClickSelf",
+        "action": "Stop",
         "roi": [630, 400, 650, 160],
         "next": ["PRTS#next", "OfflineConfirm", "StartUpThemes#next", "OfflineConfirmAfterBattle"]
     },
@@ -1672,7 +1677,7 @@
         "roi": [36, 226, 482, 269]
     },
     "RestartGameAndContinue": {
-        "Doc": "base_task",
+        "Doc": "base_task。掉线重连移除后暂无引用，保留作恢复重连时的参考（原为 ClickCorner/ClickCornerAfterPRTS 超限后的重启续跑入口）",
         "algorithm": "JustReturn",
         "postDelay": 5000,
         "next": ["StartUpThemes#next", "RestartGameAndContinue@LoadingIcon", "ReturnButtons#next"]
@@ -1702,12 +1707,28 @@
         "algorithm": "JustReturn",
         "next": [
             "RecruitFlag",
+            "Recruit@FromRecruitTagsPage",
             "Recruit",
             "RecruitBegin@QuickSwitch@ToRecruit#next",
             "Recruit@ReturnButtons#next",
             "Recruit@CloseAnnos#next",
             "Recruit@OfflineConfirm"
         ]
+    },
+    "FromRecruitTagsPage": {
+        "algorithm": "OcrDetect",
+        "text": ["招募时限"],
+        "roi": [220, 200, 115, 50],
+        "maxTimes": 3,
+        "next": ["FromRecruitTagsPage@Return"]
+    },
+    "FromRecruitTagsPage@Return": {
+        "template": ["Return.png", "Return-White.png"],
+        "templThreshold": [0.7, 0.7],
+        "action": "ClickSelf",
+        "roi": [0, 0, 180, 80],
+        "postDelay": 500,
+        "next": ["RecruitFlag", "FromRecruitTagsPage@Return", "RecruitBegin@LoadingText", "#back"]
     },
     "Recruit": {
         "action": "DoNothing",

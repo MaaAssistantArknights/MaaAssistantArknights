@@ -10,6 +10,20 @@
 
 namespace asst::battle
 {
+enum class Role
+{
+    Unknown,
+    Pioneer, // 先锋
+    Warrior, // 近卫
+    Tank,    // 重装
+    Sniper,  // 狙击
+    Caster,  // 术士
+    Medic,   // 医疗
+    Support, // 辅助
+    Special, // 特种
+    Drone    // 无人机
+};
+
 // 统一变量名：
 // loc, location, 表示格子坐标，例如 [1, 1], [5, 5]
 // pos, position, 表示像素坐标，例如 [1280, 720], [500, 300]
@@ -32,10 +46,7 @@ struct OperatorRequirements
     int module = -1;      // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
                           // int potentiality = -1; // 潜能要求
 
-    bool operator==(const OperatorRequirements& req) const
-    {
-        return elite == req.elite && level == req.level && skill_level == req.skill_level && module == req.module;
-    }
+    auto operator<=>(const OperatorRequirements&) const = default;
 };
 
 // 干员编队状态
@@ -48,8 +59,9 @@ enum class OperStatus
     // Unknown,     // 未知状态
 };
 
-struct OperUsage // 干员用法
+struct OperUsage                                  // 干员用法
 {
+    battle::Role role = battle::Role::Unknown;    // 干员职业
     std::string name;
     int skill = 0;                                // 技能序号，取值范围 [0, 3]，0时使用默认技能 或 上次编队时使用的技能
     SkillUsage skill_usage = SkillUsage::NotUse;
@@ -57,10 +69,16 @@ struct OperUsage // 干员用法
     battle::OperatorRequirements requirements {}; // 练度需求
     OperStatus status = OperStatus::Unchecked;    // 编队状态, 可能有其他更好的位置存储
 
+    auto operator<=>(const OperUsage& other) const
+    {
+        return std::tie(role, name, skill, skill_usage, skill_times, requirements) <=>
+               std::tie(other.role, other.name, other.skill, other.skill_usage, other.skill_times, other.requirements);
+    }
+
     bool operator==(const OperUsage& other) const
     {
-        return name == other.name && skill == other.skill && skill_usage == other.skill_usage &&
-               skill_times == other.skill_times && requirements == other.requirements;
+        return std::tie(role, name, skill, skill_usage, skill_times, requirements) ==
+               std::tie(other.role, other.name, other.skill, other.skill_usage, other.skill_times, other.requirements);
     }
 };
 
@@ -71,20 +89,6 @@ enum class DeployDirection
     Left = 2,
     Up = 3,
     None = 4 // 没有方向，通常是无人机之类的
-};
-
-enum class Role
-{
-    Unknown,
-    Pioneer, // 先锋
-    Warrior, // 近卫
-    Tank,    // 重装
-    Sniper,  // 狙击
-    Caster,  // 术士
-    Medic,   // 医疗
-    Support, // 辅助
-    Special, // 特种
-    Drone    // 无人机
 };
 
 inline static Role get_role_type(const std::string& role_name)
@@ -388,7 +392,15 @@ using RoleCounts = std::unordered_map<Role, int>;
 
 namespace copilot
 {
-using OperUsageGroup = std::pair<std::string, std::vector<OperUsage>>;
+
+struct OperUsageGroup
+{
+    std::string name;  // 干员组名
+    int elite_min = 0; // 组内干员的最小精英化等级
+    int level_min = 0; // 组内干员的最小等级
+    std::vector<asst::battle::OperUsage> opers;
+};
+
 using OperUsageGroups = std::vector<OperUsageGroup>;
 
 enum class ActionType
@@ -418,20 +430,20 @@ struct Action
     int cost_changes = 0;
     int cooling = 0;
     ActionType type = ActionType::Deploy;
-    std::string name; // 目标名，若 type >= SwitchSpeed, name 为空
+    battle::Role role = battle::Role::Unknown; // 目标职业
+    std::string name;                          // 目标名，若 type >= SwitchSpeed, name 为空
     Point location;
     DeployDirection direction = DeployDirection::Right;
     SkillUsage modify_usage = SkillUsage::NotUse;
     int modify_times = 1; // 更改使用技能的次数，默认为 1，兼容曾经的作业
     int pre_delay = 0;
     int post_delay = 0;
-    int time_out = INT_MAX; // TODO
+    int timeout_ms = -1; // 动作超时时间, 单位ms
     std::string doc;
     std::string doc_color;
     RoleCounts role_counts;
     std::pair<double, double> distance;
-    bool skip_if_not_ready = false; // 跳过使用未准备好的技能，主要用于关闭技能的场景 (试验性功能)
-    int elapsed_time = 0;           // 全局计时条件 (试验性功能)
+    int elapsed_time = 0; // 全局计时条件 (试验性功能)
 };
 
 struct BasicInfo
@@ -606,3 +618,30 @@ inline std::string enum_to_string(const battle::OperModule module)
     return "Unknown";
 }
 } // namespace asst
+
+namespace asst::battle
+{
+struct OperNameTag
+{
+    Role role = Role::Unknown; // 干员职业
+    std::string name;          // 干员名
+
+    auto operator<=>(const OperNameTag&) const = default;
+
+    std::string to_string() const { return "(" + enum_to_string(role) + ", " + name + ")"; }
+
+    explicit operator std::string() const { return to_string(); }
+};
+}
+
+namespace std
+{
+template <>
+struct hash<asst::battle::OperNameTag>
+{
+    std::size_t operator()(const asst::battle::OperNameTag& k) const noexcept
+    {
+        return std::hash<std::string> {}(k.name) ^ (std::hash<int> {}(static_cast<int>(k.role)) << 1);
+    }
+};
+}

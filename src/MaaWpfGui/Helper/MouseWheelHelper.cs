@@ -20,6 +20,8 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using JetBrains.Annotations;
+using MaaWpfGui.Styles.Properties;
 
 namespace MaaWpfGui.Helper;
 
@@ -110,12 +112,15 @@ public static class MouseWheelHelper
         }
     }
 
-    #region IsolateParentScroll（Popup 打开时锁定外层页面滚动）
+    #region IsolateParentScroll（Popup 打开时隔离外层页面滚动）
 
     /// <summary>
-    /// 附加到 <see cref="Popup"/>：打开期间锁定最近的外层 <see cref="ScrollViewer"/>，
-    /// 并拦截 <see cref="FrameworkElement.RequestBringIntoViewEvent"/>，
-    /// 避免下拉内容滚动/展开时带动页面一起滚。
+    /// 附加到 <see cref="Popup"/>：打开期间隔离最近的外层 <see cref="ScrollViewer"/>，避免弹层
+    /// （如 ComboBox 下拉）打开/滚动时带动外层页面一起滚，干扰页面自身的滚动联动。三道防线：
+    /// 1) <c>PreviewMouseWheel</c>——弹层打开期间外层不响应滚轮，滚轮转给弹层内可滚动控件；
+    /// 2) <c>RequestBringIntoView</c>——拦截弹层内元素请求滚入视野，防止冒泡到外层；
+    /// 3) <see cref="LockOuterScroll"/>——对前两道拦不住的滚动（主要是布局微调）事后恢复外层位置，
+    ///    并置 <c>IsVerticalOffsetSyncSuspended</c> 暂停外层滚动联动的回写。
     /// </summary>
     public static readonly DependencyProperty IsolateParentScrollProperty =
         DependencyProperty.RegisterAttached(
@@ -155,9 +160,9 @@ public static class MouseWheelHelper
     {
         private readonly Popup _popup;
         private bool _attached;
+        private bool _bringIntoViewHooked;
         private bool _outerScrollLocked;
         private bool _restoringOuterScroll;
-        private bool _bringIntoViewHooked;
         private double _lockedOuterScrollOffset;
         private ScrollViewer? _outerScrollViewer;
         private UIElement? _bringIntoViewTarget;
@@ -266,8 +271,15 @@ public static class MouseWheelHelper
 
             _outerScrollViewer = outer;
             _lockedOuterScrollOffset = outer.VerticalOffset;
+
+            // 下拉打开会触发外层 ScrollViewer 的微小滚动（change≈1，来自 ScrollViewer.OnLayoutUpdated
+            // 的布局阶段，不是路由事件，无法用 Handled/Preview 拦截）。这里对这类拦不住的滚动采取
+            // ｢事后恢复 + 期间暂停联动｣：订阅 ScrollChanged，一旦偏离打开前的位置就拉回；同时置
+            // IsVerticalOffsetSyncSuspended，让外层滚动的双向绑定（ScrollViewerBinding→ScrollOffset→
+            // 左侧导航 SelectedIndex）暂停回写，否则瞬时偏移会被记录成 ScrollOffset、错误改写高亮。
             _outerScrollViewer.ScrollChanged += OuterScrollViewer_ScrollChanged;
             _outerScrollViewer.PreviewMouseWheel += OuterScrollViewer_PreviewMouseWheel;
+            ScrollViewerBinding.SetIsVerticalOffsetSyncSuspended(_outerScrollViewer, true);
             _outerScrollLocked = true;
         }
 
@@ -282,6 +294,7 @@ public static class MouseWheelHelper
 
             _outerScrollViewer.ScrollChanged -= OuterScrollViewer_ScrollChanged;
             _outerScrollViewer.PreviewMouseWheel -= OuterScrollViewer_PreviewMouseWheel;
+            ScrollViewerBinding.SetIsVerticalOffsetSyncSuspended(_outerScrollViewer, false);
             _outerScrollLocked = false;
             _outerScrollViewer = null;
         }
@@ -329,6 +342,80 @@ public static class MouseWheelHelper
             }
 
             e.Handled = true;
+        }
+    }
+
+    #endregion
+
+    #region IsolateComboBoxScroll（为 ComboBox 模板内的 Popup 启用 IsolateParentScroll）
+
+    // 为什么需要：设置页（SettingsView）的外层 ScrollViewer 用 ScrollViewerBinding.VerticalOffset
+    // 把滚动位置双向绑到 ScrollOffset，并联动左侧导航 ListBox 的 SelectedIndex（滚动↔高亮分区）。
+    // ComboBox 打开/滚动下拉时，会触发外层 ScrollViewer 多种瞬时滚动：滚轮冒泡、选中项 BringIntoView、
+    // 以及下拉布局导致的 OnLayoutUpdated 微调。这些滚动在普通页面无害，但在设置页会被上述联动记录成
+    // ScrollOffset 变化，错误改写左侧导航高亮，甚至把页面拉到顶。本属性自动为 ComboBox 模板内的
+    // PART_Popup 启用 IsolateParentScroll 统一隔离；通过全局 ComboBox 默认 style 的 Setter 启用，
+    // 无需逐个 ComboBox 设置，以后新增的也自动免疫。
+
+    /// <summary>
+    /// 附加到 <see cref="ComboBox"/>：模板应用后自动为其内部 <c>PART_Popup</c> 启用
+    /// <see cref="IsolateParentScroll"/>，隔离下拉打开/滚动期间对设置页外层滚动联动的干扰。
+    /// </summary>
+    public static readonly DependencyProperty IsolateComboBoxScrollProperty =
+        DependencyProperty.RegisterAttached(
+            "IsolateComboBoxScroll",
+            typeof(bool),
+            typeof(MouseWheelHelper),
+            new PropertyMetadata(false, OnIsolateComboBoxScrollChanged));
+
+    /// <summary>
+    /// Gets a value indicating whether combobox scroll isolation is enabled.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns>True if enabled.</returns>
+    [UsedImplicitly]
+    public static bool GetIsolateComboBoxScroll(DependencyObject element) =>
+        (bool)element.GetValue(IsolateComboBoxScrollProperty);
+
+    /// <summary>
+    /// Sets a value indicating whether combobox scroll isolation is enabled.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <param name="value">The value.</param>
+    public static void SetIsolateComboBoxScroll(DependencyObject element, bool value) =>
+        element.SetValue(IsolateComboBoxScrollProperty, value);
+
+    private static void OnIsolateComboBoxScrollChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not ComboBox comboBox)
+        {
+            return;
+        }
+
+        if ((bool)e.NewValue)
+        {
+            comboBox.Loaded += ComboBox_EnsurePopupIsolated;
+            EnsurePopupIsolated(comboBox);
+        }
+        else
+        {
+            comboBox.Loaded -= ComboBox_EnsurePopupIsolated;
+        }
+    }
+
+    private static void ComboBox_EnsurePopupIsolated(object? sender, RoutedEventArgs e)
+    {
+        if (sender is ComboBox cb)
+        {
+            EnsurePopupIsolated(cb);
+        }
+    }
+
+    private static void EnsurePopupIsolated(ComboBox comboBox)
+    {
+        if (comboBox.Template?.FindName("PART_Popup", comboBox) is Popup popup)
+        {
+            SetIsolateParentScroll(popup, true);
         }
     }
 
@@ -390,7 +477,30 @@ public static class MouseWheelHelper
 
     private static void ScrollScrollViewer(ScrollViewer scrollViewer, int delta)
     {
+        if (IsItemUnitScrolling(scrollViewer))
+        {
+            // 逻辑滚动（如 ComboBox 下拉）的偏移单位是项，像素口径的 delta / 3（一格 120 → 40）
+            // 会被解释成 40 个项直接见底，需按 WPF 默认滚轮行为换算：每格滚
+            // SystemParameters.WheelScrollLines 项（系统设 ｢一次一屏｣ 时滚一屏，设 ｢不滚动｣ 时按默认 3 项）
+            var wheelScrollLines = SystemParameters.WheelScrollLines;
+            var unitsPerNotch = wheelScrollLines switch
+            {
+                < 0 => Math.Max(1.0, scrollViewer.ViewportHeight),
+                0 => 3.0,
+                _ => (double)wheelScrollLines,
+            };
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - (Math.Sign(delta) * unitsPerNotch));
+            return;
+        }
+
         scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - (delta / 3.0));
+    }
+
+    private static bool IsItemUnitScrolling(ScrollViewer scrollViewer)
+    {
+        // CanContentScroll 只表示滚动交给内容的 IScrollInfo 接管，StackPanel 等接管时单位仍是像素；
+        // 项单位只出现在内容为 ItemsPresenter（面板为 VirtualizingStackPanel 等 ItemsHost）时
+        return scrollViewer.CanContentScroll && scrollViewer.Content is ItemsPresenter;
     }
 
     private static bool IsMouseOverElement(FrameworkElement? element)

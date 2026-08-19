@@ -50,12 +50,14 @@
                 Block.TextAlignment="Center"
                 Content="{DynamicResource RunTaskAfterLaunch}"
                 IsChecked="{Binding RunDirectly}" />
-            <CheckBox
-                Margin="10"
-                HorizontalAlignment="Left"
-                Block.TextAlignment="Center"
-                Content="{DynamicResource OpenEmulatorAfterLaunch}"
-                IsChecked="{Binding OpenEmulatorAfterLaunch}" />
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    Block.TextAlignment="Center"
+                    Content="{DynamicResource OpenEmulatorAfterLaunch}"
+                    IsChecked="{Binding OpenEmulatorAfterLaunch}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource OpenEmulatorAfterLaunchTip}" />
+            </StackPanel>
             <StackPanel Margin="10" Orientation="Horizontal">
                 <CheckBox MaxWidth="210" IsChecked="{Binding SkipStartupAutoRunAfterUpdate}">
                     <controls:TextBlock Text="{DynamicResource SkipStartupAutoRunAfterUpdate}" TextWrapping="Wrap" />

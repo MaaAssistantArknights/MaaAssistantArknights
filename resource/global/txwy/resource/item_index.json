@@ -1183,6 +1183,14 @@
         "sortId": 10323,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_7001": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_7001.png",
+        "name": "尋訪數據契約",
+        "sortId": 10324,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_903": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -2295,6 +2303,14 @@
         "sortId": -10000,
         "usage": "雅賽努斯公民在投票時的必備品。至於用過的陶片該如何處理？理事官辦公室決定收集起來，將其放入精美的包裝內，販賣給來到雅賽努斯的遊客。這項創新的作法獲得了各方的好評。"
     },
+    "act49side_token_draft": {
+        "classifyType": "NONE",
+        "description": "具載一事之始末，察勘一代之得失，剖辨一人之對錯，定以一字之褒貶。",
+        "icon": "act49side_token_draft.png",
+        "name": "未定稿",
+        "sortId": -10000,
+        "usage": "尚未經過審定的史稿。將其交給某位典水官，她會很樂意贈予你一些天鏡閣用不到的物資。經過編纂之後，它們將越過一時一地的成敗，任時光浸透，在歲月面前換得一個公正，直至成為歲月本身。"
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
@@ -3278,6 +3294,14 @@
         "name": "一號計劃決定版",
         "sortId": 60119,
         "usage": "一座高速戰艦的模型，可兌換龍門幣。"
+    },
+    "randomMaterial_message2": {
+        "classifyType": "CONSUME",
+        "description": "看樣子是再普通不過的圍棋棋具——棋枰、棋子、棋盒。但細究起來，棋枰是紅木的，棋盒由整塊木材打造，棋子則是由罕見的石材製成，顆顆均勻，晶瑩澄澈。隨棋具還附贈了一本匯集古今名局的棋譜集。",
+        "icon": "randomMaterial_message2.png",
+        "name": "形制樸素的棋具",
+        "sortId": 60121,
+        "usage": "一套形制樸素的棋具，可兌換龍門幣。"
     },
     "randomMaterial_rhine2": {
         "classifyType": "CONSUME",

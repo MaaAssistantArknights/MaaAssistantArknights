@@ -1,5 +1,5 @@
 ---
-order: 11
+order: 13
 icon: icon-park-solid:other
 ---
 
@@ -53,7 +53,7 @@ In `Settings` - `Scheduled Execution`, you can set up to 8 timed tasks. Each inc
 
 When checked, MAA will **stop the currently running task**, restart the game, and start a new task. Useful for handling the daily 04:00 (server local time) flash update — after the flash update, it forcibly restarts the game and re-executes tasks to prevent them from getting stuck.
 
-To automatically reconnect and continue tasks after a flash update, also enable the `Start Up` task.
+After a disconnection or flash update, MAA stops the tasks instead of reconnecting automatically. For overnight runs, also enable the `Start Up` task and schedule the timer after 4:10 AM each day (the flash update window is usually 4:00-4:10 AM).
 
 ### Custom Configuration Selection
 
@@ -117,14 +117,14 @@ Only packages downloaded from [GitHub Releases](https://github.com/MaaAssistantA
   - **Full package**: `MAA-<version>-win-<arch>.zip`, e.g., `MAA-v5.20.0-win-x64.zip`.
   - **OTA package**: `MAAComponent-OTA-<current_version>_<target_version>-win-<arch>.zip`. The source version must match your current version.
 - After dragging, MAA will automatically extract and apply the update on next restart.
-- **Full package updates require manual confirmation**: Full packages clean old files in the installation directory (preserving `config`, `data`, `debug`, `cache`, `achievement`, `background`, etc.). Ensure MAA is installed in a standalone folder.
+- **Full package updates require manual confirmation**: Full packages clean old files in the installation directory (preserving `config`, `data`, `debug`, `cache`, `achievement`, etc.). Ensure MAA is installed in a standalone folder.
 
 ::: danger Full Package Update Risk
 If you place MAA directly in a disk root, Desktop, Downloads, or mix it with other programs/personal files at the same directory level, full package updates may delete sibling files. Always install MAA in a standalone folder and manually back up before updating.
 :::
 
 ::: details Traditional method (without drag-and-drop)
-If your MAA version is too old to support drag-and-drop (before v6.8.0-beta.2), extract the full package into a **new** folder, then copy the `config` and `data` folders from the old directory to preserve your data. ⚠️ Do not overwrite the old folder directly — incorrect operations may cause resource corruption.
+If your MAA version is too old to support drag-and-drop (before v6.8.0-beta.2), extract the full package into a **new** folder, then copy the `config`, `data`, and `debug` folders from the old directory to preserve your settings and logs (the `cache` and `achievement` folders are optional to keep). ⚠️ Do not overwrite the old folder directly — incorrect operations may cause resource corruption.
 :::
 
 #### Resource Update Packages
@@ -150,4 +150,3 @@ If the dragged file is not one of the above update packages (e.g., software pack
 - All click operations target random positions within buttons, following a Poisson distribution (higher probability at the center, decreasing with distance from center).
 - The core algorithms are developed in C++ with multi-level caching to minimize CPU and memory usage.
 - The software supports automatic updates ✿✿ ヽ(°▽°)ノ ✿. We recommend non-critical users try the beta version, which typically updates faster and has fewer bugs. (What MIUI? (╯‵□′)╯︵┻━┻)
-- If automatic downloads fail for new versions, you can manually download the OTA package and place it in the MAA directory for automatic updating.

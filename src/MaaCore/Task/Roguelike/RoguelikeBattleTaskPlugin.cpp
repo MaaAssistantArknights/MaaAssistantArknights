@@ -369,31 +369,34 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
     for (const auto& oper : m_cur_deployment_opers) {
         // 干员冷却中
         if (oper.cooling) {
-            Log.debug("operator", oper.name, "is cooling now.");
+            LogDebug << "operator" << oper.name << "is cooling now.";
             continue;
         }
 
-        const std::string& oper_name = oper_name_in_config(oper);
+        const battle::OperNameTag oper_tag { oper.role,
+                                             oper_name_in_config(
+                                                 oper) }; // 临时使用阿米娅-WARRIOR/阿米娅-MEDIC来获取招募信息
         // 获取招募信息
-        const auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_name);
+        const auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_tag);
         // 获取会用到该干员的干员组[干员组1序号,干员组2序号,...]
-        std::vector<int> group_ids = RoguelikeRecruit.get_group_ids_of_oper(m_config->get_theme(), oper_name);
+        std::vector<int> group_ids = RoguelikeRecruit.get_group_ids_of_oper(m_config->get_theme(), oper_tag);
 
         bool is_in_group = false;
         for (const auto& group_id : group_ids) {
             // 当前干员组名,string类型
             std::string group_name = groups[group_id];
-            Log.debug(m_stage_name, "group_name", group_name);
+            LogDebug << m_stage_name << "group_name" << group_name;
             if (m_deploy_plan.contains(group_name)) {
                 is_in_group = true;
                 for (const auto& info : m_deploy_plan[group_name]) {
                     if (m_kills < info.kill_lower_bound || m_kills > info.kill_upper_bound) {
-                        Log.debug("    deploy info", oper.name, "in group", group_name, "is waiting.");
+                        LogDebug << "    deploy info" << oper.name << "in group" << group_name << "is waiting.";
                         is_success = true; // 如果发现了待命干员，此函数最终返回true
                         continue;
                     }
 
                     DeployPlanInfo deploy_plan;
+                    deploy_plan.role = oper.role;
                     deploy_plan.oper_name = oper.name;
                     // deploy_plan.oper_priority = recruit_info.recruit_priority;
                     // deploy_plan.oper_order_in_group = recruit_info.order_in_group.at(group_id);
@@ -404,23 +407,18 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                     deploy_plan.placed = info.location;
                     deploy_plan.direction = info.direction;
                     deploy_plan_list.emplace_back(deploy_plan);
-                    Log.debug(
-                        "    deploy info",
-                        deploy_plan.oper_name,
-                        "is No. ",
-                        deploy_plan.oper_order_in_group + 1,
-                        "in group",
-                        group_name,
-                        ", with deploy command rank",
-                        deploy_plan.rank);
+                    LogDebug << "    deploy info" << deploy_plan.oper_name << "is No. "
+                             << deploy_plan.oper_order_in_group + 1 << "in group" << group_name
+                             << ", with deploy command rank" << deploy_plan.rank;
                 }
             }
             else {
-                Log.debug(m_stage_name, "group_name", group_name, "operator", oper.name, "is not in the deploy plan.");
+                LogDebug << m_stage_name << "group_name" << group_name << "operator" << oper.name
+                         << "is not in the deploy plan.";
             }
         }
         if (!is_in_group) {
-            Log.trace(m_stage_name, "operator", oper.name, "is not in ALL deploy plan.");
+            LogTrace << m_stage_name << "operator" << oper.name << "is not in ALL deploy plan.";
         }
     }
     std::sort(deploy_plan_list.begin(), deploy_plan_list.end());
@@ -429,26 +427,25 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
             !m_blacklist_location.contains(deploy_plan.placed) /* 判断该位置是否已被占据 */) {
             if (auto oper_it = std::ranges::find_if(
                     m_cur_deployment_opers,
-                    [&](const auto& oper) { return oper.name == deploy_plan.oper_name; });
+                    [&](const auto& oper) {
+                        return oper.role == deploy_plan.role && oper.name == deploy_plan.oper_name;
+                    });
                 oper_it == m_cur_deployment_opers.end() || !oper_it->available) { // 等费
-                Log.trace(
-                    "    best deploy is",
-                    deploy_plan.oper_name,
-                    "with rank",
-                    deploy_plan.rank,
-                    "but now waiting for cost.");
+                LogTrace << "    best deploy is" << deploy_plan.oper_name << "with rank" << deploy_plan.rank
+                         << "but now waiting for cost.";
                 return true;
             }
-            deploy_oper(deploy_plan.oper_name, deploy_plan.placed, deploy_plan.direction);
+            deploy_oper(deploy_plan.role, deploy_plan.oper_name, deploy_plan.placed, deploy_plan.direction);
+            battle::OperNameTag oper_tag { deploy_plan.role, deploy_plan.oper_name };
             // 防止滑动丢失(有些物体比如鸟笼没有方向),点一下右下角费用那里
             asst::BattleHelper::cancel_oper_selection();
             // 开始计时
             auto deployed_time = std::chrono::steady_clock::now();
-            m_deployed_time.insert_or_assign(deploy_plan.oper_name, deployed_time);
+            m_deployed_time.insert_or_assign(oper_tag, deployed_time);
             // 获取技能用法和使用次数
-            const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), deploy_plan.oper_name);
-            m_skill_usage[deploy_plan.oper_name] = oper_info.skill_usage;
-            m_skill_times[deploy_plan.oper_name] = oper_info.skill_times;
+            const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_tag);
+            m_skill_usage[oper_tag] = oper_info.skill_usage;
+            m_skill_times[oper_tag] = oper_info.skill_times;
             Log.trace("    best deploy is", deploy_plan.oper_name, "with rank", deploy_plan.rank);
             return true;
         }
@@ -481,20 +478,20 @@ bool asst::RoguelikeBattleTaskPlugin::do_once(const cv::Mat& image, const cv::Ma
     for (const auto& oper : m_cur_deployment_opers) {
         if (oper.cooling) {
             pre_cooling.emplace(oper.name);
-            m_deployed_time.erase(oper.name);
+            m_deployed_time.erase({ oper.role, oper.name });
         }
     }
 
     auto pre_battlefield = m_battlefield_opers;
-    for (const auto& [name, loc] : pre_battlefield) {
-        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
-        auto iter = m_deployed_time.find(name);
+    for (const auto& [oper_tag, loc] : pre_battlefield) {
+        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_tag);
+        auto iter = m_deployed_time.find(oper_tag);
         if (iter != m_deployed_time.end() && oper_info.auto_retreat > 0) {
-            if (std::chrono::steady_clock::now() - m_deployed_time.at(name) >=
+            if (std::chrono::steady_clock::now() - m_deployed_time.at(oper_tag) >=
                 oper_info.auto_retreat * std::chrono::seconds(1)) {
                 // 时间到了就撤退
-                asst::BattleHelper::retreat_oper(name);
-                m_deployed_time.erase(name);
+                asst::BattleHelper::retreat_oper(oper_tag.role, oper_tag.name);
+                m_deployed_time.erase(oper_tag);
             }
         }
     }
@@ -517,7 +514,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once(const cv::Mat& image, const cv::Ma
         ++cur_deployments_count;
         if (oper.cooling) {
             cur_cooling.emplace(oper.name);
-            m_deployed_time.erase(oper.name);
+            m_deployed_time.erase({ oper.role, oper.name });
         }
         if (oper.available) {
             ++cur_available_count;
@@ -585,17 +582,18 @@ bool asst::RoguelikeBattleTaskPlugin::do_once(const cv::Mat& image, const cv::Ma
         }
         const auto& [placed_loc, direction] = *best_loc_opt;
 
-        deploy_oper(best_oper.name, placed_loc, direction);
+        deploy_oper(best_oper.role, best_oper.name, placed_loc, direction);
         postproc_of_deployment_conditions(best_oper, placed_loc, direction);
 
+        battle::OperNameTag oper_tag { best_oper.role, best_oper.name };
         m_first_deploy = false;
         // 开始计时
         auto deployed_time = std::chrono::steady_clock::now();
-        m_deployed_time.insert_or_assign(best_oper.name, deployed_time);
+        m_deployed_time.insert_or_assign(oper_tag, deployed_time);
         // 获取技能用法和使用次数
-        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), best_oper.name);
-        m_skill_usage[best_oper.name] = oper_info.skill_usage;
-        m_skill_times[best_oper.name] = oper_info.skill_times;
+        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_tag);
+        m_skill_usage[oper_tag] = oper_info.skill_usage;
+        m_skill_times[oper_tag] = oper_info.skill_times;
 
         if (urgent_home_opt) {
             m_urgent_home_index.pop_front();
@@ -680,15 +678,16 @@ void asst::RoguelikeBattleTaskPlugin::check_drone_tiles()
 std::optional<size_t> asst::RoguelikeBattleTaskPlugin::check_urgent(
     const std::unordered_set<std::string>& pre_cooling,
     const std::unordered_set<std::string>& cur_cooling,
-    const std::map<std::string, Point>& pre_battlefield)
+    const std::map<battle::OperNameTag, Point>& pre_battlefield)
 {
     std::vector<size_t> new_urgent;
     for (const auto& name : cur_cooling) {
         if (pre_cooling.find(name) != pre_cooling.cend()) {
             continue;
         }
-        Log.info(name, "retreated");
-        auto pre_loc_iter = pre_battlefield.find(name);
+        LogInfo << name << "retreated";
+        auto pre_loc_iter =
+            std::ranges::find_if(pre_battlefield, [&](const auto& pair) { return pair.first.name == name; });
         if (pre_loc_iter == pre_battlefield.cend()) {
             Log.error("the oper", name, "was not on the battlefield before");
             continue;
@@ -1102,7 +1101,7 @@ asst::RoguelikeBattleTaskPlugin::DirectionAndScore asst::RoguelikeBattleTaskPlug
             case battle::Role::Medic:
                 if (auto iter = m_used_tiles.find(absolute_pos);
                     iter != m_used_tiles.cend() &&
-                    BattleData.get_role(iter->second) != battle::Role::Drone) { // 根据哪个方向上人多决定朝向哪
+                    iter->second.role != battle::Role::Drone) { // 根据哪个方向上人多决定朝向哪
                     score += 10000;
                 }
                 if (auto iter = m_side_tile_info.find(absolute_pos); iter == m_side_tile_info.end()) {
