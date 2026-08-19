@@ -240,6 +240,8 @@
     <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">←必読推奨</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">この{key=Operator}がbattle_dataにありません。</system:String>
+    <system:String x:Key="RoguelikeCoreCharSet">{key=StartingCoreChar}を設定しました: {0}</system:String>
+    <system:String x:Key="RoguelikeCoreCharCleared">{key=StartingCoreChar}をクリアしました</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">｢{key=StartingCoreChar}｣ 直接昇進</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">｢{key=StartingCoreChar}｣ の昇進招集までリセマラし、戦闘を行わない</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">第一層遠見で指定された啓示板を取得し、戦闘を行わない</system:String>

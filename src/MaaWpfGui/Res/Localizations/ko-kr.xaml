@@ -240,6 +240,8 @@
     <system:String x:Key="StartingCoreCharTip">작성하지 않으면 기본 설정이 사용됩니다.</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">←필독 추천</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">해당 {key=Operator}는 battle_data에 없습니다</system:String>
+    <system:String x:Key="RoguelikeCoreCharSet">{key=StartingCoreChar} 설정: {0}</system:String>
+    <system:String x:Key="RoguelikeCoreCharCleared">{key=StartingCoreChar} 초기화됨</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2차 정예화까지 반복</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2차 정예화까지 반복, 전투 X</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">1구역 암호판 획득 반복, 전투 X</system:String>

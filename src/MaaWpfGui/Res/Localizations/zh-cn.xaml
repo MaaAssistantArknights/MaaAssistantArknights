@@ -240,6 +240,8 @@
     <system:String x:Key="StartingCoreCharTip">不填写则使用默认策略。</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">←强烈推荐看</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">输入的{key=Operator}未在 battle_data 中。</system:String>
+    <system:String x:Key="RoguelikeCoreCharSet">已设置{key=StartingCoreChar}: {0}</system:String>
+    <system:String x:Key="RoguelikeCoreCharCleared">已清空{key=StartingCoreChar}</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹 ｢{key=StartingCoreChar}｣ 直升精二</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹 ｢{key=StartingCoreChar}｣ 直升精二，不进行作战</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一层远见密文板，不进行作战</system:String>

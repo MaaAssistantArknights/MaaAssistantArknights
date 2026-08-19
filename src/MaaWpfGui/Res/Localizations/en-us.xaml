@@ -240,6 +240,8 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="StartingCoreCharTip">If not filled out, the default policy will be used.</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">← Highly recommended reading</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">The {key=Operator} is not in battle_data.</system:String>
+    <system:String x:Key="RoguelikeCoreCharSet">{key=StartingCoreChar} set: {0}</system:String>
+    <system:String x:Key="RoguelikeCoreCharCleared">{key=StartingCoreChar} cleared</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for ｢{key=StartingCoreChar}｣ Elite 2</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for ｢{key=StartingCoreChar}｣ Elite 2, No Battle</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor, No Battle</system:String>

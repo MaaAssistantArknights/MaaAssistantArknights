@@ -51,7 +51,18 @@ public static class ComboBoxExtensions
             "OriginItemsSource",
             typeof(object),
             typeof(ComboBoxExtensions),
-            new PropertyMetadata(null, OnOriginItemsSourceChanged));
+            new PropertyMetadata(null, OnSearchableSourceChanged));
+
+    // 临时替换数据源的附加属性，优先于 OriginItemsSource。
+    // 需要动态切换列表的可搜索 ComboBox（如输入无效干员名时切换到全干员列表）不得直接给
+    // ItemsSource 赋本地值——那会绕过统一回填，重新落回共享默认视图并丢失过滤状态；
+    // 经由此属性切换时由 UpdateItemsSource 统一重建独立视图。
+    private static readonly DependencyProperty SearchableItemsSourceOverrideProperty =
+        DependencyProperty.RegisterAttached(
+            "SearchableItemsSourceOverride",
+            typeof(object),
+            typeof(ComboBoxExtensions),
+            new PropertyMetadata(null, OnSearchableSourceChanged));
 
     /// <summary>
     /// Make <seealso cref="ComboBox"/> searchable
@@ -127,9 +138,13 @@ public static class ComboBoxExtensions
             {
                 var text = targetComboBox.SelectedItem?.ToString() ?? string.Empty;
                 _logger.Debug("Switching to input mode with text: {Text}", text);
-                targetComboBox.SelectedItem = null;
-                targetTextBox.Text = text;
-                targetTextBox.Select(text.Length, 0);
+
+                WithTextBindingSuspended(targetComboBox, () =>
+                {
+                    targetComboBox.SelectedItem = null;
+                    targetTextBox.Text = text;
+                    targetTextBox.Select(text.Length, 0);
+                });
             }
 
             // switch to input mode
@@ -144,29 +159,7 @@ public static class ComboBoxExtensions
                 return;
             }
 
-            var searchTerm = targetTextBox.Text;
-            _logger.Debug("Searching for: {SearchTerm}", searchTerm);
-
-            // 如果文字完全匹配某个选项，恢复完整列表
-            object exactMatchItem = targetComboBox.ItemsSource.Cast<object>().FirstOrDefault(obj => string.Equals(obj?.ToString(), searchTerm, StringComparison.CurrentCultureIgnoreCase));
-
-            if (exactMatchItem != null)
-            {
-                targetComboBox.Items.Filter = null;
-                targetComboBox.SelectedItem = exactMatchItem;
-                targetComboBox.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    targetComboBox.UpdateLayout();
-                    if (targetComboBox.ItemContainerGenerator.ContainerFromItem(exactMatchItem) is FrameworkElement element)
-                    {
-                        element.BringIntoView();
-                    }
-                }), System.Windows.Threading.DispatcherPriority.Background);
-            }
-            else
-            {
-                targetComboBox.Items.Filter = item => item?.ToString()?.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ?? false;
-            }
+            ApplySearchFilter(targetComboBox);
         };
 
         targetComboBox.SelectionChanged += (_, _) =>
@@ -195,24 +188,146 @@ public static class ComboBoxExtensions
         };
     }
 
-    private static void OnOriginItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    /// <summary>
+    /// Temporarily override the items of a searchable <seealso cref="ComboBox"/>, taking precedence over the source bound to it.
+    /// Repeatedly assigning the same reference is a no-op; only actual changes rebuild the view.
+    /// </summary>
+    /// <param name="targetComboBox">Target <seealso cref="ComboBox"/></param>
+    /// <param name="items">Items to show instead of the bound source</param>
+    public static void SetSearchableItemsSourceOverride(this ComboBox targetComboBox, object items)
+    {
+        targetComboBox.SetValue(SearchableItemsSourceOverrideProperty, items);
+    }
+
+    /// <summary>
+    /// Clear the override set by <see cref="SetSearchableItemsSourceOverride"/> and fall back to the bound source.
+    /// </summary>
+    /// <param name="targetComboBox">Target <seealso cref="ComboBox"/></param>
+    public static void ClearSearchableItemsSourceOverride(this ComboBox targetComboBox)
+    {
+        targetComboBox.SetValue(SearchableItemsSourceOverrideProperty, null);
+    }
+
+    /// <summary>
+    /// Temporarily detach the <see cref="ComboBox.Text"/> binding while applying changes to the combo box,
+    /// so intermediate text values (e.g. text cleared by selection resets during items source changes)
+    /// are not written back to the source. The binding is restored afterwards, pulling the text from the source.
+    /// Only for selection-mode transitions where the displayed text equals the source value, not while typing.
+    /// </summary>
+    /// <param name="targetComboBox">Target <seealso cref="ComboBox"/></param>
+    /// <param name="changes">Changes that may produce intermediate text values</param>
+    public static void WithTextBindingSuspended(this ComboBox targetComboBox, Action changes)
+    {
+        if (targetComboBox.GetBindingExpression(ComboBox.TextProperty)?.ParentBinding is not { } textBinding)
+        {
+            changes();
+            return;
+        }
+
+        BindingOperations.ClearBinding(targetComboBox, ComboBox.TextProperty);
+        changes();
+        BindingOperations.SetBinding(targetComboBox, ComboBox.TextProperty, textBinding);
+    }
+
+    private static void OnSearchableSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is ComboBox comboBox)
         {
-            UpdateItemsSourceFromOrigin(comboBox);
+            UpdateItemsSource(comboBox);
         }
     }
 
-    private static void UpdateItemsSourceFromOrigin(ComboBox comboBox)
+    // 最近一次已应用的搜索词，用于跳过重复过滤（输入法上屏会对同一文本触发多次 TextChanged）
+    private static readonly DependencyProperty LastSearchTermProperty =
+        DependencyProperty.RegisterAttached(
+            "LastSearchTerm",
+            typeof(object),
+            typeof(ComboBoxExtensions),
+            new PropertyMetadata(null));
+
+    // 数据源统一回填入口：override 优先，其次绑定的源；始终以独立 CollectionView 呈现
+    private static void UpdateItemsSource(ComboBox comboBox)
     {
-        var originSource = comboBox.GetValue(OriginItemsSourceProperty);
-        comboBox.ItemsSource = originSource switch
+        var source = comboBox.GetValue(SearchableItemsSourceOverrideProperty) ?? comboBox.GetValue(OriginItemsSourceProperty);
+
+        // 集合未变化时跳过重建
+        if (comboBox.ItemsSource is ICollectionView view && Equals(view.SourceCollection, source))
+        {
+            return;
+        }
+
+        comboBox.ItemsSource = source switch
         {
             null => null,
-            ICollectionView view => view,
-            _ => new CollectionViewSource { Source = originSource }.View,
+            ICollectionView existingView => existingView,
+            _ => new CollectionViewSource { Source = source }.View,
         };
 
         comboBox.Items.IsLiveFiltering = true;
+
+        // 换源会丢弃旧视图上的搜索过滤，输入模式下按当前文本重新过滤，避免下拉闪回未过滤的全量列表
+        if (comboBox.Tag is InputTag)
+        {
+            ApplySearchFilter(comboBox);
+        }
+    }
+
+    // 按当前输入过滤下拉列表；完全匹配某个选项时恢复完整列表并选中该项
+    private static void ApplySearchFilter(ComboBox targetComboBox)
+    {
+        if (targetComboBox.ItemsSource is not { } itemsSource)
+        {
+            return;
+        }
+
+        if (targetComboBox.Template.FindName("PART_EditableTextBox", targetComboBox) is not TextBox targetTextBox)
+        {
+            return;
+        }
+
+        var searchTerm = targetTextBox.Text;
+
+        // 空文本即清除过滤展示完整列表，不是搜索，无需日志；重复事件直接跳过
+        if (string.IsNullOrEmpty(searchTerm))
+        {
+            if (!Equals(targetComboBox.GetValue(LastSearchTermProperty), searchTerm))
+            {
+                targetComboBox.SetValue(LastSearchTermProperty, searchTerm);
+                targetComboBox.Items.Filter = null;
+            }
+
+            return;
+        }
+
+        // 同一搜索词且过滤仍在生效（未被换源或清空）时跳过，避免输入法上屏触发的
+        // 重复 TextChanged 对全部条目反复求值过滤
+        if (Equals(targetComboBox.GetValue(LastSearchTermProperty), searchTerm) && targetComboBox.Items.Filter is not null)
+        {
+            return;
+        }
+
+        targetComboBox.SetValue(LastSearchTermProperty, searchTerm);
+        _logger.Debug("Searching for: {SearchTerm}", searchTerm);
+
+        // 如果文字完全匹配某个选项，恢复完整列表
+        object exactMatchItem = itemsSource.Cast<object>().FirstOrDefault(obj => string.Equals(obj?.ToString(), searchTerm, StringComparison.CurrentCultureIgnoreCase));
+
+        if (exactMatchItem != null)
+        {
+            targetComboBox.Items.Filter = null;
+            targetComboBox.SelectedItem = exactMatchItem;
+            targetComboBox.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                targetComboBox.UpdateLayout();
+                if (targetComboBox.ItemContainerGenerator.ContainerFromItem(exactMatchItem) is FrameworkElement element)
+                {
+                    element.BringIntoView();
+                }
+            }), System.Windows.Threading.DispatcherPriority.Background);
+        }
+        else
+        {
+            targetComboBox.Items.Filter = item => item?.ToString()?.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ?? false;
+        }
     }
 }
