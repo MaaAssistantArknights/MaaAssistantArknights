@@ -177,8 +177,6 @@ protected:
     // 干员识别辅助编队相关
     // ————————————————————————————————
     std::optional<std::vector<OperBoxInfo>> m_operbox_data;
-    std::unordered_map<std::string, std::string> m_operbox_assigned; // 组名 - 干员id
-    std::string m_operbox_unmatched_group;
 
     bool is_operbox_for_assignment() const { return m_operbox_data.has_value() && m_ignore_requirements; }
 
