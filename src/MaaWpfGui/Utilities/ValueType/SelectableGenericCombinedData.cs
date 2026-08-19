@@ -1,4 +1,4 @@
-// <copyright file="GenericCombinedData.cs" company="MaaAssistantArknights">
+// <copyright file="SelectableGenericCombinedData.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -11,42 +11,31 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using Stylet;
-
 namespace MaaWpfGui.Utilities.ValueType;
 
 /// <summary>
-/// Generic combined data class.
+/// The <see cref="GenericCombinedData{TValueType}"/> with an additional selectable state.
 /// </summary>
 /// <typeparam name="TValueType">The type of value.</typeparam>
-public class GenericCombinedData<TValueType>() : PropertyChangedBase
+public class SelectableGenericCombinedData<TValueType> : GenericCombinedData<TValueType>
 {
-    public GenericCombinedData(string name, TValueType value)
-        : this()
+    public SelectableGenericCombinedData()
     {
-        _name = name;
-        _value = value;
     }
 
-    private string _name = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the name displayed.
-    /// </summary>
-    public string Display
+    public SelectableGenericCombinedData(string name, TValueType value)
+        : base(name, value)
     {
-        get => _name;
-        set => SetAndNotify(ref _name, value);
     }
 
-    private TValueType _value;
+    private bool _isEnabled = true;
 
     /// <summary>
-    /// Gets or sets the value.
+    /// Gets or sets a value indicating whether this item is selectable.
     /// </summary>
-    public TValueType Value
+    public bool IsEnabled
     {
-        get => _value;
-        set => SetAndNotify(ref _value, value);
+        get => _isEnabled;
+        set => SetAndNotify(ref _isEnabled, value);
     }
 }

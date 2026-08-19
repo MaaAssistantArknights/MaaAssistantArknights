@@ -61,7 +61,7 @@ public class Win32Extra() : ExtraConfig
     /// <summary>
     /// Gets win32 截图方式枚举（与 AsstCaller.h 中 AsstWin32ScreencapMethodEnum 对应）
     /// </summary>
-    private static readonly List<GenericCombinedData<AsstWin32ScreencapMethod>> _screencapMethodList =
+    private static readonly List<SelectableGenericCombinedData<AsstWin32ScreencapMethod>> _screencapMethodList =
     [
         new(LocalizationHelper.GetString("AttachWindowScreencapFramePool"),  AsstWin32ScreencapMethod.FramePool),
         new(LocalizationHelper.GetString("AttachWindowScreencapPrintWindow"),  AsstWin32ScreencapMethod.PrintWindow),
@@ -70,7 +70,7 @@ public class Win32Extra() : ExtraConfig
     ];
 
     [JsonIgnore]
-    public List<GenericCombinedData<AsstWin32ScreencapMethod>> ScreencapMethodList => _screencapMethodList;
+    public List<SelectableGenericCombinedData<AsstWin32ScreencapMethod>> ScreencapMethodList => _screencapMethodList;
 
     [JsonInclude]
     [JsonPropertyName("ScreencapMethod")]
