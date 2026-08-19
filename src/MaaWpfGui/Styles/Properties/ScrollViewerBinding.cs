@@ -142,9 +142,11 @@ public static class ScrollViewerBinding
     /// </summary>
     /// <param name="element">The element.</param>
     /// <param name="value">The value.</param>
-    public static void SetIsVerticalOffsetSyncSuspended(DependencyObject element, bool value) =>
+    public static void SetIsVerticalOffsetSyncSuspended(DependencyObject element, bool value)
+    {
         // SetCurrentValue 保留属性上可能存在的绑定，SetValue 的本地值会在首次置位时替换掉绑定
         element.SetCurrentValue(IsVerticalOffsetSyncSuspendedProperty, value);
+    }
 
     /// <summary>
     /// 变速滚动目标偏移。值变化时由动画引擎直接驱动 <see cref="VerticalOffsetProperty"/>
