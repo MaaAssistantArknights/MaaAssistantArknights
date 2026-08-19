@@ -108,7 +108,6 @@
         "next": ["#next"]
     },
     "BlackFlow@Roguelike@CloseCollectionContinue": {
-        "template": "BlackFlow@Roguelike@CloseCollectionContinue.png",
         "action": "ClickSelf",
         "roi": [500, 510, 280, 210],
         "onErrorNext": ["#back"],
