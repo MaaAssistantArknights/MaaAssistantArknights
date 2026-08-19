@@ -759,7 +759,7 @@ public class SettingsViewModel : Screen
                     _notifySource = NotifyType.SelectedIndex;
                     SetAndNotify(ref _selectedIndex, value);
 
-                    ScrollOffset = DividerVerticalOffsetList[value];
+                    ScrollAnimationTarget = DividerVerticalOffsetList[value];
 
                     ResetNotifySource();
                     break;
@@ -834,6 +834,18 @@ public class SettingsViewModel : Screen
     }
 
     public bool AllowScrollOffsetChange { get; set; } = true;
+
+    private double _scrollAnimationTarget = double.NaN;
+
+    /// <summary>
+    /// Gets or sets the target offset of the smooth scroll animation,
+    /// which is performed by <see cref="Styles.Properties.ScrollViewerBinding"/> on the UI side.
+    /// </summary>
+    public double ScrollAnimationTarget
+    {
+        get => _scrollAnimationTarget;
+        set => SetAndNotify(ref _scrollAnimationTarget, value);
+    }
 
     #endregion 设置页面列表和滚动视图联动绑定
 

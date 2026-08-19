@@ -60,6 +60,7 @@
             properties:SearchHighlightBehavior.SectionFilter="{Binding Settings}"
             properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
             properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
+            properties:ScrollViewerBinding.SmoothScrollTo="{Binding ScrollAnimationTarget}"
             properties:ScrollViewerBinding.VerticalOffset="{Binding ScrollOffset}"
             properties:ScrollViewerBinding.ViewportHeight="{Binding ScrollViewportHeight}"
             IsInertiaEnabled="True"
