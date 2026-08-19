@@ -2453,67 +2453,67 @@
     "InfrastInfoMiniStation1Level": {
         "algorithm": "JustReturn",
         "roi": [190, 298, 22, 21],
-        "specificRect": [124, 320, 1, 1]
+        "roi_Doc": "最小视图左侧第一行第一个设施的等级标记区域"
     },
     "InfrastInfoMiniStation2Level": {
         "algorithm": "JustReturn",
         "roi": [342, 298, 22, 21],
-        "specificRect": [277, 320, 1, 1]
+        "roi_Doc": "最小视图左侧第一行第二个设施的等级标记区域"
     },
     "InfrastInfoMiniStation3Level": {
         "algorithm": "JustReturn",
         "roi": [494, 298, 22, 21],
-        "specificRect": [425, 320, 1, 1]
+        "roi_Doc": "最小视图左侧第一行第三个设施的等级标记区域"
     },
     "InfrastInfoMiniStation4Level": {
         "algorithm": "JustReturn",
         "roi": [114, 374, 22, 21],
-        "specificRect": [51, 393, 1, 1]
+        "roi_Doc": "最小视图左侧第二行第一个设施的等级标记区域"
     },
     "InfrastInfoMiniStation5Level": {
         "algorithm": "JustReturn",
         "roi": [266, 374, 22, 21],
-        "specificRect": [199, 393, 1, 1]
+        "roi_Doc": "最小视图左侧第二行第二个设施的等级标记区域"
     },
     "InfrastInfoMiniStation6Level": {
         "algorithm": "JustReturn",
         "roi": [418, 374, 22, 21],
-        "specificRect": [350, 393, 1, 1]
+        "roi_Doc": "最小视图左侧第二行第三个设施的等级标记区域"
     },
     "InfrastInfoMiniStation7Level": {
         "algorithm": "JustReturn",
         "roi": [190, 449, 22, 21],
-        "specificRect": [124, 455, 1, 1]
+        "roi_Doc": "最小视图左侧第三行第一个设施的等级标记区域"
     },
     "InfrastInfoMiniStation8Level": {
         "algorithm": "JustReturn",
         "roi": [342, 449, 22, 21],
-        "specificRect": [277, 455, 1, 1]
+        "roi_Doc": "最小视图左侧第三行第二个设施的等级标记区域"
     },
     "InfrastInfoMiniStation9Level": {
         "algorithm": "JustReturn",
         "roi": [494, 449, 22, 21],
-        "specificRect": [425, 455, 1, 1]
+        "roi_Doc": "最小视图左侧第三行第三个设施的等级标记区域"
     },
     "InfrastInfoMiniDorm1Level": {
         "algorithm": "JustReturn",
         "roi": [655, 298, 34, 21],
-        "specificRect": [698, 303, 1, 1]
+        "roi_Doc": "最小视图中部第一间宿舍的等级标记区域"
     },
     "InfrastInfoMiniDorm2Level": {
         "algorithm": "JustReturn",
         "roi": [729, 374, 35, 21],
-        "specificRect": [779, 383, 1, 1]
+        "roi_Doc": "最小视图中部第二间宿舍的等级标记区域"
     },
     "InfrastInfoMiniDorm3Level": {
         "algorithm": "JustReturn",
         "roi": [655, 449, 34, 21],
-        "specificRect": [698, 463, 1, 1]
+        "roi_Doc": "最小视图中部第三间宿舍的等级标记区域"
     },
     "InfrastInfoMiniDorm4Level": {
         "algorithm": "JustReturn",
         "roi": [729, 525, 35, 21],
-        "specificRect": [779, 543, 1, 1]
+        "roi_Doc": "最小视图中部第四间宿舍的等级标记区域"
     },
     "InfrastInfoMiniReceptionLevel": {
         "doc": "最小视图会客室标题右侧的三级等级标记",
