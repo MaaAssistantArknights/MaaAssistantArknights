@@ -492,9 +492,10 @@
     },
     "BlackFlow@Roguelike@EnteredPageClassification": {
         "algorithm": "OcrDetect",
-        "roi": [100, 160, 505, 372],
+        "roi": [0, 420, 500, 115],
         "withoutDet": false,
-        "text": ["险路尽头", "前瞻性投资系统", "机械师的园圃", "刷新"],
+        "text": ["险路尽头", "坎诺特", "机械师", "佩德洛"],
+        "ocrReplace": [["^古怪商人\\s*坎诺特$", "坎诺特"]],
         "fullMatch": true
     },
     "BlackFlow@Roguelike@EnteredPageClassificationEncounterPrepare": {

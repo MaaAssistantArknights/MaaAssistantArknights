@@ -16,9 +16,9 @@ EnteredPageObservation classify_entered_page_texts(std::vector<std::string> matc
     observation.matched_texts.assign(texts.begin(), texts.end());
 
     const bool final = texts.contains("险路尽头");
-    const bool shop = texts.contains("前瞻性投资系统") && texts.contains("刷新");
-    const bool scrap_shop = texts.contains("机械师的园圃");
-    const bool emergency_aid = texts.size() == 1 && texts.contains("刷新");
+    const bool shop = texts.contains("坎诺特");
+    const bool scrap_shop = texts.contains("机械师");
+    const bool emergency_aid = texts.contains("佩德洛");
     const int classifications = static_cast<int>(final) + static_cast<int>(shop) + static_cast<int>(scrap_shop) +
                                 static_cast<int>(emergency_aid);
     if (classifications > 1) {
