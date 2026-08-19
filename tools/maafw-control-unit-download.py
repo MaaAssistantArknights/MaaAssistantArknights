@@ -293,7 +293,7 @@ def main():
     for name in copied:
         print("  -", name)
 
-    if platform_name == "win" and missing:
+    if platform_name == "win":
         print(
             "note: these are Release builds; use them with Release/RelWithDebInfo builds of MAA, not Debug"
         )
