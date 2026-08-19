@@ -504,8 +504,8 @@ bool asst::BattleHelper::deploy_oper(
     if (m_used_tiles.contains(loc)) {
         const auto& pre_oper = m_used_tiles.at(loc);
         LogInfo << "remove previous oper" << pre_oper << loc;
-        m_used_tiles.erase(loc);
         m_battlefield_opers.erase(pre_oper);
+        m_used_tiles.erase(loc);
     }
 
     // 肉鸽中，一个干员可能被部署多次
