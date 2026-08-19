@@ -20,7 +20,10 @@ Note: these are Release builds of MaaFramework. They are ABI-compatible with
 Release/RelWithDebInfo builds of MAA, but NOT with Debug builds of MAA (MSVC
 debug/release STL layouts differ and mixing them crashes). For Debug builds you
 have to compile the Debug version of MaaFramework yourself, see
-docs/zh-cn/develop/development.md.
+docs/zh-cn/develop/development.md. If a target control unit is locked by a
+running MAA process, the script skips it with a note when it is already
+present, or fails with a clear message otherwise — close MAA before replacing
+them.
 """
 
 import argparse
@@ -176,7 +179,7 @@ def download_asset(asset, dest: Path):
     verify_digest(dest, asset.get("digest"))
 
 
-def extract_control_units(archive: Path, output_dir: Path):
+def extract_control_units(archive: Path, output_dir: Path, force: bool = False):
     staging = Path(tempfile.mkdtemp(prefix="maafw-"))
     try:
         print("extracting", archive.name)
@@ -190,8 +193,24 @@ def extract_control_units(archive: Path, output_dir: Path):
         copied = []
         for entry in sorted(bin_dir.iterdir()):
             if entry.is_file() and "ControlUnit" in entry.name:
-                shutil.copy2(entry, output_dir / entry.name)
-                copied.append(entry.name)
+                dst = output_dir / entry.name
+                try:
+                    shutil.copy2(entry, dst)
+                    copied.append(entry.name)
+                except PermissionError:
+                    # A running MAA process keeps the target DLL loaded and locked.
+                    # If it is already present, the provisioning goal is met; only
+                    # fail loudly when the user asked to replace it or it is missing.
+                    if not force and dst.exists():
+                        print(
+                            f"note: {entry.name} is in use (a running MAA process?) "
+                            f"and already present, skipped"
+                        )
+                    else:
+                        raise RuntimeError(
+                            f"cannot copy {entry.name} into {output_dir}: the target file "
+                            f"is in use by a running MAA process. Close MAA and retry."
+                        )
         if not copied:
             raise RuntimeError(f"no control unit binaries found in {bin_dir}")
         return copied
@@ -268,7 +287,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix="maafw-dl-") as tmp:
         archive = Path(tmp) / asset["name"]
         download_asset(asset, archive)
-        copied = extract_control_units(archive, output_dir)
+        copied = extract_control_units(archive, output_dir, args.force)
 
     print("copied control units into", output_dir)
     for name in copied:
