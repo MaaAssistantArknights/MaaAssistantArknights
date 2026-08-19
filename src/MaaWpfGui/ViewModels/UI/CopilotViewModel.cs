@@ -497,6 +497,17 @@ public partial class CopilotViewModel : Screen
         }
     }
 
+    [PropertyDependsOn(nameof(EnableOperBoxAssist))]
+    [PropertyDependsOn(nameof(OperBoxLastSyncTimeText))]
+    [PropertyDependsOn(nameof(IgnoreRequirements))]
+    [PropertyDependsOn(nameof(Form))]
+    [PropertyDependsOn(nameof(CopilotTabIndex))]
+    public bool EffectiveOperBoxAssist => EnableOperBoxAssist
+        && !string.IsNullOrEmpty(OperBoxLastSyncTimeText)
+        && IgnoreRequirements
+        && Form
+        && (CopilotTabIndex == 0 || CopilotTabIndex == 3);
+
     /// <summary>
     /// Gets or sets a value indicating whether 真正有干员被忽略了要求
     /// </summary>
@@ -2078,7 +2089,7 @@ public partial class CopilotViewModel : Screen
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
-                OperBoxDataPath = EnableOperBoxAssist ? OperBoxDataJsonPath : string.Empty,
+                OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxDataJsonPath : string.Empty,
             };
 
             // 能用列表的是主线/ss/故事集/悖论，都是 Copilot 类型
@@ -2134,7 +2145,7 @@ public partial class CopilotViewModel : Screen
                 LoopTimes = Loop ? LoopTimes : 1,
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
-                OperBoxDataPath = EnableOperBoxAssist ? OperBoxDataJsonPath : string.Empty,
+                OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxDataJsonPath : string.Empty,
             };
 
             // 单作业需要区分 Copilot / SSSCopilot
