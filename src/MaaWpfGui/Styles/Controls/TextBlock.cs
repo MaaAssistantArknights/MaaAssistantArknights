@@ -27,14 +27,6 @@ public class TextBlock : System.Windows.Controls.TextBlock
         DefaultStyleKeyProperty.OverrideMetadata(typeof(TextBlock), new FrameworkPropertyMetadata(typeof(TextBlock)));
     }
 
-    public static readonly DependencyProperty CustomForegroundProperty = DependencyProperty.Register(nameof(CustomForeground), typeof(Brush), typeof(TextBlock), new PropertyMetadata(ThemeHelper.DefaultBrush));
-
-    public Brush CustomForeground
-    {
-        get { return (Brush)GetValue(CustomForegroundProperty); }
-        set { SetValue(CustomForegroundProperty, value); }
-    }
-
     public static readonly DependencyProperty ForegroundKeyProperty = DependencyProperty.Register(nameof(ForegroundKey), typeof(string), typeof(TextBlock), new PropertyMetadata(ThemeHelper.DefaultKey, OnForegroundKeyChanged));
 
     private static void OnForegroundKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

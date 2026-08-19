@@ -8,4 +8,6 @@
 
     <Style BasedOn="{StaticResource MaaTextBlockDefaultStyle}" TargetType="{x:Type controls:TextBlock}" />
 
+    <!--  原生 TextBlock 的默认样式  -->
+    <Style BasedOn="{StaticResource TextBlockDefault}" TargetType="{x:Type TextBlock}" />
 </ResourceDictionary>

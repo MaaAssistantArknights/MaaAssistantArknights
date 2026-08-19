@@ -118,8 +118,21 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         var task = ConfigFactory.CurrentConfig.TaskQueue[taskIndex];
         if (enable)
         {
+            var oldIndex = CurrentIndex;
             CurrentIndex = taskIndex;
             SetTaskSettingVisible(task, enable);
+
+            // 切换任务设置时按任务在列表中的新旧位置决定过渡方向：
+            // 向下选择自底部滑入，向上选择自顶部滑入；
+            // 相同方向的连续切换改用不带淡入的变体，避免设置相同值不触发过渡
+            var downward = taskIndex > oldIndex;
+            var mode = downward ? "Bottom2TopWithFade" : "Top2BottomWithFade";
+            if (ContentTransitionMode == mode)
+            {
+                mode = downward ? "Bottom2Top" : "Top2Bottom";
+            }
+
+            ContentTransitionMode = mode;
         }
         else if (CurrentIndex == taskIndex)
         {
@@ -203,7 +216,30 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         PostAction = value;
     }
 
-    public bool EnableAdvancedSettings { get; set => SetAndNotify(ref field, value); }
+    public bool EnableAdvancedSettings
+    {
+        get => field;
+        set {
+            SetAndNotify(ref field, value);
+
+            // 切到高级自右侧滑入，切回常规自左侧滑入
+            ContentTransitionMode = value ? "Right2LeftWithFade" : "Left2RightWithFade";
+        }
+    }
+
+    private string _contentTransitionMode = "Left2RightWithFade";
+
+    /// <summary>
+    /// Gets or sets the transition mode used by the task setting area when switching tasks or the general/advanced tab.
+    /// </summary>
+    public string ContentTransitionMode
+    {
+        get => _contentTransitionMode;
+        set {
+            _contentTransitionMode = value;
+            NotifyOfPropertyChange(nameof(ContentTransitionMode));
+        }
+    }
 
     public bool AdvancedSettingsVisibility { get; set => SetAndNotify(ref field, value); }
 

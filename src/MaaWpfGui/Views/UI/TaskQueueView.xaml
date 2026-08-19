@@ -587,7 +587,11 @@
                     IsInertiaEnabled="True"
                     PanningMode="Both"
                     VerticalScrollBarVisibility="Auto">
-                    <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
+                    <!--  任务切换按列表位置上下滑入，常规/高级切换左右滑入，方向由 TaskSettingVisibilityInfo 维护  -->
+                    <controls:TransitioningContentControl
+                        TransitionMode="{Binding TaskSettingVisibilities.ContentTransitionMode}"
+                        TransitionPriority="1">
+                        <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
                         <taskQueue:FightSettingsUserControl
                             d:Visibility="Visible"
                             DataContext="{Binding FightTask}"
@@ -640,7 +644,8 @@
                                                                                   AncestorType={x:Type UserControl}}}" />
                         <taskQueue:CustomUserControl DataContext="{Binding CustomTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Custom, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                         <taskQueue:PostActionUserControl DataContext="{Binding PostActionSetting}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.PostAction, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
-                    </hc:SimpleStackPanel>
+                        </hc:SimpleStackPanel>
+                    </controls:TransitioningContentControl>
                 </hc:ScrollViewer>
                 <hc:ButtonGroup
                     Grid.Row="1"

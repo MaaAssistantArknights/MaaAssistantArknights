@@ -254,12 +254,37 @@ public partial class CopilotViewModel : Screen
                 UseCopilotList = false;
             }
 
+            var oldIndex = _copilotTabIndex;
             if (!SetAndNotify(ref _copilotTabIndex, value))
             {
                 return;
             }
+
+            // 索引增大时新内容自右侧滑入，反之自左侧滑入；
+            // 相同方向的连续切换改用带淡入的变体，避免设置相同值不触发过渡
+            var forward = value > oldIndex;
+            var mode = forward ? "Right2Left" : "Left2Right";
+            if (ContentTransitionMode == mode)
+            {
+                mode = forward ? "Right2LeftWithFade" : "Left2RightWithFade";
+            }
+
+            ContentTransitionMode = mode;
         }
     }
+
+    /// <summary>
+    /// Gets or sets the transition mode used by the content area when switching tabs.
+    /// </summary>
+    public string ContentTransitionMode
+    {
+        get => field;
+        set
+        {
+            field = value;
+            NotifyOfPropertyChange(nameof(ContentTransitionMode));
+        }
+    } = "Right2Left";
 
     private string _displayFilename = string.Empty;
 

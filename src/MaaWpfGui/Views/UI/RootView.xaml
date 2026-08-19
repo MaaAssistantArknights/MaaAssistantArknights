@@ -178,11 +178,13 @@
                     Style="{StaticResource TabControlInLine}">
                     <TabControl.ContentTemplate>
                         <DataTemplate>
-                            <ContentControl
+                            <controls:TransitioningContentControl
                                 HorizontalContentAlignment="Stretch"
                                 VerticalContentAlignment="Stretch"
-                                s:View.Model="{Binding}"
-                                IsTabStop="False" />
+                                IsTabStop="False"
+                                TransitionMode="{Binding DataContext.ContentTransitionMode, RelativeSource={RelativeSource AncestorType=Window}}"
+                                TransitionPriority="0"
+                                s:View.Model="{Binding}" />
                         </DataTemplate>
                     </TabControl.ContentTemplate>
                     <TabControl.ItemContainerStyle>
