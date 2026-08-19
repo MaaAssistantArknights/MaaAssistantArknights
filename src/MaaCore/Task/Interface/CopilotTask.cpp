@@ -73,8 +73,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     auto support_unit_usage = static_cast<SupportUnitUsage>(
         params.get("support_unit_usage", static_cast<int>(SupportUnitUsage::None))); // 助战干员使用模式
     std::string support_unit_name = params.get("support_unit_name", std::string());
-    bool operbox_assist = params.get("operbox_assist", false);                       // 是否启用已有干员辅助编队
-    std::string operbox_data_path = params.get("operbox_data_path", std::string());  // 已有干员辅助编队数据路径
+    std::string operbox_data_path = params.get("operbox_data_path", std::string());  // 干员辅助编队数据路径, 为空则禁用
 
     auto filename_opt = params.find<std::string>("filename");
     auto multi_tasks_opt = params.find<json::array>("copilot_list"); // 多任务列表
@@ -155,22 +154,16 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_formation_task_ptr->set_ignore_requirements(ignore_requirements);
     m_formation_task_ptr->set_support_unit_usage(support_unit_usage);
     m_formation_task_ptr->set_specific_support_unit(support_unit_name);
-    if (!operbox_assist) {
+    if (operbox_data_path.empty()) {
         m_formation_task_ptr->set_operbox_data(std::nullopt);
     }
     else {
         std::vector<OperBoxInfo> operbox_data;
-        if (!operbox_data_path.empty()) {
-            operbox_data = parse_operbox_data(operbox_data_path);
-            if (operbox_data.empty()) {
-                LogError << __FUNCTION__ << "| OperBox data is empty, cannot perform precheck";
-                json::value info = basic_info_with_what("OperboxDataParseFailed");
-                callback(AsstMsg::SubTaskError, info);
-                return false;
-            }
-        }
-        else {
-            LogError << __FUNCTION__ << "| Operbox_assist is enabled but operbox_data_path is empty";
+        operbox_data = parse_operbox_data(operbox_data_path);
+        if (operbox_data.empty()) {
+            LogError << __FUNCTION__ << "| OperBox data is empty, cannot perform precheck";
+            json::value info = basic_info_with_what("OperboxDataParseFailed");
+            callback(AsstMsg::SubTaskError, info);
             return false;
         }
         std::sort(operbox_data.begin(), operbox_data.end(), OperBoxInfo::SortCmp {});

@@ -13,11 +13,9 @@
 
 #nullable enable
 using System.Collections.Generic;
-using System.IO;
 using MaaWpfGui.ViewModels.Items;
 using PropertyChanged;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
-using static MaaWpfGui.Helper.PathsHelper;
 using static MaaWpfGui.Models.AsstTasks.AsstCopilotTask;
 using static MaaWpfGui.ViewModels.UI.CopilotViewModel;
 
@@ -45,6 +43,4 @@ public partial class Copilot
     public int SelectFormation { get; set; } = 1;
 
     public int LoopTimes { get; set; } = 1;
-
-    public string CopilotOperBoxDataPath { get; set; } = Path.Combine(DataDir, "OperBoxData.json");
 }
