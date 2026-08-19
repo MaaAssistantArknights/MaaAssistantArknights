@@ -182,7 +182,7 @@
                                 HorizontalContentAlignment="Stretch"
                                 VerticalContentAlignment="Stretch"
                                 IsTabStop="False"
-                                TransitionMode="{Binding DataContext.ContentTransitionMode, RelativeSource={RelativeSource AncestorType=Window}}"
+                                TransitionIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}}"
                                 TransitionPriority="0"
                                 s:View.Model="{Binding}" />
                         </DataTemplate>

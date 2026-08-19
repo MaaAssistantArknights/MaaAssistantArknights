@@ -69,7 +69,6 @@
         Margin="0,10"
         Background="{DynamicResource MouseOverRegionBrushOpacity75}"
         BorderThickness="0"
-        SelectionChanged="{s:Action OnTabSelectionChanged}"
         Style="{StaticResource TabControlSliding}">
         <TabControl.ContentTemplate>
             <DataTemplate>
@@ -81,7 +80,7 @@
                     Content="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
                     DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"
                     IsTabStop="False"
-                    TransitionMode="{Binding ContentTransitionMode}"
+                    TransitionIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}}"
                     TransitionPriority="1" />
             </DataTemplate>
         </TabControl.ContentTemplate>
@@ -306,26 +305,15 @@
                     <TabControl.ContentTemplate>
                         <DataTemplate>
                             <!--  同外层：内容为内联 UIElement，需还原 DataContext 并单独从 ContentPresenter 取内容；
-                                  两个 tab 顺序固定，方向按索引直接映射：切到已拥有自右侧滑入，切回未拥有自左侧滑入。
-                                  初值经 Setter 在模板应用前写入，避免绑定初始求值触发多余的过渡，与上级切换动画叠加  -->
+                                  方向由内层选中索引推导  -->
                             <controls:TransitioningContentControl
                                 HorizontalContentAlignment="Stretch"
                                 VerticalContentAlignment="Stretch"
                                 Content="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
                                 DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                 IsTabStop="False"
-                                TransitionPriority="2">
-                                <controls:TransitioningContentControl.Style>
-                                    <Style TargetType="controls:TransitioningContentControl">
-                                        <Setter Property="TransitionMode" Value="Left2Right" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding OperBoxSelectedIndex}" Value="1">
-                                                <Setter Property="TransitionMode" Value="Right2Left" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </controls:TransitioningContentControl.Style>
-                            </controls:TransitioningContentControl>
+                                TransitionIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}}"
+                                TransitionPriority="2" />
                         </DataTemplate>
                     </TabControl.ContentTemplate>
                     <TabItem

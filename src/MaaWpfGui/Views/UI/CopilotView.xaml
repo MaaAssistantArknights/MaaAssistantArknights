@@ -247,7 +247,7 @@
             <controls:TransitioningContentControl
                 Grid.Row="1"
                 HorizontalAlignment="Center"
-                TransitionMode="{Binding ContentTransitionMode}"
+                TransitionIndex="{Binding CopilotTabIndex}"
                 TransitionPriority="1">
                 <Grid>
                     <Grid.ColumnDefinitions>

@@ -205,34 +205,6 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         ActiveItem = Instances.TaskQueueViewModel;
     }
 
-    private string _contentTransitionMode = "Right2Left";
-
-    /// <summary>
-    /// Gets or sets the transition mode used by the main content area when switching tabs.
-    /// </summary>
-    public string ContentTransitionMode
-    {
-        get => _contentTransitionMode;
-        set
-        {
-            _contentTransitionMode = value;
-            NotifyOfPropertyChange(nameof(ContentTransitionMode));
-        }
-    }
-
-    protected override void ChangeActiveItem(Screen newItem, bool closePrevious)
-    {
-        var oldIndex = Items.IndexOf(ActiveItem);
-        var newIndex = newItem is null ? -1 : Items.IndexOf(newItem);
-        if (oldIndex >= 0 && newIndex >= 0)
-        {
-            // 索引增大时新页面自右侧滑入,反之自左侧滑入
-            ContentTransitionMode = newIndex > oldIndex ? "Right2Left" : "Left2Right";
-        }
-
-        base.ChangeActiveItem(newItem!, closePrevious);
-    }
-
     private string _windowTitle = "MAA";
 
     /// <summary>

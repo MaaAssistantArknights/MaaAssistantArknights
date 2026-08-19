@@ -24,7 +24,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -138,38 +137,6 @@ public class ToolboxViewModel : Screen
     {
         get => _stopping;
         set => SetAndNotify(ref _stopping, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the transition mode used by the tab content area when switching tabs.
-    /// </summary>
-    public string ContentTransitionMode
-    {
-        get => field;
-        set
-        {
-            field = value;
-            NotifyOfPropertyChange(nameof(ContentTransitionMode));
-        }
-    } = "Right2Left";
-
-    // UI 绑定的方法
-    [UsedImplicitly]
-    public void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        // 内层嵌套 TabControl 的 SelectionChanged 会冒泡上来，只处理直接来源
-        if (e.Source != sender || sender is not System.Windows.Controls.TabControl tabControl || e.AddedItems.Count == 0 || e.RemovedItems.Count == 0)
-        {
-            return;
-        }
-
-        var oldIndex = tabControl.Items.IndexOf(e.RemovedItems[0]);
-        var newIndex = tabControl.Items.IndexOf(e.AddedItems[0]);
-        if (oldIndex >= 0 && newIndex >= 0)
-        {
-            // 索引增大时新内容自右侧滑入，反之自左侧滑入
-            ContentTransitionMode = newIndex > oldIndex ? "Right2Left" : "Left2Right";
-        }
     }
 
     #region Recruit

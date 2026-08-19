@@ -70,6 +70,44 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
         set => SetValue(TransitionPriorityProperty, value);
     }
 
+    public static readonly DependencyProperty TransitionIndexProperty = DependencyProperty.Register(
+        nameof(TransitionIndex), typeof(int), typeof(TransitioningContentControl), new PropertyMetadata(-1, OnTransitionIndexChanged));
+
+    /// <summary>
+    /// Gets or sets 用于推导过渡方向的索引：值增大时新内容自右侧滑入，减小时自左侧滑入。
+    /// 直接绑定页签或列表的选中索引即可，无需在 ViewModel 中维护过渡模式；
+    /// 初始（-1 起步）与负值（如取消选择）不触发过渡。
+    /// </summary>
+    public int TransitionIndex
+    {
+        get => (int)GetValue(TransitionIndexProperty);
+        set => SetValue(TransitionIndexProperty, value);
+    }
+
+    private int _lastTransitionIndex = -1;
+
+    private static void OnTransitionIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var ctl = (TransitioningContentControl)d;
+        ctl.UpdateTransitionModeByIndex((int)e.NewValue);
+    }
+
+    private void UpdateTransitionModeByIndex(int newIndex)
+    {
+        var oldIndex = _lastTransitionIndex;
+        _lastTransitionIndex = newIndex;
+        if (newIndex < 0 || oldIndex < 0 || newIndex == oldIndex)
+        {
+            return;
+        }
+
+        // 相同方向的连续切换交替使用带淡入的变体，避免设置相同值不触发过渡
+        var forward = newIndex > oldIndex;
+        var plain = forward ? TransitionMode.Right2Left : TransitionMode.Left2Right;
+        var withFade = forward ? TransitionMode.Right2LeftWithFade : TransitionMode.Left2RightWithFade;
+        TransitionMode = TransitionMode == plain ? withFade : plain;
+    }
+
     public override void OnApplyTemplate()
     {
         // 压掉基类的同步过渡，统一延迟提交
