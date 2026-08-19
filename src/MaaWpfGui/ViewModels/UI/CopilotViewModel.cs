@@ -78,6 +78,7 @@ public partial class CopilotViewModel : Screen
     // VideoRecognition 已不支持：仅保留 json 作业
     private static readonly string[] _supportExt = [".json"];
     private static readonly string CopilotJsonDir = Path.Combine(ConfigDir, "copilot");
+    private static readonly string OperBoxDataJsonPath = Path.Combine(DataDir, $"{JsonDataKey.OperBoxData}.json");
     private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-?)?(?:\d{1,2})";
     private const string InvalidStageNameChars = @"[:',\.\(\)\|\[\]\?，。【】｛｝；：]"; // 无效字符
 
@@ -454,23 +455,8 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     public bool IgnoreRequirements { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool EnableOperBoxAssist { get => field; set => SetAndNotify(ref field, value); }
+    public bool EnableOperBoxAssist { get; set => SetAndNotify(ref field, value); }
 
-    public string OperBoxDataPath
-    {
-        get; set {
-            SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Copilot.CopilotOperBoxDataPath = value;
-        }
-    } = ConfigFactory.CurrentConfig.Copilot.CopilotOperBoxDataPath;
-
-    [PropertyDependsOn(nameof(OperBoxDataPath))]
-    public string OperBoxDisplayPath =>
-        !string.IsNullOrEmpty(OperBoxDataPath) && OperBoxDataPath.StartsWith(BaseDir, StringComparison.OrdinalIgnoreCase)
-            ? Path.GetRelativePath(BaseDir, OperBoxDataPath)
-            : OperBoxDataPath;
-
-    [PropertyDependsOn(nameof(OperBoxDataPath))]
     [PropertyDependsOn(nameof(EnableOperBoxAssist))]
     public string OperBoxLastSyncTimeText
     {
@@ -480,8 +466,8 @@ public partial class CopilotViewModel : Screen
                 return string.Empty;
             }
             try {
-                if (!string.IsNullOrEmpty(OperBoxDataPath) && File.Exists(OperBoxDataPath)) {
-                    var json = JObject.Parse(File.ReadAllText(OperBoxDataPath));
+                if (!string.IsNullOrEmpty(OperBoxDataJsonPath) && File.Exists(OperBoxDataJsonPath)) {
+                    var json = JObject.Parse(File.ReadAllText(OperBoxDataJsonPath));
                     var syncTime = json["syncTime"]?.Value<string>();
                     if (!string.IsNullOrEmpty(syncTime) && DateTimeOffset.TryParse(syncTime, out var dto)) {
                         return Extensions.DateTimeExtension.ToLocalTimeString(dto);
@@ -490,7 +476,7 @@ public partial class CopilotViewModel : Screen
                 }
             }
             catch (Exception ex) {
-                _logger.Warning(ex, "Failed to read OperBox syncTime from {Path}", OperBoxDataPath);
+                _logger.Warning(ex, "Failed to read OperBox syncTime from {Path}", OperBoxDataJsonPath);
             }
             return string.Empty;
         }
@@ -863,19 +849,6 @@ public partial class CopilotViewModel : Screen
         if (dialog.ShowDialog() == true)
         {
             Filename = dialog.FileName;
-        }
-    }
-
-    [UsedImplicitly]
-    public void SelectOperBoxFile()
-    {
-        var dialog = new OpenFileDialog {
-            Filter = "JSON|*.json",
-        };
-
-        if (dialog.ShowDialog() == true)
-        {
-            OperBoxDataPath = dialog.FileName;
         }
     }
 
@@ -2089,8 +2062,7 @@ public partial class CopilotViewModel : Screen
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
-                OperBoxAssist = EnableOperBoxAssist,
-                OperBoxDataPath = OperBoxDataPath,
+                OperBoxDataPath = EnableOperBoxAssist ? OperBoxDataJsonPath : string.Empty,
             };
 
             // 能用列表的是主线/ss/故事集/悖论，都是 Copilot 类型
@@ -2146,8 +2118,7 @@ public partial class CopilotViewModel : Screen
                 LoopTimes = Loop ? LoopTimes : 1,
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
-                OperBoxAssist = EnableOperBoxAssist,
-                OperBoxDataPath = OperBoxDataPath,
+                OperBoxDataPath = EnableOperBoxAssist ? OperBoxDataJsonPath : string.Empty,
             };
 
             // 单作业需要区分 Copilot / SSSCopilot
