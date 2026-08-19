@@ -1140,7 +1140,7 @@
     },
     "BlackFlow@Roguelike@Page-Shop": {
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@StageTraderLeave"]
+        "next": ["BlackFlow@Roguelike@StageTraderLeaveConfirm", "BlackFlow@Roguelike@StageTraderLeave"]
     },
     "BlackFlow@Roguelike@RecoverMap": {
         "baseTask": "BlackFlow@Roguelike@RecoverMap-Exit",
