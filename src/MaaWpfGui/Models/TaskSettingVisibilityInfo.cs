@@ -122,14 +122,22 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             CurrentIndex = taskIndex;
             SetTaskSettingVisible(task, enable);
 
-            // 切换任务设置时按任务在列表中的新旧位置决定过渡方向：
+            // 从未选中进入时淡入；否则按任务在列表中的新旧位置决定过渡方向：
             // 向下选择自底部滑入，向上选择自顶部滑入；
             // 相同方向的连续切换改用不带淡入的变体，避免设置相同值不触发过渡
-            var downward = taskIndex > oldIndex;
-            var mode = downward ? "Bottom2TopWithFade" : "Top2BottomWithFade";
-            if (ContentTransitionMode == mode)
+            string mode;
+            if (oldIndex < 0)
             {
-                mode = downward ? "Bottom2Top" : "Top2Bottom";
+                mode = "Fade";
+            }
+            else
+            {
+                var downward = taskIndex > oldIndex;
+                mode = downward ? "Bottom2TopWithFade" : "Top2BottomWithFade";
+                if (ContentTransitionMode == mode)
+                {
+                    mode = downward ? "Bottom2Top" : "Top2Bottom";
+                }
             }
 
             ContentTransitionMode = mode;
@@ -138,6 +146,12 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         {
             CurrentIndex = -1;
             SetTaskSettingVisible(task, enable);
+
+            // 取消选择时重置为非淡入模式，保证下次进入的淡入必定触发
+            if (ContentTransitionMode == "Fade")
+            {
+                ContentTransitionMode = "Bottom2Top";
+            }
         }
 
         if (enable)

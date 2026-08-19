@@ -22,6 +22,16 @@ using HandyControl.Data;
 namespace MaaWpfGui.Styles.Controls;
 
 /// <summary>
+/// 过渡方向的坐标轴。
+/// </summary>
+public enum TransitionOrientation
+{
+    Horizontal,
+
+    Vertical,
+}
+
+/// <summary>
 /// 带优先级仲裁的 <see cref="HandyControl.Controls.TransitioningContentControl"/>。
 /// 所有过渡触发（内容变化、模板应用、模式变化）统一合并到一个延迟提交点，
 /// 按提交时刻的最终方向播放且仅播放一次；嵌套使用时通过 <see cref="TransitionPriority"/>
@@ -74,14 +84,26 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
         nameof(TransitionIndex), typeof(int), typeof(TransitioningContentControl), new PropertyMetadata(-1, OnTransitionIndexChanged));
 
     /// <summary>
-    /// Gets or sets 用于推导过渡方向的索引：值增大时新内容自右侧滑入，减小时自左侧滑入。
-    /// 直接绑定页签或列表的选中索引即可，无需在 ViewModel 中维护过渡模式；
-    /// 初始（-1 起步）与负值（如取消选择）不触发过渡。
+    /// Gets or sets 用于推导过渡方向的索引：值增大时新内容沿正方向滑入（横向自右、纵向自下），减小时反向。
+    /// 从未选中（-1）进入时淡入；回到负值（如取消选择）不过渡。
+    /// 直接绑定页签或列表的选中索引即可，无需在 ViewModel 中维护过渡模式。
     /// </summary>
     public int TransitionIndex
     {
         get => (int)GetValue(TransitionIndexProperty);
         set => SetValue(TransitionIndexProperty, value);
+    }
+
+    public static readonly DependencyProperty TransitionOrientationProperty = DependencyProperty.Register(
+        nameof(TransitionOrientation), typeof(TransitionOrientation), typeof(TransitioningContentControl), new PropertyMetadata(TransitionOrientation.Horizontal));
+
+    /// <summary>
+    /// Gets or sets 过渡方向的坐标轴，默认横向。
+    /// </summary>
+    public TransitionOrientation TransitionOrientation
+    {
+        get => (TransitionOrientation)GetValue(TransitionOrientationProperty);
+        set => SetValue(TransitionOrientationProperty, value);
     }
 
     private int _lastTransitionIndex = -1;
@@ -96,15 +118,44 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
     {
         var oldIndex = _lastTransitionIndex;
         _lastTransitionIndex = newIndex;
-        if (newIndex < 0 || oldIndex < 0 || newIndex == oldIndex)
+        if (newIndex == oldIndex)
         {
+            return;
+        }
+
+        if (newIndex < 0)
+        {
+            // 取消选择：重置为非淡入模式，保证下次进入的淡入必定触发
+            if (TransitionMode == TransitionMode.Fade)
+            {
+                TransitionMode = TransitionMode.Left2Right;
+            }
+
+            return;
+        }
+
+        if (oldIndex < 0)
+        {
+            // 从未选中进入：没有上一项位置可推导方向，淡入即可
+            TransitionMode = TransitionMode.Fade;
             return;
         }
 
         // 相同方向的连续切换交替使用带淡入的变体，避免设置相同值不触发过渡
         var forward = newIndex > oldIndex;
-        var plain = forward ? TransitionMode.Right2Left : TransitionMode.Left2Right;
-        var withFade = forward ? TransitionMode.Right2LeftWithFade : TransitionMode.Left2RightWithFade;
+        var vertical = TransitionOrientation == TransitionOrientation.Vertical;
+        var plain = (forward, vertical) switch {
+            (true, false) => TransitionMode.Right2Left,
+            (false, false) => TransitionMode.Left2Right,
+            (true, true) => TransitionMode.Bottom2Top,
+            (false, true) => TransitionMode.Top2Bottom,
+        };
+        var withFade = (forward, vertical) switch {
+            (true, false) => TransitionMode.Right2LeftWithFade,
+            (false, false) => TransitionMode.Left2RightWithFade,
+            (true, true) => TransitionMode.Bottom2TopWithFade,
+            (false, true) => TransitionMode.Top2BottomWithFade,
+        };
         TransitionMode = TransitionMode == plain ? withFade : plain;
     }
 

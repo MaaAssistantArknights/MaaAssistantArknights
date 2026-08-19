@@ -2289,6 +2289,12 @@ public class ToolboxViewModel : Screen
         }
     }
 
+    /// <summary>
+    /// Gets the index of the selected mini game in the list.
+    /// </summary>
+    [PropertyDependsOn(nameof(SelectedMiniGameItem))]
+    public int SelectedMiniGameIndex => MiniGameCategoryItems.IndexOf(_selectedMiniGameItem);
+
     public bool IsPixelPaintSelected => SelectedMiniGameItem?.IsPixelPaint == true;
 
     public static void UpdateMiniGameTaskList()
