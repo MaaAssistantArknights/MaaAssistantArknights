@@ -95,8 +95,7 @@ public static class ScrollViewerBinding
         }
 
         scrollViewer.SetValue(_verticalOffsetBindingProperty, true);
-        scrollViewer.ScrollChanged += (s, se) =>
-        {
+        scrollViewer.ScrollChanged += (s, se) => {
             if (se.VerticalChange == 0)
             {
                 return;
@@ -184,8 +183,7 @@ public static class ScrollViewerBinding
         }
 
         var duration = Math.Clamp(120 + (Math.Abs(target - scrollViewer.VerticalOffset) * 0.15), 120, 280);
-        var animation = new DoubleAnimation(scrollViewer.VerticalOffset, target, TimeSpan.FromMilliseconds(duration))
-        {
+        var animation = new DoubleAnimation(scrollViewer.VerticalOffset, target, TimeSpan.FromMilliseconds(duration)) {
             EasingFunction = new QuinticEase { EasingMode = EasingMode.EaseOut },
         };
 
@@ -264,13 +262,11 @@ public static class ScrollViewerBinding
 
         scrollViewer.SetValue(_viewportHeightBindingProperty, true);
 
-        scrollViewer.Loaded += (s, se) =>
-        {
+        scrollViewer.Loaded += (s, se) => {
             SetViewportHeight(scrollViewer, scrollViewer.ViewportHeight);
         };
 
-        scrollViewer.ScrollChanged += (s, se) =>
-        {
+        scrollViewer.ScrollChanged += (s, se) => {
             SetViewportHeight(scrollViewer, se.ViewportHeight);
         };
     }
@@ -341,8 +337,7 @@ public static class ScrollViewerBinding
 
         scrollViewer.SetValue(_extentHeightBindingProperty, true);
 
-        scrollViewer.Loaded += (s, se) =>
-        {
+        scrollViewer.Loaded += (s, se) => {
             SetExtentHeight(scrollViewer, scrollViewer.ExtentHeight);
         };
     }
@@ -416,8 +411,7 @@ public static class ScrollViewerBinding
 
         if (scrollViewer.Content is FrameworkElement content)
         {
-            content.SizeChanged += (s, e) =>
-            {
+            content.SizeChanged += (s, e) => {
                 RefreshDividerOffsets(scrollViewer);
             };
         }

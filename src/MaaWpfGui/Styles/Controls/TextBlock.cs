@@ -40,13 +40,11 @@ public class TextBlock : System.Windows.Controls.TextBlock
 
     public string ForegroundKey
     {
-        get
-        {
+        get {
             return (string)GetValue(ForegroundKeyProperty);
         }
 
-        set
-        {
+        set {
             SetValue(ForegroundKeyProperty, value);
 
             // `Application.Current.Resources.Contains(key)` 不会递归检查 MergedDictionaries，
@@ -76,8 +74,7 @@ public class TextBlock : System.Windows.Controls.TextBlock
             return;
         }
 
-        var anim = new DoubleAnimation
-        {
+        var anim = new DoubleAnimation {
             From = 0,
             To = 2000,
             Duration = new Duration(System.TimeSpan.FromSeconds(60)),

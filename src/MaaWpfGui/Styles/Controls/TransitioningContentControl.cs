@@ -26,8 +26,14 @@ namespace MaaWpfGui.Styles.Controls;
 /// </summary>
 public enum TransitionOrientation
 {
+    /// <summary>
+    /// 横向，索引增大自右侧滑入。
+    /// </summary>
     Horizontal,
 
+    /// <summary>
+    /// 纵向，索引增大自底部滑入。
+    /// </summary>
     Vertical,
 }
 
