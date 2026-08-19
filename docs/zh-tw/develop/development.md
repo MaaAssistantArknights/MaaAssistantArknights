@@ -78,7 +78,7 @@ icon: iconoir:developer
    - 按 F5 執行。
 
    ::: tip
-   若需執行 Win32Controller（Windows 視窗控制）/ MaaFwAdbController（MaaFwAdb 觸控模式）相關功能，需要自行從 [MaaFramework Releases](https://github.com/MaaModular/MaaFramework/releases) 下載對應平台的壓縮檔案，將 `bin` 目錄中的 `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` 放到 MAA 的 DLL 同目錄下（例如 `build/bin/Debug`）。歡迎 PR 一個自動下載腳本！
+   若需執行 Win32Controller（Windows 視窗控制）/ MaaFwAdbController（MaaFramework 觸控模式）相關功能，執行 `python tools/maafw-control-unit-download.py` 即可自動下載對應平台的 `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` 到建置輸出目錄（預設取 `build/bin` 下最新產生的目錄，也可用 `--output-dir` 指定）。
 
    若需針對相關功能進行除錯，則需要自行編譯 MaaFramework 的 Debug 版本，使用對應的 DLL 檔案，否則在斷點除錯時會神秘閃退。
    :::

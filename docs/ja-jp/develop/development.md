@@ -84,7 +84,7 @@ icon: iconoir:developer
    - F5 キーを押して実行
 
    ::: tip
-   Win32Controller（Windows ウィンドウ制御）/ MaaFwAdbController（MaaFwAdb のタッチモード）関連機能を実行する場合は、[MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases) から対応プラットフォームのアーカイブをダウンロードし、`bin` ディレクトリ内の `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` を MAA の DLL と同じディレクトリ（例：`build/bin/Debug`）に配置してください。自動ダウンロードスクリプトの PR 歓迎！
+   Win32Controller（Windows ウィンドウ制御）/ MaaFwAdbController（MaaFramework のタッチモード）関連機能を実行する場合は、`python tools/maafw-control-unit-download.py` を実行すると、対応プラットフォームの `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` をビルド出力ディレクトリ（デフォルトでは `build/bin` 配下の最新ディレクトリ、`--output-dir` で指定可）に自動で配置します。
 
    関連機能をデバッグする場合は、[MaaFramework の Debug バージョンを自分でコンパイル](https://maafw.com/docs/4.1-BuildGuide)し、対応する DLL ファイルを使用する必要があります。そうしないと、ブレークポイントデバッグ中に謎のクラッシュが発生します。
    :::
