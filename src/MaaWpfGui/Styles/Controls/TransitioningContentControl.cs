@@ -45,8 +45,10 @@ public enum TransitionOrientation
 /// </summary>
 public class TransitioningContentControl : HandyControl.Controls.TransitioningContentControl
 {
-    // 与 HandyControl 内置过渡 Storyboard 的时长保持一致（内置资源为私有，无法读取，此处取常量）
-    private static readonly TimeSpan TransitionDuration = TimeSpan.FromMilliseconds(400);
+    // 全局过渡时长，由设置（GuiSettingsUserControlModel）在启动和档位切换时同步：
+    // 原速 400ms 与 HandyControl 内置过渡一致（内置资源为私有，无法读取，取常量），
+    // 快速减半，无动画为零。动画在播放时刻现建，改档立即生效
+    public static TimeSpan TransitionDuration { get; set; } = TimeSpan.FromMilliseconds(400);
 
     private static readonly PropertyPath TranslateXPath = new("(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)");
 
@@ -234,6 +236,13 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
         if (_suppressFirstTransition)
         {
             // 初始化/构建期不播入场动画，静默丢弃
+            return;
+        }
+
+        if (TransitionDuration <= TimeSpan.Zero)
+        {
+            // 无动画档：清掉可能仍在播放的动画，内容直接就位
+            StopActiveTransition();
             return;
         }
 

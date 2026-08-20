@@ -61,6 +61,8 @@ public class Gui : INotifyPropertyChanged
 
     public InverseClearType InverseClearMode { get; set; } = InverseClearType.Clear;
 
+    public TransitionSpeedType TransitionSpeed { get; set; } = TransitionSpeedType.Normal;
+
     public bool TaskQueueInverseMode { get; set; }
 
     public bool UseCardLog { get; set; } = true;
@@ -170,5 +172,26 @@ public class Gui : INotifyPropertyChanged
         /// 用户手动选择颜色。
         /// </summary>
         Custom,
+    }
+
+    /// <summary>
+    /// 表示界面过渡动画的速度档位。
+    /// </summary>
+    public enum TransitionSpeedType
+    {
+        /// <summary>
+        /// 原速。
+        /// </summary>
+        Normal = 0,
+
+        /// <summary>
+        /// 快速。
+        /// </summary>
+        Fast,
+
+        /// <summary>
+        /// 无动画。
+        /// </summary>
+        None,
     }
 }

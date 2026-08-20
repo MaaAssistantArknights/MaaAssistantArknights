@@ -30,6 +30,10 @@
     <system:String x:Key="BackgroundMonetSelectColor">色を選択</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">背景画像からメインカラーを自動抽出してテーマ配色を生成します</system:String>
     <system:String x:Key="UiTheme">UI主題</system:String>
+    <system:String x:Key="TransitionSpeed">切り替えアニメーション</system:String>
+    <system:String x:Key="TransitionSpeedNormal">標準</system:String>
+    <system:String x:Key="TransitionSpeedFast">高速</system:String>
+    <system:String x:Key="TransitionSpeedNone">なし</system:String>
     <system:String x:Key="HotKeySettings">ホットキー設定</system:String>
     <system:String x:Key="UpdateSettings">アップデート設定</system:String>
     <system:String x:Key="AchievementSettings">実績設定</system:String>
