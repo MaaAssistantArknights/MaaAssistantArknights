@@ -566,7 +566,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界園</system:String>
-    <system:String x:Key="RoguelikeThemeBlackFlow">黑流树海（日本語名未定）</system:String>
+    <system:String x:Key="RoguelikeThemeBlackFlow">黒流樹海（日本語名未定）</system:String>
     <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}推奨構成:
 
 {key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
@@ -1106,7 +1106,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@PV">PV-花火実行委員会</system:String>
     <system:String x:Key="MiniGame@PVTip">選択したステージから自動でクリアします。最初のステージを選んだ場合は、イベントページの最左側から開始してください。その他のステージを選んだ場合は、位置を校正するために前のステージに一度入ってから戻ってください。</system:String>
     <system:String x:Key="MiniGame@SPA">堅守協定：盟約</system:String>
-    <system:String x:Key="MiniGame@SPATip" xml:space="preserve">イベントメイン画面（ ｢単独演算｣ の場所）からタスクを開始
+    <system:String x:Key="MiniGame@SPATip" xml:space="preserve">イベントメイン画面（ ｢単独演算｣ がある場所）からタスクを開始
 セーブデータがある場合は、まず手動で破棄する必要があります
  ｢逆境シミュレーション｣ までテスト済み
 より高い難易度をクリア済みで ｢逆境シミュレーション｣ または ｢標準シミュレーション｣ が表示されない場合、\n ｢逆境シミュレーション｣ 難易度を手動で一度選択してください
