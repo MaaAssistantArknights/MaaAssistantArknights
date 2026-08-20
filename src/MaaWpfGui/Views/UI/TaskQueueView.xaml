@@ -335,6 +335,7 @@
                                         Width="200"
                                         Padding="0"
                                         HorizontalOffset="-7"
+                                        ItemContainerStyle="{StaticResource MaaMenuItemDefaultStyle}"
                                         Placement="Bottom"
                                         VerticalOffset="-7">
                                         <ContextMenu.ItemsPanel>

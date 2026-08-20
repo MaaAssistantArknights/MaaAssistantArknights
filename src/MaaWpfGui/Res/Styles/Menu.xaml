@@ -1,0 +1,19 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  菜单项 Header 经模板统一渲染为显式左对齐 TextBlock，等价于在 Header 中手写 TextBlock，
+          菜单项本身保持字符串绑定写法即可  -->
+    <DataTemplate x:Key="MenuHeaderTextTemplate">
+        <TextBlock HorizontalAlignment="Left" Text="{Binding}" />
+    </DataTemplate>
+
+    <!--  挂到 ContextMenu 的 ItemContainerStyle 上使用；ItemContainerStyle 指向自身使样式
+          沿嵌套菜单项逐层传播，子菜单（如托盘的语言列表）同样生效  -->
+    <Style
+        x:Key="MaaMenuItemDefaultStyle"
+        BasedOn="{StaticResource {x:Type MenuItem}}"
+        TargetType="{x:Type MenuItem}">
+        <Setter Property="HeaderTemplate" Value="{StaticResource MenuHeaderTextTemplate}" />
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource MaaMenuItemDefaultStyle}" />
+    </Style>
+
+</ResourceDictionary>
