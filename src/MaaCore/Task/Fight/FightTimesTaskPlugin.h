@@ -39,6 +39,11 @@ public:
 
     void set_fight_times(int times) { m_fight_times_max = times; }
 
+    void set_only_use_full_delegation(bool only_use_full_delegation)
+    {
+        m_only_use_full_delegation = only_use_full_delegation;
+    }
+
     void finish_fight() { m_fight_times += m_series_current; }
 
     void set_has_used_medicine() { m_has_used_medicine = true; }
@@ -79,5 +84,6 @@ private:
     int m_series_current = 1;                     // 当前代理倍率
     mutable bool m_has_used_medicine = false;     // 是否使用过药品
     mutable bool m_is_medicine_exhausted = false; // 是否药品、石头用完
+    bool m_only_use_full_delegation = false;      // 剿灭是否仅使用全权委托
 };
 }

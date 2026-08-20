@@ -153,6 +153,12 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 <br>
 현재 진행 중인 SideStory의 뒤쪽 3개 스테이지는 반드시 전체 스테이지 번호를 입력해야 함  
 :::  
+::: field only_use_full_delegation
+@type boolean
+@default false
+@optional
+섬멸 작전을 전권 위임으로만 실행할지 여부입니다. `stage`가 섬멸 작전일 때만 적용됩니다. 활성화하면 전권 위임을 사용할 수 없거나 대리권을 모두 사용했을 때 일반 대리 지휘로 전환하지 않고 작업을 정상적으로 종료합니다.
+:::
 ::: field medicine  
 @type number
 @default 0
@@ -261,6 +267,7 @@ v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.
    "stone": 0,
    "times": 10,
    "series": 0,
+   "only_use_full_delegation": false,
    "drops": {
       "30011": 10
    },

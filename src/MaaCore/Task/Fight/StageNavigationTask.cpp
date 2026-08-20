@@ -151,6 +151,15 @@ bool asst::StageNavigationTask::_run()
             m_fight_task_ptr->set_enable(false);
             return true;
         }
+        else if (
+            ret && m_only_use_full_delegation && m_directly_task.ends_with(AnnihilationSuffix) &&
+            (task.get_last_task_name().ends_with("UsePrtsSuccessCheck") ||
+             task.get_last_task_name().ends_with("Annihilation@UnableToAgent2"))) {
+            Log.info(__FUNCTION__, "Annihilation full delegation is unavailable, skip fight");
+            callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("AnnihilationDelegationUnavailable"));
+            m_fight_task_ptr->set_enable(false);
+            return true;
+        }
         else if (ret && task.get_last_task_name().ends_with("Annihilation@UnableToAgent2")) {
             return false;
         }

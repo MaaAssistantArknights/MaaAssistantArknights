@@ -114,6 +114,11 @@ public class FightTask : BaseTask, IJsonOnDeserialized
     public string AnnihilationStage { get; set; } = "Annihilation";
 
     /// <summary>
+    /// Gets or sets a value indicating whether 剿灭仅使用全权委托
+    /// </summary>
+    public bool OnlyUseFullDelegation { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 隐藏不可用关卡
     /// </summary>
     public bool HideUnavailableStage { get; set; }

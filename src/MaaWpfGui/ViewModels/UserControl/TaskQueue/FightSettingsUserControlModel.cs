@@ -960,6 +960,17 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
+    public bool OnlyUseFullDelegation
+    {
+        get => GetTaskConfig<FightTask>().OnlyUseFullDelegation;
+        set {
+            if (SetTaskConfig<FightTask>(t => t.OnlyUseFullDelegation == value, t => t.OnlyUseFullDelegation = value))
+            {
+                SetFightParams();
+            }
+        }
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether 启用 DrGrandet 模式。
     /// </summary>
@@ -1292,6 +1303,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             MaxTimes = maxTimes,
             MedicineExpireDays = Math.Max(expireDays, activityExpireDays),
             IsDrGrandet = fight.IsDrGrandet,
+            OnlyUseFullDelegation = fight.OnlyUseFullDelegation,
             ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
             ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
             PenguinId = SettingsViewModel.GameSettings.PenguinId,
@@ -1732,6 +1744,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
         switch (msg.What)
         {
+            case "AnnihilationDelegationUnavailable":
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationDelegationUnavailable"), UiLogColor.Info);
+                break;
+
             case "UseMedicine":
                 var report = msg.Details?.ToObject<MedicineUsingInfo>();
                 if (report is null)

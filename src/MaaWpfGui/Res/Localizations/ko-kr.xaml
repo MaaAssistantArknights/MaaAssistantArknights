@@ -963,8 +963,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PR-D-2">PR-D-2 (가드/스페셜리스트)</system:String>
     <system:String x:Key="AnnihilationStage">섬멸 작전</system:String>
     <system:String x:Key="UseCustomAnnihilation">커스텀 {key=AnnihilationStage}</system:String>
+    <system:String x:Key="OnlyUseFullDelegation">섬멸 작전은 전권 위임으로만 실행</system:String>
+    <system:String x:Key="OnlyUseFullDelegationTip">활성화하면 전권 위임을 사용할 수 있을 때만 섬멸 작전을 실행합니다. 대리권을 모두 사용했거나 전권 위임을 사용할 수 없으면 현재 작업을 정상적으로 종료하고 다음 작업을 계속합니다.</system:String>
     <system:String x:Key="AnnihilationMode">섬멸 모드</system:String>
     <system:String x:Key="Annihilation.Current">이번 섬멸 작전</system:String>
+    <system:String x:Key="AnnihilationDelegationUnavailable">섬멸 작전 전권 위임을 사용할 수 없습니다. 대리권을 모두 사용했을 수 있어 이 작업을 종료했습니다.</system:String>
     <system:String x:Key="PermanentStageBlocksStages">선택된 스테이지 ｢{0}｣ 는 상설 스테이지 또는 현재/마지막이므로 이후 스테이지는 선택되지 않습니다</system:String>
     <system:String x:Key="Chernobog">체르노보그</system:String>
     <system:String x:Key="LungmenOutskirts">용문 외곽</system:String>

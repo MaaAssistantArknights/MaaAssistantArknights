@@ -20,6 +20,11 @@ public:
         m_fight_task_ptr = fight_task_ptr;
     };
 
+    void set_only_use_full_delegation(bool only_use_full_delegation) noexcept
+    {
+        m_only_use_full_delegation = only_use_full_delegation;
+    }
+
 protected:
     virtual bool _run() override;
     void clear() noexcept;
@@ -36,6 +41,7 @@ protected:
     std::vector<std::string> m_difficulty_tasks;
     std::string m_stage_code;
     bool m_switch_difficulty_after_stage_selection = false;
+    bool m_only_use_full_delegation = false;
     std::shared_ptr<ProcessTask> m_fight_task_ptr = nullptr;
     static constexpr std::string_view AnnihilationSuffix = "Annihilation";
 };

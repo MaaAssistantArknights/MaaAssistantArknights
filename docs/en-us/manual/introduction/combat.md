@@ -71,8 +71,8 @@ Some features on this page are implemented by the UI layer (such as Target Inven
 - MAA navigates to Annihilation using the button at the top-right of the terminal home screen. Ensure your selected Annihilation stage has unlocked `Full Delegation` and that you have enough `PRTS Annihilation Delegation Cards`.
 - This feature is only recommended for stages where you've already achieved the 400-kill milestone.
 - If the Annihilation entry cannot be found during navigation, the weekly Annihilation is treated as completed and the task ends immediately (not counted as a failure).
-- During navigation, MAA checks whether `Full Delegation` (sweep) is available. If not, the task fails and exits.
-- During runtime, MAA does **not** continuously check whether sweep tickets are sufficient. If tickets run out mid-run, later battles may fall back to normal auto-deploy and take much longer.
+- `Only use Full Delegation for Annihilation` in Advanced Settings is disabled by default. When disabled, the existing behavior is preserved: MAA tries Full Delegation first, continues with regular Auto-Deploy if it is available, and fails the task if neither is available.
+- When `Only use Full Delegation for Annihilation` is enabled, MAA checks Full Delegation before every Annihilation run. If delegation cards are exhausted or Full Delegation is unavailable, the current Sanity Farming task ends normally and the next task continues instead of falling back to regular Auto-Deploy.
 - At settlement, MAA recognizes the weekly Orundum progress (e.g. `1800 / 1800`) and automatically stops when the weekly cap is reached.
 - Annihilation is a permanent stage: if it is selected in stage selection / alternative stages, later alternative stages will not continue to be recognized or run.
 - Annihilation drops are not uploaded to Penguin Statistics or Yituliu.

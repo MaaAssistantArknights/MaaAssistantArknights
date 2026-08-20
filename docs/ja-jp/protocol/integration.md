@@ -159,6 +159,12 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 - 当期 SS イベントの最後の 3 ステージ。[API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) にアクセスして、サポートされているステージ リストを取得できます。[tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) ファイルのイベント ステージ ナビゲーションを追加でロードする必要があります。
 - 復刻 SS イベント。`SSReopen-<ステージ プレフィックス>` と入力します。例えば `SSReopen-IC` と入力すると、XX-1～XX-9 ステージを一度に完了できます。
   :::  
+  ::: field only_use_full_delegation
+  @type boolean
+  @default false
+  @optional
+  殲滅作戦で全権委任のみを使用するかどうか。`stage` が殲滅ステージの場合のみ有効です。有効にすると、全権委任を利用できない場合、または代理カードを使い切った場合、通常の自動指揮に切り替えずタスクを正常終了します。
+  :::
   ::: field medicine  
   @type number
   @default 0
@@ -277,6 +283,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
    "stone": 0,
    "times": 10,
    "series": 0,
+   "only_use_full_delegation": false,
    "drops": {
       "30011": 10
    },

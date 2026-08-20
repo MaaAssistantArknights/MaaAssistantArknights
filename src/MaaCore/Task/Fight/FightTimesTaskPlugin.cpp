@@ -48,6 +48,31 @@ bool asst::FightTimesTaskPlugin::_run()
     sanity_info["details"]["report_time"] = MAA_NS::format_now();
     // {"sanity_current": 100, "sanity_max": 135, "report_time": "2023-09-01 09:31:53.527"}
     auto image = ctrler()->get_image();
+    if (m_only_use_full_delegation) {
+        const auto delegation_enabled = [](const cv::Mat& current_image) {
+            Matcher matcher(current_image);
+            matcher.set_task_info("UsePrts-AnnihilationSuccessCheck");
+            return matcher.analyze().has_value();
+        };
+
+        if (!delegation_enabled(image)) {
+            Matcher delegation_button(image);
+            delegation_button.set_task_info("UsePrts-AnnihilationCheck");
+            if (delegation_button.analyze()) {
+                ctrler()->click(delegation_button.get_result().rect);
+                sleep(Config.get_options().task_delay);
+                image = ctrler()->get_image();
+            }
+        }
+
+        if (!delegation_enabled(image)) {
+            Log.info(__FUNCTION__, "Annihilation full delegation is unavailable, stop task");
+            callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("AnnihilationDelegationUnavailable"));
+            m_task_ptr->set_enable(false);
+            return true;
+        }
+    }
+
     auto sanity = analyze_sanity_remain(image);
     if (!sanity) {
         Log.error(__FUNCTION__, "unable to analyze sanity");

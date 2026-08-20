@@ -159,6 +159,12 @@ Currently supported stages for navigation include:
 - Last three stages of current SS events. Visit [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) for the list of supported stages. Requires additional loading of event stage navigation in [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) file.
 - Rerun SS events. Input `SSReopen-<stage prefix>` to farm XX-1 ~ XX-9 stages at once, e.g. `SSReopen-IC`.
   :::  
+  ::: field only_use_full_delegation
+  @type boolean
+  @default false
+  @optional
+  Whether Annihilation should run only with Full Delegation. This takes effect only when `stage` is an Annihilation stage. When enabled, the task ends normally instead of falling back to regular Auto-Deploy if Full Delegation is unavailable or delegation cards are exhausted.
+  :::
   ::: field medicine  
   @type number
   @default 0
@@ -277,6 +283,7 @@ Currently supported stages for navigation include:
    "stone": 0,
    "times": 10,
    "series": 0,
+   "only_use_full_delegation": false,
    "drops": {
       "30011": 10
    },

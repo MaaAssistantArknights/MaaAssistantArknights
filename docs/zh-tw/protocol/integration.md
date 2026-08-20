@@ -160,6 +160,12 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 - **當期 SideStory 活動**：支援活動後三關。可查閱 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) 獲取支援的關卡列表。需額外加載 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 中的活動關卡導航。
 - **復刻 SideStory 活動**：輸入 `SSReopen-<關卡前綴>` ，可一次性刷完 XX-1 ~ XX-9 關，如 `SSReopen-IC`。
   :::  
+  ::: field only_use_full_delegation
+  @type boolean
+  @default false
+  @optional
+  剿滅是否僅使用全權委託。僅在 `stage` 為剿滅關卡時生效。啟用後，若全權委託不可用或代理券用盡，任務會正常結束，不會回退到普通代理。
+  :::
   ::: field medicine  
   @type number
   @default 0
@@ -278,6 +284,7 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
    "stone": 0,
    "times": 10,
    "series": 0,
+   "only_use_full_delegation": false,
    "drops": {
       "30011": 10
    },

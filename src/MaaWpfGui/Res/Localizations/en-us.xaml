@@ -961,8 +961,11 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="PR-D-2">Grd/Spc Ⅱ</system:String>
     <system:String x:Key="AnnihilationStage">Annihilation Stage</system:String>
     <system:String x:Key="UseCustomAnnihilation">Custom {key=AnnihilationStage}</system:String>
+    <system:String x:Key="OnlyUseFullDelegation">Only use Full Delegation for Annihilation</system:String>
+    <system:String x:Key="OnlyUseFullDelegationTip">When enabled, Annihilation runs only while Full Delegation is available. If delegation cards are exhausted or Full Delegation is unavailable, the current task ends normally and the next task continues.</system:String>
     <system:String x:Key="AnnihilationMode">Annihilation Mode</system:String>
     <system:String x:Key="Annihilation.Current">Current Annihilation</system:String>
+    <system:String x:Key="AnnihilationDelegationUnavailable">Annihilation Full Delegation is unavailable. The delegation cards may be exhausted, so this task has ended.</system:String>
     <system:String x:Key="PermanentStageBlocksStages">The selected stage ｢{0}｣ is a permanent stage or Current/Last; subsequent stages will not be selected</system:String>
     <system:String x:Key="Chernobog">Chernobog</system:String>
     <system:String x:Key="LungmenOutskirts">Lungmen Outskirts</system:String>

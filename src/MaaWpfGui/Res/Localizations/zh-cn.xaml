@@ -961,8 +961,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PR-D-2">近/特芯片组</system:String>
     <system:String x:Key="AnnihilationStage">剿灭关卡</system:String>
     <system:String x:Key="UseCustomAnnihilation">自定义{key=AnnihilationStage}</system:String>
+    <system:String x:Key="OnlyUseFullDelegation">剿灭仅使用全权委托</system:String>
+    <system:String x:Key="OnlyUseFullDelegationTip">启用后，剿灭仅在全权委托可用时执行；代理券耗尽或全权委托不可用时，当前任务正常结束并继续执行后续任务。</system:String>
     <system:String x:Key="AnnihilationMode">剿灭模式</system:String>
     <system:String x:Key="Annihilation.Current">当期剿灭</system:String>
+    <system:String x:Key="AnnihilationDelegationUnavailable">未检测到可用的剿灭全权委托，代理券可能已耗尽，本任务已结束</system:String>
     <system:String x:Key="PermanentStageBlocksStages">当前选中的关卡 ｢{0}｣ 为常驻关卡或当前/上次，其后的关卡不会被选中执行</system:String>
     <system:String x:Key="Chernobog">切尔诺伯格</system:String>
     <system:String x:Key="LungmenOutskirts">龙门外环</system:String>

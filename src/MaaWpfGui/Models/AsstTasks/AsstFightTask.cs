@@ -68,6 +68,12 @@ public class AsstFightTask : AsstBaseTask
     public bool IsDrGrandet { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 剿灭仅使用全权委托
+    /// </summary>
+    [JsonProperty("only_use_full_delegation")]
+    public bool OnlyUseFullDelegation { get; set; }
+
+    /// <summary>
     /// Gets or sets 掉落物品id, 数量
     /// </summary>
     public Dictionary<string, int> Drops { get; set; } = [];

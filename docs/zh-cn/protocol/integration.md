@@ -159,6 +159,12 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 - 当期 SS 活动 后三关。可访问 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) 获取支持的关卡列表。需额外加载 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 文件中的活动关卡导航。
 - 复刻的 SS 活动。输入 `SSReopen-<关卡前缀>` ，可一次性刷完 XX-1 ~ XX-9 关，如 `SSReopen-IC`。
   :::  
+  ::: field only_use_full_delegation
+  @type boolean
+  @default false
+  @optional
+  剿灭是否仅使用全权委托。仅当 `stage` 为剿灭关卡时生效。启用后，若全权委托不可用或代理券耗尽，任务会正常结束，不会回退到普通代理。
+  :::
   ::: field medicine  
   @type number
   @default 0
@@ -277,6 +283,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
    "stone": 0,
    "times": 10,
    "series": 0,
+   "only_use_full_delegation": false,
    "drops": {
       "30011": 10
    },

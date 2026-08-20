@@ -89,8 +89,11 @@ bool asst::FightTask::set_params(const json::value& params)
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
     const int series = params.get("series", 1);
+    const bool only_use_full_delegation = params.get("only_use_full_delegation", false);
 
     m_fight_times_prt->set_fight_times(times);
+    m_fight_times_prt->set_only_use_full_delegation(only_use_full_delegation && stage.ends_with("Annihilation"));
+    m_stage_navigation_task_ptr->set_only_use_full_delegation(only_use_full_delegation);
 
     bool is_new_series_list = Task.get("FightSeries-OldMethodFlag") == nullptr;
     if (series < -1 || (series > 10 && is_new_series_list) || (series > 6 && !is_new_series_list)) {

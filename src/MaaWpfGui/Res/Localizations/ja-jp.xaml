@@ -962,8 +962,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PR-D-2">前衛/特殊SoC・中</system:String>
     <system:String x:Key="AnnihilationStage">殲滅ステージ</system:String>
     <system:String x:Key="UseCustomAnnihilation">カスタム{key=AnnihilationStage}</system:String>
+    <system:String x:Key="OnlyUseFullDelegation">殲滅作戦では全権委任のみを使用</system:String>
+    <system:String x:Key="OnlyUseFullDelegationTip">有効にすると、全権委任を利用できる場合のみ殲滅作戦を実行します。代理カードを使い切った場合、または全権委任を利用できない場合、現在のタスクを正常終了して次のタスクを続行します。</system:String>
     <system:String x:Key="AnnihilationMode">殲滅作戦</system:String>
     <system:String x:Key="Annihilation.Current">今期の殲滅作戦</system:String>
+    <system:String x:Key="AnnihilationDelegationUnavailable">殲滅作戦の全権委任を利用できません。代理カードを使い切った可能性があるため、このタスクを終了しました。</system:String>
     <system:String x:Key="PermanentStageBlocksStages">選択されたステージ ｢{0}｣ は常設ステージまたは現在/最後のため、後続のステージは選択されません</system:String>
     <system:String x:Key="Chernobog">チェルノボーグ</system:String>
     <system:String x:Key="LungmenOutskirts">龍門郊外</system:String>

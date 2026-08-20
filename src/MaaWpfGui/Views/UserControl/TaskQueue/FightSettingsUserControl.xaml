@@ -434,6 +434,18 @@
                     SelectedValue="{Binding AnnihilationStage}"
                     SelectedValuePath="Value"
                     Visibility="{c:Binding UseCustomAnnihilation}" />
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <CheckBox IsChecked="{Binding OnlyUseFullDelegation}">
+                        <TextBlock Text="{DynamicResource OnlyUseFullDelegation}" TextWrapping="Wrap" />
+                    </CheckBox>
+                    <controls:TooltipBlock
+                        Grid.Column="1"
+                        TooltipText="{DynamicResource OnlyUseFullDelegationTip}" />
+                </Grid>
             </StackPanel>
             <StackPanel Margin="0,10" Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource DrGrandet}" IsChecked="{Binding IsDrGrandet}" />
