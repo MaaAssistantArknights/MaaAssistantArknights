@@ -45,10 +45,13 @@ public enum TransitionOrientation
 /// </summary>
 public class TransitioningContentControl : HandyControl.Controls.TransitioningContentControl
 {
-    // 全局过渡时长，由设置（GuiSettingsUserControlModel）在启动和档位切换时同步：
-    // 原速 400ms 与 HandyControl 内置过渡一致（内置资源为私有，无法读取，取常量），
-    // 快速减半，无动画为零。动画在播放时刻现建，改档立即生效
-    public static TimeSpan TransitionDuration { get; set; } = TimeSpan.FromMilliseconds(400);
+    // 原速档基准时长（ms），与 HandyControl 内置过渡一致（内置资源为私有，无法读取，取常量）；
+    // 快速档减半、无动画档为零，设置页导航的平滑滚动时长也按此基准同比缩放
+    internal const double NormalDurationMilliseconds = 400;
+
+    // 全局过渡时长，由设置（GuiSettingsUserControlModel）在启动和档位切换时同步，
+    // 动画在播放时刻现建，改档立即生效
+    public static TimeSpan TransitionDuration { get; set; } = TimeSpan.FromMilliseconds(NormalDurationMilliseconds);
 
     private static readonly PropertyPath TranslateXPath = new("(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)");
 
@@ -57,8 +60,9 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
     private static readonly PropertyPath OpacityPath = new("(UIElement.Opacity)");
 
     // 最近一次放行的过渡及其截止时刻（毫秒，Environment.TickCount64，抗系统时钟跳变），
-    // 优先级更低的过渡请求在此期间让位；更高优先级可抢占；同级互不压制
-    private static TransitioningContentControl? _grantedControl;
+    // 优先级更低的过渡请求在此期间让位；更高优先级可抢占；同级互不压制；
+    // 控件用弱引用持有，避免静态字段 root 住最后一次播放过渡的控件及其整棵视觉树
+    private static readonly WeakReference<TransitioningContentControl?> _grantedControl = new(null);
     private static int _grantedPriority = int.MaxValue;
     private static long _grantedUntilTick = long.MinValue;
 
@@ -301,17 +305,21 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
         lock (GrantGate)
         {
             var now = Environment.TickCount64;
-            if (now < _grantedUntilTick && _grantedControl != this)
+            _grantedControl.TryGetTarget(out var granted);
+            if (now < _grantedUntilTick && granted != this)
             {
                 // 窗口内已有其他控件的过渡在播放：
-                // 更低优先级让位；同级互不压制；更高优先级可抢占
+                // 更低优先级让位；同级互不压制；更高优先级可抢占。
+                // 抢占只影响后续请求的准入，无法撤回已开始的动画——低优先级先提交、高优先级随后到
+                // 时两者会叠加播放；现有接入点外层过渡随选中项变更同步入队（DataBind 优先级），
+                // 总先于内层子树 realize（Render 优先级）提交，天然满足高优先级在先，新接入点需保持此顺序
                 if (TransitionPriority > _grantedPriority)
                 {
                     return false;
                 }
             }
 
-            _grantedControl = this;
+            _grantedControl.SetTarget(this);
             _grantedPriority = TransitionPriority;
             _grantedUntilTick = now + (long)TransitionDuration.TotalMilliseconds;
             return true;
@@ -357,7 +365,7 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
     private Storyboard? CreateTransitionStoryboard(TransitionMode mode)
     {
         // 与 HandyControl 内置过渡保持一致：位移 50px，CubicEase EaseOut；
-        // 仅覆盖项目用到的模式，Custom 模式交由基类 TransitionStoryboard，此处不处理
+        // 仅覆盖项目用到的模式，未列出的模式（含 Custom，基类动画已被空 Storyboard 架空）不播动画
         var storyboard = new Storyboard();
         var duration = new Duration(TransitionDuration);
         var easing = new CubicEase { EasingMode = EasingMode.EaseOut };

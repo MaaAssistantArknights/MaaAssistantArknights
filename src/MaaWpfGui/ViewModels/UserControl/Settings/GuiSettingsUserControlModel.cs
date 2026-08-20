@@ -223,10 +223,11 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public void ApplyTransitionSpeed()
     {
+        var normalMs = Styles.Controls.TransitioningContentControl.NormalDurationMilliseconds;
         Styles.Controls.TransitioningContentControl.TransitionDuration = ConfigFactory.Root.Gui.TransitionSpeed switch {
-            TransitionSpeedType.Fast => TimeSpan.FromMilliseconds(200),
+            TransitionSpeedType.Fast => TimeSpan.FromMilliseconds(normalMs / 2),
             TransitionSpeedType.None => TimeSpan.Zero,
-            _ => TimeSpan.FromMilliseconds(400),
+            _ => TimeSpan.FromMilliseconds(normalMs),
         };
     }
 
