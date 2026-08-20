@@ -748,7 +748,7 @@ public class SettingsViewModel : Screen
                 return;
             }
 
-            if (value < 0 || value > DividerVerticalOffsetList.Count)
+            if (value < 0 || value >= DividerVerticalOffsetList.Count)
             {
                 return;
             }
