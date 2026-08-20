@@ -658,6 +658,16 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
     }
     auto& buffs = buffs_opt.value();
 
+    std::unordered_map<std::string, std::string> skill_icon_by_buff_id;
+    for (const auto& [_, buff] : buffs) {
+        const std::string buff_id = buff.get("buffId", std::string());
+        const std::string skill_icon =
+            canonicalize_infrast_skill_id(buff.get("skillIcon", std::string()));
+        if (!buff_id.empty() && !skill_icon.empty()) {
+            skill_icon_by_buff_id.insert_or_assign(buff_id, skill_icon);
+        }
+    }
+
     std::unordered_map<std::string, std::set<std::string>> operator_ids_by_skill;
     if (auto chars_opt = input_json.find<json::object>("chars")) {
         for (const auto& [char_id, char_json] : chars_opt.value()) {
@@ -666,14 +676,13 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
                     if (auto buff_data_opt = buff_char.find<json::array>("buffData")) {
                         for (const auto& buff_data : buff_data_opt.value()) {
                             const std::string buff_id = buff_data.get("buffId", std::string());
-                            if (buff_id.empty() || !buffs.contains(buff_id)) {
+                            if (buff_id.empty()) {
                                 continue;
                             }
 
-                            std::string skill_icon =
-                                canonicalize_infrast_skill_id(buffs.at(buff_id).get("skillIcon", std::string()));
-                            if (!skill_icon.empty()) {
-                                operator_ids_by_skill[skill_icon].emplace(char_id);
+                            if (auto skill_icon_iter = skill_icon_by_buff_id.find(buff_id);
+                                skill_icon_iter != skill_icon_by_buff_id.cend()) {
+                                operator_ids_by_skill[skill_icon_iter->second].emplace(char_id);
                             }
                         }
                     }
@@ -741,6 +750,12 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
                 auto stale = iter++;
                 skills.erase(stale);
                 continue;
+            }
+            auto& desc = skill["desc"].as_array();
+            if (desc.size() > 1) {
+                json::value first_desc = desc.at(0);
+                desc = json::array();
+                desc.emplace_back(std::move(first_desc));
             }
             if (auto operator_iter = operator_ids_by_skill.find(skill_id);
                 operator_iter != operator_ids_by_skill.cend()) {
