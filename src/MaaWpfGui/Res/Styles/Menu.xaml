@@ -3,7 +3,8 @@
                     xmlns:hc="https://handyorg.github.io/handycontrol">
 
     <!--  菜单项 Header 经模板统一渲染为显式左对齐 TextBlock，等价于在 Header 中手写 TextBlock，
-          菜单项本身保持字符串绑定写法即可  -->
+          菜单项本身保持字符串绑定写法即可。Header 为非字符串数据对象时会退化为 ToString() 文本，
+          需要富内容（图标等）时应在 Header 中直接放置 UIElement（不套用此模板）  -->
     <DataTemplate x:Key="MenuHeaderTextTemplate">
         <TextBlock HorizontalAlignment="Left" Text="{Binding}" />
     </DataTemplate>
