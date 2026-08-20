@@ -918,8 +918,9 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
 
     const bool expanded = ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run();
     if (expanded) {
-        constexpr std::array<std::string_view, 2> Roles = { "Warrior", "Sniper" };
-        for (const std::string_view role : Roles) {
+        constexpr std::array<battle::Role, 2> Roles = { battle::Role::Warrior, battle::Role::Sniper };
+        for (const battle::Role role : Roles) {
+            const std::string role_name = enum_to_string(role, true);
             const bool has_target = std::ranges::any_of(candidates, [&](const auto& candidate) {
                 return candidate.role == role && remaining.contains(candidate.operator_id);
             });
@@ -930,9 +931,9 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
             ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" })
                 .set_retry_times(0)
                 .run();
-            const std::string task_name = "BattleQuickFormationRole-" + std::string(role);
+            const std::string task_name = "BattleQuickFormationRole-" + role_name;
             if (!ProcessTask(*this, { task_name }).set_retry_times(0).run()) {
-                Log.warn("failed to select abyssal hunter role", role);
+                Log.warn("failed to select abyssal hunter role", role_name);
                 continue;
             }
             sleep(200);

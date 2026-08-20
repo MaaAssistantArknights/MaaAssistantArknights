@@ -1437,10 +1437,10 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
 const std::array<AbyssalHunterCandidate, 4>& get_abyssal_hunter_candidates()
 {
     static const std::array<AbyssalHunterCandidate, 4> candidates = {
-        AbyssalHunterCandidate { BattleData.get_id("斯卡蒂"), "Warrior" },
-        AbyssalHunterCandidate { BattleData.get_id("幽灵鲨"), "Warrior" },
-        AbyssalHunterCandidate { BattleData.get_id("乌尔比安"), "Warrior" },
-        AbyssalHunterCandidate { BattleData.get_id("安哲拉"), "Sniper" },
+        AbyssalHunterCandidate { BattleData.get_id("斯卡蒂"), BattleData.get_role("斯卡蒂") },
+        AbyssalHunterCandidate { BattleData.get_id("幽灵鲨"), BattleData.get_role("幽灵鲨") },
+        AbyssalHunterCandidate { BattleData.get_id("乌尔比安"), BattleData.get_role("乌尔比安") },
+        AbyssalHunterCandidate { BattleData.get_id("安哲拉"), BattleData.get_role("安哲拉") },
     };
     return candidates;
 }

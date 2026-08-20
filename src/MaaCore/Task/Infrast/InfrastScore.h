@@ -7,6 +7,8 @@
 #include <unordered_set>
 #include <vector>
 
+#include "Common/AsstBattleDef.h"
+
 namespace asst::infrast
 {
 struct ScoreOper
@@ -48,7 +50,7 @@ struct ScoreResult
 struct AbyssalHunterCandidate
 {
     std::string operator_id;
-    std::string_view role;
+    battle::Role role = battle::Role::Unknown;
 };
 
 inline constexpr std::string_view AbyssalHunterSkill = "abyssal_hunter";
