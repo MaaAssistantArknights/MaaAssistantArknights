@@ -26,7 +26,9 @@ namespace MaaWpfGui.Styles.Controls;
 /// 文本框显示/输入路径等文本，点箭头在下方弹出树（数据源与项模板由使用点提供），
 /// 选中叶子项后经 <see cref="SelectionChanged"/> 交给使用点回填文本并调用 <see cref="CloseDropDown"/> 关闭。
 /// 开合交互与 ComboBox 对齐——点一次打开、再点一次关闭、快速双击/连击保持打开、
-/// 点击窗口其他位置关闭，关闭弹层的那次点击不作用于任何元素，且关闭后可立即重新打开。
+/// 点击窗口其他位置关闭，关闭弹层的那次点击不作用于任何元素；点外部/失活关闭后可
+/// 立即重新打开，点箭头关闭后的判定窗口内再次点击（如双击的第二击）是同一关闭手势
+/// 的延续，不重新打开。
 /// 点外部关闭由 <see cref="PopupDismissController"/> 以自管鼠标捕获实现（含点击吞除）；
 /// 连击保持则在箭头上截断：捕获子树外（箭头在弹层独立窗口之外）的按下仍会照常路由到箭头，
 /// 判定窗口内的再次点击若不吞掉会随 MouseLeftButtonUp 把下拉切换关闭，因此预览阶段
@@ -34,9 +36,11 @@ namespace MaaWpfGui.Styles.Controls;
 /// </summary>
 public partial class TreeComboBox : UserControl
 {
-    // 最近一次下拉打开的时刻（Environment.TickCount64 毫秒）；null 表示从未发生。
+    // 最近一次下拉打开的时刻与 ｢因点箭头关闭｣ 的时刻（Environment.TickCount64 毫秒）；null 表示从未发生。
     // 不能用 long.MinValue 之类的哨兵值：与 TickCount64 相减会溢出为负，导致判定恒真
     private long? _openedAt;
+
+    private long? _anchorClickClosedAt;
 
     // 判定窗口内连击吞击时置位：吞掉随后的 MouseUp，避免再次切换开合
     private bool _suppressNextClick;
@@ -47,7 +51,10 @@ public partial class TreeComboBox : UserControl
     public TreeComboBox()
     {
         InitializeComponent();
-        _ = new PopupDismissController(PART_Popup, PART_ToggleBorder);
+        _ = new PopupDismissController(
+            PART_Popup,
+            PART_ToggleBorder,
+            onAnchorClickClose: () => _anchorClickClosedAt = Environment.TickCount64);
 
         // 弹层滚动的 ScrollChanged 就地终止冒泡：Popup 打开期间弹层与外层页面同处一条路由
         // 路径，弹层的滚动事件冒泡到页面滚动订阅者会被误当页面滚动（把页面拉到弹层偏移）
@@ -248,6 +255,14 @@ public partial class TreeComboBox : UserControl
         if (_suppressNextClick)
         {
             _suppressNextClick = false;
+            return;
+        }
+
+        // 因点箭头关闭后的判定窗口内再次点击（如双击的第二击）是同一关闭手势的
+        // 延续：不视为重新打开；窗口外的点击正常展开
+        if (_anchorClickClosedAt is { } closedAt
+            && Environment.TickCount64 - closedAt < DropDownDismiss.SuppressIntervalMs)
+        {
             return;
         }
 

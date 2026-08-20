@@ -25,18 +25,24 @@ namespace MaaWpfGui.Styles.Properties;
 
 /// <summary>
 /// 使 <see cref="SplitButton"/> 的下拉箭头交互与 ComboBox 对齐：点一次打开、再点一次关闭，
-/// 但刚打开后的判定窗口内（快速双击/宏级连击）的再次点击不视为关闭，下拉保持打开。
-/// 点外部关闭由 <see cref="PopupDismissController"/> 以自管鼠标捕获实现（模板 Popup 恒接管
-/// 失活自动关闭，StaysOpen 置 true，含关闭时点击吞除）；连击保持则在本类截断：
-/// 捕获子树外（箭头在上、弹层内容在独立窗口中）的按下仍会照常路由到箭头 ToggleButton
-/// 使其翻转 IsChecked 关闭下拉，因此判定窗口内点击箭头时在预览阶段吞掉整次点击。
+/// 但刚打开后的判定窗口内（快速双击/宏级连击）的再次点击不视为关闭，下拉保持打开；
+/// 因点箭头关闭后的判定窗口内再次点击（如双击的第二击）是同一关闭手势的延续，
+/// 也不重新打开。点外部关闭由 <see cref="PopupDismissController"/> 以自管鼠标捕获实现
+/// （模板 Popup 恒接管失活自动关闭，StaysOpen 置 true，含关闭时点击吞除）；
+/// 连击保持则在本类截断：捕获子树外（箭头在上、弹层内容在独立窗口中）的按下
+/// 仍会照常路由到箭头 ToggleButton 使其翻转 IsChecked 关闭下拉，
+/// 因此判定窗口内点击箭头时在预览阶段吞掉整次点击。
 /// </summary>
 public static class SplitButtonDropDown
 {
-    // 上次下拉打开的时刻（Environment.TickCount64 毫秒），null 表示从未发生；仅内部使用。
+    // 上次下拉打开的时刻与 ｢因点箭头关闭｣ 的时刻（Environment.TickCount64 毫秒），
+    // null 表示从未发生；仅内部使用。
     // 不能用 long.MinValue 之类的哨兵值：与 TickCount64 相减会溢出为负，导致判定恒真
     private static readonly DependencyProperty OpenedAtProperty = DependencyProperty.RegisterAttached(
         "OpenedAt", typeof(long?), typeof(SplitButtonDropDown), new PropertyMetadata(null));
+
+    private static readonly DependencyProperty AnchorClickClosedAtProperty = DependencyProperty.RegisterAttached(
+        "AnchorClickClosedAt", typeof(long?), typeof(SplitButtonDropDown), new PropertyMetadata(null));
 
     // 下拉开合判定控制器；模板 Popup 随模板重建变化时随之重建
     private static readonly DependencyProperty DismissControllerProperty = DependencyProperty.RegisterAttached(
@@ -83,6 +89,16 @@ public static class SplitButtonDropDown
             return;
         }
 
+        // 因点箭头关闭后的判定窗口内再次点击（如双击的第二击）是同一关闭手势的延续：
+        // 吞掉以阻止箭头 ToggleButton 翻转重新打开；窗口外的点击正常展开
+        if (!splitButton.IsDropDownOpen
+            && splitButton.GetValue(AnchorClickClosedAtProperty) is long closedAt
+            && Environment.TickCount64 - closedAt < DropDownDismiss.SuppressIntervalMs)
+        {
+            e.Handled = true;
+            return;
+        }
+
         // 下拉着且刚打开：快速连击，吞掉整次点击保持打开（阻止箭头 ToggleButton 翻转关闭下拉）
         if (splitButton.IsDropDownOpen
             && splitButton.GetValue(OpenedAtProperty) is long openedAt
@@ -121,7 +137,9 @@ public static class SplitButtonDropDown
             controller = new PopupDismissController(
                 popup,
                 splitButton,
-                () => splitButton.SetCurrentValue(SplitButton.IsDropDownOpenProperty, false));
+                () => splitButton.SetCurrentValue(SplitButton.IsDropDownOpenProperty, false),
+                onAnchorClickClose: () => splitButton.SetValue(
+                    AnchorClickClosedAtProperty, Environment.TickCount64));
             splitButton.SetValue(DismissControllerProperty, controller);
         }
     }

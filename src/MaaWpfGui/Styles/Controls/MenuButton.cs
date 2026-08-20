@@ -24,7 +24,9 @@ namespace MaaWpfGui.Styles.Controls;
 /// <summary>
 /// 带下拉的按钮：点击把 <see cref="PopupContent"/> 在按钮下方展开，交互与 ComboBox
 /// 对齐——点一次打开、再点一次关闭、连击（含宏级高速连击）保持展开、点击窗口其他
-/// 位置或选中内容后关闭，关闭弹层的那次点击不作用于任何元素，且关闭后可立即重新打开。
+/// 位置或选中内容后关闭，关闭弹层的那次点击不作用于任何元素；点外部/失活关闭后可
+/// 立即重新打开，点本按钮关闭后的判定窗口内再次点击（如双击的第二击）是同一关闭手势
+/// 的延续，不重新打开。
 /// 下拉用 Popup 而非 <see cref="ContextMenu"/> 承载：ContextMenu 打开时强制建立子树
 /// 鼠标捕获，点击捕获子树外会经捕获转移/广播被关闭，该路径不受 StaysOpen 接管控制，
 /// 高速连击下 IsOpen 反复翻转导致上屏闪烁。
@@ -35,9 +37,11 @@ namespace MaaWpfGui.Styles.Controls;
 /// </summary>
 public class MenuButton : Button
 {
-    // 最近一次下拉打开的时刻（Environment.TickCount64 毫秒）；null 表示从未发生。
+    // 最近一次下拉打开的时刻与 ｢因点本按钮关闭｣ 的时刻（Environment.TickCount64 毫秒）；null 表示从未发生。
     // 不能用 long.MinValue 之类的哨兵值：与 TickCount64 相减会溢出为负，导致判定恒真
     private long? _openedAt;
+
+    private long? _anchorClickClosedAt;
 
     // 承载下拉内容的弹层（懒创建，复用）与开合判定控制器
     private Popup? _menuPopup;
@@ -68,6 +72,14 @@ public class MenuButton : Button
     {
         base.OnClick();
         if (PopupContent is null)
+        {
+            return;
+        }
+
+        // 因点本按钮关闭后的判定窗口内再次点击（如双击的第二击）是同一关闭手势的
+        // 延续：不视为重新打开；窗口外的点击正常展开
+        if (_anchorClickClosedAt is { } closedAt
+            && Environment.TickCount64 - closedAt < DropDownDismiss.SuppressIntervalMs)
         {
             return;
         }
@@ -113,7 +125,10 @@ public class MenuButton : Button
                     AllowsTransparency = true,
                 };
                 popup.Opened += OnPopupOpened;
-                _dismiss = new PopupDismissController(popup, this);
+                _dismiss = new PopupDismissController(
+                    popup,
+                    this,
+                    onAnchorClickClose: () => _anchorClickClosedAt = Environment.TickCount64);
                 _menuPopup = popup;
             }
 

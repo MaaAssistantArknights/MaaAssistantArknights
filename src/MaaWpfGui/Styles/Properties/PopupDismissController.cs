@@ -63,17 +63,24 @@ internal sealed class PopupDismissController
     // 防止关闭弹层的那次点击穿透触发实际命中的元素。null 表示当前没有吞点击
     private MouseButtonEventHandler? _swallowUpHandler;
 
+    // 因点击锚点（触发控件）而关闭时回调一次，供触发控件记录时刻：判定窗口内对它的
+    // 下一次点击是同一关闭手势的延续（如双击的第二击），不视为重新打开；
+    // 点外部/失活关闭不回调，下一次打开不受任何限制
+    private readonly Action? _onAnchorClickClose;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PopupDismissController"/> class.
     /// </summary>
     /// <param name="popup">受控弹层，需 StaysOpen 保持 true，关闭时机完全由本类接管。</param>
     /// <param name="anchor">触发控件。</param>
     /// <param name="close">关闭动作，null 表示直接置 <c>popup.IsOpen = false</c>。</param>
-    public PopupDismissController(Popup popup, UIElement anchor, Action? close = null)
+    /// <param name="onAnchorClickClose">因点击锚点而关闭时的回调。</param>
+    public PopupDismissController(Popup popup, UIElement anchor, Action? close = null, Action? onAnchorClickClose = null)
     {
         _popup = popup;
         _anchor = anchor;
         _close = close ?? (() => popup.IsOpen = false);
+        _onAnchorClickClose = onAnchorClickClose;
         popup.Opened += OnPopupOpened;
         popup.Closed += OnPopupClosed;
     }
@@ -118,10 +125,17 @@ internal sealed class PopupDismissController
             return;
         }
 
-        // 关闭弹层的同时吞掉本次点击的剩余路由（按下已在广播阶段，抬起还未路由）：
-        // 把捕获临时挂到宿主窗口，本次按下的按下/抬起都终结在窗口上——否则点击会穿透
-        // 触发实际命中的元素（点按钮执行命令、点列表切换勾选），或到达触发控件把它重新
-        // 打开。与 ComboBox/ContextMenu ｢首击只关下拉、不作用于目标｣ 的行为一致
+        // 判定窗口外的点击锚点 = 关闭操作：通知触发控件记录时刻（其判定窗口内的下一次
+        // 点击是同一关闭手势的延续，如双击的第二击，不重新打开），并吞掉本次点击的
+        // 剩余路由（按下已在广播阶段，抬起还未路由）：把捕获临时挂到宿主窗口，本次
+        // 按下的按下/抬起都终结在窗口上——否则点击会穿透触发实际命中的元素（点按钮
+        // 执行命令、点列表切换勾选），或到达触发控件把它重新打开。
+        // 与 ComboBox/ContextMenu ｢首击只关下拉、不作用于目标｣ 的行为一致
+        if (IsCursorOnAnchor())
+        {
+            _onAnchorClickClose?.Invoke();
+        }
+
         SwallowCurrentClick();
         _close();
     }
