@@ -1116,7 +1116,17 @@
             ["Ch'en the Dawnstreak", "赤刃明霄陈"],
             ["Bond", "牵绊"],
             ["Bellone", "贝洛内"],
-            ["Ripresa", "复奏"]
+            ["Ripresa", "复奏"],
+            ["Siracusan Formalwear", "叙拉古正装"],
+            ["Pegasian Helm", "天马之盔"],
+            ["Pegasian Lance", "天马之枪"],
+            ["Identification Device", "随身身份牌"],
+            ["Kazimierz Knightclub Pennant", "卡西米尔竞技旗"],
+            ["Famiglia Insignia", "家族徽章"],
+            ["Simple Communicator", "简易通讯机"],
+            ["Knightly Savings", "骑士储蓄罐"],
+            ["Chivalric Commandments", "骑士戒律"],
+            ["Emergency Dispatch Ticket", "紧急调度券"]
         ]
     },
     "GameStartCheckResourceOCR": {
