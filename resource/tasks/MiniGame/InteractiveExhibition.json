@@ -13,12 +13,12 @@
         ]
     },
     "MiniGame@InteractiveExhibition@CheckConnection": {
-        "doc": "联网门禁：OCR 左上角延迟「数字ms」(roi [15,90,80,50])。命中=在活动界面且联网正常，可继续走动；未命中则原地重试。",
+        "doc": "联网门禁：OCR 左上角延迟「数字ms」(roi [20,100,80,40])。命中=在活动界面且联网正常，可继续走动；未命中则原地重试。",
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "text": ["ONLINE"],
         "ocrReplace": [["\\d+ms", "ONLINE"]],
-        "roi": [15, 90, 80, 50],
+        "roi": [20, 100, 80, 40],
         "next": ["MiniGame@InteractiveExhibition@CheckConnection"]
     },
     "MiniGame@InteractiveExhibition@CheckConnection-Then-WalkRight": {
@@ -118,5 +118,131 @@
         "text": ["取消"],
         "roi": [415, 460, 65, 50],
         "next": ["MiniGame@InteractiveExhibition@Loop"]
+    },
+    "MiniGame@InteractiveExhibition@Target@ConnectionBase": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["ONLINE"],
+        "ocrReplace": [["\\d+ms", "ONLINE"]],
+        "roi": [0, 0, 1280, 720],
+        "next": []
+    },
+    "MiniGame@InteractiveExhibition@Target@ScanOnce@Begin": {
+        "doc": "执行一轮右移、左移探索；遇到任意生物后返回目标判断流程。",
+        "algorithm": "JustReturn",
+        "next": [
+            "MiniGame@InteractiveExhibition@Target@ScanOnce@CheckConnectionRight",
+            "MiniGame@InteractiveExhibition@Target@ScanOnce@WaitConnection"
+        ]
+    },
+    "MiniGame@InteractiveExhibition@Target@ScanOnce@CheckConnectionRight": {
+        "baseTask": "MiniGame@InteractiveExhibition@Target@ConnectionBase",
+        "next": ["MiniGame@InteractiveExhibition@Target@ScanOnce@WalkRight"]
+    },
+    "MiniGame@InteractiveExhibition@Target@ScanOnce@WaitConnection": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 500,
+        "next": ["MiniGame@InteractiveExhibition@Target@ScanOnce@Begin"]
+    },
+    "MiniGame@InteractiveExhibition@Target@ScanOnce@WalkRight": {
+        "baseTask": "MiniGame@InteractiveExhibition@WalkRight",
+        "next": [
+            "MiniGame@InteractiveExhibition@Target@ScanOnce@Encounter",
+            "MiniGame@InteractiveExhibition@Target@ScanOnce@CheckConnectionLeft"
+        ]
+    },
+    "MiniGame@InteractiveExhibition@Target@ScanOnce@CheckConnectionLeft": {
+        "baseTask": "MiniGame@InteractiveExhibition@Target@ConnectionBase",
+        "next": ["MiniGame@InteractiveExhibition@Target@ScanOnce@WalkLeft"]
+    },
+    "MiniGame@InteractiveExhibition@Target@ScanOnce@WalkLeft": {
+        "baseTask": "MiniGame@InteractiveExhibition@WalkLeft",
+        "next": [
+            "MiniGame@InteractiveExhibition@Target@ScanOnce@Encounter",
+            "MiniGame@InteractiveExhibition@Target@ScanOnce@Done"
+        ]
+    },
+    "MiniGame@InteractiveExhibition@Target@ScanOnce@Encounter": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["已收录", "暂未收录"],
+        "roi": [300, 500, 120, 45]
+    },
+    "MiniGame@InteractiveExhibition@Target@ScanOnce@Done": {
+        "baseTask": "MiniGame@InteractiveExhibition@Target@ConnectionBase",
+        "action": "DoNothing",
+        "next": []
+    },
+    "MiniGame@InteractiveExhibition@Target@ExitEncounter@Begin": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [50, 50, 10, 10],
+        "postDelay": 500,
+        "next": [
+            "MiniGame@InteractiveExhibition@Target@ExitEncounter@DontRemindToday",
+            "MiniGame@InteractiveExhibition@Target@ExitEncounter@LeaveExhibition",
+            "MiniGame@InteractiveExhibition@Target@ExitEncounter@StillCollected",
+            "MiniGame@InteractiveExhibition@Target@ExitEncounter@MapReady",
+            "MiniGame@InteractiveExhibition@Target@ExitEncounter@Wait"
+        ]
+    },
+    "MiniGame@InteractiveExhibition@Target@ExitEncounter@DontRemindToday": {
+        "baseTask": "MiniGame@InteractiveExhibition@DontRemindToday",
+        "next": ["MiniGame@InteractiveExhibition@Target@ExitEncounter@DontRemindTodayConfirm"]
+    },
+    "MiniGame@InteractiveExhibition@Target@ExitEncounter@DontRemindTodayConfirm": {
+        "baseTask": "MiniGame@InteractiveExhibition@DontRemindTodayConfirm",
+        "next": [
+            "MiniGame@InteractiveExhibition@Target@ExitEncounter@DontRemindToday",
+            "MiniGame@InteractiveExhibition@Target@ExitEncounter@LeaveExhibition",
+            "MiniGame@InteractiveExhibition@Target@ExitEncounter@StillCollected",
+            "MiniGame@InteractiveExhibition@Target@ExitEncounter@MapReady",
+            "MiniGame@InteractiveExhibition@Target@ExitEncounter@Wait"
+        ]
+    },
+    "MiniGame@InteractiveExhibition@Target@ExitEncounter@LeaveExhibition": {
+        "baseTask": "MiniGame@InteractiveExhibition@LeaveExhibition",
+        "next": ["MiniGame@InteractiveExhibition@Target@ExitEncounter@LeaveExhibitionCancel"]
+    },
+    "MiniGame@InteractiveExhibition@Target@ExitEncounter@LeaveExhibitionCancel": {
+        "baseTask": "MiniGame@InteractiveExhibition@LeaveExhibitionCancel",
+        "next": [
+            "MiniGame@InteractiveExhibition@Target@ExitEncounter@MapReady",
+            "MiniGame@InteractiveExhibition@Target@ExitEncounter@Wait"
+        ]
+    },
+    "MiniGame@InteractiveExhibition@Target@ExitEncounter@StillCollected": {
+        "baseTask": "MiniGame@InteractiveExhibition@CheckEncounter-Collected",
+        "next": ["MiniGame@InteractiveExhibition@Target@ExitEncounter@Begin"]
+    },
+    "MiniGame@InteractiveExhibition@Target@ExitEncounter@MapReady": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["ONLINE"],
+        "ocrReplace": [["\\d+ms", "ONLINE"]],
+        "roi": [0, 0, 1280, 720],
+        "next": []
+    },
+    "MiniGame@InteractiveExhibition@Target@ExitEncounter@Wait": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 500,
+        "next": ["MiniGame@InteractiveExhibition@Target@ExitEncounter@Begin#next"]
+    },
+    "MiniGame@InteractiveExhibition@Target@BeginBase": {
+        "algorithm": "JustReturn",
+        "sub": ["MiniGame@InteractiveExhibition@Target@ScanOnce@Begin"]
+    },
+    "MiniGame@InteractiveExhibition@Target@CollectedBase": {
+        "baseTask": "MiniGame@InteractiveExhibition@CheckEncounter-Collected",
+        "action": "DoNothing",
+        "sub": ["MiniGame@InteractiveExhibition@Target@ExitEncounter@Begin"]
+    },
+    "MiniGame@InteractiveExhibition@Target@MatchBase": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "roi": [0, 0, 1280, 720],
+        "next": ["Stop"]
     }
 }

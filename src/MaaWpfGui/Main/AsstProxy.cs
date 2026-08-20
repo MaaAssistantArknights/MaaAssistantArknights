@@ -3094,6 +3094,24 @@ public class AsstProxy
     }
 
     /// <summary>
+    /// 奇象巡展目标筛选。停止条件仅随本次任务传给 Core，不写入资源目录。
+    /// </summary>
+    public bool AsstInteractiveExhibition(IReadOnlyList<string> targets, bool stopOnUncollected)
+    {
+        var task = new AsstCustomTask {
+            CustomTasks = ["MiniGame@InteractiveExhibition@Target@Runtime@Begin"],
+            Params = JObject.FromObject(new {
+                interactive_exhibition = new {
+                    stop_on_uncollected = stopOnUncollected,
+                    targets,
+                },
+            }),
+        };
+        var (type, param) = task.Serialize();
+        return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
+    }
+
+    /// <summary>
     /// 像素画自动填色（牛杂）。短 task 入口 + params.pixel_paint 分组点列。
     /// </summary>
     /// <param name="groups">按色分组后的格子，color 为 0~39。</param>
