@@ -19,6 +19,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using JetBrains.Annotations;
+using MaaWpfGui.Styles.Controls;
 using ScrollViewer = System.Windows.Controls.ScrollViewer;
 
 namespace MaaWpfGui.Styles.Properties;
@@ -149,9 +150,9 @@ public static class ScrollViewerBinding
 
     /// <summary>
     /// 变速滚动目标偏移。值变化时由动画引擎直接驱动 <see cref="VerticalOffsetProperty"/>
-    /// 从当前位置缓动（五次缓出，先快后慢）到目标，时长随距离自适应；动画期间动画值优先于
-    /// <see cref="VerticalOffset"/> 的绑定与回写，结束后释放并把最终值路由回绑定源。
-    /// 仅由源（View 侧绑定）写入，从不回写，故注册为单向。
+    /// 从当前位置缓动（五次缓出，先快后慢）到目标，时长随距离自适应并按全局过渡档位同比缩放
+    /// （无动画档不播动画直接就位）；动画期间动画值优先于 <see cref="VerticalOffset"/> 的绑定与回写，
+    /// 结束后释放并把最终值路由回绑定源。仅由源（View 侧绑定）写入，从不回写，故注册为单向。
     /// </summary>
     public static readonly DependencyProperty SmoothScrollToProperty =
         DependencyProperty.RegisterAttached(
@@ -183,14 +184,28 @@ public static class ScrollViewerBinding
             return;
         }
 
-        // 目标与当前偏移一致时不播空动画
-        if (Math.Abs(target - scrollViewer.VerticalOffset) < double.Epsilon)
+        // 亚像素内的偏移差不可感知，不播空动画
+        if (Math.Abs(target - scrollViewer.VerticalOffset) < 0.5)
         {
             return;
         }
 
-        // 时长随距离自适应；120ms 为下界（上式已保证不小于 0，故 120+ 恒 ≥120），仅需钳上界
-        var duration = Math.Min(120 + (Math.Abs(target - scrollViewer.VerticalOffset) * 0.15), 280);
+        // 无动画档与页签过渡一致：释放可能仍在播的动画并清掉其挂起标志（旧时钟被替换后
+        // Completed 不再触发，不清会永久拦住回写），随后直接就位；
+        // 瞬移触发的滚动回写落在调用方（导航联动）的通知窗口内，由 ViewModel 吸收
+        if (TransitioningContentControl.TransitionDuration <= TimeSpan.Zero)
+        {
+            scrollViewer.BeginAnimation(VerticalOffsetProperty, null);
+            SetIsVerticalOffsetSyncSuspended(scrollViewer, false);
+            scrollViewer.SetCurrentValue(VerticalOffsetProperty, target);
+            return;
+        }
+
+        // 时长随距离自适应；120ms 为下界（上式已保证不小于 0，故 120+ 恒 ≥120），仅需钳上界；
+        // 再按全局过渡档位同比缩放（原速 1.0，快速档与页签过渡一致地减半）
+        var speedScale = TransitioningContentControl.TransitionDuration.TotalMilliseconds
+            / TransitioningContentControl.NormalDurationMilliseconds;
+        var duration = Math.Min((120 + (Math.Abs(target - scrollViewer.VerticalOffset) * 0.15)) * speedScale, 280 * speedScale);
         var animation = new DoubleAnimation(scrollViewer.VerticalOffset, target, TimeSpan.FromMilliseconds(duration)) {
             EasingFunction = new QuinticEase { EasingMode = EasingMode.EaseOut },
         };
