@@ -10,6 +10,7 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     xmlns:template="clr-namespace:MaaWpfGui.Services.ExternalNotification"
@@ -43,6 +44,7 @@
                     VerticalAlignment="Top"
                     HorizontalContentAlignment="Center"
                     hc:BorderElement.CornerRadius="4,0,0,4"
+                    properties:SplitButtonDropDown.EnableToggleClose="True"
                     Background="{DynamicResource RegionBrushOpacity25}"
                     Content="{DynamicResource ExternalNotificationAddConfig}">
                     <hc:SplitButton.DropDownContent>
