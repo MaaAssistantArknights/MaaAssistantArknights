@@ -87,6 +87,8 @@ public class ToolboxViewModel : Screen
         LocalizationHelper.LanguageChanged += () => {
             DisplayName = LocalizationHelper.GetString("Toolbox");
             RecruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
+            PixelPaintFitModeList.RefreshLocalization();
+            PixelPaintDitherModeList.RefreshLocalization();
             Application.Current.Dispatcher.InvokeAsync(
                 () => {
                     LoadDepotDetails();
@@ -2472,12 +2474,10 @@ public class ToolboxViewModel : Screen
 
     private System.Windows.Rect _pixelPaintDragOriginView;
 
-    public List<GenericCombinedData<string>> PixelPaintFitModeList { get; } =
-    [
-        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@FitCrop"), Value = "Crop" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@FitContain"), Value = "Contain" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@FitStretch"), Value = "Stretch" },
-    ];
+    public LocalizedObservableList<string> PixelPaintFitModeList { get; } = new(
+        ("Crop", "MiniGame@PixelPaint@FitCrop"),
+        ("Contain", "MiniGame@PixelPaint@FitContain"),
+        ("Stretch", "MiniGame@PixelPaint@FitStretch"));
 
     public string PixelPaintFitMode
     {
@@ -2489,13 +2489,11 @@ public class ToolboxViewModel : Screen
         }
     } = "Crop";
 
-    public List<GenericCombinedData<string>> PixelPaintDitherModeList { get; } =
-    [
-        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherIllustration"), Value = "Illustration" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherNone"), Value = "None" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherFS"), Value = "FloydSteinberg" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@PixelPaint@DitherAtkinson"), Value = "Atkinson" },
-    ];
+    public LocalizedObservableList<string> PixelPaintDitherModeList { get; } = new(
+        ("Illustration", "MiniGame@PixelPaint@DitherIllustration"),
+        ("None", "MiniGame@PixelPaint@DitherNone"),
+        ("FloydSteinberg", "MiniGame@PixelPaint@DitherFS"),
+        ("Atkinson", "MiniGame@PixelPaint@DitherAtkinson"));
 
     public string PixelPaintDitherMode
     {

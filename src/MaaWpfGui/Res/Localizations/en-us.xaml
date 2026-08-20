@@ -1145,7 +1145,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@PixelPaint@DropHint">Drop or paste an image or text, or pick below</system:String>
     <system:String x:Key="MiniGame@PixelPaint@PickImage">Pick Image</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ResetView">Reset View</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@ResetParams">Reset Parameters</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@ResetParams">Reset Params</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Fit">Fit</system:String>
     <system:String x:Key="MiniGame@PixelPaint@FitCrop">Crop</system:String>
     <system:String x:Key="MiniGame@PixelPaint@FitContain">Contain</system:String>
