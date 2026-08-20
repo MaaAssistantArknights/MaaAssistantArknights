@@ -91,6 +91,11 @@ bool Win32Controller::attach(
         Log.info("Screen size:", m_screen_size.first, "x", m_screen_size.second);
     }
 
+    if ((m_mouse_method & (Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos)) != 0 &&
+        (m_screencap_method & (Win32Screencap::ScreenDC | Win32Screencap::DXGI_DesktopDup | Win32Screencap::DXGI_DesktopDup_Window)) == 0) {
+        save_window_position();
+    }
+
     m_inited = true;
     return true;
 }
@@ -136,7 +141,6 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
                                                Win32Screencap::DXGI_DesktopDup_Window)) != 0;
             if (!capture_from_screen) {
                 // WindowPos输入模式下，非主界面识别把窗口移到屏幕外
-                save_window_position();
                 unit_touch_move(0, 0, m_screen_size.second + GetSystemMetrics(SM_CYVIRTUALSCREEN) + 100, 0);
             }
             else {
