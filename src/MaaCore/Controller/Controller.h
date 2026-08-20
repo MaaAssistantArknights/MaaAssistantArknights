@@ -121,6 +121,10 @@ private:
 
     ControllerType m_controller_type = ControllerType::Minitouch;
 
+    // 最近一次下发的触控模式；attach_window 会将 m_controller_type 置为 Win32，
+    // 每次 connect 前据此重新派生 m_controller_type，避免残留 Win32 导致创建错误的控制器
+    TouchMode m_touch_mode = TouchMode::Minitouch;
+
     std::shared_ptr<ControllerAPI> m_controller = nullptr;
 
     std::shared_ptr<ControlScaleProxy> m_scale_proxy = nullptr;

@@ -264,6 +264,9 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     clear_info();
 
+    // attach_window 会将 m_controller_type 置为 Win32，连接前按 touch mode 重新派生
+    set_touch_mode(m_touch_mode);
+
     m_controller = create_controller(m_controller_type, m_platform_type);
     if (!m_controller) {
         Log.error("connect failed");
@@ -394,6 +397,8 @@ bool asst::Controller::inited() noexcept
 
 void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
 {
+    m_touch_mode = mode;
+
     switch (mode) {
     case TouchMode::Adb:
         m_controller_type = ControllerType::Adb;
