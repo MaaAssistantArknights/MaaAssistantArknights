@@ -30,6 +30,10 @@
     <system:String x:Key="BackgroundMonetSelectColor">选择颜色</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">将从背景图自动提取主色生成主题配色</system:String>
     <system:String x:Key="UiTheme">界面主题</system:String>
+    <system:String x:Key="TransitionSpeed">过渡动画</system:String>
+    <system:String x:Key="TransitionSpeedNormal">原速</system:String>
+    <system:String x:Key="TransitionSpeedFast">快速</system:String>
+    <system:String x:Key="TransitionSpeedNone">无动画</system:String>
     <system:String x:Key="HotKeySettings">热键设置</system:String>
     <system:String x:Key="UpdateSettings">更新设置</system:String>
     <system:String x:Key="AchievementSettings">成就设置</system:String>

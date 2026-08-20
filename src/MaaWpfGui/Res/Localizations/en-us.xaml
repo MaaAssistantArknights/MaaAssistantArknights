@@ -30,6 +30,10 @@
     <system:String x:Key="BackgroundMonetSelectColor">Select Color</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">Extract dominant color from background image to generate theme palette</system:String>
     <system:String x:Key="UiTheme">UI Theme</system:String>
+    <system:String x:Key="TransitionSpeed">Transition Animation</system:String>
+    <system:String x:Key="TransitionSpeedNormal">Normal</system:String>
+    <system:String x:Key="TransitionSpeedFast">Fast</system:String>
+    <system:String x:Key="TransitionSpeedNone">None</system:String>
     <system:String x:Key="HotKeySettings">HotKeys</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>
     <system:String x:Key="AchievementSettings">Achievements</system:String>

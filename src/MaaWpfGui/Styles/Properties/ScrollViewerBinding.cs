@@ -11,11 +11,13 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using JetBrains.Annotations;
 using ScrollViewer = System.Windows.Controls.ScrollViewer;
 
@@ -93,21 +95,22 @@ public static class ScrollViewerBinding
         }
 
         scrollViewer.SetValue(_verticalOffsetBindingProperty, true);
-        scrollViewer.ScrollChanged += (s, se) =>
-        {
+        scrollViewer.ScrollChanged += (s, se) => {
             if (se.VerticalChange == 0)
             {
                 return;
             }
 
-            // 下拉打开期间由 MouseWheelHelper.IsolateParentScroll 置位，暂停回写，
-            // 避免下拉触发的布局微小滚动被回写成 ScrollOffset，污染左侧导航联动。
+            // 程序化滚动期间（下拉打开、导航定位的变速滚动动画等）由 IsVerticalOffsetSyncSuspended 置位，
+            // 暂停回写，避免滚动回调与程序推进的偏移交替拉扯滚动位置或污染左侧导航联动。
             if (GetIsVerticalOffsetSyncSuspended(scrollViewer))
             {
                 return;
             }
 
-            SetVerticalOffset(scrollViewer, se.VerticalOffset);
+            // SetCurrentValue 只更新值并路由给绑定源，不会像 SetValue 的本地值那样
+            // 替换掉属性上的绑定，否则一次回写就会切断后续由源驱动的滚动同步
+            scrollViewer.SetCurrentValue(VerticalOffsetProperty, se.VerticalOffset);
         };
     }
 
@@ -138,8 +141,72 @@ public static class ScrollViewerBinding
     /// </summary>
     /// <param name="element">The element.</param>
     /// <param name="value">The value.</param>
-    public static void SetIsVerticalOffsetSyncSuspended(DependencyObject element, bool value) =>
-        element.SetValue(IsVerticalOffsetSyncSuspendedProperty, value);
+    public static void SetIsVerticalOffsetSyncSuspended(DependencyObject element, bool value)
+    {
+        // SetCurrentValue 保留属性上可能存在的绑定，SetValue 的本地值会在首次置位时替换掉绑定
+        element.SetCurrentValue(IsVerticalOffsetSyncSuspendedProperty, value);
+    }
+
+    /// <summary>
+    /// 变速滚动目标偏移。值变化时由动画引擎直接驱动 <see cref="VerticalOffsetProperty"/>
+    /// 从当前位置缓动（五次缓出，先快后慢）到目标，时长随距离自适应；动画期间动画值优先于
+    /// <see cref="VerticalOffset"/> 的绑定与回写，结束后释放并把最终值路由回绑定源。
+    /// 仅由源（View 侧绑定）写入，从不回写，故注册为单向。
+    /// </summary>
+    public static readonly DependencyProperty SmoothScrollToProperty =
+        DependencyProperty.RegisterAttached(
+            "SmoothScrollTo",
+            typeof(double),
+            typeof(ScrollViewerBinding),
+            new FrameworkPropertyMetadata(double.NaN, OnSmoothScrollToChanged));
+
+    /// <summary>
+    /// Gets the target offset of the smooth scroll animation.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns>The target offset.</returns>
+    [UsedImplicitly]
+    public static double GetSmoothScrollTo(DependencyObject element) => (double)element.GetValue(SmoothScrollToProperty);
+
+    /// <summary>
+    /// Sets the target offset of the smooth scroll animation.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <param name="value">The target offset.</param>
+    [UsedImplicitly]
+    public static void SetSmoothScrollTo(DependencyObject element, double value) => element.SetValue(SmoothScrollToProperty, value);
+
+    private static void OnSmoothScrollToChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not ScrollViewer scrollViewer || e.NewValue is not double target || double.IsNaN(target))
+        {
+            return;
+        }
+
+        // 目标与当前偏移一致时不播空动画
+        if (Math.Abs(target - scrollViewer.VerticalOffset) < double.Epsilon)
+        {
+            return;
+        }
+
+        // 时长随距离自适应；120ms 为下界（上式已保证不小于 0，故 120+ 恒 ≥120），仅需钳上界
+        var duration = Math.Min(120 + (Math.Abs(target - scrollViewer.VerticalOffset) * 0.15), 280);
+        var animation = new DoubleAnimation(scrollViewer.VerticalOffset, target, TimeSpan.FromMilliseconds(duration)) {
+            EasingFunction = new QuinticEase { EasingMode = EasingMode.EaseOut },
+        };
+
+        // 动画期间挂起偏移的回写：避免每帧 ScrollChanged 把中间偏移写成 ScrollOffset，
+        // 经设置页滚动联动改写左侧导航 SelectedIndex（高亮扫过沿途分节 / 由落地偏移反推选中项）
+        animation.Completed += (_, _) => {
+            // 释放动画对属性的控制，经 SetCurrentValue 把最终值路由回绑定源
+            scrollViewer.BeginAnimation(VerticalOffsetProperty, null);
+            SetIsVerticalOffsetSyncSuspended(scrollViewer, false);
+            scrollViewer.SetCurrentValue(VerticalOffsetProperty, target);
+        };
+
+        SetIsVerticalOffsetSyncSuspended(scrollViewer, true);
+        scrollViewer.BeginAnimation(VerticalOffsetProperty, animation);
+    }
 
     #endregion VerticalOffset attached property
 
@@ -207,13 +274,11 @@ public static class ScrollViewerBinding
 
         scrollViewer.SetValue(_viewportHeightBindingProperty, true);
 
-        scrollViewer.Loaded += (s, se) =>
-        {
+        scrollViewer.Loaded += (s, se) => {
             SetViewportHeight(scrollViewer, scrollViewer.ViewportHeight);
         };
 
-        scrollViewer.ScrollChanged += (s, se) =>
-        {
+        scrollViewer.ScrollChanged += (s, se) => {
             SetViewportHeight(scrollViewer, se.ViewportHeight);
         };
     }
@@ -284,8 +349,7 @@ public static class ScrollViewerBinding
 
         scrollViewer.SetValue(_extentHeightBindingProperty, true);
 
-        scrollViewer.Loaded += (s, se) =>
-        {
+        scrollViewer.Loaded += (s, se) => {
             SetExtentHeight(scrollViewer, scrollViewer.ExtentHeight);
         };
     }
@@ -359,8 +423,7 @@ public static class ScrollViewerBinding
 
         if (scrollViewer.Content is FrameworkElement content)
         {
-            content.SizeChanged += (s, e) =>
-            {
+            content.SizeChanged += (s, e) => {
                 RefreshDividerOffsets(scrollViewer);
             };
         }

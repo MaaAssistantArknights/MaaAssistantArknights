@@ -402,8 +402,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             if (!packageInspection.MatchedPattern)
             {
                 // zip 扫描开销较高（万级 entry），放到后台线程避免卡 UI
-                var (isResourcePackage, resourceDateTime) = await Task.Run(() =>
-                {
+                var (isResourcePackage, resourceDateTime) = await Task.Run(() => {
                     bool result = ResourceUpdater.IsResourcePackage(packagePath, out DateTimeOffset dt);
                     return (result, dt);
                 });
@@ -497,8 +496,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         string currentVersion,
         string normalizedArchitecture)
     {
-        var (isResource, resourceDateTime) = await Task.Run(() =>
-        {
+        var (isResource, resourceDateTime) = await Task.Run(() => {
             bool ok = ResourceUpdater.IsResourcePackage(packagePath, out var dt);
             return (ok, dt);
         });

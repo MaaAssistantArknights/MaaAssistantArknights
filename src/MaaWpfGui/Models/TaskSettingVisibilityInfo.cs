@@ -13,6 +13,7 @@
 #nullable enable
 using System;
 using System.Linq;
+using HandyControl.Data;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
@@ -118,6 +119,10 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         var task = ConfigFactory.CurrentConfig.TaskQueue[taskIndex];
         if (enable)
         {
+            // 过渡方向由控件按 TransitionIndex 变化推导，这里只维护选中索引与可见性。
+            // 重复选择同一任务（如启动恢复选中，CurrentIndex 先由持久化配置返回相同值）时
+            // 索引值不变、绑定去重后不会触发过渡，但可见性属性是内存态、不随配置恢复，
+            // 仍需重设，故不做重复选择特判
             CurrentIndex = taskIndex;
             SetTaskSettingVisible(task, enable);
         }
@@ -203,7 +208,34 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         PostAction = value;
     }
 
-    public bool EnableAdvancedSettings { get; set => SetAndNotify(ref field, value); }
+    public bool EnableAdvancedSettings
+    {
+        get => field;
+        set {
+            if (!SetAndNotify(ref field, value))
+            {
+                // 值未变：跳过，避免重复设置触发一次无意义过渡
+                return;
+            }
+
+            // 切到高级自右侧滑入，切回常规自左侧滑入
+            ContentTransitionMode = value ? TransitionMode.Right2LeftWithFade : TransitionMode.Left2RightWithFade;
+        }
+    }
+
+    private TransitionMode _contentTransitionMode = TransitionMode.Left2RightWithFade;
+
+    /// <summary>
+    /// Gets or sets the transition mode used by the task setting area when switching tasks or the general/advanced tab.
+    /// </summary>
+    public TransitionMode ContentTransitionMode
+    {
+        get => _contentTransitionMode;
+        set {
+            _contentTransitionMode = value;
+            NotifyOfPropertyChange(nameof(ContentTransitionMode));
+        }
+    }
 
     public bool AdvancedSettingsVisibility { get; set => SetAndNotify(ref field, value); }
 

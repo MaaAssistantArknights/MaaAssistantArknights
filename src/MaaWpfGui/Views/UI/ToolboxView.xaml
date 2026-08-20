@@ -70,6 +70,22 @@
         Background="{DynamicResource MouseOverRegionBrushOpacity75}"
         BorderThickness="0"
         Style="{StaticResource TabControlSliding}">
+        <TabControl.ContentTemplate>
+            <DataTemplate>
+                <!--
+                    内容是 TabItem 内联的 UIElement，ContentPresenter 会把 DataContext 设为该元素；
+                    这里显式还原为页面的 ViewModel，并单独从 ContentPresenter 取内容，避免内联元素的绑定被劫持
+                -->
+                <controls:TransitioningContentControl
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    Content="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                    DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    IsTabStop="False"
+                    TransitionIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}}"
+                    TransitionPriority="1" />
+            </DataTemplate>
+        </TabControl.ContentTemplate>
         <TabItem Header="{DynamicResource RecruitmentRecognition}">
             <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
@@ -288,6 +304,22 @@
                     BorderThickness="0"
                     SelectedIndex="{Binding OperBoxSelectedIndex}"
                     Style="{StaticResource TabControlSliding}">
+                    <TabControl.ContentTemplate>
+                        <DataTemplate>
+                            <!--
+                                同外层：内容为内联 UIElement，需还原 DataContext 并单独从 ContentPresenter 取内容；
+                                方向由内层选中索引推导
+                            -->
+                            <controls:TransitioningContentControl
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                Content="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                                DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsTabStop="False"
+                                TransitionIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}}"
+                                TransitionPriority="2" />
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
                     <TabItem
                         Header="{c:Binding OperBoxNotHaveList.Count}"
                         HeaderStringFormat="{StaticResource OperBoxNotHaveList}"
@@ -885,192 +917,199 @@
                     Margin="10"
                     VerticalAlignment="Top"
                     IsEnabled="{Binding Idle}">
-                    <Grid Visibility="{c:Binding 'SelectedMiniGameItem != null'}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <!--  像素画  -->
-                        <Grid Visibility="{c:Binding 'SelectedMiniGameItem.IsPixelPaint'}">
+                    <!--  列表选择变化时，设置区按选中项在列表中的位置上下切换  -->
+                    <controls:TransitioningContentControl
+                        TransitionFade="True"
+                        TransitionIndex="{Binding SelectedMiniGameIndex}"
+                        TransitionOrientation="Vertical"
+                        TransitionPriority="1">
+                        <Grid Visibility="{c:Binding 'SelectedMiniGameItem != null'}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <StackPanel
-                                Grid.Row="0"
-                                HorizontalAlignment="Stretch"
-                                IsEnabled="{c:Binding '!PixelPaintParametersLocked'}">
-                                <Grid HorizontalAlignment="Stretch">
-                                    <Border
-                                        Width="218"
-                                        Height="218"
-                                        AllowDrop="True"
-                                        Background="{DynamicResource RegionBrushOpacity25}"
-                                        BorderBrush="{DynamicResource BorderBrush}"
-                                        BorderThickness="1"
-                                        Cursor="SizeAll"
-                                        DragOver="{s:Action PixelPaintDragOver}"
-                                        Drop="{s:Action PixelPaintDrop}"
-                                        MouseLeftButtonDown="{s:Action PixelPaintPreviewMouseLeftButtonDown}"
-                                        MouseLeftButtonUp="{s:Action PixelPaintPreviewMouseLeftButtonUp}"
-                                        MouseMove="{s:Action PixelPaintPreviewMouseMove}"
-                                        PreviewMouseWheel="{s:Action PixelPaintPreviewMouseWheel}">
-                                        <Grid>
-                                            <Image
-                                                RenderOptions.BitmapScalingMode="NearestNeighbor"
-                                                Source="{Binding PixelPaintPreview}"
-                                                Stretch="None" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Opacity="0.65"
-                                                Text="{DynamicResource MiniGame@PixelPaint@DropHint}"
-                                                TextAlignment="Center"
-                                                TextWrapping="Wrap"
-                                                Visibility="{c:Binding 'PixelPaintPreview == null'}" />
-                                        </Grid>
-                                    </Border>
-                                </Grid>
-                                <TextBlock
-                                    Margin="0,8,0,0"
-                                    HorizontalAlignment="Center"
-                                    Text="{Binding PixelPaintStatusText}"
-                                    TextWrapping="Wrap"
-                                    Visibility="{c:Binding 'PixelPaintStatusText.Length > 0'}" />
-                            </StackPanel>
-                        </Grid>
+                            <!--  像素画  -->
+                            <Grid Visibility="{c:Binding 'SelectedMiniGameItem.IsPixelPaint'}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <StackPanel
+                                    Grid.Row="0"
+                                    HorizontalAlignment="Stretch"
+                                    IsEnabled="{c:Binding '!PixelPaintParametersLocked'}">
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Border
+                                            Width="218"
+                                            Height="218"
+                                            AllowDrop="True"
+                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1"
+                                            Cursor="SizeAll"
+                                            DragOver="{s:Action PixelPaintDragOver}"
+                                            Drop="{s:Action PixelPaintDrop}"
+                                            MouseLeftButtonDown="{s:Action PixelPaintPreviewMouseLeftButtonDown}"
+                                            MouseLeftButtonUp="{s:Action PixelPaintPreviewMouseLeftButtonUp}"
+                                            MouseMove="{s:Action PixelPaintPreviewMouseMove}"
+                                            PreviewMouseWheel="{s:Action PixelPaintPreviewMouseWheel}">
+                                            <Grid>
+                                                <Image
+                                                    RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                                    Source="{Binding PixelPaintPreview}"
+                                                    Stretch="None" />
+                                                <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Opacity="0.65"
+                                                    Text="{DynamicResource MiniGame@PixelPaint@DropHint}"
+                                                    TextAlignment="Center"
+                                                    TextWrapping="Wrap"
+                                                    Visibility="{c:Binding 'PixelPaintPreview == null'}" />
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                    <TextBlock
+                                        Margin="0,8,0,0"
+                                        HorizontalAlignment="Center"
+                                        Text="{Binding PixelPaintStatusText}"
+                                        TextWrapping="Wrap"
+                                        Visibility="{c:Binding 'PixelPaintStatusText.Length > 0'}" />
+                                </StackPanel>
+                            </Grid>
 
-                        <ScrollViewer
-                            Grid.Row="1"
-                            Margin="0,8,0,0"
-                            HorizontalScrollBarVisibility="Disabled"
-                            VerticalScrollBarVisibility="Auto"
-                            Visibility="{c:Binding 'SelectedMiniGameItem.IsPixelPaint'}">
-                            <StackPanel Margin="8,0" IsEnabled="{c:Binding '!PixelPaintParametersLocked'}">
-                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                    <Button
-                                        HorizontalAlignment="Center"
-                                        hc:BorderElement.CornerRadius="4,0,0,4"
-                                        BorderThickness="1,1,0,1"
-                                        Command="{s:Action PixelPaintPickImage}"
-                                        Content="{DynamicResource MiniGame@PixelPaint@PickImage}" />
-                                    <Button
-                                        HorizontalAlignment="Center"
-                                        hc:BorderElement.CornerRadius="0,0,0,0"
-                                        BorderThickness="1,1,0,1"
-                                        Command="{s:Action PixelPaintResetView}"
-                                        Content="{DynamicResource MiniGame@PixelPaint@ResetView}" />
-                                    <Button
-                                        HorizontalAlignment="Center"
-                                        hc:BorderElement.CornerRadius="0,4,4,0"
-                                        Command="{s:Action PixelPaintResetParameters}"
-                                        Content="{DynamicResource MiniGame@PixelPaint@ResetParams}" />
-                                </StackPanel>
+                            <ScrollViewer
+                                Grid.Row="1"
+                                Margin="0,8,0,0"
+                                HorizontalScrollBarVisibility="Disabled"
+                                VerticalScrollBarVisibility="Auto"
+                                Visibility="{c:Binding 'SelectedMiniGameItem.IsPixelPaint'}">
+                                <StackPanel Margin="8,0" IsEnabled="{c:Binding '!PixelPaintParametersLocked'}">
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                        <Button
+                                            HorizontalAlignment="Center"
+                                            hc:BorderElement.CornerRadius="4,0,0,4"
+                                            BorderThickness="1,1,0,1"
+                                            Command="{s:Action PixelPaintPickImage}"
+                                            Content="{DynamicResource MiniGame@PixelPaint@PickImage}" />
+                                        <Button
+                                            HorizontalAlignment="Center"
+                                            hc:BorderElement.CornerRadius="0,0,0,0"
+                                            BorderThickness="1,1,0,1"
+                                            Command="{s:Action PixelPaintResetView}"
+                                            Content="{DynamicResource MiniGame@PixelPaint@ResetView}" />
+                                        <Button
+                                            HorizontalAlignment="Center"
+                                            hc:BorderElement.CornerRadius="0,4,4,0"
+                                            Command="{s:Action PixelPaintResetParameters}"
+                                            Content="{DynamicResource MiniGame@PixelPaint@ResetParams}" />
+                                    </StackPanel>
 
+                                    <ComboBox
+                                        Margin="0,10,0,0"
+                                        hc:TitleElement.Title="{DynamicResource MiniGame@PixelPaint@Fit}"
+                                        DisplayMemberPath="Display"
+                                        ItemsSource="{Binding PixelPaintFitModeList}"
+                                        SelectedValue="{Binding PixelPaintFitMode}"
+                                        SelectedValuePath="Value" />
+                                    <ComboBox
+                                        Margin="0,10,0,0"
+                                        hc:TitleElement.Title="{DynamicResource MiniGame@PixelPaint@Dither}"
+                                        DisplayMemberPath="Display"
+                                        ItemsSource="{Binding PixelPaintDitherModeList}"
+                                        SelectedValue="{Binding PixelPaintDitherMode}"
+                                        SelectedValuePath="Value" />
+                                    <StackPanel Margin="0,10,0,0">
+                                        <TextBlock Text="{DynamicResource MiniGame@PixelPaint@Contrast}" />
+                                        <Slider
+                                            IsSnapToTickEnabled="True"
+                                            Maximum="200"
+                                            Minimum="50"
+                                            TickFrequency="1"
+                                            Value="{Binding PixelPaintContrast}" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,6,0,0">
+                                        <TextBlock Text="{DynamicResource MiniGame@PixelPaint@Brightness}" />
+                                        <Slider
+                                            IsSnapToTickEnabled="True"
+                                            Maximum="200"
+                                            Minimum="50"
+                                            TickFrequency="1"
+                                            Value="{Binding PixelPaintBrightness}" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,6,0,0">
+                                        <TextBlock Text="{DynamicResource MiniGame@PixelPaint@Saturation}" />
+                                        <Slider
+                                            IsSnapToTickEnabled="True"
+                                            Maximum="200"
+                                            Minimum="0"
+                                            TickFrequency="1"
+                                            Value="{Binding PixelPaintSaturation}" />
+                                    </StackPanel>
+                                    <CheckBox
+                                        Margin="0,10,0,0"
+                                        Content="{DynamicResource MiniGame@PixelPaint@PaintWhite}"
+                                        IsChecked="{Binding PixelPaintPaintWhite}" />
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource MiniGame@PixelPaint@Swipe}" IsChecked="{Binding PixelPaintSwipeEnabled}" />
+                                        <controls:TooltipBlock
+                                            Margin="6,0,0,0"
+                                            VerticalAlignment="Center"
+                                            TooltipText="{DynamicResource MiniGame@PixelPaint@SwipeTip}" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                                        <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource MiniGame@PixelPaint@GridDelay}" />
+                                        <hc:NumericUpDown
+                                            Width="60"
+                                            Margin="6,0,0,0"
+                                            Increment="50"
+                                            Maximum="500"
+                                            Minimum="0"
+                                            Value="{Binding PixelPaintGridDelay}" />
+                                        <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource MiniGame@PixelPaint@GridDelayTip}" />
+                                    </StackPanel>
+                                    <TextBlock
+                                        Margin="0,12,0,0"
+                                        Opacity="0.85"
+                                        Text="{Binding MiniGameTip}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                            </ScrollViewer>
+
+                            <!--  隐秘战线  -->
+                            <Grid Grid.Row="0" Visibility="{c:Binding 'SelectedMiniGameItem.IsSecretFront'}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
                                 <ComboBox
-                                    Margin="0,10,0,0"
-                                    hc:TitleElement.Title="{DynamicResource MiniGame@PixelPaint@Fit}"
-                                    DisplayMemberPath="Display"
-                                    ItemsSource="{Binding PixelPaintFitModeList}"
-                                    SelectedValue="{Binding PixelPaintFitMode}"
-                                    SelectedValuePath="Value" />
+                                    Margin="0"
+                                    hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Ending}"
+                                    ItemsSource="{Binding SecretFrontEndingList}"
+                                    SelectedValue="{Binding SecretFrontEnding}" />
                                 <ComboBox
-                                    Margin="0,10,0,0"
-                                    hc:TitleElement.Title="{DynamicResource MiniGame@PixelPaint@Dither}"
+                                    Grid.Row="1"
+                                    Margin="0,10"
+                                    hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Event}"
                                     DisplayMemberPath="Display"
-                                    ItemsSource="{Binding PixelPaintDitherModeList}"
-                                    SelectedValue="{Binding PixelPaintDitherMode}"
+                                    ItemsSource="{Binding SecretFrontEventList}"
+                                    SelectedValue="{Binding SecretFrontEvent}"
                                     SelectedValuePath="Value" />
-                                <StackPanel Margin="0,10,0,0">
-                                    <TextBlock Text="{DynamicResource MiniGame@PixelPaint@Contrast}" />
-                                    <Slider
-                                        IsSnapToTickEnabled="True"
-                                        Maximum="200"
-                                        Minimum="50"
-                                        TickFrequency="1"
-                                        Value="{Binding PixelPaintContrast}" />
-                                </StackPanel>
-                                <StackPanel Margin="0,6,0,0">
-                                    <TextBlock Text="{DynamicResource MiniGame@PixelPaint@Brightness}" />
-                                    <Slider
-                                        IsSnapToTickEnabled="True"
-                                        Maximum="200"
-                                        Minimum="50"
-                                        TickFrequency="1"
-                                        Value="{Binding PixelPaintBrightness}" />
-                                </StackPanel>
-                                <StackPanel Margin="0,6,0,0">
-                                    <TextBlock Text="{DynamicResource MiniGame@PixelPaint@Saturation}" />
-                                    <Slider
-                                        IsSnapToTickEnabled="True"
-                                        Maximum="200"
-                                        Minimum="0"
-                                        TickFrequency="1"
-                                        Value="{Binding PixelPaintSaturation}" />
-                                </StackPanel>
-                                <CheckBox
-                                    Margin="0,10,0,0"
-                                    Content="{DynamicResource MiniGame@PixelPaint@PaintWhite}"
-                                    IsChecked="{Binding PixelPaintPaintWhite}" />
-                                <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                    <CheckBox Content="{DynamicResource MiniGame@PixelPaint@Swipe}" IsChecked="{Binding PixelPaintSwipeEnabled}" />
-                                    <controls:TooltipBlock
-                                        Margin="6,0,0,0"
-                                        VerticalAlignment="Center"
-                                        TooltipText="{DynamicResource MiniGame@PixelPaint@SwipeTip}" />
-                                </StackPanel>
-                                <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                    <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource MiniGame@PixelPaint@GridDelay}" />
-                                    <hc:NumericUpDown
-                                        Width="60"
-                                        Margin="6,0,0,0"
-                                        Increment="50"
-                                        Maximum="500"
-                                        Minimum="0"
-                                        Value="{Binding PixelPaintGridDelay}" />
-                                    <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource MiniGame@PixelPaint@GridDelayTip}" />
-                                </StackPanel>
+                            </Grid>
+
+                            <Viewbox
+                                Grid.Row="1"
+                                Margin="0,12,0,0"
+                                Stretch="Uniform"
+                                StretchDirection="Both"
+                                Visibility="{c:Binding '!SelectedMiniGameItem.IsPixelPaint'}">
                                 <TextBlock
-                                    Margin="0,12,0,0"
-                                    Opacity="0.85"
+                                    MaxWidth="150"
                                     Text="{Binding MiniGameTip}"
                                     TextWrapping="Wrap" />
-                            </StackPanel>
-                        </ScrollViewer>
-
-                        <!--  隐秘战线  -->
-                        <Grid Grid.Row="0" Visibility="{c:Binding 'SelectedMiniGameItem.IsSecretFront'}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <ComboBox
-                                Margin="0"
-                                hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Ending}"
-                                ItemsSource="{Binding SecretFrontEndingList}"
-                                SelectedValue="{Binding SecretFrontEnding}" />
-                            <ComboBox
-                                Grid.Row="1"
-                                Margin="0,10"
-                                hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Event}"
-                                DisplayMemberPath="Display"
-                                ItemsSource="{Binding SecretFrontEventList}"
-                                SelectedValue="{Binding SecretFrontEvent}"
-                                SelectedValuePath="Value" />
+                            </Viewbox>
                         </Grid>
-
-                        <Viewbox
-                            Grid.Row="1"
-                            Margin="0,12,0,0"
-                            Stretch="Uniform"
-                            StretchDirection="Both"
-                            Visibility="{c:Binding '!SelectedMiniGameItem.IsPixelPaint'}">
-                            <TextBlock
-                                MaxWidth="150"
-                                Text="{Binding MiniGameTip}"
-                                TextWrapping="Wrap" />
-                        </Viewbox>
-                    </Grid>
+                    </controls:TransitioningContentControl>
                 </Grid>
                 <Grid
                     Grid.Column="2"

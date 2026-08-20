@@ -335,6 +335,7 @@
                                         Width="200"
                                         Padding="0"
                                         HorizontalOffset="-7"
+                                        ItemContainerStyle="{StaticResource MaaMenuItemDefaultStyle}"
                                         Placement="Bottom"
                                         VerticalOffset="-7">
                                         <ContextMenu.ItemsPanel>
@@ -587,60 +588,68 @@
                     IsInertiaEnabled="True"
                     PanningMode="Both"
                     VerticalScrollBarVisibility="Auto">
-                    <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
-                        <taskQueue:FightSettingsUserControl
-                            d:Visibility="Visible"
-                            DataContext="{Binding FightTask}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Fight,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:RecruitSettingsUserControl
-                            DataContext="{Binding RecruitTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Recruit,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:StartUpTaskUserControl
-                            DataContext="{Binding StartUpTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.StartUp,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:InfrastSettingsUserControl
-                            DataContext="{Binding InfrastTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Infrast,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:MallSettingsUserControl
-                            DataContext="{Binding MallTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Mall,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:AwardSettingsUserControl
-                            DataContext="{Binding AwardTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Award,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:RoguelikeSettingsUserControl DataContext="{Binding RoguelikeTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Roguelike, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:ReclamationSettingsUserControl DataContext="{Binding ReclamationTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Reclamation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:UserDataUpdateSettingsUserControl
-                            DataContext="{Binding UserDataUpdateTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.UserDataUpdate,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:DepotMaintainTaskUserControl
-                            DataContext="{Binding DepotMaintainTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.DepotMaintain,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:CustomUserControl DataContext="{Binding CustomTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Custom, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:PostActionUserControl DataContext="{Binding PostActionSetting}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.PostAction, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
-                    </hc:SimpleStackPanel>
+                    <!--  任务切换按列表位置上下滑入，方向由 TransitionIndex 推导；常规/高级切换左右滑入，由 TransitionMode 绑定  -->
+                    <controls:TransitioningContentControl
+                        TransitionFade="True"
+                        TransitionIndex="{Binding TaskSettingVisibilities.CurrentIndex}"
+                        TransitionMode="{Binding TaskSettingVisibilities.ContentTransitionMode}"
+                        TransitionOrientation="Vertical"
+                        TransitionPriority="1">
+                        <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
+                            <taskQueue:FightSettingsUserControl
+                                d:Visibility="Visible"
+                                DataContext="{Binding FightTask}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.Fight,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:RecruitSettingsUserControl
+                                DataContext="{Binding RecruitTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.Recruit,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:StartUpTaskUserControl
+                                DataContext="{Binding StartUpTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.StartUp,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:InfrastSettingsUserControl
+                                DataContext="{Binding InfrastTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.Infrast,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:MallSettingsUserControl
+                                DataContext="{Binding MallTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.Mall,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:AwardSettingsUserControl
+                                DataContext="{Binding AwardTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.Award,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:RoguelikeSettingsUserControl DataContext="{Binding RoguelikeTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Roguelike, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:ReclamationSettingsUserControl DataContext="{Binding ReclamationTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Reclamation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:UserDataUpdateSettingsUserControl
+                                DataContext="{Binding UserDataUpdateTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.UserDataUpdate,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:DepotMaintainTaskUserControl
+                                DataContext="{Binding DepotMaintainTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.DepotMaintain,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:CustomUserControl DataContext="{Binding CustomTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Custom, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:PostActionUserControl DataContext="{Binding PostActionSetting}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.PostAction, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                        </hc:SimpleStackPanel>
+                    </controls:TransitioningContentControl>
                 </hc:ScrollViewer>
                 <hc:ButtonGroup
                     Grid.Row="1"
@@ -900,14 +909,16 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
-                                                <!--  日志分隔符需在窗口隐藏（最小化托盘）期间动态添加，
-                                                      hc:Divider 的 Row/Col 栅格在该场景下会永久渲染为 0 尺寸，
-                                                      详见 LogSectionDivider 头注释  -->
+                                                <!--
+                                                    日志分隔符需在窗口隐藏（最小化托盘）期间动态添加，
+                                                    hc:Divider 的 Row/Col 栅格在该场景下会永久渲染为 0 尺寸，
+                                                    详见 LogSectionDivider 头注释
+                                                -->
                                                 <controls:LogSectionDivider
                                                     MaxWidth="420"
                                                     Margin="0,0,0,2.5"
-                                                    HeaderHorizontalAlignment="Center"
                                                     Header="{Binding Header}"
+                                                    HeaderHorizontalAlignment="Center"
                                                     Visibility="{c:Binding IsDivider}" />
                                                 <Border
                                                     MaxWidth="420"

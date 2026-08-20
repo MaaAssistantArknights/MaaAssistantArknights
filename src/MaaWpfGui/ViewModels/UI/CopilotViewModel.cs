@@ -254,10 +254,7 @@ public partial class CopilotViewModel : Screen
                 UseCopilotList = false;
             }
 
-            if (!SetAndNotify(ref _copilotTabIndex, value))
-            {
-                return;
-            }
+            SetAndNotify(ref _copilotTabIndex, value);
         }
     }
 

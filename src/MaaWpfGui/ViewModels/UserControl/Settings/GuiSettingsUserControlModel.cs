@@ -42,6 +42,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
         LocalizationHelper.LanguageChanged += RefreshLocalization;
+        ApplyTransitionSpeed();
     }
 
     public static GuiSettingsUserControlModel Instance { get; }
@@ -73,6 +74,14 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         (InverseClearType.Clear, "Clear"),
         (InverseClearType.Inverse, "Inverse"),
         (InverseClearType.ClearInverse, "Switchable"));
+
+    /// <summary>
+    /// Gets the list of transition animation speeds.
+    /// </summary>
+    public LocalizedObservableList<TransitionSpeedType> TransitionSpeedList { get; } = new(
+        (TransitionSpeedType.Normal, "TransitionSpeedNormal"),
+        (TransitionSpeedType.Fast, "TransitionSpeedFast"),
+        (TransitionSpeedType.None, "TransitionSpeedNone"));
 
     /// <summary>
     /// Gets or sets a value indicating whether to use tray icon.
@@ -197,6 +206,28 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             AskToRestartToApplySettings();
             */
         }
+    }
+
+    public TransitionSpeedType TransitionSpeed
+    {
+        get => ConfigFactory.Root.Gui.TransitionSpeed;
+        set {
+            ConfigFactory.Root.Gui.TransitionSpeed = value;
+            NotifyOfPropertyChange();
+            ApplyTransitionSpeed();
+        }
+    }
+
+    /// <summary>
+    /// 将过渡速度档位同步到过渡控件的全局时长，启动与切换档位时调用，改档立即生效。
+    /// </summary>
+    public void ApplyTransitionSpeed()
+    {
+        Styles.Controls.TransitioningContentControl.TransitionDuration = ConfigFactory.Root.Gui.TransitionSpeed switch {
+            TransitionSpeedType.Fast => TimeSpan.FromMilliseconds(200),
+            TransitionSpeedType.None => TimeSpan.Zero,
+            _ => TimeSpan.FromMilliseconds(400),
+        };
     }
 
     public void SwitchDarkMode()

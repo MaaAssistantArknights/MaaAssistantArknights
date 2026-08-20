@@ -8,4 +8,11 @@
 
     <Style BasedOn="{StaticResource MaaTextBlockDefaultStyle}" TargetType="{x:Type controls:TextBlock}" />
 
+    <!--
+        原生 TextBlock 的默认样式：水平回归原生左对齐（TextBlockDefault 默认居中），
+        垂直保留居中与 controls:TextBlock 一致，避免两种 TextBlock 混排时行内垂直错位
+    -->
+    <Style BasedOn="{StaticResource TextBlockDefault}" TargetType="{x:Type TextBlock}">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
 </ResourceDictionary>
