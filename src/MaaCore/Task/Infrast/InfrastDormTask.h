@@ -65,6 +65,7 @@ private:
     virtual bool _run() override;
 
     bool fill_dorm_slots(bool low_mood_only);
+    bool should_select_dorm_managers() const noexcept;
     bool select_dorm_managers();
     FiammettaSelectionResult try_select_fiammetta_pair();
     bool set_notstationed_filter(bool enabled);

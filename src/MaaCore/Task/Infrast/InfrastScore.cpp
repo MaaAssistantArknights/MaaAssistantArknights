@@ -1089,7 +1089,6 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
     const bool worldly_plight = context.use_worldly_plight && is_selected(context, "char_473_mberry");
     constexpr size_t ControlSlotCount = 5;
     // context.slots 在缺员复查时是本轮仍需补入的人数；控制中枢的实际槽位始终是 5。
-    // Lua 中的 #best 必须对应 best.size()，不能用本轮选择上限代替。
     const size_t selection_limit = std::min(ControlSlotCount, static_cast<size_t>(std::max(0, context.slots)));
 
     auto contains = [&](size_t index) {

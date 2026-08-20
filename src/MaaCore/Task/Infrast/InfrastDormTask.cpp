@@ -257,7 +257,7 @@ bool asst::InfrastDormTask::_run()
         }
 
         if (!m_is_custom || current_room_config().autofill) {
-            if (!m_prepare_phase && !m_is_custom && !select_dorm_managers()) {
+            if (!m_prepare_phase && !m_is_custom && should_select_dorm_managers() && !select_dorm_managers()) {
                 return false;
             }
             if (!fill_dorm_slots(m_prepare_phase && !m_is_custom)) {
@@ -408,11 +408,9 @@ bool asst::InfrastDormTask::fill_dorm_slots(bool low_mood_only)
                         Log.trace("skip trust autofill candidate");
                     }
                 }
-                else if (++num_of_resting >= RestingOperCountThreshold) {
+                else if (
+                    ++num_of_resting >= RestingOperCountThreshold && m_selection_phase != SelectionPhase::LowMood) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
-                    if (low_mood_only) {
-                        return true;
-                    }
                     if (m_trust_autofill_enabled) {
                         // We have exhausted the low-mood pass on this page. Switch to the
                         // trust-autofill view and let the next iteration re-read the list.
@@ -451,6 +449,21 @@ bool asst::InfrastDormTask::fill_dorm_slots(bool low_mood_only)
             Log.trace("num_of_selected:", num_of_selected, ", just break");
             advance_after_trust_sort();
             break;
+        }
+
+        // 低心情阶段必须先扫描完整个页面，避免休息完成干员数量达到阈值时
+        // 跳过当前页中尚未处理的低心情干员。
+        if (m_selection_phase == SelectionPhase::LowMood && num_of_resting >= RestingOperCountThreshold) {
+            Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
+            if (low_mood_only) {
+                return true;
+            }
+            if (m_trust_autofill_enabled) {
+                switch_to_trust_autofill_phase();
+            }
+            else {
+                m_selection_phase = SelectionPhase::FillRemaining;
+            }
         }
 
         if (m_selection_phase == SelectionPhase::ResortForTrust) {
@@ -500,6 +513,17 @@ bool asst::InfrastDormTask::select_dorm_managers()
     const bool selected = opers_choose();
     switch_to_mood_sort();
     return selected;
+}
+
+bool asst::InfrastDormTask::should_select_dorm_managers() const noexcept
+{
+    if (!m_task_data) {
+        return false;
+    }
+
+    // 只有迷迭香已经入驻时，跨设施联动才需要执行宿舍技能识别。
+    // 两者都未入驻时，该流程只会增加 OCR 开销，无法改善常规宿舍选人结果。
+    return m_task_data->operator_ids.contains("char_391_rosmon");
 }
 
 asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_select_fiammetta_pair()
