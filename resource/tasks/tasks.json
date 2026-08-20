@@ -2437,7 +2437,6 @@
         ],
         "colorWithClose": false,
         "pureColor": true,
-        "templThreshold": 0.8,
         "rectMove": [102, 14, 35, 27]
     },
     "InfrastInfoTradeLevelMini": {
@@ -2451,7 +2450,6 @@
         ],
         "colorWithClose": false,
         "pureColor": true,
-        "templThreshold": 0.8,
         "rectMove": [102, 14, 35, 27]
     },
     "InfrastInfoPowerLevelMini": {
@@ -2465,7 +2463,6 @@
         ],
         "colorWithClose": false,
         "pureColor": true,
-        "templThreshold": 0.8,
         "rectMove": [102, 14, 35, 27]
     },
     "InfrastInfoDormLevelMini": {
@@ -2474,7 +2471,6 @@
         "colorScales": [[245, 255]],
         "colorWithClose": false,
         "pureColor": true,
-        "templThreshold": 0.8,
         "rectMove": [64, 13, 50, 28]
     },
     "InfrastInfoMiniStationRow1Column1Level1": {
