@@ -4295,5 +4295,6 @@
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@MovementInventoryCollapse": "38b39fddf9bb8c9b62d13731376c5a5e6cb82266361f8ed1c4255143ad329e9b",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@savage": "90f5e23c9751703f2385d28ad6fa59c2fc2a466c8923021d1f49b129cbbc4769",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@TemporaryOperatorConfirm": "4c45c115436d730270717860f2fdd8d88fa92270a7c1ff0ec46658ae05929bfa",
-    "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@TemporaryOperatorNoPromptChecked": "e5d389db0d1eb04f9d8691fcdf8c15f41ab2fa20bc44aaad2c565ae209a1fede"
+    "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@TemporaryOperatorNoPromptChecked": "e5d389db0d1eb04f9d8691fcdf8c15f41ab2fa20bc44aaad2c565ae209a1fede",
+    "resource/global/YoStarKR/resource/template/MiniGame/SPA/MiniGame@SPA@GiveUp": "a8aeb7785edc4d67ac60d5bfa0585996ff1c1ce8deef2388662c0ddf6d862ecc"
 }
