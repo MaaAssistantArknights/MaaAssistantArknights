@@ -151,13 +151,14 @@ public static class ScrollViewerBinding
     /// 变速滚动目标偏移。值变化时由动画引擎直接驱动 <see cref="VerticalOffsetProperty"/>
     /// 从当前位置缓动（五次缓出，先快后慢）到目标，时长随距离自适应；动画期间动画值优先于
     /// <see cref="VerticalOffset"/> 的绑定与回写，结束后释放并把最终值路由回绑定源。
+    /// 仅由源（View 侧绑定）写入，从不回写，故注册为单向。
     /// </summary>
     public static readonly DependencyProperty SmoothScrollToProperty =
         DependencyProperty.RegisterAttached(
             "SmoothScrollTo",
             typeof(double),
             typeof(ScrollViewerBinding),
-            new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSmoothScrollToChanged));
+            new FrameworkPropertyMetadata(double.NaN, OnSmoothScrollToChanged));
 
     /// <summary>
     /// Gets the target offset of the smooth scroll animation.
@@ -182,17 +183,28 @@ public static class ScrollViewerBinding
             return;
         }
 
-        var duration = Math.Clamp(120 + (Math.Abs(target - scrollViewer.VerticalOffset) * 0.15), 120, 280);
+        // 目标与当前偏移一致时不播空动画
+        if (Math.Abs(target - scrollViewer.VerticalOffset) < double.Epsilon)
+        {
+            return;
+        }
+
+        // 时长随距离自适应；120ms 为下界（上式已保证不小于 0，故 120+ 恒 ≥120），仅需钳上界
+        var duration = Math.Min(120 + (Math.Abs(target - scrollViewer.VerticalOffset) * 0.15), 280);
         var animation = new DoubleAnimation(scrollViewer.VerticalOffset, target, TimeSpan.FromMilliseconds(duration)) {
             EasingFunction = new QuinticEase { EasingMode = EasingMode.EaseOut },
         };
 
+        // 动画期间挂起偏移的回写：避免每帧 ScrollChanged 把中间偏移写成 ScrollOffset，
+        // 经设置页滚动联动改写左侧导航 SelectedIndex（高亮扫过沿途分节 / 由落地偏移反推选中项）
         animation.Completed += (_, _) => {
             // 释放动画对属性的控制，经 SetCurrentValue 把最终值路由回绑定源
             scrollViewer.BeginAnimation(VerticalOffsetProperty, null);
+            SetIsVerticalOffsetSyncSuspended(scrollViewer, false);
             scrollViewer.SetCurrentValue(VerticalOffsetProperty, target);
         };
 
+        SetIsVerticalOffsetSyncSuspended(scrollViewer, true);
         scrollViewer.BeginAnimation(VerticalOffsetProperty, animation);
     }
 
