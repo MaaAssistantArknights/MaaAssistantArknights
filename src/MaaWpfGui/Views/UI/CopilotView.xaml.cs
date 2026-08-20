@@ -12,7 +12,6 @@
 // </copyright>
 
 using System;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -173,33 +172,18 @@ public partial class CopilotView
         };
     }
 
-    private void FileTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+    // 下拉展开前刷新作业文件列表（与旧实现 ｢打开前刷新数据源｣ 的时机对齐）
+    private void FileTreeBox_DropDownOpening(object sender, EventArgs e)
     {
-        if (DataContext is CopilotViewModel viewModel && e.NewValue is CopilotFileItem fileItem && !fileItem.IsFolder)
-        {
-            viewModel.OnFileSelected(fileItem);
-        }
+        (DataContext as CopilotViewModel)?.LoadFileItems();
     }
 
-    private bool _lostFocus = false;
-
-    private async void Popup_LostFocus(object sender, RoutedEventArgs e)
+    private void FileTreeBox_SelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
-        _lostFocus = true;
-        await Task.Delay(500);
-        _lostFocus = false;
-    }
-
-    private void Border_MouseUp(object sender, RoutedEventArgs e)
-    {
-        if (_lostFocus)
+        if (e.NewValue is CopilotFileItem { IsFolder: false } fileItem)
         {
-            return;
-        }
-
-        if (DataContext is CopilotViewModel viewModel)
-        {
-            viewModel.ToggleFilePopup();
+            (DataContext as CopilotViewModel)?.OnFileSelected(fileItem);
+            FileTreeBox.CloseDropDown();
         }
     }
 }

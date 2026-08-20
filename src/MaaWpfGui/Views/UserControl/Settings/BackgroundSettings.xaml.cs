@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Threading.Tasks;
+using System;
 using System.Windows;
 using MaaWpfGui.Models;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -23,8 +23,6 @@ namespace MaaWpfGui.Views.UserControl.Settings;
 /// </summary>
 public partial class BackgroundSettingsUserControl : System.Windows.Controls.UserControl
 {
-    private bool _lostFocus;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="BackgroundSettingsUserControl"/> class.
     /// </summary>
@@ -33,31 +31,18 @@ public partial class BackgroundSettingsUserControl : System.Windows.Controls.Use
         InitializeComponent();
     }
 
-    private void BackgroundTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+    // 下拉展开前刷新背景图目录列表（与旧实现 ｢打开前刷新数据源｣ 的时机对齐）
+    private void BackgroundImageTreeBox_DropDownOpening(object sender, EventArgs e)
     {
-        if (DataContext is BackgroundSettingsUserControlModel viewModel && e.NewValue is BackgroundImageItem imageItem && !imageItem.IsFolder)
-        {
-            viewModel.OnBackgroundImageSelected(imageItem);
-        }
+        (DataContext as BackgroundSettingsUserControlModel)?.LoadBackgroundImageItems();
     }
 
-    private async void BackgroundImagePopup_LostFocus(object sender, RoutedEventArgs e)
+    private void BackgroundImageTreeBox_SelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
-        _lostFocus = true;
-        await Task.Delay(500);
-        _lostFocus = false;
-    }
-
-    private void BackgroundDropdownBorder_MouseUp(object sender, RoutedEventArgs e)
-    {
-        if (_lostFocus)
+        if (e.NewValue is BackgroundImageItem { IsFolder: false } imageItem)
         {
-            return;
-        }
-
-        if (DataContext is BackgroundSettingsUserControlModel viewModel)
-        {
-            viewModel.ToggleBackgroundImagePopup();
+            (DataContext as BackgroundSettingsUserControlModel)?.OnBackgroundImageSelected(imageItem);
+            BackgroundImageTreeBox.CloseDropDown();
         }
     }
 }
