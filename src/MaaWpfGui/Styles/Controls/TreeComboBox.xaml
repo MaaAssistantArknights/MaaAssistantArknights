@@ -99,7 +99,6 @@
             Width="{Binding PopupWidth, ElementName=Root}"
             MinWidth="{Binding PopupMinWidth, ElementName=Root}"
             helper:MouseWheelHelper.IsolateParentScroll="True"
-            Closed="OnPopupClosed"
             IsOpen="{Binding IsOpen, ElementName=Root, Mode=TwoWay}"
             Placement="Bottom"
             PlacementRectangle="{Binding PopupPlacementRectangle, ElementName=Root}"

@@ -27,21 +27,16 @@ namespace MaaWpfGui.Styles.Properties;
 /// 使 <see cref="SplitButton"/> 的下拉箭头交互与 ComboBox 对齐：点一次打开、再点一次关闭，
 /// 但刚打开后的判定窗口内（快速双击/宏级连击）的再次点击不视为关闭，下拉保持打开。
 /// 点外部关闭由 <see cref="PopupDismissController"/> 以自管鼠标捕获实现（模板 Popup 恒接管
-/// 失活自动关闭，StaysOpen 置 true）；连击保持则在本类截断：捕获子树外（箭头在上、弹层内容
-/// 在独立窗口中）的按下仍会照常路由到箭头 ToggleButton 使其翻转 IsChecked 关闭下拉，
-/// 因此判定窗口内点击箭头时在预览阶段吞掉整次点击。
-/// 判定窗口内下拉刚关闭时箭头若再被点击，同样吞掉以避免 ｢关闭后立刻又弹开｣，
-/// 与 ComboBox ｢关闭后需放慢再点才重新打开｣ 的节奏一致。
+/// 失活自动关闭，StaysOpen 置 true，含关闭时点击吞除）；连击保持则在本类截断：
+/// 捕获子树外（箭头在上、弹层内容在独立窗口中）的按下仍会照常路由到箭头 ToggleButton
+/// 使其翻转 IsChecked 关闭下拉，因此判定窗口内点击箭头时在预览阶段吞掉整次点击。
 /// </summary>
 public static class SplitButtonDropDown
 {
-    // 上次下拉打开/关闭的时刻（Environment.TickCount64 毫秒），null 表示从未发生；仅内部使用。
+    // 上次下拉打开的时刻（Environment.TickCount64 毫秒），null 表示从未发生；仅内部使用。
     // 不能用 long.MinValue 之类的哨兵值：与 TickCount64 相减会溢出为负，导致判定恒真
     private static readonly DependencyProperty OpenedAtProperty = DependencyProperty.RegisterAttached(
         "OpenedAt", typeof(long?), typeof(SplitButtonDropDown), new PropertyMetadata(null));
-
-    private static readonly DependencyProperty ClosedAtProperty = DependencyProperty.RegisterAttached(
-        "ClosedAt", typeof(long?), typeof(SplitButtonDropDown), new PropertyMetadata(null));
 
     // 下拉开合判定控制器；模板 Popup 随模板重建变化时随之重建
     private static readonly DependencyProperty DismissControllerProperty = DependencyProperty.RegisterAttached(
@@ -66,7 +61,13 @@ public static class SplitButtonDropDown
         if ((bool)e.NewValue)
         {
             descriptor.AddValueChanged(splitButton, OnIsDropDownOpenChanged);
-            splitButton.AddHandler(UIElement.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(OnPreviewMouseLeftButtonDown));
+
+            // handledEventsToo：SplitButton 的 HitMode=Hover/Focus 模式下其自身的类处理会先把
+            // 预览按下标记已处理，仍需参与连击判定，保证各模式行为一致
+            splitButton.AddHandler(
+                UIElement.PreviewMouseLeftButtonDownEvent,
+                new MouseButtonEventHandler(OnPreviewMouseLeftButtonDown),
+                handledEventsToo: true);
         }
         else
         {
@@ -88,17 +89,6 @@ public static class SplitButtonDropDown
             && Environment.TickCount64 - openedAt < DropDownDismiss.SuppressIntervalMs)
         {
             e.Handled = true;
-            return;
-        }
-
-        // 下拉刚被关闭（判定窗口内）：本次点击是关闭动作的延续（或关闭后的立即再点），
-        // 吞掉以阻止箭头 ToggleButton 立即翻转重开——否则 ｢关闭后立刻又弹开｣ 没有间隔，
-        // 与 ComboBox ｢关闭后需放慢再点才重新打开｣ 的节奏不一致
-        if (!splitButton.IsDropDownOpen
-            && splitButton.GetValue(ClosedAtProperty) is long closedAt
-            && Environment.TickCount64 - closedAt < DropDownDismiss.SuppressIntervalMs)
-        {
-            e.Handled = true;
         }
     }
 
@@ -111,7 +101,6 @@ public static class SplitButtonDropDown
 
         if (!splitButton.IsDropDownOpen)
         {
-            splitButton.SetValue(ClosedAtProperty, Environment.TickCount64);
             return;
         }
 

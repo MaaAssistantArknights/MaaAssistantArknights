@@ -26,20 +26,19 @@ namespace MaaWpfGui.Styles.Controls;
 /// 文本框显示/输入路径等文本，点箭头在下方弹出树（数据源与项模板由使用点提供），
 /// 选中叶子项后经 <see cref="SelectionChanged"/> 交给使用点回填文本并调用 <see cref="CloseDropDown"/> 关闭。
 /// 开合交互与 ComboBox 对齐——点一次打开、再点一次关闭、快速双击/连击保持打开、
-/// 点击窗口其他位置关闭。点外部关闭由 <see cref="PopupDismissController"/> 以自管鼠标捕获实现；
+/// 点击窗口其他位置关闭，关闭弹层的那次点击不作用于任何元素，且关闭后可立即重新打开。
+/// 点外部关闭由 <see cref="PopupDismissController"/> 以自管鼠标捕获实现（含点击吞除）；
 /// 连击保持则在箭头上截断：捕获子树外（箭头在弹层独立窗口之外）的按下仍会照常路由到箭头，
-/// 判定窗口内的再次点击若不吞掉会随 MouseLeftButtonUp 把下拉切换关闭，因此预览阶段吞掉整次点击。
-/// 刚关闭的判定窗口内的点击吞掉重开（保证关闭后再打开有间隔）。
+/// 判定窗口内的再次点击若不吞掉会随 MouseLeftButtonUp 把下拉切换关闭，因此预览阶段
+/// 吞掉整次点击（并用一次性标志吞掉随后的 MouseUp）。
 /// </summary>
 public partial class TreeComboBox : UserControl
 {
-    // 最近一次下拉打开/关闭的时刻（Environment.TickCount64 毫秒）；null 表示从未发生。
+    // 最近一次下拉打开的时刻（Environment.TickCount64 毫秒）；null 表示从未发生。
     // 不能用 long.MinValue 之类的哨兵值：与 TickCount64 相减会溢出为负，导致判定恒真
     private long? _openedAt;
 
-    private long? _closedAt;
-
-    // 预览按下已吞掉点击（判定窗口内的连击）时置位，吞掉随后的 MouseUp，避免再次切换关闭
+    // 判定窗口内连击吞击时置位：吞掉随后的 MouseUp，避免再次切换开合
     private bool _suppressNextClick;
 
     /// <summary>
@@ -231,11 +230,9 @@ public partial class TreeComboBox : UserControl
 
     private void OnPopupOpened(object? sender, EventArgs e) => _openedAt = Environment.TickCount64;
 
-    private void OnPopupClosed(object? sender, EventArgs e) => _closedAt = Environment.TickCount64;
-
     private void OnTogglePreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        // 下拉着且刚打开：判定窗口内的连击，吞掉整次点击保持打开
+        // 下拉着且刚打开：判定窗口内的连击，吞掉整次点击保持打开（含随后的 MouseUp）
         if (IsOpen
             && _openedAt is { } openedAt
             && Environment.TickCount64 - openedAt < DropDownDismiss.SuppressIntervalMs)
@@ -247,16 +244,10 @@ public partial class TreeComboBox : UserControl
 
     private void OnToggleMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
+        // 判定窗口内连击的同一次点击：吞掉 MouseUp，避免保持打开又被切换关闭
         if (_suppressNextClick)
         {
             _suppressNextClick = false;
-            return;
-        }
-
-        // 下拉刚关闭，本次点击即关闭操作的一部分：不再重新打开
-        if (_closedAt is { } closedAt
-            && Environment.TickCount64 - closedAt < DropDownDismiss.SuppressIntervalMs)
-        {
             return;
         }
 

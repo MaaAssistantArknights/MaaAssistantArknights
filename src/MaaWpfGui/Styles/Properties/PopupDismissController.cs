@@ -23,10 +23,13 @@ namespace MaaWpfGui.Styles.Properties;
 /// 下拉弹层的外部点击关闭控制器，配合 <see cref="Popup"/>（StaysOpen 恒 true）使用，
 /// 供 MenuButton、TreeComboBox、SplitButtonDropDown 共用，保持开合手感一致。
 /// 交互规格与 ComboBox 对齐：点一次打开、再点一次关闭、快速连击（判定窗口内重复点击触发控件）
-/// 保持打开、点击窗口其他位置或选中内容后关闭。
+/// 保持打开、点击窗口其他位置或选中内容后关闭、关闭弹层的那次点击不作用于任何元素
+/// （首击只关下拉），且关闭后可立即重新打开。
 /// 机制：打开时把鼠标捕获挂到弹层内容子树，捕获子树外的按下会以
 /// <see cref="Mouse.PreviewMouseDownOutsideCapturedElementEvent"/> 广播过来——
-/// 按下位置在触发控件上且处于判定窗口内视为连击保持打开，其余（含判定窗口内点击外部）一律关闭。
+/// 按下位置在触发控件上且处于判定窗口内视为连击保持打开，其余（含判定窗口内点击外部）一律关闭，
+/// 并在关闭的同时把捕获临时挂到宿主窗口吞掉本次点击的剩余路由（按下/抬起不再到达
+/// 实际命中的元素或触发控件），抬起后释放。
 /// 不用 StaysOpen=false 的失活自动关闭实现 ｢点外部关闭｣：它无法在判定窗口内区分
 /// ｢连击触发控件（应保持）｣ 与 ｢点击外部（应关闭）｣——若像连击一样暂时接管（StaysOpen 置 true），
 /// 判定窗口内点击外部会一并被吞掉，导致打开后立刻点外部无法关闭。
@@ -55,6 +58,10 @@ internal sealed class PopupDismissController
     /// Gets 受控弹层，供使用方比对模板重建后弹层是否变化以决定重建本控制器。
     /// </summary>
     internal Popup Popup => _popup;
+
+    // ｢吞掉当前点击｣状态：把捕获临时挂到宿主窗口（Element 模式）并等待抬起释放，
+    // 防止关闭弹层的那次点击穿透触发实际命中的元素。null 表示当前没有吞点击
+    private MouseButtonEventHandler? _swallowUpHandler;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PopupDismissController"/> class.
@@ -111,11 +118,44 @@ internal sealed class PopupDismissController
             return;
         }
 
+        // 关闭弹层的同时吞掉本次点击的剩余路由（按下已在广播阶段，抬起还未路由）：
+        // 把捕获临时挂到宿主窗口，本次按下的按下/抬起都终结在窗口上——否则点击会穿透
+        // 触发实际命中的元素（点按钮执行命令、点列表切换勾选），或到达触发控件把它重新
+        // 打开。与 ComboBox/ContextMenu ｢首击只关下拉、不作用于目标｣ 的行为一致
+        SwallowCurrentClick();
         _close();
+    }
+
+    private void SwallowCurrentClick()
+    {
+        if (_hostWindow is null || _swallowUpHandler is not null)
+        {
+            return;
+        }
+
+        Mouse.Capture(_hostWindow, CaptureMode.Element);
+        _swallowUpHandler = (_, _) => EndSwallow();
+        _hostWindow.PreviewMouseLeftButtonUp += _swallowUpHandler;
+    }
+
+    private void EndSwallow()
+    {
+        if (_swallowUpHandler is null)
+        {
+            return;
+        }
+
+        _hostWindow!.PreviewMouseLeftButtonUp -= _swallowUpHandler;
+        _swallowUpHandler = null;
+        if (Mouse.Captured == _hostWindow)
+        {
+            Mouse.Capture(null);
+        }
     }
 
     private void OnPopupClosed(object? sender, EventArgs e)
     {
+        EndSwallow();
         if (Mouse.Captured == _popup.Child)
         {
             Mouse.Capture(null);
@@ -143,6 +183,8 @@ internal sealed class PopupDismissController
 
     private void OnHostDeactivated(object? sender, EventArgs e)
     {
+        // 吞点击期间失活（按住不放切走窗口）：释放捕获，避免悬挂吞掉后续输入
+        EndSwallow();
         if (_popup.IsOpen)
         {
             _close();
