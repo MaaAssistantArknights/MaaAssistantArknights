@@ -1470,7 +1470,7 @@
                 "operatorIds": [],
                 "template": "Bskill_man_exp&spd&limit&cost2.png"
             },
-            "bskill_man_exp4": {
+            "bskill_man_exp0": {
                 "desc": ["进驻制造站时，作战记录类配方的生产力+20%", "进驻制造站时，作战记录类配方的生产力+20%"],
                 "efficient": {
                     "CombatRecord": 20.1

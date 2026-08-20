@@ -36,6 +36,17 @@ std::string normalize_infrast_skill_id(std::string id)
     return id;
 }
 
+std::string canonicalize_infrast_skill_id(std::string id)
+{
+    id = normalize_infrast_skill_id(std::move(id));
+    // The game data uses exp4 for the same icon as the legacy exp0 skill.
+    // Keep the resource key stable so the two production bonuses remain distinct.
+    if (id == "bskill_man_exp4") {
+        id = "bskill_man_exp0";
+    }
+    return id;
+}
+
 std::string infrast_template_filename(std::string skill_id)
 {
     skill_id = normalize_infrast_skill_id(std::move(skill_id));
@@ -55,7 +66,7 @@ void normalize_infrast_skill_references(json::value& root)
         auto& skills = root[room_type]["skills"].as_object();
         json::object normalized_skills;
         for (auto& [skill_id, skill] : skills) {
-            normalized_skills.emplace(normalize_infrast_skill_id(skill_id), std::move(skill));
+            normalized_skills.emplace(canonicalize_infrast_skill_id(skill_id), std::move(skill));
         }
         skills = std::move(normalized_skills);
 
@@ -69,7 +80,7 @@ void normalize_infrast_skill_references(json::value& root)
                 }
                 for (auto& comb : group[category].as_array()) {
                     for (auto& skill : comb["skills"].as_array()) {
-                        skill = normalize_infrast_skill_id(skill.as_string());
+                        skill = canonicalize_infrast_skill_id(skill.as_string());
                     }
                 }
             }
@@ -660,7 +671,7 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
                             }
 
                             std::string skill_icon =
-                                normalize_infrast_skill_id(buffs.at(buff_id).get("skillIcon", std::string()));
+                                canonicalize_infrast_skill_id(buffs.at(buff_id).get("skillIcon", std::string()));
                             if (!skill_icon.empty()) {
                                 operator_ids_by_skill[skill_icon].emplace(char_id);
                             }
@@ -694,7 +705,8 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
 
         rooms.emplace(room_type);
 
-        std::string json_key = normalize_infrast_skill_id(static_cast<std::string>(buff_obj["skillIcon"]));
+        const std::string raw_skill_id = static_cast<std::string>(buff_obj["skillIcon"]);
+        std::string json_key = canonicalize_infrast_skill_id(raw_skill_id);
         if (json_key.empty()) {
             continue;
         }
@@ -718,7 +730,7 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
             skill["desc"].emplace(desc);
         }
 
-        skill["template"] = infrast_template_filename(json_key);
+        skill["template"] = infrast_template_filename(raw_skill_id);
     }
 
     for (const auto& room_type : rooms) {

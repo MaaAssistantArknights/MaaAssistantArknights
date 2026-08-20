@@ -457,7 +457,7 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
             else if (icon == "bskill_man_exp1" && records) { // 胜利之计：帕拉斯
                 base += 0.2501;
             }
-            else if (icon == "bskill_man_exp4" && records) { // 作战记录专用的 20% 生产力技能
+            else if (icon == "bskill_man_exp0" && records) { // 公证所教习α：作战记录类配方生产力 +20%
                 base += 0.2;
             }
             else if (icon == "bskill_man_exp&spd&limit&cost2" && records) { // 戏中人：酒神
