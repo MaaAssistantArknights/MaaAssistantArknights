@@ -2292,8 +2292,12 @@ public class ToolboxViewModel : Screen
     /// <summary>
     /// Gets the index of the selected mini game in the list.
     /// </summary>
+    // 注：MiniGameCategoryItems 在 UpdateMiniGameTaskList 中会 Clear+重建，若此刻未选中项已不在列表，
+    // IndexOf 返回 -1（随后由 setter 重新对齐）；
     [PropertyDependsOn(nameof(SelectedMiniGameItem))]
-    public int SelectedMiniGameIndex => MiniGameCategoryItems.IndexOf(_selectedMiniGameItem!);
+    public int SelectedMiniGameIndex => SelectedMiniGameItem is { } selected
+        ? MiniGameCategoryItems.IndexOf(selected)
+        : -1;
 
     public bool IsPixelPaintSelected => SelectedMiniGameItem?.IsPixelPaint == true;
 

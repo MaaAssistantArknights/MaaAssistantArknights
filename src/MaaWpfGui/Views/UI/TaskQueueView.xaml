@@ -587,8 +587,13 @@
                     IsInertiaEnabled="True"
                     PanningMode="Both"
                     VerticalScrollBarVisibility="Auto">
-                    <!--  任务切换按列表位置上下滑入，常规/高级切换左右滑入，方向由 TaskSettingVisibilityInfo 维护  -->
-                    <controls:TransitioningContentControl TransitionMode="{Binding TaskSettingVisibilities.ContentTransitionMode}" TransitionPriority="1">
+                    <!--  任务切换按列表位置上下滑入，方向由 TransitionIndex 推导；常规/高级切换左右滑入，由 TransitionMode 绑定  -->
+                    <controls:TransitioningContentControl
+                        TransitionFade="True"
+                        TransitionIndex="{Binding TaskSettingVisibilities.CurrentIndex}"
+                        TransitionMode="{Binding TaskSettingVisibilities.ContentTransitionMode}"
+                        TransitionOrientation="Vertical"
+                        TransitionPriority="1">
                         <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
                             <taskQueue:FightSettingsUserControl
                                 d:Visibility="Visible"

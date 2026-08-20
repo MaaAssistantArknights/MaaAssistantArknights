@@ -13,6 +13,7 @@
 #nullable enable
 using System;
 using System.Linq;
+using HandyControl.Data;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
@@ -118,40 +119,17 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         var task = ConfigFactory.CurrentConfig.TaskQueue[taskIndex];
         if (enable)
         {
-            var oldIndex = CurrentIndex;
+            // 过渡方向由控件按 TransitionIndex 变化推导，这里只维护选中索引与可见性。
+            // 重复选择同一任务（如启动恢复选中，CurrentIndex 先由持久化配置返回相同值）时
+            // 索引值不变、绑定去重后不会触发过渡，但可见性属性是内存态、不随配置恢复，
+            // 仍需重设，故不做重复选择特判
             CurrentIndex = taskIndex;
             SetTaskSettingVisible(task, enable);
-
-            // 从未选中进入时淡入；否则按任务在列表中的新旧位置决定过渡方向：
-            // 向下选择自底部滑入，向上选择自顶部滑入；
-            // 相同方向的连续切换改用不带淡入的变体，避免设置相同值不触发过渡
-            string mode;
-            if (oldIndex < 0)
-            {
-                mode = "Fade";
-            }
-            else
-            {
-                var downward = taskIndex > oldIndex;
-                mode = downward ? "Bottom2TopWithFade" : "Top2BottomWithFade";
-                if (ContentTransitionMode == mode)
-                {
-                    mode = downward ? "Bottom2Top" : "Top2Bottom";
-                }
-            }
-
-            ContentTransitionMode = mode;
         }
         else if (CurrentIndex == taskIndex)
         {
             CurrentIndex = -1;
             SetTaskSettingVisible(task, enable);
-
-            // 取消选择时重置为非淡入模式，保证下次进入的淡入必定触发
-            if (ContentTransitionMode == "Fade")
-            {
-                ContentTransitionMode = "Bottom2Top";
-            }
         }
 
         if (enable)
@@ -234,19 +212,23 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
     {
         get => field;
         set {
-            SetAndNotify(ref field, value);
+            if (!SetAndNotify(ref field, value))
+            {
+                // 值未变：跳过，避免重复设置触发一次无意义过渡
+                return;
+            }
 
             // 切到高级自右侧滑入，切回常规自左侧滑入
-            ContentTransitionMode = value ? "Right2LeftWithFade" : "Left2RightWithFade";
+            ContentTransitionMode = value ? TransitionMode.Right2LeftWithFade : TransitionMode.Left2RightWithFade;
         }
     }
 
-    private string _contentTransitionMode = "Left2RightWithFade";
+    private TransitionMode _contentTransitionMode = TransitionMode.Left2RightWithFade;
 
     /// <summary>
     /// Gets or sets the transition mode used by the task setting area when switching tasks or the general/advanced tab.
     /// </summary>
-    public string ContentTransitionMode
+    public TransitionMode ContentTransitionMode
     {
         get => _contentTransitionMode;
         set {

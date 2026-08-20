@@ -919,6 +919,7 @@
                     IsEnabled="{Binding Idle}">
                     <!--  列表选择变化时，设置区按选中项在列表中的位置上下切换  -->
                     <controls:TransitioningContentControl
+                        TransitionFade="True"
                         TransitionIndex="{Binding SelectedMiniGameIndex}"
                         TransitionOrientation="Vertical"
                         TransitionPriority="1">

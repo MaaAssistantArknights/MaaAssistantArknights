@@ -13,7 +13,6 @@
 
 #nullable enable
 using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -55,23 +54,37 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
 
     private static readonly PropertyPath OpacityPath = new("(UIElement.Opacity)");
 
-    // 最近一次放行的过渡及其截止时刻，优先级更低的过渡请求在此期间让位
+    // 最近一次放行的过渡及其截止时刻（毫秒，Environment.TickCount64，抗系统时钟跳变），
+    // 优先级更低的过渡请求在此期间让位；更高优先级可抢占；同级互不压制
+    private static TransitioningContentControl? _grantedControl;
     private static int _grantedPriority = int.MaxValue;
-    private static DateTime _grantedUntil = DateTime.MinValue;
+    private static long _grantedUntilTick = long.MinValue;
 
     private static readonly object GrantGate = new();
 
     private bool _playPending;
 
-    // 实例首次触发发生在初始化或随外层切入的构建期（且可能早于外层登记仲裁），
-    // 此时不应播入场动画
+    // 延迟提交期间由显式方向（索引推导）指定的过渡模式；null 表示用 TransitionMode 绑定值
+    private TransitionMode? _pendingMode;
+
+    // 初始化/构建期（模板应用、绑定解析、内容设置）会触发多次 RequestTransition，
+    // 期间全部静默丢弃，Loaded 后再响应真实切换
     private bool _suppressFirstTransition = true;
 
     public TransitioningContentControl()
     {
-        // TransitionMode 变化走基类私有回调无法重写，这里通过属性描述器监听
-        DependencyPropertyDescriptor.FromProperty(TransitionModeProperty, typeof(HandyControl.Controls.TransitioningContentControl))
-            .AddValueChanged(this, OnTransitionModeValueChanged);
+        // 基类会在 TransitionMode 变化 / Loaded / IsVisibleChanged 时自行 StartTransition，
+        // 与自研的延迟提交动画叠加会造成回弹、初始化时还会让内容短暂不可见；
+        // 用空 Storyboard 接管 TransitionStoryboard 使基类动画变为空操作，统一由 PlayPendingTransition 驱动
+        TransitionStoryboard = new Storyboard();
+
+        // 初始化期间会先后触发绑定解析、OnApplyTemplate 等多个 RequestTransition，
+        // 若只压掉第一次播放，后续那次会在初始化末尾以最终模式播一遍入场动画，把内容短暂隐藏；
+        // 因此整个初始化窗口内静默丢弃请求，Loaded 后再放行，并顺带清除可能残留的动画
+        Loaded += (_, _) => {
+            _suppressFirstTransition = false;
+            StopActiveTransition();
+        };
     }
 
     public static readonly DependencyProperty TransitionPriorityProperty = DependencyProperty.Register(
@@ -112,6 +125,20 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
         set => SetValue(TransitionOrientationProperty, value);
     }
 
+    public static readonly DependencyProperty TransitionFadeProperty = DependencyProperty.Register(
+        nameof(TransitionFade), typeof(bool), typeof(TransitioningContentControl), new PropertyMetadata(false));
+
+    /// <summary>
+    /// Gets or sets 在平移动画中叠加淡入，柔化进入内容被自身可视区切割的边缘。
+    /// 伪全屏（内容基本铺满、可显示区域大）页面默认禁用；面积受限、动画期间内容会超出
+    /// 自身可显示区域被切割的页面应开启。
+    /// </summary>
+    public bool TransitionFade
+    {
+        get => (bool)GetValue(TransitionFadeProperty);
+        set => SetValue(TransitionFadeProperty, value);
+    }
+
     private int _lastTransitionIndex = -1;
 
     private static void OnTransitionIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -131,44 +158,46 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
 
         if (newIndex < 0)
         {
-            // 取消选择：重置为非淡入模式，保证下次进入的淡入必定触发
-            if (TransitionMode == TransitionMode.Fade)
-            {
-                TransitionMode = TransitionMode.Left2Right;
-            }
-
+            // 取消选择：不过渡
             return;
         }
 
+        TransitionMode mode;
         if (oldIndex < 0)
         {
             // 从未选中进入：没有上一项位置可推导方向，淡入即可
-            TransitionMode = TransitionMode.Fade;
-            return;
+            mode = TransitionMode.Fade;
+        }
+        else
+        {
+            // 同方向连续切换时模式值可能不变，直接内部强制触发
+            var forward = newIndex > oldIndex;
+            var vertical = TransitionOrientation == TransitionOrientation.Vertical;
+            mode = (forward, vertical) switch {
+                (true, false) => TransitionMode.Right2Left,
+                (false, false) => TransitionMode.Left2Right,
+                (true, true) => TransitionMode.Bottom2Top,
+                (false, true) => TransitionMode.Top2Bottom,
+            };
+            if (TransitionFade)
+            {
+                mode = (forward, vertical) switch {
+                    (true, false) => TransitionMode.Right2LeftWithFade,
+                    (false, false) => TransitionMode.Left2RightWithFade,
+                    (true, true) => TransitionMode.Bottom2TopWithFade,
+                    (false, true) => TransitionMode.Top2BottomWithFade,
+                };
+            }
         }
 
-        // 相同方向的连续切换交替使用带淡入的变体，避免设置相同值不触发过渡
-        var forward = newIndex > oldIndex;
-        var vertical = TransitionOrientation == TransitionOrientation.Vertical;
-        var plain = (forward, vertical) switch {
-            (true, false) => TransitionMode.Right2Left,
-            (false, false) => TransitionMode.Left2Right,
-            (true, true) => TransitionMode.Bottom2Top,
-            (false, true) => TransitionMode.Top2Bottom,
-        };
-        var withFade = (forward, vertical) switch {
-            (true, false) => TransitionMode.Right2LeftWithFade,
-            (false, false) => TransitionMode.Left2RightWithFade,
-            (true, true) => TransitionMode.Bottom2TopWithFade,
-            (false, true) => TransitionMode.Top2BottomWithFade,
-        };
-        TransitionMode = TransitionMode == plain ? withFade : plain;
+        // 显式指定方向而非写回 TransitionMode：直接写会清掉 TransitionMode 的绑定
+        // （如常规/高级切换的 ContentTransitionMode），导致后续绑定变化不再触发过渡
+        RequestTransition(mode);
     }
 
     public override void OnApplyTemplate()
     {
-        // 压掉基类的同步过渡，统一延迟提交
-        SuppressBaseTransition(base.OnApplyTemplate);
+        base.OnApplyTemplate();
         RequestTransition();
     }
 
@@ -180,42 +209,61 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
             return;
         }
 
-        SuppressBaseTransition(() => base.OnContentChanged(oldContent, newContent));
+        base.OnContentChanged(oldContent, newContent);
         RequestTransition();
     }
 
-    private void OnTransitionModeValueChanged(object? sender, EventArgs e)
+    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
-        // 终止基类按（可能已过时的）模式值启动的动画，统一延迟提交
-        StopActiveTransition();
-        RequestTransition();
+        base.OnPropertyChanged(e);
+        if (e.Property == TransitionModeProperty)
+        {
+            // TransitionMode 变化走基类私有回调无法重写，这里在属性变更回调中监听；
+            // 基类动画已由空 TransitionStoryboard 接管为空操作，这里只需延迟提交自研动画
+            RequestTransition();
+        }
     }
 
     private void RequestTransition()
     {
+        RequestTransition(null);
+    }
+
+    private void RequestTransition(TransitionMode? mode)
+    {
+        if (_suppressFirstTransition)
+        {
+            // 初始化/构建期不播入场动画，静默丢弃
+            return;
+        }
+
         if (_playPending)
         {
-            // 同一次切换引发的多个触发（内容、方向等）合并为一次播放
+            // 同一次切换引发的多个触发（内容、方向、模式等）合并为一次播放；
+            // 显式指定的方向（索引推导）优先于隐式模式（TransitionMode 绑定）
+            if (mode.HasValue)
+            {
+                _pendingMode = mode;
+            }
+
             return;
         }
 
         _playPending = true;
+        _pendingMode = mode;
 
-        // 提交点晚于全部绑定更新（DispatcherPriority.DataBinding）、早于渲染（Render），
-        // 保证播放时方向为最终值，且首帧即动画起点
-        Dispatcher.BeginInvoke(PlayPendingTransition, System.Windows.Threading.DispatcherPriority.Normal);
+        // 提交点早于渲染（Render）：布局失效会把渲染消息先排到 Render 优先级，
+        // 若在 Render 提交，内容会先以最终位置渲染一帧、再回跳到动画起点（回弹）；
+        // 用 DataBind 提交则动画在渲染前开始，首帧即动画起点。
+        // 方向此时已确定：模式在触发前已同步设置（UpdateTransitionModeByIndex / 绑定），无需等全部绑定
+        Dispatcher.BeginInvoke(PlayPendingTransition, System.Windows.Threading.DispatcherPriority.DataBind);
     }
 
     private void PlayPendingTransition()
     {
         _playPending = false;
-
-        if (_suppressFirstTransition)
-        {
-            // 初始化/构建期不播入场动画，之后由用户切换正常触发
-            _suppressFirstTransition = false;
-            return;
-        }
+        var mode = _pendingMode ?? TransitionMode;
+        _pendingMode = null;
 
         if (!IsVisible)
         {
@@ -230,7 +278,12 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
 
         if (GetContentPresenter() is FrameworkElement presenter)
         {
-            CreateTransitionStoryboard()?.Begin(presenter);
+            // 位移模式依赖 RenderTransform 的 TransformGroup[3]，与 StopActiveTransition 的既有判断对称：
+            // 取不到时退化为淡入而非 Begin 抛 InvalidOperationException
+            var effectiveMode = RequiresTranslate(mode) && !HasTranslateTransform(presenter)
+                ? TransitionMode.Fade
+                : mode;
+            CreateTransitionStoryboard(effectiveMode)?.Begin(presenter);
         }
     }
 
@@ -238,30 +291,36 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
     {
         lock (GrantGate)
         {
-            var now = DateTime.UtcNow;
-            if (TransitionPriority > _grantedPriority && now < _grantedUntil)
+            var now = Environment.TickCount64;
+            if (now < _grantedUntilTick && _grantedControl != this)
             {
-                return false;
+                // 窗口内已有其他控件的过渡在播放：
+                // 更低优先级让位；同级互不压制；更高优先级可抢占
+                if (TransitionPriority > _grantedPriority)
+                {
+                    return false;
+                }
             }
 
+            _grantedControl = this;
             _grantedPriority = TransitionPriority;
-            _grantedUntil = now + TransitionDuration;
+            _grantedUntilTick = now + (long)TransitionDuration.TotalMilliseconds;
             return true;
         }
     }
 
-    private void SuppressBaseTransition(Action baseAction)
-    {
-        // 临时置为 Collapsed，基类的 StartTransition 会因不可见而跳过，随后恢复原可见性
-        var visibility = Visibility;
-        Visibility = Visibility.Collapsed;
-        baseAction();
-        Visibility = visibility;
-    }
+    // 非 Fade 模式都依赖 TransformGroup[3] 的位移
+    private static bool RequiresTranslate(TransitionMode mode) => mode != TransitionMode.Fade;
+
+    private static bool HasTranslateTransform(FrameworkElement element) =>
+        element.RenderTransform is TransformGroup group
+        && group.Children.Count > 3
+        && group.Children[3] is TranslateTransform;
 
     private void StopActiveTransition()
     {
-        // 终止基类已启动的过渡 Storyboard，使内容回到最终位置
+        // 清除内容上可能残留的过渡动画（基类动画已由空 TransitionStoryboard 接管为空操作），
+        // 使内容回到最终位置
         if (GetContentPresenter() is not FrameworkElement presenter)
         {
             return;
@@ -286,7 +345,7 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
             : null;
     }
 
-    private Storyboard? CreateTransitionStoryboard()
+    private Storyboard? CreateTransitionStoryboard(TransitionMode mode)
     {
         // 与 HandyControl 内置过渡保持一致：位移 50px，CubicEase EaseOut；
         // 仅覆盖项目用到的模式，Custom 模式交由基类 TransitionStoryboard，此处不处理
@@ -301,7 +360,6 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
             storyboard.Children.Add(animation);
         }
 
-        var mode = TransitionMode;
         switch (mode)
         {
             case TransitionMode.Right2Left:
