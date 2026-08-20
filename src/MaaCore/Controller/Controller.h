@@ -47,6 +47,7 @@ public:
         Win32ScreencapMethod screencap_method,
         Win32InputMethod mouse_method,
         Win32InputMethod keyboard_method);
+    void restore_window_position();
 #endif
     bool inited() noexcept;
     void set_touch_mode(const TouchMode& mode) noexcept;
@@ -65,14 +66,6 @@ public:
     ControllerType get_controller_type() const noexcept;
 
     ControllerAPI* get_underlying() const noexcept { return m_controller.get(); }
-
-    // 任务结束时恢复窗口位置
-    void restore_window_position()
-    {
-        if (m_controller) {
-            m_controller->restore_window_position();
-        }
-    }
 
     cv::Mat get_image(bool raw = false);
     cv::Mat get_image_cache() const;

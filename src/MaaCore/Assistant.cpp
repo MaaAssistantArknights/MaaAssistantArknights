@@ -523,7 +523,9 @@ void Assistant::working_proc()
             m_thread_idle = true;
             m_running = false;
             Log.flush();
+#ifdef _WIN32
             m_ctrler->restore_window_position();
+#endif
             m_condvar.wait(lock);
             continue;
         }

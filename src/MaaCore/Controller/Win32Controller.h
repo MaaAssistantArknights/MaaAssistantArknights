@@ -34,6 +34,8 @@ public:
         Win32InputMethod mouse_method,
         Win32InputMethod keyboard_method);
 
+    void restore_window_position();
+
 public: // ControllerAPI 接口
     virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) override;
     virtual bool inited() const noexcept override;
@@ -64,7 +66,6 @@ public: // ControllerAPI 接口
 
     virtual bool press_esc() override;
     virtual void set_main_screen_recognition(bool on) override;
-    virtual void restore_window_position() override;
     virtual ControlFeat::Feat support_features() const noexcept override;
 
     virtual std::pair<int, int> get_screen_res() const noexcept override;

@@ -384,6 +384,13 @@ bool asst::Controller::attach_window(
 
     return true;
 }
+
+void asst::Controller::restore_window_position()
+{
+    if (auto* win32_controller = dynamic_cast<Win32Controller*>(m_controller.get()); win32_controller != nullptr) {
+        win32_controller->restore_window_position();
+    }
+}
 #endif
 
 bool asst::Controller::inited() noexcept
