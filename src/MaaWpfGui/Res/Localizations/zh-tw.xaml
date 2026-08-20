@@ -1939,7 +1939,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <!--  !SimpleEncryptionHelper  -->
     <!--  TimeOutTimer  -->
     <!-- <system:String x:Key="TaskTimeoutMinutes">任務逾時時間（分鐘）</system:String> -->
-    <system:String x:Key="BattleStartTimeoutSeconds">戰鬥開始等待上限（秒）</system:String>
     <system:String x:Key="ReminderIntervalMinutes">通知間隔時間（分鐘）</system:String>
     <system:String x:Key="StallTimeoutMinutes">日誌輸出停滯超時時間（分鐘）</system:String>
     <system:String x:Key="StallTimeoutEnabled">啟用停滯偵測</system:String>

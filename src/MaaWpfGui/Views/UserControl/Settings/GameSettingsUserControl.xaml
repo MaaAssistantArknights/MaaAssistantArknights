@@ -233,14 +233,5 @@
                 Minimum="1"
                 Value="{Binding ReminderIntervalMinutes}" />
         </StackPanel>
-        <hc:NumericUpDown
-            Margin="5"
-            HorizontalAlignment="Center"
-            hc:InfoElement.Title="{DynamicResource BattleStartTimeoutSeconds}"
-            hc:TitleElement.TitlePlacement="Left"
-            InputMethod.IsInputMethodEnabled="False"
-            Maximum="{Binding Source={x:Static settings_vms:GameSettingsUserControlModel.BattleStartTimeoutMaxSeconds}, Mode=OneTime}"
-            Minimum="{Binding Source={x:Static settings_vms:GameSettingsUserControlModel.BattleStartTimeoutMinSeconds}, Mode=OneTime}"
-            Value="{Binding BattleStartTimeoutSeconds}" />
     </StackPanel>
 </UserControl>

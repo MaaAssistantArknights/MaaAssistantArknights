@@ -305,21 +305,6 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
     #region 任务超时
 
-    public const int BattleStartTimeoutMinSeconds = 10;
-    public const int BattleStartTimeoutMaxSeconds = 300;
-    public const int BattleStartTimeoutDefaultSeconds = 60;
-
-    public int BattleStartTimeoutSeconds
-    {
-        get;
-        set {
-            value = value.Clamp(BattleStartTimeoutMinSeconds, BattleStartTimeoutMaxSeconds);
-            SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BattleStartTimeoutSeconds = value;
-            SettingsViewModel.ConnectSettings.UpdateInstanceSettings();
-        }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BattleStartTimeoutSeconds;
-
     /// <summary>
     /// Gets or sets a value indicating whether是否启用停滞检测
     /// </summary>

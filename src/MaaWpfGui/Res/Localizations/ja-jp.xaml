@@ -1940,7 +1940,6 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <!--  !SimpleEncryptionHelper  -->
     <!--  TimeOutTimer  -->
     <!-- <system:String x:Key="TaskTimeoutMinutes">タスクのタイムアウト時間（分）</system:String> -->
-    <system:String x:Key="BattleStartTimeoutSeconds">戦闘開始の待機上限（秒）</system:String>
     <system:String x:Key="ReminderIntervalMinutes">リマインダー間隔時間（分）</system:String>
     <system:String x:Key="StallTimeoutMinutes">ログ出力停滞タイムアウト（分）</system:String>
     <system:String x:Key="StallTimeoutEnabled">停滞検出を有効にする</system:String>
