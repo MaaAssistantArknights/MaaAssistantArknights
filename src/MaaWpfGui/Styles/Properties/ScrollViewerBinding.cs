@@ -109,6 +109,14 @@ public static class ScrollViewerBinding
                 return;
             }
 
+            // ScrollChanged 是冒泡路由事件：Popup 弹层等子孙 ScrollViewer 的滚动也会冒泡到此。
+            // 只认本 viewer 自身的滚动，弹层（如 TreeComboBox 下拉）的偏移不得回写成页面偏移，
+            // 否则页面会被拉到弹层的滚动位置（如打开下拉时整页跳顶）
+            if (!ReferenceEquals(se.OriginalSource, scrollViewer))
+            {
+                return;
+            }
+
             // SetCurrentValue 只更新值并路由给绑定源，不会像 SetValue 的本地值那样
             // 替换掉属性上的绑定，否则一次回写就会切断后续由源驱动的滚动同步
             scrollViewer.SetCurrentValue(VerticalOffsetProperty, se.VerticalOffset);
@@ -294,6 +302,12 @@ public static class ScrollViewerBinding
         };
 
         scrollViewer.ScrollChanged += (s, se) => {
+            // 只认本 viewer 自身的滚动（ScrollChanged 会冒泡，忽略弹层等子孙 viewer 的事件）
+            if (!ReferenceEquals(se.OriginalSource, scrollViewer))
+            {
+                return;
+            }
+
             SetViewportHeight(scrollViewer, se.ViewportHeight);
         };
     }
