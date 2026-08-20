@@ -9,6 +9,7 @@
 
 #include <boost/regex.hpp>
 
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
@@ -19,19 +20,13 @@
 
 namespace
 {
-using TargetEntry = std::pair<std::string_view, std::string_view>;
-
-constexpr std::array<TargetEntry, 6> FiammettaTargets = {
-    TargetEntry { "清流", "char_385_finlpp" },
-    TargetEntry { "可露希尔", "char_4228_closur" },
-    TargetEntry { "但书", "char_4032_provs" },
-    TargetEntry { "巫恋", "char_254_vodfox" },
-    TargetEntry { "龙舌兰", "char_486_takila" },
-    TargetEntry { "歌蕾蒂娅", "char_474_glady" },
+// These are the only operators supported as Fiammetta recovery targets. Their
+// IDs are resolved through BattleData so this list does not duplicate the
+// operator database.
+constexpr std::array<std::string_view, 6> SupportedFiammettaTargets = {
+    "清流", "可露希尔", "但书", "巫恋", "龙舌兰", "歌蕾蒂娅"
 };
-
 constexpr std::array<std::string_view, 3> DefaultFiammettaTargets = { "清流", "可露希尔", "但书" };
-constexpr std::string_view FiammettaId = "char_300_phenxi";
 constexpr double FullMoodThreshold = 0.99;
 constexpr size_t MaxConfiguredTargets = 3;
 
@@ -52,7 +47,8 @@ std::vector<std::string> asst::infrast::normalize_fiammetta_targets(const std::v
     result.reserve(MaxConfiguredTargets);
     auto append = [&](const auto& source) {
         for (const std::string_view name : source) {
-            if (fiammetta_target_id(name).empty() || std::ranges::find(result, name) != result.end()) {
+            if (std::ranges::find(SupportedFiammettaTargets, name) == SupportedFiammettaTargets.end() ||
+                fiammetta_target_id(name).empty() || std::ranges::find(result, name) != result.end()) {
                 continue;
             }
             result.emplace_back(name);
@@ -73,10 +69,9 @@ std::vector<std::string> asst::infrast::normalize_fiammetta_targets(const std::v
     return result;
 }
 
-std::string_view asst::infrast::fiammetta_target_id(std::string_view name) noexcept
+std::string asst::infrast::fiammetta_target_id(std::string_view name)
 {
-    const auto iter = std::ranges::find(FiammettaTargets, name, &TargetEntry::first);
-    return iter == FiammettaTargets.end() ? std::string_view {} : iter->second;
+    return BattleData.get_id(std::string(name));
 }
 
 std::optional<size_t> asst::infrast::find_fiammetta_target(
@@ -102,8 +97,9 @@ std::optional<size_t> asst::infrast::find_fiammetta_target(
 std::optional<size_t>
 asst::infrast::find_full_mood_fiammetta(const std::vector<DormSelectionCandidate>& first_page)
 {
-    const auto iter = std::ranges::find_if(first_page, [](const DormSelectionCandidate& candidate) {
-        return !candidate.selected && candidate.available && candidate.operator_id == FiammettaId &&
+    const std::string fiammetta_id = BattleData.get_id("菲亚梅塔");
+    const auto iter = std::ranges::find_if(first_page, [&fiammetta_id](const DormSelectionCandidate& candidate) {
+        return !candidate.selected && candidate.available && candidate.operator_id == fiammetta_id &&
             candidate.mood_ratio >= FullMoodThreshold;
     });
     return iter == first_page.end()
@@ -553,7 +549,7 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
     // 菲亚梅塔必须位于目标后一位，交换对象才是预期干员。
     discard_pending_selection();
     ctrler()->click(target_opers[*target_index].rect);
-    stage_operator_selection(std::string(infrast::fiammetta_target_id(target_candidates[*target_index].name)));
+    stage_operator_selection(infrast::fiammetta_target_id(target_candidates[*target_index].name));
 
     // 菲亚梅塔只在满心情时技能才有作用。按技能排序后她必然在第一页，
     // 因而无需继续翻页识别；结束前切回低心情排序，供后续兜底选人使用。
@@ -594,7 +590,7 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
     }
 
     ctrler()->click(fiammetta_opers[*fiammetta_index].rect);
-    stage_operator_selection("char_300_phenxi");
+    stage_operator_selection(BattleData.get_id("菲亚梅塔"));
     if (!switch_to_low_mood_sort()) {
         discard_pending_selection();
         click_clear_button();

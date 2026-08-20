@@ -23,7 +23,7 @@ struct DormSelectionCandidate
 
 std::vector<std::string> normalize_fiammetta_targets(const std::vector<std::string>& configured);
 
-std::string_view fiammetta_target_id(std::string_view name) noexcept;
+std::string fiammetta_target_id(std::string_view name);
 
 std::optional<size_t> find_fiammetta_target(
     const std::vector<DormSelectionCandidate>& first_page,
