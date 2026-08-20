@@ -845,26 +845,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     #region AttachWindow (Win32窗口绑定) 配置
 
     /// <summary>
-    /// Gets a value indicating whether to use AttachWindow mode instead of ADB connection.
-    /// </summary>
-    [PropertyDependsOn(nameof(ConnectConfig))]
-    public bool UseAttachWindow => ConnectConfig == ConnectConfig.PC;
-
-    /// <summary>
     /// Gets a value indicating whether to show the window restore button (PC 端 + SendMessageWithWindowPos 输入方式)。
     /// </summary>
     [PropertyDependsOn(nameof(ConnectConfig))]
     public bool ShowWindowRestoreButton =>
-        UseAttachWindow && ExtraConfig is Win32Extra { MouseMethod: Win32Extra.AsstWin32InputMethod.SendMessageWithWindowPos };
-
-    /// <summary>
-    /// 将游戏窗口移动到主屏幕中央
-    /// </summary>
-    [UsedImplicitly]
-    public void RestoreWindowPosition()
-    {
-        Instances.AsstProxy.RestoreGameWindowPosition();
-    }
+        IsPCConnectConfig && ExtraConfig is Win32Extra { MouseMethod: Win32Extra.AsstWin32InputMethod.SendMessageWithWindowPos };
 
     public bool IsPCConnectConfig => ConnectConfig == ConnectConfig.PC;
 

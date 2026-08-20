@@ -327,7 +327,7 @@
                     Height="30"
                     Margin="5"
                     HorizontalAlignment="Center"
-                    Command="{s:Action RestoreWindowPosition}"
+                    Command="{s:Action RestoreGameWindowPosition, Target={x:Static helper:Instances.AsstProxy}}"
                     Content="{DynamicResource WindowRestore}"
                     Visibility="{c:Binding ShowWindowRestoreButton}" />
             </StackPanel>
