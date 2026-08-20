@@ -68,6 +68,11 @@ public class AsstCopilotTask : AsstBaseTask
     public bool UseSanityPotion { get; set; }
 
     /// <summary>
+    /// Gets or sets 干员识别数据文件路径
+    /// </summary>
+    public string OperBoxDataPath { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets 自定干员列表
     /// </summary>
     public List<UserAdditional>? UserAdditionals { get; set; }
@@ -86,6 +91,7 @@ public class AsstCopilotTask : AsstBaseTask
             ["ignore_requirements"] = IgnoreRequirements,
             ["loop_times"] = LoopTimes,
             ["use_sanity_potion"] = UseSanityPotion,
+            ["operbox_data_path"] = OperBoxDataPath,
         };
 
         if (!string.IsNullOrEmpty(FileName) && MultiTasks.Count > 0)

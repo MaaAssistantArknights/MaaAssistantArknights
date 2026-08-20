@@ -1206,6 +1206,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">Some jobs require specific skill levels, Modules or other prerequisites.
 Enabling this will skip these checks, but may cause the job to fail.
 Operators' Elite level CANNOT be ignored. If any requirements are ignored, the operation will no longer be automatically rated after the battle.</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist">Assist formation with OperBox data</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and Skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator} Name</system:String>
@@ -1375,6 +1376,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ReportSkippedForPcClient">The PC client cursor can obscure drop items and counts. This report was skipped to avoid polluting the data pool with inaccurate data</system:String>
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
     <system:String x:Key="MissingOperators">None of the {key=Operator}s in the following groups are owned (only one is needed per group):\n{0}｢Favourite｣ marks may affect {key=Operator} recognition; if the {key=Operator}s above are owned, remove the mark and retry. If not, use ｢{key=SupportUnitUsage}｣ when only one group is missing, or use another job when two or more are missing.</system:String>
+    <system:String x:Key="OperboxMultipleUnmatched">Multiple {key=Operator} (groups) unmatched:</system:String>
     <system:String x:Key="RecruitSupportOperator">Add support unit: {0}</system:String>
     <system:String x:Key="StageQueue">Stage Queue:&#160;</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
@@ -1649,7 +1651,10 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Level">Level too low</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">Skill level too low</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">Required module not unlocked</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator} (group) {0} has no matching {key=Operator}, may need to borrow {key=Operator} {1}</system:String>
+    <system:String x:Key="BattleFormationOperboxMatched">Pre-matched {key=Operator} (groups):</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">Additional custom {key=Operator} name invalid: {0}, please check spelling</system:String>
+    <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition} data parse failed</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">Elapsed time: {0}ms</system:String>
     <system:String x:Key="Deploy">Deploy</system:String>

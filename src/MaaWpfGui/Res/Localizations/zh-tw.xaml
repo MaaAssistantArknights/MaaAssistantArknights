@@ -428,7 +428,7 @@
 📄 更新說明：
     • {key=UpdateCheckNow}：包含介面與功能更新。介面改動、新功能需透過 {key=UpdateCheckNow} 取得
     • {key=ResourceUpdate}：包含自動作戰新關卡、掉落辨識圖示、公招幹員標籤等素材資料
-    • 導航熱更新：自動觸發，用於更新主介面提示與活動關卡入口。成功後右上角會顯示 ｢{key=ApiUpdateSuccess}｣ 
+    • 導航熱更新：自動觸發，用於更新主介面提示與活動關卡入口。成功後右上角會顯示 ｢{key=ApiUpdateSuccess}｣
 </system:String>
     <system:String x:Key="GlobalSource">全域來源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">強制使用 GitHub</system:String>
@@ -1107,7 +1107,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SPA">衛戍協議：盟約</system:String>
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">在活動主介面（有 ｢獨立模擬｣ 處）開始任務。
 在有存檔時需要先手動放棄
-最高只測試過 ｢險境模擬｣ 
+最高只測試過 ｢險境模擬｣
 如果已通關更高難度導致看不到 ｢險境模擬｣ 或 ｢標準模擬｣ ，需手動選擇一次 ｢險境模擬｣ 難度
 手動通關 ｢標準模擬｣ 可以更快刷分。
 只能刷等級獎勵，拿蝕刻章得打完所有的 ｢關鍵目標｣ 。</system:String>
@@ -1207,6 +1207,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">部分作業需要特定技能等級、模組等作為前置條件。
 勾選此項將跳過這些檢查，但可能導致作業無法正常執行。
 幹員精英化等級無法跳過；若跳過任何需求，戰鬥完成後將不再為作業自動點贊。</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist">依據幹員識別結果輔助編隊</system:String>
     <system:String x:Key="AddUserAdditional">追加自定義{key=Operator}</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用 ｢;｣ 作為分隔符，用 ｢,｣ 分隔{key=Operator}姓名和技能，例如：史爾特爾,3;艾雅法拉,1</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名稱</system:String>
@@ -1376,6 +1377,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReportSkippedForPcClient">PC 端滑鼠為獨立渲染，可能遮擋掉落物及數量辨識。為避免錯誤資料污染資料池，已自動跳過本次上報</system:String>
     <system:String x:Key="TheEx">無獎勵關卡，已停止</system:String>
     <system:String x:Key="MissingOperators">以下{key=Operator}組內的{key=Operator}均未擁有（每組只需其一）：\n{0}｢特別關注｣ 可能影響{key=Operator}辨識，上述{key=Operator}若已擁有，請移除後重試；若未擁有，僅缺一組時可使用 ｢{key=SupportUnitUsage}｣，缺兩組以上請更換作業。</system:String>
+    <system:String x:Key="OperboxMultipleUnmatched">多個{key=Operator}（組）不匹配：</system:String>
     <system:String x:Key="RecruitSupportOperator">編入助戰{key=Operator}：{0}</system:String>
     <system:String x:Key="StageQueue">關卡佇列：</system:String>
     <system:String x:Key="UnableToAgent">無法使用代理指揮</system:String>
@@ -1650,7 +1652,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationOperUnavailable.Level">等級不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">技能等級不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">所需模組未解鎖</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator}（組） {0} 沒有匹配的{key=Operator}，可能需要借助戰{key=Operator}{1}</system:String>
+    <system:String x:Key="BattleFormationOperboxMatched">預匹配的{key=Operator}（組）：</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加自定義{key=Operator}名稱無效：{0}，請檢查拼寫</system:String>
+    <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition}資料解析失敗</system:String>
     <system:String x:Key="CurrentSteps">目前步驟：{0} {1}</system:String>
     <system:String x:Key="ElapsedTime">經過時間：{0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>

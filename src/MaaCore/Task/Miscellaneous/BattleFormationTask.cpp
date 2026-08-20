@@ -61,7 +61,7 @@ bool asst::BattleFormationTask::_run()
     if (!parse_formation()) {
         return false;
     }
-    else if (compare_formation()) { // 与上一个作业的编队进行对比，相同则跳过
+    if (compare_formation()) { // 与上一个作业的编队进行对比，相同则跳过
         Log.info(__FUNCTION__, "| Formation is the same as last time, skip");
         for (auto& [name, _, __, opers] : m_formation | std::views::values | std::views::join) {
             const auto& pair_it =
@@ -231,7 +231,6 @@ void asst::BattleFormationTask::formation_with_last_opers()
     for (auto it = last_formation.begin(); !need_exit() && it != last_formation.end();) {
         const battle::OperNameTag& oper_tag = it->first;
         const std::string& group_name = it->second;
-
         const auto& oper_in_page_it = std::ranges::find_if(opers_result, [&](const QuickFormationOper& op) {
             return !op.is_selected && op.role == oper_tag.role && op.text == oper_tag.name;
         }); // 编队页中的干员
@@ -597,6 +596,10 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
     bool ret = true;
     for (const auto& res :
          opers_result | std::views::filter([](const QuickFormationOper& op) { return !op.is_selected; })) {
+        auto is_selectable = [&](const battle::OperUsage& op) {
+            return (op.role == battle::Role::Unknown || op.role == res.role) && op.name == res.text &&
+                   op.status != battle::OperStatus::Unavailable;
+        };
         auto oper_cache_it = m_opers.find({ res.role, res.text });
         if (oper_cache_it == m_opers.end()) {
             auto [_elite, _level] = m_quick_formation_ui.analyze_oper_level(image, res.flag_rect);
@@ -624,9 +627,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             if (!has_oper_unchecked(group->opers)) { // 干员组没有干员已选中且存在可用干员
                 return false;
             }
-            auto it = std::ranges::find_if(group->opers, [&](const battle::OperUsage& op) {
-                return op.name == res.text && op.status != battle::OperStatus::Unavailable;
-            });
+            auto it = std::ranges::find_if(group->opers, is_selectable);
             if (it != group->opers.cend()) {
                 oper = &(*it);
                 return true; // 找到干员
@@ -687,7 +688,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             sleep(delay);
         }
         oper->status = battle::OperStatus::Selected;
-        m_opers_in_formation->emplace(battle::OperNameTag { oper->role, oper->name }, (*iter)->name);
+        m_opers_in_formation->emplace(battle::OperNameTag { res.role, res.text }, (*iter)->name);
         json::value info = basic_info_with_what("BattleFormationSelected");
         auto& details = info["details"];
         details["selected"] = oper->name;
@@ -850,6 +851,9 @@ bool asst::BattleFormationTask::parse_formation()
     auto* groups = &Copilot.get_data().groups;
     if (m_data_resource == DataResource::SSSCopilot) {
         groups = &SSSCopilot.get_data().groups;
+    }
+    if (m_assigned_groups) {
+        groups = &m_assigned_groups.value();
     }
 
     std::swap(m_formation, m_formation_last);

@@ -1208,6 +1208,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">一部の攻略は特定のモジュールなどを前提条件とします
 この項目を選択するとこれらのチェックをスキップしますが、タスクが正常に動作しなくなる可能性があります。
 オペレーターのエリートレベルはスキップできません。いずれかの条件をスキップした場合、戦闘後にオペレーションは自動的に評価されなくなります。</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist">オペレーター認識データで編隊を支援</system:String>
     <system:String x:Key="AddUserAdditional">カスタム{key=Operator}追加</system:String>
     <system:String x:Key="AddUserAdditionalTip">｢;｣ はセパレータ、 ｢,｣ で{key=Operator}の名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla, 1</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
@@ -1377,6 +1378,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReportSkippedForPcClient">PC クライアントではカーソルがドロップ品や個数の認識を遮る場合があります。誤ったデータでデータプールを汚染しないよう、今回のレポートは自動的にスキップしました</system:String>
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
     <system:String x:Key="MissingOperators">以下の{key=Operator}グループの{key=Operator}を所有していません（各グループ1体で足ります）：\n{0}｢戦術要員｣ マークは{key=Operator}の認識に影響する可能性があります。上記の{key=Operator}を所有している場合はマークを解除して再試行してください。所有していない場合は、不足グループが1つなら ｢{key=SupportUnitUsage}｣ で補えますが、2つ以上の場合は他の作業ファイルを使用してください。</system:String>
+    <system:String x:Key="OperboxMultipleUnmatched">複数の{key=Operator}（グループ）が不一致：</system:String>
     <system:String x:Key="RecruitSupportOperator">サポートユニットを追加：{0}</system:String>
     <system:String x:Key="StageQueue">ステージキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
@@ -1651,7 +1653,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationOperUnavailable.Level">レベル不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">スキルレベルが低すぎる</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">必要なモジュールが未解除</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator}（グループ） {0} に一致する{key=Operator}なし、{key=Operator}{1}を借りる必要があるかもしれません</system:String>
+    <system:String x:Key="BattleFormationOperboxMatched">事前マッチした{key=Operator}（グループ）：</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加のカスタム{key=Operator}名が無効です: {0}、スペルを確認してください</system:String>
+    <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition}データ解析失敗</system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">経過時間: {0}ms</system:String>
     <system:String x:Key="Deploy">配置</system:String>

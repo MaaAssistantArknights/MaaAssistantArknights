@@ -492,6 +492,23 @@
 
                         </WrapPanel>
 
+                        <!--  UseOperBoxAssist  -->
+                        <WrapPanel
+                            Orientation="Vertical"
+                            Visibility="{c:Binding 'IgnoreRequirements and Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
+                            <CheckBox
+                                Margin="2.5,5"
+                                Content="{DynamicResource Copilot.UseOperBoxAssist}" IsChecked="{Binding EnableOperBoxAssist}" />
+                            <TextBlock
+                                Visibility="{c:Binding EnableOperBoxAssist}"
+                                Margin="0,2,0,0"
+                                Foreground="Gray">
+                                <Run Text="{DynamicResource LastSyncTime}" />
+                                <Run Text=": " />
+                                <Run Text="{Binding OperBoxLastSyncTimeText, Mode=OneWay}" />
+                            </TextBlock>
+                        </WrapPanel>
+
                         <!--  UseCopilotList  -->
                         <StackPanel
                             Margin="2.5,5"

@@ -1614,6 +1614,20 @@ public class AsstProxy
                         var operName = details["details"]?["name"]?.ToString();
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("CopilotUserAdditionalNameInvalid", operName ?? string.Empty), UiLogColor.Error);
                     }
+                    if (what == "OperboxDataParseFailed")
+                    {
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CopilotOperboxDataParseFailed"), UiLogColor.Error);
+                    }
+                    if (what == "OperboxMultipleUnmatched")
+                    {
+                        var unmatched = details["details"]?["unmatched_groups"]?.ToObject<List<string>>() ?? [];
+                        var sb = new StringBuilder();
+                        sb.AppendLine(LocalizationHelper.GetString("OperboxMultipleUnmatched"));
+                        foreach (var g in unmatched) {
+                            sb.AppendLine($"{g}");
+                        }
+                        Instances.CopilotViewModel.AddLog(sb.ToString().TrimEnd(), UiLogColor.Error);
+                    }
                     break;
                 }
         }
@@ -2229,6 +2243,30 @@ public class AsstProxy
                     }
 
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("BattleFormationOperUnavailable", oper_name ?? string.Empty, type), isError ? UiLogColor.Error : UiLogColor.Warning);
+                    break;
+                }
+
+            case "BattleFormationOperboxMatched":
+                {
+                    var matchedGroups = subTaskDetails!["matched_groups"]?.ToObject<List<JObject>>() ?? [];
+                    var sb = new StringBuilder();
+                    sb.AppendLine(LocalizationHelper.GetString("BattleFormationOperboxMatched"));
+                    foreach (var group in matchedGroups)
+                    {
+                        var gn = group["group_name"]?.ToString() ?? string.Empty;
+                        var on = DataHelper.GetLocalizedCharacterName(group["oper_name"]?.ToString());
+                        sb.AppendLine($"{gn} => {on}");
+                    }
+                    Instances.CopilotViewModel.AddLog(sb.ToString().TrimEnd(), UiLogColor.Info);
+                    break;
+                }
+
+            case "BattleFormationOperbox1Unmatched":
+                {
+                    var groupName = subTaskDetails!["group_name"]?.ToString() ?? "Unknown Group";
+                    var operName = DataHelper.GetLocalizedCharacterName(subTaskDetails["may_borrow_oper"]?.ToString()) ?? String.Empty;
+                    Instances.CopilotViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("BattleFormationOperbox1Unmatched", groupName, operName), operName == string.Empty ? UiLogColor.Error : UiLogColor.Warning);
                     break;
                 }
 

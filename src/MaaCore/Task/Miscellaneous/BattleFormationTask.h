@@ -7,6 +7,7 @@
 #include "Task/AbstractTask.h"
 #include "Ui/BattleQuickFormation.h"
 #include "Ui/SupportList.h"
+#include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
 #include "Vision/TemplDetOCRer.h"
 
 namespace asst
@@ -87,6 +88,11 @@ public:
     }
 
     bool set_specific_support_unit(const std::string& name = ""); // 设置指定助战干员
+
+    void set_assigned_groups(std::optional<battle::copilot::OperUsageGroups> groups)
+    {
+        m_assigned_groups = std::move(groups);
+    }
 
 protected:
     using OperGroup = battle::copilot::OperUsageGroup;
@@ -169,6 +175,11 @@ protected:
     bool m_used_support_unit = false; // 是否已经招募助战干员
     // ———————— 以下变量为指定助战干员设置，仅当 m_support_unit_usage == SupportUnitUsage::Specific 时有效 ————————
     battle::RequiredOper m_specific_support_unit;
+
+    // ————————————————————————————————
+    // 干员识别辅助编队相关
+    // ————————————————————————————————
+    std::optional<battle::copilot::OperUsageGroups> m_assigned_groups;
 
 private:
     static constexpr battle::Role Roles[] = { battle::Role::Caster,  battle::Role::Medic,   battle::Role::Pioneer,
