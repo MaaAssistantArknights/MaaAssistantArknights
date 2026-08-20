@@ -556,7 +556,7 @@ bool cvt_single_item_template(const fs::path& input, const fs::path& output)
             cv::Mat matched;
             cv::matchTemplate(dst_resized, pre, matched, cv::TM_CCORR_NORMED);
             double max_val = 0, min_val = 0;
-            cv::Point max_loc {}, min_loc {};
+            cv::Point max_loc { }, min_loc { };
             cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
             if (max_val > 0.95) {
@@ -661,8 +661,7 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
     std::unordered_map<std::string, std::string> skill_icon_by_buff_id;
     for (const auto& [_, buff] : buffs) {
         const std::string buff_id = buff.get("buffId", std::string());
-        const std::string skill_icon =
-            canonicalize_infrast_skill_id(buff.get("skillIcon", std::string()));
+        const std::string skill_icon = canonicalize_infrast_skill_id(buff.get("skillIcon", std::string()));
         if (!buff_id.empty() && !skill_icon.empty()) {
             skill_icon_by_buff_id.insert_or_assign(buff_id, skill_icon);
         }
@@ -954,7 +953,7 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& buildin
                 cv::Mat matched;
                 cv::matchTemplate(dst, pre, matched, cv::TM_CCORR_NORMED);
                 double max_val = 0, min_val = 0;
-                cv::Point max_loc {}, min_loc {};
+                cv::Point max_loc { }, min_loc { };
                 cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
                 if (max_val > 0.95) {
@@ -1253,7 +1252,7 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
         Amiya_data["rarity"] = static_cast<int>(amiya2_opt->at("rarity")) + 1;
         Amiya_data["position"] = amiya2_opt->at("position");
         Amiya_data["sortIndex"] = amiya2_opt->at("sortIndex");
-        Amiya_data["subProfessionId"] = amiya2_opt->at("subProfessionId");                
+        Amiya_data["subProfessionId"] = amiya2_opt->at("subProfessionId");
         const std::string& default_range = amiya2_opt->get("phases", 0, "rangeId", "0-1");
         Amiya_data["rangeId"] = json::array {
             default_range,

@@ -80,7 +80,7 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
 {
     const int max_storage = context.level == 1 ? 6 : context.level == 2 ? 8 : 10;
     double base = 0;
-    int storage = 0; // 订单上限增减量
+    int storage = 0;                     // 订单上限增减量
     int gold = context.gold_station_num; // 赤金生产线数，部分订单流技能会继续修正
     const auto all = count_skills(opers);
     const bool is_money = context.product == "Money";
@@ -97,10 +97,10 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
                 base += 0.35;
             }
             else if (icon == "bskill_tra_spd&formula1") { // 精准排期：石英
-                base += 0.34; // 近似两种产物
+                base += 0.34;                             // 近似两种产物
             }
-            else if (icon == "bskill_tra_spd&meet1") { // 新城贸易：伺夜
-                base += 0.4; // 近似满级会客室
+            else if (icon == "bskill_tra_spd&meet1") {    // 新城贸易：伺夜
+                base += 0.4;                              // 近似满级会客室
                 // 八幡海铃在控制中枢时提高叙拉古干员的贸易站效率。
                 if (is_selected(context, "char_4186_tmoris")) {
                     base += 0.05;
@@ -149,7 +149,7 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
                 // 迷迭香或絮雨已入驻时，补入对应的感知信息收益
                 if (context.use_perception_information &&
                     (is_selected(context, "char_391_rosmon") || is_selected(context, "char_436_whispr"))) {
-                    base += 0.44;// 手动定义，使之高于0.4
+                    base += 0.44; // 手动定义，使之高于0.4
                 }
             }
             else if (icon == "bskill_tra_spd&limit4") { // 喀兰贸易·β：崖心
@@ -203,9 +203,9 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
                 }
             }
             else if (icon == "trade_ord_spd&par1" || icon == "trade_ord_spd&par2") { // 外贸决议：维娜·维多利亚
-                base += 0.3; // 道格拉斯帮加成暂不计算
+                base += 0.3;                                                         // 道格拉斯帮加成暂不计算
             }
-            else if (icon == "bskill_tra_ord_spd_ext0") { // 对陆接洽代表·α：深巡
+            else if (icon == "bskill_tra_ord_spd_ext0") {                            // 对陆接洽代表·α：深巡
                 base += 0.25;
                 // 乌尔比安在制造站时追加效率。
                 if (is_selected(context, "char_4145_ulpia")) {
@@ -247,7 +247,7 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
                 storage += 2;
                 // 麒麟R夜刀与火龙S黑角同时在控制中枢时启用完整调查团加成。
                 if (is_selected(context, "char_1029_yato2") && is_selected(context, "char_1030_noirc2")) {
-                    base += 0.361;// 手动定义，使之shiao高于0.36
+                    base += 0.361; // 手动定义，使之shiao高于0.36
                 }
             }
             else if (icon == "bskill_tra_spd&dorm2") { // 虔诚筹款·β：空弦
@@ -273,13 +273,13 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
                 storage += context.level;
             }
             else if (icon == "bskill_tra_wt&cost2" && is_money) { // 裁缝·β / 手工艺品·β等：多人共用
-                base += 0.02; // 裁缝 B 单独使用效果很小，取近似值
+                base += 0.02;                                     // 裁缝 B 单独使用效果很小，取近似值
             }
             else if (icon == "bskill_tra_wt&cost1" && is_money) { // 裁缝·α / 手工艺品·α等：多人共用
                 base += 0.01;
             }
             else if (icon == "bskill_tra_long2" && is_money) { // 投资·β：龙舌兰
-                base += 0.02; // 投资 B 单独使用效果很小，取近似值
+                base += 0.02;                                  // 投资 B 单独使用效果很小，取近似值
             }
             else if (icon == "bskill_tra_long1" && is_money) { // 投资·α：龙舌兰
                 base += 0.01;
@@ -400,7 +400,7 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
     }
 
     if (has_skill(all, "bskill_tra_spd&wt1")) { // 天真的谈判者：U-Official
-        base = -1; // 禁用尤里卡
+        base = -1;                              // 禁用尤里卡
     }
     result.value = base;
     return result;
@@ -410,18 +410,18 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
 CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const ScoreContext& context)
 {
     const int max_storage = context.level == 1 ? 24 : context.level == 2 ? 36 : 54;
-    const bool records = context.product == "CombatRecord"; // 生产作战记录
-    const bool gold_product = context.product == "PureGold"; // 生产赤金
+    const bool records = context.product == "CombatRecord";     // 生产作战记录
+    const bool gold_product = context.product == "PureGold";    // 生产赤金
     const bool origin_stone = context.product == "OriginStone"; // 生产源石碎片
-    double base = 0; // 通用基础加成
-    double station = 0; // 进设施加成
-    int robot = 0; // 工程机器人数量
-    int standard = 0; // 标准化技能数量
-    int rhine = 0; // 莱茵科技技能数量
-    int metallics = 0; // 金属工艺技能数量
-    int abyssal_hunter = 0; // 当前组合的深海猎人数
-    bool station_only = false; // 是否只使用设施数量加成
-    std::vector<int> storage(opers.size(), 0); // 每名干员的仓储增减量
+    double base = 0;                                            // 通用基础加成
+    double station = 0;                                         // 进设施加成
+    int robot = 0;                                              // 工程机器人数量
+    int standard = 0;                                           // 标准化技能数量
+    int rhine = 0;                                              // 莱茵科技技能数量
+    int metallics = 0;                                          // 金属工艺技能数量
+    int abyssal_hunter = 0;                                     // 当前组合的深海猎人数
+    bool station_only = false;                                  // 是否只使用设施数量加成
+    std::vector<int> storage(opers.size(), 0);                  // 每名干员的仓储增减量
     const auto all = count_skills(opers);
     CombinationScore result;
 
@@ -469,9 +469,9 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                 base += 0.2;
             }
             else if (icon == "bskill_man_exp&spd&cost1" && records) { // “连轴转”：裂响
-                base += 0.34999;// 手动调整
+                base += 0.34999;                                      // 手动调整
             }
-            else if (icon == "bskill_man_gold2") { // 金属工艺·β：砾
+            else if (icon == "bskill_man_gold2") {                    // 金属工艺·β：砾
                 if (gold_product) {
                     base += 0.35;
                     ++metallics;
@@ -482,7 +482,7 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                 }
             }
             else if (icon == "bskill_man_gold1" && gold_product) { // 金属工艺·α：夜烟、斑点等
-                base += 0.3001;// 手动调整增加0.001
+                base += 0.3001;                                    // 手动调整增加0.001
                 ++metallics;
             }
             else if (icon == "bskill_man_spd&dorm1" && gold_product) { // 齐心沙盗：娜仁图亚
@@ -512,7 +512,7 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
             else if (icon == "bskill_man_spd_bd2") { // 意识实体：迷迭香
                 // 絮雨在办公室时提供感知信息，迷迭香才获得完整制造效率。
                 if (context.use_perception_information && is_selected(context, "char_436_whispr")) {
-                    base += 0.40999;// 手动调整，使之高于0.4（槐琥）低于0.41（苍苔+引星棘刺）
+                    base += 0.40999; // 手动调整，使之高于0.4（槐琥）低于0.41（苍苔+引星棘刺）
                 }
             }
             else if (icon == "bskill_man_spd_bd6") { // 问枯荣：截云
@@ -577,13 +577,14 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                     ++rhine;
                 }
                 // 红松骑士团：远牙、灰毫、野鬃；受薇薇安娜、焰尾和正义骑士号联动影响。
-                else if (context.use_pinus_sylvestris &&
-                         is_operator(oper, { "char_430_fartth", "char_431_ashlok", "char_496_wildmn" })) {
+                else if (
+                    context.use_pinus_sylvestris &&
+                    is_operator(oper, { "char_430_fartth", "char_431_ashlok", "char_496_wildmn" })) {
                     if (is_selected(context, "char_4098_vvana")) {
                         base += 0.07;
                     }
-                    if (is_selected(context, "char_420_flamtl")) {// 焰尾在控制中枢时为红松骑士团干员追加效率
-                        base += records ? 0.101 : gold_product ? -0.1 : 0;// 手动调整增加0.001
+                    if (is_selected(context, "char_420_flamtl")) {         // 焰尾在控制中枢时为红松骑士团干员追加效率
+                        base += records ? 0.101 : gold_product ? -0.1 : 0; // 手动调整增加0.001
                     }
                     if (is_selected(context, "char_4000_jnight") && is_operator(oper, { "char_496_wildmn" })) {
                         base += 0.052;
@@ -609,8 +610,8 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
             else if (icon == "bskill_man_spd_add1") { // 急性子 / “等不及”：芬、刻俄柏
                 base += 0.23125;
             }
-            else if (icon == "bskill_man_spd_veen") { // 手艺人：维伊
-                base += 0.299; // 认为训练室三级
+            else if (icon == "bskill_man_spd_veen") {   // 手艺人：维伊
+                base += 0.299;                          // 认为训练室三级
             }
             else if (icon == "bskill_man_spd_reduce") { // 模糊视线：铅踝
                 base += 0.22;
@@ -636,9 +637,9 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                 storage[index] += 6;
             }
             else if (icon == "bskill_man_spd_add3") { // 例行清扫：阿罗玛
-                base += 0.1; // 十小时平均收益，八小时收益约 0.073
+                base += 0.1;                          // 十小时平均收益，八小时收益约 0.073
             }
-            else if (icon == "bskill_man_spd1") { // 标准化·α / 莱茵科技·α / 红松骑士团·α
+            else if (icon == "bskill_man_spd1") {     // 标准化·α / 莱茵科技·α / 红松骑士团·α
                 base += 0.15;
                 // 标准化：夜刀、流星、豆苗、褐果、石英、洋灰、历阵锐枪芬。
                 if (is_operator(
@@ -657,8 +658,9 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                     ++rhine;
                 }
                 // 红松骑士团：远牙、灰毫、野鬃；联动规则与 β 技能相同。
-                else if (context.use_pinus_sylvestris &&
-                         is_operator(oper, { "char_430_fartth", "char_431_ashlok", "char_496_wildmn" })) {
+                else if (
+                    context.use_pinus_sylvestris &&
+                    is_operator(oper, { "char_430_fartth", "char_431_ashlok", "char_496_wildmn" })) {
                     if (is_selected(context, "char_4098_vvana")) {
                         base += 0.07;
                     }
@@ -752,7 +754,7 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
         const int sum = std::max(0, std::accumulate(storage.begin(), storage.end(), 0));
         base += sum * 0.02 * vermeil_count;
     }
-    if (const int count = skill_count(all, "bskill_man_spd_variable21")) { // 配合意识：槐琥
+    if (const int count = skill_count(all, "bskill_man_spd_variable21")) {            // 配合意识：槐琥
         base += std::min(0.4, floor_step(base, 0.05) - abyssal_hunter * 0.4) * count; // 槐琥和深海猎人共存时不起作用
     }
 
@@ -995,8 +997,9 @@ double power_score(const ScoreOper& oper, const ScoreContext& context)
                 score -= 1;
             }
             // 焰尾或薇薇安娜在控制中枢时，启用红松骑士团联动。
-            else if (context.use_pinus_sylvestris &&
-                     (is_selected(context, "char_420_flamtl") || is_selected(context, "char_4098_vvana"))) {
+            else if (
+                context.use_pinus_sylvestris &&
+                (is_selected(context, "char_420_flamtl") || is_selected(context, "char_4098_vvana"))) {
                 score += 0.101;
             }
         }
@@ -1009,13 +1012,11 @@ ScoreResult select_single(const std::vector<ScoreOper>& opers, const ScoreContex
     ScoreResult result;
     for (const size_t index : eligible_indices(opers, context)) {
         if (context.facility == "Office" && !context.use_perception_information &&
-            (has_skill(opers[index], "bskill_hire_spd_memento") ||
-             is_operator(opers[index], { "char_436_whispr" }))) {
+            (has_skill(opers[index], "bskill_hire_spd_memento") || is_operator(opers[index], { "char_436_whispr" }))) {
             continue;
         }
         if (context.facility == "Office" && !context.use_worldly_plight &&
-            (has_skill(opers[index], "bskill_hire_spd_bd_n2") ||
-             is_operator(opers[index], { "char_473_mberry" }))) {
+            (has_skill(opers[index], "bskill_hire_spd_bd_n2") || is_operator(opers[index], { "char_473_mberry" }))) {
             continue;
         }
         const double score =
@@ -1038,7 +1039,7 @@ ScoreResult select_reception(const std::vector<ScoreOper>& opers, const ScoreCon
     for (const size_t index : eligible_indices(opers, context)) {
         const auto& oper = opers[index];
         if (has_skill(oper, "bskill_meet_spdowned1")) { // 显眼的调查者：U-Official
-            continue; // 禁用尤里卡
+            continue;                                   // 禁用尤里卡
         }
         // 见行者、跃跃固定优先；菲亚梅塔已入驻时，信仰搅拌机也进入最高优先级。
         if (has_any_skill(oper, { "bskill_meet_spd&cost", "bskill_meet_exchange" }) ||
@@ -1076,8 +1077,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
     }
     if (!context.use_abyssal_hunter) {
         std::erase_if(eligible, [&](size_t index) {
-            return has_skill(opers[index], "bskill_ctrl_aegir2") ||
-                   is_operator(opers[index], { "char_474_glady" });
+            return has_skill(opers[index], "bskill_ctrl_aegir2") || is_operator(opers[index], { "char_474_glady" });
         });
     }
     std::vector<size_t> best;
@@ -1085,14 +1085,12 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
     bool trading_acc = false; // 贸易加速
     bool mood_reduce = false; // 其他设施心情减免
     bool office_acc = false;  // 办公室加速
-    const bool perception_information =
-        context.use_perception_information && is_selected(context, "char_436_whispr");
+    const bool perception_information = context.use_perception_information && is_selected(context, "char_436_whispr");
     const bool worldly_plight = context.use_worldly_plight && is_selected(context, "char_473_mberry");
     constexpr size_t ControlSlotCount = 5;
     // context.slots 在缺员复查时是本轮仍需补入的人数；控制中枢的实际槽位始终是 5。
     // Lua 中的 #best 必须对应 best.size()，不能用本轮选择上限代替。
-    const size_t selection_limit =
-        std::min(ControlSlotCount, static_cast<size_t>(std::max(0, context.slots)));
+    const size_t selection_limit = std::min(ControlSlotCount, static_cast<size_t>(std::max(0, context.slots)));
 
     auto contains = [&](size_t index) {
         return std::ranges::find(best, index) != best.end();
@@ -1159,7 +1157,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
     if (best.size() <= 4) {
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_psk"); }); // 红松的骑士：焰尾
         add_first([](const ScoreOper& oper) {
-            return has_skill(oper, "bskill_ctrl_fraction_knight"); // 烛骑士微光：薇薇安娜
+            return has_skill(oper, "bskill_ctrl_fraction_knight");                           // 烛骑士微光：薇薇安娜
         });
     }
 
@@ -1190,8 +1188,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
     }
 
     // 感知信息或人间烟火组合需要琴柳补办公室加速。
-    if (best.size() < ControlSlotCount &&
-        (perception_information || worldly_plight) &&
+    if (best.size() < ControlSlotCount && (perception_information || worldly_plight) &&
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_h_spd"); })) { // 感染力：琴柳
         office_acc = true;
     }
@@ -1468,8 +1465,7 @@ void append_abyssal_hunter_candidates(std::vector<ScoreOper>& opers, const Score
             })) {
             continue;
         }
-        opers.emplace_back(
-            ScoreOper { { std::string(AbyssalHunterSkill) }, candidate.operator_id, "", 1.0 });
+        opers.emplace_back(ScoreOper { { std::string(AbyssalHunterSkill) }, candidate.operator_id, "", 1.0 });
     }
 }
 

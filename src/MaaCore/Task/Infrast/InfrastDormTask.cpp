@@ -23,9 +23,8 @@ namespace
 // These are the only operators supported as Fiammetta recovery targets. Their
 // IDs are resolved through BattleData so this list does not duplicate the
 // operator database.
-constexpr std::array<std::string_view, 6> SupportedFiammettaTargets = {
-    "清流", "可露希尔", "但书", "巫恋", "龙舌兰", "歌蕾蒂娅"
-};
+constexpr std::array<std::string_view, 6> SupportedFiammettaTargets = { "清流", "可露希尔", "但书",
+                                                                        "巫恋", "龙舌兰",   "歌蕾蒂娅" };
 constexpr std::array<std::string_view, 3> DefaultFiammettaTargets = { "清流", "可露希尔", "但书" };
 constexpr double FullMoodThreshold = 0.99;
 constexpr size_t MaxConfiguredTargets = 3;
@@ -94,17 +93,16 @@ std::optional<size_t> asst::infrast::find_fiammetta_target(
     return result;
 }
 
-std::optional<size_t>
-asst::infrast::find_full_mood_fiammetta(const std::vector<DormSelectionCandidate>& first_page)
+std::optional<size_t> asst::infrast::find_full_mood_fiammetta(const std::vector<DormSelectionCandidate>& first_page)
 {
     const std::string fiammetta_id = BattleData.get_id("菲亚梅塔");
     const auto iter = std::ranges::find_if(first_page, [&fiammetta_id](const DormSelectionCandidate& candidate) {
         return !candidate.selected && candidate.available && candidate.operator_id == fiammetta_id &&
-            candidate.mood_ratio >= FullMoodThreshold;
+               candidate.mood_ratio >= FullMoodThreshold;
     });
     return iter == first_page.end()
-        ? std::nullopt
-        : std::optional<size_t> { static_cast<size_t>(std::distance(first_page.begin(), iter)) };
+               ? std::nullopt
+               : std::optional<size_t> { static_cast<size_t>(std::distance(first_page.begin(), iter)) };
 }
 
 std::vector<size_t> asst::infrast::find_low_mood_candidates(
@@ -119,7 +117,7 @@ std::vector<size_t> asst::infrast::find_low_mood_candidates(
             result.emplace_back(index);
         }
     }
-    std::ranges::stable_sort(result, {}, [&](size_t index) { return candidates[index].mood_ratio; });
+    std::ranges::stable_sort(result, { }, [&](size_t index) { return candidates[index].mood_ratio; });
     if (result.size() > limit) {
         result.resize(limit);
     }
@@ -191,9 +189,8 @@ bool asst::InfrastDormTask::_run()
         // 就开始任务，或上一间宿舍因卡顿退出主界面后重新进入导致状态丢失。
         // 常规前置阶段还必须固定为低心情优先，否则即使只识别第一页，也可能
         // 读到高心情一页。先切到其他排序再切回心情可以确定排序方向，全程不滑页。
-        const bool sort_succeeded = m_prepare_phase && m_default_mode && !m_is_custom
-            ? switch_to_low_mood_sort()
-            : switch_to_mood_sort();
+        const bool sort_succeeded =
+            m_prepare_phase && m_default_mode && !m_is_custom ? switch_to_low_mood_sort() : switch_to_mood_sort();
         if (!sort_succeeded) {
             return false;
         }
@@ -238,8 +235,7 @@ bool asst::InfrastDormTask::_run()
             }
         }
 
-        if (m_prepare_phase && m_default_mode && !m_is_custom && !m_fiammetta_targets.empty() &&
-            !m_fiammetta_checked) {
+        if (m_prepare_phase && m_default_mode && !m_is_custom && !m_fiammetta_targets.empty() && !m_fiammetta_checked) {
             const FiammettaSelectionResult selection_result = try_select_fiammetta_pair();
             if (selection_result == FiammettaSelectionResult::Error) {
                 return false;
@@ -307,13 +303,14 @@ bool asst::InfrastDormTask::fill_dorm_slots(bool low_mood_only)
             std::vector<infrast::DormSelectionCandidate> candidates;
             candidates.reserve(opers.size());
             for (const auto& oper : opers) {
-                candidates.emplace_back(infrast::DormSelectionCandidate {
-                    .operator_id = oper.operator_id,
-                    .mood_ratio = oper.mood_ratio,
-                    .selected = oper.selected,
-                    // 第一轮的目的就是把其他设施中的低心情干员换进宿舍。
-                    .available = true,
-                });
+                candidates.emplace_back(
+                    infrast::DormSelectionCandidate {
+                        .operator_id = oper.operator_id,
+                        .mood_ratio = oper.mood_ratio,
+                        .selected = oper.selected,
+                        // 第一轮的目的就是把其他设施中的低心情干员换进宿舍。
+                        .available = true,
+                    });
             }
             const auto indices = infrast::find_low_mood_candidates(
                 candidates,
@@ -540,8 +537,7 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
         target_candidates.emplace_back(std::move(candidate));
     }
 
-    const auto target_index =
-        infrast::find_fiammetta_target(target_candidates, m_fiammetta_targets, m_mood_threshold);
+    const auto target_index = infrast::find_fiammetta_target(target_candidates, m_fiammetta_targets, m_mood_threshold);
     if (!target_index) {
         return FiammettaSelectionResult::NotFound;
     }
@@ -575,13 +571,14 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
     std::vector<infrast::DormSelectionCandidate> fiammetta_candidates;
     fiammetta_candidates.reserve(fiammetta_opers.size());
     for (const auto& oper : fiammetta_opers) {
-        fiammetta_candidates.emplace_back(infrast::DormSelectionCandidate {
-            .operator_id = oper.operator_id,
-            .mood_ratio = oper.mood_ratio,
-            .selected = oper.selected,
-            // 第一轮保持“全部”筛选，满心情菲亚梅塔也可能正在其他设施工作。
-            .available = true,
-        });
+        fiammetta_candidates.emplace_back(
+            infrast::DormSelectionCandidate {
+                .operator_id = oper.operator_id,
+                .mood_ratio = oper.mood_ratio,
+                .selected = oper.selected,
+                // 第一轮保持“全部”筛选，满心情菲亚梅塔也可能正在其他设施工作。
+                .available = true,
+            });
     }
     const auto fiammetta_index = infrast::find_full_mood_fiammetta(fiammetta_candidates);
     if (!fiammetta_index) {

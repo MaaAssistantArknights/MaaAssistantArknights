@@ -954,10 +954,9 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
                         }
 
                         const std::string operator_id = BattleData.get_id(name->text);
-                        const auto candidate =
-                            std::ranges::find_if(candidates, [&](const auto& info) {
-                                return info.operator_id == operator_id && info.role == role;
-                            });
+                        const auto candidate = std::ranges::find_if(candidates, [&](const auto& info) {
+                            return info.operator_id == operator_id && info.role == role;
+                        });
                         if (candidate == candidates.end() || !remaining.contains(operator_id)) {
                             continue;
                         }
@@ -972,10 +971,9 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
                     }
                 }
 
-                const bool role_complete =
-                    std::ranges::none_of(candidates, [&](const auto& candidate) {
-                        return candidate.role == role && remaining.contains(candidate.operator_id);
-                    });
+                const bool role_complete = std::ranges::none_of(candidates, [&](const auto& candidate) {
+                    return candidate.role == role && remaining.contains(candidate.operator_id);
+                });
                 if (role_complete) {
                     break;
                 }

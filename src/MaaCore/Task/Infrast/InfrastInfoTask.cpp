@@ -210,9 +210,7 @@ bool recognize_mini_layout(
                 image,
                 level_template_task_name("Dorm"),
                 DormMaxLevel,
-                [row = best_slot + 1](int candidate_level) {
-                    return mini_dorm_level_task_name(row, candidate_level);
-                });
+                [row = best_slot + 1](int candidate_level) { return mini_dorm_level_task_name(row, candidate_level); });
             if (level == 0) {
                 return false;
             }
@@ -258,12 +256,8 @@ bool recognize_normal_layout(
         const auto task_name = level_template_task_name(name);
         const auto level_roi_move = asst::Task.get(task_name)->rect_move;
         for (const auto& match : iter->second) {
-            const int level = recognize_level(
-                image,
-                task_name,
-                match.rect.move(level_roi_move),
-                ViewType::Normal,
-                StationMaxLevel);
+            const int level =
+                recognize_level(image, task_name, match.rect.move(level_roi_move), ViewType::Normal, StationMaxLevel);
             if (level == 0) {
                 return false;
             }
@@ -278,12 +272,8 @@ bool recognize_normal_layout(
     const auto task_name = level_template_task_name("Dorm");
     const auto level_roi_move = asst::Task.get(task_name)->rect_move;
     for (const auto& match : dorm_iter->second) {
-        const int level = recognize_level(
-            image,
-            task_name,
-            match.rect.move(level_roi_move),
-            ViewType::Normal,
-            DormMaxLevel);
+        const int level =
+            recognize_level(image, task_name, match.rect.move(level_roi_move), ViewType::Normal, DormMaxLevel);
         if (level == 0) {
             return false;
         }
@@ -418,10 +408,9 @@ bool asst::InfrastInfoTask::_run()
         }
 
         std::unordered_map<std::string, std::vector<infrast::FacilityInfo>> facilities;
-        const bool levels_recognized =
-            analyzer.get_view_type() == ViewType::Mini
-                ? recognize_mini_layout(image, analyzer, facilities)
-                : recognize_normal_layout(image, analyzer, facilities);
+        const bool levels_recognized = analyzer.get_view_type() == ViewType::Mini
+                                           ? recognize_mini_layout(image, analyzer, facilities)
+                                           : recognize_normal_layout(image, analyzer, facilities);
 
         if (analyzer.get_view_type() != ViewType::Mini) {
             for (const auto& name : { "Reception", "Office", "Processing", "Training" }) {

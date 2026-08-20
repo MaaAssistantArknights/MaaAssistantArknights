@@ -151,8 +151,7 @@ inline OperatorIds intersect_operator_ids(const std::vector<OperatorIds>& candid
 
 inline bool operator_id_matches_candidates(const OperatorIds& candidates, std::string_view recognized_id)
 {
-    return !recognized_id.empty() &&
-           (candidates.empty() || candidates.contains(std::string(recognized_id)));
+    return !recognized_id.empty() && (candidates.empty() || candidates.contains(std::string(recognized_id)));
 }
 
 struct OperatorSelection
