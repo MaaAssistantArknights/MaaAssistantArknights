@@ -914,13 +914,14 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
     std::unordered_set<std::string> remaining(operator_ids.begin(), operator_ids.end());
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     size_t selected = 0;
+    const auto& candidates = infrast::get_abyssal_hunter_candidates();
 
     const bool expanded = ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run();
     if (expanded) {
         constexpr std::array<std::string_view, 2> Roles = { "Warrior", "Sniper" };
         for (const std::string_view role : Roles) {
-            const bool has_target = std::ranges::any_of(infrast::AbyssalHunterCandidates, [&](const auto& candidate) {
-                return candidate.role == role && remaining.contains(std::string(candidate.operator_id));
+            const bool has_target = std::ranges::any_of(candidates, [&](const auto& candidate) {
+                return candidate.role == role && remaining.contains(candidate.operator_id);
             });
             if (!has_target) {
                 continue;
@@ -953,10 +954,10 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
 
                         const std::string operator_id = BattleData.get_id(name->text);
                         const auto candidate =
-                            std::ranges::find_if(infrast::AbyssalHunterCandidates, [&](const auto& info) {
+                            std::ranges::find_if(candidates, [&](const auto& info) {
                                 return info.operator_id == operator_id && info.role == role;
                             });
-                        if (candidate == infrast::AbyssalHunterCandidates.end() || !remaining.contains(operator_id)) {
+                        if (candidate == candidates.end() || !remaining.contains(operator_id)) {
                             continue;
                         }
 
@@ -971,8 +972,8 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
                 }
 
                 const bool role_complete =
-                    std::ranges::none_of(infrast::AbyssalHunterCandidates, [&](const auto& candidate) {
-                        return candidate.role == role && remaining.contains(std::string(candidate.operator_id));
+                    std::ranges::none_of(candidates, [&](const auto& candidate) {
+                        return candidate.role == role && remaining.contains(candidate.operator_id);
                     });
                 if (role_complete) {
                     break;

@@ -11,6 +11,8 @@
 #include <string_view>
 #include <unordered_map>
 
+#include "Config/Miscellaneous/BattleDataConfig.h"
+
 namespace asst::infrast
 {
 namespace
@@ -1432,9 +1434,20 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
 }
 } // namespace
 
+const std::array<AbyssalHunterCandidate, 4>& get_abyssal_hunter_candidates()
+{
+    static const std::array<AbyssalHunterCandidate, 4> candidates = {
+        AbyssalHunterCandidate { BattleData.get_id("斯卡蒂"), "Warrior" },
+        AbyssalHunterCandidate { BattleData.get_id("幽灵鲨"), "Warrior" },
+        AbyssalHunterCandidate { BattleData.get_id("乌尔比安"), "Warrior" },
+        AbyssalHunterCandidate { BattleData.get_id("安哲拉"), "Sniper" },
+    };
+    return candidates;
+}
+
 bool is_abyssal_hunter(std::string_view operator_id)
 {
-    return std::ranges::any_of(AbyssalHunterCandidates, [operator_id](const AbyssalHunterCandidate& candidate) {
+    return std::ranges::any_of(get_abyssal_hunter_candidates(), [operator_id](const AbyssalHunterCandidate& candidate) {
         return candidate.operator_id == operator_id;
     });
 }
@@ -1446,16 +1459,17 @@ void append_abyssal_hunter_candidates(std::vector<ScoreOper>& opers, const Score
         return;
     }
 
-    opers.reserve(opers.size() + AbyssalHunterCandidates.size());
-    for (const auto& candidate : AbyssalHunterCandidates) {
-        if (context.selected_operator_ids.contains(std::string(candidate.operator_id)) ||
+    const auto& candidates = get_abyssal_hunter_candidates();
+    opers.reserve(opers.size() + candidates.size());
+    for (const auto& candidate : candidates) {
+        if (context.selected_operator_ids.contains(candidate.operator_id) ||
             std::ranges::any_of(opers, [&](const ScoreOper& oper) {
                 return oper.operator_id == candidate.operator_id;
             })) {
             continue;
         }
         opers.emplace_back(
-            ScoreOper { { std::string(AbyssalHunterSkill) }, std::string(candidate.operator_id), "", 1.0 });
+            ScoreOper { { std::string(AbyssalHunterSkill) }, candidate.operator_id, "", 1.0 });
     }
 }
 

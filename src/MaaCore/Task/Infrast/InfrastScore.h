@@ -47,17 +47,12 @@ struct ScoreResult
 
 struct AbyssalHunterCandidate
 {
-    std::string_view operator_id;
+    std::string operator_id;
     std::string_view role;
 };
 
 inline constexpr std::string_view AbyssalHunterSkill = "abyssal_hunter";
-inline constexpr std::array<AbyssalHunterCandidate, 4> AbyssalHunterCandidates = {
-    AbyssalHunterCandidate { "char_263_skadi", "Warrior" },
-    AbyssalHunterCandidate { "char_143_ghost", "Warrior" },
-    AbyssalHunterCandidate { "char_4145_ulpia", "Warrior" },
-    AbyssalHunterCandidate { "char_218_cuttle", "Sniper" },
-};
+const std::array<AbyssalHunterCandidate, 4>& get_abyssal_hunter_candidates();
 
 bool is_abyssal_hunter(std::string_view operator_id);
 void append_abyssal_hunter_candidates(std::vector<ScoreOper>& opers, const ScoreContext& context);
