@@ -90,7 +90,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         (ConnectConfig.WSA, "WSA"),
         (ConnectConfig.Compatible, "Compatible"),
         (ConnectConfig.SecondResolution, "SecondResolution"),
-        (ConnectConfig.GeneralWithoutScreencapErr, "GeneralWithoutScreencapErr"));
+        (ConnectConfig.GeneralWithoutScreencapErr, "GeneralWithoutScreencapErr"),
+        (ConnectConfig.Waydroid, "Waydroid"));
 
     public static string TouchModeVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "TouchMode.mp4");
 
@@ -470,7 +471,15 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         if (ConnectAddress.Length == 0)
         {
-            ConnectAddress = DefaultAddress[ConnectConfig.ToString()][0];
+            if (DefaultAddress.TryGetValue(ConnectConfig.ToString(), out var defaultAddresses) && defaultAddresses.Count > 0)
+            {
+                ConnectAddress = defaultAddresses[0];
+            }
+            else
+            {
+                error = LocalizationHelper.GetString("AutoDetectConnectionNotSupported");
+                return false;
+            }
         }
 
         return true;
