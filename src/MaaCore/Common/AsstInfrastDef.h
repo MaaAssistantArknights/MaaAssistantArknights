@@ -31,7 +31,6 @@ enum class FacilityStep
     Power,
     Office,
     ControlForce,
-    ControlVacancy,
     Reception,
     Processing,
     Training,
@@ -113,9 +112,6 @@ inline std::optional<std::vector<FacilityStep>>
     }
     if (enabled.contains("Trade")) {
         result.emplace_back(FacilityStep::Trade);
-    }
-    if (enabled.contains("Control")) {
-        result.emplace_back(FacilityStep::ControlVacancy);
     }
     if (enabled.contains("Reception")) {
         result.emplace_back(FacilityStep::Reception);

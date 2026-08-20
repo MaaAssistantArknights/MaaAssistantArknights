@@ -1,8 +1,5 @@
 #include "InfrastControlTask.h"
 
-#include <functional>
-#include <ranges>
-
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
@@ -30,22 +27,6 @@ bool asst::InfrastControlTask::_run()
     }
 
     close_quick_formation_expand_role();
-
-    if (m_vacancy_only) {
-        InfrastOperImageAnalyzer stationed_analyzer(ctrler()->get_image());
-        stationed_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
-        stationed_analyzer.set_facility(facility_name());
-        if (!stationed_analyzer.analyze()) {
-            return false;
-        }
-        m_cur_num_of_locked_opers = static_cast<int>(
-            std::ranges::count_if(stationed_analyzer.get_result(), std::mem_fn(&infrast::Oper::selected)));
-        if (m_cur_num_of_locked_opers >= static_cast<int>(max_num_of_opers())) {
-            Log.info("control center has no vacancy, skip second selection");
-            click_return_button();
-            return true;
-        }
-    }
 
     // 如果是使用了编队组来排班
     if (current_room_config().use_operator_groups) {
@@ -79,16 +60,10 @@ bool asst::InfrastControlTask::_run()
         }
         swipe_to_the_left_of_operlist();
 
-        if (m_vacancy_only) {
-            std::erase_if(m_all_available_opers, std::mem_fn(&infrast::Oper::selected));
-        }
-
         optimal_calc();
 
         // 清空按钮放到识别完之后，现在通过切换职业栏来回到界面最左侧，先清空会导致当前设施里的人排到最后面
-        if (!m_vacancy_only) {
-            click_clear_button();
-        }
+        click_clear_button();
         if (!opers_choose()) {
             m_all_available_opers.clear();
             swipe_to_the_left_of_operlist();

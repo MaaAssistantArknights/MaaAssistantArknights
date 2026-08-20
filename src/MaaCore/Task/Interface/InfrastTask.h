@@ -47,7 +47,6 @@ private:
     std::shared_ptr<InfrastTradeTask> m_trade_task_ptr = nullptr;
     std::shared_ptr<InfrastPowerTask> m_power_task_ptr = nullptr;
     std::shared_ptr<InfrastControlTask> m_control_task_ptr = nullptr;
-    std::shared_ptr<InfrastControlTask> m_control_task_ptr_post = nullptr;
     std::shared_ptr<InfrastReceptionTask> m_reception_task_ptr = nullptr;
     std::shared_ptr<InfrastOfficeTask> m_office_task_ptr = nullptr;
     std::shared_ptr<InfrastProcessingTask> m_processing_task_ptr = nullptr;

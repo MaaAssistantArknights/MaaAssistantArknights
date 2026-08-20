@@ -27,7 +27,6 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     m_trade_task_ptr(std::make_shared<InfrastTradeTask>(callback, inst, TaskType)),
     m_power_task_ptr(std::make_shared<InfrastPowerTask>(callback, inst, TaskType)),
     m_control_task_ptr(std::make_shared<InfrastControlTask>(callback, inst, TaskType)),
-    m_control_task_ptr_post(std::make_shared<InfrastControlTask>(callback, inst, TaskType)),
     m_reception_task_ptr(std::make_shared<InfrastReceptionTask>(callback, inst, TaskType)),
     m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, inst, TaskType)),
     m_processing_task_ptr(std::make_shared<InfrastProcessingTask>(callback, inst, TaskType)),
@@ -50,8 +49,6 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     m_trade_task_ptr->set_ignore_error(true);
     m_power_task_ptr->set_ignore_error(true);
     m_control_task_ptr->set_ignore_error(true);
-    m_control_task_ptr_post->set_ignore_error(true);
-    m_control_task_ptr_post->set_vacancy_only(true);
     m_reception_task_ptr->set_ignore_error(true);
     m_office_task_ptr->set_ignore_error(true);
     m_training_task_ptr->set_ignore_error(true);
@@ -80,8 +77,8 @@ bool asst::InfrastTask::set_params(const json::value& params)
     }
 
     const std::initializer_list<std::shared_ptr<InfrastProductionTask>> selection_tasks = {
-        m_mfg_task_ptr,          m_mfg_info_task_ptr,  m_trade_task_ptr,  m_power_task_ptr, m_control_task_ptr,
-        m_control_task_ptr_post, m_reception_task_ptr, m_office_task_ptr, m_dorm_task_ptr,  m_dorm_task_ptr_post,
+        m_mfg_task_ptr,       m_mfg_info_task_ptr, m_trade_task_ptr, m_power_task_ptr,     m_control_task_ptr,
+        m_reception_task_ptr, m_office_task_ptr,   m_dorm_task_ptr,  m_dorm_task_ptr_post,
     };
     for (const auto& task : selection_tasks) {
         task->set_default_mode(mode == Mode::Default);
@@ -95,10 +92,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
         m_task_data = std::make_shared<infrast::TaskData>();
         const std::initializer_list<std::shared_ptr<InfrastAbstractTask>> data_tasks = {
-            m_info_task_ptr,      m_mfg_task_ptr,        m_mfg_info_task_ptr,     m_trade_task_ptr,
-            m_power_task_ptr,     m_control_task_ptr,    m_control_task_ptr_post, m_reception_task_ptr,
-            m_office_task_ptr,    m_processing_task_ptr, m_training_task_ptr,     m_dorm_task_ptr,
-            m_dorm_task_ptr_post,
+            m_info_task_ptr,       m_mfg_task_ptr,      m_mfg_info_task_ptr,  m_trade_task_ptr,
+            m_power_task_ptr,      m_control_task_ptr,  m_reception_task_ptr, m_office_task_ptr,
+            m_processing_task_ptr, m_training_task_ptr, m_dorm_task_ptr,      m_dorm_task_ptr_post,
         };
         for (const auto& task : data_tasks) {
             task->set_task_data(m_task_data);
@@ -140,8 +136,6 @@ bool asst::InfrastTask::set_params(const json::value& params)
                 return m_office_task_ptr;
             case infrast::FacilityStep::ControlForce:
                 return m_control_task_ptr;
-            case infrast::FacilityStep::ControlVacancy:
-                return m_control_task_ptr_post;
             case infrast::FacilityStep::Reception:
                 return m_reception_task_ptr;
             case infrast::FacilityStep::Processing:
@@ -198,7 +192,6 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_trade_task_ptr->set_mood_threshold(threshold);
     m_power_task_ptr->set_mood_threshold(threshold);
     m_control_task_ptr->set_mood_threshold(threshold);
-    m_control_task_ptr_post->set_mood_threshold(threshold);
     m_reception_task_ptr->set_mood_threshold(threshold);
     m_office_task_ptr->set_mood_threshold(threshold);
     m_processing_task_ptr->set_mood_threshold(threshold);
