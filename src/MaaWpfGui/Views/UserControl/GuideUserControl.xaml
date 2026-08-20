@@ -615,7 +615,7 @@
                                                         </ToolTip>
                                                     </RadioButton.ToolTip>
                                                     <RadioButton.ContextMenu>
-                                                        <ContextMenu Width="150">
+                                                        <ContextMenu Width="150" ItemContainerStyle="{StaticResource MaaMenuItemDefaultStyle}">
                                                             <MenuItem Header="{DynamicResource RunTaskOnce}" />
                                                             <MenuItem Header="{DynamicResource Copy}" />
                                                             <MenuItem Header="{DynamicResource Rename}" />
