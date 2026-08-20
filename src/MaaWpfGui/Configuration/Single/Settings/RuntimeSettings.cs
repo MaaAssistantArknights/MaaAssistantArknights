@@ -24,12 +24,6 @@ namespace MaaWpfGui.Configuration.Single.Settings;
 [AddINotifyPropertyChangedInterface]
 public partial class RuntimeSettings : IJsonOnDeserialized
 {
-    public const int BattleStartTimeoutMinSeconds = 10;
-
-    public const int BattleStartTimeoutMaxSeconds = 300;
-
-    public const int BattleStartTimeoutDefaultSeconds = 60;
-
     public Constants.Enums.ClientType ClientType { get; set; } = Constants.Enums.ClientType.Official;
 
     public bool StartGame { get; set; } = true;
@@ -59,12 +53,6 @@ public partial class RuntimeSettings : IJsonOnDeserialized
 
     public bool ReportToYituliu { get; set; } = true;
 
-    /// <summary>
-    /// Gets or sets the maximum time to wait for a battle to start.
-    /// This is an advanced configuration-file-only option.
-    /// </summary>
-    public int BattleStartTimeoutSeconds { get; set; } = BattleStartTimeoutDefaultSeconds;
-
     public bool EnableStallTimeout { get; set; } = true;
 
     public int StallTimeoutReminderIntervalMinutes { get; set; } = 30;
@@ -73,10 +61,6 @@ public partial class RuntimeSettings : IJsonOnDeserialized
 
     public void OnDeserialized()
     {
-        BattleStartTimeoutSeconds = Math.Clamp(
-            BattleStartTimeoutSeconds,
-            BattleStartTimeoutMinSeconds,
-            BattleStartTimeoutMaxSeconds);
         StallTimeoutMinutes = Math.Clamp(StallTimeoutMinutes, 0, GameSettingsUserControlModel.TimeoutMaxMinutes);
         StallTimeoutReminderIntervalMinutes = Math.Clamp(StallTimeoutReminderIntervalMinutes, 1, GameSettingsUserControlModel.TimeoutMaxMinutes);
     }

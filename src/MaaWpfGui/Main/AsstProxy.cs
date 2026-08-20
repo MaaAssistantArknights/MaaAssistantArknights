@@ -653,9 +653,6 @@ public class AsstProxy
         _runningState.SetInit(true);
         AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettings.TouchMode.ToCustomString());
         AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
-        AsstSetInstanceOption(
-            InstanceOptionKey.BattleStartTimeout,
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BattleStartTimeoutSeconds.ToString());
         AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, SettingsViewModel.ConnectSettings.AdbLiteEnabled ? "1" : "0");
 
         // TODO: 之后把这个 OnUIThread 拆出来
@@ -3392,9 +3389,4 @@ public enum InstanceOptionKey
     /// Indicates the client type (game channel) used for resolving PackageName on connect.
     /// </summary>
     ClientType = 6,
-
-    /// <summary>
-    /// Indicates the maximum wait time for battle start, in seconds.
-    /// </summary>
-    BattleStartTimeout = 7,
 }

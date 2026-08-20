@@ -1,5 +1,7 @@
 #include "GeneralConfig.h"
 
+#include <algorithm>
+
 #include "Utils/Logger.hpp"
 #include <meojson/json.hpp>
 
@@ -22,6 +24,10 @@ bool asst::GeneralConfig::parse(const json::value& json)
         m_options.sss_fight_screencap_interval = options_json.at("SSSFightScreencapInterval").as_integer();
         m_options.roguelike_fight_screencap_interval = options_json.at("RoguelikeFightScreencapInterval").as_integer();
         m_options.copilot_fight_screencap_interval = options_json.at("CopilotFightScreencapInterval").as_integer();
+        m_options.battle_start_timeout_seconds = std::clamp(
+            options_json.get("battleStartTimeoutSeconds", Options::BattleStartTimeoutSecondsDefault),
+            Options::BattleStartTimeoutSecondsMin,
+            Options::BattleStartTimeoutSecondsMax);
         m_options.control_delay_lower = options_json.at("controlDelayRange")[0].as_integer();
         m_options.control_delay_upper = options_json.at("controlDelayRange")[1].as_integer();
         // m_options.print_window = options_json.at("printWindow").as_boolean();

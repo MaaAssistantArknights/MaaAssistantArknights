@@ -30,10 +30,6 @@ static constexpr int WindowHeightDefault = 720;
 
 static constexpr double TemplThresholdDefault = 0.8;
 
-static constexpr int BattleStartTimeoutSecondsMin = 10;
-static constexpr int BattleStartTimeoutSecondsMax = 300;
-static constexpr int BattleStartTimeoutSecondsDefault = 60;
-
 enum class StaticOptionKey
 {
     Invalid = 0,
@@ -52,7 +48,6 @@ enum class InstanceOptionKey
     KillAdbOnExit = 5,       // 退出时是否杀掉 Adb 进程， "0" | "1"
     ClientType = 6,          // 客户端类型（游戏渠道）。仅当连接配置在 connect 阶段需要 [PackageName] 时使用，
                              // 当前内置配置为 Androws / WSA；不替代 StartUpTask 的 client_type 参数。
-    BattleStartTimeout = 7,  // 战斗开始的最大等待时间，单位：秒
 };
 
 enum class TouchMode

@@ -5,7 +5,6 @@
 #include <ranges>
 #include <vector>
 
-#include "Assistant.h"
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
@@ -136,7 +135,7 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
     sleep(stage_name_task_ptr->pre_delay);
 
     auto start = std::chrono::steady_clock::now();
-    const auto timeout = std::chrono::seconds(inst()->battle_start_timeout_seconds());
+    const auto timeout = std::chrono::seconds(Config.get_options().battle_start_timeout_seconds);
 
     while (std::chrono::steady_clock::now() - start < timeout) {
         if (need_exit()) {

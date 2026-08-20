@@ -3,8 +3,7 @@
 #include <algorithm>
 #include <chrono>
 
-#include "Assistant.h"
-#include "Common/AsstTypes.h"
+#include "Config/GeneralConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
@@ -21,7 +20,8 @@ bool asst::FightStartWaitTaskPlugin::verify(AsstMsg msg, const json::value& deta
 {
     return msg == AsstMsg::SubTaskStart && details.get("subtask", std::string()) == "ProcessTask" &&
            details.get("details", "task", std::string()) == StartButtonWaitTask &&
-           (m_inst->battle_start_timeout_seconds() != BattleStartTimeoutSecondsDefault || m_post_delay_overridden);
+           (Config.get_options().battle_start_timeout_seconds != Options::BattleStartTimeoutSecondsDefault ||
+            m_post_delay_overridden);
 }
 
 void asst::FightStartWaitTaskPlugin::set_task_ptr(AbstractTask* ptr)
@@ -38,8 +38,8 @@ bool asst::FightStartWaitTaskPlugin::_run()
         return false;
     }
 
-    const int timeout_seconds = inst()->battle_start_timeout_seconds();
-    if (timeout_seconds == BattleStartTimeoutSecondsDefault) {
+    const int timeout_seconds = Config.get_options().battle_start_timeout_seconds;
+    if (timeout_seconds == Options::BattleStartTimeoutSecondsDefault) {
         m_process_task_ptr->set_post_delay(std::string(StartButtonWaitTask), wait_task->post_delay);
         m_post_delay_overridden = false;
         return true;

@@ -1,7 +1,5 @@
 #include "Assistant.h"
 
-#include <algorithm>
-
 #include "MaaUtils/NoWarningCV.hpp"
 #include <meojson/json.hpp>
 #include <ranges>
@@ -31,7 +29,6 @@
 #include "Task/Interface/StartUpTask.h"
 #include "Task/Interface/VideoRecognitionTask.h"
 #include "Utils/Logger.hpp"
-#include "Utils/StringMisc.hpp"
 #ifdef ASST_DEBUG
 #include "Task/Interface/DebugTask.h"
 #endif
@@ -195,15 +192,6 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
     case InstanceOptionKey::ClientType:
         m_ctrler->set_client_type(value);
         return true;
-    case InstanceOptionKey::BattleStartTimeout: {
-        int seconds = 0;
-        if (utils::chars_to_number<int, true>(value, seconds)) {
-            m_battle_start_timeout_seconds =
-                std::clamp(seconds, BattleStartTimeoutSecondsMin, BattleStartTimeoutSecondsMax);
-            return true;
-        }
-        break;
-    }
     default:
         break;
     }
