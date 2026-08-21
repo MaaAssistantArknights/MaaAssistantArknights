@@ -469,7 +469,10 @@
                 Opacity="{c:Binding 'ActivityExpireIn2Days ? 1 : 0.5'}"
                 Orientation="Horizontal">
                 <controls:TextBlock Margin="4,0,8,0" Text="└" />
-                <controls:TextBlock Text="{Binding ActivityInfo}" />
+                <controls:TextBlock
+                    MaxWidth="190"
+                    Text="{Binding ActivityInfo}"
+                    TextWrapping="Wrap" />
             </StackPanel>
             <CheckBox
                 Margin="0,10"
