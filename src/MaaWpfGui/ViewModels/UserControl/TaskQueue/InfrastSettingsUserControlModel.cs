@@ -102,6 +102,15 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                     list.Add(new InfrastTask.RoomInfo(room, false));
                 }
             }
+            if (GetTaskConfig<InfrastTask>().Mode == Mode.Normal)
+            {
+                var tempList = list.ToList();
+                list = [];
+                foreach (var room in _normalFacilityOrder)
+                {
+                    list.Add(tempList.First(i => i.Room == room));
+                }
+            }
             SetTaskConfig<InfrastTask>(t => t.RoomList.SequenceEqual(list), t => t.RoomList = list);
         }
         var roomList = new List<InfrastRoomItemViewModel>();
@@ -119,10 +128,6 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
 
         InfrastRoomModels = new ObservableCollection<InfrastRoomItemViewModel>(roomList);
         InfrastRoomModels.CollectionChanged += InfrastOrderSelectionChanged;
-        if (InfrastMode == Mode.Normal)
-        {
-            RestoreNormalFacilityOrder();
-        }
     }
 
     /// <summary>
@@ -206,42 +211,6 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         SetTaskConfig<InfrastTask>(t => t.RoomList.SequenceEqual(list), t => t.RoomList = list);
     }
 
-    private void RestoreNormalFacilityOrder()
-    {
-        if (InfrastRoomModels.Count == 0)
-        {
-            return;
-        }
-
-        InfrastRoomModels.CollectionChanged -= InfrastOrderSelectionChanged;
-        try
-        {
-            var targetIndex = 0;
-            foreach (var room in _normalFacilityOrder)
-            {
-                var item = InfrastRoomModels.FirstOrDefault(candidate => candidate.RoomType == room);
-                if (item is null)
-                {
-                    continue;
-                }
-
-                var currentIndex = InfrastRoomModels.IndexOf(item);
-                if (currentIndex != targetIndex)
-                {
-                    InfrastRoomModels.Move(currentIndex, targetIndex);
-                }
-
-                targetIndex++;
-            }
-        }
-        finally
-        {
-            InfrastRoomModels.CollectionChanged += InfrastOrderSelectionChanged;
-        }
-
-        InfrastOrderSelectionChanged(null, null);
-    }
-
     /// <summary>
     /// Gets the list of uses of infrast mode.
     /// </summary>
@@ -264,7 +233,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
 
             if (value == Mode.Normal)
             {
-                RestoreNormalFacilityOrder();
+                RefreshInfrastRoomList();
             }
 
             ParseCustomInfrastPlan();
