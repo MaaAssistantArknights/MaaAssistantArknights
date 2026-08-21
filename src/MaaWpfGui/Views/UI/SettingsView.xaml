@@ -56,12 +56,13 @@
             Grid.Column="1"
             Margin="20,5"
             HorizontalAlignment="Stretch"
-            properties:SearchHighlightBehavior.SearchText="{Binding SearchText}"
-            properties:SearchHighlightBehavior.SectionFilter="{Binding Settings}"
             properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
             properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
+            properties:ScrollViewerBinding.SmoothScrollTo="{Binding ScrollAnimationTarget}"
             properties:ScrollViewerBinding.VerticalOffset="{Binding ScrollOffset}"
             properties:ScrollViewerBinding.ViewportHeight="{Binding ScrollViewportHeight}"
+            properties:SearchHighlightBehavior.SearchText="{Binding SearchText}"
+            properties:SearchHighlightBehavior.SectionFilter="{Binding Settings}"
             IsInertiaEnabled="True"
             PanningMode="Both">
             <Grid>

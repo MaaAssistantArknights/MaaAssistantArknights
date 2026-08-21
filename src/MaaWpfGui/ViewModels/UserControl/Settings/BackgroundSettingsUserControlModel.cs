@@ -98,11 +98,6 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public ObservableCollection<BackgroundImageItem> BackgroundImageItems { get; } = [];
 
-    /// <summary>
-    /// 背景图片下拉 Popup 是否打开。
-    /// </summary>
-    public bool IsBackgroundImagePopupOpen { get => field; set => SetAndNotify(ref field, value); }
-
     private static readonly string BackgroundsRoot = Path.Combine(PathsHelper.BaseDir, "Res", "Backgrounds");
 
     /// <summary>
@@ -249,21 +244,6 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
         }
 
         BackgroundImagePath = imageItem.FullPath;
-        IsBackgroundImagePopupOpen = false;
-    }
-
-    /// <summary>
-    /// 切换背景图片下拉 Popup；打开前刷新目录列表。
-    /// </summary>
-    [UsedImplicitly]
-    public void ToggleBackgroundImagePopup()
-    {
-        if (!IsBackgroundImagePopupOpen)
-        {
-            LoadBackgroundImageItems();
-        }
-
-        IsBackgroundImagePopupOpen = !IsBackgroundImagePopupOpen;
     }
 
     private static BitmapImage? _backgroundImage = RefreshBackgroundImage(ConfigFactory.Root.Gui.Background.ImagePath);

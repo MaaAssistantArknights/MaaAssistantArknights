@@ -30,6 +30,10 @@
     <system:String x:Key="BackgroundMonetSelectColor">色を選択</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">背景画像からメインカラーを自動抽出してテーマ配色を生成します</system:String>
     <system:String x:Key="UiTheme">UI主題</system:String>
+    <system:String x:Key="TransitionSpeed">切り替えアニメーション</system:String>
+    <system:String x:Key="TransitionSpeedNormal">標準</system:String>
+    <system:String x:Key="TransitionSpeedFast">高速</system:String>
+    <system:String x:Key="TransitionSpeedNone">なし</system:String>
     <system:String x:Key="HotKeySettings">ホットキー設定</system:String>
     <system:String x:Key="UpdateSettings">アップデート設定</system:String>
     <system:String x:Key="AchievementSettings">実績設定</system:String>
@@ -240,6 +244,8 @@
     <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">←必読推奨</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">この{key=Operator}がbattle_dataにありません。</system:String>
+    <system:String x:Key="RoguelikeCoreCharSet">{key=StartingCoreChar}を設定しました: {0}</system:String>
+    <system:String x:Key="RoguelikeCoreCharCleared">{key=StartingCoreChar}をクリアしました</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">｢{key=StartingCoreChar}｣ 直接昇進</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">｢{key=StartingCoreChar}｣ の昇進招集までリセマラし、戦闘を行わない</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">第一層遠見で指定された啓示板を取得し、戦闘を行わない</system:String>
@@ -564,7 +570,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界園</system:String>
-    <system:String x:Key="RoguelikeThemeBlackFlow">黑流树海（日本語名未定）</system:String>
+    <system:String x:Key="RoguelikeThemeBlackFlow">黒流樹海（日本語名未定）</system:String>
     <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom}推奨構成:
 
 {key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
@@ -1104,7 +1110,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@PV">PV-花火実行委員会</system:String>
     <system:String x:Key="MiniGame@PVTip">選択したステージから自動でクリアします。最初のステージを選んだ場合は、イベントページの最左側から開始してください。その他のステージを選んだ場合は、位置を校正するために前のステージに一度入ってから戻ってください。</system:String>
     <system:String x:Key="MiniGame@SPA">堅守協定：盟約</system:String>
-    <system:String x:Key="MiniGame@SPATip" xml:space="preserve">イベントメイン画面（ ｢単独演算｣ の場所）からタスクを開始
+    <system:String x:Key="MiniGame@SPATip" xml:space="preserve">イベントメイン画面（ ｢単独演算｣ がある場所）からタスクを開始
 セーブデータがある場合は、まず手動で破棄する必要があります
  ｢逆境シミュレーション｣ までテスト済み
 より高い難易度をクリア済みで ｢逆境シミュレーション｣ または ｢標準シミュレーション｣ が表示されない場合、\n ｢逆境シミュレーション｣ 難易度を手動で一度選択してください

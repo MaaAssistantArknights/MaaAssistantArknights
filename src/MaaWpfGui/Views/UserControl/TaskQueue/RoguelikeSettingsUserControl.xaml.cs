@@ -16,8 +16,8 @@
 using System;
 using System.Globalization;
 using System.Windows.Controls;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
-using MaaWpfGui.ViewModels.UI;
 
 namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
@@ -46,7 +46,9 @@ public partial class RoguelikeSettingsUserControl : System.Windows.Controls.User
             _isValidResult = value;
             if (!IsValidResult)
             {
-                _current.StartingCoreCharComboBox.ItemsSource = DataHelper.CharacterNames;
+                // 输入无效时把下拉列表临时扩展为全干员列表，便于从任意干员中选取；
+                // 经由可搜索扩展的 override 切换，不直接写 ItemsSource，以保持其维护的独立视图与过滤状态
+                _current.StartingCoreCharComboBox.SetSearchableItemsSourceOverride(DataHelper.CharacterNames);
             }
         }
     }
@@ -58,9 +60,9 @@ public partial class RoguelikeSettingsUserControl : System.Windows.Controls.User
             return;
         }
 
-        var name = StartingCoreCharComboBox.Text;
-        StartingCoreCharComboBox.ItemsSource = TaskQueueViewModel.RoguelikeTask.RoguelikeCoreCharList;
-        StartingCoreCharComboBox.Text = name;
+        // 清除全干员列表 override，回落到绑定的开局干员列表。换源可能因选中项不在新列表
+        // 而清空文本，暂停 Text 绑定避免中间空值写回源属性，挂回时从源属性恢复文本
+        StartingCoreCharComboBox.WithTextBindingSuspended(StartingCoreCharComboBox.ClearSearchableItemsSourceOverride);
     }
 }
 

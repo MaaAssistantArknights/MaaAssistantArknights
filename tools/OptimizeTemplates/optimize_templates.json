@@ -1048,7 +1048,7 @@
     "resource/global/YoStarKR/resource/template/Roguelike/base/Roguelike@StageTraderLeaveConfirm": "761d2cfefe01fd1b42618323dfba2a7e32092188efad1a3157ba5de442eb8bb8",
     "resource/global/YoStarKR/resource/template/Roguelike/base/Roguelike@RecruitCloseGuide": "bf53a2715af6e0c2d758730b919af38a3c7d5798631d0a1fe0b8eae5d508e37b",
     "resource/global/YoStarKR/resource/template/Roguelike/base/Roguelike@StartAction": "63cd602e6bb60b21a6992bb8cda03db706cf90d13497ed88dc826dc51bd9e7a0",
-    "resource/global/YoStarKR/resource/template/Roguelike/base/Roguelike@TraderRandomShoppingConfirm": "fb95dfda6b2cf7d3f2e6db8442e6f3a2c069012d00db17dc42c508fbd0426370",
+    "resource/global/YoStarKR/resource/template/Roguelike/base/Roguelike@TraderRandomShoppingConfirm": "5f6c5f66faca34fae6159a821f5568179fba3b8714577d90bf908deb34af349a",
     "resource/global/YoStarKR/resource/template/Roguelike/base/Roguelike@ChooseOperConfirm": "213a8dfe4125be42eca1ca2de8db32efa7752e7dcc18610f54b5e0eda5a41304",
     "resource/global/YoStarKR/resource/template/Roguelike/base/Roguelike@DropsFlag": "71651685f962d488bec5f5df5d716458dd8894fb9a76034011338f8540a934d4",
     "resource/global/YoStarKR/resource/template/Roguelike/base/Roguelike@StageTraderInvestSystemLeave": "0a0ae68ef0f619eabb05745a561364ef84b1971b8b3baf18b719cfbadcaf6e78",
@@ -3997,10 +3997,10 @@
     "resource/template/UiTheme/Reconstruct/Friends": "23e97813bd9a95353479571fa5a8502c4982796aa7403ccd745b403d2812a2b1",
     "resource/template/UiTheme/Reconstruct/Terminal": "702c35492f32ef2a8fb6329b268cade5a6a37f781758268bec62c3d1e8b1b8bb",
     "resource/template/UiTheme/Reconstruct/Task": "3e48417df37ecf9d6b632dfe7a9e358df7bfc9b3b5651dfa1948121ef4502cd9",
-    "resource/global/YoStarJP/resource/template/MiniGame/SPA/MiniGame@SPA@EnterDanger": "230885af14c57fd30e3863cb5cd8051ac6e1fce1f467d044eb910f2a443cb6df",
+    "resource/global/YoStarJP/resource/template/MiniGame/SPA/MiniGame@SPA@EnterDanger": "fbe6587d6b7fb2bca0d91b7357b1b9cc33e1cb6b59407768b208627e3337821c",
     "resource/global/YoStarJP/resource/template/MiniGame/SPA/MiniGame@SPA@ReadyAgain": "39ab600459cc1f2f332bc41100dae736c6b2b169a32a96be50d2451de0747f77",
     "resource/global/YoStarJP/resource/template/MiniGame/SPA/MiniGame@SPA@ReturnHome": "bd7996dce44e57cd5c7af4d70e779eeea734960f021c3404bf8c92ceba7a79ea",
-    "resource/global/YoStarJP/resource/template/MiniGame/SPA/MiniGame@SPA@EnterStandard": "9c3233e635ddc011b31b48323d1188ee8290c66379fb8cadfc36ffbceca9fabb",
+    "resource/global/YoStarJP/resource/template/MiniGame/SPA/MiniGame@SPA@EnterStandard": "d3e42f55c846ef954fb4ed89ce156ab589570c47fb034996db3e5eedac51f0fd",
     "resource/global/YoStarJP/resource/template/MiniGame/SPA/MiniGame@SPA@StartSimulation": "9de01ee37cbc46ecd28915f04e2e87baecb4f4574ed37bc3a54e2e68798218c6",
     "resource/global/YoStarJP/resource/template/MiniGame/SPA/MiniGame@SPA@EnterIndependent": "84ac305e651d16c0670e0d6a48d075bad86b8cabe27b33e284b5f38456600eff",
     "resource/global/YoStarJP/resource/template/MiniGame/SPA/MiniGame@SPA@NoMoreHint": "74f6245d1f7f7ed38a3a53396358defbca9f650615dc8ddafb13779ffef7353d",
@@ -4295,5 +4295,8 @@
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@MovementInventoryCollapse": "38b39fddf9bb8c9b62d13731376c5a5e6cb82266361f8ed1c4255143ad329e9b",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@savage": "90f5e23c9751703f2385d28ad6fa59c2fc2a466c8923021d1f49b129cbbc4769",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@TemporaryOperatorConfirm": "4c45c115436d730270717860f2fdd8d88fa92270a7c1ff0ec46658ae05929bfa",
-    "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@TemporaryOperatorNoPromptChecked": "e5d389db0d1eb04f9d8691fcdf8c15f41ab2fa20bc44aaad2c565ae209a1fede"
+    "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@TemporaryOperatorNoPromptChecked": "e5d389db0d1eb04f9d8691fcdf8c15f41ab2fa20bc44aaad2c565ae209a1fede",
+    "resource/global/YoStarKR/resource/template/MiniGame/SPA/MiniGame@SPA@GiveUp": "a8aeb7785edc4d67ac60d5bfa0585996ff1c1ce8deef2388662c0ddf6d862ecc",
+    "resource/global/YoStarEN/resource/template/MiniGame/SPA/MiniGame@SPA@GiveUp": "82f9251824ebfd2cbf9c87a577dfe4cfe8fac98afb32aa4c773e11e6d76dcbc4",
+    "resource/global/YoStarJP/resource/template/MiniGame/SPA/MiniGame@SPA@GiveUp": "4a1e65db3199b3c47962c0b354779cf7ab477d66633da7acf2699ff028c84d1a"
 }

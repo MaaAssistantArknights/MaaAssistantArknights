@@ -1,0 +1,25 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:hc="https://handyorg.github.io/handycontrol">
+
+    <!--  菜单项 Header 经模板统一渲染为显式左对齐 TextBlock，等价于在 Header 中手写 TextBlock，
+          菜单项本身保持字符串绑定写法即可。Header 为非字符串数据对象时会退化为 ToString() 文本，
+          需要富内容（图标等）时应在 Header 中直接放置 UIElement（不套用此模板）  -->
+    <DataTemplate x:Key="MenuHeaderTextTemplate">
+        <TextBlock HorizontalAlignment="Left" Text="{Binding}" />
+    </DataTemplate>
+
+    <!--  挂到 ContextMenu 的 ItemContainerStyle 上使用；ItemContainerStyle 指向自身使样式
+          沿嵌套菜单项逐层传播，子菜单（如托盘的语言列表）同样生效。
+          关闭菜单项入场动画（IsEnabledAnimation 触发模板换成空 Storyboard），
+          与页面过渡有动画、选项列表无动画的风格保持统一  -->
+    <Style
+        x:Key="MaaMenuItemDefaultStyle"
+        BasedOn="{StaticResource {x:Type MenuItem}}"
+        TargetType="{x:Type MenuItem}">
+        <Setter Property="HeaderTemplate" Value="{StaticResource MenuHeaderTextTemplate}" />
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource MaaMenuItemDefaultStyle}" />
+        <Setter Property="hc:MenuAttach.IsEnabledAnimation" Value="False" />
+    </Style>
+
+</ResourceDictionary>

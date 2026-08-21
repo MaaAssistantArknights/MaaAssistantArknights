@@ -2055,6 +2055,14 @@
         "sortId": -10000,
         "usage": "츠빌링슈튀르메의 길가에 떨어진 나뭇잎. 때로는 그 위에서 잃어버린 음악의 소절을 발견할 수 있다. 이를 연주회에서 선율을 찾는 자에게 주면 그들은 멜로디로 보답할 것이다."
     },
+    "act2autochess_token_chess": {
+        "classifyType": "NONE",
+        "description": "로도스 아일랜드 공방에서 위수 협의에 참여한 오퍼레이터를 위해 준비한 훈장. 자성이 있으며, 일정 수량을 모으면 룩 기물로 조립할 수 있다고 한다.",
+        "icon": "act2autochess_token_chess.png",
+        "name": "위수 인증",
+        "sortId": -10000,
+        "usage": "위수 협의에서 각종 물자를 교환하는데 사용된다."
+    },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",

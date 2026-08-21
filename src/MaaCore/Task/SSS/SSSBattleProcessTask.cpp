@@ -266,7 +266,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 m_all_cores.erase(it);
             }
             else {
-                Log.error(__FUNCTION__, "| Core", core.name, " in strategy, but not found in all_cores");
+                LogError << __FUNCTION__ << "| Core" << core.name << " in strategy, but not found in all_cores";
             }
 
             return deploy_oper(core.name, strategy.location, strategy.direction) && update_deployment();
@@ -295,7 +295,8 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             Log.info(__FUNCTION__, "| Deploy tool_man", available_iter->name, "at", strategy.location);
 
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
-            return deploy_oper(available_iter->name, strategy.location, strategy.direction) && update_deployment();
+            return deploy_oper(available_iter->role, available_iter->name, strategy.location, strategy.direction) &&
+                   update_deployment();
         }
 
         if (std::ranges::any_of(tool_men, [&](const auto& oper) {

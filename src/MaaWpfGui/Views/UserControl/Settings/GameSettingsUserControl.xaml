@@ -88,7 +88,7 @@
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.OverseasAdaptation}}"
                 TextDecorations="None">
-                <TextBlock Text="{DynamicResource HelpUsWithOverseasServersTip}" />
+                <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource HelpUsWithOverseasServersTip}" />
             </Hyperlink>
         </controls:TextBlock>
 

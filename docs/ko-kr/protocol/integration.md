@@ -205,49 +205,49 @@ v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.
 해외 서버는 약 반년 후 따를 예정이며, 그때 상한은 리소스에 맞춰 10이 됩니다. Windows GUI의 연속 전투 드롭다운은 현재 고정으로 10까지 제공합니다. 해외에서 수동으로 7~10을 선택하면 작업 전달 시 Core에서 거부됩니다.
 :::  
 ::: field drops  
-  @type object
-  @optional
-  지정 드랍 수량, 기본값은 지정 안 함. key는 item_id, value는 수량. key는 `resource/item_index.json` 파일 참조
-  <br>
-  예: `{ "30011": 10, "30062": 5 }`  
-  <br>
-  위 조건들은 OR 관계이므로, 어느 하나라도 도달하면 작업 중지  
-  :::  
-  ::: field report_to_penguin  
-  @type boolean
-  @default false
-  @optional
-  펭귄 물류(Penguin Stats) 데이터 전송 여부  
-  :::  
-  ::: field penguin_id  
-  @type string
-  @optional
-  펭귄 물류 전송 ID, 기본값 비어 있음. `report_to_penguin`이 true일 때만 유효  
-  :::  
-  ::: field server  
-  @type string
-  @default CN
-  @optional
-  서버, 드랍 인식 및 업로드에 영향
-  <br>
-  옵션: `CN` | `US` | `JP` | `KR`  
-  :::  
-  ::: field client_type  
-  @type string
-  @optional
-  클라이언트 버전, 기본값 비어 있음. 게임 크래시 시 재시작 후 재접속하여 계속 파밍하는 용도. 비워두면 해당 기능 비활성화
-  <br>
-  옵션: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-  :::  
-  ::: field DrGrandet  
-  @type boolean
-  @default false
-  @optional
-  이성 절약 모드, 오리지늄 사용 가능성이 있을 때만 유효
-  <br>
-  오리지늄 사용 확인 창에서 대기하다가, 현재 1이성이 회복되면 즉시 오리지늄을 사용  
-  :::  
-  ::::
+ @type object
+@optional
+지정 드랍 수량, 기본값은 지정 안 함. key는 item_id, value는 수량. key는 `resource/item_index.json` 파일 참조
+<br>
+예: `{ "30011": 10, "30062": 5 }`  
+ <br>
+위 조건들은 OR 관계이므로, 어느 하나라도 도달하면 작업 중지  
+ :::  
+ ::: field report_to_penguin  
+ @type boolean
+@default false
+@optional
+펭귄 물류(Penguin Stats) 데이터 전송 여부  
+ :::  
+ ::: field penguin_id  
+ @type string
+@optional
+펭귄 물류 전송 ID, 기본값 비어 있음. `report_to_penguin`이 true일 때만 유효  
+ :::  
+ ::: field server  
+ @type string
+@default CN
+@optional
+서버, 드랍 인식 및 업로드에 영향
+<br>
+옵션: `CN` | `US` | `JP` | `KR`  
+ :::  
+ ::: field client_type  
+ @type string
+@optional
+클라이언트 버전, 기본값 비어 있음. 게임 크래시 시 재시작 후 재접속하여 계속 파밍하는 용도. 비워두면 해당 기능 비활성화
+<br>
+옵션: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+ :::  
+ ::: field DrGrandet  
+ @type boolean
+@default false
+@optional
+이성 절약 모드, 오리지늄 사용 가능성이 있을 때만 유효
+<br>
+오리지늄 사용 확인 창에서 대기하다가, 현재 1이성이 회복되면 즉시 오리지늄을 사용  
+ :::  
+ ::::
 
 <details>
 <summary>Example</summary>

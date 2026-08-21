@@ -748,7 +748,7 @@ public class SettingsViewModel : Screen
                 return;
             }
 
-            if (value < 0 || value > DividerVerticalOffsetList.Count)
+            if (value < 0 || value >= DividerVerticalOffsetList.Count)
             {
                 return;
             }
@@ -759,7 +759,7 @@ public class SettingsViewModel : Screen
                     _notifySource = NotifyType.SelectedIndex;
                     SetAndNotify(ref _selectedIndex, value);
 
-                    ScrollOffset = DividerVerticalOffsetList[value];
+                    ScrollAnimationTarget = DividerVerticalOffsetList[value];
 
                     ResetNotifySource();
                     break;
@@ -788,6 +788,16 @@ public class SettingsViewModel : Screen
         set {
             if (!AllowScrollOffsetChange)
             {
+                return;
+            }
+
+            // 平滑滚动动画落地的回写（ScrollViewerBinding 在动画结束后把目标值路由回绑定源）：
+            // 与动画目标一致说明本次滚动源于导航定位，同步值即可，不反向重算导航高亮——
+            // 目标偏移被 ScrollViewer 钳制时（分节下方内容不足一屏，实际停不到目标），
+            // 回写会命中下方“滚到底选最后一项”的分支，高亮跳离所点击的分节
+            if (Math.Abs(value - ScrollAnimationTarget) < 1)
+            {
+                SetAndNotify(ref _scrollOffset, value);
                 return;
             }
 
@@ -834,6 +844,18 @@ public class SettingsViewModel : Screen
     }
 
     public bool AllowScrollOffsetChange { get; set; } = true;
+
+    private double _scrollAnimationTarget = double.NaN;
+
+    /// <summary>
+    /// Gets or sets the target offset of the smooth scroll animation,
+    /// which is performed by <see cref="Styles.Properties.ScrollViewerBinding"/> on the UI side.
+    /// </summary>
+    public double ScrollAnimationTarget
+    {
+        get => _scrollAnimationTarget;
+        set => SetAndNotify(ref _scrollAnimationTarget, value);
+    }
 
     #endregion 设置页面列表和滚动视图联动绑定
 

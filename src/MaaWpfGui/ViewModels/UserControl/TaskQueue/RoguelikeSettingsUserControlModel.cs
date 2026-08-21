@@ -498,7 +498,9 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 return;
             }
 
-            Instances.TaskQueueViewModel.AddLog("Core Char: " + value);
+            Instances.TaskQueueViewModel.AddLog(string.IsNullOrEmpty(value)
+                ? LocalizationHelper.GetString("RoguelikeCoreCharCleared")
+                : LocalizationHelper.GetStringFormat("RoguelikeCoreCharSet", value));
         }
     }
 

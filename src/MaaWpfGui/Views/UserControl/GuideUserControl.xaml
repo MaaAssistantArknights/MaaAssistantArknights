@@ -615,7 +615,7 @@
                                                         </ToolTip>
                                                     </RadioButton.ToolTip>
                                                     <RadioButton.ContextMenu>
-                                                        <ContextMenu Width="150">
+                                                        <ContextMenu Width="150" ItemContainerStyle="{StaticResource MaaMenuItemDefaultStyle}">
                                                             <MenuItem Header="{DynamicResource RunTaskOnce}" />
                                                             <MenuItem Header="{DynamicResource Copy}" />
                                                             <MenuItem Header="{DynamicResource Rename}" />
@@ -835,7 +835,7 @@
                                             Cursor="Hand"
                                             NavigateUri="{Binding Source={x:Static constants:MaaUrls.MirrorChyanWebsite}}"
                                             TextDecorations="None">
-                                            <TextBlock Text="{DynamicResource MirrorChyan}" />
+                                            <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource MirrorChyan}" />
                                         </Hyperlink>
                                     </controls:TextBlock>
                                 </StackPanel>

@@ -64,12 +64,13 @@
         <GradientStop Offset="1" Color="#F48FB1" />
     </LinearGradientBrush>
 
+    <SolidColorBrush x:Key="HyperlinkBrush" Color="#326cf3" />
+    <SolidColorBrush x:Key="HyperlinkHoverBrush" Color="#e45649" />
+
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#2d2d30" />
     <SolidColorBrush x:Key="MdXamlCodeBackground" Color="#161b22" />
     <SolidColorBrush x:Key="MdXamlForeground" Color="#E6E6E6" />
-    <SolidColorBrush x:Key="MdXamlHyperlink" Color="#326cf3" />
-    <SolidColorBrush x:Key="MdXamlHyperlinkClicked" Color="#e45649" />
 
     <!--  UiLogColor  -->
     <SolidColorBrush x:Key="SuccessLogBrush" Color="#90EE90" />

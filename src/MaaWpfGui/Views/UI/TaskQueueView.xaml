@@ -318,7 +318,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <hc:ContextMenuButton
+                            <controls:MenuButton
                                 Grid.Column="0"
                                 Width="30"
                                 Height="30"
@@ -330,77 +330,81 @@
                                 IsEnabled="{c:Binding 'Idle or !Inited'}"
                                 Style="{StaticResource MaaButtonDefaultStyle}"
                                 ToolTip="{DynamicResource AddTaskQueueTask}">
-                                <hc:ContextMenuButton.Menu>
-                                    <ContextMenu
-                                        Width="200"
-                                        Padding="0"
-                                        HorizontalOffset="-7"
-                                        Placement="Bottom"
-                                        VerticalOffset="-7">
-                                        <ContextMenu.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Vertical" />
-                                            </ItemsPanelTemplate>
-                                        </ContextMenu.ItemsPanel>
-                                        <MenuItem
-                                            Padding="0,3"
-                                            Command="{s:Action AddTaskQueueTask}"
-                                            CommandParameter="{Binding TaskTypeList[0].Value}"
-                                            Header="{Binding TaskTypeList[0].Display}" />
-                                        <MenuItem
-                                            Padding="0,3"
-                                            Command="{s:Action AddTaskQueueTask}"
-                                            CommandParameter="{Binding TaskTypeList[1].Value}"
-                                            Header="{Binding TaskTypeList[1].Display}" />
-                                        <MenuItem
-                                            Padding="0,3"
-                                            Command="{s:Action AddTaskQueueTask}"
-                                            CommandParameter="{Binding TaskTypeList[2].Value}"
-                                            Header="{Binding TaskTypeList[2].Display}" />
-                                        <MenuItem
-                                            Padding="0,3"
-                                            Command="{s:Action AddTaskQueueTask}"
-                                            CommandParameter="{Binding TaskTypeList[3].Value}"
-                                            Header="{Binding TaskTypeList[3].Display}" />
-                                        <MenuItem
-                                            Padding="0,3"
-                                            Command="{s:Action AddTaskQueueTask}"
-                                            CommandParameter="{Binding TaskTypeList[4].Value}"
-                                            Header="{Binding TaskTypeList[4].Display}" />
-                                        <MenuItem
-                                            Padding="0,3"
-                                            Command="{s:Action AddTaskQueueTask}"
-                                            CommandParameter="{Binding TaskTypeList[5].Value}"
-                                            Header="{Binding TaskTypeList[5].Display}" />
-                                        <MenuItem
-                                            Padding="0,3"
-                                            Command="{s:Action AddTaskQueueTask}"
-                                            CommandParameter="{Binding TaskTypeList[6].Value}"
-                                            Header="{Binding TaskTypeList[6].Display}" />
-                                        <MenuItem
-                                            Padding="0,3"
-                                            Command="{s:Action AddTaskQueueTask}"
-                                            CommandParameter="{Binding TaskTypeList[7].Value}"
-                                            Header="{Binding TaskTypeList[7].Display}" />
-                                        <MenuItem
-                                            Padding="0,3"
-                                            Command="{s:Action AddTaskQueueTask}"
-                                            CommandParameter="{Binding TaskTypeList[8].Value}"
-                                            Header="{Binding TaskTypeList[8].Display}" />
-                                        <MenuItem
-                                            Padding="0,3"
-                                            Command="{s:Action AddTaskQueueTask}"
-                                            CommandParameter="{Binding TaskTypeList[9].Value}"
-                                            Header="{Binding TaskTypeList[9].Display}" />
-                                        <MenuItem
-                                            Padding="0,3"
-                                            Command="{s:Action AddTaskQueueTask}"
-                                            CommandParameter="{Binding TaskTypeList[10].Value}"
-                                            Header="{Binding TaskTypeList[10].Display}"
-                                            Visibility="{c:Binding ShowDebugTask}" />
-                                    </ContextMenu>
-                                </hc:ContextMenuButton.Menu>
-                            </hc:ContextMenuButton>
+                                <controls:MenuButton.PopupContent>
+                                    <Border
+                                        Width="190"
+                                        Margin="8"
+                                        Padding="2,2,2,0"
+                                        Background="{DynamicResource RegionBrush}"
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="4"
+                                        Effect="{DynamicResource EffectShadow2}">
+                                        <!--
+                                            本版 HandyControls 移除了原版 MenuAttach.ItemMinHeight（原 ContextMenu
+                                            隐式样式靠它把项撑到标准控件高度），Menu 的顶级项模板默认无最小高度，
+                                            需在容器样式显式补 MinHeight
+                                        -->
+                                        <Menu Padding="0">
+                                            <Menu.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource MaaMenuItemDefaultStyle}" TargetType="MenuItem">
+                                                    <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+                                                </Style>
+                                            </Menu.ItemContainerStyle>
+                                            <Menu.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Vertical" />
+                                                </ItemsPanelTemplate>
+                                            </Menu.ItemsPanel>
+                                            <MenuItem
+                                                Command="{s:Action AddTaskQueueTask}"
+                                                CommandParameter="{Binding TaskTypeList[0].Value}"
+                                                Header="{Binding TaskTypeList[0].Display}" />
+                                            <MenuItem
+                                                Command="{s:Action AddTaskQueueTask}"
+                                                CommandParameter="{Binding TaskTypeList[1].Value}"
+                                                Header="{Binding TaskTypeList[1].Display}" />
+                                            <MenuItem
+                                                Command="{s:Action AddTaskQueueTask}"
+                                                CommandParameter="{Binding TaskTypeList[2].Value}"
+                                                Header="{Binding TaskTypeList[2].Display}" />
+                                            <MenuItem
+                                                Command="{s:Action AddTaskQueueTask}"
+                                                CommandParameter="{Binding TaskTypeList[3].Value}"
+                                                Header="{Binding TaskTypeList[3].Display}" />
+                                            <MenuItem
+                                                Command="{s:Action AddTaskQueueTask}"
+                                                CommandParameter="{Binding TaskTypeList[4].Value}"
+                                                Header="{Binding TaskTypeList[4].Display}" />
+                                            <MenuItem
+                                                Command="{s:Action AddTaskQueueTask}"
+                                                CommandParameter="{Binding TaskTypeList[5].Value}"
+                                                Header="{Binding TaskTypeList[5].Display}" />
+                                            <MenuItem
+                                                Command="{s:Action AddTaskQueueTask}"
+                                                CommandParameter="{Binding TaskTypeList[6].Value}"
+                                                Header="{Binding TaskTypeList[6].Display}" />
+                                            <MenuItem
+                                                Command="{s:Action AddTaskQueueTask}"
+                                                CommandParameter="{Binding TaskTypeList[7].Value}"
+                                                Header="{Binding TaskTypeList[7].Display}" />
+                                            <MenuItem
+                                                Command="{s:Action AddTaskQueueTask}"
+                                                CommandParameter="{Binding TaskTypeList[8].Value}"
+                                                Header="{Binding TaskTypeList[8].Display}" />
+                                            <MenuItem
+                                                Command="{s:Action AddTaskQueueTask}"
+                                                CommandParameter="{Binding TaskTypeList[9].Value}"
+                                                Header="{Binding TaskTypeList[9].Display}" />
+                                            <MenuItem
+                                                Command="{s:Action AddTaskQueueTask}"
+                                                CommandParameter="{Binding TaskTypeList[10].Value}"
+                                                Header="{Binding TaskTypeList[10].Display}"
+                                                Visibility="{c:Binding ShowDebugTask}" />
+                                        </Menu>
+                                    </Border>
+                                </controls:MenuButton.PopupContent>
+                            </controls:MenuButton>
                             <Button
                                 Grid.Column="1"
                                 Height="30"
@@ -587,60 +591,68 @@
                     IsInertiaEnabled="True"
                     PanningMode="Both"
                     VerticalScrollBarVisibility="Auto">
-                    <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
-                        <taskQueue:FightSettingsUserControl
-                            d:Visibility="Visible"
-                            DataContext="{Binding FightTask}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Fight,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:RecruitSettingsUserControl
-                            DataContext="{Binding RecruitTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Recruit,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:StartUpTaskUserControl
-                            DataContext="{Binding StartUpTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.StartUp,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:InfrastSettingsUserControl
-                            DataContext="{Binding InfrastTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Infrast,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:MallSettingsUserControl
-                            DataContext="{Binding MallTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Mall,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:AwardSettingsUserControl
-                            DataContext="{Binding AwardTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.Award,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:RoguelikeSettingsUserControl DataContext="{Binding RoguelikeTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Roguelike, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:ReclamationSettingsUserControl DataContext="{Binding ReclamationTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Reclamation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:UserDataUpdateSettingsUserControl
-                            DataContext="{Binding UserDataUpdateTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.UserDataUpdate,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:DepotMaintainTaskUserControl
-                            DataContext="{Binding DepotMaintainTask}"
-                            IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                            Visibility="{c:Binding DataContext.TaskSettingVisibilities.DepotMaintain,
-                                                   RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                  AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:CustomUserControl DataContext="{Binding CustomTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Custom, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
-                        <taskQueue:PostActionUserControl DataContext="{Binding PostActionSetting}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.PostAction, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
-                    </hc:SimpleStackPanel>
+                    <!--  任务切换按列表位置上下滑入，方向由 TransitionIndex 推导；常规/高级切换左右滑入，由 TransitionMode 绑定  -->
+                    <controls:TransitioningContentControl
+                        TransitionFade="True"
+                        TransitionIndex="{Binding TaskSettingVisibilities.CurrentIndex}"
+                        TransitionMode="{Binding TaskSettingVisibilities.ContentTransitionMode}"
+                        TransitionOrientation="Vertical"
+                        TransitionPriority="1">
+                        <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
+                            <taskQueue:FightSettingsUserControl
+                                d:Visibility="Visible"
+                                DataContext="{Binding FightTask}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.Fight,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:RecruitSettingsUserControl
+                                DataContext="{Binding RecruitTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.Recruit,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:StartUpTaskUserControl
+                                DataContext="{Binding StartUpTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.StartUp,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:InfrastSettingsUserControl
+                                DataContext="{Binding InfrastTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.Infrast,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:MallSettingsUserControl
+                                DataContext="{Binding MallTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.Mall,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:AwardSettingsUserControl
+                                DataContext="{Binding AwardTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.Award,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:RoguelikeSettingsUserControl DataContext="{Binding RoguelikeTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Roguelike, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:ReclamationSettingsUserControl DataContext="{Binding ReclamationTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Reclamation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:UserDataUpdateSettingsUserControl
+                                DataContext="{Binding UserDataUpdateTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.UserDataUpdate,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:DepotMaintainTaskUserControl
+                                DataContext="{Binding DepotMaintainTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.DepotMaintain,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:CustomUserControl DataContext="{Binding CustomTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Custom, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:PostActionUserControl DataContext="{Binding PostActionSetting}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.PostAction, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                        </hc:SimpleStackPanel>
+                    </controls:TransitioningContentControl>
                 </hc:ScrollViewer>
                 <hc:ButtonGroup
                     Grid.Row="1"
@@ -900,14 +912,16 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
-                                                <!--  日志分隔符需在窗口隐藏（最小化托盘）期间动态添加，
-                                                      hc:Divider 的 Row/Col 栅格在该场景下会永久渲染为 0 尺寸，
-                                                      详见 LogSectionDivider 头注释  -->
+                                                <!--
+                                                    日志分隔符需在窗口隐藏（最小化托盘）期间动态添加，
+                                                    hc:Divider 的 Row/Col 栅格在该场景下会永久渲染为 0 尺寸，
+                                                    详见 LogSectionDivider 头注释
+                                                -->
                                                 <controls:LogSectionDivider
                                                     MaxWidth="420"
                                                     Margin="0,0,0,2.5"
-                                                    HeaderHorizontalAlignment="Center"
                                                     Header="{Binding Header}"
+                                                    HeaderHorizontalAlignment="Center"
                                                     Visibility="{c:Binding IsDivider}" />
                                                 <Border
                                                     MaxWidth="420"

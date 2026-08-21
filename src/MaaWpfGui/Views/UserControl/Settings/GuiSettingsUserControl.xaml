@@ -127,6 +127,13 @@
                     SelectedValuePath="Value" />
                 <ComboBox
                     Margin="8"
+                    hc:InfoElement.Title="{DynamicResource TransitionSpeed}"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding TransitionSpeedList}"
+                    SelectedValue="{Binding TransitionSpeed}"
+                    SelectedValuePath="Value" />
+                <ComboBox
+                    Margin="8"
                     hc:InfoElement.Title="{DynamicResource MainViewButtonFeature}"
                     DisplayMemberPath="Display"
                     IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"

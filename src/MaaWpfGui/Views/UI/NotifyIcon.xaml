@@ -14,7 +14,8 @@
         Token="Maa.Icon"
         Visibility="Visible">
         <hc:NotifyIcon.ContextMenu>
-            <ContextMenu>
+            <!--  Header 经 MaaMenuItemDefaultStyle 的 HeaderTemplate 统一渲染为左对齐 TextBlock  -->
+            <ContextMenu ItemContainerStyle="{StaticResource MaaMenuItemDefaultStyle}">
                 <MenuItem Name="startMenu" Header="{DynamicResource Farming}" />
                 <MenuItem Name="stopMenu" Header="{DynamicResource Stop}" />
                 <MenuItem Name="switchLangMenu" Header="{DynamicResource SwitchLanguage}" />

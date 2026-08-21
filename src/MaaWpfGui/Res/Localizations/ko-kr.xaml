@@ -15,6 +15,10 @@
     <system:String x:Key="ScheduleSettings">예약 설정</system:String>
     <system:String x:Key="UiSettings">UI 설정</system:String>
     <system:String x:Key="UiTheme">UI 테마</system:String>
+    <system:String x:Key="TransitionSpeed">전환 애니메이션</system:String>
+    <system:String x:Key="TransitionSpeedNormal">기본</system:String>
+    <system:String x:Key="TransitionSpeedFast">빠르게</system:String>
+    <system:String x:Key="TransitionSpeedNone">애니메이션 없음</system:String>
     <system:String x:Key="BackgroundSettings">배경 설정</system:String>
     <system:String x:Key="BackgroundImage">배경 이미지</system:String>
     <system:String x:Key="BackgroundOpacity">배경 불투명도</system:String>
@@ -240,6 +244,8 @@
     <system:String x:Key="StartingCoreCharTip">작성하지 않으면 기본 설정이 사용됩니다.</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">←필독 추천</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">해당 {key=Operator}는 battle_data에 없습니다</system:String>
+    <system:String x:Key="RoguelikeCoreCharSet">{key=StartingCoreChar} 설정: {0}</system:String>
+    <system:String x:Key="RoguelikeCoreCharCleared">{key=StartingCoreChar} 초기화됨</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2차 정예화까지 반복</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2차 정예화까지 반복, 전투 X</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">1구역 암호판 획득 반복, 전투 X</system:String>
