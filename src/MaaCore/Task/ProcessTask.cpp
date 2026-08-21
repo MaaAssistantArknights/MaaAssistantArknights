@@ -25,6 +25,7 @@ constexpr std::array<std::string_view, 9> MainScreenEntryPrefixes = {
 };
 
 // 主界面入口按钮，用于提取当前主题
+// TODO: 重新加载资源后存在任务遗漏风险
 const std::unordered_set<std::string>& get_main_screen_entry_tasks()
 {
     static const std::unordered_set<std::string> tasks = []() {
@@ -192,9 +193,12 @@ ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, e
     }
 
     // 告知本次截图是否用于主界面识别，然后决定鼠标位置
-    ControllerAPI* underlying = ctrler()->get_underlying();
-    if (underlying != nullptr) {
-        underlying->set_main_screen_recognition(is_main_screen_recognition(list));
+    ControllerAPI* underlying = nullptr;
+    if (is_main_screen_recognition(list)) {
+        underlying = ctrler()->get_underlying();
+        if(underlying != nullptr){
+            underlying->set_main_screen_recognition(true);
+        }
     }
 
     cv::Mat image = m_reusable.empty() ? ctrler()->get_image() : m_reusable;
