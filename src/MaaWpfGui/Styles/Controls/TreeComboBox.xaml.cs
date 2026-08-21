@@ -28,11 +28,11 @@ namespace MaaWpfGui.Styles.Controls;
 /// 开合交互与 ComboBox 对齐——点一次打开、再点一次关闭、快速双击/连击保持打开、
 /// 点击窗口其他位置关闭，关闭弹层的那次点击不作用于任何元素；点外部/失活关闭后可
 /// 立即重新打开，点箭头关闭后的判定窗口内再次点击（如双击的第二击）是同一关闭手势
-/// 的延续，不重新打开。
-/// 点外部关闭由 <see cref="PopupDismissController"/> 以自管鼠标捕获实现（含点击吞除）；
-/// 连击保持则在箭头上截断：捕获子树外（箭头在弹层独立窗口之外）的按下仍会照常路由到箭头，
-/// 判定窗口内的再次点击若不吞掉会随 MouseLeftButtonUp 把下拉切换关闭，因此预览阶段
-/// 吞掉整次点击（并用一次性标志吞掉随后的 MouseUp）。
+/// 的延续，不重新打开。机制细节见 <see cref="PopupDismissController"/>：点外部关闭由
+/// 其以自管鼠标捕获实现；连击保持在本类箭头上截断——捕获子树外（箭头在弹层独立
+/// 窗口之外）的按下仍会照常路由到箭头，判定窗口内的再次点击若不吞掉会随
+/// MouseLeftButtonUp 把下拉切换关闭，因此预览阶段吞掉整次点击（并用一次性标志吞掉
+/// 随后的 MouseUp）。
 /// </summary>
 public partial class TreeComboBox : UserControl
 {
@@ -45,13 +45,19 @@ public partial class TreeComboBox : UserControl
     // 判定窗口内连击吞击时置位：吞掉随后的 MouseUp，避免再次切换开合
     private bool _suppressNextClick;
 
+    // 开合判定控制器；持有引用使存活不依赖 ｢PART_Popup 的事件订阅拴住控制器｣ 这一隐式契约
+    private readonly PopupDismissController _dismissController;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="TreeComboBox"/> class.
     /// </summary>
     public TreeComboBox()
     {
         InitializeComponent();
-        _ = new PopupDismissController(
+
+        // 打开时刻供判定窗口内的连击吞击判定，见 OnTogglePreviewMouseLeftButtonDown
+        PART_Popup.Opened += OnPopupOpened;
+        _dismissController = new PopupDismissController(
             PART_Popup,
             PART_ToggleBorder,
             onAnchorClickClose: () => _anchorClickClosedAt = Environment.TickCount64);
@@ -64,11 +70,6 @@ public partial class TreeComboBox : UserControl
     }
 
     /// <summary>
-    /// 文本框内容变化（树选中项经使用点回填，或用户输入）时发生。
-    /// </summary>
-    public event EventHandler? TextChanged;
-
-    /// <summary>
     /// 下拉树选中项变化时发生；是否为可选项（非文件夹）及选中后的处理由使用点判定。
     /// </summary>
     public event EventHandler<RoutedPropertyChangedEventArgs<object>>? SelectionChanged;
@@ -79,6 +80,12 @@ public partial class TreeComboBox : UserControl
     public event EventHandler? DropDownOpening;
 
     /// <summary>
+    /// The corner radius property.
+    /// </summary>
+    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
+        nameof(CornerRadius), typeof(CornerRadius), typeof(TreeComboBox), new PropertyMetadata(new CornerRadius(4)));
+
+    /// <summary>
     /// Gets or sets 文本框的圆角，默认四角 4；右侧拼接按钮的使用点覆盖为 4,0,0,4。
     /// </summary>
     public CornerRadius CornerRadius
@@ -87,11 +94,16 @@ public partial class TreeComboBox : UserControl
         set => SetValue(CornerRadiusProperty, value);
     }
 
-    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
-        nameof(CornerRadius), typeof(CornerRadius), typeof(TreeComboBox), new PropertyMetadata(new CornerRadius(4)));
+    /// <summary>
+    /// The text property.
+    /// </summary>
+    public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+        nameof(Text), typeof(string), typeof(TreeComboBox),
+        new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
     /// <summary>
-    /// Gets or sets 文本框显示的文本。双向绑定：用户输入按 LostFocus 回写绑定源。
+    /// Gets or sets 文本框显示的文本。双向绑定：内部文本框实时同步本属性，
+    /// 到绑定源的回写时机由使用点绑定的 UpdateSourceTrigger 决定。
     /// </summary>
     public string Text
     {
@@ -99,15 +111,11 @@ public partial class TreeComboBox : UserControl
         set => SetValue(TextProperty, value);
     }
 
-    public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
-        nameof(Text), typeof(string), typeof(TreeComboBox),
-        new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTextChanged));
-
-    private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var ctl = (TreeComboBox)d;
-        ctl.TextChanged?.Invoke(ctl, EventArgs.Empty);
-    }
+    /// <summary>
+    /// The placeholder property.
+    /// </summary>
+    public static readonly DependencyProperty PlaceholderProperty = DependencyProperty.Register(
+        nameof(Placeholder), typeof(string), typeof(TreeComboBox), new PropertyMetadata(string.Empty));
 
     /// <summary>
     /// Gets or sets 文本框的占位提示文本。
@@ -118,8 +126,11 @@ public partial class TreeComboBox : UserControl
         set => SetValue(PlaceholderProperty, value);
     }
 
-    public static readonly DependencyProperty PlaceholderProperty = DependencyProperty.Register(
-        nameof(Placeholder), typeof(string), typeof(TreeComboBox), new PropertyMetadata(string.Empty));
+    /// <summary>
+    /// The items source property.
+    /// </summary>
+    public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
+        nameof(ItemsSource), typeof(IEnumerable), typeof(TreeComboBox), new PropertyMetadata(null));
 
     /// <summary>
     /// Gets or sets 下拉树的数据源。
@@ -130,8 +141,11 @@ public partial class TreeComboBox : UserControl
         set => SetValue(ItemsSourceProperty, value);
     }
 
-    public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
-        nameof(ItemsSource), typeof(IEnumerable), typeof(TreeComboBox), new PropertyMetadata(null));
+    /// <summary>
+    /// The item template property.
+    /// </summary>
+    public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
+        nameof(ItemTemplate), typeof(DataTemplate), typeof(TreeComboBox), new PropertyMetadata(null));
 
     /// <summary>
     /// Gets or sets 下拉树的项模板（通常为 HierarchicalDataTemplate）。
@@ -142,8 +156,11 @@ public partial class TreeComboBox : UserControl
         set => SetValue(ItemTemplateProperty, value);
     }
 
-    public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
-        nameof(ItemTemplate), typeof(DataTemplate), typeof(TreeComboBox), new PropertyMetadata(null));
+    /// <summary>
+    /// The item container style property.
+    /// </summary>
+    public static readonly DependencyProperty ItemContainerStyleProperty = DependencyProperty.Register(
+        nameof(ItemContainerStyle), typeof(Style), typeof(TreeComboBox), new PropertyMetadata(null));
 
     /// <summary>
     /// Gets or sets 下拉树项的容器样式（TreeViewItem）。
@@ -154,8 +171,12 @@ public partial class TreeComboBox : UserControl
         set => SetValue(ItemContainerStyleProperty, value);
     }
 
-    public static readonly DependencyProperty ItemContainerStyleProperty = DependencyProperty.Register(
-        nameof(ItemContainerStyle), typeof(Style), typeof(TreeComboBox), new PropertyMetadata(null));
+    /// <summary>
+    /// The is open property.
+    /// </summary>
+    public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(
+        nameof(IsOpen), typeof(bool), typeof(TreeComboBox),
+        new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
     /// <summary>
     /// Gets or sets 下拉是否展开。一般由控件内部管理；需要外部主动控制开合时可双向绑定。
@@ -166,9 +187,11 @@ public partial class TreeComboBox : UserControl
         set => SetValue(IsOpenProperty, value);
     }
 
-    public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(
-        nameof(IsOpen), typeof(bool), typeof(TreeComboBox),
-        new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+    /// <summary>
+    /// The popup width property.
+    /// </summary>
+    public static readonly DependencyProperty PopupWidthProperty = DependencyProperty.Register(
+        nameof(PopupWidth), typeof(double), typeof(TreeComboBox), new PropertyMetadata(double.NaN));
 
     /// <summary>
     /// Gets or sets 下拉 Popup 的宽度，NaN（默认）表示按内容自适应。
@@ -179,8 +202,11 @@ public partial class TreeComboBox : UserControl
         set => SetValue(PopupWidthProperty, value);
     }
 
-    public static readonly DependencyProperty PopupWidthProperty = DependencyProperty.Register(
-        nameof(PopupWidth), typeof(double), typeof(TreeComboBox), new PropertyMetadata(double.NaN));
+    /// <summary>
+    /// The popup min width property.
+    /// </summary>
+    public static readonly DependencyProperty PopupMinWidthProperty = DependencyProperty.Register(
+        nameof(PopupMinWidth), typeof(double), typeof(TreeComboBox), new PropertyMetadata(double.NaN));
 
     /// <summary>
     /// Gets or sets 下拉 Popup 的最小宽度，NaN（默认）表示不限制。
@@ -191,8 +217,18 @@ public partial class TreeComboBox : UserControl
         set => SetValue(PopupMinWidthProperty, value);
     }
 
-    public static readonly DependencyProperty PopupMinWidthProperty = DependencyProperty.Register(
-        nameof(PopupMinWidth), typeof(double), typeof(TreeComboBox), new PropertyMetadata(double.NaN));
+    /// <summary>
+    /// The popup placement target property.
+    /// </summary>
+    public static readonly DependencyProperty PopupPlacementTargetProperty = DependencyProperty.Register(
+        nameof(PopupPlacementTarget), typeof(UIElement), typeof(TreeComboBox),
+        new PropertyMetadata(null, OnPopupPlacementTargetChanged));
+
+    private static void OnPopupPlacementTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var ctl = (TreeComboBox)d;
+        ctl.PART_Popup.PlacementTarget = e.NewValue as UIElement ?? ctl;
+    }
 
     /// <summary>
     /// Gets or sets 下拉 Popup 的定位目标，null（默认）表示本控件。
@@ -203,9 +239,11 @@ public partial class TreeComboBox : UserControl
         set => SetValue(PopupPlacementTargetProperty, value);
     }
 
-    public static readonly DependencyProperty PopupPlacementTargetProperty = DependencyProperty.Register(
-        nameof(PopupPlacementTarget), typeof(UIElement), typeof(TreeComboBox),
-        new PropertyMetadata(null, OnPopupPlacementTargetChanged));
+    /// <summary>
+    /// The popup placement rectangle property.
+    /// </summary>
+    public static readonly DependencyProperty PopupPlacementRectangleProperty = DependencyProperty.Register(
+        nameof(PopupPlacementRectangle), typeof(Rect), typeof(TreeComboBox), new PropertyMetadata(Rect.Empty));
 
     /// <summary>
     /// Gets or sets 下拉 Popup 的定位矩形（相对于定位目标的偏移）。
@@ -214,15 +252,6 @@ public partial class TreeComboBox : UserControl
     {
         get => (Rect)GetValue(PopupPlacementRectangleProperty);
         set => SetValue(PopupPlacementRectangleProperty, value);
-    }
-
-    public static readonly DependencyProperty PopupPlacementRectangleProperty = DependencyProperty.Register(
-        nameof(PopupPlacementRectangle), typeof(Rect), typeof(TreeComboBox), new PropertyMetadata(Rect.Empty));
-
-    private static void OnPopupPlacementTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var ctl = (TreeComboBox)d;
-        ctl.PART_Popup.PlacementTarget = e.NewValue as UIElement ?? ctl;
     }
 
     /// <summary>
