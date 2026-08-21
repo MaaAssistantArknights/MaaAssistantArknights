@@ -958,7 +958,7 @@
                                                     RenderOptions.BitmapScalingMode="NearestNeighbor"
                                                     Source="{Binding PixelPaintPreview}"
                                                     Stretch="None" />
-                                                <TextBlock
+                                                <controls:TextBlock
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Opacity="0.65"
@@ -969,7 +969,7 @@
                                             </Grid>
                                         </Border>
                                     </Grid>
-                                    <TextBlock
+                                    <controls:TextBlock
                                         Margin="0,8,0,0"
                                         HorizontalAlignment="Center"
                                         Text="{Binding PixelPaintStatusText}"
@@ -1046,7 +1046,10 @@
                                         SelectedValue="{Binding PixelPaintDitherMode}"
                                         SelectedValuePath="Value" />
                                     <StackPanel Margin="0,10,0,0">
-                                        <TextBlock Text="{DynamicResource MiniGame@PixelPaint@Contrast}" />
+                                        <controls:TextBlock
+                                            Margin="8,0,0,5"
+                                            HorizontalAlignment="Left"
+                                            Text="{DynamicResource MiniGame@PixelPaint@Contrast}" />
                                         <Slider
                                             IsSnapToTickEnabled="True"
                                             Maximum="200"
@@ -1055,7 +1058,10 @@
                                             Value="{Binding PixelPaintContrast}" />
                                     </StackPanel>
                                     <StackPanel Margin="0,6,0,0">
-                                        <TextBlock Text="{DynamicResource MiniGame@PixelPaint@Brightness}" />
+                                        <controls:TextBlock
+                                            Margin="8,0,0,5"
+                                            HorizontalAlignment="Left"
+                                            Text="{DynamicResource MiniGame@PixelPaint@Brightness}" />
                                         <Slider
                                             IsSnapToTickEnabled="True"
                                             Maximum="200"
@@ -1064,7 +1070,10 @@
                                             Value="{Binding PixelPaintBrightness}" />
                                     </StackPanel>
                                     <StackPanel Margin="0,6,0,0">
-                                        <TextBlock Text="{DynamicResource MiniGame@PixelPaint@Saturation}" />
+                                        <controls:TextBlock
+                                            Margin="8,0,0,5"
+                                            HorizontalAlignment="Left"
+                                            Text="{DynamicResource MiniGame@PixelPaint@Saturation}" />
                                         <Slider
                                             IsSnapToTickEnabled="True"
                                             Maximum="200"
@@ -1094,7 +1103,7 @@
                                             Value="{Binding PixelPaintGridDelay}" />
                                         <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource MiniGame@PixelPaint@GridDelayTip}" />
                                     </StackPanel>
-                                    <TextBlock
+                                    <controls:TextBlock
                                         Margin="0,12,0,0"
                                         Opacity="0.85"
                                         Text="{Binding MiniGameTip}"
@@ -1129,7 +1138,7 @@
                                 Stretch="Uniform"
                                 StretchDirection="Both"
                                 Visibility="{c:Binding '!SelectedMiniGameItem.IsPixelPaint'}">
-                                <TextBlock
+                                <controls:TextBlock
                                     MaxWidth="150"
                                     Text="{Binding MiniGameTip}"
                                     TextWrapping="Wrap" />
