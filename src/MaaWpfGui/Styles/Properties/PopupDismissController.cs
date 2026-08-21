@@ -28,18 +28,23 @@ namespace MaaWpfGui.Styles.Properties;
 /// 机制：打开时把鼠标捕获挂到弹层内容子树，捕获子树外的按下会以
 /// <see cref="Mouse.PreviewMouseDownOutsideCapturedElementEvent"/> 广播过来——
 /// 按下位置在触发控件上且处于判定窗口内视为连击保持打开，其余（含判定窗口内点击外部）一律关闭，
-/// 并在关闭的同时把捕获临时挂到宿主窗口吞掉本次点击的剩余路由（按下/抬起不再到达
-/// 实际命中的元素或触发控件），抬起后释放。
+/// 并在关闭的同时把捕获临时挂到宿主窗口吞掉本次点击的剩余路由（按下不再到达
+/// 实际命中的元素或触发控件）。捕获随抬起释放；弹层关闭的 Closed 事件异步派发，
+/// 其中也会释放（两条路径先到者生效）——即使 Closed 先于抬起释放捕获，本次按下已被
+/// 捕获重定向、目标收不到按下，需按下+抬起配对的交互不受影响。
 /// 不用 StaysOpen=false 的失活自动关闭实现 ｢点外部关闭｣：它无法在判定窗口内区分
 /// ｢连击触发控件（应保持）｣ 与 ｢点击外部（应关闭）｣——若像连击一样暂时接管（StaysOpen 置 true），
 /// 判定窗口内点击外部会一并被吞掉，导致打开后立刻点外部无法关闭。
+/// 生命周期：向宿主窗口的失活订阅在 anchor 离开视觉树时解绑——窗口可能远比控件宿主
+/// 页面长寿（本类是可复用控件的基础设施），不解绑会让控制器连同弹层子树被窗口引用
+/// 而无法回收。
 /// </summary>
 internal sealed class PopupDismissController
 {
     private readonly Popup _popup;
 
     // 触发开合的控件（下拉按钮、箭头等），判定窗口内点击它保持打开
-    private readonly UIElement _anchor;
+    private readonly FrameworkElement _anchor;
 
     // 关闭动作：默认直接收起 Popup；宿主控件的开关状态与 Popup 非直接绑定时由构造方提供
     private readonly Action _close;
@@ -59,8 +64,14 @@ internal sealed class PopupDismissController
     /// </summary>
     internal Popup Popup => _popup;
 
-    // ｢吞掉当前点击｣状态：把捕获临时挂到宿主窗口（Element 模式）并等待抬起释放，
-    // 防止关闭弹层的那次点击穿透触发实际命中的元素。null 表示当前没有吞点击
+    /// <summary>
+    /// Gets 触发控件（锚点），供使用方比对模板重建后锚点是否变化以决定重建本控制器。
+    /// </summary>
+    internal FrameworkElement Anchor => _anchor;
+
+    // ｢吞掉当前点击｣状态：把捕获临时挂到宿主窗口（Element 模式）并等待抬起释放
+    // （弹层关闭的 Closed 异步派发时亦释放，见 OnPopupClosed），防止关闭弹层的那次
+    // 点击穿透触发实际命中的元素。null 表示当前没有吞点击
     private MouseButtonEventHandler? _swallowUpHandler;
 
     // 因点击锚点（触发控件）而关闭时回调一次，供触发控件记录时刻：判定窗口内对它的
@@ -75,7 +86,7 @@ internal sealed class PopupDismissController
     /// <param name="anchor">触发控件。</param>
     /// <param name="close">关闭动作，null 表示直接置 <c>popup.IsOpen = false</c>。</param>
     /// <param name="onAnchorClickClose">因点击锚点而关闭时的回调。</param>
-    public PopupDismissController(Popup popup, UIElement anchor, Action? close = null, Action? onAnchorClickClose = null)
+    public PopupDismissController(Popup popup, FrameworkElement anchor, Action? close = null, Action? onAnchorClickClose = null)
     {
         _popup = popup;
         _anchor = anchor;
@@ -83,13 +94,15 @@ internal sealed class PopupDismissController
         _onAnchorClickClose = onAnchorClickClose;
         popup.Opened += OnPopupOpened;
         popup.Closed += OnPopupClosed;
+        anchor.Unloaded += OnAnchorUnloaded;
     }
 
     private void OnPopupOpened(object? sender, EventArgs e)
     {
         _openedAt = Environment.TickCount64;
 
-        // 宿主窗口失活（点击其他应用等收不到鼠标广播的场景）兜底关闭；懒取且只挂一次
+        // 宿主窗口失活（点击其他应用等收不到鼠标广播的场景）兜底关闭；懒取，
+        // anchor 离开视觉树时解绑置空（见 OnAnchorUnloaded），再次打开会重取重挂
         if (_hostWindow is null)
         {
             _hostWindow = Window.GetWindow(_anchor);
@@ -198,6 +211,23 @@ internal sealed class PopupDismissController
     private void OnHostDeactivated(object? sender, EventArgs e)
     {
         // 吞点击期间失活（按住不放切走窗口）：释放捕获，避免悬挂吞掉后续输入
+        EndSwallow();
+        if (_popup.IsOpen)
+        {
+            _close();
+        }
+    }
+
+    private void OnAnchorUnloaded(object sender, RoutedEventArgs e)
+    {
+        // anchor 离开视觉树（宿主页面关闭/切换）：解绑窗口失活订阅打破 ｢窗口 → 控制器 →
+        // 弹层子树｣ 的长寿引用；弹层是独立窗口不会随之自动收起，显式关闭
+        if (_hostWindow is not null)
+        {
+            _hostWindow.Deactivated -= OnHostDeactivated;
+            _hostWindow = null;
+        }
+
         EndSwallow();
         if (_popup.IsOpen)
         {
