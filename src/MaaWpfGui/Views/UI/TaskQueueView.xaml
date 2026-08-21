@@ -422,7 +422,6 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
                                 hc:BorderElement.CornerRadius="0,4,4,0"
-                                properties:SplitButtonDropDown.EnableToggleClose="True"
                                 Background="{DynamicResource RegionBrushOpacity25}"
                                 Command="{s:Action InverseSelected}"
                                 Content="{Binding InverseShowText}"

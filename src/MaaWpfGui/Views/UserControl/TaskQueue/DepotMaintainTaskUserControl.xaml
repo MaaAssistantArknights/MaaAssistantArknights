@@ -9,7 +9,6 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
@@ -272,7 +271,6 @@
                                                  Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
                 <hc:SplitButton
                     hc:BorderElement.CornerRadius="0,4,4,0"
-                    properties:SplitButtonDropDown.EnableToggleClose="True"
                     Click="PresetSplitButton_Click"
                     Content="{DynamicResource DepotPreset}"
                     IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
