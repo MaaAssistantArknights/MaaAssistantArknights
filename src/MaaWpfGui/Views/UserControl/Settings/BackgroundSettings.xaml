@@ -32,138 +32,61 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <TextBox
-                        x:Name="BackgroundPathTextBox"
-                        Height="30"
-                        hc:BorderElement.CornerRadius="4,0,0,4"
-                        Text="{Binding BackgroundImagePath}" />
-                    <Border
-                        Margin="1"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Stretch"
-                        Background="{DynamicResource RegionBrushOpacity25}"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Focusable="False"
-                        MouseUp="BackgroundDropdownBorder_MouseUp">
-                        <Grid
-                            Width="28"
-                            Height="28"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch">
-                            <Path
-                                Width="12"
-                                Height="12"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                d:Visibility="Visible"
-                                Data="{StaticResource DownGeometry}"
-                                Fill="{DynamicResource PrimaryTextBrush}"
-                                Stretch="Uniform"
-                                Visibility="{c:Binding !IsBackgroundImagePopupOpen}" />
-                            <Path
-                                Width="12"
-                                Height="12"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                d:Visibility="Collapsed"
-                                Data="{StaticResource UpGeometry}"
-                                Fill="{DynamicResource PrimaryTextBrush}"
-                                Stretch="Uniform"
-                                Visibility="{c:Binding IsBackgroundImagePopupOpen}" />
-                        </Grid>
-                    </Border>
-                    <Popup
-                        x:Name="BackgroundImagePopup"
-                        Width="{Binding ActualWidth, ElementName=BackgroundPathRow}"
-                        helper:MouseWheelHelper.IsolateParentScroll="True"
-                        IsOpen="{Binding IsBackgroundImagePopupOpen}"
-                        LostFocus="BackgroundImagePopup_LostFocus"
-                        Placement="Bottom"
-                        PlacementRectangle="0,30,0,0"
-                        PlacementTarget="{Binding ElementName=BackgroundPathRow}"
-                        StaysOpen="False">
-                        <Popup.Resources>
-                            <Style TargetType="Popup">
-                                <Style.Triggers>
-                                    <Trigger Property="IsOpen" Value="True">
-                                        <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}, Path=Child}" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Popup.Resources>
-                        <Border
-                            Width="{Binding ActualWidth, ElementName=BackgroundPathRow}"
-                            Background="{DynamicResource RegionBrush}"
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1"
-                            CornerRadius="4">
-                            <!--  外层 ScrollViewer 负责滚动；IsolateParentScroll/HandleMouseWheel 由 MouseWheelHelper 统一处理  -->
-                            <ScrollViewer
-                                x:Name="BackgroundPopupScrollViewer"
-                                MaxHeight="300"
-                                helper:MouseWheelHelper.HandleMouseWheel="True"
-                                CanContentScroll="False"
-                                Focusable="False"
-                                HorizontalScrollBarVisibility="Disabled"
-                                VerticalScrollBarVisibility="Auto">
-                                <TreeView
-                                    x:Name="BackgroundTreeView"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    ItemsSource="{Binding BackgroundImageItems}"
-                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                    SelectedItemChanged="BackgroundTreeView_SelectedItemChanged">
-                                    <TreeView.ItemTemplate>
-                                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                                            <StackPanel
-                                                Margin="2,1"
-                                                HorizontalAlignment="Left"
-                                                Orientation="Horizontal">
-                                                <!--  图片项显示小预览；文件夹显示图标占位，保持对齐  -->
-                                                <Border
-                                                    Width="40"
-                                                    Height="28"
-                                                    Margin="0,0,8,0"
-                                                    Background="{DynamicResource RegionBrushOpacity25}"
-                                                    BorderBrush="{DynamicResource BorderBrush}"
-                                                    BorderThickness="1"
-                                                    CornerRadius="3"
-                                                    SnapsToDevicePixels="True">
-                                                    <Grid>
-                                                        <Path
-                                                            Width="14"
-                                                            Height="14"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            Data="{StaticResource FolderOpen20Regular}"
-                                                            Fill="{DynamicResource SecondaryTextBrush}"
-                                                            Stretch="Uniform"
-                                                            Visibility="{c:Binding IsFolder}" />
-                                                        <Image
-                                                            Margin="1"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            RenderOptions.BitmapScalingMode="HighQuality"
-                                                            Source="{Binding Thumbnail}"
-                                                            Stretch="UniformToFill"
-                                                            Visibility="{c:Binding !IsFolder}" />
-                                                    </Grid>
-                                                </Border>
-                                                <controls:TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
-                                            </StackPanel>
-                                        </HierarchicalDataTemplate>
-                                    </TreeView.ItemTemplate>
-                                    <TreeView.ItemContainerStyle>
-                                        <Style BasedOn="{StaticResource FileTreeViewItemStyle}" TargetType="{x:Type TreeViewItem}" />
-                                    </TreeView.ItemContainerStyle>
-                                </TreeView>
-                            </ScrollViewer>
-                        </Border>
-                    </Popup>
-                </Grid>
+                <controls:TreeComboBox
+                    x:Name="BackgroundImageTreeBox"
+                    Grid.Column="0"
+                    CornerRadius="4,0,0,4"
+                    DropDownOpening="BackgroundImageTreeBox_DropDownOpening"
+                    ItemsSource="{Binding BackgroundImageItems}"
+                    PopupPlacementRectangle="0,30,0,0"
+                    PopupPlacementTarget="{Binding ElementName=BackgroundPathRow}"
+                    PopupWidth="{Binding ActualWidth, ElementName=BackgroundPathRow}"
+                    SelectionChanged="BackgroundImageTreeBox_SelectionChanged"
+                    Text="{Binding BackgroundImagePath}">
+                    <controls:TreeComboBox.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                            <StackPanel
+                                Margin="2,1"
+                                HorizontalAlignment="Left"
+                                Orientation="Horizontal">
+                                <!--  图片项显示小预览；文件夹显示图标占位，保持对齐  -->
+                                <Border
+                                    Width="40"
+                                    Height="28"
+                                    Margin="0,0,8,0"
+                                    Background="{DynamicResource RegionBrushOpacity25}"
+                                    BorderBrush="{DynamicResource BorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="3"
+                                    SnapsToDevicePixels="True">
+                                    <Grid>
+                                        <Path
+                                            Width="14"
+                                            Height="14"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Data="{StaticResource FolderOpen20Regular}"
+                                            Fill="{DynamicResource SecondaryTextBrush}"
+                                            Stretch="Uniform"
+                                            Visibility="{c:Binding IsFolder}" />
+                                        <Image
+                                            Margin="1"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            RenderOptions.BitmapScalingMode="HighQuality"
+                                            Source="{Binding Thumbnail}"
+                                            Stretch="UniformToFill"
+                                            Visibility="{c:Binding !IsFolder}" />
+                                    </Grid>
+                                </Border>
+                                <controls:TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </controls:TreeComboBox.ItemTemplate>
+                    <controls:TreeComboBox.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource FileTreeViewItemStyle}" TargetType="{x:Type TreeViewItem}" />
+                    </controls:TreeComboBox.ItemContainerStyle>
+                </controls:TreeComboBox>
                 <Button
                     Grid.Column="1"
                     Height="30"

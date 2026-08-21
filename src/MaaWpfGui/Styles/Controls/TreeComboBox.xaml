@@ -1,0 +1,148 @@
+<UserControl
+    x:Class="MaaWpfGui.Styles.Controls.TreeComboBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Root"
+    Background="Transparent"
+    Focusable="False"
+    mc:Ignorable="d">
+    <!--  IsEnabled=False 时整体半透明（子元素含文本框与箭头随继承链一起禁用）  -->
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+    <Grid>
+        <!--  左 8 与 HC 输入控件默认内边距（DefaultInputPadding）对齐；右 34 留出箭头区域，文本不延伸到箭头下方  -->
+        <!--
+            UpdateSourceTrigger=PropertyChanged：内部文本框实时同步控件 Text，到绑定源的回写时机由
+            使用点绑定的 UpdateSourceTrigger 决定；此处若用默认 LostFocus，使用点声明 PropertyChanged
+            也会被内部层卡住（如 Copilot 的 DisplayFilename 需要逐键解析）
+        -->
+        <TextBox
+            x:Name="PART_TextBox"
+            Height="30"
+            Padding="8,0,34,0"
+            d:Width="200"
+            hc:BorderElement.CornerRadius="{Binding CornerRadius, ElementName=Root}"
+            hc:InfoElement.Placeholder="{Binding Placeholder, ElementName=Root}"
+            Text="{Binding Text, ElementName=Root, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <!--
+            箭头按钮：叠在文本框右端内部，无背景只保留箭头图标
+            （Transparent 维持整个区域的点击命中）；双 Path 按 IsOpen 切换
+            （收起=向下、打开=向上），形状直接对应开合状态；默认隐藏侧（Up）的
+            Visibility 写在 Style Setter 上，元素本地值会压住触发器切换。
+            判定窗口内的连击在预览阶段截断保持打开，窗口外的点击经 MouseLeftButtonUp 切换开合
+        -->
+        <Border
+            x:Name="PART_ToggleBorder"
+            MinWidth="28"
+            MinHeight="28"
+            Margin="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Stretch"
+            Background="Transparent"
+            BorderThickness="0"
+            Cursor="Hand"
+            Focusable="False"
+            MouseLeftButtonUp="OnToggleMouseLeftButtonUp"
+            PreviewMouseLeftButtonDown="OnTogglePreviewMouseLeftButtonDown">
+            <Grid>
+                <Path
+                    Width="12"
+                    Height="12"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Data="{StaticResource DownGeometry}"
+                    Fill="{DynamicResource PrimaryTextBrush}"
+                    Stretch="Uniform">
+                    <Path.Style>
+                        <Style TargetType="Path">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsOpen, ElementName=Root}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Path.Style>
+                </Path>
+                <Path
+                    Width="12"
+                    Height="12"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Data="{StaticResource UpGeometry}"
+                    Fill="{DynamicResource PrimaryTextBrush}"
+                    Stretch="Uniform">
+                    <Path.Style>
+                        <Style TargetType="Path">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsOpen, ElementName=Root}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Path.Style>
+                </Path>
+            </Grid>
+        </Border>
+        <!--
+            StaysOpen 恒 true：失活自动关闭不可用（判定窗口内会连外部点击一起吞掉），
+            开合完全由 PopupDismissController 以自管鼠标捕获接管
+        -->
+        <Popup
+            x:Name="PART_Popup"
+            Width="{Binding PopupWidth, ElementName=Root}"
+            MinWidth="{Binding PopupMinWidth, ElementName=Root}"
+            helper:MouseWheelHelper.IsolateParentScroll="True"
+            IsOpen="{Binding IsOpen, ElementName=Root, Mode=TwoWay}"
+            Placement="Bottom"
+            PlacementRectangle="{Binding PopupPlacementRectangle, ElementName=Root}"
+            StaysOpen="True">
+            <Popup.Resources>
+                <Style TargetType="Popup">
+                    <Style.Triggers>
+                        <Trigger Property="IsOpen" Value="True">
+                            <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}, Path=Child}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Popup.Resources>
+            <Border
+                Background="{DynamicResource RegionBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <!--  外层 ScrollViewer 负责滚动与限高；IsolateParentScroll/HandleMouseWheel 由 MouseWheelHelper 统一处理  -->
+                <ScrollViewer
+                    x:Name="PART_DropDownScrollViewer"
+                    MaxHeight="300"
+                    helper:MouseWheelHelper.HandleMouseWheel="True"
+                    CanContentScroll="False"
+                    Focusable="False"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto">
+                    <TreeView
+                        x:Name="PART_TreeView"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        ItemContainerStyle="{Binding ItemContainerStyle, ElementName=Root}"
+                        ItemTemplate="{Binding ItemTemplate, ElementName=Root}"
+                        ItemsSource="{Binding ItemsSource, ElementName=Root}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                        SelectedItemChanged="OnTreeViewSelectedItemChanged" />
+                </ScrollViewer>
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>

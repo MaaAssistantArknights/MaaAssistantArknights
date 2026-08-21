@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:hc="https://handyorg.github.io/handycontrol">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties">
 
     <Style
         x:Key="MaaSplitButtonDefaultStyle"
@@ -7,6 +7,8 @@
         <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <!--  下拉开合交互统一对齐 ComboBox：点一次打开、再点一次关闭、快速双击保持打开（见 SplitButtonDropDown）  -->
+        <Setter Property="properties:SplitButtonDropDown.EnableToggleClose" Value="True" />
     </Style>
 
     <Style BasedOn="{StaticResource MaaSplitButtonDefaultStyle}" TargetType="{x:Type hc:SplitButton}" />

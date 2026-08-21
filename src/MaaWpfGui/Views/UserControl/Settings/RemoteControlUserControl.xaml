@@ -151,7 +151,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.RemoteControlDocument}}"
                     TextDecorations="None">
-                    <TextBlock Text="{DynamicResource RemoteControlDeveloperDocLink}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource RemoteControlDeveloperDocLink}" />
                 </Hyperlink>
             </controls:TextBlock>
         </StackPanel>

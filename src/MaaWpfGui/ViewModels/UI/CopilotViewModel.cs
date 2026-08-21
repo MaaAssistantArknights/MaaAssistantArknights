@@ -100,11 +100,6 @@ public partial class CopilotViewModel : Screen
     public ObservableCollection<CopilotFileItem> FileItems { get; } = [];
 
     /// <summary>
-    /// Gets or sets a value indicating whether gets or sets whether the file dropdown popup is open.
-    /// </summary>
-    public bool IsFilePopupOpen { get => field; set => SetAndNotify(ref field, value); }
-
-    /// <summary>
     /// Gets or private sets the view models of Copilot items.
     /// </summary>
     public ObservableCollection<CopilotItemViewModel> CopilotItemViewModels { get; } = [];
@@ -1579,21 +1574,6 @@ public partial class CopilotViewModel : Screen
         }
 
         Filename = fileItem.FullPath;
-        IsFilePopupOpen = false;
-    }
-
-    /// <summary>
-    /// Toggle file popup.
-    /// </summary>
-    [UsedImplicitly]
-    public void ToggleFilePopup()
-    {
-        if (!IsFilePopupOpen)
-        {
-            LoadFileItems();
-        }
-
-        IsFilePopupOpen = !IsFilePopupOpen;
     }
 
     private async Task AddCopilotTaskToList(string? stageName, bool isRaid)

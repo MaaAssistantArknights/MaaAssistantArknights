@@ -29,7 +29,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.MaaPlus}}"
                     TextDecorations="None">
-                    <TextBlock Text="{DynamicResource Website}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Website}" />
                 </Hyperlink>
             </controls:TextBlock>
 
@@ -41,7 +41,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.Bilibili}}"
                     TextDecorations="None">
-                    <TextBlock Text="bilibili" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="bilibili" />
                 </Hyperlink>
             </controls:TextBlock>
 
@@ -53,7 +53,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.GitHub}}"
                     TextDecorations="None">
-                    <TextBlock Text="{DynamicResource Github}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Github}" />
                 </Hyperlink>
             </controls:TextBlock>
             <Button
@@ -72,7 +72,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.QqGroups}}"
                     TextDecorations="None">
-                    <TextBlock Text="{DynamicResource QqGroup}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource QqGroup}" />
                 </Hyperlink>
             </controls:TextBlock>
 
@@ -84,7 +84,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.QqChannel}}"
                     TextDecorations="None">
-                    <TextBlock Text="{DynamicResource QqChannel}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource QqChannel}" />
                 </Hyperlink>
             </controls:TextBlock>
             <controls:TextBlock
@@ -95,7 +95,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.Telegram}}"
                     TextDecorations="None">
-                    <TextBlock Text="{DynamicResource Telegram}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Telegram}" />
                 </Hyperlink>
             </controls:TextBlock>
 
@@ -107,7 +107,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.Discord}}"
                     TextDecorations="None">
-                    <TextBlock Text="{DynamicResource Discord}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Discord}" />
                 </Hyperlink>
             </controls:TextBlock>
 
