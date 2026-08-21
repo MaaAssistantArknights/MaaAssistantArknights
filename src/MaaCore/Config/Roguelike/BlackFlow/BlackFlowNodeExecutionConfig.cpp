@@ -489,7 +489,7 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
 
     std::vector<NodeExecutionRoute> routes;
     std::unordered_set<std::string> route_ids;
-    if (const auto& route_opt = json.find<std::list<roguelike::NodeExecutionRoute>>("routes")) {
+    if (const auto& route_opt = json.find<std::vector<roguelike::NodeExecutionRoute>>("routes")) {
         for (auto& route : *route_opt) {
             if (route.id.empty() || !is_valid_page_intent(route.page_intent) || route.rank < 0) {
                 LogError << __FUNCTION__
