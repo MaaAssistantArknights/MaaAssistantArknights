@@ -219,13 +219,10 @@ internal sealed class PopupDismissController
     {
         // anchor 离开视觉树（宿主页面关闭/切换）：解绑窗口失活订阅打破 ｢窗口 → 控制器 →
         // 弹层子树｣ 的长寿引用；弹层是独立窗口不会随之自动收起，显式关闭
-        if (_hostWindow is not null)
-        {
-            _hostWindow.Deactivated -= OnHostDeactivated;
-            _hostWindow = null;
-        }
-
+        _hostWindow?.Deactivated -= OnHostDeactivated;
         EndSwallow();
+        _hostWindow = null;
+
         if (_popup.IsOpen)
         {
             _close();
