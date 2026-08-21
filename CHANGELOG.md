@@ -1,4 +1,4 @@
-## v6.17.0-beta.4
+## v6.17.0-beta.5
 
 ### Highlights
 
@@ -14,9 +14,9 @@
 
 掉线重连的恢复链状态复杂且维护成本高，已移除；通宵挂机场景请改用定时启动与强制定时启动。
 
-#### 外服 PC 端适配
+#### 界面过渡动画与操作体验优化
 
-PC 端游戏窗口标题按客户端类型解析，外服明日方舟 PC 端也能识别与连接。明日方舟 PC 端为社区维护、不保证可用性，如非必要建议优先使用 ADB 连接模拟器或手机。
+主界面页签、任务链等内容切换加入方向性过渡动画，设置页导航改为平滑滚动；自定义下拉交互统一（点外部关闭、连击保持）。
 
 <details>
 <summary><b>English</b></summary>
@@ -33,9 +33,9 @@ On startup, installed files are now verified against the file list; missing file
 
 The reconnect-after-disconnect logic has been removed due to the complexity and maintenance cost of restoring the chain state; for overnight sessions, please switch to scheduled startup and forced scheduled startup instead.
 
-#### PC Client Support for Global Servers
+#### UI Transition Animations and Interaction Polish
 
-The PC client window title is now resolved by client type, so global Arknights PC clients can also be recognized and connected. Note that the Arknights PC client is community-maintained with no availability guarantee — connecting via ADB to an emulator or a phone is still recommended.
+Main tabs and task-chain switching now animate with directional transitions, and settings-page navigation scrolls smoothly; custom dropdown interactions are unified (click outside to close, repeated clicks keep open).
 
 </details>
 
@@ -44,6 +44,29 @@ The PC client window title is now resolved by client type, so global Arknights P
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.0-beta.5 (2026-08-21)</b></summary>
+
+### 新增 | New
+
+* 页签切换过渡动画与设置页导航平滑滚动：主界面页签、任务链、常规/高级设置等内容切换加入方向性过渡动画，设置页导航平滑滚动并跟随过渡动画档位 ([#17799](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17799)) @ABA2396
+
+### 改进 | Improved
+
+* 统一自定义下拉控件的开合交互（点外部关闭、连击保持），｢背景设置｣ ｢神秘代码｣ 的文件选择下拉迁移到新 TreeComboBox 控件，并修复弹层滚动导致设置页跳顶 ([#17813](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17813)) @ABA2396
+* YostarEN/JP/KR update MiniGame SPA S2 templates ([#17808](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17808)) @Constrat @Manicsteiner @HX3N
+
+### 修复 | Fix
+
+* 修复从 PC 端切回模拟器需要重启后才能连接 @ABA2396
+* 修复自动战斗部署时未能正确移除目标地块的过往干员 @status102
+* 调整黑流肉鸽 CloseCollectionContinue 判定 ROI 并下调阈值 ([#17779](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17779)) @ZiyinLin @status102
+* 修复像素画英文界面按钮显示不全、切换语言时适配与抖动下拉框内容未实时切换 @ABA2396
+* 可搜索 ComboBox 换源统一由扩展接管，修复肉鸽开局干员中间值写回产生的重复日志并本地化提示 @ABA2396
+* YostarKR update Roguelike@TraderRandomShoppingConfirm template @HX3N
+
+</details>
+
+<details>
 <summary><b>v6.17.0-beta.4 (2026-08-19)</b></summary>
 
 ### 改进 | Improved
