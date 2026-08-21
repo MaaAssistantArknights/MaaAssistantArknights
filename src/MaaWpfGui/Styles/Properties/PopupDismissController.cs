@@ -106,10 +106,7 @@ internal sealed class PopupDismissController
         if (_hostWindow is null)
         {
             _hostWindow = Window.GetWindow(_anchor);
-            if (_hostWindow is not null)
-            {
-                _hostWindow.Deactivated += OnHostDeactivated;
-            }
+            _hostWindow?.Deactivated += OnHostDeactivated;
         }
 
         if (_popup.Child is { } child && !ReferenceEquals(child, _hookedChild))
