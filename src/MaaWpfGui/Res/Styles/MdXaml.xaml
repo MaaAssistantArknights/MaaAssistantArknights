@@ -91,10 +91,10 @@
 
             <Style TargetType="{x:Type Hyperlink}">
                 <Setter Property="TextDecorations" Value="None" />
-                <Setter Property="Foreground" Value="{DynamicResource MdXamlHyperlink}" />
+                <Setter Property="Foreground" Value="{DynamicResource HyperlinkBrush}" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Foreground" Value="{DynamicResource MdXamlHyperlinkClicked}" />
+                        <Setter Property="Foreground" Value="{DynamicResource HyperlinkClickedBrush}" />
                     </Trigger>
                 </Style.Triggers>
             </Style>

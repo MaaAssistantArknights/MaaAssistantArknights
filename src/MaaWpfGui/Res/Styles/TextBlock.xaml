@@ -25,7 +25,12 @@
         x:Key="HyperlinkTextBlockStyle"
         BasedOn="{StaticResource TextBlockDefault}"
         TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#FF0066CC" />
+        <Setter Property="Foreground" Value="{DynamicResource HyperlinkBrush}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource HyperlinkClickedBrush}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>
