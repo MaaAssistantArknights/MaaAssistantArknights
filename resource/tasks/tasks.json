@@ -3913,7 +3913,8 @@
         "template": "InfrastOperListTabMoodDoubleClick.png",
         "action": "ClickSelf",
         "roi": [538, 6, 650, 64],
-        "templThreshold": 0.7
+        "templThreshold": 0.7,
+        "postDelay": 500
     },
     "BattleStageName": {
         "algorithm": "OcrDetect",

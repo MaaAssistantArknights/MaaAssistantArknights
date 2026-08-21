@@ -487,6 +487,11 @@ bool asst::InfrastDormTask::fill_dorm_slots(bool low_mood_only)
 
 bool asst::InfrastDormTask::select_dorm_managers()
 {
+    // 宿管必须在技能排序下识别和选择，避免按心情等其他顺序扫描无关干员。
+    if (!ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run()) {
+        return false;
+    }
+
     InfrastOperImageAnalyzer stationed_analyzer(ctrler()->get_image());
     stationed_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
     stationed_analyzer.set_facility(facility_name());
