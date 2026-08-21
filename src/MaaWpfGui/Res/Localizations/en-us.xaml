@@ -169,6 +169,23 @@
     <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">The following functions require configuration and execution within {key=Infrast}.</system:String>
     <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
+    <system:String x:Key="InfrastFiammettaTargets">Fiammetta recovery targets</system:String>
+    <system:String x:Key="InfrastFiammettaTargetNone">None</system:String>
+    <system:String x:Key="InfrastFiammettaTargetPurestream">Purestream</system:String>
+    <system:String x:Key="InfrastFiammettaTargetClosure">Closure</system:String>
+    <system:String x:Key="InfrastFiammettaTargetProviso">Proviso</system:String>
+    <system:String x:Key="InfrastFiammettaTargetShamare">Shamare</system:String>
+    <system:String x:Key="InfrastFiammettaTargetTequila">Tequila</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGladiia">Gladiia</system:String>
+    <system:String x:Key="InfrastFiammettaTargetsTips">Although recovering Shamare and Tequila can theoretically enable 007, it is difficult to achieve with automatic shift changes, so selecting Shamare or Tequila is not recommended.</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestris">Use Pinus Sylvestris cross-facility team</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">Required operators: Flametail (E2), Viviana (E2), and at least one of Wild Mane (E2), Ashlock (E2), or Fartooth (E2)&#10;Operators included in calculation: Gravel</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformation">Use Perception Information cross-facility team</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformationTips" xml:space="preserve">Required operators: Whisperain (E2), Rosmontis (E2), and Ebenholz (E2)&#10;Operators included in calculation: Dusk, Virtuosa, Iris, and Czerny&#10;Higher priority than Worldly Plight</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlight">Use Worldly Plight cross-facility team</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlightTips" xml:space="preserve">Required operators: Mulberry (E2) and Stainless (E2)&#10;Operators included in calculation: Chongyue, Ling, and Dusk</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">Use Abyssal Hunter cross-facility team</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunterTips" xml:space="preserve">Required operators: Gladiia (E2), Ulpianus, Skadi, Specter, and Andreana&#10;Due to algorithm limitations, when Pinus Sylvestris is also selected, the two teams will not participate in scheduling together.</system:String>
     <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
     <system:String x:Key="TrainingLevel">Skill Rank</system:String>

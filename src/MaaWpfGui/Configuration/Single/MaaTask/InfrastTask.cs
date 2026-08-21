@@ -83,6 +83,32 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     /// </summary>
     public bool ContinueTraining { get; set; } = false;
 
+    public string FiammettaTarget1 { get; set; } = "清流";
+
+    public string FiammettaTarget2 { get; set; } = "可露希尔";
+
+    public string FiammettaTarget3 { get; set; } = "但书";
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the Pinus Sylvestris cross-facility team is enabled.
+    /// </summary>
+    public bool UsePinusSylvestris { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the Perception Information cross-facility team is enabled.
+    /// </summary>
+    public bool UsePerceptionInformation { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the Worldly Plight cross-facility team is enabled.
+    /// </summary>
+    public bool UseWorldlyPlight { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the Abyssal Hunter cross-facility team is enabled.
+    /// </summary>
+    public bool UseAbyssalHunter { get; set; } = false;
+
     public string CustomFileType { get; set; } = InfrastSettingsUserControlModel.UserDefined;
 
     /// <summary>

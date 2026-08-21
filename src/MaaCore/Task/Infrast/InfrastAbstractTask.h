@@ -14,6 +14,7 @@ public:
 
     virtual ~InfrastAbstractTask() override = default;
     InfrastAbstractTask& set_mood_threshold(double mood_thres) noexcept;
+    InfrastAbstractTask& set_task_data(std::shared_ptr<infrast::TaskData> data) noexcept;
 
     virtual json::value basic_info() const override;
     virtual std::string facility_name() const;
@@ -30,6 +31,9 @@ public:
 
 protected:
     virtual bool on_run_fails() override;
+
+    void stage_operator_selection(const std::string& operator_id);
+    void discard_pending_selection();
 
     bool enter_facility(int index = 0);
     // 从刚点进设施的界面，到干员列表页
@@ -86,5 +90,7 @@ protected:
     int m_cur_facility_index = 0;
     bool m_is_custom = false;
     infrast::CustomFacilityConfig m_custom_config;
+    std::shared_ptr<infrast::TaskData> m_task_data;
+    std::unordered_set<std::string> m_pending_operator_ids;
 };
 } // namespace asst

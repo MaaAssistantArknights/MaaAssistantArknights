@@ -1,15 +1,226 @@
 #pragma once
 
+#include <algorithm>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <unordered_set>
+#include <vector>
+
 #include "AsstTypes.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
 
 namespace asst::infrast
 {
+using OperatorIds = std::unordered_set<std::string>;
+
+enum class FacilityPlanMode
+{
+    Default,
+    Custom,
+    Rotation,
+};
+
+enum class FacilityStep
+{
+    DormPrepare,
+    DormFill,
+    MfgInspect,
+    Mfg,
+    Trade,
+    Power,
+    Office,
+    ControlForce,
+    Reception,
+    Processing,
+    Training,
+};
+
+inline std::optional<std::vector<FacilityStep>>
+    build_facility_plan(FacilityPlanMode mode, const std::vector<std::string>& facilities)
+{
+    const auto to_step = [](const std::string& facility) -> std::optional<FacilityStep> {
+        if (facility == "Dorm") {
+            return FacilityStep::DormPrepare;
+        }
+        if (facility == "Mfg") {
+            return FacilityStep::Mfg;
+        }
+        if (facility == "Trade") {
+            return FacilityStep::Trade;
+        }
+        if (facility == "Power") {
+            return FacilityStep::Power;
+        }
+        if (facility == "Office") {
+            return FacilityStep::Office;
+        }
+        if (facility == "Control") {
+            return FacilityStep::ControlForce;
+        }
+        if (facility == "Reception") {
+            return FacilityStep::Reception;
+        }
+        if (facility == "Processing") {
+            return FacilityStep::Processing;
+        }
+        if (facility == "Training") {
+            return FacilityStep::Training;
+        }
+        return std::nullopt;
+    };
+
+    for (const auto& facility : facilities) {
+        if (!to_step(facility)) {
+            return std::nullopt;
+        }
+    }
+
+    if (mode != FacilityPlanMode::Default) {
+        const std::unordered_set<std::string> rotation_skips = { "Dorm", "Power", "Office", "Control" };
+        std::vector<FacilityStep> result;
+        result.reserve(facilities.size());
+        for (const auto& facility : facilities) {
+            if (mode == FacilityPlanMode::Rotation && rotation_skips.contains(facility)) {
+                continue;
+            }
+            result.emplace_back(*to_step(facility));
+        }
+        return result;
+    }
+
+    // 常规模式中的 facility 是启用集合，数组顺序与重复项不参与调度。
+    const std::unordered_set<std::string> enabled(facilities.begin(), facilities.end());
+    std::vector<FacilityStep> result;
+    if (enabled.contains("Trade") && !enabled.contains("Mfg")) {
+        result.emplace_back(FacilityStep::MfgInspect);
+    }
+    if (enabled.contains("Dorm")) {
+        result.emplace_back(FacilityStep::DormPrepare);
+    }
+    if (enabled.contains("Power")) {
+        result.emplace_back(FacilityStep::Power);
+    }
+    if (enabled.contains("Office")) {
+        result.emplace_back(FacilityStep::Office);
+    }
+    if (enabled.contains("Control")) {
+        result.emplace_back(FacilityStep::ControlForce);
+    }
+    if (enabled.contains("Mfg")) {
+        result.emplace_back(FacilityStep::Mfg);
+    }
+    if (enabled.contains("Trade")) {
+        result.emplace_back(FacilityStep::Trade);
+    }
+    if (enabled.contains("Reception")) {
+        result.emplace_back(FacilityStep::Reception);
+    }
+    if (enabled.contains("Dorm")) {
+        result.emplace_back(FacilityStep::DormFill);
+    }
+    if (enabled.contains("Processing")) {
+        result.emplace_back(FacilityStep::Processing);
+    }
+    if (enabled.contains("Training")) {
+        result.emplace_back(FacilityStep::Training);
+    }
+    return result;
+}
+
+inline OperatorIds intersect_operator_ids(const std::vector<OperatorIds>& candidates)
+{
+    auto iter = std::ranges::find_if(candidates, [](const OperatorIds& ids) { return !ids.empty(); });
+    if (iter == candidates.end()) {
+        return { };
+    }
+
+    OperatorIds result = *iter;
+    for (++iter; iter != candidates.end(); ++iter) {
+        if (iter->empty()) {
+            continue;
+        }
+        std::erase_if(result, [&](const std::string& id) { return !iter->contains(id); });
+    }
+    return result;
+}
+
+inline bool operator_id_matches_candidates(const OperatorIds& candidates, std::string_view recognized_id)
+{
+    return !recognized_id.empty() && (candidates.empty() || candidates.contains(std::string(recognized_id)));
+}
+
+struct OperatorSelection
+{
+    OperatorIds operator_ids;
+    OperatorIds pending_operator_ids;
+
+    void commit_pending()
+    {
+        operator_ids.insert(pending_operator_ids.begin(), pending_operator_ids.end());
+        pending_operator_ids.clear();
+    }
+
+    void discard_pending() { pending_operator_ids.clear(); }
+
+    void clear_operator_selection()
+    {
+        operator_ids.clear();
+        pending_operator_ids.clear();
+    }
+};
+
 struct Facility
 {
     std::string id;
     std::vector<std::string> products;
     int max_num_of_opers = 0;
+};
+
+struct FacilityInfo
+{
+    Rect rect;
+    int level = 0;
+};
+
+struct TaskData : OperatorSelection
+{
+    std::unordered_map<std::string, std::vector<FacilityInfo>> facilities;
+    std::unordered_set<int> gold_station_indices;
+
+    int dormitory_capacity = 0;
+    int dormitory_level_sum = 0;
+    int gold_station_num = 0;
+    int trading_station_num = 0;
+    int power_station_num = 0;
+    int virtual_power_station_num = 0;
+    int total_station_level = 0;
+    int workbench_num = 0;
+
+    void refresh_derived_state()
+    {
+        const std::unordered_set<std::string> workbenches = {
+            "char_285_medic2",  "char_286_cast3",   "char_376_therex",
+            "char_4000_jnight", "char_4093_frston", "char_4136_phonor",
+        };
+        workbench_num = static_cast<int>(
+            std::ranges::count_if(operator_ids, [&](const std::string& id) { return workbenches.contains(id); }));
+        virtual_power_station_num = power_station_num;
+        if (operator_ids.contains("char_1027_greyy2")) {
+            ++virtual_power_station_num;
+        }
+        if (operator_ids.contains("char_416_zumama") && operator_ids.contains("char_285_medic2")) {
+            virtual_power_station_num += 2;
+        }
+    }
+
+    void commit_pending()
+    {
+        OperatorSelection::commit_pending();
+        refresh_derived_state();
+    }
+
+    void clear() { *this = { }; }
 };
 
 enum class SmileyType
@@ -43,6 +254,7 @@ struct Skill
     std::unordered_map<std::string, std::string>
         efficient_regex;                               // 技能效率正则，key：产品名（赤金、经验书等）, value: 效率正则。
                                                        // 如不为空，会先对正则进行计算，再加上efficient里面的值
+    std::unordered_set<std::string> operator_ids;      // 可能拥有该技能的干员 ID
     int max_num = INT_MAX;                             // 最多选几个该技能
 
     bool operator==(const Skill& skill) const noexcept { return id == skill.id; }
@@ -68,10 +280,22 @@ struct Oper
     Doing doing = Doing::Invalid;
     bool selected = false; // 干员是否已被选择（蓝色的选择框）
     std::unordered_set<Skill> skills;
+    std::unordered_set<std::string> operator_ids;
+    std::string operator_id;
     Rect rect;
     // 因为OCR识别名字比较费时间，所以仅在name_filter不为空（有识别名字需求）的时候才识别，否则仅保存图片但不识别
     cv::Mat name_img;
     cv::Mat facility_img;
+
+    static std::unordered_set<std::string> intersect_operator_ids(const std::vector<Skill>& skills)
+    {
+        std::vector<OperatorIds> candidates;
+        candidates.reserve(skills.size());
+        for (const auto& skill : skills) {
+            candidates.emplace_back(skill.operator_ids);
+        }
+        return infrast::intersect_operator_ids(candidates);
+    }
 };
 
 struct SkillsComb
@@ -97,6 +321,9 @@ struct SkillsComb
     std::unordered_set<Skill> skills;
     std::unordered_map<std::string, double> efficient;
     std::unordered_map<std::string, std::string> efficient_regex;
+    std::string face_hash;
+    std::unordered_set<std::string> operator_ids;
+    std::string operator_id;
 
     std::vector<std::string> name_filter;
     // 因为OCR识别名字比较费时间，所以仅在name_filter不为空（有识别名字需求）的时候才识别，否则仅保存图片但不识别
