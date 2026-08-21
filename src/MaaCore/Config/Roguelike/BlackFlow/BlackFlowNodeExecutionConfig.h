@@ -1,6 +1,8 @@
 #pragma once
 
+#include <meojson/json.hpp>
 #include <optional>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -14,6 +16,73 @@ class BlackFlowNodeExecutionConfig final :
     public MAA_NS::SingletonHolder<BlackFlowNodeExecutionConfig>,
     public AbstractConfig
 {
+private:
+    struct NodeExecutionRouteDto
+    {
+        std::string id;
+        std::string page_intent;
+        std::vector<int> floor_window;
+        std::vector<std::string> node_types;
+        std::vector<std::string> event_names;
+        int rank;
+        std::string alias;
+        std::string task;
+        std::string completion_task;
+
+        MEO_TOJSON(
+            id,
+            page_intent,
+            MEO_OPT floor_window,
+            MEO_OPT node_types,
+            MEO_OPT event_names,
+            MEO_OPT rank,
+            alias,
+            task,
+            completion_task);
+
+        bool check_json(const json::value& json) const
+        {
+            if (!json.is_object()) {
+                return false;
+            }
+
+            const json::object& obj = json.as_object();
+
+            constexpr std::array<const char*, 9> allowed_keys = { "id",         "page_intent", "floor_window",
+                                                                  "node_types", "event_names", "rank",
+                                                                  "alias",      "task",        "completion_task" };
+            for (const auto& kv : obj) {
+                if (std::ranges::find(allowed_keys, kv.first) == allowed_keys.end()) {
+                    return false;
+                }
+            }
+            const auto check_field = [&]<typename T>(const char* key, bool required = true) -> bool {
+                const auto it = obj.find<T>(key);
+                if (it == std::nullopt) {
+                    return !required;
+                }
+                return true;
+            };
+
+#define field_check(key, required) check_field.template operator()<decltype(key)>(#key, required)
+            return field_check(id, true) && field_check(page_intent, true) && field_check(floor_window, false) &&
+                   field_check(node_types, false) && field_check(event_names, false) && field_check(rank, false) &&
+                   field_check(alias, true) && field_check(task, true) && field_check(completion_task, true);
+#undef field_check
+        };
+
+        MEO_FROMJSON(
+            id,
+            page_intent,
+            MEO_OPT floor_window,
+            MEO_OPT node_types,
+            MEO_OPT event_names,
+            MEO_OPT rank,
+            alias,
+            task,
+            completion_task);
+    };
+
 public:
     virtual ~BlackFlowNodeExecutionConfig() override = default;
 

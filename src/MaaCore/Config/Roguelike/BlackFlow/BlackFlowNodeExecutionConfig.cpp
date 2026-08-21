@@ -67,24 +67,6 @@ std::vector<std::string> parse_string_array(const json::value& parent, const std
     return result;
 }
 
-std::pair<int, int> parse_floor_window(const json::value& value)
-{
-    const auto window = value.find("floor_window");
-    if (!window) {
-        return { 1, std::numeric_limits<int>::max() };
-    }
-    if (!window->is_array() || window->as_array().size() != 2 || !window->at(0).is_number() ||
-        !window->at(1).is_number()) {
-        invalid_config("floor_window must contain two integers");
-    }
-    const int floor_begin = window->at(0).as_integer();
-    const int floor_end = window->at(1).as_integer();
-    if (floor_begin < 1 || floor_end < floor_begin) {
-        invalid_config("floor_window must be a positive, ascending range");
-    }
-    return { floor_begin, floor_end };
-}
-
 bool is_valid_page_intent(std::string_view value)
 {
     if (value.empty()) {
@@ -107,20 +89,6 @@ bool is_valid_page_intent(std::string_view value)
         segment_start = false;
     }
     return !segment_start;
-}
-
-std::vector<NodeType> parse_node_types(const json::value& value)
-{
-    std::vector<NodeType> result;
-    for (const std::string& name : parse_string_array(value, "node_types")) {
-        const auto type = node_type_from_string(name);
-        if (!type.has_value()) {
-            invalid_config("route references an unsupported node type: " + name);
-        }
-        result.emplace_back(*type);
-    }
-    std::ranges::sort(result, {}, [](NodeType type) { return static_cast<int>(type); });
-    return result;
 }
 
 void validate_task_alias(const std::string& task, std::string_view field)
@@ -449,7 +417,7 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
 
     std::vector<NodeExecutionRoute> routes;
     std::unordered_set<std::string> route_ids;
-    if (const auto& route_opt = json.find<std::vector<roguelike::NodeExecutionRoute>>("routes")) {
+    if (const auto& route_opt = json.find<std::vector<NodeExecutionRouteDto>>("routes")) {
         for (auto& route : *route_opt) {
             if (route.id.empty() || !is_valid_page_intent(route.page_intent) || route.rank < 0) {
                 LogError << __FUNCTION__
@@ -619,11 +587,13 @@ bool BlackFlowNodeExecutionConfig::parse_floor_window(const std::vector<int>& va
     }
     if (value.size() != 2) {
         LogError << __FUNCTION__ << "floor_window must contain two integers";
+        return false;
     }
     const int floor_begin = value[0];
     const int floor_end = value[1];
     if (floor_begin < 1 || floor_end < floor_begin) {
         LogError << __FUNCTION__ << "floor_window must be a positive, ascending range";
+        return false;
     }
     low = floor_begin;
     high = floor_end;
