@@ -27,12 +27,15 @@ namespace MaaWpfGui.Styles.Controls;
 /// 位置或选中内容后关闭，关闭弹层的那次点击不作用于任何元素；点外部/失活关闭后可
 /// 立即重新打开，点本按钮关闭后的判定窗口内再次点击（如双击的第二击）是同一关闭手势
 /// 的延续，不重新打开。
+/// 选中内容指点击叶子菜单项：Menu 与 Popup 之间无框架级关联（MenuBase 的关闭逻辑
+/// 只收起自身的子菜单链），在本类监听 <see cref="MenuItem"/> 的 Click 冒泡到弹层
+/// 内容时收起弹层。
 /// 下拉用 Popup 而非 <see cref="ContextMenu"/> 承载：ContextMenu 打开时强制建立子树
 /// 鼠标捕获，点击捕获子树外会经捕获转移/广播被关闭，该路径不受 StaysOpen 接管控制，
-/// 高速连击下 IsOpen 反复翻转导致上屏闪烁。
-/// 点外部关闭由 <see cref="PopupDismissController"/> 以自管鼠标捕获实现（含点击吞除）；
-/// 连击保持则在本类截断：捕获子树外（按钮在弹层独立窗口之外）的按下仍会照常路由到
-/// 本按钮，判定窗口内的再次点击若不吞掉会经 Click 把弹层关闭，因此在预览阶段吞掉整次点击。
+/// 高速连击下 IsOpen 反复翻转导致上屏闪烁。开合机制的细节见
+/// <see cref="PopupDismissController"/>；连击保持在本类截断——捕获子树外（按钮在弹层
+/// 独立窗口之外）的按下仍会照常路由到本按钮，判定窗口内的再次点击若不吞掉会经
+/// Click 把弹层关闭，因此在预览阶段吞掉整次点击。
 /// 下拉内容的视觉（背景、边框、阴影、内边距等）由使用点在 XAML 里给出。
 /// </summary>
 public class MenuButton : Button
@@ -43,10 +46,17 @@ public class MenuButton : Button
 
     private long? _anchorClickClosedAt;
 
-    // 承载下拉内容的弹层（懒创建，复用）与开合判定控制器
+    // 承载下拉内容的弹层（懒创建，复用）
     private Popup? _menuPopup;
 
+    // 开合判定控制器；持有引用使存活不依赖 ｢Popup 的事件订阅拴住控制器｣ 这一隐式契约
     private PopupDismissController? _dismiss;
+
+    /// <summary>
+    /// The popup content property.
+    /// </summary>
+    public static readonly DependencyProperty PopupContentProperty = DependencyProperty.Register(
+        nameof(PopupContent), typeof(UIElement), typeof(MenuButton), new PropertyMetadata(null));
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MenuButton"/> class.
@@ -59,14 +69,11 @@ public class MenuButton : Button
     /// <summary>
     /// Gets or sets 点击按钮时展开的下拉内容（视觉由使用点给出）。
     /// </summary>
-    public object? PopupContent
+    public UIElement? PopupContent
     {
-        get => GetValue(PopupContentProperty);
+        get => (UIElement?)GetValue(PopupContentProperty);
         set => SetValue(PopupContentProperty, value);
     }
-
-    public static readonly DependencyProperty PopupContentProperty = DependencyProperty.Register(
-        nameof(PopupContent), typeof(object), typeof(MenuButton), new PropertyMetadata(null));
 
     protected override void OnClick()
     {
@@ -91,9 +98,20 @@ public class MenuButton : Button
             return;
         }
 
-        MenuPopup.Child = (UIElement)PopupContent;
+        if (!ReferenceEquals(MenuPopup.Child, PopupContent))
+        {
+            // 弹层内容（重新）装入时挂接叶子菜单项的关闭处理；重复装入同一内容不重复挂接，
+            // 避免同一 Click 多次回调（AddHandler 不按委托去重）
+            PopupContent.AddHandler(MenuItem.ClickEvent, new RoutedEventHandler(OnPopupMenuItemClick));
+            MenuPopup.Child = PopupContent;
+        }
+
         MenuPopup.IsOpen = true;
     }
+
+    // 叶子菜单项点击（Click 冒泡到弹层内容）后收起弹层；带子菜单的项点击是展开子菜单，
+    // 不触发 Click，不受影响
+    private void OnPopupMenuItemClick(object sender, RoutedEventArgs e) => MenuPopup.IsOpen = false;
 
     private void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
