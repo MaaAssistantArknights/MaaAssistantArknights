@@ -33,6 +33,14 @@ public:
 private:
     virtual bool parse(const json::value& json) override;
 
+    [[nodiscard]] bool
+        parse_node_types(const std::vector<std::string>& value, std::vector<blackflow::NodeType>& out) const;
+
+    bool verify_non_empty(const std::vector<std::string>& value, const std::string& key) const;
+    bool sort_and_check_unique(std::vector<std::string>& value, const std::string& key) const;
+    bool parse_floor_window(const std::vector<int>& value, int& low, int& high) const;
+    bool verify_task(const std::string& task, const std::string& field) const;
+
     int m_schema_version = 0;
     std::vector<blackflow::NodeExecutionRoute> m_routes;
     std::unordered_map<std::string, blackflow::NodeTaskResult> m_task_results;

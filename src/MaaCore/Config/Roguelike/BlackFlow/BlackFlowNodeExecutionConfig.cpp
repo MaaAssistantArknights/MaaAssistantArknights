@@ -489,15 +489,52 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
 
     std::vector<NodeExecutionRoute> routes;
     std::unordered_set<std::string> route_ids;
-    for (const auto& value : json.at("routes").as_array()) {
-        auto route = parse_route(value);
-        if (!route_ids.emplace(route.id).second) {
-            invalid_config("duplicate route id: " + route.id);
+    if (const auto& route_opt = json.find<std::list<roguelike::NodeExecutionRoute>>("routes")) {
+        for (auto& route : *route_opt) {
+            if (route.id.empty() || !is_valid_page_intent(route.page_intent) || route.rank < 0) {
+                LogError << __FUNCTION__
+                         << "route id must be present, page_intent must be lower-case dotted text, and rank must be "
+                            "non-negative";
+                return false;
+            }
+            if (!route_ids.emplace(route.id).second) {
+                LogError << __FUNCTION__ << "duplicate route id:" << route.id;
+                return false;
+            }
+
+            NodeExecutionRoute node {
+                .id = route.id,
+                .page_intent = route.page_intent,
+                .event_names = route.event_names,
+                .rank = route.rank,
+                .alias = route.alias,
+                .task = route.task,
+                .completion_task = route.completion_task,
+            };
+            if (!verify_non_empty(node.event_names, "event_names") ||
+                !sort_and_check_unique(node.event_names, "event_names")) {
+                return false;
+            }
+            if (!parse_node_types(route.node_types, node.node_types)) {
+                return false;
+            }
+            if (!parse_floor_window(route.floor_window, node.floor_begin, node.floor_end)) {
+                return false;
+            }
+            if (node.alias != "BlackFlow@Roguelike@NodeDispatchAction") {
+                LogError << __FUNCTION__ << "route alias must use BlackFlow@Roguelike@NodeDispatchAction";
+                return false;
+            }
+            if (!verify_task(node.alias, "route alias") || !verify_task(node.task, "route task") ||
+                !verify_task(node.completion_task, "route completion_task")) {
+                return false;
+            }
+            routes.emplace_back(std::move(node));
         }
-        routes.emplace_back(std::move(route));
     }
     if (routes.empty()) {
-        invalid_config("routes must not be empty");
+        LogError << __FUNCTION__ << "routes must not be empty";
+        return false;
     }
     // 里程碑的层段与路由的层段是两份配置，只能在这里对齐。里程碑在某一层活跃却没有覆盖该层的
     // 路由时，走到节点就无从分派，本局会以节点分派失败结束，因此逐层校验而不只看意图是否存在。
@@ -568,6 +605,81 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
     m_task_results = std::move(task_results);
     m_preview_names = std::move(preview_names);
     m_preview_name_types = std::move(preview_name_types);
+    return true;
+}
+
+bool BlackFlowNodeExecutionConfig::parse_node_types(
+    const std::vector<std::string>& value,
+    std::vector<blackflow::NodeType>& out) const
+{
+    if (!verify_non_empty(value, "node_types")) {
+        return false;
+    }
+    for (const std::string& name : value) {
+        const auto type = node_type_from_string(name);
+        if (!type.has_value()) {
+            LogError << __FUNCTION__ << "route references an unsupported node type:" << name;
+            return false;
+        }
+        out.emplace_back(*type);
+    }
+    std::ranges::sort(out, {}, [](NodeType type) { return static_cast<int>(type); });
+    if (std::ranges::adjacent_find(out) != out.end()) {
+        LogError << __FUNCTION__ << "node_types contains duplicate values";
+        return false;
+    }
+    return true;
+}
+
+bool BlackFlowNodeExecutionConfig::verify_non_empty(const std::vector<std::string>& value, const std::string& key) const
+{
+    if (std::ranges::find(value, std::string()) != value.end()) {
+        LogError << __FUNCTION__ << key << "may contain non-empty strings only";
+        return false;
+    }
+    return true;
+}
+
+bool BlackFlowNodeExecutionConfig::sort_and_check_unique(std::vector<std::string>& value, const std::string& key) const
+{
+    std::ranges::sort(value);
+    if (std::ranges::adjacent_find(value) != value.end()) {
+        LogError << __FUNCTION__ << key << "contains duplicate values";
+        return false;
+    }
+    return true;
+}
+
+bool BlackFlowNodeExecutionConfig::parse_floor_window(const std::vector<int>& value, int& low, int& high) const
+{
+    if (value.size() == 0) {
+        low = 1;
+        high = std::numeric_limits<int>::max();
+        return true;
+    }
+    if (value.size() != 2) {
+        LogError << __FUNCTION__ << "floor_window must contain two integers";
+    }
+    const int floor_begin = value[0];
+    const int floor_end = value[1];
+    if (floor_begin < 1 || floor_end < floor_begin) {
+        LogError << __FUNCTION__ << "floor_window must be a positive, ascending range";
+    }
+    low = floor_begin;
+    high = floor_end;
+    return true;
+}
+
+bool BlackFlowNodeExecutionConfig::verify_task(const std::string& task, const std::string& field) const
+{
+    if (task.empty()) {
+        LogError << __FUNCTION__ << field << "must not be empty";
+        return false;
+    }
+    if (Task.get(task) == nullptr) {
+        LogError << __FUNCTION__ << field << "references an unknown ProcessTask alias:" << task;
+        return false;
+    }
     return true;
 }
 } // namespace asst
