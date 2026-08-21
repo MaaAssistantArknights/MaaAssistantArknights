@@ -65,7 +65,7 @@
     </LinearGradientBrush>
 
     <SolidColorBrush x:Key="HyperlinkBrush" Color="#326cf3" />
-    <SolidColorBrush x:Key="HyperlinkClickedBrush" Color="#e45649" />
+    <SolidColorBrush x:Key="HyperlinkHoverBrush" Color="#e45649" />
 
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#2d2d30" />

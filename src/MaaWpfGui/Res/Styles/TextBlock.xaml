@@ -16,11 +16,6 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
 
-    <!--
-        Hyperlink 内的 TextBlock 专用：上面的默认样式经 TextBlockDefault 带入 Foreground
-        setter（PrimaryTextBrush），会压过从 Hyperlink 继承的链接色，这里显式恢复。
-        色值取自 HandyControl 为 Hyperlink 设定的主题链接色，HC 调整时需同步
-    -->
     <Style
         x:Key="HyperlinkTextBlockStyle"
         BasedOn="{StaticResource TextBlockDefault}"
@@ -29,7 +24,7 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource HyperlinkClickedBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource HyperlinkHoverBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>
