@@ -89,11 +89,11 @@ Note that nightly builds are only released for Windows users; macOS and Linux us
 
 The release process for these two channels is relatively more complex. We'll explain the role of each workflow by simulating a release process:
 
-1. Create a PR from `dev-v2` to `master` branch, and the PR name must be `Release v******`
+1. Create a PR from `dev-v2` to `master-v2` branch, and the PR name must be `Release v******`
 2. `release-preparation.yml` generates a changelog from the most recent stable/beta version to the current version (as a new PR)
 3. Manually adjust the changelog and add brief descriptions
 4. Merge the PR, triggering `pr-auto-tag.yml` to create tags and sync branches
-5. The Release event triggers `release-ota.yml`, which builds OTA packages and uploads attachments after tagging master
+5. The Release event triggers `release-ota.yml`, which builds OTA packages and uploads attachments after tagging master-v2
 
 ### Resource Updates
 

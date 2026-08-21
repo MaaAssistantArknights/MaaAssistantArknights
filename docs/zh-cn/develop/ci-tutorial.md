@@ -89,11 +89,11 @@ MAA 借助 GitHub Action 完成了大量的自动化工作，包括网站的构�
 
 这两个通道的发版流程相对复杂一点，我们通过模拟一次发版步骤来解释各工作流的作用：
 
-1. 建立由 `dev-v2` 到 `master` 分支的 pr，且该 pr 的名字需要为 `Release v******`
+1. 建立由 `dev-v2` 到 `master-v2` 分支的 pr，且该 pr 的名字需要为 `Release v******`
 2. `release-preparation.yml` 会生成最近的正式版/公测版到当前版本的 changelog（以一个新 pr 的形式）
 3. 对 changelog 进行手动调整，并且添加简要描述
 4. 合并 pr，触发 `pr-auto-tag.yml`，创建 tag 并且同步分支
-5. Release 事件触发 `release-ota.yml`，对 master 打完 tag 后进行 ota 包的构建以及附件上传
+5. Release 事件触发 `release-ota.yml`，对 master-v2 打完 tag 后进行 ota 包的构建以及附件上传
 
 ### 资源更新
 
