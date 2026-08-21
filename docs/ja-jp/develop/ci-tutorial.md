@@ -89,11 +89,11 @@ MAA は GitHub Action を活用して、ウェブサイトの構築、自動リ�
 
 これら 2 つのチャネルのリリースプロセスは比較的複雑です。リリース手順をシミュレートして、各ワークフローの役割を説明します：
 
-1. `dev-v2` から `master` ブランチへの pr を作成し、この pr の名前は `Release v******` である必要があります
+1. `dev-v2` から `master-v2` ブランチへの pr を作成し、この pr の名前は `Release v******` である必要があります
 2. `release-preparation.yml` が最近の正式版/公測版から現在のバージョンまでの changelog を生成します（新しい pr の形式で）
 3. changelog を手動で調整し、簡単な説明を追加します
 4. pr をマージし、`pr-auto-tag.yml` をトリガーして、tag を作成し、ブランチを同期します
-5. Release イベントが `release-ota.yml` をトリガーし、master に tag を付けた後、ota パッケージの構築と添付ファイルのアップロードを実行します
+5. Release イベントが `release-ota.yml` をトリガーし、master-v2 に tag を付けた後、ota パッケージの構築と添付ファイルのアップロードを実行します
 
 ### リソース更新
 

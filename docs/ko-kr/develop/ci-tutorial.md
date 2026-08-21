@@ -87,11 +87,11 @@ MAA는 GitHub Action을 활용하여 웹사이트 구축, 자동 리소스 업�
 
 이 두 채널의 릴리즈 과정은 상대적으로 복잡합니다. 릴리즈 단계를 시뮬레이션하여 각 워크플로우의 역할을 설명하겠습니다:
 
-1. `dev-v2`에서 `master` 브랜치로의 PR을 생성하며, 해당 PR의 이름은 `Release v******` 형식이어야 합니다
+1. `dev-v2`에서 `master-v2` 브랜치로의 PR을 생성하며, 해당 PR의 이름은 `Release v******` 형식이어야 합니다
 2. `release-preparation.yml`이 최근 정식 버전/공개 베타 버전부터 현재 버전까지의 changelog를 생성합니다(새로운 PR 형태로)
 3. changelog를 수동으로 조정하고 간단한 설명을 추가합니다
 4. PR을 병합하면 `pr-auto-tag.yml`이 트리거되어 tag를 생성하고 브랜치를 동기화합니다
-5. Release 이벤트가 `release-ota.yml`을 트리거하여 master에 tag를 생성한 후 ota 패키지 빌드 및 첨부파일 업로드를 진행합니다
+5. Release 이벤트가 `release-ota.yml`을 트리거하여 master-v2에 tag를 생성한 후 ota 패키지 빌드 및 첨부파일 업로드를 진행합니다
 
 ## 리소스 업데이트
 
