@@ -22,6 +22,11 @@
     </UserControl.Style>
     <Grid>
         <!--  左 8 与 HC 输入控件默认内边距（DefaultInputPadding）对齐；右 34 留出箭头区域，文本不延伸到箭头下方  -->
+        <!--
+            UpdateSourceTrigger=PropertyChanged：内部文本框实时同步控件 Text，到绑定源的回写时机由
+            使用点绑定的 UpdateSourceTrigger 决定；此处若用默认 LostFocus，使用点声明 PropertyChanged
+            也会被内部层卡住（如 Copilot 的 DisplayFilename 需要逐键解析）
+        -->
         <TextBox
             x:Name="PART_TextBox"
             Height="30"
@@ -29,7 +34,7 @@
             d:Width="200"
             hc:BorderElement.CornerRadius="{Binding CornerRadius, ElementName=Root}"
             hc:InfoElement.Placeholder="{Binding Placeholder, ElementName=Root}"
-            Text="{Binding Text, ElementName=Root, Mode=TwoWay}" />
+            Text="{Binding Text, ElementName=Root, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <!--
             箭头按钮：叠在文本框右端内部，无背景只保留箭头图标
             （Transparent 维持整个区域的点击命中）；双 Path 按 IsOpen 切换

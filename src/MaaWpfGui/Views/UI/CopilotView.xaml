@@ -127,7 +127,7 @@
                                                       ElementName=FileTreeBox}"
                             PopupPlacementRectangle="0,30,0,0"
                             SelectionChanged="FileTreeBox_SelectionChanged"
-                            Text="{Binding DisplayFilename}">
+                            Text="{Binding DisplayFilename, UpdateSourceTrigger=PropertyChanged}">
                             <controls:TreeComboBox.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                                     <controls:TextBlock
