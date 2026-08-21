@@ -100,8 +100,11 @@ public class MenuButton : Button
 
         if (!ReferenceEquals(MenuPopup.Child, PopupContent))
         {
-            // 弹层内容（重新）装入时挂接叶子菜单项的关闭处理；重复装入同一内容不重复挂接，
-            // 避免同一 Click 多次回调（AddHandler 不按委托去重）
+            // 换装：摘除旧内容上的关闭处理（旧内容可能被复用，残留会误关本弹层并钉住按钮）；
+            // 对新内容先摘再挂，防止同一内容装回（A→B→A）时重复挂接累积回调。
+            // RemoveHandler 未挂接时是无害 no-op；AddHandler 不按委托去重
+            MenuPopup.Child?.RemoveHandler(MenuItem.ClickEvent, new RoutedEventHandler(OnPopupMenuItemClick));
+            PopupContent.RemoveHandler(MenuItem.ClickEvent, new RoutedEventHandler(OnPopupMenuItemClick));
             PopupContent.AddHandler(MenuItem.ClickEvent, new RoutedEventHandler(OnPopupMenuItemClick));
             MenuPopup.Child = PopupContent;
         }
