@@ -540,7 +540,7 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
 
             // 判断是否已被选中
             cv::Mat selected_image = make_roi(image, res.flag_rect.move({ 0, -10, 5, 4 }));
-            cv::inRange(selected_image, cv::Scalar(200, 140, 0), cv::Scalar(255, 180, 100), selected_image);
+            cv::inRange(selected_image, cv::Scalar(170, 115, 0), cv::Scalar(255, 180, 100), selected_image);
             res.is_selected = cv::hasNonZero(selected_image);
 
             opers_result.emplace_back(std::move(res));
