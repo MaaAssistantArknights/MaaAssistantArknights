@@ -642,7 +642,7 @@
                         Cursor="Hand"
                         NavigateUri="{Binding VideoUrl}"
                         TextDecorations="None">
-                        <TextBlock Text="{DynamicResource VideoLink}" />
+                        <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource VideoLink}" />
                     </Hyperlink>
                 </controls:TextBlock>
                 <controls:TextBlock Block.TextAlignment="Center">
@@ -650,7 +650,10 @@
                         Cursor="Hand"
                         NavigateUri="{Binding CopilotUrl}"
                         TextDecorations="None">
-                        <TextBlock d:Text="PrtsPlus" Text="{DynamicResource PrtsPlus}" />
+                        <TextBlock
+                            d:Text="PrtsPlus"
+                            Style="{StaticResource HyperlinkTextBlockStyle}"
+                            Text="{DynamicResource PrtsPlus}" />
                     </Hyperlink>
                 </controls:TextBlock>
             </StackPanel>
@@ -786,7 +789,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding MapUrl}"
                     TextDecorations="None">
-                    <TextBlock Text="{DynamicResource MapPrts}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource MapPrts}" />
                 </Hyperlink>
             </controls:TextBlock>
         </Grid>

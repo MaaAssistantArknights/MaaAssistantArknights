@@ -56,7 +56,7 @@
                         Cursor="Hand"
                         NavigateUri="{Binding Source={x:Static constants:MaaUrls.HelpUri}}"
                         TextDecorations="None">
-                        <TextBlock Text="{DynamicResource Help}" />
+                        <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Help}" />
                     </Hyperlink>
                 </controls:TextBlock>
                 <controls:TextBlock Margin="5" HorizontalAlignment="Center">
@@ -65,7 +65,7 @@
                         Cursor="Hand"
                         NavigateUri="{Binding Source={x:Static constants:MaaUrls.GitHubIssues}}"
                         TextDecorations="None">
-                        <TextBlock Text="{DynamicResource Issue}" />
+                        <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Issue}" />
                     </Hyperlink>
                 </controls:TextBlock>
             </StackPanel>

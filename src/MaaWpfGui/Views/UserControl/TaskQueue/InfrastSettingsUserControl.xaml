@@ -76,7 +76,7 @@
                         Cursor="Hand"
                         NavigateUri="{Binding Source={x:Static constants:MaaUrls.CustomInfrastGenerator}}"
                         TextDecorations="None">
-                        <TextBlock Text="{DynamicResource CustomInfrastGenerator}" />
+                        <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource CustomInfrastGenerator}" />
                     </Hyperlink>
                 </controls:TextBlock>
                 <StackPanel Orientation="Horizontal">

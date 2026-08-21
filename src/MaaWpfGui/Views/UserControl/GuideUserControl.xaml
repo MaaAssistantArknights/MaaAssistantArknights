@@ -835,7 +835,7 @@
                                             Cursor="Hand"
                                             NavigateUri="{Binding Source={x:Static constants:MaaUrls.MirrorChyanWebsite}}"
                                             TextDecorations="None">
-                                            <TextBlock Text="{DynamicResource MirrorChyan}" />
+                                            <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource MirrorChyan}" />
                                         </Hyperlink>
                                     </controls:TextBlock>
                                 </StackPanel>
