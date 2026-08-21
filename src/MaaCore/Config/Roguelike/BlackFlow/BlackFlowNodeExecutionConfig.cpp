@@ -133,46 +133,6 @@ void validate_task_alias(const std::string& task, std::string_view field)
     }
 }
 
-NodeExecutionRoute parse_route(const json::value& value)
-{
-    check_keys(
-        value,
-        { "id",
-          "page_intent",
-          "floor_window",
-          "node_types",
-          "event_names",
-          "rank",
-          "alias",
-          "task",
-          "completion_task" },
-        { "id", "page_intent", "alias", "task", "completion_task" },
-        "route");
-
-    NodeExecutionRoute result;
-    result.id = value.at("id").as_string();
-    result.page_intent = value.at("page_intent").as_string();
-    std::tie(result.floor_begin, result.floor_end) = parse_floor_window(value);
-    result.node_types = parse_node_types(value);
-    result.event_names = parse_string_array(value, "event_names");
-    result.rank = value.get("rank", 0);
-    result.alias = value.at("alias").as_string();
-    result.task = value.at("task").as_string();
-    result.completion_task = value.at("completion_task").as_string();
-
-    if (result.id.empty() || !is_valid_page_intent(result.page_intent) || result.rank < 0) {
-        invalid_config(
-            "route id must be present, page_intent must be lower-case dotted text, and rank must be non-negative");
-    }
-    if (result.alias != "BlackFlow@Roguelike@NodeDispatchAction") {
-        invalid_config("route alias must use BlackFlow@Roguelike@NodeDispatchAction");
-    }
-    validate_task_alias(result.alias, "route alias");
-    validate_task_alias(result.task, "route task");
-    validate_task_alias(result.completion_task, "route completion_task");
-    return result;
-}
-
 NodeSignalValue parse_signal_value(const json::value& value)
 {
     if (value.is_boolean()) {
