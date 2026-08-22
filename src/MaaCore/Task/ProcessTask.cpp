@@ -27,7 +27,7 @@ constexpr std::array<std::string_view, 9> MainScreenEntryPrefixes = {
 
 // 主界面入口按钮，用于提取当前主题
 // 资源重载后 ResourceLoader 会生成新的 uuid，这里通过比对 uuid 判断是否需要重新缓存
-std::unordered_set<std::string>& get_main_screen_entry_tasks_impl()
+const std::unordered_set<std::string>& get_main_screen_entry_tasks()
 {
     static std::unordered_set<std::string> tasks;
     static std::string cached_uuid;
@@ -44,11 +44,6 @@ std::unordered_set<std::string>& get_main_screen_entry_tasks_impl()
     }
 
     return tasks;
-}
-
-const std::unordered_set<std::string>& get_main_screen_entry_tasks()
-{
-    return get_main_screen_entry_tasks_impl();
 }
 
 bool is_main_screen_recognition(const std::string& name)
