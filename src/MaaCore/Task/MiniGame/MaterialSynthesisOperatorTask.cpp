@@ -5,6 +5,7 @@
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Task/Infrast/InfrastScore.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Hasher.h"
@@ -221,19 +222,32 @@ std::optional<size_t>
         return std::nullopt;
     }
 
-    size_t best_index = 0;
-    double best_score = processing_score(m_operator_cache.front(), material_id, material_level);
-    for (size_t index = 1; index < m_operator_cache.size(); ++index) {
-        const double score = processing_score(m_operator_cache.at(index), material_id, material_level);
-        // 只在严格更高时替换，保证同分候选保持首次扫描顺序。
-        if (score > best_score) {
-            best_index = index;
-            best_score = score;
+    std::vector<infrast::ScoreOper> score_opers;
+    score_opers.reserve(m_operator_cache.size());
+    for (const auto& oper : m_operator_cache) {
+        infrast::ScoreOper score_oper;
+        for (const auto& skill : oper.skills) {
+            score_oper.skills.emplace(skill.id);
         }
+        score_oper.operator_id = oper.operator_id;
+        score_oper.face_hash = oper.face_hash;
+        score_oper.mood_ratio = oper.mood_ratio;
+        score_opers.emplace_back(std::move(score_oper));
     }
 
-    Log.info("MaterialSynthesis | cached operator score", best_score, material_id, material_level);
-    return best_index;
+    infrast::ScoreContext context;
+    context.facility = facility_name();
+    context.product = material_id;
+    context.level = material_level;
+    context.slots = 1;
+    context.mood_threshold = m_mood_threshold;
+    const auto result = infrast::select_best_opers(score_opers, context);
+    if (result.indices.empty()) {
+        return std::nullopt;
+    }
+
+    Log.info("MaterialSynthesis | cached operator score", result.score, material_id, material_level);
+    return result.indices.front();
 }
 
 bool asst::MaterialSynthesisOperatorTask::locate_and_select(const infrast::Oper& target)
@@ -399,79 +413,4 @@ void asst::MaterialSynthesisOperatorTask::invalidate_cache()
     m_operator_cache.clear();
     discard_pending_selection();
     Log.info("MaterialSynthesis | operator cache invalidated");
-}
-
-double asst::MaterialSynthesisOperatorTask::processing_score(
-    const infrast::Oper& oper,
-    const std::string& material_id,
-    int material_level)
-{
-    double score = 0;
-    for (const auto& skill : oper.skills) {
-        const auto& id = skill.id;
-        if (id == "bskill_ws_asc1" && material_id.size() == 4 && material_id.starts_with("32")) {
-            score += 0.7;
-        }
-        else if (id == "bskill_ws_asc2" && material_id.size() == 4 && material_id.starts_with("32")) {
-            score += 0.8;
-        }
-        else if (id == "bskill_hire_kalts2" || id == "bskill_ws_p_kalts2") {
-            score += 0.8;
-        }
-        else if (id == "bskill_ws_p5") {
-            continue;
-        }
-        else if (id == "bskill_ws_p4") {
-            score += 0.65;
-        }
-        else if (id == "bskill_ws_p3") {
-            score += 0.6;
-        }
-        else if (id == "bskill_ws_evolve4") {
-            score += 1.0;
-        }
-        else if (id == "bskill_ws_evolve3") {
-            score += 0.8;
-        }
-        else if (id == "bskill_ws_evolve2") {
-            score += 0.75;
-        }
-        else if (id == "bskill_ws_evolve1") {
-            score += 0.7;
-        }
-        else if (id == "bskill_ws_free") {
-            score += 0.8 - material_level * 0.1;
-        }
-        else if (id == "bskill_ws_cost_blemishine") {
-            score += 0.4;
-        }
-        else if (id == "bskill_ws_bonus1" && material_level < 4) {
-            score += 0.9;
-        }
-        else if (id == "bskill_ws_bonus2" && material_level == 4) {
-            score += 0.9;
-        }
-        else if (id == "bskill_ws_alloyblock" && material_id == "31024") {
-            score += 1.0;
-        }
-        else if (id == "bskill_ws_orirock" && (material_id == "30014" || material_id == "30013")) {
-            score += 0.9;
-        }
-        else if (id == "bskill_ws_device" && (material_id == "30064" || material_id == "30063")) {
-            score += 0.9;
-        }
-        else if (id == "bskill_ws_crystalline" && (material_id == "31034" || material_id == "30145")) {
-            score += 0.8;
-        }
-        else if (id == "bskill_ws_skill3" && (material_id == "3302" || material_id == "3303")) {
-            score += 1.8;
-        }
-        else if (id == "bskill_ws_skill2" && (material_id == "3302" || material_id == "3303")) {
-            score += 1.75;
-        }
-        else if (id == "bskill_ws_skill1" && (material_id == "3302" || material_id == "3303")) {
-            score += 1.7;
-        }
-    }
-    return score;
 }
