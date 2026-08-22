@@ -198,96 +198,102 @@
     },
     "Sami@Roguelike@StrategyChange_mode0": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "doc2": "As expected, using temperature number leads to other issues. Removing...",
         "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
             [".*Placid ?Forest.*", "_aggressive"],
             [".*Daw.*", "_pragmatic"],
+            [".*Frost.*", "_pragmatic"],
             [".*rostbou.*", "_pragmatic"],
-            [".*12.*", "_pragmatic"],
             [".*Ge?l?i?d? ?Rockshe.*", "_pragmatic"],
-            [".*Immaculate ?Garde.*", "_default"],
-            [".*70.*", "_default"],
+            [".*Immaculate.*", "_default"],
+            [".*Garde.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
             [".*Sec.?uded ?Passag.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode1": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "doc2": "As expected, using temperature number leads to other issues. Removing...",
         "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_default"],
             [".*Placid ?Forest.*", "_exit"],
             [".*Daw.*", "_exit"],
+            [".*Frost.*", "_exit"],
             [".*rostbou.*", "_exit"],
-            [".*12.*", "_exit"],
             [".*Ge?l?i?d? ?Rockshe.*", "_exit"],
-            [".*Immaculate ?Garde.*", "_exit"],
-            [".*70.*", "_exit"],
+            [".*Immaculate.*", "_default"],
+            [".*Garde.*", "_default"],
             [".*Clairvoyant ?Carcass", "_exit"],
             [".*Sec.?uded ?Passag.*", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "doc2": "As expected, using temperature number leads to other issues. Removing...",
         "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_default"],
             [".*Placid ?Forest.*", "_default"],
             [".*Daw.*", "_exit"],
+            [".*Frost.*", "_exit"],
             [".*rostbou.*", "_exit"],
-            [".*12.*", "_exit"],
             [".*Ge?l?i?d? ?Rockshe.*", "_exit"],
-            [".*Immaculate ?Garde.*", "_exit"],
-            [".*70.*", "_exit"],
+            [".*Immaculate.*", "_default"],
+            [".*Garde.*", "_default"],
             [".*Clairvoyant ?Carcass", "_exit"],
             [".*Sec.?uded ?Passag.*", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode5": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "doc2": "As expected, using temperature number leads to other issues. Removing...",
         "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_collapsal_paradigms"],
             [".*Placid ?Forest.*", "_collapsal_paradigms"],
             [".*Daw.*", "_SKIP_"],
+            [".*Frost.*", "_SKIP_"],
             [".*rostbou.*", "_SKIP_"],
-            [".*12.*", "_SKIP_"],
             [".*Ge?l?i?d? ?Rockshe.*", "_SKIP_"],
-            [".*Immaculate ?Garde.*", "_SKIP_"],
-            [".*70.*", "_SKIP_"],
+            [".*Immaculate.*", "_default"],
+            [".*Garde.*", "_default"],
             [".*Clairvoyant ?Carcass", "_SKIP_"],
             [".*Sec.?uded ?Passag.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode6": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "doc2": "As expected, using temperature number leads to other issues. Removing...",
         "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
             [".*Placid ?Forest.*", "_aggressive"],
             [".*Daw.*", "_pragmatic"],
+            [".*Frost.*", "_pragmatic"],
             [".*rostbou.*", "_pragmatic"],
-            [".*12.*", "_pragmatic"],
             [".*Ge?l?i?d? ?Rockshe.*", "_pragmatic"],
-            [".*Immaculate ?Garde.*", "_default"],
-            [".*70.*", "_default"],
+            [".*Immaculate.*", "_default"],
+            [".*Garde.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
             [".*Sec.?uded ?Passag.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode7": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "doc2": "As expected, using temperature number leads to other issues. Removing...",
         "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
             [".*Placid ?Forest.*", "_aggressive"],
             [".*Daw.*", "_pragmatic"],
+            [".*Frost.*", "_pragmatic"],
             [".*rostbou.*", "_pragmatic"],
-            [".*12.*", "_pragmatic"],
             [".*Ge?l?i?d? ?Rockshe.*", "_pragmatic"],
-            [".*Immaculate ?Garde.*", "_default"],
-            [".*70.*", "_default"],
+            [".*Immaculate.*", "_default"],
+            [".*Garde.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
             [".*Sec.?uded ?Passag.*", "_SKIP_"]
         ]
