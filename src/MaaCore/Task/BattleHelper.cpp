@@ -761,7 +761,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
     const cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     for (const auto& [oper_tag, loc] : m_battlefield_opers) {
         const auto& skill_it = std::ranges::find_if(m_skill_usage, [&](const auto& pair) {
-            return (oper_tag.role == battle::Role::Unknown || pair.first.role == oper_tag.role) &&
+            return (pair.first.role == battle::Role::Unknown || pair.first.role == oper_tag.role) &&
                    pair.first.name == oper_tag.name;
         });
         battle::OperNameTag skill_tag;
