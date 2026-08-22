@@ -1724,7 +1724,24 @@ If you do need to use it, please ensure:
 2. For some screencap methods, the game window cannot be minimized
 3. Arknights Settings → Game → UI Scaling is set to 100%
 4. Lower the mouse pointer scale in Arknights settings to reduce obstruction of recognition areas
+5. Game resolution must be 16:9; recommended settings: 1280x720 or 1920x1080
+6. We recommend using SendMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>
+    <system:String x:Key="UseAttachWindowWarningBase" xml:space="preserve">Arknights PC Connection (Community-maintained)
+
+Please note:
+1. The MAA Team only provides the connection feature for the Arknights PC client; ongoing maintenance and bug fixes are left to the community, and availability is not guaranteed.
+2. If you run into problems or unusable features, please open an issue on GitHub. Whether it gets resolved depends on whether a community developer is willing to follow up.
+3. Other channels such as QQ groups or video comment sections cannot resolve Arknights PC connection issues, so please do not ask about them there.
+
+If you don't strictly need it, we recommend using ADB to connect to an Android emulator or mobile device for a more stable experience.
+
+If you do need to use it, please ensure:
+1. MAA is launched with administrator privileges
+2. For some screencap methods, the game window cannot be minimized
+3. Arknights Settings → Game → UI Scaling is set to 100%
+4. Lower the mouse pointer scale in Arknights settings to reduce obstruction of recognition areas
 5. Game resolution must be 16:9; recommended settings: 1280x720 or 1920x1080</system:String>
+    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">6. We recommend using SendMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
