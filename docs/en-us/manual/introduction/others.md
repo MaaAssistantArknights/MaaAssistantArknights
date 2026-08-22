@@ -108,7 +108,10 @@ If automatic downloads fail or your network is poor, you can manually download t
 - Dragging **resource update packages**: Supported since v6.16.5.
 
 ::: tip
-Only packages downloaded from [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) are supported. [MirrorChyan](https://mirrorchyan.com/en/projects?rid=MAA) packages have a different format and are for automatic updates only — **they cannot be dragged in**.
+
+- Only packages downloaded from [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) are supported. [MirrorChyan](https://mirrorchyan.com/en/projects?rid=MAA) packages have a different format and are for automatic updates only — **they cannot be dragged in**.
+- Do not run MAA **as an administrator** when using drag-and-drop updates. Otherwise, Windows privilege isolation may prevent you from dragging update packages in from File Explorer.
+
 :::
 
 #### Software Update Packages (Full / OTA)

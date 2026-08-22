@@ -106,7 +106,10 @@ MAA の更新は 2 種類のコンテンツに分かれます：
 - **リソース更新パッケージ**のドラッグ：v6.16.5 以降でサポート。
 
 ::: tip
-[GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) からダウンロードしたパッケージのみサポートされます。[MirrorChyan](https://mirrorchyan.com/zh/projects?rid=MAA) の更新パッケージは形式が異なり、自動更新専用のため、**ドラッグはサポートされていません**。
+
+- [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) からダウンロードしたパッケージのみサポートされます。[MirrorChyan](https://mirrorchyan.com/zh/projects?rid=MAA) の更新パッケージは形式が異なり、自動更新専用のため、**ドラッグはサポートされていません**。
+- ドラッグによる更新を使用する場合は、MAA を**管理者権限**で実行しないでください。Windows の権限分離機構により、エクスプローラーから更新パッケージをドラッグできない場合があります。
+
 :::
 
 #### ソフトウェア更新パッケージ（フルパッケージ / OTA 増分パッケージ）

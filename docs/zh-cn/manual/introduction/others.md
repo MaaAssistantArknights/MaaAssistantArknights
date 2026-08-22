@@ -108,7 +108,10 @@ MAA 的更新分为两种内容：
 - 拖入**资源更新包**：v6.16.5 起支持。
 
 ::: tip
-仅支持从 [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载的包。[Mirror酱](https://mirrorchyan.com/zh/projects?rid=MAA) 的更新包格式不同，且为自动更新专用，**不支持拖入**。
+
+- 仅支持从 [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载的包。[Mirror酱](https://mirrorchyan.com/zh/projects?rid=MAA) 的更新包格式不同，且为自动更新专用，**不支持拖入**。
+- 使用拖入更新时请勿以**管理员权限**运行 MAA，否则受 Windows 权限隔离机制影响，可能无法从文件资源管理器拖入更新包。
+
 :::
 
 #### 软件更新包（完整包 / OTA 增量包）

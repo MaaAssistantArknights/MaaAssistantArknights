@@ -110,7 +110,10 @@ MAA의 업데이트는 두 가지 콘텐츠로 나뉩니다:
 - **리소스 업데이트 패키지** 드래그: v6.16.5부터 지원.
 
 ::: tip
-[GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)에서 다운로드한 패키지만 지원됩니다. [MirrorChyan](https://mirrorchyan.com/zh/projects?rid=MAA)의 업데이트 패키지는 형식이 다르며, 자동 업데이트 전용이므로 **드래그를 지원하지 않습니다**.
+
+- [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)에서 다운로드한 패키지만 지원됩니다. [MirrorChyan](https://mirrorchyan.com/zh/projects?rid=MAA)의 업데이트 패키지는 형식이 다르며, 자동 업데이트 전용이므로 **드래그를 지원하지 않습니다**.
+- 드래그 업데이트를 사용할 때는 MAA를 **관리자 권한**으로 실행하지 마세요. Windows 권한 격리 메커니즘으로 인해 파일 탐색기에서 업데이트 패키지를 드래그하지 못할 수 있습니다.
+
 :::
 
 #### 소프트웨어 업데이트 패키지(전체 패키지 / OTA 증분 패키지)
