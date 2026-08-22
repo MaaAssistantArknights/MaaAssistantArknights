@@ -1,4 +1,5 @@
 #include "TaskData.h"
+#include "Task/MainScreenEntryTasks.h"
 
 #include <algorithm>
 #include <boost/regex.hpp>
@@ -309,6 +310,8 @@ bool asst::TaskData::parse(const json::value& json)
 
 void asst::TaskData::clear_tasks()
 {
+    reset_main_screen_entry_tasks();
+
     // 注意：这会导致已经通过 get 获取的任务指针内容不会更新
     // 即运行期修改对已经获取的任务指针无效，但是不会导致崩溃；要想更新，需要重新获取任务指针
     m_all_tasks_info.clear();

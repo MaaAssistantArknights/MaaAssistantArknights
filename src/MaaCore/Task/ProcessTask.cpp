@@ -1,4 +1,5 @@
 #include "ProcessTask.h"
+#include "MainScreenEntryTasks.h"
 
 #include <array>
 #include <chrono>
@@ -25,19 +26,25 @@ constexpr std::array<std::string_view, 9> MainScreenEntryPrefixes = {
 };
 
 // 主界面入口按钮，用于提取当前主题
-// TODO: 重新加载资源后存在任务遗漏风险
-const std::unordered_set<std::string>& get_main_screen_entry_tasks()
+// 资源重载后由 reset_main_screen_entry_tasks() 清空缓存，下次访问时基于新 TaskData 重建
+std::unordered_set<std::string>& get_main_screen_entry_tasks_impl()
 {
-    static const std::unordered_set<std::string> tasks = []() {
-        std::unordered_set<std::string> result;
+    static std::unordered_set<std::string> tasks;
+
+    if (tasks.empty()) {
         for (const auto& prefix : MainScreenEntryPrefixes) {
             if (auto entry_task = Task.get(std::string(prefix) + "-Entry"); entry_task != nullptr) {
-                result.insert(entry_task->next.cbegin(), entry_task->next.cend());
+                tasks.insert(entry_task->next.cbegin(), entry_task->next.cend());
             }
         }
-        return result;
-    }();
+    }
+
     return tasks;
+}
+
+const std::unordered_set<std::string>& get_main_screen_entry_tasks()
+{
+    return get_main_screen_entry_tasks_impl();
 }
 
 bool is_main_screen_recognition(const std::string& name)
@@ -56,6 +63,11 @@ bool is_main_screen_recognition(const TaskList& list)
     return std::any_of(list.cbegin(), list.cend(), [](const std::string& name) { return is_main_screen_recognition(name); });
 }
 } // namespace
+
+void asst::reset_main_screen_entry_tasks()
+{
+    get_main_screen_entry_tasks_impl().clear();
+}
 
 ProcessTask::ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name) :
     AbstractTask(abs),
