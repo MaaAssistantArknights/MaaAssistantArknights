@@ -35,13 +35,13 @@ struct Options
     static constexpr int BattleStartTimeoutSecondsMax = 300;
     static constexpr int BattleStartTimeoutSecondsDefault = 60;
 
-    int task_delay = 0;                         // 任务间延时：越快操作越快，但会增加CPU消耗
-    int sss_fight_screencap_interval = 0;       // 保全战斗截图最小间隔
-    int roguelike_fight_screencap_interval = 0; // 肉鸽战斗截图最小间隔
-    int copilot_fight_screencap_interval = 0;   // 抄作业战斗截图最小间隔
+    int task_delay = 0;                                                  // 任务间延时：越快操作越快，但会增加CPU消耗
+    int sss_fight_screencap_interval = 0;                                // 保全战斗截图最小间隔
+    int roguelike_fight_screencap_interval = 0;                          // 肉鸽战斗截图最小间隔
+    int copilot_fight_screencap_interval = 0;                            // 抄作业战斗截图最小间隔
     int battle_start_timeout_seconds = BattleStartTimeoutSecondsDefault; // 战斗开始的最大等待时间
-    int control_delay_lower = 0;                // 点击随机延时下限：每次点击操作会进行随机延时
-    int control_delay_upper = 0;                // 点击随机延时上限：每次点击操作会进行随机延时
+    int control_delay_lower = 0;                                         // 点击随机延时下限：每次点击操作会进行随机延时
+    int control_delay_upper = 0;                                         // 点击随机延时上限：每次点击操作会进行随机延时
     // bool print_window = false;// 截图功能：开启后每次结算界面会截图到screenshot目录下
     int adb_extra_swipe_dist = 0; // 额外的滑动距离：
     // adb有bug，同样的参数，偶尔会划得非常远。

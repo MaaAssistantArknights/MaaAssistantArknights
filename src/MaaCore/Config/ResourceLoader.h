@@ -22,6 +22,7 @@ public:
 
     void set_connection_extras(const std::string& name, const json::object& diff);
     bool loaded() const noexcept;
+
     const std::string& get_uuid() const noexcept { return m_uuid; }
 
 public:

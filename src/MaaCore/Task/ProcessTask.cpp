@@ -64,7 +64,9 @@ bool is_main_screen_recognition(const std::string& name)
 
 bool is_main_screen_recognition(const TaskList& list)
 {
-    return std::any_of(list.cbegin(), list.cend(), [](const std::string& name) { return is_main_screen_recognition(name); });
+    return std::any_of(list.cbegin(), list.cend(), [](const std::string& name) {
+        return is_main_screen_recognition(name);
+    });
 }
 } // namespace
 
@@ -207,7 +209,7 @@ ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, e
     ControllerAPI* underlying = nullptr;
     if (is_main_screen_recognition(list)) {
         underlying = ctrler()->get_underlying();
-        if(underlying != nullptr){
+        if (underlying != nullptr) {
             underlying->set_main_screen_recognition(true);
         }
     }

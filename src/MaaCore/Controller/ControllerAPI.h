@@ -75,6 +75,7 @@ public:
     ControllerAPI& operator=(ControllerAPI&&) = delete;
 
     virtual void back_to_home() noexcept {}
+
     virtual void set_main_screen_recognition(bool /*on*/) {}
 };
 

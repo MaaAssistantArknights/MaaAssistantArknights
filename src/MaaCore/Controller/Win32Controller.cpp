@@ -92,7 +92,8 @@ bool Win32Controller::attach(
     }
 
     if ((m_mouse_method & (Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos)) != 0 &&
-        (m_screencap_method & (Win32Screencap::ScreenDC | Win32Screencap::DXGI_DesktopDup | Win32Screencap::DXGI_DesktopDup_Window)) == 0) {
+        (m_screencap_method &
+         (Win32Screencap::ScreenDC | Win32Screencap::DXGI_DesktopDup | Win32Screencap::DXGI_DesktopDup_Window)) == 0) {
         save_window_position();
     }
 
@@ -136,9 +137,9 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
         }
         else if (with_window_pos) {
-            const bool capture_from_screen = (m_screencap_method &
-                                              (Win32Screencap::ScreenDC | Win32Screencap::DXGI_DesktopDup |
-                                               Win32Screencap::DXGI_DesktopDup_Window)) != 0;
+            const bool capture_from_screen =
+                (m_screencap_method & (Win32Screencap::ScreenDC | Win32Screencap::DXGI_DesktopDup |
+                                       Win32Screencap::DXGI_DesktopDup_Window)) != 0;
             if (!capture_from_screen) {
                 // WindowPos输入模式下，非主界面识别把窗口移到屏幕外
                 unit_touch_move(0, 0, m_screen_size.second + GetSystemMetrics(SM_CYVIRTUALSCREEN) + 100, 0);
@@ -409,8 +410,14 @@ void Win32Controller::restore_window_position()
     }
     HWND hwnd = static_cast<HWND>(m_hwnd);
     if (IsWindow(hwnd)) {
-        SetWindowPos(hwnd, nullptr, m_original_window_rect.left, m_original_window_rect.top, 0, 0,
-                     SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+        SetWindowPos(
+            hwnd,
+            nullptr,
+            m_original_window_rect.left,
+            m_original_window_rect.top,
+            0,
+            0,
+            SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
     }
     m_window_rect_saved = false;
 }
