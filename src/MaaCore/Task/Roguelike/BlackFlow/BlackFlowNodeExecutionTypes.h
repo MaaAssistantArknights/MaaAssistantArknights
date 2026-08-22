@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <cstdint>
 #include <limits>
-#include <meojson/json.hpp>
 #include <optional>
 #include <string>
 #include <variant>
@@ -11,33 +10,6 @@
 
 #include "BlackFlowModel.h"
 #include "Utils/Logger.hpp"
-
-namespace asst::roguelike
-{
-struct NodeExecutionRoute
-{
-    std::string id;
-    std::string page_intent;
-    std::vector<int> floor_window;
-    std::vector<std::string> node_types;
-    std::vector<std::string> event_names;
-    int rank;
-    std::string alias;
-    std::string task;
-    std::string completion_task;
-
-    MEO_JSONIZATION(
-        id,
-        page_intent,
-        MEO_OPT floor_window,
-        MEO_OPT node_types,
-        MEO_OPT event_names,
-        MEO_OPT rank,
-        alias,
-        task,
-        completion_task);
-};
-}
 
 namespace asst::blackflow
 {

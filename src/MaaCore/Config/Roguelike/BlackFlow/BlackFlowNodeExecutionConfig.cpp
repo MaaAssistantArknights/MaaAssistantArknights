@@ -44,29 +44,6 @@ void check_keys(
     }
 }
 
-std::vector<std::string> parse_string_array(const json::value& parent, const std::string& key)
-{
-    std::vector<std::string> result;
-    const auto value = parent.find(key);
-    if (!value) {
-        return result;
-    }
-    if (!value->is_array()) {
-        invalid_config(key + " must be an array");
-    }
-    for (const auto& entry : value->as_array()) {
-        if (!entry.is_string() || entry.as_string().empty()) {
-            invalid_config(key + " may contain non-empty strings only");
-        }
-        result.emplace_back(entry.as_string());
-    }
-    std::ranges::sort(result);
-    if (std::ranges::adjacent_find(result) != result.end()) {
-        invalid_config(key + " contains duplicate values");
-    }
-    return result;
-}
-
 bool is_valid_page_intent(std::string_view value)
 {
     if (value.empty()) {
@@ -409,10 +386,12 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
         "root");
     const int schema_version = json.at("schema_version").as_integer();
     if (schema_version != 3) {
-        invalid_config("unsupported schema_version: " + std::to_string(schema_version));
+        LogError << __FUNCTION__ << "unsupported schema_version: " << std::to_string(schema_version);
+        return false;
     }
-    if (!json.at("routes").is_array() || !json.at("task_results").is_array() || !json.at("preview_names").is_array()) {
-        invalid_config("routes, task_results and preview_names must be arrays");
+    if (!json.at("task_results").is_array() || !json.at("preview_names").is_array()) {
+        LogError << __FUNCTION__ << "task_results and preview_names must be arrays";
+        return false;
     }
 
     std::vector<NodeExecutionRoute> routes;
@@ -459,6 +438,10 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
             }
             routes.emplace_back(std::move(node));
         }
+    }
+    else {
+        LogError << __FUNCTION__ << "routes must be an array of objects";
+        return false;
     }
     if (routes.empty()) {
         LogError << __FUNCTION__ << "routes must not be empty";
