@@ -6,6 +6,7 @@
 #include <optional>
 
 #include "GeneralConfig.h"
+#include "MaaUtils/Uuid.h"
 #include "Miscellaneous/AvatarCacheManager.h"
 #include "Miscellaneous/BattleDataConfig.h"
 #include "Miscellaneous/CopilotConfig.h"
@@ -326,6 +327,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         return false;
     }
 
+    m_uuid = MaaNS::make_uuid();
     m_loaded = true;
     Log.info(__FUNCTION__, "ret", m_loaded);
     return m_loaded;

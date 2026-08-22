@@ -1,5 +1,4 @@
 #include "ProcessTask.h"
-#include "MainScreenEntryTasks.h"
 
 #include <array>
 #include <chrono>
@@ -10,6 +9,7 @@
 #include <meojson/json.hpp>
 
 #include "Config/GeneralConfig.h"
+#include "Config/ResourceLoader.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
@@ -26,17 +26,21 @@ constexpr std::array<std::string_view, 9> MainScreenEntryPrefixes = {
 };
 
 // 主界面入口按钮，用于提取当前主题
-// 资源重载后由 reset_main_screen_entry_tasks() 清空缓存，下次访问时基于新 TaskData 重建
+// 资源重载后 ResourceLoader 会生成新的 uuid，这里通过比对 uuid 判断是否需要重新缓存
 std::unordered_set<std::string>& get_main_screen_entry_tasks_impl()
 {
     static std::unordered_set<std::string> tasks;
+    static std::string cached_uuid;
 
-    if (tasks.empty()) {
+    const auto& current_uuid = ResourceLoader::get_instance().get_uuid();
+    if (current_uuid != cached_uuid) {
+        tasks.clear();
         for (const auto& prefix : MainScreenEntryPrefixes) {
             if (auto entry_task = Task.get(std::string(prefix) + "-Entry"); entry_task != nullptr) {
                 tasks.insert(entry_task->next.cbegin(), entry_task->next.cend());
             }
         }
+        cached_uuid = current_uuid;
     }
 
     return tasks;
@@ -63,11 +67,6 @@ bool is_main_screen_recognition(const TaskList& list)
     return std::any_of(list.cbegin(), list.cend(), [](const std::string& name) { return is_main_screen_recognition(name); });
 }
 } // namespace
-
-void asst::reset_main_screen_entry_tasks()
-{
-    get_main_screen_entry_tasks_impl().clear();
-}
 
 ProcessTask::ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name) :
     AbstractTask(abs),
