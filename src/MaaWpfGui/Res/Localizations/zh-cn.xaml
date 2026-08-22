@@ -2408,7 +2408,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
     <system:String x:Key="Achievement.SlackingOff.Title">不务正业</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">正事做累了，玩点别的。</system:String>
-    <system:String x:Key="Achievement.SlackingOff.Conditions">启动一次牛杂</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Conditions">启动一次{key=MiniGame}</system:String>
 
     <system:String x:Key="AchievementDlcProgressNotice" xml:space="preserve">成就 DLC 标识：#1 随成就系统首发，后续 DLC 由版本更新追加。
 部分成就的进度需在所属 DLC 上线后方可累计。</system:String>
