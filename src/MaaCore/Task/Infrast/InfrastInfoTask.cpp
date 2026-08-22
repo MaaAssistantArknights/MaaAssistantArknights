@@ -96,6 +96,25 @@ int squared_distance(const asst::Point& lhs, const asst::Point& rhs)
     return dx * dx + dy * dy;
 }
 
+int level_or_maximum(int recognized_level, std::string_view facility, int max_level, const asst::Rect& facility_rect)
+{
+    if (recognized_level > 0 && recognized_level <= max_level) {
+        return recognized_level;
+    }
+
+    Log.warn(
+        "infrastructure level recognition failed, using maximum level",
+        "facility",
+        facility,
+        "recognized level",
+        recognized_level,
+        "fallback level",
+        max_level,
+        "facility rect",
+        facility_rect);
+    return max_level;
+}
+
 int recognize_level(
     const cv::Mat& image,
     std::string_view task_name,
@@ -169,16 +188,17 @@ bool recognize_mini_layout(
 
             const auto row = best_slot / MiniStationColumnCount + 1;
             const auto column = best_slot % MiniStationColumnCount + 1;
-            const int level = recognize_highest_mini_level(
-                image,
-                level_template_task_name(facility_name),
+            const int level = level_or_maximum(
+                recognize_highest_mini_level(
+                    image,
+                    level_template_task_name(facility_name),
+                    StationMaxLevel,
+                    [row, column](int candidate_level) {
+                        return mini_station_level_task_name(row, column, candidate_level);
+                    }),
+                facility_name,
                 StationMaxLevel,
-                [row, column](int candidate_level) {
-                    return mini_station_level_task_name(row, column, candidate_level);
-                });
-            if (level == 0) {
-                return false;
-            }
+                match.rect);
             used_station_slots.emplace(best_slot);
             facilities[facility_name].push_back({ match.rect, level });
         }
@@ -206,14 +226,17 @@ bool recognize_mini_layout(
                 return false;
             }
 
-            const int level = recognize_highest_mini_level(
-                image,
-                level_template_task_name("Dorm"),
+            const int level = level_or_maximum(
+                recognize_highest_mini_level(
+                    image,
+                    level_template_task_name("Dorm"),
+                    DormMaxLevel,
+                    [row = best_slot + 1](int candidate_level) {
+                        return mini_dorm_level_task_name(row, candidate_level);
+                    }),
+                "Dorm",
                 DormMaxLevel,
-                [row = best_slot + 1](int candidate_level) { return mini_dorm_level_task_name(row, candidate_level); });
-            if (level == 0) {
-                return false;
-            }
+                match.rect);
             used_slots.emplace(best_slot);
             facilities["Dorm"].push_back({ match.rect, level });
         }
@@ -226,17 +249,18 @@ bool recognize_mini_layout(
             continue;
         }
         for (const auto& match : iter->second) {
-            const int level = recognize_highest_mini_level(
-                image,
-                level_template_task_name("Dorm"),
+            const int level = level_or_maximum(
+                recognize_highest_mini_level(
+                    image,
+                    level_template_task_name("Dorm"),
+                    StationMaxLevel,
+                    [facility_name](int candidate_level) {
+                        return mini_right_level_task_name(facility_name, candidate_level);
+                    },
+                    match.rect),
+                facility_name,
                 StationMaxLevel,
-                [facility_name](int candidate_level) {
-                    return mini_right_level_task_name(facility_name, candidate_level);
-                },
                 match.rect);
-            if (level == 0) {
-                return false;
-            }
             facilities[std::string(facility_name)].push_back({ match.rect, level });
         }
     }
@@ -256,11 +280,11 @@ bool recognize_normal_layout(
         const auto task_name = level_template_task_name(name);
         const auto level_roi_move = asst::Task.get(task_name)->rect_move;
         for (const auto& match : iter->second) {
-            const int level =
-                recognize_level(image, task_name, match.rect.move(level_roi_move), ViewType::Normal, StationMaxLevel);
-            if (level == 0) {
-                return false;
-            }
+            const int level = level_or_maximum(
+                recognize_level(image, task_name, match.rect.move(level_roi_move), ViewType::Normal, StationMaxLevel),
+                name,
+                StationMaxLevel,
+                match.rect);
             facilities[name].push_back({ match.rect, level });
         }
     }
@@ -272,11 +296,11 @@ bool recognize_normal_layout(
     const auto task_name = level_template_task_name("Dorm");
     const auto level_roi_move = asst::Task.get(task_name)->rect_move;
     for (const auto& match : dorm_iter->second) {
-        const int level =
-            recognize_level(image, task_name, match.rect.move(level_roi_move), ViewType::Normal, DormMaxLevel);
-        if (level == 0) {
-            return false;
-        }
+        const int level = level_or_maximum(
+            recognize_level(image, task_name, match.rect.move(level_roi_move), ViewType::Normal, DormMaxLevel),
+            "Dorm",
+            DormMaxLevel,
+            match.rect);
         facilities["Dorm"].push_back({ match.rect, level });
     }
     return true;
@@ -408,9 +432,9 @@ bool asst::InfrastInfoTask::_run()
         }
 
         std::unordered_map<std::string, std::vector<infrast::FacilityInfo>> facilities;
-        const bool levels_recognized = analyzer.get_view_type() == ViewType::Mini
-                                           ? recognize_mini_layout(image, analyzer, facilities)
-                                           : recognize_normal_layout(image, analyzer, facilities);
+        const bool layout_mapped = analyzer.get_view_type() == ViewType::Mini
+                                       ? recognize_mini_layout(image, analyzer, facilities)
+                                       : recognize_normal_layout(image, analyzer, facilities);
 
         if (analyzer.get_view_type() != ViewType::Mini) {
             for (const auto& name : { "Reception", "Office", "Processing", "Training" }) {
@@ -430,7 +454,7 @@ bool asst::InfrastInfoTask::_run()
         }
 
         const auto layout_counts = count_facilities(facilities);
-        if (!levels_recognized || !is_usable_layout(layout_counts)) {
+        if (!layout_mapped || !is_usable_layout(layout_counts)) {
             partial_layout_candidate.reset();
             Log.warn(
                 "InfrastInfoTask | inconsistent facility layout, attempt",
