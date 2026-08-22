@@ -33,7 +33,6 @@ private:
 
     static bool same_cached_operator(const infrast::Oper& lhs, const infrast::Oper& rhs, int face_hash_threshold);
     static bool avatar_matches(const infrast::Oper& lhs, const infrast::Oper& rhs, int face_hash_threshold);
-    static double processing_score(const infrast::Oper& oper, const std::string& material_id, int material_level);
 
     std::vector<infrast::Oper> m_operator_cache;
     bool m_cache_valid = false;
