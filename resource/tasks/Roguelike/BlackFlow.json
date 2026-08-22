@@ -946,8 +946,18 @@
     },
     "BlackFlow@Roguelike@MovementPanelBackClick": {
         "algorithm": "JustReturn",
+        "sub": [
+            "BlackFlow@Roguelike@MovementPanelBackClickOnce*2",
+            "BlackFlow@Roguelike@MovementPanelBackClickWait"
+        ]
+    },
+    "BlackFlow@Roguelike@MovementPanelBackClickOnce": {
+        "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [2, 138, 36, 293],
+        "specificRect": [18, 138, 20, 293]
+    },
+    "BlackFlow@Roguelike@MovementPanelBackClickWait": {
+        "algorithm": "JustReturn",
         "postDelay": 500
     },
     "BlackFlow@Roguelike@MovementPanelItems": {

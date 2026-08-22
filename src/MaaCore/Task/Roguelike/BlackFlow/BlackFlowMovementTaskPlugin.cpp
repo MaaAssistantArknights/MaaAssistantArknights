@@ -117,7 +117,7 @@ bool BlackFlowMovementTaskPlugin::_run()
         m_session->fail(
             "movement_selection_failed",
             error.empty() ? "movement selection failed" : error,
-            FailureDisposition::StopTask);
+            FailureDisposition::RestartRun);
         Log.error("BlackFlow movement selection failed", error);
     }
     report_outputs();
