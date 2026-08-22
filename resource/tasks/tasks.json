@@ -1346,7 +1346,7 @@
         "postDelay": 1000,
         "roi": [1010, 625, 260, 61],
         "exceededNext": ["StageSNReturnFlag", "Stop"],
-        "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner)*10"],
+        "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner)*10", "PrtsStillLoading*100"],
         "next": [
             "StartButton2",
             "UseMedicine",
@@ -1407,7 +1407,7 @@
     "StartButton2WaitTime": {
         "algorithm": "JustReturn",
         "postDelay": 40000,
-        "next": ["PRTS#next", "StartButton2TryAgain", "OfflineConfirm", "WaitAfterPRTS"]
+        "next": ["PRTS#next", "StartButton2TryAgain", "OfflineConfirm", "PrtsStillLoading", "WaitAfterPRTS"]
     },
     "PRTS": {
         "algorithm": "JustReturn",
@@ -1437,6 +1437,16 @@
         "algorithm": "JustReturn",
         "reduceOtherTimes": ["ClickCornerAfterPRTS*10"],
         "next": ["PRTS#next", "WaitAfterPRTS@LoadingText", "WaitAfterPRTS@LoadingIcon", "ClickCornerAfterPRTS"]
+    },
+    "PrtsStillLoading": {
+        "template": "PageLoading-Black.png",
+        "roi": [1155, 0, 125, 100],
+        "method": "HSVCount",
+        "colorScales": [[0, 10]],
+        "maxTimes": 70,
+        "postDelay": 3000,
+        "next": ["#self", "StartButton2WaitTime#next"],
+        "exceededNext": ["StartButton2WaitTime#next"]
     },
     "CheckLevelUp": {
         "doc": "跳过可能出现的等级提升界面。另外还有个金圈升级动画的界面，可能还需要一次点击。很难验证，先把这个页面点了",
