@@ -1007,6 +1007,79 @@ double power_score(const ScoreOper& oper, const ScoreContext& context)
     return score;
 }
 
+// 加工站材料合成评分：product 为材料 ID，level 为材料品质等级。
+double processing_score(const ScoreOper& oper, const ScoreContext& context)
+{
+    const std::string_view material_id = context.product;
+    double score = 0;
+    for (const auto& icon : oper.skills) {
+        if (icon == "bskill_ws_asc1" && material_id.size() == 4 && material_id.starts_with("32")) {
+            score += 0.7;
+        }
+        else if (icon == "bskill_ws_asc2" && material_id.size() == 4 && material_id.starts_with("32")) {
+            score += 0.8;
+        }
+        else if (icon == "bskill_hire_kalts2" || icon == "bskill_ws_p_kalts2") {
+            score += 0.8;
+        }
+        else if (icon == "bskill_ws_p5") {
+            continue;
+        }
+        else if (icon == "bskill_ws_p4") {
+            score += 0.65;
+        }
+        else if (icon == "bskill_ws_p3") {
+            score += 0.6;
+        }
+        else if (icon == "bskill_ws_evolve4") {
+            score += 1.0;
+        }
+        else if (icon == "bskill_ws_evolve3") {
+            score += 0.8;
+        }
+        else if (icon == "bskill_ws_evolve2") {
+            score += 0.75;
+        }
+        else if (icon == "bskill_ws_evolve1") {
+            score += 0.7;
+        }
+        else if (icon == "bskill_ws_free") {
+            score += 0.8 - context.level * 0.1;
+        }
+        else if (icon == "bskill_ws_cost_blemishine") {
+            score += 0.4;
+        }
+        else if (icon == "bskill_ws_bonus1" && context.level < 4) {
+            score += 0.9;
+        }
+        else if (icon == "bskill_ws_bonus2" && context.level == 4) {
+            score += 0.9;
+        }
+        else if (icon == "bskill_ws_alloyblock" && material_id == "31024") {
+            score += 1.0;
+        }
+        else if (icon == "bskill_ws_orirock" && (material_id == "30014" || material_id == "30013")) {
+            score += 0.9;
+        }
+        else if (icon == "bskill_ws_device" && (material_id == "30064" || material_id == "30063")) {
+            score += 0.9;
+        }
+        else if (icon == "bskill_ws_crystalline" && (material_id == "31034" || material_id == "30145")) {
+            score += 0.8;
+        }
+        else if (icon == "bskill_ws_skill3" && (material_id == "3302" || material_id == "3303")) {
+            score += 1.8;
+        }
+        else if (icon == "bskill_ws_skill2" && (material_id == "3302" || material_id == "3303")) {
+            score += 1.75;
+        }
+        else if (icon == "bskill_ws_skill1" && (material_id == "3302" || material_id == "3303")) {
+            score += 1.7;
+        }
+    }
+    return score;
+}
+
 ScoreResult select_single(const std::vector<ScoreOper>& opers, const ScoreContext& context)
 {
     ScoreResult result;
@@ -1019,8 +1092,16 @@ ScoreResult select_single(const std::vector<ScoreOper>& opers, const ScoreContex
             (has_skill(opers[index], "bskill_hire_spd_bd_n2") || is_operator(opers[index], { "char_473_mberry" }))) {
             continue;
         }
-        const double score =
-            context.facility == "Office" ? office_score(opers[index]) : power_score(opers[index], context);
+        double score = 0;
+        if (context.facility == "Office") {
+            score = office_score(opers[index]);
+        }
+        else if (context.facility == "Power") {
+            score = power_score(opers[index], context);
+        }
+        else if (context.facility == "Processing") {
+            score = processing_score(opers[index], context);
+        }
         if (result.indices.empty() || score > result.score) {
             result.indices = { index };
             result.score = score;
@@ -1473,7 +1554,7 @@ ScoreResult select_best_opers(const std::vector<ScoreOper>& opers, const ScoreCo
     if (context.facility == "Mfg" || context.facility == "Trade") {
         return select_combinations(opers, context);
     }
-    if (context.facility == "Office" || context.facility == "Power") {
+    if (context.facility == "Office" || context.facility == "Power" || context.facility == "Processing") {
         return select_single(opers, context);
     }
     if (context.facility == "Reception") {
