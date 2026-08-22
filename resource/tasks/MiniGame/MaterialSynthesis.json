@@ -1,0 +1,115 @@
+{
+    "MiniGame@MaterialSynthesis@Begin": {
+        "doc": "从目标材料的加工站合成页开始，由插件递归补齐下级材料",
+        "algorithm": "JustReturn"
+    },
+    "MiniGame@MaterialSynthesis@Workshop": {
+        "template": "empty.png",
+        "templThreshold": 1.1
+    },
+    "MiniGame@MaterialSynthesis@RequiredCount": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "roi": [1155, 342, 122, 58],
+        "isAscii": true
+    },
+    "MiniGame@MaterialSynthesis@MaterialName": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [525, 535, 175, 40]
+    },
+    "MiniGame@MaterialSynthesis@HasParent": {
+        "template": "empty.png",
+        "templThreshold": 1.1
+    },
+    "MiniGame@MaterialSynthesis@Ingredient1Available": {
+        "template": "empty.png",
+        "templThreshold": 1.1
+    },
+    "MiniGame@MaterialSynthesis@Ingredient1Unavailable": {
+        "template": "empty.png",
+        "templThreshold": 1.1
+    },
+    "MiniGame@MaterialSynthesis@Ingredient1Open": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [716, 278, 32, 32],
+        "postDelay": 900
+    },
+    "MiniGame@MaterialSynthesis@Ingredient2Available": {
+        "template": "empty.png",
+        "templThreshold": 1.1
+    },
+    "MiniGame@MaterialSynthesis@Ingredient2Unavailable": {
+        "template": "empty.png",
+        "templThreshold": 1.1
+    },
+    "MiniGame@MaterialSynthesis@Ingredient2Open": {
+        "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Open",
+        "specificRect": [901, 588, 32, 32]
+    },
+    "MiniGame@MaterialSynthesis@Ingredient3Available": {
+        "template": "empty.png",
+        "templThreshold": 1.1
+    },
+    "MiniGame@MaterialSynthesis@Ingredient3Unavailable": {
+        "template": "empty.png",
+        "templThreshold": 1.1
+    },
+    "MiniGame@MaterialSynthesis@Ingredient3Open": {
+        "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Open",
+        "specificRect": [537, 591, 32, 32]
+    },
+    "MiniGame@MaterialSynthesis@Increase": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1055, 270, 36, 36],
+        "postDelay": 100
+    },
+    "MiniGame@MaterialSynthesis@Decrease": {
+        "baseTask": "MiniGame@MaterialSynthesis@Increase",
+        "specificRect": [1055, 463, 36, 36]
+    },
+    "MiniGame@MaterialSynthesis@NoOperator": {
+        "template": "empty.png",
+        "templThreshold": 1.1
+    },
+    "MiniGame@MaterialSynthesis@LowMood": {
+        "template": "empty.png",
+        "templThreshold": 1.1
+    },
+    "MiniGame@MaterialSynthesis@OpenOperatorList": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [95, 320, 60, 60],
+        "postDelay": 900
+    },
+    "MiniGame@MaterialSynthesis@ReturnFromOperatorList": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "postDelay": 900
+    },
+    "MiniGame@MaterialSynthesis@Start": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1020, 590, 100, 80],
+        "postDelay": 1000
+    },
+    "MiniGame@MaterialSynthesis@Obtain": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [560, 610, 160, 90],
+        "preDelay": 1200,
+        "postDelay": 800
+    },
+    "MiniGame@MaterialSynthesis@Satisfied": {
+        "template": "empty.png",
+        "templThreshold": 1.1
+    },
+    "MiniGame@MaterialSynthesis@ReturnToParent": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [300, 180, 50, 50],
+        "postDelay": 800
+    }
+}
