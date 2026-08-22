@@ -946,10 +946,7 @@
     },
     "BlackFlow@Roguelike@MovementPanelBackClick": {
         "algorithm": "JustReturn",
-        "sub": [
-            "BlackFlow@Roguelike@MovementPanelBackClickOnce*2",
-            "BlackFlow@Roguelike@MovementPanelBackClickWait"
-        ]
+        "sub": ["BlackFlow@Roguelike@MovementPanelBackClickOnce*2", "BlackFlow@Roguelike@MovementPanelBackClickWait"]
     },
     "BlackFlow@Roguelike@MovementPanelBackClickOnce": {
         "algorithm": "JustReturn",
