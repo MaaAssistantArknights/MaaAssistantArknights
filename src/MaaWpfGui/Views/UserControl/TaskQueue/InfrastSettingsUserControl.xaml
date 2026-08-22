@@ -143,6 +143,15 @@
                     Value="{Binding DormThreshold}" />
             </StackPanel>
             <StackPanel>
+                <StackPanel
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal"
+                    Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
+                                           Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
+                    <controls:TextBlock Text="{DynamicResource InfrastFacilitySelection}" TextWrapping="Wrap" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource InfrastFacilitySelectionTip}" />
+                </StackPanel>
                 <ListBox
                     Margin="0,5"
                     d:ItemsSource="{d:SampleData ItemCount=3}"
@@ -186,8 +195,10 @@
                     </Grid.ColumnDefinitions>
                     <Button
                         Height="30"
+                        Margin="0,0,-1,0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Top"
+                        hc:BorderElement.CornerRadius="4,0,0,4"
                         Command="{s:Action InfrastItemSelectedAll}"
                         Content="{DynamicResource SelectAll}"
                         IsEnabled="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}" />
@@ -196,6 +207,7 @@
                         Height="30"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Top"
+                        hc:BorderElement.CornerRadius="0,4,4,0"
                         Command="{s:Action InfrastItemUnselectedAll}"
                         Content="{DynamicResource Clear}"
                         IsEnabled="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}" />
@@ -248,13 +260,13 @@
                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                 <StackPanel.Resources>
                     <DataTemplate x:Key="FiammettaTargetTemplate">
-                        <TextBlock
-                            Text="{Binding Display}"
-                            TextTrimming="CharacterEllipsis"
-                            ToolTip="{Binding Display}" />
+                        <TextBlock Text="{Binding Display}" ToolTip="{Binding Display}" />
                     </DataTemplate>
                 </StackPanel.Resources>
-                <StackPanel Margin="0,0,0,5" HorizontalAlignment="Left" Orientation="Horizontal">
+                <StackPanel
+                    Margin="0,0,0,5"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal">
                     <controls:TextBlock
                         Margin="8,0,0,0"
                         HorizontalAlignment="Left"
@@ -271,30 +283,26 @@
                     </Grid.ColumnDefinitions>
                     <ComboBox
                         Grid.Column="0"
-                        MinWidth="0"
-                        Margin="0,3,3,3"
-                        FontSize="12"
                         HorizontalContentAlignment="Stretch"
+                        hc:BorderElement.CornerRadius="4,0,0,4"
+                        BorderThickness="1,1,0,1"
                         ItemTemplate="{StaticResource FiammettaTargetTemplate}"
                         ItemsSource="{Binding FiammettaTargetList}"
                         SelectedValue="{Binding FiammettaTarget1}"
                         SelectedValuePath="Value" />
                     <ComboBox
                         Grid.Column="1"
-                        MinWidth="0"
-                        Margin="3"
-                        FontSize="12"
                         HorizontalContentAlignment="Stretch"
+                        hc:BorderElement.CornerRadius="0"
+                        BorderThickness="1,1,0,1"
                         ItemTemplate="{StaticResource FiammettaTargetTemplate}"
                         ItemsSource="{Binding OptionalFiammettaTargetList}"
                         SelectedValue="{Binding FiammettaTarget2}"
                         SelectedValuePath="Value" />
                     <ComboBox
                         Grid.Column="2"
-                        MinWidth="0"
-                        Margin="3,3,0,3"
-                        FontSize="12"
                         HorizontalContentAlignment="Stretch"
+                        hc:BorderElement.CornerRadius="0,4,4,0"
                         ItemTemplate="{StaticResource FiammettaTargetTemplate}"
                         ItemsSource="{Binding OptionalFiammettaTargetList}"
                         SelectedValue="{Binding FiammettaTarget3}"
@@ -306,56 +314,40 @@
                 Orientation="Horizontal"
                 Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
-                <CheckBox
-                    MaxWidth="{c:Binding '220 - ActualWidth', ElementName=InfrastUsePinusSylvestrisTipsTooltipBlock}"
-                    IsChecked="{Binding UsePinusSylvestris}">
+                <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=InfrastUsePinusSylvestrisTipsTooltipBlock}" IsChecked="{Binding UsePinusSylvestris}">
                     <controls:TextBlock Text="{DynamicResource InfrastUsePinusSylvestris}" TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock
-                    x:Name="InfrastUsePinusSylvestrisTipsTooltipBlock"
-                    TooltipText="{DynamicResource InfrastUsePinusSylvestrisTips}" />
+                <controls:TooltipBlock x:Name="InfrastUsePinusSylvestrisTipsTooltipBlock" TooltipText="{DynamicResource InfrastUsePinusSylvestrisTips}" />
             </StackPanel>
             <StackPanel
                 Margin="0,10"
                 Orientation="Horizontal"
                 Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
-                <CheckBox
-                    MaxWidth="{c:Binding '220 - ActualWidth', ElementName=InfrastUsePerceptionInformationTipsTooltipBlock}"
-                    IsChecked="{Binding UsePerceptionInformation}">
+                <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=InfrastUsePerceptionInformationTipsTooltipBlock}" IsChecked="{Binding UsePerceptionInformation}">
                     <controls:TextBlock Text="{DynamicResource InfrastUsePerceptionInformation}" TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock
-                    x:Name="InfrastUsePerceptionInformationTipsTooltipBlock"
-                    TooltipText="{DynamicResource InfrastUsePerceptionInformationTips}" />
+                <controls:TooltipBlock x:Name="InfrastUsePerceptionInformationTipsTooltipBlock" TooltipText="{DynamicResource InfrastUsePerceptionInformationTips}" />
             </StackPanel>
             <StackPanel
                 Margin="0,10"
                 Orientation="Horizontal"
                 Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
-                <CheckBox
-                    MaxWidth="{c:Binding '220 - ActualWidth', ElementName=InfrastUseWorldlyPlightTipsTooltipBlock}"
-                    IsChecked="{Binding UseWorldlyPlight}">
+                <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=InfrastUseWorldlyPlightTipsTooltipBlock}" IsChecked="{Binding UseWorldlyPlight}">
                     <controls:TextBlock Text="{DynamicResource InfrastUseWorldlyPlight}" TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock
-                    x:Name="InfrastUseWorldlyPlightTipsTooltipBlock"
-                    TooltipText="{DynamicResource InfrastUseWorldlyPlightTips}" />
+                <controls:TooltipBlock x:Name="InfrastUseWorldlyPlightTipsTooltipBlock" TooltipText="{DynamicResource InfrastUseWorldlyPlightTips}" />
             </StackPanel>
             <StackPanel
                 Margin="0,10"
                 Orientation="Horizontal"
                 Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
-                <CheckBox
-                    MaxWidth="{c:Binding '220 - ActualWidth', ElementName=InfrastUseAbyssalHunterTipsTooltipBlock}"
-                    IsChecked="{Binding UseAbyssalHunter}">
+                <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=InfrastUseAbyssalHunterTipsTooltipBlock}" IsChecked="{Binding UseAbyssalHunter}">
                     <controls:TextBlock Text="{DynamicResource InfrastUseAbyssalHunter}" TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock
-                    x:Name="InfrastUseAbyssalHunterTipsTooltipBlock"
-                    TooltipText="{DynamicResource InfrastUseAbyssalHunterTips}" />
+                <controls:TooltipBlock x:Name="InfrastUseAbyssalHunterTipsTooltipBlock" TooltipText="{DynamicResource InfrastUseAbyssalHunterTips}" />
             </StackPanel>
         </StackPanel>
     </StackPanel>

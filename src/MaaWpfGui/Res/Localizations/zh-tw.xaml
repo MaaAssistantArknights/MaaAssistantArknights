@@ -186,6 +186,8 @@
     <system:String x:Key="InfrastUseWorldlyPlightTips" xml:space="preserve">必要幹員：桑葚（精二）、烏有（精二）&#10;參與計算幹員：重岳、令、夕</system:String>
     <system:String x:Key="InfrastUseAbyssalHunter">使用深海獵人跨設施組合</system:String>
     <system:String x:Key="InfrastUseAbyssalHunterTips" xml:space="preserve">必要幹員：歌蕾蒂婭（精二）、烏爾比安、斯卡蒂、幽靈鯊、安哲拉&#10;因演算法原因同時勾選紅松騎士團時不會和紅松騎士團同時參與排班</system:String>
+    <system:String x:Key="InfrastFacilitySelection">換班設施</system:String>
+    <system:String x:Key="InfrastFacilitySelectionTip" xml:space="preserve">｢{key=InfrastModeNormal}｣ 下換班順序由演算法統一安排，此處僅選擇需要換班的設施類別，列表順序不生效。&#10;若需自訂換班順序，請使用 ｢{key=InfrastModeCustom}｣。</system:String>
     <system:String x:Key="TrainingIdle">訓練室空閒中</system:String>
     <system:String x:Key="TrainingCompleted">訓練完成</system:String>
     <system:String x:Key="TrainingLevel">專精等級</system:String>

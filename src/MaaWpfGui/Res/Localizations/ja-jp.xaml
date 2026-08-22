@@ -186,6 +186,8 @@
     <system:String x:Key="InfrastUseWorldlyPlightTips" xml:space="preserve">必須オペレーター：マルベリー（昇進2）、ステンレス（昇進2）&#10;計算対象オペレーター：チョンユエ、リィン、シー</system:String>
     <system:String x:Key="InfrastUseAbyssalHunter">アビサルハンター連携を使用</system:String>
     <system:String x:Key="InfrastUseAbyssalHunterTips" xml:space="preserve">必須オペレーター：グレイディーア（昇進2）、ウルピアヌス、スカジ、スペクター、アンドレアナ&#10;アルゴリズム上の理由により、ピヌス・シルベストリスも選択した場合は両方を同時に交代対象にはできません。</system:String>
+    <system:String x:Key="InfrastFacilitySelection">交代対象施設</system:String>
+    <system:String x:Key="InfrastFacilitySelectionTip" xml:space="preserve">｢{key=InfrastModeNormal}｣ では交代順序はアルゴリズムが自動的に決定します。ここでは処理する施設の種類を選択するのみで、順序は反映されません。&#10;交代順序をカスタマイズしたい場合は ｢{key=InfrastModeCustom}｣ をご利用ください。</system:String>
     <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>
     <system:String x:Key="TrainingCompleted">訓練が完了しました</system:String>
     <system:String x:Key="TrainingLevel">スキルランク</system:String>

@@ -461,7 +461,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @optional
 換班工作模式。
 <br>
-`0` - `Default`：預設換班模式，單設施最優解。
+`0` - `Default`：預設換班模式，自動計算效率較高的設施內及跨設施幹員組合。
 <br>
 `10000` - `Custom`：自定義換班模式，讀取使用者配置，可參閱 [基建排班協定](./base-scheduling-schema.md)。
 <br>
@@ -470,7 +470,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ::: field facility  
 @type array<string>
 @required
-要換班的設施（依序）。不支援在執行中更改設定。
+要換班的設施。不支援在執行中更改設定。
+<br>
+`mode = 0` 時該陣列為啟用集合，順序與重複項不參與調度（換班順序由演算法統一安排）；`mode = 10000` / `20000` 時按陣列順序執行。
 <br>
 設施名稱：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
 :::  
@@ -509,6 +511,38 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @default false
 @optional
 是否將宿舍剩餘位置填入信賴值未滿的幹員。  
+:::  
+::: field fiammetta_targets  
+@type array<string>
+@default ["清流", "可露希尔", "但书"]
+@optional
+菲亞梅塔恢復目標名單，換班時會優先將名單中當前心情最低的幹員與菲亞梅塔一同進駐宿舍。僅 `mode = 0` 時生效。
+<br>
+選項：`清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅`（不在選項內或重複的條目會被忽略）  
+:::  
+::: field use_pinus_sylvestris  
+@type boolean
+@default false
+@optional
+是否啟用 ｢紅松騎士團｣ 跨設施組合。僅 `mode = 0` 時生效。  
+:::  
+::: field use_perception_information  
+@type boolean
+@default false
+@optional
+是否啟用 ｢感知信息｣ 跨設施組合，優先度高於 ｢人間煙火｣。僅 `mode = 0` 時生效。  
+:::  
+::: field use_worldly_plight  
+@type boolean
+@default false
+@optional
+是否啟用 ｢人間煙火｣ 跨設施組合。僅 `mode = 0` 時生效。  
+:::  
+::: field use_abyssal_hunter  
+@type boolean
+@default false
+@optional
+是否啟用 ｢深海獵人｣ 跨設施組合。僅 `mode = 0` 時生效，與 ｢紅松騎士團｣ 同時啟用時兩者不會同時參與排班。  
 :::  
 ::: field reception_message_board  
 @type boolean

@@ -186,6 +186,8 @@
     <system:String x:Key="InfrastUseWorldlyPlightTips" xml:space="preserve">Required operators: Mulberry (E2) and Stainless (E2)&#10;Operators included in calculation: Chongyue, Ling, and Dusk</system:String>
     <system:String x:Key="InfrastUseAbyssalHunter">Use Abyssal Hunter cross-facility team</system:String>
     <system:String x:Key="InfrastUseAbyssalHunterTips" xml:space="preserve">Required operators: Gladiia (E2), Ulpianus, Skadi, Specter, and Andreana&#10;Due to algorithm limitations, when Pinus Sylvestris is also selected, the two teams will not participate in scheduling together.</system:String>
+    <system:String x:Key="InfrastFacilitySelection">Facilities</system:String>
+    <system:String x:Key="InfrastFacilitySelectionTip" xml:space="preserve">In ｢{key=InfrastModeNormal}｣, the shift order is planned automatically by the algorithm. This list only selects which facility types to process; the order here does not matter.&#10;To customize the shift order, please use ｢{key=InfrastModeCustom}｣.</system:String>
     <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
     <system:String x:Key="TrainingLevel">Skill Rank</system:String>
