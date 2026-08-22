@@ -2411,7 +2411,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
 
     <system:String x:Key="Achievement.SlackingOff.Title">월급 루팡</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">업무 효율을 위해서 가끔은 쉬어줘야죠.</system:String>
-    <system:String x:Key="Achievement.SlackingOff.Conditions">미니게임 1회 실행</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Conditions">{key=MiniGame} 1회 실행</system:String>
 
     <system:String x:Key="AchievementDlcProgressNotice">업적 DLC 식별자: #1은 시스템과 함께 출시, 이후 DLC는 업데이트로 추가됩니다. 일부 업적은 해당 DLC 공개 후에만 진행도가 누적됩니다.</system:String>
     <system:String x:Key="AchievementDlcReleaseDate">출시일</system:String>

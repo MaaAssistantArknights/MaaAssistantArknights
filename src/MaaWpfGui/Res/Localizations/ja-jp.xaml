@@ -2411,7 +2411,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.SlackingOff.Title">本業を怠る</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">本業に疲れたら、ちょっと別の遊びを。</system:String>
-    <system:String x:Key="Achievement.SlackingOff.Conditions">ミニゲームを1回起動する</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Conditions">{key=MiniGame}を1回起動する</system:String>
 
     <system:String x:Key="AchievementDlcProgressNotice">実績 DLC 識別子：#1 は実績システムと同時公開、以降はアップデートで追加されます。一部実績の進捗は所属 DLC 公開後にのみ加算されます。</system:String>
     <system:String x:Key="AchievementDlcReleaseDate">公開日</system:String>
