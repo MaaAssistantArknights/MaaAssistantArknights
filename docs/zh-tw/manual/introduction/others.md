@@ -110,7 +110,7 @@ MAA 的更新分為兩種內容：
 ::: tip
 
 - 僅支援從 [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下載的包。[Mirror醬](https://mirrorchyan.com/zh/projects?rid=MAA) 的更新包格式不同，且為自動更新專用，**不支援拖入**。
-- 使用拖入更新時請勿以**系統管理員權限**執行 MAA，否則受 Windows 權限隔離機制影響，可能無法從檔案總管拖入更新包。
+- 使用拖入更新時請勿以**系統管理員權限**執行 MAA，否則可能受 Windows 權限隔離機制影響而無法拖入更新包。
 
 :::
 
