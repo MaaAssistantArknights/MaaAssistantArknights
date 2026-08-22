@@ -130,7 +130,6 @@ public class Win32Extra() : ExtraConfig
             }
 
             UpdateScreencapMethodAvailability();
-            NotifyOfPropertyChange(nameof(ScreencapMethod));
         }
     }
 
