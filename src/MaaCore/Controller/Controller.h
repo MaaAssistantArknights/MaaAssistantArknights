@@ -47,6 +47,7 @@ public:
         Win32ScreencapMethod screencap_method,
         Win32InputMethod mouse_method,
         Win32InputMethod keyboard_method);
+    void restore_window_position();
 #endif
     bool inited() noexcept;
     void set_touch_mode(const TouchMode& mode) noexcept;

@@ -745,6 +745,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionAddressTip">｢{key=AutoDetectConnection}｣ を有効にして成功すると自動的に入力されます。検出に失敗した場合は、エミュレータの実際のポートを確認して入力してください。</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <system:String x:Key="ScreenshotTest">スクリーンショットテスト</system:String>
+    <system:String x:Key="WindowRestore">ウィンドウ復元</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">MuMu タッチ強化を有効化（実験的、MuMu エミュレータ 6.3.2+、バックグラウンド常駐対応）</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu エミュレータのパスが見つかりません。</system:String>
@@ -1707,7 +1708,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（バックグラウンド、高効率、最小化可）</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（バックグラウンド、高効率、最小化不可）</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow（バックグラウンド、安定、最小化可）</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（バックグラウンド、予備、最小化不可）</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（フォアグラウンド、遮蔽不可）</system:String>
