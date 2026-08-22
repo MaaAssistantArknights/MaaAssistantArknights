@@ -1,6 +1,7 @@
 #include "CustomTask.h"
 
 #include "Config/TaskData.h"
+#include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/MiniGame/PixelPaintTaskPlugin.h"
 #include "Task/MiniGame/SecretFrontTaskPlugin.h"
 #include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
@@ -41,6 +42,9 @@ bool asst::CustomTask::set_params(const json::value& params)
         else if (parse_and_register_pixel_paint(task_name, params)) {
             Log.info("Parsed and registered PixelPaint task: ", task_name);
         }
+        else if (parse_and_register_material_synthesis(task_name)) {
+            Log.info("Parsed and registered MaterialSynthesis task: ", task_name);
+        }
 
         if (Task.get(resolved_task) == nullptr) {
             Log.error("set_params failed, task not found: ", resolved_task);
@@ -51,6 +55,17 @@ bool asst::CustomTask::set_params(const json::value& params)
     }
     m_custom_task_ptr->set_tasks(std::move(tasks));
     m_subtasks.emplace_back(m_custom_task_ptr);
+    return true;
+}
+
+bool asst::CustomTask::parse_and_register_material_synthesis(const std::string& task_name)
+{
+    if (task_name != "MiniGame@MaterialSynthesis@Begin") {
+        return false;
+    }
+    if (!m_custom_task_ptr->find_plugin<MaterialSynthesisTaskPlugin>()) {
+        m_custom_task_ptr->register_plugin<MaterialSynthesisTaskPlugin>()->set_retry_times(0);
+    }
     return true;
 }
 
