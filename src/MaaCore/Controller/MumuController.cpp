@@ -17,6 +17,7 @@ bool MumuController::connect(const std::string& adb_path, const std::string& add
     LogTraceFunction;
 
     m_mumu_input_ready = false;
+    m_mumu_input_notify = MumuInputNotify::None;
     release_minitouch();
 
 #ifdef ASST_DEBUG
@@ -33,40 +34,43 @@ bool MumuController::connect(const std::string& adb_path, const std::string& add
         return false;
     }
 
+    // 连接时游戏可能还没开始渲染，此时 display 是 fallback 的桌面，其尺寸与游戏触控
+    // 坐标系无关；这种情况下不做 mismatch 判定，推迟到输入入口（try_enable_mumu_input）
+    bool deferred = false;
+
     if (m_mumu_extras.input_available()) {
         // ControlScaleProxy 会把坐标缩放到 get_screen_res() 的尺寸，而 nemu 期望的是
         // display 自身的坐标系。两者不一致时点击会全部偏掉，宁可降级也不要乱点。
-        auto [mumu_width, mumu_height] = m_mumu_extras.get_display_size();
-        if (mumu_width == m_width && mumu_height == m_height) {
-            m_mumu_input_ready = true;
-            LogInfo << "MuMu extras input is ready" << VAR(m_width) << VAR(m_height);
-
-            // 通知 GUI：MuMu 触控增强已实际生效
-            json::value input_info = json::object {
-                { "uuid", m_uuid },
-                { "what", "MuMuExtrasInputStatus" },
-                { "details", json::object { { "available", true } } },
-            };
-            callback(AsstMsg::ConnectionInfo, input_info);
-
-            return true;
+        if (!m_mumu_extras.has_target_display()) {
+            deferred = true;
+            LogInfo << "Target package is not rendering, defer MuMu extras input check";
         }
-        LogWarn << "MuMu display size mismatches adb screen size" << VAR(mumu_width) << VAR(mumu_height) << VAR(m_width)
-                << VAR(m_height);
+        else {
+            auto [mumu_width, mumu_height] = m_mumu_extras.get_display_size();
+            if (mumu_width == m_width && mumu_height == m_height) {
+                m_mumu_input_ready = true;
+                LogInfo << "MuMu extras input is ready" << VAR(m_width) << VAR(m_height);
+                notify_mumu_input_status(MumuInputNotify::Ready);
+                return true;
+            }
+            LogWarn << "MuMu display size mismatches adb screen size" << VAR(mumu_width) << VAR(mumu_height)
+                    << VAR(m_width) << VAR(m_height);
+        }
     }
 
     LogInfo << "MuMu extras input is not available, fallback to minitouch";
 
-    // 通知 GUI：MuMu 触控增强未生效（版本不支持或路径错误等），已降级
-    json::value input_info = json::object {
-        { "uuid", m_uuid },
-        { "what", "MuMuExtrasInputStatus" },
-        { "details", json::object { { "available", false } } },
-    };
-    callback(AsstMsg::ConnectionInfo, input_info);
+    // 通知 GUI：触控增强未生效。deferred 场景（游戏尚未渲染）输入入口仍会自动重试，
+    // GUI 不得据此判定触控不可用而停止任务
+    notify_mumu_input_status(deferred ? MumuInputNotify::Deferred : MumuInputNotify::Unavailable);
 
     m_minitouch_available = probe_minitouch();
     if (!m_minitouch_available) {
+        if (deferred) {
+            // 游戏渲染后 MuMu 输入仍可能就绪，不因过渡期的 minitouch 探测失败而断开
+            LogWarn << "minitouch probe failed while MuMu input check is deferred";
+            return true;
+        }
         json::value info = json::object {
             { "uuid", m_uuid },
             { "details",
@@ -85,9 +89,54 @@ bool MumuController::connect(const std::string& adb_path, const std::string& add
     return true;
 }
 
+bool MumuController::try_enable_mumu_input()
+{
+    if (m_mumu_input_ready) {
+        return true;
+    }
+    if (!m_mumu_extras.input_available() || !m_mumu_extras.has_target_display()) {
+        return false;
+    }
+    auto [mumu_width, mumu_height] = m_mumu_extras.get_display_size();
+    if (mumu_width != m_width || mumu_height != m_height) {
+        // 游戏已渲染但坐标系不一致，挂起到此为止：这是确认不可用，不再是"尚未判定"，
+        // 通知 GUI 终态（保活场景下 GUI 会据此停止任务）
+        notify_mumu_input_status(MumuInputNotify::Unavailable);
+        return false;
+    }
+
+    // 游戏已开始渲染且坐标系一致（典型场景：连接时游戏未启动，由任务拉起后），
+    // 此前降级的 minitouch 不再需要
+    m_mumu_input_ready = true;
+    release_minitouch();
+    LogInfo << "MuMu extras input is ready (deferred)" << VAR(m_width) << VAR(m_height);
+    notify_mumu_input_status(MumuInputNotify::Ready);
+    return true;
+}
+
+void MumuController::notify_mumu_input_status(MumuInputNotify status)
+{
+    if (status == m_mumu_input_notify) {
+        return;
+    }
+    m_mumu_input_notify = status;
+
+    // 通知 GUI：MuMu 触控增强的实际生效状态；deferred 表示尚未判定、等待游戏渲染后自动重试
+    json::value input_info = json::object {
+        { "uuid", m_uuid },
+        { "what", "MuMuExtrasInputStatus" },
+        { "details",
+          json::object {
+              { "available", status == MumuInputNotify::Ready },
+              { "deferred", status == MumuInputNotify::Deferred },
+          } },
+    };
+    callback(AsstMsg::ConnectionInfo, input_info);
+}
+
 bool MumuController::click(const Point& p)
 {
-    if (!use_mumu_input()) {
+    if (!try_enable_mumu_input()) {
         return MinitouchController::click(p);
     }
 
@@ -117,7 +166,7 @@ bool MumuController::swipe(
     double slope_out,
     bool with_pause)
 {
-    if (!use_mumu_input()) {
+    if (!try_enable_mumu_input()) {
         return MinitouchController::swipe(p1, p2, duration, extra_swipe, slope_in, slope_out, with_pause);
     }
 
@@ -213,7 +262,7 @@ bool MumuController::swipe(
 
 bool MumuController::inject_input_event(const InputEvent& event)
 {
-    if (!use_mumu_input()) {
+    if (!try_enable_mumu_input()) {
         return MinitouchController::inject_input_event(event);
     }
 
@@ -244,7 +293,7 @@ bool MumuController::inject_input_event(const InputEvent& event)
 
 bool MumuController::input(const std::string& text)
 {
-    if (!use_mumu_input()) {
+    if (!try_enable_mumu_input()) {
         return MinitouchController::input(text);
     }
 
@@ -253,7 +302,7 @@ bool MumuController::input(const std::string& text)
 
 bool MumuController::press_esc()
 {
-    if (!use_mumu_input()) {
+    if (!try_enable_mumu_input()) {
         return MinitouchController::press_esc();
     }
 
@@ -278,8 +327,9 @@ std::optional<std::string> MumuController::reconnect(const std::string& cmd, int
         return MinitouchController::reconnect(cmd, timeout, recv_by_socket);
     }
 
-    // 走 MuMu 触控时没有探测过 minitouch，跳过基类的 minitouch 重新拉起，
-    // 否则会拿着空命令去起交互式 shell。nemu 的连接由 MumuExtras 自己维护。
+    // 走 MuMu 触控时输入不经过 minitouch（即使降级过渡期探测过，恢复时也已释放），
+    // 跳过基类的 minitouch 重新拉起，否则会拿着空命令去起交互式 shell。
+    // nemu 的连接由 MumuExtras 自己维护
     return AdbController::reconnect(cmd, timeout, recv_by_socket);
 }
 
@@ -287,6 +337,7 @@ void MumuController::clear_info() noexcept
 {
     MinitouchController::clear_info();
     m_mumu_input_ready = false;
+    m_mumu_input_notify = MumuInputNotify::None;
 }
 } // namespace asst
 
