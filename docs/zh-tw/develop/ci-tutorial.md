@@ -76,7 +76,7 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 2. `release-preparation.yml` 會產生從最近版本到當前版本的 Changelog（以一個新 PR 的形式呈現）。
 3. 對 Changelog 進行手動調整，並加入簡要描述。
 4. 合併 PR，觸發 `pr-auto-tag.yml` 建立 Tag 並同步分支。
-5. Release 事件觸發 `release-ota.yml`，對 master-v2 標上 Tag 後進行 OTA 包建置及附件上傳。
+5. Release 事件觸發 `release-ota.yml`，對 master-v2 標上 Tag 後進行 OTA 檔案建置及附件上傳。
 
 ### 資源更新
 
@@ -118,7 +118,7 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 MirrorChyan 是有償的更新鏡像服務，相關工作流如下：
 
-- `release-package-distribution.yml` 同步更新包至 MirrorChyan。
+- `release-package-distribution.yml` 同步更新檔案至 MirrorChyan。
 - `mirrorchyan_release_note.yml` 產生 MirrorChyan 的 Release Note。
 
 ### 其他

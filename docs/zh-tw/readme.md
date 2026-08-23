@@ -177,7 +177,7 @@ MAA 以中文（簡體）為第一語言，翻譯詞條均以中文（簡體）�
 
 本軟體支援 GPU 加速功能，其在 Windows 平台上依賴於 Microsoft 提供的獨立元件 [DirectML](https://learn.microsoft.com/en-us/windows/ai/directml/)。  
 DirectML 並非本專案的開源部分，也不受 AGPL 3.0 的約束。  
-為方便用戶使用，我們隨安裝包附帶了一個未經修改的 DirectML.dll 檔案。  
+為方便使用者使用，我們隨安裝檔附帶了一個未經修改的 DirectML.dll 檔案。  
 如果您無需 GPU 加速功能，可安全刪除該 DLL 檔案，軟體的核心功能仍可正常執行。
 
 ## 廣告

@@ -19,7 +19,7 @@ icon: basil:apple-solid
 
 1. 下載 [fork 版本的 PlayCover](https://github.com/hguandl/PlayCover/releases) 並安裝。
 
-2. 下載 [脫殼的《明日方舟》客戶端安裝包](https://decrypt.day/app/id1454663939)，並在 PlayCover 中安裝。
+2. 下載 [脫殼的《明日方舟》客戶端安裝檔](https://decrypt.day/app/id1454663939)，並在 PlayCover 中安裝。
 
 3. 在 PlayCover 中右鍵點選《明日方舟》，選擇 `設定` - `繞過`，勾選 `啟用 PlayChain`、`啟用繞過越獄偵測`、`插入內省庫`、`MaaTools`，然後點選 `好`。
 

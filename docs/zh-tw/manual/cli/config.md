@@ -320,7 +320,7 @@ address = = "emulator-5554" # 連線位址，例如 "emulator-5554" 或者 "127.
 config = "General" # 連線配置，通常不需要修改
 ```
 
-`adb_path` 是 `adb` 執行檔的路徑，您可以指定其路徑，或者將其添加到環境變數 `PATH` 中，以便 MaaCore 可以找到它。大多數模擬器內建 `adb`，您可以直接使用其內建的 `adb`，而不需要額外安裝，否則您需要自行安裝 `adb`。`address` 是 `adb` 的連線位址。對於模擬器，您可以使用 `127.0.0.1:[連接埠號]`，常用的模擬器連接埠號可參閱 [常見問題][emulator-ports]。如果您沒有指定 `address`，那麼會嘗試透過 `adb devices` 來獲取連線的設備，如果有多個設備連線，那麼將會使用第一個設備，如果沒有找到任何設備，那麼將會嘗試連線到 `emulator-5554`。`config` 於指定一些平台和模擬器相關的配置。對於 Linux 它預設為 `CompatPOSIXShell`，對於 macOS 它預設為 `CompatMac`，對於 Windows 它預設為 `General`。更多可選配置可以在資源資料夾中的 `config.json` 檔案中找到。
+`adb_path` 是 `adb` 執行檔的路徑，您可以指定其路徑，或者將其新增到環境變數 `PATH` 中，以便 MaaCore 可以找到它。大多數模擬器內建 `adb`，您可以直接使用其內建的 `adb`，而不需要額外安裝，否則您需要自行安裝 `adb`。`address` 是 `adb` 的連線位址。對於模擬器，您可以使用 `127.0.0.1:[連接埠號]`，常用的模擬器連接埠號可參閱 [常見問題][emulator-ports]。如果您沒有指定 `address`，那麼會嘗試透過 `adb devices` 來獲取連線的設備，如果有多個設備連線，那麼將會使用第一個設備，如果沒有找到任何設備，那麼將會嘗試連線到 `emulator-5554`。`config` 於指定一些平台和模擬器相關的配置。對於 Linux 它預設為 `CompatPOSIXShell`，對於 macOS 它預設為 `CompatMac`，對於 Windows 它預設為 `General`。更多可選配置可以在資源資料夾中的 `config.json` 檔案中找到。
 
 對於一些常用的模擬器，您可以直接使用 `preset` 來使用預設的配置：
 

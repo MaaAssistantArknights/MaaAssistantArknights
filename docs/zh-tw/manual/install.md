@@ -21,7 +21,7 @@ MAA 提供多種下載方式，包括官網下載、透過套件管理員安裝�
 
 ### 透過 [Mirror酱](https://mirrorchyan.com/zh/projects?rid=MAA&source=maadocs-install) 下載最新的 MAA 安裝檔
 
-請確認系統架構並下載對應的安裝檔案。對於大多數閱讀本文件的 Windows 使用者來說，應為 Windows x64。對於閱讀本文件的 Mac 使用者，Mirror酱 不提供通用安裝檔，請確認您的晶片架構（arm/x86）後下載對應版本。
+請確認系統架構並下載對應的安裝檔。對於大多數閱讀本文件的 Windows 使用者來說，應為 Windows x64。對於閱讀本文件的 Mac 使用者，Mirror酱 不提供通用安裝檔，請確認您的晶片架構（arm/x86）後下載對應版本。
 
 ::: tip
 [Mirror酱](https://mirrorchyan.com/zh/projects?rid=MAA&source=maadocs-install) 是獨立的第三方下載加速服務，需要付費使用，而非由 MAA 收費。其營運成本由訂閱收入支撐，部分收益將回饋專案開發者。歡迎訂閱 CDK 享受快速下載，同時支援專案持續開發。
