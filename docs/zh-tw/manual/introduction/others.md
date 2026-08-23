@@ -88,8 +88,8 @@ MAA 的更新分為兩種內容：
 
 | 更新來源             | 說明                                                                                                                                                  |
 | :------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **海外源**（GitHub） | 軟體版本從 GitHub 拉取；資源版本由 [Mirror醬](https://mirrorchyan.com/zh/projects?rid=MAA) 提供免費的更新檢測，可手動點選 `資源更新` 從 GitHub 下載。 |
-| **Mirror醬**         | 填寫 CDK 後支援軟體與資源自動更新，優先通過高速 CDN 下載，更穩定快速。                                                                                |
+| **海外源**（GitHub） | 軟體版本從 GitHub 拉取；資源版本由 [Mirror酱](https://mirrorchyan.com/zh/projects?rid=MAA) 提供免費的更新檢測，可手動點選 `資源更新` 從 GitHub 下載。 |
+| **Mirror酱**         | 填寫 CDK 後支援軟體與資源自動更新，優先透過高速 CDN 下載，更穩定快速。                                                                                |
 
 可在更新設定中開啟或關閉以下選項：
 
@@ -109,7 +109,7 @@ MAA 的更新分為兩種內容：
 
 ::: tip
 
-- 僅支援從 [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下載的包。[Mirror醬](https://mirrorchyan.com/zh/projects?rid=MAA) 的更新包格式不同，且為自動更新專用，**不支援拖入**。
+- 僅支援從 [GitHub Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下載的檔案。[Mirror酱](https://mirrorchyan.com/zh/projects?rid=MAA) 的更新檔案格式不同，且為自動更新專用，**不支援拖入**。
 - 使用拖入更新時請勿以**系統管理員權限**執行 MAA，否則可能受 Windows 權限隔離機制影響而無法拖入更新檔案。
 
 :::
