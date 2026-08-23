@@ -1,6 +1,6 @@
 {
     "AccountManagerTxwy": {
-        "roi": [375, 145, 525, 85]
+        "roi": [500, 110, 290, 80]
     },
     "BattleQuickFormationSkillPage": {
         "algorithm": "JustReturn",
@@ -905,14 +905,14 @@
         "next": ["AccountManagerOfficial", "AccountManagerBili", "AccountManagerTxwy"]
     },
     "AccountCurrentOCR": {
-        "roi": [440, 548, 400, 30]
+        "roi": [410, 262, 290, 45]
     },
     "AccountManagerLoginButton": {
         "text": ["登入"],
         "roi": [465, 385, 355, 55]
     },
     "AccountManagerListAccount": {
-        "roi": [770, 290, 70, 60]
+        "roi": [860, 240, 90, 90]
     },
     "AccountManagerTrashButton": {
         "roi": [790, 370, 35, 150]
@@ -925,6 +925,9 @@
     },
     "StartToWakeUpOCR": {
         "text": ["開始喚醒", "登錄", "登", "錄"]
+    },
+    "StartUpConnectingFlag": {
+        "roi": [0, 630, 560, 90]
     },
     "TodaysSupplies": {
         "text": ["今日配給"]
