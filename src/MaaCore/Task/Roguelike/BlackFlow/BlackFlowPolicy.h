@@ -346,6 +346,9 @@ public:
 
     ResourceRegistry();
     bool register_resource(std::string id, Reader reader);
+    // 登记一个由若干移动方式合起来构成的资源。成员表存下来供 read_after 判断这一步扣不扣，
+    // 因此读数与扣减用的是同一份定义。
+    bool register_movement_group(std::string id, const std::function<bool(const MovementSpec&)>& member);
     [[nodiscard]] bool contains(std::string_view id) const noexcept;
     [[nodiscard]] std::optional<std::int64_t> read(std::string_view id, const RunState& state) const;
     [[nodiscard]] std::optional<std::int64_t>
@@ -353,6 +356,7 @@ public:
 
 private:
     std::unordered_map<std::string, Reader> m_readers;
+    std::unordered_map<std::string, std::unordered_set<MovementKind>> m_movement_groups;
 };
 
 struct PlannedRouteStep

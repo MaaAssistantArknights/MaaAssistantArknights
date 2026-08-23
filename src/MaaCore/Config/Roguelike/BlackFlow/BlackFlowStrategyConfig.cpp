@@ -714,15 +714,28 @@ PolicyProfile parse_profile(const json::value& value)
     return result;
 }
 
+// 整条投影路线算出来的候选事实。它们回答的是「按本拍的计划，以后会经过什么」，而计划逐拍
+// 从零重算、从不提交，因此只能当转向依据，不能当许可依据。
+bool is_route_projection_fact(const std::string& name)
+{
+    static const std::unordered_set<std::string> Projection = {
+        "candidate.route_node_types",          "candidate.guaranteed_route_node_types",
+        "candidate.route_has_badged",          "candidate.guaranteed_route_has_badged",
+        "candidate.route_has_badged_incident", "candidate.guaranteed_route_has_badged_incident",
+    };
+    return Projection.contains(name);
+}
+
 void validate_condition(
     const Condition& condition,
     const std::unordered_map<std::string, FactDefinition>& facts,
-    bool allow_candidate)
+    bool allow_candidate,
+    bool allow_route_projection = true)
 {
     if (condition.kind == ConditionKind::All || condition.kind == ConditionKind::Any ||
         condition.kind == ConditionKind::Not) {
         for (const auto& child : condition.children) {
-            validate_condition(child, facts, allow_candidate);
+            validate_condition(child, facts, allow_candidate, allow_route_projection);
         }
         return;
     }
@@ -735,6 +748,12 @@ void validate_condition(
     }
     if (!allow_candidate && definition->second.scope == FactScope::Candidate) {
         invalid_config("non-candidate condition references candidate fact: " + condition.fact);
+    }
+    // 资源预留一旦释放，那一份资源当拍就被花掉，收不回来。拿「以后会经过」去授权一次不可逆的
+    // 消耗，等于把单拍的计划当成了承诺；实测过的后果是留给秘境行商的最后一次长距离移动被用来
+    // 飞别处。释放条件只能看这一步本身。
+    if (!allow_route_projection && is_route_projection_fact(condition.fact)) {
+        invalid_config("resource reserve release condition references a route projection fact: " + condition.fact);
     }
     if (condition.compare == CompareOperator::Exists || condition.compare == CompareOperator::NotExists) {
         return;
@@ -781,7 +800,7 @@ void validate_module(
             invalid_config("resource reserve references unknown resource: " + reserve.resource);
         }
         validate_condition(reserve.active_if, facts, false);
-        validate_condition(reserve.release_if, facts, true);
+        validate_condition(reserve.release_if, facts, true, false);
     }
     for (const auto& milestone : module.milestones) {
         if (!ids.emplace("milestone:" + milestone.id).second) {
