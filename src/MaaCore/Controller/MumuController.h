@@ -61,8 +61,8 @@ private:
     enum class MumuInputNotify
     {
         None,
-        Ready, // 触控增强已生效
-        Deferred, // 游戏未渲染，判定挂起，等待输入入口自动重试
+        Ready,       // 触控增强已生效
+        Deferred,    // 游戏未渲染，判定挂起，等待输入入口自动重试
         Unavailable, // 确认不可用（版本不支持、路径错误、尺寸不匹配等）
     };
 

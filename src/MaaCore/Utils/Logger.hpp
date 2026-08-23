@@ -922,8 +922,11 @@ private:
             logger.error("ExceptionAddress", er.ExceptionAddress);
             logger.error("ExceptionParameters", er.NumberParameters);
             if (er.ExceptionCode == EXCEPTION_ACCESS_VIOLATION && er.NumberParameters >= 2) {
-                logger.error("AccessViolation", er.ExceptionInformation[0] ? "write" : "read",
-                             "at", reinterpret_cast<const void*>(er.ExceptionInformation[1]));
+                logger.error(
+                    "AccessViolation",
+                    er.ExceptionInformation[0] ? "write" : "read",
+                    "at",
+                    reinterpret_cast<const void*>(er.ExceptionInformation[1]));
             }
             logger.error("============================");
             logger.flush();

@@ -38,10 +38,7 @@ public:
 
     // 当前 display 是否为包名命中的缓存结果（而非 fallback）。fallback 时游戏未在渲染，
     // 拿到的 display 及其尺寸都与目标游戏无关，不能用于判断触控坐标系是否一致
-    bool has_target_display() const
-    {
-        return display_id_cache_.load(std::memory_order_relaxed) != kInvalidDisplayId;
-    }
+    bool has_target_display() const { return display_id_cache_.load(std::memory_order_relaxed) != kInvalidDisplayId; }
 
     // contact 为 0 起始，内部转换为 mumu 的 1 起始 finger_id
     bool touch_down(int contact, int x, int y);
