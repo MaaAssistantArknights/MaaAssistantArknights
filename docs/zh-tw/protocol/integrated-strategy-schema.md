@@ -53,7 +53,7 @@ icon: ri:game-fill
 
 ### 幹員分類
 
-按照你的遊戲理解將幹員分成不同的 **_groups_** （群组，相關概念請參閱 [戰鬥流程協定](./copilot-schema.md)）
+按照你的遊戲理解將幹員分成不同的 **_groups_** （群組，相關概念請參閱 [戰鬥流程協定](./copilot-schema.md)）
 
 ::: info 注意
 

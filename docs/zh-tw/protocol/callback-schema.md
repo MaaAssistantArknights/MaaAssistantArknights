@@ -196,7 +196,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ::: field taskchain
 @type string
 @required
-最後的任务鏈。
+最後的任務鏈。
 :::
 ::: field uuid
 @type string
@@ -309,7 +309,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 #### 常見 `subtask` 欄位
 
 - `ProcessTask`  
-  `details` 欄位内容如下：
+  `details` 欄位內容如下：
 
   :::: field-group
   ::: field task
