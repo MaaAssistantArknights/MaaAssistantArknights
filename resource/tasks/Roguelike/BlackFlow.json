@@ -1401,11 +1401,6 @@
         "next": ["BlackFlow@Roguelike@StageTraderInvestSystemError", "BlackFlow@Roguelike@StageTraderInvestCancel"],
         "reduceOtherTimes": ["BlackFlow@Roguelike@StageTraderInvestSystemEnter*3"]
     },
-    "BlackFlow@Roguelike@StageTraderInvestSystem": {
-        "baseTask": "Roguelike@StageTraderInvestSystem",
-        "template": "Roguelike@StageTraderInvestSystem.png",
-        "next": ["BlackFlow@Roguelike@StageTraderInvestSystemEnter", "BlackFlow@Roguelike@StageTraderLeave"]
-    },
     "BlackFlow@Roguelike@StageTraderInvestSystemEnter": {
         "baseTask": "Roguelike@StageTraderInvestSystemEnter",
         "template": "Roguelike@StageTraderInvestSystemEnter.png",
