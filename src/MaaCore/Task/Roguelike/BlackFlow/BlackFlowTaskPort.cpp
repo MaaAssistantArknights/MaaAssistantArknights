@@ -32,6 +32,7 @@ constexpr std::string_view MovePreviewCannotEnterTask = "BlackFlow@Roguelike@Mov
 constexpr std::string_view MovePreviewCostTask = "BlackFlow@Roguelike@MovePreviewCost";
 constexpr std::string_view MovePreviewDisplayedNameTask = "BlackFlow@Roguelike@MovePreviewDisplayedName";
 constexpr std::string_view MovePreviewConfirmTask = "BlackFlow@Roguelike@MovePreviewConfirm";
+constexpr std::string_view MovePreviewConfirmCompletedTask = "BlackFlow@Roguelike@MovePreviewConfirmCompletedDone";
 constexpr std::string_view EnteredPageClassificationTask = "BlackFlow@Roguelike@EnteredPageClassification";
 constexpr std::string_view EnteredPageClassificationEncounterPrepareTask =
     "BlackFlow@Roguelike@EnteredPageClassificationEncounterPrepare";
@@ -293,6 +294,11 @@ bool BlackFlowTaskPort::confirm(
         return false;
     }
     if (!m_task_context->execute({ std::string(MovePreviewConfirmTask) }, error)) {
+        return false;
+    }
+    // ProcessTask treats an exhausted task without exceededNext as a successful terminal chain.
+    if (m_task_context->last_task() != MovePreviewConfirmCompletedTask) {
+        set_error(error, "move confirmation did not reach the completed state: " + m_task_context->last_task());
         return false;
     }
     entered_page = {};
