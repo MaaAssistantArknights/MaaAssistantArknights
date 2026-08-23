@@ -10,7 +10,7 @@ dir:
 
 ## 功能
 
-- 執行預定義或自定義的任務，例如 `maa fight`、`maa run <task>`。
+- 執行預定義或自訂的任務，例如 `maa fight`、`maa run <task>`。
 - 使用 `maa install` 和 `maa update` 安裝和更新 MaaCore 及資源。
 - 使用 `maa self update` 更新自身。
 

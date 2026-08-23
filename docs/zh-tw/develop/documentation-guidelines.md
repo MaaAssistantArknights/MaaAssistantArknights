@@ -9,7 +9,7 @@ icon: jam:write-f
 本文件的目的在於指導文件編寫者更好地使用主題提供的功能，以此達到更易讀的效果。
 :::
 
-我們的文件基於 [VuePress](https://github.com/vuejs/vuepress) 建置，使用了 [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 主題。您也可以查看 [官方文件](https://theme-plume.vuejs.press/) 來獲取更詳細的說明。本文僅介紹部分常用功能，或經我們自定義後的特殊功能。
+我們的文件基於 [VuePress](https://github.com/vuejs/vuepress) 建置，使用了 [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 主題。您也可以查看 [官方文件](https://theme-plume.vuejs.press/) 來獲取更詳細的說明。本文僅介紹部分常用功能，或經我們自訂後的特殊功能。
 
 ## 本機開發
 
@@ -19,7 +19,7 @@ icon: jam:write-f
 
 ## 容器與卡片
 
-該主題提供了關於提示、註釋、資訊、注意、警告和詳情自定義容器的支援，我們可以利用這一特性來強調部分內容。
+該主題提供了關於提示、註釋、資訊、注意、警告和詳情自訂容器的支援，我們可以利用這一特性來強調部分內容。
 
 需要注意的是，如果容器中嵌套了容器，則父級容器應比子集容器多寫一個冒號 `:` 以進行區分，例如[步驟容器](#步驟)
 

@@ -53,7 +53,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `const char* details`  
    消息詳情，json 字串，詳見 [欄位解釋](#欄位解釋)
 - `void* custom_arg`  
-   調用端自定義參數。會原樣傳出 `AsstCreateEx` 介面中的 `custom_arg` 參數，C 系語言可利用此參數傳出 `this` 指標。
+   呼叫端自訂參數。會原樣傳出 `AsstCreateEx` 介面中的 `custom_arg` 參數，C 系語言可利用此參數傳出 `this` 指標。
 
 ## 欄位解釋
 
@@ -176,14 +176,14 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ::: field async_call_id
 @type number
 @required
-非同步請求 ID，即調用 `AsstAsyncXXX` 時的回傳值。
+非同步請求 ID，即呼叫 `AsstAsyncXXX` 時的回傳值。
 :::
 ::: field details
 @type object
 @required
-非同步調用詳情。其結構如下：
+非同步呼叫詳情。其結構如下：
 
-- `ret` (boolean, required): 實際調用的回傳值。
+- `ret` (boolean, required): 實際呼叫的回傳值。
 - `cost` (number, required): 耗時，單位毫秒。
 - `error` (string): 未處理異常的類型（僅調用因未處理異常失敗時存在）。
 
@@ -239,7 +239,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `Reclamation`  
    生息演算
 - `Custom`  
-   自定義任務
+   自訂任務
 - `SingleStep`  
    單步任務
 - `VideoRecognition`  

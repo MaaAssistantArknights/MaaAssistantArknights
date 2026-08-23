@@ -39,7 +39,7 @@ MAA 的意思是 MAA Assistant Arknights
 ## 亮點功能
 
 - 刷理智，掉落辨識及上傳 [企鵝物流](https://penguin-stats.io/)，[一圖流](https://ark.yituliu.cn/)
-- 智慧基建換班，自動計算幹員效率，支援跨設施組合；同時也支援 [自定義排班](./protocol/base-scheduling-schema.md)
+- 智慧基建換班，自動計算幹員效率，支援跨設施組合；同時也支援 [自訂排班](./protocol/base-scheduling-schema.md)
 - 自動公招，可選使用加急許可，一次全部刷完！公招數據自動上傳 [企鵝物流](https://penguin-stats.io/result/stage/recruit/recruit)，[一圖流](https://ark.yituliu.cn/survey/maarecruitdata)
 - 支援手動辨識公招介面，方便對高星公招做出選擇 ~~（你的這個高資回費出的是推進之王呢還是推進之王呢）~~
 - 支援辨識幹員列表，統計已有和未有幹員及潛能，並在公招辨識顯示
@@ -47,7 +47,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 造訪好友、獲取信用及購物、領取日常獎勵等，一鍵全日常自動長草
 - 肉鴿全自動刷源石錠和等級，自動燒水和凹直升，智慧辨識幹員及練度
 - 選擇作業 JSON 檔案，自動抄作業， [影片展示](https://www.bilibili.com/video/BV1H841177Fk/)
-- 支援 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多種介面，方便整合呼叫，自定義你的 MAA！
+- 支援 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多種介面，方便整合呼叫，自訂你的 MAA！
 
 話不多說，看圖！
 
@@ -74,12 +74,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 功能介紹
 
-請參閱 [用戶手冊](./manual/)。
+請參閱 [使用者手冊](./manual/)。
 
 ### 外服支援
 
 目前國際服（美服）、日服、韓服、繁中服的絕大部分功能均已支援。  
-但由於外服用戶較少及項目人手不足，很多功能並沒有進行全面的測試，所以請自行體驗。  
+但由於外服使用者較少及項目人手不足，很多功能並沒有進行全面的測試，所以請自行體驗。  
 若您遇到了 Bug，或對某個功能有強烈需求，歡迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [討論區](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我們一起建設 MAA！請參閱 [外服適配教學](#外服適配)。
 
 ### CLI 支援
@@ -153,7 +153,7 @@ MAA 以中文（簡體）為第一語言，翻譯詞條均以中文（簡體）�
 - C# JSON 庫：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) & [System.Text.Json](https://github.com/dotnet/runtime)
 - ~~下載器：[aria2](https://github.com/aria2/aria2)~~
 
-### 數據源
+### 資料來源
 
 - ~~公開招募數據：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)~~
 - ~~幹員及基建數據：[PRTS Wiki](http://prts.wiki/)~~
@@ -182,11 +182,11 @@ DirectML 並非本專案的開源部分，也不受 AGPL 3.0 的約束。
 
 ## 廣告
 
-用戶交流 QQ 群：[MAA 使用 & 粥遊交流 QQ 群](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+使用者交流 QQ 群：[MAA 使用 & 粥遊交流 QQ 群](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 Discord 伺服器：[Discord 邀請連結](https://discord.gg/23DfZ9uA4V)  
-用戶交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
+使用者交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自動戰鬥 JSON 作業分享：[prts.plus](https://prts.plus)  
-Bilibili 直播間：[MrEO 直播間](https://live.bilibili.com/2808861) 直播敲代碼 & [MAA-Official 直播間](https://live.bilibili.com/27548877) 遊戲 / 雜談
+Bilibili 直播間：[MrEO 直播間](https://live.bilibili.com/2808861) 直播敲程式碼 & [MAA-Official 直播間](https://live.bilibili.com/27548877) 遊戲 / 雜談
 
 技術群（舟無關、禁閒聊）：[內卷地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
 開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)

@@ -19,9 +19,9 @@ icon: ri:guide-fill
 
 1. 確認系統版本
 
-   MAA 在 Windows 下僅支援 10 和 11，舊版 Windows 用戶請參閱 [常見問題](./faq.md#系統問題) 中的系統問題部分。
+   MAA 在 Windows 下僅支援 10 和 11，舊版 Windows 使用者請參閱 [常見問題](./faq.md#系統問題) 中的系統問題部分。
 
-   非 Windows 用戶請參閱 [模擬器及設備支援](./device/)。
+   非 Windows 使用者請參閱 [模擬器及設備支援](./device/)。
 
 2. 確認模擬器支援
 
@@ -65,7 +65,7 @@ icon: ri:guide-fill
    若 MAA 完全無法啟動、無法進入設定面板，可手動前往 MAA 安裝目錄（即 `MAA.exe` 所在資料夾），將 `debug`、`config`、`cache` 三個資料夾打包後一併提供。
    回饋地址：[GitHub Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues)（也可透過 `設定` - `問題回饋` - `問題回饋` 進入）。
 
-2. MAA 為了盡可能滿足所有用戶的各種需求，提供了大量的自定義選項。  
+2. MAA 為了盡可能滿足所有使用者的各種需求，提供了大量的自訂選項。  
    當您認為 MAA 缺少某項功能時，有可能只是沒找到而已，例如 `手動輸入關卡名` 和 `不將已進駐的幹員放入宿舍`。
 
 3. 對於部分核取方塊來說，在其上方點擊滑鼠右鍵可以將其變為半選狀態。  
