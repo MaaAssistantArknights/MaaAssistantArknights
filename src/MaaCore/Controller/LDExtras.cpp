@@ -55,22 +55,36 @@ void LDExtras::uninit()
 
 std::optional<cv::Mat> LDExtras::screencap() const
 {
-    if (!screenshot_instance_) {
-        LogError << "screenshot_instance_ is null";
+    try {
+        if (!screenshot_instance_) {
+            LogError << "screenshot_instance_ is null";
+            return std::nullopt;
+        }
+
+        void* pixels = screenshot_instance_->cap();
+        if (!pixels) {
+            LogError << "Failed to capture screen";
+            return std::nullopt;
+        }
+
+        const cv::Mat raw(display_height_, display_width_, CV_8UC3, pixels);
+        cv::Mat dst;
+        cv::flip(raw, dst, 0);
+
+        return dst;
+    }
+    catch (const cv::Exception& e) {
+        if (e.code == cv::Error::StsNoMem) {
+            throw;
+        }
+        try {
+            LogError << "LDExtras screencap OpenCV exception:" << e.what() << VAR(e.code) << VAR(e.file)
+                     << VAR(e.line);
+        }
+        catch (...) {
+        }
         return std::nullopt;
     }
-
-    void* pixels = screenshot_instance_->cap();
-    if (!pixels) {
-        LogError << "Failed to capture screen";
-        return std::nullopt;
-    }
-
-    const cv::Mat raw(display_height_, display_width_, CV_8UC3, pixels);
-    cv::Mat dst;
-    cv::flip(raw, dst, 0);
-
-    return dst;
 }
 
 bool LDExtras::load_ld_library()
