@@ -1531,9 +1531,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneBurnFloor2Final">第二層抵達險路盡頭</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCheckSeedShop">第一層檢查商店中的種子</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">第一至三層進入秘境行商培育種子</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopTransit">第一、二層進入秘境行商培育種子後前往層出口</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopFinal">第三層進入秘境行商培育種子</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">尚未發現秘境行商時盡量多開未知的詭秘</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">順路進入不期而遇</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyVisitLight">順路進入羽瞰點</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">第二層經過普通商店時繼續獲取種子</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">第三層經過普通商店時賣貨、刷新並盡量購買種子</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">獲得沙盤 A</system:String>

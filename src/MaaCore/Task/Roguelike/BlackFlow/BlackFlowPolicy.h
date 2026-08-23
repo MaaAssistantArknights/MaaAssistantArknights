@@ -439,6 +439,24 @@ public:
     const MissionState& mission_state);
 [[nodiscard]] bool milestone_is_complete(const Milestone& milestone, const FactStore& facts);
 
+// 本层的策略目标：哪些节点算「达成即收工」，以及哪些强制目标要送进可行性阶梯去锁定。
+// 只依赖地图、任务进度和事实，不依赖会话状态，因此放在策略层。
+struct StrategyGoals
+{
+    // 声明「达成即收工」的目标节点。它与物理出口取并集，所以端点集合恒非空。
+    std::unordered_set<NodeId> terminal_nodes;
+    // 待锁定的强制目标，按优先级从高到低。前 undemotable_count 条是无条件必达的，阶梯不会降级它们。
+    std::vector<std::string> binding_candidates;
+    std::size_t undemotable_count = 0;
+};
+
+[[nodiscard]] StrategyGoals strategy_goals_for(
+    const ResolvedPolicy& policy,
+    const MissionState& mission,
+    const FactStore& facts,
+    const MapSnapshot& map,
+    int floor);
+
 [[nodiscard]] std::string_view to_string(RuleKind kind) noexcept;
 [[nodiscard]] std::string_view to_string(PolicyTier tier) noexcept;
 [[nodiscard]] std::string_view to_string(MilestoneStatus status) noexcept;

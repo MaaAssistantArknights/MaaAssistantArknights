@@ -531,6 +531,53 @@ bool milestone_is_complete(const Milestone& milestone, const FactStore& facts)
     return milestone.complete_if.evaluate(facts);
 }
 
+StrategyGoals strategy_goals_for(
+    const ResolvedPolicy& policy,
+    const MissionState& mission,
+    const FactStore& facts,
+    const MapSnapshot& map,
+    int floor)
+{
+    StrategyGoals result;
+    std::vector<const Milestone*> candidates;
+    for (const Milestone& milestone : policy.milestones) {
+        if (!milestone_is_active(milestone, floor, facts, mission)) {
+            continue;
+        }
+        bool has_matching_node = false;
+        for (const auto& [id, node] : map.nodes()) {
+            if (node.progress == NodeProgress::Removed || !milestone_matches_node(milestone, node)) {
+                continue;
+            }
+            has_matching_node = true;
+            if (milestone.terminality == MilestoneTerminality::IsTerminal) {
+                result.terminal_nodes.emplace(id);
+            }
+        }
+        if (!milestone.binding_candidate() || mission.progress(milestone.id) >= milestone.required_count) {
+            continue;
+        }
+        // 目标在本层地图上没有任何匹配节点时，可行性求解一定得出无解。可行则必达的目标直接跳过，
+        // 省掉一次白跑的安全求解；无条件必达的目标仍然送进去，让它按声明把本层判成无解。
+        if (milestone.enforcement == MilestoneEnforcement::FeasibleHard && !has_matching_node) {
+            continue;
+        }
+        candidates.emplace_back(&milestone);
+    }
+    std::ranges::sort(candidates, [](const Milestone* lhs, const Milestone* rhs) {
+        if (lhs->enforcement != rhs->enforcement) {
+            // Hard 排在 FeasibleHard 之前，阶梯从末尾开始降级，因此永远不会降到 Hard。
+            return lhs->enforcement > rhs->enforcement;
+        }
+        return std::tie(lhs->rank, lhs->id) < std::tie(rhs->rank, rhs->id);
+    });
+    for (const Milestone* milestone : candidates) {
+        result.binding_candidates.emplace_back(milestone->id);
+        result.undemotable_count += milestone->enforcement == MilestoneEnforcement::Hard ? 1 : 0;
+    }
+    return result;
+}
+
 PolicyDecision PolicyExecutor::choose(
     const ResolvedPolicy& policy,
     const FactStore& facts,

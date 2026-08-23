@@ -33,6 +33,12 @@ enum class CultivatedAnimalType
 [[nodiscard]] std::optional<CultivatedAnimalType> parse_cultivated_animal_type(std::string_view value) noexcept;
 [[nodiscard]] std::optional<CultivatedAnimalType> cultivated_animal_type_from_name(std::string_view name) noexcept;
 
+// 襁褓羽蛇与襁褓三头犬要求本次探索通过至少两个区域才在下一局生效，因此它们走的策略
+// 与猫、狗不同：培育出目标之后还要进入第三层才收工。两条策略共用同一份路线模块，
+// 差别只在秘境行商目标的终点语义与终止规则，所以在这里按目标选 profile。
+[[nodiscard]] std::string_view baby_animal_profile_for(CultivatedAnimalType target) noexcept;
+[[nodiscard]] bool is_baby_animal_profile(std::string_view profile) noexcept;
+
 struct BlackFlowStrategyResult
 {
     std::string profile;

@@ -908,7 +908,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     {
         "investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowInvestment"),
         "burn" or "burn_with_investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowExp"),
-        "baby_animal" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowBabyAnimal"),
+        "baby_animal" or "baby_animal_floor3" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowBabyAnimal"),
         _ => LocalizationHelper.GetString("BlackFlowStrategyUnknown"),
     };
 
