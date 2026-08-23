@@ -608,7 +608,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `Depot`  
   倉庫辨識結果。`details` 欄位結構如下：
   - `done` (boolean, required)：是否已經辨識完了，為 false 表示仍在辨識中（過程中的數據）。
-  - `data` (string, required)：json 字串，格式為 {"物品ID": 數量, ...}，例如 {"2001":18000,"31043":317}。
+  - `data` (string, required)：JSON 字串，格式為 `{"物品ID": 數量, ...}`，例如 `{"2001":18000,"31043":317}`。
 
 - `OperBox`  
   幹員辨識結果。`details` 欄位結構如下：
