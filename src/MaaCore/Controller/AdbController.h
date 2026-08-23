@@ -129,8 +129,15 @@ protected:
     void close_socket() noexcept;
     std::optional<unsigned short> init_socket(const std::string& local_address);
 
+    enum class ScreencapResult
+    {
+        Failed,
+        Success,
+        Reprobe,
+    };
+
     using DecodeFunc = std::function<bool(const std::string&)>;
-    bool screencap(
+    ScreencapResult screencap(
         const std::string& cmd,
         const DecodeFunc& decode_func,
         bool allow_reconnect = false,

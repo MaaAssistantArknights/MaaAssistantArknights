@@ -2,6 +2,7 @@
 
 #include "MaaUtils/NoWarningCV.hpp"
 #include <meojson/json.hpp>
+#include <new>
 #include <ranges>
 
 #include "Config/GeneralConfig.h"
@@ -34,6 +35,44 @@
 #endif
 
 using namespace asst;
+
+namespace
+{
+enum class TaskExceptionKind
+{
+    None,
+    OpenCV,
+    OutOfMemory,
+    Standard,
+    Unknown,
+};
+
+const char* task_exception_name(TaskExceptionKind kind) noexcept
+{
+    switch (kind) {
+    case TaskExceptionKind::OpenCV:
+        return "OpenCVException";
+    case TaskExceptionKind::OutOfMemory:
+        return "OutOfMemory";
+    case TaskExceptionKind::Standard:
+        return "UnhandledException";
+    case TaskExceptionKind::Unknown:
+        return "UnknownException";
+    default:
+        return "";
+    }
+}
+
+template <typename Function>
+void best_effort(Function&& function) noexcept
+{
+    try {
+        function();
+    }
+    catch (...) {
+    }
+}
+}
 
 bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& value)
 {
@@ -512,66 +551,147 @@ void Assistant::working_proc()
 
     std::vector<TaskId> finished_tasks;
     while (true) {
-        std::unique_lock<std::mutex> lock(m_mutex);
-        if (m_thread_exit) {
-            m_running = false;
-            return;
-        }
+        try {
+            std::unique_lock<std::mutex> lock(m_mutex);
+            if (m_thread_exit) {
+                m_running = false;
+                return;
+            }
 
-        if (m_thread_idle || m_tasks_list.empty()) {
-            finished_tasks.clear();
+            if (m_thread_idle || m_tasks_list.empty()) {
+                finished_tasks.clear();
+                m_thread_idle = true;
+                m_running = false;
+                Log.flush();
+#ifdef _WIN32
+                m_ctrler->restore_window_position();
+#endif
+                m_condvar.wait(lock);
+                continue;
+            }
+
+            m_running = true;
+            const auto [id, task_ptr] = m_tasks_list.front();
+            lock.unlock();
+            // only one instance of working_proc running, unlock here to allow set_task_param to the running task
+
+            json::value callback_json = json::object {
+                { "taskchain", std::string(task_ptr->get_task_chain()) },
+                { "taskid", id },
+            };
+            append_callback(AsstMsg::TaskChainStart, callback_json);
+
+            bool ret = false;
+            TaskExceptionKind exception_kind = TaskExceptionKind::None;
+            try {
+                ret = task_ptr->run();
+            }
+            catch (const cv::Exception& e) {
+                if (e.code == cv::Error::StsNoMem) {
+                    exception_kind = TaskExceptionKind::OutOfMemory;
+                }
+                else {
+                    exception_kind = TaskExceptionKind::OpenCV;
+                    best_effort([&] {
+                        Log.error(
+                            "Unhandled OpenCV exception in task thread",
+                            e.what(),
+                            "code",
+                            e.code,
+                            "file",
+                            e.file,
+                            "line",
+                            e.line);
+                    });
+                }
+            }
+            catch (const std::bad_alloc&) {
+                exception_kind = TaskExceptionKind::OutOfMemory;
+            }
+            catch (const std::exception& e) {
+                exception_kind = TaskExceptionKind::Standard;
+                best_effort([&] { Log.error("Unhandled exception in task thread", e.what()); });
+            }
+            catch (...) {
+                exception_kind = TaskExceptionKind::Unknown;
+                best_effort([&] { Log.error("Unknown exception in task thread"); });
+            }
+
+            lock.lock();
+            if (!m_tasks_list.empty()) {
+                m_tasks_list.pop_front();
+            }
+            lock.unlock();
+
+            if (exception_kind != TaskExceptionKind::OutOfMemory) {
+                finished_tasks.emplace_back(id);
+            }
+
+            if (exception_kind != TaskExceptionKind::None) {
+                if (exception_kind == TaskExceptionKind::OutOfMemory) {
+                    lock.lock();
+                    m_thread_idle = true;
+                    m_tasks_list.clear();
+                    lock.unlock();
+                    best_effort([&] { Log.error("Unhandled out of memory in task thread"); });
+                }
+
+                const auto append_error = [&] {
+                    callback_json["details"] = json::object {
+                        { "error", task_exception_name(exception_kind) },
+                    };
+                    append_callback(AsstMsg::TaskChainError, callback_json);
+                };
+                if (exception_kind == TaskExceptionKind::OutOfMemory) {
+                    best_effort(append_error);
+                }
+                else {
+                    append_error();
+                }
+            }
+            else {
+                auto msg = m_thread_idle ? AsstMsg::TaskChainStopped
+                                         : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
+                append_callback(msg, callback_json);
+            }
+
+            if (m_thread_idle) {
+                finished_tasks.clear();
+                if (exception_kind != TaskExceptionKind::None) {
+                    if (exception_kind == TaskExceptionKind::OutOfMemory) {
+                        best_effort([&] { clear_cache(); });
+                        best_effort([&] { append_callback(AsstMsg::TaskChainStopped, callback_json); });
+                    }
+                    else {
+                        clear_cache();
+                        append_callback(AsstMsg::TaskChainStopped, callback_json);
+                    }
+                }
+                continue;
+            }
+
+            if (m_tasks_list.empty()) {
+                callback_json["finished_tasks"] = json::array(finished_tasks);
+                append_callback(AsstMsg::AllTasksCompleted, callback_json);
+                finished_tasks.clear();
+                clear_cache();
+            }
+
+            const int delay = Config.get_options().task_delay;
+            lock.lock();
+            m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
+
+            if (m_thread_idle) {
+                append_callback(AsstMsg::TaskChainStopped, callback_json);
+            }
+        }
+        catch (...) {
             m_thread_idle = true;
             m_running = false;
-            Log.flush();
-#ifdef _WIN32
-            m_ctrler->restore_window_position();
-#endif
-            m_condvar.wait(lock);
-            continue;
-        }
-
-        m_running = true;
-        const auto [id, task_ptr] = m_tasks_list.front();
-        lock.unlock();
-        // only one instance of working_proc running, unlock here to allow set_task_param to the running task
-
-        json::value callback_json = json::object {
-            { "taskchain", std::string(task_ptr->get_task_chain()) },
-            { "taskid", id },
-        };
-        append_callback(AsstMsg::TaskChainStart, callback_json);
-
-        bool ret = task_ptr->run();
-        finished_tasks.emplace_back(id);
-
-        lock.lock();
-        if (!m_tasks_list.empty()) {
-            m_tasks_list.pop_front();
-        }
-        lock.unlock();
-
-        auto msg =
-            m_thread_idle ? AsstMsg::TaskChainStopped : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
-        append_callback(msg, callback_json);
-
-        if (m_thread_idle) {
-            finished_tasks.clear();
-            continue;
-        }
-
-        if (m_tasks_list.empty()) {
-            callback_json["finished_tasks"] = json::array(finished_tasks);
-            append_callback(AsstMsg::AllTasksCompleted, callback_json);
-            finished_tasks.clear();
-            clear_cache();
-        }
-
-        const int delay = Config.get_options().task_delay;
-        lock.lock();
-        m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
-
-        if (m_thread_idle) {
-            append_callback(AsstMsg::TaskChainStopped, callback_json);
+            best_effort([&] {
+                std::unique_lock<std::mutex> recovery_lock(m_mutex);
+                m_tasks_list.clear();
+            });
         }
     }
 }
@@ -595,8 +715,14 @@ void Assistant::msg_proc()
         m_msg_queue.pop();
         lock.unlock();
 
-        if (m_callback) {
-            m_callback(static_cast<AsstMsgId>(msg), detail.to_string().c_str(), m_callback_arg);
+        try {
+            if (m_callback) {
+                auto detail_string = detail.to_string();
+                m_callback(static_cast<AsstMsgId>(msg), detail_string.c_str(), m_callback_arg);
+            }
+        }
+        catch (...) {
+            best_effort([&] { Log.error("Unhandled exception in callback message thread"); });
         }
     }
 }
@@ -646,75 +772,159 @@ void asst::Assistant::call_proc()
     LogTraceFunction;
 
     while (true) {
-        std::unique_lock<std::mutex> lock(m_call_mutex);
-        if (m_thread_exit) {
-            break;
-        }
+        AsyncCallId current_call_id = 0;
+        try {
+            std::unique_lock<std::mutex> lock(m_call_mutex);
+            if (m_thread_exit) {
+                break;
+            }
 
-        if (m_call_queue.empty()) {
-            m_call_condvar.wait(lock);
-            continue;
-        }
+            if (m_call_queue.empty()) {
+                m_call_condvar.wait(lock);
+                continue;
+            }
 
-        auto call_item = std::move(m_call_queue.front());
-        m_call_queue.pop();
-        lock.unlock();
+            auto call_item = std::move(m_call_queue.front());
+            m_call_queue.pop();
+            current_call_id = call_item.id;
+            lock.unlock();
 
-        auto start = std::chrono::steady_clock::now();
-        bool ret = false;
-        std::string what;
+            auto start = std::chrono::steady_clock::now();
+            bool ret = false;
+            const char* what = "Unknown";
+            TaskExceptionKind exception_kind = TaskExceptionKind::None;
 
-        switch (call_item.type) {
-        case AsyncCallItem::Type::Connect: {
-            what = "Connect";
-            const auto& [adb_path, address, config] = std::get<AsyncCallItem::ConnectParams>(call_item.params);
-            ret = ctrl_connect(adb_path, address, config);
-        } break;
+            try {
+                switch (call_item.type) {
+                case AsyncCallItem::Type::Connect: {
+                    what = "Connect";
+                    const auto& [adb_path, address, config] = std::get<AsyncCallItem::ConnectParams>(call_item.params);
+                    ret = ctrl_connect(adb_path, address, config);
+                } break;
 #ifdef _WIN32
-        case AsyncCallItem::Type::AttachWindow: {
-            what = "AttachWindow";
-            const auto& [hwnd, screencap_method, mouse_method, keyboard_method] =
-                std::get<AsyncCallItem::AttachWindowParams>(call_item.params);
-            ret = ctrl_attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
-        } break;
+                case AsyncCallItem::Type::AttachWindow: {
+                    what = "AttachWindow";
+                    const auto& [hwnd, screencap_method, mouse_method, keyboard_method] =
+                        std::get<AsyncCallItem::AttachWindowParams>(call_item.params);
+                    ret = ctrl_attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
+                } break;
 #endif
-        case AsyncCallItem::Type::Click: {
-            what = "Click";
-            const auto& [x, y] = std::get<AsyncCallItem::ClickParams>(call_item.params);
-            ret = ctrl_click(x, y);
-        } break;
-        case AsyncCallItem::Type::Screencap: {
-            what = "Screencap";
-            std::ignore = std::get<AsyncCallItem::ScreencapParams>(call_item.params);
-            ret = ctrl_screencap();
-        } break;
-        default:
-            what = "Unknown";
-            ret = false;
-            break;
-        }
+                case AsyncCallItem::Type::Click: {
+                    what = "Click";
+                    const auto& [x, y] = std::get<AsyncCallItem::ClickParams>(call_item.params);
+                    ret = ctrl_click(x, y);
+                } break;
+                case AsyncCallItem::Type::Screencap: {
+                    what = "Screencap";
+                    std::ignore = std::get<AsyncCallItem::ScreencapParams>(call_item.params);
+                    ret = ctrl_screencap();
+                } break;
+                default:
+                    what = "Unknown";
+                    ret = false;
+                    break;
+                }
+            }
+            catch (const cv::Exception& e) {
+                if (e.code == cv::Error::StsNoMem) {
+                    exception_kind = TaskExceptionKind::OutOfMemory;
+                }
+                else {
+                    exception_kind = TaskExceptionKind::OpenCV;
+                    best_effort([&] {
+                        Log.error(
+                            "Unhandled OpenCV exception in async call thread",
+                            e.what(),
+                            "code",
+                            e.code,
+                            "file",
+                            e.file,
+                            "line",
+                            e.line);
+                    });
+                }
+            }
+            catch (const std::bad_alloc&) {
+                exception_kind = TaskExceptionKind::OutOfMemory;
+            }
+            catch (const std::exception& e) {
+                exception_kind = TaskExceptionKind::Standard;
+                best_effort([&] { Log.error("Unhandled exception in async call thread", e.what()); });
+            }
+            catch (...) {
+                exception_kind = TaskExceptionKind::Unknown;
+                best_effort([&] { Log.error("Unknown exception in async call thread"); });
+            }
 
-        {
-            std::unique_lock<std::mutex> completed_call_lock(m_completed_call_mutex);
-            m_completed_call = call_item.id;
-            m_completed_call_condvar.notify_all();
-        }
-
-        auto cost =
-            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
-        json::value cb_info = json::object {
-            { "uuid", m_uuid },
-            { "what", what },
-            { "async_call_id", call_item.id },
             {
-                "details",
-                json::object {
-                    { "ret", ret },
-                    { "cost", cost },
-                },
-            },
-        };
-        append_callback(AsstMsg::AsyncCallInfo, cb_info);
+                std::unique_lock<std::mutex> completed_call_lock(m_completed_call_mutex);
+                m_completed_call = call_item.id;
+                m_completed_call_condvar.notify_all();
+            }
+
+            if (exception_kind == TaskExceptionKind::OutOfMemory) {
+                {
+                    std::unique_lock<std::mutex> task_lock(m_mutex);
+                    m_thread_idle = true;
+                    m_tasks_list.clear();
+                }
+                best_effort([&] { Log.error("Unhandled out of memory in async call thread"); });
+            }
+
+            auto cost =
+                std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
+            const auto append_call_info = [&] {
+                json::value cb_info = json::object {
+                    { "uuid", m_uuid },
+                    { "what", what },
+                    { "async_call_id", call_item.id },
+                    {
+                        "details",
+                        json::object {
+                            { "ret", ret },
+                            { "cost", cost },
+                        },
+                    },
+                };
+                if (exception_kind != TaskExceptionKind::None) {
+                    cb_info["details"]["error"] = task_exception_name(exception_kind);
+                }
+                append_callback(AsstMsg::AsyncCallInfo, cb_info);
+            };
+            if (exception_kind == TaskExceptionKind::OutOfMemory) {
+                best_effort(append_call_info);
+            }
+            else {
+                append_call_info();
+            }
+        }
+        catch (...) {
+            m_thread_idle = true;
+            best_effort([&] {
+                std::unique_lock<std::mutex> recovery_lock(m_mutex);
+                m_tasks_list.clear();
+            });
+            AsyncCallId discarded_max_id = current_call_id;
+            best_effort([&] {
+                std::unique_lock<std::mutex> recovery_lock(m_call_mutex);
+                while (!m_call_queue.empty()) {
+                    if (discarded_max_id < m_call_queue.front().id) {
+                        discarded_max_id = m_call_queue.front().id;
+                    }
+                    m_call_queue.pop();
+                }
+            });
+            best_effort([&] {
+                if (discarded_max_id == 0) {
+                    return;
+                }
+                std::unique_lock<std::mutex> completed_call_lock(m_completed_call_mutex);
+                if (m_completed_call < discarded_max_id) {
+                    m_completed_call = discarded_max_id;
+                }
+                m_completed_call_condvar.notify_all();
+            });
+        }
     }
 }
 

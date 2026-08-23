@@ -75,59 +75,73 @@ void MumuExtras::uninit()
 
 std::optional<cv::Mat> MumuExtras::screencap()
 {
-    if (!capture_display_func_) {
-        LogError << "capture_display_func_ is null";
-        return std::nullopt;
-    }
-
-    auto display_id = get_display_id();
-    if (!display_id) {
-        LogError << "Failed to get display id";
-        return std::nullopt;
-    }
-
-    int ret = capture_display_func_(
-        mumu_handle_,
-        *display_id,
-        static_cast<int>(display_buffer_.size()),
-        &display_width_,
-        &display_height_,
-        display_buffer_.data());
-
-    if (ret) {
-        // Try reloading once before giving up.
-        if (!reload()) {
-            LogError << "Failed to capture display and failed to reload. " << VAR(ret) << VAR(mumu_handle_)
-                     << VAR(*display_id) << VAR(display_buffer_.size()) << VAR(display_width_) << VAR(display_height_);
+    try {
+        if (!capture_display_func_) {
+            LogError << "capture_display_func_ is null";
             return std::nullopt;
         }
-        // Reload 之后 display_id 可能变化，重新获取后再重试一次 capture。
-        display_id = get_display_id();
+
+        auto display_id = get_display_id();
         if (!display_id) {
-            LogError << "Failed to get display id after reload";
+            LogError << "Failed to get display id";
             return std::nullopt;
         }
-        ret = capture_display_func_(
+
+        int ret = capture_display_func_(
             mumu_handle_,
             *display_id,
             static_cast<int>(display_buffer_.size()),
             &display_width_,
             &display_height_,
             display_buffer_.data());
+
         if (ret) {
-            LogError << "Failed to capture display even after reload. " << VAR(ret) << VAR(mumu_handle_)
-                     << VAR(*display_id) << VAR(display_buffer_.size()) << VAR(display_width_) << VAR(display_height_);
-            return std::nullopt;
+            // Try reloading once before giving up.
+            if (!reload()) {
+                LogError << "Failed to capture display and failed to reload. " << VAR(ret) << VAR(mumu_handle_)
+                         << VAR(*display_id) << VAR(display_buffer_.size()) << VAR(display_width_) << VAR(display_height_);
+                return std::nullopt;
+            }
+            // Reload 之后 display_id 可能变化，重新获取后再重试一次 capture。
+            display_id = get_display_id();
+            if (!display_id) {
+                LogError << "Failed to get display id after reload";
+                return std::nullopt;
+            }
+            ret = capture_display_func_(
+                mumu_handle_,
+                *display_id,
+                static_cast<int>(display_buffer_.size()),
+                &display_width_,
+                &display_height_,
+                display_buffer_.data());
+            if (ret) {
+                LogError << "Failed to capture display even after reload. " << VAR(ret) << VAR(mumu_handle_)
+                         << VAR(*display_id) << VAR(display_buffer_.size()) << VAR(display_width_) << VAR(display_height_);
+                return std::nullopt;
+            }
         }
+
+        cv::Mat raw(display_height_, display_width_, CV_8UC4, display_buffer_.data());
+        cv::Mat bgr;
+        cv::cvtColor(raw, bgr, cv::COLOR_RGBA2BGR);
+        cv::Mat dst;
+        cv::flip(bgr, dst, 0);
+
+        return dst;
     }
-
-    cv::Mat raw(display_height_, display_width_, CV_8UC4, display_buffer_.data());
-    cv::Mat bgr;
-    cv::cvtColor(raw, bgr, cv::COLOR_RGBA2BGR);
-    cv::Mat dst;
-    cv::flip(bgr, dst, 0);
-
-    return dst;
+    catch (const cv::Exception& e) {
+        if (e.code == cv::Error::StsNoMem) {
+            throw;
+        }
+        try {
+            LogError << "MumuExtras screencap OpenCV exception:" << e.what() << VAR(e.code) << VAR(e.file)
+                     << VAR(e.line);
+        }
+        catch (...) {
+        }
+        return std::nullopt;
+    }
 }
 
 bool MumuExtras::touch_down(int contact, int x, int y)
