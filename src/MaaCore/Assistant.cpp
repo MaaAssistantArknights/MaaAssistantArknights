@@ -637,10 +637,11 @@ void Assistant::working_proc()
                 }
 
                 const auto append_error = [&] {
-                    callback_json["details"] = json::object {
+                    json::value error_json = callback_json;
+                    error_json["details"] = json::object {
                         { "error", task_exception_name(exception_kind) },
                     };
-                    append_callback(AsstMsg::TaskChainError, callback_json);
+                    append_callback(AsstMsg::TaskChainError, error_json);
                 };
                 if (exception_kind == TaskExceptionKind::OutOfMemory) {
                     best_effort(append_error);
