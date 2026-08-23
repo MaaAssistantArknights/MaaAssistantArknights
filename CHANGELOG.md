@@ -57,6 +57,7 @@ Main tabs and task-chain switching now animate with directional transitions, and
 
 ### 修复 | Fix
 
+* 修复墟「相谈室·御影」开始营业 / 继续营业 / 开始交谈 / 兴味选项 / 结束对话 / 确认 / 下一轮 / 结单按钮识别失败；开始营业或开始交谈变灰时结束任务 @UranusNo7
 * 修复从 PC 端切回模拟器需要重启后才能连接 @ABA2396
 * 修复自动战斗部署时未能正确移除目标地块的过往干员 @status102
 * 调整黑流肉鸽 CloseCollectionContinue 判定 ROI 并下调阈值 ([#17779](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17779)) @ZiyinLin @status102

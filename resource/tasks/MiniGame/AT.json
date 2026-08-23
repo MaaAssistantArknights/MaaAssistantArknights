@@ -7,21 +7,58 @@
     "MiniGame@AT@OpenForBusiness": {
         "action": "ClickSelf",
         "roi": [858, 519, 245, 187],
-        "next": ["MiniGame@AT@StartForConversation", "MiniGame@AT@ClickToContinue"]
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 80, 80],
+                [180, 255, 255]
+            ]
+        ],
+        "template": [
+            "MiniGame@AT@OpenForBusiness2.png",
+            "MiniGame@AT@OpenForBusiness.png"
+        ],
+        "next": [
+            "MiniGame@AT@StartForConversation",
+            "MiniGame@AT@CanNotStartConversation",
+            "MiniGame@AT@ClickToContinue"
+        ]
     },
     "MiniGame@AT@CanNotOpenForBusiness": {
         "roi": [858, 521, 247, 186],
+        "template": [
+            "MiniGame@AT@CanNotOpenForBusiness2.png",
+            "MiniGame@AT@CanNotOpenForBusiness.png"
+        ],
         "next": ["Stop"]
     },
     "MiniGame@AT@StartForConversation": {
         "action": "ClickSelf",
         "roi": [672, 530, 450, 160],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 80, 80],
+                [180, 255, 255]
+            ]
+        ],
+        "template": [
+            "MiniGame@AT@StartForConversation2.png",
+            "MiniGame@AT@StartForConversation.png"
+        ],
         "next": [
             "MiniGame@AT@InterestPlus3",
             "MiniGame@AT@InterestPlus2",
             "MiniGame@AT@InterestPlus1",
             "MiniGame@AT@ClickToContinue"
         ]
+    },
+    "MiniGame@AT@CanNotStartConversation": {
+        "doc": "开始交谈按钮变灰时结束任务",
+        "algorithm": "OcrDetect",
+        "text": ["开始交谈", "开始对话"],
+        "roi": [672, 520, 580, 190],
+        "next": ["Stop"]
     },
     "MiniGame@AT@InterestPlus1": {
         "action": "ClickSelf",
@@ -34,32 +71,66 @@
             ]
         ],
         "templThreshold": 0.9,
+        "template": [
+            "MiniGame@AT@InterestPlus1b.png",
+            "MiniGame@AT@InterestPlus1.png"
+        ],
         "next": ["MiniGame@AT@Confirm", "MiniGame@AT@ClickToContinue"]
     },
     "MiniGame@AT@InterestPlus2": {
-        "baseTask": "MiniGame@AT@InterestPlus1"
+        "baseTask": "MiniGame@AT@InterestPlus1",
+        "template": [
+            "MiniGame@AT@InterestPlus2b.png",
+            "MiniGame@AT@InterestPlus2.png"
+        ]
     },
     "MiniGame@AT@InterestPlus3": {
-        "baseTask": "MiniGame@AT@InterestPlus1"
+        "baseTask": "MiniGame@AT@InterestPlus1",
+        "template": [
+            "MiniGame@AT@InterestPlus3b.png",
+            "MiniGame@AT@InterestPlus3.png"
+        ]
     },
     "MiniGame@AT@Confirm": {
         "action": "ClickSelf",
         "roi": [1120, 270, 130, 255],
+        "templThreshold": 0.65,
         "next": ["#self", "MiniGame@AT@ClickToContinue"]
     },
     "MiniGame@AT@EndTheConversation": {
         "action": "ClickSelf",
         "roi": [672, 530, 450, 160],
+        "template": [
+            "MiniGame@AT@EndTheConversation2.png",
+            "MiniGame@AT@EndTheConversation.png"
+        ],
+        "next": ["#self", "MiniGame@AT@Settle", "MiniGame@AT@ClickToContinue"]
+    },
+    "MiniGame@AT@Settle": {
+        "doc": "结单 / 爆单",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["结单", "爆单"],
+        "roi": [672, 520, 580, 190],
         "next": ["#self", "MiniGame@AT@ClickToContinue"]
     },
     "MiniGame@AT@Boom": {
         "action": "ClickSelf",
         "roi": [672, 530, 450, 160],
-        "next": ["#self", "MiniGame@AT@ClickToContinue"]
+        "templThreshold": 0.65,
+        "next": ["#self", "MiniGame@AT@Settle", "MiniGame@AT@ClickToContinue"]
     },
     "MiniGame@AT@NextRound": {
         "action": "ClickSelf",
         "roi": [672, 530, 450, 160],
+        "templThreshold": 0.65,
+        "next": ["#self", "MiniGame@AT@ClickToContinue"]
+    },
+    "MiniGame@AT@NextRoundOcr": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["下一轮"],
+        "roi": [672, 520, 580, 190],
         "next": ["#self", "MiniGame@AT@ClickToContinue"]
     },
     "MiniGame@AT@ClickToContinue": {
@@ -68,10 +139,13 @@
         "specificRect": [600, 400, 10, 10],
         "next": [
             "MiniGame@AT@StartForConversation",
+            "MiniGame@AT@CanNotStartConversation",
             "MiniGame@AT@Confirm",
             "MiniGame@AT@InterestPlus3",
             "MiniGame@AT@InterestPlus2",
             "MiniGame@AT@InterestPlus1",
+            "MiniGame@AT@Settle",
+            "MiniGame@AT@NextRoundOcr",
             "MiniGame@AT@Boom",
             "MiniGame@AT@NextRound",
             "MiniGame@AT@EndTheConversation",
