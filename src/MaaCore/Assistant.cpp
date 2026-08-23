@@ -693,6 +693,8 @@ void Assistant::working_proc()
                 std::unique_lock<std::mutex> recovery_lock(m_mutex);
                 m_tasks_list.clear();
             });
+            // 任务链可能在 TaskChainStart 后中断于此，补发停止消息，避免上层等待链终结回调悬挂
+            best_effort([&] { append_callback(AsstMsg::TaskChainStopped, json::object {}); });
         }
     }
 }
