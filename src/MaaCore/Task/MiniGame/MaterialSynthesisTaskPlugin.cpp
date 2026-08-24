@@ -1,7 +1,5 @@
 #include "MaterialSynthesisTaskPlugin.h"
 
-#include "MaterialSynthesisOperatorTask.h"
-
 #include <algorithm>
 #include <cctype>
 #include <charconv>
@@ -10,6 +8,7 @@
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Task/Infrast/InfrastProcessingTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/RegionOCRer.h"
@@ -51,11 +50,12 @@ bool asst::MaterialSynthesisTaskPlugin::_run()
         return false;
     }
 
-    MaterialSynthesisOperatorTask operator_task(m_callback, m_inst, m_task_chain);
-    operator_task.set_task_id(m_task_id);
+    // 使用独立任务实例，避免材料合成缓存和页面操作进入常规基建任务对象。
+    InfrastProcessingTask processing_task(m_callback, m_inst, m_task_chain);
+    processing_task.set_task_id(m_task_id);
     std::unordered_set<std::string> material_stack;
     int operation_budget = MaxMaterialOperations;
-    const Result result = synthesize_material(0, material_stack, operation_budget, operator_task);
+    const Result result = synthesize_material(0, material_stack, operation_budget, processing_task);
     Log.info("MaterialSynthesis | finished", result_name(result), "remaining operations", operation_budget);
     return result == Result::Completed;
 }
@@ -64,7 +64,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
     int depth,
     std::unordered_set<std::string>& material_stack,
     int& operation_budget,
-    MaterialSynthesisOperatorTask& operator_task)
+    InfrastProcessingTask& processing_task)
 {
     if (need_exit()) {
         return Result::Cancelled;
@@ -123,7 +123,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                     result = Result::NavigationFailed;
                     break;
                 }
-                result = synthesize_material(depth + 1, material_stack, operation_budget, operator_task);
+                result = synthesize_material(depth + 1, material_stack, operation_budget, processing_task);
                 if (result != Result::Completed) {
                     break;
                 }
@@ -168,7 +168,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                 item_level(material_id),
                 operator_missing,
                 operator_changed,
-                operator_task);
+                processing_task);
             if (result != Result::Completed) {
                 break;
             }
@@ -250,13 +250,13 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::sel
     int material_level,
     bool operator_missing,
     bool& operator_changed,
-    MaterialSynthesisOperatorTask& operator_task)
+    InfrastProcessingTask& processing_task)
 {
     operator_changed = false;
     if (!run_task("MiniGame@MaterialSynthesis@OpenOperatorList")) {
         return Result::NavigationFailed;
     }
-    if (operator_task.select_operator(material_id, material_level)) {
+    if (processing_task.select_operator(material_id, material_level)) {
         operator_changed = true;
         return Result::Completed;
     }
