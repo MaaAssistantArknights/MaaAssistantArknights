@@ -195,20 +195,20 @@
                                     Visibility="{c:Binding IsPCConnectConfig}">
                                     <TextBlock
                                         Margin="100,0"
-                                        HorizontalAlignment="Center"
+                                        HorizontalAlignment="Left"
                                         Foreground="{DynamicResource ErrorLogBrush}"
                                         Text="{DynamicResource UseAttachWindowWarningBase}"
                                         TextWrapping="Wrap" />
                                     <Border
-                                        Margin="100,2"
-                                        Padding="8,4"
-                                        HorizontalAlignment="Center"
+                                        Margin="98,2"
+                                        Padding="0,4"
+                                        HorizontalAlignment="Left"
                                         properties:RainbowAnimationBehavior.IsActive="True"
                                         BorderBrush="{DynamicResource RainbowFlowBrush}"
                                         BorderThickness="2"
                                         CornerRadius="4">
                                         <TextBlock
-                                            HorizontalAlignment="Center"
+                                            HorizontalAlignment="Left"
                                             Foreground="{DynamicResource ErrorLogBrush}"
                                             Text="{DynamicResource UseAttachWindowWarningRecommendation}"
                                             TextWrapping="Wrap" />
