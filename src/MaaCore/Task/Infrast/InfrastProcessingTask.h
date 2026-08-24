@@ -20,10 +20,17 @@ protected:
     virtual bool _run() override;
 
 private:
+    struct MaterialSynthesisScanResult
+    {
+        size_t skilled_operators = 0;
+        size_t new_candidates = 0;
+    };
+
     bool rebuild_material_synthesis_cache();
-    std::optional<size_t> scan_material_synthesis_page(std::vector<infrast::Oper>& seen_operators);
+    std::optional<MaterialSynthesisScanResult> scan_material_synthesis_page();
     std::optional<size_t>
         find_best_material_synthesis_operator(const std::string& material_id, int material_level) const;
+    bool clear_material_synthesis_selection();
     bool locate_and_select_material_synthesis_operator(const infrast::Oper& target);
     bool review_material_synthesis_selection(const infrast::Oper& target);
     bool confirm_material_synthesis_selection();
