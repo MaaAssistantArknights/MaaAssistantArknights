@@ -118,7 +118,7 @@ bool asst::InfrastProcessingTask::select_operator(const std::string& material_id
         if (need_exit()) {
             return false;
         }
-        if (!clear_material_synthesis_selection() || !locate_and_select_material_synthesis_operator(target)) {
+        if (!locate_and_select_material_synthesis_operator(target)) {
             if (need_exit()) {
                 return false;
             }
@@ -286,19 +286,6 @@ std::optional<size_t> asst::InfrastProcessingTask::find_best_material_synthesis_
     return result.indices.front();
 }
 
-bool asst::InfrastProcessingTask::clear_material_synthesis_selection()
-{
-    Matcher analyzer(ctrler()->get_image());
-    analyzer.set_task_info("InfrastClearButton");
-    if (!analyzer.analyze()) {
-        Log.info("MaterialSynthesis | operator selection is already clear");
-        return true;
-    }
-
-    Log.info("MaterialSynthesis | clear current operator selection");
-    return click_clear_button();
-}
-
 bool asst::InfrastProcessingTask::locate_and_select_material_synthesis_operator(const infrast::Oper& target)
 {
     const int face_hash_threshold = Task.get("InfrastOperFace")->special_params[0];
@@ -331,15 +318,21 @@ bool asst::InfrastProcessingTask::locate_and_select_material_synthesis_operator(
             if (!material_synthesis_avatar_matches(oper, target, face_hash_threshold)) {
                 continue;
             }
-            if (oper.selected || oper.mood_ratio < MaterialSynthesisMoodThreshold) {
+            if (oper.mood_ratio < MaterialSynthesisMoodThreshold) {
                 return false;
             }
             Log.info("MaterialSynthesis | cached operator located", page);
             if (need_exit()) {
                 return false;
             }
-            ctrler()->click(oper.rect);
-            sleep(500);
+            // 加工站和发电站一样只有一个位置；目标已选中时无需清空，选择新目标时由列表直接替换。
+            if (!oper.selected) {
+                ctrler()->click(oper.rect);
+                sleep(500);
+            }
+            else {
+                Log.info("MaterialSynthesis | cached operator is already selected");
+            }
             return review_material_synthesis_selection(target);
         }
 
