@@ -493,7 +493,6 @@
     "BlackFlow@Roguelike@EnteredPageClassification": {
         "algorithm": "OcrDetect",
         "roi": [0, 420, 500, 115],
-        "withoutDet": false,
         "text": ["险路尽头", "坎诺特", "机械师", "佩德洛"],
         "ocrReplace": [["^古怪商人\\s*坎诺特$", "坎诺特"]],
         "fullMatch": true
