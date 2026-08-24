@@ -118,11 +118,8 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         // 三个下级材料都需要独立检查并补足，再加工当前配方。
         for (int ingredient = 1; ingredient <= 3; ++ingredient) {
             const std::string prefix = "MiniGame@MaterialSynthesis@Ingredient" + std::to_string(ingredient);
-            if (detect_task(prefix + "Available")) {
-                if (!run_task(prefix + "Open")) {
-                    result = Result::NavigationFailed;
-                    break;
-                }
+            // Available 任务在识别成功后直接点击对应的下级材料。
+            if (run_task(prefix + "Available", 0)) {
                 result = synthesize_material(depth + 1, material_stack, operation_budget, processing_task);
                 if (result != Result::Completed) {
                     break;
