@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+#include <array>
 #include <meojson/json.hpp>
 #include <optional>
 #include <set>
@@ -42,29 +44,27 @@ private:
 
         bool check_json(const json::value& json) const
         {
+            static constexpr std::array<const char*, 9> allowed_keys = {
+                "id",   "page_intent", "floor_window", "node_types",     "event_names",
+                "rank", "alias",       "task",         "completion_task"
+            };
+
             if (!json.is_object()) {
                 return false;
             }
-
-            const json::object& obj = json.as_object();
-
-            constexpr std::array<const char*, 9> allowed_keys = { "id",         "page_intent", "floor_window",
-                                                                  "node_types", "event_names", "rank",
-                                                                  "alias",      "task",        "completion_task" };
+            const auto& obj = json.as_object();
             for (const auto& kv : obj) {
                 if (std::ranges::find(allowed_keys, kv.first) == allowed_keys.end()) {
                     return false;
                 }
             }
-            const auto check_field = [&]<typename T>(const char* key, bool required = true) -> bool {
-                const auto it = obj.find<T>(key);
-                if (it == std::nullopt) {
-                    return !required;
-                }
-                return true;
+
+            const auto check_field = [&]<typename T>(const char* key, const T&, bool required = true) -> bool {
+                const auto& itoa = json.find_value(key);
+                return (itoa && itoa->is<T>()) || (!itoa && !required);
             };
 
-#define field_check(key, required) check_field.template operator()<decltype(key)>(#key, required)
+#define field_check(key, required) check_field(#key, key, required)
             return field_check(id, true) && field_check(page_intent, true) && field_check(floor_window, false) &&
                    field_check(node_types, false) && field_check(event_names, false) && field_check(rank, false) &&
                    field_check(alias, true) && field_check(task, true) && field_check(completion_task, true);

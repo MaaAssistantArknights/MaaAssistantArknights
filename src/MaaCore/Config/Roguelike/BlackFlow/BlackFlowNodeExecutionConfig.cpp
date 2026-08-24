@@ -554,7 +554,7 @@ bool BlackFlowNodeExecutionConfig::parse_node_types(
 
 bool BlackFlowNodeExecutionConfig::verify_non_empty(const std::vector<std::string>& value, const std::string& key) const
 {
-    if (std::ranges::find(value, std::string()) != value.end()) {
+    if (std::ranges::any_of(value, [](const std::string& str) { return str.empty(); })) {
         LogError << __FUNCTION__ << key << "may contain non-empty strings only";
         return false;
     }
