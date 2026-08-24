@@ -118,7 +118,7 @@ bool asst::InfrastProcessingTask::select_operator(const std::string& material_id
         if (need_exit()) {
             return false;
         }
-        if (!click_clear_button() || !locate_and_select_material_synthesis_operator(target)) {
+        if (!clear_material_synthesis_selection() || !locate_and_select_material_synthesis_operator(target)) {
             if (need_exit()) {
                 return false;
             }
@@ -166,30 +166,26 @@ bool asst::InfrastProcessingTask::rebuild_material_synthesis_cache()
         return false;
     }
 
-    std::vector<infrast::Oper> seen_operators;
     bool reached_end = false;
-    int unchanged_pages = 0;
     for (int page = 0; page < MaxMaterialSynthesisOperatorPages && !need_exit(); ++page) {
-        const auto new_operators = scan_material_synthesis_page(seen_operators);
-        if (!new_operators) {
+        const auto scan_result = scan_material_synthesis_page();
+        if (!scan_result) {
             invalidate_material_synthesis_cache();
             return false;
         }
         Log.trace(
             "MaterialSynthesis | operator cache page",
             page,
-            "new operators",
-            *new_operators,
-            "candidates",
+            "skilled operators",
+            scan_result->skilled_operators,
+            "new candidates",
+            scan_result->new_candidates,
+            "cached candidates",
             m_material_synthesis_operator_cache.size());
-        if (page != 0 && *new_operators == 0) {
-            if (++unchanged_pages >= 2) {
-                reached_end = true;
-                break;
-            }
-        }
-        else {
-            unchanged_pages = 0;
+        // 与其他单人生产设施一致，进入首个没有本设施技能的页面即视为扫描完成。
+        if (scan_result->skilled_operators == 0) {
+            reached_end = true;
+            break;
         }
         if (need_exit()) {
             invalidate_material_synthesis_cache();
@@ -213,8 +209,8 @@ bool asst::InfrastProcessingTask::rebuild_material_synthesis_cache()
     return true;
 }
 
-std::optional<size_t>
-    asst::InfrastProcessingTask::scan_material_synthesis_page(std::vector<infrast::Oper>& seen_operators)
+std::optional<asst::InfrastProcessingTask::MaterialSynthesisScanResult>
+    asst::InfrastProcessingTask::scan_material_synthesis_page()
 {
     if (need_exit()) {
         return std::nullopt;
@@ -229,25 +225,13 @@ std::optional<size_t>
     analyzer.sort_by_loc();
 
     const int face_hash_threshold = Task.get("InfrastOperFace")->special_params[0];
-    size_t new_operators = 0;
+    MaterialSynthesisScanResult result { static_cast<size_t>(analyzer.get_num_of_opers_with_skills()), 0 };
     for (const auto& oper : analyzer.get_result()) {
         if (oper.face_hash.empty()) {
             Log.warn("MaterialSynthesis | operator face hash is empty");
             return std::nullopt;
         }
 
-        const bool seen = std::ranges::any_of(seen_operators, [&](const infrast::Oper& seen_oper) {
-            return same_material_synthesis_operator(seen_oper, oper, face_hash_threshold);
-        });
-        if (!seen) {
-            infrast::Oper fingerprint;
-            fingerprint.face_hash = oper.face_hash;
-            fingerprint.skills = oper.skills;
-            fingerprint.operator_ids = oper.operator_ids;
-            fingerprint.operator_id = oper.operator_id;
-            seen_operators.emplace_back(std::move(fingerprint));
-            ++new_operators;
-        }
         if (oper.mood_ratio < MaterialSynthesisMoodThreshold) {
             continue;
         }
@@ -260,10 +244,10 @@ std::optional<size_t>
             continue;
         }
 
-        // 加工站始终需要一个兜底候选，因此保留未识别到技能的满心情干员。
         m_material_synthesis_operator_cache.emplace_back(oper);
+        ++result.new_candidates;
     }
-    return new_operators;
+    return result;
 }
 
 std::optional<size_t> asst::InfrastProcessingTask::find_best_material_synthesis_operator(
@@ -300,6 +284,19 @@ std::optional<size_t> asst::InfrastProcessingTask::find_best_material_synthesis_
 
     Log.info("MaterialSynthesis | cached operator score", result.score, material_id, material_level);
     return result.indices.front();
+}
+
+bool asst::InfrastProcessingTask::clear_material_synthesis_selection()
+{
+    Matcher analyzer(ctrler()->get_image());
+    analyzer.set_task_info("InfrastClearButton");
+    if (!analyzer.analyze()) {
+        Log.info("MaterialSynthesis | operator selection is already clear");
+        return true;
+    }
+
+    Log.info("MaterialSynthesis | clear current operator selection");
+    return click_clear_button();
 }
 
 bool asst::InfrastProcessingTask::locate_and_select_material_synthesis_operator(const infrast::Oper& target)
