@@ -4,8 +4,8 @@
         "algorithm": "JustReturn"
     },
     "MiniGame@MaterialSynthesis@Workshop": {
-        "template": "empty.png",
-        "templThreshold": 1.1
+        "template": "ProcessingFlag.png",
+        "roi": [329, 0, 225, 113]
     },
     "MiniGame@MaterialSynthesis@RequiredCount": {
         "baseTask": "NumberOcrReplace",
@@ -19,16 +19,16 @@
         "roi": [525, 535, 175, 40]
     },
     "MiniGame@MaterialSynthesis@HasParent": {
-        "template": "empty.png",
-        "templThreshold": 1.1
+        "template": "ProcessingReturnParent.png",
+        "roi": [269, 186, 65, 72]
     },
     "MiniGame@MaterialSynthesis@Ingredient1Available": {
-        "template": "empty.png",
-        "templThreshold": 1.1
+        "template": "ProcessingAvailable.png",
+        "roi": [938, 386, 219, 142]
     },
     "MiniGame@MaterialSynthesis@Ingredient1Unavailable": {
-        "template": "empty.png",
-        "templThreshold": 1.1
+        "template": "ProcessingUnavailable.png",
+        "roi": [938, 386, 219, 142]
     },
     "MiniGame@MaterialSynthesis@Ingredient1Open": {
         "algorithm": "JustReturn",
@@ -37,24 +37,24 @@
         "postDelay": 900
     },
     "MiniGame@MaterialSynthesis@Ingredient2Available": {
-        "template": "empty.png",
-        "templThreshold": 1.1
+        "template": "ProcessingAvailable.png",
+        "roi": [677, 851, 218, 141]
     },
     "MiniGame@MaterialSynthesis@Ingredient2Unavailable": {
-        "template": "empty.png",
-        "templThreshold": 1.1
+        "template": "ProcessingUnavailable.png",
+        "roi": [677, 851, 218, 141]
     },
     "MiniGame@MaterialSynthesis@Ingredient2Open": {
         "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Open",
         "specificRect": [901, 588, 32, 32]
     },
     "MiniGame@MaterialSynthesis@Ingredient3Available": {
-        "template": "empty.png",
-        "templThreshold": 1.1
+        "template": "ProcessingAvailable.png",
+        "roi": [1218, 857, 217, 140]
     },
     "MiniGame@MaterialSynthesis@Ingredient3Unavailable": {
-        "template": "empty.png",
-        "templThreshold": 1.1
+        "template": "ProcessingUnavailable.png",
+        "roi": [1218, 857, 217, 140]
     },
     "MiniGame@MaterialSynthesis@Ingredient3Open": {
         "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Open",
@@ -71,12 +71,12 @@
         "specificRect": [1055, 463, 36, 36]
     },
     "MiniGame@MaterialSynthesis@NoOperator": {
-        "template": "empty.png",
-        "templThreshold": 1.1
+        "template": "ProcessingNoOperator.png",
+        "roi": [8, 225, 233, 264]
     },
     "MiniGame@MaterialSynthesis@LowMood": {
-        "template": "empty.png",
-        "templThreshold": 1.1
+        "template": "ProcessingOperatorLowMood.png",
+        "roi": [647, 307, 366, 154]
     },
     "MiniGame@MaterialSynthesis@OpenOperatorList": {
         "algorithm": "JustReturn",
@@ -103,8 +103,8 @@
         "postDelay": 800
     },
     "MiniGame@MaterialSynthesis@Satisfied": {
-        "template": "empty.png",
-        "templThreshold": 1.1
+        "template": "ProcessingSatisfied.png",
+        "roi": [1122, 310, 158, 128]
     },
     "MiniGame@MaterialSynthesis@ReturnToParent": {
         "algorithm": "JustReturn",
