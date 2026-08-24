@@ -286,6 +286,16 @@ public class AsstProxy
         return await AsstGetImageAsync(forceScreencap: true);
     }
 
+    public async Task<(BitmapImage? Image, long ScreencapCostMs)> AsstGetFreshImageWithCostAsync()
+    {
+        var stopwatch = Stopwatch.StartNew();
+        MaaService.AsstAsyncScreencap(_handle, true);
+        stopwatch.Stop();
+
+        var image = await AsstGetImageAsync(_handle);
+        return (image, stopwatch.ElapsedMilliseconds);
+    }
+
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
     public static unsafe byte[]? AsstGetImageBgrData(AsstHandle handle)
     {

@@ -559,9 +559,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        var screencapStopwatch = System.Diagnostics.Stopwatch.StartNew();
-        TestLinkImage = await Instances.AsstProxy.AsstGetImageAsync(forceScreencap: true);
-        screencapStopwatch.Stop();
+        var (testLinkImage, screencapCost) = await Instances.AsstProxy.AsstGetFreshImageWithCostAsync();
+        TestLinkImage = testLinkImage;
         _runningState.SetIdle(true);
 
         if (TestLinkImage is null)
@@ -573,7 +572,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         // PC端这里直接测量截图测试的耗时并在界面上显示
         if (IsPCConnectConfig)
         {
-            var screencapCost = screencapStopwatch.ElapsedMilliseconds;
             var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
             ScreencapCost = LocalizationHelper.GetStringFormat("ScreencapCost", screencapCost, screencapCost, screencapCost, currentTime);
 
