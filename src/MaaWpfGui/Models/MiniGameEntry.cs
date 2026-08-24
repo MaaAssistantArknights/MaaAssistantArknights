@@ -65,6 +65,12 @@ public class MiniGameEntry
     public DateTime UtcExpireTime { get; set; } = DateTime.MinValue;
 
     /// <summary>
+    /// Gets or sets the affiliated side story activity name (matching <see cref="StageActivityInfo.StageName"/>).
+    /// When set, this mini game is treated as the today's stage tip entry of its affiliated activity.
+    /// </summary>
+    public string? Activity { get; set; }
+
+    /// <summary>
     /// Gets a value indicating whether gets whether activity is currently open (based on UtcStartTime/UtcExpireTime).
     /// </summary>
     public bool BeingOpen => !NotOpenYet && !IsExpired;
