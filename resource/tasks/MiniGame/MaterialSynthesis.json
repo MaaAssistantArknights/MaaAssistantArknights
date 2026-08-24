@@ -16,7 +16,7 @@
     "MiniGame@MaterialSynthesis@MaterialName": {
         "algorithm": "OcrDetect",
         "text": [],
-        "roi": [525, 535, 175, 40]
+        "roi": [536, 547, 151, 25]
     },
     "MiniGame@MaterialSynthesis@HasParent": {
         "template": "ProcessingReturnParent.png",
@@ -24,33 +24,33 @@
     },
     "MiniGame@MaterialSynthesis@Ingredient1Available": {
         "template": "ProcessingAvailable.png",
-        "roi": [938, 386, 219, 142],
+        "roi": [609, 241, 182, 128],
         "action": "ClickSelf",
         "postDelay": 900
     },
     "MiniGame@MaterialSynthesis@Ingredient1Unavailable": {
         "template": "ProcessingUnavailable.png",
-        "roi": [938, 386, 219, 142]
+        "roi": [609, 241, 182, 128]
     },
     "MiniGame@MaterialSynthesis@Ingredient2Available": {
         "template": "ProcessingAvailable.png",
-        "roi": [677, 851, 218, 141],
+        "roi": [433, 554, 181, 127],
         "action": "ClickSelf",
         "postDelay": 900
     },
     "MiniGame@MaterialSynthesis@Ingredient2Unavailable": {
         "template": "ProcessingUnavailable.png",
-        "roi": [677, 851, 218, 141]
+        "roi": [433, 554, 181, 127]
     },
     "MiniGame@MaterialSynthesis@Ingredient3Available": {
         "template": "ProcessingAvailable.png",
-        "roi": [1218, 857, 217, 140],
+        "roi": [794, 553, 181, 127],
         "action": "ClickSelf",
         "postDelay": 900
     },
     "MiniGame@MaterialSynthesis@Ingredient3Unavailable": {
         "template": "ProcessingUnavailable.png",
-        "roi": [1218, 857, 217, 140]
+        "roi": [794, 553, 181, 127]
     },
     "MiniGame@MaterialSynthesis@Increase": {
         "algorithm": "JustReturn",
@@ -64,11 +64,11 @@
     },
     "MiniGame@MaterialSynthesis@NoOperator": {
         "template": "ProcessingNoOperator.png",
-        "roi": [8, 225, 233, 264]
+        "roi": [7, 233, 231, 248]
     },
     "MiniGame@MaterialSynthesis@LowMood": {
         "template": "ProcessingOperatorLowMood.png",
-        "roi": [647, 307, 366, 154]
+        "roi": [649, 308, 362, 155]
     },
     "MiniGame@MaterialSynthesis@OpenOperatorList": {
         "algorithm": "JustReturn",
@@ -96,7 +96,7 @@
     },
     "MiniGame@MaterialSynthesis@Satisfied": {
         "template": "ProcessingSatisfied.png",
-        "roi": [1122, 310, 158, 128]
+        "roi": [1123, 309, 157, 130]
     },
     "MiniGame@MaterialSynthesis@ReturnToParent": {
         "algorithm": "JustReturn",
