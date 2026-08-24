@@ -24,41 +24,33 @@
     },
     "MiniGame@MaterialSynthesis@Ingredient1Available": {
         "template": "ProcessingAvailable.png",
-        "roi": [938, 386, 219, 142]
+        "roi": [938, 386, 219, 142],
+        "action": "ClickSelf",
+        "postDelay": 900
     },
     "MiniGame@MaterialSynthesis@Ingredient1Unavailable": {
         "template": "ProcessingUnavailable.png",
         "roi": [938, 386, 219, 142]
     },
-    "MiniGame@MaterialSynthesis@Ingredient1Open": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [716, 278, 32, 32],
-        "postDelay": 900
-    },
     "MiniGame@MaterialSynthesis@Ingredient2Available": {
         "template": "ProcessingAvailable.png",
-        "roi": [677, 851, 218, 141]
+        "roi": [677, 851, 218, 141],
+        "action": "ClickSelf",
+        "postDelay": 900
     },
     "MiniGame@MaterialSynthesis@Ingredient2Unavailable": {
         "template": "ProcessingUnavailable.png",
         "roi": [677, 851, 218, 141]
     },
-    "MiniGame@MaterialSynthesis@Ingredient2Open": {
-        "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Open",
-        "specificRect": [901, 588, 32, 32]
-    },
     "MiniGame@MaterialSynthesis@Ingredient3Available": {
         "template": "ProcessingAvailable.png",
-        "roi": [1218, 857, 217, 140]
+        "roi": [1218, 857, 217, 140],
+        "action": "ClickSelf",
+        "postDelay": 900
     },
     "MiniGame@MaterialSynthesis@Ingredient3Unavailable": {
         "template": "ProcessingUnavailable.png",
         "roi": [1218, 857, 217, 140]
-    },
-    "MiniGame@MaterialSynthesis@Ingredient3Open": {
-        "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Open",
-        "specificRect": [537, 591, 32, 32]
     },
     "MiniGame@MaterialSynthesis@Increase": {
         "algorithm": "JustReturn",
