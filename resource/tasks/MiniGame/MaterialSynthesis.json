@@ -11,12 +11,13 @@
         "baseTask": "NumberOcrReplace",
         "text": [],
         "roi": [1155, 342, 122, 58],
-        "isAscii": true
+        "isAscii": false
     },
     "MiniGame@MaterialSynthesis@MaterialName": {
         "algorithm": "OcrDetect",
         "text": [],
-        "roi": [536, 547, 151, 25]
+        "roi": [536, 547, 151, 25],
+        "ocrReplace": [["^/+|/+$", ""]]
     },
     "MiniGame@MaterialSynthesis@HasParent": {
         "template": "ProcessingReturnParent.png",
