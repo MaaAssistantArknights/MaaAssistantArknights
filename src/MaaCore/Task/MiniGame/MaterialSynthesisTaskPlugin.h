@@ -8,7 +8,7 @@
 
 namespace asst
 {
-class MaterialSynthesisOperatorTask;
+class InfrastProcessingTask;
 
 class MaterialSynthesisTaskPlugin final : public AbstractTaskPlugin
 {
@@ -35,13 +35,13 @@ private:
         int depth,
         std::unordered_set<std::string>& material_stack,
         int& operation_budget,
-        MaterialSynthesisOperatorTask& operator_task);
+        InfrastProcessingTask& processing_task);
     Result select_processing_operator(
         const std::string& material_id,
         int material_level,
         bool operator_missing,
         bool& operator_changed,
-        MaterialSynthesisOperatorTask& operator_task);
+        InfrastProcessingTask& processing_task);
 
     bool run_task(const std::string& task_name, int retry_times = 3);
     bool detect_task(const std::string& task_name);
