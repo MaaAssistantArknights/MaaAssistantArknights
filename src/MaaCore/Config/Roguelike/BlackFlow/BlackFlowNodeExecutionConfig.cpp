@@ -9,6 +9,7 @@
 
 #include "Config/Roguelike/BlackFlow/BlackFlowStrategyConfig.h"
 #include "Config/TaskData.h"
+#include "Utils/Logger.hpp"
 
 namespace asst
 {
@@ -379,6 +380,8 @@ bool BlackFlowNodeExecutionConfig::parse_for_test(const json::value& json, std::
 
 bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
 {
+    LogTraceFunction;
+    bool ret = true;
     check_keys(
         json,
         { "schema_version", "routes", "task_results", "preview_names" },
@@ -386,7 +389,7 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
         "root");
     const int schema_version = json.at("schema_version").as_integer();
     if (schema_version != 3) {
-        LogError << __FUNCTION__ << "unsupported schema_version: " << std::to_string(schema_version);
+        LogError << __FUNCTION__ << "unsupported schema_version:" << schema_version;
         return false;
     }
     if (!json.at("task_results").is_array() || !json.at("preview_names").is_array()) {
@@ -402,11 +405,13 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
                 LogError << __FUNCTION__
                          << "route id must be present, page_intent must be lower-case dotted text, and rank must be "
                             "non-negative";
-                return false;
+                ret = false;
+                continue;
             }
             if (!route_ids.emplace(route.id).second) {
                 LogError << __FUNCTION__ << "duplicate route id:" << route.id;
-                return false;
+                ret = false;
+                continue;
             }
 
             NodeExecutionRoute node {
@@ -420,32 +425,32 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
             };
             if (!verify_non_empty(node.event_names, "event_names") ||
                 !sort_and_check_unique(node.event_names, "event_names")) {
-                return false;
+                ret = false;
             }
             if (!parse_node_types(route.node_types, node.node_types)) {
-                return false;
+                ret = false;
             }
             if (!parse_floor_window(route.floor_window, node.floor_begin, node.floor_end)) {
-                return false;
+                ret = false;
             }
             if (node.alias != "BlackFlow@Roguelike@NodeDispatchAction") {
                 LogError << __FUNCTION__ << "route alias must use BlackFlow@Roguelike@NodeDispatchAction";
-                return false;
+                ret = false;
             }
             if (!verify_task(node.alias, "route alias") || !verify_task(node.task, "route task") ||
                 !verify_task(node.completion_task, "route completion_task")) {
-                return false;
+                ret = false;
             }
             routes.emplace_back(std::move(node));
         }
     }
     else {
         LogError << __FUNCTION__ << "routes must be an array of objects";
-        return false;
+        ret = false;
     }
     if (routes.empty()) {
         LogError << __FUNCTION__ << "routes must not be empty";
-        return false;
+        ret = false;
     }
     // 里程碑的层段与路由的层段是两份配置，只能在这里对齐。里程碑在某一层活跃却没有覆盖该层的
     // 路由时，走到节点就无从分派，本局会以节点分派失败结束，因此逐层校验而不只看意图是否存在。
@@ -455,9 +460,9 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
                 return route.page_intent == window.intent && floor >= route.floor_begin && floor <= route.floor_end;
             });
             if (!covered) {
-                invalid_config(
-                    "strategy page_intent has no execution route on floor " + std::to_string(floor) + ": " +
-                    window.intent);
+                LogError << __FUNCTION__ << "strategy page_intent has no execution route on floor" << floor << ":"
+                         << window.intent;
+                ret = false;
             }
         }
     }
@@ -483,7 +488,9 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
     for (std::size_t left = 0; left < routes.size(); ++left) {
         for (std::size_t right = left + 1; right < routes.size(); ++right) {
             if (overlaps(routes[left], routes[right])) {
-                invalid_config("same-rank routes overlap: " + routes[left].id + " and " + routes[right].id);
+                LogError << __FUNCTION__ << "same-rank routes overlap:" << routes[left].id << " and "
+                         << routes[right].id;
+                ret = false;
             }
         }
     }
@@ -493,7 +500,8 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
         auto result = parse_task_result(value);
         const std::string task = result.task;
         if (!task_results.emplace(task, std::move(result)).second) {
-            invalid_config("duplicate task result: " + task);
+            LogError << __FUNCTION__ << "duplicate task result:" << task;
+            ret = false;
         }
     }
 
@@ -502,12 +510,14 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
     for (const auto& value : json.at("preview_names").as_array()) {
         auto [text, type] = parse_preview_name(value);
         if (!preview_name_types.emplace(text, type).second) {
-            invalid_config("duplicate preview name: " + text);
+            LogError << __FUNCTION__ << "duplicate preview name:" << text;
+            ret = false;
         }
         preview_names.emplace_back(std::move(text));
     }
     if (preview_names.empty()) {
-        invalid_config("preview_names must not be empty");
+        LogError << __FUNCTION__ << "preview_names must not be empty";
+        ret = false;
     }
     std::ranges::sort(preview_names);
 
@@ -516,7 +526,7 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
     m_task_results = std::move(task_results);
     m_preview_names = std::move(preview_names);
     m_preview_name_types = std::move(preview_name_types);
-    return true;
+    return ret;
 }
 
 bool BlackFlowNodeExecutionConfig::parse_node_types(
