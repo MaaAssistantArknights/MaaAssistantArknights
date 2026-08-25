@@ -446,7 +446,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @optional
 교대 작업 모드
 <br>
-`0` - `Default`: 기본 교대 모드, 단일 시설 최적해
+`0` - `Default`: 기본 교대 모드. 시설 내 및 시설 간을 포함한 효율적인 오퍼레이터 조합을 자동으로 계산합니다
 <br>
 `10000` - `Custom`: 사용자 정의 교대 모드, 사용자 설정 로드. [기반시설 스케줄링 프로토콜](./base-scheduling-schema.md) 참고
 <br>
@@ -455,7 +455,9 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 ::: field facility  
 @type array<string>
 @required
-교대할 시설(순서 있음). 실행 중 설정 불가
+교대할 시설. 실행 중 설정 불가
+<br>
+`mode = 0`일 때 이 배열은 활성화 집합으로 취급되며, 순서와 중복 항목은 스케줄링에 영향을 주지 않습니다(교대 순서는 알고리즘이 자동으로 결정). `mode = 10000` / `20000`일 때는 배열 순서대로 처리됩니다.
 <br>
 시설명: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
 :::  
@@ -494,6 +496,38 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @default false
 @optional
 숙소 남은 자리에 신뢰도 미만 오퍼레이터 배치 여부  
+:::  
+::: field fiammetta_targets  
+@type array<string>
+@default ["清流", "可露希尔", "但书"]
+@optional
+피아메타 회복 대상 목록. 교대 시 목록에서 현재 컨디션이 가장 낮은 대상 오퍼레이터가 피아메타와 함께 우선적으로 숙소에 배치됩니다. `mode = 0`일 때만 유효합니다.
+<br>
+옵션: `清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅` (옵션 외 또는 중복 항목은 무시됨)  
+:::  
+::: field use_pinus_sylvestris  
+@type boolean
+@default false
+@optional
+｢피누스 실베스트리스｣ 시설 간 연계 활성화 여부. `mode = 0`일 때만 유효합니다.  
+:::  
+::: field use_perception_information  
+@type boolean
+@default false
+@optional
+｢감지 정보｣ 시설 간 연계 활성화 여부. ｢속세의 번뇌｣보다 우선순위가 높습니다. `mode = 0`일 때만 유효합니다.  
+:::  
+::: field use_worldly_plight  
+@type boolean
+@default false
+@optional
+｢속세의 번뇌｣ 시설 간 연계 활성화 여부. `mode = 0`일 때만 유효합니다.  
+:::  
+::: field use_abyssal_hunter  
+@type boolean
+@default false
+@optional
+｢어비설 헌터｣ 시설 간 연계 활성화 여부. `mode = 0`일 때만 유효하며, ｢피누스 실베스트리스｣와 동시에 활성화하면 두 연계는 동시에 교대에 참여하지 않습니다.  
 :::  
 ::: field reception_message_board  
 @type boolean

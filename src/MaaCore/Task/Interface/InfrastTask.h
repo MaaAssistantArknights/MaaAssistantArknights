@@ -1,6 +1,7 @@
 #pragma once
 #include <filesystem>
 
+#include "Common/AsstInfrastDef.h"
 #include "Task/InterfaceTask.h"
 
 namespace asst
@@ -42,6 +43,7 @@ private:
     std::shared_ptr<ProcessTask> m_queue_rotation_task = nullptr;
     std::shared_ptr<InfrastInfoTask> m_info_task_ptr = nullptr;
     std::shared_ptr<InfrastMfgTask> m_mfg_task_ptr = nullptr;
+    std::shared_ptr<InfrastMfgTask> m_mfg_info_task_ptr = nullptr;
     std::shared_ptr<InfrastTradeTask> m_trade_task_ptr = nullptr;
     std::shared_ptr<InfrastPowerTask> m_power_task_ptr = nullptr;
     std::shared_ptr<InfrastControlTask> m_control_task_ptr = nullptr;
@@ -50,6 +52,8 @@ private:
     std::shared_ptr<InfrastProcessingTask> m_processing_task_ptr = nullptr;
     std::shared_ptr<InfrastTrainingTask> m_training_task_ptr = nullptr;
     std::shared_ptr<InfrastDormTask> m_dorm_task_ptr = nullptr;
+    std::shared_ptr<InfrastDormTask> m_dorm_task_ptr_post = nullptr;
     std::shared_ptr<ReplenishOriginiumShardTaskPlugin> m_replenish_task_ptr = nullptr;
+    std::shared_ptr<infrast::TaskData> m_task_data;
 };
 }

@@ -169,6 +169,25 @@
     <system:String x:Key="InfrastReceptionSendClue">手がかりを贈る</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">{key=Infrast} で以下の関数を設定して実行する必要があります</system:String>
     <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
+    <system:String x:Key="InfrastFiammettaTargets">フィアメッタの回復対象</system:String>
+    <system:String x:Key="InfrastFiammettaTargetNone">なし</system:String>
+    <system:String x:Key="InfrastFiammettaTargetPurestream">セイリュウ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetClosure">クロージャ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetProviso">プロヴァイゾ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetShamare">シャマレ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetTequila">テキーラ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGladiia">グレイディーア</system:String>
+    <system:String x:Key="InfrastFiammettaTargetsTips">理論上はシャマレとテキーラを回復対象にすると007が可能ですが、自動交代では実現が難しいため、シャマレとテキーラの選択は推奨しません。</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestris">ピヌス・シルベストリス連携を使用</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">必須オペレーター：フレイムテイル（昇進2）、ヴィヴィアナ（昇進2）、ワイルドメイン（昇進2）/アッシュロック（昇進2）/ファートゥース（昇進2）のうち1名以上&#10;計算対象オペレーター：グラベル</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformation">知覚情報連携を使用</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformationTips" xml:space="preserve">必須オペレーター：ウィスパーレイン（昇進2）、ロスモンティス（昇進2）、エーベンホルツ（昇進2）&#10;計算対象オペレーター：シー、ヴィルトゥオーサ、アイリス、チェルニー&#10;俗世の憂いより優先度が高い</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlight">俗世の憂い連携を使用</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlightTips" xml:space="preserve">必須オペレーター：マルベリー（昇進2）、ステンレス（昇進2）&#10;計算対象オペレーター：チョンユエ、リィン、シー</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">アビサルハンター連携を使用</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunterTips" xml:space="preserve">必須オペレーター：グレイディーア（昇進2）、ウルピアヌス、スカジ、スペクター、アンドレアナ&#10;アルゴリズム上の理由により、ピヌス・シルベストリスも選択した場合は両方を同時に交代対象にはできません。</system:String>
+    <system:String x:Key="InfrastFacilitySelection">交代対象施設</system:String>
+    <system:String x:Key="InfrastFacilitySelectionTip" xml:space="preserve">｢{key=InfrastModeNormal}｣ では交代順序はアルゴリズムが自動的に決定します。ここでは処理する施設の種類を選択するのみで、順序は反映されません。&#10;交代順序をカスタマイズしたい場合は ｢{key=InfrastModeCustom}｣ をご利用ください。</system:String>
     <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>
     <system:String x:Key="TrainingCompleted">訓練が完了しました</system:String>
     <system:String x:Key="TrainingLevel">スキルランク</system:String>

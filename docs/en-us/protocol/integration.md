@@ -460,7 +460,7 @@ Whether to enable this task.
 @optional
 Shift mode. Editing in run-time is not supported.
 <br>
-`0` - `Default`: Default shift mode, single facility optimal solution.
+`0` - `Default`: Default shift mode, automatically calculates efficient operator combinations within and across facilities.
 <br>
 `10000` - `Custom`: Custom shift mode, reads user configuration, see [Base Scheduling Schema](./base-scheduling-schema.md).
 <br>
@@ -469,7 +469,9 @@ Shift mode. Editing in run-time is not supported.
 ::: field facility  
 @type array<string>
 @required
-Facilities for shifting (ordered). Editing in run-time is not supported.
+Facilities for shifting. Editing in run-time is not supported.
+<br>
+When `mode = 0`, this array acts as an enabled set; the order and duplicates do not affect scheduling (the shift order is planned automatically by the algorithm). When `mode = 10000` / `20000`, facilities are processed in array order.
 <br>
 Facility name: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
 :::  
@@ -508,6 +510,38 @@ Whether to enable "Not Stationed in Dorm" option.
 @default false
 @optional
 Whether to fill dormitory with operators not at max trust.  
+:::  
+::: field fiammetta_targets  
+@type array<string>
+@default ["清流", "可露希尔", "但书"]
+@optional
+Fiammetta recovery target list. During shift change, the target operator with the lowest morale in the list is placed in a dormitory together with Fiammetta first. Only effective when `mode = 0`.
+<br>
+Options: `清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅` (entries outside the options or duplicates are ignored)  
+:::  
+::: field use_pinus_sylvestris  
+@type boolean
+@default false
+@optional
+Whether to enable the ｢Pinus Sylvestris Knights｣ cross-facility team. Only effective when `mode = 0`.  
+:::  
+::: field use_perception_information  
+@type boolean
+@default false
+@optional
+Whether to enable the ｢Perception Information｣ cross-facility team, which takes priority over ｢Worldly Plight｣. Only effective when `mode = 0`.  
+:::  
+::: field use_worldly_plight  
+@type boolean
+@default false
+@optional
+Whether to enable the ｢Worldly Plight｣ cross-facility team. Only effective when `mode = 0`.  
+:::  
+::: field use_abyssal_hunter  
+@type boolean
+@default false
+@optional
+Whether to enable the ｢Abyssal Hunters｣ cross-facility team. Only effective when `mode = 0`; when enabled together with ｢Pinus Sylvestris Knights｣, the two teams will not participate in scheduling together.  
 :::  
 ::: field reception_message_board  
 @type boolean

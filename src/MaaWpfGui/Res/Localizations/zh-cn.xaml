@@ -169,6 +169,25 @@
     <system:String x:Key="InfrastReceptionSendClue">赠送线索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中设置并执行</system:String>
     <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
+    <system:String x:Key="InfrastFiammettaTargets">菲亚梅塔恢复目标</system:String>
+    <system:String x:Key="InfrastFiammettaTargetNone">无</system:String>
+    <system:String x:Key="InfrastFiammettaTargetPurestream">清流</system:String>
+    <system:String x:Key="InfrastFiammettaTargetClosure">可露希尔</system:String>
+    <system:String x:Key="InfrastFiammettaTargetProviso">但书</system:String>
+    <system:String x:Key="InfrastFiammettaTargetShamare">巫恋</system:String>
+    <system:String x:Key="InfrastFiammettaTargetTequila">龙舌兰</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGladiia">歌蕾蒂娅</system:String>
+    <system:String x:Key="InfrastFiammettaTargetsTips">虽然理论上恢复巫恋和龙舌兰可以007，但是自动换班情况下难以实现，因此不推荐选择恢复巫恋和龙舌兰</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestris">使用红松骑士团跨设施组合</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">必要干员：焰尾(精二)、薇薇安娜(精二)、野鬃(精二)/灰毫(精二)/远牙(精二)至少一个&#10;参与计算干员：砾</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformation">使用感知信息跨设施组合</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformationTips" xml:space="preserve">必要干员：絮雨(精二)、迷迭香(精二)、黑键(精二)&#10;参与计算干员：夕、塑心、爱丽丝、车尔尼&#10;优先度高于人间烟火</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlight">使用人间烟火跨设施组合</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlightTips" xml:space="preserve">必要干员：桑葚(精二)、乌有(精二)&#10;参与计算干员：重岳、令、夕</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">使用深海猎人跨设施组合</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunterTips" xml:space="preserve">必要干员：歌蕾蒂娅(精二)、乌尔比安、斯卡蒂、幽灵鲨、安哲拉&#10;因算法原因同时勾选红松骑士团时不会和红松骑士团同时参与排班</system:String>
+    <system:String x:Key="InfrastFacilitySelection">换班设施</system:String>
+    <system:String x:Key="InfrastFacilitySelectionTip" xml:space="preserve">｢{key=InfrastModeNormal}｣ 下换班顺序由算法统一安排，此处仅选择需要换班的设施类别，列表顺序不生效。&#10;若需自定义换班顺序，请使用 ｢{key=InfrastModeCustom}｣。</system:String>
     <system:String x:Key="TrainingIdle">训练室空闲中</system:String>
     <system:String x:Key="TrainingCompleted">训练完成</system:String>
     <system:String x:Key="TrainingLevel">专精等级</system:String>

@@ -8,6 +8,9 @@
 
 bool asst::InfrastFacilityImageAnalyzer::analyze()
 {
+    m_result.clear();
+    m_view_type = ViewType::Unknown;
+
     const static std::unordered_map<std::string, std::string> facility_task_name = {
         { "Dorm", "InfrastDorm" },           { "Control", "InfrastControl" },       { "Mfg", "InfrastMfg" },
         { "Trade", "InfrastTrade" },         { "Power", "InfrastPower" },           { "Office", "InfrastOffice" },
@@ -46,7 +49,7 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
                     continue;
                 }
                 const auto& cur_res = mm_analyzer.get_result();
-                auto cur_max_iter = std::ranges::max_element(cur_res, std::less {}, std::mem_fn(&MatchRect::score));
+                auto cur_max_iter = std::ranges::max_element(cur_res, std::less { }, std::mem_fn(&MatchRect::score));
                 if (cur_max_iter == cur_res.cend()) {
                     continue;
                 }
@@ -74,6 +77,10 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
         }
 #endif
         m_result.emplace(key, std::move(cur_facility_result));
+    }
+
+    if (cor_suffix_index >= 0) {
+        m_view_type = cor_suffix_index == 0 ? ViewType::Normal : ViewType::Mini;
     }
 
     return !m_result.empty();

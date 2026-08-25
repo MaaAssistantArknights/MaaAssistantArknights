@@ -460,7 +460,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @optional
 シフト作業モード。
 <br>
-`0` - `Default`：デフォルト シフト モード、単一施設の最適解。
+`0` - `Default`：デフォルト シフト モード。施設内および施設横断を含む効率の高いオペレーターコンビを自動計算します。
 <br>
 `10000` - `Custom`：カスタム シフト モード。ユーザー構成を読み込みます。[基地スケジューリング プロトコル](./base-scheduling-schema.md)を参照してください。
 <br>
@@ -469,7 +469,9 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 ::: field facility  
 @type array<string>
 @required
-シフト対象施設（順序付け）。実行中の設定はサポートされていません。
+シフト対象施設。実行中の設定はサポートされていません。
+<br>
+`mode = 0` の場合、この配列は有効化セットとして扱われ、順序と重複はスケジューリングに影響しません（交代順序はアルゴリズムが自動的に決定します）。`mode = 10000` / `20000` の場合は配列の順序で処理されます。
 <br>
 施設名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
 :::  
@@ -508,6 +510,38 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @default false
 @optional
 宿舎の残りの位置を信頼が満たされていないオペレーターで追加するかどうか。  
+:::  
+::: field fiammetta_targets  
+@type array<string>
+@default ["清流", "可露希尔", "但书"]
+@optional
+フィアメッタの回復対象リスト。交代時、リスト内で現在の体力が最も低い対象オペレーターがフィアメッタとともに優先的に寮へ配置されます。`mode = 0` の場合のみ有効です。
+<br>
+オプション：`清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅`（オプション外または重複するエントリは無視されます）  
+:::  
+::: field use_pinus_sylvestris  
+@type boolean
+@default false
+@optional
+｢レッドパイン騎士団｣の施設横断コンボを有効にするかどうか。`mode = 0` の場合のみ有効です。  
+:::  
+::: field use_perception_information  
+@type boolean
+@default false
+@optional
+｢感知情報｣の施設横断コンボを有効にするかどうか。｢俗世の憂い｣より優先されます。`mode = 0` の場合のみ有効です。  
+:::  
+::: field use_worldly_plight  
+@type boolean
+@default false
+@optional
+｢俗世の憂い｣の施設横断コンボを有効にするかどうか。`mode = 0` の場合のみ有効です。  
+:::  
+::: field use_abyssal_hunter  
+@type boolean
+@default false
+@optional
+｢アビサルハンター｣の施設横断コンボを有効にするかどうか。`mode = 0` の場合のみ有効です。｢レッドパイン騎士団｣と同時に有効化した場合、両者は同時に交代対象になりません。  
 :::  
 ::: field reception_message_board  
 @type boolean

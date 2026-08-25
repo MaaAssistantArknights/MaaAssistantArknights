@@ -169,6 +169,25 @@
     <system:String x:Key="InfrastReceptionSendClue">단서 보내기</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">다음 기능들은 {key=Infrast}에서 설정 및 실행해야 합니다</system:String>
     <system:String x:Key="ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
+    <system:String x:Key="InfrastFiammettaTargets">피아메타 회복 대상</system:String>
+    <system:String x:Key="InfrastFiammettaTargetNone">없음</system:String>
+    <system:String x:Key="InfrastFiammettaTargetPurestream">퓨어스트림</system:String>
+    <system:String x:Key="InfrastFiammettaTargetClosure">클로저</system:String>
+    <system:String x:Key="InfrastFiammettaTargetProviso">프로바이조</system:String>
+    <system:String x:Key="InfrastFiammettaTargetShamare">샤마르</system:String>
+    <system:String x:Key="InfrastFiammettaTargetTequila">테킬라</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGladiia">글래디아</system:String>
+    <system:String x:Key="InfrastFiammettaTargetsTips">이론적으로 샤마르와 테킬라를 회복 대상으로 하면 007이 가능하지만, 자동 교대에서는 구현하기 어려우므로 샤마르와 테킬라를 선택하는 것은 권장하지 않습니다.</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestris">피누스 실베스트리스 연계 사용</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">필수 오퍼레이터: 플레임테일(정예화 2), 비비아나(정예화 2), 와일드메인(정예화 2)/애쉬락(정예화 2)/파투스(정예화 2) 중 1명 이상&#10;계산에 참여하는 오퍼레이터: 그라벨</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformation">감지 정보 연계 사용</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformationTips" xml:space="preserve">필수 오퍼레이터: 위스퍼레인(정예화 2), 로즈몬티스(정예화 2), 에벤홀츠(정예화 2)&#10;계산에 참여하는 오퍼레이터: 시, 비르투오사, 아이리스, 체르니&#10;속세의 번뇌보다 우선도가 높습니다</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlight">속세의 번뇌 연계 사용</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlightTips" xml:space="preserve">필수 오퍼레이터: 멀베리(정예화 2), 스테인리스(정예화 2)&#10;계산에 참여하는 오퍼레이터: 중전, 링, 시</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">어비설 헌터 연계 사용</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunterTips" xml:space="preserve">필수 오퍼레이터: 글래디아(정예화 2), 울피아누스, 스카디, 스펙터, 안드레아나&#10;알고리즘상의 이유로 피누스 실베스트리스도 동시에 선택하면 두 연계가 함께 교대에 참여하지 않습니다.</system:String>
+    <system:String x:Key="InfrastFacilitySelection">교대 시설</system:String>
+    <system:String x:Key="InfrastFacilitySelectionTip" xml:space="preserve">｢{key=InfrastModeNormal}｣에서는 교대 순서를 알고리즘이 자동으로 결정하며, 여기서는 처리할 시설 종류만 선택합니다. 순서는 적용되지 않습니다.&#10;교대 순서를 직접 설정하려면 ｢{key=InfrastModeCustom}｣을 사용하세요.</system:String>
     <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>
     <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
     <system:String x:Key="TrainingLevel">마스터리 랭크</system:String>

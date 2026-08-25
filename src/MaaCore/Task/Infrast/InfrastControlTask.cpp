@@ -1,6 +1,9 @@
 #include "InfrastControlTask.h"
 
+#include "Controller/Controller.h"
+#include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 
 bool asst::InfrastControlTask::_run()
 {
@@ -30,6 +33,7 @@ bool asst::InfrastControlTask::_run()
         match_operator_groups();
     }
 
+    bool selection_ready = false;
     for (int i = 0; i <= OperSelectRetryTimes; ++i) {
         if (need_exit()) {
             return false;
@@ -37,6 +41,7 @@ bool asst::InfrastControlTask::_run()
         if (is_use_custom_opers()) {
             bool name_select_ret = swipe_and_select_custom_opers();
             if (name_select_ret) {
+                selection_ready = true;
                 break;
             }
             else {
@@ -45,6 +50,11 @@ bool asst::InfrastControlTask::_run()
             }
         }
 
+        if (m_default_mode) {
+            // 按技能排序后，同设施技能的干员会连续排列。否则前序设施留下的工作状态排序
+            // 可能让正在宿舍休息的候选落到无关技能之后，扫描会在中间空页提前结束。
+            ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
+        }
         if (!opers_detect_with_swipe()) {
             return false;
         }
@@ -59,9 +69,16 @@ bool asst::InfrastControlTask::_run()
             swipe_to_the_left_of_operlist();
             continue;
         }
+        selection_ready = true;
         break;
     }
-    click_confirm_button();
+    if (!selection_ready) {
+        discard_pending_selection();
+        return false;
+    }
+    if (!click_confirm_button()) {
+        return false;
+    }
     click_return_button();
 
     return true;
