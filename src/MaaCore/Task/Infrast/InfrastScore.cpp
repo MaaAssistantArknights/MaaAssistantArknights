@@ -1120,68 +1120,90 @@ double processing_score(const ScoreOper& oper, const ScoreContext& context)
 {
     const std::string_view material_id = context.product;
     double score = 0;
+    // 分值主要按副产品产出概率换算
     for (const auto& icon : oper.skills) {
         if (icon == "bskill_ws_asc1" && material_id.size() == 4 && material_id.starts_with("32")) {
+            // 特训记录 / 被忽视的天赋：芯片副产品 +70%。
             score += 0.7;
         }
         else if (icon == "bskill_ws_asc2" && material_id.size() == 4 && material_id.starts_with("32")) {
+            // 训练有素：芯片副产品 +80%。
             score += 0.8;
         }
         else if (icon == "bskill_hire_kalts2" || icon == "bskill_ws_p_kalts2") {
+            // “泰拉的方舟” / 理论革新：凯尔希·思衡托。
             score += 0.8;
         }
         else if (icon == "bskill_ws_p5") {
+            // 未知技术 / 技术阐明：不计通用 70% 技能，尽量保留凯尔希进入控制中枢。
             continue;
         }
         else if (icon == "bskill_ws_p4") {
+            // 咪波·加工型 / 舍弃的赘余等：任意材料副产品 +65%。
             score += 0.65;
         }
         else if (icon == "bskill_ws_p3") {
+            // 专注·β / 老当益壮：任意材料副产品 +60%。
             score += 0.6;
         }
         else if (icon == "bskill_ws_evolve4") {
+            // 稀有金属辨识：年，精英材料副产品 +100%。
             score += 1.0;
         }
         else if (icon == "bskill_ws_evolve3") {
+            // 药理学·β / 毒理学·β等：精英材料副产品 +80%。
             score += 0.8;
         }
         else if (icon == "bskill_ws_evolve2") {
+            // 药理学·α / 毒理学·α等：精英材料副产品 +75%。
             score += 0.75;
         }
         else if (icon == "bskill_ws_evolve1") {
+            // 营养学 / 高效回收 / 气流传动：精英材料副产品 +70%。
             score += 0.7;
         }
         else if (icon == "bskill_ws_free") {
+            // 精打细算：瑕光，按材料品质近似计算龙门币减免收益。
             score += 0.8 - context.level * 0.1;
         }
         else if (icon == "bskill_ws_cost_blemishine") {
+            // 热心修补匠：瑕光，副产品 +40% 并降低高消耗配方心情。
             score += 0.4;
         }
         else if (icon == "bskill_ws_bonus1" && context.level < 4) {
+            // 因果：九色鹿，T4 及以下材料积累 40 点因果。
             score += 0.9;
         }
         else if (icon == "bskill_ws_bonus2" && context.level == 4) {
+            // 业报：九色鹿，T5 材料积累 80 点业报。
             score += 0.9;
         }
         else if (icon == "bskill_ws_alloyblock" && material_id == "31024") {
+            // DIY·炽合金：号角，仅炽合金块。
             score += 1.0;
         }
         else if (icon == "bskill_ws_orirock" && (material_id == "30014" || material_id == "30013")) {
+            // DIY·源岩：泥岩、谬因，仅提纯源岩和固源岩组。
             score += 0.9;
         }
         else if (icon == "bskill_ws_device" && (material_id == "30064" || material_id == "30063")) {
+            // DIY·装置：贾维，仅改量装置和全新装置。
             score += 0.9;
         }
         else if (icon == "bskill_ws_crystalline" && (material_id == "31034" || material_id == "30145")) {
+            // DIY·晶体：特克诺，仅晶体电路和晶体电子单元。
             score += 0.8;
         }
         else if (icon == "bskill_ws_skill3" && (material_id == "3302" || material_id == "3303")) {
+            // 兵者诡道 / 荒野生存等：技巧概要副产品 +80%，额外加 1 提高优先级。
             score += 1.8;
         }
         else if (icon == "bskill_ws_skill2" && (material_id == "3302" || material_id == "3303")) {
+            // 适应力 / 獠牙的技艺 / 灵感改装：技巧概要副产品 +75%，额外加 1 提高优先级。
             score += 1.75;
         }
         else if (icon == "bskill_ws_skill1" && (material_id == "3302" || material_id == "3303")) {
+            // 技巧理论：技巧概要副产品 +70%，额外加 1 提高优先级。
             score += 1.7;
         }
     }
@@ -1460,7 +1482,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_ela"); }); // 反抗者：艾拉
     }
 
-    // 玛恩纳在场时尽量补满“笑脸”类技能，但排除凯尔希，避免重复制造加速。
+    // 玛恩纳在场时尽量补满“笑脸”类技能，但排除M3，避免重复制造加速。
     const bool mlynar =
         std::ranges::any_of(best, [&](size_t index) { return is_operator(opers[index], { "char_4064_mlynar" }); });
     if (best.size() < ControlSlotCount && mlynar) {
