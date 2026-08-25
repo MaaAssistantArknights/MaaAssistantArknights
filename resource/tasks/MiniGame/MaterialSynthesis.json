@@ -21,7 +21,9 @@
     },
     "MiniGame@MaterialSynthesis@HasParent": {
         "template": "ProcessingReturnParent.png",
-        "roi": [269, 186, 65, 72]
+        "roi": [243, 134, 128, 135],
+        "action": "ClickSelf",
+        "postDelay": 800
     },
     "MiniGame@MaterialSynthesis@Ingredient1Available": {
         "template": "ProcessingAvailable.png",
@@ -98,11 +100,5 @@
     "MiniGame@MaterialSynthesis@Satisfied": {
         "template": "ProcessingSatisfied.png",
         "roi": [1123, 309, 157, 130]
-    },
-    "MiniGame@MaterialSynthesis@ReturnToParent": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [300, 180, 50, 50],
-        "postDelay": 800
     }
 }
