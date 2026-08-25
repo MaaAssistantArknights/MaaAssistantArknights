@@ -99,7 +99,14 @@ bool asst::InfrastConfig::parse(const json::value& json)
                     infrast::SkillsComb comb;
                     comb.desc = necessary_json.get("desc", std::string());
                     for (const json::value& skill_json : necessary_json.at("skills").as_array()) {
-                        const auto& skill = m_skills.at(facility_name).at(skill_json.as_string());
+                        const std::string skill_id = skill_json.as_string();
+                        const auto& facility_skills = m_skills.find(facility_name);
+                        if (facility_skills == m_skills.end() || !facility_skills->second.contains(skill_id)) {
+                            Log.error(__FUNCTION__, "| skillsGroup references missing skill:", skill_id,
+                                      "in facility:", facility_name);
+                            return false;
+                        }
+                        const auto& skill = facility_skills->second.at(skill_id);
                         comb.skills.emplace(skill);
                     }
                     /* 解析efficient的数字及正则值 */
@@ -151,7 +158,14 @@ bool asst::InfrastConfig::parse(const json::value& json)
                     infrast::SkillsComb comb;
                     comb.desc = opt_json.get("desc", std::string());
                     for (const json::value& skill_json : opt_json.at("skills").as_array()) {
-                        const auto& skill = m_skills.at(facility_name).at(skill_json.as_string());
+                        const std::string skill_id = skill_json.as_string();
+                        const auto& facility_skills = m_skills.find(facility_name);
+                        if (facility_skills == m_skills.end() || !facility_skills->second.contains(skill_id)) {
+                            Log.error(__FUNCTION__, "| skillsGroup references missing skill:", skill_id,
+                                      "in facility:", facility_name);
+                            return false;
+                        }
+                        const auto& skill = facility_skills->second.at(skill_id);
                         comb.skills.emplace(skill);
                     }
                     /* 解析efficient的数字及正则值 */

@@ -375,7 +375,15 @@ public static class ResourceUpdater
 
     public static void ResourceReload()
     {
-        Instances.AsstProxy.LoadResource();
+        // AsstLoadResource 失败（返回 false）时旧资源可能已被破坏，必须让用户知道，
+        // 而不是继续走后续流程并弹出"资源已更新"的成功提示。
+        if (!Instances.AsstProxy.LoadResource())
+        {
+            _logger.Error("Resource reload failed after AsstLoadResource returned false.");
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+            return;
+        }
+
         DataHelper.Reload();
         SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
         ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
@@ -394,7 +402,14 @@ public static class ResourceUpdater
         _isReloading = true;
         try
         {
-            await Instances.AsstProxy.LoadResourceWhenIdleAsync();
+            var loaded = await Instances.AsstProxy.LoadResourceWhenIdleAsync();
+            if (!loaded)
+            {
+                _logger.Error("Resource reload failed: LoadResourceWhenIdleAsync returned false.");
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                return;
+            }
+
             DataHelper.Reload();
             SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
             ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));

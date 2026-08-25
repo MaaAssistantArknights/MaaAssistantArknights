@@ -8,6 +8,10 @@ bool asst::StageDropsConfig::parse(const json::value& json)
 {
     LogTraceFunction;
 
+    // 热重载时单例里可能残留旧数据；emplace 对已存在的 key 不覆盖，
+    // 不清理的话新表会被旧数据静默遮蔽（参照 InfrastConfig 的修复）。
+    clear();
+
     for (const json::value& stage_json : json.as_array()) {
         auto drop_infos_opt = stage_json.find<json::array>("dropInfos");
         if (!drop_infos_opt) { // 这种一般是以前的活动关，现在已经关闭了的
@@ -43,4 +47,13 @@ bool asst::StageDropsConfig::parse(const json::value& json)
     }
 
     return true;
+}
+
+void asst::StageDropsConfig::clear()
+{
+    LogTraceFunction;
+
+    m_all_stage_code.clear();
+    m_all_item_id.clear();
+    m_stage_info.clear();
 }
