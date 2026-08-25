@@ -1158,6 +1158,20 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內 ｢繼承上一支隊伍發回的資料｣ 。</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis">自動合成材料</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">請先手動進入目標材料的加工站合成頁，再開始任務。&#10;會遞迴合成可加工的下級材料，材料不足時停止。</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@StartLog">開始自動合成材料</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@MaterialLog">目前材料：{0}，還需合成 {1} 個（第 {2} 層）</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@IngredientLog">{0} 的第 {1} 種下級材料不足，正在補充</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@IngredientUnavailableLog">{0} 的第 {1} 種下級材料無法合成</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@OperatorLog">正在為 {0} 選擇加工站幹員</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@CraftLog">正在合成 {0} × {1}</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@ReturnLog">{0} 已滿足，返回上級配方</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@DoneLog">材料合成完成</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@FailedLog">材料合成停止：{0}</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@InsufficientResources">原料不足或已達到處理上限</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@OperatorUnavailable">沒有可用的滿心情加工站幹員</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@Unsupported">無法辨識目前材料或配方資料</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@NavigationFailed">頁面辨識或操作失敗</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">未知錯誤</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">奇象巡展-找未收錄生物</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">在所選地圖的高級區草地右下角開始任務。&#10;在草地來回走動尋找未收錄生物，找到後自動停止。&#10;只有草地能遇到生物。</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">奇象巡展：發現暫未收錄奇象</system:String>

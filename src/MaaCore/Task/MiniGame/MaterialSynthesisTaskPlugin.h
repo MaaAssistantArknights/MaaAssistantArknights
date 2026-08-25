@@ -26,6 +26,7 @@ private:
     {
         Completed,
         InsufficientResources,
+        OperatorUnavailable,
         Unsupported,
         NavigationFailed,
         Cancelled,
@@ -49,6 +50,8 @@ private:
     std::optional<int> read_number(const std::string& task_name);
     std::optional<std::string> read_text(const std::string& task_name);
     std::string find_item_id(const std::string& name) const;
+    void report_status(std::string what, json::value details = json::object());
+    void report_result(Result result);
 
     static std::string_view result_name(Result result);
 };
