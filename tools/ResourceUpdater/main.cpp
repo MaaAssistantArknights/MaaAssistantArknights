@@ -3,6 +3,7 @@
 #include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <string_view>
 #include <thread>
 #include <unordered_map>
 #include <unordered_set>
@@ -36,13 +37,30 @@ std::string normalize_infrast_skill_id(std::string id)
     return id;
 }
 
+// Resource keys that intentionally differ from the game icon ID they refer to.
+// The icon templates are synced verbatim from the upstream repository under the game icon
+// name, so each pair maps a stable resource key (used by infrast.json) back and forth
+// to the game data skillIcon it is stored as.
+struct InfrastResourceKeyGameIconPair
+{
+    std::string_view resource_key;
+    std::string_view game_icon;
+};
+
+constexpr std::array<InfrastResourceKeyGameIconPair, 1> InfrastResourceKeyGameIconPairs = {
+    // The game data uses exp4 for the same icon as the legacy exp0 skill.
+    // Keep the resource key stable so the two production bonuses remain distinct.
+    { "bskill_man_exp0", "bskill_man_exp4" },
+};
+
+// Maps a game data skillIcon ID to the resource key used in infrast.json.
 std::string canonicalize_infrast_skill_id(std::string id)
 {
     id = normalize_infrast_skill_id(std::move(id));
-    // The game data uses exp4 for the same icon as the legacy exp0 skill.
-    // Keep the resource key stable so the two production bonuses remain distinct.
-    if (id == "bskill_man_exp4") {
-        id = "bskill_man_exp0";
+    for (const auto& [resource_key, game_icon] : InfrastResourceKeyGameIconPairs) {
+        if (id == game_icon) {
+            return std::string(resource_key);
+        }
     }
     return id;
 }
@@ -121,7 +139,7 @@ bool update_roguelike_recruit(const fs::path& input_dir, const fs::path& output_
 bool update_levels_json(const fs::path& input_file, const fs::path& output_dir);
 bool
     update_infrast_templates(const fs::path& input_dir, const fs::path& building_data_file, const fs::path& output_dir);
-bool validate_infrast_resources(const fs::path& resource_dir);
+bool validate_infrast_resources(const fs::path& resource_dir, const fs::path& building_data_file);
 bool generate_english_roguelike_stage_name_replacement(const fs::path& ch_file, const fs::path& en_file);
 bool update_battle_chars_info(const fs::path& input_dir, const fs::path& overseas_dir, const fs::path& output_dir);
 bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, bool is_base);
@@ -416,7 +434,10 @@ bool run_parallel_tasks(
     recruit_thread.join();
     items_data_thread.join();
 
-    if (!error_occurred.load() && !validate_infrast_resources(resource_dir)) {
+    if (!error_occurred.load()
+        && !validate_infrast_resources(
+            resource_dir,
+            official_data_dir / "gamedata" / "excel" / "building_data.json")) {
         std::cerr << "validate_infrast_resources failed" << '\n';
         error_occurred.store(true);
     }
@@ -979,11 +1000,35 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& buildin
     return true;
 }
 
-bool validate_infrast_resources(const fs::path& resource_dir)
+bool validate_infrast_resources(const fs::path& resource_dir, const fs::path& building_data_file)
 {
     auto infrast_opt = json::open(resource_dir / "infrast.json");
     if (!infrast_opt) {
         return false;
+    }
+
+    // Templates are stored under the upstream game icon name even when the resource key
+    // differs, so the expected filename of each key derives from the game data skillIcon
+    // (game icon -> resource key), mirroring how infrast.json itself is generated.
+    auto building_data_opt = json::open(building_data_file);
+    if (!building_data_opt) {
+        std::cerr << building_data_file << " parse error" << '\n';
+        return false;
+    }
+    auto buffs_opt = building_data_opt->find<json::object>("buffs");
+    if (!buffs_opt) {
+        std::cerr << building_data_file << " has no buffs" << '\n';
+        return false;
+    }
+    std::unordered_map<std::string, std::string> expected_template_by_key;
+    for (const auto& [_, buff] : buffs_opt.value()) {
+        const std::string skill_icon = buff.get("skillIcon", std::string());
+        if (skill_icon.empty()) {
+            continue;
+        }
+        expected_template_by_key.insert_or_assign(
+            canonicalize_infrast_skill_id(skill_icon),
+            infrast_template_filename(skill_icon));
     }
 
     std::unordered_set<std::string> skill_ids;
@@ -1003,7 +1048,11 @@ bool validate_infrast_resources(const fs::path& resource_dir)
                 return false;
             }
             room_skill_ids.emplace(skill_id);
-            const std::string expected_template = infrast_template_filename(skill_id);
+            // Skills maintained ahead of the game data fall back to the resource key
+            // itself, which matches as long as the upstream icon id is all lowercase.
+            const std::string expected_template =
+                expected_template_by_key.contains(skill_id) ? expected_template_by_key.at(skill_id)
+                                                            : infrast_template_filename(skill_id);
             if (skill.at("template").as_string() != expected_template) {
                 std::cerr << "Infrastructure template field differs for " << skill_id << ": expected "
                           << expected_template << '\n';
