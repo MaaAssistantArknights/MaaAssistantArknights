@@ -269,12 +269,14 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
             available,
             "BlackFlow strategy configuration failed to load");
         if (!available) {
-            Log.error("BlackFlow strategy configuration failed to load; other themes remain available");
+            LogError << __FUNCTION__
+                     << " BlackFlow strategy configuration failed to load; other themes remain available";
+            return false;
         }
     }
     else if (!m_loaded) {
         BlackFlowMapPerception.set_dependency_status("strategy", false, "BlackFlow strategy configuration is missing");
-        Log.error("BlackFlow strategy configuration is missing; other themes remain available");
+        LogError << __FUNCTION__ << " BlackFlow strategy configuration is missing; other themes remain available";
     }
 
     const auto blackflow_node_execution_path = roguelike_path("BlackFlow", "node_execution.json"_p);
@@ -287,7 +289,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
             available,
             "BlackFlow node execution configuration failed to load");
         if (!available) {
-            Log.error("BlackFlow node execution configuration failed to load; other themes remain available");
+            LogError << __FUNCTION__ << " BlackFlow node execution configuration failed to load; other themes remain available";
+            return false;
         }
     }
     else if (!m_loaded) {
@@ -295,7 +298,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
             "node_execution",
             false,
             "BlackFlow node execution configuration is missing");
-        Log.error("BlackFlow node execution configuration is missing; other themes remain available");
+        LogError << __FUNCTION__ << " BlackFlow node execution configuration is missing; other themes remain available";
     }
     const auto blackflow_map_perception_path = path / roguelike_path("BlackFlow", "map_perception"_p);
     const auto blackflow_model_path = path / "onnx"_p / "BlackFlow_corridor_net.onnx"_p;
