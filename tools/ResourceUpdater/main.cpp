@@ -187,6 +187,9 @@ int main([[maybe_unused]] int argc, char** argv)
     if (argc == 4 && std::string_view(argv[1]) == "--infrast-data") {
         return update_infrast_data(fs::path(argv[2]), fs::path(argv[3])) ? 0 : 1;
     }
+    if (argc == 4 && std::string_view(argv[1]) == "--items-data") {
+        return update_items_data(fs::path(argv[2]), fs::path(argv[3]), false) ? 0 : 1;
+    }
 
     // ---- PATH DECLARATION ----
 
@@ -479,16 +482,68 @@ bool run_parallel_tasks(
 
 bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bool with_imgs)
 {
-    const auto input_json_path =
-        with_imgs ? input_dir / "gamedata" / "excel" / "item_table.json" : input_dir / "item_table.json";
+    const auto input_excel_dir = with_imgs ? input_dir / "gamedata" / "excel" : input_dir;
+    const auto input_json_path = input_excel_dir / "item_table.json";
 
     auto parse_ret = json::open(input_json_path);
     if (!parse_ret) {
-        std::cerr << "parse json failed" << '\n';
+        std::cerr << input_json_path << " parse error" << '\n';
         return false;
     }
 
     auto& input_json = parse_ret.value();
+    const auto building_data_path = input_excel_dir / "building_data.json";
+    auto building_data_ret = json::open(building_data_path);
+    if (!building_data_ret || !building_data_ret->contains("workshopFormulas") ||
+        !building_data_ret->contains("manufactFormulas")) {
+        std::cerr << building_data_path << " parse error or has no required formulas" << '\n';
+        return false;
+    }
+
+    std::unordered_map<std::string, json::value> child_by_item_id;
+    for (const std::string& formulas_name : { std::string("workshopFormulas"), std::string("manufactFormulas") }) {
+        for (const auto& [formula_id, formula] : building_data_ret.value()[formulas_name].as_object()) {
+            const std::string formula_type = formula.get("formulaType", std::string());
+            const bool is_target = formulas_name == "workshopFormulas"
+                                       ? formula_type == "F_EVOLVE" || formula_type == "F_SKILL"
+                                       : formula_type == "F_ASC";
+            if (!is_target) {
+                continue;
+            }
+
+            const std::string item_id = formula.get("itemId", std::string());
+            const int output_count = formula.get("count", 0);
+            const auto costs_opt = formula.find<json::array>("costs");
+            if (item_id.empty() || output_count != 1 || !costs_opt || costs_opt->empty()) {
+                std::cerr << "Invalid item formula: " << formulas_name << ' ' << formula_id << '\n';
+                return false;
+            }
+            if (!input_json["items"].contains(item_id)) {
+                std::cerr << "Formula product is absent from item_table: " << formulas_name << ' ' << formula_id << ' '
+                          << item_id << '\n';
+                return false;
+            }
+
+            json::value child;
+            for (const auto& cost : costs_opt.value()) {
+                const std::string child_id = cost.get("id", std::string());
+                const int child_count = cost.get("count", 0);
+                const std::string child_type = cost.get("type", std::string());
+                if (child_id.empty() || child_count <= 0 || child_type != "MATERIAL" || child.contains(child_id) ||
+                    !input_json["items"].contains(child_id)) {
+                    std::cerr << "Invalid item formula cost: " << formulas_name << ' ' << formula_id << ' ' << child_id
+                              << '\n';
+                    return false;
+                }
+                child[child_id] = child_count;
+            }
+            if (!child_by_item_id.emplace(item_id, std::move(child)).second) {
+                std::cerr << "Duplicate item formula product: " << item_id << '\n';
+                return false;
+            }
+        }
+    }
+
     json::value output_json;
     for (auto&& [item_id, item_info] : input_json["items"].as_object()) {
         static const std::vector<std::string> BlackListPrefix = {
@@ -559,6 +614,10 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
         output["description"] = item_info["description"];
         output["sortId"] = item_info["sortId"];
         output["classifyType"] = item_info["classifyType"];
+        if (auto child_iter = child_by_item_id.find(item_id); child_iter != child_by_item_id.cend()) {
+            output["level"] = item_info["rarity"];
+            output["child"] = child_iter->second;
+        }
     }
     auto output_json_path = output_dir / "item_index.json";
     std::ofstream ofs(output_json_path, std::ios::out);
