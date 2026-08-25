@@ -36,7 +36,8 @@ private:
         int depth,
         std::unordered_set<std::string>& material_stack,
         int& operation_budget,
-        InfrastProcessingTask& processing_task);
+        InfrastProcessingTask& processing_task,
+        bool& operator_selection_initialized);
     Result select_processing_operator(
         const std::string& material_id,
         int material_level,

@@ -14,7 +14,7 @@ public:
     virtual ~InfrastProcessingTask() override = default;
 
     // 材料合成使用独立实例调用此入口，不读写常规基建排班配置和缓存。
-    bool select_operator(const std::string& material_id, int material_level);
+    bool select_operator(const std::string& material_id, int material_level, bool& operator_changed);
 
 protected:
     virtual bool _run() override;
@@ -30,7 +30,7 @@ private:
     std::optional<MaterialSynthesisScanResult> scan_material_synthesis_page();
     std::optional<size_t>
         find_best_material_synthesis_operator(const std::string& material_id, int material_level) const;
-    bool locate_and_select_material_synthesis_operator(const infrast::Oper& target);
+    bool locate_and_select_material_synthesis_operator(const infrast::Oper& target, bool& selection_changed);
     bool review_material_synthesis_selection(const infrast::Oper& target);
     bool confirm_material_synthesis_selection();
     bool is_material_synthesis_operator_list() const;

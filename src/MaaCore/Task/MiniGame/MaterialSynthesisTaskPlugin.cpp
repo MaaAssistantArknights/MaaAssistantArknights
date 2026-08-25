@@ -64,7 +64,9 @@ bool asst::MaterialSynthesisTaskPlugin::_run()
     processing_task.set_task_id(m_task_id);
     std::unordered_set<std::string> material_stack;
     int operation_budget = MaxMaterialOperations;
-    const Result result = synthesize_material(0, material_stack, operation_budget, processing_task);
+    bool operator_selection_initialized = false;
+    const Result result =
+        synthesize_material(0, material_stack, operation_budget, processing_task, operator_selection_initialized);
     Log.info("MaterialSynthesis | finished", result_name(result), "remaining operations", operation_budget);
     if (result != Result::Cancelled && !need_exit()) {
         if (result != Result::Completed) {
@@ -79,7 +81,8 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
     int depth,
     std::unordered_set<std::string>& material_stack,
     int& operation_budget,
-    InfrastProcessingTask& processing_task)
+    InfrastProcessingTask& processing_task,
+    bool& operator_selection_initialized)
 {
     if (need_exit()) {
         return Result::Cancelled;
@@ -157,7 +160,12 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                         { "depth", depth },
                         { "ingredient", ingredient },
                     });
-                result = synthesize_material(depth + 1, material_stack, operation_budget, processing_task);
+                result = synthesize_material(
+                    depth + 1,
+                    material_stack,
+                    operation_budget,
+                    processing_task,
+                    operator_selection_initialized);
                 if (result != Result::Completed) {
                     break;
                 }
@@ -205,13 +213,16 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         const bool operator_missing = run_task("MiniGame@MaterialSynthesis@NoOperator", 0);
         const bool mood_insufficient = !operator_missing && detect_task("MiniGame@MaterialSynthesis@LowMood");
         bool operator_changed = false;
-        if (operator_missing || mood_insufficient) {
+        if (!operator_selection_initialized || operator_missing || mood_insufficient) {
             report_status(
                 "MaterialSynthesisOperator",
                 json::object {
                     { "material", *material_name },
                     { "material_id", material_id },
-                    { "reason", operator_missing ? "missing" : "low_mood" },
+                    { "reason",
+                      operator_missing    ? "missing"
+                      : mood_insufficient ? "low_mood"
+                                          : "initial" },
                 });
             result = select_processing_operator(
                 material_id,
@@ -222,6 +233,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             if (result != Result::Completed) {
                 break;
             }
+            operator_selection_initialized = true;
         }
 
         // 更换加工站干员后数量会重置为 1，需要为新干员重新逐步加量并及时避开心情不足。
@@ -321,8 +333,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::sel
     if (!operator_missing && !run_task("MiniGame@MaterialSynthesis@OpenOperatorList")) {
         return Result::NavigationFailed;
     }
-    if (processing_task.select_operator(material_id, material_level)) {
-        operator_changed = true;
+    if (processing_task.select_operator(material_id, material_level, operator_changed)) {
         return Result::Completed;
     }
     if (need_exit()) {

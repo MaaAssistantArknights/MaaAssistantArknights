@@ -76,14 +76,19 @@ bool asst::InfrastProcessingTask::_run()
     return true;
 }
 
-bool asst::InfrastProcessingTask::select_operator(const std::string& material_id, int material_level)
+bool asst::InfrastProcessingTask::select_operator(
+    const std::string& material_id,
+    int material_level,
+    bool& operator_changed)
 {
     LogTraceFunction;
 
+    operator_changed = false;
     if (need_exit()) {
         return false;
     }
     close_quick_formation_expand_role();
+    bool selection_changed = false;
     for (int attempt = 0; attempt <= MaxMaterialSynthesisCacheRebuilds; ++attempt) {
         if (need_exit()) {
             return false;
@@ -105,6 +110,10 @@ bool asst::InfrastProcessingTask::select_operator(const std::string& material_id
         }
         else {
             Log.info("MaterialSynthesis | operator cache hit", m_material_synthesis_operator_cache.size());
+            swipe_to_the_left_of_operlist();
+            if (need_exit()) {
+                return false;
+            }
         }
 
         const auto best_index = find_best_material_synthesis_operator(material_id, material_level);
@@ -114,11 +123,7 @@ bool asst::InfrastProcessingTask::select_operator(const std::string& material_id
         }
         const infrast::Oper target = m_material_synthesis_operator_cache.at(*best_index);
 
-        swipe_to_the_left_of_operlist();
-        if (need_exit()) {
-            return false;
-        }
-        if (!locate_and_select_material_synthesis_operator(target)) {
+        if (!locate_and_select_material_synthesis_operator(target, selection_changed)) {
             if (need_exit()) {
                 return false;
             }
@@ -144,6 +149,7 @@ bool asst::InfrastProcessingTask::select_operator(const std::string& material_id
         }
 
         m_material_synthesis_operator_cache.erase(m_material_synthesis_operator_cache.begin() + *best_index);
+        operator_changed = selection_changed;
         Log.info(
             "MaterialSynthesis | operator selected from cache",
             material_id,
@@ -161,10 +167,6 @@ bool asst::InfrastProcessingTask::rebuild_material_synthesis_cache()
 {
     Log.info("MaterialSynthesis | full operator scan started");
     m_material_synthesis_operator_cache.clear();
-    swipe_to_the_left_of_operlist();
-    if (need_exit()) {
-        return false;
-    }
 
     bool reached_end = false;
     for (int page = 0; page < MaxMaterialSynthesisOperatorPages && !need_exit(); ++page) {
@@ -198,6 +200,10 @@ bool asst::InfrastProcessingTask::rebuild_material_synthesis_cache()
         return false;
     }
     swipe_to_the_left_of_operlist();
+    if (need_exit()) {
+        invalidate_material_synthesis_cache();
+        return false;
+    }
     if (!reached_end) {
         Log.error("MaterialSynthesis | operator scan exceeded page limit");
         invalidate_material_synthesis_cache();
@@ -286,7 +292,9 @@ std::optional<size_t> asst::InfrastProcessingTask::find_best_material_synthesis_
     return result.indices.front();
 }
 
-bool asst::InfrastProcessingTask::locate_and_select_material_synthesis_operator(const infrast::Oper& target)
+bool asst::InfrastProcessingTask::locate_and_select_material_synthesis_operator(
+    const infrast::Oper& target,
+    bool& selection_changed)
 {
     const int face_hash_threshold = Task.get("InfrastOperFace")->special_params[0];
     std::vector<std::string> seen_face_hashes;
@@ -326,14 +334,19 @@ bool asst::InfrastProcessingTask::locate_and_select_material_synthesis_operator(
                 return false;
             }
             // 加工站和发电站一样只有一个位置；目标已选中时无需清空，选择新目标时由列表直接替换。
-            if (!oper.selected) {
+            const bool already_selected = oper.selected;
+            if (!already_selected) {
                 ctrler()->click(oper.rect);
                 sleep(500);
             }
             else {
                 Log.info("MaterialSynthesis | cached operator is already selected");
             }
-            return review_material_synthesis_selection(target);
+            if (!review_material_synthesis_selection(target)) {
+                return false;
+            }
+            selection_changed = selection_changed || !already_selected;
+            return true;
         }
 
         if (page != 0 && new_faces == 0) {
@@ -358,20 +371,7 @@ bool asst::InfrastProcessingTask::review_material_synthesis_selection(const infr
         return false;
     }
 
-    // 复用基建列表的排序方式，将已选干员稳定移动到第一页后再复核数量和头像。
-    ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).set_retry_times(0).run();
-    if (need_exit()) {
-        return false;
-    }
-    ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).set_retry_times(0).run();
-    if (need_exit()) {
-        return false;
-    }
-    swipe_to_the_left_of_operlist();
-    if (need_exit()) {
-        return false;
-    }
-
+    // 加工站只有一个位置，点击新干员后会直接替换原选择，可在当前页复核目标头像和选中数量。
     InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_to_be_calced(
         InfrastOperImageAnalyzer::ToBeCalced::FaceHash | InfrastOperImageAnalyzer::ToBeCalced::Selected);
