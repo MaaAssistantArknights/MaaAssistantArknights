@@ -4,7 +4,6 @@
 #include <array>
 #include <meojson/json.hpp>
 #include <optional>
-#include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -64,11 +63,14 @@ private:
                 return (itoa && itoa->is<T>()) || (!itoa && !required);
             };
 
-#define field_check(key, required) check_field(#key, key, required)
-            return field_check(id, true) && field_check(page_intent, true) && field_check(floor_window, false) &&
-                   field_check(node_types, false) && field_check(event_names, false) && field_check(rank, false) &&
-                   field_check(alias, true) && field_check(task, true) && field_check(completion_task, true);
-#undef field_check
+#define field(key) check_field(#key, key, true)
+#define field_opt(key) check_field(#key, key, false)
+            bool ret = field(id) && field(page_intent) && field_opt(floor_window) &&
+                       field_opt(node_types) && field_opt(event_names) && field_opt(rank) &&
+                       field(alias) && field(task) && field(completion_task);
+#undef field
+#undef field_opt
+            return ret;
         };
 
         MEO_FROMJSON(
@@ -101,6 +103,11 @@ public:
 
 private:
     virtual bool parse(const json::value& json) override;
+
+    bool parse_route(
+        const json::value& json,
+        std::vector<blackflow::NodeExecutionRoute>& routes,
+        std::unordered_set<std::string>& route_ids) const;
 
     [[nodiscard]] bool
         parse_node_types(const std::vector<std::string>& value, std::vector<blackflow::NodeType>& out) const;

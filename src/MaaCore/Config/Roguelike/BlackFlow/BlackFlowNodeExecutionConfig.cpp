@@ -397,55 +397,10 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
         return false;
     }
 
-    std::vector<NodeExecutionRoute> routes;
+    std::vector<blackflow::NodeExecutionRoute> routes;
     std::unordered_set<std::string> route_ids;
-    if (const auto& route_opt = json.find<std::vector<NodeExecutionRouteDto>>("routes")) {
-        for (auto& route : *route_opt) {
-            if (route.id.empty() || !is_valid_page_intent(route.page_intent) || route.rank < 0) {
-                LogError << __FUNCTION__
-                         << "route id must be present, page_intent must be lower-case dotted text, and rank must be "
-                            "non-negative";
-                ret = false;
-                continue;
-            }
-            if (!route_ids.emplace(route.id).second) {
-                LogError << __FUNCTION__ << "duplicate route id:" << route.id;
-                ret = false;
-                continue;
-            }
-
-            NodeExecutionRoute node {
-                .id = route.id,
-                .page_intent = route.page_intent,
-                .event_names = route.event_names,
-                .rank = route.rank,
-                .alias = route.alias,
-                .task = route.task,
-                .completion_task = route.completion_task,
-            };
-            if (!verify_non_empty(node.event_names, "event_names") ||
-                !sort_and_check_unique(node.event_names, "event_names")) {
-                ret = false;
-            }
-            if (!parse_node_types(route.node_types, node.node_types)) {
-                ret = false;
-            }
-            if (!parse_floor_window(route.floor_window, node.floor_begin, node.floor_end)) {
-                ret = false;
-            }
-            if (node.alias != "BlackFlow@Roguelike@NodeDispatchAction") {
-                LogError << __FUNCTION__ << "route alias must use BlackFlow@Roguelike@NodeDispatchAction";
-                ret = false;
-            }
-            if (!verify_task(node.alias, "route alias") || !verify_task(node.task, "route task") ||
-                !verify_task(node.completion_task, "route completion_task")) {
-                ret = false;
-            }
-            routes.emplace_back(std::move(node));
-        }
-    }
-    else {
-        LogError << __FUNCTION__ << "routes must be an array of objects";
+    if (!parse_route(json, routes, route_ids)) {
+        LogError << __FUNCTION__ << "routes parse failed";
         ret = false;
     }
     if (routes.empty()) {
@@ -526,6 +481,63 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
     m_task_results = std::move(task_results);
     m_preview_names = std::move(preview_names);
     m_preview_name_types = std::move(preview_name_types);
+    return ret;
+}
+
+bool BlackFlowNodeExecutionConfig::parse_route(
+    const json::value& json,
+    std::vector<blackflow::NodeExecutionRoute>& routes,
+    std::unordered_set<std::string>& route_ids) const
+{
+    const auto& route_opt = json.find<std::vector<NodeExecutionRouteDto>>("routes");
+    if (!route_opt) {
+        LogError << __FUNCTION__ << "missing routes, or format is error";
+        return false;
+    }
+    bool ret = true;
+    for (auto& route : *route_opt) {
+        if (route.id.empty() || !is_valid_page_intent(route.page_intent) || route.rank < 0) {
+            LogError << __FUNCTION__
+                     << "route id must be present, page_intent must be lower-case dotted text, and rank must be "
+                        "non-negative";
+            ret = false;
+            continue;
+        }
+        if (!route_ids.emplace(route.id).second) {
+            LogError << __FUNCTION__ << "duplicate route id:" << route.id;
+            ret = false;
+            continue;
+        }
+
+        blackflow::NodeExecutionRoute node {
+            .id = route.id,
+            .page_intent = route.page_intent,
+            .event_names = route.event_names,
+            .rank = route.rank,
+            .alias = route.alias,
+            .task = route.task,
+            .completion_task = route.completion_task,
+        };
+        if (!verify_non_empty(node.event_names, "event_names") ||
+            !sort_and_check_unique(node.event_names, "event_names")) {
+            ret = false;
+        }
+        if (!parse_node_types(route.node_types, node.node_types)) {
+            ret = false;
+        }
+        if (!parse_floor_window(route.floor_window, node.floor_begin, node.floor_end)) {
+            ret = false;
+        }
+        if (node.alias != "BlackFlow@Roguelike@NodeDispatchAction") {
+            LogError << __FUNCTION__ << "route alias must use BlackFlow@Roguelike@NodeDispatchAction";
+            ret = false;
+        }
+        if (!verify_task(node.alias, "route alias") || !verify_task(node.task, "route task") ||
+            !verify_task(node.completion_task, "route completion_task")) {
+            ret = false;
+        }
+        routes.emplace_back(std::move(node));
+    }
     return ret;
 }
 
