@@ -14,6 +14,17 @@
         "src/MaaCore/Utils/Algorithm.hpp",
         "unit_test/MaaCore/AlgorithmTest.cpp"
       ]
+    },
+    {
+      "id": "maa-operator-development-test",
+      "name": "Operator Development Plan",
+      "buildTarget": "maa-operator-development-test",
+      "ctestRegex": "^operator-development::",
+      "paths": [
+        "src/MaaCore/Task/OperatorDevelopment/OperatorDevelopmentPlan.h",
+        "src/MaaCore/Task/OperatorDevelopment/OperatorDevelopmentPlanParser.h",
+        "unit_test/MaaCore/OperatorDevelopmentPlanTest.cpp"
+      ]
     }
   ]
 }

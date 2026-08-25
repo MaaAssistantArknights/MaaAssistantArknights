@@ -133,7 +133,6 @@ public static class ConfigurationKeys
     public const string InfrastReceptionMessageBoardReceive = "Infrast.ReceptionMessageBoardReceive"; // 已迁移
     public const string InfrastReceptionClueExchange = "Infrast.ReceptionClueExchange"; // 已迁移
     public const string InfrastReceptionSendClue = "Infrast.ReceptionSendClue"; // 已迁移
-    public const string ContinueTraining = "Infrast.ContinueTraining";  // 已迁移
     public const string DefaultInfrast = "Infrast.DefaultInfrast";
     public const string IsCustomInfrastFileReadOnly = "Infrast.IsCustomInfrastFileReadOnly"; // 已废弃
     public const string DormFilterNotStationedEnabled = "Infrast.DormFilterNotStationedEnabled"; // 已迁移

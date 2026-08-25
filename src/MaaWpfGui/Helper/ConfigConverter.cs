@@ -218,7 +218,6 @@ public class ConfigConverter
                 infrastTask.ReceptionMessageBoard = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionMessageBoardReceive, true);
                 infrastTask.ReceptionClueExchange = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionClueExchange, true);
                 infrastTask.SendClue = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionSendClue, true);
-                infrastTask.ContinueTraining = ConfigurationHelper.GetValue(ConfigurationKeys.ContinueTraining, false);
                 infrastTask.DormThreshold = ConfigurationHelper.GetValue(ConfigurationKeys.DormThreshold, 30);
                 infrastTask.DormFilterNotStationed = ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, true);
                 infrastTask.DormTrustEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormTrustEnabled, false);
@@ -230,7 +229,6 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.InfrastReceptionMessageBoardReceive);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.InfrastReceptionClueExchange);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.InfrastReceptionSendClue);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ContinueTraining);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.DormThreshold);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.DormFilterNotStationedEnabled);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.DormTrustEnabled);

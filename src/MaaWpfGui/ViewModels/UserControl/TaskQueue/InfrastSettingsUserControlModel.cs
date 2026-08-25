@@ -270,15 +270,6 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         set => SetTaskConfig<InfrastTask>(t => t.SendClue == value, t => t.SendClue = value);
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether to continue training after current training completed.
-    /// </summary>
-    public bool ContinueTraining
-    {
-        get => GetTaskConfig<InfrastTask>().ContinueTraining;
-        set => SetTaskConfig<InfrastTask>(t => t.ContinueTraining == value, t => t.ContinueTraining = value);
-    }
-
     public string FiammettaTarget1
     {
         get => GetTaskConfig<InfrastTask>().FiammettaTarget1;
@@ -670,7 +661,6 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                 Mode = infrast.Mode,
                 Facilitys = [.. rooms.Where(i => i.IsEnabled).Select(i => i.Room.ToString())],
                 UsesOfDrones = infrast.UsesOfDrones,
-                ContinueTraining = infrast.ContinueTraining,
                 DormThreshold = infrast.DormThreshold / 100.0,
                 DormFilterNotStationedEnabled = infrast.DormFilterNotStationed,
                 DormTrustEnabled = infrast.DormTrustEnabled,
