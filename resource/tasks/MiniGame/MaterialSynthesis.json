@@ -98,10 +98,12 @@
         "next": ["MiniGame@MaterialSynthesis@Obtain"]
     },
     "MiniGame@MaterialSynthesis@Obtain": {
-        "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "algorithm": "OcrDetect",
+        "text": ["获得物资"],
+        "roi": [508, 66, 267, 172],
+        "action": "ClickRect",
+        "specificRect": [645, 665, 1, 1],
         "next": [],
-        "preDelay": 1200,
         "postDelay": 1500
     },
     "MiniGame@MaterialSynthesis@Satisfied": {
