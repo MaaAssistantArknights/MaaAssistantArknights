@@ -1309,7 +1309,7 @@
                 },
                 "name": ["重聚时光"],
                 "operatorIds": ["char_1036_fang2"],
-                "template": "Bskill_man_A1.png"
+                "template": "Bskill_man_a1.png"
             },
             "bskill_man_bd1": {
                 "desc": ["进驻制造站时，每5点人间烟火转化为1点巫术结晶"],
@@ -1327,7 +1327,7 @@
                 },
                 "name": ["绘图设计"],
                 "operatorIds": ["char_4054_malist"],
-                "template": "Bskill_man_constrLv.png"
+                "template": "Bskill_man_constrlv.png"
             },
             "bskill_man_cost_all": {
                 "desc": ["进驻制造站时，消除当前制造站内所有干员自身心情消耗的影响"],
@@ -2702,7 +2702,7 @@
                 },
                 "name": ["心声图绘"],
                 "operatorIds": ["char_4109_baslin"],
-                "template": "Bskill_hire_bd_B.png"
+                "template": "Bskill_hire_bd_b.png"
             },
             "bskill_hire_blitz": {
                 "desc": [
@@ -3153,7 +3153,7 @@
                 },
                 "name": ["“愉快的对谈”"],
                 "operatorIds": ["char_4093_frston"],
-                "template": "Bskill_pow_spd_P.png"
+                "template": "Bskill_pow_spd_p.png"
             },
             "bskill_pow_spd_p1": {
                 "desc": ["进驻发电站时，如果逻各斯进驻在训练室协助位，则无人机充能速度+5%"],
@@ -3162,7 +3162,7 @@
                 },
                 "name": ["咒文共鸣"],
                 "operatorIds": ["char_4136_phonor"],
-                "template": "Bskill_pow_spd_P1.png"
+                "template": "Bskill_pow_spd_p1.png"
             },
             "bskill_power_rec_rhine": {
                 "desc": [
@@ -3727,7 +3727,7 @@
                 },
                 "name": ["得心应手"],
                 "operatorIds": ["char_4016_kazema"],
-                "template": "Bskill_meet_condChar.png"
+                "template": "Bskill_meet_condchar.png"
             },
             "bskill_meet_exchange": {
                 "desc": ["进驻会客室时，处于线索交流时线索搜集速度提升30%"],
@@ -3908,7 +3908,7 @@
                 },
                 "name": ["未来之途"],
                 "operatorIds": ["char_4102_threye"],
-                "template": "Bskill_meet_spd&bd&notOwned.png"
+                "template": "Bskill_meet_spd&bd&notowned.png"
             },
             "bskill_meet_spd&bd2": {
                 "desc": ["进驻会客室时，当与铃兰进驻会客室一起工作时，线索搜集速度额外提升30%"],
@@ -3950,7 +3950,7 @@
                 },
                 "name": ["文献学顾问"],
                 "operatorIds": ["char_4027_heyak"],
-                "template": "Bskill_meet_spd&condChar_mustget.png"
+                "template": "Bskill_meet_spd&condchar_mustget.png"
             },
             "bskill_meet_spd&condchar_mustget2": {
                 "desc": [
@@ -3961,7 +3961,7 @@
                 },
                 "name": ["暗线"],
                 "operatorIds": ["char_4131_odda"],
-                "template": "Bskill_meet_spd&condChar_mustget2.png"
+                "template": "Bskill_meet_spd&condchar_mustget2.png"
             },
             "bskill_meet_spd&cost": {
                 "desc": ["进驻会客室时，线索搜集速度提升35%，心情每小时消耗+2"],
@@ -3979,7 +3979,7 @@
                 },
                 "name": ["双面间谍", "我自己的愿望"],
                 "operatorIds": ["char_1015_aglna2", "char_297_hamoni"],
-                "template": "Bskill_meet_spd&cost_condChar.png"
+                "template": "Bskill_meet_spd&cost_condchar.png"
             },
             "bskill_meet_spd&cost_condchar2": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升15%，心情每小时消耗+1"],
@@ -3988,7 +3988,7 @@
                 },
                 "name": ["“职业操守”·α"],
                 "operatorIds": ["char_4027_heyak", "char_4131_odda"],
-                "template": "Bskill_meet_spd&cost_condChar2.png"
+                "template": "Bskill_meet_spd&cost_condchar2.png"
             },
             "bskill_meet_spd&cost_condchar3": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升35%，心情每小时消耗+1"],
@@ -3997,19 +3997,19 @@
                 },
                 "name": ["“职业操守”·β"],
                 "operatorIds": ["char_4027_heyak", "char_4131_odda"],
-                "template": "Bskill_meet_spd&cost_condChar3.png"
+                "template": "Bskill_meet_spd&cost_condchar3.png"
             },
             "bskill_meet_spd&cost_condchargoat": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升15%，心情每小时消耗+1"],
                 "name": ["专业经理·α"],
                 "operatorIds": ["char_4031_liesel"],
-                "template": "Bskill_meet_spd&cost_condChargoat.png"
+                "template": "Bskill_meet_spd&cost_condchargoat.png"
             },
             "bskill_meet_spd&cost_condchargoat2": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升35%，心情每小时消耗+1"],
                 "name": ["专业经理·β"],
                 "operatorIds": ["char_4031_liesel"],
-                "template": "Bskill_meet_spd&cost_condChargoat2.png"
+                "template": "Bskill_meet_spd&cost_condchargoat2.png"
             },
             "bskill_meet_spd&sami": {
                 "desc": [
@@ -4122,7 +4122,7 @@
                 },
                 "name": ["眼观六路"],
                 "operatorIds": ["char_445_wscoot"],
-                "template": "Bskill_meet_spd_notOwned_exchange.png"
+                "template": "Bskill_meet_spd_notowned_exchange.png"
             },
             "bskill_meet_spdnotowned1": {
                 "desc": ["进驻会客室时，更容易获得线索板上尚未拥有的线索"],
@@ -4137,7 +4137,7 @@
                     "char_4199_makiri",
                     "char_497_ctable"
                 ],
-                "template": "Bskill_meet_spdNotOwned1.png"
+                "template": "Bskill_meet_spdnotowned1.png"
             },
             "bskill_meet_spdnotowned2": {
                 "desc": ["进驻会客室时，线索搜集速度提升10%，且更容易获得线索板上尚未拥有的线索"],
@@ -4146,7 +4146,7 @@
                 },
                 "name": ["不容遗漏·β"],
                 "operatorIds": ["char_497_ctable"],
-                "template": "Bskill_meet_spdNotOwned2.png"
+                "template": "Bskill_meet_spdnotowned2.png"
             },
             "bskill_meet_spdowned1": {
                 "desc": ["进驻会客室时，更容易获得线索板上已经拥有的线索"],
@@ -4155,7 +4155,7 @@
                 },
                 "name": ["显眼的调查者"],
                 "operatorIds": ["char_4091_ulika"],
-                "template": "Bskill_meet_spdOwned1.png"
+                "template": "Bskill_meet_spdowned1.png"
             },
             "bskill_meet_ursus1": {
                 "desc": ["进驻会客室时，更容易获得乌萨斯学生自治团线索（工作时长影响概率）"],
@@ -4339,7 +4339,7 @@
                 },
                 "name": ["醉翁之意·α"],
                 "operatorIds": ["char_140_whitew"],
-                "template": "Bskill_tra_Lappland1.png"
+                "template": "Bskill_tra_lappland1.png"
             },
             "bskill_tra_lappland2": {
                 "desc": ["当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+4"],
@@ -4348,7 +4348,7 @@
                 },
                 "name": ["醉翁之意·β"],
                 "operatorIds": ["char_140_whitew"],
-                "template": "Bskill_tra_Lappland2.png"
+                "template": "Bskill_tra_lappland2.png"
             },
             "bskill_tra_laterano1": {
                 "desc": ["进驻贸易站时，同个贸易站中每有1名拉特兰干员，当前贸易站订单获取效率+15%"],
