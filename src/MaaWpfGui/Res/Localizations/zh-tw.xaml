@@ -158,6 +158,8 @@
     <system:String x:Key="PureGold">製造站-赤金</system:String>
     <system:String x:Key="OriginStone">製造站-源石碎片</system:String>
     <system:String x:Key="Chip">製造站-晶片組</system:String>
+    <system:String x:Key="PureGoldMoney">赤金-龍門幣</system:String>
+    <system:String x:Key="OriginStoneSyntheticJade">源石碎片-合成玉</system:String>
     <system:String x:Key="DormTrustEnabled">宿舍空位蹭信賴</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">不將已進駐的{key=Operator}放入宿舍</system:String>
     <system:String x:Key="DormFilterNotStationedTips">勾選則不會將艾麗妮等{key=Operator}從訓練室移除，但也會導致加工站{key=Operator}不能進入宿舍。</system:String>
@@ -682,6 +684,10 @@ D:\
     <system:String x:Key="ReceiveMining">領取限時開採許可的每日合成玉獎勵</system:String>
     <system:String x:Key="ReceiveSpecialAccess">領取特殊贈送月卡獎勵</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>
+    <system:String x:Key="DroneUsageThreshold">剩餘量閾值</system:String>
+    <system:String x:Key="DroneUsageThresholdToolTip">執行時先進貿易站，用無人機加速對應訂單把赤金/源石碎片消耗到低於該值，再將剩餘無人機全部用於生產。遊戲內庫存大於 999 顯示為 999+，此處上限 999 即視為 1000。</system:String>
+    <system:String x:Key="DroneUsageRoomMissing">無人機用途「{1}」需要{0}，但該房間未勾選，無人機可能無法正常使用。</system:String>
+    <system:String x:Key="DroneBalanceOrderRollback">製造站( Mfg )不可在貿易站( Trade )之前。無人機平衡模式下貿易站需先於製造站執行，已自動恢復順序。</system:String>
     <system:String x:Key="UseTray">顯示工作列圖示</system:String>
     <system:String x:Key="HideTray">隱藏工作列圖示</system:String>
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>

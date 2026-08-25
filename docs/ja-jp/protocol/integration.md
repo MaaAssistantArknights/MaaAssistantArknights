@@ -479,7 +479,14 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @optional
 ドローン使用目的。`mode = 10000` の場合、このフィールドは無効です。
 <br>
-オプション：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+オプション：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip` | `PureGold-Money` | `OriginStone-SyntheticJade`  
+:::  
+::: field name="drones_usage_threshold" type="number" optional default="10"  
+ドローン自動平衡のしきい値。`drones = PureGold-Money` / `OriginStone-SyntheticJade` の場合のみ有効です。実行時はまず貿易所でドローンを使って純金/源石の欠片をこの値未満まで、注文1件ずつ段階的に消費します：まず注文を加速して生産し、その注文の「在庫/消費量」を読み取って納品します。納品後、読み取った在庫数値で消費を続けるか判定します（しきい値未満なら停止）。加速後も未完了の注文が無い場合はドローン不足とみなし、そのまま停止します。残ったドローンは全て生産に使用します。  
+:::  
+
+::: tip ドローン自動平衡モードでの施設順序  
+`drones = PureGold-Money` / `OriginStone-SyntheticJade` の場合、`facility` 配列で `Trade` を `Mfg` より前に配置する必要があります。そうしないと「先に消費し、その後生産する」という意味合いが保証されません。GUI ではこの順序を自動的に強制します。インターフェースを直接呼び出す場合はご自身で順序を保証してください。  
 :::  
 ::: field threshold  
 @type number

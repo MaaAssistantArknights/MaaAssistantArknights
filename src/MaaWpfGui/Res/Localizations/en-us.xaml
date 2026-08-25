@@ -158,6 +158,8 @@
     <system:String x:Key="PureGold">Pure Gold</system:String>
     <system:String x:Key="OriginStone">Originium Shards</system:String>
     <system:String x:Key="Chip">Chip Packs</system:String>
+    <system:String x:Key="PureGoldMoney">Pure Gold - LMD</system:String>
+    <system:String x:Key="OriginStoneSyntheticJade">Originium Shards - Orundums</system:String>
     <system:String x:Key="DormTrustEnabled">Trust farming in Dormitory</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed {key=Operator}s in Dormitory</system:String>
     <system:String x:Key="DormFilterNotStationedTips">Checking this box will not remove {key=Operator}s like Irene from the Training Room; this will also prevent {key=Operator}s from the Workshop from entering the Dormitory.</system:String>
@@ -683,6 +685,10 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="ReceiveMining">Collect daily Orundum reward from the provisional mining permit</system:String>
     <system:String x:Key="ReceiveSpecialAccess">Collect Special Access rewards</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
+    <system:String x:Key="DroneUsageThreshold">Remaining Stock Threshold</system:String>
+    <system:String x:Key="DroneUsageThresholdToolTip">First consumes Pure Gold / Originium Shards in the Trading Station down to below this value using drones, then uses all remaining drones for production. In-game stock above 999 is shown as 999+, so the max value here (999) is treated as 1000.</system:String>
+    <system:String x:Key="DroneUsageRoomMissing">Drone usage "{1}" requires {0}, but this room is not enabled. Drones may not work as expected.</system:String>
+    <system:String x:Key="DroneBalanceOrderRollback">The Manufacturing Station (Mfg) cannot come before the Trading Station (Trade). In drone balance mode the Trading Station must run first, the order has been restored automatically.</system:String>
     <system:String x:Key="UseTray">Display Tray Icon</system:String>
     <system:String x:Key="HideTray">Disable Tray Icon</system:String>
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>

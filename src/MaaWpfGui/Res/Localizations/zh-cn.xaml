@@ -158,6 +158,8 @@
     <system:String x:Key="PureGold">制造站-赤金</system:String>
     <system:String x:Key="OriginStone">制造站-源石碎片</system:String>
     <system:String x:Key="Chip">制造站-芯片组</system:String>
+    <system:String x:Key="PureGoldMoney">赤金-龙门币</system:String>
+    <system:String x:Key="OriginStoneSyntheticJade">源石碎片-合成玉</system:String>
     <system:String x:Key="DormTrustEnabled">宿舍空余位置蹭信赖</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">不将已进驻的{key=Operator}放入宿舍</system:String>
     <system:String x:Key="DormFilterNotStationedTips">勾选则不会将艾丽妮等{key=Operator}从训练室移除，但也会导致加工站{key=Operator}不能进入宿舍。</system:String>
@@ -682,6 +684,10 @@ D:\
     <system:String x:Key="ReceiveMining">领取限时开采许可的每日合成玉奖励</system:String>
     <system:String x:Key="ReceiveSpecialAccess">领取周年赠送月卡奖励</system:String>
     <system:String x:Key="DroneUsage">无人机用途</system:String>
+    <system:String x:Key="DroneUsageThreshold">剩余量阈值</system:String>
+    <system:String x:Key="DroneUsageThresholdToolTip">执行时先进贸易站，用无人机加速对应订单把赤金/源石碎片消耗到低于该值，再将剩余无人机全部用于生产。游戏内库存大于 999 显示为 999+，此处上限 999 即视为 1000。</system:String>
+    <system:String x:Key="DroneUsageRoomMissing">无人机用途「{1}」需要{0}，但该房间未勾选，无人机可能无法正常使用。</system:String>
+    <system:String x:Key="DroneBalanceOrderRollback">制造站( Mfg )不可在贸易站( Trade )之前。无人机平衡模式下贸易站需先于制造站执行，已自动恢复顺序。</system:String>
     <system:String x:Key="UseTray">显示托盘图标</system:String>
     <system:String x:Key="HideTray">隐藏托盘图标</system:String>
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>

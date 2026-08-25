@@ -465,7 +465,14 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @optional
 드론 용도. `mode = 10000`일 때 이 필드는 무효
 <br>
-옵션: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+옵션: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip` | `PureGold-Money` | `OriginStone-SyntheticJade`  
+:::  
+::: field name="drones_usage_threshold" type="number" optional default="10"  
+드론 자동 균형 임계값. `drones = PureGold-Money` / `OriginStone-SyntheticJade`일 때만 유효합니다. 실행 시 먼저 무역소에서 드론으로 순금/오리지늄 조각을 이 값 미만까지 주문 1건씩 단계적으로 소모합니다: 먼저 주문을 가속하여 생산하고, 해당 주문의 「재고/소모량」을 읽어 납품합니다. 납품 후 읽은 재고 수치로 소모를 계속할지 판단합니다(임계값 미만이면 중지). 가속 후에도 미완료 주문이 없으면 드론 부족으로 보고 그대로 중지합니다. 남은 드론은 모두 생산에 사용합니다.  
+:::  
+
+::: tip 드론 자동 균형 모드의 시설 순서  
+`drones = PureGold-Money` / `OriginStone-SyntheticJade`일 때 `facility` 배열에서 `Trade`가 `Mfg`보다 앞에 있어야 합니다. 그렇지 않으면 "먼저 소모하고 나중에 생산"이라는 의미가 보장되지 않습니다. GUI는 이 순서를 자동으로 강제합니다. 인터페이스를 직접 호출하는 경우 직접 순서를 보장하세요.  
 :::  
 ::: field threshold  
 @type number

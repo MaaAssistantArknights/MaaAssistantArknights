@@ -2562,6 +2562,49 @@
         "template": "DroneAssistTrade.png",
         "action": "Stop"
     },
+    "DroneAssistTradeBalance": {
+        "Doc": "无人机自动平衡专用：单次仅加速并交付一个订单，便于逐单识别库存",
+        "action": "ClickSelf",
+        "roi": [250, 430, 460, 120],
+        "template": "DroneAssistTrade.png",
+        "maxTimes": 1,
+        "next": ["DroneAssistTradeBalanceReTry", "DroneMaxBalance", "DroneConfirmBalance", "DroneCancel"]
+    },
+    "DroneAssistTradeBalanceReTry": {
+        "action": "ClickSelf",
+        "roi": [250, 430, 460, 120],
+        "template": "DroneAssistTrade.png",
+        "maxTimes": 20,
+        "next": ["DroneAssistTradeBalance#next"]
+    },
+    "DroneMaxBalance": {
+        "action": "ClickSelf",
+        "roi": [900, 300, 120, 80],
+        "template": "DroneMax.png",
+        "next": ["DroneConfirmBalance", "DroneCancel"]
+    },
+    "DroneConfirmBalance": {
+        "action": "ClickSelf",
+        "postDelay": 3500,
+        "roi": [778, 501, 377, 165],
+        "template": "DroneConfirm.png",
+        "next": ["DroneConfirmBalance@LoadingText", "Stop"]
+    },
+    "DeliverableOrderBalance": {
+        "action": "ClickSelf",
+        "roi": [250, 300, 230, 250],
+        "template": "DeliverableOrder.png",
+        "postDelay": 2000,
+        "next": ["Stop"]
+    },
+
+    "DroneTradeStock": {
+        "algorithm": "OcrDetect",
+        "baseTask": "NumberOcrReplace",
+        "Doc": "识别贸易站的库存",
+        "roi": [ 370, 309, 104, 30 ],
+        "text": []
+    },
     "ReplenishToMax": {
         "action": "ClickSelf",
         "roi": [882, 128, 165, 149],

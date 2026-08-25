@@ -479,7 +479,14 @@ Facility name: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | 
 @optional
 Usage of drones. This field is ignored when `mode = 10000`.
 <br>
-Options: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+Options: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip` | `PureGold-Money` | `OriginStone-SyntheticJade`  
+:::  
+::: field name="drones_usage_threshold" type="number" optional default="10"  
+Drone auto-balance threshold, effective only when `drones = PureGold-Money` / `OriginStone-SyntheticJade`. Runs the Trading Station first to consume Pure Gold / Originium Shards below this value using drones, one order at a time: accelerate to produce an order, read the order's stock/consumption, then submit the order for delivery; after the delivery, judge whether to continue consuming based on the read stock (stop when it drops below the threshold). If there is still no completed order after accelerating, it means there are not enough drones, so it stops directly. It then uses all remaining drones for production.  
+:::  
+
+::: tip Facility order in drone auto-balance mode  
+When `drones = PureGold-Money` / `OriginStone-SyntheticJade`, `Trade` must come before `Mfg` in the `facility` array, otherwise the "consume first, then produce" semantics are not guaranteed. The GUI enforces this order automatically; when calling the interface directly, please ensure it yourself.  
 :::  
 ::: field threshold  
 @type number

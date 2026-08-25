@@ -480,7 +480,14 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @optional
 無人機用途。當 `mode = 10000` 時，此欄位無效。
 <br>
-選項：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+選項：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip` | `PureGold-Money` | `OriginStone-SyntheticJade`  
+:::  
+::: field name="drones_usage_threshold" type="number" optional default="10"  
+無人機自動平衡門檻值，僅 `drones = PureGold-Money` / `OriginStone-SyntheticJade` 時生效。執行時先進貿易站，用無人機按「單個訂單」粒度逐步把赤金/源石碎片消耗到低於該值：先加速生產一個訂單，隨後讀取該訂單的「庫存/消耗量」並提交交付，交付完成後依據讀取到的庫存數字判斷是否繼續消耗（低於門檻值即停止）；若加速後仍無未完成訂單，說明無人機不足，直接停止。隨後將剩餘無人機全部用於生產。  
+:::  
+
+::: tip 無人機自動平衡模式的設施順序  
+`drones = PureGold-Money` / `OriginStone-SyntheticJade` 時，要求 `facility` 陣列中 `Trade` 在 `Mfg` 之前，否則「先消耗、再生產」的語義無法保證。GUI 會自動強制該順序；直接呼叫介面請自行保證。  
 :::  
 ::: field threshold  
 @type number
