@@ -286,6 +286,13 @@ public class AsstProxy
         return await AsstGetImageAsync(forceScreencap: true);
     }
 
+    public async Task<BitmapImage?> AsstGetImageForScreenshotTestAsync()
+    {
+        _screenshotTestWaiting = true;
+        _screenshotTestAsyncCallId = MaaService.AsstAsyncScreencap(_handle, true);
+        return await AsstGetImageAsync(_handle);
+    }
+
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
     public static unsafe byte[]? AsstGetImageBgrData(AsstHandle handle)
     {
@@ -829,6 +836,8 @@ public class AsstProxy
     private string _connectedAddress = string.Empty;
     private string _lastConnectionError = string.Empty;
     private IntPtr _attachWindowHwnd = IntPtr.Zero;
+    private bool _screenshotTestWaiting;
+    private int _screenshotTestAsyncCallId;
 
     /// <summary>
     /// MuMu 触控增强是否实际生效（由 core 连接后通过 MuMuExtrasInputStatus 回调报告）。
@@ -1211,6 +1220,19 @@ public class AsstProxy
         {
             return;
         }
+
+        if (!_screenshotTestWaiting)
+        {
+            return;
+        }
+
+        var asyncCallId = details["async_call_id"]?.ToObject<int>() ?? 0;
+        if (asyncCallId != _screenshotTestAsyncCallId)
+        {
+            return;
+        }
+
+        _screenshotTestWaiting = false;
 
         if (details["details"]?["ret"]?.ToObject<bool>() != true)
         {
