@@ -642,6 +642,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
     image_payload = cv::Mat(); // 清空缓存
     if (m_adb.screencap_method == AdbProperty::ScreencapMethod::UnknownYet) {
         std::vector<std::pair<AdbProperty::ScreencapMethod, std::string>> all_methods_cost;
+        auto fastest_method = AdbProperty::ScreencapMethod::UnknownYet;
 
         Log.info("Try to find the fastest way to screencap");
         auto min_cost = milliseconds(LLONG_MAX);
@@ -649,10 +650,10 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
 
         auto start_time = steady_clock::now();
         if (m_support_socket && m_server_started &&
-            screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true, 5000)) {
+            screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true, 5000) == ScreencapResult::Success) {
             auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
             if (duration < min_cost) {
-                m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
+                fastest_method = AdbProperty::ScreencapMethod::RawByNc;
                 m_inited = true;
                 min_cost = duration;
             }
@@ -666,10 +667,10 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         clear_lf_info();
 
         start_time = steady_clock::now();
-        if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect)) {
+        if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect) == ScreencapResult::Success) {
             auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
             if (duration < min_cost) {
-                m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
+                fastest_method = AdbProperty::ScreencapMethod::RawWithGzip;
                 m_inited = true;
                 min_cost = duration;
             }
@@ -683,10 +684,10 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         clear_lf_info();
 
         start_time = steady_clock::now();
-        if (screencap(m_adb.screencap_encode, decode_encode, allow_reconnect)) {
+        if (screencap(m_adb.screencap_encode, decode_encode, allow_reconnect) == ScreencapResult::Success) {
             auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
             if (duration < min_cost) {
-                m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
+                fastest_method = AdbProperty::ScreencapMethod::Encode;
                 m_inited = true;
                 min_cost = duration;
             }
@@ -704,7 +705,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             if (m_mumu_extras.screencap()) {
                 auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
                 if (duration < min_cost) {
-                    m_adb.screencap_method = AdbProperty::ScreencapMethod::MumuExtras;
+                    fastest_method = AdbProperty::ScreencapMethod::MumuExtras;
                     m_inited = true;
                     min_cost = duration;
                 }
@@ -723,7 +724,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             if (m_ld_extras.screencap()) {
                 auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
                 if (duration < min_cost) {
-                    m_adb.screencap_method = AdbProperty::ScreencapMethod::LDExtras;
+                    fastest_method = AdbProperty::ScreencapMethod::LDExtras;
                     m_inited = true;
                     min_cost = duration;
                 }
@@ -736,6 +737,8 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             }
         }
 #endif
+
+        m_adb.screencap_method = fastest_method;
 
         static const std::unordered_map<AdbProperty::ScreencapMethod, std::string> MethodName = {
             { AdbProperty::ScreencapMethod::UnknownYet, "UnknownYet" },
@@ -772,49 +775,53 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
     }
     else {
         auto start_time = high_resolution_clock::now();
-        bool screencap_ret = false;
+        ScreencapResult screencap_result = ScreencapResult::Failed;
         switch (m_adb.screencap_method) {
         case AdbProperty::ScreencapMethod::RawByNc:
-            screencap_ret = screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true);
+            screencap_result = screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true);
             break;
         case AdbProperty::ScreencapMethod::RawWithGzip:
-            screencap_ret = screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect);
+            screencap_result = screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect);
             break;
         case AdbProperty::ScreencapMethod::Encode:
-            screencap_ret = screencap(m_adb.screencap_encode, decode_encode, allow_reconnect);
+            screencap_result = screencap(m_adb.screencap_encode, decode_encode, allow_reconnect);
             break;
 #if ASST_WITH_EMULATOR_EXTRAS
         case AdbProperty::ScreencapMethod::MumuExtras: {
             auto img_opt = m_mumu_extras.screencap();
-            screencap_ret = img_opt.has_value();
+            screencap_result = img_opt.has_value() ? ScreencapResult::Success : ScreencapResult::Reprobe;
 
-            if (!screencap_ret && allow_reconnect) {
+            if (screencap_result != ScreencapResult::Success && allow_reconnect) {
                 m_mumu_extras.reload();
                 img_opt = m_mumu_extras.screencap();
-                screencap_ret = img_opt.has_value();
+                screencap_result = img_opt.has_value() ? ScreencapResult::Success : ScreencapResult::Reprobe;
             }
 
-            if (screencap_ret) {
+            if (screencap_result == ScreencapResult::Success) {
                 image_payload = img_opt.value();
             }
         } break;
         case AdbProperty::ScreencapMethod::LDExtras: {
             auto img_opt = m_ld_extras.screencap();
-            screencap_ret = img_opt.has_value();
+            screencap_result = img_opt.has_value() ? ScreencapResult::Success : ScreencapResult::Reprobe;
 
-            if (!screencap_ret && allow_reconnect) {
+            if (screencap_result != ScreencapResult::Success && allow_reconnect) {
                 m_ld_extras.reload();
                 img_opt = m_ld_extras.screencap();
-                screencap_ret = img_opt.has_value();
+                screencap_result = img_opt.has_value() ? ScreencapResult::Success : ScreencapResult::Reprobe;
             }
 
-            if (screencap_ret) {
+            if (screencap_result == ScreencapResult::Success) {
                 image_payload = img_opt.value();
             }
         } break;
 #endif
         default:
             break;
+        }
+        const bool screencap_ret = screencap_result == ScreencapResult::Success;
+        if (screencap_result == ScreencapResult::Reprobe) {
+            m_adb.screencap_method = AdbProperty::ScreencapMethod::UnknownYet;
         }
         auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
         // 记录截图耗时，每10次截图回传一次最值+平均值
@@ -859,66 +866,80 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
     }
 }
 
-bool asst::AdbController::screencap(
+asst::AdbController::ScreencapResult asst::AdbController::screencap(
     const std::string& cmd,
     const DecodeFunc& decode_func,
     bool allow_reconnect,
     bool by_socket,
     int timeout)
 {
-    if ((!m_support_socket || !m_server_started) && by_socket) [[unlikely]] {
-        return false;
-    }
-    auto ret = call_command(cmd, timeout, allow_reconnect, by_socket);
-
-    if (!ret || ret.value().empty()) [[unlikely]] {
-        Log.warn("data is empty!");
-        return false;
-    }
-    auto& data = ret.value();
-
-    bool tried_conversion = false;
-    if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::CRLF) {
-        tried_conversion = true;
-        if (!convert_lf(data)) [[unlikely]] { // 没找到 "\r\n"
-            Log.info("screencap_end_of_line is set to CRLF but no `\\r\\n` found, set it to LF");
-            m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
+    try {
+        if ((!m_support_socket || !m_server_started) && by_socket) [[unlikely]] {
+            return ScreencapResult::Failed;
         }
-    }
+        auto ret = call_command(cmd, timeout, allow_reconnect, by_socket);
 
-    if (decode_func(data)) [[likely]] {
-        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) [[unlikely]] {
-            Log.info("screencap_end_of_line is LF");
-            m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
+        if (!ret || ret.value().empty()) [[unlikely]] {
+            Log.warn("data is empty!");
+            return ScreencapResult::Failed;
         }
-    }
-    else {
-        Log.info("data is not empty, but image is empty");
+        auto& data = ret.value();
 
-        if (tried_conversion) { // 已经转换过行尾，再次转换 data 不会变化，不必重试
-            Log.error("skip retry decoding and decode failed!");
-            return false;
+        bool tried_conversion = false;
+        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::CRLF) {
+            tried_conversion = true;
+            if (!convert_lf(data)) [[unlikely]] { // 没找到 "\r\n"
+                Log.info("screencap_end_of_line is set to CRLF but no `\\r\\n` found, set it to LF");
+                m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
+            }
         }
 
-        Log.info("try to cvt lf");
-        if (!convert_lf(data)) { // 没找到 "\r\n"，data 没有变化，不必重试
-            Log.error("no `\\r\\n` found, skip retry decode");
-            return false;
-        }
-        if (!decode_func(data)) {
-            Log.error("convert lf and retry decode failed!");
-            return false;
-        }
-
-        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
-            Log.info("screencap_end_of_line is CRLF");
+        if (decode_func(data)) [[likely]] {
+            if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) [[unlikely]] {
+                Log.info("screencap_end_of_line is LF");
+                m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
+            }
         }
         else {
-            Log.info("screencap_end_of_line is changed to CRLF");
+            Log.info("data is not empty, but image is empty");
+
+            if (tried_conversion) { // 已经转换过行尾，再次转换 data 不会变化，不必重试
+                Log.error("skip retry decoding and decode failed!");
+                return ScreencapResult::Reprobe;
+            }
+
+            Log.info("try to cvt lf");
+            if (!convert_lf(data)) { // 没找到 "\r\n"，data 没有变化，不必重试
+                Log.error("no `\\r\\n` found, skip retry decode");
+                return ScreencapResult::Reprobe;
+            }
+            if (!decode_func(data)) {
+                Log.error("convert lf and retry decode failed!");
+                return ScreencapResult::Reprobe;
+            }
+
+            if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
+                Log.info("screencap_end_of_line is CRLF");
+            }
+            else {
+                Log.info("screencap_end_of_line is changed to CRLF");
+            }
+            m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
         }
-        m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
+        return ScreencapResult::Success;
     }
-    return true;
+    catch (const cv::Exception& e) {
+        if (e.code == cv::Error::StsNoMem) {
+            throw;
+        }
+        try {
+            Log.error(
+                "ADB screencap decode OpenCV exception", e.what(), "code", e.code, "file", e.file, "line", e.line);
+        }
+        catch (...) {
+        }
+        return ScreencapResult::Reprobe;
+    }
 }
 
 bool asst::AdbController::connect(const std::string& adb_path, const std::string& address, const std::string& config)
