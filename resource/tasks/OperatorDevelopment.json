@@ -1,0 +1,120 @@
+{
+    "OperatorDevelopment@TemplateChecklist": {
+        "doc": [
+            "以下识别任务仅为 1280x720 国服截图占位，截图补齐并实机验证前不得视为可运行流程。",
+            "待采集：干员列表与职业筛选、干员姓名、末页、档案页、精英阶段、等级、技能等级、专精徽记。",
+            "待采集：升级/晋升按钮、红色材料槽、材料详情跳转、训练室状态/选择、导师技能与心情。",
+            "待采集：双芯片制造、芯片组、芯片助剂库存、采购数量、原产线产品及生产数量恢复状态。"
+        ],
+        "algorithm": "JustReturn",
+        "action": "DoNothing"
+    },
+    "OperatorDevelopment@ManualRecognition": {
+        "doc": "人工截图占位。特殊文本保证截图缺失时识别失败，不以固定坐标绕过。",
+        "algorithm": "OcrDetect",
+        "text": ["__OPERATOR_DEVELOPMENT_TEMPLATE_REQUIRED__"],
+        "roi": [0, 0, 1280, 720],
+        "action": "DoNothing"
+    },
+    "OperatorDevelopment@ManualAction": {
+        "baseTask": "OperatorDevelopment@ManualRecognition",
+        "doc": "人工截图占位。按钮模板补齐后改为对应识别算法，点击保持 ClickSelf。",
+        "action": "ClickSelf"
+    },
+    "OperatorDevelopment@Begin": {
+        "doc": "从常见页面通过快捷切换 Task 链进入干员列表。",
+        "baseTask": "QuickSwitch@ToOperBox"
+    },
+    "OperatorDevelopment@OperatorName": {
+        "baseTask": "CharsNameOcrReplace",
+        "doc": "OCR 结果由 Core 动态限制为当前干员名，卡片点击区域相对姓名框计算。",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [0, 110, 1280, 590]
+    },
+    "OperatorDevelopment@Profile": {
+        "baseTask": "OperatorDevelopment@ManualRecognition",
+        "doc": "干员档案页标志占位"
+    },
+    "OperatorDevelopment@LastPage": {
+        "baseTask": "OperatorDevelopment@ManualRecognition",
+        "doc": "干员列表末页状态占位"
+    },
+    "OperatorDevelopment@NextPage": {
+        "doc": "列表空白处是唯一稳定的滑动起点；仅用于翻页，不用于选择干员。",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1000, 640, 80, 40],
+        "rectMove": [250, 640, 80, 40],
+        "specialParams": [500, 1, 2, 0],
+        "postDelay": 800
+    },
+    "OperatorDevelopment@Role1": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "先锋职业筛选占位" },
+    "OperatorDevelopment@Role2": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "近卫职业筛选占位" },
+    "OperatorDevelopment@Role3": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "重装职业筛选占位" },
+    "OperatorDevelopment@Role4": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "狙击职业筛选占位" },
+    "OperatorDevelopment@Role5": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "术师职业筛选占位" },
+    "OperatorDevelopment@Role6": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "医疗职业筛选占位" },
+    "OperatorDevelopment@Role7": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "辅助职业筛选占位" },
+    "OperatorDevelopment@Role8": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "特种职业筛选占位" },
+    "OperatorDevelopment@Role9": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "召唤物职业筛选占位" },
+
+    "OperatorDevelopment@EliteSatisfied1": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "精英一阶段占位" },
+    "OperatorDevelopment@EliteSatisfied2": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "精英二阶段占位" },
+    "OperatorDevelopment@CurrentPhase0": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "未精英阶段占位" },
+    "OperatorDevelopment@CurrentPhase1": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "精英一阶段占位" },
+    "OperatorDevelopment@LevelMax": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "升至当前阶段满级并确认占位" },
+    "OperatorDevelopment@Promote": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "晋升按钮及确认占位" },
+    "OperatorDevelopment@PromotionMaterialMissing": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "晋升红色缺料槽占位" },
+    "OperatorDevelopment@DualChipRequired": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "双芯片缺口占位" },
+    "OperatorDevelopment@RecordFactoryState": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "原产品及数量识别占位；识别失败时不得切换产线" },
+    "OperatorDevelopment@ChipPackEnough": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "芯片组数量占位" },
+    "OperatorDevelopment@CatalystMissing": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "芯片助剂精确缺口占位" },
+    "OperatorDevelopment@BuyExactCatalystShortage": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "仅购买当前目标助剂缺口占位" },
+    "OperatorDevelopment@CatalystEnough": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "助剂库存复核占位" },
+    "OperatorDevelopment@ManufactureDualChip": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "双芯片制造及数量确认占位" },
+    "OperatorDevelopment@RestoreFactoryState": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "恢复原产品和生产数量并复核占位" },
+
+    "OperatorDevelopment@SkillsSatisfied2": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "技能等级 2 占位" },
+    "OperatorDevelopment@SkillsSatisfied3": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "技能等级 3 占位" },
+    "OperatorDevelopment@SkillsSatisfied4": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "技能等级 4 占位" },
+    "OperatorDevelopment@SkillsSatisfied5": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "技能等级 5 占位" },
+    "OperatorDevelopment@SkillsSatisfied6": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "技能等级 6 占位" },
+    "OperatorDevelopment@SkillsSatisfied7": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "技能等级 7 占位" },
+    "OperatorDevelopment@SkillsPrerequisiteMissing2": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@SkillsPrerequisiteMissing3": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@SkillsPrerequisiteMissing4": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@SkillsPrerequisiteMissing5": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@SkillsPrerequisiteMissing6": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@SkillsPrerequisiteMissing7": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@SkillMaterialMissing": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "技能红色缺料槽占位" },
+    "OperatorDevelopment@SkillUpgrade": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "技能升级及确认占位" },
+
+    "OperatorDevelopment@OpenMissingMaterial": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "以红色材料槽识别结果点击自身" },
+    "OperatorDevelopment@GoToWorkshop": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "材料详情页前往加工站按钮占位" },
+    "OperatorDevelopment@ReturnFromWorkshop": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "从加工站返回原培养页面占位" },
+    "OperatorDevelopment@MaterialStillMissing": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "返回后重新打开材料槽并复核红色状态占位" },
+
+    "OperatorDevelopment@TrainingRoom": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "进入训练室占位" },
+    "OperatorDevelopment@TrainingIdle": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "训练室空闲状态占位" },
+    "OperatorDevelopment@TrainingProcessing": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "训练中状态占位" },
+    "OperatorDevelopment@TrainingCompleted": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "训练完成状态占位" },
+    "OperatorDevelopment@TrainingClaim": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "领取已完成专精占位" },
+    "OperatorDevelopment@MasteryPrerequisiteMissing": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "专精前置条件不足占位" },
+    "OperatorDevelopment@MasteryMaterialMissing": { "baseTask": "OperatorDevelopment@ManualRecognition", "doc": "专精红色缺料槽占位" },
+    "OperatorDevelopment@SelectTrainee": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "按职业筛选、OCR 翻页选择受训干员占位" },
+    "OperatorDevelopment@SelectSkill1": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "选择技能一占位" },
+    "OperatorDevelopment@SelectSkill2": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "选择技能二占位" },
+    "OperatorDevelopment@SelectSkill3": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "选择技能三占位" },
+    "OperatorDevelopment@SelectTrainer": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "按受训职业、下一级专精、导师技能和心情评分选择导师占位" },
+    "OperatorDevelopment@StartMastery": { "baseTask": "OperatorDevelopment@ManualAction", "doc": "只启动下一级专精并确认占位" },
+    "OperatorDevelopment@MasterySatisfied11": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@MasterySatisfied12": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@MasterySatisfied13": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@MasterySatisfied21": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@MasterySatisfied22": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@MasterySatisfied23": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@MasterySatisfied31": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@MasterySatisfied32": { "baseTask": "OperatorDevelopment@ManualRecognition" },
+    "OperatorDevelopment@MasterySatisfied33": { "baseTask": "OperatorDevelopment@ManualRecognition" }
+}
