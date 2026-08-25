@@ -65,13 +65,46 @@ std::string canonicalize_infrast_skill_id(std::string id)
     return id;
 }
 
+// Template files are named after the upstream game icon id verbatim, so casing inside
+// the id must be preserved; only the leading letter is normalized to uppercase so
+// icon ids and file stems map onto each other either way.
 std::string infrast_template_filename(std::string skill_id)
 {
-    skill_id = normalize_infrast_skill_id(std::move(skill_id));
     if (!skill_id.empty()) {
         skill_id.front() = static_cast<char>(std::toupper(static_cast<unsigned char>(skill_id.front())));
     }
     return skill_id + ".png";
+}
+
+// Lower-case stem -> current on-disk file name. Windows clients cannot rename a file
+// that differs only by case, so existing template names are frozen and every consumer
+// (json generation, template sync, validation) must keep using the on-disk name.
+std::unordered_map<std::string, std::string> infrast_templates_by_lower_stem(const fs::path& template_dir)
+{
+    std::unordered_map<std::string, std::string> result;
+    std::error_code ec;
+    for (const auto& entry : fs::directory_iterator(template_dir, ec)) {
+        if (!entry.is_regular_file() || entry.path().extension() != ".png") {
+            continue;
+        }
+        const std::string name = entry.path().filename().string();
+        const std::string stem = name.substr(0, name.size() - 4);
+        result.emplace(normalize_infrast_skill_id(stem), name);
+    }
+    return result;
+}
+
+// Canonical template name of a skill icon: the frozen on-disk name when the template
+// already exists (matched case-insensitively), the upstream icon name for new icons.
+std::string resolve_infrast_template_name(
+    const std::unordered_map<std::string, std::string>& templates_by_lower_stem,
+    const std::string& skill_icon)
+{
+    if (auto iter = templates_by_lower_stem.find(normalize_infrast_skill_id(skill_icon));
+        iter != templates_by_lower_stem.cend()) {
+        return iter->second;
+    }
+    return infrast_template_filename(skill_icon);
 }
 
 void normalize_infrast_skill_references(json::value& root)
@@ -679,6 +712,8 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
     }
     auto& buffs = buffs_opt.value();
 
+    const auto existing_templates = infrast_templates_by_lower_stem(output_dir / "template" / "infrast");
+
     std::unordered_map<std::string, std::string> skill_icon_by_buff_id;
     for (const auto& [_, buff] : buffs) {
         const std::string buff_id = buff.get("buffId", std::string());
@@ -759,7 +794,7 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
             skill["desc"].emplace(desc);
         }
 
-        skill["template"] = infrast_template_filename(raw_skill_id);
+        skill["template"] = resolve_infrast_template_name(existing_templates, raw_skill_id);
     }
 
     for (const auto& room_type : rooms) {
@@ -887,7 +922,7 @@ bool update_stages_data(const fs::path& input_dir, const fs::path& output_dir)
 
 bool update_infrast_templates(const fs::path& input_dir, const fs::path& building_data_file, const fs::path& output_dir)
 {
-    std::unordered_set<std::string> expected_templates;
+    std::unordered_set<std::string> icon_ids;
     auto building_data_opt = json::open(building_data_file);
     if (!building_data_opt) {
         std::cerr << building_data_file << " parse error" << '\n';
@@ -901,41 +936,45 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& buildin
     for (const auto& [_, buff] : buffs_opt.value()) {
         const std::string skill_icon = buff.get("skillIcon", std::string());
         if (!skill_icon.empty()) {
-            expected_templates.emplace(infrast_template_filename(skill_icon));
+            icon_ids.emplace(skill_icon);
         }
     }
 
-    std::unordered_set<std::string> available_templates;
+    // Upstream availability is matched on the lower-cased stem: the upstream file name
+    // carries the same id as the game data skillIcon, possibly with different casing.
+    std::unordered_set<std::string> expected_lower_stems;
+    for (const auto& icon : icon_ids) {
+        expected_lower_stems.emplace(normalize_infrast_skill_id(icon));
+    }
+    std::unordered_set<std::string> available_lower_stems;
     for (const auto& entry : fs::directory_iterator(input_dir)) {
         if (entry.path().extension() != ".png") {
             continue;
         }
         const std::string stem = entry.path().stem().string();
         if (stem.find("[style]") == std::string::npos) {
-            available_templates.emplace(infrast_template_filename(stem));
+            available_lower_stems.emplace(normalize_infrast_skill_id(stem));
         }
     }
-    for (const auto& filename : expected_templates) {
-        if (!available_templates.contains(filename)) {
-            std::cerr << "Missing infrast template: " << filename << '\n';
+    for (const auto& stem : expected_lower_stems) {
+        if (!available_lower_stems.contains(stem)) {
+            std::cerr << "Missing infrast template: " << infrast_template_filename(stem) << '\n';
             return false;
         }
     }
+
+    // Existing template names are frozen: an icon resolves to its current on-disk name,
+    // never to a re-cased variant of it.
+    const auto existing_templates = infrast_templates_by_lower_stem(output_dir);
 
     for (const auto& entry : fs::directory_iterator(output_dir)) {
         if (entry.path().extension() != ".png") {
             continue;
         }
-        const std::string canonical_name = infrast_template_filename(entry.path().stem().string());
-        if (!expected_templates.contains(canonical_name)) {
+        const std::string stem = entry.path().stem().string();
+        if (!expected_lower_stems.contains(normalize_infrast_skill_id(stem))) {
             fs::remove(entry.path());
             std::cout << "Remove stale infrast templ: " << fs::relative(entry.path()) << '\n';
-            continue;
-        }
-        if (entry.path().filename().string() != canonical_name) {
-            const fs::path temp_path = entry.path().parent_path() / (canonical_name + ".renaming");
-            fs::rename(entry.path(), temp_path);
-            fs::rename(temp_path, entry.path().parent_path() / canonical_name);
         }
     }
 
@@ -949,11 +988,11 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& buildin
         if (stem.find("[style]") != std::string::npos) {
             continue;
         }
-
-        const std::string filename = infrast_template_filename(stem);
-        if (!expected_templates.contains(filename)) {
+        if (!expected_lower_stems.contains(normalize_infrast_skill_id(stem))) {
             continue;
         }
+
+        const std::string filename = resolve_infrast_template_name(existing_templates, stem);
 
         cv::Mat image = cv::imread(entry.path().string(), -1);
         cv::Mat dst;
@@ -1021,6 +1060,7 @@ bool validate_infrast_resources(const fs::path& resource_dir, const fs::path& bu
         return false;
     }
     std::unordered_map<std::string, std::string> expected_template_by_key;
+    const auto existing_templates = infrast_templates_by_lower_stem(resource_dir / "template" / "infrast");
     for (const auto& [_, buff] : buffs_opt.value()) {
         const std::string skill_icon = buff.get("skillIcon", std::string());
         if (skill_icon.empty()) {
@@ -1028,7 +1068,7 @@ bool validate_infrast_resources(const fs::path& resource_dir, const fs::path& bu
         }
         expected_template_by_key.insert_or_assign(
             canonicalize_infrast_skill_id(skill_icon),
-            infrast_template_filename(skill_icon));
+            resolve_infrast_template_name(existing_templates, skill_icon));
     }
 
     std::unordered_set<std::string> skill_ids;
@@ -1048,11 +1088,11 @@ bool validate_infrast_resources(const fs::path& resource_dir, const fs::path& bu
                 return false;
             }
             room_skill_ids.emplace(skill_id);
-            // Skills maintained ahead of the game data fall back to the resource key
-            // itself, which matches as long as the upstream icon id is all lowercase.
+            // Skills maintained ahead of the game data fall back to the resource key,
+            // resolved against existing template names the same way.
             const std::string expected_template =
                 expected_template_by_key.contains(skill_id) ? expected_template_by_key.at(skill_id)
-                                                            : infrast_template_filename(skill_id);
+                                                            : resolve_infrast_template_name(existing_templates, skill_id);
             if (skill.at("template").as_string() != expected_template) {
                 std::cerr << "Infrastructure template field differs for " << skill_id << ": expected "
                           << expected_template << '\n';
