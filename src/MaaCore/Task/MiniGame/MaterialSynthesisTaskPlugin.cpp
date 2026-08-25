@@ -156,8 +156,9 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             break;
         }
 
-        const bool operator_missing = detect_task("MiniGame@MaterialSynthesis@NoOperator");
-        const bool mood_insufficient = detect_task("MiniGame@MaterialSynthesis@LowMood");
+        // 无人进驻任务识别后直接点击空槽；已有干员时仍由独立任务点击相同位置。
+        const bool operator_missing = run_task("MiniGame@MaterialSynthesis@NoOperator", 0);
+        const bool mood_insufficient = !operator_missing && detect_task("MiniGame@MaterialSynthesis@LowMood");
         bool operator_changed = false;
         if (operator_missing || mood_insufficient) {
             result = select_processing_operator(
@@ -215,8 +216,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             break;
         }
 
-        if (!run_task("MiniGame@MaterialSynthesis@Start") || !run_task("MiniGame@MaterialSynthesis@Obtain", 5) ||
-            !detect_task("MiniGame@MaterialSynthesis@Workshop")) {
+        if (!run_task("MiniGame@MaterialSynthesis@Start") || !detect_task("MiniGame@MaterialSynthesis@Workshop")) {
             result = Result::NavigationFailed;
             break;
         }
@@ -252,7 +252,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::sel
     InfrastProcessingTask& processing_task)
 {
     operator_changed = false;
-    if (!run_task("MiniGame@MaterialSynthesis@OpenOperatorList")) {
+    if (!operator_missing && !run_task("MiniGame@MaterialSynthesis@OpenOperatorList")) {
         return Result::NavigationFailed;
     }
     if (processing_task.select_operator(material_id, material_level)) {
