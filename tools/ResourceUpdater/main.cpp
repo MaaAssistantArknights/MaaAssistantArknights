@@ -38,9 +38,8 @@ std::string normalize_infrast_skill_id(std::string id)
 }
 
 // Resource keys that intentionally differ from the game icon ID they refer to.
-// The icon templates are synced verbatim from the upstream repository under the game icon
-// name, so each pair maps a stable resource key (used by infrast.json) back and forth
-// to the game data skillIcon it is stored as.
+// Each pair records the stable resource key used by infrast.json and the game data
+// skillIcon the icon template is stored under upstream.
 struct InfrastResourceKeyGameIconPair
 {
     std::string_view resource_key;
@@ -1046,9 +1045,9 @@ bool validate_infrast_resources(const fs::path& resource_dir, const fs::path& bu
         return false;
     }
 
-    // Templates are stored under the upstream game icon name even when the resource key
-    // differs, so the expected filename of each key derives from the game data skillIcon
-    // (game icon -> resource key), mirroring how infrast.json itself is generated.
+    // The expected template name of each key is derived the same way as in
+    // update_infrast_data: game icon -> resource key, resolved against existing
+    // template files so frozen on-disk names win over re-cased derivations.
     auto building_data_opt = json::open(building_data_file);
     if (!building_data_opt) {
         std::cerr << building_data_file << " parse error" << '\n';
