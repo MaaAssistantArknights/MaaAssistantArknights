@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <limits>
 #include <meojson/json.hpp>
 #include <optional>
 #include <string>
@@ -22,7 +23,7 @@ private:
     {
         std::string id;
         std::string page_intent;
-        std::vector<int> floor_window;
+        std::array<int, 2> floor_window = { 1, std::numeric_limits<int>::max() };
         std::vector<std::string> node_types;
         std::vector<std::string> event_names;
         int rank;
@@ -58,18 +59,39 @@ private:
                 }
             }
 
-            const auto check_field = [&]<typename T>(const char* key, const T&, bool required = true) -> bool {
+            bool ret = true;
+            const auto check_field =
+                [&]<typename T>(const char* key, const T&, bool required = true) -> std::optional<T> {
                 const auto& itoa = json.find_value(key);
-                return (itoa && itoa->is<T>()) || (!itoa && !required);
+                if (!itoa) {
+                    ret = ret && !required;
+                }
+                else if (!itoa->is<T>()) {
+                    ret = false;
+                }
+                else {
+                    return itoa->as<T>();
+                }
+                return std::nullopt;
             };
-
-#define field(key) check_field(#key, key, true)
-#define field_opt(key) check_field(#key, key, false)
-            bool ret = field(id) && field(page_intent) && field_opt(floor_window) &&
-                       field_opt(node_types) && field_opt(event_names) && field_opt(rank) &&
-                       field(alias) && field(task) && field(completion_task);
+#define field(key) [[maybe_unused]] const auto& key##_opt = check_field(#key, key, true)
+#define field_opt(key) [[maybe_unused]] const auto& key##_opt = check_field(#key, key, false)
+            field(id);
+            field(page_intent);
+            field_opt(floor_window);
+            field_opt(node_types);
+            field_opt(event_names);
+            field_opt(rank);
+            field(alias);
+            field(task);
+            field(completion_task);
 #undef field
 #undef field_opt
+            if (floor_window_opt &&
+                (floor_window_opt->at(0) < 1 || (floor_window_opt->at(0) > floor_window_opt->at(1)))) {
+                LogError << __FUNCTION__ << "floor_window must be a positive, ascending range";
+                ret = false;
+            }
             return ret;
         };
 
@@ -83,6 +105,13 @@ private:
             alias,
             task,
             completion_task);
+    };
+
+    struct NodePreviewName
+    {
+        std::string name;
+        std::string node_type;
+        MEO_JSONIZATION(MEO_KEY("text") name, node_type);
     };
 
 public:
@@ -109,12 +138,18 @@ private:
         std::vector<blackflow::NodeExecutionRoute>& routes,
         std::unordered_set<std::string>& route_ids) const;
 
-    [[nodiscard]] bool
-        parse_node_types(const std::vector<std::string>& value, std::vector<blackflow::NodeType>& out) const;
+    bool parse_task_results(
+        const json::value& json,
+        std::unordered_map<std::string, blackflow::NodeTaskResult>& task_results) const;
 
+    bool parse_preview_name(
+        const json::value& json,
+        std::vector<std::string>& preview_names,
+        std::unordered_map<std::string, blackflow::NodeType>& preview_name_types) const;
+
+    bool parse_node_types(const std::vector<std::string>& value, std::vector<blackflow::NodeType>& out) const;
     bool verify_non_empty(const std::vector<std::string>& value, const std::string& key) const;
     bool sort_and_check_unique(std::vector<std::string>& value, const std::string& key) const;
-    bool parse_floor_window(const std::vector<int>& value, int& low, int& high) const;
     bool verify_task(const std::string& task, const std::string& field) const;
 
     int m_schema_version = 0;

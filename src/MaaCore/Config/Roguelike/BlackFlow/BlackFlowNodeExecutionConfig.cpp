@@ -15,7 +15,6 @@ namespace asst
 {
 namespace
 {
-using namespace blackflow;
 
 [[noreturn]] void invalid_config(const std::string& message)
 {
@@ -79,7 +78,7 @@ void validate_task_alias(const std::string& task, std::string_view field)
     }
 }
 
-NodeSignalValue parse_signal_value(const json::value& value)
+blackflow::NodeSignalValue parse_signal_value(const json::value& value)
 {
     if (value.is_boolean()) {
         return value.as_boolean();
@@ -103,21 +102,21 @@ NodeSignalValue parse_signal_value(const json::value& value)
     invalid_config("signal value must be a boolean, integer, string, or string array");
 }
 
-NodeSignalKind parse_signal_kind(const std::string& value)
+blackflow::NodeSignalKind parse_signal_kind(const std::string& value)
 {
     if (value == "set") {
-        return NodeSignalKind::Set;
+        return blackflow::NodeSignalKind::Set;
     }
     if (value == "add") {
-        return NodeSignalKind::Add;
+        return blackflow::NodeSignalKind::Add;
     }
     if (value == "capture_integer") {
-        return NodeSignalKind::CaptureInteger;
+        return blackflow::NodeSignalKind::CaptureInteger;
     }
     invalid_config("unknown signal kind: " + value);
 }
 
-NodeStrategySignal parse_signal(const json::value& value)
+blackflow::NodeStrategySignal parse_signal(const json::value& value)
 {
     check_keys(
         value,
@@ -125,7 +124,7 @@ NodeStrategySignal parse_signal(const json::value& value)
         { "kind", "fact" },
         "strategy signal");
 
-    NodeStrategySignal result;
+    blackflow::NodeStrategySignal result;
     result.kind = parse_signal_kind(value.at("kind").as_string());
     result.fact = value.at("fact").as_string();
     if (result.fact.empty()) {
@@ -134,13 +133,13 @@ NodeStrategySignal parse_signal(const json::value& value)
 
     const bool has_value = value.as_object().contains("value");
     const bool has_source = value.as_object().contains("source");
-    if (result.kind == NodeSignalKind::Set) {
+    if (result.kind == blackflow::NodeSignalKind::Set) {
         if (!has_value || has_source || value.find("minimum") || value.find("maximum")) {
             invalid_config("set signal requires value and does not accept source or integer bounds");
         }
         result.value = parse_signal_value(value.at("value"));
     }
-    else if (result.kind == NodeSignalKind::Add) {
+    else if (result.kind == blackflow::NodeSignalKind::Add) {
         if (!has_value || has_source || value.find("minimum") || value.find("maximum")) {
             invalid_config("add signal requires an integer value and does not accept source or integer bounds");
         }
@@ -164,23 +163,23 @@ NodeStrategySignal parse_signal(const json::value& value)
         }
     }
 
-    const FactDefinition* definition = BlackFlowStrategy.get_fact_definition(result.fact);
+    const blackflow::FactDefinition* definition = BlackFlowStrategy.get_fact_definition(result.fact);
     if (definition == nullptr) {
         invalid_config("strategy signal references an undeclared fact: " + result.fact);
     }
-    if (definition->scope == FactScope::Candidate) {
+    if (definition->scope == blackflow::FactScope::Candidate) {
         invalid_config("strategy signal cannot write a candidate-scoped fact: " + result.fact);
     }
-    if ((result.kind == NodeSignalKind::Add || result.kind == NodeSignalKind::CaptureInteger) &&
-        definition->type != FactType::Integer) {
+    if ((result.kind == blackflow::NodeSignalKind::Add || result.kind == blackflow::NodeSignalKind::CaptureInteger) &&
+        definition->type != blackflow::FactType::Integer) {
         invalid_config("integer strategy signal requires an integer fact: " + result.fact);
     }
-    if (result.kind == NodeSignalKind::Set && result.value.has_value()) {
+    if (result.kind == blackflow::NodeSignalKind::Set && result.value.has_value()) {
         const bool type_matches =
-            (definition->type == FactType::Boolean && std::holds_alternative<bool>(*result.value)) ||
-            (definition->type == FactType::Integer && std::holds_alternative<std::int64_t>(*result.value)) ||
-            (definition->type == FactType::String && std::holds_alternative<std::string>(*result.value)) ||
-            (definition->type == FactType::StringList &&
+            (definition->type == blackflow::FactType::Boolean && std::holds_alternative<bool>(*result.value)) ||
+            (definition->type == blackflow::FactType::Integer && std::holds_alternative<std::int64_t>(*result.value)) ||
+            (definition->type == blackflow::FactType::String && std::holds_alternative<std::string>(*result.value)) ||
+            (definition->type == blackflow::FactType::StringList &&
              std::holds_alternative<std::vector<std::string>>(*result.value));
         if (!type_matches) {
             invalid_config("set strategy signal value type differs from fact: " + result.fact);
@@ -189,21 +188,21 @@ NodeStrategySignal parse_signal(const json::value& value)
     return result;
 }
 
-NodeProgress parse_node_progress(const std::string& value)
+blackflow::NodeProgress parse_node_progress(const std::string& value)
 {
     if (value == "active") {
-        return NodeProgress::Active;
+        return blackflow::NodeProgress::Active;
     }
     if (value == "completed") {
-        return NodeProgress::Completed;
+        return blackflow::NodeProgress::Completed;
     }
     if (value == "removed") {
-        return NodeProgress::Removed;
+        return blackflow::NodeProgress::Removed;
     }
     invalid_config("unknown node progress: " + value);
 }
 
-NodeStateUpdate parse_node_update(const json::value& value)
+blackflow::NodeStateUpdate parse_node_update(const json::value& value)
 {
     check_keys(
         value,
@@ -217,12 +216,12 @@ NodeStateUpdate parse_node_update(const json::value& value)
         {},
         "node update");
 
-    NodeStateUpdate result;
+    blackflow::NodeStateUpdate result;
     if (const auto progress = value.find("progress"); progress) {
         result.progress = parse_node_progress(progress->as_string());
     }
     if (const auto type = value.find("actual_type"); type) {
-        const auto parsed = node_type_from_string(type->as_string());
+        const auto parsed = blackflow::node_type_from_string(type->as_string());
         if (!parsed.has_value()) {
             invalid_config("node update contains an unsupported actual_type: " + type->as_string());
         }
@@ -257,18 +256,18 @@ NodeStateUpdate parse_node_update(const json::value& value)
     return result;
 }
 
-NodeTaskResultKind parse_task_result_kind(const std::string& value)
+blackflow::NodeTaskResultKind parse_task_result_kind(const std::string& value)
 {
     if (value == "intermediate") {
-        return NodeTaskResultKind::Intermediate;
+        return blackflow::NodeTaskResultKind::Intermediate;
     }
     if (value == "page_completed") {
-        return NodeTaskResultKind::PageCompleted;
+        return blackflow::NodeTaskResultKind::PageCompleted;
     }
     invalid_config("unknown task result kind: " + value);
 }
 
-NodeTaskResult parse_task_result(const json::value& value)
+blackflow::NodeTaskResult parse_task_result(const json::value& value)
 {
     check_keys(
         value,
@@ -284,7 +283,7 @@ NodeTaskResult parse_task_result(const json::value& value)
         { "task", "result_kind" },
         "task result");
 
-    NodeTaskResult result;
+    blackflow::NodeTaskResult result;
     result.task = value.at("task").as_string();
     result.kind = parse_task_result_kind(value.at("result_kind").as_string());
     validate_task_alias(result.task, "task result task");
@@ -304,10 +303,10 @@ NodeTaskResult parse_task_result(const json::value& value)
     result.succeeded = value.get("succeeded", false);
     result.redispatch = value.get("redispatch", false);
     result.termination_reason = value.get("termination_reason", std::string());
-    if (result.terminate && result.kind != NodeTaskResultKind::PageCompleted) {
+    if (result.terminate && result.kind != blackflow::NodeTaskResultKind::PageCompleted) {
         invalid_config("terminating task result must complete its page");
     }
-    if (result.kind == NodeTaskResultKind::PageCompleted && result.redispatch) {
+    if (result.kind == blackflow::NodeTaskResultKind::PageCompleted && result.redispatch) {
         invalid_config("page-completed task result cannot request redispatch");
     }
     if (result.terminate && !value.find("succeeded")) {
@@ -326,22 +325,6 @@ NodeTaskResult parse_task_result(const json::value& value)
         invalid_config("non-terminating task result must not have termination_reason");
     }
     return result;
-}
-
-std::pair<std::string, NodeType> parse_preview_name(const json::value& value)
-{
-    check_keys(value, { "text", "node_type" }, { "text", "node_type" }, "preview name");
-
-    const std::string text = value.at("text").as_string();
-    if (text.empty()) {
-        invalid_config("preview name text must not be empty");
-    }
-    const std::string type_name = value.at("node_type").as_string();
-    const auto type = node_type_from_string(type_name);
-    if (!type.has_value()) {
-        invalid_config("preview name references an unsupported node type: " + type_name);
-    }
-    return { text, *type };
 }
 } // namespace
 
@@ -392,15 +375,14 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
         LogError << __FUNCTION__ << "unsupported schema_version:" << schema_version;
         return false;
     }
-    if (!json.at("task_results").is_array() || !json.at("preview_names").is_array()) {
-        LogError << __FUNCTION__ << "task_results and preview_names must be arrays";
+    if (!json.at("task_results").is_array()) {
+        LogError << __FUNCTION__ << "task_results must be arrays";
         return false;
     }
 
     std::vector<blackflow::NodeExecutionRoute> routes;
     std::unordered_set<std::string> route_ids;
     if (!parse_route(json, routes, route_ids)) {
-        LogError << __FUNCTION__ << "routes parse failed";
         ret = false;
     }
     if (routes.empty()) {
@@ -450,7 +432,7 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
         }
     }
 
-    std::unordered_map<std::string, NodeTaskResult> task_results;
+    std::unordered_map<std::string, blackflow::NodeTaskResult> task_results;
     for (const auto& value : json.at("task_results").as_array()) {
         auto result = parse_task_result(value);
         const std::string task = result.task;
@@ -461,15 +443,10 @@ bool BlackFlowNodeExecutionConfig::parse(const json::value& json)
     }
 
     std::vector<std::string> preview_names;
-    std::unordered_map<std::string, NodeType> preview_name_types;
-    for (const auto& value : json.at("preview_names").as_array()) {
-        auto [text, type] = parse_preview_name(value);
-        if (!preview_name_types.emplace(text, type).second) {
-            LogError << __FUNCTION__ << "duplicate preview name:" << text;
+    std::unordered_map<std::string, blackflow::NodeType> preview_name_types;
+    if (!parse_preview_name(json, preview_names, preview_name_types)) {
             ret = false;
         }
-        preview_names.emplace_back(std::move(text));
-    }
     if (preview_names.empty()) {
         LogError << __FUNCTION__ << "preview_names must not be empty";
         ret = false;
@@ -512,6 +489,8 @@ bool BlackFlowNodeExecutionConfig::parse_route(
         blackflow::NodeExecutionRoute node {
             .id = route.id,
             .page_intent = route.page_intent,
+            .floor_begin = route.floor_window[0],
+            .floor_end = route.floor_window[1],
             .event_names = route.event_names,
             .rank = route.rank,
             .alias = route.alias,
@@ -523,9 +502,6 @@ bool BlackFlowNodeExecutionConfig::parse_route(
             ret = false;
         }
         if (!parse_node_types(route.node_types, node.node_types)) {
-            ret = false;
-        }
-        if (!parse_floor_window(route.floor_window, node.floor_begin, node.floor_end)) {
             ret = false;
         }
         if (node.alias != "BlackFlow@Roguelike@NodeDispatchAction") {
@@ -541,6 +517,39 @@ bool BlackFlowNodeExecutionConfig::parse_route(
     return ret;
 }
 
+bool BlackFlowNodeExecutionConfig::parse_preview_name(
+    const json::value& json,
+    std::vector<std::string>& preview_names,
+    std::unordered_map<std::string, blackflow::NodeType>& preview_name_types) const
+{
+    auto preview_names_opt = json.find<std::vector<NodePreviewName>>("preview_names");
+    if (!preview_names_opt) {
+        LogError << __FUNCTION__ << "missing preview_names, or format is error";
+        return false;
+    }
+    bool ret = true;
+    for (auto& value : *preview_names_opt) {
+        if (value.name.empty()) {
+            LogError << __FUNCTION__ << "preview name text must not be empty";
+            ret = false;
+            continue;
+        }
+        const auto& type = blackflow::node_type_from_string(value.node_type);
+        if (!type) {
+            LogError << __FUNCTION__ << "preview name references an unsupported node type:" << value.node_type;
+            ret = false;
+            continue;
+        }
+        else if (!preview_name_types.emplace(value.name, *type).second) {
+            LogError << __FUNCTION__ << "duplicate preview name:" << value.name;
+            ret = false;
+            continue;
+        }
+        preview_names.emplace_back(std::move(value.name));
+    }
+    return ret;
+}
+
 bool BlackFlowNodeExecutionConfig::parse_node_types(
     const std::vector<std::string>& value,
     std::vector<blackflow::NodeType>& out) const
@@ -549,14 +558,14 @@ bool BlackFlowNodeExecutionConfig::parse_node_types(
         return false;
     }
     for (const std::string& name : value) {
-        const auto type = node_type_from_string(name);
+        const auto type = blackflow::node_type_from_string(name);
         if (!type.has_value()) {
             LogError << __FUNCTION__ << "route references an unsupported node type:" << name;
             return false;
         }
         out.emplace_back(*type);
     }
-    std::ranges::sort(out, {}, [](NodeType type) { return static_cast<int>(type); });
+    std::ranges::sort(out, {}, [](blackflow::NodeType type) { return static_cast<int>(type); });
     if (std::ranges::adjacent_find(out) != out.end()) {
         LogError << __FUNCTION__ << "node_types contains duplicate values";
         return false;
@@ -580,28 +589,6 @@ bool BlackFlowNodeExecutionConfig::sort_and_check_unique(std::vector<std::string
         LogError << __FUNCTION__ << key << "contains duplicate values";
         return false;
     }
-    return true;
-}
-
-bool BlackFlowNodeExecutionConfig::parse_floor_window(const std::vector<int>& value, int& low, int& high) const
-{
-    if (value.size() == 0) {
-        low = 1;
-        high = std::numeric_limits<int>::max();
-        return true;
-    }
-    if (value.size() != 2) {
-        LogError << __FUNCTION__ << "floor_window must contain two integers";
-        return false;
-    }
-    const int floor_begin = value[0];
-    const int floor_end = value[1];
-    if (floor_begin < 1 || floor_end < floor_begin) {
-        LogError << __FUNCTION__ << "floor_window must be a positive, ascending range";
-        return false;
-    }
-    low = floor_begin;
-    high = floor_end;
     return true;
 }
 
