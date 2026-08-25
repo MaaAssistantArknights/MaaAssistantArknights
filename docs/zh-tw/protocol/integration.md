@@ -745,7 +745,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `Sarkaz` - 薩卡茲的無終奇語
 <br>
-`JieGarden` - 歲的界園誌異  
+`JieGarden` - 歲的界園誌異
+<br>
+`BlackFlow` - 黑流樹海  
 :::  
 ::: field mode  
 @type number
@@ -767,7 +769,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `6` - 刷月度小隊獎勵：除了模式適配外，其餘邏輯同模式 0。
 <br>
-`7` - 刷深入調查獎勵：除了模式適配外，其餘邏輯同模式 0。  
+`7` - 刷深入調查獎勵：除了模式適配外，其餘邏輯同模式 0。
+<br>
+`30001` - 刷襁褓動物；僅適用於 BlackFlow 主題。  
 :::  
 ::: field squad  
 @type string
@@ -806,9 +810,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 :::  
 ::: field difficulty  
 @type number
-@default 0
+@default -1
 @optional
-指定難度等級。若未解鎖，則會選擇目前已解鎖的最高難度。  
+指定難度等級，`-1` 表示不指定難度。若指定難度未解鎖，則會選擇目前已解鎖的最高難度。  
 :::  
 ::: field stop_at_final_boss  
 @type boolean
@@ -951,14 +955,30 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 燒水時使用的分隊。預設與 `squad` 同步；若 `squad` 為空且未指定 `collectible_mode_squad` 時，則預設為「指揮分隊」。  
 :::  
 ::: field start_with_seed  
-@type boolean
-@default false
+@type string
 @optional
-是否使用種子刷錢。
+使用種子刷錢時填入固定種子，留空則不啟用。
 <br>
-僅在 Sarkaz 主題中的 Investment 模式，且為「點刺成錠分隊」或「後勤分隊」時才可能為 `true`。
+僅在 Sarkaz 主題中的 Investment 模式，且為「點刺成錠分隊」或「後勤分隊」時生效。  
+:::  
+::: field blackflow_strategy  
+@type string
+@optional
+黑流樹海主題的策略；留空時按 `mode` 與 `investment_enabled` 推斷。
 <br>
-使用固定種子。  
+`baby_animal` - 第一層檢查普通商店，第二、三層探索並進入秘境行商培育種子，需配合 `blackflow_cultivation_target`
+<br>
+`investment` - 第一層以戰鬥次數最少、預計時間最短的完整路線抵達固定普通商店
+<br>
+`burn_with_investment` - 第一層完成投資後盡快抵達第三層，到達即重開
+<br>
+`burn` - 盡快抵達第三層，到達即重開  
+:::  
+::: field blackflow_cultivation_target  
+@type string
+@default swaddled_cat
+@optional
+刷襁褓動物模式的目標。可選值：`swaddled_cat` | `swaddled_feathered_serpent` | `swaddled_dog` | `swaddled_cerberus`；僅在 `blackflow_strategy` 為 `baby_animal` 時使用。  
 :::  
 ::::
 
@@ -1007,7 +1027,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
    "deep_exploration_auto_iterate": false,
    "collectible_mode_shopping": false,
    "collectible_mode_squad": "",
-   "start_with_seed": false
+   "start_with_seed": ""
 }
 ```
 
@@ -1078,7 +1098,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
   <br>
 - `name`：幹員名稱，選填，預設為空字串，若留空則忽略此幹員。
   <br>
-- `skill`：指定攜帶技能，選填，預設為 1。範圍為 1–3 的整數，若超出範圍則遵照遊戲內的預設技能。  
+- `skill`：指定攜帶技能，選填，預設為 0，即遵從遊戲內的預設技能選擇。範圍為 1–3 的整數，若超出範圍也遵照遊戲內的預設技能。  
   :::  
   ::: field add_trust  
   @type boolean
@@ -1602,7 +1622,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 @type string
 @default minitouch
 @optional
-觸控模式設定。可選值：minitouch | maatouch | adb | MaaFwAdb。預設為 minitouch。列舉值：2。  
+觸控模式設定。可選值：minitouch | maatouch | adb | MaaFwAdb | MumuExtras。預設為 minitouch。列舉值：2。  
 :::  
 ::: field DeploymentWithPause  
 @type boolean

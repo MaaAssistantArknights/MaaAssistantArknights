@@ -58,7 +58,7 @@ MAA 會以 1 秒的間隔持續輪詢此端點，嘗試獲取要執行的任務�
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   // 任務唯一 ID（字串），彙報任務時會使用。
-            "type": "Settings-ConnectionAddress",           // 修改設定項任務，等同於執行 ConfigurationHelper.SetValue("ConnectionAddress", params)。為求安全，僅部分設定可修改，詳見下述。
+            "type": "Settings-ConnectAddress",           // 修改設定項任務，等同於執行 ConfigurationHelper.SetValue("ConnectAddress", params)。為求安全，僅部分設定可修改，詳見下述。
             "params": "value"                               // 要修改的值。
         },
         // 立即執行任務：下列任務可在順序執行任務運作中執行，且 MAA 保證任何一個任務都會儘快回傳結果，通常用於控制遠端控制功能本身。
@@ -85,7 +85,7 @@ MAA 會以 1 秒的間隔持續輪詢此端點，嘗試獲取要執行的任務�
 ::: note
 
 - `LinkStart-[TaskName]` 型任務的 type 可選值為：LinkStart-Base, LinkStart-WakeUp, LinkStart-Combat, LinkStart-Recruiting, LinkStart-Mall, LinkStart-Mission, LinkStart-AutoRoguelike, LinkStart-Reclamation。
-- `Settings-[SettingsName]` 型任務的 type 可選值為：Settings-ConnectionAddress, Settings-Stage1。
+- `Settings-[SettingsName]` 型任務的 type 可選值為：Settings-ConnectAddress, Settings-Stage1。
 - Settings 系列任務仍須依序執行，收到任務時不會立刻執行，而是排在上一項任務之後。
 - 多個立即執行任務亦會按部就班執行，但因執行速度極快，通常無需關注其順序。
 

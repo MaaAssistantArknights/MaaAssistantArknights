@@ -552,9 +552,9 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="MiniTouchMode">Minitouch (標準)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (実験機能)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (非推奨)</system:String>
-    <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (実験機能)</system:String>
+    <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb (実験機能)</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu タッチ (実験機能)</system:String>
-    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input は、OS バージョンが古い物理デバイスのみに使用します。他のモードが使える場合は、ADB Input を選択しないでください。&#10;ADB Input のスワイプはズレやすいため、スワイプ速度が非常に遅く設定され、スワイプ距離も他のモードと異なります。正確な座標制御が必要な場面では使用できません。</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input は、OS バージョンが古い物理デバイスのみに使用します。他のモードが使える場合は、ADB Input を選択しないでください。&#10;ADB Input のスワイプはズレやすいため、スワイプ速度が非常に遅く設定され、スワイプ距離も他のモードと異なります。正確な座標制御が必要な場面では使用できません。&#10;&#10;MaaFwAdb は追加スワイプに非対応のため、追加スワイプでドラッグの暴走を防いでいるページはこのモードで暴走します。&#10;追加スワイプとは、メインスワイプの終了後に垂直方向へ少し追加分の｢ブレーキ｣スワイプを行うもので（軌跡は 90° に曲がる L 字型）、リストの慣性を打ち消すために使用します。</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">エミュレーター起動パラメータの追加コマンド（例： ｢--instance 1｣ は 1 番インスタンス）。&#10;コマンド形式はエミュレーターにより異なり、通常はインスタンス番号やウィンドウモードなどを含みます。</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>
@@ -756,7 +756,7 @@ nx_device/12.0/shell/sdk/external_renderer_ipc.dll または
 shell/sdk/external_renderer_ipc.dll\n
 インストールディレクトリを確認してください。</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu / MuMu Arknights V4.0.0 以降を利用する必要があり、MuMu Global は V5.21.3 以降に対応しています。
+MuMu / MuMu Arknights V4.1.26 以降を利用する必要があり、MuMu Global は V5.21.3 以降に対応しています。
 この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。
 MAA はレジストリからインストールパスを自動的に取得しますが、失敗した場合は手動で入力してください。\n
 インストールパスには、エミュレーターのインストールディレクトリのルートディレクトリを入力する必要があります。例えば、エミュレーターのプロセスファイルパスが

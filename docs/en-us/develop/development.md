@@ -39,7 +39,7 @@ We've preset several different development environments for you to choose from:
 
 1. If you forked the repository long ago, first delete it via your repository's `Settings` at the bottom.
 2. Visit the [MAA main repository](https://github.com/MaaAssistantArknights/MaaAssistantArknights), click `Fork`, then `Create fork`.
-3. Clone the dev branch of your repository with submodules:
+3. Clone the dev-v2 branch of your repository with submodules:
 
    ```bash
    git clone --recurse-submodules <your repository link> -b dev-v2 --single-branch
@@ -78,7 +78,7 @@ We've preset several different development environments for you to choose from:
    - Press F5 to run
 
    ::: tip
-   To run Win32Controller (Windows window control) / MaaFwAdbController (MaaFramework touch mode) features, you need to manually download the package for your platform from [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases), and place `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` from the `bin` directory into MAA's DLL directory (e.g. `build/bin/Debug`). PRs for an auto-download script are welcome!
+   To run Win32Controller (Windows window control) / MaaFwAdbController (MaaFwAdb touch mode) features, you need to manually download the package for your platform from [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases), and place `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` from the `bin` directory into MAA's DLL directory (e.g. `build/bin/Debug`). PRs for an auto-download script are welcome!
 
    To debug these features, [compile the Debug version of MaaFramework yourself](https://maafw.com/docs/4.1-BuildGuide) and use the corresponding DLLs, or it will randomly crash at breakpoints.
    :::
@@ -100,7 +100,7 @@ We've preset several different development environments for you to choose from:
     git push origin dev-v2
     ```
 
-12. Submit a Pull Request at the [MAA main repository](https://github.com/MaaAssistantArknights/MaaAssistantArknights). Ensure your changes are based on the `dev-v2` branch, not `master`.
+12. Submit a Pull Request at the [MAA main repository](https://github.com/MaaAssistantArknights/MaaAssistantArknights). Ensure your changes are based on the `dev-v2` branch, not `master-v2`.
 13. To sync upstream changes:
     1. Add upstream repository:
 
@@ -181,7 +181,7 @@ When using clangd, set `C_Cpp.intelliSenseEngine` to `disabled` to avoid conflic
 
    :::
 
-4. **Debugging**: The project includes `.vscode/launch.json` for launching MaaWpfGui or Debug Demo
+4. **Debugging**: You need to create `.vscode/launch.json` yourself; once configured, it can launch MaaWpfGui or the Debug Demo for debugging
 
 ### Build and Debug Shortcuts
 
@@ -201,6 +201,8 @@ The currently enabled formatting tools are as follows:
 | C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
 | JSON/YAML | [Prettier](https://prettier.io/)                                |
 | Markdown  | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+| Python    | [ruff-format](https://docs.astral.sh/ruff/formatter/)           |
+| PNG       | [oxipng](https://github.com/oxipng/oxipng)                      |
 
 ### Use Pre-commit Hooks to Automatically Format Code
 

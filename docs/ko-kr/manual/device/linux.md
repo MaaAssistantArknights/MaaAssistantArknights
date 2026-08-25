@@ -47,7 +47,7 @@ ADB를 통해 USB 장치에 연결해야 하는 경우, 먼저 Wine 외부에서
 
 #### Linux 네이티브 MaaCore 사용 (실험적 기능)
 
-[MAA Wine Bridge](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/MaaWineBridge) 소스 코드를 다운로드하고 빌드하여, 생성된 `MaaCore.dll`(ELF 파일)로 Windows 버전을 교체하고, Linux 네이티브 동적 라이브러리(`libMaaCore.so` 및 종속성)를 같은 디렉토리에 넣습니다.
+[MAA Wine Bridge](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev-v2/src/MaaWineBridge) 소스 코드를 다운로드하고 빌드하여, 생성된 `MaaCore.dll`(ELF 파일)로 Windows 버전을 교체하고, Linux 네이티브 동적 라이브러리(`libMaaCore.so` 및 종속성)를 같은 디렉토리에 넣습니다.
 
 이때 Wine을 통해 `MAA.exe`를 실행하면 Linux 네이티브 동적 라이브러리가 로드됩니다.
 

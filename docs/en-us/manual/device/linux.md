@@ -47,7 +47,7 @@ If you need to connect to USB devices via ADB, first run `adb start-server` outs
 
 #### Using Linux Native MaaCore (Experimental)
 
-Download and build the [MAA Wine Bridge](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/MaaWineBridge) source code, replace the Windows version with the generated `MaaCore.dll` (ELF file), and place the Linux native dynamic libraries (`libMaaCore.so` and dependencies) in the same directory.
+Download and build the [MAA Wine Bridge](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev-v2/src/MaaWineBridge) source code, replace the Windows version with the generated `MaaCore.dll` (ELF file), and place the Linux native dynamic libraries (`libMaaCore.so` and dependencies) in the same directory.
 
 When running `MAA.exe` through Wine, it will load the Linux native libraries.
 

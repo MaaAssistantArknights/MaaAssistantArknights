@@ -12,7 +12,7 @@ JSONファイルはコメントをサポートしていません。テキスト�
 ## ローグリソースの保存場所
 
 - `resource/roguelike/` には、各ローグテーマに応じての運用リソースが格納されています
-  - テーマフォルダ： `Phantom/` はファントム、 `Mizuki/` はミヅキ、`Sami/` はサーミ、`Sarkaz/` はサルカズ、`JieGarden/` は界園
+  - テーマフォルダ： `Phantom/` はファントム、 `Mizuki/` はミヅキ、`Sami/` はサーミ、`Sarkaz/` はサルカズ、`JieGarden/` は界園、`BlackFlow/` は黒流樹海
     - `autopilot/` には、各ステージの戦闘jsonが含まれます
       - `ステージ名.json` ステージの戦闘ロジック
     - `encounter/` 思わぬ遭遇イベントロジック

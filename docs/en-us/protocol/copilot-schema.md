@@ -20,6 +20,7 @@ Please note that JSON files do not support comments. The comments in this docume
         // Specified operators
         {
             "name": "重岳", // Operator name ("重岳" = "Chongyue")
+            "role": "guard", // Operator role. Optional, used to distinguish operators with the same name; both Chinese and English role names are accepted, case-insensitive
             "skill": 3, // Skill number. Optional, default is 0, range [0, 3]
             "skill_usage": 2, // Skill usage method. Optional, default is 0
             // 0 - Do not use automatically (depends on "actions" field)
@@ -29,13 +30,13 @@ Please note that JSON files do not support comments. The comments in this docume
             // For auto-trigger skills, use 0
             "skill_times": 5, // Number of skill activations. Optional, default is 1
             "requirements": {
-                // Level requirements. Reserved interface, not yet implemented. Optional, default is empty
+                // Level requirements, validated during auto-formation. Optional, default is empty
                 "elite": 2, // Elite level. Optional, default is 0, no elite requirement
                 "level": 90, // Operator level. Optional, default is 0
                 "skill_level": 10, // Skill level. Optional, default is 0
                 "module": 1, // Module number. Optional, default is 0
-                "module_level": 3, // Module level. Optional, default is 0
-                "potential": 1 // Potential requirement. Optional, default is 0
+                "module_level": 3, // Module level. Not yet supported
+                "potential": 1 // Potential requirement. Not yet supported
             }
         }
     ],
@@ -75,7 +76,7 @@ Please note that JSON files do not support comments. The comments in this docume
             // "Output" doesn't show this step in UI, used only to output doc content (for subtitles, etc.)
             // "SkillDaemon" only uses "use when ready" skills, does nothing else until battle ends
             // "MoveCamera" for Guide mode, requires the distance field
-            // "ResetStopwatch" — Resets the global stopwatch. Please refer to the “time_elapsed” condition.
+            // "ResetStopwatch" — Resets the global stopwatch. Please refer to the “elapsed_time” condition.
             // Currently the five conditions below use AND relationship
             "kills": 0, // Kill count condition, waits until reached. Optional, default is 0, executes immediately
             "costs": 50, // DP condition, waits until reached. Optional, default is 0, executes immediately
@@ -87,13 +88,14 @@ Please note that JSON files do not support comments. The comments in this docume
             // Supports negative values (e.g., when operators like Jaye reduce DP)
             // Recognition is more accurate for two-digit DP; three-digit DP may be misrecognized, not recommended
             "cooling": 2, // Number of operators on cooldown condition, waits until reached. Optional, default is -1, no recognition
-            "time_elapsed": 1000, // Global timing condition in milliseconds. If the specified time has not elapsed, the action will keep waiting. Optional, default is 0, executes immediately
+            "elapsed_time": 1000, // Global timing condition in milliseconds. If the specified time has not elapsed, the action will keep waiting. Optional, default is 0, executes immediately
             // Note: the time is measured from the last action with type: ResetStopwatch
             // You must execute an action with type: ResetStopwatch beforehand to reset the stopwatch; otherwise, it will get stuck.
             // TODO: Other conditions
             // TODO: "condition_type": 0,    // Relationship between execution conditions, optional, default is 0
             //                        // 0 - AND; 1 - OR
             "name": "棘刺", // Operator name or group name, required when type is "Deploy", optional for "Skill"|"Retreat" ("棘刺" = "Thorns")
+            "role": "guard", // Operator role. Optional, used to distinguish operators with the same name; both Chinese and English role names are accepted, case-insensitive
             "location": [
                 5,
                 5
@@ -169,4 +171,4 @@ Please note that JSON files do not support comments. The comments in this docume
 
 ## Examples
 
-[OF-1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/OF-1_credit_fight.json)
+[OF-1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/resource/copilot/OF-1_credit_fight.json)

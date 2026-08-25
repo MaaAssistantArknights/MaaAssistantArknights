@@ -222,6 +222,8 @@ MAA は現在 `bluestacks.conf` の保存場所をレジストリから読み取
 
 3. MuMu ネットワークブリッジを使用している場合は、`MuMu ネットワークブリッジモード` を選択し、MuMu マルチインスタンスマネージャ内の対応するエミュレータのシリアル番号を手動で入力する必要があります。例えば、メインインスタンスは `0` です。
 
+**MuMu タッチ強化モード**：公式版 MuMu V6.3.2 以降が必要です。現在、Arknights Edition とグローバル版は未対応です。
+
 ### LDPlayer スクリーンショット強化モード
 
 LDPlayerの正式版9 V9.1.32 以降を使用する必要があります。<!-- V9.0.78 -->
@@ -236,18 +238,19 @@ LDPlayerの正式版9 V9.1.32 以降を使用する必要があります。<!-- 
 
 Android Emulator v27.2.9 以降が必要です。（アークナイツのリリース以降にダウンロードしたエミュレーターであれば大丈夫です。）
 
-AVD スクリーンショット強化モードは MaaFramework 内で実装されているため、MaaFramework のタッチモードを有効にすることが、この機能を利用する前提となります。
+AVD スクリーンショット強化モードは MaaFramework 内で実装されているため、MaaFwAdb のタッチモードを有効にすることが、この機能を利用する前提となります。
 
 1. `設定` - `接続設定` - `接続構成` で `Android Virtual Device (AVD)` を選択します。
 
-2. `タッチモード` で `MaaFramework` を選択します。
+2. `タッチモード` で `MaaFwAdb` を選択します。
 
 ## タッチモード
 
-1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：Android タッチイベントを操作するための C 言語で書かれたツールで、`evdev` デバイスを操作し、外部プログラムがタッチイベントとジェスチャーをトリガーできる Socket インターフェースを提供します。Android 10 以降、SELinux が `Enforcing` モードの場合、Minitouch は使用できなくなりました。<sup>[出典](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>
-2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：MAA による Java で Minitouch を再実装し、Android の `InputDevice` を使用し、追加の機能を付加しました。高バージョンの Android での利用可能性はまだテスト中です。~~テストを手伝ってください~~
-3. Adb Input：直接 ADB を呼び出して、Android の `input` コマンドを使用してタッチ操作を行います。最も互換性があり、最も遅い速度です。
-4. [MaaFramework](https://maafw.com/)：MaaFramework の制御ユニットのスクリーンショットとタッチ機能を呼び出します。利用可能性はまだテスト中です。~~テストを手伝ってください x2~~
+1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：Android タッチイベントを操作するための C 言語で書かれたツールで、`evdev` デバイスを操作し、外部プログラムがタッチイベントとジェスチャーをトリガーできる Socket インターフェースを提供します。Android 10 以降、SELinux が `Enforcing` モードの場合、Minitouch は使用できなくなりました。<sup>[出典](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>(標準)
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：MAA による Java で Minitouch を再実装し、Android の `InputDevice` を使用し、追加の機能を付加しました。(実験機能)
+3. ADB Input：直接 ADB を呼び出して、Android の `input` コマンドを使用してタッチ操作を行います。OS バージョンが古い物理デバイス専用で、他のモードが使える場合は選択しないでください。ADB Input のスワイプはズレやすいため、スワイプ速度が非常に遅く設定され、スワイプ距離も他のモードと異なります。正確な座標制御が必要な場面では使用できません。(非推奨)
+4. [MaaFwAdb](https://maafw.com/)：MaaFramework の制御ユニットのスクリーンショットとタッチ機能を呼び出します。追加スワイプ非対応：追加スワイプとは、メインスワイプの終了後に垂直方向へ少し追加分の｢ブレーキ｣スワイプを行うもので（軌跡は 90° に曲がる L 字型）、リストの慣性を打ち消すために使用され、追加スワイプでドラッグの暴走を防いでいるページはこのモードで暴走します。(実験機能)
+5. MuMu タッチ強化：MuMu の外部レンダラープロセスのタッチインターフェースを呼び出します。`MuMu のスクリーンショット拡張モードを有効にする` をチェックした後にのみタッチモードのドロップダウンに表示され、利用できない場合は自動的に Minitouch にフォールバックします（実験機能）。公式版 MuMu V6.3.2 以降が必要で、Arknights Edition とグローバル版は未対応です。
 
 ## ADB Lite
 

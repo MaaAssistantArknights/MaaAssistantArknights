@@ -179,17 +179,19 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 **版本要求**：官版/方舟專版 MuMu V4.1.26 及以上，或國際版 MuMu V5.21.3 及以上。<!-- 官版 V3.8.13 支援初版截圖增強 -->
 
-1. 在 `設定 - 連線設定` 勾選 `啟用 MuMu 截圖增強模式`，MAA 會嘗試自動獲取路徑。
+1. 在 `設定 - 連線設定` 勾選 `啟用 MuMu 截圖增強`，MAA 會嘗試自動獲取路徑。
 
 2. `MuMu 安裝路徑` 填寫 `MuMu Player` 或 `MuMuPlayerGlobal-12.0` 或 `YXArkNights-12.0` 資料夾路徑（例如 `C:\Program Files\Netease\MuMuPlayerGlobal-12.0`）。
 
 3. 若正在使用 MuMu 網路橋接，需勾選 `MuMu 網路橋接模式` 並手動填寫多開器內對應的模擬器序號，主多開為 `0`。
 
+**MuMu 觸控增強模式**：需官方版 MuMu V6.3.2 及以上，目前方舟專版與國際版均不支援。
+
 ### 雷電截圖增強模式
 
 需使用官版或國際版雷電模擬器 9 V9.1.32 及更新版本。<!-- 官版 V9.0.78 支援初版截圖增強 但存在高解析度失效問題 V9.1.29 修復-->
 
-1. 在 `設定 - 連線設定` 勾選 `啟用 LD 截圖增強模式`，MAA 會嘗試自動獲取路徑。
+1. 在 `設定 - 連線設定` 勾選 `啟用 LD 截圖增強`，MAA 會嘗試自動獲取路徑。
 
 2. `LD 模擬器路徑` 填寫 `LDPlayer9` 資料夾路徑（例如 `C:\leidian\LDPlayer9\`）。
 
@@ -199,18 +201,19 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 需使用 Android Emulator v27.2.9 及更新版本。（只要是方舟開服之後下載的就沒問題。）
 
-AVD 截圖增強模式在 MaaFramework 中實現，必須選擇 MaaFramework 觸控模式才能啟用 AVD 截圖增強。
+AVD 截圖增強模式在 MaaFramework 中實現，必須選擇 MaaFwAdb 觸控模式才能啟用 AVD 截圖增強。
 
 1. `設定` - `連線設定` - `連線配置` 選擇 `Android 虛擬裝置（AVD）`。
 
-2. `觸控模式` 選擇 `MaaFramework`。
+2. `觸控模式` 選擇 `MaaFwAdb`。
 
 ## 觸控模式
 
-1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：基於 C 語言編寫的 Android 觸控事件驅動程式，透過操作 `evdev` 裝置，提供 Socket 介面供外部程式觸發觸控事件與手勢。自 Android 10 開始，若系統的 SELinux 為 `Enforcing`（強制）模式，Minitouch 將無法運作。<sup>[來源](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>
-2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基於 Java 對 Minitouch 的重新實作，改用 Android 原生的 `InputDevice`介面，並加入額外特性。目前在高版本 Android 上的相容性仍待測試，~~幫我們做做測試~~。
-3. Adb Input：直接呼叫 ADB 執行 Android 內建的 `input` 指令來進行觸控操作。此方式的相容性最強，但執行速度最慢。
-4. [MaaFramework](https://maafw.com/)：呼叫 MaaFramework 控制單元的螢幕截圖和觸控功能。可用性尚待測試。~~幫我們做做測試 x2~~
+1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：基於 C 語言編寫的 Android 觸控事件驅動程式，透過操作 `evdev` 裝置，提供 Socket 介面供外部程式觸發觸控事件與手勢。自 Android 10 開始，若系統的 SELinux 為 `Enforcing`（強制）模式，Minitouch 將無法運作。<sup>[來源](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>（預設）
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基於 Java 對 Minitouch 的重新實作，改用 Android 原生的 `InputDevice`介面，並加入額外特性。（實驗功能）
+3. ADB Input：直接呼叫 ADB 執行 Android 內建的 `input` 指令來進行觸控操作，僅用於相容系統版本過低的實體機裝置，能用其他模式時不要選擇。ADB Input 的滑動容易拖飛，為避免此問題，滑動速度會設定得非常慢，且滑動距離與其他模式不同，在需要精確控制座標的場景下無法使用。（不推薦使用）
+4. [MaaFwAdb](https://maafw.com/)：呼叫 MaaFramework 控制單元的螢幕截圖和觸控功能。不支援額外滑動：額外滑動是主滑動結束後沿垂直方向追加一小段的 ｢剎車｣ 滑動（軌跡類似拐 90° 的 L 形），用於抵消列表慣性，依賴額外滑動防止拖飛的頁面在該模式下會拖飛。（實驗功能）
+5. MuMu 觸控增強：呼叫 MuMu 模擬器外部渲染程序的觸控介面，需勾選 `啟用 MuMu 截圖增強` 後才會出現在觸控模式下拉框中，不可用時自動回退為 Minitouch（實驗功能）。需官方版 MuMu V6.3.2 及以上，方舟專版與國際版暫不支援。
 
 ## ADB Lite
 

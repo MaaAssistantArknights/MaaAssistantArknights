@@ -59,7 +59,7 @@ MAA는 이 엔드포인트를 1초 간격으로 지속적으로 폴링하여 실
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   // 작업의 고유 ID
-            "type": "Settings-ConnectionAddress",           // 설정값 수정 작업. ConfigurationHelper.SetValue("ConnectionAddress", params)와 동일합니다. 보안을 위해 모든 설정을 수정할 수 있는 것은 아닙니다. 수정 가능한 설정은 아래를 참고하세요.
+            "type": "Settings-ConnectAddress",           // 설정값 수정 작업. ConfigurationHelper.SetValue("ConnectAddress", params)와 동일합니다. 보안을 위해 모든 설정을 수정할 수 있는 것은 아닙니다. 수정 가능한 설정은 아래를 참고하세요.
             "params": "value"                               // 수정할 값
         },
         // 즉시 실행 작업: 아래 작업들은 순차 실행 작업 도중에 실행될 수 있으며, MAA는 가능한 한 빨리 결과를 반환합니다.주로 원격 제어 기능 자체를 제어할 때 사용합니다.
@@ -88,7 +88,7 @@ MAA는 이 엔드포인트를 1초 간격으로 지속적으로 폴링하여 실
 - **LinkStart-[TaskName]** 유형의 `type` 선택 가능 값:
   `LinkStart-Base`, `LinkStart-WakeUp`, `LinkStart-Combat`, `LinkStart-Recruiting`, `LinkStart-Mall`, `LinkStart-Mission`, `LinkStart-AutoRoguelike`, `LinkStart-Reclamation`
 - **Settings-[SettingsName]** 유형의 `type` 선택 가능 값:
-  `Settings-ConnectionAddress`, `Settings-Stage1`
+  `Settings-ConnectAddress`, `Settings-Stage1`
 - **Settings** 시리즈 작업은 순차 실행 작업으로 간주되어, 수신 즉시 실행되지 않고 이전 작업이 끝난 뒤 실행됩니다.
 - 복수의 **즉시 실행 작업**도 전달된 순서대로 실행되지만, 실행 속도가 매우 빠르므로 순서는 크게 신경 쓰지 않아도 됩니다.
 

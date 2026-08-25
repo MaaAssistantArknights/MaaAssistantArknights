@@ -8,7 +8,7 @@ icon: teenyicons:linux-alt-solid
 **本教程需要读者有一定的 Linux 环境配置能力及编程基础！**，若您仅希望直接安装MAA而非自行编译，请阅读[用户手册 - Linux 模拟器与容器](../manual/device/linux.md)。
 
 ::: info 注意
-MAA 的构建方法仍在讨论中, 本教程的内容可能过时, 请以 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L224#:~:text=ubuntu%3A) 中的脚本为准。  
+MAA 的构建方法仍在讨论中, 本教程的内容可能过时, 请以 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L264#:~:text=ubuntu%3A) 中的脚本为准。  
 你也可参考 [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) 或 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)。
 :::
 
@@ -80,7 +80,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译
    cmake --install build --prefix <target_directory>
    ```
 
-4. 若需调试 MaaFwAdbController（MaaFramework 触控模式）相关功能，需要[自行编译 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，将 `libMaaAdbControlUnit.so` 放到安装目录下。
+4. 若需调试 MaaFwAdbController（MaaFwAdb 触控模式）相关功能，需要[自行编译 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，将 `libMaaAdbControlUnit.so` 放到安装目录下。
    ::::
 
 ## 集成文档
@@ -89,12 +89,12 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译
 
 ### Python
 
-可参考 [Python demo](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/sample.py) 中 `__main__` 的实现
+可参考 [Python demo](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Python/sample.py) 中 `__main__` 的实现
 
 ### C++
 
-可参考 [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp) 中的实现
+可参考 [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Cpp/main.cpp) 中的实现
 
 ### C\#
 
-可参考 [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs) 中的实现
+可参考 [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Main/AsstProxy.cs) 中的实现

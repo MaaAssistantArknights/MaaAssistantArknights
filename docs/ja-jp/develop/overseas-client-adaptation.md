@@ -99,8 +99,8 @@ task.json`ファイルに記載されているテンプレート画像を参照�
 
 例
 
-- ENクライアントの `task.json` の場所は `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks.json`.
-- 大陸版クライアントの `task.json` の場所は `MaaAssistantArknights\resource\tasks.json`.
+- ENクライアントの `task.json` の場所は `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks\tasks.json`.
+- 大陸版クライアントの `task.json` の場所は `MaaAssistantArknights\resource\tasks\tasks.json`.
 
 テキストを変更するには、対応するタスクを探し、`text`フィールドを対応するサーバーに表示されている内容に変更します。特定された内容は、ゲーム内の完全な内容の部分文字列である可能性があることに留意してください。一般的には、純粋なASCII文字として認識されない限り、テキストを含む`text`はすべて置き換える必要があります。
 
@@ -112,7 +112,7 @@ task.json`ファイルに記載されているテンプレート画像を参照�
 
 ROIの範囲を変更するには
 
-1. 対応するサーバーの `task.json` ファイルを開く。例えば、ENクライアントの `task.json` ファイルの場所は `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks.json`。
+1. 対応するサーバーの `task.json` ファイルを開く。例えば、ENクライアントの `task.json` ファイルの場所は `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks\tasks.json`。
 2. 修正したいROI範囲に対応するタスクを探し、該当クライアントのスクリーンショットを使用して、増幅されたROIに応じて`roi`範囲のサイズを調整する。
 3. 通常、`roi`の範囲を修正する必要はありませんが、テキストと大陸版のサイズの差が大きすぎる場合、修正する必要があるかもしれません。
 4. 対応する海外クライアントの `task.json` ファイルにタスクが存在しない場合、タスクを追加し、 `roi` フィールドに適切な値を書き込みます。

@@ -276,7 +276,7 @@ v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.
 
 </details>
 
-일부 소수 자원 스테이지명도 지원합니다. [통합 예시](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/zh-cn.xaml#L260)를 참고하세요
+일부 소수 자원 스테이지명도 지원합니다.
 
 - `Recruit`  
   공개 모집
@@ -730,7 +730,9 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 `Sarkaz` - 살카즈의 영겁 기담
 <br>
-`JieGarden` - 쉐이의 기이한 계원  
+`JieGarden` - 쉐이의 기이한 계원
+<br>
+`BlackFlow` - 블랙 플로우  
 :::  
 ::: field mode  
 @type number
@@ -752,7 +754,9 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 `6` - 월간 소대 보상 파밍, 모드 적응 외엔 모드 0과 동일
 <br>
-`7` - 심층 조사 보상 파밍, 모드 적응 외엔 모드 0과 동일  
+`7` - 심층 조사 보상 파밍, 모드 적응 외엔 모드 0과 동일
+<br>
+`30001` - 포대기 동물 파밍, BlackFlow 테마 전용  
 :::  
 ::: field squad  
 @type string
@@ -791,9 +795,9 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 :::  
 ::: field difficulty  
 @type number
-@default 0
+@default -1
 @optional
-지정 난이도 등급. 미해금 시 현재 해금된 최고 난이도 선택  
+지정 난이도 등급, `-1`는 미지정. 미해금 시 현재 해금된 최고 난이도 선택  
 :::  
 ::: field stop_at_final_boss  
 @type boolean
@@ -936,14 +940,30 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 파밍 중 사용할 분대, 기본적으로 squad와 동기화, squad가 비었고 이 값도 없으면 지휘 분대  
 :::  
 ::: field start_with_seed  
-@type boolean
-@default false
+@type string
 @optional
-시드를 사용하여 각뿔 파밍
+시드 파밍에 사용할 고정 시드, 비워 두면 비활성화
 <br>
-Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 때만 true 가능
+Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 때만 유효  
+:::  
+::: field blackflow_strategy  
+@type string
+@optional
+블랙 플로우 테마의 전략. 비워 두면 `mode`와 `investment_enabled` 값으로부터 추론됩니다.
 <br>
-고정 시드 사용  
+`baby_animal` - 1층에서 일반 상점을 확인한 뒤, 2·3층을 탐색하여 秘境行商(비밀 상인)에서 씨앗을 육성합니다. `blackflow_cultivation_target`와 함께 사용해야 합니다
+<br>
+`investment` - 1층에서 전투 횟수가 가장 적고 예상 시간이 가장 짧은 경로로 고정 일반 상점에 도달합니다
+<br>
+`burn_with_investment` - 1층에서 투자를 완료한 후 최대한 빨리 3층에 도달하여 도착 즉시 재시작합니다
+<br>
+`burn` - 최대한 빨리 3층에 도달하여 도착 즉시 재시작합니다  
+:::  
+::: field blackflow_cultivation_target  
+@type string
+@default swaddled_cat
+@optional
+포대기 동물 파밍 모드의 목표. 선택 가능한 값: `swaddled_cat`(포대기의 고양이) | `swaddled_feathered_serpent`(포대기의 깃털 뱀) | `swaddled_dog`(포대기의 개) | `swaddled_cerberus`(포대기의 케르베로스). `blackflow_strategy`가 `baby_animal`일 때만 사용됩니다.  
 :::  
 ::::
 
@@ -992,7 +1012,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
    "deep_exploration_auto_iterate": false,
    "collectible_mode_shopping": false,
    "collectible_mode_squad": "",
-   "start_with_seed": false
+   "start_with_seed": ""
 }
 ```
 
@@ -1062,7 +1082,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
   <br>
 - `name`: 오퍼레이터명, 선택 사항, 기본값 "", 비워두면 무시됨
   <br>
-- `skill`: 휴대 스킬, 선택 사항, 기본값 1; 1–3 정수, 범위 벗어나면 게임 내 기본 스킬 선택 따름  
+- `skill`: 휴대 스킬, 선택 사항, 기본값 0 (게임 내 기본 스킬 선택 따름); 1–3 정수, 범위 벗어나면 게임 내 기본 스킬 선택 따름  
   :::  
   ::: field add_trust  
   @type boolean
@@ -1586,7 +1606,7 @@ Value
 @type string
 @default minitouch
 @optional
-터치 모드 설정. 옵션: minitouch | maatouch | adb | MaaFwAdb. 기본값 minitouch. 열거값: 2  
+터치 모드 설정. 옵션: minitouch | maatouch | adb | MaaFwAdb | MumuExtras. 기본값 minitouch. 열거값: 2  
 :::  
 ::: field DeploymentWithPause  
 @type boolean

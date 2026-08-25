@@ -193,6 +193,8 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
 
 3. MuMu 네트워크 브리징을 사용 중인 경우 `MuMu 네트워크 브리징 모드`를 선택한 후 MuMu 멀티 인스턴스 관리자에서 해당 에뮬레이터의 일련 번호를 수동으로 입력해야 합니다. 예를 들어, 주 인스턴스는 `0`입니다.
 
+**MuMu 터치 강화 모드**: 공식 MuMu V6.3.2 이상이 필요하며, 현재 Arknights Edition과 글로벌 버전은 지원되지 않습니다.
+
 ### LD 스크린샷 향상 모드
 
 공식 또는 국제판(International) LD Player 9 V9.1.32 이상 버전이 지원됩니다. <!-- V9.0.78 -->
@@ -207,18 +209,19 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
 
 需使用 Android Emulator v27.2.9 及更新版本。（只要是方舟开服之后下载的就没问题。）
 
-因为 AVD 截图增强模式在 MaaFramework 中实现，所以必须选择 MaaFramework 触控模式才能启用 AVD 截图增强。
+因为 AVD 截图增强模式在 MaaFramework 中实现，所以必须选择 MaaFwAdb 触控模式才能启用 AVD 截图增强。
 
 1. `设置` - `连接设置` - `连接配置` 选择 `Android 虚拟设备（AVD）`。
 
-2. `触控模式` 选择 `MaaFramework`。
+2. `触控模式` 选择 `MaaFwAdb`。
 
 ## 터치 모드
 
-1. [Minitouch](https://github.com/DeviceFarmer/minitouch): C로 작성된 Android 터치 이벤트 핸들러로, 외부 프로그램이 터치 이벤트와 제스처를 트리거할 수 있는 소켓 인터페이스를 제공합니다. Android 10부터는 SELinux가 `Enforcing` 모드일 때 Minitouch가 더 이상 사용되지 않습니다.
-2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch): MAA가 Java 기반으로 Minitouch를 재구현한 것입니다. 높은 버전의 Android에서도 사용 가능성이 테스트 중입니다.
-3. Adb Input: ADB 명령어를 직접 호출하여 터치 작업을 수행하며, 호환성이 가장 좋지만, 속도는 가장 느립니다.
-4. [MaaFramework](https://maafw.com/): 调用 MaaFramework 控制单元的截图和触控功能。可用性尚待测试。~~帮我们做做测试 x2~~
+1. [Minitouch](https://github.com/DeviceFarmer/minitouch): C로 작성된 Android 터치 이벤트 핸들러로, 외부 프로그램이 터치 이벤트와 제스처를 트리거할 수 있는 소켓 인터페이스를 제공합니다. Android 10부터는 SELinux가 `Enforcing` 모드일 때 Minitouch가 더 이상 사용되지 않습니다. (기본값)
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch): MAA가 Java 기반으로 Minitouch를 재구현한 것입니다. (실험적)
+3. ADB Input: ADB 명령어를 직접 호출하여 터치 작업을 수행합니다. OS 버전이 낮은 물리적 기기 전용이며, 다른 모드를 사용할 수 있다면 선택하지 마세요. ADB Input 스와이프는 오프셋이 발생하기 쉬워, 이 문제를 방지하기 위해 스와이프 속도가 매우 느리게 설정되고 스와이프 거리도 다른 모드와 다릅니다. 정확한 좌표 제어가 필요한 상황에서는 사용할 수 없습니다. (비권장)
+4. [MaaFwAdb](https://maafw.com/): 调用 MaaFramework 控制单元的截图和触控功能。추가 스와이프 미지원: 추가 스와이프는 메인 스와이프가 끝난 후 수직 방향으로 짧게 덧붙이는 ｢브레이크｣ 스와이프(궤적이 90° 꺾이는 L자 형태)로, 목록 관성을 상쇄하는 데 사용되며, 추가 스와이프로 드래그 과다를 방지하는 페이지는 이 모드에서 과다하게 드래그됩니다. (실험적)
+5. MuMu 터치 강화: MuMu의 외부 렌더러 프로세스의 터치 인터페이스를 호출합니다. `MuMu 스크린샷 강화 기능 활성화`를 체크해야 터치 모드 드롭다운에 표시되며, 사용할 수 없으면 자동으로 Minitouch로 대체됩니다(실험적). 공식 MuMu V6.3.2 이상이 필요하며, Arknights Edition과 글로벌 버전은 지원되지 않습니다.
 
 ## ADB Lite
 

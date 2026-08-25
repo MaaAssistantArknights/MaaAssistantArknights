@@ -12,7 +12,7 @@ icon: ri:game-fill
 ## 肉鸽资源存放位置
 
 - `resource/roguelike/` 下按照主题存放各个肉鸽的作业资源
-  - 主题文件夹：`Phantom/` 为傀影肉鸽资源，`Mizuki/` 为水月肉鸽资源, `Sami/` 为萨米肉鸽资源，`Sarkaz/` 为萨卡兹肉鸽资源，`JieGarden/` 为界园肉鸽资源
+  - 主题文件夹：`Phantom/` 为傀影肉鸽资源，`Mizuki/` 为水月肉鸽资源, `Sami/` 为萨米肉鸽资源，`Sarkaz/` 为萨卡兹肉鸽资源，`JieGarden/` 为界园肉鸽资源，`BlackFlow/` 为黑流树海肉鸽资源
     - `autopilot/` 内是各个关卡的作战 json
       - `关卡名.json` 关卡的作战逻辑
     - `encounter/` 内是不期而遇类（所有非战斗和商店节点）事件逻辑

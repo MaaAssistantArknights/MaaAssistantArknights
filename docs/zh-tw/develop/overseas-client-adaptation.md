@@ -99,8 +99,8 @@ amplified roi: 426, 272, 177, 201
 
 例如：
 
-- 美服的 `task.json` 位置為 `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks.json`。
-- 官服的 `task.json` 位置為 `MaaAssistantArknights\resource\tasks.json`。
+- 美服的 `task.json` 位置為 `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks\tasks.json`。
+- 官服的 `task.json` 位置為 `MaaAssistantArknights\resource\tasks\tasks.json`。
 
 找到對應任務後，將 `text` 欄位修改為該客戶端內顯示的內容。請注意，辨識內容可以是遊戲中完整內容的部分字串。
 
@@ -110,7 +110,7 @@ amplified roi: 426, 272, 177, 201
 
 ## 修改 ROI 範圍
 
-1. 開啟對應客戶端的 `task.json`（例如美服路徑： `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks.json`）。
+1. 開啟對應客戶端的 `task.json`（例如美服路徑： `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks\tasks.json`）。
 2. 找到對應需要修改 `roi` 範圍的任務，使用您準備好的外服截圖，根據 `amplified roi` 數值來調整 `roi` 的範圍大小。
 3. 通常情況下 `roi` 不需要修改，只有當辨識內容與官服的大小差距過大時才需要調整。
 4. 若外服客戶端的 `task.json` 中該任務不存在，則手動新增並填上 `roi` 欄位。

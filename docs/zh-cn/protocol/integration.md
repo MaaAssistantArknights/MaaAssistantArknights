@@ -744,7 +744,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `Sarkaz` - 萨卡兹的无终奇语
 <br>
-`JieGarden` - 岁的界园志异  
+`JieGarden` - 岁的界园志异
+<br>
+`BlackFlow` - 黑流树海  
 :::  
 ::: field mode  
 @type number
@@ -767,6 +769,8 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 `6` - 刷月度小队蚊子腿，除了针对模式的适配以外和模式 0 相同。
 <br>
 `7` - 刷深入调查蚊子腿，除了针对模式的适配以外和模式 0 相同。
+<br>
+`30001` - 刷襁褓动物；仅适用于 BlackFlow 主题。
 :::  
 ::: field squad  
 @type string
@@ -805,9 +809,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field difficulty  
 @type number
-@default 0
+@default -1
 @optional
-指定难度等级。若未解锁难度，则会选择当前已解锁的最高难度。  
+指定难度等级，`-1` 表示不指定难度。若指定难度未解锁，则会选择当前已解锁的最高难度。  
 :::  
 ::: field stop_at_final_boss  
 @type boolean
@@ -950,14 +954,30 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 烧水时使用的分队, 默认与squad同步, 当squad为空字符串且未指定collectible_mode_squad值时为指挥分队。  
 :::  
 ::: field start_with_seed  
-@type boolean
-@default false
+@type string
 @optional
-使用种子刷钱。
+使用种子刷钱时填入固定种子，留空则不启用。
 <br>
-仅在 Sarkaz 主题，Investment 模式，“点刺成锭分队” or “后勤分队” 时可能为 true。
+仅在 Sarkaz 主题，Investment 模式，“点刺成锭分队” or “后勤分队” 时生效。  
+:::  
+::: field blackflow_strategy  
+@type string
+@optional
+黑流树海主题的策略；留空时按 `mode` 与 `investment_enabled` 推断。
 <br>
-使用固定种子。  
+`baby_animal` - 第一层检查普通商店，第二、三层探索并进入秘境行商培育种子，需配合 `blackflow_cultivation_target`
+<br>
+`investment` - 第一层以战斗次数最少、预计时间最短的完整路线抵达固定普通商店
+<br>
+`burn_with_investment` - 第一层完成投资后尽快抵达第三层，到达即重开
+<br>
+`burn` - 尽快抵达第三层，到达即重开  
+:::  
+::: field blackflow_cultivation_target  
+@type string
+@default swaddled_cat
+@optional
+刷襁褓动物模式的目标。可选值：`swaddled_cat` | `swaddled_feathered_serpent` | `swaddled_dog` | `swaddled_cerberus`；仅在 `blackflow_strategy` 为 `baby_animal` 时使用。  
 :::  
 ::::
 
@@ -1006,7 +1026,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    "deep_exploration_auto_iterate": false,
    "collectible_mode_shopping": false,
    "collectible_mode_squad": "",
-   "start_with_seed": false
+   "start_with_seed": ""
 }
 ```
 
@@ -1077,7 +1097,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
   <br>
 - `name`: 干员名，可选，默认值 ""，若留空则忽视此干员
   <br>
-- `skill`: 需要携带的技能，可选，默认值 1；为 1–3 的整数，若不在此范围内则遵从游戏内默认的技能选择  
+- `skill`: 需要携带的技能，可选，默认值 0，即遵从游戏内默认的技能选择；为 1–3 的整数，若不在此范围内也遵从游戏内默认的技能选择  
   :::  
   ::: field add_trust  
   @type boolean
@@ -1601,7 +1621,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 @type string
 @default minitouch
 @optional
-触控模式设置。可选值：minitouch | maatouch | adb | MaaFwAdb。默认 minitouch。枚举值：2。  
+触控模式设置。可选值：minitouch | maatouch | adb | MaaFwAdb | MumuExtras。默认 minitouch。枚举值：2。  
 :::  
 ::: field DeploymentWithPause  
 @type boolean

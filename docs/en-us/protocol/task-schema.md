@@ -152,6 +152,9 @@ Please note that JSON files do not support comments. The comments in this docume
                                             // When false, substring is sufficient: e.g., text: [ "开始" ], recognized "开始行动" is success
                                             // When true, must recognize exactly "开始", not one character more
 
+        "replaceFull": false,               // Optional, whether ocrReplace replaces the entire recognized text on match, default false
+                                            // When false, only the matched substring is replaced; when true, if the entire text matches any replacement rule, the whole text is replaced with that rule's replacement value
+
         "isAscii": false,                   // Optional, whether text content is ASCII characters
                                             // Default false
 

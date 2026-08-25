@@ -101,8 +101,8 @@ Before modifying text content, you need to open the corresponding server's `task
 
 For example:
 
-- EN client `task.json` location: `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks.json`.
-- CN client `task.json` location: `MaaAssistantArknights\resource\tasks.json`.
+- EN client `task.json` location: `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks\tasks.json`.
+- CN client `task.json` location: `MaaAssistantArknights\resource\tasks\tasks.json`.
 
 Find the corresponding task and modify the `text` field to content displayed in the corresponding server. Note that recognized content can be a substring of complete in-game content.
 
@@ -112,7 +112,7 @@ If the corresponding overseas client `task.json` doesn't have the task, you need
 
 ## Modifying ROI Range
 
-1. Open the corresponding server's `task.json`, such as EN client location `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks.json`
+1. Open the corresponding server's `task.json`, such as EN client location `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks\tasks.json`
 2. Find the corresponding task that needs `roi` range modification, use your prepared overseas game interface screenshots, and adjust `roi` range size according to `amplified roi`.
 3. Usually, `roi` doesn't need modification, only when recognition content size difference with CN client is too large.
 4. If the corresponding overseas client `task.json` doesn't have the task, add the task and write the `roi` field.

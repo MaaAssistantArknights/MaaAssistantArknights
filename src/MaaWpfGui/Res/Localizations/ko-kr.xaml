@@ -552,9 +552,9 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="MiniTouchMode">Minitouch (기본값)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (실험적)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (비권장)</system:String>
-    <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (실험적)</system:String>
+    <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb (실험적)</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu 터치 (실험적)</system:String>
-    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input는 OS 버전이 낮은 물리적 기기 전용입니다. 다른 모드를 사용할 수 있다면 ADB Input를 선택하지 마세요.&#10;ADB Input 스와이프는 오프셋이 발생하기 쉬우며, 이 문제를 방지하기 위해 스와이프 속도가 매우 느리게 설정되고 스와이프 거리도 다른 모드와 다릅니다. 정확한 좌표 제어가 필요한 상황에서는 사용할 수 없습니다.</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input는 OS 버전이 낮은 물리적 기기 전용입니다. 다른 모드를 사용할 수 있다면 ADB Input를 선택하지 마세요.&#10;ADB Input 스와이프는 오프셋이 발생하기 쉬워 스와이프 속도가 매우 느리게 설정되고 스와이프 거리도 다른 모드와 다릅니다. 정확한 좌표 제어가 필요한 상황에서는 사용할 수 없습니다.&#10;&#10;MaaFwAdb는 추가 스와이프를 지원하지 않아, 추가 스와이프로 드래그 과다를 방지하는 페이지는 이 모드에서 과다하게 드래그됩니다.&#10;추가 스와이프는 메인 스와이프가 끝난 후 수직 방향으로 짧게 덧붙이는 ｢브레이크｣ 스와이프(궤적이 90° 꺾이는 L자 형태)로, 목록 관성을 상쇄하는 데 사용됩니다.</system:String>
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">에뮬레이터 실행 매개변수 추가 명령 (예: ｢--instance 1｣ 은 1 번 인스턴스).&#10;명령 형식은 에뮬레이터마다 다르며 일반적으로 인스턴스 번호나 창 모드 등을 포함합니다.</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
@@ -756,7 +756,7 @@ nx_device/12.0/shell/sdk/external_renderer_ipc.dll 또는
 shell/sdk/external_renderer_ipc.dll\n
 설치 폴더를 확인하세요.</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu / MuMu Arknights V4.0.0 이상 버전이 필요합니다. MuMu Global은 V5.21.3 이상 버전이 필요합니다.
+MuMu / MuMu Arknights V4.1.26 이상 버전이 필요합니다. MuMu Global은 V5.21.3 이상 버전이 필요합니다.
 이 기능을 활성화한 후 즉시 스크린샷 테스트를 실행하는 것을 강력히 권장합니다.
 MAA는 레지스트리를 통해 설치 경로를 자동으로 가져옵니다. 가져오지 못한 경우 수동으로 입력해 주세요.\n
 설치 경로는 에뮬레이터 경로의 최상위 폴더를 입력해야 합니다. 예를 들어, 에뮬레이터 프로세스 파일 경로가

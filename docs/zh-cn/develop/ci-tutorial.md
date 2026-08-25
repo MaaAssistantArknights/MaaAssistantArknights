@@ -17,7 +17,6 @@ MAA 借助 GitHub Action 完成了大量的自动化工作，包括网站的构�
 
 - [代码测试](#代码测试)
 - [代码构建](#代码构建)
-- [代码安全检查](#代码安全检查)
 - [版本发布](#版本发布)
 - [资源更新](#资源更新)
 - [网站构建](#网站构建)
@@ -44,25 +43,9 @@ MAA 借助 GitHub Action 完成了大量的自动化工作，包括网站的构�
 
 本工作流负责对代码进行全量构建工作，包含 MAA 的所有组件，构建成品即为可运行的 MAA。
 
-除了必要的 MaaCore 外，Windows 构建产物会包含 MaaWpfGui，MacOS 构建产物会包含 MaaMacGui，Linux 构建产物会包含 MaaCLI。
+除了必要的 MaaCore 外，Windows 构建产物会包含 MaaWpfGui，MacOS 构建产物会包含 MaaMacGui，Linux 构建产物会包含 MaaCLI，此外还会构建 Android 版 MaaCore。
 
-该工作流在出现任何新 Commit 以及 PR 时都会自动运行，且当该工作流由发版 PR 触发时，本次的构建产物将会直接用于发版，并且会创建一个 Release。
-
-### 代码安全检查
-
-代码安全检查通过 CodeQL 对代码和工作流进行安全分析，具体工作流如下：
-
-`codeql-core.yml`
-
-本工作流负责对 MaaCore 和 MaaWpfGui 的 C++ 和 C# 代码进行安全分析，检测潜在的安全漏洞。
-
-该工作流在修改相关源代码的 PR 时自动运行，同时每天 UTC 时间 11:45 自动执行定期检查。
-
-`codeql-wf.yml`
-
-本工作流负责对 GitHub Actions 工作流文件本身进行安全分析，确保 CI/CD 流程的安全性。
-
-该工作流在修改工作流文件的 PR 时自动运行，同时每天 UTC 时间 12:00 自动执行定期检查。
+该工作流在 `dev-v2` 分支出现触碰源码或构建脚本的新提交以及 PR 时自动运行。当工作流由版本 tag 触发时（tag 由发版 PR 合并后 `pr-auto-tag.yml` 创建），本次的构建产物将会直接用于发版，并且会创建一个 Release。
 
 ### 版本发布
 
