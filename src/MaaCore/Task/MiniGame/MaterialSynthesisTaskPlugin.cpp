@@ -91,8 +91,8 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         return Result::InsufficientResources;
     }
 
-    // 根配方由用户手动打开，即使页面识别异常也不能从根配方返回。
-    const bool has_parent = depth > 0 && detect_task("MiniGame@MaterialSynthesis@HasParent");
+    // 根配方由用户手动打开；递归进入的材料必然有父配方，不依赖返回箭头模板判断层级。
+    const bool has_parent = depth > 0;
     Result result = Result::Completed;
     while (!need_exit()) {
         if (detect_task("MiniGame@MaterialSynthesis@Satisfied")) {
@@ -235,9 +235,12 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
     if (result != Result::Completed) {
         return result;
     }
-    if (has_parent && (!run_task("MiniGame@MaterialSynthesis@ReturnToParent") ||
-                       !detect_task("MiniGame@MaterialSynthesis@Workshop"))) {
-        return Result::NavigationFailed;
+    if (has_parent) {
+        Log.info("MaterialSynthesis | return to parent recipe", depth);
+        if (!run_task("MiniGame@MaterialSynthesis@ReturnToParent") ||
+            !detect_task("MiniGame@MaterialSynthesis@Workshop")) {
+            return Result::NavigationFailed;
+        }
     }
     return Result::Completed;
 }
