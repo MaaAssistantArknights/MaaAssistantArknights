@@ -15,6 +15,9 @@ bool asst::ItemConfig::parse(const json::value& json)
         std::string name = item_json.at("name").as_string();
         m_item_name.emplace(id, std::move(name));
         m_all_item_id.emplace(id);
+        if (auto level_opt = item_json.find<int>("level")) {
+            m_item_level.emplace(id, *level_opt);
+        }
         if (item_json.at("classifyType").as_string() == "MATERIAL") {
             material_sortid.emplace(id, item_json.at("sortId").as_integer());
         }
@@ -23,7 +26,7 @@ bool asst::ItemConfig::parse(const json::value& json)
     m_ordered_material_item_id.clear();
     m_ordered_material_item_id.reserve(material_sortid.size());
     std::ranges::copy(material_sortid | std::views::keys, std::back_inserter(m_ordered_material_item_id));
-    std::ranges::sort(m_ordered_material_item_id, std::less {}, [&](const std::string& name) -> int {
+    std::ranges::sort(m_ordered_material_item_id, std::less { }, [&](const std::string& name) -> int {
         return material_sortid[name];
     });
 
@@ -33,6 +36,7 @@ bool asst::ItemConfig::parse(const json::value& json)
 void asst::ItemConfig::clear()
 {
     m_item_name.clear();
+    m_item_level.clear();
     m_all_item_id.clear();
     m_ordered_material_item_id.clear();
 }
