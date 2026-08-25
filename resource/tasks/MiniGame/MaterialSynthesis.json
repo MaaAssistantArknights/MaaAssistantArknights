@@ -1,7 +1,9 @@
 {
     "MiniGame@MaterialSynthesis@Begin": {
         "doc": "从目标材料的加工站合成页开始，由插件递归补齐下级材料",
-        "algorithm": "JustReturn"
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": []
     },
     "MiniGame@MaterialSynthesis@Workshop": {
         "template": "ProcessingFlag.png",
@@ -56,18 +58,22 @@
         "roi": [794, 553, 181, 127]
     },
     "MiniGame@MaterialSynthesis@Increase": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [1055, 270, 36, 36],
+        "template": "ProcessingIncrease.png",
+        "roi": [1008, 224, 133, 127],
+        "action": "ClickSelf",
         "postDelay": 100
     },
     "MiniGame@MaterialSynthesis@Decrease": {
-        "baseTask": "MiniGame@MaterialSynthesis@Increase",
-        "specificRect": [1055, 463, 36, 36]
+        "template": "ProcessingDecrease.png",
+        "roi": [1007, 417, 133, 126],
+        "action": "ClickSelf",
+        "postDelay": 100
     },
     "MiniGame@MaterialSynthesis@NoOperator": {
         "template": "ProcessingNoOperator.png",
-        "roi": [7, 233, 231, 248]
+        "roi": [7, 233, 231, 248],
+        "action": "ClickSelf",
+        "postDelay": 900
     },
     "MiniGame@MaterialSynthesis@LowMood": {
         "template": "ProcessingOperatorLowMood.png",
@@ -85,17 +91,18 @@
         "postDelay": 900
     },
     "MiniGame@MaterialSynthesis@Start": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [1020, 590, 100, 80],
-        "postDelay": 1000
+        "template": "ProcessingStart.png",
+        "roi": [934, 549, 346, 171],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["MiniGame@MaterialSynthesis@Obtain"]
     },
     "MiniGame@MaterialSynthesis@Obtain": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [560, 610, 160, 90],
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "next": [],
         "preDelay": 1200,
-        "postDelay": 800
+        "postDelay": 1500
     },
     "MiniGame@MaterialSynthesis@Satisfied": {
         "template": "ProcessingSatisfied.png",
