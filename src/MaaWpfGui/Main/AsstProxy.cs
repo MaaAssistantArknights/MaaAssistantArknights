@@ -286,16 +286,6 @@ public class AsstProxy
         return await AsstGetImageAsync(forceScreencap: true);
     }
 
-    public async Task<(BitmapImage? Image, long ScreencapCostMs)> AsstGetFreshImageWithCostAsync()
-    {
-        var stopwatch = Stopwatch.StartNew();
-        MaaService.AsstAsyncScreencap(_handle, true);
-        stopwatch.Stop();
-
-        var image = await AsstGetImageAsync(_handle);
-        return (image, stopwatch.ElapsedMilliseconds);
-    }
-
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
     public static unsafe byte[]? AsstGetImageBgrData(AsstHandle handle)
     {
@@ -1203,6 +1193,41 @@ public class AsstProxy
         _sanityRecoveryTimer = null;
     }
 
+    private void ProcAsyncCallInfo(JObject details)
+    {
+        if (!string.Equals(details["what"]?.ToString(), "Screencap", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        var connectSettings = SettingsViewModel.ConnectSettings;
+        if (!connectSettings.IsPCConnectConfig)
+        {
+            return;
+        }
+
+        if (details["details"]?["ret"]?.ToObject<bool>() != true)
+        {
+            return;
+        }
+
+        var cost = details["details"]?["cost"]?.ToObject<long>() ?? 0;
+        if (cost <= 0)
+        {
+            return;
+        }
+
+        var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
+        connectSettings.ScreencapCost = LocalizationHelper.GetStringFormat("ScreencapCost", cost, cost, cost, currentTime);
+
+        var screencapMethod = connectSettings.ExtraConfig is Win32Extra win32Extra
+            ? win32Extra.ScreencapMethod.ToString()
+            : ConnectConfig.PC.ToString();
+        connectSettings.ScreencapMethod = screencapMethod;
+        connectSettings.ScreencapTestCost = LocalizationHelper.GetStringFormat("FastestWayToScreencap", cost, screencapMethod);
+        connectSettings.TestLinkInfo = connectSettings.ScreencapTestCost;
+    }
+
     private void ProcTaskChainMsg(AsstMsg msg, JObject details)
     {
         string taskChain = details["taskchain"]?.ToString() ?? string.Empty;
@@ -1484,6 +1509,7 @@ public class AsstProxy
                 break;
 
             case AsstMsg.AsyncCallInfo:
+                ProcAsyncCallInfo(details);
                 break;
 
             case AsstMsg.Destroyed:

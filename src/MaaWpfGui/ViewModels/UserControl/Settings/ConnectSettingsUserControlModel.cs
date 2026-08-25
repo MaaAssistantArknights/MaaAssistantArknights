@@ -559,27 +559,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        var (testLinkImage, screencapCost) = await Instances.AsstProxy.AsstGetFreshImageWithCostAsync();
-        TestLinkImage = testLinkImage;
+        TestLinkImage = await Instances.AsstProxy.AsstGetImageAsync(forceScreencap: true);
         _runningState.SetIdle(true);
 
         if (TestLinkImage is null)
         {
             TestLinkInfo = "Image is null";
             return;
-        }
-
-        // PC端这里直接测量截图测试的耗时并在界面上显示
-        if (IsPCConnectConfig)
-        {
-            var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
-            ScreencapCost = LocalizationHelper.GetStringFormat("ScreencapCost", screencapCost, screencapCost, screencapCost, currentTime);
-
-            var screencapMethod = ExtraConfig is Win32Extra win32Extra
-                ? win32Extra.ScreencapMethod.ToString()
-                : ConnectConfig.PC.ToString();
-            ScreencapMethod = screencapMethod;
-            ScreencapTestCost = LocalizationHelper.GetStringFormat("FastestWayToScreencap", screencapCost, screencapMethod);
         }
 
         switch (ConnectConfig)
