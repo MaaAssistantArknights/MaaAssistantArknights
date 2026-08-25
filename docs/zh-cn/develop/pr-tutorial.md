@@ -147,7 +147,7 @@ icon: mingcute:git-pull-request-fill
    ]" />
 
 10. 这时候来到了主仓库的 PR 页面，请核对一下你要 PR 的是不是你想提交的  
-    如图中，中间有个向左的箭头，是将右边的 个人姓名/MAA 的 dev 分支，申请合并到 主仓库/MAA 的 dev 分支  
+    如图中，中间有个向左的箭头，是将右边的 个人姓名/MAA 的 dev-v2 分支，申请合并到 主仓库/MAA 的 dev-v2 分支  
     而往下翻则是这两个分支之间的差异，即你都改了什么
 
     <ImageGrid :imageList="[

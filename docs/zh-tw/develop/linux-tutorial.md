@@ -8,7 +8,7 @@ icon: teenyicons:linux-alt-solid
 **本教學需要讀者具備一定的 Linux 環境配置能力與程式設計基礎！** 若您僅希望直接安裝 MAA 而非自行編譯，請參閱[用戶手冊 - Linux 模擬器與容器](../manual/device/linux.md)。
 
 ::: info 注意
-MAA 的建置方法仍在討論中，本教學內容可能過時，請以 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L224#:~:text=ubuntu%3A) 中的腳本為準。  
+MAA 的建置方法仍在討論中，本教學內容可能過時，請以 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L264#:~:text=ubuntu%3A) 中的腳本為準。  
 您也可以參考 [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) 或 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)。
 :::
 
@@ -80,7 +80,7 @@ Mac 使用者可以使用 `tools/build_macos_universal.zsh` 腳本進行編譯�
    cmake --install build --prefix <target_directory>
    ```
 
-4. 若需針對 MaaFwAdbController（MaaFramework 觸控模式）相關功能進行除錯，需要[自行編譯 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，將 `libMaaAdbControlUnit.so` 放到安裝目錄下。
+4. 若需針對 MaaFwAdbController（MaaFwAdb 觸控模式）相關功能進行除錯，需要[自行編譯 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，將 `libMaaAdbControlUnit.so` 放到安裝目錄下。
 
 ::::
 
@@ -90,12 +90,12 @@ Mac 使用者可以使用 `tools/build_macos_universal.zsh` 腳本進行編譯�
 
 ### Python
 
-可參考 [Python demo](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/sample.py) 中 `__main__` 中的實作方式。
+可參考 [Python demo](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Python/sample.py) 中 `__main__` 中的實作方式。
 
 ### C++
 
-可參考 [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp) 中的實作方式。
+可參考 [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Cpp/main.cpp) 中的實作方式。
 
 ### C\#
 
-可參考 [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs) 中的實作方式。
+可參考 [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Main/AsstProxy.cs) 中的實作方式。

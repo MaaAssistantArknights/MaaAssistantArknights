@@ -18,6 +18,7 @@ Please note that JSON files do not support comments. Comments are for demonstrat
     `Sami/` for Sami's I.S. ("萨米" - Expeditioner's Jǫklumarkar)
     `Sarkaz/` for Sarkaz's I.S. ("萨卡兹" - Sarkaz Endless Tale)
     `JieGarden/` for JieGarden's I.S. ("界园" - Boundary Garden)
+    `BlackFlow/` for BlackFlow's I.S. ("黑流树海")
     - `autopilot/` combat json for each level
       - `level_name_in_chinese.json` combat logic of the level
     - `encounter/` encounter nodes logic

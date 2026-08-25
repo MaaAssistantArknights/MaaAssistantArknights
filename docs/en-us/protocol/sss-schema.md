@@ -167,4 +167,4 @@ Please note that JSON files do not support comments. The comments in this docume
 
 ## Example Files
 
-<https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/>
+<https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/resource/copilot/>

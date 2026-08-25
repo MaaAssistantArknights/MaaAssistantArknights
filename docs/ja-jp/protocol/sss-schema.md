@@ -134,4 +134,4 @@ JSONファイルはコメントをサポートしていません。テキスト�
 
 ## サンプルファイル
 
-<https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/>
+<https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/resource/copilot/>

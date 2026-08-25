@@ -5,7 +5,7 @@ icon: bxs:bot
 
 # Issue Bot 使用方法
 
-Issue Bot 使用的 Action 為 [issue-checker](https://github.com/zzyyyl/issue-checker)，配置檔案為 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)。
+Issue Bot 使用的 Action 為 [issue-checker](https://github.com/MaaAssistantArknights/issue-checker)，配置檔案為 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/issue-checker.yml)。
 
 ::: warning
 拉取請求（PR）被加上 `ambiguous` 標籤是因為沒有按照 Commitizen 規範提交。
@@ -16,7 +16,7 @@ Issue Bot 使用的 Action 為 [issue-checker](https://github.com/zzyyyl/issue-c
 ### 自動觸發
 
 - 針對議題 (Issue) 與拉取請求 (Pull Request)，Issue Bot 會根據關鍵字自動進行分類，並加上 `module` 系列、`Client` 系列、`ambiguous`、`translation required` 等標籤。  
-  具體關鍵字可以參閱 [配置檔案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)。
+  具體關鍵字可以參閱 [配置檔案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/issue-checker.yml)。
 - 針對身分設為公開 (Public) 的 MAA 成員，為其發起的議題與拉取請求加上 `MAA Team` 標籤。
 
 #### 議題 (Issue) 及其評論

@@ -5,7 +5,7 @@ icon: bxs:bot
 
 # How to use Issue Bot
 
-The action of Issue Bot is [issue-checker](https://github.com/zzyyyl/issue-checker), with configuration file [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml).
+The action of Issue Bot is [issue-checker](https://github.com/MaaAssistantArknights/issue-checker), with configuration file [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/issue-checker.yml).
 
 ::: warning
 Your pull request will be marked as `ambiguous` when you are not committing with Conventional Commits specification.
@@ -17,7 +17,7 @@ Your pull request will be marked as `ambiguous` when you are not committing with
 
 - Adds labels to issues and pull requests, e.g., `module`, `Client`, `ambiguous`, `translation required`, etc.
   Issue Bot will add categories based on keywords.
-  Please refer to the [configuration file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml) for the keywords.
+  Please refer to the [configuration file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/issue-checker.yml) for the keywords.
 - Adds the `MAA Team` label to issues and pull requests for MAA public team members.
 
 #### Issues and Their Comments

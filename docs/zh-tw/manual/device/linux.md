@@ -47,7 +47,7 @@ MAA WPF GUI 當前可以透過 Wine 執行。MAA 已採用自包含部署方式�
 
 #### 使用 Linux 原生 MaaCore（實驗性功能）
 
-下載 [MAA Wine Bridge](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/MaaWineBridge) 原始碼並建置，用產生的 `MaaCore.dll`（ELF 檔案）替換 Windows 版本，並將 Linux 原生動態函式庫（`libMaaCore.so` 以及依賴項）放在同一目錄下。
+下載 [MAA Wine Bridge](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev-v2/src/MaaWineBridge) 原始碼並建置，用產生的 `MaaCore.dll`（ELF 檔案）替換 Windows 版本，並將 Linux 原生動態函式庫（`libMaaCore.so` 以及依賴項）放在同一目錄下。
 
 此時透過 Wine 執行 `MAA.exe`，將會載入 Linux 原生動態函式庫。
 

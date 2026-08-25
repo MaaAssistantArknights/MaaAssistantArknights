@@ -153,4 +153,4 @@ icon: game-icons:prisoner
 
 ## 예시 파일
 
-<https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/>
+<https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/resource/copilot/>

@@ -39,7 +39,7 @@ icon: iconoir:developer
 
 1. かなり前にフォークした場合は、まず自分のリポジトリの `Settings` の一番下で削除します
 2. [MAA メインリポジトリ](https://github.com/MaaAssistantArknights/MaaAssistantArknights)を開き、`Fork` → `Create fork` をクリック
-3. 自身のリポジトリの dev ブランチをクローン（サブモジュール含む）
+3. 自身のリポジトリの dev-v2 ブランチをクローン（サブモジュール含む）
 
    ```bash
    git clone --recurse-submodules <リポジトリの git リンク> -b dev-v2 --single-branch
@@ -84,7 +84,7 @@ icon: iconoir:developer
    - F5 キーを押して実行
 
    ::: tip
-   Win32Controller（Windows ウィンドウ制御）/ MaaFwAdbController（MaaFramework のタッチモード）関連機能を実行する場合は、[MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases) から対応プラットフォームのアーカイブをダウンロードし、`bin` ディレクトリ内の `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` を MAA の DLL と同じディレクトリ（例：`build/bin/Debug`）に配置してください。自動ダウンロードスクリプトの PR 歓迎！
+   Win32Controller（Windows ウィンドウ制御）/ MaaFwAdbController（MaaFwAdb のタッチモード）関連機能を実行する場合は、[MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases) から対応プラットフォームのアーカイブをダウンロードし、`bin` ディレクトリ内の `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` を MAA の DLL と同じディレクトリ（例：`build/bin/Debug`）に配置してください。自動ダウンロードスクリプトの PR 歓迎！
 
    関連機能をデバッグする場合は、[MaaFramework の Debug バージョンを自分でコンパイル](https://maafw.com/docs/4.1-BuildGuide)し、対応する DLL ファイルを使用する必要があります。そうしないと、ブレークポイントデバッグ中に謎のクラッシュが発生します。
    :::
@@ -106,7 +106,7 @@ icon: iconoir:developer
     git push origin dev-v2
     ```
 
-12. [MAA メインリポジトリ](https://github.com/MaaAssistantArknights/MaaAssistantArknights) で Pull Request を提出（master ではなく dev ブランチを指定）
+12. [MAA メインリポジトリ](https://github.com/MaaAssistantArknights/MaaAssistantArknights) で Pull Request を提出（master-v2 ではなく dev-v2 ブランチを指定）
 13. 上流リポジトリの更新を同期する場合：
     1. 上流リポジトリを追加：
 
@@ -185,7 +185,7 @@ clangd を使用する場合、C/C++ 拡張機能の IntelliSense を無効化�
 
    :::
 
-4. **デバッグ**：プロジェクトには `.vscode/launch.json` が含まれており、MaaWpfGui や Debug Demo の起動が可能
+4. **デバッグ**：`.vscode/launch.json` は自分で作成する必要があります。設定すると MaaWpfGui や Debug Demo を起動してデバッグできます
 
 ### ビルドとデバッグのショートカット
 
@@ -205,6 +205,8 @@ MAAは、リポジトリ内のコードとリソースファイルが美しく�
 | C++            | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
 | JSON/YAML      | [Prettier](https://prettier.io/)                                |
 | Markdown       | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+| Python         | [ruff-format](https://docs.astral.sh/ruff/formatter/)           |
+| PNG            | [oxipng](https://github.com/oxipng/oxipng)                      |
 
 ### Pre-commit Hooksを使用してコードを自動フォーマット
 

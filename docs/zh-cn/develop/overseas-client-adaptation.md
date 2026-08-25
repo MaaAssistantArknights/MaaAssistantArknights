@@ -101,8 +101,8 @@ amplified roi: 426, 272, 177, 201
 
 例如：
 
-- 美服的 `task.json` 位置为 `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks.json`。
-- 国服的 `task.json` 位置为 `MaaAssistantArknights\resource\tasks.json`。
+- 美服的 `task.json` 位置为 `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks\tasks.json`。
+- 国服的 `task.json` 位置为 `MaaAssistantArknights\resource\tasks\tasks.json`。
 
 找到对应任务，将 `text` 字段修改为对应服务器内显示的内容。注意，识别的内容可以是游戏内完整内容的子串。
 
@@ -112,7 +112,7 @@ amplified roi: 426, 272, 177, 201
 
 ## 修改 ROI 范围
 
-1. 打开对应服务器的 `task.json`，如美服的位置为 `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks.json`
+1. 打开对应服务器的 `task.json`，如美服的位置为 `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks\tasks.json`
 2. 找到对应需要修改的 `roi` 范围的任务，使用您准备好的外服游戏界面截图，根据 `amplified roi`，调整 `roi` 范围的大小。
 3. 通常情况下， `roi` 不需要修改，只有和国服的识别内容大小差距过大时才需要修改。
 4. 如对应外服的 `task.json` 中任务不存在，则添加任务，写上 `roi` 字段。

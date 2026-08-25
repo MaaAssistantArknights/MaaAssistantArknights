@@ -778,7 +778,9 @@ Theme.
 <br>
 `Sarkaz` - Tales of the Unfathomable
 <br>
-`JieGarden` - Sui's Garden of Grotesqueries  
+`JieGarden` - Sui's Garden of Grotesqueries
+<br>
+`BlackFlow` - 黑流树海  
 :::  
 ::: field mode  
 @type number
@@ -801,6 +803,8 @@ Mode.
 `6` - Monthly squad rewards farming, same as mode 0 except for specific mode adaptations.
 <br>
 `7` - Deep Dive rewards farming, same as mode 0 except for specific mode adaptations.
+<br>
+`30001` - Swaddled baby animal farming; only available in the BlackFlow theme.
 :::  
 ::: field squad  
 @type string
@@ -839,9 +843,9 @@ Number of times to start exploration. Stops automatically upon reaching limit.
 :::  
 ::: field difficulty  
 @type number
-@default 0
+@default -1
 @optional
-Specified difficulty level. Selects the highest unlocked difficulty if the desired one is not unlocked.  
+Specified difficulty level; `-1` means no preference. Selects the highest unlocked difficulty if the specified one is not unlocked.  
 :::  
 ::: field stop_at_final_boss  
 @type boolean
@@ -984,14 +988,30 @@ Whether to enable shopping in hot water mode.
 Squad to use in hot water mode, default synced with squad, when squad is empty and collectible_mode_squad not specified, uses 指挥分队.  
 :::  
 ::: field start_with_seed  
-@type boolean
-@default false
+@type string
 @optional
-Use seed for money farming.
+Fixed seed for seed-based money farming; leave empty to disable.
 <br>
-Only possible to be true in Sarkaz theme, Investment mode, with "点刺成锭分队" (Point-Stab Ingot Squad) or "后勤分队" (Logistics Squad).
+Only effective in Sarkaz theme, Investment mode, with "点刺成锭分队" (Point-Stab Ingot Squad) or "后勤分队" (Logistics Squad).  
+:::  
+::: field blackflow_strategy  
+@type string
+@optional
+Strategy for the 黑流树海 (BlackFlow) theme; inferred from `mode` and `investment_enabled` when left empty.
 <br>
-Uses fixed seed.  
+`baby_animal` - Check the general store on floor 1, then explore floors 2 and 3 and enter the 秘境行商 (secret-route trader) to cultivate seeds; requires `blackflow_cultivation_target`
+<br>
+`investment` - Reach the fixed general store on floor 1 via the route with the fewest battles and the shortest estimated time
+<br>
+`burn_with_investment` - Complete investment on floor 1, then reach floor 3 as fast as possible and restart upon arrival
+<br>
+`burn` - Reach floor 3 as fast as possible and restart upon arrival  
+:::  
+::: field blackflow_cultivation_target  
+@type string
+@default swaddled_cat
+@optional
+Target of the baby animal farming mode. Options: `swaddled_cat` (Swaddled Cat) | `swaddled_feathered_serpent` (Swaddled Feathered Serpent) | `swaddled_dog` (Swaddled Dog) | `swaddled_cerberus` (Swaddled Cerberus); only used when `blackflow_strategy` is `baby_animal`.  
 :::  
 ::::
 
@@ -1040,7 +1060,7 @@ Uses fixed seed.
    "deep_exploration_auto_iterate": false,
    "collectible_mode_shopping": false,
    "collectible_mode_squad": "指挥分队",
-   "start_with_seed": false
+   "start_with_seed": ""
 }
 ```
 
@@ -1111,7 +1131,7 @@ Each object contains:
   <br>
 - `name`: Operator name, optional, default "", if left empty this operator will be ignored
   <br>
-- `skill`: Skill to bring, optional, default 1; must be an integer between 1–3; otherwise, follows the in-game default
+- `skill`: Skill to bring, optional, default 0 (follows the in-game default skill selection); must be an integer between 1–3; otherwise, also follows the in-game default
   :::  
   ::: field add_trust  
   @type boolean
@@ -1636,7 +1656,7 @@ Deprecated. Originally for enabling Minitouch; "1" - on, "0" - off. Note that th
 @type string
 @default minitouch
 @optional
-Touch mode setting. Options: minitouch | maatouch | adb | MaaFwAdb. Default minitouch. Enum value: 2.  
+Touch mode setting. Options: minitouch | maatouch | adb | MaaFwAdb | MumuExtras. Default minitouch. Enum value: 2.  
 :::  
 ::: field DeploymentWithPause  
 @type boolean

@@ -8,7 +8,7 @@ icon: teenyicons:linux-alt-solid
 **This tutorial requires readers to have some Linux environment configuration ability and programming foundation!** If you only want to directly install MAA instead of compiling it yourself, please read [User Manual - Linux Emulators and Containers](../manual/device/linux.md).
 
 ::: info Note
-MAA's build method is still under discussion. The content of this tutorial may be outdated. Please refer to the scripts in [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L224#:~:text=ubuntu%3A).  
+MAA's build method is still under discussion. The content of this tutorial may be outdated. Please refer to the scripts in [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L264#:~:text=ubuntu%3A).  
 You can also refer to [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) or [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix).
 :::
 
@@ -74,7 +74,7 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
    cmake --install build --prefix <target_directory>
    ```
 
-4. To debug MaaFwAdbController (MaaFramework touch mode) features, you need to [compile the Debug version of MaaFramework yourself](https://maafw.com/docs/4.1-BuildGuide) and put `libMaaAdbControlUnit.so` in the installation directory.
+4. To debug MaaFwAdbController (MaaFwAdb touch mode) features, you need to [compile the Debug version of MaaFramework yourself](https://maafw.com/docs/4.1-BuildGuide) and put `libMaaAdbControlUnit.so` in the installation directory.
 
 ## Integration Documentation
 
@@ -82,12 +82,12 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
 
 ### Python
 
-You can refer to the implementation of `__main__` in [Python demo](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/sample.py)
+You can refer to the implementation of `__main__` in [Python demo](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Python/sample.py)
 
 ### C++
 
-You can refer to the implementation in [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)
+You can refer to the implementation in [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Cpp/main.cpp)
 
 ### C\#
 
-You can refer to the implementation in [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs)
+You can refer to the implementation in [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Main/AsstProxy.cs)
