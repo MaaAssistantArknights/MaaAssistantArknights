@@ -94,16 +94,15 @@
         "template": "ProcessingStart.png",
         "roi": [934, 549, 346, 171],
         "action": "ClickSelf",
-        "postDelay": 1000,
+        "postDelay": 3500,
         "next": ["MiniGame@MaterialSynthesis@Obtain"]
     },
     "MiniGame@MaterialSynthesis@Obtain": {
-        "algorithm": "OcrDetect",
-        "text": ["获得物资"],
-        "roi": [508, 66, 267, 172],
-        "action": "ClickRect",
-        "specificRect": [645, 665, 1, 1],
-        "next": [],
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "maxTimes": 20,
+        "next": ["MiniGame@MaterialSynthesis@Workshop"],
+        "preDelay": 1200,
         "postDelay": 1500
     },
     "MiniGame@MaterialSynthesis@Satisfied": {
