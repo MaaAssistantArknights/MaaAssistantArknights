@@ -50,7 +50,6 @@ private:
     std::optional<std::string> read_text(const std::string& task_name);
     std::string find_item_id(const std::string& name) const;
 
-    static int item_level(const std::string& item_id);
     static std::string_view result_name(Result result);
 };
 } // namespace asst
