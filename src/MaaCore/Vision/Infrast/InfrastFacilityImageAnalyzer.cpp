@@ -49,7 +49,7 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
                     continue;
                 }
                 const auto& cur_res = mm_analyzer.get_result();
-                auto cur_max_iter = std::ranges::max_element(cur_res, std::less { }, std::mem_fn(&MatchRect::score));
+                auto cur_max_iter = std::ranges::max_element(cur_res, std::less {}, std::mem_fn(&MatchRect::score));
                 if (cur_max_iter == cur_res.cend()) {
                     continue;
                 }

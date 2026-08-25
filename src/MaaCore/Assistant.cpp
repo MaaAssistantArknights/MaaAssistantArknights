@@ -590,7 +590,15 @@ void Assistant::working_proc()
                 if (e.code == cv::Error::StsNoMem) {
                     exception_kind = TaskExceptionKind::OutOfMemory;
                     best_effort([&] {
-                        Log.error("OpenCV out of memory in task thread", e.what(), "code", e.code, "file", e.file, "line", e.line);
+                        Log.error(
+                            "OpenCV out of memory in task thread",
+                            e.what(),
+                            "code",
+                            e.code,
+                            "file",
+                            e.file,
+                            "line",
+                            e.line);
                     });
                 }
                 else {
@@ -835,7 +843,15 @@ void asst::Assistant::call_proc()
                 if (e.code == cv::Error::StsNoMem) {
                     exception_kind = TaskExceptionKind::OutOfMemory;
                     best_effort([&] {
-                        Log.error("OpenCV out of memory in async call thread", e.what(), "code", e.code, "file", e.file, "line", e.line);
+                        Log.error(
+                            "OpenCV out of memory in async call thread",
+                            e.what(),
+                            "code",
+                            e.code,
+                            "file",
+                            e.file,
+                            "line",
+                            e.line);
                     });
                 }
                 else {

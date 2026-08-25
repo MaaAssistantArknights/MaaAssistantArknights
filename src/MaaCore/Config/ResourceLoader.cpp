@@ -289,7 +289,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
             available,
             "BlackFlow node execution configuration failed to load");
         if (!available) {
-            LogError << __FUNCTION__ << " BlackFlow node execution configuration failed to load; other themes remain available";
+            LogError << __FUNCTION__
+                     << " BlackFlow node execution configuration failed to load; other themes remain available";
             return false;
         }
     }

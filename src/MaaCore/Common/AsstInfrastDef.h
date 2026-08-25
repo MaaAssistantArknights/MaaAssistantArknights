@@ -132,7 +132,7 @@ inline OperatorIds intersect_operator_ids(const std::vector<OperatorIds>& candid
 {
     auto iter = std::ranges::find_if(candidates, [](const OperatorIds& ids) { return !ids.empty(); });
     if (iter == candidates.end()) {
-        return { };
+        return {};
     }
 
     OperatorIds result = *iter;
@@ -220,7 +220,7 @@ struct TaskData : OperatorSelection
         refresh_derived_state();
     }
 
-    void clear() { *this = { }; }
+    void clear() { *this = {}; }
 };
 
 enum class SmileyType

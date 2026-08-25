@@ -667,7 +667,8 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         clear_lf_info();
 
         start_time = steady_clock::now();
-        if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect) == ScreencapResult::Success) {
+        if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect) ==
+            ScreencapResult::Success) {
             auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
             if (duration < min_cost) {
                 fastest_method = AdbProperty::ScreencapMethod::RawWithGzip;
@@ -934,7 +935,14 @@ asst::AdbController::ScreencapResult asst::AdbController::screencap(
         }
         try {
             Log.error(
-                "ADB screencap decode OpenCV exception", e.what(), "code", e.code, "file", e.file, "line", e.line);
+                "ADB screencap decode OpenCV exception",
+                e.what(),
+                "code",
+                e.code,
+                "file",
+                e.file,
+                "line",
+                e.line);
         }
         catch (...) {
         }

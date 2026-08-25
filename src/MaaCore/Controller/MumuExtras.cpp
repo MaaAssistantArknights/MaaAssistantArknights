@@ -99,7 +99,8 @@ std::optional<cv::Mat> MumuExtras::screencap()
             // Try reloading once before giving up.
             if (!reload()) {
                 LogError << "Failed to capture display and failed to reload. " << VAR(ret) << VAR(mumu_handle_)
-                         << VAR(*display_id) << VAR(display_buffer_.size()) << VAR(display_width_) << VAR(display_height_);
+                         << VAR(*display_id) << VAR(display_buffer_.size()) << VAR(display_width_)
+                         << VAR(display_height_);
                 return std::nullopt;
             }
             // Reload 之后 display_id 可能变化，重新获取后再重试一次 capture。
@@ -117,7 +118,8 @@ std::optional<cv::Mat> MumuExtras::screencap()
                 display_buffer_.data());
             if (ret) {
                 LogError << "Failed to capture display even after reload. " << VAR(ret) << VAR(mumu_handle_)
-                         << VAR(*display_id) << VAR(display_buffer_.size()) << VAR(display_width_) << VAR(display_height_);
+                         << VAR(*display_id) << VAR(display_buffer_.size()) << VAR(display_width_)
+                         << VAR(display_height_);
                 return std::nullopt;
             }
         }
