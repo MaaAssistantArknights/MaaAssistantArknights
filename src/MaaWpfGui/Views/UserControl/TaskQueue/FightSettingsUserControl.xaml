@@ -221,11 +221,14 @@
                         VerticalContentAlignment="Center"
                         d:IsHitTestVisible="True"
                         DisplayMemberPath="Display"
+                        IsEnabled="{c:Binding !IsSeriesLocked}"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                      Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                         ItemsSource="{Binding SeriesList}"
                         SelectedValue="{Binding Series}"
-                        SelectedValuePath="Value" />
+                        SelectedValuePath="Value"
+                        ToolTip="{DynamicResource SeriesLockedTip}"
+                        ToolTipService.ShowOnDisabled="True" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3">
