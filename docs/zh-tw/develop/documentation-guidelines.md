@@ -13,7 +13,7 @@ icon: jam:write-f
 
 ## 本機開發
 
-1. 安裝 [pnpm](https://pnpm.io/installation)，並參考 [Pull Request 流程簡述](./development.md#github-pull-request-流程簡述) 將倉庫複製（Clone）到本機。
+1. 安裝 [pnpm](https://pnpm.io/installation)，並參考 [Pull Request 流程簡述](./development.md) 將倉庫複製（Clone）到本機。
 2. 在 `docs` 目錄下開啟終端機，執行 `pnpm i` 安裝相依套件。
 3. 執行 `pnpm run dev` 啟動開發預覽環境。
 

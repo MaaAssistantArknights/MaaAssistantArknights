@@ -490,9 +490,9 @@
     },
     "BlackFlow@Roguelike@EnteredPageClassification": {
         "algorithm": "OcrDetect",
-        "roi": [100, 160, 505, 372],
-        "withoutDet": false,
-        "text": ["险路尽头", "前瞻性投资系统", "机械师的园圃", "刷新"],
+        "roi": [0, 420, 500, 115],
+        "text": ["险路尽头", "坎诺特", "机械师", "佩德洛"],
+        "ocrReplace": [["^古怪商人\\s*坎诺特$", "坎诺特"]],
         "fullMatch": true
     },
     "BlackFlow@Roguelike@EnteredPageClassificationEncounterPrepare": {
@@ -815,7 +815,7 @@
         "isAscii": true,
         "withoutDet": true,
         "text": ["0", "-0", "-1", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "-9"],
-        "ocrReplace": [["^.*-([0-9])$", "-$1"]],
+        "ocrReplace": [["^.*([0-9])$", "-$1"]],
         "fullMatch": true
     },
     "BlackFlow@Roguelike@MovePreviewDisplayedName": {
@@ -946,8 +946,15 @@
     },
     "BlackFlow@Roguelike@MovementPanelBackClick": {
         "algorithm": "JustReturn",
+        "sub": ["BlackFlow@Roguelike@MovementPanelBackClickOnce*2", "BlackFlow@Roguelike@MovementPanelBackClickWait"]
+    },
+    "BlackFlow@Roguelike@MovementPanelBackClickOnce": {
+        "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [2, 138, 36, 293],
+        "specificRect": [18, 138, 20, 293]
+    },
+    "BlackFlow@Roguelike@MovementPanelBackClickWait": {
+        "algorithm": "JustReturn",
         "postDelay": 500
     },
     "BlackFlow@Roguelike@MovementPanelItems": {

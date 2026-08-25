@@ -5,6 +5,7 @@
 #include <deque>
 #include <filesystem>
 #include <memory>
+#include <string>
 
 #include "AbstractConfigWithTempl.h"
 #include "MaaUtils/SingletonHolder.hpp"
@@ -21,6 +22,8 @@ public:
 
     void set_connection_extras(const std::string& name, const json::object& diff);
     bool loaded() const noexcept;
+
+    const std::string& get_uuid() const noexcept { return m_uuid; }
 
 public:
     ResourceLoader();
@@ -58,6 +61,7 @@ private:
 
 private:
     bool m_loaded = false;
+    std::string m_uuid;
     std::mutex m_entry_mutex;
 
     // only for async load

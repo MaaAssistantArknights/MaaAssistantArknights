@@ -99,8 +99,8 @@ amplified roi: 426, 272, 177, 201
 
 예시:
 
-- KR 클라이언트에서 `task.json` 의 위치는 `MaaAssistantArknights\resource\global\YoStarKR\resource\tasks.json` 입니다.
-- ZH-CN 클라이언트의 `task.json` 위치는 `MaaAssistantArknights\resource\tasks.json` 입니다.
+- KR 클라이언트에서 `task.json` 의 위치는 `MaaAssistantArknights\resource\global\YoStarKR\resource\tasks\tasks.json` 입니다.
+- ZH-CN 클라이언트의 `task.json` 위치는 `MaaAssistantArknights\resource\tasks\tasks.json` 입니다.
 
 텍스트를 수정하려면 해당 작업을 찾은 후 `text` 필드를 해당 서버에 표시된 내용으로 변경합니다. 식별된 콘텐츠는 게임 내 전체 콘텐츠의 하위 문자열이 될 수 있습니다. 일반적으로 텍스트가 포함된 `text` 는 순수 ASCII 문자로 인식되지 않는 한 대체해야 합니다.
 
@@ -112,7 +112,7 @@ amplified roi: 426, 272, 177, 201
 
 ROI 범위를 수정하는 방법:
 
-1. 해당 서버의 `task.json` 파일을 엽니다. 예를 들어 KR 클라이언트의 `task.json` 파일 위치는 `MaaAssistantArknights\resource\global\YoStarKR\resource\tasks.json` 입니다.
+1. 해당 서버의 `task.json` 파일을 엽니다. 예를 들어 KR 클라이언트의 `task.json` 파일 위치는 `MaaAssistantArknights\resource\global\YoStarKR\resource\tasks\tasks.json` 입니다.
 2. 수정해야 할 ROI 범위에 해당하는 작업을 찾고 해외 게임 인터페이스의 스크린샷을 사용하여 증폭된 ROI에 따라 `roi` 범위의 크기를 조정합니다.
 3. 일반적으로, `roi` 범위를 수정할 필요가 없지만 텍스트와 중국어 클라이언트 버전 간의 크기 차이가 너무 클 경우 수정해야 할 수도 있습니다.
 4. 해당 해외 클라이언트의 `task.json` 파일에 작업이 없는 경우 작업을 추가하고 적절한 값으로 `roi` 필드를 작성합니다.

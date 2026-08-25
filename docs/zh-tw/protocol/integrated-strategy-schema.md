@@ -12,7 +12,7 @@ icon: ri:game-fill
 ## 肉鴿資源存放位置
 
 - `resource/roguelike/`：依照主題存放各個肉鴿的作業資源
-  - 主題資料夾：`Phantom/`（傀影）、`Mizuki/`（水月）、`Sami/`（薩米）、`Sarkaz/`（薩卡茲）、`JieGarden/`（界園）。
+  - 主題資料夾：`Phantom/`（傀影）、`Mizuki/`（水月）、`Sami/`（薩米）、`Sarkaz/`（薩卡茲）、`JieGarden/`（界園）、`BlackFlow/`（黑流樹海）。
     - `autopilot/`：存放各個關卡的作戰 json 邏輯。
       - `關卡名稱.json`：關卡的作戰邏輯。
     - `encounter/`：存放不期而遇類（所有非戰鬥與商店節點）事件邏輯。

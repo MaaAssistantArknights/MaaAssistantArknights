@@ -17,7 +17,6 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 - [程式碼測試](#程式碼測試)
 - [程式碼建置](#程式碼建置)
-- [程式碼安全檢查](#程式碼安全檢查)
 - [版本發布](#版本發布)
 - [資源更新](#資源更新)
 - [網站建置](#網站建置)
@@ -44,25 +43,9 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 本工作流負責對程式碼進行全量建置工作，包含 MAA 的所有組件，建置產物即為可執行的 MAA。
 
-除了必要的 MaaCore 外，Windows 建置產物會包含 MaaWpfGui，macOS 建置產物會包含 MaaMacGui，Linux 建置產物則包含 MaaCLI。
+除了必要的 MaaCore 外，Windows 建置產物會包含 MaaWpfGui，macOS 建置產物會包含 MaaMacGui，Linux 建置產物則包含 MaaCLI，此外還會建置 Android 版 MaaCore。
 
-該工作流在有任何新提交（Commit）或 PR 時都會自動執行；當該工作流由發版 PR 觸發時，本次的建置產物將直接用於發布，並自動建立一個 Release。
-
-### 程式碼安全檢查
-
-程式碼安全檢查透過 CodeQL 對程式碼與工作流進行安全分析，具體工作流如下：
-
-`codeql-core.yml`
-
-負責對 MaaCore 與 MaaWpfGui 的 C++ 和 C# 程式碼進行安全分析，偵測潛在的安全漏洞。
-
-該工作流在修改相關原始碼的 PR 時會自動執行，同時於每天 UTC 時間 11:45 進行定期檢查。
-
-`codeql-wf.yml`
-
-負責對 GitHub Actions 工作流檔案本身進行安全分析，確保 CI/CD 流程的安全性。
-
-該工作流在修改工作流檔案的 PR 時會自動執行，同時於每天 UTC 時間 12:00 進行定期檢查。
+該工作流在 `dev-v2` 分支出現觸碰原始碼或建置腳本的新提交以及 PR 時自動執行。當工作流由版本 tag 觸發時（tag 由發版 PR 合併後 `pr-auto-tag.yml` 建立），本次的建置產物將直接用於發布，並自動建立一個 Release。
 
 ### 版本發布
 
@@ -89,11 +72,11 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 這兩個版本的發布流程相對複雜，我們透過模擬一次發布步驟來解釋各工作流的作用：
 
-1. 建立從 `dev-v2` 到 `master` 分支的 PR，且該 PR 的標題需為 `Release v******`。
+1. 建立從 `dev-v2` 到 `master-v2` 分支的 PR，且該 PR 的標題需為 `Release v******`。
 2. `release-preparation.yml` 會產生從最近版本到當前版本的 Changelog（以一個新 PR 的形式呈現）。
 3. 對 Changelog 進行手動調整，並加入簡要描述。
 4. 合併 PR，觸發 `pr-auto-tag.yml` 建立 Tag 並同步分支。
-5. Release 事件觸發 `release-ota.yml`，對 master 標上 Tag 後進行 OTA 包建置及附件上傳。
+5. Release 事件觸發 `release-ota.yml`，對 master-v2 標上 Tag 後進行 OTA 包建置及附件上傳。
 
 ### 資源更新
 

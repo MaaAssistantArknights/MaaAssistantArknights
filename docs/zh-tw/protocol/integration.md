@@ -461,7 +461,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @optional
 換班工作模式。
 <br>
-`0` - `Default`：預設換班模式，單設施最優解。
+`0` - `Default`：預設換班模式，自動計算效率較高的設施內及跨設施幹員組合。
 <br>
 `10000` - `Custom`：自定義換班模式，讀取使用者配置，可參閱 [基建排班協定](./base-scheduling-schema.md)。
 <br>
@@ -470,7 +470,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ::: field facility  
 @type array<string>
 @required
-要換班的設施（依序）。不支援在執行中更改設定。
+要換班的設施。不支援在執行中更改設定。
+<br>
+`mode = 0` 時該陣列為啟用集合，順序與重複項不參與調度（換班順序由演算法統一安排）；`mode = 10000` / `20000` 時按陣列順序執行。
 <br>
 設施名稱：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
 :::  
@@ -509,6 +511,38 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @default false
 @optional
 是否將宿舍剩餘位置填入信賴值未滿的幹員。  
+:::  
+::: field fiammetta_targets  
+@type array<string>
+@default ["清流", "可露希尔", "但书"]
+@optional
+菲亞梅塔恢復目標名單，換班時會優先將名單中當前心情最低的幹員與菲亞梅塔一同進駐宿舍。僅 `mode = 0` 時生效。
+<br>
+選項：`清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅`（不在選項內或重複的條目會被忽略）  
+:::  
+::: field use_pinus_sylvestris  
+@type boolean
+@default false
+@optional
+是否啟用 ｢紅松騎士團｣ 跨設施組合。僅 `mode = 0` 時生效。  
+:::  
+::: field use_perception_information  
+@type boolean
+@default false
+@optional
+是否啟用 ｢感知信息｣ 跨設施組合，優先度高於 ｢人間煙火｣。僅 `mode = 0` 時生效。  
+:::  
+::: field use_worldly_plight  
+@type boolean
+@default false
+@optional
+是否啟用 ｢人間煙火｣ 跨設施組合。僅 `mode = 0` 時生效。  
+:::  
+::: field use_abyssal_hunter  
+@type boolean
+@default false
+@optional
+是否啟用 ｢深海獵人｣ 跨設施組合。僅 `mode = 0` 時生效，與 ｢紅松騎士團｣ 同時啟用時兩者不會同時參與排班。  
 :::  
 ::: field reception_message_board  
 @type boolean
@@ -745,7 +779,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `Sarkaz` - 薩卡茲的無終奇語
 <br>
-`JieGarden` - 歲的界園誌異  
+`JieGarden` - 歲的界園誌異
+<br>
+`BlackFlow` - 黑流樹海  
 :::  
 ::: field mode  
 @type number
@@ -767,7 +803,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `6` - 刷月度小隊獎勵：除了模式適配外，其餘邏輯同模式 0。
 <br>
-`7` - 刷深入調查獎勵：除了模式適配外，其餘邏輯同模式 0。  
+`7` - 刷深入調查獎勵：除了模式適配外，其餘邏輯同模式 0。
+<br>
+`30001` - 刷襁褓動物；僅適用於 BlackFlow 主題。  
 :::  
 ::: field squad  
 @type string
@@ -806,9 +844,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 :::  
 ::: field difficulty  
 @type number
-@default 0
+@default -1
 @optional
-指定難度等級。若未解鎖，則會選擇目前已解鎖的最高難度。  
+指定難度等級，`-1` 表示不指定難度。若指定難度未解鎖，則會選擇目前已解鎖的最高難度。  
 :::  
 ::: field stop_at_final_boss  
 @type boolean
@@ -951,14 +989,30 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 燒水時使用的分隊。預設與 `squad` 同步；若 `squad` 為空且未指定 `collectible_mode_squad` 時，則預設為「指揮分隊」。  
 :::  
 ::: field start_with_seed  
-@type boolean
-@default false
+@type string
 @optional
-是否使用種子刷錢。
+使用種子刷錢時填入固定種子，留空則不啟用。
 <br>
-僅在 Sarkaz 主題中的 Investment 模式，且為「點刺成錠分隊」或「後勤分隊」時才可能為 `true`。
+僅在 Sarkaz 主題中的 Investment 模式，且為「點刺成錠分隊」或「後勤分隊」時生效。  
+:::  
+::: field blackflow_strategy  
+@type string
+@optional
+黑流樹海主題的策略；留空時按 `mode` 與 `investment_enabled` 推斷。
 <br>
-使用固定種子。  
+`baby_animal` - 第一層檢查普通商店，第二、三層探索並進入秘境行商培育種子，需配合 `blackflow_cultivation_target`
+<br>
+`investment` - 第一層以戰鬥次數最少、預計時間最短的完整路線抵達固定普通商店
+<br>
+`burn_with_investment` - 第一層完成投資後盡快抵達第三層，到達即重開
+<br>
+`burn` - 盡快抵達第三層，到達即重開  
+:::  
+::: field blackflow_cultivation_target  
+@type string
+@default swaddled_cat
+@optional
+刷襁褓動物模式的目標。可選值：`swaddled_cat` | `swaddled_feathered_serpent` | `swaddled_dog` | `swaddled_cerberus`；僅在 `blackflow_strategy` 為 `baby_animal` 時使用。  
 :::  
 ::::
 
@@ -1007,7 +1061,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
    "deep_exploration_auto_iterate": false,
    "collectible_mode_shopping": false,
    "collectible_mode_squad": "",
-   "start_with_seed": false
+   "start_with_seed": ""
 }
 ```
 
@@ -1078,7 +1132,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
   <br>
 - `name`：幹員名稱，選填，預設為空字串，若留空則忽略此幹員。
   <br>
-- `skill`：指定攜帶技能，選填，預設為 1。範圍為 1–3 的整數，若超出範圍則遵照遊戲內的預設技能。  
+- `skill`：指定攜帶技能，選填，預設為 0，即遵從遊戲內的預設技能選擇。範圍為 1–3 的整數，若超出範圍也遵照遊戲內的預設技能。  
   :::  
   ::: field add_trust  
   @type boolean
@@ -1602,7 +1656,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 @type string
 @default minitouch
 @optional
-觸控模式設定。可選值：minitouch | maatouch | adb | MaaFwAdb。預設為 minitouch。列舉值：2。  
+觸控模式設定。可選值：minitouch | maatouch | adb | MaaFwAdb | MumuExtras。預設為 minitouch。列舉值：2。  
 :::  
 ::: field DeploymentWithPause  
 @type boolean

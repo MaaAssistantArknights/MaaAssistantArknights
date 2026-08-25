@@ -1,12 +1,15 @@
 #include "ProcessTask.h"
 
+#include <array>
 #include <chrono>
 #include <random>
+#include <string_view>
 #include <unordered_set>
 
 #include <meojson/json.hpp>
 
 #include "Config/GeneralConfig.h"
+#include "Config/ResourceLoader.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
@@ -14,6 +17,53 @@
 #include "Vision/Miscellaneous/PipelineAnalyzer.h"
 
 using namespace asst;
+
+namespace
+{
+// 需要在主界面进行识别的任务，用于PC端
+constexpr std::array<std::string_view, 9> MainScreenEntryPrefixes = {
+    "Friends", "Task", "Terminal", "Mall", "Infrast", "Recruit", "Depot", "OperBox", "Gacha",
+};
+
+// 主界面入口按钮，用于提取当前主题
+// 资源重载后 ResourceLoader 会生成新的 uuid，这里通过比对 uuid 判断是否需要重新缓存
+const std::unordered_set<std::string>& get_main_screen_entry_tasks()
+{
+    static std::unordered_set<std::string> tasks;
+    static std::string cached_uuid;
+
+    const auto& current_uuid = ResourceLoader::get_instance().get_uuid();
+    if (current_uuid != cached_uuid) {
+        tasks.clear();
+        for (const auto& prefix : MainScreenEntryPrefixes) {
+            if (auto entry_task = Task.get(std::string(prefix) + "-Entry"); entry_task != nullptr) {
+                tasks.insert(entry_task->next.cbegin(), entry_task->next.cend());
+            }
+        }
+        cached_uuid = current_uuid;
+    }
+
+    return tasks;
+}
+
+bool is_main_screen_recognition(const std::string& name)
+{
+    // 任务链中位于主界面的入口
+    if (name == "Award" || name == "Mall" || name == "Visit" || name == "Infrast" || name == "Recruit" ||
+        name == "Fight" || name == "Depot" || name == "OperBox" || name == "Gacha") {
+        return true;
+    }
+    // 主界面入口按钮及其主题变体
+    return get_main_screen_entry_tasks().contains(name);
+}
+
+bool is_main_screen_recognition(const TaskList& list)
+{
+    return std::any_of(list.cbegin(), list.cend(), [](const std::string& name) {
+        return is_main_screen_recognition(name);
+    });
+}
+} // namespace
 
 ProcessTask::ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name) :
     AbstractTask(abs),
@@ -150,8 +200,21 @@ ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, e
         return { .task_ptr = std::move(task_ptr) };
     }
 
+    // 告知本次截图是否用于主界面识别，然后决定鼠标位置
+    ControllerAPI* underlying = nullptr;
+    if (is_main_screen_recognition(list)) {
+        underlying = ctrler()->get_underlying();
+        if (underlying != nullptr) {
+            underlying->set_main_screen_recognition(true);
+        }
+    }
+
     cv::Mat image = m_reusable.empty() ? ctrler()->get_image() : m_reusable;
     m_reusable = cv::Mat();
+
+    if (underlying != nullptr) {
+        underlying->set_main_screen_recognition(false);
+    }
     PipelineAnalyzer analyzer(image, Rect(), m_inst);
     analyzer.set_tasks(list);
 

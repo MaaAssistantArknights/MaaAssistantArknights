@@ -169,6 +169,25 @@
     <system:String x:Key="InfrastReceptionSendClue">단서 보내기</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">다음 기능들은 {key=Infrast}에서 설정 및 실행해야 합니다</system:String>
     <system:String x:Key="ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
+    <system:String x:Key="InfrastFiammettaTargets">피아메타 회복 대상</system:String>
+    <system:String x:Key="InfrastFiammettaTargetNone">없음</system:String>
+    <system:String x:Key="InfrastFiammettaTargetPurestream">퓨어스트림</system:String>
+    <system:String x:Key="InfrastFiammettaTargetClosure">클로저</system:String>
+    <system:String x:Key="InfrastFiammettaTargetProviso">프로바이조</system:String>
+    <system:String x:Key="InfrastFiammettaTargetShamare">샤마르</system:String>
+    <system:String x:Key="InfrastFiammettaTargetTequila">테킬라</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGladiia">글래디아</system:String>
+    <system:String x:Key="InfrastFiammettaTargetsTips">이론적으로 샤마르와 테킬라를 회복 대상으로 하면 007이 가능하지만, 자동 교대에서는 구현하기 어려우므로 샤마르와 테킬라를 선택하는 것은 권장하지 않습니다.</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestris">피누스 실베스트리스 연계 사용</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">필수 오퍼레이터: 플레임테일(정예화 2), 비비아나(정예화 2), 와일드메인(정예화 2)/애쉬락(정예화 2)/파투스(정예화 2) 중 1명 이상&#10;계산에 참여하는 오퍼레이터: 그라벨</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformation">감지 정보 연계 사용</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformationTips" xml:space="preserve">필수 오퍼레이터: 위스퍼레인(정예화 2), 로즈몬티스(정예화 2), 에벤홀츠(정예화 2)&#10;계산에 참여하는 오퍼레이터: 시, 비르투오사, 아이리스, 체르니&#10;속세의 번뇌보다 우선도가 높습니다</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlight">속세의 번뇌 연계 사용</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlightTips" xml:space="preserve">필수 오퍼레이터: 멀베리(정예화 2), 스테인리스(정예화 2)&#10;계산에 참여하는 오퍼레이터: 중전, 링, 시</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">어비설 헌터 연계 사용</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunterTips" xml:space="preserve">필수 오퍼레이터: 글래디아(정예화 2), 울피아누스, 스카디, 스펙터, 안드레아나&#10;알고리즘상의 이유로 피누스 실베스트리스도 동시에 선택하면 두 연계가 함께 교대에 참여하지 않습니다.</system:String>
+    <system:String x:Key="InfrastFacilitySelection">교대 시설</system:String>
+    <system:String x:Key="InfrastFacilitySelectionTip" xml:space="preserve">｢{key=InfrastModeNormal}｣에서는 교대 순서를 알고리즘이 자동으로 결정하며, 여기서는 처리할 시설 종류만 선택합니다. 순서는 적용되지 않습니다.&#10;교대 순서를 직접 설정하려면 ｢{key=InfrastModeCustom}｣을 사용하세요.</system:String>
     <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>
     <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
     <system:String x:Key="TrainingLevel">마스터리 랭크</system:String>
@@ -552,9 +571,9 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="MiniTouchMode">Minitouch (기본값)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (실험적)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (비권장)</system:String>
-    <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (실험적)</system:String>
+    <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb (실험적)</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu 터치 (실험적)</system:String>
-    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input는 OS 버전이 낮은 물리적 기기 전용입니다. 다른 모드를 사용할 수 있다면 ADB Input를 선택하지 마세요.&#10;ADB Input 스와이프는 오프셋이 발생하기 쉬우며, 이 문제를 방지하기 위해 스와이프 속도가 매우 느리게 설정되고 스와이프 거리도 다른 모드와 다릅니다. 정확한 좌표 제어가 필요한 상황에서는 사용할 수 없습니다.</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input는 OS 버전이 낮은 물리적 기기 전용입니다. 다른 모드를 사용할 수 있다면 ADB Input를 선택하지 마세요.&#10;ADB Input 스와이프는 오프셋이 발생하기 쉬워 스와이프 속도가 매우 느리게 설정되고 스와이프 거리도 다른 모드와 다릅니다. 정확한 좌표 제어가 필요한 상황에서는 사용할 수 없습니다.&#10;&#10;MaaFwAdb는 추가 스와이프를 지원하지 않아, 추가 스와이프로 드래그 과다를 방지하는 페이지는 이 모드에서 과다하게 드래그됩니다.&#10;추가 스와이프는 메인 스와이프가 끝난 후 수직 방향으로 짧게 덧붙이는 ｢브레이크｣ 스와이프(궤적이 90° 꺾이는 L자 형태)로, 목록 관성을 상쇄하는 데 사용됩니다.</system:String>
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">에뮬레이터 실행 매개변수 추가 명령 (예: ｢--instance 1｣ 은 1 번 인스턴스).&#10;명령 형식은 에뮬레이터마다 다르며 일반적으로 인스턴스 번호나 창 모드 등을 포함합니다.</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
@@ -745,6 +764,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionAddressTip">｢{key=AutoDetectConnection}｣ 을(를) 활성화하고 성공하면 자동으로 입력됩니다. 감지에 실패한 경우, 에뮬레이터의 실제 포트를 확인하여 입력해 주세요.</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
     <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
+    <system:String x:Key="WindowRestore">창 복원</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">MuMu 터치 강화 활성화 (실험적, MuMu 에뮬레이터 6.3.2+ 필요, 백그라운드 유지 지원)</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
@@ -755,7 +775,7 @@ nx_device/12.0/shell/sdk/external_renderer_ipc.dll 또는
 shell/sdk/external_renderer_ipc.dll\n
 설치 폴더를 확인하세요.</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu / MuMu Arknights V4.0.0 이상 버전이 필요합니다. MuMu Global은 V5.21.3 이상 버전이 필요합니다.
+MuMu / MuMu Arknights V4.1.26 이상 버전이 필요합니다. MuMu Global은 V5.21.3 이상 버전이 필요합니다.
 이 기능을 활성화한 후 즉시 스크린샷 테스트를 실행하는 것을 강력히 권장합니다.
 MAA는 레지스트리를 통해 설치 경로를 자동으로 가져옵니다. 가져오지 못한 경우 수동으로 입력해 주세요.\n
 설치 경로는 에뮬레이터 경로의 최상위 폴더를 입력해야 합니다. 예를 들어, 에뮬레이터 프로세스 파일 경로가
@@ -1381,7 +1401,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC 클라이언트에서는 커서가 드롭 아이템과 수량 인식을 가릴 수 있습니다. 잘못된 데이터가 데이터 풀을 오염시키지 않도록 이번 보고는 자동으로 건너뜁니다</system:String>
     <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
-    <system:String x:Key="MissingOperators">다음 {key=Operator} 그룹의 {key=Operator}를 보유하고 있지 않습니다(그룹당 1명이면 충분합니다):\n{0}｢선호｣ 표시는 {key=Operator} 인식에 영향을 줄 수 있습니다. 위의 {key=Operator}를 보유하고 있다면 표시를 해제한 후 다시 시도하세요. 보유하지 않은 경우 부족한 그룹이 1개뿐이라면 ｢{key=SupportUnitUsage}｣로 대체할 수 있고, 2개 이상이라면 다른 작업 파일을 사용해 주세요.</system:String>
+    <system:String x:Key="MissingOperators">다음 {key=Operator} 그룹의 {key=Operator}를 보유하고 있지 않습니다(그룹당 1명이면 충분합니다):\n{0}｢선호｣ 표시는 {key=Operator} 인식에 영향을 줄 수 있습니다. 실제로 보유하고 있다면 표시를 해제한 후 다시 시도하거나, ｢{key=AutoSquad}｣를 끄고 직접 편성하세요. 실제로 보유하지 않은 경우 부족한 그룹이 1개뿐이라면 ｢{key=SupportUnitUsage}｣로 대체할 수 있고, 2개 이상이라면 다른 작업 파일을 사용해 주세요.</system:String>
     <system:String x:Key="RecruitSupportOperator">지원 유닛 추가: {0}</system:String>
     <system:String x:Key="StageQueue">스테이지 대기열:</system:String>
     <system:String x:Key="UnableToAgent">대리 지휘를 사용할 수 없습니다</system:String>
@@ -1708,7 +1728,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (백그라운드, 효율적, 최소화 가능)</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (백그라운드, 효율적, 최소화 불가)</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (백그라운드, 안정적, 최소화 가능)</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (백그라운드, 백업, 최소화 불가)</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (포그라운드, 가림 불가)</system:String>
@@ -2410,7 +2430,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
 
     <system:String x:Key="Achievement.SlackingOff.Title">월급 루팡</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">업무 효율을 위해서 가끔은 쉬어줘야죠.</system:String>
-    <system:String x:Key="Achievement.SlackingOff.Conditions">미니게임 1회 실행</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Conditions">{key=MiniGame} 1회 실행</system:String>
 
     <system:String x:Key="AchievementDlcProgressNotice">업적 DLC 식별자: #1은 시스템과 함께 출시, 이후 DLC는 업데이트로 추가됩니다. 일부 업적은 해당 DLC 공개 후에만 진행도가 누적됩니다.</system:String>
     <system:String x:Key="AchievementDlcReleaseDate">출시일</system:String>

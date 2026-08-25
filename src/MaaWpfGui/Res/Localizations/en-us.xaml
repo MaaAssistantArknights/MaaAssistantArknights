@@ -169,6 +169,25 @@
     <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">The following functions require configuration and execution within {key=Infrast}.</system:String>
     <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
+    <system:String x:Key="InfrastFiammettaTargets">Fiammetta recovery targets</system:String>
+    <system:String x:Key="InfrastFiammettaTargetNone">None</system:String>
+    <system:String x:Key="InfrastFiammettaTargetPurestream">Purestream</system:String>
+    <system:String x:Key="InfrastFiammettaTargetClosure">Closure</system:String>
+    <system:String x:Key="InfrastFiammettaTargetProviso">Proviso</system:String>
+    <system:String x:Key="InfrastFiammettaTargetShamare">Shamare</system:String>
+    <system:String x:Key="InfrastFiammettaTargetTequila">Tequila</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGladiia">Gladiia</system:String>
+    <system:String x:Key="InfrastFiammettaTargetsTips">Although recovering Shamare and Tequila can theoretically enable 007, it is difficult to achieve with automatic shift changes, so selecting Shamare or Tequila is not recommended.</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestris">Use Pinus Sylvestris cross-facility team</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">Required operators: Flametail (E2), Viviana (E2), and at least one of Wild Mane (E2), Ashlock (E2), or Fartooth (E2)&#10;Operators included in calculation: Gravel</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformation">Use Perception Information cross-facility team</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformationTips" xml:space="preserve">Required operators: Whisperain (E2), Rosmontis (E2), and Ebenholz (E2)&#10;Operators included in calculation: Dusk, Virtuosa, Iris, and Czerny&#10;Higher priority than Worldly Plight</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlight">Use Worldly Plight cross-facility team</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlightTips" xml:space="preserve">Required operators: Mulberry (E2) and Stainless (E2)&#10;Operators included in calculation: Chongyue, Ling, and Dusk</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">Use Abyssal Hunter cross-facility team</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunterTips" xml:space="preserve">Required operators: Gladiia (E2), Ulpianus, Skadi, Specter, and Andreana&#10;Due to algorithm limitations, when Pinus Sylvestris is also selected, the two teams will not participate in scheduling together.</system:String>
+    <system:String x:Key="InfrastFacilitySelection">Facilities</system:String>
+    <system:String x:Key="InfrastFacilitySelectionTip" xml:space="preserve">In ｢{key=InfrastModeNormal}｣, the shift order is planned automatically by the algorithm. This list only selects which facility types to process; the order here does not matter.&#10;To customize the shift order, please use ｢{key=InfrastModeCustom}｣.</system:String>
     <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
     <system:String x:Key="TrainingLevel">Skill Rank</system:String>
@@ -552,9 +571,9 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="MiniTouchMode">Minitouch (Default)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (Deprecated)</system:String>
-    <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (Experimental)</system:String>
+    <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb (Experimental)</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu Touch (Experimental)</system:String>
-    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input is only for physical devices running an older OS version. Do not use ADB Input if other modes work.&#10;ADB Input swipes tend to drift. To avoid this, swipe speed is set very slow and swipe distances differ from other modes. It cannot be used in scenarios requiring precise coordinate control.</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input is only for physical devices running an older OS version. Do not use it if other modes work.&#10;ADB Input swipes tend to drift, so swipe speed is set very slow and swipe distances differ from other modes; it cannot be used in scenarios requiring precise coordinate control.&#10;&#10;MaaFwAdb does not support extra swipe, so pages that rely on extra swipe to prevent overshooting will overshoot in this mode.&#10;An extra swipe is a short "brake" swipe appended perpendicular to the end of the main swipe (tracing an L-shaped 90° turn) to counteract list inertia.</system:String>
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">Additional commands for emulator parameters (e.g. ｢--instance 1｣ for instance 1).&#10;Command formats vary by emulator, typically including instance numbers and window modes, please consult your emulator's documentation.</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
@@ -745,6 +764,7 @@ Only supports Official(CN), Bilibili, Traditional Chinese and YostarKR servers. 
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when ｢{key=AutoDetectConnection}｣ is enabled and succeeds. If detection fails, find the emulator's actual port and fill it in.</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
+    <system:String x:Key="WindowRestore">Window restore</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">Enable MuMu touch enhancement (experimental, requires MuMu Emulator 6.3.2+, supports background keep-alive)</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu Emulator path not found.</system:String>
@@ -754,7 +774,7 @@ nx_device/12.0/shell/sdk/external_renderer_ipc.dll or
 shell/sdk/external_renderer_ipc.dll\n
 Please verify the installation directory.</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu / MuMu Arknights V4.0.0 or later is required. MuMu Global requires V5.21.3 or later.
+MuMu / MuMu Arknights V4.1.26 or later is required. MuMu Global requires V5.21.3 or later.
 It's strongly recommended to run a screenshot test immediately after enabling this feature.
 MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
 The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
@@ -1378,7 +1398,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
     <system:String x:Key="ReportSkippedForPcClient">The PC client cursor can obscure drop items and counts. This report was skipped to avoid polluting the data pool with inaccurate data</system:String>
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
-    <system:String x:Key="MissingOperators">None of the {key=Operator}s in the following groups are owned (only one is needed per group):\n{0}｢Favourite｣ marks may affect {key=Operator} recognition; if the {key=Operator}s above are owned, remove the mark and retry. If not, use ｢{key=SupportUnitUsage}｣ when only one group is missing, or use another job when two or more are missing.</system:String>
+    <system:String x:Key="MissingOperators">None of the {key=Operator}s in the following groups are owned (only one is needed per group):\n{0}｢Favourite｣ marks may affect {key=Operator} recognition; if the {key=Operator}s are actually owned, you can remove the mark and retry, or turn off ｢{key=AutoSquad}｣ and add them manually. If they are really not owned, use ｢{key=SupportUnitUsage}｣ when only one group is missing, or use another job when two or more are missing.</system:String>
     <system:String x:Key="RecruitSupportOperator">Add support unit: {0}</system:String>
     <system:String x:Key="StageQueue">Stage Queue:&#160;</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
@@ -1705,7 +1725,7 @@ If you do need to use it, please ensure:
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Background, Efficient, Can Minimize)</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Background, Efficient, Cannot Minimize)</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow (Background, Stable, Can Minimize)</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (Background, Backup, Cannot Minimize)</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (Foreground, No Occlusion)</system:String>
@@ -2408,7 +2428,7 @@ These directories are not suitable places to keep MAA; files there can be easily
 
     <system:String x:Key="Achievement.SlackingOff.Title">Slacking Off</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">Done with serious business, time to play something else.</system:String>
-    <system:String x:Key="Achievement.SlackingOff.Conditions">Launch a mini-game once</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Conditions">Launch {key=MiniGame} once</system:String>
 
     <system:String x:Key="AchievementDlcProgressNotice">Achievement DLC: #1 shipped with the system, later DLCs were added via updates. Some achievements can only be progressed after their DLC goes live.</system:String>
     <system:String x:Key="AchievementDlcReleaseDate">Release date</system:String>

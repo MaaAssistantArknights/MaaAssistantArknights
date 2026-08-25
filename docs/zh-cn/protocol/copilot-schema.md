@@ -20,6 +20,7 @@ icon: ph:sword-bold
         // 指定干员
         {
             "name": "重岳", // 干员名
+            "role": "guard", // 干员职业。可选，用于区分同名干员，中英文职业名均可，大小写不限
             "skill": 3, // 技能序号。可选，默认为 0，取值范围 [0, 3]
             "skill_usage": 2, // 技能用法。可选，默认为 0
             // 0 - 不自动使用（依赖 "actions" 字段）
@@ -29,13 +30,13 @@ icon: ph:sword-bold
             // 如果是全自动的技能，填 0
             "skill_times": 5, // 技能使用次数。可选，默认为 1
             "requirements": {
-                // 练度要求。保留接口，暂未实现。可选，默认为空
+                // 练度要求，自动编队时校验。可选，默认为空
                 "elite": 2, // 精英化等级。可选，默认为 0, 不要求精英化等级
                 "level": 90, // 干员等级。可选，默认为 0
                 "skill_level": 10, // 技能等级。可选，默认为 0
                 "module": 1, // 模组编号。可选，默认为 0
-                "module_level": 3, // 模组等级，可选，默认为 0
-                "potential": 1 // 潜能要求。可选，默认为 0
+                "module_level": 3, // 模组等级。暂不支持
+                "potential": 1 // 潜能要求。暂不支持
             }
         }
     ],
@@ -75,7 +76,7 @@ icon: ph:sword-bold
             // "打印" 界面不显示这条步骤，仅用于输出 doc 里的内容（用来做字幕之类的）
             // "摆完挂机" 仅使用 "好了就用" 的技能，其他什么都不做，直到战斗结束
             // "移动镜头" 用于 “引航者试炼” 模式，还需要填写 distance 字段
-            // "重置全局计时器" 重置全局计时器，请参考 “time_elapsed” 条件
+            // "重置全局计时器" 重置全局计时器，请参考 “elapsed_time” 条件
             // 目前下面五个条件是且的关系，即 &&
             "kills": 0, // 击杀数条件，如果没达到就一直等待。可选，默认为 0，直接执行
             "costs": 50, // 费用条件，如果没达到就一直等待。可选，默认为 0，直接执行
@@ -87,13 +88,14 @@ icon: ph:sword-bold
             // 支持负数，即费用变少了（例如“孑”等吸费干员使得费用变少了）
             // 另外仅在费用是两位数的时候识别的比较准，三位数的费用可能会识别错，不推荐使用
             "cooling": 2, // CD 中干员数量条件，如果没达到就一直等待。可选，默认为 -1，不识别
-            "time_elapsed": 1000, // 以毫秒为单位全局计时条件，如果没达到就一直等待。可选，默认为 0，直接执行
+            "elapsed_time": 1000, // 以毫秒为单位全局计时条件，如果没达到就一直等待。可选，默认为 0，直接执行
             // 注意是从上一次执行 type:ResetStopwatch 的 action 开始计算的
             // 使用前必须执行过 type:ResetStopwatch 的 action 重置计时器，不然会卡住
             // TODO: 其他条件
             // TODO: "condition_type": 0,    // 执行条件间的关系，可选，默认为 0
             //                        // 0 - 且； 1 - 或
             "name": "棘刺", // 干员名 或 群组名， type 为 "部署" 时必选，为 "技能" | "撤退" 时可选
+            "role": "guard", // 干员职业。可选，用于区分同名干员，中英文职业名均可，大小写不限
             "location": [
                 5,
                 5
@@ -171,4 +173,4 @@ icon: ph:sword-bold
 
 ## 举例
 
-[OF-1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/OF-1_credit_fight.json)
+[OF-1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/resource/copilot/OF-1_credit_fight.json)

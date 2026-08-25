@@ -78,7 +78,7 @@ icon: iconoir:developer
    - 按 F5 运行
 
    ::: tip
-   若需运行 Win32Controller（Windows 窗口控制）/ MaaFwAdbController（MaaFramework 触控模式）相关功能，需要自行从 [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases) 下载对应平台的压缩包，将 `bin` 目录中的 `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` 放到 MAA 的 DLL 同目录下（如 `build/bin/Debug`）。欢迎 PR 一个自动下载脚本！
+   若需运行 Win32Controller（Windows 窗口控制）/ MaaFwAdbController（MaaFwAdb 触控模式）相关功能，需要自行从 [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases) 下载对应平台的压缩包，将 `bin` 目录中的 `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` 放到 MAA 的 DLL 同目录下（如 `build/bin/Debug`）。欢迎 PR 一个自动下载脚本！
 
    若需调试相关功能，则需要[自行编译 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，使用对应的 DLL 文件，否则在断点调试时会神秘闪退。
    :::
@@ -100,7 +100,7 @@ icon: iconoir:developer
     git push origin dev-v2
     ```
 
-12. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 Pull Request，等待管理员通过。别忘了你是在 dev 分支上修改，别提交到 master 分支去了
+12. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 Pull Request，等待管理员通过。别忘了你是在 dev-v2 分支上修改，别提交到 master-v2 分支去了
 13. 当 MAA 原仓库出现更改（别人做的），你可能需要把这些更改同步到你的分支
     1. 关联 MAA 原仓库
 
@@ -181,7 +181,7 @@ icon: iconoir:developer
 
    :::
 
-4. **调试**：项目已包含 `.vscode/launch.json`，可直接启动 MaaWpfGui 或 Debug Demo 进行调试
+4. **调试**：需自行创建 `.vscode/launch.json`，配置后可启动 MaaWpfGui 或 Debug Demo 进行调试
 
 ### 快速构建与调试
 
@@ -201,6 +201,8 @@ MAA 使用一系列的格式化工具来保证仓库中的代码和资源文件�
 | C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
 | JSON/YAML | [Prettier](https://prettier.io/)                                |
 | Markdown  | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+| Python    | [ruff-format](https://docs.astral.sh/ruff/formatter/)           |
+| PNG 图片  | [oxipng](https://github.com/oxipng/oxipng)                      |
 
 ### 利用 Pre-commit Hooks 自动进行代码格式化
 

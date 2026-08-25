@@ -169,6 +169,25 @@
     <system:String x:Key="InfrastReceptionSendClue">赠送线索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中设置并执行</system:String>
     <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
+    <system:String x:Key="InfrastFiammettaTargets">菲亚梅塔恢复目标</system:String>
+    <system:String x:Key="InfrastFiammettaTargetNone">无</system:String>
+    <system:String x:Key="InfrastFiammettaTargetPurestream">清流</system:String>
+    <system:String x:Key="InfrastFiammettaTargetClosure">可露希尔</system:String>
+    <system:String x:Key="InfrastFiammettaTargetProviso">但书</system:String>
+    <system:String x:Key="InfrastFiammettaTargetShamare">巫恋</system:String>
+    <system:String x:Key="InfrastFiammettaTargetTequila">龙舌兰</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGladiia">歌蕾蒂娅</system:String>
+    <system:String x:Key="InfrastFiammettaTargetsTips">虽然理论上恢复巫恋和龙舌兰可以007，但是自动换班情况下难以实现，因此不推荐选择恢复巫恋和龙舌兰</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestris">使用红松骑士团跨设施组合</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">必要干员：焰尾(精二)、薇薇安娜(精二)、野鬃(精二)/灰毫(精二)/远牙(精二)至少一个&#10;参与计算干员：砾</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformation">使用感知信息跨设施组合</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformationTips" xml:space="preserve">必要干员：絮雨(精二)、迷迭香(精二)、黑键(精二)&#10;参与计算干员：夕、塑心、爱丽丝、车尔尼&#10;优先度高于人间烟火</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlight">使用人间烟火跨设施组合</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlightTips" xml:space="preserve">必要干员：桑葚(精二)、乌有(精二)&#10;参与计算干员：重岳、令、夕</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">使用深海猎人跨设施组合</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunterTips" xml:space="preserve">必要干员：歌蕾蒂娅(精二)、乌尔比安、斯卡蒂、幽灵鲨、安哲拉&#10;因算法原因同时勾选红松骑士团时不会和红松骑士团同时参与排班</system:String>
+    <system:String x:Key="InfrastFacilitySelection">换班设施</system:String>
+    <system:String x:Key="InfrastFacilitySelectionTip" xml:space="preserve">｢{key=InfrastModeNormal}｣ 下换班顺序由算法统一安排，此处仅选择需要换班的设施类别，列表顺序不生效。&#10;若需自定义换班顺序，请使用 ｢{key=InfrastModeCustom}｣。</system:String>
     <system:String x:Key="TrainingIdle">训练室空闲中</system:String>
     <system:String x:Key="TrainingCompleted">训练完成</system:String>
     <system:String x:Key="TrainingLevel">专精等级</system:String>
@@ -552,9 +571,9 @@ D:\
     <system:String x:Key="MiniTouchMode">Minitouch（默认）</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch（实验功能）</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input（不推荐使用）</system:String>
-    <system:String x:Key="MaaFwAdbTouchMode">MaaFramework（实验功能）</system:String>
+    <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb（实验功能）</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu 触控增强（实验功能）</system:String>
-    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 仅用于兼容系统版本过低的实体机设备。能用其他模式时，不要选择 ADB Input。&#10;ADB Input 的滑动容易拖飞，为避免此问题，滑动速度会设置得非常慢，且滑动距离与其他模式不同；在需要精确控制坐标的场景下无法使用。</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 仅用于兼容系统版本过低的实体机设备，能用其他模式时不要选择。&#10;ADB Input 的滑动容易拖飞，为此滑动速度会设置得非常慢，且滑动距离与其他模式不同，需要精确控制坐标的场景下无法使用。&#10;&#10;MaaFwAdb 不支持额外滑动，依赖额外滑动防止拖飞的页面在该模式下会拖飞。&#10;额外滑动是主滑动结束后沿垂直方向追加一小段的 ｢刹车｣ 滑动（轨迹类似拐 90° 的 L 形），用于抵消列表惯性。</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用于指定模拟器启动参数（如 ｢--instance 1｣ 表示启动 1 号实例）。&#10;不同模拟器的命令格式不同，通常包括实例编号、窗口模式等参数，请参考您使用的模拟器文档</system:String>
     <system:String x:Key="StartsWithScript">开始前脚本</system:String>
@@ -744,6 +763,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionAddressTip">开启 ｢{key=AutoDetectConnection}｣ 并成功后会自动填入。若检测失败，请查到模拟器的实际端口后填入。</system:String>
     <system:String x:Key="ConnectionPreset">连接配置</system:String>
     <system:String x:Key="ScreenshotTest">截图测试</system:String>
+    <system:String x:Key="WindowRestore">窗口恢复</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">启用 MuMu 截图增强</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">启用 MuMu 触控增强（实验性，需 MuMu 模拟器 6.3.2+，支持后台保活）</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">未找到 MuMu 模拟器路径。</system:String>
@@ -754,7 +774,7 @@ nx_device/12.0/shell/sdk/external_renderer_ipc.dll 或
 shell/sdk/external_renderer_ipc.dll\n
 请确认安装目录。</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-需使用官版或方舟专版 MuMu V4.0.0 或更新版本，国际版需 V5.21.3 或更新版本。
+需使用官版或方舟专版 MuMu V4.1.26 或更新版本，国际版需 V5.21.3 或更新版本。
 强烈建议在开启本功能后立刻运行一次截图测试。
 MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。\n
 安装路径应填写模拟器安装目录的根目录，例如模拟器进程文件路径为
@@ -1378,7 +1398,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC 端鼠标为独立渲染，可能遮挡掉落物及数量识别。为避免错误数据污染数据池，已自动跳过本次上报</system:String>
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
-    <system:String x:Key="MissingOperators">以下{key=Operator}组内的{key=Operator}均未拥有（每组只需其一）：\n{0}｢特别关注｣ 可能影响{key=Operator}识别，上述{key=Operator}若已拥有，请移除后重试；若未拥有，仅缺一组时可使用 ｢{key=SupportUnitUsage}｣，缺两组以上请更换作业。</system:String>
+    <system:String x:Key="MissingOperators">以下{key=Operator}组内的{key=Operator}均未拥有（每组只需其一）：\n{0}｢特别关注｣ 可能影响{key=Operator}识别，若实际已拥有，可移除 ｢特别关注｣ 后重试，或关闭 ｢{key=AutoSquad}｣ 手动补充；若确实未拥有，仅缺一组时可使用 ｢{key=SupportUnitUsage}｣，缺两组以上请更换作业。</system:String>
     <system:String x:Key="RecruitSupportOperator">编入助战{key=Operator}：{0}</system:String>
     <system:String x:Key="StageQueue">关卡队列:</system:String>
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>
@@ -1704,7 +1724,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowScreencapMethod">截图方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">鼠标输入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">键盘输入</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">WGC（后台，高效，可最小化）</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">WGC（后台，高效，不可最小化）</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow（后台，稳定，可最小化）</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（后台，备用，不可最小化）</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（前台，不可遮挡）</system:String>
@@ -2407,7 +2427,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
     <system:String x:Key="Achievement.SlackingOff.Title">不务正业</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">正事做累了，玩点别的。</system:String>
-    <system:String x:Key="Achievement.SlackingOff.Conditions">启动一次小游戏</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Conditions">启动一次{key=MiniGame}</system:String>
 
     <system:String x:Key="AchievementDlcProgressNotice" xml:space="preserve">成就 DLC 标识：#1 随成就系统首发，后续 DLC 由版本更新追加。
 部分成就的进度需在所属 DLC 上线后方可累计。</system:String>

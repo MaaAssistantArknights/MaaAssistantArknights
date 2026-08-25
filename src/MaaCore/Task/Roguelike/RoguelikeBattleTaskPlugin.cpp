@@ -135,9 +135,9 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
     sleep(stage_name_task_ptr->pre_delay);
 
     auto start = std::chrono::steady_clock::now();
-    constexpr auto kTimeout = std::chrono::minutes(1);
+    const auto timeout = std::chrono::seconds(Config.get_options().battle_start_timeout_seconds);
 
-    while (std::chrono::steady_clock::now() - start < kTimeout) {
+    while (std::chrono::steady_clock::now() - start < timeout) {
         if (need_exit()) {
             return false;
         }

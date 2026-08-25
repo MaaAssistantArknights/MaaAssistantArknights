@@ -460,7 +460,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @optional
 换班工作模式。
 <br>
-`0` - `Default`: 默认换班模式，单设施最优解。
+`0` - `Default`: 默认换班模式，自动计算效率较高的设施内及跨设施干员组合。
 <br>
 `10000` - `Custom`: 自定义换班模式，读取用户配置，可参考 [基建排班协议](./base-scheduling-schema.md)。
 <br>
@@ -469,7 +469,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field facility  
 @type array<string>
 @required
-要换班的设施（有序）。不支持运行中设置。
+要换班的设施。不支持运行中设置。
+<br>
+`mode = 0` 时该数组为启用集合，顺序与重复项不参与调度（换班顺序由算法统一安排）；`mode = 10000` / `20000` 时按数组顺序执行。
 <br>
 设施名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
 :::  
@@ -508,6 +510,38 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @default false
 @optional
 是否将宿舍剩余位置填入信赖未满干员。  
+:::  
+::: field fiammetta_targets  
+@type array<string>
+@default ["清流", "可露希尔", "但书"]
+@optional
+菲亚梅塔恢复目标名单，换班时会优先将名单中当前心情最低的干员与菲亚梅塔一同进驻宿舍。仅 `mode = 0` 时生效。
+<br>
+选项：`清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅`（不在选项内或重复的条目会被忽略）  
+:::  
+::: field use_pinus_sylvestris  
+@type boolean
+@default false
+@optional
+是否启用 ｢红松骑士团｣ 跨设施组合。仅 `mode = 0` 时生效。  
+:::  
+::: field use_perception_information  
+@type boolean
+@default false
+@optional
+是否启用 ｢感知信息｣ 跨设施组合，优先度高于 ｢人间烟火｣。仅 `mode = 0` 时生效。  
+:::  
+::: field use_worldly_plight  
+@type boolean
+@default false
+@optional
+是否启用 ｢人间烟火｣ 跨设施组合。仅 `mode = 0` 时生效。  
+:::  
+::: field use_abyssal_hunter  
+@type boolean
+@default false
+@optional
+是否启用 ｢深海猎人｣ 跨设施组合。仅 `mode = 0` 时生效，与 ｢红松骑士团｣ 同时启用时两者不会同时参与排班。  
 :::  
 ::: field reception_message_board  
 @type boolean
@@ -744,7 +778,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `Sarkaz` - 萨卡兹的无终奇语
 <br>
-`JieGarden` - 岁的界园志异  
+`JieGarden` - 岁的界园志异
+<br>
+`BlackFlow` - 黑流树海  
 :::  
 ::: field mode  
 @type number
@@ -767,6 +803,8 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 `6` - 刷月度小队蚊子腿，除了针对模式的适配以外和模式 0 相同。
 <br>
 `7` - 刷深入调查蚊子腿，除了针对模式的适配以外和模式 0 相同。
+<br>
+`30001` - 刷襁褓动物；仅适用于 BlackFlow 主题。
 :::  
 ::: field squad  
 @type string
@@ -805,9 +843,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field difficulty  
 @type number
-@default 0
+@default -1
 @optional
-指定难度等级。若未解锁难度，则会选择当前已解锁的最高难度。  
+指定难度等级，`-1` 表示不指定难度。若指定难度未解锁，则会选择当前已解锁的最高难度。  
 :::  
 ::: field stop_at_final_boss  
 @type boolean
@@ -950,14 +988,30 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 烧水时使用的分队, 默认与squad同步, 当squad为空字符串且未指定collectible_mode_squad值时为指挥分队。  
 :::  
 ::: field start_with_seed  
-@type boolean
-@default false
+@type string
 @optional
-使用种子刷钱。
+使用种子刷钱时填入固定种子，留空则不启用。
 <br>
-仅在 Sarkaz 主题，Investment 模式，“点刺成锭分队” or “后勤分队” 时可能为 true。
+仅在 Sarkaz 主题，Investment 模式，“点刺成锭分队” or “后勤分队” 时生效。  
+:::  
+::: field blackflow_strategy  
+@type string
+@optional
+黑流树海主题的策略；留空时按 `mode` 与 `investment_enabled` 推断。
 <br>
-使用固定种子。  
+`baby_animal` - 第一层检查普通商店，第二、三层探索并进入秘境行商培育种子，需配合 `blackflow_cultivation_target`
+<br>
+`investment` - 第一层以战斗次数最少、预计时间最短的完整路线抵达固定普通商店
+<br>
+`burn_with_investment` - 第一层完成投资后尽快抵达第三层，到达即重开
+<br>
+`burn` - 尽快抵达第三层，到达即重开  
+:::  
+::: field blackflow_cultivation_target  
+@type string
+@default swaddled_cat
+@optional
+刷襁褓动物模式的目标。可选值：`swaddled_cat` | `swaddled_feathered_serpent` | `swaddled_dog` | `swaddled_cerberus`；仅在 `blackflow_strategy` 为 `baby_animal` 时使用。  
 :::  
 ::::
 
@@ -1006,7 +1060,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    "deep_exploration_auto_iterate": false,
    "collectible_mode_shopping": false,
    "collectible_mode_squad": "",
-   "start_with_seed": false
+   "start_with_seed": ""
 }
 ```
 
@@ -1077,7 +1131,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
   <br>
 - `name`: 干员名，可选，默认值 ""，若留空则忽视此干员
   <br>
-- `skill`: 需要携带的技能，可选，默认值 1；为 1–3 的整数，若不在此范围内则遵从游戏内默认的技能选择  
+- `skill`: 需要携带的技能，可选，默认值 0，即遵从游戏内默认的技能选择；为 1–3 的整数，若不在此范围内也遵从游戏内默认的技能选择  
   :::  
   ::: field add_trust  
   @type boolean
@@ -1601,7 +1655,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 @type string
 @default minitouch
 @optional
-触控模式设置。可选值：minitouch | maatouch | adb | MaaFwAdb。默认 minitouch。枚举值：2。  
+触控模式设置。可选值：minitouch | maatouch | adb | MaaFwAdb | MumuExtras。默认 minitouch。枚举值：2。  
 :::  
 ::: field DeploymentWithPause  
 @type boolean

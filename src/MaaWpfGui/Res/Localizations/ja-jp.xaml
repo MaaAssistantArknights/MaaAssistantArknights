@@ -169,6 +169,25 @@
     <system:String x:Key="InfrastReceptionSendClue">手がかりを贈る</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">{key=Infrast} で以下の関数を設定して実行する必要があります</system:String>
     <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
+    <system:String x:Key="InfrastFiammettaTargets">フィアメッタの回復対象</system:String>
+    <system:String x:Key="InfrastFiammettaTargetNone">なし</system:String>
+    <system:String x:Key="InfrastFiammettaTargetPurestream">セイリュウ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetClosure">クロージャ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetProviso">プロヴァイゾ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetShamare">シャマレ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetTequila">テキーラ</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGladiia">グレイディーア</system:String>
+    <system:String x:Key="InfrastFiammettaTargetsTips">理論上はシャマレとテキーラを回復対象にすると007が可能ですが、自動交代では実現が難しいため、シャマレとテキーラの選択は推奨しません。</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestris">ピヌス・シルベストリス連携を使用</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">必須オペレーター：フレイムテイル（昇進2）、ヴィヴィアナ（昇進2）、ワイルドメイン（昇進2）/アッシュロック（昇進2）/ファートゥース（昇進2）のうち1名以上&#10;計算対象オペレーター：グラベル</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformation">知覚情報連携を使用</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformationTips" xml:space="preserve">必須オペレーター：ウィスパーレイン（昇進2）、ロスモンティス（昇進2）、エーベンホルツ（昇進2）&#10;計算対象オペレーター：シー、ヴィルトゥオーサ、アイリス、チェルニー&#10;俗世の憂いより優先度が高い</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlight">俗世の憂い連携を使用</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlightTips" xml:space="preserve">必須オペレーター：マルベリー（昇進2）、ステンレス（昇進2）&#10;計算対象オペレーター：チョンユエ、リィン、シー</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">アビサルハンター連携を使用</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunterTips" xml:space="preserve">必須オペレーター：グレイディーア（昇進2）、ウルピアヌス、スカジ、スペクター、アンドレアナ&#10;アルゴリズム上の理由により、ピヌス・シルベストリスも選択した場合は両方を同時に交代対象にはできません。</system:String>
+    <system:String x:Key="InfrastFacilitySelection">交代対象施設</system:String>
+    <system:String x:Key="InfrastFacilitySelectionTip" xml:space="preserve">｢{key=InfrastModeNormal}｣ では交代順序はアルゴリズムが自動的に決定します。ここでは処理する施設の種類を選択するのみで、順序は反映されません。&#10;交代順序をカスタマイズしたい場合は ｢{key=InfrastModeCustom}｣ をご利用ください。</system:String>
     <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>
     <system:String x:Key="TrainingCompleted">訓練が完了しました</system:String>
     <system:String x:Key="TrainingLevel">スキルランク</system:String>
@@ -552,9 +571,9 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="MiniTouchMode">Minitouch (標準)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (実験機能)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (非推奨)</system:String>
-    <system:String x:Key="MaaFwAdbTouchMode">MaaFramework (実験機能)</system:String>
+    <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb (実験機能)</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu タッチ (実験機能)</system:String>
-    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input は、OS バージョンが古い物理デバイスのみに使用します。他のモードが使える場合は、ADB Input を選択しないでください。&#10;ADB Input のスワイプはズレやすいため、スワイプ速度が非常に遅く設定され、スワイプ距離も他のモードと異なります。正確な座標制御が必要な場面では使用できません。</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input は、OS バージョンが古い物理デバイスのみに使用します。他のモードが使える場合は、ADB Input を選択しないでください。&#10;ADB Input のスワイプはズレやすいため、スワイプ速度が非常に遅く設定され、スワイプ距離も他のモードと異なります。正確な座標制御が必要な場面では使用できません。&#10;&#10;MaaFwAdb は追加スワイプに非対応のため、追加スワイプでドラッグの暴走を防いでいるページはこのモードで暴走します。&#10;追加スワイプとは、メインスワイプの終了後に垂直方向へ少し追加分の｢ブレーキ｣スワイプを行うもので（軌跡は 90° に曲がる L 字型）、リストの慣性を打ち消すために使用します。</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">エミュレーター起動パラメータの追加コマンド（例： ｢--instance 1｣ は 1 番インスタンス）。&#10;コマンド形式はエミュレーターにより異なり、通常はインスタンス番号やウィンドウモードなどを含みます。</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>
@@ -745,6 +764,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionAddressTip">｢{key=AutoDetectConnection}｣ を有効にして成功すると自動的に入力されます。検出に失敗した場合は、エミュレータの実際のポートを確認して入力してください。</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <system:String x:Key="ScreenshotTest">スクリーンショットテスト</system:String>
+    <system:String x:Key="WindowRestore">ウィンドウ復元</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">MuMu タッチ強化を有効化（実験的、MuMu エミュレータ 6.3.2+、バックグラウンド常駐対応）</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu エミュレータのパスが見つかりません。</system:String>
@@ -755,7 +775,7 @@ nx_device/12.0/shell/sdk/external_renderer_ipc.dll または
 shell/sdk/external_renderer_ipc.dll\n
 インストールディレクトリを確認してください。</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu / MuMu Arknights V4.0.0 以降を利用する必要があり、MuMu Global は V5.21.3 以降に対応しています。
+MuMu / MuMu Arknights V4.1.26 以降を利用する必要があり、MuMu Global は V5.21.3 以降に対応しています。
 この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。
 MAA はレジストリからインストールパスを自動的に取得しますが、失敗した場合は手動で入力してください。\n
 インストールパスには、エミュレーターのインストールディレクトリのルートディレクトリを入力する必要があります。例えば、エミュレーターのプロセスファイルパスが
@@ -1380,7 +1400,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC クライアントではカーソルがドロップ品や個数の認識を遮る場合があります。誤ったデータでデータプールを汚染しないよう、今回のレポートは自動的にスキップしました</system:String>
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
-    <system:String x:Key="MissingOperators">以下の{key=Operator}グループの{key=Operator}を所有していません（各グループ1体で足ります）：\n{0}｢戦術要員｣ マークは{key=Operator}の認識に影響する可能性があります。上記の{key=Operator}を所有している場合はマークを解除して再試行してください。所有していない場合は、不足グループが1つなら ｢{key=SupportUnitUsage}｣ で補えますが、2つ以上の場合は他の作業ファイルを使用してください。</system:String>
+    <system:String x:Key="MissingOperators">以下の{key=Operator}グループの{key=Operator}を所有していません（各グループ1体で足ります）：\n{0}｢戦術要員｣ マークは{key=Operator}の認識に影響する可能性があります。実際に所有している場合は、マークを解除して再試行するか、｢{key=AutoSquad}｣ をオフにして手動で補充してください。実際に所有していない場合は、不足グループが1つなら ｢{key=SupportUnitUsage}｣ で補えますが、2つ以上の場合は他の作業ファイルを使用してください。</system:String>
     <system:String x:Key="RecruitSupportOperator">サポートユニットを追加：{0}</system:String>
     <system:String x:Key="StageQueue">ステージキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
@@ -1707,7 +1727,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（バックグラウンド、高効率、最小化可）</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（バックグラウンド、高効率、最小化不可）</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow（バックグラウンド、安定、最小化可）</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（バックグラウンド、予備、最小化不可）</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（フォアグラウンド、遮蔽不可）</system:String>
@@ -2410,7 +2430,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.SlackingOff.Title">本業を怠る</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">本業に疲れたら、ちょっと別の遊びを。</system:String>
-    <system:String x:Key="Achievement.SlackingOff.Conditions">ミニゲームを1回起動する</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Conditions">{key=MiniGame}を1回起動する</system:String>
 
     <system:String x:Key="AchievementDlcProgressNotice">実績 DLC 識別子：#1 は実績システムと同時公開、以降はアップデートで追加されます。一部実績の進捗は所属 DLC 公開後にのみ加算されます。</system:String>
     <system:String x:Key="AchievementDlcReleaseDate">公開日</system:String>

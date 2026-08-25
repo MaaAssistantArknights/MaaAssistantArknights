@@ -165,7 +165,7 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
 
 3. 返回 MAA 并测试
 
-   你可以使用 `设置-运行设置` 中的 `截图测试` 功能来检查连接到的是否为预期的模拟器核心
+   你可以使用 `设置` - `连接设置` 中的 `截图测试` 功能来检查连接到的是否为预期的模拟器核心
 
 ::::
 
@@ -179,17 +179,19 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
 
 **版本要求**：官版/方舟专版 MuMu V4.1.26 及以上，或国际版 MuMu V5.21.3 及以上。<!-- 官版 V3.8.13 支持初版截图增强 -->
 
-1. `设置` - `连接设置`，勾选 `启用 MuMu 截图增强模式`，MAA 会在勾选开关时自动尝试通过注册表获取安装路径。
+1. `设置` - `连接设置`，勾选 `启用 MuMu 截图增强`，MAA 会在勾选开关时自动尝试通过注册表获取安装路径。
 
 2. `MuMu 安装路径` 填写 `MuMu Player` 或 `MuMuPlayerGlobal-12.0` 或 `YXArkNights-12.0` 文件夹的路径，如 `C:\Program Files\Netease\MuMu Player`。
 
 3. 若正在使用 MuMu 网络桥接，则需勾选 `MuMu 网络桥接模式` 后手动填写 MuMu 多开器内对应模拟器的序号，如主多开为 `0`。
 
+**MuMu 触控增强模式**：需官方版 MuMu V6.3.2 及以上，目前方舟专版与国际版均不支持。
+
 ### 雷电截图增强模式
 
 需使用官版或国际版雷电模拟器 9 V9.1.32 及更新版本。<!-- 官版 V9.0.78 支持初版截图增强 但存在高分辨率失效问题 V9.1.29 修复-->
 
-1. `设置` - `连接设置`，勾选 `启用 LD 截图增强模式`，MAA 会在勾选开关时自动尝试通过注册表获取安装路径。
+1. `设置` - `连接设置`，勾选 `启用 LD 截图增强`，MAA 会在勾选开关时自动尝试通过注册表获取安装路径。
 
 2. `LD 安装路径` 填写 `LDPlayer9` 文件夹的路径，如 `C:\leidian\LDPlayer9\`。
 
@@ -199,18 +201,19 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
 
 需使用 Android Emulator v27.2.9 及更新版本。（只要是方舟开服之后下载的就没问题。）
 
-AVD 截图增强模式在 MaaFramework 中实现，必须选择 MaaFramework 触控模式才能启用 AVD 截图增强。
+AVD 截图增强模式在 MaaFramework 中实现，必须选择 MaaFwAdb 触控模式才能启用 AVD 截图增强。
 
 1. `设置` - `连接设置` - `连接配置` 选择 `Android 虚拟设备（AVD）`。
 
-2. `触控模式` 选择 `MaaFramework`。
+2. `触控模式` 选择 `MaaFwAdb`。
 
 ## 触控模式
 
-1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：使用 C 编写的 Android 触控事件器，操作 `evdev` 设备，提供 Socket 接口供外部程序触发触控事件和手势。从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。<sup>[源](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>
-2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基于 Java 对 Minitouch 的重新实现，使用安卓原生的 `InputDevice`，并添加了额外特性。高版本 Android 可用性尚待测试。~~帮我们做做测试~~
-3. Adb Input：直接调用 ADB 使用安卓的 `input` 命令进行触控操作，兼容性最强，速度最慢。
-4. [MaaFramework](https://maafw.com/)：调用 MaaFramework 控制单元的截图和触控功能。可用性尚待测试。~~帮我们做做测试 x2~~
+1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：使用 C 编写的 Android 触控事件器，操作 `evdev` 设备，提供 Socket 接口供外部程序触发触控事件和手势。从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。<sup>[源](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>（默认）
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基于 Java 对 Minitouch 的重新实现，使用安卓原生的 `InputDevice`，并添加了额外特性。（实验功能）
+3. ADB Input：直接调用 ADB 使用安卓的 `input` 命令进行触控操作，仅用于兼容系统版本过低的实体机设备，能用其他模式时不要选择。ADB Input 的滑动容易拖飞，为避免此问题，滑动速度会设置得非常慢，且滑动距离与其他模式不同，在需要精确控制坐标的场景下无法使用。（不推荐使用）
+4. [MaaFwAdb](https://maafw.com/)：调用 MaaFramework 控制单元的截图和触控功能。不支持额外滑动：额外滑动是主滑动结束后沿垂直方向追加一小段的 ｢刹车｣ 滑动（轨迹类似拐 90° 的 L 形），用于抵消列表惯性，依赖额外滑动防止拖飞的页面在该模式下会拖飞。（实验功能）
+5. MuMu 触控增强：调用 MuMu 模拟器外部渲染进程的触控接口，需勾选 `启用 MuMu 截图增强` 后才会出现在触控模式下拉框中，不可用时自动回退为 Minitouch（实验功能）。需官方版 MuMu V6.3.2 及以上，方舟专版与国际版暂不支持。
 
 ## ADB Lite
 

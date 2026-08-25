@@ -1,4 +1,4 @@
-## v6.17.0-beta.5
+## v6.17.0-beta.6
 
 ### Highlights
 
@@ -6,17 +6,17 @@
 
 新增适配黑流树海肉鸽，支持刷等级、刷源石锭、刷襁褓动物三个策略。
 
-#### 启动文件缺失检查
+#### 界面过渡动画与操作体验优化
 
-启动时比对安装文件完整性，发现文件缺失时提示，并支持从更新源重新下载完整包自动修复。
+主界面页签、任务链等内容切换加入方向性过渡动画，设置页导航改为平滑滚动；自定义下拉交互统一（点外部关闭、连击保持）。
 
 #### 移除掉线重连，通宵挂机改用定时启动
 
 掉线重连的恢复链状态复杂且维护成本高，已移除；通宵挂机场景请改用定时启动与强制定时启动。
 
-#### 界面过渡动画与操作体验优化
+#### 基建效率算法重写
 
-主界面页签、任务链等内容切换加入方向性过渡动画，设置页导航改为平滑滚动；自定义下拉交互统一（点外部关闭、连击保持）。
+重写基建效率算法，常规（默认）模式支持跨设施组合，新增跨设施组合设置与菲亚梅塔恢复目标设置，并修复一批基建选人与识别问题。
 
 <details>
 <summary><b>English</b></summary>
@@ -25,17 +25,17 @@
 
 Added support for the BlackFlow (黑流树海) roguelike theme, with the level-farming, Originium Ingot investment, and cultivation strategies.
 
-#### Startup File Integrity Check
+#### UI Transition Animations and Interaction Polish
 
-On startup, installed files are now verified against the file list; missing files are reported and can be repaired automatically by re-downloading the full package from the update source.
+Main tabs and task-chain switching now animate with directional transitions, and settings-page navigation scrolls smoothly; custom dropdown interactions are unified (click outside to close, repeated clicks keep open).
 
 #### Reconnect Removed in Favor of Scheduled Startup
 
 The reconnect-after-disconnect logic has been removed due to the complexity and maintenance cost of restoring the chain state; for overnight sessions, please switch to scheduled startup and forced scheduled startup instead.
 
-#### UI Transition Animations and Interaction Polish
+#### Infrast Efficiency Algorithm Rewrite
 
-Main tabs and task-chain switching now animate with directional transitions, and settings-page navigation scrolls smoothly; custom dropdown interactions are unified (click outside to close, repeated clicks keep open).
+The infrast efficiency algorithm has been rewritten; the default mode now supports cross-facility combinations, with new settings for cross-facility combinations and Fiammetta recovery targets, along with a batch of infrast operator selection and recognition fixes.
 
 </details>
 
@@ -44,6 +44,47 @@ Main tabs and task-chain switching now animate with directional transitions, and
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.0-beta.6 (2026-08-25)</b></summary>
+
+### 新增 | New
+
+* PC 端连接截图前自动规避光标与窗口遮挡：主界面识别前把光标移到窗口中心并等待视差动画，其他界面识别前移到不影响识别的位置；window-pos 鼠标输入方式下非主界面识别会把窗口移出屏幕并在断开时自动恢复（连接设置新增 ｢窗口恢复｣ 按钮），该输入方式下截图方式限定为 PrintWindow ([#17776](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17776)) @H2O-MERO @status102
+* 战斗开始等待时间支持通过 config.json 的 battleStartTimeoutSeconds 配置（10~300 秒，默认 60 秒）([#17329](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17329)) @wzacolemak @status102
+* 关卡小提示中显示同名活动进行中的小游戏入口提示 @ABA2396
+
+### 改进 | Improved
+
+* 重写基建效率算法，常规（默认）模式支持跨设施组合，新增基建跨设施组合设置 ([#17835](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17835)) @status102 @Lancarus @ABA2396
+* 调整自动编队缺少干员时的提示，明确 ｢特别关注｣ 影响识别时的处理方式 @ABA2396
+* 优化理智作战高级设置界面布局 @ABA2396
+
+### 修复 | Fix
+
+* 对截图、OCR、OpenCV 图像处理增加异常捕获避免直接崩溃，未处理异常额外输出异常信息并交由 WER 处理 ([#17860](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17860)) @moranfanhua @ABA2396
+* 修复 MuMu 触控增强在游戏开始渲染前因回退画面被误判不可用，检查推迟至游戏开始渲染时进行 ([#17855](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17855)) @ABA2396
+* 修复基建控制中枢选人、制造站深海队选人、自定义基建选人确认、宿舍宿管排序与二轮补位、未建满基建设施布局适配等一组问题 ([#17835](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17835)) @status102 @Lancarus @ABA2396
+* 修复自动战斗干员技能用法以 Unknown 职业注册时无法正确查找到技能用法，工具人技能用法改为部署时写入 @status102
+* 扩大选中干员的颜色范围，处理阴影中的编队框 ([#17819](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17819)) @yali-hzy
+* 修复黑流树海页面分类适配 ([#17798](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17798)) @ZiyinLin @status102
+* 增加黑流树海加工品选择尝试次数并在失败后重开 ([#17832](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17832)) @ZiyinLin
+* 修复黑流树海行动力预览正数识别 ([#17833](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17833)) @ZiyinLin
+* 黑流肉鸽资源文件损坏时资源加载直接失败并提示，不再静默失效 @status102
+* 修复亮色模式下下拉框高亮文本颜色错误 @ABA2396
+* 修复成就 ｢不务正业｣ 达成条件文案未跟随术语显示 ([#17834](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17834)) @H2O-MERO
+* 繁中服适配新版登录界面 ([#17853](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17853)) @momomochi987
+* 调整繁中服部分干员名称 OCR 并增加容错 ([#17828](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17828)) @momomochi987
+* YostarEN fix Eyja alter OCR regex @Constrat
+* YostarEN rework Sami IS floor detection to match region names instead of temperature numbers @Constrat
+
+### 文档 | Docs
+
+* 同步更新五语言文档（连接与设备说明、集成协议、copilot 等任务 schema、开发教程与 FAQ）([#17879](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17879)) @ABA2396
+* 补充拖入更新文件的管理员权限说明 ([#17842](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17842)) @youzibigg
+* CI 教程发布分支由 master 更新为 master-v2 ([#17823](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17823)) @youzibigg
+
+</details>
+
+<details>
 <summary><b>v6.17.0-beta.5 (2026-08-21)</b></summary>
 
 ### 新增 | New

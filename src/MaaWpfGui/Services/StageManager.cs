@@ -356,6 +356,7 @@ public class StageManager
             var tip = token["Tip"]?.ToString();
             var tipKey = token["TipKey"]?.ToString();
             var minimumRequired = token["MinimumRequired"]?.ToString();
+            var activity = token["Activity"]?.ToString();
 
             string finalDisplay = string.Empty;
             if (!string.IsNullOrEmpty(display))
@@ -427,6 +428,7 @@ public class StageManager
                 Tip = tip,
                 TipKey = tipKey,
                 MinimumRequired = minimumRequired,
+                Activity = activity,
                 UtcStartTime = utcStart,
                 UtcExpireTime = utcExpire,
             };
@@ -773,6 +775,19 @@ public class StageManager
             if (!string.IsNullOrEmpty(activity?.StageName) && shownSideStories.Add(activity.StageName))
             {
                 lines.Add($"｢{activity.StageName}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}");
+
+                var affiliatedGames = _miniGameEntries
+                    .Where(g => g.Activity == activity.StageName && g.BeingOpen)
+                    .ToList();
+                if (affiliatedGames.Count > 0)
+                {
+                    lines.AddRange(affiliatedGames.Select(game => {
+                        var gameName = string.IsNullOrEmpty(game.DisplayKey)
+                            ? game.Display
+                            : (LocalizationHelper.TryGetString(game.DisplayKey, out var loc) ? loc : game.Display);
+                        return $"{LocalizationHelper.GetString("Toolbox")}→{LocalizationHelper.GetString("MiniGame")}→{gameName}";
+                    }));
+                }
             }
 
             // Side story Drop item tips

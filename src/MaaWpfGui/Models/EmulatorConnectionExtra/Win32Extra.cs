@@ -61,7 +61,7 @@ public class Win32Extra() : ExtraConfig
     /// <summary>
     /// Gets win32 截图方式枚举（与 AsstCaller.h 中 AsstWin32ScreencapMethodEnum 对应）
     /// </summary>
-    private static readonly List<GenericCombinedData<AsstWin32ScreencapMethod>> _screencapMethodList =
+    private static readonly List<SelectableGenericCombinedData<AsstWin32ScreencapMethod>> _screencapMethodList =
     [
         new(LocalizationHelper.GetString("AttachWindowScreencapFramePool"),  AsstWin32ScreencapMethod.FramePool),
         new(LocalizationHelper.GetString("AttachWindowScreencapPrintWindow"),  AsstWin32ScreencapMethod.PrintWindow),
@@ -70,7 +70,7 @@ public class Win32Extra() : ExtraConfig
     ];
 
     [JsonIgnore]
-    public List<GenericCombinedData<AsstWin32ScreencapMethod>> ScreencapMethodList => _screencapMethodList;
+    public List<SelectableGenericCombinedData<AsstWin32ScreencapMethod>> ScreencapMethodList => _screencapMethodList;
 
     [JsonInclude]
     [JsonPropertyName("ScreencapMethod")]
@@ -82,8 +82,14 @@ public class Win32Extra() : ExtraConfig
     [JsonIgnore]
     public AsstWin32ScreencapMethod ScreencapMethod
     {
-        get => _screencapMethod;
+        get => _mouseMethod == AsstWin32InputMethod.SendMessageWithWindowPos ? AsstWin32ScreencapMethod.PrintWindow : _screencapMethod;
         set {
+            // 鼠标输入方式为 SendMessageWithWindowPos 时，截图方式仅支持 PrintWindow
+            if (_mouseMethod == AsstWin32InputMethod.SendMessageWithWindowPos)
+            {
+                value = AsstWin32ScreencapMethod.PrintWindow;
+            }
+
             Instances.AsstProxy.Connected = false;
             SetAndNotify(ref _screencapMethod, value);
         }
@@ -116,6 +122,25 @@ public class Win32Extra() : ExtraConfig
         set {
             Instances.AsstProxy.Connected = false;
             SetAndNotify(ref _mouseMethod, value);
+
+            // 鼠标输入方式为 SendMessageWithWindowPos 时，截图方式仅支持 PrintWindow
+            if (value == AsstWin32InputMethod.SendMessageWithWindowPos)
+            {
+                ScreencapMethod = AsstWin32ScreencapMethod.PrintWindow;
+            }
+
+            UpdateScreencapMethodAvailability();
+        }
+    }
+
+    /// <summary>
+    /// 根据当前鼠标输入方式刷新截图方式选项的可用状态
+    /// </summary>
+    public void UpdateScreencapMethodAvailability()
+    {
+        foreach (var item in _screencapMethodList)
+        {
+            item.IsEnabled = _mouseMethod != AsstWin32InputMethod.SendMessageWithWindowPos || item.Value == AsstWin32ScreencapMethod.PrintWindow;
         }
     }
 

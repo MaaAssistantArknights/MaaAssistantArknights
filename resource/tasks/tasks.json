@@ -710,6 +710,9 @@
             [".*维多利亚$", "维娜·维多利亚"],
             ["^盥心$", "塑心"],
             ["^(钳|钥)铅$", "钼铅"],
+            ["^墨键$", "黑键"],
+            ["^灰亳$", "灰毫"],
+            ["^野鬘$", "野鬃"],
             [".*NFESS-47$", "CONFESS-47"],
             ["^焰影苇.*", "焰影苇草"],
             ["Miss\\.[Cc]hristine", "Miss.Christine"],
@@ -1346,7 +1349,7 @@
         "postDelay": 1000,
         "roi": [1010, 625, 260, 61],
         "exceededNext": ["StageSNReturnFlag", "Stop"],
-        "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner)*10"],
+        "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner)*10", "PrtsStillLoading*100"],
         "next": [
             "StartButton2",
             "UseMedicine",
@@ -1407,7 +1410,7 @@
     "StartButton2WaitTime": {
         "algorithm": "JustReturn",
         "postDelay": 40000,
-        "next": ["PRTS#next", "StartButton2TryAgain", "OfflineConfirm", "WaitAfterPRTS"]
+        "next": ["PRTS#next", "StartButton2TryAgain", "OfflineConfirm", "PrtsStillLoading", "WaitAfterPRTS"]
     },
     "PRTS": {
         "algorithm": "JustReturn",
@@ -1437,6 +1440,16 @@
         "algorithm": "JustReturn",
         "reduceOtherTimes": ["ClickCornerAfterPRTS*10"],
         "next": ["PRTS#next", "WaitAfterPRTS@LoadingText", "WaitAfterPRTS@LoadingIcon", "ClickCornerAfterPRTS"]
+    },
+    "PrtsStillLoading": {
+        "template": "PageLoading-Black.png",
+        "roi": [1155, 0, 125, 100],
+        "method": "HSVCount",
+        "colorScales": [[0, 10]],
+        "maxTimes": 70,
+        "postDelay": 3000,
+        "next": ["#self", "StartButton2WaitTime#next"],
+        "exceededNext": ["StartButton2WaitTime#next"]
     },
     "CheckLevelUp": {
         "doc": "跳过可能出现的等级提升界面。另外还有个金圈升级动画的界面，可能还需要一次点击。很难验证，先把这个页面点了",
@@ -2422,6 +2435,360 @@
             "Infrast@CloseAnnos#next",
             "Infrast@OfflineConfirm"
         ]
+    },
+    "InfrastInfoMfgLevelMini": {
+        "template": "ManufacturingLevelMini.png",
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [22, 240, 240],
+                [26, 255, 255]
+            ]
+        ],
+        "colorWithClose": false,
+        "pureColor": true,
+        "rectMove": [102, 14, 35, 27]
+    },
+    "InfrastInfoTradeLevelMini": {
+        "template": "TradeLevelMini.png",
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [93, 185, 235],
+                [101, 220, 255]
+            ]
+        ],
+        "colorWithClose": false,
+        "pureColor": true,
+        "rectMove": [102, 14, 35, 27]
+    },
+    "InfrastInfoPowerLevelMini": {
+        "template": "PowerLevelMini.png",
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [36, 130, 235],
+                [43, 180, 255]
+            ]
+        ],
+        "colorWithClose": false,
+        "pureColor": true,
+        "rectMove": [102, 14, 35, 27]
+    },
+    "InfrastInfoDormLevelMini": {
+        "template": "DormLevelMini.png",
+        "method": "HSVCount",
+        "colorScales": [[245, 255]],
+        "colorWithClose": false,
+        "pureColor": true,
+        "rectMove": [64, 13, 50, 28]
+    },
+    "InfrastInfoMiniStationRow1Column1Level1": {
+        "algorithm": "JustReturn",
+        "roi": [193, 301, 5, 12],
+        "roi_Doc": "最小视图左侧第1行第1列第1级标记区域"
+    },
+    "InfrastInfoMiniStationRow1Column1Level2": {
+        "algorithm": "JustReturn",
+        "roi": [199, 301, 5, 12],
+        "roi_Doc": "最小视图左侧第1行第1列第2级标记区域"
+    },
+    "InfrastInfoMiniStationRow1Column1Level3": {
+        "algorithm": "JustReturn",
+        "roi": [204, 301, 5, 12],
+        "roi_Doc": "最小视图左侧第1行第1列第3级标记区域"
+    },
+    "InfrastInfoMiniStationRow1Column2Level1": {
+        "algorithm": "JustReturn",
+        "roi": [345, 301, 5, 12],
+        "roi_Doc": "最小视图左侧第1行第2列第1级标记区域"
+    },
+    "InfrastInfoMiniStationRow1Column2Level2": {
+        "algorithm": "JustReturn",
+        "roi": [351, 301, 5, 12],
+        "roi_Doc": "最小视图左侧第1行第2列第2级标记区域"
+    },
+    "InfrastInfoMiniStationRow1Column2Level3": {
+        "algorithm": "JustReturn",
+        "roi": [356, 301, 5, 12],
+        "roi_Doc": "最小视图左侧第1行第2列第3级标记区域"
+    },
+    "InfrastInfoMiniStationRow1Column3Level1": {
+        "algorithm": "JustReturn",
+        "roi": [497, 301, 5, 12],
+        "roi_Doc": "最小视图左侧第1行第3列第1级标记区域"
+    },
+    "InfrastInfoMiniStationRow1Column3Level2": {
+        "algorithm": "JustReturn",
+        "roi": [503, 301, 5, 12],
+        "roi_Doc": "最小视图左侧第1行第3列第2级标记区域"
+    },
+    "InfrastInfoMiniStationRow1Column3Level3": {
+        "algorithm": "JustReturn",
+        "roi": [509, 301, 5, 12],
+        "roi_Doc": "最小视图左侧第1行第3列第3级标记区域"
+    },
+    "InfrastInfoMiniStationRow2Column1Level1": {
+        "algorithm": "JustReturn",
+        "roi": [118, 377, 5, 12],
+        "roi_Doc": "最小视图左侧第2行第1列第1级标记区域"
+    },
+    "InfrastInfoMiniStationRow2Column1Level2": {
+        "algorithm": "JustReturn",
+        "roi": [124, 377, 5, 12],
+        "roi_Doc": "最小视图左侧第2行第1列第2级标记区域"
+    },
+    "InfrastInfoMiniStationRow2Column1Level3": {
+        "algorithm": "JustReturn",
+        "roi": [129, 377, 5, 12],
+        "roi_Doc": "最小视图左侧第2行第1列第3级标记区域"
+    },
+    "InfrastInfoMiniStationRow2Column2Level1": {
+        "algorithm": "JustReturn",
+        "roi": [271, 377, 5, 12],
+        "roi_Doc": "最小视图左侧第2行第2列第1级标记区域"
+    },
+    "InfrastInfoMiniStationRow2Column2Level2": {
+        "algorithm": "JustReturn",
+        "roi": [276, 377, 5, 12],
+        "roi_Doc": "最小视图左侧第2行第2列第2级标记区域"
+    },
+    "InfrastInfoMiniStationRow2Column2Level3": {
+        "algorithm": "JustReturn",
+        "roi": [281, 377, 5, 12],
+        "roi_Doc": "最小视图左侧第2行第2列第3级标记区域"
+    },
+    "InfrastInfoMiniStationRow2Column3Level1": {
+        "algorithm": "JustReturn",
+        "roi": [421, 377, 5, 12],
+        "roi_Doc": "最小视图左侧第2行第3列第1级标记区域"
+    },
+    "InfrastInfoMiniStationRow2Column3Level2": {
+        "algorithm": "JustReturn",
+        "roi": [426, 377, 5, 12],
+        "roi_Doc": "最小视图左侧第2行第3列第2级标记区域"
+    },
+    "InfrastInfoMiniStationRow2Column3Level3": {
+        "algorithm": "JustReturn",
+        "roi": [432, 377, 5, 12],
+        "roi_Doc": "最小视图左侧第2行第3列第3级标记区域"
+    },
+    "InfrastInfoMiniStationRow3Column1Level1": {
+        "algorithm": "JustReturn",
+        "roi": [193, 452, 5, 12],
+        "roi_Doc": "最小视图左侧第3行第1列第1级标记区域"
+    },
+    "InfrastInfoMiniStationRow3Column1Level2": {
+        "algorithm": "JustReturn",
+        "roi": [199, 452, 5, 12],
+        "roi_Doc": "最小视图左侧第3行第1列第2级标记区域"
+    },
+    "InfrastInfoMiniStationRow3Column1Level3": {
+        "algorithm": "JustReturn",
+        "roi": [204, 452, 5, 12],
+        "roi_Doc": "最小视图左侧第3行第1列第3级标记区域"
+    },
+    "InfrastInfoMiniStationRow3Column2Level1": {
+        "algorithm": "JustReturn",
+        "roi": [346, 452, 5, 12],
+        "roi_Doc": "最小视图左侧第3行第2列第1级标记区域"
+    },
+    "InfrastInfoMiniStationRow3Column2Level2": {
+        "algorithm": "JustReturn",
+        "roi": [352, 452, 5, 12],
+        "roi_Doc": "最小视图左侧第3行第2列第2级标记区域"
+    },
+    "InfrastInfoMiniStationRow3Column2Level3": {
+        "algorithm": "JustReturn",
+        "roi": [357, 452, 5, 12],
+        "roi_Doc": "最小视图左侧第3行第2列第3级标记区域"
+    },
+    "InfrastInfoMiniStationRow3Column3Level1": {
+        "algorithm": "JustReturn",
+        "roi": [496, 452, 5, 12],
+        "roi_Doc": "最小视图左侧第3行第3列第1级标记区域"
+    },
+    "InfrastInfoMiniStationRow3Column3Level2": {
+        "algorithm": "JustReturn",
+        "roi": [502, 452, 5, 12],
+        "roi_Doc": "最小视图左侧第3行第3列第2级标记区域"
+    },
+    "InfrastInfoMiniStationRow3Column3Level3": {
+        "algorithm": "JustReturn",
+        "roi": [508, 452, 5, 12],
+        "roi_Doc": "最小视图左侧第3行第3列第3级标记区域"
+    },
+    "InfrastInfoMiniDormRow1Level1": {
+        "algorithm": "JustReturn",
+        "roi": [659, 301, 5, 12],
+        "roi_Doc": "最小视图中部第1间宿舍第1级标记区域"
+    },
+    "InfrastInfoMiniDormRow1Level2": {
+        "algorithm": "JustReturn",
+        "roi": [665, 301, 5, 12],
+        "roi_Doc": "最小视图中部第1间宿舍第2级标记区域"
+    },
+    "InfrastInfoMiniDormRow1Level3": {
+        "algorithm": "JustReturn",
+        "roi": [670, 301, 5, 12],
+        "roi_Doc": "最小视图中部第1间宿舍第3级标记区域"
+    },
+    "InfrastInfoMiniDormRow1Level4": {
+        "algorithm": "JustReturn",
+        "roi": [676, 301, 5, 12],
+        "roi_Doc": "最小视图中部第1间宿舍第4级标记区域"
+    },
+    "InfrastInfoMiniDormRow1Level5": {
+        "algorithm": "JustReturn",
+        "roi": [682, 301, 5, 12],
+        "roi_Doc": "最小视图中部第1间宿舍第5级标记区域"
+    },
+    "InfrastInfoMiniDormRow2Level1": {
+        "algorithm": "JustReturn",
+        "roi": [735, 377, 5, 12],
+        "roi_Doc": "最小视图中部第2间宿舍第1级标记区域"
+    },
+    "InfrastInfoMiniDormRow2Level2": {
+        "algorithm": "JustReturn",
+        "roi": [740, 377, 5, 12],
+        "roi_Doc": "最小视图中部第2间宿舍第2级标记区域"
+    },
+    "InfrastInfoMiniDormRow2Level3": {
+        "algorithm": "JustReturn",
+        "roi": [746, 377, 5, 12],
+        "roi_Doc": "最小视图中部第2间宿舍第3级标记区域"
+    },
+    "InfrastInfoMiniDormRow2Level4": {
+        "algorithm": "JustReturn",
+        "roi": [752, 377, 5, 12],
+        "roi_Doc": "最小视图中部第2间宿舍第4级标记区域"
+    },
+    "InfrastInfoMiniDormRow2Level5": {
+        "algorithm": "JustReturn",
+        "roi": [758, 377, 5, 12],
+        "roi_Doc": "最小视图中部第2间宿舍第5级标记区域"
+    },
+    "InfrastInfoMiniDormRow3Level1": {
+        "algorithm": "JustReturn",
+        "roi": [659, 453, 5, 12],
+        "roi_Doc": "最小视图中部第3间宿舍第1级标记区域"
+    },
+    "InfrastInfoMiniDormRow3Level2": {
+        "algorithm": "JustReturn",
+        "roi": [665, 453, 5, 12],
+        "roi_Doc": "最小视图中部第3间宿舍第2级标记区域"
+    },
+    "InfrastInfoMiniDormRow3Level3": {
+        "algorithm": "JustReturn",
+        "roi": [670, 453, 5, 12],
+        "roi_Doc": "最小视图中部第3间宿舍第3级标记区域"
+    },
+    "InfrastInfoMiniDormRow3Level4": {
+        "algorithm": "JustReturn",
+        "roi": [676, 453, 5, 12],
+        "roi_Doc": "最小视图中部第3间宿舍第4级标记区域"
+    },
+    "InfrastInfoMiniDormRow3Level5": {
+        "algorithm": "JustReturn",
+        "roi": [682, 453, 5, 12],
+        "roi_Doc": "最小视图中部第3间宿舍第5级标记区域"
+    },
+    "InfrastInfoMiniDormRow4Level1": {
+        "algorithm": "JustReturn",
+        "roi": [735, 528, 5, 12],
+        "roi_Doc": "最小视图中部第4间宿舍第1级标记区域"
+    },
+    "InfrastInfoMiniDormRow4Level2": {
+        "algorithm": "JustReturn",
+        "roi": [740, 528, 5, 12],
+        "roi_Doc": "最小视图中部第4间宿舍第2级标记区域"
+    },
+    "InfrastInfoMiniDormRow4Level3": {
+        "algorithm": "JustReturn",
+        "roi": [746, 528, 5, 12],
+        "roi_Doc": "最小视图中部第4间宿舍第3级标记区域"
+    },
+    "InfrastInfoMiniDormRow4Level4": {
+        "algorithm": "JustReturn",
+        "roi": [752, 528, 5, 12],
+        "roi_Doc": "最小视图中部第4间宿舍第4级标记区域"
+    },
+    "InfrastInfoMiniDormRow4Level5": {
+        "algorithm": "JustReturn",
+        "roi": [758, 528, 5, 12],
+        "roi_Doc": "最小视图中部第4间宿舍第5级标记区域"
+    },
+    "InfrastInfoMiniReceptionLevel1": {
+        "algorithm": "JustReturn",
+        "roi": [62, 6, 5, 12],
+        "roi_Doc": "最小视图会客室第1级标记区域（相对于设施匹配区域）"
+    },
+    "InfrastInfoMiniReceptionLevel2": {
+        "algorithm": "JustReturn",
+        "roi": [67, 6, 5, 12],
+        "roi_Doc": "最小视图会客室第2级标记区域（相对于设施匹配区域）"
+    },
+    "InfrastInfoMiniReceptionLevel3": {
+        "algorithm": "JustReturn",
+        "roi": [73, 6, 5, 12],
+        "roi_Doc": "最小视图会客室第3级标记区域（相对于设施匹配区域）"
+    },
+    "InfrastInfoMiniOfficeLevel1": {
+        "algorithm": "JustReturn",
+        "roi": [63, 12, 5, 12],
+        "roi_Doc": "最小视图办公室第1级标记区域（相对于设施匹配区域）"
+    },
+    "InfrastInfoMiniOfficeLevel2": {
+        "algorithm": "JustReturn",
+        "roi": [68, 12, 5, 12],
+        "roi_Doc": "最小视图办公室第2级标记区域（相对于设施匹配区域）"
+    },
+    "InfrastInfoMiniOfficeLevel3": {
+        "algorithm": "JustReturn",
+        "roi": [74, 12, 5, 12],
+        "roi_Doc": "最小视图办公室第3级标记区域（相对于设施匹配区域）"
+    },
+    "InfrastInfoMiniProcessingLevel1": {
+        "algorithm": "JustReturn",
+        "roi": [67, 13, 5, 12],
+        "roi_Doc": "最小视图加工站第1级标记区域（相对于设施匹配区域）"
+    },
+    "InfrastInfoMiniProcessingLevel2": {
+        "algorithm": "JustReturn",
+        "roi": [72, 13, 5, 12],
+        "roi_Doc": "最小视图加工站第2级标记区域（相对于设施匹配区域）"
+    },
+    "InfrastInfoMiniProcessingLevel3": {
+        "algorithm": "JustReturn",
+        "roi": [78, 13, 5, 12],
+        "roi_Doc": "最小视图加工站第3级标记区域（相对于设施匹配区域）"
+    },
+    "InfrastInfoMiniTrainingLevel1": {
+        "algorithm": "JustReturn",
+        "roi": [63, 11, 5, 12],
+        "roi_Doc": "最小视图训练室第1级标记区域（相对于设施匹配区域）"
+    },
+    "InfrastInfoMiniTrainingLevel2": {
+        "algorithm": "JustReturn",
+        "roi": [68, 11, 5, 12],
+        "roi_Doc": "最小视图训练室第2级标记区域（相对于设施匹配区域）"
+    },
+    "InfrastInfoMiniTrainingLevel3": {
+        "algorithm": "JustReturn",
+        "roi": [74, 11, 5, 12],
+        "roi_Doc": "最小视图训练室第3级标记区域（相对于设施匹配区域）"
+    },
+    "InfrastInfoZoomOutPointer0": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [980, 180, 1, 1],
+        "rectMove": [650, 350, 1, 1]
+    },
+    "InfrastInfoZoomOutPointer1": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [300, 700, 1, 1],
+        "rectMove": [630, 370, 1, 1]
     },
     "InfrastLoading": {
         "doc": "等待基建加载画面结束",
@@ -3556,7 +3923,8 @@
         "template": "InfrastOperListTabMoodDoubleClick.png",
         "action": "ClickSelf",
         "roi": [538, 6, 650, 64],
-        "templThreshold": 0.7
+        "templThreshold": 0.7,
+        "postDelay": 500
     },
     "BattleStageName": {
         "algorithm": "OcrDetect",

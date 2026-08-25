@@ -11,6 +11,7 @@
                     "all": 0.05
                 },
                 "name": ["集群狩猎·α"],
+                "operatorIds": ["char_474_glady"],
                 "template": "Bskill_ctrl_aegir.png"
             },
             "bskill_ctrl_aegir2": {
@@ -21,6 +22,7 @@
                     "all": 0.05
                 },
                 "name": ["集群狩猎·β"],
+                "operatorIds": ["char_474_glady"],
                 "template": "Bskill_ctrl_aegir2.png"
             },
             "bskill_ctrl_amiya": {
@@ -29,6 +31,7 @@
                     "all": 0
                 },
                 "name": ["魔王传承"],
+                "operatorIds": ["char_4134_cetsyr"],
                 "template": "Bskill_ctrl_amiya.png"
             },
             "bskill_ctrl_amiya1": {
@@ -37,6 +40,7 @@
                     "all": 0
                 },
                 "name": ["“未完的故事”"],
+                "operatorIds": ["char_4134_cetsyr"],
                 "template": "Bskill_ctrl_amiya1.png"
             },
             "bskill_ctrl_ash": {
@@ -45,6 +49,7 @@
                     "all": 0.1
                 },
                 "name": ["情报储备"],
+                "operatorIds": ["char_456_ash"],
                 "template": "Bskill_ctrl_ash.png"
             },
             "bskill_ctrl_bd_spd": {
@@ -53,6 +58,7 @@
                     "all": 0
                 },
                 "name": ["老友相聚"],
+                "operatorIds": ["char_1034_jesca2"],
                 "template": "Bskill_ctrl_bd_spd.png"
             },
             "bskill_ctrl_c_babel": {
@@ -63,6 +69,7 @@
                     "all": 0
                 },
                 "name": ["同谋·α"],
+                "operatorIds": ["char_1035_wisdel"],
                 "template": "Bskill_ctrl_c_babel.png"
             },
             "bskill_ctrl_c_babel2": {
@@ -73,6 +80,7 @@
                     "all": 0
                 },
                 "name": ["同谋·β"],
+                "operatorIds": ["char_1035_wisdel"],
                 "template": "Bskill_ctrl_c_babel2.png"
             },
             "bskill_ctrl_c_minos": {
@@ -80,6 +88,7 @@
                     "进驻控制中枢时，基建内（不包含副手及活动室使用者）每有1名米诺斯干员，会客室线索搜集速度+4%（最多+20%，同种效果取最高）；当与萨尔贡干员进驻控制中枢一起工作时，自身心情每小时消耗+0.02"
                 ],
                 "name": ["英雄的骄傲·α"],
+                "operatorIds": ["char_4166_varkis"],
                 "template": "Bskill_ctrl_c_minos.png"
             },
             "bskill_ctrl_c_minos2": {
@@ -87,6 +96,7 @@
                     "进驻控制中枢时，基建内（不包含副手及活动室使用者）每有1名米诺斯干员，会客室线索搜集速度+5%（最多+25%，同种效果取最高）；当与萨尔贡干员进驻控制中枢一起工作时，自身心情每小时消耗+0.02"
                 ],
                 "name": ["英雄的骄傲·β"],
+                "operatorIds": ["char_4166_varkis"],
                 "template": "Bskill_ctrl_c_minos2.png"
             },
             "bskill_ctrl_c_spd": {
@@ -95,6 +105,7 @@
                     "all": 0.01
                 },
                 "name": ["世事洞明"],
+                "operatorIds": ["char_322_lmlee"],
                 "template": "Bskill_ctrl_c_spd.png"
             },
             "bskill_ctrl_c_spd1": {
@@ -103,6 +114,7 @@
                     "all": 0.01
                 },
                 "name": ["期冀之汇"],
+                "operatorIds": ["char_4134_cetsyr"],
                 "template": "Bskill_ctrl_c_spd1.png"
             },
             "bskill_ctrl_c_ussg": {
@@ -110,6 +122,7 @@
                     "进驻控制中枢时，自身心情每小时消耗+0.5，每个进驻在会客室的乌萨斯学生自治团干员，线索搜集速度+10%"
                 ],
                 "name": ["“是，团长！”"],
+                "operatorIds": ["char_1051_headb2"],
                 "template": "Bskill_ctrl_c_ussg.png"
             },
             "bskill_ctrl_c_victoria": {
@@ -118,6 +131,7 @@
                     "all": 0
                 },
                 "name": ["“一千封信”"],
+                "operatorIds": ["char_4045_heidi"],
                 "template": "Bskill_ctrl_c_victoria.png"
             },
             "bskill_ctrl_c_wt": {
@@ -128,6 +142,7 @@
                     "all": 0.01
                 },
                 "name": ["神经质"],
+                "operatorIds": ["char_225_haak"],
                 "template": "Bskill_ctrl_c_wt.png"
             },
             "bskill_ctrl_c_wt1": {
@@ -138,6 +153,7 @@
                     "all": 0.01
                 },
                 "name": ["至察"],
+                "operatorIds": ["char_306_leizi"],
                 "template": "Bskill_ctrl_c_wt1.png"
             },
             "bskill_ctrl_c_wt2": {
@@ -146,6 +162,7 @@
                     "all": 0.01
                 },
                 "name": ["断事如神"],
+                "operatorIds": ["char_306_leizi"],
                 "template": "Bskill_ctrl_c_wt2.png"
             },
             "bskill_ctrl_clear_sui": {
@@ -154,26 +171,11 @@
                     "all": 0.01
                 },
                 "name": ["杯莫停"],
+                "operatorIds": ["char_2023_ling"],
                 "template": "Bskill_ctrl_clear_sui.png"
             },
             "bskill_ctrl_cost": {
-                "desc": [
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
-                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05"
-                ],
+                "desc": ["进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05"],
                 "efficient": {
                     "all": 0.05
                 },
@@ -194,6 +196,25 @@
                     "点滴关照",
                     "总工程师"
                 ],
+                "operatorIds": [
+                    "char_130_doberm",
+                    "char_144_red",
+                    "char_148_nearl",
+                    "char_149_scave",
+                    "char_260_durnar",
+                    "char_261_sddrag",
+                    "char_279_excu",
+                    "char_304_zebra",
+                    "char_367_swllow",
+                    "char_4023_rfalcn",
+                    "char_4064_mlynar",
+                    "char_4098_vvana",
+                    "char_4104_coldst",
+                    "char_4179_monstr",
+                    "char_4195_radian",
+                    "char_420_flamtl",
+                    "char_4228_closur"
+                ],
                 "template": "Bskill_ctrl_cost.png"
             },
             "bskill_ctrl_cost_aegir": {
@@ -204,6 +225,7 @@
                     "all": -0.01
                 },
                 "name": ["潮汐守望"],
+                "operatorIds": ["char_474_glady"],
                 "template": "Bskill_ctrl_cost_aegir.png"
             },
             "bskill_ctrl_cost_bd1": {
@@ -214,6 +236,7 @@
                     "all": 0.05
                 },
                 "name": ["\"不以物喜\""],
+                "operatorIds": ["char_2015_dusk"],
                 "template": "Bskill_ctrl_cost_bd1.png"
             },
             "bskill_ctrl_cost_bd1&bd2": {
@@ -222,6 +245,7 @@
                     "all": 0.01
                 },
                 "name": ["“山河远阔”"],
+                "operatorIds": ["char_2023_ling"],
                 "template": "Bskill_ctrl_cost_bd1&bd2.png"
             },
             "bskill_ctrl_cost_bd2": {
@@ -230,6 +254,7 @@
                     "all": 0.01
                 },
                 "name": ["\"不以己悲\""],
+                "operatorIds": ["char_2015_dusk"],
                 "template": "Bskill_ctrl_cost_bd2.png"
             },
             "bskill_ctrl_cost_bd3": {
@@ -240,6 +265,7 @@
                     "all": 0.01
                 },
                 "name": ["知我为我"],
+                "operatorIds": ["char_2024_chyue"],
                 "template": "Bskill_ctrl_cost_bd3.png"
             },
             "bskill_ctrl_cost_bd4": {
@@ -250,6 +276,7 @@
                     "all": 0.01
                 },
                 "name": ["孤光共照"],
+                "operatorIds": ["char_2024_chyue"],
                 "template": "Bskill_ctrl_cost_bd4.png"
             },
             "bskill_ctrl_cost_expand": {
@@ -260,6 +287,7 @@
                     "all": 0.1
                 },
                 "name": ["巴别塔之帜"],
+                "operatorIds": ["char_1035_wisdel"],
                 "template": "Bskill_ctrl_cost_expand.png"
             },
             "bskill_ctrl_cost_felyne": {
@@ -268,6 +296,7 @@
                     "all": 0.01
                 },
                 "name": ["耐力回复"],
+                "operatorIds": ["char_1029_yato2"],
                 "template": "Bskill_ctrl_cost_felyne.png"
             },
             "bskill_ctrl_d_r_tag": {
@@ -276,6 +305,7 @@
                     "all": 0.01
                 },
                 "name": ["无言的慈爱"],
+                "operatorIds": ["char_4195_radian"],
                 "template": "Bskill_ctrl_d_r_tag.png"
             },
             "bskill_ctrl_dorm_uika1": {
@@ -284,6 +314,7 @@
                     "all": 0
                 },
                 "name": ["偶像光环"],
+                "operatorIds": ["char_4184_dolris"],
                 "template": "Bskill_ctrl_dorm_uika1.png"
             },
             "bskill_ctrl_dorm_uika2": {
@@ -294,6 +325,7 @@
                     "all": 0.01
                 },
                 "name": ["羁绊相生"],
+                "operatorIds": ["char_4184_dolris"],
                 "template": "Bskill_ctrl_dorm_uika2.png"
             },
             "bskill_ctrl_ela": {
@@ -304,6 +336,7 @@
                     "all": 0.01
                 },
                 "name": ["反抗者"],
+                "operatorIds": ["char_4123_ela"],
                 "template": "Bskill_ctrl_ela.png"
             },
             "bskill_ctrl_felyne": {
@@ -312,6 +345,7 @@
                     "all": 0
                 },
                 "name": ["团队合作"],
+                "operatorIds": ["char_1030_noirc2"],
                 "template": "Bskill_ctrl_felyne.png"
             },
             "bskill_ctrl_fraction_knight": {
@@ -320,6 +354,7 @@
                     "all": 0
                 },
                 "name": ["烛骑士微光"],
+                "operatorIds": ["char_4098_vvana"],
                 "template": "Bskill_ctrl_fraction_knight.png"
             },
             "bskill_ctrl_g_limit&spd": {
@@ -328,6 +363,7 @@
                     "all": 0
                 },
                 "name": ["运筹好手"],
+                "operatorIds": ["char_4110_delphn"],
                 "template": "Bskill_ctrl_g_limit&spd.png"
             },
             "bskill_ctrl_h_spd": {
@@ -338,6 +374,7 @@
                     "all": 0.01
                 },
                 "name": ["感染力"],
+                "operatorIds": ["char_479_sleach"],
                 "template": "Bskill_ctrl_h_spd.png"
             },
             "bskill_ctrl_hire_tmoris": {
@@ -346,6 +383,7 @@
                     "all": 0.01
                 },
                 "name": ["可靠伙伴"],
+                "operatorIds": ["char_4186_tmoris"],
                 "template": "Bskill_ctrl_hire_tmoris.png"
             },
             "bskill_ctrl_karlan": {
@@ -354,6 +392,7 @@
                     "all": 0.05
                 },
                 "name": ["幕后指挥"],
+                "operatorIds": ["char_206_gnosis"],
                 "template": "Bskill_ctrl_karlan.png"
             },
             "bskill_ctrl_lda": {
@@ -362,6 +401,7 @@
                     "all": 0
                 },
                 "name": ["浮生得闲"],
+                "operatorIds": ["char_322_lmlee"],
                 "template": "Bskill_ctrl_lda.png"
             },
             "bskill_ctrl_lda_add": {
@@ -372,18 +412,16 @@
                     "all": 0.05
                 },
                 "name": ["坚毅随和"],
+                "operatorIds": ["char_226_hmau"],
                 "template": "Bskill_ctrl_lda_add.png"
             },
             "bskill_ctrl_leader": {
-                "desc": [
-                    "进驻控制中枢时，所有宿舍内所有干员的心情每小时恢复+0.05（同种效果取最高）",
-                    "进驻控制中枢时，所有宿舍内所有干员的心情每小时恢复+0.05（同种效果取最高）",
-                    "进驻控制中枢时，所有宿舍内所有干员的心情每小时恢复+0.05（同种效果取最高）"
-                ],
+                "desc": ["进驻控制中枢时，所有宿舍内所有干员的心情每小时恢复+0.05（同种效果取最高）"],
                 "efficient": {
                     "all": 0.01
                 },
                 "name": ["领袖", "战纹", "巡心"],
+                "operatorIds": ["char_1020_reed2", "char_4023_rfalcn", "char_4146_nymph"],
                 "template": "Bskill_ctrl_leader.png"
             },
             "bskill_ctrl_lonely": {
@@ -394,6 +432,7 @@
                     "all": 0.04
                 },
                 "name": ["公事公办"],
+                "operatorIds": ["char_4064_mlynar"],
                 "template": "Bskill_ctrl_lonely.png"
             },
             "bskill_ctrl_lungmen": {
@@ -402,6 +441,7 @@
                     "all": 0.05
                 },
                 "name": ["德才兼备"],
+                "operatorIds": ["char_010_chen"],
                 "template": "Bskill_ctrl_lungmen.png"
             },
             "bskill_ctrl_meet_amoris1": {
@@ -410,6 +450,7 @@
                     "all": 0.01
                 },
                 "name": ["勤学苦练"],
+                "operatorIds": ["char_4185_amoris"],
                 "template": "Bskill_ctrl_meet_amoris1.png"
             },
             "bskill_ctrl_meet_amoris2": {
@@ -420,6 +461,7 @@
                     "all": 0
                 },
                 "name": ["成效优先"],
+                "operatorIds": ["char_4185_amoris"],
                 "template": "Bskill_ctrl_meet_amoris2.png"
             },
             "bskill_ctrl_mp_mortis": {
@@ -428,6 +470,7 @@
                     "all": 0
                 },
                 "name": ["互为半身"],
+                "operatorIds": ["char_4183_mortis"],
                 "template": "Bskill_ctrl_mp_mortis.png"
             },
             "bskill_ctrl_mp_oblvns": {
@@ -436,11 +479,13 @@
                     "all": 0
                 },
                 "name": ["生活的重压"],
+                "operatorIds": ["char_4182_oblvns"],
                 "template": "Bskill_ctrl_mp_oblvns.png"
             },
             "bskill_ctrl_orchd2": {
                 "desc": ["进驻控制中枢时，人力办公室联络速度+10%（同种效果取最高）"],
                 "name": ["办公室年度人物"],
+                "operatorIds": ["char_1048_orchd2"],
                 "template": "Bskill_ctrl_orchd2.png"
             },
             "bskill_ctrl_p_bot": {
@@ -449,6 +494,7 @@
                     "all": 0.01
                 },
                 "name": ["我寻思能行"],
+                "operatorIds": ["char_416_zumama"],
                 "template": "Bskill_ctrl_p_bot.png"
             },
             "bskill_ctrl_p_oblvns": {
@@ -459,6 +505,7 @@
                     "all": 0.5
                 },
                 "name": ["丰富工作经验"],
+                "operatorIds": ["char_4182_oblvns"],
                 "template": "Bskill_ctrl_p_oblvns.png"
             },
             "bskill_ctrl_p_spd": {
@@ -468,6 +515,7 @@
                 },
                 "maxNum": 1,
                 "name": ["最高权限"],
+                "operatorIds": ["char_003_kalts", "char_4179_monstr"],
                 "template": "Bskill_ctrl_p_spd.png"
             },
             "bskill_ctrl_psk": {
@@ -478,6 +526,7 @@
                     "all": 0.01
                 },
                 "name": ["红松的骑士"],
+                "operatorIds": ["char_420_flamtl"],
                 "template": "Bskill_ctrl_psk.png"
             },
             "bskill_ctrl_r6": {
@@ -486,6 +535,7 @@
                     "all": 0.1
                 },
                 "name": ["彩虹小队"],
+                "operatorIds": ["char_456_ash", "char_457_blitz", "char_458_rfrost", "char_459_tachak"],
                 "template": "Bskill_ctrl_r6.png"
             },
             "bskill_ctrl_sp": {
@@ -494,6 +544,7 @@
                     "all": 0.05
                 },
                 "name": ["异格者"],
+                "operatorIds": ["char_1011_lava2", "char_1021_kroos2", "char_1024_hbisc2"],
                 "template": "Bskill_ctrl_sp.png"
             },
             "bskill_ctrl_t_limit&spd": {
@@ -502,11 +553,13 @@
                     "all": -0.15
                 },
                 "name": ["精密计算"],
+                "operatorIds": ["char_206_gnosis"],
                 "template": "Bskill_ctrl_t_limit&spd.png"
             },
             "bskill_ctrl_t_limit&spd3": {
                 "desc": ["进驻控制中枢时，每个存在3名谢拉格干员的贸易站，订单获取效率+10%"],
                 "name": ["商业版图"],
+                "operatorIds": ["char_1045_svash2"],
                 "template": "Bskill_ctrl_t_limit&spd3.png"
             },
             "bskill_ctrl_t_limit&spd_tmoris": {
@@ -515,20 +568,17 @@
                     "all": 0.5
                 },
                 "name": ["家族认可"],
+                "operatorIds": ["char_4186_tmoris"],
                 "template": "Bskill_ctrl_t_limit&spd_tmoris.png"
             },
             "bskill_ctrl_t_spd": {
-                "desc": [
-                    "进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）",
-                    "进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）",
-                    "进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）",
-                    "进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）"
-                ],
+                "desc": ["进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）"],
                 "efficient": {
                     "all": 7
                 },
                 "maxNum": 1,
                 "name": ["合作协议", "大小姐", "朝气蓬勃", "情报主脑"],
+                "operatorIds": ["char_002_amiya", "char_308_swire", "char_4071_peper", "char_4132_ascln"],
                 "template": "Bskill_ctrl_t_spd.png"
             },
             "bskill_ctrl_tachanka": {
@@ -537,6 +587,7 @@
                     "all": 0.01
                 },
                 "name": ["乌萨斯特饮"],
+                "operatorIds": ["char_459_tachak"],
                 "template": "Bskill_ctrl_tachanka.png"
             },
             "bskill_ctrl_token_p_spd": {
@@ -545,6 +596,7 @@
                     "all": 0.01
                 },
                 "name": ["超频"],
+                "operatorIds": ["char_4004_pudd"],
                 "template": "Bskill_ctrl_token_p_spd.png"
             },
             "bskill_ctrl_token_p_spd2": {
@@ -553,6 +605,7 @@
                     "all": 0
                 },
                 "name": ["以身作则"],
+                "operatorIds": ["char_1029_yato2"],
                 "template": "Bskill_ctrl_token_p_spd2.png"
             },
             "bskill_ctrl_token_t_spd": {
@@ -561,6 +614,7 @@
                     "all": 0
                 },
                 "name": ["秘传交涉术"],
+                "operatorIds": ["char_1030_noirc2"],
                 "template": "Bskill_ctrl_token_t_spd.png"
             },
             "bskill_ctrl_tra&prod": {
@@ -568,6 +622,7 @@
                     "进驻控制中枢时，若外势大于等于实地，所有贸易站订单效率+7%；若实地大于外势，所有制造站生产力+2%（同种效果取最高）"
                 ],
                 "name": ["权变"],
+                "operatorIds": ["char_2027_wang"],
                 "template": "Bskill_ctrl_tra&prod.png"
             },
             "bskill_ctrl_trade_mortis": {
@@ -578,6 +633,7 @@
                     "all": 1
                 },
                 "name": ["演技的怪物"],
+                "operatorIds": ["char_4183_mortis"],
                 "template": "Bskill_ctrl_trade_mortis.png"
             },
             "bskill_ctrl_train_spd1": {
@@ -588,6 +644,7 @@
                     "all": 0
                 },
                 "name": ["S.W.E.E.P.主管"],
+                "operatorIds": ["char_4132_ascln"],
                 "template": "Bskill_ctrl_train_spd1.png"
             },
             "bskill_ctrl_train_spd2": {
@@ -598,6 +655,7 @@
                     "all": 0
                 },
                 "name": ["断金之交"],
+                "operatorIds": ["char_1040_blaze2"],
                 "template": "Bskill_ctrl_train_spd2.png"
             },
             "bskill_ctrl_train_spd3": {
@@ -608,6 +666,7 @@
                     "all": 0
                 },
                 "name": ["下城人脉"],
+                "operatorIds": ["char_1044_hsgma2"],
                 "template": "Bskill_ctrl_train_spd3.png"
             },
             "bskill_ctrl_ussg": {
@@ -618,6 +677,7 @@
                     "all": 0.05
                 },
                 "name": ["学生会会长"],
+                "operatorIds": ["char_197_poca"],
                 "template": "Bskill_ctrl_ussg.png"
             },
             "bskill_token_prod_spd3_lungmenguard": {
@@ -626,6 +686,7 @@
                     "all": 0
                 },
                 "name": ["共事情谊"],
+                "operatorIds": ["char_1044_hsgma2"],
                 "template": "Bskill_token_prod_spd3_lungmenguard.png"
             }
         },
@@ -639,6 +700,7 @@
                     "all": 0
                 },
                 "name": ["梦境呓语"],
+                "operatorIds": ["char_338_iris"],
                 "template": "Bskill_dorm_all&bd_n1.png"
             },
             "bskill_dorm_all&bd_n1_2": {
@@ -647,6 +709,7 @@
                     "all": 0
                 },
                 "name": ["琴键漫步"],
+                "operatorIds": ["char_4047_pianst"],
                 "template": "Bskill_dorm_all&bd_n1_2.png"
             },
             "bskill_dorm_all&bd_n1_n2": {
@@ -657,6 +720,7 @@
                     "all": 0
                 },
                 "name": ["睡前故事"],
+                "operatorIds": ["char_338_iris"],
                 "template": "Bskill_dorm_all&bd_n1_n2.png"
             },
             "bskill_dorm_all&bd_n1_n3": {
@@ -667,6 +731,7 @@
                     "all": 0
                 },
                 "name": ["慢板行歌"],
+                "operatorIds": ["char_4047_pianst"],
                 "template": "Bskill_dorm_all&bd_n1_n3.png"
             },
             "bskill_dorm_all&one1": {
@@ -675,6 +740,7 @@
                     "all": 0
                 },
                 "name": ["慵懒"],
+                "operatorIds": ["char_302_glaze", "char_501_durin"],
                 "template": "Bskill_dorm_all&one1.png"
             },
             "bskill_dorm_all&one2": {
@@ -683,19 +749,16 @@
                     "all": 0
                 },
                 "name": ["嗜睡"],
+                "operatorIds": ["char_501_durin"],
                 "template": "Bskill_dorm_all&one2.png"
             },
             "bskill_dorm_all&one3": {
-                "desc": [
-                    "进驻宿舍时，自身心情每小时恢复+0.55，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）",
-                    "进驻宿舍时，自身心情每小时恢复+0.55，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）",
-                    "进驻宿舍时，自身心情每小时恢复+0.55，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）",
-                    "进驻宿舍时，自身心情每小时恢复+0.55，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）"
-                ],
+                "desc": ["进驻宿舍时，自身心情每小时恢复+0.55，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["牧歌", "解脱", "“归乡”", "天生丽质"],
+                "operatorIds": ["char_188_helage", "char_222_bpipe", "char_249_mlyss", "char_430_fartth"],
                 "template": "Bskill_dorm_all&one3.png"
             },
             "bskill_dorm_all&single": {
@@ -706,32 +769,20 @@
                     "all": 0
                 },
                 "name": ["小酌怡情"],
+                "operatorIds": ["char_4104_coldst"],
                 "template": "Bskill_dorm_all&single.png"
             },
             "bskill_dorm_all1": {
-                "desc": [
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内除自身以外所有干员的心情每小时恢复+0.1（同种效果取最高）"
-                ],
+                "desc": ["进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["鼓舞", "挣脱"],
+                "operatorIds": ["char_179_cgbird", "char_188_helage", "char_365_aprl"],
                 "template": "Bskill_dorm_all1.png"
             },
             "bskill_dorm_all2": {
-                "desc": [
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）"
-                ],
+                "desc": ["进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）"],
                 "efficient": {
                     "all": 0
                 },
@@ -747,21 +798,36 @@
                     "明星效应",
                     "沉静心灵"
                 ],
+                "operatorIds": [
+                    "char_002_amiya",
+                    "char_101_sora",
+                    "char_1022_flwr2",
+                    "char_112_siege",
+                    "char_115_headbr",
+                    "char_151_myrtle",
+                    "char_258_podego",
+                    "char_4081_warmy",
+                    "char_4122_grabds",
+                    "char_4146_nymph",
+                    "char_4202_haruka",
+                    "char_487_bobb"
+                ],
                 "template": "Bskill_dorm_all2.png"
             },
             "bskill_dorm_all3": {
-                "desc": [
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）",
-                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）"
-                ],
+                "desc": ["进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["狮心王", "冬将军", "提灯女神", "大锅饭·β", "利他主义", "静心仪式·β"],
+                "operatorIds": [
+                    "char_112_siege",
+                    "char_115_headbr",
+                    "char_179_cgbird",
+                    "char_4081_warmy",
+                    "char_4125_rdoc",
+                    "char_4146_nymph"
+                ],
                 "template": "Bskill_dorm_all3.png"
             },
             "bskill_dorm_all4": {
@@ -770,6 +836,7 @@
                     "all": 0
                 },
                 "name": ["芬芳疗养·α"],
+                "operatorIds": ["char_494_vendla"],
                 "template": "Bskill_dorm_all4.png"
             },
             "bskill_dorm_all_tired": {
@@ -780,11 +847,13 @@
                     "all": 0
                 },
                 "name": ["芬芳疗养·β"],
+                "operatorIds": ["char_494_vendla"],
                 "template": "Bskill_dorm_all_tired.png"
             },
             "bskill_dorm_all_tired2": {
                 "desc": ["进驻宿舍时，该宿舍内心情20以下的干员恢复效果额外+0.1（同种效果取最高）"],
                 "name": ["净化呼吸"],
+                "operatorIds": ["char_1022_flwr2"],
                 "template": "Bskill_dorm_all_tired2.png"
             },
             "bskill_dorm_bd_dungeon": {
@@ -793,6 +862,7 @@
                     "all": 0
                 },
                 "name": ["森西大食堂"],
+                "operatorIds": ["char_4143_sensi"],
                 "template": "Bskill_dorm_bd_dungeon.png"
             },
             "bskill_dorm_bdnum": {
@@ -801,6 +871,7 @@
                     "all": 0
                 },
                 "name": ["无声共鸣"],
+                "operatorIds": ["char_245_cello"],
                 "template": "Bskill_dorm_bdnum.png"
             },
             "bskill_dorm_buddy": {
@@ -808,17 +879,19 @@
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.55（同种效果取最高），如果目标是怪物猎人小队成员和泡影国狩猎小队，则恢复效果额外+0.45"
                 ],
                 "name": ["狩猎好帮手"],
+                "operatorIds": ["char_4215_buddy"],
                 "template": "Bskill_dorm_buddy.png"
             },
-            "bskill_dorm_exchangeAp": {
+            "bskill_dorm_exchangeap": {
                 "desc": ["进驻宿舍时，如果自身为满心情，则与当前宿舍前一位进驻的干员互换心情"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["患难之交"],
-                "template": "Bskill_dorm_exchangeAp.png"
+                "operatorIds": ["char_300_phenxi"],
+                "template": "Bskill_dorm_exchangeap.png"
             },
-            "bskill_dorm_hireToRecAll1": {
+            "bskill_dorm_hiretorecall1": {
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.15，同时每个招募位（不包含初始招募位）额外+0.05恢复效果（叠加后的最终值同种效果取最高）"
                 ],
@@ -826,9 +899,10 @@
                     "all": 0
                 },
                 "name": ["寻同路人"],
-                "template": "Bskill_dorm_hireToRecAll1.png"
+                "operatorIds": ["char_4065_judge"],
+                "template": "Bskill_dorm_hiretorecall1.png"
             },
-            "bskill_dorm_hireToRecAll2": {
+            "bskill_dorm_hiretorecall2": {
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.1，同时每个招募位（不包含初始招募位）额外+0.05恢复效果（叠加后的最终值同种效果取最高）"
                 ],
@@ -836,9 +910,10 @@
                     "all": 0
                 },
                 "name": ["无瑕心·α"],
-                "template": "Bskill_dorm_hireToRecAll2.png"
+                "operatorIds": ["char_4010_etlchi"],
+                "template": "Bskill_dorm_hiretorecall2.png"
             },
-            "bskill_dorm_hireToRecAll3": {
+            "bskill_dorm_hiretorecall3": {
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.1，同时每个招募位（不包含初始招募位）额外+0.1恢复效果（叠加后的最终值同种效果取最高）"
                 ],
@@ -846,37 +921,48 @@
                     "all": 0
                 },
                 "name": ["无瑕心·β"],
-                "template": "Bskill_dorm_hireToRecAll3.png"
+                "operatorIds": ["char_4010_etlchi"],
+                "template": "Bskill_dorm_hiretorecall3.png"
             },
             "bskill_dorm_one": {
                 "desc": [
-                    "进驻宿舍时，自身心情每小时恢复+0.7；如果该宿舍内有其他干员，则每人额外为自身心情每小时恢复+0.05",
                     "进驻宿舍时，自身心情每小时恢复+0.7；如果该宿舍内有其他干员，则每人额外为自身心情每小时恢复+0.05"
                 ],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["“独处”", "赋格融汇"],
+                "operatorIds": ["char_271_spikes", "char_4051_akkord"],
                 "template": "Bskill_dorm_one.png"
             },
             "bskill_dorm_one1": {
-                "desc": ["进驻宿舍时，自身心情每小时恢复+0.55", "进驻宿舍时，自身心情每小时恢复+0.55"],
+                "desc": ["进驻宿舍时，自身心情每小时恢复+0.55"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["超脱", "难得休憩"],
+                "operatorIds": ["char_188_helage", "char_4225_tanya"],
                 "template": "Bskill_dorm_one1.png"
             },
             "bskill_dorm_one2": {
-                "desc": [
-                    "进驻宿舍时，自身心情每小时恢复+0.7",
-                    "进驻宿舍时，自身心情每小时恢复+0.7",
-                    "进驻宿舍时，自身心情每小时恢复+0.7"
-                ],
+                "desc": ["进驻宿舍时，自身心情每小时恢复+0.7"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["独处", "幼狼情性", "哪里都是兔子洞"],
+                "operatorIds": [
+                    "char_124_kroos",
+                    "char_127_estell",
+                    "char_143_ghost",
+                    "char_193_frostl",
+                    "char_218_cuttle",
+                    "char_261_sddrag",
+                    "char_263_skadi",
+                    "char_297_hamoni",
+                    "char_367_swllow",
+                    "char_4014_lunacu",
+                    "char_4235_thumpy"
+                ],
                 "template": "Bskill_dorm_one2.png"
             },
             "bskill_dorm_one3": {
@@ -885,14 +971,16 @@
                     "all": 0
                 },
                 "name": ["隐形的美食家"],
+                "operatorIds": ["char_355_ethan"],
                 "template": "Bskill_dorm_one3.png"
             },
             "bskill_dorm_one4": {
-                "desc": ["进驻宿舍时，自身心情每小时恢复+0.85", "进驻宿舍时，自身心情每小时恢复+0.85"],
+                "desc": ["进驻宿舍时，自身心情每小时恢复+0.85"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["狂热", "麻烦回避者"],
+                "operatorIds": ["char_143_ghost", "char_218_cuttle"],
                 "template": "Bskill_dorm_one4.png"
             },
             "bskill_dorm_one5": {
@@ -901,9 +989,10 @@
                     "all": 0
                 },
                 "name": ["悲歌"],
+                "operatorIds": ["char_263_skadi"],
                 "template": "Bskill_dorm_one5.png"
             },
-            "bskill_dorm_powToRecAll1": {
+            "bskill_dorm_powtorecall1": {
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.1，同时每有1间发电站，则恢复效果额外+0.05（叠加后的最终值同种效果取最高）"
                 ],
@@ -911,9 +1000,10 @@
                     "all": 0
                 },
                 "name": ["柔和微光·α"],
-                "template": "Bskill_dorm_powToRecAll1.png"
+                "operatorIds": ["char_4042_lumen"],
+                "template": "Bskill_dorm_powtorecall1.png"
             },
-            "bskill_dorm_powToRecAll2": {
+            "bskill_dorm_powtorecall2": {
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15，同时每有1间发电站，则恢复效果额外+0.05（叠加后的最终值同种效果取最高）"
                 ],
@@ -921,7 +1011,8 @@
                     "all": 0
                 },
                 "name": ["柔和微光·β"],
-                "template": "Bskill_dorm_powToRecAll2.png"
+                "operatorIds": ["char_4042_lumen"],
+                "template": "Bskill_dorm_powtorecall2.png"
             },
             "bskill_dorm_reborn": {
                 "desc": ["进驻宿舍时，自身心情每小时恢复+2，同时无法获得其他来源提供的心情恢复效果"],
@@ -929,6 +1020,7 @@
                     "all": 0
                 },
                 "name": ["自律"],
+                "operatorIds": ["char_300_phenxi"],
                 "template": "Bskill_dorm_reborn.png"
             },
             "bskill_dorm_rec_all&lv2": {
@@ -936,11 +1028,13 @@
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15，同时当前宿舍每级为恢复效果额外+0.02（叠加后的最终值同种效果取最高）"
                 ],
                 "name": ["死前必做清单"],
+                "operatorIds": ["char_4214_cairn"],
                 "template": "Bskill_dorm_rec_all&lv2.png"
             },
             "bskill_dorm_rec_all&lvl1": {
                 "desc": ["进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）"],
                 "name": ["睡前必听故事"],
+                "operatorIds": ["char_4214_cairn"],
                 "template": "Bskill_dorm_rec_all&lvl1.png"
             },
             "bskill_dorm_rec_all&profession": {
@@ -951,6 +1045,7 @@
                     "all": 0
                 },
                 "name": ["火山温泉浴"],
+                "operatorIds": ["char_1016_agoat2"],
                 "template": "Bskill_dorm_rec_all&profession.png"
             },
             "bskill_dorm_rec_allbd": {
@@ -961,6 +1056,7 @@
                     "all": 0
                 },
                 "name": ["无词颂歌"],
+                "operatorIds": ["char_245_cello"],
                 "template": "Bskill_dorm_rec_allbd.png"
             },
             "bskill_dorm_senshi": {
@@ -971,6 +1067,7 @@
                     "all": 0
                 },
                 "name": ["资深料理人"],
+                "operatorIds": ["char_4143_sensi"],
                 "template": "Bskill_dorm_senshi.png"
             },
             "bskill_dorm_single&one01": {
@@ -981,6 +1078,7 @@
                     "all": 0
                 },
                 "name": ["活泼"],
+                "operatorIds": ["char_122_beagle", "char_209_ardign", "char_347_jaksel"],
                 "template": "Bskill_dorm_single&one01.png"
             },
             "bskill_dorm_single&one02": {
@@ -991,6 +1089,7 @@
                     "all": 0
                 },
                 "name": ["探险家的热情"],
+                "operatorIds": ["char_173_slchan"],
                 "template": "Bskill_dorm_single&one02.png"
             },
             "bskill_dorm_single&one11": {
@@ -1001,18 +1100,18 @@
                     "all": 0
                 },
                 "name": ["烘焙"],
+                "operatorIds": ["char_185_frncat"],
                 "template": "Bskill_dorm_single&one11.png"
             },
             "bskill_dorm_single&one12": {
                 "desc": [
-                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.35（同种效果取最高）；同时自身心情每小时恢复+0.35",
-                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.35（同种效果取最高）；同时自身心情每小时恢复+0.35",
-                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.4（同种效果取最高）；同时自身心情每小时恢复+0.4"
+                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.35（同种效果取最高）；同时自身心情每小时恢复+0.35"
                 ],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["烹饪", "Give me five", "甜甜圈派对"],
+                "operatorIds": ["char_196_sunbr", "char_230_savage", "char_366_acdrop", "char_498_inside"],
                 "template": "Bskill_dorm_single&one12.png"
             },
             "bskill_dorm_single&one21": {
@@ -1023,52 +1122,54 @@
                     "all": 0
                 },
                 "name": ["和谐"],
+                "operatorIds": ["char_281_popka"],
                 "template": "Bskill_dorm_single&one21.png"
             },
             "bskill_dorm_single&one22": {
                 "desc": [
-                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.5（同种效果取最高）；同时自身心情每小时恢复+0.25",
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.5（同种效果取最高）；同时自身心情每小时恢复+0.25"
                 ],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["使徒", "喀兰圣女"],
+                "operatorIds": ["char_148_nearl", "char_174_slbell"],
                 "template": "Bskill_dorm_single&one22.png"
             },
             "bskill_dorm_single1": {
-                "desc": [
-                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.55（同种效果取最高）",
-                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.55（同种效果取最高）"
-                ],
+                "desc": ["进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.55（同种效果取最高）"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["善解人意", "天生乐天派"],
+                "operatorIds": [
+                    "char_1041_angel2",
+                    "char_117_myrrh",
+                    "char_120_hibisc",
+                    "char_126_shotst",
+                    "char_147_shining",
+                    "char_212_ansel",
+                    "char_258_podego",
+                    "char_4122_grabds"
+                ],
                 "template": "Bskill_dorm_single1.png"
             },
             "bskill_dorm_single2": {
-                "desc": [
-                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.65（同种效果取最高）",
-                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.65（同种效果取最高）"
-                ],
+                "desc": ["进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.65（同种效果取最高）"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["医疗服务", "疗养"],
+                "operatorIds": ["char_258_podego", "char_285_medic2"],
                 "template": "Bskill_dorm_single2.png"
             },
             "bskill_dorm_single3": {
-                "desc": [
-                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.7（同种效果取最高）",
-                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.7（同种效果取最高）",
-                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.7（同种效果取最高）",
-                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.7（同种效果取最高）"
-                ],
+                "desc": ["进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.7（同种效果取最高）"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["维多利亚文学", "天启", "心理疏导", "恩典颂歌"],
+                "operatorIds": ["char_159_peacok", "char_4187_graceb", "char_449_glider", "char_479_sleach"],
                 "template": "Bskill_dorm_single3.png"
             },
             "bskill_dorm_single4": {
@@ -1077,6 +1178,7 @@
                     "all": 0
                 },
                 "name": ["慈悲"],
+                "operatorIds": ["char_147_shining"],
                 "template": "Bskill_dorm_single4.png"
             },
             "bskill_dorm_single_indigo": {
@@ -1087,6 +1189,7 @@
                     "all": 0
                 },
                 "name": ["毒剂师之友"],
+                "operatorIds": ["char_469_indigo"],
                 "template": "Bskill_dorm_single_indigo.png"
             },
             "bskill_dorm_single_laterano": {
@@ -1097,6 +1200,7 @@
                     "all": 0
                 },
                 "name": ["圣城趣事通"],
+                "operatorIds": ["char_1041_angel2"],
                 "template": "Bskill_dorm_single_laterano.png"
             },
             "bskill_dorm_single_sami": {
@@ -1107,6 +1211,7 @@
                     "all": 0
                 },
                 "name": ["降生于冰寒"],
+                "operatorIds": ["char_341_sntlla"],
                 "template": "Bskill_dorm_single_sami.png"
             },
             "bskill_dorm_single_schwarz": {
@@ -1117,6 +1222,7 @@
                     "all": 0
                 },
                 "name": ["沏茶"],
+                "operatorIds": ["char_340_shwaz"],
                 "template": "Bskill_dorm_single_schwarz.png"
             },
             "bskill_dorm_single_tomimi": {
@@ -1127,6 +1233,7 @@
                     "all": 0
                 },
                 "name": ["烤肉大师"],
+                "operatorIds": ["char_411_tomimi"],
                 "template": "Bskill_dorm_single_tomimi.png"
             },
             "bskill_dorm_sui": {
@@ -1137,6 +1244,7 @@
                     "all": 0
                 },
                 "name": ["调众口"],
+                "operatorIds": ["char_2026_yu"],
                 "template": "Bskill_dorm_sui.png"
             },
             "bskill_dorm_toone1": {
@@ -1145,6 +1253,7 @@
                     "all": 0
                 },
                 "name": ["头号陪练"],
+                "operatorIds": ["char_154_morgan"],
                 "template": "Bskill_dorm_toone1.png"
             },
             "bskill_dorm_unfull": {
@@ -1155,6 +1264,7 @@
                     "all": 0
                 },
                 "name": ["倾谈者"],
+                "operatorIds": ["char_487_bobb"],
                 "template": "Bskill_dorm_unfull.png"
             }
         }
@@ -1169,6 +1279,7 @@
                     "CombatRecord": 30.1
                 },
                 "name": ["战阵领袖"],
+                "operatorIds": ["char_1051_headb2"],
                 "template": "Bskill_formula_spd_headb1.png"
             },
             "bskill_formula_spd_headb2": {
@@ -1179,6 +1290,7 @@
                     "CombatRecord": 30.1
                 },
                 "name": ["情同手足"],
+                "operatorIds": ["char_1051_headb2"],
                 "template": "Bskill_formula_spd_headb2.png"
             },
             "bskill_formula_spd_sunbr": {
@@ -1187,14 +1299,16 @@
                     "all": 0
                 },
                 "name": ["患难拍档"],
+                "operatorIds": ["char_194_leto"],
                 "template": "Bskill_formula_spd_sunbr.png"
             },
-            "bskill_man_A1": {
+            "bskill_man_a1": {
                 "desc": ["进驻制造站时，当前制造站内每个A1小队干员为自身+10%的生产力"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["重聚时光"],
+                "operatorIds": ["char_1036_fang2"],
                 "template": "Bskill_man_A1.png"
             },
             "bskill_man_bd1": {
@@ -1203,14 +1317,16 @@
                     "all": 0
                 },
                 "name": ["古老巫术"],
+                "operatorIds": ["char_4078_bdhkgt"],
                 "template": "Bskill_man_bd1.png"
             },
-            "bskill_man_constrLv": {
+            "bskill_man_constrlv": {
                 "desc": ["进驻制造站时，基建内每间设施每级+1个工程机器人，上限64个"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["绘图设计"],
+                "operatorIds": ["char_4054_malist"],
                 "template": "Bskill_man_constrLv.png"
             },
             "bskill_man_cost_all": {
@@ -1219,6 +1335,7 @@
                     "all": 0
                 },
                 "name": ["团队精神"],
+                "operatorIds": ["char_243_waaifu"],
                 "template": "Bskill_man_cost_all.png"
             },
             "bskill_man_cost_room1": {
@@ -1227,6 +1344,7 @@
                     "all": 0
                 },
                 "name": ["春雷响，万物长"],
+                "operatorIds": ["char_2025_shu"],
                 "template": "Bskill_man_cost_room1.png"
             },
             "bskill_man_exp&cost": {
@@ -1235,6 +1353,7 @@
                     "all": 0
                 },
                 "name": ["Vlog"],
+                "operatorIds": ["char_328_cammou"],
                 "template": "Bskill_man_exp&cost.png"
             },
             "bskill_man_exp&limit1": {
@@ -1243,6 +1362,7 @@
                     "CombatRecord": 0.12
                 },
                 "name": ["剪辑·α"],
+                "operatorIds": ["char_336_folivo"],
                 "template": "Bskill_man_exp&limit1.png"
             },
             "bskill_man_exp&limit2": {
@@ -1251,6 +1371,7 @@
                     "CombatRecord": 0.15
                 },
                 "name": ["剪辑·β"],
+                "operatorIds": ["char_328_cammou"],
                 "template": "Bskill_man_exp&limit2.png"
             },
             "bskill_man_exp&limit3": {
@@ -1259,11 +1380,13 @@
                     "CombatRecord": 0.04
                 },
                 "name": ["合理利用"],
+                "operatorIds": ["char_1032_excu2"],
                 "template": "Bskill_man_exp&limit3.png"
             },
             "bskill_man_exp&spd&cost1": {
                 "desc": ["进驻制造站时，作战记录类配方的生产力+35%，心情每小时消耗+0.25"],
                 "name": ["“连轴转”"],
+                "operatorIds": ["char_4225_tanya"],
                 "template": "Bskill_man_exp&spd&cost1.png"
             },
             "bskill_man_exp&spd&limit&cost1": {
@@ -1272,6 +1395,7 @@
                     "CombatRecord": 20.1
                 },
                 "name": ["镜中影"],
+                "operatorIds": ["char_1042_phatm2"],
                 "template": "Bskill_man_exp&spd&limit&cost1.png"
             },
             "bskill_man_exp&spd&limit&cost2": {
@@ -1280,14 +1404,16 @@
                     "CombatRecord": 35.1
                 },
                 "name": ["戏中人"],
+                "operatorIds": ["char_1042_phatm2"],
                 "template": "Bskill_man_exp&spd&limit&cost2.png"
             },
             "bskill_man_exp0": {
-                "desc": ["进驻制造站时，作战记录类配方的生产力+20%", "进驻制造站时，作战记录类配方的生产力+20%"],
+                "desc": ["进驻制造站时，作战记录类配方的生产力+20%"],
                 "efficient": {
                     "CombatRecord": 20.1
                 },
                 "name": ["公证所教习α", "公证所教习·α"],
+                "operatorIds": ["char_1032_excu2"],
                 "template": "Bskill_man_exp4.png"
             },
             "bskill_man_exp1": {
@@ -1296,26 +1422,33 @@
                     "CombatRecord": 25.1
                 },
                 "name": ["胜利之计"],
+                "operatorIds": ["char_485_pallas"],
                 "template": "Bskill_man_exp1.png"
             },
             "bskill_man_exp2": {
-                "desc": [
-                    "进驻制造站时，作战记录类配方的生产力+30%",
-                    "进驻制造站时，作战记录类配方的生产力+30%",
-                    "进驻制造站时，作战记录类配方的生产力+30%"
-                ],
+                "desc": ["进驻制造站时，作战记录类配方的生产力+30%"],
                 "efficient": {
                     "CombatRecord": 30.1
                 },
                 "name": ["作战指导录像", "公证所教习β", "公证所教习·β"],
+                "operatorIds": [
+                    "char_1032_excu2",
+                    "char_118_yuki",
+                    "char_193_frostl",
+                    "char_241_panda",
+                    "char_286_cast3",
+                    "char_290_vigna",
+                    "char_4230_mcnist"
+                ],
                 "template": "Bskill_man_exp2.png"
             },
             "bskill_man_exp3": {
-                "desc": ["进驻制造站时，作战记录类配方的生产力+35%", "进驻制造站时，作战记录类配方的生产力+35%"],
+                "desc": ["进驻制造站时，作战记录类配方的生产力+35%"],
                 "efficient": {
                     "CombatRecord": 35.1
                 },
                 "name": ["拳术指导录像", "逆境荣光"],
+                "operatorIds": ["char_1502_crosly", "char_159_peacok", "char_241_panda"],
                 "template": "Bskill_man_exp3.png"
             },
             "bskill_man_fuze": {
@@ -1324,6 +1457,7 @@
                     "CombatRecord": 20.1
                 },
                 "name": ["实干的寡言者"],
+                "operatorIds": ["char_4126_fuze"],
                 "template": "Bskill_man_fuze.png"
             },
             "bskill_man_gold&blacksteel": {
@@ -1334,6 +1468,7 @@
                     "PureGold": 2.2
                 },
                 "name": ["挑大梁"],
+                "operatorIds": ["char_4105_almond"],
                 "template": "Bskill_man_gold&blacksteel.png"
             },
             "bskill_man_gold&rhine": {
@@ -1341,6 +1476,7 @@
                     "进驻制造站时，基建内（不包含副手及活动室使用者）每有1名莱茵生命干员（最多5名），贵金属类配方的生产力+3%"
                 ],
                 "name": ["造价高昂"],
+                "operatorIds": ["char_4212_nasti"],
                 "template": "Bskill_man_gold&rhine.png"
             },
             "bskill_man_gold1": {
@@ -1349,6 +1485,13 @@
                     "PureGold": 30.1
                 },
                 "name": ["金属工艺·α"],
+                "operatorIds": [
+                    "char_1039_thorn2",
+                    "char_141_nights",
+                    "char_284_spot",
+                    "char_4081_warmy",
+                    "char_4106_bryota"
+                ],
                 "template": "Bskill_man_gold1.png"
             },
             "bskill_man_gold2": {
@@ -1358,6 +1501,7 @@
                     "PureGold": 35.1
                 },
                 "name": ["金属工艺·β"],
+                "operatorIds": ["char_237_gravel"],
                 "template": "Bskill_man_gold2.png"
             },
             "bskill_man_gold3": {
@@ -1366,6 +1510,7 @@
                     "PureGold": 25
                 },
                 "name": ["小奇思"],
+                "operatorIds": ["char_4105_almond"],
                 "template": "Bskill_man_gold3.png"
             },
             "bskill_man_gold4": {
@@ -1374,42 +1519,40 @@
                     "PureGold": 25
                 },
                 "name": ["净味香氛"],
+                "operatorIds": ["char_446_aroma"],
                 "template": "Bskill_man_gold4.png"
             },
             "bskill_man_limit&cost1": {
-                "desc": [
-                    "进驻制造站时，仓库容量上限+8，心情每小时消耗-0.25",
-                    "进驻制造站时，仓库容量上限+8，心情每小时消耗-0.25",
-                    "进驻制造站时，仓库容量上限+8，心情每小时消耗-0.25",
-                    "进驻制造站时，仓库容量上限+8，心情每小时消耗-0.25"
-                ],
+                "desc": ["进驻制造站时，仓库容量上限+8，心情每小时消耗-0.25"],
                 "efficient": {
                     "all": 0.08
                 },
                 "name": ["拾荒者", "磐蟹·阿盘", "“都想要”", "智慧之境"],
+                "operatorIds": [
+                    "char_149_scave",
+                    "char_190_clour",
+                    "char_2013_cerber",
+                    "char_452_bstalk",
+                    "char_485_pallas"
+                ],
                 "template": "Bskill_man_limit&cost1.png"
             },
             "bskill_man_limit&cost2": {
-                "desc": [
-                    "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25",
-                    "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25",
-                    "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25"
-                ],
+                "desc": ["进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25"],
                 "efficient": {
                     "all": 0.1
                 },
                 "name": ["囤积者", "无畏豪情", "午休好去处"],
+                "operatorIds": ["char_381_bubble", "char_4138_narant", "char_4198_christ"],
                 "template": "Bskill_man_limit&cost2.png"
             },
             "bskill_man_limit&cost3": {
-                "desc": [
-                    "进驻制造站时，仓库容量上限+16，心情每小时消耗-0.25",
-                    "进驻制造站时，仓库容量上限+16，心情每小时消耗-0.25"
-                ],
+                "desc": ["进驻制造站时，仓库容量上限+16，心情每小时消耗-0.25"],
                 "efficient": {
                     "all": 0.16
                 },
                 "name": ["探险者", "收纳达人"],
+                "operatorIds": ["char_378_asbest", "char_4171_wulfen"],
                 "template": "Bskill_man_limit&cost3.png"
             },
             "bskill_man_limit&cost5": {
@@ -1418,11 +1561,13 @@
                     "all": 0.1
                 },
                 "name": ["掘进工程"],
+                "operatorIds": ["char_464_cement"],
                 "template": "Bskill_man_limit&cost5.png"
             },
             "bskill_man_limit1": {
                 "desc": ["进驻制造站时，当前制造站内每个莱茵科技类技能为自身+5的仓库上限容量"],
                 "name": ["勘探背包"],
+                "operatorIds": ["char_1047_halo2"],
                 "template": "Bskill_man_limit1.png"
             },
             "bskill_man_marcille1": {
@@ -1431,6 +1576,7 @@
                     "all": 20
                 },
                 "name": ["差遣使魔·α"],
+                "operatorIds": ["char_4141_marcil"],
                 "template": "Bskill_man_marcille1.png"
             },
             "bskill_man_marcille2": {
@@ -1439,28 +1585,31 @@
                     "all": 30
                 },
                 "name": ["差遣使魔·β"],
+                "operatorIds": ["char_4141_marcil"],
                 "template": "Bskill_man_marcille2.png"
             },
             "bskill_man_originium1": {
-                "desc": ["进驻制造站时，源石类配方的生产力+30%", "进驻制造站时，源石类配方的生产力+30%"],
+                "desc": ["进驻制造站时，源石类配方的生产力+30%"],
                 "efficient": {
                     "OriginStone": 30
                 },
                 "name": ["源石工艺·α", "地质学·α"],
+                "operatorIds": ["char_283_midn", "char_388_mint", "char_4041_chnut"],
                 "template": "Bskill_man_originium1.png"
             },
             "bskill_man_originium2": {
-                "desc": [
-                    "进驻制造站时，源石类配方的生产力+35%",
-                    "进驻制造站时，源石类配方的生产力+35%",
-                    "进驻制造站时，源石类配方的生产力+35%",
-                    "进驻制造站时，源石类配方的生产力+35%",
-                    "进驻制造站时，源石类配方的生产力+35%"
-                ],
+                "desc": ["进驻制造站时，源石类配方的生产力+35%"],
                 "efficient": {
                     "OriginStone": 35
                 },
                 "name": ["火山学家", "源石研究", "源石工艺·β", "地质学·β", "源岩解析"],
+                "operatorIds": [
+                    "char_121_lava",
+                    "char_180_amgoat",
+                    "char_183_skgoat",
+                    "char_348_ceylon",
+                    "char_4229_aphris"
+                ],
                 "template": "Bskill_man_originium2.png"
             },
             "bskill_man_skill_change": {
@@ -1469,6 +1618,7 @@
                     "all": 0
                 },
                 "name": ["意识兼容"],
+                "operatorIds": ["char_4066_highmo"],
                 "template": "Bskill_man_skill_change.png"
             },
             "bskill_man_skill_spd": {
@@ -1477,6 +1627,7 @@
                     "all": 0
                 },
                 "name": ["意识协议"],
+                "operatorIds": ["char_437_mizuki"],
                 "template": "Bskill_man_skill_spd.png"
             },
             "bskill_man_skill_spd2": {
@@ -1485,6 +1636,7 @@
                     "all": 0
                 },
                 "name": ["源石技艺理论应用"],
+                "operatorIds": ["char_4048_doroth"],
                 "template": "Bskill_man_skill_spd2.png"
             },
             "bskill_man_skill_spd3": {
@@ -1493,6 +1645,7 @@
                     "all": 0
                 },
                 "name": ["打工心得"],
+                "operatorIds": ["char_4106_bryota"],
                 "template": "Bskill_man_skill_spd3.png"
             },
             "bskill_man_spd&cost1": {
@@ -1501,6 +1654,7 @@
                     "all": 20
                 },
                 "name": ["量体裁衣"],
+                "operatorIds": ["char_4155_talr"],
                 "template": "Bskill_man_spd&cost1.png"
             },
             "bskill_man_spd&cost2": {
@@ -1509,6 +1663,7 @@
                     "all": 20
                 },
                 "name": ["虔信"],
+                "operatorIds": ["char_4211_snhunt"],
                 "template": "Bskill_man_spd&cost2.png"
             },
             "bskill_man_spd&cost3": {
@@ -1517,6 +1672,7 @@
                     "all": 30
                 },
                 "name": ["独当一面"],
+                "operatorIds": ["char_4211_snhunt"],
                 "template": "Bskill_man_spd&cost3.png"
             },
             "bskill_man_spd&dorm1": {
@@ -1525,6 +1681,7 @@
                     "PureGold": 20
                 },
                 "name": ["齐心沙盗"],
+                "operatorIds": ["char_4138_narant"],
                 "template": "Bskill_man_spd&dorm1.png"
             },
             "bskill_man_spd&limit&cost1": {
@@ -1533,6 +1690,7 @@
                     "all": -5
                 },
                 "name": ["工匠精神·α"],
+                "operatorIds": ["char_163_hpsts"],
                 "template": "Bskill_man_spd&limit&cost1.png"
             },
             "bskill_man_spd&limit&cost2": {
@@ -1541,17 +1699,16 @@
                     "all": -5
                 },
                 "name": ["工匠精神·β"],
+                "operatorIds": ["char_163_hpsts"],
                 "template": "Bskill_man_spd&limit&cost2.png"
             },
             "bskill_man_spd&limit&cost3": {
-                "desc": [
-                    "进驻制造站时，生产力+25%，仓库容量上限-12，心情每小时消耗+0.25",
-                    "进驻制造站时，生产力+25%，仓库容量上限-12，心情每小时消耗+0.25"
-                ],
+                "desc": ["进驻制造站时，生产力+25%，仓库容量上限-12，心情每小时消耗+0.25"],
                 "efficient": {
                     "all": 24.9
                 },
                 "name": ["特立独行", "麻烦制造者"],
+                "operatorIds": ["char_281_popka", "char_378_asbest"],
                 "template": "Bskill_man_spd&limit&cost3.png"
             },
             "bskill_man_spd&limit&cost4": {
@@ -1560,6 +1717,7 @@
                     "all": -20
                 },
                 "name": ["“可靠”助手"],
+                "operatorIds": ["char_369_bena"],
                 "template": "Bskill_man_spd&limit&cost4.png"
             },
             "bskill_man_spd&limit1": {
@@ -1568,6 +1726,7 @@
                     "all": 10
                 },
                 "name": ["仓库整备·α"],
+                "operatorIds": ["char_122_beagle", "char_209_ardign"],
                 "template": "Bskill_man_spd&limit1.png"
             },
             "bskill_man_spd&limit3": {
@@ -1576,6 +1735,7 @@
                     "all": 10
                 },
                 "name": ["仓库整备·β"],
+                "operatorIds": ["char_150_snakek", "char_500_noirc"],
                 "template": "Bskill_man_spd&limit3.png"
             },
             "bskill_man_spd&limit5": {
@@ -1584,6 +1744,7 @@
                     "all": 25.06
                 },
                 "name": ["得心应手"],
+                "operatorIds": ["char_4155_talr"],
                 "template": "Bskill_man_spd&limit5.png"
             },
             "bskill_man_spd&limit6": {
@@ -1592,6 +1753,7 @@
                     "all": 19.92
                 },
                 "name": ["行动派"],
+                "operatorIds": ["char_4171_wulfen"],
                 "template": "Bskill_man_spd&limit6.png"
             },
             "bskill_man_spd&limit_felyne": {
@@ -1600,6 +1762,7 @@
                     "all": 5.08
                 },
                 "name": ["可靠的随从们"],
+                "operatorIds": ["char_4077_palico"],
                 "template": "Bskill_man_spd&limit_felyne.png"
             },
             "bskill_man_spd&power1": {
@@ -1610,6 +1773,7 @@
                     "all": -40
                 },
                 "name": ["自动化·α"],
+                "operatorIds": ["char_416_zumama", "char_433_windft", "char_472_pasngr"],
                 "template": "Bskill_man_spd&power1.png"
             },
             "bskill_man_spd&power2": {
@@ -1620,6 +1784,7 @@
                     "all": -40
                 },
                 "name": ["自动化·β"],
+                "operatorIds": ["char_400_weedy", "char_416_zumama"],
                 "template": "Bskill_man_spd&power2.png"
             },
             "bskill_man_spd&power3": {
@@ -1630,6 +1795,7 @@
                     "all": -40
                 },
                 "name": ["仿生海龙"],
+                "operatorIds": ["char_400_weedy"],
                 "template": "Bskill_man_spd&power3.png"
             },
             "bskill_man_spd&trade": {
@@ -1638,6 +1804,7 @@
                     "PureGold_reg": "[NumOfTrade] * 20"
                 },
                 "name": ["再生能源"],
+                "operatorIds": ["char_385_finlpp"],
                 "template": "Bskill_man_spd&trade.png"
             },
             "bskill_man_spd&trade1": {
@@ -1646,35 +1813,65 @@
                     "PureGold": 3
                 },
                 "name": ["原质塑金副产物"],
+                "operatorIds": ["char_1039_thorn2"],
                 "template": "Bskill_man_spd&trade1.png"
             },
             "bskill_man_spd1": {
-                "desc": [
-                    "进驻制造站时，生产力+15%",
-                    "进驻制造站时，生产力+15%",
-                    "进驻制造站时，生产力+15%",
-                    "进驻制造站时，生产力+15%"
-                ],
+                "desc": ["进驻制造站时，生产力+15%"],
                 "efficient": {
                     "all": 15
                 },
                 "name": ["莱茵科技·α", "红松骑士团·α", "标准化·α", "磐蟹·豆豆"],
+                "operatorIds": [
+                    "char_1036_fang2",
+                    "char_108_silent",
+                    "char_126_shotst",
+                    "char_128_plosis",
+                    "char_135_halo",
+                    "char_4041_chnut",
+                    "char_4063_quartz",
+                    "char_430_fartth",
+                    "char_431_ashlok",
+                    "char_452_bstalk",
+                    "char_464_cement",
+                    "char_496_wildmn",
+                    "char_502_nblade"
+                ],
                 "template": "Bskill_man_spd1.png"
             },
             "bskill_man_spd2": {
-                "desc": ["进驻制造站时，生产力+25%", "进驻制造站时，生产力+25%", "进驻制造站时，生产力+25%"],
+                "desc": ["进驻制造站时，生产力+25%"],
                 "efficient": {
                     "all": 25
                 },
                 "name": ["红松骑士团·β", "标准化·β", "莱茵科技·β"],
+                "operatorIds": [
+                    "char_1047_halo2",
+                    "char_108_silent",
+                    "char_128_plosis",
+                    "char_135_halo",
+                    "char_181_flower",
+                    "char_210_stward",
+                    "char_235_jesica",
+                    "char_240_wyvern",
+                    "char_4048_doroth",
+                    "char_4066_highmo",
+                    "char_4212_nasti",
+                    "char_430_fartth",
+                    "char_431_ashlok",
+                    "char_437_mizuki",
+                    "char_484_robrta",
+                    "char_496_wildmn"
+                ],
                 "template": "Bskill_man_spd2.png"
             },
             "bskill_man_spd3": {
-                "desc": ["进驻制造站时，生产力+30%", "进驻制造站时，生产力+30%"],
+                "desc": ["进驻制造站时，生产力+30%"],
                 "efficient": {
                     "all": 30
                 },
                 "name": ["咪波·制造型", "莱茵科技·γ"],
+                "operatorIds": ["char_1031_slent2", "char_242_otter"],
                 "template": "Bskill_man_spd3.png"
             },
             "bskill_man_spd_add&cost": {
@@ -1683,28 +1880,25 @@
                     "all": 0
                 },
                 "name": ["窗外雪啸"],
+                "operatorIds": ["char_4062_totter"],
                 "template": "Bskill_man_spd_add&cost.png"
             },
             "bskill_man_spd_add1": {
-                "desc": [
-                    "进驻制造站后，生产力首小时+20%，此后每小时+1%，最终达到+25%",
-                    "进驻制造站后，生产力首小时+20%，此后每小时+1%，最终达到+25%"
-                ],
+                "desc": ["进驻制造站后，生产力首小时+20%，此后每小时+1%，最终达到+25%"],
                 "efficient": {
                     "all": 24
                 },
                 "name": ["急性子", "“等不及”"],
+                "operatorIds": ["char_123_fang", "char_2013_cerber"],
                 "template": "Bskill_man_spd_add1.png"
             },
             "bskill_man_spd_add2": {
-                "desc": [
-                    "进驻制造站后，生产力首小时+15%，此后每小时+2%，最终达到+25%",
-                    "进驻制造站后，生产力首小时+15%，此后每小时+2%，最终达到+25%"
-                ],
+                "desc": ["进驻制造站后，生产力首小时+15%，此后每小时+2%，最终达到+25%"],
                 "efficient": {
                     "all": 23
                 },
                 "name": ["慢性子", "延时摄影"],
+                "operatorIds": ["char_124_kroos", "char_336_folivo"],
                 "template": "Bskill_man_spd_add2.png"
             },
             "bskill_man_spd_add3": {
@@ -1713,6 +1907,7 @@
                     "all": 10
                 },
                 "name": ["例行清扫"],
+                "operatorIds": ["char_446_aroma"],
                 "template": "Bskill_man_spd_add3.png"
             },
             "bskill_man_spd_bd1": {
@@ -1721,6 +1916,7 @@
                     "all": 10
                 },
                 "name": ["念力"],
+                "operatorIds": ["char_391_rosmon"],
                 "template": "Bskill_man_spd_bd1.png"
             },
             "bskill_man_spd_bd2": {
@@ -1729,6 +1925,7 @@
                     "all": 20
                 },
                 "name": ["意识实体"],
+                "operatorIds": ["char_391_rosmon"],
                 "template": "Bskill_man_spd_bd2.png"
             },
             "bskill_man_spd_bd3": {
@@ -1737,6 +1934,7 @@
                     "all": 20
                 },
                 "name": ["机械辅助·α"],
+                "operatorIds": ["char_4054_malist"],
                 "template": "Bskill_man_spd_bd3.png"
             },
             "bskill_man_spd_bd4": {
@@ -1745,6 +1943,7 @@
                     "all": 40
                 },
                 "name": ["机械辅助·β"],
+                "operatorIds": ["char_4054_malist"],
                 "template": "Bskill_man_spd_bd4.png"
             },
             "bskill_man_spd_bd5": {
@@ -1753,6 +1952,7 @@
                     "all": 0
                 },
                 "name": ["逐水草"],
+                "operatorIds": ["char_4078_bdhkgt"],
                 "template": "Bskill_man_spd_bd5.png"
             },
             "bskill_man_spd_bd6": {
@@ -1761,6 +1961,7 @@
                     "all": 0
                 },
                 "name": ["问枯荣"],
+                "operatorIds": ["char_4078_bdhkgt"],
                 "template": "Bskill_man_spd_bd6.png"
             },
             "bskill_man_spd_bd7": {
@@ -1769,6 +1970,7 @@
                     "all": 0
                 },
                 "name": ["稻禾厚，顺秋收"],
+                "operatorIds": ["char_2025_shu"],
                 "template": "Bskill_man_spd_bd7.png"
             },
             "bskill_man_spd_bd_dungeon": {
@@ -1777,6 +1979,7 @@
                     "all": 0
                 },
                 "name": ["意想不到的美味"],
+                "operatorIds": ["char_4141_marcil"],
                 "template": "Bskill_man_spd_bd_dungeon.png"
             },
             "bskill_man_spd_bd_n1": {
@@ -1789,6 +1992,7 @@
                     "all": 0
                 },
                 "name": ["超感"],
+                "operatorIds": ["char_391_rosmon"],
                 "template": "Bskill_man_spd_bd_n1.png"
             },
             "bskill_man_spd_double": {
@@ -1797,6 +2001,7 @@
                     "all": 0
                 },
                 "name": ["“搭把手！”"],
+                "operatorIds": ["char_4178_alanna"],
                 "template": "Bskill_man_spd_double.png"
             },
             "bskill_man_spd_double2": {
@@ -1805,6 +2010,7 @@
                     "all": 0
                 },
                 "name": ["盛餐的回报"],
+                "operatorIds": ["char_4198_christ"],
                 "template": "Bskill_man_spd_double2.png"
             },
             "bskill_man_spd_manu1": {
@@ -1815,6 +2021,7 @@
                     "all": -40
                 },
                 "name": ["科学改造"],
+                "operatorIds": ["char_4208_wintim"],
                 "template": "Bskill_man_spd_manu1.png"
             },
             "bskill_man_spd_manu2": {
@@ -1825,11 +2032,13 @@
                     "all": -40
                 },
                 "name": ["流程优化"],
+                "operatorIds": ["char_4208_wintim"],
                 "template": "Bskill_man_spd_manu2.png"
             },
             "bskill_man_spd_mechanist": {
                 "desc": ["进驻制造站时，若单次工作时长达到12小时，生产力+10%"],
                 "name": ["“我睡过了”"],
+                "operatorIds": ["char_4230_mcnist"],
                 "template": "Bskill_man_spd_mechanist.png"
             },
             "bskill_man_spd_reduce": {
@@ -1838,6 +2047,7 @@
                     "all": 24.9
                 },
                 "name": ["模糊视线"],
+                "operatorIds": ["char_4062_totter"],
                 "template": "Bskill_man_spd_reduce.png"
             },
             "bskill_man_spd_variable11": {
@@ -1846,6 +2056,7 @@
                     "all": 2
                 },
                 "name": ["回收利用"],
+                "operatorIds": ["char_190_clour"],
                 "template": "Bskill_man_spd_variable11.png"
             },
             "bskill_man_spd_variable21": {
@@ -1858,6 +2069,7 @@
                     "PureGold": 39.8
                 },
                 "name": ["配合意识"],
+                "operatorIds": ["char_243_waaifu"],
                 "template": "Bskill_man_spd_variable21.png"
             },
             "bskill_man_spd_variable31": {
@@ -1868,11 +2080,13 @@
                     "all": 5
                 },
                 "name": ["大就是好！"],
+                "operatorIds": ["char_381_bubble"],
                 "template": "Bskill_man_spd_variable31.png"
             },
             "bskill_man_spd_veen": {
                 "desc": ["进驻制造站时，训练室每级为当前制造站+10%生产力，最多30%"],
                 "name": ["手艺人"],
+                "operatorIds": ["char_4226_veen"],
                 "template": "Bskill_man_spd_veen.png"
             },
             "bskill_man_token_spd1": {
@@ -1881,6 +2095,7 @@
                     "all": 0
                 },
                 "name": ["机械精通·α"],
+                "operatorIds": ["char_4178_alanna"],
                 "template": "Bskill_man_token_spd1.png"
             },
             "bskill_man_token_spd2": {
@@ -1889,6 +2104,7 @@
                     "all": 0
                 },
                 "name": ["机械精通·β"],
+                "operatorIds": ["char_4178_alanna"],
                 "template": "Bskill_man_token_spd2.png"
             }
         },
@@ -2479,12 +2695,13 @@
         "maxNumOfOpers": 1,
         "products": ["HR"],
         "skills": {
-            "bskill_hire_bd_B": {
+            "bskill_hire_bd_b": {
                 "desc": ["进驻人力办公室时，每个招募位（不包含初始招募位）+15点无声共鸣"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["心声图绘"],
+                "operatorIds": ["char_4109_baslin"],
                 "template": "Bskill_hire_bd_B.png"
             },
             "bskill_hire_blitz": {
@@ -2495,6 +2712,7 @@
                     "all": 20.1
                 },
                 "name": ["语言学"],
+                "operatorIds": ["char_457_blitz"],
                 "template": "Bskill_hire_blitz.png"
             },
             "bskill_hire_kalts2": {
@@ -2502,6 +2720,7 @@
                     "进驻人力办公室时，人脉资源的联络速度+30%，基建内（不包含副手及活动室）每有一间进驻精英干员的设施，联络速度额外+4%（最多5间）"
                 ],
                 "name": ["“泰拉的方舟”"],
+                "operatorIds": ["char_1052_kalts2"],
                 "template": "Bskill_hire_kalts2.png"
             },
             "bskill_hire_skgoat": {
@@ -2510,6 +2729,7 @@
                     "all": 39.9
                 },
                 "name": ["准时下班"],
+                "operatorIds": ["char_183_skgoat"],
                 "template": "Bskill_hire_skgoat.png"
             },
             "bskill_hire_skgoat2": {
@@ -2518,6 +2738,7 @@
                     "all": 49.9
                 },
                 "name": ["法为正典"],
+                "operatorIds": ["char_4065_judge"],
                 "template": "Bskill_hire_skgoat2.png"
             },
             "bskill_hire_skgoat3": {
@@ -2526,6 +2747,7 @@
                     "all": 29.9
                 },
                 "name": ["永不停歇·α"],
+                "operatorIds": ["char_4177_brigid"],
                 "template": "Bskill_hire_skgoat3.png"
             },
             "bskill_hire_skgoat4": {
@@ -2534,6 +2756,7 @@
                     "all": 44.9
                 },
                 "name": ["永不停歇·β"],
+                "operatorIds": ["char_4177_brigid"],
                 "template": "Bskill_hire_skgoat4.png"
             },
             "bskill_hire_spd&blacksteel2": {
@@ -2544,6 +2767,7 @@
                     "all": 20
                 },
                 "name": ["内幕"],
+                "operatorIds": ["char_264_f12yin"],
                 "template": "Bskill_hire_spd&blacksteel2.png"
             },
             "bskill_hire_spd&char1": {
@@ -2551,17 +2775,18 @@
                     "进驻人力办公室时，人脉资源的联络速度+35%，心情每小时消耗-0.25，如果凛御银灰进驻在控制中枢，则人脉资源的联络速度额外+10%"
                 ],
                 "name": ["雪境归心"],
+                "operatorIds": ["char_1046_sbell2"],
                 "template": "Bskill_hire_spd&char1.png"
             },
             "bskill_hire_spd&clue": {
                 "desc": [
-                    "进驻人力办公室时，人脉资源的联络速度+35%，同时每个招募位（不包含初始招募位）额外+5%会客室线索搜集速度",
                     "进驻人力办公室时，人脉资源的联络速度+35%，同时每个招募位（不包含初始招募位）额外+5%会客室线索搜集速度"
                 ],
                 "efficient": {
                     "all": 45
                 },
                 "name": ["洞悉人心", "好事之徒"],
+                "operatorIds": ["char_343_tknogi", "char_455_nothin"],
                 "template": "Bskill_hire_spd&clue.png"
             },
             "bskill_hire_spd&clue2": {
@@ -2572,6 +2797,7 @@
                     "all": 40
                 },
                 "name": ["交游广阔"],
+                "operatorIds": ["char_498_inside"],
                 "template": "Bskill_hire_spd&clue2.png"
             },
             "bskill_hire_spd&clue3": {
@@ -2579,6 +2805,7 @@
                     "进驻人力办公室时，人脉资源的联络速度+30%，同时每个招募位（不包含初始招募位）额外+5%会客室线索搜集速度"
                 ],
                 "name": ["“号外！”"],
+                "operatorIds": ["char_4224_turdus"],
                 "template": "Bskill_hire_spd&clue3.png"
             },
             "bskill_hire_spd&clue4": {
@@ -2586,6 +2813,7 @@
                     "进驻人力办公室时，人脉资源的联络速度+35%，同时每个招募位（不包含初始招募位）额外+5%会客室线索搜集速度"
                 ],
                 "name": ["街头法则"],
+                "operatorIds": ["char_4224_turdus"],
                 "template": "Bskill_hire_spd&clue4.png"
             },
             "bskill_hire_spd&cost1": {
@@ -2594,6 +2822,7 @@
                     "all": 10.1
                 },
                 "name": ["救援队·珠算"],
+                "operatorIds": ["char_473_mberry"],
                 "template": "Bskill_hire_spd&cost1.png"
             },
             "bskill_hire_spd&cost2": {
@@ -2602,6 +2831,7 @@
                     "all": 20.1
                 },
                 "name": ["救援队·资源清点"],
+                "operatorIds": ["char_473_mberry"],
                 "template": "Bskill_hire_spd&cost2.png"
             },
             "bskill_hire_spd&cost3": {
@@ -2612,18 +2842,16 @@
                     "all": 35.1
                 },
                 "name": ["救援队·保证体力"],
+                "operatorIds": ["char_466_qanik"],
                 "template": "Bskill_hire_spd&cost3.png"
             },
             "bskill_hire_spd&cost4": {
-                "desc": [
-                    "进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25",
-                    "进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25",
-                    "进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25"
-                ],
+                "desc": ["进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25"],
                 "efficient": {
                     "all": 20.1
                 },
                 "name": ["特殊渠道 ", "特殊渠道", "踏坊寻味·α"],
+                "operatorIds": ["char_4080_lin", "char_4172_xingzh"],
                 "template": "Bskill_hire_spd&cost4.png"
             },
             "bskill_hire_spd&cost5": {
@@ -2632,22 +2860,22 @@
                     "all": 10.1
                 },
                 "name": ["宫廷礼仪"],
+                "operatorIds": ["char_4109_baslin"],
                 "template": "Bskill_hire_spd&cost5.png"
             },
             "bskill_hire_spd&cost6": {
-                "desc": [
-                    "进驻人力办公室时，人脉资源的联络速度+30%，心情每小时消耗-0.25",
-                    "进驻人力办公室时，人脉资源的联络速度+30%，心情每小时消耗-0.25"
-                ],
+                "desc": ["进驻人力办公室时，人脉资源的联络速度+30%，心情每小时消耗-0.25"],
                 "efficient": {
                     "all": 30.1
                 },
                 "name": ["威权谕使", "踏坊寻味·β"],
+                "operatorIds": ["char_4109_baslin", "char_4172_xingzh"],
                 "template": "Bskill_hire_spd&cost6.png"
             },
             "bskill_hire_spd&cost7": {
                 "desc": ["进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25"],
                 "name": ["圣女声望"],
+                "operatorIds": ["char_1046_sbell2"],
                 "template": "Bskill_hire_spd&cost7.png"
             },
             "bskill_hire_spd&dorm1": {
@@ -2656,6 +2884,7 @@
                     "all": 25
                 },
                 "name": ["梅兰德侦探·α"],
+                "operatorIds": ["char_4151_tinman"],
                 "template": "Bskill_hire_spd&dorm1.png"
             },
             "bskill_hire_spd&dorm2": {
@@ -2664,6 +2893,7 @@
                     "all": 45
                 },
                 "name": ["梅兰德侦探·β"],
+                "operatorIds": ["char_4151_tinman"],
                 "template": "Bskill_hire_spd&dorm2.png"
             },
             "bskill_hire_spd&extra1": {
@@ -2672,6 +2902,7 @@
                     "all": 20
                 },
                 "name": ["用人唯才"],
+                "operatorIds": ["char_4080_lin"],
                 "template": "Bskill_hire_spd&extra1.png"
             },
             "bskill_hire_spd&glasgow": {
@@ -2682,6 +2913,7 @@
                     "all": 20
                 },
                 "name": ["旧识新交"],
+                "operatorIds": ["char_4110_delphn"],
                 "template": "Bskill_hire_spd&glasgow.png"
             },
             "bskill_hire_spd&ursus2": {
@@ -2692,6 +2924,7 @@
                     "all": 20
                 },
                 "name": ["人望"],
+                "operatorIds": ["char_197_poca"],
                 "template": "Bskill_hire_spd&ursus2.png"
             },
             "bskill_hire_spd1": {
@@ -2700,14 +2933,16 @@
                     "all": 20
                 },
                 "name": ["人事管理·α"],
+                "operatorIds": ["char_503_rang"],
                 "template": "Bskill_hire_spd1.png"
             },
             "bskill_hire_spd2": {
-                "desc": ["进驻人力办公室时，人脉资源的联络速度+30%", "进驻人力办公室时，人脉资源的联络速度+30%"],
+                "desc": ["进驻人力办公室时，人脉资源的联络速度+30%"],
                 "efficient": {
                     "all": 30
                 },
                 "name": ["天灾信使·α", "救援队·外界联络"],
+                "operatorIds": ["char_145_prove", "char_183_skgoat", "char_343_tknogi", "char_466_qanik"],
                 "template": "Bskill_hire_spd2.png"
             },
             "bskill_hire_spd3": {
@@ -2716,31 +2951,32 @@
                     "all": 35
                 },
                 "name": ["人事管理·β"],
+                "operatorIds": ["char_4087_ines"],
                 "template": "Bskill_hire_spd3.png"
             },
             "bskill_hire_spd4": {
-                "desc": [
-                    "进驻人力办公室时，人脉资源的联络速度+40%",
-                    "进驻人力办公室时，人脉资源的联络速度+40%",
-                    "进驻人力办公室时，人脉资源的联络速度+40%",
-                    "进驻人力办公室时，人脉资源的联络速度+40%"
-                ],
+                "desc": ["进驻人力办公室时，人脉资源的联络速度+40%"],
                 "efficient": {
                     "all": 40
                 },
                 "name": ["WRITER", "B-girl", "心理学", "不停歇的电话"],
+                "operatorIds": [
+                    "char_1031_slent2",
+                    "char_164_nightm",
+                    "char_278_orchid",
+                    "char_337_utage",
+                    "char_355_ethan",
+                    "char_366_acdrop"
+                ],
                 "template": "Bskill_hire_spd4.png"
             },
             "bskill_hire_spd5": {
-                "desc": [
-                    "进驻人力办公室时，人脉资源的联络速度+45%",
-                    "进驻人力办公室时，人脉资源的联络速度+45%",
-                    "进驻人力办公室时，人脉资源的联络速度+45%"
-                ],
+                "desc": ["进驻人力办公室时，人脉资源的联络速度+45%"],
                 "efficient": {
                     "all": 45
                 },
                 "name": ["天灾信使·β", "节目邀约", "前任金牌接线员"],
+                "operatorIds": ["char_145_prove", "char_180_amgoat", "char_4202_haruka", "char_4235_thumpy"],
                 "template": "Bskill_hire_spd5.png"
             },
             "bskill_hire_spd_bd_n1_n1": {
@@ -2749,6 +2985,7 @@
                     "all": 20.1
                 },
                 "name": ["巡游"],
+                "operatorIds": ["char_436_whispr"],
                 "template": "Bskill_hire_spd_bd_n1_n1.png"
             },
             "bskill_hire_spd_bd_n2": {
@@ -2757,6 +2994,7 @@
                     "all": 0
                 },
                 "name": ["救援队·灾后普查"],
+                "operatorIds": ["char_473_mberry"],
                 "template": "Bskill_hire_spd_bd_n2.png"
             },
             "bskill_hire_spd_memento": {
@@ -2767,6 +3005,7 @@
                     "all": 0
                 },
                 "name": ["追忆"],
+                "operatorIds": ["char_436_whispr"],
                 "template": "Bskill_hire_spd_memento.png"
             }
         },
@@ -2782,6 +3021,7 @@
                     "all": 0.1
                 },
                 "name": ["晨曦"],
+                "operatorIds": ["char_1027_greyy2"],
                 "template": "Bskill_pow_count.png"
             },
             "bskill_pow_drone": {
@@ -2790,6 +3030,7 @@
                     "all": 20
                 },
                 "name": ["巡线框架"],
+                "operatorIds": ["char_1027_greyy2"],
                 "template": "Bskill_pow_drone.png"
             },
             "bskill_pow_jnight": {
@@ -2798,29 +3039,20 @@
                     "all": 0.2
                 },
                 "name": ["“滴滴，启动！”"],
+                "operatorIds": ["char_4000_jnight"],
                 "template": "Bskill_pow_jnight.png"
             },
             "bskill_pow_spd&cost": {
-                "desc": ["进驻发电站时，心情每小时消耗-0.52", "进驻发电站时，心情每小时消耗-0.3"],
+                "desc": ["进驻发电站时，心情每小时消耗-0.52"],
                 "efficient": {
                     "all": 0.1
                 },
                 "name": ["热情澎湃", "外卖水果挞"],
+                "operatorIds": ["char_376_therex", "char_4015_spuria"],
                 "template": "Bskill_pow_spd&cost.png"
             },
             "bskill_pow_spd1": {
-                "desc": [
-                    "进驻发电站时，无人机充能速度+10%",
-                    "进驻发电站时，无人机充能速度+10%",
-                    "进驻发电站时，无人机充能速度+10%",
-                    "进驻发电站时，无人机充能速度+10%",
-                    "进驻发电站时，无人机充能速度+10%",
-                    "进驻发电站时，无人机充能速度+10%",
-                    "进驻发电站时，无人机充能速度+10%",
-                    "进驻发电站时，无人机充能速度+10%",
-                    "进驻发电站时，无人机充能速度+10%",
-                    "进驻发电站时，无人机充能速度+10%"
-                ],
+                "desc": ["进驻发电站时，无人机充能速度+10%"],
                 "efficient": {
                     "all": 10
                 },
@@ -2836,20 +3068,30 @@
                     "澎湃紊流",
                     "鸡电工程"
                 ],
+                "operatorIds": [
+                    "char_017_huang",
+                    "char_1043_leizi2",
+                    "char_121_lava",
+                    "char_134_ifrit",
+                    "char_285_medic2",
+                    "char_286_cast3",
+                    "char_326_glacus",
+                    "char_376_therex",
+                    "char_377_gdglow",
+                    "char_4000_jnight",
+                    "char_4051_akkord",
+                    "char_4093_frston",
+                    "char_4136_phonor",
+                    "char_4148_philae",
+                    "char_4188_confes",
+                    "char_4227_gallus",
+                    "char_469_indigo",
+                    "char_472_pasngr"
+                ],
                 "template": "Bskill_pow_spd1.png"
             },
             "bskill_pow_spd2": {
-                "desc": [
-                    "进驻发电站时，无人机充能速度+15%",
-                    "进驻发电站时，无人机充能速度+15%",
-                    "进驻发电站时，无人机充能速度+15%",
-                    "进驻发电站时，无人机充能速度+15%",
-                    "进驻发电站时，无人机充能速度+15%",
-                    "进驻发电站时，无人机充能速度+15%",
-                    "进驻发电站时，无人机充能速度+15%",
-                    "进驻发电站时，无人机充能速度+15%",
-                    "进驻发电站时，无人机充能速度+15%"
-                ],
+                "desc": ["进驻发电站时，无人机充能速度+15%"],
                 "efficient": {
                     "all": 15
                 },
@@ -2864,18 +3106,22 @@
                     "穹顶物流管理·α",
                     "澎湃紊流"
                 ],
+                "operatorIds": [
+                    "char_107_liskam",
+                    "char_134_ifrit",
+                    "char_277_sqrrel",
+                    "char_326_glacus",
+                    "char_385_finlpp",
+                    "char_4004_pudd",
+                    "char_4051_akkord",
+                    "char_4079_haini",
+                    "char_469_indigo",
+                    "char_472_pasngr"
+                ],
                 "template": "Bskill_pow_spd2.png"
             },
             "bskill_pow_spd3": {
-                "desc": [
-                    "进驻发电站时，无人机充能速度+20%",
-                    "进驻发电站时，无人机充能速度+20%",
-                    "进驻发电站时，无人机充能速度+20%",
-                    "进驻发电站时，无人机充能速度+20%",
-                    "进驻发电站时，无人机充能速度+20%",
-                    "进驻发电站时，无人机充能速度+20%",
-                    "进驻发电站时，无人机充能速度+20%"
-                ],
+                "desc": ["进驻发电站时，无人机充能速度+20%"],
                 "efficient": {
                     "all": 20
                 },
@@ -2888,22 +3134,34 @@
                     "合法窃电",
                     "迟到前六分钟"
                 ],
+                "operatorIds": [
+                    "char_1011_lava2",
+                    "char_1040_blaze2",
+                    "char_107_liskam",
+                    "char_253_greyy",
+                    "char_377_gdglow",
+                    "char_4079_haini",
+                    "char_4213_skybx",
+                    "char_4236_tmslot"
+                ],
                 "template": "Bskill_pow_spd3.png"
             },
-            "bskill_pow_spd_P": {
+            "bskill_pow_spd_p": {
                 "desc": ["进驻发电站时，如果凯尔希进驻在控制中枢，则无人机充能速度+5%"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["“愉快的对谈”"],
+                "operatorIds": ["char_4093_frston"],
                 "template": "Bskill_pow_spd_P.png"
             },
-            "bskill_pow_spd_P1": {
+            "bskill_pow_spd_p1": {
                 "desc": ["进驻发电站时，如果逻各斯进驻在训练室协助位，则无人机充能速度+5%"],
                 "efficient": {
                     "all": 0
                 },
                 "name": ["咒文共鸣"],
+                "operatorIds": ["char_4136_phonor"],
                 "template": "Bskill_pow_spd_P1.png"
             },
             "bskill_power_rec_rhine": {
@@ -2914,28 +3172,25 @@
                     "all": 11
                 },
                 "name": ["生态科主任"],
+                "operatorIds": ["char_249_mlyss"],
                 "template": "Bskill_power_rec_rhine.png"
             },
             "bskill_power_rec_spd&addition1": {
-                "desc": [
-                    "进驻发电站时，无人机充能速度首小时+10%，此后每小时+1%，最终达到+15%",
-                    "进驻发电站时，无人机充能速度首小时+10%，此后每小时+1%，最终达到+15%"
-                ],
+                "desc": ["进驻发电站时，无人机充能速度首小时+10%，此后每小时+1%，最终达到+15%"],
                 "efficient": {
                     "all": 14.9
                 },
                 "name": ["技术交流α", "技术交流·α"],
+                "operatorIds": ["char_4015_spuria"],
                 "template": "Bskill_power_rec_spd&addition1.png"
             },
             "bskill_power_rec_spd&addition2": {
-                "desc": [
-                    "进驻发电站时，无人机充能速度首小时+15%，此后每小时+1%，最终达到+20%",
-                    "进驻发电站时，无人机充能速度首小时+15%，此后每小时+1%，最终达到+20%"
-                ],
+                "desc": ["进驻发电站时，无人机充能速度首小时+15%，此后每小时+1%，最终达到+20%"],
                 "efficient": {
                     "all": 19.9
                 },
                 "name": ["技术交流β", "技术交流·β"],
+                "operatorIds": ["char_4015_spuria"],
                 "template": "Bskill_power_rec_spd&addition2.png"
             },
             "bskill_power_rec_spd&dorm&lv": {
@@ -2944,6 +3199,7 @@
                     "all": 10
                 },
                 "name": ["灵河共鸣"],
+                "operatorIds": ["char_4148_philae"],
                 "template": "Bskill_power_rec_spd&dorm&lv.png"
             },
             "bskill_power_rec_spd_ext&faction": {
@@ -2952,15 +3208,461 @@
                     "all": 0
                 },
                 "name": ["维护中"],
+                "operatorIds": ["char_4188_confes"],
                 "template": "Bskill_power_rec_spd_ext&faction.png"
             },
             "bskill_power_rec_spd_ext&tag": {
                 "desc": ["进驻发电站时，如果其他作业平台进驻在发电站，则无人机充能速度+5%"],
                 "name": ["鸡励机制"],
+                "operatorIds": ["char_4227_gallus"],
                 "template": "Bskill_power_rec_spd_ext&tag.png"
             }
         },
         "skillsGroup": []
+    },
+    "Processing": {
+        "skills": {
+            "bskill_ws_all_cost1": {
+                "desc": ["进驻加工站加工任意类材料时，心情消耗为4的配方全部-1心情消耗"],
+                "name": ["勤学不倦"],
+                "operatorIds": ["char_4119_wanqin"],
+                "template": "Bskill_ws_all_cost1.png"
+            },
+            "bskill_ws_all_cost2": {
+                "desc": ["进驻加工站加工任意类材料时，心情消耗为2的配方全部-1心情消耗"],
+                "name": ["拍摄日愉快"],
+                "operatorIds": ["char_4191_tippi"],
+                "template": "Bskill_ws_all_cost2.png"
+            },
+            "bskill_ws_alloyblock": {
+                "desc": ["进驻加工站加工炽合金块材料时，副产品的产出概率提升100%"],
+                "name": ["DIY·炽合金"],
+                "operatorIds": ["char_4039_horn"],
+                "template": "Bskill_ws_alloyblock.png"
+            },
+            "bskill_ws_asc1": {
+                "desc": ["进驻加工站加工芯片时，副产品的产出概率提升70%"],
+                "name": ["特训记录", "被忽视的天赋"],
+                "operatorIds": ["char_009_12fce", "char_137_brownb", "char_301_cutter", "char_4236_tmslot"],
+                "template": "Bskill_ws_asc1.png"
+            },
+            "bskill_ws_asc2": {
+                "desc": ["进驻加工站加工芯片时，副产品的产出概率提升80%"],
+                "name": ["训练有素"],
+                "operatorIds": ["char_222_bpipe"],
+                "template": "Bskill_ws_asc2.png"
+            },
+            "bskill_ws_asc_cost1": {
+                "desc": ["进驻加工站加工芯片时，心情消耗为2的配方全部-1心情消耗"],
+                "name": ["淡泊"],
+                "operatorIds": ["char_301_cutter"],
+                "template": "Bskill_ws_asc_cost1.png"
+            },
+            "bskill_ws_bonus1": {
+                "desc": ["进驻加工站时，累积40点因果必定产出一次副产品"],
+                "name": ["因果"],
+                "operatorIds": ["char_4019_ncdeer"],
+                "template": "Bskill_ws_bonus1.png"
+            },
+            "bskill_ws_bonus2": {
+                "desc": ["进驻加工站时，累积80点业报必定产出一次副产品"],
+                "name": ["业报"],
+                "operatorIds": ["char_4019_ncdeer"],
+                "template": "Bskill_ws_bonus2.png"
+            },
+            "bskill_ws_build1": {
+                "desc": ["进驻加工站加工基建材料时，副产品的产出概率提升70%"],
+                "name": ["工程学"],
+                "operatorIds": ["char_277_sqrrel", "char_440_pinecn", "char_484_robrta"],
+                "template": "Bskill_ws_build1.png"
+            },
+            "bskill_ws_build2": {
+                "desc": ["进驻加工站加工基建材料时，副产品的产出概率提升75%"],
+                "name": ["结构力学", "突发好运"],
+                "operatorIds": ["char_373_lionhd", "char_488_buildr"],
+                "template": "Bskill_ws_build2.png"
+            },
+            "bskill_ws_build3": {
+                "desc": ["进驻加工站加工基建材料时，副产品的产出概率提升80%"],
+                "name": ["斩铁裂钢"],
+                "operatorIds": ["char_017_huang"],
+                "template": "Bskill_ws_build3.png"
+            },
+            "bskill_ws_build_cost": {
+                "desc": ["进驻加工站加工基建材料时，心情消耗为2的配方全部-1心情消耗"],
+                "name": ["便携蓄电池"],
+                "operatorIds": ["char_440_pinecn"],
+                "template": "Bskill_ws_build_cost.png"
+            },
+            "bskill_ws_build_cost2": {
+                "desc": ["进驻加工站加工基建材料时，心情消耗为4的配方全部-2心情消耗"],
+                "name": ["选矿学", "不倒霉的一天"],
+                "operatorIds": ["char_373_lionhd", "char_488_buildr"],
+                "template": "Bskill_ws_build_cost2.png"
+            },
+            "bskill_ws_constant": {
+                "desc": ["进驻加工站加工精英材料时，相应配方的心情消耗恒定为2"],
+                "name": ["执著"],
+                "operatorIds": ["char_311_mudrok"],
+                "template": "Bskill_ws_constant.png"
+            },
+            "bskill_ws_constant2": {
+                "desc": ["进驻加工站加工精英材料时，相应配方的心情消耗恒定为4"],
+                "name": ["苦修之律"],
+                "operatorIds": ["char_4011_lessng"],
+                "template": "Bskill_ws_constant2.png"
+            },
+            "bskill_ws_constant3": {
+                "desc": ["进驻加工站加工精英材料时，相应配方的心情消耗恒定为3"],
+                "name": ["虔修之律"],
+                "operatorIds": ["char_4011_lessng"],
+                "template": "Bskill_ws_constant3.png"
+            },
+            "bskill_ws_cost": {
+                "desc": ["进驻加工站加工任意类材料时，心情消耗为4以上的配方全部-2心情消耗"],
+                "name": ["自动化流水线"],
+                "operatorIds": ["char_4162_cathy"],
+                "template": "Bskill_ws_cost.png"
+            },
+            "bskill_ws_cost&dorm": {
+                "desc": ["进驻加工站加工精英材料时，宿舍内每有10名心情12以下的干员时，心情消耗为4的配方心情消耗全部-1"],
+                "name": ["心相连"],
+                "operatorIds": ["char_4072_ironmn"],
+                "template": "Bskill_ws_cost&dorm.png"
+            },
+            "bskill_ws_cost_blemishine": {
+                "desc": ["进驻加工站加工精英材料时，副产品的产出概率提升40%，同时心情消耗为8以上的配方全部-4心情消耗"],
+                "name": ["热心修补匠"],
+                "operatorIds": ["char_423_blemsh"],
+                "template": "Bskill_ws_cost_blemishine.png"
+            },
+            "bskill_ws_cost_ju": {
+                "desc": ["进驻加工站加工精英材料时，副产品的产出概率提升60%，同时心情消耗为8以上的配方全部-2心情消耗"],
+                "name": ["大匠之心·α"],
+                "operatorIds": ["char_4221_ju"],
+                "template": "Bskill_ws_cost_ju.png"
+            },
+            "bskill_ws_cost_ju2": {
+                "desc": ["进驻加工站加工精英材料时，副产品的产出概率提升80%，同时心情消耗为4以上的配方全部-2心情消耗"],
+                "name": ["大匠之心·β"],
+                "operatorIds": ["char_4221_ju"],
+                "template": "Bskill_ws_cost_ju2.png"
+            },
+            "bskill_ws_cost_lolxh": {
+                "desc": ["进驻加工站加工任意类材料时，心情消耗为4以上的配方全部除以4心情消耗"],
+                "name": ["化猫"],
+                "operatorIds": ["char_4067_lolxh"],
+                "template": "Bskill_ws_cost_lolxh.png"
+            },
+            "bskill_ws_cost_magallan": {
+                "desc": ["进驻加工站加工任意类材料时，心情消耗为4以上的配方全部-2心情消耗"],
+                "name": ["龙腾式无人机"],
+                "operatorIds": ["char_248_mgllan"],
+                "template": "Bskill_ws_cost_magallan.png"
+            },
+            "bskill_ws_crystalline": {
+                "desc": ["进驻加工站加工晶体类材料时，副产品的产出概率提升80%"],
+                "name": ["DIY·晶体"],
+                "operatorIds": ["char_4164_tecno"],
+                "template": "Bskill_ws_crystalline.png"
+            },
+            "bskill_ws_device": {
+                "desc": ["进驻加工站加工装置类材料时，副产品的产出概率提升90%"],
+                "name": ["DIY·装置"],
+                "operatorIds": ["char_349_chiave"],
+                "template": "Bskill_ws_device.png"
+            },
+            "bskill_ws_drop_orirock": {
+                "desc": ["进驻加工站加工精英材料产出T3品质的副产品时，副产品必定为固源岩组"],
+                "name": ["岩体锚固"],
+                "operatorIds": ["char_4117_ray"],
+                "template": "Bskill_ws_drop_orirock.png"
+            },
+            "bskill_ws_drop_oriron": {
+                "desc": ["进驻加工站加工精英材料产出T3品质的副产品时，副产品必定为异铁组"],
+                "name": ["缓蚀技术"],
+                "operatorIds": ["char_489_serum"],
+                "template": "Bskill_ws_drop_oriron.png"
+            },
+            "bskill_ws_drop_polyester": {
+                "desc": ["进驻加工站加工精英材料产出T3品质的副产品时，副产品必定为聚酸酯组"],
+                "name": ["无用的赠予"],
+                "operatorIds": ["char_4040_rockr"],
+                "template": "Bskill_ws_drop_polyester.png"
+            },
+            "bskill_ws_evolve1": {
+                "desc": ["进驻加工站加工精英材料时，副产品的产出概率提升70%"],
+                "name": ["营养学", "高效回收", "气流传动"],
+                "operatorIds": ["char_120_hibisc", "char_4130_luton", "char_4165_ctrail"],
+                "template": "Bskill_ws_evolve1.png"
+            },
+            "bskill_ws_evolve2": {
+                "desc": ["进驻加工站加工精英材料时，副产品的产出概率提升75%"],
+                "name": [
+                    "药理学·α",
+                    "过度发挥",
+                    "毒理学·α",
+                    "爆破材料学·α",
+                    "腐蚀科学·α",
+                    "草药学·α",
+                    "必修课程",
+                    "探井人·α",
+                    "熟手的尊严",
+                    "修旧如旧·α",
+                    "工业设计"
+                ],
+                "operatorIds": [
+                    "char_117_myrrh",
+                    "char_129_bluep",
+                    "char_181_flower",
+                    "char_187_ccheal",
+                    "char_212_ansel",
+                    "char_219_meteo",
+                    "char_345_folnic",
+                    "char_379_sesa",
+                    "char_4056_titi",
+                    "char_4117_ray",
+                    "char_4173_nowell",
+                    "char_4213_skybx",
+                    "char_433_windft",
+                    "char_449_glider",
+                    "char_489_serum"
+                ],
+                "template": "Bskill_ws_evolve2.png"
+            },
+            "bskill_ws_evolve3": {
+                "desc": ["进驻加工站加工精英材料时，副产品的产出概率提升80%"],
+                "name": [
+                    "药理学·β",
+                    "毒理学·β",
+                    "爆破材料学·β",
+                    "腐蚀科学·β",
+                    "草药学·β",
+                    "探井人·β",
+                    "修旧如旧·β",
+                    "学者",
+                    "巫妖学识"
+                ],
+                "operatorIds": [
+                    "char_129_bluep",
+                    "char_219_meteo",
+                    "char_282_catap",
+                    "char_298_susuro",
+                    "char_348_ceylon",
+                    "char_4011_lessng",
+                    "char_4056_titi",
+                    "char_4117_ray",
+                    "char_449_glider",
+                    "char_489_serum"
+                ],
+                "template": "Bskill_ws_evolve3.png"
+            },
+            "bskill_ws_evolve4": {
+                "desc": ["进驻加工站加工精英材料时，副产品的产出概率提升100%"],
+                "name": ["稀有金属辨识"],
+                "operatorIds": ["char_2014_nian"],
+                "template": "Bskill_ws_evolve4.png"
+            },
+            "bskill_ws_evolve_cost": {
+                "desc": ["进驻加工站加工精英材料时，心情消耗为2的配方全部-1心情消耗"],
+                "name": ["一丝不苟", "谨慎加工", "长生的余裕"],
+                "operatorIds": ["char_345_folnic", "char_4107_vrdant", "char_4130_luton", "char_4173_nowell"],
+                "template": "Bskill_ws_evolve_cost.png"
+            },
+            "bskill_ws_evolve_cost1": {
+                "desc": ["进驻加工站加工精英材料时，心情消耗为4的配方全部-1心情消耗"],
+                "name": ["灵感", "熔铸", "军事工程学"],
+                "operatorIds": ["char_346_aosta", "char_349_chiave", "char_363_toddi", "char_4039_horn"],
+                "template": "Bskill_ws_evolve_cost1.png"
+            },
+            "bskill_ws_evolve_cost2": {
+                "desc": ["进驻加工站加工精英材料时，心情消耗为4的配方全部-2心情消耗"],
+                "name": ["极简实用主义"],
+                "operatorIds": ["char_379_sesa"],
+                "template": "Bskill_ws_evolve_cost2.png"
+            },
+            "bskill_ws_evolve_cost3": {
+                "desc": ["进驻加工站加工精英材料时，心情消耗为8的配方全部-4心情消耗"],
+                "name": ["与历史对话"],
+                "operatorIds": ["char_4056_titi"],
+                "template": "Bskill_ws_evolve_cost3.png"
+            },
+            "bskill_ws_evolve_cost4": {
+                "desc": ["进驻加工站加工晶体类材料时，全部心情消耗-1"],
+                "name": ["熟极而流"],
+                "operatorIds": ["char_4164_tecno"],
+                "template": "Bskill_ws_evolve_cost4.png"
+            },
+            "bskill_ws_evolve_dorm1": {
+                "desc": ["进驻加工站加工精英材料时，宿舍内每有1名心情4以下的干员，副产品的产出概率提升5%"],
+                "name": ["“物尽其用”"],
+                "operatorIds": ["char_271_spikes"],
+                "template": "Bskill_ws_evolve_dorm1.png"
+            },
+            "bskill_ws_evolve_dorm2": {
+                "desc": ["进驻加工站加工精英材料时，宿舍内每有1名心情12以下的干员，副产品的产出概率提升5%"],
+                "name": ["意相通"],
+                "operatorIds": ["char_4072_ironmn"],
+                "template": "Bskill_ws_evolve_dorm2.png"
+            },
+            "bskill_ws_evolve_dorm3": {
+                "desc": ["进驻加工站加工精英材料时，宿舍内每有1名心情20以下的干员，副产品的产出概率提升5%"],
+                "name": ["“人善其事”"],
+                "operatorIds": ["char_271_spikes"],
+                "template": "Bskill_ws_evolve_dorm3.png"
+            },
+            "bskill_ws_free": {
+                "desc": ["进驻加工站加工精英材料时，减免龙门币消耗"],
+                "name": ["精打细算"],
+                "operatorIds": ["char_423_blemsh"],
+                "template": "Bskill_ws_free.png"
+            },
+            "bskill_ws_frost": {
+                "desc": [
+                    "进驻加工站加工任意类材料时，副产品的产出概率提升50%，每1点情报储备额外提升5%；如果乌萨斯特饮达到4瓶，则额外提升15%"
+                ],
+                "name": ["机械工程"],
+                "operatorIds": ["char_458_rfrost"],
+                "template": "Bskill_ws_frost.png"
+            },
+            "bskill_ws_ketone": {
+                "desc": ["进驻加工站加工酮凝集类材料时，副产品的产出概率提升80%"],
+                "name": ["DIY·酮凝集·α"],
+                "operatorIds": ["char_4107_vrdant"],
+                "template": "Bskill_ws_ketone.png"
+            },
+            "bskill_ws_lolxh": {
+                "desc": ["进驻加工站加工原始心情消耗为8的任意类材料时，副产品的产出概率提升50%"],
+                "name": ["御灵之力·金"],
+                "operatorIds": ["char_4067_lolxh"],
+                "template": "Bskill_ws_lolxh.png"
+            },
+            "bskill_ws_nian": {
+                "desc": ["进驻加工站加工精英材料时，相应配方全部+2心情消耗"],
+                "name": ["肆无忌惮"],
+                "operatorIds": ["char_2014_nian"],
+                "template": "Bskill_ws_nian.png"
+            },
+            "bskill_ws_orirock": {
+                "desc": ["进驻加工站加工源岩类材料时，副产品的产出概率提升90%"],
+                "name": ["DIY·源岩"],
+                "operatorIds": ["char_311_mudrok", "char_4229_aphris"],
+                "template": "Bskill_ws_orirock.png"
+            },
+            "bskill_ws_oriron": {
+                "desc": ["进驻加工站加工异铁类材料时，副产品的产出概率提升90%"],
+                "name": ["DIY·异铁", "余料利用"],
+                "operatorIds": ["char_363_toddi", "char_4207_branch"],
+                "template": "Bskill_ws_oriron.png"
+            },
+            "bskill_ws_p1": {
+                "desc": ["进驻加工站加工任意类材料时，副产品的产出概率提升40%"],
+                "name": ["专注·α"],
+                "operatorIds": ["char_208_melan", "char_237_gravel"],
+                "template": "Bskill_ws_p1.png"
+            },
+            "bskill_ws_p2": {
+                "desc": ["进驻加工站加工任意类材料时，副产品的产出概率提升50%"],
+                "name": ["工效模范·α", "能工巧匠", "多功能测绘仪", "“炼金术”", "修修还能用"],
+                "operatorIds": [
+                    "char_211_adnach",
+                    "char_226_hmau",
+                    "char_248_mgllan",
+                    "char_253_greyy",
+                    "char_284_spot",
+                    "char_293_thorns",
+                    "char_4162_cathy",
+                    "char_491_humus"
+                ],
+                "template": "Bskill_ws_p2.png"
+            },
+            "bskill_ws_p3": {
+                "desc": ["进驻加工站加工任意类材料时，副产品的产出概率提升60%"],
+                "name": ["专注·β", "老当益壮"],
+                "operatorIds": ["char_110_deepcl", "char_127_estell", "char_503_rang"],
+                "template": "Bskill_ws_p3.png"
+            },
+            "bskill_ws_p4": {
+                "desc": ["进驻加工站加工任意类材料时，副产品的产出概率提升65%"],
+                "name": ["咪波·加工型", "舍弃的赘余", "天师府工艺", "蓝卡坞多面手"],
+                "operatorIds": ["char_242_otter", "char_4040_rockr", "char_4119_wanqin", "char_4191_tippi"],
+                "template": "Bskill_ws_p4.png"
+            },
+            "bskill_ws_p5": {
+                "desc": ["进驻加工站加工任意类材料时，副产品的产出概率提升70%"],
+                "name": ["未知技术", "技术阐明"],
+                "operatorIds": ["char_003_kalts", "char_1052_kalts2"],
+                "template": "Bskill_ws_p5.png"
+            },
+            "bskill_ws_p7": {
+                "desc": ["进驻加工站加工任意类材料时，副产品的产出概率提升50%；如果白铁进驻在宿舍，则额外提升10%"],
+                "name": ["工效模范·β"],
+                "operatorIds": ["char_4162_cathy"],
+                "template": "Bskill_ws_p7.png"
+            },
+            "bskill_ws_p8": {
+                "desc": ["进驻加工站加工异铁组材料时，心情消耗为2的配方全部-1心情消耗"],
+                "name": ["铁匠天赋"],
+                "operatorIds": ["char_4207_branch"],
+                "template": "Bskill_ws_p8.png"
+            },
+            "bskill_ws_p_kalts2": {
+                "desc": ["进驻加工站加工任意类材料时，副产品的产出概率提升80%"],
+                "name": ["理论革新"],
+                "operatorIds": ["char_1052_kalts2"],
+                "template": "Bskill_ws_p_kalts2.png"
+            },
+            "bskill_ws_polyester": {
+                "desc": ["进驻加工站加工聚酸酯类材料时，副产品的产出概率提升90%"],
+                "name": ["DIY·聚酸酯"],
+                "operatorIds": ["char_346_aosta"],
+                "template": "Bskill_ws_polyester.png"
+            },
+            "bskill_ws_recovery": {
+                "desc": [
+                    "进驻加工站加工任意类材料时，每2次加工没有产出副产品，则恢复自身一次心情，恢复量为对应配方所需消耗的心情（加工结束后统一结算）"
+                ],
+                "name": ["“爆炸艺术”"],
+                "operatorIds": ["char_293_thorns"],
+                "template": "Bskill_ws_recovery.png"
+            },
+            "bskill_ws_rub": {
+                "desc": ["进驻加工站加工原始心情消耗为2的精英材料时，副产品的产出概率额外提升40%"],
+                "name": ["省省能更多"],
+                "operatorIds": ["char_491_humus"],
+                "template": "Bskill_ws_rub.png"
+            },
+            "bskill_ws_skill1": {
+                "desc": ["进驻加工站加工技巧概要时，副产品的产出概率提升70%"],
+                "name": ["技巧理论"],
+                "operatorIds": ["char_131_flameb", "char_230_savage", "char_289_gyuki"],
+                "template": "Bskill_ws_skill1.png"
+            },
+            "bskill_ws_skill2": {
+                "desc": ["进驻加工站加工技巧概要时，副产品的产出概率提升75%"],
+                "name": ["适应力", "獠牙的技艺", "灵感改装"],
+                "operatorIds": ["char_1502_crosly", "char_421_crow", "char_4223_botany"],
+                "template": "Bskill_ws_skill2.png"
+            },
+            "bskill_ws_skill3": {
+                "desc": ["进驻加工站加工技巧概要时，副产品的产出概率提升80%"],
+                "name": ["兵者诡道", "荒野生存", "登峰造极", "克己严修"],
+                "operatorIds": ["char_1043_leizi2", "char_131_flameb", "char_188_helage", "char_4014_lunacu"],
+                "template": "Bskill_ws_skill3.png"
+            },
+            "bskill_ws_skill_cost1": {
+                "desc": ["进驻加工站加工技巧概要时，心情消耗为2的配方全部-1心情消耗"],
+                "name": ["放空"],
+                "operatorIds": ["char_421_crow"],
+                "template": "Bskill_ws_skill_cost1.png"
+            },
+            "bskill_ws_skill_cost2": {
+                "desc": ["进驻加工站加工技巧概要时，心情消耗为2的配方全部-1心情消耗"],
+                "name": ["宣传阵线"],
+                "operatorIds": ["char_4223_botany"],
+                "template": "Bskill_ws_skill_cost2.png"
+            }
+        }
     },
     "Reception": {
         "Doc": "会客室",
@@ -2979,6 +3681,7 @@
                     "No7": 10
                 },
                 "name": ["交个朋友"],
+                "operatorIds": ["char_4114_harold"],
                 "template": "Bskil_meet_team&char.png"
             },
             "bskill_meet_bd_dungeon": {
@@ -2987,6 +3690,7 @@
                     "General": 0
                 },
                 "name": ["饱餐的干劲"],
+                "operatorIds": ["char_4142_laios"],
                 "template": "Bskill_meet_bd_dungeon.png"
             },
             "bskill_meet_bd_to_spd": {
@@ -2995,19 +3699,17 @@
                     "General": 20
                 },
                 "name": ["扶危行侠"],
+                "operatorIds": ["char_1050_chen3"],
                 "template": "Bskill_meet_bd_to_spd.png"
             },
             "bskill_meet_blacksteel2": {
-                "desc": [
-                    "进驻会客室时，线索搜集速度提升10%，且更容易获得黑钢国际线索（工作时长影响概率）",
-                    "进驻会客室时，线索搜集速度提升10%，且更容易获得黑钢国际线索（工作时长影响概率）",
-                    "进驻会客室时，线索搜集速度提升10%，且更容易获得黑钢国际线索（工作时长影响概率）"
-                ],
+                "desc": ["进驻会客室时，线索搜集速度提升10%，且更容易获得黑钢国际线索（工作时长影响概率）"],
                 "efficient": {
                     "General": 10,
                     "No3": 30
                 },
                 "name": ["B.P.R.S", "联络员", "B.P.R.S."],
+                "operatorIds": ["char_106_franka", "char_235_jesica"],
                 "template": "Bskill_meet_blacksteel2.png"
             },
             "bskill_meet_buddy": {
@@ -3015,14 +3717,16 @@
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索，若焰狐龙梓兰进驻控制中枢，则线索搜集速度提升10%"
                 ],
                 "name": ["隐秘专家"],
+                "operatorIds": ["char_4215_buddy"],
                 "template": "Bskill_meet_buddy.png"
             },
-            "bskill_meet_condChar": {
+            "bskill_meet_condchar": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升35%"],
                 "efficient": {
                     "General": 0
                 },
                 "name": ["得心应手"],
+                "operatorIds": ["char_4016_kazema"],
                 "template": "Bskill_meet_condChar.png"
             },
             "bskill_meet_exchange": {
@@ -3031,6 +3735,7 @@
                     "General": 15
                 },
                 "name": ["无辜笑脸"],
+                "operatorIds": ["char_4100_caper"],
                 "template": "Bskill_meet_exchange.png"
             },
             "bskill_meet_exchange2": {
@@ -3039,6 +3744,7 @@
                     "General": 15
                 },
                 "name": ["特殊渠道顾问"],
+                "operatorIds": ["char_4214_cairn"],
                 "template": "Bskill_meet_exchange2.png"
             },
             "bskill_meet_flag_glasgow": {
@@ -3049,6 +3755,7 @@
                     "No5": 15
                 },
                 "name": ["情报整理"],
+                "operatorIds": ["char_492_quercu"],
                 "template": "Bskill_meet_flag_glasgow.png"
             },
             "bskill_meet_flag_kjerag": {
@@ -3059,6 +3766,7 @@
                     "No6": 15
                 },
                 "name": ["耶拉冈德"],
+                "operatorIds": ["char_4013_kjera"],
                 "template": "Bskill_meet_flag_kjerag.png"
             },
             "bskill_meet_flag_rhine": {
@@ -3069,6 +3777,7 @@
                     "No1": 15
                 },
                 "name": ["哥伦比亚史"],
+                "operatorIds": ["char_264_f12yin"],
                 "template": "Bskill_meet_flag_rhine.png"
             },
             "bskill_meet_flag_rhodes": {
@@ -3079,6 +3788,7 @@
                     "No7": 15
                 },
                 "name": ["插旗"],
+                "operatorIds": ["char_401_elysm"],
                 "template": "Bskill_meet_flag_rhodes.png"
             },
             "bskill_meet_flag_ursus": {
@@ -3089,6 +3799,7 @@
                     "No4": 15
                 },
                 "name": ["甄别"],
+                "operatorIds": ["char_405_absin"],
                 "template": "Bskill_meet_flag_ursus.png"
             },
             "bskill_meet_glasgow1": {
@@ -3097,18 +3808,17 @@
                     "No5": 0
                 },
                 "name": ["风声"],
+                "operatorIds": ["char_492_quercu"],
                 "template": "Bskill_meet_glasgow1.png"
             },
             "bskill_meet_glasgow2": {
-                "desc": [
-                    "进驻会客室时，线索搜集速度提升10%，且更容易获得格拉斯哥帮线索（工作时长影响概率）",
-                    "进驻会客室时，线索搜集速度提升10%，且更容易获得格拉斯哥帮线索（工作时长影响概率）"
-                ],
+                "desc": ["进驻会客室时，线索搜集速度提升10%，且更容易获得格拉斯哥帮线索（工作时长影响概率）"],
                 "efficient": {
                     "General": 10,
                     "No5": 30
                 },
                 "name": ["传讯者", "没落贵族"],
+                "operatorIds": ["char_155_tiger", "char_275_breeze"],
                 "template": "Bskill_meet_glasgow2.png"
             },
             "bskill_meet_iana": {
@@ -3117,18 +3827,17 @@
                     "General": 5.1
                 },
                 "name": ["情报专家"],
+                "operatorIds": ["char_4124_iana"],
                 "template": "Bskill_meet_iana.png"
             },
             "bskill_meet_kjerag2": {
-                "desc": [
-                    "进驻会客室时，线索搜集速度提升10%，且更容易获得喀兰贸易线索（工作时长影响概率）",
-                    "进驻会客室时，线索搜集速度提升10%，且更容易获得喀兰贸易线索（工作时长影响概率）"
-                ],
+                "desc": ["进驻会客室时，线索搜集速度提升10%，且更容易获得喀兰贸易线索（工作时长影响概率）"],
                 "efficient": {
                     "General": 10,
                     "No6": 30
                 },
                 "name": ["雪境守望", "讯使"],
+                "operatorIds": ["char_198_blackd", "char_4013_kjera"],
                 "template": "Bskill_meet_kjerag2.png"
             },
             "bskill_meet_penguin1": {
@@ -3137,6 +3846,7 @@
                     "No2": 10
                 },
                 "name": ["皇家探员（自称）"],
+                "operatorIds": ["char_133_mm"],
                 "template": "Bskill_meet_penguin1.png"
             },
             "bskill_meet_penguin2": {
@@ -3146,6 +3856,7 @@
                     "No2": 30
                 },
                 "name": ["信使·企鹅物流"],
+                "operatorIds": ["char_213_mostma"],
                 "template": "Bskill_meet_penguin2.png"
             },
             "bskill_meet_rhine2": {
@@ -3155,6 +3866,7 @@
                     "No1": 30
                 },
                 "name": ["守望者"],
+                "operatorIds": ["char_202_demkni"],
                 "template": "Bskill_meet_rhine2.png"
             },
             "bskill_meet_rhodes1": {
@@ -3163,6 +3875,7 @@
                     "No7": 10
                 },
                 "name": ["通讯员"],
+                "operatorIds": ["char_401_elysm"],
                 "template": "Bskill_meet_rhodes1.png"
             },
             "bskill_meet_rhodes2": {
@@ -3172,6 +3885,7 @@
                     "No7": 30
                 },
                 "name": ["信使·罗德岛制药"],
+                "operatorIds": ["char_291_aglina"],
                 "template": "Bskill_meet_rhodes2.png"
             },
             "bskill_meet_spd&bd": {
@@ -3182,9 +3896,10 @@
                     "General": 10
                 },
                 "name": ["远见"],
+                "operatorIds": ["char_4102_threye"],
                 "template": "Bskill_meet_spd&bd.png"
             },
-            "bskill_meet_spd&bd&notOwned": {
+            "bskill_meet_spd&bd&notowned": {
                 "desc": [
                     "进驻会客室时，线索搜集速度提升10%，当与提丰进驻会客室一起工作时，线索搜集速度额外提升15%，自身心情每小时消耗+0.5，且更容易获得线索板上尚未拥有的线索"
                 ],
@@ -3192,6 +3907,7 @@
                     "General": 10
                 },
                 "name": ["未来之途"],
+                "operatorIds": ["char_4102_threye"],
                 "template": "Bskill_meet_spd&bd&notOwned.png"
             },
             "bskill_meet_spd&bd2": {
@@ -3200,6 +3916,7 @@
                     "General": 10
                 },
                 "name": ["杀手的假期"],
+                "operatorIds": ["char_4026_vulpis"],
                 "template": "Bskill_meet_spd&bd2.png"
             },
             "bskill_meet_spd&blacksteel1": {
@@ -3210,6 +3927,7 @@
                     "General": 10
                 },
                 "name": ["人情练达"],
+                "operatorIds": ["char_4052_surfer"],
                 "template": "Bskill_meet_spd&blacksteel1.png"
             },
             "bskill_meet_spd&blacksteel2": {
@@ -3220,9 +3938,10 @@
                     "General": 10
                 },
                 "name": ["情报探查"],
+                "operatorIds": ["char_4052_surfer"],
                 "template": "Bskill_meet_spd&blacksteel2.png"
             },
-            "bskill_meet_spd&condChar_mustget": {
+            "bskill_meet_spd&condchar_mustget": {
                 "desc": [
                     "进驻会客室时，如果会客室内只有自身处于工作状态时，连续消耗超过16点心情下一次必定获得莱茵生命的线索"
                 ],
@@ -3230,9 +3949,10 @@
                     "General": 0
                 },
                 "name": ["文献学顾问"],
+                "operatorIds": ["char_4027_heyak"],
                 "template": "Bskill_meet_spd&condChar_mustget.png"
             },
-            "bskill_meet_spd&condChar_mustget2": {
+            "bskill_meet_spd&condchar_mustget2": {
                 "desc": [
                     "进驻会客室时，如果会客室内只有自身处于工作状态时，连续消耗超过16点心情下一次必定获得罗德岛制药的线索"
                 ],
@@ -3240,6 +3960,7 @@
                     "General": 0
                 },
                 "name": ["暗线"],
+                "operatorIds": ["char_4131_odda"],
                 "template": "Bskill_meet_spd&condChar_mustget2.png"
             },
             "bskill_meet_spd&cost": {
@@ -3248,43 +3969,46 @@
                     "all": 34.8
                 },
                 "name": ["逻辑推理"],
+                "operatorIds": ["char_4036_forcer"],
                 "template": "Bskill_meet_spd&cost.png"
             },
-            "bskill_meet_spd&cost_condChar": {
-                "desc": [
-                    "进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升50%，心情每小时消耗+2",
-                    "进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升50%，心情每小时消耗+2"
-                ],
+            "bskill_meet_spd&cost_condchar": {
+                "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升50%，心情每小时消耗+2"],
                 "efficient": {
                     "General": 0
                 },
                 "name": ["双面间谍", "我自己的愿望"],
+                "operatorIds": ["char_1015_aglna2", "char_297_hamoni"],
                 "template": "Bskill_meet_spd&cost_condChar.png"
             },
-            "bskill_meet_spd&cost_condChar2": {
+            "bskill_meet_spd&cost_condchar2": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升15%，心情每小时消耗+1"],
                 "efficient": {
                     "General": 0
                 },
                 "name": ["“职业操守”·α"],
+                "operatorIds": ["char_4027_heyak", "char_4131_odda"],
                 "template": "Bskill_meet_spd&cost_condChar2.png"
             },
-            "bskill_meet_spd&cost_condChar3": {
+            "bskill_meet_spd&cost_condchar3": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升35%，心情每小时消耗+1"],
                 "efficient": {
                     "General": 0
                 },
                 "name": ["“职业操守”·β"],
+                "operatorIds": ["char_4027_heyak", "char_4131_odda"],
                 "template": "Bskill_meet_spd&cost_condChar3.png"
             },
-            "bskill_meet_spd&cost_condChargoat": {
+            "bskill_meet_spd&cost_condchargoat": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升15%，心情每小时消耗+1"],
                 "name": ["专业经理·α"],
+                "operatorIds": ["char_4031_liesel"],
                 "template": "Bskill_meet_spd&cost_condChargoat.png"
             },
-            "bskill_meet_spd&cost_condChargoat2": {
+            "bskill_meet_spd&cost_condchargoat2": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升35%，心情每小时消耗+1"],
                 "name": ["专业经理·β"],
+                "operatorIds": ["char_4031_liesel"],
                 "template": "Bskill_meet_spd&cost_condChargoat2.png"
             },
             "bskill_meet_spd&sami": {
@@ -3295,6 +4019,7 @@
                     "General": 10
                 },
                 "name": ["冰原游弋"],
+                "operatorIds": ["char_2012_typhon"],
                 "template": "Bskill_meet_spd&sami.png"
             },
             "bskill_meet_spd1": {
@@ -3303,75 +4028,65 @@
                     "General": 10
                 },
                 "name": ["线索搜集·α"],
+                "operatorIds": [
+                    "char_106_franka",
+                    "char_155_tiger",
+                    "char_158_milu",
+                    "char_202_demkni",
+                    "char_213_mostma",
+                    "char_274_astesi",
+                    "char_275_breeze",
+                    "char_291_aglina",
+                    "char_294_ayer",
+                    "char_4013_kjera",
+                    "char_4017_puzzle",
+                    "char_4026_vulpis",
+                    "char_4036_forcer",
+                    "char_4100_caper",
+                    "char_4114_harold",
+                    "char_4199_makiri"
+                ],
                 "template": "Bskill_meet_spd1.png"
             },
             "bskill_meet_spd2": {
-                "desc": [
-                    "进驻会客室时，线索搜集速度提升15%",
-                    "进驻会客室时，线索搜集速度提升20%",
-                    "进驻会客室时，线索搜集速度提升20%",
-                    "进驻会客室时，线索搜集速度提升15%",
-                    "进驻会客室时，线索搜集速度提升20%"
-                ],
+                "desc": ["进驻会客室时，线索搜集速度提升15%"],
                 "efficient": {
                     "General": 20
                 },
                 "name": ["化影", "线索搜集·β", "好奇心", "泡茶高手", "坎贝尔之名"],
+                "operatorIds": [
+                    "char_009_12fce",
+                    "char_118_yuki",
+                    "char_133_mm",
+                    "char_158_milu",
+                    "char_236_rope",
+                    "char_294_ayer",
+                    "char_337_utage",
+                    "char_347_jaksel",
+                    "char_4016_kazema",
+                    "char_4026_vulpis",
+                    "char_4142_laios",
+                    "char_4172_xingzh",
+                    "char_4194_rmixer",
+                    "char_4237_jcinta"
+                ],
                 "template": "Bskill_meet_spd2.png"
             },
             "bskill_meet_spd3": {
-                "desc": [
-                    "进驻会客室时，线索搜集速度提升25%",
-                    "进驻会客室时，线索搜集速度提升25%",
-                    "进驻会客室时，线索搜集速度提升25%",
-                    "进驻会客室时，线索搜集速度提升25%",
-                    "进驻会客室时，线索搜集速度提升25%",
-                    "进驻会客室时，线索搜集速度提升20%",
-                    "进驻会客室时，线索搜集速度提升20%"
-                ],
-                "efficient": {
-                    "General": 25
-                },
-                "name": ["追踪者", "警司", "占卜", "星象学", "领袖外交", "线索搜集·β", "社交达人"],
-                "template": "Bskill_meet_spd3.png"
-            },
-            "bskill_meet_spd4": {
                 "desc": ["进驻会客室时，线索搜集速度提升25%"],
                 "efficient": {
                     "General": 25
                 },
-                "name": ["领袖外交"],
-                "template": "Bskill_meet_spd4.png"
-            },
-            "bskill_meet_spdNotOwned1": {
-                "desc": [
-                    "进驻会客室时，更容易获得线索板上尚未拥有的线索",
-                    "进驻会客室时，更容易获得线索板上尚未拥有的线索",
-                    "进驻会客室时，更容易获得线索板上尚未拥有的线索",
-                    "进驻会客室时，更容易获得线索板上尚未拥有的线索",
-                    "进驻会客室时，更容易获得线索板上尚未拥有的线索"
+                "name": ["追踪者", "警司", "占卜", "星象学", "领袖外交", "线索搜集·β", "社交达人"],
+                "operatorIds": [
+                    "char_010_chen",
+                    "char_109_fmout",
+                    "char_144_red",
+                    "char_274_astesi",
+                    "char_4194_rmixer",
+                    "char_427_vigil"
                 ],
-                "efficient": {
-                    "all": 1
-                },
-                "name": ["不容遗漏·α", "情报分析", "见微知著", "萍踪浪迹", "资深信使"],
-                "template": "Bskill_meet_spdNotOwned1.png"
-            },
-            "bskill_meet_spdNotOwned2": {
-                "desc": ["进驻会客室时，线索搜集速度提升10%，且更容易获得线索板上尚未拥有的线索"],
-                "efficient": {
-                    "all": 11
-                },
-                "name": ["不容遗漏·β"],
-                "template": "Bskill_meet_spdNotOwned2.png"
-            },
-            "bskill_meet_spdOwned1": {
-                "desc": ["进驻会客室时，更容易获得线索板上已经拥有的线索"],
-                "efficient": {
-                    "General": 0
-                },
-                "name": ["显眼的调查者"],
-                "template": "Bskill_meet_spdOwned1.png"
+                "template": "Bskill_meet_spd3.png"
             },
             "bskill_meet_spd_clue": {
                 "desc": ["进驻会客室时，每个招募位（不包含初始招募位）提升5%线索搜集速度"],
@@ -3379,6 +4094,7 @@
                     "General": 10
                 },
                 "name": ["广交义友"],
+                "operatorIds": ["char_445_wscoot"],
                 "template": "Bskill_meet_spd_clue.png"
             },
             "bskill_meet_spd_confes1": {
@@ -3387,6 +4103,7 @@
                     "General": 0
                 },
                 "name": ["不泯童心"],
+                "operatorIds": ["char_4194_rmixer"],
                 "template": "Bskill_meet_spd_confes1.png"
             },
             "bskill_meet_spd_hast1": {
@@ -3395,15 +4112,50 @@
                     "all": 29
                 },
                 "name": ["聚影"],
+                "operatorIds": ["char_4087_ines"],
                 "template": "Bskill_meet_spd_hast1.png"
             },
-            "bskill_meet_spd_notOwned_exchange": {
+            "bskill_meet_spd_notowned_exchange": {
                 "desc": ["进驻会客室时，处于线索交流时更容易获得线索板上尚未拥有的线索"],
                 "efficient": {
                     "all": 1
                 },
                 "name": ["眼观六路"],
+                "operatorIds": ["char_445_wscoot"],
                 "template": "Bskill_meet_spd_notOwned_exchange.png"
+            },
+            "bskill_meet_spdnotowned1": {
+                "desc": ["进驻会客室时，更容易获得线索板上尚未拥有的线索"],
+                "efficient": {
+                    "all": 1
+                },
+                "name": ["不容遗漏·α", "情报分析", "见微知著", "萍踪浪迹", "资深信使"],
+                "operatorIds": [
+                    "char_1015_aglna2",
+                    "char_1050_chen3",
+                    "char_4017_puzzle",
+                    "char_4199_makiri",
+                    "char_497_ctable"
+                ],
+                "template": "Bskill_meet_spdNotOwned1.png"
+            },
+            "bskill_meet_spdnotowned2": {
+                "desc": ["进驻会客室时，线索搜集速度提升10%，且更容易获得线索板上尚未拥有的线索"],
+                "efficient": {
+                    "all": 11
+                },
+                "name": ["不容遗漏·β"],
+                "operatorIds": ["char_497_ctable"],
+                "template": "Bskill_meet_spdNotOwned2.png"
+            },
+            "bskill_meet_spdowned1": {
+                "desc": ["进驻会客室时，更容易获得线索板上已经拥有的线索"],
+                "efficient": {
+                    "General": 0
+                },
+                "name": ["显眼的调查者"],
+                "operatorIds": ["char_4091_ulika"],
+                "template": "Bskill_meet_spdOwned1.png"
             },
             "bskill_meet_ursus1": {
                 "desc": ["进驻会客室时，更容易获得乌萨斯学生自治团线索（工作时长影响概率）"],
@@ -3411,6 +4163,7 @@
                     "No4": 10
                 },
                 "name": ["秘密搜查"],
+                "operatorIds": ["char_405_absin"],
                 "template": "Bskill_meet_ursus1.png"
             },
             "bskill_meet_ursus2": {
@@ -3420,6 +4173,7 @@
                     "No4": 30
                 },
                 "name": ["军师"],
+                "operatorIds": ["char_195_glassb"],
                 "template": "Bskill_meet_ursus2.png"
             }
         },
@@ -3434,6 +4188,7 @@
                     "进驻贸易站时，订单获取效率+25%，基建内（不包含副手及活动室）每有一间进驻精英干员的设施，订单获取效率额外+2%（最多10间）"
                 ],
                 "name": ["精英小队"],
+                "operatorIds": ["char_4204_mantra"],
                 "template": "Bskill_ord_spd&tag1.png"
             },
             "bskill_ord_spd&tag2": {
@@ -3441,23 +4196,8 @@
                     "进驻贸易站时，基建内（不包含副手及活动室）每有一间进驻岁干员的设施，订单获取效率+4%（最多5间）"
                 ],
                 "name": ["“孺子可教！”"],
+                "operatorIds": ["char_4222_taraxa"],
                 "template": "Bskill_ord_spd&tag2.png"
-            },
-            "bskill_tra_Lappland1": {
-                "desc": ["当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+2"],
-                "efficient": {
-                    "all": 0
-                },
-                "name": ["醉翁之意·α"],
-                "template": "Bskill_tra_Lappland1.png"
-            },
-            "bskill_tra_Lappland2": {
-                "desc": ["当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+4"],
-                "efficient": {
-                    "all": 0
-                },
-                "name": ["醉翁之意·β"],
-                "template": "Bskill_tra_Lappland2.png"
             },
             "bskill_tra_against": {
                 "desc": ["进驻贸易站时，如果下笔赤金订单是违约订单，则赤金交付数额外+1"],
@@ -3465,6 +4205,7 @@
                     "Money": 47
                 },
                 "name": ["违约索赔·α"],
+                "operatorIds": ["char_4032_provs"],
                 "template": "Bskill_tra_against.png"
             },
             "bskill_tra_against2": {
@@ -3473,6 +4214,7 @@
                     "Money": 93.8
                 },
                 "name": ["违约索赔·β"],
+                "operatorIds": ["char_4032_provs"],
                 "template": "Bskill_tra_against2.png"
             },
             "bskill_tra_bd_cost1": {
@@ -3481,6 +4223,7 @@
                     "all": 0.1
                 },
                 "name": ["跋山涉水"],
+                "operatorIds": ["char_4083_chimes"],
                 "template": "Bskill_tra_bd_cost1.png"
             },
             "bskill_tra_bd_cost2": {
@@ -3489,6 +4232,7 @@
                     "all": 0.1
                 },
                 "name": ["万里传书"],
+                "operatorIds": ["char_4083_chimes"],
                 "template": "Bskill_tra_bd_cost2.png"
             },
             "bskill_tra_bd_n1": {
@@ -3497,6 +4241,7 @@
                     "all": 0
                 },
                 "name": ["乐感"],
+                "operatorIds": ["char_4046_ebnhlz"],
                 "template": "Bskill_tra_bd_n1.png"
             },
             "bskill_tra_bd_n2": {
@@ -3505,6 +4250,7 @@
                     "all": 0
                 },
                 "name": ["“愿者上钩”"],
+                "operatorIds": ["char_455_nothin"],
                 "template": "Bskill_tra_bd_n2.png"
             },
             "bskill_tra_closure": {
@@ -3513,6 +4259,7 @@
                     "all": 10.1
                 },
                 "name": ["特别订单"],
+                "operatorIds": ["char_4228_closur"],
                 "template": "Bskill_tra_closure.png"
             },
             "bskill_tra_cost1": {
@@ -3521,11 +4268,13 @@
                     "all": 0.1
                 },
                 "name": ["暖场"],
+                "operatorIds": ["char_493_firwhl"],
                 "template": "Bskill_tra_cost1.png"
             },
             "bskill_tra_demetr": {
                 "desc": ["当与伺夜在同一个贸易站时，心情每小时消耗-0.1，订单上限+2"],
                 "name": ["未偿还的债务"],
+                "operatorIds": ["char_4037_demetr"],
                 "template": "Bskill_tra_demetr.png"
             },
             "bskill_tra_flow_durin": {
@@ -3534,6 +4283,7 @@
                     "all": 0
                 },
                 "name": ["际崖居民"],
+                "operatorIds": ["char_4055_bgsnow"],
                 "template": "Bskill_tra_flow_durin.png"
             },
             "bskill_tra_flow_gc1": {
@@ -3542,6 +4292,7 @@
                     "all": 5
                 },
                 "name": ["订单流可视化·α"],
+                "operatorIds": ["char_478_kirara"],
                 "template": "Bskill_tra_flow_gc1.png"
             },
             "bskill_tra_flow_gc2": {
@@ -3550,6 +4301,7 @@
                     "all": 5
                 },
                 "name": ["订单流可视化·β"],
+                "operatorIds": ["char_478_kirara"],
                 "template": "Bskill_tra_flow_gc2.png"
             },
             "bskill_tra_flow_gs": {
@@ -3558,6 +4310,7 @@
                     "all": 0
                 },
                 "name": ["销路宣发"],
+                "operatorIds": ["char_4055_bgsnow"],
                 "template": "Bskill_tra_flow_gs.png"
             },
             "bskill_tra_flow_gs1": {
@@ -3566,6 +4319,7 @@
                     "all": 5
                 },
                 "name": ["物流规划·α"],
+                "operatorIds": ["char_402_tuye"],
                 "template": "Bskill_tra_flow_gs1.png"
             },
             "bskill_tra_flow_gs2": {
@@ -3575,7 +4329,26 @@
                     "all": 5
                 },
                 "name": ["物流规划·β"],
+                "operatorIds": ["char_402_tuye"],
                 "template": "Bskill_tra_flow_gs2.png"
+            },
+            "bskill_tra_lappland1": {
+                "desc": ["当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+2"],
+                "efficient": {
+                    "all": 0
+                },
+                "name": ["醉翁之意·α"],
+                "operatorIds": ["char_140_whitew"],
+                "template": "Bskill_tra_Lappland1.png"
+            },
+            "bskill_tra_lappland2": {
+                "desc": ["当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+4"],
+                "efficient": {
+                    "all": 0
+                },
+                "name": ["醉翁之意·β"],
+                "operatorIds": ["char_140_whitew"],
+                "template": "Bskill_tra_Lappland2.png"
             },
             "bskill_tra_laterano1": {
                 "desc": ["进驻贸易站时，同个贸易站中每有1名拉特兰干员，当前贸易站订单获取效率+15%"],
@@ -3583,6 +4356,7 @@
                     "all": 15
                 },
                 "name": ["同城加急单"],
+                "operatorIds": ["char_1041_angel2"],
                 "template": "Bskill_tra_laterano1.png"
             },
             "bskill_tra_law": {
@@ -3591,6 +4365,7 @@
                     "all": 0
                 },
                 "name": ["合同法"],
+                "operatorIds": ["char_4032_provs"],
                 "template": "Bskill_tra_law.png"
             },
             "bskill_tra_lemuen1": {
@@ -3599,6 +4374,7 @@
                     "all": 20
                 },
                 "name": ["相伴"],
+                "operatorIds": ["char_4193_lemuen"],
                 "template": "Bskill_tra_lemuen1.png"
             },
             "bskill_tra_limit&cost": {
@@ -3607,6 +4383,7 @@
                     "all": 0.5
                 },
                 "name": ["谈判"],
+                "operatorIds": ["char_151_myrtle", "char_210_stward", "char_236_rope"],
                 "template": "Bskill_tra_limit&cost.png"
             },
             "bskill_tra_limit&trade1": {
@@ -3615,6 +4392,7 @@
                     "all": 0.3
                 },
                 "name": ["多面逢源"],
+                "operatorIds": ["char_4058_pepe"],
                 "template": "Bskill_tra_limit&trade1.png"
             },
             "bskill_tra_limit&trade2": {
@@ -3623,6 +4401,7 @@
                     "all": 0.3
                 },
                 "name": ["钱不我待"],
+                "operatorIds": ["char_4163_rosesa"],
                 "template": "Bskill_tra_limit&trade2.png"
             },
             "bskill_tra_limit2spd": {
@@ -3631,6 +4410,7 @@
                     "all": 0
                 },
                 "name": ["冠军风采"],
+                "operatorIds": ["char_4116_blkkgt"],
                 "template": "Bskill_tra_limit2spd.png"
             },
             "bskill_tra_limit_count": {
@@ -3641,6 +4421,7 @@
                     "all": 4
                 },
                 "name": ["市井之道"],
+                "operatorIds": ["char_272_strong"],
                 "template": "Bskill_tra_limit_count.png"
             },
             "bskill_tra_limit_diff": {
@@ -3649,6 +4430,7 @@
                     "all": 4
                 },
                 "name": ["摊贩经济"],
+                "operatorIds": ["char_272_strong"],
                 "template": "Bskill_tra_limit_diff.png"
             },
             "bskill_tra_long1": {
@@ -3657,6 +4439,7 @@
                     "all": 0
                 },
                 "name": ["投资·α"],
+                "operatorIds": ["char_486_takila"],
                 "template": "Bskill_tra_long1.png"
             },
             "bskill_tra_long2": {
@@ -3665,11 +4448,13 @@
                     "all": 0
                 },
                 "name": ["投资·β"],
+                "operatorIds": ["char_486_takila"],
                 "template": "Bskill_tra_long2.png"
             },
             "bskill_tra_orchd2": {
                 "desc": ["进驻贸易站时，订单上限+3，且每有一个泡影国狩猎小队干员进驻贸易站，订单获取效率+20%"],
                 "name": ["队长的自觉"],
+                "operatorIds": ["char_1048_orchd2"],
                 "template": "Bskill_tra_orchd2.png"
             },
             "bskill_tra_ord_spd_ext0": {
@@ -3678,6 +4463,7 @@
                     "all": 25
                 },
                 "name": ["对陆接洽代表·α"],
+                "operatorIds": ["char_4137_udflow"],
                 "template": "Bskill_tra_ord_spd_ext0.png"
             },
             "bskill_tra_ord_spd_ext1": {
@@ -3686,6 +4472,7 @@
                     "all": 30
                 },
                 "name": ["对陆接洽代表·β"],
+                "operatorIds": ["char_4137_udflow"],
                 "template": "Bskill_tra_ord_spd_ext1.png"
             },
             "bskill_tra_ord_spd_ext2": {
@@ -3696,6 +4483,7 @@
                     "all": 25
                 },
                 "name": ["家族经营·α"],
+                "operatorIds": ["char_4037_demetr"],
                 "template": "Bskill_tra_ord_spd_ext2.png"
             },
             "bskill_tra_ord_spd_ext3": {
@@ -3706,6 +4494,7 @@
                     "all": 30
                 },
                 "name": ["家族经营·β"],
+                "operatorIds": ["char_4037_demetr"],
                 "template": "Bskill_tra_ord_spd_ext3.png"
             },
             "bskill_tra_par&per1": {
@@ -3714,6 +4503,7 @@
                     "all": 25
                 },
                 "name": ["白手起家·α"],
+                "operatorIds": ["char_4088_hodrer"],
                 "template": "Bskill_tra_par&per1.png"
             },
             "bskill_tra_par&per2": {
@@ -3724,6 +4514,7 @@
                     "all": 30
                 },
                 "name": ["白手起家·β"],
+                "operatorIds": ["char_4088_hodrer"],
                 "template": "Bskill_tra_par&per2.png"
             },
             "bskill_tra_par1": {
@@ -3734,6 +4525,7 @@
                     "all": 20
                 },
                 "name": ["帮派指南针"],
+                "operatorIds": ["char_154_morgan"],
                 "template": "Bskill_tra_par1.png"
             },
             "bskill_tra_pepe": {
@@ -3742,6 +4534,7 @@
                     "all": 0
                 },
                 "name": ["慧眼独到"],
+                "operatorIds": ["char_4058_pepe"],
                 "template": "Bskill_tra_pepe.png"
             },
             "bskill_tra_share1": {
@@ -3750,6 +4543,7 @@
                     "all": 30
                 },
                 "name": ["代为说项"],
+                "operatorIds": ["char_493_firwhl"],
                 "template": "Bskill_tra_share1.png"
             },
             "bskill_tra_share2": {
@@ -3758,6 +4552,7 @@
                     "all": 20
                 },
                 "name": ["勤俭经营·α"],
+                "operatorIds": ["char_4203_kichi"],
                 "template": "Bskill_tra_share2.png"
             },
             "bskill_tra_share3": {
@@ -3766,6 +4561,7 @@
                     "all": 40
                 },
                 "name": ["勤俭经营·β"],
+                "operatorIds": ["char_4203_kichi"],
                 "template": "Bskill_tra_share3.png"
             },
             "bskill_tra_spd&cost": {
@@ -3774,6 +4570,7 @@
                     "all": 30.1
                 },
                 "name": ["交际"],
+                "operatorIds": ["char_196_sunbr", "char_282_catap", "char_283_midn"],
                 "template": "Bskill_tra_spd&cost.png"
             },
             "bskill_tra_spd&dorm1": {
@@ -3782,6 +4579,7 @@
                     "all": 20
                 },
                 "name": ["虔诚筹款·α"],
+                "operatorIds": ["char_332_archet"],
                 "template": "Bskill_tra_spd&dorm1.png"
             },
             "bskill_tra_spd&dorm2": {
@@ -3790,6 +4588,7 @@
                     "all": 40
                 },
                 "name": ["虔诚筹款·β"],
+                "operatorIds": ["char_332_archet"],
                 "template": "Bskill_tra_spd&dorm2.png"
             },
             "bskill_tra_spd&formula1": {
@@ -3798,6 +4597,7 @@
                     "all": 34
                 },
                 "name": ["精准排期"],
+                "operatorIds": ["char_4063_quartz"],
                 "template": "Bskill_tra_spd&formula1.png"
             },
             "bskill_tra_spd&limit1": {
@@ -3806,6 +4606,7 @@
                     "all": 10
                 },
                 "name": ["订单管理·α"],
+                "operatorIds": ["char_192_falco", "char_365_aprl", "char_500_noirc"],
                 "template": "Bskill_tra_spd&limit1.png"
             },
             "bskill_tra_spd&limit2": {
@@ -3814,6 +4615,7 @@
                     "all": 10
                 },
                 "name": ["订单管理·β"],
+                "operatorIds": ["char_1034_jesca2", "char_365_aprl"],
                 "template": "Bskill_tra_spd&limit2.png"
             },
             "bskill_tra_spd&limit3": {
@@ -3822,6 +4624,7 @@
                     "all": 15
                 },
                 "name": ["喀兰贸易·α"],
+                "operatorIds": ["char_172_svrash", "char_198_blackd", "char_199_yak"],
                 "template": "Bskill_tra_spd&limit3.png"
             },
             "bskill_tra_spd&limit4": {
@@ -3830,6 +4633,7 @@
                     "all": 15
                 },
                 "name": ["喀兰贸易·β"],
+                "operatorIds": ["char_173_slchan"],
                 "template": "Bskill_tra_spd&limit4.png"
             },
             "bskill_tra_spd&limit5": {
@@ -3838,6 +4642,7 @@
                     "all": 20
                 },
                 "name": ["喀兰之主"],
+                "operatorIds": ["char_172_svrash"],
                 "template": "Bskill_tra_spd&limit5.png"
             },
             "bskill_tra_spd&limit6": {
@@ -3846,19 +4651,16 @@
                     "all": 25
                 },
                 "name": ["供应管理"],
+                "operatorIds": ["char_109_fmout", "char_208_melan", "char_278_orchid"],
                 "template": "Bskill_tra_spd&limit6.png"
             },
             "bskill_tra_spd&limit7": {
-                "desc": [
-                    "进驻贸易站时，订单获取效率+30%，且订单上限+1",
-                    "进驻贸易站时，订单获取效率+30%，且订单上限+1",
-                    "进驻贸易站时，订单获取效率+30%，且订单上限+1",
-                    "进驻贸易站时，订单获取效率+30%，且订单上限+1"
-                ],
+                "desc": ["进驻贸易站时，订单获取效率+30%，且订单上限+1"],
                 "efficient": {
                     "all": 30.1
                 },
                 "name": ["使命必达", "少当家", "大巴扎管理学", "半身人公会代表"],
+                "operatorIds": ["char_201_moeshd", "char_325_bison", "char_4140_lasher", "char_4144_chilc"],
                 "template": "Bskill_tra_spd&limit7.png"
             },
             "bskill_tra_spd&limit_down1": {
@@ -3867,6 +4669,7 @@
                     "all": 10
                 },
                 "name": ["威压"],
+                "operatorIds": ["char_4116_blkkgt"],
                 "template": "Bskill_tra_spd&limit_down1.png"
             },
             "bskill_tra_spd&limit_down2": {
@@ -3875,6 +4678,7 @@
                     "all": 4.1
                 },
                 "name": ["不怒自威"],
+                "operatorIds": ["char_4116_blkkgt"],
                 "template": "Bskill_tra_spd&limit_down2.png"
             },
             "bskill_tra_spd&limit_felyne": {
@@ -3883,6 +4687,7 @@
                     "all": 5.2
                 },
                 "name": ["可爱的艾露猫"],
+                "operatorIds": ["char_4077_palico"],
                 "template": "Bskill_tra_spd&limit_felyne.png"
             },
             "bskill_tra_spd&meet": {
@@ -3891,6 +4696,7 @@
                     "all": 30
                 },
                 "name": ["天生的顾问"],
+                "operatorIds": ["char_4147_mitm"],
                 "template": "Bskill_tra_spd&meet.png"
             },
             "bskill_tra_spd&meet1": {
@@ -3899,6 +4705,7 @@
                     "all": 40
                 },
                 "name": ["新城贸易"],
+                "operatorIds": ["char_427_vigil"],
                 "template": "Bskill_tra_spd&meet1.png"
             },
             "bskill_tra_spd&wt1": {
@@ -3907,39 +4714,63 @@
                     "all": 0
                 },
                 "name": ["天真的谈判者"],
+                "operatorIds": ["char_4091_ulika"],
                 "template": "Bskill_tra_spd&wt1.png"
             },
             "bskill_tra_spd1": {
-                "desc": [
-                    "进驻贸易站时，订单获取效率+20%",
-                    "进驻贸易站时，订单获取效率+20%",
-                    "进驻贸易站时，订单获取效率+20%"
-                ],
+                "desc": ["进驻贸易站时，订单获取效率+20%"],
                 "efficient": {
                     "all": 20
                 },
                 "name": ["订单分发·α", "峯驰物流", "企鹅物流·α"],
+                "operatorIds": [
+                    "char_1033_swire2",
+                    "char_103_angel",
+                    "char_110_deepcl",
+                    "char_150_snakek",
+                    "char_201_moeshd",
+                    "char_211_adnach",
+                    "char_240_wyvern",
+                    "char_325_bison",
+                    "char_4045_heidi",
+                    "char_4140_lasher",
+                    "char_4193_lemuen",
+                    "char_4204_mantra",
+                    "char_4222_taraxa"
+                ],
                 "template": "Bskill_tra_spd1.png"
             },
             "bskill_tra_spd2": {
-                "desc": ["进驻贸易站时，订单获取效率+30%", "进驻贸易站时，订单获取效率+30%"],
+                "desc": ["进驻贸易站时，订单获取效率+30%"],
                 "efficient": {
                     "all": 30
                 },
                 "name": ["企鹅物流·β", "订单分发·β"],
+                "operatorIds": [
+                    "char_101_sora",
+                    "char_123_fang",
+                    "char_141_nights",
+                    "char_185_frncat",
+                    "char_289_gyuki",
+                    "char_302_glaze",
+                    "char_4163_rosesa",
+                    "char_502_nblade"
+                ],
                 "template": "Bskill_tra_spd2.png"
             },
             "bskill_tra_spd3": {
-                "desc": ["进驻贸易站时，订单获取效率+35%", "进驻贸易站时，订单获取效率+35%"],
+                "desc": ["进驻贸易站时，订单获取效率+35%"],
                 "efficient": {
                     "all": 35
                 },
                 "name": ["名流欢会", "物流专家"],
+                "operatorIds": ["char_103_angel", "char_4045_heidi"],
                 "template": "Bskill_tra_spd3.png"
             },
             "bskill_tra_spd3&catap2": {
                 "desc": ["进驻贸易站时，订单获取效率+35%"],
                 "name": ["气氛组"],
+                "operatorIds": ["char_1049_catap2"],
                 "template": "Bskill_tra_spd3&catap2.png"
             },
             "bskill_tra_spd_bd1": {
@@ -3948,6 +4779,7 @@
                     "all": 0
                 },
                 "name": ["徘徊旋律"],
+                "operatorIds": ["char_4046_ebnhlz"],
                 "template": "Bskill_tra_spd_bd1.png"
             },
             "bskill_tra_spd_bd2": {
@@ -3956,6 +4788,7 @@
                     "all": 0
                 },
                 "name": ["怅惘和声"],
+                "operatorIds": ["char_4046_ebnhlz"],
                 "template": "Bskill_tra_spd_bd2.png"
             },
             "bskill_tra_spd_bd_dungeon": {
@@ -3964,6 +4797,7 @@
                     "all": 0
                 },
                 "name": ["熟悉的味道"],
+                "operatorIds": ["char_4144_chilc"],
                 "template": "Bskill_tra_spd_bd_dungeon.png"
             },
             "bskill_tra_spd_variable21": {
@@ -3972,6 +4806,7 @@
                     "all": 25
                 },
                 "name": ["天道酬勤·α"],
+                "operatorIds": ["char_383_snsant"],
                 "template": "Bskill_tra_spd_variable21.png"
             },
             "bskill_tra_spd_variable22": {
@@ -3980,6 +4815,7 @@
                     "all": 35
                 },
                 "name": ["天道酬勤·β"],
+                "operatorIds": ["char_383_snsant"],
                 "template": "Bskill_tra_spd_variable22.png"
             },
             "bskill_tra_texas1": {
@@ -3988,6 +4824,7 @@
                     "all": 0
                 },
                 "name": ["恩怨"],
+                "operatorIds": ["char_102_texas"],
                 "template": "Bskill_tra_texas1.png"
             },
             "bskill_tra_texas2": {
@@ -3996,6 +4833,7 @@
                     "all": 0
                 },
                 "name": ["默契"],
+                "operatorIds": ["char_102_texas"],
                 "template": "Bskill_tra_texas2.png"
             },
             "bskill_tra_vodfox": {
@@ -4006,32 +4844,38 @@
                     "all": -40
                 },
                 "name": ["低语"],
+                "operatorIds": ["char_254_vodfox"],
                 "template": "Bskill_tra_vodfox.png"
             },
             "bskill_tra_wt&cost1": {
                 "desc": [
-                    "进驻贸易站时，小幅提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
-                    "进驻贸易站时，小幅提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
-                    "进驻贸易站时，小幅提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
-                    "进驻贸易站时，小幅提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
                     "进驻贸易站时，小幅提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25"
                 ],
                 "efficient": {
                     "Money": 5
                 },
                 "name": ["裁缝·α", "手工艺品·α", "鉴定师的眼光", "懂行", "千金的眼光"],
+                "operatorIds": [
+                    "char_214_kafka",
+                    "char_252_bibeak",
+                    "char_254_vodfox",
+                    "char_369_bena",
+                    "char_4071_peper",
+                    "char_4147_mitm",
+                    "char_4237_jcinta",
+                    "char_499_kaitou"
+                ],
                 "template": "Bskill_tra_wt&cost1.png"
             },
             "bskill_tra_wt&cost2": {
                 "desc": [
-                    "进驻贸易站时，提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
-                    "进驻贸易站时，提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
                     "进驻贸易站时，提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25"
                 ],
                 "efficient": {
                     "all": 10
                 },
                 "name": ["裁缝·β", "手工艺品·β", "鉴定师的手段"],
+                "operatorIds": ["char_214_kafka", "char_252_bibeak", "char_4071_peper", "char_499_kaitou"],
                 "template": "Bskill_tra_wt&cost2.png"
             },
             "bskill_trade_ord_spd_variable": {
@@ -4040,6 +4884,7 @@
                     "all": 4
                 },
                 "name": ["招商引资"],
+                "operatorIds": ["char_1033_swire2"],
                 "template": "Bskill_trade_ord_spd_variable.png"
             },
             "trade_ord_spd&par1": {
@@ -4048,6 +4893,7 @@
                     "all": 30
                 },
                 "name": ["外贸决议·α"],
+                "operatorIds": ["char_1019_siege2"],
                 "template": "Trade_ord_spd&par1.png"
             },
             "trade_ord_spd&par2": {
@@ -4056,6 +4902,7 @@
                     "all": 30
                 },
                 "name": ["外贸决议·β"],
+                "operatorIds": ["char_1019_siege2"],
                 "template": "Trade_ord_spd&par2.png"
             }
         },
@@ -4076,7 +4923,7 @@
                         "efficient": {
                             "all": 0
                         },
-                        "skills": ["bskill_tra_Lappland2"]
+                        "skills": ["bskill_tra_lappland2"]
                     }
                 ],
                 "optional": [
@@ -4120,7 +4967,7 @@
                         "efficient": {
                             "all": 0
                         },
-                        "skills": ["bskill_tra_Lappland1"]
+                        "skills": ["bskill_tra_lappland1"]
                     }
                 ],
                 "optional": [
@@ -4150,7 +4997,7 @@
                         "efficient": {
                             "all": 0
                         },
-                        "skills": ["bskill_tra_Lappland2"]
+                        "skills": ["bskill_tra_lappland2"]
                     }
                 ],
                 "optional": [
@@ -4186,7 +5033,7 @@
                         "efficient": {
                             "all": 0
                         },
-                        "skills": ["bskill_tra_Lappland1"]
+                        "skills": ["bskill_tra_lappland1"]
                     }
                 ],
                 "optional": []
@@ -4336,5 +5183,609 @@
         ],
         "skillsGroup_Doc": "相关技能组参考https://bbs.nga.cn/read.php?tid=25965441"
     },
-    "roomType": ["Trade", "Power", "Mfg", "Office", "Reception", "Dorm", "Control"]
+    "Training": {
+        "skills": {
+            "bskill_train1_caster1": {
+                "desc": [
+                    "进驻训练室协助位时，术师干员的专精技能训练速度+30%，如果本次训练专精技能至1级，则训练速度额外+45%"
+                ],
+                "name": ["一知半解"],
+                "operatorIds": ["char_411_tomimi"],
+                "template": "Bskill_train1_caster1.png"
+            },
+            "bskill_train1_defender1": {
+                "desc": [
+                    "进驻训练室协助位时，重装干员的专精技能训练速度+30%，如果本次训练专精技能至1级，则训练速度额外+45%"
+                ],
+                "name": ["极地生存"],
+                "operatorIds": ["char_422_aurora"],
+                "template": "Bskill_train1_defender1.png"
+            },
+            "bskill_train1_guard1": {
+                "desc": [
+                    "进驻训练室协助位时，近卫干员的专精技能训练速度+30%，如果本次训练专精技能至1级，则训练速度额外+45%"
+                ],
+                "name": ["信影流"],
+                "operatorIds": ["char_475_akafyu"],
+                "template": "Bskill_train1_guard1.png"
+            },
+            "bskill_train1_sniper2": {
+                "desc": [
+                    "进驻训练室协助位时，狙击干员的专精技能训练速度+30%，如果本次训练专精技能至1级，则训练速度额外+65%"
+                ],
+                "name": ["以身作则"],
+                "operatorIds": ["char_1013_chen2"],
+                "template": "Bskill_train1_sniper2.png"
+            },
+            "bskill_train1_specialist1": {
+                "desc": [
+                    "进驻训练室协助位时，特种干员的专精技能训练速度+30%，如果本次训练专精技能至1级，则训练速度额外+45%"
+                ],
+                "name": ["陷阱对焦"],
+                "operatorIds": ["char_451_robin"],
+                "template": "Bskill_train1_specialist1.png"
+            },
+            "bskill_train1_vanguard1": {
+                "desc": [
+                    "进驻训练室协助位时，先锋干员的专精技能训练速度+30%，如果本次训练专精技能至1级，则训练速度额外+45%"
+                ],
+                "name": ["战术研习"],
+                "operatorIds": ["char_476_blkngt"],
+                "template": "Bskill_train1_vanguard1.png"
+            },
+            "bskill_train2_caster1": {
+                "desc": [
+                    "进驻训练室协助位时，术师干员的专精技能训练速度+30%，如果本次训练专精技能至2级，则训练速度额外+45%"
+                ],
+                "name": ["博览群书"],
+                "operatorIds": ["char_388_mint"],
+                "template": "Bskill_train2_caster1.png"
+            },
+            "bskill_train2_defender1": {
+                "desc": [
+                    "进驻训练室协助位时，重装干员的专精技能训练速度+30%，如果本次训练专精技能至2级，则训练速度额外+45%"
+                ],
+                "name": ["阵地经验"],
+                "operatorIds": ["char_304_zebra"],
+                "template": "Bskill_train2_defender1.png"
+            },
+            "bskill_train2_guard1": {
+                "desc": [
+                    "进驻训练室协助位时，近卫干员的专精技能训练速度+30%，如果本次训练专精技能至2级，则训练速度额外+45%"
+                ],
+                "name": ["苦行"],
+                "operatorIds": ["char_415_flint"],
+                "template": "Bskill_train2_guard1.png"
+            },
+            "bskill_train2_medic1": {
+                "desc": [
+                    "进驻训练室协助位时，医疗干员的专精技能训练速度+30%，如果本次训练专精技能至2级，则训练速度额外+45%"
+                ],
+                "name": ["护理专精"],
+                "operatorIds": ["char_1024_hbisc2"],
+                "template": "Bskill_train2_medic1.png"
+            },
+            "bskill_train2_sniper1": {
+                "desc": [
+                    "进驻训练室协助位时，狙击干员的专精技能训练速度+30%，如果本次训练专精技能至2级，则训练速度额外+45%"
+                ],
+                "name": ["拂弦"],
+                "operatorIds": ["char_4043_erato"],
+                "template": "Bskill_train2_sniper1.png"
+            },
+            "bskill_train2_specialist&pioneer1": {
+                "desc": [
+                    "进驻训练室协助位时，特种与先锋干员的专精技能训练速度+30%，如果本次训练专精技能至2级，则训练速度额外+50%"
+                ],
+                "name": ["破斩桎梏"],
+                "operatorIds": ["char_1028_texas2"],
+                "template": "Bskill_train2_specialist&pioneer1.png"
+            },
+            "bskill_train3_caster2": {
+                "desc": [
+                    "进驻训练室协助位时，术师干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+65%"
+                ],
+                "name": ["死焰指引"],
+                "operatorIds": ["char_450_necras"],
+                "template": "Bskill_train3_caster2.png"
+            },
+            "bskill_train3_guard1": {
+                "desc": [
+                    "进驻训练室协助位时，近卫干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+45%"
+                ],
+                "name": ["尽心尽力", "勇气传承"],
+                "operatorIds": ["char_333_sidero", "char_394_hadiya"],
+                "template": "Bskill_train3_guard1.png"
+            },
+            "bskill_train3_guard2": {
+                "desc": [
+                    "进驻训练室协助位时，近卫干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+65%"
+                ],
+                "name": ["实战指导"],
+                "operatorIds": ["char_1026_gvial2"],
+                "template": "Bskill_train3_guard2.png"
+            },
+            "bskill_train3_sniper1": {
+                "desc": [
+                    "进驻训练室协助位时，狙击干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+45%"
+                ],
+                "name": ["最终调试"],
+                "operatorIds": ["char_4006_melnte"],
+                "template": "Bskill_train3_sniper1.png"
+            },
+            "bskill_train3_sniper2": {
+                "desc": [
+                    "进驻训练室协助位时，狙击干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+65%"
+                ],
+                "name": ["伺机而动"],
+                "operatorIds": ["char_113_cqbw"],
+                "template": "Bskill_train3_sniper2.png"
+            },
+            "bskill_train3_specialist2": {
+                "desc": [
+                    "进驻训练室协助位时，特种干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+65%"
+                ],
+                "name": ["阿戈尔战术"],
+                "operatorIds": ["char_1023_ghost2"],
+                "template": "Bskill_train3_specialist2.png"
+            },
+            "bskill_train3_supporter2": {
+                "desc": [
+                    "进驻训练室协助位时，辅助干员的专精技能训练速度+30%，如果本次训练专精技能至3级，则训练速度额外+65%"
+                ],
+                "name": ["同化"],
+                "operatorIds": ["char_1012_skadi2"],
+                "template": "Bskill_train3_supporter2.png"
+            },
+            "bskill_train_abyssal": {
+                "desc": [
+                    "进驻训练室协助位时，心情每小时消耗+1，基建内（不包含副手及活动室使用者）每名深海猎人干员为当前干员的专精技能训练速度+10%（最多生效5名）"
+                ],
+                "name": ["“手段应当有效”"],
+                "operatorIds": ["char_4145_ulpia"],
+                "template": "Bskill_train_abyssal.png"
+            },
+            "bskill_train_accmu_guard1": {
+                "desc": [
+                    "进驻训练室协助位时，每完整协助完成1次专精训练，累计一定武道。武道达到上限时，下一次开始协助近卫干员训练专精技能至1级将立即完成，并消耗已有武道"
+                ],
+                "name": ["思而后行"],
+                "operatorIds": ["char_4121_zuole"],
+                "template": "Bskill_train_accmu_guard1.png"
+            },
+            "bskill_train_all": {
+                "desc": ["进驻训练室协助位时，干员的专精技能训练速度+25%"],
+                "name": ["教官", "学无不精·α"],
+                "operatorIds": [
+                    "char_130_doberm",
+                    "char_265_sophia",
+                    "char_308_swire",
+                    "char_4121_zuole",
+                    "char_4196_reckpr"
+                ],
+                "template": "Bskill_train_all.png"
+            },
+            "bskill_train_artsprotector": {
+                "desc": [
+                    "进驻训练室协助位时，重装干员的专精技能训练速度+30%，如果训练位干员分支为驭法铁卫，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：驭法铁卫"],
+                "operatorIds": ["char_4025_aprot2"],
+                "template": "Bskill_train_artsprotector.png"
+            },
+            "bskill_train_attack": {
+                "desc": [
+                    "进驻训练室协助位时，基建内（不包含副手及活动室使用者）每名进攻方干员为当前干员的专精技能训练速度+10%（最多生效4名）"
+                ],
+                "name": ["战术指导·进攻"],
+                "operatorIds": ["char_4124_iana", "char_4126_fuze"],
+                "template": "Bskill_train_attack.png"
+            },
+            "bskill_train_bd": {
+                "desc": ["进驻训练室协助位时，心情每小时消耗+1，每1点人间烟火+1%专精技能训练速度"],
+                "name": ["与人乐"],
+                "operatorIds": ["char_2026_yu"],
+                "template": "Bskill_train_bd.png"
+            },
+            "bskill_train_caster&medic1": {
+                "desc": ["进驻训练室协助位时，术师与医疗干员的专精技能训练速度+30%"],
+                "name": ["红龙之血"],
+                "operatorIds": ["char_1020_reed2"],
+                "template": "Bskill_train_caster&medic1.png"
+            },
+            "bskill_train_caster&medic2": {
+                "desc": ["进驻训练室协助位时，术师与医疗干员的专精技能训练速度+45%"],
+                "name": ["红龙之血"],
+                "operatorIds": ["char_1020_reed2"],
+                "template": "Bskill_train_caster&medic2.png"
+            },
+            "bskill_train_caster&supporter1": {
+                "desc": ["进驻训练室协助位时，术师与辅助干员的专精技能训练速度+30%"],
+                "name": ["女妖之力"],
+                "operatorIds": ["char_4133_logos"],
+                "template": "Bskill_train_caster&supporter1.png"
+            },
+            "bskill_train_caster&vanguard1": {
+                "desc": ["进驻训练室协助位时，术师与近卫干员的专精技能训练速度+30%"],
+                "name": ["恣意英杰", "“我不懂啊”"],
+                "operatorIds": ["char_1038_whitw2", "char_4226_veen"],
+                "template": "Bskill_train_caster&vanguard1.png"
+            },
+            "bskill_train_caster&vanguard2": {
+                "desc": ["进驻训练室协助位时，术师与近卫干员的专精技能训练速度+45%"],
+                "name": ["“触类旁通”"],
+                "operatorIds": ["char_4226_veen"],
+                "template": "Bskill_train_caster&vanguard2.png"
+            },
+            "bskill_train_caster1": {
+                "desc": ["进驻训练室协助位时，术师干员的专精技能训练速度+30%"],
+                "name": ["术师专精·α"],
+                "operatorIds": [
+                    "char_164_nightm",
+                    "char_166_skfire",
+                    "char_344_beewax",
+                    "char_388_mint",
+                    "char_426_billro",
+                    "char_450_necras"
+                ],
+                "template": "Bskill_train_caster1.png"
+            },
+            "bskill_train_caster2": {
+                "desc": ["进驻训练室协助位时，术师干员的专精技能训练速度+50%"],
+                "name": ["术师专精·β"],
+                "operatorIds": ["char_166_skfire", "char_344_beewax"],
+                "template": "Bskill_train_caster2.png"
+            },
+            "bskill_train_caster3": {
+                "desc": ["进驻训练室协助位时，术师干员的专精技能训练速度+60%"],
+                "name": ["尽在掌握"],
+                "operatorIds": ["char_426_billro"],
+                "template": "Bskill_train_caster3.png"
+            },
+            "bskill_train_chainhealer": {
+                "desc": [
+                    "进驻训练室协助位时，医疗干员的专精技能训练速度+30%，如果训练位干员分支为链愈师，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：链愈师"],
+                "operatorIds": ["char_4139_papyrs"],
+                "template": "Bskill_train_chainhealer.png"
+            },
+            "bskill_train_chen": {
+                "desc": ["进驻训练室协助狙击干员训练专精技能至1级时，心情每小时消耗+1"],
+                "name": ["工作狂"],
+                "operatorIds": ["char_1013_chen2"],
+                "template": "Bskill_train_chen.png"
+            },
+            "bskill_train_defender1": {
+                "desc": ["进驻训练室协助位时，重装干员的专精技能训练速度+30%"],
+                "name": ["重装专精·α"],
+                "operatorIds": [
+                    "char_136_hsguma",
+                    "char_260_durnar",
+                    "char_304_zebra",
+                    "char_4025_aprot2",
+                    "char_422_aurora"
+                ],
+                "template": "Bskill_train_defender1.png"
+            },
+            "bskill_train_defender2": {
+                "desc": ["进驻训练室协助位时，重装干员的专精技能训练速度+50%"],
+                "name": ["重装专精·β"],
+                "operatorIds": ["char_199_yak"],
+                "template": "Bskill_train_defender2.png"
+            },
+            "bskill_train_defender3": {
+                "desc": ["进驻训练室协助位时，重装干员的专精技能训练速度+60%"],
+                "name": ["般若"],
+                "operatorIds": ["char_136_hsguma"],
+                "template": "Bskill_train_defender3.png"
+            },
+            "bskill_train_defense": {
+                "desc": [
+                    "进驻训练室协助位时，基建内（不包含副手及活动室使用者）每名防守方干员为当前干员的专精技能训练速度+10%（最多生效4名）"
+                ],
+                "name": ["战术指导·防守"],
+                "operatorIds": ["char_4123_ela", "char_4125_rdoc"],
+                "template": "Bskill_train_defense.png"
+            },
+            "bskill_train_fastshot": {
+                "desc": [
+                    "进驻训练室协助位时，狙击干员的专精技能训练速度+30%，如果训练位干员分支为速射手，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：速射"],
+                "operatorIds": ["char_1021_kroos2"],
+                "template": "Bskill_train_fastshot.png"
+            },
+            "bskill_train_fighter": {
+                "desc": [
+                    "进驻训练室协助位时，近卫干员的专精技能训练速度+30%，如果训练位干员分支为斗士，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：斗士"],
+                "operatorIds": ["char_157_dagda"],
+                "template": "Bskill_train_fighter.png"
+            },
+            "bskill_train_gavial": {
+                "desc": ["进驻训练室协助近卫干员训练专精技能至3级时，心情每小时消耗+1"],
+                "name": ["过量训练"],
+                "operatorIds": ["char_1026_gvial2"],
+                "template": "Bskill_train_gavial.png"
+            },
+            "bskill_train_guard&supporter": {
+                "desc": ["进驻训练室协助位时，近卫与辅助干员的专精技能训练速度+30%"],
+                "name": ["“问题应当准确”"],
+                "operatorIds": ["char_4145_ulpia"],
+                "template": "Bskill_train_guard&supporter.png"
+            },
+            "bskill_train_guard1": {
+                "desc": ["进驻训练室协助位时，近卫干员的专精技能训练速度+30%"],
+                "name": ["近卫专精·α"],
+                "operatorIds": [
+                    "char_1026_gvial2",
+                    "char_106_franka",
+                    "char_137_brownb",
+                    "char_157_dagda",
+                    "char_194_leto",
+                    "char_265_sophia",
+                    "char_333_sidero",
+                    "char_350_surtr",
+                    "char_356_broca",
+                    "char_394_hadiya",
+                    "char_4082_qiubai",
+                    "char_415_flint",
+                    "char_4187_graceb",
+                    "char_475_akafyu"
+                ],
+                "template": "Bskill_train_guard1.png"
+            },
+            "bskill_train_guard2": {
+                "desc": ["进驻训练室协助位时，近卫干员的专精技能训练速度+50%"],
+                "name": ["近卫专精·β"],
+                "operatorIds": ["char_106_franka", "char_356_broca"],
+                "template": "Bskill_train_guard2.png"
+            },
+            "bskill_train_guard3": {
+                "desc": ["进驻训练室协助位时，近卫干员的专精技能训练速度+60%"],
+                "name": ["剑术记忆"],
+                "operatorIds": ["char_350_surtr"],
+                "template": "Bskill_train_guard3.png"
+            },
+            "bskill_train_knight_bd1": {
+                "desc": [
+                    "进驻训练室协助位时，基建内（不包含副手及活动室使用者）每名骑士干员为当前干员的专精技能训练速度+5%（最多生效5名）"
+                ],
+                "name": ["骑士训练"],
+                "operatorIds": ["char_1014_nearl2"],
+                "template": "Bskill_train_knight_bd1.png"
+            },
+            "bskill_train_knight_bd2": {
+                "desc": [
+                    "进驻训练室协助位时，基建内（不包含副手及活动室使用者）每名骑士干员为当前干员的专精技能训练速度+5%（最多生效8名）"
+                ],
+                "name": ["崇高准则"],
+                "operatorIds": ["char_1014_nearl2"],
+                "template": "Bskill_train_knight_bd2.png"
+            },
+            "bskill_train_lord": {
+                "desc": [
+                    "进驻训练室协助位时，近卫干员的专精技能训练速度+30%，如果训练位干员分支为领主，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：领主"],
+                "operatorIds": ["char_4082_qiubai"],
+                "template": "Bskill_train_lord.png"
+            },
+            "bskill_train_medic1": {
+                "desc": ["进驻训练室协助位时，医疗干员的专精技能训练速度+30%"],
+                "name": ["医疗专精·α"],
+                "operatorIds": [
+                    "char_1016_agoat2",
+                    "char_171_bldsk",
+                    "char_187_ccheal",
+                    "char_298_susuro",
+                    "char_4139_papyrs",
+                    "char_4196_reckpr"
+                ],
+                "template": "Bskill_train_medic1.png"
+            },
+            "bskill_train_medic2": {
+                "desc": ["进驻训练室协助位时，医疗干员的专精技能训练速度+50%"],
+                "name": ["医疗专精·β"],
+                "operatorIds": ["char_171_bldsk"],
+                "template": "Bskill_train_medic2.png"
+            },
+            "bskill_train_medic3": {
+                "desc": ["进驻训练室协助位时，医疗干员的专精技能训练速度+60%"],
+                "name": ["精准手术"],
+                "operatorIds": ["char_225_haak"],
+                "template": "Bskill_train_medic3.png"
+            },
+            "bskill_train_mh2_guard&sniper1": {
+                "desc": ["进驻训练室协助位时，近卫与狙击干员的专精技能训练速度+30%"],
+                "name": ["兴之所至·α"],
+                "operatorIds": ["char_1049_catap2"],
+                "template": "Bskill_train_mh2_guard&sniper1.png"
+            },
+            "bskill_train_mh2_guard&sniper2": {
+                "desc": ["进驻训练室协助位时，近卫与狙击干员的专精技能训练速度+50%，心情每小时消耗+1"],
+                "name": ["兴之所至·β"],
+                "operatorIds": ["char_1049_catap2"],
+                "template": "Bskill_train_mh2_guard&sniper2.png"
+            },
+            "bskill_train_necras": {
+                "desc": ["进驻训练室协助术师干员训练专精技能至3级时，心情每小时消耗+1"],
+                "name": ["何须解脱"],
+                "operatorIds": ["char_450_necras"],
+                "template": "Bskill_train_necras.png"
+            },
+            "bskill_train_reducetime": {
+                "desc": [
+                    "进驻训练室单次协助一名干员训练时长达5小时，则该名干员下次训练所需时间-50%（任意一方离开训练室时，效果消失）"
+                ],
+                "name": ["精神锻炼", "言语之义"],
+                "operatorIds": ["char_4009_irene", "char_4133_logos"],
+                "template": "Bskill_train_reducetime.png"
+            },
+            "bskill_train_sami": {
+                "desc": [
+                    "进驻训练室协助位时，基建内（不包含副手及活动室使用者）每名萨米干员为当前干员的专精技能训练速度+10%（最多生效3名）"
+                ],
+                "name": ["雪祀候补"],
+                "operatorIds": ["char_341_sntlla"],
+                "template": "Bskill_train_sami.png"
+            },
+            "bskill_train_siegesniper": {
+                "desc": [
+                    "进驻训练室协助位时，狙击干员的专精技能训练速度+30%，如果训练位干员分支为攻城手，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：攻城手"],
+                "operatorIds": ["char_2012_typhon"],
+                "template": "Bskill_train_siegesniper.png"
+            },
+            "bskill_train_siracusa": {
+                "desc": [
+                    "进驻训练室协助位时，基建内（不包含副手及活动室使用者）每名叙拉古干员为当前干员的专精技能训练速度+5%（最多生效7名）"
+                ],
+                "name": ["叙拉古狂欢"],
+                "operatorIds": ["char_1038_whitw2"],
+                "template": "Bskill_train_siracusa.png"
+            },
+            "bskill_train_skadi": {
+                "desc": ["进驻训练室协助辅助干员训练专精技能至3级时，心情每小时消耗+1"],
+                "name": ["变异"],
+                "operatorIds": ["char_1012_skadi2"],
+                "template": "Bskill_train_skadi.png"
+            },
+            "bskill_train_sniper1": {
+                "desc": ["进驻训练室协助位时，狙击干员的专精技能训练速度+30%"],
+                "name": ["狙击专精·α"],
+                "operatorIds": [
+                    "char_1013_chen2",
+                    "char_113_cqbw",
+                    "char_204_platnm",
+                    "char_279_excu",
+                    "char_4006_melnte",
+                    "char_4043_erato"
+                ],
+                "template": "Bskill_train_sniper1.png"
+            },
+            "bskill_train_sniper2": {
+                "desc": ["进驻训练室协助位时，狙击干员的专精技能训练速度+50%"],
+                "name": ["狙击专精·β"],
+                "operatorIds": ["char_204_platnm"],
+                "template": "Bskill_train_sniper2.png"
+            },
+            "bskill_train_sniper3": {
+                "desc": ["进驻训练室协助位时，狙击干员的专精技能训练速度+60%"],
+                "name": ["黑矢"],
+                "operatorIds": ["char_340_shwaz"],
+                "template": "Bskill_train_sniper3.png"
+            },
+            "bskill_train_spd&level": {
+                "desc": ["进驻训练室协助位时，如果本次训练专精技能至3级，专精技能训练速度+70%"],
+                "name": ["苦心孤诣"],
+                "operatorIds": ["char_2027_wang"],
+                "template": "Bskill_train_spd&level.png"
+            },
+            "bskill_train_spd&profession2": {
+                "desc": ["进驻训练室协助位时，先锋干员的专精技能训练速度+30%"],
+                "name": ["先锋专精·α", "先驱者共识"],
+                "operatorIds": ["char_1045_svash2"],
+                "template": "Bskill_train_spd&profession2.png"
+            },
+            "bskill_train_specialist&pioneer1": {
+                "desc": ["进驻训练室协助位时，特种与先锋干员的专精技能训练速度+30%"],
+                "name": ["沉默为剑"],
+                "operatorIds": ["char_1028_texas2"],
+                "template": "Bskill_train_specialist&pioneer1.png"
+            },
+            "bskill_train_specialist1": {
+                "desc": ["进驻训练室协助位时，特种干员的专精技能训练速度+30%"],
+                "name": ["特种专精·α"],
+                "operatorIds": ["char_1023_ghost2", "char_215_mantic", "char_250_phatom", "char_451_robin"],
+                "template": "Bskill_train_specialist1.png"
+            },
+            "bskill_train_specialist2": {
+                "desc": ["进驻训练室协助位时，特种干员的专精技能训练速度+50%"],
+                "name": ["特种专精·β"],
+                "operatorIds": ["char_215_mantic", "char_4165_ctrail"],
+                "template": "Bskill_train_specialist2.png"
+            },
+            "bskill_train_specialist3": {
+                "desc": ["进驻训练室协助位时，特种干员的专精技能训练速度+60%"],
+                "name": ["假面魅影"],
+                "operatorIds": ["char_250_phatom"],
+                "template": "Bskill_train_specialist3.png"
+            },
+            "bskill_train_specter": {
+                "desc": ["进驻训练室协助特种干员训练专精技能至3级时，心情每小时消耗+1"],
+                "name": ["斗争渴望"],
+                "operatorIds": ["char_1023_ghost2"],
+                "template": "Bskill_train_specter.png"
+            },
+            "bskill_train_supporter1": {
+                "desc": ["进驻训练室协助位时，辅助干员的专精技能训练速度+30%"],
+                "name": ["辅助专精·α"],
+                "operatorIds": ["char_1012_skadi2", "char_195_glassb", "char_358_lisa", "char_4234_pedro"],
+                "template": "Bskill_train_supporter1.png"
+            },
+            "bskill_train_supporter2": {
+                "desc": ["进驻训练室协助位时，辅助干员的专精技能训练速度+50%"],
+                "name": ["辅助专精·β"],
+                "operatorIds": ["char_174_slbell"],
+                "template": "Bskill_train_supporter2.png"
+            },
+            "bskill_train_supporter3": {
+                "desc": ["进驻训练室协助位时，辅助干员的专精技能训练速度+60%"],
+                "name": ["共鸣"],
+                "operatorIds": ["char_358_lisa"],
+                "template": "Bskill_train_supporter3.png"
+            },
+            "bskill_train_supportiveranger": {
+                "desc": [
+                    "进驻训练室协助位时，辅助干员的专精技能训练速度+30%，如果训练位干员分支为游击手，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：游击手"],
+                "operatorIds": ["char_4234_pedro"],
+                "template": "Bskill_train_supportiveranger.png"
+            },
+            "bskill_train_vanguard&sniper": {
+                "desc": ["进驻训练室协助位时，近卫与狙击干员的专精技能训练速度+30%"],
+                "name": ["剑与手炮"],
+                "operatorIds": ["char_4009_irene"],
+                "template": "Bskill_train_vanguard&sniper.png"
+            },
+            "bskill_train_vanguard1": {
+                "desc": ["进驻训练室协助位时，先锋干员的专精技能训练速度+30%"],
+                "name": ["先锋专精·α"],
+                "operatorIds": ["char_192_falco", "char_220_grani", "char_362_saga", "char_476_blkngt"],
+                "template": "Bskill_train_vanguard1.png"
+            },
+            "bskill_train_vanguard2": {
+                "desc": ["进驻训练室协助位时，先锋干员的专精技能训练速度+50%"],
+                "name": ["先锋专精·β"],
+                "operatorIds": ["char_220_grani", "char_290_vigna"],
+                "template": "Bskill_train_vanguard2.png"
+            },
+            "bskill_train_vanguard3": {
+                "desc": ["进驻训练室协助位时，先锋干员的专精技能训练速度+60%"],
+                "name": ["入世"],
+                "operatorIds": ["char_362_saga"],
+                "template": "Bskill_train_vanguard3.png"
+            },
+            "bskill_train_w": {
+                "desc": ["进驻训练室协助狙击干员训练专精技能至3级时，心情每小时消耗+1"],
+                "name": ["索然无味"],
+                "operatorIds": ["char_113_cqbw"],
+                "template": "Bskill_train_w.png"
+            },
+            "bskill_train_wandermedic": {
+                "desc": [
+                    "进驻训练室协助位时，医疗干员的专精技能训练速度+30%，如果训练位干员分支为行医，则训练速度额外+45%"
+                ],
+                "name": ["实战技巧：行医"],
+                "operatorIds": ["char_1016_agoat2"],
+                "template": "Bskill_train_wandermedic.png"
+            }
+        }
+    },
+    "roomType": ["Power", "Reception", "Control", "Dorm", "Trade", "Office", "Mfg", "Processing", "Training"]
 }

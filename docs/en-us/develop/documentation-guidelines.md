@@ -13,7 +13,7 @@ Our documentation is built on [vuepress](https://github.com/vuejs/vuepress) and 
 
 ## Deploy Locally
 
-1. Install [Pnpm](https://pnpm.io/installation), and clone the repository refer to [Introduction to GitHub Pull request Flow](./development.md#introduction-to-github-pull-request-flow).
+1. Install [Pnpm](https://pnpm.io/installation), and clone the repository refer to [Introduction to GitHub Pull request Flow](./development.md).
 2. Create a terminal in the `docs` directory, then run `pnpm i` to download dependencies.
 3. Run `pnpm run dev` to deploy.
 

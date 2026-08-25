@@ -8,7 +8,7 @@ icon: teenyicons:linux-alt-solid
 **이 가이드는 독자가 일정한 Linux 환경 설정 능력과 프로그래밍 기초를 가지고 있다고 가정합니다!** MAA를 직접 컴파일하는 대신 단순히 설치하길 원한다면 [사용자 매뉴얼 - Linux 지원](../manual/device/linux.md)를 참고하세요.
 
 ::: info 주의
-MAA의 빌드 방법은 여전히 논의 중입니다. 이 가이드의 내용은 최신 내용이 아닐 수 있으므로 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L224#:~:text=ubuntu%3A)의 스크립트를 참고하는 것이 좋습니다.  
+MAA의 빌드 방법은 여전히 논의 중입니다. 이 가이드의 내용은 최신 내용이 아닐 수 있으므로 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L264#:~:text=ubuntu%3A)의 스크립트를 참고하는 것이 좋습니다.  
 또한 [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) 또는 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)를 참고할 수도 있습니다.
 :::
 
@@ -80,7 +80,7 @@ MaaAssistantArknights/MaaMacGui 프로젝트의 [README.md](https://github.com/M
    cmake --install build --prefix <target_directory>
    ```
 
-4. 若需调试 MaaFwAdbController（MaaFramework 触控模式）相关功能，需要[自行编译 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，将 `libMaaAdbControlUnit.so` 放到安装目录下。
+4. MaaFwAdbController(MaaFwAdb 터치 수행 방식) 관련 기능을 디버깅하려면 [MaaFramework의 Debug 버전을 직접 컴파일](https://maafw.com/docs/4.1-BuildGuide)하여 `libMaaAdbControlUnit.so`를 설치 디렉토리에 넣어야 합니다.
 
 ::::
 
@@ -90,12 +90,12 @@ MaaAssistantArknights/MaaMacGui 프로젝트의 [README.md](https://github.com/M
 
 ### Python
 
-[Python demo](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/sample.py)에서 `__main__`의 구현을 참고하세요.
+[Python demo](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Python/sample.py)에서 `__main__`의 구현을 참고하세요.
 
 ### C++
 
-[CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)의 구현을 참고하세요.
+[CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Cpp/main.cpp)의 구현을 참고하세요.
 
 ### C\#
 
-[MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs)의 구현을 참고하세요.
+[MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Main/AsstProxy.cs)의 구현을 참고하세요.

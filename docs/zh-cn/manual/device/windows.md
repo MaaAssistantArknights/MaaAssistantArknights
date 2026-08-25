@@ -48,7 +48,7 @@ const fullySupport = [
         {
             name: '腾讯应用宝',
             link: 'https://sj.qq.com/',
-            note: '支持 5.10.56.xx之后的版本。在 `设置` - `连接设置` 中选择 `腾讯应用宝` 连接配置。已知兼容 Hyper-V。\n\n- ADB 端口为 `127.0.0.1:5555`，\n- ADB路径示例：`C:\\Program Files\\Tencent\\Androws\\Application\\版本号\\adb.exe`。\n\n- 需要先在应用宝中 [开启 ADB 调试](https://sj.qq.com/faq/3878)。',
+            note: '支持 5.10.56.xx之后的版本。在 `设置` - `连接设置` 中选择 `应用宝模拟器` 连接配置。已知兼容 Hyper-V。\n\n- ADB 端口为 `127.0.0.1:5555`，\n- ADB路径示例：`C:\\Program Files\\Tencent\\Androws\\Application\\版本号\\adb.exe`。\n\n- 需要先在应用宝中 [开启 ADB 调试](https://sj.qq.com/faq/3878)。',
         },
         {
             name: '夜神模拟器',

@@ -20,6 +20,7 @@ icon: ph:sword-bold
         // 指定幹員
         {
             "name": "重岳", // 幹員名稱
+            "role": "guard", // 幹員職業。選填，用於區分同名幹員，中英文職業名均可，大小寫不限
             "skill": 3, // 技能序號。選填，預設為 0，取值範圍 [0, 3]
             "skill_usage": 2, // 技能用法。選填，預設為 0
             // 0 - 不自動使用（依賴 "actions" 欄位）
@@ -29,13 +30,13 @@ icon: ph:sword-bold
             // 如果是全自動的技能，填 0
             "skill_times": 5, // 技能使用次數。選填，預設為 1
             "requirements": {
-                // 練度要求。保留介面，暫未實作。選填，預設為空
+                // 練度要求，自動編隊時校驗。選填，預設為空
                 "elite": 2, // 精英化等級。選填，預設為 0, 不要求精英化等級
                 "level": 90, // 幹員等級。選填，預設為 0
                 "skill_level": 10, // 技能等級。選填，預設為 0
                 "module": 1, // 模組編號。選填，預設為 0
-                "module_level": 3, // 模組等級，選填，預設為 0
-                "potential": 1 // 潛能要求。選填，預設為 0
+                "module_level": 3, // 模組等級。暫不支援
+                "potential": 1 // 潛能要求。暫不支援
             }
         }
     ],
@@ -75,7 +76,7 @@ icon: ph:sword-bold
             // "列印" 介面不顯示這條步驟，僅用於輸出 doc 裡的內容（用來做字幕之類的）
             // "擺完掛機" 僅使用 "好了就用" 的技能，其他什麼都不做，直到戰鬥結束
             // "移動鏡頭" 用於「引航者試煉」模式，還需要填寫 distance 欄位
-            // "重置全域計時器" 重置全域計時器，請參考「time_elapsed」條件
+            // "重置全域計時器" 重置全域計時器，請參考「elapsed_time」條件
             // 目前下面五個條件是且的關係，即 &&
             "kills": 0, // 擊殺數條件，如果沒達到就一直等待。選填，預設為 0，直接執行
             "costs": 50, // 費用條件，如果沒達到就一直等待。選填，預設為 0，直接執行
@@ -87,13 +88,14 @@ icon: ph:sword-bold
             // 支援負數，即費用變少了（例如「孑」等吸費幹員使得費用變少了）
             // 另外僅在費用是兩位數的時候辨識得比較準，三位數的費用可能會辨識錯，不推薦使用
             "cooling": 2, // CD 中幹員數量條件，如果沒達到就一直等待。選填，預設為 -1，不辨識
-            "time_elapsed": 1000, // 以毫秒為單位全域計時條件，如果沒達到就一直等待。選填，預設為 0，直接執行
+            "elapsed_time": 1000, // 以毫秒為單位全域計時條件，如果沒達到就一直等待。選填，預設為 0，直接執行
             // 注意是從上一次執行 type:ResetStopwatch 的 action 開始計算的
             // 使用前必須執行過 type:ResetStopwatch 的 action 重置計時器，不然會卡住
             // TODO: 其他條件
             // TODO: "condition_type": 0,    // 執行條件間的關係，選填，預設為 0
             //                         // 0 - 且； 1 - 或
             "name": "棘刺", // 幹員名稱 或 群組名稱， type 為 "部署" 時必填，為 "技能" | "撤退" 時選填
+            "role": "guard", // 幹員職業。選填，用於區分同名幹員，中英文職業名均可，大小寫不限
             "location": [
                 5,
                 5
@@ -171,4 +173,4 @@ icon: ph:sword-bold
 
 ## 舉例
 
-[OF-1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/OF-1_credit_fight.json)
+[OF-1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/resource/copilot/OF-1_credit_fight.json)

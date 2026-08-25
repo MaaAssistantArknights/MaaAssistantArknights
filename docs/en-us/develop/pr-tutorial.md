@@ -107,7 +107,7 @@ Conflicts are somewhat troublesome to resolve. This section only explains the co
    If not, don't worry - click the "Contribute" button below, then "Open Pull Request" - it's the same thing.
 
 10. You'll arrive at the main repository's PR page. Please verify that what you want to PR is what you intend to submit.  
-    As shown in the image, there's a leftward arrow in the middle, requesting to merge the right side's PersonalName/MAA dev branch into the main repository/MAA dev branch.  
+    As shown in the image, there's a leftward arrow in the middle, requesting to merge the right side's PersonalName/MAA dev-v2 branch into the main repository/MAA dev-v2 branch.  
     Scrolling down shows the differences between these two branches - what you've changed.
 
     Then write a title and specific content of your modifications, then click confirm.  

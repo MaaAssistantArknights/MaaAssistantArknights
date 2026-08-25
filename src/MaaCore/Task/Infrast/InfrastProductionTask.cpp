@@ -1,11 +1,14 @@
 #include "InfrastProductionTask.h"
+#include "InfrastScore.h"
 
 #include <algorithm>
+#include <array>
 #include <ranges>
 
 #include <calculator/calculator.hpp>
 
 #include "Common/AsstTypes.h"
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/InfrastConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
@@ -356,6 +359,20 @@ bool asst::InfrastProductionTask::shift_facility_list()
             cur_product_for_non_custom_drone.clear();
         }
 
+        if (m_default_mode && m_task_data && facility_name() == "Mfg") {
+            if (cur_product_detection_valid && m_product == "PureGold") {
+                m_task_data->gold_station_indices.emplace(m_cur_facility_index);
+            }
+            else {
+                m_task_data->gold_station_indices.erase(m_cur_facility_index);
+            }
+            m_task_data->gold_station_num = static_cast<int>(m_task_data->gold_station_indices.size());
+        }
+
+        if (m_inspect_only) {
+            continue;
+        }
+
         /*启用自定义基建时，如果产物不一致则直接更换产物*/
         if (m_is_custom && m_is_product_incorrect) {
             if (!change_product()) {
@@ -383,6 +400,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 match_operator_groups();
             }
 
+            bool selection_ready = false;
             for (int i = 0; i <= OperSelectRetryTimes; ++i) {
                 if (need_exit()) {
                     return false;
@@ -391,6 +409,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 if (is_use_custom_opers()) {
                     bool name_select_ret = swipe_and_select_custom_opers();
                     if (name_select_ret) {
+                        selection_ready = true;
                         break;
                     }
                     else {
@@ -418,11 +437,18 @@ bool asst::InfrastProductionTask::shift_facility_list()
                     swipe_to_the_left_of_operlist();
                     continue;
                 }
+                selection_ready = true;
                 break;
             }
-            click_confirm_button();
+            if (!selection_ready) {
+                discard_pending_selection();
+                return false;
+            }
+            if (!click_confirm_button()) {
+                return false;
+            }
         }
-        else {
+        else if (m_skip_shift) {
             Log.info("skip shift in rotation mode");
         }
 
@@ -491,9 +517,6 @@ size_t asst::InfrastProductionTask::opers_detect()
     const int face_hash_thres = Task.get("InfrastOperFace")->special_params[0];
     const size_t pre_size = m_all_available_opers.size();
     for (const auto& cur_oper : cur_all_opers) {
-        if (cur_oper.skills.empty()) {
-            continue;
-        }
         {
             std::string skills_str = "[";
             for (const auto& skill : cur_oper.skills) {
@@ -507,6 +530,7 @@ size_t asst::InfrastProductionTask::opers_detect()
             //--cur_available_num;
             continue;
         }
+
         auto find_iter = std::ranges::find_if(m_all_available_opers, [&](const infrast::Oper& oper) -> bool {
             if (oper.skills != cur_oper.skills) {
                 return false;
@@ -520,9 +544,58 @@ size_t asst::InfrastProductionTask::opers_detect()
         if (find_iter != m_all_available_opers.cend()) {
             continue;
         }
-        m_all_available_opers.emplace_back(cur_oper);
+
+        auto resolved_oper = cur_oper;
+
+        // 技能集合无法唯一确定身份时，通过姓名确认具体干员。身份仍有歧义时只计算通用技能效果，
+        // 不触发依赖具体干员的特殊加成和跨设施联动。
+        if (m_default_mode && resolved_oper.operator_id.empty() &&
+            (!resolved_oper.skills.empty() || facility_name() == "Control")) {
+            resolve_operator_identity(resolved_oper);
+        }
+
+        if (resolved_oper.skills.empty()) {
+            const bool swire = facility_name() == "Control" && resolved_oper.operator_id == "char_308_swire";
+            if (!swire) {
+                continue;
+            }
+        }
+
+        if (!resolved_oper.operator_id.empty()) {
+            Log.trace("infrastructure operator candidate", facility_name(), resolved_oper.operator_id);
+        }
+        m_all_available_opers.emplace_back(std::move(resolved_oper));
     }
     return m_all_available_opers.size() - pre_size;
+}
+
+bool asst::InfrastProductionTask::resolve_operator_identity(infrast::Oper& oper) const
+{
+    if (!oper.operator_id.empty()) {
+        return true;
+    }
+
+    RegionOCRer name_analyzer(oper.name_img);
+    const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    name_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+    name_analyzer.set_bin_expansion(0);
+    const auto name = name_analyzer.analyze();
+    if (!name) {
+        return false;
+    }
+
+    const std::string operator_id = BattleData.get_id(name->text);
+    if (!infrast::operator_id_matches_candidates(oper.operator_ids, operator_id)) {
+        if (!operator_id.empty()) {
+            Log.warn("infrastructure operator identity conflicts with skills", name->text, operator_id);
+        }
+        return false;
+    }
+
+    oper.operator_ids = { operator_id };
+    oper.operator_id = operator_id;
+    Log.trace("infrastructure operator identity", facility_name(), name->text, operator_id);
+    return true;
 }
 
 bool asst::InfrastProductionTask::optimal_calc()
@@ -536,6 +609,68 @@ bool asst::InfrastProductionTask::optimal_calc()
     if (cur_max_num_of_opers == 0) {
         Log.warn("no need select opers");
         m_optimal_combs.clear();
+        return true;
+    }
+
+    if (m_default_mode) {
+        infrast::ScoreContext context;
+        context.facility = facility_name();
+        context.product = m_product;
+        context.slots = cur_max_num_of_opers;
+        context.level = cur_max_num_of_opers;
+        context.mood_threshold = m_mood_threshold;
+        if (m_task_data) {
+            context.dormitory_capacity = m_task_data->dormitory_capacity;
+            context.dormitory_level_sum = m_task_data->dormitory_level_sum;
+            context.gold_station_num = m_task_data->gold_station_num;
+            context.trading_station_num = m_task_data->trading_station_num;
+            context.power_station_num = m_task_data->power_station_num;
+            context.virtual_power_station_num = m_task_data->virtual_power_station_num;
+            context.total_station_level = m_task_data->total_station_level;
+            context.workbench_num = m_task_data->workbench_num;
+            context.selected_operator_ids = m_task_data->operator_ids;
+        }
+        context.use_pinus_sylvestris = m_pinus_sylvestris_enabled;
+        context.use_perception_information = m_perception_information_enabled;
+        context.use_worldly_plight = m_worldly_plight_enabled;
+        context.use_abyssal_hunter = m_abyssal_hunter_enabled;
+
+        std::vector<infrast::ScoreOper> score_opers;
+        score_opers.reserve(m_all_available_opers.size());
+        for (const auto& oper : m_all_available_opers) {
+            infrast::ScoreOper score_oper;
+            for (const auto& skill : oper.skills) {
+                score_oper.skills.emplace(skill.id);
+            }
+            score_oper.operator_id = oper.operator_id;
+            score_oper.face_hash = oper.face_hash;
+            score_oper.mood_ratio = oper.mood_ratio;
+            score_opers.emplace_back(std::move(score_oper));
+        }
+        infrast::append_abyssal_hunter_candidates(score_opers, context);
+
+        const auto result = infrast::select_best_opers(score_opers, context);
+        m_optimal_combs.clear();
+        m_optimal_combs.reserve(result.indices.size());
+        for (const size_t index : result.indices) {
+            infrast::SkillsComb comb;
+            if (index < m_all_available_opers.size()) {
+                const auto& oper = m_all_available_opers.at(index);
+                comb = efficient_regex_calc(oper.skills);
+                comb.face_hash = oper.face_hash;
+                comb.operator_ids = oper.operator_ids;
+                comb.operator_id = oper.operator_id;
+                comb.name_img = oper.name_img;
+            }
+            else {
+                const auto& oper = score_opers.at(index);
+                comb.operator_ids = { oper.operator_id };
+                comb.operator_id = oper.operator_id;
+                comb.desc = std::string(infrast::AbyssalHunterSkill);
+            }
+            m_optimal_combs.emplace_back(std::move(comb));
+        }
+        Log.info("infrastructure optimal score", facility_name(), result.score, "operators", result.indices.size());
         return true;
     }
 
@@ -769,9 +904,100 @@ bool asst::InfrastProductionTask::optimal_calc()
     return true;
 }
 
+size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std::string>& operator_ids)
+{
+    LogTraceFunction;
+    if (operator_ids.empty()) {
+        return 0;
+    }
+
+    std::unordered_set<std::string> remaining(operator_ids.begin(), operator_ids.end());
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    size_t selected = 0;
+    const auto& candidates = infrast::get_abyssal_hunter_candidates();
+
+    const bool expanded = ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run();
+    if (expanded) {
+        constexpr std::array<battle::Role, 2> Roles = { battle::Role::Warrior, battle::Role::Sniper };
+        for (const battle::Role role : Roles) {
+            const std::string role_name = enum_to_string(role, true);
+            const bool has_target = std::ranges::any_of(candidates, [&](const auto& candidate) {
+                return candidate.role == role && remaining.contains(candidate.operator_id);
+            });
+            if (!has_target) {
+                continue;
+            }
+
+            ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" })
+                .set_retry_times(0)
+                .run();
+            const std::string task_name = "BattleQuickFormationRole-" + role_name;
+            if (!ProcessTask(*this, { task_name }).set_retry_times(0).run()) {
+                Log.warn("failed to select abyssal hunter role", role_name);
+                continue;
+            }
+            sleep(200);
+
+            for (int page = 0; page < 18 && !remaining.empty() && !need_exit(); ++page) {
+                const auto image = ctrler()->get_image();
+                InfrastOperImageAnalyzer oper_analyzer(image);
+                oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
+                if (oper_analyzer.analyze()) {
+                    oper_analyzer.sort_by_loc();
+                    for (const auto& oper : oper_analyzer.get_result()) {
+                        RegionOCRer name_analyzer(oper.name_img);
+                        name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+                        name_analyzer.set_bin_expansion(0);
+                        const auto name = name_analyzer.analyze();
+                        if (!name) {
+                            continue;
+                        }
+
+                        const std::string operator_id = BattleData.get_id(name->text);
+                        const auto candidate = std::ranges::find_if(candidates, [&](const auto& info) {
+                            return info.operator_id == operator_id && info.role == role;
+                        });
+                        if (candidate == candidates.end() || !remaining.contains(operator_id)) {
+                            continue;
+                        }
+
+                        if (!oper.selected) {
+                            ctrler()->click(oper.rect);
+                            sleep(100);
+                        }
+                        stage_operator_selection(operator_id);
+                        remaining.erase(operator_id);
+                        ++selected;
+                    }
+                }
+
+                const bool role_complete = std::ranges::none_of(candidates, [&](const auto& candidate) {
+                    return candidate.role == role && remaining.contains(candidate.operator_id);
+                });
+                if (role_complete) {
+                    break;
+                }
+                swipe_of_operlist();
+            }
+        }
+    }
+    else {
+        Log.warn("failed to expand role list for abyssal hunter selection");
+    }
+
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).set_retry_times(0).run();
+    close_quick_formation_expand_role();
+
+    for (const auto& operator_id : remaining) {
+        Log.warn("abyssal hunter operator not found, skip", operator_id);
+    }
+    return selected;
+}
+
 bool asst::InfrastProductionTask::opers_choose()
 {
     LogTraceFunction;
+    discard_pending_selection();
     bool has_error = false;
 
     auto& facility_info = InfrastData.get_facility_info(facility_name());
@@ -782,7 +1008,16 @@ bool asst::InfrastProductionTask::opers_choose()
     int count = 0;
     int swipe_times = 0;
 
-    while (true) {
+    std::vector<std::string> abyssal_hunter_ids;
+    std::erase_if(m_optimal_combs, [&](const infrast::SkillsComb& comb) {
+        if (facility_name() != "Mfg" || !infrast::is_abyssal_hunter(comb.operator_id)) {
+            return false;
+        }
+        abyssal_hunter_ids.emplace_back(comb.operator_id);
+        return true;
+    });
+
+    while (!m_optimal_combs.empty()) {
         if (need_exit()) {
             return false;
         }
@@ -816,10 +1051,19 @@ bool asst::InfrastProductionTask::opers_choose()
         });
         Log.trace("after mood filter, opers size:", cur_all_opers.size());
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
-            Log.trace("to find", opt_iter->skills.begin()->names.front());
+            Log.trace(
+                "to find",
+                opt_iter->skills.empty() ? opt_iter->operator_id : opt_iter->skills.begin()->names.front());
             auto find_iter = std::ranges::find_if(cur_all_opers, [&](const infrast::Oper& lhs) -> bool {
                 if (lhs.skills != opt_iter->skills) {
                     return false;
+                }
+                if (!opt_iter->face_hash.empty()) {
+                    const int dist = Hasher::hamming(lhs.face_hash, opt_iter->face_hash);
+                    Log.debug("opers_choose | expected face hash dist", dist);
+                    if (dist >= face_hash_thres) {
+                        return false;
+                    }
                 }
                 if (opt_iter->name_filter.empty()) {
                     return true;
@@ -864,6 +1108,7 @@ bool asst::InfrastProductionTask::opers_choose()
                     return dist < face_hash_thres;
                 });
                 if (avlb_iter != m_all_available_opers.cend()) {
+                    stage_operator_selection(avlb_iter->operator_id);
                     m_all_available_opers.erase(avlb_iter);
                 }
                 else {
@@ -875,11 +1120,6 @@ bool asst::InfrastProductionTask::opers_choose()
             opt_iter = m_optimal_combs.erase(opt_iter);
         }
         if (m_optimal_combs.empty()) {
-            Log.trace(__FUNCTION__, "| count", count, "cur_max_num_of_opers", cur_max_num_of_opers);
-            if (count < cur_max_num_of_opers) {
-                // 这种情况可能是萌新，可用干员人数不足以填满当前设施
-                callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("NotEnoughStaff"));
-            }
             break;
         }
 
@@ -890,6 +1130,12 @@ bool asst::InfrastProductionTask::opers_choose()
 
     if (swipe_times) {
         swipe_to_the_left_of_operlist(swipe_times + 1);
+    }
+    count += static_cast<int>(select_abyssal_hunters(abyssal_hunter_ids));
+    Log.trace(__FUNCTION__, "| count", count, "cur_max_num_of_opers", cur_max_num_of_opers);
+    if (count < cur_max_num_of_opers) {
+        // 这种情况可能是萌新，可用干员人数不足以填满当前设施
+        callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("NotEnoughStaff"));
     }
     // 点两次排序，让已选干员排到最前面
     ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run();

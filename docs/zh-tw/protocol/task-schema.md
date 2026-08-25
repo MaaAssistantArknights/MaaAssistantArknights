@@ -151,6 +151,9 @@ icon: material-symbols:task
                                             // false 時只要是子字串即可：例如 text: [ "開始" ]，實際辨識到了 "開始行動"，也算辨識成功；
                                             // true 時則必須辨識到了 "開始"，多一個字都不行
 
+        "replaceFull": false,               // 選填，ocrReplace 命中時是否替換整段辨識文字，預設為 false
+                                            // false 時僅替換命中的子字串；true 時只要整段文字命中任一替換規則，就將整段文字替換為該規則的替換值
+
         "isAscii": false,                   // 選填，要辨識的文字內容是否為 ASCII 碼字元
                                             // 不填寫預設為 false
 

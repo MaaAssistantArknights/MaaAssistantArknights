@@ -460,7 +460,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @optional
 シフト作業モード。
 <br>
-`0` - `Default`：デフォルト シフト モード、単一施設の最適解。
+`0` - `Default`：デフォルト シフト モード。施設内および施設横断を含む効率の高いオペレーターコンビを自動計算します。
 <br>
 `10000` - `Custom`：カスタム シフト モード。ユーザー構成を読み込みます。[基地スケジューリング プロトコル](./base-scheduling-schema.md)を参照してください。
 <br>
@@ -469,7 +469,9 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 ::: field facility  
 @type array<string>
 @required
-シフト対象施設（順序付け）。実行中の設定はサポートされていません。
+シフト対象施設。実行中の設定はサポートされていません。
+<br>
+`mode = 0` の場合、この配列は有効化セットとして扱われ、順序と重複はスケジューリングに影響しません（交代順序はアルゴリズムが自動的に決定します）。`mode = 10000` / `20000` の場合は配列の順序で処理されます。
 <br>
 施設名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
 :::  
@@ -508,6 +510,38 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @default false
 @optional
 宿舎の残りの位置を信頼が満たされていないオペレーターで追加するかどうか。  
+:::  
+::: field fiammetta_targets  
+@type array<string>
+@default ["清流", "可露希尔", "但书"]
+@optional
+フィアメッタの回復対象リスト。交代時、リスト内で現在の体力が最も低い対象オペレーターがフィアメッタとともに優先的に寮へ配置されます。`mode = 0` の場合のみ有効です。
+<br>
+オプション：`清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅`（オプション外または重複するエントリは無視されます）  
+:::  
+::: field use_pinus_sylvestris  
+@type boolean
+@default false
+@optional
+｢レッドパイン騎士団｣の施設横断コンボを有効にするかどうか。`mode = 0` の場合のみ有効です。  
+:::  
+::: field use_perception_information  
+@type boolean
+@default false
+@optional
+｢感知情報｣の施設横断コンボを有効にするかどうか。｢俗世の憂い｣より優先されます。`mode = 0` の場合のみ有効です。  
+:::  
+::: field use_worldly_plight  
+@type boolean
+@default false
+@optional
+｢俗世の憂い｣の施設横断コンボを有効にするかどうか。`mode = 0` の場合のみ有効です。  
+:::  
+::: field use_abyssal_hunter  
+@type boolean
+@default false
+@optional
+｢アビサルハンター｣の施設横断コンボを有効にするかどうか。`mode = 0` の場合のみ有効です。｢レッドパイン騎士団｣と同時に有効化した場合、両者は同時に交代対象になりません。  
 :::  
 ::: field reception_message_board  
 @type boolean
@@ -744,7 +778,9 @@ OF-1 実行時に使用する編成スロットのインデックス。
 <br>
 `Sarkaz` - サルカズの炉辺奇談
 <br>
-`JieGarden` - 歳の界園志異  
+`JieGarden` - 歳の界園志異
+<br>
+`BlackFlow` - 黒流樹海  
 :::  
 ::: field mode  
 @type number
@@ -767,6 +803,8 @@ OF-1 実行時に使用する編成スロットのインデックス。
 `6` - 月次小隊を稼ぎ、モード 0 と同じですがモード固有の適応あり。
 <br>
 `7` - 多面調査を稼ぎ、モード 0 と同じですがモード固有の適応あり。
+<br>
+`30001` - 襁褓動物の入手。BlackFlow テーマ専用。
 :::  
 ::: field squad  
 @type string
@@ -805,9 +843,9 @@ OF-1 実行時に使用する編成スロットのインデックス。
 :::  
 ::: field difficulty  
 @type number
-@default 0
+@default -1
 @optional
-難易度を指定。未解放の場合は、現在解放されている最高難易度を選択。  
+難易度を指定。`-1` は指定なし。未解放の場合は、現在解放されている最高難易度を選択。  
 :::  
 ::: field stop_at_final_boss  
 @type boolean
@@ -950,14 +988,30 @@ OF-1 実行時に使用する編成スロットのインデックス。
 湯沸かしモードで使用する分隊、デフォルトで squad と同期、squad が空文字列で collectible_mode_squad が指定されていない場合は指揮分隊。  
 :::  
 ::: field start_with_seed  
-@type boolean
-@default false
+@type string
 @optional
-シードモード刷錠を使用。
+シード刷錠に使用する固定シード。空欄の場合は無効。
 <br>
-Sarkaz テーマ、Investment モード、「破棘成金分隊」または「支援分隊」の場合のみ true の可能性あり。
+Sarkaz テーマ、Investment モード、「破棘成金分隊」または「支援分隊」の場合のみ有効。  
+:::  
+::: field blackflow_strategy  
+@type string
+@optional
+黒流樹海テーマの戦略。空欄の場合は `mode` と `investment_enabled` から推測されます。
 <br>
-固定シードを使用。  
+`baby_animal` - 1階層で一般商店を確認し、2・3階層を探索して秘境行商（シークレット商人）で種を育成します。`blackflow_cultivation_target` との併用が必要です
+<br>
+`investment` - 1階層を戦闘回数が最も少なく所要時間が最も短いルートで、固定の一般商店に到達します
+<br>
+`burn_with_investment` - 1階層で投資を完了した後、できるだけ早く3階層に到達し、到着次第再開します
+<br>
+`burn` - できるだけ早く3階層に到達し、到着次第再開します  
+:::  
+::: field blackflow_cultivation_target  
+@type string
+@default swaddled_cat
+@optional
+襁褓動物育成モードの目標。選択可能な値：`swaddled_cat`（襁褓の猫）| `swaddled_feathered_serpent`（襁褓の羽蛇）| `swaddled_dog`（襁褓の犬）| `swaddled_cerberus`（襁褓のケルベロス）。`blackflow_strategy` が `baby_animal` の場合のみ使用されます。  
 :::  
 ::::
 
@@ -1006,7 +1060,7 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
    "deep_exploration_auto_iterate": false,
    "collectible_mode_shopping": false,
    "collectible_mode_squad": "",
-   "start_with_seed": false
+   "start_with_seed": ""
 }
 ```
 
@@ -1077,7 +1131,7 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
   <br>
 - `name`: オペレーター名。可選、デフォルト ""。空の場合は無視
   <br>
-- `skill`: 使用スキル。可選、デフォルト 1。1～3 の整数。範囲外の場合はゲーム内デフォルトを使用  
+- `skill`: 使用スキル。可選、デフォルト 0（ゲーム内デフォルトのスキル選択に従う）。1～3 の整数。範囲外の場合もゲーム内デフォルトを使用  
   :::  
   ::: field add_trust  
   @type boolean
@@ -1601,7 +1655,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 @type string
 @default minitouch
 @optional
-タッチ モード設定。可能な値：minitouch | maatouch | adb | MaaFwAdb。デフォルト minitouch。列挙値：2。  
+タッチ モード設定。可能な値：minitouch | maatouch | adb | MaaFwAdb | MumuExtras。デフォルト minitouch。列挙値：2。  
 :::  
 ::: field DeploymentWithPause  
 @type boolean

@@ -169,6 +169,25 @@
     <system:String x:Key="InfrastReceptionSendClue">贈送線索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中設定並執行</system:String>
     <system:String x:Key="ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
+    <system:String x:Key="InfrastFiammettaTargets">菲亞梅塔恢復目標</system:String>
+    <system:String x:Key="InfrastFiammettaTargetNone">無</system:String>
+    <system:String x:Key="InfrastFiammettaTargetPurestream">清流</system:String>
+    <system:String x:Key="InfrastFiammettaTargetClosure">可露希爾</system:String>
+    <system:String x:Key="InfrastFiammettaTargetProviso">但書</system:String>
+    <system:String x:Key="InfrastFiammettaTargetShamare">巫戀</system:String>
+    <system:String x:Key="InfrastFiammettaTargetTequila">龍舌蘭</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGladiia">歌蕾蒂婭</system:String>
+    <system:String x:Key="InfrastFiammettaTargetsTips">雖然理論上恢復巫戀和龍舌蘭可以 007，但自動換班情況下難以實現，因此不推薦選擇恢復巫戀和龍舌蘭</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestris">使用紅松騎士團跨設施組合</system:String>
+    <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">必要幹員：焰尾（精二）、薇薇安娜（精二）、野鬃（精二）/灰毫（精二）/遠牙（精二）至少一個&#10;參與計算幹員：礫</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformation">使用感知資訊跨設施組合</system:String>
+    <system:String x:Key="InfrastUsePerceptionInformationTips" xml:space="preserve">必要幹員：絮雨（精二）、迷迭香（精二）、黑鍵（精二）&#10;參與計算幹員：夕、塑心、愛麗絲、車爾尼&#10;優先度高於人間煙火</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlight">使用人間煙火跨設施組合</system:String>
+    <system:String x:Key="InfrastUseWorldlyPlightTips" xml:space="preserve">必要幹員：桑葚（精二）、烏有（精二）&#10;參與計算幹員：重岳、令、夕</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunter">使用深海獵人跨設施組合</system:String>
+    <system:String x:Key="InfrastUseAbyssalHunterTips" xml:space="preserve">必要幹員：歌蕾蒂婭（精二）、烏爾比安、斯卡蒂、幽靈鯊、安哲拉&#10;因演算法原因同時勾選紅松騎士團時不會和紅松騎士團同時參與排班</system:String>
+    <system:String x:Key="InfrastFacilitySelection">換班設施</system:String>
+    <system:String x:Key="InfrastFacilitySelectionTip" xml:space="preserve">｢{key=InfrastModeNormal}｣ 下換班順序由演算法統一安排，此處僅選擇需要換班的設施類別，列表順序不生效。&#10;若需自訂換班順序，請使用 ｢{key=InfrastModeCustom}｣。</system:String>
     <system:String x:Key="TrainingIdle">訓練室空閒中</system:String>
     <system:String x:Key="TrainingCompleted">訓練完成</system:String>
     <system:String x:Key="TrainingLevel">專精等級</system:String>
@@ -552,9 +571,9 @@ D:\
     <system:String x:Key="MiniTouchMode">Minitouch（預設）</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch（實驗功能）</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input（不推薦使用）</system:String>
-    <system:String x:Key="MaaFwAdbTouchMode">MaaFramework（實驗功能）</system:String>
+    <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb（實驗功能）</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu 觸控增強（實驗功能）</system:String>
-    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 僅用於相容系統版本過低的實體機裝置。能用其他模式時，不要選擇 ADB Input。&#10;ADB Input 的滑動容易拖飛，為避免此問題，滑動速度會設定得非常慢，且滑動距離與其他模式不同；在需要精確控制座標的場景下無法使用。</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 僅用於相容系統版本過低的實體機裝置，能用其他模式時不要選擇。&#10;ADB Input 的滑動容易拖飛，為此滑動速度會設定得非常慢，且滑動距離與其他模式不同，需要精確控制座標的場景下無法使用。&#10;&#10;MaaFwAdb 不支援額外滑動，依賴額外滑動防止拖飛的頁面在該模式下會拖飛。&#10;額外滑動是主滑動結束後沿垂直方向追加一小段的 ｢剎車｣ 滑動（軌跡類似拐 90° 的 L 形），用於抵消列表慣性。</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用於指定模擬器啟動參數（如 ｢--instance 1｣ 表示啟動 1 號實例）。&#10;不同模擬器的命令格式不同，通常包括實例編號、視窗模式等參數，請參考您使用的模擬器說明文件。</system:String>
     <system:String x:Key="StartsWithScript">開始前腳本</system:String>
@@ -744,6 +763,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionAddressTip">開啟 ｢{key=AutoDetectConnection}｣ 並成功後會自動填入。若偵測失敗，請查到模擬器的實際連接埠後填入。</system:String>
     <system:String x:Key="ConnectionPreset">連線配置</system:String>
     <system:String x:Key="ScreenshotTest">截圖測試</system:String>
+    <system:String x:Key="WindowRestore">視窗復原</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">啟用 MuMu 觸控增強（實驗性，需 MuMu 模擬器 6.3.2+，支援背景保活）</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">找不到 MuMu 模擬器路徑。</system:String>
@@ -754,7 +774,7 @@ nx_device/12.0/shell/sdk/external_renderer_ipc.dll 或
 shell/sdk/external_renderer_ipc.dll\n
 請確認安裝目錄。</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-需使用官版或方舟專版 MuMu V4.0.0 或更新版本，國際版需 V5.21.3 或更新版本。
+需使用官版或方舟專版 MuMu V4.1.26 或更新版本，國際版需 V5.21.3 或更新版本。
 強烈建議在開啟本功能後立刻執行一次截圖測試。
 MAA 會自動透過登錄檔取得安裝路徑，若取得失敗則請手動填寫。\n
 安裝路徑應填寫模擬器安裝目錄的根目錄，例如模擬器執行檔路徑為：
@@ -1379,7 +1399,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC 端滑鼠為獨立渲染，可能遮擋掉落物及數量辨識。為避免錯誤資料污染資料池，已自動跳過本次上報</system:String>
     <system:String x:Key="TheEx">無獎勵關卡，已停止</system:String>
-    <system:String x:Key="MissingOperators">以下{key=Operator}組內的{key=Operator}均未擁有（每組只需其一）：\n{0}｢特別關注｣ 可能影響{key=Operator}辨識，上述{key=Operator}若已擁有，請移除後重試；若未擁有，僅缺一組時可使用 ｢{key=SupportUnitUsage}｣，缺兩組以上請更換作業。</system:String>
+    <system:String x:Key="MissingOperators">以下{key=Operator}組內的{key=Operator}均未擁有（每組只需其一）：\n{0}｢特別關注｣ 可能影響{key=Operator}辨識，若實際已擁有，可移除 ｢特別關注｣ 後重試，或關閉 ｢{key=AutoSquad}｣ 手動補充；若確實未擁有，僅缺一組時可使用 ｢{key=SupportUnitUsage}｣，缺兩組以上請更換作業。</system:String>
     <system:String x:Key="RecruitSupportOperator">編入助戰{key=Operator}：{0}</system:String>
     <system:String x:Key="StageQueue">關卡佇列：</system:String>
     <system:String x:Key="UnableToAgent">無法使用代理指揮</system:String>
@@ -1706,7 +1726,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowScreencapMethod">截圖方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">滑鼠輸入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">鍵盤輸入</system:String>
-    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（背景，高效，可最小化）</system:String>
+    <system:String x:Key="AttachWindowScreencapFramePool">FramePool（背景，高效，不可最小化）</system:String>
     <system:String x:Key="AttachWindowScreencapPrintWindow">PrintWindow（背景，穩定，可最小化）</system:String>
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（背景，備用，不可最小化）</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（前台，不可遮擋）</system:String>
@@ -2409,7 +2429,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
     <system:String x:Key="Achievement.SlackingOff.Title">不務正業</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">正事做累了，玩點別的。</system:String>
-    <system:String x:Key="Achievement.SlackingOff.Conditions">啟動一次小遊戲</system:String>
+    <system:String x:Key="Achievement.SlackingOff.Conditions">啟動一次{key=MiniGame}</system:String>
 
     <system:String x:Key="AchievementDlcProgressNotice">成就 DLC 標識：#1 隨成就系統首發，後續 DLC 由版本更新追加。部分成就的進度需在所屬 DLC 上線後方可累計。</system:String>
     <system:String x:Key="AchievementDlcReleaseDate">上線日期</system:String>

@@ -906,17 +906,31 @@ private:
 
 #ifdef _WIN32
     // SEH 未处理异常过滤器
-    static LONG WINAPI unhandled_exception_filter([[maybe_unused]] PEXCEPTION_POINTERS pExceptionInfo)
+    // 记录异常信息后返回 EXCEPTION_CONTINUE_SEARCH 交给 WER 按未处理异常处理，以便在配置了
+    // LocalDumps 的环境下落下 MAA.exe.*.dmp（默认路径为 %LocalAppData%\CrashDumps），由 GUI 下次启动时收集。
+    // 注意只读 pExceptionInfo，不要改写 ContextRecord 以免污染 WER 抓取到的调用栈。
+    static LONG WINAPI unhandled_exception_filter(PEXCEPTION_POINTERS pExceptionInfo) noexcept
     {
         try {
+            const auto& er = *pExceptionInfo->ExceptionRecord;
             auto& logger = Logger::get_instance();
             logger.error("=== UNHANDLED EXCEPTION ===");
             logger.error("Version", MAA_VERSION);
             logger.error("Built at", __DATE__, __TIME__);
             logger.error("User Dir", UserDir.get());
+            logger.error("ExceptionCode", std::format("{:#010x}", static_cast<unsigned>(er.ExceptionCode)));
+            logger.error("ExceptionAddress", er.ExceptionAddress);
+            logger.error("ExceptionParameters", er.NumberParameters);
+            if (er.ExceptionCode == EXCEPTION_ACCESS_VIOLATION && er.NumberParameters >= 2) {
+                logger.error(
+                    "AccessViolation",
+                    er.ExceptionInformation[0] ? "write" : "read",
+                    "at",
+                    reinterpret_cast<const void*>(er.ExceptionInformation[1]));
+            }
             logger.error("============================");
             logger.flush();
-            write_crash_file("UNHANDLED EXCEPTION");
+            write_crash_file("UNHANDLED EXCEPTION (handed over to WER for dump)");
         }
         catch (...) {
             std::cerr << "=== FATAL ERROR ===" << std::endl;
@@ -925,8 +939,7 @@ private:
             std::cerr << "===================" << std::endl;
         }
 
-        // 返回 EXCEPTION_EXECUTE_HANDLER 让程序正常终止
-        return EXCEPTION_EXECUTE_HANDLER;
+        return EXCEPTION_CONTINUE_SEARCH;
     }
 #endif
 
@@ -1098,6 +1111,15 @@ private:
         std::_Exit(EXIT_FAILURE);
     }
 
+#ifdef _WIN32
+    // terminate handler 必须在终止进程前结束，标准禁止其返回；不能直接复用会正常返回的 custom_terminate_handler。
+    [[noreturn]] static void windows_terminate_handler() noexcept
+    {
+        custom_terminate_handler();
+        std::_Exit(EXIT_FAILURE);
+    }
+#endif
+
 #ifdef __ANDROID__
     [[noreturn]] static void android_terminate_handler() noexcept
     {
@@ -1109,8 +1131,9 @@ private:
     static void initialize_exception_handlers()
     {
 #ifdef _WIN32
-        // Windows: 设置未处理异常过滤器
+        // Windows: 未处理硬件异常由过滤器记录后交给 WER 收集 dump；C++ 未捕获异常由 terminate 处理程序可靠记录
         SetUnhandledExceptionFilter(unhandled_exception_filter);
+        std::set_terminate(windows_terminate_handler);
 #endif
 #ifdef __ANDROID__
         std::set_terminate(android_terminate_handler);

@@ -715,7 +715,7 @@ bool asst::BattleHelper::wait_until_start(bool weak)
 {
     LogTraceFunction;
 
-    constexpr auto timeout_duration = std::chrono::minutes(1);
+    const auto timeout_duration = std::chrono::seconds(Config.get_options().battle_start_timeout_seconds);
     const auto start_time = std::chrono::steady_clock::now();
 
     cv::Mat image = m_inst_helper.ctrler()->get_image();
@@ -761,7 +761,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
     const cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     for (const auto& [oper_tag, loc] : m_battlefield_opers) {
         const auto& skill_it = std::ranges::find_if(m_skill_usage, [&](const auto& pair) {
-            return (oper_tag.role == battle::Role::Unknown || pair.first.role == oper_tag.role) &&
+            return (pair.first.role == battle::Role::Unknown || pair.first.role == oper_tag.role) &&
                    pair.first.name == oper_tag.name;
         });
         battle::OperNameTag skill_tag;
