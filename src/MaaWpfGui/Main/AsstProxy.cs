@@ -1157,6 +1157,7 @@ public class AsstProxy
 
             switch (avgInt)
             {
+                // 日志提示
                 case >= 800:
                     AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapErrorTip", avgInt), UiLogColor.Warning);
                     AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge1);
@@ -1169,6 +1170,7 @@ public class AsstProxy
 
                 default:
                     {
+                        // 高配电脑未开截图增强时耗时也常在 100ms 以上，此档不告警，仅提示可优化
                         if (avgInt >= 100 && SettingsViewModel.ConnectSettings.ScreencapMethod is not ("MumuExtras" or "LDExtras"))
                         {
                             AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapInfoTip", avgInt), UiLogColor.Info);
