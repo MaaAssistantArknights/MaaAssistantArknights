@@ -2099,6 +2099,10 @@ public class AsstProxy
                 ProcRecruitCalcMsg(details);
                 break;
 
+            case "OperatorDevelopment":
+                ProcOperatorDevelopmentMsg(details);
+                break;
+
                 /*
                 case "VideoRecognition":
                     ProcVideoRecMsg(details);
@@ -2713,6 +2717,49 @@ public class AsstProxy
         }
     }
 
+    private static void ProcOperatorDevelopmentMsg(JObject message)
+    {
+        string what = message["what"]?.ToString() ?? string.Empty;
+        JToken? details = message["details"];
+        switch (what)
+        {
+            case "OperatorDevelopmentTargetStart":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "OperatorDevelopmentTargetStartLog",
+                        (int)(details?["index"] ?? 0) + 1,
+                        details?["name"] ?? string.Empty,
+                        details?["action"] ?? string.Empty,
+                        details?["target"] ?? 0),
+                    UiLogColor.Info,
+                    splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                break;
+
+            case "OperatorDevelopmentTargetResult":
+                string result = details?["result"]?.ToString() ?? "unsupported";
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "OperatorDevelopmentTargetResultLog",
+                        (int)(details?["index"] ?? 0) + 1,
+                        details?["name"] ?? string.Empty,
+                        result),
+                    result is "completed" or "already_satisfied" ? UiLogColor.Success :
+                    result == "skipped" ? UiLogColor.Warning : UiLogColor.Error);
+                break;
+
+            case "OperatorDevelopmentSummary":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "OperatorDevelopmentSummaryLog",
+                        details?["completed"] ?? 0,
+                        details?["already_satisfied"] ?? 0,
+                        details?["failed"] ?? 0,
+                        details?["skipped"] ?? 0),
+                    (int)(details?["failed"] ?? 0) == 0 ? UiLogColor.Success : UiLogColor.Warning);
+                break;
+        }
+    }
+
     private static void ProcRecruitCalcMsg(JObject details)
     {
         Instances.ToolboxViewModel.ProcRecruitMsg(details);
@@ -3244,6 +3291,9 @@ public class AsstProxy
         /// <summary>理智作战</summary>
         Fight,
 
+        /// <summary>干员培养</summary>
+        OperatorDevelopment,
+
         /// <summary>自动公招</summary>
         Recruit,
 
@@ -3302,8 +3352,9 @@ public class AsstProxy
     [
         TaskType.StartUp,
         TaskType.Fight,
-        TaskType.Recruit,
+        TaskType.OperatorDevelopment,
         TaskType.Infrast,
+        TaskType.Recruit,
         TaskType.Mall,
         TaskType.Award,
         TaskType.Roguelike,

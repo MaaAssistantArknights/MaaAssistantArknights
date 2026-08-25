@@ -586,6 +586,12 @@
                                 DataContext="{Binding FightTask}"
                                 Visibility="{c:Binding DataContext.TaskSettingVisibilities.Fight,
                                                        RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                       AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:OperatorDevelopmentSettingsUserControl
+                                DataContext="{Binding OperatorDevelopmentTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.OperatorDevelopment,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                       AncestorType={x:Type UserControl}}}" />
                             <taskQueue:RecruitSettingsUserControl
                                 DataContext="{Binding RecruitTask}"

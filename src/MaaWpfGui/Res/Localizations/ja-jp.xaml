@@ -172,7 +172,6 @@
     <system:String x:Key="ClueExchangeUnlocked">手がかり交換を開始しました</system:String>
     <system:String x:Key="InfrastReceptionSendClue">手がかりを贈る</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">{key=Infrast} で以下の関数を設定して実行する必要があります</system:String>
-    <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">フィアメッタの体力回復を有効化</system:String>
     <system:String x:Key="InfrastFiammettaRecoveryTips">有効にすると、交代開始時に回復対象と体力が全快のフィアメッタを宿舎に入れて体力を交換し、その後フィアメッタは宿舎で回復します。</system:String>
     <system:String x:Key="InfrastFiammettaTargets">フィアメッタの回復対象</system:String>
@@ -854,6 +853,27 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">作戦</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
+    <system:String x:Key="OperatorDevelopment">オペレーター育成</system:String>
+    <system:String x:Key="OperatorDevelopmentParsePlan">プランを解析</system:String>
+    <system:String x:Key="OperatorDevelopmentPlanValid">現在のテキストは解析済みです</system:String>
+    <system:String x:Key="OperatorDevelopmentPlanPending">テキストが変更されました。実行時は最後に解析成功したプランを使用します</system:String>
+    <system:String x:Key="OperatorDevelopmentPlanParsed">プランを解析しました：{0} 件</system:String>
+    <system:String x:Key="OperatorDevelopmentJsonError">JSON の {0} 行 {1} 列でエラー：{2}</system:String>
+    <system:String x:Key="OperatorDevelopmentPlanMustBeArray">プランは JSON 配列である必要があります</system:String>
+    <system:String x:Key="OperatorDevelopmentPlanMustBeObject">プラン {0} はオブジェクトである必要があります</system:String>
+    <system:String x:Key="OperatorDevelopmentUnknownField">プラン {0} に不明なフィールド「{1}」があります</system:String>
+    <system:String x:Key="OperatorDevelopmentUnknownOperator">プラン {0} の「{1}」は中国版の有効なオペレーター名ではありません</system:String>
+    <system:String x:Key="OperatorDevelopmentExactlyOneAction">プラン {0} には育成操作を1種類だけ指定してください</system:String>
+    <system:String x:Key="OperatorDevelopmentMasteryPairRequired">プラン {0} の「{1}」にはもう一方の特化フィールドが必要です</system:String>
+    <system:String x:Key="OperatorDevelopmentStringRequired">プラン {0} の「{1}」は空でない文字列である必要があります</system:String>
+    <system:String x:Key="OperatorDevelopmentIntegerRequired">プラン {0} の「{1}」は整数である必要があります</system:String>
+    <system:String x:Key="OperatorDevelopmentFieldRange">プラン {0} の「{1}」は {2}～{3} の範囲で指定してください</system:String>
+    <system:String x:Key="OperatorDevelopmentSkillLevelTarget">スキルレベル {0}</system:String>
+    <system:String x:Key="OperatorDevelopmentMasteryTarget">スキル {0} 特化 {1}</system:String>
+    <system:String x:Key="OperatorDevelopmentUnsupportedClient">オペレーター育成の初版は中国版公式および Bilibili のみ対応します</system:String>
+    <system:String x:Key="OperatorDevelopmentTargetStartLog">育成プラン {0}：{1}、{2} 目標 {3}</system:String>
+    <system:String x:Key="OperatorDevelopmentTargetResultLog">育成プラン {0}：{1}、結果 {2}</system:String>
+    <system:String x:Key="OperatorDevelopmentSummaryLog">オペレーター育成完了：成功 {0}、達成済み {1}、失敗 {2}、スキップ {3}</system:String>
     <system:String x:Key="Visiting">戦友訪問</system:String>
     <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>

@@ -98,6 +98,11 @@ public class TaskQueueViewModel : Screen
     public static FightSettingsUserControlModel FightTask => FightSettingsUserControlModel.Instance;
 
     /// <summary>
+    /// Gets 干员培养任务Model
+    /// </summary>
+    public static OperatorDevelopmentSettingsUserControlModel OperatorDevelopmentTask => OperatorDevelopmentSettingsUserControlModel.Instance;
+
+    /// <summary>
     /// Gets 招募任务Model
     /// </summary>
     public static RecruitSettingsUserControlModel RecruitTask => RecruitSettingsUserControlModel.Instance;
@@ -1174,6 +1179,7 @@ public class TaskQueueViewModel : Screen
         {
             ConfigFactory.CurrentConfig.TaskQueue.Add(new StartUpTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new FightTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new OperatorDevelopmentTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new InfrastTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new RecruitTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new MallTask());
@@ -1552,6 +1558,7 @@ public class TaskQueueViewModel : Screen
         [
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("StartUp"), Value = typeof(StartUpTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Fight"), Value = typeof(FightTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("OperatorDevelopment"), Value = typeof(OperatorDevelopmentTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Infrast"), Value = typeof(InfrastTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Recruit"), Value = typeof(RecruitTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Mall"), Value = typeof(MallTask) },
@@ -1571,6 +1578,7 @@ public class TaskQueueViewModel : Screen
             item.Display = item.Value.Name switch {
                 nameof(StartUpTask) => LocalizationHelper.GetString("StartUp"),
                 nameof(FightTask) => LocalizationHelper.GetString("Fight"),
+                nameof(OperatorDevelopmentTask) => LocalizationHelper.GetString("OperatorDevelopment"),
                 nameof(InfrastTask) => LocalizationHelper.GetString("Infrast"),
                 nameof(RecruitTask) => LocalizationHelper.GetString("Recruit"),
                 nameof(MallTask) => LocalizationHelper.GetString("Mall"),
