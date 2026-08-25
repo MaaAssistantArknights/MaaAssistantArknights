@@ -44,9 +44,18 @@ bool asst::MaterialSynthesisTaskPlugin::verify(AsstMsg msg, const json::value& d
 bool asst::MaterialSynthesisTaskPlugin::_run()
 {
     LogTraceFunction;
+    if (need_exit()) {
+        return false;
+    }
+    report_status("MaterialSynthesisStart");
 
     if (!detect_task("MiniGame@MaterialSynthesis@Workshop")) {
+        if (need_exit()) {
+            return false;
+        }
         Log.error("MaterialSynthesis | start from the material synthesis page");
+        save_img(utils::path("debug") / utils::path("material_synthesis"), false);
+        report_result(Result::NavigationFailed);
         return false;
     }
 
@@ -57,6 +66,12 @@ bool asst::MaterialSynthesisTaskPlugin::_run()
     int operation_budget = MaxMaterialOperations;
     const Result result = synthesize_material(0, material_stack, operation_budget, processing_task);
     Log.info("MaterialSynthesis | finished", result_name(result), "remaining operations", operation_budget);
+    if (result != Result::Cancelled && !need_exit()) {
+        if (result != Result::Completed) {
+            save_img(utils::path("debug") / utils::path("material_synthesis"), false);
+        }
+        report_result(result);
+    }
     return result == Result::Completed;
 }
 
@@ -119,12 +134,29 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             result = Result::Unsupported;
             break;
         }
+        report_status(
+            "MaterialSynthesisMaterial",
+            json::object {
+                { "material", *material_name },
+                { "material_id", material_id },
+                { "level", *material_level },
+                { "depth", depth },
+                { "count", *count },
+            });
 
         // 三个下级材料都需要独立检查并补足，再加工当前配方。
         for (int ingredient = 1; ingredient <= 3; ++ingredient) {
             const std::string prefix = "MiniGame@MaterialSynthesis@Ingredient" + std::to_string(ingredient);
             // Available 任务在识别成功后直接点击对应的下级材料。
             if (run_task(prefix + "Available", 0)) {
+                report_status(
+                    "MaterialSynthesisIngredient",
+                    json::object {
+                        { "material", *material_name },
+                        { "material_id", material_id },
+                        { "depth", depth },
+                        { "ingredient", ingredient },
+                    });
                 result = synthesize_material(depth + 1, material_stack, operation_budget, processing_task);
                 if (result != Result::Completed) {
                     break;
@@ -137,6 +169,14 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             }
             else if (detect_task(prefix + "Unavailable")) {
                 Log.warn("MaterialSynthesis | ingredient unavailable", ingredient, material_id);
+                report_status(
+                    "MaterialSynthesisIngredientUnavailable",
+                    json::object {
+                        { "material", *material_name },
+                        { "material_id", material_id },
+                        { "depth", depth },
+                        { "ingredient", ingredient },
+                    });
                 result = Result::InsufficientResources;
                 break;
             }
@@ -166,6 +206,13 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         const bool mood_insufficient = !operator_missing && detect_task("MiniGame@MaterialSynthesis@LowMood");
         bool operator_changed = false;
         if (operator_missing || mood_insufficient) {
+            report_status(
+                "MaterialSynthesisOperator",
+                json::object {
+                    { "material", *material_name },
+                    { "material_id", material_id },
+                    { "reason", operator_missing ? "missing" : "low_mood" },
+                });
             result = select_processing_operator(
                 material_id,
                 *material_level,
@@ -217,10 +264,17 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             break;
         }
         if (detect_task("MiniGame@MaterialSynthesis@LowMood")) {
-            result = Result::InsufficientResources;
+            result = Result::OperatorUnavailable;
             break;
         }
 
+        report_status(
+            "MaterialSynthesisCraft",
+            json::object {
+                { "material", *material_name },
+                { "material_id", material_id },
+                { "count", selected_count },
+            });
         if (!run_task("MiniGame@MaterialSynthesis@Start") || !detect_task("MiniGame@MaterialSynthesis@Workshop")) {
             result = Result::NavigationFailed;
             break;
@@ -242,6 +296,13 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
     }
     if (has_parent) {
         Log.info("MaterialSynthesis | return to parent recipe", depth);
+        report_status(
+            "MaterialSynthesisReturn",
+            json::object {
+                { "material", *first_material_name },
+                { "material_id", material_id },
+                { "depth", depth },
+            });
         if (!run_task("MiniGame@MaterialSynthesis@HasParent") || !detect_task("MiniGame@MaterialSynthesis@Workshop")) {
             return Result::NavigationFailed;
         }
@@ -270,7 +331,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::sel
     if (!return_to_workshop()) {
         return Result::NavigationFailed;
     }
-    return operator_missing ? Result::Unsupported : Result::Completed;
+    return operator_missing ? Result::OperatorUnavailable : Result::Completed;
 }
 
 bool asst::MaterialSynthesisTaskPlugin::run_task(const std::string& task_name, int retry_times)
@@ -354,6 +415,26 @@ std::string asst::MaterialSynthesisTaskPlugin::find_item_id(const std::string& n
     return { };
 }
 
+void asst::MaterialSynthesisTaskPlugin::report_status(std::string what, json::value details)
+{
+    auto info = basic_info_with_what(std::move(what));
+    info["details"] = std::move(details);
+    callback(AsstMsg::SubTaskExtraInfo, info);
+}
+
+void asst::MaterialSynthesisTaskPlugin::report_result(Result result)
+{
+    if (result == Result::Completed) {
+        report_status("MaterialSynthesisCompleted");
+        return;
+    }
+    report_status(
+        "MaterialSynthesisFailed",
+        json::object {
+            { "result", std::string(result_name(result)) },
+        });
+}
+
 std::string_view asst::MaterialSynthesisTaskPlugin::result_name(Result result)
 {
     switch (result) {
@@ -361,6 +442,8 @@ std::string_view asst::MaterialSynthesisTaskPlugin::result_name(Result result)
         return "completed";
     case Result::InsufficientResources:
         return "insufficient_resources";
+    case Result::OperatorUnavailable:
+        return "operator_unavailable";
     case Result::Unsupported:
         return "unsupported";
     case Result::NavigationFailed:

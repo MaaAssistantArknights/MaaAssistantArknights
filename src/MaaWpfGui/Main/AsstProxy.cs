@@ -2472,6 +2472,10 @@ public class AsstProxy
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails!["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
                 break;
 
+            case var materialSynthesisWhat when materialSynthesisWhat.StartsWith("MaterialSynthesis", StringComparison.Ordinal):
+                ProcMaterialSynthesisMsg(what, subTaskDetails);
+                break;
+
             case "PixelPaintProgress":
                 {
                     var done = (int)(subTaskDetails?["done"] ?? 0);
@@ -2492,6 +2496,93 @@ public class AsstProxy
                             colorHex);
                     }
 
+                    break;
+                }
+        }
+    }
+
+    private static void ProcMaterialSynthesisMsg(string what, JToken? details)
+    {
+        var material = details?["material"]?.ToString() ?? string.Empty;
+        switch (what)
+        {
+            case "MaterialSynthesisStart":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetString("MiniGame@MaterialSynthesis@StartLog"),
+                    UiLogColor.Info,
+                    splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                break;
+
+            case "MaterialSynthesisMaterial":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "MiniGame@MaterialSynthesis@MaterialLog",
+                        material,
+                        (int)(details?["count"] ?? 0),
+                        (int)(details?["depth"] ?? 0) + 1),
+                    UiLogColor.Info);
+                break;
+
+            case "MaterialSynthesisIngredient":
+            case "MaterialSynthesisIngredientUnavailable":
+                {
+                    var localizationKey = what == "MaterialSynthesisIngredient"
+                        ? "MiniGame@MaterialSynthesis@IngredientLog"
+                        : "MiniGame@MaterialSynthesis@IngredientUnavailableLog";
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat(
+                            localizationKey,
+                            material,
+                            (int)(details?["ingredient"] ?? 0)),
+                        what == "MaterialSynthesisIngredient" ? UiLogColor.Info : UiLogColor.Warning);
+                    break;
+                }
+
+            case "MaterialSynthesisOperator":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat("MiniGame@MaterialSynthesis@OperatorLog", material),
+                    UiLogColor.Info);
+                break;
+
+            case "MaterialSynthesisCraft":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "MiniGame@MaterialSynthesis@CraftLog",
+                        material,
+                        (int)(details?["count"] ?? 0)),
+                    UiLogColor.Info);
+                break;
+
+            case "MaterialSynthesisReturn":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat("MiniGame@MaterialSynthesis@ReturnLog", material),
+                    UiLogColor.Info);
+                break;
+
+            case "MaterialSynthesisCompleted":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetString("MiniGame@MaterialSynthesis@DoneLog"),
+                    UiLogColor.Success);
+                break;
+
+            case "MaterialSynthesisFailed":
+                {
+                    var result = details?["result"]?.ToString() ?? string.Empty;
+                    var reasonKey = result switch {
+                        "insufficient_resources" => "MiniGame@MaterialSynthesis@InsufficientResources",
+                        "operator_unavailable" => "MiniGame@MaterialSynthesis@OperatorUnavailable",
+                        "unsupported" => "MiniGame@MaterialSynthesis@Unsupported",
+                        "navigation_failed" => "MiniGame@MaterialSynthesis@NavigationFailed",
+                        _ => "MiniGame@MaterialSynthesis@UnknownFailure",
+                    };
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat(
+                            "MiniGame@MaterialSynthesis@FailedLog",
+                            LocalizationHelper.GetString(reasonKey)),
+                        UiLogColor.Error,
+                        updateCardImage: true,
+                        fetchLatestImage: true,
+                        useCardImageAsToolTip: true);
                     break;
                 }
         }
