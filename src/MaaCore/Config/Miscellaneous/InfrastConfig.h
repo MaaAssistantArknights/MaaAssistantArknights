@@ -41,6 +41,8 @@ public:
 protected:
     virtual bool parse(const json::value& json) override;
 
+    void clear();
+
     // 所有基建技能，key：设施名，value：map<技能id，技能>
     std::unordered_map<std::string, std::unordered_map<std::string, infrast::Skill>> m_skills;
     // 所有设施信息，key：设施名，value：信息

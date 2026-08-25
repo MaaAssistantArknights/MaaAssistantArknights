@@ -8,6 +8,8 @@ bool asst::InfrastConfig::parse(const json::value& json)
 {
     LogTraceFunction;
 
+    clear();
+
     for (const json::value& facility : json.at("roomType").as_array()) {
         std::string facility_name = facility.as_string();
         const json::value& facility_json = json.at(facility_name);
@@ -212,4 +214,14 @@ bool asst::InfrastConfig::parse(const json::value& json)
         m_facilities_info.emplace(facility_name, std::move(fac_info));
     }
     return true;
+}
+
+void asst::InfrastConfig::clear()
+{
+    LogTraceFunction;
+
+    m_skills.clear();
+    m_skills_groups.clear();
+    m_facilities_info.clear();
+    m_templ_required.clear();
 }
