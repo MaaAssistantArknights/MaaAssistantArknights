@@ -3153,7 +3153,7 @@
                 },
                 "name": ["“愉快的对谈”"],
                 "operatorIds": ["char_4093_frston"],
-                "template": "Bskill_pow_spd_p.png"
+                "template": "Bskill_pow_spd_P.png"
             },
             "bskill_pow_spd_p1": {
                 "desc": ["进驻发电站时，如果逻各斯进驻在训练室协助位，则无人机充能速度+5%"],
@@ -3162,7 +3162,7 @@
                 },
                 "name": ["咒文共鸣"],
                 "operatorIds": ["char_4136_phonor"],
-                "template": "Bskill_pow_spd_p1.png"
+                "template": "Bskill_pow_spd_P1.png"
             },
             "bskill_power_rec_rhine": {
                 "desc": [
