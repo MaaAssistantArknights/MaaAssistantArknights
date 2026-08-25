@@ -86,6 +86,11 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         Log.warn("MaterialSynthesis | material is not in item config", *first_material_name);
         return Result::Unsupported;
     }
+    const auto material_level = ItemData.get_item_level(material_id);
+    if (!material_level) {
+        Log.warn("MaterialSynthesis | material level is not in item config", material_id);
+        return Result::Unsupported;
+    }
     if (!material_stack.emplace(material_id).second) {
         Log.warn("MaterialSynthesis | recipe cycle detected", material_id);
         return Result::InsufficientResources;
@@ -163,7 +168,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         if (operator_missing || mood_insufficient) {
             result = select_processing_operator(
                 material_id,
-                item_level(material_id),
+                *material_level,
                 operator_missing,
                 operator_changed,
                 processing_task);
@@ -347,43 +352,6 @@ std::string asst::MaterialSynthesisTaskPlugin::find_item_id(const std::string& n
         }
     }
     return { };
-}
-
-int asst::MaterialSynthesisTaskPlugin::item_level(const std::string& item_id)
-{
-    // 加工心情消耗并不等于物品 ID 的末位，芯片和部分材料链尤其如此。
-    static const std::unordered_set<std::string_view> Level0 {
-        "30011",
-        "30021",
-        "30041",
-        "30061",
-    };
-    static const std::unordered_set<std::string_view> Level1 {
-        "30012", "30022", "30031", "30042", "30051", "30062", "3301",
-    };
-    static const std::unordered_set<std::string_view> Level2 {
-        "30013", "30023", "30032", "30043", "30052", "30063", "30093", "30103", "31013", "31023",
-        "31033", "31043", "31053", "31063", "31073", "31083", "31093", "31103", "31113", "3211",
-        "3221",  "3231",  "3241",  "3251",  "3261",  "3271",  "3281",  "3302",
-    };
-    static const std::unordered_set<std::string_view> Level4 {
-        "30024", "30034", "30115", "30125", "30135", "30145", "30155", "30165",
-        "3213",  "3223",  "3233",  "3243",  "3253",  "3263",  "3273",  "3283",
-    };
-
-    if (Level0.contains(item_id)) {
-        return 0;
-    }
-    if (Level1.contains(item_id)) {
-        return 1;
-    }
-    if (Level2.contains(item_id)) {
-        return 2;
-    }
-    if (Level4.contains(item_id)) {
-        return 4;
-    }
-    return 3;
 }
 
 std::string_view asst::MaterialSynthesisTaskPlugin::result_name(Result result)
