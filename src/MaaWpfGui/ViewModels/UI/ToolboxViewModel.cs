@@ -2952,6 +2952,7 @@ public class ToolboxViewModel : Screen
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
         {
+            Instances.TaskQueueViewModel.AddLog(errMsg, UiLogColor.Error);
             _runningState.SetIdle(true);
             PixelPaintParametersLocked = false;
             return;
