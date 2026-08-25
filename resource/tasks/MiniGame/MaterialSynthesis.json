@@ -12,7 +12,7 @@
     "MiniGame@MaterialSynthesis@RequiredCount": {
         "baseTask": "NumberOcrReplace",
         "text": [],
-        "roi": [1155, 342, 122, 58],
+        "roi": [1172,362,83,23],
         "isAscii": false
     },
     "MiniGame@MaterialSynthesis@MaterialName": {
