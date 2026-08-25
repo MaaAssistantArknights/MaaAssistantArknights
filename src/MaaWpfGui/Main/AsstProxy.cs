@@ -2751,7 +2751,10 @@ public class AsstProxy
             return false;
         }
 
-        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindowWarning"), UiLogColor.Error);
+        var attachWindowWarning = LocalizationHelper.GetString("UseAttachWindowWarning")
+            + Environment.NewLine
+            + LocalizationHelper.GetString("UseAttachWindowWarningRecommendation");
+        Instances.TaskQueueViewModel.AddLog(attachWindowWarning, UiLogColor.Error);
 
         string targetWindowName = SettingsViewModel.GameSettings.ClientType.ToGameWindowName();
         var foundWindows = FindWindowsByName(targetWindowName);

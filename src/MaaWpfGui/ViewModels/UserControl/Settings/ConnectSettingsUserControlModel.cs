@@ -869,33 +869,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     public bool IsPCConnectConfig => ConnectConfig == ConnectConfig.PC;
 
-    /// <summary>
-    /// Gets the PC connection warning body (lines 1-5).
-    /// </summary>
-    public string AttachWindowWarningBody => GetAttachWindowWarning().Body;
-
-    /// <summary>
-    /// Gets the recommended mouse input line (line 6).
-    /// </summary>
-    public string AttachWindowWarningHighlight => GetAttachWindowWarning().Highlight;
-
-    private static (string Body, string Highlight) GetAttachWindowWarning()
-    {
-        var lines = LocalizationHelper.GetString("UseAttachWindowWarning")
-            .Split('\n')
-            .Select(line => line.TrimEnd('\r'))
-            .ToArray();
-        var lastContentIndex = Array.FindLastIndex(lines, line => !string.IsNullOrWhiteSpace(line));
-        if (lastContentIndex < 0)
-        {
-            return (string.Empty, string.Empty);
-        }
-
-        var body = string.Join("\n", lines.Take(lastContentIndex));
-        var highlight = lines[lastContentIndex];
-        return (body, highlight);
-    }
-
     #endregion
 
     /// <summary>
@@ -905,7 +878,5 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     {
         ConnectConfigList.RefreshLocalization();
         TouchModeList.RefreshLocalization();
-        NotifyOfPropertyChange(nameof(AttachWindowWarningBody));
-        NotifyOfPropertyChange(nameof(AttachWindowWarningHighlight));
     }
 }

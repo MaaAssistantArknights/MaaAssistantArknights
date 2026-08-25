@@ -22,7 +22,7 @@ namespace MaaWpfGui.Styles.Properties;
 
 /// <summary>
 /// 为 RainbowFlowBrush 资源提供流光动画的附加行为。
-/// 在控件 Loaded 时自动为 Foreground / BorderBrush 中的 LinearGradientBrush 启动 TranslateTransform 动画。
+/// 在控件 Loaded 时自动为 Foreground 中的 LinearGradientBrush 启动 TranslateTransform 动画。
 /// </summary>
 public static class RainbowAnimationBehavior
 {
@@ -68,7 +68,6 @@ public static class RainbowAnimationBehavior
         {
             TextBlock tb => tb.Foreground,
             Control ctrl => ctrl.Foreground,
-            Border border => border.BorderBrush,
             _ => null,
         };
 

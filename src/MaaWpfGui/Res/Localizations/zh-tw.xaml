@@ -1725,8 +1725,8 @@ C:\\leidian\\LDPlayer9
 2. 部分截圖方式下，遊戲視窗不可最小化
 3. 明日方舟設定 → 遊戲 → UI 縮放需設為 100%
 4. 在明日方舟設定中調小滑鼠指標比例，以減少對識別區域的遮擋
-5. 遊戲解析度需為 16:9，推薦設定 1280x720 或 1920x1080
-6. 推薦滑鼠輸入方式使用 SendMsg-WindowPos，使用此方式可以很大程度解決 PC 端辨識錯誤和卡住的問題</system:String>
+5. 遊戲解析度需為 16:9，推薦設定 1280x720 或 1920x1080</system:String>
+    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">6. 推薦滑鼠輸入方式使用 SendMsg-WindowPos，使用此方式可以很大程度解決 PC 端辨識錯誤和卡住的問題</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截圖方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">滑鼠輸入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">鍵盤輸入</system:String>

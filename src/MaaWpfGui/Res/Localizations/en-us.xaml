@@ -1724,8 +1724,8 @@ If you do need to use it, please ensure:
 2. For some screencap methods, the game window cannot be minimized
 3. Arknights Settings → Game → UI Scaling is set to 100%
 4. Lower the mouse pointer scale in Arknights settings to reduce obstruction of recognition areas
-5. Game resolution must be 16:9; recommended settings: 1280x720 or 1920x1080
-6. We recommend using SendMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>
+5. Game resolution must be 16:9; recommended settings: 1280x720 or 1920x1080</system:String>
+    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">6. We recommend using SendMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>

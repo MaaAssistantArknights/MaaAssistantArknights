@@ -115,22 +115,15 @@
                     Margin="5,0"
                     HorizontalAlignment="Left"
                     Foreground="{DynamicResource ErrorLogBrush}"
-                    Text="{Binding AttachWindowWarningBody, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}"
+                    Text="{DynamicResource UseAttachWindowWarning}"
                     TextWrapping="Wrap" />
-                <Border
-                    Margin="3,2"
-                    Padding="0,4"
+                <TextBlock
+                    Margin="5,0"
                     HorizontalAlignment="Left"
                     properties:RainbowAnimationBehavior.IsActive="True"
-                    BorderBrush="{DynamicResource RainbowFlowBrush}"
-                    BorderThickness="2"
-                    CornerRadius="4">
-                    <TextBlock
-                        HorizontalAlignment="Left"
-                        Foreground="{DynamicResource ErrorLogBrush}"
-                        Text="{Binding AttachWindowWarningHighlight, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}"
-                        TextWrapping="Wrap" />
-                </Border>
+                    Foreground="{DynamicResource RainbowFlowBrush}"
+                    Text="{DynamicResource UseAttachWindowWarningRecommendation}"
+                    TextWrapping="Wrap" />
             </StackPanel>
 
             <!--  ADB 连接配置区域  -->
