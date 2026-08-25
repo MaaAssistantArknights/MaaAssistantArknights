@@ -197,7 +197,7 @@
                                         Margin="100,0"
                                         HorizontalAlignment="Left"
                                         Foreground="{DynamicResource ErrorLogBrush}"
-                                        Text="{DynamicResource UseAttachWindowWarningBase}"
+                                        Text="{Binding AttachWindowWarningBody, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}"
                                         TextWrapping="Wrap" />
                                     <Border
                                         Margin="98,2"
@@ -210,7 +210,7 @@
                                         <TextBlock
                                             HorizontalAlignment="Left"
                                             Foreground="{DynamicResource ErrorLogBrush}"
-                                            Text="{DynamicResource UseAttachWindowWarningRecommendation}"
+                                            Text="{Binding AttachWindowWarningHighlight, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}"
                                             TextWrapping="Wrap" />
                                     </Border>
                                 </StackPanel>

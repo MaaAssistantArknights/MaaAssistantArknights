@@ -1729,22 +1729,6 @@ C:\\leidian\\LDPlayer9
 4. 명일방주 설정에서 마우스 포인터 배율을 줄여 인식 영역 가림을 줄여 주세요
 5. 게임 해상도는 16:9이어야 하며, 권장 설정: 1280x720 또는 1920x1080
 6. 마우스 입력 방식으로 SendMsg-WindowPos 사용을 권장합니다. 이 방식을 사용하면 PC 클라이언트의 인식 오류 및 멈춤 문제를 크게 줄일 수 있습니다</system:String>
-    <system:String x:Key="UseAttachWindowWarningBase" xml:space="preserve">명일방주 PC 연결 (커뮤니티 유지보수)
-
-주의 사항:
-1. MAA Team은 명일방주 PC 클라이언트의 연결 기능만 제공하며, 유지보수 및 문제 수정은 커뮤니티에 맡겨져 있어 가용성을 보장하지 않습니다.
-2. 문제가 발생하거나 기능을 사용할 수 없는 경우, GitHub에 issue를 등록해 주세요. 해결 여부는 커뮤니티 개발자가 자발적으로 참여하느냐에 달려 있습니다.
-3. QQ 그룹, 영상 댓글란 등 다른 채널에서는 명일방주 PC 연결 관련 문제를 해결할 수 없으므로, 해당 채널에서 문의하지 마세요.
-
-반드시 필요한 것이 아니라면, 더 안정적인 경험을 위해 ADB로 Android 에뮬레이터 또는 모바일 기기에 연결하는 것을 권장합니다.
-
-사용이 필요한 경우, 다음을 확인해 주세요:
-1. MAA를 관리자 권한으로 실행해야 합니다
-2. 일부 스크린샷 방식에서는 게임 창을 최소화할 수 없습니다
-3. 명일방주 설정 → 게임 → UI 배율을 100%로 설정해야 합니다
-4. 명일방주 설정에서 마우스 포인터 배율을 줄여 인식 영역 가림을 줄여 주세요
-5. 게임 해상도는 16:9이어야 하며, 권장 설정: 1280x720 또는 1920x1080</system:String>
-    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">6. 마우스 입력 방식으로 SendMsg-WindowPos 사용을 권장합니다. 이 방식을 사용하면 PC 클라이언트의 인식 오류 및 멈춤 문제를 크게 줄일 수 있습니다</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>

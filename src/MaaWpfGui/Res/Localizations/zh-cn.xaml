@@ -1725,21 +1725,6 @@ C:\\leidian\\LDPlayer9
 4. 在明日方舟设置中调小鼠标指针比例，以减少对识别区域的遮挡
 5. 游戏分辨率需为 16:9，推荐设置 1280x720 或 1920x1080
 6. 推荐鼠标输入方式使用 SendMsg-WindowPos，使用此方式可以很大程度解决 PC 端识别错误和卡住的问题</system:String>
-    <system:String x:Key="UseAttachWindowWarningBase" xml:space="preserve">连接明日方舟 PC 端（社区维护）
-请注意：
-1. MAA Team 仅提供明日方舟 PC 端的连接功能，维护与问题修复均交由社区，不保证可用性。
-2. 遇到问题或功能不可用时，请在 GitHub 提交 issue，能否得到解决取决于社区开发者是否愿意跟进。
-3. QQ 群、视频评论区等其他渠道无法解决明日方舟 PC 端的相关问题，请勿在其中询问。
-
-如非必要，建议优先使用 ADB 连接 Android 模拟器或手机，体验更稳定。
-
-如需使用，请确认：
-1. 需要以管理员身份启动 MAA
-2. 部分截图方式下，游戏窗口不能最小化
-3. 明日方舟设置 → 游戏 → UI 缩放需设为 100%
-4. 在明日方舟设置中调小鼠标指针比例，以减少对识别区域的遮挡
-5. 游戏分辨率需为 16:9，推荐设置 1280x720 或 1920x1080</system:String>
-    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">6. 推荐鼠标输入方式使用 SendMsg-WindowPos，使用此方式可以很大程度解决 PC 端识别错误和卡住的问题</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截图方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">鼠标输入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">键盘输入</system:String>
