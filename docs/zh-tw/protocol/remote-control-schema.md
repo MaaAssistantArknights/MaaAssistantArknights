@@ -58,7 +58,7 @@ MAA 會以 1 秒的間隔持續輪詢此端點，嘗試獲取要執行的任務�
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   // 任務唯一 ID（字串），彙報任務時會使用。
-            "type": "Settings-ConnectAddress",           // 修改設定項任務，等同於執行 ConfigurationHelper.SetValue("ConnectAddress", params)。為求安全，僅部分設定可修改，詳見下述。
+            "type": "Settings-ConnectAddress",              // 修改設定項任務，等同於設定連線設定的 ConnectAddress 屬性。為求安全，僅部分設定可修改，詳見下述。
             "params": "value"                               // 要修改的值。
         },
         // 立即執行任務：下列任務可在順序執行任務運作中執行，且 MAA 保證任何一個任務都會儘快回傳結果，通常用於控制遠端控制功能本身。

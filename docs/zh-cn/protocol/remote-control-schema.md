@@ -58,7 +58,7 @@ MAA 会以 1 秒的间隔持续轮询这个端点，尝试获取他要执行的�
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   //任务的唯一id，字符串类型，在汇报任务时会使用
-            "type": "Settings-ConnectAddress",              //修改配置项的任务，等同于执行ConfigurationHelper.SetValue("ConnectAddress", params); 为了安全起见，不是每个配置都可以修改，能修改的配置详见下述。
+            "type": "Settings-ConnectAddress",              //修改配置项的任务，等同于设置连接设置的 ConnectAddress 属性; 为了安全起见，不是每个配置都可以修改，能修改的配置详见下述。
             "params": "value"                               //要修改的值
         },
         // 立即执行任务：下面这些任务可以在顺序执行任务运行中执行，并且MAA保证下面的任何一个任务都会尽快返回结果，通常用于对远程控制功能本身的控制。

@@ -58,7 +58,7 @@ This endpoint must return a JSON-formatted response that meets at least the foll
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   // Unique task ID, string type, used when reporting task status
-            "type": "Settings-ConnectAddress",           // Configuration modification task, equivalent to ConfigurationHelper.SetValue("ConnectAddress", params); For security, not all settings can be modified, see below for allowed settings
+            "type": "Settings-ConnectAddress",              // Configuration modification task, equivalent to setting the ConnectAddress property in connection settings; For security, not all settings can be modified, see below for allowed settings
             "params": "value"                               // Value to modify
         },
         // Immediate execution tasks: these tasks can execute during sequential tasks and MAA guarantees any of these will return results quickly, typically used for controlling the remote control function itself

@@ -80,7 +80,7 @@ MaaAssistantArknights/MaaMacGui 프로젝트의 [README.md](https://github.com/M
    cmake --install build --prefix <target_directory>
    ```
 
-4. 若需调试 MaaFwAdbController（MaaFwAdb 触控模式）相关功能，需要[自行编译 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，将 `libMaaAdbControlUnit.so` 放到安装目录下。
+4. MaaFwAdbController(MaaFwAdb 터치 수행 방식) 관련 기능을 디버깅하려면 [MaaFramework의 Debug 버전을 직접 컴파일](https://maafw.com/docs/4.1-BuildGuide)하여 `libMaaAdbControlUnit.so`를 설치 디렉토리에 넣어야 합니다.
 
 ::::
 
