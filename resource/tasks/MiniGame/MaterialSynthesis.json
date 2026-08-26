@@ -15,11 +15,12 @@
         "roi": [1172, 362, 83, 23],
         "isAscii": false
     },
-    "MiniGame@MaterialSynthesis@MaterialName": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [536, 547, 151, 25],
-        "ocrReplace": [["^/+|/+$", ""]]
+    "MiniGame@MaterialSynthesis@Material": {
+        "template": "empty.png",
+        "roi": [535, 407, 154, 144],
+        "templThreshold": 0.3,
+        "maskRange": [1, 255],
+        "specialParams": [400]
     },
     "MiniGame@MaterialSynthesis@HasParent": {
         "template": "ProcessingReturnParent.png",

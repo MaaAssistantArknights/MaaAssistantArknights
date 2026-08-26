@@ -11,6 +11,7 @@
 #include "Task/Infrast/InfrastProcessingTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Miscellaneous/MaterialSynthesisImageAnalyzer.h"
 #include "Vision/RegionOCRer.h"
 
 namespace
@@ -18,17 +19,6 @@ namespace
 constexpr int MaxMaterialDepth = 8;
 constexpr int MaxMaterialOperations = 64;
 constexpr int MaxMaterialBatch = 24;
-
-std::string trim_text(std::string text)
-{
-    while (!text.empty() && std::isspace(static_cast<unsigned char>(text.front()))) {
-        text.erase(text.begin());
-    }
-    while (!text.empty() && std::isspace(static_cast<unsigned char>(text.back()))) {
-        text.pop_back();
-    }
-    return text;
-}
 }
 
 bool asst::MaterialSynthesisTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -95,15 +85,12 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         return Result::NavigationFailed;
     }
 
-    const auto first_material_name = read_text("MiniGame@MaterialSynthesis@MaterialName");
-    if (!first_material_name) {
+    const auto first_material_id = recognize_material();
+    if (!first_material_id) {
         return Result::Unsupported;
     }
-    const std::string material_id = find_item_id(*first_material_name);
-    if (material_id.empty()) {
-        Log.warn("MaterialSynthesis | material is not in item config", *first_material_name);
-        return Result::Unsupported;
-    }
+    const std::string& material_id = *first_material_id;
+    const std::string& first_material_name = ItemData.get_item_name(material_id);
     const auto material_level = ItemData.get_item_level(material_id);
     if (!material_level) {
         Log.warn("MaterialSynthesis | material level is not in item config", material_id);
@@ -131,16 +118,16 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             break;
         }
 
-        const auto material_name = read_text("MiniGame@MaterialSynthesis@MaterialName");
+        const auto current_material_id = recognize_material();
         const auto count = read_number("MiniGame@MaterialSynthesis@RequiredCount");
-        if (!material_name || !count || *count <= 0 || *material_name != *first_material_name) {
+        if (!current_material_id || *current_material_id != material_id || !count || *count <= 0) {
             result = Result::Unsupported;
             break;
         }
         report_status(
             "MaterialSynthesisMaterial",
             json::object {
-                { "material", *material_name },
+                { "material", first_material_name },
                 { "material_id", material_id },
                 { "level", *material_level },
                 { "depth", depth },
@@ -155,7 +142,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                 report_status(
                     "MaterialSynthesisIngredient",
                     json::object {
-                        { "material", *material_name },
+                        { "material", first_material_name },
                         { "material_id", material_id },
                         { "depth", depth },
                         { "ingredient", ingredient },
@@ -169,8 +156,8 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                 if (result != Result::Completed) {
                     break;
                 }
-                const auto parent_material_name = read_text("MiniGame@MaterialSynthesis@MaterialName");
-                if (!parent_material_name || *parent_material_name != *first_material_name) {
+                const auto parent_material_id = recognize_material();
+                if (!parent_material_id || *parent_material_id != material_id) {
                     result = Result::NavigationFailed;
                     break;
                 }
@@ -180,7 +167,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                 report_status(
                     "MaterialSynthesisIngredientUnavailable",
                     json::object {
-                        { "material", *material_name },
+                        { "material", first_material_name },
                         { "material_id", material_id },
                         { "depth", depth },
                         { "ingredient", ingredient },
@@ -217,7 +204,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             report_status(
                 "MaterialSynthesisOperator",
                 json::object {
-                    { "material", *material_name },
+                    { "material", first_material_name },
                     { "material_id", material_id },
                     { "reason",
                       operator_missing    ? "missing"
@@ -283,7 +270,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         report_status(
             "MaterialSynthesisCraft",
             json::object {
-                { "material", *material_name },
+                { "material", first_material_name },
                 { "material_id", material_id },
                 { "count", selected_count },
             });
@@ -311,7 +298,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         report_status(
             "MaterialSynthesisReturn",
             json::object {
-                { "material", *first_material_name },
+                { "material", first_material_name },
                 { "material_id", material_id },
                 { "depth", depth },
             });
@@ -400,30 +387,13 @@ std::optional<int> asst::MaterialSynthesisTaskPlugin::read_number(const std::str
     return value;
 }
 
-std::optional<std::string> asst::MaterialSynthesisTaskPlugin::read_text(const std::string& task_name)
+std::optional<std::string> asst::MaterialSynthesisTaskPlugin::recognize_material()
 {
-    RegionOCRer analyzer(ctrler()->get_image());
-    analyzer.set_task_info(task_name);
-    analyzer.set_use_raw(true);
+    MaterialSynthesisImageAnalyzer analyzer(ctrler()->get_image());
     if (!analyzer.analyze()) {
         return std::nullopt;
     }
-
-    auto text = trim_text(analyzer.get_result().text);
-    if (text.empty()) {
-        return std::nullopt;
-    }
-    return text;
-}
-
-std::string asst::MaterialSynthesisTaskPlugin::find_item_id(const std::string& name) const
-{
-    for (const auto& id : ItemData.get_all_item_id()) {
-        if (ItemData.get_item_name(id) == name) {
-            return id;
-        }
-    }
-    return { };
+    return analyzer.get_result().templ_name;
 }
 
 void asst::MaterialSynthesisTaskPlugin::report_status(std::string what, json::value details)
