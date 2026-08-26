@@ -11,15 +11,10 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Text.Json.Serialization;
 using MaaWpfGui.Models;
-using MaaWpfGui.Models.EmulatorConnectionExtra;
 
 namespace MaaWpfGui.Configuration.Single.Settings.ConnectionExtra;
 
-[JsonDerivedType(typeof(Mumu12Extra), typeDiscriminator: nameof(Mumu12Extra))]
-[JsonDerivedType(typeof(LdPlayerExtra), typeDiscriminator: nameof(LdPlayerExtra))]
-[JsonDerivedType(typeof(Win32Extra), typeDiscriminator: nameof(Win32Extra))]
 public class BaseExtra : NotifyPropertyChangedWithValue
 {
 }

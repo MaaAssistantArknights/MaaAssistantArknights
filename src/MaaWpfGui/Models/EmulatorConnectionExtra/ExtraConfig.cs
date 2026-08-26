@@ -11,7 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System.Text.Json.Serialization;
 using Stylet;
 
 namespace MaaWpfGui.Models.EmulatorConnectionExtra;
