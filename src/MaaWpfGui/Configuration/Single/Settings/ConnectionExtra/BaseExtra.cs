@@ -1,4 +1,4 @@
-// <copyright file="ExtraConfig.cs" company="MaaAssistantArknights">
+// <copyright file="BaseExtra.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -10,12 +10,16 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-#nullable enable
+
 using System.Text.Json.Serialization;
-using Stylet;
+using MaaWpfGui.Models;
+using MaaWpfGui.Models.EmulatorConnectionExtra;
 
-namespace MaaWpfGui.Models.EmulatorConnectionExtra;
+namespace MaaWpfGui.Configuration.Single.Settings.ConnectionExtra;
 
-public class ExtraConfig : PropertyChangedBase
+[JsonDerivedType(typeof(Mumu12Extra), typeDiscriminator: nameof(Mumu12Extra))]
+[JsonDerivedType(typeof(LdPlayerExtra), typeDiscriminator: nameof(LdPlayerExtra))]
+[JsonDerivedType(typeof(Win32Extra), typeDiscriminator: nameof(Win32Extra))]
+public class BaseExtra : NotifyPropertyChangedWithValue
 {
 }

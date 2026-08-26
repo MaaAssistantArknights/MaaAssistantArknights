@@ -1,4 +1,4 @@
-// <copyright file="ExtraConfig.cs" company="MaaAssistantArknights">
+// <copyright file="Win32Extra.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -11,11 +11,15 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System.Text.Json.Serialization;
-using Stylet;
+using MaaWpfGui.Constants.Enums.Core;
 
-namespace MaaWpfGui.Models.EmulatorConnectionExtra;
+namespace MaaWpfGui.Configuration.Single.Settings.ConnectionExtra;
 
-public class ExtraConfig : PropertyChangedBase
+public class Win32Extra : BaseExtra
 {
+    public AsstWin32ScreencapMethod ScreencapMethod { get; set; } = AsstWin32ScreencapMethod.FramePool;
+
+    public AsstWin32InputMethod MouseMethod { get; set; } = AsstWin32InputMethod.SendMessageWithCursorPos;
+
+    public AsstWin32KeyboardInputMethod KeyboardMethod { get; set; } = AsstWin32KeyboardInputMethod.SendMessage;
 }

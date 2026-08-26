@@ -12,9 +12,10 @@
 // </copyright>
 #nullable enable
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using MaaWpfGui.Configuration.Single.Settings.ConnectionExtra;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Models;
-using MaaWpfGui.Models.EmulatorConnectionExtra;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
@@ -30,7 +31,7 @@ public partial class ConnectSettings : NotifyPropertyChangedWithValue
     {
         _bindingPrefix = key;
         PropertyChanged += Handler.OnPropertyChangedFactory(_bindingPrefix + nameof(ConnectSettings) + ".");
-        Extras.MuMuEmulator12.PropertyChanged += Handler.OnPropertyChangedFactory(_bindingPrefix + nameof(ConnectSettings) + "." + nameof(ExtraConfigs) + "." + nameof(Extras.MuMuEmulator12) + ".");
+        Extras.Mumu12.PropertyChanged += Handler.OnPropertyChangedFactory(_bindingPrefix + nameof(ConnectSettings) + "." + nameof(ExtraConfigs) + "." + nameof(Extras.Mumu12) + ".");
         Extras.LDPlayer.PropertyChanged += Handler.OnPropertyChangedFactory(_bindingPrefix + nameof(ConnectSettings) + "." + nameof(ExtraConfigs) + "." + nameof(Extras.LDPlayer) + ".");
         Extras.Win32Extra.PropertyChanged += Handler.OnPropertyChangedFactory(_bindingPrefix + nameof(ConnectSettings) + "." + nameof(ExtraConfigs) + "." + nameof(Extras.Win32Extra) + ".");
     }
@@ -63,9 +64,10 @@ public partial class ConnectSettings : NotifyPropertyChangedWithValue
 
     public record class ExtraConfigs
     {
-        public LDPlayerExtra LDPlayer { get; set; } = new();
+        public LdPlayerExtra LDPlayer { get; set; } = new();
 
-        public MuMu12Extra MuMuEmulator12 { get; set; } = new();
+        [JsonPropertyName("MuMuEmulator12")]
+        public Mumu12Extra Mumu12 { get; set; } = new();
 
         public Win32Extra Win32Extra { get; set; } = new();
 

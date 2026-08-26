@@ -1,4 +1,4 @@
-// <copyright file="ExtraConfig.cs" company="MaaAssistantArknights">
+// <copyright file="Mumu12Extra.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -11,11 +11,17 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System.Text.Json.Serialization;
-using Stylet;
+namespace MaaWpfGui.Configuration.Single.Settings.ConnectionExtra;
 
-namespace MaaWpfGui.Models.EmulatorConnectionExtra;
-
-public class ExtraConfig : PropertyChangedBase
+public class Mumu12Extra : BaseExtra
 {
+    public bool IsEnabled { get; set; }
+
+    public string EmulatorPath { get; set; } = string.Empty;
+
+    public bool EnableBridgeConnection { get; set; }
+
+    public bool EnableTouch { get; set; }
+
+    public int InstanceIndex { get; set; }
 }

@@ -1,4 +1,4 @@
-// <copyright file="ExtraConfig.cs" company="MaaAssistantArknights">
+// <copyright file="AsstWin32InputMethod.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -10,12 +10,15 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-#nullable enable
-using System.Text.Json.Serialization;
-using Stylet;
 
-namespace MaaWpfGui.Models.EmulatorConnectionExtra;
+namespace MaaWpfGui.Constants.Enums.Core;
 
-public class ExtraConfig : PropertyChangedBase
+#pragma warning disable SA1602 // Enumeration items should be documented
+// 遵循 AsstCaller.h 中的定义，确保与 AsstCaller.h 中的枚举值对应
+public enum AsstWin32InputMethod
 {
+    Seize = 1,
+    SendMessageWithCursorPos = 32,
+    SendMessageWithWindowPos = 128,
 }
+#pragma warning restore SA1602 // Enumeration items should be documented
