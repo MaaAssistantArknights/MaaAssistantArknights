@@ -49,8 +49,7 @@ private:
     bool detect_task(const std::string& task_name);
     bool return_to_workshop();
     std::optional<int> read_number(const std::string& task_name);
-    std::optional<std::string> read_text(const std::string& task_name);
-    std::string find_item_id(const std::string& name) const;
+    std::optional<std::string> recognize_material();
     void report_status(std::string what, json::value details = json::object());
     void report_result(Result result);
 
