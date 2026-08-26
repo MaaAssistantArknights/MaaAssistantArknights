@@ -35,6 +35,9 @@ struct ScoreContext
     int virtual_power_station_num = 0;
     int total_station_level = 0;
     int workbench_num = 0;
+    // 训练室导师评分参数：目标干员职业及下一专精等级。
+    battle::Role training_role = battle::Role::Unknown;
+    int training_level = 1;
     bool use_pinus_sylvestris = false;
     bool use_perception_information = false;
     bool use_worldly_plight = false;
@@ -61,4 +64,8 @@ bool is_abyssal_hunter(std::string_view operator_id);
 void append_abyssal_hunter_candidates(std::vector<ScoreOper>& opers, const ScoreContext& context);
 
 ScoreResult select_best_opers(const std::vector<ScoreOper>& opers, const ScoreContext& context);
+
+// 训练室导师评分。心情低于 16 的干员不参与选择，除非调用方明确关闭心情限制。
+double training_score(const ScoreOper& oper, battle::Role trainee_role, int target_level);
+ScoreResult select_training(const std::vector<ScoreOper>& opers, const ScoreContext& context);
 } // namespace asst::infrast
