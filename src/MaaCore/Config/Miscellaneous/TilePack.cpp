@@ -25,6 +25,11 @@ bool asst::TilePack::parse(const json::value& json)
 {
     LogTraceFunction;
 
+    // 热重载或加载 _custom.json 时，旧索引必须先清空，
+    // 否则 m_summarize 会累积重复/已删除关卡的条目，且 find() 会命中失效的旧文件路径
+    // （参考 InfrastConfig 的处理方式）
+    m_summarize.clear();
+
     auto dir = m_path.parent_path();
     for (const auto& [_, summary] : json.as_object()) {
         LevelKey level_key {

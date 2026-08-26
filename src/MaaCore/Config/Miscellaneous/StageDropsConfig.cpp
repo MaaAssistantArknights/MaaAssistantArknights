@@ -8,6 +8,12 @@ bool asst::StageDropsConfig::parse(const json::value& json)
 {
     LogTraceFunction;
 
+    // 热重载或加载 _custom.json 时，旧数据必须先清空，
+    // 否则已删除的关卡/物品会残留（参考 InfrastConfig 的处理方式）
+    m_all_stage_code.clear();
+    m_all_item_id.clear();
+    m_stage_info.clear();
+
     for (const json::value& stage_json : json.as_array()) {
         auto drop_infos_opt = stage_json.find<json::array>("dropInfos");
         if (!drop_infos_opt) { // 这种一般是以前的活动关，现在已经关闭了的
