@@ -1,13 +1,17 @@
 #include "MaterialSynthesisImageAnalyzer.h"
 
+#include "MaaUtils/NoWarningCV.hpp"
+
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
+#include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 
 namespace
 {
 constexpr std::string_view MaterialTask = "MiniGame@MaterialSynthesis@Material";
+constexpr double MaterialTemplateScale = 1.2;
 }
 
 bool asst::MaterialSynthesisImageAnalyzer::analyze()
@@ -19,15 +23,22 @@ bool asst::MaterialSynthesisImageAnalyzer::analyze()
     Matcher matcher(m_image);
     matcher.set_task_info(task_ptr);
 
-    for (const auto& item_id : ItemData.get_ordered_material_item_id()) {
-        if (!ItemData.get_item_rarity(item_id)) {
-            continue;
-        }
+    for (const auto& item_id : ItemData.get_ordered_non_chip_formula_item_id()) {
+        const cv::Mat& item_template = TemplResource::get_instance().get_templ(item_id);
+        cv::Mat scaled_template;
+        cv::resize(
+            item_template,
+            scaled_template,
+            cv::Size(),
+            MaterialTemplateScale,
+            MaterialTemplateScale,
+            cv::INTER_LINEAR);
 
-        matcher.set_templ(item_id);
+        matcher.set_templ(std::move(scaled_template));
         const auto result = matcher.analyze();
         if (result && result->score > m_result.score) {
             m_result = *result;
+            m_result.templ_name = item_id;
         }
     }
 
