@@ -414,6 +414,23 @@ bool asst::InfrastInfoTask::_run()
     Log.info("InfrastInfoTask | zoom gesture", zoom_sent ? "sent" : "unsupported");
 
     constexpr int MaxAttempts = 3;
+    const auto prepare_retry = [&](int attempt) {
+        // A pinch may advance only one zoom level. When the first gesture leaves
+        // the overview at an intermediate scale, waiting cannot make the fixed-size
+        // normal or mini templates match; pinch again before retrying.
+        if (zoom_sent && attempt < MaxAttempts) {
+            const bool retry_zoom_sent = try_zoom_out();
+            Log.info(
+                "InfrastInfoTask | retry zoom gesture",
+                retry_zoom_sent ? "sent" : "unsupported",
+                "after attempt",
+                attempt);
+            if (retry_zoom_sent) {
+                return;
+            }
+        }
+        sleep(300);
+    };
     std::optional<FacilityLayoutCounts> partial_layout_candidate;
     for (int attempt = 1; attempt <= MaxAttempts; ++attempt) {
         if (need_exit()) {
@@ -427,7 +444,7 @@ bool asst::InfrastInfoTask::_run()
         if (!analyzer.analyze()) {
             partial_layout_candidate.reset();
             Log.warn("InfrastInfoTask | no facility matched, attempt", attempt);
-            sleep(300);
+            prepare_retry(attempt);
             continue;
         }
 
@@ -461,7 +478,7 @@ bool asst::InfrastInfoTask::_run()
                 attempt,
                 "view",
                 static_cast<int>(analyzer.get_view_type()));
-            sleep(300);
+            prepare_retry(attempt);
             continue;
         }
 
