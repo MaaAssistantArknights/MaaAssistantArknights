@@ -1251,7 +1251,6 @@ public class AsstProxy
         connectSettings.ScreencapMethod = screencapMethod;
         connectSettings.ScreencapTestCost = LocalizationHelper.GetStringFormat("FastestWayToScreencap", cost, screencapMethod);
         connectSettings.TestLinkInfo = connectSettings.ScreencapTestCost;
-        HandleScreencapCost(cost.ToString(), cost.ToString(), cost.ToString(), DateTimeOffset.Now);
     }
 
     private void ProcTaskChainMsg(AsstMsg msg, JObject details)
