@@ -1,9 +1,0 @@
-{
-    "MiniGame@MaterialSynthesis@MaterialName": {
-        "roi": [516, 547, 191, 25],
-        "ocrReplace": [
-            ["^/+|/+$", ""],
-            [" ", " "]
-        ]
-    }
-}
