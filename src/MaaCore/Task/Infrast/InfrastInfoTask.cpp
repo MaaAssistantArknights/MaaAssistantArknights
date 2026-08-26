@@ -346,14 +346,14 @@ FacilityLayoutCounts
 bool is_usable_layout(const FacilityLayoutCounts& counts)
 {
     const size_t production_count = counts.production_count();
-    return production_count > 0 && production_count <= 9 && counts.dorm <= 4 && counts.control == 1 &&
-           counts.reception <= 1 && counts.office <= 1 && counts.processing <= 1 && counts.training <= 1;
+    return production_count > 0 && production_count <= 9 && counts.dorm <= 4 && counts.reception <= 1 &&
+           counts.office <= 1 && counts.processing <= 1 && counts.training <= 1;
 }
 
 bool is_complete_layout(const FacilityLayoutCounts& counts)
 {
     return counts.production_count() == 9 && counts.mfg != 0 && counts.trade != 0 && counts.power != 0 &&
-           counts.dorm == 4 && counts.control == 1 && counts.reception == 1 && counts.office == 1;
+           counts.dorm == 4 && counts.reception == 1 && counts.office == 1;
 }
 } // namespace
 
