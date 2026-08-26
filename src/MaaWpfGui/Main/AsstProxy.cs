@@ -2099,8 +2099,8 @@ public class AsstProxy
                 ProcRecruitCalcMsg(details);
                 break;
 
-            case "OperatorDevelopment":
-                ProcOperatorDevelopmentMsg(details);
+            case "AutoRaise":
+                ProcAutoRaiseMsg(details);
                 break;
 
                 /*
@@ -2717,16 +2717,16 @@ public class AsstProxy
         }
     }
 
-    private static void ProcOperatorDevelopmentMsg(JObject message)
+    private static void ProcAutoRaiseMsg(JObject message)
     {
         string what = message["what"]?.ToString() ?? string.Empty;
         JToken? details = message["details"];
         switch (what)
         {
-            case "OperatorDevelopmentTargetStart":
+            case "AutoRaiseTargetStart":
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "OperatorDevelopmentTargetStartLog",
+                        "AutoRaiseTargetStartLog",
                         (int)(details?["index"] ?? 0) + 1,
                         details?["name"] ?? string.Empty,
                         details?["action"] ?? string.Empty,
@@ -2735,11 +2735,11 @@ public class AsstProxy
                     splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                 break;
 
-            case "OperatorDevelopmentTargetResult":
+            case "AutoRaiseTargetResult":
                 string result = details?["result"]?.ToString() ?? "unsupported";
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "OperatorDevelopmentTargetResultLog",
+                        "AutoRaiseTargetResultLog",
                         (int)(details?["index"] ?? 0) + 1,
                         details?["name"] ?? string.Empty,
                         result),
@@ -2747,10 +2747,10 @@ public class AsstProxy
                     result == "skipped" ? UiLogColor.Warning : UiLogColor.Error);
                 break;
 
-            case "OperatorDevelopmentSummary":
+            case "AutoRaiseSummary":
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "OperatorDevelopmentSummaryLog",
+                        "AutoRaiseSummaryLog",
                         details?["completed"] ?? 0,
                         details?["already_satisfied"] ?? 0,
                         details?["failed"] ?? 0,
@@ -3292,7 +3292,7 @@ public class AsstProxy
         Fight,
 
         /// <summary>干员培养</summary>
-        OperatorDevelopment,
+        AutoRaise,
 
         /// <summary>自动公招</summary>
         Recruit,
@@ -3352,7 +3352,7 @@ public class AsstProxy
     [
         TaskType.StartUp,
         TaskType.Fight,
-        TaskType.OperatorDevelopment,
+        TaskType.AutoRaise,
         TaskType.Infrast,
         TaskType.Recruit,
         TaskType.Mall,

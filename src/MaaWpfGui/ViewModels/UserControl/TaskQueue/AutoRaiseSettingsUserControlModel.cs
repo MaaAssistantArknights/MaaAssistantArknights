@@ -1,4 +1,4 @@
-// <copyright file="OperatorDevelopmentSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="AutoRaiseSettingsUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -28,13 +28,13 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel, OperatorDevelopmentSettingsUserControlModel.ISerialize
+public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRaiseSettingsUserControlModel.ISerialize
 {
     private static readonly HashSet<string> AllowedFields = ["name", "elite", "skills", "skill", "skill_master"];
 
-    static OperatorDevelopmentSettingsUserControlModel() => Instance = new();
+    static AutoRaiseSettingsUserControlModel() => Instance = new();
 
-    public static OperatorDevelopmentSettingsUserControlModel Instance { get; }
+    public static AutoRaiseSettingsUserControlModel Instance { get; }
 
     private string _planJson = "[]";
 
@@ -47,11 +47,11 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
                 return;
             }
 
-            IsCurrentTextValidated = value == GetTaskConfig<OperatorDevelopmentTask>().ValidatedPlanJson;
-            SetTaskConfig<OperatorDevelopmentTask>(t => t.PlanJson == value, t => t.PlanJson = value);
+            IsCurrentTextValidated = value == GetTaskConfig<AutoRaiseTask>().ValidatedPlanJson;
+            SetTaskConfig<AutoRaiseTask>(t => t.PlanJson == value, t => t.PlanJson = value);
             ValidationMessage = IsCurrentTextValidated
-                ? LocalizationHelper.GetString("OperatorDevelopmentPlanValid")
-                : LocalizationHelper.GetString("OperatorDevelopmentPlanPending");
+                ? LocalizationHelper.GetString("AutoRaisePlanValid")
+                : LocalizationHelper.GetString("AutoRaisePlanPending");
         }
     }
 
@@ -67,7 +67,7 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
         {
             var plans = ParseAndValidate(PlanJson);
             string normalized = plans.ToString(Formatting.Indented);
-            SetTaskConfig<OperatorDevelopmentTask>(
+            SetTaskConfig<AutoRaiseTask>(
                 t => t.PlanJson == normalized && t.ValidatedPlanJson == normalized,
                 t => {
                     t.PlanJson = normalized;
@@ -76,7 +76,7 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
             _planJson = normalized;
             NotifyOfPropertyChange(nameof(PlanJson));
             IsCurrentTextValidated = true;
-            ValidationMessage = LocalizationHelper.GetStringFormat("OperatorDevelopmentPlanParsed", plans.Count);
+            ValidationMessage = LocalizationHelper.GetStringFormat("AutoRaisePlanParsed", plans.Count);
             LoadPreview(plans);
         }
         catch (Exception ex) when (ex is JsonException or InvalidOperationException)
@@ -88,7 +88,7 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
 
     public override void RefreshUI(BaseTask baseTask)
     {
-        if (baseTask is not OperatorDevelopmentTask task)
+        if (baseTask is not AutoRaiseTask task)
         {
             return;
         }
@@ -96,8 +96,8 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
         _planJson = task.PlanJson;
         IsCurrentTextValidated = task.PlanJson == task.ValidatedPlanJson;
         ValidationMessage = IsCurrentTextValidated
-            ? LocalizationHelper.GetString("OperatorDevelopmentPlanValid")
-            : LocalizationHelper.GetString("OperatorDevelopmentPlanPending");
+            ? LocalizationHelper.GetString("AutoRaisePlanValid")
+            : LocalizationHelper.GetString("AutoRaisePlanPending");
         try
         {
             LoadPreview(ParseAndValidate(task.ValidatedPlanJson));
@@ -121,31 +121,31 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
         }
         catch (JsonReaderException ex)
         {
-            throw new InvalidOperationException(LocalizationHelper.GetStringFormat("OperatorDevelopmentJsonError", ex.LineNumber, ex.LinePosition, ex.Message), ex);
+            throw new InvalidOperationException(LocalizationHelper.GetStringFormat("AutoRaiseJsonError", ex.LineNumber, ex.LinePosition, ex.Message), ex);
         }
 
         if (root is not JArray plans)
         {
-            throw Error(-1, "$", "OperatorDevelopmentPlanMustBeArray");
+            throw Error(-1, "$", "AutoRaisePlanMustBeArray");
         }
 
         for (int index = 0; index < plans.Count; ++index)
         {
             if (plans[index] is not JObject plan)
             {
-                throw Error(index, "$", "OperatorDevelopmentPlanMustBeObject");
+                throw Error(index, "$", "AutoRaisePlanMustBeObject");
             }
 
             var unknown = plan.Properties().FirstOrDefault(property => !AllowedFields.Contains(property.Name));
             if (unknown is not null)
             {
-                throw Error(index, unknown.Name, "OperatorDevelopmentUnknownField");
+                throw Error(index, unknown.Name, "AutoRaiseUnknownField");
             }
 
             string name = ReadRequiredString(plan, index, "name");
             if (!DataHelper.Operators.Values.Any(character => character.Name == name))
             {
-                throw Error(index, "name", "OperatorDevelopmentUnknownOperator");
+                throw Error(index, "name", "AutoRaiseUnknownOperator");
             }
             plan["name"] = name;
 
@@ -156,7 +156,7 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
             int actionCount = Convert.ToInt32(hasElite) + Convert.ToInt32(hasSkills) + Convert.ToInt32(hasSkill || hasMastery);
             if (actionCount != 1)
             {
-                throw Error(index, "$", "OperatorDevelopmentExactlyOneAction");
+                throw Error(index, "$", "AutoRaiseExactlyOneAction");
             }
 
             if (hasElite)
@@ -171,7 +171,7 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
             {
                 if (!hasSkill || !hasMastery)
                 {
-                    throw Error(index, hasSkill ? "skill_master" : "skill", "OperatorDevelopmentMasteryPairRequired");
+                    throw Error(index, hasSkill ? "skill_master" : "skill", "AutoRaiseMasteryPairRequired");
                 }
                 ReadInteger(plan, index, "skill", 1, 3);
                 ReadInteger(plan, index, "skill_master", 1, 3);
@@ -185,7 +185,7 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
     {
         if (plan[fieldName]?.Type != JTokenType.String || string.IsNullOrWhiteSpace(plan.Value<string>(fieldName)))
         {
-            throw Error(index, fieldName, "OperatorDevelopmentStringRequired");
+            throw Error(index, fieldName, "AutoRaiseStringRequired");
         }
         return plan.Value<string>(fieldName)!.Trim();
     }
@@ -194,7 +194,7 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
     {
         if (plan[fieldName]?.Type != JTokenType.Integer)
         {
-            throw Error(index, fieldName, "OperatorDevelopmentIntegerRequired");
+            throw Error(index, fieldName, "AutoRaiseIntegerRequired");
         }
         int value;
         try
@@ -203,11 +203,11 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
         }
         catch (OverflowException ex)
         {
-            throw Error(index, fieldName, "OperatorDevelopmentIntegerRequired", ex);
+            throw Error(index, fieldName, "AutoRaiseIntegerRequired", ex);
         }
         if (value < minimum || value > maximum)
         {
-            throw new InvalidOperationException(LocalizationHelper.GetStringFormat("OperatorDevelopmentFieldRange", index, fieldName, minimum, maximum));
+            throw new InvalidOperationException(LocalizationHelper.GetStringFormat("AutoRaiseFieldRange", index, fieldName, minimum, maximum));
         }
         return value;
     }
@@ -225,8 +225,8 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
             string target = plan.ContainsKey("elite")
                 ? $"E{plan.Value<int>("elite")}"
                 : plan.ContainsKey("skills")
-                    ? LocalizationHelper.GetStringFormat("OperatorDevelopmentSkillLevelTarget", plan.Value<int>("skills"))
-                    : LocalizationHelper.GetStringFormat("OperatorDevelopmentMasteryTarget", plan.Value<int>("skill"), plan.Value<int>("skill_master"));
+                    ? LocalizationHelper.GetStringFormat("AutoRaiseSkillLevelTarget", plan.Value<int>("skills"))
+                    : LocalizationHelper.GetStringFormat("AutoRaiseMasteryTarget", plan.Value<int>("skill"), plan.Value<int>("skill_master"));
             PlanPreviewItems.Add(new(index + 1, name, target));
         }
     }
@@ -237,14 +237,14 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
     {
         (bool? IsSuccess, IEnumerable<int> TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
-            if (baseTask is not OperatorDevelopmentTask development)
+            if (baseTask is not AutoRaiseTask development)
             {
                 return (null, []);
             }
 
             if (SettingsViewModel.GameSettings.ClientType is not ClientType.Official and not ClientType.Bilibili)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("OperatorDevelopmentUnsupportedClient"), UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AutoRaiseUnsupportedClient"), UiLogColor.Error);
                 return (false, []);
             }
 
@@ -264,10 +264,10 @@ public class OperatorDevelopmentSettingsUserControlModel : TaskSettingsViewModel
                 return (null, []);
             }
 
-            var task = new AsstOperatorDevelopmentTask { Plans = plans };
+            var task = new AsstAutoRaiseTask { Plans = plans };
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
-                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.OperatorDevelopment, task)),
+                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.AutoRaise, task)),
                 _ => (null, []),
             };
         }
