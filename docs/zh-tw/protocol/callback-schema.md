@@ -353,7 +353,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `ReportToYituliu`  
    匯報到一圖流大數據
 - `InfrastDormDoubleConfirmButton`  
-   基建宿舍的二次確認按鈕。僅當幹員衝突時才會出現，請提示使用者。
+   基建的二次確認按鈕。僅當待進駐幹員已進駐其他設施時才會出現（MAA 將自動點擊確認），請提示使用者。
 - `StartExplore`  
    肉鴿開始探索
 - `StageTraderInvestConfirm`  

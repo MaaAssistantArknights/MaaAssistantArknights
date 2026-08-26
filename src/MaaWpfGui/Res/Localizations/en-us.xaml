@@ -1417,7 +1417,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="FightMissionFailedAndStop">Proxy failed too many times, task stopped</system:String>
     <system:String x:Key="LabelsRefreshed">Labels refreshed</system:String>
     <system:String x:Key="RecruitConfirm">Recruit confirm</system:String>
-    <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator} conflict</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">Some {key=Operator}s are already assigned to another facility; the transfer has been confirmed automatically</system:String>
     <system:String x:Key="BegunToExplore">Exploration started</system:String>
     <system:String x:Key="RoutingRestartTooManyBattles">Too many battles ahead: {0}, restarting route</system:String>
     <system:String x:Key="ExplorationAbandoned">Abandoned this Exploration</system:String>

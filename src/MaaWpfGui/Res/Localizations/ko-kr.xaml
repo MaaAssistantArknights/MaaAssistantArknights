@@ -1420,7 +1420,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FightMissionFailedAndStop">대리 지휘 실패 횟수 초과로 작업을 중단합니다</system:String>
     <system:String x:Key="LabelsRefreshed">태그 갱신 완료</system:String>
     <system:String x:Key="RecruitConfirm">모집 확정</system:String>
-    <system:String x:Key="InfrastDormDoubleConfirmed">요구 {key=Operator} 중복(충돌)</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">다른 시설에서 근무 중인 {key=Operator}가 있어 이차 확인을 자동으로 진행했습니다</system:String>
     <system:String x:Key="BegunToExplore">탐험 시작</system:String>
     <system:String x:Key="RoutingRestartTooManyBattles">작전 노드 개수: {0}, 작전 노드가 너무 많아 재시작합니다</system:String>
     <system:String x:Key="ExplorationAbandoned">탐험 중단</system:String>

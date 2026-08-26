@@ -256,7 +256,7 @@ Todo
 - `ReportToYituliu`  
   Report to Yituliu big data
 - `InfrastDormDoubleConfirmButton`  
-  Base dormitory double confirmation button, appears only when operators conflict, please notify users
+  Base double confirmation button, appears only when the operator to be assigned is already stationed in another facility (MAA will click confirm automatically), please notify users
 - `StartExplore`  
   Start Integrated Strategy exploration
 - `StageTraderInvestConfirm`  

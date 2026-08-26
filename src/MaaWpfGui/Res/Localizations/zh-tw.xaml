@@ -1418,7 +1418,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FightMissionFailedAndStop">代理失敗次數已達上限，任務已停止</system:String>
     <system:String x:Key="LabelsRefreshed">已刷新標籤</system:String>
     <system:String x:Key="RecruitConfirm">已確認招募</system:String>
-    <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}衝突</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">偵測到{key=Operator}已進駐其他設施，已自動確認將其調動</system:String>
     <system:String x:Key="BegunToExplore">已開始探索</system:String>
     <system:String x:Key="RoutingRestartTooManyBattles">前方戰鬥數：{0}，重新規劃路線</system:String>
     <system:String x:Key="ExplorationAbandoned">已放棄本次探索</system:String>
