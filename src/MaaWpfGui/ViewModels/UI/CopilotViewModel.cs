@@ -1164,9 +1164,10 @@ public partial class CopilotViewModel : Screen
         foreach (var oper in list)
         {
             int rarity = DataHelper.GetCharacterByNameOrAlias(oper.Name)?.Rarity ?? -1;
+            string id = DataHelper.GetCharacterByNameOrAlias(oper.Name)?.Id ?? string.Empty;
             switch (oper.Skill)
             {
-                case 3 when rarity < 6:
+                case 3 when rarity < 6 && id != "char_002_amiya":
                 case 2 when rarity < 4:
                 case 1 when rarity < 3:
                     AddLog(LocalizationHelper.GetStringFormat("Copilot.UnsupportedSkill", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);
