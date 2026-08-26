@@ -469,10 +469,8 @@ bool run_parallel_tasks(
     recruit_thread.join();
     items_data_thread.join();
 
-    if (!error_occurred.load()
-        && !validate_infrast_resources(
-            resource_dir,
-            official_data_dir / "gamedata" / "excel" / "building_data.json")) {
+    if (!error_occurred.load() &&
+        !validate_infrast_resources(resource_dir, official_data_dir / "gamedata" / "excel" / "building_data.json")) {
         std::cerr << "validate_infrast_resources failed" << '\n';
         error_occurred.store(true);
     }
@@ -1161,9 +1159,9 @@ bool validate_infrast_resources(const fs::path& resource_dir, const fs::path& bu
             room_skill_ids.emplace(skill_id);
             // Skills maintained ahead of the game data fall back to the resource key,
             // resolved against existing template names the same way.
-            const std::string expected_template =
-                expected_template_by_key.contains(skill_id) ? expected_template_by_key.at(skill_id)
-                                                            : resolve_infrast_template_name(existing_templates, skill_id);
+            const std::string expected_template = expected_template_by_key.contains(skill_id)
+                                                      ? expected_template_by_key.at(skill_id)
+                                                      : resolve_infrast_template_name(existing_templates, skill_id);
             if (skill.at("template").as_string() != expected_template) {
                 std::cerr << "Infrastructure template field differs for " << skill_id << ": expected "
                           << expected_template << '\n';
