@@ -17,10 +17,9 @@
     },
     "MiniGame@MaterialSynthesis@Material": {
         "template": "empty.png",
-        "roi": [535, 407, 154, 144],
+        "roi": [534, 408, 140, 140],
         "templThreshold": 0.3,
-        "maskRange": [1, 255],
-        "specialParams": [400]
+        "maskRange": [1, 255]
     },
     "MiniGame@MaterialSynthesis@HasParent": {
         "template": "ProcessingReturnParent.png",
