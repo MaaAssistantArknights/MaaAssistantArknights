@@ -24,6 +24,7 @@ struct ScoreContext
     std::string facility;
     std::string product;
     int level = 1;
+    int rarity = 0;
     int slots = 1;
     double mood_threshold = 0;
     int dormitory_capacity = 0;

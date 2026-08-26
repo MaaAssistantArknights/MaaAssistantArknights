@@ -40,7 +40,7 @@ private:
         bool& operator_selection_initialized);
     Result select_processing_operator(
         const std::string& material_id,
-        int material_level,
+        int material_rarity,
         bool operator_missing,
         bool& operator_changed,
         InfrastProcessingTask& processing_task);

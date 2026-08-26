@@ -15,8 +15,8 @@ bool asst::ItemConfig::parse(const json::value& json)
         std::string name = item_json.at("name").as_string();
         m_item_name.emplace(id, std::move(name));
         m_all_item_id.emplace(id);
-        if (auto level_opt = item_json.find<int>("level")) {
-            m_item_level.emplace(id, *level_opt);
+        if (auto rarity_opt = item_json.find<int>("rarity")) {
+            m_item_rarity.emplace(id, *rarity_opt);
         }
         if (item_json.at("classifyType").as_string() == "MATERIAL") {
             material_sortid.emplace(id, item_json.at("sortId").as_integer());
@@ -36,7 +36,7 @@ bool asst::ItemConfig::parse(const json::value& json)
 void asst::ItemConfig::clear()
 {
     m_item_name.clear();
-    m_item_level.clear();
+    m_item_rarity.clear();
     m_all_item_id.clear();
     m_ordered_material_item_id.clear();
 }

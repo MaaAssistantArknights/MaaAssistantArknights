@@ -78,7 +78,7 @@ bool asst::InfrastProcessingTask::_run()
 
 bool asst::InfrastProcessingTask::select_operator(
     const std::string& material_id,
-    int material_level,
+    int material_rarity,
     bool& operator_changed)
 {
     LogTraceFunction;
@@ -116,9 +116,9 @@ bool asst::InfrastProcessingTask::select_operator(
             }
         }
 
-        const auto best_index = find_best_material_synthesis_operator(material_id, material_level);
+        const auto best_index = find_best_material_synthesis_operator(material_id, material_rarity);
         if (!best_index) {
-            Log.warn("MaterialSynthesis | no cached operator is available", material_id, material_level);
+            Log.warn("MaterialSynthesis | no cached operator is available", material_id, material_rarity);
             return false;
         }
         const infrast::Oper target = m_material_synthesis_operator_cache.at(*best_index);
@@ -153,7 +153,7 @@ bool asst::InfrastProcessingTask::select_operator(
         Log.info(
             "MaterialSynthesis | operator selected from cache",
             material_id,
-            material_level,
+            material_rarity,
             "remaining",
             m_material_synthesis_operator_cache.size());
         return true;
@@ -258,7 +258,7 @@ std::optional<asst::InfrastProcessingTask::MaterialSynthesisScanResult>
 
 std::optional<size_t> asst::InfrastProcessingTask::find_best_material_synthesis_operator(
     const std::string& material_id,
-    int material_level) const
+    int material_rarity) const
 {
     if (m_material_synthesis_operator_cache.empty()) {
         return std::nullopt;
@@ -280,7 +280,7 @@ std::optional<size_t> asst::InfrastProcessingTask::find_best_material_synthesis_
     infrast::ScoreContext context;
     context.facility = facility_name();
     context.product = material_id;
-    context.level = material_level;
+    context.rarity = material_rarity;
     context.slots = 1;
     context.mood_threshold = MaterialSynthesisMoodThreshold;
     const auto result = infrast::select_best_opers(score_opers, context);
@@ -288,7 +288,7 @@ std::optional<size_t> asst::InfrastProcessingTask::find_best_material_synthesis_
         return std::nullopt;
     }
 
-    Log.info("MaterialSynthesis | cached operator score", result.score, material_id, material_level);
+    Log.info("MaterialSynthesis | cached operator score", result.score, material_id, material_rarity);
     return result.indices.front();
 }
 
