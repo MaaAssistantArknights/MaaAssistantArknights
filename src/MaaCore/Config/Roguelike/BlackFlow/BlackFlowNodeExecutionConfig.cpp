@@ -204,86 +204,40 @@ bool BlackFlowNodeExecutionConfig::parse_task_results(
 
     bool ret = true;
     for (auto& task : *opt) {
+        blackflow::NodeStateUpdate node {
+            .progress = task.node.progress,
+            .actual_type = task.node.actual_type,
+            .actual_name = task.node.actual_name,
+            .actual_name_source = task.node.actual_name_source,
+            .identity_revealed = task.node.identity_revealed,
+            .repeatable = task.node.repeatable,
+            .becomes_empty = task.node.becomes_empty,
+        };
+
+        std::vector<blackflow::NodeStrategySignal> signals;
+        for (auto& signal : task.signals) {
+            signals.emplace_back(
+                blackflow::NodeStrategySignal {
+                    .kind = signal.kind,
+                    .fact = signal.fact,
+                    .value = signal.value,
+                    .source = signal.source,
+                    .minimum = signal.minimum,
+                    .maximum = signal.maximum,
+                });
+        }
+
         blackflow::NodeTaskResult result {
             .task = task.task,
             .kind = task.kind,
+            .node = node,
+            .signals = signals,
             .outcome_code = task.outcome_code,
             .termination_reason = task.termination_reason,
             .terminate = task.terminate,
             .succeeded = task.succeeded,
             .redispatch = task.redispatch,
         };
-        const auto& node_value = json.find("node");
-        if (!node_value) {
-        }
-        else if (!node_value->is<NodeStateUpdateDto>()) {
-            LogError << __FUNCTION__ << "task result node must be NodeStateUpdateDto, content:" << *node_value;
-        }
-        else {
-            const auto& node_opt = node_value->as<NodeStateUpdateDto>();
-            blackflow::NodeStateUpdate node {
-                .progress = node_opt.progress,
-                .actual_type = node_opt.actual_type,
-                .actual_name = node_opt.actual_name,
-                .actual_name_source = node_opt.actual_name_source,
-                .identity_revealed = node_opt.identity_revealed,
-                .repeatable = node_opt.repeatable,
-                .becomes_empty = node_opt.becomes_empty,
-            };
-            result.node = std::move(node);
-        }
-        const auto& sig_value = json.find("signals");
-        if (!sig_value) {
-        }
-        else if (!sig_value->is<std::vector<NodeStrategySignalDto>>()) {
-            LogError << __FUNCTION__
-                     << "task result signals must be std::vector<NodeStrategySignalDto>, content:" << *sig_value;
-        }
-        else {
-            const auto& sig_opt = sig_value->as<std::vector<NodeStrategySignalDto>>();
-            for (const auto& dto : sig_opt) {
-                blackflow::NodeStrategySignal signal {
-                    .kind = dto.kind,
-                    .fact = dto.fact,
-                    .value = dto.value,
-                    .source = dto.source,
-                    .minimum = dto.minimum,
-                    .maximum = dto.maximum,
-                };
-
-                const auto definition_opt = BlackFlowStrategy.get_fact_definition(signal.fact);
-                if (!definition_opt.has_value()) {
-                    LogError << __FUNCTION__ << "strategy signal references an undeclared fact: " + signal.fact;
-                    return false;
-                }
-                const blackflow::FactDefinition& definition = definition_opt->get();
-                if (definition.scope == blackflow::FactScope::Candidate) {
-                    LogError << __FUNCTION__ << "strategy signal cannot write a candidate-scoped fact: " + signal.fact;
-                    return false;
-                }
-                if ((signal.kind == blackflow::NodeSignalKind::Add ||
-                     signal.kind == blackflow::NodeSignalKind::CaptureInteger) &&
-                    definition.type != blackflow::FactType::Integer) {
-                    LogError << __FUNCTION__ << "integer strategy signal requires an integer fact: " + signal.fact;
-                    return false;
-                }
-                if (signal.kind == blackflow::NodeSignalKind::Set && signal.value.has_value()) {
-                    const bool type_matches = (definition.type == blackflow::FactType::Boolean &&
-                                               std::holds_alternative<bool>(*signal.value)) ||
-                                              (definition.type == blackflow::FactType::Integer &&
-                                               std::holds_alternative<std::int64_t>(*signal.value)) ||
-                                              (definition.type == blackflow::FactType::String &&
-                                               std::holds_alternative<std::string>(*signal.value)) ||
-                                              (definition.type == blackflow::FactType::StringList &&
-                                               std::holds_alternative<std::vector<std::string>>(*signal.value));
-                    if (!type_matches) {
-                        LogError << __FUNCTION__ << "set strategy signal value type differs from fact: " + signal.fact;
-                        return false;
-                    }
-                }
-                result.signals.emplace_back(std::move(signal));
-            }
-        }
         if (!verify_task(result.task, "task result task")) {
             ret = false;
             continue;
