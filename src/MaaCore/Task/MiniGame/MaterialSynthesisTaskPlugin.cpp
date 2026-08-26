@@ -91,9 +91,9 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
     }
     const std::string& material_id = *first_material_id;
     const std::string& first_material_name = ItemData.get_item_name(material_id);
-    const auto material_level = ItemData.get_item_level(material_id);
-    if (!material_level) {
-        Log.warn("MaterialSynthesis | material level is not in item config", material_id);
+    const auto material_rarity = ItemData.get_item_rarity(material_id);
+    if (!material_rarity) {
+        Log.warn("MaterialSynthesis | material rarity is not in item config", material_id);
         return Result::Unsupported;
     }
     if (!material_stack.emplace(material_id).second) {
@@ -129,7 +129,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             json::object {
                 { "material", first_material_name },
                 { "material_id", material_id },
-                { "level", *material_level },
+                { "rarity", *material_rarity },
                 { "depth", depth },
                 { "count", *count },
             });
@@ -213,7 +213,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                 });
             result = select_processing_operator(
                 material_id,
-                *material_level,
+                *material_rarity,
                 operator_missing,
                 operator_changed,
                 processing_task);
@@ -311,7 +311,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
 
 asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::select_processing_operator(
     const std::string& material_id,
-    int material_level,
+    int material_rarity,
     bool operator_missing,
     bool& operator_changed,
     InfrastProcessingTask& processing_task)
@@ -320,7 +320,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::sel
     if (!operator_missing && !run_task("MiniGame@MaterialSynthesis@OpenOperatorList")) {
         return Result::NavigationFailed;
     }
-    if (processing_task.select_operator(material_id, material_level, operator_changed)) {
+    if (processing_task.select_operator(material_id, material_rarity, operator_changed)) {
         return Result::Completed;
     }
     if (need_exit()) {

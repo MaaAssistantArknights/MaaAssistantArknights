@@ -28,7 +28,7 @@ bool asst::MaterialSynthesisImageAnalyzer::analyze()
     matcher.set_task_info(task_ptr);
 
     for (const auto& item_id : ItemData.get_ordered_material_item_id()) {
-        if (!ItemData.get_item_level(item_id)) {
+        if (!ItemData.get_item_rarity(item_id)) {
             continue;
         }
 

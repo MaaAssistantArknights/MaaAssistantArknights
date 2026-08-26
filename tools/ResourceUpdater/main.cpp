@@ -498,23 +498,23 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
         return false;
     }
 
-    std::unordered_set<std::string> level_item_ids;
-    std::unordered_map<std::string, json::value> child_by_item_id;
+    std::unordered_set<std::string> rarity_item_ids;
+    std::unordered_map<std::string, json::value> formula_by_item_id;
     for (const std::string& formulas_name : { std::string("workshopFormulas"), std::string("manufactFormulas") }) {
-        for (const auto& [formula_id, formula] : building_data_ret.value()[formulas_name].as_object()) {
-            const std::string formula_type = formula.get("formulaType", std::string());
+        for (const auto& [formula_id, formula_data] : building_data_ret.value()[formulas_name].as_object()) {
+            const std::string formula_type = formula_data.get("formulaType", std::string());
             const bool is_evolve_or_skill = formula_type == "F_EVOLVE" || formula_type == "F_SKILL";
             const bool is_asc = formula_type == "F_ASC";
-            const bool has_material_level = is_evolve_or_skill || is_asc;
-            if (!has_material_level) {
+            const bool should_collect_rarity = is_evolve_or_skill || is_asc;
+            if (!should_collect_rarity) {
                 continue;
             }
-            const bool has_child_recipe = formulas_name == "workshopFormulas" ? is_evolve_or_skill : is_asc;
+            const bool has_formula = formulas_name == "workshopFormulas" ? is_evolve_or_skill : is_asc;
 
-            const std::string item_id = formula.get("itemId", std::string());
-            const int output_count = formula.get("count", 0);
-            const auto costs_opt = formula.find<json::array>("costs");
-            if (item_id.empty() || (has_child_recipe && output_count != 1) || !costs_opt || costs_opt->empty()) {
+            const std::string item_id = formula_data.get("itemId", std::string());
+            const int output_count = formula_data.get("count", 0);
+            const auto costs_opt = formula_data.find<json::array>("costs");
+            if (item_id.empty() || (has_formula && output_count != 1) || !costs_opt || costs_opt->empty()) {
                 std::cerr << "Invalid item formula: " << formulas_name << ' ' << formula_id << '\n';
                 return false;
             }
@@ -523,26 +523,26 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
                           << item_id << '\n';
                 return false;
             }
-            level_item_ids.emplace(item_id);
+            rarity_item_ids.emplace(item_id);
 
-            json::value child;
+            json::value formula_costs;
             for (const auto& cost : costs_opt.value()) {
-                const std::string child_id = cost.get("id", std::string());
-                const int child_count = cost.get("count", 0);
-                const std::string child_type = cost.get("type", std::string());
-                if (child_id.empty() || child_count <= 0 || child_type != "MATERIAL" || child.contains(child_id) ||
-                    !input_json["items"].contains(child_id)) {
-                    std::cerr << "Invalid item formula cost: " << formulas_name << ' ' << formula_id << ' ' << child_id
-                              << '\n';
+                const std::string ingredient_id = cost.get("id", std::string());
+                const int ingredient_count = cost.get("count", 0);
+                const std::string ingredient_type = cost.get("type", std::string());
+                if (ingredient_id.empty() || ingredient_count <= 0 || ingredient_type != "MATERIAL" ||
+                    formula_costs.contains(ingredient_id) || !input_json["items"].contains(ingredient_id)) {
+                    std::cerr << "Invalid item formula cost: " << formulas_name << ' ' << formula_id << ' '
+                              << ingredient_id << '\n';
                     return false;
                 }
-                level_item_ids.emplace(child_id);
-                child[child_id] = child_count;
+                rarity_item_ids.emplace(ingredient_id);
+                formula_costs[ingredient_id] = ingredient_count;
             }
-            if (!has_child_recipe) {
+            if (!has_formula) {
                 continue;
             }
-            if (!child_by_item_id.emplace(item_id, std::move(child)).second) {
+            if (!formula_by_item_id.emplace(item_id, std::move(formula_costs)).second) {
                 std::cerr << "Duplicate item formula product: " << item_id << '\n';
                 return false;
             }
@@ -619,15 +619,15 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
         output["description"] = item_info["description"];
         output["sortId"] = item_info["sortId"];
         output["classifyType"] = item_info["classifyType"];
-        if (level_item_ids.contains(item_id)) {
+        if (rarity_item_ids.contains(item_id)) {
             // Official rarity is an integer, overseas is a "TIER_n" string; ItemConfig reads integers only.
             const auto& rarity = item_info["rarity"];
-            output["level"] = rarity.is_string()
-                                  ? std::stoi(rarity.as_string().substr(std::string_view("TIER_").size())) - 1
-                                  : rarity.as_integer();
+            output["rarity"] = rarity.is_string()
+                                   ? std::stoi(rarity.as_string().substr(std::string_view("TIER_").size())) - 1
+                                   : rarity.as_integer();
         }
-        if (auto child_iter = child_by_item_id.find(item_id); child_iter != child_by_item_id.cend()) {
-            output["child"] = child_iter->second;
+        if (auto formula_iter = formula_by_item_id.find(item_id); formula_iter != formula_by_item_id.cend()) {
+            output["formula"] = formula_iter->second;
         }
     }
     auto output_json_path = output_dir / "item_index.json";

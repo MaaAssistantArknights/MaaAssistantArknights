@@ -29,9 +29,9 @@ public:
         }
     }
 
-    std::optional<int> get_item_level(const std::string& id) const noexcept
+    std::optional<int> get_item_rarity(const std::string& id) const noexcept
     {
-        if (auto iter = m_item_level.find(id); iter != m_item_level.cend()) {
+        if (auto iter = m_item_rarity.find(id); iter != m_item_rarity.cend()) {
             return iter->second;
         }
         return std::nullopt;
@@ -52,7 +52,7 @@ protected:
 
     // key：材料编号Id，value：材料名（对应客户端材料名称，utf8）
     std::unordered_map<std::string, std::string> m_item_name;
-    std::unordered_map<std::string, int> m_item_level;
+    std::unordered_map<std::string, int> m_item_rarity;
     std::unordered_set<std::string> m_all_item_id;
     std::vector<std::string> m_ordered_material_item_id;
 };
