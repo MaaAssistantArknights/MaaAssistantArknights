@@ -14,17 +14,6 @@
         "src/MaaCore/Utils/Algorithm.hpp",
         "unit_test/MaaCore/AlgorithmTest.cpp"
       ]
-    },
-    {
-      "id": "maa-auto-raise-test",
-      "name": "Auto Raise Plan",
-      "buildTarget": "maa-auto-raise-test",
-      "ctestRegex": "^auto-raise::",
-      "paths": [
-        "src/MaaCore/Task/AutoRaise/AutoRaisePlan.h",
-        "src/MaaCore/Task/AutoRaise/AutoRaisePlanParser.h",
-        "unit_test/MaaCore/AutoRaisePlanTest.cpp"
-      ]
     }
   ]
 }

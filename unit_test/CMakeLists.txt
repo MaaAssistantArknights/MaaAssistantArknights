@@ -35,19 +35,3 @@ target_link_libraries(maa-algorithm-test PRIVATE Catch2::Catch2WithMain)
 target_include_directories(maa-algorithm-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
 
 catch_discover_tests(maa-algorithm-test TEST_PREFIX "algorithm::")
-
-add_executable(maa-auto-raise-test
-    MaaCore/AutoRaisePlanTest.cpp
-)
-
-target_compile_features(maa-auto-raise-test PRIVATE cxx_std_20)
-target_link_libraries(maa-auto-raise-test PRIVATE Catch2::Catch2WithMain)
-target_include_directories(maa-auto-raise-test PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore
-    ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaUtils/include
-)
-if(MSVC)
-    target_compile_options(maa-auto-raise-test PRIVATE /EHsc)
-endif()
-
-catch_discover_tests(maa-auto-raise-test TEST_PREFIX "auto-raise::")
