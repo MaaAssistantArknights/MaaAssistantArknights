@@ -37,9 +37,9 @@ class BlackFlowNodeExecutionConfig final :
     public AbstractConfig
 {
 private:
-// node_execution.json 中 task_results[].signals 与 strategy.json 的 facts 共同维护。
-// 修改 signal 时必须同步确认 fact 已声明、scope 不能为 candidate，并保证 value 与 FactType 一致。
-// Set 必须提供非 null value；Add 和 CaptureInteger 只能写入 integer fact。
+    // node_execution.json 中 task_results[].signals 与 strategy.json 的 facts 共同维护。
+    // 修改 signal 时必须同步确认 fact 已声明、scope 不能为 candidate，并保证 value 与 FactType 一致。
+    // Set 必须提供非 null value；Add 和 CaptureInteger 只能写入 integer fact。
     struct NodeExecutionRouteDto
     {
         std::string id;
@@ -134,8 +134,9 @@ private:
             task,
             completion_task);
     };
-// 修改节点更新字段时，需同步检查 node_execution.json 与 BlackFlowSession::apply_node_task_result()
-// actual_name 和 actual_name_source 不能同时配置，actual_name_source 仅支持 details.result.text
+
+    // 修改节点更新字段时，需同步检查 node_execution.json 与 BlackFlowSession::apply_node_task_result()
+    // actual_name 和 actual_name_source 不能同时配置，actual_name_source 仅支持 details.result.text
     struct NodeStateUpdateDto
     {
         std::optional<blackflow::NodeProgress> progress;

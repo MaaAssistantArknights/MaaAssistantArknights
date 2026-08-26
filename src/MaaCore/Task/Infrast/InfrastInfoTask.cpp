@@ -386,16 +386,18 @@ bool asst::InfrastInfoTask::try_zoom_out()
     events.emplace_back(InputEvent { .type = InputEvent::Type::COMMIT });
     for (int step = 1; step <= ZoomSteps; ++step) {
         const double ratio = static_cast<double>(step) / ZoomSteps;
-        events.emplace_back(InputEvent {
-            .type = InputEvent::Type::TOUCH_MOVE,
-            .pointerId = 0,
-            .point = lerp(pointer0_start, pointer0_end, ratio),
-        });
-        events.emplace_back(InputEvent {
-            .type = InputEvent::Type::TOUCH_MOVE,
-            .pointerId = 1,
-            .point = lerp(pointer1_start, pointer1_end, ratio),
-        });
+        events.emplace_back(
+            InputEvent {
+                .type = InputEvent::Type::TOUCH_MOVE,
+                .pointerId = 0,
+                .point = lerp(pointer0_start, pointer0_end, ratio),
+            });
+        events.emplace_back(
+            InputEvent {
+                .type = InputEvent::Type::TOUCH_MOVE,
+                .pointerId = 1,
+                .point = lerp(pointer1_start, pointer1_end, ratio),
+            });
         events.emplace_back(InputEvent { .type = InputEvent::Type::COMMIT });
         events.emplace_back(InputEvent { .type = InputEvent::Type::WAIT_MS, .milisec = StepDelayMs });
     }

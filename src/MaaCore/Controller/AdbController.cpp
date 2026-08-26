@@ -949,8 +949,8 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         // 每 1 分钟检测一次模拟器帧率
         check_fps();
 
-        if (screencap_ret && (image_payload.cols != m_last_screencap_size.first ||
-                              image_payload.rows != m_last_screencap_size.second)) {
+        if (screencap_ret &&
+            (image_payload.cols != m_last_screencap_size.first || image_payload.rows != m_last_screencap_size.second)) {
             // 截图尺寸发生帧间变化：模拟器分辨率可能被外部修改（MumuExtras/LDExtras
             // 输出原生分辨率且无协议头校验点，Encode 路径同理，统一在此检测）。
             // 以图像自身历史尺寸为基准，连接初期 fallback 桌面等持续性差异不会误触发；
