@@ -62,6 +62,7 @@
         "template": "ProcessingIncrease.png",
         "roi": [1008, 224, 133, 127],
         "action": "ClickSelf",
+        "preDelay": 1000,
         "postDelay": 100
     },
     "MiniGame@MaterialSynthesis@Decrease": {
