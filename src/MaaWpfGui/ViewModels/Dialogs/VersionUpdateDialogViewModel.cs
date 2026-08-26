@@ -284,7 +284,7 @@ public class VersionUpdateDialogViewModel : Screen
 
             if (!IsDebugVersion())
             {
-                if (SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan" && string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
+                if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.MirrorChyan && string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
                 {
                     _ = Task.Run(() =>
                         MessageBoxHelper.Show(
@@ -508,7 +508,7 @@ public class VersionUpdateDialogViewModel : Screen
         string? rawUrl = _assetsObject["browser_download_url"]?.ToString();
         var urls = new List<string>();
 
-        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == "Github" && !SettingsViewModel.VersionUpdateSettings.ForceGithubGlobalSource)
+        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.GitHub && !SettingsViewModel.VersionUpdateSettings.ForceGithubGlobalSource)
         {
             var mirrors = _assetsObject["mirrors"]?.ToObject<List<string>>();
 
@@ -762,7 +762,7 @@ public class VersionUpdateDialogViewModel : Screen
         // 与其他完整包更新入口保持一致，用户拒绝时不必下载 200MB+ 的完整包
         // 仅当更新来源配置为 MirrorChyan 且已填写 CDK 时走 MirrorChyan，其余来源直接走 maaApi
         var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk.Trim();
-        bool useMirrorChyan = SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan" && !string.IsNullOrEmpty(cdk);
+        bool useMirrorChyan = SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.MirrorChyan && !string.IsNullOrEmpty(cdk);
 
         var mirrorChyanPackage = useMirrorChyan ? await ResolveMirrorChyanRepairPackageAsync(cdk) : null;
         var maaApiPackage = mirrorChyanPackage is null ? await ResolveMaaApiRepairPackageAsync() : null;
@@ -1063,7 +1063,7 @@ public class VersionUpdateDialogViewModel : Screen
             return (CheckUpdateRetT.NoNeedToUpdateDebugVersion, null);
         }
 
-        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan")
+        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.MirrorChyan)
         {
             try
             {

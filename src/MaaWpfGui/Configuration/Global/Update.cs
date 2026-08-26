@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using MaaWpfGui.Constants.Enums;
 using PropertyChanged;
 using static MaaWpfGui.ViewModels.UserControl.Settings.VersionUpdateSettingsUserControlModel;
 
@@ -36,7 +37,7 @@ public partial class Update
 
     public bool HasAcknowledgedNightlyWarning { get; set; }
 
-    public string UpdateSource { get; set; } = "GitHub";
+    public UpdateSource UpdateSource { get; set; } = UpdateSource.GitHub;
 
     public bool ForceGithubGlobalSource { get; set; }
 

@@ -985,7 +985,7 @@ public class ConfigConverter
             ConfigFactory.Root.Update.VersionType = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable);
             ConfigFactory.Root.Update.AllowNightlyUpdates = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, false);
             ConfigFactory.Root.Update.HasAcknowledgedNightlyWarning = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, false);
-            ConfigFactory.Root.Update.UpdateSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateSource, "Github");
+            ConfigFactory.Root.Update.UpdateSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateSource, UpdateSource.GitHub);
             ConfigFactory.Root.Update.ForceGithubGlobalSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, false);
             ConfigFactory.Root.Update.MirrorChyanCdk = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdk, string.Empty);
             ConfigFactory.Root.Update.MirrorChyanCdkExpiredTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, 0L);

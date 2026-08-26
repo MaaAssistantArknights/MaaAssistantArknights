@@ -6,6 +6,7 @@
     xmlns:constants="clr-namespace:MaaWpfGui.Constants"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:enums="clr-namespace:MaaWpfGui.Constants.Enums"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -87,7 +88,7 @@
                 <StackPanel
                     Margin="8"
                     Orientation="Horizontal"
-                    Visibility="{c:Binding 'UpdateSource == &quot;Github&quot;'}">
+                    Visibility="{c:Binding 'UpdateSource == enums:UpdateSource.GitHub'}">
                     <CheckBox
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
@@ -134,7 +135,7 @@
                     <StackPanel
                         Margin="8"
                         HorizontalAlignment="Left"
-                        Visibility="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}">
+                        Visibility="{c:Binding 'UpdateSource == enums:UpdateSource.MirrorChyan'}">
                         <controls:TextBlock Margin="8,0,0,5" HorizontalAlignment="Left">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}{0} CDK">
