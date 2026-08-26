@@ -253,8 +253,8 @@ void BlackFlowCultivationTaskPlugin::apply_cultivation_result(const std::string&
         return;
     }
 
-    const NodeTaskResult* result = BlackFlowNodeExecution.get_task_result(std::string(CultivationResultTask));
-    if (result == nullptr) {
+    const auto result = BlackFlowNodeExecution.get_task_result(std::string(CultivationResultTask));
+    if (!result) {
         return;
     }
 
@@ -264,7 +264,7 @@ void BlackFlowCultivationTaskPlugin::apply_cultivation_result(const std::string&
     details["details"]["result"] = json::object { { "text", std::to_string(m_cultivated_animals) } };
 
     std::string error;
-    if (!m_session->apply_node_task_result(*result, details, &error)) {
+    if (!m_session->apply_node_task_result(result->get(), details, &error)) {
         Log.error("BlackFlow cultivation result callback failed", error);
         return;
     }

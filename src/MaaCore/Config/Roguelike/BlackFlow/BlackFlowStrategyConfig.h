@@ -3,6 +3,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <functional>
 #include <unordered_set>
 #include <vector>
 
@@ -25,7 +26,8 @@ class BlackFlowStrategyConfig final : public MAA_NS::SingletonHolder<BlackFlowSt
 public:
     virtual ~BlackFlowStrategyConfig() override = default;
 
-    [[nodiscard]] const blackflow::FactDefinition* get_fact_definition(const std::string& name) const noexcept;
+    [[nodiscard]] const std::optional<std::reference_wrapper<const blackflow::FactDefinition>>
+        get_fact_definition(const std::string& name) const noexcept;
     [[nodiscard]] const blackflow::PolicyModule* get_module(const std::string& id) const noexcept;
     [[nodiscard]] const blackflow::PolicyProfile* get_profile(const std::string& id) const noexcept;
 

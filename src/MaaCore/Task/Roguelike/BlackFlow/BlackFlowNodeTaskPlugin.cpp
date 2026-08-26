@@ -54,7 +54,7 @@ bool BlackFlowNodeTaskPlugin::verify(AsstMsg msg, const json::value& details) co
         m_pending_details = details;
         return true;
     }
-    if (msg == AsstMsg::SubTaskCompleted && BlackFlowNodeExecution.get_task_result(task) != nullptr) {
+    if (msg == AsstMsg::SubTaskCompleted && BlackFlowNodeExecution.get_task_result(task)) {
         m_pending = PendingWork::ApplyResult;
         m_pending_details = details;
         return true;
@@ -87,34 +87,24 @@ bool BlackFlowNodeTaskPlugin::_run()
             page.node_name,
             page.page_intent,
         };
-        const NodeExecutionRoute* route = BlackFlowNodeExecution.resolve_route(context);
+        const auto route = BlackFlowNodeExecution.resolve_route(context);
         std::string error;
         const bool initial_dispatch = page.stage == PageExecutionStage::PendingDispatch;
         const bool stage_valid =
             initial_dispatch ? m_session->mark_page_running(&error) : page.stage == PageExecutionStage::Running;
-        if (route == nullptr || !stage_valid) {
+        if (!route || !stage_valid) {
             m_session->fail(
                 "node_dispatch_failed",
-                route == nullptr ? "node execution config has no matching route"
-                                 : (error.empty() ? "node redispatch has invalid page stage" : error));
+                !route ? "node execution config has no matching route"
+                       : (error.empty() ? "node redispatch has invalid page stage" : error));
             Task.set_task_base("BlackFlow@Roguelike@NodeDispatchAction", "BlackFlow@Roguelike@RecoveryFailed");
             report_outputs();
             return true;
         }
-        Task.set_task_base("BlackFlow@Roguelike@NodeCompletionAction", route->completion_task);
-        Task.set_task_base(route->alias, route->task);
-        Log.info(
-            "BlackFlow node dispatch",
-            "floor",
-            page.floor,
-            "node",
-            page.node,
-            "event",
-            page.node_name,
-            "intent",
-            page.page_intent,
-            "task",
-            route->task);
+        Task.set_task_base("BlackFlow@Roguelike@NodeCompletionAction", route->get().completion_task);
+        Task.set_task_base(route->get().alias, route->get().task);
+        LogInfo << __FUNCTION__ << "BlackFlow node dispatch" << "floor" << page.floor << "node" << page.node << "event"
+                << page.node_name << "intent" << page.page_intent << "task" << route->get().task;
         report_outputs();
         return true;
     }
@@ -122,14 +112,14 @@ bool BlackFlowNodeTaskPlugin::_run()
     if (work == PendingWork::ApplyResult) {
         restore_node_completion_action();
         const std::string task = m_pending_details.get("details", "task", "");
-        const NodeTaskResult* result = BlackFlowNodeExecution.get_task_result(task);
+        const auto result = BlackFlowNodeExecution.get_task_result(task);
         std::string error;
         std::string next_task = "BlackFlow@Roguelike@RecoveryFailed";
-        if (result == nullptr || !m_session->apply_node_task_result(*result, m_pending_details, &error)) {
-            m_session->fail("node_result_failed", result == nullptr ? "node result task is not configured" : error);
+        if (!result || !m_session->apply_node_task_result(result->get(), m_pending_details, &error)) {
+            m_session->fail("node_result_failed", !result ? "node result task is not configured" : error);
             Task.set_task_base("BlackFlow@Roguelike@NodeResultAction", next_task);
         }
-        else if (result->kind == NodeTaskResultKind::PageCompleted) {
+        else if (result->get().kind == NodeTaskResultKind::PageCompleted) {
             if (m_session->terminated()) {
                 next_task = "BlackFlow@Roguelike@StrategyTerminated-Enter";
             }
@@ -143,7 +133,7 @@ bool BlackFlowNodeTaskPlugin::_run()
             }
             Task.set_task_base("BlackFlow@Roguelike@NodeResultAction", next_task);
         }
-        else if (result->redispatch) {
+        else if (result->get().redispatch) {
             Task.set_task_base("BlackFlow@Roguelike@NodeResultAction", "BlackFlow@Roguelike@NodeRedispatch-Enter");
         }
         report_outputs();

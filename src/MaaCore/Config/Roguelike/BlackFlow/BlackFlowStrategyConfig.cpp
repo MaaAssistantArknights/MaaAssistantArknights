@@ -900,10 +900,14 @@ void validate_profile_definition(
 }
 } // namespace
 
-const blackflow::FactDefinition* BlackFlowStrategyConfig::get_fact_definition(const std::string& name) const noexcept
+const std::optional<std::reference_wrapper<const blackflow::FactDefinition>>
+    BlackFlowStrategyConfig::get_fact_definition(const std::string& name) const noexcept
 {
     const auto found = m_facts.find(name);
-    return found == m_facts.end() ? nullptr : &found->second;
+    if (found == m_facts.end()) {
+        return std::nullopt;
+    }
+    return std::cref(found->second);
 }
 
 const blackflow::PolicyModule* BlackFlowStrategyConfig::get_module(const std::string& id) const noexcept
