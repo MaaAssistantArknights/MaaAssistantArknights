@@ -99,8 +99,6 @@ public:
 protected:
     virtual bool parse(const json::value& json) override;
 
-    void clear();
-
     std::unordered_set<std::string> m_all_stage_code;
     std::unordered_set<std::string> m_all_item_id;
     std::unordered_map<StageKey, StageInfo, StageKeyHasher> m_stage_info;
