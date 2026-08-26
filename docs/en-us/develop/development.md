@@ -78,7 +78,7 @@ We've preset several different development environments for you to choose from:
    - Press F5 to run
 
    ::: tip
-   To run Win32Controller (Windows window control) / MaaFwAdbController (MaaFwAdb touch mode) features, you need to manually download the package for your platform from [MaaFramework Releases](https://github.com/MaaXYZ/MaaFramework/releases), and place `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` from the `bin` directory into MAA's DLL directory (e.g. `build/bin/Debug`). PRs for an auto-download script are welcome!
+   To run Win32Controller (Windows window control) / MaaFwAdbController (MaaFramework touch mode) features, run `python tools/maafw-control-unit-download.py` to automatically download the `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` for your platform into the build output directory (the newest directory under `build/bin` by default, or the one given by `--output-dir`).
 
    To debug these features, [compile the Debug version of MaaFramework yourself](https://maafw.com/docs/4.1-BuildGuide) and use the corresponding DLLs, or it will randomly crash at breakpoints.
    :::
