@@ -44,9 +44,7 @@ public class MuMu12Extra() : ExtraConfig
 
             if (value)
             {
-                string path = EmulatorPath;
                 AutoDetectEmulatorPath();
-                EmulatorPath = path;
             }
 
             // 通知 ConnectSettings 动态增删触控模式下拉项并自动切换
