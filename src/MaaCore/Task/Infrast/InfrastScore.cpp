@@ -1535,6 +1535,7 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
                 }
             }
         }
+
         return { std::move(result), 0 };
     }
 
@@ -1703,7 +1704,130 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
     }
     return { std::move(result), 0 };
 }
+
+double training_score_impl(const ScoreOper& oper, battle::Role trainee_role, int target_level)
+{
+    // 训练室导师技能按参考实现迁移：职业匹配、通用加成和目标等级专属加成叠加。
+    // 训练室一次只启动一级专精，target_level 始终表示本次要启动的下一级。
+    if (oper.mood_ratio * 24.0 < 16.0) {
+        return -1.0;
+    }
+
+    const auto role_name = [&] {
+        switch (trainee_role) {
+        case battle::Role::Pioneer:
+            return std::string_view { "vanguard" };
+        case battle::Role::Warrior:
+            return std::string_view { "guard" };
+        case battle::Role::Tank:
+            return std::string_view { "defender" };
+        case battle::Role::Sniper:
+            return std::string_view { "sniper" };
+        case battle::Role::Caster:
+            return std::string_view { "caster" };
+        case battle::Role::Medic:
+            return std::string_view { "medic" };
+        case battle::Role::Support:
+            return std::string_view { "supporter" };
+        case battle::Role::Special:
+            return std::string_view { "specialist" };
+        default:
+            return std::string_view {};
+        }
+    }();
+
+    const auto role_matches = [&](std::string_view icon) {
+        if (!role_name.empty() && icon.find(role_name) != std::string::npos) {
+            return true;
+        }
+        switch (trainee_role) {
+        case battle::Role::Pioneer:
+            return icon.find("specialist&pioneer") != std::string::npos ||
+                   icon.find("caster&vanguard") != std::string::npos;
+        case battle::Role::Special:
+            return icon.find("specialist&pioneer") != std::string::npos;
+        case battle::Role::Warrior:
+            return icon.find("vanguard&sniper") != std::string::npos ||
+                   icon.find("caster&vanguard") != std::string::npos;
+        case battle::Role::Sniper:
+            return icon.find("vanguard&sniper") != std::string::npos;
+        case battle::Role::Caster:
+            return icon.find("caster&vanguard") != std::string::npos ||
+                   icon.find("caster&medic") != std::string::npos ||
+                   icon.find("caster&supporter") != std::string::npos;
+        case battle::Role::Medic:
+            return icon.find("caster&medic") != std::string::npos;
+        case battle::Role::Support:
+            return icon.find("caster&supporter") != std::string::npos;
+        default:
+            return false;
+        }
+    };
+
+    double score = 0.0;
+    for (const auto& icon : oper.skills) {
+        if (icon == "bskill_train_all") {
+            score += 0.25;
+            continue;
+        }
+        if (icon == "bskill_train_reducetime" && target_level < 3) {
+            score += 0.7;
+            continue;
+        }
+        if (icon == "bskill_train_spd&level" && target_level == 3) {
+            score += 0.7;
+            continue;
+        }
+        if (!role_matches(icon)) {
+            continue;
+        }
+
+        // 职业通用导师：基础匹配 0.3，等级 2/3 导师分别提升到 0.5/0.6。
+        if (icon.find("bskill_train_") == 0) {
+            score += icon.ends_with("3") ? 0.6 : icon.ends_with("2") ? 0.5 : 0.3;
+        }
+        // “train{目标等级}_...” 技能只在对应专精等级生效。
+        const std::string level_prefix = "bskill_train" + std::to_string(target_level) + "_";
+        if (icon.starts_with(level_prefix)) {
+            score += 0.3;
+            if (icon.ends_with("2")) {
+                score += 0.65;
+            }
+            else if (icon.ends_with("1")) {
+                score += 0.45;
+            }
+        }
+    }
+    return score;
+}
+
+ScoreResult select_training_impl(const std::vector<ScoreOper>& opers, const ScoreContext& context)
+{
+    if (context.slots <= 0) {
+        return { {}, 0.0 };
+    }
+    std::optional<size_t> best;
+    double best_score = -1.0;
+    for (size_t index = 0; index < opers.size(); ++index) {
+        const auto score = training_score_impl(opers[index], context.training_role, context.training_level);
+        if (score >= 0.0 && (!best || score > best_score)) {
+            best = index;
+            best_score = score;
+        }
+    }
+    return best ? ScoreResult { { *best }, best_score } : ScoreResult { {}, -1.0 };
+}
 } // namespace
+
+double training_score(const ScoreOper& oper, battle::Role trainee_role, int target_level)
+{
+    return training_score_impl(oper, trainee_role, target_level);
+}
+
+ScoreResult select_training(const std::vector<ScoreOper>& opers, const ScoreContext& context)
+{
+    return select_training_impl(opers, context);
+}
 
 const std::array<AbyssalHunterCandidate, 4>& get_abyssal_hunter_candidates()
 {
@@ -1763,6 +1887,9 @@ ScoreResult select_best_opers(const std::vector<ScoreOper>& opers, const ScoreCo
     }
     if (context.facility == "Control") {
         return select_control(opers, context);
+    }
+    if (context.facility == "Training") {
+        return select_training(opers, context);
     }
     if (context.facility == "Dorm") {
         return select_dorm(opers, context);
