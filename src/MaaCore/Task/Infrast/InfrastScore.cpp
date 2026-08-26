@@ -1114,7 +1114,7 @@ double power_score(const ScoreOper& oper, const ScoreContext& context)
     return score;
 }
 
-// 加工站材料合成评分：product 为材料 ID，level 为材料品质等级。
+// 加工站材料合成评分：product 为材料 ID，rarity 为官方材料稀有度。
 double processing_score(const ScoreOper& oper, const ScoreContext& context)
 {
     const std::string_view material_id = context.product;
@@ -1163,17 +1163,17 @@ double processing_score(const ScoreOper& oper, const ScoreContext& context)
         }
         else if (icon == "bskill_ws_free") {
             // 精打细算：瑕光，按材料品质近似计算龙门币减免收益。
-            score += 0.8 - context.level * 0.1;
+            score += 0.8 - context.rarity * 0.1;
         }
         else if (icon == "bskill_ws_cost_blemishine") {
             // 热心修补匠：瑕光，副产品 +40% 并降低高消耗配方心情。
             score += 0.4;
         }
-        else if (icon == "bskill_ws_bonus1" && context.level < 4) {
+        else if (icon == "bskill_ws_bonus1" && context.rarity < 4) {
             // 因果：九色鹿，T4 及以下材料积累 40 点因果。
             score += 0.9;
         }
-        else if (icon == "bskill_ws_bonus2" && context.level == 4) {
+        else if (icon == "bskill_ws_bonus2" && context.rarity == 4) {
             // 业报：九色鹿，T5 材料积累 80 点业报。
             score += 0.9;
         }
