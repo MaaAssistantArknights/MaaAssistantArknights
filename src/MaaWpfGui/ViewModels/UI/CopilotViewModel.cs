@@ -1163,8 +1163,9 @@ public partial class CopilotViewModel : Screen
         var list = copilot.Opers.Concat(copilot.Groups.SelectMany(g => g.Opers)).ToList();
         foreach (var oper in list)
         {
-            int rarity = DataHelper.GetCharacterByNameOrAlias(oper.Name)?.Rarity ?? -1;
-            string id = DataHelper.GetCharacterByNameOrAlias(oper.Name)?.Id ?? string.Empty;
+            var character = DataHelper.GetCharacterByNameOrAlias(oper.Name);
+            int rarity = character?.Rarity ?? -1;
+            string id = character?.Id ?? string.Empty;
             switch (oper.Skill)
             {
                 case 3 when rarity < 6 && id != "char_002_amiya":
