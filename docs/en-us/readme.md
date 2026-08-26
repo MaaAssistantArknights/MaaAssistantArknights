@@ -39,7 +39,7 @@ Please read the [documentation](./manual/newbie.md) and then visit the [official
 ## Key Features
 
 - Auto-farming sanity, drop item recognition and auto-uploading to [Penguin Stats](https://penguin-stats.io/), [Yituliu](https://ark.yituliu.cn/).
-- Intelligent base shift management, auto-calculating operator efficiency for optimal solutions within facilities; also supports [customized scheduling](./protocol/base-scheduling-schema.md).
+- Intelligent base shift management, auto-calculating operator efficiency with support for cross-facility combinations; also supports [customized scheduling](./protocol/base-scheduling-schema.md).
 - Auto-recruitment with option to use expedited plans, clearing all at once! Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/result/stage/recruit/recruit), [Yituliu](https://ark.yituliu.cn/survey/maarecruitdata).
 - Manual recruitment tag identification for better high-star recruitment decisions ~~(Will that Senior Operator tag give you SilverAsh or SilverAsh?)~~
 - Operator list recognition, counting owned and missing operators and their potentials, displayed during recruitment identification.
