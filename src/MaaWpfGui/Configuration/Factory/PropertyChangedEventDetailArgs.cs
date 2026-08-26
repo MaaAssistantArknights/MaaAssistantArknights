@@ -19,7 +19,6 @@ namespace MaaWpfGui.Configuration.Factory;
 // https://github.com/dotnet/runtime/issues/27252
 public class PropertyChangedEventDetailArgs(string propertyName, object? oldValue, object? newValue) : PropertyChangedEventArgs(propertyName)
 {
-
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public object? OldValue { get; private set; } = oldValue;
 
