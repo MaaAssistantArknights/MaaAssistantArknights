@@ -22,10 +22,10 @@ struct enum_name_storage<asst::blackflow::NodeType>
     static constexpr int max = 21;
     static constexpr int range = max - min + 1;
     static constexpr std::array<std::string_view, range> names {
-        "unknown", "battle_elite", "battle_normal", "battle_savage",  "duel",     "door",
-        "employ",  "expedition",   "hide_battle",   "hide_invisible", "incident", "light",
-        "portal",  "rest",         "sacrifice",     "scrap_shop",     "shop",     "wish",
-        "empty",   "evacuate",     "final",         "battle_boss",
+        "unclassified", "battle_elite", "battle_normal", "battle_savage",  "duel",     "door",
+        "employ",       "expedition",   "hide_battle",   "hide_invisible", "incident", "light",
+        "portal",       "rest",         "sacrifice",     "scrap_shop",     "shop",     "wish",
+        "empty",        "evacuate",     "final",         "battle_boss",
     };
 };
 }
