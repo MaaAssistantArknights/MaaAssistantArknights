@@ -141,7 +141,7 @@ private:
         std::optional<bool> identity_revealed;
         std::optional<bool> repeatable;
         std::optional<bool> becomes_empty;
-        MEO_JSONIZATION(
+        MEO_TOJSON(
             MEO_OPT actual_name_source,
             MEO_OPT progress,
             MEO_OPT actual_type,
@@ -149,6 +149,69 @@ private:
             MEO_OPT identity_revealed,
             MEO_OPT repeatable,
             MEO_OPT becomes_empty);
+        MEO_FROMJSON(
+            MEO_OPT actual_name_source,
+            MEO_OPT progress,
+            MEO_OPT actual_type,
+            MEO_OPT actual_name,
+            MEO_OPT identity_revealed,
+            MEO_OPT repeatable,
+            MEO_OPT becomes_empty);
+
+        bool check_json(const json::value& json) const
+        {
+            static constexpr std::array<const char*, 7> allowed_keys = { "actual_name_source", "progress",
+                                                                         "actual_type",        "actual_name",
+                                                                         "identity_revealed",  "repeatable",
+                                                                         "becomes_empty" };
+
+            if (!json.is_object()) {
+                return false;
+            }
+            const auto& obj = json.as_object();
+            for (const auto& kv : obj) {
+                if (std::ranges::find(allowed_keys, kv.first) == allowed_keys.end()) {
+                    return false;
+                }
+            }
+
+            bool ret = true;
+            const auto check_field =
+                [&]<typename T>(const char* key, const T&, bool required = true) -> std::optional<T> {
+                const auto& itoa = json.find_value(key);
+                if (!itoa) {
+                    ret = ret && !required;
+                }
+                else if (!itoa->is<T>()) {
+                    ret = false;
+                }
+                else {
+                    return itoa->as<T>();
+                }
+                return std::nullopt;
+            };
+#define field_opt(key) [[maybe_unused]] const auto& key##_opt = check_field(#key, key, false)
+            field_opt(actual_name_source);
+            field_opt(progress);
+            field_opt(actual_type);
+            field_opt(actual_name);
+            field_opt(identity_revealed);
+            field_opt(repeatable);
+            field_opt(becomes_empty);
+#undef field_opt
+            if (!ret) {
+                return false;
+            }
+            if (actual_name_opt && actual_name_source_opt) {
+                LogError << __FUNCTION__ << "node update cannot define actual_name and actual_name_source together";
+                return false;
+            }
+            if (actual_name_opt && actual_name_opt->value().empty()) {
+                LogError << __FUNCTION__ << "node update actual_name must not be empty";
+                return false;
+            }
+            return ret;
+        }
     };
 
     struct NodeStrategySignalDto
