@@ -964,6 +964,13 @@ void Assistant::append_callback(AsstMsg msg, const json::value& detail)
     case AsstMsg::InitFailed:
         stop(false);
         break;
+    case AsstMsg::ConnectionInfo:
+        // 分辨率被外部修改后连接已失效（invalidate_connection），
+        // 自动停止当前任务，待上层整体重连后再重新开始
+        if (more_detail["what"] == "ResolutionChanged") {
+            stop(false);
+        }
+        break;
     default:
         break;
     }

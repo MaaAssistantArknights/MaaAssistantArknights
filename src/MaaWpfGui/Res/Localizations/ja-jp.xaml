@@ -1367,6 +1367,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">ローカルADBを使用して接続しました。再試行する場合は、エミュレータをADBから切断し、閉じるか、コンピュータを再起動し、エミュレータを起動せずに管理者権限でMAAを開いてください。</system:String>
     <system:String x:Key="InitializationError">初期化エラー！</system:String>
     <system:String x:Key="ResolutionNotSupported">エミュレータの解像度はサポートされていません。アスペクト比16:9で、720p以上に設定してください。1280x720 または 1920x1080 の使用を推奨します</system:String>
+    <system:String x:Key="ResolutionChanged">エミュレーターの解像度が変更されたため、接続を切断しました。タスクを再起動して新しい解像度を適用してください</system:String>
     <system:String x:Key="ResolutionNotSupportedCurrentResolution">現在の解像度: {0}x{1}</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">エミュレータの解像度を取得できませんでした。エミュレータとADBを再起動するか、コンピュータを再起動することをお勧めします、エミュレータを変更してから再試行することをお勧めします</system:String>
     <system:String x:Key="TryToReconnect">エミュレータが切断、再接続を行います</system:String>

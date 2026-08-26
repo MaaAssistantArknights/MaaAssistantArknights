@@ -537,6 +537,84 @@ std::pair<int, int> asst::AdbController::get_screen_res() const noexcept
     return m_screen_size;
 }
 
+void asst::AdbController::invalidate_connection(std::string_view reason, int width, int height)
+{
+    // 分辨率被外部修改后，触控倍率与截图校验等整套映射全部过期。
+    // 不做原地修补：标记连接失效让任务快速失败，由上层走整体重连，
+    // 重连时会重新探测分辨率并重建全部输入映射
+    if (m_inited) {
+        m_inited = false;
+        m_connection_expired = true;
+        Log.warn("Resolution changed, connection invalidated.", reason, "width", width, "height", height);
+        json::value info = json::object {
+            { "uuid", m_uuid },
+            { "what", "ResolutionChanged" },
+            { "why", std::string(reason) },
+            { "details",
+              json::object {
+                  { "width", width },
+                  { "height", height },
+              } },
+        };
+        callback(AsstMsg::ConnectionInfo, info);
+    }
+}
+
+bool asst::AdbController::reprobe_screen_size()
+{
+    // 连接时执行 display 命令探测分辨率并刷新成员；
+    // 解析失败时保留旧值，避免把已知错误写入后续所有换算
+    const auto& adb_cfg = m_conn_ctx.adb_cfg;
+    auto display_ret = call_command(m_conn_ctx.replace_cmd(adb_cfg.display));
+    auto make_info = [&]() -> json::value {
+        return json::object {
+            { "uuid", m_uuid },
+            { "details",
+              json::object {
+                  { "adb", m_conn_ctx.adb_path },
+                  { "address", m_conn_ctx.address },
+              } },
+        };
+    };
+    if (!display_ret) {
+        json::value info = make_info() | json::object {
+            { "what", "ResolutionError" },
+            { "why", "Display command failed to exec" },
+        };
+        callback(AsstMsg::ConnectionInfo, info);
+        return false;
+    }
+    std::stringstream display_ss(display_ret.value());
+    int size_value1 = 0;
+    int size_value2 = 0;
+    display_ss >> size_value1 >> size_value2;
+    const int width = (std::max)(size_value1, size_value2);
+    const int height = (std::min)(size_value1, size_value2);
+    if (width == 0 || height == 0) {
+        json::value info = make_info() | json::object {
+            { "what", "ResolutionError" },
+            { "why", "Get resolution failed" },
+        };
+        callback(AsstMsg::ConnectionInfo, info);
+        return false;
+    }
+
+    m_width = width;
+    m_height = height;
+    m_screen_size = { m_width, m_height };
+
+    json::value info = make_info() | json::object {
+        { "what", "ResolutionGot" },
+        { "why", "" },
+    };
+    info["details"] |= json::object {
+        { "width", m_width },
+        { "height", m_height },
+    };
+    callback(AsstMsg::ConnectionInfo, info);
+    return true;
+}
+
 void asst::AdbController::release()
 {
     close_socket();
@@ -587,6 +665,11 @@ bool asst::AdbController::convert_lf(std::string& data)
 
 bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect)
 {
+    if (m_connection_expired) {
+        // 分辨率已被外部修改，等待上层整体重连，不再产出画面
+        return false;
+    }
+
     using namespace std::chrono;
     DecodeFunc decode_raw = [&](const std::string& data) -> bool {
         if (data.size() < 8) {
@@ -602,7 +685,10 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                      static_cast<uint32_t>(static_cast<unsigned char>(data[6])) << 16 |
                      static_cast<uint32_t>(static_cast<unsigned char>(data[7])) << 24;
         if (int(w) != m_width || int(h) != m_height) {
-            Log.error("Size from image header", w, h, "does not match the size of screen", m_width, m_height);
+            // 截图头与已知分辨率不符，通常为运行中模拟器分辨率被外部修改。
+            // 分辨率变化后触控倍率等整套映射全部过期，原地修补无法覆盖所有层，
+            // 标记连接失效并通知上层走整体重连，本帧按失败处理
+            invalidate_connection("Size from image header", w, h);
             return false;
         }
         size_t std_size = 4ULL * m_width * m_height;
@@ -863,6 +949,19 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         // 每 1 分钟检测一次模拟器帧率
         check_fps();
 
+        if (screencap_ret && (image_payload.cols != m_last_screencap_size.first ||
+                              image_payload.rows != m_last_screencap_size.second)) {
+            // 截图尺寸发生帧间变化：模拟器分辨率可能被外部修改（MumuExtras/LDExtras
+            // 输出原生分辨率且无协议头校验点，Encode 路径同理，统一在此检测）。
+            // 以图像自身历史尺寸为基准，连接初期 fallback 桌面等持续性差异不会误触发；
+            // 首帧不触发。分辨率变化后触控倍率等整套映射全部过期，标记连接失效，
+            // 通知上层走整体重连，本帧画面有效照常返回
+            if (m_last_screencap_size.first != 0) {
+                invalidate_connection("Screencap size changed", image_payload.cols, image_payload.rows);
+            }
+            m_last_screencap_size = { image_payload.cols, image_payload.rows };
+        }
+
         return screencap_ret;
     }
 }
@@ -954,6 +1053,8 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
 {
     LogTraceFunction;
 
+    // 重连即全新探测，清除上一次连接期间因分辨率变化而置位的过期标记
+    m_connection_expired = false;
     clear_info();
 
 #ifdef ASST_DEBUG
@@ -1193,43 +1294,13 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     }
 
     /* display */
-    {
-        auto display_ret = call_command(m_conn_ctx.replace_cmd(adb_cfg.display));
-        if (!display_ret) {
-            json::value info = get_info_json() | json::object {
-                { "what", "ConnectFailed" },
-                { "why", "Display command failed to exec" },
-            };
-            callback(AsstMsg::ConnectionInfo, info);
-            return false;
-        }
-        std::stringstream display_ss(display_ret.value());
-        int size_value1 = 0;
-        int size_value2 = 0;
-        display_ss >> size_value1 >> size_value2;
-
-        m_width = (std::max)(size_value1, size_value2);
-        m_height = (std::min)(size_value1, size_value2);
-
+    if (!reprobe_screen_size()) {
         json::value info = get_info_json() | json::object {
-            { "what", "ResolutionGot" },
-            { "why", "" },
+            { "what", "ConnectFailed" },
+            { "why", "Display command failed to exec" },
         };
-
-        info["details"] |= json::object {
-            { "width", m_width },
-            { "height", m_height },
-        };
-
         callback(AsstMsg::ConnectionInfo, info);
-
-        if (m_width == 0 || m_height == 0) {
-            info["what"] = "ResolutionError";
-            info["why"] = "Get resolution failed";
-            callback(AsstMsg::ConnectionInfo, info);
-            return false;
-        }
-        m_screen_size = { m_width, m_height };
+        return false;
     }
 
     if (need_exit()) {
