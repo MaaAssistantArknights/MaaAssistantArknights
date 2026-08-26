@@ -622,7 +622,11 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
         output["sortId"] = item_info["sortId"];
         output["classifyType"] = item_info["classifyType"];
         if (level_item_ids.contains(item_id)) {
-            output["level"] = item_info["rarity"];
+            // Official rarity is an integer, overseas is a "TIER_n" string; ItemConfig reads integers only.
+            const auto& rarity = item_info["rarity"];
+            output["level"] = rarity.is_string()
+                                  ? std::stoi(rarity.as_string().substr(std::string_view("TIER_").size())) - 1
+                                  : rarity.as_integer();
         }
         if (auto child_iter = child_by_item_id.find(item_id); child_iter != child_by_item_id.cend()) {
             output["child"] = child_iter->second;
