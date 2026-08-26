@@ -2787,7 +2787,7 @@
     "InfrastInfoZoomOutPointer1": {
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [300, 700, 1, 1],
+        "specificRect": [300, 640, 1, 1],
         "rectMove": [630, 370, 1, 1]
     },
     "InfrastLoading": {
