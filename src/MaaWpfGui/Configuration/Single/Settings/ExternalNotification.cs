@@ -14,15 +14,14 @@
 #nullable enable
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
-using PropertyChanged;
+using MaaWpfGui.Models;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
 /// <summary>
 /// 外部通知设置
 /// </summary>
-[AddINotifyPropertyChangedInterface]
-public partial class ExternalNotification
+public partial class ExternalNotification : NotifyPropertyChangedWithValue
 {
     [JsonInclude]
     public ObservableCollection<Base> Configs { get; private set; } = [];

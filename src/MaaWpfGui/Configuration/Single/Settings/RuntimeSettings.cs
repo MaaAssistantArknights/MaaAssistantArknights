@@ -13,16 +13,15 @@
 #nullable enable
 using System;
 using System.Text.Json.Serialization;
+using MaaWpfGui.Models;
 using MaaWpfGui.ViewModels.UserControl.Settings;
-using PropertyChanged;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
 /// <summary>
 /// wpf运行时设置
 /// </summary>
-[AddINotifyPropertyChangedInterface]
-public partial class RuntimeSettings : IJsonOnDeserialized
+public partial class RuntimeSettings : NotifyPropertyChangedWithValue, IJsonOnDeserialized
 {
     public Constants.Enums.ClientType ClientType { get; set; } = Constants.Enums.ClientType.Official;
 

@@ -12,15 +12,14 @@
 // </copyright>
 
 #nullable enable
-using PropertyChanged;
+using MaaWpfGui.Models;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
 /// <summary>
 /// 模拟器启动设置
 /// </summary>
-[AddINotifyPropertyChangedInterface]
-public partial class StartUpSettings
+public partial class StartUpSettings : NotifyPropertyChangedWithValue
 {
     public bool RunDirectly { get; set; }
 

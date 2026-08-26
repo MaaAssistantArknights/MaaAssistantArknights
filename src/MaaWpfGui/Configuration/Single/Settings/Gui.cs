@@ -12,7 +12,7 @@
 // </copyright>
 #nullable enable
 using System.Text.Json.Serialization;
-using PropertyChanged;
+using MaaWpfGui.Models;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
 using static MaaWpfGui.Models.PostActionSetting;
@@ -22,8 +22,7 @@ namespace MaaWpfGui.Configuration.Single.Settings;
 /// <summary>
 /// Wpf相关设置
 /// </summary>
-[AddINotifyPropertyChangedInterface]
-public partial class Gui
+public partial class Gui : NotifyPropertyChangedWithValue
 {
     public void EventBinding(string prefix)
     {

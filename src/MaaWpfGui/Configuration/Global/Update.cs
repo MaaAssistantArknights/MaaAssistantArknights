@@ -12,7 +12,7 @@
 // </copyright>
 #nullable enable
 using MaaWpfGui.Constants.Enums;
-using PropertyChanged;
+using MaaWpfGui.Models;
 using static MaaWpfGui.ViewModels.UserControl.Settings.VersionUpdateSettingsUserControlModel;
 
 namespace MaaWpfGui.Configuration.Global;
@@ -20,8 +20,7 @@ namespace MaaWpfGui.Configuration.Global;
 /// <summary>
 /// 更新设置(全局)
 /// </summary>
-[AddINotifyPropertyChangedInterface]
-public partial class Update
+public partial class Update : NotifyPropertyChangedWithValue
 {
     public string Name { get; set; } = string.Empty;
 

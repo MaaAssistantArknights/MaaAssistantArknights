@@ -13,15 +13,14 @@
 
 #nullable enable
 using System.Windows.Media;
-using PropertyChanged;
+using MaaWpfGui.Models;
 
 namespace MaaWpfGui.Configuration.Global;
 
 /// <summary>
 /// 背景设置
 /// </summary>
-[AddINotifyPropertyChangedInterface]
-public partial class Background
+public partial class Background : NotifyPropertyChangedWithValue
 {
     public string ImagePath { get; set; } = "Res/Backgrounds/Wallpapers/background.png";
 

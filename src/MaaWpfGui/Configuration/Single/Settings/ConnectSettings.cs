@@ -12,10 +12,9 @@
 // </copyright>
 #nullable enable
 using System.Collections.Generic;
-using System.ComponentModel;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Models;
 using MaaWpfGui.Models.EmulatorConnectionExtra;
-using PropertyChanged;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
@@ -23,8 +22,7 @@ namespace MaaWpfGui.Configuration.Single.Settings;
 /// <summary>
 /// 模拟器连接设置
 /// </summary>
-[AddINotifyPropertyChangedInterface]
-public partial class ConnectSettings
+public partial class ConnectSettings : NotifyPropertyChangedWithValue
 {
     private static string _bindingPrefix = string.Empty;
 
