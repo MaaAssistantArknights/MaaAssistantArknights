@@ -2,19 +2,19 @@
 
 #include <meojson/json.hpp>
 
-#include "Task/OperatorDevelopment/OperatorDevelopmentPlanParser.h"
+#include "Task/AutoRaise/AutoRaisePlanParser.h"
 
 namespace
 {
-std::optional<asst::OperatorDevelopmentPlan> parse(std::string_view text)
+std::optional<asst::AutoRaisePlan> parse(std::string_view text)
 {
     const auto value = json::parse(text);
     REQUIRE(value.has_value());
-    return asst::parse_operator_development_plan(*value);
+    return asst::parse_auto_raise_plan(*value);
 }
 } // namespace
 
-TEST_CASE("Operator development plan preserves order and duplicates")
+TEST_CASE("Auto raise plan preserves order and duplicates")
 {
     const auto plan = parse(R"({"plans":[
         {"name":"A","elite":1},
@@ -24,13 +24,13 @@ TEST_CASE("Operator development plan preserves order and duplicates")
     ]})");
     REQUIRE(plan.has_value());
     REQUIRE(plan->size() == 4);
-    REQUIRE(plan->at(0).action == asst::OperatorDevelopmentAction::Elite);
-    REQUIRE(plan->at(1).action == asst::OperatorDevelopmentAction::Skills);
-    REQUIRE(plan->at(2).action == asst::OperatorDevelopmentAction::Mastery);
-    REQUIRE(plan->at(3).action == asst::OperatorDevelopmentAction::Elite);
+    REQUIRE(plan->at(0).action == asst::AutoRaiseAction::Elite);
+    REQUIRE(plan->at(1).action == asst::AutoRaiseAction::Skills);
+    REQUIRE(plan->at(2).action == asst::AutoRaiseAction::Mastery);
+    REQUIRE(plan->at(3).action == asst::AutoRaiseAction::Elite);
 }
 
-TEST_CASE("Operator development plan accepts boundaries and empty plan")
+TEST_CASE("Auto raise plan accepts boundaries and empty plan")
 {
     REQUIRE(parse(R"({"plans":[]})")->empty());
     REQUIRE(parse(R"({"plans":[{"name":"A","elite":1},{"name":"A","elite":2}]})").has_value());
@@ -39,7 +39,7 @@ TEST_CASE("Operator development plan accepts boundaries and empty plan")
                 .has_value());
 }
 
-TEST_CASE("Operator development plan rejects malformed targets")
+TEST_CASE("Auto raise plan rejects malformed targets")
 {
     const std::vector<std::string_view> invalid {
         R"({})",

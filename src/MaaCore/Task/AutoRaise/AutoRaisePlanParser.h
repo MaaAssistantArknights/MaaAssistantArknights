@@ -10,11 +10,11 @@
 
 #include <meojson/json.hpp>
 
-#include "OperatorDevelopmentPlan.h"
+#include "AutoRaisePlan.h"
 
 namespace asst
 {
-inline std::optional<int> read_operator_development_integer(const json::value& value, std::string_view key)
+inline std::optional<int> read_auto_raise_integer(const json::value& value, std::string_view key)
 {
     const auto found = value.find(std::string(key));
     if (!found || !found->is_number()) {
@@ -28,7 +28,7 @@ inline std::optional<int> read_operator_development_integer(const json::value& v
     return static_cast<int>(number);
 }
 
-inline std::optional<OperatorDevelopmentPlan> parse_operator_development_plan(const json::value& params)
+inline std::optional<AutoRaisePlan> parse_auto_raise_plan(const json::value& params)
 {
     constexpr std::string_view Name = "name";
     constexpr std::string_view Elite = "elite";
@@ -42,7 +42,7 @@ inline std::optional<OperatorDevelopmentPlan> parse_operator_development_plan(co
     }
 
     const std::unordered_set<std::string_view> allowed { Name, Elite, Skills, Skill, SkillMaster };
-    OperatorDevelopmentPlan result;
+    AutoRaisePlan result;
     result.reserve(plans->size());
     for (const auto& value : *plans) {
         if (!value.is_object()) {
@@ -69,30 +69,30 @@ inline std::optional<OperatorDevelopmentPlan> parse_operator_development_plan(co
             return std::nullopt;
         }
 
-        OperatorDevelopmentTarget target { .name = *name };
+        AutoRaiseTarget target { .name = *name };
         if (has_elite) {
-            const auto level = read_operator_development_integer(value, Elite);
+            const auto level = read_auto_raise_integer(value, Elite);
             if (!level || *level < 1 || *level > 2) {
                 return std::nullopt;
             }
-            target.action = OperatorDevelopmentAction::Elite;
+            target.action = AutoRaiseAction::Elite;
             target.target = *level;
         }
         else if (has_skills) {
-            const auto level = read_operator_development_integer(value, Skills);
+            const auto level = read_auto_raise_integer(value, Skills);
             if (!level || *level < 2 || *level > 7) {
                 return std::nullopt;
             }
-            target.action = OperatorDevelopmentAction::Skills;
+            target.action = AutoRaiseAction::Skills;
             target.target = *level;
         }
         else {
-            const auto skill = read_operator_development_integer(value, Skill);
-            const auto level = read_operator_development_integer(value, SkillMaster);
+            const auto skill = read_auto_raise_integer(value, Skill);
+            const auto level = read_auto_raise_integer(value, SkillMaster);
             if (!skill || !level || *skill < 1 || *skill > 3 || *level < 1 || *level > 3) {
                 return std::nullopt;
             }
-            target.action = OperatorDevelopmentAction::Mastery;
+            target.action = AutoRaiseAction::Mastery;
             target.skill = *skill;
             target.target = *level;
         }

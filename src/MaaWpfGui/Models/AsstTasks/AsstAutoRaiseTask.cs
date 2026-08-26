@@ -1,4 +1,4 @@
-// <copyright file="AsstOperatorDevelopmentTask.cs" company="MaaAssistantArknights">
+// <copyright file="AsstAutoRaiseTask.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -17,9 +17,9 @@ using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Models.AsstTasks;
 
-public class AsstOperatorDevelopmentTask : AsstBaseTask
+public class AsstAutoRaiseTask : AsstBaseTask
 {
-    public override AsstTaskType TaskType => AsstTaskType.OperatorDevelopment;
+    public override AsstTaskType TaskType => AsstTaskType.AutoRaise;
 
     public JArray Plans { get; set; } = [];
 

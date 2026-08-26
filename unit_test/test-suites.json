@@ -16,14 +16,14 @@
       ]
     },
     {
-      "id": "maa-operator-development-test",
-      "name": "Operator Development Plan",
-      "buildTarget": "maa-operator-development-test",
-      "ctestRegex": "^operator-development::",
+      "id": "maa-auto-raise-test",
+      "name": "Auto Raise Plan",
+      "buildTarget": "maa-auto-raise-test",
+      "ctestRegex": "^auto-raise::",
       "paths": [
-        "src/MaaCore/Task/OperatorDevelopment/OperatorDevelopmentPlan.h",
-        "src/MaaCore/Task/OperatorDevelopment/OperatorDevelopmentPlanParser.h",
-        "unit_test/MaaCore/OperatorDevelopmentPlanTest.cpp"
+        "src/MaaCore/Task/AutoRaise/AutoRaisePlan.h",
+        "src/MaaCore/Task/AutoRaise/AutoRaisePlanParser.h",
+        "unit_test/MaaCore/AutoRaisePlanTest.cpp"
       ]
     }
   ]
