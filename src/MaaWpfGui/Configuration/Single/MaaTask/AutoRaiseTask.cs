@@ -1,4 +1,4 @@
-// <copyright file="OperatorDevelopmentTask.cs" company="MaaAssistantArknights">
+// <copyright file="AutoRaiseTask.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -19,9 +19,9 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 /// <summary>
 /// Ordered operator development plan.
 /// </summary>
-public class OperatorDevelopmentTask : BaseTask
+public class AutoRaiseTask : BaseTask
 {
-    public OperatorDevelopmentTask() => TaskType = TaskType.OperatorDevelopment;
+    public AutoRaiseTask() => TaskType = TaskType.AutoRaise;
 
     /// <summary>
     /// Gets or sets the editable JSON shown in the settings page.
