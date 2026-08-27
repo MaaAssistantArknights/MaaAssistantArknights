@@ -21,15 +21,6 @@ namespace MaaWpfGui.Models.EmulatorConnectionExtra;
 
 public class Win32Extra : ExtraConfig
 {
-    public Win32Extra()
-        : base()
-    {
-        if (MouseMethod == AsstWin32InputMethod.SendMessageWithWindowPos)
-        {
-            ScreencapMethod = AsstWin32ScreencapMethod.PrintWindow;
-        }
-    }
-
     /// <summary>
     /// Gets win32 截图方式枚举（与 AsstCaller.h 中 AsstWin32ScreencapMethodEnum 对应）
     /// </summary>

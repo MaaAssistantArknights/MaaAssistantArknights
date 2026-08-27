@@ -11,15 +11,24 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System.Text.Json.Serialization;
 using MaaWpfGui.Constants.Enums.Core;
 
 namespace MaaWpfGui.Configuration.Single.Settings.ConnectionExtra;
 
-public class Win32Extra : BaseExtra
+public class Win32Extra : BaseExtra, IJsonOnDeserialized
 {
     public AsstWin32ScreencapMethod ScreencapMethod { get; set; } = AsstWin32ScreencapMethod.FramePool;
 
     public AsstWin32InputMethod MouseMethod { get; set; } = AsstWin32InputMethod.SendMessageWithCursorPos;
 
     public AsstWin32KeyboardInputMethod KeyboardMethod { get; set; } = AsstWin32KeyboardInputMethod.SendMessage;
+
+    public void OnDeserialized()
+    {
+        if (MouseMethod == AsstWin32InputMethod.SendMessageWithWindowPos)
+        {
+            ScreencapMethod = AsstWin32ScreencapMethod.PrintWindow;
+        }
+    }
 }
