@@ -1,4 +1,4 @@
-## v6.17.0-beta.6
+## v6.17.0-beta.7
 
 ### Highlights
 
@@ -44,6 +44,37 @@ The infrast efficiency algorithm has been rewritten; the default mode now suppor
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.0-beta.7 (2026-08-28)</b></summary>
+
+### 新增 | New
+
+* 模拟器分辨率变化时中断当前任务并提示，避免在变更后的分辨率下继续识别；重新开始任务即可应用新分辨率 @ABA2396
+
+### 改进 | Improved
+
+* 任务因内存不足停止时给出专门提示，建议关闭部分程序或重启 MAA 后重试 @ABA2396
+* 调整基建干员冲突提示，检测到干员已进驻其他设施时将自动确认调动，日志不再标红 @ABA2396
+* 重构黑流肉鸽节点路线（routes）读取，配置解析错误时正确报错 ([#17820](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17820)) @status102
+* 重构连接设置的 Extras 连接配置结构，PC 端（Win32）连接配置独立拆分 @status102
+
+### 修复 | Fix
+
+* 修复基建布局识别的捏合缩放手势未经动作分割直接瞬移导致缩放无效的问题，识别失败时继续缩小视图重试 ([#17896](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17896)) @ABA2396 @youzibigg
+* 去除基建布局识别对控制中枢数量的校验，缺少控制中枢的布局不再被判为无效 @Lancarus
+* 修复无配置文件时首次启动更新源显示为空 @ABA2396
+* 修复启用 MuMu 触控模式时模拟器路径自动检测结果未生效 @status102
+* 修复小游戏界面开始任务时连接模拟器失败无任何提示 ([#17887](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17887)) @ABA2396
+* 放宽 Miss.Christine 的 OCR 识别容错 @Lancarus
+* 繁中服调整「辭歲行」OCR 文字 ([#17910](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17910)) @momomochi987
+
+### 文档 | Docs
+
+* 新增 MaaFramework 控制单元自动下载脚本及开发文档说明 ([#17786](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17786)) @Justin-Emils
+* 更新仓库分支名 dev → dev-v2，修复文档站 ｢编辑此页｣ 链接 404 ([#17920](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17920)) @satgo1546
+
+</details>
+
+<details>
 <summary><b>v6.17.0-beta.6 (2026-08-25)</b></summary>
 
 ### 新增 | New
