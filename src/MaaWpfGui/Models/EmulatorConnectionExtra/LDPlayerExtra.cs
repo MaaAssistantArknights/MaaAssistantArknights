@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Text.Json.Serialization;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -26,38 +26,18 @@ using Serilog;
 
 namespace MaaWpfGui.Models.EmulatorConnectionExtra;
 
-public class LDPlayerExtra() : ExtraConfig, IJsonOnDeserialized
+public class LDPlayerExtra() : ExtraConfig
 {
     private static readonly ILogger _logger = Log.ForContext<LDPlayerExtra>();
 
-    public LDPlayerExtra(bool isEnabled, string emulatorPath, bool manualSetIndex, int instanceIndex)
-        : this()
-    {
-        _isEnabled = isEnabled;
-        _emulatorPath = emulatorPath;
-        _manualSetIndex = manualSetIndex;
-        _instanceIndex = instanceIndex;
-    }
-
-    public void OnDeserialized()
-    {
-        _emulatorPath = Directory.Exists(_emulatorPath) ? _emulatorPath : string.Empty;
-    }
-
-    [JsonInclude]
-    [JsonPropertyName("IsEnabled")]
-    private bool _isEnabled;
-
-    [JsonIgnore]
     public bool Enable
     {
-        get => _isEnabled;
-        set {
-            if (!SetAndNotify(ref _isEnabled, value))
+        get; set {
+            if (!SetAndNotify(ref field, value))
             {
                 return;
             }
-
+            ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LDPlayer.IsEnabled = value;
             if (value)
             {
                 AutoDetectEmulatorPath();
@@ -65,7 +45,7 @@ public class LDPlayerExtra() : ExtraConfig, IJsonOnDeserialized
 
             Instances.AsstProxy.Connected = false;
         }
-    }
+    } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LDPlayer.IsEnabled;
 
     private void AutoDetectEmulatorPath()
     {
@@ -136,19 +116,13 @@ public class LDPlayerExtra() : ExtraConfig, IJsonOnDeserialized
         }
     }
 
-    [JsonInclude]
-    [JsonPropertyName("EmulatorPath")]
-    private string _emulatorPath = string.Empty;
-
     /// <summary>
     /// Gets or sets a value indicating the path of the emulator.
     /// </summary>
-    [JsonIgnore]
     public string EmulatorPath
     {
-        get => _emulatorPath;
-        set {
-            if (_isEnabled && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
+        get; set {
+            if (Enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
             {
                 MessageBoxHelper.Show(LocalizationHelper.GetString("LdPlayerEmulatorPathNotFound"));
                 MessageBoxHelper.Show(LocalizationHelper.GetString("LdExtrasEnabledTip"));
@@ -168,20 +142,15 @@ public class LDPlayerExtra() : ExtraConfig, IJsonOnDeserialized
             }
 
             Instances.AsstProxy.Connected = false;
-            SetAndNotify(ref _emulatorPath, value);
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LDPlayer.EmulatorPath = value;
         }
-    }
+    } = Directory.Exists(ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LDPlayer.EmulatorPath) ? ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LDPlayer.EmulatorPath : string.Empty;
 
-    [JsonInclude]
-    [JsonPropertyName("ManualSetIndex")]
-    private bool _manualSetIndex;
-
-    [JsonIgnore]
     public bool ManualSetIndex
     {
-        get => _manualSetIndex;
-        set {
-            if (_manualSetIndex == value)
+        get; set {
+            if (field == value)
             {
                 return;
             }
@@ -191,27 +160,23 @@ public class LDPlayerExtra() : ExtraConfig, IJsonOnDeserialized
                 InstanceIndex = GetEmulatorIndex(SettingsViewModel.ConnectSettings.ConnectAddress);
             }
 
-            SetAndNotify(ref _manualSetIndex, value);
+            SetAndNotify(ref field, value);
             Instances.AsstProxy.Connected = false;
+            ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LDPlayer.ManualSetIndex = value;
         }
-    }
-
-    [JsonInclude]
-    [JsonPropertyName("InstanceIndex")]
-    private int _instanceIndex;
+    } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LDPlayer.ManualSetIndex;
 
     /// <summary>
     /// Gets or sets the index of the emulator.
     /// </summary>
-    [JsonIgnore]
     public int InstanceIndex
     {
-        get => _instanceIndex;
-        set {
+        get; set {
             Instances.AsstProxy.Connected = false;
-            SetAndNotify(ref _instanceIndex, value);
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LDPlayer.InstanceIndex = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LDPlayer.InstanceIndex;
 
     private int GetEmulatorPid(int index)
     {
@@ -287,7 +252,6 @@ public class LDPlayerExtra() : ExtraConfig, IJsonOnDeserialized
         return index;
     }
 
-    [JsonIgnore]
     public string Config
     {
         get {

@@ -16,7 +16,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text.Json.Serialization;
-using PropertyChanged;
+using MaaWpfGui.Models;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Global;
@@ -24,8 +24,7 @@ namespace MaaWpfGui.Configuration.Global;
 /// <summary>
 /// 定时运行设置
 /// </summary>
-[AddINotifyPropertyChangedInterface]
-public partial class TimerSettings
+public partial class TimerSettings : NotifyPropertyChangedWithValue
 {
     public void EventBinding(string prefix)
     {

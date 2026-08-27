@@ -12,23 +12,19 @@
 // </copyright>
 
 #nullable enable
-using System.ComponentModel;
 using System.Text.Json.Serialization;
-using JetBrains.Annotations;
-using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Models;
 using ObservableCollections;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration;
 
-public class Root : INotifyPropertyChanged
+public class Root : NotifyPropertyChangedWithValue
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public void EventBinding(string prefix)
     {
         Timers.EventBinding($"{prefix}{nameof(Timers)}.");
@@ -67,11 +63,5 @@ public class Root : INotifyPropertyChanged
             return result!;
         }
         set => Configurations[Current] = value;
-    }
-
-    [UsedImplicitly]
-    public void OnPropertyChanged(string propertyName, object before, object after)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
     }
 }

@@ -257,7 +257,7 @@ public static class ConfigFactory
                     newValue = detailArgs.NewValue;
                 }
 
-                OnPropertyChanged(key + o?.GetType().Name + "." + args.PropertyName, oldValue, newValue);
+                OnPropertyChanged(key + "." + args.PropertyName, oldValue, newValue);
             };
         }
 

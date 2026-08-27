@@ -353,7 +353,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `ReportToYituliu`  
   汇报到一图流大数据
 - `InfrastDormDoubleConfirmButton`  
-  基建宿舍的二次确认按钮，仅当干员冲突时才会有，请提示用户
+  基建的二次确认按钮，仅当待进驻干员已进驻其他设施时才会有（MAA 将自动点击确认），请提示用户
 - `StartExplore`  
   肉鸽开始探索
 - `StageTraderInvestConfirm`  

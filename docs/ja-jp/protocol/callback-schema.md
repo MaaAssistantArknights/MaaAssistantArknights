@@ -260,7 +260,7 @@ Todo
 - `ReportToYituliu`  
    Yituliu へビッグデータの報告
 - `InfrastDormDoubleConfirmButton`  
-   基地施設での二重確認は、他のオペレーターとの競合がある場合のみ発生します
+   基地の二重確認ボタン、配置予定のオペレーターが既に他の施設に配属中の場合にのみ表示されます（MAAが自動でクリックします）
 - `StartExplore`  
    統合戦略: 開始
 - `StageTraderInvestConfirm`  

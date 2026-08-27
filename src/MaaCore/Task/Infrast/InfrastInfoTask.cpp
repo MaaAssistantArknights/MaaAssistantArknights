@@ -1,13 +1,13 @@
 #include "InfrastInfoTask.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <limits>
 #include <optional>
 #include <string_view>
 #include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "MaaUtils/NoWarningCV.hpp"
 
@@ -346,14 +346,14 @@ FacilityLayoutCounts
 bool is_usable_layout(const FacilityLayoutCounts& counts)
 {
     const size_t production_count = counts.production_count();
-    return production_count > 0 && production_count <= 9 && counts.dorm <= 4 && counts.control == 1 &&
-           counts.reception <= 1 && counts.office <= 1 && counts.processing <= 1 && counts.training <= 1;
+    return production_count > 0 && production_count <= 9 && counts.dorm <= 4 && counts.reception <= 1 &&
+           counts.office <= 1 && counts.processing <= 1 && counts.training <= 1;
 }
 
 bool is_complete_layout(const FacilityLayoutCounts& counts)
 {
     return counts.production_count() == 9 && counts.mfg != 0 && counts.trade != 0 && counts.power != 0 &&
-           counts.dorm == 4 && counts.control == 1 && counts.reception == 1 && counts.office == 1;
+           counts.dorm == 4 && counts.reception == 1 && counts.office == 1;
 }
 } // namespace
 
@@ -368,17 +368,43 @@ bool asst::InfrastInfoTask::try_zoom_out()
 
     // 两指从画面两侧向中心收拢。旧 ADB 和 PlayTools 控制器不支持多指输入，
     // 此时立即返回，后续仍同时使用正常/最小视图模板识别。
-    const std::array<InputEvent, 9> events = {
-        InputEvent { .type = InputEvent::Type::TOUCH_DOWN, .pointerId = 0, .point = pointer0_start },
-        InputEvent { .type = InputEvent::Type::TOUCH_DOWN, .pointerId = 1, .point = pointer1_start },
-        InputEvent { .type = InputEvent::Type::COMMIT },
-        InputEvent { .type = InputEvent::Type::TOUCH_MOVE, .pointerId = 0, .point = pointer0_end },
-        InputEvent { .type = InputEvent::Type::TOUCH_MOVE, .pointerId = 1, .point = pointer1_end },
-        InputEvent { .type = InputEvent::Type::COMMIT },
-        InputEvent { .type = InputEvent::Type::TOUCH_UP, .pointerId = 0 },
-        InputEvent { .type = InputEvent::Type::TOUCH_UP, .pointerId = 1 },
-        InputEvent { .type = InputEvent::Type::COMMIT },
+    // MOVE 必须逐点插值并保持步间等待：没有中间轨迹的单步瞬移会被游戏端
+    // 判成点击或页面滑动等独立手势，而不是捏合缩放。
+    constexpr int ZoomSteps = 20;
+    constexpr long StepDelayMs = 25;
+    constexpr long HoldBeforeUpMs = 100;
+
+    const auto lerp = [](const Point& from, const Point& to, double t) {
+        return Point { static_cast<int>(std::lround(from.x * (1 - t) + to.x * t)),
+                       static_cast<int>(std::lround(from.y * (1 - t) + to.y * t)) };
     };
+
+    std::vector<InputEvent> events;
+    events.reserve(3 + static_cast<size_t>(ZoomSteps) * 4 + 4);
+    events.emplace_back(InputEvent { .type = InputEvent::Type::TOUCH_DOWN, .pointerId = 0, .point = pointer0_start });
+    events.emplace_back(InputEvent { .type = InputEvent::Type::TOUCH_DOWN, .pointerId = 1, .point = pointer1_start });
+    events.emplace_back(InputEvent { .type = InputEvent::Type::COMMIT });
+    for (int step = 1; step <= ZoomSteps; ++step) {
+        const double ratio = static_cast<double>(step) / ZoomSteps;
+        events.emplace_back(
+            InputEvent {
+                .type = InputEvent::Type::TOUCH_MOVE,
+                .pointerId = 0,
+                .point = lerp(pointer0_start, pointer0_end, ratio),
+            });
+        events.emplace_back(
+            InputEvent {
+                .type = InputEvent::Type::TOUCH_MOVE,
+                .pointerId = 1,
+                .point = lerp(pointer1_start, pointer1_end, ratio),
+            });
+        events.emplace_back(InputEvent { .type = InputEvent::Type::COMMIT });
+        events.emplace_back(InputEvent { .type = InputEvent::Type::WAIT_MS, .milisec = StepDelayMs });
+    }
+    events.emplace_back(InputEvent { .type = InputEvent::Type::WAIT_MS, .milisec = HoldBeforeUpMs });
+    events.emplace_back(InputEvent { .type = InputEvent::Type::TOUCH_UP, .pointerId = 0 });
+    events.emplace_back(InputEvent { .type = InputEvent::Type::TOUCH_UP, .pointerId = 1 });
+    events.emplace_back(InputEvent { .type = InputEvent::Type::COMMIT });
 
     for (auto event : events) {
         if (!ctrler()->inject_input_event(event)) {
@@ -414,6 +440,23 @@ bool asst::InfrastInfoTask::_run()
     Log.info("InfrastInfoTask | zoom gesture", zoom_sent ? "sent" : "unsupported");
 
     constexpr int MaxAttempts = 3;
+    const auto prepare_retry = [&](int attempt) {
+        // A pinch may advance only one zoom level. When the first gesture leaves
+        // the overview at an intermediate scale, waiting cannot make the fixed-size
+        // normal or mini templates match; pinch again before retrying.
+        if (zoom_sent && attempt < MaxAttempts) {
+            const bool retry_zoom_sent = try_zoom_out();
+            Log.info(
+                "InfrastInfoTask | retry zoom gesture",
+                retry_zoom_sent ? "sent" : "unsupported",
+                "after attempt",
+                attempt);
+            if (retry_zoom_sent) {
+                return;
+            }
+        }
+        sleep(300);
+    };
     std::optional<FacilityLayoutCounts> partial_layout_candidate;
     for (int attempt = 1; attempt <= MaxAttempts; ++attempt) {
         if (need_exit()) {
@@ -427,7 +470,7 @@ bool asst::InfrastInfoTask::_run()
         if (!analyzer.analyze()) {
             partial_layout_candidate.reset();
             Log.warn("InfrastInfoTask | no facility matched, attempt", attempt);
-            sleep(300);
+            prepare_retry(attempt);
             continue;
         }
 
@@ -461,7 +504,7 @@ bool asst::InfrastInfoTask::_run()
                 attempt,
                 "view",
                 static_cast<int>(analyzer.get_view_type()));
-            sleep(300);
+            prepare_retry(attempt);
             continue;
         }
 

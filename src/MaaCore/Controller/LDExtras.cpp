@@ -78,8 +78,7 @@ std::optional<cv::Mat> LDExtras::screencap() const
             throw;
         }
         try {
-            LogError << "LDExtras screencap OpenCV exception:" << e.what() << VAR(e.code) << VAR(e.file)
-                     << VAR(e.line);
+            LogError << "LDExtras screencap OpenCV exception:" << e.what() << VAR(e.code) << VAR(e.file) << VAR(e.line);
         }
         catch (...) {
         }

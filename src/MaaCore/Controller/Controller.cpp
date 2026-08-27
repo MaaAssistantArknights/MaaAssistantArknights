@@ -231,8 +231,9 @@ bool asst::Controller::swipe(
 
 bool asst::Controller::inject_input_event(InputEvent& event)
 {
-    CHECK_EXIST(m_controller, false);
-    return m_controller->inject_input_event(event);
+    // 与 click/swipe 一致必须经 scale proxy，否则任务层的基准坐标未乘分辨率倍率直发设备
+    CHECK_EXIST(m_scale_proxy, false);
+    return m_scale_proxy->inject_input_event(event);
 }
 
 bool asst::Controller::press_esc()

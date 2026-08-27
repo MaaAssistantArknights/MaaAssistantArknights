@@ -11,14 +11,10 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System.Text.Json.Serialization;
 using Stylet;
 
 namespace MaaWpfGui.Models.EmulatorConnectionExtra;
 
-[JsonDerivedType(typeof(MuMu12Extra), typeDiscriminator: nameof(MuMu12Extra))]
-[JsonDerivedType(typeof(LDPlayerExtra), typeDiscriminator: nameof(LDPlayerExtra))]
-[JsonDerivedType(typeof(Win32Extra), typeDiscriminator: nameof(Win32Extra))]
 public class ExtraConfig : PropertyChangedBase
 {
 }

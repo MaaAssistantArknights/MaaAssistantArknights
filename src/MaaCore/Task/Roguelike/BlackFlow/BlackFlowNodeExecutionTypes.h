@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "BlackFlowModel.h"
+#include "Utils/Logger.hpp"
 
 namespace asst::blackflow
 {

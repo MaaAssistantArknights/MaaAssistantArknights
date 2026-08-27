@@ -248,14 +248,14 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     } = ConfigFactory.Root.Update.HasAcknowledgedNightlyWarning;
 
-    public LocalizedObservableList<string> UpdateSourceList { get; } = new(
-        ("Github", "GlobalSource"),
-        ("MirrorChyan", "MirrorChyan"));
+    public LocalizedObservableList<UpdateSource> UpdateSourceList { get; } = new(
+        (UpdateSource.GitHub, "GlobalSource"),
+        (UpdateSource.MirrorChyan, "MirrorChyan"));
 
     /// <summary>
     /// Gets or sets the type of version to update.
     /// </summary>
-    public string UpdateSource
+    public UpdateSource UpdateSource
     {
         get; set {
             SetAndNotify(ref field, value);
@@ -499,7 +499,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan" && string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
+        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.MirrorChyan && string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
         {
             ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanSelectedButNoCdk"));
             return;
@@ -545,7 +545,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan" && string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
+        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.MirrorChyan && string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
         {
             ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanSelectedButNoCdk"));
             return;
@@ -573,8 +573,8 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
 
         bool success = UpdateSource switch {
-            "Github" => await ResourceUpdater.UpdateFromGithubAsync(),
-            "MirrorChyan" => (ret == VersionUpdateDialogViewModel.CheckUpdateRetT.OK) && await ResourceUpdater.DownloadFromMirrorChyanAsync(uri, releaseNote),
+            UpdateSource.GitHub => await ResourceUpdater.UpdateFromGithubAsync(),
+            UpdateSource.MirrorChyan => (ret == VersionUpdateDialogViewModel.CheckUpdateRetT.OK) && await ResourceUpdater.DownloadFromMirrorChyanAsync(uri, releaseNote),
             _ => await ResourceUpdater.UpdateFromGithubAsync(),
         };
 

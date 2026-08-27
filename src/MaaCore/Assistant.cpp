@@ -590,7 +590,15 @@ void Assistant::working_proc()
                 if (e.code == cv::Error::StsNoMem) {
                     exception_kind = TaskExceptionKind::OutOfMemory;
                     best_effort([&] {
-                        Log.error("OpenCV out of memory in task thread", e.what(), "code", e.code, "file", e.file, "line", e.line);
+                        Log.error(
+                            "OpenCV out of memory in task thread",
+                            e.what(),
+                            "code",
+                            e.code,
+                            "file",
+                            e.file,
+                            "line",
+                            e.line);
                     });
                 }
                 else {
@@ -835,7 +843,15 @@ void asst::Assistant::call_proc()
                 if (e.code == cv::Error::StsNoMem) {
                     exception_kind = TaskExceptionKind::OutOfMemory;
                     best_effort([&] {
-                        Log.error("OpenCV out of memory in async call thread", e.what(), "code", e.code, "file", e.file, "line", e.line);
+                        Log.error(
+                            "OpenCV out of memory in async call thread",
+                            e.what(),
+                            "code",
+                            e.code,
+                            "file",
+                            e.file,
+                            "line",
+                            e.line);
                     });
                 }
                 else {
@@ -947,6 +963,13 @@ void Assistant::append_callback(AsstMsg msg, const json::value& detail)
     case AsstMsg::InternalError:
     case AsstMsg::InitFailed:
         stop(false);
+        break;
+    case AsstMsg::ConnectionInfo:
+        // 分辨率被外部修改后连接已失效（invalidate_connection），
+        // 自动停止当前任务，待上层整体重连后再重新开始
+        if (more_detail["what"] == "ResolutionChanged") {
+            stop(false);
+        }
         break;
     default:
         break;

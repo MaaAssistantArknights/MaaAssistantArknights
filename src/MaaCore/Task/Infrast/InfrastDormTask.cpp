@@ -117,7 +117,7 @@ std::vector<size_t> asst::infrast::find_low_mood_candidates(
             result.emplace_back(index);
         }
     }
-    std::ranges::stable_sort(result, { }, [&](size_t index) { return candidates[index].mood_ratio; });
+    std::ranges::stable_sort(result, {}, [&](size_t index) { return candidates[index].mood_ratio; });
     if (result.size() > limit) {
         result.resize(limit);
     }

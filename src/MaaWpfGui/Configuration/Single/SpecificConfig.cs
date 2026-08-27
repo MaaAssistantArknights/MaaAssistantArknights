@@ -11,21 +11,17 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using System.ComponentModel;
 using System.Text.Json.Serialization;
-using JetBrains.Annotations;
-using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Configuration.Single.Settings;
+using MaaWpfGui.Models;
 using ObservableCollections;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Single;
 
-public class SpecificConfig : INotifyPropertyChanged
+public class SpecificConfig : NotifyPropertyChangedWithValue
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public void EventBinding(string prefix)
     {
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
@@ -48,10 +44,4 @@ public class SpecificConfig : INotifyPropertyChanged
 
     [JsonInclude]
     public int TaskSelectedIndex { get; set; } = -1;
-
-    [UsedImplicitly]
-    public void OnPropertyChanged(string propertyName, object before, object after)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
-    }
 }

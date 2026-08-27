@@ -11,7 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
-using PropertyChanged;
+using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Models;
 using static MaaWpfGui.ViewModels.UserControl.Settings.VersionUpdateSettingsUserControlModel;
 
 namespace MaaWpfGui.Configuration.Global;
@@ -19,8 +20,7 @@ namespace MaaWpfGui.Configuration.Global;
 /// <summary>
 /// 更新设置(全局)
 /// </summary>
-[AddINotifyPropertyChangedInterface]
-public partial class Update
+public partial class Update : NotifyPropertyChangedWithValue
 {
     public string Name { get; set; } = string.Empty;
 
@@ -36,7 +36,7 @@ public partial class Update
 
     public bool HasAcknowledgedNightlyWarning { get; set; }
 
-    public string UpdateSource { get; set; } = "GitHub";
+    public UpdateSource UpdateSource { get; set; } = UpdateSource.GitHub;
 
     public bool ForceGithubGlobalSource { get; set; }
 

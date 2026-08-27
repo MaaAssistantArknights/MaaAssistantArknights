@@ -34,11 +34,11 @@ public:
     Rect get_rect(const std::string& name, int index) const
     {
         if (auto iter = m_result.find(name); iter == m_result.cend()) {
-            return { };
+            return {};
         }
         else {
             if (index < 0 || static_cast<size_t>(index) >= iter->second.size()) {
-                return { };
+                return {};
             }
             else {
                 return iter->second.at(index).rect;

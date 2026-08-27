@@ -11,15 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.ComponentModel;
-using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Models;
 
 namespace MaaWpfGui.Configuration.Global;
 
-public class AnnouncementInfo : INotifyPropertyChanged
+public class AnnouncementInfo : NotifyPropertyChangedWithValue
 {
-    public event PropertyChangedEventHandler PropertyChanged;
-
     /// <summary>
     /// Gets or sets a value indicating whether 下次不再显示公告
     /// </summary>
@@ -29,9 +26,4 @@ public class AnnouncementInfo : INotifyPropertyChanged
     /// Gets or sets a value indicating whether 不显示公告
     /// </summary>
     public bool DoNotShow { get; set; } = false;
-
-    public void OnPropertyChanged(string propertyName, object before, object after)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
-    }
 }

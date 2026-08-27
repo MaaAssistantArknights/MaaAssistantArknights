@@ -305,14 +305,14 @@ bool BlackFlowSession::configure_diagnostics(DiagnosticSettings settings, std::s
 
 bool BlackFlowSession::set_fact(std::string_view name, FactValue value, std::string* error)
 {
-    const FactDefinition* definition = BlackFlowStrategy.get_fact_definition(std::string(name));
-    if (definition == nullptr) {
+    const auto definition_opt = BlackFlowStrategy.get_fact_definition(std::string(name));
+    if (!definition_opt.has_value()) {
         if (error != nullptr) {
             *error = "attempted to set unknown strategy fact: " + std::string(name);
         }
         return false;
     }
-    return m_facts.set(definition->scope, std::string(name), std::move(value), error);
+    return m_facts.set(definition_opt->get().scope, std::string(name), std::move(value), error);
 }
 
 bool BlackFlowSession::synchronize_resource_facts(std::string* error)
@@ -496,8 +496,8 @@ void BlackFlowSession::evaluate_terminal_rules()
 bool BlackFlowSession::apply_observed_facts(const FactStore& facts, std::string* error)
 {
     for (const auto& [name, value] : facts.values()) {
-        const FactDefinition* definition = BlackFlowStrategy.get_fact_definition(name);
-        if (definition == nullptr || definition->scope == FactScope::Candidate) {
+        const auto definition_opt = BlackFlowStrategy.get_fact_definition(name);
+        if (!definition_opt.has_value() || definition_opt->get().scope == FactScope::Candidate) {
             if (error != nullptr) {
                 *error = "observed fact is undeclared or candidate-scoped: " + name;
             }

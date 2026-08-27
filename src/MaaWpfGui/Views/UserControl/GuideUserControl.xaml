@@ -799,7 +799,7 @@
                                         SelectedValuePath="Value" />
                                 </StackPanel>
                                 <StackPanel>
-                                    <StackPanel Visibility="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}">
+                                    <StackPanel Visibility="{c:Binding 'UpdateSource == enums:UpdateSource.MirrorChyan'}">
                                         <controls:TextBlock Margin="8,0,0,5" HorizontalAlignment="Center">
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} CDK">

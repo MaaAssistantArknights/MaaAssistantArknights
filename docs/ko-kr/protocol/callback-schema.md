@@ -353,7 +353,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `ReportToYituliu`  
   Yituliu 빅데이터 보고
 - `InfrastDormDoubleConfirmButton`  
-  기반시설 숙소의 2차 확인 버튼, 오퍼레이터 충돌 시에만 나타남, 사용자에게 알림 필요
+  기반시설의 2차 확인 버튼, 배치할 오퍼레이터가 이미 다른 시설에 근무 중인 경우에만 나타남(MAA가 자동으로 클릭), 사용자에게 알림 필요
 - `StartExplore`  
   통합 전략 탐험 시작
 - `StageTraderInvestConfirm`  

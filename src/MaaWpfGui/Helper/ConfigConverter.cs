@@ -21,11 +21,12 @@ using System.Windows.Media;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Configuration.Single.Settings.ConnectionExtra;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Constants.Enums.Core;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Models;
-using MaaWpfGui.Models.EmulatorConnectionExtra;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -36,7 +37,6 @@ using Serilog;
 using static MaaWpfGui.Configuration.Global.Gui;
 using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
 using static MaaWpfGui.Models.AsstTasks.AsstCopilotTask;
-using static MaaWpfGui.Models.EmulatorConnectionExtra.Win32Extra;
 using static MaaWpfGui.Models.PostActionSetting;
 using static MaaWpfGui.ViewModels.UI.CopilotViewModel;
 using static MaaWpfGui.ViewModels.UI.OverlayViewModel;
@@ -818,26 +818,29 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.AdbLiteEnabled);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.KillAdbOnExit);
                 {
-                    var extra = new MuMu12Extra(
-                        ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12ExtrasEnabled, false),
-                        ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12EmulatorPath, string.Empty),
-                        ConfigurationHelper.GetValue(ConfigurationKeys.MumuBridgeConnection, false),
-                        ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Index, 0));
-                    ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.MuMuEmulator12 = extra;
+                    var extra = new Mumu12Extra {
+                        IsEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12ExtrasEnabled, false),
+                        EmulatorPath = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12EmulatorPath, string.Empty),
+                        EnableBridgeConnection = ConfigurationHelper.GetValue(ConfigurationKeys.MumuBridgeConnection, false),
+                        InstanceIndex = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Index, 0),
+                    };
+                    ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Mumu12 = extra;
                 }
                 {
-                    var extra = new LDPlayerExtra(
-                        ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerExtrasEnabled, false),
-                        ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerEmulatorPath, string.Empty),
-                        ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerManualSetIndex, false),
-                        ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerIndex, 0));
+                    var extra = new LdPlayerExtra {
+                        IsEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerExtrasEnabled, false),
+                        EmulatorPath = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerEmulatorPath, string.Empty),
+                        ManualSetIndex = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerManualSetIndex, false),
+                        InstanceIndex = ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerIndex, 0),
+                    };
                     ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LDPlayer = extra;
                 }
                 {
-                    var extra = new Win32Extra(
-                         ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowScreencapMethod, AsstWin32ScreencapMethod.FramePool),
-                         ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowMouseMethod, AsstWin32InputMethod.SendMessageWithCursorPos),
-                         ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowKeyboardMethod, AsstWin32KeyboardInputMethod.SendMessage));
+                    var extra = new Win32Extra {
+                        ScreencapMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowScreencapMethod, AsstWin32ScreencapMethod.FramePool),
+                        MouseMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowMouseMethod, AsstWin32InputMethod.SendMessageWithCursorPos),
+                        KeyboardMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowKeyboardMethod, AsstWin32KeyboardInputMethod.SendMessage),
+                    };
                     ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra = extra;
                 }
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.MuMu12ExtrasEnabled);
@@ -985,7 +988,7 @@ public class ConfigConverter
             ConfigFactory.Root.Update.VersionType = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable);
             ConfigFactory.Root.Update.AllowNightlyUpdates = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, false);
             ConfigFactory.Root.Update.HasAcknowledgedNightlyWarning = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, false);
-            ConfigFactory.Root.Update.UpdateSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateSource, "Github");
+            ConfigFactory.Root.Update.UpdateSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateSource, UpdateSource.GitHub);
             ConfigFactory.Root.Update.ForceGithubGlobalSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, false);
             ConfigFactory.Root.Update.MirrorChyanCdk = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdk, string.Empty);
             ConfigFactory.Root.Update.MirrorChyanCdkExpiredTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, 0L);

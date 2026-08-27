@@ -26,6 +26,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Constants.Enums.Core;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -58,19 +59,15 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
 
-        // 鼠标输入方式变化时刷新窗口恢复按钮的可见性
-        if (ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra is { } win32Extra)
-        {
-            // 从配置恢复时，刷新截图方式选项的可用状态
-            win32Extra.UpdateScreencapMethodAvailability();
+        // 刷新截图方式选项的可用状态
+        Extras.Win32.UpdateScreencapMethodAvailability();
 
-            win32Extra.PropertyChanged += (_, e) => {
-                if (e.PropertyName == nameof(Win32Extra.MouseMethod))
-                {
-                    NotifyOfPropertyChange(nameof(ShowWindowRestoreButton));
-                }
-            };
-        }
+        Extras.Win32.PropertyChanged += (_, e) => {
+            if (e.PropertyName == nameof(Win32Extra.MouseMethod))
+            {
+                NotifyOfPropertyChange(nameof(ShowWindowRestoreButton));
+            }
+        };
 
         // 从配置恢复时，若 MuMu 截图增强已启用，需将 MuMu 触控加入下拉列表
         if (ExtraConfig is MuMu12Extra { Enable: true })
@@ -254,11 +251,31 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     [PropertyDependsOn(nameof(ConnectConfig))]
     public ExtraConfig? ExtraConfig => ConnectConfig switch {
-        ConnectConfig.LDPlayer => ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LDPlayer,
-        ConnectConfig.MuMuEmulator12 => ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.MuMuEmulator12,
-        ConnectConfig.PC => ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra,
+        ConnectConfig.LDPlayer => Extras.LdPlayer,
+        ConnectConfig.MuMuEmulator12 => Extras.Mumu12,
+        ConnectConfig.PC => Extras.Win32,
         _ => null,
     };
+
+    private readonly ExtraConfigs Extras = new();
+
+    private class ExtraConfigs
+    {
+        public LDPlayerExtra LdPlayer { get; set; } = new();
+
+        public MuMu12Extra Mumu12 { get; set; } = new();
+
+        public Models.EmulatorConnectionExtra.Win32Extra Win32 { get; set; } = new();
+
+        public Bluestacks BluestacksExtra { get; set; } = new();
+
+        public record class Bluestacks
+        {
+            public string ConfigKeyword { get; set; } = string.Empty;
+
+            public string ConfigPath { get; set; } = string.Empty;
+        }
+    }
 
     public string ScreencapMethod { get; set; } = string.Empty;
 
@@ -742,8 +759,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// <param name="mumuExtrasEnabled">MuMu 截图增强是否已启用。</param>
     public void OnMuMuExtrasEnableChanged(bool mumuExtrasEnabled)
     {
-        Execute.OnUIThread(() =>
-        {
+        Execute.OnUIThread(() => {
             var hasMumu = TouchModeList.Items.Any(item => item.Value == TouchMode.MumuExtras);
             if (mumuExtrasEnabled && !hasMumu)
             {
@@ -849,7 +865,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     [PropertyDependsOn(nameof(ConnectConfig))]
     public bool ShowWindowRestoreButton =>
-        IsPCConnectConfig && ExtraConfig is Win32Extra { MouseMethod: Win32Extra.AsstWin32InputMethod.SendMessageWithWindowPos };
+        IsPCConnectConfig && ExtraConfig is Models.EmulatorConnectionExtra.Win32Extra { MouseMethod: AsstWin32InputMethod.SendMessageWithWindowPos };
 
     public bool IsPCConnectConfig => ConnectConfig == ConnectConfig.PC;
 

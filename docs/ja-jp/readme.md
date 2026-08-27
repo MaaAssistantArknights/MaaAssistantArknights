@@ -39,7 +39,7 @@ MAAは、MAA Assistant Arknightsです。
 ## 機能一覧
 
 - 自動作戦、ドロップ認識および [PenguinStats](https://penguin-stats.io/) と [Yituliu](https://ark.yituliu.cn/) へデータアップロード。
-- 自動基地シフト、オペレーター効率計算、単一設備内に最適なソリューション；[カスタムシフト](./protocol/base-scheduling-schema.md)にも対応しています。
+- 自動基地シフト、オペレーター効率計算、施設横断の組み合わせに対応；[カスタムシフト](./protocol/base-scheduling-schema.md)にも対応しています。
 - 自動公開求人、緊急招集票を使う、使い切るのもサポート。[PenguinStats](https://penguin-stats.io/result/stage/recruit/recruit)と[Yituliu](https://ark.yituliu.cn/survey/maarecruitdata)へ公開求人データのアップロード。
 - 高スターの公開求人を選択するのに便利な公開求人のパネルの手動認識をサポートします。~~（この上級エリートとCost回復はシージかシージか）~~
 - オペレーターリストを認識し、所持および未所持のオペレーターと潜在能力を集計し、公開求人認識時に表示します。

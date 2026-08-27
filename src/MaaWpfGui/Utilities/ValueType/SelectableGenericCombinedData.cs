@@ -23,9 +23,10 @@ public class SelectableGenericCombinedData<TValueType> : GenericCombinedData<TVa
     {
     }
 
-    public SelectableGenericCombinedData(string name, TValueType value)
+    public SelectableGenericCombinedData(string name, TValueType value, bool isEnabled = true)
         : base(name, value)
     {
+        IsEnabled = isEnabled;
     }
 
     /// <summary>

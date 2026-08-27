@@ -345,7 +345,7 @@ public static class ResourceUpdater
                 return ret;
             }
 
-            if (SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan" &&
+            if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.MirrorChyan &&
                 await DownloadFromMirrorChyanAsync(uri, releaseNote))
             {
                 return CheckUpdateRetT.OnlyGameResourceUpdated;
