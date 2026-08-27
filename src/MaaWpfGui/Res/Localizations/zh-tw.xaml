@@ -1383,6 +1383,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EmulatorFpsHighTip">偵測到模擬器設定幀率為 {0} FPS，高於遊戲原生幀率上限（60 FPS），可能是模擬器插幀功能，可能導致畫面異常或辨識不穩定，建議關閉插幀並將幀率設定為 60 FPS</system:String>
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任務出錯: </system:String>
+    <system:String x:Key="OutOfMemoryError">{0}任務因記憶體不足停止，請關閉部分程式或重新啟動 MAA 後再試</system:String>
     <system:String x:Key="CombatError">戰鬥出錯</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">開始任務: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">完成任務: </system:String>

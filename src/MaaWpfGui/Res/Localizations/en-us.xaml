@@ -1382,6 +1382,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="EmulatorFpsHighTip">Emulator refresh rate is set to {0} FPS, above the game's native frame rate cap (60 FPS). This may be the emulator's frame interpolation feature, which can cause visual artifacts or unstable recognition. It is recommended to disable frame interpolation and set the frame rate to 60 FPS</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error:&#160;</system:String>
+    <system:String x:Key="OutOfMemoryError">The {0} task stopped due to insufficient memory. Close some programs or restart MAA and try again</system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">Start task:&#160;</system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">Complete task:&#160;</system:String>

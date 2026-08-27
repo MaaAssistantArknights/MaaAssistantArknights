@@ -1384,6 +1384,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EmulatorFpsHighTip">エミュレータの設定フレームレートが {0} FPS で、ゲームのネイティブフレームレート上限（60 FPS）を上回っています。これはエミュレータのフレーム補間機能の可能性があり、画面の異常や認識の不安定化を招くことがあります。フレーム補間を無効にし、フレームレートを 60 FPS に設定することを推奨します</system:String>
     <system:String x:Key="IdentifyTheMistakes">認識エラー</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">タスクエラー: </system:String>
+    <system:String x:Key="OutOfMemoryError">メモリ不足により{0}タスクが停止しました。他のプログラムを閉じるか、MAA を再起動してもう一度お試しください</system:String>
     <system:String x:Key="CombatError">戦闘エラー</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">タスク開始: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">タスク完了: </system:String>
