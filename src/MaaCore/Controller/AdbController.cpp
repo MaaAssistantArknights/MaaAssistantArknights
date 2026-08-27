@@ -1127,6 +1127,30 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         return false;
     }
 
+    // best-effort: read screencap default display id from help output for this run
+    {
+        const std::string screencap_help_cmd = m_conn_ctx.replace_cmd("[Adb] -s [AdbSerial] exec-out screencap --help");
+        auto screencap_help_ret = call_command(screencap_help_cmd, 10000, false /* probe only, no reconnect */);
+        if (screencap_help_ret) {
+            auto& screencap_help_str = screencap_help_ret.value();
+            convert_lf(screencap_help_str);
+
+            static const boost::regex default_display_id_regex(R"(default(?:s)?\s+to\s+([0-9]+))",
+                                                               boost::regex::icase);
+            boost::smatch match;
+            if (boost::regex_search(screencap_help_str, match, default_display_id_regex) && match.size() > 1) {
+                m_conn_ctx.screencap_display_id = match.str(1);
+                Log.info("screencap default display_id:", m_conn_ctx.screencap_display_id);
+            }
+            else {
+                Log.info("screencap default display_id not found in help output");
+            }
+        }
+        else {
+            Log.info("screencap help probe failed, continue without display_id override");
+        }
+    }
+
     // 按需获取display ID 信息
     if (!adb_cfg.display_id.empty()) {
         // [PackageName] 不参与 replace_cmd 的统一替换（保留为运行时参数）。
