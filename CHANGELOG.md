@@ -1,4 +1,4 @@
-## v6.17.0-beta.6
+## v6.17.0-beta.7
 
 ### Highlights
 
@@ -44,6 +44,35 @@ The infrast efficiency algorithm has been rewritten; the default mode now suppor
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.0-beta.7 (2026-08-27)</b></summary>
+
+### 新增 | New
+
+* 检测到分辨率变化时中断当前任务 @ABA2396
+* 内存不足（OOM）时给出明确报错提示 @ABA2396
+
+### 改进 | Improved
+
+* 调整基建干员冲突提示描述 @ABA2396
+
+### 修复 | Fix
+
+* 修复 PC 端连接设置中 Extra 配置读取异常（连接设置 Extras 拆分重构后的回归） @status102
+* 修复基建捏合动作未经过缩放与动作分割处理的问题 @ABA2396
+* 修复基建布局识别失败时继续缩小视图重试 ([#17896](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17896)) @youzibigg
+* 修复无 config 配置时启动更新源为空的问题 @ABA2396
+* 修复小游戏界面开始任务时连接模拟器失败无任何提示的问题 @ABA2396
+* 扩大 Miss.Christine 干员 OCR 匹配范围 @Lancarus
+* 繁中服調整「辭歲行」OCR 文字 ([#17910](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17910)) @momomochi987
+
+### 文档 | Docs
+
+* 更新仓库分支名（dev → dev-v2），修复“编辑此页”链接 404 ([#17920](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17920)) @satgo1546
+* 新增 MaaFramework 控制单元自动下载脚本及开发文档说明 ([#17786](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17786)) @Justin-Emils
+
+</details>
+
+<details>
 <summary><b>v6.17.0-beta.6 (2026-08-25)</b></summary>
 
 ### 新增 | New
