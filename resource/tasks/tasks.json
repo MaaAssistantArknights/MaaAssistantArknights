@@ -4893,6 +4893,19 @@
         "text": [],
         "roi": [5, 230, 37, 23]
     },
+    "OperDetailElite": {
+        "template": ["OperDetail-Elite2.png", "OperDetail-Elite1.png", "OperDetail-Elite0.png"],
+        "roi": [860, 240, 120, 80]
+    },
+    "OperDetailLevel": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [885, 115, 90, 55]
+    },
+    "OperDetailSkillLevel-Base": {
+        "baseTask": "NumberOcrReplace",
+        "doc": "4星以上才有专精",
+        "roi": [1214, 355, 16, 22]
+    },
     "OperParadoxBegin": {
         "algorithm": "JustReturn",
         "next": ["OperOpenInformationMenu"],

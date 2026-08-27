@@ -16,8 +16,8 @@
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
-#include "Vision/Miscellaneous/OperNameAnalyzer.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/Oper/OperNameAnalyzer.h"
 #include "Vision/RegionOCRer.h"
 #include <ranges>
 

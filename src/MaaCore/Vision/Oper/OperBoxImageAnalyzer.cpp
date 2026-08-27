@@ -8,8 +8,8 @@
 #include "Utils/Logger.hpp"
 #include "Vision/BestMatcher.h"
 #include "Vision/Matcher.h"
-#include "Vision/Miscellaneous/OperNameAnalyzer.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/Oper/OperNameAnalyzer.h"
 #include "Vision/RegionOCRer.h"
 #include "Vision/TemplDetOCRer.h"
 
