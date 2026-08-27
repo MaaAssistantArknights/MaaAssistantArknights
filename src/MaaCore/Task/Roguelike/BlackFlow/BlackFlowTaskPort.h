@@ -96,6 +96,13 @@ struct EnteredPageObservation
     bool classification_conflict = false;
 };
 
+enum class MoveConfirmationStatus
+{
+    Succeeded,
+    NeedsDismiss,
+    Failed,
+};
+
 [[nodiscard]] EnteredPageObservation classify_entered_page_texts(std::vector<std::string> matched_texts);
 
 class IBlackFlowMapObservationSource
@@ -130,7 +137,7 @@ public:
         MovePreview& preview,
         bool& panel_open,
         std::string* error) = 0;
-    virtual bool
+    virtual MoveConfirmationStatus
         confirm(const MoveTransaction& transaction, EnteredPageObservation& entered_page, std::string* error) = 0;
 
     virtual void reset_run() {}
@@ -158,7 +165,8 @@ public:
         MovePreview& preview,
         bool& panel_open,
         std::string* error) override;
-    bool confirm(const MoveTransaction& transaction, EnteredPageObservation& entered_page, std::string* error) override;
+    MoveConfirmationStatus
+        confirm(const MoveTransaction& transaction, EnteredPageObservation& entered_page, std::string* error) override;
 
     void configure_diagnostics(const DiagnosticSettings& settings) override;
     bool persist_diagnostics(const DiagnosticArtifactRequest& request, std::string* error) override;

@@ -7,6 +7,12 @@
 
 namespace asst::blackflow
 {
+namespace
+{
+// 首次完整确认耗尽时关闭预览面板并重新选择；再次耗尽时重开当前局。
+constexpr int MoveConfirmationDismissRetryLimit = 1;
+}
+
 bool BlackFlowRoutingTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
@@ -28,6 +34,7 @@ void BlackFlowRoutingTaskPlugin::reset_in_run_variables()
 {
     m_pending = PendingWork::None;
     m_page_recovery_attempted = false;
+    m_move_confirmation_dismiss_retries = 0;
 }
 
 bool BlackFlowRoutingTaskPlugin::_run()
@@ -93,12 +100,33 @@ bool BlackFlowRoutingTaskPlugin::_run()
         report_outputs();
         return true;
     }
+    if (cycle.status == RoutingCycleStatus::ConfirmationNeedsDismiss) {
+        if (m_move_confirmation_dismiss_retries < MoveConfirmationDismissRetryLimit) {
+            ++m_move_confirmation_dismiss_retries;
+            Log.info(
+                "BlackFlow move confirmation exhausted; dismissing preview before retry",
+                "attempt",
+                m_move_confirmation_dismiss_retries,
+                "of",
+                MoveConfirmationDismissRetryLimit,
+                cycle.error);
+            Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@CancelNodeSelection");
+        }
+        else {
+            m_session->fail(cycle.failure_code, cycle.error, FailureDisposition::RestartRun);
+            Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated-Enter");
+        }
+        report_outputs();
+        return true;
+    }
     if (cycle.status == RoutingCycleStatus::MoveCommittedToMap) {
+        m_move_confirmation_dismiss_retries = 0;
         Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@MapPrepare");
         report_outputs();
         return true;
     }
     if (cycle.status == RoutingCycleStatus::MoveCommitted) {
+        m_move_confirmation_dismiss_retries = 0;
         Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@NodeDispatch");
         report_outputs();
         return true;
