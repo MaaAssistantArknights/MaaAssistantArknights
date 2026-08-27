@@ -57,7 +57,7 @@ export default defineUserConfig({
 
     docsRepo: 'MaaAssistantArknights/MaaAssistantArknights',
     docsDir: '/docs',
-    docsBranch: 'dev',
+    docsBranch: 'dev-v2',
 
     editLink: true,
     lastUpdated: false,
