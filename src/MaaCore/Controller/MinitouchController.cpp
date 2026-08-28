@@ -317,6 +317,23 @@ void asst::MinitouchController::clear_info() noexcept
     m_minitouch_props = decltype(m_minitouch_props)();
 }
 
+void asst::MinitouchController::on_display_rotated()
+{
+    LogTraceFunction;
+
+    if (!m_use_maa_touch) {
+        // 重读设备当前方向；解析失败时保留旧值，避免把错误值写入后续所有换算
+        std::string orientation_str = call_command(m_conn_ctx.replace_cmd(m_conn_ctx.adb_cfg.orientation)).value_or("");
+        if (!orientation_str.empty()) {
+            char first = orientation_str.front();
+            if (first == '0' || first == '1' || first == '2' || first == '3') {
+                m_minitouch_props.orientation = static_cast<int>(first - '0');
+            }
+        }
+    }
+    call_and_hup_minitouch();
+}
+
 bool asst::MinitouchController::probe_minitouch()
 {
     LogTraceFunction;

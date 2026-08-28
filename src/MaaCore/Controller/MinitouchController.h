@@ -47,6 +47,8 @@ public:
 protected:
     virtual std::optional<std::string> reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket) override;
 
+    virtual void on_display_rotated() override;
+
     bool call_and_hup_minitouch();
 
     bool probe_minitouch();

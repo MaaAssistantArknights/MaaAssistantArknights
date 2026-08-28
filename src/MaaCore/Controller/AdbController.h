@@ -123,6 +123,8 @@ protected:
     // 检测到分辨率被外部修改时调用：标记连接失效并通知上层，
     // 任务失败后由上层整体重连（重连时重新探测并重建全部输入映射）
     void invalidate_connection(std::string_view reason, int width, int height);
+    // 显示方向旋转（截图宽高互换）时回调，方向相关的输入子类重写以重建映射
+    virtual void on_display_rotated() {}
 
     std::optional<std::string> call_command(
         const std::string& cmd,
