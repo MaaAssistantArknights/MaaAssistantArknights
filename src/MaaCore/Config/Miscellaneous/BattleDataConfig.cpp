@@ -40,6 +40,11 @@ bool asst::BattleDataConfig::parse(const json::value& json)
             m_opers.emplace(name); // 所有干员名
         }
 
+        data_ptr->sub_role = get_subrole_type(char_data_json.get("subProfessionId", ""));
+        if (data_ptr->role != battle::Role::Drone && data_ptr->sub_role == battle::SubRole::Unknown) {
+            LogError << "Unknown subProfessionId: " << char_data_json.get("subProfessionId", "")
+                     << " for oper: " << name;
+        }
         const auto& ranges_json = char_data_json.at("rangeId").as_array();
         for (size_t i = 0; i != data_ptr->ranges.size(); ++i) {
             data_ptr->ranges.at(i) = ranges_json.at(i).as_string();
@@ -84,4 +89,12 @@ bool asst::BattleDataConfig::parse(const json::value& json)
     }
 
     return true;
+}
+
+asst::battle::SubRole asst::BattleDataConfig::get_subrole_type(const std::string& subrole_name)
+{
+    if (const auto iter = SubRoleNameToSubRole.find(subrole_name); iter != SubRoleNameToSubRole.end()) {
+        return iter->second;
+    }
+    return battle::SubRole::Unknown;
 }

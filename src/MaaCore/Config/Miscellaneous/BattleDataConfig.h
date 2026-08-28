@@ -235,6 +235,8 @@ protected:
     virtual bool parse(const json::value& json) override;
 
 private:
+    battle::SubRole get_subrole_type(const std::string& subrole_name);
+
     std::map<battle::Role, std::unordered_map<std::string, std::shared_ptr<battle::OperProps>>>
         m_chars_by_role;                                                         // role -> (id -> oper)
     std::unordered_map<std::string, std::shared_ptr<battle::OperProps>> m_chars; // id -> oper
@@ -242,6 +244,91 @@ private:
     std::unordered_map<std::string, battle::AttackRange> m_ranges;
     std::unordered_set<std::string> m_opers;
     std::unordered_set<std::string> m_drones_confusing; // confused summons: multiple summons of same oper
+
+    
+    // 子职业 id (battle_data.json subProfessionId) -> SubRole 枚举
+    inline static const std::unordered_map<std::string, battle::SubRole> SubRoleNameToSubRole = {
+        { "pioneer", battle::SubRole::Pioneer_Pioneer },
+        { "charger", battle::SubRole::Pioneer_Charger },
+        { "tactician", battle::SubRole::Pioneer_Tactician },
+        { "bearer", battle::SubRole::Pioneer_Bearer },
+        { "agent", battle::SubRole::Pioneer_Agent },
+        { "counsellor", battle::SubRole::Pioneer_Counsellor },
+
+        { "centurion", battle::SubRole::Warrior_Centurion },
+        { "fighter", battle::SubRole::Warrior_Fighter },
+        { "artsfghter", battle::SubRole::Warrior_ArtsFighter },
+        { "instructor", battle::SubRole::Warrior_Instructor },
+        { "lord", battle::SubRole::Warrior_Lord },
+        { "sword", battle::SubRole::Warrior_Sword },
+        { "musha", battle::SubRole::Warrior_Musha },
+        { "fearless", battle::SubRole::Warrior_Fearless },
+        { "reaper", battle::SubRole::Warrior_Reaper },
+        { "librator", battle::SubRole::Warrior_Liberator },
+        { "crusher", battle::SubRole::Warrior_Crusher },
+        { "hammer", battle::SubRole::Warrior_Hammer },
+        { "primguard", battle::SubRole::Warrior_Primguard },
+        { "mercenary", battle::SubRole::Warrior_Mercenary },
+
+        { "protector", battle::SubRole::Tank_Protector },
+        { "guardian", battle::SubRole::Tank_Guardian },
+        { "unyield", battle::SubRole::Tank_Unyield },
+        { "artsprotector", battle::SubRole::Tank_ArtsProtector },
+        { "duelist", battle::SubRole::Tank_Duelist },
+        { "fortress", battle::SubRole::Tank_Fortress },
+        { "shotprotector", battle::SubRole::Tank_ShotProtector },
+        { "primprotector", battle::SubRole::Tank_PrimProtector },
+
+        { "fastshot", battle::SubRole::Sniper_FastShot },
+        { "closerange", battle::SubRole::Sniper_CloseRange },
+        { "aoesniper", battle::SubRole::Sniper_AoeSniper },
+        { "longrange", battle::SubRole::Sniper_LongRange },
+        { "reaperrange", battle::SubRole::Sniper_ReaperRange },
+        { "siegesniper", battle::SubRole::Sniper_SiegeSniper },
+        { "bombarder", battle::SubRole::Sniper_Bombarder },
+        { "hunter", battle::SubRole::Sniper_Hunter },
+        { "loopshooter", battle::SubRole::Sniper_LoopShooter },
+        { "skybreaker", battle::SubRole::Sniper_SkyBreaker },
+
+        { "corecaster", battle::SubRole::Caster_CoreCaster },
+        { "splashcaster", battle::SubRole::Caster_SplashCaster },
+        { "funnel", battle::SubRole::Caster_Funnel },
+        { "phalanx", battle::SubRole::Caster_Phalanx },
+        { "mystic", battle::SubRole::Caster_Mystic },
+        { "chain", battle::SubRole::Caster_Chain },
+        { "blastcaster", battle::SubRole::Caster_BlastCaster },
+        { "primcaster", battle::SubRole::Caster_PrimCaster },
+        { "soulcaster", battle::SubRole::Caster_SoulCaster },
+
+        { "physician", battle::SubRole::Medic_Physician },
+        { "ringhealer", battle::SubRole::Medic_RingHealer },
+        { "healer", battle::SubRole::Medic_Healer },
+        { "wandermedic", battle::SubRole::Medic_WanderMedic },
+        { "incantationmedic", battle::SubRole::Medic_IncantationMedic },
+        { "chainhealer", battle::SubRole::Medic_ChainHealer },
+        { "watchman", battle::SubRole::Medic_Watchman },
+
+        { "slower", battle::SubRole::Support_Slower },
+        { "underminer", battle::SubRole::Support_Underminer },
+        { "bard", battle::SubRole::Support_Bard },
+        { "blessing", battle::SubRole::Support_Blessing },
+        { "summoner", battle::SubRole::Support_Summoner },
+        { "craftsman", battle::SubRole::Support_Craftsman },
+        { "ritualist", battle::SubRole::Support_Ritualist },
+        { "supportiveranger", battle::SubRole::Support_SupportiveRanger },
+
+        { "executor", battle::SubRole::Special_Executor },
+        { "pusher", battle::SubRole::Special_Pusher },
+        { "stalker", battle::SubRole::Special_Stalker },
+        { "hookmaster", battle::SubRole::Special_HookMaster },
+        { "geek", battle::SubRole::Special_Geek },
+        { "merchant", battle::SubRole::Special_Merchant },
+        { "traper", battle::SubRole::Special_Traper },
+        { "dollkeeper", battle::SubRole::Special_DollKeeper },
+        { "alchemist", battle::SubRole::Special_Alchemist },
+        { "skywalker", battle::SubRole::Special_SkyWalker },
+        // clang-format on
+    };
 };
 
 inline static auto& BattleData = BattleDataConfig::get_instance();

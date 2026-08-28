@@ -24,6 +24,91 @@ enum class Role
     Drone    // 无人机
 };
 
+enum class SubRole
+{
+    Unknown,
+
+    Pioneer_Pioneer,          // 尖兵; 挡2, 德克萨斯
+    Pioneer_Charger,          // 冲锋手; 击杀回费, 风笛, 苇草
+    Pioneer_Tactician,        // 战术家; 带一个战术点(召唤物), 缪尔赛思
+    Pioneer_Bearer,           // 执旗手; 投锋, 桃金娘
+    Pioneer_Agent,            // 情报官; 可远程攻击, 伊内丝
+    Pioneer_Counsellor,       // 策士; 支援待部署, 凛御银灰
+
+    Warrior_Centurion,        // 强攻手; 可同时攻击阻挡的所有敌人, 煌, 幽灵鲨
+    Warrior_Fighter,          // 斗士; 挡1, 山, 重岳
+    Warrior_ArtsFighter,      // 术战者; 攻击造成法术伤害, 史尔特尔, 星极; 鹰语ArtsFghter
+    Warrior_Instructor,       // 教官; 攻击到较远敌人, 帕拉斯, 杜宾
+    Warrior_Lord,             // 领主; 远程攻击伤害不衰减, 银灰, 棘刺
+    Warrior_Sword,            // 剑豪; 普攻造成两次伤害, 陈, 艾丽妮
+    Warrior_Musha,            // 武者; 无法被治疗, 攻击回血, 赫拉格, 左乐
+    Warrior_Fearless,         // 无畏者; 挡1, 斯卡蒂, 耀骑士临光
+    Warrior_Reaper,           // 收割者; 无法被治疗, AOE攻击回血, 圣约送葬人, 羽毛笔
+    Warrior_Liberator,        // 解放者; 不攻击时积攒攻击力, 玛恩纳, 龙舌兰; 鹰语Librator
+    Warrior_Crusher,          // 重剑手; 攻击无视目标一定防御, 赫德雷, 乌尔比安
+    Warrior_Hammer,           // 撼地者; 目标周围受到一半物理AOE, 佩佩, 怒潮凛冬
+    Warrior_Primguard,        // 本源近卫; 挡2元素伤害, 聆音
+    Warrior_Mercenary,        // 佣兵; 消耗费用强化自身, 雷狼龙S空爆, 哈蒂娅
+
+    Tank_Protector,           // 铁卫; 挡3, 星熊, 年
+    Tank_Guardian,            // 守护者; 奶盾, 塞雷娅, 黍
+    Tank_Unyield,             // 不屈者; 无法被治疗, 泥岩, 斥罪
+    Tank_ArtsProtector,       // 驭法铁卫; 开技能时普攻法伤, 斩业星熊, 石棉
+    Tank_Duelist,             // 决战者; 阻挡回技力, 森蚺, 极光
+    Tank_Fortress,            // 要塞; 不阻挡时远程攻击, 号角, 灰毫
+    Tank_ShotProtector,       // 哨戒铁卫; 挡3远程攻击, 涤火杰西卡, 雷蛇
+    Tank_PrimProtector,       // 本源铁卫; 挡3元素伤害, 余, 珊比
+
+    Sniper_FastShot,          // 速射手; 优先攻击空中单位, 能天使, 空弦
+    Sniper_CloseRange,        // 重射手; 高精度的近距离射击, 黑, 鸿雪
+    Sniper_AoeSniper,         // 炮手; 攻击造成群体物理伤害, W, 菲亚梅塔
+    Sniper_LongRange,         // 神射手; 优先攻击防御力最低的敌人, 远牙, 守林人
+    Sniper_ReaperRange,       // 散射手; 攻击前方一横排敌人伤害提升, 假日威龙陈, 送葬人
+    Sniper_SiegeSniper,       // 攻城手; 优先攻击重量最重的敌人, 早露, 提丰
+    Sniper_Bombarder,         // 投掷手; 对小范围地面敌人造成两次物理伤害, 维什戴尔, 迷迭香
+    Sniper_Hunter,            // 猎手; 攻击消耗子弹, 攻击力提升至120%, 莱伊, 冰酿
+    Sniper_LoopShooter,       // 回环射手; 持有回旋投射物时才能攻击, 娜仁图亚, 水灯心
+    Sniper_SkyBreaker,        // 裂空炮手; 起飞后只攻击空中敌人, 天空盒
+
+    Caster_CoreCaster,        // 中坚术师; 攻击造成法术伤害, 艾雅法拉, 刻俄柏
+    Caster_SplashCaster,      // 扩散术师; 攻击造成群体法术伤害, 夕, 莫斯提马
+    Caster_Funnel,            // 驭械术师; 操作浮游单元造成法伤, 荒芜拉普兰德, 澄闪
+    Caster_Phalanx,           // 阵法术师; 平时不攻击, 技能开启时群体法伤, 林, 卡涅利安
+    Caster_Mystic,            // 秘术师; 无目标时储存能量一齐发射, 黑键, 维伊
+    Caster_Chain,             // 链术师; 在3个敌人间跳跃并短暂停顿, 异客, 星源
+    Caster_BlastCaster,       // 轰击术师; 超远距离群体法伤, 伊芙利特, 谬因
+    Caster_PrimCaster,        // 本源术师; 可造成元素伤害, 烛煌, 妮芙
+    Caster_SoulCaster,        // 塑灵术师; 击倒敌人生成召唤物, 死芒, 特克诺
+
+    Medic_Physician,          // 医师; 恢复友方单位生命, 凯尔希, 闪灵
+    Medic_RingHealer,         // 群愈师; 同时恢复三个友方单位的生命, 夜莺, 白面鸮
+    Medic_Healer,             // 疗养师; 治疗范围大, 远距离治疗量降至80%, 流明, 锡兰
+    Medic_WanderMedic,        // 行医; 恢复生命与元素损伤, 纯烬艾雅法拉, 蜜莓
+    Medic_IncantationMedic,   // 咒愈师; 攻击造成法伤并为友方治疗50%伤害的生命, 焰影苇草, 濯尘芙蓉
+    Medic_ChainHealer,        // 链愈师; 在3个友方单位间跳跃治疗, 明椒, 莎草
+    Medic_Watchman,           // 守望者; 恢复生命并可起飞, 凯尔希·思衡托, 风絮
+
+    Support_Slower,           // 凝滞师; 攻击造成法伤并短暂停顿, 铃兰, 安洁莉娜
+    Support_Underminer,       // 削弱者; 攻击造成法术伤害, 灵知, 初雪
+    Support_Bard,             // 吟游者; 不攻击, 持续恢复范围内友军生命, 浊心斯卡蒂, 空
+    Support_Blessing,         // 护佑者; 攻击法伤, 技能开启后转为治疗, 淬羽赫默, 月禾
+    Support_Summoner,         // 召唤师; 使用召唤物协助作战, 令, 麦哲伦
+    Support_Craftsman,        // 工匠; 阻挡2, 使用支援装置协助作战, 白铁, 掠风
+    Support_Ritualist,        // 巫役; 攻击造成法伤和元素损伤, 酒神, 塑心
+    Support_SupportiveRanger, // 游击手; 使用触发型效果协助作战, 佩德洛
+
+    Special_Executor,         // 处决者; 再部署时间大幅度减少, 缄默德克萨斯, 傀影
+    Special_Pusher,           // 推击手; 同时攻击阻挡的所有敌人, 可放远程位, 温蒂, 食铁兽
+    Special_Stalker,          // 伏击客; 范围群伤, 50%物法闪避, 水月, 狮蝎
+    Special_HookMaster,       // 钩索师; 技能使敌人位移, 可放远程位, 歌蕾蒂娅, 崖心
+    Special_Geek,             // 怪杰; 自身生命不断流失, 阿, 新约能天使
+    Special_Merchant,         // 行商; 在场时每3秒消耗3点部署费用, 老鲤, 孑
+    Special_Traper,           // 陷阱师; 使用陷阱协助作战, 多萝西, 罗宾
+    Special_DollKeeper,       // 傀儡师; 致命伤时切换替身作战, 归溟幽灵鲨, 风丸
+    Special_Alchemist,        // 炼金师; 投掷炼金单元协助作战, 引星棘刺, 锡人
+    Special_SkyWalker,        // 巡空者; 起飞后阻挡2个飞行敌人, 予愿安洁莉娜, 云迹
+};
+
 // 统一变量名：
 // loc, location, 表示格子坐标，例如 [1, 1], [5, 5]
 // pos, position, 表示像素坐标，例如 [1280, 720], [500, 300]
@@ -380,6 +465,7 @@ struct OperProps
     std::string name_kr;
     std::string name_tw;
     Role role = Role::Unknown;
+    SubRole sub_role = SubRole::Unknown;
     std::array<std::string, 3> ranges;
     int rarity = 0;                  // 稀有度 1-6
     int sort_index = 0;              // 排序索引
