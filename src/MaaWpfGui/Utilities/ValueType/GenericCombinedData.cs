@@ -49,4 +49,16 @@ public class GenericCombinedData<TValueType>() : PropertyChangedBase
         get => _value;
         set => SetAndNotify(ref _value, value);
     }
+
+    private bool _isEnabled = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the item is selectable.
+    /// 供 ItemContainerStyle 绑定以置灰不可选项。
+    /// </summary>
+    public bool IsEnabled
+    {
+        get => _isEnabled;
+        set => SetAndNotify(ref _isEnabled, value);
+    }
 }
