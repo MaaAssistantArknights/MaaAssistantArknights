@@ -103,13 +103,9 @@ bool BlackFlowRoutingTaskPlugin::_run()
     if (cycle.status == RoutingCycleStatus::ConfirmationNeedsDismiss) {
         if (m_move_confirmation_dismiss_retries < MoveConfirmationDismissRetryLimit) {
             ++m_move_confirmation_dismiss_retries;
-            Log.info(
-                "BlackFlow move confirmation exhausted; dismissing preview before retry",
-                "attempt",
-                m_move_confirmation_dismiss_retries,
-                "of",
-                MoveConfirmationDismissRetryLimit,
-                cycle.error);
+            LogInfo << __FUNCTION__ << "BlackFlow move confirmation exhausted; dismissing preview before retry"
+                    << "attempt" << m_move_confirmation_dismiss_retries << "of" << MoveConfirmationDismissRetryLimit
+                    << cycle.error;
             Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@CancelNodeSelection");
         }
         else {
