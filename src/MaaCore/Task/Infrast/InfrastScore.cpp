@@ -973,10 +973,10 @@ double office_score(const ScoreOper& oper)
             score += 0.2;
         }
         else if (icon == "bskill_hire_spd_memento") { // 追忆：絮雨
-            score += 0.31;
+            score += 0.31;// + 0.01 使之高于0.5
         }
         else if (icon == "bskill_hire_spd_bd_n2") { // 救援队·灾后普查：桑葚
-            score += 0.301;
+            score += 0.301;// + 0.001 使之高于0.5
         }
         // 内幕：山；巡游：絮雨；救援队·资源清点：桑葚；语言学：闪击；人事管理·α：巡林者。
         else if (
@@ -1171,11 +1171,13 @@ double processing_score(const ScoreOper& oper, const ScoreContext& context)
         }
         else if (icon == "bskill_ws_bonus1" && context.rarity < 4) {
             // 因果：九色鹿，T4 及以下材料积累 40 点因果。
-            score += 0.9;
+            // score += 0.9; 先ban掉回头提供设置
+            continue;
         }
         else if (icon == "bskill_ws_bonus2" && context.rarity == 4) {
             // 业报：九色鹿，T5 材料积累 80 点业报。
-            score += 0.9;
+            // score += 0.9; 先ban掉回头提供设置
+            continue;
         }
         else if (icon == "bskill_ws_alloyblock" && material_id == "31024") {
             // DIY·炽合金：号角，仅炽合金块。
