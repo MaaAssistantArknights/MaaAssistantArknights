@@ -296,6 +296,30 @@
         ],
         "fullMatch": true
     },
+    "BlackFlow@Roguelike@CultivateSellItemsKeepMovement": {
+        "algorithm": "OcrDetect",
+        "roi": [395, 159, 857, 290],
+        "text": [
+            "血蕈",
+            "雾滚草",
+            "回声玉米",
+            "浪花",
+            "霜晶树",
+            "多生苔藓",
+            "枯苔藓球",
+            "板藤",
+            "恋家果",
+            "光彩松露",
+            "笼控器",
+            "白模鸟",
+            "白模狗",
+            "白模鱼",
+            "涂装黎博利",
+            "涂装佩洛",
+            "涂装阿戈尔"
+        ],
+        "fullMatch": true
+    },
     "BlackFlow@Roguelike@CultivateSellingFlag": {
         "template": "BlackFlow@Roguelike@CultivateBulkSell.png",
         "roi": [729, 103, 216, 66],

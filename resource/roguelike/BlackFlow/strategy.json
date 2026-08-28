@@ -140,6 +140,11 @@
             "scope": "run"
         },
         {
+            "name": "cultivation_target_obtained",
+            "type": "bool",
+            "scope": "run"
+        },
+        {
             "name": "sandtable_a",
             "type": "bool",
             "scope": "run"
@@ -1129,6 +1134,11 @@
                                 "value": 2
                             },
                             {
+                                "fact": "cultivation_target_obtained",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
                                 "fact": "floor_development_exhausted",
                                 "op": "eq",
                                 "value": false
@@ -1164,26 +1174,39 @@
                                 "value": 2
                             },
                             {
-                                "fact": "scrap_shop_available",
-                                "op": "eq",
-                                "value": false
-                            },
-                            {
                                 "any": [
                                     {
-                                        "fact": "floor_development_exhausted",
+                                        "fact": "cultivation_target_obtained",
                                         "op": "eq",
                                         "value": true
                                     },
                                     {
-                                        "fact": "safety_margin_low",
-                                        "op": "eq",
-                                        "value": true
-                                    },
-                                    {
-                                        "fact": "force_exit",
-                                        "op": "eq",
-                                        "value": true
+                                        "all": [
+                                            {
+                                                "fact": "scrap_shop_available",
+                                                "op": "eq",
+                                                "value": false
+                                            },
+                                            {
+                                                "any": [
+                                                    {
+                                                        "fact": "floor_development_exhausted",
+                                                        "op": "eq",
+                                                        "value": true
+                                                    },
+                                                    {
+                                                        "fact": "safety_margin_low",
+                                                        "op": "eq",
+                                                        "value": true
+                                                    },
+                                                    {
+                                                        "fact": "force_exit",
+                                                        "op": "eq",
+                                                        "value": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
                                     }
                                 ]
                             }
@@ -1270,6 +1293,104 @@
                     "completion": "condition"
                 },
                 {
+                    "id": "baby_explore_hidden",
+                    "description": "尚未发现秘境行商时，按路线计数尽量多开未知的诡秘",
+                    "kind": "preferred",
+                    "floor_window": [2, 3],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 4,
+                    "active_if": {
+                        "all": [
+                            {
+                                "fact": "scrap_shop_available",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "fact": "cultivation_completed",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "fact": "cultivation_target_obtained",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "selector": {
+                        "node_types": ["hide_invisible"]
+                    }
+                },
+                {
+                    "id": "baby_visit_incident",
+                    "kind": "preferred",
+                    "floor_window": [2, 3],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "active_if": {
+                        "all": [
+                            {
+                                "fact": "scrap_shop_available",
+                                "op": "eq",
+                                "value": false
+                            },
+                            {
+                                "fact": "cultivation_target_obtained",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "selector": {
+                        "node_types": ["incident"]
+                    }
+                },
+                {
+                    "id": "baby_floor2_shops",
+                    "description": "第二层经过普通商店时继续优先获取种子",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "active_if": {
+                        "fact": "cultivation_target_obtained",
+                        "op": "eq",
+                        "value": false
+                    },
+                    "selector": {
+                        "node_types": ["shop"]
+                    },
+                    "page_intent": "shop.seed_priority"
+                },
+                {
+                    "id": "baby_floor3_shops",
+                    "description": "第三层经过普通商店时卖货、刷新并尽量购买种子",
+                    "kind": "preferred",
+                    "floor_window": [3, 3],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 2,
+                    "active_if": {
+                        "fact": "cultivation_target_obtained",
+                        "op": "eq",
+                        "value": false
+                    },
+                    "selector": {
+                        "node_types": ["shop"]
+                    },
+                    "page_intent": "shop.seed_priority_floor3"
+                }
+            ]
+        },
+        {
+            "id": "baby_cultivate_direct",
+            "description": "培育出目标即收工的秘境行商目标，用于猫和狗",
+            "milestones": [
+                {
                     "id": "baby_cultivate_scrap_shop",
                     "floor_window": [1, 3],
                     "rank": 0,
@@ -1303,80 +1424,57 @@
                     },
                     "page_intent": "scrap_shop.cultivate",
                     "completion": "condition"
-                },
+                }
+            ]
+        },
+        {
+            "id": "baby_cultivate_gated",
+            "description": "培育出目标之后仍须进入第三层的秘境行商目标，用于羽蛇和三头犬",
+            "milestones": [
                 {
-                    "id": "baby_explore_hidden",
-                    "description": "尚未发现秘境行商时，按路线计数尽量多开未知的诡秘",
-                    "kind": "preferred",
-                    "floor_window": [2, 3],
+                    "id": "baby_cultivate_scrap_shop_transit",
+                    "description": "前两层的秘境行商是必达目标，但仍须保住走到险路尽头的能力",
+                    "floor_window": [1, 2],
                     "rank": 0,
-                    "count": 99,
-                    "weight": 4,
                     "active_if": {
-                        "all": [
-                            {
-                                "fact": "scrap_shop_available",
-                                "op": "eq",
-                                "value": false
-                            },
-                            {
-                                "fact": "cultivation_completed",
-                                "op": "eq",
-                                "value": false
-                            }
-                        ]
+                        "fact": "scrap_shop_available",
+                        "op": "eq",
+                        "value": true
                     },
-                    "selector": {
-                        "node_types": ["hide_invisible"]
-                    }
-                },
-                {
-                    "id": "baby_visit_incident",
-                    "kind": "preferred",
-                    "floor_window": [2, 3],
-                    "rank": 0,
-                    "count": 99,
-                    "weight": 3,
-                    "selector": {
-                        "node_types": ["incident"]
-                    }
-                },
-                {
-                    "id": "baby_visit_light",
-                    "kind": "preferred",
-                    "floor_window": [2, 3],
-                    "rank": 0,
-                    "count": 99,
-                    "weight": 2,
-                    "selector": {
-                        "node_types": ["light"]
-                    }
-                },
-                {
-                    "id": "baby_floor2_shops",
-                    "description": "第二层经过普通商店时继续优先获取种子",
-                    "kind": "preferred",
-                    "floor_window": [2, 2],
-                    "rank": 0,
-                    "count": 99,
-                    "weight": 2,
-                    "selector": {
-                        "node_types": ["shop"]
+                    "complete_if": {
+                        "fact": "cultivation_completed",
+                        "op": "eq",
+                        "value": true
                     },
-                    "page_intent": "shop.seed_priority"
+                    "reserves": ["baby_keep_cultivation_movement"],
+                    "enforcement": "feasible_hard",
+                    "selector": {
+                        "node_types": ["scrap_shop"]
+                    },
+                    "page_intent": "scrap_shop.cultivate",
+                    "completion": "condition"
                 },
                 {
-                    "id": "baby_floor3_shops",
-                    "description": "第三层经过普通商店时卖货、刷新并尽量购买种子",
-                    "kind": "preferred",
+                    "id": "baby_cultivate_scrap_shop_final",
+                    "description": "第三层的秘境行商是本局终点，允许耗尽行动力抵达",
                     "floor_window": [3, 3],
                     "rank": 0,
-                    "count": 99,
-                    "weight": 2,
-                    "selector": {
-                        "node_types": ["shop"]
+                    "complete_if": {
+                        "fact": "cultivation_completed",
+                        "op": "eq",
+                        "value": true
                     },
-                    "page_intent": "shop.seed_priority_floor3"
+                    "reserves": ["baby_keep_cultivation_movement"],
+                    "enforcement": "feasible_hard",
+                    "terminality": "is_terminal",
+                    "on_miss": "terminate",
+                    "miss_outcome": "baby_cultivation_unfinished",
+                    "miss_reason": "scrap_shop_never_reached",
+                    "selector": {
+                        "node_types": ["scrap_shop"]
+                    },
+                    "page_intent": "scrap_shop.cultivate",
+                    "completion": "condition"
                 }
             ]
         },
@@ -1635,7 +1733,7 @@
         {
             "id": "baby_animal",
             "description": "第一层检查普通商店，第二、三层探索并进入秘境行商培育种子",
-            "modules": ["common_navigation", "baby_animal_route"],
+            "modules": ["common_navigation", "baby_animal_route", "baby_cultivate_direct"],
             "terminal_rules": [
                 {
                     "id": "baby_cultivation_completed",
@@ -1643,6 +1741,82 @@
                         "fact": "cultivation_completed",
                         "op": "eq",
                         "value": true
+                    },
+                    "outcome": "baby_cultivation_completed",
+                    "reason": "cultivation_result_reported",
+                    "succeeded": true
+                },
+                {
+                    "id": "baby_third_floor_action_points_exhausted",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "eq",
+                                "value": 3
+                            },
+                            {
+                                "fact": "action_points",
+                                "op": "le",
+                                "value": 0
+                            },
+                            {
+                                "fact": "cultivation_completed",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "outcome": "baby_cultivation_unfinished",
+                    "reason": "third_floor_action_points_exhausted",
+                    "succeeded": false
+                }
+            ],
+            "failure_action": "restart_current_run",
+            "no_AP_is_terminal": {
+                "floors": [3]
+            }
+        },
+        {
+            "id": "baby_animal_floor3",
+            "description": "培育目标须通过两个区域才生效，因此培育出目标后仍要进入第三层才收工",
+            "modules": ["common_navigation", "baby_animal_route", "baby_cultivate_gated"],
+            "terminal_rules": [
+                {
+                    "id": "baby_cultivation_completed",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "cultivation_target_obtained",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "current_floor",
+                                "op": "ge",
+                                "value": 3
+                            }
+                        ]
+                    },
+                    "outcome": "baby_cultivation_completed",
+                    "reason": "cultivation_result_reported",
+                    "succeeded": true
+                },
+                {
+                    "id": "baby_cultivation_target_missed",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "cultivation_completed",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "cultivation_target_obtained",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
                     },
                     "outcome": "baby_cultivation_completed",
                     "reason": "cultivation_result_reported",

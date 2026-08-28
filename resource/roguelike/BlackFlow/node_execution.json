@@ -272,8 +272,7 @@
                     "kind": "CaptureInteger",
                     "fact": "cultivated_animals",
                     "source": "details.result.text",
-                    "minimum": 0,
-                    "maximum": 3
+                    "minimum": 0
                 }
             ],
             "result_kind": "Intermediate"
