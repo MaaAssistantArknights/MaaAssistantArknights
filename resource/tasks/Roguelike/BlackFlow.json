@@ -793,12 +793,11 @@
     "BlackFlow@Roguelike@MovePreviewConfirm": {
         "Doc": [
             "点击“出发前往”后，分别在约 500、1000、1500 和 2000 毫秒观察按钮；按钮提前消失即确认成功，持续存在两秒才允许再次点击。",
-            "本任务的 maxTimes 只统计真实点击。观察阶段由 C++ 以 taskDelay 0 执行，避免默认任务间隔叠加到观察时间。"
+            "本任务的 maxTimes 只统计真实点击，观察节点不会消耗点击次数。"
         ],
         "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
         "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
         "action": "ClickSelf",
-        "postDelay": 500,
         "next": ["BlackFlow@Roguelike@MovePreviewConfirmObserve1", "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"],
         "maxTimes": 4,
         "exceededNext": ["BlackFlow@Roguelike@MovePreviewConfirmExceeded"]
@@ -807,21 +806,18 @@
         "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
         "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
         "action": "DoNothing",
-        "postDelay": 500,
         "next": ["BlackFlow@Roguelike@MovePreviewConfirmObserve2", "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"]
     },
     "BlackFlow@Roguelike@MovePreviewConfirmObserve2": {
         "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
         "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
         "action": "DoNothing",
-        "postDelay": 500,
         "next": ["BlackFlow@Roguelike@MovePreviewConfirmObserve3", "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"]
     },
     "BlackFlow@Roguelike@MovePreviewConfirmObserve3": {
         "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
         "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
         "action": "DoNothing",
-        "postDelay": 500,
         "next": ["BlackFlow@Roguelike@MovePreviewConfirm", "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"]
     },
     "BlackFlow@Roguelike@MovePreviewConfirmSucceeded": {

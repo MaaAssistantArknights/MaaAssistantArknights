@@ -109,13 +109,9 @@ public:
         set_retry_times(0);
     }
 
-    bool execute(
-        std::vector<std::string> tasks,
-        std::string* error,
-        std::optional<int> task_delay_override = std::nullopt)
+    bool execute(std::vector<std::string> tasks, std::string* error)
     {
         m_tasks = std::move(tasks);
-        m_task_delay_override = task_delay_override;
         m_last_task.clear();
         m_last_image.reset();
         const bool succeeded = AbstractTask::run();
@@ -137,9 +133,6 @@ protected:
     bool _run() override
     {
         ProcessTask process(*this, m_tasks);
-        if (m_task_delay_override.has_value()) {
-            process.set_task_delay(*m_task_delay_override);
-        }
         const bool succeeded = process.run();
         m_last_task = process.get_last_task_name();
         if (const auto& hit = process.get_last_hit(); hit != nullptr && hit->image != nullptr) {
@@ -150,7 +143,6 @@ protected:
 
 private:
     std::vector<std::string> m_tasks;
-    std::optional<int> m_task_delay_override;
     std::string m_last_task;
     std::shared_ptr<cv::Mat> m_last_image;
 };
@@ -303,9 +295,7 @@ MoveConfirmationStatus BlackFlowTaskPort::confirm(
         set_error(error, "move confirmation requires a reachable previewed transaction");
         return MoveConfirmationStatus::Failed;
     }
-    // 观察任务已经通过 postDelay 定义点击后两秒内的检查时点。
-    // 此处关闭默认 taskDelay，避免每次状态切换额外叠加任务间隔。
-    if (!m_task_context->execute({ std::string(MovePreviewConfirmTask) }, error, 0)) {
+    if (!m_task_context->execute({ std::string(MovePreviewConfirmTask) }, error)) {
         return MoveConfirmationStatus::Failed;
     }
     const std::string& confirmation_task = m_task_context->last_task();
