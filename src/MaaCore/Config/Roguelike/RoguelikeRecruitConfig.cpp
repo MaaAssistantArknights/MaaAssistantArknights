@@ -114,7 +114,8 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(
         return find_iter->second.group_id;
     }
     else {
-        const auto& role = oper_tag.role != battle::Role::Unknown ? oper_tag.role : BattleData.get_first_role(oper_tag.name);
+        const auto& role =
+            oper_tag.role != battle::Role::Unknown ? oper_tag.role : BattleData.get_first_role(oper_tag.name);
         if (role != battle::Role::Pioneer && role != battle::Role::Tank && role != battle::Role::Warrior &&
             role != battle::Role::Special) {
             return { static_cast<int>(m_oper_groups.at(theme).size()) - 2 };

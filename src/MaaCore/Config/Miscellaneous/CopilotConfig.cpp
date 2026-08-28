@@ -65,7 +65,7 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
         LogError << __FUNCTION__ << "| Oper" << oper.name << "with role" << enum_to_string(oper.role)
                  << "not found in BattleData.";
     }
-    int rarity =  oper_props_opt->rarity ;
+    int rarity = oper_props_opt->rarity;
     if (oper.skill == 3 && rarity < 6 && oper_props_opt->id != "char_002_amiya") {
         LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
                  << " cannot use skill index 3, set to 0.";

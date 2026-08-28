@@ -1053,7 +1053,8 @@ bool asst::InfrastProductionTask::opers_choose()
         });
         LogTrace << __FUNCTION__ << "after mood filter, opers size:" << cur_all_opers.size();
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
-            LogTrace << __FUNCTION__ << "to find" << (opt_iter->skills.empty() ? opt_iter->operator_id : opt_iter->skills.begin()->names.front());
+            LogTrace << __FUNCTION__ << "to find"
+                     << (opt_iter->skills.empty() ? opt_iter->operator_id : opt_iter->skills.begin()->names.front());
             auto find_iter = std::ranges::find_if(cur_all_opers, [&](const infrast::Oper& lhs) -> bool {
                 if (lhs.skills != opt_iter->skills) {
                     return false;
