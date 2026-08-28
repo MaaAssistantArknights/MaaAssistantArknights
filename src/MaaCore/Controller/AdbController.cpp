@@ -684,21 +684,26 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                      static_cast<uint32_t>(static_cast<unsigned char>(data[5])) << 8 |
                      static_cast<uint32_t>(static_cast<unsigned char>(data[6])) << 16 |
                      static_cast<uint32_t>(static_cast<unsigned char>(data[7])) << 24;
-        if (int(w) != m_width || int(h) != m_height) {
+        // 归一化后与 m_width/m_height（同为 reprobe 的 max/min 归一化产物）同口径比较，
+        // 显示方向旋转不影响判定
+        const int norm_w = (std::max)(int(w), int(h));
+        const int norm_h = (std::min)(int(w), int(h));
+        if (norm_w != m_width || norm_h != m_height) {
             // 截图头与已知分辨率不符，通常为运行中模拟器分辨率被外部修改。
             // 分辨率变化后触控倍率等整套映射全部过期，原地修补无法覆盖所有层，
             // 标记连接失效并通知上层走整体重连，本帧按失败处理
-            invalidate_connection("Size from image header", w, h);
+            invalidate_connection("Size from image header", norm_w, norm_h);
             return false;
         }
-        size_t std_size = 4ULL * m_width * m_height;
+        size_t std_size = 4ULL * w * h;
         if (data.size() < std_size) {
             return false;
         }
         const size_t header_size = data.size() - std_size; // 12 or 16. ref:
         // https://android.googlesource.com/platform/frameworks/base/+/26a2b97dbe48ee45e9ae70110714048f2f360f97%5E%21/cmds/screencap/screencap.cpp
         auto img_data_beg = data.cbegin() + header_size;
-        cv::Mat temp(m_height, m_width, CV_8UC4, const_cast<char*>(&*img_data_beg));
+        // 旋转帧宽高与成员互换，按协议头实际方向构造
+        cv::Mat temp(int(h), int(w), CV_8UC4, const_cast<char*>(&*img_data_beg));
         if (temp.empty()) {
             return false;
         }
