@@ -684,21 +684,21 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                      static_cast<uint32_t>(static_cast<unsigned char>(data[5])) << 8 |
                      static_cast<uint32_t>(static_cast<unsigned char>(data[6])) << 16 |
                      static_cast<uint32_t>(static_cast<unsigned char>(data[7])) << 24;
-        if (int(w) != m_width || int(h) != m_height) {
+        if ((std::max)(int(w), int(h)) != m_width || (std::min)(int(w), int(h)) != m_height) {
             // 截图头与已知分辨率不符，通常为运行中模拟器分辨率被外部修改。
             // 分辨率变化后触控倍率等整套映射全部过期，原地修补无法覆盖所有层，
             // 标记连接失效并通知上层走整体重连，本帧按失败处理
             invalidate_connection("Size from image header", w, h);
             return false;
         }
-        size_t std_size = 4ULL * m_width * m_height;
+        size_t std_size = 4ULL * w * h;
         if (data.size() < std_size) {
             return false;
         }
         const size_t header_size = data.size() - std_size; // 12 or 16. ref:
         // https://android.googlesource.com/platform/frameworks/base/+/26a2b97dbe48ee45e9ae70110714048f2f360f97%5E%21/cmds/screencap/screencap.cpp
         auto img_data_beg = data.cbegin() + header_size;
-        cv::Mat temp(m_height, m_width, CV_8UC4, const_cast<char*>(&*img_data_beg));
+        cv::Mat temp(int(h), int(w), CV_8UC4, const_cast<char*>(&*img_data_beg));
         if (temp.empty()) {
             return false;
         }
@@ -949,8 +949,11 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         // 每 1 分钟检测一次模拟器帧率
         check_fps();
 
-        if (screencap_ret &&
-            (image_payload.cols != m_last_screencap_size.first || image_payload.rows != m_last_screencap_size.second)) {
+        const std::pair<int, int> current_screencap_size {
+            (std::max)(image_payload.cols, image_payload.rows),
+            (std::min)(image_payload.cols, image_payload.rows),
+        };
+        if (screencap_ret && current_screencap_size != m_last_screencap_size) {
             // 截图尺寸发生帧间变化：模拟器分辨率可能被外部修改（MumuExtras/LDExtras
             // 输出原生分辨率且无协议头校验点，Encode 路径同理，统一在此检测）。
             // 以图像自身历史尺寸为基准，连接初期 fallback 桌面等持续性差异不会误触发；
@@ -959,7 +962,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             if (m_last_screencap_size.first != 0) {
                 invalidate_connection("Screencap size changed", image_payload.cols, image_payload.rows);
             }
-            m_last_screencap_size = { image_payload.cols, image_payload.rows };
+            m_last_screencap_size = current_screencap_size;
         }
 
         return screencap_ret;
