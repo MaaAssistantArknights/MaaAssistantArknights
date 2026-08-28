@@ -958,11 +958,19 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             (image_payload.cols != m_last_screencap_size.first || image_payload.rows != m_last_screencap_size.second)) {
             // 截图尺寸发生帧间变化：模拟器分辨率可能被外部修改（MumuExtras/LDExtras
             // 输出原生分辨率且无协议头校验点，Encode 路径同理，统一在此检测）。
+            // 宽高互换为显示方向旋转而非分辨率修改，只更新基准、不触发连接失效。
             // 以图像自身历史尺寸为基准，连接初期 fallback 桌面等持续性差异不会误触发；
             // 首帧不触发。分辨率变化后触控倍率等整套映射全部过期，标记连接失效，
             // 通知上层走整体重连，本帧画面有效照常返回
+            bool rotated = image_payload.cols == m_last_screencap_size.second &&
+                           image_payload.rows == m_last_screencap_size.first;
             if (m_last_screencap_size.first != 0) {
-                invalidate_connection("Screencap size changed", image_payload.cols, image_payload.rows);
+                if (!rotated) {
+                    invalidate_connection("Screencap size changed", image_payload.cols, image_payload.rows);
+                }
+                else {
+                    on_display_rotated();
+                }
             }
             m_last_screencap_size = { image_payload.cols, image_payload.rows };
         }
