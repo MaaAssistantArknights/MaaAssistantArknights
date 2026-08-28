@@ -154,6 +154,10 @@ static constexpr int PROGRESS_BAR_CONTROL_ID = 1004;
 static constexpr DWORD LEGACY_DWMWA_USE_IMMERSIVE_DARK_MODE = 19;
 static constexpr wchar_t MUTEX_NAME_ARG[] = L"--mutex-name";
 static constexpr DWORD UPDATE_MUTEX_TIMEOUT_MS = 3000;
+// 等待 MAA 主程序退出：先静默等待 fast-wait 时限（不弹窗，避免与正在退出的 MAA 抢前台），
+// 超时后弹窗并进入倒计时；倒计时归零仍未退出则强制结束主程序，防止挂死的进程把更新无限期卡住
+static constexpr DWORD PARENT_EXIT_FAST_WAIT_MS = 15000;
+static constexpr DWORD PARENT_EXIT_COUNTDOWN_MS = 60000;
 #define PENDING_DELETE_SUFFIX L".pendingdelete"
 static constexpr int FILE_OP_MAX_RETRIES = 5;
 static constexpr DWORD FILE_OP_INITIAL_DELAY_MS = 200;
@@ -1883,19 +1887,45 @@ int wmain(int argc, wchar_t* argv[])
     // Wait for parent process to exit
     // 进度窗口延后到主程序退出后再显示，避免与正在退出的 MAA 抢前台
     // ------------------------------------------------------------------
-    HANDLE hParent = OpenProcess(SYNCHRONIZE, FALSE, parentPid);
+    // PROCESS_TERMINATE 供倒计时结束后的强制结束使用
+    HANDLE hParent = OpenProcess(SYNCHRONIZE | PROCESS_TERMINATE, FALSE, parentPid);
     if (hParent != nullptr) {
         WriteLog((L"Waiting for parent process to exit, PID=" + std::to_wstring(parentPid)).c_str());
         // 快路径：15 秒内父进程退出则不弹窗，避免与正在退出的 MAA 抢前台；
-        // 超时后创建进度窗口并泵消息继续等待，防止父进程退出卡住时 Updater
-        // 变成不可见、永不退出的幽灵进程
-        if (WaitForSingleObject(hParent, 15000) == WAIT_TIMEOUT) {
+        // 超时后创建进度窗口并进入倒计时，归零仍未退出则强制结束父进程，
+        // 防止父进程退出卡住时更新被无限期挂起
+        if (WaitForSingleObject(hParent, PARENT_EXIT_FAST_WAIT_MS) == WAIT_TIMEOUT) {
             InitializeProgressUi();
-            SetProgressUiStatus(
-                L"正在准备更新... | Preparing update...",
-                L"等待 MAA 主程序退出 | Waiting for the main MAA process to exit");
+            int remainingSeconds = static_cast<int>(PARENT_EXIT_COUNTDOWN_MS / 1000);
+            auto buildCountdownDetail = [&]() {
+                std::wstring secondsText = std::to_wstring(remainingSeconds);
+                return L"MAA 主程序未正常退出，" + secondsText + L" 秒后强制结束 | MAA exit timeout, forcing in " + secondsText + L"s";
+            };
+            SetProgressUiStatus(L"正在准备更新... | Preparing update...", buildCountdownDetail());
+            DWORD elapsedMs = 0;
             while (WaitForSingleObject(hParent, 100) == WAIT_TIMEOUT) {
                 PumpProgressUiMessages();
+                elapsedMs += 100;
+                if (elapsedMs < PARENT_EXIT_COUNTDOWN_MS) {
+                    int newRemainingSeconds = static_cast<int>((PARENT_EXIT_COUNTDOWN_MS - elapsedMs) / 1000);
+                    if (newRemainingSeconds != remainingSeconds) {
+                        remainingSeconds = newRemainingSeconds;
+                        SetProgressUiStatus(L"正在准备更新... | Preparing update...", buildCountdownDetail());
+                    }
+                    continue;
+                }
+
+                WriteLog(L"Parent exit wait timed out, terminating the parent process.");
+                if (TerminateProcess(hParent, EXIT_FAILURE)) {
+                    // TerminateProcess 异步生效，等待进程对象真正有信号后再继续安装
+                    WaitForSingleObject(hParent, 5000);
+                    WriteLog(L"Parent process forcibly terminated.");
+                    break;
+                }
+
+                // 失败通常意味着父进程恰好自行退出，重置倒计时继续等待
+                WriteLog((L"TerminateProcess failed, error=" + std::to_wstring(GetLastError()) + L", restarting the countdown.").c_str());
+                elapsedMs = 0;
             }
         }
         CloseHandle(hParent);
