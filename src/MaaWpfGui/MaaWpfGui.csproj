@@ -28,10 +28,15 @@
     <BeautyUsePatch Condition="'$(RuntimeIdentifier)' != ''">true</BeautyUsePatch>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-    <PostBuildEvent>
+    <PostBuildEvent Condition="'$(OS)' == 'Windows_NT'">
       echo Creating resource directory link...
       if exist "$(OutputPath)resource" rmdir "$(OutputPath)resource"
       mklink /J "$(OutputPath)resource" "$(SolutionDir)\..\resource"
+      echo Resource directory link created successfully
+    </PostBuildEvent>
+    <PostBuildEvent Condition="'$(OS)' != 'Windows_NT'">
+      echo Creating resource directory link...
+      ln -sfT "$(SolutionDir)/../resource" "$(OutputPath)resource"
       echo Resource directory link created successfully
     </PostBuildEvent>
   </PropertyGroup>
