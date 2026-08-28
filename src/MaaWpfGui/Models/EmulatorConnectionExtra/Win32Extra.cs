@@ -53,11 +53,18 @@ public class Win32Extra : ExtraConfig
     /// <summary>
     /// Win32 鼠标输入方式列表（与 AsstCaller.h 中 AsstWin32InputMethodEnum 对应，按枚举值排序）
     /// </summary>
+    /// <remarks>
+    /// 纯 SendMsg / PostMsg 仅列出作展示：明日方舟 PC 端按真实光标位置取坐标、不读取消息中的坐标，
+    /// 纯消息点击会落点无效（原神等游戏读取消息坐标，故同类工具纯后台可用），因此永久禁用，
+    /// 界面中以置灰选项呈现。
+    /// </remarks>
     private static readonly LocalizedObservableList<AsstWin32InputMethod> _mouseMethodList =
         new(
-            (AsstWin32InputMethod.Seize, "AttachWindowInputSeize"),
-            (AsstWin32InputMethod.SendMessageWithCursorPos, "AttachWindowInputSendWithCursor"),
-            (AsstWin32InputMethod.SendMessageWithWindowPos, "AttachWindowInputSendWithWindowPos"));
+            (AsstWin32InputMethod.Seize, "AttachWindowInputSeize", true),
+            (AsstWin32InputMethod.SendMessage, "AttachWindowInputSendMsgDisabled", false),
+            (AsstWin32InputMethod.PostMessage, "AttachWindowInputPostMsgDisabled", false),
+            (AsstWin32InputMethod.SendMessageWithCursorPos, "AttachWindowInputSendWithCursor", true),
+            (AsstWin32InputMethod.SendMessageWithWindowPos, "AttachWindowInputSendWithWindowPos", true));
 
     public LocalizedObservableList<AsstWin32InputMethod> MouseMethodList => _mouseMethodList;
 

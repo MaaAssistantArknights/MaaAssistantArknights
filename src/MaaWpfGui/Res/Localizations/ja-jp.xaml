@@ -1735,8 +1735,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（バックグラウンド、予備、最小化不可）</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（フォアグラウンド、遮蔽不可）</system:String>
     <system:String x:Key="AttachWindowInputSeize">Seize（フォアグラウンド、マウスを完全に取得）</system:String>
+    <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg（フルバックグラウンド、アークナイツは実マウス位置のみ参照、無効）</system:String>
+    <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg（フルバックグラウンド、アークナイツは実マウス位置のみ参照、無効）</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos（半バックグラウンド、一時的にマウスを取得）</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（フルバックグラウンド、マウス不要、ウィンドウが動く可能性あり、最小化推奨）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（フルバックグラウンド、マウス不要、ウィンドウが動く可能性あり、PrintWindow のみ対応、最小化推奨）</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（安定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高効率）</system:String>
     <!--  !AsstProxy  -->
