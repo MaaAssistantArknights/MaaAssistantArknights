@@ -57,7 +57,7 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
     oper.name = json.at("name").as_string();
     oper.skill = json.get("skill", 0);
     oper.skill_usage = static_cast<battle::SkillUsage>(json.get("skill_usage", 0));
-    oper.skill_times = json.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
+    oper.skill_times = json.get("skill_times", 1);                       // 使用技能的次数，默认为 1，兼容曾经的作业
 
     const auto& oper_props = BattleDataConfig::get_instance().find_oper(oper.role, oper.name);
     int rarity = oper_props ? oper_props->rarity : 0;
