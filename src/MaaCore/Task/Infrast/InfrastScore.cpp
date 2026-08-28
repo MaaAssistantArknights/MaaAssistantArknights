@@ -82,6 +82,9 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
     double base = 0;
     int storage = 0;                     // 订单上限增减量
     int gold = context.gold_station_num; // 赤金生产线数，部分订单流技能会继续修正
+    int alternate_orchid = 0;            // 焰狐龙梓兰的泡影国狩猎小队，暂时以焰狐龙梓兰标识
+    int laterano = 0;                    // 同设施拉特兰干员数量
+    int exusiai = 0;                     // 能天使相关计数
     const auto all = count_skills(opers);
     const bool is_money = context.product == "Money";
     CombinationScore result;
@@ -95,6 +98,10 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
         for (const auto& icon : oper->skills) {
             if (icon == "bskill_tra_spd3") { // 物流专家 / 名流欢会：能天使、海蒂
                 base += 0.35;
+                if (is_operator(*oper, { "char_103_angel" })) {
+                    ++laterano;
+                    ++exusiai;
+                }
             }
             else if (icon == "bskill_tra_spd&formula1") { // 精准排期：石英
                 base += 0.34;                             // 近似两种产物
@@ -131,6 +138,9 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
             else if (icon == "bskill_tra_spd&limit6") { // 供应管理：远山、玫兰莎、梓兰
                 base += 0.25;
                 storage += 1;
+            }
+            else if (icon == "bskill_ord_spd&tag1") {   // 精英小队：真言
+                base += 0.25;                           // 精英干员设施数量暂不计算
             }
             else if (icon == "bskill_tra_spd&limit5") { // 喀兰之主：银灰
                 base += 0.2;
@@ -218,6 +228,17 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
                     base += 0.1;
                 }
             }
+            else if (icon == "bskill_tra_spd&meet") { // 天生的顾问：渡桥
+                base += 0.15 + std::min(0.15, context.level * 0.05);
+            }
+            else if (icon == "bskill_tra_lemuen1") { // 相伴：蕾缪安
+                base += 0.2;
+                ++laterano;
+            }
+            else if (icon == "bskill_tra_spd3&catap2") { // 气氛组：雷狼龙S空爆
+                base += 0.35;
+                ++alternate_orchid;
+            }
             else if (icon == "bskill_tra_spd&limit_down1") { // 威压：锏
                 base += 0.2;
                 storage -= 2;
@@ -272,6 +293,10 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
             else if (icon == "bskill_tra_limit&trade2") { // 钱不我待：瑰盐
                 storage += context.level;
             }
+            else if (icon == "bskill_tra_orchd2") { // 队长的自觉：焰狐龙梓兰
+                storage += 3;
+                ++alternate_orchid;
+            }
             else if (icon == "bskill_tra_wt&cost2" && is_money) { // 裁缝·β / 手工艺品·β等：多人共用
                 base += 0.02;                                     // 裁缝 B 单独使用效果很小，取近似值
             }
@@ -324,8 +349,23 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
         storage += 2;
     }
 
+    // 焰狐龙梓兰相关技能
+    if (const int count = skill_count(all, "bskill_tra_orchd2")) {
+        base += alternate_orchid * 0.2 * count;
+    }
+    // 能天使与蕾缪安联动
+    if (const int count = skill_count(all, "bskill_tra_lemuen1")) { // 相伴：蕾缪安
+        base += exusiai * 0.25 * count;
+    }
+
+    if (const int count = skill_count(all, "bskill_tra_laterano1")) { // 同城加急单：新约能天使
+        base += laterano * 0.15 * count;
+    }
     if (const int count = skill_count(all, "bskill_tra_spd_variable22")) { // 天道酬勤·β：雪雉
         base += std::min(0.35, floor_step(base, 0.05)) * count;
+    }
+    if (const int count = skill_count(all, "bskill_tra_spd_variable21")) { // 天道酬勤·α：雪雉
+        base += std::min(0.25, floor_step(base, 0.05)) * count;
     }
     if (const int count = skill_count(all, "bskill_tra_flow_gs2")) { // 物流规划·β：图耶
         base += 0.05 + (gold / 2) * 0.15 * count;
@@ -509,10 +549,32 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                     base += 0.02;
                 }
             }
+            else if (icon == "bskill_man_spd_bd1") { // 念力：迷迭香
+                if (context.use_perception_information && is_selected(context, "char_436_whispr")) {
+                    base += 0.2;
+                }
+            }
             else if (icon == "bskill_man_spd_bd2") { // 意识实体：迷迭香
                 // 絮雨在办公室时提供感知信息，迷迭香才获得完整制造效率。
                 if (context.use_perception_information && is_selected(context, "char_436_whispr")) {
                     base += 0.40999; // 手动调整，使之高于0.4（槐琥）低于0.41（苍苔+引星棘刺）
+                }
+            }
+            else if (icon == "bskill_man_spd_bd5") { // 逐水草：截云
+                if (context.use_worldly_plight && is_selected(context, "char_473_mberry")) {
+                    base += 0.4 / 5;
+                }
+                if (context.use_worldly_plight && is_selected(context, "char_2024_chyue")) {
+                    base += 0.05 / 5;
+                    if (is_selected(context, "char_2023_ling")) {
+                        base += 0.05 / 5;
+                    }
+                    if (is_selected(context, "char_2015_dusk")) {
+                        base += 0.05 / 5;
+                    }
+                }
+                if (context.use_worldly_plight && is_selected(context, "char_2023_ling")) {
+                    base += 0.15 / 5;
                 }
             }
             else if (icon == "bskill_man_spd_bd6") { // 问枯荣：截云
@@ -572,9 +634,8 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                     ++standard;
                 }
                 // 莱茵科技：白面鸮、赫默、多萝西、星源。
-                else if (is_operator(
-                             oper,
-                             { "char_128_plosis", "char_108_silent", "char_4048_doroth", "char_135_halo" })) {
+                else if (
+                    is_operator(oper, { "char_128_plosis", "char_108_silent", "char_4048_doroth", "char_135_halo" })) {
                     ++rhine;
                 }
                 // 红松骑士团：远牙、灰毫、野鬃；受薇薇安娜、焰尾和正义骑士号联动影响。
@@ -720,6 +781,12 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
             }
             else if (icon == "bskill_man_originium1" && origin_stone) { // 源石工艺·α / 地质学·α：多人共用
                 base += 0.3001;
+            }
+            else if (icon == "bskill_man_token_spd1" && gold_product) { // 机械精通·α：阿兰娜
+                base += 0.05 * context.workbench_num;
+            }
+            else if (icon == "bskill_man_token_spd2" && gold_product) { // 机械精通·β：阿兰娜
+                base += 0.1 * context.workbench_num;
             }
             else if (icon == "bskill_man_constrlv") { // 绘图设计：至简
                 robot = std::min(64, robot + context.total_station_level);
@@ -920,6 +987,45 @@ double office_score(const ScoreOper& oper)
         else if (icon == "bskill_hire_spd&cost1" || icon == "bskill_hire_spd") {
             // 救援队·珠算：桑葚；普通 10% 人脉资源联络速度技能。
             score += 0.1;
+        }
+        else if (icon == "bskill_hire_spd&char1") { // 雪境归心：圣聆初雪
+            score += 0.35;                          // 控制中枢联动暂不计算
+        }
+        else if (icon == "bskill_hire_spd&clue2") { // 交游广阔：隐现
+            score += 0.395;
+        }
+        else if (icon == "bskill_hire_spd&clue3") { // “号外！”：乌啾
+            score += 0.395;
+        }
+        else if (icon == "bskill_hire_spd&clue4") { // 街头法则：乌啾
+            score += 0.445;
+        }
+        else if (icon == "bskill_hire_spd&cost3") { // 救援队·保证体力：雪绒
+            score += 0.35;
+        }
+        else if (icon == "bskill_hire_spd&cost4") { // 特殊渠道 / 踏坊寻味·α：林、行箸
+            score += 0.2;
+        }
+        else if (icon == "bskill_hire_spd&cost5") { // 宫廷礼仪：深律
+            score += 0.1;
+        }
+        else if (icon == "bskill_hire_spd&cost6") { // 威权谕使 / 踏坊寻味·β：深律、行箸
+            score += 0.3;
+        }
+        else if (icon == "bskill_hire_spd&cost7") { // 圣女声望：圣聆初雪
+            score += 0.2;
+        }
+        else if (icon == "bskill_hire_spd&dorm1") { // 梅兰德侦探·α：锡人
+            score += 0.249;
+        }
+        else if (icon == "bskill_hire_spd&dorm2") { // 梅兰德侦探·β：锡人
+            score += 0.449;
+        }
+        else if (icon == "bskill_hire_spd&extra1") { // 用人唯才：林
+            score += 0.2;
+        }
+        else if (icon == "bskill_hire_spd&glasgow") { // 旧识新交：戴菲恩
+            score += 0.2;
         }
     }
     return score;
@@ -1303,7 +1409,7 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
     std::vector<size_t> result;
     const size_t limit = static_cast<size_t>(std::max(0, context.slots));
     if (limit == 0) {
-        return { {}, 0 };
+        return { { }, 0 };
     }
 
     // 迷迭香在制造站或絮雨在办公室时，优先选择感知信息与无声共鸣体系的宿舍联动干员。
@@ -1368,6 +1474,45 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
             else if (icon == "bskill_dorm_powtorecall2") { // 柔和微光·β：流明
                 score += 0.15 + context.virtual_power_station_num * 0.05;
             }
+            else if (icon == "bskill_dorm_all&single") { // 小酌怡情：冰酿
+                score += 0.2;
+            }
+            else if (icon == "bskill_dorm_all4") { // 芬芳疗养·α：刺玫
+                score += 0.15;
+            }
+            else if (icon == "bskill_dorm_all_tired") { // 芬芳疗养·β：刺玫
+                score += 0.151;
+            }
+            else if (icon == "bskill_dorm_all_tired2") { // 净化呼吸：撷英调香师
+                score += 0.09;
+            }
+            else if (icon == "bskill_dorm_hiretorecall1") { // 寻同路人：斥罪
+                score += 0.15;
+            }
+            else if (icon == "bskill_dorm_hiretorecall2") { // 无瑕心·α：隐德来希
+                score += 0.19;
+            }
+            else if (icon == "bskill_dorm_hiretorecall3") { // 无瑕心·β：隐德来希
+                score += 0.29;
+            }
+            else if (icon == "bskill_dorm_powtorecall1") { // 柔和微光·α：流明
+                score += 0.1 + context.virtual_power_station_num * 0.05;
+            }
+            else if (icon == "bskill_dorm_rec_all&lvl1") { // 睡前必听故事：响石
+                score += 0.15;
+            }
+            else if (icon == "bskill_dorm_rec_all&lv2") { // 死前必做清单：响石
+                score += 0.24;
+            }
+            else if (icon == "bskill_dorm_rec_all&profession") { // 火山温泉浴：纯烬艾雅法拉
+                score += 0.06;
+            }
+            else if (icon == "bskill_dorm_senshi") { // 资深料理人：森西
+                score += 0.15;
+            }
+            else if (icon == "bskill_dorm_unfull") { // 倾谈者：波卜
+                score += 0.2;
+            }
         }
         return score;
     };
@@ -1403,6 +1548,24 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
             }
             else if (icon == "bskill_dorm_single&one12") { // 烹饪 / Give me five等：多人共用
                 score += 0.35;
+            }
+            else if (icon == "bskill_dorm_buddy") { // 狩猎好帮手：罗德岛隐秘队
+                score += 0.55;
+            }
+            else if (icon == "bskill_dorm_single_indigo") { // 毒剂师之友：深靛
+                score += 0.55;
+            }
+            else if (icon == "bskill_dorm_single_laterano") { // 圣城趣事通：新约能天使
+                score += 0.55;
+            }
+            else if (icon == "bskill_dorm_single_sami") { // 降生于冰寒：寒檀
+                score += 0.55;
+            }
+            else if (icon == "bskill_dorm_single_schwarz") { // 沏茶：黑
+                score += 0.55;
+            }
+            else if (icon == "bskill_dorm_single_tomimi") { // 烤肉大师：特米米
+                score += 0.55;
             }
         }
         return score;
@@ -1498,7 +1661,7 @@ ScoreResult select_best_opers(const std::vector<ScoreOper>& opers, const ScoreCo
     if (context.facility == "Dorm") {
         return select_dorm(opers, context);
     }
-    return {};
+    return { };
 }
 
 } // namespace asst::infrast
