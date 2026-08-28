@@ -1840,6 +1840,11 @@
         ],
         "text": ["작전개시", "하드모드개시", "련개"]
     },
+    "SkipThePreBattlePlot": {
+        "doc": "some bright plot screens failed to match; loosened threshold",
+        "maskRange": [50, 255],
+        "templThreshold": 0.7
+    },
     "BattleStartOCR": {
         "text": ["작전", "개시"],
         "ocrReplace": [["개.+", "개시"]],
