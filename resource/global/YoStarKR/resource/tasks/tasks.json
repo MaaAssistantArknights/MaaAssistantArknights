@@ -1842,8 +1842,8 @@
     },
     "SkipThePreBattlePlot": {
         "doc": "some bright plot screens failed to match; loosened threshold",
-        "maskRange": [50, 255],
-        "templThreshold": 0.7
+        "templThreshold": 0.7,
+        "maskRange": [50, 255]
     },
     "BattleStartOCR": {
         "text": ["작전", "개시"],
