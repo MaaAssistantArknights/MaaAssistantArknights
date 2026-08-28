@@ -1287,6 +1287,11 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
             [](const ScoreOper& oper) { return has_any_skill(oper, { "bskill_ctrl_sp", "bskill_ctrl_cost" }); })) {
         }
     }
+    // 仍未填满时，用其余可用且未选择的干员补齐控制中枢。
+    if (best.size() < ControlSlotCount) {
+        while (add_first([](const ScoreOper&) { return true; })) {
+        }
+    }
 
     const double score = static_cast<double>(best.size());
     return { std::move(best), score };
