@@ -70,7 +70,8 @@ std::vector<std::string> asst::infrast::normalize_fiammetta_targets(const std::v
 
 std::string asst::infrast::fiammetta_target_id(std::string_view name)
 {
-    return BattleData.get_id(std::string(name));
+    const auto ids = BattleData.get_ids(battle::Role::Unknown, std::string(name));
+    return ids.empty() ? "" : ids.front();
 }
 
 std::optional<size_t> asst::infrast::find_fiammetta_target(
@@ -95,9 +96,12 @@ std::optional<size_t> asst::infrast::find_fiammetta_target(
 
 std::optional<size_t> asst::infrast::find_full_mood_fiammetta(const std::vector<DormSelectionCandidate>& first_page)
 {
-    const std::string fiammetta_id = BattleData.get_id("菲亚梅塔");
-    const auto iter = std::ranges::find_if(first_page, [&fiammetta_id](const DormSelectionCandidate& candidate) {
-        return !candidate.selected && candidate.available && candidate.operator_id == fiammetta_id &&
+    const auto& fiammetta_id_opt = BattleData.get_first_id(battle::Role::Sniper, "菲亚梅塔");
+    if (!fiammetta_id_opt) {
+        return std::nullopt;
+    }
+    const auto iter = std::ranges::find_if(first_page, [&](const DormSelectionCandidate& candidate) {
+        return !candidate.selected && candidate.available && candidate.operator_id == *fiammetta_id_opt &&
                candidate.mood_ratio >= FullMoodThreshold;
     });
     return iter == first_page.end()
@@ -616,7 +620,10 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
     }
 
     ctrler()->click(fiammetta_opers[*fiammetta_index].rect);
-    stage_operator_selection(BattleData.get_id("菲亚梅塔"));
+    const auto& id_opt = BattleData.get_first_id(battle::Role::Sniper, "菲亚梅塔");
+    if (id_opt) {
+        stage_operator_selection(*id_opt);
+    }
     if (!switch_to_low_mood_sort()) {
         discard_pending_selection();
         click_clear_button();

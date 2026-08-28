@@ -54,7 +54,7 @@ BattleFormationAnalyzer::ResultsVec
     ResultsVec results;
 
     for (const auto& name_res : ocr_result) {
-        if (BattleData.is_name_invalid(name_res.text)) {
+        if (BattleData.is_name_invalid(battle::Role::Unknown, name_res.text)) {
             continue;
         }
 
@@ -69,7 +69,7 @@ BattleFormationAnalyzer::ResultsVec
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(avatar_rect), cv::Scalar(0, 0, 255), 2);
         cv::putText(
             m_image_draw,
-            BattleData.get_id(name),
+            BattleData.get_first_id(battle::Role::Unknown, name).value_or("<Unknown>"),
             cv::Point(avatar_rect.x, avatar_rect.y - 20),
             1,
             1.2,

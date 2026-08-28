@@ -16,7 +16,7 @@ const asst::RoguelikeOperInfo&
         return it->second;
     }
 
-    const auto& role = BattleData.get_role(oper_name);
+    const auto& role = BattleData.get_first_role(oper_name);
     battle::OperNameTag oper_tag { .role = role, .name = oper_name };
     RoguelikeOperInfo info;
     info.role = role;
@@ -84,7 +84,7 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(
         return find_iter->second.group_id;
     }
     else {
-        const auto& role = BattleData.get_role(oper_name);
+        const auto& role = BattleData.get_first_role(oper_name);
         if (role != battle::Role::Pioneer && role != battle::Role::Tank && role != battle::Role::Warrior &&
             role != battle::Role::Special) {
             return { static_cast<int>(m_oper_groups.at(theme).size()) - 2 };
@@ -114,7 +114,7 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(
         return find_iter->second.group_id;
     }
     else {
-        const auto& role = oper_tag.role != battle::Role::Unknown ? oper_tag.role : BattleData.get_role(oper_tag.name);
+        const auto& role = oper_tag.role != battle::Role::Unknown ? oper_tag.role : BattleData.get_first_role(oper_tag.name);
         if (role != battle::Role::Pioneer && role != battle::Role::Tank && role != battle::Role::Warrior &&
             role != battle::Role::Special) {
             return { static_cast<int>(m_oper_groups.at(theme).size()) - 2 };

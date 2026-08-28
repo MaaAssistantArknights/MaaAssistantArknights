@@ -36,7 +36,7 @@ bool asst::BattleFormationTask::set_specific_support_unit(const std::string& nam
         return false;
     }
 
-    const battle::Role role = (m_specific_support_unit.role = BattleData.get_role(name));
+    const battle::Role role = (m_specific_support_unit.role = BattleData.get_first_role(name));
     if (role == battle::Role::Unknown) {
         // 无法根据干员名称获取其职业
         Log.error(__FUNCTION__, "| Invalid specific support unit");
@@ -131,7 +131,7 @@ bool asst::BattleFormationTask::_run()
                 break;
             }
             required_opers.emplace_back(
-                RequiredOper { .role = BattleData.get_role(oper.name), .name = oper.name, .skill = oper.skill });
+                RequiredOper { .role = BattleData.get_first_role(oper.name), .name = oper.name, .skill = oper.skill });
         }
 
         // 先退出去招募助战再回来，好蠢
@@ -178,7 +178,7 @@ bool asst::BattleFormationTask::_run()
             oper.name = name;
             oper.skill = skill;
             std::vector<asst::battle::OperUsage> usage { std::move(oper) };
-            user_formation[BattleData.get_role(name)].emplace_back(name, 0, 0, std::move(usage));
+            user_formation[BattleData.get_first_role(name)].emplace_back(name, 0, 0, std::move(usage));
         }
         click_role_table(battle::Role::Unknown);
         for (auto& [role, oper_groups] : user_formation) {
@@ -868,9 +868,9 @@ bool asst::BattleFormationTask::parse_formation()
 
         // 判断干员/干员组的职业，放进对应的分组
         bool same_role = true;
-        battle::Role role = BattleData.get_role(opers_vec.front().name);
+        battle::Role role = BattleData.get_first_role(opers_vec.front().name);
         for (const auto& oper : opers_vec) {
-            same_role &= BattleData.get_role(oper.name) == role;
+            same_role &= BattleData.get_first_role(oper.name) == role;
 
             // （仅一次）如果发现这名助战干员，则将其技能设定为对应的所需技能
             if (oper.name == m_specific_support_unit.name && m_specific_support_unit.skill == 0) {
@@ -984,7 +984,7 @@ std::optional<asst::battle::OperNameTag> asst::BattleFormationTask::add_support_
     if (required_opers.empty()) { // 随机模式
         for (size_t refresh_times = 0; refresh_times <= max_refresh_times && !need_exit(); ++refresh_times) {
             if (auto opt = add_support_unit_from_support_list(support_list, required_opers, friendship)) {
-                return battle::OperNameTag { BattleData.get_role(*opt), *opt };
+                return battle::OperNameTag { BattleData.get_first_role(*opt), *opt };
             }
             if (refresh_times < max_refresh_times) {
                 support_list.refresh_list();

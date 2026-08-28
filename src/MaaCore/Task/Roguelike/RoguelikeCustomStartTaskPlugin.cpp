@@ -229,7 +229,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
         { battle::Role::Tank, "重装" },   { battle::Role::Warrior, "近卫" }
     };
     const std::string& char_name = m_config->get_core_char();
-    const auto& role = BattleData.get_role(char_name);
+    const auto& role = BattleData.get_first_role(char_name);
     auto role_iter = RoleOcrNameMap.find(role);
     if (role_iter == RoleOcrNameMap.cend()) {
         Log.error("Unknown role", char_name, static_cast<int>(role));

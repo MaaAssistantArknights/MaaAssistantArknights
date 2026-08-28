@@ -584,17 +584,18 @@ bool asst::InfrastProductionTask::resolve_operator_identity(infrast::Oper& oper)
         return false;
     }
 
-    const std::string operator_id = BattleData.get_id(name->text);
+    const std::string& operator_id = BattleData.get_first_id(battle::Role::Unknown, name->text).value_or(std::string());
     if (!infrast::operator_id_matches_candidates(oper.operator_ids, operator_id)) {
         if (!operator_id.empty()) {
-            Log.warn("infrastructure operator identity conflicts with skills", name->text, operator_id);
+            LogWarn << __FUNCTION__ << "infrastructure operator identity conflicts with skills" << name->text
+                    << operator_id;
         }
         return false;
     }
 
     oper.operator_ids = { operator_id };
     oper.operator_id = operator_id;
-    Log.trace("infrastructure operator identity", facility_name(), name->text, operator_id);
+    LogTrace << __FUNCTION__ << "infrastructure operator identity" << facility_name() << name->text << operator_id;
     return true;
 }
 
@@ -738,7 +739,7 @@ bool asst::InfrastProductionTask::optimal_calc()
             log_str += "; ";
         }
         log_str += "]";
-        Log.trace("Single comb efficient", max_efficient, " , skills:", log_str);
+        LogTrace << __FUNCTION__ << "Single comb efficient" << max_efficient << ", skills:" << log_str;
     }
 
     // 需要选的人和当前房间最大人数不想等，组合就不启用。
@@ -751,7 +752,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     // 遍历所有组合，找到效率最高的
     auto& all_group = InfrastData.get_skills_group(facility_name());
     for (const infrast::SkillsGroup& group : all_group) {
-        Log.trace(group.desc);
+        LogTrace << group.desc;
         auto cur_available_opers = all_available_combs;
         bool group_unavailable = false;
         std::vector<infrast::SkillsComb> cur_combs;
@@ -833,7 +834,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                         name_analyzer.set_replace(
                             Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                             Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
-                        Log.trace("Analyze name filter");
+                        LogTrace << "Analyze name filter";
                         if (name_analyzer.analyze()) {
                             std::string name = name_analyzer.get_result().text;
                             hash_matched = std::ranges::find(opt.name_filter, name) != opt.name_filter.cend();
@@ -881,7 +882,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                 log_str += "; ";
             }
             log_str += "]";
-            Log.trace(group.desc, "efficient", cur_efficient, " , skills:", log_str);
+            LogTrace << group.desc << "efficient" << cur_efficient << ", skills:" << log_str;
         }
 
         if (cur_efficient > max_efficient) {
@@ -896,7 +897,7 @@ bool asst::InfrastProductionTask::optimal_calc()
             log_str += "; ";
         }
         log_str += "]";
-        Log.trace("optimal efficient", max_efficient, " , skills:", log_str);
+        LogTrace << __FUNCTION__ << "optimal efficient" << max_efficient << ", skills:" << log_str;
     }
 
     m_optimal_combs = std::move(optimal_combs);
@@ -933,7 +934,7 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
                 .run();
             const std::string task_name = "BattleQuickFormationRole-" + role_name;
             if (!ProcessTask(*this, { task_name }).set_retry_times(0).run()) {
-                Log.warn("failed to select abyssal hunter role", role_name);
+                LogWarn << __FUNCTION__ << "failed to select abyssal hunter role" << role_name;
                 continue;
             }
             sleep(200);
@@ -953,7 +954,8 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
                             continue;
                         }
 
-                        const std::string operator_id = BattleData.get_id(name->text);
+                        const auto& oper_ids = BattleData.get_ids(battle::Role::Unknown, name->text);
+                        const auto& operator_id = oper_ids.empty() ? "" : oper_ids.front();
                         const auto candidate = std::ranges::find_if(candidates, [&](const auto& info) {
                             return info.operator_id == operator_id && info.role == role;
                         });
@@ -982,14 +984,14 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
         }
     }
     else {
-        Log.warn("failed to expand role list for abyssal hunter selection");
+        LogWarn << __FUNCTION__ << "failed to expand role list for abyssal hunter selection";
     }
 
     ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).set_retry_times(0).run();
     close_quick_formation_expand_role();
 
     for (const auto& operator_id : remaining) {
-        Log.warn("abyssal hunter operator not found, skip", operator_id);
+        LogWarn << __FUNCTION__ << "abyssal hunter operator not found, skip" << operator_id;
     }
     return selected;
 }
@@ -1044,23 +1046,21 @@ bool asst::InfrastProductionTask::opers_choose()
             }
         }
         auto cur_all_opers = oper_analyzer.get_result();
-        Log.trace("before mood filter, opers size:", cur_all_opers.size());
+        LogTrace << __FUNCTION__ << "before mood filter, opers size:" << cur_all_opers.size();
         // 小于心情阈值的干员则不可用
         std::erase_if(cur_all_opers, [&](const infrast::Oper& rhs) -> bool {
             return rhs.mood_ratio < m_mood_threshold;
         });
-        Log.trace("after mood filter, opers size:", cur_all_opers.size());
+        LogTrace << __FUNCTION__ << "after mood filter, opers size:" << cur_all_opers.size();
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
-            Log.trace(
-                "to find",
-                opt_iter->skills.empty() ? opt_iter->operator_id : opt_iter->skills.begin()->names.front());
+            LogTrace << __FUNCTION__ << "to find" << (opt_iter->skills.empty() ? opt_iter->operator_id : opt_iter->skills.begin()->names.front());
             auto find_iter = std::ranges::find_if(cur_all_opers, [&](const infrast::Oper& lhs) -> bool {
                 if (lhs.skills != opt_iter->skills) {
                     return false;
                 }
                 if (!opt_iter->face_hash.empty()) {
                     const int dist = Hasher::hamming(lhs.face_hash, opt_iter->face_hash);
-                    Log.debug("opers_choose | expected face hash dist", dist);
+                    LogDebug << __FUNCTION__ << "opers_choose | expected face hash dist" << dist;
                     if (dist >= face_hash_thres) {
                         return false;
                     }
@@ -1073,7 +1073,7 @@ bool asst::InfrastProductionTask::opers_choose()
                     name_analyzer.set_replace(
                         Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                         Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
-                    Log.trace("Analyze name filter");
+                    LogTrace << __FUNCTION__ << "Analyze name filter";
                     if (!name_analyzer.analyze()) {
                         return false;
                     }
@@ -1085,15 +1085,15 @@ bool asst::InfrastProductionTask::opers_choose()
 
             if (find_iter == cur_all_opers.cend()) {
                 ++opt_iter;
-                Log.trace("not found in this page");
+                LogTrace << __FUNCTION__ << "not found in this page";
                 continue;
             }
-            Log.trace("found in this page");
+            LogTrace << __FUNCTION__ << "found in this page";
             // 这种情况可能是需要选择两个同样的技能，上一次循环选了一个，但是没有把滑出当前页面，本次又识别到了这个已选择的人
             if (find_iter->selected == true) {
                 if (cur_max_num_of_opers != 1) {
                     cur_all_opers.erase(find_iter);
-                    Log.trace("skill matched, but it's selected, pass");
+                    LogTrace << __FUNCTION__ << "skill matched, but it's selected, pass";
                     continue;
                 }
                 // 但是如果当前设施只有一个位置，即不存在“上次循环”的情况，说明是清除干员按钮没点到
@@ -1104,7 +1104,7 @@ bool asst::InfrastProductionTask::opers_choose()
             {
                 auto avlb_iter = std::ranges::find_if(m_all_available_opers, [&](const infrast::Oper& lhs) -> bool {
                     int dist = Hasher::hamming(lhs.face_hash, find_iter->face_hash);
-                    Log.debug("opers_choose | face hash dist", dist);
+                    LogDebug << __FUNCTION__ << "opers_choose | face hash dist" << dist;
                     return dist < face_hash_thres;
                 });
                 if (avlb_iter != m_all_available_opers.cend()) {
@@ -1112,7 +1112,7 @@ bool asst::InfrastProductionTask::opers_choose()
                     m_all_available_opers.erase(avlb_iter);
                 }
                 else {
-                    Log.error("opers_choose | not found oper");
+                    LogError << __FUNCTION__ << "opers_choose | not found oper";
                 }
             }
             ++count;
@@ -1132,7 +1132,7 @@ bool asst::InfrastProductionTask::opers_choose()
         swipe_to_the_left_of_operlist(swipe_times + 1);
     }
     count += static_cast<int>(select_abyssal_hunters(abyssal_hunter_ids));
-    Log.trace(__FUNCTION__, "| count", count, "cur_max_num_of_opers", cur_max_num_of_opers);
+    LogTrace << __FUNCTION__ << "| count" << count << "cur_max_num_of_opers" << cur_max_num_of_opers;
     if (count < cur_max_num_of_opers) {
         // 这种情况可能是萌新，可用干员人数不足以填满当前设施
         callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("NotEnoughStaff"));

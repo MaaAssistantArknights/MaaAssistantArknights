@@ -1433,12 +1433,19 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
 
 const std::array<AbyssalHunterCandidate, 4>& get_abyssal_hunter_candidates()
 {
-    static const std::array<AbyssalHunterCandidate, 4> candidates = {
-        AbyssalHunterCandidate { BattleData.get_id("斯卡蒂"), BattleData.get_role("斯卡蒂") },
-        AbyssalHunterCandidate { BattleData.get_id("幽灵鲨"), BattleData.get_role("幽灵鲨") },
-        AbyssalHunterCandidate { BattleData.get_id("乌尔比安"), BattleData.get_role("乌尔比安") },
-        AbyssalHunterCandidate { BattleData.get_id("安哲拉"), BattleData.get_role("安哲拉") },
-    };
+    static const auto candidates = [&] {
+        const auto& skadi = BattleData.find_first_oper(battle::Role::Warrior, "斯卡蒂");
+        const auto& specter = BattleData.find_first_oper(battle::Role::Warrior, "幽灵鲨");
+        const auto& ulpianus = BattleData.find_first_oper(battle::Role::Warrior, "乌尔比安");
+        const auto& angela = BattleData.find_first_oper(battle::Role::Sniper, "安哲拉");
+
+        return std::array<AbyssalHunterCandidate, 4> {
+            AbyssalHunterCandidate { skadi->id, skadi->role },
+            AbyssalHunterCandidate { specter->id, specter->role },
+            AbyssalHunterCandidate { ulpianus->id, ulpianus->role },
+            AbyssalHunterCandidate { angela->id, angela->role },
+        };
+    }();
     return candidates;
 }
 
