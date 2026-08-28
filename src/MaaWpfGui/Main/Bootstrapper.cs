@@ -1076,9 +1076,9 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static void ShowPendingUpdateMissingUpdaterDialog()
     {
         MessageBoxHelper.Show(
-        LocalizationHelper.GetString("UpdateApplyMissingUpdater"),
-        LocalizationHelper.GetString("Error"),
-        icon: MessageBoxImage.Error);
+            LocalizationHelper.GetString("UpdateApplyMissingUpdater"),
+            LocalizationHelper.GetString("Error"),
+            icon: MessageBoxImage.Error);
     }
 
     /// <summary>
