@@ -792,7 +792,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         LogInfo << "Skill" << oper_tag.name << "is ready";
 
         // 识别到了，但点进去发现没有。一般来说是识别错了
-        if (!use_skill(loc, false)) {
+        if (!use_skill(loc, 0)) {
             LogWarn << "Skill" << oper_tag.name << "is not ready";
             static const bool save_infinitely = std::filesystem::exists("DEBUG_skill_ready.txt");
             if (!save_infinitely) {
@@ -847,7 +847,7 @@ bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, 
     if (!is_skill_ready(loc, image)) {
         return false;
     }
-    has_error = !use_skill(loc, false);
+    has_error = !use_skill(loc, 0);
     return true;
 }
 
