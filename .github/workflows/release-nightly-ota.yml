@@ -195,19 +195,18 @@ jobs:
           cmake --install build --config RelWithDebInfo
 
       - name: Download MaaFramework
-        if: matrix.arch == 'x64'
         uses: robinraju/release-downloader@v1
         with:
           repository: MaaXYZ/MaaFramework
           tag: v5.9.2
-          fileName: "*win-x86_64*.zip"
+          fileName: ${{ matrix.arch == 'arm64' && '*win-aarch64*.zip' || '*win-x86_64*.zip' }}
           extract: true
           out-file-path: MaaFramework-temp
 
-      - name: Copy MaaWin32ControlUnit
-        if: matrix.arch == 'x64'
+      - name: Copy ControlUnits
         run: |
           cp MaaFramework-temp/bin/*Win32ControlUnit* install/
+          cp MaaFramework-temp/bin/*AdbControlUnit* install/
 
       - name: Generate global.json
         shell: bash
@@ -274,6 +273,7 @@ jobs:
           rm -rf install/*.pdb
           rm -rf install/msvc-debug
           rm -rf install/*.h
+          rm -rf install/*.bak
 
           # 用原生启动器替换 SDK apphost：MAA.exe 被单独拖出文件夹时给出错误提示
           # MAA.dll 缺失可能来自 continue-on-error 的 publish，静默保留 apphost；stub 缺失属于构建异常，直接失败
