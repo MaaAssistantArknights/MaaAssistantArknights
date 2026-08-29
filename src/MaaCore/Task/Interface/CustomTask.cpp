@@ -2,6 +2,7 @@
 
 #include "Config/TaskData.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
+#include "Task/MiniGame/AutoRaisePotentialTaskPlugin.h"
 #include "Task/MiniGame/PixelPaintTaskPlugin.h"
 #include "Task/MiniGame/SecretFrontTaskPlugin.h"
 #include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
@@ -39,6 +40,9 @@ bool asst::CustomTask::set_params(const json::value& params)
         if (parse_and_register_secretfront(task_name, resolved_task)) {
             Log.info("Parsed and registered SecretFront task: ", task_name, " -> ", resolved_task);
         }
+        else if (parse_and_register_auto_raise_potential(task_name)) {
+            Log.info("Parsed and registered AutoRaisePotential task: ", task_name);
+        }
         else if (parse_and_register_pixel_paint(task_name, params)) {
             Log.info("Parsed and registered PixelPaint task: ", task_name);
         }
@@ -65,6 +69,20 @@ bool asst::CustomTask::parse_and_register_material_synthesis(const std::string& 
     }
     if (!m_custom_task_ptr->find_plugin<MaterialSynthesisTaskPlugin>()) {
         m_custom_task_ptr->register_plugin<MaterialSynthesisTaskPlugin>()->set_retry_times(0);
+    }
+    return true;
+}
+
+bool asst::CustomTask::parse_and_register_auto_raise_potential(const std::string& task_name)
+{
+    if (task_name != "MiniGame@AutoRaisePotential@Begin") {
+        return false;
+    }
+
+    auto plugin_ptr = m_custom_task_ptr->register_plugin<AutoRaisePotentialTaskPlugin>();
+    if (!plugin_ptr) {
+        Log.error("Failed to register AutoRaisePotentialTaskPlugin");
+        return false;
     }
     return true;
 }
