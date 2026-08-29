@@ -60,7 +60,13 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
     oper.skill_times = json.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
 
     // 兼容古早旧作业中非法的技能选择；干员查不到时沿用旧逻辑按稀有度 0 处理，不拒绝整个作业
-    const auto& oper_props = BattleData.find_first_oper(oper.role, oper.name);
+    // 同名干员与召唤物并存时（如 “阿米娅” 与活动装置）取稀有度最高的一条，不依赖 unordered_map 遍历顺序
+    std::shared_ptr<OperProps> oper_props;
+    for (const auto& props : BattleData.find_opers(oper.role, oper.name)) {
+        if (oper_props == nullptr || props->rarity > oper_props->rarity) {
+            oper_props = props;
+        }
+    }
     if (!oper_props) {
         LogError << __FUNCTION__ << "| Oper" << oper.name << "with role" << enum_to_string(oper.role)
                  << "not found in BattleData.";
