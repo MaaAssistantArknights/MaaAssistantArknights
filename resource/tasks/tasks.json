@@ -3019,7 +3019,12 @@
         "template": "PureColorMfg.png",
         "method": "RGBCount",
         "pureColor": true,
-        "colorScales": [[[225, 174, 0], [255, 234, 30]]],
+        "colorScales": [
+            [
+                [225, 174, 0],
+                [255, 234, 30]
+            ]
+        ],
         "templThreshold": 0.95,
         "nmsDistance": 40,
         "roi": [0, 200, 820, 520]
@@ -3029,7 +3034,12 @@
         "template": "PureColorMfgMini.png",
         "method": "RGBCount",
         "pureColor": true,
-        "colorScales": [[[225, 174, 0], [255, 234, 30]]],
+        "colorScales": [
+            [
+                [225, 174, 0],
+                [255, 234, 30]
+            ]
+        ],
         "templThreshold": 0.95,
         "nmsDistance": 40,
         "roi": [0, 240, 640, 400]
@@ -3038,7 +3048,12 @@
         "template": "PureColorTrade.png",
         "method": "RGBCount",
         "pureColor": true,
-        "colorScales": [[[21, 174, 225], [81, 234, 255]]],
+        "colorScales": [
+            [
+                [21, 174, 225],
+                [81, 234, 255]
+            ]
+        ],
         "templThreshold": 0.95,
         "nmsDistance": 40,
         "roi": [0, 200, 820, 520]
@@ -3047,7 +3062,12 @@
         "template": "PureColorTradeMini.png",
         "method": "RGBCount",
         "pureColor": true,
-        "colorScales": [[[21, 174, 225], [81, 234, 255]]],
+        "colorScales": [
+            [
+                [21, 174, 225],
+                [81, 234, 255]
+            ]
+        ],
         "templThreshold": 0.95,
         "nmsDistance": 40,
         "roi": [0, 240, 640, 400]
@@ -3056,7 +3076,12 @@
         "template": "PureColorPower.png",
         "method": "RGBCount",
         "pureColor": true,
-        "colorScales": [[[174, 225, 72], [234, 255, 132]]],
+        "colorScales": [
+            [
+                [174, 225, 72],
+                [234, 255, 132]
+            ]
+        ],
         "templThreshold": 0.95,
         "nmsDistance": 40,
         "roi": [0, 200, 820, 520]
@@ -3065,7 +3090,12 @@
         "template": "PureColorPowerMini.png",
         "method": "RGBCount",
         "pureColor": true,
-        "colorScales": [[[174, 225, 72], [234, 255, 132]]],
+        "colorScales": [
+            [
+                [174, 225, 72],
+                [234, 255, 132]
+            ]
+        ],
         "templThreshold": 0.95,
         "nmsDistance": 40,
         "roi": [0, 240, 640, 400]
