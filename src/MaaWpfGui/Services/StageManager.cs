@@ -327,6 +327,7 @@ public class StageManager
         {
             // 常驻活动
             new() { Display = LocalizationHelper.GetString("MiniGame@SecretFront"), DisplayKey = "MiniGame@SecretFront", Value = "MiniGame@SecretFront", TipKey = "MiniGame@SecretFrontTip" },
+            new() { Display = LocalizationHelper.GetString("MiniGame@AutoRaisePotential"), DisplayKey = "MiniGame@AutoRaisePotential", Value = "MiniGame@AutoRaisePotential@Begin", TipKey = "MiniGame@AutoRaisePotentialTip" },
 
             // 撒尿牛丸
             new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), DisplayKey = "MiniGameNameSsStore", Value = "SS@Store@Begin", TipKey = "MiniGameNameSsStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
