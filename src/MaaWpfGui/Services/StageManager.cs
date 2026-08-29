@@ -332,6 +332,7 @@ public class StageManager
 
             // TODO: 材料合成 UI 入口暂时隐藏，待功能验证完成后恢复。
             // new() { Display = LocalizationHelper.GetString("MiniGame@MaterialSynthesis"), DisplayKey = "MiniGame@MaterialSynthesis", Value = "MiniGame@MaterialSynthesis@Begin", TipKey = "MiniGame@MaterialSynthesisTip" },
+            new() { Display = LocalizationHelper.GetString("MiniGame@AutoRaisePotential"), DisplayKey = "MiniGame@AutoRaisePotential", Value = "MiniGame@AutoRaisePotential@Begin", TipKey = "MiniGame@AutoRaisePotentialTip" },
             new() { Display = LocalizationHelper.GetString("MiniGame@SecretFront"), DisplayKey = "MiniGame@SecretFront", Value = "MiniGame@SecretFront", TipKey = "MiniGame@SecretFrontTip" },
         };
 

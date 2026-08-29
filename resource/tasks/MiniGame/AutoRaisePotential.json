@@ -1,0 +1,123 @@
+{
+    "MiniGame@AutoRaisePotential@Begin": {
+        "doc": "自动提升潜能公开入口。实际页面导航由 AutoRaisePotentialBegin 执行。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": ["AutoRaisePotentialBegin"],
+        "onErrorNext": ["Stop"]
+    },
+    "AutoRaisePotentialBegin": {
+        "doc": "自动提升潜能内部导航入口。优先识别干员列表，否则复用快捷切换和逐级返回任务进入干员页。新视觉素材补齐前，流程会在 FilterAvailable 安全占位节点停止。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "AutoRaisePotentialOperBox",
+            "AutoRaisePotentialBegin@QuickSwitch@ToOperBox#next",
+            "AutoRaisePotentialOperBox@ReturnButtons#next"
+        ],
+        "onErrorNext": ["Stop"]
+    },
+    "AutoRaisePotentialOperBox": {
+        "doc": "识别干员列表。复用 OperBox 的现有模板，仅将后续流程改为自动提升潜能。",
+        "baseTask": "OperBox",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "action": "DoNothing",
+        "sub": [],
+        "next": ["MiniGame@AutoRaisePotential@FilterAvailable"],
+        "maxTimes": 3,
+        "exceededNext": ["Stop"],
+        "onErrorNext": ["Stop"]
+    },
+    "MiniGame@AutoRaisePotential@FilterAvailable": {
+        "doc": "截图占位：识别并点击干员列表中表示存在可提升潜能干员的提示标记。人工截图后改为 MatchTemplate + ClickSelf，预期 roi [580,20,120,50]；命中后 next 连接 FirstOperator，未命中时 Stop 并停留在干员列表。预期模板名：MiniGame@AutoRaisePotential@FilterAvailable.png。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "maxTimes": 1,
+        "exceededNext": ["Stop"],
+        "onErrorNext": ["Stop"]
+    },
+    "MiniGame@AutoRaisePotential@FirstOperator": {
+        "doc": "截图占位：筛选完成后识别并点击首位干员卡片。人工截图后改为 MatchTemplate + ClickSelf，预期 roi [0,80,260,560]，模板仅裁取首张卡片的稳定特征；命中后 next 连接 PotentialAvailable。预期模板名：MiniGame@AutoRaisePotential@FirstOperator.png。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "maxTimes": 1,
+        "exceededNext": ["Stop"],
+        "onErrorNext": ["Stop"]
+    },
+    "MiniGame@AutoRaisePotential@PotentialAvailable": {
+        "doc": "截图占位：在干员档案识别并点击潜能提升提示标记。人工截图后改为 MatchTemplate + ClickSelf，预期 roi [1140,210,140,110]；命中后 next 连接 PotentialScreen。OperatorProfile 的 next 应依次检查本节点和 SwipeToNextOperator，使当前干员无标记时切换下一名。预期模板名：MiniGame@AutoRaisePotential@PotentialAvailable.png。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "maxTimes": 4096,
+        "exceededNext": ["Stop"],
+        "onErrorNext": ["Stop"]
+    },
+    "MiniGame@AutoRaisePotential@PotentialAvailableAfterSwipe": {
+        "doc": "截图占位：横向切换后检查下一名干员的潜能提升提示，复用 PotentialAvailable 的模板和预期 roi [1140,210,140,110]，人工截图后改为 MatchTemplate + ClickSelf。SwipeToNextOperator 的 next 应依次检查本节点和 Stop：命中后连接 PotentialScreen，未命中说明已到最后一名并正常结束。预期模板名：MiniGame@AutoRaisePotential@PotentialAvailable.png。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "maxTimes": 512,
+        "exceededNext": ["Stop"],
+        "onErrorNext": ["Stop"]
+    },
+    "MiniGame@AutoRaisePotential@PotentialScreen": {
+        "doc": "截图占位：识别潜能界面的稳定标题或界面装饰，仅用于确认页面状态。人工截图后改为 MatchTemplate + DoNothing，预期 roi [900,80,380,480]；命中后 next 连接 RaiseButton。预期模板名：MiniGame@AutoRaisePotential@PotentialScreen.png。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "maxTimes": 4096,
+        "exceededNext": ["MiniGame@AutoRaisePotential@ReturnToOperatorProfile"],
+        "onErrorNext": ["MiniGame@AutoRaisePotential@ReturnToOperatorProfile"]
+    },
+    "MiniGame@AutoRaisePotential@RaiseButton": {
+        "doc": "截图占位：识别并点击潜能提升按钮，这是进入潜能界面后、确认前的唯一一次提升点击。人工截图后改为 MatchTemplate + ClickSelf，预期 roi [1020,560,260,160]；命中后 next 连接 ConfirmRaise。预期模板名：MiniGame@AutoRaisePotential@RaiseButton.png。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "maxTimes": 4096,
+        "exceededNext": ["MiniGame@AutoRaisePotential@ReturnToOperatorProfile"],
+        "onErrorNext": ["MiniGame@AutoRaisePotential@ReturnToOperatorProfile"]
+    },
+    "MiniGame@AutoRaisePotential@ConfirmRaise": {
+        "doc": "截图占位：识别并点击潜能提升确认按钮。人工截图后改为 MatchTemplate + ClickSelf，预期 roi [790,440,160,120]；命中后 next 优先识别 OperatorProfile，再处理 PotentialScreen 动画循环。预期模板名：MiniGame@AutoRaisePotential@ConfirmRaise.png。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "maxTimes": 4096,
+        "exceededNext": ["MiniGame@AutoRaisePotential@ReturnToOperatorProfile"],
+        "onErrorNext": ["MiniGame@AutoRaisePotential@ReturnToOperatorProfile"]
+    },
+    "MiniGame@AutoRaisePotential@OperatorProfile": {
+        "doc": "识别已经回到干员档案。复用现有干员信息菜单模板；识别成功后应再次检查 PotentialAvailable，使同一干员可连续提升多次。",
+        "baseTask": "OperOpenInformationMenu",
+        "template": "OperInformationMenu.png",
+        "action": "DoNothing",
+        "next": ["MiniGame@AutoRaisePotential@PotentialAvailable"],
+        "maxTimes": 4096,
+        "exceededNext": ["MiniGame@AutoRaisePotential@ReturnToOperatorProfile"],
+        "onErrorNext": ["MiniGame@AutoRaisePotential@ReturnToOperatorProfile"]
+    },
+    "MiniGame@AutoRaisePotential@ReturnToOperatorProfile": {
+        "doc": "异常恢复：识别左上角返回按钮后点击，尝试回到干员档案；无法返回时安全停止。",
+        "baseTask": "Return",
+        "template": "Return.png",
+        "action": "ClickSelf",
+        "next": [
+            "MiniGame@AutoRaisePotential@OperatorProfile",
+            "#self"
+        ],
+        "maxTimes": 3,
+        "exceededNext": ["Stop"],
+        "onErrorNext": ["Stop"]
+    },
+    "MiniGame@AutoRaisePotential@SwipeToNextOperator": {
+        "doc": "在干员档案中横向切换下一名干员。坐标按 1280x720 基准由参考流程等比换算；这是流程中唯一的固定点位动作。滑动后检查下一名干员的潜能提示，列表末尾无法切换时检查失败并正常停止。",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [735, 580, 1, 1],
+        "rectMove": [545, 580, 1, 1],
+        "specialParams": [300, 0, 1, 0],
+        "postDelay": 1000,
+        "next": ["MiniGame@AutoRaisePotential@PotentialAvailableAfterSwipe"],
+        "maxTimes": 512,
+        "exceededNext": ["Stop"],
+        "onErrorNext": ["Stop"]
+    }
+}
