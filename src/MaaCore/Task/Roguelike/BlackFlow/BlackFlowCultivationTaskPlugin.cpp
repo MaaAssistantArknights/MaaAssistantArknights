@@ -17,12 +17,12 @@ namespace asst::blackflow
 {
 namespace
 {
+constexpr int LastFloor = 3;
 constexpr std::string_view EnterTask = "BlackFlow@Roguelike@CultivateEnter";
 constexpr std::string_view SellDecisionTask = "BlackFlow@Roguelike@CultivateSellDecision";
 constexpr std::string_view SellAction = "BlackFlow@Roguelike@CultivateSellAction";
 constexpr std::string_view SellItemsTask = "BlackFlow@Roguelike@CultivateSellItems";
 constexpr std::string_view SellItemsKeepMovementTask = "BlackFlow@Roguelike@CultivateSellItemsKeepMovement";
-constexpr int LastFloor = 3;
 constexpr std::string_view SellConfirmEntry = "BlackFlow@Roguelike@CultivateSellConfirm-Enter";
 constexpr std::string_view ToggleToBuyTask = "BlackFlow@Roguelike@CultivateToggleToBuy";
 constexpr std::string_view BuyDecisionTask = "BlackFlow@Roguelike@CultivateBuyDecision";
