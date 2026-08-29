@@ -53,6 +53,9 @@ protected:
 
     bool probe_minitouch();
 
+    // 读取设备当前屏幕方向，仅在输出为 0-3 时更新，失败或解析失败时保留旧值
+    void read_orientation();
+
     bool input_to_minitouch(const std::string& cmd);
     void release_minitouch(bool force = false);
 
