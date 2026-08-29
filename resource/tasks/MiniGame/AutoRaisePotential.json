@@ -9,8 +9,7 @@
             "MiniGame@AutoRaisePotential@OperatorCountZero",
             "MiniGame@AutoRaisePotential@OperatorCountOcr",
             "MiniGame@AutoRaisePotential@FinishNoTarget"
-        ],
-        "maxTimes": 1
+        ]
     },
     "MiniGame@AutoRaisePotential@OperatorCountZero": {
         "doc": "识别顶部潜能标记数量为 0 时直接结束，保持在干员列表。",
@@ -21,8 +20,7 @@
         "useRaw": false,
         "binThreshold": [180, 255],
         "withoutDet": true,
-        "text": ["0"],
-        "maxTimes": 1
+        "text": ["0"]
     },
     "MiniGame@AutoRaisePotential@OperatorCountOcr": {
         "doc": "识别干员列表顶部橙色潜能标记中的数量。原流程使用 1920x1080 的 [965,42,55,41]，此处换算为 1280x720 的 [643,28,37,27]；Core 插件读取 OCR 结果并设置横向切换次数。",
@@ -32,8 +30,7 @@
         "binThreshold": [180, 255],
         "useRaw": false,
         "withoutDet": true,
-        "next": ["MiniGame@AutoRaisePotential@FilterAvailable"],
-        "maxTimes": 1
+        "next": ["MiniGame@AutoRaisePotential@FilterAvailable"]
     },
     "MiniGame@AutoRaisePotential@FinishNoTarget": {
         "doc": "未识别到顶部潜能数量，视为没有可提升目标并停留在干员列表。",
@@ -45,16 +42,14 @@
         "action": "ClickSelf",
         "roi": [542, 12, 195, 58],
         "postDelay": 1000,
-        "next": ["MiniGame@AutoRaisePotential@FirstOperator"],
-        "maxTimes": 1
+        "next": ["MiniGame@AutoRaisePotential@FirstOperator"]
     },
     "MiniGame@AutoRaisePotential@FirstOperator": {
         "template": "OperBoxFirstOperatorBadge.png",
         "action": "ClickSelf",
         "roi": [108, 68, 113, 43],
         "postDelay": 1000,
-        "next": ["MiniGame@AutoRaisePotential@OperatorProfile"],
-        "maxTimes": 1
+        "next": ["MiniGame@AutoRaisePotential@OperatorProfile"]
     },
     "MiniGame@AutoRaisePotential@PotentialAvailable": {
         "doc": "识别并点击干员档案中的潜能提升标记；预期 ROI [1125,180,155,180]。",
