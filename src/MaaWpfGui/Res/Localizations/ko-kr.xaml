@@ -1297,7 +1297,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@MaterialSynthesis@NavigationFailed">화면 인식 또는 조작 실패</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">알 수 없는 오류</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential">잠재능력 자동 강화</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">일반 게임 화면에서 시작합니다. 오퍼레이터 목록으로 자동 이동하여 강화 가능 표시가 있는 모든 오퍼레이터의 잠재능력을 강화합니다.&#10;완료 후 마지막 오퍼레이터 상세 화면에 머물며, 대상이 없으면 오퍼레이터 목록에 머뭅니다.</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">오퍼레이터 목록 화면에 들어간 뒤 시작하세요. 강화 가능 표시가 있는 모든 오퍼레이터의 잠재능력을 자동으로 강화합니다.&#10;완료 후 마지막 오퍼레이터 상세 화면에 머물며, 대상이 없으면 오퍼레이터 목록에 머뭅니다.</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">기상 순회전 - 미수록 기상 찾기</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">선택한 맵의 고급 구역 초원 오른쪽 아래에서 작업을 시작합니다.&#10;초원을 왔다 갔다 하며 미수록 생물을 찾고, 발견하면 자동으로 중지됩니다.&#10;생물은 초원에서만 만날 수 있습니다.</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">기상 순회전: 미수록 기상 발견</system:String>
