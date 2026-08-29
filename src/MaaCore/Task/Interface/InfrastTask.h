@@ -18,6 +18,7 @@ class InfrastTrainingTask;
 class InfrastDormTask;
 class ReplenishOriginiumShardTaskPlugin;
 class InfrastProcessingTask;
+class InfrastAssistantChangeTask;
 
 class InfrastTask final : public InterfaceTask
 {
@@ -53,6 +54,7 @@ private:
     std::shared_ptr<InfrastTrainingTask> m_training_task_ptr = nullptr;
     std::shared_ptr<InfrastDormTask> m_dorm_task_ptr = nullptr;
     std::shared_ptr<InfrastDormTask> m_dorm_task_ptr_post = nullptr;
+    std::shared_ptr<InfrastAssistantChangeTask> m_assistant_change_task_ptr = nullptr;
     std::shared_ptr<ReplenishOriginiumShardTaskPlugin> m_replenish_task_ptr = nullptr;
     std::shared_ptr<infrast::TaskData> m_task_data;
 };
