@@ -130,6 +130,10 @@ Please note that JSON files do not support comments. The comments in this docume
                                             // Suitable for scenarios where color features are distinct but template matching performs poorly
                                             // When using this option, it is recommended to correspondingly increase the templThreshold
 
+        "nmsDistance": 0,                   // Optional, deduplication radius for multiple template matching results, in pixels, default 0
+                                            // When both horizontal and vertical coordinate differences of two hits are less than this value, only the highest-scoring one is kept
+                                            // 0 or unset means half of the shorter side of the template
+
         "method": "Ccoeff",                 // Optional, template matching algorithm, can be list
                                             // Default is Ccoeff when not specified
                                             //      - Ccoeff:       Color-insensitive template matching, corresponds to cv::TM_CCOEFF_NORMED

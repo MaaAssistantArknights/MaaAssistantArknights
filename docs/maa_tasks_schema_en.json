@@ -254,6 +254,11 @@
                     "default": false,
                     "description": "Optional when method is HSVCount or RGBCount, default false\nWhether to use only color counting without template matching\nSuitable for scenarios with obvious color features but poor template matching performance\nWhen using this option, it is recommended to appropriately increase the templThreshold threshold"
                 },
+                "nmsDistance": {
+                    "type": "integer",
+                    "default": 0,
+                    "description": "Optional, deduplication radius for multiple template matching results, in pixels, default 0\nWhen both horizontal and vertical coordinate differences of two hits are less than this value, only the highest-scoring one is kept\n0 or unset means half of the shorter side of the template"
+                },
                 "method": {
                     "oneOf": [
                         {

@@ -129,6 +129,10 @@ icon: material-symbols:task
                                             // 適用於顏色特徵明顯但範本比對效果不佳的場景
                                             // 使用此選項時建議相應提高 templThreshold 門檻值
 
+        "nmsDistance": 0,                   // 選填，範本比對多結果去重半徑，單位為像素，預設為 0
+                                            // 兩個命中位置的橫縱座標差都小於該值時，只保留得分最高的一個
+                                            // 不填或 0 時按範本短邊的一半取值
+
         "method": "Ccoeff",                 // 選填，範本比對演算法，可以是列表
                                             // 不填寫時預設為 Ccoeff
                                             //      - Ccoeff:       對顏色不敏感的範本比對演算法，對應 cv::TM_CCOEFF_NORMED

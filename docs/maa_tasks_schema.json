@@ -254,6 +254,11 @@
                     "default": false,
                     "description": "可选项，当 method 为 HSVCount 或 RGBCount 时有效，默认为 false\n是否只使用数色匹配而不使用模板匹配\n适用于颜色特征明显但模板匹配效果不佳的场景\n使用此选项时建议相应提高 templThreshold 阈值"
                 },
+                "nmsDistance": {
+                    "type": "integer",
+                    "default": 0,
+                    "description": "可选项，模板匹配多结果去重半径，单位为像素，默认为 0\n两个命中位置的横纵坐标差都小于该值时，只保留得分最高的一个\n不填或 0 时按模板短边的一半取值"
+                },
                 "method": {
                     "oneOf": [
                         {
