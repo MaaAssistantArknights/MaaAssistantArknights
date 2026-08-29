@@ -1602,17 +1602,17 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
 
 const std::array<AbyssalHunterCandidate, 4>& get_abyssal_hunter_candidates()
 {
-    static const auto candidates = [&] {
-        const auto& skadi = BattleData.find_first_oper(battle::Role::Warrior, "斯卡蒂");
-        const auto& specter = BattleData.find_first_oper(battle::Role::Warrior, "幽灵鲨");
-        const auto& ulpianus = BattleData.find_first_oper(battle::Role::Warrior, "乌尔比安");
-        const auto& angela = BattleData.find_first_oper(battle::Role::Sniper, "安哲拉");
-
+    // 干员数据缺失时保留空 id，空 id 匹配不到任何干员，等效跳过该候选
+    static const auto candidates = [] {
+        const auto make_candidate = [](battle::Role role, const char* name) {
+            const auto& props = BattleData.find_first_oper(role, name);
+            return props ? AbyssalHunterCandidate { props->id, props->role } : AbyssalHunterCandidate {};
+        };
         return std::array<AbyssalHunterCandidate, 4> {
-            AbyssalHunterCandidate { skadi->id, skadi->role },
-            AbyssalHunterCandidate { specter->id, specter->role },
-            AbyssalHunterCandidate { ulpianus->id, ulpianus->role },
-            AbyssalHunterCandidate { angela->id, angela->role },
+            make_candidate(battle::Role::Warrior, "斯卡蒂"),
+            make_candidate(battle::Role::Warrior, "幽灵鲨"),
+            make_candidate(battle::Role::Warrior, "乌尔比安"),
+            make_candidate(battle::Role::Sniper, "安哲拉"),
         };
     }();
     return candidates;
