@@ -1,24 +1,6 @@
 {
     "MiniGame@AutoRaisePotential@Begin": {
-        "doc": "自动提升潜能公开入口。实际页面导航由 AutoRaisePotentialBegin 执行。",
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": ["AutoRaisePotentialBegin"],
-        "onErrorNext": ["Stop"]
-    },
-    "AutoRaisePotentialBegin": {
-        "doc": "自动提升潜能内部导航入口。优先识别干员列表，否则复用快捷切换和逐级返回任务进入干员页。新视觉素材补齐前，流程会在 FilterAvailable 安全占位节点停止。",
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": [
-            "AutoRaisePotentialOperBox",
-            "AutoRaisePotentialBegin@QuickSwitch@ToOperBox#next",
-            "AutoRaisePotentialOperBox@ReturnButtons#next"
-        ],
-        "onErrorNext": ["Stop"]
-    },
-    "AutoRaisePotentialOperBox": {
-        "doc": "识别干员列表。复用 OperBox 的现有模板，仅将后续流程改为自动提升潜能。",
+        "doc": "自动提升潜能入口。用户须已进入干员列表界面；复用 OperBox 的现有模板确认页面后进入筛选流程。新视觉素材补齐前，流程会在 FilterAvailable 安全占位节点停止。",
         "baseTask": "OperBox",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "action": "DoNothing",

@@ -1309,7 +1309,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@MaterialSynthesis@NavigationFailed">page recognition or operation failed</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">unknown error</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential">Automatically Raise Potential</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">Start from a regular game screen. MAA enters the Operator list and raises the Potential of every Operator marked as available.&#10;The task stops on the last Operator profile, or on the Operator list when there is no available target.</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">Open the Operator list before starting. MAA raises the Potential of every Operator marked as available.&#10;The task stops on the last Operator profile, or on the Operator list when there is no available target.</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">Interactive Exhibition - Find Unrecorded Wonders</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">Start the task at the bottom right of the grass in the advanced zone of the selected map.&#10;Wander back and forth across the grass to find unrecorded creatures; the task stops automatically once one is found.&#10;Creatures can only be found on grass.</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">Interactive Exhibition: Unrecorded Wonder Found</system:String>
