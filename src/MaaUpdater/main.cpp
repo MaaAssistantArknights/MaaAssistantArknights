@@ -1887,8 +1887,9 @@ int wmain(int argc, wchar_t* argv[])
     // Wait for parent process to exit
     // 进度窗口延后到主程序退出后再显示，避免与正在退出的 MAA 抢前台
     // ------------------------------------------------------------------
-    // PROCESS_TERMINATE 供倒计时结束后的强制结束使用
-    HANDLE hParent = OpenProcess(SYNCHRONIZE | PROCESS_TERMINATE, FALSE, parentPid);
+    // 只申请 SYNCHRONIZE 保证能等待；PROCESS_TERMINATE 到强制结束时单独申请，
+    // 避免权限不足时连等待句柄都拿不到而直接开始安装
+    HANDLE hParent = OpenProcess(SYNCHRONIZE, FALSE, parentPid);
     if (hParent != nullptr) {
         WriteLog((L"Waiting for parent process to exit, PID=" + std::to_wstring(parentPid)).c_str());
         // 快路径：15 秒内父进程退出则不弹窗，避免与正在退出的 MAA 抢前台；
@@ -1916,14 +1917,20 @@ int wmain(int argc, wchar_t* argv[])
                 }
 
                 WriteLog(L"Parent exit wait timed out, terminating the parent process.");
-                if (TerminateProcess(hParent, EXIT_FAILURE)) {
+                HANDLE hTerminate = OpenProcess(PROCESS_TERMINATE, FALSE, parentPid);
+                bool terminated = hTerminate != nullptr && TerminateProcess(hTerminate, EXIT_FAILURE);
+                if (hTerminate != nullptr) {
+                    CloseHandle(hTerminate);
+                }
+                if (terminated) {
                     // TerminateProcess 异步生效，等待进程对象真正有信号后再继续安装
                     WaitForSingleObject(hParent, 5000);
                     WriteLog(L"Parent process forcibly terminated.");
                     break;
                 }
 
-                // 失败通常意味着父进程恰好自行退出，重置倒计时继续等待
+                // 失败通常是父进程恰好自行退出；拿不到 PROCESS_TERMINATE 权限时同样只能继续等待，
+                // 重置倒计时，避免父进程未退出就带文件占用开始安装
                 WriteLog((L"TerminateProcess failed, error=" + std::to_wstring(GetLastError()) + L", restarting the countdown.").c_str());
                 elapsedMs = 0;
             }
