@@ -118,7 +118,7 @@ Please note that JSON files do not support comments. The comments in this docume
             "post_delay": 0, // Post-delay. Optional, default is 0, unit is milliseconds
             // After the current action is executed, starts timing, begins next action when timing ends
             "timeout": 999999999, // Timeout. Optional when type is "Skill". Default -1, no limit, unit is milliseconds
-            // Abandons current action and executes next action when timeout occurs
+            // Starts timing after the conditions and pre_delay are met, abandons the current action and executes the next one when timeout occurs; only checks once when set to 0
             "distance": [
                 4.5,
                 0
