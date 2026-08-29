@@ -17,9 +17,7 @@ class BattleDataConfig final : public MAA_NS::SingletonHolder<BattleDataConfig>,
 public:
     virtual ~BattleDataConfig() override = default;
 
-    static inline const std::string& EmptyId = "";
-
-    const std::optional<std::string> get_first_id(battle::Role role, const std::string& name) const
+    std::optional<std::string> get_first_id(battle::Role role, const std::string& name) const
     {
         if (name.empty()) {
             return std::nullopt;
@@ -44,7 +42,7 @@ public:
         return std::nullopt;
     }
 
-    const std::vector<std::string> get_ids(battle::Role role, const std::string& name) const
+    std::vector<std::string> get_ids(battle::Role role, const std::string& name) const
     {
         std::vector<std::string> ids;
         if (name.empty()) {
@@ -70,7 +68,7 @@ public:
         return ids;
     }
 
-    const std::shared_ptr<battle::OperProps> find_first_oper(battle::Role role, const std::string& name) const
+    std::shared_ptr<battle::OperProps> find_first_oper(battle::Role role, const std::string& name) const
     {
         if (name.empty()) {
             return nullptr;
@@ -94,7 +92,7 @@ public:
         return nullptr;
     }
 
-    const std::vector<std::shared_ptr<battle::OperProps>> find_opers(battle::Role role, const std::string& name) const
+    std::vector<std::shared_ptr<battle::OperProps>> find_opers(battle::Role role, const std::string& name) const
     {
         std::vector<std::shared_ptr<battle::OperProps>> opers;
         if (name.empty()) {
@@ -120,7 +118,7 @@ public:
         return opers;
     }
 
-    const std::shared_ptr<battle::OperProps> find_oper_by_id(const std::string& id) const
+    std::shared_ptr<battle::OperProps> find_oper_by_id(const std::string& id) const
     {
         if (id.empty()) {
             return nullptr;
