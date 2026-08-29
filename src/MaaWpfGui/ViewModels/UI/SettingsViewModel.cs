@@ -331,6 +331,26 @@ public class SettingsViewModel : Screen
         ConnectSettings.ConnectAddressHistory.CollectionChanged += (_, _) => {
             ConfigFactory.CurrentConfig.Gui.ConnectSettings.AddressHistory = [.. ConnectSettings.ConnectAddressHistory];
         };
+
+        // 明日方舟 PC 端连接方式默认隐藏（AllowPCClient 默认 false，仅改配置文件启用）。
+        // 未显式启用时，凡已选用 PC 连接方式的配置一律静默回退到 General；ADB 路径/地址与 Win32 附加设置保留，便于改配置后恢复。
+        if (!ConfigFactory.Root.Gui.AllowPCClient)
+        {
+            var anyPcConfig = false;
+            foreach (var kv in ConfigFactory.Root.Configurations)
+            {
+                if (kv.Value.Gui.ConnectSettings.Config == ConnectConfig.PC)
+                {
+                    kv.Value.Gui.ConnectSettings.Config = ConnectConfig.General;
+                    anyPcConfig = true;
+                }
+            }
+
+            if (anyPcConfig && ConnectSettings.ConnectConfig == ConnectConfig.PC)
+            {
+                ConnectSettings.ConnectConfig = ConnectConfig.General;
+            }
+        }
     }
 
     private void InitVersionUpdate()

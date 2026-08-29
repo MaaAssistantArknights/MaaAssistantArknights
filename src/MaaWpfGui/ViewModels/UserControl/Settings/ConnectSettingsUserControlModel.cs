@@ -88,7 +88,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the list of the configuration of connection.
     /// </summary>
-    public LocalizedObservableList<ConnectConfig> ConnectConfigList { get; } = new(
+    public LocalizedObservableList<ConnectConfig> AllConnectConfigList { get; } = new(
         (ConnectConfig.General, "General"),
         (ConnectConfig.BlueStacks, "BlueStacks"),
         (ConnectConfig.MuMuEmulator12, "MuMuEmulator12"),
@@ -102,6 +102,24 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         (ConnectConfig.Compatible, "Compatible"),
         (ConnectConfig.SecondResolution, "SecondResolution"),
         (ConnectConfig.GeneralWithoutScreencapErr, "GeneralWithoutScreencapErr"));
+
+    /// <summary>
+    /// Gets the list of the configuration of connection, 过滤掉默认隐藏的"明日方舟 PC 端（社区维护）"。
+    /// </summary>
+    public List<GenericCombinedData<ConnectConfig>> ConnectConfigList =>
+        [.. AllConnectConfigList.Items.Where(v => AllowPCClient || v.Value != ConnectConfig.PC)];
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to show the PC client connection option in the connection settings.
+    /// 默认隐藏，仅可通过修改配置文件（gui.new.json 的 Gui 节点）启用。
+    /// </summary>
+    public bool AllowPCClient
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Gui.AllowPCClient = value;
+        }
+    } = ConfigFactory.Root.Gui.AllowPCClient;
 
     public static string TouchModeVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "TouchMode.mp4");
 
@@ -241,7 +259,14 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             Instances.AsstProxy.Connected = false;
             SetAndNotify(ref field, value);
             ConfigFactory.CurrentConfig.Gui.ConnectSettings.Config = value;
-            Instances.SettingsViewModel.UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
+
+            // 仅在运行期同步窗口标题；构造阶段（SettingsViewModel 构造函数内的启动回退）时
+            // Instances.SettingsViewModel 尚未赋值且未挂载 RootViewModel，需跳过，
+            // 挂载后由 RootViewModel.InitViewModels 统一刷新标题。
+            if (Instances.SettingsViewModel is { } settingsViewModel)
+            {
+                settingsViewModel.UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
+            }
 
             // 切换连接配置时，若不再使用 MuMu 截图增强，需移除 MuMu 触控选项
             var mumuEnabled = ExtraConfig is MuMu12Extra { Enable: true };
@@ -876,7 +901,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     private void RefreshLocalization()
     {
-        ConnectConfigList.RefreshLocalization();
+        AllConnectConfigList.RefreshLocalization();
+        OnPropertyChanged(nameof(ConnectConfigList));
         TouchModeList.RefreshLocalization();
     }
 }

@@ -45,6 +45,12 @@ public class Gui : NotifyPropertyChangedWithValue
 
     public bool HideCloseButton { get; set; }
 
+    /// <summary>
+    /// 是否在连接设置中显示"明日方舟 PC 端（社区维护）"连接方式。
+    /// 默认隐藏，仅可通过修改配置文件（gui.new.json 的 Gui 节点）启用。
+    /// </summary>
+    public bool AllowPCClient { get; set; }
+
     public string WindowTitleSelectShowList { get; set; } = "2 3 4";
 
     public bool WindowTitleScrollable { get; set; }
