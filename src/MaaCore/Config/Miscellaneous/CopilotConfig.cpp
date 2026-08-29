@@ -59,14 +59,14 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
     oper.skill_usage = static_cast<battle::SkillUsage>(json.get("skill_usage", 0));
     oper.skill_times = json.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
 
-    // 兼容古早旧作业中非法的技能选择
-    const auto& oper_props_opt = BattleData.find_first_oper(oper.role, oper.name);
-    if (!oper_props_opt) {
+    // 兼容古早旧作业中非法的技能选择；干员查不到时沿用旧逻辑按稀有度 0 处理，不拒绝整个作业
+    const auto& oper_props = BattleData.find_first_oper(oper.role, oper.name);
+    if (!oper_props) {
         LogError << __FUNCTION__ << "| Oper" << oper.name << "with role" << enum_to_string(oper.role)
                  << "not found in BattleData.";
     }
-    int rarity = oper_props_opt->rarity;
-    if (oper.skill == 3 && rarity < 6 && oper_props_opt->id != "char_002_amiya") {
+    int rarity = oper_props ? oper_props->rarity : 0;
+    if (oper.skill == 3 && rarity < 6 && (!oper_props || oper_props->id != "char_002_amiya")) {
         LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
                  << " cannot use skill index 3, set to 0.";
         oper.skill = 0;
