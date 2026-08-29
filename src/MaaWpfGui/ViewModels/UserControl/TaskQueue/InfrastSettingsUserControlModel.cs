@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Windows.Documents;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -102,14 +103,15 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                     list.Add(new InfrastTask.RoomInfo(room, false));
                 }
             }
-            if (GetTaskConfig<InfrastTask>().Mode == Mode.Normal)
+            SetTaskConfig<InfrastTask>(t => t.RoomList.SequenceEqual(list), t => t.RoomList = list);
+            preList = GetTaskConfig<InfrastTask>().RoomList;
+        }
+        if (GetTaskConfig<InfrastTask>().Mode == Mode.Normal)
+        {
+            var list = new List<InfrastTask.RoomInfo>();
+            foreach (var room in _normalFacilityOrder)
             {
-                var tempList = list.ToList();
-                list = [];
-                foreach (var room in _normalFacilityOrder)
-                {
-                    list.Add(tempList.First(i => i.Room == room));
-                }
+                list.Add(preList.First(i => i.Room == room));
             }
             SetTaskConfig<InfrastTask>(t => t.RoomList.SequenceEqual(list), t => t.RoomList = list);
         }
@@ -133,7 +135,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     /// <summary>
     /// Gets or sets the infrast item view models.
     /// </summary>
-    public ObservableCollection<InfrastRoomItemViewModel> InfrastRoomModels { get; set; } = [];
+    public ObservableCollection<InfrastRoomItemViewModel> InfrastRoomModels { get; set => SetAndNotify(ref field, value); } = [];
 
     /// <summary>
     /// Gets the list of uses of drones.
