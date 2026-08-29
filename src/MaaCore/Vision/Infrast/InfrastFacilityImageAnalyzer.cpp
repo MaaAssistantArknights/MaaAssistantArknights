@@ -1,5 +1,8 @@
 #include "InfrastFacilityImageAnalyzer.h"
 
+#include <algorithm>
+#include <unordered_set>
+
 #include "MaaUtils/NoWarningCV.hpp"
 
 #include "Config/TaskData.h"
@@ -19,6 +22,9 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
     // 因为基建的缩放是不确定的，有可能是正常大小，也可能是最小化的
     // 所以对每种情况都进行一下识别，取其中得分最高的
     const static std::vector<std::string> task_name_suffix = { "", "Mini" };
+    // 制造/贸易/发电的模板是纯色数色，Mini 窗口在两个视图的竖条上都能命中，命中不携带视图信息，
+    // 因此这三个设施即便 Mini 得分更高也不能据此认定是小图；只有 Full 窗口（仅大图竖条装得下）命中才确立视图
+    const static std::unordered_set<std::string> pure_color_facilities = { "Mfg", "Trade", "Power" };
 
     int cor_suffix_index = -1;
 
@@ -56,7 +62,9 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
                 if (double cur_score = cur_max_iter->score; max_score < cur_score) {
                     max_score = cur_score;
                     cur_facility_result = cur_res;
-                    cor_suffix_index = static_cast<int>(i);
+                    if (!pure_color_facilities.contains(key) || i == 0) {
+                        cor_suffix_index = static_cast<int>(i);
+                    }
                 }
             }
         }

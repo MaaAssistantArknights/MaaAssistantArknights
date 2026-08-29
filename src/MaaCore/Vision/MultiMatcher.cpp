@@ -27,7 +27,7 @@ MultiMatcher::ResultsVecOpt MultiMatcher::analyze() const
         }
 
         double threshold = m_params.templ_thres[index];
-        int min_distance = (std::min)(templ.cols, templ.rows) / 2;
+        int min_distance = m_params.nms_distance > 0 ? m_params.nms_distance : (std::min)(templ.cols, templ.rows) / 2;
         for (int i = 0; i != matched.rows; ++i) {
             for (int j = 0; j != matched.cols; ++j) {
                 auto value = matched.at<float>(i, j);

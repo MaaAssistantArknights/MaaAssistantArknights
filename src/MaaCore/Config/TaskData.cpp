@@ -766,6 +766,13 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
         match_task_info_ptr->pure_color,
         default_ptr->pure_color);
 
+    utils::get_and_check_value_or(
+        name,
+        task_json,
+        "nmsDistance",
+        match_task_info_ptr->nms_distance,
+        default_ptr->nms_distance);
+
     return match_task_info_ptr;
 }
 
@@ -1073,7 +1080,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
               // specific
               "cache",         "colorScales",   "colorWithClose",  "maskRange",      "method",
               "rectMove",      "roi",           "specialParams",   "templThreshold", "template",
-              "pureColor",
+              "pureColor",     "nmsDistance",
           } },
         { AlgorithmType::OcrDetect,
           {
