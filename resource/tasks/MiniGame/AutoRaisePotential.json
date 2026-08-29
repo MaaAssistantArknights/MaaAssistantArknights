@@ -4,35 +4,35 @@
         "baseTask": "OperBox",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "action": "DoNothing",
-        "sub": [],
         "next": ["MiniGame@AutoRaisePotential@FilterAvailable"],
         "maxTimes": 3,
         "exceededNext": ["Stop"],
         "onErrorNext": ["Stop"]
     },
     "MiniGame@AutoRaisePotential@FilterAvailable": {
-        "doc": "截图占位：识别并点击干员列表中表示存在可提升潜能干员的提示标记。人工截图后改为 MatchTemplate + ClickSelf，预期 roi [580,20,120,50]；命中后 next 连接 FirstOperator，未命中时 Stop 并停留在干员列表。预期模板名：MiniGame@AutoRaisePotential@FilterAvailable.png。",
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "maxTimes": 1,
-        "exceededNext": ["Stop"],
-        "onErrorNext": ["Stop"]
+        "template": "OperBoxBadgeTop.png",
+        "action": "ClickSelf",
+        "roi": [542, 12, 195, 58],
+        "postDelay": 1000,
+        "next": ["MiniGame@AutoRaisePotential@FirstOperatorBadge"]
     },
-    "MiniGame@AutoRaisePotential@FirstOperator": {
-        "doc": "截图占位：筛选完成后识别并点击首位干员卡片。人工截图后改为 MatchTemplate + ClickSelf，预期 roi [0,80,260,560]，模板仅裁取首张卡片的稳定特征；命中后 next 连接 PotentialAvailable。预期模板名：MiniGame@AutoRaisePotential@FirstOperator.png。",
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "maxTimes": 1,
-        "exceededNext": ["Stop"],
-        "onErrorNext": ["Stop"]
+    "MiniGame@AutoRaisePotential@FirstOperatorBadge": {
+        "template": "OperBoxFirstOperatorBadge.png",
+        "action": "ClickRect",
+        "roi": [108, 68, 113, 43],
+        "maskRange": [1, 255],
+        "specificRect": [52, 145, 87, 177],
+        "postDelay": 1000,
+        "next": ["MiniGame@AutoRaisePotential@OperatorProfile"]
     },
     "MiniGame@AutoRaisePotential@PotentialAvailable": {
-        "doc": "截图占位：在干员档案识别并点击潜能提升提示标记。人工截图后改为 MatchTemplate + ClickSelf，预期 roi [1140,210,140,110]；命中后 next 连接 PotentialScreen。OperatorProfile 的 next 应依次检查本节点和 SwipeToNextOperator，使当前干员无标记时切换下一名。预期模板名：MiniGame@AutoRaisePotential@PotentialAvailable.png。",
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "maxTimes": 4096,
-        "exceededNext": ["Stop"],
-        "onErrorNext": ["Stop"]
+        "template": "OperInfoPotentialAvailable.png",
+        "action": "ClickRect",
+        "roi": [1125, 180, 155, 180],
+        "maskRange": [1, 255],
+        "specificRect": [1100, 257, 126, 38],
+        "postDelay": 1000,
+        "maxTimes": 4096
     },
     "MiniGame@AutoRaisePotential@PotentialAvailableAfterSwipe": {
         "doc": "截图占位：横向切换后检查下一名干员的潜能提升提示，复用 PotentialAvailable 的模板和预期 roi [1140,210,140,110]，人工截图后改为 MatchTemplate + ClickSelf。SwipeToNextOperator 的 next 应依次检查本节点和 Stop：命中后连接 PotentialScreen，未命中说明已到最后一名并正常结束。预期模板名：MiniGame@AutoRaisePotential@PotentialAvailable.png。",
@@ -43,12 +43,12 @@
         "onErrorNext": ["Stop"]
     },
     "MiniGame@AutoRaisePotential@PotentialScreen": {
-        "doc": "截图占位：识别潜能界面的稳定标题或界面装饰，仅用于确认页面状态。人工截图后改为 MatchTemplate + DoNothing，预期 roi [900,80,380,480]；命中后 next 连接 RaiseButton。预期模板名：MiniGame@AutoRaisePotential@PotentialScreen.png。",
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "maxTimes": 4096,
-        "exceededNext": ["MiniGame@AutoRaisePotential@ReturnToOperatorProfile"],
-        "onErrorNext": ["MiniGame@AutoRaisePotential@ReturnToOperatorProfile"]
+        "doc": "用确认按钮作为标志",
+        "template": "RaisePotentialConfirm.png",
+        "action": "ClickSelf",
+        "roi": [987, 584, 243, 133],
+        "postDelay": 1000,
+        "next":["MiniGame@AutoRaisePotential@PotentialScreen",]
     },
     "MiniGame@AutoRaisePotential@RaiseButton": {
         "doc": "截图占位：识别并点击潜能提升按钮，这是进入潜能界面后、确认前的唯一一次提升点击。人工截图后改为 MatchTemplate + ClickSelf，预期 roi [1020,560,260,160]；命中后 next 连接 ConfirmRaise。预期模板名：MiniGame@AutoRaisePotential@RaiseButton.png。",
@@ -81,10 +81,7 @@
         "baseTask": "Return",
         "template": "Return.png",
         "action": "ClickSelf",
-        "next": [
-            "MiniGame@AutoRaisePotential@OperatorProfile",
-            "#self"
-        ],
+        "next": ["MiniGame@AutoRaisePotential@OperatorProfile", "#self"],
         "maxTimes": 3,
         "exceededNext": ["Stop"],
         "onErrorNext": ["Stop"]
