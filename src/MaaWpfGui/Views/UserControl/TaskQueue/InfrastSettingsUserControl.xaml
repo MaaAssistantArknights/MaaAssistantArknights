@@ -253,6 +253,9 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
                 <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
             </CheckBox>
+            <CheckBox Margin="0,10" IsChecked="{Binding AssistantChangeMondayOnly}">
+                <controls:TextBlock Text="{DynamicResource AssistantChangeMondayOnly}" TextWrapping="Wrap" />
+            </CheckBox>
             <StackPanel
                 Margin="0,5"
                 HorizontalAlignment="Left"

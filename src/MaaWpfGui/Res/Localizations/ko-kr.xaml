@@ -146,6 +146,7 @@
     <system:String x:Key="Mfg">제조소</system:String>
     <system:String x:Key="Processing">가공소</system:String>
     <system:String x:Key="Training">훈련실</system:String>
+    <system:String x:Key="AssistantChange">보조 인원 교체</system:String>
     <system:String x:Key="Trade">무역소</system:String>
     <system:String x:Key="Power">발전소</system:String>
     <system:String x:Key="Reception">응접실</system:String>
@@ -169,6 +170,7 @@
     <system:String x:Key="InfrastReceptionSendClue">단서 보내기</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">다음 기능들은 {key=Infrast}에서 설정 및 실행해야 합니다</system:String>
     <system:String x:Key="ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
+    <system:String x:Key="AssistantChangeMondayOnly">월요일에만 보조 인원 교체</system:String>
     <system:String x:Key="InfrastFiammettaTargets">피아메타 회복 대상</system:String>
     <system:String x:Key="InfrastFiammettaTargetNone">없음</system:String>
     <system:String x:Key="InfrastFiammettaTargetPurestream">퓨어스트림</system:String>

@@ -146,6 +146,7 @@
     <system:String x:Key="Mfg">Factory</system:String>
     <system:String x:Key="Processing">Workshop</system:String>
     <system:String x:Key="Training">Training Room</system:String>
+    <system:String x:Key="AssistantChange">Assistant change</system:String>
     <system:String x:Key="Trade">Trading Post</system:String>
     <system:String x:Key="Power">Power Plant</system:String>
     <system:String x:Key="Reception">Reception Room</system:String>
@@ -169,6 +170,7 @@
     <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">The following functions require configuration and execution within {key=Infrast}.</system:String>
     <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
+    <system:String x:Key="AssistantChangeMondayOnly">Change assistants only on Mondays</system:String>
     <system:String x:Key="InfrastFiammettaTargets">Fiammetta recovery targets</system:String>
     <system:String x:Key="InfrastFiammettaTargetNone">None</system:String>
     <system:String x:Key="InfrastFiammettaTargetPurestream">Purestream</system:String>

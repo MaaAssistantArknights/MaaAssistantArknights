@@ -3194,6 +3194,105 @@
         "roi": [553, 82, 396, 248],
         "templThreshold": 0.95
     },
+    "InfrastAssistantChangeTask": {
+        "algorithm": "JustReturn",
+        "next": ["InfrastAssistantEnter"]
+    },
+    "InfrastAssistantEnter": {
+        "template": "AssistantEnter.png",
+        "roi": [0, 319, 152, 173],
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "next": ["InfrastAssistantFlag"]
+    },
+    "InfrastAssistantFlag": {
+        "template": "AssistantFlag.png",
+        "roi": [454, 62, 185, 186],
+        "maxTimes": 20,
+        "postDelay": 500
+    },
+    "InfrastAssistantChangeEntry1": {
+        "template": "AssistantChangeEntrance.png",
+        "maskRange": [1, 255],
+        "roi": [351, 317, 69, 58],
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "next":["InfrastAssistantOperatorList"]
+    },
+    "InfrastAssistantChangeEntry2": {
+        "baseTask": "InfrastAssistantChangeEntry1",
+        "template": "AssistantChangeEntrance.png",
+        "roi": [116, 623, 51, 42]
+    },
+    "InfrastAssistantChangeEntry3": {
+        "baseTask": "InfrastAssistantChangeEntry1",
+        "template": "AssistantChangeEntrance.png",
+        "roi": [276, 626, 55, 42]
+    },
+    "InfrastAssistantChangeEntry4": {
+        "baseTask": "InfrastAssistantChangeEntry1",
+        "template": "AssistantChangeEntrance.png",
+        "roi": [434, 627, 57, 39]
+    },
+    "InfrastAssistantChangeEntry5": {
+        "baseTask": "InfrastAssistantChangeEntry1",
+        "template": "AssistantChangeEntrance.png",
+        "roi": [594, 627, 57, 39]
+    },
+    "InfrastAssistantOperatorList": {
+        "doc": "以识别到确认按钮作为进入干员列表的标志",
+        "template": "AssistantConfirmButton.png",
+        "roi": [630, 620, 650, 100],
+        "maxTimes": 20,
+        "postDelay": 500
+    },
+    "InfrastAssistantChangeOperator7": {
+        "doc": "任务列表第七个干员位置,也就是第四列第一行",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [846, 147, 66, 118],
+        "postDelay": 500,
+        "next": ["InfrastAssistantChangeConfirmButtonClick"]
+    },
+    "InfrastAssistantChangeConfirmButtonClick": {
+        "baseTask": "InfrastAssistantOperatorList",
+        "template": "AssistantConfirmButton.png",
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "next": ["InfrastAssistantButtonWait"]
+    },
+    "InfrastAssistantButtonWait": {
+        "algorithm": "OcrDetect",
+        "text": ["正在提交", "反馈至神经"],
+        "roi": [700, 640, 300, 80],
+        "postDelay": 500,
+        "next": ["InfrastAssistantButtonWait", "InfrastAssistantChangeConfirmButtonClick", "InfrastAssistantFlag"]
+    },
+    "InfrastAssistantChangeOperator2": {
+        "doc": "任务列表第二个干员位置,也就是第一列第二行",
+        "baseTask": "InfrastAssistantChangeOperator7",
+        "specificRect": [402, 418, 79, 131]
+    },
+    "InfrastAssistantChangeOperator3": {
+        "doc": "任务列表第三个干员位置,也就是第二列第一行",
+        "baseTask": "InfrastAssistantChangeOperator7",
+        "specificRect": [558, 144, 69, 122]
+    },
+    "InfrastAssistantChangeOperator4": {
+        "doc": "任务列表第四个干员位置,也就是第二列第二行",
+        "baseTask": "InfrastAssistantChangeOperator7",
+        "specificRect": [558, 144, 69, 122]
+    },
+    "InfrastAssistantChangeOperator5": {
+        "doc": "任务列表第五个干员位置,也就是第三列第一行",
+        "baseTask": "InfrastAssistantChangeOperator7",
+        "specificRect": [703, 149, 71, 112]
+    },
+    "InfrastAssistantChangeOperator6": {
+        "doc": "任务列表第六个干员位置,也就是第三列第二行",
+        "baseTask": "InfrastAssistantChangeOperator7",
+        "specificRect": [704, 424, 69, 117]
+    },
     "InfrastStationedInfo": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
