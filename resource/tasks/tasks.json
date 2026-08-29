@@ -3343,7 +3343,7 @@
         "next": ["InfrastDormConfirmButtonWait", "InfrastDormDoubleConfirmButton", "Stop"]
     },
     "InfrastDormDoubleConfirmButton": {
-        "template": "DormConfirm.png",
+        "template": "InfrastOperConflictConfirm.png",
         "action": "ClickSelf",
         "roi": [630, 620, 650, 100],
         "postDelay": 1000,
