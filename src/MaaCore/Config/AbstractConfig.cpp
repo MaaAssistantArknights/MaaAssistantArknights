@@ -5,29 +5,6 @@
 #include "Utils/Demangle.hpp"
 #include "Utils/Logger.hpp"
 
-bool asst::AbstractConfig::load(const json::value& json)
-{
-    std::string class_name = utils::demangle(typeid(*this).name());
-    LogTraceScope(class_name + " :: load(json)");
-
-#ifdef ASST_DEBUG
-    // 不捕获异常，可以通过堆栈更直观的看到资源存在的问题
-    return parse(json);
-#else
-    try {
-        return parse(json);
-    }
-    catch (const json::exception& e) {
-        Log.error("Json parse failed", e.what());
-        return false;
-    }
-    catch (const std::exception& e) {
-        Log.error("Json parse failed", e.what());
-        return false;
-    }
-#endif
-}
-
 bool asst::AbstractConfig::load(const std::filesystem::path& path)
 {
     std::string class_name = utils::demangle(typeid(*this).name());

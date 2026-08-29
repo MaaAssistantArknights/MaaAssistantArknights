@@ -102,45 +102,19 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     // 加载资源并尝试加载对应的 _custom.json
     // 注意：custom 文件始终位于资源根目录（path），这是历史设计，勿修改
-    // custom 是增量补丁语义：与主文件浅合并（同名 key 以 custom 为准）后一次性交给
-    // 单例解析，避免对同一单例 parse 两次——否则 parse 开头清理旧数据的类会把主文件内容清掉
     auto load_with_custom = [&]<typename T>(const std::filesystem::path& filename, const char* res_name) -> bool {
         auto full_path = path / filename;
+        if (!load_resource<T>(full_path)) {
+            Log.error(res_name, " load failed, path:", full_path);
+            return false;
+        }
         auto custom_path = path / (full_path.stem().string() + "_custom.json");
-        const bool has_custom = std::filesystem::exists(custom_path);
-
-        if (!has_custom) {
-            if (!load_resource<T>(full_path)) {
-                Log.error(res_name, " load failed, path:", full_path);
+        if (std::filesystem::exists(custom_path)) {
+            Log.info("Loading custom file for ", res_name, ", path:", custom_path);
+            if (!load_resource<T>(custom_path)) {
+                Log.error(res_name, " load failed, path:", custom_path);
                 return false;
             }
-            return true;
-        }
-
-        auto main_ret = json::open(full_path, true, true);
-        if (!main_ret) {
-            Log.error(res_name, " json open failed, path:", full_path);
-            return false;
-        }
-        auto custom_ret = json::open(custom_path, true, true);
-        if (!custom_ret) {
-            Log.error(res_name, " custom json open failed, path:", custom_path);
-            return false;
-        }
-        if (!main_ret->is_object() || !custom_ret->is_object()) {
-            Log.error(res_name, " json content is not an object, path:", full_path, " or", custom_path);
-            return false;
-        }
-
-        json::value merged = std::move(*main_ret);
-        for (auto& [key, val] : custom_ret->as_object()) {
-            merged[key] = std::move(val);
-        }
-
-        Log.info("Loading custom file for ", res_name, ", path:", custom_path);
-        if (!SingletonHolder<T>::get_instance().load(merged)) {
-            Log.error(res_name, " load failed with custom patch, path:", custom_path);
-            return false;
         }
         return true;
     };
