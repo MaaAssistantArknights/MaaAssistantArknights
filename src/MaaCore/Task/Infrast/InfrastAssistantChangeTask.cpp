@@ -4,6 +4,8 @@
 
 bool asst::InfrastAssistantChangeTask::_run()
 {
+    constexpr int ProcessRetryTimes = 20;
+
     swipe_to_the_left_of_main_ui();
     if (!enter_facility()) {
         swipe_to_right_of_main_ui();
@@ -12,28 +14,28 @@ bool asst::InfrastAssistantChangeTask::_run()
         }
     }
 
-    if (!ProcessTask(*this, { "InfrastAssistantChangeTask" }).run()) {
+    if (!ProcessTask(*this, { "InfrastAssistantChangeTask" }).set_retry_times(ProcessRetryTimes).run()) {
         return false;
     }
 
     for (int i = 1; i <= 5; ++i) {
         const std::string entry_task = "InfrastAssistantChangeEntry" + std::to_string(i);
         auto entry_process = ProcessTask(*this, { entry_task });
-        if (!entry_process.run()) {
-            if (entry_process.get_last_task_name() == entry_task) {
-                return false;
-            }
+        entry_process.set_retry_times(ProcessRetryTimes).run();
+        if (entry_process.get_last_task_name() != "InfrastAssistantOperatorList") {
             break;
         }
 
-        if (!ProcessTask(*this, { "InfrastAssistantChangeOperator7" }).run() ||
-            !ProcessTask(*this, { entry_task }).run() ||
-            !ProcessTask(*this, { "InfrastAssistantChangeOperator" + std::to_string(i + 1) }).run()) {
+        if (!ProcessTask(*this, { "InfrastAssistantChangeOperator7" }).set_retry_times(ProcessRetryTimes).run() ||
+            !ProcessTask(*this, { entry_task }).set_retry_times(ProcessRetryTimes).run() ||
+            !ProcessTask(*this, { "InfrastAssistantChangeOperator" + std::to_string(i + 1) })
+                 .set_retry_times(ProcessRetryTimes)
+                 .run()) {
             return false;
         }
     }
 
-    if (!ProcessTask(*this, { "InfrastAssistantFlag" }).run()) {
+    if (!ProcessTask(*this, { "InfrastAssistantFlag" }).set_retry_times(ProcessRetryTimes).run()) {
         return false;
     }
 

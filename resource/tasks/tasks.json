@@ -3212,32 +3212,27 @@
         "postDelay": 500
     },
     "InfrastAssistantChangeEntry1": {
-        "template": "AssistantChangeEntrance.png",
-        "maskRange": [1, 255],
-        "roi": [351, 317, 69, 58],
-        "action": "ClickSelf",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [394, 192, 63, 94],
         "postDelay": 800,
-        "next":["InfrastAssistantOperatorList"]
+        "next": ["InfrastAssistantOperatorList"]
     },
     "InfrastAssistantChangeEntry2": {
         "baseTask": "InfrastAssistantChangeEntry1",
-        "template": "AssistantChangeEntrance.png",
-        "roi": [116, 623, 51, 42]
+        "specificRect": [152, 484, 63, 94]
     },
     "InfrastAssistantChangeEntry3": {
         "baseTask": "InfrastAssistantChangeEntry1",
-        "template": "AssistantChangeEntrance.png",
-        "roi": [276, 626, 55, 42]
+        "specificRect": [313, 484, 63, 94]
     },
     "InfrastAssistantChangeEntry4": {
         "baseTask": "InfrastAssistantChangeEntry1",
-        "template": "AssistantChangeEntrance.png",
-        "roi": [434, 627, 57, 39]
+        "specificRect": [473, 484, 63, 94]
     },
     "InfrastAssistantChangeEntry5": {
         "baseTask": "InfrastAssistantChangeEntry1",
-        "template": "AssistantChangeEntrance.png",
-        "roi": [594, 627, 57, 39]
+        "specificRect": [634, 484, 63, 94]
     },
     "InfrastAssistantOperatorList": {
         "doc": "以识别到确认按钮作为进入干员列表的标志",
@@ -3259,7 +3254,7 @@
         "template": "AssistantConfirmButton.png",
         "action": "ClickSelf",
         "postDelay": 800,
-        "next": ["InfrastAssistantButtonWait"]
+        "next": ["InfrastAssistantButtonWait", "InfrastAssistantFlag"]
     },
     "InfrastAssistantButtonWait": {
         "algorithm": "OcrDetect",
@@ -3271,27 +3266,27 @@
     "InfrastAssistantChangeOperator2": {
         "doc": "任务列表第二个干员位置,也就是第一列第二行",
         "baseTask": "InfrastAssistantChangeOperator7",
-        "specificRect": [402, 418, 79, 131]
+        "specificRect": [402, 418, 70, 120]
     },
     "InfrastAssistantChangeOperator3": {
         "doc": "任务列表第三个干员位置,也就是第二列第一行",
         "baseTask": "InfrastAssistantChangeOperator7",
-        "specificRect": [558, 144, 69, 122]
+        "specificRect": [558, 144, 70, 120]
     },
     "InfrastAssistantChangeOperator4": {
         "doc": "任务列表第四个干员位置,也就是第二列第二行",
         "baseTask": "InfrastAssistantChangeOperator7",
-        "specificRect": [558, 144, 69, 122]
+        "specificRect": [558, 418, 70, 120]
     },
     "InfrastAssistantChangeOperator5": {
         "doc": "任务列表第五个干员位置,也就是第三列第一行",
         "baseTask": "InfrastAssistantChangeOperator7",
-        "specificRect": [703, 149, 71, 112]
+        "specificRect": [703, 149, 70, 120]
     },
     "InfrastAssistantChangeOperator6": {
         "doc": "任务列表第六个干员位置,也就是第三列第二行",
         "baseTask": "InfrastAssistantChangeOperator7",
-        "specificRect": [704, 424, 69, 117]
+        "specificRect": [704, 424, 70, 120]
     },
     "InfrastStationedInfo": {
         "algorithm": "OcrDetect",
