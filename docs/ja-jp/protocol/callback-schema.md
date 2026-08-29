@@ -111,8 +111,16 @@ Todo
    画面取得失敗 (adb/emulator クラッシュ), 再接続失敗
 - `TouchModeNotAvailable`  
    サポートされていないタッチモード
+- `MuMuExtrasInputStatus`  
+   MuMu タッチ強化の実際の有効状態、`details` 構造：
+  - `available` (boolean, required): 有効になったかどうか。
+  - `deferred` (boolean, required): まだ判定されていないかどうか（接続時にゲームがまだ描画されておらず、描画開始後に自動的に再判定されます）。
 - `ResolutionGot`  
    解像度を取得しました
+- `ResolutionChanged`  
+   実行中に解像度が変更され、接続が無効化され現在のタスクが中断されます、`details` 構造：
+  - `width` (number, required): 現在の幅。
+  - `height` (number, required): 現在の高さ。
 - `FastestWayToScreencap`  
    最速のスクリーンショット方式が見つかりました、`details` 構造：
   - `method` (string, required): 最速のスクリーンショット方式。
@@ -141,6 +149,7 @@ Todo
     "details": {
         "ret": bool,            // 実際に呼び出された戻り値
         "cost": int64,          // 経過時間、単位ミリ秒
+        "error": string,        // 未処理例外の種類、未処理例外により呼び出しが失敗した場合にのみ存在
     }
 }
 ```

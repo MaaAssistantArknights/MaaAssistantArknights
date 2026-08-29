@@ -132,8 +132,16 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
    截圖失敗（adb / 模擬器 炸了），並重試失敗
 - `TouchModeNotAvailable`  
    不支援的觸控模式
+- `MuMuExtrasInputStatus`  
+   MuMu 觸控增強的實際生效狀態，`details` 結構如下：
+  - `available` (boolean, required): 是否已生效。
+  - `deferred` (boolean, required): 是否尚未判定（連線時遊戲尚未開始渲染，會在開始渲染後自動重試）。
 - `ResolutionGot`  
    已獲取到解析度
+- `ResolutionChanged`  
+   執行中解析度被修改，連線已斷開並中斷目前任務，`details` 結構如下：
+  - `width` (number, required): 目前寬度。
+  - `height` (number, required): 目前高度。
 - `FastestWayToScreencap`  
    已找到最快的截圖方式，`details` 結構如下：
   - `method` (string, required): 最快的截圖方式。
@@ -177,6 +185,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 - `ret` (boolean, required): 實際調用的回傳值。
 - `cost` (number, required): 耗時，單位毫秒。
+- `error` (string): 未處理異常的類型（僅調用因未處理異常失敗時存在）。
 
 :::
 ::::
