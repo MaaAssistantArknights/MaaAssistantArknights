@@ -49,6 +49,7 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
+using Microsoft.VisualBasic.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ObservableCollections;
@@ -1816,10 +1817,14 @@ public class AsstProxy
 
                         case "OfflineConfirm":
                         case "OfflineConfirmAfterBattle":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDrop"), UiLogColor.Warning);
-                            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameDrop"));
+                            var log = LocalizationHelper.GetString("GameDrop");
+                            Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error);
+                            ToastNotification.ShowDirect(log);
+                            if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
+                            {
+                                ExternalNotificationService.Send(log, log);
+                            }
                             _ = Instances.TaskQueueViewModel.Stop();
-
                             break;
 
                         case "GamePass":
