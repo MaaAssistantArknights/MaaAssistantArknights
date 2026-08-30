@@ -108,9 +108,7 @@
                 SelectedValue="{Binding ConnectConfig}"
                 SelectedValuePath="Value" />
 
-            <StackPanel
-                d:Visibility="Visible"
-                Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.PC'}">
+            <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.PC'}">
                 <TextBlock
                     Margin="5,0"
                     HorizontalAlignment="Left"
@@ -356,12 +354,23 @@
             </ContentControl>
 
             <!--  截图测试  -->
-            <Button
-                Height="30"
-                Margin="0,5"
-                HorizontalAlignment="Left"
-                Command="{s:Action TestLinkAndGetImage}"
-                Content="{DynamicResource ScreenshotTest}" />
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    Height="30"
+                    Margin="0,5"
+                    HorizontalAlignment="Left"
+                    Command="{s:Action TestLinkAndGetImage}"
+                    Content="{DynamicResource ScreenshotTest}" />
+                <Button
+                    Height="30"
+                    Margin="10,5,0,5"
+                    HorizontalAlignment="Left"
+                    Command="{s:Action RestoreGameWindowPosition,
+                                       Target={x:Static helper:Instances.AsstProxy}}"
+                    Content="{DynamicResource WindowRestore}"
+                    Visibility="{c:Binding ShowWindowRestoreButton}" />
+            </StackPanel>
+
             <controls:TextBlock
                 Margin="0,5"
                 HorizontalAlignment="Left"
