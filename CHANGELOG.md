@@ -1,4 +1,4 @@
-## v6.17.0-beta.7
+## v6.17.0-beta.8
 
 ### Highlights
 
@@ -44,6 +44,45 @@ The infrast efficiency algorithm has been rewritten; the default mode now suppor
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.0-beta.8 (2026-08-31)</b></summary>
+
+### 新增 | New
+
+* 掉线提示接入外部通知，日志与通知等级提高到 Err，启用外部通知 ｢错误时发送｣ 后推送 @ABA2396
+* MaaFramework 扩展配置（interface.json）新增 Win32 连接方式 @Constrat
+
+### 改进 | Improved
+
+* 🎉🎉🎉 PC 端鼠标输入新增完全无法使用的 SendMsg/PostMsg 全后台模式 🎉🎉🎉 @ABA2396
+* PC 端 SendMessageWithCursorPos/PostMessageWithCursorPos 鼠标输入方式截图前后自动挪开并还原鼠标位置（截图期间会短暂阻塞鼠标输入）；高频截图任务下会明显卡顿，建议使用 SendMessageWithWindowPos @ABA2396
+* 调整 PC 端连接的鼠标输入与截图方式默认值，界面警告补充推荐使用方式与热键设置建议 ([#17839](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17839)) @H2O-MERO
+* 基建制造/贸易/发电站入口改用纯色数色识别 ([#17951](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17951)) @ABA2396
+* 干员数据增加子职业解析，找不到干员与多稀有度干员跳过重复检查，召唤物职业解析临时兼容 @status102
+* 繁中服调整文件与界面的在地化用词 ([#17856](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17856)) @momomochi987
+
+### 修复 | Fix
+
+* 更新器等待主程序退出增加超时强制结束，主程序意外滞留时更新不再无限等待；主程序启动中止时改为立即退出进程；更新器获取父进程句柄权限不足时不再跳过等待 ([#17930](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17930)) @ABA2396
+* 修复作业解析同名干员时可能取错条目的问题，改为取稀有度最高条目，阿米娅技能 3 判断不再受哈希顺序影响，并在技能 3 的支持条件中允许阿米娅 ([#17893](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17893)) @ABA2396 @yali-hzy
+* 深海猎人候选干员数据缺失时跳过该候选，避免初始化崩溃 @ABA2396
+* 修复黑流树海肉鸽出发前往流程与不投资源石锭状态机，襁褓羽蛇与三头犬改为进入第三层后结算，规划器单拍间隔调整（白模鸟系列留给 boss）([#17916](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17916) [#17870](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17870) [#17862](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17862) [#17869](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17869)) @ZiyinLin
+* 修复基建设施顺序在普通模式下无法重置 @status102
+* 补齐部分基建技能评分，中枢评分最优选择不足 5 人时补足到 5 人 @Lancarus
+* 调整基建无人机及确认的模板目录 ([#17952](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17952)) @youzibigg
+* 屏幕横竖屏（旋转）切换不再触发分辨率变化中断，旋转时自动重建 minitouch；RawWithGzip 截图测速支持竖屏 @ABA2396
+* 修复切换界面语言后部分下拉列表停留旧语言的问题（肉鸽刷通关时长目标、黑流培养目标、自动战斗单位支持用法、隐蔽战线事件）@ABA2396
+* YostarKR correct CharsNameOcrReplace regex and update SilverAsh ocrReplace ([#17946](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17946)) @HX3N
+* YostarKR loosen SkipThePreBattlePlot match threshold for lighter plot overlays @HX3N
+
+### 文档 | Docs
+
+* 补充集成协议文档与 schema（nmsDistance 字段、copilot-schema、callback-schema），修正 MirrorChyan 拼写与 config.md 示例 @ABA2396
+* 翻译 ja-jp 版 maa-cli 文档并标注机器翻译 @ABA2396
+* 添加 Mac GUI 过渡公告 ([#17965](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17965)) @hguandl
+
+</details>
+
+<details>
 <summary><b>v6.17.0-beta.7 (2026-08-28)</b></summary>
 
 ### 新增 | New
