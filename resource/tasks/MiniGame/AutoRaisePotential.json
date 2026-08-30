@@ -1,10 +1,7 @@
 {
     "MiniGame@AutoRaisePotential@Begin": {
         "doc": "自动提升潜能入口。用户须已进入干员列表界面；复用 OperBox 的现有模板确认页面，然后 OCR 读取筛选结果数量。",
-        "baseTask": "OperBox",
-        "template": "SwitchTheme@ToggleSettingsMenu.png",
-        "action": "DoNothing",
-        "sub": [],
+        "algorithm": "JustReturn",
         "next": [
             "MiniGame@AutoRaisePotential@OperatorCountZero",
             "MiniGame@AutoRaisePotential@OperatorCountOcr",
@@ -23,7 +20,7 @@
         "text": ["0"]
     },
     "MiniGame@AutoRaisePotential@OperatorCountOcr": {
-        "doc": "识别干员列表顶部橙色潜能标记中的数量。原流程使用 1920x1080 的 [965,42,55,41]，此处换算为 1280x720 的 [643,28,37,27]；Core 插件读取 OCR 结果并设置横向切换次数。",
+        "doc": "识别干员列表顶部橙色潜能标记中的数量。Core 插件读取 OCR 结果并设置横向切换次数。",
         "baseTask": "NumberOcrReplace",
         "action": "DoNothing",
         "roi": [643, 28, 37, 27],
@@ -46,36 +43,30 @@
     },
     "MiniGame@AutoRaisePotential@FirstOperator": {
         "template": "OperBoxFirstOperatorBadge.png",
-        "action": "ClickSelf",
+        "action": "ClickRect",
+        "maskRange": [1, 255],
+        "specificRect": [52, 145, 87, 177],
         "roi": [108, 68, 113, 43],
         "postDelay": 1000,
         "next": ["MiniGame@AutoRaisePotential@OperatorProfile"]
     },
     "MiniGame@AutoRaisePotential@PotentialAvailable": {
-        "doc": "识别并点击干员档案中的潜能提升标记；预期 ROI [1125,180,155,180]。",
+        "doc": "识别并点击干员档案中的潜能提升标记",
         "template": "OperInfoPotentialAvailable.png",
-        "action": "ClickSelf",
+        "action": "ClickRect",
         "roi": [1125, 180, 155, 180],
         "maskRange": [1, 255],
+        "specificRect": [1100, 257, 126, 38],
         "postDelay": 1000,
         "next": ["MiniGame@AutoRaisePotential@PotentialScreen"]
-    },
-    "MiniGame@AutoRaisePotential@PotentialAvailableAfterSwipe": {
-        "doc": "横向切换后复用当前干员档案中的潜能标记识别；识别不到时，当前干员数量已处理完毕，任务结束。",
-        "template": "OperInfoPotentialAvailable.png",
-        "action": "ClickSelf",
-        "roi": [1125, 180, 155, 180],
-        "maskRange": [1, 255],
-        "postDelay": 1000,
-        "next": ["MiniGame@AutoRaisePotential@PotentialScreen"]
-    },
+    },    
     "MiniGame@AutoRaisePotential@PotentialScreen": {
-        "doc": "截图占位：识别潜能界面稳定特征。人工截图后改为 MatchTemplate + DoNothing，预期 ROI [900,80,380,480]，模板名 MiniGame@AutoRaisePotential@PotentialScreen.png；此节点只确认页面，不执行点击。",
-        "algorithm": "JustReturn",
+        "template": "RaisePotentialConfirm.png",
+        "roi": [987, 584, 243, 133],        
         "action": "DoNothing"
     },
-    "MiniGame@AutoRaisePotential@RaiseButton": {
-        "doc": "截图占位：识别并点击潜能提升按钮。人工截图后改为 MatchTemplate + ClickSelf，预期 ROI [1020,560,260,160]，模板名 MiniGame@AutoRaisePotential@RaiseButton.png。",
+    "MiniGame@AutoRaisePotential@RaiseUseCoreTrustToken": {
+        "doc": "使用中坚信物",
         "algorithm": "JustReturn",
         "action": "DoNothing"
     },
@@ -103,14 +94,13 @@
         "specificRect": [735, 580, 1, 1],
         "rectMove": [545, 580, 1, 1],
         "specialParams": [300, 0, 1, 0],
-        "postDelay": 1000,
+        "postDelay": 1600,
         "next": [
-            "MiniGame@AutoRaisePotential@PotentialAvailableAfterSwipe",
+            "MiniGame@AutoRaisePotential@PotentialAvailable",
             "MiniGame@AutoRaisePotential@FinishAfterSwipe"
         ]
     },
     "MiniGame@AutoRaisePotential@FinishAfterSwipe": {
-        "doc": "横向切换后未识别到潜能标记，正常结束并停留在当前干员档案。",
         "algorithm": "JustReturn",
         "action": "Stop"
     }
