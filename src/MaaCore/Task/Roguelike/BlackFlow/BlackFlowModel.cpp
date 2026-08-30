@@ -646,6 +646,11 @@ bool node_type_allowed(const MovementSpec& movement, NodeType type) noexcept
     return std::ranges::find(movement.target_types, type) != movement.target_types.end();
 }
 
+const std::vector<NodeType>& all_target_node_types() noexcept
+{
+    return AllTargetTypes;
+}
+
 const std::vector<MovementSpec>& movement_specs()
 {
     static const std::vector<MovementSpec> Specs = {

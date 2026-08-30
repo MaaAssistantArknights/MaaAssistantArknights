@@ -297,8 +297,9 @@ bool BlackFlowSession::synchronize_resource_facts(std::string* error)
         { "sellable_scraps", m_run.resources.sellable_scraps },
         { "white_model_bird_count", m_run.resources.white_model_birds },
         { "painted_liberi_owned", m_run.resources.painted_liberi ? 1 : 0 },
-        { "persistent_long_range_count", m_resources.read("persistent_long_range_movement", m_run).value_or(0) },
         { "persistent_full_map_count", m_resources.read("persistent_full_map_movement", m_run).value_or(0) },
+        { "persistent_reach_scrap_shop_count", m_resources.read("persistent_reach_scrap_shop", m_run).value_or(0) },
+        { "persistent_reach_battle_boss_count", m_resources.read("persistent_reach_battle_boss", m_run).value_or(0) },
     };
     for (const auto& [name, value] : values) {
         if (name == "painted_liberi_owned") {
