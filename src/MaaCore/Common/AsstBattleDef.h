@@ -219,6 +219,20 @@ inline static Role get_role_type(const std::string& role_name)
     return Role::Unknown;
 }
 
+// 临时兼容性解析; 后续将拆分token及trap
+inline static Role parse_role_type(const std::string& role_name)
+{
+    static const std::unordered_map<std::string, battle::Role> RoleMap = {
+        { "CASTER", battle::Role::Caster }, { "MEDIC", battle::Role::Medic },     { "PIONEER", battle::Role::Pioneer },
+        { "SNIPER", battle::Role::Sniper }, { "SPECIAL", battle::Role::Special }, { "SUPPORT", battle::Role::Support },
+        { "TANK", battle::Role::Tank },     { "WARRIOR", battle::Role::Warrior },
+    };
+    if (auto iter = RoleMap.find(role_name); iter != RoleMap.end()) {
+        return iter->second;
+    }
+    return battle::Role::Drone;
+}
+
 enum class OperPosition
 {
     None,
