@@ -1722,10 +1722,12 @@ C:\\leidian\\LDPlayer9
 
 如需使用，請確認：
 1. 需以系統管理員身分啟動 MAA
-2. 部分截圖方式下，遊戲視窗不可最小化
-3. 明日方舟設定 → 遊戲 → UI 縮放需設為 100%
-4. 在明日方舟設定中調小滑鼠指標比例，以減少對識別區域的遮擋
-5. 遊戲解析度需為 16:9，推薦設定 1280x720 或 1920x1080</system:String>
+2. 推薦在設定-熱鍵設定中新增 Link start/stop 的熱鍵，以防無法點擊停止的情況
+3. 部分截圖方式下，遊戲視窗不可最小化
+4. 明日方舟設定 → 遊戲 → UI 縮放需設為 100%
+5. 在明日方舟設定中調小滑鼠指標比例，以減少對識別區域的遮擋
+6. 遊戲解析度需為 16:9，推薦設定 1280x720 或 1920x1080</system:String>
+    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. 推薦滑鼠輸入方式使用 SendMsg-WindowPos，使用此方式可以很大程度解決 PC 端辨識錯誤和卡住的問題</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截圖方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">滑鼠輸入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">鍵盤輸入</system:String>
@@ -1737,7 +1739,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg（全背景，明日方舟僅以真實滑鼠定位，無效）</system:String>
     <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg（全背景，明日方舟僅以真實滑鼠定位，無效）</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos（半背景，短暫搶滑鼠）</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（全背景，不搶滑鼠，視窗可能亂飛，截圖方式僅 PrintWindow，建議最小化）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（推薦，全背景，不搶滑鼠，視窗可能亂飛，截圖方式僅 PrintWindow，建議最小化）</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（穩定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高效）</system:String>
     <!--  !AsstProxy  -->

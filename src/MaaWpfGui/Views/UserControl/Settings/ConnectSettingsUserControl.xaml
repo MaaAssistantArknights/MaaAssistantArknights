@@ -11,6 +11,7 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
@@ -71,15 +72,22 @@
             <StackPanel
                 Grid.Row="0"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center">
+                VerticalAlignment="Center"
+                d:Visibility="Visible"
+                Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.PC'}">
                 <TextBlock
                     Margin="5,0"
-                    HorizontalAlignment="Center"
-                    d:Visibility="Visible"
+                    HorizontalAlignment="Left"
                     Foreground="{DynamicResource ErrorLogBrush}"
                     Text="{DynamicResource UseAttachWindowWarning}"
-                    TextWrapping="Wrap"
-                    Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.PC'}" />
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Margin="5,0"
+                    HorizontalAlignment="Left"
+                    properties:RainbowAnimationBehavior.IsActive="True"
+                    Foreground="{DynamicResource RainbowFlowBrush}"
+                    Text="{DynamicResource UseAttachWindowWarningRecommendation}"
+                    TextWrapping="Wrap" />
             </StackPanel>
 
             <!--  ADB 连接配置区域  -->

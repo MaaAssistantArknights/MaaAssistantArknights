@@ -18,9 +18,9 @@ namespace MaaWpfGui.Configuration.Single.Settings.ConnectionExtra;
 
 public class Win32Extra : BaseExtra, IJsonOnDeserialized
 {
-    public AsstWin32ScreencapMethod ScreencapMethod { get; set; } = AsstWin32ScreencapMethod.FramePool;
+    public AsstWin32ScreencapMethod ScreencapMethod { get; set; } = AsstWin32ScreencapMethod.PrintWindow;
 
-    public AsstWin32InputMethod MouseMethod { get; set; } = AsstWin32InputMethod.SendMessageWithCursorPos;
+    public AsstWin32InputMethod MouseMethod { get; set; } = AsstWin32InputMethod.SendMessageWithWindowPos;
 
     public AsstWin32KeyboardInputMethod KeyboardMethod { get; set; } = AsstWin32KeyboardInputMethod.SendMessage;
 

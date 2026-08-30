@@ -1723,10 +1723,12 @@ C:\\leidian\\LDPlayer9
 
 使用する必要がある場合は、以下をご確認ください：
 1. MAA を管理者権限で起動してください
-2. 一部のスクリーンキャプチャ方式では、ゲームウィンドウを最小化できません
-3. アークナイツ設定 → ゲーム → UI スケール を 100% に設定してください
-4. アークナイツ設定で マウスカーソルサイズ を小さくし、認識領域の隠れを軽減してください
-5. ゲーム解像度は 16:9 である必要があります。推奨設定：1280x720 または 1920x1080</system:String>
+2. 設定 → ホットキー設定 に Link start/stop のホットキーを追加することをおすすめします。停止ボタンをクリックできない場合に備えるためです
+3. 一部のスクリーンキャプチャ方式では、ゲームウィンドウを最小化できません
+4. アークナイツ設定 → ゲーム → UI スケール を 100% に設定してください
+5. アークナイツ設定で マウスカーソルサイズ を小さくし、認識領域の隠れを軽減してください
+6. ゲーム解像度は 16:9 である必要があります。推奨設定：1280x720 または 1920x1080</system:String>
+    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. マウス入力方式には SendMsg-WindowPos の使用を推奨します。この方式により、PC クライアントでの認識エラーやフリーズの問題を大幅に軽減できます</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>
@@ -1738,7 +1740,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg（フルバックグラウンド、アークナイツは実マウス位置のみ参照、無効）</system:String>
     <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg（フルバックグラウンド、アークナイツは実マウス位置のみ参照、無効）</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos（半バックグラウンド、一時的にマウスを取得）</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（フルバックグラウンド、マウス不要、ウィンドウが動く可能性あり、PrintWindow のみ対応、最小化推奨）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（推奨、フルバックグラウンド、マウス不要、ウィンドウが動く可能性あり、PrintWindow のみ対応、最小化推奨）</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（安定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高効率）</system:String>
     <!--  !AsstProxy  -->

@@ -2752,6 +2752,7 @@ public class AsstProxy
         }
 
         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindowWarning"), UiLogColor.Error);
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UseAttachWindowWarningRecommendation"), UiLogColor.Rainbow);
 
         string targetWindowName = SettingsViewModel.GameSettings.ClientType.ToGameWindowName();
         var foundWindows = FindWindowsByName(targetWindowName);
