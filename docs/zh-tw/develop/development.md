@@ -80,7 +80,7 @@ icon: iconoir:developer
    ::: tip
    若需執行 Win32Controller（Windows 視窗控制）/ MaaFwAdbController（MaaFramework 觸控模式）相關功能，執行 `python tools/maafw-control-unit-download.py` 即可自動下載對應平台的 `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` 到建置輸出目錄（預設取 `build/bin` 下最新產生的目錄，也可用 `--output-dir` 指定）。
 
-   若需針對相關功能進行除錯，則需要自行編譯 MaaFramework 的 Debug 版本，使用對應的 DLL 檔案，否則在斷點除錯時會神秘閃退。
+   若需針對相關功能進行除錯，則需要[自行編譯 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，使用對應的 DLL 檔案，否則在斷點除錯時會神秘閃退。
    :::
 
 9. 到這裡，你就可以愉快地 ~~瞎雞巴改~~ 發電了

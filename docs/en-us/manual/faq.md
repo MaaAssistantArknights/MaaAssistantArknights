@@ -135,9 +135,9 @@ Emulator updates may overwrite the ADB file. If the issue returns after an updat
 - If you've enabled `Notched Screen UI Adaptation`, set it to 0.
 - If using a non-CN client, first select your client version in `Settings` - `Game Settings` - `Client Type`. Some features may not be fully adapted for non-CN clients; refer to the corresponding documentation.
 - For Integrated Strategy automation, check the [Auto Integrated Strategy documentation](./introduction/integrated-strategy.md) and correctly select the theme in `Auto Integrated Strategy` - `Integrated Strategy Theme`.
-- If auto-combat frequently pauses without deploying operators, disable `Matchstick Mode` in `Settings` - `Operation Settings`.
+- If auto-combat frequently pauses without deploying operators, disable `Pause Trick` in `Settings` - `Game Settings`.
 - If auto-squad formation can't recognize operators correctly, remove special focus from those operators.
-- `Adb Input` touch mode is naturally slow; try switching to other modes for functions like auto-combat.
+- `ADB Input` touch mode is naturally slow; try switching to other modes for functions like auto-combat.
 - When using MuMu Emulator, do NOT set the `Graphics Memory Usage Policy` to `Lower Resource Consumption`.
 
 ### "Screenshot takes too long" message
@@ -152,7 +152,7 @@ Emulator updates may overwrite the ADB file. If the issue returns after an updat
 MAA shouldn't need Windows UAC administrator privileges for any functionality. Current admin-related functions include:
 
 1. `Auto-detect connection`: Administrator rights needed when the target emulator runs as administrator.
-2. `Close emulator when done`: Administrator rights needed when the target emulator runs as administrator.
+2. `Exit Emulator` in `Then`: Administrator rights needed when the target emulator runs as administrator.
 3. `Auto-start MAA at boot`: Cannot be set when running as administrator.
 4. When MAA is incorrectly extracted to paths requiring admin rights for writing, like `C:\` or `C:\Program Files\`.
 

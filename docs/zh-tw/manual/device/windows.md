@@ -48,7 +48,7 @@ const fullySupport = [
         {
             name: '騰訊應用寶',
             link: 'https://sj.qq.com/',
-            note: '支援 5.10.56.xx 之後的版本。在 `設定` - `連線設定` 中選擇 `騰訊應用寶` 連線配置。已知相容 Hyper-V。\n\n- ADB 連接埠為 `127.0.0.1:5555`。\n- ADB 路徑範例：`C:\\Program Files\\Tencent\\Androws\\Application\\版本號\\adb.exe`。\n\n- 需要先在應用寶中 [開啟 ADB 除錯](https://sj.qq.com/faq/3878)。',
+            note: '支援 5.10.56.xx 之後的版本。在 `設定` - `連線設定` 中選擇 `應用寶模擬器` 連線配置。已知相容 Hyper-V。\n\n- ADB 連接埠為 `127.0.0.1:5555`。\n- ADB 路徑範例：`C:\\Program Files\\Tencent\\Androws\\Application\\版本號\\adb.exe`。\n\n- 需要先在應用寶中 [開啟 ADB 除錯](https://sj.qq.com/faq/3878)。',
         },
         {
             name: '夜神模擬器 (NoxPlayer)',

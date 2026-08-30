@@ -43,7 +43,7 @@ const fullySupport = [
         {
             name: 'テンセントアプリストア',
             link: 'https://sj.qq.com/',
-            note: 'バージョン 5.10.56.xx 以降をサポートしています。`設定` - `接続設定` で `テンセントアプリストア` 接続設定を選択してください。Hyper-V との互換性が確認されています。\n\n- ADB ポートは `127.0.0.1:5555` です。\n- ADB パス例：`C:\\Program Files\\Tencent\\Androws\\Application\\バージョン番号\\adb.exe`。\n\n- 事前にアプリストアで [ADB デバッグを有効化](https://sj.qq.com/faq/3878) する必要があります。',
+            note: 'バージョン 5.10.56.xx 以降をサポートしています。`設定` - `接続設定` で `Androws` 接続設定を選択してください。Hyper-V との互換性が確認されています。\n\n- ADB ポートは `127.0.0.1:5555` です。\n- ADB パス例：`C:\\Program Files\\Tencent\\Androws\\Application\\バージョン番号\\adb.exe`。\n\n- 事前にアプリストアで [ADB デバッグを有効化](https://sj.qq.com/faq/3878) する必要があります。',
         },
         {
             name: 'NOX',

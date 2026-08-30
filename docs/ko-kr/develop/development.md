@@ -85,7 +85,7 @@ icon: iconoir:developer
    ::: tip
    Win32Controller(Windows 창 제어) / MaaFwAdbController(MaaFramework 터치 수행 방식) 관련 기능을 실행하려면 `python tools/maafw-control-unit-download.py`를 실행하면 해당 플랫폼의 `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll`을 빌드 출력 디렉터리(기본값: `build/bin` 아래 최신 디렉터리, `--output-dir`로 지정 가능)에 자동으로 배치합니다.
 
-   若需调试相关功能，则需要自行编译 MaaFramework 的 Debug 版本，使用对应的 DLL 文件，否则在断点调试时会神秘闪退。
+   관련 기능을 디버깅하려면 [MaaFramework의 Debug 버전을 직접 컴파일](https://maafw.com/docs/4.1-BuildGuide)하여 해당 DLL 파일을 사용해야 합니다. 그렇지 않으면 중단점 디버깅 시 원인을 알 수 없는 크래시가 발생합니다.
    :::
 
 9. 이제 자유롭게 ~~개조~~ 개발 시작!
