@@ -1,6 +1,7 @@
 #include "CopilotConfig.h"
 
 #include <meojson/json.hpp>
+#include <set>
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "TilePack.h"
@@ -59,16 +60,20 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
     oper.skill_usage = static_cast<battle::SkillUsage>(json.get("skill_usage", 0));
     oper.skill_times = json.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
 
-    // 同名干员与召唤物并存时（如 “阿米娅” 与活动装置）取稀有度最高的一条，不依赖 unordered_map 遍历顺序
+    // 非召唤物/装置且多稀有度时, 跳过检查
     std::shared_ptr<OperProps> oper_props = nullptr;
+    std::set<int> rarity_set;
     for (const auto& props : BattleData.find_opers(oper.role, oper.name)) {
         if (oper_props == nullptr || props->rarity > oper_props->rarity) {
             oper_props = props;
         }
+        if (props->role != battle::Role::Drone) {
+            rarity_set.emplace(props->rarity);
+        }
     }
-    if (!oper_props) { // 找不到干员时跳过检查
-        LogError << __FUNCTION__ << "| Oper" << oper.name << "with role" << enum_to_string(oper.role)
-                 << "not found in BattleData.";
+    if (!oper_props || (oper_props->role == battle::Role::Drone && rarity_set.size() > 1)) { // 找不到干员时跳过检查
+        LogError << __FUNCTION__ << "| Oper" << oper.name << "with role" << enum_to_string(oper.role) << "found"
+                 << rarity_set.size() << "in BattleData.";
         if (auto req_opt = json.find("requirements")) {
             oper.requirements.elite = req_opt->get("elite", 0);
             oper.requirements.level = req_opt->get("level", 0);
