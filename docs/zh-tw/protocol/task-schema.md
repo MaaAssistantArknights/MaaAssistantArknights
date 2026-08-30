@@ -41,7 +41,7 @@ icon: material-symbols:task
 
         "sub": ["SubTaskName1", "SubTaskName2"],
                                             // 選填，子任務，不推薦使用。會在執行完目前任務後，依序執行每一個子任務
-                                            // 可以套娃，子任務再套子任務。但要注意不要寫出死循環
+                                            // 可以套娃，子任務再套子任務。但要注意不要寫出無窮迴圈
 
         "subErrorIgnored": true,            // 選填，是否忽略子任務的錯誤。
                                             // 不填寫預設為 false

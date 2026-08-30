@@ -514,7 +514,7 @@ D:\
     <system:String x:Key="PendingFullUpdateManualConfirmNo">暫不更新，繼續啟動目前版本</system:String>
     <system:String x:Key="LocalUpdatePackageImportedTitle">本機更新檔案已就緒</system:String>
     <system:String x:Key="LocalUpdatePackageImportedDesc">偵測到可用的本機更新檔案，是否立即更新 MAA？（將重啟程式）</system:String>
-    <system:String x:Key="LocalUpdatePackageUnsupported">無法識別壓縮檔：{0}\n僅支援拖入目前架構的完整檔案，或目前版本到更高版本的 OTA 更新檔案。\n目前版本：{1}\n目前架構：{2}\n支援的檔名範例：MAA-v新版本-win-{2}.zip\n或 MAAComponent-OTA-{1}_v新版本-win-{2}.zip</system:String>
+    <system:String x:Key="LocalUpdatePackageUnsupported">無法辨識壓縮檔：{0}\n僅支援拖入目前架構的完整檔案，或目前版本到更高版本的 OTA 更新檔案。\n目前版本：{1}\n目前架構：{2}\n支援的檔名範例：MAA-v新版本-win-{2}.zip\n或 MAAComponent-OTA-{1}_v新版本-win-{2}.zip</system:String>
     <system:String x:Key="LocalResourcePackageTooOld">資源檔案版本（{0}）小於等於目前版本（{1}），已跳過匯入。</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">偵測到新版本，但未找到更新檔案</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">請手動下載完整檔案更新！</system:String>
@@ -960,7 +960,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DepotEnableUseStone">啟用「{key=UseOriginitePrime}」勾選框</system:String>
     <system:String x:Key="DepotUseExpiringMedicine">使用 48 小時內過期的理智藥</system:String>
     <system:String x:Key="DepotPlanBudgetTip" xml:space="preserve">本關的藥劑/源石使用上限，各關卡獨立計算。&#10;勾選並設定數量後，本關不會因理智不足被跳過：理智不夠時仍會進圖，並按此數量使用藥劑/源石繼續作戰。&#10;未設定預算的關卡在理智不足時會被直接跳過，不進圖查看。</system:String>
-    <system:String x:Key="DepotUseExpiringMedicineTip" xml:space="preserve">對全部關卡生效，包括未設藥劑預算的關卡。&#10;開啟後，未設預算的關卡也會嘗試使用 48 小時內過期的理智藥。&#10;未設預算的關卡被理智不足跳過的前提：本輪任務佇列中已有戰鬥任務因理智不足結束，且其臨期藥窗口不小於本設定（本窗口內的臨期藥已用完）。</system:String>
+    <system:String x:Key="DepotUseExpiringMedicineTip" xml:space="preserve">對全部關卡生效，包括未設藥劑預算的關卡。&#10;開啟後，未設預算的關卡也會嘗試使用 48 小時內過期的理智藥。&#10;未設預算的關卡被理智不足跳過的前提：本輪任務佇列中已有戰鬥任務因理智不足結束，且其臨期藥時限不小於本設定（本時限內的臨期藥已用完）。</system:String>
     <system:String x:Key="DepotGroupTaskBehavior">任務行為</system:String>
     <system:String x:Key="DepotGroupStageAndBattle">關卡與戰鬥</system:String>
     <system:String x:Key="DepotGroupSanityRecovery">理智恢復</system:String>
@@ -1580,7 +1580,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowOutcomeEnding3PrerequisiteFailed">三結局前置條件未完成</system:String>
     <system:String x:Key="BlackFlowOutcomeBabyCultivationUnfinished">襁褓動物培育未完成</system:String>
     <system:String x:Key="BlackFlowOutcomeTaskEventFailed">節點結果處理失敗</system:String>
-    <system:String x:Key="BlackFlowOutcomePerceptionPortMissing">地圖識別介面不可用</system:String>
+    <system:String x:Key="BlackFlowOutcomePerceptionPortMissing">地圖辨識介面不可用</system:String>
     <system:String x:Key="BlackFlowOutcomeMapRebuildFailed">地圖重建失敗</system:String>
     <system:String x:Key="BlackFlowOutcomePlanningFailed">路線規劃失敗</system:String>
     <system:String x:Key="BlackFlowOutcomeTransactionProposalFailed">無法準備本次移動</system:String>
@@ -1591,8 +1591,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowOutcomePlanningRetryExhausted">路線重新規劃次數已經用盡</system:String>
     <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">介面流程走不下去了</system:String>
     <system:String x:Key="BlackFlowOutcomeMapRecoveryExhausted">地圖恢復重試次數已經用盡</system:String>
-    <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">樓層識別失敗</system:String>
-    <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">移動加工品識別失敗</system:String>
+    <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">樓層辨識失敗</system:String>
+    <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">移動加工品辨識失敗</system:String>
     <system:String x:Key="BlackFlowOutcomeMovementSelectionFailed">移動加工品選擇失敗</system:String>
     <system:String x:Key="BlackFlowOutcomeNodeDispatchFailed">節點分派失敗</system:String>
     <system:String x:Key="BlackFlowOutcomeNodeResultFailed">節點結果處理失敗</system:String>
@@ -1616,7 +1616,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowTerminationActionPointsExhaustedBeforeCultivation">第三層行動力耗盡，未完成培育</system:String>
     <system:String x:Key="BlackFlowTerminationScrapShopNeverReached">沒有到達秘境行商，本局結束</system:String>
     <system:String x:Key="BlackFlowTerminationRecoveryPortUnavailable">地圖恢復介面不可用</system:String>
-    <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">地圖識別與任務介面不可用</system:String>
+    <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">地圖辨識與任務介面不可用</system:String>
     <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">連續兩次地圖重建失敗</system:String>
     <system:String x:Key="BlackFlowTerminationPlanningRetryExhausted">預覽反覆改變可選路線，已經超過重新規劃次數</system:String>
     <system:String x:Key="BlackFlowTerminationUnknown">詳細原因請查看檔案日誌</system:String>
@@ -2444,7 +2444,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
     <!--  BadModules  -->
     <system:String x:Key="BadModules.Warning.Heading">悲報</system:String>
-    <system:String x:Key="BadModules.Warning.Prolog">偵測到以下第三方軟體向 MAA 注入了 DLL。這些注入的 DLL 會破壞 WPF 算繪和 ONNX/DML 推論，導致 MAA 閃退、介面算繪異常或 OCR 識別失敗：</system:String>
+    <system:String x:Key="BadModules.Warning.Prolog">偵測到以下第三方軟體向 MAA 注入了 DLL。這些注入的 DLL 會破壞 WPF 算繪和 ONNX/DML 推論，導致 MAA 閃退、介面算繪異常或 OCR 辨識失敗：</system:String>
     <system:String x:Key="BadModules.Warning.Epilog" xml:space="preserve">建議透過 Windows 安全中心從系統層面阻止注入：應用程式與瀏覽器控制 → 入侵防護 → 入侵防護設定 → 程式設定 → 新增 MAA.exe → 將「停用擴充點」設為「覆寫系統設定 - 開啟」，啟用後重新啟動 MAA。&#x0a;&#x0a;您也可以嘗試將 MAA 加入相關軟體的排除名單，或解除安裝相關軟體後檢查問題是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再顯示此警告</system:String>
     <system:String x:Key="BadModules.Warning.Fallback">此外，系統的彈窗元件已被破壞並發生崩潰，MAA 的後續彈窗均可能無法正常顯示，其他系統功能也可能受到影響。點擊「是」下次不再提醒，點擊「否」僅本次關閉。</system:String>

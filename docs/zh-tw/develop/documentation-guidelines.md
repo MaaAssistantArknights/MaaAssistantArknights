@@ -258,7 +258,7 @@ MaaAssistantArknights 是由 ==很多豬== 開發的
 @default () => {}
 @optional
 <Badge type="tip" text="v1.0.0 新增"  />
-回呼函數
+回呼函式
 :::
 
 ::: field other

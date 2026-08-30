@@ -93,7 +93,7 @@ params = { stage = "1-7" }
 
 ```toml
 [[tasks]]
-name = "基建换班 (2天6班)"
+name = "基建換班 (2天6班)"
 type = "Infrast"
 
 [tasks.params]

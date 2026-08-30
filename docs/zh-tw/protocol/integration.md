@@ -530,7 +530,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @type boolean
 @default false
 @optional
-是否啟用 ｢感知信息｣ 跨設施組合，優先度高於 ｢人間煙火｣。僅 `mode = 0` 時生效。  
+是否啟用 ｢感知資訊｣ 跨設施組合，優先度高於 ｢人間煙火｣。僅 `mode = 0` 時生效。  
 :::  
 ::: field use_worldly_plight  
 @type boolean

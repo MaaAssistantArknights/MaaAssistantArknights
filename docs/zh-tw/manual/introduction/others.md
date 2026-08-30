@@ -30,7 +30,7 @@ icon: icon-park-solid:other
 
 ## 啟動時自動切換配置
 
-MAA 支援透過啟動參數自動切換配置，在 MAA 程序名稱後附加 `--config <配置名稱>` 即可。範例：`./MAA/MAA.exe --config 官服`。
+MAA 支援透過啟動參數自動切換配置，在 MAA 處理程序名稱後附加 `--config <配置名稱>` 即可。範例：`./MAA/MAA.exe --config 官服`。
 
 部分符號需要轉義，參考 JSON。範例：在配置名稱為 `"官服"` 時，參數應為 `--config \"官服\"`。
 
