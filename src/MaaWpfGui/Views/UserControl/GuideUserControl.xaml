@@ -12,6 +12,7 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings="clr-namespace:MaaWpfGui.Views.UserControl.Settings"
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
@@ -190,13 +191,22 @@
                                     SelectedValue="{Binding ConnectConfig}"
                                     SelectedValuePath="Value" />
 
-                                <TextBlock
-                                    Margin="100,0"
-                                    HorizontalAlignment="Center"
-                                    Foreground="{DynamicResource ErrorLogBrush}"
-                                    Text="{DynamicResource UseAttachWindowWarning}"
-                                    TextWrapping="Wrap"
-                                    Visibility="{c:Binding IsPCConnectConfig}" />
+                                <StackPanel
+                                    Visibility="{c:Binding IsPCConnectConfig}">
+                                    <TextBlock
+                                        Margin="100,0"
+                                        HorizontalAlignment="Left"
+                                        Foreground="{DynamicResource ErrorLogBrush}"
+                                        Text="{DynamicResource UseAttachWindowWarning}"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Margin="100,0"
+                                        HorizontalAlignment="Left"
+                                        properties:RainbowAnimationBehavior.IsActive="True"
+                                        Foreground="{DynamicResource RainbowFlowBrush}"
+                                        Text="{DynamicResource UseAttachWindowWarningRecommendation}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
 
                                 <!--  ADB 连接配置区域  -->
                                 <StackPanel Visibility="{c:Binding '!IsPCConnectConfig'}">
@@ -427,7 +437,18 @@
                                                         DisplayMemberPath="Display"
                                                         ItemsSource="{Binding MouseMethodList}"
                                                         SelectedValue="{Binding MouseMethod}"
-                                                        SelectedValuePath="Value" />
+                                                        SelectedValuePath="Value">
+                                                        <hc:ComboBox.ItemContainerStyle>
+                                                            <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="{x:Type ComboBoxItem}">
+                                                                <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsEnabled" Value="False">
+                                                                        <Setter Property="Opacity" Value="0.4" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </hc:ComboBox.ItemContainerStyle>
+                                                    </hc:ComboBox>
 
                                                     <hc:ComboBox
                                                         Width="300"

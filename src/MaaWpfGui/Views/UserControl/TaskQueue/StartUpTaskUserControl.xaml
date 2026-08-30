@@ -11,6 +11,7 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
@@ -107,14 +108,21 @@
                 SelectedValue="{Binding ConnectConfig}"
                 SelectedValuePath="Value" />
 
-            <TextBlock
-                Margin="5,0"
-                HorizontalAlignment="Center"
-                d:Visibility="Visible"
-                Foreground="{DynamicResource ErrorLogBrush}"
-                Text="{DynamicResource UseAttachWindowWarning}"
-                TextWrapping="Wrap"
-                Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.PC'}" />
+            <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.PC'}">
+                <TextBlock
+                    Margin="5,0"
+                    HorizontalAlignment="Left"
+                    Foreground="{DynamicResource ErrorLogBrush}"
+                    Text="{DynamicResource UseAttachWindowWarning}"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Margin="5,0"
+                    HorizontalAlignment="Left"
+                    properties:RainbowAnimationBehavior.IsActive="True"
+                    Foreground="{DynamicResource RainbowFlowBrush}"
+                    Text="{DynamicResource UseAttachWindowWarningRecommendation}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
 
             <!--  ADB 连接配置区域  -->
             <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
@@ -320,7 +328,18 @@
                                 DisplayMemberPath="Display"
                                 ItemsSource="{Binding MouseMethodList}"
                                 SelectedValue="{Binding MouseMethod}"
-                                SelectedValuePath="Value" />
+                                SelectedValuePath="Value">
+                                <hc:ComboBox.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="{x:Type ComboBoxItem}">
+                                        <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Opacity" Value="0.4" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </hc:ComboBox.ItemContainerStyle>
+                            </hc:ComboBox>
 
                             <hc:ComboBox
                                 Margin="0,5"
@@ -335,12 +354,23 @@
             </ContentControl>
 
             <!--  截图测试  -->
-            <Button
-                Height="30"
-                Margin="0,5"
-                HorizontalAlignment="Left"
-                Command="{s:Action TestLinkAndGetImage}"
-                Content="{DynamicResource ScreenshotTest}" />
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    Height="30"
+                    Margin="0,5"
+                    HorizontalAlignment="Left"
+                    Command="{s:Action TestLinkAndGetImage}"
+                    Content="{DynamicResource ScreenshotTest}" />
+                <Button
+                    Height="30"
+                    Margin="10,5,0,5"
+                    HorizontalAlignment="Left"
+                    Command="{s:Action RestoreGameWindowPosition,
+                                       Target={x:Static helper:Instances.AsstProxy}}"
+                    Content="{DynamicResource WindowRestore}"
+                    Visibility="{c:Binding ShowWindowRestoreButton}" />
+            </StackPanel>
+
             <controls:TextBlock
                 Margin="0,5"
                 HorizontalAlignment="Left"

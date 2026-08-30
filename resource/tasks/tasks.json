@@ -3015,40 +3015,90 @@
         "rectMove": [21, 8, 85, 4]
     },
     "InfrastMfg": {
-        "template": "Manufacturing.png",
-        "templThreshold": 0.9,
-        "maskRange": [1, 255],
+        "doc": "左侧彩色竖条纯色数色，Full 版竖条核心 12x85 仅大图能完整装入，命中即代表当前为大图视图",
+        "template": "PureColorMfg.png",
+        "method": "RGBCount",
+        "pureColor": true,
+        "colorScales": [
+            [
+                [225, 174, 0],
+                [255, 234, 30]
+            ]
+        ],
+        "templThreshold": 0.95,
+        "nmsDistance": 40,
         "roi": [0, 200, 820, 520]
     },
     "InfrastMfgMini": {
-        "template": "ManufacturingMini.png",
-        "templThreshold": 0.9,
-        "roi": [0, 240, 640, 400],
-        "maskRange": [1, 255]
+        "doc": "纯色核心 8x62 两视图均能装入，Full 未命中时兜底",
+        "template": "PureColorMfgMini.png",
+        "method": "RGBCount",
+        "pureColor": true,
+        "colorScales": [
+            [
+                [225, 174, 0],
+                [255, 234, 30]
+            ]
+        ],
+        "templThreshold": 0.95,
+        "nmsDistance": 40,
+        "roi": [0, 240, 640, 400]
     },
     "InfrastTrade": {
-        "template": "Trade.png",
-        "templThreshold": 0.9,
-        "maskRange": [1, 255],
+        "template": "PureColorTrade.png",
+        "method": "RGBCount",
+        "pureColor": true,
+        "colorScales": [
+            [
+                [21, 174, 225],
+                [81, 234, 255]
+            ]
+        ],
+        "templThreshold": 0.95,
+        "nmsDistance": 40,
         "roi": [0, 200, 820, 520]
     },
     "InfrastTradeMini": {
-        "template": "TradeMini.png",
-        "templThreshold": 0.9,
-        "roi": [0, 240, 640, 400],
-        "maskRange": [1, 255]
+        "template": "PureColorTradeMini.png",
+        "method": "RGBCount",
+        "pureColor": true,
+        "colorScales": [
+            [
+                [21, 174, 225],
+                [81, 234, 255]
+            ]
+        ],
+        "templThreshold": 0.95,
+        "nmsDistance": 40,
+        "roi": [0, 240, 640, 400]
     },
     "InfrastPower": {
-        "template": "Power.png",
-        "maskRange": [1, 255],
-        "roi": [0, 200, 820, 520],
-        "templThreshold": 0.9
+        "template": "PureColorPower.png",
+        "method": "RGBCount",
+        "pureColor": true,
+        "colorScales": [
+            [
+                [174, 225, 72],
+                [234, 255, 132]
+            ]
+        ],
+        "templThreshold": 0.95,
+        "nmsDistance": 40,
+        "roi": [0, 200, 820, 520]
     },
     "InfrastPowerMini": {
-        "template": "PowerMini.png",
-        "roi": [0, 240, 640, 400],
-        "maskRange": [1, 255],
-        "templThreshold": 0.9
+        "template": "PureColorPowerMini.png",
+        "method": "RGBCount",
+        "pureColor": true,
+        "colorScales": [
+            [
+                [174, 225, 72],
+                [234, 255, 132]
+            ]
+        ],
+        "templThreshold": 0.95,
+        "nmsDistance": 40,
+        "roi": [0, 240, 640, 400]
     },
     "InfrastDorm": {
         "template": "Dorm.png",
@@ -3066,7 +3116,7 @@
         "template": "Office.png",
         "maskRange": [1, 255],
         "roi": [378, 94, 900, 529],
-        "templThreshold": 0.9
+        "templThreshold": 0.95
     },
     "InfrastOfficeMini": {
         "template": "OfficeMini.png",
@@ -3343,7 +3393,7 @@
         "next": ["InfrastDormConfirmButtonWait", "InfrastDormDoubleConfirmButton", "Stop"]
     },
     "InfrastDormDoubleConfirmButton": {
-        "template": "DormConfirm.png",
+        "template": "InfrastOperConflictConfirm.png",
         "action": "ClickSelf",
         "roi": [630, 620, 650, 100],
         "postDelay": 1000,

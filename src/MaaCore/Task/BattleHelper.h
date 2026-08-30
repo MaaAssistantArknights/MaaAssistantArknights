@@ -67,6 +67,7 @@ protected:
     bool is_skill_ready(const Point& loc, const cv::Mat& reusable = cv::Mat());
     bool is_skill_ready(const std::string& name, const cv::Mat& reusable = cv::Mat());
     bool is_skill_ready(battle::Role role, const std::string& name, const cv::Mat& reusable = cv::Mat());
+    // timeout_ms：0 为暂停快速路径（识别未命中即失败），正数为限时等待技能转好，-1 为不暂停无限等待
     bool use_skill(const std::string& name, int timeout_ms = 500000);
     bool use_skill(battle::Role role, const std::string& name, int timeout_ms = 500000);
     bool use_skill(const Point& loc, int timeout_ms = 500000);

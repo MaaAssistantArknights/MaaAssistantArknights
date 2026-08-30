@@ -48,7 +48,7 @@ const fullySupport = [
         {
             name: '騰訊應用寶',
             link: 'https://sj.qq.com/',
-            note: '支援 5.10.56.xx 之後的版本。在 `設定` - `連線設定` 中選擇 `騰訊應用寶` 連線配置。已知相容 Hyper-V。\n\n- ADB 連接埠為 `127.0.0.1:5555`。\n- ADB 路徑範例：`C:\\Program Files\\Tencent\\Androws\\Application\\版本號\\adb.exe`。\n\n- 需要先在應用寶中 [開啟 ADB 除錯](https://sj.qq.com/faq/3878)。',
+            note: '支援 5.10.56.xx 之後的版本。在 `設定` - `連線設定` 中選擇 `應用寶模擬器` 連線配置。已知相容 Hyper-V。\n\n- ADB 連接埠為 `127.0.0.1:5555`。\n- ADB 路徑範例：`C:\\Program Files\\Tencent\\Androws\\Application\\版本號\\adb.exe`。\n\n- 需要先在應用寶中 [開啟 ADB 除錯](https://sj.qq.com/faq/3878)。',
         },
         {
             name: '夜神模擬器 (NoxPlayer)',
@@ -67,12 +67,12 @@ const partiallySupport = shuffleArray([
     {
         name: 'MuMu 模擬器 6',
         link: 'https://mumu.163.com/update/win/',
-        note: '自 MAA v5.1.0 起放棄支援，網易已於 2023.8.15 停止維護。\n\n- 不再支援自動偵測連線，需使用通用連線配置，並手動設定 ADB 路徑與連線地址。\n- 需要在 `設定` - `連線設定` 中執行 `強制替換 ADB`，才能使用 Minitouch, MaaTouch 等高效觸控模式。\n- 需要使用管理員權限執行 MAA 才能使用「完成後退出模擬器」相關功能。\n- 不支援使用 MuMu 6 預設的幾個特殊解析度，需要改為 `1280x720`、`1920x1080` 等 16:9 比例。\n- MuMu 6 分身多開使用的是同一個 ADB 連接埠，因此無法支援多開的 MuMu 6。',
+        note: '自 MAA v5.1.0 起放棄支援，網易已於 2023.8.15 停止維護。\n\n- 不再支援自動偵測連線，需使用通用連線配置，並手動設定 ADB 路徑與連線位址。\n- 需要在 `設定` - `連線設定` 中執行 `強制替換 ADB`，才能使用 Minitouch, MaaTouch 等高效觸控模式。\n- 需要使用管理員權限執行 MAA 才能使用「完成後退出模擬器」相關功能。\n- 不支援使用 MuMu 6 預設的幾個特殊解析度，需要改為 `1280x720`、`1920x1080` 等 16:9 比例。\n- MuMu 6 分身多開使用的是同一個 ADB 連接埠，因此無法支援多開的 MuMu 6。',
     },
     {
         name: 'Windows Subsystem for Android™ (WSA)',
         link: 'https://docs.microsoft.com/zh-tw/windows/android/wsa/',
-        note: '自 MAA v5.2.0 起放棄支援，微軟已於 2025.3.5 停止維護。\n\n- 需要使用 [自定義連線](../connection.html) 的方式來連線。\n- WSA 2204 或更高版本（版本號在子系統設定的 `關於` 頁面中），連線配置選擇 `通用配置`。\n- WSA 2203 或更舊版本（版本號在子系統設定頁面上方），連線配置選擇 `WSA 舊版本`。\n- 由於本軟體僅對 720p 以上 `16:9` 解析度支援較好，因此請手動拖曳視窗大小，盡量貼近 16:9 比例。（如果您的顯示器是 16:9 的，可以直接按 `F11` 全螢幕）。\n- 任務執行過程中請盡量保證《明日方舟》在前景且無其他 Android 應用同時在前景執行，否則可能導致遊戲暫停執行或任務辨識錯誤。\n- WSA 的截圖經常莫名其妙截出白屏，導致辨識異常，還是不建議使用。',
+        note: '自 MAA v5.2.0 起放棄支援，微軟已於 2025.3.5 停止維護。\n\n- 需要使用 [自訂連線](../connection.html) 的方式來連線。\n- WSA 2204 或更高版本（版本號在子系統設定的 `關於` 頁面中），連線配置選擇 `通用配置`。\n- WSA 2203 或更舊版本（版本號在子系統設定頁面上方），連線配置選擇 `WSA 舊版本`。\n- 由於本軟體僅對 720p 以上 `16:9` 解析度支援較好，因此請手動拖曳視窗大小，盡量貼近 16:9 比例。（如果您的顯示器是 16:9 的，可以直接按 `F11` 全螢幕）。\n- 任務執行過程中請盡量保證《明日方舟》在前景且無其他 Android 應用同時在前景執行，否則可能導致遊戲暫停執行或任務辨識錯誤。\n- WSA 的截圖經常莫名其妙截出白屏，導致辨識異常，還是不建議使用。',
     },
     {
         name: 'AVD',
@@ -82,7 +82,7 @@ const partiallySupport = shuffleArray([
     {
         name: 'Google Play 遊戲（開發者版本）',
         link: 'https://developer.android.com/games/playgames/emulator?hl=zh-tw',
-        note: '理論支援。必須開啟 Hyper-V，且必須登入 Google 帳戶。\n\n- 需要使用 [自定義連線](../connection.html) 的方式來連線，ADB 連接埠為 `6520`。\n- 由於 Android 10 及更新版本的 SELinux 策略，Minitouch 無法正常工作，請切換到其他觸控模式。\n- 每次啟動模擬器後的首次連線都會失敗，需勾選 `連線失敗後嘗試關閉並重啟 ADB`。',
+        note: '理論支援。必須開啟 Hyper-V，且必須登入 Google 帳戶。\n\n- 需要使用 [自訂連線](../connection.html) 的方式來連線，ADB 連接埠為 `6520`。\n- 由於 Android 10 及更新版本的 SELinux 策略，Minitouch 無法正常工作，請切換到其他觸控模式。\n- 每次啟動模擬器後的首次連線都會失敗，需勾選 `連線失敗後嘗試關閉並重啟 ADB`。',
     },
 ]);
 

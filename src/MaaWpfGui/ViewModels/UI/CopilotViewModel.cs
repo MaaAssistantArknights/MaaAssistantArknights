@@ -120,6 +120,7 @@ public partial class CopilotViewModel : Screen
         };
         LocalizationHelper.LanguageChanged += () => {
             DisplayName = LocalizationHelper.GetString("Copilot");
+            SupportUnitUsageList.RefreshLocalization();
             ClearLog();
         };
         UserAdditionalItems.CollectionChanged += (_, _) => {
@@ -697,12 +698,9 @@ public partial class CopilotViewModel : Screen
         }
     } = ConfigFactory.CurrentConfig.Copilot.SupportMode;
 
-    public List<GenericCombinedData<CopilotSupportMode>> SupportUnitUsageList { get; } =
-    [
-        /* new() { Display = LocalizationHelper.GetString("SupportUnitUsage.None"), Value = 0 }, */
-        new() { Display = LocalizationHelper.GetString("SupportUnitUsage.WhenNeeded"), Value = CopilotSupportMode.WhenNeeded },
-        new() { Display = LocalizationHelper.GetString("SupportUnitUsage.Random"), Value = CopilotSupportMode.Random },
-    ];
+    public LocalizedObservableList<CopilotSupportMode> SupportUnitUsageList { get; } = new(
+        (CopilotSupportMode.WhenNeeded, "SupportUnitUsage.WhenNeeded"),
+        (CopilotSupportMode.Random, "SupportUnitUsage.Random"));
 
     public enum CopilotSupportMode
     {
@@ -1163,10 +1161,12 @@ public partial class CopilotViewModel : Screen
         var list = copilot.Opers.Concat(copilot.Groups.SelectMany(g => g.Opers)).ToList();
         foreach (var oper in list)
         {
-            int rarity = DataHelper.GetCharacterByNameOrAlias(oper.Name)?.Rarity ?? -1;
+            var character = DataHelper.GetCharacterByNameOrAlias(oper.Name);
+            int rarity = character?.Rarity ?? -1;
+            string id = character?.Id ?? string.Empty;
             switch (oper.Skill)
             {
-                case 3 when rarity < 6:
+                case 3 when rarity < 6 && id != "char_002_amiya":
                 case 2 when rarity < 4:
                 case 1 when rarity < 3:
                     AddLog(LocalizationHelper.GetStringFormat("Copilot.UnsupportedSkill", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Skill), UiLogColor.Warning, showTime: false);

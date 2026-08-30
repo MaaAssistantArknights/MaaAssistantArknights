@@ -77,7 +77,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     auto filename_opt = params.find<std::string>("filename");
     auto multi_tasks_opt = params.find<json::array>("copilot_list"); // 多任务列表
     if (!filename_opt && !multi_tasks_opt) {
-        Log.error("CopilotTask set_params failed, stage_name or filename not found");
+        LogError << __FUNCTION__ << "CopilotTask set_params failed, stage_name or filename not found";
         return false;
     }
 
@@ -161,8 +161,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
             if (name.empty()) {
                 continue;
             }
-            if (BattleData.is_name_invalid(name)) {
-                Log.error(__FUNCTION__, "| User additional oper", name, "is invalid");
+            if (BattleData.is_name_invalid(battle::Role::Unknown, name)) {
+                LogError << __FUNCTION__ << "| User additional oper" << name << "is invalid";
                 json::value info = basic_info_with_what("UserAdditionalOperInvalid");
                 info["details"]["name"] = name;
                 callback(AsstMsg::SubTaskError, info);

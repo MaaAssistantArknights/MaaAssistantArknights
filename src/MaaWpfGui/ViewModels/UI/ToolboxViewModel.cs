@@ -89,6 +89,7 @@ public class ToolboxViewModel : Screen
             RecruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
             PixelPaintFitModeList.RefreshLocalization();
             PixelPaintDitherModeList.RefreshLocalization();
+            SecretFrontEventList.RefreshLocalization();
             Application.Current.Dispatcher.InvokeAsync(
                 () => {
                     LoadDepotDetails();
@@ -2422,13 +2423,11 @@ public class ToolboxViewModel : Screen
 
     public string SecretFrontEnding { get; set => SetAndNotify(ref field, value); } = "A";
 
-    public List<GenericCombinedData<string>> SecretFrontEventList { get; set; } =
-    [
-        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
-        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event1"), Value = "支援作战平台" },
-        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event2"), Value = "游侠" },
-        new GenericCombinedData<string> { Display = LocalizationHelper.GetString("MiniGame@SecretFront@Event3"), Value = "诡影迷踪" },
-    ];
+    public LocalizedObservableList<string> SecretFrontEventList { get; } = new(
+        (string.Empty, "NotSelected"),
+        ("支援作战平台", "MiniGame@SecretFront@Event1"),
+        ("游侠", "MiniGame@SecretFront@Event2"),
+        ("诡影迷踪", "MiniGame@SecretFront@Event3"));
 
     public string SecretFrontEvent { get; set => SetAndNotify(ref field, value); } = string.Empty;
 

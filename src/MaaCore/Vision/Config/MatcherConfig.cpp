@@ -78,6 +78,7 @@ void MatcherConfig::_set_task_info(MatchTaskInfo task_info)
     m_params.color_scales = std::move(task_info.color_scales);
     m_params.color_close = task_info.color_close;
     m_params.pure_color = task_info.pure_color;
+    m_params.nms_distance = task_info.nms_distance;
     m_params.methods = std::move(task_info.methods);
 
     _set_roi(task_info.roi);

@@ -17,10 +17,12 @@ namespace asst::blackflow
 {
 namespace
 {
+constexpr int LastFloor = 3;
 constexpr std::string_view EnterTask = "BlackFlow@Roguelike@CultivateEnter";
 constexpr std::string_view SellDecisionTask = "BlackFlow@Roguelike@CultivateSellDecision";
 constexpr std::string_view SellAction = "BlackFlow@Roguelike@CultivateSellAction";
 constexpr std::string_view SellItemsTask = "BlackFlow@Roguelike@CultivateSellItems";
+constexpr std::string_view SellItemsKeepMovementTask = "BlackFlow@Roguelike@CultivateSellItemsKeepMovement";
 constexpr std::string_view SellConfirmEntry = "BlackFlow@Roguelike@CultivateSellConfirm-Enter";
 constexpr std::string_view ToggleToBuyTask = "BlackFlow@Roguelike@CultivateToggleToBuy";
 constexpr std::string_view BuyDecisionTask = "BlackFlow@Roguelike@CultivateBuyDecision";
@@ -134,7 +136,7 @@ bool BlackFlowCultivationTaskPlugin::_run()
 
     if (work == PendingWork::SellDecision) {
         Task.set_task_base(std::string(SellAction), std::string(ToggleToBuyTask));
-        const auto items = recognize(ctrler()->get_image(), std::string(SellItemsTask));
+        const auto items = recognize(ctrler()->get_image(), sell_items_task());
         if (!items.empty()) {
             ctrler()->click(items.front().rect);
             Task.set_task_base(std::string(SellAction), std::string(SellConfirmEntry));
@@ -220,6 +222,14 @@ bool BlackFlowCultivationTaskPlugin::_run()
         return true;
     }
     return true;
+}
+
+// 加工品在最后一层已经没有残值，卖掉换来的源石锭还能再买几颗种子；在此之前它们是走到
+// 秘境行商本身所依赖的移动能力，卖掉会把留给培育的那次长距离移动一起卖出去。
+std::string BlackFlowCultivationTaskPlugin::sell_items_task() const
+{
+    const int floor = m_session == nullptr ? 0 : m_session->current_floor().value_or(0);
+    return std::string(floor >= LastFloor ? SellItemsTask : SellItemsKeepMovementTask);
 }
 
 std::vector<TextRect> BlackFlowCultivationTaskPlugin::recognize(const cv::Mat& image, const std::string& task) const

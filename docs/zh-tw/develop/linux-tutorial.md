@@ -5,7 +5,7 @@ icon: teenyicons:linux-alt-solid
 
 # Linux 編譯教學
 
-**本教學需要讀者具備一定的 Linux 環境配置能力與程式設計基礎！** 若您僅希望直接安裝 MAA 而非自行編譯，請參閱[用戶手冊 - Linux 模擬器與容器](../manual/device/linux.md)。
+**本教學需要讀者具備一定的 Linux 環境配置能力與程式設計基礎！** 若您僅希望直接安裝 MAA 而非自行編譯，請參閱[使用者手冊 - Linux 模擬器與容器](../manual/device/linux.md)。
 
 ::: info 注意
 MAA 的建置方法仍在討論中，本教學內容可能過時，請以 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L264#:~:text=ubuntu%3A) 中的腳本為準。  

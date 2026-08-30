@@ -458,7 +458,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="ForceGithubGlobalSourceTip">When updates are detected, force download update packages from GitHub</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">Please go to ｢{key=Settings} - {key=UpdateSettings}｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ to update manually, or fill in MirrorChyan CDK to update automatically.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">Resource update {0} detected</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">The CDK has expired. Please use a new CDK for authorization.</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">The CDK is invalid. Please check if the input is correct.</system:String>
@@ -1551,9 +1551,10 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowMilestoneBurnFloor2Final">Reach the final node on floor 2</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCheckSeedShop">Check the floor 1 shop for seeds</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">Enter a scrap trader on floors 1-3 to cultivate seeds</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopTransit">Enter a scrap trader on floors 1-2 to cultivate seeds, then head for the exit</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopFinal">Enter the scrap trader on floor 3 to cultivate seeds</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">Reveal as many unknown nodes as possible until a scrap trader is found</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">Visit an encounter along the way</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyVisitLight">Visit a vantage point along the way</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">Continue collecting seeds when visiting a normal shop on floor 2</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">Sell items, refresh stock, and collect seeds when visiting a normal shop on floor 3</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">Obtain Sandtable A</system:String>
@@ -1720,10 +1721,12 @@ If you don't strictly need it, we recommend using ADB to connect to an Android e
 
 If you do need to use it, please ensure:
 1. MAA is launched with administrator privileges
-2. For some screencap methods, the game window cannot be minimized
-3. Arknights Settings → Game → UI Scaling is set to 100%
-4. Lower the mouse pointer scale in Arknights settings to reduce obstruction of recognition areas
-5. Game resolution must be 16:9; recommended settings: 1280x720 or 1920x1080</system:String>
+2. It is recommended to add a Link start/stop hotkey in Settings → Hotkey Settings, in case the Stop button cannot be clicked
+3. For some screencap methods, the game window cannot be minimized
+4. Arknights Settings → Game → UI Scaling is set to 100%
+5. Lower the mouse pointer scale in Arknights settings to reduce obstruction of recognition areas
+6. Game resolution must be 16:9; recommended settings: 1280x720 or 1920x1080</system:String>
+    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. We recommend using SendMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
@@ -1732,8 +1735,10 @@ If you do need to use it, please ensure:
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (Background, Backup, Cannot Minimize)</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (Foreground, No Occlusion)</system:String>
     <system:String x:Key="AttachWindowInputSeize">Seize (Foreground, Fully Captures Mouse)</system:String>
+    <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg (Full Background, Arknights Uses Real Mouse Position Only, Ineffective)</system:String>
+    <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg (Full Background, Arknights Uses Real Mouse Position Only, Ineffective)</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos (Semi-background, Briefly Captures Mouse)</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos (Full Background, No Mouse Capture, Window May Move, Recommend Minimizing)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos (Recommended, Full Background, No Mouse Capture, Window May Move, PrintWindow Screencap Only, Recommend Minimizing)</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg (Stable)</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg (Efficient)</system:String>
     <!--  !AsstProxy  -->

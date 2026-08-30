@@ -46,11 +46,7 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
     public LocalizedObservableList(params (TValue Value, string LocalizationKey)[] entries)
     {
         _entries = entries.Select(e => (e.Value, e.LocalizationKey, (string?)null)).ToList();
-        Items = new(entries.Select(e => new GenericCombinedData<TValue>
-        {
-            Display = FormatDisplay(e.LocalizationKey, null),
-            Value = e.Value,
-        }));
+        Items = new(entries.Select(e => CreateItem(e.Value, e.LocalizationKey, null)));
 
         // 转发内部集合变更，使 WPF ItemsSource 绑定能感知增删
         Items.CollectionChanged += OnItemsCollectionChanged;
@@ -64,11 +60,20 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
     public LocalizedObservableList(params (TValue Value, string LocalizationKey, string? SecondaryKey)[] entries)
     {
         _entries = [.. entries];
-        Items = new(entries.Select(e => new GenericCombinedData<TValue>
-        {
-            Display = FormatDisplay(e.LocalizationKey, e.SecondaryKey),
-            Value = e.Value,
-        }));
+        Items = new(entries.Select(e => CreateItem(e.Value, e.LocalizationKey, e.SecondaryKey)));
+
+        Items.CollectionChanged += OnItemsCollectionChanged;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LocalizedObservableList{TValue}"/> class.
+    /// 初始化本地化列表，支持部分条目初始为不可选（配合 <see cref="GenericCombinedData{TValue}.IsEnabled"/>）。
+    /// </summary>
+    /// <param name="entries">(值, 本地化key, 是否可选) 数组</param>
+    public LocalizedObservableList(params (TValue Value, string LocalizationKey, bool IsEnabled)[] entries)
+    {
+        _entries = entries.Select(e => (e.Value, e.LocalizationKey, (string?)null)).ToList();
+        Items = new(entries.Select(e => CreateItem(e.Value, e.LocalizationKey, null, e.IsEnabled)));
 
         Items.CollectionChanged += OnItemsCollectionChanged;
     }
@@ -80,6 +85,14 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
             ? $"{primary} ({LocalizationHelper.GetString(secondaryKey)})"
             : primary;
     }
+
+    private GenericCombinedData<TValue> CreateItem(TValue value, string localizationKey, string? secondaryKey, bool isEnabled = true)
+        => new()
+        {
+            Display = FormatDisplay(localizationKey, secondaryKey),
+            Value = value,
+            IsEnabled = isEnabled,
+        };
 
     /// <summary>
     /// Gets 内部可观察集合。仅供 WPF 绑定与只读访问，不要直接增删——
@@ -111,11 +124,7 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
     public void Add(TValue value, string localizationKey, string? secondaryKey = null)
     {
         _entries.Add((value, localizationKey, secondaryKey));
-        Items.Add(new GenericCombinedData<TValue>
-        {
-            Display = FormatDisplay(localizationKey, secondaryKey),
-            Value = value,
-        });
+        Items.Add(CreateItem(value, localizationKey, secondaryKey));
     }
 
     /// <summary>
@@ -155,11 +164,7 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
     public void Insert(int index, TValue value, string localizationKey, string? secondaryKey = null)
     {
         _entries.Insert(index, (value, localizationKey, secondaryKey));
-        Items.Insert(index, new GenericCombinedData<TValue>
-        {
-            Display = FormatDisplay(localizationKey, secondaryKey),
-            Value = value,
-        });
+        Items.Insert(index, CreateItem(value, localizationKey, secondaryKey));
     }
 
     /// <summary>

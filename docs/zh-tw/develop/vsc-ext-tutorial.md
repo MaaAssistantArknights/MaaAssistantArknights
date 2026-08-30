@@ -25,7 +25,7 @@ icon: iconoir:code-brackets
 
 ### 控制面板
 
-左側活動列添加了專用控制面板，圖示如下： ![MaaSupport ControlPanel](/images/maa-support-panel.svg)
+左側活動列新增了專用控制面板，圖示如下： ![MaaSupport ControlPanel](/images/maa-support-panel.svg)
 
 擴充功能絕大部分的功能皆基於 `interface.json` 配置。在控制面板最上方可以選擇目前生效的 `interface.json`。
 
@@ -67,7 +67,7 @@ icon: iconoir:code-brackets
 
 開啟 `Maa` 相容模式時，支援圖片路徑的遞迴搜尋。
 
-#### 校驗任務與圖片路徑
+#### 驗證任務與圖片路徑
 
 擴充功能支援定時掃描並分析所有任務：
 
@@ -86,7 +86,7 @@ icon: iconoir:code-brackets
 
 ### MaaPiCli 功能 (僅限 MaaFramework 專案)
 
-透過控制面板，可以掃描並選擇控制器、選擇資源、添加並管理任務，以及執行任務。
+透過控制面板，可以掃描並選擇控制器、選擇資源、新增並管理任務，以及執行任務。
 
 ### 截圖裁剪與快速辨識
 

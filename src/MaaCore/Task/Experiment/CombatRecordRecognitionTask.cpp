@@ -261,7 +261,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
         BestMatcher best_match_analyzer(formation_avatar);
         best_match_analyzer.set_task_info(avatar_task_ptr);
 
-        std::unordered_set<battle::Role> roles = { BattleData.get_role(name) };
+        std::unordered_set<battle::Role> roles = { BattleData.get_first_role(name) };
         if (name == "阿米娅") {
             roles.emplace(battle::Role::Warrior);
         }
@@ -269,7 +269,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
         // 编队界面，有些视频会有些花里胡哨的特效遮挡啥的，所以尽量减小点模板尺寸
         auto crop_roi = make_rect<cv::Rect>(avatar_task_ptr->rect_move);
         // 小车的缩放太离谱了
-        const size_t scale_ends = BattleData.get_rarity(name) == 1 ? 200 : 125;
+        const size_t scale_ends = BattleData.get_rarity(battle::Role::Unknown, name) == 1 ? 200 : 125;
         std::unordered_map<std::string, cv::Mat> candidate;
         for (const auto& oper : deployment) {
             if (!roles.contains(oper.role)) {
@@ -788,7 +788,7 @@ void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip
         // avatar_analyzer.set_threshold(oper.role == battle::Role::Drone ? drone_threshold : threshold);
 
         for (const auto& [name, avatar] : m_all_avatars) {
-            std::unordered_set<battle::Role> roles = { BattleData.get_role(name) };
+            std::unordered_set<battle::Role> roles = { BattleData.get_first_role(name) };
             if (name == "阿米娅") {
                 roles.emplace(battle::Role::Warrior);
             }
@@ -872,7 +872,7 @@ std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(con
     preproc_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
     auto preproc_result_opt = preproc_analyzer.analyze();
 
-    if (preproc_result_opt && !BattleData.is_name_invalid(preproc_result_opt->text)) {
+    if (preproc_result_opt && !BattleData.is_name_invalid(battle::Role::Unknown, preproc_result_opt->text)) {
         return preproc_result_opt->text;
     }
 
@@ -887,5 +887,5 @@ std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(con
     sort_by_score_(*det_result_opt);
     const auto& det_name = det_result_opt->front().text;
 
-    return BattleData.is_name_invalid(det_name) ? std::string() : det_name;
+    return BattleData.is_name_invalid(battle::Role::Unknown, det_name) ? std::string() : det_name;
 }

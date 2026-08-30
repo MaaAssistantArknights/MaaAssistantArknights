@@ -76,7 +76,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
             };
 
             // 助战招募最多精一
-            int rarity = BattleData.get_rarity(char_rect.text);
+            int rarity = BattleData.get_rarity(battle::Role::Unknown, char_rect.text);
             if (rarity == 0) {
                 // 非干员名，可能是屏幕边角，舍弃结果
                 Log.info(__FUNCTION__, "| can't get rarity of `", char_rect.text, "`");

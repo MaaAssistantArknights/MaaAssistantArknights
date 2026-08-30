@@ -458,7 +458,7 @@
     <system:String x:Key="ForceGithubGlobalSourceTip">更新を検出後、Githubから強制的に更新パッケージをダウンロード</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">｢{key=Settings} - {key=UpdateSettings}｣ に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">リソース更新 {0} が検出されました。 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ に移動して手動で更新するか、MirrorChayn CDK を入力して自動的に更新してください。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">リソース更新 {0} が検出されました。 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ に移動して手動で更新するか、MirrorChyan CDK を入力して自動的に更新してください。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">リソース更新 {0} が検出されました</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK の有効期限が切れました。新しい CDK を使用して認証してください。</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK が無効です。入力が正しいか確認してください。</system:String>
@@ -1553,9 +1553,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneBurnFloor2Final">第2層の険路の果てに到達</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCheckSeedShop">第1層の商店で種子を確認</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">第1〜3層で秘境の行商人に入り種子を育成</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopTransit">第1〜2層で秘境の行商人に入り種子を育成してから層の出口へ</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopFinal">第3層で秘境の行商人に入り種子を育成</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">秘境の行商人が見つかるまで未知の怪奇をできるだけ開拓</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">道中で不意の遭遇に入る</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyVisitLight">道中で羽瞰点に入る</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">第2層は通常商店に立ち寄って種子を入手し続ける</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">第3層は通常商店で売却・品揃え更新を行い種子をできるだけ購入</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">砂盤Aを入手</system:String>
@@ -1722,10 +1723,12 @@ C:\\leidian\\LDPlayer9
 
 使用する必要がある場合は、以下をご確認ください：
 1. MAA を管理者権限で起動してください
-2. 一部のスクリーンキャプチャ方式では、ゲームウィンドウを最小化できません
-3. アークナイツ設定 → ゲーム → UI スケール を 100% に設定してください
-4. アークナイツ設定で マウスカーソルサイズ を小さくし、認識領域の隠れを軽減してください
-5. ゲーム解像度は 16:9 である必要があります。推奨設定：1280x720 または 1920x1080</system:String>
+2. 設定 → ホットキー設定 に Link start/stop のホットキーを追加することをおすすめします。停止ボタンをクリックできない場合に備えるためです
+3. 一部のスクリーンキャプチャ方式では、ゲームウィンドウを最小化できません
+4. アークナイツ設定 → ゲーム → UI スケール を 100% に設定してください
+5. アークナイツ設定で マウスカーソルサイズ を小さくし、認識領域の隠れを軽減してください
+6. ゲーム解像度は 16:9 である必要があります。推奨設定：1280x720 または 1920x1080</system:String>
+    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. マウス入力方式には SendMsg-WindowPos の使用を推奨します。この方式により、PC クライアントでの認識エラーやフリーズの問題を大幅に軽減できます</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>
@@ -1734,8 +1737,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（バックグラウンド、予備、最小化不可）</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（フォアグラウンド、遮蔽不可）</system:String>
     <system:String x:Key="AttachWindowInputSeize">Seize（フォアグラウンド、マウスを完全に取得）</system:String>
+    <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg（フルバックグラウンド、アークナイツは実マウス位置のみ参照、無効）</system:String>
+    <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg（フルバックグラウンド、アークナイツは実マウス位置のみ参照、無効）</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos（半バックグラウンド、一時的にマウスを取得）</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（フルバックグラウンド、マウス不要、ウィンドウが動く可能性あり、最小化推奨）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（推奨、フルバックグラウンド、マウス不要、ウィンドウが動く可能性あり、PrintWindow のみ対応、最小化推奨）</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（安定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高効率）</system:String>
     <!--  !AsstProxy  -->

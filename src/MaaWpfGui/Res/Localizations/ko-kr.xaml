@@ -1554,9 +1554,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneBurnFloor2Final">2구역 험로의 끝 도달</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCheckSeedShop">1구역 상점에서 종자 확인</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">1~3구역 신비한 상인에 들어가 종자 육성</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopTransit">1~2구역 신비한 상인에서 종자를 육성한 뒤 출구로 이동</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopFinal">3구역 신비한 상인에 들어가 종자 육성</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">신비한 상인을 발견할 때까지 미지의 괴이를 최대한 개척</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">가는 길에 우연한 만남 진입</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyVisitLight">가는 길에 깃털 조망점 진입</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">2구역은 교활한 상인 경유 시 종자 계속 획득</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">3구역은 교활한 상인 경유 시 판매·진열 갱신 후 종자 최대한 구매</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">사판 A 획득</system:String>
@@ -1723,10 +1724,12 @@ C:\\leidian\\LDPlayer9
 
 사용이 필요한 경우, 다음을 확인해 주세요:
 1. MAA를 관리자 권한으로 실행해야 합니다
-2. 일부 스크린샷 방식에서는 게임 창을 최소화할 수 없습니다
-3. 명일방주 설정 → 게임 → UI 배율을 100%로 설정해야 합니다
-4. 명일방주 설정에서 마우스 포인터 배율을 줄여 인식 영역 가림을 줄여 주세요
-5. 게임 해상도는 16:9이어야 하며, 권장 설정: 1280x720 또는 1920x1080</system:String>
+2. 설정 → 핫키 설정에 Link start/stop 핫키를 추가하는 것을 권장합니다. 중지 버튼을 클릭할 수 없는 경우에 대비하기 위함입니다
+3. 일부 스크린샷 방식에서는 게임 창을 최소화할 수 없습니다
+4. 명일방주 설정 → 게임 → UI 배율을 100%로 설정해야 합니다
+5. 명일방주 설정에서 마우스 포인터 배율을 줄여 인식 영역 가림을 줄여 주세요
+6. 게임 해상도는 16:9이어야 하며, 권장 설정: 1280x720 또는 1920x1080</system:String>
+    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. 마우스 입력 방식으로 SendMsg-WindowPos 사용을 권장합니다. 이 방식을 사용하면 PC 클라이언트의 인식 오류 및 멈춤 문제를 크게 줄일 수 있습니다</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
@@ -1735,8 +1738,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC (백그라운드, 백업, 최소화 불가)</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow (포그라운드, 가림 불가)</system:String>
     <system:String x:Key="AttachWindowInputSeize">Seize (포그라운드, 마우스 완전 점유)</system:String>
+    <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg (완전 백그라운드, 명일방주는 실제 마우스 위치만 사용, 무효)</system:String>
+    <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg (완전 백그라운드, 명일방주는 실제 마우스 위치만 사용, 무효)</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos (반 백그라운드, 마우스 일시 점유)</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos (완전 백그라운드, 마우스 비점유, 창 이동 가능하나 사용 무관, 최소화 권장)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos (권장, 완전 백그라운드, 마우스 비점유, 창 이동 가능, PrintWindow 전용 스크린샷, 최소화 권장)</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg (안정적)</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg (효율적)</system:String>
     <!--  !AsstProxy  -->

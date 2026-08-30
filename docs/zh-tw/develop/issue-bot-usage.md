@@ -21,7 +21,7 @@ Issue Bot 使用的 Action 為 [issue-checker](https://github.com/MaaAssistantAr
 
 #### 議題 (Issue) 及其評論
 
-- 為上傳檔案失敗的議題增加 `incomplete` 標籤並留言評論，提醒用戶檔案上傳失敗。
+- 為上傳檔案失敗的議題增加 `incomplete` 標籤並留言評論，提醒使用者檔案上傳失敗。
 
 #### 拉取請求 (Pull Request)
 
@@ -52,7 +52,7 @@ Issue Bot 會對拉取請求標題的格式進行簡單審查。除非標題以�
   - `{VERSION} fixed`
   - `fixed by {VERSION}`
 - `Duplicate of #{ISSUE_NUMBER}`：可以為目前議題增加 `duplicate` 標籤。
-- **當您知道自己的議題評論會導致 Issue Bot 誤解時，請盡量添加一些 skip 操作。**
+- **當您知道自己的議題評論會導致 Issue Bot 誤解時，請盡量新增一些 skip 操作。**
 
 ::: info 注意
 <sup>1</sup> 這裡的 COMMIT_HASH 需要完整的 40 位元字元。

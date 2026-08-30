@@ -132,8 +132,16 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   스크린샷 실패 (adb / 에뮬레이터 충돌), 재시도 실패
 - `TouchModeNotAvailable`  
   지원하지 않는 터치 모드
+- `MuMuExtrasInputStatus`  
+  MuMu 터치 강화의 실제 적용 상태, `details` 구조:
+  - `available` (boolean, required): 적용되었는지 여부.
+  - `deferred` (boolean, required): 아직 판정되지 않았는지 여부 (연결 시 게임이 렌더링되지 않아 렌더링 시작 후 자동으로 다시 판정됨).
 - `ResolutionGot`  
   해상도를 획득함
+- `ResolutionChanged`  
+  실행 중 해상도가 변경되어 연결이 무효화되고 현재 작업이 중단됨, `details` 구조:
+  - `width` (number, required): 현재 너비.
+  - `height` (number, required): 현재 높이.
 - `FastestWayToScreencap`  
   가장 빠른 스크린샷 방식을 찾음, `details` 구조:
   - `method` (string, required): 가장 빠른 스크린샷 방식.
@@ -177,6 +185,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 - `ret` (boolean, required): 실제 호출의 반환값.
 - `cost` (number, required): 소요 시간, 단위 밀리초.
+- `error` (string): 처리되지 않은 예외의 유형 (처리되지 않은 예외로 호출이 실패한 경우에만 존재).
 
 :::
 ::::

@@ -18,14 +18,20 @@ namespace MaaWpfGui.Configuration.Single.Settings.ConnectionExtra;
 
 public class Win32Extra : BaseExtra, IJsonOnDeserialized
 {
-    public AsstWin32ScreencapMethod ScreencapMethod { get; set; } = AsstWin32ScreencapMethod.FramePool;
+    public AsstWin32ScreencapMethod ScreencapMethod { get; set; } = AsstWin32ScreencapMethod.PrintWindow;
 
-    public AsstWin32InputMethod MouseMethod { get; set; } = AsstWin32InputMethod.SendMessageWithCursorPos;
+    public AsstWin32InputMethod MouseMethod { get; set; } = AsstWin32InputMethod.SendMessageWithWindowPos;
 
     public AsstWin32KeyboardInputMethod KeyboardMethod { get; set; } = AsstWin32KeyboardInputMethod.SendMessage;
 
     public void OnDeserialized()
     {
+        // 纯消息鼠标输入（SendMessage/PostMessage）在界面中永久禁用，历史配置若存有该值则回落默认
+        if (MouseMethod is AsstWin32InputMethod.SendMessage or AsstWin32InputMethod.PostMessage)
+        {
+            MouseMethod = AsstWin32InputMethod.SendMessageWithCursorPos;
+        }
+
         if (MouseMethod == AsstWin32InputMethod.SendMessageWithWindowPos)
         {
             ScreencapMethod = AsstWin32ScreencapMethod.PrintWindow;

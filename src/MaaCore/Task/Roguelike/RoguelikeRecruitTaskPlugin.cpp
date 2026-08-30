@@ -50,7 +50,7 @@ bool asst::RoguelikeRecruitTaskPlugin::load_params(const json::value& params)
 
 asst::battle::Role asst::RoguelikeRecruitTaskPlugin::get_oper_role(const std::string& name)
 {
-    return BattleData.get_role(name);
+    return BattleData.get_first_role(name);
 }
 
 bool asst::RoguelikeRecruitTaskPlugin::is_oper_melee(const std::string& name)
@@ -59,7 +59,7 @@ bool asst::RoguelikeRecruitTaskPlugin::is_oper_melee(const std::string& name)
     if (role != battle::Role::Pioneer && role != battle::Role::Tank && role != battle::Role::Warrior) {
         return false;
     }
-    const auto loc = BattleData.get_location_type(name);
+    const auto loc = BattleData.get_location_type(role, name);
     return loc == battle::LocationType::Melee;
 }
 

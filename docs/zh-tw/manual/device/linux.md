@@ -115,7 +115,7 @@ MAA WPF GUI 當前可以透過 Wine 執行。MAA 已採用自包含部署方式�
 
 3. 任務配置
 
-自定義任務：根據需要參閱 [整合文件](../../protocol/integration.md) 對 `sample.py` 的 [`# 任務及參數請參考 docs/integration.md`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 一欄進行修改。
+自訂任務：根據需要參閱 [整合文件](../../protocol/integration.md) 對 `sample.py` 的 [`# 任務及參數請參考 docs/integration.md`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 一欄進行修改。
 
 ::::
 
@@ -152,7 +152,7 @@ waydroid prop set persist.waydroid.width 1280
 waydroid prop set persist.waydroid.height 720
 ```
 
-設定 ADB 的 IP 位址：開啟 `設定` - `關於` - `IP地址` ，記錄第一個 `IP` ，將 `${記錄的IP}:5555` 填入 `sample.py` 的 adb IP 一欄。
+設定 ADB 的 IP 位址：開啟 `設定` - `關於` - `IP 位址` ，記錄第一個 `IP` ，將 `${記錄的IP}:5555` 填入 `sample.py` 的 adb IP 一欄。
 
 如果使用 amdgpu，`screencap` 指令可能向 stderr 輸出資訊導致圖片解碼失敗。
 可以執行 `adb exec-out screencap | xxd | head` 並檢查輸出中是否有類似 `/vendor/etc/hwdata/amdgpu.ids: No such file...` 的文字來確認這一點。

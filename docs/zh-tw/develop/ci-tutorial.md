@@ -49,7 +49,7 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 ### 版本發布
 
-版本發布（簡稱發版）是向用戶發布更新的必要操作，由以下工作流組成：
+版本發布（簡稱發版）是向使用者發布更新的必要操作，由以下工作流組成：
 
 - `release-nightly-ota.yml` 發布內測版（Nightly）
 - `release-ota.yml` 發布正式版 / 公測版（Beta）
@@ -66,7 +66,7 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 本工作流會在每天 UTC 時間 22 點自動執行，以保證內測版的更新頻率。當然，您也可以在做出更改需要驗證時手動觸發發布。
 
-需要注意的是，內測版發布僅針對 Windows 用戶，macOS 與 Linux 用戶目前無法接收到內測更新。
+需要注意的是，內測版發布僅針對 Windows 使用者，macOS 與 Linux 使用者目前無法接收到內測更新。
 
 #### 正式版 / 公測版
 
@@ -76,7 +76,7 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 2. `release-preparation.yml` 會產生從最近版本到當前版本的 Changelog（以一個新 PR 的形式呈現）。
 3. 對 Changelog 進行手動調整，並加入簡要描述。
 4. 合併 PR，觸發 `pr-auto-tag.yml` 建立 Tag 並同步分支。
-5. Release 事件觸發 `release-ota.yml`，對 master-v2 標上 Tag 後進行 OTA 包建置及附件上傳。
+5. Release 事件觸發 `release-ota.yml`，對 master-v2 標上 Tag 後進行 OTA 檔案建置及附件上傳。
 
 ### 資源更新
 
@@ -118,7 +118,7 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 MirrorChyan 是有償的更新鏡像服務，相關工作流如下：
 
-- `release-package-distribution.yml` 同步更新包至 MirrorChyan。
+- `release-package-distribution.yml` 同步更新檔案至 MirrorChyan。
 - `mirrorchyan_release_note.yml` 產生 MirrorChyan 的 Release Note。
 
 ### 其他

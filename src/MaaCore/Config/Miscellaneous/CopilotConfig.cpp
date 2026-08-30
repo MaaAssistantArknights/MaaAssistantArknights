@@ -1,6 +1,7 @@
 #include "CopilotConfig.h"
 
 #include <meojson/json.hpp>
+#include <set>
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "TilePack.h"
@@ -53,27 +54,51 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
     OperUsage oper;
     auto role = json.get("role", std::string());
     utils::tolowers(role);
-    oper.role = get_role_type(role);
+    oper.role = battle::parse_role_type(role);
     oper.name = json.at("name").as_string();
     oper.skill = json.get("skill", 0);
     oper.skill_usage = static_cast<battle::SkillUsage>(json.get("skill_usage", 0));
-    oper.skill_times = json.get("skill_times", 1);                       // 使用技能的次数，默认为 1，兼容曾经的作业
+    oper.skill_times = json.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
 
-    int rarity = BattleDataConfig::get_instance().get_rarity(oper.name); // 兼容古早旧作业中非法的技能选择
-    if (oper.skill == 3 && rarity < 6) {
-        LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
-                 << " cannot use skill index 3, set to 0.";
-        oper.skill = 0;
+    // 非召唤物/装置且多稀有度时, 跳过检查
+    std::shared_ptr<OperProps> oper_props = nullptr;
+    std::set<int> rarity_set;
+    for (const auto& props : BattleData.find_opers(oper.role, oper.name)) {
+        if (oper_props == nullptr || props->rarity > oper_props->rarity) {
+            oper_props = props;
+        }
+        if (props->role != battle::Role::Drone) {
+            rarity_set.emplace(props->rarity);
+        }
     }
-    else if (oper.skill == 2 && rarity < 4) {
-        LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
-                 << " cannot use skill index 2, set to 0.";
-        oper.skill = 0;
+    if (!oper_props || (oper_props->role == battle::Role::Drone && rarity_set.size() > 1)) { // 找不到干员时跳过检查
+        LogError << __FUNCTION__ << "| Oper" << oper.name << "with role" << enum_to_string(oper.role) << "found"
+                 << rarity_set.size() << "in BattleData.";
+        if (auto req_opt = json.find("requirements")) {
+            oper.requirements.elite = req_opt->get("elite", 0);
+            oper.requirements.level = req_opt->get("level", 0);
+            oper.requirements.skill_level = req_opt->get("skill_level", 0);
+            oper.requirements.module = req_opt->get("module", -1);
+        }
+        return oper;
     }
-    else if (oper.skill == 1 && rarity < 3) {
-        LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
-                 << " cannot use skill index 1, set to 0.";
-        oper.skill = 0;
+    { // 兼容古早旧作业中非法的技能选择
+        int rarity = oper_props->rarity;
+        if (oper.skill == 3 && rarity < 6 && oper_props->id != "char_002_amiya") {
+            LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
+                     << " cannot use skill index 3, set to 0.";
+            oper.skill = 0;
+        }
+        else if (oper.skill == 2 && rarity < 4) {
+            LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
+                     << " cannot use skill index 2, set to 0.";
+            oper.skill = 0;
+        }
+        else if (oper.skill == 1 && rarity < 3) {
+            LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
+                     << " cannot use skill index 1, set to 0.";
+            oper.skill = 0;
+        }
     }
 
     int elite_require = oper.skill - 1;
@@ -263,7 +288,7 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
         action.cooling = action_info.get("cooling", -1);
         auto role = action_info.get("role", std::string());
         utils::tolowers(role);
-        action.role = get_role_type(role);
+        action.role = battle::parse_role_type(role);
         action.name = action_info.get("name", std::string());
 
         action.location.x = action_info.get("location", 0, 0);

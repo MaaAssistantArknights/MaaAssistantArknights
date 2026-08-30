@@ -43,7 +43,7 @@ const fullySupport = [
         {
             name: 'Tencent App Store',
             link: 'https://sj.qq.com/',
-            note: 'Supports versions after 5.10.56.xx. Select `Tencent App Store` connection configuration in `Settings` - `Connection Settings`. Known to be compatible with Hyper-V.\n\n- ADB port is `127.0.0.1:5555`.\n- ADB path example: `C:\\Program Files\\Tencent\\Androws\\Application\\<version>\\adb.exe`.\n\n- You need to first [enable ADB debugging](https://sj.qq.com/faq/3878) in the app.',
+            note: 'Supports versions after 5.10.56.xx. Select `Androws` connection configuration in `Settings` - `Connection Settings`. Known to be compatible with Hyper-V.\n\n- ADB port is `127.0.0.1:5555`.\n- ADB path example: `C:\\Program Files\\Tencent\\Androws\\Application\\<version>\\adb.exe`.\n\n- You need to first [enable ADB debugging](https://sj.qq.com/faq/3878) in the app.',
         },
         {
             name: 'Nox Player',

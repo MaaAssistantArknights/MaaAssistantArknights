@@ -6,16 +6,14 @@ dir:
   order: 6
 ---
 
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
-:::
+この文書は機械翻訳です。もし可能であれば、中国語の文書を読んでください。もし誤りや修正の提案があれば、大変ありがたく思います。
 
-一个使用 Rust 编写的简单 MAA 命令行工具。
+Rust で書かれたシンプルな MAA コマンドラインツールです。
 
-## 功能
+## 機能
 
-- 运行预定义或自定义的任务，例如 `maa fight`，`maa run <task>`;
-- 使用 `maa install` 和 `maa update` 安装和更新MaaCore及资源；
-- 使用 `maa self update` 更新自身。
+- `maa fight` や `maa run <task>` など、定義済みまたはカスタムタスクを実行します。
+- `maa install` と `maa update` で MaaCore とリソースをインストール・更新します。
+- `maa self update` で自身を更新します。
 
 <Catalog base='/ja-jp/manual/cli/' />

@@ -68,7 +68,7 @@ void asst::AvatarCacheManager::set_avatar(
         return;
     }
 
-    const auto& oper_ptr = BattleData.find_oper(role, name);
+    const auto& oper_ptr = BattleData.find_first_oper(role, name);
     if (!oper_ptr) {
         Log.error("invalid name", name);
         return;

@@ -1551,9 +1551,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneBurnFloor2Final">第二层抵达险路尽头</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCheckSeedShop">第一层检查商店中的种子</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShop">第一至三层进入秘境行商培育种子</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopTransit">第一、二层进入秘境行商培育种子后前往层出口</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopFinal">第三层进入秘境行商培育种子</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">尚未发现秘境行商时尽量多开未知的诡秘</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">顺路进入不期而遇</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyVisitLight">顺路进入羽瞰点</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">第二层经过普通商店时继续获取种子</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">第三层经过普通商店时卖货、刷新并尽量购买种子</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">获得沙盘 A</system:String>
@@ -1719,10 +1720,12 @@ C:\\leidian\\LDPlayer9
 
 如需使用，请确认：
 1. 需要以管理员身份启动 MAA
-2. 部分截图方式下，游戏窗口不能最小化
-3. 明日方舟设置 → 游戏 → UI 缩放需设为 100%
-4. 在明日方舟设置中调小鼠标指针比例，以减少对识别区域的遮挡
-5. 游戏分辨率需为 16:9，推荐设置 1280x720 或 1920x1080</system:String>
+2. 推荐在设置-热键设置中添加 Link start/stop 的热键，以防无法点击停止的情况
+3. 部分截图方式下，游戏窗口不能最小化
+4. 明日方舟设置 → 游戏 → UI 缩放需设为 100%
+5. 在明日方舟设置中调小鼠标指针比例，以减少对识别区域的遮挡
+6. 游戏分辨率需为 16:9，推荐设置 1280x720 或 1920x1080</system:String>
+    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. 推荐鼠标输入方式使用 SendMsg-WindowPos，使用此方式可以很大程度解决 PC 端识别错误和卡住的问题</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截图方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">鼠标输入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">键盘输入</system:String>
@@ -1731,8 +1734,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowScreencapScreenDC">ScreenDC（后台，备用，不可最小化）</system:String>
     <system:String x:Key="AttachWindowScreencapDesktopDupWindow">DesktopWindow（前台，不可遮挡）</system:String>
     <system:String x:Key="AttachWindowInputSeize">Seize（前台，完全抢鼠标）</system:String>
+    <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg（全后台，明日方舟仅按真实鼠标定位，无效）</system:String>
+    <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg（全后台，明日方舟仅按真实鼠标定位，无效）</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos（半后台，短暂抢鼠标）</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（全后台，不抢鼠标，窗口会乱飞但不影响使用，建议最小化）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（推荐，全后台，不抢鼠标，窗口会乱飞，截图方式仅 PrintWindow，建议最小化）</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（稳定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高效）</system:String>
     <!--  !AsstProxy  -->

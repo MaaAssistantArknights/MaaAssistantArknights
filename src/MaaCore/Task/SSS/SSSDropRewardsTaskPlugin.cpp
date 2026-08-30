@@ -44,7 +44,7 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
             Log.info("Operator is blacklisted:", result.text);
             continue;
         }
-        auto role = BattleData.get_role(result.text);
+        auto role = BattleData.get_first_role(result.text);
         opers.emplace_back(
             DropRecruitment { .ocr_res = result,
                               .role = role == Role::Unknown ? std::nullopt : std::optional<Role>(role) });

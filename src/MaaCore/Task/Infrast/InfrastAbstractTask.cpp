@@ -43,7 +43,7 @@ void asst::InfrastAbstractTask::stage_operator_selection(const std::string& oper
     if (operator_id.empty()) {
         return;
     }
-    Log.trace("infrastructure operator staged", facility_name(), operator_id);
+    LogTrace << __FUNCTION__ << "infrastructure operator staged" << facility_name() << operator_id;
     m_pending_operator_ids.emplace(operator_id);
     if (m_task_data) {
         m_task_data->pending_operator_ids.emplace(operator_id);

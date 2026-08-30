@@ -32,6 +32,9 @@ constexpr std::string_view MovePreviewCannotEnterTask = "BlackFlow@Roguelike@Mov
 constexpr std::string_view MovePreviewCostTask = "BlackFlow@Roguelike@MovePreviewCost";
 constexpr std::string_view MovePreviewDisplayedNameTask = "BlackFlow@Roguelike@MovePreviewDisplayedName";
 constexpr std::string_view MovePreviewConfirmTask = "BlackFlow@Roguelike@MovePreviewConfirm";
+constexpr std::string_view MovePreviewConfirmSucceededTask = "BlackFlow@Roguelike@MovePreviewConfirmSucceeded";
+constexpr std::string_view MovePreviewConfirmExceededTask = "BlackFlow@Roguelike@MovePreviewConfirmExceeded";
+constexpr std::string_view MovePreviewConfirmCompletedTask = "BlackFlow@Roguelike@MovePreviewConfirmCompleted";
 constexpr std::string_view EnteredPageClassificationTask = "BlackFlow@Roguelike@EnteredPageClassification";
 constexpr std::string_view EnteredPageClassificationEncounterPrepareTask =
     "BlackFlow@Roguelike@EnteredPageClassificationEncounterPrepare";
@@ -282,7 +285,7 @@ bool BlackFlowTaskPort::preview(
     return true;
 }
 
-bool BlackFlowTaskPort::confirm(
+MoveConfirmationStatus BlackFlowTaskPort::confirm(
     const MoveTransaction& transaction,
     EnteredPageObservation& entered_page,
     std::string* error)
@@ -290,16 +293,31 @@ bool BlackFlowTaskPort::confirm(
     if (m_task_context == nullptr || transaction.stage() != MoveTransactionStage::Previewed ||
         !transaction.preview().has_value() || transaction.preview()->reachability != PreviewReachability::Reachable) {
         set_error(error, "move confirmation requires a reachable previewed transaction");
-        return false;
+        return MoveConfirmationStatus::Failed;
     }
     if (!m_task_context->execute({ std::string(MovePreviewConfirmTask) }, error)) {
-        return false;
+        return MoveConfirmationStatus::Failed;
     }
+    const std::string& confirmation_task = m_task_context->last_task();
+    if (confirmation_task.ends_with(MovePreviewConfirmExceededTask)) {
+        set_error(error, "move preview confirmation remained visible after four attempts");
+        return MoveConfirmationStatus::NeedsDismiss;
+    }
+    if (!confirmation_task.ends_with(MovePreviewConfirmSucceededTask)) {
+        set_error(error, "move preview confirmation ended at an unexpected task: " + confirmation_task);
+        return MoveConfirmationStatus::Failed;
+    }
+    // 成功末端单独执行，继续保留默认任务间隔和既有的 600 毫秒页面稳定等待。
+    if (!m_task_context->execute({ std::string(MovePreviewConfirmCompletedTask) }, error)) {
+        return MoveConfirmationStatus::Failed;
+    }
+
     entered_page = {};
     if (transaction.preview()->identity_revealed) {
-        return true;
+        return MoveConfirmationStatus::Succeeded;
     }
-    return classify_entered_page(m_task_context->capture(), entered_page, error);
+    return classify_entered_page(m_task_context->capture(), entered_page, error) ? MoveConfirmationStatus::Succeeded
+                                                                                 : MoveConfirmationStatus::Failed;
 }
 
 void BlackFlowTaskPort::configure_diagnostics(const DiagnosticSettings& settings)

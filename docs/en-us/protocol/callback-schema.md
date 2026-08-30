@@ -108,8 +108,16 @@ Todo
   Screenshot failed (adb/emulator crashed), and retry failed
 - `TouchModeNotAvailable`  
   Unsupported touch mode
+- `MuMuExtrasInputStatus`  
+  The actual status of MuMu touch enhancement, `details` structure:
+  - `available` (boolean, required): Whether it has taken effect.
+  - `deferred` (boolean, required): Whether the status is not determined yet (the game was not rendering when connected; it will be rechecked automatically once rendering starts).
 - `ResolutionGot`  
   Resolution retrieved
+- `ResolutionChanged`  
+  Resolution changed while running; the connection is invalidated and the current task is interrupted, `details` structure:
+  - `width` (number, required): The current width.
+  - `height` (number, required): The current height.
 - `FastestWayToScreencap`  
   Fastest screenshot method found, `details` structure:
   - `method` (string, required): Fastest screenshot method.
@@ -137,6 +145,7 @@ Todo
     "details": {
         "ret": bool,            // Actual call return value
         "cost": int64,          // Time cost, in milliseconds
+        "error": string,        // Unhandled exception type, only present when the call failed due to an unhandled exception
     }
 }
 ```

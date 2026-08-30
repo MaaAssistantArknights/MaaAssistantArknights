@@ -4,6 +4,10 @@
         {
             "name": "Adb",
             "type": "Adb"
+        },
+        {
+            "name": "Win32",
+            "type": "Win32"
         }
     ],
     "resource": [

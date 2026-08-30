@@ -80,7 +80,7 @@ icon: iconoir:developer
    ::: tip
    若需執行 Win32Controller（Windows 視窗控制）/ MaaFwAdbController（MaaFramework 觸控模式）相關功能，執行 `python tools/maafw-control-unit-download.py` 即可自動下載對應平台的 `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` 到建置輸出目錄（預設取 `build/bin` 下最新產生的目錄，也可用 `--output-dir` 指定）。
 
-   若需針對相關功能進行除錯，則需要自行編譯 MaaFramework 的 Debug 版本，使用對應的 DLL 檔案，否則在斷點除錯時會神秘閃退。
+   若需針對相關功能進行除錯，則需要[自行編譯 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，使用對應的 DLL 檔案，否則在斷點除錯時會神秘閃退。
    :::
 
 9. 到這裡，你就可以愉快地 ~~瞎雞巴改~~ 發電了
@@ -167,7 +167,7 @@ icon: iconoir:developer
    - 在 VS Installer 中勾選安裝 **用於 Windows 的 C++ Clang 編譯器**（clang-cl）
    - 需切換為 `windows-x64-clang` 執行一次 Configure 以在 `build/` 下生成 `compile_commands.json`，此後 clangd 即可使用
    - **該 preset 使用 clang-cl 而非 MSVC，無法直接編譯出可用產物**，實際建置時必須切回 `windows-x64`
-   - clangd 基於 clang-cl 的編譯資訊進行分析，部分程式碼（如 MSVC 特有擴充）可能仍會顯示報錯，可忽略，不影響實際 MSVC 編譯
+   - clangd 基於 clang-cl 的編譯資訊進行分析，部分程式碼（如 MSVC 特有擴充）可能仍會顯示錯誤，可忽略，不影響實際 MSVC 編譯
 
    **命令列切換 preset 範例**（在專案根目錄執行）：
 
@@ -216,7 +216,7 @@ MAA 使用一系列的格式化工具來確保倉庫中的程式碼和資源檔�
    pre-commit install
    ```
 
-如果 pip 安裝後依然無法執行 pre-commit，請確認 pip 安裝路徑已被添加到 PATH。
+如果 pip 安裝後依然無法執行 pre-commit，請確認 pip 安裝路徑已被新增到 PATH。
 
 接下來，每次提交時都將會自動執行格式化工具，以確保您的程式碼格式符合規範。
 
@@ -232,7 +232,7 @@ MAA 使用一系列的格式化工具來確保倉庫中的程式碼和資源檔�
 
 3. 在 Visual Studio `工具-選項` 中搜尋 `clang-format`
 
-4. 點擊 `啟用 ClangFormat 支援`，然後選擇下方的 `使用自定義 clang-format.exe 檔案`，選擇第 2 步找到的 `clang-format.exe`
+4. 點擊 `啟用 ClangFormat 支援`，然後選擇下方的 `使用自訂 clang-format.exe 檔案`，選擇第 2 步找到的 `clang-format.exe`
 
 ![Visual Studio 設定 clang-format](/images/zh-cn/development-enable-vs-clang-format.png)
 

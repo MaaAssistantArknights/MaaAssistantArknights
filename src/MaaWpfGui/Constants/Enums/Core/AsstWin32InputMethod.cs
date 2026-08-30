@@ -18,6 +18,8 @@ namespace MaaWpfGui.Constants.Enums.Core;
 public enum AsstWin32InputMethod
 {
     Seize = 1,
+    SendMessage = 2,
+    PostMessage = 4,
     SendMessageWithCursorPos = 32,
     SendMessageWithWindowPos = 128,
 }

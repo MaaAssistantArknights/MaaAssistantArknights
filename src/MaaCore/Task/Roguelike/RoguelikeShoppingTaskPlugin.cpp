@@ -95,13 +95,13 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
             }
         }
         else {
-            battle::Role role = BattleData.get_role(name);
+            battle::Role role = BattleData.get_first_role(name);
             map_roles_count[role] += 1;
 
             static const std::unordered_map<int, int> RarityPromotionLevel = {
                 { 0, INT_MAX }, { 1, INT_MAX }, { 2, INT_MAX }, { 3, INT_MAX }, { 4, 60 }, { 5, 70 }, { 6, 80 },
             };
-            int rarity = BattleData.get_rarity(name);
+            int rarity = BattleData.get_rarity(battle::Role::Unknown, name);
             if (elite == 1 && level >= RarityPromotionLevel.at(rarity)) {
                 total_wait_promotion += 1;
                 map_wait_promotion[role][rarity - 1] += 1;

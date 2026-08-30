@@ -252,7 +252,7 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
 asst::battle::LocationType
     asst::RoguelikeBattleTaskPlugin::get_oper_location_type(const battle::DeploymentOper& oper) const
 {
-    return BattleData.get_location_type(oper_name_in_config(oper));
+    return BattleData.get_location_type(oper.role, oper_name_in_config(oper));
 }
 
 asst::battle::OperPosition asst::RoguelikeBattleTaskPlugin::get_role_position(const battle::Role& role) const

@@ -28,10 +28,10 @@ Supports automatic combat for any `Squad Formation Stage` and `Stationary Securi
   - For "Paradox Simulation" stages, you must disable `Auto Squad`, manually select skills, and start automatic combat from the screen with the **Start Simulation** button.
   - For "Stationary Security Service" stages, `Auto Squad` is ineffective. You must manually complete the **initial** task preparation until the screen with the **Start Deployment** button appears before starting automatic combat.
 - You can set `Loop Times`, such as for Stationary Security Service. However, MAA will not borrow operators, so don't use this if you need to borrow operators.
-- You can use the `Battle List` feature for automatic continuous combat across stages in the same area.
-  - The three buttons below the Battle List from left to right are `Batch Import`, `Add Stage`, and `Clear Stages`.  
-    Right-clicking `Add Stage` adds a challenge mode stage; right-clicking `Clear Stages` clears all unchecked stages.
-  - After importing an operation, the stage name will appear below the battle list. Confirm it's correct before adding the stage. You can drag stages to reorder them and check/uncheck to control execution.
+- You can use the `Multi-Job mode` feature for automatic continuous combat across stages in the same area.
+  - The three buttons below the Job List from left to right are `Import task files`, `Add`, and `Clear`.  
+    Left-clicking `Add` adds a normal difficulty stage, and right-clicking it adds a challenge difficulty stage; left-clicking `Clear` clears all stages, and right-clicking it clears unchecked stages.
+  - After importing an operation, the stage name will appear below the job list. Confirm it's correct before adding the stage. You can drag stages to reorder them and check/uncheck to control execution.
   - When using this feature, start automatic combat from the **map screen where the stages are located**. The automatic combat queue will stop if sanity is insufficient, combat fails, or you don't achieve three stars.
   - Ensure all stages in the list are in the same area (navigable by swiping the map screen left or right).
 - **Please remember to like high-quality operations to boost their ratings and encourage their creators.**  

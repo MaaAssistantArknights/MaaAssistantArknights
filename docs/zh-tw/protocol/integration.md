@@ -157,7 +157,7 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
   - 龍門外環：`LungmenOutskirts@Annihilation`
   - 龍門市區：`LungmenDowntown@Annihilation`
 - **別傳**：支援 `OF-1` / `OF-F3`。
-- **當期 SideStory 活動**：支援活動後三關。可查閱 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) 獲取支援的關卡列表。需額外加載 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 中的活動關卡導航。
+- **當期 SideStory 活動**：支援活動後三關。可查閱 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) 獲取支援的關卡列表。需額外載入 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 中的活動關卡導航。
 - **復刻 SideStory 活動**：輸入 `SSReopen-<關卡前綴>` ，可一次性刷完 XX-1 ~ XX-9 關，如 `SSReopen-IC`。
   :::  
   ::: field medicine  
@@ -203,7 +203,7 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
   `1` ~ `10`：指定固定的代理倍率。
   <br>
   ::: info 伺服器差異
-  輸入校驗取決於資源是否存在 `FightSeries-OldMethodFlag`：
+  輸入驗證取決於資源是否存在 `FightSeries-OldMethodFlag`：
   <br>
   - 新列表（國服 2026/8/1 後主資源，無該 flag）：接受 `-1~10`
   - 舊列表（外服資源帶該 flag）：僅接受 `-1~6`，更大值會被拒絕
@@ -463,7 +463,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `0` - `Default`：預設換班模式，自動計算效率較高的設施內及跨設施幹員組合。
 <br>
-`10000` - `Custom`：自定義換班模式，讀取使用者配置，可參閱 [基建排班協定](./base-scheduling-schema.md)。
+`10000` - `Custom`：自訂換班模式，讀取使用者配置，可參閱 [基建排班協定](./base-scheduling-schema.md)。
 <br>
 `20000` - `Rotation`：一鍵輪換模式，會跳過控制中樞、發電站、宿舍以及辦公室；其餘設施不進行換班，但保留基本操作（如使用無人機、會客室邏輯）。  
 :::  
@@ -530,7 +530,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @type boolean
 @default false
 @optional
-是否啟用 ｢感知信息｣ 跨設施組合，優先度高於 ｢人間煙火｣。僅 `mode = 0` 時生效。  
+是否啟用 ｢感知資訊｣ 跨設施組合，優先度高於 ｢人間煙火｣。僅 `mode = 0` 時生效。  
 :::  
 ::: field use_worldly_plight  
 @type boolean
@@ -565,7 +565,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ::: field filename  
 @type string
 @required
-自定義配置路徑。不支援在執行中更改設定。
+自訂配置路徑。不支援在執行中更改設定。
 <br>
 <Badge type="warning" text="僅在 mode = 10000 時才適用" />  
 :::  
@@ -1126,7 +1126,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
   @type array`<object>`
   @default []
   @optional
-  自定義追加幹員清單。僅在 `formation` 為 `true` 時有效。
+  自訂追加幹員清單。僅在 `formation` 為 `true` 時有效。
   <br>
   每個物件包含：
   <br>
@@ -1395,7 +1395,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 </details>
 
 - `Custom`  
-   自定義任務
+   自訂任務
 
 :::: field-group  
 ::: field enable  
@@ -1417,7 +1417,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 - `params.pixel_paint.groups`：按色分組點列。`color` 為色板序號（0~39，與遊戲右側色板順序一致），`points` 為 `[x, y]` 格子座標陣列（0~23，左上為原點）。
 - `params.pixel_paint.swipe`（bool，可選，預設 true）：同色同行的連續格用拖動一次畫完，更快但部分觸控模式可能異常。
-- `params.pixel_paint.grid_delay`（int，可選，預設 0）：每格額外等待（ms）。點擊後 sleep，拖動時長按格累加。各觸控方式自帶基礎間隔，一般無需調整。相容舊鍵 `grid_click_delay`。
+- `params.pixel_paint.grid_delay`（int，可選，預設 0）：每格額外等待（ms）。點擊後 sleep，拖動時長按格累加。各觸控方式內建基礎間隔，一般無需調整。相容舊鍵 `grid_click_delay`。
 
 :::  
 ::::
