@@ -24,7 +24,7 @@
         "template": "BlackFlow@Roguelike@AbandonConfirm.png",
         "reduceOtherTimes": [
             "BlackFlow@Roguelike@MapPrepare-ZoomOut*3",
-            "BlackFlow@Roguelike@MovePreviewConfirm*3",
+            "BlackFlow@Roguelike@MovePreviewConfirm*4",
             "BlackFlow@Roguelike@MovePreviewWait*3",
             "BlackFlow@Roguelike@MovementInventoryClose*3",
             "BlackFlow@Roguelike@Page-Door-Wait*10",
@@ -815,16 +815,50 @@
         "reduceOtherTimes": ["BlackFlow@Roguelike@MovePreviewWait*3"]
     },
     "BlackFlow@Roguelike@MovePreviewConfirm": {
+        "Doc": [
+            "点击“出发前往”后，每隔一个 taskDelay=500ms 观察是否依旧存在；任一观察点未识别到按钮即确认成功，按钮持续存在四次=2000ms 才允许再次点击。",
+            "Confirm 的 maxTimes 只统计真实点击；每次点击将 Observe 的两次执行计数恢复为零，使下一轮重新完整观察。",
+            "显式设置 reduceOtherTimes 会覆盖 baseTask 的同名字段，因此这里同时保留 MovePreviewWait 的既有复位。"
+        ],
         "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
         "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
         "action": "ClickSelf",
-        "next": ["#self", "BlackFlow@Roguelike@MovePreviewConfirmCompleted"],
-        "maxTimes": 3
+        "next": [
+            "BlackFlow@Roguelike@MovePreviewConfirmObserve",
+            "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"
+        ],
+        "maxTimes": 4,
+        "exceededNext": ["BlackFlow@Roguelike@MovePreviewConfirmExceeded"],
+        "reduceOtherTimes": [
+            "BlackFlow@Roguelike@MovePreviewWait*3",
+            "BlackFlow@Roguelike@MovePreviewConfirmObserve*2"
+        ]
+    },
+    "BlackFlow@Roguelike@MovePreviewConfirmObserve": {
+        "Doc": "maxTimes 为 2 时，第三次匹配会进入 exceededNext；随后经过一个 taskDelay 在第四个观察点识别 Confirm，默认配置下两次点击间隔约为两秒。",
+        "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
+        "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
+        "action": "DoNothing",
+        "next": [
+            "#self",
+            "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"
+        ],
+        "maxTimes": 2,
+        "exceededNext": [
+            "BlackFlow@Roguelike@MovePreviewConfirm",
+            "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"
+        ]
+    },
+    "BlackFlow@Roguelike@MovePreviewConfirmSucceeded": {
+        "algorithm": "JustReturn"
+    },
+    "BlackFlow@Roguelike@MovePreviewConfirmExceeded": {
+        "algorithm": "JustReturn"
     },
     "BlackFlow@Roguelike@MovePreviewConfirmCompleted": {
         "algorithm": "JustReturn",
         "postDelay": 600,
-        "reduceOtherTimes": ["BlackFlow@Roguelike@MovePreviewConfirm*3"],
+        "reduceOtherTimes": ["BlackFlow@Roguelike@MovePreviewConfirm*4"],
         "next": [
             "BlackFlow@Roguelike@MovePreviewConfirmCompleted@(BlackFlow@Roguelike@CloseCollection)",
             "BlackFlow@Roguelike@MovePreviewConfirmCompletedDone"
