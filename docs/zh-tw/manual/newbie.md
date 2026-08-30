@@ -10,7 +10,7 @@ icon: ri:guide-fill
 ::: info 關於本文檔
 本手冊以 **Windows 版 MAA（WPF 桌面端）** 為主進行介紹。MAA Team 主要維護的就是 Windows 端的 WPF UI，maa-cli 和 macOS 版由團隊中少數開發者維護，功能可能存在差異或滯後。
 
-部分功能（如庫存保持、定時執行、拖入壓縮包更新等）由 UI 層實作，核心（MaaCore）不包含此邏輯。使用 maa-cli、macOS 版或直接呼叫 MaaCore 的第三方 UI 時，這些功能可能不可用，需自行實作。涉及 UI 專屬功能的文檔頁面頂部會有標註。
+部分功能（如庫存保持、定時執行、拖入壓縮檔更新等）由 UI 層實作，核心（MaaCore）不包含此邏輯。使用 maa-cli、macOS 版或直接呼叫 MaaCore 的第三方 UI 時，這些功能可能不可用，需自行實作。涉及 UI 專屬功能的文檔頁面頂部會有標註。
 :::
 
 ## 前置準備
@@ -19,9 +19,9 @@ icon: ri:guide-fill
 
 1. 確認系統版本
 
-   MAA 在 Windows 下僅支援 10 和 11，舊版 Windows 用戶請參閱 [常見問題](./faq.md#系統問題) 中的系統問題部分。
+   MAA 在 Windows 下僅支援 10 和 11，舊版 Windows 使用者請參閱 [常見問題](./faq.md#系統問題) 中的系統問題部分。
 
-   非 Windows 用戶請參閱 [模擬器及設備支援](./device/)。
+   非 Windows 使用者請參閱 [模擬器及設備支援](./device/)。
 
 2. 確認模擬器支援
 
@@ -61,11 +61,11 @@ icon: ri:guide-fill
 **遇到問題多看文件多看文件多看文件** &emsp;&emsp; **遇到問題多看文件多看文件多看文件** &emsp;&emsp; **遇到問題多看文件多看文件多看文件**
 :::
 
-1. 使用 `設定` - `問題回饋` - `產生紀錄壓縮檔` 可生成便於共享的日誌壓縮包。日誌很重要，非常重要。向他人尋求協助時，請務必帶著日誌壓縮包一同前往。
+1. 使用 `設定` - `問題回饋` - `產生紀錄壓縮檔` 可生成便於共享的日誌壓縮檔。日誌很重要，非常重要。向他人尋求協助時，請務必帶著日誌壓縮檔一同前往。
    若 MAA 完全無法啟動、無法進入設定面板，可手動前往 MAA 安裝目錄（即 `MAA.exe` 所在資料夾），將 `debug`、`config`、`cache` 三個資料夾打包後一併提供。
-   回饋地址：[GitHub Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues)（也可透過 `設定` - `問題回饋` - `問題回饋` 進入）。
+   回饋網址：[GitHub Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues)（也可透過 `設定` - `問題回饋` - `問題回饋` 進入）。
 
-2. MAA 為了盡可能滿足所有用戶的各種需求，提供了大量的自定義選項。  
+2. MAA 為了盡可能滿足所有使用者的各種需求，提供了大量的自訂選項。  
    當您認為 MAA 缺少某項功能時，有可能只是沒找到而已，例如 `手動輸入關卡名` 和 `不將已進駐的幹員放入宿舍`。
 
 3. 對於部分核取方塊來說，在其上方點擊滑鼠右鍵可以將其變為半選狀態。  

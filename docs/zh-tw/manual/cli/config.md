@@ -11,11 +11,11 @@ maa-cli 配置檔案位於特定的配置目錄中，您可以透過 `maa dir co
 
 所有的配置檔案皆可使用 TOML、YAML 或 JSON 格式。在下文範例中，我們將使用 TOML 格式並以 `.toml` 作為副檔名，但您可以根據需求混合使用這三種格式，只要副檔名正確即可。
 
-此外，部分任務接受 `filename` 作為參數。若您使用相對路徑，該路徑將相對於配置目錄下的對應子目錄。例如：自定義基建計畫檔案的相對路徑應相對於 `$MAA_CONFIG_DIR/infrast`，而保全派駐的作業檔案則相對於 `$MAA_CONFIG_DIR/ssscopilot`。
+此外，部分任務接受 `filename` 作為參數。若您使用相對路徑，該路徑將相對於配置目錄下的對應子目錄。例如：自訂基建計畫檔案的相對路徑應相對於 `$MAA_CONFIG_DIR/infrast`，而保全派駐的作業檔案則相對於 `$MAA_CONFIG_DIR/ssscopilot`。
 
-## 自定義任務
+## 自訂任務
 
-每一個自定義任務都是獨立的檔案，應存放於 `$MAA_CONFIG_DIR/tasks` 目錄中。
+每一個自訂任務都是獨立的檔案，應存放於 `$MAA_CONFIG_DIR/tasks` 目錄中。
 
 ### 基本結構
 
@@ -43,7 +43,7 @@ type = "Infrast"
 mode = 10000
 facility = ["Trade", "Reception", "Mfg", "Control", "Power", "Office", "Dorm"]
 dorm_trust_enabled = true
-filename = "normal.json" # 自定義的基建計畫檔案名稱應位於 `$MAA_CONFIG_DIR/infrast`
+filename = "normal.json" # 自訂的基建計畫檔案名稱應位於 `$MAA_CONFIG_DIR/infrast`
 
 # 在 18:00:00 到隔天的 04:00:00 使用計畫 0，在 12:00:00 之前使用計畫 1，之後使用計畫 2
 [[tasks.variants]]
@@ -61,9 +61,9 @@ params = { plan_index = 2 }
 
 這裡的 `condition` 欄位用於確定應使用哪一個變體，而匹配成功的變體其 `params` 欄位將會被合併到任務的參數中。
 
-**請注意**：如果您的自定義基建計畫檔案使用相對路徑，應該相對於 `$MAA_CONFIG_DIR/infrast`。此外，由於基建檔案是由 MaaCore 而非 maa-cli 讀取的，因此這些檔案的格式必須是 JSON。同時，maa-cli 不會讀取基建檔案，也不會根據其中定義的時間段來選擇對應的子計畫。因此，必須透過 `condition` 欄位來指定在對應時間段使用正確的基建計畫參數中的 `plan_index` 欄位。這樣可以確保在適當的時間段使用正確的基建計畫。
+**請注意**：如果您的自訂基建計畫檔案使用相對路徑，應該相對於 `$MAA_CONFIG_DIR/infrast`。此外，由於基建檔案是由 MaaCore 而非 maa-cli 讀取的，因此這些檔案的格式必須是 JSON。同時，maa-cli 不會讀取基建檔案，也不會根據其中定義的時間段來選擇對應的子計畫。因此，必須透過 `condition` 欄位來指定在對應時間段使用正確的基建計畫參數中的 `plan_index` 欄位。這樣可以確保在適當的時間段使用正確的基建計畫。
 
-除了 `Time` 條件，還有 `DateTime`，`Weekday`，`DayMod` 條件。`DateTime` 條件用於指定一個時間段，`Weekday` 條件用於指定一週中的某些天，`DayMod` 用於指定一個自定義週期的某些天。
+除了 `Time` 條件，還有 `DateTime`，`Weekday`，`DayMod` 條件。`DateTime` 條件用於指定一個時間段，`Weekday` 條件用於指定一週中的某些天，`DayMod` 用於指定一個自訂週期的某些天。
 
 ```toml
 [[tasks]]
@@ -93,7 +93,7 @@ params = { stage = "1-7" }
 
 ```toml
 [[tasks]]
-name = "基建换班 (2天6班)"
+name = "基建換班 (2天6班)"
 type = "Infrast"
 
 [tasks.params]
@@ -252,7 +252,7 @@ alternatives = [
 ]
 default_index = 1 # 預設值的索引，從 1 開始，如果沒有設定，輸入空值將會重新提示輸入
 description = "a stage to fight in summer event" # 描述，選填
-allow_custom = true # 是否允許輸入自定義的值，預設為 false，如果允許，那麼非整數的值將會被視為自定義的值
+allow_custom = true # 是否允許輸入自訂的值，預設為 false，如果允許，那麼非整數的值將會被視為自訂的值
 
 # 無需任何輸入
 [[tasks.variants]]
@@ -316,11 +316,11 @@ kill_adb_on_exit = false
 ```toml
 [connection]
 adb_path = "adb" # adb 執行檔的路徑，預設值為 "adb"，這意味著 adb 執行檔在環境變數 PATH 中
-address = = "emulator-5554" # 連線位址，例如 "emulator-5554" 或者 "127.0.0.1:5555"
+address = "emulator-5554" # 連線位址，例如 "emulator-5554" 或者 "127.0.0.1:5555"
 config = "General" # 連線配置，通常不需要修改
 ```
 
-`adb_path` 是 `adb` 執行檔的路徑，您可以指定其路徑，或者將其添加到環境變數 `PATH` 中，以便 MaaCore 可以找到它。大多數模擬器內建 `adb`，您可以直接使用其內建的 `adb`，而不需要額外安裝，否則您需要自行安裝 `adb`。`address` 是 `adb` 的連線位址。對於模擬器，您可以使用 `127.0.0.1:[連接埠號]`，常用的模擬器連接埠號可參閱 [常見問題][emulator-ports]。如果您沒有指定 `address`，那麼會嘗試透過 `adb devices` 來獲取連線的設備，如果有多個設備連線，那麼將會使用第一個設備，如果沒有找到任何設備，那麼將會嘗試連線到 `emulator-5554`。`config` 於指定一些平台和模擬器相關的配置。對於 Linux 它預設為 `CompatPOSIXShell`，對於 macOS 它預設為 `CompatMac`，對於 Windows 它預設為 `General`。更多可選配置可以在資源資料夾中的 `config.json` 檔案中找到。
+`adb_path` 是 `adb` 執行檔的路徑，您可以指定其路徑，或者將其新增到環境變數 `PATH` 中，以便 MaaCore 可以找到它。大多數模擬器內建 `adb`，您可以直接使用其內建的 `adb`，而不需要額外安裝，否則您需要自行安裝 `adb`。`address` 是 `adb` 的連線位址。對於模擬器，您可以使用 `127.0.0.1:[連接埠號]`，常用的模擬器連接埠號可參閱 [常見問題][emulator-ports]。如果您沒有指定 `address`，那麼會嘗試透過 `adb devices` 來獲取連線的設備，如果有多個設備連線，那麼將會使用第一個設備，如果沒有找到任何設備，那麼將會嘗試連線到 `emulator-5554`。`config` 於指定一些平台和模擬器相關的配置。對於 Linux 它預設為 `CompatPOSIXShell`，對於 macOS 它預設為 `CompatMac`，對於 Windows 它預設為 `General`。更多可選配置可以在資源資料夾中的 `config.json` 檔案中找到。
 
 對於一些常用的模擬器，您可以直接使用 `preset` 來使用預設的配置：
 
@@ -349,10 +349,10 @@ address = "127.0.0.1:7777" # 如果您需要的話，可以覆蓋預設的位址
 [resource]
 global_resource = "YoStarEN" # 非中文版本的資源
 platform_diff_resource = "iOS" # 非安卓版本的資源
-user_resource = true # 是否載入使用者自定義的資源
+user_resource = true # 是否載入使用者自訂的資源
 ```
 
-當使用非簡體中文遊戲客戶端時，由於 MaaCore 預設載入的資源是簡體中文的，您需要指定 `global_resource` 欄位來載入非中文版本的資源。當使用 iOS 版本的遊戲客戶端時，您需要指定 `platform_diff_resource` 欄位來載入 iOS 版本的資源。這兩者都是選填的，如果您不需要載入這些資源，可以將這兩個欄位設定為空。其次，這兩者也會被自動設定，如果您的 `startup` 任務中指定了 `client_type` 欄位，那麼 `global_resource` 將會被設定為對應客戶端的資源，而當您使用 `PlayTools` 連線時，`platform_diff_resource` 將會被設定為 `iOS`。最後，當您想要載入使用者自定義的資源時，您需要將 `user_resource` 欄位設定為 `true`。
+當使用非簡體中文遊戲客戶端時，由於 MaaCore 預設載入的資源是簡體中文的，您需要指定 `global_resource` 欄位來載入非中文版本的資源。當使用 iOS 版本的遊戲客戶端時，您需要指定 `platform_diff_resource` 欄位來載入 iOS 版本的資源。這兩者都是選填的，如果您不需要載入這些資源，可以將這兩個欄位設定為空。其次，這兩者也會被自動設定，如果您的 `startup` 任務中指定了 `client_type` 欄位，那麼 `global_resource` 將會被設定為對應客戶端的資源，而當您使用 `PlayTools` 連線時，`platform_diff_resource` 將會被設定為 `iOS`。最後，當您想要載入使用者自訂的資源時，您需要將 `user_resource` 欄位設定為 `true`。
 
 ### 靜態選項
 
@@ -410,7 +410,7 @@ binary = true # 是否安裝 maa-cli 的執行檔，預設為 true
 # 資源熱更新相關配置
 [resource]
 auto_update = true  # 是否在每次執行任務時自動更新資源，預設為 false
-warn_on_update_failure = true # 是否在更新失敗時發出警告而不是直接報錯
+warn_on_update_failure = true # 是否在更新失敗時發出警告而不是直接顯示錯誤
 backend = "libgit2" # 資源熱更新後端，可選值為 "git" 或者 "libgit2"，預設為 "git"
 
 # 資源熱更新遠端倉庫相關配置
@@ -438,8 +438,8 @@ passphrase = "password"       # ssh 金鑰的密碼
 # 如果您使用了密碼管理器來管理您的密碼，這種方法可能是最安全的且方便的
 # passphrase = { cmd = ["pass", "show", "ssh/id_ed25519"] }
 # 4. 使用 ssh-agent 來管理您的金鑰，**推薦**
-# ssh-agent 會將您的金鑰保存在記憶體中，這樣您就不需要每次輸入密碼
-# 注意，您需要確保 ssh-agent 已經啟動並且已經添加了您的金鑰，同時 SSH_AUTH_SOCK 環境變數已經設定
+# ssh-agent 會將您的金鑰儲存在記憶體中，這樣您就不需要每次輸入密碼
+# 注意，您需要確保 ssh-agent 已經啟動並且已經新增了您的金鑰，同時 SSH_AUTH_SOCK 環境變數已經設定
 # use_ssh_agent = true # 使用 ssh-agent 進行身份驗證，如果設定為 true，將忽略 ssh_key 和 passphrase 欄位
 ```
 
@@ -462,7 +462,7 @@ passphrase = "password"       # ssh 金鑰的密碼
 
 您可以在 [`schemas` 目錄][schema-dir] 中找到 maa-cli 的 JSON Schema 檔案，您可以使用這些檔案來驗證您的配置檔案，或者在編輯器中獲得自動補全。
 
-- 自定義任務檔案的 JSON Schema 檔案為 [`task.schema.json`][task-schema]；
+- 自訂任務檔案的 JSON Schema 檔案為 [`task.schema.json`][task-schema]；
 - MaaCore 配置的 JSON Schema 檔案為 [`asst.schema.json`][asst-schema]；
 - CLI 配置的 JSON Schema 檔案為 [`cli.schema.json`][cli-schema]。
 
