@@ -63,7 +63,7 @@ icon: ri:guide-fill
 
 1. 使用 `設定` - `問題回饋` - `產生紀錄壓縮檔` 可生成便於共享的日誌壓縮檔。日誌很重要，非常重要。向他人尋求協助時，請務必帶著日誌壓縮檔一同前往。
    若 MAA 完全無法啟動、無法進入設定面板，可手動前往 MAA 安裝目錄（即 `MAA.exe` 所在資料夾），將 `debug`、`config`、`cache` 三個資料夾打包後一併提供。
-   回饋地址：[GitHub Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues)（也可透過 `設定` - `問題回饋` - `問題回饋` 進入）。
+   回饋網址：[GitHub Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues)（也可透過 `設定` - `問題回饋` - `問題回饋` 進入）。
 
 2. MAA 為了盡可能滿足所有使用者的各種需求，提供了大量的自訂選項。  
    當您認為 MAA 缺少某項功能時，有可能只是沒找到而已，例如 `手動輸入關卡名` 和 `不將已進駐的幹員放入宿舍`。

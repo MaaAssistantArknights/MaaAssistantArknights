@@ -410,7 +410,7 @@ binary = true # 是否安裝 maa-cli 的執行檔，預設為 true
 # 資源熱更新相關配置
 [resource]
 auto_update = true  # 是否在每次執行任務時自動更新資源，預設為 false
-warn_on_update_failure = true # 是否在更新失敗時發出警告而不是直接報錯
+warn_on_update_failure = true # 是否在更新失敗時發出警告而不是直接顯示錯誤
 backend = "libgit2" # 資源熱更新後端，可選值為 "git" 或者 "libgit2"，預設為 "git"
 
 # 資源熱更新遠端倉庫相關配置
@@ -439,7 +439,7 @@ passphrase = "password"       # ssh 金鑰的密碼
 # passphrase = { cmd = ["pass", "show", "ssh/id_ed25519"] }
 # 4. 使用 ssh-agent 來管理您的金鑰，**推薦**
 # ssh-agent 會將您的金鑰儲存在記憶體中，這樣您就不需要每次輸入密碼
-# 注意，您需要確保 ssh-agent 已經啟動並且已經添加了您的金鑰，同時 SSH_AUTH_SOCK 環境變數已經設定
+# 注意，您需要確保 ssh-agent 已經啟動並且已經新增了您的金鑰，同時 SSH_AUTH_SOCK 環境變數已經設定
 # use_ssh_agent = true # 使用 ssh-agent 進行身份驗證，如果設定為 true，將忽略 ssh_key 和 passphrase 欄位
 ```
 

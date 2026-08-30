@@ -135,7 +135,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
       - 國際版預設路徑： `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
       - 中國版預設路徑： `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 
-      備註：`C:\ProgramData` 為隱藏目錄，請直接在檔案總管地址欄貼上路徑進入。
+      備註：`C:\ProgramData` 為隱藏目錄，請直接在檔案總管網址列貼上路徑進入。
 
    2. 初次使用請先執行一次 MAA 以產生設定檔。
    3. **先關閉** MAA，**再**開啟 `gui.new.json`。找到目前設定名稱（可在 `設定-切換配置` 中查看，預設為 `Default`）下的 `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigPath` 並填入 `bluestacks.conf` 的完整路徑（斜線請使用轉義符 `\\`）。

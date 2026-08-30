@@ -28,7 +28,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
    InitFailed        = 1,           // 初始化失敗
    ConnectionInfo    = 2,           // 連線相關資訊
    AllTasksCompleted = 3,           // 全部任務完成
-   AsyncCallInfo     = 4,           // 外部非同步調用資訊
+   AsyncCallInfo     = 4,           // 外部非同步呼叫資訊
    Destroyed         = 5,           // 執行個體已銷毀
 
    /* TaskChain Info */
@@ -185,7 +185,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 - `ret` (boolean, required): 實際呼叫的回傳值。
 - `cost` (number, required): 耗時，單位毫秒。
-- `error` (string): 未處理異常的類型（僅調用因未處理異常失敗時存在）。
+- `error` (string): 未處理例外的類型（僅呼叫因未處理例外失敗時存在）。
 
 :::
 ::::
