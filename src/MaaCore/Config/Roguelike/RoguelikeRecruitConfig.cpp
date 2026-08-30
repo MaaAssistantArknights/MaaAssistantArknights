@@ -181,7 +181,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             if (auto opt = oper_json.find<std::string>("role")) {
                 auto role_str = opt.value();
                 utils::tolowers(role_str);
-                role = battle::get_role_type(role_str);
+                role = battle::parse_role_type(role_str);
             }
             else {
                 const auto& roles = BattleData.get_roles(name);

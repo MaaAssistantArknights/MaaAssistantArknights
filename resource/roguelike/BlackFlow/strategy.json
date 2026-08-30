@@ -30,8 +30,12 @@
             "description": "可跨层保留的全图移动加工品"
         },
         {
-            "id": "persistent_long_range_movement",
-            "description": "可跨层保留的长距离移动加工品"
+            "id": "persistent_reach_scrap_shop",
+            "description": "可跨层保留、且能落到秘境行商上的全图移动加工品"
+        },
+        {
+            "id": "persistent_reach_battle_boss",
+            "description": "可跨层保留、且能落到险路恶敌上的全图移动加工品"
         },
         {
             "id": "rogue_6_scrap_M_11",
@@ -75,7 +79,12 @@
             "scope": "run"
         },
         {
-            "name": "persistent_long_range_count",
+            "name": "persistent_reach_scrap_shop_count",
+            "type": "int",
+            "scope": "run"
+        },
+        {
+            "name": "persistent_reach_battle_boss_count",
             "type": "int",
             "scope": "run"
         },
@@ -461,8 +470,56 @@
             "id": "ending_development",
             "reserves": [
                 {
+                    "id": "keep_processing_move_for_boss",
+                    "description": "第三、五层持有白模鸟或涂装黎博利时，留一次能落到险路恶敌上的全图移动",
+                    "resource": "persistent_reach_battle_boss",
+                    "minimum": 1,
+                    "active_if": {
+                        "all": [
+                            {
+                                "any": [
+                                    {
+                                        "fact": "current_floor",
+                                        "op": "eq",
+                                        "value": 3
+                                    },
+                                    {
+                                        "fact": "current_floor",
+                                        "op": "eq",
+                                        "value": 5
+                                    }
+                                ]
+                            },
+                            {
+                                "any": [
+                                    {
+                                        "fact": "white_model_bird_count",
+                                        "op": "gt",
+                                        "value": 0
+                                    },
+                                    {
+                                        "fact": "painted_liberi_owned",
+                                        "op": "eq",
+                                        "value": true
+                                    }
+                                ]
+                            },
+                            {
+                                "fact": "persistent_reach_battle_boss_count",
+                                "op": "ge",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "release_if": {
+                        "fact": "candidate.node_type",
+                        "op": "eq",
+                        "value": "battle_boss"
+                    }
+                },
+                {
                     "id": "keep_full_map_before_floor4",
-                    "description": "前三层保留一次全图移动，留给第四、五层的远端节点",
+                    "description": "前三层保留一次全图移动，留给第四、五层的远端节点；花在险路恶敌上不算违背",
                     "resource": "persistent_full_map_movement",
                     "minimum": 1,
                     "active_if": {
@@ -478,6 +535,11 @@
                                 "value": 1
                             }
                         ]
+                    },
+                    "release_if": {
+                        "fact": "candidate.node_type",
+                        "op": "eq",
+                        "value": "battle_boss"
                     }
                 }
             ],
@@ -1243,7 +1305,7 @@
             "reserves": [
                 {
                     "id": "baby_keep_cultivation_movement",
-                    "resource": "persistent_long_range_movement",
+                    "resource": "persistent_reach_scrap_shop",
                     "minimum": 1,
                     "active_if": {
                         "all": [
@@ -1253,25 +1315,16 @@
                                 "value": false
                             },
                             {
-                                "fact": "persistent_long_range_count",
+                                "fact": "persistent_reach_scrap_shop_count",
                                 "op": "ge",
                                 "value": 1
                             }
                         ]
                     },
                     "release_if": {
-                        "any": [
-                            {
-                                "fact": "candidate.node_type",
-                                "op": "eq",
-                                "value": "scrap_shop"
-                            },
-                            {
-                                "fact": "candidate.guaranteed_route_node_types",
-                                "op": "contains",
-                                "value": "scrap_shop"
-                            }
-                        ]
+                        "fact": "candidate.node_type",
+                        "op": "eq",
+                        "value": "scrap_shop"
                     }
                 }
             ],

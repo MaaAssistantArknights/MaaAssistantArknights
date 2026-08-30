@@ -419,26 +419,21 @@ ResourceRegistry::ResourceRegistry()
     register_resource("sellable_scraps", [](const RunState& state) { return state.resources.sellable_scraps; });
     register_resource("white_model_bird", [](const RunState& state) { return state.resources.white_model_birds; });
     register_resource("painted_liberi", [](const RunState& state) { return state.resources.painted_liberi ? 1 : 0; });
-    register_resource("persistent_full_map_movement", [](const RunState& state) {
-        std::int64_t total = 0;
-        for (const auto& spec : movement_specs()) {
-            if (spec.range == MovementRange::FullMap && !spec.expires_on_floor_end) {
-                total += movement_count(state, spec.kind);
-            }
-        }
-        return total;
+    // 跨层保留的全图移动。它服务的是「留给后面的楼层」这类目标，与落点无关，因此不筛目标类型。
+    register_movement_group("persistent_full_map_movement", [](const MovementSpec& spec) {
+        return spec.range == MovementRange::FullMap && !spec.expires_on_floor_end;
     });
-    register_resource("persistent_long_range_movement", [](const RunState& state) {
-        std::int64_t total = 0;
-        for (const auto& spec : movement_specs()) {
-            const bool long_range =
-                spec.range == MovementRange::FullMap || spec.range == MovementRange::OrthogonalThree;
-            if (long_range && !spec.expires_on_floor_end) {
-                total += movement_count(state, spec.kind);
-            }
-        }
-        return total;
-    });
+
+    // 「留一次移动给某类节点」是策略矩阵里反复出现的形状：襁褓动物留给秘境行商、结局策略留给
+    // 险路恶敌，将来还会有留给误入奇境和险路尽头的。真正要留住的性质是「从任何位置都能落到那类
+    // 节点上」，而不是射程本身——射程够远但落点白名单不含目标的加工品（老妈妈的融雪落不了战斗、
+    // 坎诺特的触须只落行商）留下来也够不着。因此按落点能力逐个节点类型登记，策略各取所需。
+    for (const NodeType type : all_target_node_types()) {
+        register_movement_group("persistent_reach_" + std::string(to_string(type)), [type](const MovementSpec& spec) {
+            return spec.range == MovementRange::FullMap && !spec.expires_on_floor_end && node_type_allowed(spec, type);
+        });
+    }
+
     for (const auto& spec : movement_specs()) {
         if (spec.kind == MovementKind::Walk) {
             continue;
@@ -446,6 +441,29 @@ ResourceRegistry::ResourceRegistry()
         const MovementKind kind = spec.kind;
         register_resource(std::string(spec.id), [kind](const RunState& state) { return movement_count(state, kind); });
     }
+}
+
+// 组合资源的成员表只算一次，读数与「走完这一步还剩几次」共用同一份，两边不会漂移。
+bool ResourceRegistry::register_movement_group(std::string id, const std::function<bool(const MovementSpec&)>& member)
+{
+    std::unordered_set<MovementKind> members;
+    for (const auto& spec : movement_specs()) {
+        if (spec.kind != MovementKind::Walk && member(spec)) {
+            members.emplace(spec.kind);
+        }
+    }
+    const auto inserted = m_movement_groups.emplace(id, std::move(members));
+    if (!inserted.second) {
+        return false;
+    }
+    std::unordered_set<MovementKind> kinds = inserted.first->second;
+    return register_resource(std::move(id), [kinds = std::move(kinds)](const RunState& state) {
+        std::int64_t total = 0;
+        for (const MovementKind kind : kinds) {
+            total += movement_count(state, kind);
+        }
+        return total;
+    });
 }
 
 bool ResourceRegistry::register_resource(std::string id, Reader reader)
@@ -480,21 +498,12 @@ std::optional<std::int64_t>
     }
     if (candidate.movement != MovementKind::Walk) {
         const MovementSpec* movement = find_movement_spec(candidate.movement);
-        if (movement != nullptr) {
-            if (id == movement->id) {
-                --after;
-            }
-            const bool persistent_full_map =
-                movement->range == MovementRange::FullMap && !movement->expires_on_floor_end;
-            const bool persistent_long_range =
-                (movement->range == MovementRange::FullMap || movement->range == MovementRange::OrthogonalThree) &&
-                !movement->expires_on_floor_end;
-            if (id == "persistent_full_map_movement" && persistent_full_map) {
-                --after;
-            }
-            if (id == "persistent_long_range_movement" && persistent_long_range) {
-                --after;
-            }
+        if (movement != nullptr && id == movement->id) {
+            --after;
+        }
+        if (const auto group = m_movement_groups.find(std::string(id));
+            group != m_movement_groups.end() && group->second.contains(candidate.movement)) {
+            --after;
         }
     }
     return after;

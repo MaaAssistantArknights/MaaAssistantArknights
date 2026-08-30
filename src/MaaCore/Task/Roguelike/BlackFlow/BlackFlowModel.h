@@ -307,6 +307,10 @@ struct MovementSpec
 
 [[nodiscard]] bool node_type_allowed(const MovementSpec& movement, NodeType type) noexcept;
 
+// 加工品移动可以作为落点的全部节点类型。按落点能力划分资源时需要逐个遍历，取用同一份表
+// 可以保证资源定义与候选生成用的白名单不会分叉。
+[[nodiscard]] const std::vector<NodeType>& all_target_node_types() noexcept;
+
 struct DynamicCostModel
 {
     int walk_cost_per_edge = 1;

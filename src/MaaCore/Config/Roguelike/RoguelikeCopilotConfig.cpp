@@ -166,9 +166,9 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
             }
             std::unordered_set<Role> fd_role;
             for (auto& role_name : point["role"].as_array()) {
-                const auto role = get_role_type(role_name.as_string());
+                const auto role = battle::parse_role_type(role_name.as_string());
                 if (role == Role::Unknown) [[unlikely]] {
-                    Log.error("Unknown role name:", role_name);
+                    LogError << __FUNCTION__ << " Unknown role name:" << role_name;
                     return false;
                 }
                 fd_role.emplace(role);
