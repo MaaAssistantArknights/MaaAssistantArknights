@@ -316,7 +316,7 @@ kill_adb_on_exit = false
 ```toml
 [connection]
 adb_path = "adb" # adb 執行檔的路徑，預設值為 "adb"，這意味著 adb 執行檔在環境變數 PATH 中
-address = = "emulator-5554" # 連線位址，例如 "emulator-5554" 或者 "127.0.0.1:5555"
+address = "emulator-5554" # 連線位址，例如 "emulator-5554" 或者 "127.0.0.1:5555"
 config = "General" # 連線配置，通常不需要修改
 ```
 
