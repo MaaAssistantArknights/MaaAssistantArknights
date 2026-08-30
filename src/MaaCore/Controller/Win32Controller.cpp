@@ -125,9 +125,23 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
     LogTraceFunction;
 
     // 截图前把鼠标移走，避免光标出现在截图中影响识别
+    POINT original_cursor_pos = { 0, 0 };
+    bool cursor_pos_saved = false;
+    bool input_blocked = false;
     if (m_screen_size.second > 0) {
         const bool with_window_pos =
             (m_mouse_method & (Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos)) != 0;
+        // 仅 WithCursorPos 两种方式挪的是真实光标；Seize 本就强制接管鼠标，纯消息模式不动真实光标
+        const bool moves_real_cursor =
+            (m_main_screen_recognition || !with_window_pos) &&
+            (m_mouse_method & (Win32Input::SendMessageWithCursorPos | Win32Input::PostMessageWithCursorPos)) != 0;
+        if (moves_real_cursor) {
+            // 挪鼠标是孤立 touch_move，没有底层 touch_down 的 BlockInput 保护，这里补上：
+            // 阻塞期间用户输入不产生事件，挪动与还原的写入不会被硬件移动竞争覆盖，与底层触控的还原同机制
+            input_blocked = BlockInput(TRUE) != 0;
+            cursor_pos_saved = GetCursorPos(&original_cursor_pos);
+            Log.trace("Screencap saves cursor position:", original_cursor_pos.x, ",", original_cursor_pos.y);
+        }
         if (m_main_screen_recognition) {
             // 主界面情况下鼠标移动到窗口中心，等待主界面的视差动画，300ms
             unit_touch_move(0, m_screen_size.first / 2, m_screen_size.second / 2, 0);
@@ -152,18 +166,28 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
         }
         else {
             unit_touch_move(0, 0, m_screen_size.second - 1, 0);
+            // 游戏自绘光标跟随真实光标，渲染存在帧延迟，等待其画到挪动终点后再截图，避免光标被截进识别区
+            std::this_thread::sleep_for(std::chrono::milliseconds(34));
         }
     }
 
-    if (!unit_screencap(image_payload)) {
-        return false;
+    bool ret = unit_screencap(image_payload);
+
+    if (cursor_pos_saved) {
+        if (!SetCursorPos(original_cursor_pos.x, original_cursor_pos.y)) {
+            Log.error("Failed to restore cursor position after screencap, last_error:", GetLastError());
+        }
+    }
+
+    if (input_blocked) {
+        BlockInput(FALSE);
     }
 
     if (m_screen_size.first == 0) {
         m_screen_size = { image_payload.cols, image_payload.rows };
     }
 
-    return true;
+    return ret;
 }
 
 bool Win32Controller::start_game(const std::string& client_type [[maybe_unused]])
