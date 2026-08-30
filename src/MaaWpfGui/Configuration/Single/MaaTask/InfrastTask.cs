@@ -83,6 +83,11 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     /// </summary>
     public bool ContinueTraining { get; set; } = false;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether assistant replacement only runs on Monday.
+    /// </summary>
+    public bool AssistantChangeMondayOnly { get; set; } = false;
+
     public string FiammettaTarget1 { get; set; } = "清流";
 
     public string FiammettaTarget2 { get; set; } = "可露希尔";

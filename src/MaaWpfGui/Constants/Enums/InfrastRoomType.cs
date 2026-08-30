@@ -59,4 +59,9 @@ public enum InfrastRoomType
     /// 训练室
     /// </summary>
     Training,
+
+    /// <summary>
+    /// 基建副手换人
+    /// </summary>
+    AssistantChange,
 }

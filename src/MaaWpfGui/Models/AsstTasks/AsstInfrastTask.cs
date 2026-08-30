@@ -57,6 +57,11 @@ public class AsstInfrastTask : AsstBaseTask
     public bool ContinueTraining { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether assistant replacement only runs on Monday.
+    /// </summary>
+    public bool AssistantChangeMondayOnly { get; set; }
+
+    /// <summary>
     /// Gets or sets 宿舍进驻心情阈值
     /// </summary>
     public double DormThreshold { get; set; }
@@ -122,6 +127,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["facility"] = JArray.FromObject(Facilitys),
             ["drones"] = UsesOfDrones,
             ["continue_training"] = ContinueTraining,
+            ["assistant_change_monday_only"] = AssistantChangeMondayOnly,
             ["threshold"] = DormThreshold,
             ["dorm_notstationed_enabled"] = DormFilterNotStationedEnabled,
             ["dorm_trust_enabled"] = DormTrustEnabled,

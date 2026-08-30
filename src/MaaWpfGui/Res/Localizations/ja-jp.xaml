@@ -146,6 +146,7 @@
     <system:String x:Key="Mfg">製造所</system:String>
     <system:String x:Key="Processing">加工所</system:String>
     <system:String x:Key="Training">訓練室</system:String>
+    <system:String x:Key="AssistantChange">副手交代替え</system:String>
     <system:String x:Key="Trade">貿易所</system:String>
     <system:String x:Key="Power">発電所</system:String>
     <system:String x:Key="Reception">応接室</system:String>
@@ -169,6 +170,7 @@
     <system:String x:Key="InfrastReceptionSendClue">手がかりを贈る</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">{key=Infrast} で以下の関数を設定して実行する必要があります</system:String>
     <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
+    <system:String x:Key="AssistantChangeMondayOnly">副手交代は月曜日のみ</system:String>
     <system:String x:Key="InfrastFiammettaTargets">フィアメッタの回復対象</system:String>
     <system:String x:Key="InfrastFiammettaTargetNone">なし</system:String>
     <system:String x:Key="InfrastFiammettaTargetPurestream">セイリュウ</system:String>

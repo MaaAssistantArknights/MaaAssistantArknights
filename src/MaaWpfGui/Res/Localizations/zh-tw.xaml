@@ -146,6 +146,7 @@
     <system:String x:Key="Mfg">製造站</system:String>
     <system:String x:Key="Processing">加工站</system:String>
     <system:String x:Key="Training">訓練室</system:String>
+    <system:String x:Key="AssistantChange">副手換人</system:String>
     <system:String x:Key="Trade">貿易站</system:String>
     <system:String x:Key="Power">發電站</system:String>
     <system:String x:Key="Reception">會客室</system:String>
@@ -169,6 +170,7 @@
     <system:String x:Key="InfrastReceptionSendClue">贈送線索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中設定並執行</system:String>
     <system:String x:Key="ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
+    <system:String x:Key="AssistantChangeMondayOnly">僅在週一進行副手換人</system:String>
     <system:String x:Key="InfrastFiammettaTargets">菲亞梅塔恢復目標</system:String>
     <system:String x:Key="InfrastFiammettaTargetNone">無</system:String>
     <system:String x:Key="InfrastFiammettaTargetPurestream">清流</system:String>
