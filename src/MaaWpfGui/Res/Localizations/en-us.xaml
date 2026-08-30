@@ -1738,7 +1738,7 @@ If you do need to use it, please ensure:
     <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg (Full Background, Arknights Uses Real Mouse Position Only, Ineffective)</system:String>
     <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg (Full Background, Arknights Uses Real Mouse Position Only, Ineffective)</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos (Semi-background, Briefly Captures Mouse)</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos (Full Background, No Mouse Capture, Window May Move, PrintWindow Screencap Only, Recommend Minimizing)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos (Recommended, Full Background, No Mouse Capture, Window May Move, PrintWindow Screencap Only, Recommend Minimizing)</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg (Stable)</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg (Efficient)</system:String>
     <!--  !AsstProxy  -->

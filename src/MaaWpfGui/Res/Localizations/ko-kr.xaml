@@ -1741,7 +1741,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg (완전 백그라운드, 명일방주는 실제 마우스 위치만 사용, 무효)</system:String>
     <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg (완전 백그라운드, 명일방주는 실제 마우스 위치만 사용, 무효)</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos (반 백그라운드, 마우스 일시 점유)</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos (완전 백그라운드, 마우스 비점유, 창 이동 가능, PrintWindow 전용 스크린샷, 최소화 권장)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos (권장, 완전 백그라운드, 마우스 비점유, 창 이동 가능, PrintWindow 전용 스크린샷, 최소화 권장)</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg (안정적)</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg (효율적)</system:String>
     <!--  !AsstProxy  -->

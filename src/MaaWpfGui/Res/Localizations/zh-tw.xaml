@@ -1739,7 +1739,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg（全背景，明日方舟僅以真實滑鼠定位，無效）</system:String>
     <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg（全背景，明日方舟僅以真實滑鼠定位，無效）</system:String>
     <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos（半背景，短暫搶滑鼠）</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（全背景，不搶滑鼠，視窗可能亂飛，截圖方式僅 PrintWindow，建議最小化）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（推薦，全背景，不搶滑鼠，視窗可能亂飛，截圖方式僅 PrintWindow，建議最小化）</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（穩定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高效）</system:String>
     <!--  !AsstProxy  -->
