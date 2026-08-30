@@ -823,37 +823,10 @@
         "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
         "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
         "action": "ClickSelf",
-        "next": [
-            "BlackFlow@Roguelike@MovePreviewConfirmObserve",
-            "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"
-        ],
+        "next": ["BlackFlow@Roguelike@MovePreviewConfirmObserve", "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"],
         "maxTimes": 4,
         "exceededNext": ["BlackFlow@Roguelike@MovePreviewConfirmExceeded"],
-        "reduceOtherTimes": [
-            "BlackFlow@Roguelike@MovePreviewWait*3",
-            "BlackFlow@Roguelike@MovePreviewConfirmObserve*2"
-        ]
-    },
-    "BlackFlow@Roguelike@MovePreviewConfirmObserve": {
-        "Doc": "maxTimes 为 2 时，第三次匹配会进入 exceededNext；随后经过一个 taskDelay 在第四个观察点识别 Confirm，默认配置下两次点击间隔约为两秒。",
-        "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
-        "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
-        "action": "DoNothing",
-        "next": [
-            "#self",
-            "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"
-        ],
-        "maxTimes": 2,
-        "exceededNext": [
-            "BlackFlow@Roguelike@MovePreviewConfirm",
-            "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"
-        ]
-    },
-    "BlackFlow@Roguelike@MovePreviewConfirmSucceeded": {
-        "algorithm": "JustReturn"
-    },
-    "BlackFlow@Roguelike@MovePreviewConfirmExceeded": {
-        "algorithm": "JustReturn"
+        "reduceOtherTimes": ["BlackFlow@Roguelike@MovePreviewWait*3", "BlackFlow@Roguelike@MovePreviewConfirmObserve*2"]
     },
     "BlackFlow@Roguelike@MovePreviewConfirmCompleted": {
         "algorithm": "JustReturn",
@@ -865,6 +838,21 @@
         ]
     },
     "BlackFlow@Roguelike@MovePreviewConfirmCompletedDone": {
+        "algorithm": "JustReturn"
+    },
+    "BlackFlow@Roguelike@MovePreviewConfirmExceeded": {
+        "algorithm": "JustReturn"
+    },
+    "BlackFlow@Roguelike@MovePreviewConfirmObserve": {
+        "Doc": "maxTimes 为 2 时，第三次匹配会进入 exceededNext；随后经过一个 taskDelay 在第四个观察点识别 Confirm，默认配置下两次点击间隔约为两秒。",
+        "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
+        "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
+        "action": "DoNothing",
+        "next": ["#self", "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"],
+        "maxTimes": 2,
+        "exceededNext": ["BlackFlow@Roguelike@MovePreviewConfirm", "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"]
+    },
+    "BlackFlow@Roguelike@MovePreviewConfirmSucceeded": {
         "algorithm": "JustReturn"
     },
     "BlackFlow@Roguelike@MovePreviewCost": {
