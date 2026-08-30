@@ -2,6 +2,9 @@
 
 #include "Win32Controller.h"
 
+#include <algorithm>
+#include <chrono>
+#include <numeric>
 #include <sstream>
 #include <thread>
 
@@ -12,6 +15,26 @@
 
 namespace asst
 {
+static const char* get_win32_screencap_method_name(Win32ScreencapMethod method)
+{
+    if (method & Win32Screencap::FramePool) {
+        return "FramePool";
+    }
+    if (method & Win32Screencap::DXGI_DesktopDup) {
+        return "DXGI_DesktopDup";
+    }
+    if (method & Win32Screencap::DXGI_DesktopDup_Window) {
+        return "DXGI_DesktopDup_Window";
+    }
+    if (method & Win32Screencap::PrintWindow) {
+        return "PrintWindow";
+    }
+    if (method & Win32Screencap::ScreenDC) {
+        return "ScreenDC";
+    }
+    return "Win32";
+}
+
 Win32Controller::Win32Controller(const AsstCallback& callback, Assistant* inst) :
     InstHelper(inst),
     m_callback(callback),
@@ -155,12 +178,54 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
         }
     }
 
+    auto start_time = std::chrono::steady_clock::now();
     if (!unit_screencap(image_payload)) {
         return false;
     }
 
+    auto cost = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time);
+
     if (m_screen_size.first == 0) {
         m_screen_size = { image_payload.cols, image_payload.rows };
+    }
+
+    m_screencap_cost.emplace_back(cost.count());
+    ++m_screencap_times;
+    if (m_screencap_cost.size() > 30) {
+        m_screencap_cost.pop_front();
+    }
+
+    if (!m_screencap_initial_cost_emitted) {
+        m_screencap_initial_cost_emitted = true;
+        json::value info = json::object {
+            { "uuid", m_uuid },
+            { "what", "FastestWayToScreencap" },
+            { "details",
+              json::object {
+                  { "method", get_win32_screencap_method_name(m_screencap_method) },
+                  { "cost", cost.count() },
+              } },
+        };
+        callback(AsstMsg::ConnectionInfo, info);
+    }
+
+    if (m_screencap_times == 1 || m_screencap_times % 10 == 0) {
+        long long min_cost = *std::min_element(m_screencap_cost.begin(), m_screencap_cost.end());
+        long long max_cost = *std::max_element(m_screencap_cost.begin(), m_screencap_cost.end());
+        long long avg_cost = std::accumulate(m_screencap_cost.begin(), m_screencap_cost.end(), 0ll) /
+                             static_cast<long long>(m_screencap_cost.size());
+
+        json::value info = json::object {
+            { "uuid", m_uuid },
+            { "what", "ScreencapCost" },
+            { "details",
+              json::object {
+                  { "min", min_cost },
+                  { "avg", avg_cost },
+                  { "max", max_cost },
+              } },
+        };
+        callback(AsstMsg::ConnectionInfo, info);
     }
 
     return true;

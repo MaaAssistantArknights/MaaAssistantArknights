@@ -286,6 +286,13 @@ public class AsstProxy
         return await AsstGetImageAsync(forceScreencap: true);
     }
 
+    public async Task<BitmapImage?> AsstGetImageForScreenshotTestAsync()
+    {
+        _screenshotTestWaiting = true;
+        _screenshotTestAsyncCallId = MaaService.AsstAsyncScreencap(_handle, true);
+        return await AsstGetImageAsync(_handle);
+    }
+
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
     public static unsafe byte[]? AsstGetImageBgrData(AsstHandle handle)
     {
@@ -829,6 +836,8 @@ public class AsstProxy
     private string _connectedAddress = string.Empty;
     private string _lastConnectionError = string.Empty;
     private IntPtr _attachWindowHwnd = IntPtr.Zero;
+    private bool _screenshotTestWaiting;
+    private int _screenshotTestAsyncCallId;
 
     /// <summary>
     /// MuMu 触控增强是否实际生效（由 core 连接后通过 MuMuExtrasInputStatus 回调报告）。
@@ -1088,63 +1097,11 @@ public class AsstProxy
                 break;
 
             case "ScreencapCost":
-                var screencapCostMin = details["details"]?["min"]?.ToString() ?? "???";
-                var screencapCostAvg = details["details"]?["avg"]?.ToString() ?? "???";
-                var screencapCostMax = details["details"]?["max"]?.ToString() ?? "???";
-                var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
-                SettingsViewModel.ConnectSettings.ScreencapCost = LocalizationHelper.GetStringFormat("ScreencapCost", screencapCostMin, screencapCostAvg, screencapCostMax, currentTime);
-                if (!HasPrintedScreencapWarning && int.TryParse(screencapCostAvg, out var screencapCostAvgInt))
-                {
-                    static void AddLog(string message, string color)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(message, color);
-                        Instances.CopilotViewModel.AddLog(message, color, showTime: false);
-                        HasPrintedScreencapWarning = true;
-                    }
-
-                    switch (screencapCostAvgInt)
-                    {
-                        // 日志提示
-                        case >= 800:
-                            AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapErrorTip", screencapCostAvgInt), UiLogColor.Warning);
-                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge1);
-                            break;
-
-                        case >= 400:
-                            AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapWarningTip", screencapCostAvgInt), UiLogColor.Warning);
-                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge2);
-                            break;
-
-                        default:
-                            {
-                                // 高配电脑未开截图增强时耗时也常在 100ms 以上，此档不告警，仅提示可优化
-                                if (screencapCostAvgInt >= 100 && SettingsViewModel.ConnectSettings.ScreencapMethod is not ("MumuExtras" or "LDExtras"))
-                                {
-                                    AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapInfoTip", screencapCostAvgInt), UiLogColor.Info);
-                                }
-
-                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
-
-                                if (screencapCostAvgInt < 100)
-                                {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge4);
-                                }
-
-                                if (screencapCostAvgInt < 10)
-                                {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge5);
-                                }
-
-                                if (screencapCostAvgInt < 5)
-                                {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge6);
-                                }
-
-                                break;
-                            }
-                    }
-                }
-
+                HandleScreencapCost(
+                    details["details"]?["min"]?.ToString() ?? "???",
+                    details["details"]?["avg"]?.ToString() ?? "???",
+                    details["details"]?["max"]?.ToString() ?? "???",
+                    DateTimeOffset.Now);
                 break;
 
             case "EmulatorFPS":
@@ -1205,6 +1162,109 @@ public class AsstProxy
         _sanityRecoveryTimer.Stop();
         _sanityRecoveryTimer.Tick -= OnSanityRecoveryTimer;
         _sanityRecoveryTimer = null;
+    }
+
+    private void HandleScreencapCost(string min, string avg, string max, DateTimeOffset timestamp)
+    {
+        var currentTime = timestamp.ToString("HH:mm:ss");
+        SettingsViewModel.ConnectSettings.ScreencapCost = LocalizationHelper.GetStringFormat("ScreencapCost", min, avg, max, currentTime);
+
+        if (!HasPrintedScreencapWarning && int.TryParse(avg, out var avgInt))
+        {
+            static void AddLog(string message, string color)
+            {
+                Instances.TaskQueueViewModel.AddLog(message, color);
+                Instances.CopilotViewModel.AddLog(message, color, showTime: false);
+                HasPrintedScreencapWarning = true;
+            }
+
+            switch (avgInt)
+            {
+                // 日志提示
+                case >= 800:
+                    AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapErrorTip", avgInt), UiLogColor.Warning);
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge1);
+                    break;
+
+                case >= 400:
+                    AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapWarningTip", avgInt), UiLogColor.Warning);
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge2);
+                    break;
+
+                default:
+                    {
+                        // 高配电脑未开截图增强时耗时也常在 100ms 以上，此档不告警，仅提示可优化
+                        if (avgInt >= 100 && SettingsViewModel.ConnectSettings.ScreencapMethod is not ("MumuExtras" or "LDExtras"))
+                        {
+                            AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapInfoTip", avgInt), UiLogColor.Info);
+                        }
+
+                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
+
+                        if (avgInt < 100)
+                        {
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge4);
+                        }
+
+                        if (avgInt < 10)
+                        {
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge5);
+                        }
+
+                        if (avgInt < 5)
+                        {
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge6);
+                        }
+
+                        break;
+                    }
+            }
+        }
+    }
+
+    private void ProcAsyncCallInfo(JObject details)
+    {
+        if (!string.Equals(details["what"]?.ToString(), "Screencap", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        var connectSettings = SettingsViewModel.ConnectSettings;
+        if (!connectSettings.IsPCConnectConfig)
+        {
+            return;
+        }
+
+        if (!_screenshotTestWaiting)
+        {
+            return;
+        }
+
+        var asyncCallId = details["async_call_id"]?.ToObject<int>() ?? 0;
+        if (asyncCallId != _screenshotTestAsyncCallId)
+        {
+            return;
+        }
+
+        _screenshotTestWaiting = false;
+
+        if (details["details"]?["ret"]?.ToObject<bool>() != true)
+        {
+            return;
+        }
+
+        var cost = details["details"]?["cost"]?.ToObject<long>() ?? 0;
+        if (cost <= 0)
+        {
+            return;
+        }
+
+        var screencapMethod = connectSettings.ExtraConfig is Win32Extra win32Extra
+            ? win32Extra.ScreencapMethod.ToString()
+            : ConnectConfig.PC.ToString();
+        connectSettings.ScreencapMethod = screencapMethod;
+        connectSettings.ScreencapTestCost = LocalizationHelper.GetStringFormat("FastestWayToScreencap", cost, screencapMethod);
+        connectSettings.TestLinkInfo = connectSettings.ScreencapTestCost;
     }
 
     private void ProcTaskChainMsg(AsstMsg msg, JObject details)
@@ -1491,6 +1551,7 @@ public class AsstProxy
                 break;
 
             case AsstMsg.AsyncCallInfo:
+                ProcAsyncCallInfo(details);
                 break;
 
             case AsstMsg.Destroyed:

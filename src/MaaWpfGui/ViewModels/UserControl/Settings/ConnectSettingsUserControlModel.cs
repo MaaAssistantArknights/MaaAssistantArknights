@@ -576,7 +576,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        TestLinkImage = await Instances.AsstProxy.AsstGetImageAsync(forceScreencap: true);
+        TestLinkImage = await Instances.AsstProxy.AsstGetImageForScreenshotTestAsync();
         _runningState.SetIdle(true);
 
         if (TestLinkImage is null)

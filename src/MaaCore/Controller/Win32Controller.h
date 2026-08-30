@@ -2,6 +2,7 @@
 
 #ifdef _WIN32
 
+#include <deque>
 #include <memory>
 #include <string>
 
@@ -101,6 +102,10 @@ private:
     Win32ScreencapMethod m_screencap_method = Win32Screencap::None;
     Win32InputMethod m_mouse_method = Win32Input::None;
     Win32InputMethod m_keyboard_method = Win32Input::None;
+
+    std::deque<long long> m_screencap_cost;
+    int m_screencap_times = 0;
+    bool m_screencap_initial_cost_emitted = false;
 
     bool m_main_screen_recognition = false;
     RECT m_original_window_rect = { 0, 0, 0, 0 };
