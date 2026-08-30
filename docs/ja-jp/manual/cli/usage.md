@@ -3,111 +3,108 @@ order: 2
 icon: material-symbols:summarize
 ---
 
-# 使用
+# 使用方法
 
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
-:::
+この文書は機械翻訳です。もし可能であれば、中国語の文書を読んでください。もし誤りや修正の提案があれば、大変ありがたく思います。
 
-maa-cli 主要功能是通过调用 MaaCore，自动化完成明日方舟的游戏任务。此外，为了方便使用，maa-cli 还提供了管理 MaaCore 的功能。
+maa-cli の主な機能は、MaaCore を呼び出してアークナイツのゲームタスクを自動化することです。さらに、利便性のために MaaCore を管理する機能も提供しています。
 
 ::: tip
 
-对于使用 Windows 包管理器 (winget) 安装 maa-cli 的用户，以下命令中的 `maa` 需要替换为 `maa-cli` 。
+Windows のパッケージマネージャー（winget）で maa-cli をインストールした場合、以下のコマンドの `maa` は `maa-cli` に置き換えてください。
 
 :::
 
-## 管理 MaaCore
+## MaaCore の管理
 
-maa-cli 可以安装和更新 MaaCore 及资源，只需运行以下命令：
+maa-cli は MaaCore とリソースをインストールおよび更新できます。以下のコマンドを実行するだけです：
 
 ```bash
-maa install # 安装 MaaCore 及资源
-maa update # 更新 MaaCore 及资源
+maa install # MaaCore とリソースをインストール
+maa update # MaaCore とリソースを更新
 ```
 
-## 更新 maa-cli 自身
+## maa-cli 自身の更新
 
-maa-cli 可以更新自身，只需运行以下命令：
+maa-cli は自身を更新できます。以下のコマンドを実行するだけです：
 
 ```bash
 maa self update
 ```
 
-**注意**：使用包管理器安装 maa-cli 的用户请使用包管理器更新 maa-cli，此命令在这些用户中无效。
+**注意**：パッケージマネージャーで maa-cli をインストールしたユーザーは、パッケージマネージャーで maa-cli を更新してください。このコマンドはそのようなユーザーには機能しません。
 
-## 初始化配置
+## 設定の初期化
 
-一旦完成了 MaaCore 的安装，通常情况下，你无需额外配置就可以直接运行任务。默认配置可能不适用于所有用户，因此你可以通过以下命令来初始化配置：
+MaaCore のインストールが完了すれば、通常は追加の設定なしでタスクを直接実行できます。デフォルト設定はすべてのユーザーに適しているとは限らないため、以下のコマンドで設定を初期化できます：
 
 ```bash
 maa init
 ```
 
-通过这个命令，你可以交互式地配置 [MaaCore 的相关配置][config-core]。
+このコマンドにより、[MaaCore 関連設定][config-core]を対話形式で設定できます。
 
-## 运行任务
+## タスクの実行
 
-完成 MaaCore 的安装和配置后，你可以运行任务了。maa-cli 支持两种类型的任务：预定义任务和自定义任务。
+MaaCore のインストールと設定が完了したら、タスクを実行できます。maa-cli は、定義済みタスクとカスタムタスクの 2 種類のタスクをサポートしています。
 
-### 预定义任务
+### 定義済みタスク
 
-对于常见任务，maa-cli 提供了一些预定义的任务：
+一般的なタスクについて、maa-cli はいくつかの定義済みタスクを提供しています：
 
-- `maa startup [client]`: 启动游戏并进入主界面，`[client]` 是客户端类型，如果留空则不会启动游戏客户端。
-- `maa closedown [client]`: 关闭游戏客户端，`[client]` 是客户端类型，默认为 `Official`。
-- `maa fight [stage]`: 运行战斗任务，`[stage]` 是关卡名称，例如 `1-7`；留空选择上次或者当前关卡。
-- `maa copilot <maa_uri>...`: 自动抄作业，其中 `<maa_uri>` 是作业的 URI，多个 URI 会依次执行，`maa_uri` 可以是 `maa://1234` 或者 本地文件路径 `./1234.json`。
-- `maa sscopilot <maa_uri>`: 自动保全派驻，其中 `<maa_uri>` 是保全派驻作业的 URI。
-- `maa roguelike <theme>`: 自动集成战略，`<theme>` 是集成战略的主题，可选值为 `Phantom`，`Mizuki`，`Sami`，`Sarkaz` 以及 `JieGarden`。
-- `maa reclamation <theme>`: 自动生息演算，`<theme>` 是生息演算的主题，目前仅 `Tales` 主题可用。
+- `maa startup [client]`: ゲームを起動してメイン画面に入ります。`[client]` はクライアントタイプで、空欄の場合はゲームクライアントを起動しません。
+- `maa closedown [client]`: ゲームクライアントを終了します。`[client]` はクライアントタイプで、デフォルトは `Official` です。
+- `maa fight [stage]`: 戦闘タスクを実行します。`[stage]` はステージ名（例：`1-7`）で、空欄の場合は前回または現在のステージが選択されます。
+- `maa copilot <maa_uri>...`: 作業を自動実行します。`<maa_uri>` は作業の URI で、複数の URI は順番に実行されます。`maa_uri` には `maa://1234` またはローカルファイルパス `./1234.json` を指定できます。
+- `maa sscopilot <maa_uri>`: 保全駐在を自動実行します。`<maa_uri>` は保全駐在作業の URI です。
+- `maa roguelike <theme>`: 自動ローグを実行します。`<theme>` はローグのテーマで、`Phantom`、`Mizuki`、`Sami`、`Sarkaz`、`JieGarden` から選択できます。
+- `maa reclamation <theme>`: 生息演算を自動実行します。`<theme>` は生息演算のテーマで、現在は `Tales` テーマのみ利用可能です。
 
-上述任务接受一些参数，你可以通过 `maa <task> --help` 来查看具体的参数。
+これらのタスクはいくつかのパラメータを受け付けます。`maa <task> --help` で具体的なパラメータを確認できます。
 
-对于官服玩家，如果你想要打开游戏，使用 3 个理智药刷 BB-7，然后关闭游戏，你可以运行以下命令：
+公式サーバーのプレイヤーが、ゲームを起動し、理性剤を 3 つ使用して BB-7 を周回し、その後ゲームを終了したい場合は、以下のコマンドを実行します：
 
 ```bash
 maa startup Official && maa fight BB-7 -m 3 && maa closedown
 ```
 
-### 自定义任务
+### カスタムタスク
 
-由于MAA支持的任务繁多，maa-cli无法提供所有任务的预定义选项。除此之外，你可能需要像上述的例子一样运行多个任务。为了解决这个问题，maa-cli提供了自定义任务的功能。自定义任务能够组合不同的任务，并且更精细地控制每个任务的参数以及执行顺序。此外，自定义任务支持条件判断，可以根据条件来决定是否执行某个任务，或者以何种参数执行某个任务。这可以用于自动化你的日常任务。自定义任务通过配置文件定义，具体配置文件的位置和编写方式请参考 [自定义任务文档][custom-task]。在编写好配置文件后，你可以通过 `maa run <task>` 来运行自定义任务，这里的 `<task>` 是一个自定义任务文件名，不包括扩展名。
+MAA がサポートするタスクは多岐にわたるため、maa-cli がすべてのタスクの定義済みオプションを提供することはできません。それに加えて、上記の例のように複数のタスクを実行したい場合もあるでしょう。この問題を解決するため、maa-cli はカスタムタスクの機能を提供しています。カスタムタスクは異なるタスクを組み合わせることができ、各タスクのパラメータと実行順序をより細かく制御できます。さらに、カスタムタスクは条件判定をサポートしており、条件に応じて特定のタスクを実行するかどうか、またはどのパラメータで実行するかを決定できます。これは日常タスクの自動化に活用できます。カスタムタスクは設定ファイルで定義されます。設定ファイルの配置場所と記述方法の詳細は[カスタムタスクドキュメント][custom-task]を参照してください。設定ファイルを作成した後、`maa run <task>` でカスタムタスクを実行できます。ここでの `<task>` はカスタムタスクファイル名で、拡張子は含みません。
 
-### 任务总结
+### タスクサマリー
 
-不管是预定义任务还是自定义任务，maa-cli 都会在任务运行结束后输出任务的总结信息，
-其包括每个子任务的运行时间（开始时间、结束时间、运行时长）。对于部分任务，还会输出任务的结果汇总：
+定義済みタスクとカスタムタスクのいずれの場合も、maa-cli はタスク実行終了後にタスクのサマリー情報を出力します。これには各サブタスクの実行時間（開始時刻、終了時刻、実行時間）が含まれます。一部のタスクでは、タスクの結果概要も出力されます：
 
-- `fight` 任务: 关卡名称，次数，消耗理智药个数以及掉落统计；
-- `infrast`: 各设施进驻的干员，对于制造站和贸易站，还会包括产物类型；
-- `recruit`: 每次公招的 tag ，星级以及状态，以及总共的招募次数；
-- `roguelike`: 探索次数，投资次数。
+- `fight` タスク：ステージ名、回数、消費した理性剤の数、ドロップ統計。
+- `infrast`：各施設に配置されたオペレーター。製造所と貿易所では、産物タイプも含まれます。
+- `recruit`：各公開求人のタグ、星数、状態、および合計募集回数。
+- `roguelike`：探索回数、投資回数。
 
-如果你不想要任务总结，可以通过 `--no-summary` 参数来关闭。
+タスクサマリーが不要な場合は、`--no-summary` パラメータで無効化できます。
 
-### 任务日志
+### タスクログ
 
-maa-cli 会输出日志，日志输出级别从低到高分别为 `Error`，`Warn`，`Info`，`Debug` 和 `Trace`。默认的日志输出级别为 `Warn`。日志级别可以通过 `MAA_LOG` 环境变量来设置，例如 `MAA_LOG=debug`。你也可以通过 `-v` 或者 `-q` 来增加或者减少日志输出级别。
+maa-cli はログを出力します。ログレベルは低い順に `Error`、`Warn`、`Info`、`Debug`、`Trace` で、デフォルトのログレベルは `Warn` です。ログレベルは環境変数 `MAA_LOG` で設定できます（例：`MAA_LOG=debug`）。`-v` または `-q` でログレベルを上げたり下げたりすることもできます。
 
-maa-cli 默认会向标准误 (stderr) 输出日志。`--log-file` 选项可以将日志输出到文件中，日志保存在 `$(maa dir log)/YYYY/MM/DD/HH:MM:SS.log` 中，其中 `$(maa dir log)` 是日志目录，你可以通过 `maa dir log` 获取。你也可以通过 `--log-file=path/to/log` 来指定日志文件的路径。
+maa-cli はデフォルトで標準エラー出力（stderr）にログを出力します。`--log-file` オプションを指定するとログをファイルに出力でき、ログは `$(maa dir log)/YYYY/MM/DD/HH:MM:SS.log` に保存されます。`$(maa dir log)` はログディレクトリで、`maa dir log` で取得できます。`--log-file=path/to/log` でログファイルのパスを指定することもできます。
 
-默认情况下，所有输出的日志会包含时间戳和日志级别的前缀。你可以通过环境变量 `MAA_LOG_PREFIX` 来改变这个行为。设置为 `Always` 时，总是会包含前缀，设置为 `Auto` 时输出到日志文件时会包含前缀，而输出到 stderr 时不会包含前缀，而设置为 `Never` 时即使是写入日志文件时也不会包含前缀。
+デフォルトでは、出力されるすべてのログにタイムスタンプとログレベルのプレフィックスが付きます。この動作は環境変数 `MAA_LOG_PREFIX` で変更できます。`Always` に設定すると常にプレフィックスが付き、`Auto` に設定するとログファイルへの出力時にはプレフィックスが付きますが、stderr への出力時には付きません。`Never` に設定すると、ログファイルへの書き込み時であってもプレフィックスは付きません。
 
-### 其他子命令
+### その他のサブコマンド
 
-除了上述的命令外，maa-cli 还提供了其他一些子命令：
+上記のコマンドのほか、maa-cli には次のサブコマンドもあります：
 
-- `maa list`: 列出所有可用的任务；
-- `maa dir <dir>`: 获取特定目录的路径，比如 `maa dir config` 可以用来获取配置目录的路径;
-- `maa version`: 获取 `maa-cli` 以及 `MaaCore` 的版本信息；
-- `maa convert <input> [output]`: 将 `JSON`，`YAML` 或者 `TOML` 格式的文件转换为其他格式;
-- `maa complete <shell>`: 生成自动补全脚本;
-- `maa activity [client]`: 获取游戏的当前活动信息，`client` 是客户端类型，默认为 `Official`。
-- `maa cleanup`: 清除 `maa-cli` 和 `MaaCore` 的缓存。
-- `maa import <file> [-t <type>]:` 导入配置文件，`file` 是配置文件的路径。`-t` 选项可以指定配置文件的类型，如 `cli`, `profile`, `infrast` 等。
+- `maa list`: 利用可能なすべてのタスクを一覧表示します。
+- `maa dir <dir>`: 特定のディレクトリのパスを取得します。たとえば `maa dir config` で設定ディレクトリのパスを取得できます。
+- `maa version`: `maa-cli` と `MaaCore` のバージョン情報を取得します。
+- `maa convert <input> [output]`: `JSON`、`YAML`、`TOML` 形式のファイルを他の形式に変換します。
+- `maa complete <shell>`: 自動補完スクリプトを生成します。
+- `maa activity [client]`: ゲームの現在のイベント情報を取得します。`client` はクライアントタイプで、デフォルトは `Official` です。
+- `maa cleanup`: `maa-cli` と `MaaCore` のキャッシュを削除します。
+- `maa import <file> [-t <type>]:`: 設定ファイルをインポートします。`file` は設定ファイルのパスです。`-t` オプションで設定ファイルのタイプ（`cli`、`profile`、`infrast` など）を指定できます。
 
-更多命令的使用方法可以通过 `maa help` 查看，具体命令的使用方法可以 通过 `maa help <command>` 查看。
+その他のコマンドの使用方法は `maa help` で、個々のコマンドの使用方法は `maa help <command>` で確認できます。
 
-[config-core]: config.md#maacore-相关配置
-[custom-task]: config.md#自定义任务
+[config-core]: config.md#maacore-関連設定
+[custom-task]: config.md#カスタムタスク
