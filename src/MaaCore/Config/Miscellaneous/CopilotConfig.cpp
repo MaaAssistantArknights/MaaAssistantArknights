@@ -59,33 +59,41 @@ std::optional<asst::battle::OperUsage> asst::CopilotConfig::parse_oper_usage(con
     oper.skill_usage = static_cast<battle::SkillUsage>(json.get("skill_usage", 0));
     oper.skill_times = json.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
 
-    // 兼容古早旧作业中非法的技能选择
     // 同名干员与召唤物并存时（如 “阿米娅” 与活动装置）取稀有度最高的一条，不依赖 unordered_map 遍历顺序
-    std::shared_ptr<OperProps> oper_props;
+    std::shared_ptr<OperProps> oper_props = nullptr;
     for (const auto& props : BattleData.find_opers(oper.role, oper.name)) {
         if (oper_props == nullptr || props->rarity > oper_props->rarity) {
             oper_props = props;
         }
     }
-    if (!oper_props) {
+    if (!oper_props) { // 找不到干员时跳过检查
         LogError << __FUNCTION__ << "| Oper" << oper.name << "with role" << enum_to_string(oper.role)
                  << "not found in BattleData.";
+        if (auto req_opt = json.find("requirements")) {
+            oper.requirements.elite = req_opt->get("elite", 0);
+            oper.requirements.level = req_opt->get("level", 0);
+            oper.requirements.skill_level = req_opt->get("skill_level", 0);
+            oper.requirements.module = req_opt->get("module", -1);
+        }
+        return oper;
     }
-    int rarity = oper_props_opt->rarity;
-    if (oper.skill == 3 && rarity < 6 && oper_props_opt->id != "char_002_amiya") {
-        LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
-                 << " cannot use skill index 3, set to 0.";
-        oper.skill = 0;
-    }
-    else if (oper.skill == 2 && rarity < 4) {
-        LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
-                 << " cannot use skill index 2, set to 0.";
-        oper.skill = 0;
-    }
-    else if (oper.skill == 1 && rarity < 3) {
-        LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
-                 << " cannot use skill index 1, set to 0.";
-        oper.skill = 0;
+    { // 兼容古早旧作业中非法的技能选择
+        int rarity = oper_props->rarity;
+        if (oper.skill == 3 && rarity < 6 && oper_props->id != "char_002_amiya") {
+            LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
+                     << " cannot use skill index 3, set to 0.";
+            oper.skill = 0;
+        }
+        else if (oper.skill == 2 && rarity < 4) {
+            LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
+                     << " cannot use skill index 2, set to 0.";
+            oper.skill = 0;
+        }
+        else if (oper.skill == 1 && rarity < 3) {
+            LogError << __FUNCTION__ << "| Oper " << oper.name << " with rarity " << rarity
+                     << " cannot use skill index 1, set to 0.";
+            oper.skill = 0;
+        }
     }
 
     int elite_require = oper.skill - 1;
