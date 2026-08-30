@@ -320,7 +320,7 @@ kill_adb_on_exit = false
 ```toml
 [connection]
 adb_path = "adb" # adb 可执行文件的路径，默认值为 "adb"，这意味着 adb 可执行文件在环境变量 PATH 中
-address = = "emulator-5554" # 连接地址，比如 "emulator-5554" 或者 "127.0.0.1:5555"
+address = "emulator-5554" # 连接地址，比如 "emulator-5554" 或者 "127.0.0.1:5555"
 config = "General" # 连接配置，通常不需要修改
 ```
 
