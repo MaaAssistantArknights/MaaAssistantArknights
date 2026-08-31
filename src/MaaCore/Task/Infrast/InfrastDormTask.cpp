@@ -479,6 +479,9 @@ bool asst::InfrastDormTask::run_fiammetta_preparation()
 {
     // 前置阶段只执行一次菲亚梅塔配对：互换心情后把二人撤出，仅将心情耗尽
     // 的菲亚梅塔留在宿舍回心情；恢复目标与低心情干员均不再被拉进宿舍。
+    // 注意首次确认成功后的步骤（重进/排序/撤出/回选）若失败触发重试，心情
+    // 已互换，配对必然 NotFound 而空确认退出，二人会滞留宿舍至下次换班——
+    // 这是有意的软降级兜底，避免在已互换状态下反复清空宿舍，勿当缺陷修。
     const FiammettaSelectionResult selection_result =
         m_fiammetta_checked || m_fiammetta_targets.empty() ? FiammettaSelectionResult::NotFound
                                                            : try_select_fiammetta_pair();
@@ -518,20 +521,76 @@ bool asst::InfrastDormTask::run_fiammetta_preparation()
 
 asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_select_fiammetta_pair()
 {
-    // 宿舍前置阶段只识别当前第一页，不向后翻页。先在低心情优先的第一页
-    // OCR 适配干员；只有找到目标后，才切换排序方向寻找满心情菲亚梅塔。
+    // 前置阶段只识别当前第一页，不向后翻页。先在低心情优先的第一页确认恢复
+    // 目标在场，再切技能排序确认满心情菲亚梅塔在场；两者都确认后才清空宿舍
+    // 腾位，避免清空后无人可配对而白撤原住民。
     m_fiammetta_checked = true;
-    InfrastOperImageAnalyzer target_analyzer(ctrler()->get_image());
-    target_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
-    target_analyzer.set_facility(facility_name());
-    if (!target_analyzer.analyze()) {
+    std::vector<infrast::Oper> target_opers;
+    if (!detect_fiammetta_target(target_opers)) {
+        // 尚未清空宿舍即退出，原住民不受影响。
+        return FiammettaSelectionResult::NotFound;
+    }
+
+    // 菲亚梅塔只在满心情时技能才有作用。按技能排序后她必然在第一页，
+    // 因而无需继续翻页识别。
+    if (!ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run()) {
+        return FiammettaSelectionResult::Error;
+    }
+    std::vector<infrast::Oper> fiammetta_opers;
+    if (!detect_full_mood_fiammetta(fiammetta_opers)) {
+        Log.warn("full-mood Fiammetta was not found on the first page");
+        // 尚未清空宿舍即退出，原住民不受影响。
+        return switch_to_low_mood_sort() ? FiammettaSelectionResult::NotFound : FiammettaSelectionResult::Error;
+    }
+
+    // 清空会取消全部选中，游戏的“已选中置顶”随之消失，列表布局随之改变；
+    // 点选后新选中者又会被置顶。因此清空后每次点击前都重新识别定位，
+    // 不复用之前的坐标。
+    if (!click_clear_button()) {
+        return FiammettaSelectionResult::Error;
+    }
+    if (!switch_to_low_mood_sort()) {
         return FiammettaSelectionResult::Error;
     }
 
-    const auto& target_opers = target_analyzer.get_result();
-    std::vector<infrast::DormSelectionCandidate> target_candidates;
-    target_candidates.reserve(target_opers.size());
-    for (const auto& oper : target_opers) {
+    // 点选顺序决定进驻顺序：菲亚梅塔必须位于目标后一位，交换对象才是预期干员。
+    target_opers.clear();
+    if (!detect_fiammetta_target(target_opers)) {
+        return FiammettaSelectionResult::Error;
+    }
+    ctrler()->click(target_opers.front().rect);
+    if (!ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run()) {
+        discard_pending_selection();
+        return FiammettaSelectionResult::Error;
+    }
+    fiammetta_opers.clear();
+    if (!detect_full_mood_fiammetta(fiammetta_opers)) {
+        discard_pending_selection();
+        return FiammettaSelectionResult::Error;
+    }
+    ctrler()->click(fiammetta_opers.front().rect);
+    const auto& id_opt = BattleData.get_first_id(battle::Role::Sniper, "菲亚梅塔");
+    if (id_opt) {
+        stage_operator_selection(*id_opt);
+    }
+    return FiammettaSelectionResult::Selected;
+}
+
+bool asst::InfrastDormTask::detect_fiammetta_target(std::vector<infrast::Oper>& opers)
+{
+    // 只识别当前第一页：恢复目标按低心情升序必然落在第一页。
+    InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
+    analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
+    analyzer.set_facility(facility_name());
+    if (!analyzer.analyze()) {
+        Log.error("fiammetta target analyze failed");
+        return false;
+    }
+    opers = analyzer.get_result();
+
+    std::vector<infrast::DormSelectionCandidate> candidates;
+    candidates.reserve(opers.size());
+    for (const auto& oper : opers) {
         infrast::DormSelectionCandidate candidate {
             .operator_id = oper.operator_id,
             .mood_ratio = oper.mood_ratio,
@@ -548,32 +607,34 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
                 candidate.name = name->text;
             }
         }
-        target_candidates.emplace_back(std::move(candidate));
+        candidates.emplace_back(std::move(candidate));
     }
 
-    const auto target_index = infrast::find_fiammetta_target(target_candidates, m_fiammetta_targets, m_mood_threshold);
+    const auto target_index = infrast::find_fiammetta_target(candidates, m_fiammetta_targets, m_mood_threshold);
     if (!target_index) {
-        // 尚未清空宿舍即退出，原住民不受影响。
-        return FiammettaSelectionResult::NotFound;
+        return false;
     }
+    // 把命中的干员挪到首位，供调用方直接点选。
+    std::swap(opers.front(), opers[*target_index]);
+    return true;
+}
 
-    // 菲亚梅塔只在满心情时技能才有作用。按技能排序后她必然在第一页，
-    // 因而无需继续翻页识别。
-    if (!ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run()) {
-        return FiammettaSelectionResult::Error;
+bool asst::InfrastDormTask::detect_full_mood_fiammetta(std::vector<infrast::Oper>& opers)
+{
+    // 只识别当前第一页：满心情菲亚梅塔按技能排序必然落在第一页。
+    InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
+    analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
+    analyzer.set_facility(facility_name());
+    if (!analyzer.analyze()) {
+        Log.error("full-mood fiammetta analyze failed");
+        return false;
     }
+    opers = analyzer.get_result();
 
-    InfrastOperImageAnalyzer fiammetta_analyzer(ctrler()->get_image());
-    fiammetta_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
-    fiammetta_analyzer.set_facility(facility_name());
-    if (!fiammetta_analyzer.analyze()) {
-        return FiammettaSelectionResult::Error;
-    }
-    const auto& fiammetta_opers = fiammetta_analyzer.get_result();
-    std::vector<infrast::DormSelectionCandidate> fiammetta_candidates;
-    fiammetta_candidates.reserve(fiammetta_opers.size());
-    for (const auto& oper : fiammetta_opers) {
-        fiammetta_candidates.emplace_back(
+    std::vector<infrast::DormSelectionCandidate> candidates;
+    candidates.reserve(opers.size());
+    for (const auto& oper : opers) {
+        candidates.emplace_back(
             infrast::DormSelectionCandidate {
                 .operator_id = oper.operator_id,
                 .mood_ratio = oper.mood_ratio,
@@ -582,33 +643,14 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
                 .available = true,
             });
     }
-    const auto fiammetta_index = infrast::find_full_mood_fiammetta(fiammetta_candidates);
-    if (!fiammetta_index) {
-        Log.warn("full-mood Fiammetta was not found on the first page");
-        // 尚未清空宿舍即退出，原住民不受影响。
-        return switch_to_low_mood_sort() ? FiammettaSelectionResult::NotFound : FiammettaSelectionResult::Error;
-    }
 
-    // 两名干员均确认在场后才清空宿舍腾位。点选顺序决定进驻顺序：
-    // 菲亚梅塔必须位于目标后一位，交换对象才是预期干员。
-    if (!click_clear_button()) {
-        return FiammettaSelectionResult::Error;
+    const auto fiammetta_index = infrast::find_full_mood_fiammetta(candidates);
+    if (!fiammetta_index) {
+        return false;
     }
-    if (!switch_to_low_mood_sort()) {
-        return FiammettaSelectionResult::Error;
-    }
-    ctrler()->click(target_opers[*target_index].rect);
-    stage_operator_selection(infrast::fiammetta_target_id(target_candidates[*target_index].name));
-    if (!ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run()) {
-        discard_pending_selection();
-        return FiammettaSelectionResult::Error;
-    }
-    ctrler()->click(fiammetta_opers[*fiammetta_index].rect);
-    const auto& id_opt = BattleData.get_first_id(battle::Role::Sniper, "菲亚梅塔");
-    if (id_opt) {
-        stage_operator_selection(*id_opt);
-    }
-    return FiammettaSelectionResult::Selected;
+    // 把命中的干员挪到首位，供调用方直接点选。
+    std::swap(opers.front(), opers[*fiammetta_index]);
+    return true;
 }
 
 bool asst::InfrastDormTask::keep_exhausted_fiammetta()
