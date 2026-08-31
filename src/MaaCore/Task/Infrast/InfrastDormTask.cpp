@@ -477,9 +477,9 @@ bool asst::InfrastDormTask::should_select_dorm_managers() const noexcept
 
 bool asst::InfrastDormTask::run_fiammetta_preparation()
 {
-    const FiammettaSelectionResult selection_result =
-        m_fiammetta_checked || m_fiammetta_targets.empty() ? FiammettaSelectionResult::NotFound
-                                                           : try_select_fiammetta_pair();
+    const FiammettaSelectionResult selection_result = m_fiammetta_checked || m_fiammetta_targets.empty()
+                                                          ? FiammettaSelectionResult::NotFound
+                                                          : try_select_fiammetta_pair();
     if (selection_result == FiammettaSelectionResult::Error) {
         return false;
     }

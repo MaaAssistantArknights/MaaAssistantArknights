@@ -245,7 +245,6 @@ private:
     std::unordered_set<std::string> m_opers;
     std::unordered_set<std::string> m_drones_confusing; // confused summons: multiple summons of same oper
 
-    
     // 子职业 id (battle_data.json subProfessionId) -> SubRole 枚举
     inline static const std::unordered_map<std::string, battle::SubRole> SubRoleNameToSubRole = {
         { "pioneer", battle::SubRole::Pioneer_Pioneer },

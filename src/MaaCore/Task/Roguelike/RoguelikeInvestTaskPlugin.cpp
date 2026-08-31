@@ -65,7 +65,8 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
     };
     // 投资确认按钮
     const auto& click_rect = Task.get("Roguelike@StageTraderInvest-Confirm")->specific_rect;
-    LogInfo << __FUNCTION__ << "start investing, deposit: " << deposit.value_or(-1) << ", investable count: " << count_limit;
+    LogInfo << __FUNCTION__ << "start investing, deposit: " << deposit.value_or(-1)
+            << ", investable count: " << count_limit;
     while (!need_exit() && deposit && *deposit < 999 && count_limit - count > 0) {
         int times = std::min(15, count_limit - count);
         while (!need_exit() && times > 0) {
@@ -140,8 +141,8 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
     info["details"]["deposit"] = deposit ? *deposit : -1;
     callback(AsstMsg::SubTaskExtraInfo, info);
 
-    LogInfo << __FUNCTION__ << "invest round finished, count: " << count << ", total: " << total << "; deposit: "
-            << (deposit ? *deposit : -1);
+    LogInfo << __FUNCTION__ << "invest round finished, count: " << count << ", total: " << total
+            << "; deposit: " << (deposit ? *deposit : -1);
     m_invest_count = total;
 
     if (count >= 0 && count_limit <= count) {

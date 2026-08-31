@@ -40,8 +40,7 @@ bool asst::BattleDataConfig::parse(const json::value& json)
 
         data_ptr->sub_role = get_subrole_type(char_data_json.get("subProfessionId", ""));
         if (data_ptr->role != battle::Role::Drone && data_ptr->sub_role == battle::SubRole::Unknown) {
-            LogError << "Unknown subProfessionId:" << char_data_json.get("subProfessionId", "")
-                     << "for oper:" << name;
+            LogError << "Unknown subProfessionId:" << char_data_json.get("subProfessionId", "") << "for oper:" << name;
         }
         const auto& ranges_json = char_data_json.at("rangeId").as_array();
         for (size_t i = 0; i != data_ptr->ranges.size(); ++i) {
