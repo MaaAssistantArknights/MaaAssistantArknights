@@ -2212,7 +2212,7 @@
             ]
         ],
         "roi": [1080, 570, 200, 130],
-        "next": ["VisitLimited", "VisitNext", "VisitNextBlack", "VisitNextOcr"]
+        "next": ["VisitNext@LoadingText", "VisitLimited", "VisitNext", "VisitNextBlack", "VisitNextOcr"]
     },
     "VisitNextBlack": {
         "method": "HSVCount",
@@ -2230,7 +2230,7 @@
         "text": ["访问下位"],
         "action": "ClickSelf",
         "roi": [1080, 570, 200, 130],
-        "next": ["VisitLimited", "VisitNext", "VisitNextBlack", "VisitNextOcr"]
+        "next": ["VisitNext@LoadingText", "VisitLimited", "VisitNext", "VisitNextBlack", "VisitNextOcr"]
     },
     "MallBegin": {
         "algorithm": "JustReturn",
