@@ -185,7 +185,7 @@ bool asst::InfrastDormTask::_run()
 
         Log.trace("m_notstationed_filter_enabled:", m_notstationed_filter_enabled);
         const bool is_default_prepare_phase = m_prepare_phase && m_default_mode;
-        // 常规模式第一轮保持游戏默认的“全部”筛选，未进驻仅在第二轮补位启用。
+        // 常规模式第一轮保持游戏默认的“全部”筛选，未进驻仅在第二轮重排启用。
         if (m_notstationed_filter_enabled && !room_uses_custom_opers && !is_default_prepare_phase) {
             if (!set_notstationed_filter(true)) {
                 return false;
@@ -193,8 +193,8 @@ bool asst::InfrastDormTask::_run()
         }
 
         // 常规模式前置阶段只执行一次菲亚梅塔配对即结束，不进入其余宿舍，也
-        // 不再把低心情干员拉进宿舍：低心情干员的安置交给设施换班换出与第二
-        // 轮补位，｢不将已进驻干员放入宿舍｣ 因此对整个换班流程完整生效。
+        // 不在此处做任何宿舍选人：全部休整安置由第二轮的清空重排完成，
+        // ｢不将已进驻干员放入宿舍｣ 因此对整个换班流程完整生效。
         if (is_default_prepare_phase && !room_uses_custom_opers) {
             return run_fiammetta_preparation();
         }
@@ -221,10 +221,10 @@ bool asst::InfrastDormTask::_run()
             }
         }
         else {
-            // 自定义前置阶段清空宿舍；后置阶段保留已经休息的干员，只补空位。
-            if (m_prepare_phase || m_is_custom) {
-                click_clear_button();
-            }
+            // 前置阶段仅执行菲亚梅塔配对（自定义前置阶段清空整间宿舍）；
+            // 后置阶段清空重排：休整充足的干员让出位置，由未进驻池中的
+            // 低心情干员按心情升序补入，宿舍始终收敛为最需要休息的一批人。
+            click_clear_button();
         }
 
         if (!m_is_custom || current_room_config().autofill) {
@@ -477,41 +477,33 @@ bool asst::InfrastDormTask::should_select_dorm_managers() const noexcept
 
 bool asst::InfrastDormTask::run_fiammetta_preparation()
 {
-    // 前置阶段只执行一次菲亚梅塔配对：互换心情后把二人撤出，仅将心情耗尽
-    // 的菲亚梅塔留在宿舍回心情；恢复目标与低心情干员均不再被拉进宿舍。
-    // 注意首次确认成功后的步骤（重进/排序/撤出/回选）若失败触发重试，心情
-    // 已互换，配对必然 NotFound 而空确认退出，二人会滞留宿舍至下次换班——
-    // 这是有意的软降级兜底，避免在已互换状态下反复清空宿舍，勿当缺陷修。
+    // 前置阶段只执行一次菲亚梅塔配对：互换心情后把二人清出宿舍即结束，
+    // 不在此处做任何宿舍选人。菲亚梅塔互换后心情为全池最低，会由后置
+    // 阶段的清空重排自动选回；恢复目标心情回满，交由设施换班重新调度。
+    // 注意首次确认成功后的步骤（重进/清空）若失败触发重试，心情已互换，
+    // 配对必然 NotFound 而空确认退出，二人会滞留宿舍至下次换班——这是
+    // 有意的软降级兜底，避免在已互换状态下反复清空宿舍，勿当缺陷修。
     const FiammettaSelectionResult selection_result =
         m_fiammetta_checked || m_fiammetta_targets.empty() ? FiammettaSelectionResult::NotFound
                                                            : try_select_fiammetta_pair();
     if (selection_result == FiammettaSelectionResult::Error) {
         return false;
     }
+    if (!click_confirm_button()) {
+        return false;
+    }
     if (selection_result == FiammettaSelectionResult::NotFound) {
         // 宿舍未被修改，确认空变更后按常规路径退回基建主界面。
-        if (!click_confirm_button()) {
-            return false;
-        }
         click_return_button();
         return true;
     }
 
-    if (!click_confirm_button()) {
-        return false;
-    }
     click_return_button();
     if (!enter_facility(m_cur_facility_index) || !enter_oper_list_page()) {
         return false;
     }
-    close_quick_formation_expand_role();
-    if (!switch_to_low_mood_sort()) {
-        return false;
-    }
+    // 清空撤出配对二人，留给后置阶段的清空重排统一安置。
     if (!click_clear_button()) {
-        return false;
-    }
-    if (!keep_exhausted_fiammetta()) {
         return false;
     }
     if (!click_confirm_button()) {
@@ -665,36 +657,6 @@ asst::InfrastDormTask::DetectResult asst::InfrastDormTask::detect_full_mood_fiam
     // 把命中的干员挪到首位，供调用方直接点选。
     std::swap(opers.front(), opers[*fiammetta_index]);
     return DetectResult::Found;
-}
-
-bool asst::InfrastDormTask::keep_exhausted_fiammetta()
-{
-    // 互换心情后菲亚梅塔的心情与恢复目标互换，必然低于阈值，将她留在宿舍
-    // 休息以备下次配对；回满心情的恢复目标随清空撤出，由设施换班重新调度。
-    const auto& fiammetta_id_opt = BattleData.get_first_id(battle::Role::Sniper, "菲亚梅塔");
-    if (!fiammetta_id_opt) {
-        return true;
-    }
-
-    const auto image = ctrler()->get_image();
-    InfrastOperImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
-    oper_analyzer.set_facility(facility_name());
-    if (!oper_analyzer.analyze()) {
-        Log.error("mood analyze failed!");
-        return false;
-    }
-    oper_analyzer.sort_by_mood();
-    for (const auto& oper : oper_analyzer.get_result()) {
-        if (oper.selected || oper.mood_ratio >= m_mood_threshold) {
-            continue;
-        }
-        if (oper.operator_id == *fiammetta_id_opt) {
-            ctrler()->click(oper.rect);
-            break;
-        }
-    }
-    return true;
 }
 
 bool asst::InfrastDormTask::set_notstationed_filter(bool enabled)

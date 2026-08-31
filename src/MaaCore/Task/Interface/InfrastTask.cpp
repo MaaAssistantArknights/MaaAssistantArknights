@@ -124,7 +124,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
             switch (step) {
             case infrast::FacilityStep::DormPrepare:
                 return m_dorm_task_ptr;
-            case infrast::FacilityStep::DormFill:
+            case infrast::FacilityStep::DormRearrange:
                 return m_dorm_task_ptr_post;
             case infrast::FacilityStep::MfgInspect:
                 return m_mfg_info_task_ptr;
