@@ -217,7 +217,7 @@ public static class PropertyDependsOnUtility
                     }
                     else
                     {
-                        Log.Warning("跨实例依赖 {Path}：找不到外部实例或它不支持 PropertyChanged", fullPath);
+                        Log.Warning("Cross-instance dependency {Path}: external instance not found or does not support PropertyChanged", fullPath);
                     }
                 }
             }
@@ -227,7 +227,7 @@ public static class PropertyDependsOnUtility
                 var externalInstance = ResolveExternalInstanceByType(ownerType);
                 if (externalInstance is not INotifyPropertyChanged notifyInstance)
                 {
-                    Log.Warning("跨实例依赖 {OwnerType}：找不到外部实例或它不支持 PropertyChanged", ownerType.Name);
+                    Log.Warning("Cross-instance dependency {OwnerType}: external instance not found or does not support PropertyChanged", ownerType.Name);
                     continue;
                 }
 
@@ -256,7 +256,7 @@ public static class PropertyDependsOnUtility
                 // 订阅外部实例的 PropertyChanged
                 void externalHandler(object? sender, PropertyChangedEventArgs e)
                 {
-                    Log.Debug("跨实例 handler 触发: sender={Sender}, property={Property}", sender?.GetType().Name, e.PropertyName);
+                    Log.Debug("Cross-instance handler triggered: sender={Sender}, property={Property}", sender?.GetType().Name, e.PropertyName);
 
                     // 在锁内只收集待通知的 (实例, 属性)，通知动作放到锁外执行，
                     // 避免 NotifyPropertyChange 触发任意用户代码时持锁（潜在死锁/重入问题）。
@@ -275,7 +275,7 @@ public static class PropertyDependsOnUtility
                         }
                         else if (currentPropMap.TryGetValue(e.PropertyName, out var affectedInstances))
                         {
-                            Log.Debug("跨实例依赖匹配: property={Property}, 实例数={Count}", e.PropertyName, affectedInstances.Count);
+                            Log.Debug("Cross-instance dependency matched: property={Property}, instance count={Count}", e.PropertyName, affectedInstances.Count);
 
                             // 复制一份快照，避免通知期间列表被其他线程修改
                             toNotify = [.. affectedInstances];
@@ -297,7 +297,7 @@ public static class PropertyDependsOnUtility
 
                 _externalHandlers[externalInstance] = externalHandler;
                 externalInstance.PropertyChanged += externalHandler;
-                Log.Debug("已注册跨实例依赖: externalType={Type}, property={Property}", externalInstance.GetType().Name, externalPropertyName);
+                Log.Debug("Registered cross-instance dependency: externalType={Type}, property={Property}", externalInstance.GetType().Name, externalPropertyName);
             }
 
             if (!propMap.TryGetValue(externalPropertyName, out var existingList))
@@ -459,7 +459,7 @@ public static class PropertyDependsOnUtility
             // 找到循环：从 path 中找到循环的起点，构建循环路径
             var cycleStartIndex = path.IndexOf(currentProperty);
             var cycle = path.Skip(cycleStartIndex).Append(currentProperty).ToList();
-            throw new ArgumentException($"检测到循环依赖: {string.Join(" -> ", cycle)}");
+            throw new ArgumentException($"Circular dependency detected: {string.Join(" -> ", cycle)}");
         }
 
         visited.Add(currentProperty);
@@ -497,6 +497,6 @@ public static class PropertyDependsOnUtility
         }
 
         // 如果没有 NotifyOfPropertyChange 方法，记录警告
-        Log.Warning("类型 {Type} 的属性 {PropertyName} 需要通知变更，但未找到 NotifyOfPropertyChange 方法", type.FullName, propertyName);
+        Log.Warning("Property {PropertyName} of type {Type} needs change notification but NotifyOfPropertyChange method not found", propertyName, type.FullName);
     }
 }

@@ -90,7 +90,7 @@ public class AsstCopilotTask : AsstBaseTask
 
         if (!string.IsNullOrEmpty(FileName) && MultiTasks.Count > 0)
         {
-            throw new ArgumentException("FileName 和 MultiTasks 不能同时使用");
+            throw new ArgumentException("FileName and MultiTasks cannot be used at the same time");
         }
         else if (MultiTasks.Count > 0)
         {
@@ -102,7 +102,7 @@ public class AsstCopilotTask : AsstBaseTask
         }
         else
         {
-            throw new ArgumentException("FileName 和 MultiTasks 必须使用其一");
+            throw new ArgumentException("Either FileName or MultiTasks must be provided");
         }
 
         if (FormationIndex > 0)

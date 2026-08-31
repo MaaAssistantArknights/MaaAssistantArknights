@@ -579,7 +579,9 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">Additional commands for emulator parameters (e.g. ｢--instance 1｣ for instance 1).&#10;Command formats vary by emulator, typically including instance numbers and window modes, please consult your emulator's documentation.</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
+    <system:String x:Key="StartsWithScriptPlaceholder">Example: "C:\1.cmd" -minimized</system:String>
     <system:String x:Key="EndsWithScript">Ends with Script</system:String>
+    <system:String x:Key="EndsWithScriptPlaceholder">Example: "C:\1.cmd" -noWindow</system:String>
     <system:String x:Key="CopilotWithScript">Enable the above script during Copilot</system:String>
     <system:String x:Key="ManualStopWithScript">Enable the above script during manual stop</system:String>
     <system:String x:Key="BlockSleep">Prevent hibernation when running tasks</system:String>
@@ -788,6 +790,7 @@ Note:
 2. If using network bridging, check the MuMu network bridging mode and manually enter the serial number.
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu Installation Path</system:String>
+    <system:String x:Key="MuMu12EmulatorPathPlaceholder">Example: C:\Program Files\Netease\MuMuPlayer</system:String>
     <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu installation path is empty! The placeholder is only an example, please fill in the actual path in ｢{key=Settings} - {key=ConnectionSettings}｣</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu Network Bridge Connection</system:String>
     <system:String x:Key="MuMuBridgeConnectionTip">Unless you know what you are doing, do not enable this option</system:String>
@@ -816,6 +819,7 @@ The screenshot enhancement feature requires the emulator resolution to be set to
 If the game is launched in portrait mode and then switched to landscape, it may cause screen tearing or other issues.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
+    <system:String x:Key="LdEmulatorPathPlaceholder">Example: C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="LdEmulatorPathEmptyError">LDPlayer installation path is empty! The placeholder is only an example, please fill in the actual path in ｢{key=Settings} - {key=ConnectionSettings}｣</system:String>
     <system:String x:Key="LdManualSetIndex">Manually enter ｢{key=LdIndex}｣</system:String>
     <system:String x:Key="LdIndex">Instance Index</system:String>
@@ -893,6 +897,8 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
     <system:String x:Key="WaitAndStop">Wait &amp; Stop</system:String>
+    <system:String x:Key="AutoReloadResource">Auto Reload Resource</system:String>
+    <system:String x:Key="CustomTaskName">Task Name(s)</system:String>
     <!--  FightSettings  -->
     <system:String x:Key="UseSanityPotion">Use Sanity Potion</system:String>
     <system:String x:Key="UseOriginitePrime">Use Originium</system:String>
@@ -1383,6 +1389,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="EmulatorFpsErrorTip">Emulator refresh rate is set too low ({0} FPS), which may cause tasks to malfunction. Please turn off background frame rate reduction and set the frame rate to 60 FPS</system:String>
     <system:String x:Key="EmulatorFpsHighTip">Emulator refresh rate is set to {0} FPS, above the game's native frame rate cap (60 FPS). This may be the emulator's frame interpolation feature, which can cause visual artifacts or unstable recognition. It is recommended to disable frame interpolation and set the frame rate to 60 FPS</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
+    <system:String x:Key="RecruitRefreshLimitReached">Refresh count reached the limit</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error:&#160;</system:String>
     <system:String x:Key="OutOfMemoryError">The {0} task stopped due to insufficient memory. Close some programs or restart MAA and try again</system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
@@ -1399,6 +1406,11 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ErrorOccurred">Error occurred</system:String>
     <system:String x:Key="HasReturned">Has returned</system:String>
     <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
+    <system:String x:Key="PenguinUploadUnknownStage">Unknown stage</system:String>
+    <system:String x:Key="PenguinUploadNotThreeStars">Not a three-star run</system:String>
+    <system:String x:Key="PenguinUploadUnknownTimes">Unknown stage times</system:String>
+    <system:String x:Key="PenguinUploadUnknownDropType">Unknown drop type</system:String>
+    <system:String x:Key="PenguinUploadUnknownDrops">Unknown drops</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
     <system:String x:Key="ReportSkippedForPcClient">The PC client cursor can obscure drop items and counts. This report was skipped to avoid polluting the data pool with inaccurate data</system:String>
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
@@ -1653,6 +1665,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="RecruitmentOfStar">{0}★ has been recruited!</system:String>
     <system:String x:Key="RecruitmentOfBot">Robot! Robot! More Robot!</system:String>
     <system:String x:Key="Choose">Choose</system:String>
+    <system:String x:Key="RecruitTagsSelectedLog" xml:space="preserve">Selected tags:&#10;{0}</system:String>
     <system:String x:Key="Refreshed">Refreshed</system:String>
     <system:String x:Key="ContinueRefresh">No recruitment permit, trying to refresh Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">No recruitment permit, returned</system:String>

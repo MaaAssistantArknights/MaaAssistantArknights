@@ -579,7 +579,9 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">에뮬레이터 실행 매개변수 추가 명령 (예: ｢--instance 1｣ 은 1 번 인스턴스).&#10;명령 형식은 에뮬레이터마다 다르며 일반적으로 인스턴스 번호나 창 모드 등을 포함합니다.</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
+    <system:String x:Key="StartsWithScriptPlaceholder">예: "C:\1.cmd" -minimized</system:String>
     <system:String x:Key="EndsWithScript">종료 시 추가 스크립트</system:String>
+    <system:String x:Key="EndsWithScriptPlaceholder">예: "C:\1.cmd" -noWindow</system:String>
     <system:String x:Key="CopilotWithScript">자동지휘 시 스크립트 사용</system:String>
     <system:String x:Key="ManualStopWithScript">수동 종료 시 스크립트 사용</system:String>
     <system:String x:Key="BlockSleep">작업 실행 시 절전 모드 차단</system:String>
@@ -789,6 +791,7 @@ C:\\Program Files\\Netease\\MuMuPlayer으로 입력해야 합니다.\n
 2. 네트워크 브리징을 사용 중인 경우 MuMu 네트워크 브리징 모드를 선택하고 일련 번호를 수동으로 입력해야 합니다.
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 에뮬레이터 경로</system:String>
+    <system:String x:Key="MuMu12EmulatorPathPlaceholder">예: C:\Program Files\Netease\MuMuPlayer</system:String>
     <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu 설치 경로가 비어 있습니다! 자리표시자는 예시일 뿐이니 ｢{key=Settings} - {key=ConnectionSettings}｣에서 실제 경로를 입력하세요</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu 네트워크 브리지 모드</system:String>
     <system:String x:Key="MuMuBridgeConnectionTip">무슨 역할을 하는지 잘 모른다면 이 옵션을 활성화하지 마세요</system:String>
@@ -818,6 +821,7 @@ C:\\leidian\\LDPlayer9
 세로 화면 상태에서 게임을 실행한 후 가로 화면으로 전환하면 화면 찢어짐 등의 문제가 발생할 수 있습니다.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 에뮬레이터 경로</system:String>
+    <system:String x:Key="LdEmulatorPathPlaceholder">예: C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="LdEmulatorPathEmptyError">LDPlayer 설치 경로가 비어 있습니다! 자리표시자는 예시일 뿐이니 ｢{key=Settings} - {key=ConnectionSettings}｣에서 실제 경로를 입력하세요</system:String>
     <system:String x:Key="LdManualSetIndex">｢{key=LdIndex}｣ 수동 입력</system:String>
     <system:String x:Key="LdIndex">인스턴스 번호</system:String>
@@ -895,6 +899,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">중지</system:String>
     <system:String x:Key="WaitAndStop">대기 &amp; 중지</system:String>
+    <system:String x:Key="AutoReloadResource">리소스 자동 재로딩</system:String>
+    <system:String x:Key="CustomTaskName">작업 이름</system:String>
     <!--  작전 설정  -->
     <system:String x:Key="UseSanityPotion">이성 회복제 사용</system:String>
     <system:String x:Key="UseOriginitePrime">순오리지늄 사용</system:String>
@@ -1386,6 +1392,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EmulatorFpsErrorTip">에뮬레이터 설정 주사율이 너무 낮습니다 ({0} FPS). 작업에 문제가 발생할 수 있습니다. 에뮬레이터 설정에서 백그라운드 프레임 저하를 끄고 프레임 속도를 60 FPS로 설정해 주세요</system:String>
     <system:String x:Key="EmulatorFpsHighTip">에뮬레이터 설정 주사율이 {0} FPS로 게임의 기본 프레임 속도 상한(60 FPS)을 초과합니다. 이는 에뮬레이터의 프레임 보간 기능일 수 있으며, 화면 왜곡이나 인식 불안정을 유발할 수 있습니다. 프레임 보간을 비활성화하고 프레임 속도를 60 FPS로 설정하는 것을 권장합니다</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
+    <system:String x:Key="RecruitRefreshLimitReached">새로고침 횟수가 상한에 도달했습니다</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
     <system:String x:Key="OutOfMemoryError">메모리 부족으로 {0} 작업이 중지되었습니다. 다른 프로그램을 종료하거나 MAA를 재시작한 후 다시 시도해 주세요</system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
@@ -1402,6 +1409,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorOccurred">오류가 발생했습니다</system:String>
     <system:String x:Key="HasReturned">반환했습니다</system:String>
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
+    <system:String x:Key="PenguinUploadUnknownStage">스테이지를 인식하지 못했습니다</system:String>
+    <system:String x:Key="PenguinUploadNotThreeStars">3성 클리어가 아니었습니다</system:String>
+    <system:String x:Key="PenguinUploadUnknownTimes">스테이지 횟수를 인식하지 못했습니다</system:String>
+    <system:String x:Key="PenguinUploadUnknownDropType">드롭 유형을 인식하지 못했습니다</system:String>
+    <system:String x:Key="PenguinUploadUnknownDrops">드롭 아이템을 인식하지 못했습니다</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC 클라이언트에서는 커서가 드롭 아이템과 수량 인식을 가릴 수 있습니다. 잘못된 데이터가 데이터 풀을 오염시키지 않도록 이번 보고는 자동으로 건너뜁니다</system:String>
     <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
@@ -1656,6 +1668,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitmentOfStar">★{0} {key=Operator}를 모집했습니다!</system:String>
     <system:String x:Key="RecruitmentOfBot">로봇을 모집했습니다!</system:String>
     <system:String x:Key="Choose">선택</system:String>
+    <system:String x:Key="RecruitTagsSelectedLog" xml:space="preserve">선택한 Tags:&#10;{0}</system:String>
     <system:String x:Key="Refreshed">새로고침됨</system:String>
     <system:String x:Key="ContinueRefresh">모집 허가증이 없습니다. 태그를 새로고침했습니다.</system:String>
     <system:String x:Key="NoRecruitmentPermit">모집 허가증이 없어 중지했습니다.</system:String>
