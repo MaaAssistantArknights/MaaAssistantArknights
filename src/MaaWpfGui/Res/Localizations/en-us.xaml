@@ -1996,8 +1996,6 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="AchievementRestore">Restore Backup</system:String>
     <system:String x:Key="AchievementUnlockedAt" xml:space="preserve">Unlocked at: </system:String>
     <system:String x:Key="AchievementList">Achievement List</system:String>
-    <system:String x:Key="AchievementUnlockAll">Unlock All</system:String>
-    <system:String x:Key="AchievementLockAll">Lock All</system:String>
     <system:String x:Key="AchievementBackupSuccess">Backed up to</system:String>
     <system:String x:Key="AchievementRestoreSuccess">Achievement progress restored</system:String>
     <system:String x:Key="AchievementRestoreFailed">Restore failed, invalid file format</system:String>

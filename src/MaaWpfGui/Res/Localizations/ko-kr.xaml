@@ -1998,8 +1998,6 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="AchievementRestore">백업 불러오기</system:String>
     <system:String x:Key="AchievementUnlockedAt" xml:space="preserve">해제된 시점: </system:String>
     <system:String x:Key="AchievementList">도전과제 목록</system:String>
-    <system:String x:Key="AchievementUnlockAll">모두 잠금 해제</system:String>
-    <system:String x:Key="AchievementLockAll">모두 잠금</system:String>
     <system:String x:Key="AchievementBackupSuccess">백업 완료</system:String>
     <system:String x:Key="AchievementRestoreSuccess">도전과제 진행도 복원 완료</system:String>
     <system:String x:Key="AchievementRestoreFailed">복원 실패, 파일 형식이 유효하지 않음</system:String>

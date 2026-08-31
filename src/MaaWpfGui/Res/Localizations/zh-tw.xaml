@@ -1997,8 +1997,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="AchievementRestore">載入備份</system:String>
     <system:String x:Key="AchievementUnlockedAt" xml:space="preserve">解鎖於：</system:String>
     <system:String x:Key="AchievementList">成就清單</system:String>
-    <system:String x:Key="AchievementUnlockAll">全部解鎖</system:String>
-    <system:String x:Key="AchievementLockAll">全部鎖定</system:String>
     <system:String x:Key="AchievementBackupSuccess">已備份到</system:String>
     <system:String x:Key="AchievementRestoreSuccess">已恢復成就進度</system:String>
     <system:String x:Key="AchievementRestoreFailed">恢復失敗，檔案格式無效</system:String>

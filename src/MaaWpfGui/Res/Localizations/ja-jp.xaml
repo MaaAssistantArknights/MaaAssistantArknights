@@ -1998,8 +1998,6 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="AchievementRestore">バックアップを読み込む</system:String>
     <system:String x:Key="AchievementUnlockedAt" xml:space="preserve">獲得した：</system:String>
     <system:String x:Key="AchievementList">実績リスト</system:String>
-    <system:String x:Key="AchievementUnlockAll">すべて解除</system:String>
-    <system:String x:Key="AchievementLockAll">すべてロック</system:String>
     <system:String x:Key="AchievementBackupSuccess">バックアップした</system:String>
     <system:String x:Key="AchievementRestoreSuccess">実績の進捗が復元されました</system:String>
     <system:String x:Key="AchievementRestoreFailed">復元に失敗しました、ファイル形式が無効です</system:String>

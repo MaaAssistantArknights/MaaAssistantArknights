@@ -57,11 +57,11 @@
                 <Button
                     Margin="5"
                     Command="{s:Action UnlockAll}"
-                    Content="{DynamicResource AchievementUnlockAll}" />
+                    Content="Unlock All" />
                 <Button
                     Margin="5"
                     Command="{s:Action LockAll}"
-                    Content="{DynamicResource AchievementLockAll}" />
+                    Content="Lock All" />
             </StackPanel>
         </StackPanel>
         <!--  成就通知设置  -->
