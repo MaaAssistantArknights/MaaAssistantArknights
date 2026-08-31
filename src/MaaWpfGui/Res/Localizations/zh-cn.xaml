@@ -179,7 +179,7 @@
     <system:String x:Key="InfrastFiammettaTargetShamare">巫恋</system:String>
     <system:String x:Key="InfrastFiammettaTargetTequila">龙舌兰</system:String>
     <system:String x:Key="InfrastFiammettaTargetGladiia">歌蕾蒂娅</system:String>
-    <system:String x:Key="InfrastFiammettaTargetsTips">虽然理论上恢复巫恋和龙舌兰可以007，但是自动换班情况下难以实现，因此不推荐选择恢复巫恋和龙舌兰</system:String>
+    <system:String x:Key="InfrastFiammettaTargetsTips">虽然理论上恢复巫恋和龙舌兰可以 007，但是自动换班情况下难以实现，因此不推荐选择恢复巫恋和龙舌兰</system:String>
     <system:String x:Key="InfrastUsePinusSylvestris">使用红松骑士团跨设施组合</system:String>
     <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">必要干员：焰尾(精二)、薇薇安娜(精二)、野鬃(精二)/灰毫(精二)/远牙(精二)至少一个&#10;参与计算干员：砾</system:String>
     <system:String x:Key="InfrastUsePerceptionInformation">使用感知信息跨设施组合</system:String>
