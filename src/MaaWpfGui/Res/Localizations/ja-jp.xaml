@@ -170,7 +170,7 @@
     <system:String x:Key="ReceptionOptionsRequireInfrast">{key=Infrast} で以下の関数を設定して実行する必要があります</system:String>
     <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">フィアメッタの体力回復を有効化</system:String>
-    <system:String x:Key="InfrastFiammettaRecoveryTips" xml:space="preserve">有効にすると、交代開始時に回復対象と体力が全快のフィアメッタを宿舎に入れて体力を交換し、その後フィアメッタは宿舎で回復します。&#10;交代開始時に出勤中の低体力オペレーターを宿舎へ移動することはなく、施設の交代で外された後に配置されます。</system:String>
+    <system:String x:Key="InfrastFiammettaRecoveryTips">有効にすると、交代開始時に回復対象と体力が全快のフィアメッタを宿舎に入れて体力を交換し、その後フィアメッタは宿舎で回復します。</system:String>
     <system:String x:Key="InfrastFiammettaTargets">フィアメッタの回復対象</system:String>
     <system:String x:Key="InfrastFiammettaTargetNone">なし</system:String>
     <system:String x:Key="InfrastFiammettaTargetPurestream">セイリュウ</system:String>

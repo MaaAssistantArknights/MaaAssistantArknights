@@ -170,7 +170,7 @@
     <system:String x:Key="ReceptionOptionsRequireInfrast">다음 기능들은 {key=Infrast}에서 설정 및 실행해야 합니다</system:String>
     <system:String x:Key="ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">피아메타 컨디션 회복 활성화</system:String>
-    <system:String x:Key="InfrastFiammettaRecoveryTips" xml:space="preserve">활성화하면 교대 시작 시 회복 대상과 컨디션이 가득한 피아메타를 숙소에 넣어 컨디션을 교환하며, 이후 피아메타는 숙소에서 회복합니다.&#10;교대 시작 시 근무 중인 컨디션이 낮은 오퍼레이터를 숙소로 이동하지 않으며, 시설 교대로 교체된 후 배치됩니다.</system:String>
+    <system:String x:Key="InfrastFiammettaRecoveryTips">활성화하면 교대 시작 시 회복 대상과 컨디션이 가득한 피아메타를 숙소에 넣어 컨디션을 교환하며, 이후 피아메타는 숙소에서 회복합니다.</system:String>
     <system:String x:Key="InfrastFiammettaTargets">피아메타 회복 대상</system:String>
     <system:String x:Key="InfrastFiammettaTargetNone">없음</system:String>
     <system:String x:Key="InfrastFiammettaTargetPurestream">퓨어스트림</system:String>

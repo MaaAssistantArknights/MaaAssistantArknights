@@ -170,7 +170,7 @@
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中设置并执行</system:String>
     <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">启用菲亚梅塔心情恢复</system:String>
-    <system:String x:Key="InfrastFiammettaRecoveryTips" xml:space="preserve">开启后，换班开始时会将恢复目标与满心情的菲亚梅塔放入宿舍互换心情，菲亚梅塔随后留在宿舍恢复心情。&#10;换班不再于开始时把低心情的已进驻干员拉进宿舍，低心情干员由设施换班换出后安置。</system:String>
+    <system:String x:Key="InfrastFiammettaRecoveryTips">开启后，换班开始时会将恢复目标与满心情的菲亚梅塔放入宿舍互换心情，菲亚梅塔随后留在宿舍恢复心情。</system:String>
     <system:String x:Key="InfrastFiammettaTargets">菲亚梅塔恢复目标</system:String>
     <system:String x:Key="InfrastFiammettaTargetNone">无</system:String>
     <system:String x:Key="InfrastFiammettaTargetPurestream">清流</system:String>
