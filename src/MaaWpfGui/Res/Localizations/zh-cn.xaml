@@ -577,9 +577,9 @@ D:\
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用于指定模拟器启动参数（如 ｢--instance 1｣ 表示启动 1 号实例）。&#10;不同模拟器的命令格式不同，通常包括实例编号、窗口模式等参数，请参考您使用的模拟器文档</system:String>
     <system:String x:Key="StartsWithScript">开始前脚本</system:String>
-    <system:String x:Key="StartsWithScriptPlaceholder">例如："C:\1.cmd" -minimized</system:String>
+    <system:String x:Key="StartsWithScriptPlaceholder">示例："C:\1.cmd" -minimized</system:String>
     <system:String x:Key="EndsWithScript">结束后脚本</system:String>
-    <system:String x:Key="EndsWithScriptPlaceholder">例如："C:\1.cmd" -noWindow</system:String>
+    <system:String x:Key="EndsWithScriptPlaceholder">示例："C:\1.cmd" -noWindow</system:String>
     <system:String x:Key="CopilotWithScript">自动战斗时启用上述脚本</system:String>
     <system:String x:Key="ManualStopWithScript">手动暂停时启用上述脚本</system:String>
     <system:String x:Key="BlockSleep">运行任务时阻止休眠</system:String>
@@ -788,7 +788,7 @@ C:\\Program Files\\Netease\\MuMuPlayer。\n
 2. 若正在使用网络桥接，则需勾选 MuMu 网络桥接模式并手动填写序号。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 安装路径</system:String>
-    <system:String x:Key="MuMu12EmulatorPathPlaceholder">例如：C:\Program Files\Netease\MuMuPlayer</system:String>
+    <system:String x:Key="MuMu12EmulatorPathPlaceholder">示例：C:\Program Files\Netease\MuMuPlayer</system:String>
     <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu 安装路径为空！占位符仅为示例，请在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填写实际路径</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu 网络桥接模式</system:String>
     <system:String x:Key="MuMuBridgeConnectionTip">除非你知道自己在做什么，否则不要启用此选项</system:String>
@@ -817,7 +817,7 @@ C:\\leidian\\LDPlayer9
 如在竖屏状态下启动游戏后切换为横屏，可能导致画面撕裂等问题。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 安装路径</system:String>
-    <system:String x:Key="LdEmulatorPathPlaceholder">例如：C:\leidian\LDPlayer9</system:String>
+    <system:String x:Key="LdEmulatorPathPlaceholder">示例：C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="LdEmulatorPathEmptyError">雷电模拟器安装路径为空！占位符仅为示例，请在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填写实际路径</system:String>
     <system:String x:Key="LdManualSetIndex">手动填写 ｢{key=LdIndex}｣</system:String>
     <system:String x:Key="LdIndex">实例编号</system:String>
@@ -1387,6 +1387,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EmulatorFpsErrorTip">检测到模拟器设置帧率过低（{0} FPS），可能导致任务异常，请关闭模拟器后台降帧并将帧率设置为 60 FPS</system:String>
     <system:String x:Key="EmulatorFpsHighTip">检测到模拟器设置帧率为 {0} FPS，高于游戏原生帧率上限（60 FPS），可能是模拟器插帧功能，可能导致画面异常或识别不稳定，建议关闭插帧并将帧率设置为 60 FPS</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
+    <system:String x:Key="RecruitRefreshLimitReached">刷新次数达到上限</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>
     <system:String x:Key="OutOfMemoryError">{0}任务因内存不足停止，请关闭部分程序或重启 MAA 后重试</system:String>
     <system:String x:Key="CombatError">战斗出错</system:String>
@@ -1403,6 +1404,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorOccurred">出现错误</system:String>
     <system:String x:Key="HasReturned">已返回</system:String>
     <system:String x:Key="DropRecognitionError">掉落识别错误</system:String>
+    <system:String x:Key="PenguinUploadUnknownStage">未识别关卡</system:String>
+    <system:String x:Key="PenguinUploadNotThreeStars">非三星结算</system:String>
+    <system:String x:Key="PenguinUploadUnknownTimes">未识别关卡次数</system:String>
+    <system:String x:Key="PenguinUploadUnknownDropType">未识别掉落类型</system:String>
+    <system:String x:Key="PenguinUploadUnknownDrops">未识别掉落物</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC 端鼠标为独立渲染，可能遮挡掉落物及数量识别。为避免错误数据污染数据池，已自动跳过本次上报</system:String>
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>

@@ -497,6 +497,6 @@ public static class PropertyDependsOnUtility
         }
 
         // 如果没有 NotifyOfPropertyChange 方法，记录警告
-        Log.Warning("Property {PropertyName} of type {Type} needs change notification but NotifyOfPropertyChange method not found", type.FullName, propertyName);
+        Log.Warning("Property {PropertyName} of type {Type} needs change notification but NotifyOfPropertyChange method not found", propertyName, type.FullName);
     }
 }

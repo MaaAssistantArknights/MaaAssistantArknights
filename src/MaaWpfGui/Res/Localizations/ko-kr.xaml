@@ -1390,6 +1390,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EmulatorFpsErrorTip">에뮬레이터 설정 주사율이 너무 낮습니다 ({0} FPS). 작업에 문제가 발생할 수 있습니다. 에뮬레이터 설정에서 백그라운드 프레임 저하를 끄고 프레임 속도를 60 FPS로 설정해 주세요</system:String>
     <system:String x:Key="EmulatorFpsHighTip">에뮬레이터 설정 주사율이 {0} FPS로 게임의 기본 프레임 속도 상한(60 FPS)을 초과합니다. 이는 에뮬레이터의 프레임 보간 기능일 수 있으며, 화면 왜곡이나 인식 불안정을 유발할 수 있습니다. 프레임 보간을 비활성화하고 프레임 속도를 60 FPS로 설정하는 것을 권장합니다</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
+    <system:String x:Key="RecruitRefreshLimitReached">새로고침 횟수가 상한에 도달했습니다</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
     <system:String x:Key="OutOfMemoryError">메모리 부족으로 {0} 작업이 중지되었습니다. 다른 프로그램을 종료하거나 MAA를 재시작한 후 다시 시도해 주세요</system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
@@ -1406,6 +1407,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorOccurred">오류가 발생했습니다</system:String>
     <system:String x:Key="HasReturned">반환했습니다</system:String>
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
+    <system:String x:Key="PenguinUploadUnknownStage">스테이지를 인식하지 못했습니다</system:String>
+    <system:String x:Key="PenguinUploadNotThreeStars">3성 클리어가 아니었습니다</system:String>
+    <system:String x:Key="PenguinUploadUnknownTimes">스테이지 횟수를 인식하지 못했습니다</system:String>
+    <system:String x:Key="PenguinUploadUnknownDropType">드롭 유형을 인식하지 못했습니다</system:String>
+    <system:String x:Key="PenguinUploadUnknownDrops">드롭 아이템을 인식하지 못했습니다</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC 클라이언트에서는 커서가 드롭 아이템과 수량 인식을 가릴 수 있습니다. 잘못된 데이터가 데이터 풀을 오염시키지 않도록 이번 보고는 자동으로 건너뜁니다</system:String>
     <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
