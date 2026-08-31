@@ -1,4 +1,36 @@
-## v6.17.0-beta.8
+## v6.17.0-beta.9
+
+### Highlights
+
+#### 基建换班菲亚梅塔心情恢复优化
+
+对基建常规模式宿舍处理流程进行调整：新增可选的菲亚梅塔心情恢复开关，默认关闭；配对识别前置到清空宿舍之前，失败时不再清空；低心情干员改由设施换班换出后在宿舍补位阶段安置。同时修复自动战斗作业干员职业解析默认值问题。
+
+----
+
+以下是详细内容：
+
+<details open>
+<summary><b>v6.17.0-beta.9 (2026-09-01)</b></summary>
+
+### 新增 | New
+
+* 基建常规模式新增可选的菲亚梅塔心情恢复开关（默认关闭），宿舍准备阶段仅执行菲亚梅塔配对并恢复心情；配对识别前置到清空宿舍之前，失败时保留现有成员；低心情干员改由设施换班换出后在宿舍补位阶段安置 ([#17980](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17980)) @uye
+
+### 改进 | Improved
+
+* 战斗角色类型 `parse_role_type` 改为大小写不敏感，并保留调用方指定的备用角色 ([#17980](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17980)) @uye
+* 移除已废弃且从未生效的肉鸽招募职业偏移机制 (`team_roles`) ([#17980](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17980)) @uye
+* 将硬编码 UI 文本资源化，统一 Core 与 GUI 日志为英文 ([#17984](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17984)) @uye
+
+### 修复 | Fix
+
+* 修复肉鸽协战配置中角色名称大小写敏感导致的识别问题 ([#17980](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17980)) @status102
+* 修复自动战斗作业干员职业解析默认值，新增专用 `parse_role_type_copilot` 函数 ([#17980](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17980)) @status102
+* 修复 Unix 平台上构建 MaaWpfGui 的报错 ([#17958](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17958)) @Frog Chen
+
+</details>
+
 
 ### Highlights
 
@@ -43,7 +75,7 @@ The infrast efficiency algorithm has been rewritten; the default mode now suppor
 
 以下是详细内容：
 
-<details open>
+<details>
 <summary><b>v6.17.0-beta.8 (2026-08-31)</b></summary>
 
 ### 新增 | New
