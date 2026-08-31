@@ -2129,7 +2129,7 @@ public class TaskQueueViewModel : Screen
         }
 
         _logger.Information(
-            "All enabled tasks were serialized. Count {Count}, AppendSucceeded {AppendSucceeded}. Entering core start.",
+            "All enabled tasks were serialized. Count {Count}, AppendSucceeded {AppendSucceeded}.",
             count,
             taskRet);
 
@@ -2144,6 +2144,10 @@ public class TaskQueueViewModel : Screen
 
         AchievementTrackerHelper.Instance.SetProgress(AchievementIds.TaskChainKing, count);
 
+        _logger.Information(
+            "Entering core start. Count {Count}, AppendSucceeded {AppendSucceeded}.",
+            count,
+            taskRet);
         var coreStartStopwatch = Stopwatch.StartNew();
         var coreStartSucceeded = Instances.AsstProxy.AsstStart();
         coreStartStopwatch.Stop();

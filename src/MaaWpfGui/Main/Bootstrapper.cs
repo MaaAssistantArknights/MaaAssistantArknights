@@ -61,6 +61,9 @@ namespace MaaWpfGui.Main;
 public class Bootstrapper : Bootstrapper<RootViewModel>
 {
     private const int ErrorNotEnoughQuota = 1816;
+    private const int WpfMessageQueueShutdownGracePeriodMilliseconds = 5000;
+    private const int RecoveryParentExitWaitMilliseconds = 30000;
+    private const string WaitForProcessExitArg = "--wait-for-process-exit";
 
     private static ILogger _logger = Logger.None;
 
@@ -427,6 +430,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     protected override void OnStart()
     {
         Directory.SetCurrentDirectory(AppContext.BaseDirectory);
+        var args = Environment.GetCommandLineArgs();
+
+        // Recovery children must wait before opening the shared log files or acquiring the single-instance mutex.
+        WaitForProcessExitIfRequested(args);
         if (!Directory.Exists("debug"))
         {
             Directory.CreateDirectory("debug");
@@ -459,7 +466,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
             ? "Debug"
             : "Production";
-        var args = Environment.GetCommandLineArgs();
         var withDebugFile = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
         loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
             ? loggerConfiguration.MinimumLevel.Verbose()
@@ -1218,6 +1224,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             if (Interlocked.Exchange(ref _wpfMessageQueueRecoveryStarted, 1) == 0)
             {
                 _logger.Fatal("WPF window message queue quota was exhausted. Restarting MAA to recover.");
+                StartWpfMessageQueueRecoveryWatchdog();
                 ShutdownAndRestartWithoutArgs();
             }
 
@@ -1243,6 +1250,72 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
 
         return false;
+    }
+
+    private static void StartWpfMessageQueueRecoveryWatchdog()
+    {
+        var processPath = Environment.ProcessPath;
+        var currentProcessId = Environment.ProcessId;
+        var workingDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        var watchdog = new Thread(() => {
+            Thread.Sleep(WpfMessageQueueShutdownGracePeriodMilliseconds);
+
+            try
+            {
+                if (processPath is not null)
+                {
+                    var startInfo = new ProcessStartInfo {
+                        FileName = processPath,
+                        WorkingDirectory = workingDirectory,
+                        UseShellExecute = false,
+                    };
+                    startInfo.ArgumentList.Add(WaitForProcessExitArg);
+                    startInfo.ArgumentList.Add(currentProcessId.ToString());
+                    Process.Start(startInfo);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Fatal(ex, "Failed to launch the WPF message queue recovery process.");
+            }
+            finally
+            {
+                Environment.FailFast("WPF message queue recovery watchdog forced process termination.");
+            }
+        }) {
+            IsBackground = true,
+            Name = "WPF message queue recovery watchdog",
+        };
+        watchdog.Start();
+    }
+
+    private static void WaitForProcessExitIfRequested(string[] args)
+    {
+        var parsedArgs = ParseArgs(args, WaitForProcessExitArg);
+        if (!parsedArgs.TryGetValue(WaitForProcessExitArg, out var processIdText) ||
+            !int.TryParse(processIdText, out var processId) ||
+            processId <= 0 ||
+            processId == Environment.ProcessId)
+        {
+            return;
+        }
+
+        try
+        {
+            using var process = Process.GetProcessById(processId);
+            if (!process.WaitForExit(RecoveryParentExitWaitMilliseconds))
+            {
+                Debug.WriteLine($"Timed out waiting for recovery parent process {processId} to exit.");
+            }
+        }
+        catch (ArgumentException)
+        {
+            // The parent process has already exited.
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Failed while waiting for recovery parent process {processId} to exit: {ex}");
+        }
     }
 
     private static void LogUnhandledException(Exception exception)
