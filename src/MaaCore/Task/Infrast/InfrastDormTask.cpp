@@ -545,8 +545,13 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
         if (fiammetta_detect == DetectResult::NotFound) {
             Log.warn("full-mood Fiammetta was not found on the first page");
         }
-        // 尚未清空宿舍即退出，原住民不受影响。
-        return switch_to_low_mood_sort() ? FiammettaSelectionResult::NotFound : FiammettaSelectionResult::Error;
+        // 尚未清空宿舍即退出，原住民不受影响。识别异常走 Error 重试，
+        // 目标确实不在场走 NotFound 正常跳过，与目标分支语义一致。
+        if (!switch_to_low_mood_sort()) {
+            return FiammettaSelectionResult::Error;
+        }
+        return fiammetta_detect == DetectResult::Error ? FiammettaSelectionResult::Error
+                                                       : FiammettaSelectionResult::NotFound;
     }
 
     // 清空会取消全部选中，游戏的“已选中置顶”随之消失，列表布局随之改变；
