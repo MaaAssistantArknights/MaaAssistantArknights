@@ -180,7 +180,6 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             std::string name = oper_json.at("name").as_string();
             if (auto opt = oper_json.find<std::string>("role")) {
                 auto role_str = opt.value();
-                utils::tolowers(role_str);
                 role = battle::parse_role_type(role_str, battle::Role::Unknown);
             }
             else {

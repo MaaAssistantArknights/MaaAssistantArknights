@@ -33,7 +33,6 @@ bool asst::BattleDataConfig::parse(const json::value& json)
         };
 
         auto role_str = char_data_json.get("profession", "");
-        utils::tolowers(role_str);
         data_ptr->role = battle::parse_role_type(role_str, battle::Role::Drone);
         if (data_ptr->role != battle::Role::Drone) {
             m_opers.emplace(name); // 所有干员名

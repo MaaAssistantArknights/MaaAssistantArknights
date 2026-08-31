@@ -7,6 +7,7 @@
 
 #include "AsstTypes.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
+#include "Utils/StringMisc.hpp"
 
 namespace asst::battle
 {
@@ -219,9 +220,10 @@ inline static Role get_role_type(const std::string& role_name)
     return Role::Unknown;
 }
 
-// 临时兼容性解析; 后续将拆分token及trap
-inline static Role parse_role_type(const std::string& role_name, battle::Role fallback_role)
+// 临时兼容性解析; 后续将拆分token及trap; 输入大小写不敏感
+inline static Role parse_role_type(std::string role_name, battle::Role fallback_role)
 {
+    utils::tolowers(role_name);
     static const std::unordered_map<std::string, battle::Role> RoleMap = {
         { "caster", battle::Role::Caster }, { "medic", battle::Role::Medic },     { "pioneer", battle::Role::Pioneer },
         { "sniper", battle::Role::Sniper }, { "special", battle::Role::Special }, { "support", battle::Role::Support },
