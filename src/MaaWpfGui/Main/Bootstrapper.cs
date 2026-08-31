@@ -62,7 +62,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 {
     private const int ErrorNotEnoughQuota = 1816;
     private const int WpfMessageQueueShutdownGracePeriodMilliseconds = 5000;
-    private const int RecoveryParentExitWaitMilliseconds = 30000;
     private const string WaitForProcessExitArg = "--wait-for-process-exit";
 
     private static ILogger _logger = Logger.None;
@@ -1303,10 +1302,9 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         try
         {
             using var process = Process.GetProcessById(processId);
-            if (!process.WaitForExit(RecoveryParentExitWaitMilliseconds))
-            {
-                Debug.WriteLine($"Timed out waiting for recovery parent process {processId} to exit.");
-            }
+
+            // WER may keep the failed parent alive while writing a dump. Shared startup must not continue until it exits.
+            process.WaitForExit();
         }
         catch (ArgumentException)
         {
