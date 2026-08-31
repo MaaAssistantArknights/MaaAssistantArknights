@@ -36,7 +36,7 @@
     </PostBuildEvent>
     <PostBuildEvent Condition="'$(OS)' != 'Windows_NT'">
       echo Creating resource directory link...
-      ln -sfT "$(SolutionDir)/../resource" "$(OutputPath)resource"
+      ln -sfn "$([MSBuild]::NormalizeDirectory($(SolutionDir), ".."))resource" "$(OutputPath)resource"
       echo Resource directory link created successfully
     </PostBuildEvent>
   </PropertyGroup>
