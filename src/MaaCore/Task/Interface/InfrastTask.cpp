@@ -66,6 +66,8 @@ bool asst::InfrastTask::set_params(const json::value& params)
     LogTraceFunction;
 
     auto mode = static_cast<Mode>(params.get("mode", 0));
+    // 仅常规模式支持菲亚梅塔配对；关闭时不把前置宿舍步骤纳入子任务序列。
+    const bool fiammetta_recovery_enabled = mode == Mode::Default && params.get("fiammetta_recovery_enabled", false);
     const std::initializer_list<std::shared_ptr<InfrastProductionTask>> shift_tasks = { m_mfg_task_ptr,
                                                                                         m_trade_task_ptr,
                                                                                         m_reception_task_ptr };
@@ -168,6 +170,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
             return false;
         }
         for (const auto step : *plan) {
+            if (step == infrast::FacilityStep::DormPrepare && mode == Mode::Default && !fiammetta_recovery_enabled) {
+                continue;
+            }
             // 贸易站评分依赖赤金生产线数量。制造站未启用时只读取产品类型，
             // 不进入干员选择，也不执行无人机或补货操作。
             add_facility(get_task(step));
@@ -208,7 +213,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     const bool default_mode = mode == Mode::Default;
     const auto fiammetta_targets =
-        default_mode
+        default_mode && fiammetta_recovery_enabled
             ? infrast::normalize_fiammetta_targets(params.get("fiammetta_targets", std::vector<std::string> {}))
             : std::vector<std::string> {};
     m_dorm_task_ptr->set_fiammetta_targets(fiammetta_targets);

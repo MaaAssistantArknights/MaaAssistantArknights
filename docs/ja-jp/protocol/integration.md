@@ -519,6 +519,12 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 <br>
 オプション：`清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅`（オプション外または重複するエントリは無視されます）  
 :::  
+::: field fiammetta_recovery_enabled  
+@type boolean
+@default false
+@optional
+交代開始時にフィアメッタで回復対象の体力を回復するかどうか。無効の場合、交代は宿舎準備ステップをスキップします。`mode = 0` の場合のみ有効です。  
+:::  
 ::: field use_pinus_sylvestris  
 @type boolean
 @default false

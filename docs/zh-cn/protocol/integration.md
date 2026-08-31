@@ -519,6 +519,12 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 选项：`清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅`（不在选项内或重复的条目会被忽略）  
 :::  
+::: field fiammetta_recovery_enabled  
+@type boolean
+@default false
+@optional
+是否在换班开始时使用菲亚梅塔为恢复目标恢复心情；关闭时换班将跳过宿舍准备步骤。仅 `mode = 0` 时生效。  
+:::  
 ::: field use_pinus_sylvestris  
 @type boolean
 @default false

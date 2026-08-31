@@ -109,25 +109,6 @@ std::optional<size_t> asst::infrast::find_full_mood_fiammetta(const std::vector<
                : std::optional<size_t> { static_cast<size_t>(std::distance(first_page.begin(), iter)) };
 }
 
-std::vector<size_t> asst::infrast::find_low_mood_candidates(
-    const std::vector<DormSelectionCandidate>& candidates,
-    double mood_threshold,
-    size_t limit)
-{
-    std::vector<size_t> result;
-    for (size_t index = 0; index < candidates.size(); ++index) {
-        const auto& candidate = candidates[index];
-        if (!candidate.selected && candidate.available && candidate.mood_ratio < mood_threshold) {
-            result.emplace_back(index);
-        }
-    }
-    std::ranges::stable_sort(result, {}, [&](size_t index) { return candidates[index].mood_ratio; });
-    if (result.size() > limit) {
-        result.resize(limit);
-    }
-    return result;
-}
-
 asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool notstationed_filter_enabled) noexcept
 {
     m_notstationed_filter_enabled = notstationed_filter_enabled;
@@ -211,6 +192,13 @@ bool asst::InfrastDormTask::_run()
             }
         }
 
+        // 常规模式前置阶段只执行一次菲亚梅塔配对即结束，不进入其余宿舍，也
+        // 不再把低心情干员拉进宿舍：低心情干员的安置交给设施换班换出与第二
+        // 轮补位，｢不将已进驻干员放入宿舍｣ 因此对整个换班流程完整生效。
+        if (is_default_prepare_phase && !room_uses_custom_opers) {
+            return run_fiammetta_preparation();
+        }
+
         if (room_uses_custom_opers) {
             // Custom dorm operators may already be resting in other dorms.
             const bool filter_was_active_before_custom_select = m_notstationed_filter_active;
@@ -233,29 +221,8 @@ bool asst::InfrastDormTask::_run()
             }
         }
         else {
-            // 前置阶段清空并安排低心情干员；后置阶段保留已经休息的干员，只补空位。
+            // 自定义前置阶段清空宿舍；后置阶段保留已经休息的干员，只补空位。
             if (m_prepare_phase || m_is_custom) {
-                click_clear_button();
-            }
-        }
-
-        if (m_prepare_phase && m_default_mode && !m_is_custom && !m_fiammetta_targets.empty() && !m_fiammetta_checked) {
-            const FiammettaSelectionResult selection_result = try_select_fiammetta_pair();
-            if (selection_result == FiammettaSelectionResult::Error) {
-                return false;
-            }
-            if (selection_result == FiammettaSelectionResult::Selected) {
-                if (!click_confirm_button()) {
-                    return false;
-                }
-                click_return_button();
-                if (!enter_facility(m_cur_facility_index) || !enter_oper_list_page()) {
-                    return false;
-                }
-                close_quick_formation_expand_role();
-                if (!switch_to_low_mood_sort()) {
-                    return false;
-                }
                 click_clear_button();
             }
         }
@@ -264,7 +231,7 @@ bool asst::InfrastDormTask::_run()
             if (!m_prepare_phase && !m_is_custom && should_select_dorm_managers() && !select_dorm_managers()) {
                 return false;
             }
-            if (!fill_dorm_slots(m_prepare_phase && !m_is_custom)) {
+            if (!fill_dorm_slots()) {
                 return false;
             }
         }
@@ -277,7 +244,7 @@ bool asst::InfrastDormTask::_run()
     return true;
 }
 
-bool asst::InfrastDormTask::fill_dorm_slots(bool low_mood_only)
+bool asst::InfrastDormTask::fill_dorm_slots()
 {
     size_t num_of_selected = m_is_custom ? current_room_config().selected : 0;
     size_t num_of_fulltrust = 0;
@@ -301,30 +268,6 @@ bool asst::InfrastDormTask::fill_dorm_slots(bool low_mood_only)
         num_of_selected =
             (std::max)(num_of_selected,
                        static_cast<size_t>(std::ranges::count_if(opers, std::mem_fn(&infrast::Oper::selected))));
-
-        // 常规模式的宿舍前置阶段只处理当前第一页，不向后翻页。
-        if (low_mood_only && m_default_mode) {
-            std::vector<infrast::DormSelectionCandidate> candidates;
-            candidates.reserve(opers.size());
-            for (const auto& oper : opers) {
-                candidates.emplace_back(
-                    infrast::DormSelectionCandidate {
-                        .operator_id = oper.operator_id,
-                        .mood_ratio = oper.mood_ratio,
-                        .selected = oper.selected,
-                        // 第一轮的目的就是把其他设施中的低心情干员换进宿舍。
-                        .available = true,
-                    });
-            }
-            const auto indices = infrast::find_low_mood_candidates(
-                candidates,
-                m_mood_threshold,
-                max_num_of_opers() - (std::min)(num_of_selected, max_num_of_opers()));
-            for (const size_t index : indices) {
-                ctrler()->click(opers[index].rect);
-            }
-            return true;
-        }
 
         size_t num_of_resting = 0;
         for (const auto& oper : opers) {
@@ -459,9 +402,6 @@ bool asst::InfrastDormTask::fill_dorm_slots(bool low_mood_only)
         // 跳过当前页中尚未处理的低心情干员。
         if (m_selection_phase == SelectionPhase::LowMood && num_of_resting >= RestingOperCountThreshold) {
             Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
-            if (low_mood_only) {
-                return true;
-            }
             if (m_trust_autofill_enabled) {
                 switch_to_trust_autofill_phase();
             }
@@ -535,6 +475,47 @@ bool asst::InfrastDormTask::should_select_dorm_managers() const noexcept
     return m_task_data->operator_ids.contains("char_391_rosmon");
 }
 
+bool asst::InfrastDormTask::run_fiammetta_preparation()
+{
+    // 前置阶段只执行一次菲亚梅塔配对：互换心情后把二人撤出，仅将心情耗尽
+    // 的菲亚梅塔留在宿舍回心情；恢复目标与低心情干员均不再被拉进宿舍。
+    const FiammettaSelectionResult selection_result =
+        m_fiammetta_checked || m_fiammetta_targets.empty() ? FiammettaSelectionResult::NotFound
+                                                           : try_select_fiammetta_pair();
+    if (selection_result == FiammettaSelectionResult::Error) {
+        return false;
+    }
+    if (selection_result == FiammettaSelectionResult::NotFound) {
+        // 宿舍未被修改，确认空变更后按常规路径退回基建主界面。
+        if (!click_confirm_button()) {
+            return false;
+        }
+        click_return_button();
+        return true;
+    }
+
+    if (!click_confirm_button()) {
+        return false;
+    }
+    click_return_button();
+    if (!enter_facility(m_cur_facility_index) || !enter_oper_list_page()) {
+        return false;
+    }
+    close_quick_formation_expand_role();
+    if (!switch_to_low_mood_sort()) {
+        return false;
+    }
+    click_clear_button();
+    if (!keep_exhausted_fiammetta()) {
+        return false;
+    }
+    if (!click_confirm_button()) {
+        return false;
+    }
+    click_return_button();
+    return true;
+}
+
 asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_select_fiammetta_pair()
 {
     // 宿舍前置阶段只识别当前第一页，不向后翻页。先在低心情优先的第一页
@@ -555,7 +536,7 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
             .operator_id = oper.operator_id,
             .mood_ratio = oper.mood_ratio,
             .selected = oper.selected,
-            // 菲亚梅塔目标可能正在其他设施工作，第一轮仍应允许将其换入宿舍。
+            // 菲亚梅塔目标可能正在其他设施工作，识别阶段仍应允许将其选中。
             .available = true,
         };
         if (!candidate.selected && candidate.available && candidate.mood_ratio < m_mood_threshold) {
@@ -572,24 +553,13 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
 
     const auto target_index = infrast::find_fiammetta_target(target_candidates, m_fiammetta_targets, m_mood_threshold);
     if (!target_index) {
+        // 尚未清空宿舍即退出，原住民不受影响。
         return FiammettaSelectionResult::NotFound;
     }
 
-    // 菲亚梅塔必须位于目标后一位，交换对象才是预期干员。
-    discard_pending_selection();
-    ctrler()->click(target_opers[*target_index].rect);
-    stage_operator_selection(infrast::fiammetta_target_id(target_candidates[*target_index].name));
-
     // 菲亚梅塔只在满心情时技能才有作用。按技能排序后她必然在第一页，
-    // 因而无需继续翻页识别；结束前切回低心情排序，供后续兜底选人使用。
-    auto cancel_pair = [&]() {
-        discard_pending_selection();
-        click_clear_button();
-        return switch_to_low_mood_sort();
-    };
+    // 因而无需继续翻页识别。
     if (!ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run()) {
-        discard_pending_selection();
-        click_clear_button();
         return FiammettaSelectionResult::Error;
     }
 
@@ -597,7 +567,6 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
     fiammetta_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
     fiammetta_analyzer.set_facility(facility_name());
     if (!fiammetta_analyzer.analyze()) {
-        cancel_pair();
         return FiammettaSelectionResult::Error;
     }
     const auto& fiammetta_opers = fiammetta_analyzer.get_result();
@@ -609,27 +578,67 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
                 .operator_id = oper.operator_id,
                 .mood_ratio = oper.mood_ratio,
                 .selected = oper.selected,
-                // 第一轮保持“全部”筛选，满心情菲亚梅塔也可能正在其他设施工作。
+                // 保持“全部”筛选，满心情菲亚梅塔也可能正在其他设施工作。
                 .available = true,
             });
     }
     const auto fiammetta_index = infrast::find_full_mood_fiammetta(fiammetta_candidates);
     if (!fiammetta_index) {
         Log.warn("full-mood Fiammetta was not found on the first page");
-        return cancel_pair() ? FiammettaSelectionResult::NotFound : FiammettaSelectionResult::Error;
+        // 尚未清空宿舍即退出，原住民不受影响。
+        return switch_to_low_mood_sort() ? FiammettaSelectionResult::NotFound : FiammettaSelectionResult::Error;
     }
 
+    // 两名干员均确认在场后才清空宿舍腾位。点选顺序决定进驻顺序：
+    // 菲亚梅塔必须位于目标后一位，交换对象才是预期干员。
+    if (!click_clear_button()) {
+        return FiammettaSelectionResult::Error;
+    }
+    if (!switch_to_low_mood_sort()) {
+        return FiammettaSelectionResult::Error;
+    }
+    ctrler()->click(target_opers[*target_index].rect);
+    stage_operator_selection(infrast::fiammetta_target_id(target_candidates[*target_index].name));
+    if (!ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run()) {
+        discard_pending_selection();
+        return FiammettaSelectionResult::Error;
+    }
     ctrler()->click(fiammetta_opers[*fiammetta_index].rect);
     const auto& id_opt = BattleData.get_first_id(battle::Role::Sniper, "菲亚梅塔");
     if (id_opt) {
         stage_operator_selection(*id_opt);
     }
-    if (!switch_to_low_mood_sort()) {
-        discard_pending_selection();
-        click_clear_button();
-        return FiammettaSelectionResult::Error;
-    }
     return FiammettaSelectionResult::Selected;
+}
+
+bool asst::InfrastDormTask::keep_exhausted_fiammetta()
+{
+    // 互换心情后菲亚梅塔的心情与恢复目标互换，必然低于阈值，将她留在宿舍
+    // 休息以备下次配对；回满心情的恢复目标随清空撤出，由设施换班重新调度。
+    const auto& fiammetta_id_opt = BattleData.get_first_id(battle::Role::Sniper, "菲亚梅塔");
+    if (!fiammetta_id_opt) {
+        return true;
+    }
+
+    const auto image = ctrler()->get_image();
+    InfrastOperImageAnalyzer oper_analyzer(image);
+    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
+    oper_analyzer.set_facility(facility_name());
+    if (!oper_analyzer.analyze()) {
+        Log.error("mood analyze failed!");
+        return false;
+    }
+    oper_analyzer.sort_by_mood();
+    for (const auto& oper : oper_analyzer.get_result()) {
+        if (oper.selected || oper.mood_ratio >= m_mood_threshold) {
+            continue;
+        }
+        if (oper.operator_id == *fiammetta_id_opt) {
+            ctrler()->click(oper.rect);
+            break;
+        }
+    }
+    return true;
 }
 
 bool asst::InfrastDormTask::set_notstationed_filter(bool enabled)

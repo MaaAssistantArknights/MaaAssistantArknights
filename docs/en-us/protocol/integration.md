@@ -519,6 +519,12 @@ Fiammetta recovery target list. During shift change, the target operator with th
 <br>
 Options: `清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅` (entries outside the options or duplicates are ignored)  
 :::  
+::: field fiammetta_recovery_enabled  
+@type boolean
+@default false
+@optional
+Whether to use Fiammetta to restore the target's morale at the start of the shift; when disabled, the shift change skips the dormitory preparation step. Only effective when `mode = 0`.  
+:::  
 ::: field use_pinus_sylvestris  
 @type boolean
 @default false

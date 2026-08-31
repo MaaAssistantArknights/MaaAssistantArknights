@@ -31,11 +31,6 @@ std::optional<size_t> find_fiammetta_target(
     double mood_threshold);
 
 std::optional<size_t> find_full_mood_fiammetta(const std::vector<DormSelectionCandidate>& first_page);
-
-std::vector<size_t> find_low_mood_candidates(
-    const std::vector<DormSelectionCandidate>& candidates,
-    double mood_threshold,
-    size_t limit);
 } // namespace infrast
 
 class InfrastDormTask final : public InfrastProductionTask
@@ -64,10 +59,12 @@ private:
 
     virtual bool _run() override;
 
-    bool fill_dorm_slots(bool low_mood_only);
+    bool fill_dorm_slots();
     bool should_select_dorm_managers() const noexcept;
     bool select_dorm_managers();
+    bool run_fiammetta_preparation();
     FiammettaSelectionResult try_select_fiammetta_pair();
+    bool keep_exhausted_fiammetta();
     bool set_notstationed_filter(bool enabled);
     bool restore_list_sort_for_selection_phase(asst::infrast::CustomRoomConfig const& room_config);
     bool switch_to_mood_sort();

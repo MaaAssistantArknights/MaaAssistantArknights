@@ -169,6 +169,8 @@
     <system:String x:Key="InfrastReceptionSendClue">贈送線索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中設定並執行</system:String>
     <system:String x:Key="ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
+    <system:String x:Key="InfrastFiammettaRecovery">啟用菲亞梅塔心情恢復</system:String>
+    <system:String x:Key="InfrastFiammettaRecoveryTips" xml:space="preserve">開啟後，換班開始時會將恢復目標與滿心情的菲亞梅塔放入宿舍互換心情，菲亞梅塔隨後留在宿舍恢復心情。&#10;換班不再於開始時把低心情的已進駐幹員拉進宿舍，低心情幹員由設施換班換出後安置。</system:String>
     <system:String x:Key="InfrastFiammettaTargets">菲亞梅塔恢復目標</system:String>
     <system:String x:Key="InfrastFiammettaTargetNone">無</system:String>
     <system:String x:Key="InfrastFiammettaTargetPurestream">清流</system:String>

@@ -169,6 +169,8 @@
     <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">The following functions require configuration and execution within {key=Infrast}.</system:String>
     <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
+    <system:String x:Key="InfrastFiammettaRecovery">Enable Fiammetta morale recovery</system:String>
+    <system:String x:Key="InfrastFiammettaRecoveryTips" xml:space="preserve">When enabled, the recovery target and a full-mood Fiammetta swap moods in a dormitory at the start of each shift, after which Fiammetta stays in the dormitory to recover.&#10;Operators stationed in facilities are no longer pulled into dormitories at the start of a shift; they are instead reassigned after being swapped out during facility shift changes.</system:String>
     <system:String x:Key="InfrastFiammettaTargets">Fiammetta recovery targets</system:String>
     <system:String x:Key="InfrastFiammettaTargetNone">None</system:String>
     <system:String x:Key="InfrastFiammettaTargetPurestream">Purestream</system:String>

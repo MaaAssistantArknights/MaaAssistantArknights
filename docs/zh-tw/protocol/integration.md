@@ -520,6 +520,12 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 選項：`清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅`（不在選項內或重複的條目會被忽略）  
 :::  
+::: field fiammetta_recovery_enabled  
+@type boolean
+@default false
+@optional
+是否在換班開始時使用菲亞梅塔為恢復目標恢復心情；關閉時換班將跳過宿舍準備步驟。僅 `mode = 0` 時生效。  
+:::  
 ::: field use_pinus_sylvestris  
 @type boolean
 @default false
