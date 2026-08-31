@@ -526,9 +526,12 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
     // 腾位，避免清空后无人可配对而白撤原住民。
     m_fiammetta_checked = true;
     std::vector<infrast::Oper> target_opers;
-    if (!detect_fiammetta_target(target_opers)) {
-        // 尚未清空宿舍即退出，原住民不受影响。
-        return FiammettaSelectionResult::NotFound;
+    const DetectResult target_detect = detect_fiammetta_target(target_opers);
+    if (target_detect != DetectResult::Found) {
+        // 尚未清空宿舍即退出，原住民不受影响。识别异常走 Error 重试，
+        // 目标确实不在场走 NotFound 正常跳过。
+        return target_detect == DetectResult::Error ? FiammettaSelectionResult::Error
+                                                    : FiammettaSelectionResult::NotFound;
     }
 
     // 菲亚梅塔只在满心情时技能才有作用。按技能排序后她必然在第一页，
@@ -537,8 +540,11 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
         return FiammettaSelectionResult::Error;
     }
     std::vector<infrast::Oper> fiammetta_opers;
-    if (!detect_full_mood_fiammetta(fiammetta_opers)) {
-        Log.warn("full-mood Fiammetta was not found on the first page");
+    const DetectResult fiammetta_detect = detect_full_mood_fiammetta(fiammetta_opers);
+    if (fiammetta_detect != DetectResult::Found) {
+        if (fiammetta_detect == DetectResult::NotFound) {
+            Log.warn("full-mood Fiammetta was not found on the first page");
+        }
         // 尚未清空宿舍即退出，原住民不受影响。
         return switch_to_low_mood_sort() ? FiammettaSelectionResult::NotFound : FiammettaSelectionResult::Error;
     }
@@ -554,8 +560,9 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
     }
 
     // 点选顺序决定进驻顺序：菲亚梅塔必须位于目标后一位，交换对象才是预期干员。
+    // 此阶段宿舍已清空，无论识别异常还是定位失败都只能 Error 重试。
     target_opers.clear();
-    if (!detect_fiammetta_target(target_opers)) {
+    if (detect_fiammetta_target(target_opers) != DetectResult::Found) {
         return FiammettaSelectionResult::Error;
     }
     ctrler()->click(target_opers.front().rect);
@@ -564,7 +571,7 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
         return FiammettaSelectionResult::Error;
     }
     fiammetta_opers.clear();
-    if (!detect_full_mood_fiammetta(fiammetta_opers)) {
+    if (detect_full_mood_fiammetta(fiammetta_opers) != DetectResult::Found) {
         discard_pending_selection();
         return FiammettaSelectionResult::Error;
     }
@@ -576,7 +583,7 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
     return FiammettaSelectionResult::Selected;
 }
 
-bool asst::InfrastDormTask::detect_fiammetta_target(std::vector<infrast::Oper>& opers)
+asst::InfrastDormTask::DetectResult asst::InfrastDormTask::detect_fiammetta_target(std::vector<infrast::Oper>& opers)
 {
     // 只识别当前第一页：恢复目标按低心情升序必然落在第一页。
     InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
@@ -584,7 +591,7 @@ bool asst::InfrastDormTask::detect_fiammetta_target(std::vector<infrast::Oper>& 
     analyzer.set_facility(facility_name());
     if (!analyzer.analyze()) {
         Log.error("fiammetta target analyze failed");
-        return false;
+        return DetectResult::Error;
     }
     opers = analyzer.get_result();
 
@@ -612,14 +619,14 @@ bool asst::InfrastDormTask::detect_fiammetta_target(std::vector<infrast::Oper>& 
 
     const auto target_index = infrast::find_fiammetta_target(candidates, m_fiammetta_targets, m_mood_threshold);
     if (!target_index) {
-        return false;
+        return DetectResult::NotFound;
     }
     // 把命中的干员挪到首位，供调用方直接点选。
     std::swap(opers.front(), opers[*target_index]);
-    return true;
+    return DetectResult::Found;
 }
 
-bool asst::InfrastDormTask::detect_full_mood_fiammetta(std::vector<infrast::Oper>& opers)
+asst::InfrastDormTask::DetectResult asst::InfrastDormTask::detect_full_mood_fiammetta(std::vector<infrast::Oper>& opers)
 {
     // 只识别当前第一页：满心情菲亚梅塔按技能排序必然落在第一页。
     InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
@@ -627,7 +634,7 @@ bool asst::InfrastDormTask::detect_full_mood_fiammetta(std::vector<infrast::Oper
     analyzer.set_facility(facility_name());
     if (!analyzer.analyze()) {
         Log.error("full-mood fiammetta analyze failed");
-        return false;
+        return DetectResult::Error;
     }
     opers = analyzer.get_result();
 
@@ -646,11 +653,11 @@ bool asst::InfrastDormTask::detect_full_mood_fiammetta(std::vector<infrast::Oper
 
     const auto fiammetta_index = infrast::find_full_mood_fiammetta(candidates);
     if (!fiammetta_index) {
-        return false;
+        return DetectResult::NotFound;
     }
     // 把命中的干员挪到首位，供调用方直接点选。
     std::swap(opers.front(), opers[*fiammetta_index]);
-    return true;
+    return DetectResult::Found;
 }
 
 bool asst::InfrastDormTask::keep_exhausted_fiammetta()

@@ -57,6 +57,15 @@ private:
         Error,
     };
 
+    // detect_* 的识别结果：Found 时命中干员已挪到 opers 首位；
+    // Error 表示截图/分析异常，与目标确实不在场的 NotFound 区分开。
+    enum class DetectResult
+    {
+        Found,
+        NotFound,
+        Error,
+    };
+
     virtual bool _run() override;
 
     bool fill_dorm_slots();
@@ -65,8 +74,8 @@ private:
     bool run_fiammetta_preparation();
     FiammettaSelectionResult try_select_fiammetta_pair();
     // 识别当前排序第一页的配对干员；命中者挪到 opers 首位供点选。
-    bool detect_fiammetta_target(std::vector<infrast::Oper>& opers);
-    bool detect_full_mood_fiammetta(std::vector<infrast::Oper>& opers);
+    DetectResult detect_fiammetta_target(std::vector<infrast::Oper>& opers);
+    DetectResult detect_full_mood_fiammetta(std::vector<infrast::Oper>& opers);
     bool keep_exhausted_fiammetta();
     bool set_notstationed_filter(bool enabled);
     bool restore_list_sort_for_selection_phase(asst::infrast::CustomRoomConfig const& room_config);
