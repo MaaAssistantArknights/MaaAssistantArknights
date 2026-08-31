@@ -1143,8 +1143,11 @@ std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& ima
     preproc_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
     auto preproc_result_opt = preproc_analyzer.analyze();
 
-    if (preproc_result_opt && !BattleData.is_name_invalid(role, preproc_result_opt->text)) {
-        return preproc_result_opt->text;
+    if (preproc_result_opt) {
+        const std::string name = battle::canonical_oper_name(role, preproc_result_opt->text);
+        if (!BattleData.is_name_invalid(role, name)) {
+            return name;
+        }
     }
 
     Log.warn("ocr with preprocess got a invalid name, try to use detect model");
@@ -1156,7 +1159,7 @@ std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& ima
         return {};
     }
     sort_by_score_(*det_result_opt);
-    const auto& det_name = det_result_opt->front().text;
+    const std::string det_name = battle::canonical_oper_name(role, det_result_opt->front().text);
 
     if (!BattleData.is_name_invalid(role, det_name)) {
         return det_name;
