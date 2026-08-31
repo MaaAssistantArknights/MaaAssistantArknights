@@ -508,7 +508,9 @@ bool asst::InfrastDormTask::run_fiammetta_preparation()
     if (!switch_to_low_mood_sort()) {
         return false;
     }
-    click_clear_button();
+    if (!click_clear_button()) {
+        return false;
+    }
     if (!keep_exhausted_fiammetta()) {
         return false;
     }
