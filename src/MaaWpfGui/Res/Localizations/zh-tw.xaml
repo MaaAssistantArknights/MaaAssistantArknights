@@ -577,7 +577,9 @@ D:\
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用於指定模擬器啟動參數（如 ｢--instance 1｣ 表示啟動 1 號實例）。&#10;不同模擬器的命令格式不同，通常包括實例編號、視窗模式等參數，請參考您使用的模擬器說明文件。</system:String>
     <system:String x:Key="StartsWithScript">開始前腳本</system:String>
+    <system:String x:Key="StartsWithScriptPlaceholder">例如："C:\1.cmd" -minimized</system:String>
     <system:String x:Key="EndsWithScript">結束後腳本</system:String>
+    <system:String x:Key="EndsWithScriptPlaceholder">例如："C:\1.cmd" -noWindow</system:String>
     <system:String x:Key="CopilotWithScript">自動戰鬥時啟用上述腳本</system:String>
     <system:String x:Key="ManualStopWithScript">手動暫停時啟用上述腳本</system:String>
     <system:String x:Key="BlockSleep">執行任務時阻止休眠</system:String>
@@ -786,6 +788,7 @@ C:\\Program Files\\Netease\\MuMuPlayer\n
 2. 若正在使用網路橋接，則需勾選 MuMu 網路橋接模式並手動填寫序號。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 模擬器路徑</system:String>
+    <system:String x:Key="MuMu12EmulatorPathPlaceholder">例如：C:\Program Files\Netease\MuMuPlayer</system:String>
     <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu 安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填寫實際路徑</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu 網路橋接模式</system:String>
     <system:String x:Key="MuMuBridgeConnectionTip">除非您知道自己在做什麼，否則不要啟用此選項</system:String>
@@ -814,6 +817,7 @@ C:\\leidian\\LDPlayer9
 如在縱向螢幕狀態下啟動遊戲後切換為橫向，可能導致畫面撕裂等問題。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 模擬器路徑</system:String>
+    <system:String x:Key="LdEmulatorPathPlaceholder">例如：C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="LdEmulatorPathEmptyError">雷電模擬器安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填寫實際路徑</system:String>
     <system:String x:Key="LdManualSetIndex">手動填寫 ｢{key=LdIndex}｣</system:String>
     <system:String x:Key="LdIndex">實例編號</system:String>
@@ -891,6 +895,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
+    <system:String x:Key="AutoReloadResource">自動重新載入資源</system:String>
+    <system:String x:Key="CustomTaskName">任務名</system:String>
     <!--  戰鬥設定  -->
     <system:String x:Key="UseSanityPotion">吃理智藥</system:String>
     <system:String x:Key="UseOriginitePrime">吃源石</system:String>
@@ -1652,6 +1658,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitmentOfStar">公招出現 {0}★ 囉！</system:String>
     <system:String x:Key="RecruitmentOfBot">公招出現小車囉！</system:String>
     <system:String x:Key="Choose">選擇</system:String>
+    <system:String x:Key="RecruitTagsSelectedLog" xml:space="preserve">選擇 Tags：&#10;{0}</system:String>
     <system:String x:Key="Refreshed">目前欄位已刷新</system:String>
     <system:String x:Key="ContinueRefresh">無招聘許可，繼續嘗試刷新 Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">無招聘許可，已返回</system:String>
@@ -1984,6 +1991,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="AchievementRestore">載入備份</system:String>
     <system:String x:Key="AchievementUnlockedAt" xml:space="preserve">解鎖於：</system:String>
     <system:String x:Key="AchievementList">成就清單</system:String>
+    <system:String x:Key="AchievementUnlockAll">全部解鎖</system:String>
+    <system:String x:Key="AchievementLockAll">全部鎖定</system:String>
     <system:String x:Key="AchievementBackupSuccess">已備份到</system:String>
     <system:String x:Key="AchievementRestoreSuccess">已恢復成就進度</system:String>
     <system:String x:Key="AchievementRestoreFailed">恢復失敗，檔案格式無效</system:String>

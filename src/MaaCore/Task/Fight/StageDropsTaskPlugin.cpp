@@ -201,7 +201,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     if (!ret) {
         auto info = basic_info();
         info["subtask"] = "RecognizeDrops";
-        info["why"] = "掉落识别错误";
+        info["why"] = "drop recognition error";
         callback(AsstMsg::SubTaskError, info);
         return false;
     }
@@ -496,7 +496,7 @@ bool asst::StageDropsTaskPlugin::check_stage_valid()
     if (m_target_stage.empty() && m_stage_code == invalid_stage_code) {
         json::value info = basic_info();
         info["subtask"] = "CheckStageValid";
-        info["why"] = "无奖励关卡";
+        info["why"] = "stage without reward";
         callback(AsstMsg::SubTaskError, info);
 
         return false;

@@ -344,7 +344,7 @@ asst::AutoRecruitTask::recruit_result asst::AutoRecruitTask::recruit_one(const R
         {
             json::value info = basic_info();
             info["what"] = "RecruitError";
-            info["why"] = "识别错误";
+            info["why"] = "recognition error";
             callback(AsstMsg::SubTaskError, info);
         }
         if (!ProcessTask(*this, { "RecruitContinue", "Return" }).run()) {
@@ -633,7 +633,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitError";
-                cb_info["why"] = "刷新次数达到上限";
+                cb_info["why"] = "refresh count reached the limit";
                 cb_info["details"] = json::object { { "refresh_limit", refresh_limit } };
                 callback(AsstMsg::SubTaskError, cb_info);
                 return {};

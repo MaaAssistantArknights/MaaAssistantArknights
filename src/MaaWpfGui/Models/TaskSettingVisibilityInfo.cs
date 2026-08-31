@@ -112,7 +112,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         // 边界检查
         if (taskIndex < 0 || taskIndex >= ConfigFactory.CurrentConfig.TaskQueue.Count)
         {
-            Log.Error("尝试设置不存在的任务设置可见性, 索引: {TaskIndex}", taskIndex);
+            Log.Error("Tried to set task settings visibility for a nonexistent task, index: {TaskIndex}", taskIndex);
             return;
         }
 

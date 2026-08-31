@@ -16,7 +16,7 @@
     mc:Ignorable="d">
     <StackPanel>
         <TextBox
-            hc:TitleElement.Title="Task Name(s)"
+            hc:TitleElement.Title="{DynamicResource CustomTaskName}"
             LostFocus="{s:Action SaveTaskName}"
             Text="{Binding TaskName, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />

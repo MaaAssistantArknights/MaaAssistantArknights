@@ -577,7 +577,9 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">Additional commands for emulator parameters (e.g. ｢--instance 1｣ for instance 1).&#10;Command formats vary by emulator, typically including instance numbers and window modes, please consult your emulator's documentation.</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
+    <system:String x:Key="StartsWithScriptPlaceholder">Example: "C:\1.cmd" -minimized</system:String>
     <system:String x:Key="EndsWithScript">Ends with Script</system:String>
+    <system:String x:Key="EndsWithScriptPlaceholder">Example: "C:\1.cmd" -noWindow</system:String>
     <system:String x:Key="CopilotWithScript">Enable the above script during Copilot</system:String>
     <system:String x:Key="ManualStopWithScript">Enable the above script during manual stop</system:String>
     <system:String x:Key="BlockSleep">Prevent hibernation when running tasks</system:String>
@@ -786,6 +788,7 @@ Note:
 2. If using network bridging, check the MuMu network bridging mode and manually enter the serial number.
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu Installation Path</system:String>
+    <system:String x:Key="MuMu12EmulatorPathPlaceholder">Example: C:\Program Files\Netease\MuMuPlayer</system:String>
     <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu installation path is empty! The placeholder is only an example, please fill in the actual path in ｢{key=Settings} - {key=ConnectionSettings}｣</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu Network Bridge Connection</system:String>
     <system:String x:Key="MuMuBridgeConnectionTip">Unless you know what you are doing, do not enable this option</system:String>
@@ -814,6 +817,7 @@ The screenshot enhancement feature requires the emulator resolution to be set to
 If the game is launched in portrait mode and then switched to landscape, it may cause screen tearing or other issues.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
+    <system:String x:Key="LdEmulatorPathPlaceholder">Example: C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="LdEmulatorPathEmptyError">LDPlayer installation path is empty! The placeholder is only an example, please fill in the actual path in ｢{key=Settings} - {key=ConnectionSettings}｣</system:String>
     <system:String x:Key="LdManualSetIndex">Manually enter ｢{key=LdIndex}｣</system:String>
     <system:String x:Key="LdIndex">Instance Index</system:String>
@@ -891,6 +895,8 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
     <system:String x:Key="WaitAndStop">Wait &amp; Stop</system:String>
+    <system:String x:Key="AutoReloadResource">Auto Reload Resource</system:String>
+    <system:String x:Key="CustomTaskName">Task Name(s)</system:String>
     <!--  FightSettings  -->
     <system:String x:Key="UseSanityPotion">Use Sanity Potion</system:String>
     <system:String x:Key="UseOriginitePrime">Use Originium</system:String>
@@ -1651,6 +1657,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="RecruitmentOfStar">{0}★ has been recruited!</system:String>
     <system:String x:Key="RecruitmentOfBot">Robot! Robot! More Robot!</system:String>
     <system:String x:Key="Choose">Choose</system:String>
+    <system:String x:Key="RecruitTagsSelectedLog" xml:space="preserve">Selected tags:&#10;{0}</system:String>
     <system:String x:Key="Refreshed">Refreshed</system:String>
     <system:String x:Key="ContinueRefresh">No recruitment permit, trying to refresh Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">No recruitment permit, returned</system:String>
@@ -1983,6 +1990,8 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="AchievementRestore">Restore Backup</system:String>
     <system:String x:Key="AchievementUnlockedAt" xml:space="preserve">Unlocked at: </system:String>
     <system:String x:Key="AchievementList">Achievement List</system:String>
+    <system:String x:Key="AchievementUnlockAll">Unlock All</system:String>
+    <system:String x:Key="AchievementLockAll">Lock All</system:String>
     <system:String x:Key="AchievementBackupSuccess">Backed up to</system:String>
     <system:String x:Key="AchievementRestoreSuccess">Achievement progress restored</system:String>
     <system:String x:Key="AchievementRestoreFailed">Restore failed, invalid file format</system:String>

@@ -104,7 +104,7 @@ public class ConfigConverter
         {
             if (!ConfigurationHelper.SwitchConfiguration(configName))
             {
-                _logger.Error("配置迁移失败，无法切换到old配置: {ConfigName}", configName);
+                _logger.Error("Config migration failed, unable to switch to old config: {ConfigName}", configName);
                 continue;
             }
             if (ConfigFactory.Root.Configurations.ContainsKey(configName))
@@ -112,14 +112,14 @@ public class ConfigConverter
             }
             else if (ConfigFactory.AddConfiguration(configName) is false)
             {
-                _logger.Error("配置迁移失败，无法添加配置: {ConfigName}", configName);
-                throw new Exception($"配置迁移失败，无法添加配置{configName}");
+                _logger.Error("Config migration failed, unable to add config: {ConfigName}", configName);
+                throw new Exception($"Config migration failed, unable to add config: {configName}");
             }
 
             if (!ConfigFactory.SwitchConfig(configName))
             {
-                _logger.Error("配置迁移失败，无法切换到配置: {ConfigName}", configName);
-                throw new Exception($"配置迁移失败，无法切换到配置{configName}");
+                _logger.Error("Config migration failed, unable to switch to config: {ConfigName}", configName);
+                throw new Exception($"Config migration failed, unable to switch to config: {configName}");
             }
 
             // 删除旧的配置
@@ -287,7 +287,7 @@ public class ConfigConverter
                     }
                     else
                     {
-                        _logger.Error("Enum.TryParse<InfrastRoomType> 失败，room: {Room}", room);
+                        _logger.Error("Enum.TryParse<InfrastRoomType> failed, room: {Room}", room);
                     }
                 }
 
@@ -547,13 +547,13 @@ public class ConfigConverter
         {
             if (!ConfigurationHelper.SwitchConfiguration(configName))
             {
-                _logger.Error("配置迁移失败，无法切换到old配置: {ConfigName}", configName);
+                _logger.Error("Config migration failed, unable to switch to old config: {ConfigName}", configName);
                 continue;
             }
             if (!ConfigFactory.SwitchConfig(configName))
             {
-                _logger.Error("配置迁移失败，无法切换到配置: {ConfigName}", configName);
-                throw new Exception($"配置迁移失败，无法切换到配置{configName}");
+                _logger.Error("Config migration failed, unable to switch to config: {ConfigName}", configName);
+                throw new Exception($"Config migration failed, unable to switch to config: {configName}");
             }
 
             // 性能设置
@@ -1213,7 +1213,7 @@ public class ConfigConverter
         }
         catch (Exception ex)
         {
-            _logger.Error(ex, "备份配置失败: {Message}", ex.Message);
+            _logger.Error(ex, "Failed to backup config: {Message}", ex.Message);
         }
     }
 }
