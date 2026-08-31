@@ -31,11 +31,6 @@ std::optional<size_t> find_fiammetta_target(
     double mood_threshold);
 
 std::optional<size_t> find_full_mood_fiammetta(const std::vector<DormSelectionCandidate>& first_page);
-
-std::vector<size_t> find_low_mood_candidates(
-    const std::vector<DormSelectionCandidate>& candidates,
-    double mood_threshold,
-    size_t limit);
 } // namespace infrast
 
 class InfrastDormTask final : public InfrastProductionTask
@@ -62,12 +57,25 @@ private:
         Error,
     };
 
+    // detect_* 的识别结果：Found 时命中干员已挪到 opers 首位；
+    // Error 表示截图/分析异常，与目标确实不在场的 NotFound 区分开。
+    enum class DetectResult
+    {
+        Found,
+        NotFound,
+        Error,
+    };
+
     virtual bool _run() override;
 
-    bool fill_dorm_slots(bool low_mood_only);
+    bool fill_dorm_slots();
     bool should_select_dorm_managers() const noexcept;
     bool select_dorm_managers();
+    bool run_fiammetta_preparation();
     FiammettaSelectionResult try_select_fiammetta_pair();
+    // 识别当前排序第一页的配对干员；命中者挪到 opers 首位供点选。
+    DetectResult detect_fiammetta_target(std::vector<infrast::Oper>& opers);
+    DetectResult detect_full_mood_fiammetta(std::vector<infrast::Oper>& opers);
     bool set_notstationed_filter(bool enabled);
     bool restore_list_sort_for_selection_phase(asst::infrast::CustomRoomConfig const& room_config);
     bool switch_to_mood_sort();

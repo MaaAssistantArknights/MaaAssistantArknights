@@ -23,8 +23,9 @@ enum class FacilityPlanMode
 
 enum class FacilityStep
 {
-    DormPrepare,
-    DormFill,
+    DormPrepare,   // 宿舍前置轮：常规模式执行菲亚梅塔配对，自定义模式执行 plan 的宿舍配置轮
+                   // （自定义基建的菲亚梅塔由 plan 解析时插入的独立临时任务处理，不经过任何 step）
+    DormRearrange, // 宿舍重排轮：清空全部宿舍后按心情升序安置低心情干员，剩余位置信赖补位
     MfgInspect,
     Mfg,
     Trade,
@@ -117,7 +118,7 @@ inline std::optional<std::vector<FacilityStep>>
         result.emplace_back(FacilityStep::Reception);
     }
     if (enabled.contains("Dorm")) {
-        result.emplace_back(FacilityStep::DormFill);
+        result.emplace_back(FacilityStep::DormRearrange);
     }
     if (enabled.contains("Processing")) {
         result.emplace_back(FacilityStep::Processing);

@@ -515,9 +515,15 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @type array<string>
 @default ["清流", "可露希尔", "但书"]
 @optional
-フィアメッタの回復対象リスト。交代時、リスト内で現在の体力が最も低い対象オペレーターがフィアメッタとともに優先的に寮へ配置されます。`mode = 0` の場合のみ有効です。
+フィアメッタの回復対象リスト。交代開始時、リスト内で現在の体力が最も低い対象オペレーターがフィアメッタとともに寮へ配置されて体力を交換します。`mode = 0` かつ `fiammetta_recovery_enabled` が true の場合のみ有効です。
 <br>
 オプション：`清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅`（オプション外または重複するエントリは無視されます）  
+:::  
+::: field fiammetta_recovery_enabled  
+@type boolean
+@default false
+@optional
+交代開始時にフィアメッタで回復対象の体力を回復するかどうか。無効の場合、交代は宿舎準備ステップをスキップします。`mode = 0` の場合のみ有効です。  
 :::  
 ::: field use_pinus_sylvestris  
 @type boolean

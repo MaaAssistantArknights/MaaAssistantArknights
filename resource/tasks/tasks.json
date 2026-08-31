@@ -2822,6 +2822,8 @@
     "InfrastNotification": {
         "roi": [1100, 0, 180, 300],
         "action": "ClickSelf",
+        "postDelay": 500,
+        "postDelay_Doc": "点开通知面板时基建布局有缩放动画，动画期间点击无效，默认的延迟应该已经够了，多加一点保险",
         "next": ["InfrastReward", "InfrastNotification@LoadingText", "InfrastExitReward"]
     },
     "InfrastReward": {

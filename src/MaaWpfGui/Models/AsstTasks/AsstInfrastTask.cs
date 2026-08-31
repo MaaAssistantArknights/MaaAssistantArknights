@@ -93,6 +93,11 @@ public class AsstInfrastTask : AsstBaseTask
 
     public List<string> FiammettaTargets { get; set; } = ["清流", "可露希尔", "但书"];
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 常规模式换班开始时使用菲亚梅塔为恢复目标恢复心情
+    /// </summary>
+    public bool FiammettaRecoveryEnabled { get; set; }
+
     public bool UsePinusSylvestris { get; set; }
 
     public bool UsePerceptionInformation { get; set; }
@@ -130,6 +135,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["reception_clue_exchange"] = ReceptionClueExchange,
             ["reception_send_clue"] = ReceptionSendClue,
             ["fiammetta_targets"] = JArray.FromObject(fiammettaTargets),
+            ["fiammetta_recovery_enabled"] = FiammettaRecoveryEnabled,
             ["use_pinus_sylvestris"] = UsePinusSylvestris,
             ["use_perception_information"] = UsePerceptionInformation,
             ["use_worldly_plight"] = UseWorldlyPlight,

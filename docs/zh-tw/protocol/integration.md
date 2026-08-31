@@ -516,9 +516,15 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @type array<string>
 @default ["清流", "可露希尔", "但书"]
 @optional
-菲亞梅塔恢復目標名單，換班時會優先將名單中當前心情最低的幹員與菲亞梅塔一同進駐宿舍。僅 `mode = 0` 時生效。
+菲亞梅塔恢復目標名單，換班開始時會將名單中當前心情最低的幹員與菲亞梅塔一同進駐宿舍互換心情。僅 `mode = 0` 且 `fiammetta_recovery_enabled` 為 true 時生效。
 <br>
 選項：`清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅`（不在選項內或重複的條目會被忽略）  
+:::  
+::: field fiammetta_recovery_enabled  
+@type boolean
+@default false
+@optional
+是否在換班開始時使用菲亞梅塔為恢復目標恢復心情；關閉時換班將跳過宿舍準備步驟。僅 `mode = 0` 時生效。  
 :::  
 ::: field use_pinus_sylvestris  
 @type boolean

@@ -253,20 +253,28 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
                 <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
             </CheckBox>
-            <StackPanel
-                Margin="0,5"
-                HorizontalAlignment="Left"
-                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
-                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
+            <StackPanel HorizontalAlignment="Left" Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal', Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                 <StackPanel.Resources>
                     <DataTemplate x:Key="FiammettaTargetTemplate">
                         <TextBlock Text="{Binding Display}" ToolTip="{Binding Display}" />
                     </DataTemplate>
                 </StackPanel.Resources>
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                    <CheckBox
+                        MaxWidth="{c:Binding '220 - ActualWidth',
+                                             ElementName=InfrastFiammettaRecoveryTipsTooltipBlock}"
+                        Margin="0,10"
+                        IsChecked="{Binding FiammettaRecoveryEnabled}">
+                        <controls:TextBlock Text="{DynamicResource InfrastFiammettaRecovery}" TextWrapping="Wrap" />
+                    </CheckBox>
+                    <controls:TooltipBlock x:Name="InfrastFiammettaRecoveryTipsTooltipBlock" TooltipText="{DynamicResource InfrastFiammettaRecoveryTips}" />
+                </StackPanel>
                 <StackPanel
                     Margin="0,0,0,5"
                     HorizontalAlignment="Left"
-                    Orientation="Horizontal">
+                    Orientation="Horizontal"
+                    Visibility="{c:Binding FiammettaRecoveryEnabled,
+                                           Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                     <controls:TextBlock
                         Margin="8,0,0,0"
                         HorizontalAlignment="Left"
@@ -275,7 +283,11 @@
                         TextWrapping="Wrap" />
                     <controls:TooltipBlock TooltipText="{DynamicResource InfrastFiammettaTargetsTips}" />
                 </StackPanel>
-                <Grid Width="220" HorizontalAlignment="Left">
+                <Grid
+                    Width="220"
+                    HorizontalAlignment="Left"
+                    Visibility="{c:Binding FiammettaRecoveryEnabled,
+                                           Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />

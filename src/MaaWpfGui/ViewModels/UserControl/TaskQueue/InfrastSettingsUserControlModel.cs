@@ -295,6 +295,15 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         set => SetTaskConfig<InfrastTask>(t => t.FiammettaTarget3 == value, t => t.FiammettaTarget3 = value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 常规模式换班开始时使用菲亚梅塔为恢复目标恢复心情。
+    /// </summary>
+    public bool FiammettaRecoveryEnabled
+    {
+        get => GetTaskConfig<InfrastTask>().FiammettaRecoveryEnabled;
+        set => SetTaskConfig<InfrastTask>(t => t.FiammettaRecoveryEnabled == value, t => t.FiammettaRecoveryEnabled = value);
+    }
+
     public bool UsePinusSylvestris
     {
         get => GetTaskConfig<InfrastTask>().UsePinusSylvestris;
@@ -668,6 +677,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                 ReceptionClueExchange = infrast.ReceptionClueExchange,
                 ReceptionSendClue = infrast.SendClue,
                 FiammettaTargets = [infrast.FiammettaTarget1, infrast.FiammettaTarget2, infrast.FiammettaTarget3],
+                FiammettaRecoveryEnabled = infrast.FiammettaRecoveryEnabled,
                 UsePinusSylvestris = infrast.UsePinusSylvestris,
                 UsePerceptionInformation = infrast.UsePerceptionInformation,
                 UseWorldlyPlight = infrast.UseWorldlyPlight,
