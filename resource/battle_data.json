@@ -13974,7 +13974,6 @@
             "name_jp": "都市のネオン",
             "name_kr": "네온사인",
             "name_tw": "城市霓虹",
-            "name_tw_unavailable": true,
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": ["x-5", "x-5", "x-5"],
