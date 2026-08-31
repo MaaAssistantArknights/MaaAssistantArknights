@@ -312,8 +312,8 @@ bool asst::InfrastDormTask::fill_dorm_slots(bool low_mood_only)
                         .operator_id = oper.operator_id,
                         .mood_ratio = oper.mood_ratio,
                         .selected = oper.selected,
-                        // 第一轮的目的就是把其他设施中的低心情干员换进宿舍。
-                        .available = true,
+                        // 第一轮默认允许跨设施换班；启用“不将已进驻干员放入宿舍”时排除在岗干员。
+                        .available = !m_notstationed_filter_enabled || oper.doing != infrast::Doing::Working,
                     });
             }
             const auto indices = infrast::find_low_mood_candidates(
@@ -555,8 +555,8 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
             .operator_id = oper.operator_id,
             .mood_ratio = oper.mood_ratio,
             .selected = oper.selected,
-            // 菲亚梅塔目标可能正在其他设施工作，第一轮仍应允许将其换入宿舍。
-            .available = true,
+            // 菲亚梅塔目标可能正在其他设施工作；启用“不将已进驻干员放入宿舍”时保留该约束。
+            .available = !m_notstationed_filter_enabled || oper.doing != infrast::Doing::Working,
         };
         if (!candidate.selected && candidate.available && candidate.mood_ratio < m_mood_threshold) {
             RegionOCRer name_analyzer(oper.name_img);
@@ -609,8 +609,8 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
                 .operator_id = oper.operator_id,
                 .mood_ratio = oper.mood_ratio,
                 .selected = oper.selected,
-                // 第一轮保持“全部”筛选，满心情菲亚梅塔也可能正在其他设施工作。
-                .available = true,
+                // 第一轮保持“全部”筛选；启用“不将已进驻干员放入宿舍”时排除在岗的菲亚梅塔。
+                .available = !m_notstationed_filter_enabled || oper.doing != infrast::Doing::Working,
             });
     }
     const auto fiammetta_index = infrast::find_full_mood_fiammetta(fiammetta_candidates);
