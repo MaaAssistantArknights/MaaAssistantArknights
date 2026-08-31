@@ -233,6 +233,19 @@ inline static Role parse_role_type(const std::string& role_name)
     return battle::Role::Drone;
 }
 
+inline static Role parse_role_type_copilot(const std::string& role_name)
+{
+    static const std::unordered_map<std::string, battle::Role> RoleMap = {
+        { "caster", battle::Role::Caster }, { "medic", battle::Role::Medic },     { "pioneer", battle::Role::Pioneer },
+        { "sniper", battle::Role::Sniper }, { "special", battle::Role::Special }, { "support", battle::Role::Support },
+        { "tank", battle::Role::Tank },     { "warrior", battle::Role::Warrior },
+    };
+    if (auto iter = RoleMap.find(role_name); iter != RoleMap.end()) {
+        return iter->second;
+    }
+    return battle::Role::Unknown;
+}
+
 enum class OperPosition
 {
     None,
