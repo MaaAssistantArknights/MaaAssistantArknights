@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -59,7 +60,11 @@ namespace MaaWpfGui.Main;
 /// </summary>
 public class Bootstrapper : Bootstrapper<RootViewModel>
 {
+    private const int ErrorNotEnoughQuota = 1816;
+
     private static ILogger _logger = Logger.None;
+
+    private static int _wpfMessageQueueRecoveryStarted;
 
     private static Mutex _mutex;
     private static bool _hasMutex;
@@ -1205,8 +1210,39 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e)
     {
         LogUnhandledException(e.Exception);
+
+        if (IsWpfMessageQueueQuotaException(e.Exception))
+        {
+            e.Handled = true;
+
+            if (Interlocked.Exchange(ref _wpfMessageQueueRecoveryStarted, 1) == 0)
+            {
+                _logger.Fatal("WPF window message queue quota was exhausted. Restarting MAA to recover.");
+                ShutdownAndRestartWithoutArgs();
+            }
+
+            return;
+        }
+
         ShowErrorDialog(e.Exception);
         e.Handled = true;
+    }
+
+    private static bool IsWpfMessageQueueQuotaException(Exception exception)
+    {
+        for (Exception current = exception; current is not null; current = current.InnerException)
+        {
+            if (current is not Win32Exception { NativeErrorCode: ErrorNotEnoughQuota })
+            {
+                continue;
+            }
+
+            var details = current.ToString();
+            return details.Contains("System.Windows.Interop.HwndTarget", StringComparison.Ordinal) ||
+                   details.Contains("MS.Win32.UnsafeNativeMethods.PostMessage", StringComparison.Ordinal);
+        }
+
+        return false;
     }
 
     private static void LogUnhandledException(Exception exception)

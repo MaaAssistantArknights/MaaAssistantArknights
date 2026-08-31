@@ -1925,8 +1925,16 @@ public class TaskQueueViewModel : Screen
 
         using var log = new LogScope(_logger);
         await TaskQueueSerializingLock.WaitAsync();
-        await LinkStartWithTasks(ConfigFactory.CurrentConfig.TaskQueue);
-        TaskQueueSerializingLock.Release();
+        try
+        {
+            _logger.Information("Task queue startup acquired the serialization lock.");
+            await LinkStartWithTasks(ConfigFactory.CurrentConfig.TaskQueue);
+        }
+        finally
+        {
+            TaskQueueSerializingLock.Release();
+            _logger.Information("Task queue startup released the serialization lock.");
+        }
     }
 
 #if DEBUG
@@ -2080,12 +2088,26 @@ public class TaskQueueViewModel : Screen
 
             try
             {
+                var serializationStopwatch = Stopwatch.StartNew();
                 var (isSuccess, taskIds) = SerializeTask(item);
+                serializationStopwatch.Stop();
+                _logger.Information(
+                    "Task serialization returned. Index {Index}, Type {TaskType}, Success {Success}, Elapsed {ElapsedMilliseconds} ms",
+                    index,
+                    item.TaskType,
+                    isSuccess,
+                    serializationStopwatch.ElapsedMilliseconds);
                 switch (isSuccess)
                 {
                     case true:
                         ++count;
-                        Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index)?.SetTaskIds(taskIds);
+                        var taskItemViewModel = Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index);
+                        taskItemViewModel?.SetTaskIds(taskIds);
+                        _logger.Information(
+                            "Task IDs stored. Index {Index}, Type {TaskType}, TaskIdCount {TaskIdCount}",
+                            index,
+                            item.TaskType,
+                            taskItemViewModel?.TaskIds.Count ?? 0);
                         break;
                     case false:
                         taskRet = false;
@@ -2101,9 +2123,15 @@ public class TaskQueueViewModel : Screen
             catch (Exception ex)
             {
                 taskRet = false;
+                _logger.Error(ex, "Failed to serialize task. Index {Index}, Type {TaskType}", index, item.TaskType);
                 AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType) + "\n" + ex.Message, UiLogColor.Error);
             }
         }
+
+        _logger.Information(
+            "All enabled tasks were serialized. Count {Count}, AppendSucceeded {AppendSucceeded}. Entering core start.",
+            count,
+            taskRet);
 
         if (count == 0)
         {
@@ -2116,7 +2144,14 @@ public class TaskQueueViewModel : Screen
 
         AchievementTrackerHelper.Instance.SetProgress(AchievementIds.TaskChainKing, count);
 
-        taskRet &= Instances.AsstProxy.AsstStart();
+        var coreStartStopwatch = Stopwatch.StartNew();
+        var coreStartSucceeded = Instances.AsstProxy.AsstStart();
+        coreStartStopwatch.Stop();
+        _logger.Information(
+            "Core start returned. Success {Success}, Elapsed {ElapsedMilliseconds} ms",
+            coreStartSucceeded,
+            coreStartStopwatch.ElapsedMilliseconds);
+        taskRet &= coreStartSucceeded;
 
         if (taskRet)
         {
