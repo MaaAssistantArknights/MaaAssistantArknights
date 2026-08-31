@@ -168,9 +168,9 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
             for (auto& role_name : point["role"].as_array()) {
                 auto role_name_str = role_name.as_string();
                 utils::tolowers(role_name_str);
-                const auto role = battle::parse_role_type_copilot(role_name_str);
+                const auto role = battle::parse_role_type(role_name_str, battle::Role::Unknown);
                 if (role == Role::Unknown) [[unlikely]] {
-                    LogError << __FUNCTION__ << " Unknown role name:" << role_name;
+                    LogError << __FUNCTION__ << " Unknown role name:" << role_name_str;
                     return false;
                 }
                 fd_role.emplace(role);
