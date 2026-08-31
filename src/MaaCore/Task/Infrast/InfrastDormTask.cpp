@@ -192,9 +192,9 @@ bool asst::InfrastDormTask::_run()
             }
         }
 
-        // 常规模式前置阶段只执行一次菲亚梅塔配对即结束，不进入其余宿舍，也
-        // 不在此处做任何宿舍选人：全部休整安置由第二轮的清空重排完成，
-        // ｢不将已进驻干员放入宿舍｣ 因此对整个换班流程完整生效。
+        // 常规模式前置阶段只执行一次菲亚梅塔配对即结束，不进入其余宿舍；
+        // 全部休整安置由第二轮的清空重排完成，｢不将已进驻干员放入宿舍｣
+        // 因此对整个换班流程完整生效。
         if (is_default_prepare_phase && !room_uses_custom_opers) {
             return run_fiammetta_preparation();
         }
@@ -221,9 +221,9 @@ bool asst::InfrastDormTask::_run()
             }
         }
         else {
-            // 前置阶段仅执行菲亚梅塔配对（自定义前置阶段清空整间宿舍）；
-            // 后置阶段清空重排：休整充足的干员让出位置，由未进驻池中的
-            // 低心情干员按心情升序补入，宿舍始终收敛为最需要休息的一批人。
+            // 常规重排轮与自定义 autofill 宿舍均先清空再补人：休整充足的干员
+            // 让出位置，由未进驻池中的低心情干员按心情升序补入，宿舍始终收敛
+            // 为最需要休息的一批人。
             click_clear_button();
         }
 
@@ -477,33 +477,10 @@ bool asst::InfrastDormTask::should_select_dorm_managers() const noexcept
 
 bool asst::InfrastDormTask::run_fiammetta_preparation()
 {
-    // 前置阶段只执行一次菲亚梅塔配对：互换心情后把二人清出宿舍即结束，
-    // 不在此处做任何宿舍选人。菲亚梅塔互换后心情为全池最低，会由后置
-    // 阶段的清空重排自动选回；恢复目标心情回满，交由设施换班重新调度。
-    // 注意首次确认成功后的步骤（重进/清空）若失败触发重试，心情已互换，
-    // 配对必然 NotFound 而空确认退出，二人会滞留宿舍至下次换班——这是
-    // 有意的软降级兜底，避免在已互换状态下反复清空宿舍，勿当缺陷修。
     const FiammettaSelectionResult selection_result =
         m_fiammetta_checked || m_fiammetta_targets.empty() ? FiammettaSelectionResult::NotFound
                                                            : try_select_fiammetta_pair();
     if (selection_result == FiammettaSelectionResult::Error) {
-        return false;
-    }
-    if (!click_confirm_button()) {
-        return false;
-    }
-    if (selection_result == FiammettaSelectionResult::NotFound) {
-        // 宿舍未被修改，确认空变更后按常规路径退回基建主界面。
-        click_return_button();
-        return true;
-    }
-
-    click_return_button();
-    if (!enter_facility(m_cur_facility_index) || !enter_oper_list_page()) {
-        return false;
-    }
-    // 清空撤出配对二人，留给后置阶段的清空重排统一安置。
-    if (!click_clear_button()) {
         return false;
     }
     if (!click_confirm_button()) {
@@ -515,21 +492,16 @@ bool asst::InfrastDormTask::run_fiammetta_preparation()
 
 asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_select_fiammetta_pair()
 {
-    // 前置阶段只识别当前第一页，不向后翻页。先在低心情优先的第一页确认恢复
-    // 目标在场，再切技能排序确认满心情菲亚梅塔在场；两者都确认后才清空宿舍
-    // 腾位，避免清空后无人可配对而白撤原住民。
+    // 先确认配对二人都在场，任一不在场直接结束；都在场才清空保存重进点选。
     m_fiammetta_checked = true;
     std::vector<infrast::Oper> target_opers;
     const DetectResult target_detect = detect_fiammetta_target(target_opers);
     if (target_detect != DetectResult::Found) {
-        // 尚未清空宿舍即退出，原住民不受影响。识别异常走 Error 重试，
-        // 目标确实不在场走 NotFound 正常跳过。
         return target_detect == DetectResult::Error ? FiammettaSelectionResult::Error
                                                     : FiammettaSelectionResult::NotFound;
     }
 
-    // 菲亚梅塔只在满心情时技能才有作用。按技能排序后她必然在第一页，
-    // 因而无需继续翻页识别。
+    // 菲亚梅塔只在满心情时技能才有作用，按技能排序必然在第一页。
     if (!ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run()) {
         return FiammettaSelectionResult::Error;
     }
@@ -539,8 +511,6 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
         if (fiammetta_detect == DetectResult::NotFound) {
             Log.warn("full-mood Fiammetta was not found on the first page");
         }
-        // 尚未清空宿舍即退出，原住民不受影响。识别异常走 Error 重试，
-        // 目标确实不在场走 NotFound 正常跳过，与目标分支语义一致。
         if (!switch_to_low_mood_sort()) {
             return FiammettaSelectionResult::Error;
         }
@@ -548,18 +518,23 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
                                                        : FiammettaSelectionResult::NotFound;
     }
 
-    // 清空会取消全部选中，游戏的“已选中置顶”随之消失，列表布局随之改变；
-    // 点选后新选中者又会被置顶。因此清空后每次点击前都重新识别定位，
-    // 不复用之前的坐标。
+    // 清空保存取消全部选中并消除置顶，重进后重新识别定位，不复用旧坐标。
     if (!click_clear_button()) {
         return FiammettaSelectionResult::Error;
     }
+    if (!click_confirm_button()) {
+        return FiammettaSelectionResult::Error;
+    }
+    click_return_button();
+    if (!enter_facility(m_cur_facility_index) || !enter_oper_list_page()) {
+        return FiammettaSelectionResult::Error;
+    }
+    close_quick_formation_expand_role();
     if (!switch_to_low_mood_sort()) {
         return FiammettaSelectionResult::Error;
     }
 
-    // 点选顺序决定进驻顺序：菲亚梅塔必须位于目标后一位，交换对象才是预期干员。
-    // 此阶段宿舍已清空，无论识别异常还是定位失败都只能 Error 重试。
+    // 点选顺序决定进驻顺序，菲亚梅塔必须在目标后一位。
     target_opers.clear();
     if (detect_fiammetta_target(target_opers) != DetectResult::Found) {
         return FiammettaSelectionResult::Error;
