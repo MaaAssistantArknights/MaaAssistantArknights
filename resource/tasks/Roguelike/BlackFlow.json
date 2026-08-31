@@ -1433,6 +1433,16 @@
     "BlackFlow@Roguelike@StageTraderInvest-Wallet": {
         "roi": [1136, 15, 124, 43]
     },
+    "BlackFlow@Roguelike@StageTraderInvestSystem": {
+        "baseTask": "Roguelike@StageTraderInvestSystem",
+        "maxTimes": 3,
+        "next": [
+            "BlackFlow@Roguelike@StageTraderInvestSystemEnter",
+            "BlackFlow@Roguelike@StageTraderInvestSystem",
+            "BlackFlow@Roguelike@StageTraderLeave"
+        ],
+        "exceededNext": ["BlackFlow@Roguelike@StageTraderLeave"]
+    },
     "BlackFlow@Roguelike@StageTraderInvestCancel": {
         "baseTask": "Roguelike@StageTraderInvestCancel",
         "template": "Roguelike@StageTraderInvestCancel.png",
@@ -1456,7 +1466,8 @@
             "BlackFlow@Roguelike@StageTraderInvestCancel",
             "#self"
         ],
-        "maxTimes": 3
+        "maxTimes": 3,
+        "reduceOtherTimes": ["BlackFlow@Roguelike@StageTraderInvestSystem*3"]
     },
     "BlackFlow@Roguelike@StageTraderInvestSystemError": {
         "baseTask": "Roguelike@StageTraderInvestSystemError",
@@ -1490,7 +1501,10 @@
     },
     "BlackFlow@Roguelike@StageTraderLeaveConfirmCompleted": {
         "algorithm": "JustReturn",
-        "reduceOtherTimes": ["BlackFlow@Roguelike@StageTraderLeaveConfirm*3"],
+        "reduceOtherTimes": [
+            "BlackFlow@Roguelike@StageTraderLeaveConfirm*3",
+            "BlackFlow@Roguelike@StageTraderInvestSystem*3"
+        ],
         "next": ["BlackFlow@Roguelike@Stages"]
     },
     "BlackFlow@Roguelike@Stages": {
