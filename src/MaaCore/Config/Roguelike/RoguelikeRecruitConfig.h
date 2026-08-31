@@ -39,8 +39,6 @@ struct RoguelikeOperInfo
     int promote_priority = 0;                                          // 晋升优先级 (0-1000)
     int recruit_priority_when_team_full = 0;                           // 队伍满时的招募优先级 (0-1000)
     int promote_priority_when_team_full = 0;                           // 队伍满时的晋升优先级 (0-1000)
-    std::vector<std::pair<int, int>> recruit_priority_offset;          // [deprecated]
-    bool offset_melee = false;                                         // [deprecated]
     bool is_key = false;                                               // 是否为核心干员
     bool is_start = false;                                             // 是否为开局干员
     std::vector<RecruitPriorityOffset> recruit_priority_offsets;       // 招募 priority 影响因子
