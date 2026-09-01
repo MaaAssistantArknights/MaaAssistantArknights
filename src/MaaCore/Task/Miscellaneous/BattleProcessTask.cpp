@@ -513,6 +513,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         const auto& action_oper = get_name_from_group(action.role, action.name);
         update_image_if_empty();
         while (!need_exit()) {
+            if (!check_in_battle(image)) {
+                return false;
+            }
             if (!update_deployment(false, image)) {
                 return false;
             }

@@ -639,7 +639,7 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
 
     BattlefieldMatcher battle_flag_analyzer_2(image);
     auto battle_result_opt = battle_flag_analyzer_2.analyze();
-    ret &= battle_result_opt && battle_result_opt->pause_button;
+    ret &= battle_result_opt && battle_result_opt->pause_button != BattlefieldMatcher::PauseStatus::Unknown;
     return ret;
 }
 
@@ -659,14 +659,39 @@ bool asst::BattleHelper::check_skip_plot_button(const cv::Mat& reusable)
 bool asst::BattleHelper::check_avatar_dialog(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-
+    const static auto& task = Task.get("BattleAvatarDialog");
+    const static double threshold = task->special_params[0] / 100.0;
     Matcher battle_plot_analyzer(image);
-    battle_plot_analyzer.set_task_info("BattleAvatarDialog");
+    battle_plot_analyzer.set_task_info(task);
     bool ret = battle_plot_analyzer.analyze().has_value();
-    if (ret) {
-        ProcessTask(this_task(), { "BattleAvatarDialog" }).run();
+    if (!ret) {
+        return false;
     }
-    return ret;
+
+    ProcessTask(this_task(), { "BattleAvatarDialog" }).run();
+    const auto match_rect = battle_plot_analyzer.get_result().rect.move(task->rect_move);
+
+    cv::Mat image2 = m_inst_helper.ctrler()->get_image();
+    int retry = 100;
+    while (!m_inst_helper.need_exit() && retry > 0) {
+        Matcher matcher(image2);
+        matcher.set_templ(make_roi(image, match_rect));
+        matcher.set_roi(match_rect);
+        matcher.set_threshold(threshold);
+        matcher.set_method(MatchMethod::Ccoeff);
+        if (matcher.analyze()) {
+            LogInfo << __FUNCTION__ << "still in dialog, but not detected change, maybe need deploy or skill";
+            break;
+        }
+        --retry;
+        ret = ProcessTask(this_task(), { "BattleAvatarDialog" }).run();
+        if (!ret) {
+            break;
+        }
+        image = image2;
+        image2 = m_inst_helper.ctrler()->get_image();
+    }
+    return true;
 }
 
 bool asst::BattleHelper::check_in_speedup(const cv::Mat& reusable)
@@ -684,7 +709,7 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
         BattlefieldMatcher analyzer(image);
         auto result = analyzer.analyze();
         m_in_battle = result.has_value();
-        if (m_in_battle && !result->pause_button) {
+        if (m_in_battle && result->pause_button == BattlefieldMatcher::PauseStatus::Unknown) {
             if (check_skip_plot_button(image)) {
                 if (m_in_speedup && !check_in_speedup()) {
                     speed_up(); // 跳过剧情会退出2倍速
@@ -693,13 +718,13 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
             else if (check_avatar_dialog(image)) {
                 if (m_in_speedup && !check_in_speedup()) {
                     speed_up(); // 跳过剧情会退出2倍速
-                    m_inst_helper.sleep(Config.get_options().task_delay);
-                    int times = 0;
-                    while (times < 20 && !m_inst_helper.need_exit() && !check_in_speedup()) {
-                        speed_up(); // 跳过剧情会退出2倍速
-                        m_inst_helper.sleep(Config.get_options().task_delay);
-                        times++;
-                    }
+                }
+            }
+        }
+        else if (m_in_battle && result->pause_button == BattlefieldMatcher::PauseStatus::Pausing) {
+            if (check_avatar_dialog(image)) {
+                if (m_in_speedup && !check_in_speedup()) {
+                    speed_up(); // 跳过剧情会退出2倍速
                 }
             }
         }

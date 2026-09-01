@@ -26,6 +26,13 @@ public:
         HitCache = 2, // 图像命中缓存, 不进行识别
     };
 
+    enum PauseStatus
+    {
+        Unknown = 0, // 没有找到暂停按钮
+        Pausing = 1, // 暂停中
+        Running = 2, // 运行中
+    };
+
     template <typename T>
     struct MatchResult
     {
@@ -42,7 +49,7 @@ public:
 
         // bool in_detail = false;
         bool speed_button = false;
-        bool pause_button = false;
+        asst::BattlefieldMatcher::PauseStatus pause_button = PauseStatus::Unknown;
     };
 
     using ResultOpt = std::optional<Result>;
@@ -59,7 +66,7 @@ public:
 protected:
     bool hp_flag_analyze() const;
     bool kills_flag_analyze() const;
-    bool pause_button_analyze() const;
+    asst::BattlefieldMatcher::PauseStatus pause_button_analyze() const;
 
     std::vector<battle::DeploymentOper> deployment_analyze() const; // 识别干员
     battle::Role oper_role_analyze(const Rect& roi) const;
