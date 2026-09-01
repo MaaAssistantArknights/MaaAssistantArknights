@@ -56,6 +56,27 @@ using Task = System.Threading.Tasks.Task;
 namespace MaaWpfGui.ViewModels.UI;
 
 /// <summary>
+/// 任务队列启动结果。
+/// </summary>
+public enum TaskQueueStartResult
+{
+    /// <summary>
+    /// 已成功启动。
+    /// </summary>
+    Started,
+
+    /// <summary>
+    /// 当前已有任务占用运行状态。
+    /// </summary>
+    Busy,
+
+    /// <summary>
+    /// 启动流程执行失败。
+    /// </summary>
+    Failed,
+}
+
+/// <summary>
 /// The view model of task queue.
 /// </summary>
 // 通过 container.Get<TaskQueueViewModel>(); 实例化或获取实例
@@ -978,7 +999,12 @@ public class TaskQueueViewModel : Screen
             if (!_runningState.GetIdle())
             {
                 _logger.Information("Not idle, Stop and CloseDown");
-                await Stop();
+                if (!await Stop())
+                {
+                    _logger.Warning("Core did not stop before the scheduled shutdown task started. Aborting the scheduled task.");
+                    return;
+                }
+
                 SetStopped();
             }
 
@@ -1973,7 +1999,7 @@ public class TaskQueueViewModel : Screen
     }
 #endif
 
-    public async Task LinkStartWithTasks(
+    public async Task<TaskQueueStartResult> LinkStartWithTasks(
         IEnumerable<BaseTask> tasks,
         bool runStartScript = true,
         bool forceEnableTasks = false)
@@ -1984,7 +2010,7 @@ public class TaskQueueViewModel : Screen
         try
         {
             _logger.Information("Task queue startup acquired the serialization lock.");
-            await LinkStartWithTasksCore(tasks, runStartScript, forceEnableTasks, startupContext);
+            return await LinkStartWithTasksCore(tasks, runStartScript, forceEnableTasks, startupContext);
         }
         catch (Exception ex)
         {
@@ -2006,7 +2032,7 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    private async Task LinkStartWithTasksCore(
+    private async Task<TaskQueueStartResult> LinkStartWithTasksCore(
         IEnumerable<BaseTask> tasks,
         bool runStartScript,
         bool forceEnableTasks,
@@ -2015,7 +2041,7 @@ public class TaskQueueViewModel : Screen
         if (!_runningState.Idle)
         {
             _logger.Information("Not idle, return.");
-            return;
+            return TaskQueueStartResult.Busy;
         }
 
         _taskStartTime = DateTime.Now;
@@ -2044,7 +2070,7 @@ public class TaskQueueViewModel : Screen
         if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion() && uiVersion != coreVersion)
         {
             AddLog(LocalizationHelper.GetStringFormat("VersionMismatch", uiVersion, coreVersion), UiLogColor.Error);
-            return;
+            return TaskQueueStartResult.Failed;
         }
 
         // 雷电模拟器 + maatouch 组合存在滑动异常缓慢的问题（滑动持续时间远大于预期），给出警告
@@ -2086,19 +2112,19 @@ public class TaskQueueViewModel : Screen
         if (_runningState.GetStopping())
         {
             SetStopped();
-            return;
+            return TaskQueueStartResult.Failed;
         }
 
         if (!await ConnectToEmulator())
         {
-            return;
+            return TaskQueueStartResult.Failed;
         }
 
         // 一般是点了“停止”按钮了
         if (_runningState.GetStopping())
         {
             SetStopped();
-            return;
+            return TaskQueueStartResult.Failed;
         }
 
         bool taskRet = true;
@@ -2172,7 +2198,7 @@ public class TaskQueueViewModel : Screen
             _runningState.SetIdle(true);
             Instances.AsstProxy.AsstStop();
             SetStopped();
-            return;
+            return TaskQueueStartResult.Failed;
         }
 
         AchievementTrackerHelper.Instance.SetProgress(AchievementIds.TaskChainKing, count);
@@ -2198,12 +2224,16 @@ public class TaskQueueViewModel : Screen
         else
         {
             AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
-            await Stop();
-            SetStopped();
+            if (await Stop())
+            {
+                SetStopped();
+            }
         }
 
         AchievementTrackerHelper.Instance.MissionStartCountAdd();
         AchievementTrackerHelper.Instance.UseDailyAdd();
+
+        return taskRet ? TaskQueueStartResult.Started : TaskQueueStartResult.Failed;
 
         static void SetTaskStatus(int index, TaskItemStatus status)
         {
@@ -2250,19 +2280,19 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// <para>通知 Core 停止当前任务并等待其完成。</para>
     /// <para>通常 Core 停止后会发送 <c>TaskChainStopped</c> 回调，由 <see cref="AsstProxy"/> 调用 <see cref="SetStopped"/> 恢复 UI 状态。</para>
-    /// <para>若未通过任务链调用 Core（如 Peep），则不会收到回调，需在调用 <see cref="Stop"/> 后手动调用 <see cref="SetStopped"/>。</para>
-    /// <para>超时后会自动调用 <see cref="SetStopped"/> 强制恢复 UI 状态。</para>
+    /// <para>若未通过任务链调用 Core（如 Peep），则不会收到回调，需在 <see cref="Stop"/> 返回 true 后手动调用 <see cref="SetStopped"/>。</para>
+    /// <para>超时后保持非空闲状态，避免旧任务的延迟回调终止随后启动的新任务。</para>
     /// <para>Notifies Core to stop the current task and waits for completion.</para>
     /// <para>Normally Core sends <c>TaskChainStopped</c> callback after stopping, and <see cref="AsstProxy"/> calls <see cref="SetStopped"/> to reset UI state.</para>
-    /// <para>If Core was not invoked via task chain (e.g. Peep), no callback will be received; caller must manually call <see cref="SetStopped"/> after <see cref="Stop"/>.</para>
-    /// <para>On timeout, <see cref="SetStopped"/> is called automatically to force-reset UI state.</para>
+    /// <para>If Core was not invoked via task chain (e.g. Peep), no callback will be received; caller must manually call <see cref="SetStopped"/> after <see cref="Stop"/> returns true.</para>
+    /// <para>On timeout, the non-idle state is preserved so a delayed callback from the old task cannot stop a newly started task.</para>
     /// </summary>
     /// <param name="timeout">Timeout millisecond</param>
-    /// <returns>A <see cref="Task"/>
-    /// <para>尝试等待 core 成功停止运行，默认超时时间一分钟</para>
-    /// <para>Try to wait for the core to stop running, the default timeout is one minute</para>
+    /// <returns>A <see cref="Task{TResult}"/> whose result indicates whether Core has stopped.
+    /// <para>尝试等待 core 成功停止运行，默认超时时间一分钟；成功停止返回 true，超时返回 false。</para>
+    /// <para>Try to wait for the core to stop running, the default timeout is one minute; returns true when stopped, otherwise false on timeout.</para>
     /// </returns>
-    public async Task Stop(int timeout = 60 * 1000)
+    public async Task<bool> Stop(int timeout = 60 * 1000)
     {
         _runningState.SetStopping(true);
         AddLog(LocalizationHelper.GetString("Stopping"), splitMode: LogCardSplitMode.Both);
@@ -2282,11 +2312,13 @@ public class TaskQueueViewModel : Screen
 
         if (Instances.AsstProxy.AsstRunning())
         {
-            // 超时：Core 未在超时内停止，强制恢复 UI 状态
-            _logger.Warning("Stop timeout, force resetting UI state");
+            // Core 仍可能稍后发送 TaskChainStopped。保持占用状态，禁止新任务在旧回调到达前启动。
+            _logger.Warning("Stop timeout, preserving non-idle state until Core reports that it has stopped");
             AddLog(LocalizationHelper.GetString("StopTimeout") + "\n" + LocalizationHelper.GetString("RestartRecommendation"), UiLogColor.Error);
-            SetStopped();
+            return false;
         }
+
+        return true;
     }
 
     // UI 绑定的方法
@@ -2328,8 +2360,7 @@ public class TaskQueueViewModel : Screen
     /// <returns>是否实际执行了状态重置（false 表示被幂等保护跳过）。</returns>
     public bool SetStopped(bool runStopScript = true)
     {
-        // 幂等保护：已经空闲且不在停止中，跳过
-        // 防止超时 SetStopped 后 Core 延迟回调再次触发导致打断新任务
+        // 幂等保护：已经空闲且不在停止中时，跳过同一轮任务的重复停止回调。
         if (_runningState.GetIdle() && !_runningState.GetStopping())
         {
             return false;

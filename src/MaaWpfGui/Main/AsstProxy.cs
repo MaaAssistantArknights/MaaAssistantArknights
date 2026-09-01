@@ -927,8 +927,10 @@ public class AsstProxy
                         UiLogColor.Error, showTime: false);
                     Execute.OnUIThreadAsync(async () => {
                         Connected = false;
-                        await Instances.TaskQueueViewModel.Stop();
-                        Instances.TaskQueueViewModel.SetStopped();
+                        if (await Instances.TaskQueueViewModel.Stop())
+                        {
+                            Instances.TaskQueueViewModel.SetStopped();
+                        }
                     });
                 }
 
@@ -1079,8 +1081,10 @@ public class AsstProxy
                     {
                         Execute.OnUIThreadAsync(async () => {
                             Connected = false;
-                            await Instances.TaskQueueViewModel.Stop();
-                            Instances.TaskQueueViewModel.SetStopped();
+                            if (await Instances.TaskQueueViewModel.Stop())
+                            {
+                                Instances.TaskQueueViewModel.SetStopped();
+                            }
                         });
                     }
                 }

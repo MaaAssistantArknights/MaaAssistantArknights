@@ -2097,7 +2097,8 @@ public partial class CopilotViewModel : Screen
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task Stop()
     {
-        // 等待 Core 实际停止；回调或超时自动 SetStopped（脚本由 proxy 回调按 CopilotWithScript 设置判断）
+        // 等待 Core 实际停止；正常停止后由回调 SetStopped，超时则保持占用状态并提示重启。
+        // 结束脚本由 proxy 回调按 CopilotWithScript 设置判断。
         AddLog(LocalizationHelper.GetString("Stopping"));
         await Instances.TaskQueueViewModel.Stop();
         if (_runningState.GetIdle() && !_runningState.GetStopping())

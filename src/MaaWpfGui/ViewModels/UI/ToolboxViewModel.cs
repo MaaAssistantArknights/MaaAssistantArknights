@@ -2217,8 +2217,10 @@ public class ToolboxViewModel : Screen
                 // 由 Peep() 方法启动的 Peep 也需要停止，Block 不会自动停止
                 if (IsGachaInProgress || IsPeepInProgress)
                 {
-                    await Instances.TaskQueueViewModel.Stop();
-                    Instances.TaskQueueViewModel.SetStopped();
+                    if (await Instances.TaskQueueViewModel.Stop())
+                    {
+                        Instances.TaskQueueViewModel.SetStopped();
+                    }
                 }
 
                 IsPeepInProgress = false;

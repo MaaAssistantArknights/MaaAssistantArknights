@@ -308,14 +308,14 @@ public class RemoteControlService
                 case "LinkStart":
                     {
                         // 一键长草特殊任务
-                        await _runningState.UntilIdleAsync();
                         var startLogStr = LocalizationHelper.GetStringFormat("RemoteControlReceivedTask", type, id);
 
                         Instances.TaskQueueViewModel.AddLog(startLogStr);
-                        await Execute.OnUIThreadAsync(() => {
-                            _ = Instances.TaskQueueViewModel.LinkStart();
-                        });
-                        await _runningState.UntilIdleAsync();
+                        if (!await LinkStartAllTasks())
+                        {
+                            status = "FAILED";
+                            break;
+                        }
 
                         var stopLogStr = LocalizationHelper.GetStringFormat("RemoteControlCompletedTask", type, id);
                         Instances.TaskQueueViewModel.AddLog(stopLogStr);
@@ -331,7 +331,11 @@ public class RemoteControlService
                 case "LinkStart-AutoRoguelike":
                 case "LinkStart-Reclamation":
                     {
-                        await LinkStart([type.Split('-')[1]]);
+                        if (!await LinkStart([type.Split('-')[1]]))
+                        {
+                            status = "FAILED";
+                        }
+
                         break;
                     }
 
@@ -525,68 +529,115 @@ public class RemoteControlService
     /// <para>任务的连接、序列化、状态恢复和并发控制统一由 <see cref="TaskQueueViewModel"/> 处理。</para>
     /// </remarks>
     /// <param name="originalNames">指定的任务列表。</param>
-    /// <returns>异步任务，无返回结果。</returns>
-    private async Task LinkStart(IEnumerable<string> originalNames)
+    /// <returns>是否实际启动并完成了指定任务。</returns>
+    private async Task<bool> LinkStart(IEnumerable<string> originalNames)
     {
-        await _runningState.UntilIdleAsync();
+        while (true)
+        {
+            await _runningState.UntilIdleAsync();
 
-        await Execute.OnUIThreadAsync(async () => {
-            List<BaseTask> tasks = [];
-            foreach (var originalName in originalNames)
-            {
-                BaseTask task;
-                switch (originalName)
+            var startResult = TaskQueueStartResult.Failed;
+            await Execute.OnUIThreadAsync(async () => {
+                List<BaseTask> tasks = [];
+                foreach (var originalName in originalNames)
                 {
-                    case "Base":
-                        task = GetSingleTask<InfrastTask>();
-                        break;
-                    case "WakeUp":
-                        task = GetSingleTask<StartUpTask>();
-                        break;
-                    case "Combat":
-                        task = GetSingleTask<FightTask>();
-                        break;
-                    case "Recruiting":
-                        task = GetSingleTask<RecruitTask>();
-                        break;
-                    case "Mall":
-                        task = GetSingleTask<MallTask>();
-                        break;
-                    case "Mission":
-                        task = GetSingleTask<AwardTask>();
-                        break;
-                    case "AutoRoguelike":
-                        task = GetSingleTask<RoguelikeTask>();
-                        break;
-                    case "Reclamation":
-                        task = GetSingleTask<ReclamationTask>();
-                        break;
-                    default:
+                    BaseTask task;
+                    switch (originalName)
+                    {
+                        case "Base":
+                            task = GetSingleTask<InfrastTask>();
+                            break;
+                        case "WakeUp":
+                            task = GetSingleTask<StartUpTask>();
+                            break;
+                        case "Combat":
+                            task = GetSingleTask<FightTask>();
+                            break;
+                        case "Recruiting":
+                            task = GetSingleTask<RecruitTask>();
+                            break;
+                        case "Mall":
+                            task = GetSingleTask<MallTask>();
+                            break;
+                        case "Mission":
+                            task = GetSingleTask<AwardTask>();
+                            break;
+                        case "AutoRoguelike":
+                            task = GetSingleTask<RoguelikeTask>();
+                            break;
+                        case "Reclamation":
+                            task = GetSingleTask<ReclamationTask>();
+                            break;
+                        default:
+                            continue;
+                    }
+
+                    if (task is null)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(originalName + "Error", UiLogColor.Error);
                         continue;
+                    }
+
+                    tasks.Add(task);
                 }
 
-                if (task is null)
-                {
-                    Instances.TaskQueueViewModel.AddLog(originalName + "Error", UiLogColor.Error);
-                    continue;
-                }
+                startResult = await Instances.TaskQueueViewModel.LinkStartWithTasks(
+                    tasks,
+                    runStartScript: false,
+                    forceEnableTasks: true);
+            });
 
-                tasks.Add(task);
+            if (startResult == TaskQueueStartResult.Busy)
+            {
+                Log.Logger.Information("Remote task startup lost the idle-state race; waiting to retry.");
+                continue;
             }
 
-            await Instances.TaskQueueViewModel.LinkStartWithTasks(
-                tasks,
-                runStartScript: false,
-                forceEnableTasks: true);
-        });
+            if (startResult != TaskQueueStartResult.Started)
+            {
+                return false;
+            }
 
-        await _runningState.UntilIdleAsync();
+            await _runningState.UntilIdleAsync();
+            return true;
+        }
 
         static T GetSingleTask<T>()
             where T : BaseTask
         {
             var matches = ConfigFactory.CurrentConfig.TaskQueue.OfType<T>().Take(2).ToList();
             return matches.Count == 1 ? matches[0] : null;
+        }
+    }
+
+    /// <summary>
+    /// 启动完整任务队列；若等待空闲后被其他入口抢先启动，则在其结束后重试。
+    /// </summary>
+    /// <returns>是否实际启动并完成了任务队列。</returns>
+    private async Task<bool> LinkStartAllTasks()
+    {
+        while (true)
+        {
+            await _runningState.UntilIdleAsync();
+
+            var startResult = TaskQueueStartResult.Failed;
+            await Execute.OnUIThreadAsync(async () => {
+                startResult = await Instances.TaskQueueViewModel.LinkStartWithTasks(ConfigFactory.CurrentConfig.TaskQueue);
+            });
+
+            if (startResult == TaskQueueStartResult.Busy)
+            {
+                Log.Logger.Information("Remote full task queue startup lost the idle-state race; waiting to retry.");
+                continue;
+            }
+
+            if (startResult != TaskQueueStartResult.Started)
+            {
+                return false;
+            }
+
+            await _runningState.UntilIdleAsync();
+            return true;
         }
     }
 
