@@ -1,5 +1,6 @@
 #include "MaaFwAdbController.h"
 
+#include <numeric>
 #include <thread>
 
 #include "Common/AsstMsg.h"
@@ -188,15 +189,78 @@ const std::string& MaaFwAdbController::get_uuid() const
 
 bool MaaFwAdbController::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
 {
+    using namespace std::chrono;
     LogTraceFunction;
     if (!m_unit_handle) {
         LogWarn << "MaaAdbControlUnit is not initialized";
         return false;
     }
 
-    if (!m_unit_handle->screencap(image_payload)) {
-        LogWarn << "MaaAdbControlUnit screencap failed";
-        return false;
+    if (!m_tested_screencap) {
+        image_payload = cv::Mat(); // 清空缓存
+        Log.info("Test MaaAdbControlUnit screencap cost");
+        auto min_cost = milliseconds(LLONG_MAX);
+        auto start_time = steady_clock::now();
+
+        if (!m_unit_handle->screencap(image_payload)) {
+            LogWarn << "MaaAdbControlUnit screencap failed";
+            return false;
+        }
+
+        m_tested_screencap = true;
+        auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
+        if (duration < min_cost) {
+            min_cost = duration;
+        }
+        Log.info("MaaAdbControlUnit screencap cost", duration.count(), "ms");
+        json::value info = json::object {
+            { "uuid", m_uuid },
+            { "what", "FastestWayToScreencap" },
+            { "details",
+              json::object {
+                  { "method", "MaaAdbControlUnit" },
+                  { "cost", min_cost.count() },
+              } },
+        };
+        callback(AsstMsg::ConnectionInfo, info);
+    }
+    else {
+        auto start_time = steady_clock::now();
+        bool screencap_ret = (m_unit_handle->screencap(image_payload));
+        auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
+        m_screencap_cost.emplace_back(screencap_ret ? duration.count() : -1); // 记录截图耗时
+        ++m_screencap_times;
+
+        if (m_screencap_cost.size() > 30) {
+            m_screencap_cost.pop_front();
+        }
+        if (m_screencap_times > 9) { // 每 10 次截图计算一次平均耗时
+            m_screencap_times = 0;
+            auto filtered_cost = m_screencap_cost | std::views::filter([](auto num) { return num > 0; });
+            if (filtered_cost.empty()) {
+                return screencap_ret;
+            }
+            // 过滤后的有效截图用时次数
+            auto filtered_count = m_screencap_cost.size() - std::ranges::count(m_screencap_cost, -1);
+            auto [screencap_cost_min, screencap_cost_max] = std::ranges::minmax(filtered_cost);
+            json::value info = json::object {
+                { "uuid", m_uuid },
+                { "what", "ScreencapCost" },
+                { "details",
+                  json::object {
+                      { "min", screencap_cost_min },
+                      { "max", screencap_cost_max },
+                      { "avg",
+                        filtered_count > 0
+                            ? std::accumulate(filtered_cost.begin(), filtered_cost.end(), 0ll) / filtered_count
+                            : -1 },
+                  } },
+            };
+            if (m_screencap_cost.size() > filtered_count) {
+                info["details"]["fault_times"] = m_screencap_cost.size() - filtered_count;
+            }
+            callback(AsstMsg::ConnectionInfo, info);
+        }
     }
 
     if (m_screen_size.first == 0) {
