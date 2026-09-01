@@ -1216,22 +1216,31 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         LogUnhandledException(e.Exception);
 
-        if (IsWpfMessageQueueQuotaException(e.Exception))
+        if (TryStartWpfMessageQueueRecovery(e.Exception))
         {
             e.Handled = true;
-
-            if (Interlocked.Exchange(ref _wpfMessageQueueRecoveryStarted, 1) == 0)
-            {
-                _logger.Fatal("WPF window message queue quota was exhausted. Restarting MAA to recover.");
-                StartWpfMessageQueueRecoveryWatchdog();
-                ShutdownAndRestartWithoutArgs();
-            }
-
             return;
         }
 
         ShowErrorDialog(e.Exception);
         e.Handled = true;
+    }
+
+    internal static bool TryStartWpfMessageQueueRecovery(Exception exception)
+    {
+        if (!IsWpfMessageQueueQuotaException(exception))
+        {
+            return false;
+        }
+
+        if (Interlocked.Exchange(ref _wpfMessageQueueRecoveryStarted, 1) == 0)
+        {
+            _logger.Fatal("WPF window message queue quota was exhausted. Restarting MAA to recover.");
+            StartWpfMessageQueueRecoveryWatchdog();
+            ShutdownAndRestartWithoutArgs();
+        }
+
+        return true;
     }
 
     private static bool IsWpfMessageQueueQuotaException(Exception exception)

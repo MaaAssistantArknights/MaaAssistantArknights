@@ -13,6 +13,7 @@
 
 #nullable enable
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -53,7 +54,7 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSet
 
     // UI 绑定的方法
     [UsedImplicitly]
-    public async void AccountSwitchManualRun()
+    public async Task AccountSwitchManualRun()
     {
         if (TaskSettingVisibilityInfo.CurrentTask is not StartUpTask startUp)
         {

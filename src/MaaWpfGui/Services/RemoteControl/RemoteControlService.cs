@@ -28,7 +28,6 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
-using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -199,27 +198,6 @@ public class RemoteControlService
         }
 
         return (T)methodInfo.Invoke(instance, null);
-    }
-
-    private static async Task<T> InvokeInstanceAsyncFunction<T>(object instance, string methodName)
-    {
-        ArgumentNullException.ThrowIfNull(instance);
-
-        if (string.IsNullOrEmpty(methodName))
-        {
-            throw new ArgumentNullException(nameof(methodName));
-        }
-
-        Type type = instance.GetType();
-        MethodInfo methodInfo = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance) ?? throw new ArgumentException($"Method '{methodName}' not found in type '{type.FullName}'.");
-
-        // 检查方法是否是异步方法 (返回Task或Task<T>)
-        if (!typeof(Task).IsAssignableFrom(methodInfo.ReturnType))
-        {
-            throw new ArgumentException($"Method '{methodName}' is not asynchronous.");
-        }
-
-        return await (Task<T>)methodInfo.Invoke(instance, null);
     }
 
     private static TResult InvokeStaticFunction<TResult>(Type staticType, string methodName)
@@ -540,209 +518,76 @@ public class RemoteControlService
     #endregion
 
     /// <summary>
-    /// 根据"一键长草"功能进行修改的方法。
+    /// 使用统一的任务队列启动入口执行远程指定任务。
     /// </summary>
     /// <remarks>
-    /// <para>注意以下特点:</para>
-    /// <para>- 可以在非UI线程执行。</para>
-    /// <para>- 不调用StartScript。</para>
-    /// <para>- 不使用Model里的列表。</para>
-    /// <para>- 在结尾添加对RunningStatus的等待。</para>
-    /// <para>若"一键长草"功能在未来有更新，此方法也应进行相应的同步更新，但需确保上述特点保持不变。</para>
+    /// <para>不调用启动前脚本，并在任务结束前保持等待。</para>
+    /// <para>任务的连接、序列化、状态恢复和并发控制统一由 <see cref="TaskQueueViewModel"/> 处理。</para>
     /// </remarks>
     /// <param name="originalNames">指定的任务列表。</param>
     /// <returns>异步任务，无返回结果。</returns>
-    // 这个是不是可以直接做到 TaskQueueViewModel 里面去？
     private async Task LinkStart(IEnumerable<string> originalNames)
     {
         await _runningState.UntilIdleAsync();
 
-        _runningState.SetIdle(false);
-
         await Execute.OnUIThreadAsync(async () => {
-            // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次(任务及基建列表)
-            // Instances.TaskQueueViewModel.TaskItemSelectionChanged();
-            // TaskQueueViewModel.InfrastTask.InfrastOrderSelectionChanged();
-            Instances.TaskQueueViewModel.ClearLog();
-
-            /*await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));*/
-
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
-
-            // 一般是点了“停止”按钮了
-            if (_runningState.GetStopping())
+            List<BaseTask> tasks = [];
+            foreach (var originalName in originalNames)
             {
-                Instances.TaskQueueViewModel.SetStopped();
-                return;
-            }
-
-            if (!await InvokeInstanceAsyncFunction<bool>(Instances.TaskQueueViewModel, "ConnectToEmulator"))
-            {
-                return;
-            }
-
-            // 一般是点了“停止”按钮了
-            if (_runningState.GetStopping())
-            {
-                Instances.TaskQueueViewModel.SetStopped();
-                return;
-            }
-
-            bool taskRet = true;
-
-            // 直接遍历TaskItemViewModels里面的内容，是排序后的
-            // 20260112 status102: 先做兼容处理
-            int count = 0;
-            foreach (var item in originalNames)
-            {
-                ++count;
-                switch (item)
+                BaseTask task;
+                switch (originalName)
                 {
                     case "Base":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<InfrastTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= InfrastSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "WakeUp":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<StartUpTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= StartUpSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "Combat":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= FightSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "Recruiting":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<RecruitTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= RecruitSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "Mall":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<MallTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= MallSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "Mission":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<AwardTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= AwardSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "AutoRoguelike":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<RoguelikeTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= RoguelikeSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "Reclamation":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<ReclamationTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= ReclamationSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    default:
-                        --count;
-
-                        // Instances.TaskQueueViewModel._logger.Error("Unknown task: " + item);
+                        task = GetSingleTask<InfrastTask>();
                         break;
+                    case "WakeUp":
+                        task = GetSingleTask<StartUpTask>();
+                        break;
+                    case "Combat":
+                        task = GetSingleTask<FightTask>();
+                        break;
+                    case "Recruiting":
+                        task = GetSingleTask<RecruitTask>();
+                        break;
+                    case "Mall":
+                        task = GetSingleTask<MallTask>();
+                        break;
+                    case "Mission":
+                        task = GetSingleTask<AwardTask>();
+                        break;
+                    case "AutoRoguelike":
+                        task = GetSingleTask<RoguelikeTask>();
+                        break;
+                    case "Reclamation":
+                        task = GetSingleTask<ReclamationTask>();
+                        break;
+                    default:
+                        continue;
                 }
 
-                if (taskRet)
+                if (task is null)
                 {
+                    Instances.TaskQueueViewModel.AddLog(originalName + "Error", UiLogColor.Error);
                     continue;
                 }
 
-                Instances.TaskQueueViewModel.AddLog(item + "Error", UiLogColor.Error);
-                taskRet = true;
-                --count;
+                tasks.Add(task);
             }
 
-            if (count == 0)
-            {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UnselectedTask"));
-                _runningState.SetIdle(true);
-                Instances.TaskQueueViewModel.SetStopped();
-                return;
-            }
-
-            taskRet &= Instances.AsstProxy.AsstStart();
-
-            if (taskRet)
-            {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Running"));
-                Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
-            }
-            else
-            {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
-                await Instances.TaskQueueViewModel.Stop();
-                Instances.TaskQueueViewModel.SetStopped();
-            }
+            await Instances.TaskQueueViewModel.LinkStartWithTasks(
+                tasks,
+                runStartScript: false,
+                forceEnableTasks: true);
         });
 
         await _runningState.UntilIdleAsync();
+
+        static T GetSingleTask<T>()
+            where T : BaseTask
+        {
+            var matches = ConfigFactory.CurrentConfig.TaskQueue.OfType<T>().Take(2).ToList();
+            return matches.Count == 1 ? matches[0] : null;
+        }
     }
 
     public static async Task ConnectionTest()

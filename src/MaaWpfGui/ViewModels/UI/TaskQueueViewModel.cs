@@ -800,9 +800,14 @@ public class TaskQueueViewModel : Screen
 
             await HandleTimerLogic(currentTime);
         }
-        catch
+        catch (Exception ex)
         {
-            // ignored
+            if (Bootstrapper.TryStartWpfMessageQueueRecovery(ex))
+            {
+                return;
+            }
+
+            _logger.Error(ex, "Task queue timer callback failed.");
         }
     }
 
@@ -1544,18 +1549,9 @@ public class TaskQueueViewModel : Screen
         }
 
         var task = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index];
-        var originalIsEnable = task.IsEnable;
 
-        try
-        {
-            // 单次运行应只受当前右键操作影响，不改变任务的持久启用状态。
-            task.IsEnable = true;
-            await LinkStartWithTasks([task]);
-        }
-        finally
-        {
-            task.IsEnable = originalIsEnable;
-        }
+        // 单次运行应只受当前右键操作影响，不改变任务的持久启用状态。
+        await LinkStartWithTasks([task], forceEnableTasks: true);
     }
 
     /// <summary>
@@ -1908,6 +1904,13 @@ public class TaskQueueViewModel : Screen
 
     private DateTime? _taskStartTime;
 
+    private sealed class TaskQueueStartupContext
+    {
+        public bool OwnsRunningState { get; set; }
+
+        public bool CoreStartSucceeded { get; set; }
+    }
+
     /// <summary>
     /// Starts.
     /// </summary>
@@ -1923,18 +1926,7 @@ public class TaskQueueViewModel : Screen
         }
 #endif
 
-        using var log = new LogScope(_logger);
-        await TaskQueueSerializingLock.WaitAsync();
-        try
-        {
-            _logger.Information("Task queue startup acquired the serialization lock.");
-            await LinkStartWithTasks(ConfigFactory.CurrentConfig.TaskQueue);
-        }
-        finally
-        {
-            TaskQueueSerializingLock.Release();
-            _logger.Information("Task queue startup released the serialization lock.");
-        }
+        await LinkStartWithTasks(ConfigFactory.CurrentConfig.TaskQueue);
     }
 
 #if DEBUG
@@ -1981,7 +1973,44 @@ public class TaskQueueViewModel : Screen
     }
 #endif
 
-    public async Task LinkStartWithTasks(IEnumerable<BaseTask> tasks)
+    public async Task LinkStartWithTasks(
+        IEnumerable<BaseTask> tasks,
+        bool runStartScript = true,
+        bool forceEnableTasks = false)
+    {
+        using var log = new LogScope(_logger);
+        await TaskQueueSerializingLock.WaitAsync();
+        var startupContext = new TaskQueueStartupContext();
+        try
+        {
+            _logger.Information("Task queue startup acquired the serialization lock.");
+            await LinkStartWithTasksCore(tasks, runStartScript, forceEnableTasks, startupContext);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(
+                ex,
+                "Task queue startup failed unexpectedly. CoreStartSucceeded {CoreStartSucceeded}",
+                startupContext.CoreStartSucceeded);
+            if (startupContext.OwnsRunningState && !startupContext.CoreStartSucceeded)
+            {
+                SetStopped(runStopScript: false);
+            }
+
+            throw;
+        }
+        finally
+        {
+            TaskQueueSerializingLock.Release();
+            _logger.Information("Task queue startup released the serialization lock.");
+        }
+    }
+
+    private async Task LinkStartWithTasksCore(
+        IEnumerable<BaseTask> tasks,
+        bool runStartScript,
+        bool forceEnableTasks,
+        TaskQueueStartupContext startupContext)
     {
         if (!_runningState.Idle)
         {
@@ -2031,13 +2060,17 @@ public class TaskQueueViewModel : Screen
         MainTasksCompletedCount = 0;
         ResetTaskItemStatuses();
 
-        // 所有提前 return 都要放在 _runningState.SetIdle(false) 之前，否则会导致无法再次点击开始
+        // Core 成功接管运行状态前发生异常时，由调用方负责恢复为空闲。
+        startupContext.OwnsRunningState = true;
         _runningState.SetIdle(false);
 
         // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
         // TaskItemSelectionChanged();
         // InfrastTask.InfrastOrderSelectionChanged();
-        await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
+        if (runStartScript)
+        {
+            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
+        }
 
         AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
@@ -2080,7 +2113,7 @@ public class TaskQueueViewModel : Screen
                 item.TaskType,
                 item.NameOrTaskType,
                 item.IsEnable);
-            if (!IsTaskEnable(item))
+            if (!forceEnableTasks && !IsTaskEnable(item))
             {
                 SetTaskStatus(index, TaskItemStatus.Skipped);
                 continue;
@@ -2149,13 +2182,13 @@ public class TaskQueueViewModel : Screen
             count,
             taskRet);
         var coreStartStopwatch = Stopwatch.StartNew();
-        var coreStartSucceeded = Instances.AsstProxy.AsstStart();
+        startupContext.CoreStartSucceeded = Instances.AsstProxy.AsstStart();
         coreStartStopwatch.Stop();
         _logger.Information(
             "Core start returned. Success {Success}, Elapsed {ElapsedMilliseconds} ms",
-            coreStartSucceeded,
+            startupContext.CoreStartSucceeded,
             coreStartStopwatch.ElapsedMilliseconds);
-        taskRet &= coreStartSucceeded;
+        taskRet &= startupContext.CoreStartSucceeded;
 
         if (taskRet)
         {
@@ -2308,14 +2341,17 @@ public class TaskQueueViewModel : Screen
             Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
         }
 
-        if (!_runningState.GetIdle() || _runningState.GetStopping())
-        {
-            AddLog(LocalizationHelper.GetString("Stopped"), splitMode: LogCardSplitMode.Both);
-        }
+        bool shouldAddStoppedLog = !_runningState.GetIdle() || _runningState.GetStopping();
 
         Waiting = false;
         _runningState.SetStopping(false);
         _runningState.SetIdle(true);
+
+        // 先恢复运行状态，避免日志投递异常导致界面永久停留在“运行中”。
+        if (shouldAddStoppedLog)
+        {
+            AddLog(LocalizationHelper.GetString("Stopped"), splitMode: LogCardSplitMode.Both);
+        }
 
         // 只抑制“本轮任务期间”的自动开启；任务结束后应允许下一轮自动开启 LiveView。
         return true;
