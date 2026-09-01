@@ -2,6 +2,8 @@
 
 #ifdef __linux__
 
+#include <meojson/json.hpp>
+
 #define CHECK_EXIST(x)                                         \
     do {                                                       \
         if (!(x)) {                                            \
@@ -24,14 +26,21 @@ bool asst::MaaFwWlrController::connect(
     }
 
     if (!m_loader.loaded()) {
-        const auto dll_path = "libMaaWlRootsControlUnit";
+        const auto dll_path = "MaaLinuxControlUnit";
         if (!m_loader.load(dll_path)) {
             return false;
         }
     }
 
     m_socket_path = address;
-    m_unit = m_loader.create(m_socket_path.c_str(), false);
+    const auto unit_config = json::object {
+        { "screencap_method", 1ULL },
+        { "input_method", 1ULL },
+        { "wlr_socket_path", m_socket_path },
+        { "use_win32_vk_code", false },
+    };
+    const auto unit_config_str = unit_config.to_string();
+    m_unit = m_loader.create(unit_config_str.c_str());
     if (!m_unit) {
         Log.error("Failed to create control unit");
         return false;
