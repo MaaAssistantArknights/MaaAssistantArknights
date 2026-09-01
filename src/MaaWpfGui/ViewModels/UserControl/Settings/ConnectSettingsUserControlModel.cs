@@ -471,15 +471,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         if (ConnectAddress.Length == 0)
         {
-            if (DefaultAddress.TryGetValue(ConnectConfig.ToString(), out var defaultAddresses) && defaultAddresses.Count > 0)
-            {
-                ConnectAddress = defaultAddresses[0];
-            }
-            else
-            {
-                error = LocalizationHelper.GetString("AutoDetectConnectionNotSupported");
-                return false;
-            }
+            ConnectAddress = DefaultAddress[ConnectConfig.ToString()][0];
         }
 
         return true;
