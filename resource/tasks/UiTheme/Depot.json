@@ -22,7 +22,8 @@
             "DepotTogether",
             "DepotLoneTrail",
             "DepotReconstruct",
-            "DepotHunting"
+            "DepotHunting",
+            "DepotBlackFlow"
         ],
         "onErrorNext": ["Depot-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -93,5 +94,11 @@
     "DepotHunting": {
         "baseTask": "DepotDefault",
         "template": "Hunting/DepotEnter.png"
+    },
+    "DepotBlackFlow": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["仓库"],
+        "roi": [1125, 588, 155, 132]
     }
 }

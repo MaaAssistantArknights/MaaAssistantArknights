@@ -22,7 +22,8 @@
             "MallTogether",
             "MallLoneTrail",
             "MallReconstruct",
-            "MallHunting"
+            "MallHunting",
+            "MallBlackFlow"
         ],
         "onErrorNext": ["Mall-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -93,5 +94,9 @@
     "MallHunting": {
         "baseTask": "MallDefault",
         "template": "Hunting/Mall.png"
+    },
+    "MallBlackFlow": {
+        "baseTask": "MallDefault",
+        "template": "BlackFlow/Mall.png"
     }
 }
