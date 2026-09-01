@@ -56,7 +56,7 @@
                 },
                 "action": {
                     "type": "string",
-                    "pattern": "ClickSelf|ClickRand|DoNothing|Stop|ClickRect|Swipe|Input",
+                    "pattern": "ClickSelf|ClickRand|DoNothing|Stop|ClickRect|SwipeSelf|Swipe|Input",
                     "default": "DoNothing",
                     "description": "Optional, indicates the action to be taken after recognition\nDefaults to DoNothing when not filled in"
                 },
@@ -158,6 +158,19 @@
                     },
                     "then": {
                         "required": ["specificRect", "rectMove"]
+                    }
+                },
+                {
+                    "if": {
+                        "required": ["action"],
+                        "properties": {
+                            "action": {
+                                "enum": ["SwipeSelf"]
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": ["rectMove"]
                     }
                 },
                 {

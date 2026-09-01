@@ -37,6 +37,7 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
                                             //      - DoNothing:        什么都不做
                                             //      - Stop:             停止当前任务
                                             //      - Swipe:            滑动，对应 specificRect 与 rectMove 字段
+                                            //      - SwipeSelf:        从识别到的位置滑动，对应 rectMove 字段
                                             //      - Input:            输入文本，要求 algorithm 为 JustReturn，对应 inputText 字段
 
         "sub": ["SubTaskName1", "SubTaskName2"],
@@ -80,7 +81,7 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
         "rectMove": [0, 0, 0, 0],           // 可选项，识别后的目标移动，不建议使用该选项。以 1280 * 720 为基准自动缩放
                                             // 例如识别到了 A ，但实际要点击的是 A 下方 10 像素 5 * 2 区域的某个位置，
                                             // 则可填写[ 0, 10, 5, 2 ]，可以的话尽量直接识别要点击的位置，不建议使用该选项
-                                            // 额外的，当 action 为 Swipe 时有效且必选，表示滑动终点。
+                                            // 额外的，当 action 为 Swipe 或 SwipeSelf 时有效且必选，表示滑动终点。
 
         "reduceOtherTimes": ["OtherTaskName1", "OtherTaskName2"],
                                             // 可选项，执行后减少其他任务的执行计数。
@@ -93,7 +94,7 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
                                             // 当 algorithm 为 "OcrDetect" 时，specificRect[0] 和 specificRect[1] 表示灰度上下限阈值。
 
         "specialParams": [int, ...],        // 某些特殊识别器需要的参数
-                                            // 额外的，当 action 为 Swipe 时可选，[0] 表示 duration，[1] 表示 是否启用额外滑动
+                                            // 额外的，当 action 为 Swipe 或 SwipeSelf 时可选，[0] 表示 duration，[1] 表示是否启用额外滑动
 
         "highResolutionSwipeFix": false,    // 可选项，是否启用高分辨率滑动修复
                                             // 现阶段应该只有关卡导航未使用 unity 滑动方式所以需要开启

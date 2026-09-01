@@ -37,6 +37,7 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
                                             //      - DoNothing:        아무것도 하지 않음
                                             //      - Stop:             현재 작업 정지
                                             //      - Swipe:            스와이프, specificRect 및 rectMove 필드에 대응
+                                            //      - SwipeSelf:        인식된 위치에서 스와이프, rectMove 필드에 대응
                                             //      - Input:            텍스트 입력, algorithm이 JustReturn이어야 함, inputText 필드에 대응
 
         "sub": ["SubTaskName1", "SubTaskName2"],
@@ -80,7 +81,7 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
         "rectMove": [0, 0, 0, 0],           // 선택 사항, 인식 후 목표 이동 (비권장). 1280 * 720 기준 자동 스케일링
                                             // 예: A를 인식했지만 실제 클릭은 A 아래 10픽셀 5*2 영역일 때
                                             // [0, 10, 5, 2]로 설정. 가능하면 클릭 위치를 직접 인식하는 것을 권장
-                                            // 추가로, action이 Swipe일 때 유효하며 필수 (스와이프 종점)
+                                            // 추가로, action이 Swipe 또는 SwipeSelf일 때 유효하며 필수 (스와이프 종점)
 
         "reduceOtherTimes": ["OtherTaskName1", "OtherTaskName2"],
                                             // 선택 사항, 실행 후 다른 작업의 실행 카운트 감소
@@ -93,7 +94,7 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
                                             // algorithm이 "OcrDetect"일 때, specificRect[0]과 [1]은 그레이스케일 상/하한 임계값
 
         "specialParams": [int, ...],        // 특정 인식기에 필요한 추가 파라미터
-                                            // action이 Swipe일 때 선택 사항: [0] duration, [1] 추가 슬라이드 활성화 여부
+                                            // action이 Swipe 또는 SwipeSelf일 때 선택 사항: [0] duration, [1] 추가 슬라이드 활성화 여부
 
         "highResolutionSwipeFix": false,    // 선택 사항, 고해상도 스와이프 보정 활성화 여부
                                             // 현재 스테이지 내비게이션만 Unity 스와이프를 사용하지 않으므로 켜야 함

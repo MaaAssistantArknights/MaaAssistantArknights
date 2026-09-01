@@ -56,7 +56,7 @@
                 },
                 "action": {
                     "type": "string",
-                    "pattern": "ClickSelf|ClickRand|DoNothing|Stop|ClickRect|Swipe|Input",
+                    "pattern": "ClickSelf|ClickRand|DoNothing|Stop|ClickRect|SwipeSelf|Swipe|Input",
                     "default": "DoNothing",
                     "description": "可选项，表示识别到后的动作\n不填写时默认为 DoNothing"
                 },
@@ -158,6 +158,19 @@
                     },
                     "then": {
                         "required": ["specificRect", "rectMove"]
+                    }
+                },
+                {
+                    "if": {
+                        "required": ["action"],
+                        "properties": {
+                            "action": {
+                                "enum": ["SwipeSelf"]
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": ["rectMove"]
                     }
                 },
                 {

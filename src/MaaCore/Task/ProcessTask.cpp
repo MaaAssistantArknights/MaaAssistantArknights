@@ -285,6 +285,18 @@ ProcessTask::NodeStatus ProcessTask::run_action(const HitDetail& hits) const
             task->high_resolution_swipe_fix);
         return NodeStatus::Success;
     }
+    case ProcessTaskAction::SwipeSelf: {
+        size_t param_size = task->special_params.size();
+        exec_swipe_task(
+            hits.rect,
+            hits.rect.move(task->rect_move),
+            (param_size > 0) ? task->special_params.at(0) : 0,
+            (param_size > 1) ? task->special_params.at(1) : false,
+            (param_size > 2) ? task->special_params.at(2) : 1,
+            (param_size > 3) ? task->special_params.at(3) : 1,
+            task->high_resolution_swipe_fix);
+        return NodeStatus::Success;
+    }
     case ProcessTaskAction::DoNothing:
         return NodeStatus::Success;
     case ProcessTaskAction::Stop:

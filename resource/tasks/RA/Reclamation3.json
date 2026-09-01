@@ -2,17 +2,36 @@
     "RelaunchAnchor@RA@RA1-Entry": {
         "doc": "RA-1 入口：兼容关卡列表与已进入关卡后的不同起始界面",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-Prepare", "RelaunchAnchor@RA@RA1-OpenConstruction"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-OpenConstruction",
+            "RelaunchAnchor@RA@RA1-ConfirmTerminateConstruction",
+            "RelaunchAnchor@RA@RA1-ClearActiveConstructionDetailExit",
+            "RelaunchAnchor@RA@RA1-Prepare",
+            "RelaunchAnchor@RA@RA1-Navigation"
+        ]
     },
     "RelaunchAnchor@RA@RA4-Entry": {
         "doc": "RA-4 入口：兼容关卡列表与已进入关卡后的不同起始界面",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA4-Prepare", "RelaunchAnchor@RA@RA4-OpenConstruction"]
+        "next": [
+            "RelaunchAnchor@RA@RA4-OpenConstruction",
+            "RelaunchAnchor@RA@RA4-ConfirmTerminateConstruction",
+            "RelaunchAnchor@RA@RA4-ClearActiveConstructionDetailExit",
+            "RelaunchAnchor@RA@RA4-Prepare",
+            "RelaunchAnchor@RA@RA4-Navigation"
+        ]
     },
     "RelaunchAnchor@RA@RA15-Entry": {
         "doc": "RA-15 入口：兼容关卡列表与已进入关卡后的不同起始界面",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA15-Prepare", "RelaunchAnchor@RA@RA15-OpenConstruction"]
+        "next": [
+            "RelaunchAnchor@RA@RA15-OpenConstruction",
+            "RelaunchAnchor@RA@RA15-ConfirmTerminateConstruction",
+            "RelaunchAnchor@RA@RA15-ClearActiveConstructionDetailExit",
+            "RelaunchAnchor@RA@RA15-PrepareMap",
+            "RelaunchAnchor@RA@RA15-Prepare",
+            "RelaunchAnchor@RA@RA15-Navigation"
+        ]
     },
     "RelaunchAnchor@RA@Common-Confirm": {
         "doc": "通用确认按钮",
@@ -34,6 +53,30 @@
         "action": "ClickSelf",
         "text": ["开始建设"],
         "roi": [984, 607, 138, 47]
+    },
+    "RelaunchAnchor@RA@Common-ClearActiveConstructionMap": {
+        "doc": "地图上存在未结束建设时，点击右侧浮动的继续建设按钮进入关卡详情页",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["继续建设"],
+        "roi": [1080, 390, 200, 130],
+        "postDelay": 800
+    },
+    "RelaunchAnchor@RA@Common-ClearActiveConstructionDetailExit": {
+        "doc": "关卡详情页存在未结束建设时，匹配红色退出图标",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "RelaunchAnchor@RA@ActiveConstructionExit.png",
+        "roi": [820, 560, 160, 120],
+        "postDelay": 800
+    },
+    "RelaunchAnchor@RA@Common-ConfirmTerminateConstruction": {
+        "doc": "确认终止本次建设",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认终止", "终止"],
+        "roi": [780, 445, 440, 90],
+        "postDelay": 1500
     },
     "RelaunchAnchor@RA@Common-MissionIcon": {
         "doc": "通用任务图标",
@@ -64,15 +107,13 @@
         "sub": ["RelaunchAnchor@RA@Common-DialogueClick*10"]
     },
     "RelaunchAnchor@RA@RA1-Prepare": {
-        "doc": "步骤 1（任务起点）：OCR 识别 RA-1 并点击；右下角出现 <开启建设> 时进入步骤 2",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["RA", "-1"],
-        "withoutDet": true,
-        "useRaw": false,
-        "binThreshold": [200, 255],
-        "roi": [605, 405, 65, 30],
-        "next": ["RelaunchAnchor@RA@RA1-OpenConstruction", "#self"]
+        "doc": "步骤 1（任务起点）：确认在地图界面后执行固定归位并点击 RA-1；不在地图时交给自动导航",
+        "baseTask": "RelaunchAnchor@RA@Common-DetectMap",
+        "next": [
+            "RelaunchAnchor@RA@RA1-ClearActiveConstructionDetailExit",
+            "RelaunchAnchor@RA@RA1-ClearActiveConstructionMap",
+            "RelaunchAnchor@RA@RA1-OpenBaseOverview"
+        ]
     },
     "RelaunchAnchor@RA@RA1-OpenConstruction": {
         "doc": "步骤 2：OCR 识别 <开启建设> 并点击；未出现则回到步骤 1 重新点击 RA-1",
@@ -439,15 +480,13 @@
         "next": ["RelaunchAnchor@RA@RA1-Prepare", "#self"]
     },
     "RelaunchAnchor@RA@RA4-Prepare": {
-        "doc": "步骤 1（任务起点）：OCR 识别 RA-4 并点击；右下角出现 <开启建设> 时进入步骤 2",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["RA", "-4"],
-        "withoutDet": true,
-        "useRaw": false,
-        "binThreshold": [200, 255],
-        "roi": [610, 390, 61, 15],
-        "next": ["RelaunchAnchor@RA@RA4-OpenConstruction", "#self"]
+        "doc": "步骤 1（任务起点）：确认在地图界面后执行固定归位并点击 RA-4",
+        "baseTask": "RelaunchAnchor@RA@Common-DetectMap",
+        "next": [
+            "RelaunchAnchor@RA@RA4-ClearActiveConstructionDetailExit",
+            "RelaunchAnchor@RA@RA4-ClearActiveConstructionMap",
+            "RelaunchAnchor@RA@RA4-OpenBaseOverview"
+        ]
     },
     "RelaunchAnchor@RA@RA4-OpenConstruction": {
         "doc": "步骤 2：OCR 识别 <开启建设> 并点击；未出现则回到步骤 1 重新点击 RA-4",
@@ -1048,15 +1087,13 @@
         "next": ["#self", "RelaunchAnchor@RA@RA4-WaitContinueAfterSettlement"]
     },
     "RelaunchAnchor@RA@RA15-Prepare": {
-        "doc": "步骤 1准备：OCR 识别 RA-15 并点击；等待右下角出现 <开启建设> ",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["RA", "15"],
-        "withoutDet": true,
-        "useRaw": false,
-        "binThreshold": [200, 255],
-        "roi": [601, 398, 75, 20],
-        "next": ["RelaunchAnchor@RA@RA15-OpenConstruction", "#self"]
+        "doc": "步骤 1（任务起点）：确认在地图界面后执行固定归位并点击 RA-15；不在地图时交给自动导航",
+        "baseTask": "RelaunchAnchor@RA@Common-DetectMap",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClearActiveConstructionDetailExit",
+            "RelaunchAnchor@RA@RA15-ClearActiveConstructionMap",
+            "RelaunchAnchor@RA@RA15-OpenBaseOverview"
+        ]
     },
     "RelaunchAnchor@RA@RA15-OpenConstruction": {
         "doc": "步骤 1.2（任务起点）：OCR 识别 开启建设",
@@ -1462,5 +1499,299 @@
         "doc": "步骤 27.5：OCR 识别 <完成建设> 并点击",
         "baseTask": "RelaunchAnchor@RA@RA1-FinishConstruction",
         "next": ["RelaunchAnchor@RA@RA15-Prepare", "#self"]
+    },
+    "RelaunchAnchor@RA@RA1-Navigation": {
+        "doc": "逐步导航：检测当前界面并前进一步，循环直到到达主题界面",
+        "algorithm": "JustReturn",
+        "sub": ["RelaunchAnchor@RA@Navigation"],
+        "next": ["RelaunchAnchor@RA@RA1-WaitForGame"]
+    },
+    "RelaunchAnchor@RA@RA1-Nav-DetectTheme": {
+        "baseTask": "RelaunchAnchor@RA@Nav-DetectTheme",
+        "next": ["RelaunchAnchor@RA@RA1-Nav-DetectTheme@NextAfterLoadingText", "RelaunchAnchor@RA@RA1-WaitForGame"]
+    },
+    "RelaunchAnchor@RA@RA1-WaitForGame": {
+        "doc": "等待进入地图或 Screen 2；Screen 2 的「开始建设」由 DetectTheme 处理，避免与策略确认的「开始建设」混淆",
+        "algorithm": "JustReturn",
+        "next": [
+            "RelaunchAnchor@RA@RA1-Prepare",
+            "RelaunchAnchor@RA@RA1-OpenConstruction",
+            "RelaunchAnchor@RA@RA1-Nav-DetectTheme",
+            "#self"
+        ]
+    },
+    "RelaunchAnchor@RA@RA4-Navigation": {
+        "doc": "逐步导航：检测当前界面并前进一步，循环直到到达主题界面",
+        "algorithm": "JustReturn",
+        "sub": ["RelaunchAnchor@RA@Navigation"],
+        "next": ["RelaunchAnchor@RA@RA4-WaitForGame"]
+    },
+    "RelaunchAnchor@RA@RA4-Nav-DetectTheme": {
+        "baseTask": "RelaunchAnchor@RA@Nav-DetectTheme",
+        "next": ["RelaunchAnchor@RA@RA4-Nav-DetectTheme@NextAfterLoadingText", "RelaunchAnchor@RA@RA4-WaitForGame"]
+    },
+    "RelaunchAnchor@RA@RA4-WaitForGame": {
+        "doc": "等待进入地图或 Screen 2；Screen 2 的「开始建设」由 DetectTheme 处理",
+        "algorithm": "JustReturn",
+        "next": [
+            "RelaunchAnchor@RA@RA4-Prepare",
+            "RelaunchAnchor@RA@RA4-OpenConstruction",
+            "RelaunchAnchor@RA@RA4-Nav-DetectTheme",
+            "#self"
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-Navigation": {
+        "doc": "逐步导航：检测当前界面并前进一步，循环直到到达主题界面",
+        "algorithm": "JustReturn",
+        "sub": ["RelaunchAnchor@RA@Navigation"],
+        "next": ["RelaunchAnchor@RA@RA15-WaitForGame"]
+    },
+    "RelaunchAnchor@RA@RA15-Nav-DetectTheme": {
+        "baseTask": "RelaunchAnchor@RA@Nav-DetectTheme",
+        "next": ["RelaunchAnchor@RA@RA15-Nav-DetectTheme@NextAfterLoadingText", "RelaunchAnchor@RA@RA15-WaitForGame"]
+    },
+    "RelaunchAnchor@RA@RA15-WaitForGame": {
+        "doc": "等待进入地图或 Screen 2；Screen 2 的「开始建设」由 DetectTheme 处理",
+        "algorithm": "JustReturn",
+        "next": [
+            "RelaunchAnchor@RA@RA15-PrepareMap",
+            "RelaunchAnchor@RA@RA15-Prepare",
+            "RelaunchAnchor@RA@RA15-Nav-DetectTheme",
+            "#self"
+        ]
+    },
+    "RelaunchAnchor@RA@Navigation": {
+        "doc": "逐步导航：检测当前界面并前进一步，循环直到到达主题界面",
+        "algorithm": "JustReturn",
+        "next": [
+            "RelaunchAnchor@RA@Nav-DetectTheme",
+            "RelaunchAnchor@RA@Nav-ClickReclamation",
+            "RelaunchAnchor@RA@Nav-ClickLongTerm",
+            "RelaunchAnchor@RA@Nav-EnterTerminal"
+        ]
+    },
+    "RelaunchAnchor@RA@Nav-DetectTheme": {
+        "doc": "已在主题界面，点击「进入主题」或「开始建设」",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["进入主题", "开始建设"],
+        "roi": [1064, 620, 171, 50],
+        "postDelay": 1000
+    },
+    "RelaunchAnchor@RA@Nav-ClickReclamation": {
+        "doc": "在长期探索界面点击「生息演算」",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["生息演算"],
+        "roi": [673, 441, 348, 99],
+        "postDelay": 3000,
+        "next": ["RelaunchAnchor@RA@Navigation"]
+    },
+    "RelaunchAnchor@RA@Nav-ClickLongTerm": {
+        "doc": "在终端界面点击「长期探索」图标",
+        "baseTask": "Roguelike@IntegratedStrategies",
+        "template": "Roguelike@IntegratedStrategies.png",
+        "action": "ClickSelf",
+        "postDelay": 2000,
+        "next": ["RelaunchAnchor@RA@Navigation"]
+    },
+    "RelaunchAnchor@RA@Nav-EnterTerminal": {
+        "doc": "从主界面进入终端",
+        "algorithm": "JustReturn",
+        "sub": ["Terminal-Entry"],
+        "postDelay": 2000,
+        "next": ["RelaunchAnchor@RA@Navigation"]
+    },
+    "RelaunchAnchor@RA@Common-ClickBack": {
+        "doc": "点击左上角返回按钮，退出地图回到上一级界面",
+        "algorithm": "OcrDetect",
+        "text": ["返回"],
+        "roi": [20, 10, 150, 60],
+        "action": "ClickSelf",
+        "postDelay": 2000
+    },
+    "RelaunchAnchor@RA@Common-DetectMap": {
+        "doc": "检测地图界面（统筹系统）",
+        "algorithm": "OcrDetect",
+        "text": ["统筹系统"],
+        "roi": [355, 655, 150, 45],
+        "action": "DoNothing"
+    },
+    "RelaunchAnchor@RA@RA1-ClickStage": {
+        "doc": "最小视角模板匹配 RA1 方格，进入关卡选择中间态",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "RelaunchAnchor@RA@RA1Stage.png",
+        "roi": [660, 280, 220, 160],
+        "postDelay": 700,
+        "next": ["RelaunchAnchor@RA@RA1-OpenConstruction", "RelaunchAnchor@RA@RA1-ClickStageAgain"]
+    },
+    "RelaunchAnchor@RA@RA1-ClickStageAgain": {
+        "doc": "最小视角模板匹配 RA1 方格，中间态下进入关卡详情页",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "RelaunchAnchor@RA@RA1StageAgain.png",
+        "roi": [600, 340, 140, 120],
+        "postDelay": 900,
+        "next": ["RelaunchAnchor@RA@RA1-OpenConstruction"]
+    },
+    "RelaunchAnchor@RA@RA15-ClickStage": {
+        "doc": "最小视角模板匹配 RA15 方格，进入关卡选择中间态",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "RelaunchAnchor@RA@RA15Stage.png",
+        "roi": [340, 370, 220, 160],
+        "rectMove": [0, 18, 35, 17],
+        "postDelay": 700,
+        "next": ["RelaunchAnchor@RA@RA15-OpenConstruction", "RelaunchAnchor@RA@RA15-ClickStageAgain"]
+    },
+    "RelaunchAnchor@RA@RA15-ClickStageAgain": {
+        "doc": "最小视角模板匹配 RA15 入口图标，中间态下进入关卡详情页",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "RelaunchAnchor@RA@RA15StageAgain.png",
+        "roi": [520, 310, 220, 160],
+        "postDelay": 900,
+        "next": ["RelaunchAnchor@RA@RA15-OpenConstruction"]
+    },
+    "RelaunchAnchor@RA@RA4-ClickStage": {
+        "doc": "最小视角模板匹配 RA4 方格，进入关卡选择中间态",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "RelaunchAnchor@RA@RA4Stage.png",
+        "roi": [830, 250, 220, 160],
+        "postDelay": 700,
+        "next": ["RelaunchAnchor@RA@RA4-OpenConstruction", "RelaunchAnchor@RA@RA4-ClickStageAgain"]
+    },
+    "RelaunchAnchor@RA@RA4-ClickStageAgain": {
+        "doc": "最小视角模板匹配 RA4 入口图标，中间态下进入关卡详情页",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "RelaunchAnchor@RA@RA4StageAgain.png",
+        "roi": [520, 290, 220, 160],
+        "postDelay": 900,
+        "next": ["RelaunchAnchor@RA@RA4-OpenConstruction"]
+    },
+    "RelaunchAnchor@RA@Common-OpenBaseOverview": {
+        "doc": "通用地图归位步骤 1：模板匹配左下角大圆形基地按钮，不依赖基地等级文本",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "RelaunchAnchor@RA@BaseIcon.png",
+        "templThreshold": 0.75,
+        "roi": [0, 560, 170, 150],
+        "postDelay": 1200
+    },
+    "RelaunchAnchor@RA@Common-ReturnFromBaseOverview": {
+        "doc": "通用地图归位步骤 2：模板匹配基地概览页左上角返回按钮，使地图自动居中到基地",
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "RelaunchAnchor@RA@ReturnButton.png",
+        "roi": [0, 0, 180, 90]
+    },
+    "RelaunchAnchor@RA@Common-ZoomOutMap": {
+        "doc": "通用地图归位步骤 3：模板识别左侧缩放滑块圆点，从圆点自身向下拖到底，切到最小视角",
+        "algorithm": "MatchTemplate",
+        "action": "SwipeSelf",
+        "template": "RelaunchAnchor@RA@ZoomSliderKnob.png",
+        "maskRange": [1, 255],
+        "roi": [20, 360, 70, 280],
+        "rectMove": [0, 160, 28, 28],
+        "specialParams": [1000, 0, 3, 0]
+    },
+    "RelaunchAnchor@RA@RA1-ReturnFromBaseOverview": {
+        "baseTask": "RelaunchAnchor@RA@Common-ReturnFromBaseOverview",
+        "template": "RelaunchAnchor@RA@ReturnButton.png",
+        "next": ["RelaunchAnchor@RA@RA1-ZoomOutMap"]
+    },
+    "RelaunchAnchor@RA@RA1-ZoomOutMap": {
+        "baseTask": "RelaunchAnchor@RA@Common-ZoomOutMap",
+        "template": "RelaunchAnchor@RA@ZoomSliderKnob.png",
+        "next": ["RelaunchAnchor@RA@RA1-ClickStage"]
+    },
+    "RelaunchAnchor@RA@RA15-ReturnFromBaseOverview": {
+        "baseTask": "RelaunchAnchor@RA@Common-ReturnFromBaseOverview",
+        "template": "RelaunchAnchor@RA@ReturnButton.png",
+        "next": ["RelaunchAnchor@RA@RA15-ZoomOutMap"]
+    },
+    "RelaunchAnchor@RA@RA15-ZoomOutMap": {
+        "baseTask": "RelaunchAnchor@RA@Common-ZoomOutMap",
+        "template": "RelaunchAnchor@RA@ZoomSliderKnob.png",
+        "next": ["RelaunchAnchor@RA@RA15-ClickStage"]
+    },
+    "RelaunchAnchor@RA@RA4-ReturnFromBaseOverview": {
+        "baseTask": "RelaunchAnchor@RA@Common-ReturnFromBaseOverview",
+        "template": "RelaunchAnchor@RA@ReturnButton.png",
+        "next": ["RelaunchAnchor@RA@RA4-ZoomOutMap"]
+    },
+    "RelaunchAnchor@RA@RA4-ZoomOutMap": {
+        "baseTask": "RelaunchAnchor@RA@Common-ZoomOutMap",
+        "template": "RelaunchAnchor@RA@ZoomSliderKnob.png",
+        "next": ["RelaunchAnchor@RA@RA4-ClickStage"]
+    },
+    "RelaunchAnchor@RA@RA15-PrepareMap": {
+        "doc": "步骤 0a：确认在地图界面后执行固定归位并点击 RA-15；保留原 WaitForGame 入口语义",
+        "baseTask": "RelaunchAnchor@RA@Common-DetectMap",
+        "next": [
+            "RelaunchAnchor@RA@RA15-ClearActiveConstructionDetailExit",
+            "RelaunchAnchor@RA@RA15-ClearActiveConstructionMap",
+            "RelaunchAnchor@RA@RA15-OpenBaseOverview"
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-ClearActiveConstructionMap": {
+        "baseTask": "RelaunchAnchor@RA@Common-ClearActiveConstructionMap",
+        "next": ["RelaunchAnchor@RA@RA1-ClearActiveConstructionDetailExit"]
+    },
+    "RelaunchAnchor@RA@RA1-ClearActiveConstructionDetailExit": {
+        "baseTask": "RelaunchAnchor@RA@Common-ClearActiveConstructionDetailExit",
+        "template": "RelaunchAnchor@RA@ActiveConstructionExit.png",
+        "next": ["RelaunchAnchor@RA@RA1-ConfirmTerminateConstruction"]
+    },
+    "RelaunchAnchor@RA@RA1-ConfirmTerminateConstruction": {
+        "baseTask": "RelaunchAnchor@RA@Common-ConfirmTerminateConstruction",
+        "next": ["RelaunchAnchor@RA@RA1-OpenBaseOverview"]
+    },
+    "RelaunchAnchor@RA@RA15-ClearActiveConstructionMap": {
+        "baseTask": "RelaunchAnchor@RA@Common-ClearActiveConstructionMap",
+        "next": ["RelaunchAnchor@RA@RA15-ClearActiveConstructionDetailExit"]
+    },
+    "RelaunchAnchor@RA@RA15-ClearActiveConstructionDetailExit": {
+        "baseTask": "RelaunchAnchor@RA@Common-ClearActiveConstructionDetailExit",
+        "template": "RelaunchAnchor@RA@ActiveConstructionExit.png",
+        "next": ["RelaunchAnchor@RA@RA15-ConfirmTerminateConstruction"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmTerminateConstruction": {
+        "baseTask": "RelaunchAnchor@RA@Common-ConfirmTerminateConstruction",
+        "next": ["RelaunchAnchor@RA@RA15-OpenBaseOverview"]
+    },
+    "RelaunchAnchor@RA@RA4-ClearActiveConstructionMap": {
+        "baseTask": "RelaunchAnchor@RA@Common-ClearActiveConstructionMap",
+        "next": ["RelaunchAnchor@RA@RA4-ClearActiveConstructionDetailExit"]
+    },
+    "RelaunchAnchor@RA@RA4-ClearActiveConstructionDetailExit": {
+        "baseTask": "RelaunchAnchor@RA@Common-ClearActiveConstructionDetailExit",
+        "template": "RelaunchAnchor@RA@ActiveConstructionExit.png",
+        "next": ["RelaunchAnchor@RA@RA4-ConfirmTerminateConstruction"]
+    },
+    "RelaunchAnchor@RA@RA4-ConfirmTerminateConstruction": {
+        "baseTask": "RelaunchAnchor@RA@Common-ConfirmTerminateConstruction",
+        "next": ["RelaunchAnchor@RA@RA4-OpenBaseOverview"]
+    },
+    "RelaunchAnchor@RA@RA1-OpenBaseOverview": {
+        "baseTask": "RelaunchAnchor@RA@Common-OpenBaseOverview",
+        "template": "RelaunchAnchor@RA@BaseIcon.png",
+        "templThreshold": 0.75,
+        "next": ["RelaunchAnchor@RA@RA1-ReturnFromBaseOverview"]
+    },
+    "RelaunchAnchor@RA@RA4-OpenBaseOverview": {
+        "baseTask": "RelaunchAnchor@RA@Common-OpenBaseOverview",
+        "template": "RelaunchAnchor@RA@BaseIcon.png",
+        "templThreshold": 0.75,
+        "next": ["RelaunchAnchor@RA@RA4-ReturnFromBaseOverview"]
+    },
+    "RelaunchAnchor@RA@RA15-OpenBaseOverview": {
+        "baseTask": "RelaunchAnchor@RA@Common-OpenBaseOverview",
+        "template": "RelaunchAnchor@RA@BaseIcon.png",
+        "templThreshold": 0.75,
+        "next": ["RelaunchAnchor@RA@RA15-ReturnFromBaseOverview"]
     }
 }
