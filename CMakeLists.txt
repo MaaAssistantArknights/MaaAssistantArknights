@@ -21,6 +21,25 @@ if(INSTALL_FLATTEN)
 endif()
 
 include(src/MaaUtils/MaaUtils.cmake)
+
+# MAA_VERSION 由 MaaUtils.cmake 通过 add_compile_definitions 设置在 directory scope；
+# MAA 这一侧用 include() 引入 MaaUtils.cmake（文本内联，不创建新 scope），该宏会
+# 随之进入 MaaCore 等下游 TUs 的命令行——MAA_HASH_VERSION 每次变化时所有下游 TUs 命令行
+# 随之变化，git bisect 跨 commit 时 ccache / ninja 增量构建全 miss。
+# 这里直接过滤 directory 的 COMPILE_DEFINITIONS 把该宏从根 scope 移除，再单独以 PRIVATE
+# 形式应用于 MaaUtils target——MaaUtils 内部 TUs 的 per-DLL 版本签名 by-design 行为
+# 保持不变。
+#
+# 注 1：remove_definitions 是为老 API add_definitions 设计的，无法移除
+# add_compile_definitions 加的条目，所以此处直接操作 directory property。
+# 注 2：本 hook 仅处理 directory 级传播。若 MaaUtils 上游将 MAA_VERSION 改为
+# target_compile_definitions PUBLIC/INTERFACE，传播会改经 link 继承通道、绕过本 hook；
+# 届时需追加对 MaaUtils target INTERFACE_COMPILE_DEFINITIONS 的对称过滤。
+get_property(_compile_defs DIRECTORY PROPERTY COMPILE_DEFINITIONS)
+list(FILTER _compile_defs EXCLUDE REGEX "^MAA_VERSION=")
+set_property(DIRECTORY PROPERTY COMPILE_DEFINITIONS "${_compile_defs}")
+target_compile_definitions(MaaUtils PRIVATE MAA_VERSION="${MAA_HASH_VERSION}")
+
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 include(${PROJECT_SOURCE_DIR}/cmake/config.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/utils.cmake)
