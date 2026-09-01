@@ -14,7 +14,7 @@
 namespace asst
 {
 
-struct MaaFwWlrControlUnitLoader : LibraryHolder<MaaFwWlrControlUnitLoader>
+struct MaaFwLinuxControlUnitLoader : LibraryHolder<MaaFwLinuxControlUnitLoader>
 {
     bool loaded() const noexcept { return m_loaded; }
 
@@ -31,21 +31,21 @@ struct MaaFwWlrControlUnitLoader : LibraryHolder<MaaFwWlrControlUnitLoader>
             return false;
         }
 
-        m_get_version = get_function<const char*()>("MaaWlRootsControlUnitGetVersion");
-        m_create = get_function<MaaFwControlUnitAPI*(const char*, bool)>("MaaWlRootsControlUnitCreate");
-        m_destroy = get_function<void(MaaFwControlUnitAPI*)>("MaaWlRootsControlUnitDestroy");
+        m_get_version = get_function<const char*()>("MaaLinuxControlUnitGetVersion");
+        m_create = get_function<MaaFwControlUnitAPI*(const char*)>("MaaLinuxControlUnitCreate");
+        m_destroy = get_function<void(MaaFwControlUnitAPI*)>("MaaLinuxControlUnitDestroy");
 
         return m_get_version && m_create && m_destroy;
     }
 
-    MaaFwControlUnitAPI* create(const char* wlr_socket_path, bool use_win32_vk_code) const
+    MaaFwControlUnitAPI* create(const char* config_json) const
     {
         if (!m_loaded || !m_create) {
             Log.error("Library not loaded or create function not available");
             return nullptr;
         }
 
-        return m_create(wlr_socket_path, use_win32_vk_code);
+        return m_create(config_json);
     }
 
     void destroy(MaaFwControlUnitAPI* handle) const
@@ -73,7 +73,7 @@ struct MaaFwWlrControlUnitLoader : LibraryHolder<MaaFwWlrControlUnitLoader>
 private:
     bool m_loaded = false;
 
-    std::function<MaaFwControlUnitAPI*(const char*, bool)> m_create;
+    std::function<MaaFwControlUnitAPI*(const char*)> m_create;
     std::function<void(MaaFwControlUnitAPI*)> m_destroy;
     std::function<const char*()> m_get_version;
 };
@@ -162,7 +162,7 @@ private:
     static constexpr int DefaultSwipeDelay = 5; // ms
 
     AsstCallback m_callback;
-    MaaFwWlrControlUnitLoader m_loader;
+    MaaFwLinuxControlUnitLoader m_loader;
     MaaFwControlUnitAPI* m_unit = nullptr;
 
     std::string m_socket_path;
