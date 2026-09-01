@@ -4,6 +4,7 @@ import os
 import pathlib
 import re
 import struct
+import subprocess
 from argparse import ArgumentParser
 
 import numpy as np
@@ -97,9 +98,9 @@ def update_png_with_optipng(file_path: str, perfect_pngs: dict, quiet: bool):
     input_file = output_file = file_path
     remove_auxiliary_data(input_file, output_file)
     if quiet:
-        os.system(f'optipng -quiet -o7 -zm1-9 -fix "{output_file}"')
+        subprocess.run(["optipng", "-quiet", "-o7", "-zm1-9", "-fix", output_file], check=True)
     else:
-        os.system(f'optipng -o7 -zm1-9 -fix "{output_file}"')
+        subprocess.run(["optipng", "-o7", "-zm1-9", "-fix", output_file], check=True)
 
     sz_after = os.stat(file_path).st_size
 
@@ -134,11 +135,11 @@ def update_png_with_oxipng(file_path: str, perfect_pngs: dict, quiet: bool):
     img_before = np.array(Image.open(file_path).convert("L"))
 
     if quiet:
-        os.system(f'oxipng -o max --fast -Z -s -q "{file_path}"')
-        os.system(f'oxipng -o 2 -s -q "{file_path}"')
+        subprocess.run(["oxipng", "-o", "max", "--fast", "-Z", "-s", "-q", file_path], check=True)
+        subprocess.run(["oxipng", "-o", "2", "-s", "-q", file_path], check=True)
     else:
-        os.system(f'oxipng -o max --fast -Z -s "{file_path}"')
-        os.system(f'oxipng -o 2 -s "{file_path}"')
+        subprocess.run(["oxipng", "-o", "max", "--fast", "-Z", "-s", file_path], check=True)
+        subprocess.run(["oxipng", "-o", "2", "-s", file_path], check=True)
 
     sz_after = os.stat(file_path).st_size
 
