@@ -180,8 +180,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             std::string name = oper_json.at("name").as_string();
             if (auto opt = oper_json.find<std::string>("role")) {
                 auto role_str = opt.value();
-                utils::tolowers(role_str);
-                role = battle::parse_role_type(role_str);
+                role = battle::parse_role_type(role_str, battle::Role::Unknown);
             }
             else {
                 const auto& roles = BattleData.get_roles(name);
@@ -223,13 +222,6 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
                 oper_json.get("recruit_priority_when_team_full", oper_info.recruit_priority - 100);
             oper_info.promote_priority_when_team_full =
                 oper_json.get("promote_priority_when_team_full", oper_info.promote_priority + 300);
-            if (auto opt = oper_json.find<json::array>("recruit_priority_offset")) {
-                for (const auto& offset : opt.value()) {
-                    std::pair<int, int> offset_pair = std::make_pair(offset[0].as_integer(), offset[1].as_integer());
-                    oper_info.recruit_priority_offset.emplace_back(offset_pair);
-                }
-            }
-            oper_info.offset_melee = oper_json.get("offset_melee", false);
             // __________________will-be-removed-end__________________
 
             if (auto opt = oper_json.find<json::array>("recruit_priority_offsets")) {

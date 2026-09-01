@@ -32,15 +32,15 @@ bool asst::BattleDataConfig::parse(const json::value& json)
             { "TANK", battle::Role::Tank },       { "WARRIOR", battle::Role::Warrior },
         };
 
-        data_ptr->role = battle::parse_role_type(char_data_json.get("profession", ""));
+        auto role_str = char_data_json.get("profession", "");
+        data_ptr->role = battle::parse_role_type(role_str, battle::Role::Drone);
         if (data_ptr->role != battle::Role::Drone) {
             m_opers.emplace(name); // 所有干员名
         };
 
         data_ptr->sub_role = get_subrole_type(char_data_json.get("subProfessionId", ""));
         if (data_ptr->role != battle::Role::Drone && data_ptr->sub_role == battle::SubRole::Unknown) {
-            LogError << "Unknown subProfessionId:" << char_data_json.get("subProfessionId", "")
-                     << "for oper:" << name;
+            LogError << "Unknown subProfessionId:" << char_data_json.get("subProfessionId", "") << "for oper:" << name;
         }
         const auto& ranges_json = char_data_json.at("rangeId").as_array();
         for (size_t i = 0; i != data_ptr->ranges.size(); ++i) {

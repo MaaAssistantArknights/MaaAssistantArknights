@@ -55,7 +55,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
                 }
             }
             if (retry++ > 5) {
-                Log.error(__FUNCTION__, "无法获取可投资状态下的存款");
+                Log.error(__FUNCTION__, "failed to get deposit in investable state");
                 save_img(utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
                 break;
             }
@@ -65,7 +65,8 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
     };
     // 投资确认按钮
     const auto& click_rect = Task.get("Roguelike@StageTraderInvest-Confirm")->specific_rect;
-    LogInfo << __FUNCTION__ << "开始投资, 存款" << deposit.value_or(-1) << ", 可投资次数" << count_limit;
+    LogInfo << __FUNCTION__ << "start investing, deposit: " << deposit.value_or(-1)
+            << ", investable count: " << count_limit;
     while (!need_exit() && deposit && *deposit < 999 && count_limit - count > 0) {
         int times = std::min(15, count_limit - count);
         while (!need_exit() && times > 0) {
@@ -81,15 +82,15 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
             const auto& wallet_ = get_wallet(image);   // 获取当前钱包余额
             const auto& deposit_ = get_deposit(image); // 获取当前存款
             if (!wallet_) {
-                Log.error(__FUNCTION__, "无法获取钱包余额");
+                Log.error(__FUNCTION__, "failed to get wallet balance");
             }
             if (wallet_ && *wallet_ == 0) { // 手头没钱了
-                Log.info(__FUNCTION__, "手头没钱了, 退出投资");
+                Log.info(__FUNCTION__, "no money left, exit investing");
                 settlement(image);
                 break;
             }
             else if (!deposit_ || *deposit_ < 0 || *deposit_ > 999 || deposit.value_or(-1) == *deposit_) {
-                Log.warn(__FUNCTION__, "存款异常, 重试:", ++retry);
+                Log.warn(__FUNCTION__, "abnormal deposit, retry: ", ++retry);
             }
             else if (deposit_) {
                 count += *deposit_ - *deposit;
@@ -100,7 +101,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
                 continue;
             }
             else if (retry > 20) {
-                Log.error(__FUNCTION__, "投资失败，重试次数过多，退出投资");
+                Log.error(__FUNCTION__, "invest failed after too many retries, exit investing");
                 save_img(utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
                 break;
             }
@@ -110,7 +111,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
         }
         else if (is_investment_error(image)) {
             m_invset_error = true;
-            Log.info(__FUNCTION__, "投资系统错误, 退出投资");
+            Log.info(__FUNCTION__, "invest system error, exit investing");
 
             sleep(500); // 此处UI有一个从左往右的移动，等待后重新截图，防止UI错位
             auto ocr = get_deposit_when_error(ctrler()->get_image());
@@ -120,14 +121,14 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
                 deposit = *ocr;
             }
             else {
-                Log.error(__FUNCTION__, "无法获取错误状态下的存款");
+                Log.error(__FUNCTION__, "failed to get deposit in error state");
                 save_img(utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
             }
 
             break;
         }
         else {
-            Log.error(__FUNCTION__, "未知状态，投资中止");
+            Log.error(__FUNCTION__, "unknown state, investing aborted");
             return false;
         }
     }
@@ -140,12 +141,12 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
     info["details"]["deposit"] = deposit ? *deposit : -1;
     callback(AsstMsg::SubTaskExtraInfo, info);
 
-    LogInfo << __FUNCTION__ << "本轮投资结束, 投资" << count << ", 共投资" << total << "; 系统余额"
-            << (deposit ? *deposit : -1);
+    LogInfo << __FUNCTION__ << "invest round finished, count: " << count << ", total: " << total
+            << "; deposit: " << (deposit ? *deposit : -1);
     m_invest_count = total;
 
     if (count >= 0 && count_limit <= count) {
-        Log.info(__FUNCTION__, "投资达到设置上限,", m_maximum);
+        Log.info(__FUNCTION__, "investment reached the configured limit: ", m_maximum);
         auto cb = basic_info_with_what("RoguelikeInvestmentReachLimit");
         cb["details"]["limit"] = m_maximum;
         callback(AsstMsg::SubTaskExtraInfo, cb);
@@ -155,7 +156,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
     if (deposit.value_or(0) < 999) {
     }
     else if (m_stop_when_full) {
-        Log.info(__FUNCTION__, "存款已满");
+        Log.info(__FUNCTION__, "deposit is full");
         auto cb = basic_info_with_what("RoguelikeInvestmentReachFull");
         callback(AsstMsg::SubTaskExtraInfo, cb);
         stop_roguelike();

@@ -90,6 +90,11 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     public string FiammettaTarget3 { get; set; } = "但书";
 
     /// <summary>
+    /// Gets or sets a value indicating whether 常规模式换班开始时是否使用菲亚梅塔为恢复目标恢复心情
+    /// </summary>
+    public bool FiammettaRecoveryEnabled { get; set; } = false;
+
+    /// <summary>
     /// Gets or sets a value indicating whether the Pinus Sylvestris cross-facility team is enabled.
     /// </summary>
     public bool UsePinusSylvestris { get; set; } = false;

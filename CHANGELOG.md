@@ -1,4 +1,4 @@
-## v6.17.0-beta.8
+## v6.17.0-beta.9
 
 ### Highlights
 
@@ -16,7 +16,7 @@
 
 #### 基建效率算法重写
 
-重写基建效率算法，常规（默认）模式支持跨设施组合，新增跨设施组合设置与菲亚梅塔恢复目标设置，并修复一批基建选人与识别问题。
+重写基建效率算法，常规（默认）模式支持跨设施组合，新增跨设施组合设置与菲亚梅塔恢复目标设置，并修复一批基建选人与识别问题；宿舍换班调整为第一轮仅执行菲亚梅塔配对，新增恢复开关。
 
 <details>
 <summary><b>English</b></summary>
@@ -35,7 +35,7 @@ The reconnect-after-disconnect logic has been removed due to the complexity and 
 
 #### Infrast Efficiency Algorithm Rewrite
 
-The infrast efficiency algorithm has been rewritten; the default mode now supports cross-facility combinations, with new settings for cross-facility combinations and Fiammetta recovery targets, along with a batch of infrast operator selection and recognition fixes.
+The infrast efficiency algorithm has been rewritten; the default mode now supports cross-facility combinations, with new settings for cross-facility combinations and Fiammetta recovery targets, along with a batch of infrast operator selection and recognition fixes. Dormitory shifting now performs only Fiammetta pairing in the first round, with a new recovery toggle.
 
 </details>
 
@@ -44,6 +44,25 @@ The infrast efficiency algorithm has been rewritten; the default mode now suppor
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.0-beta.9 (2026-09-01)</b></summary>
+
+### 改进 | Improved
+
+* 基建常规模式宿舍换班流程调整：新增菲亚梅塔恢复开关（默认关闭），第一轮宿舍仅执行菲亚梅塔配对，配对失败时不再清空宿舍；低心情干员改于第二轮宿舍补位时安置 ([#17980](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17980)) @ABA2396
+* 界面硬编码文本改为资源化，并统一 Core 与 GUI 日志语言为英文 ([#17984](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17984)) @ABA2396
+
+### 修复 | Fix
+
+* 修复自动战斗与肉鸽作业 `role` 字段的职业解析，未指定或未知职业名不再被误判为无人机职业，并兼容职业大小写 @status102 @ABA2396
+* YostarKR fix ocrReplace regex for 烛煌 @HX3N
+
+### 其他 | Other
+
+* 修复 Unix 平台上构建 MaaWpfGui 报错 ([#17958](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17958)) @satgo1546
+
+</details>
+
+<details>
 <summary><b>v6.17.0-beta.8 (2026-08-31)</b></summary>
 
 ### 新增 | New

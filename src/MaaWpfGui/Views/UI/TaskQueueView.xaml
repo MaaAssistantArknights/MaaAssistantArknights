@@ -559,7 +559,7 @@
                     <CheckBox
                         Grid.Row="1"
                         VerticalAlignment="Center"
-                        Content="Auto Reload Resource"
+                        Content="{DynamicResource AutoReloadResource}"
                         IsChecked="{Binding EnableAutoReload}"
                         Visibility="{c:Binding CanShowAutoReload}" />
                 </Grid>

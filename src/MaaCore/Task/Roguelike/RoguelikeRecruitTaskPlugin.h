@@ -38,8 +38,6 @@ private:
     bool recruit_support_char(const std::string& name, const int max_refresh);
     // 招募自己的干员
     bool recruit_own_char();
-    battle::Role get_oper_role(const std::string& name);
-    bool is_oper_melee(const std::string& name);
     // 直接招募第一个干员
     bool lazy_recruit();
     // 招募指定干员

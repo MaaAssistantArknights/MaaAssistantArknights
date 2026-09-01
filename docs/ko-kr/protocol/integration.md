@@ -501,9 +501,15 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @type array<string>
 @default ["清流", "可露希尔", "但书"]
 @optional
-피아메타 회복 대상 목록. 교대 시 목록에서 현재 컨디션이 가장 낮은 대상 오퍼레이터가 피아메타와 함께 우선적으로 숙소에 배치됩니다. `mode = 0`일 때만 유효합니다.
+피아메타 회복 대상 목록. 교대 시작 시 목록에서 현재 컨디션이 가장 낮은 대상 오퍼레이터가 피아메타와 함께 숙소에 배치되어 컨디션을 교환합니다. `mode = 0`이면서 `fiammetta_recovery_enabled`가 true일 때만 유효합니다.
 <br>
 옵션: `清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅` (옵션 외 또는 중복 항목은 무시됨)  
+:::  
+::: field fiammetta_recovery_enabled  
+@type boolean
+@default false
+@optional
+교대 시작 시 피아메타로 회복 대상의 컨디션을 회복할지 여부입니다. 비활성화 시 교대가 숙소 준비 단계를 건너뜁니다. `mode = 0`일 때만 유효합니다.  
 :::  
 ::: field use_pinus_sylvestris  
 @type boolean

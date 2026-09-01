@@ -245,7 +245,7 @@
                                 </CheckBox>
                                 <hc:TextBox
                                     Margin="0,5"
-                                    hc:InfoElement.Placeholder="Example: C:\Program Files\Netease\MuMuPlayer"
+                                    hc:InfoElement.Placeholder="{DynamicResource MuMu12EmulatorPathPlaceholder}"
                                     hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
                                     hc:TitleElement.TitlePlacement="Top"
                                     Text="{Binding EmulatorPath}" />
@@ -280,7 +280,7 @@
                             <StackPanel d:Visibility="Visible" Visibility="{c:Binding Enable}">
                                 <hc:TextBox
                                     Margin="0,5"
-                                    hc:InfoElement.Placeholder="Example: C:\leidian\LDPlayer9"
+                                    hc:InfoElement.Placeholder="{DynamicResource LdEmulatorPathPlaceholder}"
                                     hc:TitleElement.Title="{DynamicResource LdEmulatorPath}"
                                     hc:TitleElement.TitlePlacement="Left"
                                     Text="{Binding EmulatorPath}" />

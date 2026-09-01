@@ -169,6 +169,8 @@
     <system:String x:Key="InfrastReceptionSendClue">赠送线索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中设置并执行</system:String>
     <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
+    <system:String x:Key="InfrastFiammettaRecovery">启用菲亚梅塔心情恢复</system:String>
+    <system:String x:Key="InfrastFiammettaRecoveryTips">开启后，换班开始时会将恢复目标与满心情的菲亚梅塔放入宿舍互换心情，菲亚梅塔随后留在宿舍恢复心情。</system:String>
     <system:String x:Key="InfrastFiammettaTargets">菲亚梅塔恢复目标</system:String>
     <system:String x:Key="InfrastFiammettaTargetNone">无</system:String>
     <system:String x:Key="InfrastFiammettaTargetPurestream">清流</system:String>
@@ -177,7 +179,7 @@
     <system:String x:Key="InfrastFiammettaTargetShamare">巫恋</system:String>
     <system:String x:Key="InfrastFiammettaTargetTequila">龙舌兰</system:String>
     <system:String x:Key="InfrastFiammettaTargetGladiia">歌蕾蒂娅</system:String>
-    <system:String x:Key="InfrastFiammettaTargetsTips">虽然理论上恢复巫恋和龙舌兰可以007，但是自动换班情况下难以实现，因此不推荐选择恢复巫恋和龙舌兰</system:String>
+    <system:String x:Key="InfrastFiammettaTargetsTips">虽然理论上恢复巫恋和龙舌兰可以 007，但是自动换班情况下难以实现，因此不推荐选择恢复巫恋和龙舌兰</system:String>
     <system:String x:Key="InfrastUsePinusSylvestris">使用红松骑士团跨设施组合</system:String>
     <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">必要干员：焰尾(精二)、薇薇安娜(精二)、野鬃(精二)/灰毫(精二)/远牙(精二)至少一个&#10;参与计算干员：砾</system:String>
     <system:String x:Key="InfrastUsePerceptionInformation">使用感知信息跨设施组合</system:String>
@@ -577,7 +579,9 @@ D:\
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用于指定模拟器启动参数（如 ｢--instance 1｣ 表示启动 1 号实例）。&#10;不同模拟器的命令格式不同，通常包括实例编号、窗口模式等参数，请参考您使用的模拟器文档</system:String>
     <system:String x:Key="StartsWithScript">开始前脚本</system:String>
+    <system:String x:Key="StartsWithScriptPlaceholder">示例："C:\1.cmd" -minimized</system:String>
     <system:String x:Key="EndsWithScript">结束后脚本</system:String>
+    <system:String x:Key="EndsWithScriptPlaceholder">示例："C:\1.cmd" -noWindow</system:String>
     <system:String x:Key="CopilotWithScript">自动战斗时启用上述脚本</system:String>
     <system:String x:Key="ManualStopWithScript">手动暂停时启用上述脚本</system:String>
     <system:String x:Key="BlockSleep">运行任务时阻止休眠</system:String>
@@ -786,6 +790,7 @@ C:\\Program Files\\Netease\\MuMuPlayer。\n
 2. 若正在使用网络桥接，则需勾选 MuMu 网络桥接模式并手动填写序号。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 安装路径</system:String>
+    <system:String x:Key="MuMu12EmulatorPathPlaceholder">示例：C:\Program Files\Netease\MuMuPlayer</system:String>
     <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu 安装路径为空！占位符仅为示例，请在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填写实际路径</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu 网络桥接模式</system:String>
     <system:String x:Key="MuMuBridgeConnectionTip">除非你知道自己在做什么，否则不要启用此选项</system:String>
@@ -814,6 +819,7 @@ C:\\leidian\\LDPlayer9
 如在竖屏状态下启动游戏后切换为横屏，可能导致画面撕裂等问题。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 安装路径</system:String>
+    <system:String x:Key="LdEmulatorPathPlaceholder">示例：C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="LdEmulatorPathEmptyError">雷电模拟器安装路径为空！占位符仅为示例，请在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填写实际路径</system:String>
     <system:String x:Key="LdManualSetIndex">手动填写 ｢{key=LdIndex}｣</system:String>
     <system:String x:Key="LdIndex">实例编号</system:String>
@@ -891,6 +897,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
+    <system:String x:Key="AutoReloadResource">自动重载资源</system:String>
+    <system:String x:Key="CustomTaskName">任务名</system:String>
     <!--  战斗设置  -->
     <system:String x:Key="UseSanityPotion">使用药剂</system:String>
     <system:String x:Key="UseOriginitePrime">使用源石</system:String>
@@ -1381,6 +1389,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EmulatorFpsErrorTip">检测到模拟器设置帧率过低（{0} FPS），可能导致任务异常，请关闭模拟器后台降帧并将帧率设置为 60 FPS</system:String>
     <system:String x:Key="EmulatorFpsHighTip">检测到模拟器设置帧率为 {0} FPS，高于游戏原生帧率上限（60 FPS），可能是模拟器插帧功能，可能导致画面异常或识别不稳定，建议关闭插帧并将帧率设置为 60 FPS</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
+    <system:String x:Key="RecruitRefreshLimitReached">刷新次数达到上限</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>
     <system:String x:Key="OutOfMemoryError">{0}任务因内存不足停止，请关闭部分程序或重启 MAA 后重试</system:String>
     <system:String x:Key="CombatError">战斗出错</system:String>
@@ -1397,6 +1406,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorOccurred">出现错误</system:String>
     <system:String x:Key="HasReturned">已返回</system:String>
     <system:String x:Key="DropRecognitionError">掉落识别错误</system:String>
+    <system:String x:Key="PenguinUploadUnknownStage">未识别关卡</system:String>
+    <system:String x:Key="PenguinUploadNotThreeStars">非三星结算</system:String>
+    <system:String x:Key="PenguinUploadUnknownTimes">未识别关卡次数</system:String>
+    <system:String x:Key="PenguinUploadUnknownDropType">未识别掉落类型</system:String>
+    <system:String x:Key="PenguinUploadUnknownDrops">未识别掉落物</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC 端鼠标为独立渲染，可能遮挡掉落物及数量识别。为避免错误数据污染数据池，已自动跳过本次上报</system:String>
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
@@ -1651,6 +1665,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitmentOfStar">公招出 {0} 星了哦！</system:String>
     <system:String x:Key="RecruitmentOfBot">公招出小车了哦！</system:String>
     <system:String x:Key="Choose">选择</system:String>
+    <system:String x:Key="RecruitTagsSelectedLog" xml:space="preserve">选择 Tags：&#10;{0}</system:String>
     <system:String x:Key="Refreshed">当前槽位已刷新</system:String>
     <system:String x:Key="ContinueRefresh">无招聘许可，继续尝试刷新 Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">无招聘许可，已返回</system:String>
