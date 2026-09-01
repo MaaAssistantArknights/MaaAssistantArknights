@@ -732,7 +732,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSave">允許吃源石儲存狀態</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">該功能屬於危險功能。按下 ｢{key=Confirm}｣ 鍵即視為您了解並願意承擔可能出現的風險。</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
-    <system:String x:Key="UseExpiringMedicine">無限吃 N 小時內過期的理智藥</system:String>
+    <system:String x:Key="UseExpiringMedicine">無限吃小於 N 天過期的理智藥</system:String>
+    <system:String x:Key="MedicineExpireDaysTip">可手動輸入天數。遊戲內顯示「N 天」實際剩餘超過 N 天，不在使用範圍內。</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">活動結束前 48H 吃當週過期理智藥</system:String>
     <system:String x:Key="NoActivity">暫無活動</system:String>
     <system:String x:Key="HideUnavailableStage">下拉選單中隱藏當日不開放關卡</system:String>

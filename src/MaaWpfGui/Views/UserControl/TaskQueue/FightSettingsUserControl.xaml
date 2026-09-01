@@ -450,13 +450,16 @@
                 Orientation="Horizontal"
                 Visibility="{c:Binding UseExpiringMedicine}">
                 <controls:TextBlock Margin="4,0,7.5,0" Text="└" />
-                <hc:ComboBox
+                <hc:NumericUpDown
+                    Width="60"
                     Height="30"
-                    d:IsHitTestVisible="True"
-                    DisplayMemberPath="Display"
-                    ItemsSource="{Binding MedicineExpireDayList}"
-                    SelectedValue="{Binding MedicineExpireDays}"
-                    SelectedValuePath="Value" />
+                    HorizontalAlignment="Left"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Maximum="30"
+                    Minimum="1"
+                    Value="{Binding MedicineExpireDays, UpdateSourceTrigger=PropertyChanged}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource MedicineExpireDaysTip}" />
             </StackPanel>
             <CheckBox Margin="0,10" IsChecked="{Binding UseExpireMedicineForActivity}">
                 <TextBlock
