@@ -3761,6 +3761,13 @@
         "postDelay": 1000,
         "next": ["InfrastClueQuickSendDuplicates", "SelectClue", "CloseSendClue"]
     },
+    "SendAllClues": {
+        "action": "ClickSelf",
+        "roi": [1160, 320, 80, 90],
+        "maskRange": [1, 255],
+        "postDelay": 1000,
+        "next": ["SelectClue", "CloseSendClue"]
+    },
     "SelectClue": {
         "action": "ClickSelf",
         "roi": [99, 222, 177, 147],
