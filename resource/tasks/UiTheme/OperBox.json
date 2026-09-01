@@ -22,7 +22,8 @@
             "OperBoxTogether",
             "OperBoxLoneTrail",
             "OperBoxReconstruct",
-            "OperBoxHunting"
+            "OperBoxHunting",
+            "OperBoxBlackFlow"
         ],
         "onErrorNext": ["OperBox-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -94,5 +95,9 @@
         "baseTask": "OperBoxDefault",
         "template": "Hunting/OperBoxEnter.png",
         "roi": [1045, 295, 165, 150]
+    },
+    "OperBoxBlackFlow": {
+        "baseTask": "OperBoxDefault",
+        "template": "BlackFlow/OperBoxEnter.png"
     }
 }
