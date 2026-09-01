@@ -1599,6 +1599,20 @@ public class AsstProxy
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DropRecognitionError"), UiLogColor.Error);
                 break;
 
+            case "DepotRecognitionTask":
+                {
+                    if (details["what"]?.ToString() != "DepotTemplateLoadError")
+                    {
+                        break;
+                    }
+
+                    var itemIds = details["details"]?["item_ids"]?.Values<string>().Where(id => !string.IsNullOrEmpty(id)) ?? [];
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("DepotTemplateLoadError", string.Join(", ", itemIds)),
+                        UiLogColor.Error);
+                    break;
+                }
+
             case "ReportToPenguinStats":
                 {
                     var why = details["why"]!.ToString();

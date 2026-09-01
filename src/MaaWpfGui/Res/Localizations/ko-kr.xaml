@@ -1062,6 +1062,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="LastSyncTime">마지막 동기화 시간</system:String>
     <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 내보내기 전 인식 결과가 맞는지 확인 후 사용하세요\n만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 depot 폴더 전체를 압축해서 Github의 issue로 올려주세요</system:String>
+    <system:String x:Key="DepotTemplateLoadError">창고 인식 템플릿을 불러오지 못했습니다({0}). 일부 아이템은 건너뜁니다. 리소스 파일이 손상되었을 수 있으므로 전체 리소스 패키지를 다시 다운로드하여 resource 폴더에 덮어쓰세요.</system:String>
     <system:String x:Key="StartToDepotRecognition">인식 시작</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner</system:String>
     <system:String x:Key="ExportToLolicon">Arkntools</system:String>
