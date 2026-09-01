@@ -3124,7 +3124,7 @@
         "template": "OfficeMini.png",
         "maskRange": [1, 255],
         "roi": [627, 160, 653, 404],
-        "templThreshold": 0.95
+        "templThreshold": 0.9
     },
     "InfrastProcessing": {
         "maskRange": [1, 255],
