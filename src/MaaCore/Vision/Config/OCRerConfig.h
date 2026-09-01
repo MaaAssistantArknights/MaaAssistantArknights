@@ -19,6 +19,7 @@ public:
         bool without_det = false;
         bool use_char_model = false;
         bool use_raw = true;
+        ResultOrderBy order_by = ResultOrderBy::None;
 
         int bin_threshold_lower = 140;
         int bin_threshold_upper = 255;

@@ -741,6 +741,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @optional
 领取五周年赠送的月卡奖励。  
 :::  
+::: field name="signinevent" type="boolean" optional default="false"  
+领取限时签到活动奖励（仅支持常见横向版型）。  
+:::  
 ::::
 
 <details>
@@ -754,7 +757,8 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    "recruit": true,
    "orundum": false,
    "mining": true,
-   "specialaccess": false
+   "specialaccess": false,
+   "signinevent": false
 }
 ```
 

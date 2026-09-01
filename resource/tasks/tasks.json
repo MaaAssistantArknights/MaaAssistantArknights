@@ -2058,6 +2058,111 @@
         "postDelay": 500,
         "next": ["Stop"]
     },
+    "SignInEventBegin": {
+        "doc": "限时签到活动领取入口，不支持特殊版型",
+        "algorithm": "JustReturn",
+        "sub": ["AwardExpandCheckFlow"],
+        "next": [
+            "SignInEventReturnHome",
+            "SignInEventReturnHome@QuickSwitch@ToHome#next",
+            "SignInEventReturnHome@ReturnButtons#next",
+            "SignInEventEnter",
+            "SignInEventEnterByIcon"
+        ]
+    },
+    "SignInEventReturnHome": {
+        "baseTask": "Home",
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "next": ["SignInEventEnter", "SignInEventEnterByIcon", "Stop"]
+    },
+    "SignInEventEnter": {
+        "doc": "点击首页左上签到活动入口卡片，OCR 文字优先",
+        "algorithm": "OcrDetect",
+        "text": ["签到"],
+        "action": "ClickSelf",
+        "roi": [5, 21, 203, 258],
+        "postDelay": 1500,
+        "next": ["SignInEventInPopup"],
+        "onErrorNext": ["Stop"]
+    },
+    "SignInEventEnterByIcon": {
+        "doc": "OCR 未命中时（名称过长/截断/缺 override）改用签到日历勾选 icon 兜底，仅亮态、图案跨服通用",
+        "algorithm": "MatchTemplate",
+        "template": "SignInEventEntryIcon.png",
+        "maskRange": [220, 255],
+        "templThreshold": 0.6,
+        "action": "ClickSelf",
+        "roi": [5, 21, 203, 258],
+        "postDelay": 1500,
+        "next": ["SignInEventInPopup"],
+        "onErrorNext": ["Stop"]
+    },
+    "SignInEventInPopup": {
+        "doc": "OCR 结束时间确认已进入弹窗，未进入则退出",
+        "algorithm": "OcrDetect",
+        "text": ["结束时间"],
+        "roi": [0, 560, 1280, 160],
+        "action": "DoNothing",
+        "postDelay": 500,
+        "next": ["SignInEventClaim", "SignInEventAllClaimed"],
+        "onErrorNext": ["SignInEventReturn"]
+    },
+    "SignInEventAllClaimed": {
+        "doc": "匹配已领卡白色对勾，全领完则退出（图案跨服通用）",
+        "algorithm": "MatchTemplate",
+        "template": "SignInEventClaimedCheck.png",
+        "maskRange": [220, 255],
+        "templThreshold": 0.75,
+        "roi": [0, 150, 1280, 400],
+        "action": "DoNothing",
+        "next": ["SignInEventReturn"]
+    },
+    "SignInEventClaim": {
+        "doc": "OCR 卡片 LOGIN 标签定位未领的签到卡，点最左上可领的一天",
+        "algorithm": "OcrDetect",
+        "text": ["LOGIN"],
+        "isAscii": true,
+        "fullMatch": true,
+        "orderBy": "Horizontal",
+        "action": "ClickSelf",
+        "roi": [0, 150, 1280, 250],
+        "postDelay": 2500,
+        "maxTimes": 25,
+        "next": ["SignInEventEarnRewards", "SignInEventCostumeLeave", "SignInEventReturn"],
+        "exceededNext": ["SignInEventReturn"]
+    },
+    "SignInEventEarnRewards": {
+        "doc": "点击获得物资关闭领取动画",
+        "algorithm": "OcrDetect",
+        "text": ["获得物资"],
+        "roi": [440, 90, 400, 140],
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "next": ["#self", "SignInEventClaim", "SignInEventReturn"],
+        "maxTimes": 50,
+        "exceededNext": ["SignInEventReturn"]
+    },
+    "SignInEventCostumeLeave": {
+        "doc": "时装展示挡路页：认右下穿戴衣架 icon 确认在该页，点空白处离开、推进到获得物资",
+        "algorithm": "MatchTemplate",
+        "template": "SignInEventCostumeWear.png",
+        "templThreshold": 0.6,
+        "roi": [1000, 560, 280, 130],
+        "action": "ClickRect",
+        "specificRect": [270, 170, 60, 60],
+        "postDelay": 800,
+        "maxTimes": 15,
+        "next": ["SignInEventEarnRewards", "#self", "SignInEventClaim", "SignInEventReturn"],
+        "exceededNext": ["SignInEventReturn"]
+    },
+    "SignInEventReturn": {
+        "doc": "关闭签到弹窗",
+        "baseTask": "CloseAnno",
+        "template": "CloseAnno.png",
+        "postDelay": 500,
+        "next": ["Stop"]
+    },
     "AwardBegin": {
         "algorithm": "JustReturn",
         "next": [

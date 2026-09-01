@@ -727,6 +727,9 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 @optional
 5주년 등 이벤트 월정액 보상 수령  
 :::  
+::: field name="signinevent" type="boolean" optional default="false"  
+기간 한정 출석 이벤트 보상 수령 (가로형 레이아웃만 지원)  
+:::  
 ::::
 
 <details>
@@ -740,7 +743,8 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
    "recruit": true,
    "orundum": false,
    "mining": true,
-   "specialaccess": false
+   "specialaccess": false,
+   "signinevent": false
 }
 ```
 

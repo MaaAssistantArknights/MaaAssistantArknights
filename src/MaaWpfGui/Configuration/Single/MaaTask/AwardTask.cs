@@ -49,4 +49,9 @@ public class AwardTask : BaseTask
     /// Gets or sets a value indicating whether 5周年特殊月卡
     /// </summary>
     public bool SpecialAccess { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 限时签到活动领取
+    /// </summary>
+    public bool SignInEvent { get; set; }
 }

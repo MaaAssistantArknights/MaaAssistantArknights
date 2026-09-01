@@ -686,6 +686,15 @@ struct TaskInfo : public TaskPipelineInfo
 using TaskPtr = std::shared_ptr<TaskInfo>;
 using TaskConstPtr = std::shared_ptr<const TaskInfo>;
 
+// 多个匹配时的结果排序方式（参考 MaaFramework order_by）
+enum class ResultOrderBy
+{
+    None,       // 默认：按识别顺序，不重排
+    Horizontal, // 行优先（行内从左到右）
+    Vertical,   // 列优先（列内从上到下）
+    Score,      // 按分数从高到低
+};
+
 // 文字识别任务的信息
 struct OcrTaskInfo : public TaskInfo
 {
@@ -704,6 +713,7 @@ struct OcrTaskInfo : public TaskInfo
     std::vector<std::pair<std::string, std::string>>
         replace_map;                                 // 部分文字容易识别错，字符串强制replace之后，再进行匹配
     std::array<int, 2> bin_threshold = { 140, 255 }; // 二值化灰度上阈值
+    ResultOrderBy order_by = ResultOrderBy::None; // 多个匹配时的结果排序方式，默认按识别顺序
 };
 
 using OcrTaskPtr = std::shared_ptr<OcrTaskInfo>;

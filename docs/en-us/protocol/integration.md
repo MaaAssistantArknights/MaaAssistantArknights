@@ -741,6 +741,9 @@ Collect Orundum from limited mining licenses.
 @optional
 Collect monthly card rewards from 5th anniversary.  
 :::  
+::: field name="signinevent" type="boolean" optional default="false"  
+Collect rewards from limited-time sign-in events (only standard horizontal layouts are supported).  
+:::  
 ::::
 
 <details>
@@ -754,7 +757,8 @@ Collect monthly card rewards from 5th anniversary.
    "recruit": true,
    "orundum": false,
    "mining": true,
-   "specialaccess": false
+   "specialaccess": false,
+   "signinevent": false
 }
 ```
 

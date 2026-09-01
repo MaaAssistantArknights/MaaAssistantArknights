@@ -162,6 +162,12 @@ Please note that JSON files do not support comments. The comments in this docume
         "isAscii": false,                   // Optional, whether text content is ASCII characters
                                             // Default false
 
+        "orderBy": "None",                  // Optional, ordering of results when there are multiple matches (omit to inherit baseTask; no base = no reorder, recognition order)
+                                            //      - None:         no reorder (recognition order); write explicitly to override an ordering set by base
+                                            //      - Horizontal:   row-major (left-to-right within a row)
+                                            //      - Vertical:     column-major (top-to-bottom within a column)
+                                            //      - Score:        by score from high to low
+
         "withoutDet": false,                // Optional, whether to skip detection model
                                             // Default false
 

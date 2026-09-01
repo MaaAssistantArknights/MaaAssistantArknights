@@ -161,6 +161,12 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
         "isAscii": false,                   // 可选项，要识别的文字内容是否为 ASCII 码字符
                                             // 不填写默认 false
 
+        "orderBy": "None",                  // 可选项，多个匹配时的结果排序方式（不填默认继承 baseTask，无 base 则不重排、按识别顺序）
+                                            //      - None:         不重排（按识别顺序），可显式写来覆盖 base 已设的排序
+                                            //      - Horizontal:   行优先（行内从左到右）
+                                            //      - Vertical:     列优先（列内从上到下）
+                                            //      - Score:        按分数从高到低
+
         "withoutDet": false,                // 可选项，是否不使用检测模型
                                             // 不填写默认 false
 
