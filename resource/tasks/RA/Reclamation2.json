@@ -319,6 +319,15 @@
         "specialParams": [500, 0, 3, 0],
         "next": ["Reclamation2ExSwipeAndClickProduct#next"]
     },
+    "Reclamation2Advance": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "Reclamation2ExSkipDays",
+            "Reclamation2ExSkipDaysBeginNewDay"
+        ],
+        "Doc": "新增模式：有存档，通过推进天数刷物资和生息点数；cpp入口",
+        "next": ["#self"]
+    },
     "Reclamation2ProsperityMax": {
         "roi": [789, 475, 154, 122],
         "next": ["Reclamation2ProsperityMaxSkipDayClickContinue"]

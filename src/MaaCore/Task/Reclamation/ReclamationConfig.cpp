@@ -48,6 +48,10 @@ bool asst::ReclamationConfig::verify_and_load_params(const json::value& params)
             m_mode = TalesMode::ProsperityInSave;
             break;
 
+        case static_cast<int>(TalesMode::AdvanceInSave):
+            m_mode = TalesMode::AdvanceInSave;
+            break;
+
         default:
             Log.error(__FUNCTION__, "| Invalid Tales mode", modeInt);
             return false;

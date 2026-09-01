@@ -712,6 +712,11 @@
         "algorithm": "JustReturn",
         "next": ["Tales@RA@PNS-Commence", "Tales@RA@PNS-Resume", "Tales@RA@PNS-Navigation"]
     },
+    "Tales@RA@AdvanceInSave": {
+        "doc": "生息演算「沙洲遗闻」有存档推进天数刷物资任务入口",
+        "algorithm": "JustReturn",
+        "next": ["Reclamation2Advance"]
+    },
     "Tales@RA@ProsperityReachLimit": {
         "doc": "模板任务: 已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
         "template": "Tales@RA@Max.png",
