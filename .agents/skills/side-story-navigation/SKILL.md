@@ -1,6 +1,6 @@
 ---
 name: side-story-navigation
-description: 新增/更新 SideStory 活动关卡导航。涵盖 tasks/Stages 导航任务、StageActivityV2.json 活动配置、MaaRelease 仓库同步三个文件的联动修改。用于用户要求添加活动导航、更新活动关卡、同步 MaaRelease 时使用。
+description: 新增/更新 SideStory（别传）活动关卡导航。涵盖 tasks/Stages 导航任务、StageActivityV2.json 活动配置、MaaRelease 仓库同步三个文件的联动修改。用户要求添加新活动导航、更新活动关卡、活动开放或复刻时调整导航，以及提到同步 MaaRelease 时均应使用本 skill。
 ---
 
 # SideStory 活动导航 Skill
@@ -148,7 +148,7 @@ description: 新增/更新 SideStory 活动关卡导航。涵盖 tasks/Stages �
 ### 3.1 位置
 
 - 本地测试缓存：`build/bin/Debug/cache/gui/StageActivityV2.json`（客户端运行时从远程 API 拉取到本地缓存，修改此文件用于本地测试）
-- 远程源文件：`../MaaRelease/MaaAssistantArknights/api/gui/StageActivityV2.json`（StageActivityV2 的真正来源，需 commit 推送）
+- 远程源文件：`../MaaRelease/MaaAssistantArknights/api/gui/StageActivityV2.json`（StageActivityV2 的真正来源，修改须 commit 推送后才对用户生效；提交/推送 MaaRelease 与主仓库一样，须先获得用户明确指令）
 - 两者内容必须一致。
 
 ### 3.2 替换规则

@@ -289,10 +289,6 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
  - 只有当诉求通过三筛（合理、必要、有影响面）时，才在“修复方案”里给出具体实现建议。
  - 修复方案的层级必须与仓库惯例一致：恢复 / 兜底 / 重试逻辑在 Core 层已有的失败处置框架上扩展，GUI 层只做展示与配置（惯例出处见 `KNOWLEDGE.md` 的 Common Pitfalls）。
 
-## Common Patterns
-
-> 本节的具体误判陷阱已迁移至 `KNOWLEDGE.md` 的 `Common Pitfalls` 节，分析时直接查阅。
-
 ## Correlating With Code
 
 ### 报告打包结构
@@ -522,7 +518,7 @@ Translate the complete conclusion directly into English and paste it here. Note 
 - 不要把当前分支资源直接当成 issue 当时的真实环境；先看报告包里的 `cache/resource`。
 - 日志和截图冲突时，优先相信现场图，再回头解释 OCR / 模板为何误判。
 - 如果问题本身没有在当前日志中复现，要明确写“证据未复现”，不要硬凑结论。
-- 如果 issue 版本很旧或用户日志与当前代码不一致，先按用户版本 tag 复核，再判断是否已修复（详见 Common Patterns）。
+- 如果 issue 版本很旧或用户日志与当前代码不一致，先按用户版本 tag 复核，再判断是否已修复（详见 `KNOWLEDGE.md` 的 `版本差异` 节）。
 - 回答中出现任务名、设置项、按钮名、提示文案时，优先使用 `zh-cn.xaml` 的中文文案（详见 Localized Copy）。
 - 引用具体代码行时给远端 GitHub `blob` 行号链接，不给本地路径加行号（详见 Linking Code Evidence）。
 - 如果证据表明问题已在新版本修复，明确建议用户升级；如果怀疑安装包、资源文件或配置损坏，明确建议重新下载或重建；如果判断为真实代码缺陷且暂无 workaround，明确建议等待开发者修复。

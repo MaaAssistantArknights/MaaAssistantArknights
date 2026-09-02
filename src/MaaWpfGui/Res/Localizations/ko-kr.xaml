@@ -163,10 +163,10 @@
     <system:String x:Key="DormFilterNotStationedTips">체크할 경우 아이린과 같은 {key=Operator}를 훈련실에서 제거하지 않고, 가공소의 {key=Operator}가 숙소에 배치되는 것을 방지합니다.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">오리지늄 조각 자동 보충</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">응접실 게시판에서 크레딧 수집</system:String>
-    <system:String x:Key="InfrastReceptionClueExchange">단서 교환 수행</system:String>
-    <system:String x:Key="InfrastReceptionClueExchangeTips" xml:space="preserve">단서 교환을 시작할 수 없는 경우 교대 시 단서 판의 모든 단서를 회수하며, 시작할 수 있는 경우 일괄 배치를 사용합니다.&#10;개인 단서 보유 한도는 10장(응접실에 배치된 단서 포함)이며, 배치된 단서는 중복 판정에 포함되지 않습니다.&#10;미리 지나치게 많이 배치하면 한도에 도달했는데도 일괄 전송도 새 단서 획득도 할 수 없습니다.</system:String>
-    <system:String x:Key="ClueExchangeUnlocked">단서 교환 시작</system:String>
-    <system:String x:Key="InfrastReceptionSendClue">단서 보내기</system:String>
+    <system:String x:Key="InfrastReceptionClueExchange">단서 공유 진행</system:String>
+    <system:String x:Key="InfrastReceptionClueExchangeTips" xml:space="preserve">단서 공유를 개방할 수 없는 경우 교대 시 단서 판의 모든 단서를 회수하며, 개방할 수 있는 경우 일괄 배치를 사용합니다.&#10;개인 단서 보유 한도는 10장(응접실에 배치된 단서 포함)이며, 배치된 단서는 중복 판정에 포함되지 않습니다.&#10;미리 지나치게 많이 배치하면 한도에 도달했는데도 일괄 전달도 새 단서 획득도 할 수 없습니다.</system:String>
+    <system:String x:Key="ClueExchangeUnlocked">단서 공유 개방</system:String>
+    <system:String x:Key="InfrastReceptionSendClue">단서 전달</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">다음 기능들은 {key=Infrast}에서 설정 및 실행해야 합니다</system:String>
     <system:String x:Key="ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">피아메타 컨디션 회복 활성화</system:String>
@@ -190,7 +190,7 @@
     <system:String x:Key="InfrastUseAbyssalHunterTips" xml:space="preserve">필수 오퍼레이터: 글래디아(정예화 2), 울피아누스, 스카디, 스펙터, 안드레아나&#10;알고리즘상의 이유로 피누스 실베스트리스도 동시에 선택하면 두 연계가 함께 교대에 참여하지 않습니다.</system:String>
     <system:String x:Key="InfrastFacilitySelection">교대 시설</system:String>
     <system:String x:Key="InfrastFacilitySelectionTip" xml:space="preserve">｢{key=InfrastModeNormal}｣에서는 교대 순서를 알고리즘이 자동으로 결정하며, 여기서는 처리할 시설 종류만 선택합니다. 순서는 적용되지 않습니다.&#10;교대 순서를 직접 설정하려면 ｢{key=InfrastModeCustom}｣을 사용하세요.</system:String>
-    <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>
+    <system:String x:Key="TrainingIdle">훈련실 비어 있음</system:String>
     <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
     <system:String x:Key="TrainingLevel">마스터리 랭크</system:String>
     <system:String x:Key="TrainingTimeLeft">남은 시간</system:String>
@@ -1371,8 +1371,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UnzipFailedMessage">파일 압축 해제에 실패했습니다. 예기치 않은 오류가 발생했습니다. 자세한 내용은 로그를 확인하세요.</system:String>
     <system:String x:Key="NoAdbPathSpecifiedMessage">ADB 경로가 지정되지 않았습니다</system:String>
     <system:String x:Key="AdbDownloadFailedDesc">수동으로 진행해 주세요. (adb.exe의 이름을 바꾸고 에뮬레이터의 ADB 파일을 교체해 주세요)</system:String>
-    <system:String x:Key="SuccessfullyReplacedAdb">성공적으로 ADB 파일을 교체했습니다</system:String>
-    <system:String x:Key="FailedToReplaceAdbAndUseLocal">ADB 교체 실패</system:String>
+    <system:String x:Key="SuccessfullyReplacedAdb">ADB 파일 교체 성공</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocal">ADB 파일 교체 실패</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">로컬 ADB를 사용하여 연결되었습니다. 다시 시도하려면 에뮬레이터를 ADB에서 연결 해제하고 닫거나, 컴퓨터를 재시작하고 에뮬레이터를 시작하지 않은 상태에서 관리자 권한으로 MAA를 열어주세요.</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
     <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 16:9 비율로 해상도를 1280x720 이상으로 설정해주세요. 1280x720 또는 1920x1080을 권장합니다</system:String>
@@ -1392,7 +1392,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EmulatorFpsErrorTip">에뮬레이터 설정 주사율이 너무 낮습니다 ({0} FPS). 작업에 문제가 발생할 수 있습니다. 에뮬레이터 설정에서 백그라운드 프레임 저하를 끄고 프레임 속도를 60 FPS로 설정해 주세요</system:String>
     <system:String x:Key="EmulatorFpsHighTip">에뮬레이터 설정 주사율이 {0} FPS로 게임의 기본 프레임 속도 상한(60 FPS)을 초과합니다. 이는 에뮬레이터의 프레임 보간 기능일 수 있으며, 화면 왜곡이나 인식 불안정을 유발할 수 있습니다. 프레임 보간을 비활성화하고 프레임 속도를 60 FPS로 설정하는 것을 권장합니다</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
-    <system:String x:Key="RecruitRefreshLimitReached">새로고침 횟수가 상한에 도달했습니다</system:String>
+    <system:String x:Key="RecruitRefreshLimitReached">새로고침 횟수 상한 도달</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
     <system:String x:Key="OutOfMemoryError">메모리 부족으로 {0} 작업이 중지되었습니다. 다른 프로그램을 종료하거나 MAA를 재시작한 후 다시 시도해 주세요</system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
@@ -1406,21 +1406,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BackgroundLinkStarted">작업 시작됨</system:String>
     <system:String x:Key="BackgroundLinkStopped">작업 중지됨</system:String>
     <system:String x:Key="FailedToOpenClient">클라이언트를 시작하지 못했습니다. 설정 파일을 확인하세요</system:String>
-    <system:String x:Key="ErrorOccurred">오류가 발생했습니다</system:String>
-    <system:String x:Key="HasReturned">반환했습니다</system:String>
+    <system:String x:Key="ErrorOccurred">오류 발생</system:String>
+    <system:String x:Key="HasReturned">복귀</system:String>
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
-    <system:String x:Key="PenguinUploadUnknownStage">스테이지를 인식하지 못했습니다</system:String>
-    <system:String x:Key="PenguinUploadNotThreeStars">3성 클리어가 아니었습니다</system:String>
-    <system:String x:Key="PenguinUploadUnknownTimes">스테이지 횟수를 인식하지 못했습니다</system:String>
-    <system:String x:Key="PenguinUploadUnknownDropType">드롭 유형을 인식하지 못했습니다</system:String>
-    <system:String x:Key="PenguinUploadUnknownDrops">드롭 아이템을 인식하지 못했습니다</system:String>
+    <system:String x:Key="PenguinUploadUnknownStage">스테이지 인식 실패</system:String>
+    <system:String x:Key="PenguinUploadNotThreeStars">3성 클리어 아님</system:String>
+    <system:String x:Key="PenguinUploadUnknownTimes">스테이지 횟수 인식 실패</system:String>
+    <system:String x:Key="PenguinUploadUnknownDropType">드롭 유형 인식 실패</system:String>
+    <system:String x:Key="PenguinUploadUnknownDrops">드롭 아이템 인식 실패</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC 클라이언트에서는 커서가 드롭 아이템과 수량 인식을 가릴 수 있습니다. 잘못된 데이터가 데이터 풀을 오염시키지 않도록 이번 보고는 자동으로 건너뜁니다</system:String>
-    <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
+    <system:String x:Key="TheEx">EX 스테이지 없음, 중단</system:String>
     <system:String x:Key="MissingOperators">다음 {key=Operator} 그룹의 {key=Operator}를 보유하고 있지 않습니다(그룹당 1명이면 충분합니다):\n{0}｢선호｣ 표시는 {key=Operator} 인식에 영향을 줄 수 있습니다. 실제로 보유하고 있다면 표시를 해제한 후 다시 시도하거나, ｢{key=AutoSquad}｣를 끄고 직접 편성하세요. 실제로 보유하지 않은 경우 부족한 그룹이 1개뿐이라면 ｢{key=SupportUnitUsage}｣로 대체할 수 있고, 2개 이상이라면 다른 작업 파일을 사용해 주세요.</system:String>
     <system:String x:Key="RecruitSupportOperator">지원 유닛 추가: {0}</system:String>
     <system:String x:Key="StageQueue">스테이지 대기열:</system:String>
-    <system:String x:Key="UnableToAgent">대리 지휘를 사용할 수 없습니다</system:String>
+    <system:String x:Key="UnableToAgent">대리 지휘 사용 불가</system:String>
     <system:String x:Key="MissionStart">작전 개시</system:String>
     <system:String x:Key="MissionStart.FightTask">작전 개시 {0}회 (-{1} 이성)</system:String>
     <system:String x:Key="UnitTime">회</system:String>
@@ -1428,17 +1428,17 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">\n이성 회복제: {0}  </system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복제: {0},{1}(만료 예정)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}  </system:String>
-    <system:String x:Key="MedicineUsed">이성 회복제를 사용했습니다</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">{0}시간 이내 만료되는 이성 회복제를 사용했습니다</system:String>
+    <system:String x:Key="MedicineUsed">이성 회복제 사용</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">{0}시간 내 만료 이성 회복제 사용</system:String>
     <system:String x:Key="UseMedicine.MedicineInfo">약품: {0}, 재고: {1}</system:String>
-    <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
+    <system:String x:Key="StoneUsed">순오리지늄 사용</system:String>
     <system:String x:Key="ActingCommandError">대리 지휘 오류 발생</system:String>
-    <system:String x:Key="FightMissionFailedAndStop">대리 지휘 실패 횟수 초과로 작업을 중단합니다</system:String>
+    <system:String x:Key="FightMissionFailedAndStop">대리 지휘 실패 횟수 초과, 작업 중단</system:String>
     <system:String x:Key="LabelsRefreshed">태그 갱신 완료</system:String>
     <system:String x:Key="RecruitConfirm">모집 확정</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">다른 시설에서 근무 중인 {key=Operator}가 있어 이차 확인을 자동으로 진행했습니다</system:String>
     <system:String x:Key="BegunToExplore">탐험 시작</system:String>
-    <system:String x:Key="RoutingRestartTooManyBattles">작전 노드 개수: {0}, 작전 노드가 너무 많아 재시작합니다</system:String>
+    <system:String x:Key="RoutingRestartTooManyBattles">전방 작전 노드 수: {0}, 경로 재시작</system:String>
     <system:String x:Key="ExplorationAbandoned">탐험 중단</system:String>
     <system:String x:Key="FightCompleted">작전 완료</system:String>
     <system:String x:Key="FightFailed">작전 실패</system:String>
@@ -1451,7 +1451,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RoguelikeSpecialItemBought">특별 상품을 구매했습니다!</system:String>
     <system:String x:Key="MonthlySquadCompleted">월간 스쿼드 보상을 모두 획득했습니다!</system:String>
     <system:String x:Key="DeepExplorationCompleted">심층 조사 보상을 모두 획득했습니다!</system:String>
-    <system:String x:Key="DeepExplorationNotUnlockedComplain">심층 조사가 해금되지 않았습니다</system:String>
+    <system:String x:Key="DeepExplorationNotUnlockedComplain">심층 조사 미해금</system:String>
     <system:String x:Key="SSSGamePass">보안 파견 클리어!</system:String>
     <system:String x:Key="CurrentStage">현재 스테이지: {0}</system:String>
     <system:String x:Key="Trader">노드: 교활한 상인</system:String>
@@ -1482,16 +1482,16 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowReasonSafetyFallback">안전 퇴로</system:String>
     <system:String x:Key="BlackFlowReasonTieBreak">동률 비교</system:String>
     <system:String x:Key="BlackFlowWarningMapRebuildFailed">지도 재구축 실패</system:String>
-    <system:String x:Key="BlackFlowWarningPageRecoveryFailed">노드 화면에서 지도로 돌아갈 수 없습니다</system:String>
+    <system:String x:Key="BlackFlowWarningPageRecoveryFailed">노드 화면에서 지도 복귀 불가</system:String>
     <system:String x:Key="BlackFlowWarningPreviewCostChanged">미리보기 행동력 소모가 변경되어 다시 계획합니다</system:String>
     <system:String x:Key="BlackFlowWarningTargetUnreachable">목표에 도달할 수 없어 미확인 노드를 탐색하고 다시 계획합니다</system:String>
-    <system:String x:Key="BlackFlowWarningRouteBlocked">경로가 차단되었습니다.</system:String>
-    <system:String x:Key="BlackFlowWarningInsufficientActionPoints">행동력이 부족합니다.</system:String>
-    <system:String x:Key="BlackFlowWarningTargetStateChanged">목표 상태가 변경되었습니다.</system:String>
+    <system:String x:Key="BlackFlowWarningRouteBlocked">경로 차단됨</system:String>
+    <system:String x:Key="BlackFlowWarningInsufficientActionPoints">행동력 부족</system:String>
+    <system:String x:Key="BlackFlowWarningTargetStateChanged">목표 상태 변경됨</system:String>
     <system:String x:Key="BlackFlowWarningInferredEdge">낮은 신뢰도의 연결을 사용합니다</system:String>
-    <system:String x:Key="BlackFlowWarningPostMoveMismatch">이동 후 노드 또는 행동력 상태가 일치하지 않습니다</system:String>
-    <system:String x:Key="BlackFlowWarningIdentityConflict">미리보기의 노드 유형이 현재 지도와 일치하지 않습니다</system:String>
-    <system:String x:Key="BlackFlowWarningUnknown">로그라이크에서 오류가 발생했습니다</system:String>
+    <system:String x:Key="BlackFlowWarningPostMoveMismatch">이동 후 노드·행동력 상태 불일치</system:String>
+    <system:String x:Key="BlackFlowWarningIdentityConflict">미리보기 노드 유형과 현재 지도 불일치</system:String>
+    <system:String x:Key="BlackFlowWarningUnknown">로그라이크 오류</system:String>
     <system:String x:Key="BlackFlowMilestoneChanged">단계 목표 {0}: {1}</system:String>
     <system:String x:Key="BlackFlowStrategyResult">로그라이크 전략 종료: {0} ({1})</system:String>
     <system:String x:Key="BlackFlowStrategyStarted">블랙 플로우 전략 시작: {0}</system:String>
@@ -1613,7 +1613,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BlackFlowOutcomeNodeDispatchFailed">노드 배치 실패</system:String>
     <system:String x:Key="BlackFlowOutcomeNodeResultFailed">노드 결과 처리 실패</system:String>
     <system:String x:Key="BlackFlowOutcomeInternalFailure">내부 상태 오류</system:String>
-    <system:String x:Key="BlackFlowOutcomeUnknown">로그라이크에서 오류가 발생했습니다</system:String>
+    <system:String x:Key="BlackFlowOutcomeUnknown">로그라이크 오류</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentFinished">투자가 완료되어 이번 판 종료</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentShopWindowClosed">1구역을 떠났는데 투자하지 않아 이번 판 재시작</system:String>
     <system:String x:Key="BlackFlowTerminationFloor3Reached">3구역에 도달해 이번 경로 완료</system:String>
@@ -1643,13 +1643,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EncounterOcrError">이벤트 인식 오류</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">암호판:</system:String>
     <system:String x:Key="RoguelikeInvestment">각뿔 투자: {1}(+{0}), 예금: {2}</system:String>
-    <system:String x:Key="RoguelikeInvestmentReachLimit">설정된 오리지늄각뿔 투자 횟수({0}) 도달, 탐험을 종료합니다</system:String>
-    <system:String x:Key="RoguelikeInvestmentReachFull">오리지늄각뿔 투자가 완료되어 탐험을 종료합니다</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachLimit">오리지늄각뿔 투자 횟수({0}) 도달, 탐험 종료</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachFull">오리지늄각뿔 투자 완료, 탐험 종료</system:String>
     <system:String x:Key="RoguelikeSettlement">{key=AutoRoguelike} 종착점: {0}\n클리어 : {1} 구역 {2} 노드\n전투 횟수: {3} 일반 / {4} 정예 / {5} 리더\n모집 횟수 : {6} 회\n소장: {7}\n난이도: {8}\n점수: {9}\n경험치: {10}, 스킬: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">붕괴 패러다임 심화: {0}</system:String>
-    <system:String x:Key="RoguelikeDeepenParadigm">붕괴 패러다임 {0}가 {1}로 심화되었습니다</system:String>
+    <system:String x:Key="RoguelikeDeepenParadigm">붕괴 패러다임 {0} → {1} 심화</system:String>
     <system:String x:Key="RoguelikeLoseParadigm">붕괴 패러다임 소멸: {1}</system:String>
-    <system:String x:Key="RoguelikeWeakenParadigm">붕괴 패러다임 {1}이(가) {0}으로 약화되었습니다</system:String>
+    <system:String x:Key="RoguelikeWeakenParadigm">붕괴 패러다임 {1} → {0} 약화</system:String>
     <system:String x:Key="CurTimes">현재 횟수</system:String>
     <system:String x:Key="NoDrop">없음</system:String>
     <system:String x:Key="Drop" xml:space="preserve">드롭: </system:String>
@@ -1662,7 +1662,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>
     <system:String x:Key="ProductUnknown">인식할 수 없는 생산품</system:String>
     <system:String x:Key="ProductChanged">생산품이 변경됨</system:String>
-    <system:String x:Key="ProductChangeFail">생산품 전환에 실패했습니다</system:String>
+    <system:String x:Key="ProductChangeFail">생산품 전환 실패</system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">공개모집 인식 결과: </system:String>
     <system:String x:Key="RecruitingTips">공개모집 팁</system:String>
     <system:String x:Key="RecruitmentOfStar">★{0} {key=Operator}를 모집했습니다!</system:String>
@@ -1670,8 +1670,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Choose">선택</system:String>
     <system:String x:Key="RecruitTagsSelectedLog" xml:space="preserve">선택한 Tags:&#10;{0}</system:String>
     <system:String x:Key="Refreshed">새로고침됨</system:String>
-    <system:String x:Key="ContinueRefresh">모집 허가증이 없습니다. 태그를 새로고침했습니다.</system:String>
-    <system:String x:Key="NoRecruitmentPermit">모집 허가증이 없어 중지했습니다.</system:String>
+    <system:String x:Key="ContinueRefresh">모집 허가증 없음, 태그 새로고침</system:String>
+    <system:String x:Key="NoRecruitmentPermit">모집 허가증 없음, 중지</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">공개모집 다중 태그 선택 전략</system:String>
     <system:String x:Key="DefaultNoExtraTags">기본값: 추가 태그 없음</system:String>
     <system:String x:Key="SelectExtraTags">항상 3개의 태그를 선택</system:String>
@@ -1687,7 +1687,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Weekly">매주</system:String>
     <system:String x:Key="UserDataUpdateTriggerInterval">실행 간격</system:String>
     <system:String x:Key="BattleFormation">편성 시작</system:String>
-    <system:String x:Key="BattleFormationParseFailed">편성 분석에 실패했습니다</system:String>
+    <system:String x:Key="BattleFormationParseFailed">편성 분석 실패</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}를 선택: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">사용 불가 {key=Operator}: {0}, 사유: {1}</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Elite">정예화 수준이 너무 낮음</system:String>
@@ -2292,19 +2292,19 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
 
     <system:String x:Key="Achievement.ClueCollector.Title">단서 수집가</system:String>
     <system:String x:Key="Achievement.ClueCollector.Description">로도스 아일랜드 사교계의 꽃.</system:String>
-    <system:String x:Key="Achievement.ClueCollector.Conditions">단서 교환을 누적 20회 열기</system:String>
+    <system:String x:Key="Achievement.ClueCollector.Conditions">단서 공유를 누적 20회 개방</system:String>
 
     <system:String x:Key="Achievement.CluePhilosopher.Title">단서 철학자</system:String>
     <system:String x:Key="Achievement.CluePhilosopher.Description">모임의 의미는 무엇인가?</system:String>
-    <system:String x:Key="Achievement.CluePhilosopher.Conditions">단서 교환을 누적 50회 열기</system:String>
+    <system:String x:Key="Achievement.CluePhilosopher.Conditions">단서 공유를 누적 50회 개방</system:String>
 
     <system:String x:Key="Achievement.ClueSharer.Title">단서 공유자</system:String>
     <system:String x:Key="Achievement.ClueSharer.Description">좋은 것은 친구와 나눠야 해요.</system:String>
-    <system:String x:Key="Achievement.ClueSharer.Conditions">친구에게 단서를 누적 20회 보내기</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Conditions">친구에게 단서를 누적 20회 전달</system:String>
 
     <system:String x:Key="Achievement.CluePhilanthropist.Title">단서 자선가</system:String>
     <system:String x:Key="Achievement.CluePhilanthropist.Description">가져가세요, 감사 인사는 필요 없어요.</system:String>
-    <system:String x:Key="Achievement.CluePhilanthropist.Conditions">친구에게 단서를 누적 50회 보내기</system:String>
+    <system:String x:Key="Achievement.CluePhilanthropist.Conditions">친구에게 단서를 누적 50회 전달</system:String>
 
     <system:String x:Key="Achievement.TaskChainKing.Title">작업 체인 왕</system:String>
     <system:String x:Key="Achievement.TaskChainKing.Description">한 번의 클릭으로 시작, 모두 완료.</system:String>
@@ -2356,7 +2356,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
 
     <system:String x:Key="Achievement.ClueObsession.Title">단서 강박증</system:String>
     <system:String x:Key="Achievement.ClueObsession.Description">칠색 전대, 집합!</system:String>
-    <system:String x:Key="Achievement.ClueObsession.Conditions">7일 연속으로 매일 단서를 모아 단서 교환 열기</system:String>
+    <system:String x:Key="Achievement.ClueObsession.Conditions">7일 연속으로 매일 단서를 모아 단서 공유 개방</system:String>
 
     <system:String x:Key="Achievement.Time325.Title">325</system:String>
     <system:String x:Key="Achievement.Time325.Description">이 숫자가 무슨 의미인지 아시죠?</system:String>

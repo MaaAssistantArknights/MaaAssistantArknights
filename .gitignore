@@ -490,3 +490,6 @@ CMakeUserPresets.json
 
 # zcode
 /.zcode
+
+# mimosa security scan plugin
+/.mimosa
