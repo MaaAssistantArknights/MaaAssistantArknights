@@ -1,6 +1,6 @@
 ---
 name: changelog
-description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 MAA 规范、可直接写入 CHANGELOG.md 的最终 Markdown。
+description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 MAA 规范、可直接写入 CHANGELOG.md 的最终 Markdown。用户提到发版、整理/生成 changelog、写更新日志、发布正式版或 beta 时均应使用本 skill，即使用户没有明确说出 "changelog" 一词。
 ---
 
 # MAA Changelog Skill
@@ -33,6 +33,8 @@ description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 
 
 仅保留有内容的模块，空模块省略。
 
+**MaaMacGui 区块的判定**：本地子模块目录 `src/MaaMacGui` 通常未 clone（空目录，`git -C src/MaaMacGui log` 不可用），且主仓库的 submodule 指针更新提交都带 `[skip changelog]`，看不出实际内容。判断版本范围内 MaaMacGui 是否有合并 PR，用 `gh pr list --repo MaaAssistantArknights/MaaMacGui --state merged` 按 `mergedAt` 对照版本 tag 日期，不要依赖本地子模块历史。
+
 ## 3. 排序与文案
 
 - **中文在前，纯英文条目排最后**；按重要性排序：功能/接口变更 > 兼容性/优化 > 次要修复/杂项。
@@ -40,6 +42,8 @@ description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 
 - 术语统一大小写：WPF、Json、Markdown、CSV、Info。
 - 保留作者与 PR 引用，格式 `([#12345](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12345)) @author`；多条合并时引用合并括注。
 - **作者归属**：从 commit 的 `%an`（author）字段获取，**不要**用 `%cn`（committer）——squash merge 的 committer 通常是 GitHub 或执行合并的人，而非贡献者。对于多贡献者 PR（squash 后协作者信息丢失），需访问 PR 页面确认发起人与协作者，全部列出（用空格分隔，如 `@author1 @author2`）。
+- **显示名 → GitHub login 映射**：条目里的 `@作者` 必须是 GitHub login，而 `%an` 给出的常是显示名。已确认的映射：墨染 → @moranfanhua、Ziyi Huang → @yali-hzy、uye → @ABA2396、status102 / Status102 → @status102、Rin → @ZiyinLin、HY → @momomochi987、H2O_MERO → @H2O-MERO、Zian Wen → @wzacolemak；Constrat、youzibigg 与 login 同名。表外名字用 `gh pr view <N> --json author` 核实；`gh` 间歇性 TLS handshake timeout 时，用 commit 的 `%ae` 邮箱前缀、`Co-authored-by` trailer、以及历史 CHANGELOG 中同一 PR 的既有归属相互印证。
+- **条件生效的功能把限定写进条目**：功能若依赖输入方式、截图方式、连接类型、服务器等条件才生效（如仅在 PC 端 win32 连接下生效、仅特定截图方式下行为不同），条目必须写明限定，不能只写笼统效果；拿不准时查 squash commit 信息与最终代码里的实际分支逻辑再落笔。
 
 ## 4. 版本历史与折叠块
 
@@ -107,7 +111,7 @@ description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 
 
 - **`%an`（author）= PR 发起人**，是默认归属依据。**不要**用 `%cn`（committer），squash 的 committer 通常是 GitHub 或执行合并维护者。
 - **多贡献者 PR**：如果 PR 有其他协作者（Co-authored-by、分支上有他人 commit），squash 后这些信息可能被压缩或仅保留在 PR 页面的 contributor 列表中。对无法确认的 PR，**必须访问 PR 页面**（如 `https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12345`）核对发起人与 contributor 列表。
-- 作者格式：单作者 `@author`；多作者用空格分隔 `@author1 @author2`。
+- 作者格式：单作者 `@author`；多作者用空格分隔 `@author1 @author2`。显示名 → GitHub login 的已确认映射与 `gh` 超时回退办法见 §3 作者归属。
 
 ## 文件结构（自上而下）
 
@@ -198,6 +202,7 @@ English paragraph.
 - ❌ 从 git tag 自行推测版本号（应从 PR 标题/用户输入获取；`gh` 失败时用 URL 访问 PR 页面）
 - ❌ 外服专有条目整条译成中文 / git 历史未指定编码导致乱码
 - ❌ squash PR 作者取 `%cn`（committer/合并者）而非 `%an`（author/发起人）；多贡献者 PR 未访问 PR 页面核对 contributor
+- ❌ 条件生效的功能写成无条件生效（应查代码把输入/截图/连接方式等限定写进条目）
 
 ## 最终检查
 
@@ -210,5 +215,5 @@ English paragraph.
 - [ ] 跨次版本号已移除旧版本折叠块（含新次版本第一个测试版）？
 - [ ] 子仓库 MaaMacGui 放在 `### 其他 | Other` 之后？
 - [ ] 版本号从 PR 标题/用户输入获取，未从 git tag 推测？
-- [ ] squash PR 作者取 `%an`（发起人），非 `%cn`（合并者）？多贡献者 PR 已核对 contributor 列表？
+- [ ] squash PR 作者取 `%an`（发起人），非 `%cn`（合并者）？多贡献者 PR 已核对 contributor 列表？`@作者` 均为 GitHub login 而非显示名？
 - [ ] 外服专有条目保留英文原文？git 历史已指定编码？
