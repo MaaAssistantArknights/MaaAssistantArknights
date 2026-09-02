@@ -1411,7 +1411,7 @@
             "行动奖励",
             "溯源"
         ],
-        "ocrReplace": []
+        "ocrReplace": [["^临时介所$", "临时中介所"]]
     },
     "BlackFlow@Roguelike@StageEncounterResult": {
         "baseTask": "BlackFlow@Roguelike@RecoveryFailed"
