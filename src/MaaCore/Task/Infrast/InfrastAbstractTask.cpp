@@ -263,6 +263,14 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
     return task.run();
 }
 
+bool asst::InfrastAbstractTask::enter_dorm_oper_list_page()
+{
+    LogTraceFunction;
+
+    ProcessTask task(*this, { "InfrastEnterDormOperList", "InfrastStationedInfo" });
+    return task.run();
+}
+
 bool asst::InfrastAbstractTask::is_use_custom_opers()
 {
     return m_is_custom && (!current_room_config().names.empty() || !current_room_config().candidates.empty());

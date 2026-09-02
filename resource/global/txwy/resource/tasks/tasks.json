@@ -1065,6 +1065,9 @@
     "InfrastEnterOperList": {
         "text": ["心情", "休息中", "工作中", "進駐"]
     },
+    "InfrastEnterDormOperList": {
+        "text": ["心情", "休息中", "工作中", "進駐"]
+    },
     "InfrastConfirmButtonWait": {
         "text": ["正在提交", "反饋至神經"]
     },

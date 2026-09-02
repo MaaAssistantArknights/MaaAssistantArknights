@@ -3252,13 +3252,20 @@
         "text": ["进驻信息"],
         "roi": [0, 0, 150, 720],
         "postDelay": 1000,
-        "next": ["InfrastEnterOperList"]
+        "next": ["InfrastEnterDormOperList", "InfrastEnterOperList"]
     },
     "InfrastEnterOperList": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["心情", "休息中", "工作中", "进驻"],
         "roi": [800, 70, 480, 580],
+        "postDelay": 1000
+    },
+    "InfrastEnterDormOperList": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["心情", "休息中", "工作中", "进驻"],
+        "roi": [800, 500, 480, 180],
         "postDelay": 1000
     },
     "InfrastClearButton": {

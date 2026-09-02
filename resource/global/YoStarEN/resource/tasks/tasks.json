@@ -1321,6 +1321,10 @@
         "fullMatch": true,
         "text": ["Morale", "Resting", "In Use", "Working", "Assign"]
     },
+    "InfrastEnterDormOperList": {
+        "fullMatch": true,
+        "text": ["Morale", "Resting", "In Use", "Working", "Assign"]
+    },
     "InfrastFilterMenuAllButton": {
         "text": ["All"]
     },

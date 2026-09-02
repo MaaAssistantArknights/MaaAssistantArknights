@@ -1443,6 +1443,9 @@
     "InfrastEnterOperList": {
         "text": ["컨디션", "휴식중", "업무중", "배치"]
     },
+    "InfrastEnterDormOperList": {
+        "text": ["컨디션", "휴식중", "업무중", "배치"]
+    },
     "InfrastFilterMenuAllButton": {
         "text": ["전부"]
     },
