@@ -68,9 +68,9 @@
             "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
             "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i",
             "callMaatouch": "[Adb] -s [AdbSerial] shell \"export CLASSPATH=/data/local/tmp/[minitouchWorkingFile]; app_process /data/local/tmp com.shxyke.MaaTouch.App\"",
-            "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
-            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
-            "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
+            "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap [ScreencapDisplayIdArg] | nc -w 3 [NcAddress] [NcPort]\"",
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap [ScreencapDisplayIdArg] | gzip -1\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap [ScreencapDisplayIdArg] -p",
             "click": "[Adb] -s [AdbSerial] shell input tap [x] [y]",
             "swipe": "[Adb] -s [AdbSerial] shell input swipe [x1] [y1] [x2] [y2] [duration]",
             "input": "[Adb] -s [AdbSerial] shell input text [text]",
@@ -84,9 +84,9 @@
         {
             "configName": "CapWithShell",
             "baseConfig": "General",
-            "screencapRawByNC": "[Adb] -s [AdbSerial] shell \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
-            "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap | gzip -1\"",
-            "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -p"
+            "screencapRawByNC": "[Adb] -s [AdbSerial] shell \"screencap [ScreencapDisplayIdArg] | nc -w 3 [NcAddress] [NcPort]\"",
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap [ScreencapDisplayIdArg] | gzip -1\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] shell screencap [ScreencapDisplayIdArg] -p"
         },
         {
             "configName": "BlueStacks",
@@ -100,7 +100,7 @@
         {
             "configName": "LDPlayer",
             "baseConfig": "CapWithShell",
-            "screencapRawByNC": "[Adb] -s [AdbSerial] shell \"screencap | busybox nc -w 3 [NcAddress] [NcPort]\""
+            "screencapRawByNC": "[Adb] -s [AdbSerial] shell \"screencap [ScreencapDisplayIdArg] | busybox nc -w 3 [NcAddress] [NcPort]\""
         },
         {
             "configName": "Androws",
@@ -156,9 +156,9 @@
             "configName": "Waydroid",
             "baseConfig": "CompatPOSIXShell",
             "start": "[Adb] -s [AdbSerial] shell am start --windowingMode 4 -n [PackageName]/com.u8.sdk.U8UnityContext",
-            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | gzip -1\"",
-            "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap -p 2>/dev/null\"",
-            "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | nc -w 3 [NcAddress] [NcPort]\""
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap [ScreencapDisplayIdArg] 2>/dev/null | gzip -1\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap [ScreencapDisplayIdArg] -p 2>/dev/null\"",
+            "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap [ScreencapDisplayIdArg] 2>/dev/null | nc -w 3 [NcAddress] [NcPort]\""
         },
         {
             "configName": "AVD",
