@@ -2471,6 +2471,11 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="BadModules.ResetSuccess">已重置為硬體渲染模式。需要重新啟動 MAA 後生效。是否立即重新啟動？</system:String>
     <!--  !BadModules  -->
 
+    <!--  InjectionGuard  -->
+    <system:String x:Key="InjectionGuard.Warning.Heading">偵測到 DLL 注入</system:String>
+    <system:String x:Key="InjectionGuard.Warning.Text" xml:space="preserve">MAA 偵測到以下 DLL 被注入到程式中，已嘗試自動卸載以避免算繪異常或閃退：&#x0a;{0}&#x0a;&#x0a;若此提示反覆出現，建議關閉相關軟體的游戏內覆疊（OSD）功能，或在服務管理員中停用相關服務（如 NahimicService），否則 MAA 可能無法正常運作。</system:String>
+    <!--  !InjectionGuard  -->
+
     <!--  ItemSelection  -->
     <system:String x:Key="SelectItem">選擇項目</system:String>
     <system:String x:Key="SelectEmulatorPath">選擇模擬器路徑</system:String>

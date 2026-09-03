@@ -504,6 +504,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         ConfigurationHelper.Load();
         LocalizationHelper.Load();
+
+        // 尽早启动注入防护（在窗口创建前），防止 Nahimic OSD 等第三方 DLL 注入导致渲染异常/闪退
+        InjectionGuard.Start();
+
         if (PendingUpdateApplier.TryConsumeDelegatedUpdateSuccess())
         {
             _logger.Information("Delegated pending update completed successfully");
@@ -976,6 +980,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     public static void Release()
     {
+        InjectionGuard.Stop();
+
         _instanceActivationListenerCancellation?.Cancel();
         _instanceActivationListenerCancellation?.Dispose();
         _instanceActivationListenerCancellation = null;
