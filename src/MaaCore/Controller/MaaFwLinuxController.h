@@ -149,13 +149,7 @@ public:
     std::pair<int, int> get_screen_res() const noexcept override { return m_screen_size; }
 
 private:
-    bool park_cursor()
-    {
-        return inject_input_event(InputEvent { .type = InputEvent::Type::WAIT_MS, .milisec = 20 }) &&
-               inject_input_event(
-                   InputEvent { .type = InputEvent::Type::TOUCH_MOVE,
-                                .point = { m_screen_size.first - 10, m_screen_size.second - 10 } });
-    }
+    bool park_cursor();
 
     static constexpr int DefaultSwipeDelay = 5; // ms
 

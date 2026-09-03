@@ -181,4 +181,12 @@ bool asst::MaaFwLinuxController::press_esc()
            inject_input_event(InputEvent { .type = InputEvent::Type::KEY_UP, .keycode = KEY_ESC });
 }
 
+bool asst::MaaFwLinuxController::park_cursor()
+{
+    return inject_input_event(InputEvent { .type = InputEvent::Type::WAIT_MS, .milisec = 20 }) &&
+           inject_input_event(
+               InputEvent { .type = InputEvent::Type::TOUCH_MOVE,
+                            .point = { m_screen_size.first - 10, m_screen_size.second - 10 } });
+}
+
 #endif
