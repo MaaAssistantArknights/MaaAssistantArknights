@@ -232,7 +232,7 @@
     "JieGarden@Roguelike@CoppersBox": {
         "Doc": "钱盒按钮",
         "template": "empty.png",
-        "roi": [348, 640, 465, 80],
+        "roi": [348, 640, 550, 80],
         "action": "ClickSelf"
     },
     "JieGarden@Roguelike@CoppersCloseBox": {
@@ -341,7 +341,8 @@
             ["花-圣迢封神", "花-圣诏封神"],
             ["衡-军.*", "衡-军屯垦"],
             ["衡-早热", "衡-旱热"],
-            ["厉[-—一]+字落", "厉-一字落"]
+            ["厉[-—一]+字落", "厉-一字落"],
+            [".*锁代币", "衡-触锁代币"]
         ]
     },
     "JieGarden@Roguelike@CoppersOpenBox": {
@@ -392,6 +393,37 @@
             "JieGarden@Roguelike@CloseEvent",
             "#self"
         ]
+    },
+    "JieGarden@Roguelike@CoppersRecastResultTokenOCR": {
+        "Doc": "商贾分队：投钱结果界面识别是否投出「触锁代币」（三名字横排）。baseTask 复用 CoppersNameOcrReplace 模糊规则适配低分辨率，规则把 *锁代币 归一为 衡-触锁代币",
+        "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
+        "roi": [90, 285, 925, 60],
+        "text": ["衡-触锁代币"],
+        "action": "DoNothing"
+    },
+    "JieGarden@Roguelike@CoppersRecastToResult": {
+        "Doc": "商贾分队：重投并停在投钱结果页（不点对号），由 C++ 先 OCR 判断触锁代币",
+        "baseTask": "JieGarden@Roguelike@CoppersRecast",
+        "template": "JieGarden@Roguelike@CoppersRecast.png",
+        "next": ["JieGarden@Roguelike@CoppersRecastConfirmToResult", "#self"]
+    },
+    "JieGarden@Roguelike@CoppersRecastConfirmToResult": {
+        "baseTask": "JieGarden@Roguelike@CoppersRecastConfirm-NoRetain",
+        "template": "JieGarden@Roguelike@CoppersRecastConfirm-NoRetain.png",
+        "next": ["JieGarden@Roguelike@CoppersRecastResultAppear", "#self"]
+    },
+    "JieGarden@Roguelike@CoppersRecastResultAppear": {
+        "Doc": "识别投钱结果弹窗出现但不点击，作为“重投到结果页”的终点。postDelay 等通宝名字渲染完再返回 C++ 做 OCR，否则会扫到空白漏判触锁代币",
+        "template": "JieGarden@Roguelike@StageEncounterDrawCopperResult.png",
+        "roi": [1033, 462, 153, 155],
+        "action": "DoNothing",
+        "postDelay": 1500
+    },
+    "JieGarden@Roguelike@CoppersRecastResultConfirm": {
+        "Doc": "点投钱结果对号（直开钱盒场景，不接掉落/交换尾链）",
+        "baseTask": "JieGarden@Roguelike@CoppersRecastResult",
+        "template": "JieGarden@Roguelike@StageEncounterDrawCopperResult.png",
+        "next": []
     },
     "JieGarden@Roguelike@CoppersTakeConfirm": {
         "Doc": ["交换通宝确认按钮 (用于插件 RoguelikeCoppersTaskPlugin 的确认操作) 插件出口 状态机的图参见 #16553"],
