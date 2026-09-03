@@ -1319,10 +1319,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         {
             // The parent process has already exited.
         }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Failed while waiting for recovery parent process {processId} to exit: {ex}");
-        }
     }
 
     private static void LogUnhandledException(Exception exception)

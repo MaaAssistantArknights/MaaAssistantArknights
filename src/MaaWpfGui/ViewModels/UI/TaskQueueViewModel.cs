@@ -821,13 +821,12 @@ public class TaskQueueViewModel : Screen
 
             await HandleTimerLogic(currentTime);
         }
+        catch (Exception ex) when (Bootstrapper.TryStartWpfMessageQueueRecovery(ex))
+        {
+            // 消息队列已无法可靠投递，由独立恢复流程接管。
+        }
         catch (Exception ex)
         {
-            if (Bootstrapper.TryStartWpfMessageQueueRecovery(ex))
-            {
-                return;
-            }
-
             _logger.Error(ex, "Task queue timer callback failed.");
         }
     }
@@ -2014,6 +2013,7 @@ public class TaskQueueViewModel : Screen
         }
         catch (Exception ex)
         {
+            // 这里只回滚尚未交给 Core 的运行状态；异常必须继续向上传递，不能降级成普通启动失败。
             _logger.Error(
                 ex,
                 "Task queue startup failed unexpectedly. CoreStartSucceeded {CoreStartSucceeded}",
@@ -2145,45 +2145,36 @@ public class TaskQueueViewModel : Screen
                 continue;
             }
 
-            try
+            var serializationStopwatch = Stopwatch.StartNew();
+            var (isSuccess, taskIds) = SerializeTask(item);
+            serializationStopwatch.Stop();
+            _logger.Information(
+                "Task serialization returned. Index {Index}, Type {TaskType}, Success {Success}, Elapsed {ElapsedMilliseconds} ms",
+                index,
+                item.TaskType,
+                isSuccess,
+                serializationStopwatch.ElapsedMilliseconds);
+            switch (isSuccess)
             {
-                var serializationStopwatch = Stopwatch.StartNew();
-                var (isSuccess, taskIds) = SerializeTask(item);
-                serializationStopwatch.Stop();
-                _logger.Information(
-                    "Task serialization returned. Index {Index}, Type {TaskType}, Success {Success}, Elapsed {ElapsedMilliseconds} ms",
-                    index,
-                    item.TaskType,
-                    isSuccess,
-                    serializationStopwatch.ElapsedMilliseconds);
-                switch (isSuccess)
-                {
-                    case true:
-                        ++count;
-                        var taskItemViewModel = Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index);
-                        taskItemViewModel?.SetTaskIds(taskIds);
-                        _logger.Information(
-                            "Task IDs stored. Index {Index}, Type {TaskType}, TaskIdCount {TaskIdCount}",
-                            index,
-                            item.TaskType,
-                            taskItemViewModel?.TaskIds.Count ?? 0);
-                        break;
-                    case false:
-                        taskRet = false;
-                        AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType), UiLogColor.Error);
-                        SetTaskStatus(index, TaskItemStatus.Error);
-                        break;
-                    case null:
-                        AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Skip", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType), UiLogColor.Info);
-                        SetTaskStatus(index, TaskItemStatus.Skipped);
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                taskRet = false;
-                _logger.Error(ex, "Failed to serialize task. Index {Index}, Type {TaskType}", index, item.TaskType);
-                AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType) + "\n" + ex.Message, UiLogColor.Error);
+                case true:
+                    ++count;
+                    var taskItemViewModel = Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index);
+                    taskItemViewModel?.SetTaskIds(taskIds);
+                    _logger.Information(
+                        "Task IDs stored. Index {Index}, Type {TaskType}, TaskIdCount {TaskIdCount}",
+                        index,
+                        item.TaskType,
+                        taskItemViewModel?.TaskIds.Count ?? 0);
+                    break;
+                case false:
+                    taskRet = false;
+                    AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType), UiLogColor.Error);
+                    SetTaskStatus(index, TaskItemStatus.Error);
+                    break;
+                case null:
+                    AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Skip", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType), UiLogColor.Info);
+                    SetTaskStatus(index, TaskItemStatus.Skipped);
+                    break;
             }
         }
 
