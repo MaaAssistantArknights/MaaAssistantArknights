@@ -360,6 +360,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="EmulatorNotFound">No emulator detected\nPlease make sure the emulator is running\nIf the emulator is started with administrator privileges, please run this software as administrator\nIf still not detected, please set the connection manually</system:String>
     <system:String x:Key="EmulatorTooMany">Too many emulators detected\nPlease shutdown not needed emulators \nor set connection manually</system:String>
     <system:String x:Key="EmulatorStartFailed">Failed to start the emulator\nPlease open this software with administrator privileges \nor start the emulator manually.</system:String>
+    <system:String x:Key="PcClientStartFailed">Failed to start the PC client\nPlease open this software with administrator privileges\nor start the client manually.</system:String>
     <system:String x:Key="SwitchLanguage">Switch Language 🌐</system:String>
     <system:String x:Key="Language">Language</system:String>
     <system:String x:Key="LanguageChangedTip">Language settings have been changed. Some content may require a restart to take full effect.</system:String>
@@ -548,6 +549,8 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="StartupAutoRunCountdownTaskOnly">About to auto-run tasks. Cancel?</system:String>
     <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">About to start the emulator automatically. Cancel?</system:String>
     <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">About to auto-run tasks and start the emulator. Cancel?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownPcClientOnly">About to start the PC client automatically. Cancel?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndPcClient">About to auto-run tasks and start the PC client. Cancel?</system:String>
     <system:String x:Key="MinimizeAfterLaunch">Auto Minimize after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="StartGameLaunchClient">Launch Client on Start</system:String>
@@ -556,10 +559,18 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunchTip">The emulator is only started once when MAA launches, not every time you click ｢{key=LinkStart}｣.\nIf you need that, check ｢{key=RetryOnDisconnected}｣ instead</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunch">Start PC client after MAA launches</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunchTip">The PC client is only started once when MAA launches, not every time you click ｢{key=LinkStart}｣.\nIf you need that, check ｢{key=RetryOnPcDisconnected}｣ instead</system:String>
     <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
+    <system:String x:Key="WaitForPcClient">PC client startup delay (s)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">End of wait</system:String>
     <system:String x:Key="EmulatorPath">Emulator path</system:String>
+    <system:String x:Key="PcClientPath">PC client path</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">You may select the emulator executable (with ｢{key=AdditionCommand}｣ launch parameters to specify the instance), or directly choose the emulator/game shortcut.&#10;If the ｢{key=WakeUp}｣ task fails due to prolonged emulator startup, it's recommended to use the game shortcut and increase ｢{key=WaitForEmulator}｣.</system:String>
+    <system:String x:Key="SelectPcClientTip">Select the PC client executable or shortcut. Extra launch parameters can be supplied through ｢{key=AdditionCommand}｣.</system:String>
+    <system:String x:Key="PcClientPathEmptyError">The PC client path is empty. Select the client executable first.</system:String>
+    <system:String x:Key="PcClientPathNotExist">The PC client path does not exist</system:String>
+    <system:String x:Key="PcClientPathEmptyWarning">The PC client path is empty. Auto-start and connection retry have been disabled</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">Do you also want to order a bar in a bar?</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">Okay, I will choose again</system:String>
@@ -827,6 +838,9 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="RetryOnDisconnected">Retry launching the emulator when ADB connection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after failed reconnect attempt, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">Emulator path is empty! Please fill in ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ and reselect.</system:String>
+    <system:String x:Key="RetryOnPcDisconnected">Start the PC client when its connection fails</system:String>
+    <system:String x:Key="RetryOnPcDisconnectedTip">Start the PC client after a window connection failure, then try connecting again</system:String>
+    <system:String x:Key="RetryOnPcDisconnectedPathEmptyError">PC client path is empty! Please fill in ｢{key=Settings} - {key=StartupSettings} - {key=PcClientPath}｣ and reselect.</system:String>
     <system:String x:Key="AllowAdbRestart">Attempt to restart ADB Server after connection failure</system:String>
     <system:String x:Key="AllowAdbHardRestart">Attempt to kill and restart ADB process after connection failure</system:String>
     <!--  !Settings  -->
@@ -1713,6 +1727,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
+    <system:String x:Key="TryToStartPcClient">Trying to start the PC client</system:String>
     <system:String x:Key="RestartAdb">Trying to restart the ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">Trying to kill and restart the ADB process</system:String>
     <system:String x:Key="CheckSettings">Please ｢Check connection settings｣ → ｢Try restarting the emulator and ADB｣ → ｢Restart the computer｣</system:String>
