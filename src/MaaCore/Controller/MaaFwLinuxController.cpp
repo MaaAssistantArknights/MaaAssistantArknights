@@ -75,6 +75,16 @@ bool asst::MaaFwLinuxController::click(const Point& p)
            inject_input_event(InputEvent { .type = TOUCH_UP, .point = { p.x, p.y } }) && park_cursor();
 }
 
+bool asst::MaaFwLinuxController::input(const std::string& text)
+{
+    if (!m_unit) {
+        Log.error("Control unit not initialized");
+        return false;
+    }
+
+    return m_unit->input_text(text);
+}
+
 bool asst::MaaFwLinuxController::swipe(
     const Point& p1,
     const Point& p2,
