@@ -1,10 +1,10 @@
-#include "MaaFwWlrController.h"
+#include "MaaFwLinuxController.h"
 #include "Config/GeneralConfig.h"
 #include "Controller/SwipeHelper.hpp"
 
 #ifdef __linux__
 
-bool asst::MaaFwWlrController::connect(
+bool asst::MaaFwLinuxController::connect(
     const std::string& adb_path [[maybe_unused]],
     const std::string& address [[maybe_unused]],
     const std::string& config)
@@ -37,13 +37,13 @@ bool asst::MaaFwWlrController::connect(
     return screencap(dummy);
 }
 
-const std::string& asst::MaaFwWlrController::get_uuid() const
+const std::string& asst::MaaFwLinuxController::get_uuid() const
 {
-    const static std::string uuid("MaaFwWlrControllerUUID");
+    const static std::string uuid("MaaFwLinuxControllerUUID");
     return uuid;
 }
 
-bool asst::MaaFwWlrController::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
+bool asst::MaaFwLinuxController::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
 {
     if (!m_unit) {
         Log.error("Control unit not initialized");
@@ -60,7 +60,7 @@ bool asst::MaaFwWlrController::screencap(cv::Mat& image_payload, bool allow_reco
     return true;
 }
 
-bool asst::MaaFwWlrController::click(const Point& p)
+bool asst::MaaFwLinuxController::click(const Point& p)
 {
     using enum InputEvent::Type;
     return inject_input_event(InputEvent { .type = TOUCH_DOWN, .point = { p.x, p.y } }) &&
@@ -68,7 +68,7 @@ bool asst::MaaFwWlrController::click(const Point& p)
            inject_input_event(InputEvent { .type = TOUCH_UP, .point = { p.x, p.y } }) && park_cursor();
 }
 
-bool asst::MaaFwWlrController::swipe(
+bool asst::MaaFwLinuxController::swipe(
     const Point& p1,
     const Point& p2,
     int duration,
@@ -139,7 +139,7 @@ bool asst::MaaFwWlrController::swipe(
     return inject_input_event(InputEvent { .type = TOUCH_UP, .point = { x2, y2 } }) && park_cursor();
 }
 
-bool asst::MaaFwWlrController::inject_input_event(const InputEvent& event)
+bool asst::MaaFwLinuxController::inject_input_event(const InputEvent& event)
 {
     if (!m_unit) {
         Log.error("Control unit not initialized");
@@ -172,7 +172,7 @@ bool asst::MaaFwWlrController::inject_input_event(const InputEvent& event)
     }
 }
 
-bool asst::MaaFwWlrController::press_esc()
+bool asst::MaaFwLinuxController::press_esc()
 {
     static constexpr int KEY_ESC = 1;
 
