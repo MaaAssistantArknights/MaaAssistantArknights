@@ -17,7 +17,7 @@ Please note that JSON files do not support comments. The comments in this docume
 
 ## Task Retrieval Endpoint
 
-MAA continuously polls this endpoint at 1-second intervals, attempting to retrieve tasks to execute and executing them in the order received.
+MAA continuously polls this endpoint at a fixed interval (1 second by default, adjustable in the settings), attempting to retrieve tasks to execute and executing them in the order received.
 
 The endpoint path is arbitrary but must be an HTTP(S) endpoint. For example: `https://your-control-host.net/maa/getTask`
 
@@ -112,7 +112,7 @@ This endpoint must accept a POST request with `Content-Type=application/json` an
 }
 ```
 
-This endpoint's response content is arbitrary, but if not returning 200 OK, a notification will appear in MAA displaying "Upload failed"
+The response content of this endpoint is arbitrary; MAA does not read it and does not check the status code. When a report request fails, MAA only logs the error.
 
 ## Example Workflow - Controlling MAA with QQ Bot
 

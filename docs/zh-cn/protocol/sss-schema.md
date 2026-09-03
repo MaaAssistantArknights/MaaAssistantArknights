@@ -44,8 +44,24 @@ icon: game-icons:prisoner
             "skill_usage": 1
         }
     ],
+    "groups": [
+        // 干员编组，可选，用法同 copilot 协议中的 groups，actions 中的 name 可以填编组名
+        {
+            "name": "地面阻挡",
+            "opers": [
+                {
+                    "name": "棘刺",
+                    "skill": 3
+                },
+                {
+                    "name": "泥岩",
+                    "skill": 2
+                }
+            ]
+        }
+    ],
     "tool_men": {
-        // 剩余所需各职业人数，按费用排序随便拿，可选
+        // 剩余所需各职业人数，按费用排序随便拿，必选
         // 当前版本暂未实现，只会在界面上显示一下
         "Pioneer": 13,
         "近卫": 2, // 中英文均可
@@ -128,7 +144,7 @@ icon: game-icons:prisoner
                     "direction": "Left"
                 }
             ],
-            "draw_as_possible": true, // “调配干员”按钮，是否好了就用，可选，默认 true
+            "draw_as_possible": true, // “调配干员”按钮，是否好了就用，必选
             "actions": [
                 // 可选
                 // 基本复用抄作业的逻辑，可参考 protocol/copilot-schema.md
@@ -154,7 +170,7 @@ icon: game-icons:prisoner
                     "name": "桃金娘"
                 }
             ],
-            "retry_times": 3 // 战斗失败重试次数，超过了直接放弃整局
+            "retry_times": 3 // 战斗失败重试次数，可选，默认为 0，超过了直接放弃整局
         },
         {
             "stage_name": "见者有份"

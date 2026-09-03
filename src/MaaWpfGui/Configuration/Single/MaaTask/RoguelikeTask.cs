@@ -27,7 +27,7 @@ public class RoguelikeTask : BaseTask
     /// <summary>
     /// Gets or sets 肉鸽主题
     /// </summary>
-    public RoguelikeTheme Theme { get; set; } = RoguelikeTheme.JieGarden;
+    public RoguelikeTheme Theme { get; set; } = RoguelikeTheme.Phantom;
 
     public int Difficulty { get; set; } = int.MaxValue;
 

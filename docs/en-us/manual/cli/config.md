@@ -259,7 +259,7 @@ alternatives = [
     "SL-7", # will be displayed as "1. SL-7"
     { value = "SL-8", desc = "Manganese Ore" } # will be displayed as "2. SL-8 (Manganese Ore)"
 ]
-default_index = 1 # the index of default value, start from 1, if not given, empty input will re-prompt
+default_index = 1 # the index of default value, start from 1, if not given, the first alternative is used as the default
 description = "a stage to fight in summer event" # description of the input, optional
 allow_custom = true # whether to allow custom value input, default is false; if true, non-integer inputs are treated as custom values
 
@@ -287,7 +287,7 @@ description = "medicine to use"
 ```
 
 For an `Input` type, a prompt will be shown to ask the user to input a value. If a default value is given, it will be used when the user inputs an empty value; otherwise, it will re-prompt.
-For a `Select` type, a prompt will be shown to ask the user to input an index or custom value (if `allow_custom` is `true`). If a default index is given, it will be used when the user inputs an empty value; otherwise, it will re-prompt.
+For a `Select` type, a prompt will be shown to ask the user to input an index or custom value (if `allow_custom` is `true`). If the user inputs an empty value, the default value will be used.
 
 The `--batch` option can be used to run tasks in batch mode, which will use default values for all inputs and error if no default value is given.
 
@@ -301,7 +301,7 @@ The currently available configurations are:
 [connection]
 preset = "MuMuPro"
 adb_path = "adb"
-device = "emulator-5554"
+address = "emulator-5554"
 config = "CompatMac"
 
 [resource]
@@ -342,7 +342,7 @@ adb_path = "/path/to/adb" # Override the preset's adb path if needed (optional)
 address = "127.0.0.1:7777" # Override the preset's address if needed (optional)
 ```
 
-Currently only `MuMuPro` preset is available. Issues and PRs for more presets are welcome.
+Currently there are two built-in emulator presets, `MuMuPro` and `Androws`. The `Androws` preset targets the Tencent Androws emulator on Windows; it automatically detects the emulator's bundled `adb` from the registry, and the default connection address is `127.0.0.1:5555`. Issues and PRs for more presets are welcome.
 
 #### Special Presets
 
@@ -381,7 +381,7 @@ The `instance_options` section configures MaaCore instance options:
 
 ```toml
 [instance_options]
-touch_mode = "ADB" # Touch mode: "ADB", "MiniTouch", "MaaTouch", or "MacPlayTools"
+touch_mode = "ADB" # Touch mode: "ADB", "MiniTouch", "MaaTouch", "MacPlayTools", or "MaaFwAdb"
 deployment_with_pause = false # Whether to pause game during deployment
 adb_lite_enabled = false # Whether to use adb-lite
 kill_adb_on_exit = false # Whether to kill adb on exit
@@ -399,7 +399,7 @@ CLI-related configurations should be in `$MAA_CONFIG_DIR/cli.toml`. Current conf
 channel = "Stable" # Update channel: "Alpha", "Beta", or "Stable" (default)
 test_time = 0 # Time to test mirror speeds in seconds; 0 to skip, default is 3
 # API URL to query latest MaaCore version; leave empty for default
-api_url = "https://github.com/MaaAssistantArknights/MaaRelease/raw/main/MaaAssistantArknights/api/version/"
+api_url = "https://api.maa.plus/MaaAssistantArknights/api/version/"
 
 # Component installation config (not recommended to change)
 [core.components]
@@ -425,7 +425,7 @@ backend = "libgit2" # Hot update backend: "git" or "libgit2"
 
 # Remote repository configuration
 [resource.remote]
-branch = "main" # Branch of remote repository
+branch = "main" # Branch of remote repository; if not set, the default branch of the remote repository is used
 # Repository URL; leave empty for default
 # GitHub repositories support both HTTPS and SSH; HTTPS recommended
 url = "https://github.com/MaaAssistantArknights/MaaResource.git"

@@ -39,7 +39,7 @@ icon: iconoir:developer
 
 1. かなり前にフォークした場合は、まず自分のリポジトリの `Settings` の一番下で削除します
 2. [MAA メインリポジトリ](https://github.com/MaaAssistantArknights/MaaAssistantArknights)を開き、`Fork` → `Create fork` をクリック
-3. 自身のリポジトリの dev-v2 ブランチをクローン（サブモジュール含む）
+3. 自身のリポジトリの `dev-v2` ブランチをクローン（サブモジュール含む）
 
    ```bash
    git clone --recurse-submodules <リポジトリの git リンク> -b dev-v2 --single-branch

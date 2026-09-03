@@ -44,8 +44,24 @@ Please note that JSON files do not support comments. The comments in this docume
             "skill_usage": 1
         }
     ],
+    "groups": [
+        // Operator groups, optional, used the same way as groups in the copilot protocol; the name in actions can be a group name
+        {
+            "name": "地面阻挡",
+            "opers": [
+                {
+                    "name": "棘刺",
+                    "skill": 3
+                },
+                {
+                    "name": "泥岩",
+                    "skill": 2
+                }
+            ]
+        }
+    ],
     "tool_men": {
-        // Remaining required operators by profession, picked by cost, optional
+        // Remaining required operators by profession, picked by cost, required
         // Not implemented in current version, only displayed in interface
         "Pioneer": 13,
         "近卫": 2, // Both Chinese and English supported ("近卫" = "Guard")
@@ -128,7 +144,7 @@ Please note that JSON files do not support comments. The comments in this docume
                     "direction": "Left"
                 }
             ],
-            "draw_as_possible": true, // "Deploy Operator" button, whether to use when ready, optional, default true
+            "draw_as_possible": true, // "Deploy Operator" button, whether to use when ready, required
             "actions": [
                 // Optional
                 // Reuses copywriting logic, refer to protocol/copilot-schema.md
@@ -154,7 +170,7 @@ Please note that JSON files do not support comments. The comments in this docume
                     "name": "桃金娘" // ("桃金娘" = "Myrtle")
                 }
             ],
-            "retry_times": 3 // Battle failure retry count, abandons entire run if exceeded
+            "retry_times": 3 // Battle failure retry count, optional, default is 0, abandons entire run if exceeded
         },
         {
             "stage_name": "见者有份" // ("见者有份" = "Share the Spoils")

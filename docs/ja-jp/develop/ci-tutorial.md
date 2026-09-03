@@ -43,7 +43,7 @@ MAA は GitHub Action を活用して、ウェブサイトの構築、自動リ�
 
 このワークフローは、コードの完全なビルド作業を担当し、MAA のすべてのコンポーネントを含み、ビルド成果物は実行可能な MAA です。
 
-必要な MaaCore に加えて、Windows ビルド成果物には MaaWpfGui が含まれ、MacOS ビルド成果物には MaaMacGui が含まれ、Linux ビルド成果物には MaaCLI が含まれ、さらに Android 版の MaaCore もビルドされます。
+必要な MaaCore に加えて、Windows ビルド成果物には MaaWpfGui が含まれ、MacOS ビルド成果物には MaaMacGui が含まれ、Linux ビルド成果物には maa-cli が含まれ、さらに Android 版の MaaCore もビルドされます。
 
 このワークフローは、ソースコードやビルドスクリプトに触れる `dev-v2` ブランチへの新しいコミット、および PR で自動的に実行されます。バージョンタグ（リリース PR のマージ後に `pr-auto-tag.yml` が作成）によってトリガーされた場合、このビルド成果物は直接リリースに使用され、Release が作成されます。
 
@@ -106,13 +106,13 @@ MAA は GitHub Action を活用して、ウェブサイトの構築、自動リ�
 
 `stale.yml`
 
-90 日以上活動のない Bug Issue をチェックし、マークして通知を送信し、7 日後もまだ活動がない場合は閉じます。
+90 日以上活動のない Issue をチェックし（Pull Request を除く。`keep-open`、`MAA Team`、`enhancement` タグが付いた Issue は対象外）、マークして通知を送信し、7 日後もまだ活動がない場合は閉じます。
 
 ### Pull Requests 管理
 
 `pr-checker.yml`
 
-このワークフローは、PR の Commit Message が [Conventional Commits](https://www.conventionalcommits.org/ja/v1.0.0/) に準拠しているか、および Merge Commit が含まれているかどうかをチェックし、上記の条件が満たされている場合は警告を出します。
+このワークフローは、PR の Commit Message が [Conventional Commits](https://www.conventionalcommits.org/ja/v1.0.0/) に準拠しているか、および Merge Commit が含まれているかどうかをチェックし、要件を満たしていないコミットがある場合はコメントで警告するとともに、そのチェックを失敗させます。
 
 ### MirrorChyan 関連
 

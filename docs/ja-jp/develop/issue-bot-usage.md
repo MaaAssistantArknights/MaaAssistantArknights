@@ -17,7 +17,7 @@ Commitizenの仕様でコミットしていない場合、マージリクエス�
 
 ### 自動通知
 
-- `module`, `Client`, `ambiguous`, `translation required`などのラベルを Issue および Pull Request に追加します。  
+- `module`, `client`, `ambiguous`, `translation required`などのラベルを Issue および Pull Request に追加します。  
   Issue Botは、キーワードを元にカテゴリーを追加します。  
   キーワードは[設定ファイル][issue-checker]を確認して下さい。
 - 作成者が可視性がパブリックに設定されている MAA メンバーであるの Issue と Pull Request の場合、`MAA Team`ラベルを追加しました。
@@ -30,8 +30,8 @@ Commitizenの仕様でコミットしていない場合、マージリクエス�
 
 Issue Botは Pull Request のタイトルをチェックします。タイトルが以下のキーワードで始まっていない限り、 Pull Request は `ambiguous` としてマークされます。
 
-- `build` `chore` `ci` `doc` `docs` `feat` `fix` `perf` `refactor` `rfc` `style` `test`
-- `Merge` `merge` `Revert` `revert`
+- `build` `chore` `ci` `doc` `docs` `feat` `fix` `perf` `refactor` `rft` `style` `test` `i18n` `typo` `debug`
+- `Revert` `revert` `Release` `release`
 
 ### 手動でトリガーを発動させる
 
@@ -58,15 +58,9 @@ Issue Botは Pull Request のタイトルをチェックします。タイトル
 - **あなたのコメントが Issue Bot を混乱させる可能性がある場合、下記の `skip` コマンドを追加できます。**
 
 ::: info 注意
-ここの `COMMIT_HASH` は 40 文字の完全なハッシュです。
+ここの `COMMIT_HASH` は 8～40 文字を指定でき、40 文字の完全なハッシュである必要はありません。
 :::
 
 #### Push
 
-Push 中でも Commit 可能です:
-
-- `fixed` ラベルは、コミットメッセージに以下のいずれかが含まれている場合に追加されます:
-  - `fix #{ISSUE_NUMBER}`
-  - `close #{ISSUE_NUMBER}`
-  - `fix https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/{ISSUE_NUMBER}`
-  - `close https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/{ISSUE_NUMBER}`
+Issue Bot は Push イベントを処理しません。commit message に `fix #{ISSUE_NUMBER}`、`close #{ISSUE_NUMBER}` などのクローズキーワードを含めておけば、コミットがデフォルトブランチにマージされた後、GitHub が自動的に対応する Issue を閉じますが、`fixed` ラベルは追加されません。

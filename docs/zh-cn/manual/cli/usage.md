@@ -55,7 +55,8 @@ maa init
 - `maa fight [stage]`: 运行战斗任务，`[stage]` 是关卡名称，例如 `1-7`；留空选择上次或者当前关卡。
 - `maa copilot <maa_uri>...`: 自动抄作业，其中 `<maa_uri>` 是作业的 URI，多个 URI 会依次执行，`maa_uri` 可以是 `maa://1234` 或者 本地文件路径 `./1234.json`。
 - `maa sscopilot <maa_uri>`: 自动保全派驻，其中 `<maa_uri>` 是保全派驻作业的 URI。
-- `maa roguelike <theme>`: 自动集成战略，`<theme>` 是集成战略的主题，可选值为 `Phantom`，`Mizuki`，`Sami`，`Sarkaz` 以及 `JieGarden`.
+- `maa paradoxcopilot <maa_uri>...`: 自动悖论模拟，其中 `<maa_uri>` 是悖论模拟作业的 URI，多个 URI 会依次执行。
+- `maa roguelike <theme>`: 自动集成战略，`<theme>` 是集成战略的主题，可选值为 `Phantom`，`Mizuki`，`Sami`，`Sarkaz` 以及 `JieGarden`。
 - `maa reclamation <theme>`: 自动生息演算，`<theme>` 是生息演算的主题，目前仅 `Tales` 主题可用。
 
 上述任务接受一些参数，你可以通过 `maa <task> --help` 来查看具体的参数。
@@ -95,6 +96,8 @@ maa-cli 默认会向标准误 (stderr) 输出日志。`--log-file` 选项可以�
 除了上述的命令外，maa-cli 还提供了其他一些子命令：
 
 - `maa list`: 列出所有可用的任务；
+- `maa hot-update`: 手动更新热更新资源，基础资源仍需随 MaaCore 一起安装；
+- `maa remainder <divisor>`: 获取当天在 `DayMod` 条件中使用的偏移量，`--timezone` 选项可以指定时区；
 - `maa dir <dir>`: 获取特定目录的路径，比如 `maa dir config` 可以用来获取配置目录的路径;
 - `maa version`: 获取 `maa-cli` 以及 `MaaCore` 的版本信息；
 - `maa convert <input> [output]`: 将 `JSON`，`YAML` 或者 `TOML` 格式的文件转换为其他格式;

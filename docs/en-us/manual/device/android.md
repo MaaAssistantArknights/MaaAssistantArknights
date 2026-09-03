@@ -143,7 +143,7 @@ It is strongly recommended to revert these changes **before the next device rebo
 2. Rename the first file to `startup.bat` and the second to `finish.bat`.
    - If no confirmation dialog appears when changing the extension and the file icon doesn't change, search for "How to show file extensions in Windows."
 
-3. In MAA's `Settings` - `Connection Settings`, set `Start Script` to `startup.bat` and `End Script` to `finish.bat`.
+3. In MAA's `Settings` - `Game Settings`, set `Start Script` to `startup.bat` and `End Script` to `finish.bat`.
 
 :::
 

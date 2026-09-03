@@ -57,6 +57,7 @@ MaaCore のインストールと設定が完了したら、タスクを実行で
 - `maa fight [stage]`: 戦闘タスクを実行します。`[stage]` はステージ名（例：`1-7`）で、空欄の場合は前回または現在のステージが選択されます。
 - `maa copilot <maa_uri>...`: 作業を自動実行します。`<maa_uri>` は作業の URI で、複数の URI は順番に実行されます。`maa_uri` には `maa://1234` またはローカルファイルパス `./1234.json` を指定できます。
 - `maa sscopilot <maa_uri>`: 保全駐在を自動実行します。`<maa_uri>` は保全駐在作業の URI です。
+- `maa paradoxcopilot <maa_uri>...`: 逆理演算を自動実行します。`<maa_uri>` は逆理演算の作業 URI で、複数の URI は順番に実行されます。
 - `maa roguelike <theme>`: 自動ローグを実行します。`<theme>` はローグのテーマで、`Phantom`、`Mizuki`、`Sami`、`Sarkaz`、`JieGarden` から選択できます。
 - `maa reclamation <theme>`: 生息演算を自動実行します。`<theme>` は生息演算のテーマで、現在は `Tales` テーマのみ利用可能です。
 
@@ -96,6 +97,8 @@ maa-cli はデフォルトで標準エラー出力（stderr）にログを出力
 上記のコマンドのほか、maa-cli には次のサブコマンドもあります：
 
 - `maa list`: 利用可能なすべてのタスクを一覧表示します。
+- `maa hot-update`: ホットアップデートリソースを手動で更新します。基本リソースは引き続き MaaCore と一緒にインストールする必要があります。
+- `maa remainder <divisor>`: 当日の `DayMod` 条件で使用するオフセット値を取得します。`--timezone` オプションでタイムゾーンを指定できます。
 - `maa dir <dir>`: 特定のディレクトリのパスを取得します。たとえば `maa dir config` で設定ディレクトリのパスを取得できます。
 - `maa version`: `maa-cli` と `MaaCore` のバージョン情報を取得します。
 - `maa convert <input> [output]`: `JSON`、`YAML`、`TOML` 形式のファイルを他の形式に変換します。

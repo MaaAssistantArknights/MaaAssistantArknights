@@ -5,7 +5,7 @@ icon: solar:streets-map-point-linear
 
 # Reclamation Algorithm
 
-Currently, support for Reclamation Algorithm is still in early stages and unattended operation is not recommended, as stability cannot be guaranteed at this time.
+Currently, support for Reclamation Algorithm is still in a midway stage and unattended operation is not recommended, as stability cannot be guaranteed at this time.
 
 ## Tales Within the Sand
 
