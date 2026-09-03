@@ -133,11 +133,20 @@
         "action": "DoNothing",
         "text": ["请部署", "罗德岛", "采集基站"],
         "roi": [520, 54, 247, 38],
+        "sub": ["RelaunchAnchor@RA@RA1-AlignMap2"],
+        "next": ["RelaunchAnchor@RA@RA1-DeployGatheringBaseSwipe"],
+        "subErrorIgnored": true
+    },
+    "RelaunchAnchor@RA@RA1-InitAlignMap": {
+        "doc": "步骤 9：对齐地图",
+        "algorithm": "JustReturn",
         "sub": ["RelaunchAnchor@RA@RA1-AlignMap*2"],
-        "next": ["RelaunchAnchor@RA@RA1-DeployGatheringBaseSwipe"]
+        "next": ["RelaunchAnchor@RA@DeployGatheringBaseSwipe"],
+        "maxTimes": 1,
+        "exceededNext": ["RelaunchAnchor@RA@DeployGatheringBaseSwipe"]
     },
     "RelaunchAnchor@RA@RA1-AlignMap": {
-        "doc": "步骤 9：JustReturn Swipe，对齐地图",
+        "doc": "步骤 9/12：JustReturn Swipe，对齐地图",
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [120, 580, 1, 1],
@@ -152,6 +161,7 @@
         "rectMove": [955, 300, 1, 1],
         "specialParams": [500, 0, 3, 0],
         "postDelay": 1000,
+        "maxTimes": 5,
         "next": ["RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt", "RelaunchAnchor@RA@RA1-WaitDoubleSpeed"]
     },
     "RelaunchAnchor@RA@RA1-WaitDoubleSpeed": {
@@ -164,7 +174,6 @@
         "template": "RelaunchAnchor@RA@DoubleSpeed.png",
         "action": "ClickSelf",
         "roi": [1060, 20, 80, 70],
-        "maskRange": [220, 255],
         "next": ["#self", "RelaunchAnchor@RA@RA1-DeployGatheringBaseWait"]
     },
     "RelaunchAnchor@RA@RA1-DeployGatheringBaseWait": {
@@ -624,11 +633,19 @@
     "RelaunchAnchor@RA@RA4-DeployGatheringBasePrompt": {
         "baseTask": "RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt",
         "doc": "步骤 9：OCR 等待 <请部署罗德岛采集基站>",
+        "sub": ["RelaunchAnchor@RA@RA4-InitAlignMap*2"],
+        "next": ["RelaunchAnchor@RA@RA4-InitAlignMap"],
+        "subErrorIgnored": true
+    },
+    "RelaunchAnchor@RA@RA4-InitAlignMap": {
+        "doc": "步骤 10：对齐地图（只跑一次）",
+        "baseTask": "RelaunchAnchor@RA@RA1-InitAlignMap",
         "sub": ["RelaunchAnchor@RA@RA4-AlignMap*2"],
-        "next": ["RelaunchAnchor@RA@RA4-DeployGatheringBaseSwipe"]
+        "next": ["RelaunchAnchor@RA@RA4-DeployGatheringBaseSwipe"],
+        "exceededNext": ["RelaunchAnchor@RA@RA4-DeployGatheringBaseSwipe"]
     },
     "RelaunchAnchor@RA@RA4-AlignMap": {
-        "doc": "步骤 10：JustReturn Swipe，对齐地图",
+        "doc": "步骤 10.1：JustReturn Swipe，对齐地图",
         "baseTask": "RelaunchAnchor@RA@RA1-AlignMap",
         "specificRect": [433, 123, 1, 1],
         "rectMove": [749, 520, 1, 1]
@@ -638,7 +655,8 @@
         "doc": "步骤 11：JustReturn Swipe，占位部署采集基站",
         "specificRect": [430, 630, 1, 1],
         "rectMove": [750, 340, 1, 1],
-        "next": ["RelaunchAnchor@RA@RA4-WaitDoubleSpeed"]
+        "maxTimes": 5,
+        "next": ["RelaunchAnchor@RA@RA4-DeployGatheringBasePrompt", "RelaunchAnchor@RA@RA4-WaitDoubleSpeed"]
     },
     "RelaunchAnchor@RA@RA4-WaitDoubleSpeed": {
         "doc": "步骤 12 前等待二倍速提示出现",
@@ -650,7 +668,6 @@
         "algorithm": "MatchTemplate",
         "template": "RelaunchAnchor@RA@DoubleSpeed.png",
         "roi": [1060, 20, 80, 70],
-        "maskRange": [220, 255],
         "action": "ClickSelf",
         "preDelay": 500,
         "next": ["RelaunchAnchor@RA@RA4-ClickStone"]
@@ -1326,7 +1343,9 @@
         "action": "DoNothing",
         "postDelay": 1000,
         "sub": ["RelaunchAnchor@RA@RA15-AlignMap2*2"],
-        "next": ["RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe"]
+        "next": ["RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe"],
+        "maxTimes": 1,
+        "exceededNext": ["RelaunchAnchor@RA@RA15-DeployGatheringBaseSwipe"]
     },
     "RelaunchAnchor@RA@RA15-AlignMap2": {
         "doc": "步骤 17.2：JustReturn 的 Swipe，对齐地图",
@@ -1345,6 +1364,7 @@
         "rectMove": [495, 414, 1, 1],
         "specialParams": [1000, 0, 3, 0],
         "postDelay": 4000,
+        "maxTimes": 5,
         "next": ["RelaunchAnchor@RA@RA15-AlignMapCheck", "RelaunchAnchor@RA@RA15-WaitDoubleSpeed"]
     },
     "RelaunchAnchor@RA@RA15-WaitDoubleSpeed": {
@@ -1357,7 +1377,6 @@
         "template": "RelaunchAnchor@RA@DoubleSpeed.png",
         "action": "ClickSelf",
         "roi": [1060, 20, 80, 70],
-        "maskRange": [220, 255],
         "next": ["#self", "RelaunchAnchor@RA@RA15-WaitCost"]
     },
     "RelaunchAnchor@RA@RA15-WaitCost": {
