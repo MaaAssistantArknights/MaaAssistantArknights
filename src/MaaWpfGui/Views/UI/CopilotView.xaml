@@ -499,7 +499,7 @@
                                     <Setter Property="Background" Value="Transparent" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsRaid}" Value="True">
-                                            <Setter Property="Background" Value="#33FF0000" />
+                                            <Setter Property="Background" Value="{DynamicResource Copilot.RaidBrush}" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

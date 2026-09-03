@@ -86,6 +86,8 @@
     <SolidColorBrush x:Key="TaskQueue.TaskItemStatus.Completed" Color="#2090EE90" />
     <SolidColorBrush x:Key="TaskQueue.TaskItemStatus.Error" Color="#20FF4444" />
 
+    <SolidColorBrush x:Key="Copilot.RaidBrush" Color="#33FF0000" />
+
     <SolidColorBrush x:Key="Star1OperatorLogBrush" Color="#E6E6E6" />
     <SolidColorBrush x:Key="Star1OperatorLogBrushPotentialFull" Color="#66E6E6E6" />
     <SolidColorBrush x:Key="Star2OperatorLogBrush" Color="#88BB44" />
