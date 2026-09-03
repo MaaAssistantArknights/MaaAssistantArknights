@@ -247,6 +247,7 @@ For example: Operator `焰影苇草` (Reed the Flame Shadow) may appear in both 
                {
                    "name": "百炼嘉维尔",                      // Operator name ("百炼嘉维尔" = "Gavial the Invincible", the first position in the group indicates that
                                                              // when it is necessary to deploy a ground blocking group, the first thing to check is whether it is Gavial Alter or not.)
+                   "role": "Warrior",                        // Operator role, optional. Used to distinguish operators with the same name; English role names should be used, case-insensitive
                    "skill": 3,                               // Which skill to use (In this case skill 3)
                    "skill_usage": 2,                         // Skill usage mode, refer to Combat Operation Protocol, difference is default is 1 if empty
                                                              // (0 is don't use automatically, 1 is use when ready, 2 is use x times (x is set by "skill_times" field), 3 is not supported for now)
@@ -267,6 +268,7 @@ For example: Operator `焰影苇草` (Reed the Flame Shadow) may appear in both 
                                                              // If the lineup completeness test is not passed, only key and 0 hope are recruited, saving hope.
                    "is_start": true,                         // If true, the operator is a starter. Default to false if empty. If there is no start player in the team,
                                                              // only start players and 0 hope players will be recruited, and user-filled players will be recruited.
+                   "is_alternate": false,                    // true means a backup operator (can be recruited repeatedly; when swiping to a backup operator, no further swiping to the right), false or omitted means a normal operator
                    "auto_retreat": 0,                        // Auto-retreat after a few full-seconds of deployment, takes effect when greater than 0, mainly used for specialists and vanguards,
                                                              // since I.S. usually starts at 2x speed, it is recommended to set it to skill duration divided by 2
                    "recruit_priority_when_team_full": 850,   // No need to set separately, recruitment priority when lineup completeness is met, default is recruitment priority -100
@@ -284,6 +286,12 @@ For example: Operator `焰影苇草` (Reed the Flame Shadow) may appear in both 
                            "offset": -300                    // Adjustments to recruitment priorities after fulfillment. Default to 0 if empty.
                                                              // (This means that when there are 2 or more operators from Kal'tsit, Ground Blocking, and Thorns groups,
                                                              // Gavial the Invincible's recruitment priority is reduced by 300)
+                       }
+                   ],
+                   "collection_priority_offsets": [          // Adjust recruitment priority based on currently owned collectibles
+                       {
+                           "collection": "古旧的钱币",        // Collectible name ("古旧的钱币" = "Antique Coin")
+                           "offset": 100                     // Adjustment to recruitment priority after obtaining this collectible, default to 0 if omitted
                        }
                    ]
                },
@@ -583,6 +591,7 @@ The Encounter options can be modified to guide MAA towards special endings
 ```json
 {
     "theme": "Sami",                              // I.S. Theme
+    "mode": [1, 4],                               // Restrict which modes this file takes effect in; optional; applies to all modes if omitted
     "stage": [                                    // Encounter event
         {
             "name": "低地市集",                    // Name of the Encounter ("低地市集" = "Lowland Market")
@@ -590,24 +599,28 @@ The Encounter options can be modified to guide MAA towards special endings
             "choose": 3,                          // Which option should you choose first (the third one is preferred here)
                                                   // If you can't choose it, choose the escape option (basically the last one)
 
-            "choices": [                          // Requirements for selecting options
-                                                  // (it does not affect program operation for the time being
-                                                  // only marking applicable situations for easy modification)
+            "choices": [                          // Additional requirements for specific options
                 {
                     "name": "选择碎草药",          // Option name ("选择碎草药" = "Selection of herbs")
-                    "ChaosLevel": {               // Immunity / Light level
-                        "value": "3",             // Required number
-                        "type": ">"               // Is it greater than or less than
-                                                  // (here it means that the Immunity / Light level is greater than 3
-                                                  // only when the option of "Selection of herbs" is activated)
-                    }
+                    "choose": 1,                  // The option index to prefer when the condition below is met; optional; this entry has no effect if omitted
+                    "requirements": [             // Conditions for taking effect, optional
+                        {
+                            "name": "Vision",     // Condition type; currently only Vision (Light value) is supported
+                            "value": "3",         // Required number
+                            "type": ">"           // Greater than or less than (= is also supported; here it means this entry's choose takes effect only when Light is greater than 3)
+                        }
+                    ]
                 },
                 {
                     "name": "选择好看的织物",      // ("选择好看的织物" = "Choosing good-looking fabrics")
-                    "ChaosLevel": {
-                        "value": "3",
-                        "type": ">"
-                    }
+                    "choose": 1,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "value": "3",
+                            "type": ">"
+                        }
+                    ]
                 },
                 ...
 ```
@@ -654,7 +667,7 @@ The Encounter options can be modified to guide MAA towards special endings
             "roles": [                                         // Buy this collectible when you have these classes in your team
                 "WARRIOR"                                      // (This means that if you have a Guard operator in your team
                                                                // you will try to buy a Halberd-Breaker when you encounter it)
-            ],
+            ],                                                 // Only uppercase English role names are supported
             "effect": "所有【近卫】干员的防御力-40%，但攻击力+40%，攻击速度+30", // ("All [Guard] Operators members have -40% Defence, but +40% Attack Power and +30% Attack Speed.")
             "No": 16
         },
@@ -662,7 +675,8 @@ The Encounter options can be modified to guide MAA towards special endings
 
         {
             "name": "Miss.Christine摸摸券",                     // ("Miss.Christine摸摸券" = "Miss.Christine Touch coupon")
-            "promotion": 2,                                   // Purchased when there are 2 operators in the team to be promoted
+            "promotion": 2,                                   // When not 0, purchased only if there are operators awaiting promotion in the team; default is 0, no requirement
+            "promotion_rarity": 6,                            // Upper limit of the rarity of operators awaiting promotion to count; only operators with a rarity lower than this value are counted; optional, default is 6 (i.e., no limit)
             "effect": "立即进阶两个干员（不消耗希望）",           // ("Immediate promote two operators (Does not consume Hope)")
             "No": 15
         },
@@ -675,11 +689,6 @@ The Encounter options can be modified to guide MAA towards special endings
             "decrease_collapse": true                          // true means getting this collectible will reduce collapse value. Will not be purchased when mode is 5
         },
         ...
-
-    "others":                                                  // MAA won't buy these collectibles, like ending collectibles and the crane
-        {
-            "name": "无人起重机"                               // ("无人起重机" = "Unmanned Crane")
-        },
 ```
 
 ## Integrated Strategy Special Mechanisms

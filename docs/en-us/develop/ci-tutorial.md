@@ -43,7 +43,7 @@ Since test cases haven't been updated for a long time, this workflow is now basi
 
 This workflow is responsible for full code building work, including all MAA components. The build artifacts are runnable MAA instances.
 
-In addition to the necessary MaaCore, Windows build artifacts include MaaWpfGui, macOS build artifacts include MaaMacGui, Linux build artifacts include MaaCLI, and the Android version of MaaCore is also built.
+In addition to the necessary MaaCore, Windows build artifacts include MaaWpfGui, macOS build artifacts include MaaMacGui, Linux build artifacts include maa-cli, and the Android version of MaaCore is also built.
 
 This workflow runs automatically on new commits to `dev-v2` that touch source code or build scripts, as well as on PRs. When triggered by a version tag (created by `pr-auto-tag.yml` after the release PR is merged), the build artifacts from this run will be used directly for release and a Release will be created.
 
@@ -107,13 +107,13 @@ If "I have not read carefully" is not checked, all checkboxes are collapsed.
 
 `stale.yml`
 
-Checks Bug Issues that have had no activity for more than 90 days, marks them and sends notifications, then closes them after 7 more days if still inactive.
+Checks Issues that have had no activity for more than 90 days (excluding Pull Requests, and exempting Issues labeled `keep-open`, `MAA Team`, or `enhancement`), marks them and sends notifications, then closes them after 7 more days if still inactive.
 
 ### Pull Requests Management
 
 `pr-checker.yml`
 
-This workflow checks whether commit messages in PRs conform to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and whether they contain merge commits, providing reminders if these conditions are met.
+This workflow checks whether commit messages in PRs conform to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and whether they contain merge commits. If any commit fails to meet the requirements, a comment is posted as a reminder and the check is made to fail.
 
 ### MirrorChyan Related
 

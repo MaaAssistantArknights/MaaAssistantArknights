@@ -150,6 +150,6 @@ If the dragged file is not one of the above update packages (e.g., software pack
 ## Additional Notes
 
 - Tasks on the left side of the main page can be dragged to change their order, as can facilities in the base management settings.
-- All click operations target random positions within buttons, following a Poisson distribution (higher probability at the center, decreasing with distance from center).
+- All click operations target random positions within buttons, following a normal distribution (higher probability at the center, decreasing with distance from center).
 - The core algorithms are developed in C++ with multi-level caching to minimize CPU and memory usage.
 - The software supports automatic updates ✿✿ ヽ(°▽°)ノ ✿. We recommend non-critical users try the beta version, which typically updates faster and has fewer bugs. (What MIUI? (╯‵□′)╯︵┻━┻)

@@ -15,7 +15,7 @@ Your pull request will be marked as `ambiguous` when you are not committing with
 
 ### Auto Notification
 
-- Adds labels to issues and pull requests, e.g., `module`, `Client`, `ambiguous`, `translation required`, etc.
+- Adds labels to issues and pull requests, e.g., `module`, `client`, `ambiguous`, `translation required`, etc.
   Issue Bot will add categories based on keywords.
   Please refer to the [configuration file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/issue-checker.yml) for the keywords.
 - Adds the `MAA Team` label to issues and pull requests for MAA public team members.
@@ -28,8 +28,8 @@ Your pull request will be marked as `ambiguous` when you are not committing with
 
 Issue Bot will check the title of your pull request. Unless the title starts with one of the following keywords, the pull request will be marked as `ambiguous`.
 
-- `build` `chore` `ci` `doc` `docs` `feat` `fix` `perf` `refactor` `rfc` `style` `test`
-- `Merge` `merge` `Revert` `revert` `Reapply` `reapply`
+- `build` `chore` `ci` `doc` `docs` `feat` `fix` `perf` `refactor` `rft` `style` `test` `i18n` `typo` `debug`
+- `Revert` `revert` `Release` `release`
 
 ### Triggering Manually
 
@@ -55,15 +55,9 @@ It is better to trigger Issue Bot with keywords instead of commands listed below
 - **You can add some `skip` operations if your comment may confuse Issue Bot.**
 
 ::: info Note
-<sup>1</sup> The `COMMIT_HASH` here needs to be the full 40 characters
+<sup>1</sup> The `COMMIT_HASH` here can be 8 to 40 characters; it does not have to be the full 40
 :::
 
 #### Push
 
-For any commit in a push:
-
-- `fixed` label will be added if the commit message contains one of the following:
-  - `fix #{ISSUE_NUMBER}`
-  - `close #{ISSUE_NUMBER}`
-  - `fix https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/{ISSUE_NUMBER}`
-  - `close https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/{ISSUE_NUMBER}`
+Issue Bot does not handle push events. If a commit message contains closing keywords such as `fix #{ISSUE_NUMBER}` or `close #{ISSUE_NUMBER}`, GitHub will automatically close the corresponding issue once the commit is merged into the default branch, but the `fixed` label will not be added.

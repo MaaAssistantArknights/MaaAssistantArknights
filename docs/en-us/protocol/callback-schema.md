@@ -12,8 +12,10 @@ Callback messages are rapidly evolving with each version update, so this documen
 ## Callback Function Prototype
 
 ```cpp
-typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom_arg);
+typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json, void* custom_arg);
 ```
+
+Here `AsstMsgId` is an alias of `int32_t`.
 
 ## Parameter Overview
 
@@ -140,7 +142,7 @@ Todo
 ```json
 {
     "uuid": string,             // Device unique ID
-    "what": string,             // Callback type, "Connect" | "Click" | "Screencap" | ...
+    "what": string,             // Callback type, "Connect" | "AttachWindow" | "Click" | "Screencap" | ...
     "async_call_id": int,       // Asynchronous request ID, i.e., return value when calling AsstAsyncXXX
     "details": {
         "ret": bool,            // Actual call return value
@@ -202,6 +204,8 @@ Todo
 
 ### TaskChain Related Messages
 
+`TaskChainError` / `TaskChainStart` / `TaskChainCompleted` / `TaskChainExtraInfo` / `TaskChainStopped` share the following fields:
+
 ```json
 {
     "taskchain": string,            // Current task chain
@@ -209,6 +213,10 @@ Todo
     "uuid": string                  // Device unique ID
 }
 ```
+
+When a task chain is interrupted by an unhandled exception, `TaskChainError` additionally carries a `details` field:
+
+- `error` (string, required): The exception type, one of `OpenCVException` | `OutOfMemory` | `UnhandledException` | `UnknownException`.
 
 ### TaskChainExtraInfo
 
@@ -235,13 +243,17 @@ Todo
   // Corresponding details field example
   {
     "task": "StartButton2", // Task name
-    "action": 512,
+    "action": "ClickSelf", // Action name, e.g. "ClickSelf" | "DoNothing" | "Swipe"
     "exec_times": 1, // Execution times
     "max_times": 999, // Maximum execution times
-    "algorithm": 0
+    "algorithm": "MatchTemplate" // Recognition algorithm name, e.g. "MatchTemplate" | "OcrDetect" | "FeatureMatch" | "JustReturn"
   }
   ```
 
+- `ReportToPenguinStats` / `ReportToYituliu`  
+  Report battle drops to Penguin Statistics / Yituliu big data (a `SubTaskError` is reported back when the upload fails)
+- `StartGameTask`  
+  Failed to open client (config file does not match passed client_type)
 - Todo others
 
 ##### Common `task` Field Values
@@ -250,8 +262,6 @@ Todo
   Start battle
 - `MedicineConfirm`  
   Use sanity potion
-- `ExpiringMedicineConfirm`  
-  Use expiring sanity potion
 - `StoneConfirm`  
   Use Originium Prime
 - `RecruitRefreshConfirm`  
@@ -260,10 +270,6 @@ Todo
   Confirm recruitment
 - `RecruitNowConfirm`  
   Use Expedited Plan
-- `ReportToPenguinStats`  
-  Report to Penguin Statistics
-- `ReportToYituliu`  
-  Report to Yituliu big data
 - `InfrastDormDoubleConfirmButton`  
   Base double confirmation button, appears only when the operator to be assigned is already stationed in another facility (MAA will click confirm automatically), please notify users
 - `StartExplore`  
@@ -290,8 +296,6 @@ Todo
   Integrated Strategy stage: Emergency Combat
 - `StageDreadfulFoe`  
   Integrated Strategy stage: Dreadful Foe
-- `StartGameTask`
-  Failed to open client (config file does not match passed client_type)
 - Todo others
 
 ### SubTaskExtraInfo
@@ -493,11 +497,8 @@ Todo
   }
   ```
 
-- `RecruitSlotCompleted`  
-  Current recruitment slot task completed
-
 - `RecruitError`  
-  Recruitment recognition error
+  Recruitment recognition error. The `details` field is empty; if triggered because the current slot reached its refresh limit, it contains `refresh_limit` (the slot refresh limit).
 
 - `EnterFacility`  
   Base entered facility
@@ -546,17 +547,7 @@ Todo
 - `StageInfoError`  
   Auto combat stage recognition error
 
-- `PenguinId`  
-  Penguin Statistics ID
-
-  ```json
-  // Corresponding details field example
-  {
-      "id": string
-  }
-  ```
-
-- `Depot`  
+- `DepotInfo`  
   Depot recognition result
 
   ```json
@@ -565,13 +556,13 @@ Todo
   "data": "{\"2001\":18000,\"31043\":317}"  // JSON string, format: {"itemId": quantity, ...}
   ```
 
-- `OperBox`  
+- `OperBoxInfo`  
   Operator recognition result
 
   ```json
   // Corresponding details field example
   "done": bool,       // Whether recognition is complete, false means still in progress (data during process)
-  "all_oper": [
+  "all_opers": [
       {
           "id": "char_002_amiya",
           "name": "阿米娅", // "Amiya"

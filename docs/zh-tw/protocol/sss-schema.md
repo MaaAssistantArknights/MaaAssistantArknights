@@ -44,8 +44,24 @@ icon: game-icons:prisoner
             "skill_usage": 1
         }
     ],
+    "groups": [
+        // 幹員編組，選填，用法同 copilot 協議中的 groups，actions 中的 name 可以填編組名
+        {
+            "name": "地面阻擋",
+            "opers": [
+                {
+                    "name": "棘刺",
+                    "skill": 3
+                },
+                {
+                    "name": "泥岩",
+                    "skill": 2
+                }
+            ]
+        }
+    ],
     "tool_men": {
-        // 剩餘所需各職業人數，按費用排序隨便拿，選填
+        // 剩餘所需各職業人數，按費用排序隨便拿，必選
         // 目前版本暫未實現，只會在介面上顯示一下
         "Pioneer": 13,
         "近衛": 2, // 中英文均可
@@ -127,7 +143,7 @@ icon: game-icons:prisoner
                     "direction": "Left"
                 }
             ],
-            "draw_as_possible": true, // 「調配幹員」按鈕，是否好了就用，選填，預設 true
+            "draw_as_possible": true, // 「調配幹員」按鈕，是否好了就用，必選
             "actions": [
                 // 選填
                 // 基本複用抄作業的邏輯，可參考 protocol/copilot-schema.md
@@ -153,7 +169,7 @@ icon: game-icons:prisoner
                     "name": "桃金娘"
                 }
             ],
-            "retry_times": 3 // 戰鬥失敗重試次數，超過次數直接放棄整局
+            "retry_times": 3 // 戰鬥失敗重試次數，選填，預設為 0，超過次數直接放棄整局
         },
         {
             "stage_name": "見者有份"

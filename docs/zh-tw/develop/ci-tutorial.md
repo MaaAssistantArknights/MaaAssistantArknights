@@ -43,7 +43,7 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 本工作流負責對程式碼進行全量建置工作，包含 MAA 的所有組件，建置產物即為可執行的 MAA。
 
-除了必要的 MaaCore 外，Windows 建置產物會包含 MaaWpfGui，macOS 建置產物會包含 MaaMacGui，Linux 建置產物則包含 MaaCLI，此外還會建置 Android 版 MaaCore。
+除了必要的 MaaCore 外，Windows 建置產物會包含 MaaWpfGui，macOS 建置產物會包含 MaaMacGui，Linux 建置產物則包含 maa-cli，此外還會建置 Android 版 MaaCore。
 
 該工作流在 `dev-v2` 分支出現觸碰原始碼或建置腳本的新提交以及 PR 時自動執行。當工作流由版本 tag 觸發時（tag 由發版 PR 合併後 `pr-auto-tag.yml` 建立），本次的建置產物將直接用於發布，並自動建立一個 Release。
 
@@ -106,13 +106,13 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 `stale.yml`
 
-檢查超過 90 天沒有活動的 Bug Issue 並標記通知，若 7 天後仍無活動則自動關閉。
+檢查超過 90 天沒有活動的 Issue（不含 Pull Request，豁免 `keep-open`、`MAA Team`、`enhancement` 標籤的 Issue），將其標記並發起通知，7 天後若還沒有活動則關閉。
 
 ### Pull Requests 管理
 
 `pr-checker.yml`
 
-檢查 PR 中的 Commit Message 是否符合 [約定式提交](https://www.conventionalcommits.org/zh-hans/v1.0.0/)，以及是否包含 Merge Commit，若不符合則會發出提示。
+檢查 PR 中的 Commit Message 是否符合 [約定式提交](https://www.conventionalcommits.org/zh-hans/v1.0.0/)，以及是否包含 Merge Commit，若存在不符合要求的提交，則會發表評論提示，並使該檢查失敗。
 
 ### MirrorChyan 相關
 

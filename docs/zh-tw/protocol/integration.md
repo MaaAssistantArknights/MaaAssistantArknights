@@ -193,6 +193,7 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
   :::  
   ::: field series  
   @type number
+  @default 1
   @optional
   代理倍率，`-1` ~ `10`。
   <br>
@@ -359,7 +360,7 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 ::: field expedite_times  
 @type number
 @optional
-加急次數，僅在 `expedite` 為 `true` 時有效。預設無限次使用（直到 `times` 達到上限）。  
+加急次數，僅在 `expedite` 為 `true` 時有效。當前版本已不生效，加急不受次數限制，直至 `times` 達到上限。  
 :::  
 ::: field skip_robot  
 @type boolean
@@ -582,6 +583,12 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 <Badge type="warning" text="僅在 mode = 10000 時才適用" />  
 :::  
+::: field continue_training  
+@type boolean
+@default false
+@optional
+訓練室是否繼續未完成的專精訓練。  
+:::  
 ::::
 
 <details>
@@ -799,9 +806,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `1` - 刷源石錠：第一層投資完後立即退出。
 <br>
-`2` - <Badge type="danger" text="已棄用" /> 兼顧模式 0 與 1，投資後再退出；若無投資則繼續往後打。
+`2` - <Badge type="danger" text="已移除" /> 原兼顧模式 0 與 1，當前版本傳入會被拒絕。
 <br>
-`3` - 開發中...
+`3` - <Badge type="danger" text="未開放" /> 傳入會被拒絕。
 <br>
 `4` - 凹開局：先在難度 0 下到達第三層後重啟，再到指定難度下凹開局獎勵。若未獲得「熱水壺」或「希望」則回到難度 0 重新開始。在 Phantom 主題下則不切換難度，僅在目前難度下嘗試到達第三層、重開、凹開局。
 <br>
@@ -810,6 +817,10 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 `6` - 刷月度小隊獎勵：除了模式適配外，其餘邏輯同模式 0。
 <br>
 `7` - 刷深入調查獎勵：除了模式適配外，其餘邏輯同模式 0。
+<br>
+`10001` - 快速通過第一層；僅適用於 Sarkaz 主題。
+<br>
+`20001` - 刷常樂節點，第一層進洞，找不到需要的節點就重開；僅適用於 JieGarden 主題，需配合 `find_playTime_target`。
 <br>
 `30001` - 刷襁褓動物；僅適用於 BlackFlow 主題。  
 :::  
@@ -1019,6 +1030,11 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @default swaddled_cat
 @optional
 刷襁褓動物模式的目標。可選值：`swaddled_cat` | `swaddled_feathered_serpent` | `swaddled_dog` | `swaddled_cerberus`；僅在 `blackflow_strategy` 為 `baby_animal` 時使用。  
+:::  
+::: field find_playTime_target  
+@type number
+@optional
+刷常樂節點模式的目標常樂節點。`1` - 令（擲地有聲）；`2` - 黍（種因得果）；`3` - 年（三缺一）。僅在主題為 JieGarden 且模式為 20001 時使用，該模式下必填；不填或其他值會導致任務參數設定失敗。  
 :::  
 ::::
 
@@ -1253,9 +1269,11 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 單一作業 json 檔案路徑。支援絕對或相對路徑。不支援在執行中更改設定。與 `list` 二選一（必填）。  
 :::  
 ::: field list  
-@type array<string>
+@type array`<object>` | array`<string>`
 @required
-作業 json 列表。支援絕對或相對路徑。不支援在執行中更改設定。與 `filename` 二選一（必填）。  
+作業列表。不支援在執行中更改設定。與 `filename` 二選一（必填）。
+<br>
+陣列元素支援兩種形式：物件形式包含 `id`（作業標識，會原樣透傳至 `CopilotListLoadTaskFileSuccess` 回呼）與 `filename`（作業 json 檔案路徑，支援絕對或相對路徑）；也可直接使用作業路徑字串。  
 :::  
 ::::
 
@@ -1362,9 +1380,15 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 :::  
 ::: field tools_to_craft  
 @type array<string>
-@default [&quot;荧光棒&quot;]
+@default []
 @optional
-自動製造的物品清單。建議填寫名稱關鍵字即可。僅 Tales 主題有效。  
+自動製造的物品清單。建議填寫名稱關鍵字即可，留空則不製造。僅 Tales 主題的有存檔模式（mode = 1）有效。  
+:::  
+::: field clear_store  
+@type boolean
+@default false
+@optional
+任務完成後是否購買（清空）商店商品。僅 Tales 主題的無存檔模式（mode = 0）有效。  
 :::  
 ::: field increment_mode  
 @type number
@@ -1470,12 +1494,12 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @required
 任務類型。目前僅支援 `"copilot"`。  
 :::  
-::: field subtask  
+::: field subtype  
 @type string
 @required
 子任務類型。
 <br>
-`stage`：設定關卡名稱，格式為 `"details": { "stage": "xxxx" }`。
+`stage`：設定關卡名稱，格式為 `"details": { "stage_name": "xxxx" }`。
 <br>
 `start`：開始作戰，無需設定 `details`。
 <br>
@@ -1495,9 +1519,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 {
    "enable": true,
    "type": "copilot",
-   "subtask": "stage",
+   "subtype": "stage",
    "details": {
-      "stage": "1-7"
+      "stage_name": "1-7"
    }
 }
 ```
@@ -1538,7 +1562,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 #### 介面原型
 
 ```cpp
-bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params);
+AsstBool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params);
 ```
 
 #### 介面說明
@@ -1547,7 +1571,7 @@ bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* par
 
 #### 回傳值
 
-- `bool`  
+- `AsstBool`  
    回傳是否設定成功。
 
 #### 參數說明
@@ -1558,7 +1582,7 @@ bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* par
 @required
 實例控制代碼（Handle）。  
 :::  
-::: field task  
+::: field id  
 @type AsstTaskId
 @required
 任務 ID，為 `AsstAppendTask` 介面的回傳值。  
@@ -1576,7 +1600,7 @@ bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* par
 #### 介面原型
 
 ```cpp
-bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
+AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 ```
 
 #### 介面說明
@@ -1585,7 +1609,7 @@ bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 
 #### 回傳值
 
-- `bool`  
+- `AsstBool`  
    回傳是否設定成功。
 
 #### 參數說明
@@ -1605,14 +1629,31 @@ bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 
 ##### 鍵值一覽
 
-暫無
+:::: field-group  
+::: field Invalid  
+@type number
+@default 0
+@optional
+無效佔位。列舉值：0。  
+:::  
+::: field CpuOCR  
+@type boolean
+@optional
+使用 CPU 進行 OCR。值不參與解析。資源載入後不支援切換。列舉值：1。  
+:::  
+::: field GpuOCR  
+@type string
+@optional
+使用 GPU 進行 OCR。值為 GPU 裝置序號（整數），Windows 上也可傳 `luid:<十六進制 LUID>`。資源載入後不支援切換。列舉值：2。  
+:::  
+::::
 
 ### `AsstSetInstanceOption`
 
 #### 介面原型
 
 ```cpp
-bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value);
+AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value);
 ```
 
 #### 介面說明
@@ -1621,7 +1662,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 
 #### 回傳值
 
-- `bool`  
+- `AsstBool`  
    回傳是否設定成功。
 
 #### 參數說明
@@ -1662,7 +1703,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 @type string
 @default minitouch
 @optional
-觸控模式設定。可選值：minitouch | maatouch | adb | MaaFwAdb | MumuExtras。預設為 minitouch。列舉值：2。  
+觸控模式設定。可選值：minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras。預設為 minitouch。列舉值：2。  
 :::  
 ::: field DeploymentWithPause  
 @type boolean

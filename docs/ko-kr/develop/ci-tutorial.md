@@ -41,7 +41,7 @@ MAA는 GitHub Action을 활용하여 웹사이트 구축, 자동 리소스 업�
 
 이 워크플로우는 코드의 전체 빌드 작업을 담당하며, MAA의 모든 구성 요소를 포함합니다. 빌드 결과물은 실행 가능한 MAA입니다.
 
-필수적인 MaaCore 외에, Windows 빌드 결과물에는 MaaWpfGui가, macOS 빌드 결과물에는 MaaMacGui가, Linux 빌드 결과물에는 MaaCLI가 포함되며, Android용 MaaCore도 함께 빌드됩니다.
+필수적인 MaaCore 외에, Windows 빌드 결과물에는 MaaWpfGui가, macOS 빌드 결과물에는 MaaMacGui가, Linux 빌드 결과물에는 maa-cli가 포함되며, Android용 MaaCore도 함께 빌드됩니다.
 
 이 워크플로우는 소스 코드나 빌드 스크립트에 변경이 있는 `dev-v2` 브랜치의 새 커밋과 PR에서 자동으로 실행됩니다. 버전 태그(릴리즈 PR 병합 후 `pr-auto-tag.yml`가 생성)에 의해 트리거될 때는 이번 빌드 결과물이 직접 릴리즈에 사용되고 Release가 생성됩니다.
 
@@ -105,13 +105,13 @@ MAA는 GitHub Action을 활용하여 웹사이트 구축, 자동 리소스 업�
 
 `stale.yml`
 
-90일 이상 활동이 없는 Bug Issue를 검사하여 표시하고 알림을 보내며, 7일 후에도 활동이 없으면 닫습니다.
+90일 이상 활동이 없는 Issue(Pull Request는 제외하며, `keep-open`, `MAA Team`, `enhancement` 라벨이 붙은 Issue는 면제)를 검사하여 표시하고 알림을 보내며, 7일 후에도 활동이 없으면 닫습니다.
 
 ## Pull Requests 관리
 
 `pr-checker.yml`
 
-이 워크플로우는 PR의 Commit Message가 [관례적 커밋](https://www.conventionalcommits.org/ko/v1.0.0/)을 준수하는지, 그리고 Merge Commit을 포함하는지 검사하며, 위 조건에 해당하면 알림을 제공합니다.
+이 워크플로우는 PR의 Commit Message가 [관례적 커밋](https://www.conventionalcommits.org/ko/v1.0.0/)을 준수하는지, 그리고 Merge Commit을 포함하는지 검사하며, 요구 사항을 충족하지 않는 커밋이 있으면 댓글로 알리고 해당 검사를 실패 처리합니다.
 
 ## MirrorChyan 관련
 

@@ -12,8 +12,10 @@ icon: material-symbols:u-turn-left
 ## 콜백 함수 프로토타입
 
 ```cpp
-typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom_arg);
+typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json, void* custom_arg);
 ```
+
+여기서 `AsstMsgId`는 `int32_t`의 별칭입니다.
 
 ## 파라미터 개요
 
@@ -171,7 +173,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ::: field what
 @type string
 @required
-콜백 유형, 예: `Connect` | `Click` | `Screencap` 등
+콜백 유형, 예: `Connect` | `AttachWindow` | `Click` | `Screencap` 등
 :::
 ::: field async_call_id
 @type number
@@ -269,7 +271,11 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 ### TaskChainExtraInfo
 
-`details` 필드는 비어 있습니다.
+기본적으로 위의 공통 필드만 포함됩니다. 통합 전략(쉐이 테마)에서 경로 계획 결과 피할 수 없는 전투가 너무 많다고 판단되어 능동적으로 재시작하는 경우, 메시지에 추가로 다음이 포함됩니다:
+
+- `what` (string, required): `RoutingRestart`로 고정.
+- `why` (string, required): `TooManyBattlesAhead`로 고정.
+- `node_cost` (number, required): 계획된 다음 노드의 비용.
 
 ### SubTask 관련 메시지
 
@@ -318,9 +324,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   작업명
   :::
   ::: field action
-  @type number
+  @type string
   @required
-  Action ID
+  동작 이름, 예: `ClickSelf` | `DoNothing` | `Swipe`
   :::
   ::: field exec_times
   @type number
@@ -333,9 +339,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   최대 실행 횟수
   :::
   ::: field algorithm
-  @type number
+  @type string
   @required
-  인식 알고리즘
+  인식 알고리즘 이름, 예: `MatchTemplate` | `OcrDetect` | `FeatureMatch` | `JustReturn`
   :::
   ::::
 
@@ -347,8 +353,6 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   작전 시작
 - `MedicineConfirm`  
   이성 회복제 사용 확인
-- `ExpiringMedicineConfirm`  
-  만료 임박한 이성 회복제 사용 확인
 - `StoneConfirm`  
   오리지늄 사용 확인
 - `RecruitRefreshConfirm`  
@@ -357,10 +361,6 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   공개모집 채용 확인
 - `RecruitNowConfirm`  
   공개모집 즉시 완료 허가증 사용 확인
-- `ReportToPenguinStats`  
-  펭귄 물류 데이터 통계 보고
-- `ReportToYituliu`  
-  Yituliu 빅데이터 보고
 - `InfrastDormDoubleConfirmButton`  
   기반시설의 2차 확인 버튼, 배치할 오퍼레이터가 이미 다른 시설에 근무 중인 경우에만 나타남(MAA가 자동으로 클릭), 사용자에게 알림 필요
 - `StartExplore`  
@@ -387,8 +387,6 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   통합 전략 노드: 긴급 작전
 - `StageDreadfulFoe`  
   통합 전략 노드: 험난한 길
-- `StartGameTask`
-  클라이언트 실행 실패 (설정 파일과 입력된 client_type 불일치)
 - Todo 기타
 
 ### SubTaskExtraInfo
@@ -521,11 +519,8 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   :::
   ::::
 
-- `RecruitSlotCompleted`  
-  현재 공개모집 슬롯 작업 완료. `details` 필드는 비어 있습니다
-
 - `RecruitError`  
-  공개모집 식별 오류. `details` 필드는 비어 있습니다
+  공개모집 식별 오류. `details` 필드는 비어 있으며, 현재 슬롯의 갱신 횟수가 상한에 도달하여 발생한 경우 `refresh_limit`(슬롯 갱신 횟수 상한)가 포함됩니다
 
 - `EnterFacility`  
   기반시설 시설에 진입했습니다. `details` 필드 내용은 다음과 같습니다:
@@ -594,26 +589,15 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `StageInfoError`  
   자동 작전 노드 식별 오류. `details` 필드는 비어 있습니다
 
-- `PenguinId`  
-  펭귄 물류 ID. `details` 필드 내용은 다음과 같습니다:
-
-  :::: field-group
-  ::: field id
-  @type string
-  @required
-  펭귄 물류 ID
-  :::
-  ::::
-
-- `Depot`  
+- `DepotInfo`  
   창고 인식 결과. `details` 필드 구조는 다음과 같습니다:
   - `done` (boolean, required): 인식 완료 여부, `false`는 아직 인식 중임(진행 중 데이터)을 의미
   - `data` (string, required): JSON 문자열, 형식은 `{"아이템ID": 수량, ...}`, 예: `{"2001":18000,"31043":317}`
 
-- `OperBox`  
+- `OperBoxInfo`  
   오퍼레이터 보관함 인식 결과. `details` 필드 구조는 다음과 같습니다:
   - `done` (boolean, required): 인식 완료 여부, `false`는 아직 인식 중임(진행 중 데이터)을 의미
-  - `all_oper` (array, required): 전체 오퍼레이터 목록, 배열의 각 항목:
+  - `all_opers` (array, required): 전체 오퍼레이터 목록, 배열의 각 항목:
     - `id` (string, required): 오퍼레이터 ID
     - `name` (string, required): 오퍼레이터 명칭
     - `own` (boolean, required): 보유 여부
@@ -628,7 +612,15 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
     - `rarity` (number, required): 오퍼레이터 레어도 [1, 6]
 
 - `UnsupportedLevel`  
-  자동지휘, 지원하지 않는 노드명. `details` 필드는 비어 있습니다
+  자동지휘, 지원하지 않는 노드명. `details` 필드 내용은 다음과 같습니다:
+
+  :::: field-group
+  ::: field level
+  @type string
+  @required
+  지원하지 않는 노드명
+  :::
+  ::::
 
 ### ReportRequest
 

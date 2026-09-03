@@ -74,9 +74,9 @@ Please note that JSON files do not support comments. The comments in this docume
                                             // Auto-scales to 1280 * 720 resolution; default [0, 0, 1280, 720] when not specified
                                             // Try to specify this to reduce recognition area, improve performance and recognition speed
 
-        "cache": true,                      // Optional, whether to use cache for this task, default true
-                                            // After first recognition, will always check at same position, greatly improves performance
-                                            // Only suitable for targets whose position never changes, set false if target position may change
+        "cache": false,                     // Optional, whether to use cache for this task, default false
+                                            // When enabled, after the first recognition the task will always check at the same position as the first recognition, greatly improves performance
+                                            // Only suitable for targets whose position never changes, keep the default false if the target position may change
 
         "rectMove": [0, 0, 0, 0],           // Optional, target movement after recognition, not recommended. Auto-scales to 1280 * 720
                                             // For example, if A is recognized but actual click target is 10 pixels below in 5 * 2 area,
@@ -91,10 +91,10 @@ Please note that JSON files do not support comments. The comments in this docume
                                             // Required when action is ClickRect, indicates specified click area (random point within)
                                             // Required when action is Swipe, indicates starting point
                                             // Auto-scales to 1280 * 720 resolution
-                                            // When algorithm is "OcrDetect", specificRect[0] and specificRect[1] represent grayscale threshold limits
 
         "specialParams": [int, ...],        // Parameters for special recognizers
-                                            // Optional when action is Swipe, [0] for duration, [1] for extra swipe toggle
+                                            // Optional when action is Swipe, [0] for duration, [1] for extra swipe toggle,
+                                            // [2] and [3] for the ease-in and ease-out slopes of the swipe trajectory, both default to 1
 
         "highResolutionSwipeFix": false,    // Optional, whether to enable high-resolution swipe fix
                                             // Currently only needed for stage navigation which doesn't use unity swipe method
