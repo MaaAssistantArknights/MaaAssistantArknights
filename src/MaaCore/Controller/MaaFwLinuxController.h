@@ -76,22 +76,22 @@ private:
     std::function<const char*()> m_get_version;
 };
 
-class MaaFwWlrController : public ControllerAPI, private InstHelper
+class MaaFwLinuxController : public ControllerAPI, private InstHelper
 {
 public:
-    MaaFwWlrController(const MaaFwWlrController&) = delete;
-    MaaFwWlrController(MaaFwWlrController&&) = delete;
-    MaaFwWlrController& operator=(const MaaFwWlrController&) = delete;
-    MaaFwWlrController& operator=(MaaFwWlrController&&) = delete;
+    MaaFwLinuxController(const MaaFwLinuxController&) = delete;
+    MaaFwLinuxController(MaaFwLinuxController&&) = delete;
+    MaaFwLinuxController& operator=(const MaaFwLinuxController&) = delete;
+    MaaFwLinuxController& operator=(MaaFwLinuxController&&) = delete;
 
-    MaaFwWlrController(const AsstCallback& callback, Assistant* inst, PlatformType platform_type [[maybe_unused]]) :
+    MaaFwLinuxController(const AsstCallback& callback, Assistant* inst, PlatformType platform_type [[maybe_unused]]) :
         InstHelper(inst),
         m_callback(callback),
         m_loader()
     {
     }
 
-    virtual ~MaaFwWlrController() override
+    virtual ~MaaFwLinuxController() override
     {
         if (m_unit) {
             m_loader.destroy(m_unit);
@@ -113,13 +113,13 @@ public:
 
     bool start_game(const std::string& client_type [[maybe_unused]]) override
     {
-        Log.warn("start_game is not supported on MaaFwWlrController");
+        Log.warn("start_game is not supported on MaaFwLinuxController");
         return false;
     }
 
     bool stop_game(const std::string& client_type [[maybe_unused]]) override
     {
-        Log.warn("stop_game is not supported on MaaFwWlrController");
+        Log.warn("stop_game is not supported on MaaFwLinuxController");
         return false;
     }
 
@@ -127,7 +127,7 @@ public:
 
     bool input(const std::string& text [[maybe_unused]]) override
     {
-        Log.warn("input is not supported on MaaFwWlrController");
+        Log.warn("input is not supported on MaaFwLinuxController");
         return false;
     }
 
