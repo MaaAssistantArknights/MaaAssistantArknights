@@ -125,11 +125,7 @@ public:
 
     bool click(const Point& p) override;
 
-    bool input(const std::string& text [[maybe_unused]]) override
-    {
-        Log.warn("input is not supported on MaaFwLinuxController");
-        return false;
-    }
+    bool input(const std::string& text) override;
 
     bool swipe(
         const Point& p1,
