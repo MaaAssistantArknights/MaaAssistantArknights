@@ -388,7 +388,8 @@ public static class LocalizationHelper
 
         visited.Push(currentKey);
 
-        var result = Regex.Replace(input, @"\{key=(\w+)\}", match => {
+        // key 取到右花括号为止，不限定字符集：既有引用含 . 与 @（如 UserAdditional.Add、MiniGame@ALL@xxx），\w 无法覆盖
+        var result = Regex.Replace(input, @"\{key=([^}]+)\}", match => {
             var innerKey = match.Groups[1].Value;
             var innerValue = GetString(innerKey, culture);
             return ResolveNestedKeys(innerKey, innerValue, culture, visited);
