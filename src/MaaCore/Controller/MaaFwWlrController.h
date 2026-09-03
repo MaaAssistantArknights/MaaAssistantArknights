@@ -3,8 +3,6 @@
 #ifdef __linux__ // Linux or Android
 
 #include "Common/AsstMsg.h"
-#include "Config/GeneralConfig.h"
-#include "Controller/SwipeHelper.hpp"
 #include "ControllerAPI.h"
 #include "InstHelper.h"
 #include "MaaFwControlUnitInterface.h"
@@ -105,7 +103,7 @@ public:
 
     bool inited() const noexcept override { return m_loader.loaded() && m_unit; }
 
-    const std::string& get_uuid() const override { return m_socket_path; }
+    const std::string& get_uuid() const override;
 
     size_t get_pipe_data_size() const noexcept override { return { }; }
 
@@ -165,7 +163,6 @@ private:
     MaaFwLinuxControlUnitLoader m_loader;
     MaaFwControlUnitAPI* m_unit = nullptr;
 
-    std::string m_socket_path;
     std::pair<int, int> m_screen_size = { 0, 0 };
 };
 
