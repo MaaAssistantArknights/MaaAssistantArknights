@@ -1,8 +1,8 @@
 #include "MaaFwWlrController.h"
+#include "Config/GeneralConfig.h"
+#include "Controller/SwipeHelper.hpp"
 
 #ifdef __linux__
-
-#include <meojson/json.hpp>
 
 #define CHECK_EXIST(x)                                         \
     do {                                                       \
@@ -14,33 +14,21 @@
 
 bool asst::MaaFwWlrController::connect(
     const std::string& adb_path [[maybe_unused]],
-    const std::string& address,
-    const std::string& config [[maybe_unused]])
+    const std::string& address [[maybe_unused]],
+    const std::string& config)
 {
-    (void)adb_path;
-    (void)config;
-
     if (m_unit) {
         m_loader.destroy(m_unit);
         m_unit = nullptr;
     }
 
     if (!m_loader.loaded()) {
-        const auto dll_path = "MaaLinuxControlUnit";
-        if (!m_loader.load(dll_path)) {
+        if (!m_loader.load("MaaLinuxControlUnit")) {
             return false;
         }
     }
 
-    m_socket_path = address;
-    const auto unit_config = json::object {
-        { "screencap_method", 1ULL },
-        { "input_method", 1ULL },
-        { "wlr_socket_path", m_socket_path },
-        { "use_win32_vk_code", false },
-    };
-    const auto unit_config_str = unit_config.to_string();
-    m_unit = m_loader.create(unit_config_str.c_str());
+    m_unit = m_loader.create(config.c_str());
     if (!m_unit) {
         Log.error("Failed to create control unit");
         return false;
@@ -55,6 +43,12 @@ bool asst::MaaFwWlrController::connect(
 
     cv::Mat dummy { };
     return screencap(dummy);
+}
+
+const std::string& asst::MaaFwWlrController::get_uuid() const
+{
+    const static std::string uuid("MaaFwWlrControllerUUID");
+    return uuid;
 }
 
 bool asst::MaaFwWlrController::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
