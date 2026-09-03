@@ -102,7 +102,7 @@
                             Margin="8,0,0,0"
                             HorizontalAlignment="Left"
                             Text="{DynamicResource UpdateCheck}" />
-                        <controls:TooltipBlock TooltipMaxWidth="350" TooltipText="{DynamicResource UpdateCheckTip}" />
+                        <controls:TooltipBlock TooltipText="{DynamicResource UpdateCheckTip}" />
                     </StackPanel>
                     <hc:ComboBox
                         Width="150"
@@ -121,7 +121,7 @@
                                 Margin="8,0,0,0"
                                 HorizontalAlignment="Left"
                                 Text="{DynamicResource UpdateSource}" />
-                            <controls:TooltipBlock TooltipMaxWidth="350" TooltipText="{DynamicResource UpdateSourceTip}" />
+                            <controls:TooltipBlock TooltipText="{DynamicResource UpdateSourceTip}" />
                         </StackPanel>
                         <hc:ComboBox
                             Width="150"
