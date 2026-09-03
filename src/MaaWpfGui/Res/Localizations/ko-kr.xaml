@@ -710,13 +710,11 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="HideTray">트레이 아이콘 숨기기</system:String>
     <system:String x:Key="MinimizeToTray">최소화 시 트레이에 숨기기</system:String>
     <system:String x:Key="SystemNotification">중요 알림 팝업</system:String>
-    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
-MAA는 설치하지 않는 포터블 프로그램입니다. 알림 기능은 Microsoft.Toolkit.Uwp.Notifications 라이브러리를 사용하며, 이 라이브러리는 기본적으로 실행 파일 경로를 등록 식별자로 사용합니다.
+    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">MAA는 설치하지 않는 포터블 프로그램입니다. 알림 기능은 Microsoft.Toolkit.Uwp.Notifications 라이브러리를 사용하며, 이 라이브러리는 기본적으로 실행 파일 경로를 등록 식별자로 사용합니다.
 여러 위치에서 MAA를 실행하면 Windows는 각 경로마다 별도의 알림 아이콘(예: 작업 표시줄 알림)을 생성합니다. 이는 라이브러리의 기본 동작이며 MAA가 제어하거나 자동으로 정리할 수 없습니다.
 정리하려면 레지스트리 편집기를 열고 다음 경로로 이동하세요:
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings
-해당 경로에 해당하는 항목을 삭제하세요.
-</system:String>
+해당 경로에 해당하는 항목을 삭제하세요.</system:String>
     <system:String x:Key="HideCloseButton">닫기 버튼 숨기기</system:String>
     <system:String x:Key="WindowTitleScrollable">윈도우 제목 스크롤</system:String>
     <system:String x:Key="MainTasksNullFunctionality">메인 작업 오른쪽 클릭 효과 반전</system:String>
@@ -772,24 +770,25 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">MuMu 터치 강화 활성화 (실험적, MuMu 에뮬레이터 6.3.2+ 필요, 백그라운드 유지 지원)</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
-    <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">선택한 MuMu 설치 폴더에서 external_renderer_ipc.dll을 찾을 수 없습니다.\n
+    <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">선택한 MuMu 설치 폴더에서 external_renderer_ipc.dll을 찾을 수 없습니다.
 예상 상대 경로:
 nx_device/15.0/shell/sdk/external_renderer_ipc.dll 또는
 nx_device/12.0/shell/sdk/external_renderer_ipc.dll 또는
-shell/sdk/external_renderer_ipc.dll\n
+shell/sdk/external_renderer_ipc.dll
+
 설치 폴더를 확인하세요.</system:String>
-    <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu / MuMu Arknights V4.1.26 이상 버전이 필요합니다. MuMu Global은 V5.21.3 이상 버전이 필요합니다.
+    <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">MuMu / MuMu Arknights V4.1.26 이상 버전이 필요합니다. MuMu Global은 V5.21.3 이상 버전이 필요합니다.
 이 기능을 활성화한 후 즉시 스크린샷 테스트를 실행하는 것을 강력히 권장합니다.
-MAA는 레지스트리를 통해 설치 경로를 자동으로 가져옵니다. 가져오지 못한 경우 수동으로 입력해 주세요.\n
+MAA는 레지스트리를 통해 설치 경로를 자동으로 가져옵니다. 가져오지 못한 경우 수동으로 입력해 주세요.
+
 설치 경로는 에뮬레이터 경로의 최상위 폴더를 입력해야 합니다. 예를 들어, 에뮬레이터 프로세스 파일 경로가
-C:\\Program Files\\Netease\\MuMuPlayer\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
+C:\Program Files\Netease\MuMuPlayer\nx_device\12.0\shell\MuMuNxDevice.exe
 인 경우
-C:\\Program Files\\Netease\\MuMuPlayer으로 입력해야 합니다.\n
+C:\Program Files\Netease\MuMuPlayer으로 입력해야 합니다.
+
 주의:
 1. 연결 주소의 포트 번호가 7555일 경우, 포트 번호를 16384로 변경해야 합니다.
-2. 네트워크 브리징을 사용 중인 경우 MuMu 네트워크 브리징 모드를 선택하고 일련 번호를 수동으로 입력해야 합니다.
-    </system:String>
+2. 네트워크 브리징을 사용 중인 경우 MuMu 네트워크 브리징 모드를 선택하고 일련 번호를 수동으로 입력해야 합니다.</system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 에뮬레이터 경로</system:String>
     <system:String x:Key="MuMu12EmulatorPathPlaceholder">예: C:\Program Files\Netease\MuMuPlayer</system:String>
     <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu 설치 경로가 비어 있습니다! 자리표시자는 예시일 뿐이니 ｢{key=Settings} - {key=ConnectionSettings}｣에서 실제 경로를 입력하세요</system:String>
@@ -803,23 +802,21 @@ C:\\Program Files\\Netease\\MuMuPlayer으로 입력해야 합니다.\n
     <system:String x:Key="LdExtrasEnabled">LD 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">선택한 LDPlayer 경로에서 ldopengl64.dll을 찾을 수 없습니다. 설치 디렉터리를 확인하세요.</system:String>
-    <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-LDPlayer 9 V9.1.32 이상이 필요합니다.
+    <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">LDPlayer 9 V9.1.32 이상이 필요합니다.
 이 기능을 활성화한 후 즉시 스크린샷 테스트를 실행하는 것을 강력히 권장합니다.
 MAA는 레지스트리를 통해 설치 경로를 자동으로 가져옵니다. 가져오지 못한 경우 수동으로 입력해 주세요.
 
 설치 경로는 에뮬레이터 경로의 최상위 폴더를 입력해야 합니다. 예를 들어, 에뮬레이터 프로세스 파일 경로가
-C:\\leidian\\LDPlayer9\\dnplayer.exe
+C:\leidian\LDPlayer9\dnplayer.exe
 인 경우
-C:\\leidian\\LDPlayer9
+C:\leidian\LDPlayer9
 을 입력해야 합니다.
 
 인스턴스 번호는 LD플레이어 멀티 인스턴스 매니저에서 확인할 수 있습니다.
 메인 인스턴스는 0이고, 다른 인스턴스는 버전/ID 뒤에 오는 숫자입니다.
 
 스크린샷 향상 기능은 에뮬레이터 해상도를 가로 모드로 설정해야 하며, 연결 과정에서 화면을 회전시키지 마세요.
-세로 화면 상태에서 게임을 실행한 후 가로 화면으로 전환하면 화면 찢어짐 등의 문제가 발생할 수 있습니다.
-    </system:String>
+세로 화면 상태에서 게임을 실행한 후 가로 화면으로 전환하면 화면 찢어짐 등의 문제가 발생할 수 있습니다.</system:String>
     <system:String x:Key="LdEmulatorPath">LD 에뮬레이터 경로</system:String>
     <system:String x:Key="LdEmulatorPathPlaceholder">예: C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="LdEmulatorPathEmptyError">LDPlayer 설치 경로가 비어 있습니다! 자리표시자는 예시일 뿐이니 ｢{key=Settings} - {key=ConnectionSettings}｣에서 실제 경로를 입력하세요</system:String>

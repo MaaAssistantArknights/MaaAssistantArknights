@@ -709,13 +709,11 @@ D:\
     <system:String x:Key="HideTray">隱藏工作列圖示</system:String>
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
-    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
-MAA 是非安裝型軟體，通知功能使用 Microsoft.Toolkit.Uwp.Notifications 函式庫，該函式庫預設以程式所在路徑作為註冊辨識。
+    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">MAA 是非安裝型軟體，通知功能使用 Microsoft.Toolkit.Uwp.Notifications 函式庫，該函式庫預設以程式所在路徑作為註冊辨識。
 若從多個路徑啟動過 MAA，Windows 會為每個路徑產生不同的通知來源圖示（如工作列彈出圖示），這是該函式庫的預設行為，MAA 無法控制或自動清除。
 如需清理，請手動開啟登錄檔編輯器，定位至：
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings
-刪除對應的路徑項目即可。
-</system:String>
+刪除對應的路徑項目即可。</system:String>
     <system:String x:Key="HideCloseButton">隱藏關閉按鈕</system:String>
     <system:String x:Key="WindowTitleScrollable">視窗標題捲動</system:String>
     <system:String x:Key="MainTasksNullFunctionality">反轉主任務右鍵點擊效果</system:String>
@@ -771,24 +769,26 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">啟用 MuMu 觸控增強（實驗性，需 MuMu 模擬器 6.3.2+，支援背景保活）</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">找不到 MuMu 模擬器路徑。</system:String>
-    <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll 未在所選 MuMu 安裝目錄中找到。\n
+    <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll 未在所選 MuMu 安裝目錄中找到。
+
 預期的相對路徑：
 nx_device/15.0/shell/sdk/external_renderer_ipc.dll 或
 nx_device/12.0/shell/sdk/external_renderer_ipc.dll 或
-shell/sdk/external_renderer_ipc.dll\n
+shell/sdk/external_renderer_ipc.dll
+
 請確認安裝目錄。</system:String>
-    <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-需使用官版或方舟專版 MuMu V4.1.26 或更新版本，國際版需 V5.21.3 或更新版本。
+    <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">需使用官版或方舟專版 MuMu V4.1.26 或更新版本，國際版需 V5.21.3 或更新版本。
 強烈建議在開啟本功能後立刻執行一次截圖測試。
-MAA 會自動透過登錄檔取得安裝路徑，若取得失敗則請手動填寫。\n
+MAA 會自動透過登錄檔取得安裝路徑，若取得失敗則請手動填寫。
+
 安裝路徑應填寫模擬器安裝目錄的根目錄，例如模擬器執行檔路徑為：
-C:\\Program Files\\Netease\\MuMuPlayer\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
+C:\Program Files\Netease\MuMuPlayer\nx_device\12.0\shell\MuMuNxDevice.exe
 則應填寫：
-C:\\Program Files\\Netease\\MuMuPlayer\n
+C:\Program Files\Netease\MuMuPlayer
+
 注意：
 1. 若目前連線位址通訊埠編號為 7555，則需將通訊埠編號改為 16384。
-2. 若正在使用網路橋接，則需勾選 MuMu 網路橋接模式並手動填寫序號。
-    </system:String>
+2. 若正在使用網路橋接，則需勾選 MuMu 網路橋接模式並手動填寫序號。</system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 模擬器路徑</system:String>
     <system:String x:Key="MuMu12EmulatorPathPlaceholder">範例：C:\Program Files\Netease\MuMuPlayer</system:String>
     <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu 安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填寫實際路徑</system:String>
@@ -802,22 +802,20 @@ C:\\Program Files\\Netease\\MuMuPlayer\n
     <system:String x:Key="LdExtrasEnabled">啟用 LD 截圖增強</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">找不到 LDPlayer 模擬器路徑。</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">在所選 LDPlayer 路徑中未找到 ldopengl64.dll，請確認安裝目錄。</system:String>
-    <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-需使用官版或國際版雷電模擬器 9 V9.1.32 或更新版本。
+    <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">需使用官版或國際版雷電模擬器 9 V9.1.32 或更新版本。
 強烈建議在開啟本功能後立刻執行一次截圖測試。
 MAA 會自動透過登錄檔取得安裝路徑，若取得失敗則請手動填寫。
 
 安裝路徑應填寫模擬器安裝目錄的根目錄，例如模擬器執行檔路徑為：
-C:\\leidian\\LDPlayer9\\dnplayer.exe
+C:\leidian\LDPlayer9\dnplayer.exe
 則應填寫：
-C:\\leidian\\LDPlayer9
+C:\leidian\LDPlayer9
 
 實例編號可在雷電多開器中查看，
 主多開為 0，其他多開為版本 / 編號 ID 後的數字。
 
 截圖增強功能強制要求模擬器解析度設定為橫向螢幕模式，且在連線過程中請勿翻轉螢幕。
-如在縱向螢幕狀態下啟動遊戲後切換為橫向，可能導致畫面撕裂等問題。
-    </system:String>
+如在縱向螢幕狀態下啟動遊戲後切換為橫向，可能導致畫面撕裂等問題。</system:String>
     <system:String x:Key="LdEmulatorPath">LD 模擬器路徑</system:String>
     <system:String x:Key="LdEmulatorPathPlaceholder">範例：C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="LdEmulatorPathEmptyError">雷電模擬器安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填寫實際路徑</system:String>

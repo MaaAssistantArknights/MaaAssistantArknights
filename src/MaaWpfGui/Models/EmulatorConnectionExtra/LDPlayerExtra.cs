@@ -49,7 +49,7 @@ public class LDPlayerExtra() : ExtraConfig
 
     private void AutoDetectEmulatorPath()
     {
-        MessageBoxHelper.Show(LocalizationHelper.GetString("LdExtrasEnabledTip"));
+        MessageBoxHelper.Show(LocalizationHelper.GetRawString("LdExtrasEnabledTip"));
 
         // 读取 LD 注册表地址 并填充GUI
         if (!string.IsNullOrEmpty(EmulatorPath))
@@ -125,7 +125,7 @@ public class LDPlayerExtra() : ExtraConfig
             if (Enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
             {
                 MessageBoxHelper.Show(LocalizationHelper.GetString("LdPlayerEmulatorPathNotFound"));
-                MessageBoxHelper.Show(LocalizationHelper.GetString("LdExtrasEnabledTip"));
+                MessageBoxHelper.Show(LocalizationHelper.GetRawString("LdExtrasEnabledTip"));
                 return;
             }
 
@@ -136,7 +136,7 @@ public class LDPlayerExtra() : ExtraConfig
                 if (!File.Exists(libPath))
                 {
                     MessageBoxHelper.Show(LocalizationHelper.GetString("LdPlayerOpenglMissing"));
-                    MessageBoxHelper.Show(LocalizationHelper.GetString("LdExtrasEnabledTip"));
+                    MessageBoxHelper.Show(LocalizationHelper.GetRawString("LdExtrasEnabledTip"));
                     return;
                 }
             }
