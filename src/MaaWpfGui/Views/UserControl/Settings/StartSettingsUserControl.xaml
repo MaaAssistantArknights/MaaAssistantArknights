@@ -29,10 +29,7 @@
             VerticalAlignment="Center"
             Orientation="Vertical">
             <controls:GlobalConfigTip />
-            <StackPanel
-                Margin="10"
-                Orientation="Horizontal"
-                Visibility="{c:Binding '!IsPCConnectConfig', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
+            <StackPanel Margin="10" Orientation="Horizontal">
                 <CheckBox
                     HorizontalAlignment="Left"
                     Block.TextAlignment="Center"
@@ -53,7 +50,10 @@
                 Block.TextAlignment="Center"
                 Content="{DynamicResource RunTaskAfterLaunch}"
                 IsChecked="{Binding RunDirectly}" />
-            <StackPanel Margin="10" Orientation="Horizontal">
+            <StackPanel
+                Margin="10"
+                Orientation="Horizontal"
+                Visibility="{c:Binding '!IsPCConnectConfig', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
                 <CheckBox
                     HorizontalAlignment="Left"
                     Block.TextAlignment="Center"
