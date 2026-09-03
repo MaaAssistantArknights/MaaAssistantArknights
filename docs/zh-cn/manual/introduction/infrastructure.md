@@ -45,4 +45,6 @@ icon: material-symbols:view-quilt-rounded
 ## 自定义基建换班
 
 - 一图流的大佬们帮忙写了一个 [排班生成器](https://ark.yituliu.cn/tools/scheduleV3)，可参考 [基建协议文档](../../protocol/base-scheduling-schema.md) 使用。
+
+- [自动生成基建排班表工具](https://riic.autos/)：根据干员Box 生成当前的高效基建排班表。
 - MAA 文件夹下 `/resource/custom_infrast/` 中内置了几套理论极限效率的作业，可用作参考。由于其对干员及练度的需求极高，不推荐直接使用。
