@@ -13,6 +13,8 @@ Please note that JSON files do not support comments. The comments in this docume
 
 [Visual Schedule Generator Tool](https://ark.yituliu.cn/tools/scheduleV3)
 
+[Automatic RIIC Schedule Generator](https://riic.autos/)
+
 ## Complete Field Reference
 
 ```json

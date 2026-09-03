@@ -13,6 +13,8 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
 
 [기반시설 스케줄링 생성 도구](https://ark.yituliu.cn/tools/scheduleV3)
 
+[기반시설 스케줄 자동 생성 도구](https://riic.autos/)
+
 ## 전체 필드 목록
 
 ```json
