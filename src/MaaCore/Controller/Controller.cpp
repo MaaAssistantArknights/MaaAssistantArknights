@@ -80,7 +80,7 @@ std::shared_ptr<asst::ControllerAPI>
             return std::make_shared<MaaFwAndroidNativeController>(m_callback, m_inst);
 #endif
 #ifdef __linux__
-        case ControllerType::MaaFwWlr:
+        case ControllerType::MaaFwLinux:
             return std::make_shared<MaaFwLinuxController>(m_callback, m_inst, platform_type);
 #endif
         default:
@@ -442,8 +442,8 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
         break;
 #endif
 #ifdef __linux__
-    case TouchMode::MaaFwWlr:
-        m_controller_type = ControllerType::MaaFwWlr;
+    case TouchMode::MaaFwLinux:
+        m_controller_type = ControllerType::MaaFwLinux;
         break;
 #endif
     default:
