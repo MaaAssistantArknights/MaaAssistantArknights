@@ -73,6 +73,11 @@ public class PostActionSetting : PropertyChangedBase
         /// 睡眠
         /// </summary>
         Sleep = 1 << 7,
+
+        /// <summary>
+        /// 任务出错时跳过所有后处理动作
+        /// </summary>
+        SkipOnError = 1 << 8,
     }
 
     private PostActions _postActions;
@@ -294,6 +299,24 @@ public class PostActionSetting : PropertyChangedBase
         }
     }
 
+    private bool _skipOnError;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 任务队列中有任务出错时，跳过全部后处理动作。
+    /// </summary>
+    public bool SkipOnError
+    {
+        get => _skipOnError;
+        set {
+            if (!SetAndNotify(ref _skipOnError, value))
+            {
+                return;
+            }
+
+            UpdatePostAction(PostActions.SkipOnError, value);
+        }
+    }
+
     public static PostActionSetting Instance { get; } = new();
 
     private string _actionTitle = LocalizationHelper.GetString("PostActions");
@@ -349,6 +372,7 @@ public class PostActionSetting : PropertyChangedBase
         Hibernate = false;
         Shutdown = false;
         Sleep = false;
+        SkipOnError = false;
         RefreshDescription();
     }
 
@@ -393,6 +417,11 @@ public class PostActionSetting : PropertyChangedBase
         }
 
         ActionDescription = actions.Count == 0 ? LocalizationHelper.GetString("DoNothing") : string.Join(" -> ", actions);
+
+        if (SkipOnError && actions.Count != 0)
+        {
+            ActionDescription += Environment.NewLine + LocalizationHelper.GetString("SkipPostActionOnError");
+        }
     }
 
     private void UpdatePostAction(PostActions postActions, bool value)
@@ -429,6 +458,7 @@ public class PostActionSetting : PropertyChangedBase
         Hibernate = _postActions.HasFlag(PostActions.Hibernate);
         Shutdown = _postActions.HasFlag(PostActions.Shutdown);
         Sleep = _postActions.HasFlag(PostActions.Sleep);
+        SkipOnError = _postActions.HasFlag(PostActions.SkipOnError);
         Once = false;
         ClearUnsupportedPostActionsForAttachWindow();
     }

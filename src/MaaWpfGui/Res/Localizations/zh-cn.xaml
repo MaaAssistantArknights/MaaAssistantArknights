@@ -892,6 +892,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">勾选后将不保存选项变化，下次 MAA 启动或 {key=LinkStart} 后复原
 取消勾选本选项后，其他选项状态将会正常保存
 右键点击其他选项时，会同步勾选/取消勾选本选项</system:String>
+    <system:String x:Key="SkipPostActionOnError">任务出错时跳过</system:String>
+    <system:String x:Key="SkipPostActionOnErrorTip" xml:space="preserve">勾选后，若任务列表中有一个或多个任务出错，将跳过以上全部动作。
+仅统计左侧任务列表中的任务，自动战斗与小工具的报错不计入。</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">任务出错，已跳过后处理动作：{0}</system:String>
     <system:String x:Key="IfNoOtherMaa">无其他 MAA 时</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>

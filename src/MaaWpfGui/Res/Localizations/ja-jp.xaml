@@ -893,6 +893,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">チェックすると、オプションの変更が保存されず、次回 MAA 起動時または {key=LinkStart} 後に復元されます
 このオプションのチェックを解除すると、他のオプションの状態は正常に保存されます
 他のオプションを右クリックすると、このオプションも同時にチェック/チェック解除されます</system:String>
+    <system:String x:Key="SkipPostActionOnError">タスク失敗時はスキップ</system:String>
+    <system:String x:Key="SkipPostActionOnErrorTip" xml:space="preserve">チェックすると、タスクリスト内の1つ以上のタスクが失敗した場合、上記のすべての動作をスキップします。
+左側のタスクリストのタスクのみが対象で、自動戦闘やツールボックスのエラーは含まれません。</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">タスクが失敗したため、終了後の動作をスキップしました：{0}</system:String>
     <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
