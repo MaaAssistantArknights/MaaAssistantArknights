@@ -823,6 +823,7 @@
         "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
         "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
         "action": "ClickSelf",
+        "rectMove": [0, 0, 50, 30],
         "next": ["BlackFlow@Roguelike@MovePreviewConfirmObserve", "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"],
         "maxTimes": 4,
         "exceededNext": ["BlackFlow@Roguelike@MovePreviewConfirmExceeded"],
