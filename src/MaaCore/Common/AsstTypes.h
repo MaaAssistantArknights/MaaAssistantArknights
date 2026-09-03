@@ -59,7 +59,7 @@ enum class TouchMode
     MaaFwAdb = 4,
     Android = 5,
     MumuExtras = 6, // MuMu external renderer IPC，不可用时自动降级为 Minitouch
-    MaaFwWlr = 7,
+    MaaFwLinux = 7,
 };
 
 // Swipe 任务 specialParams[1] 的额外滑动方向。json 协议层仍为 int：0 不启用，1/2/3/4 为上/下/左/右

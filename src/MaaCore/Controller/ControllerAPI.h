@@ -26,7 +26,7 @@ enum class ControllerType
     MaaFwAndroidNative,
 #endif
 #ifdef __linux__
-    MaaFwWlr,
+    MaaFwLinux,
 #endif
 };
 
