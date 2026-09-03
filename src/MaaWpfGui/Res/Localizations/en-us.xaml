@@ -53,6 +53,7 @@
     <system:String x:Key="ExternalNotificationSendWhenComplete">Send notification when complete</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">Send notification when task fails</system:String>
     <system:String x:Key="ExternalNotificationSendWhenStalled">Send notification when task log output stalls</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenStalledTip">Only takes effect after enabling ｢{key=StallTimeoutEnabled}｣ in ｢{key=GameSettings}｣</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
     <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
@@ -272,6 +273,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor, No Battle</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">Start with ｢Life Prioritizing Squad｣ and acquire the cypherboard</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ｢;｣</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartalTip">Enter the foldartal names, separated by ｢;｣</system:String>
     <system:String x:Key="RoguelikeCollapseList">Collapse Paradigm List</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">Separate with ｢;｣. Leave blank to use the default list.</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select ｢{key=StartingCoreChar}｣ from support unit list</system:String>
@@ -286,7 +288,9 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">Monthly Squad Communication</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">Deep Investigation Auto-Switch</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">Pause Trick (Experimental)</system:String>
+    <system:String x:Key="DeploymentWithPauseTip">Pauses the game when deploying {key=Operator} in auto combat, then deploys the next {key=Operator}</system:String>
     <system:String x:Key="AdbLiteEnabled">Use ADB Lite (Experimental)</system:String>
+    <system:String x:Key="AdbLiteEnabledTip">ADB implementation built into MAA, avoiding launching an adb.exe process every time an adb command is executed</system:String>
     <system:String x:Key="KillAdbOnExit">Kill ADB On Exit</system:String>
     <system:String x:Key="DefaultSquad">Default Squad</system:String>
     <system:String x:Key="IS2NewSquad1">Mind Over Matter Squad</system:String>
@@ -403,6 +407,8 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="UpdateAutoDownloadTip" xml:space="preserve">When disabled, detected updates (including manually triggered ｢{key=UpdateCheckNow}｣) will no longer download automatically. Instead, a system notification with a download link will be shown, allowing you to download the package and drag it into MAA manually.
 If system notifications are turned off, an in-app notification will be used instead, though it does not provide an interactive download button.</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">Auto Install Update</system:String>
+    <system:String x:Key="AutoInstallUpdatePackageTip">No longer shows a confirmation dialog when a new version is detected; MAA will update and restart automatically when tasks are idle</system:String>
+    <system:String x:Key="WindowUpdateInfoTip">Click to update now</system:String>
     <system:String x:Key="ShowUpdaterConsole">Show updater console output during update</system:String>
     <system:String x:Key="ShowUpdaterProgress">Show updater progress window</system:String>
     <system:String x:Key="ShowUpdaterProgressTip" xml:space="preserve">Shows a standalone progress window from the updater during the update, displaying the current status and file processing progress.
@@ -523,8 +529,9 @@ Continue only after you have verified the directory layout and finished a manual
     <system:String x:Key="ForceScheduledStart">Force scheduled start</system:String>
     <system:String x:Key="ForceScheduledStartTip">Stop current task, restart game and start new tasks</system:String>
     <system:String x:Key="ShowWindowBeforeForceScheduledStart">Show window before force scheduled start</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">Show the main window before the scheduled start so the countdown isn't missed while minimized</system:String>
     <system:String x:Key="TimerCustomConfig">Custom config</system:String>
-    <system:String x:Key="TimerCustomConfigTip">Restart and switch configuration two minutes in advance</system:String>
+    <system:String x:Key="TimerCustomConfigTip">Restart the game and switch the configuration two minutes before the scheduled start</system:String>
     <system:String x:Key="Timer">Timer</system:String>
     <system:String x:Key="GlobalConfigTip">This option page is for global config</system:String>
     <system:String x:Key="MultiTasksShareTip">The following options are for multiple tasks.</system:String>
@@ -729,6 +736,7 @@ Then delete the entries corresponding to the paths.</system:String>
     <system:String x:Key="SwitchResolutionTip">Change the emulator resolution to 1920x1080!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">For YoStarEN, make sure the emulator is set to 1920x1080</system:String>
     <system:String x:Key="AllowUseStoneSave">Save ｢Use Originium｣</system:String>
+    <system:String x:Key="AllowUseStoneSaveTip">By default, ｢{key=UseOriginitePrime}｣ is effective only once; when checked, its state will be saved, the left-click toggles it normally, and a right-click selection still takes effect only once</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢{key=Confirm}｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring (&lt;N hours) sanity potion</system:String>
@@ -878,6 +886,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Inverse">Invert</system:String>
     <system:String x:Key="Clear">Clear</system:String>
     <system:String x:Key="PostActions">Then</system:String>
+    <system:String x:Key="PostActionsSettings">Post-action settings</system:String>
     <system:String x:Key="DoNothing">Do Nothing</system:String>
     <system:String x:Key="ExitArknights">Exit Arknights</system:String>
     <system:String x:Key="ExitSelf">Exit MAA</system:String>
@@ -891,6 +900,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
 After unchecking this option, other option states will be saved normally
 Right-clicking other options will check/uncheck this option simultaneously</system:String>
     <system:String x:Key="IfNoOtherMaa">If no other running MAA</system:String>
+    <system:String x:Key="IfNoOtherMaaTip">When checked, Sleep/Hibernate/Shutdown will only run when no other MAA instance is running</system:String>
     <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
@@ -1237,7 +1247,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
 Enabling this will skip these checks, but may cause the job to fail.
 Operators' Elite level CANNOT be ignored. If any requirements are ignored, the operation will no longer be automatically rated after the battle.</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
-    <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and Skills, for example: W, 3; Ash, 2</system:String>
+    <system:String x:Key="AddUserAdditionalTip">Click the settings button next to it to open the editing window, then click ｢{key=UserAdditional.Add}｣ to add entries one by one, and fill in the {key=Operator} name, skill, and action in each column</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator} Name</system:String>
     <system:String x:Key="UserAdditional.Skill">Skill</system:String>
     <system:String x:Key="UserAdditional.Action">Action</system:String>
@@ -1256,6 +1266,8 @@ When ｢{key=UseCopilotList}｣ is enabled, individual jobs will be automaticall
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">Left-click to add Normal difficulty
 Right click to add challenge difficulty</system:String>
+    <system:String x:Key="CopilotSelectTaskTip" xml:space="preserve">Left-click: view job details
+Right-click: select this job and exit multi-job mode</system:String>
     <system:String x:Key="CopilotClearTask" xml:space="preserve">Left-click to clear all jobs
 Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Start">Start</system:String>

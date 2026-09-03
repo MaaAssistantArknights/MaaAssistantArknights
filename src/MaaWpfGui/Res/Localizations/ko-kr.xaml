@@ -53,6 +53,7 @@
     <system:String x:Key="ExternalNotificationSendWhenComplete">작업 완료 시 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">작업 실패 시 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendWhenStalled">작업 로그 출력 정지 시 알림 전송</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenStalledTip">｢{key=GameSettings}｣에서 ｢{key=StallTimeoutEnabled}｣를 활성화해야만 적용됩니다</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
     <system:String x:Key="ExternalNotificationSendTest">테스트</system:String>
@@ -250,7 +251,7 @@
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">포대기의 케르베로스</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">{key=Operator} 2차 정예화 또는 전기주전자 획득까지 반복</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">희귀 붕괴 패러다임 파밍, 일반 붕괴 패러다임 획득 시 재시작</system:String>
-    <system:String x:Key="RoguelikeCollectibleModeSquad">전기주전자 획득 분대</system:String>
+    <system:String x:Key="RoguelikeCollectibleModeSquad">작전 지원 선택 획득용 분대</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">월간 스쿼드 파밍, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">심층 조사 파밍, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyFindPlaytime">여흥 노드 파밍, 1구역 쉐이의 잔식에 진입, 필요한 노드를 찾지 못하면 재시작</system:String>
@@ -272,6 +273,7 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartal">1구역 암호판 획득 반복, 전투 X</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">생존지상 분대 목표 암호판 설정</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">최대 3개까지 지원하며 ｢;｣ 로 구분합니다</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartalTip">암호판 이름을 입력하고, 여러 개는 ｢;｣ 로 구분합니다</system:String>
     <system:String x:Key="RoguelikeCollapseList">붕괴 패러다임 목록</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">세미콜론 ｢;｣ 으로 구분, 비워 두면 기본 목록이 사용됩니다.</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ 지원 유닛 사용</system:String>
@@ -286,7 +288,9 @@
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">월간 스쿼드 통신</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">심층 조사 자동 전환</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">일시정지 후 배치 (실험적)</system:String>
+    <system:String x:Key="DeploymentWithPauseTip">자동 전투에서 {key=Operator} 배치 시 게임을 일시정지한 후 다음 {key=Operator}를 배치합니다</system:String>
     <system:String x:Key="AdbLiteEnabled">ADB Lite 사용 (실험적)</system:String>
+    <system:String x:Key="AdbLiteEnabledTip">MAA가 자체 구현한 ADB 기능으로, adb 명령을 실행할 때마다 adb.exe 프로세스가 실행되는 것을 방지합니다</system:String>
     <system:String x:Key="KillAdbOnExit">종료 시 ADB 종료</system:String>
     <system:String x:Key="DefaultSquad">기본값</system:String>
     <system:String x:Key="IS2NewSquad1">마음가짐 분대</system:String>
@@ -403,6 +407,8 @@
     <system:String x:Key="UpdateAutoDownloadTip" xml:space="preserve">체크 해제 시, 업데이트 감지 시 (수동으로 ｢{key=UpdateCheckNow}｣ 실행 포함) 자동 다운로드가 중지되고 다운로드 링크가 포함된 시스템 알림만 표시됩니다. 링크에서 업데이트 패키지를 직접 다운로드한 후 MAA에 끌어다 놓아 수동으로 업데이트할 수 있습니다.
 시스템 알림이 꺼져 있는 경우 앱 내 알림으로 전환되지만, 앱 내 알림에는 조작 가능한 다운로드 버튼이 제공되지 않습니다.</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">업데이트 패키지 자동 설치</system:String>
+    <system:String x:Key="AutoInstallUpdatePackageTip">새로운 버전이 확인되면 더 이상 묻지 않고, 작업이 없을 때 자동으로 업데이트하여 MAA를 다시 시작합니다</system:String>
+    <system:String x:Key="WindowUpdateInfoTip">클릭하면 즉시 업데이트</system:String>
     <system:String x:Key="ShowUpdaterConsole">업데이트 중 업데이터 콘솔 출력 표시</system:String>
     <system:String x:Key="ShowUpdaterProgress">업데이터 진행 창 표시</system:String>
     <system:String x:Key="ShowUpdaterProgressTip" xml:space="preserve">업데이트 시 업데이터가 별도의 진행 창을 표시하여 현재 상태와 파일 처리 진행률을 보여줍니다.
@@ -523,8 +529,9 @@ D:\
     <system:String x:Key="ForceScheduledStart">강제 예약 시작</system:String>
     <system:String x:Key="ForceScheduledStartTip">현재 작업을 중단하고, 게임을 재실행하여 새 작업을 시작합니다</system:String>
     <system:String x:Key="ShowWindowBeforeForceScheduledStart">{key=ForceScheduledStart} 전 창 표시</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">예약 시작 전에 메인 창을 표시하여 최소화 시 카운트다운을 확인할 수 없는 문제를 방지합니다</system:String>
     <system:String x:Key="TimerCustomConfig">커스텀 구성 옵션</system:String>
-    <system:String x:Key="TimerCustomConfigTip">2분 전에 재시작해 설정을 전환합니다</system:String>
+    <system:String x:Key="TimerCustomConfigTip">예약 시작 2분 전에 게임을 재실행하고 설정을 전환합니다</system:String>
     <system:String x:Key="Timer">타이머</system:String>
     <system:String x:Key="GlobalConfigTip">이 페이지는 전역(Global) 구성 설정입니다</system:String>
     <system:String x:Key="MultiTasksShareTip">다음 옵션은 여러 작업에 적용됩니다</system:String>
@@ -729,6 +736,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="SwitchResolutionTip">에뮬레이터 해상도를 1920x1080으로 변경!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">에뮬레이터가 1920x1080으로 설정되어 있는지 확인하세요</system:String>
     <system:String x:Key="AllowUseStoneSave">순오리지늄 사용 상태 저장 허용</system:String>
+    <system:String x:Key="AllowUseStoneSaveTip">기본적으로 ｢{key=UseOriginitePrime}｣는 한 번만 유효합니다. 체크하면 상태가 저장되어 좌클릭으로 정상적으로 전환할 수 있으며, 우클릭으로 선택한 경우에도 한 번만 유효합니다</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">이 기능은 위험할 수 있습니다. ｢{key=Confirm}｣ 버튼을 누르면 잠재적인 위험을 이해하고 감수하는 것으로 간주됩니다.</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseExpiringMedicine">N 시간 미만 이성 회복제 사용</system:String>
@@ -879,6 +887,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Inverse">선택 반전</system:String>
     <system:String x:Key="Clear">모두 해제</system:String>
     <system:String x:Key="PostActions">완료 후</system:String>
+    <system:String x:Key="PostActionsSettings">완료 후 동작 설정</system:String>
     <system:String x:Key="DoNothing">-</system:String>
     <system:String x:Key="ExitArknights">명일방주를 종료</system:String>
     <system:String x:Key="ExitSelf">MAA를 종료</system:String>
@@ -892,6 +901,7 @@ C:\leidian\LDPlayer9
 이 옵션의 체크를 해제하면 다른 옵션 상태가 정상적으로 저장됩니다
 다른 옵션을 마우스 오른쪽 버튼으로 클릭하면 이 옵션도 함께 체크/체크 해제됩니다</system:String>
     <system:String x:Key="IfNoOtherMaa">다른 MAA가 없는 경우</system:String>
+    <system:String x:Key="IfNoOtherMaaTip">체크 시 다른 MAA 인스턴스가 실행 중이 아닐 때만 절전 모드/최대 절전 모드/시스템 종료를 실행합니다</system:String>
     <system:String x:Key="BackToAndroidHome">에뮬레이터 홈 화면으로 이동</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">중지</system:String>
@@ -1239,7 +1249,7 @@ C:\leidian\LDPlayer9
 이 옵션을 활성화하면 해당 검사를 건너뛰지만, 작업이 정상적으로 동작하지 않을 수 있습니다.
 오퍼레이터의 정예화 등급은 무시할 수 없습니다. 요구 사항을 하나라도 무시할 경우, 전투 종료 후 자동으로 '좋아요'를 남기지 않습니다.</system:String>
     <system:String x:Key="AddUserAdditional">커스텀 {key=Operator} 추가</system:String>
-    <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 {key=Operator}를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
+    <system:String x:Key="AddUserAdditionalTip">옆의 설정 버튼을 클릭해 편집 창을 연 후 ｢{key=UserAdditional.Add}｣를 클릭해 한 항목씩 추가하고, 각 열에 {key=Operator} 이름, 스킬, 작업을 입력합니다</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator} 이름</system:String>
     <system:String x:Key="UserAdditional.Skill">스킬</system:String>
     <system:String x:Key="UserAdditional.Action">작업</system:String>
@@ -1258,6 +1268,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CopilotTaskRaidStage">(하드)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">좌클릭으로 일반 난이도 추가
 하드 모드를 추가하려면 마우스 오른쪽 버튼을 클릭하세요</system:String>
+    <system:String x:Key="CopilotSelectTaskTip" xml:space="preserve">좌클릭: 해당 작업 정보 보기
+우클릭: 해당 작업을 선택하고 다중 작업 모드 종료</system:String>
     <system:String x:Key="CopilotClearTask" xml:space="preserve">좌클릭으로 모든 작업 지우기
 우클릭으로 비활성 작업 지우기</system:String>
     <system:String x:Key="Start">시작</system:String>

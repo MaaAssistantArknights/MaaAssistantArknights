@@ -497,7 +497,7 @@
                             GroupName="TaskSettings"
                             IsChecked="{Binding EnableAfterActionSetting}"
                             Style="{DynamicResource RadioGroupItemSingle}"
-                            ToolTip="{DynamicResource TaskSettings}" />
+                            ToolTip="{DynamicResource PostActionsSettings}" />
                     </hc:ButtonGroup>
                 </StackPanel>
 

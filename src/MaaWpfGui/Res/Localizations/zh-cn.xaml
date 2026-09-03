@@ -53,6 +53,7 @@
     <system:String x:Key="ExternalNotificationSendWhenComplete">任务完成后发送通知</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">任务出错时发送通知</system:String>
     <system:String x:Key="ExternalNotificationSendWhenStalled">任务日志输出停滞时发送通知</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenStalledTip">需在 ｢{key=GameSettings}｣ 中开启 ｢{key=StallTimeoutEnabled}｣ 后才会生效</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">发送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">发送失败</system:String>
     <system:String x:Key="ExternalNotificationSendTest">发送测试</system:String>
@@ -250,7 +251,7 @@
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">襁褓三头犬</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二{key=Operator}开局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
-    <system:String x:Key="RoguelikeCollectibleModeSquad">烧水使用分队</system:String>
+    <system:String x:Key="RoguelikeCollectibleModeSquad">刷开局使用分队</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小队，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">刷深入调查，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyFindPlaytime">刷常乐节点，第一层进洞，找不到需要的节点就重开</system:String>
@@ -272,6 +273,7 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一层远见密文板，不进行作战</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活队凹开局密文板</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多写三个，并用英文分号 ｢;｣ 隔开</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartalTip">填写远见密文板名称，多个用英文分号 ｢;｣ 隔开</system:String>
     <system:String x:Key="RoguelikeCollapseList">坍缩范式列表</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">用英文分号 ｢;｣ 隔开，留空将使用默认列表。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ 使用助战</system:String>
@@ -286,8 +288,10 @@
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小队通讯</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入调查自动切换</system:String>
     <system:String x:Key="DeploymentWithPause">划火柴模式（自动战斗相关）（不稳定, 暂不推荐开启）</system:String>
+    <system:String x:Key="DeploymentWithPauseTip">自动战斗部署{key=Operator}时暂停游戏，再下{key=Operator}</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（实验性功能）</system:String>
-    <system:String x:Key="KillAdbOnExit">退出时释放 ADB</system:String>
+    <system:String x:Key="AdbLiteEnabledTip">MAA 自实现的 ADB 功能，避免每次执行 adb 命令都启动一个 adb.exe 进程</system:String>
+    <system:String x:Key="KillAdbOnExit">退出时结束 ADB 进程</system:String>
     <system:String x:Key="DefaultSquad">默认分队</system:String>
     <system:String x:Key="IS2NewSquad1">心胜于物分队</system:String>
     <system:String x:Key="IS2NewSquad2">物尽其用分队</system:String>
@@ -403,6 +407,7 @@
     <system:String x:Key="UpdateAutoDownloadTip" xml:space="preserve">取消勾选后，检测到新版本时（包括手动触发 ｢{key=UpdateCheckNow}｣）将不再自动下载，仅通过系统通知提示并附带下载链接，可自行下载更新包后拖入 MAA 完成更新。
 若系统通知已关闭，则改为软件内通知，但软件内通知不提供可交互的下载按钮。</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自动安装更新包</system:String>
+    <system:String x:Key="AutoInstallUpdatePackageTip">检测到新版本后不再弹窗询问，将在任务空闲时自动更新并重启 MAA</system:String>
     <system:String x:Key="ShowUpdaterConsole">显示更新程序控制台输出</system:String>
     <system:String x:Key="ShowUpdaterProgress">显示更新程序进度窗口</system:String>
     <system:String x:Key="ShowUpdaterProgressTip" xml:space="preserve">更新时由更新程序显示一个独立的进度窗口，展示当前更新状态与文件处理进度。
@@ -523,8 +528,9 @@ D:\
     <system:String x:Key="ForceScheduledStart">强制定时启动</system:String>
     <system:String x:Key="ForceScheduledStartTip">停止当前任务，重启游戏并开始新任务</system:String>
     <system:String x:Key="ShowWindowBeforeForceScheduledStart">强制定时启动前显示窗口</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">定时启动前显示主窗口，避免最小化时看不到倒计时</system:String>
     <system:String x:Key="TimerCustomConfig">自定义配置选择</system:String>
-    <system:String x:Key="TimerCustomConfigTip">将提前两分钟重启并切换配置</system:String>
+    <system:String x:Key="TimerCustomConfigTip">定时启动前两分钟重启游戏并切换配置</system:String>
     <system:String x:Key="Timer">定时</system:String>
     <system:String x:Key="GlobalConfigTip">此选项页为全局配置</system:String>
     <system:String x:Key="MultiTasksShareTip">以下选项为多任务共用</system:String>
@@ -728,6 +734,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="SwitchResolutionTip">将模拟器分辨率更改为 1920x1080！</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">确保模拟器设置为 1920x1080</system:String>
     <system:String x:Key="AllowUseStoneSave">允许使用源石保存状态</system:String>
+    <system:String x:Key="AllowUseStoneSaveTip">默认 ｢{key=UseOriginitePrime}｣ 仅生效一次；勾选后其状态将保存，左键可正常切换，右键选中时仍仅生效一次</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseExpiringMedicine">无限吃 N 小时内过期的理智药</system:String>
@@ -878,6 +885,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Inverse">反选</system:String>
     <system:String x:Key="Clear">清空</system:String>
     <system:String x:Key="PostActions">完成后</system:String>
+    <system:String x:Key="PostActionsSettings">完成后动作设置</system:String>
     <system:String x:Key="DoNothing">无动作</system:String>
     <system:String x:Key="ExitArknights">退出 明日方舟</system:String>
     <system:String x:Key="ExitSelf">退出 MAA</system:String>
@@ -891,6 +899,7 @@ C:\leidian\LDPlayer9
 取消勾选本选项后，其他选项状态将会正常保存
 右键点击其他选项时，会同步勾选/取消勾选本选项</system:String>
     <system:String x:Key="IfNoOtherMaa">无其他 MAA 时</system:String>
+    <system:String x:Key="IfNoOtherMaaTip">勾选后，仅当没有其他 MAA 实例在运行时，才会执行睡眠/休眠/关机</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
@@ -1237,7 +1246,7 @@ C:\leidian\LDPlayer9
 勾选此项将跳过这些检查，但可能导致作业无法正常运行
 干员精英化等级无法被跳过，如果跳过了任何需求，则战斗完成后不再进行自动点赞</system:String>
     <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
-    <system:String x:Key="AddUserAdditionalTip">以英文 ｢;｣ 为分隔符，英文 ｢,｣ 分隔{key=Operator}名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
+    <system:String x:Key="AddUserAdditionalTip">点击旁边的设置按钮打开编辑窗口，点击 ｢{key=UserAdditional.Add}｣ 逐条添加，按列填写{key=Operator}名、技能与操作</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
     <system:String x:Key="UserAdditional.Skill">技能</system:String>
     <system:String x:Key="UserAdditional.Action">操作</system:String>
@@ -1258,6 +1267,9 @@ C:\leidian\LDPlayer9
 右键添加突袭难度</system:String>
     <system:String x:Key="CopilotClearTask" xml:space="preserve">左键清除所有任务
 右键清除未激活任务</system:String>
+    <system:String x:Key="CopilotSelectTaskTip" xml:space="preserve">左键：查看作业信息
+右键：选中该作业并退出多作业模式</system:String>
+    <system:String x:Key="WindowUpdateInfoTip">点击立即更新</system:String>
     <system:String x:Key="Start">开始</system:String>
     <system:String x:Key="RunTaskOnce">单次运行</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>

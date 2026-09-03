@@ -542,7 +542,8 @@
                                             IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
                                             MouseRightButtonUp="{s:Action SelectCopilotTask}"
                                             PreviewMouseLeftButtonUp="{s:Action SelectCopilotTask}"
-                                            Tag="{c:Binding Index}" />
+                                            Tag="{c:Binding Index}"
+                                            ToolTip="{DynamicResource CopilotSelectTaskTip}" />
                                         <Button
                                             Grid.Column="2"
                                             Margin="0"

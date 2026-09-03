@@ -92,6 +92,7 @@
                                                        Target={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}"
                         Style="{StaticResource RainbowTextBlockStyle}"
                         Text="{Binding WindowVersionUpdateInfo}"
+                        ToolTip="{DynamicResource WindowUpdateInfoTip}"
                         Visibility="{c:Binding 'WindowVersionUpdateInfo.Length > 0'}" />
                     <controls:TextBlock
                         Grid.Row="1"
@@ -102,6 +103,7 @@
                                                        Target={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}"
                         Style="{StaticResource RainbowTextBlockStyle}"
                         Text="{Binding WindowResourceUpdateInfo}"
+                        ToolTip="{DynamicResource WindowUpdateInfoTip}"
                         Visibility="{c:Binding 'WindowResourceUpdateInfo.Length > 0'}" />
                 </Grid>
 

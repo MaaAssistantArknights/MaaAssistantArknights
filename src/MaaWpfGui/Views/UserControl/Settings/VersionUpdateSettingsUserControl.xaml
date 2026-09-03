@@ -61,12 +61,14 @@
                         IsChecked="{Binding AutoDownloadUpdatePackage}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource UpdateAutoDownloadTip}" />
                 </StackPanel>
-                <CheckBox
-                    Margin="8"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Content="{DynamicResource AutoInstallUpdatePackage}"
-                    IsChecked="{Binding AutoInstallUpdatePackage}" />
+                <StackPanel Margin="8" Orientation="Horizontal">
+                    <CheckBox
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource AutoInstallUpdatePackage}"
+                        IsChecked="{Binding AutoInstallUpdatePackage}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource AutoInstallUpdatePackageTip}" />
+                </StackPanel>
                 <CheckBox
                     MaxWidth="200"
                     Margin="8"
