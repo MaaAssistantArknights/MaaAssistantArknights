@@ -25,14 +25,24 @@ namespace MaaWpfGui.Helper;
 
 public class ETagCache
 {
+    private static readonly object _lock = new();
     private static readonly ILogger _logger = Log.ForContext<ETagCache>();
 
     private static readonly string _etagFile = Path.Combine(PathsHelper.CacheDir, "etag.json");
     private static readonly string _lastModifiedFile = Path.Combine(PathsHelper.CacheDir, "last_modified.json");
     private static Dictionary<string, string> _etagCache = [];
     private static Dictionary<string, DateTimeOffset> _lastModifiedCache = [];
+    private static bool _isDirty;
 
     public static void Load()
+    {
+        lock (_lock)
+        {
+            LoadCore();
+        }
+    }
+
+    private static void LoadCore()
     {
         // ETag
         if (File.Exists(_etagFile))
@@ -63,31 +73,90 @@ public class ETagCache
                 _lastModifiedCache = [];
             }
         }
+
+        _isDirty = false;
     }
 
     public static void Save()
     {
-        File.WriteAllText(_etagFile, JsonConvert.SerializeObject(_etagCache, Formatting.Indented));
-        File.WriteAllText(_lastModifiedFile, JsonConvert.SerializeObject(_lastModifiedCache, Formatting.Indented));
+        lock (_lock)
+        {
+            SaveCore();
+        }
     }
 
-    public static string GetETag(string? url) =>
-        url != null && _etagCache.TryGetValue(url, out var etag) ? etag : string.Empty;
+    private static void SaveCore()
+    {
+        if (!_isDirty)
+        {
+            return;
+        }
 
-    public static DateTimeOffset? GetLastModified(string? url) =>
-        url != null && _lastModifiedCache.TryGetValue(url, out var lm) ? lm : null;
+        try
+        {
+            File.WriteAllText(_etagFile, JsonConvert.SerializeObject(_etagCache, Formatting.Indented));
+            File.WriteAllText(_lastModifiedFile, JsonConvert.SerializeObject(_lastModifiedCache, Formatting.Indented));
+            _isDirty = false;
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to save HTTP cache metadata");
+        }
+    }
+
+    public static string GetETag(string? url)
+    {
+        lock (_lock)
+        {
+            return url != null && _etagCache.TryGetValue(url, out var etag) ? etag : string.Empty;
+        }
+    }
+
+    public static DateTimeOffset? GetLastModified(string? url)
+    {
+        lock (_lock)
+        {
+            return url != null && _lastModifiedCache.TryGetValue(url, out var lm) ? lm : null;
+        }
+    }
 
     public static void SetETag(string url, string etag)
     {
+        lock (_lock)
+        {
+            SetETagCore(url, etag);
+        }
+    }
+
+    private static void SetETagCore(string url, string etag)
+    {
+        if (_etagCache.TryGetValue(url, out var cachedETag) && cachedETag == etag)
+        {
+            return;
+        }
+
         _etagCache[url] = etag;
+        _isDirty = true;
     }
 
     public static void SetLastModified(string url, DateTimeOffset? dt)
     {
-        if (dt.HasValue)
+        lock (_lock)
         {
-            _lastModifiedCache[url] = dt.Value;
+            SetLastModifiedCore(url, dt);
         }
+    }
+
+    private static void SetLastModifiedCore(string url, DateTimeOffset? dt)
+    {
+        if (!dt.HasValue ||
+            (_lastModifiedCache.TryGetValue(url, out var cachedLastModified) && cachedLastModified == dt.Value))
+        {
+            return;
+        }
+
+        _lastModifiedCache[url] = dt.Value;
+        _isDirty = true;
     }
 
     // UPDATE: 重定向会导致 uri 变成其他地址，导致存的 ETag 无法匹配原始地址，所以要传入原始地址
@@ -101,17 +170,17 @@ public class ETagCache
         var etag = response.Headers.ETag?.Tag;
         var lastModified = response.Content?.Headers?.LastModified;
 
-        if (!string.IsNullOrEmpty(etag))
+        lock (_lock)
         {
-            SetETag(uri, etag);
-        }
+            if (!string.IsNullOrEmpty(etag))
+            {
+                SetETagCore(uri, etag);
+            }
 
-        if (lastModified.HasValue)
-        {
-            SetLastModified(uri, lastModified.Value);
-        }
+            SetLastModifiedCore(uri, lastModified);
 
-        Save();
+            SaveCore();
+        }
     }
 
     public static async Task<HttpResponseMessage?> FetchResponseWithEtag(string url, bool force = false)
