@@ -37,7 +37,7 @@
 #endif
 
 #ifdef __linux__
-#include "MaaFwWlrController.h"
+#include "MaaFwLinuxController.h"
 #endif
 
 #include "Common/AsstTypes.h"
@@ -81,7 +81,7 @@ std::shared_ptr<asst::ControllerAPI>
 #endif
 #ifdef __linux__
         case ControllerType::MaaFwWlr:
-            return std::make_shared<MaaFwWlrController>(m_callback, m_inst, platform_type);
+            return std::make_shared<MaaFwLinuxController>(m_callback, m_inst, platform_type);
 #endif
         default:
             return nullptr;
