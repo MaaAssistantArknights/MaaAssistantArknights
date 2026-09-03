@@ -19,7 +19,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
 ## 参数总览
 
-- `int msg`  
+- `AsstMsgId msg`  
   消息类型
 
   ```cpp

@@ -19,7 +19,7 @@ Here `AsstMsgId` is an alias of `int32_t`.
 
 ## Parameter Overview
 
-- `int msg`  
+- `AsstMsgId msg`  
   Message type
 
   ```cpp

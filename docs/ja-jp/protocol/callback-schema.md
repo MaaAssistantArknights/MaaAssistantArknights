@@ -23,7 +23,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
 ## 概要
 
-- `int msg`  
+- `AsstMsgId msg`  
    The message type
 
   ```cpp

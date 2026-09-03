@@ -19,7 +19,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
 ## 파라미터 개요
 
-- `int msg`  
+- `AsstMsgId msg`  
   메시지 유형
 
   ```cpp
