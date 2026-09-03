@@ -144,6 +144,8 @@ public:
 
     bool press_esc() override;
 
+    virtual void set_main_screen_recognition(bool on) override { m_main_screen_recognition = on; }
+
     ControlFeat::Feat support_features() const noexcept override { return ControlFeat::PRECISE_SWIPE; }
 
     std::pair<int, int> get_screen_res() const noexcept override { return m_screen_size; }
@@ -158,6 +160,7 @@ private:
     MaaFwControlUnitAPI* m_unit = nullptr;
 
     std::pair<int, int> m_screen_size = { 0, 0 };
+    bool m_main_screen_recognition = false;
 };
 
 }
