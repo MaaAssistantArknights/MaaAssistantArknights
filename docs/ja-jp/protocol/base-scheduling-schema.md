@@ -15,6 +15,8 @@ JSONファイルはコメントをサポートしていません。テキスト�
 
 [ビジュアルスケジューリング生成ツール](https://ark.yituliu.cn/tools/scheduleV3)
 
+[基地スケジュール自動生成ツール](https://riic.autos/)
+
 ## 完全なフィールドの一覧
 
 ```json
