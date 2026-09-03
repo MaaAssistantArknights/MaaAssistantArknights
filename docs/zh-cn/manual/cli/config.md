@@ -19,7 +19,7 @@ maa-cli 配置文件位于特定的配置目录中，你可以通过 `maa dir co
 
 ### 基本结构
 
-一个任务文件包含多个子任务，每一个子任务是一个 MAA 任务，其包含一下几个选项：
+一个任务文件包含多个子任务，每一个子任务是一个 MAA 任务，其包含以下几个选项：
 
 ```toml
 [[tasks]]
@@ -29,6 +29,12 @@ params = { client_type = "Official", start_game_enabled = true } # 对应任务�
 ```
 
 具体的任务类型和参数可以在 [MAA 集成文档][task-types] 中找到。注意，目前 maa-cli 并不会验证参数名和参数值是否正确，即使出错也不会产生任何错误信息，除非 MaaCore 在运行时检测到错误。
+
+除了 `tasks` 之外，任务文件还支持以下顶层字段：
+
+- `client_type`: 指定客户端类型，该值将自动填充到 `StartUp`，`Fight` 和 `CloseDown` 任务的 `client_type` 参数中；
+- `startup`: 是否自动启动游戏，设为 `true` 时，若任务列表中没有 `StartUp` 任务，将在开头自动添加一个，若已有 `StartUp` 任务但未开启 `start_game_enabled`，也会自动开启；
+- `closedown`: 是否自动关闭游戏，设为 `true` 时，若任务列表中没有 `CloseDown` 任务，将在末尾自动添加一个，若已有 `CloseDown` 任务但 `enable` 为 `false`，也会自动开启。
 
 ### 任务条件
 
@@ -63,7 +69,7 @@ params = { plan_index = 2 }
 
 **注意**：如果你的自定义基建计划文件使用相对路径，应该相对于 `$MAA_CONFIG_DIR/infrast`。此外，由于基建文件是由 MaaCore 而不是 maa-cli 读取的，因此这些文件的格式必须是 JSON。同时，maa-cli 不会读取基建文件，也不会根据其中定义的时间段来选择相应的子计划。因此，必须通过 `condition` 字段来指定在相应时间段使用正确的基建计划的参数中的 `plan_index` 字段。这样可以确保在适当的时间段使用正确的基建计划。
 
-除了 `Time` 条件，还有 `DateTime`，`Weekday`，`DayMod`条件。`DateTime` 条件用于指定一个时间段，`Weekday` 条件用于指定一周中的某些天，`DayMod` 用于指定一个自定义周期的某些天。
+除了 `Time` 条件，还有 `DateTime`，`Weekday`，`DayMod` 条件。`DateTime` 条件用于指定一个时间段，`Weekday` 条件用于指定一周中的某些天，`DayMod` 用于指定一个自定义周期的某些天。
 
 ```toml
 [[tasks]]
@@ -111,7 +117,7 @@ conditions = [
     # 这里的 divisor 用来指定周期，remainder 用来指定偏移量
     # 偏移量等于 num_days_since_ce % divisor
     # 这里的 num_days_since_ce 是公元以来的天数，0001-01-01 是第一天
-    # 当天偏移量你可以通过 `maa remainder <divisor>` 来获取.
+    # 当天偏移量你可以通过 `maa remainder <divisor>` 来获取。
     # 比如，2024-1-27 是第 738,912 天，那么 738912 % 2 = 0
     # 当天的偏移量为 0，那么本条件将会被匹配
     { type = "DayMod", divisor = 2, remainder = 0 },
@@ -250,7 +256,7 @@ alternatives = [
     "SL-7", # 将被显示为 "1. SL-7"
     { value = "SL-8", desc = "轻锰矿" } # 将被显示为 "2. SL-8 (轻锰矿)"
 ]
-default_index = 1 # 默认值的索引，从 1 开始，如果没有设置，输入空值将会重新提示输入
+default_index = 1 # 默认值的索引，从 1 开始，如果没有设置，将使用第一个可选值作为默认值
 description = "a stage to fight in summer event" # 描述，可选
 allow_custom = true # 是否允许输入自定义的值，默认为 false，如果允许，那么非整数的值将会被视为自定义的值
 
@@ -276,7 +282,7 @@ description = "medicine to use"
 ```
 
 对于 `Input` 类型，当运行任务时，你将会被提示输入一个值。如果你输入了一个空值，如果有默认值，那么默认值将会被使用，否则你将会被提示重新输入。
-对于 `Select` 类型，当运行任务时，你将会被提示输入一个的索引或者自定义的值（如果允许）。如果你输入了一个空值，如果有默认值，那么默认值将会被使用，否则你将会被提示重新输入。
+对于 `Select` 类型，当运行任务时，你将会被提示输入一个的索引或者自定义的值（如果允许）。如果你输入了一个空值，默认值将会被使用。
 
 `--batch` 选项可以用于在运行任务时跳过所有的输入，这将会使用默认值；如果有任何输入没有默认值，那么将会导致错误。
 
@@ -290,7 +296,7 @@ description = "medicine to use"
 [connection]
 preset = "MuMuPro"
 adb_path = "adb"
-device = "emulator-5554"
+address = "emulator-5554"
 config = "CompatMac"
 
 [resource]
@@ -307,6 +313,9 @@ touch_mode = "MaaTouch"
 deployment_with_pause = false
 adb_lite_enabled = false
 kill_adb_on_exit = false
+
+[behavior]
+auto_reconnect = true
 ```
 
 ### 连接配置
@@ -331,7 +340,7 @@ adb_path = "/path/to/adb" # 如果你需要的话，你可以覆盖预设的 adb
 address = "127.0.0.1:7777" # 如果你需要的话，你可以覆盖预设的地址
 ```
 
-目前只有 `MuMuPro` 一个模拟器的预设，如果有其他常用模拟器的预设，欢迎提交 issue 或者 PR。
+目前内置 `MuMuPro` 和 `Androws` 两个模拟器预设。`Androws` 预设面向 Windows 上的腾讯 Androws 模拟器，会自动从注册表检测其自带的 `adb`，默认连接地址为 `127.0.0.1:5555`。如果有其他常用模拟器的预设，欢迎提交 issue 或者 PR。
 
 #### 特殊预设
 
@@ -370,7 +379,7 @@ gpu_ocr = 1 # 使用 GPU OCR 时使用的 GPU ID，如果这个值被留空，�
 
 ```toml
 [instance_options]
-touch_mode = "ADB" # 使用的触摸模式，可选值为 "ADB"，"MiniTouch"，"MaaTouch" 或者 "MacPlayTools"
+touch_mode = "ADB" # 使用的触摸模式，可选值为 "ADB"，"MiniTouch"，"MaaTouch"，"MacPlayTools" 或者 "MaaFwAdb"
 deployment_with_pause = false # 是否在部署时暂停游戏
 adb_lite_enabled = false # 是否使用 adb-lite
 kill_adb_on_exit = false # 是否在退出时杀死 adb
@@ -378,17 +387,31 @@ kill_adb_on_exit = false # 是否在退出时杀死 adb
 
 注意，`touch_mode` 可选项 `MacPlayTools` 和连接方式 `PlayTools` 绑定。当你使用 `PlayTools` 连接时，`touch_mode` 将会被强制设置为 `MacPlayTools`。
 
+### 行为配置
+
+`[behavior]` 相关字段用于指定 maa-cli 自身的运行时行为：
+
+```toml
+[behavior]
+auto_reconnect = true # 游戏与服务器断开连接时是否自动重连，默认为 true
+```
+
+此外，运行任务时也可以通过 `--no-auto-reconnect` 选项在本次运行中禁用自动重连。
+
 ## CLI 相关配置
 
 CLI 相关的配置需要放在 `$MAA_CONFIG_DIR/cli.toml` 中。目前其包含的配置如下：
 
 ```toml
+# GitHub 代理前缀，配置后 GitHub release 的下载地址将被透明地重写为经过该代理的地址
+# github_proxy = "https://gh-proxy.org/"
+
 # MaaCore 安装和更新相关配置
 [core]
-channel = "Stable" # 更新通道，可选值为 "Alpha"，"Beta" "Stable"，默认为 "Stable"
+channel = "Stable" # 更新通道，可选值为 "Alpha"，"Beta"，"Stable"，默认为 "Stable"
 test_time = 0    # 用于测试镜像速度的时间，0 表示不测试，默认为 3
 # 查询 MaaCore 最新版本的 api 地址，留空表示使用默认地址
-api_url = "https://github.com/MaaAssistantArknights/MaaRelease/raw/main/MaaAssistantArknights/api/version/"
+api_url = "https://api.maa.plus/MaaAssistantArknights/api/version/"
 
 # 配置是否安装 MaaCore 对应的组件，不推荐使用，分开安装可能会导致版本不一致，从而导致一些问题，该选项可能在未来的版本中移除
 [core.components]
@@ -397,7 +420,7 @@ resource = true # 是否安装 MaaCore 的资源，默认为 true
 
 # CLI 更新相关配置
 [cli]
-channel = "Stable" # 更新通道，可选值为 "Alpha"，"Beta" "Stable"，默认为 "Stable"
+channel = "Stable" # 更新通道，可选值为 "Alpha"，"Beta"，"Stable"，默认为 "Stable"
 # 查询 maa-cli 最新版本的 api 地址，留空表示使用默认地址
 api_url = "https://github.com/MaaAssistantArknights/maa-cli/raw/version/"
 # 下载预编译二进制文件的地址，留空表示使用默认地址
@@ -415,7 +438,7 @@ backend = "libgit2" # 资源热更新后端，可选值为 "git" 或者 "libgit2
 
 # 资源热更新远程仓库相关配置
 [resource.remote]
-branch = "main" # 远程仓库的分支，默认为 "main"
+branch = "main" # 远程仓库的分支，不填时使用远程仓库的默认分支
 # 远程资源仓库的 URL，留空以使用默认 URL
 # GitHub 仓库支持 HTTPS 和 SSH 两种协议访问，建议使用 HTTPS 协议，因为通常情况下不需要额外配置
 url = "https://github.com/MaaAssistantArknights/MaaResource.git"
@@ -441,12 +464,19 @@ passphrase = "password"       # ssh 密钥的密码
 # ssh-agent 会将你的密钥保存在内存中，这样你就不需要每次输入密码
 # 注意，你需要确保 ssh-agent 已经启动并且已经添加了你的密钥，同时 SSH_AUTH_SOCK 环境变量已经设置
 # use_ssh_agent = true # 使用 ssh-agent 进行身份验证，如果设置为 true，将忽略 ssh_key 和 passphrase 字段
+
+# 活动信息与热更新资源文件下载相关配置
+[hot_update]
+# 查询活动信息和下载热更新资源文件的 api 地址，留空表示使用默认地址
+api_url = "https://api.maa.plus/MaaAssistantArknights/api"
+# 检查间隔（秒），超过该时间后文件将被重新下载，0 表示禁用缓存，默认为 600
+check_interval = 600
 ```
 
 **注意事项**：
 
 - MaaCore 的更新通道中 `Alpha` 只在 Windows 上可用；
-- 由于 CLI 默认的 API 链接和下载链接都是 GitHub 的链接，因此在国内可能会有一些问题，你可以通过配置 `api_url` 和 `download_url` 来使用镜像。
+- 部分默认链接指向 GitHub，因此在国内可能会有一些问题，你可以通过配置 `api_url` 和 `download_url` 来使用镜像，也可以配置顶层的 `github_proxy` 来通过代理加速 GitHub release 的下载。
 - 即使启动了资源热更新，你依然需要安装 MaaCore 的资源，因为资源热更新并不包含所有的资源文件，只是包含部分可更新的资源文件，基础资源文件仍然需要安装。
 - 资源热更新是通过 Git 来拉取远程仓库，如果后端设置为 `git` 那么 `git` 命令行工具必须可用。
 - 如果你想要使用 SSH 协议来拉取远程仓库，你必须配置 `ssh_key` 字段，这个字段应该是一个路径，指向你的 SSH 私钥。

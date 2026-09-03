@@ -12,8 +12,10 @@ icon: material-symbols:u-turn-left
 ## 回调函数原型
 
 ```cpp
-typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom_arg);
+typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json, void* custom_arg);
 ```
+
+其中 `AsstMsgId` 为 `int32_t` 的别名。
 
 ## 参数总览
 
@@ -171,7 +173,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 ::: field what
 @type string
 @required
-回调类型，例如 `Connect` | `Click` | `Screencap` 等。
+回调类型，例如 `Connect` | `AttachWindow` | `Click` | `Screencap` 等。
 :::
 ::: field async_call_id
 @type number
@@ -197,6 +199,11 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 @type string
 @required
 最后的任务链。
+:::
+::: field taskid
+@type number
+@required
+最后一条任务链对应的任务 TaskId。
 :::
 ::: field uuid
 @type string
@@ -232,6 +239,8 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   自动抄作业
 - `SSSCopilot`  
   自动抄保全作业
+- `ParadoxCopilot`  
+  自动抄悖论模拟作业
 - `Depot`  
   仓库识别
 - `OperBox`  
@@ -248,6 +257,8 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   调试
 
 ### TaskChain 相关消息
+
+`TaskChainError` / `TaskChainStart` / `TaskChainCompleted` / `TaskChainExtraInfo` / `TaskChainStopped` 共用以下字段：
 
 :::: field-group
 ::: field taskchain
@@ -267,9 +278,17 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 :::
 ::::
 
+其中 `TaskChainError` 在任务链因未处理异常中断时会额外携带 `details` 字段：
+
+- `error` (string, required): 异常类型，取值为 `OpenCVException` | `OutOfMemory` | `UnhandledException` | `UnknownException`。
+
 ### TaskChainExtraInfo
 
-`details` 字段为空。
+默认仅携带上述公共字段。肉鸽（界园主题）路径规划判定无法避开过多战斗而主动重开时，消息会额外携带：
+
+- `what` (string, required): 固定为 `RoutingRestart`。
+- `why` (string, required): 固定为 `TooManyBattlesAhead`。
+- `node_cost` (number, required): 规划得到的下一节点代价。
 
 ### SubTask 相关消息
 
@@ -318,9 +337,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   任务名。
   :::
   ::: field action
-  @type number
+  @type string
   @required
-  Action ID。
+  动作名，例如 `ClickSelf` | `DoNothing` | `Swipe`。
   :::
   ::: field exec_times
   @type number
@@ -333,12 +352,23 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   最大执行次数。
   :::
   ::: field algorithm
-  @type number
+  @type string
   @required
-  识别算法。
+  识别算法名，例如 `MatchTemplate` | `OcrDetect` | `FeatureMatch` | `JustReturn`。
+  :::
+  ::: field result
+  @type object
+  @required
+  本次识别结果，各算法结构不同；无识别结果时为空对象。
   :::
   ::::
 
+  此外，当任务执行次数达到上限时，会先回传一条 `SubTaskExtraInfo` 消息，`what` 为 `ExceededLimit`，`details` 包含 `task`（任务名）、`exec_times`（已执行次数）、`max_times`（最大执行次数）。
+
+- `ReportToPenguinStats` / `ReportToYituliu`  
+  汇报战斗掉落到企鹅数据统计 / 一图流大数据（上报失败时以 `SubTaskError` 回传）。
+- `StartGameTask`  
+  打开客户端失败（配置文件与传入 `client_type` 不匹配）。
 - Todo 其他
 
 ##### 常见 `task` 字段
@@ -347,8 +377,6 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   开始战斗
 - `MedicineConfirm`  
   使用理智药
-- `ExpiringMedicineConfirm`  
-  使用即将过期的理智药
 - `StoneConfirm`  
   碎石
 - `RecruitRefreshConfirm`  
@@ -357,10 +385,6 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   公招确认招募
 - `RecruitNowConfirm`  
   公招使用加急许可
-- `ReportToPenguinStats`  
-  汇报到企鹅数据统计
-- `ReportToYituliu`  
-  汇报到一图流大数据
 - `InfrastDormDoubleConfirmButton`  
   基建的二次确认按钮，仅当待进驻干员已进驻其他设施时才会有（MAA 将自动点击确认），请提示用户
 - `StartExplore`  
@@ -387,8 +411,6 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   肉鸽关卡：紧急作战
 - `StageDreadfulFoe`  
   肉鸽关卡：险路恶敌
-- `StartGameTask`
-  打开客户端失败（配置文件与传入 client_type 不匹配）
 - Todo 其他
 
 ### SubTaskExtraInfo
@@ -438,6 +460,8 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
     - `itemName` (string, required): 材料名称。
     - `quantity` (number, required): 总计数量。
     - `addQuantity` (number, required): 本次新增的掉落数量。
+  - `cur_times` (number, optional): 结算界面识别到的连战次数（识别到时存在）。
+  - `annihilation_weekly_process` (array, optional): 剿灭模式的本周获取进度，格式为 `[已完成数, 上限]`（仅剿灭关卡存在）。
 
 - `RecruitTagsDetected`  
   公招识别到了 Tags。`details` 字段内容如下：
@@ -480,6 +504,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
     - `tags` (array, required): 参与组合的 tags。
     - `level` (number, required): 这组 tags 的星级。
     - `opers` (array, required): 可能招募到的干员，数组每一项包含：
+      - `id` (string, required): 干员 ID。
       - `name` (string, required): 干员名称。
       - `level` (number, required): 干员星级。
 
@@ -521,11 +546,8 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   :::
   ::::
 
-- `RecruitSlotCompleted`  
-  当前公招槽位任务完成。`details` 字段为空。
-
 - `RecruitError`  
-  公招识别错误。`details` 字段为空。
+  公招识别错误。`details` 字段为空；若因当前槽位刷新次数达到上限触发，则包含 `refresh_limit`（槽位刷新次数上限）。
 
 - `EnterFacility`  
   基建进入了设施。`details` 字段内容如下：
@@ -589,33 +611,31 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   @required
   关卡名。
   :::
+  ::: field size
+  @type number
+  @required
+  地图格点数量。
+  :::
   ::::
 
 - `StageInfoError`  
   自动作战关卡识别错误。`details` 字段为空。
 
-- `PenguinId`  
-  企鹅物流 ID。`details` 字段内容如下：
-
-  :::: field-group
-  ::: field id
-  @type string
-  @required
-  企鹅物流 ID。
-  :::
-  ::::
-
-- `Depot`  
+- `DepotInfo`  
   仓库识别结果。`details` 字段结构如下：
   - `done` (boolean, required): 是否已经识别完了，为 `false` 表示仍在识别中（过程中的数据）。
   - `data` (string, required): JSON 字符串，格式为 `{"物品ID": 数量, ...}`，例如 `{"2001":18000,"31043":317}`。
 
-- `OperBox`  
+- `OperBoxInfo`  
   干员识别结果。`details` 字段结构如下：
   - `done` (boolean, required): 是否已经识别完了，为 `false` 表示仍在识别中（过程中的数据）。
-  - `all_oper` (array, required): 全干员列表，数组每一项包含：
+  - `all_opers` (array, required): 全干员列表，数组每一项包含：
     - `id` (string, required): 干员 ID。
     - `name` (string, required): 干员名称。
+    - `name_en` (string, required): 干员英文名称。
+    - `name_jp` (string, required): 干员日文名称。
+    - `name_kr` (string, required): 干员韩文名称。
+    - `name_tw` (string, required): 干员繁中名称。
     - `own` (boolean, required): 是否拥有。
     - `rarity` (number, required): 干员稀有度 [1, 6]。
   - `own_opers` (array, required): 已拥有干员的详细信息列表，数组每一项包含：
@@ -628,7 +648,15 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
     - `rarity` (number, required): 干员稀有度 [1, 6]。
 
 - `UnsupportedLevel`  
-  自动抄作业，不支持的关卡名。`details` 字段为空。
+  自动抄作业，不支持的关卡名。`details` 字段内容如下：
+
+  :::: field-group
+  ::: field level
+  @type string
+  @required
+  不支持的关卡名。
+  :::
+  ::::
 
 ### ReportRequest
 

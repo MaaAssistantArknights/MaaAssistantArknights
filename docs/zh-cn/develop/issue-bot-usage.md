@@ -15,7 +15,7 @@ Issue Bot 使用的 action 为 [issue-checker](https://github.com/MaaAssistantAr
 
 ### 自动触发
 
-- 给 议题 和 拉取请求 增加标签，包括 `module` 系列，`Client` 系列，`ambiguous`，`translation required` 等。  
+- 给 议题 和 拉取请求 增加标签，包括 `module` 系列，`client` 系列，`ambiguous`，`translation required` 等。  
   Issue Bot 会根据关键词自动增加分类标签。  
   具体关键词可以参考[配置文件](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/issue-checker.yml)。
 - 给作者是可见性设置为 public 的 MAA 成员的 议题 和 拉取请求 增加 `MAA Team` 标签。
@@ -28,8 +28,8 @@ Issue Bot 使用的 action 为 [issue-checker](https://github.com/MaaAssistantAr
 
 Issue Bot 会对拉取请求标题的格式进行简单审查。它会增加 `ambiguous` 标签，除非拉取请求标题以下列任一单词开头：
 
-- `build` `chore` `ci` `doc` `docs` `feat` `fix` `perf` `refactor` `rfc` `style` `test`
-- `Merge` `merge` `Revert` `revert` `Reapply` `reapply`
+- `build` `chore` `ci` `doc` `docs` `feat` `fix` `perf` `refactor` `rft` `style` `test` `i18n` `typo` `debug`
+- `Revert` `revert` `Release` `release`
 
 ### 手动触发
 
@@ -56,15 +56,9 @@ Issue Bot 会对拉取请求标题的格式进行简单审查。它会增加 `am
 - **当你知道自己的议题评论会导致 Issue Bot 误解时，尽量添加一些 skip 操作。**
 
 ::: info 注意
-<sup>1</sup> 这里的 COMMIT_HASH 需要完整的 40 位
+<sup>1</sup> 这里的 COMMIT_HASH 取 8~40 位即可，不必是完整的 40 位
 :::
 
 #### 推送（Push）
 
-对于一个推送中的任意提交：
-
-- 在 commit message 中包含以下几种任意一个，可以为对应议题加上 `fixed` 标签：
-  - `fix #{ISSUE_NUMBER}`
-  - `close #{ISSUE_NUMBER}`
-  - `fix https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/{ISSUE_NUMBER}`
-  - `close https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/{ISSUE_NUMBER}`
+Issue Bot 不会处理推送事件。在 commit message 中包含 `fix #{ISSUE_NUMBER}`、`close #{ISSUE_NUMBER}` 等关闭关键字，待提交合并进默认分支后，GitHub 会自动关闭对应议题，但不会为其增加 `fixed` 标签。
