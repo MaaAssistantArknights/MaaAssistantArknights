@@ -203,7 +203,7 @@ bool asst::MaaFwLinuxController::park_cursor()
     return inject_input_event(InputEvent { .type = InputEvent::Type::WAIT_MS, .milisec = 50 }) &&
            inject_input_event(
                InputEvent { .type = InputEvent::Type::TOUCH_MOVE,
-                            .point = { m_screen_size.first - 10, m_screen_size.second - 10 } });
+                            .point = { 0, m_screen_size.second - 1 } });
 }
 
 #endif
