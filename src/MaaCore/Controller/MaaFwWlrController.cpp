@@ -4,14 +4,6 @@
 
 #ifdef __linux__
 
-#define CHECK_EXIST(x)                                         \
-    do {                                                       \
-        if (!(x)) {                                            \
-            Log.error(__FUNCTION__, "|", #x, "is not inited"); \
-            return { };                                        \
-        }                                                      \
-    } while (0)
-
 bool asst::MaaFwWlrController::connect(
     const std::string& adb_path [[maybe_unused]],
     const std::string& address [[maybe_unused]],
@@ -53,7 +45,10 @@ const std::string& asst::MaaFwWlrController::get_uuid() const
 
 bool asst::MaaFwWlrController::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
 {
-    CHECK_EXIST(m_unit);
+    if (!m_unit) {
+        Log.error("Control unit not initialized");
+        return false;
+    }
 
     if (!m_unit->screencap(image_payload) || image_payload.empty()) {
         return false;
@@ -146,7 +141,10 @@ bool asst::MaaFwWlrController::swipe(
 
 bool asst::MaaFwWlrController::inject_input_event(const InputEvent& event)
 {
-    CHECK_EXIST(m_unit);
+    if (!m_unit) {
+        Log.error("Control unit not initialized");
+        return false;
+    }
 
     using enum InputEvent::Type;
     switch (event.type) {
