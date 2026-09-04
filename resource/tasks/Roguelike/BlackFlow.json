@@ -1360,6 +1360,7 @@
     "BlackFlow@Roguelike@StageEncounterLeaveConfirm": {
         "baseTask": "Roguelike@StageEncounterLeaveConfirm",
         "template": "BlackFlow@Roguelike@StageEncounterLeaveConfirm.png",
+        "templThreshold": 0.7,
         "next": [
             "BlackFlow@Roguelike@StageEncounterLeaveConfirm",
             "BlackFlow@Roguelike@StageEncounterLeaveConfirmCompleted"
