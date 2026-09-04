@@ -54,9 +54,11 @@ bool asst::MaaFwLinuxController::screencap(cv::Mat& image_payload, bool allow_re
         using enum InputEvent::Type;
         if (m_main_screen_recognition) {
             // 主界面情况下鼠标移动到窗口中心，等待主界面的视差动画，300ms
-            inject_input_event(InputEvent { .type = TOUCH_MOVE, .point = { m_screen_size.first / 2, m_screen_size.second / 2 } });
+            inject_input_event(
+                InputEvent { .type = TOUCH_MOVE, .point = { m_screen_size.first / 2, m_screen_size.second / 2 } });
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
-        } else {
+        }
+        else {
             inject_input_event(InputEvent { .type = TOUCH_MOVE, .point = { 0, m_screen_size.second - 1 } });
             // 游戏自绘光标跟随真实光标，渲染存在帧延迟，等待其画到挪动终点后再截图，避免光标被截进识别区
             std::this_thread::sleep_for(std::chrono::milliseconds(34));
