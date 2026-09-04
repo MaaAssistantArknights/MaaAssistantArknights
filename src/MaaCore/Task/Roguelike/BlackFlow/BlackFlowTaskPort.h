@@ -7,6 +7,7 @@
 #include <string_view>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "BlackFlowObservation.h"
@@ -27,6 +28,8 @@ class Assistant;
 
 namespace asst::blackflow
 {
+class BlackFlowInventoryCleanup;
+
 struct MovementPanelObservation
 {
     MovementKind target = MovementKind::Walk;
@@ -99,9 +102,47 @@ struct EnteredPageObservation
 enum class MoveConfirmationStatus
 {
     Succeeded,
+    InventoryCleaned,
     NeedsDismiss,
     Failed,
 };
+
+enum class MoveConfirmationTaskDisposition
+{
+    Continue,
+    InventoryCleaned,
+    NeedsDismiss,
+    Failed,
+};
+
+template <typename Cleanup>
+MoveConfirmationTaskDisposition
+    resolve_move_confirmation_task(std::string_view task, Cleanup&& cleanup, std::string* error)
+{
+    if (task.ends_with("BlackFlow@Roguelike@InventoryCleanupRequired")) {
+        return std::forward<Cleanup>(cleanup)(error) ? MoveConfirmationTaskDisposition::InventoryCleaned
+                                                     : MoveConfirmationTaskDisposition::Failed;
+    }
+    if (task.ends_with("BlackFlow@Roguelike@InventoryCleanupFailed")) {
+        if (error != nullptr) {
+            *error = "inventory cleanup could not open the scrap box";
+        }
+        return MoveConfirmationTaskDisposition::Failed;
+    }
+    if (task.ends_with("BlackFlow@Roguelike@MovePreviewConfirmExceeded")) {
+        if (error != nullptr) {
+            *error = "move preview confirmation remained visible after four attempts";
+        }
+        return MoveConfirmationTaskDisposition::NeedsDismiss;
+    }
+    if (!task.ends_with("BlackFlow@Roguelike@MovePreviewConfirmSucceeded")) {
+        if (error != nullptr) {
+            *error = "move preview confirmation ended at an unexpected task: " + std::string(task);
+        }
+        return MoveConfirmationTaskDisposition::Failed;
+    }
+    return MoveConfirmationTaskDisposition::Continue;
+}
 
 [[nodiscard]] EnteredPageObservation classify_entered_page_texts(std::vector<std::string> matched_texts);
 
@@ -178,6 +219,7 @@ private:
     bool classify_entered_page(const cv::Mat& image, EnteredPageObservation& observation, std::string* error) const;
 
     std::unique_ptr<ProcessTaskContext> m_task_context;
+    std::unique_ptr<BlackFlowInventoryCleanup> m_inventory_cleanup;
     std::shared_ptr<IBlackFlowMapObservationSource> m_map_source;
 };
 

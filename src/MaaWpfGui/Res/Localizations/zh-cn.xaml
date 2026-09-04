@@ -1502,6 +1502,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneChanged">阶段目标：{0}（{1}）</system:String>
     <system:String x:Key="BlackFlowStrategyResult">肉鸽策略结束：{0}（{1}）</system:String>
     <system:String x:Key="BlackFlowStrategyStarted">黑流策略已启动：{0}</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupStarted">零件箱超载，开始清理</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupDiscarded">已丢弃零件：{0}</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupCompleted">零件箱清理完成</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupFailed">零件箱清理失败</system:String>
     <system:String x:Key="BlackFlowStrategyUnknown">未知策略</system:String>
     <system:String x:Key="BlackFlowDecisionProbeUnknownNode">探测路线前方最近的未分类节点</system:String>
     <system:String x:Key="BlackFlowDecisionPolicyOrder">按照策略设定的优先顺序选择</system:String>

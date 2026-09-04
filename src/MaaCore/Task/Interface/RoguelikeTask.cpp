@@ -123,9 +123,12 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     // ------------------ 黑流树海主题专用插件 ------------------
     m_blackflow_map_source_ptr = std::make_shared<blackflow::BlackFlowMapObservationSource>();
-    m_blackflow_port_ptr =
-        std::make_shared<blackflow::BlackFlowTaskPort>(callback, inst, TaskType, m_blackflow_map_source_ptr);
     m_blackflow_session_ptr = std::make_shared<blackflow::BlackFlowSession>();
+    m_blackflow_port_ptr = std::make_shared<blackflow::BlackFlowTaskPort>(
+        callback,
+        inst,
+        TaskType,
+        m_blackflow_map_source_ptr);
     m_roguelike_task_ptr->register_plugin<blackflow::BlackFlowLifecycleTaskPlugin>(
         m_config_ptr,
         m_control_ptr,

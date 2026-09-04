@@ -1225,6 +1225,28 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                     break;
                 }
 
+            case "BlackFlowInventoryCleanup":
+                {
+                    var discardedName = subTaskDetails?["name"]?.ToString() ?? string.Empty;
+                    var (message, color) = subTaskDetails?["status"]?.ToString() switch {
+                        "started" =>
+                            (LocalizationHelper.GetString("BlackFlowInventoryCleanupStarted"), UiLogColor.Warning),
+                        "discarded" =>
+                            (LocalizationHelper.GetStringFormat("BlackFlowInventoryCleanupDiscarded", discardedName), UiLogColor.Info),
+                        "completed" =>
+                            (LocalizationHelper.GetString("BlackFlowInventoryCleanupCompleted"), UiLogColor.Success),
+                        "failed" =>
+                            (LocalizationHelper.GetString("BlackFlowInventoryCleanupFailed"), UiLogColor.Error),
+                        _ => (string.Empty, UiLogColor.Trace),
+                    };
+                    if (!string.IsNullOrEmpty(message))
+                    {
+                        Instances.TaskQueueViewModel.AddLog(message, color);
+                    }
+
+                    break;
+                }
+
             case "BlackFlowStrategyStarted":
                 {
                     var profile = LocalizeBlackFlowProfile(subTaskDetails?["profile"]?.ToString());
