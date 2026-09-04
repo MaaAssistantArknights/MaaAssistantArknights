@@ -1367,7 +1367,7 @@
         "text": ["获得了塔罗牌"],
         "roi": [580, 280, 180, 60],
         "action": "ClickRect",
-        "specificRect": [1044, 219, 40, 40],
+        "specificRect": [1044, 219, 10, 10],
         "reduceOtherTimes": ["StartButton1"],
         "postDelay": 1000,
         "next": ["StartButton1"]
