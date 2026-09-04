@@ -1,4 +1,4 @@
-## v6.17.0
+## v6.17.1
 
 ### Highlights
 
@@ -44,6 +44,35 @@ The infrast efficiency algorithm has been rewritten; the default mode now suppor
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.1 (2026-09-04)</b></summary>
+
+### 新增 | New
+
+* 新增 SideStory「月行水上」活动关卡导航，支持 SR-6~8 与搓玉关 SR-5 @Daydreamer114 @ABA2396
+
+### 修复 | Fix
+
+* 修复游戏新增 ｢特别纪念｣ 页签后仓库识别报错，更新仓库页签模板 @ABA2396
+* 修复 PC 端（Win32）连接下滑动操作被判定为点击的问题：滑动插值步间补充等待，Seize 等异步输入方式下不再瞬移 @ABA2396
+* 修复自动战斗指定编队选择第二、三队时有低概率触发编队改名 @ABA2396
+* 修复自动战斗部分早期别传（SS）活动关卡代码匹配失败 @status102
+* 修复黑流树海的一批识别问题：补充楼层识别正则、调整点击 ｢出发前往｣ 的识别范围 ([#18023](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18023) [#18037](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18037)) @ZiyinLin
+* 修复 MuMu/雷电连接与系统通知的提示文案中转义符显示异常 @ABA2396
+* 修复界面文案中含 `.` 或 `@` 的 `{key=}` 引用未被替换的问题 @ABA2396
+
+### 改进 | Improved
+
+* 补齐一批设置项与界面的提示说明，修正歧义命名（｢烧水使用分队｣ 改为 ｢刷开局使用分队｣ 等） @ABA2396
+* 统一界面提示宽度，默认上限改为 500 @ABA2396
+
+### 文档 | Docs
+
+* 对照代码全面修正文档 ([#18030](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18030)) @ABA2396
+* 各语言文档补充 RIIC.Autos 链接 ([#18022](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18022)) @BrKDDD
+
+</details>
+
+<details>
 <summary><b>v6.17.0 (2026-09-02)</b></summary>
 
 ### 新增 | New
