@@ -147,8 +147,6 @@ public:
     std::pair<int, int> get_screen_res() const noexcept override { return m_screen_size; }
 
 private:
-    bool park_cursor();
-
     static constexpr int DefaultSwipeDelay = 5; // ms
 
     AsstCallback m_callback;

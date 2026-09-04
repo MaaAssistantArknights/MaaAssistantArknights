@@ -50,11 +50,18 @@ bool asst::MaaFwLinuxController::screencap(cv::Mat& image_payload, bool allow_re
         return false;
     }
 
-    if (m_screen_size.second > 0 && m_main_screen_recognition) {
+    // 截图前把鼠标移走，避免光标出现在截图中影响识别
+    if (m_screen_size.second > 0) {
         using enum InputEvent::Type;
-        // 主界面情况下鼠标移动到窗口中心，等待主界面的视差动画，300ms
-        inject_input_event(InputEvent { .type = TOUCH_MOVE, .point = { m_screen_size.first / 2, m_screen_size.second / 2 } });
-        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        if (m_main_screen_recognition) {
+            // 主界面情况下鼠标移动到窗口中心，等待主界面的视差动画，300ms
+            inject_input_event(InputEvent { .type = TOUCH_MOVE, .point = { m_screen_size.first / 2, m_screen_size.second / 2 } });
+            std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        } else {
+            inject_input_event(InputEvent { .type = TOUCH_MOVE, .point = { 0, m_screen_size.second - 1 } });
+            // 游戏自绘光标跟随真实光标，渲染存在帧延迟，等待其画到挪动终点后再截图，避免光标被截进识别区
+            std::this_thread::sleep_for(std::chrono::milliseconds(34));
+        }
     }
 
     if (!m_unit->screencap(image_payload) || image_payload.empty()) {
@@ -72,7 +79,8 @@ bool asst::MaaFwLinuxController::click(const Point& p)
     using enum InputEvent::Type;
     return inject_input_event(InputEvent { .type = TOUCH_DOWN, .point = { p.x, p.y } }) &&
            inject_input_event(InputEvent { .type = WAIT_MS, .milisec = 50 }) &&
-           inject_input_event(InputEvent { .type = TOUCH_UP, .point = { p.x, p.y } }) && park_cursor();
+           inject_input_event(InputEvent { .type = TOUCH_UP, .point = { p.x, p.y } }) &&
+           inject_input_event(InputEvent { .type = WAIT_MS, .milisec = 50 });
 }
 
 bool asst::MaaFwLinuxController::input(const std::string& text)
@@ -107,6 +115,8 @@ bool asst::MaaFwLinuxController::swipe(
             y1 = std::clamp(y1, 0, height - 1);
         }
     }
+
+    Log.trace("MaaFwLinuxController swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
 
     using enum InputEvent::Type;
 
@@ -153,7 +163,7 @@ bool asst::MaaFwLinuxController::swipe(
         do_swipe(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
     }
 
-    return inject_input_event(InputEvent { .type = TOUCH_UP, .point = { x2, y2 } }) && park_cursor();
+    return inject_input_event(InputEvent { .type = TOUCH_UP, .point = { x2, y2 } });
 }
 
 bool asst::MaaFwLinuxController::inject_input_event(const InputEvent& event)
@@ -196,14 +206,6 @@ bool asst::MaaFwLinuxController::press_esc()
     return inject_input_event(InputEvent { .type = InputEvent::Type::KEY_DOWN, .keycode = KEY_ESC }) &&
            inject_input_event(InputEvent { .type = InputEvent::Type::WAIT_MS, .milisec = 50 }) &&
            inject_input_event(InputEvent { .type = InputEvent::Type::KEY_UP, .keycode = KEY_ESC });
-}
-
-bool asst::MaaFwLinuxController::park_cursor()
-{
-    return inject_input_event(InputEvent { .type = InputEvent::Type::WAIT_MS, .milisec = 50 }) &&
-           inject_input_event(
-               InputEvent { .type = InputEvent::Type::TOUCH_MOVE,
-                            .point = { 0, m_screen_size.second - 1 } });
 }
 
 #endif
