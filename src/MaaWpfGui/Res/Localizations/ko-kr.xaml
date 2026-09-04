@@ -593,6 +593,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="ManualStopWithScript">수동 종료 시 스크립트 사용</system:String>
     <system:String x:Key="BlockSleep">작업 실행 시 절전 모드 차단</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">절전 모드 방지 시 항상 밝게 표시</system:String>
+    <system:String x:Key="MuteGameWindowWhileRunning">작업 실행 중 게임 창 음소거</system:String>
     <system:String x:Key="ScreencapCost">스크린샷 소요 시간 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">{key=AutoRoguelike} 테마</system:String>
     <system:String x:Key="RoguelikeThemePhantom">팬텀</system:String>

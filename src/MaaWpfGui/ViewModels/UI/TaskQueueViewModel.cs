@@ -636,6 +636,11 @@ public class TaskQueueViewModel : Screen
             Inited = e.NewState.Inited;
             Stopping = e.NewState.Stopping;
 
+            if (!e.OldState.Idle && e.NewState.Idle)
+            {
+                _ = GameAudioMuteManager.RestoreWhenCoreIdleAsync(Instances.AsstProxy.AsstRunning);
+            }
+
             Instances.SettingsViewModel.Idle = e.NewState.Idle;
             if (!e.NewState.Idle)
             {

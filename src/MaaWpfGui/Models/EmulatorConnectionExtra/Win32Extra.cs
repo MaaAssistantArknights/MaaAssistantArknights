@@ -134,4 +134,15 @@ public class Win32Extra : ExtraConfig
             ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra.KeyboardMethod = value;
         }
     } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra.KeyboardMethod;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the attached game process is muted while tasks are running.
+    /// </summary>
+    public bool MuteWhileRunning
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra.MuteWhileRunning = value;
+        }
+    } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra.MuteWhileRunning;
 }

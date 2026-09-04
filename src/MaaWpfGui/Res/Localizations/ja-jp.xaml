@@ -593,6 +593,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="ManualStopWithScript">手動停止時に上記のスクリプトを有効にする</system:String>
     <system:String x:Key="BlockSleep">タスク実行時の休止状態の防止</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">休止状態を防ぐときは画面をオンのままにします</system:String>
+    <system:String x:Key="MuteGameWindowWhileRunning">タスク実行中はゲームウィンドウをミュートする</system:String>
     <system:String x:Key="ScreencapCost">スクリーンショットの撮影には時間がかかります min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">テーマ</system:String>
     <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
