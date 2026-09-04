@@ -141,8 +141,13 @@ public class Win32Extra : ExtraConfig
     public bool MuteWhileRunning
     {
         get; set {
-            SetAndNotify(ref field, value);
+            if (!SetAndNotify(ref field, value))
+            {
+                return;
+            }
+
             ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra.MuteWhileRunning = value;
+            Instances.AsstProxy.UpdateGameAudioMute(value);
         }
     } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra.MuteWhileRunning;
 }
