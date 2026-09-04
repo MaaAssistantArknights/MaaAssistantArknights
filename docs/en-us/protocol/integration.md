@@ -1703,7 +1703,7 @@ Deprecated. Originally for enabling Minitouch; "1" - on, "0" - off. Note that th
 @type string
 @default minitouch
 @optional
-Touch mode setting. Options: minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras. Default minitouch. Enum value: 2.  
+Touch mode setting. Options: minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras | MaaFwLinux. Default minitouch. Enum value: 2.  
 :::  
 ::: field DeploymentWithPause  
 @type boolean

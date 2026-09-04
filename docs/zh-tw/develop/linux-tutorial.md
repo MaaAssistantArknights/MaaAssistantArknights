@@ -80,7 +80,7 @@ Mac 使用者可以使用 `tools/build_macos_universal.zsh` 腳本進行編譯�
    cmake --install build --prefix <target_directory>
    ```
 
-4. 若需針對 MaaFwAdbController（MaaFwAdb 觸控模式）相關功能進行除錯，需要[自行編譯 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，將 `libMaaAdbControlUnit.so` 放到安裝目錄下。
+4. 若需針對 MaaFwAdbController（MaaFwAdb 觸控模式） / MaaFwLinuxController（MaaFwLinux 觸控模式）相關功能進行除錯，需要[自行編譯 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，將 `libMaaAdbControlUnit.so` / `libMaaLinuxControlUnit.so` 放到安裝目錄下。
 
 ::::
 
