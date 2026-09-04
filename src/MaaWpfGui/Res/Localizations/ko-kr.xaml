@@ -1426,7 +1426,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC 클라이언트에서는 커서가 드롭 아이템과 수량 인식을 가릴 수 있습니다. 잘못된 데이터가 데이터 풀을 오염시키지 않도록 이번 보고는 자동으로 건너뜁니다</system:String>
     <system:String x:Key="TheEx">EX 스테이지 없음, 중단</system:String>
-    <system:String x:Key="MissingOperators">다음 {key=Operator} 그룹의 {key=Operator}를 보유하고 있지 않거나(그룹당 1명이면 충분합니다) 작업 요구 사항을 충족하지 않습니다:\n{0}｢선호｣ 표시는 {key=Operator} 인식에 영향을 줄 수 있습니다. 실제로 보유하고 있다면 표시를 해제한 후 다시 시도하거나, ｢{key=AutoSquad}｣를 끄고 직접 편성하세요. 실제로 보유하지 않은 경우 부족한 그룹이 1개뿐이라면 ｢{key=SupportUnitUsage}｣로 대체할 수 있고, 2개 이상이라면 다른 작업 파일을 사용해 주세요.</system:String>
+    <system:String x:Key="MissingOperators">다음 {key=Operator} 그룹의 {key=Operator}를 보유하고 있지 않거나 작업 요구 사항을 충족하지 않습니다 (그룹당 1명이면 충분합니다):\n{0}｢선호｣ 표시는 {key=Operator} 인식에 영향을 줄 수 있습니다. 실제로 보유하고 있다면 표시를 해제한 후 다시 시도하거나, ｢{key=AutoSquad}｣를 끄고 직접 편성하세요. 실제로 보유하지 않은 경우 부족한 그룹이 1개뿐이라면 ｢{key=SupportUnitUsage}｣로 대체할 수 있고, 2개 이상이라면 다른 작업 파일을 사용해 주세요.</system:String>
     <system:String x:Key="RecruitSupportOperator">지원 유닛 추가: {0}</system:String>
     <system:String x:Key="StageQueue">스테이지 대기열:</system:String>
     <system:String x:Key="UnableToAgent">대리 지휘 사용 불가</system:String>
