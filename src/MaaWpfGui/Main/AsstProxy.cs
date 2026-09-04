@@ -2949,6 +2949,7 @@ public class AsstProxy
         }
 
         var hwnd = (HWND)_attachWindowHwnd;
+        _ = PInvoke.ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_RESTORE);
         if (!PInvoke.GetWindowRect(hwnd, out var rect))
         {
             _logger.Warning("RestoreGameWindowPosition: GetWindowRect failed, hwnd: {Hwnd}", hwnd);
@@ -3039,10 +3040,27 @@ public class AsstProxy
         var screencapMethod = (ulong)win32Extra.ScreencapMethod;
         var mouseMethod = (ulong)win32Extra.MouseMethod;
         var keyboardMethod = (ulong)win32Extra.KeyboardMethod;
-        bool ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
+
+        if (win32Extra.MuteWhileRunning && !_runningState.GetIdle())
+        {
+            GameAudioMuteManager.MuteWindow(hwnd);
+        }
+
+        bool ret;
+        try
+        {
+            ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
+        }
+        catch
+        {
+            GameAudioMuteManager.Restore();
+            throw;
+        }
 
         if (!ret)
         {
+            GameAudioMuteManager.Restore();
+
             // 等待回调完成以获取详细错误信息
             System.Threading.Thread.Sleep(1000);
 
@@ -3533,7 +3551,13 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstStart()
     {
-        return MaaService.AsstStart(_handle);
+        var result = MaaService.AsstStart(_handle);
+        if (result)
+        {
+            GameAudioMuteManager.EnsureMuted();
+        }
+
+        return result;
     }
 
     /// <summary>
@@ -3560,6 +3584,7 @@ public class AsstProxy
     public void AsstDestroy()
     {
         MaaService.AsstDestroy(_handle);
+        GameAudioMuteManager.Restore();
     }
 }
 
