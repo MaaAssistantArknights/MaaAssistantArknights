@@ -4253,7 +4253,7 @@
     "BattleAvatarDialog": {
         "doc": "战斗中带头像对话框, 类似于 SkipThePreBattlePlot(可见于画中人关卡) 的, 但是缺少 跳过 按钮",
         "action": "ClickSelf",
-        "roi": [70, 30, 120, 30],
+        "roi": [70, 30, 150, 500],
         "next": ["BattleAvatarDialog", "Stop"],
         "rectMove": [125, 20, 200, 60]
     },
