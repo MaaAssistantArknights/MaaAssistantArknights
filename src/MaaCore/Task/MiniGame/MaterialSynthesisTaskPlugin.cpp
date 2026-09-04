@@ -19,6 +19,7 @@ namespace
 constexpr int MaxMaterialDepth = 8;
 constexpr int MaxMaterialOperations = 64;
 constexpr int MaxMaterialBatch = 24;
+constexpr int MaxMoodProbeIncreaseClicks = 11;
 }
 
 bool asst::MaterialSynthesisTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -226,6 +227,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         // 更换加工站干员后数量会重置为 1，需要为新干员重新逐步加量并及时避开心情不足。
         if (operator_changed) {
             selected_count = 1;
+            int increase_clicks_without_low_mood = 0;
             while (selected_count < batch_count && !need_exit()) {
                 if (!run_task("MiniGame@MaterialSynthesis@Increase", 0)) {
                     result = Result::NavigationFailed;
@@ -239,6 +241,16 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                     else {
                         --selected_count;
                     }
+                    break;
+                }
+                if (need_exit()) {
+                    result = Result::Cancelled;
+                    break;
+                }
+
+                ++increase_clicks_without_low_mood;
+                if (increase_clicks_without_low_mood >= MaxMoodProbeIncreaseClicks && selected_count < batch_count) {
+                    Log.info("MaterialSynthesis | mood probe increase limit reached", selected_count, batch_count);
                     break;
                 }
             }
