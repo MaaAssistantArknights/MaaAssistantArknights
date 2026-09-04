@@ -1,49 +1,34 @@
-## v6.17.0
-
-### Highlights
-
-#### 黑流树海肉鸽适配
-
-新增适配黑流树海肉鸽，支持刷等级、刷源石锭、刷襁褓动物三个策略。
-
-#### 界面过渡动画与操作体验优化
-
-主界面页签、任务链等内容切换加入方向性过渡动画，设置页导航改为平滑滚动；自定义下拉交互统一（点外部关闭、连击保持）。
-
-#### 移除掉线重连，通宵挂机改用定时启动
-
-掉线重连的恢复链状态复杂且维护成本高，已移除；通宵挂机场景请改用定时启动与强制定时启动。
-
-#### 基建效率算法重写
-
-重写基建效率算法，常规（默认）模式支持跨设施组合，新增跨设施组合设置与菲亚梅塔恢复目标设置，并修复一批基建选人与识别问题；宿舍换班调整为第一轮仅执行菲亚梅塔配对，新增恢复开关。
-
-<details>
-<summary><b>English</b></summary>
-
-#### BlackFlow Roguelike
-
-Added support for the BlackFlow (黑流树海) roguelike theme, with the level-farming, Originium Ingot investment, and cultivation strategies.
-
-#### UI Transition Animations and Interaction Polish
-
-Main tabs and task-chain switching now animate with directional transitions, and settings-page navigation scrolls smoothly; custom dropdown interactions are unified (click outside to close, repeated clicks keep open).
-
-#### Reconnect Removed in Favor of Scheduled Startup
-
-The reconnect-after-disconnect logic has been removed due to the complexity and maintenance cost of restoring the chain state; for overnight sessions, please switch to scheduled startup and forced scheduled startup instead.
-
-#### Infrast Efficiency Algorithm Rewrite
-
-The infrast efficiency algorithm has been rewritten; the default mode now supports cross-facility combinations, with new settings for cross-facility combinations and Fiammetta recovery targets, along with a batch of infrast operator selection and recognition fixes. Dormitory shifting now performs only Fiammetta pairing in the first round, with a new recovery toggle.
-
-</details>
+## v6.17.1
 
 ----
 
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.1 (2026-09-04)</b></summary>
+
+### 修复 | Fix
+
+* Win32 输入（如 Seize 的 SendInput）为异步注入且无内置节拍，不等待会使整段滑动在毫秒级完成、被游戏判定为点击；在插值步间补充等待，修复此问题 @ABA2396
+* 部分早期 SS 关卡 ID 含数字后缀（如 act54side_d01），正则未覆盖导致代码匹配失败；补充 `(d\d+)` 分支以正确识别此类关卡 ID ([#18037](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18037)) @status102
+* 补充黑流树海肉鸽楼层 OCR 识别正则，修正出发前往目标区域坐标 ([#18037](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18037)) @ZiyinLin
+* 增加特别纪念 tab 后仓库识别报错：调整 DepotAllTab / DepotMaterialTab ROI 配置 ([#18030](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18030)) @ABA2396
+* `{key=}` 嵌套替换原先仅支持 `\w+` 字符集，无法覆盖含 `.` 与 `@` 的引用（如 `UserAdditional.Add`、`MiniGame@ALL@xxx`）；扩展为匹配至右花括号 ([#18030](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18030)) @ABA2396
+* 修复 MuMu / 雷电模拟器连接及系统通知提示文本中的反斜杠转义显示错误 @ABA2396
+* 指定编队选择第二或第三队时，因坐标区域过宽（10px）有低概率误触改名按钮；收窄为 5px @ABA2396
+
+### 新增 | New
+
+* 补齐多项设置项与界面提示，修正歧义命名：含自动肉鸽「烧水使用分队」改为「刷开局使用分队」、ADB 退出行为描述优化、外部通知停滞提示补充、定时启动配置说明完善等 ([#18030](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18030)) @ABA2396
+
+### 文档 | Docs
+
+* 在五语言基建排班协议文档中新增 RIIC.Autos 自动生成基建排班表工具链接 ([#18022](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18022)) @BrK
+* 对照代码全面修正五语言文档（集成协议、copilot/sss/schema、maa-cli 手册、开发教程等），更新 UI 名称对齐实际界面文案 ([#18030](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18030)) @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.17.0 (2026-09-02)</b></summary>
 
 ### 新增 | New
@@ -60,12 +45,7 @@ The infrast efficiency algorithm has been rewritten; the default mode now suppor
 * 库存保持任务支持因理智不足跳过后续任务 ([#17741](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17741)) @ABA2396
 * 战斗开始等待时间支持通过 config.json 的 battleStartTimeoutSeconds 配置（10~300 秒，默认 60 秒）([#17329](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17329)) @wzacolemak @status102
 * 关卡小提示中显示同名活动进行中的小游戏入口提示 @ABA2396
-* CustomWebhook 预置模板新增企业微信（WeCom）与 ntfy 选项 ([#17695](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17695)) @H2O-MERO
-* 奇象巡展发现未收录奇象时发送通知，并简化通知文案 ([#17744](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17744)) @LengmoAngel @ABA2396
-* MaaCore 新增扩展 C 接口 `AsstCallerExtra` ([#17701](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17701)) @hguandl
-* MaaFramework 扩展配置（interface.json）新增 Win32 连接方式 @Constrat
-* 繁中服新增「辭歲行」活动关卡导航，并适配 SSS 10 ｢極寒安保派駐｣ ([#17766](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17766)) @momomochi987 @ABA2396
-* 繁中服启用界园肉鸽 DLC 分队并适配相关参数与 OCR 对照 ([#17705](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17705)) @momomochi987
+* CustomWebhook 预置模板新增企业微信（WeCom）与 ntfy 选项 ([#17695](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17695)) @momomochi987
 
 ### 改进 | Improved
 
@@ -109,26 +89,7 @@ The infrast efficiency algorithm has been rewritten; the default mode now suppor
 
 * 更新器等待主程序退出增加超时强制结束，主程序意外滞留时更新不再无限等待；主程序启动中止时改为立即退出进程；更新器获取父进程句柄权限不足时不再跳过等待 ([#17930](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/17930)) @ABA2396
 * 修复作业解析同名干员时可能取错条目的问题，改为取稀有度最高条目，阿米娅技能 3 判断不再受哈希顺序影响，并在技能 3 的支持条件中允许阿米娅 ([#17893](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17893)) @ABA2396 @yali-hzy
-* 修复自动战斗与肉鸽作业 `role` 字段的职业解析，未指定或未知职业名不再被误判为无人机职业，并兼容职业大小写；修复以 Unknown 职业注册的技能用法无法正确查找的问题，工具人技能用法改为部署时写入 @status102 @ABA2396
-* 修复自动战斗技能用法设置失效、待部署等待干员就绪检测阻塞、非自动编队下预分配失败后重复添加干员数据、编入干员分组算法无法比对等问题 @status102 @yali-hzy
-* 修复自动战斗部署时未能正确移除目标地块的过往干员 @status102
-* 修复自动战斗作业保存时输出多余超时参数、编队反复切换职业的问题 @status102
-* 修复黑流树海肉鸽出发前往流程与不投资源石锭状态机，襁褓羽蛇与三头犬改为进入第三层后结算，规划器单拍间隔调整（白模鸟系列留给 boss），策略完成后无法正确停止并上报、未完成时无法重开下一局 ([#17916](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17916) [#17870](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17870) [#17862](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17862) [#17869](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17869) [#17771](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17771)) @ZiyinLin
-* 修复黑流树海的一批识别问题：页面分类适配、加工品选择失败后重开、行动力预览正数识别、临时中介所识别、左下角放大镜判定方法与阈值、CloseCollectionContinue 判定 ROI 与阈值 ([#17798](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17798) [#17832](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17832) [#17833](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17833) [#18004](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18004) [#17779](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17779)) @ZiyinLin @status102 @ABA2396 @youzibigg
-* 黑流肉鸽资源文件损坏时资源加载直接失败并提示，不再静默失效 @status102
-* 修复基建控制中枢选人、制造站深海队选人、自定义基建选人确认、宿舍宿管排序与二轮补位、未建满基建设施布局适配等一组问题 ([#17835](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17835)) @status102 @Lancarus @ABA2396
-* 修复基建布局识别的捏合缩放手势未经动作分割直接瞬移导致缩放无效的问题，识别失败时继续缩小视图重试 ([#17896](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17896)) @ABA2396 @youzibigg
-* 去除基建布局识别对控制中枢数量的校验，缺少控制中枢的布局不再被判为无效 @Lancarus
-* 修复基建设施顺序在普通模式下无法重置 @status102
-* 补齐部分基建技能评分，中枢评分最优选择不足 5 人时补足到 5 人 @Lancarus
-* 调整基建无人机及确认的模板目录 ([#17952](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17952)) @youzibigg
-* 对截图、OCR、OpenCV 图像处理增加异常捕获避免直接崩溃，未处理异常额外输出异常信息并交由 WER 处理 ([#17860](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17860)) @moranfanhua @ABA2396
-* 深海猎人候选干员数据缺失时跳过该候选，避免初始化崩溃 @ABA2396
-* 修复 MuMu 触控增强在游戏开始渲染前因回退画面被误判不可用，检查推迟至游戏开始渲染时进行 ([#17855](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17855)) @ABA2396
-* 修复启用 MuMu 触控模式时模拟器路径自动检测结果未生效 @status102
-* 修复 MuMu 触控增强等支持划火柴的触控模式下，划火柴模式开关参数未正确传递生效的问题 ([#17652](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17652)) @Rbqwow
-* 屏幕横竖屏（旋转）切换不再触发分辨率变化中断，旋转时自动重建 minitouch；RawWithGzip 截图测速支持竖屏 @ABA2396
-* 扩大选中干员的颜色范围，处理阴影中的编队框 ([#17819](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17819)) @yali-hzy
+* 修复自动战斗与肉鸽作业 `role` 字段的职业解析，未指定或未知职业名不再被误判为无人机职业，并在技能 3 的支持条件中允许阿米娅 ([#17819](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17819)) @yali-hzy
 * 修复从公招的选择招募时限界面开始自动公招功能，会触发循环操作的问题 @ABA2396
 * 修复可搜索 ComboBox 的一批问题：语言切换等场景下选项绑定失效、指定材料被清空、初始化时将已绑定值覆盖为列表第一项（肉鸽开局干员重启后被重置）、下拉列表滚轮一次滚到底、换源统一由扩展接管并修复中间值写回产生的重复日志 ([#17759](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17759)) @status102 @ABA2396
 * 修复切换界面语言后部分下拉列表与提示停留旧语言的问题（肉鸽刷通关时长目标、黑流培养目标、自动战斗单位支持用法、隐蔽战线事件、肉鸽开局干员提示）@ABA2396
