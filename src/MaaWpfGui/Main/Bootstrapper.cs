@@ -24,6 +24,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -1204,6 +1205,15 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// <inheritdoc/>
     protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e)
     {
+        // hc:Window 初始化竞态：SystemCommands.MaximizeWindowCommand.CanExecute 在 HWND
+        // 未就绪时调 Win32 API 抛 ElementNotEnabledException（https://github.com/HandyOrg/HandyControl/issues/1757）。
+        // 属瞬时竞态，静默忽略即可，无需弹窗或写日志。
+        if (e.Exception is ElementNotEnabledException)
+        {
+            e.Handled = true;
+            return;
+        }
+
         LogUnhandledException(e.Exception);
         ShowErrorDialog(e.Exception);
         e.Handled = true;
@@ -1211,10 +1221,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     private static void LogUnhandledException(Exception exception)
     {
-        if (_logger != Logger.None)
+        if (_logger == Logger.None)
         {
-            _logger.Fatal(exception, "Unhandled exception occurred");
+            return;
         }
+
+        _logger.Fatal(exception, "Unhandled exception occurred");
     }
 
     private static void ShowErrorDialog(Exception exception)
