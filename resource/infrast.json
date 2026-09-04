@@ -4246,7 +4246,7 @@
             "bskill_tra_against": {
                 "desc": ["进驻贸易站时，如果下笔赤金订单是违约订单，则赤金交付数额外+1"],
                 "efficient": {
-                    "Money": 47
+                    "Money": 0
                 },
                 "name": ["违约索赔·α"],
                 "operatorIds": ["char_4032_provs"],
@@ -4255,7 +4255,7 @@
             "bskill_tra_against2": {
                 "desc": ["进驻贸易站时，如果下笔赤金订单是违约订单，则赤金交付数额外+2"],
                 "efficient": {
-                    "Money": 93.8
+                    "Money": 0
                 },
                 "name": ["违约索赔·β"],
                 "operatorIds": ["char_4032_provs"],
@@ -4300,7 +4300,7 @@
             "bskill_tra_closure": {
                 "desc": ["进驻贸易站时，订单获取效率+10%，固定获取可露希尔特别订单（不视作违约订单）"],
                 "efficient": {
-                    "all": 10.1
+                    "Money": 0
                 },
                 "name": ["特别订单"],
                 "operatorIds": ["char_4228_closur"],
@@ -4953,6 +4953,48 @@
         "skillsGroup": [
             {
                 "allowExternal": true,
+                "desc": "但书-0组",
+                "necessary": [
+                    {
+                        "desc": "但书-0",
+                        "efficient": {
+                            "Money": 47
+                        },
+                        "skills": ["bskill_tra_law", "bskill_tra_against"]
+                    }
+                ],
+                "optional": []
+            },
+            {
+                "allowExternal": true,
+                "desc": "但书-2组",
+                "necessary": [
+                    {
+                        "desc": "但书-2",
+                        "efficient": {
+                            "Money": 93.8
+                        },
+                        "skills": ["bskill_tra_law", "bskill_tra_against2"]
+                    }
+                ],
+                "optional": []
+            },
+            {
+                "allowExternal": true,
+                "desc": "可露希尔组",
+                "necessary": [
+                    {
+                        "desc": "可露希尔",
+                        "efficient": {
+                            "Money": 45.1
+                        },
+                        "skills": ["bskill_tra_closure"]
+                    }
+                ],
+                "optional": []
+            },
+            {
+                "allowExternal": true,
                 "desc": "德2拉2组",
                 "necessary": [
                     {
@@ -4992,6 +5034,13 @@
                             "all": 35.2
                         },
                         "skills": ["bskill_tra_spd3"]
+                    },
+                    {
+                        "desc": "可露希尔",
+                        "efficient": {
+                            "Money": 45
+                        },
+                        "skills": ["bskill_tra_closure"]
                     }
                 ]
             },
@@ -5058,6 +5107,13 @@
                             "all": 32
                         },
                         "skills": ["bskill_tra_limit_diff", "bskill_tra_limit_count"]
+                    },
+                    {
+                        "desc": "可露希尔",
+                        "efficient": {
+                            "Money": 45
+                        },
+                        "skills": ["bskill_tra_closure"]
                     }
                 ]
             },
