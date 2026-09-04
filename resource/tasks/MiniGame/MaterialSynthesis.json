@@ -77,7 +77,8 @@
         "postDelay": 900
     },
     "MiniGame@MaterialSynthesis@LowMood": {
-        "template": "ProcessingOperatorLowMood.png",
+        "algorithm": "OcrDetect",
+        "text": ["超负荷加工"],
         "roi": [649, 308, 362, 155]
     },
     "MiniGame@MaterialSynthesis@OpenOperatorList": {
