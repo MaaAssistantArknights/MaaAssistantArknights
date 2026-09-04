@@ -4787,16 +4787,16 @@
     },
     "DepotAllTab": {
         "action": "ClickSelf",
-        "roi": [452, 0, 281, 134],
+        "roi": [450, 0, 300, 138],
         "next": ["DepotMaterialTab"]
     },
     "DepotMaterialTab": {
         "action": "ClickSelf",
-        "roi": [1026, 0, 254, 138],
+        "roi": [945, 0, 300, 138],
         "next": ["DepotMaterialTabClicked"]
     },
     "DepotMaterialTabClicked": {
-        "roi": [1026, 0, 254, 138]
+        "roi": [945, 0, 300, 138]
     },
     "InfrastOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
