@@ -53,6 +53,7 @@ The infrast efficiency algorithm has been rewritten; the default mode now suppor
 ### 修复 | Fix
 
 * 修复游戏新增 ｢特别纪念｣ 页签后仓库识别报错，更新仓库页签模板 @ABA2396
+* 修复月行水上活动代理连战中，结算退出后概率弹出的塔罗牌弹窗遮挡界面导致任务停止的问题 @ABA2396
 * 修复 PC 端（Win32）连接下滑动操作被判定为点击的问题：滑动插值步间补充等待，Seize 等异步输入方式下不再瞬移 @ABA2396
 * 修复自动战斗指定编队选择第二、三队时有低概率触发编队改名 @ABA2396
 * 修复自动战斗部分早期别传（SS）活动关卡代码匹配失败 @status102

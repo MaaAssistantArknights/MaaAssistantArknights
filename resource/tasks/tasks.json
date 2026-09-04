@@ -1351,6 +1351,7 @@
         "exceededNext": ["StageSNReturnFlag", "Stop"],
         "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner)*10", "PrtsStillLoading*100"],
         "next": [
+            "SR-TarotClose",
             "StartButton2",
             "UseMedicine",
             "UseStone",
@@ -1359,6 +1360,16 @@
             "AnnihilationConfirm",
             "StartButton1TryAgain"
         ]
+    },
+    "SR-TarotClose": {
+        "doc": "月行水上代理结算退出后概率弹出的塔罗牌弹窗，遮挡代理确认，点击右上角关闭",
+        "algorithm": "OcrDetect",
+        "text": ["获得了塔罗牌"],
+        "roi": [580, 280, 180, 60],
+        "action": "ClickRect",
+        "specificRect": [1044, 219, 40, 40],
+        "postDelay": 1000,
+        "next": ["#self", "StartButton1"]
     },
     "StartButton1TryAgain": {
         "baseTask": "StartButton1",
