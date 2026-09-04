@@ -2744,6 +2744,39 @@ public class AsstProxy
     }
 
     /// <summary>
+    /// Applies a task-time game audio mute setting change without reconnecting Core.
+    /// </summary>
+    /// <param name="enabled">Whether task-time muting is enabled.</param>
+    public void UpdateGameAudioMute(bool enabled)
+    {
+        if (_attachWindowHwnd == IntPtr.Zero)
+        {
+            return;
+        }
+
+        if (!enabled)
+        {
+            if (_runningState.GetIdle())
+            {
+                GameAudioMuteManager.Restore();
+            }
+            else
+            {
+                GameAudioMuteManager.StopMuting();
+            }
+
+            return;
+        }
+
+        GameAudioMuteManager.PrepareWindow(_attachWindowHwnd, captureWindowPlacement: _runningState.GetIdle());
+        if (!_runningState.GetIdle())
+        {
+            GameAudioMuteManager.EnsureMuted();
+            GameAudioMuteManager.StartMonitoring(() => !_runningState.GetIdle());
+        }
+    }
+
+    /// <summary>
     /// 通过 AttachWindow 绑定 Win32 窗口。
     /// 自动搜索当前客户端版本对应的游戏窗口。
     /// </summary>
@@ -2811,9 +2844,13 @@ public class AsstProxy
         var mouseMethod = (ulong)win32Extra.MouseMethod;
         var keyboardMethod = (ulong)win32Extra.KeyboardMethod;
 
-        if (win32Extra.MuteWhileRunning && !_runningState.GetIdle())
+        if (win32Extra.MuteWhileRunning)
         {
-            GameAudioMuteManager.MuteWindow(hwnd);
+            GameAudioMuteManager.PrepareWindow(hwnd);
+            if (!_runningState.GetIdle())
+            {
+                GameAudioMuteManager.EnsureMuted();
+            }
         }
 
         bool ret;
@@ -3319,9 +3356,10 @@ public class AsstProxy
     public bool AsstStart()
     {
         var result = MaaService.AsstStart(_handle);
-        if (result)
+        if (result && SettingsViewModel.ConnectSettings.ExtraConfig is Win32Extra { MuteWhileRunning: true })
         {
             GameAudioMuteManager.EnsureMuted();
+            GameAudioMuteManager.StartMonitoring(() => !_runningState.GetIdle());
         }
 
         return result;
