@@ -33,14 +33,13 @@ bool asst::MaaFwLinuxController::connect(
         return false;
     }
 
+    if (!m_unit->request_uuid(m_uuid)) {
+        Log.warn("Failed to get uuid");
+        m_uuid = "MaaFwLinuxControllerUUID";
+    }
+
     cv::Mat dummy { };
     return screencap(dummy);
-}
-
-const std::string& asst::MaaFwLinuxController::get_uuid() const
-{
-    const static std::string uuid("MaaFwLinuxControllerUUID");
-    return uuid;
 }
 
 bool asst::MaaFwLinuxController::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])

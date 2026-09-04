@@ -103,7 +103,7 @@ public:
 
     bool inited() const noexcept override { return m_loader.loaded() && m_unit; }
 
-    const std::string& get_uuid() const override;
+    const std::string& get_uuid() const override { return m_uuid; }
 
     size_t get_pipe_data_size() const noexcept override { return { }; }
 
@@ -153,6 +153,7 @@ private:
     MaaFwLinuxControlUnitLoader m_loader;
     MaaFwControlUnitAPI* m_unit = nullptr;
 
+    std::string m_uuid;
     std::pair<int, int> m_screen_size = { 0, 0 };
     bool m_main_screen_recognition = false;
 };
