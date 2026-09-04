@@ -304,6 +304,32 @@ struct StrategyTerminalRule
     std::string next_action;
 };
 
+struct InventoryLayout
+{
+    int rows_per_column = 3;
+    int column_pitch = 432;
+    int row_pitch = 160;
+    int first_row_center_y = 273;
+    int swipe_landing_x = 385;
+    int swipe_landing_back_x = 900;
+    int nominal_shift = 460;
+    int settled_shift = 40;
+    int max_survey_steps = 12;
+    int rewind_swipes = 7;
+    int max_walk_steps = 16;
+    int max_card_click_attempts = 3;
+    unsigned settle_delay = 300;
+};
+
+struct InventoryCleanupPolicy
+{
+    int discard_max_rank = 1;
+    int extra_discards_after_clear = 0;
+    int rescan_after_rank = 0;
+    int max_attempts_per_rank = 1;
+    std::vector<std::string> discard_priority;
+};
+
 struct PolicyProfile
 {
     std::string id;
