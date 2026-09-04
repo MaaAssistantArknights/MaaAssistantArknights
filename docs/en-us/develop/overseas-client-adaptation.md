@@ -9,7 +9,7 @@ icon: ri:earth-fill
 
 Before starting this tutorial, make sure you have:
 
-1. Installed and properly configured the required software. There should be relevant information in the CN client or corresponding client's `readme.md` to ensure that supported features work properly.
+1. Installed and properly configured the required software, and made sure that supported features work properly.
 2. Read the [Task Schema](../protocol/task-schema.md) and have a basic understanding of the meaning and usage of each field, and understand the meaning and usage of `@` and `#` type tasks.
 3. Understand that content not mentioned or missing in overseas client `task.json` and template images will use CN client `task.json` and template images as fallbacks. Content in overseas client `task.json` will override and rewrite corresponding fields of CN client tasks.
 4. Have sufficient English ability to read English logs and find missing images and other information through logs.
@@ -130,7 +130,7 @@ Check for success:
 
 Sometimes after modifying `task.json`, we find the program still can't run correctly. In this case, we should check logs to find error locations and modify corresponding tasks.
 
-Log file location is in the software root directory, filename `asst.log`. If you compiled MAA yourself, it's in `\x64\Release` or `x64\RelWithDebInfo`, depending on your compilation mode selection.
+The log file is located in the `debug` folder under the software root directory, with the filename `asst.log`. If you compiled MAA yourself, it is in the `debug` folder of the build output directory (e.g. `build\bin\RelWithDebInfo`), depending on the build configuration chosen at compile time.
 
 Here's a log example:
 
@@ -159,7 +159,7 @@ In this log, you can see:
 
 Additionally, the log records command execution (like `Call`) and `OCR` information (like `OcrPack::recognize`).
 
-In this log, `"to_be_recognized"`, `"cur_retry":3,"retry_times":20` indicates it has repeatedly tried recognition 3 times, with maximum recognition attempts of 20. After reaching maximum attempts, it will skip the task and report error, continuing to the next task. If previous tasks had no issues, we can basically determine there's a recognition problem here. We need to check tasks mentioned in the log to see if there's a corresponding `template file`, if the corresponding task's `text` is incorrect, if task recognition `roi` range is correct, to find and fix the problem.
+In this log, `"to_be_recognized"`, `"cur_retry":10,"retry_times":20` indicates it has repeatedly tried recognition 10 times, with maximum recognition attempts of 20. After reaching maximum attempts, it will skip the task and report error, continuing to the next task. If previous tasks had no issues, we can basically determine there's a recognition problem here. We need to check tasks mentioned in the log to see if there's a corresponding `template file`, if the corresponding task's `text` is incorrect, if task recognition `roi` range is correct, to find and fix the problem.
 
 By checking the corresponding template image, we found there's a template for this image in the EN client template folder, but it's significantly larger than the CN client image, causing CN client's `roi` to fail recognition on EN client. So we need to modify the corresponding task `roi` in EN client's `task.json` to match EN client image size.
 

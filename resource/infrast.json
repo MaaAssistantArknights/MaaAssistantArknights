@@ -518,6 +518,12 @@
                 "operatorIds": ["char_003_kalts", "char_4179_monstr"],
                 "template": "Bskill_ctrl_p_spd.png"
             },
+            "bskill_ctrl_p_spd_p3r": {
+                "desc": ["进驻控制中枢时，所有制造站生产力+2%（同种效果取最高）"],
+                "name": ["领袖魅力"],
+                "operatorIds": ["char_4217_makoto"],
+                "template": "Bskill_ctrl_p_spd_p3r.png"
+            },
             "bskill_ctrl_psk": {
                 "desc": [
                     "进驻控制中枢时，每个进驻在制造站的红松骑士团干员，作战记录类配方的生产力+10%，贵金属类配方的生产力-10%"
@@ -991,6 +997,12 @@
                 "name": ["悲歌"],
                 "operatorIds": ["char_263_skadi"],
                 "template": "Bskill_dorm_one5.png"
+            },
+            "bskill_dorm_p3r": {
+                "desc": ["进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）"],
+                "name": ["毛茸茸的抚慰"],
+                "operatorIds": ["char_4220_kormr"],
+                "template": "Bskill_dorm_p3r.png"
             },
             "bskill_dorm_powtorecall1": {
                 "desc": [
@@ -1611,6 +1623,12 @@
                     "char_4229_aphris"
                 ],
                 "template": "Bskill_man_originium2.png"
+            },
+            "bskill_man_p3r": {
+                "desc": ["进驻制造站时，生产力+20%，基建内（不包含副手）每有1名S.E.E.S.干员（最多4名），生产力额外+5%"],
+                "name": ["社群的意义"],
+                "operatorIds": ["char_4217_makoto"],
+                "template": "Bskill_man_p3r.png"
             },
             "bskill_man_skill_change": {
                 "desc": ["进驻制造站时，当前制造站内所有莱茵科技类、红松骑士团类技能也全都视作标准化类技能"],
@@ -2723,6 +2741,12 @@
                 "operatorIds": ["char_1052_kalts2"],
                 "template": "Bskill_hire_kalts2.png"
             },
+            "bskill_hire_p3r": {
+                "desc": ["进驻人力办公室时，人脉资源的联络速度+30%，心情每小时消耗-0.25"],
+                "name": ["独立调查"],
+                "operatorIds": ["char_4219_yukari"],
+                "template": "Bskill_hire_p3r.png"
+            },
             "bskill_hire_skgoat": {
                 "desc": ["进驻人力办公室时，人脉资源的联络速度+45%，心情每小时消耗+2"],
                 "efficient": {
@@ -3163,6 +3187,12 @@
                 "name": ["咒文共鸣"],
                 "operatorIds": ["char_4136_phonor"],
                 "template": "Bskill_pow_spd_P1.png"
+            },
+            "bskill_pow_spd_p3r": {
+                "desc": ["进驻发电站时，无人机每小时充能速度+15%，如果结城理进驻在制造站，则无人机充能速度额外+5%"],
+                "name": ["机械工学"],
+                "operatorIds": ["char_4218_aigis"],
+                "template": "Bskill_pow_spd_p3r.png"
             },
             "bskill_power_rec_rhine": {
                 "desc": [
@@ -3839,6 +3869,20 @@
                 "name": ["雪境守望", "讯使"],
                 "operatorIds": ["char_198_blackd", "char_4013_kjera"],
                 "template": "Bskill_meet_kjerag2.png"
+            },
+            "bskill_meet_koromaru": {
+                "desc": ["进驻会客室时，处于线索交流时线索搜集速度提升30%"],
+                "name": ["虎狼丸的报恩"],
+                "operatorIds": ["char_4220_kormr"],
+                "template": "Bskill_meet_koromaru.png"
+            },
+            "bskill_meet_p3r_bd": {
+                "desc": [
+                    "进驻会客室时，线索搜集速度提升10%，当与虎狼丸进驻会客室一起工作时，更容易获得线索板上尚未拥有的线索"
+                ],
+                "name": ["跨领域交流"],
+                "operatorIds": ["char_4218_aigis"],
+                "template": "Bskill_meet_p3r_bd.png"
             },
             "bskill_meet_penguin1": {
                 "desc": ["进驻会客室时，更容易获得企鹅物流线索（工作时长影响概率）"],
@@ -5615,6 +5659,12 @@
                 "name": ["何须解脱"],
                 "operatorIds": ["char_450_necras"],
                 "template": "Bskill_train_necras.png"
+            },
+            "bskill_train_p3r": {
+                "desc": ["进驻训练室协助位时，狙击与医疗干员的专精技能训练速度+45%"],
+                "name": ["合理兼职"],
+                "operatorIds": ["char_4219_yukari"],
+                "template": "Bskill_train_p3r.png"
             },
             "bskill_train_reducetime": {
                 "desc": [

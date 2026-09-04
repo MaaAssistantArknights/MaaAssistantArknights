@@ -143,7 +143,7 @@ icon: mingcute:android-fill
 2. 将第一个文件重命名为 `startup.bat`，第二个文件重命名为 `finish.bat`。
    - 如果重命名后没有弹出修改扩展名的二次确认对话框，且文件图标没有变化，请自行搜索“Windows 如何显示文件扩展名”。
 
-3. 在 MAA 的 `设置` - `连接设置` - `开始前脚本` 和 `结束后脚本` 中分别填入 `startup.bat` 和 `finish.bat`。
+3. 在 MAA 的 `设置` - `运行设置` - `开始前脚本` 和 `结束后脚本` 中分别填入 `startup.bat` 和 `finish.bat`。
 
 :::
 

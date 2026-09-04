@@ -104,8 +104,8 @@
                 },
                 "cache": {
                     "type": "boolean",
-                    "default": true,
-                    "description": "Optional, indicates whether the task uses caching, default is true;\nAfter the first recognition, the subsequent recognition will always be carried out only in the location of the first recognition, enabling this can greatly save performance\nBut it is only applicable for tasks where the target position will not change at all, if the target position to be recognised will change, please set it to false"
+                    "default": false,
+                    "description": "Optional, indicates whether the task uses caching, default is false\nWhen enabled, after the first recognition, the subsequent recognition will always be carried out only in the location of the first recognition, enabling this can greatly save performance\nBut it is only applicable for tasks where the target position will not change at all, if the target position to be recognised will change, please keep the default value false"
                 },
                 "rectMove": {
                     "$ref": "#/definitions/Rectangle",

@@ -111,7 +111,7 @@ conditions = [
     # 這裡的 divisor 用來指定週期，remainder 用來指定偏移量
     # 偏移量等於 num_days_since_ce % divisor
     # 這裡的 num_days_since_ce 是公元以來的天數，0001-01-01 是第一天
-    # 當天偏移量您可以透過 `maa remainder <divisor>` 來獲取.
+    # 當天偏移量您可以透過 `maa remainder <divisor>` 來獲取。
     # 比如，2024-1-27 是第 738,912 天，那麼 738912 % 2 = 0
     # 當天的偏移量為 0，那麼本條件將會被匹配
     { type = "DayMod", divisor = 2, remainder = 0 },
@@ -250,7 +250,7 @@ alternatives = [
     "SL-7", # 將被顯示為 "1. SL-7"
     { value = "SL-8", desc = "輕錳礦" } # 將被顯示為 "2. SL-8 (輕錳礦)"
 ]
-default_index = 1 # 預設值的索引，從 1 開始，如果沒有設定，輸入空值將會重新提示輸入
+default_index = 1 # 預設值的索引，從 1 開始，如果沒有設定，將使用第一個可選值作為預設值
 description = "a stage to fight in summer event" # 描述，選填
 allow_custom = true # 是否允許輸入自訂的值，預設為 false，如果允許，那麼非整數的值將會被視為自訂的值
 
@@ -276,7 +276,7 @@ description = "medicine to use"
 ```
 
 對於 `Input` 類型，執行任務時您會被提示輸入一個值。若輸入為空且設有預設值，將自動採用該預設值，否則會提示重新輸入。
-對於 `Select` 類型，執行任務時您會被提示輸入索引或自訂值（若允許）。若輸入為空且設有預設值，將自動採用該預設值，否則會提示重新輸入。
+對於 `Select` 類型，執行任務時您會被提示輸入索引或自訂值（若允許）。若輸入為空，將採用預設值。
 
 `--batch` 選項可用於在執行任務時跳過所有輸入，此時系統將自動採用預設值；若有任何輸入項未設定預設值，則會產生錯誤。
 
@@ -290,7 +290,7 @@ description = "medicine to use"
 [connection]
 preset = "MuMuPro"
 adb_path = "adb"
-device = "emulator-5554"
+address = "emulator-5554"
 config = "CompatMac"
 
 [resource]
@@ -331,7 +331,7 @@ adb_path = "/path/to/adb" # 如果您需要的話，可以覆蓋預設的 adb �
 address = "127.0.0.1:7777" # 如果您需要的話，可以覆蓋預設的位址
 ```
 
-目前只有 `MuMuPro` 一個模擬器的預設，如果有其他常用模擬器的預設，歡迎提交 issue 或者 PR。
+目前內建 `MuMuPro` 和 `Androws` 兩個模擬器的預設。`Androws` 預設面向 Windows 上的騰訊 Androws 模擬器，會自動從登錄檔偵測其內建的 `adb`，預設連線位址為 `127.0.0.1:5555`。如果有其他常用模擬器的預設，歡迎提交 issue 或者 PR。
 
 #### 特殊預設
 
@@ -370,7 +370,7 @@ gpu_ocr = 1 # 使用 GPU OCR 時使用的 GPU ID，如果這個值被留空，�
 
 ```toml
 [instance_options]
-touch_mode = "ADB" # 使用的觸控模式，可選值為 "ADB"、"MiniTouch"、"MaaTouch" 或者 "MacPlayTools"
+touch_mode = "ADB" # 使用的觸控模式，可選值為 "ADB"、"MiniTouch"、"MaaTouch"、"MacPlayTools" 或者 "MaaFwAdb"
 deployment_with_pause = false # 是否在部署時暫停遊戲
 adb_lite_enabled = false # 是否使用 adb-lite
 kill_adb_on_exit = false # 是否在退出時殺死 adb
@@ -385,10 +385,10 @@ CLI 相關的配置需要放在 `$MAA_CONFIG_DIR/cli.toml` 中。目前其包含
 ```toml
 # MaaCore 安裝和更新相關配置
 [core]
-channel = "Stable" # 更新通道，可選值為 "Alpha"、"Beta" "Stable"，預設為 "Stable"
+channel = "Stable" # 更新通道，可選值為 "Alpha"、"Beta"、"Stable"，預設為 "Stable"
 test_time = 0    # 用於測試鏡像站速度的時間，0 表示不測試，預設為 3
 # 查詢 MaaCore 最新版本的 api 位址，留空表示使用預設位址
-api_url = "https://github.com/MaaAssistantArknights/MaaRelease/raw/main/MaaAssistantArknights/api/version/"
+api_url = "https://api.maa.plus/MaaAssistantArknights/api/version/"
 
 # 配置是否安裝 MaaCore 對應的組件，不推薦使用，分開安裝可能會導致版本不一致，從而導致一些問題，該選項可能在未來的版本中移除
 [core.components]
@@ -397,7 +397,7 @@ resource = true # 是否安裝 MaaCore 的資源，預設為 true
 
 # CLI 更新相關配置
 [cli]
-channel = "Stable" # 更新通道，可選值為 "Alpha"、"Beta" "Stable"，預設為 "Stable"
+channel = "Stable" # 更新通道，可選值為 "Alpha"、"Beta"、"Stable"，預設為 "Stable"
 # 查詢 maa-cli 最新版本的 api 位址，留空表示使用預設位址
 api_url = "https://github.com/MaaAssistantArknights/maa-cli/raw/version/"
 # 下載預編譯執行檔的位址，留空表示使用預設位址
@@ -415,7 +415,7 @@ backend = "libgit2" # 資源熱更新後端，可選值為 "git" 或者 "libgit2
 
 # 資源熱更新遠端倉庫相關配置
 [resource.remote]
-branch = "main" # 遠端倉庫的分支，預設為 "main"
+branch = "main" # 遠端倉庫的分支，不填時使用遠端倉庫的預設分支
 # 遠端資源倉庫的 URL，留空以使用預設 URL
 # GitHub 倉庫支援 HTTPS 和 SSH 兩種協定存取，建議使用 HTTPS 協定，因為通常情況下不需要額外配置
 url = "https://github.com/MaaAssistantArknights/MaaResource.git"
@@ -446,7 +446,7 @@ passphrase = "password"       # ssh 金鑰的密碼
 **注意事項**：
 
 - MaaCore 的更新通道中 `Alpha` 只在 Windows 上可用。
-- 由於 CLI 預設的 API 連結和下載連結都是 GitHub 的連結，因此在連線較慢的地區可能會有一些問題，您可以透過配置 `api_url` 和 `download_url` 來使用鏡像站。
+- 部分預設連結指向 GitHub，因此在連線較慢的地區可能會有一些問題，您可以透過配置 `api_url` 和 `download_url` 來使用鏡像站。
 - 即使啟動了資源熱更新，您依然需要安裝 MaaCore 的資源，因為資源熱更新並不包含所有的資源檔案，只是包含部分可更新的資源檔案，基礎資源檔案仍然需要安裝。
 - 資源熱更新是透過 Git 來拉取遠端倉庫，如果後端設定為 `git` 那麼 `git` 命令列工具必須可用。
 - 如果您想要使用 SSH 協定來拉取遠端倉庫，您必須配置 `ssh_key` 欄位，這個欄位應該是一個路徑，指向您的 SSH 私鑰。

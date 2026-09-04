@@ -232,17 +232,25 @@
                 SelectedValuePath="Value"
                 Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and !RoguelikeOnlyStartWithEliteTwo',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
-            <CheckBox
+            <StackPanel
                 Margin="0,10"
                 d:Visibility="Visible"
-                IsChecked="{Binding Roguelike3FirstFloorFoldartal}"
+                Orientation="Horizontal"
                 Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme == task:RoguelikeTheme.Sami',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
-                <TextBlock
-                    Block.TextAlignment="Left"
-                    Text="{DynamicResource Roguelike3FirstFloorFoldartal}"
-                    TextWrapping="Wrap" />
-            </CheckBox>
+                <CheckBox
+                    MaxWidth="{c:Binding '220 - ActualWidth',
+                                         ElementName=Roguelike3FirstFloorFoldartalTipTooltipBlock}"
+                    IsChecked="{Binding Roguelike3FirstFloorFoldartal}">
+                    <TextBlock
+                        Block.TextAlignment="Left"
+                        Text="{DynamicResource Roguelike3FirstFloorFoldartal}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock
+                    x:Name="Roguelike3FirstFloorFoldartalTipTooltipBlock"
+                    TooltipText="{DynamicResource Roguelike3FirstFloorFoldartalTip}" />
+            </StackPanel>
             <hc:TextBox
                 d:Visibility="Visible"
                 IsReadOnly="{c:Binding !Idle,

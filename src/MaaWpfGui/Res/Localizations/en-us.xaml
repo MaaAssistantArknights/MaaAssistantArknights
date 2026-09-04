@@ -53,6 +53,7 @@
     <system:String x:Key="ExternalNotificationSendWhenComplete">Send notification when complete</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">Send notification when task fails</system:String>
     <system:String x:Key="ExternalNotificationSendWhenStalled">Send notification when task log output stalls</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenStalledTip">Only takes effect after enabling ｢{key=StallTimeoutEnabled}｣ in ｢{key=GameSettings}｣</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
     <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
@@ -272,6 +273,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor, No Battle</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">Start with ｢Life Prioritizing Squad｣ and acquire the cypherboard</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ｢;｣</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartalTip">Enter the foldartal names, separated by ｢;｣</system:String>
     <system:String x:Key="RoguelikeCollapseList">Collapse Paradigm List</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">Separate with ｢;｣. Leave blank to use the default list.</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select ｢{key=StartingCoreChar}｣ from support unit list</system:String>
@@ -286,7 +288,9 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">Monthly Squad Communication</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">Deep Investigation Auto-Switch</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">Pause Trick (Experimental)</system:String>
+    <system:String x:Key="DeploymentWithPauseTip">Pauses the game when deploying {key=Operator} in auto combat, then deploys the next {key=Operator}</system:String>
     <system:String x:Key="AdbLiteEnabled">Use ADB Lite (Experimental)</system:String>
+    <system:String x:Key="AdbLiteEnabledTip">ADB implementation built into MAA, avoiding launching an adb.exe process every time an adb command is executed</system:String>
     <system:String x:Key="KillAdbOnExit">Kill ADB On Exit</system:String>
     <system:String x:Key="DefaultSquad">Default Squad</system:String>
     <system:String x:Key="IS2NewSquad1">Mind Over Matter Squad</system:String>
@@ -403,6 +407,8 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="UpdateAutoDownloadTip" xml:space="preserve">When disabled, detected updates (including manually triggered ｢{key=UpdateCheckNow}｣) will no longer download automatically. Instead, a system notification with a download link will be shown, allowing you to download the package and drag it into MAA manually.
 If system notifications are turned off, an in-app notification will be used instead, though it does not provide an interactive download button.</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">Auto Install Update</system:String>
+    <system:String x:Key="AutoInstallUpdatePackageTip">No longer shows a confirmation dialog when a new version is detected; MAA will update and restart automatically when tasks are idle</system:String>
+    <system:String x:Key="WindowUpdateInfoTip">Click to update now</system:String>
     <system:String x:Key="ShowUpdaterConsole">Show updater console output during update</system:String>
     <system:String x:Key="ShowUpdaterProgress">Show updater progress window</system:String>
     <system:String x:Key="ShowUpdaterProgressTip" xml:space="preserve">Shows a standalone progress window from the updater during the update, displaying the current status and file processing progress.
@@ -523,8 +529,9 @@ Continue only after you have verified the directory layout and finished a manual
     <system:String x:Key="ForceScheduledStart">Force scheduled start</system:String>
     <system:String x:Key="ForceScheduledStartTip">Stop current task, restart game and start new tasks</system:String>
     <system:String x:Key="ShowWindowBeforeForceScheduledStart">Show window before force scheduled start</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">Show the main window before the scheduled start so the countdown isn't missed while minimized</system:String>
     <system:String x:Key="TimerCustomConfig">Custom config</system:String>
-    <system:String x:Key="TimerCustomConfigTip">Restart and switch configuration two minutes in advance</system:String>
+    <system:String x:Key="TimerCustomConfigTip">Restart the game and switch the configuration two minutes before the scheduled start</system:String>
     <system:String x:Key="Timer">Timer</system:String>
     <system:String x:Key="GlobalConfigTip">This option page is for global config</system:String>
     <system:String x:Key="MultiTasksShareTip">The following options are for multiple tasks.</system:String>
@@ -710,13 +717,11 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="HideTray">Disable Tray Icon</system:String>
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
-    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
-MAA is a portable (non-installed) application. Its notification feature uses the Microsoft.Toolkit.Uwp.Notifications library, which by default registers notifications using the application's executable path.
+    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">MAA is a portable (non-installed) application. Its notification feature uses the Microsoft.Toolkit.Uwp.Notifications library, which by default registers notifications using the application's executable path.
 If you have run MAA from multiple locations, Windows will create separate notification icons (e.g., in the taskbar toast) for each path. This is the default behavior of the library and cannot be controlled or cleaned up automatically by MAA.
 To clean up, open the Registry Editor and navigate to:
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings
-Then delete the entries corresponding to the paths.
-</system:String>
+Then delete the entries corresponding to the paths.</system:String>
     <system:String x:Key="HideCloseButton">Hide close button</system:String>
     <system:String x:Key="WindowTitleScrollable">Window Title Scrolling</system:String>
     <system:String x:Key="MainTasksNullFunctionality">Reverse right-click effect for main task</system:String>
@@ -731,6 +736,7 @@ Then delete the entries corresponding to the paths.
     <system:String x:Key="SwitchResolutionTip">Change the emulator resolution to 1920x1080!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">For YoStarEN, make sure the emulator is set to 1920x1080</system:String>
     <system:String x:Key="AllowUseStoneSave">Save ｢Use Originium｣</system:String>
+    <system:String x:Key="AllowUseStoneSaveTip">By default, ｢{key=UseOriginitePrime}｣ is effective only once; when checked, its state will be saved, the left-click toggles it normally, and a right-click selection still takes effect only once</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢{key=Confirm}｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring (&lt;N hours) sanity potion</system:String>
@@ -772,23 +778,25 @@ Only supports Official(CN), Bilibili, Traditional Chinese and YostarKR servers. 
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">Enable MuMu touch enhancement (experimental, requires MuMu Emulator 6.3.2+, supports background keep-alive)</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu Emulator path not found.</system:String>
-    <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll was not found under the selected MuMu installation.\n
+    <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll was not found under the selected MuMu installation.
+
 Expected relative path: nx_device/15.0/shell/sdk/external_renderer_ipc.dll or
 nx_device/12.0/shell/sdk/external_renderer_ipc.dll or
-shell/sdk/external_renderer_ipc.dll\n
+shell/sdk/external_renderer_ipc.dll
+
 Please verify the installation directory.</system:String>
-    <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu / MuMu Arknights V4.1.26 or later is required. MuMu Global requires V5.21.3 or later.
+    <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">MuMu / MuMu Arknights V4.1.26 or later is required. MuMu Global requires V5.21.3 or later.
 It's strongly recommended to run a screenshot test immediately after enabling this feature.
-MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
+MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.
+
 The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
-C:\\Program Files\\Netease\\MuMuPlayer\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
+C:\Program Files\Netease\MuMuPlayer\nx_device\12.0\shell\MuMuNxDevice.exe
 then it should be filled in as
-C:\\Program Files\\Netease\\MuMuPlayer\n
+C:\Program Files\Netease\MuMuPlayer
+
 Note:
 1. If the port number of the connection address is 7555, you need to change the port number to 16384.
-2. If using network bridging, check the MuMu network bridging mode and manually enter the serial number.
-    </system:String>
+2. If using network bridging, check the MuMu network bridging mode and manually enter the serial number.</system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu Installation Path</system:String>
     <system:String x:Key="MuMu12EmulatorPathPlaceholder">Example: C:\Program Files\Netease\MuMuPlayer</system:String>
     <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu installation path is empty! The placeholder is only an example, please fill in the actual path in ｢{key=Settings} - {key=ConnectionSettings}｣</system:String>
@@ -802,22 +810,20 @@ Note:
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer emulator path not found.</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">ldopengl64.dll was not found in the selected LDPlayer path. Please verify the installation directory.</system:String>
-    <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-LDPlayer 9 V9.1.32 or later is required.
+    <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">LDPlayer 9 V9.1.32 or later is required.
 It's strongly recommended to run a screenshot test immediately after enabling this feature.
 MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.
 
 The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
-C:\\leidian\\LDPlayer9\\dnplayer.exe
+C:\leidian\LDPlayer9\dnplayer.exe
 then it should be filled in as
-C:\\leidian\\LDPlayer9
+C:\leidian\LDPlayer9
 
 The instance number can be viewed in LDPlayer Multi-Instance Manager,
 The primary instance is 0, and other instances are the numbers after the version/instance ID.
 
 The screenshot enhancement feature requires the emulator resolution to be set to landscape mode and the screen orientation not to be changed during connection.
-If the game is launched in portrait mode and then switched to landscape, it may cause screen tearing or other issues.
-    </system:String>
+If the game is launched in portrait mode and then switched to landscape, it may cause screen tearing or other issues.</system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
     <system:String x:Key="LdEmulatorPathPlaceholder">Example: C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="LdEmulatorPathEmptyError">LDPlayer installation path is empty! The placeholder is only an example, please fill in the actual path in ｢{key=Settings} - {key=ConnectionSettings}｣</system:String>
@@ -880,6 +886,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Inverse">Invert</system:String>
     <system:String x:Key="Clear">Clear</system:String>
     <system:String x:Key="PostActions">Then</system:String>
+    <system:String x:Key="PostActionsSettings">Post-action settings</system:String>
     <system:String x:Key="DoNothing">Do Nothing</system:String>
     <system:String x:Key="ExitArknights">Exit Arknights</system:String>
     <system:String x:Key="ExitSelf">Exit MAA</system:String>
@@ -893,6 +900,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
 After unchecking this option, other option states will be saved normally
 Right-clicking other options will check/uncheck this option simultaneously</system:String>
     <system:String x:Key="IfNoOtherMaa">If no other running MAA</system:String>
+    <system:String x:Key="IfNoOtherMaaTip">When checked, Sleep/Hibernate/Shutdown will only run when no other MAA instance is running</system:String>
     <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
@@ -1239,7 +1247,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
 Enabling this will skip these checks, but may cause the job to fail.
 Operators' Elite level CANNOT be ignored. If any requirements are ignored, the operation will no longer be automatically rated after the battle.</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
-    <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and Skills, for example: W, 3; Ash, 2</system:String>
+    <system:String x:Key="AddUserAdditionalTip">Click the settings button next to it to open the editing window, then click ｢{key=UserAdditional.Add}｣ to add entries one by one, and fill in the {key=Operator} name, skill, and action in each column</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator} Name</system:String>
     <system:String x:Key="UserAdditional.Skill">Skill</system:String>
     <system:String x:Key="UserAdditional.Action">Action</system:String>
@@ -1258,6 +1266,8 @@ When ｢{key=UseCopilotList}｣ is enabled, individual jobs will be automaticall
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">Left-click to add Normal difficulty
 Right click to add challenge difficulty</system:String>
+    <system:String x:Key="CopilotSelectTaskTip" xml:space="preserve">Left-click: view job details
+Right-click: select this job and exit multi-job mode</system:String>
     <system:String x:Key="CopilotClearTask" xml:space="preserve">Left-click to clear all jobs
 Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Start">Start</system:String>

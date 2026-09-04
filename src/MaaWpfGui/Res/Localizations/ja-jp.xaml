@@ -53,6 +53,7 @@
     <system:String x:Key="ExternalNotificationSendWhenComplete">タスク完了時に通知を送信</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">タスクが失敗したときに通知を送信</system:String>
     <system:String x:Key="ExternalNotificationSendWhenStalled">タスクログ出力停滞時に通知を送信</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenStalledTip">｢{key=GameSettings}｣ で ｢{key=StallTimeoutEnabled}｣ を有効にした場合にのみ有効になります</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">正常に送信</system:String>
     <system:String x:Key="ExternalNotificationSendFail">送信に失敗しました</system:String>
     <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
@@ -272,6 +273,7 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartal">第一層遠見で指定された啓示板を取得し、戦闘を行わない</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活重視分隊で開始、指定された啓示板を取得する</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最大3つ書き込み、半角セミコロン;で区切る</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartalTip">予見啓示板の名前を入力し、複数は半角セミコロン;で区切ります</system:String>
     <system:String x:Key="RoguelikeCollapseList">崩壊パラダイムリスト</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">英語のセミコロン ｢;｣ で区切る、空白のままにするとデフォルトリストが使用されます。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ をサポートから選択</system:String>
@@ -286,7 +288,9 @@
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月次小隊通信</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">多面調査自動切替</system:String>
     <system:String x:Key="DeploymentWithPause">統合戦略/保全駐在でポーズトリックを使用します（ベータ機能のため非推奨です）</system:String>
+    <system:String x:Key="DeploymentWithPauseTip">自動戦闘で{key=Operator}を配置する際にゲームを一時停止し、次の{key=Operator}を配置します</system:String>
     <system:String x:Key="AdbLiteEnabled">軽量ADBを使用（実験機能）</system:String>
+    <system:String x:Key="AdbLiteEnabledTip">MAA が独自に実装した ADB 機能で、adb コマンドを実行するたびに adb.exe プロセスが起動するのを避けられます</system:String>
     <system:String x:Key="KillAdbOnExit">終了時にADBを終了する</system:String>
     <system:String x:Key="DefaultSquad">デフォルト</system:String>
     <system:String x:Key="IS2NewSquad1">精神論分隊</system:String>
@@ -403,6 +407,8 @@
     <system:String x:Key="UpdateAutoDownloadTip" xml:space="preserve">オフの場合、更新の検出時（手動で ｢{key=UpdateCheckNow}｣ を実行した場合を含む）に自動ダウンロードは行われず、ダウンロードリンク付きのシステム通知のみが表示されます。リンク先から更新パッケージをダウンロードし、MAA にドラッグして手動更新できます。
 システム通知が無効な場合はアプリ内通知に切り替わりますが、アプリ内通知には操作可能なダウンロードボタンは提供されません。</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自動インストール更新</system:String>
+    <system:String x:Key="AutoInstallUpdatePackageTip">新しいバージョンが見つかっても確認ダイアログを表示せず、タスクの空き時間に自動的にアップデートして MAA を再起動します</system:String>
+    <system:String x:Key="WindowUpdateInfoTip">クリックで今すぐ更新</system:String>
     <system:String x:Key="ShowUpdaterConsole">更新中にアップデーターのコンソール出力を表示</system:String>
     <system:String x:Key="ShowUpdaterProgress">アップデーターの進行状況ウィンドウを表示</system:String>
     <system:String x:Key="ShowUpdaterProgressTip" xml:space="preserve">更新時にアップデーターが独立した進行状況ウィンドウを表示し、現在のステータスとファイル処理の進捗を示します。
@@ -523,8 +529,9 @@ D:\
     <system:String x:Key="ForceScheduledStart">強制的なタイミングで起動</system:String>
     <system:String x:Key="ForceScheduledStartTip">現在のタスクを停止して、ゲームを再起動し、新しいタスクを開始します</system:String>
     <system:String x:Key="ShowWindowBeforeForceScheduledStart">強制的なタイミングで起動前の表示ウィンドウ</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">起動前にメインウィンドウを表示し、最小化中にカウントダウンが見えないのを防ぎます</system:String>
     <system:String x:Key="TimerCustomConfig">カスタム構成オプション</system:String>
-    <system:String x:Key="TimerCustomConfigTip">2分前に再起動して設定を切り替えます</system:String>
+    <system:String x:Key="TimerCustomConfigTip">起動時刻の2分前にゲームを再起動して設定を切り替えます</system:String>
     <system:String x:Key="Timer">タイマー</system:String>
     <system:String x:Key="GlobalConfigTip">このオプション ページはグローバル設定用です</system:String>
     <system:String x:Key="MultiTasksShareTip">以下のオプションは複数のタスクで共有されます</system:String>
@@ -710,13 +717,11 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="HideTray">トレイアイコンを隠す</system:String>
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
-    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
-MAA は非インストール型のポータブルソフトウェアで、通知機能は Microsoft.Toolkit.Uwp.Notifications ライブラリを使用しています。このライブラリはデフォルトで実行ファイルのパスを登録識別子として使用します。
+    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">MAA は非インストール型のポータブルソフトウェアで、通知機能は Microsoft.Toolkit.Uwp.Notifications ライブラリを使用しています。このライブラリはデフォルトで実行ファイルのパスを登録識別子として使用します。
 複数の場所から MAA を起動すると、Windows は各パスごとに別々の通知アイコン（タスクバーのトーストなど）を作成します。これはライブラリのデフォルト動作であり、MAA は制御または自動削除できません。
 削除したい場合は、レジストリエディターを開き、以下の場所に移動してください：
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings
-該当するパスのキーを削除してください。
-</system:String>
+該当するパスのキーを削除してください。</system:String>
     <system:String x:Key="HideCloseButton">｢閉じる｣ ボタンを隠す</system:String>
     <system:String x:Key="WindowTitleScrollable">タイトルのスクロール機能</system:String>
     <system:String x:Key="MainTasksNullFunctionality">メインタスクの右クリック効果を反転</system:String>
@@ -731,6 +736,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="SwitchResolutionTip">エミュレータの解像度を1920x1080に変更!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">エミュレータが1920x1080に設定されていることを確認してください</system:String>
     <system:String x:Key="AllowUseStoneSave">源石の数を割る保存状態を許可</system:String>
+    <system:String x:Key="AllowUseStoneSaveTip">デフォルトでは ｢{key=UseOriginitePrime}｣ は一度だけ有効です。チェックするとその状態が保存され、左クリックで通常どおり切り替えられ、右クリックで選択した場合も一度だけ有効になります</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。 ｢{key=Confirm}｣ ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseExpiringMedicine">N時間以内に期限が切れる回復剤を無制限に使用</system:String>
@@ -772,20 +778,23 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">MuMu タッチ強化を有効化（実験的、MuMu エミュレータ 6.3.2+、バックグラウンド常駐対応）</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu エミュレータのパスが見つかりません。</system:String>
-    <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll が選択した MuMu インストール内に見つかりませんでした。\n
+    <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll が選択した MuMu インストール内に見つかりませんでした。
+
 想定される相対パス：
 nx_device/15.0/shell/sdk/external_renderer_ipc.dll または
 nx_device/12.0/shell/sdk/external_renderer_ipc.dll または
-shell/sdk/external_renderer_ipc.dll\n
+shell/sdk/external_renderer_ipc.dll
+
 インストールディレクトリを確認してください。</system:String>
-    <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu / MuMu Arknights V4.1.26 以降を利用する必要があり、MuMu Global は V5.21.3 以降に対応しています。
+    <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">MuMu / MuMu Arknights V4.1.26 以降を利用する必要があり、MuMu Global は V5.21.3 以降に対応しています。
 この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。
-MAA はレジストリからインストールパスを自動的に取得しますが、失敗した場合は手動で入力してください。\n
+MAA はレジストリからインストールパスを自動的に取得しますが、失敗した場合は手動で入力してください。
+
 インストールパスには、エミュレーターのインストールディレクトリのルートディレクトリを入力する必要があります。例えば、エミュレーターのプロセスファイルパスが
-C:\\Program Files\\Netease\\MuMuPlayer\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
+C:\Program Files\Netease\MuMuPlayer\nx_device\12.0\shell\MuMuNxDevice.exe
 の場合、
-C:\\Program Files\\Netease\\MuMuPlayer を入力してください。\n
+C:\Program Files\Netease\MuMuPlayer を入力してください。
+
 注意：
 1. 接続アドレスのポート番号が 7555 の場合、ポート番号を 16384 に変更してください。
 2. ネットワークブリッジを使用している場合は、MuMu ネットワークブリッジモードを選択し、シリアル番号を手動で入力する必要があります。
@@ -803,22 +812,20 @@ C:\\Program Files\\Netease\\MuMuPlayer を入力してください。\n
     <system:String x:Key="LdExtrasEnabled">LD のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer のインストールパスが見つかりません。</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">選択した LDPlayer パスに ldopengl64.dll が見つかりません。インストールディレクトリを確認してください。</system:String>
-    <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-LDPlayer 9 V9.1.32以降が必要です。
+    <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">LDPlayer 9 V9.1.32以降が必要です。
 この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。
 MAA はレジストリから自動的にインストールパスを取得しますが、失敗した場合は手動で入力してください。
 
 インストールパスはエミュレーターのインストールディレクトリのルートディレクトリを入力してください。例えば、エミュレーターのプロセスファイルパスが
-C:\\leidian\\LDPlayer9\\dnplayer.exe の場合、
-C:\\leidian\\LDPlayer9
+C:\leidian\LDPlayer9\dnplayer.exe の場合、
+C:\leidian\LDPlayer9
 と入力してください。
 
 インスタンス番号は雷電マルチインスタンスマネージャーで確認できます。
 メインインスタンスは 0 で、その他のインスタンスはバージョン/IDの後の番号です。
 
 スクリーンショット拡張機能は、エミュレータの解像度を横画面モードに設定することを必須とし、接続中に画面の回転をしないでください。
-縦画面状態でゲームを起動した後、横画面に切り替えると、画面の乱れ（ティアリング）などの問題が発生する可能性があります。
-    </system:String>
+縦画面状態でゲームを起動した後、横画面に切り替えると、画面の乱れ（ティアリング）などの問題が発生する可能性があります。</system:String>
     <system:String x:Key="LdEmulatorPath">LD エミュレータパス</system:String>
     <system:String x:Key="LdEmulatorPathPlaceholder">例: C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="LdEmulatorPathEmptyError">LDPlayer のインストールパスが空です！プレースホルダーはあくまで例です。｢{key=Settings} - {key=ConnectionSettings}｣ で実際のパスを入力してください</system:String>
@@ -881,6 +888,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Inverse">逆選択</system:String>
     <system:String x:Key="Clear">解除</system:String>
     <system:String x:Key="PostActions">完了後</system:String>
+    <system:String x:Key="PostActionsSettings">完了後アクション設定</system:String>
     <system:String x:Key="DoNothing">何もしない</system:String>
     <system:String x:Key="ExitArknights">アークナイツを終了する</system:String>
     <system:String x:Key="ExitSelf">MAAを終了する</system:String>
@@ -894,6 +902,7 @@ C:\\leidian\\LDPlayer9
 このオプションのチェックを解除すると、他のオプションの状態は正常に保存されます
 他のオプションを右クリックすると、このオプションも同時にチェック/チェック解除されます</system:String>
     <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
+    <system:String x:Key="IfNoOtherMaaTip">チェックすると、他の MAA インスタンスが実行されていない場合にのみ、スリープ/休止状態/シャットダウンを実行します</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
@@ -1241,7 +1250,7 @@ C:\\leidian\\LDPlayer9
 この項目を選択するとこれらのチェックをスキップしますが、タスクが正常に動作しなくなる可能性があります。
 オペレーターのエリートレベルはスキップできません。いずれかの条件をスキップした場合、戦闘後にオペレーションは自動的に評価されなくなります。</system:String>
     <system:String x:Key="AddUserAdditional">カスタム{key=Operator}追加</system:String>
-    <system:String x:Key="AddUserAdditionalTip">｢;｣ はセパレータ、 ｢,｣ で{key=Operator}の名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla, 1</system:String>
+    <system:String x:Key="AddUserAdditionalTip">横の設定ボタンをクリックして編集ウィンドウを開き、｢{key=UserAdditional.Add}｣ をクリックして1件ずつ追加し、各列に{key=Operator}名・スキル・操作を入力します</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
     <system:String x:Key="UserAdditional.Skill">スキル</system:String>
     <system:String x:Key="UserAdditional.Action">操作</system:String>
@@ -1260,6 +1269,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTaskRaidStage">（強襲）</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">左クリックで通常難易度を追加
 右クリックしてレイドの難易度を追加します</system:String>
+    <system:String x:Key="CopilotSelectTaskTip" xml:space="preserve">左クリック：ジョブ情報を表示
+右クリック：このジョブを選択してマルチジョブモードを終了</system:String>
     <system:String x:Key="CopilotClearTask" xml:space="preserve">左クリックですべてのタスクをクリア
 右クリックで非アクティブなタスクをクリア</system:String>
     <system:String x:Key="Start">開始</system:String>

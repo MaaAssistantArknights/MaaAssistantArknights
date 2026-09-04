@@ -16,12 +16,14 @@ This document is outdated due to the rapid update of the interface. Since the de
 ## Prototype
 
 ```cpp
-typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom_arg);
+typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json, void* custom_arg);
 ```
+
+なお、`AsstMsgId` は `int32_t` のエイリアスです。
 
 ## 概要
 
-- `int msg`  
+- `AsstMsgId msg`  
    The message type
 
   ```cpp
@@ -144,7 +146,7 @@ Todo
 ```json
 {
     "uuid": string,             // デバイス固有コード，UUID
-    "what": string,             // コールバック タイプ，"Connect" | "Click" | "Screencap" | ...
+    "what": string,             // コールバック タイプ，"Connect" | "AttachWindow" | "Click" | "Screencap" | ...
     "async_call_id": int,       // 非同期要求 id、つまり AsstAsyncXXX を呼び出したときの戻り値
     "details": {
         "ret": bool,            // 実際に呼び出された戻り値
@@ -159,6 +161,7 @@ Todo
 ```json
 {
     "taskchain": string,            // 最後の一連のタスク
+    "taskid": int,                  // 最後の一連のタスクに対応するタスク ID
     "uuid": string,                 // UUID
     "finished_tasks": [             // 最終動作タスクの ID
         int,
@@ -189,6 +192,8 @@ Todo
    自動作戦
 - `SSSCopilot`  
    自動保全駐在作戦
+- `ParadoxCopilot`  
+   自動逆理演算作戦
 - `Depot`  
    倉庫の識別
 - `OperBox`  
@@ -214,6 +219,10 @@ Todo
 }
 ```
 
+なお、`TaskChainError` はタスクチェーンが未処理の例外によって中断された場合、追加で `details` フィールドを伴います：
+
+- `error` (string, required): 例外の種類。`OpenCVException` | `OutOfMemory` | `UnhandledException` | `UnknownException` のいずれか。
+
 ### TaskChainExtraInfo
 
 Todo
@@ -238,14 +247,19 @@ Todo
   ```json
   // 対応する詳細フィールドの例
   {
-      "task": "StartButton2",     // タスク名
-      "action": 512,
-      "exec_times": 1,            // 実行回数
-      "max_times": 999,           // 最大実行回数
-      "algorithm": 0
+      "task": "StartButton2",         // タスク名
+      "action": "ClickSelf",          // アクション名、例：`ClickSelf` | `DoNothing` | `Swipe`
+      "exec_times": 1,                // 実行回数
+      "max_times": 999,               // 最大実行回数
+      "algorithm": "MatchTemplate",   // 識別アルゴリズム名、例：`MatchTemplate` | `OcrDetect` | `FeatureMatch` | `JustReturn`
+      "result": {}                    // 今回の識別結果、アルゴリズムごとに構造が異なる。識別結果がない場合は空オブジェクト
   }
   ```
 
+- `ReportToPenguinStats` / `ReportToYituliu`  
+   戦闘ドロップをペンギン急便統計 / Yituliu ビッグデータへ報告します（報告失敗時は `SubTaskError` で通知されます）。
+- `StartGameTask`  
+   クライアントの起動に失敗（設定ファイルと渡された `client_type` が不一致）。
 - Todo Other
 
 ##### 多用される `task` フィールドの値
@@ -254,8 +268,6 @@ Todo
    開始
 - `MedicineConfirm`  
    理性回復剤使用確認
-- `ExpiringMedicineConfirm`  
-   期限切れ間近の理性回復剤使用確認
 - `StoneConfirm`  
    純正源石使用確認
 - `RecruitRefreshConfirm`  
@@ -264,10 +276,6 @@ Todo
    公開求人の確認
 - `RecruitNowConfirm`  
    緊急招集票の使用確認
-- `ReportToPenguinStats`  
-   ペンギン急便への報告
-- `ReportToYituliu`  
-   Yituliu へビッグデータの報告
 - `InfrastDormDoubleConfirmButton`  
    基地の二重確認ボタン、配置予定のオペレーターが既に他の施設に配属中の場合にのみ表示されます（MAAが自動でクリックします）
 - `StartExplore`  
@@ -294,8 +302,6 @@ Todo
    統合戦略: 緊急作戦
 - `StageDreadfulFoe`  
    統合戦略: 悪路凶敵
-- `StartGameTask`
-  クライアントの起動に失敗 (client_type と設定ファイルの互換性なし)
 - Todo Other
 
 ### SubTaskExtraInfo
@@ -510,11 +516,8 @@ Todo
   }
   ```
 
-- `RecruitSlotCompleted`  
-   公開求人スロットの完了
-
 - `RecruitError`  
-   公開求人認識時のエラー
+   公開求人認識時のエラー。`details` は空。現在のスロットの更新回数が上限に達したことが原因の場合は、`refresh_limit`（スロットの更新回数上限）を含みます。
 
 - `EnterFacility`  
    施設へ入る
@@ -556,24 +559,15 @@ Todo
   ```json
   // 対応する詳細フィールドの例
   {
-      "name": string  // ステージ名
+      "name": string,  // ステージ名
+      "size": number   // マップのグリッド数
   }
   ```
 
 - `StageInfoError`  
    自動戦闘ステージの情報エラー
 
-- `PenguinId`  
-   PenguinStats ID
-
-  ```json
-  // 対応する詳細フィールドの例
-  {
-      "id": string
-  }
-  ```
-
-- `Depot`  
+- `DepotInfo`  
    倉庫のアイテムの認識結果
 
   ```json
@@ -588,10 +582,14 @@ Todo
   ```json
   // 対応する詳細フィールドの例
   "done": bool,       // 認識が完了したかどうか，false はまだ進行中かどうか（処理中のデータ）
-  "all_oper": [
+  "all_opers": [
       {
           "id": "char_002_amiya",
           "name": "阿米娅",
+          "name_en": "Amiya",
+          "name_jp": "アーミヤ",
+          "name_kr": "아미야",
+          "name_tw": "阿米婭",
           "own": true
       },
       {
@@ -628,7 +626,14 @@ Todo
   ```
 
 - `UnsupportedLevel`  
-   自動作戦で、サポートされていないレベル名
+   自動作戦で、サポートされていないレベル名。`details` の内容：
+
+  ```json
+  // 対応する詳細フィールドの例
+  {
+      "level": string  // サポートされていないレベル名
+  }
+  ```
 
 ### ReportRequest
 

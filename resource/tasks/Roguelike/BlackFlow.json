@@ -823,6 +823,7 @@
         "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
         "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
         "action": "ClickSelf",
+        "rectMove": [0, 0, 50, 30],
         "next": ["BlackFlow@Roguelike@MovePreviewConfirmObserve", "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"],
         "maxTimes": 4,
         "exceededNext": ["BlackFlow@Roguelike@MovePreviewConfirmExceeded"],
@@ -1059,6 +1060,7 @@
         "roi": [524, 0, 246, 42],
         "withoutDet": false,
         "text": ["玻利瓦尔肤层", "甜美的伤口", "血色空脉", "受害者腐殖", "卡德霍之颅", "未萌生的摇篮"],
+        "ocrReplace": [["^玻利瓦尔肤$", "玻利瓦尔肤层"]],
         "fullMatch": true,
         "postDelay": 600,
         "next": [

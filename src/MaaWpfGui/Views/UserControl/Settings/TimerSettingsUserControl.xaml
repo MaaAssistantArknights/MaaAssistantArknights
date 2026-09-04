@@ -61,6 +61,10 @@
                 Content="{DynamicResource ShowWindowBeforeForceScheduledStart}"
                 IsChecked="{Binding ShowWindowBeforeForceScheduledStart}"
                 Visibility="{c:Binding ForceScheduledStart}" />
+            <controls:TooltipBlock
+                VerticalAlignment="Center"
+                TooltipText="{DynamicResource ShowWindowBeforeForceScheduledStartTip}"
+                Visibility="{c:Binding ForceScheduledStart}" />
         </StackPanel>
 
         <Grid Grid.Row="3">

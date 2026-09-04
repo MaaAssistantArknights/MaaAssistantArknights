@@ -20,7 +20,7 @@ Please note that JSON files do not support comments. The comments in this docume
         // Specified operators
         {
             "name": "重岳", // Operator name ("重岳" = "Chongyue")
-            "role": "guard", // Operator role. Optional, used to distinguish operators with the same name; both Chinese and English role names are accepted, case-insensitive
+            "role": "guard", // Operator role. Optional, used to distinguish operators with the same name; English role names should be used, case-insensitive
             "skill": 3, // Skill number. Optional, default is 0, range [0, 3]
             "skill_usage": 2, // Skill usage method. Optional, default is 0
             // 0 - Do not use automatically (depends on "actions" field)
@@ -31,10 +31,10 @@ Please note that JSON files do not support comments. The comments in this docume
             "skill_times": 5, // Number of skill activations. Optional, default is 1
             "requirements": {
                 // Level requirements, validated during auto-formation. Optional, default is empty
-                "elite": 2, // Elite level. Optional, default is 0, no elite requirement
-                "level": 90, // Operator level. Optional, default is 0
-                "skill_level": 10, // Skill level. Optional, default is 0
-                "module": 1, // Module number. Optional, default is 0
+                "elite": 2, // Elite level. Optional, default is -1, i.e., no requirement
+                "level": 90, // Operator level. Optional, default is -1, i.e., no requirement
+                "skill_level": 10, // Skill level. Optional, default is -1, i.e., no requirement
+                "module": 1, // Module number. Optional, default is -1, i.e., no requirement; 0 means no module, 1-4 correspond to modules of different numbers
                 "module_level": 3, // Module level. Not yet supported
                 "potential": 1 // Potential requirement. Not yet supported
             }
@@ -95,7 +95,7 @@ Please note that JSON files do not support comments. The comments in this docume
             // TODO: "condition_type": 0,    // Relationship between execution conditions, optional, default is 0
             //                        // 0 - AND; 1 - OR
             "name": "棘刺", // Operator name or group name, required when type is "Deploy", optional for "Skill"|"Retreat" ("棘刺" = "Thorns")
-            "role": "guard", // Operator role. Optional, used to distinguish operators with the same name; both Chinese and English role names are accepted, case-insensitive
+            "role": "guard", // Operator role. Optional, used to distinguish operators with the same name; English role names should be used, case-insensitive
             "location": [
                 5,
                 5

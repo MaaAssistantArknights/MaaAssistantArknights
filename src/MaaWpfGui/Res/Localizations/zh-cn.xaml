@@ -53,6 +53,7 @@
     <system:String x:Key="ExternalNotificationSendWhenComplete">任务完成后发送通知</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">任务出错时发送通知</system:String>
     <system:String x:Key="ExternalNotificationSendWhenStalled">任务日志输出停滞时发送通知</system:String>
+    <system:String x:Key="ExternalNotificationSendWhenStalledTip">需在 ｢{key=GameSettings}｣ 中开启 ｢{key=StallTimeoutEnabled}｣ 后才会生效</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">发送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">发送失败</system:String>
     <system:String x:Key="ExternalNotificationSendTest">发送测试</system:String>
@@ -250,7 +251,7 @@
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">襁褓三头犬</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二{key=Operator}开局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
-    <system:String x:Key="RoguelikeCollectibleModeSquad">烧水使用分队</system:String>
+    <system:String x:Key="RoguelikeCollectibleModeSquad">刷开局使用分队</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小队，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">刷深入调查，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyFindPlaytime">刷常乐节点，第一层进洞，找不到需要的节点就重开</system:String>
@@ -272,6 +273,7 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一层远见密文板，不进行作战</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活队凹开局密文板</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多写三个，并用英文分号 ｢;｣ 隔开</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartalTip">填写远见密文板名称，多个用英文分号 ｢;｣ 隔开</system:String>
     <system:String x:Key="RoguelikeCollapseList">坍缩范式列表</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">用英文分号 ｢;｣ 隔开，留空将使用默认列表。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ 使用助战</system:String>
@@ -286,8 +288,10 @@
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小队通讯</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入调查自动切换</system:String>
     <system:String x:Key="DeploymentWithPause">划火柴模式（自动战斗相关）（不稳定, 暂不推荐开启）</system:String>
+    <system:String x:Key="DeploymentWithPauseTip">自动战斗部署{key=Operator}时暂停游戏，再下{key=Operator}</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（实验性功能）</system:String>
-    <system:String x:Key="KillAdbOnExit">退出时释放 ADB</system:String>
+    <system:String x:Key="AdbLiteEnabledTip">MAA 自实现的 ADB 功能，避免每次执行 adb 命令都启动一个 adb.exe 进程</system:String>
+    <system:String x:Key="KillAdbOnExit">退出时结束 ADB 进程</system:String>
     <system:String x:Key="DefaultSquad">默认分队</system:String>
     <system:String x:Key="IS2NewSquad1">心胜于物分队</system:String>
     <system:String x:Key="IS2NewSquad2">物尽其用分队</system:String>
@@ -403,6 +407,7 @@
     <system:String x:Key="UpdateAutoDownloadTip" xml:space="preserve">取消勾选后，检测到新版本时（包括手动触发 ｢{key=UpdateCheckNow}｣）将不再自动下载，仅通过系统通知提示并附带下载链接，可自行下载更新包后拖入 MAA 完成更新。
 若系统通知已关闭，则改为软件内通知，但软件内通知不提供可交互的下载按钮。</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自动安装更新包</system:String>
+    <system:String x:Key="AutoInstallUpdatePackageTip">检测到新版本后不再弹窗询问，将在任务空闲时自动更新并重启 MAA</system:String>
     <system:String x:Key="ShowUpdaterConsole">显示更新程序控制台输出</system:String>
     <system:String x:Key="ShowUpdaterProgress">显示更新程序进度窗口</system:String>
     <system:String x:Key="ShowUpdaterProgressTip" xml:space="preserve">更新时由更新程序显示一个独立的进度窗口，展示当前更新状态与文件处理进度。
@@ -523,8 +528,9 @@ D:\
     <system:String x:Key="ForceScheduledStart">强制定时启动</system:String>
     <system:String x:Key="ForceScheduledStartTip">停止当前任务，重启游戏并开始新任务</system:String>
     <system:String x:Key="ShowWindowBeforeForceScheduledStart">强制定时启动前显示窗口</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">定时启动前显示主窗口，避免最小化时看不到倒计时</system:String>
     <system:String x:Key="TimerCustomConfig">自定义配置选择</system:String>
-    <system:String x:Key="TimerCustomConfigTip">将提前两分钟重启并切换配置</system:String>
+    <system:String x:Key="TimerCustomConfigTip">定时启动前两分钟重启游戏并切换配置</system:String>
     <system:String x:Key="Timer">定时</system:String>
     <system:String x:Key="GlobalConfigTip">此选项页为全局配置</system:String>
     <system:String x:Key="MultiTasksShareTip">以下选项为多任务共用</system:String>
@@ -709,13 +715,11 @@ D:\
     <system:String x:Key="HideTray">隐藏托盘图标</system:String>
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
-    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
-MAA 是非安装型软件，通知功能使用 Microsoft.Toolkit.Uwp.Notifications 库，该库默认以程序所在路径作为注册标识。
+    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">MAA 是非安装型软件，通知功能使用 Microsoft.Toolkit.Uwp.Notifications 库，该库默认以程序所在路径作为注册标识。
 如果从多个路径启动过 MAA，Windows 会为每个路径生成不同的通知来源图标（如任务栏弹窗图标），这是该库的默认行为，MAA 无法控制或自动清除。
 如需清理，请手动打开注册表编辑器，定位至：
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings
-删除对应的路径项即可。
-</system:String>
+删除对应的路径项即可。</system:String>
     <system:String x:Key="HideCloseButton">隐藏关闭按钮</system:String>
     <system:String x:Key="WindowTitleScrollable">窗口标题滚动</system:String>
     <system:String x:Key="MainTasksNullFunctionality">反转主任务右键单击效果</system:String>
@@ -730,6 +734,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="SwitchResolutionTip">将模拟器分辨率更改为 1920x1080！</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">确保模拟器设置为 1920x1080</system:String>
     <system:String x:Key="AllowUseStoneSave">允许使用源石保存状态</system:String>
+    <system:String x:Key="AllowUseStoneSaveTip">默认 ｢{key=UseOriginitePrime}｣ 仅生效一次；勾选后其状态将保存，左键可正常切换，右键选中时仍仅生效一次</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseExpiringMedicine">无限吃 N 小时内过期的理智药</system:String>
@@ -771,24 +776,26 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="MuMu12ExtrasEnabled">启用 MuMu 截图增强</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">启用 MuMu 触控增强（实验性，需 MuMu 模拟器 6.3.2+，支持后台保活）</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">未找到 MuMu 模拟器路径。</system:String>
-    <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll 未在所选 MuMu 安装目录中找到。\n
+    <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll 未在所选 MuMu 安装目录中找到。
+
 期望的相对路径：
 nx_device/15.0/shell/sdk/external_renderer_ipc.dll 或
 nx_device/12.0/shell/sdk/external_renderer_ipc.dll 或
-shell/sdk/external_renderer_ipc.dll\n
+shell/sdk/external_renderer_ipc.dll
+
 请确认安装目录。</system:String>
-    <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-需使用官版或方舟专版 MuMu V4.1.26 或更新版本，国际版需 V5.21.3 或更新版本。
+    <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">需使用官版或方舟专版 MuMu V4.1.26 或更新版本，国际版需 V5.21.3 或更新版本。
 强烈建议在开启本功能后立刻运行一次截图测试。
-MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。\n
+MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。
+
 安装路径应填写模拟器安装目录的根目录，例如模拟器进程文件路径为
-C:\\Program Files\\Netease\\MuMuPlayer\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
+C:\Program Files\Netease\MuMuPlayer\nx_device\12.0\shell\MuMuNxDevice.exe
 则应填写
-C:\\Program Files\\Netease\\MuMuPlayer。\n
+C:\Program Files\Netease\MuMuPlayer。
+
 注意：
 1. 若当前连接地址端口号为 7555，则需将端口号改为 16384。
-2. 若正在使用网络桥接，则需勾选 MuMu 网络桥接模式并手动填写序号。
-    </system:String>
+2. 若正在使用网络桥接，则需勾选 MuMu 网络桥接模式并手动填写序号。</system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 安装路径</system:String>
     <system:String x:Key="MuMu12EmulatorPathPlaceholder">示例：C:\Program Files\Netease\MuMuPlayer</system:String>
     <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu 安装路径为空！占位符仅为示例，请在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填写实际路径</system:String>
@@ -802,22 +809,20 @@ C:\\Program Files\\Netease\\MuMuPlayer。\n
     <system:String x:Key="LdExtrasEnabled">启用 LD 截图增强</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">未找到 LDPlayer 模拟器路径。</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">在所选 LDPlayer 路径中未找到 ldopengl64.dll，请确认安装目录。</system:String>
-    <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-需使用官版或国际版雷电模拟器 9 V9.1.32 或更新版本。
+    <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">需使用官版或国际版雷电模拟器 9 V9.1.32 或更新版本。
 强烈建议在开启本功能后立刻运行一次截图测试。
 MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。
 
 安装路径应填写模拟器安装目录的根目录，例如模拟器进程文件路径为
-C:\\leidian\\LDPlayer9\\dnplayer.exe
+C:\leidian\LDPlayer9\dnplayer.exe
 则应填写
-C:\\leidian\\LDPlayer9
+C:\leidian\LDPlayer9
 
 实例编号可在雷电多开器中查看，
 主多开为 0，其他多开为 版本/编号 ID 后的数字。
 
 截图增强功能强制要求模拟器分辨率设置为横屏模式，且在连接过程中请勿翻转屏幕。
-如在竖屏状态下启动游戏后切换为横屏，可能导致画面撕裂等问题。
-    </system:String>
+如在竖屏状态下启动游戏后切换为横屏，可能导致画面撕裂等问题。</system:String>
     <system:String x:Key="LdEmulatorPath">LD 安装路径</system:String>
     <system:String x:Key="LdEmulatorPathPlaceholder">示例：C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="LdEmulatorPathEmptyError">雷电模拟器安装路径为空！占位符仅为示例，请在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填写实际路径</system:String>
@@ -880,6 +885,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Inverse">反选</system:String>
     <system:String x:Key="Clear">清空</system:String>
     <system:String x:Key="PostActions">完成后</system:String>
+    <system:String x:Key="PostActionsSettings">完成后动作设置</system:String>
     <system:String x:Key="DoNothing">无动作</system:String>
     <system:String x:Key="ExitArknights">退出 明日方舟</system:String>
     <system:String x:Key="ExitSelf">退出 MAA</system:String>
@@ -893,6 +899,7 @@ C:\\leidian\\LDPlayer9
 取消勾选本选项后，其他选项状态将会正常保存
 右键点击其他选项时，会同步勾选/取消勾选本选项</system:String>
     <system:String x:Key="IfNoOtherMaa">无其他 MAA 时</system:String>
+    <system:String x:Key="IfNoOtherMaaTip">勾选后，仅当没有其他 MAA 实例在运行时，才会执行睡眠/休眠/关机</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
@@ -1239,7 +1246,7 @@ C:\\leidian\\LDPlayer9
 勾选此项将跳过这些检查，但可能导致作业无法正常运行
 干员精英化等级无法被跳过，如果跳过了任何需求，则战斗完成后不再进行自动点赞</system:String>
     <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
-    <system:String x:Key="AddUserAdditionalTip">以英文 ｢;｣ 为分隔符，英文 ｢,｣ 分隔{key=Operator}名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
+    <system:String x:Key="AddUserAdditionalTip">点击旁边的设置按钮打开编辑窗口，点击 ｢{key=UserAdditional.Add}｣ 逐条添加，按列填写{key=Operator}名、技能与操作</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
     <system:String x:Key="UserAdditional.Skill">技能</system:String>
     <system:String x:Key="UserAdditional.Action">操作</system:String>
@@ -1260,6 +1267,9 @@ C:\\leidian\\LDPlayer9
 右键添加突袭难度</system:String>
     <system:String x:Key="CopilotClearTask" xml:space="preserve">左键清除所有任务
 右键清除未激活任务</system:String>
+    <system:String x:Key="CopilotSelectTaskTip" xml:space="preserve">左键：查看作业信息
+右键：选中该作业并退出多作业模式</system:String>
+    <system:String x:Key="WindowUpdateInfoTip">点击立即更新</system:String>
     <system:String x:Key="Start">开始</system:String>
     <system:String x:Key="RunTaskOnce">单次运行</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>

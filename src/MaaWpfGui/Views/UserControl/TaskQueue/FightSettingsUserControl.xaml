@@ -478,10 +478,10 @@
                 Margin="0,10"
                 Content="{DynamicResource HideSeries}"
                 IsChecked="{Binding HideSeries}" />
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource AllowUseStoneSave}"
-                IsChecked="{Binding AllowUseStoneSave}" />
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource AllowUseStoneSave}" IsChecked="{Binding AllowUseStoneSave}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource AllowUseStoneSaveTip}" />
+            </StackPanel>
             <StackPanel Margin="0,10" Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource CustomStageCode}" IsChecked="{Binding CustomStageCode}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />

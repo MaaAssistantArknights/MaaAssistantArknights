@@ -55,7 +55,7 @@ public class MuMu12Extra() : ExtraConfig
 
     private void AutoDetectEmulatorPath()
     {
-        MessageBoxHelper.Show(LocalizationHelper.GetString("MuMu12ExtrasEnabledTip"));
+        MessageBoxHelper.Show(LocalizationHelper.GetRawString("MuMu12ExtrasEnabledTip"));
 
         // 读取mumu注册表地址 并填充GUI
         if (!string.IsNullOrEmpty(EmulatorPath))
@@ -146,7 +146,7 @@ public class MuMu12Extra() : ExtraConfig
             if (Enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
             {
                 MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuEmulatorPathNotFound"));
-                MessageBoxHelper.Show(LocalizationHelper.GetString("MuMu12ExtrasEnabledTip"));
+                MessageBoxHelper.Show(LocalizationHelper.GetRawString("MuMu12ExtrasEnabledTip"));
                 return;
             }
 
@@ -164,7 +164,7 @@ public class MuMu12Extra() : ExtraConfig
                 if (!candidateRelativePaths.Any(relPath => File.Exists(Path.Combine(value, relPath))))
                 {
                     MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuExternalRendererMissing"));
-                    MessageBoxHelper.Show(LocalizationHelper.GetString("MuMu12ExtrasEnabledTip"));
+                    MessageBoxHelper.Show(LocalizationHelper.GetRawString("MuMu12ExtrasEnabledTip"));
                     return;
                 }
             }

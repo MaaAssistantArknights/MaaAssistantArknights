@@ -18008,6 +18008,87 @@
         "stageId": "act53side_tr01",
         "width": 12
     },
+    "act54side_01-activities/act54side/level_act54side_01": {
+        "code": "SR-1",
+        "filename": "act54side_01-activities-act54side-level_act54side_01.json",
+        "height": 7,
+        "levelId": "activities/act54side/level_act54side_01",
+        "name": "月出",
+        "stageId": "act54side_01",
+        "width": 9
+    },
+    "act54side_02-activities/act54side/level_act54side_02": {
+        "code": "SR-2",
+        "filename": "act54side_02-activities-act54side-level_act54side_02.json",
+        "height": 7,
+        "levelId": "activities/act54side/level_act54side_02",
+        "name": "月涌",
+        "stageId": "act54side_02",
+        "width": 11
+    },
+    "act54side_03-activities/act54side/level_act54side_03": {
+        "code": "SR-3",
+        "filename": "act54side_03-activities-act54side-level_act54side_03.json",
+        "height": 7,
+        "levelId": "activities/act54side/level_act54side_03",
+        "name": "月晕",
+        "stageId": "act54side_03",
+        "width": 9
+    },
+    "act54side_04-activities/act54side/level_act54side_04": {
+        "code": "SR-4",
+        "filename": "act54side_04-activities-act54side-level_act54side_04.json",
+        "height": 8,
+        "levelId": "activities/act54side/level_act54side_04",
+        "name": "月移",
+        "stageId": "act54side_04",
+        "width": 11
+    },
+    "act54side_05-activities/act54side/level_act54side_05": {
+        "code": "SR-5",
+        "filename": "act54side_05-activities-act54side-level_act54side_05.json",
+        "height": 7,
+        "levelId": "activities/act54side/level_act54side_05",
+        "name": "月斜",
+        "stageId": "act54side_05",
+        "width": 11
+    },
+    "act54side_06-activities/act54side/level_act54side_06": {
+        "code": "SR-6",
+        "filename": "act54side_06-activities-act54side-level_act54side_06.json",
+        "height": 8,
+        "levelId": "activities/act54side/level_act54side_06",
+        "name": "月蚀",
+        "stageId": "act54side_06",
+        "width": 11
+    },
+    "act54side_07-activities/act54side/level_act54side_07": {
+        "code": "SR-7",
+        "filename": "act54side_07-activities-act54side-level_act54side_07.json",
+        "height": 8,
+        "levelId": "activities/act54side/level_act54side_07",
+        "name": "月悬",
+        "stageId": "act54side_07",
+        "width": 11
+    },
+    "act54side_08-activities/act54side/level_act54side_08": {
+        "code": "SR-8",
+        "filename": "act54side_08-activities-act54side-level_act54side_08.json",
+        "height": 8,
+        "levelId": "activities/act54side/level_act54side_08",
+        "name": "月满",
+        "stageId": "act54side_08",
+        "width": 13
+    },
+    "act54side_tr01-activities/act54side/level_act54side_tr01": {
+        "code": "SR-TR-1",
+        "filename": "act54side_tr01-activities-act54side-level_act54side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act54side/level_act54side_tr01",
+        "name": "月影",
+        "stageId": "act54side_tr01",
+        "width": 9
+    },
     "act5bossrush_01-activities/act5bossrush/level_bossrush5_01": {
         "code": "TN-1",
         "filename": "act5bossrush_01-activities-act5bossrush-level_bossrush5_01.json",
@@ -27069,6 +27150,15 @@
         "levelId": "obt/memory/level_memory_grabds_1",
         "name": "声遏行云",
         "stageId": "mem_grabds_1",
+        "width": 10
+    },
+    "mem_graceb_1-obt/memory/level_memory_graceb_1": {
+        "code": "mem_graceb_1",
+        "filename": "mem_graceb_1-obt-memory-level_memory_graceb_1.json",
+        "height": 9,
+        "levelId": "obt/memory/level_memory_graceb_1",
+        "name": "请闭上眼",
+        "stageId": "mem_graceb_1",
         "width": 10
     },
     "mem_grani_1-obt/memory/level_memory_grani_1": {

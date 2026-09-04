@@ -42,7 +42,7 @@ public partial class TooltipBlock : UserControl
 
     public static readonly DependencyProperty TooltipTextEmptyProperty = DependencyProperty.Register(nameof(TooltipTextEmpty), typeof(bool), typeof(TooltipBlock), new PropertyMetadata(true));
 
-    public static readonly DependencyProperty TooltipMaxWidthProperty = DependencyProperty.Register(nameof(TooltipMaxWidth), typeof(double), typeof(TooltipBlock), new(double.MaxValue));
+    public static readonly DependencyProperty TooltipMaxWidthProperty = DependencyProperty.Register(nameof(TooltipMaxWidth), typeof(double), typeof(TooltipBlock), new(500d));
 
     public static readonly DependencyProperty NormalOpacityProperty = DependencyProperty.Register(nameof(NormalOpacity), typeof(double), typeof(TooltipBlock), new(0.7, OnOpacityChanged));
 
@@ -115,6 +115,9 @@ public partial class TooltipBlock : UserControl
         IsToolTipEnabled = !TooltipTextEmpty || CustomToolTip != null;
     }
 
+    /// <summary>
+    /// Gets or sets tooltip 内容最大宽度，超出后 TextBlock 自动软换行，避免长文案拉成超宽单行。
+    /// </summary>
     public double TooltipMaxWidth
     {
         get => (double)GetValue(TooltipMaxWidthProperty);

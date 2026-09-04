@@ -793,7 +793,7 @@
                                         HorizontalAlignment="Center"
                                         Orientation="Horizontal">
                                         <controls:TextBlock Text="{DynamicResource UpdateCheck}" />
-                                        <controls:TooltipBlock TooltipMaxWidth="350" TooltipText="{DynamicResource UpdateCheckTip}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource UpdateCheckTip}" />
                                     </StackPanel>
                                     <hc:ComboBox
                                         Width="200"
@@ -809,7 +809,7 @@
                                         HorizontalAlignment="Center"
                                         Orientation="Horizontal">
                                         <controls:TextBlock Text="{DynamicResource UpdateSource}" />
-                                        <controls:TooltipBlock TooltipMaxWidth="350" TooltipText="{DynamicResource UpdateSourceTip}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource UpdateSourceTip}" />
                                     </StackPanel>
                                     <hc:ComboBox
                                         Width="200"

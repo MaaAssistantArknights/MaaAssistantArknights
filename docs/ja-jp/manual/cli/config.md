@@ -252,7 +252,7 @@ alternatives = [
     "SL-7", # "1. SL-7" と表示されます
     { value = "SL-8", desc = "軽マンガン鉱" } # "2. SL-8 (軽マンガン鉱)" と表示されます
 ]
-default_index = 1 # デフォルト値のインデックス。1 から開始。設定しない場合、空の値を入力すると再入力を求められます
+default_index = 1 # デフォルト値のインデックス。1 から開始。設定しない場合、先頭の選択肢がデフォルト値として使用されます
 description = "a stage to fight in summer event" # 説明、省略可
 allow_custom = true # カスタム値の入力を許可するかどうか、デフォルトは false。許可されている場合、整数以外の値はカスタム値として扱われます
 
@@ -278,7 +278,7 @@ description = "medicine to use"
 ```
 
 `Input` タイプでは、タスク実行時に値の入力を求められます。空の値を入力した場合、デフォルト値があればそれが使用され、なければ再入力を求められます。
-`Select` タイプでは、タスク実行時にインデックスまたはカスタム値（許可されている場合）の入力を求められます。空の値を入力した場合、デフォルト値があればそれが使用され、なければ再入力を求められます。
+`Select` タイプでは、タスク実行時にインデックスまたはカスタム値（許可されている場合）の入力を求められます。空の値を入力した場合、デフォルト値が使用されます。
 
 `--batch` オプションを使用すると、タスク実行時のすべての入力をスキップでき、デフォルト値が使用されます。デフォルト値のない入力がある場合、エラーになります。
 
@@ -292,7 +292,7 @@ MaaCore に関連する設定は `$MAA_CONFIG_DIR/profiles` ディレクトリ�
 [connection]
 preset = "MuMuPro"
 adb_path = "adb"
-device = "emulator-5554"
+address = "emulator-5554"
 config = "CompatMac"
 
 [resource]
@@ -309,6 +309,9 @@ touch_mode = "MaaTouch"
 deployment_with_pause = false
 adb_lite_enabled = false
 kill_adb_on_exit = false
+
+[behavior]
+auto_reconnect = true
 ```
 
 ### 接続設定
@@ -333,7 +336,7 @@ adb_path = "/path/to/adb" # 必要に応じて、プリセットの adb パス�
 address = "127.0.0.1:7777" # 必要に応じて、プリセットのアドレスを上書きできます
 ```
 
-現在のところ `MuMuPro` の 1 つのエミュレータープリセットのみがあります。他のよく使われるエミュレーターのプリセットがあれば、issue または PR の提出を歓迎します。
+現在、`MuMuPro` と `Androws` の 2 つのエミュレータープリセットが内蔵されています。`Androws` プリセットは Windows 上の Tencent Androws エミュレーター向けで、付属の `adb` をレジストリから自動検出し、デフォルトの接続アドレスは `127.0.0.1:5555` です。他のよく使われるエミュレーターのプリセットがあれば、issue または PR の提出を歓迎します。
 
 #### 特別なプリセット
 
@@ -372,7 +375,7 @@ gpu_ocr = 1 # GPU OCR 使用時の GPU ID。この値が空の場合、CPU OCR �
 
 ```toml
 [instance_options]
-touch_mode = "ADB" # 使用するタッチモード。"ADB"、"MiniTouch"、"MaaTouch" または "MacPlayTools" から選択
+touch_mode = "ADB" # 使用するタッチモード。"ADB"、"MiniTouch"、"MaaTouch"、"MacPlayTools" または "MaaFwAdb" から選択
 deployment_with_pause = false # デプロイ時にゲームを一時停止するかどうか
 adb_lite_enabled = false # adb-lite を使用するかどうか
 kill_adb_on_exit = false # 終了時に adb を強制終了するかどうか
@@ -385,12 +388,15 @@ kill_adb_on_exit = false # 終了時に adb を強制終了するかどうか
 CLI 関連の設定は `$MAA_CONFIG_DIR/cli.toml` に配置する必要があります。現在含まれる設定は次のとおりです：
 
 ```toml
+# GitHub プロキシのプレフィックス。設定すると、GitHub release のダウンロードアドレスがこのプロキシを経由するアドレスへ透過的に書き換えられます
+# github_proxy = "https://gh-proxy.org/"
+
 # MaaCore のインストールと更新に関する設定
 [core]
 channel = "Stable" # 更新チャンネル。"Alpha"、"Beta"、"Stable" から選択、デフォルトは "Stable"
 test_time = 0    # ミラー速度のテストに使用する時間。0 はテストしないことを意味し、デフォルトは 3
 # MaaCore の最新バージョンを照会する API アドレス。空欄でデフォルトアドレスを使用
-api_url = "https://github.com/MaaAssistantArknights/MaaRelease/raw/main/MaaAssistantArknights/api/version/"
+api_url = "https://api.maa.plus/MaaAssistantArknights/api/version/"
 
 # MaaCore の対応するコンポーネントをインストールするかどうかの設定。非推奨。別々にインストールするとバージョンの不一致により問題が発生する可能性があり、このオプションは将来のバージョンで削除される可能性があります
 [core.components]
@@ -417,7 +423,7 @@ backend = "libgit2" # リソースのホットアップデートのバックエ�
 
 # リソースのホットアップデートのリモートリポジトリに関する設定
 [resource.remote]
-branch = "main" # リモートリポジトリのブランチ、デフォルトは "main"
+branch = "main" # リモートリポジトリのブランチ。空欄の場合はリモートリポジトリのデフォルトブランチを使用
 # リモートリソースリポジトリの URL。空欄でデフォルト URL を使用
 # GitHub リポジトリは HTTPS と SSH の両方のプロトコルでアクセスできます。通常は追加設定が不要なため、HTTPS プロトコルを推奨します
 url = "https://github.com/MaaAssistantArknights/MaaResource.git"
@@ -443,12 +449,19 @@ passphrase = "password"       # SSH キーのパスワード
 # ssh-agent はキーをメモリに保存するため、毎回パスワードを入力する必要がありません
 # 注意、ssh-agent が起動しており、キーが追加され、SSH_AUTH_SOCK 環境変数が設定されていることを確認する必要があります
 # use_ssh_agent = true # ssh-agent で認証を行います。true に設定すると ssh_key と passphrase フィールドは無視されます
+
+# イベント情報とホットアップデートリソースファイルのダウンロードに関する設定
+[hot_update]
+# イベント情報の照会とホットアップデートリソースファイルのダウンロード用 API アドレス。空欄でデフォルトアドレスを使用
+api_url = "https://api.maa.plus/MaaAssistantArknights/api"
+# チェック間隔（秒）。この時間を超えるとファイルが再ダウンロードされます。0 はキャッシュを無効化することを意味し、デフォルトは 600
+check_interval = 600
 ```
 
 **注意事項**：
 
 - MaaCore の更新チャンネルのうち `Alpha` は Windows でのみ利用可能です
-- CLI のデフォルトの API リンクとダウンロードリンクはいずれも GitHub のリンクのため、中国国内では問題が発生する可能性があります。`api_url` と `download_url` を設定してミラーを使用できます
+- 一部のデフォルトリンクは GitHub を指しているため、中国国内では問題が発生する可能性があります。`api_url` と `download_url` を設定してミラーを使用できるほか、トップレベルの `github_proxy` を設定してプロキシ経由で GitHub release のダウンロードを高速化することもできます
 - リソースのホットアップデートを有効にしていても、MaaCore のリソースをインストールする必要があります。リソースのホットアップデートにはすべてのリソースファイルは含まれず、更新可能な一部のリソースファイルのみが含まれるため、基本のリソースファイルは引き続きインストールが必要です
 - リソースのホットアップデートは Git でリモートリポジトリをプルすることで行われます。バックエンドを `git` に設定した場合、`git` コマンドラインツールが利用可能である必要があります
 - SSH プロトコルでリモートリポジトリをプルしたい場合は、`ssh_key` フィールドを設定する必要があります。このフィールドは SSH 秘密鍵を指すパスである必要があります

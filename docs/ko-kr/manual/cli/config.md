@@ -251,7 +251,7 @@ alternatives = [
     "SL-7", # "1. SL-7"로 표시됨
     { value = "SL-8", desc = "경맹광물" } # "2. SL-8 (경맹광물)"로 표시됨
 ]
-default_index = 1 # 기본값의 인덱스, 1부터 시작, 설정하지 않으면 빈 값 입력 시 다시 입력하라는 메시지가 표시됨
+default_index = 1 # 기본값의 인덱스, 1부터 시작, 설정하지 않으면 첫 번째 선택 값이 기본값으로 사용됨
 description = "여름 이벤트에서 싸울 스테이지" # 설명, 선택 사항
 allow_custom = true # 사용자 정의 값을 입력할 수 있는지 여부, 기본값은 false, 허용하면 정수가 아닌 값이 사용자 정의 값으로 간주됨
 
@@ -276,7 +276,7 @@ default = 1000
 description = "사용할 이성 회복제"
 ```
 
-`Input` 유형의 경우, 작업 실행 시 값을 입력하라는 메시지가 표시됩니다. 빈 값을 입력하면 기본값이 있으면 기본값이 사용되며, 없으면 다시 입력하라는 메시지가 표시됩니다. `Select` 유형의 경우, 작업 실행 시 인덱스 또는 사용자 정의 값을 입력하라는 메시지가 표시됩니다(허용할 경우). 빈 값을 입력하면 기본값이 있으면 기본값이 사용되며, 없으면 다시 입력하라는 메시지가 표시됩니다.
+`Input` 유형의 경우, 작업 실행 시 값을 입력하라는 메시지가 표시됩니다. 빈 값을 입력하면 기본값이 있으면 기본값이 사용되며, 없으면 다시 입력하라는 메시지가 표시됩니다. `Select` 유형의 경우, 작업 실행 시 인덱스 또는 사용자 정의 값을 입력하라는 메시지가 표시됩니다(허용할 경우). 빈 값을 입력하면 기본값이 사용됩니다.
 
 `--batch` 옵션은 작업 실행 시 모든 입력을 건너뛰고 기본값을 사용하도록 할 수 있습니다. 입력에 기본값이 없으면 오류가 발생합니다.
 
@@ -290,7 +290,7 @@ MaaCore 관련 설정은 `$MAA_CONFIG_DIR/profiles` 경로에 있어야 합니�
 [connection]
 preset = "MuMuPro"
 adb_path = "adb"
-device = "emulator-5554"
+address = "emulator-5554"
 config = "CompatMac"
 
 [resource]
@@ -331,7 +331,7 @@ adb_path = "/path/to/adb" # 필요 시 사전 설정된 adb 경로를 재정의�
 address = "127.0.0.1:7777" # 필요 시 사전 설정된 주소를 재정의할 수 있습니다.
 ```
 
-현재 `MuMuPro` 한 가지 에뮬레이터만 사전 설정이 있으며, 다른 일반적인 에뮬레이터의 사전 설정을 추가하고 싶다면 issue나 PR을 제출하세요.
+현재 `MuMuPro`와 `Androws` 두 가지 에뮬레이터 프리셋이 내장되어 있습니다. `Androws` 프리셋은 Windows의 Tencent Androws 에뮬레이터용으로, 레지스트리에서 자체 `adb`를 자동으로 감지하며 기본 연결 주소는 `127.0.0.1:5555`입니다. 다른 일반적인 에뮬레이터의 프리셋을 추가하고 싶다면 issue나 PR을 제출하세요.
 
 #### 특수 프리셋
 
@@ -370,7 +370,7 @@ gpu_ocr = 1 # GPU OCR을 사용할 때 사용하는 GPU ID, 이 값이 비어 �
 
 ```toml
 [instance_options]
-touch_mode = "ADB" # 사용할 터치 모드, 가능한 값은 "ADB", "MiniTouch", "MaaTouch", "MacPlayTools"
+touch_mode = "ADB" # 사용할 터치 모드, 가능한 값은 "ADB", "MiniTouch", "MaaTouch", "MacPlayTools", "MaaFwAdb"
 deployment_with_pause = false # 배포 시 게임을 일시 중지할지 여부
 adb_lite_enabled = false # adb-lite를 사용할지 여부
 kill_adb_on_exit = false # 종료 시 adb를 종료할지 여부
@@ -388,7 +388,7 @@ CLI 관련 설정은 `$MAA_CONFIG_DIR/cli.toml`에 있어야 합니다. 현재 �
 channel = "Stable" # 업데이트 채널, 가능한 값은 "Alpha", "Beta", "Stable", 기본값은 "Stable"
 test_time = 0    # 미러 속도를 테스트할 시간, 0은 테스트하지 않음을 의미, 기본값은 3
 # MaaCore 최신 버전을 조회하는 API 주소, 비워두면 기본 주소를 사용
-api_url = "https://github.com/MaaAssistantArknights/MaaRelease/raw/main/MaaAssistantArknights/api/version/"
+api_url = "https://api.maa.plus/MaaAssistantArknights/api/version/"
 
 # MaaCore의 관련 구성 요소를 설치할지 여부를 설정, 분리 설치는 버전 불일치 문제를 야기할 수 있어 권장되지 않음. 이 옵션은 미래 버전에서 제거될 수 있음.
 [core.components]
@@ -415,7 +415,7 @@ backend = "libgit2" # 리소스 핫 업데이트 백엔드, 가능한 값은 "gi
 
 # 리소스 핫 업데이트 원격 저장소 관련 설정
 [resource.remote]
-branch = "main" # 원격 저장소의 브랜치, 기본값은 "main"
+branch = "main" # 원격 저장소의 브랜치, 비워두면 원격 저장소의 기본 브랜치 사용
 # 원격 리소스 저장소의 URL, 비워두면 기본 URL 사용
 # GitHub 저장소는 HTTPS와 SSH 두 가지 프로토콜을 지원하며, HTTPS 프로토콜 사용을 권장합니다. 별도의 설정이 필요 없기 때문입니다.
 url = "https://github.com/MaaAssistantArknights/MaaResource.git"
@@ -446,7 +446,7 @@ passphrase = "password"       # ssh 키의 암호
 **주의사항**：
 
 - MaaCore의 업데이트 채널에서 `Alpha`는 Windows에서만 사용할 수 있습니다.
-- CLI의 기본 API 링크와 다운로드 링크는 GitHub 링크이므로 국내에서는 문제가 있을 수 있습니다. `api_url`과 `download_url`을 설정하여 미러를 사용할 수 있습니다.
+- 일부 기본 링크는 GitHub을 가리키므로 국내에서는 문제가 있을 수 있습니다. `api_url`과 `download_url`을 설정하여 미러를 사용하거나, 최상위 `github_proxy`를 설정하여 GitHub release 다운로드를 프록시로 가속할 수 있습니다.
 - 리소스 핫 업데이트를 시작해도 MaaCore 리소스를 설치해야 합니다. 리소스 핫 업데이트는 모든 리소스 파일을 포함하지 않고 일부 업데이트 가능한 리소스 파일만 포함합니다. 기본 리소스 파일은 여전히 설치해야 합니다.
 - 리소스 핫 업데이트는 Git을 통해 원격 저장소를 가져옵니다. 백엔드를 `git`으로 설정한 경우 `Git` 명령어 도구가 사용 가능해야 합니다.
 - SSH 프로토콜을 사용하여 원격 저장소를 가져오려면 `ssh_key` 필드를 설정해야 합니다. 이 필드는 SSH 개인 키를 가리키는 경로여야 합니다.

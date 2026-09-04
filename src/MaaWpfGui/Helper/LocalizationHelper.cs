@@ -255,6 +255,28 @@ public static class LocalizationHelper
     }
 
     /// <summary>
+    /// Gets a localized string as-is, without unescaping <c>\n</c> or <c>\\</c>, so the result matches what XAML DynamicResource shows for the same key.
+    /// Intended for strings shared between XAML tooltips and code-behind dialogs that contain literal backslashes.
+    /// </summary>
+    /// <param name="key">The key of the string.</param>
+    /// <param name="culture">The language of the string</param>
+    /// <returns>The raw string.</returns>
+    public static string GetRawString(string key, string? culture = null)
+    {
+        if (_culture == "pallas")
+        {
+            return GetPallasString();
+        }
+
+        if (TryLookupStringInternal(key, out var value, culture, unescape: false))
+        {
+            return value;
+        }
+
+        return $"{{{{ {key} }}}}";
+    }
+
+    /// <summary>
     /// Try get a localized string. Returns false when the key is not present in resources.
     /// </summary>
     /// <param name="key">The key of the string.</param>
@@ -272,7 +294,7 @@ public static class LocalizationHelper
         return TryLookupStringInternal(key, out value, culture);
     }
 
-    private static bool TryLookupStringInternal(string key, out string value, string? culture = null)
+    private static bool TryLookupStringInternal(string key, out string value, string? culture = null, bool unescape = true)
     {
         value = string.Empty;
 
@@ -291,7 +313,7 @@ public static class LocalizationHelper
 
                 if (dictionary.Contains(key))
                 {
-                    value = Regex.Unescape(dictionary[key]?.ToString() ?? string.Empty);
+                    value = unescape ? Regex.Unescape(dictionary[key]?.ToString() ?? string.Empty) : dictionary[key]?.ToString() ?? string.Empty;
                     return true;
                 }
             }
@@ -309,7 +331,7 @@ public static class LocalizationHelper
                 var dict = dictList[i];
                 if (dict.Contains(key))
                 {
-                    value = Regex.Unescape(dict[key]?.ToString() ?? string.Empty);
+                    value = unescape ? Regex.Unescape(dict[key]?.ToString() ?? string.Empty) : dict[key]?.ToString() ?? string.Empty;
                     return true;
                 }
             }
@@ -366,7 +388,8 @@ public static class LocalizationHelper
 
         visited.Push(currentKey);
 
-        var result = Regex.Replace(input, @"\{key=(\w+)\}", match => {
+        // key 取到右花括号为止，不限定字符集：既有引用含 . 与 @（如 UserAdditional.Add、MiniGame@ALL@xxx），\w 无法覆盖
+        var result = Regex.Replace(input, @"\{key=([^}]+)\}", match => {
             var innerKey = match.Groups[1].Value;
             var innerValue = GetString(innerKey, culture);
             return ResolveNestedKeys(innerKey, innerValue, culture, visited);

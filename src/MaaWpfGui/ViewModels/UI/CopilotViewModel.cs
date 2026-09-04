@@ -83,7 +83,7 @@ public partial class CopilotViewModel : Screen
     [GeneratedRegex(InvalidStageNameChars)]
     private static partial Regex InvalidStageNameRegex();
 
-    [GeneratedRegex(@"^(act\d+(side|mini)|a00\d+)_")]
+    [GeneratedRegex(@"^(act\d+(side|mini|d\d+)|a00\d+)_")]
     private static partial Regex SideStoryStageIdRegex();
 
     [GeneratedRegex(@"^(main|sub|tough|hard)_")]

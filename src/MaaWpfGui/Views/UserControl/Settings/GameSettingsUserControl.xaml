@@ -97,7 +97,7 @@
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <CheckBox
-                Margin="20,10"
+                Margin="20,10,0,10"
                 VerticalAlignment="Center"
                 IsChecked="{Binding DeploymentWithPause}">
                 <controls:TextBlock
@@ -105,6 +105,10 @@
                     Text="{DynamicResource DeploymentWithPause}"
                     TextWrapping="Wrap" />
             </CheckBox>
+            <controls:TooltipBlock
+                Margin="0,10"
+                VerticalAlignment="Center"
+                TooltipText="{DynamicResource DeploymentWithPauseTip}" />
         </StackPanel>
 
         <hc:TextBox

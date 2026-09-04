@@ -1351,6 +1351,7 @@
         "exceededNext": ["StageSNReturnFlag", "Stop"],
         "reduceOtherTimes": ["(ClickCornerAfterPRTS+ClickCorner)*10", "PrtsStillLoading*100"],
         "next": [
+            "SR-TarotClose",
             "StartButton2",
             "UseMedicine",
             "UseStone",
@@ -1359,6 +1360,17 @@
             "AnnihilationConfirm",
             "StartButton1TryAgain"
         ]
+    },
+    "SR-TarotClose": {
+        "doc": "月行水上代理结算退出后概率弹出的塔罗牌弹窗，拦截点击；关闭后返还 StartButton1 次数并重试",
+        "algorithm": "OcrDetect",
+        "text": ["获得了塔罗牌"],
+        "roi": [580, 280, 180, 60],
+        "action": "ClickRect",
+        "specificRect": [1044, 219, 10, 10],
+        "reduceOtherTimes": ["StartButton1"],
+        "postDelay": 1000,
+        "next": ["StartButton1"]
     },
     "StartButton1TryAgain": {
         "baseTask": "StartButton1",
@@ -3996,19 +4008,19 @@
     "BattleSelectFormation1": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [105, 662, 10, 58]
+        "specificRect": [105, 662, 5, 58]
     },
     "BattleSelectFormation2": {
         "baseTask": "BattleSelectFormation1",
-        "specificRect": [380, 662, 10, 58]
+        "specificRect": [380, 662, 5, 58]
     },
     "BattleSelectFormation3": {
         "baseTask": "BattleSelectFormation1",
-        "specificRect": [650, 662, 10, 58]
+        "specificRect": [650, 662, 5, 58]
     },
     "BattleSelectFormation4": {
         "baseTask": "BattleSelectFormation1",
-        "specificRect": [920, 662, 10, 58]
+        "specificRect": [920, 662, 5, 58]
     },
     "BattleSupportUnitFormation": {
         "action": "ClickSelf",
@@ -4241,7 +4253,7 @@
     "BattleAvatarDialog": {
         "doc": "战斗中带头像对话框, 类似于 SkipThePreBattlePlot(可见于画中人关卡) 的, 但是缺少 跳过 按钮",
         "action": "ClickSelf",
-        "roi": [70, 30, 120, 30],
+        "roi": [70, 30, 150, 500],
         "next": ["BattleAvatarDialog", "Stop"],
         "rectMove": [125, 20, 200, 60]
     },
@@ -4787,16 +4799,16 @@
     },
     "DepotAllTab": {
         "action": "ClickSelf",
-        "roi": [452, 0, 281, 134],
+        "roi": [450, 0, 300, 138],
         "next": ["DepotMaterialTab"]
     },
     "DepotMaterialTab": {
         "action": "ClickSelf",
-        "roi": [1026, 0, 254, 138],
+        "roi": [945, 0, 300, 138],
         "next": ["DepotMaterialTabClicked"]
     },
     "DepotMaterialTabClicked": {
-        "roi": [1026, 0, 254, 138]
+        "roi": [945, 0, 300, 138]
     },
     "InfrastOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",

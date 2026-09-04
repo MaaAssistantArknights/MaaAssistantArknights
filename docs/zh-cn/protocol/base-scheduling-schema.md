@@ -13,6 +13,8 @@ icon: material-symbols:view-quilt-rounded
 
 [可视化排班生成工具](https://ark.yituliu.cn/tools/scheduleV3)
 
+[自动生成基建排班表工具](https://riic.autos/)
+
 ## 完整字段一览
 
 ```json

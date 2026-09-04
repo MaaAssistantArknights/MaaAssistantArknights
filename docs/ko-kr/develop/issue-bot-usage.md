@@ -15,7 +15,7 @@ Commitizen 규격으로 커밋하지 않는 경우, 풀 리퀘스트(Pull Reques
 
 ### 자동 알림
 
-- 이슈와 풀 리퀘스트에 라벨을 추가합니다. 예: `module`, `Client`, `ambiguous`, `translation required` 등
+- 이슈와 풀 리퀘스트에 라벨을 추가합니다. 예: `module`, `client`, `ambiguous`, `translation required` 등
   Issue Bot은 키워드를 기반으로 카테고리를 추가합니다.
   키워드에 대해서는 [설정 파일](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/issue-checker.yml)을 참조해주세요.
 - MAA 공개 팀 멤버의 이슈와 풀 리퀘스트에 `MAA Team` 라벨을 추가합니다.
@@ -28,8 +28,8 @@ Commitizen 규격으로 커밋하지 않는 경우, 풀 리퀘스트(Pull Reques
 
 Issue Bot은 풀 리퀘스트의 제목을 확인합니다. 아래 키워드로 시작하지 않는 제목은 `ambiguous(애매모호한)`로 표시됩니다.
 
-- `build`, `chore`, `ci`, `doc`, `docs`, `feat`, `fix`, `perf`, `refactor`, `rfc`, `style`, `test`
-- `Merge`, `merge`, `Revert`, `revert`, `Reapply`, `reapply`
+- `build`, `chore`, `ci`, `doc`, `docs`, `feat`, `fix`, `perf`, `refactor`, `rft`, `style`, `test`, `i18n`, `typo`, `debug`
+- `Revert`, `revert`, `Release`, `release`
 
 ### 수동으로 트리거하기
 
@@ -55,15 +55,9 @@ Issue Bot은 풀 리퀘스트의 제목을 확인합니다. 아래 키워드로 
 - **코멘트가 Issue Bot을 혼동시킬 수 있는 경우 `skip` 작업을 추가할 수 있습니다.**
 
 ::: info 참고
-<sup>1</sup> 여기서 `COMMIT_HASH`는 40자 길이의 전체 해시값입니다.
+<sup>1</sup> 여기서 `COMMIT_HASH`는 8~40자 길이의 해시값이면 충분하며, 전체 40자일 필요는 없습니다.
 :::
 
 #### Push
 
-푸시(push)에 포함된 모든 커밋에 대해:
-
-- 커밋 메시지에 다음 중 하나의 키워드가 포함되어 있다면, `fixed(수정됨)` 라벨이 추가됩니다:
-  - `fix #{ISSUE_NUMBER}`
-  - `close #{ISSUE_NUMBER}`
-  - `fix https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/{ISSUE_NUMBER}`
-  - `close https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/{ISSUE_NUMBER}`
+Issue Bot은 푸시 이벤트를 처리하지 않습니다. 커밋 메시지에 `fix #{ISSUE_NUMBER}`, `close #{ISSUE_NUMBER}` 등의 닫기 키워드가 포함되어 있으면, 해당 커밋이 기본 브랜치에 병합된 후 GitHub가 자동으로 해당 이슈를 닫지만, `fixed` 라벨은 추가되지 않습니다.
