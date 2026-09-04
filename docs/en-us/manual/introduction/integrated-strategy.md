@@ -11,7 +11,7 @@ MAA selects the Phantom theme by default, which can be changed in `Auto Integrat
 All features involving Copilot require the following prerequisites, including but not limited to Copilot and Auto I. S.
 
 - At least 60 frames of **stable** framerate
-- Touch mode set to Minitouch or MaaTouch
+- Touch mode set to Minitouch, MaaTouch, or MuMu Touch Enhancement
 
 :::
 

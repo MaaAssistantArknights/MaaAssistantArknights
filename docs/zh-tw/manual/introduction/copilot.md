@@ -11,7 +11,7 @@ icon: ph:sword-bold
 所有涉及到自動戰鬥的功能都需要符合以下前提，這包括但不限於自動戰鬥和自動肉鴿。
 
 - 至少 60 FPS 的**穩定**遊戲偵數
-- 觸控模式為 Minitouch 或 MaaTouch
+- 觸控模式為 Minitouch、MaaTouch 或 MuMu 觸控增強
 
 :::
 

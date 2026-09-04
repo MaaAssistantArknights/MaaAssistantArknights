@@ -11,7 +11,7 @@ icon: ph:sword-bold
 所有涉及到自动战斗的功能都需要以下前提，这包括但不限于自动战斗和自动肉鸽。
 
 - 至少 60 帧的**稳定**游戏帧数
-- 触控模式为 Minitouch 或 MaaTouch
+- 触控模式为 Minitouch、MaaTouch 或 MuMu 触控增强
 
 :::
 
