@@ -316,6 +316,7 @@
                                             SelectedValue="{Binding TouchMode}"
                                             SelectedValuePath="Value" />
                                     </StackPanel>
+                                </StackPanel>
 
                                     <!--  额外配置  -->
                                     <ContentControl d:Content="{d:DesignInstance Type=extra:MuMu12Extra}" Content="{Binding ExtraConfig}">
@@ -463,7 +464,6 @@
                                             </DataTemplate>
                                         </ContentControl.Resources>
                                     </ContentControl>
-                                </StackPanel>
 
                                 <!--  截图测试  -->
                                 <StackPanel HorizontalAlignment="Center">
