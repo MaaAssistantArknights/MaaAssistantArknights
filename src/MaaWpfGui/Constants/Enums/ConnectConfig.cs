@@ -31,4 +31,5 @@ public enum ConnectConfig
     Compatible,
     SecondResolution,
     GeneralWithoutScreencapErr,
+    Waydroid,
 }

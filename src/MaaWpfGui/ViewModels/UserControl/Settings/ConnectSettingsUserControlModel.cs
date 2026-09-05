@@ -101,7 +101,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         (ConnectConfig.WSA, "WSA"),
         (ConnectConfig.Compatible, "Compatible"),
         (ConnectConfig.SecondResolution, "SecondResolution"),
-        (ConnectConfig.GeneralWithoutScreencapErr, "GeneralWithoutScreencapErr"));
+        (ConnectConfig.GeneralWithoutScreencapErr, "GeneralWithoutScreencapErr"),
+        (ConnectConfig.Waydroid, "Waydroid"));
 
     public static string TouchModeVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "TouchMode.mp4");
 
