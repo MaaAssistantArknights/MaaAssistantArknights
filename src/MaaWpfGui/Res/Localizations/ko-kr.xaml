@@ -1173,6 +1173,22 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">수상한 그림자</system:String>
     <system:String x:Key="MiniGame@SecretFront">비밀 전선</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내  ｢이전 소대의 데이터 전승받기｣  옵션을 체크하는 것을 권장합니다.</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis">재료 자동 합성</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">대상 재료의 가공소 합성 화면에 직접 들어간 뒤 시작하세요.&#10;합성 가능한 하위 재료를 재귀적으로 합성하며, 재료가 부족하면 중지합니다.</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@StartLog">재료 자동 합성 시작</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@MaterialLog">현재 재료: {0}, {1}개 더 필요 ({2}단계)</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@IngredientLog">{0}의 {1}번째 하위 재료 보충</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@IngredientUnavailableLog">{0}의 {1}번째 하위 재료 합성 불가</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@OperatorLog">{0} 합성용 가공소 오퍼레이터 선택</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@CraftLog">{0} × {1} 합성 중</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@ReturnLog">{0} 필요량 충족, 상위 제작법으로 복귀</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@DoneLog">재료 합성 완료</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@FailedLog">재료 합성 중지: {0}</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@InsufficientResources">재료 부족 또는 처리 한도 도달</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@OperatorUnavailable">컨디션이 충분한 가공소 오퍼레이터 없음</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@Unsupported">현재 재료 또는 제작법 데이터 인식 불가</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@NavigationFailed">화면 인식 또는 조작 실패</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">알 수 없는 오류</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">기상 순회전 - 미수록 기상 찾기</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">선택한 맵의 고급 구역 초원 오른쪽 아래에서 작업을 시작합니다.&#10;초원을 왔다 갔다 하며 미수록 생물을 찾고, 발견하면 자동으로 중지됩니다.&#10;생물은 초원에서만 만날 수 있습니다.</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">기상 순회전: 미수록 기상 발견</system:String>

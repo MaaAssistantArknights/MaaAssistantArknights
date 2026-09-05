@@ -67,30 +67,43 @@
         "classifyType": "MATERIAL",
         "description": "Rich in organics, it is commonly seen in regions where Originium has completely volatilized. Compared to Originium, it is easier to exploit.",
         "icon": "30011.png",
+        "rarity": 0,
         "name": "Orirock",
         "sortId": 100036,
         "usage": "A rock mined from the ground. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30012": {
+        "formula": {
+            "30011": 3
+        },
         "classifyType": "MATERIAL",
         "description": "With numerous micropores, it is often used in the interlayer of armors as an adsorbent of the breakdown product of Originium gas.",
         "icon": "30012.png",
+        "rarity": 1,
         "name": "Orirock Cube",
         "sortId": 100035,
         "usage": "A rock cube mined from the ground. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30013": {
+        "formula": {
+            "30012": 5
+        },
         "classifyType": "MATERIAL",
         "description": "Compressed from Orirock Cubes, it can be formed naturally. It is a fragile material, but industrial technology has made it possible to produce complete Orirock Clusters now. People often mistake it for an ordinary cluster of rocks.",
         "icon": "30013.png",
+        "rarity": 2,
         "name": "Orirock Cluster",
         "sortId": 100034,
         "usage": "A conglomerate rock mined from the ground. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30014": {
+        "formula": {
+            "30013": 4
+        },
         "classifyType": "MATERIAL",
         "description": "This Orirock looks different from the raw material after the refinement process. It costs much more than other processing methods. Anyone who has seen the smooth cutting surface will be amazed. That must be the charm of combining nature with industry.",
         "icon": "30014.png",
+        "rarity": 3,
         "name": "Orirock Concentration",
         "sortId": 100033,
         "usage": "A refined matter produced with Orirock Cluster. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation."
@@ -99,30 +112,45 @@
         "classifyType": "MATERIAL",
         "description": "It's slightly sweet and possibly edible. It is also commonly used in chemical manufacturing.",
         "icon": "30021.png",
+        "rarity": 0,
         "name": "Sugar Substitute",
         "sortId": 100048,
         "usage": "Cheap sugar substitute produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30022": {
+        "formula": {
+            "30021": 3
+        },
         "classifyType": "MATERIAL",
         "description": "A more expensive sugar made from natural materials. Ahh, this taste... will surely put one in a great mood. However, it's not for casual snacking.",
         "icon": "30022.png",
+        "rarity": 1,
         "name": "Sugar",
         "sortId": 100047,
         "usage": "A small amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30023": {
+        "formula": {
+            "30022": 4
+        },
         "classifyType": "MATERIAL",
         "description": "A calorie-rich sugar pack that's highly sought after. Its weight never seems to meet the standards set for chemical manufacturing. The production line employees may have something to do with it.",
         "icon": "30023.png",
+        "rarity": 2,
         "name": "Sugar Pack",
         "sortId": 100046,
         "usage": "A decent amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30024": {
+        "formula": {
+            "30023": 2,
+            "30043": 1,
+            "30083": 1
+        },
         "classifyType": "MATERIAL",
         "description": "A nice, finely processed sugar lump commonly used for potion production. Do not taste test it! This is not food and is not to be sold as food! EVER!",
         "icon": "30024.png",
+        "rarity": 3,
         "name": "Sugar Lump",
         "sortId": 100045,
         "usage": "A large amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
@@ -139,30 +167,45 @@
         "classifyType": "MATERIAL",
         "description": "One of the most important materials in modern industry. Its appearance has lead to the development of many modern products. This one, of course, is only a raw material that has practical application.",
         "icon": "30031.png",
+        "rarity": 0,
         "name": "Ester",
         "sortId": 100044,
         "usage": "Ester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30032": {
+        "formula": {
+            "30031": 3
+        },
         "classifyType": "MATERIAL",
         "description": "Although its is lacking in potency, it can still be used to produce some basic materials we need. It is also a common ingredient in some sustained-release drugs.",
         "icon": "30032.png",
+        "rarity": 1,
         "name": "Polyester",
         "sortId": 100043,
         "usage": "A small amount of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30033": {
+        "formula": {
+            "30032": 4
+        },
         "classifyType": "MATERIAL",
         "description": "After a series of processes, it meets the standards and general needs of most products on the market. It can also be used to process some special materials.",
         "icon": "30033.png",
+        "rarity": 2,
         "name": "Polyester Pack",
         "sortId": 100042,
         "usage": "A pack of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30034": {
+        "formula": {
+            "30033": 2,
+            "30053": 1,
+            "30073": 1
+        },
         "classifyType": "MATERIAL",
         "description": "A refined material. As a product, it is mostly sold to organizations and research institutions that have extremely high raw material needs. It may become the basis of the next generation of materials.",
         "icon": "30034.png",
+        "rarity": 3,
         "name": "Polyester Lump",
         "sortId": 100041,
         "usage": "A lump of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
@@ -171,30 +214,45 @@
         "classifyType": "MATERIAL",
         "description": "A byproduct of massive metal processing. Its high plasticity and oxidation resistance make it a common material of smelting and phased processing.",
         "icon": "30041.png",
+        "rarity": 0,
         "name": "Oriron Shard",
         "sortId": 100052,
         "usage": "A common industrial material. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30042": {
+        "formula": {
+            "30041": 3
+        },
         "classifyType": "MATERIAL",
         "description": "In a small number of inerting processes, Oriron Shards may have phase changed and polymerized into Oriron. It is generally thought that Oriron is relatively stable when it reaches this level.",
         "icon": "30042.png",
+        "rarity": 1,
         "name": "Oriron",
         "sortId": 100051,
         "usage": "A rare industrial material. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30043": {
+        "formula": {
+            "30042": 4
+        },
         "classifyType": "MATERIAL",
         "description": "During the processing, influenced by very few unartificial factors, multiple Orirons may merge into this form by chance. Its hardness has decreased but its purity has increased.",
         "icon": "30043.png",
+        "rarity": 2,
         "name": "Oriron Cluster",
         "sortId": 100050,
         "usage": "A precious industrial material. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30044": {
+        "formula": {
+            "30033": 1,
+            "30043": 2,
+            "30063": 1
+        },
         "classifyType": "MATERIAL",
         "description": "An Oriron block fused with multiple Oriron Clusters under extremely harsh conditions. As the most stable and rarest form of Oriron, it can be used in all manners of industrial production.",
         "icon": "30044.png",
+        "rarity": 3,
         "name": "Oriron Block",
         "sortId": 100049,
         "usage": "An expensive industrial material. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation."
@@ -203,30 +261,45 @@
         "classifyType": "MATERIAL",
         "description": "A very small amount of Diketon. After reprocessing, Engineer Operators use solidification during chemical combination to bond other stable structures.",
         "icon": "30051.png",
+        "rarity": 0,
         "name": "Diketon",
         "sortId": 100056,
         "usage": "A very small amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30052": {
+        "formula": {
+            "30051": 3
+        },
         "classifyType": "MATERIAL",
         "description": "A small amount of Polyketon preparation produced through a special process. Its closed molecular structure has changed much complicated processing into simple chemical reactions. Of course, certain technical support is still needed.",
         "icon": "30052.png",
+        "rarity": 1,
         "name": "Polyketon",
         "sortId": 100055,
         "usage": "A small amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30053": {
+        "formula": {
+            "30052": 4
+        },
         "classifyType": "MATERIAL",
         "description": "A modest amount of Aketon preparation produced through further dehydrocarbon processing. The preparation reacts with the non-oxygen molecules in the air, so Engineer Operators must be careful during processing to avoid waste.",
         "icon": "30053.png",
+        "rarity": 2,
         "name": "Aketon",
         "sortId": 100054,
         "usage": "A modest amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30054": {
+        "formula": {
+            "30023": 1,
+            "30053": 2,
+            "30083": 1
+        },
         "classifyType": "MATERIAL",
         "description": "A large amount of unstable Keton preparation. As one of the advanced industrial materials, it is closely monitored by our Engineer Operators. Please be careful when handling.",
         "icon": "30054.png",
+        "rarity": 3,
         "name": "Keton Colloid",
         "sortId": 100053,
         "usage": "A large amount of industrial organic compound. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation."
@@ -235,30 +308,45 @@
         "classifyType": "MATERIAL",
         "description": "A broken device that was embedded in the enemy's weapons and armor. It got damaged during a fierce fight, but the components inside are still valuable.",
         "icon": "30061.png",
+        "rarity": 0,
         "name": "Damaged Device",
         "sortId": 100040,
         "usage": "A damaged mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30062": {
+        "formula": {
+            "30061": 3
+        },
         "classifyType": "MATERIAL",
         "description": "A set of devices that are relatively complete with numerous valuable components. To make it portable and practical, almost every bit of space around the motherboard is in use.",
         "icon": "30062.png",
+        "rarity": 1,
         "name": "Device",
         "sortId": 100039,
         "usage": "An ordinary mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30063": {
+        "formula": {
+            "30062": 4
+        },
         "classifyType": "MATERIAL",
         "description": "A set of brand new devices. By reproducing the structure of devices of the same type, the lack of space around the motherboard has been solved. The energy consumption, of course, has also become higher.",
         "icon": "30063.png",
+        "rarity": 2,
         "name": "Integrated Device",
         "sortId": 100038,
         "usage": "A brand new mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30064": {
+        "formula": {
+            "30013": 2,
+            "30063": 1,
+            "30093": 1
+        },
         "classifyType": "MATERIAL",
         "description": "After undergoing a large number of private modifications, these devices have greatly expanded capacity, which improves performance at the cost of stability. From this, one can feel the dedication and perseverance from the makers.",
         "icon": "30064.png",
+        "rarity": 3,
         "name": "Optimized Device",
         "sortId": 100037,
         "usage": "An advanced mechanical device captured from Reunion. Can be used for a variety of upgrades and the synthesis of Bipolar Nanoflake."
@@ -267,14 +355,21 @@
         "classifyType": "MATERIAL",
         "description": "An outstanding chemical mediator. When in use, it often changes between two forms to store and release other materials. When it becomes liquid, some of its properties are the same as those of alcohol, which often leaves our Engineer Operators tipsy.",
         "icon": "30073.png",
+        "rarity": 2,
         "name": "Loxic Kohl",
         "sortId": 100026,
         "usage": "A flaky organic compound. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30074": {
+        "formula": {
+            "30023": 1,
+            "30073": 1,
+            "30103": 1
+        },
         "classifyType": "MATERIAL",
         "description": "A product made from Loxic Kohl after fine processing. It was named after the company that discovered its production method. Experiments show that it tends to transform to a higher structure in abnormal environments.",
         "icon": "30074.png",
+        "rarity": 3,
         "name": "White Horse Kohl",
         "sortId": 100025,
         "usage": "A flaky organic compound. Can be used for a variety of upgrades and the synthesis of Bipolar Nanoflake."
@@ -283,14 +378,21 @@
         "classifyType": "MATERIAL",
         "description": "A metal that is used to produce a catalyst widely used in industries. As the reprocessing is complicated, accidents caused by nonstandard techniques do happen from time to time.",
         "icon": "30083.png",
+        "rarity": 2,
         "name": "Manganese Ore",
         "sortId": 100028,
         "usage": "A metal ore used for metallurgy. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30084": {
+        "formula": {
+            "30033": 1,
+            "30073": 1,
+            "30083": 2
+        },
         "classifyType": "MATERIAL",
         "description": "A precious metal which few companies are willing to use to produce industrial catalysts. The catalyst made from it, however, has an extremely long service life. It can be used repeatedly and even stripped and recycled, but the complicated processes have forced many companies to give up.",
         "icon": "30084.png",
+        "rarity": 3,
         "name": "Manganese Trihydrate",
         "sortId": 100027,
         "usage": "A metal ore used for metallurgy. Can be used for a variety of upgrades and the synthesis of D32 Steel."
@@ -299,14 +401,21 @@
         "classifyType": "MATERIAL",
         "description": "An important tool in component processing. It has stable properties, and will never explode, powderize, or crack.",
         "icon": "30093.png",
+        "rarity": 2,
         "name": "Grindstone",
         "sortId": 100030,
         "usage": "A grindstone used to process weapon parts. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30094": {
+        "formula": {
+            "30043": 1,
+            "30063": 1,
+            "30093": 1
+        },
         "classifyType": "MATERIAL",
         "description": "Compared to normal Grindstone, this tool has an even more stable structure. It is highly non-reactive.",
         "icon": "30094.png",
+        "rarity": 3,
         "name": "Grindstone Pentahydrate",
         "sortId": 100029,
         "usage": "An advanced grindstone used in the finish machining of weapon parts. Can be used for a variety of upgrades and the synthesis of D32 Steel."
@@ -315,62 +424,104 @@
         "classifyType": "MATERIAL",
         "description": "A mineral whose natural form is a complicated polyhedron. Its value for Originium Arts was known long before its industrial value.",
         "icon": "30103.png",
+        "rarity": 2,
         "name": "RMA70-12",
         "sortId": 100032,
         "usage": "A sensitive mineral with high conductivity. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30104": {
+        "formula": {
+            "30013": 2,
+            "30053": 1,
+            "30103": 1
+        },
         "classifyType": "MATERIAL",
         "description": "A mineral whose natural form is a complicated polyhedron. Found in 1024, it shows great industrial value that other minerals used for Originium Arts lack.",
         "icon": "30104.png",
+        "rarity": 3,
         "name": "RMA70-24",
         "sortId": 100031,
         "usage": "A highly sensitive mineral with outstanding conductivity. Can be used for a variety of upgrades and the synthesis of D32 Steel."
     },
     "30115": {
+        "formula": {
+            "30014": 1,
+            "30044": 1,
+            "30054": 1
+        },
         "classifyType": "MATERIAL",
         "description": "A material commonly used as an isolation coating for delicate equipment. Its bonding effect is strong enough to interrupt the volatilization of Originium.",
         "icon": "30115.png",
+        "rarity": 4,
         "name": "Polymerization Preparation",
         "sortId": 100006,
         "usage": "A complicated liquid industrial product. Can be used for high level upgrades."
     },
     "30125": {
+        "formula": {
+            "30064": 1,
+            "30074": 2
+        },
         "classifyType": "MATERIAL",
         "description": "A device that is sensitive to Originium within a certain range. It can significantly improve the sensitivity of nearby weapons and equipment to Originium, making them near vessels for Originium Arts.",
         "icon": "30125.png",
+        "rarity": 4,
         "name": "Bipolar Nanoflake",
         "sortId": 100005,
         "usage": "The brainchild of modern science and industry. Can be used for high level upgrades."
     },
     "30135": {
+        "formula": {
+            "30084": 1,
+            "30094": 1,
+            "30104": 1
+        },
         "classifyType": "MATERIAL",
         "description": "This material can deliver Originium Arts smoothly and its amazing hardness makes it impossible to penetrate. It will set a new standard for weapon materials.",
         "icon": "30135.png",
+        "rarity": 4,
         "name": "D32 Steel",
         "sortId": 100004,
         "usage": "An artificial metal that doesn't exist in nature. Can be used for high level upgrades."
     },
     "30145": {
+        "formula": {
+            "31014": 2,
+            "31024": 1,
+            "31034": 1
+        },
         "classifyType": "MATERIAL",
         "description": "A crystallization of Terra's Originium technology. A symbol of Terra's industrial modernization. From Originium Casting units to intercity network servers, their making all starts with inventions like these.",
         "icon": "30145.png",
+        "rarity": 4,
         "name": "Crystalline Electronic Unit",
         "sortId": 100003,
         "usage": "An expensive Originium industry product. Can be used for major upgrades."
     },
     "30155": {
+        "formula": {
+            "31044": 2,
+            "31054": 1,
+            "31064": 1
+        },
         "classifyType": "MATERIAL",
         "description": "A material that possesses a molecular recognitive capacity under specific high-temperature conditions. Can selectively adsorb Originium when used as a reagent, allowing for precise handling of Originium materials, lower Originium device energy consumption, and the opening of further new possibilities.",
         "icon": "30155.png",
+        "rarity": 4,
         "name": "Nucleic Crystal Sinter",
         "sortId": 100002,
         "usage": "A product of modern technology that requires the ultimate in industrial craft. Used in advanced strengthening projects."
     },
     "30165": {
+        "formula": {
+            "31074": 1,
+            "31084": 1,
+            "31094": 2
+        },
         "classifyType": "MATERIAL",
         "description": "A new material still in the experimental stage. Not only can it output large amounts of energy, but it can also adapt to Originium Arts. This may indicate the future development of this optically protective material.",
         "icon": "30165.png",
+        "rarity": 4,
         "name": "Rephasic Enantiomer",
         "sortId": 100001,
         "usage": "A product of cutting-edge research on luminescent materials. Can be used for high level upgrades."
@@ -379,14 +530,21 @@
         "classifyType": "MATERIAL",
         "description": "An artificial material serendipitously born in the laboratory. It has excellent resistance to extreme temperatures, is lightweight, and is easy to process, making it ideal for use in high-tech projects.",
         "icon": "31013.png",
+        "rarity": 2,
         "name": "Coagulating Gel",
         "sortId": 100024,
         "usage": "A high-strength plastic material suitable. Can be used for a variety of upgrades and for synthesis projects in Factories."
     },
     "31014": {
+        "formula": {
+            "30043": 1,
+            "31013": 1,
+            "31023": 1
+        },
         "classifyType": "MATERIAL",
         "description": "An artificial material created from a large number of experiments using coagulating gel as a base material. It can maintain its stability even in high-pressure environments, playing a key role in some high-tech projects.",
         "icon": "31014.png",
+        "rarity": 3,
         "name": "Polymerized Gel",
         "sortId": 100023,
         "usage": "An extremely high-strength plastic material. Can be used for a variety of upgrades."
@@ -395,14 +553,21 @@
         "classifyType": "MATERIAL",
         "description": "An alloy smelted from several rare Terran metals. Used to manufacture rare electronic components and circuit boards, it has become an indispensable material in the cutting-edge electronics industry.",
         "icon": "31023.png",
+        "rarity": 2,
         "name": "Incandescent Alloy",
         "sortId": 100022,
         "usage": "A special alloy with a high melting point, commonly used in the electronics industry. Can be used for a variety of upgrades and for synthesis projects in Factories."
     },
     "31024": {
+        "formula": {
+            "30063": 1,
+            "30093": 1,
+            "31023": 1
+        },
         "classifyType": "MATERIAL",
         "description": "A product derived from further processing of incandescent alloy. After complicated industrial processing, the stability of its solid-liquid hybridization state at certain temperatures has been preserved. As a result, it has an irreplaceable role in product development in the cutting-edge electronics industry.",
         "icon": "31024.png",
+        "rarity": 3,
         "name": "Incandescent Alloy Block",
         "sortId": 100021,
         "usage": "A rarely-produced alloy with a high melting point, commonly used in the electronics industry. Can be used for a variety of upgrades."
@@ -411,14 +576,21 @@
         "classifyType": "MATERIAL",
         "description": "A raw industrial material made with the outer shell of an Originium crystal. A fundamental product in the modern Originium electronics industry.",
         "icon": "31033.png",
+        "rarity": 2,
         "name": "Crystalline Component",
         "sortId": 100020,
         "usage": "An important Originium industry material. Can be used for a variety of upgrades. Can be manufactured and assembled into more advanced Originium electric components."
     },
     "31034": {
+        "formula": {
+            "31013": 1,
+            "31023": 1,
+            "31033": 2
+        },
         "classifyType": "MATERIAL",
         "description": "A core product in the modern Originium electronics industry. Found inside electronic goods far and wide throughout Terra's nations. The mass application of crystalline circuitry is one more reminder of Terra's industrial modernization.",
         "icon": "31034.png",
+        "rarity": 3,
         "name": "Crystalline Circuit",
         "sortId": 100019,
         "usage": "An important Originium industry material. Can be used for a variety of upgrades. A fundamental part of manufacturing Originium crystal assemblies."
@@ -427,14 +599,21 @@
         "classifyType": "MATERIAL",
         "description": "The product of a traditional solvent undergoing a modernization process, it demonstrates remarkably enhanced properties.",
         "icon": "31043.png",
+        "rarity": 2,
         "name": "Semi-Synthetic Solvent",
         "sortId": 100018,
         "usage": "An active solvent with excellent physical characteristics, and good resistance to acids and bases. Can be used in a variety of upgrades."
     },
     "31044": {
+        "formula": {
+            "31013": 1,
+            "31043": 1,
+            "31053": 1
+        },
         "classifyType": "MATERIAL",
         "description": "A coating held together by high-molecule polymers. In addition to its baseline protective capabilities, it has also gained other special characteristics, of which heat resistance is but one of many.",
         "icon": "31044.png",
+        "rarity": 3,
         "name": "Refined Solvent",
         "sortId": 100017,
         "usage": "A special coating made from a specific formulation process. Can be used for high level upgrades."
@@ -451,14 +630,21 @@
         "classifyType": "MATERIAL",
         "description": "Provides lubrication and heat resistance during the refining process, which can further increase the rate at which metal products meet final quality specifications.",
         "icon": "31053.png",
+        "rarity": 2,
         "name": "Compound Cutting Fluid",
         "sortId": 100016,
         "usage": "An industrial agent necessary for metal processing. Can be used for a variety of upgrades."
     },
     "31054": {
+        "formula": {
+            "30103": 1,
+            "31033": 1,
+            "31053": 1
+        },
         "classifyType": "MATERIAL",
         "description": "A biologically stable stock solution. Precautions should be taken to avoid cross-contamination during storage.",
         "icon": "31054.png",
+        "rarity": 3,
         "name": "Cutting Fluid Solution",
         "sortId": 100015,
         "usage": "A stock solution prepared from a variety of active solvents. Can be used for high level upgrades."
@@ -467,14 +653,21 @@
         "classifyType": "MATERIAL",
         "description": "The surface of this material has mutable characteristics, realizing results that were originally nearly impossible. CAUTION: industrial salt is not to be eaten under any circumstances.",
         "icon": "31063.png",
+        "rarity": 2,
         "name": "Transmuted Salt",
         "sortId": 100014,
         "usage": "A compound crystallization that has undergone low-tolerance refinement. Can be used in a variety of strengthening projects."
     },
     "31064": {
+        "formula": {
+            "30023": 1,
+            "31043": 1,
+            "31063": 1
+        },
         "classifyType": "MATERIAL",
         "description": "A stable crystalline body, manufactured as a crystal blend within saturated solutions. Can provide materials with a diverse array of capabilities.",
         "icon": "31064.png",
+        "rarity": 3,
         "name": "Transmuted Salt Agglomerate",
         "sortId": 100013,
         "usage": "A compound crystal mass that has undergone high-tolerance refinement. Used in a variety of strengthening projects, and is a common material in synthetic items at factories."
@@ -483,14 +676,21 @@
         "classifyType": "MATERIAL",
         "description": "A derived product in Originium engineering, widely used in industrial fields due to its exceptional functionality. In recent years, its unique appearance has also drawn keen interest from those working in design.",
         "icon": "31073.png",
+        "rarity": 2,
         "name": "Fuscous Fiber",
         "sortId": 100012,
         "usage": "A specialized fiber bundle, possessing high tensile strength and elastic modulus. Used in a variety of strengthening projects."
     },
     "31074": {
+        "formula": {
+            "30013": 1,
+            "30033": 2,
+            "31073": 1
+        },
         "classifyType": "MATERIAL",
         "description": "A compound fiber board crafted through bespoke manufacturing. Exhibits outstanding functionality, both physically and chemically, coupled with a rarely-seen ease of processing. An irreplaceable part of many an industrial workflow.",
         "icon": "31074.png",
+        "rarity": 3,
         "name": "Solidified Fiber Board",
         "sortId": 100011,
         "usage": "A specialized fiber board, solidified in a mold. Used in a variety of strengthening projects."
@@ -499,14 +699,21 @@
         "classifyType": "MATERIAL",
         "description": "A novel transparent material born from the laboratory. Its high luminous transmittance and phenomenal durability in all aspects promise to make it an excellent substitute for many conventional materials.",
         "icon": "31083.png",
+        "rarity": 2,
         "name": "Aggregate Cyclicene",
         "sortId": 100010,
         "usage": "A superlatively heat- and chemical-resistant industrial material. Used in a variety of strengthening projects."
     },
     "31084": {
+        "formula": {
+            "31063": 1,
+            "31073": 1,
+            "31083": 1
+        },
         "classifyType": "MATERIAL",
         "description": "An industrial product arrived at through the introduction of several excellent materials into the synthesis process, preserving luminous transmittance while vastly increasing strength and shock resistance. Prospects are high for its wide adoption in the field of defense.",
         "icon": "31084.png",
+        "rarity": 3,
         "name": "Cyclicene Prefab",
         "sortId": 100009,
         "usage": "A prefabricated industrial intermediate composed of multiple first-rate materials. Used in a variety of strengthening projects."
@@ -515,14 +722,21 @@
         "classifyType": "MATERIAL",
         "description": "A particle that can adsorb many different materials. At first, it was only used in cheap adsorbents, but has since become a cutting-edge material thanks to its strong universal coagulative properties.",
         "icon": "31093.png",
+        "rarity": 2,
         "name": "Coagulative Nodule",
         "sortId": 100008,
         "usage": "A lab-made synthetic particle, boasting powerful adsorption properties. Can be used in a variety of strengthening projects."
     },
     "31094": {
+        "formula": {
+            "30023": 1,
+            "31083": 1,
+            "31093": 1
+        },
         "classifyType": "MATERIAL",
         "description": "An optical material that boasts both physical durability and astonishing Originium Arts resistance, currently used in studies regarding optical protection. Other uses are still being tested.",
         "icon": "31094.png",
+        "rarity": 3,
         "name": "Chiral Refractor",
         "sortId": 100007,
         "usage": "A specialized material that displays useful optical qualities and other physical traits. Can be used for high level upgrades."
@@ -587,6 +801,7 @@
         "classifyType": "MATERIAL",
         "description": "It's highly valuable, but its low yield has been a problem for Engineer Operators.",
         "icon": "32001.png",
+        "rarity": 3,
         "name": "Chip Catalyst",
         "sortId": 400001,
         "usage": "A catalyst necessary for the production of Dualchips."
@@ -595,6 +810,7 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for rookie Vanguard Operators.",
         "icon": "3211.png",
+        "rarity": 2,
         "name": "Vanguard Chip",
         "sortId": 400018,
         "usage": "A memory chip that records special trainings. Can be used to Promote Vanguard Operators."
@@ -603,14 +819,20 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for experienced Vanguard Operators.",
         "icon": "3212.png",
+        "rarity": 3,
         "name": "Vanguard Chip Pack",
         "sortId": 400010,
         "usage": "A memory chip pack that records special trainings. Can be used to Promote Vanguard Operators."
     },
     "3213": {
+        "formula": {
+            "32001": 1,
+            "3212": 2
+        },
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for veteran Vanguard Operators.",
         "icon": "3213.png",
+        "rarity": 4,
         "name": "Vanguard Dualchip",
         "sortId": 400002,
         "usage": "A dualchip that records special trainings. Can be used to Promote Vanguard Operators."
@@ -619,6 +841,7 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for rookie Guard Operators.",
         "icon": "3221.png",
+        "rarity": 2,
         "name": "Guard Chip",
         "sortId": 400019,
         "usage": "A memory chip that records special trainings. Can be used to Promote Guard Operators."
@@ -627,14 +850,20 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for experienced Guard Operators.",
         "icon": "3222.png",
+        "rarity": 3,
         "name": "Guard Chip Pack",
         "sortId": 400011,
         "usage": "A memory chip pack that records special trainings. Can be used to Promote Guard Operators."
     },
     "3223": {
+        "formula": {
+            "32001": 1,
+            "3222": 2
+        },
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for veteran Guard Operators.",
         "icon": "3223.png",
+        "rarity": 4,
         "name": "Guard Dualchip",
         "sortId": 400003,
         "usage": "A dualchip that records special trainings. Can be used to Promote Guard Operators."
@@ -643,6 +872,7 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for rookie Defender Operators.",
         "icon": "3231.png",
+        "rarity": 2,
         "name": "Defender Chip",
         "sortId": 400020,
         "usage": "A memory chip that records special trainings. Can be used to Promote Defender Operators."
@@ -651,14 +881,20 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for experienced Defender Operators.",
         "icon": "3232.png",
+        "rarity": 3,
         "name": "Defender Chip Pack",
         "sortId": 400012,
         "usage": "A memory chip pack that records special trainings. Can be used to Promote Defender Operators."
     },
     "3233": {
+        "formula": {
+            "32001": 1,
+            "3232": 2
+        },
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for veteran Defender Operators.",
         "icon": "3233.png",
+        "rarity": 4,
         "name": "Defender Dualchip",
         "sortId": 400004,
         "usage": "A dualchip that records special trainings. Can be used to Promote Defender Operators."
@@ -667,6 +903,7 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for rookie Sniper Operators.",
         "icon": "3241.png",
+        "rarity": 2,
         "name": "Sniper Chip",
         "sortId": 400021,
         "usage": "A memory chip that records special trainings. Can be used to Promote Sniper Operators."
@@ -675,14 +912,20 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for experienced Sniper Operators.",
         "icon": "3242.png",
+        "rarity": 3,
         "name": "Sniper Chip Pack",
         "sortId": 400013,
         "usage": "A memory chip pack that records special trainings. Can be used to Promote Sniper Operators."
     },
     "3243": {
+        "formula": {
+            "32001": 1,
+            "3242": 2
+        },
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for veteran Sniper Operators.",
         "icon": "3243.png",
+        "rarity": 4,
         "name": "Sniper Dualchip",
         "sortId": 400005,
         "usage": "A dualchip that records special trainings. Can be used to Promote Sniper Operators."
@@ -691,6 +934,7 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for rookie Caster Operators.",
         "icon": "3251.png",
+        "rarity": 2,
         "name": "Caster Chip",
         "sortId": 400022,
         "usage": "A memory chip that records special trainings. Can be used to Promote Caster Operators."
@@ -699,14 +943,20 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for experienced Caster Operators.",
         "icon": "3252.png",
+        "rarity": 3,
         "name": "Caster Chip Pack",
         "sortId": 400014,
         "usage": "A memory chip pack that records special trainings. Can be used to Promote Caster Operators."
     },
     "3253": {
+        "formula": {
+            "32001": 1,
+            "3252": 2
+        },
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for veteran Caster Operators.",
         "icon": "3253.png",
+        "rarity": 4,
         "name": "Caster Dualchip",
         "sortId": 400006,
         "usage": "A dualchip that records special trainings. Can be used to Promote Caster Operators."
@@ -715,6 +965,7 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for rookie Medic Operators.",
         "icon": "3261.png",
+        "rarity": 2,
         "name": "Medic Chip",
         "sortId": 400023,
         "usage": "A memory chip that records special trainings. Can be used to Promote Medic Operators."
@@ -723,14 +974,20 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for experienced Medic Operators.",
         "icon": "3262.png",
+        "rarity": 3,
         "name": "Medic Chip Pack",
         "sortId": 400015,
         "usage": "A memory chip pack that records special trainings. Can be used to Promote Medic Operators."
     },
     "3263": {
+        "formula": {
+            "32001": 1,
+            "3262": 2
+        },
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for veteran Medic Operators.",
         "icon": "3263.png",
+        "rarity": 4,
         "name": "Medic Dualchip",
         "sortId": 400007,
         "usage": "A dualchip that records special trainings. Can be used to Promote Medic Operators."
@@ -739,6 +996,7 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for rookie Supporter Operators.",
         "icon": "3271.png",
+        "rarity": 2,
         "name": "Supporter Chip",
         "sortId": 400024,
         "usage": "A memory chip that records special trainings. Can be used to Promote Supporter Operators."
@@ -747,14 +1005,20 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for experienced Supporter Operators.",
         "icon": "3272.png",
+        "rarity": 3,
         "name": "Supporter Chip Pack",
         "sortId": 400016,
         "usage": "A memory chip pack that records special trainings. Can be used to Promote Supporter Operators."
     },
     "3273": {
+        "formula": {
+            "32001": 1,
+            "3272": 2
+        },
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for veteran Supporter Operators.",
         "icon": "3273.png",
+        "rarity": 4,
         "name": "Supporter Dualchip",
         "sortId": 400008,
         "usage": "A dualchip that records special trainings. Can be used to Promote Supporter Operators."
@@ -763,6 +1027,7 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for rookie Specialist Operators.",
         "icon": "3281.png",
+        "rarity": 2,
         "name": "Specialist Chip",
         "sortId": 400025,
         "usage": "A memory chip that records special trainings. Can be used to Promote Specialist Operators."
@@ -771,14 +1036,20 @@
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for experienced Specialist Operators.",
         "icon": "3282.png",
+        "rarity": 3,
         "name": "Specialist Chip Pack",
         "sortId": 400017,
         "usage": "A memory chip pack that records special trainings. Can be used to Promote Specialist Operators."
     },
     "3283": {
+        "formula": {
+            "32001": 1,
+            "3282": 2
+        },
         "classifyType": "MATERIAL",
         "description": "A material obtained after hard training. It seems to be especially helpful for veteran Specialist Operators.",
         "icon": "3283.png",
+        "rarity": 4,
         "name": "Specialist Dualchip",
         "sortId": 400009,
         "usage": "A dualchip that records special trainings. Can be used to Promote Specialist Operators."
@@ -787,22 +1058,31 @@
         "classifyType": "MATERIAL",
         "description": "It records entry-level skills needed by Operators. Even a dummy could master the techniques after a bit of study.",
         "icon": "3301.png",
+        "rarity": 1,
         "name": "Skill Summary - 1",
         "sortId": 80003,
         "usage": "A book that records basic tactics. Can be used to upgrade Operator skills."
     },
     "3302": {
+        "formula": {
+            "3301": 3
+        },
         "classifyType": "MATERIAL",
         "description": "It records junior skills needed by Operators. It takes some time and effort to master them.",
         "icon": "3302.png",
+        "rarity": 2,
         "name": "Skill Summary - 2",
         "sortId": 80002,
         "usage": "A book that records intermediate tactics. Can be used to upgrade Operator skills."
     },
     "3303": {
+        "formula": {
+            "3302": 3
+        },
         "classifyType": "MATERIAL",
         "description": "It records high level skills needed by Operators. It takes a depth of experience in relevant fields to understand them.",
         "icon": "3303.png",
+        "rarity": 3,
         "name": "Skill Summary - 3",
         "sortId": 80001,
         "usage": "A book that records advanced tactics. Can be used to upgrade Operator skills."

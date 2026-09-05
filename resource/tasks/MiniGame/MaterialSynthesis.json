@@ -1,0 +1,114 @@
+{
+    "MiniGame@MaterialSynthesis@Begin": {
+        "doc": "从目标材料的加工站合成页开始，由插件递归补齐下级材料",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": []
+    },
+    "MiniGame@MaterialSynthesis@Workshop": {
+        "template": "ProcessingFlag.png",
+        "roi": [329, 0, 225, 113]
+    },
+    "MiniGame@MaterialSynthesis@RequiredCount": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "roi": [1172, 362, 83, 23],
+        "isAscii": false
+    },
+    "MiniGame@MaterialSynthesis@Material": {
+        "template": "empty.png",
+        "roi": [534, 408, 140, 140],
+        "templThreshold": 0.5,
+        "maskRange": [1, 255]
+    },
+    "MiniGame@MaterialSynthesis@HasParent": {
+        "template": "ProcessingReturnParent.png",
+        "roi": [243, 134, 128, 135],
+        "action": "ClickSelf",
+        "postDelay": 800
+    },
+    "MiniGame@MaterialSynthesis@Ingredient1Available": {
+        "template": "ProcessingAvailable.png",
+        "roi": [609, 241, 182, 128],
+        "action": "ClickSelf",
+        "postDelay": 900
+    },
+    "MiniGame@MaterialSynthesis@Ingredient1Unavailable": {
+        "template": "ProcessingUnavailable.png",
+        "roi": [609, 241, 182, 128]
+    },
+    "MiniGame@MaterialSynthesis@Ingredient2Available": {
+        "template": "ProcessingAvailable.png",
+        "roi": [433, 554, 181, 127],
+        "action": "ClickSelf",
+        "postDelay": 900
+    },
+    "MiniGame@MaterialSynthesis@Ingredient2Unavailable": {
+        "template": "ProcessingUnavailable.png",
+        "roi": [433, 554, 181, 127]
+    },
+    "MiniGame@MaterialSynthesis@Ingredient3Available": {
+        "template": "ProcessingAvailable.png",
+        "roi": [794, 553, 181, 127],
+        "action": "ClickSelf",
+        "postDelay": 900
+    },
+    "MiniGame@MaterialSynthesis@Ingredient3Unavailable": {
+        "template": "ProcessingUnavailable.png",
+        "roi": [794, 553, 181, 127]
+    },
+    "MiniGame@MaterialSynthesis@Increase": {
+        "template": "ProcessingIncrease.png",
+        "roi": [1008, 224, 133, 127],
+        "action": "ClickSelf",
+        "preDelay": 1000,
+        "postDelay": 100
+    },
+    "MiniGame@MaterialSynthesis@Decrease": {
+        "template": "ProcessingDecrease.png",
+        "roi": [1007, 417, 133, 126],
+        "action": "ClickSelf",
+        "postDelay": 100
+    },
+    "MiniGame@MaterialSynthesis@NoOperator": {
+        "template": "ProcessingNoOperator.png",
+        "roi": [7, 233, 231, 248],
+        "action": "ClickSelf",
+        "postDelay": 900
+    },
+    "MiniGame@MaterialSynthesis@LowMood": {
+        "algorithm": "OcrDetect",
+        "text": ["超负荷加工"],
+        "roi": [649, 308, 362, 155]
+    },
+    "MiniGame@MaterialSynthesis@OpenOperatorList": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [95, 320, 60, 60],
+        "postDelay": 900
+    },
+    "MiniGame@MaterialSynthesis@ReturnFromOperatorList": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "postDelay": 900
+    },
+    "MiniGame@MaterialSynthesis@Start": {
+        "template": "ProcessingStart.png",
+        "roi": [934, 549, 346, 171],
+        "action": "ClickSelf",
+        "postDelay": 3500,
+        "next": ["MiniGame@MaterialSynthesis@Obtain"]
+    },
+    "MiniGame@MaterialSynthesis@Obtain": {
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "maxTimes": 20,
+        "next": ["MiniGame@MaterialSynthesis@Workshop"],
+        "preDelay": 1200,
+        "postDelay": 1500
+    },
+    "MiniGame@MaterialSynthesis@Satisfied": {
+        "template": "ProcessingSatisfied.png",
+        "roi": [1123, 309, 157, 130]
+    }
+}

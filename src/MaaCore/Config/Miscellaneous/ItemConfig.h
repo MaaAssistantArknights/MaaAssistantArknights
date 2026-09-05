@@ -2,6 +2,7 @@
 
 #include "Config/AbstractConfigWithTempl.h"
 
+#include <optional>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -28,6 +29,14 @@ public:
         }
     }
 
+    std::optional<int> get_item_rarity(const std::string& id) const noexcept
+    {
+        if (auto iter = m_item_rarity.find(id); iter != m_item_rarity.cend()) {
+            return iter->second;
+        }
+        return std::nullopt;
+    }
+
     const auto& get_all_item_id() const noexcept { return m_all_item_id; }
 
     virtual const std::unordered_set<std::string>& get_templ_required() const noexcept override
@@ -37,14 +46,18 @@ public:
 
     const auto& get_ordered_material_item_id() const noexcept { return m_ordered_material_item_id; }
 
+    const auto& get_ordered_non_chip_formula_item_id() const noexcept { return m_ordered_non_chip_formula_item_id; }
+
 protected:
     virtual bool parse(const json::value& json) override;
     void clear();
 
     // key：材料编号Id，value：材料名（对应客户端材料名称，utf8）
     std::unordered_map<std::string, std::string> m_item_name;
+    std::unordered_map<std::string, int> m_item_rarity;
     std::unordered_set<std::string> m_all_item_id;
     std::vector<std::string> m_ordered_material_item_id;
+    std::vector<std::string> m_ordered_non_chip_formula_item_id;
 };
 
 inline static auto& ItemData = ItemConfig::get_instance();
