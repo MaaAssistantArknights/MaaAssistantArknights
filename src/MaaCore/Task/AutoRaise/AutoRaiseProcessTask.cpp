@@ -1,10 +1,21 @@
 #include "AutoRaiseProcessTask.h"
 
+#include <algorithm>
+#include <ranges>
+
 #include "Config/Miscellaneous/BattleDataConfig.h"
+#include "Config/Miscellaneous/InfrastConfig.h"
+#include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Task/Infrast/InfrastScore.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Utils/StringMisc.hpp"
+#include "Vision/BestMatcher.h"
+#include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
+#include "Vision/Infrast/InfrastOperImageAnalyzer.h"
+#include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
 #include "Vision/RegionOCRer.h"
 
 namespace
@@ -53,7 +64,7 @@ bool asst::AutoRaiseProcessTask::_run()
 asst::AutoRaiseProcessTask::Result
     asst::AutoRaiseProcessTask::execute_target(const AutoRaiseTarget& target)
 {
-    if (BattleData.get_id(target.name).empty()) {
+    if (!BattleData.get_first_id(battle::Role::Unknown, target.name)) {
         return Result::OperatorNotFound;
     }
 
@@ -79,32 +90,37 @@ asst::AutoRaiseProcessTask::Result
 asst::AutoRaiseProcessTask::Result
     asst::AutoRaiseProcessTask::find_and_open_operator(const AutoRaiseTarget& target)
 {
-    if (!run_task("AutoRaise@Begin", 3)) {
+    if (!run_task("OperBoxBegin", 3)) {
         return Result::RecognitionFailed;
     }
 
-    // 职业筛选缩小 OCR 范围；翻页同时设置末页识别与硬上限，避免在列表中无限循环。
-    const auto role = static_cast<int>(BattleData.get_role(target.name));
-    if (role <= 0 || !run_task("AutoRaise@Role" + std::to_string(role))) {
-        return Result::RecognitionFailed;
-    }
+    m_operator_elite = 0;
+    std::string previous_last_operator;
+    std::string previous_previous_last_operator;
     for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
-        RegionOCRer analyzer(ctrler()->get_image());
-        analyzer.set_task_info("AutoRaise@OperatorName");
-        analyzer.set_use_raw(true);
-        analyzer.set_required({ target.name });
-        if (analyzer.analyze()) {
-            // 姓名框只作为锚点，向上偏移到卡片主体的安全区域，不点击未经识别的大范围区域。
-            const Rect card = analyzer.get_result().rect.move({ -20, -150, 180, 130 });
-            if (!ctrler()->click(card)) {
+        OperBoxImageAnalyzer analyzer(ctrler()->get_image());
+        if (!analyzer.analyze()) {
+            break;
+        }
+
+        const auto& operators = analyzer.get_result();
+        const auto target_iter = std::ranges::find(operators, target.name, &OperBoxInfo::name);
+        if (target_iter != operators.cend()) {
+            // OperBoxImageAnalyzer 同时使用八职业标志、OperBoxNameOCR 和精英标志；卡片点击锚定于识别结果。
+            m_operator_elite = target_iter->elite;
+            if (!ctrler()->click(target_iter->rect)) {
                 return Result::RecognitionFailed;
             }
             return run_task("AutoRaise@Profile") ? Result::Completed : Result::RecognitionFailed;
         }
-        if (run_task("AutoRaise@LastPage")) {
+
+        const auto& last_operator = operators.back().name;
+        if (last_operator == previous_last_operator && last_operator == previous_previous_last_operator) {
             break;
         }
-        if (!run_task("AutoRaise@NextPage")) {
+        previous_previous_last_operator = previous_last_operator;
+        previous_last_operator = last_operator;
+        if (!run_task("OperBoxSlowlySwipeToTheRight")) {
             return Result::RecognitionFailed;
         }
     }
@@ -114,14 +130,11 @@ asst::AutoRaiseProcessTask::Result
 asst::AutoRaiseProcessTask::Result
     asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
 {
-    if (run_task("AutoRaise@EliteSatisfied" + std::to_string(target.target))) {
+    if (m_operator_elite >= target.target) {
         return Result::AlreadySatisfied;
     }
 
-    for (int phase = 0; phase < target.target && !need_exit(); ++phase) {
-        if (run_task("AutoRaise@EliteSatisfied" + std::to_string(phase + 1))) {
-            continue;
-        }
+    for (int phase = m_operator_elite; phase < target.target && !need_exit(); ++phase) {
         // 精英化前必须先把当前阶段升至满级；晋升成功后停在新阶段 1 级。
         if (!run_task("AutoRaise@CurrentPhase" + std::to_string(phase)) ||
             !run_task("AutoRaise@LevelMax")) {
@@ -141,6 +154,7 @@ asst::AutoRaiseProcessTask::Result
             !run_task("AutoRaise@EliteSatisfied" + std::to_string(phase + 1))) {
             return Result::RecognitionFailed;
         }
+        m_operator_elite = phase + 1;
     }
     return Result::Completed;
 }
@@ -172,17 +186,27 @@ asst::AutoRaiseProcessTask::Result
 asst::AutoRaiseProcessTask::Result
     asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
 {
-    if (!run_task("AutoRaise@TrainingRoom", 3)) {
+    if (!enter_training_room()) {
         return Result::RecognitionFailed;
     }
-    if (run_task("AutoRaise@TrainingCompleted") && !run_task("AutoRaise@TrainingClaim")) {
-        return Result::RecognitionFailed;
-    }
-    if (run_task("AutoRaise@TrainingProcessing")) {
+    // 现有训练完成任务已经负责点击领取并关闭奖励弹窗，避免重复点击占位任务。
+    run_task("InfrastTrainingCompleted");
+    if (run_task("InfrastTrainingProcessing")) {
+        std::string training_operator;
+        std::string training_skill;
+        int training_level = 0;
+        if (analyze_training_context(training_operator, training_skill, training_level)) {
+            Log.info(
+                "AutoRaise | training room occupied",
+                training_operator,
+                training_skill,
+                "mastery",
+                training_level);
+        }
         m_mastery_busy = true;
         return Result::Skipped;
     }
-    if (!run_task("AutoRaise@TrainingIdle")) {
+    if (!run_task("InfrastTrainingIdle")) {
         return Result::RecognitionFailed;
     }
     if (run_task(
@@ -197,14 +221,227 @@ asst::AutoRaiseProcessTask::Result
     }
 
     // 专精会长期占用训练室，一次运行只启动下一级；导师选择任务负责结合职业、等级、技能与心情评分。
-    if (!run_task("AutoRaise@SelectTrainee") ||
+    // 该 task 只负责打开受训干员列表；列表内的目标查找、翻页和点击复用基建识别能力。
+    if (!run_task("AutoRaise@SelectTrainee") || !select_training_trainee(target) ||
         !run_task("AutoRaise@SelectSkill" + std::to_string(target.skill)) ||
-        !run_task("AutoRaise@SelectTrainer") || !run_task("AutoRaise@StartMastery") ||
-        !run_task("AutoRaise@TrainingProcessing")) {
+        !select_training_trainer(target) || !run_task("AutoRaise@StartMastery") ||
+        !run_task("InfrastTrainingProcessing")) {
         return Result::RecognitionFailed;
     }
     m_mastery_busy = true;
     return Result::Completed;
+}
+
+bool asst::AutoRaiseProcessTask::analyze_training_context(
+    std::string& operator_name,
+    std::string& skill_name,
+    int& level)
+{
+    const auto image = ctrler()->get_image();
+    const auto& operator_skill_task = Task.get<OcrTaskInfo>("InfrastTrainingOperatorAndSkill");
+    const auto& chars_name_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    if (!operator_skill_task || !chars_name_task) {
+        return false;
+    }
+
+    std::vector<std::pair<std::string, std::string>> replace = operator_skill_task->replace_map;
+    std::ranges::copy(chars_name_task->replace_map, std::back_inserter(replace));
+
+    RegionOCRer target_analyzer(image);
+    target_analyzer.set_task_info(operator_skill_task);
+    target_analyzer.set_replace(replace);
+    target_analyzer.set_use_raw(true);
+    if (!target_analyzer.analyze()) {
+        return false;
+    }
+
+    const std::string& target_text = target_analyzer.get_result().text;
+    const size_t separation = target_text.find('\n');
+    if (separation == std::string::npos) {
+        return false;
+    }
+    operator_name = target_text.substr(0, separation);
+    skill_name = target_text.substr(separation + 1);
+
+    BestMatcher level_analyzer(image);
+    level_analyzer.set_task_info("InfrastTrainingLevel");
+    for (int mastery = 1; mastery <= 3; ++mastery) {
+        level_analyzer.append_templ("InfrastTrainingLevel" + std::to_string(mastery) + ".png");
+    }
+    if (!level_analyzer.analyze()) {
+        return false;
+    }
+
+    const auto& template_name = level_analyzer.get_result().templ_info.name;
+    return utils::chars_to_number(template_name.substr(std::string("InfrastTrainingLevel").size(), 1), level);
+}
+
+bool asst::AutoRaiseProcessTask::enter_training_room()
+{
+    // 训练室入口由 InfrastFacilityImageAnalyzer 识别 Training.png，不能以固定坐标替代设施识别。
+    if (!run_task("InfrastBegin", 3)) {
+        return false;
+    }
+
+    const auto enter = [this]() {
+        InfrastFacilityImageAnalyzer analyzer(ctrler()->get_image());
+        analyzer.set_to_be_analyzed({ "Training" });
+        if (!analyzer.analyze()) {
+            analyzer.save_img(utils::path("debug") / utils::path("auto_raise"));
+            return false;
+        }
+        const Rect rect = analyzer.get_rect("Training", 0);
+        if (rect.empty() || !ctrler()->click(rect)) {
+            return false;
+        }
+        sleep(Task.get("InfrastEnterFacility")->post_delay);
+        return true;
+    };
+
+    run_task("SwipeToTheLeft");
+    if (enter()) {
+        return true;
+    }
+    run_task("InfrastSwipeToRightOfMainUi");
+    return enter();
+}
+
+bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& target)
+{
+    const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    if (!replace_task) {
+        return false;
+    }
+
+    std::string previous_page;
+    std::string previous_previous_page;
+    for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
+        InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
+        analyzer.set_facility("Training");
+        analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
+        if (!analyzer.analyze()) {
+            return false;
+        }
+
+        std::string page_signature;
+        for (const auto& oper : analyzer.get_result()) {
+            RegionOCRer name_analyzer(oper.name_img);
+            name_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+            name_analyzer.set_bin_expansion(0);
+            const auto name = name_analyzer.analyze();
+            if (!name) {
+                continue;
+            }
+            page_signature += name->text;
+            page_signature.push_back('\n');
+            if (name->text != target.name) {
+                continue;
+            }
+            if (oper.selected) {
+                return true;
+            }
+            if (oper.rect.empty() || !ctrler()->click(oper.rect)) {
+                return false;
+            }
+            sleep(300);
+            return true;
+        }
+
+        if (page_signature.empty() ||
+            (page_signature == previous_page && page_signature == previous_previous_page)) {
+            break;
+        }
+        previous_previous_page = previous_page;
+        previous_page = std::move(page_signature);
+        // 只使用已有的基建选人页滑动 task，避免用固定坐标点击卡片或翻页按钮。
+        if (!run_task("InfrastOperListSlowlySwipeToTheRight")) {
+            return false;
+        }
+    }
+    return false;
+}
+
+bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& target)
+{
+    // 选人页复用基建扫描器，使用技能、心情和翻页识别结果，再由 infrastscore 选择导师。
+    std::vector<infrast::ScoreOper> score_operators;
+    std::vector<Rect> operator_rects;
+    std::vector<bool> operator_selected;
+    std::vector<int> operator_pages;
+    std::string previous_page;
+    std::string previous_previous_page;
+    int current_page = 0;
+    for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
+        current_page = page;
+        InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
+        analyzer.set_facility("Training");
+        analyzer.set_to_be_calced(
+            InfrastOperImageAnalyzer::ToBeCalced::Mood | InfrastOperImageAnalyzer::ToBeCalced::Skill |
+            InfrastOperImageAnalyzer::ToBeCalced::Selected);
+        if (!analyzer.analyze()) {
+            analyzer.save_img(utils::path("debug") / utils::path("auto_raise"));
+            return false;
+        }
+
+        std::string page_signature;
+        for (const auto& oper : analyzer.get_result()) {
+            for (const auto& skill : oper.skills) {
+                page_signature += skill.id;
+                page_signature.push_back(';');
+            }
+            page_signature.push_back('|');
+
+            infrast::ScoreOper score_oper;
+            for (const auto& skill : oper.skills) {
+                score_oper.skills.emplace(skill.id);
+            }
+            score_oper.operator_id = oper.operator_id;
+            score_oper.mood_ratio = oper.mood_ratio;
+            score_operators.emplace_back(std::move(score_oper));
+            operator_rects.emplace_back(oper.rect);
+            operator_selected.emplace_back(oper.selected);
+            operator_pages.emplace_back(page);
+        }
+
+        if (page_signature.empty() ||
+            (page_signature == previous_page && page_signature == previous_previous_page)) {
+            break;
+        }
+        previous_previous_page = previous_page;
+        previous_page = std::move(page_signature);
+        // 训练室选人页与其他基建设施共用横向列表识别和翻页协议。
+        if (!run_task("InfrastOperListSlowlySwipeToTheRight")) {
+            return false;
+        }
+    }
+
+    if (score_operators.empty()) {
+        return false;
+    }
+
+    infrast::ScoreContext context;
+    context.facility = "Training";
+    context.training_role = BattleData.get_first_role(target.name);
+    // 每次只启动一级专精；目标等级在这里作为评分的专精等级提示。
+    context.training_level = std::clamp(target.target, 1, 3);
+    context.slots = 1;
+    const auto selection = infrast::select_training(score_operators, context);
+    if (selection.indices.empty() || selection.indices.front() >= operator_rects.size()) {
+        return false;
+    }
+
+    const size_t index = selection.indices.front();
+    // 评分需要扫描完整列表，选中的矩形可能来自前一页；回到识别该矩形的页面后再点击。
+    for (int page = current_page; page > operator_pages.at(index) && !need_exit(); --page) {
+        if (!run_task("InfrastOperListSwipeToTheLeft")) {
+            return false;
+        }
+    }
+    if (!operator_selected.at(index) &&
+        (operator_rects.at(index).empty() || !ctrler()->click(operator_rects.at(index)))) {
+        return false;
+    }
+    return true;
 }
 
 bool asst::AutoRaiseProcessTask::synthesize_missing_material()
