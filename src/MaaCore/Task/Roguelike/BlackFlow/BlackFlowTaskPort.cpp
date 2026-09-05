@@ -1,5 +1,7 @@
 #include "BlackFlowTaskPort.h"
 
+#include "BlackFlowInventoryCleanup.h"
+
 #include <algorithm>
 #include <chrono>
 #include <memory>
@@ -32,8 +34,6 @@ constexpr std::string_view MovePreviewCannotEnterTask = "BlackFlow@Roguelike@Mov
 constexpr std::string_view MovePreviewCostTask = "BlackFlow@Roguelike@MovePreviewCost";
 constexpr std::string_view MovePreviewDisplayedNameTask = "BlackFlow@Roguelike@MovePreviewDisplayedName";
 constexpr std::string_view MovePreviewConfirmTask = "BlackFlow@Roguelike@MovePreviewConfirm";
-constexpr std::string_view MovePreviewConfirmSucceededTask = "BlackFlow@Roguelike@MovePreviewConfirmSucceeded";
-constexpr std::string_view MovePreviewConfirmExceededTask = "BlackFlow@Roguelike@MovePreviewConfirmExceeded";
 constexpr std::string_view MovePreviewConfirmCompletedTask = "BlackFlow@Roguelike@MovePreviewConfirmCompleted";
 constexpr std::string_view EnteredPageClassificationTask = "BlackFlow@Roguelike@EnteredPageClassification";
 constexpr std::string_view EnteredPageClassificationEncounterPrepareTask =
@@ -100,7 +100,7 @@ Rect shrink_to_center(const Rect& rect, double ratio)
 
 } // namespace
 
-class BlackFlowTaskPort::ProcessTaskContext final : public AbstractTask
+class BlackFlowTaskPort::ProcessTaskContext final : public AbstractTask, public BlackFlowInventoryContext
 {
 public:
     ProcessTaskContext(const AsstCallback& callback, Assistant* inst, std::string_view task_chain) :
@@ -109,7 +109,7 @@ public:
         set_retry_times(0);
     }
 
-    bool execute(std::vector<std::string> tasks, std::string* error)
+    bool execute(std::vector<std::string> tasks, std::string* error) override
     {
         m_tasks = std::move(tasks);
         m_last_task.clear();
@@ -121,13 +121,59 @@ public:
         return succeeded;
     }
 
-    [[nodiscard]] const std::string& last_task() const noexcept { return m_last_task; }
+    [[nodiscard]] const std::string& last_task() const noexcept override { return m_last_task; }
 
     [[nodiscard]] std::shared_ptr<cv::Mat> last_image() const noexcept { return m_last_image; }
 
-    [[nodiscard]] cv::Mat capture() const { return ctrler()->get_image(); }
+    void report_cleanup_status(std::string_view status, std::string detail) override
+    {
+        auto info = basic_info_with_what("BlackFlowInventoryCleanup");
+        json::object status_details { { "status", std::string(status) } };
+        if (!detail.empty()) {
+            status_details["name"] = std::move(detail);
+        }
+        info["details"] = std::move(status_details);
+        callback(AsstMsg::SubTaskExtraInfo, info);
+    }
 
-    bool click(const Rect& rect) const { return ctrler()->click(rect); }
+    [[nodiscard]] cv::Mat capture() const override { return ctrler()->get_image(); }
+
+    bool click(const Rect& rect) const override { return ctrler()->click(rect); }
+
+    bool interrupted() const override { return need_exit(); }
+
+    void wait(unsigned milliseconds) const override { sleep(milliseconds); }
+
+    bool precise_swipe_supported() const override
+    {
+        return ControlFeat::support(ctrler()->support_features(), ControlFeat::PRECISE_SWIPE);
+    }
+
+    // 起点、时长、缓动仍取自任务配置，只有终点由调用方按当前画面计算。
+    bool swipe_by(std::string_view task_name, int distance, std::string* error) override
+    {
+        const auto task = Task.get(std::string(task_name));
+        if (task == nullptr) {
+            set_error(error, "swipe task is missing: " + std::string(task_name));
+            return false;
+        }
+        const Rect& start = task->specific_rect;
+        const Rect end { start.x + distance, start.y, start.width, start.height };
+        const auto& params = task->special_params;
+        const bool swiped = ctrler()->swipe(
+            start,
+            end,
+            params.empty() ? 0 : params.at(0),
+            params.size() < 2 ? false : params.at(1) != 0,
+            params.size() < 3 ? 1 : params.at(2),
+            params.size() < 4 ? 1 : params.at(3));
+        if (!swiped) {
+            set_error(error, "swipe failed: " + std::string(task_name));
+            return false;
+        }
+        sleep(task->post_delay);
+        return true;
+    }
 
 protected:
     bool _run() override
@@ -153,6 +199,7 @@ BlackFlowTaskPort::BlackFlowTaskPort(
     std::string_view task_chain,
     std::shared_ptr<IBlackFlowMapObservationSource> map_source) :
     m_task_context(std::make_unique<ProcessTaskContext>(callback, inst, task_chain)),
+    m_inventory_cleanup(std::make_unique<BlackFlowInventoryCleanup>()),
     m_map_source(std::move(map_source))
 {
 }
@@ -298,13 +345,24 @@ MoveConfirmationStatus BlackFlowTaskPort::confirm(
     if (!m_task_context->execute({ std::string(MovePreviewConfirmTask) }, error)) {
         return MoveConfirmationStatus::Failed;
     }
-    const std::string& confirmation_task = m_task_context->last_task();
-    if (confirmation_task.ends_with(MovePreviewConfirmExceededTask)) {
-        set_error(error, "move preview confirmation remained visible after four attempts");
+    const std::string confirmation_task = m_task_context->last_task();
+    const MoveConfirmationTaskDisposition disposition = resolve_move_confirmation_task(
+        confirmation_task,
+        [this](std::string* cleanup_error) {
+            if (m_inventory_cleanup == nullptr) {
+                set_error(cleanup_error, "inventory cleanup component is not attached");
+                return false;
+            }
+            return m_inventory_cleanup->run(*m_task_context, cleanup_error);
+        },
+        error);
+    if (disposition == MoveConfirmationTaskDisposition::InventoryCleaned) {
+        return MoveConfirmationStatus::InventoryCleaned;
+    }
+    if (disposition == MoveConfirmationTaskDisposition::NeedsDismiss) {
         return MoveConfirmationStatus::NeedsDismiss;
     }
-    if (!confirmation_task.ends_with(MovePreviewConfirmSucceededTask)) {
-        set_error(error, "move preview confirmation ended at an unexpected task: " + confirmation_task);
+    if (disposition == MoveConfirmationTaskDisposition::Failed) {
         return MoveConfirmationStatus::Failed;
     }
     // 成功末端单独执行，继续保留默认任务间隔和既有的 600 毫秒页面稳定等待。

@@ -30,6 +30,10 @@ public:
         get_fact_definition(const std::string& name) const noexcept;
     [[nodiscard]] const blackflow::PolicyModule* get_module(const std::string& id) const noexcept;
     [[nodiscard]] const blackflow::PolicyProfile* get_profile(const std::string& id) const noexcept;
+    [[nodiscard]] const blackflow::InventoryCleanupPolicy& inventory_cleanup_policy() const noexcept
+    {
+        return m_inventory_cleanup_policy;
+    }
 
     [[nodiscard]] const std::unordered_map<std::string, blackflow::FactDefinition>& facts() const noexcept
     {
@@ -40,6 +44,8 @@ public:
         resolve_profile(const std::string& id, std::string* error = nullptr) const;
 
     [[nodiscard]] int schema_version() const noexcept { return m_schema_version; }
+
+    [[nodiscard]] const blackflow::InventoryLayout& inventory_layout() const noexcept { return m_inventory_layout; }
 
     // 一条里程碑声明的页面意图及其生效层段。层段同时写在 node_execution.json 的路由里，
     // 两份必须对齐，交叉校验取用此处。
@@ -58,9 +64,11 @@ private:
     virtual bool parse(const json::value& json) override;
 
     int m_schema_version = 0;
+    blackflow::InventoryLayout m_inventory_layout;
     std::unordered_map<std::string, blackflow::ResourceDefinition> m_resources;
     std::unordered_map<std::string, blackflow::FactDefinition> m_facts;
     std::unordered_map<std::string, blackflow::PolicyModule> m_modules;
+    blackflow::InventoryCleanupPolicy m_inventory_cleanup_policy;
     std::unordered_map<std::string, blackflow::PolicyProfile> m_profiles;
 };
 

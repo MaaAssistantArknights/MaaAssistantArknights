@@ -17,6 +17,7 @@ enum class RoutingCycleStatus
     MovementInventoryObservationRequired,
     ReplanRequired,
     PreviewNeedsDismiss,
+    InventoryCleaned,
     ConfirmationNeedsDismiss,
     SessionTerminated,
     NeedsPageRecovery,
@@ -171,11 +172,19 @@ RoutingCycleOutcome execute_preview_cycle(Session& session, IBlackFlowTaskPort& 
     }
     EnteredPageObservation entered_page;
     const MoveConfirmationStatus confirmation = port.confirm(*session.transaction(), entered_page, &error);
+    if (confirmation == MoveConfirmationStatus::InventoryCleaned) {
+        session.cancel_transaction();
+        if constexpr (requires { session.request_movement_inventory_observation(); }) {
+            session.request_movement_inventory_observation();
+        }
+        return { RoutingCycleStatus::InventoryCleaned, {}, {} };
+    }
     if (confirmation == MoveConfirmationStatus::NeedsDismiss) {
         session.cancel_transaction();
         return { RoutingCycleStatus::ConfirmationNeedsDismiss, "move_confirmation_exhausted", std::move(error) };
     }
     if (confirmation == MoveConfirmationStatus::Failed) {
+        session.cancel_transaction();
         return { RoutingCycleStatus::Failed, "move_confirmation_failed", std::move(error) };
     }
     if (!session.commit(std::move(entered_page), &error)) {

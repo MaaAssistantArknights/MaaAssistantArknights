@@ -100,6 +100,13 @@ bool BlackFlowRoutingTaskPlugin::_run()
         report_outputs();
         return true;
     }
+    if (cycle.status == RoutingCycleStatus::InventoryCleaned) {
+        m_move_confirmation_dismiss_retries = 0;
+        LogInfo << "BlackFlow inventory | event=routing_resumed_after_cleanup";
+        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@MapPrepare");
+        report_outputs();
+        return true;
+    }
     if (cycle.status == RoutingCycleStatus::ConfirmationNeedsDismiss) {
         if (m_move_confirmation_dismiss_retries < MoveConfirmationDismissRetryLimit) {
             ++m_move_confirmation_dismiss_retries;
@@ -109,6 +116,8 @@ bool BlackFlowRoutingTaskPlugin::_run()
             Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@CancelNodeSelection");
         }
         else {
+            LogError << __FUNCTION__ << "BlackFlow move confirmation retries exhausted; restarting the run"
+                     << cycle.failure_code << cycle.error;
             m_session->fail(cycle.failure_code, cycle.error, FailureDisposition::RestartRun);
             Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated-Enter");
         }
@@ -133,6 +142,8 @@ bool BlackFlowRoutingTaskPlugin::_run()
         return true;
     }
 
+    LogError << __FUNCTION__ << "BlackFlow routing cycle failed; restarting the run" << cycle.failure_code
+             << cycle.error;
     m_session->fail(cycle.failure_code, cycle.error, FailureDisposition::RestartRun);
     Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated-Enter");
     report_outputs();

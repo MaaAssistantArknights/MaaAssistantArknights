@@ -26,6 +26,12 @@
             "BlackFlow@Roguelike@MapPrepare-ZoomOut*3",
             "BlackFlow@Roguelike@MovePreviewConfirm*4",
             "BlackFlow@Roguelike@MovePreviewWait*3",
+            "BlackFlow@Roguelike@InventoryCapacityConfirm*3",
+            "BlackFlow@Roguelike@InventoryCleanupWait*3",
+            "BlackFlow@Roguelike@InventoryCleanupDiscard*3",
+            "BlackFlow@Roguelike@InventoryCleanupDiscardObserve*2",
+            "BlackFlow@Roguelike@InventoryCleanupClose*3",
+            "BlackFlow@Roguelike@InventoryCleanupReturnToMap*5",
             "BlackFlow@Roguelike@MovementInventoryClose*3",
             "BlackFlow@Roguelike@Page-Door-Wait*10",
             "BlackFlow@Roguelike@StageEncounterLeaveConfirm*3",
@@ -697,6 +703,157 @@
         "template": "BlackFlow@Roguelike@Confirm.png",
         "roi": [578, 610, 128, 85]
     },
+    "BlackFlow@Roguelike@InventoryCapacityConfirm": {
+        "template": "BlackFlow@Roguelike@InventoryCapacityConfirm.png",
+        "roi": [751, 409, 483, 157],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": ["BlackFlow@Roguelike@InventoryCleanupReady", "#self", "BlackFlow@Roguelike@InventoryCleanupWait"],
+        "maxTimes": 3,
+        "exceededNext": ["BlackFlow@Roguelike@InventoryCleanupFailed"]
+    },
+    "BlackFlow@Roguelike@InventoryCleanupClose": {
+        "template": "BlackFlow@Roguelike@MovementInventoryCollapse.png",
+        "roi": [589, 639, 101, 80],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": ["#self", "BlackFlow@Roguelike@InventoryCleanupClosed"],
+        "maxTimes": 3,
+        "exceededNext": ["BlackFlow@Roguelike@InventoryCleanupFailed"]
+    },
+    "BlackFlow@Roguelike@InventoryCleanupClosed": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@InventoryCleanupReturnToMap"]
+    },
+    "BlackFlow@Roguelike@InventoryCleanupCompleted": {
+        "algorithm": "JustReturn",
+        "reduceOtherTimes": [
+            "BlackFlow@Roguelike@InventoryCapacityConfirm*3",
+            "BlackFlow@Roguelike@InventoryCleanupWait*3",
+            "BlackFlow@Roguelike@InventoryCleanupDiscard*3",
+            "BlackFlow@Roguelike@InventoryCleanupDiscardObserve*2",
+            "BlackFlow@Roguelike@InventoryCleanupClose*3",
+            "BlackFlow@Roguelike@InventoryCleanupReturnToMap*5"
+        ]
+    },
+    "BlackFlow@Roguelike@InventoryCleanupDiscard": {
+        "algorithm": "OcrDetect",
+        "roi": [367, 468, 539, 75],
+        "text": ["丢弃"],
+        "fullMatch": true,
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": [
+            "BlackFlow@Roguelike@InventoryCleanupDiscardConfirm",
+            "BlackFlow@Roguelike@InventoryCleanupDiscardWait",
+            "BlackFlow@Roguelike@InventoryCleanupDiscardObserve",
+            "BlackFlow@Roguelike@InventoryCleanupDiscarded"
+        ],
+        "maxTimes": 3,
+        "exceededNext": ["BlackFlow@Roguelike@InventoryCleanupFailed"]
+    },
+    "BlackFlow@Roguelike@InventoryCleanupDiscardConfirm": {
+        "baseTask": "BlackFlow@Roguelike@CultivateRefreshConfirm",
+        "template": "BlackFlow@Roguelike@CultivateRefreshConfirm.png",
+        "postDelay": 500,
+        "next": [
+            "#self",
+            "BlackFlow@Roguelike@InventoryCleanupDiscardWait",
+            "BlackFlow@Roguelike@InventoryCleanupDiscardObserve",
+            "BlackFlow@Roguelike@InventoryCleanupDiscarded"
+        ],
+        "maxTimes": 3,
+        "exceededNext": ["BlackFlow@Roguelike@InventoryCleanupFailed"]
+    },
+    "BlackFlow@Roguelike@InventoryCleanupDiscardObserve": {
+        "baseTask": "BlackFlow@Roguelike@InventoryCleanupDiscard",
+        "doc": "确认弹窗排在最前，以免用户延迟导致误识别丢弃",
+        "action": "DoNothing",
+        "next": [
+            "BlackFlow@Roguelike@InventoryCleanupDiscardConfirm",
+            "#self",
+            "BlackFlow@Roguelike@InventoryCleanupDiscarded"
+        ],
+        "maxTimes": 2,
+        "exceededNext": ["BlackFlow@Roguelike@InventoryCleanupDiscard"]
+    },
+    "BlackFlow@Roguelike@InventoryCleanupDiscardReady": {
+        "baseTask": "BlackFlow@Roguelike@InventoryCleanupDiscard",
+        "action": "DoNothing",
+        "next": [],
+        "maxTimes": 2147483647,
+        "exceededNext": []
+    },
+    "BlackFlow@Roguelike@InventoryCleanupDiscardWait": {
+        "algorithm": "OcrDetect",
+        "text": ["正在提交", "反馈至神经"],
+        "roi": [700, 640, 300, 80],
+        "postDelay": 500,
+        "next": [
+            "#self",
+            "BlackFlow@Roguelike@InventoryCleanupDiscardObserve",
+            "BlackFlow@Roguelike@InventoryCleanupDiscarded"
+        ]
+    },
+    "BlackFlow@Roguelike@InventoryCleanupDiscarded": {
+        "algorithm": "JustReturn"
+    },
+    "BlackFlow@Roguelike@InventoryCleanupFailed": {
+        "algorithm": "JustReturn"
+    },
+    "BlackFlow@Roguelike@InventoryCleanupItems": {
+        "algorithm": "OcrDetect",
+        "roi": [338, 243, 888, 376],
+        "fullMatch": true
+    },
+    "BlackFlow@Roguelike@InventoryCleanupOnMap": {
+        "template": ["BlackFlow@Roguelike@MapZoomIn.png", "BlackFlow@Roguelike@MapZoomOut.png"],
+        "roi": [24, 468, 62, 153],
+        "action": "DoNothing",
+        "next": ["BlackFlow@Roguelike@InventoryCleanupCompleted"]
+    },
+    "BlackFlow@Roguelike@InventoryCleanupReady": {
+        "template": "BlackFlow@Roguelike@InventoryFullFlag.png",
+        "roi": [569, 65, 253, 82],
+        "next": ["BlackFlow@Roguelike@InventoryCleanupRequired"]
+    },
+    "BlackFlow@Roguelike@InventoryCleanupRequired": {
+        "algorithm": "JustReturn"
+    },
+    "BlackFlow@Roguelike@InventoryCleanupReturnToMap": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1, 154, 45, 261],
+        "postDelay": 100,
+        "next": ["BlackFlow@Roguelike@InventoryCleanupOnMap", "#self"],
+        "maxTimes": 5,
+        "exceededNext": ["BlackFlow@Roguelike@InventoryCleanupFailed"]
+    },
+    "BlackFlow@Roguelike@InventoryCleanupSwipe": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [1213, 381, 1, 1],
+        "rectMove": [753, 381, 1, 1],
+        "specialParams": [250, 1, 2, 0],
+        "postDelay": 500
+    },
+    "BlackFlow@Roguelike@InventoryCleanupSwipeBack": {
+        "baseTask": "SlowlySwipeToTheLeft",
+        "specificRect": [748, 381, 1, 1],
+        "rectMove": [1213, 381, 1, 1],
+        "specialParams": [250, 1, 2, 0],
+        "postDelay": 500
+    },
+    "BlackFlow@Roguelike@InventoryCleanupWait": {
+        "algorithm": "JustReturn",
+        "postDelay": 500,
+        "next": ["BlackFlow@Roguelike@InventoryCleanupReady", "#self"],
+        "maxTimes": 3,
+        "exceededNext": ["BlackFlow@Roguelike@InventoryCleanupFailed"]
+    },
+    "BlackFlow@Roguelike@InventoryFullFlag": {
+        "template": "BlackFlow@Roguelike@InventoryFullFlag.png",
+        "roi": [569, 65, 253, 82]
+    },
     "BlackFlow@Roguelike@LastReward": {
         "baseTask": "Roguelike@LastReward",
         "template": "BlackFlow@Roguelike@LastReward.png"
@@ -824,9 +981,16 @@
         "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
         "action": "ClickSelf",
         "rectMove": [0, 0, 50, 30],
-        "next": ["BlackFlow@Roguelike@MovePreviewConfirmObserve", "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"],
+        "next": [
+            "BlackFlow@Roguelike@InventoryCapacityConfirm",
+            "BlackFlow@Roguelike@MovePreviewConfirmObserve",
+            "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"
+        ],
         "maxTimes": 4,
-        "exceededNext": ["BlackFlow@Roguelike@MovePreviewConfirmExceeded"],
+        "exceededNext": [
+            "BlackFlow@Roguelike@InventoryCapacityConfirm",
+            "BlackFlow@Roguelike@MovePreviewConfirmExceeded"
+        ],
         "reduceOtherTimes": ["BlackFlow@Roguelike@MovePreviewWait*3", "BlackFlow@Roguelike@MovePreviewConfirmObserve*2"]
     },
     "BlackFlow@Roguelike@MovePreviewConfirmCompleted": {
@@ -849,9 +1013,17 @@
         "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
         "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
         "action": "DoNothing",
-        "next": ["#self", "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"],
+        "next": [
+            "BlackFlow@Roguelike@InventoryCapacityConfirm",
+            "#self",
+            "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"
+        ],
         "maxTimes": 2,
-        "exceededNext": ["BlackFlow@Roguelike@MovePreviewConfirm", "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"]
+        "exceededNext": [
+            "BlackFlow@Roguelike@InventoryCapacityConfirm",
+            "BlackFlow@Roguelike@MovePreviewConfirm",
+            "BlackFlow@Roguelike@MovePreviewConfirmSucceeded"
+        ]
     },
     "BlackFlow@Roguelike@MovePreviewConfirmSucceeded": {
         "algorithm": "JustReturn"
