@@ -464,6 +464,9 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="GlobalSource">Global Source</system:String>
     <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
     <system:String x:Key="ForceGithubGlobalSourceTip">When updates are detected, force download update packages from GitHub</system:String>
+        <system:String x:Key="GithubMirror">GitHub Mirror</system:String>
+    <system:String x:Key="GithubMirrorUrl">Mirror prefix URL</system:String>
+    <system:String x:Key="GithubMirrorUrlTip">When a download link points to GitHub (including githubusercontent etc.), this prefix is prepended to the link as the mirror address, e.g. https://gh-proxy.org/</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">Please go to ｢{key=Settings} - {key=UpdateSettings}｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ to update manually, or fill in MirrorChyan CDK to update automatically.</system:String>

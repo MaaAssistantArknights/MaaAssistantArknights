@@ -250,6 +250,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     public LocalizedObservableList<UpdateSource> UpdateSourceList { get; } = new(
         (UpdateSource.GitHub, "GlobalSource"),
+        (UpdateSource.GitHubMirror, "GithubMirror"),
         (UpdateSource.MirrorChyan, "MirrorChyan"));
 
     /// <summary>
@@ -270,6 +271,17 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             ConfigFactory.Root.Update.ForceGithubGlobalSource = value;
         }
     } = ConfigFactory.Root.Update.ForceGithubGlobalSource;
+
+    /// <summary>
+    /// Gets or sets the GitHub mirror prefix, e.g. <c>https://gh-proxy.org/</c>.
+    /// </summary>
+    public string GithubMirrorUrl
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.Root.Update.GithubMirrorUrl = value;
+        }
+    } = ConfigFactory.Root.Update.GithubMirrorUrl;
 
     public string MirrorChyanCdk
     {
@@ -573,7 +585,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
 
         bool success = UpdateSource switch {
-            UpdateSource.GitHub => await ResourceUpdater.UpdateFromGithubAsync(),
+            UpdateSource.GitHub or UpdateSource.GitHubMirror => await ResourceUpdater.UpdateFromGithubAsync(),
             UpdateSource.MirrorChyan => (ret == VersionUpdateDialogViewModel.CheckUpdateRetT.OK) && await ResourceUpdater.DownloadFromMirrorChyanAsync(uri, releaseNote),
             _ => await ResourceUpdater.UpdateFromGithubAsync(),
         };

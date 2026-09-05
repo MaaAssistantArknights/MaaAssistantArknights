@@ -508,7 +508,7 @@ public class VersionUpdateDialogViewModel : Screen
         string? rawUrl = _assetsObject["browser_download_url"]?.ToString();
         var urls = new List<string>();
 
-        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.GitHub && !SettingsViewModel.VersionUpdateSettings.ForceGithubGlobalSource)
+        if (SettingsViewModel.VersionUpdateSettings.UpdateSource is UpdateSource.GitHub or UpdateSource.GitHubMirror && !SettingsViewModel.VersionUpdateSettings.ForceGithubGlobalSource)
         {
             var mirrors = _assetsObject["mirrors"]?.ToObject<List<string>>();
 
@@ -523,7 +523,7 @@ public class VersionUpdateDialogViewModel : Screen
         // urls = urls.OrderBy(_ => rand.Next()).ToList();
         if (rawUrl != null)
         {
-            urls.Add(rawUrl);
+            urls.Add(GithubMirrorHelper.ApplyMirrorIfNeeded(rawUrl));
         }
 
         _logger.Information("Start test legacy download urls");
@@ -810,7 +810,7 @@ public class VersionUpdateDialogViewModel : Screen
             OutputDownloadProgress(LocalizationHelper.GetString("ResourceIntegrityRepairDownloading"), downloading: true, globalSource: true);
             foreach (string url in maaApiPackage.DownloadUrls)
             {
-                if (await DownloadGithubAssets(url, maaApiPackage.Asset))
+                if (await DownloadGithubAssets(GithubMirrorHelper.ApplyMirrorIfNeeded(url), maaApiPackage.Asset))
                 {
                     packagePath = GetPlannedUpdatePackagePath(maaApiPackage.PackageName);
                     break;

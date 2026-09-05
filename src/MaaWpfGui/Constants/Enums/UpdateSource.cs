@@ -26,6 +26,11 @@ public enum UpdateSource
     GitHub,
 
     /// <summary>
+    /// GitHub 镜像（使用自定义镜像站前缀加速 GitHub 下载）
+    /// </summary>
+    GitHubMirror,
+
+    /// <summary>
     /// Mirror酱
     /// </summary>
     MirrorChyan,

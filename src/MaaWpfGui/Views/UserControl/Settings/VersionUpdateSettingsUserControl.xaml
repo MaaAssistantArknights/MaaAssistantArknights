@@ -133,6 +133,24 @@
                             ItemsSource="{Binding UpdateSourceList}"
                             SelectedValue="{Binding UpdateSource}"
                             SelectedValuePath="Value" />
+                        <StackPanel
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Left"
+                            Visibility="{c:Binding 'UpdateSource == enums:UpdateSource.GitHubMirror'}">
+                            <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                <controls:TextBlock
+                                    Margin="8,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    Text="{DynamicResource GithubMirrorUrl}" />
+                                <controls:TooltipBlock TooltipText="{DynamicResource GithubMirrorUrlTip}" />
+                            </StackPanel>
+                            <hc:TextBox
+                                Width="150"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                hc:InfoElement.Placeholder="https://gh-proxy.org/"
+                                Text="{Binding GithubMirrorUrl}" />
+                        </StackPanel>
                     </StackPanel>
                     <StackPanel
                         Margin="8"

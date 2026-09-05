@@ -464,6 +464,9 @@
     <system:String x:Key="GlobalSource">글로벌 소스</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub 강제 사용</system:String>
     <system:String x:Key="ForceGithubGlobalSourceTip">업데이트 감지 후, Github에서 강제로 업데이트 패키지 다운로드</system:String>
+        <system:String x:Key="GithubMirror">GitHub 미러</system:String>
+    <system:String x:Key="GithubMirrorUrl">미러 접두사 URL</system:String>
+    <system:String x:Key="GithubMirrorUrlTip">다운로드 링크가 GitHub(githubusercontent 등 포함)를 가리킬 때, 해당 링크 앞에 이 접두사를 붙여 미러 주소로 사용합니다. 예: https://gh-proxy.org/</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">｢{key=Settings} - {key=UpdateSettings}｣ 으로 이동하여 MirrorChyan CDK를 구성하거나 글로벌 소스로 전환하세요.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">리소스 업데이트 {0}이 감지되었습니다. ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 수동으로 업데이트하거나, MirrorChyan CDK를 입력하여 자동으로 업데이트하세요.</system:String>
