@@ -34,6 +34,10 @@ private:
     Result execute_skills(const AutoRaiseTarget& target);
     Result execute_mastery(const AutoRaiseTarget& target);
     Result find_and_open_operator(const AutoRaiseTarget& target);
+    bool enter_training_room();
+    bool analyze_training_context(std::string& operator_name, std::string& skill_name, int& level);
+    bool select_training_trainee(const AutoRaiseTarget& target);
+    bool select_training_trainer(const AutoRaiseTarget& target);
     bool run_task(const std::string& task_name, int retry_times = 0);
     bool synthesize_missing_material();
     bool manufacture_dual_chip();
@@ -43,6 +47,7 @@ private:
     static std::string_view result_name(Result result);
 
     AutoRaisePlan m_plan;
+    int m_operator_elite = 0;
     bool m_mastery_busy = false;
     size_t m_completed = 0;
     size_t m_satisfied = 0;
