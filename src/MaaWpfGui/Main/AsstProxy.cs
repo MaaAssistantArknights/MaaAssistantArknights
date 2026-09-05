@@ -752,9 +752,16 @@ public class AsstProxy
         // Console.WriteLine(json_str);
         var json = (JObject?)JsonConvert.DeserializeObject(jsonStr ?? string.Empty);
         MaaService.ProcCallbackMsg dlg = ProcMsg;
-        Execute.OnUIThread(
+        _ = Execute.OnUIThreadAsync(
             () => {
-                dlg((AsstMsg)msg, json);
+                try
+                {
+                    dlg((AsstMsg)msg, json);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Failed to process core callback {Msg}", msg);
+                }
             });
     }
 

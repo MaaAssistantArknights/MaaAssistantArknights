@@ -1376,58 +1376,64 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             using var log = new LogScope(_logger);
             var stageList = Instances.StageManager.GetStageList();
             await TaskQueueViewModel.TaskQueueSerializingLock.WaitAsync();
-            var time = DateTimeOffset.Now;
-            var activityList = Instances.StageManager.ActivityList.Where(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
-            if (activityList.Any())
+            try
             {
-                var activity = activityList.First();
-                var timeLeft = activity.Value.Info.ExpireTimeUtc - time;
-                var day = timeLeft.Days > 0 ? $"{timeLeft.Days}+" : LocalizationHelper.GetString("LessThanOneDay");
-                ActivityExpireIn2Days = timeLeft.Days < 2;
-                ActivityInfo = $"｢{activity.Value.Info.StageName}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{day}";
-            }
-            else
-            {
-                ActivityInfo = LocalizationHelper.GetString("NoActivity");
-                ActivityExpireIn2Days = false;
-            }
-            using (var refresh = new UiRefreshingScope())
-            {
-                RefreshStageList();
-                foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().Where(i => !i.IsStageManually))
+                var time = DateTimeOffset.Now;
+                var activityList = Instances.StageManager.ActivityList.Where(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
+                if (activityList.Any())
                 {
-                    var originalPlan = task.StagePlan.ToList();
-                    bool reset = false;
-                    for (int i = 0; i < task.StagePlan.Count; i++)
+                    var activity = activityList.First();
+                    var timeLeft = activity.Value.Info.ExpireTimeUtc - time;
+                    var day = timeLeft.Days > 0 ? $"{timeLeft.Days}+" : LocalizationHelper.GetString("LessThanOneDay");
+                    ActivityExpireIn2Days = timeLeft.Days < 2;
+                    ActivityInfo = $"｢{activity.Value.Info.StageName}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{day}";
+                }
+                else
+                {
+                    ActivityInfo = LocalizationHelper.GetString("NoActivity");
+                    ActivityExpireIn2Days = false;
+                }
+                using (var refresh = new UiRefreshingScope())
+                {
+                    RefreshStageList();
+                    foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().Where(i => !i.IsStageManually))
                     {
-                        var stage = task.StagePlan[i];
-                        if (!stageList.Any(p => p.Value == stage))
+                        var originalPlan = task.StagePlan.ToList();
+                        bool reset = false;
+                        for (int i = 0; i < task.StagePlan.Count; i++)
                         {
-                            reset = true;
-                            if (task.StageResetMode == FightStageResetMode.Current)
+                            var stage = task.StagePlan[i];
+                            if (!stageList.Any(p => p.Value == stage))
                             {
-                                task.StagePlan[i] = string.Empty;
+                                reset = true;
+                                if (task.StageResetMode == FightStageResetMode.Current)
+                                {
+                                    task.StagePlan[i] = string.Empty;
+                                }
                             }
                         }
+                        if (reset)
+                        {
+                            _logger.Information("Reset non-existing stage: {} to {}", string.Join(", ", originalPlan), string.Join(", ", task.StagePlan));
+                        }
                     }
-                    if (reset)
-                    {
-                        _logger.Information("Reset non-existing stage: {} to {}", string.Join(", ", originalPlan), string.Join(", ", task.StagePlan));
-                    }
+                    RefreshCurrentStagePlan();
                 }
-                RefreshCurrentStagePlan();
-            }
-            TaskQueueViewModel.TaskQueueSerializingLock.Release();
 
-            foreach (var (item, index) in Instances.TaskQueueViewModel.TaskItemViewModels.Select((i, index) => (i, index)))
-            {
-                if (ConfigFactory.Root.CurrentConfig.TaskQueue[index] is FightTask fight && item.TaskIds.Count == 1 && Instances.AsstProxy.TasksStatus.ContainsKey(item.TaskIds[0]))
+                foreach (var (item, index) in Instances.TaskQueueViewModel.TaskItemViewModels.Select((i, index) => (i, index)))
                 {
-                    if (SerializeTask(fight, Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskIds[0]).IsSuccess is not true)
+                    if (ConfigFactory.Root.CurrentConfig.TaskQueue[index] is FightTask fight && item.TaskIds.Count == 1 && Instances.AsstProxy.TasksStatus.ContainsKey(item.TaskIds[0]))
                     {
-                        _logger.Warning("Failed to serialize task {taskId} when updating stage list", item.TaskIds[0]);
+                        if (SerializeTask(fight, Instances.TaskQueueViewModel.TaskItemViewModels[index].TaskIds[0]).IsSuccess is not true)
+                        {
+                            _logger.Warning("Failed to serialize task {taskId} when updating stage list", item.TaskIds[0]);
+                        }
                     }
                 }
+            }
+            finally
+            {
+                TaskQueueViewModel.TaskQueueSerializingLock.Release();
             }
         });
     }
