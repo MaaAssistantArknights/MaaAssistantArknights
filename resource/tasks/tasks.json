@@ -5974,7 +5974,9 @@
             "已复用：OperBox-Entry、OperBoxFlagRole1..Role8、CharsNameOcrReplace、OperBoxNameOCR、OperBoxFlagElite1/2。",
             "已复用：InfrastFacilityImageAnalyzer、Training.png、InfrastTraining*、InfrastOperImageAnalyzer 和 infrastscore。",
             "待采集：干员档案页、升级/晋升按钮、红色材料槽、材料详情跳转、训练室选择按钮。",
-            "待采集：双芯片制造、芯片组、芯片助剂库存、采购数量、原产线产品及生产数量恢复状态。"
+            "待采集：双芯片制造、芯片组、芯片助剂库存、采购数量、原产线产品及生产数量恢复状态。",
+            "下列候选 ROI 由参考实现 point.lua 的 1920x1080 坐标按 2/3 换算为 1280x720，并添加截图余量；均须用实机截图复核。",
+            "复合操作的 ROI 仅是相关特征的合并范围，落地时必须按页面状态、按钮和确认结果拆成多个 Task。"
         ],
         "algorithm": "JustReturn",
         "action": "DoNothing"
@@ -5991,61 +5993,370 @@
         "doc": "人工截图占位。按钮模板补齐后改为对应识别算法，点击保持 ClickSelf。",
         "action": "ClickSelf"
     },
-    "AutoRaise@Profile": {
+    "AutoRaise@OperFiles": {
+        "baseTask": "OperOpenInformationMenu",
+        "template": "OperInformationMenu.png",
+        "doc": ["国际版官方名称OperFiles，以上面的进入信息档案按钮作为标志"],
+        "action": "DoNothing",
+        "next": []
+    },
+    "AutoRaise@CurrentElite0": {
+        "template": "OperFilesElite0.png",
+        "roi": [868, 236, 114, 80]
+    },
+    "AutoRaise@CurrentElite1": {
+        "baseTask": "AutoRaise@CurrentElite0",
+        "template": "OperFilesElite1.png",
+        "roi": [875, 225, 100, 65]
+    },
+    "AutoRaise@CurrentElite2": {
+        "baseTask": "AutoRaise@CurrentElite0",
+        "template": "OperFilesElite2.png",
+        "roi": [875, 225, 100, 65]
+    },
+    "AutoRaise@LevelUp": {
+        "algorithm": "JustReturn",
+        "next": ["AutoRaise@LevelMax", "AutoRaise@LevelUpPageEnter"]
+    },
+    "AutoRaise@LevelMax": {
+        "template": "OperFilesLevelMax.png",
+        "doc": ["暂时采用经验-/-作为满级标志"],
+        "roi": [974, 111, 76, 64]
+    },
+    "AutoRaise@LevelUpPageEnter": {
+        "template": "OperFilesEnterLevelUpButton.png",
+        "action": "ClickSelf",
+        "roi": [1147, 109, 103, 70],
+        "next": ["AutoRaise@LevelUpPageSelectMax", "AutoRaise@CannotEnterLevelUpPage"]
+    },
+    "AutoRaise@LevelUpPageSelectMax": {
+        "template": "LevelUpPageSelectMax.png",
+        "action": "ClickSelf",
+        "roi": [1035, 117, 171, 127],
+        "postDelay": 1000,
+        "next": ["AutoRaise@LevelUpPageConfirm"]
+    },
+    "AutoRaise@LevelUpPageConfirm": {
+        "template": "LevelUpPageConfirm.png",
+        "action": "ClickSelf",
+        "roi": [1071, 425, 209, 134],
+        "next": ["AutoRaise@OperFiles"]
+    },
+    "AutoRaise@LevelUpPageConfirm2": {
+        "template": "LevelUpPageConfirm2.png",
+        "action": "ClickSelf",
+        "roi": [1041, 533, 162, 143],
+        "next": ["AutoRaise@LevelMax"]
+    },
+    "AutoRaise@CannotEnterLevelUpPage": {
+        "doc": "点击升级按钮但是没有进入升级页面的情况，可能是干员等级已满",
+        "template": "OperFilesCannotEnterLevelUpPage.png",
+        "roi": [1041, 533, 162, 143]
+    },
+    "AutoRaise@EliteUp": {
+        "algorithm": "JustReturn",
+        "next": ["AutoRaise@EliteUpPageEnter"],
+        "doc": [
+            "对应 raise.elite_one_phase（raise.lua:1153-1328）及 point.lua:1878-1879「进入精英化页面」「干员精英化页面」。",
+            "参考流程先进入精英化页，复核缺料，再点击晋升并以干员档案页确认；实现时应拆分进入、晋升和结果确认 Task。"
+        ]
+    },
+    "AutoRaise@EliteUpPage": {
+        "template": "EliteUpPageFlag.png",
+        "doc": [
+            "对应 raise.elite_one_phase（raise.lua:1153-1328）及 point.lua:1878-1879「进入精英化页面」「干员精英化页面」。",
+            "参考流程先进入精英化页，复核缺料，再点击晋升并以干员档案页确认；实现时应拆分进入、晋升和结果确认 Task。"
+        ],
+        "roi": [1094, 346, 147, 149]
+    },
+    "AutoRaise@EliteUpPageEnter": {
+        "template": "OperFilesEnterEliteUpButton.png",
+        "action": "ClickSelf",
+        "roi": [928, 201, 175, 159]
+    },
+    "AutoRaise@EliteUpMaterialMissing": {
+        "baseTask": "InfrastOperSelected",
+        "doc": "参考 InfrastOperImageAnalyzer",
+        "template": "empty.png",
+        "specialParams_Doc": "这个任务中作为数色个数阈值",
+        "specialParams": [5],
+        "action": "DoNothing",        
+        "colorScales_Doc": "HSV的范围",
+        "colorScales": [
+            [
+                [12,248,225],
+                [12,248,225],
+            ]
+        ],
+        "roi": [67, 663, 622, 19]
+    },
+    "AutoRaise@DualChipRequired": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "doc": [
+            "对应 point.lua:1882-1887「干员精英化芯片」「干员精英化芯片红」「干员精英化芯片数字」，参考调用 raise.lua:1168-1180。",
+            "参考实现通过培养材料 ID 末位为 3 判断双芯片，页面只识别缺料与已有数量；不能仅凭红色槽判断材料类型。"
+        ],
+        "roi": [335, 640, 85, 65]
+    },
+    "AutoRaise@RecordFactoryState": {
         "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "干员档案页标志占位"
+        "doc": [
+            "参考实现没有记录原产线产品和生产数量；raise.lua:1250-1292 固定将芯片产线改回赤金，不能直接照搬。",
+            "产品类型可参考 point.lua:1811-1813、1831「经验站」「赤金站」「芯片站」「源石站」；候选 ROI 只覆盖产品标志，生产数量必须另采截图并拆分 OCR Task。",
+            "原状态任一字段识别失败时不得切换产线。"
+        ],
+        "roi": [1060, 275, 100, 60]
+    },
+    "AutoRaise@ChipPackEnough": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": [
+            "参考实现无对应 point；raise.lua:1204-1206 明确说明未识别芯片组数量。",
+            "候选 ROI 根据 point.lua:1827「选芯片界面胶水红」附近的双芯片配方原料区推断，需分别采集芯片组充足、不足和数量 OCR 截图。"
+        ],
+        "roi": [480, 120, 200, 130]
+    },
+    "AutoRaise@CatalystMissing": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": [
+            "对应 point.lua:1827-1829「选芯片界面胶水红」「胶水数量识别范围」「胶水库存识别范围」，参考调用 raise.lua:1207-1215。",
+            "是否缺少应由当前配方需求与库存的 OCR 数值计算，红色特征只作为辅助状态。"
+        ],
+        "roi": [440, 370, 145, 90]
+    },
+    "AutoRaise@BuyExactCatalystShortage": {
+        "baseTask": "AutoRaise@ManualAction",
+        "doc": [
+            "对应 raise.buy_32001（raise.lua:1077-1151）及 point.lua:380-395「凭证交易所进入」「红票商店选中」「红票商店胶水」等购买点。",
+            "进入商店可复用 Store@Begin、Store@EnterTicketStore；商品识别、逐个加量、支付和购买结果必须拆分 Task，不能把合并 ROI 当作一次点击区域。"
+        ],
+        "roi": [140, 90, 1120, 540]
+    },
+    "AutoRaise@CatalystEnough": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": [
+            "对应 point.lua:1828-1829「胶水数量识别范围」「胶水库存识别范围」，参考调用 raise.lua:1207-1219。",
+            "购买后应重新进入目标双芯片配方并复核需求与库存，不以商店购买成功作为充足结论。"
+        ],
+        "roi": [440, 370, 145, 90]
+    },
+    "AutoRaise@ManufactureDualChip": {
+        "baseTask": "AutoRaise@ManualAction",
+        "doc": [
+            "对应 raise.lua:1187-1245 及 point.lua:1813、1818-1830「芯片站」「制造站选芯片类」「芯片制造3213..3283」「制造站加」等点。",
+            "参考实现依次选择产线、产品、数量、执行更改并确认；必须拆成识别后 ClickSelf 的 Task 链，当前 ROI 只是相关控件的合并范围。"
+        ],
+        "roi": [100, 140, 900, 560]
+    },
+    "AutoRaise@RestoreFactoryState": {
+        "baseTask": "AutoRaise@ManualAction",
+        "doc": [
+            "参考 raise.lua:1250-1292 的 chip2book 仅固定恢复为赤金和最大数量，不满足恢复用户原配置的要求。",
+            "可参考 point.lua:1811-1817、1831、418-419「产品类型」「制造站最多」「制造站执行更改」及「右确认」；实际恢复必须使用 AutoRaise@RecordFactoryState 的识别结果。",
+            "复合 ROI 仅供收集产品、数量、执行更改和确认按钮截图。"
+        ],
+        "roi": [170, 130, 1010, 560]
     },
 
-    "AutoRaise@EliteSatisfied1": { "baseTask": "AutoRaise@ManualRecognition", "doc": "精英一阶段占位" },
-    "AutoRaise@EliteSatisfied2": { "baseTask": "AutoRaise@ManualRecognition", "doc": "精英二阶段占位" },
-    "AutoRaise@CurrentPhase0": { "baseTask": "AutoRaise@ManualRecognition", "doc": "未精英阶段占位" },
-    "AutoRaise@CurrentPhase1": { "baseTask": "AutoRaise@ManualRecognition", "doc": "精英一阶段占位" },
-    "AutoRaise@LevelMax": { "baseTask": "AutoRaise@ManualAction", "doc": "升至当前阶段满级并确认占位" },
-    "AutoRaise@Promote": { "baseTask": "AutoRaise@ManualAction", "doc": "晋升按钮及确认占位" },
-    "AutoRaise@PromotionMaterialMissing": { "baseTask": "AutoRaise@ManualRecognition", "doc": "晋升红色缺料槽占位" },
-    "AutoRaise@DualChipRequired": { "baseTask": "AutoRaise@ManualRecognition", "doc": "双芯片缺口占位" },
-    "AutoRaise@RecordFactoryState": { "baseTask": "AutoRaise@ManualRecognition", "doc": "原产品及数量识别占位；识别失败时不得切换产线" },
-    "AutoRaise@ChipPackEnough": { "baseTask": "AutoRaise@ManualRecognition", "doc": "芯片组数量占位" },
-    "AutoRaise@CatalystMissing": { "baseTask": "AutoRaise@ManualRecognition", "doc": "芯片助剂精确缺口占位" },
-    "AutoRaise@BuyExactCatalystShortage": { "baseTask": "AutoRaise@ManualAction", "doc": "仅购买当前目标助剂缺口占位" },
-    "AutoRaise@CatalystEnough": { "baseTask": "AutoRaise@ManualRecognition", "doc": "助剂库存复核占位" },
-    "AutoRaise@ManufactureDualChip": { "baseTask": "AutoRaise@ManualAction", "doc": "双芯片制造及数量确认占位" },
-    "AutoRaise@RestoreFactoryState": { "baseTask": "AutoRaise@ManualAction", "doc": "恢复原产品和生产数量并复核占位" },
+    "AutoRaise@SkillsSatisfied2": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "参考实现没有等级 2 对应 point，仅在 point.lua:1868 定义「干员档案通用技能等级七」；候选 ROI 为档案页通用技能等级区域，需补 2 级截图。",
+        "roi": [1190, 335, 90, 65]
+    },
+    "AutoRaise@SkillsSatisfied3": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "参考实现没有等级 3 对应 point，仅在 point.lua:1868 定义「干员档案通用技能等级七」；候选 ROI 为档案页通用技能等级区域，需补 3 级截图。",
+        "roi": [1190, 335, 90, 65]
+    },
+    "AutoRaise@SkillsSatisfied4": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "参考实现没有等级 4 对应 point，仅在 point.lua:1868 定义「干员档案通用技能等级七」；候选 ROI 为档案页通用技能等级区域，需补 4 级截图。",
+        "roi": [1190, 335, 90, 65]
+    },
+    "AutoRaise@SkillsSatisfied5": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "参考实现没有等级 5 对应 point，仅在 point.lua:1868 定义「干员档案通用技能等级七」；候选 ROI 为档案页通用技能等级区域，需补 5 级截图。",
+        "roi": [1190, 335, 90, 65]
+    },
+    "AutoRaise@SkillsSatisfied6": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "参考实现没有等级 6 对应 point，仅在 point.lua:1868 定义「干员档案通用技能等级七」；候选 ROI 为档案页通用技能等级区域，需补 6 级截图。",
+        "roi": [1190, 335, 90, 65]
+    },
+    "AutoRaise@SkillsSatisfied7": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "对应 point.lua:1868「干员档案通用技能等级七」，参考调用 raise.lua:2032-2036。",
+        "roi": [1190, 335, 90, 65]
+    },
+    "AutoRaise@SkillsPrerequisiteMissing2": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "参考实现无目标等级 2 的独立前置条件 point；需按当前精英阶段和技能等级判断，候选 ROI 合并档案页精英阶段与通用技能区域。",
+        "roi": [850, 210, 430, 220]
+    },
+    "AutoRaise@SkillsPrerequisiteMissing3": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "参考实现无目标等级 3 的独立前置条件 point；需按当前精英阶段和技能等级判断，候选 ROI 合并档案页精英阶段与通用技能区域。",
+        "roi": [850, 210, 430, 220]
+    },
+    "AutoRaise@SkillsPrerequisiteMissing4": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "参考实现无目标等级 4 的独立前置条件 point；需按当前精英阶段和技能等级判断，候选 ROI 合并档案页精英阶段与通用技能区域。",
+        "roi": [850, 210, 430, 220]
+    },
+    "AutoRaise@SkillsPrerequisiteMissing5": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "参考实现无目标等级 5 的独立前置条件 point；需按当前精英阶段和技能等级判断，候选 ROI 合并档案页精英阶段与通用技能区域。",
+        "roi": [850, 210, 430, 220]
+    },
+    "AutoRaise@SkillsPrerequisiteMissing6": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "参考实现无目标等级 6 的独立前置条件 point；需按当前精英阶段和技能等级判断，候选 ROI 合并档案页精英阶段与通用技能区域。",
+        "roi": [850, 210, 430, 220]
+    },
+    "AutoRaise@SkillsPrerequisiteMissing7": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "参考实现无目标等级 7 的独立前置条件 point；需按当前精英阶段和技能等级判断，候选 ROI 合并档案页精英阶段与通用技能区域。",
+        "roi": [850, 210, 430, 220]
+    },
+    "AutoRaise@SkillMaterialMissing": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": [
+            "对应 point.lua:1933-1934「干员技能升级红」及其范围，参考调用 raise.lua:1384-1387。",
+            "该红色特征只存在于技能升级页面；当前 C++ 在 AutoRaise@SkillUpgrade 之前调用，补模板前必须先修正页面进入顺序。"
+        ],
+        "roi": [55, 650, 510, 45]
+    },
+    "AutoRaise@SkillUpgrade": {
+        "baseTask": "AutoRaise@ManualAction",
+        "doc": [
+            "对应 raise.upgrade_skill（raise.lua:1356-1397）及 point.lua:1931-1933「进入技能升级页面」「干员技能升级页面」「干员技能升级红」。",
+            "参考流程包含进入页面、逐级升级、缺料检查和返回档案；实现时必须拆分 Task，当前 ROI 是入口与升级按钮的合并范围。"
+        ],
+        "roi": [900, 380, 300, 270]
+    },
 
-    "AutoRaise@SkillsSatisfied2": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能等级 2 占位" },
-    "AutoRaise@SkillsSatisfied3": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能等级 3 占位" },
-    "AutoRaise@SkillsSatisfied4": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能等级 4 占位" },
-    "AutoRaise@SkillsSatisfied5": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能等级 5 占位" },
-    "AutoRaise@SkillsSatisfied6": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能等级 6 占位" },
-    "AutoRaise@SkillsSatisfied7": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能等级 7 占位" },
-    "AutoRaise@SkillsPrerequisiteMissing2": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@SkillsPrerequisiteMissing3": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@SkillsPrerequisiteMissing4": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@SkillsPrerequisiteMissing5": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@SkillsPrerequisiteMissing6": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@SkillsPrerequisiteMissing7": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@SkillMaterialMissing": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能红色缺料槽占位" },
-    "AutoRaise@SkillUpgrade": { "baseTask": "AutoRaise@ManualAction", "doc": "技能升级及确认占位" },
+    "AutoRaise@OpenMissingMaterial": {
+        "baseTask": "AutoRaise@ManualAction",
+        "doc": [
+            "对应 raise.jump_to_workshop（raise.lua:2047-2076）的材料槽点击；精英化使用 point.lua:1891、1898，专精使用 point.lua:1906、1912、1917。",
+            "应由红色槽识别结果区分实际缺少的槽位并点击自身；当前 ROI 合并五个可能槽位，仅供截图，不可直接作为点击区域。"
+        ],
+        "roi": [330, 570, 380, 130]
+    },
+    "AutoRaise@GoToWorkshop": {
+        "baseTask": "AutoRaise@ManualAction",
+        "doc": [
+            "对应 point.lua:1895、1902、1908、1914、1919 的各材料详情跳转点，参考调用 raise.lua:2053-2058。",
+            "材料详情面板位置随槽位变化；应分别截图并通过可识别的跳转按钮 ClickSelf，合并 ROI 不可直接点击。"
+        ],
+        "roi": [420, 560, 570, 80]
+    },
+    "AutoRaise@ReturnFromWorkshop": {
+        "baseTask": "AutoRaise@ManualAction",
+        "doc": [
+            "对应 raise.lua:2061-2066 的「返回」操作；优先复用 MAA 已有 Return 模板和返回链。",
+            "候选 ROI 只覆盖左上角返回按钮。"
+        ],
+        "roi": [0, 0, 180, 120]
+    },
+    "AutoRaise@MaterialStillMissing": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": [
+            "对应 raise.lua:2066-2069 返回后复核材料详情并重新打开槽位；最终缺料状态仍使用 point.lua:1889-1916 的各红色槽范围。",
+            "应按来源页面分别复核精英化或专精红色槽，候选 ROI 是这些红色槽的合并范围。"
+        ],
+        "roi": [330, 650, 380, 50]
+    },
 
-    "AutoRaise@OpenMissingMaterial": { "baseTask": "AutoRaise@ManualAction", "doc": "以红色材料槽识别结果点击自身" },
-    "AutoRaise@GoToWorkshop": { "baseTask": "AutoRaise@ManualAction", "doc": "材料详情页前往加工站按钮占位" },
-    "AutoRaise@ReturnFromWorkshop": { "baseTask": "AutoRaise@ManualAction", "doc": "从加工站返回原培养页面占位" },
-    "AutoRaise@MaterialStillMissing": { "baseTask": "AutoRaise@ManualRecognition", "doc": "返回后重新打开材料槽并复核红色状态占位" },
-
-    "AutoRaise@MasteryPrerequisiteMissing": { "baseTask": "AutoRaise@ManualRecognition", "doc": "专精前置条件不足占位" },
-    "AutoRaise@MasteryMaterialMissing": { "baseTask": "AutoRaise@ManualRecognition", "doc": "专精红色缺料槽占位" },
-    "AutoRaise@SelectTrainee": { "baseTask": "AutoRaise@ManualAction", "doc": "打开受训干员列表占位；列表目标查找、OCR 翻页和卡片点击由 InfrastOperImageAnalyzer 处理" },
-    "AutoRaise@SelectSkill1": { "baseTask": "AutoRaise@ManualAction", "doc": "选择技能一占位" },
-    "AutoRaise@SelectSkill2": { "baseTask": "AutoRaise@ManualAction", "doc": "选择技能二占位" },
-    "AutoRaise@SelectSkill3": { "baseTask": "AutoRaise@ManualAction", "doc": "选择技能三占位" },
-    "AutoRaise@StartMastery": { "baseTask": "AutoRaise@ManualAction", "doc": "只启动下一级专精并确认占位" },
-    "AutoRaise@MasterySatisfied11": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@MasterySatisfied12": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@MasterySatisfied13": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@MasterySatisfied21": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@MasterySatisfied22": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@MasterySatisfied23": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@MasterySatisfied31": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@MasterySatisfied32": { "baseTask": "AutoRaise@ManualRecognition" },
-    "AutoRaise@MasterySatisfied33": { "baseTask": "AutoRaise@ManualRecognition" }
+    "AutoRaise@MasteryPrerequisiteMissing": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": [
+            "参考实现无单独 point：raise.lua:1401-1418 先用玩家数据判断通用技能是否到 7，再以「干员技能升级页面」「干员技能专精页面」确认能否进入专精。",
+            "MAA 应以档案页实际精英阶段、通用技能等级和专精入口状态判断；当前 C++ 已先进入训练室，补模板前必须调整页面顺序。"
+        ],
+        "roi": [850, 210, 430, 220]
+    },
+    "AutoRaise@MasteryMaterialMissing": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": [
+            "对应 point.lua:1943-1944「干员技能专精红」及其范围，参考调用 raise.lua:1444-1460。",
+            "该特征位于选定技能后的专精确认页；当前 C++ 在选择受训干员和技能之前调用，补模板前必须调整页面顺序。"
+        ],
+        "roi": [330, 655, 370, 50]
+    },
+    "AutoRaise@SelectTrainee": {
+        "baseTask": "AutoRaise@ManualAction",
+        "doc": [
+            "对应 point.lua:1937、1939-1940「选择被训练干员」「专精第一干员未选中」「专精无干员选中」，参考调用 raise.lua:1474-1537。",
+            "本 Task 只负责识别并打开受训干员列表；列表内职业筛选、OCR 翻页和卡片点击由现有 MAA 能力处理。"
+        ],
+        "roi": [180, 190, 110, 100]
+    },
+    "AutoRaise@SelectSkill1": {
+        "baseTask": "AutoRaise@ManualAction",
+        "doc": "对应 point.lua:1941「专精技能列表」第 1 项及 raise.lua:1431-1438；需截图技能一可选状态并 ClickSelf。",
+        "roi": [370, 190, 90, 90]
+    },
+    "AutoRaise@SelectSkill2": {
+        "baseTask": "AutoRaise@ManualAction",
+        "doc": "对应 point.lua:1941「专精技能列表」第 2 项及 raise.lua:1431-1438；需截图技能二可选状态并 ClickSelf。",
+        "roi": [375, 400, 90, 90]
+    },
+    "AutoRaise@SelectSkill3": {
+        "baseTask": "AutoRaise@ManualAction",
+        "doc": "对应 point.lua:1941「专精技能列表」第 3 项及 raise.lua:1431-1438；需截图技能三可选状态并 ClickSelf。",
+        "roi": [390, 635, 90, 80]
+    },
+    "AutoRaise@StartMastery": {
+        "baseTask": "AutoRaise@ManualAction",
+        "doc": [
+            "对应 point.lua:1942「专精技能确认」和 point.lua:1975「确认蓝」；参考调用 raise.lua:1461-1469、path.lua:3392-3399。",
+            "参考流程先确认材料，再选择导师并确认换班；MAA 已有 InfrastTrainingConfirm 可复用，启动后必须以 InfrastTrainingProcessing 复核。"
+        ],
+        "roi": [930, 600, 340, 110]
+    },
+    "AutoRaise@MasterySatisfied11": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "对应 point.lua:1865「干员档案1技能专精列表」第 1 项（技能一 M1），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
+        "roi": [875, 325, 45, 45]
+    },
+    "AutoRaise@MasterySatisfied12": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "对应 point.lua:1865「干员档案1技能专精列表」第 2 项（技能一 M2），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
+        "roi": [875, 325, 45, 45]
+    },
+    "AutoRaise@MasterySatisfied13": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "对应 point.lua:1865「干员档案1技能专精列表」第 3 项（技能一 M3），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
+        "roi": [875, 325, 45, 45]
+    },
+    "AutoRaise@MasterySatisfied21": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "对应 point.lua:1866「干员档案2技能专精列表」第 1 项（技能二 M1），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
+        "roi": [965, 325, 45, 45]
+    },
+    "AutoRaise@MasterySatisfied22": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "对应 point.lua:1866「干员档案2技能专精列表」第 2 项（技能二 M2），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
+        "roi": [965, 325, 45, 45]
+    },
+    "AutoRaise@MasterySatisfied23": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "对应 point.lua:1866「干员档案2技能专精列表」第 3 项（技能二 M3），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
+        "roi": [965, 325, 45, 45]
+    },
+    "AutoRaise@MasterySatisfied31": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "对应 point.lua:1867「干员档案3技能专精列表」第 1 项（技能三 M1），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
+        "roi": [1050, 325, 45, 45]
+    },
+    "AutoRaise@MasterySatisfied32": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "对应 point.lua:1867「干员档案3技能专精列表」第 2 项（技能三 M2），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
+        "roi": [1050, 325, 45, 45]
+    },
+    "AutoRaise@MasterySatisfied33": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "对应 point.lua:1867「干员档案3技能专精列表」第 3 项（技能三 M3），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
+        "roi": [1050, 325, 45, 45]
+    }
 }
