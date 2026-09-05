@@ -1703,7 +1703,7 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 @type string
 @default minitouch
 @optional
-觸控模式設定。可選值：minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras。預設為 minitouch。列舉值：2。  
+觸控模式設定。可選值：minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras | MaaFwLinux。預設為 minitouch。列舉值：2。  
 :::  
 ::: field DeploymentWithPause  
 @type boolean
