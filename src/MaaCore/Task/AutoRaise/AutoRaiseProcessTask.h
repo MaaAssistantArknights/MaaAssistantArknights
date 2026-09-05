@@ -34,6 +34,7 @@ private:
     Result execute_skills(const AutoRaiseTarget& target);
     Result execute_mastery(const AutoRaiseTarget& target);
     Result find_and_open_operator(const AutoRaiseTarget& target);
+    bool select_operator_role(const std::string& operator_name);
     bool enter_training_room();
     bool analyze_training_context(std::string& operator_name, std::string& skill_name, int& level);
     bool select_training_trainee(const AutoRaiseTarget& target);
