@@ -18,6 +18,10 @@
 
 重写基建效率算法，常规（默认）模式支持跨设施组合，新增跨设施组合设置与菲亚梅塔恢复目标设置，并修复一批基建选人与识别问题；宿舍换班调整为第一轮仅执行菲亚梅塔配对，新增恢复开关。
 
+#### 材料合成任务
+
+新增材料合成任务，支持递归制作所需材料、选择合适的加工干员，并报告进度与结果。
+
 <details>
 <summary><b>English</b></summary>
 
@@ -37,6 +41,10 @@ The reconnect-after-disconnect logic has been removed due to the complexity and 
 
 The infrast efficiency algorithm has been rewritten; the default mode now supports cross-facility combinations, with new settings for cross-facility combinations and Fiammetta recovery targets, along with a batch of infrast operator selection and recognition fixes. Dormitory shifting now performs only Fiammetta pairing in the first round, with a new recovery toggle.
 
+#### Material Synthesis Task
+
+Added material synthesis task, supporting recursive crafting of required materials, selecting suitable processing operators, and reporting progress and results.
+
 </details>
 
 ----
@@ -49,6 +57,7 @@ The infrast efficiency algorithm has been rewritten; the default mode now suppor
 ### 新增 | New
 
 * 检测到资源文件损坏时，新增尝试下载完整包进行修复 @ABA2396
+* 新增材料合成任务，支持递归制作所需材料、选择合适的加工干员，并报告进度与结果 ([#17885](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17885)) @Lancarus
 
 ### 修复 | Fix
 
