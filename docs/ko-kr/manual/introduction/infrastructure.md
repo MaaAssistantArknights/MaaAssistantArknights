@@ -45,4 +45,6 @@ icon: material-symbols:view-quilt-rounded
 ## 커스텀 기반시설
 
 - Yituliu의 [기반시설 JSON 생성기](https://ark.yituliu.cn/tools/scheduleV3)를 참고해서 작성하세요. [기반시설 프로토콜 문서](../../protocol/base-scheduling-schema.md)도 참조할 수 있습니다.
+
+- [기반시설 스케줄 자동 생성 도구](https://riic.autos/): 오퍼레이터 보유 목록을 바탕으로 현재 환경에 맞는 효율적인 기반시설 스케줄을 생성합니다.
 - MAA 폴더의 `/resource/custom_infrast/`에는 이론적 최대 효율의 작업 몇 개가 내장되어 있습니다. 오퍼레이터 인원 수 및 육성의 요구 사항이 매우 높기 때문에 직접 사용하는 것은 권장하지 않습니다.

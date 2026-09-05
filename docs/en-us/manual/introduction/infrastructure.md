@@ -45,4 +45,6 @@ In Normal Mode, the shift order is planned automatically by the algorithm (Dormi
 ## Custom Base Mode
 
 - The [Schedule Generator](https://ark.yituliu.cn/tools/scheduleV3) created by community experts can help you create custom schedules. Refer to the [Base Facility Protocol Documentation](../../protocol/base-scheduling-schema.md) for usage.
+
+- [Automatic RIIC Schedule Generator](https://riic.autos/): Generate an efficient base schedule for the current version based on your operator roster.
 - The MAA folder `/resource/custom_infrast/` contains built-in theoretically maximum-efficiency presets. Not recommended for direct use due to their extreme operator and elite/skill level requirements.
