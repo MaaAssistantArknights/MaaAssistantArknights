@@ -93,6 +93,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     /// 启动时的完整性检查与更新检查。
     /// 对照 filelist.txt 检查安装文件是否缺失，缺失时弹窗询问是否修复（重新下载完整包）；
     /// 未缺失、用户选择忽略、或修复未完成（失败/用户取消）时回退常规更新检查。
+    /// Core 资源损坏时本检查只记日志，修复入口由资源损坏弹窗统一提供，不再叠加缺失弹窗。
     /// 必须在主窗口显示之后执行，否则弹窗会成为唯一窗口，关闭时触发 WPF 退出。
     /// </summary>
     private static async Task StartupIntegrityCheckAndUpdateAsync()
@@ -100,6 +101,12 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         var missingFiles = await Task.Run(ResourceIntegrityChecker.GetMissingFiles);
         if (missingFiles.Count > 0)
         {
+            if (Bootstrapper.IsResourceBroken)
+            {
+                _logger.Information("Skip integrity dialog, resource-broken dialog takes over, {Count} file(s) missing", missingFiles.Count);
+                return;
+            }
+
             var shownFiles = string.Join(", ", missingFiles.Take(5));
             if (missingFiles.Count > 5)
             {
@@ -139,6 +146,14 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             {
                 _logger.Warning("Integrity repair declined by user, {Count} file(s) missing", missingFiles.Count);
             }
+        }
+
+        // 修复仍在进行中（另一弹窗路径已接受修复）时不叠加常规更新检查，避免下载与弹窗互相干扰；
+        // 修复已结束（失败/取消）时标志已复位，回退常规更新检查的行为不变
+        if (Instances.VersionUpdateDialogViewModel.IsIntegrityRepairRunning)
+        {
+            _logger.Information("Skip regular update check, integrity repair in progress");
+            return;
         }
 
         await Instances.VersionUpdateDialogViewModel.ShowUpdateOrDownload();

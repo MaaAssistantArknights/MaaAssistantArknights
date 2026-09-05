@@ -1383,11 +1383,12 @@ C:\leidian\LDPlayer9
     <!--  AsstProxy  -->
     <system:String x:Key="UpdateApplyFailed">更新の適用に失敗し、現在のインストールが不完全になっている可能性があります。完全パッケージを再ダウンロードし、以下の説明に従って config、data、debug を手動で移行してください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="UpdateApplyMissingUpdater">MAA.Updater.exe が見つからないため、外部更新プログラムを起動できず、更新を続行できませんでした。今回の更新はキャンセルされました。このファイルは手動で削除されたか、セキュリティソフトによってブロックまたは削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、MAA のフォルダーを当該ソフトの許可リストに追加してから、もう一度お試しください。\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください。\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceBroken">リソースファイルが破損しています。自動修復（完全なパッケージの再ダウンロード）を試すか、終了して手動で再インストールしてください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityCheckTitle">インストールファイルの欠落</system:String>
     <system:String x:Key="ResourceIntegrityCheckDesc">{0} 個のインストールファイルが欠落していることが検出されました（{1}）。一部の機能が使用できない可能性があります。ファイルがセキュリティソフトによってブロックまたは削除されたか、手動で削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、MAA のフォルダーを当該ソフトの許可リストに追加してから、もう一度お試しください。\n\n以下の説明に従って手動で再インストールすることもできます：\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairYes">自動修復（完全パッケージをダウンロードし、再起動後に復元）</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">後で行う</system:String>
+    <system:String x:Key="ResourceBrokenTaskBlocked">リソースが破損しているためタスクを開始できません。起動時の案内に従ってリソースを修復するか、完全なパッケージを再ダウンロードして MAA を再起動してください。</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">欠落したリソースファイルを修復するため、完全パッケージをダウンロードしています…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">自動修復に失敗しました。表示された手順に従って手動で処理してください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairCanceled">自動修復をキャンセルしました。欠落ファイルについては次回起動時に再度通知されます。</system:String>

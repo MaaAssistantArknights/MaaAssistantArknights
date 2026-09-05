@@ -1382,11 +1382,12 @@ C:\leidian\LDPlayer9
     <!--  AsstProxy  -->
     <system:String x:Key="UpdateApplyFailed">업데이트 적용에 실패하여 현재 설치가 불완전할 수 있습니다. 전체 패키지를 다시 다운로드하고, 아래 안내에 따라 config, data 및 debug를 수동으로 옮겨 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="UpdateApplyMissingUpdater">MAA.Updater.exe가 없어 외부 업데이트 프로그램을 시작할 수 없어 업데이트를 계속할 수 없습니다. 이번 업데이트는 취소되었습니다. 이 파일은 수동으로 삭제되었거나 보안 소프트웨어에 의해 차단 또는 삭제되었을 수 있습니다. 보안 소프트웨어가 원인이라면 해당 소프트웨어의 격리소를 확인해 파일을 복원하고, MAA가 있는 폴더를 해당 소프트웨어의 허용 목록에 추가한 뒤 다시 시도해 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="ResourceBroken">리소스 파일이 손상되었습니다. 전체 패키지를 다시 다운로드하세요.\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceBroken">리소스 파일이 손상되었습니다. 자동 복구(전체 패키지 다시 다운로드)를 시도하거나, 종료 후 직접 다시 설치하세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityCheckTitle">설치 파일 누락</system:String>
     <system:String x:Key="ResourceIntegrityCheckDesc">설치 파일 {0}개가 누락된 것으로 확인되었습니다({1}). 일부 기능을 사용할 수 없을 수 있습니다. 파일이 보안 소프트웨어에 의해 차단 또는 삭제되었거나, 수동으로 삭제되었을 수 있습니다. 보안 소프트웨어가 원인이라면 해당 소프트웨어의 격리소를 확인해 파일을 복원하고, MAA가 있는 폴더를 해당 소프트웨어의 허용 목록에 추가한 뒤 다시 시도해 주세요.\n\n아래 안내에 따라 수동으로 재설치할 수도 있습니다:\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairYes">자동 복구(전체 패키지를 다운로드하고 재시작 후 복원)</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">나중에 처리</system:String>
+    <system:String x:Key="ResourceBrokenTaskBlocked">리소스가 손상되어 작업을 시작할 수 없습니다. 시작 시 안내에 따라 리소스를 복구하거나, 전체 패키지를 다시 다운로드한 후 MAA를 재시작하세요.</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">누락된 리소스 파일을 복구하기 위해 전체 패키지를 다운로드하는 중…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">자동 복구에 실패했습니다. 안내에 따라 수동으로 처리해 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairCanceled">자동 복구가 취소되었습니다. 누락된 파일은 다음 시작 시 다시 알림이 표시됩니다.</system:String>

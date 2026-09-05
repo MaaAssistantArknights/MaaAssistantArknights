@@ -1380,11 +1380,12 @@ C:\leidian\LDPlayer9
     <!--  AsstProxy  -->
     <system:String x:Key="UpdateApplyFailed">更新失败，当前安装可能已不完整。请重新下载完整包，并按下方说明手动迁移 config、data 与 debug。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="UpdateApplyMissingUpdater">更新失败，缺少 MAA.Updater.exe，无法启动外部更新程序。本次更新已取消。该文件可能被手动删除，也可能被某些安全软件拦截或删除。若为安全软件导致，请前往对应软件的隔离区寻找并恢复该文件，并建议将 MAA 所在文件夹加入对应软件白名单后再试。\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="ResourceBroken">资源损坏，请重新下载完整安装包。\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceBroken">资源损坏，可尝试自动修复（重新下载完整安装包），或退出后手动重装。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityCheckTitle">安装文件缺失</system:String>
     <system:String x:Key="ResourceIntegrityCheckDesc">检测到 {0} 个安装文件缺失（{1}），部分功能可能无法使用。文件可能被某些安全软件拦截或删除，也可能被手动删除。若为安全软件导致，请前往对应软件的隔离区寻找并恢复文件，并建议将 MAA 所在文件夹加入对应软件白名单后再试。\n\n也可按下方说明手动重装：\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairYes">自动修复（下载完整包并在重启后恢复）</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">暂不处理，继续启动</system:String>
+    <system:String x:Key="ResourceBrokenTaskBlocked">资源损坏，无法开始任务。请按启动时的提示修复资源，或重新下载完整安装包后重启 MAA。</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">正在下载完整包以修复缺失的资源文件…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">自动修复失败，请按提示手动处理。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairCanceled">已取消自动修复，缺失文件下次启动时仍会提醒</system:String>

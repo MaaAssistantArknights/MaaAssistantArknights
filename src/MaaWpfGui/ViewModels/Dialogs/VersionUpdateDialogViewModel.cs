@@ -746,12 +746,44 @@ public class VersionUpdateDialogViewModel : Screen
         Failed,
     }
 
+    private bool _isIntegrityRepairRunning;
+
+    /// <summary>
+    /// Gets a value indicating whether an integrity repair is in progress.
+    /// 另一入口已在修复时，资源损坏弹窗据此跳过弹窗与退出，其余入口不再重复触发下载。
+    /// </summary>
+    public bool IsIntegrityRepairRunning => _isIntegrityRepairRunning;
+
     /// <summary>
     /// 资源完整性修复：重新下载当前渠道的完整包并注册为待应用更新。
-    /// 用户已在启动时的完整性检查弹窗中确认，不做版本新旧判断（允许重装同版本）。
+    /// 用户已在弹窗中确认，不做版本新旧判断（允许重装同版本）。
+    /// 修复进行中重复调用直接视为已处理，避免并发下载。
     /// </summary>
     /// <returns>修复流程的结果，用于区分成功、用户取消与失败。</returns>
     public async Task<IntegrityRepairResult> RunIntegrityRepairAsync()
+    {
+        if (_isIntegrityRepairRunning)
+        {
+            _logger.Information("Integrity repair already running, treat as accepted");
+            return IntegrityRepairResult.Succeeded;
+        }
+
+        _isIntegrityRepairRunning = true;
+        try
+        {
+            return await RunIntegrityRepairCoreAsync();
+        }
+        finally
+        {
+            _isIntegrityRepairRunning = false;
+        }
+    }
+
+    /// <summary>
+    /// 执行完整性修复的主体流程，由 <see cref="RunIntegrityRepairAsync"/> 包装调用。
+    /// </summary>
+    /// <returns>修复流程的结果，用于区分成功、用户取消与失败。</returns>
+    private async Task<IntegrityRepairResult> RunIntegrityRepairCoreAsync()
     {
         _logger.Information("Starting integrity repair");
         OutputDownloadProgress(LocalizationHelper.GetString("ResourceIntegrityRepairDownloading"), downloading: false);

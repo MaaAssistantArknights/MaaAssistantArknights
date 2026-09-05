@@ -1381,11 +1381,12 @@ C:\leidian\LDPlayer9
     <!--  AsstProxy  -->
     <system:String x:Key="UpdateApplyFailed">更新失敗，目前的安裝可能已不完整。請重新下載完整安裝檔，並依照下方說明手動搬移 config、data 與 debug。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="UpdateApplyMissingUpdater">更新無法繼續，因為缺少 MAA.Updater.exe，無法啟動外部更新程式。本次更新已取消。此檔案可能已被手動刪除，也可能被某些安全軟體攔截或刪除。若是安全軟體所致，請前往對應軟體的隔離區尋找並還原該檔案，並建議將 MAA 所在資料夾加入對應軟體白名單後再試一次。\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="ResourceBroken">檔案損毀，請重新下載完整安裝檔。\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceBroken">檔案損毀，可嘗試自動修復（重新下載完整安裝檔），或結束後重新安裝。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityCheckTitle">安裝檔案缺失</system:String>
     <system:String x:Key="ResourceIntegrityCheckDesc">偵測到 {0} 個安裝檔案缺失（{1}），部分功能可能無法使用。檔案可能被某些安全軟體攔截或刪除，也可能被手動刪除。若為安全軟體所致，請前往對應軟體的隔離區尋找並還原檔案，並建議將 MAA 所在資料夾加入對應軟體白名單後再試一次。\n\n也可按下方說明手動重灌：\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairYes">自動修復（下載完整安裝檔並在重新啟動後還原）</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">暫不處理，繼續啟動</system:String>
+    <system:String x:Key="ResourceBrokenTaskBlocked">檔案損毀，無法開始任務。請依啟動時的提示修復檔案，或重新下載完整安裝檔後重新啟動 MAA。</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">正在下載完整安裝檔以修復缺失的資源檔案…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">自動修復失敗，請按提示手動處理。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairCanceled">已取消自動修復，缺失檔案下次啟動時仍會提醒</system:String>

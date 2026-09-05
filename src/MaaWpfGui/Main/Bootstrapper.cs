@@ -1020,6 +1020,21 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// </summary>
     public static bool ShouldSkipStartupAutoRun => _skipStartupAutoRun;
 
+    private static bool _isResourceBroken;
+
+    /// <summary>
+    /// Gets a value indicating whether Core resource loading failed this session.
+    /// 置位后所有任务入口（启动自动运行、按钮、热键、托盘、远程）均被拦截，
+    /// 启动完整性检查也不再弹缺失修复窗，修复入口统一由资源损坏弹窗提供。
+    /// </summary>
+    public static bool IsResourceBroken => _isResourceBroken;
+
+    /// <summary>
+    /// 标记 Core 资源加载失败。必须在弹出资源损坏弹窗之前调用，
+    /// 保证弹窗显示期间任务启动已被拦截。
+    /// </summary>
+    public static void MarkResourceBroken() => _isResourceBroken = true;
+
     /// <summary>
     /// 在完整 GUI 尚未初始化前，应用待处理更新后立即重启。
     /// 若当前进程已带 <see cref="SkipStartupAutoRunArg"/>，则原样转发给下一进程。
