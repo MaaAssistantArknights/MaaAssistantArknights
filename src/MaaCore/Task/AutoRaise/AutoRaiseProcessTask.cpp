@@ -141,7 +141,7 @@ asst::AutoRaiseProcessTask::Result
             if (!ctrler()->click(target_iter->rect)) {
                 return Result::RecognitionFailed;
             }
-            return run_task("AutoRaise@Profile") ? Result::Completed : Result::RecognitionFailed;
+            return run_task("AutoRaise@OperFiles") ? Result::Completed : Result::RecognitionFailed;
         }
 
         const auto& last_operator = operators.back().name;
@@ -175,22 +175,22 @@ asst::AutoRaiseProcessTask::Result
 
     for (int phase = m_operator_elite; phase < target.target && !need_exit(); ++phase) {
         // 精英化前必须先把当前阶段升至满级；晋升成功后停在新阶段 1 级。
-        if (!run_task("AutoRaise@CurrentPhase" + std::to_string(phase)) ||
-            !run_task("AutoRaise@LevelMax")) {
+        if (!run_task("AutoRaise@CurrentElite" + std::to_string(phase)) ||
+            !run_task("AutoRaise@LevelUp")) {
             return Result::RecognitionFailed;
         }
-        if (run_task("AutoRaise@PromotionMaterialMissing")) {
+        if (run_task("AutoRaise@EliteUpMaterialMissing")) {
             if (!synthesize_missing_material() && !manufacture_dual_chip()) {
                 return Result::ResourceInsufficient;
             }
-            if (run_task("AutoRaise@PromotionMaterialMissing")) {
+            if (run_task("AutoRaise@EliteUpMaterialMissing")) {
                 return Result::ResourceInsufficient;
             }
         }
         // 消耗前再次以游戏页面复核阶段、按钮和材料状态，外部缓存数据不能作为确认依据。
-        if (!run_task("AutoRaise@CurrentPhase" + std::to_string(phase)) ||
-            !run_task("AutoRaise@Promote") ||
-            !run_task("AutoRaise@EliteSatisfied" + std::to_string(phase + 1))) {
+        if (!run_task("AutoRaise@CurrentElite" + std::to_string(phase)) ||
+            !run_task("AutoRaise@EliteUp") ||
+            !run_task("AutoRaise@CurrentElite" + std::to_string(phase + 1))) {
             return Result::RecognitionFailed;
         }
         m_operator_elite = phase + 1;
