@@ -2719,6 +2719,7 @@ public class AsstProxy
         }
 
         var hwnd = (HWND)_attachWindowHwnd;
+        _ = PInvoke.ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_RESTORE);
         if (!PInvoke.GetWindowRect(hwnd, out var rect))
         {
             _logger.Warning("RestoreGameWindowPosition: GetWindowRect failed, hwnd: {Hwnd}", hwnd);
@@ -2740,6 +2741,39 @@ public class AsstProxy
             SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOZORDER | SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);
 
         _logger.Information("RestoreGameWindowPosition: moved window to screen center, hwnd: {Hwnd}", hwnd);
+    }
+
+    /// <summary>
+    /// Applies a task-time game audio mute setting change without reconnecting Core.
+    /// </summary>
+    /// <param name="enabled">Whether task-time muting is enabled.</param>
+    public void UpdateGameAudioMute(bool enabled)
+    {
+        if (_attachWindowHwnd == IntPtr.Zero)
+        {
+            return;
+        }
+
+        if (!enabled)
+        {
+            if (_runningState.GetIdle())
+            {
+                GameAudioMuteManager.Restore();
+            }
+            else
+            {
+                GameAudioMuteManager.StopMuting();
+            }
+
+            return;
+        }
+
+        GameAudioMuteManager.PrepareWindow(_attachWindowHwnd, captureWindowPlacement: _runningState.GetIdle());
+        if (!_runningState.GetIdle())
+        {
+            GameAudioMuteManager.EnsureMuted();
+            GameAudioMuteManager.StartMonitoring(() => !_runningState.GetIdle());
+        }
     }
 
     /// <summary>
@@ -2809,10 +2843,31 @@ public class AsstProxy
         var screencapMethod = (ulong)win32Extra.ScreencapMethod;
         var mouseMethod = (ulong)win32Extra.MouseMethod;
         var keyboardMethod = (ulong)win32Extra.KeyboardMethod;
-        bool ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
+
+        if (win32Extra.MuteWhileRunning)
+        {
+            GameAudioMuteManager.PrepareWindow(hwnd);
+            if (!_runningState.GetIdle())
+            {
+                GameAudioMuteManager.EnsureMuted();
+            }
+        }
+
+        bool ret;
+        try
+        {
+            ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
+        }
+        catch
+        {
+            GameAudioMuteManager.Restore();
+            throw;
+        }
 
         if (!ret)
         {
+            GameAudioMuteManager.Restore();
+
             // 等待回调完成以获取详细错误信息
             System.Threading.Thread.Sleep(1000);
 
@@ -3300,7 +3355,14 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstStart()
     {
-        return MaaService.AsstStart(_handle);
+        var result = MaaService.AsstStart(_handle);
+        if (result && SettingsViewModel.ConnectSettings.ExtraConfig is Win32Extra { MuteWhileRunning: true })
+        {
+            GameAudioMuteManager.EnsureMuted();
+            GameAudioMuteManager.StartMonitoring(() => !_runningState.GetIdle());
+        }
+
+        return result;
     }
 
     /// <summary>
@@ -3327,6 +3389,7 @@ public class AsstProxy
     public void AsstDestroy()
     {
         MaaService.AsstDestroy(_handle);
+        GameAudioMuteManager.Restore();
     }
 }
 

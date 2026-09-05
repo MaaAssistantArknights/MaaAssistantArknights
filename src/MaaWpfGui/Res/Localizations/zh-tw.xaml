@@ -593,6 +593,7 @@ D:\
     <system:String x:Key="ManualStopWithScript">手動暫停時啟用上述腳本</system:String>
     <system:String x:Key="BlockSleep">執行任務時阻止休眠</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">阻止休眠時保持螢幕常亮</system:String>
+    <system:String x:Key="MuteGameWindowWhileRunning">任務執行時視窗靜音</system:String>
     <system:String x:Key="ScreencapCost">截圖耗時 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">肉鴿主題</system:String>
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
