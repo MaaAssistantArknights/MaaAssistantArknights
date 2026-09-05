@@ -311,6 +311,27 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     } = ConfigFactory.CurrentConfig.Gui.StartUpSettings.RestartEmulatorWhenAdbFailed;
 
     /// <summary>
+    /// Gets or sets a value indicating whether to start the PC client again after a window connection failure.
+    /// </summary>
+    public bool RetryPcClientOnDisconnected
+    {
+        get; set {
+            if (value && string.IsNullOrEmpty(SettingsViewModel.StartSettings.PcClientPath))
+            {
+                MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("RetryOnPcDisconnectedPathEmptyError"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                value = false;
+            }
+
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.StartUpSettings.RestartPcClientWhenConnectFailed = value;
+        }
+    } = ConfigFactory.CurrentConfig.Gui.StartUpSettings.RestartPcClientWhenConnectFailed;
+
+    /// <summary>
     /// Gets or sets a value indicating whether to retry task after ADB disconnected.
     /// </summary>
     public bool AllowAdbRestart
@@ -867,6 +888,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool ShowWindowRestoreButton =>
         IsPCConnectConfig && ExtraConfig is Models.EmulatorConnectionExtra.Win32Extra { MouseMethod: AsstWin32InputMethod.SendMessageWithWindowPos };
 
+    [PropertyDependsOn(nameof(ConnectConfig))]
     public bool IsPCConnectConfig => ConnectConfig == ConnectConfig.PC;
 
     #endregion

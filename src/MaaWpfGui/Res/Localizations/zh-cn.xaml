@@ -364,6 +364,7 @@
     <system:String x:Key="EmulatorNotFound">未检测到任何模拟器\n请确认已启动模拟器\n如模拟器是以管理员权限启动，需以管理员权限启动本软件\n如仍无法检测，请手动设置连接</system:String>
     <system:String x:Key="EmulatorTooMany">检测到多个模拟器\n请关闭不需要的模拟器\n或手动设置连接</system:String>
     <system:String x:Key="EmulatorStartFailed">未能成功启动模拟器\n请使用管理员权限打开本软件\n或手动启动模拟器。</system:String>
+    <system:String x:Key="PcClientStartFailed">未能成功启动 PC 客户端\n请使用管理员权限打开本软件\n或手动启动客户端。</system:String>
     <system:String x:Key="SwitchLanguage">切换语言 🌐</system:String>
     <system:String x:Key="Language">语言</system:String>
     <system:String x:Key="LanguageChangedTip">语言设置已更改，部分内容可能需要重启才能完全生效。</system:String>
@@ -554,6 +555,8 @@ D:\
     <system:String x:Key="StartupAutoRunCountdownTaskOnly">即将自动运行任务，是否取消？</system:String>
     <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">即将自动启动模拟器，是否取消？</system:String>
     <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">即将自动运行任务并启动模拟器，是否取消？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownPcClientOnly">即将自动启动 PC 客户端，是否取消？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndPcClient">即将自动运行任务并启动 PC 客户端，是否取消？</system:String>
     <system:String x:Key="MinimizeAfterLaunch">启动 MAA 后直接最小化</system:String>
     <system:String x:Key="ClientType">客户端类型</system:String>
     <system:String x:Key="StartGameLaunchClient">是否启动客户端</system:String>
@@ -562,10 +565,18 @@ D:\
     <system:String x:Key="HelpUsWithOverseasServersTip">外服适配滞销，帮帮我们！不会编程也可以。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">启动 MAA 后自动开启模拟器</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunchTip">仅在启动 MAA 时开启一次模拟器，点击 ｢{key=LinkStart}｣ 时不会自动开启；\n如有此需求，请勾选 ｢{key=RetryOnDisconnected}｣</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunch">启动 MAA 后自动开启 PC 客户端</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunchTip">仅在启动 MAA 时开启一次 PC 客户端，点击 ｢{key=LinkStart}｣ 时不会自动开启；\n如有此需求，请勾选 ｢{key=RetryOnPcDisconnected}｣</system:String>
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
+    <system:String x:Key="WaitForPcClient">等待 PC 客户端启动时间（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待结束</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
+    <system:String x:Key="PcClientPath">PC 客户端路径</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">可选择模拟器本体（配合 ｢{key=AdditionCommand}｣ 启动参数可指定启动模拟器实例），也可直接选择模拟器或游戏的快捷方式。&#10;如因模拟器启动时间过长导致 ｢{key=WakeUp}｣ 任务失败，推荐填写游戏快捷方式并延长 ｢{key=WaitForEmulator}｣。</system:String>
+    <system:String x:Key="SelectPcClientTip">可选择 PC 客户端本体或其快捷方式，并可通过 ｢{key=AdditionCommand}｣ 补充启动参数。</system:String>
+    <system:String x:Key="PcClientPathEmptyError">PC 客户端路径为空，请先选择客户端程序。</system:String>
+    <system:String x:Key="PcClientPathNotExist">PC 客户端路径不存在</system:String>
+    <system:String x:Key="PcClientPathEmptyWarning">PC 客户端路径为空，自动启动与连接失败重试选项已被还原</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧里点酒吧？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我确定没选错</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我会重新选择</system:String>
@@ -832,6 +843,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="RetryOnDisconnected">ADB 连接失败时尝试启动模拟器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重连失败后尝试重启模拟器，使用后台定时任务且设置任务完成关闭模拟器时请勾选</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模拟器路径为空！请填写 ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ 后重新勾选。</system:String>
+    <system:String x:Key="RetryOnPcDisconnected">PC 客户端连接失败时尝试启动客户端</system:String>
+    <system:String x:Key="RetryOnPcDisconnectedTip">窗口连接失败后启动 PC 客户端，并再次尝试连接</system:String>
+    <system:String x:Key="RetryOnPcDisconnectedPathEmptyError">PC 客户端路径为空！请填写 ｢{key=Settings} - {key=StartupSettings} - {key=PcClientPath}｣ 后重新勾选。</system:String>
     <system:String x:Key="AllowAdbRestart">连接失败后尝试重启 ADB Server</system:String>
     <system:String x:Key="AllowAdbHardRestart">连接失败后尝试关闭并重启 ADB 进程</system:String>
     <!--  !设置  -->
@@ -1739,6 +1753,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在尝试重连</system:String>
     <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>
+    <system:String x:Key="TryToStartPcClient">正在尝试启动 PC 客户端</system:String>
     <system:String x:Key="RestartAdb">正在尝试重启 ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">正在尝试关闭并重启 ADB 进程</system:String>
     <system:String x:Key="CheckSettings">请 ｢检查连接设置｣ → ｢尝试重启模拟器与 ADB｣ → ｢重启电脑｣</system:String>

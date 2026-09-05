@@ -1783,11 +1783,29 @@ public class TaskQueueViewModel : Screen
         ResetTaskSelection();
     }
 
-    private async Task<bool> ConnectToEmulator()
+    private async Task<bool> ConnectToConnectionTarget()
     {
         string errMsg = string.Empty;
         bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
 
+        if (!connected
+            && SettingsViewModel.ConnectSettings.IsPCConnectConfig
+            && SettingsViewModel.ConnectSettings.RetryPcClientOnDisconnected)
+        {
+            AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartPcClient"));
+
+            await Task.Run(() => SettingsViewModel.StartSettings.TryToStartPcClient());
+
+            if (_runningState.GetStopping())
+            {
+                SetStopped();
+                return false;
+            }
+
+            connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+        }
+
+        // Window attachment does not use ADB recovery.
         if (!connected && SettingsViewModel.ConnectSettings.IsPCConnectConfig)
         {
             AddLog(errMsg, UiLogColor.Error);
@@ -2048,7 +2066,7 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        if (!await ConnectToEmulator())
+        if (!await ConnectToConnectionTarget())
         {
             return;
         }

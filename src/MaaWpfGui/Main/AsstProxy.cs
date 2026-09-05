@@ -662,21 +662,26 @@ public class AsstProxy
         Execute.OnUIThread(
             async () => {
                 bool runDirectly = SettingsViewModel.StartSettings.RunDirectly;
-                bool openEmulator = SettingsViewModel.StartSettings.OpenEmulatorAfterLaunch;
+                bool isPcConnection = SettingsViewModel.ConnectSettings.IsPCConnectConfig;
+                bool openConnectionTarget = isPcConnection
+                    ? SettingsViewModel.StartSettings.OpenPcClientAfterLaunch
+                    : SettingsViewModel.StartSettings.OpenEmulatorAfterLaunch;
 
-                // 更新重启链写入的 --skip-startup-auto-run：跳过启动后自动开任务/模拟器
+                // 更新重启链写入的 --skip-startup-auto-run：跳过启动后自动开任务/连接目标
                 if (Bootstrapper.ShouldSkipStartupAutoRun)
                 {
                     _logger.Information("Skip startup auto-run due to {Arg}", Bootstrapper.SkipStartupAutoRunArg);
                     return;
                 }
 
-                // 会自动开任务或模拟器时，先给 10 秒反悔倒计时（不强制拉起主窗口）
-                if (runDirectly || openEmulator)
+                // 会自动开任务或连接目标时，先给 10 秒反悔倒计时（不强制拉起主窗口）
+                if (runDirectly || openConnectionTarget)
                 {
-                    string tipKey = (runDirectly, openEmulator) switch {
-                        (true, true) => "StartupAutoRunCountdownTaskAndEmulator",
-                        (true, false) => "StartupAutoRunCountdownTaskOnly",
+                    string tipKey = (runDirectly, openConnectionTarget, isPcConnection) switch {
+                        (true, true, true) => "StartupAutoRunCountdownTaskAndPcClient",
+                        (true, true, false) => "StartupAutoRunCountdownTaskAndEmulator",
+                        (true, false, _) => "StartupAutoRunCountdownTaskOnly",
+                        (_, _, true) => "StartupAutoRunCountdownPcClientOnly",
                         _ => "StartupAutoRunCountdownEmulatorOnly",
                     };
 
@@ -696,7 +701,7 @@ public class AsstProxy
                     _runningState.SetIdle(false);
                 }
 
-                await Task.Run(() => SettingsViewModel.StartSettings.TryToStartEmulator(true));
+                await Task.Run(() => SettingsViewModel.StartSettings.TryToStartConnectionTarget(true));
 
                 // 一般是点了“停止”按钮了
                 if (_runningState.GetStopping())
