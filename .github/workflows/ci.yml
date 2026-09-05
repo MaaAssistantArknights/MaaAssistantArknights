@@ -844,7 +844,7 @@ jobs:
           find . -type f | while read f; do mv -fvt . $f; done
 
       - name: Publish release to GitHub
-        uses: softprops/action-gh-release@v3.0.2
+        uses: softprops/action-gh-release@v3.0.3
         with:
           body_path: CHANGELOG.md
           files: |
