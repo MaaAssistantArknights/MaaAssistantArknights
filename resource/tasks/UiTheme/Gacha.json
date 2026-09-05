@@ -22,7 +22,8 @@
             "GachaTogether",
             "GachaLoneTrail",
             "GachaReconstruct",
-            "GachaHunting"
+            "GachaHunting",
+            "GachaBlackFlow"
         ],
         "onErrorNext": ["Gacha-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -93,5 +94,9 @@
     "GachaHunting": {
         "baseTask": "GachaDefault",
         "template": "Hunting/GachaEnter.png"
+    },
+    "GachaBlackFlow": {
+        "baseTask": "GachaDefault",
+        "template": "BlackFlow/GachaEnter.png"
     }
 }
