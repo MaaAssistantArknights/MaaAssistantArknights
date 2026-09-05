@@ -3,6 +3,7 @@
 #include "Config/Miscellaneous/RecruitConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
+#include "Utils/StringMisc.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/OCRer.h"
@@ -94,4 +95,37 @@ bool asst::RecruitImageAnalyzer::permit_analyze()
     }
 
     return false;
+}
+
+std::optional<int> asst::RecruitImageAnalyzer::get_recruitment_permit_count() const
+{
+    OCRer permit_count_analyzer(m_image);
+    permit_count_analyzer.set_task_info("RecruitPermitCount");
+
+    auto results = permit_count_analyzer.analyze();
+    if (!results) {
+        Log.warn("Failed to recognize recruitment permit count");
+        return std::nullopt;
+    }
+
+    for (const auto& result : *results) {
+        const auto separator = result.text.find('/');
+        if (separator == std::string::npos) {
+            continue;
+        }
+
+        int current = 0;
+        int cost = 0;
+        if (!utils::chars_to_number<int, true>(std::string_view(result.text).substr(0, separator), current) ||
+            !utils::chars_to_number<int, true>(std::string_view(result.text).substr(separator + 1), cost) ||
+            current < 0 || cost != 1) {
+            continue;
+        }
+
+        Log.info("Recruitment permit count:", current);
+        return current;
+    }
+
+    Log.warn("Failed to parse recruitment permit count from OCR results:", *results);
+    return std::nullopt;
 }

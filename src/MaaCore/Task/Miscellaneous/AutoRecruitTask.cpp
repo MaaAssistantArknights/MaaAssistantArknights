@@ -126,6 +126,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_confirm_level(std::vector<int>
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_level3_recruitment_permit_reserve(int reserve) noexcept
+{
+    m_level3_recruitment_permit_reserve = (std::max)(reserve, 0);
+    return *this;
+}
+
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_need_refresh(bool need_refresh) noexcept
 {
     m_need_refresh = need_refresh;
@@ -709,6 +715,33 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             if (has_skip_tag) {
                 calc_task_result_type result(calc_task_result::preserved_tag_skip);
                 return result;
+            }
+
+            if (final_combination.min_level == 3 && m_level3_recruitment_permit_reserve > 0) {
+                const auto permit_count = image_analyzer.get_recruitment_permit_count();
+                if (!permit_count) {
+                    json::value cb_info = basic_info();
+                    cb_info["what"] = "RecruitPermitCountRecognitionFailed";
+                    callback(AsstMsg::SubTaskExtraInfo, cb_info);
+                    Log.warn("Skip 3-star recruitment because recruitment permit count recognition failed");
+                    return calc_task_result_type(calc_task_result::force_skip);
+                }
+
+                if (*permit_count <= m_level3_recruitment_permit_reserve) {
+                    json::value cb_info = basic_info();
+                    cb_info["what"] = "RecruitPermitReserved";
+                    cb_info["details"] = json::object {
+                        { "current", *permit_count },
+                        { "reserve", m_level3_recruitment_permit_reserve },
+                    };
+                    callback(AsstMsg::SubTaskExtraInfo, cb_info);
+                    Log.info(
+                        "Skip 3-star recruitment to preserve permits:",
+                        *permit_count,
+                        "<=",
+                        m_level3_recruitment_permit_reserve);
+                    return calc_task_result_type(calc_task_result::force_skip);
+                }
             }
         }
 
