@@ -588,35 +588,316 @@
                 </ListBox>
                 <StackPanel
                     Grid.Row="2"
-                    Margin="0,10,0,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <StackPanel VerticalAlignment="Center">
-                        <ComboBox
-                            Width="160"
-                            hc:TitleElement.Title="{DynamicResource ExportTo}"
-                            DisplayMemberPath="Display"
-                            ItemsSource="{Binding ExportOptionList}"
-                            SelectedValue="{Binding SelectedExportValue}"
-                            SelectedValuePath="Value" />
+                    Margin="0,10,0,0">
+                    <StackPanel
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <StackPanel VerticalAlignment="Center">
+                            <ComboBox
+                                Width="160"
+                                hc:TitleElement.Title="{DynamicResource ExportTo}"
+                                DisplayMemberPath="Display"
+                                ItemsSource="{Binding ExportOptionList}"
+                                SelectedValue="{Binding SelectedExportValue}"
+                                SelectedValuePath="Value" />
+                            <Button
+                                Width="160"
+                                Height="30"
+                                Margin="0,5,0,0"
+                                HorizontalAlignment="Center"
+                                Command="{s:Action ExecuteSelectedExport}"
+                                Content="{DynamicResource Export}" />
+                        </StackPanel>
                         <Button
-                            Width="160"
-                            Height="30"
-                            Margin="0,5,0,0"
-                            HorizontalAlignment="Center"
-                            Command="{s:Action ExecuteSelectedExport}"
-                            Content="{DynamicResource Export}" />
+                            Width="180"
+                            Height="63"
+                            Margin="20,0,0,0"
+                            VerticalAlignment="Bottom"
+                            Command="{s:Action StartDepot}"
+                            Content="{DynamicResource StartToDepotRecognition}"
+                            IsEnabled="{c:Binding 'Idle and Inited'}" />
                     </StackPanel>
-                    <Button
-                        Width="180"
-                        Height="63"
-                        Margin="20,0,0,0"
-                        VerticalAlignment="Bottom"
-                        Command="{s:Action StartDepot}"
-                        Content="{DynamicResource StartToDepotRecognition}"
-                        IsEnabled="{c:Binding 'Idle and Inited'}" />
                 </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="{DynamicResource MaterialCraft}">
+            <Grid Margin="20,0,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*" MinWidth="360" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="5*" MinWidth="340" />
+                </Grid.ColumnDefinitions>
+
+                <controls:TextBlock
+                    Grid.ColumnSpan="3"
+                    Margin="0,0,0,6"
+                    FontSize="15"
+                    Foreground="#000000"
+                    Text="{DynamicResource MaterialCraftStartHint}" />
+
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Padding="10"
+                    Background="{DynamicResource RegionBrushOpacity25}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <controls:TextBlock
+                            HorizontalAlignment="Center"
+                            FontSize="15"
+                            FontWeight="Bold"
+                            Text="{DynamicResource MaterialCraftTarget}" />
+                        <hc:ScrollViewer
+                            Grid.Row="1"
+                            Margin="0,8,0,0"
+                            HorizontalScrollBarVisibility="Disabled"
+                            IsInertiaEnabled="True"
+                            PanningMode="VerticalOnly"
+                            VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding MaterialCraftTargetGroups}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,0,0,12">
+                                            <controls:TextBlock
+                                                Margin="2,0,0,6"
+                                                FontSize="13"
+                                                FontWeight="SemiBold"
+                                                Text="{Binding Name}" />
+                                            <ItemsControl ItemsSource="{Binding Targets}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Button
+                                                            Width="76"
+                                                            Height="82"
+                                                            Margin="4"
+                                                            Padding="4"
+                                                            Command="{s:Action AddMaterialCraftTarget}"
+                                                            CommandParameter="{Binding}"
+                                                            ToolTip="{Binding Name}">
+                                                            <StackPanel>
+                                                                <Image
+                                                                    Width="46"
+                                                                    Height="46"
+                                                                    HorizontalAlignment="Center"
+                                                                    Source="{Binding Image}"
+                                                                    Stretch="Uniform" />
+                                                                <controls:TextBlock
+                                                                    Height="28"
+                                                                    Margin="0,3,0,0"
+                                                                    HorizontalAlignment="Center"
+                                                                    FontSize="11"
+                                                                    Text="{Binding Name}"
+                                                                    TextAlignment="Center"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    TextWrapping="Wrap" />
+                                                            </StackPanel>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </hc:ScrollViewer>
+                    </Grid>
+                </Border>
+
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Padding="10"
+                    Background="{DynamicResource RegionBrushOpacity25}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="260" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <DockPanel>
+                            <controls:TextBlock
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Left"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Text="{DynamicResource MaterialCraftQueue}" />
+                            <Button
+                                Width="72"
+                                Height="28"
+                                HorizontalAlignment="Right"
+                                Command="{s:Action ClearMaterialCraftPlan}"
+                                Content="{DynamicResource MaterialCraftClear}" />
+                        </DockPanel>
+                        <ListBox
+                            Grid.Row="1"
+                            Margin="0,8,0,0"
+                            ItemsSource="{Binding MaterialCraftPlanItems}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Margin" Value="0,0,8,6" />
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <ContentPresenter
+                                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Width="250"
+                                        Padding="6"
+                                        Background="{DynamicResource RegionBrushOpacity50}"
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="4">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="94" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image
+                                                Width="34"
+                                                Height="34"
+                                                Source="{Binding Image}"
+                                                Stretch="Uniform" />
+                                            <controls:TextBlock
+                                                Grid.Column="1"
+                                                Margin="6,0,8,0"
+                                                VerticalAlignment="Center"
+                                                FontSize="12"
+                                                Text="{Binding Name}"
+                                                TextTrimming="CharacterEllipsis" />
+                                            <StackPanel
+                                                Grid.Column="2"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Orientation="Horizontal">
+                                                <Button
+                                                    Width="24"
+                                                    Height="24"
+                                                    Padding="0"
+                                                    Command="{s:Action DecreaseMaterialCraftPlanItem}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="-" />
+                                                <controls:TextBlock
+                                                    Width="36"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="13"
+                                                    Text="{Binding Count}"
+                                                    TextAlignment="Center" />
+                                                <Button
+                                                    Width="24"
+                                                    Height="24"
+                                                    Padding="0"
+                                                    Command="{s:Action IncreaseMaterialCraftPlanItem}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="+" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Grid Grid.Row="2" Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Height="30"
+                                Command="{s:Action CheckMaterialCraftPlan}"
+                                Content="{DynamicResource MaterialCraftCheck}" />
+                            <Button
+                                Grid.Column="2"
+                                Height="30"
+                                Command="{s:Action ToggleMaterialCraft}"
+                                IsEnabled="{c:Binding 'Inited and !Stopping'}">
+                                <Grid>
+                                    <controls:TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="{DynamicResource MaterialCraftStart}"
+                                        Visibility="{c:Binding Idle}" />
+                                    <controls:TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="{DynamicResource Stop}"
+                                        Visibility="{c:Binding '!Idle'}" />
+                                </Grid>
+                            </Button>
+                        </Grid>
+                        <controls:TextBlock
+                            Grid.Row="3"
+                            Margin="0,8,0,0"
+                            Text="{Binding MaterialCraftResultInfo}"
+                            TextWrapping="Wrap" />
+                        <ListBox
+                            Grid.Row="4"
+                            Margin="0,8,0,0"
+                            ItemsSource="{Binding MaterialCraftChanges}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            Visibility="{c:Binding 'MaterialCraftChanges.Count > 0'}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image
+                                            Width="24"
+                                            Height="24"
+                                            Source="{Binding Image}" />
+                                        <controls:TextBlock
+                                            Margin="6,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Text}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Border>
             </Grid>
         </TabItem>
         <!--

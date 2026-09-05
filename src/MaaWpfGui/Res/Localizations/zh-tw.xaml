@@ -1077,6 +1077,31 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ExportedToFile">已匯出到檔案</system:String>
     <system:String x:Key="ExportTo">匯出到：</system:String>
     <system:String x:Key="Export">匯出</system:String>
+    <system:String x:Key="MaterialCraft">材料合成</system:String>
+    <system:String x:Key="MaterialCraftStartHint">在加工站內開始，右下角有「開始加工」按鈕</system:String>
+    <system:String x:Key="MaterialCraftTarget">目標材料</system:String>
+    <system:String x:Key="MaterialCraftQueue">待合成</system:String>
+    <system:String x:Key="MaterialCraftQuantity">數量</system:String>
+    <system:String x:Key="MaterialCraftAdd">新增</system:String>
+    <system:String x:Key="MaterialCraftClear">清空</system:String>
+    <system:String x:Key="MaterialCraftCheck">計算合成</system:String>
+    <system:String x:Key="MaterialCraftStart">開始加工</system:String>
+    <system:String x:Key="MaterialCraftStarted">已開始材料合成</system:String>
+    <system:String x:Key="MaterialCraftStartFailed">啟動材料合成失敗</system:String>
+    <system:String x:Key="MaterialCraftCompleted">材料合成完成，庫存已更新</system:String>
+    <system:String x:Key="MaterialCraftEmptyPlan">請先新增需要合成的材料</system:String>
+    <system:String x:Key="MaterialCraftNoRecipe">配方資料不可用</system:String>
+    <system:String x:Key="MaterialCraftNoDepotData">請先完成倉庫辨識</system:String>
+    <system:String x:Key="MaterialCraftNoRecipeForTarget">{0} 暫無合成配方</system:String>
+    <system:String x:Key="MaterialCraftSucceeded">可以合成 {0} x{1}；龍門幣 {2}；心情 {3}</system:String>
+    <system:String x:Key="MaterialCraftFailed">無法合成 {0} x{1}；缺少：{2}</system:String>
+    <system:String x:Key="MaterialCraftPlanSucceeded">材料足夠；預計消耗龍門幣 {0}，心情 {1}</system:String>
+    <system:String x:Key="MaterialCraftPlanFailed">材料不足，缺少：{0}</system:String>
+    <system:String x:Key="MaterialCraftListSeparator">、</system:String>
+    <system:String x:Key="MaterialCraftQualityNormal">普通品質</system:String>
+    <system:String x:Key="MaterialCraftQualityRare">罕見品質</system:String>
+    <system:String x:Key="MaterialCraftQualityExcellent">傑出品質</system:String>
+    <system:String x:Key="MaterialCraftQualitySuperior">卓越品質</system:String>
     <!--  !倉庫辨識  -->
     <!--  日誌  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}辨識</system:String>

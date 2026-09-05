@@ -1078,6 +1078,31 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ExportedToFile">파일로 내보내기 완료</system:String>
     <system:String x:Key="ExportTo">내보내기:</system:String>
     <system:String x:Key="Export">내보내기</system:String>
+    <system:String x:Key="MaterialCraft">재료 합성</system:String>
+    <system:String x:Key="MaterialCraftStartHint">가공소 안에서 시작하세요. 오른쪽 아래에 가공 시작 버튼이 있습니다.</system:String>
+    <system:String x:Key="MaterialCraftTarget">대상 재료</system:String>
+    <system:String x:Key="MaterialCraftQueue">합성 대기</system:String>
+    <system:String x:Key="MaterialCraftQuantity">수량</system:String>
+    <system:String x:Key="MaterialCraftAdd">추가</system:String>
+    <system:String x:Key="MaterialCraftClear">비우기</system:String>
+    <system:String x:Key="MaterialCraftCheck">합성 확인</system:String>
+    <system:String x:Key="MaterialCraftStart">가공 시작</system:String>
+    <system:String x:Key="MaterialCraftStarted">재료 합성을 시작했습니다</system:String>
+    <system:String x:Key="MaterialCraftStartFailed">재료 합성을 시작하지 못했습니다</system:String>
+    <system:String x:Key="MaterialCraftCompleted">재료 합성이 완료되어 창고가 업데이트되었습니다</system:String>
+    <system:String x:Key="MaterialCraftEmptyPlan">먼저 합성할 재료를 추가하세요</system:String>
+    <system:String x:Key="MaterialCraftNoRecipe">레시피 데이터를 사용할 수 없습니다</system:String>
+    <system:String x:Key="MaterialCraftNoDepotData">먼저 창고 인식을 완료하세요</system:String>
+    <system:String x:Key="MaterialCraftNoRecipeForTarget">{0} 합성 레시피가 없습니다</system:String>
+    <system:String x:Key="MaterialCraftSucceeded">{0} x{1} 합성 가능; LMD {2}; 사기 {3}</system:String>
+    <system:String x:Key="MaterialCraftFailed">{0} x{1} 합성 불가; 부족: {2}</system:String>
+    <system:String x:Key="MaterialCraftPlanSucceeded">재료가 충분합니다; 예상 LMD {0}, 사기 {1}</system:String>
+    <system:String x:Key="MaterialCraftPlanFailed">재료 부족: {0}</system:String>
+    <system:String x:Key="MaterialCraftListSeparator">, </system:String>
+    <system:String x:Key="MaterialCraftQualityNormal">일반 품질</system:String>
+    <system:String x:Key="MaterialCraftQualityRare">희귀 품질</system:String>
+    <system:String x:Key="MaterialCraftQualityExcellent">고급 품질</system:String>
+    <system:String x:Key="MaterialCraftQualitySuperior">최상급 품질</system:String>
     <!--  !창고 인식  -->
     <!--  오퍼레이터 인식  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator} 인식</system:String>

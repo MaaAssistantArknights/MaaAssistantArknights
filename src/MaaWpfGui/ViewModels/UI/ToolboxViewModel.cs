@@ -17,6 +17,7 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -107,6 +108,7 @@ public class ToolboxViewModel : Screen
         _peepImageTimer.Interval = 1000d / PeepTargetFps;
         _gachaTimer.Tick += RefreshGachaTip;
         LoadDepotDetails();
+        LoadMaterialRecipes();
         LoadOperBoxDetails();
         InitializeDepotRowPresentation();
         InitializeOperBoxRowPresentation();
@@ -531,6 +533,9 @@ public class ToolboxViewModel : Screen
     private string? _cachedArkPlannerResult;
     private string? _cachedLoliconResult;
     private readonly HashSet<int> _pendingDepotSyncTimeResetTaskIds = [];
+    private readonly Dictionary<string, List<WorkshopFormula>> _workshopFormulasByItemId = [];
+    private List<MaterialCraftInventoryChange> _pendingMaterialCraftInventoryChanges = [];
+    private const int WorkshopApCostPerMood = 360000;
 
     public void MarkDepotRecognitionSyncTimeForReset(int taskId)
     {
@@ -548,6 +553,749 @@ public class ToolboxViewModel : Screen
         _depotCacheInvalid = true;
         _cachedArkPlannerResult = null;
         _cachedLoliconResult = null;
+        InvalidateMaterialCraftPreview();
+    }
+
+    public class MaterialCraftTarget
+    {
+        public string Id { get; init; } = string.Empty;
+
+        public string Name { get; init; } = string.Empty;
+
+        public int SortId { get; init; }
+
+        public int QualityRank { get; init; }
+
+        public string QualityName { get; init; } = string.Empty;
+
+        public BitmapSource? Image { get; init; }
+    }
+
+    public class MaterialCraftTargetGroup
+    {
+        public string Name { get; init; } = string.Empty;
+
+        public int QualityRank { get; init; }
+
+        public ObservableCollection<MaterialCraftTarget> Targets { get; init; } = [];
+    }
+
+    public class MaterialCraftPlanItem : PropertyChangedBase
+    {
+        public string Id { get; init; } = string.Empty;
+
+        public string Name { get; init; } = string.Empty;
+
+        public BitmapSource? Image { get; init; }
+
+        public int Count
+        {
+            get => field;
+            set => SetAndNotify(ref field, Math.Max(1, value));
+        } = 1;
+    }
+
+    public class MaterialCraftChange
+    {
+        public BitmapSource? Image { get; init; }
+
+        public string Text { get; init; } = string.Empty;
+    }
+
+    private sealed class MaterialCraftInventoryChange
+    {
+        public string Id { get; init; } = string.Empty;
+
+        public int OldCount { get; init; }
+
+        public int NewCount { get; init; }
+    }
+
+    private sealed class WorkshopFormulaCost
+    {
+        public string Id { get; init; } = string.Empty;
+
+        public int Count { get; init; }
+
+        public string Type { get; init; } = string.Empty;
+    }
+
+    private sealed class WorkshopFormula
+    {
+        public string FormulaId { get; init; } = string.Empty;
+
+        public int SortId { get; init; }
+
+        public int Rarity { get; init; }
+
+        public string ItemId { get; init; } = string.Empty;
+
+        public int Count { get; init; } = 1;
+
+        public int GoldCost { get; init; }
+
+        public int ApCost { get; init; }
+
+        public List<WorkshopFormulaCost> Costs { get; init; } = [];
+    }
+
+    private sealed class MaterialCraftState
+    {
+        public Dictionary<string, int> Inventory { get; init; } = [];
+
+        public Dictionary<string, int> Missing { get; init; } = [];
+
+        public long GoldCost { get; set; }
+
+        public long ApCost { get; set; }
+
+        public MaterialCraftState Clone()
+        {
+            return new() {
+                Inventory = new(Inventory),
+                Missing = new(Missing),
+                GoldCost = GoldCost,
+                ApCost = ApCost,
+            };
+        }
+
+        public void CopyFrom(MaterialCraftState other)
+        {
+            Inventory.Clear();
+            foreach (var (id, count) in other.Inventory)
+            {
+                Inventory[id] = count;
+            }
+
+            Missing.Clear();
+            foreach (var (id, count) in other.Missing)
+            {
+                Missing[id] = count;
+            }
+
+            GoldCost = other.GoldCost;
+            ApCost = other.ApCost;
+        }
+
+        public void AddMissing(string itemId, int count)
+        {
+            if (count <= 0)
+            {
+                return;
+            }
+
+            Missing[itemId] = Missing.GetValueOrDefault(itemId) + count;
+        }
+    }
+
+    public ObservableCollection<MaterialCraftTarget> MaterialCraftTargetList { get; } = [];
+
+    public ObservableCollection<MaterialCraftTargetGroup> MaterialCraftTargetGroups { get; } = [];
+
+    public ObservableCollection<MaterialCraftPlanItem> MaterialCraftPlanItems { get; } = [];
+
+    public ObservableCollection<MaterialCraftChange> MaterialCraftChanges { get; } = [];
+
+    public MaterialCraftTarget? SelectedMaterialCraftTarget { get => field; set => SetAndNotify(ref field, value); }
+
+    public int MaterialCraftQuantity
+    {
+        get => field;
+        set => SetAndNotify(ref field, Math.Max(1, value));
+    } = 1;
+
+    public string MaterialCraftResultInfo { get => field; set => SetAndNotify(ref field, value); } = string.Empty;
+
+    private void LoadMaterialRecipes()
+    {
+        var filename = Path.Combine(PathsHelper.ResourceDir, "material_recipes.json");
+        if (!File.Exists(filename))
+        {
+            _logger.Warning("Material recipe file not found: {Filename}", filename);
+            return;
+        }
+
+        try
+        {
+            var json = JObject.Parse(File.ReadAllText(filename));
+            foreach (var property in json.Properties())
+            {
+                var formulaId = property.Name;
+                if (string.IsNullOrEmpty(formulaId) || property.Value is not JObject formulaJson)
+                {
+                    continue;
+                }
+
+                var itemId = formulaJson.Value<string>("itemId") ?? string.Empty;
+                if (string.IsNullOrEmpty(itemId))
+                {
+                    continue;
+                }
+
+                var costs = formulaJson["costs"]?.OfType<JObject>()
+                    .Select(costJson => new WorkshopFormulaCost {
+                        Id = costJson.Value<string>("id") ?? string.Empty,
+                        Count = costJson.Value<int?>("count") ?? 0,
+                        Type = costJson.Value<string>("type") ?? string.Empty,
+                    })
+                    .Where(cost => !string.IsNullOrEmpty(cost.Id) && cost.Count > 0)
+                    .ToList() ?? [];
+
+                if (costs.Count == 0)
+                {
+                    continue;
+                }
+
+                var formula = new WorkshopFormula {
+                    FormulaId = formulaJson.Value<string>("formulaId") ?? formulaId,
+                    SortId = formulaJson.Value<int?>("sortId") ?? 0,
+                    Rarity = formulaJson.Value<int?>("rarity") ?? 0,
+                    ItemId = itemId,
+                    Count = Math.Max(1, formulaJson.Value<int?>("count") ?? 1),
+                    GoldCost = formulaJson.Value<int?>("goldCost") ?? 0,
+                    ApCost = formulaJson.Value<int?>("apCost") ?? 0,
+                    Costs = costs,
+                };
+
+                if (!_workshopFormulasByItemId.TryGetValue(itemId, out var formulas))
+                {
+                    formulas = [];
+                    _workshopFormulasByItemId[itemId] = formulas;
+                }
+
+                formulas.Add(formula);
+            }
+
+            foreach (var target in _workshopFormulasByItemId
+                         .Select(pair => ItemListHelper.ArkItems.TryGetValue(pair.Key, out var item)
+                             ? CreateMaterialCraftTarget(pair.Key, item.SortId, item.Name ?? pair.Key, pair.Value)
+                             : null)
+                         .OfType<MaterialCraftTarget>()
+                         .OrderBy(target => target.QualityRank)
+                         .ThenBy(target => target.SortId)
+                         .ThenBy(target => target.Name, StringComparer.CurrentCulture))
+            {
+                MaterialCraftTargetList.Add(target);
+            }
+
+            foreach (var group in MaterialCraftTargetList
+                         .GroupBy(target => new { target.QualityRank, target.QualityName })
+                         .OrderByDescending(group => group.Key.QualityRank))
+            {
+                MaterialCraftTargetGroups.Add(new() {
+                    Name = group.Key.QualityName,
+                    QualityRank = group.Key.QualityRank,
+                    Targets = new(group
+                        .OrderBy(target => target.SortId)
+                        .ThenBy(target => target.Name, StringComparer.CurrentCulture)),
+                });
+            }
+
+            SelectedMaterialCraftTarget = MaterialCraftTargetList.FirstOrDefault();
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "Failed to load material recipes from {Filename}", filename);
+        }
+    }
+
+    private static MaterialCraftTarget CreateMaterialCraftTarget(string itemId, int sortId, string name, IReadOnlyList<WorkshopFormula> formulas)
+    {
+        var formula = formulas.OrderBy(formula => formula.SortId).First();
+        int qualityRank = GetWorkshopQualityRank(formula.GoldCost);
+        return new() {
+            Id = itemId,
+            Name = name,
+            SortId = sortId,
+            QualityRank = qualityRank,
+            QualityName = GetWorkshopQualityName(qualityRank),
+            Image = ItemListHelper.GetItemImage(itemId),
+        };
+    }
+
+    private static int GetWorkshopQualityRank(int goldCost)
+    {
+        if (goldCost <= 100)
+        {
+            return 1;
+        }
+
+        if (goldCost <= 200)
+        {
+            return 2;
+        }
+
+        if (goldCost <= 300)
+        {
+            return 3;
+        }
+
+        return 4;
+    }
+
+    private static string GetWorkshopQualityName(int qualityRank)
+    {
+        return qualityRank switch {
+            1 => LocalizationHelper.GetString("MaterialCraftQualityNormal"),
+            2 => LocalizationHelper.GetString("MaterialCraftQualityRare"),
+            3 => LocalizationHelper.GetString("MaterialCraftQualityExcellent"),
+            4 => LocalizationHelper.GetString("MaterialCraftQualitySuperior"),
+            _ => LocalizationHelper.GetString("MaterialCraftTarget"),
+        };
+    }
+
+    private void InvalidateMaterialCraftPreview()
+    {
+        MaterialCraftResultInfo = string.Empty;
+        MaterialCraftChanges.Clear();
+        _pendingMaterialCraftInventoryChanges = [];
+    }
+
+    public void AddMaterialCraftPlanItem()
+    {
+        if (SelectedMaterialCraftTarget is null)
+        {
+            MaterialCraftResultInfo = LocalizationHelper.GetString("MaterialCraftNoRecipe");
+            return;
+        }
+
+        AddMaterialCraftPlanItem(SelectedMaterialCraftTarget, MaterialCraftQuantity);
+    }
+
+    [UsedImplicitly]
+    public void AddMaterialCraftTarget(MaterialCraftTarget target)
+    {
+        AddMaterialCraftPlanItem(target, 1);
+    }
+
+    private void AddMaterialCraftPlanItem(MaterialCraftTarget target, int count)
+    {
+        var existing = MaterialCraftPlanItems.FirstOrDefault(item => item.Id == target.Id);
+        if (existing is not null)
+        {
+            existing.Count += count;
+        }
+        else
+        {
+            var item = new MaterialCraftPlanItem {
+                Id = target.Id,
+                Name = target.Name,
+                Image = target.Image,
+                Count = count,
+            };
+            item.PropertyChanged += MaterialCraftPlanItemPropertyChanged;
+            MaterialCraftPlanItems.Add(item);
+        }
+
+        InvalidateMaterialCraftPreview();
+    }
+
+    public void RemoveMaterialCraftPlanItem(MaterialCraftPlanItem item)
+    {
+        item.PropertyChanged -= MaterialCraftPlanItemPropertyChanged;
+        MaterialCraftPlanItems.Remove(item);
+        InvalidateMaterialCraftPreview();
+    }
+
+    [UsedImplicitly]
+    public void DecreaseMaterialCraftPlanItem(MaterialCraftPlanItem item)
+    {
+        if (item.Count <= 1)
+        {
+            RemoveMaterialCraftPlanItem(item);
+            return;
+        }
+
+        item.Count--;
+    }
+
+    [UsedImplicitly]
+    public void IncreaseMaterialCraftPlanItem(MaterialCraftPlanItem item)
+    {
+        item.Count++;
+    }
+
+    public void ClearMaterialCraftPlan()
+    {
+        foreach (var item in MaterialCraftPlanItems)
+        {
+            item.PropertyChanged -= MaterialCraftPlanItemPropertyChanged;
+        }
+
+        MaterialCraftPlanItems.Clear();
+        InvalidateMaterialCraftPreview();
+    }
+
+    private void MaterialCraftPlanItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(MaterialCraftPlanItem.Count))
+        {
+            InvalidateMaterialCraftPreview();
+        }
+    }
+
+    public void CheckMaterialCraftPlan()
+    {
+        CheckMaterialCraftPlanCore(updatePreview: true);
+    }
+
+    [UsedImplicitly]
+    public async Task StartMaterialCraft()
+    {
+        if (!CheckMaterialCraftPlanCore(updatePreview: false))
+        {
+            return;
+        }
+
+        _runningState.SetIdle(false);
+        MaterialCraftResultInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+
+        var taskParams = BuildMaterialCraftTaskParams();
+        var (connected, started, errMsg) = await Task.Run(() => {
+            string connectErrMsg = string.Empty;
+            bool connectRet = Instances.AsstProxy.AsstConnect(ref connectErrMsg);
+            if (!connectRet)
+            {
+                return (Connected: false, Started: false, ErrorMessage: connectErrMsg);
+            }
+
+            return (Connected: true, Started: Instances.AsstProxy.AsstStartMaterialCraft(taskParams), ErrorMessage: string.Empty);
+        });
+
+        if (!connected)
+        {
+            MaterialCraftResultInfo = errMsg;
+            _pendingMaterialCraftInventoryChanges = [];
+            _runningState.SetIdle(true);
+            return;
+        }
+
+        MaterialCraftResultInfo = LocalizationHelper.GetString(started ? "MaterialCraftStarted" : "MaterialCraftStartFailed");
+        if (!started)
+        {
+            _pendingMaterialCraftInventoryChanges = [];
+            _runningState.SetIdle(true);
+        }
+    }
+
+    [UsedImplicitly]
+    public async Task ToggleMaterialCraft()
+    {
+        if (Idle)
+        {
+            await StartMaterialCraft();
+            return;
+        }
+
+        StopMaterialCraft();
+    }
+
+    private void StopMaterialCraft()
+    {
+        if (Idle || Stopping)
+        {
+            return;
+        }
+
+        MaterialCraftResultInfo = LocalizationHelper.GetString("Stopping");
+        Instances.TaskQueueViewModel.ManualStop();
+    }
+
+    private JObject BuildMaterialCraftTaskParams()
+    {
+        var targets = new JArray(MaterialCraftPlanItems
+            .Where(item => item.Count > 0)
+            .Select(item => new JObject {
+                ["itemId"] = item.Id,
+                ["count"] = item.Count,
+            }));
+        var inventory = new JObject();
+        foreach (var group in DepotResult.Where(item => item.Count >= 0).GroupBy(item => item.Id))
+        {
+            inventory[group.Key] = group.First().Count;
+        }
+
+        return new JObject {
+            ["items"] = targets,
+            ["inventory"] = inventory,
+        };
+    }
+
+    private bool CheckMaterialCraftPlanCore(bool updatePreview)
+    {
+        if (updatePreview)
+        {
+            MaterialCraftChanges.Clear();
+        }
+
+        if (MaterialCraftPlanItems.Count == 0)
+        {
+            MaterialCraftResultInfo = LocalizationHelper.GetString("MaterialCraftEmptyPlan");
+            return false;
+        }
+
+        if (DepotResult.Count == 0)
+        {
+            MaterialCraftResultInfo = LocalizationHelper.GetString("MaterialCraftNoDepotData");
+            return false;
+        }
+
+        var before = DepotResult
+            .Where(item => item.Count >= 0)
+            .GroupBy(item => item.Id)
+            .ToDictionary(group => group.Key, group => group.First().Count);
+        var state = new MaterialCraftState {
+            Inventory = new(before),
+        };
+        bool hasUncraftableTarget = false;
+
+        foreach (var target in MaterialCraftPlanItems.Where(item => item.Count > 0))
+        {
+            if (!_workshopFormulasByItemId.ContainsKey(target.Id))
+            {
+                state.AddMissing(target.Id, target.Count);
+                hasUncraftableTarget = true;
+                continue;
+            }
+
+            var candidate = state.Clone();
+            if (TryCraftMaterial(target.Id, target.Count, candidate, []))
+            {
+                state.CopyFrom(candidate);
+            }
+            else
+            {
+                hasUncraftableTarget = true;
+                foreach (var (itemId, count) in candidate.Missing)
+                {
+                    state.AddMissing(itemId, count);
+                }
+            }
+        }
+
+        var inventoryChanges = BuildMaterialCraftInventoryChanges(before, state.Inventory);
+        if (updatePreview)
+        {
+            RenderMaterialCraftChanges(inventoryChanges);
+        }
+
+        if (state.Missing.Count == 0)
+        {
+            _pendingMaterialCraftInventoryChanges = inventoryChanges;
+            if (updatePreview)
+            {
+                MaterialCraftResultInfo = string.Format(
+                    LocalizationHelper.GetString("MaterialCraftPlanSucceeded"),
+                    state.GoldCost,
+                    FormatWorkshopApCost(state.ApCost));
+            }
+            return true;
+        }
+
+        var missingText = string.Join(
+            LocalizationHelper.GetString("MaterialCraftListSeparator"),
+            state.Missing
+                .Where(pair => pair.Value > 0)
+                .OrderBy(pair => GetItemSortId(pair.Key))
+                .Select(pair => $"{GetItemNameOrId(pair.Key)} x{pair.Value}"));
+        _pendingMaterialCraftInventoryChanges = hasUncraftableTarget ? [] : inventoryChanges;
+        MaterialCraftResultInfo = string.Format(
+            LocalizationHelper.GetString("MaterialCraftPlanFailed"),
+            string.IsNullOrEmpty(missingText) ? "-" : missingText);
+        return !hasUncraftableTarget;
+    }
+
+    public void CompleteMaterialCraftPlan()
+    {
+        var changes = _pendingMaterialCraftInventoryChanges.ToList();
+        if (changes.Count > 0)
+        {
+            ApplyMaterialCraftInventoryChanges(changes);
+            RenderMaterialCraftChanges(changes);
+        }
+
+        foreach (var item in MaterialCraftPlanItems)
+        {
+            item.PropertyChanged -= MaterialCraftPlanItemPropertyChanged;
+        }
+
+        MaterialCraftPlanItems.Clear();
+        _pendingMaterialCraftInventoryChanges = [];
+        MaterialCraftResultInfo = LocalizationHelper.GetString("MaterialCraftCompleted");
+    }
+
+    private static List<MaterialCraftInventoryChange> BuildMaterialCraftInventoryChanges(
+        IReadOnlyDictionary<string, int> before,
+        IReadOnlyDictionary<string, int> after)
+    {
+        return before.Keys.Concat(after.Keys).Distinct()
+            .Where(id => before.GetValueOrDefault(id) != after.GetValueOrDefault(id))
+            .OrderBy(GetItemSortId)
+            .ThenBy(GetItemNameOrId, StringComparer.CurrentCulture)
+            .Select(id => new MaterialCraftInventoryChange {
+                Id = id,
+                OldCount = before.GetValueOrDefault(id),
+                NewCount = after.GetValueOrDefault(id),
+            })
+            .ToList();
+    }
+
+    private void RenderMaterialCraftChanges(IReadOnlyList<MaterialCraftInventoryChange> changes)
+    {
+        MaterialCraftChanges.Clear();
+        foreach (var change in changes)
+        {
+            int delta = change.NewCount - change.OldCount;
+            MaterialCraftChanges.Add(new() {
+                Image = ItemListHelper.GetItemImage(change.Id),
+                Text = $"{GetItemNameOrId(change.Id)}: {FormatCount(change.OldCount)} -> {FormatCount(change.NewCount)} ({delta:+#;-#;0})",
+            });
+        }
+    }
+
+    private void ApplyMaterialCraftInventoryChanges(IReadOnlyList<MaterialCraftInventoryChange> changes)
+    {
+        foreach (var change in changes)
+        {
+            var existingItem = DepotResult.FirstOrDefault(item => item.Id == change.Id);
+            if (existingItem is not null)
+            {
+                existingItem.Count = change.NewCount;
+            }
+            else
+            {
+                DepotResult.Add(new() {
+                    Id = change.Id,
+                    Name = ItemListHelper.GetItemName(change.Id),
+                    Image = ItemListHelper.GetItemImage(change.Id),
+                    Count = change.NewCount,
+                });
+            }
+        }
+
+        var sortedItems = DepotResult.OrderBy(item => item.Id).ToList();
+        DepotResult.Clear();
+        foreach (var item in sortedItems)
+        {
+            DepotResult.Add(item);
+        }
+
+        InvalidateDepotCache();
+        SaveDepotDetails();
+        Instances.TaskQueueViewModel.UpdateDatePrompt();
+    }
+
+    private bool TryCraftMaterial(string targetItemId, int count, MaterialCraftState state, HashSet<string> craftingStack)
+    {
+        if (!_workshopFormulasByItemId.TryGetValue(targetItemId, out var formulas))
+        {
+            state.AddMissing(targetItemId, count);
+            return false;
+        }
+
+        MaterialCraftState? bestFailure = null;
+        int bestMissingCount = int.MaxValue;
+        foreach (var formula in formulas)
+        {
+            var candidate = state.Clone();
+            if (TryApplyWorkshopFormula(targetItemId, count, formula, candidate, craftingStack))
+            {
+                state.CopyFrom(candidate);
+                return true;
+            }
+
+            int missingCount = candidate.Missing.Values.Sum();
+            if (missingCount < bestMissingCount)
+            {
+                bestMissingCount = missingCount;
+                bestFailure = candidate;
+            }
+        }
+
+        if (bestFailure is not null)
+        {
+            state.CopyFrom(bestFailure);
+        }
+
+        return false;
+    }
+
+    private bool TryApplyWorkshopFormula(string targetItemId, int count, WorkshopFormula formula, MaterialCraftState state, HashSet<string> craftingStack)
+    {
+        if (!craftingStack.Add(targetItemId))
+        {
+            state.AddMissing(targetItemId, count);
+            return false;
+        }
+
+        try
+        {
+            int batches = (count + formula.Count - 1) / formula.Count;
+            foreach (var cost in formula.Costs)
+            {
+                TryConsumeMaterial(cost.Id, cost.Count * batches, state, craftingStack);
+            }
+
+            state.Inventory[targetItemId] = state.Inventory.GetValueOrDefault(targetItemId) + (formula.Count * batches);
+            state.GoldCost += formula.GoldCost * batches;
+            state.ApCost += formula.ApCost * batches;
+            return true;
+        }
+        finally
+        {
+            craftingStack.Remove(targetItemId);
+        }
+    }
+
+    private bool TryConsumeMaterial(string itemId, int count, MaterialCraftState state, HashSet<string> craftingStack)
+    {
+        int owned = state.Inventory.GetValueOrDefault(itemId);
+        if (owned >= count)
+        {
+            state.Inventory[itemId] = owned - count;
+            return true;
+        }
+
+        int shortage = count - owned;
+        if (owned > 0)
+        {
+            state.Inventory[itemId] = 0;
+        }
+
+        TryCraftMaterial(itemId, shortage, state, craftingStack);
+
+        int crafted = state.Inventory.GetValueOrDefault(itemId);
+        int craftedUsed = Math.Min(crafted, shortage);
+        if (craftedUsed > 0)
+        {
+            state.Inventory[itemId] = crafted - craftedUsed;
+        }
+        return true;
+    }
+
+    private static string GetItemNameOrId(string itemId)
+    {
+        return ItemListHelper.GetItemName(itemId) ?? itemId;
+    }
+
+    private static int GetItemSortId(string itemId)
+    {
+        return ItemListHelper.ArkItems.TryGetValue(itemId, out var item) ? item.SortId : int.MaxValue;
+    }
+
+    private static string FormatCount(int count)
+    {
+        return count.FormatNumber(false);
+    }
+
+    private static string FormatWorkshopApCost(long apCost)
+    {
+        if (apCost % WorkshopApCostPerMood == 0)
+        {
+            return (apCost / WorkshopApCostPerMood).ToString(CultureInfo.InvariantCulture);
+        }
+
+        return ((double)apCost / WorkshopApCostPerMood).ToString("0.##", CultureInfo.InvariantCulture);
     }
 
     public class DepotResultDate : IComparable<DepotResultDate>
