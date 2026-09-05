@@ -6014,6 +6014,10 @@
         "template": "OperFilesElite2.png",
         "roi": [875, 225, 100, 65]
     },
+    "AutoRaise@CurrentSkillLevel": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [1215, 359, 14, 22]
+    },
     "AutoRaise@LevelUp": {
         "algorithm": "JustReturn",
         "next": ["AutoRaise@LevelMax", "AutoRaise@LevelUpPageEnter"]
@@ -6080,12 +6084,12 @@
         "template": "empty.png",
         "specialParams_Doc": "这个任务中作为数色个数阈值",
         "specialParams": [5],
-        "action": "DoNothing",        
+        "action": "DoNothing",
         "colorScales_Doc": "HSV的范围",
         "colorScales": [
             [
-                [12,248,225],
-                [12,248,225],
+                [12, 248, 225],
+                [12, 248, 225]
             ]
         ],
         "roi": [67, 663, 622, 19]
