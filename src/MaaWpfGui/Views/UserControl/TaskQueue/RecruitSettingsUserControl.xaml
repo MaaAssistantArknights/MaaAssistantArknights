@@ -52,6 +52,14 @@
                     ValueFormat="00"
                     Value="{Binding ChooseLevel3Min}" />
             </StackPanel>
+            <hc:NumericUpDown
+                Margin="0,5"
+                HorizontalAlignment="Left"
+                hc:InfoElement.Title="{DynamicResource RecruitLevel3PermitReserve}"
+                IsEnabled="{Binding ChooseLevel3}"
+                Maximum="999"
+                Minimum="0"
+                Value="{Binding Level3RecruitmentPermitReserve}" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoSelectLevel4}"

@@ -83,6 +83,11 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
     public bool Level3Choose { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets 自动确认3星时保留的招聘许可数量。0 表示不保留。
+    /// </summary>
+    public int Level3RecruitmentPermitReserve { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 自动确认4星
     /// </summary>
     public bool Level4Choose { get; set; } = true;

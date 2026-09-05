@@ -1682,6 +1682,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Refreshed">現在のタグが更新されました</system:String>
     <system:String x:Key="ContinueRefresh">採用許可がないため、タグを更新しようとしています</system:String>
     <system:String x:Key="NoRecruitmentPermit">採用許可がないため返却されました</system:String>
+    <system:String x:Key="RecruitPermitReserved">求人票の残数は {0}、保留数は {1} です。現在の星3募集をスキップしました</system:String>
+    <system:String x:Key="RecruitPermitCountRecognitionFailed">求人票の残数を認識できませんでした。保留分を消費しないよう現在の星3募集をスキップしました</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">公開求人でのタグを複数選択する場合の作戦</system:String>
     <system:String x:Key="DefaultNoExtraTags">追加のタグを選択しない</system:String>
     <system:String x:Key="SelectExtraTags">常に 3 つのタグを選択する</system:String>
@@ -1814,6 +1816,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
     <system:String x:Key="PreserveTags">指定タグを保留する</system:String>
     <system:String x:Key="AutoSelectLevel3">星3を自動的に確認する</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserve">星3用に残す求人票の数（0で無効）</system:String>
     <system:String x:Key="AutoSelectLevel4">星4を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel6">星6を自動的に確認する</system:String>

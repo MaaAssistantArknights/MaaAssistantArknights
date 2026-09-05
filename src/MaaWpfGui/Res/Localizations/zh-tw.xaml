@@ -1680,6 +1680,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Refreshed">目前欄位已刷新</system:String>
     <system:String x:Key="ContinueRefresh">無招聘許可，繼續嘗試刷新 Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">無招聘許可，已返回</system:String>
+    <system:String x:Key="RecruitPermitReserved">招聘許可剩餘 {0}，已達保留數量 {1}，跳過目前的 3★ 招聘</system:String>
+    <system:String x:Key="RecruitPermitCountRecognitionFailed">招聘許可數量辨識失敗，為避免消耗保留許可，已跳過目前的 3★ 招聘</system:String>
     <system:String x:Key="NotEnoughStaff">可用{key=Operator}不足</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">公招多選 Tags 的策略</system:String>
     <system:String x:Key="DefaultNoExtraTags">預設不選擇額外的 Tags</system:String>
@@ -1812,6 +1814,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="RecruitMaxTimes">每次執行時最大招募次數</system:String>
     <system:String x:Key="PreserveTags">保留指定 Tag</system:String>
     <system:String x:Key="AutoSelectLevel3">自動確認 3★</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserve">3★ 保留招聘許可（0 表示不保留）</system:String>
     <system:String x:Key="AutoSelectLevel4">自動確認 4★</system:String>
     <system:String x:Key="AutoSelectLevel5">自動確認 5★</system:String>
     <system:String x:Key="AutoSelectLevel6">自動確認 6★</system:String>
