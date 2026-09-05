@@ -464,6 +464,9 @@
     <system:String x:Key="GlobalSource">全域來源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">強制使用 GitHub</system:String>
     <system:String x:Key="ForceGithubGlobalSourceTip">偵測到更新後，強制從 GitHub 下載更新壓縮檔</system:String>
+        <system:String x:Key="GithubMirror">GitHub 鏡像</system:String>
+    <system:String x:Key="GithubMirrorUrl">鏡像站前綴位址</system:String>
+    <system:String x:Key="GithubMirrorUrlTip">更新時若下載連結指向 GitHub（含 githubusercontent 等網域），則在該連結前拼接此前綴作為鏡像站位址，例如 https://gh-proxy.org/</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">請前往 ｢{key=Settings} - {key=UpdateSettings}｣ 設定 MirrorChyan CDK 或切換到全域來源。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">偵測到資源更新: {0}。請前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 手動更新，或設定 MirrorChyan CDK 以自動更新。</system:String>

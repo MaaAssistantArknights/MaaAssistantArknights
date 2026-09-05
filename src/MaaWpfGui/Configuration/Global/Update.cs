@@ -40,6 +40,8 @@ public partial class Update : NotifyPropertyChangedWithValue
 
     public bool ForceGithubGlobalSource { get; set; }
 
+    public string GithubMirrorUrl { get; set; } = string.Empty;
+
     public string MirrorChyanCdk { get; set; } = string.Empty;
 
     public long MirrorChyanCdkExpiredTime { get; set; }

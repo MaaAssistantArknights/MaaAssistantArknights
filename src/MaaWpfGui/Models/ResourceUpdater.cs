@@ -673,6 +673,7 @@ public static class ResourceUpdater
 
     private static async Task<bool> DownloadFullPackageAsync(string url, string saveTo, bool globalSource)
     {
+        url = GithubMirrorHelper.ApplyMirrorIfNeeded(url);
         try
         {
             return await Instances.HttpService.DownloadFileAsync(new(url), saveTo, "application/zip");
