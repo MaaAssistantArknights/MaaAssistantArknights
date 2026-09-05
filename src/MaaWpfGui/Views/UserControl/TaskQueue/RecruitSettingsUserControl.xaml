@@ -144,6 +144,10 @@
                     VerticalAlignment="Center"
                     Content="{DynamicResource RecruitLevel3PermitReserve}"
                     IsChecked="{Binding Level3RecruitmentPermitReserveEnabled}" />
+                <controls:TooltipBlock
+                    Margin="4,0,0,0"
+                    VerticalAlignment="Center"
+                    TooltipText="{DynamicResource RecruitLevel3PermitReserveTip}" />
                 <hc:NumericUpDown
                     Width="65"
                     Margin="8,0,0,0"

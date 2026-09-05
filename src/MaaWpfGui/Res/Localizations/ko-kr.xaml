@@ -1816,6 +1816,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="PreserveTags">지정 태그 보류</system:String>
     <system:String x:Key="AutoSelectLevel3">★3 자동 모집</system:String>
     <system:String x:Key="RecruitLevel3PermitReserve">★3 모집용 모집 허가증 보유</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserveTip">남은 모집 허가증 수가 이 값 이하이면 ★3 모집을 건너뜁니다</system:String>
     <system:String x:Key="AutoSelectLevel4">★4 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel5">★5 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel6">★6 자동 모집</system:String>

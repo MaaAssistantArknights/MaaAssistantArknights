@@ -1815,6 +1815,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="PreserveTags">保留指定 Tag</system:String>
     <system:String x:Key="AutoSelectLevel3">自動確認 3★</system:String>
     <system:String x:Key="RecruitLevel3PermitReserve">3★ 保留招聘許可</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserveTip">當剩餘招聘許可小於等於此值時跳過3★ 招聘</system:String>
     <system:String x:Key="AutoSelectLevel4">自動確認 4★</system:String>
     <system:String x:Key="AutoSelectLevel5">自動確認 5★</system:String>
     <system:String x:Key="AutoSelectLevel6">自動確認 6★</system:String>
