@@ -21,6 +21,32 @@
 namespace
 {
 constexpr int MaxOperatorPages = 20;
+
+std::string role_task_name(asst::battle::Role role)
+{
+    switch (role) {
+    case asst::battle::Role::Pioneer:
+        return "BattleQuickFormationRole-Pioneer";
+    case asst::battle::Role::Warrior:
+        return "BattleQuickFormationRole-Warrior";
+    case asst::battle::Role::Tank:
+        return "BattleQuickFormationRole-Tank";
+    case asst::battle::Role::Caster:
+        return "BattleQuickFormationRole-Caster";
+    case asst::battle::Role::Medic:
+        return "BattleQuickFormationRole-Medic";
+    case asst::battle::Role::Sniper:
+        return "BattleQuickFormationRole-Sniper";
+    case asst::battle::Role::Special:
+        return "BattleQuickFormationRole-Special";
+    case asst::battle::Role::Support:
+        return "BattleQuickFormationRole-Support";
+    case asst::battle::Role::Unknown:
+    case asst::battle::Role::Drone:
+    default:
+        return {};
+    }
+}
 }
 
 bool asst::AutoRaiseProcessTask::_run()
@@ -94,6 +120,10 @@ asst::AutoRaiseProcessTask::Result
         return Result::RecognitionFailed;
     }
 
+    if (!select_operator_role(target.name)) {
+        return Result::RecognitionFailed;
+    }
+
     m_operator_elite = 0;
     std::string previous_last_operator;
     std::string previous_previous_last_operator;
@@ -125,6 +155,15 @@ asst::AutoRaiseProcessTask::Result
         }
     }
     return need_exit() ? Result::Skipped : Result::OperatorNotFound;
+}
+
+bool asst::AutoRaiseProcessTask::select_operator_role(const std::string& operator_name)
+{
+    // 使用 BattleData 职业信息缩小 OCR 查找范围。现有快速编队任务负责展开职业栏并点击识别到的职业图标，
+    // 同时将列表回到该职业的第一页，不使用固定的干员卡片坐标。
+    const std::string role_task = role_task_name(BattleData.get_first_role(operator_name));
+    return role_task.empty() ||
+           (run_task("BattleQuickFormationExpandRole", 3) && run_task(role_task));
 }
 
 asst::AutoRaiseProcessTask::Result
@@ -310,6 +349,9 @@ bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& 
 {
     const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     if (!replace_task) {
+        return false;
+    }
+    if (!select_operator_role(target.name)) {
         return false;
     }
 
