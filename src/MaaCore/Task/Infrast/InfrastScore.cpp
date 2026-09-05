@@ -1734,7 +1734,7 @@ double training_score_impl(const ScoreOper& oper, battle::Role trainee_role, int
                  (trainee_role == battle::Role::Pioneer || trainee_role == battle::Role::Special)) {
             score += 0.3;
         }
-        else if (icon == "bskill_train_specialist&pioneer2" &&
+        else if (icon == "bskill_train2_specialist&pioneer1" &&
                  (trainee_role == battle::Role::Pioneer || trainee_role == battle::Role::Special)) {
             score += 0.45;
         }
@@ -1882,7 +1882,7 @@ double training_score_impl(const ScoreOper& oper, battle::Role trainee_role, int
         else if (icon == "bskill_train3_sniper2" && trainee_role == battle::Role::Sniper) {
             score += 0.3 + (target_level == 3 ? 0.65 : 0.0);
         }
-        else if (icon == "bskill_train1_supporter2" && trainee_role == battle::Role::Sniper) {
+        else if (icon == "bskill_train1_sniper2" && trainee_role == battle::Role::Sniper) {
             score += 0.3 + (target_level == 1 ? 0.65 : 0.0);
         }
         else if (icon == "bskill_train_specialist1" && trainee_role == battle::Role::Special) {

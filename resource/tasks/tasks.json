@@ -5872,5 +5872,86 @@
             "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit",
             "Stop"
         ]
-    }
+    },
+
+    "AutoRaise@TemplateChecklist": {
+        "doc": [
+            "以下 AutoRaise 专属识别任务仅为 1280x720 国服截图占位，截图补齐并实机验证前不得视为可运行流程。",
+            "已复用：OperBox-Entry、OperBoxFlagRole1..Role8、CharsNameOcrReplace、OperBoxNameOCR、OperBoxFlagElite1/2。",
+            "已复用：InfrastFacilityImageAnalyzer、Training.png、InfrastTraining*、InfrastOperImageAnalyzer 和 infrastscore。",
+            "待采集：干员档案页、升级/晋升按钮、红色材料槽、材料详情跳转、训练室选择按钮。",
+            "待采集：双芯片制造、芯片组、芯片助剂库存、采购数量、原产线产品及生产数量恢复状态。"
+        ],
+        "algorithm": "JustReturn",
+        "action": "DoNothing"
+    },
+    "AutoRaise@ManualRecognition": {
+        "doc": "人工截图占位。特殊文本保证截图缺失时识别失败，不以固定坐标绕过。",
+        "algorithm": "OcrDetect",
+        "text": ["__OPERATOR_DEVELOPMENT_TEMPLATE_REQUIRED__"],
+        "roi": [0, 0, 1280, 720],
+        "action": "DoNothing"
+    },
+    "AutoRaise@ManualAction": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "人工截图占位。按钮模板补齐后改为对应识别算法，点击保持 ClickSelf。",
+        "action": "ClickSelf"
+    },
+    "AutoRaise@Profile": {
+        "baseTask": "AutoRaise@ManualRecognition",
+        "doc": "干员档案页标志占位"
+    },
+
+    "AutoRaise@EliteSatisfied1": { "baseTask": "AutoRaise@ManualRecognition", "doc": "精英一阶段占位" },
+    "AutoRaise@EliteSatisfied2": { "baseTask": "AutoRaise@ManualRecognition", "doc": "精英二阶段占位" },
+    "AutoRaise@CurrentPhase0": { "baseTask": "AutoRaise@ManualRecognition", "doc": "未精英阶段占位" },
+    "AutoRaise@CurrentPhase1": { "baseTask": "AutoRaise@ManualRecognition", "doc": "精英一阶段占位" },
+    "AutoRaise@LevelMax": { "baseTask": "AutoRaise@ManualAction", "doc": "升至当前阶段满级并确认占位" },
+    "AutoRaise@Promote": { "baseTask": "AutoRaise@ManualAction", "doc": "晋升按钮及确认占位" },
+    "AutoRaise@PromotionMaterialMissing": { "baseTask": "AutoRaise@ManualRecognition", "doc": "晋升红色缺料槽占位" },
+    "AutoRaise@DualChipRequired": { "baseTask": "AutoRaise@ManualRecognition", "doc": "双芯片缺口占位" },
+    "AutoRaise@RecordFactoryState": { "baseTask": "AutoRaise@ManualRecognition", "doc": "原产品及数量识别占位；识别失败时不得切换产线" },
+    "AutoRaise@ChipPackEnough": { "baseTask": "AutoRaise@ManualRecognition", "doc": "芯片组数量占位" },
+    "AutoRaise@CatalystMissing": { "baseTask": "AutoRaise@ManualRecognition", "doc": "芯片助剂精确缺口占位" },
+    "AutoRaise@BuyExactCatalystShortage": { "baseTask": "AutoRaise@ManualAction", "doc": "仅购买当前目标助剂缺口占位" },
+    "AutoRaise@CatalystEnough": { "baseTask": "AutoRaise@ManualRecognition", "doc": "助剂库存复核占位" },
+    "AutoRaise@ManufactureDualChip": { "baseTask": "AutoRaise@ManualAction", "doc": "双芯片制造及数量确认占位" },
+    "AutoRaise@RestoreFactoryState": { "baseTask": "AutoRaise@ManualAction", "doc": "恢复原产品和生产数量并复核占位" },
+
+    "AutoRaise@SkillsSatisfied2": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能等级 2 占位" },
+    "AutoRaise@SkillsSatisfied3": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能等级 3 占位" },
+    "AutoRaise@SkillsSatisfied4": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能等级 4 占位" },
+    "AutoRaise@SkillsSatisfied5": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能等级 5 占位" },
+    "AutoRaise@SkillsSatisfied6": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能等级 6 占位" },
+    "AutoRaise@SkillsSatisfied7": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能等级 7 占位" },
+    "AutoRaise@SkillsPrerequisiteMissing2": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@SkillsPrerequisiteMissing3": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@SkillsPrerequisiteMissing4": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@SkillsPrerequisiteMissing5": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@SkillsPrerequisiteMissing6": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@SkillsPrerequisiteMissing7": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@SkillMaterialMissing": { "baseTask": "AutoRaise@ManualRecognition", "doc": "技能红色缺料槽占位" },
+    "AutoRaise@SkillUpgrade": { "baseTask": "AutoRaise@ManualAction", "doc": "技能升级及确认占位" },
+
+    "AutoRaise@OpenMissingMaterial": { "baseTask": "AutoRaise@ManualAction", "doc": "以红色材料槽识别结果点击自身" },
+    "AutoRaise@GoToWorkshop": { "baseTask": "AutoRaise@ManualAction", "doc": "材料详情页前往加工站按钮占位" },
+    "AutoRaise@ReturnFromWorkshop": { "baseTask": "AutoRaise@ManualAction", "doc": "从加工站返回原培养页面占位" },
+    "AutoRaise@MaterialStillMissing": { "baseTask": "AutoRaise@ManualRecognition", "doc": "返回后重新打开材料槽并复核红色状态占位" },
+
+    "AutoRaise@MasteryPrerequisiteMissing": { "baseTask": "AutoRaise@ManualRecognition", "doc": "专精前置条件不足占位" },
+    "AutoRaise@MasteryMaterialMissing": { "baseTask": "AutoRaise@ManualRecognition", "doc": "专精红色缺料槽占位" },
+    "AutoRaise@SelectTrainee": { "baseTask": "AutoRaise@ManualAction", "doc": "打开受训干员列表占位；列表目标查找、OCR 翻页和卡片点击由 InfrastOperImageAnalyzer 处理" },
+    "AutoRaise@SelectSkill1": { "baseTask": "AutoRaise@ManualAction", "doc": "选择技能一占位" },
+    "AutoRaise@SelectSkill2": { "baseTask": "AutoRaise@ManualAction", "doc": "选择技能二占位" },
+    "AutoRaise@SelectSkill3": { "baseTask": "AutoRaise@ManualAction", "doc": "选择技能三占位" },
+    "AutoRaise@StartMastery": { "baseTask": "AutoRaise@ManualAction", "doc": "只启动下一级专精并确认占位" },
+    "AutoRaise@MasterySatisfied11": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@MasterySatisfied12": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@MasterySatisfied13": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@MasterySatisfied21": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@MasterySatisfied22": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@MasterySatisfied23": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@MasterySatisfied31": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@MasterySatisfied32": { "baseTask": "AutoRaise@ManualRecognition" },
+    "AutoRaise@MasterySatisfied33": { "baseTask": "AutoRaise@ManualRecognition" }
 }
