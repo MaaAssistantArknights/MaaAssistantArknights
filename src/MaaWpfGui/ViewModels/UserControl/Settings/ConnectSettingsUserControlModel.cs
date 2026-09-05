@@ -867,6 +867,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool ShowWindowRestoreButton =>
         IsPCConnectConfig && ExtraConfig is Models.EmulatorConnectionExtra.Win32Extra { MouseMethod: AsstWin32InputMethod.SendMessageWithWindowPos };
 
+    [PropertyDependsOn(nameof(ConnectConfig))]
     public bool IsPCConnectConfig => ConnectConfig == ConnectConfig.PC;
 
     #endregion
