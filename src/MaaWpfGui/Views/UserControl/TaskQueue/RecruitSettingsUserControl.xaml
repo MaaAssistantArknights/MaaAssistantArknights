@@ -52,22 +52,6 @@
                     ValueFormat="00"
                     Value="{Binding ChooseLevel3Min}" />
             </StackPanel>
-            <StackPanel
-                Margin="0,5"
-                IsEnabled="{Binding ChooseLevel3}"
-                Orientation="Horizontal">
-                <CheckBox
-                    VerticalAlignment="Center"
-                    Content="{DynamicResource RecruitLevel3PermitReserve}"
-                    IsChecked="{Binding Level3RecruitmentPermitReserveEnabled}" />
-                <hc:NumericUpDown
-                    Width="65"
-                    Margin="8,0,0,0"
-                    IsEnabled="{Binding Level3RecruitmentPermitReserveEnabled}"
-                    Maximum="999"
-                    Minimum="1"
-                    Value="{Binding Level3RecruitmentPermitReserve}" />
-            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AutoSelectLevel4}"
@@ -152,6 +136,22 @@
                 Margin="0,10"
                 Content="{DynamicResource AutoRefresh}"
                 IsChecked="{Binding RefreshLevel3}" />
+            <StackPanel
+                Margin="0,10"
+                IsEnabled="{Binding ChooseLevel3}"
+                Orientation="Horizontal">
+                <CheckBox
+                    VerticalAlignment="Center"
+                    Content="{DynamicResource RecruitLevel3PermitReserve}"
+                    IsChecked="{Binding Level3RecruitmentPermitReserveEnabled}" />
+                <hc:NumericUpDown
+                    Width="65"
+                    Margin="8,0,0,0"
+                    IsEnabled="{Binding Level3RecruitmentPermitReserveEnabled}"
+                    Maximum="999"
+                    Minimum="1"
+                    Value="{Binding Level3RecruitmentPermitReserve}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding ForceRefresh}"
