@@ -2390,6 +2390,10 @@
     "RecruitNoPermit": {
         "roi": [300, 600, 190, 110]
     },
+    "RecruitPermitCount": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [300, 600, 190, 110]
+    },
     "RecruitNoRefresh": {
         "roi": [850, 340, 220, 170]
     },

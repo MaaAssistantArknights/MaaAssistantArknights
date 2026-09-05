@@ -1681,6 +1681,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Refreshed">새로고침됨</system:String>
     <system:String x:Key="ContinueRefresh">모집 허가증 없음, 태그 새로고침</system:String>
     <system:String x:Key="NoRecruitmentPermit">모집 허가증 없음, 중지</system:String>
+    <system:String x:Key="RecruitPermitReserved">모집 허가증이 {0}개 남아 보유 설정값 {1}개에 도달했습니다. 현재 ★3 모집을 건너뜁니다</system:String>
+    <system:String x:Key="RecruitPermitCountRecognitionFailed">모집 허가증 수를 인식하지 못했습니다. 허가증을 보존하기 위해 현재 ★3 모집을 건너뜁니다</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">공개모집 다중 태그 선택 전략</system:String>
     <system:String x:Key="DefaultNoExtraTags">기본값: 추가 태그 없음</system:String>
     <system:String x:Key="SelectExtraTags">항상 3개의 태그를 선택</system:String>
@@ -1813,6 +1815,8 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="RecruitMaxTimes">시행 시의 최대 모집횟수</system:String>
     <system:String x:Key="PreserveTags">지정 태그 보류</system:String>
     <system:String x:Key="AutoSelectLevel3">★3 자동 모집</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserve">★3 모집용 모집 허가증 보유</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserveTip">남은 모집 허가증 수가 이 값 이하이면 ★3 모집을 건너뜁니다</system:String>
     <system:String x:Key="AutoSelectLevel4">★4 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel5">★5 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel6">★6 자동 모집</system:String>

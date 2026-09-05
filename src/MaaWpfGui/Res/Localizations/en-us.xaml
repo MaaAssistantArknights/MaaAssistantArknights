@@ -1679,6 +1679,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Refreshed">Refreshed</system:String>
     <system:String x:Key="ContinueRefresh">No recruitment permit, trying to refresh Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">No recruitment permit, returned</system:String>
+    <system:String x:Key="RecruitPermitReserved">{0} recruitment permit(s) remaining; reserve is {1}. Skipped the current 3★ recruitment</system:String>
+    <system:String x:Key="RecruitPermitCountRecognitionFailed">Failed to recognize the recruitment permit count. Skipped the current 3★ recruitment to preserve permits</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">Strategies for Additional Tags</system:String>
     <system:String x:Key="DefaultNoExtraTags">Additional Tags are not selected by default</system:String>
     <system:String x:Key="SelectExtraTags">If higher ★ tags appear, always select 3 tags</system:String>
@@ -1811,6 +1813,8 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="RecruitMaxTimes">Recruit max times</system:String>
     <system:String x:Key="PreserveTags">Preserve selected tags</system:String>
     <system:String x:Key="AutoSelectLevel3">Auto confirm 3★</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserve">Reserve recruitment permits for 3★</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserveTip">Skip 3★ recruitment when the remaining permit count is less than or equal to this value</system:String>
     <system:String x:Key="AutoSelectLevel4">Auto confirm 4★</system:String>
     <system:String x:Key="AutoSelectLevel5">Auto confirm 5★</system:String>
     <system:String x:Key="AutoSelectLevel6">Auto confirm 6★</system:String>
