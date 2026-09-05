@@ -319,6 +319,12 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 @required
 会去点击确认的 Tag 等级。若仅公招计算，可设置为空数组。  
 :::  
+::: field level3_recruitment_permit_reserve
+@type number
+@default 0
+@optional
+自动确认 3 星时保留的招聘许可数量。当前许可数量小于等于该值时跳过 3 星招募，4 星及以上不受影响；设为 `0` 时禁用。若启用后数量识别失败，也会跳过当前 3 星招募以避免误消耗。
+:::
 ::: field first_tags  
 @type array<string>
 @optional
@@ -424,6 +430,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    "refresh": true,
    "select": [5, 4],
    "confirm": [4, 3],
+   "level3_recruitment_permit_reserve": 8,
    "first_tags": ["高级资深干员"],
    "extra_tags_mode": 1,
    "times": 4,
