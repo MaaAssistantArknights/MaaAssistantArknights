@@ -1816,7 +1816,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
     <system:String x:Key="PreserveTags">指定タグを保留する</system:String>
     <system:String x:Key="AutoSelectLevel3">星3を自動的に確認する</system:String>
-    <system:String x:Key="RecruitLevel3PermitReserve">星3用に残す求人票の数（0で無効）</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserve">星3用に求人票を残す</system:String>
     <system:String x:Key="AutoSelectLevel4">星4を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel6">星6を自動的に確認する</system:String>

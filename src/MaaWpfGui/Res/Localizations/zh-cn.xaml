@@ -1812,7 +1812,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="RecruitMaxTimes">每次执行时最大招募次数</system:String>
     <system:String x:Key="PreserveTags">保留指定词条</system:String>
     <system:String x:Key="AutoSelectLevel3">自动确认 3 星</system:String>
-    <system:String x:Key="RecruitLevel3PermitReserve">3 星保留招聘许可（0 表示不保留）</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserve">3 星保留招聘许可</system:String>
     <system:String x:Key="AutoSelectLevel4">自动确认 4 星</system:String>
     <system:String x:Key="AutoSelectLevel5">自动确认 5 星</system:String>
     <system:String x:Key="AutoSelectLevel6">自动确认 6 星</system:String>

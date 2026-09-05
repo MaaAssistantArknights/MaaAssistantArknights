@@ -171,6 +171,17 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 自动确认3星时是否保留招聘许可。
+    /// </summary>
+    public bool Level3RecruitmentPermitReserveEnabled
+    {
+        get => GetTaskConfig<RecruitTask>().Level3RecruitmentPermitReserveEnabled;
+        set => SetTaskConfig<RecruitTask>(
+            t => t.Level3RecruitmentPermitReserveEnabled == value,
+            t => t.Level3RecruitmentPermitReserveEnabled = value);
+    }
+
+    /// <summary>
     /// Gets or sets 自动确认3星时保留的招聘许可数量。
     /// </summary>
     public int Level3RecruitmentPermitReserve
@@ -310,7 +321,9 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
                 SelectExtraTags = recruit.ExtraTagMode,
                 Level3FirstList = firstTags,
                 PreserveTags = preserveTags,
-                Level3RecruitmentPermitReserve = recruit.Level3RecruitmentPermitReserve,
+                Level3RecruitmentPermitReserve = recruit.Level3RecruitmentPermitReserveEnabled
+                    ? recruit.Level3RecruitmentPermitReserve
+                    : 0,
                 ChooseLevel3Time = recruit.Level3Time,
                 ChooseLevel4Time = recruit.Level4Time,
                 ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,

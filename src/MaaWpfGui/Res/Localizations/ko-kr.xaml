@@ -1815,7 +1815,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="RecruitMaxTimes">시행 시의 최대 모집횟수</system:String>
     <system:String x:Key="PreserveTags">지정 태그 보류</system:String>
     <system:String x:Key="AutoSelectLevel3">★3 자동 모집</system:String>
-    <system:String x:Key="RecruitLevel3PermitReserve">★3 모집 시 보유할 모집 허가증 수 (0은 비활성화)</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserve">★3 모집용 모집 허가증 보유</system:String>
     <system:String x:Key="AutoSelectLevel4">★4 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel5">★5 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel6">★6 자동 모집</system:String>

@@ -1813,7 +1813,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="RecruitMaxTimes">Recruit max times</system:String>
     <system:String x:Key="PreserveTags">Preserve selected tags</system:String>
     <system:String x:Key="AutoSelectLevel3">Auto confirm 3★</system:String>
-    <system:String x:Key="RecruitLevel3PermitReserve">Recruitment permits reserved for 3★ (0 disables)</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserve">Reserve recruitment permits for 3★</system:String>
     <system:String x:Key="AutoSelectLevel4">Auto confirm 4★</system:String>
     <system:String x:Key="AutoSelectLevel5">Auto confirm 5★</system:String>
     <system:String x:Key="AutoSelectLevel6">Auto confirm 6★</system:String>
