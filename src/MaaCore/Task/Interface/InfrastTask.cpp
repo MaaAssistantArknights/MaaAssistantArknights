@@ -40,6 +40,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     m_infrast_begin_task_ptr->register_plugin<ScreenshotTaskPlugin>();
     m_queue_rotation_task->set_tasks({ "InfrastEnterRotation" }).set_ignore_error(true);
     m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
+    m_replenish_task_ptr->set_retry_times(0);
     m_info_task_ptr->set_ignore_error(true);
     // InfrastInfoTask 内部按布局完整性最多尝试三轮，避免框架重试再次放大次数。
     m_info_task_ptr->set_retry_times(0);
