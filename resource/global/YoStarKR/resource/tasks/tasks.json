@@ -1867,6 +1867,14 @@
         "Doc": "On some emulator/resolution setups, greyed-out Roguelike recruit cards' level digits exceed the default binarization floor and read as recruitable. Raised it from 140 to 160.",
         "binThreshold": [160, 255]
     },
+    "DepotMaterialTab": {
+        "Doc": "This task should be removed when updating the Depot UI. da5ccfe4edcc3fae14d8a91ec2e19ea6b8241bf2",
+        "roi": [1026, 0, 254, 138]
+    },
+    "DepotMaterialTabClicked": {
+        "Doc": "This task should be removed when updating the Depot UI. da5ccfe4edcc3fae14d8a91ec2e19ea6b8241bf2",
+        "roi": [1026, 0, 254, 138]
+    },
     "OperBoxSortTabSelect": {
         "ocrReplace": [["레.?", "레벨"]],
         "text": ["레벨"]

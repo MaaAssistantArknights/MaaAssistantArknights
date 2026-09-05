@@ -1657,6 +1657,14 @@
     "BattleDeployWhenPause": {
         "specialParams": [0]
     },
+    "DepotMaterialTab": {
+        "Doc": "This task should be removed when updating the Depot UI. da5ccfe4edcc3fae14d8a91ec2e19ea6b8241bf2",
+        "roi": [1026, 0, 254, 138]
+    },
+    "DepotMaterialTabClicked": {
+        "Doc": "This task should be removed when updating the Depot UI. da5ccfe4edcc3fae14d8a91ec2e19ea6b8241bf2",
+        "roi": [1026, 0, 254, 138]
+    },
     "OperBoxSortTabSelect": {
         "text": ["レベル"]
     },
