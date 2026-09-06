@@ -7,6 +7,7 @@
 #include "Config/Miscellaneous/InfrastConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Status.h"
 #include "Task/Infrast/InfrastScore.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/ProcessTask.h"
@@ -21,6 +22,8 @@
 namespace
 {
 constexpr int MaxOperatorPages = 20;
+// 制造站产线当前产品写入 Status 的键，RestoreFactoryState 读取后恢复原产品。
+constexpr std::string_view FactoryProductStatusKey = "AutoRaiseFactoryProduct";
 
 std::string role_task_name(asst::battle::Role role)
 {
@@ -185,20 +188,25 @@ asst::AutoRaiseProcessTask::Result
             return Result::RecognitionFailed;
         }
         if (run_task("AutoRaise@EliteUpMaterialMissing")) {
-            if (!synthesize_missing_material()) {
+            // 缺料槽按 raise.lua:1169-1294 的顺序处理：芯片槽优先走制造站，其余材料槽走加工站合成。
+            if (run_task("AutoRaise@DualchipRequired")) {
                 // 加工站无法合成芯片。只有 5/6 星晋升二阶所需的双芯片有制造站产线，
                 // 其余晋升芯片缺料时无法补齐，报错并转入下一条培养计划。
                 const bool dual_chip =
                     target.target == 2 &&
                     BattleData.get_rarity(BattleData.get_first_role(target.name), target.name) > 4;
-                if (!dual_chip) {
-                    return Result::ChipNotCraftable;
-                }
-                if (!manufacture_dual_chip()) {
-                    return Result::ResourceInsufficient;
+                if (!dual_chip || !manufacture_dual_chip()) {
+                    return dual_chip ? Result::ResourceInsufficient : Result::ChipNotCraftable;
                 }
             }
-            // 合成返回晋升弹窗后复核红色数量文字，仍缺料则不点击晋升。
+            // 材料 1/2 依次跳转加工站复用小游戏自动合成；当前槽位修复后再处理下一槽。
+            if (run_task("AutoRaise@EliteUpMaterial1Required") && !synthesize_missing_material(1)) {
+                return Result::ResourceInsufficient;
+            }
+            if (run_task("AutoRaise@EliteUpMaterial2Required") && !synthesize_missing_material(2)) {
+                return Result::ResourceInsufficient;
+            }
+            // 全部可修复槽位处理完后复核弹窗红色数量文字，仍缺料则不点击晋升。
             if (run_task("AutoRaise@MaterialStillMissing")) {
                 return Result::ResourceInsufficient;
             }
@@ -225,7 +233,7 @@ asst::AutoRaiseProcessTask::Result
         if (run_task("AutoRaise@SkillsSatisfied" + std::to_string(level))) {
             continue;
         }
-        if (run_task("AutoRaise@SkillMaterialMissing") && !synthesize_missing_material()) {
+        if (run_task("AutoRaise@SkillMaterialMissing") && !synthesize_missing_material(0)) {
             return Result::ResourceInsufficient;
         }
         if (!run_task("AutoRaise@SkillUpgrade") ||
@@ -269,7 +277,7 @@ asst::AutoRaiseProcessTask::Result
     if (run_task("AutoRaise@MasteryPrerequisiteMissing")) {
         return Result::PrerequisiteNotMet;
     }
-    if (run_task("AutoRaise@MasteryMaterialMissing") && !synthesize_missing_material()) {
+    if (run_task("AutoRaise@MasteryMaterialMissing") && !synthesize_missing_material(0)) {
         return Result::ResourceInsufficient;
     }
 
@@ -500,25 +508,80 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
     return true;
 }
 
-bool asst::AutoRaiseProcessTask::synthesize_missing_material()
+bool asst::AutoRaiseProcessTask::synthesize_missing_material(int material_index)
 {
-    if (!run_task("AutoRaise@OpenMissingMaterial") || !run_task("AutoRaise@GoToWorkshop")) {
-        return false;
+    const std::string slot = std::to_string(material_index);
+    if (material_index > 0) {
+        // 点击晋升弹窗上的缺料槽打开材料详情，经“前往加工站”跳转；落页即目标材料的配方页。
+        // 对照 raise.lua:2047-2076：点材料槽 → 材料白衣 → 点跳转按钮 → 加工站。
+        if (!run_task("AutoRaise@EliteUpMaterial" + slot) ||
+            !run_task("AutoRaise@EliteUpMaterial" + slot + "JumpProcessing")) {
+            return false;
+        }
     }
+    else {
+        // 无专用槽位任务的页面（技能升级等）暂走通用缺料槽占位流程。
+        if (!run_task("AutoRaise@OpenMissingMaterial") || !run_task("AutoRaise@GoToWorkshop")) {
+            return false;
+        }
+    }
+    // 加工站递归合成复用小游戏自动合成逻辑：插件入口校验加工站标志并驱动当前配方。
     MaterialSynthesisTaskPlugin synthesis(m_callback, m_inst, m_task_chain);
     synthesis.set_task_id(m_task_id).set_retry_times(0);
     if (!synthesis.run() || !run_task("AutoRaise@ReturnFromWorkshop")) {
         return false;
     }
-    // 合成返回后必须重新打开缺料槽并检查红色状态，不能只依赖合成任务的返回值。
+    if (material_index > 0) {
+        // 加工站返回停在材料详情，再次点击材料槽关闭详情回到晋升弹窗；
+        // 复核本槽位红色数量文字，仍缺则本槽位修复失败（其余槽位由 execute_elite 继续处理）。
+        if (!run_task("AutoRaise@EliteUpMaterial" + slot) ||
+            run_task("AutoRaise@EliteUpMaterial" + slot + "Required")) {
+            return false;
+        }
+        return true;
+    }
+    // 通用路径无独立槽位探针，复核全局红色状态。
     return !run_task("AutoRaise@MaterialStillMissing");
+}
+
+bool asst::AutoRaiseProcessTask::record_factory_state()
+{
+    // 制造站产线当前产品复用基建产品标志模板识别（对照 raise.lua:1811-1831 的赤金/经验/芯片/源石站），
+    // 识别结果写入 Status 供 RestoreFactoryState 恢复；识别失败时不得切换产线。
+    const cv::Mat image = ctrler()->get_image();
+    BestMatcher analyzer(image);
+    analyzer.set_task_info("AutoRaise@RecordFactoryState");
+    static const std::vector<std::pair<std::string, std::string>> product_flags = {
+        { "InfrastMfgPureGoldFlag.png", "PureGold" },
+        { "InfrastMfgDogFoodFlag.png", "BattleRecord" },
+        { "InfrastMfgOriginStoneFlag.png", "OriginiumShard" },
+        { "InfrastMfgChipFlag.png", "Chip" },
+    };
+    for (const auto& [templ, product] : product_flags) {
+        analyzer.append_templ(templ);
+    }
+    if (!analyzer.analyze()) {
+        Log.error("AutoRaise | factory product flag not recognized, refusing to switch production line");
+        save_img(utils::path("debug") / utils::path("auto_raise"), false);
+        return false;
+    }
+    const std::string& templ_name = analyzer.get_result().templ_info.name;
+    for (const auto& [templ, product] : product_flags) {
+        if (templ == templ_name) {
+            status()->set_str(std::string(FactoryProductStatusKey), product);
+            Log.info("AutoRaise | factory product recorded", product);
+            return true;
+        }
+    }
+    return false;
 }
 
 bool asst::AutoRaiseProcessTask::manufacture_dual_chip()
 {
-    // 芯片组、助剂库存和原产线状态分别识别；无法识别原产线时禁止盲目切换产品。
-    if (!run_task("AutoRaise@DualchipRequired") || !run_task("AutoRaise@RecordFactoryState") ||
-        !run_task("AutoRaise@ChipPackEnough")) {
+    // 芯片缺料经制造站芯片产线生产；芯片组库存、助剂补购与数量设置仍是占位任务。
+    // 对照 raise.lua:1187-1245：芯片站 → 选芯片类 → 补购助剂 → 制造站加 ×(缺口-1) → 执行更改 → 右确认 → 恢复赤金产线。
+    if (!run_task("AutoRaise@Dualchip") || !run_task("AutoRaise@DualchipJumpMfg") ||
+        !record_factory_state() || !run_task("AutoRaise@ChipPackEnough")) {
         return false;
     }
     if (run_task("AutoRaise@CatalystMissing") && (!run_task("AutoRaise@BuyExactCatalystShortage") ||
@@ -528,8 +591,8 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip()
     if (!run_task("AutoRaise@ManufactureDualchip")) {
         return false;
     }
-    // 制造完成后恢复原产品和生产数量，避免破坏用户的基建配置。
-    return run_task("AutoRaise@RestoreFactoryState");
+    // 制造完成后返回晋升弹窗：先退回材料详情，再点击芯片槽关闭详情。
+    return run_task("AutoRaise@ReturnFromWorkshop") && run_task("AutoRaise@Dualchip");
 }
 
 bool asst::AutoRaiseProcessTask::run_task(const std::string& task_name, int retry_times)
