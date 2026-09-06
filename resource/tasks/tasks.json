@@ -5967,7 +5967,6 @@
             "Stop"
         ]
     },
-
     "AutoRaise@TemplateChecklist": {
         "doc": [
             "以下 AutoRaise 专属识别任务仅为 1280x720 国服截图占位，截图补齐并实机验证前不得视为可运行流程。",
@@ -6161,13 +6160,13 @@
         "doc": "干员精英化芯片位置,用于开启和关闭跳转弹窗"
     },
     "AutoRaise@EliteUpMaterial1": {
-        "baseTask": "AutoRaise@Dualchip",
-        "specificRect": [484, 575, 47, 46],
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [484, 575, 47, 46],
         "doc": "干员精英化第一个位置,用于开启和关闭跳转弹窗"
     },
     "AutoRaise@EliteUpMaterial2": {
-        "baseTask": "AutoRaise@Dualchip",
-        "specificRect": [626, 578, 47, 46],
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [626, 578, 47, 46],
         "doc": "干员精英化第二个位置,用于开启和关闭跳转弹窗"
     },
     "AutoRaise@DualchipJumpMfg": {
@@ -6183,6 +6182,132 @@
         "template": "FacilityListTabMfg.png",
         "postDelay": 300,
         "maxTimes": 20
+    },
+    "AutoRaise@DualchipBadgeCount": {
+        "baseTask": "NumberOcrReplace",
+        "doc": "晋升页面芯片icon下方 x/y 的 x 段",
+        "roi": [356, 658, 17, 26]
+    },
+    "AutoRaise@MfgChipStation": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [1100, 296, 20, 20],
+        "postDelay": 800,
+        "doc": "制造站选中芯片产线（point.lua:1806 芯片站 {1650,444}÷1.5）；占位任务，待制造站详情页截图核对。"
+    },
+    "AutoRaise@MfgSelectChipCategory": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [135, 341, 20, 20],
+        "postDelay": 800,
+        "doc": "制造站打开芯片类产品列表（point.lua:1810 制造站选芯片类 {202,511}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@MfgChipProduct3213": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [340, 174, 20, 20],
+        "doc": "选择先锋双芯片（point.lua:1819 芯片制造3213 {510,261}÷1.5）；占位任务，待产品列表截图核对。"
+    },
+    "AutoRaise@MfgChipProduct3223": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [822, 167, 20, 20],
+        "doc": "选择近卫双芯片（point.lua:1820 芯片制造3223 {1233,250}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@MfgChipProduct3233": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [329, 342, 20, 20],
+        "doc": "选择重装双芯片（point.lua:1821 芯片制造3233 {494,513}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@MfgChipProduct3243": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [822, 338, 20, 20],
+        "doc": "选择狙击双芯片（point.lua:1822 芯片制造3243 {1233,507}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@MfgChipProduct3253": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [331, 535, 20, 20],
+        "doc": "选择术师双芯片（point.lua:1823 芯片制造3253 {497,803}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@MfgChipProduct3263": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [822, 517, 20, 20],
+        "doc": "选择医疗双芯片（point.lua:1824 芯片制造3263 {1233,776}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@MfgChipProduct3273": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [341, 684, 20, 20],
+        "doc": "选择辅助双芯片（point.lua:1825 芯片制造3273 {512,1026}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@MfgChipProduct3283": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [822, 683, 20, 20],
+        "doc": "选择特种双芯片（point.lua:1826 芯片制造3283 {1233,1025}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@MfgCatalystCount": {
+        "baseTask": "NumberOcrReplace",
+        "doc": "芯片产品页助剂数量 OCR（point.lua:1815 胶水数量识别范围 {679,575,780,637}÷1.5）；占位任务，待截图核对。",
+        "roi": [453, 383, 67, 41]
+    },
+    "AutoRaise@MfgCatalystStock": {
+        "baseTask": "NumberOcrReplace",
+        "doc": "芯片产品页助剂库存 OCR（point.lua:1816 胶水库存识别范围 {727,638,853,668}÷1.5）；占位任务，待截图核对。",
+        "roi": [485, 425, 84, 20]
+    },
+    "AutoRaise@MfgCatalystMissing": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "doc": "助剂数量红字检测，数色配方同 EliteUpMaterialMissing（point.lua:1814 选芯片界面胶水红）；待截图核对。"
+    },
+    "AutoRaise@MfgIncrease": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [865, 207, 20, 20],
+        "postDelay": 200,
+        "doc": "制造站增加生产数量（point.lua:1817 制造站加 {1298,311}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@MfgApplyChange": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [947, 565, 20, 20],
+        "postDelay": 1000,
+        "doc": "制造站执行更改（point.lua:419 制造站执行更改 {1420,847}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@MfgRightConfirm": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [840, 495, 20, 20],
+        "postDelay": 500,
+        "doc": "执行更改后的右侧确认弹窗（point.lua:2167 右确认 {1260,743}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@ShopEnter": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [755, 115, 20, 20],
+        "postDelay": 800,
+        "doc": "采购中心进入凭证交易所（point.lua:379 凭证交易所进入 {1133,173}÷1.5）；从制造站到采购中心的导航待截图拆分。"
+    },
+    "AutoRaise@ShopSelectCreditStore": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [160, 460, 20, 20],
+        "postDelay": 800,
+        "doc": "凭证交易所切换红票商店（point.lua:383 红票商店选中 {240,690}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@ShopCatalyst": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [356, 297, 20, 20],
+        "postDelay": 800,
+        "doc": "红票商店芯片助剂商品（point.lua:391 红票商店胶水 {534,445}÷1.5）；商品需滚动查找，待截图改模板识别。"
+    },
+    "AutoRaise@ShopCatalystIncrease": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [994, 430, 20, 20],
+        "postDelay": 300,
+        "doc": "购买面板商品加（point.lua:387 凭证交易所商品加 {1491,645}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@ShopPay": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [861, 575, 20, 20],
+        "postDelay": 800,
+        "doc": "购买面板支付（point.lua:382 凭证交易所支付 {1291,863}÷1.5）；占位任务，待截图核对。"
+    },
+    "AutoRaise@ShopObtain": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [639, 628, 20, 20],
+        "postDelay": 800,
+        "doc": "领取获得物资（point.lua:626 获得物资 {959,942}÷1.5）；占位任务，待截图核对。"
     },
     "AutoRaise@EliteUpMaterial1JumpProcessing": {
         "template": "OperFilesJumpButton.png",
@@ -6363,7 +6488,7 @@
     },
     "AutoRaise@ReturnFromWorkshop": {
         "baseTask": "Return",
-        "template": "Return.png",        
+        "template": "Return.png",
         "postDelay": 1000
     },
     "AutoRaise@MaterialStillMissing": {

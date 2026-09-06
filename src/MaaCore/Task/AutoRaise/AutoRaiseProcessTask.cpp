@@ -1,6 +1,9 @@
 #include "AutoRaiseProcessTask.h"
 
 #include <algorithm>
+#include <charconv>
+#include <cctype>
+#include <optional>
 #include <ranges>
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -24,6 +27,31 @@ namespace
 constexpr int MaxOperatorPages = 20;
 // 制造站产线当前产品写入 Status 的键，RestoreFactoryState 读取后恢复原产品。
 constexpr std::string_view FactoryProductStatusKey = "AutoRaiseFactoryProduct";
+
+// 双芯片产品 id 按职业，与 item_index 一致：3213 先锋 .. 3283 特种（point.lua 芯片制造3213..3283）。
+std::string dual_chip_product_id(asst::battle::Role role)
+{
+    switch (role) {
+    case asst::battle::Role::Pioneer:
+        return "3213";
+    case asst::battle::Role::Warrior:
+        return "3223";
+    case asst::battle::Role::Tank:
+        return "3233";
+    case asst::battle::Role::Sniper:
+        return "3243";
+    case asst::battle::Role::Caster:
+        return "3253";
+    case asst::battle::Role::Medic:
+        return "3263";
+    case asst::battle::Role::Support:
+        return "3273";
+    case asst::battle::Role::Special:
+        return "3283";
+    default:
+        return {};
+    }
+}
 
 std::string role_task_name(asst::battle::Role role)
 {
@@ -182,7 +210,7 @@ asst::AutoRaiseProcessTask::Result
             !run_task("AutoRaise@LevelUp")) {
             return Result::RecognitionFailed;
         }
-        // 档案页不展示材料行，缺料复核以晋升弹窗上的红色数量文字为准；
+        // 档案页不展示材料行，缺料复核以晋升页面上的红色数量文字为准；
         // 弹窗链在 EliteUpPage 标志处停止，缺料探测与确认点击由本任务依次驱动。
         if (!run_task("AutoRaise@EliteUp")) {
             return Result::RecognitionFailed;
@@ -195,7 +223,7 @@ asst::AutoRaiseProcessTask::Result
                 const bool dual_chip =
                     target.target == 2 &&
                     BattleData.get_rarity(BattleData.get_first_role(target.name), target.name) > 4;
-                if (!dual_chip || !manufacture_dual_chip()) {
+                if (!dual_chip || !manufacture_dual_chip(target)) {
                     return dual_chip ? Result::ResourceInsufficient : Result::ChipNotCraftable;
                 }
             }
@@ -512,7 +540,7 @@ bool asst::AutoRaiseProcessTask::synthesize_missing_material(int material_index)
 {
     const std::string slot = std::to_string(material_index);
     if (material_index > 0) {
-        // 点击晋升弹窗上的缺料槽打开材料详情，经“前往加工站”跳转；落页即目标材料的配方页。
+        // 点击晋升页面上的缺料槽打开材料详情，经“前往加工站”跳转；落页即目标材料的配方页。
         // 对照 raise.lua:2047-2076：点材料槽 → 材料白衣 → 点跳转按钮 → 加工站。
         if (!run_task("AutoRaise@EliteUpMaterial" + slot) ||
             !run_task("AutoRaise@EliteUpMaterial" + slot + "JumpProcessing")) {
@@ -532,7 +560,7 @@ bool asst::AutoRaiseProcessTask::synthesize_missing_material(int material_index)
         return false;
     }
     if (material_index > 0) {
-        // 加工站返回停在材料详情，再次点击材料槽关闭详情回到晋升弹窗；
+        // 加工站返回停在材料详情，再次点击材料槽关闭详情回到晋升页面；
         // 复核本槽位红色数量文字，仍缺则本槽位修复失败（其余槽位由 execute_elite 继续处理）。
         if (!run_task("AutoRaise@EliteUpMaterial" + slot) ||
             run_task("AutoRaise@EliteUpMaterial" + slot + "Required")) {
@@ -576,23 +604,153 @@ bool asst::AutoRaiseProcessTask::record_factory_state()
     return false;
 }
 
-bool asst::AutoRaiseProcessTask::manufacture_dual_chip()
+std::optional<int> asst::AutoRaiseProcessTask::ocr_number(const std::string& task_name)
 {
-    // 芯片缺料经制造站芯片产线生产；芯片组库存、助剂补购与数量设置仍是占位任务。
-    // 对照 raise.lua:1187-1245：芯片站 → 选芯片类 → 补购助剂 → 制造站加 ×(缺口-1) → 执行更改 → 右确认 → 恢复赤金产线。
-    if (!run_task("AutoRaise@Dualchip") || !run_task("AutoRaise@DualchipJumpMfg") ||
-        !record_factory_state() || !run_task("AutoRaise@ChipPackEnough")) {
+    RegionOCRer analyzer(ctrler()->get_image());
+    analyzer.set_task_info(task_name);
+    analyzer.set_use_raw(true);
+    if (!analyzer.analyze()) {
+        return std::nullopt;
+    }
+
+    std::string digits;
+    for (const unsigned char character : analyzer.get_result().text) {
+        if (std::isdigit(character)) {
+            digits.push_back(static_cast<char>(character));
+        }
+        else if (!digits.empty()) {
+            break;
+        }
+    }
+    if (digits.empty()) {
+        return std::nullopt;
+    }
+    int value = 0;
+    const auto [ptr, error] = std::from_chars(digits.data(), digits.data() + digits.size(), value);
+    if (error != std::errc { } || ptr != digits.data() + digits.size()) {
+        return std::nullopt;
+    }
+    return value;
+}
+
+bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& target)
+{
+    // 完整迁移 raise.lua:1187-1305 芯片分支：
+    // 弹窗徽标 OCR 已有/所需数量算缺口 → 跳制造站进芯片产线并记录当前产品 →
+    // 选芯片类按职业选双芯片 → 助剂数量/库存不足时经凭证商店补购 → 制造站加 ×(缺口-1) →
+    // 执行更改+右确认 → 等待生产 → 返回前按记录恢复产线 → 返回晋升页面。
+    // 生产为排队制：制造完成后当次晋升仍会因材料未到账而复核失败，由外层计划重试（elite_char 注释语义）。
+
+    // 弹窗芯片徽标 OCR 已有数量（point.lua:1887 干员精英化芯片数字，徽标 "x/y" 的 x 段）。
+    // 所需数量按稀有度取值：6★ 晋升二阶需 4 枚、5★ 需 3 枚（寻澜/左乐晋升页面实测）。
+    const int rarity = BattleData.get_rarity(BattleData.get_first_role(target.name), target.name);
+    const int need = rarity >= 6 ? 4 : 3;
+    const int owned = ocr_number("AutoRaise@DualchipBadgeCount").value_or(0);
+    const int shortfall = std::max(need - owned, 0);
+    if (shortfall == 0) {
+        Log.info("AutoRaise | dual chip stock sufficient", owned, "need", need);
+        return true;
+    }
+
+    // 跳转制造站（DualchipJumpMfg 链内校验 MfgPage），进入芯片产线并记录当前产品。
+    if (!run_task("AutoRaise@Dualchip") ||!run_task("AutoRaise@DualchipJumpMfg") || !run_task("AutoRaise@MfgChipStation") ||
+        !record_factory_state()) {
         return false;
     }
-    if (run_task("AutoRaise@CatalystMissing") && (!run_task("AutoRaise@BuyExactCatalystShortage") ||
-                                                            !run_task("AutoRaise@CatalystEnough"))) {
+    // 打开芯片类产品列表，按目标职业选择双芯片产品（point.lua 芯片制造3213..3283）。
+    const std::string chip_id = dual_chip_product_id(BattleData.get_first_role(target.name));
+    if (chip_id.empty() || !run_task("AutoRaise@MfgSelectChipCategory") ||
+        !run_task("AutoRaise@MfgChipProduct" + chip_id)) {
         return false;
     }
-    if (!run_task("AutoRaise@ManufactureDualchip")) {
+
+    // 助剂数量与库存 OCR；红字视为 0（raise.lua:1218-1228，识别失败时按缺口强制购买）。
+    int catalyst_owned = ocr_number("AutoRaise@MfgCatalystCount").value_or(shortfall);
+    int catalyst_stock = ocr_number("AutoRaise@MfgCatalystStock").value_or(shortfall);
+    if (run_task("AutoRaise@MfgCatalystMissing")) {
+        catalyst_owned = 0;
+        catalyst_stock = 0;
+    }
+    const int catalyst_short = shortfall - catalyst_owned - catalyst_stock;
+    if (catalyst_short > 0 && !buy_catalyst(catalyst_short)) {
         return false;
     }
-    // 制造完成后返回晋升弹窗：先退回材料详情，再点击芯片槽关闭详情。
+    // 补购后回产品页需重新选中双芯片（raise.lua:1232-1234）。
+    if (!run_task("AutoRaise@MfgSelectChipCategory") || !run_task("AutoRaise@MfgChipProduct" + chip_id)) {
+        return false;
+    }
+
+    // 生产数量设为缺口：默认 1 次 + 制造站加 ×(缺口-1)（raise.lua:1233-1236）。
+    for (int i = 1; i < shortfall && !need_exit(); ++i) {
+        if (!run_task("AutoRaise@MfgIncrease")) {
+            return false;
+        }
+    }
+    // 执行更改 → 右确认 → 等待生产（一次最多 4 枚，参照等待 6 秒，raise.lua:1237-1248）。
+    if (!run_task("AutoRaise@MfgApplyChange") || !run_task("AutoRaise@MfgRightConfirm")) {
+        return false;
+    }
+    sleep(6000);
+
+    // 返回前把产线切回记录的产品（chip2book 强制恢复赤金，这里按记录值；本就是芯片产线则跳过）。
+    if (!restore_factory_state()) {
+        return false;
+    }
+
+    // 返回晋升页面：先退回材料详情，再点击芯片槽关闭详情（raise.lua:1294-1305）。
     return run_task("AutoRaise@ReturnFromWorkshop") && run_task("AutoRaise@Dualchip");
+}
+
+bool asst::AutoRaiseProcessTask::restore_factory_state()
+{
+    // 读取 record_factory_state 写入的产品名，复用基建换产品链恢复产线；
+    // 无记录或记录为芯片时无需恢复。
+    const auto product = status()->get_str(std::string(FactoryProductStatusKey));
+    if (!product) {
+        Log.warn("AutoRaise | no factory product recorded, skip restoring");
+        return true;
+    }
+    if (*product == "Chip") {
+        return true;
+    }
+    if (!run_task("ChooseProductList")) {
+        return false;
+    }
+    bool selected = false;
+    if (*product == "BattleRecord") {
+        selected = run_task("ChooseBattleRecord");
+    }
+    else if (*product == "PureGold") {
+        selected = run_task("ChoosePureGoldTab") && run_task("ChoosePureGold");
+    }
+    else if (*product == "OriginiumShard") {
+        selected = run_task("ChooseOriginiumShardTab") && run_task("ChooseOriginiumShard");
+    }
+    if (!selected || !run_task("ClickProductMax") || !run_task("ConfirmProductChange") ||
+        !run_task("ProductFinalConfirm") || !run_task("VerifyProductChangedTo" + *product)) {
+        return false;
+    }
+    return true;
+}
+
+bool asst::AutoRaiseProcessTask::buy_catalyst(int count)
+{
+    // 完整迁移 raise.buy_32001（raise.lua:1077-1151）：采购中心 → 凭证交易所 → 红票商店 →
+    // 找到芯片助剂 → 商品加 ×(count-1) → 支付 → 领取。
+    if (!run_task("AutoRaise@ShopEnter") || !run_task("AutoRaise@ShopSelectCreditStore") ||
+        !run_task("AutoRaise@ShopCatalyst")) {
+        return false;
+    }
+    for (int i = 1; i < count && !need_exit(); ++i) {
+        if (!run_task("AutoRaise@ShopCatalystIncrease")) {
+            return false;
+        }
+    }
+    if (!run_task("AutoRaise@ShopPay") || !run_task("AutoRaise@ShopObtain")) {
+        return false;
+    }
+    // 购买后返回制造站继续生产。
+    return run_task("AutoRaise@ReturnFromWorkshop");
 }
 
 bool asst::AutoRaiseProcessTask::run_task(const std::string& task_name, int retry_times)
