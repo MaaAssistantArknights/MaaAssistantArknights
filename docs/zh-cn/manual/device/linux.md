@@ -155,6 +155,8 @@ waydroid prop set persist.waydroid.height 720
 
 游戏仅支持 ARM 架构，在 x64 架构上需要安装 arm64 转译层 libhoudini 或 libndk，参见 [waydroid_script](https://github.com/casualsnek/waydroid_script) 和 [Waydroid Helper](https://github.com/waydroid-helper/waydroid-helper)。
 
+Waydroid 没有 Minitouch 所必需的 `/dev/input/eventN`，无法使用 Minitouch，请切换至其他触控模式。
+
 ### ✅ [redroid](https://github.com/remote-android/redroid-doc)
 
 安卓 11 版本的镜像可正常运行游戏, 需要暴露 5555 ADB 端口.
