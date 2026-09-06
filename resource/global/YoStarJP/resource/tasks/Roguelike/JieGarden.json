@@ -1,4 +1,25 @@
 {
+    "JieGarden@Roguelike@CoppersTakeFlag": {
+        "next": [
+            "JieGarden@Roguelike@CoppersExchangeRewardClose_JP",
+            "JieGarden@Roguelike@CoppersAbandonExchange",
+            "JieGarden@Roguelike@DropsFlag",
+            "JieGarden@Roguelike@CloseEvent",
+            "#self"
+        ]
+    },
+    "JieGarden@Roguelike@CoppersExchangeRewardClose_JP": {
+        "Doc": "日服关闭交换通宝后的获得弹窗",
+        "algorithm": "OcrDetect",
+        "text": ["交換しました"],
+        "action": "ClickRect",
+        "specificRect": [620, 60, 40, 40],
+        "postDelay": 800,
+        "next": [
+            "JieGarden@Roguelike@DropsFlag",
+            "JieGarden@Roguelike@CloseEvent"
+        ]
+    },
     "JieGarden@Roguelike@CheckLevel": {
         "text": ["来園記念", "来園", "記念"]
     },
