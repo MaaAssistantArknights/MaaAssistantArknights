@@ -1,0 +1,8 @@
+{
+    "SwitchThemeByNameLockedTheme": {
+        "text": ["개방조건"]
+    },
+    "SwitchThemeByNameAlreadySet": {
+        "text": ["설정중"]
+    }
+}
