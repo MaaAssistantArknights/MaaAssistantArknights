@@ -3,6 +3,7 @@
 #include "Assistant.h"
 #include "Controller.h"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "SwipeHelper.hpp"
 #include <cmath>
 #include <cstdint>
 #include <numeric>
@@ -479,7 +480,7 @@ bool asst::AdbController::swipe(
     const Point& p1,
     const Point& p2,
     int duration,
-    bool extra_swipe,
+    int extra_swipe,
     [[maybe_unused]] double slope_in,
     [[maybe_unused]] double slope_out,
     [[maybe_unused]] bool with_pause)
@@ -509,15 +510,16 @@ bool asst::AdbController::swipe(
         });
     bool ret = call_command(cur_cmd).has_value();
 
-    // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
+    // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个指定方向的短程滑动，把之前的停下来
     if (extra_swipe && opt.adb_extra_swipe_duration > 0) {
+        const auto offset = extra_swipe_offset(extra_swipe, opt.adb_extra_swipe_dist);
         std::string extra_cmd = utils::string_replace_all(
             m_adb.swipe,
             {
                 { "[x1]", std::to_string(x2) },
                 { "[y1]", std::to_string(y2) },
-                { "[x2]", std::to_string(x2) },
-                { "[y2]", std::to_string(y2 - opt.adb_extra_swipe_dist /* * m_control_scale*/) },
+                { "[x2]", std::to_string(x2 + offset.x) },
+                { "[y2]", std::to_string(y2 + offset.y) },
                 { "[duration]", std::to_string(opt.adb_extra_swipe_duration) },
             });
         ret &= call_command(extra_cmd).has_value();
