@@ -155,6 +155,8 @@ private:
 
     std::string m_uuid;
     std::pair<int, int> m_screen_size = { 0, 0 };
+    bool m_target_is_pc = false;
+
     bool m_main_screen_recognition = false;
 };
 
