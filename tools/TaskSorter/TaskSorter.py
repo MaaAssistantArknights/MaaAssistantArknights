@@ -3,11 +3,12 @@ import json
 import os
 import re
 from pathlib import Path
+from typing import Any
 
 import json5
 
 
-def sort_tasks(res: dict[str, any]):
+def sort_tasks(res: dict[str, Any]):
     classified_lists = {
         "UseSupportUnit...": [],
         "...@UseSupportUnit...": [],
@@ -68,41 +69,56 @@ def raise_on_duplicate_keys(pairs):
 
 
 def load_jsonc(file_obj):
-    return json5.load(file_obj, object_pairs_hook=raise_on_duplicate_keys)
+    """Parse a task file.
+
+    json5 is a pure-Python parser and is much slower than the
+    C-accelerated stdlib json module. Most task files are plain JSON,
+    so try the fast path first and only pay json5's cost for the rare
+    file that actually needs JSON5 syntax (comments, trailing commas,
+    unquoted keys).
+    """
+    start = file_obj.tell()
+    try:
+        return json.load(file_obj, object_pairs_hook=raise_on_duplicate_keys)
+    except json.JSONDecodeError:
+        file_obj.seek(start)
+        return json5.load(file_obj, object_pairs_hook=raise_on_duplicate_keys)
 
 
 def main(cn_base_path, global_resources):
-    cn_tasks = {}
-    cn_order = {}
-    # 使用 Path 处理路径，确保跨平台兼容
     cn_base_path = Path(cn_base_path)
+
+    # --- Load CN files ---
+    cn_raw = {}
     for root, dirs, files in os.walk(cn_base_path):
         for file in files:
-            if not file.endswith(".json"):  # 判断是否为 JSON 文件
+            if not file.endswith(".json"):
                 continue
             file_path = Path(root) / file
-            with open(
-                file_path, "r", encoding="utf-8-sig"
-            ) as f:  # Changed to utf-8-sig
-                cn_tasks[file_path.relative_to(cn_base_path)] = load_jsonc(f)
+            with open(file_path, "r", encoding="utf-8-sig") as f:
+                cn_raw[file_path.relative_to(cn_base_path)] = load_jsonc(f)
 
-    for task_path, task in cn_tasks.items():
-        cn_tasks[task_path] = sort_tasks(task)
-        cn_order[task_path] = list(task.keys())
+    # --- Sort each CN file exactly once (previously done twice) ---
+    cn_tasks = {}
+    cn_order = {}
+    for task_path, task in cn_raw.items():
+        sorted_task = sort_tasks(task)
+        cn_tasks[task_path] = sorted_task
+        cn_order[task_path] = list(sorted_task.keys())
 
+    # --- Single-pass duplicate detection (was O(files^2 * tasks)) ---
+    task_owner: dict[str, Path] = {}
     for task_path, tasks in cn_order.items():
-        for task_path1, tasks1 in cn_order.items():
-            if task_path == task_path1:
-                continue
-            for task in tasks:
-                if task in tasks1:
-                    raise ValueError(
-                        f"Duplicate task found: {task_path} and {task_path1} have the same task '{task}'"
-                    )
+        for task in tasks:
+            owner = task_owner.get(task)
+            if owner is not None:
+                raise ValueError(
+                    f"Duplicate task found: {owner} and {task_path} have the same task '{task}'"
+                )
+            task_owner[task] = task_path
 
+    # --- Write CN files ---
     for task_path, task in cn_tasks.items():
-        cn_tasks[task_path] = sort_tasks(task)
-        cn_order[task_path] = list(task.keys())
         with open(cn_base_path / task_path, "w", encoding="utf8", newline="\n") as f:
             json.dump(task, f, ensure_ascii=False, indent=4)
 
@@ -112,45 +128,45 @@ def main(cn_base_path, global_resources):
         "tasks",
     )
 
+    # --- Overseas files: reorder to match CN using precomputed index maps ---
+    # (previously called list(...).index(...) inside the sort key itself,
+    # turning each sort into an O(n^2) scan)
     for server, path in global_resources.items():
         overseas_path = Path(path)
         count = 0
 
         for root, dirs, files in os.walk(overseas_path):
             for file in files:
-                if not file.endswith(".json"):  # 判断是否为 JSON 文件
+                if not file.endswith(".json"):
                     continue
                 file_path = Path(root) / file
                 relative_path = file_path.relative_to(overseas_path)
-                with open(
-                    file_path, "r", encoding="utf-8-sig"
-                ) as f:  # Changed to utf-8-sig
+                with open(file_path, "r", encoding="utf-8-sig") as f:
                     tasks = load_jsonc(f)
 
                 base_order = cn_order.get(relative_path, [])
                 base_tasks = cn_tasks.get(relative_path, {})
+                base_index = {k: i for i, k in enumerate(base_order)}
 
-                tasks = {
-                    k: {
-                        x: tasks[k][x]
-                        for x in sorted(
-                            tasks[k].keys(),
-                            key=lambda x: (
-                                list(base_tasks[k].keys()).index(x)
-                                if k in base_tasks and x in base_tasks[k]
-                                else -1
-                            ),
+                sorted_keys = sorted(tasks.keys(), key=lambda k: base_index.get(k, -1))
+
+                new_tasks = {}
+                for k in sorted_keys:
+                    field_order = base_tasks.get(k)
+                    if field_order:
+                        field_index = {x: i for i, x in enumerate(field_order.keys())}
+                        sorted_fields = sorted(
+                            tasks[k].keys(), key=lambda x: field_index.get(x, -1)
                         )
-                    }
-                    for k in sorted(
-                        tasks.keys(),
-                        key=lambda k: base_order.index(k) if k in base_order else -1,
-                    )
-                }
+                    else:
+                        # No base reference for this task: keep original order
+                        # (stable sort with a constant key would give the same result)
+                        sorted_fields = list(tasks[k].keys())
+                    new_tasks[k] = {x: tasks[k][x] for x in sorted_fields}
 
                 with open(file_path, "w", encoding="utf8", newline="\n") as f:
-                    json.dump(tasks, f, ensure_ascii=False, indent=4)
-                count += len(tasks)
+                    json.dump(new_tasks, f, ensure_ascii=False, indent=4)
+                count += len(new_tasks)
         print(server + ":", str(count).rjust(4, " "), "tasks")
 
 
