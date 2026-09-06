@@ -24,6 +24,7 @@ private:
         ResourceInsufficient,
         OperatorNotFound,
         PrerequisiteNotMet,
+        ChipNotCraftable,
         Unsupported,
         RecognitionFailed,
         Skipped,
@@ -39,7 +40,9 @@ private:
     bool analyze_training_context(std::string& operator_name, std::string& skill_name, int& level);
     bool select_training_trainee(const AutoRaiseTarget& target);
     bool select_training_trainer(const AutoRaiseTarget& target);
-    bool run_task(const std::string& task_name, int retry_times = 0);
+    // retry_times 缺省沿用 ProcessTask 的 RetryTimesDefault：显式传 0 会把重试覆盖成单次截图，
+    // 页面过场动画未完成时一次性验证必然失败。
+    bool run_task(const std::string& task_name, int retry_times = RetryTimesDefault);
     bool synthesize_missing_material();
     bool manufacture_dual_chip();
     void report_target(std::string what, size_t index, const AutoRaiseTarget& target, Result result);

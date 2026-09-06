@@ -5902,6 +5902,8 @@
     "AutoRaise@OperFiles": {
         "baseTask": "OperOpenInformationMenu",
         "template": "OperInformationMenu.png",
+        "maxTimes": 20,
+        "preDelay": 1000,
         "doc": ["国际版官方名称OperFiles，以上面的进入信息档案按钮作为标志"],
         "action": "DoNothing",
         "next": []
@@ -5924,6 +5926,18 @@
         "baseTask": "NumberOcrReplace",
         "roi": [1215, 359, 14, 22]
     },
+    "AutoRaise@CurrentSkill1MasterLevel": {
+        "template": "OperFilesSkillMaster0.png",
+        "roi": [1215, 359, 14, 22]
+    },
+    "AutoRaise@CurrentSkill2MasterLevel": {
+        "template": "OperFilesSkillMaster0.png",
+        "roi": [1215, 359, 14, 22]
+    },
+    "AutoRaise@CurrentSkill3MasterLevel": {
+        "template": "OperFilesSkillMaster0.png",
+        "roi": [1215, 359, 14, 22]
+    },
     "AutoRaise@LevelUp": {
         "algorithm": "JustReturn",
         "next": ["AutoRaise@LevelMax", "AutoRaise@LevelUpPageEnter"]
@@ -5937,6 +5951,7 @@
         "template": "OperFilesEnterLevelUpButton.png",
         "action": "ClickSelf",
         "roi": [1147, 109, 103, 70],
+        "postDelay": 500,
         "next": ["AutoRaise@LevelUpPageSelectMax", "AutoRaise@CannotEnterLevelUpPage"]
     },
     "AutoRaise@LevelUpPageSelectMax": {
@@ -5950,12 +5965,14 @@
         "template": "LevelUpPageConfirm.png",
         "action": "ClickSelf",
         "roi": [1071, 425, 209, 134],
-        "next": ["AutoRaise@OperFiles"]
+        "postDelay": 800,
+        "next": ["AutoRaise@LevelUpPageConfirm2", "AutoRaise@OperFiles"]
     },
     "AutoRaise@LevelUpPageConfirm2": {
         "template": "LevelUpPageConfirm2.png",
         "action": "ClickSelf",
         "roi": [1041, 533, 162, 143],
+        "postDelay": 2000,
         "next": ["AutoRaise@LevelMax"]
     },
     "AutoRaise@CannotEnterLevelUpPage": {
@@ -5974,39 +5991,61 @@
     "AutoRaise@EliteUpPage": {
         "template": "EliteUpPageFlag.png",
         "doc": [
-            "对应 raise.elite_one_phase（raise.lua:1153-1328）及 point.lua:1878-1879「进入精英化页面」「干员精英化页面」。",
-            "参考流程先进入精英化页，复核缺料，再点击晋升并以干员档案页确认；实现时应拆分进入、晋升和结果确认 Task。"
+            "晋升确认弹窗标志（查看详情放大镜图标），由 2/3/4/5.png 截图核对。",
+            "点击精英化按钮后弹窗出现；确认点击由 AutoRaise@EliteUpPageConfirm 处理。"
         ],
-        "roi": [1094, 346, 147, 149]
+        "roi": [1094, 346, 147, 149],
+        "postDelay": 300,
+        "next": ["AutoRaise@EliteUpPageConfirm"]
+    },
+    "AutoRaise@EliteUpPageConfirm": {
+        "template": "EliteUpPageConfirm.png",
+        "doc": [
+            "晋升确认弹窗右下角对勾按钮，模板裁自 2.png，四张晋升弹窗截图按钮位置一致（720p [985,631,193,46]）。",
+            "postDelay 覆盖晋升动画，随后由 C++ 以 AutoRaise@CurrentElite 复核新阶段。"
+        ],
+        "action": "ClickSelf",
+        "roi": [985, 631, 193, 46],
+        "postDelay": 2000
     },
     "AutoRaise@EliteUpPageEnter": {
         "template": "OperFilesEnterEliteUpButton.png",
         "action": "ClickSelf",
-        "roi": [928, 201, 175, 159]
+        "roi": [928, 201, 175, 159],
+        "postDelay": 800,
+        "next": ["AutoRaise@EliteUpPage"]
     },
     "AutoRaise@EliteUpMaterialMissing": {
-        "baseTask": "InfrastOperSelected",
-        "doc": "参考 InfrastOperImageAnalyzer",
-        "template": "empty.png",
-        "specialParams_Doc": "这个任务中作为数色个数阈值",
-        "specialParams": [5],
-        "action": "DoNothing",
-        "colorScales_Doc": "HSV的范围",
+        "doc": [
+            "检测晋升材料行内缺料数量文字的红色（#FD6801 色系，充足时为青色）。",
+            "数色用法参考 InfrastMfg：method=HSVCount + 模板像素落在色域内 + pureColor；",
+            "Matcher 不消费 specialParams，命中阈值由 templThreshold 控制：3x3 窗口内 ≥4/9 红色像素即命中。",
+            "HSV 上下限由 2/3/4.png 实测标定：缺料红字 H12-16/S180-255/V100-255，",
+            "金币(H28-30)、青色数量字与红色材料图标均落在色域外；roi 左边界避开等级徽章橙色文字（与红字同色系，靠位置区分）。",
+            "色域以 720p 缩放后截图标定，覆盖档案页与晋升确认弹窗两种布局。"
+        ],
+        "algorithm": "MatchTemplate",
+        "method": "HSVCount",
+        "template": "MaterialMissing.png",
+        "templThreshold": 0.6,
+        "pureColor": true,
         "colorScales": [
             [
-                [12, 248, 225],
-                [12, 248, 225]
+                [8, 180, 100],
+                [16, 255, 255]
             ]
         ],
-        "roi": [67, 663, 622, 19]
+        "action": "DoNothing",
+        "roi": [71, 665, 615, 17]
     },
     "AutoRaise@DualChipRequired": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
         "doc": [
             "对应 point.lua:1882-1887「干员精英化芯片」「干员精英化芯片红」「干员精英化芯片数字」，参考调用 raise.lua:1168-1180。",
             "参考实现通过培养材料 ID 末位为 3 判断双芯片，页面只识别缺料与已有数量；不能仅凭红色槽判断材料类型。"
         ],
-        "roi": [335, 640, 85, 65]
+        "roi": [354,665,44,17]
     },
     "AutoRaise@RecordFactoryState": {
         "baseTask": "AutoRaise@ManualRecognition",
@@ -6026,10 +6065,12 @@
         "roi": [480, 120, 200, 130]
     },
     "AutoRaise@CatalystMissing": {
-        "baseTask": "AutoRaise@ManualRecognition",
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
         "doc": [
             "对应 point.lua:1827-1829「选芯片界面胶水红」「胶水数量识别范围」「胶水库存识别范围」，参考调用 raise.lua:1207-1215。",
-            "是否缺少应由当前配方需求与库存的 OCR 数值计算，红色特征只作为辅助状态。"
+            "数色配方同 AutoRaise@EliteUpMaterialMissing（baseTask 继承缺料红字 HSVCount 检测）。",
+            "ROI 尚无制造站页面截图实测；精确缺口数值仍需 OCR 数值任务。"
         ],
         "roi": [440, 370, 145, 90]
     },
@@ -6042,11 +6083,12 @@
         "roi": [140, 90, 1120, 540]
     },
     "AutoRaise@CatalystEnough": {
-        "baseTask": "AutoRaise@ManualRecognition",
         "doc": [
             "对应 point.lua:1828-1829「胶水数量识别范围」「胶水库存识别范围」，参考调用 raise.lua:1207-1219。",
-            "购买后应重新进入目标双芯片配方并复核需求与库存，不以商店购买成功作为充足结论。"
+            "充足状态以青色数量文字数色判定（色域由 2/3/4.png 充足徽章实测），与缺料红字互为反状态。",
+            "购买后应重新进入目标双芯片配方并复核需求与库存，不以商店购买成功作为充足结论；ROI 待制造站页面截图实测。"
         ],
+        "baseTask": "AutoRaise@ManualAction",
         "roi": [440, 370, 145, 90]
     },
     "AutoRaise@ManufactureDualChip": {
@@ -6128,10 +6170,13 @@
         "roi": [850, 210, 430, 220]
     },
     "AutoRaise@SkillMaterialMissing": {
-        "baseTask": "AutoRaise@ManualRecognition",
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
         "doc": [
             "对应 point.lua:1933-1934「干员技能升级红」及其范围，参考调用 raise.lua:1384-1387。",
-            "该红色特征只存在于技能升级页面；当前 C++ 在 AutoRaise@SkillUpgrade 之前调用，补模板前必须先修正页面进入顺序。"
+            "数色配方同 AutoRaise@EliteUpMaterialMissing（baseTask 继承缺料红字 HSVCount 检测）。",
+            "该红色特征只存在于技能升级页面；当前 C++ 在 AutoRaise@SkillUpgrade 之前调用，补模板前必须先修正页面进入顺序。",
+            "ROI 未经技能升级页面截图实测；晋升页同区域会命中等级文字橙色，页面截图到位后需收敛边界。"
         ],
         "roi": [55, 650, 510, 45]
     },
@@ -6169,10 +6214,12 @@
         "roi": [0, 0, 180, 120]
     },
     "AutoRaise@MaterialStillMissing": {
-        "baseTask": "AutoRaise@ManualRecognition",
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
         "doc": [
             "对应 raise.lua:2066-2069 返回后复核材料详情并重新打开槽位；最终缺料状态仍使用 point.lua:1889-1916 的各红色槽范围。",
-            "应按来源页面分别复核精英化或专精红色槽，候选 ROI 是这些红色槽的合并范围。"
+            "数色配方同 AutoRaise@EliteUpMaterialMissing（baseTask 继承缺料红字 HSVCount 检测）；ROI 为各红色槽合并行。",
+            "已用 2/3/4.png 晋升页同区域验证：3/4 缺料命中、2 充足未命中；满级档案页同区域待截图复核。"
         ],
         "roi": [330, 650, 380, 50]
     },
@@ -6186,10 +6233,13 @@
         "roi": [850, 210, 430, 220]
     },
     "AutoRaise@MasteryMaterialMissing": {
-        "baseTask": "AutoRaise@ManualRecognition",
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
         "doc": [
             "对应 point.lua:1943-1944「干员技能专精红」及其范围，参考调用 raise.lua:1444-1460。",
-            "该特征位于选定技能后的专精确认页；当前 C++ 在选择受训干员和技能之前调用，补模板前必须调整页面顺序。"
+            "数色配方同 AutoRaise@EliteUpMaterialMissing（baseTask 继承缺料红字 HSVCount 检测）。",
+            "该特征位于选定技能后的专精确认页；当前 C++ 在选择受训干员和技能之前调用，补模板前必须调整页面顺序。",
+            "ROI 未经专精确认页截图实测。"
         ],
         "roi": [330, 655, 370, 50]
     },
