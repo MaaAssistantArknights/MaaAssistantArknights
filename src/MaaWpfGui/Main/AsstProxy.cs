@@ -2027,8 +2027,7 @@ public class AsstProxy
 
                     case "SwitchTheme":
                         {
-                            // 随机选择在 Core，SelectTheme 识别文本即本次目标；分支链命中哪个任务即切换结果：
-                            // 确认点击=已切换，已设置=目标已是当前主题，解锁条件=未解锁
+                            // 随机选择在 Core，SelectTheme 识别文本即本次目标
                             var model = SwitchThemeTaskUserControlModel.Instance;
                             switch (taskName)
                             {
