@@ -5904,7 +5904,7 @@
         "template": "OperInformationMenu.png",
         "maxTimes": 20,
         "preDelay": 1000,
-        "doc": ["国际版官方名称OperFiles，以上面的进入信息档案按钮作为标志"],
+        "doc": "国际版官方名称OperFiles，以上面的进入信息档案按钮作为标志",
         "action": "DoNothing",
         "next": []
     },
@@ -5944,7 +5944,7 @@
     },
     "AutoRaise@LevelMax": {
         "template": "OperFilesLevelMax.png",
-        "doc": ["暂时采用经验-/-作为满级标志"],
+        "doc": "暂时采用经验-/-作为满级标志",
         "roi": [974, 111, 76, 64]
     },
     "AutoRaise@LevelUpPageEnter": {
@@ -5996,17 +5996,25 @@
         ],
         "roi": [1094, 346, 147, 149],
         "postDelay": 300,
-        "next": ["AutoRaise@EliteUpPageConfirm"]
+        "next": ["AutoRaise@EliteUpMaterialMissing", "AutoRaise@EliteUpPageConfirm"]
     },
     "AutoRaise@EliteUpPageConfirm": {
         "template": "EliteUpPageConfirm.png",
-        "doc": [
-            "晋升确认弹窗右下角对勾按钮，模板裁自 2.png，四张晋升弹窗截图按钮位置一致（720p [985,631,193,46]）。",
-            "postDelay 覆盖晋升动画，随后由 C++ 以 AutoRaise@CurrentElite 复核新阶段。"
-        ],
         "action": "ClickSelf",
-        "roi": [985, 631, 193, 46],
-        "postDelay": 2000
+        "roi": [955, 586, 243, 134],
+        "postDelay": 2000,
+        "next": ["AutoRaise@EliteUpRecruitSkip"]
+    },
+    "AutoRaise@EliteUpRecruitSkip": {
+        "baseTask": "RecruitSkip",
+        "template": ["RecruitSkip.png"],
+        "reduceOtherTimes": ["AutoRaise@EliteUpRecruitSkipWithoutButton*10"],
+        "next": ["AutoRaise@EliteUpRecruitSkip", "RecruitSkipWithoutButton"]
+    },
+    "AutoRaise@EliteUpRecruitSkipWithoutButton": {
+        "baseTask": "RecruitSkipWithoutButton",
+        "reduceOtherTimes": ["AutoRaise@EliteUpRecruitSkipWithoutButton*10"],
+        "next": ["AutoRaise@OperFiles", "AutoRaise@EliteUpRecruitSkip", "AutoRaise@EliteUpRecruitSkipWithoutButton"]
     },
     "AutoRaise@EliteUpPageEnter": {
         "template": "OperFilesEnterEliteUpButton.png",
@@ -6045,7 +6053,7 @@
             "对应 point.lua:1882-1887「干员精英化芯片」「干员精英化芯片红」「干员精英化芯片数字」，参考调用 raise.lua:1168-1180。",
             "参考实现通过培养材料 ID 末位为 3 判断双芯片，页面只识别缺料与已有数量；不能仅凭红色槽判断材料类型。"
         ],
-        "roi": [354,665,44,17]
+        "roi": [354, 665, 44, 17]
     },
     "AutoRaise@RecordFactoryState": {
         "baseTask": "AutoRaise@ManualRecognition",
