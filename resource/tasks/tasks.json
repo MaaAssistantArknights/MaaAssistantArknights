@@ -5910,17 +5910,15 @@
     },
     "AutoRaise@CurrentElite0": {
         "template": "OperFilesElite0.png",
-        "roi": [868, 236, 114, 80]
+        "roi": [866, 235, 119, 88]
     },
     "AutoRaise@CurrentElite1": {
         "baseTask": "AutoRaise@CurrentElite0",
-        "template": "OperFilesElite1.png",
-        "roi": [875, 225, 100, 65]
+        "template": "OperFilesElite1.png"
     },
     "AutoRaise@CurrentElite2": {
         "baseTask": "AutoRaise@CurrentElite0",
-        "template": "OperFilesElite2.png",
-        "roi": [875, 225, 100, 65]
+        "template": "OperFilesElite2.png"
     },
     "AutoRaise@CurrentSkillLevel": {
         "baseTask": "NumberOcrReplace",
