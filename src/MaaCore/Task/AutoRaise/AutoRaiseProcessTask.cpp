@@ -179,6 +179,11 @@ asst::AutoRaiseProcessTask::Result
             !run_task("AutoRaise@LevelUp")) {
             return Result::RecognitionFailed;
         }
+        // 档案页不展示材料行，缺料复核以晋升弹窗上的红色数量文字为准；
+        // 弹窗链在 EliteUpPage 标志处停止，缺料探测与确认点击由本任务依次驱动。
+        if (!run_task("AutoRaise@EliteUp")) {
+            return Result::RecognitionFailed;
+        }
         if (run_task("AutoRaise@EliteUpMaterialMissing")) {
             if (!synthesize_missing_material()) {
                 // 加工站无法合成芯片。只有 5/6 星晋升二阶所需的双芯片有制造站产线，
@@ -193,13 +198,12 @@ asst::AutoRaiseProcessTask::Result
                     return Result::ResourceInsufficient;
                 }
             }
-            if (run_task("AutoRaise@EliteUpMaterialMissing")) {
+            // 合成返回晋升弹窗后复核红色数量文字，仍缺料则不点击晋升。
+            if (run_task("AutoRaise@MaterialStillMissing")) {
                 return Result::ResourceInsufficient;
             }
         }
-        // 消耗前再次以游戏页面复核阶段、按钮和材料状态，外部缓存数据不能作为确认依据。
-        if (!run_task("AutoRaise@CurrentElite" + std::to_string(phase)) ||
-            !run_task("AutoRaise@EliteUp") ||
+        if (!run_task("AutoRaise@EliteUpPageConfirm") ||
             !run_task("AutoRaise@CurrentElite" + std::to_string(phase + 1))) {
             return Result::RecognitionFailed;
         }
@@ -513,7 +517,7 @@ bool asst::AutoRaiseProcessTask::synthesize_missing_material()
 bool asst::AutoRaiseProcessTask::manufacture_dual_chip()
 {
     // 芯片组、助剂库存和原产线状态分别识别；无法识别原产线时禁止盲目切换产品。
-    if (!run_task("AutoRaise@DualChipRequired") || !run_task("AutoRaise@RecordFactoryState") ||
+    if (!run_task("AutoRaise@DualchipRequired") || !run_task("AutoRaise@RecordFactoryState") ||
         !run_task("AutoRaise@ChipPackEnough")) {
         return false;
     }
@@ -521,7 +525,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip()
                                                             !run_task("AutoRaise@CatalystEnough"))) {
         return false;
     }
-    if (!run_task("AutoRaise@ManufactureDualChip")) {
+    if (!run_task("AutoRaise@ManufactureDualchip")) {
         return false;
     }
     // 制造完成后恢复原产品和生产数量，避免破坏用户的基建配置。
