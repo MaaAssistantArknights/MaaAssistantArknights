@@ -6,12 +6,21 @@
 
 bool asst::MaaFwLinuxController::connect(
     const std::string& adb_path [[maybe_unused]],
-    const std::string& address [[maybe_unused]],
+    const std::string& address, // JSON passed to control unit
     const std::string& config)
 {
     if (m_unit) {
         m_loader.destroy(m_unit);
         m_unit = nullptr;
+    }
+
+    if (config == "PC") {
+        Log.info("MaaFwLinuxController config: PC");
+        m_target_is_pc = true;
+    }
+    else {
+        Log.info("MaaFwLinuxController config not PC, treated as emulator:", config);
+        m_target_is_pc = false;
     }
 
     if (!m_loader.loaded()) {
@@ -20,7 +29,7 @@ bool asst::MaaFwLinuxController::connect(
         }
     }
 
-    m_unit = m_loader.create(config.c_str());
+    m_unit = m_loader.create(address.c_str());
     if (!m_unit) {
         Log.error("Failed to create control unit");
         return false;
@@ -49,8 +58,8 @@ bool asst::MaaFwLinuxController::screencap(cv::Mat& image_payload, bool allow_re
         return false;
     }
 
-    // 截图前把鼠标移走，避免光标出现在截图中影响识别
-    if (m_screen_size.second > 0) {
+    // PC 端截图前把鼠标移走，避免光标出现在截图中影响识别
+    if (m_target_is_pc && m_screen_size.second > 0) {
         using enum InputEvent::Type;
         if (m_main_screen_recognition) {
             // 主界面情况下鼠标移动到窗口中心，等待主界面的视差动画，300ms
