@@ -1,0 +1,110 @@
+{
+    "SwitchThemeByNameBegin": {
+        "Doc": "换主题任务入口：已在主界面则直接打开装扮面板，否则先用小房子快捷回主界面，再退而点返回按钮；@ 前缀展开链的 #next/#back 回退到名字最左段（本任务），与 MailReturnToHome 等既有用法一致",
+        "algorithm": "JustReturn",
+        "next": [
+            "SwitchThemeByNameOpenSettings",
+            "SwitchThemeByNameBegin@QuickSwitch@ToHome#next",
+            "SwitchThemeByNameBegin@ReturnButtons#next"
+        ]
+    },
+    "SwitchThemeByNameBegin@ReturnButton": {
+        "Doc": "显式覆盖 ReturnButton：原任务的 onErrorNext 是切日间兜底链，与本任务目标无关，去掉；点返回后回到入口重新判定",
+        "template": ["Return.png", "Return-White.png"],
+        "templThreshold": [0.7, 0.7],
+        "action": "ClickSelf",
+        "roi": [0, 0, 180, 80],
+        "next": ["SwitchThemeByNameBegin"]
+    },
+    "SwitchThemeByNameOpenSettings": {
+        "action": "ClickSelf",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "postDelay": 1000,
+        "next": ["SwitchThemeByNameChangeTheme", "SwitchThemeByNameOpenSettings"]
+    },
+    "SwitchThemeByNameChangeTheme": {
+        "action": "ClickSelf",
+        "template": "SwitchTheme@ChangeTheme.png",
+        "roi": [563, 566, 132, 132],
+        "postDelay": 1000,
+        "next": ["Stop"]
+    },
+    "SwitchThemeByNameSelectTheme": {
+        "Doc": "text 由 SwitchThemeTask 在运行时注入目标主题名；roi 覆盖主题名文字列，下边界避开底部半透明遮挡区；ocrReplace 纠正实测与形近误读（凇/淞、梦乡项偶发）",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [],
+        "ocrReplace": [
+            ["银淞", "银凇"],
+            ["&梦乡", "梦乡"],
+            ["梦\\$", "梦乡"]
+        ],
+        "roi": [240, 90, 130, 510],
+        "postDelay": 800,
+        "next": ["Stop"]
+    },
+    "SwitchThemeByNameListAtTop": {
+        "Doc": "列表拖到顶的标志：日间主题项缩略卡出现在列表顶部，直接引用 SwitchTheme@SelectLightTheme 的模板文件",
+        "action": "DoNothing",
+        "template": "SwitchTheme@SelectLightTheme.png",
+        "roi": [0, 99, 430, 180],
+        "next": ["Stop"]
+    },
+    "SwitchThemeByNameDragThemeList": {
+        "Doc": "手指向下拖，把上方的主题拉进视野（向列表顶部方向翻页）；滑动范围避开列表底部的主题介绍文字区。specialParams: [时长, 额外滑动方向, 缓入斜率, 缓出斜率]，缓出为 0 使末速度为零松手不触发 fling；额外滑动取水平方向，垂直列表不响应水平位移但新触摸会终止残余滚动，用作无垂直位移的刹车（需 maatouch/minitouch 通道，adb 通道无插值）",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [340, 350, 10, 10],
+        "rectMove": [340, 600, 10, 10],
+        "specialParams": [300, 3, 2, 0],
+        "postDelay": 500,
+        "next": ["Stop"]
+    },
+    "SwitchThemeByNameDragDownList": {
+        "Doc": "手指向上拖一屏，显示更靠下的主题（从顶向下查找方向）；滑动范围避开列表底部的主题介绍文字区。specialParams: [时长, 额外滑动方向, 缓入斜率, 缓出斜率]，缓出为 0 使末速度为零松手不触发 fling；额外滑动取水平方向，垂直列表不响应水平位移但新触摸会终止残余滚动，用作无垂直位移的刹车（需 maatouch/minitouch 通道，adb 通道无插值）",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [340, 600, 10, 10],
+        "rectMove": [340, 350, 10, 10],
+        "specialParams": [300, 3, 2, 0],
+        "postDelay": 500,
+        "next": ["Stop"]
+    },
+    "SwitchThemeByNameLockedTheme": {
+        "Doc": "选中未解锁主题：左下详情区显示解锁条件。灰色确认按钮与可用态仅差底色，模板匹配颜色不敏感照样命中，故必须排在确认按钮之前判定，命中后点取消退出",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["解锁条件"],
+        "roi": [20, 590, 900, 130],
+        "next": ["SwitchThemeByNameCancelTheme"]
+    },
+    "SwitchThemeByNameAlreadySet": {
+        "Doc": "目标已是当前使用主题：底部确认按钮位置显示已设置，无需切换，点返回退出",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["已设置"],
+        "roi": [950, 600, 330, 120],
+        "next": ["SwitchThemeByNameReturnAfterChange"]
+    },
+    "SwitchThemeByNameConfirmTheme": {
+        "action": "ClickSelf",
+        "template": "SwitchTheme@ConfirmThemeChange.png",
+        "roi": [1070, 620, 200, 90],
+        "postDelay": 500,
+        "next": ["SwitchThemeByNameReturnAfterChange", "Stop"]
+    },
+    "SwitchThemeByNameCancelTheme": {
+        "action": "ClickSelf",
+        "template": "SwitchTheme@CancelThemeChange.png",
+        "roi": [918, 645, 66, 38],
+        "next": ["SwitchThemeByNameReturnAfterChange", "Stop"]
+    },
+    "SwitchThemeByNameReturnAfterChange": {
+        "template": ["Return.png", "Return-White.png"],
+        "templThreshold": [0.7, 0.7],
+        "action": "ClickSelf",
+        "roi": [0, 0, 180, 80],
+        "next": ["Stop"]
+    }
+}
