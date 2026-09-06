@@ -856,6 +856,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Reclamation">생존 연산</system:String>
     <system:String x:Key="UserDataUpdate">사용자 데이터 업데이트</system:String>
     <system:String x:Key="DepotMaintain">재고 유지</system:String>
+    <system:String x:Key="SwitchTheme">테마 변경</system:String>
     <system:String x:Key="MiniGame">편의 기능</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">상시</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">현재 이벤트</system:String>
@@ -975,6 +976,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanUpdateDepotFailed">재고 데이터 업데이트에 실패했습니다.</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 대리 배수</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">체크 해제 시 1배로 대리; 체크 시 현재 이성으로 가능한 최대 배수로 대리 작전하며, 1회 진행 시 목표 재고 상한을 초과할 수 있습니다.</system:String>
+    <!--  SwitchTheme  -->
+    <system:String x:Key="SwitchThemeTip" xml:space="preserve">게임 내 테마 목록에 표시되는 테마 이름을 입력하세요.&#10;여러 개 입력 시 실행마다 무작위로 하나가 선택되며, 하나만 입력 시 항상 해당 테마로 전환됩니다.&#10;사용 빈도가 낮은 한자(예: 凇, 淞)는 비슷한 글자로 잘못 인식되어 테마를 찾지 못할 수 있습니다. 이 경우 ｢문제 보고｣로 로그 압축 파일을 제출해 주세요.</system:String>
+    <system:String x:Key="SwitchThemeAdd">테마 추가</system:String>
+    <system:String x:Key="SwitchThemePlaceholder">테마 이름</system:String>
+    <system:String x:Key="SwitchThemeSkipped">테마 이름이 없어 테마 변경을 건너뜁니다.</system:String>
+    <system:String x:Key="SwitchThemeSucceeded">테마를 {0}(으)로 전환했습니다.</system:String>
+    <system:String x:Key="SwitchThemeAlreadySet">테마 {0}은(는) 이미 사용 중입니다.</system:String>
+    <system:String x:Key="SwitchThemeLocked">잠금이 해제되지 않은 테마는 전환할 수 없습니다: {0}</system:String>
+    <system:String x:Key="SwitchThemeNotFound">테마를 찾을 수 없음: {0}. 게임 내 표기와 일치하는지 확인하세요.</system:String>
     <system:String x:Key="DepotEnableUseMedicine">「{key=UseSanityPotion}」 체크박스 활성화</system:String>
     <system:String x:Key="DepotEnableUseStone">「{key=UseOriginitePrime}」 체크박스 활성화</system:String>
     <system:String x:Key="DepotUseExpiringMedicine">48시간 이내 만료되는 이성 회복제 사용</system:String>

@@ -857,6 +857,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="UserDataUpdate">ユーザーデータ更新</system:String>
     <system:String x:Key="DepotMaintain">在庫維持</system:String>
+    <system:String x:Key="SwitchTheme">テーマ変更</system:String>
     <system:String x:Key="MiniGame">便利機能</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">常設</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">現在のイベント</system:String>
@@ -976,6 +977,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanUpdateDepotFailed">在庫データの更新に失敗しました。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未チェック時は 1 倍で代理；チェック後は現在の理性で可能な最大倍率で代理し、1回の周回で目標在庫上限を超える場合があります。</system:String>
+    <!--  SwitchTheme  -->
+    <system:String x:Key="SwitchThemeTip" xml:space="preserve">ゲーム内のテーマ一覧に表示されるテーマ名を入力してください。&#10;複数入力した場合は実行ごとにランダムに選択され、1 つのみの場合は常にそれに切り替わります。&#10;使用頻度の低い漢字（例: 凇と淞）は形の類似した字に誤認識され、テーマが見つからない場合があります。&#10;その際は ｢問題報告｣ からログの圧縮ファイルを提出してください。</system:String>
+    <system:String x:Key="SwitchThemeAdd">テーマ追加</system:String>
+    <system:String x:Key="SwitchThemePlaceholder">テーマ名</system:String>
+    <system:String x:Key="SwitchThemeSkipped">テーマ名が未入力のため、テーマ変更をスキップします。</system:String>
+    <system:String x:Key="SwitchThemeSucceeded">テーマを {0} に切り替えました。</system:String>
+    <system:String x:Key="SwitchThemeAlreadySet">テーマ {0} は既に適用中のため、切り替え不要です。</system:String>
+    <system:String x:Key="SwitchThemeLocked">テーマが未解放のため切り替えできません：{0}</system:String>
+    <system:String x:Key="SwitchThemeNotFound">テーマが見つかりません：{0}。ゲーム内の表記と一致しているか確認してください。</system:String>
     <system:String x:Key="DepotEnableUseMedicine">「{key=UseSanityPotion}」チェックボックスを有効化</system:String>
     <system:String x:Key="DepotEnableUseStone">「{key=UseOriginitePrime}」チェックボックスを有効化</system:String>
     <system:String x:Key="DepotUseExpiringMedicine">48 時間以内に期限切れの理性剤を使用</system:String>

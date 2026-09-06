@@ -855,6 +855,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="UserDataUpdate">更新使用者資料</system:String>
     <system:String x:Key="DepotMaintain">庫存保持</system:String>
+    <system:String x:Key="SwitchTheme">更換主題</system:String>
     <system:String x:Key="MiniGame">快捷功能</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">常駐</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">目前活動</system:String>
@@ -974,6 +975,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanUpdateDepotFailed">更新庫存資料失敗。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未勾選時按單倍代理；勾選後按目前理智可刷的最大倍率代理，單次刷取可能超過目標庫存上限。</system:String>
+    <!--  SwitchTheme  -->
+    <system:String x:Key="SwitchThemeTip" xml:space="preserve">填寫遊戲內主題列表中顯示的主題名稱。&#10;填寫多個時每次執行隨機選擇一個，僅填寫一個時固定切換。&#10;個別不常用字（如 淞、凇）識別可能出現形近偏差導致主題未找到，此時請透過 ｢問題回饋｣ 提交日誌壓縮包。</system:String>
+    <system:String x:Key="SwitchThemeAdd">新增主題</system:String>
+    <system:String x:Key="SwitchThemePlaceholder">主題名稱</system:String>
+    <system:String x:Key="SwitchThemeSkipped">未填寫主題名稱，跳過更換主題。</system:String>
+    <system:String x:Key="SwitchThemeSucceeded">已切換主題：{0}</system:String>
+    <system:String x:Key="SwitchThemeAlreadySet">目標已是當前主題：{0}，無需切換</system:String>
+    <system:String x:Key="SwitchThemeLocked">主題未解鎖，無法切換：{0}</system:String>
+    <system:String x:Key="SwitchThemeNotFound">未找到主題：{0}，請檢查名稱是否與遊戲內一致。</system:String>
     <system:String x:Key="DepotEnableUseMedicine">啟用「{key=UseSanityPotion}」勾選框</system:String>
     <system:String x:Key="DepotEnableUseStone">啟用「{key=UseOriginitePrime}」勾選框</system:String>
     <system:String x:Key="DepotUseExpiringMedicine">使用 48 小時內過期的理智藥</system:String>

@@ -1,0 +1,94 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.TaskQueue.SwitchThemeTaskUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance {x:Type taskQueue_vms:SwitchThemeTaskUserControlModel}}"
+    d:DesignWidth="220"
+    s:View.ActionTarget="{Binding}"
+    mc:Ignorable="d">
+    <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+        <ListBox
+            Padding="0"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Stretch"
+            BorderThickness="0"
+            ClipToBounds="False"
+            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
+            ItemsSource="{Binding Path=Themes}"
+            PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
+                                         Target={x:Type helper:MouseWheelHelper}}">
+            <ListBox.ItemContainerStyle>
+                <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="1" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox
+                            Height="30"
+                            hc:InfoElement.Placeholder="{DynamicResource SwitchThemePlaceholder}"
+                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button
+                            Grid.Column="1"
+                            Width="25"
+                            Height="25"
+                            Padding="0"
+                            hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                            hc:IconElement.Height="15"
+                            hc:IconElement.Width="15"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Command="{s:Action RemoveTheme,
+                                               Target={x:Static taskQueue_vms:SwitchThemeTaskUserControlModel.Instance}}"
+                            CommandParameter="{Binding}"
+                            ToolTip="{DynamicResource Delete}">
+                            <Button.Style>
+                                <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel
+            Margin="0,6,0,0"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                MinWidth="50"
+                Command="{s:Action AddTheme}"
+                Content="{DynamicResource SwitchThemeAdd}"
+                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
+            <controls:TooltipBlock
+                Margin="3,0,0,0"
+                VerticalAlignment="Center"
+                TooltipText="{DynamicResource SwitchThemeTip}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>
