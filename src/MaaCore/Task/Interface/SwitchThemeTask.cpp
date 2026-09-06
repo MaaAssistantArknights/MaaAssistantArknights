@@ -79,7 +79,7 @@ bool asst::SwitchThemeTask::run()
 
     bool selected = false;
 
-    // 先在当前页找，未命中则快速滑到列表顶部（与换日间一致，途中不逐屏识别：目标多在靠下的新主题区，向上逐屏找收益低）
+    // 先在当前页找，未命中则像换日间一样快速滑到列表顶部（目标多在靠下的新主题区，途中逐屏识别收益低）
     if (try_select()) {
         selected = true;
     }
@@ -98,19 +98,23 @@ bool asst::SwitchThemeTask::run()
         }
     }
 
-    // 从顶向下逐屏查找
+    // 从顶向下逐屏查找，先识别当前屏再翻页，顶部第一屏才会被选中
     for (int i = 0; !selected && i <= MaxDragTimes; ++i) {
         if (need_exit()) {
             return false;
         }
-        ProcessTask(*this, { "SwitchThemeByNameDragDownList" }).run();
         if (try_select()) {
             selected = true;
+            break;
         }
+        if (i == MaxDragTimes) {
+            break;
+        }
+        ProcessTask(*this, { "SwitchThemeByNameDragDownList" }).run();
     }
 
     if (!selected) {
-        // 整个列表都没有目标：取消退出并报失败
+        // 整个列表都没有目标，取消退出并报失败
         ProcessTask(*this, { "SwitchThemeByNameCancelTheme" }).run();
         Log.error("theme not found:", target);
         json::value fail_info = basic_info_with_what("SwitchThemeNotFound");
@@ -119,10 +123,10 @@ bool asst::SwitchThemeTask::run()
         return false;
     }
 
-    // 选中后按界面状态互斥分流（候选按序取首个命中）：未解锁先拦（灰确认按钮颜色不敏感可被模板命中）、
+    // 选中后按界面状态互斥分流（候选按序取首个命中），灰确认按钮颜色不敏感可被模板命中故未解锁先拦，
     // 已是当前主题次之，最后才点确认完成切换；命中分支由 GUI 按子任务回调区分日志
     if (!ProcessTask(*this, { "SwitchThemeByNameLockedTheme", "SwitchThemeByNameAlreadySet", "SwitchThemeByNameConfirmTheme" }).run()) {
-        // 三种状态都不满足属异常：点取消退出并按失败处理
+        // 三种状态都不满足属异常，点取消退出并按失败处理
         ProcessTask(*this, { "SwitchThemeByNameCancelTheme" }).run();
         return false;
     }
