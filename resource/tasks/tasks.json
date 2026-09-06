@@ -5561,7 +5561,7 @@
         "maxTimes": 3,
         "next": ["ChooseOriginiumShard", "#self"],
         "exceededNext": ["ChooseOriginiumShard"]
-    },
+    },    
     "ChooseOriginiumShard": {
         "action": "ClickSelf",
         "cache": true,
@@ -5571,6 +5571,21 @@
         "exceededNext": ["ClickProductMax"],
         "preDelay": 500,
         "Doc": "加前延时等动画结束再执行点击"
+    },
+    "ChooseChipTab": {
+        "action": "ClickSelf",
+        "cache": true,
+        "roi": [0,234,162,170],
+        "maxTimes": 3,
+        "postDelay": 500,
+        "next": ["ChooseChipTabShard", "#self"],
+        "exceededNext": ["ChooseOriginiumShard"]
+    },
+    "ChooseChipTabSelected": {
+        "cache": true,
+        "roi": [0,234,162,170],
+        "maxTimes": 3,
+        "preDelay": 200
     },
     "ChangeProductToMiddleBattleRecord": {
         "action": "ClickRect",
@@ -6187,58 +6202,39 @@
         "baseTask": "NumberOcrReplace",
         "doc": "晋升页面芯片icon下方 x/y 的 x 段",
         "roi": [356, 658, 17, 26]
+    },    
+    "ChooseDualchip-Pioneer": {
+        "action": "ClickSelf",
+        "roi": [210,43,239,174],
+        "next": ["AutoRaise@MfgPage"]
     },
-    "AutoRaise@MfgChipStation": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [1100, 296, 20, 20],
-        "postDelay": 800,
-        "doc": "制造站选中芯片产线（point.lua:1806 芯片站 {1650,444}÷1.5）；占位任务，待制造站详情页截图核对。"
+    "ChooseDualchip-Warrior": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [705,45,239,174]
     },
-    "AutoRaise@MfgSelectChipCategory": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [135, 341, 20, 20],
-        "postDelay": 800,
-        "doc": "制造站打开芯片类产品列表（point.lua:1810 制造站选芯片类 {202,511}÷1.5）；占位任务，待截图核对。"
+    "ChooseDualchip-Tank": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [211,224,239,174]
     },
-    "AutoRaise@MfgChipProduct3213": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [340, 174, 20, 20],
-        "doc": "选择先锋双芯片（point.lua:1819 芯片制造3213 {510,261}÷1.5）；占位任务，待产品列表截图核对。"
+    "ChooseDualchip-Sniper": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [705,222,239,174]
     },
-    "AutoRaise@MfgChipProduct3223": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [822, 167, 20, 20],
-        "doc": "选择近卫双芯片（point.lua:1820 芯片制造3223 {1233,250}÷1.5）；占位任务，待截图核对。"
+    "ChooseDualchip-Caster": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [210,404,239,174]
     },
-    "AutoRaise@MfgChipProduct3233": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [329, 342, 20, 20],
-        "doc": "选择重装双芯片（point.lua:1821 芯片制造3233 {494,513}÷1.5）；占位任务，待截图核对。"
+    "ChooseDualchip-Medic": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi":[705,405,239,174]
     },
-    "AutoRaise@MfgChipProduct3243": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [822, 338, 20, 20],
-        "doc": "选择狙击双芯片（point.lua:1822 芯片制造3243 {1233,507}÷1.5）；占位任务，待截图核对。"
+    "ChooseDualchip-Support": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [211,588,239,132]
     },
-    "AutoRaise@MfgChipProduct3253": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [331, 535, 20, 20],
-        "doc": "选择术师双芯片（point.lua:1823 芯片制造3253 {497,803}÷1.5）；占位任务，待截图核对。"
-    },
-    "AutoRaise@MfgChipProduct3263": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [822, 517, 20, 20],
-        "doc": "选择医疗双芯片（point.lua:1824 芯片制造3263 {1233,776}÷1.5）；占位任务，待截图核对。"
-    },
-    "AutoRaise@MfgChipProduct3273": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [341, 684, 20, 20],
-        "doc": "选择辅助双芯片（point.lua:1825 芯片制造3273 {512,1026}÷1.5）；占位任务，待截图核对。"
-    },
-    "AutoRaise@MfgChipProduct3283": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [822, 683, 20, 20],
-        "doc": "选择特种双芯片（point.lua:1826 芯片制造3283 {1233,1025}÷1.5）；占位任务，待截图核对。"
+    "ChooseDualchip-Special": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [704,586,239,134]
     },
     "AutoRaise@MfgCatalystCount": {
         "baseTask": "NumberOcrReplace",
