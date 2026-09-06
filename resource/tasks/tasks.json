@@ -6057,7 +6057,7 @@
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
         "doc": "干员精英化第二个位置的材料缺料检测",
-        "roi": [489, 665, 45, 17]
+        "roi": [626, 665, 45, 17]
     },
     "AutoRaise@Dualchip": {
         "algorithm": "JustReturn",
@@ -6107,13 +6107,16 @@
         "next": []
     },
     "AutoRaise@RecordFactoryState": {
-        "baseTask": "AutoRaise@ManualRecognition",
+        "algorithm": "MatchTemplate",
+        "template": "empty.png",
+        "templThreshold": 0.8,
+        "roi": [1030, 220, 190, 65],
         "doc": [
-            "参考实现没有记录原产线产品和生产数量；raise.lua:1250-1292 固定将芯片产线改回赤金，不能直接照搬。",
-            "产品类型可参考 point.lua:1811-1813、1831「经验站」「赤金站」「芯片站」「源石站」；候选 ROI 只覆盖产品标志，生产数量必须另采截图并拆分 OCR Task。",
-            "原状态任一字段识别失败时不得切换产线。"
-        ],
-        "roi": [1060, 275, 100, 60]
+            "记录制造站产线当前产品：C++ 用 BestMatcher 以本 Task 的 roi/阈值为配置，",
+            "匹配 InfrastPic/Product 下四个产品标志模板（赤金/作战记录/源石碎片/芯片）后写入 Status。",
+            "roi 与 VerifyProductChangedTo* 一致（制造站详情页首条产线的产品标志位）。",
+            "识别失败时 C++ 不得切换产线。RestoreFactoryState 读取存储值后可复用 ChooseProductList→…→VerifyProductChangedTo* 链恢复。"
+        ]
     },
     "AutoRaise@ChipPackEnough": {
         "baseTask": "AutoRaise@ManualRecognition",
@@ -6265,12 +6268,9 @@
         "roi": [420, 560, 570, 80]
     },
     "AutoRaise@ReturnFromWorkshop": {
-        "baseTask": "AutoRaise@ManualAction",
-        "doc": [
-            "对应 raise.lua:2061-2066 的「返回」操作；优先复用 MAA 已有 Return 模板和返回链。",
-            "候选 ROI 只覆盖左上角返回按钮。"
-        ],
-        "roi": [0, 0, 180, 120]
+        "baseTask": "Return",
+        "template": "Return.png",        
+        "postDelay": 1000
     },
     "AutoRaise@MaterialStillMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
