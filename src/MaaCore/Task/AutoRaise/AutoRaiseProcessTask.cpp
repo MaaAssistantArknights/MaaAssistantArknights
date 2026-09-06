@@ -1,8 +1,6 @@
 #include "AutoRaiseProcessTask.h"
 
 #include <algorithm>
-#include <charconv>
-#include <cctype>
 #include <optional>
 #include <ranges>
 
@@ -27,31 +25,6 @@ namespace
 constexpr int MaxOperatorPages = 20;
 // 制造站产线当前产品写入 Status 的键，RestoreFactoryState 读取后恢复原产品。
 constexpr std::string_view FactoryProductStatusKey = "AutoRaiseFactoryProduct";
-
-// 双芯片产品 id 按职业，与 item_index 一致：3213 先锋 .. 3283 特种（point.lua 芯片制造3213..3283）。
-std::string dual_chip_product_id(asst::battle::Role role)
-{
-    switch (role) {
-    case asst::battle::Role::Pioneer:
-        return "3213";
-    case asst::battle::Role::Warrior:
-        return "3223";
-    case asst::battle::Role::Tank:
-        return "3233";
-    case asst::battle::Role::Sniper:
-        return "3243";
-    case asst::battle::Role::Caster:
-        return "3253";
-    case asst::battle::Role::Medic:
-        return "3263";
-    case asst::battle::Role::Support:
-        return "3273";
-    case asst::battle::Role::Special:
-        return "3283";
-    default:
-        return {};
-    }
-}
 
 std::string role_task_name(asst::battle::Role role)
 {
@@ -612,22 +585,10 @@ std::optional<int> asst::AutoRaiseProcessTask::ocr_number(const std::string& tas
     if (!analyzer.analyze()) {
         return std::nullopt;
     }
-
-    std::string digits;
-    for (const unsigned char character : analyzer.get_result().text) {
-        if (std::isdigit(character)) {
-            digits.push_back(static_cast<char>(character));
-        }
-        else if (!digits.empty()) {
-            break;
-        }
-    }
-    if (digits.empty()) {
-        return std::nullopt;
-    }
+    const std::string& text = analyzer.get_result().text;
     int value = 0;
-    const auto [ptr, error] = std::from_chars(digits.data(), digits.data() + digits.size(), value);
-    if (error != std::errc { } || ptr != digits.data() + digits.size()) {
+    // chars_to_number 默认部分匹配，取前导数字（徽标 "0/4" → 0）。
+    if (!utils::chars_to_number(text, value)) {
         return std::nullopt;
     }
     return value;
@@ -647,20 +608,24 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
     const int need = rarity >= 6 ? 4 : 3;
     const int owned = ocr_number("AutoRaise@DualchipBadgeCount").value_or(0);
     const int shortfall = std::max(need - owned, 0);
+    Log.info("AutoRaise | dual chip shortfall", "owned:", owned, "need:", need, "shortfall:", shortfall);
     if (shortfall == 0) {
-        Log.info("AutoRaise | dual chip stock sufficient", owned, "need", need);
         return true;
     }
 
     // 跳转制造站（DualchipJumpMfg 链内校验 MfgPage），进入芯片产线并记录当前产品。
-    if (!run_task("AutoRaise@Dualchip") ||!run_task("AutoRaise@DualchipJumpMfg") || !run_task("AutoRaise@MfgChipStation") ||
+    if (!run_task("AutoRaise@Dualchip") ||!run_task("AutoRaise@DualchipJumpMfg") || 
         !record_factory_state()) {
         return false;
     }
-    // 打开芯片类产品列表，按目标职业选择双芯片产品（point.lua 芯片制造3213..3283）。
-    const std::string chip_id = dual_chip_product_id(BattleData.get_first_role(target.name));
-    if (chip_id.empty() || !run_task("AutoRaise@MfgSelectChipCategory") ||
-        !run_task("AutoRaise@MfgChipProduct" + chip_id)) {
+    // 打开芯片类产品列表，按目标职业选择双芯片产品（ChooseDualchip-{职业}）。
+    const battle::Role role = BattleData.get_first_role(target.name);
+    if (role == battle::Role::Unknown || role == battle::Role::Drone) {
+        return false;
+    }
+    const std::string product_task = "ChooseDualchip-" + enum_to_string(role, true);
+    if (!run_task("ChooseProductList") || !run_task("ChooseChipTab") ||
+        !run_task(product_task)) {
         return false;
     }
 
@@ -676,7 +641,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
         return false;
     }
     // 补购后回产品页需重新选中双芯片（raise.lua:1232-1234）。
-    if (!run_task("AutoRaise@MfgSelectChipCategory") || !run_task("AutoRaise@MfgChipProduct" + chip_id)) {
+    if (!run_task("ChooseChipTab") || !run_task(product_task)) {
         return false;
     }
 
