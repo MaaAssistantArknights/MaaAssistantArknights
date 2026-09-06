@@ -72,7 +72,7 @@ bool asst::SwitchThemeTask::run()
         return false;
     }
 
-    constexpr int MaxDragTimes = 10;
+    constexpr int MaxDragTimes = 20;
     auto try_select = [&]() {
         return ProcessTask(*this, { "SwitchThemeByNameSelectTheme" }).set_retry_times(0).run();
     };
