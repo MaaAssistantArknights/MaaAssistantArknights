@@ -180,8 +180,18 @@ asst::AutoRaiseProcessTask::Result
             return Result::RecognitionFailed;
         }
         if (run_task("AutoRaise@EliteUpMaterialMissing")) {
-            if (!synthesize_missing_material() && !manufacture_dual_chip()) {
-                return Result::ResourceInsufficient;
+            if (!synthesize_missing_material()) {
+                // 加工站无法合成芯片。只有 5/6 星晋升二阶所需的双芯片有制造站产线，
+                // 其余晋升芯片缺料时无法补齐，报错并转入下一条培养计划。
+                const bool dual_chip =
+                    target.target == 2 &&
+                    BattleData.get_rarity(BattleData.get_first_role(target.name), target.name) > 4;
+                if (!dual_chip) {
+                    return Result::ChipNotCraftable;
+                }
+                if (!manufacture_dual_chip()) {
+                    return Result::ResourceInsufficient;
+                }
             }
             if (run_task("AutoRaise@EliteUpMaterialMissing")) {
                 return Result::ResourceInsufficient;
@@ -578,6 +588,8 @@ std::string_view asst::AutoRaiseProcessTask::result_name(Result result)
         return "operator_not_found";
     case Result::PrerequisiteNotMet:
         return "prerequisite_not_met";
+    case Result::ChipNotCraftable:
+        return "chip_not_craftable";
     case Result::Unsupported:
         return "unsupported";
     case Result::RecognitionFailed:
