@@ -12,6 +12,7 @@
 #include "Miscellaneous/CopilotConfig.h"
 #include "Miscellaneous/InfrastConfig.h"
 #include "Miscellaneous/ItemConfig.h"
+#include "Miscellaneous/MaterialRecipeConfig.h"
 #include "Miscellaneous/OcrConfig.h"
 #include "Miscellaneous/OcrPack.h"
 #include "Miscellaneous/RecruitConfig.h"
@@ -158,7 +159,10 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     if (!load_with_custom.template operator()<GeneralConfig>("config.json"_p, "GeneralConfig") ||
         !load_with_custom.template operator()<RecruitConfig>("recruitment.json"_p, "RecruitConfig") ||
         !load_with_custom.template operator()<BattleDataConfig>("battle_data.json"_p, "BattleDataConfig") ||
-        !load_with_custom.template operator()<OcrConfig>("ocr_config.json"_p, "OcrConfig")) {
+        !load_with_custom.template operator()<OcrConfig>("ocr_config.json"_p, "OcrConfig") ||
+        !load_with_custom.template operator()<MaterialRecipeConfig>(
+            "material_recipes.json"_p,
+            "MaterialRecipeConfig")) {
         return false;
     }
 

@@ -1,4 +1,4 @@
-// <copyright file="MaaService.cs" company="MaaAssistantArknights">
+﻿// <copyright file="MaaService.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -79,6 +79,9 @@ internal static partial class MaaService
 
     [LibraryImport("MaaCore.dll")]
     internal static unsafe partial Int32 AsstAsyncScreencap(AsstHandle handle, [MarshalAs(UnmanagedType.Bool)] bool block);
+
+    [LibraryImport("MaaCore.dll", StringMarshalling = StringMarshalling.Utf8)]
+    internal static unsafe partial ulong AsstGetMaterialCraftPlan(string taskParams, byte* buff, ulong buffSize);
 
     [LibraryImport("MaaCore.dll")]
     internal static unsafe partial ulong AsstGetImage(AsstHandle handle, byte* buff, ulong buffSize);
@@ -196,4 +199,6 @@ public enum AsstTaskType : byte
     Custom,
 
     MaterialCraft,
+
+    MaterialRequirement,
 }

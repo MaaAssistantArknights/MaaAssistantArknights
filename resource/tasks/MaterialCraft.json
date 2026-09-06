@@ -1,0 +1,271 @@
+{
+    "MaterialCraft-LeaveTraining": {
+        "algorithm": "JustReturn",
+        "next": ["MaterialCraft-MasteryBack", "MaterialCraft-TrainingBack", "Stop"]
+    },
+    "MaterialCraft-MasteryBack": {
+        "template": "InfrastPic/Processing/WorkshopMasteryRank.png",
+        "roi": [80, 395, 210, 35],
+        "templThreshold": 0.9,
+        "action": "ClickRect",
+        "specificRect": [25, 20, 110, 35],
+        "postDelay": 500,
+        "maxTimes": 1,
+        "next": ["MaterialCraft-MasterySelectionBack"]
+    },
+    "MaterialCraft-MasterySelectionBack": {
+        "baseTask": "ReturnButton",
+        "template": ["Return.png", "Return-White.png"],
+        "postDelay": 500,
+        "maxTimes": 1,
+        "onErrorNext": [],
+        "next": ["MaterialCraft-TrainingBack"]
+    },
+    "MaterialCraft-TrainingBack": {
+        "template": "InfrastPic/Processing/WorkshopTrainingRoom.png",
+        "roi": [375, 5, 65, 65],
+        "templThreshold": 0.9,
+        "action": "ClickRect",
+        "specificRect": [25, 20, 110, 35],
+        "postDelay": 500,
+        "maxTimes": 1,
+        "next": ["MaterialCraft@InfrastEnteredFlag", "MaterialCraft@InfrastNotification"]
+    },
+    "MaterialCraft@InfrastEnteredFlag": {
+        "baseTask": "InfrastEnteredFlag",
+        "template": "InfrastOverview.png",
+        "next": [],
+        "postDelay": 0,
+        "doc": "材料合成只需进入基建，不等待或领取基建产出。"
+    },
+    "MaterialCraft@InfrastNotification": {
+        "baseTask": "InfrastNotification",
+        "template": "InfrastNotification.png",
+        "action": "DoNothing",
+        "next": [],
+        "postDelay": 0,
+        "doc": "铃铛仅用于确认已进入基建，不点击通知或执行领取流程。"
+    },
+    "MaterialCraft-Quantity": {
+        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
+        "roi": [988, 328, 245, 78],
+        "isAscii": true,
+        "binThreshold": [150, 255],
+        "postDelay": 150,
+        "withoutDet": true,
+        "useRaw": false
+    },
+    "MaterialCraft-CraftEntrance": {
+        "template": "InfrastPic/Processing/WorkshopCraftEntrance.png",
+        "templThreshold": 0.76,
+        "roi": [0, 504, 588, 216],
+        "maskRange": [1, 255]
+    },
+    "MaterialCraft-EnterCraftPage": {
+        "baseTask": "InfrastBottomLeftTab",
+        "specificRect": [80, 560, 320, 100],
+        "specificRect_Doc": "确认加工站房间后，点击左下角加工入口的内部区域。"
+    },
+    "MaterialCraft-FormulaSlotSelected": {
+        "template": "InfrastPic/Processing/WorkshopFormulaSlotSelected.png",
+        "templThreshold": 0.85,
+        "roi": [448, 324, 320, 288],
+        "maskRange": [1, 255]
+    },
+    "MaterialCraft-FormulaSlotEmpty": {
+        "template": "InfrastPic/Processing/WorkshopFormulaSlotEmpty.png",
+        "templThreshold": 0.85,
+        "roi": [448, 324, 320, 288],
+        "maskRange": [1, 255]
+    },
+    "MaterialCraft-PlusButton": {
+        "template": "InfrastPic/Processing/WorkshopPlusButton.png",
+        "templThreshold": 0.85,
+        "roi": [921, 244, 256, 93],
+        "maskRange": [1, 255]
+    },
+    "MaterialCraft-MinusButton": {
+        "template": "InfrastPic/Processing/WorkshopMinusButton.png",
+        "templThreshold": 0.85,
+        "roi": [921, 432, 256, 93],
+        "maskRange": [1, 255]
+    },
+    "MaterialCraft-EliteCategory": {
+        "template": "InfrastPic/Processing/WorkshopEliteCategory.png",
+        "templThreshold": 0.6,
+        "roi": [0, 70, 260, 650]
+    },
+    "MaterialCraft-CompleteTick": {
+        "template": "InfrastPic/Processing/WorkshopCompleteTick.png",
+        "templThreshold": 0.75,
+        "roi": [448, 504, 384, 201],
+        "maskRange": [1, 255]
+    },
+    "MaterialCraft-FormulaSlotSelected-Click": {
+        "template": "InfrastPic/Processing/WorkshopFormulaSlotSelected.png",
+        "templThreshold": 0.9,
+        "roi": [448, 324, 320, 288],
+        "maskRange": [1, 255]
+    },
+    "MaterialCraft-FormulaSlotEmpty-Click": {
+        "template": "InfrastPic/Processing/WorkshopFormulaSlotEmpty.png",
+        "templThreshold": 0.9,
+        "roi": [448, 324, 320, 288],
+        "maskRange": [1, 255]
+    },
+    "MaterialCraft-PlusButton-Click": {
+        "template": "InfrastPic/Processing/WorkshopPlusButton.png",
+        "templThreshold": 0.9,
+        "roi": [921, 244, 256, 93],
+        "maskRange": [1, 255]
+    },
+    "MaterialCraft-StartButton": {
+        "template": "InfrastPic/Processing/WorkshopStartButton.png",
+        "templThreshold": 0.85,
+        "roi": [921, 561, 345, 144],
+        "maskRange": [1, 255]
+    },
+    "MaterialCraft-QualityDropdownArrowDown": {
+        "template": "InfrastPic/Processing/WorkshopQualityDropdownArrowDown.png",
+        "templThreshold": 0.8,
+        "roi": [1126, 0, 154, 90],
+        "maskRange": [1, 255]
+    },
+    "MaterialCraft-QualityDropdownArrowUp": {
+        "template": "InfrastPic/Processing/WorkshopQualityDropdownArrowUp.png",
+        "templThreshold": 0.8,
+        "roi": [1126, 0, 154, 90],
+        "maskRange": [1, 255]
+    },
+    "MaterialCraft-QualityOptionAll": {
+        "template": "InfrastPic/Processing/WorkshopQualityOptionAll.png",
+        "templThreshold": 0.55,
+        "roi": [1100, 55, 180, 665],
+        "maskRange": [1, 255],
+        "maxTimes": 1
+    },
+    "MaterialCraft-QualityOptionNormal": {
+        "template": "InfrastPic/Processing/WorkshopQualityOptionNormal.png",
+        "templThreshold": 0.6,
+        "roi": [1100, 55, 180, 665],
+        "maskRange": [1, 255],
+        "maxTimes": 1
+    },
+    "MaterialCraft-QualityOptionRare": {
+        "template": "InfrastPic/Processing/WorkshopQualityOptionRare.png",
+        "templThreshold": 0.6,
+        "roi": [1100, 55, 180, 665],
+        "maskRange": [1, 255],
+        "maxTimes": 1
+    },
+    "MaterialCraft-QualityOptionExcellent": {
+        "template": "InfrastPic/Processing/WorkshopQualityOptionExcellent.png",
+        "templThreshold": 0.7,
+        "roi": [1100, 55, 180, 665],
+        "maskRange": [1, 255],
+        "maxTimes": 16
+    },
+    "MaterialCraft-QualityOptionSuperior": {
+        "template": "InfrastPic/Processing/WorkshopQualityOptionSuperior.png",
+        "templThreshold": 0.75,
+        "roi": [1100, 55, 180, 665],
+        "maskRange": [1, 255],
+        "maxTimes": 1
+    },
+    "MaterialCraft-AnimationDelay": {
+        "algorithm": "JustReturn",
+        "postDelay": 500
+    },
+    "MaterialCraft-RetryDelay": {
+        "algorithm": "JustReturn",
+        "postDelay": 250
+    },
+    "MaterialCraft-VerifyDelay": {
+        "algorithm": "JustReturn",
+        "postDelay": 200
+    },
+    "MaterialCraft-RewardDelay": {
+        "algorithm": "JustReturn",
+        "postDelay": 1200
+    },
+    "MaterialCraft-FormulaProduct": {
+        "template": "empty.png",
+        "templThreshold": 0.68,
+        "roi": [217, 80, 1063, 640],
+        "specialParams": [130, 120, 140],
+        "specialParams_Doc": "Item template scales in percent; try the first scale before the remaining scales.",
+        "template_Doc": "Recognition parameters only; MaterialImageAnalyzer supplies the item template."
+    },
+    "MaterialCraft-SelectedProduct": {
+        "template": "empty.png",
+        "templThreshold": 0.7,
+        "roi": [512, 345, 256, 223],
+        "specialParams": [80, 85, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 160],
+        "specialParams_Doc": "Item template scales in percent.",
+        "template_Doc": "Recognition parameters only; MaterialImageAnalyzer supplies the item template."
+    },
+    "MaterialCraft-ObtainItemsIcon": {
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "templThreshold": 0.8,
+        "action": "DoNothing"
+    },
+    "MaterialCraft-FormulaListSwipe": {
+        "baseTask": "SlowlySwipeToTheUp",
+        "specificRect": [738, 492, 20, 20],
+        "rectMove": [738, 212, 20, 20],
+        "next": [],
+        "maxTimes": 1
+    },
+    "MaterialCraft-FormulaListRewind": {
+        "baseTask": "SlowlySwipeToTheDown",
+        "specificRect": [738, 210, 20, 20],
+        "rectMove": [738, 630, 20, 20],
+        "next": [],
+        "maxTimes": 5
+    },
+    "MaterialCraft-IncreaseQuantity": {
+        "algorithm": "JustReturn",
+        "action": "ClickSelf",
+        "rectMove": [70, 15, 32, 22],
+        "rectMove_Doc": "相对于加号模板的安全点击区域，避开右侧最多按钮",
+        "postDelay": 0,
+        "postDelay_Doc": "控制器已有点击间隔；仅在特定设备需要时增加额外等待"
+    },
+    "MaterialRequirement-LeftIcon": {
+        "template": "empty.png",
+        "roi": [436, 504, 153, 171],
+        "roi_Doc": "兼容精二和位置稍低的专精图标，避免裁掉图标底部。",
+        "templThreshold": 0.75,
+        "specialParams": [45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 110],
+        "specialParams_Doc": "Item template scales in percent.",
+        "template_Doc": "Recognition parameters only; MaterialImageAnalyzer supplies the item template."
+    },
+    "MaterialRequirement-RightIcon": {
+        "baseTask": "MaterialRequirement-LeftIcon",
+        "roi": [576, 504, 153, 171],
+        "template": "empty.png"
+    },
+    "MaterialRequirement-LeftQuantity": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [448, 660, 128, 40],
+        "roi_Doc": "仅包含数量条，兼容精二和位置稍低的专精数量，避开材料图标。",
+        "isAscii": true,
+        "ocrReplace": [],
+        "useRaw": false,
+        "binThreshold": [80, 255],
+        "binThreshold_Doc": "保留缺料时的橙色数字；高阈值会只留下斜杠和需求数量。"
+    },
+    "MaterialRequirement-RightQuantity": {
+        "baseTask": "MaterialRequirement-LeftQuantity",
+        "roi": [588, 660, 128, 40]
+    },
+    "MaterialCraft-ByproductRate": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [845, 233, 91, 45],
+        "binThreshold": [160, 255],
+        "useRaw": false,
+        "postDelay": 0
+    }
+}

@@ -47,6 +47,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
 ##### 任务类型一览
 
+- `MaterialCraft` / `MaterialRequirement`：材料合成与需求识别，详见[材料合成](./material-craft.md)。
+
 - `StartUp`  
   开始唤醒
 
@@ -1584,6 +1586,10 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ```
 
 </details>
+
+### `AsstGetMaterialCraftPlan`
+
+只计算材料合成计划，不启动任务。接口原型、缓冲区约定及返回字段见[材料合成](./material-craft.md#只计算计划)。
 
 ### `AsstSetTaskParams`
 

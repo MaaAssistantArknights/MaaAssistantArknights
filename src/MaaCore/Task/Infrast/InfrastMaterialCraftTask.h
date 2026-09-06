@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Task/Infrast/InfrastAbstractTask.h"
+#include "Utils/MaterialCraftPlanner.h"
 
 #include <optional>
 #include <unordered_map>
@@ -29,78 +30,23 @@ protected:
     virtual bool on_run_fails() override { return false; }
 
 private:
-    struct CraftTarget
-    {
-        std::string item_id;
-        int count = 0;
-    };
-
-    struct FormulaCost
-    {
-        std::string item_id;
-        int count = 0;
-    };
-
-    struct Formula
-    {
-        std::string formula_id;
-        int sort_id = 0;
-        int rarity = 0;
-        std::string item_id;
-        std::string category;
-        int count = 1;
-        int gold_cost = 0;
-        int ap_cost = 0;
-        std::vector<FormulaCost> costs;
-    };
-
-    struct CraftOperation
-    {
-        const Formula* formula = nullptr;
-        int batches = 0;
-    };
+    using Formula = MaterialFormula;
+    using CraftOperation = MaterialCraftOperation;
 
     enum class FormulaScanResult
     {
         NotFound,
         Selected,
-        NeedReselect,
         VerificationFailed,
+        Cancelled,
     };
 
-    struct CraftState
-    {
-        std::unordered_map<std::string, int> inventory;
-        std::unordered_map<std::string, int> missing;
-        std::vector<CraftOperation> operations;
-        long long gold_cost = 0;
-        long long ap_cost = 0;
-
-        int get_inventory(const std::string& item_id) const;
-        void add_missing(const std::string& item_id, int count);
-        int missing_total() const;
-    };
-
-    bool parse_targets(const json::value& params);
-    bool parse_inventory(const json::value& params);
-    bool load_formulas();
     bool build_plan();
-    bool craft_material(
-        const std::string& item_id,
-        int count,
-        CraftState& state,
-        std::unordered_set<std::string>& stack);
-    bool apply_formula(const Formula& formula, int count, CraftState& state, std::unordered_set<std::string>& stack);
-    bool consume_material(
-        const std::string& item_id,
-        int count,
-        CraftState& state,
-        std::unordered_set<std::string>& stack);
-    void append_operation(CraftState& state, const Formula& formula, int batches) const;
-    void callback_plan();
-    void callback_plan_failed(const CraftState& state);
 
+    bool ensure_processing_room();
+    bool craft_sleep(unsigned milliseconds) const;
     bool ensure_craft_page();
+    bool is_processing_room(const cv::Mat& image) const;
     bool is_craft_page(const cv::Mat& image) const;
     bool is_formula_selector(const cv::Mat& image) const;
     bool is_obtain_items_page(const cv::Mat& image) const;
@@ -119,29 +65,18 @@ private:
     bool selected_formula_matches(const Formula& formula) const;
     bool rewind_formula_list(int swipe_times);
     bool rewind_formula_list_to_top();
-    bool swipe_formula_list(const cv::Mat& image, bool forward, int distance_percent, int duration);
-    bool set_craft_count(int batches);
+    bool swipe_formula_list(bool forward);
+    std::optional<int> read_craft_count() const;
+    std::optional<int> set_craft_count(int batches);
     bool click_start_button();
-    bool click_complete_tick();
+    bool click_complete_tick(const CraftOperation& operation, int operation_id);
+    void callback_operation(const std::string& what, const CraftOperation& operation, int operation_id);
+    int m_next_operation_id = 0;
+    bool m_inventory_complete = false;
 
-    std::optional<Rect> match_workshop_template(
-        const cv::Mat& image,
-        const std::string& filename,
-        double threshold,
-        const Rect& roi = Rect(),
-        bool mask = true) const;
-    std::vector<TextRect> find_all_text(const cv::Mat& image, const Rect& roi = Rect()) const;
-    Rect formula_list_roi(const cv::Mat& image);
-    Rect image_rect(const cv::Mat& image) const;
-    Rect clamp_rect(const Rect& rect, const cv::Mat& image) const;
+    std::optional<Rect> match_workshop_template(const cv::Mat& image, const std::string& task_name) const;
 
-    std::vector<CraftTarget> m_targets;
-    std::unordered_map<std::string, int> m_inventory;
-    std::unordered_map<std::string, Formula> m_formulas_by_id;
-    std::unordered_map<std::string, std::vector<const Formula*>> m_formulas_by_item;
-    std::vector<CraftOperation> m_plan;
-    Rect m_formula_list_roi;
-    long long m_plan_gold_cost = 0;
-    long long m_plan_ap_cost = 0;
+    MaterialCraftRequest m_request;
+    MaterialCraftPlan m_plan;
 };
 }
