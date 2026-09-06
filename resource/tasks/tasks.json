@@ -2452,11 +2452,6 @@
         "postDelay": 1500,
         "next": ["CreditShop-Bought", "Stop"]
     },
-    "MaterialCraft-ObtainItemsIcon": {
-        "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
-        "action": "DoNothing"
-    },
     "CreditShop-NoMoney": {
         "algorithm": "OcrDetect",
         "text": ["信用不足", "无法购买"],

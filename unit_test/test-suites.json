@@ -14,6 +14,17 @@
         "src/MaaCore/Utils/Algorithm.hpp",
         "unit_test/MaaCore/AlgorithmTest.cpp"
       ]
+    },
+    {
+      "id": "maa-material-craft-test",
+      "name": "Material Craft Planner",
+      "buildTarget": "maa-material-craft-test",
+      "ctestRegex": "^material-craft::",
+      "paths": [
+        "src/MaaCore/Utils/MaterialCraftPlanner.cpp",
+        "src/MaaCore/Utils/MaterialCraftPlanner.h",
+        "unit_test/MaaCore/MaterialCraftPlannerTest.cpp"
+      ]
     }
   ]
 }

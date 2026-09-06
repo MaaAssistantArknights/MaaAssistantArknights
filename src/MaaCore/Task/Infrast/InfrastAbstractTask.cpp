@@ -228,6 +228,10 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
 {
     LogTraceFunction;
 
+    if (need_exit()) {
+        return false;
+    }
+
     if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
         Log.warn("index out of range:", index, m_custom_config.size());
         return false;
@@ -246,13 +250,13 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
         analyzer.save_img(utils::path("debug") / utils::path("infrast") / utils::path("enter_facility"));
         return false;
     }
-    ctrler()->click(rect);
+    if (need_exit() || !ctrler()->click(rect)) {
+        return false;
+    }
     m_cur_facility_index = index;
 
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
-    sleep(Task.get("InfrastEnterFacility")->post_delay);
-
-    return true;
+    return sleep(Task.get("InfrastEnterFacility")->post_delay);
 }
 
 bool asst::InfrastAbstractTask::enter_oper_list_page()
