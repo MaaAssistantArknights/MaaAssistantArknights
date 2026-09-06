@@ -43,7 +43,9 @@ private:
     // retry_times 缺省沿用 ProcessTask 的 RetryTimesDefault：显式传 0 会把重试覆盖成单次截图，
     // 页面过场动画未完成时一次性验证必然失败。
     bool run_task(const std::string& task_name, int retry_times = RetryTimesDefault);
-    bool synthesize_missing_material();
+    // material_index 1/2 对应晋升弹窗上的两个普通材料槽；0 表示无专用槽位任务的页面。
+    bool synthesize_missing_material(int material_index);
+    bool record_factory_state();
     bool manufacture_dual_chip();
     void report_target(std::string what, size_t index, const AutoRaiseTarget& target, Result result);
     void report_summary();
