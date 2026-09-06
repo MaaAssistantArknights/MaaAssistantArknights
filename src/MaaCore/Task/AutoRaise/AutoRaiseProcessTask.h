@@ -1,5 +1,7 @@
 #pragma once
 
+#include <optional>
+
 #include "Task/AbstractTask.h"
 #include "Task/AutoRaise/AutoRaisePlan.h"
 
@@ -46,7 +48,10 @@ private:
     // material_index 1/2 对应晋升弹窗上的两个普通材料槽；0 表示无专用槽位任务的页面。
     bool synthesize_missing_material(int material_index);
     bool record_factory_state();
-    bool manufacture_dual_chip();
+    bool manufacture_dual_chip(const AutoRaiseTarget& target);
+    bool restore_factory_state();
+    bool buy_catalyst(int count);
+    std::optional<int> ocr_number(const std::string& task_name);
     void report_target(std::string what, size_t index, const AutoRaiseTarget& target, Result result);
     void report_summary();
     static std::string_view action_name(AutoRaiseAction action);
