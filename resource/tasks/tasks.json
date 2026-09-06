@@ -5926,15 +5926,15 @@
     },
     "AutoRaise@CurrentSkill1MasterLevel": {
         "template": "OperFilesSkillMaster0.png",
-        "roi": [1215, 359, 14, 22]
+        "roi": [880, 333, 28, 24]
     },
     "AutoRaise@CurrentSkill2MasterLevel": {
         "template": "OperFilesSkillMaster0.png",
-        "roi": [1215, 359, 14, 22]
+        "roi": [968, 332, 28, 25]
     },
     "AutoRaise@CurrentSkill3MasterLevel": {
         "template": "OperFilesSkillMaster0.png",
-        "roi": [1215, 359, 14, 22]
+        "roi": [1057, 332, 27, 25]
     },
     "AutoRaise@LevelUp": {
         "algorithm": "JustReturn",
@@ -5990,11 +5990,11 @@
         "template": "EliteUpPageFlag.png",
         "doc": [
             "晋升确认弹窗标志（查看详情放大镜图标），由 2/3/4/5.png 截图核对。",
-            "点击精英化按钮后弹窗出现；确认点击由 AutoRaise@EliteUpPageConfirm 处理。"
+            "点击精英化按钮后弹窗出现；本 Task 为叶子节点，缺料探测与确认点击由 C++ 依次驱动：",
+            "先探测 AutoRaise@EliteUpMaterialMissing（命中则走合成/制造分支），再点击 AutoRaise@EliteUpPageConfirm。"
         ],
         "roi": [1094, 346, 147, 149],
-        "postDelay": 300,
-        "next": ["AutoRaise@EliteUpMaterialMissing", "AutoRaise@EliteUpPageConfirm"]
+        "postDelay": 300
     },
     "AutoRaise@EliteUpPageConfirm": {
         "template": "EliteUpPageConfirm.png",
@@ -6024,11 +6024,8 @@
     "AutoRaise@EliteUpMaterialMissing": {
         "doc": [
             "检测晋升材料行内缺料数量文字的红色（#FD6801 色系，充足时为青色）。",
-            "数色用法参考 InfrastMfg：method=HSVCount + 模板像素落在色域内 + pureColor；",
-            "Matcher 不消费 specialParams，命中阈值由 templThreshold 控制：3x3 窗口内 ≥4/9 红色像素即命中。",
-            "HSV 上下限由 2/3/4.png 实测标定：缺料红字 H12-16/S180-255/V100-255，",
-            "金币(H28-30)、青色数量字与红色材料图标均落在色域外；roi 左边界避开等级徽章橙色文字（与红字同色系，靠位置区分）。",
-            "色域以 720p 缩放后截图标定，覆盖档案页与晋升确认弹窗两种布局。"
+            "包括等级/龙门币/芯片/材料,第一次检测到时进入芯片合成和材料合成流程",
+            "第二次检测到说明缺料仍然存在,无法晋升,返回干员档案页"
         ],
         "algorithm": "MatchTemplate",
         "method": "HSVCount",
@@ -6044,14 +6041,70 @@
         "action": "DoNothing",
         "roi": [71, 665, 615, 17]
     },
-    "AutoRaise@DualChipRequired": {
+    "AutoRaise@DualchipRequired": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
-        "doc": [
-            "对应 point.lua:1882-1887「干员精英化芯片」「干员精英化芯片红」「干员精英化芯片数字」，参考调用 raise.lua:1168-1180。",
-            "参考实现通过培养材料 ID 末位为 3 判断双芯片，页面只识别缺料与已有数量；不能仅凭红色槽判断材料类型。"
-        ],
-        "roi": [354, 665, 44, 17]
+        "doc": "干员精英化芯片位置的材料缺料检测",
+        "roi": [352, 664, 45, 17]
+    },
+    "AutoRaise@EliteUpMaterial1Required": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "doc": "干员精英化第一个位置的材料缺料检测",
+        "roi": [489, 665, 45, 17]
+    },
+    "AutoRaise@EliteUpMaterial2Required": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "doc": "干员精英化第二个位置的材料缺料检测",
+        "roi": [489, 665, 45, 17]
+    },
+    "AutoRaise@Dualchip": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [348, 572, 43, 45],
+        "postDelay": 800,
+        "doc": "干员精英化芯片位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@EliteUpMaterial1": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [484, 575, 47, 46],
+        "doc": "干员精英化第一个位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@EliteUpMaterial2": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [626, 578, 47, 46],
+        "doc": "干员精英化第二个位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@DualchipJumpMfg": {
+        "template": "OperFilesJumpButton.png",
+        "action": "ClickSelf",
+        "roi": [728, 522, 199, 125],
+        "postDelay": 1000,
+        "doc": "干员精英化芯片位置调转至制造站",
+        "next": ["AutoRaise@MfgPage"]
+    },
+    "AutoRaise@MfgPage": {
+        "baseTask": "InfrastFacilityListTabMfg",
+        "template": "FacilityListTabMfg.png",
+        "postDelay": 300,
+        "maxTimes": 20
+    },
+    "AutoRaise@EliteUpMaterial1JumpProcessing": {
+        "template": "OperFilesJumpButton.png",
+        "action": "ClickSelf",
+        "roi": [888, 362, 155, 274],
+        "postDelay": 1000,
+        "doc": "干员精英化第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": []
+    },
+    "AutoRaise@EliteUpMaterial2JumpProcessing": {
+        "template": "OperFilesJumpButton.png",
+        "action": "ClickSelf",
+        "roi": [399, 334, 169, 309],
+        "postDelay": 1000,
+        "doc": "干员精英化第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": []
     },
     "AutoRaise@RecordFactoryState": {
         "baseTask": "AutoRaise@ManualRecognition",
@@ -6097,7 +6150,7 @@
         "baseTask": "AutoRaise@ManualAction",
         "roi": [440, 370, 145, 90]
     },
-    "AutoRaise@ManufactureDualChip": {
+    "AutoRaise@ManufactureDualchip": {
         "baseTask": "AutoRaise@ManualAction",
         "doc": [
             "对应 raise.lua:1187-1245 及 point.lua:1813、1818-1830「芯片站」「制造站选芯片类」「芯片制造3213..3283」「制造站加」等点。",
