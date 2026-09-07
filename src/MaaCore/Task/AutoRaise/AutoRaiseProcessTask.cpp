@@ -683,21 +683,20 @@ bool asst::AutoRaiseProcessTask::restore_factory_state()
     if (!run_task("ChooseProductList")) {
         return false;
     }
+    // 换产品任务以 next 互链：选分类后依次自动完成 选产品→设最多→确认变更→最终确认，
+    // cpp 不得再单独调用链内步骤（面板关闭后模板必失配，会误判恢复失败）。
     bool selected = false;
     if (*product == "BattleRecord") {
         selected = run_task("ChooseBattleRecord");
     }
     else if (*product == "PureGold") {
-        selected = run_task("ChoosePureGoldTab") && run_task("ChoosePureGold");
+        selected = run_task("ChoosePureGoldTab");
     }
     else if (*product == "OriginiumShard") {
-        selected = run_task("ChooseOriginiumShardTab") && run_task("ChooseOriginiumShard");
+        selected = run_task("ChooseOriginiumShardTab");
     }
-    if (!selected || !run_task("ClickProductMax") || !run_task("ConfirmProductChange") ||
-        !run_task("ProductFinalConfirm") || !run_task("VerifyProductChangedTo" + *product)) {
-        return false;
-    }
-    return true;
+    // 恢复完成后以详情页产品标志模板复核。
+    return selected && run_task("VerifyProductChangedTo" + *product);
 }
 
 bool asst::AutoRaiseProcessTask::buy_catalyst(int count)
