@@ -13,7 +13,7 @@
         "specificRect_Doc": "滑动起点",
         "rectMove": [880, 310, 100, 100],
         "rectMove_Doc": "滑动终点",
-        "specialParams": [200, 1, 2, 0],
+        "specialParams": [200, 1, 20, 0],
         "specialParams_Doc": [
             "滑动 duration",
             "额外滑动？",
@@ -29,7 +29,7 @@
         "postDelay": 200,
         "specificRect": [880, 310, 100, 100],
         "rectMove": [300, 310, 100, 100],
-        "specialParams": [200, 1, 2, 0],
+        "specialParams": [200, 1, 20, 0],
         "next": ["#next"],
         "maxTimes": 50
     },
@@ -39,7 +39,7 @@
         "postDelay": 200,
         "specificRect": [600, 510, 100, 100],
         "rectMove": [600, 0, 100, 100],
-        "specialParams": [200, 1, 2, 0],
+        "specialParams": [200, 1, 20, 0],
         "next": ["#next"],
         "maxTimes": 50
     },
@@ -49,7 +49,7 @@
         "postDelay": 200,
         "specificRect": [600, 145, 100, 100],
         "rectMove": [600, 610, 100, 100],
-        "specialParams": [200, 1, 2, 0],
+        "specialParams": [200, 1, 20, 0],
         "next": ["#next"],
         "maxTimes": 50
     },
@@ -59,7 +59,7 @@
         "postDelay": 100,
         "specificRect": [100, 310, 100, 100],
         "rectMove": [1080, 310, 100, 100],
-        "specialParams": [150, 0, 1, 1],
+        "specialParams": [150],
         "next": ["#next"],
         "maxTimes": 20
     },
@@ -69,7 +69,7 @@
         "postDelay": 100,
         "specificRect": [1080, 310, 100, 100],
         "rectMove": [100, 310, 200, 100],
-        "specialParams": [150, 0, 1, 1],
+        "specialParams": [150],
         "next": ["#next"],
         "maxTimes": 20
     },
@@ -79,7 +79,7 @@
         "postDelay": 350,
         "specificRect": [600, 510, 100, 100],
         "rectMove": [600, 0, 100, 100],
-        "specialParams": [150, 0, 1, 1],
+        "specialParams": [150],
         "next": ["#next"],
         "maxTimes": 20
     },
@@ -89,7 +89,7 @@
         "postDelay": 350,
         "specificRect": [600, 145, 100, 100],
         "rectMove": [600, 610, 100, 100],
-        "specialParams": [150, 0, 1, 1],
+        "specialParams": [150],
         "next": ["#next"],
         "maxTimes": 20
     },

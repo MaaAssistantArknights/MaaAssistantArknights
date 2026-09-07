@@ -11,7 +11,7 @@
         "action": "Swipe",
         "specificRect": [1100, 550, 1, 1],
         "rectMove": [1100, 280, 1, 1],
-        "specialParams": [250, 0, 1, 0]
+        "specialParams": [250, 0, 10, 0]
     },
     "MiniGame@PixelPaint@PaletteScrollToTop": {
         "doc": "色板滑到顶：720p 锚点附近向下滑（手指下滑，内容下移，看到顶部 0~23 色）。",
@@ -19,7 +19,7 @@
         "action": "Swipe",
         "specificRect": [1100, 350, 1, 1],
         "rectMove": [1100, 620, 1, 1],
-        "specialParams": [250, 0, 1, 0]
+        "specialParams": [250, 0, 10, 0]
     },
     "MiniGame@PixelPaint@Grid": {
         "doc": "画布外框 720p：specialParams = left, top, right, bottom。",
