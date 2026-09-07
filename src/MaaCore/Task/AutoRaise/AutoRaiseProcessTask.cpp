@@ -222,21 +222,25 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
 asst::AutoRaiseProcessTask::Result
 asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
 {
-    if (run_task("AutoRaise@SkillsSatisfied" + std::to_string(target.target))) {
+    // 当前技能等级以档案页 RANK 数字 OCR 为准（AutoRaise@CurrentSkillLevel），识别失败按 1 级处理。
+    const int current = ocr_number("AutoRaise@CurrentSkillLevel").value_or(1);
+    if (current >= target.target) {
         return Result::AlreadySatisfied;
     }
-    if (run_task("AutoRaise@SkillsPrerequisiteMissing" + std::to_string(target.target))) {
+    // 前置：精0 技能最高 4 级，精1 最高 7 级；目标超出当前精英阶段的上限则不满足。
+    const int required_elite = target.target <= 4 ? 0 : 1;
+    if (m_operator_elite < required_elite) {
         return Result::PrerequisiteNotMet;
     }
-    for (int level = 2; level <= target.target && !need_exit(); ++level) {
-        if (run_task("AutoRaise@SkillsSatisfied" + std::to_string(level))) {
-            continue;
-        }
-        if (run_task("AutoRaise@SkillMaterialMissing") && !synthesize_missing_material(0)) {
+    for (int level = current + 1; level <= target.target && !need_exit(); ++level) {
+        if (run_task("AutoRaise@SkillMaterialMissing", 2) && !synthesize_missing_material(0)) {
             return Result::ResourceInsufficient;
         }
-        if (!run_task("AutoRaise@SkillUpgrade") ||
-            !run_task("AutoRaise@SkillsSatisfied" + std::to_string(level))) {
+        if (!run_task("AutoRaise@SkillUpgrade")) {
+            return Result::RecognitionFailed;
+        }
+        // 升级确认后以 RANK 数字复核本级生效；确认面板任务由 SkillUpgrade 的 next 链承接。
+        if (ocr_number("AutoRaise@CurrentSkillLevel").value_or(level - 1) < level) {
             return Result::RecognitionFailed;
         }
     }
