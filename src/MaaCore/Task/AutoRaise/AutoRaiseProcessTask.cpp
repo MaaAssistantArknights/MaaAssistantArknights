@@ -188,8 +188,9 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
         if (!run_task("AutoRaise@EliteUp")) {
             return Result::RecognitionFailed;
         }
-        if (run_task("AutoRaise@EliteUpMaterialMissing")) {
-            if (run_task("AutoRaise@DualchipRequired")) {
+        // 存在性探测带少量重试即可：弹窗已由 EliteUpPage 标志确认渲染完成，充足时不必空烧 20 次截图。
+        if (run_task("AutoRaise@EliteUpMaterialMissing", 2)) {
+            if (run_task("AutoRaise@DualchipRequired", 2)) {
                 // 加工站无法合成芯片。只有 5/6 星晋升二阶所需的双芯片有制造站产线；
                 // 判定依据是本次晋升的阶段（phase+1）而非总目标，E0→E1 缺的是普通芯片，直接报错转下一条。
                 const bool dual_chip =
@@ -200,14 +201,16 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
                 }
             }
             // 材料 1/2 依次跳转加工站复用小游戏自动合成；当前槽位修复后再处理下一槽。
-            if (run_task("AutoRaise@EliteUpMaterial1Required") && !synthesize_missing_material(1)) {
+            if (run_task("AutoRaise@EliteUpMaterial1Required", 2) && !synthesize_missing_material(1)) {
                 return Result::ResourceInsufficient;
             }
-            if (run_task("AutoRaise@EliteUpMaterial2Required") && !synthesize_missing_material(2)) {
+            if (run_task("AutoRaise@EliteUpMaterial2Required", 2) && !synthesize_missing_material(2)) {
                 return Result::ResourceInsufficient;
             }
         }
-        if (run_task("AutoRaise@EliteUpMaterialMissing") ||
+        // 复核仍缺料则不点击晋升；材料齐备则点击晋升确认，再以新阶段标志确认晋升成功。
+        if (run_task("AutoRaise@EliteUpMaterialMissing", 2) ||
+            !run_task("AutoRaise@EliteUpPageConfirm") ||
             !run_task("AutoRaise@CurrentElite" + std::to_string(phase + 1))) {
             return Result::RecognitionFailed;
         }
@@ -537,7 +540,7 @@ bool asst::AutoRaiseProcessTask::synthesize_missing_material(int material_index)
         return true;
     }
     // 通用路径无独立槽位探针，复核全局红色状态。
-    return !run_task(""AutoRaise@EliteUpMaterialMissing"");
+    return !run_task("AutoRaise@EliteUpMaterialMissing");
 }
 
 bool asst::AutoRaiseProcessTask::record_factory_state()
