@@ -6321,7 +6321,7 @@
     "AutoRaise@ReturnToMfgPage": {
         "baseTask": "Return",
         "template": "Return.png",
-        "next": ["AutoRaise@MfgPage","AutoRaise@ReturnToMfgPage"]
+        "next": ["AutoRaise@MfgPage", "AutoRaise@ReturnToMfgPage"]
     },
     "AutoRaise@ReturnToEliteUpPage": {
         "baseTask": "Return",
@@ -6334,8 +6334,7 @@
         "roi": [570, 327, 519, 313],
         "rectMove": [314, 4, 84, 23],
         "postDelay": 1000,
-        "doc": "干员精英化第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
-        "next": []
+        "doc": "干员精英化第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
     },
     "AutoRaise@EliteUpMaterial2JumpProcessing": {
         "template": "QuickJumpProcessing.png",
@@ -6343,8 +6342,7 @@
         "roi": [76, 328, 519, 313],
         "rectMove": [314, 4, 84, 23],
         "postDelay": 1000,
-        "doc": "干员精英化第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
-        "next": []
+        "doc": "干员精英化第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
     },
     "AutoRaise@RecordFactoryState": {
         "algorithm": "MatchTemplate",
@@ -6356,66 +6354,6 @@
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
         "roi": [440, 370, 145, 90]
-    },
-    "AutoRaise@SkillsSatisfied2": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "参考实现没有等级 2 对应 point，仅在 point.lua:1868 定义「干员档案通用技能等级七」；候选 ROI 为档案页通用技能等级区域，需补 2 级截图。",
-        "roi": [1190, 335, 90, 65]
-    },
-    "AutoRaise@SkillsSatisfied3": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "参考实现没有等级 3 对应 point，仅在 point.lua:1868 定义「干员档案通用技能等级七」；候选 ROI 为档案页通用技能等级区域，需补 3 级截图。",
-        "roi": [1190, 335, 90, 65]
-    },
-    "AutoRaise@SkillsSatisfied4": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "参考实现没有等级 4 对应 point，仅在 point.lua:1868 定义「干员档案通用技能等级七」；候选 ROI 为档案页通用技能等级区域，需补 4 级截图。",
-        "roi": [1190, 335, 90, 65]
-    },
-    "AutoRaise@SkillsSatisfied5": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "参考实现没有等级 5 对应 point，仅在 point.lua:1868 定义「干员档案通用技能等级七」；候选 ROI 为档案页通用技能等级区域，需补 5 级截图。",
-        "roi": [1190, 335, 90, 65]
-    },
-    "AutoRaise@SkillsSatisfied6": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "参考实现没有等级 6 对应 point，仅在 point.lua:1868 定义「干员档案通用技能等级七」；候选 ROI 为档案页通用技能等级区域，需补 6 级截图。",
-        "roi": [1190, 335, 90, 65]
-    },
-    "AutoRaise@SkillsSatisfied7": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "对应 point.lua:1868「干员档案通用技能等级七」，参考调用 raise.lua:2032-2036。",
-        "roi": [1190, 335, 90, 65]
-    },
-    "AutoRaise@SkillsPrerequisiteMissing2": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "参考实现无目标等级 2 的独立前置条件 point；需按当前精英阶段和技能等级判断，候选 ROI 合并档案页精英阶段与通用技能区域。",
-        "roi": [850, 210, 430, 220]
-    },
-    "AutoRaise@SkillsPrerequisiteMissing3": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "参考实现无目标等级 3 的独立前置条件 point；需按当前精英阶段和技能等级判断，候选 ROI 合并档案页精英阶段与通用技能区域。",
-        "roi": [850, 210, 430, 220]
-    },
-    "AutoRaise@SkillsPrerequisiteMissing4": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "参考实现无目标等级 4 的独立前置条件 point；需按当前精英阶段和技能等级判断，候选 ROI 合并档案页精英阶段与通用技能区域。",
-        "roi": [850, 210, 430, 220]
-    },
-    "AutoRaise@SkillsPrerequisiteMissing5": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "参考实现无目标等级 5 的独立前置条件 point；需按当前精英阶段和技能等级判断，候选 ROI 合并档案页精英阶段与通用技能区域。",
-        "roi": [850, 210, 430, 220]
-    },
-    "AutoRaise@SkillsPrerequisiteMissing6": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "参考实现无目标等级 6 的独立前置条件 point；需按当前精英阶段和技能等级判断，候选 ROI 合并档案页精英阶段与通用技能区域。",
-        "roi": [850, 210, 430, 220]
-    },
-    "AutoRaise@SkillsPrerequisiteMissing7": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "参考实现无目标等级 7 的独立前置条件 point；需按当前精英阶段和技能等级判断，候选 ROI 合并档案页精英阶段与通用技能区域。",
-        "roi": [850, 210, 430, 220]
     },
     "AutoRaise@SkillMaterialMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
@@ -6429,12 +6367,10 @@
         "roi": [55, 650, 510, 45]
     },
     "AutoRaise@SkillUpgrade": {
-        "baseTask": "AutoRaise@ManualAction",
-        "doc": [
-            "对应 raise.upgrade_skill（raise.lua:1356-1397）及 point.lua:1931-1933「进入技能升级页面」「干员技能升级页面」「干员技能升级红」。",
-            "参考流程包含进入页面、逐级升级、缺料检查和返回档案；实现时必须拆分 Task，当前 ROI 是入口与升级按钮的合并范围。"
-        ],
-        "roi": [900, 380, 300, 270]
+        "template": "OperFilesEnterSkillUpButton.png",
+        "action": "ClickSelf",
+        "roi": [1150, 349, 87, 91],
+        "postDelay": 800
     },
     "AutoRaise@OpenMissingMaterial": {
         "baseTask": "AutoRaise@ManualAction",
