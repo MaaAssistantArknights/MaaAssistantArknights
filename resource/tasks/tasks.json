@@ -6182,13 +6182,13 @@
         "doc": "干员精英化芯片位置,用于开启和关闭跳转弹窗"
     },
     "AutoRaise@EliteUpMaterial1": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [484, 575, 47, 46],
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [484, 575, 47, 46],
         "doc": "干员精英化第一个位置,用于开启和关闭跳转弹窗"
     },
     "AutoRaise@EliteUpMaterial2": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [626, 578, 47, 46],
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [626, 578, 47, 46],
         "doc": "干员精英化第二个位置,用于开启和关闭跳转弹窗"
     },
     "AutoRaise@DualchipJumpMfg": {
@@ -6227,12 +6227,12 @@
     "AutoRaise@ReturnToMfgPage": {
         "baseTask": "Return",
         "template": "Return.png",
-        "next": ["AutoRaise@MfgPage"]
+        "next": ["AutoRaise@MfgPage","AutoRaise@ReturnToMfgPage"]
     },
     "AutoRaise@ReturnToEliteUpPage": {
         "baseTask": "Return",
         "template": "Return.png",
-        "next": ["AutoRaise@EliteUpPage"]
+        "next": ["AutoRaise@EliteUpPage", "AutoRaise@ReturnToEliteUpPage"]
     },
     "AutoRaise@EliteUpMaterial1JumpProcessing": {
         "template": "QuickJumpProcessing.png",
@@ -6257,12 +6257,12 @@
         "template": "empty.png",
         "templThreshold": 0.8,
         "roi": [1030, 220, 190, 65]
-    },    
+    },
     "AutoRaise@CatalystMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
         "roi": [440, 370, 145, 90]
-    }, 
+    },
     "AutoRaise@SkillsSatisfied2": {
         "baseTask": "AutoRaise@ManualRecognition",
         "doc": "参考实现没有等级 2 对应 point，仅在 point.lua:1868 定义「干员档案通用技能等级七」；候选 ROI 为档案页通用技能等级区域，需补 2 级截图。",
