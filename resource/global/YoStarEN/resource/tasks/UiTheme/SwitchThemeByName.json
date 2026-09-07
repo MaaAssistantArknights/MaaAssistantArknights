@@ -1,0 +1,8 @@
+{
+    "SwitchThemeByNameLockedTheme": {
+        "text": ["Unlock Conditions"]
+    },
+    "SwitchThemeByNameAlreadySet": {
+        "text": ["Set"]
+    }
+}
