@@ -1127,6 +1127,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MaterialCraftPlanSucceeded">素材は足りています；予想消費 龍門幣 {0}、体力 {1}</system:String>
     <system:String x:Key="MaterialCraftPlanFailed">素材不足：{0}</system:String>
     <system:String x:Key="MaterialCraftListSeparator">、</system:String>
+    <system:String x:Key="MaterialCraftSkillSummary">アーツ学</system:String>
     <system:String x:Key="MaterialCraftQualityNormal">通常品質</system:String>
     <system:String x:Key="MaterialCraftQualityRare">希少品質</system:String>
     <system:String x:Key="MaterialCraftQualityExcellent">上級品質</system:String>

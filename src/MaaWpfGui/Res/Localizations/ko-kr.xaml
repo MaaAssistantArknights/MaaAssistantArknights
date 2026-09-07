@@ -1126,6 +1126,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MaterialCraftPlanSucceeded">재료가 충분합니다; 예상 LMD {0}, 사기 {1}</system:String>
     <system:String x:Key="MaterialCraftPlanFailed">재료 부족: {0}</system:String>
     <system:String x:Key="MaterialCraftListSeparator">, </system:String>
+    <system:String x:Key="MaterialCraftSkillSummary">기술개론</system:String>
     <system:String x:Key="MaterialCraftQualityNormal">일반 품질</system:String>
     <system:String x:Key="MaterialCraftQualityRare">희귀 품질</system:String>
     <system:String x:Key="MaterialCraftQualityExcellent">고급 품질</system:String>

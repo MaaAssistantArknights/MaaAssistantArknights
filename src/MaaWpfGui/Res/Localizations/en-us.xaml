@@ -1125,6 +1125,7 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="MaterialCraftPlanSucceeded">Enough materials; estimated LMD {0}, morale {1}</system:String>
     <system:String x:Key="MaterialCraftPlanFailed">Not enough materials, missing: {0}</system:String>
     <system:String x:Key="MaterialCraftListSeparator">, </system:String>
+    <system:String x:Key="MaterialCraftSkillSummary">Skill Summaries</system:String>
     <system:String x:Key="MaterialCraftQualityNormal">Normal</system:String>
     <system:String x:Key="MaterialCraftQualityRare">Rare</system:String>
     <system:String x:Key="MaterialCraftQualityExcellent">Excellent</system:String>

@@ -1124,6 +1124,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MaterialCraftPlanSucceeded">材料足够；预计消耗龙门币 {0}，心情 {1}</system:String>
     <system:String x:Key="MaterialCraftPlanFailed">材料不足，缺少：{0}</system:String>
     <system:String x:Key="MaterialCraftListSeparator">、</system:String>
+    <system:String x:Key="MaterialCraftSkillSummary">技巧概要</system:String>
     <system:String x:Key="MaterialCraftQualityNormal">普通品质</system:String>
     <system:String x:Key="MaterialCraftQualityRare">罕见品质</system:String>
     <system:String x:Key="MaterialCraftQualityExcellent">杰出品质</system:String>

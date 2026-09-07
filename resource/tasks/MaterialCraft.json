@@ -92,9 +92,17 @@
         "maskRange": [1, 255]
     },
     "MaterialCraft-EliteCategory": {
-        "template": "InfrastPic/Processing/WorkshopEliteCategory.png",
-        "templThreshold": 0.6,
-        "roi": [0, 70, 260, 650]
+        "template": [
+            "InfrastPic/Processing/WorkshopEliteCategoryIcon.png",
+            "InfrastPic/Processing/WorkshopEliteCategorySelectedIcon.png"
+        ],
+        "templThreshold": 0.75,
+        "roi": [0, 175, 235, 100]
+    },
+    "MaterialCraft-SkillSummaryCategory": {
+        "template": "InfrastPic/Processing/WorkshopSkillSummaryCategory.png",
+        "templThreshold": 0.75,
+        "roi": [0, 260, 235, 115]
     },
     "MaterialCraft-CompleteTick": {
         "template": "InfrastPic/Processing/WorkshopCompleteTick.png",
@@ -230,8 +238,8 @@
         "action": "ClickSelf",
         "rectMove": [70, 15, 32, 22],
         "rectMove_Doc": "相对于加号模板的安全点击区域，避开右侧最多按钮",
-        "postDelay": 0,
-        "postDelay_Doc": "控制器已有点击间隔；仅在特定设备需要时增加额外等待"
+        "postDelay": 500,
+        "postDelay_Doc": "每次点击加号后额外等待 500 毫秒，避免连续点击过快；等待期间可响应停止。"
     },
     "MaterialRequirement-LeftIcon": {
         "template": "empty.png",
@@ -260,6 +268,20 @@
     "MaterialRequirement-RightQuantity": {
         "baseTask": "MaterialRequirement-LeftQuantity",
         "roi": [588, 660, 128, 40]
+    },
+    "MaterialRequirement-MasteryPage": {
+        "template": "InfrastPic/Processing/WorkshopMasteryRank.png",
+        "roi": [80, 395, 210, 35],
+        "templThreshold": 0.9
+    },
+    "MaterialRequirement-SkillSummaryIcon": {
+        "baseTask": "MaterialRequirement-LeftIcon",
+        "template": "empty.png",
+        "roi": [296, 504, 153, 171]
+    },
+    "MaterialRequirement-SkillSummaryQuantity": {
+        "baseTask": "MaterialRequirement-LeftQuantity",
+        "roi": [308, 660, 128, 40]
     },
     "MaterialCraft-ByproductRate": {
         "baseTask": "NumberOcrReplace",

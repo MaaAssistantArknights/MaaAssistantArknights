@@ -8,6 +8,7 @@
 #include "Config/TaskData.h"
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/MaterialImageAnalyzer.h"
 #include "Vision/RegionOCRer.h"
 
@@ -58,14 +59,27 @@ bool MaterialRequirementImageAnalyzer::analyze()
 std::vector<MaterialRequirementImageAnalyzer::RequirementSlot>
     MaterialRequirementImageAnalyzer::requirement_slots() const
 {
-    return {
-        { "MaterialRequirement-LeftIcon", "MaterialRequirement-LeftQuantity" },
-        { "MaterialRequirement-RightIcon", "MaterialRequirement-RightQuantity" },
+    std::vector<RequirementSlot> slots {
+        { "MaterialRequirement-LeftIcon", "MaterialRequirement-LeftQuantity", {} },
+        { "MaterialRequirement-RightIcon", "MaterialRequirement-RightQuantity", {} },
     };
+    Matcher mastery(m_image);
+    mastery.set_task_info("MaterialRequirement-MasteryPage");
+    if (mastery.analyze()) {
+        slots.push_back({ "MaterialRequirement-SkillSummaryIcon", "MaterialRequirement-SkillSummaryQuantity", "3303" });
+    }
+    return slots;
 }
 
 bool MaterialRequirementImageAnalyzer::analyze_slot(const RequirementSlot& slot, MaterialRequirementInfo& info) const
 {
+    std::string item_id;
+    Rect item_rect;
+    // Verify the book even when stock is sufficient. Elite promotion uses a
+    // different item at this location and must never add a skill-summary target.
+    if (!slot.expected_item_id.empty() && !match_item(slot.icon_task, item_id, item_rect, slot.expected_item_id)) {
+        return false;
+    }
     int owned = 0;
     int required = 0;
     if (!parse_quantity(slot.quantity_task, owned, required)) {
@@ -79,9 +93,7 @@ bool MaterialRequirementImageAnalyzer::analyze_slot(const RequirementSlot& slot,
         return true;
     }
 
-    std::string item_id;
-    Rect item_rect;
-    if (!match_item(slot.icon_task, item_id, item_rect)) {
+    if (item_id.empty() && !match_item(slot.icon_task, item_id, item_rect)) {
         Log.warn(__FUNCTION__, "| failed to match requirement item", slot.icon_task, owned, required);
         return false;
     }
@@ -182,14 +194,21 @@ bool MaterialRequirementImageAnalyzer::parse_quantity(const std::string& task_na
     return true;
 }
 
-bool MaterialRequirementImageAnalyzer::match_item(const std::string& task_name, std::string& item_id, Rect& item_rect)
-    const
+bool MaterialRequirementImageAnalyzer::match_item(
+    const std::string& task_name,
+    std::string& item_id,
+    Rect& item_rect,
+    const std::string& expected_item_id) const
 {
     double best_score = 0.0;
     std::string best_item_id;
     Rect best_item_rect;
 
     for (const std::string& candidate_id : m_candidates) {
+        if ((!expected_item_id.empty() && candidate_id != expected_item_id) ||
+            (expected_item_id.empty() && (candidate_id == "3302" || candidate_id == "3303"))) {
+            continue;
+        }
         if (m_cancel_check && m_cancel_check()) {
             return false;
         }

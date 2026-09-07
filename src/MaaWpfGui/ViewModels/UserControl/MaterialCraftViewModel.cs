@@ -150,7 +150,7 @@ public class MaterialCraftViewModel : PropertyChangedBase
                 .Where(recipe => !string.IsNullOrEmpty(recipe.Value<string>("itemId")))
                 .GroupBy(recipe => recipe.Value<string>("itemId")!)
                 .Select(group => {
-                    int rank = GetWorkshopQualityRank(group.First().Value<int>("goldCost"));
+                    int rank = group.Key is "3302" or "3303" ? 0 : GetWorkshopQualityRank(group.First().Value<int>("goldCost"));
                     return new MaterialCraftTarget {
                         Id = group.Key,
                         Name = GetItemNameOrId(group.Key),
@@ -209,6 +209,7 @@ public class MaterialCraftViewModel : PropertyChangedBase
     private static string GetWorkshopQualityName(int qualityRank)
     {
         return qualityRank switch {
+            0 => LocalizationHelper.GetString("MaterialCraftSkillSummary"),
             1 => LocalizationHelper.GetString("MaterialCraftQualityNormal"),
             2 => LocalizationHelper.GetString("MaterialCraftQualityRare"),
             3 => LocalizationHelper.GetString("MaterialCraftQualityExcellent"),
