@@ -11,7 +11,7 @@
 @interface MacSCKOutput : NSObject <SCStreamDelegate, SCStreamOutput> {
 }
 
-@property (nonatomic, assign) CVImageBufferRef buffer;
+@property (nonatomic, readonly) CVImageBufferRef buffer;
 
 @property (atomic, assign) BOOL running;
 
@@ -192,93 +192,93 @@ bool asst::MacSCKHelper::Impl::init(std::string_view bundle_id, std::string_view
                                                onScreenWindowsOnly:YES
                                                  completionHandler:handler];
 
-    dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC);
-    if (dispatch_semaphore_wait(sem, timeout) != 0) {
-        Log.error("Screenshot init timed out.");
-        result = false;
-    }
-
+    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
     dispatch_release(sem);
     return result;
 }
 
+struct BufferGuard {
+    CVImageBufferRef buffer;
+    bool locked = false;
+
+    explicit BufferGuard(CVImageBufferRef buf) noexcept
+        : buffer(buf)
+    {
+    }
+
+    BufferGuard(const BufferGuard&) = delete;
+    BufferGuard& operator=(const BufferGuard&) = delete;
+
+    ~BufferGuard()
+    {
+        if (locked) {
+            CVPixelBufferUnlockBaseAddress(buffer, kCVPixelBufferLock_ReadOnly);
+        }
+        if (buffer) {
+            CFRelease(buffer);
+        }
+    }
+};
+
 bool asst::MacSCKHelper::Impl::capture(std::vector<uint8_t>& bgrData) const
 {
-    auto sem = dispatch_semaphore_create(0);
-    __block bool result = false;
-
     if (!m_queue || !m_output) {
         Log.error("Stream output is not initialized");
-        dispatch_release(sem);
         return false;
     }
 
-    dispatch_async(m_queue, ^{
+    __block CVImageBufferRef buffer = nullptr;
+    dispatch_sync(m_queue, ^{
         if (!m_output.running) {
             Log.error("Stream is not running");
-            dispatch_semaphore_signal(sem);
             return;
         }
-
-        auto buffer = m_output.buffer;
-        if (!buffer) {
-            Log.error("No image buffer available");
-            dispatch_semaphore_signal(sem);
-            return;
+        if (m_output.buffer) {
+            CFRetain(m_output.buffer);
+            buffer = m_output.buffer;
         }
-
-        long ret = CVPixelBufferLockBaseAddress(buffer, kCVPixelBufferLock_ReadOnly);
-        if (ret != kCVReturnSuccess) [[unlikely]] {
-            Log.error("Failed to lock pixel buffer:", ret);
-            dispatch_semaphore_signal(sem);
-            return;
-        }
-
-        const auto width = CVPixelBufferGetWidth(buffer);
-        const auto height = CVPixelBufferGetHeight(buffer);
-
-        const auto dstRowBytes = width * 3;
-        bgrData.resize(height * dstRowBytes);
-
-        vImage_Buffer srcBuffer;
-        srcBuffer.data = CVPixelBufferGetBaseAddress(buffer);
-        srcBuffer.height = height;
-        srcBuffer.width = width;
-        srcBuffer.rowBytes = CVPixelBufferGetBytesPerRow(buffer);
-
-        vImage_Buffer dstBuffer;
-        dstBuffer.data = bgrData.data();
-        dstBuffer.height = height;
-        dstBuffer.width = width;
-        dstBuffer.rowBytes = dstRowBytes;
-
-        ret = vImageConvert_RGBA8888toRGB888(&srcBuffer, &dstBuffer, kvImageNoFlags);
-        if (ret != kvImageNoError) [[unlikely]] {
-            Log.error("Failed to convert buffer channels:", ret);
-            CVPixelBufferUnlockBaseAddress(buffer, kCVPixelBufferLock_ReadOnly);
-            dispatch_semaphore_signal(sem);
-            return;
-        }
-
-        ret = CVPixelBufferUnlockBaseAddress(buffer, kCVPixelBufferLock_ReadOnly);
-        if (ret != kCVReturnSuccess) [[unlikely]] {
-            Log.error("Failed to unlock pixel buffer:", ret);
-            dispatch_semaphore_signal(sem);
-            return;
-        }
-
-        result = true;
-        dispatch_semaphore_signal(sem);
     });
 
-    dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC);
-    if (dispatch_semaphore_wait(sem, timeout) != 0) {
-        Log.error("Screenshot operation timed out.");
-        result = false;
+    if (!buffer) {
+        Log.error("No image buffer available");
+        return false;
     }
 
-    dispatch_release(sem);
-    return result;
+    BufferGuard guard { buffer };
+
+    long ret = CVPixelBufferLockBaseAddress(buffer, kCVPixelBufferLock_ReadOnly);
+    if (ret != kCVReturnSuccess) [[unlikely]] {
+        Log.error("Failed to lock pixel buffer:", ret);
+        return false;
+    }
+
+    guard.locked = true;
+
+    const auto width = CVPixelBufferGetWidth(buffer);
+    const auto height = CVPixelBufferGetHeight(buffer);
+
+    const auto dstRowBytes = width * 3;
+    bgrData.resize(height * dstRowBytes);
+
+    vImage_Buffer srcBuffer;
+    srcBuffer.data = CVPixelBufferGetBaseAddress(buffer);
+    srcBuffer.height = height;
+    srcBuffer.width = width;
+    srcBuffer.rowBytes = CVPixelBufferGetBytesPerRow(buffer);
+
+    vImage_Buffer dstBuffer;
+    dstBuffer.data = bgrData.data();
+    dstBuffer.height = height;
+    dstBuffer.width = width;
+    dstBuffer.rowBytes = dstRowBytes;
+
+    ret = vImageConvert_RGBA8888toRGB888(&srcBuffer, &dstBuffer, kvImageNoFlags);
+    if (ret != kvImageNoError) [[unlikely]] {
+        Log.error("Failed to convert buffer channels:", ret);
+        return false;
+    }
+
+    return true;
 }
 
 asst::MacSCKHelper::MacSCKHelper()
