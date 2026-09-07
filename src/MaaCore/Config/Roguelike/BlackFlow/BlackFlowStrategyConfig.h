@@ -45,8 +45,6 @@ public:
 
     [[nodiscard]] int schema_version() const noexcept { return m_schema_version; }
 
-    [[nodiscard]] const blackflow::InventoryLayout& inventory_layout() const noexcept { return m_inventory_layout; }
-
     // 一条里程碑声明的页面意图及其生效层段。层段同时写在 node_execution.json 的路由里，
     // 两份必须对齐，交叉校验取用此处。
     struct PageIntentWindow
@@ -64,7 +62,6 @@ private:
     virtual bool parse(const json::value& json) override;
 
     int m_schema_version = 0;
-    blackflow::InventoryLayout m_inventory_layout;
     std::unordered_map<std::string, blackflow::ResourceDefinition> m_resources;
     std::unordered_map<std::string, blackflow::FactDefinition> m_facts;
     std::unordered_map<std::string, blackflow::PolicyModule> m_modules;

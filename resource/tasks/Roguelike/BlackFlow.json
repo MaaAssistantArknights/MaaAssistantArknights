@@ -744,9 +744,9 @@
         "action": "ClickSelf",
         "postDelay": 500,
         "next": [
-            "BlackFlow@Roguelike@InventoryCleanupDiscardConfirm",
             "BlackFlow@Roguelike@InventoryCleanupDiscardWait",
             "BlackFlow@Roguelike@InventoryCleanupDiscardObserve",
+            "BlackFlow@Roguelike@InventoryCleanupDiscardConfirm",
             "BlackFlow@Roguelike@InventoryCleanupDiscarded"
         ],
         "maxTimes": 3,
@@ -757,9 +757,9 @@
         "template": "BlackFlow@Roguelike@CultivateRefreshConfirm.png",
         "postDelay": 500,
         "next": [
-            "#self",
             "BlackFlow@Roguelike@InventoryCleanupDiscardWait",
             "BlackFlow@Roguelike@InventoryCleanupDiscardObserve",
+            "#self",
             "BlackFlow@Roguelike@InventoryCleanupDiscarded"
         ],
         "maxTimes": 3,
@@ -767,11 +767,11 @@
     },
     "BlackFlow@Roguelike@InventoryCleanupDiscardObserve": {
         "baseTask": "BlackFlow@Roguelike@InventoryCleanupDiscard",
-        "doc": "确认弹窗排在最前，以免用户延迟导致误识别丢弃",
         "action": "DoNothing",
         "next": [
-            "BlackFlow@Roguelike@InventoryCleanupDiscardConfirm",
+            "BlackFlow@Roguelike@InventoryCleanupDiscardWait",
             "#self",
+            "BlackFlow@Roguelike@InventoryCleanupDiscardConfirm",
             "BlackFlow@Roguelike@InventoryCleanupDiscarded"
         ],
         "maxTimes": 2,
@@ -792,6 +792,7 @@
         "next": [
             "#self",
             "BlackFlow@Roguelike@InventoryCleanupDiscardObserve",
+            "BlackFlow@Roguelike@InventoryCleanupDiscardConfirm",
             "BlackFlow@Roguelike@InventoryCleanupDiscarded"
         ]
     },

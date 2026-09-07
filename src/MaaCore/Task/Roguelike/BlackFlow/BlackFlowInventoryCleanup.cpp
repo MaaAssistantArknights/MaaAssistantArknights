@@ -25,6 +25,17 @@ constexpr std::string_view DiscardTask = "BlackFlow@Roguelike@InventoryCleanupDi
 constexpr std::string_view DiscardedTask = "BlackFlow@Roguelike@InventoryCleanupDiscarded";
 constexpr std::string_view CloseTask = "BlackFlow@Roguelike@InventoryCleanupClose";
 
+// 精准滑动按识别位置计算距离，两个方向分别使用各自的落点。
+constexpr int SwipeLandingX = 385;
+constexpr int SwipeLandingBackX = 900;
+constexpr int SettledShift = 40;
+constexpr int MaxSurveySteps = 12;
+constexpr int RewindSwipes = 7;
+constexpr int MaxWalkSteps = 16;
+constexpr int MaxCardClickAttempts = 3;
+// 保留任务自身后置等待之外的稳定等待，供滑动、点击和丢弃后的识别使用。
+constexpr unsigned SettleDelay = 300;
+
 void set_error(std::string* error, std::string message)
 {
     if (error != nullptr) {
@@ -114,7 +125,7 @@ bool BlackFlowInventoryCleanup::same_view(const std::vector<VisibleScrap>& lhs, 
 
     for (std::size_t index = 0; index < left.size(); ++index) {
         if (left[index].name != right[index].name || left[index].row != right[index].row ||
-            std::abs(left[index].center_x - right[index].center_x) >= m_model.layout().settled_shift) {
+            std::abs(left[index].center_x - right[index].center_x) >= SettledShift) {
             return false;
         }
     }
@@ -156,14 +167,14 @@ bool BlackFlowInventoryCleanup::swipe(BlackFlowInventoryContext& context, bool f
     if (!context.execute({ task }, error)) {
         return false;
     }
-    context.wait(m_model.layout().settle_delay);
+    context.wait(SettleDelay);
     return true;
 }
 
 bool BlackFlowInventoryCleanup::rewind_to_left(BlackFlowInventoryContext& context, std::string* error) const
 {
-    // 回左只覆盖背包的物理宽度，与包含右端空滑的调查预算分开配置。
-    const int swipes = m_model.layout().rewind_swipes;
+    // 回左次数只覆盖背包的物理宽度，扫描上限还包含右端未移动时的识别次数。
+    const int swipes = RewindSwipes;
     LogInfo << std::format("BlackFlow inventory | event=rewind_started | swipes={}", swipes);
     for (int step = 0; step < swipes; ++step) {
         if (context.interrupted()) {
@@ -193,17 +204,16 @@ bool BlackFlowInventoryCleanup::advance(
         return swipe(context, forward, error);
     }
 
-    const InventoryLayout& layout = m_model.layout();
     int distance = 0;
     if (forward) {
         // 把最右一列拉到落点，下一屏新露出的列即落在落点右侧一个列距处，稳态推进恰好一列。
         const int rightmost = std::ranges::max(visible, {}, &VisibleScrap::center_x).center_x;
-        distance = layout.swipe_landing_x - rightmost;
+        distance = SwipeLandingX - rightmost;
     }
     else {
         // 向左单设落点：新露出的列落在落点左侧一个列距处，紧邻 roi 左边界，余量需大于向右。
         const int leftmost = std::ranges::min(visible, {}, &VisibleScrap::center_x).center_x;
-        distance = layout.swipe_landing_back_x - leftmost;
+        distance = SwipeLandingBackX - leftmost;
     }
     if (distance == 0) {
         return swipe(context, forward, error);
@@ -214,11 +224,11 @@ bool BlackFlowInventoryCleanup::advance(
         "BlackFlow inventory | event=swipe_command | direction={} | distance={} | landing={}",
         forward ? "forward" : "backward",
         distance,
-        forward ? layout.swipe_landing_x : layout.swipe_landing_back_x);
+        forward ? SwipeLandingX : SwipeLandingBackX);
     if (!context.swipe_by(task, distance, error)) {
         return false;
     }
-    context.wait(layout.settle_delay);
+    context.wait(SettleDelay);
     return true;
 }
 
@@ -238,7 +248,7 @@ bool BlackFlowInventoryCleanup::survey(
     std::vector<VisibleScrap> previous;
     const auto discardable = static_cast<std::size_t>(policy.discard_max_rank);
 
-    for (int step = 0; step < m_model.layout().max_survey_steps; ++step) {
+    for (int step = 0; step < MaxSurveySteps; ++step) {
         if (context.interrupted()) {
             set_error(error, "inventory cleanup interrupted");
             return false;
@@ -294,7 +304,7 @@ bool BlackFlowInventoryCleanup::survey(
                         shift->anchor,
                         shift->row,
                         shift->measured);
-                    stalled = shift->distance < m_model.layout().settled_shift;
+                    stalled = shift->distance < SettledShift;
                 }
             }
             if (m_rank_fallback && !fallback_activated) {
@@ -308,7 +318,7 @@ bool BlackFlowInventoryCleanup::survey(
                     LogWarn << std::format(
                         "BlackFlow inventory | event=rank_fallback_confirmed | step={} | remaining_steps={}",
                         step,
-                        m_model.layout().max_survey_steps - step - 1);
+                        MaxSurveySteps - step - 1);
                 }
             }
         }
@@ -325,14 +335,14 @@ bool BlackFlowInventoryCleanup::survey(
                 step,
                 visible.size());
             previous = std::move(visible);
-            if (step + 1 >= m_model.layout().max_survey_steps) {
+            if (step + 1 >= MaxSurveySteps) {
                 if (!m_fallback_best.has_value()) {
                     set_error(error, "rank fallback found no discardable scrap");
                     return false;
                 }
                 LogInfo << std::format(
                     "BlackFlow inventory | event=rank_fallback_completed | steps={} | best_name={} | best_rank={}",
-                    m_model.layout().max_survey_steps,
+                    MaxSurveySteps,
                     m_fallback_best->name,
                     m_fallback_best->rank);
                 return true;
@@ -382,7 +392,7 @@ bool BlackFlowInventoryCleanup::survey(
             return true;
         }
         previous = std::move(visible);
-        if (step + 1 >= m_model.layout().max_survey_steps) {
+        if (step + 1 >= MaxSurveySteps) {
             break;
         }
         if (!advance(context, previous, true, error)) {
@@ -393,7 +403,7 @@ bool BlackFlowInventoryCleanup::survey(
     set_error(error, "inventory survey did not reach the right end");
     LogWarn << std::format(
         "BlackFlow inventory | event=survey_failed | steps={} | cells={} | reason=max_steps_exhausted",
-        m_model.layout().max_survey_steps,
+        MaxSurveySteps,
         m_model.size());
     return false;
 }
@@ -409,7 +419,7 @@ BlackFlowInventoryCleanup::WalkToResult BlackFlowInventoryCleanup::walk_to(
     }
     std::optional<int> hint = m_view_left_column;
 
-    for (int step = 0; step < m_model.layout().max_walk_steps; ++step) {
+    for (int step = 0; step < MaxWalkSteps; ++step) {
         if (context.interrupted()) {
             return { WalkToStatus::Interrupted, std::nullopt, "inventory cleanup interrupted" };
         }
@@ -474,7 +484,7 @@ std::optional<VisibleScrap> BlackFlowInventoryCleanup::walk_to_name(
     std::string_view name,
     std::string* error) const
 {
-    for (int step = 0; step < m_model.layout().max_walk_steps; ++step) {
+    for (int step = 0; step < MaxWalkSteps; ++step) {
         if (context.interrupted()) {
             set_error(error, "inventory cleanup interrupted");
             return std::nullopt;
@@ -495,7 +505,7 @@ std::optional<VisibleScrap> BlackFlowInventoryCleanup::walk_to_name(
             set_error(error, "rank fallback recognized nothing while searching for: " + std::string(name));
             return std::nullopt;
         }
-        if (step + 1 >= m_model.layout().max_walk_steps) {
+        if (step + 1 >= MaxWalkSteps) {
             break;
         }
         if (!advance(context, visible, false, error)) {
@@ -513,12 +523,12 @@ bool BlackFlowInventoryCleanup::discard(
 {
     // 丢弃按钮出现即视为卡片已打开，未出现才重新点击，不以固定等待推断。
     bool opened = false;
-    for (int attempt = 0; attempt < m_model.layout().max_card_click_attempts; ++attempt) {
+    for (int attempt = 0; attempt < MaxCardClickAttempts; ++attempt) {
         if (!context.click(scrap.rect)) {
             set_error(error, "failed to click the scrap card: " + scrap.name);
             return false;
         }
-        context.wait(m_model.layout().settle_delay);
+        context.wait(SettleDelay);
         if (context.execute({ std::string(DiscardReadyTask) }, nullptr)) {
             opened = true;
             LogInfo << std::format(
@@ -591,7 +601,7 @@ bool BlackFlowInventoryCleanup::run(BlackFlowInventoryContext& context, std::str
     if (policy == nullptr) {
         return abandon(context, error);
     }
-    m_model = InventoryModel(BlackFlowStrategy.inventory_layout());
+    m_model = InventoryModel();
 
     if (!full_flag_visible(context)) {
         LogInfo << "BlackFlow inventory | event=cleanup_skipped | reason=not_overloaded";
@@ -788,7 +798,7 @@ bool BlackFlowInventoryCleanup::run(BlackFlowInventoryContext& context, std::str
             m_discarded);
 
         if (fallback_target) {
-            context.wait(m_model.layout().settle_delay);
+            context.wait(SettleDelay);
             if (remaining_after_clear.has_value()) {
                 --*remaining_after_clear;
                 LogInfo << std::format(
@@ -826,7 +836,7 @@ bool BlackFlowInventoryCleanup::run(BlackFlowInventoryContext& context, std::str
             }
         }
         m_model.collapse(slot);
-        context.wait(m_model.layout().settle_delay);
+        context.wait(SettleDelay);
 
         if (remaining_after_clear.has_value()) {
             --*remaining_after_clear;

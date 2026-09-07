@@ -7,8 +7,8 @@
 
 namespace asst::blackflow
 {
-InventoryModel::InventoryModel(InventoryLayout layout) :
-    m_layout(std::move(layout))
+InventoryModel::InventoryModel() :
+    m_layout { .rows_per_column = 3, .column_pitch = 432, .row_pitch = 160, .first_row_center_y = 273 }
 {
 }
 

@@ -8,13 +8,19 @@
 #include <utility>
 #include <vector>
 
-#include "BlackFlowPolicy.h"
-
 #include "Common/AsstTypes.h"
 
 namespace asst::blackflow
 {
 using InventorySlot = std::pair<int, int>;
+
+struct InventoryLayout
+{
+    int rows_per_column;
+    int column_pitch;
+    int row_pitch;
+    int first_row_center_y;
+};
 
 struct InventoryCell
 {
@@ -36,8 +42,7 @@ struct VisibleScrap
 class InventoryModel
 {
 public:
-    InventoryModel() = default;
-    explicit InventoryModel(InventoryLayout layout);
+    InventoryModel();
 
     [[nodiscard]] const InventoryLayout& layout() const noexcept { return m_layout; }
 

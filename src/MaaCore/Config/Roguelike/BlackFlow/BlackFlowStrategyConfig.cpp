@@ -657,75 +657,6 @@ StrategyTerminalRule parse_terminal_rule(const json::value& value)
     return result;
 }
 
-InventoryLayout parse_inventory_layout(const json::value& value)
-{
-    check_keys(
-        value,
-        { "rows_per_column",
-          "column_pitch",
-          "row_pitch",
-          "first_row_center_y",
-          "swipe_landing_x",
-          "swipe_landing_back_x",
-          "nominal_shift",
-          "settled_shift",
-          "max_survey_steps",
-          "rewind_swipes",
-          "max_walk_steps",
-          "max_card_click_attempts",
-          "settle_delay" },
-        { "rows_per_column",
-          "column_pitch",
-          "row_pitch",
-          "first_row_center_y",
-          "swipe_landing_x",
-          "swipe_landing_back_x",
-          "nominal_shift",
-          "settled_shift",
-          "max_survey_steps",
-          "rewind_swipes",
-          "max_walk_steps",
-          "max_card_click_attempts",
-          "settle_delay" },
-        "inventory layout");
-    InventoryLayout result;
-    result.rows_per_column = value.at("rows_per_column").as_integer();
-    result.column_pitch = value.at("column_pitch").as_integer();
-    result.row_pitch = value.at("row_pitch").as_integer();
-    result.first_row_center_y = value.at("first_row_center_y").as_integer();
-    result.swipe_landing_x = value.at("swipe_landing_x").as_integer();
-    result.swipe_landing_back_x = value.at("swipe_landing_back_x").as_integer();
-    result.nominal_shift = value.at("nominal_shift").as_integer();
-    result.settled_shift = value.at("settled_shift").as_integer();
-    result.max_survey_steps = value.at("max_survey_steps").as_integer();
-    result.rewind_swipes = value.at("rewind_swipes").as_integer();
-    result.max_walk_steps = value.at("max_walk_steps").as_integer();
-    result.max_card_click_attempts = value.at("max_card_click_attempts").as_integer();
-    result.settle_delay = static_cast<unsigned>(value.at("settle_delay").as_integer());
-    if (result.rows_per_column < 1) {
-        invalid_config("inventory layout rows_per_column must be positive");
-    }
-    if (result.column_pitch < 1 || result.row_pitch < 1) {
-        invalid_config("inventory layout column_pitch and row_pitch must be positive");
-    }
-    if (result.swipe_landing_x < 0 || result.swipe_landing_back_x <= result.swipe_landing_x) {
-        invalid_config("inventory layout swipe landing points are out of order");
-    }
-    if (result.nominal_shift < 1 || result.nominal_shift > result.column_pitch * 2) {
-        invalid_config("inventory layout nominal_shift is out of range");
-    }
-    if (result.settled_shift < 1 || result.settled_shift >= result.nominal_shift) {
-        invalid_config("inventory layout settled_shift must be positive and below nominal_shift");
-    }
-    if (result.rewind_swipes < 1) {
-        invalid_config("inventory layout rewind_swipes must be positive");
-    }
-    if (result.max_survey_steps < 1 || result.max_walk_steps < 1 || result.max_card_click_attempts < 1) {
-        invalid_config("inventory layout step limits must be positive");
-    }
-    return result;
-}
-
 InventoryCleanupPolicy parse_inventory_cleanup_policy(const json::value& value)
 {
     check_keys(
@@ -1136,14 +1067,12 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
     check_keys(
         json,
         { "schema_version",
-          "inventory_layout",
           "resources",
           "facts",
           "modules",
           "inventory_cleanup_policy",
           "profiles" },
         { "schema_version",
-          "inventory_layout",
           "resources",
           "facts",
           "modules",
@@ -1151,7 +1080,7 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
           "profiles" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
-    if (schema_version != 13) {
+    if (schema_version != 14) {
         invalid_config("unsupported schema_version: " + std::to_string(schema_version));
     }
     for (const auto key : { "resources", "facts", "modules", "profiles" }) {
@@ -1236,7 +1165,6 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
     }
 
     m_schema_version = schema_version;
-    m_inventory_layout = parse_inventory_layout(json.at("inventory_layout"));
     m_resources = std::move(resources);
     m_facts = std::move(facts);
     m_modules = std::move(modules);
