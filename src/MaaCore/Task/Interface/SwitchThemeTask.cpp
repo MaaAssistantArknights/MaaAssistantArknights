@@ -49,7 +49,6 @@ bool asst::SwitchThemeTask::run()
         return true;
     }
 
-
     if (m_candidates.empty()) {
         Log.info("no candidate theme, skip");
         json::value skip_info = basic_info_with_what("SwitchThemeSkipped");
