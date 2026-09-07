@@ -425,8 +425,8 @@ bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list(int times, bool to_left
                     origin_point,
                     swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
                     (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
-                    (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
-                    (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
+                    (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2) / 10.0,
+                    (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3) / 10.0);
                 Log.debug(
                     __FUNCTION__,
                     std::format(

@@ -461,8 +461,8 @@ bool asst::BattleHelper::deploy_oper(
         target_point,
         duration,
         false,
-        swipe_oper_task_ptr->special_params.at(2),
-        swipe_oper_task_ptr->special_params.at(3),
+        swipe_oper_task_ptr->special_params.at(2) / 10.0,
+        swipe_oper_task_ptr->special_params.at(3) / 10.0,
         deploy_with_pause && depoly_when_pause_not_support);
 
     // 拖动干员朝向
