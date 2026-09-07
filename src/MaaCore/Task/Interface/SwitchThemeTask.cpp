@@ -124,7 +124,10 @@ bool asst::SwitchThemeTask::run()
 
     // 选中后按界面状态互斥分流（候选按序取首个命中），灰确认按钮颜色不敏感可被模板命中故未解锁先拦，
     // 已是当前主题次之，最后才点确认完成切换；命中分支由 GUI 按子任务回调区分日志
-    if (!ProcessTask(*this, { "SwitchThemeByNameLockedTheme", "SwitchThemeByNameAlreadySet", "SwitchThemeByNameConfirmTheme" }).run()) {
+    if (!ProcessTask(
+             *this,
+             { "SwitchThemeByNameLockedTheme", "SwitchThemeByNameAlreadySet", "SwitchThemeByNameConfirmTheme" })
+             .run()) {
         // 三种状态都不满足属异常，点取消退出并按失败处理
         ProcessTask(*this, { "SwitchThemeByNameCancelTheme" }).run();
         return false;

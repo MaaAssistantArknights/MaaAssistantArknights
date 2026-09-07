@@ -12,11 +12,16 @@ namespace asst
 inline Point extra_swipe_offset(int direction, int dist)
 {
     switch (direction) {
-    case 1: return Point(0, -dist);
-    case 2: return Point(0, dist);
-    case 3: return Point(-dist, 0);
-    case 4: return Point(dist, 0);
-    default: return Point(0, 0);
+    case 1:
+        return Point(0, -dist);
+    case 2:
+        return Point(0, dist);
+    case 3:
+        return Point(-dist, 0);
+    case 4:
+        return Point(dist, 0);
+    default:
+        return Point(0, 0);
     }
 }
 
