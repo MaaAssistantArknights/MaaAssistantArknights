@@ -6237,6 +6237,59 @@
         "postDelay": 300,
         "maxTimes": 20
     },
+    "RedTicket@Store@ChooseTicketType": {
+        "baseTask": "Store@ChooseTicketType",
+        "text": ["凭证兑换区"],
+        "doc": [
+            "红票区页签（红票商店购买）。镜像 GreenTicket@Store@ChooseTicketType（资质凭证区）。",
+            "页签文本与位置待截图核对：资质/高级凭证区分别在 y≈163/267，红票区顺延在 y≈371 一带。"
+        ]
+    },
+    "RedTicket@Store@ClickItem_Catalyst": {
+        "algorithm": "FeatureMatch",
+        "template": "items/32001.png",
+        "detector": "BRISK",
+        "count": 20,
+        "action": "ClickSelf",
+        "roi": [318, 139, 956, 484],
+        "doc": "红票商店芯片助剂商品，FeatureMatch 复用 GreenTicket@Store@ClickItem 的识别配置（items 系列同机制，模板已存在）。"
+    },
+    "RedTicket@Store@Swipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 1500,
+        "specificRect": [400, 355, 20, 20],
+        "rectMove": [1130, 355, 20, 20],
+        "specialParams": [200, 1, 2, 0],
+        "maxTimes": 20,
+        "doc": "红票商店商品列表左滑一屏（约三个商品宽），复用 SlowlySwipeToTheRight 参数（对照 path.lua:4259-4290 swip_ticket_shop，x600→x1743÷1.5）。"
+    },
+    "RedTicket@Store@PurchasePanelIncrease": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [994, 430, 20, 20],
+        "postDelay": 300,
+        "doc": "购买面板商品加，精确购买数量（point.lua:387 凭证交易所商品加 {1491,645}÷1.5）；占位任务，待截图核对。"
+    },
+    "RedTicket@Store@Purchase": {
+        "baseTask": "Store@Purchase",
+        "roi": [872, 556, 137, 48],
+        "text": ["购买物品"],
+        "doc": "购买面板按钮，roi/text 与 GreenTicket@Store@Purchase 一致（各商店共用购买面板）。"
+    },
+    "RedTicket@Store@PurchasedConfirm": {
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "maxTimes": 10,
+        "doc": "购买后获得物资确认，同 GreenTicket@Store@PurchasedConfirm。"
+    },
+    "AutoRaise@ReturnToMfgChipProduct": {
+        "baseTask": "AutoRaise@ManualAction",
+        "roi": [0, 0, 1280, 720],
+        "doc": [
+            "从凭证商店返回制造站芯片产品页：关闭获得物资 → 返回×N（商店/采购中心/主界面）→ 基建 → 制造站 → 芯片产线。",
+            "导航待截图拆分；占位任务在导航补齐前必然失败，制造流程将在此时以 ResourceInsufficient 停止。"
+        ]
+    },
     "AutoRaise@DualchipBadgeCount": {
         "baseTask": "NumberOcrReplace",
         "doc": "晋升页面芯片icon下方 x/y 的 x 段",
@@ -6258,42 +6311,6 @@
         "template": "MaterialMissing.png",
         "doc": "助剂数量红字检测，数色配方同 EliteUpMaterialMissing（point.lua:1814 选芯片界面胶水红）；待截图核对。"
     },    
-    "AutoRaise@ShopEnter": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [755, 115, 20, 20],
-        "postDelay": 800,
-        "doc": "采购中心进入凭证交易所（point.lua:379 凭证交易所进入 {1133,173}÷1.5）；从制造站到采购中心的导航待截图拆分。"
-    },
-    "AutoRaise@ShopSelectCreditStore": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [160, 460, 20, 20],
-        "postDelay": 800,
-        "doc": "凭证交易所切换红票商店（point.lua:383 红票商店选中 {240,690}÷1.5）；占位任务，待截图核对。"
-    },
-    "AutoRaise@ShopCatalyst": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [356, 297, 20, 20],
-        "postDelay": 800,
-        "doc": "红票商店芯片助剂商品（point.lua:391 红票商店胶水 {534,445}÷1.5）；商品需滚动查找，待截图改模板识别。"
-    },
-    "AutoRaise@ShopCatalystIncrease": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [994, 430, 20, 20],
-        "postDelay": 300,
-        "doc": "购买面板商品加（point.lua:387 凭证交易所商品加 {1491,645}÷1.5）；占位任务，待截图核对。"
-    },
-    "AutoRaise@ShopPay": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [861, 575, 20, 20],
-        "postDelay": 800,
-        "doc": "购买面板支付（point.lua:382 凭证交易所支付 {1291,863}÷1.5）；占位任务，待截图核对。"
-    },
-    "AutoRaise@ShopObtain": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [639, 628, 20, 20],
-        "postDelay": 800,
-        "doc": "领取获得物资（point.lua:626 获得物资 {959,942}÷1.5）；占位任务，待截图核对。"
-    },
     "AutoRaise@EliteUpMaterial1JumpProcessing": {
         "template": "OperFilesJumpButton.png",
         "action": "ClickSelf",

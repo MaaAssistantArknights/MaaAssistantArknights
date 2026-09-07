@@ -708,22 +708,42 @@ bool asst::AutoRaiseProcessTask::restore_factory_state()
 
 bool asst::AutoRaiseProcessTask::buy_catalyst(int count)
 {
-    // 完整迁移 raise.buy_32001（raise.lua:1077-1151）：采购中心 → 凭证交易所 → 红票商店 →
-    // 找到芯片助剂 → 商品加 ×(count-1) → 支付 → 领取。
-    if (!run_task("AutoRaise@ShopEnter") || !run_task("AutoRaise@ShopSelectCreditStore") ||
-        !run_task("AutoRaise@ShopCatalyst")) {
+    // 完整迁移 raise.buy_32001（raise.lua:1077-1151）：
+    // 凭证交易所导航 → 红票区页签 → 滚动查找芯片助剂（可能不在第一屏）→ 打开购买面板 →
+    // 商品加 ×(count-1) → 支付 → 领取获得物资 → 返回制造站芯片产品页。
+    if (!run_task("Store@Begin") || !run_task("RedTicket@Store@ChooseTicketType")) {
         return false;
     }
-    for (int i = 1; i < count && !need_exit(); ++i) {
-        if (!run_task("AutoRaise@ShopCatalystIncrease")) {
+
+    // 滚动查找助剂商品（raise.lua:1100-1107：最多滑 4 屏，每屏后重识别）。
+    bool found = false;
+    for (int swipe = 0; swipe < 4 && !need_exit(); ++swipe) {
+        if (run_task("RedTicket@Store@ClickItem_Catalyst", 0)) {
+            found = true;
+            break;
+        }
+        if (!run_task("RedTicket@Store@Swipe")) {
             return false;
         }
     }
-    if (!run_task("AutoRaise@ShopPay") || !run_task("AutoRaise@ShopObtain")) {
+    if (!found) {
+        Log.error("AutoRaise | catalyst item not found in red ticket store");
+        save_img(utils::path("debug") / utils::path("auto_raise"), false);
         return false;
     }
-    // 购买后返回制造站继续生产。
-    return run_task("AutoRaise@ReturnFromWorkshop");
+
+    // 购买数量设为缺口：默认 1 件 + 商品加 ×(count-1)（raise.lua:1120-1122）。
+    for (int i = 1; i < count && !need_exit(); ++i) {
+        if (!run_task("RedTicket@Store@PurchasePanelIncrease")) {
+            return false;
+        }
+    }
+    if (!run_task("RedTicket@Store@Purchase") || !run_task("RedTicket@Store@PurchasedConfirm")) {
+        return false;
+    }
+
+    // 购买后返回制造站重新进入芯片产品页（导航占位，待截图拆分）。
+    return run_task("AutoRaise@ReturnToMfgChipProduct");
 }
 
 bool asst::AutoRaiseProcessTask::run_task(const std::string& task_name, int retry_times)
