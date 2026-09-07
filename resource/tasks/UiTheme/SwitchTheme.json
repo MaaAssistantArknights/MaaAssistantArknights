@@ -22,7 +22,7 @@
         "action": "Swipe",
         "specificRect": [200, 170, 10, 10],
         "rectMove": [200, 600, 10, 10],
-        "specialParams": [150, 0, 1, 1],
+        "specialParams": [150],
         "postDelay": 500,
         "maxTimes": 10,
         "next": ["SwitchTheme@SelectLightTheme", "SwitchTheme@SwipeToLightTheme"]

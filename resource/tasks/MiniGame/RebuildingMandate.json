@@ -44,7 +44,7 @@
     "MiniGame@RM-TR-1@DeployLava": {
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specialParams": [200, 0, 2, 0],
+        "specialParams": [200, 0, 20, 0],
         "specificRect": [1135, 656, 1, 1],
         "rectMove": [733, 303, 1, 1],
         "next": ["MiniGame@RM-TR-1@DeployLavaConfirm"]
@@ -52,7 +52,7 @@
     "MiniGame@RM-TR-1@DeployLavaConfirm": {
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specialParams": [200, 0, 2, 0],
+        "specialParams": [200, 0, 20, 0],
         "specificRect": [733, 303, 1, 1],
         "rectMove": [533, 303, 1, 1],
         "next": ["MiniGame@RM-TR-1@DoubleSpeed"]
@@ -131,7 +131,7 @@
     "MiniGame@RM-1@DeployEW": {
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specialParams": [200, 0, 2, 0],
+        "specialParams": [200, 0, 20, 0],
         "specificRect": [1050, 675, 1, 1],
         "rectMove": [925, 475, 1, 1],
         "postDelay": 1000,
@@ -140,7 +140,7 @@
     "MiniGame@RM-1@DeployEWConfirm": {
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specialParams": [200, 0, 2, 0],
+        "specialParams": [200, 0, 20, 0],
         "specificRect": [800, 375, 1, 1],
         "rectMove": [500, 375, 1, 1],
         "next": ["MiniGame@RM-1@Sleep"]

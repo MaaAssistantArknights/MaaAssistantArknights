@@ -1043,7 +1043,7 @@
         "action": "Swipe",
         "specificRect": [1024, 590, 1, 1],
         "rectMove": [1024, 280, 1, 1],
-        "specialParams": [200, 0, 2, 0],
+        "specialParams": [200, 0, 20, 0],
         "postDelay": 500
     },
     "BlackFlow@Roguelike@MovementPanelTitle": {

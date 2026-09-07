@@ -37,7 +37,7 @@
         "action": "Swipe",
         "specificRect": [100, 620, 1, 1],
         "rectMove": [200, 620, 1, 1],
-        "specialParams": [2000, 0, 3, 0],
+        "specialParams": [2000, 0, 37, 1],
         "next": [
             "MiniGame@InteractiveExhibition@CheckEncounter-Collected",
             "MiniGame@InteractiveExhibition@CheckEncounter-Uncollected",
@@ -50,7 +50,7 @@
         "action": "Swipe",
         "specificRect": [100, 620, 1, 1],
         "rectMove": [0, 620, 1, 1],
-        "specialParams": [1500, 0, 3, 0],
+        "specialParams": [1500, 0, 37, 1],
         "next": [
             "MiniGame@InteractiveExhibition@CheckEncounter-Collected",
             "MiniGame@InteractiveExhibition@CheckEncounter-Uncollected",
