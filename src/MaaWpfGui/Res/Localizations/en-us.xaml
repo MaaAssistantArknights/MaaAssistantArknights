@@ -855,6 +855,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
     <system:String x:Key="UserDataUpdate">Update Doctor Data</system:String>
     <system:String x:Key="DepotMaintain">Depot Maintain</system:String>
+    <system:String x:Key="SwitchTheme">Switch Theme</system:String>
     <system:String x:Key="MiniGame">Useful Tasks</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">Permanent</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">Current Events</system:String>
@@ -982,6 +983,15 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotGroupTaskBehavior">Task Behavior</system:String>
     <system:String x:Key="DepotGroupStageAndBattle">Stage &amp; Battle</system:String>
     <system:String x:Key="DepotGroupSanityRecovery">Sanity Recovery</system:String>
+    <!--  SwitchTheme  -->
+    <system:String x:Key="SwitchThemeTip" xml:space="preserve">Enter the theme name as shown in the in-game theme list.&#10;Multiple entries pick one at random each run; a single entry always switches to it.&#10;Rarely used characters (e.g. 凇 vs. 淞) may be misrecognized as similar-looking ones and the theme is not found; submit the log archive via Issue Report in that case.</system:String>
+    <system:String x:Key="SwitchThemeAdd">Add Theme</system:String>
+    <system:String x:Key="SwitchThemePlaceholder">Theme name</system:String>
+    <system:String x:Key="SwitchThemeSkipped">No theme name entered, skipping theme switch.</system:String>
+    <system:String x:Key="SwitchThemeSucceeded">Theme switched to {0}</system:String>
+    <system:String x:Key="SwitchThemeAlreadySet">Target theme is already in use: {0}</system:String>
+    <system:String x:Key="SwitchThemeLocked">Theme not unlocked, cannot switch: {0}</system:String>
+    <system:String x:Key="SwitchThemeNotFound">Theme not found: {0}. Check that the name matches the in-game theme list.</system:String>
     <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>

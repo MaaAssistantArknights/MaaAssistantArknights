@@ -768,6 +768,35 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
+- `SwitchTheme`  
+   更換遊戲主介面主題
+
+:::: field-group  
+::: field enable  
+@type boolean
+@default true
+@optional
+是否啟用本任務。  
+:::  
+::: field themes  
+@type string[]
+@required
+候選主題名稱列表，需與遊戲內主題列表中顯示的名稱一致；包含多個時每次執行隨機選擇一個，為空陣列時跳過本任務。  
+:::  
+::::
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "themes": ["夜間", "銀淞"]
+}
+```
+
+</details>
+
 - `Roguelike`  
    無限刷肉鴿
 

@@ -767,6 +767,35 @@ OF-1 実行時に使用する編成スロットのインデックス。
 
 </details>
 
+- `SwitchTheme`  
+  ゲームのメイン画面テーマを切り替える
+
+:::: field-group  
+::: field enable  
+@type boolean
+@default true
+@optional
+このタスクを有効にするかどうか。  
+:::  
+::: field themes  
+@type string[]
+@required
+候補テーマ名のリスト。ゲーム内のテーマ一覧に表示される名称と一致させてください。複数指定した場合は実行ごとにランダムに 1 つ選択され、空の配列の場合はスキップします。  
+:::  
+::::
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "themes": ["夜间", "银凇"]
+}
+```
+
+</details>
+
 - `Roguelike`  
   統合戦略
 

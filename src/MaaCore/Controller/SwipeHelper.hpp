@@ -8,6 +8,18 @@
 namespace asst
 {
 
+// extra swipe 的方向（Swipe 任务 specialParams 的第 2 个元素）：0 不启用，1/2/3/4 为上/下/左/右
+inline Point extra_swipe_offset(int direction, int dist)
+{
+    switch (direction) {
+    case 1: return Point(0, -dist);
+    case 2: return Point(0, dist);
+    case 3: return Point(-dist, 0);
+    case 4: return Point(dist, 0);
+    default: return Point(0, 0);
+    }
+}
+
 // 三次样条插值函数，用于生成平滑的滑动曲线
 // slope_0: 起点斜率，slope_1: 终点斜率，t: 插值进度 [0, 1]
 inline double cubic_spline(double slope_0, double slope_1, double t)

@@ -854,6 +854,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="UserDataUpdate">更新数据</system:String>
     <system:String x:Key="DepotMaintain">库存保持</system:String>
+    <system:String x:Key="SwitchTheme">更换主题</system:String>
     <system:String x:Key="MiniGame">牛杂</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">常驻活动</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">当期活动</system:String>
@@ -981,6 +982,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotGroupTaskBehavior">任务行为</system:String>
     <system:String x:Key="DepotGroupStageAndBattle">关卡与战斗</system:String>
     <system:String x:Key="DepotGroupSanityRecovery">理智恢复</system:String>
+    <!--  SwitchTheme  -->
+    <system:String x:Key="SwitchThemeTip" xml:space="preserve">填写游戏内主题列表中显示的主题名称。&#10;填写多个时每次运行随机选择一个，仅填写一个时固定切换。&#10;个别不常用字（如 凇、淞）识别可能出现形近偏差导致主题未找到，此时请通过 ｢问题反馈｣ 提交日志压缩包。</system:String>
+    <system:String x:Key="SwitchThemeAdd">添加主题</system:String>
+    <system:String x:Key="SwitchThemePlaceholder">主题名称</system:String>
+    <system:String x:Key="SwitchThemeSkipped">未填写主题名称，跳过更换主题。</system:String>
+    <system:String x:Key="SwitchThemeSucceeded">已切换主题：{0}</system:String>
+    <system:String x:Key="SwitchThemeAlreadySet">目标已是当前主题：{0}，无需切换</system:String>
+    <system:String x:Key="SwitchThemeLocked">主题未解锁，无法切换：{0}</system:String>
+    <system:String x:Key="SwitchThemeNotFound">未找到主题：{0}，请检查名称是否与游戏内一致。</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>

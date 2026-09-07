@@ -767,6 +767,35 @@ Collect monthly card rewards from 5th anniversary.
 
 </details>
 
+- `SwitchTheme`  
+   Switch the game's main interface theme
+
+:::: field-group  
+::: field enable  
+@type boolean
+@default true
+@optional
+Whether to enable this task.  
+:::  
+::: field themes  
+@type string[]
+@required
+List of candidate theme names, matching the names shown in the in-game theme list; with multiple entries, one is picked at random each run; an empty array skips the task.  
+:::  
+::::
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "themes": ["夜间", "银凇"]
+}
+```
+
+</details>
+
 - `Roguelike`  
    Integrated Strategies
 

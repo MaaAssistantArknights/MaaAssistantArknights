@@ -97,7 +97,7 @@ public:
         const Point& p1,
         const Point& p2,
         int duration = 0,
-        bool extra_swipe = false,
+        int extra_swipe = 0,
         double slope_in = 1,
         double slope_out = 1,
         bool with_pause = false) override;

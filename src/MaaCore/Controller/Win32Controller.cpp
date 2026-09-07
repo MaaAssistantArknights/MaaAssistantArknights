@@ -296,7 +296,7 @@ bool Win32Controller::swipe(
     const Point& p1,
     const Point& p2,
     int duration,
-    bool extra_swipe,
+    int extra_swipe,
     double slope_in,
     double slope_out,
     bool with_pause [[maybe_unused]])
@@ -364,7 +364,8 @@ bool Win32Controller::swipe(
 
     if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
         std::this_thread::sleep_for(std::chrono::milliseconds(opt.minitouch_swipe_extra_end_delay));
-        do_swipe(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
+        const auto offset = extra_swipe_offset(extra_swipe, opt.minitouch_extra_swipe_dist);
+        do_swipe(x2, y2, x2 + offset.x, y2 + offset.y, opt.minitouch_extra_swipe_duration);
     }
 
     return unit_touch_up(0);

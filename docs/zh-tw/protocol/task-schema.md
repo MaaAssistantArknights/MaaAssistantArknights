@@ -92,7 +92,7 @@ icon: material-symbols:task
                                             // 以 1280 * 720 為基準自動縮放
 
         "specialParams": [int, ...],        // 某些特殊辨識器需要的參數
-                                            // 額外的，當 action 為 Swipe 時選填，[0] 表示 duration，[1] 表示是否啟用額外滑動，
+                                            // 額外的，當 action 為 Swipe 時選填，[0] 表示 duration，[1] 表示額外滑動的方向（0 不啟用，1/2/3/4 分別為上/下/左/右），
                                             // [2] 和 [3] 分別表示滑動軌跡的緩入、緩出斜率，預設均為 1
 
         "highResolutionSwipeFix": false,    // 選填，是否啟用高解析度滑動修復
