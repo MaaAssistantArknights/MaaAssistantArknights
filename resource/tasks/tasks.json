@@ -5504,7 +5504,7 @@
         "action": "ClickRect",
         "cache": true,
         "roi": [1000, 117, 115, 60],
-        "specificRect": [1026, 180, 193, 487]
+        "specificRect": [1051, 222, 143, 241]
     },
     "ConfirmProductChange": {
         "action": "ClickSelf",
@@ -5596,7 +5596,7 @@
     "ChooseDualchip-Pioneer": {
         "action": "ClickSelf",
         "roi": [210, 43, 239, 174],
-        "postDelay": 1000
+        "postDelay": 1500
     },
     "ChooseDualchip-Warrior": {
         "baseTask": "ChooseDualchip-Pioneer",
@@ -5760,7 +5760,26 @@
     "Store@Begin": {
         "doc": "绿票、黄票商店",
         "algorithm": "JustReturn",
-        "next": ["Store@EnterStore", "Store@EnterTicketStore"]
+        "next": ["Store@EnterStore", "Store@EnterTicketStore", "Store@QuickSwitchEnterStore"]
+    },
+    "Store@QuickSwitchEnterStore": {
+        "baseTask": "QuickSwitch@ToMall",
+        "next": ["Store@QuickSwitch@ToMall@Entry", "Store@QuickSwitch@ToMall@Open"]
+    },
+    "Store@QuickSwitch@ToMall@Entry": {
+        "template": "QuickSwitch/Mall.png",
+        "next": [
+            "Store@QuickSwitch@ToMall@Entry",
+            "QuickSwitch@Confirm",
+            "LoadingText",
+            "LoadingIcon",
+            "Store@EnterTicketStore",
+            "#back"
+        ]
+    },
+    "Store@QuickSwitch@ToMall@Open": {
+        "template": "QuickSwitch/Menu.png",
+        "next": ["Store@QuickSwitch@ToMall@Entry", "Store@QuickSwitch@ToMall@Open"]
     },
     "Store@EnterStore": {
         "baseTask": "Mall",
@@ -5778,6 +5797,11 @@
     "Store@ChooseTicketType": {
         "algorithm": "JustReturn",
         "doc": "base_task"
+    },
+    "Store@Increse": {
+        "roi": [955, 400, 77, 66],
+        "action": "ClickSelf",
+        "postDelay": 200
     },
     "Store@ChooseMaxAmount": {
         "algorithm": "OcrDetect",
@@ -6021,6 +6045,53 @@
             "Stop"
         ]
     },
+    "RedTicket@Store@ChooseTicketType": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["采购凭证区"],
+        "roi": [49, 451, 176, 78],
+        "postDelay": 1000,
+        "maxTimes": 10,
+        "next": ["RedTicket@Store@EnterTicketStore@FirstGood", "RedTicket@Store@ChooseTicketType"]
+    },
+    "RedTicket@Store@ChooseTicketTypeSelected": {
+        "algorithm": "OcrDetect",
+        "text": ["采购凭证区"],
+        "roi": [49, 451, 176, 78],
+        "postDelay": 800
+    },
+    "RedTicket@Store@EnterTicketStore@FirstGood": {
+        "roi": [244, 134, 55, 66]
+    },
+    "RedTicket@Store@ClickItem_Catalyst": {
+        "algorithm": "FeatureMatch",
+        "template": "items/32001.png",
+        "detector": "BRISK",
+        "count": 20,
+        "action": "ClickSelf",
+        "roi": [318, 139, 956, 484],
+        "postDelay": 800
+    },
+    "RedTicket@Store@Swipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 1500,
+        "specificRect": [957, 355, 20, 20],
+        "rectMove": [286, 355, 20, 20],
+        "specialParams": [400, 1, 2, 0],
+        "maxTimes": 20
+    },
+    "RedTicket@Store@Purchase": {
+        "roi": [872, 556, 137, 48],
+        "text": ["购买物品"],
+        "next": [ "RedTicket@Store@PurchasedConfirm"]
+    },
+    "RedTicket@Store@PurchasedConfirm": {
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "maxTimes": 10,
+        "next": ["RedTicket@Store@ChooseTicketTypeSelected","RedTicket@Store@PurchasedConfirm"]
+    },
     "AutoRaise@TemplateChecklist": {
         "doc": [
             "以下 AutoRaise 专属识别任务仅为 1280x720 国服截图占位，截图补齐并实机验证前不得视为可运行流程。",
@@ -6237,80 +6308,24 @@
         "postDelay": 300,
         "maxTimes": 20
     },
-    "RedTicket@Store@ChooseTicketType": {
-        "baseTask": "Store@ChooseTicketType",
-        "text": ["凭证兑换区"],
-        "doc": [
-            "红票区页签（红票商店购买）。镜像 GreenTicket@Store@ChooseTicketType（资质凭证区）。",
-            "页签文本与位置待截图核对：资质/高级凭证区分别在 y≈163/267，红票区顺延在 y≈371 一带。"
-        ]
-    },
-    "RedTicket@Store@ClickItem_Catalyst": {
-        "algorithm": "FeatureMatch",
-        "template": "items/32001.png",
-        "detector": "BRISK",
-        "count": 20,
-        "action": "ClickSelf",
-        "roi": [318, 139, 956, 484],
-        "doc": "红票商店芯片助剂商品，FeatureMatch 复用 GreenTicket@Store@ClickItem 的识别配置（items 系列同机制，模板已存在）。"
-    },
-    "RedTicket@Store@Swipe": {
-        "algorithm": "JustReturn",
-        "action": "Swipe",
-        "postDelay": 1500,
-        "specificRect": [400, 355, 20, 20],
-        "rectMove": [1130, 355, 20, 20],
-        "specialParams": [200, 1, 2, 0],
-        "maxTimes": 20,
-        "doc": "红票商店商品列表左滑一屏（约三个商品宽），复用 SlowlySwipeToTheRight 参数（对照 path.lua:4259-4290 swip_ticket_shop，x600→x1743÷1.5）。"
-    },
-    "RedTicket@Store@PurchasePanelIncrease": {
-        "baseTask": "AutoRaise@Dualchip",
-        "specificRect": [994, 430, 20, 20],
-        "postDelay": 300,
-        "doc": "购买面板商品加，精确购买数量（point.lua:387 凭证交易所商品加 {1491,645}÷1.5）；占位任务，待截图核对。"
-    },
-    "RedTicket@Store@Purchase": {
-        "baseTask": "Store@Purchase",
-        "roi": [872, 556, 137, 48],
-        "text": ["购买物品"],
-        "doc": "购买面板按钮，roi/text 与 GreenTicket@Store@Purchase 一致（各商店共用购买面板）。"
-    },
-    "RedTicket@Store@PurchasedConfirm": {
-        "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
-        "maxTimes": 10,
-        "doc": "购买后获得物资确认，同 GreenTicket@Store@PurchasedConfirm。"
-    },
-    "AutoRaise@ReturnToMfgChipProduct": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [0, 0, 1280, 720],
-        "doc": [
-            "从凭证商店返回制造站芯片产品页：关闭获得物资 → 返回×N（商店/采购中心/主界面）→ 基建 → 制造站 → 芯片产线。",
-            "导航待截图拆分；占位任务在导航补齐前必然失败，制造流程将在此时以 ResourceInsufficient 停止。"
-        ]
-    },
     "AutoRaise@DualchipBadgeCount": {
         "baseTask": "NumberOcrReplace",
         "doc": "晋升页面芯片icon下方 x/y 的 x 段",
         "roi": [356, 658, 17, 26]
     },
-
     "AutoRaise@MfgCatalystCount": {
         "baseTask": "NumberOcrReplace",
-        "doc": "芯片产品页助剂数量 OCR（point.lua:1815 胶水数量识别范围 {679,575,780,637}÷1.5）；占位任务，待截图核对。",
         "roi": [453, 383, 67, 41]
     },
     "AutoRaise@MfgCatalystStock": {
         "baseTask": "NumberOcrReplace",
-        "doc": "芯片产品页助剂库存 OCR（point.lua:1816 胶水库存识别范围 {727,638,853,668}÷1.5）；占位任务，待截图核对。",
         "roi": [485, 425, 84, 20]
     },
     "AutoRaise@MfgCatalystMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
         "doc": "助剂数量红字检测，数色配方同 EliteUpMaterialMissing（point.lua:1814 选芯片界面胶水红）；待截图核对。"
-    },    
+    },
     "AutoRaise@EliteUpMaterial1JumpProcessing": {
         "template": "OperFilesJumpButton.png",
         "action": "ClickSelf",
@@ -6391,7 +6406,6 @@
         ],
         "roi": [170, 130, 1010, 560]
     },
-
     "AutoRaise@SkillsSatisfied2": {
         "baseTask": "AutoRaise@ManualRecognition",
         "doc": "参考实现没有等级 2 对应 point，仅在 point.lua:1868 定义「干员档案通用技能等级七」；候选 ROI 为档案页通用技能等级区域，需补 2 级截图。",
@@ -6471,7 +6485,6 @@
         ],
         "roi": [900, 380, 300, 270]
     },
-
     "AutoRaise@OpenMissingMaterial": {
         "baseTask": "AutoRaise@ManualAction",
         "doc": [
@@ -6488,11 +6501,6 @@
         ],
         "roi": [420, 560, 570, 80]
     },
-    "AutoRaise@ReturnFromWorkshop": {
-        "baseTask": "Return",
-        "template": "Return.png",
-        "postDelay": 1000
-    },
     "AutoRaise@MaterialStillMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
@@ -6503,7 +6511,6 @@
         ],
         "roi": [330, 650, 380, 50]
     },
-
     "AutoRaise@MasteryPrerequisiteMissing": {
         "baseTask": "AutoRaise@ManualRecognition",
         "doc": [
