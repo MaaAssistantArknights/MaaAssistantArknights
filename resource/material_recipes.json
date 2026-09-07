@@ -464,6 +464,34 @@
             }
         ]
     },
+    "37": {
+        "formulaId": "37",
+        "itemId": "3302",
+        "count": 1,
+        "goldCost": 0,
+        "apCost": 360000,
+        "costs": [
+            {
+                "id": "3301",
+                "count": 3,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "38": {
+        "formulaId": "38",
+        "itemId": "3303",
+        "count": 1,
+        "goldCost": 0,
+        "apCost": 720000,
+        "costs": [
+            {
+                "id": "3302",
+                "count": 3,
+                "type": "MATERIAL"
+            }
+        ]
+    },
     "55": {
         "formulaId": "55",
         "itemId": "31024",

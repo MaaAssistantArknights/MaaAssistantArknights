@@ -38,12 +38,17 @@ private:
     {
         std::string icon_task;
         std::string quantity_task;
+        std::string expected_item_id;
     };
 
     std::vector<RequirementSlot> requirement_slots() const;
     bool analyze_slot(const RequirementSlot& slot, MaterialRequirementInfo& info) const;
     bool parse_quantity(const std::string& task_name, int& owned, int& required) const;
-    bool match_item(const std::string& task_name, std::string& item_id, Rect& item_rect) const;
+    bool match_item(
+        const std::string& task_name,
+        std::string& item_id,
+        Rect& item_rect,
+        const std::string& expected_item_id = {}) const;
 
     std::vector<MaterialRequirementInfo> m_result;
     std::vector<std::string> m_candidates;

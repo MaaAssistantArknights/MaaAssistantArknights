@@ -482,7 +482,7 @@ bool InfrastMaterialCraftTask::prepare_formula_selector(const Formula& formula)
         return false;
     }
 
-    if (!click_elite_category()) {
+    if (!click_formula_category(formula)) {
         save_img(utils::path("debug") / utils::path("material_craft") / utils::path("select_formula_category_failed"));
         return false;
     }
@@ -494,15 +494,17 @@ bool InfrastMaterialCraftTask::prepare_formula_selector(const Formula& formula)
     return true;
 }
 
-bool InfrastMaterialCraftTask::click_elite_category()
+bool InfrastMaterialCraftTask::click_formula_category(const Formula& formula)
 {
     if (need_exit()) {
         return false;
     }
 
     cv::Mat image = ctrler()->get_image();
-    auto category = match_workshop_template(image, "MaterialCraft-EliteCategory");
-    if (category && is_elite_category_rect(image, *category)) {
+    const bool skill_summary = formula.is_skill_summary();
+    const std::string task_name = skill_summary ? "MaterialCraft-SkillSummaryCategory" : "MaterialCraft-EliteCategory";
+    auto category = match_workshop_template(image, task_name);
+    if (category && (skill_summary || is_elite_category_rect(image, *category))) {
         if (need_exit() || !ctrler()->click(center_of(*category))) {
             return false;
         }
@@ -513,14 +515,9 @@ bool InfrastMaterialCraftTask::click_elite_category()
     }
 
     if (category) {
-        Log.warn(__FUNCTION__, "| ignore non-elite category template match", *category);
+        Log.warn(__FUNCTION__, "| ignore misplaced category template match", task_name, *category);
     }
-    if (is_formula_selector(image)) {
-        Log.info(__FUNCTION__, "| elite category is likely already selected");
-        return true;
-    }
-
-    Log.warn(__FUNCTION__, "| elite category template not found");
+    Log.warn(__FUNCTION__, "| formula category template not found", task_name);
     return false;
 }
 
@@ -530,7 +527,10 @@ bool InfrastMaterialCraftTask::select_quality_filter(const Formula& formula)
         return false;
     }
 
-    const std::string quality_template(quality_option_template_by_gold_cost(formula.gold_cost));
+    // Skill summaries have zero gold cost, which does not indicate their quality.
+    const std::string quality_template(
+        formula.is_skill_summary() ? WorkshopQualityOptionAllTemplate
+                                   : quality_option_template_by_gold_cost(formula.gold_cost));
 
     for (int attempt = 0; attempt != 3; ++attempt) {
         if (need_exit()) {
@@ -656,6 +656,9 @@ bool InfrastMaterialCraftTask::is_quality_menu_open(const cv::Mat& image) const
 
 int InfrastMaterialCraftTask::max_formula_pages(const Formula& formula) const
 {
+    if (formula.is_skill_summary()) {
+        return 1;
+    }
     return Task.get(std::string(quality_option_template_by_gold_cost(formula.gold_cost)))->max_times;
 }
 

@@ -43,6 +43,30 @@ TEST_CASE("Keep missing base ingredients explicit in an otherwise executable pla
     CHECK(plan.inventory.at("ore") == 0);
 }
 
+TEST_CASE("Craft skill summaries recursively with zero gold cost")
+{
+    const MaterialFormula volume2 { "37", "3302", 1, 0, 360000, { { "3301", 3 } } };
+    const MaterialFormula volume3 { "38", "3303", 1, 0, 720000, { { "3302", 3 } } };
+    MaterialCraftPlanner planner({ volume2, volume3 });
+    const auto plan = planner.build({ { { "3303", 2 } }, { { "3301", 12 }, { "3302", 2 } } });
+    REQUIRE(plan.valid);
+    REQUIRE(plan.missing.empty());
+    REQUIRE(plan.operations.size() == 2);
+    CHECK(plan.operations[0].formula.item_id == "3302");
+    CHECK(plan.operations[0].batches == 4);
+    CHECK(plan.operations[1].formula.item_id == "3303");
+    CHECK(plan.operations[1].batches == 2);
+    CHECK(plan.inventory.at("3301") == 0);
+    CHECK(plan.inventory.at("3302") == 0);
+    CHECK(plan.inventory.at("3303") == 2);
+    CHECK(plan.gold_cost == 0);
+    CHECK(plan.ap_cost == 2'880'000);
+
+    const auto shortage = planner.build({ { { "3303", 1 } }, { { "3301", 8 } } });
+    REQUIRE(shortage.valid);
+    CHECK(shortage.missing.at("3301") == 1);
+}
+
 TEST_CASE("Try alternative recipes without leaking inventory changes or shortages")
 {
     MaterialCraftPlanner planner({ recipe("1", "A", { { "ore", 3 } }), recipe("2", "A", { { "salt", 2 } }) });

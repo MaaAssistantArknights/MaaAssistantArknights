@@ -943,7 +943,6 @@ bool update_material_recipes_data(const fs::path& input_dir, const fs::path& out
     json::value output_json;
     const std::unordered_set<std::string> non_elite_formula_items = {
         "3131", "3132", "3133", "3113", "3114", "3401", // building materials
-        "3302", "3303",                                 // skill summaries
         "3211", "3212", "3221", "3222", "3231", "3232", "3241", "3242",
         "3251", "3252", "3261", "3262", "3271", "3272", "3281", "3282", // chips
     };

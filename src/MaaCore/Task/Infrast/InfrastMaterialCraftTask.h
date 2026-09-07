@@ -54,7 +54,7 @@ private:
     bool open_formula_selector();
     bool select_formula(const Formula& formula);
     bool prepare_formula_selector(const Formula& formula);
-    bool click_elite_category();
+    bool click_formula_category(const Formula& formula);
     bool select_quality_filter(const Formula& formula);
     bool open_quality_menu();
     bool close_quality_menu();

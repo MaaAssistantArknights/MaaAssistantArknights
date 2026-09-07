@@ -23,6 +23,8 @@ struct MaterialFormula
     int gold_cost = 0;
     int ap_cost = 0;
     std::vector<MaterialAmount> costs;
+
+    bool is_skill_summary() const noexcept { return item_id == "3302" || item_id == "3303"; }
 };
 
 using MaterialInventory = std::map<std::string, int>;
