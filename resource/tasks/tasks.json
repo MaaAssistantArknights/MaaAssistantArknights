@@ -6350,66 +6350,13 @@
         "algorithm": "MatchTemplate",
         "template": "empty.png",
         "templThreshold": 0.8,
-        "roi": [1030, 220, 190, 65],
-        "doc": [
-            "记录制造站产线当前产品：C++ 用 BestMatcher 以本 Task 的 roi/阈值为配置，",
-            "匹配 InfrastPic/Product 下四个产品标志模板（赤金/作战记录/源石碎片/芯片）后写入 Status。",
-            "roi 与 VerifyProductChangedTo* 一致（制造站详情页首条产线的产品标志位）。",
-            "识别失败时 C++ 不得切换产线。RestoreFactoryState 读取存储值后可复用 ChooseProductList→…→VerifyProductChangedTo* 链恢复。"
-        ]
-    },
-    "AutoRaise@ChipPackEnough": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": [
-            "参考实现无对应 point；raise.lua:1204-1206 明确说明未识别芯片组数量。",
-            "候选 ROI 根据 point.lua:1827「选芯片界面胶水红」附近的双芯片配方原料区推断，需分别采集芯片组充足、不足和数量 OCR 截图。"
-        ],
-        "roi": [480, 120, 200, 130]
-    },
+        "roi": [1030, 220, 190, 65]
+    },    
     "AutoRaise@CatalystMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
-        "doc": [
-            "对应 point.lua:1827-1829「选芯片界面胶水红」「胶水数量识别范围」「胶水库存识别范围」，参考调用 raise.lua:1207-1215。",
-            "数色配方同 AutoRaise@EliteUpMaterialMissing（baseTask 继承缺料红字 HSVCount 检测）。",
-            "ROI 尚无制造站页面截图实测；精确缺口数值仍需 OCR 数值任务。"
-        ],
         "roi": [440, 370, 145, 90]
-    },
-    "AutoRaise@BuyExactCatalystShortage": {
-        "baseTask": "AutoRaise@ManualAction",
-        "doc": [
-            "对应 raise.buy_32001（raise.lua:1077-1151）及 point.lua:380-395「凭证交易所进入」「红票商店选中」「红票商店胶水」等购买点。",
-            "进入商店可复用 Store@Begin、Store@EnterTicketStore；商品识别、逐个加量、支付和购买结果必须拆分 Task，不能把合并 ROI 当作一次点击区域。"
-        ],
-        "roi": [140, 90, 1120, 540]
-    },
-    "AutoRaise@CatalystEnough": {
-        "doc": [
-            "对应 point.lua:1828-1829「胶水数量识别范围」「胶水库存识别范围」，参考调用 raise.lua:1207-1219。",
-            "充足状态以青色数量文字数色判定（色域由 2/3/4.png 充足徽章实测），与缺料红字互为反状态。",
-            "购买后应重新进入目标双芯片配方并复核需求与库存，不以商店购买成功作为充足结论；ROI 待制造站页面截图实测。"
-        ],
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [440, 370, 145, 90]
-    },
-    "AutoRaise@ManufactureDualchip": {
-        "baseTask": "AutoRaise@ManualAction",
-        "doc": [
-            "对应 raise.lua:1187-1245 及 point.lua:1813、1818-1830「芯片站」「制造站选芯片类」「芯片制造3213..3283」「制造站加」等点。",
-            "参考实现依次选择产线、产品、数量、执行更改并确认；必须拆成识别后 ClickSelf 的 Task 链，当前 ROI 只是相关控件的合并范围。"
-        ],
-        "roi": [100, 140, 900, 560]
-    },
-    "AutoRaise@RestoreFactoryState": {
-        "baseTask": "AutoRaise@ManualAction",
-        "doc": [
-            "参考 raise.lua:1250-1292 的 chip2book 仅固定恢复为赤金和最大数量，不满足恢复用户原配置的要求。",
-            "可参考 point.lua:1811-1817、1831、418-419「产品类型」「制造站最多」「制造站执行更改」及「右确认」；实际恢复必须使用 AutoRaise@RecordFactoryState 的识别结果。",
-            "复合 ROI 仅供收集产品、数量、执行更改和确认按钮截图。"
-        ],
-        "roi": [170, 130, 1010, 560]
-    },
+    }, 
     "AutoRaise@SkillsSatisfied2": {
         "baseTask": "AutoRaise@ManualRecognition",
         "doc": "参考实现没有等级 2 对应 point，仅在 point.lua:1868 定义「干员档案通用技能等级七」；候选 ROI 为档案页通用技能等级区域，需补 2 级截图。",
@@ -6504,16 +6451,6 @@
             "材料详情面板位置随槽位变化；应分别截图并通过可识别的跳转按钮 ClickSelf，合并 ROI 不可直接点击。"
         ],
         "roi": [420, 560, 570, 80]
-    },
-    "AutoRaise@MaterialStillMissing": {
-        "baseTask": "AutoRaise@EliteUpMaterialMissing",
-        "template": "MaterialMissing.png",
-        "doc": [
-            "对应 raise.lua:2066-2069 返回后复核材料详情并重新打开槽位；最终缺料状态仍使用 point.lua:1889-1916 的各红色槽范围。",
-            "数色配方同 AutoRaise@EliteUpMaterialMissing（baseTask 继承缺料红字 HSVCount 检测）；ROI 为各红色槽合并行。",
-            "已用 2/3/4.png 晋升页同区域验证：3/4 缺料命中、2 充足未命中；满级档案页同区域待截图复核。"
-        ],
-        "roi": [330, 650, 380, 50]
     },
     "AutoRaise@MasteryPrerequisiteMissing": {
         "baseTask": "AutoRaise@ManualRecognition",

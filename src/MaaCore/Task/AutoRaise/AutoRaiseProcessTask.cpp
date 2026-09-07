@@ -190,10 +190,10 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
         }
         if (run_task("AutoRaise@EliteUpMaterialMissing")) {
             if (run_task("AutoRaise@DualchipRequired")) {
-                // 加工站无法合成芯片。只有 5/6 星晋升二阶所需的双芯片有制造站产线，
-                // 其余晋升芯片缺料时无法补齐，报错并转入下一条培养计划。
+                // 加工站无法合成芯片。只有 5/6 星晋升二阶所需的双芯片有制造站产线；
+                // 判定依据是本次晋升的阶段（phase+1）而非总目标，E0→E1 缺的是普通芯片，直接报错转下一条。
                 const bool dual_chip =
-                    target.target == 2 &&
+                    phase + 1 == 2 &&
                     BattleData.get_rarity(BattleData.get_first_role(target.name), target.name) > 4;
                 if (!dual_chip || !manufacture_dual_chip(target)) {
                     return dual_chip ? Result::ResourceInsufficient : Result::ChipNotCraftable;
@@ -206,12 +206,8 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
             if (run_task("AutoRaise@EliteUpMaterial2Required") && !synthesize_missing_material(2)) {
                 return Result::ResourceInsufficient;
             }
-            // 全部可修复槽位处理完后复核弹窗红色数量文字，仍缺料则不点击晋升。
-            if (run_task("AutoRaise@MaterialStillMissing")) {
-                return Result::ResourceInsufficient;
-            }
         }
-        if (!run_task("AutoRaise@EliteUpPageConfirm") ||
+        if (run_task("AutoRaise@EliteUpMaterialMissing") ||
             !run_task("AutoRaise@CurrentElite" + std::to_string(phase + 1))) {
             return Result::RecognitionFailed;
         }
@@ -541,7 +537,7 @@ bool asst::AutoRaiseProcessTask::synthesize_missing_material(int material_index)
         return true;
     }
     // 通用路径无独立槽位探针，复核全局红色状态。
-    return !run_task("AutoRaise@MaterialStillMissing");
+    return !run_task(""AutoRaise@EliteUpMaterialMissing"");
 }
 
 bool asst::AutoRaiseProcessTask::record_factory_state()
