@@ -6194,7 +6194,7 @@
     "AutoRaise@DualchipJumpMfg": {
         "template": "QuickJumpMfg.png",
         "action": "ClickSelf",
-        "roi": [728, 522, 199, 125],
+        "roi": [424, 341, 519, 313],
         "rectMove": [314, 4, 84, 23],
         "postDelay": 1000,
         "doc": "干员精英化芯片位置调转至制造站",
@@ -6237,7 +6237,7 @@
     "AutoRaise@EliteUpMaterial1JumpProcessing": {
         "template": "QuickJumpProcessing.png",
         "action": "ClickSelf",
-        "roi": [888, 362, 155, 274],
+        "roi": [570, 327, 519, 313],
         "rectMove": [314, 4, 84, 23],
         "postDelay": 1000,
         "doc": "干员精英化第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
@@ -6246,7 +6246,7 @@
     "AutoRaise@EliteUpMaterial2JumpProcessing": {
         "template": "QuickJumpProcessing.png",
         "action": "ClickSelf",
-        "roi": [399, 334, 169, 309],
+        "roi": [76, 328, 519, 313],
         "rectMove": [314, 4, 84, 23],
         "postDelay": 1000,
         "doc": "干员精英化第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
