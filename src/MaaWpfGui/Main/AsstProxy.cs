@@ -883,6 +883,11 @@ public class AsstProxy
                 SettingsViewModel.ConnectSettings.ConnectAddress = _connectedAddress;
                 _lastConnectionError = string.Empty;
 
+                // MuMuExtrasInputStatus 在 Core 连接流程的 Connected 之后才发，此处清残留由本次报告重建；
+                // 触控非 MuMu 模式时没有 MumuController 不会发该回调，不清会残留上次连接的旧状态
+                _mumuExtrasInputAvailable = false;
+                _mumuExtrasInputDeferred = false;
+
                 break;
 
             case "UnsupportedResolution":
