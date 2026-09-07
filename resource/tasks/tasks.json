@@ -6084,13 +6084,13 @@
     "RedTicket@Store@Purchase": {
         "roi": [872, 556, 137, 48],
         "text": ["购买物品"],
-        "next": [ "RedTicket@Store@PurchasedConfirm"]
+        "next": ["RedTicket@Store@PurchasedConfirm"]
     },
     "RedTicket@Store@PurchasedConfirm": {
         "baseTask": "CreditShop-Bought",
         "template": "CreditShop-Bought.png",
         "maxTimes": 10,
-        "next": ["RedTicket@Store@ChooseTicketTypeSelected","RedTicket@Store@PurchasedConfirm"]
+        "next": ["RedTicket@Store@ChooseTicketTypeSelected", "RedTicket@Store@PurchasedConfirm"]
     },
     "AutoRaise@TemplateChecklist": {
         "doc": [
@@ -6198,19 +6198,10 @@
     },
     "AutoRaise@EliteUp": {
         "algorithm": "JustReturn",
-        "next": ["AutoRaise@EliteUpPageEnter"],
-        "doc": [
-            "对应 raise.elite_one_phase（raise.lua:1153-1328）及 point.lua:1878-1879「进入精英化页面」「干员精英化页面」。",
-            "参考流程先进入精英化页，复核缺料，再点击晋升并以干员档案页确认；实现时应拆分进入、晋升和结果确认 Task。"
-        ]
+        "next": ["AutoRaise@EliteUpPageEnter"]
     },
     "AutoRaise@EliteUpPage": {
         "template": "EliteUpPageFlag.png",
-        "doc": [
-            "晋升确认弹窗标志（查看详情放大镜图标），由 2/3/4/5.png 截图核对。",
-            "点击精英化按钮后弹窗出现；本 Task 为叶子节点，缺料探测与确认点击由 C++ 依次驱动：",
-            "先探测 AutoRaise@EliteUpMaterialMissing（命中则走合成/制造分支），再点击 AutoRaise@EliteUpPageConfirm。"
-        ],
         "roi": [1094, 346, 147, 149],
         "postDelay": 300
     },
@@ -6295,9 +6286,10 @@
         "doc": "干员精英化第二个位置,用于开启和关闭跳转弹窗"
     },
     "AutoRaise@DualchipJumpMfg": {
-        "template": "OperFilesJumpButton.png",
+        "template": "QuickJumpMfg.png",
         "action": "ClickSelf",
         "roi": [728, 522, 199, 125],
+        "rectMove": [314, 4, 84, 23],
         "postDelay": 1000,
         "doc": "干员精英化芯片位置调转至制造站",
         "next": ["AutoRaise@MfgPage"]
@@ -6326,18 +6318,30 @@
         "template": "MaterialMissing.png",
         "doc": "助剂数量红字检测，数色配方同 EliteUpMaterialMissing（point.lua:1814 选芯片界面胶水红）；待截图核对。"
     },
+    "AutoRaise@ReturnToMfgPage": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "next": ["AutoRaise@MfgPage"]
+    },
+    "AutoRaise@ReturnToEliteUpPage": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "next": ["AutoRaise@EliteUpPage"]
+    },
     "AutoRaise@EliteUpMaterial1JumpProcessing": {
-        "template": "OperFilesJumpButton.png",
+        "template": "QuickJumpProcessing.png",
         "action": "ClickSelf",
         "roi": [888, 362, 155, 274],
+        "rectMove": [314, 4, 84, 23],
         "postDelay": 1000,
         "doc": "干员精英化第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
         "next": []
     },
     "AutoRaise@EliteUpMaterial2JumpProcessing": {
-        "template": "OperFilesJumpButton.png",
+        "template": "QuickJumpProcessing.png",
         "action": "ClickSelf",
         "roi": [399, 334, 169, 309],
+        "rectMove": [314, 4, 84, 23],
         "postDelay": 1000,
         "doc": "干员精英化第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
         "next": []
