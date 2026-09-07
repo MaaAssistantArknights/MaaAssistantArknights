@@ -5419,6 +5419,12 @@
         "roi": [890, 540, 120, 120],
         "next": ["ProductFinalConfirm", "Stop"]
     },
+    "ClickProductIncrease": {
+        "action": "ClickSelf",
+        "cache": true,
+        "roi": [823, 178, 90, 51],
+        "postDelay": 200
+    },
     "ClickProductMax": {
         "action": "ClickSelf",
         "cache": true,
@@ -5467,7 +5473,7 @@
         "maxTimes": 3,
         "next": ["ChooseOriginiumShard", "#self"],
         "exceededNext": ["ChooseOriginiumShard"]
-    },    
+    },
     "ChooseOriginiumShard": {
         "action": "ClickSelf",
         "cache": true,
@@ -5481,17 +5487,50 @@
     "ChooseChipTab": {
         "action": "ClickSelf",
         "cache": true,
-        "roi": [0,234,162,170],
+        "roi": [0, 234, 162, 170],
         "maxTimes": 3,
         "postDelay": 500,
-        "next": ["ChooseChipTabShard", "#self"],
-        "exceededNext": ["ChooseOriginiumShard"]
+        "next": ["ChooseChipTabSelected", "#self"],
+        "exceededNext": ["ChooseChipTabSelected"]
     },
     "ChooseChipTabSelected": {
         "cache": true,
-        "roi": [0,234,162,170],
+        "roi": [0, 234, 162, 170],
         "maxTimes": 3,
         "preDelay": 200
+    },
+    "ChooseDualchip-Pioneer": {
+        "action": "ClickSelf",
+        "roi": [210, 43, 239, 174],
+        "postDelay": 1000
+    },
+    "ChooseDualchip-Warrior": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [705, 45, 239, 174]
+    },
+    "ChooseDualchip-Tank": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [211, 224, 239, 174]
+    },
+    "ChooseDualchip-Sniper": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [705, 222, 239, 174]
+    },
+    "ChooseDualchip-Caster": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [210, 404, 239, 174]
+    },
+    "ChooseDualchip-Medic": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [705, 405, 239, 174]
+    },
+    "ChooseDualchip-Support": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [211, 588, 239, 132]
+    },
+    "ChooseDualchip-Special": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [704, 586, 239, 134]
     },
     "ChangeProductToMiddleBattleRecord": {
         "action": "ClickRect",
@@ -6108,40 +6147,8 @@
         "baseTask": "NumberOcrReplace",
         "doc": "晋升页面芯片icon下方 x/y 的 x 段",
         "roi": [356, 658, 17, 26]
-    },    
-    "ChooseDualchip-Pioneer": {
-        "action": "ClickSelf",
-        "roi": [210,43,239,174],
-        "next": ["AutoRaise@MfgPage"]
     },
-    "ChooseDualchip-Warrior": {
-        "baseTask": "ChooseDualchip-Pioneer",
-        "roi": [705,45,239,174]
-    },
-    "ChooseDualchip-Tank": {
-        "baseTask": "ChooseDualchip-Pioneer",
-        "roi": [211,224,239,174]
-    },
-    "ChooseDualchip-Sniper": {
-        "baseTask": "ChooseDualchip-Pioneer",
-        "roi": [705,222,239,174]
-    },
-    "ChooseDualchip-Caster": {
-        "baseTask": "ChooseDualchip-Pioneer",
-        "roi": [210,404,239,174]
-    },
-    "ChooseDualchip-Medic": {
-        "baseTask": "ChooseDualchip-Pioneer",
-        "roi":[705,405,239,174]
-    },
-    "ChooseDualchip-Support": {
-        "baseTask": "ChooseDualchip-Pioneer",
-        "roi": [211,588,239,132]
-    },
-    "ChooseDualchip-Special": {
-        "baseTask": "ChooseDualchip-Pioneer",
-        "roi": [704,586,239,134]
-    },
+
     "AutoRaise@MfgCatalystCount": {
         "baseTask": "NumberOcrReplace",
         "doc": "芯片产品页助剂数量 OCR（point.lua:1815 胶水数量识别范围 {679,575,780,637}÷1.5）；占位任务，待截图核对。",
@@ -6156,25 +6163,7 @@
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
         "doc": "助剂数量红字检测，数色配方同 EliteUpMaterialMissing（point.lua:1814 选芯片界面胶水红）；待截图核对。"
-    },
-    "AutoRaise@MfgIncrease": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [865, 207, 20, 20],
-        "postDelay": 200,
-        "doc": "制造站增加生产数量（point.lua:1817 制造站加 {1298,311}÷1.5）；占位任务，待截图核对。"
-    },
-    "AutoRaise@MfgApplyChange": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [947, 565, 20, 20],
-        "postDelay": 1000,
-        "doc": "制造站执行更改（point.lua:419 制造站执行更改 {1420,847}÷1.5）；占位任务，待截图核对。"
-    },
-    "AutoRaise@MfgRightConfirm": {
-        "baseTask": "AutoRaise@ManualAction",
-        "roi": [840, 495, 20, 20],
-        "postDelay": 500,
-        "doc": "执行更改后的右侧确认弹窗（point.lua:2167 右确认 {1260,743}÷1.5）；占位任务，待截图核对。"
-    },
+    },    
     "AutoRaise@ShopEnter": {
         "baseTask": "AutoRaise@ManualAction",
         "roi": [755, 115, 20, 20],
