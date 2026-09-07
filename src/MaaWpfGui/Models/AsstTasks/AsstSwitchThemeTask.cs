@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.Generic;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -29,7 +30,7 @@ public class AsstSwitchThemeTask : AsstBaseTask
     /// Gets or sets 候选主题名列表，多个时每次运行随机选择一个。
     /// </summary>
     [JsonProperty("themes")]
-    public System.Collections.Generic.List<string> Themes { get; set; } = [];
+    public List<string> Themes { get; set; } = [];
 
     public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
 }
