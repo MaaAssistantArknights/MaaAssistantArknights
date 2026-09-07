@@ -62,17 +62,20 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::verify(AsstMsg msg, const jso
     if (task_view.ends_with("Roguelike@GamePass")) {
         m_has_changed = false;
     }
-    if (task_view == "Roguelike@StartExplore") { // 烧水时候调来调去的干脆不走
-        return m_config->get_mode() == RoguelikeMode::Collectible || !m_has_changed;
-    }
-    else {
-        return false;
-    }
+    return task_view == "Roguelike@StartExplore";
 }
 
 bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
 {
     LogTraceFunction;
+
+    // 游戏可能仍停留在探索者档案或深入调查页。每次开局（包括失败恢复）都先切回常规行动。
+    ProcessTask(*this, { m_config->get_theme() + "@Roguelike@NormalOperation" }).run();
+
+    // 页签切换不能被难度缓存跳过，难度选择仍沿用原来的执行条件。
+    if (m_config->get_mode() != RoguelikeMode::Collectible && m_has_changed) {
+        return true;
+    }
 
     if (m_config->get_run_for_collectible()) {
         Log.info(__FUNCTION__, "| Running for collectible");

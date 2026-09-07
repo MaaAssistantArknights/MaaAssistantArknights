@@ -930,6 +930,13 @@
         "roi": [473, 0, 351, 194],
         "next": ["Roguelike@ClickToStartPointAfterFailed"]
     },
+    "Roguelike@NormalOperation": {
+        "Doc": "普通模式每次开始探索前切回常规行动，由 RoguelikeDifficultySelectionTaskPlugin 调用",
+        "template": "Roguelike@NormalOperation.png",
+        "action": "ClickSelf",
+        "roi": [740, 620, 270, 95],
+        "postDelay": 800
+    },
     "Roguelike@MonthlySquad": {
         "Doc": "base_task 月度小队入口",
         "template": "Roguelike@MonthlySquad.png",
