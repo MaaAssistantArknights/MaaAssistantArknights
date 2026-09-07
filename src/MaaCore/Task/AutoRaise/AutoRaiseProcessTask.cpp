@@ -529,7 +529,7 @@ bool asst::AutoRaiseProcessTask::synthesize_missing_material(int material_index)
     // 加工站递归合成复用小游戏自动合成逻辑：插件入口校验加工站标志并驱动当前配方。
     MaterialSynthesisTaskPlugin synthesis(m_callback, m_inst, m_task_chain);
     synthesis.set_task_id(m_task_id).set_retry_times(0);
-    if (!synthesis.run() || !run_task("AutoRaise@ReturnFromWorkshop")) {
+    if (!synthesis.run() || !run_task("Return")) {
         return false;
     }
     if (material_index > 0) {
@@ -608,7 +608,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
     const int need = rarity >= 6 ? 4 : 3;
     const int owned = ocr_number("AutoRaise@DualchipBadgeCount").value_or(0);
     const int shortfall = std::max(need - owned, 0);
-    Log.info("AutoRaise | dual chip shortfall", "owned:", owned, "need:", need, "shortfall:", shortfall);
+    Log.info("AutoRaise | Dualchip shortfall", "owned:", owned, "need:", need, "shortfall:", shortfall);
     if (shortfall == 0) {
         return true;
     }
@@ -644,6 +644,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
         catalyst_stock = 0;
     }     
     const int catalyst_short = shortfall - catalyst_owned - catalyst_stock;
+    Log.info("AutoRaise | Catalyst shortfall", "owned:", catalyst_owned, "stock:", catalyst_stock,"shortfall:", catalyst_short);
     if (catalyst_short > 0 && !buy_catalyst(catalyst_short)) {
         return false;
     }
@@ -671,7 +672,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
     }
 
     // 返回晋升页面：先退回材料详情，再点击芯片槽关闭详情（raise.lua:1294-1305）。
-    return run_task("AutoRaise@ReturnFromWorkshop") && run_task("AutoRaise@Dualchip");
+    return run_task("Return") && run_task("AutoRaise@Dualchip");
 }
 
 bool asst::AutoRaiseProcessTask::restore_factory_state()
@@ -708,16 +709,17 @@ bool asst::AutoRaiseProcessTask::restore_factory_state()
 
 bool asst::AutoRaiseProcessTask::buy_catalyst(int count)
 {
-    // 完整迁移 raise.buy_32001（raise.lua:1077-1151）：
     // 凭证交易所导航 → 红票区页签 → 滚动查找芯片助剂（可能不在第一屏）→ 打开购买面板 →
     // 商品加 ×(count-1) → 支付 → 领取获得物资 → 返回制造站芯片产品页。
-    if (!run_task("Store@Begin") || !run_task("RedTicket@Store@ChooseTicketType")) {
+    
+    if (!run_task("Store@QuickSwitchEnterStore") ||
+        !run_task("RedTicket@Store@ChooseTicketType")) {
         return false;
-    }
-
-    // 滚动查找助剂商品（raise.lua:1100-1107：最多滑 4 屏，每屏后重识别）。
+    }    
+    
+    // 滚动查找助剂商品
     bool found = false;
-    for (int swipe = 0; swipe < 4 && !need_exit(); ++swipe) {
+    for (int swipe = 0; swipe < 5 && !need_exit(); ++swipe) {
         if (run_task("RedTicket@Store@ClickItem_Catalyst", 0)) {
             found = true;
             break;
@@ -734,16 +736,16 @@ bool asst::AutoRaiseProcessTask::buy_catalyst(int count)
 
     // 购买数量设为缺口：默认 1 件 + 商品加 ×(count-1)（raise.lua:1120-1122）。
     for (int i = 1; i < count && !need_exit(); ++i) {
-        if (!run_task("RedTicket@Store@PurchasePanelIncrease")) {
+        if (!run_task("Store@Increse")) {
             return false;
         }
     }
-    if (!run_task("RedTicket@Store@Purchase") || !run_task("RedTicket@Store@PurchasedConfirm")) {
-        return false;
+    // 购买后如果没有出现获得物资说明没有购买成功,需要点一下返回
+    if (!run_task("RedTicket@Store@Purchase")) {
+        run_task("Return");
     }
-
-    // 购买后返回制造站重新进入芯片产品页（导航占位，待截图拆分）。
-    return run_task("AutoRaise@ReturnToMfgChipProduct");
+    // 购买后返回制造站重新进入芯片产品页
+    return run_task("Return");
 }
 
 bool asst::AutoRaiseProcessTask::run_task(const std::string& task_name, int retry_times)
