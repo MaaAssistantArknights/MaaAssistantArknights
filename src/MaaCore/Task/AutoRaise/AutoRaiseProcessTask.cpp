@@ -22,35 +22,35 @@
 
 namespace
 {
-constexpr int MaxOperatorPages = 20;
-// 制造站产线当前产品写入 Status 的键，RestoreFactoryState 读取后恢复原产品。
-constexpr std::string_view FactoryProductStatusKey = "AutoRaiseFactoryProduct";
+    constexpr int MaxOperatorPages = 20;
+    // 制造站产线当前产品写入 Status 的键，RestoreFactoryState 读取后恢复原产品。
+    constexpr std::string_view FactoryProductStatusKey = "AutoRaiseFactoryProduct";
 
-std::string role_task_name(asst::battle::Role role)
-{
-    switch (role) {
-    case asst::battle::Role::Pioneer:
-        return "BattleQuickFormationRole-Pioneer";
-    case asst::battle::Role::Warrior:
-        return "BattleQuickFormationRole-Warrior";
-    case asst::battle::Role::Tank:
-        return "BattleQuickFormationRole-Tank";
-    case asst::battle::Role::Caster:
-        return "BattleQuickFormationRole-Caster";
-    case asst::battle::Role::Medic:
-        return "BattleQuickFormationRole-Medic";
-    case asst::battle::Role::Sniper:
-        return "BattleQuickFormationRole-Sniper";
-    case asst::battle::Role::Special:
-        return "BattleQuickFormationRole-Special";
-    case asst::battle::Role::Support:
-        return "BattleQuickFormationRole-Support";
-    case asst::battle::Role::Unknown:
-    case asst::battle::Role::Drone:
-    default:
-        return {};
+    std::string role_task_name(asst::battle::Role role)
+    {
+        switch (role) {
+        case asst::battle::Role::Pioneer:
+            return "BattleQuickFormationRole-Pioneer";
+        case asst::battle::Role::Warrior:
+            return "BattleQuickFormationRole-Warrior";
+        case asst::battle::Role::Tank:
+            return "BattleQuickFormationRole-Tank";
+        case asst::battle::Role::Caster:
+            return "BattleQuickFormationRole-Caster";
+        case asst::battle::Role::Medic:
+            return "BattleQuickFormationRole-Medic";
+        case asst::battle::Role::Sniper:
+            return "BattleQuickFormationRole-Sniper";
+        case asst::battle::Role::Special:
+            return "BattleQuickFormationRole-Special";
+        case asst::battle::Role::Support:
+            return "BattleQuickFormationRole-Support";
+        case asst::battle::Role::Unknown:
+        case asst::battle::Role::Drone:
+        default:
+            return {};
+        }
     }
-}
 }
 
 bool asst::AutoRaiseProcessTask::_run()
@@ -92,7 +92,7 @@ bool asst::AutoRaiseProcessTask::_run()
 }
 
 asst::AutoRaiseProcessTask::Result
-    asst::AutoRaiseProcessTask::execute_target(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::execute_target(const AutoRaiseTarget& target)
 {
     if (!BattleData.get_first_id(battle::Role::Unknown, target.name)) {
         return Result::OperatorNotFound;
@@ -118,7 +118,7 @@ asst::AutoRaiseProcessTask::Result
 }
 
 asst::AutoRaiseProcessTask::Result
-    asst::AutoRaiseProcessTask::find_and_open_operator(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::find_and_open_operator(const AutoRaiseTarget& target)
 {
     if (!run_task("OperBoxBegin", 3)) {
         return Result::RecognitionFailed;
@@ -167,11 +167,11 @@ bool asst::AutoRaiseProcessTask::select_operator_role(const std::string& operato
     // 同时将列表回到该职业的第一页，不使用固定的干员卡片坐标。
     const std::string role_task = role_task_name(BattleData.get_first_role(operator_name));
     return role_task.empty() ||
-           (run_task("BattleQuickFormationExpandRole", 3) && run_task(role_task));
+        (run_task("BattleQuickFormationExpandRole", 3) && run_task(role_task));
 }
 
 asst::AutoRaiseProcessTask::Result
-    asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
 {
     if (m_operator_elite >= target.target) {
         return Result::AlreadySatisfied;
@@ -222,7 +222,7 @@ asst::AutoRaiseProcessTask::Result
 }
 
 asst::AutoRaiseProcessTask::Result
-    asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
 {
     if (run_task("AutoRaise@SkillsSatisfied" + std::to_string(target.target))) {
         return Result::AlreadySatisfied;
@@ -246,7 +246,7 @@ asst::AutoRaiseProcessTask::Result
 }
 
 asst::AutoRaiseProcessTask::Result
-    asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
 {
     if (!enter_training_room()) {
         return Result::RecognitionFailed;
@@ -272,7 +272,7 @@ asst::AutoRaiseProcessTask::Result
         return Result::RecognitionFailed;
     }
     if (run_task(
-            "AutoRaise@MasterySatisfied" + std::to_string(target.skill) + std::to_string(target.target))) {
+        "AutoRaise@MasterySatisfied" + std::to_string(target.skill) + std::to_string(target.target))) {
         return Result::AlreadySatisfied;
     }
     if (run_task("AutoRaise@MasteryPrerequisiteMissing")) {
@@ -358,7 +358,7 @@ bool asst::AutoRaiseProcessTask::enter_training_room()
         }
         sleep(Task.get("InfrastEnterFacility")->post_delay);
         return true;
-    };
+        };
 
     run_task("SwipeToTheLeft");
     if (enter()) {
@@ -614,7 +614,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
     }
 
     // 跳转制造站（DualchipJumpMfg 链内校验 MfgPage），进入芯片产线并记录当前产品。
-    if (!run_task("AutoRaise@Dualchip") ||!run_task("AutoRaise@DualchipJumpMfg") || 
+    if (!run_task("AutoRaise@Dualchip") || !run_task("AutoRaise@DualchipJumpMfg") ||
         !record_factory_state()) {
         return false;
     }
@@ -629,30 +629,38 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
         return false;
     }
 
-    // 助剂数量与库存 OCR；红字视为 0（raise.lua:1218-1228，识别失败时按缺口强制购买）。
-    int catalyst_owned = ocr_number("AutoRaise@MfgCatalystCount").value_or(shortfall);
-    int catalyst_stock = ocr_number("AutoRaise@MfgCatalystStock").value_or(shortfall);
-    if (run_task("AutoRaise@MfgCatalystMissing")) {
+    int catalyst_owned = shortfall;
+    int catalyst_stock = shortfall;        
+    if (run_task("AutoRaise@MfgPage")) {
+        // 因为没有对紫色芯片数量做识别,如果是没有紫色芯片,就会每次都买胶水 
+        // 没识别出来的时候就不买芯片(强制识别结果为shortfall)   
+        catalyst_owned = ocr_number("AutoRaise@MfgCatalystCount").value_or(shortfall);
+        catalyst_stock = ocr_number("AutoRaise@MfgCatalystStock").value_or(shortfall);
+    }
+    // 点击芯片后会若没有紫色芯片或者胶水,这时候无法跳转,还停留在配方选择页    
+    // 助剂数量与库存识别:出现红色视为0 
+    else if  (run_task("ChooseChipTabSelected") && run_task("AutoRaise@MfgCatalystMissing")) {
         catalyst_owned = 0;
         catalyst_stock = 0;
-    }
+    }     
     const int catalyst_short = shortfall - catalyst_owned - catalyst_stock;
     if (catalyst_short > 0 && !buy_catalyst(catalyst_short)) {
         return false;
     }
-    // 补购后回产品页需重新选中双芯片（raise.lua:1232-1234）。
-    if (!run_task("ChooseChipTab") || !run_task(product_task)) {
-        return false;
-    }
 
-    // 生产数量设为缺口：默认 1 次 + 制造站加 ×(缺口-1)（raise.lua:1233-1236）。
-    for (int i = 1; i < shortfall && !need_exit(); ++i) {
-        if (!run_task("AutoRaise@MfgIncrease")) {
+    if (run_task("ChooseChipTabSelected")) {
+        // 补购后回产品页需重新选中双芯片
+        if (!run_task(product_task) || !run_task("AutoRaise@MfgPage")) {
             return false;
         }
     }
-    // 执行更改 → 右确认 → 等待生产（一次最多 4 枚，参照等待 6 秒，raise.lua:1237-1248）。
-    if (!run_task("AutoRaise@MfgApplyChange") || !run_task("AutoRaise@MfgRightConfirm")) {
+    // 生产数量设为缺口：默认 1 次 + 制造站加 ×(缺口-1)
+    for (int i = 1; i < shortfall && !need_exit(); ++i) {
+        if (!run_task("ClickProductIncrease")) {
+            return false;
+        }
+    }
+    if (!run_task("ConfirmProductChange") ) {
         return false;
     }
     sleep(6000);
@@ -732,7 +740,7 @@ void asst::AutoRaiseProcessTask::report_target(
     Result result)
 {
     auto info = basic_info_with_what(std::move(what));
-    info["details"] = json::object {
+    info["details"] = json::object{
         { "index", index },          { "name", target.name },   { "action", std::string(action_name(target.action)) },
         { "target", target.target }, { "skill", target.skill }, { "result", std::string(result_name(result)) },
     };
@@ -742,7 +750,7 @@ void asst::AutoRaiseProcessTask::report_target(
 void asst::AutoRaiseProcessTask::report_summary()
 {
     auto info = basic_info_with_what("AutoRaiseSummary");
-    info["details"] = json::object {
+    info["details"] = json::object{
         { "completed", m_completed },
         { "already_satisfied", m_satisfied },
         { "failed", m_failed },
