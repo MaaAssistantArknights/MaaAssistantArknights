@@ -527,18 +527,18 @@ bool asst::AutoRaiseProcessTask::synthesize_missing_material(int material_index)
     // 加工站递归合成复用小游戏自动合成逻辑：插件入口校验加工站标志并驱动当前配方。
     MaterialSynthesisTaskPlugin synthesis(m_callback, m_inst, m_task_chain);
     synthesis.set_task_id(m_task_id).set_retry_times(0);
-    if (!synthesis.run() || !run_task("Return")) {
+    if (!synthesis.run() || !run_task("AutoRaise@ReturnToEliteUpPage")) {
         return false;
     }
-    if (material_index > 0) {
-        // 加工站返回停在材料详情，再次点击材料槽关闭详情回到晋升页面；
-        // 复核本槽位红色数量文字，仍缺则本槽位修复失败（其余槽位由 execute_elite 继续处理）。
-        if (!run_task("AutoRaise@EliteUpMaterial" + slot) ||
-            run_task("AutoRaise@EliteUpMaterial" + slot + "Required")) {
-            return false;
-        }
-        return true;
-    }
+    // if (material_index > 0) {
+    //     // 加工站返回停在材料详情，再次点击材料槽关闭详情回到晋升页面；
+    //     // 复核本槽位红色数量文字，仍缺则本槽位修复失败（其余槽位由 execute_elite 继续处理）。
+    //     if (!run_task("AutoRaise@EliteUpMaterial" + slot) ||
+    //         run_task("AutoRaise@EliteUpMaterial" + slot + "Required")) {
+    //         return false;
+    //     }
+    //     return true;
+    // }
     // 通用路径无独立槽位探针，复核全局红色状态。
     return !run_task("AutoRaise@EliteUpMaterialMissing");
 }
@@ -665,7 +665,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
     }
 
     // 返回晋升页面：先退回材料详情，再点击芯片槽关闭详情
-    return run_task("AutoRaise@ReturnToEliteUpPage") && run_task("AutoRaise@Dualchip");
+    return run_task("AutoRaise@ReturnToEliteUpPage");
 }
 
 bool asst::AutoRaiseProcessTask::restore_factory_state()
