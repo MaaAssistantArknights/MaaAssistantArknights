@@ -30,12 +30,12 @@
 namespace
 {
     constexpr int MaxOperatorPages = 20;
-    // 制造站产线当前产品写入 Status 的键，RestoreFactoryState 读取后恢复原产品。
+    // 制造站产线当前产品写入 Status 的键,RestoreFactoryState 读取后恢复原产品。
     constexpr std::string_view FactoryProductStatusKey = "AutoRaiseFactoryProduct";
-    // 训练室受训干员整列表完整扫寻的轮数，超出后判定干员不在列表中。
+    // 训练室受训干员整列表完整扫寻的轮数,超出后判定干员不在列表中。
     constexpr int TraineeMissingRetryTimes = 1;
 
-    // 快速编队卡片识别结果，参照 BattleFormationTask::QuickFormationOper 裁剪出选人所需字段。
+    // 快速编队卡片识别结果,参照 BattleFormationTask::QuickFormationOper 裁剪出选人所需字段。
     struct QuickFormationOperInfo
     {
         std::string name;
@@ -43,8 +43,8 @@ namespace
         bool selected = false;
     };
 
-    // 参照 BattleFormationTask::analyzer_opers：以职业旗标模板定位卡片，
-    // 对旗标下方区域 OCR 干员名，并以旗标上方的高亮色块判断选中态。
+    // 参照 BattleFormationTask::analyzer_opers：以职业旗标模板定位卡片,
+    // 对旗标下方区域 OCR 干员名,并以旗标上方的高亮色块判断选中态。
     std::vector<QuickFormationOperInfo> analyze_formation_opers(const cv::Mat& image)
     {
         const auto& ocr_replace = asst::Task.get<asst::OcrTaskInfo>("CharsNameOcrReplace");
@@ -78,7 +78,7 @@ namespace
                     continue;
                 }
 
-                // 相邻职业的旗标模板可能重复命中同一张卡片，按位置去重。
+                // 相邻职业的旗标模板可能重复命中同一张卡片,按位置去重。
                 constexpr int kMinDistance = 5;
                 const auto find_it = std::ranges::find_if(opers_result, [&flag](const QuickFormationOperInfo& pre) {
                     return std::abs(pre.flag_rect.x - flag.rect.x) < kMinDistance &&
@@ -96,7 +96,7 @@ namespace
                     QuickFormationOperInfo { ocr_result.text, flag.rect, cv::hasNonZero(selected_image) });
             }
         }
-        // 参照 BattleFormationTask::analyzer_opers 的 sort_by_vertical_，保证卡片顺序确定以判断翻页。
+        // 参照 BattleFormationTask::analyzer_opers 的 sort_by_vertical_,保证卡片顺序确定以判断翻页。
         std::sort(opers_result.begin(), opers_result.end(), [](const QuickFormationOperInfo& l, const QuickFormationOperInfo& r) {
             return std::tie(l.flag_rect.y, l.flag_rect.x) < std::tie(r.flag_rect.y, r.flag_rect.x);
         });
@@ -238,8 +238,8 @@ asst::AutoRaiseProcessTask::find_and_open_operator(const AutoRaiseTarget& target
 
 bool asst::AutoRaiseProcessTask::select_operator_role(const std::string& operator_name)
 {
-    // 使用 BattleData 职业信息缩小 OCR 查找范围。现有快速编队任务负责展开职业栏并点击识别到的职业图标，
-    // 同时将列表回到该职业的第一页，不使用固定的干员卡片坐标。
+    // 使用 BattleData 职业信息缩小 OCR 查找范围。现有快速编队任务负责展开职业栏并点击识别到的职业图标,
+    // 同时将列表回到该职业的第一页,不使用固定的干员卡片坐标。
     const std::string role_task = role_task_name(BattleData.get_first_role(operator_name));
     return role_task.empty() ||
         (run_task("BattleQuickFormationExpandRole", 3) && run_task(role_task));
@@ -258,16 +258,16 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
             !run_task("AutoRaise@LevelUp")) {
             return Result::RecognitionFailed;
         }
-        // 档案页不展示材料行，缺料复核以晋升页面上的红色数量文字为准；
-        // 弹窗链在 EliteUpPage 标志处停止，缺料探测与确认点击由本任务依次驱动。
+        // 档案页不展示材料行,缺料复核以晋升页面上的红色数量文字为准；
+        // 弹窗链在 EliteUpPage 标志处停止,缺料探测与确认点击由本任务依次驱动。
         if (!run_task("AutoRaise@EliteUp")) {
             return Result::RecognitionFailed;
         }
-        // 存在性探测带少量重试即可：弹窗已由 EliteUpPage 标志确认渲染完成，充足时不必空烧 20 次截图。
+        // 存在性探测带少量重试即可：弹窗已由 EliteUpPage 标志确认渲染完成,充足时不必空烧 20 次截图。
         if (run_task("AutoRaise@EliteUpMaterialMissing", 2)) {
             if (run_task("AutoRaise@DualchipRequired", 2)) {
                 // 加工站无法合成芯片。只有 5/6 星晋升二阶所需的双芯片有制造站产线；
-                // 判定依据是本次晋升的阶段（phase+1）而非总目标，E0→E1 缺的是普通芯片，直接报错转下一条。
+                // 判定依据是本次晋升的阶段（phase+1）而非总目标,E0→E1 缺的是普通芯片,直接报错转下一条。
                 const bool dual_chip =
                     phase + 1 == 2 &&
                     BattleData.get_rarity(BattleData.get_first_role(target.name), target.name) > 4;
@@ -285,7 +285,7 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
                 return Result::ResourceInsufficient;
             }
         }
-        // 复核仍缺料则不点击晋升；材料齐备则点击晋升确认，再以新阶段标志确认晋升成功。
+        // 复核仍缺料则不点击晋升；材料齐备则点击晋升确认,再以新阶段标志确认晋升成功。
         if (run_task("AutoRaise@EliteUpMaterialMissing", 2) ||
             !run_task("AutoRaise@EliteUpPageConfirm") ||
             !run_task("AutoRaise@CurrentElite" + std::to_string(phase + 1))) {
@@ -299,24 +299,24 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
 asst::AutoRaiseProcessTask::Result
 asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
 {
-    // 当前技能等级以档案页 RANK 数字 OCR 为准（AutoRaise@CurrentSkillLevel），识别失败按 1 级处理。
+    // 当前技能等级以档案页 RANK 数字 OCR 为准（AutoRaise@CurrentSkillLevel）,识别失败按 1 级处理。
     const int current = ocr_number("AutoRaise@CurrentSkillLevel").value_or(1);
     if (current >= target.target) {
         return Result::AlreadySatisfied;
     }
-    // 前置：精0 技能最高 4 级，精1 最高 7 级；目标超出当前精英阶段的上限则不满足。
+    // 前置：精0 技能最高 4 级,精1 最高 7 级；目标超出当前精英阶段的上限则不满足。
     const int required_elite = target.target <= 4 ? 0 : 1;
     if (m_operator_elite < required_elite) {
         return Result::PrerequisiteNotMet;
     }
-    // 点"升级+"进入全屏升级面板；2-6 级确认后面板停留在下一级，7 级确认后游戏自动返回档案页。
+    // 点"升级+"进入全屏升级面板；2-6 级确认后面板停留在下一级,7 级确认后游戏自动返回档案页。
     if (!run_task("AutoRaise@SkillUpgrade")) {
         return Result::RecognitionFailed;
     }
     for (int level = current + 1; level <= target.target && !need_exit(); ++level) {
         // 面板缺料槽逐个检测（对接方式同 execute_elite 的槽位分派）：
-        // 技能书/材料1/材料2 均跳加工站走自动合成，当前槽位修复后再检测下一槽；
-        // 2-3 级的技能书不可合成，缺料时合成步骤失败即终止本轮培养。
+        // 技能书/材料1/材料2 均跳加工站走自动合成,当前槽位修复后再检测下一槽；
+        // 2-3 级的技能书不可合成,缺料时合成步骤失败即终止本轮培养。
         if (run_task("AutoRaise@SkillUpSkillSummaryRequired", 1)) {
             if (level > 3 && !synthesize_missing_material(AutoRaiseAction::Skills, 0)) {
                 return Result::ResourceInsufficient;
@@ -339,7 +339,7 @@ asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
     if (!run_task("AutoRaise@OperFiles", 10)) {
         run_task("AutoRaise@ReturnToOperFilesPage");
     }
-    // 目标级确认后游戏返回档案页，以 RANK 数字复核最终等级。
+    // 目标级确认后游戏返回档案页,以 RANK 数字复核最终等级。
     if (ocr_number("AutoRaise@CurrentSkillLevel").value_or(0) < target.target) {
         return Result::RecognitionFailed;
     }
@@ -360,7 +360,7 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
     }
 
     // 档案页先匹配目标技能槽的当前专精等级（AutoRaise@CurrentSkill{skill}MasterLevel）：
-    // 专精等级是图标而不是可靠的 OCR 文本，使用 0-3 级模板中得分最高的结果。
+    // 专精等级是图标而不是可靠的 OCR 文本,使用 0-3 级模板中得分最高的结果。
     const std::string master_task_name =
         "AutoRaise@CurrentSkill" + std::to_string(target.skill) + "MasterLevel";
     BestMatcher master_analyzer(ctrler()->get_image());
@@ -381,20 +381,19 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
         return Result::AlreadySatisfied;
     }
 
-    // 本次将启动的专精等级 = 档案页识别出的当前专精等级 + 1（参照 raise.lua master_skill 的
-    // start_level + 1）；导师评分用的应该是这个等级，而不是计划目标等级。
+    // 本次将启动的专精等级,导师评分用的应该是这个等级,而不是计划目标等级。
     int training_level = master_current + 1;
 
-    // 从干员档案页的训练按钮直接进入训练室专精页面，保留当前目标干员的上下文。
+    // 从干员档案页的训练按钮直接进入训练室专精页面,保留当前目标干员的上下文。
     if (!run_task("AutoRaise@MasteryPageEnter")) {
         return Result::RecognitionFailed;
     }
-    // 现有训练完成任务已经负责点击领取并关闭奖励弹窗，避免重复点击占位任务；
-    // 领取会使当前专精等级 +1，本次实际启动的专精等级随之再 +1。
+    // 现有训练完成任务已经负责点击领取并关闭奖励弹窗,避免重复点击占位任务；
+    // 领取会使当前专精等级 +1,本次实际启动的专精等级随之再 +1。
     if (run_task("InfrastTrainingCompleted", 10)) {
         ++training_level;
         if (training_level > target.target) {
-            // 领取后专精等级已达到计划目标，不再启动下一级。
+            // 领取后专精等级已达到计划目标,不再启动下一级。
             run_task("AutoRaise@ReturnToOperFilesPage");
             return Result::AlreadySatisfied;
         }
@@ -404,7 +403,7 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
         return Result::RecognitionFailed;
     }
 
-    // // 如果有正在训练的干员就退出任务（干员档案跳转的训练页以头像"训练中"角标标识，
+    // // 如果有正在训练的干员就退出任务（干员档案跳转的训练页以头像"训练中"角标标识,
     // // 基建设施页布局的 InfrastTrainingProcessing 在此不适用）
     // if (run_task("InfrastTrainingMasterybusy", 2)) {
     //     std::string training_operator;
@@ -422,19 +421,17 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
     //     run_task("AutoRaise@ReturnToOperFilesPage");
     //     return Result::Skipped;
     // }
-    // // 专精会长期占用训练室，一次运行只启动下一级；导师选择任务负责结合职业、等级、技能与心情评分。
+    // // 专精会长期占用训练室,一次运行只启动下一级；导师选择任务负责结合职业、等级、技能与心情评分。
     // // 该 task 只负责打开受训干员列表；列表内的目标查找、翻页和点击复用编队识别能力。
     // if (!run_task("InfrastTrainingSelectTrainee") || !select_training_trainee(target)) {
     //     return Result::RecognitionFailed;
     // }
-    // // 参照 raise.lua choose_char_be_trained：点面板右下角"确认"（编队确认按钮，复用
-    // // BattleQuickFormationConfirm）回到专精页面，再点页面上的目标技能槽弹出材料确认。
     // if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage") ||
     //     !run_task("AutoRaise@MasterySelectSkill" + std::to_string(target.skill))) {
     //     return Result::RecognitionFailed;
     // }
-    // // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派，参照 raise.lua:1443-1458）：
-    // // 技能书/材料1/材料2 依次跳加工站走自动合成，全部修复后复核仍缺料则不启动专精。
+    // // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派）：
+    // // 技能书/材料1/材料2 依次跳加工站走自动合成,全部修复后复核仍缺料则不启动专精。
     // if (run_task("AutoRaise@MasterySkillSummaryRequired", 2) &&
     //     !synthesize_missing_material(AutoRaiseAction::Mastery, 0)) {
     //     return Result::ResourceInsufficient;
@@ -450,13 +447,13 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
     // if (run_task("AutoRaise@MasteryMaterialMissing", 2)) {
     //     return Result::ResourceInsufficient;
     // }
-    // // 参照 raise.lua master_skill:1461-1469：材料齐备后先点确认弹窗的蓝色确认启动专精，
-    // // 再以头像"训练中"角标复核训练确实开始（协助者 OCR 只能证明在本页面，空闲态同样命中）。
+    // // 材料齐备后先点确认弹窗的蓝色确认启动专精,
+    // // 再以头像"训练中"角标复核训练确实开始（协助者 OCR 只能证明在本页面,空闲态同样命中）。
     // if (!run_task("InfrastTrainingConfirm") || !run_task("InfrastTrainingMasteryPage", 10)) {
     //     return Result::RecognitionFailed;
     // }
     m_mastery_busy = true;
-    // 参照 raise.lua path.训练室换班：先点协助者槽位的加号打开陪练干员列表（基建选人页），再做选人扫描。
+    // 先点协助者槽位的加号打开陪练干员列表（基建选人页）,再做选人扫描。
     if (!run_task("AutoRaise@MasterySelectTrainer") || !select_training_trainer(target, training_level)) {
         LogWarn << "execute_mastery | trainer selection failed, training already started";
     }
@@ -509,8 +506,8 @@ bool asst::AutoRaiseProcessTask::analyze_training_context(
 
 bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& target)
 {
-    // 训练室受训干员面板与作战快速编队共用同一套 UI（右侧职业栏 + 旗标卡片列表），
-    // 选人逻辑参照 BattleFormationTask::add_formation 按职业翻页扫寻；此处只点选干员，不选择技能。
+    // 训练室受训干员面板与作战快速编队共用同一套 UI（右侧职业栏 + 旗标卡片列表）,
+    // 选人逻辑参照 BattleFormationTask::add_formation 按职业翻页扫寻；此处只点选干员,不选择技能。
     const battle::Role role = BattleData.get_first_role(target.name);
     const int delay = Task.get("BattleQuickFormationOCR")->post_delay;
     std::string last_oper_name;
@@ -535,13 +532,13 @@ bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& 
         for (int i = 0; i < times; ++i) {
             ProcessTask(*this, { "BattleFormationOperListSwipeToTheLeft" }).run();
         }
-        sleep(Config.get_options().task_delay); // 可能有界面回弹，睡一会儿
+        sleep(Config.get_options().task_delay); // 可能有界面回弹,睡一会儿
     };
 
-    // 训练室面板打开时右侧职业栏默认收起，先点"职业≡"展开（BattleQuickFormationExpandRole）；
-    // 已展开时按钮不可见导致识别失败，属预期，直接继续。
+    // 训练室面板打开时右侧职业栏默认收起,先点"职业≡"展开（BattleQuickFormationExpandRole）；
+    // 已展开时按钮不可见导致识别失败,属预期,直接继续。
     if (ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run()) {
-        sleep(500); // 等待职业栏展开动画结束，再点击职业 tab
+        sleep(500); // 等待职业栏展开动画结束,再点击职业 tab
     }
 
     click_role_table(battle::Role::Unknown);
@@ -553,7 +550,7 @@ bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& 
     int overall_swipe_times = 0; // 完整从左到右滑动扫完一轮的次数
     while (!need_exit()) {
         const auto opers_result = analyze_formation_opers(ctrler()->get_image());
-        // 页面有效 = 能识别到干员，且末位干员与上一页不同（相同说明列表已滑到底未移动）。
+        // 页面有效 = 能识别到干员,且末位干员与上一页不同（相同说明列表已滑到底未移动）。
         const bool page_valid = !opers_result.empty() &&
                                 (last_oper_name.empty() || last_oper_name != opers_result.back().name);
         if (!opers_result.empty()) {
@@ -577,7 +574,7 @@ bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& 
         }
         else if (has_error) {
             swipe_to_the_left(swipe_times);
-            // 重置筛选回到该职业第一页后重新扫寻，参照 BattleFormationTask 的重试路径。
+            // 重置筛选回到该职业第一页后重新扫寻,参照 BattleFormationTask 的重试路径。
             click_role_table(role == battle::Role::Unknown ? battle::Role::Pioneer : battle::Role::Unknown);
             click_role_table(role);
             swipe_to_the_left(swipe_times);
@@ -596,7 +593,7 @@ bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& 
         }
     }
 
-    // 单一出口：复位"全部"并收起职业栏，筛选状态不带给后续技能与导师选择。
+    // 单一出口：复位"全部"并收起职业栏,筛选状态不带给后续技能与导师选择。
     ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" })
         .set_retry_times(0)
         .run();
@@ -608,12 +605,12 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
 {
     LogTraceFunction;
 
-    // 参照 raise.lua path.训练室换班：协助者面板与其他基建设施共用干员列表页。
+    // 协助者面板与其他基建设施共用干员列表页。
     // 选人流程对齐办公室/加工站等设施：切换职业标签复位列表 → 全量扫描评分 → 复位后重新定位目标并点击。
     reset_trainer_list_page();
 
     // 全量扫描：逐页收集技能、心情与头像哈希；本页没有再识别到新的技能图标（技能图标池未增长）
-    // 即判定已到列表末尾，与其他基建选人逻辑一致，立即停止翻页。
+    // 即判定已到列表末尾,与其他基建选人逻辑一致,立即停止翻页。
     std::vector<infrast::ScoreOper> score_operators;
     std::vector<std::string> operator_face_hashes;
     std::unordered_set<std::string> seen_skills;
@@ -664,13 +661,13 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
         LogWarn << "select_training_trainer | operator scan exceeded page limit";
     }
 
-    // 导师评分沿用 InfrastScore::select_training，规则参照 raise.lua 的 trainingOperatorBest：
-    // 职业匹配、通用加成与目标等级加成叠加，心情低于 16 的干员不参与。
+    // 导师评分沿用 InfrastScore::select_training,
+    // 职业匹配、通用加成与目标等级加成叠加,心情低于 16 的干员不参与。
     infrast::ScoreContext context;
     context.facility = "Training";
     context.training_role = BattleData.get_first_role(target.name);
     // 每次只启动一级专精；评分传入本次实际启动的专精等级
-    // （档案页识别值 + 1，进训练室领取已完成训练后再 +1），而不是计划目标等级。
+    // （档案页识别值 + 1,进训练室领取已完成训练后再 +1）,而不是计划目标等级。
     context.training_level = std::clamp(training_level, 1, 3);
     context.slots = 1;
     const auto selection = infrast::select_training(score_operators, context);
@@ -686,8 +683,8 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
     }
     LogInfo << "select_training_trainer | trainer best score" << selection.score;
 
-    // 评分需要扫描完整列表；与加工站一样，复位到第一页后重新逐页定位目标再点击，
-    // 不做"往回滑 N 页"的盲点击，避免快速滑动距离与实际页面数对不上。
+    // 评分需要扫描完整列表；与加工站一样,复位到第一页后重新逐页定位目标再点击,
+    // 不做"往回滑 N 页"的盲点击,避免快速滑动距离与实际页面数对不上。
     reset_trainer_list_page();
 
     const int face_hash_threshold = Task.get("InfrastOperFace")->special_params[0];
@@ -719,7 +716,7 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
                 continue;
             }
             LogInfo << "select_training_trainer | trainer located on page" << page;
-            // 协助者只有一个位置；目标已选中时无需点击，选择新目标时由列表直接替换。
+            // 协助者只有一个位置；目标已选中时无需点击,选择新目标时由列表直接替换。
             if (!oper.selected) {
                 ctrler()->click(oper.rect);
                 sleep(500);
@@ -731,11 +728,11 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
             break;
         }
 
-        // 已定位并点选目标，直接结束，不再多滑一页。
+        // 已定位并点选目标,直接结束,不再多滑一页。
         if (trainer_selected) {
             break;
         }
-        // 连续两页没有新头像判定已到列表末尾，定位失败。
+        // 连续两页没有新头像判定已到列表末尾,定位失败。
         if (page != 0 && new_faces == 0) {
             if (++unchanged_pages >= 2) {
                 break;
@@ -750,10 +747,10 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
         LogWarn << "select_training_trainer | trainer not found while relocating";
     }
 
-    // 参照 raise.lua path.训练室换班结尾，点右下角确认按钮应用陪练干员并关闭列表；
-    // 陪练面板与办公室/加工站等基建选人页共用确认按钮，复用 InfrastDormConfirmButton
-    // （编队样式的 BattleQuickFormationConfirm 在该页面模板不匹配）。该任务是定点点击，
-    // 是否成功以专精页面的"协助者"字样复核为准；若弹出干员冲突确认，任务链内会顺带处理。
+    // 训练室换班结尾,点右下角确认按钮应用陪练干员并关闭列表；
+    // 陪练面板与办公室/加工站等基建选人页共用确认按钮,复用 InfrastDormConfirmButton
+    // （编队样式的 BattleQuickFormationConfirm 在该页面模板不匹配）。该任务是定点点击,
+    // 是否成功以专精页面的"协助者"字样复核为准；若弹出干员冲突确认,任务链内会顺带处理。
     run_task("InfrastDormConfirmButton");
     if (!run_task("InfrastTrainingMasteryPage", 10)) {
         LogWarn << "select_training_trainer | failed to confirm trainer selection";
@@ -765,11 +762,11 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
 bool asst::AutoRaiseProcessTask::reset_trainer_list_page()
 {
     // 参照 InfrastAbstractTask::swipe_to_the_left_of_operlist：基建干员列表通过切换职业栏标签复位——
-    // 先收起已展开的职业栏（未展开时该点击不会命中，属预期），再展开职业栏并点任一职业把列表拉回
-    // 该职业第一页，然后点"全部"恢复完整列表，最后收起职业栏。
+    // 先收起已展开的职业栏（未展开时该点击不会命中,属预期）,再展开职业栏并点任一职业把列表拉回
+    // 该职业第一页,然后点"全部"恢复完整列表,最后收起职业栏。
     ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole", "Stop" }).run();
     if (ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run()) {
-        sleep(500); // 等待职业栏展开动画结束，再点击职业 tab
+        sleep(500); // 等待职业栏展开动画结束,再点击职业 tab
         ProcessTask(
             *this,
             { "BattleQuickFormationRole-Pioneer",
@@ -818,8 +815,6 @@ bool asst::AutoRaiseProcessTask::synthesize_missing_material(AutoRaiseAction tas
         return false;
     }
 
-    // 按来源页面和材料槽打开详情，再点击其对应位置的“前往加工站”按钮。
-    // 对照 raise.lua:2047-2076：点材料槽 → 材料白衣 → 点跳转按钮 → 加工站。
     const std::string material_task =
         "AutoRaise@" + std::string(task_type_name) + "Material" + std::to_string(material_index);
     if (!run_task(material_task) || !run_task(material_task + "JumpProcessing")) {
@@ -876,7 +871,7 @@ std::optional<int> asst::AutoRaiseProcessTask::ocr_number(const std::string& tas
     }
     const std::string& text = analyzer.get_result().text;
     int value = 0;
-    // chars_to_number 默认部分匹配，取前导数字（徽标 "0/4" → 0）。
+    // chars_to_number 默认部分匹配,取前导数字（徽标 "0/4" → 0）。
     if (!utils::chars_to_number(text, value)) {
         return std::nullopt;
     }
@@ -888,7 +883,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
     // 弹窗徽标 OCR 已有/所需数量算缺口 → 跳制造站进芯片产线并记录当前产品 →
     // 选芯片类按职业选双芯片 → 助剂数量/库存不足时经凭证商店补购 → 制造站加 ×(缺口-1) →
     // 执行更改+右确认 → 等待生产 → 返回前按记录恢复产线 → 返回晋升页面。
-    // 生产为排队制：制造完成后当次晋升仍会因材料未到账而复核失败，由外层计划重试。    
+    // 生产为排队制：制造完成后当次晋升仍会因材料未到账而复核失败,由外层计划重试。    
 
     const int rarity = BattleData.get_rarity(BattleData.get_first_role(target.name), target.name);
     const int need = rarity >= 6 ? 4 : 3;// 所需数量按稀有度取值：6★ 晋升二阶需 4 枚、5★ 需 3 枚。
@@ -903,7 +898,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
         !record_factory_state()) {
         return false;
     }
-    // 打开芯片类产品列表，按目标职业选择双芯片产品（ChooseDualchip-{职业}）。
+    // 打开芯片类产品列表,按目标职业选择双芯片产品（ChooseDualchip-{职业}）。
     const battle::Role role = BattleData.get_first_role(target.name);
     if (role == battle::Role::Unknown || role == battle::Role::Drone) {
         return false;
@@ -955,13 +950,13 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
         return false;
     }
 
-    // 返回晋升页面：先退回材料详情，再点击芯片槽关闭详情
+    // 返回晋升页面：先退回材料详情,再点击芯片槽关闭详情
     return run_task("AutoRaise@ReturnToEliteUpPage");
 }
 
 bool asst::AutoRaiseProcessTask::restore_factory_state()
 {
-    // 读取 record_factory_state 写入的产品名，复用基建换产品链恢复产线；
+    // 读取 record_factory_state 写入的产品名,复用基建换产品链恢复产线；
     // 无记录或记录为芯片时无需恢复。
     const auto product = status()->get_str(std::string(FactoryProductStatusKey));
     if (!product) {
@@ -974,8 +969,8 @@ bool asst::AutoRaiseProcessTask::restore_factory_state()
     if (!run_task("ChooseProductList")) {
         return false;
     }
-    // 换产品任务以 next 互链：选分类后依次自动完成 选产品→设最多→确认变更→最终确认，
-    // cpp 不得再单独调用链内步骤（面板关闭后模板必失配，会误判恢复失败）。
+    // 换产品任务以 next 互链：选分类后依次自动完成 选产品→设最多→确认变更→最终确认,
+    // cpp 不得再单独调用链内步骤（面板关闭后模板必失配,会误判恢复失败）。
     bool selected = false;
     if (*product == "BattleRecord") {
         selected = run_task("ChooseBattleRecord");
