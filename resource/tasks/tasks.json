@@ -3988,8 +3988,11 @@
         "doc": "检测到说明在训练选人界面"
     },
     "InfrastTrainingSelectTrainee": {
-        "action": "ClickSelf",
-        "roi": [95, 98, 242, 222]
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "doc": "无论有没有干员在训练都点击进行选择",
+        "specificRect": [145, 148, 142, 122],
+        "postDelay": 800
     },
     "InfrastTrainingProcessing": {
         "baseTask": "InfrastTrainingIdle",
@@ -6531,7 +6534,7 @@
         "template": "QuickJumpProcessing.png",
         "roi": [68, 325, 539, 312],
         "doc": "干员技能专精第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
-    },    
+    },
     "AutoRaise@SelectSkill1": {
         "baseTask": "AutoRaise@ManualAction",
         "doc": "对应 point.lua:1941「专精技能列表」第 1 项及 raise.lua:1431-1438；需截图技能一可选状态并 ClickSelf。",
