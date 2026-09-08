@@ -1716,7 +1716,7 @@ Value
 @type string
 @default minitouch
 @optional
-터치 모드 설정. 옵션: minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras | MaaFwLinux. 기본값 minitouch. 열거값: 2  
+터치 모드 설정. 옵션: minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras | MaaFw. 기본값 minitouch. 열거값: 2  
 :::  
 ::: field DeploymentWithPause  
 @type boolean
