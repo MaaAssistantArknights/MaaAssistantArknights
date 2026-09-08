@@ -4,6 +4,7 @@
 #include <optional>
 #include <ranges>
 #include <tuple>
+#include <unordered_set>
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -403,57 +404,57 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
         return Result::RecognitionFailed;
     }
 
-    // 如果有正在训练的干员就退出任务（干员档案跳转的训练页以头像"训练中"角标标识，
-    // 基建设施页布局的 InfrastTrainingProcessing 在此不适用）
-    if (run_task("InfrastTrainingMasterybusy", 2)) {
-        std::string training_operator;
-        std::string training_skill;
-        int busy_training_level = 0;
-        if (analyze_training_context(training_operator, training_skill, busy_training_level)) {
-            Log.info(
-                "AutoRaise | training room occupied",
-                training_operator,
-                training_skill,
-                "mastery",
-                busy_training_level);
-        }
-        m_mastery_busy = true;
-        run_task("AutoRaise@ReturnToOperFilesPage");
-        return Result::Skipped;
-    }
-    // 专精会长期占用训练室，一次运行只启动下一级；导师选择任务负责结合职业、等级、技能与心情评分。
-    // 该 task 只负责打开受训干员列表；列表内的目标查找、翻页和点击复用编队识别能力。
-    if (!run_task("InfrastTrainingSelectTrainee") || !select_training_trainee(target)) {
-        return Result::RecognitionFailed;
-    }
-    // 参照 raise.lua choose_char_be_trained：点面板右下角"确认"（编队确认按钮，复用
-    // BattleQuickFormationConfirm）回到专精页面，再点页面上的目标技能槽弹出材料确认。
-    if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage") ||
-        !run_task("AutoRaise@MasterySelectSkill" + std::to_string(target.skill))) {
-        return Result::RecognitionFailed;
-    }
-    // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派，参照 raise.lua:1443-1458）：
-    // 技能书/材料1/材料2 依次跳加工站走自动合成，全部修复后复核仍缺料则不启动专精。
-    if (run_task("AutoRaise@MasterySkillSummaryRequired", 2) &&
-        !synthesize_missing_material(AutoRaiseAction::Mastery, 0)) {
-        return Result::ResourceInsufficient;
-    }
-    if (run_task("AutoRaise@MasteryMaterial1Required", 2) &&
-        !synthesize_missing_material(AutoRaiseAction::Mastery, 1)) {
-        return Result::ResourceInsufficient;
-    }
-    if (run_task("AutoRaise@MasteryMaterial2Required", 2) &&
-        !synthesize_missing_material(AutoRaiseAction::Mastery, 2)) {
-        return Result::ResourceInsufficient;
-    }
-    if (run_task("AutoRaise@MasteryMaterialMissing", 2)) {
-        return Result::ResourceInsufficient;
-    }
-    // 参照 raise.lua master_skill:1461-1469：材料齐备后先点确认弹窗的蓝色确认启动专精，
-    // 再以头像"训练中"角标复核训练确实开始（协助者 OCR 只能证明在本页面，空闲态同样命中）。
-    if (!run_task("InfrastTrainingConfirm") || !run_task("InfrastTrainingMasteryPage", 10)) {
-        return Result::RecognitionFailed;
-    }
+    // // 如果有正在训练的干员就退出任务（干员档案跳转的训练页以头像"训练中"角标标识，
+    // // 基建设施页布局的 InfrastTrainingProcessing 在此不适用）
+    // if (run_task("InfrastTrainingMasterybusy", 2)) {
+    //     std::string training_operator;
+    //     std::string training_skill;
+    //     int busy_training_level = 0;
+    //     if (analyze_training_context(training_operator, training_skill, busy_training_level)) {
+    //         Log.info(
+    //             "AutoRaise | training room occupied",
+    //             training_operator,
+    //             training_skill,
+    //             "mastery",
+    //             busy_training_level);
+    //     }
+    //     m_mastery_busy = true;
+    //     run_task("AutoRaise@ReturnToOperFilesPage");
+    //     return Result::Skipped;
+    // }
+    // // 专精会长期占用训练室，一次运行只启动下一级；导师选择任务负责结合职业、等级、技能与心情评分。
+    // // 该 task 只负责打开受训干员列表；列表内的目标查找、翻页和点击复用编队识别能力。
+    // if (!run_task("InfrastTrainingSelectTrainee") || !select_training_trainee(target)) {
+    //     return Result::RecognitionFailed;
+    // }
+    // // 参照 raise.lua choose_char_be_trained：点面板右下角"确认"（编队确认按钮，复用
+    // // BattleQuickFormationConfirm）回到专精页面，再点页面上的目标技能槽弹出材料确认。
+    // if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage") ||
+    //     !run_task("AutoRaise@MasterySelectSkill" + std::to_string(target.skill))) {
+    //     return Result::RecognitionFailed;
+    // }
+    // // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派，参照 raise.lua:1443-1458）：
+    // // 技能书/材料1/材料2 依次跳加工站走自动合成，全部修复后复核仍缺料则不启动专精。
+    // if (run_task("AutoRaise@MasterySkillSummaryRequired", 2) &&
+    //     !synthesize_missing_material(AutoRaiseAction::Mastery, 0)) {
+    //     return Result::ResourceInsufficient;
+    // }
+    // if (run_task("AutoRaise@MasteryMaterial1Required", 2) &&
+    //     !synthesize_missing_material(AutoRaiseAction::Mastery, 1)) {
+    //     return Result::ResourceInsufficient;
+    // }
+    // if (run_task("AutoRaise@MasteryMaterial2Required", 2) &&
+    //     !synthesize_missing_material(AutoRaiseAction::Mastery, 2)) {
+    //     return Result::ResourceInsufficient;
+    // }
+    // if (run_task("AutoRaise@MasteryMaterialMissing", 2)) {
+    //     return Result::ResourceInsufficient;
+    // }
+    // // 参照 raise.lua master_skill:1461-1469：材料齐备后先点确认弹窗的蓝色确认启动专精，
+    // // 再以头像"训练中"角标复核训练确实开始（协助者 OCR 只能证明在本页面，空闲态同样命中）。
+    // if (!run_task("InfrastTrainingConfirm") || !run_task("InfrastTrainingMasteryPage", 10)) {
+    //     return Result::RecognitionFailed;
+    // }
     m_mastery_busy = true;
     // 参照 raise.lua path.训练室换班：先点协助者槽位的加号打开陪练干员列表（基建选人页），再做选人扫描。
     if (!run_task("AutoRaise@MasterySelectTrainer") || !select_training_trainer(target, training_level)) {
@@ -611,11 +612,11 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
     // 选人流程对齐办公室/加工站等设施：切换职业标签复位列表 → 全量扫描评分 → 复位后重新定位目标并点击。
     reset_trainer_list_page();
 
-    // 全量扫描：逐页收集技能、心情与头像哈希；页签名连续两页相同判定已到列表末尾。
+    // 全量扫描：逐页收集技能、心情与头像哈希；本页没有再识别到新的技能图标（技能图标池未增长）
+    // 即判定已到列表末尾，与其他基建选人逻辑一致，立即停止翻页。
     std::vector<infrast::ScoreOper> score_operators;
     std::vector<std::string> operator_face_hashes;
-    std::string previous_page;
-    std::string previous_previous_page;
+    std::unordered_set<std::string> seen_skills;
     bool scan_completed = false;
     for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
         InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
@@ -628,13 +629,13 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
             return false;
         }
 
-        std::string page_signature;
+        size_t new_skills = 0;
         for (const auto& oper : analyzer.get_result()) {
             for (const auto& skill : oper.skills) {
-                page_signature += skill.id;
-                page_signature.push_back(';');
+                if (seen_skills.emplace(skill.id).second) {
+                    ++new_skills;
+                }
             }
-            page_signature.push_back('|');
 
             infrast::ScoreOper score_oper;
             for (const auto& skill : oper.skills) {
@@ -647,17 +648,12 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
             operator_face_hashes.emplace_back(oper.face_hash);
         }
 
-        if (page_signature.empty() ||
-            (page_signature == previous_page && page_signature == previous_previous_page)) {
+        if (page != 0 && new_skills == 0) {
             scan_completed = true;
             break;
         }
-        previous_previous_page = previous_page;
-        previous_page = std::move(page_signature);
         // 训练室选人页与其他基建设施共用横向列表识别和翻页协议。
-        if (!run_task("InfrastOperListSlowlySwipeToTheRight")) {
-            return false;
-        }
+        run_task("InfrastOperListSlowlySwipeToTheRight");
     }
 
     if (score_operators.empty()) {
@@ -695,10 +691,10 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
     reset_trainer_list_page();
 
     const int face_hash_threshold = Task.get("InfrastOperFace")->special_params[0];
-    std::vector<std::string> seen_face_hashes;
+    std::vector<std::string> relocate_seen_faces;
     int unchanged_pages = 0;
     bool trainer_selected = false;
-    for (int page = 0; page < MaxOperatorPages && !need_exit() && !trainer_selected; ++page) {
+    for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
         InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
         analyzer.set_to_be_calced(
             InfrastOperImageAnalyzer::ToBeCalced::FaceHash | InfrastOperImageAnalyzer::ToBeCalced::Selected);
@@ -712,11 +708,11 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
             if (oper.face_hash.empty()) {
                 continue;
             }
-            const bool seen = std::ranges::any_of(seen_face_hashes, [&](const std::string& hash) {
+            const bool seen = std::ranges::any_of(relocate_seen_faces, [&](const std::string& hash) {
                 return Hasher::hamming(hash, oper.face_hash) < face_hash_threshold;
             });
             if (!seen) {
-                seen_face_hashes.emplace_back(oper.face_hash);
+                relocate_seen_faces.emplace_back(oper.face_hash);
                 ++new_faces;
             }
             if (Hasher::hamming(oper.face_hash, trainer_face_hash) >= face_hash_threshold) {
@@ -735,6 +731,10 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
             break;
         }
 
+        // 已定位并点选目标，直接结束，不再多滑一页。
+        if (trainer_selected) {
+            break;
+        }
         // 连续两页没有新头像判定已到列表末尾，定位失败。
         if (page != 0 && new_faces == 0) {
             if (++unchanged_pages >= 2) {
@@ -750,9 +750,12 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
         LogWarn << "select_training_trainer | trainer not found while relocating";
     }
 
-    // 参照 raise.lua path.训练室换班结尾：点右下角蓝色确认按钮应用陪练干员并关闭列表，
-    // 以专精页面的"协助者"字样复核面板确实关闭。
-    if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage", 10)) {
+    // 参照 raise.lua path.训练室换班结尾，点右下角确认按钮应用陪练干员并关闭列表；
+    // 陪练面板与办公室/加工站等基建选人页共用确认按钮，复用 InfrastDormConfirmButton
+    // （编队样式的 BattleQuickFormationConfirm 在该页面模板不匹配）。该任务是定点点击，
+    // 是否成功以专精页面的"协助者"字样复核为准；若弹出干员冲突确认，任务链内会顺带处理。
+    run_task("InfrastDormConfirmButton");
+    if (!run_task("InfrastTrainingMasteryPage", 10)) {
         LogWarn << "select_training_trainer | failed to confirm trainer selection";
         return false;
     }
