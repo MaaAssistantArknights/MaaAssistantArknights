@@ -23,13 +23,7 @@
     "InfrastOfficeMini": {
         "templThreshold": 0.9
     },
-    "InfrastSmileyOnRest": {
-        "templThreshold": 0.7
-    },
-    "InfrastSmileyOnWork": {
-        "templThreshold": 0.7
-    },
-    "InfrastSmileyOnDistract": {
+    "InfrastSmiley": {
         "templThreshold": 0.7
     },
     "BattleQuickFormationRole": {

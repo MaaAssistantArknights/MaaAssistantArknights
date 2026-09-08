@@ -2977,18 +2977,8 @@
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [0, -185, 113, 90]
     },
-    "InfrastSmileyOnRest": {
-        "template": "SmileyOnRest.png",
-        "maskRange": [100, 255],
-        "templThreshold": 0.8
-    },
-    "InfrastSmileyOnWork": {
-        "template": "SmileyOnWork.png",
-        "maskRange": [100, 255],
-        "templThreshold": 0.8
-    },
-    "InfrastSmileyOnDistract": {
-        "template": "SmileyOnDistract.png",
+    "InfrastSmiley": {
+        "template": ["SmileyOnRest.png", "SmileyOnWork.png", "SmileyOnDistract.png"],
         "maskRange": [100, 255],
         "templThreshold": 0.8
     },
