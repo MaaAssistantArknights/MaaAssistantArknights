@@ -3,11 +3,14 @@
 #include <algorithm>
 #include <optional>
 #include <ranges>
+#include <tuple>
 
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/InfrastConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Status.h"
 #include "Task/Infrast/InfrastScore.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
@@ -17,13 +20,86 @@
 #include "Vision/BestMatcher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
+#include "Vision/Miscellaneous/OperNameAnalyzer.h"
+#include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
+#include "Vision/VisionHelper.h"
 
 namespace
 {
     constexpr int MaxOperatorPages = 20;
     // 制造站产线当前产品写入 Status 的键，RestoreFactoryState 读取后恢复原产品。
     constexpr std::string_view FactoryProductStatusKey = "AutoRaiseFactoryProduct";
+    // 训练室受训干员整列表完整扫寻的轮数，超出后判定干员不在列表中。
+    constexpr int TraineeMissingRetryTimes = 1;
+
+    // 快速编队卡片识别结果，参照 BattleFormationTask::QuickFormationOper 裁剪出选人所需字段。
+    struct QuickFormationOperInfo
+    {
+        std::string name;
+        asst::Rect flag_rect;
+        bool selected = false;
+    };
+
+    // 参照 BattleFormationTask::analyzer_opers：以职业旗标模板定位卡片，
+    // 对旗标下方区域 OCR 干员名，并以旗标上方的高亮色块判断选中态。
+    std::vector<QuickFormationOperInfo> analyze_formation_opers(const cv::Mat& image)
+    {
+        const auto& ocr_replace = asst::Task.get<asst::OcrTaskInfo>("CharsNameOcrReplace");
+        const auto& ocr_task = asst::Task.get("BattleQuickFormationOCR");
+        std::vector<QuickFormationOperInfo> opers_result;
+        for (int i = 0; i < 8; ++i) {
+            const std::string flag_task_name = "BattleQuickFormation-OperNameFlag" + std::to_string(i);
+
+            asst::MultiMatcher multi(image);
+            multi.set_task_info(flag_task_name);
+            if (!multi.analyze()) [[unlikely]] {
+                continue;
+            }
+            for (const auto& flag : multi.get_result()) {
+                asst::OperNameAnalyzer region(image);
+                region.set_task_info(ocr_task);
+                region.set_roi(flag.rect.move(ocr_task->rect_move));
+                region.set_bin_threshold(ocr_task->special_params[0]);
+                region.set_bin_expansion(ocr_task->special_params[1]);
+                region.set_bin_trim_threshold(ocr_task->special_params[2], ocr_task->special_params[3]);
+                region.set_bottom_line_height(ocr_task->special_params[4]);
+                region.set_width_threshold(ocr_task->special_params[5]);
+                region.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+                region.set_use_raw(true);
+                if (!region.analyze()) [[unlikely]] {
+                    continue;
+                }
+
+                const auto& ocr_result = region.get_result();
+                if (ocr_result.text.empty()) {
+                    continue;
+                }
+
+                // 相邻职业的旗标模板可能重复命中同一张卡片，按位置去重。
+                constexpr int kMinDistance = 5;
+                const auto find_it = std::ranges::find_if(opers_result, [&flag](const QuickFormationOperInfo& pre) {
+                    return std::abs(pre.flag_rect.x - flag.rect.x) < kMinDistance &&
+                           std::abs(pre.flag_rect.y - flag.rect.y) < kMinDistance;
+                });
+                if (find_it != opers_result.end()) {
+                    continue;
+                }
+
+                // 已选中的干员旗标上方出现橙色高亮。
+                cv::Mat selected_image = asst::make_roi(image, flag.rect.move({ 0, -10, 5, 4 }));
+                cv::inRange(selected_image, cv::Scalar(170, 115, 0), cv::Scalar(255, 180, 100), selected_image);
+
+                opers_result.emplace_back(
+                    QuickFormationOperInfo { ocr_result.text, flag.rect, cv::hasNonZero(selected_image) });
+            }
+        }
+        // 参照 BattleFormationTask::analyzer_opers 的 sort_by_vertical_，保证卡片顺序确定以判断翻页。
+        std::sort(opers_result.begin(), opers_result.end(), [](const QuickFormationOperInfo& l, const QuickFormationOperInfo& r) {
+            return std::tie(l.flag_rect.y, l.flag_rect.x) < std::tie(r.flag_rect.y, r.flag_rect.x);
+        });
+        return opers_result;
+    }
 
     std::string role_task_name(asst::battle::Role role)
     {
@@ -332,9 +408,14 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
         return Result::Skipped;
     }
     // 专精会长期占用训练室，一次运行只启动下一级；导师选择任务负责结合职业、等级、技能与心情评分。
-    // 该 task 只负责打开受训干员列表；列表内的目标查找、翻页和点击复用基建识别能力。
-    if (!run_task("InfrastTrainingSelectTrainee") || !select_training_trainee(target) ||
-        !run_task("AutoRaise@SelectSkill" + std::to_string(target.skill))) {
+    // 该 task 只负责打开受训干员列表；列表内的目标查找、翻页和点击复用编队识别能力。
+    if (!run_task("InfrastTrainingSelectTrainee") || !select_training_trainee(target)) {
+        return Result::RecognitionFailed;
+    }
+    // 参照 raise.lua choose_char_be_trained：点面板右下角"确认"（编队确认按钮，复用
+    // BattleQuickFormationConfirm）回到专精页面，再点页面上的目标技能槽弹出材料确认。
+    if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage") ||
+        !run_task("AutoRaise@MasterySelectSkill" + std::to_string(target.skill))) {
         return Result::RecognitionFailed;
     }
     // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派，参照 raise.lua:1443-1458）：
@@ -354,11 +435,15 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
     if (run_task("AutoRaise@MasteryMaterialMissing", 2)) {
         return Result::ResourceInsufficient;
     }
-    if (!select_training_trainer(target) || !run_task("AutoRaise@StartMastery") ||
-        !run_task("InfrastTrainingProcessing")) {
+    // 参照 raise.lua master_skill:1461-1469：材料齐备后先点确认弹窗的蓝色确认启动专精，
+    // 以 InfrastTrainingProcessing 复核；协助者只在训练开始后换班加速，选人不成功不回滚专精。
+    if (!run_task("InfrastTrainingConfirm") || !run_task("InfrastTrainingProcessing")) {
         return Result::RecognitionFailed;
     }
     m_mastery_busy = true;
+    if (!select_training_trainer(target)) {
+        LogWarn << "execute_mastery | trainer selection failed, training already started";
+    }
     return Result::Completed;
 }
 
@@ -408,60 +493,99 @@ bool asst::AutoRaiseProcessTask::analyze_training_context(
 
 bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& target)
 {
-    const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
-    if (!replace_task) {
-        return false;
-    }
-    if (!select_operator_role(target.name)) {
-        return false;
+    // 训练室受训干员面板与作战快速编队共用同一套 UI（右侧职业栏 + 旗标卡片列表），
+    // 选人逻辑参照 BattleFormationTask::add_formation 按职业翻页扫寻；此处只点选干员，不选择技能。
+    const battle::Role role = BattleData.get_first_role(target.name);
+    const int delay = Task.get("BattleQuickFormationOCR")->post_delay;
+    std::string last_oper_name;
+
+    // 参照 BattleFormationTask::click_role_table：Unknown 表示"全部"；点职业前先回"全部"重置筛选。
+    const auto click_role_table = [&](battle::Role tab) {
+        last_oper_name.clear();
+        std::vector<std::string> tasks;
+        const std::string tab_task = role_task_name(tab);
+        if (tab_task.empty()) {
+            tasks = { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" };
+        }
+        else {
+            tasks = { tab_task, "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" };
+        }
+        return ProcessTask(*this, tasks).set_retry_times(0).run();
+    };
+    const auto swipe_page = [&] {
+        ProcessTask(*this, { "BattleFormationOperListSlowlySwipeToTheRight" }).run();
+    };
+    const auto swipe_to_the_left = [&](int times) {
+        for (int i = 0; i < times; ++i) {
+            ProcessTask(*this, { "BattleFormationOperListSwipeToTheLeft" }).run();
+        }
+        sleep(Config.get_options().task_delay); // 可能有界面回弹，睡一会儿
+    };
+
+    // 训练室面板打开时右侧职业栏默认收起，先点"职业≡"展开（BattleQuickFormationExpandRole）；
+    // 已展开时按钮不可见导致识别失败，属预期，直接继续。
+    if (ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run()) {
+        sleep(500); // 等待职业栏展开动画结束，再点击职业 tab
     }
 
-    std::string previous_page;
-    std::string previous_previous_page;
-    for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
-        InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
-        analyzer.set_facility("Training");
-        analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
-        if (!analyzer.analyze()) {
-            return false;
+    click_role_table(battle::Role::Unknown);
+    click_role_table(role);
+
+    bool selected = false;
+    bool has_error = false;
+    int swipe_times = 0;
+    int overall_swipe_times = 0; // 完整从左到右滑动扫完一轮的次数
+    while (!need_exit()) {
+        const auto opers_result = analyze_formation_opers(ctrler()->get_image());
+        // 页面有效 = 能识别到干员，且末位干员与上一页不同（相同说明列表已滑到底未移动）。
+        const bool page_valid = !opers_result.empty() &&
+                                (last_oper_name.empty() || last_oper_name != opers_result.back().name);
+        if (!opers_result.empty()) {
+            last_oper_name = opers_result.back().name;
         }
 
-        std::string page_signature;
-        for (const auto& oper : analyzer.get_result()) {
-            RegionOCRer name_analyzer(oper.name_img);
-            name_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
-            name_analyzer.set_bin_expansion(0);
-            const auto name = name_analyzer.analyze();
-            if (!name) {
-                continue;
+        if (page_valid) {
+            has_error = false;
+            const auto target_iter =
+                std::ranges::find(opers_result, target.name, &QuickFormationOperInfo::name);
+            if (target_iter != opers_result.cend()) {
+                if (!target_iter->selected) {
+                    ctrler()->click(target_iter->flag_rect);
+                    sleep(delay);
+                }
+                selected = true;
+                break;
             }
-            page_signature += name->text;
-            page_signature.push_back('\n');
-            if (name->text != target.name) {
-                continue;
-            }
-            if (oper.selected) {
-                return true;
-            }
-            if (oper.rect.empty() || !ctrler()->click(oper.rect)) {
-                return false;
-            }
-            sleep(300);
-            return true;
+            swipe_page();
+            ++swipe_times;
         }
-
-        if (page_signature.empty() ||
-            (page_signature == previous_page && page_signature == previous_previous_page)) {
-            break;
+        else if (has_error) {
+            swipe_to_the_left(swipe_times);
+            // 重置筛选回到该职业第一页后重新扫寻，参照 BattleFormationTask 的重试路径。
+            click_role_table(role == battle::Role::Unknown ? battle::Role::Pioneer : battle::Role::Unknown);
+            click_role_table(role);
+            swipe_to_the_left(swipe_times);
+            swipe_times = 0;
+            has_error = false;
         }
-        previous_previous_page = previous_page;
-        previous_page = std::move(page_signature);
-        // 只使用已有的基建选人页滑动 task，避免用固定坐标点击卡片或翻页按钮。
-        if (!run_task("InfrastOperListSlowlySwipeToTheRight")) {
-            return false;
+        else {
+            if (overall_swipe_times >= TraineeMissingRetryTimes) {
+                LogWarn << "select_training_trainee | oper not found" << target.name;
+                break;
+            }
+            ++overall_swipe_times;
+            has_error = true;
+            swipe_to_the_left(swipe_times);
+            swipe_times = 0;
         }
     }
-    return false;
+
+    // 单一出口：复位"全部"并收起职业栏，筛选状态不带给后续技能与导师选择。
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" })
+        .set_retry_times(0)
+        .run();
+    ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole", "Stop" }).run();
+    return selected;
 }
 
 bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& target)

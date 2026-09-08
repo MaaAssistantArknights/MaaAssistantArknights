@@ -6535,27 +6535,19 @@
         "roi": [68, 325, 539, 312],
         "doc": "干员技能专精第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
     },
-    "AutoRaise@SelectSkill1": {
-        "baseTask": "AutoRaise@ManualAction",
-        "doc": "对应 point.lua:1941「专精技能列表」第 1 项及 raise.lua:1431-1438；需截图技能一可选状态并 ClickSelf。",
-        "roi": [370, 190, 90, 90]
+    "AutoRaise@MasterySelectSkill1": {
+        "baseTask": "InfrastTrainingContinue1",
+        "template": "InfrastTrainingContinue.png",
+        "next": ["AutoRaise@MasteryPage"]
     },
-    "AutoRaise@SelectSkill2": {
-        "baseTask": "AutoRaise@ManualAction",
-        "doc": "对应 point.lua:1941「专精技能列表」第 2 项及 raise.lua:1431-1438；需截图技能二可选状态并 ClickSelf。",
-        "roi": [375, 400, 90, 90]
+    "AutoRaise@MasterySelectSkill2": {
+        "baseTask": "InfrastTrainingContinue2",
+        "template": "InfrastTrainingContinue.png",
+        "next": ["AutoRaise@MasteryPage"]
     },
-    "AutoRaise@SelectSkill3": {
-        "baseTask": "AutoRaise@ManualAction",
-        "doc": "对应 point.lua:1941「专精技能列表」第 3 项及 raise.lua:1431-1438；需截图技能三可选状态并 ClickSelf。",
-        "roi": [390, 635, 90, 80]
-    },
-    "AutoRaise@StartMastery": {
-        "baseTask": "AutoRaise@ManualAction",
-        "doc": [
-            "对应 point.lua:1942「专精技能确认」和 point.lua:1975「确认蓝」；参考调用 raise.lua:1461-1469、path.lua:3392-3399。",
-            "参考流程先确认材料，再选择导师并确认换班；MAA 已有 InfrastTrainingConfirm 可复用，启动后必须以 InfrastTrainingProcessing 复核。"
-        ],
-        "roi": [930, 600, 340, 110]
+    "AutoRaise@MasterySelectSkill3": {
+        "baseTask": "InfrastTrainingContinue3",
+        "template": "InfrastTrainingContinue.png",
+        "next": ["AutoRaise@MasteryPage"]
     }
 }
