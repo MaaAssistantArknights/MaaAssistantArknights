@@ -4244,12 +4244,13 @@
     "SkipThePreBattlePlot": {
         "action": "ClickSelf",
         "roi": [1096, 0, 182, 131],
+        "template": ["SkipThePreBattlePlot.png", "SkipThePreBattlePlot2.png"],
         "next": ["SkipThePreBattlePlotConfirm", "SkipThePreBattlePlot"],
         "maskRange": [100, 255]
     },
     "SkipBattlePlot": {
         "baseTask": "SkipThePreBattlePlot",
-        "template": "SkipThePreBattlePlot.png",
+        "template": ["SkipThePreBattlePlot.png", "SkipThePreBattlePlot2.png"],
         "next": ["SkipBattlePlotConfirm"]
     },
     "SkipThePreBattlePlotConfirm": {

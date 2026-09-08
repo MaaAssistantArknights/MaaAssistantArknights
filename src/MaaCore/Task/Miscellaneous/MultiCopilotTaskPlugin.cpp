@@ -110,6 +110,41 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
         }
     }
 
+    // 找不到关卡名时先扫一遍初见剧情：点掉剧情节点后地图会推进，目标关卡名可能出现
+    ProcessTask first_plot_task(*this, { "Copilot@ClickPlotStage" });
+    first_plot_task.set_retry_times(RetryTimesDefault);
+    bool plot_ret = first_plot_task.run();
+    bool plot_touched = plot_ret || !first_plot_task.get_last_task_name().empty();
+    if (need_exit()) {
+        return false;
+    }
+    if (plot_touched && !plot_ret) {
+        // 剧情被点开但还没播完（如跳过按钮尚未出现）：继续把剧情流程走完，别急着在地图上滑动
+        ProcessTask finish_plot_task(*this, { "SkipBattlePlot", "SkipBattlePlotConfirm", "EndOfPlot" });
+        finish_plot_task.set_retry_times(2 * RetryTimesDefault);
+        if (finish_plot_task.run()) {
+            plot_ret = true;
+        }
+        if (need_exit()) {
+            return false;
+        }
+    }
+    if (plot_touched) {
+        sleep(Config.get_options().task_delay);
+        image = ctrler()->get_image();
+        stages = find_stage(image, threshold_low, threshold_high);
+        it = std::ranges::find_if(stages, [&](const OcrPack::Result& r) { return r.text == stage_name; });
+        if (it != stages.end()) {
+            if (enter_stage(it->rect, stage_name)) {
+                return true;
+            }
+        }
+    }
+    if (plot_touched && !plot_ret) {
+        // 剧情触发了但流程没走完，界面大概率还在剧情中，交给外层重试而不是乱滑
+        return false;
+    }
+
     ProcessTask(*this, { "Copilot@FullStageNavigation" }).set_retry_times(20).run();
     sleep(Config.get_options().task_delay);
     image = ctrler()->get_image();
