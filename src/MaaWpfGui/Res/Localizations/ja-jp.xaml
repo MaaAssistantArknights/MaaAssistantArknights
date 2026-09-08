@@ -122,13 +122,13 @@
     <system:String x:Key="PrevGuide">前へ</system:String>
     <system:String x:Key="NextGuide">次へ</system:String>
     <system:String x:Key="DoneGuide">完了</system:String>
-    <system:String x:Key="ToolTipGuide">マウスを乗せるとヒントあり→</system:String>
+    <system:String x:Key="ToolTipGuide">マウスを乗せるとヒントあり</system:String>
     <system:String x:Key="TaskGuide">↑ タスク</system:String>
     <system:String x:Key="OftenUsedGuide">↑ よく使われる</system:String>
     <system:String x:Key="SometimesUsedGuide">あまり使われていない ↑</system:String>
     <system:String x:Key="LinkStartGuide">← タスクを開始</system:String>
-    <system:String x:Key="HoverActionButtons" xml:space="preserve">   ホバーでコピー/名前変更/削除
-↓ 歯車を右クリックで操作一覧</system:String>
+    <system:String x:Key="HoverActionButtons">ホバーでコピー/名前変更/削除</system:String>
+    <system:String x:Key="GearContextMenuTip">歯車を右クリックで操作一覧 ↓</system:String>
     <system:String x:Key="UserGuide">使用ガイド</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 公式サイトとドキュメント</system:String>
     <system:String x:Key="GuideDocumentationPath">MAA の公式サイトと完全なドキュメントは ｢{key=Settings} - {key=AboutUs} - {key=Website}｣ でご覧いただけます。</system:String>
@@ -387,6 +387,8 @@
     <system:String x:Key="TaskRenamed">タスク名を変更しました: {0}</system:String>
     <system:String x:Key="TaskDeleted">タスクを削除しました: {0}</system:String>
     <system:String x:Key="TaskCopied">タスクをコピーしました: {0}</system:String>
+    <system:String x:Key="GuideDemoTipRunOnce">デモでは実際にタスクは実行されません</system:String>
+    <system:String x:Key="GuideDemoTaskAddLimitTip">デモリストに追加できるタスクは最大 5 個です。追加する前に一部を削除してください</system:String>
     <system:String x:Key="TaskCopyFailed">タスクのコピーに失敗しました</system:String>
     <system:String x:Key="HotKeyShowGui">[ホットキー] MAAの表示/最小化</system:String>
     <system:String x:Key="HotKeyLinkStart">[ホットキー] Link 開始/停止</system:String>
