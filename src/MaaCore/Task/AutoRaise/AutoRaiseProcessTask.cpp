@@ -18,6 +18,7 @@
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Vision/BestMatcher.h"
+#include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
 #include "Vision/Miscellaneous/OperNameAnalyzer.h"
@@ -379,12 +380,24 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
         return Result::AlreadySatisfied;
     }
 
+    // 本次将启动的专精等级 = 档案页识别出的当前专精等级 + 1（参照 raise.lua master_skill 的
+    // start_level + 1）；导师评分用的应该是这个等级，而不是计划目标等级。
+    int training_level = master_current + 1;
+
     // 从干员档案页的训练按钮直接进入训练室专精页面，保留当前目标干员的上下文。
     if (!run_task("AutoRaise@MasteryPageEnter")) {
         return Result::RecognitionFailed;
     }
-    // 现有训练完成任务已经负责点击领取并关闭奖励弹窗，避免重复点击占位任务。
-    run_task("InfrastTrainingCompleted", 10);
+    // 现有训练完成任务已经负责点击领取并关闭奖励弹窗，避免重复点击占位任务；
+    // 领取会使当前专精等级 +1，本次实际启动的专精等级随之再 +1。
+    if (run_task("InfrastTrainingCompleted", 10)) {
+        ++training_level;
+        if (training_level > target.target) {
+            // 领取后专精等级已达到计划目标，不再启动下一级。
+            run_task("AutoRaise@ReturnToOperFilesPage");
+            return Result::AlreadySatisfied;
+        }
+    }
 
     if (!run_task("InfrastTrainingMasteryPage")) {
         return Result::RecognitionFailed;
@@ -395,14 +408,14 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
     if (run_task("InfrastTrainingMasterybusy", 2)) {
         std::string training_operator;
         std::string training_skill;
-        int training_level = 0;
-        if (analyze_training_context(training_operator, training_skill, training_level)) {
+        int busy_training_level = 0;
+        if (analyze_training_context(training_operator, training_skill, busy_training_level)) {
             Log.info(
                 "AutoRaise | training room occupied",
                 training_operator,
                 training_skill,
                 "mastery",
-                training_level);
+                busy_training_level);
         }
         m_mastery_busy = true;
         run_task("AutoRaise@ReturnToOperFilesPage");
@@ -442,8 +455,8 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
         return Result::RecognitionFailed;
     }
     m_mastery_busy = true;
-    // 参照 raise.lua path.训练室换班：先点协助者槽位的加号打开陪练面板（编队式 UI），再做选人扫描。
-    if (!run_task("AutoRaise@MasterySelectTrainer") || !select_training_trainer(target)) {
+    // 参照 raise.lua path.训练室换班：先点协助者槽位的加号打开陪练干员列表（基建选人页），再做选人扫描。
+    if (!run_task("AutoRaise@MasterySelectTrainer") || !select_training_trainer(target, training_level)) {
         LogWarn << "execute_mastery | trainer selection failed, training already started";
     }
     return Result::Completed;
@@ -590,23 +603,26 @@ bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& 
     return selected;
 }
 
-bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& target)
+bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& target, int training_level)
 {
-    // 选人页复用基建扫描器，使用技能、心情和翻页识别结果，再由 infrastscore 选择导师。
+    LogTraceFunction;
+
+    // 参照 raise.lua path.训练室换班：协助者面板与其他基建设施共用干员列表页。
+    // 选人流程对齐办公室/加工站等设施：切换职业标签复位列表 → 全量扫描评分 → 复位后重新定位目标并点击。
+    reset_trainer_list_page();
+
+    // 全量扫描：逐页收集技能、心情与头像哈希；页签名连续两页相同判定已到列表末尾。
     std::vector<infrast::ScoreOper> score_operators;
-    std::vector<Rect> operator_rects;
-    std::vector<bool> operator_selected;
-    std::vector<int> operator_pages;
+    std::vector<std::string> operator_face_hashes;
     std::string previous_page;
     std::string previous_previous_page;
-    int current_page = 0;
+    bool scan_completed = false;
     for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
-        current_page = page;
         InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
         analyzer.set_facility("Training");
         analyzer.set_to_be_calced(
             InfrastOperImageAnalyzer::ToBeCalced::Mood | InfrastOperImageAnalyzer::ToBeCalced::Skill |
-            InfrastOperImageAnalyzer::ToBeCalced::Selected);
+            InfrastOperImageAnalyzer::ToBeCalced::FaceHash);
         if (!analyzer.analyze()) {
             analyzer.save_img(utils::path("debug") / utils::path("auto_raise"));
             return false;
@@ -626,14 +642,14 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
             }
             score_oper.operator_id = oper.operator_id;
             score_oper.mood_ratio = oper.mood_ratio;
+            score_oper.face_hash = oper.face_hash;
             score_operators.emplace_back(std::move(score_oper));
-            operator_rects.emplace_back(oper.rect);
-            operator_selected.emplace_back(oper.selected);
-            operator_pages.emplace_back(page);
+            operator_face_hashes.emplace_back(oper.face_hash);
         }
 
         if (page_signature.empty() ||
             (page_signature == previous_page && page_signature == previous_previous_page)) {
+            scan_completed = true;
             break;
         }
         previous_previous_page = previous_page;
@@ -645,32 +661,135 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
     }
 
     if (score_operators.empty()) {
+        LogWarn << "select_training_trainer | no operator recognized";
         return false;
     }
+    if (!scan_completed) {
+        LogWarn << "select_training_trainer | operator scan exceeded page limit";
+    }
 
+    // 导师评分沿用 InfrastScore::select_training，规则参照 raise.lua 的 trainingOperatorBest：
+    // 职业匹配、通用加成与目标等级加成叠加，心情低于 16 的干员不参与。
     infrast::ScoreContext context;
     context.facility = "Training";
     context.training_role = BattleData.get_first_role(target.name);
-    // 每次只启动一级专精；目标等级在这里作为评分的专精等级提示。
-    context.training_level = std::clamp(target.target, 1, 3);
+    // 每次只启动一级专精；评分传入本次实际启动的专精等级
+    // （档案页识别值 + 1，进训练室领取已完成训练后再 +1），而不是计划目标等级。
+    context.training_level = std::clamp(training_level, 1, 3);
     context.slots = 1;
     const auto selection = infrast::select_training(score_operators, context);
-    if (selection.indices.empty() || selection.indices.front() >= operator_rects.size()) {
+    if (selection.indices.empty() || selection.indices.front() >= operator_face_hashes.size()) {
+        LogWarn << "select_training_trainer | no eligible trainer, best score" << selection.score;
         return false;
     }
 
-    const size_t index = selection.indices.front();
-    // 评分需要扫描完整列表，选中的矩形可能来自前一页；回到识别该矩形的页面后再点击。
-    for (int page = current_page; page > operator_pages.at(index) && !need_exit(); --page) {
-        if (!run_task("InfrastOperListSwipeToTheLeft")) {
-            return false;
-        }
-    }
-    if (!operator_selected.at(index) &&
-        (operator_rects.at(index).empty() || !ctrler()->click(operator_rects.at(index)))) {
+    const std::string& trainer_face_hash = operator_face_hashes.at(selection.indices.front());
+    if (trainer_face_hash.empty()) {
+        LogWarn << "select_training_trainer | trainer face hash is empty";
         return false;
     }
-    return true;
+    LogInfo << "select_training_trainer | trainer best score" << selection.score;
+
+    // 评分需要扫描完整列表；与加工站一样，复位到第一页后重新逐页定位目标再点击，
+    // 不做"往回滑 N 页"的盲点击，避免快速滑动距离与实际页面数对不上。
+    reset_trainer_list_page();
+
+    const int face_hash_threshold = Task.get("InfrastOperFace")->special_params[0];
+    std::vector<std::string> seen_face_hashes;
+    int unchanged_pages = 0;
+    bool trainer_selected = false;
+    for (int page = 0; page < MaxOperatorPages && !need_exit() && !trainer_selected; ++page) {
+        InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
+        analyzer.set_to_be_calced(
+            InfrastOperImageAnalyzer::ToBeCalced::FaceHash | InfrastOperImageAnalyzer::ToBeCalced::Selected);
+        if (!analyzer.analyze()) {
+            return false;
+        }
+        analyzer.sort_by_loc();
+
+        size_t new_faces = 0;
+        for (const auto& oper : analyzer.get_result()) {
+            if (oper.face_hash.empty()) {
+                continue;
+            }
+            const bool seen = std::ranges::any_of(seen_face_hashes, [&](const std::string& hash) {
+                return Hasher::hamming(hash, oper.face_hash) < face_hash_threshold;
+            });
+            if (!seen) {
+                seen_face_hashes.emplace_back(oper.face_hash);
+                ++new_faces;
+            }
+            if (Hasher::hamming(oper.face_hash, trainer_face_hash) >= face_hash_threshold) {
+                continue;
+            }
+            LogInfo << "select_training_trainer | trainer located on page" << page;
+            // 协助者只有一个位置；目标已选中时无需点击，选择新目标时由列表直接替换。
+            if (!oper.selected) {
+                ctrler()->click(oper.rect);
+                sleep(500);
+            }
+            else {
+                LogInfo << "select_training_trainer | trainer already selected";
+            }
+            trainer_selected = true;
+            break;
+        }
+
+        // 连续两页没有新头像判定已到列表末尾，定位失败。
+        if (page != 0 && new_faces == 0) {
+            if (++unchanged_pages >= 2) {
+                break;
+            }
+        }
+        else {
+            unchanged_pages = 0;
+        }
+        run_task("InfrastOperListSlowlySwipeToTheRight");
+    }
+    if (!trainer_selected) {
+        LogWarn << "select_training_trainer | trainer not found while relocating";
+    }
+
+    // 参照 raise.lua path.训练室换班结尾：点右下角蓝色确认按钮应用陪练干员并关闭列表，
+    // 以专精页面的"协助者"字样复核面板确实关闭。
+    if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage", 10)) {
+        LogWarn << "select_training_trainer | failed to confirm trainer selection";
+        return false;
+    }
+    return trainer_selected;
+}
+
+bool asst::AutoRaiseProcessTask::reset_trainer_list_page()
+{
+    // 参照 InfrastAbstractTask::swipe_to_the_left_of_operlist：基建干员列表通过切换职业栏标签复位——
+    // 先收起已展开的职业栏（未展开时该点击不会命中，属预期），再展开职业栏并点任一职业把列表拉回
+    // 该职业第一页，然后点"全部"恢复完整列表，最后收起职业栏。
+    ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole", "Stop" }).run();
+    if (ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run()) {
+        sleep(500); // 等待职业栏展开动画结束，再点击职业 tab
+        ProcessTask(
+            *this,
+            { "BattleQuickFormationRole-Pioneer",
+              "BattleQuickFormationRole-Warrior",
+              "BattleQuickFormationRole-Tank",
+              "BattleQuickFormationRole-Caster",
+              "BattleQuickFormationRole-Medic",
+              "BattleQuickFormationRole-Sniper",
+              "BattleQuickFormationRole-Special",
+              "BattleQuickFormationRole-Support" })
+            .run();
+        ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
+        // 基建默认收起
+        ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole", "Stop" }).run();
+        return true;
+    }
+
+    // 职业栏不可用时退化为滑动回正。
+    for (int i = 0; i < 2; ++i) {
+        ProcessTask(*this, { "InfrastOperListSwipeToTheLeft" }).run();
+    }
+    ProcessTask(*this, { "SleepAfterOperListQuickSwipe" }).run();
+    return false;
 }
 
 bool asst::AutoRaiseProcessTask::synthesize_missing_material(AutoRaiseAction task_type, int material_index)
