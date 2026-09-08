@@ -85,7 +85,7 @@ MaaAssistantArknights/MaaMacGui プロジェクトの [README.md](https://github
 
 4. MaaFramework 関連コンポーネントのコンパイル
 
-   MaaFwAdbController（MaaFwAdb タッチモード） / MaaFwLinuxController（MaaFwLinux タッチモード）関連機能をデバッグする場合は、[MaaFramework の Debug バージョンを自分でコンパイル](https://maafw.com/docs/4.1-BuildGuide)し、`libMaaAdbControlUnit.so` / `libMaaLinuxControlUnit.so` をインストールディレクトリにコピーする必要があります。
+   MaaFwController（MaaFw タッチモード）関連機能をデバッグする場合は、[MaaFramework の Debug バージョンを自分でコンパイル](https://maafw.com/docs/4.1-BuildGuide)し、`libMaaAdbControlUnit.so` / `libMaaLinuxControlUnit.so` をインストールディレクトリにコピーする必要があります。
 
 5. 実行
 
