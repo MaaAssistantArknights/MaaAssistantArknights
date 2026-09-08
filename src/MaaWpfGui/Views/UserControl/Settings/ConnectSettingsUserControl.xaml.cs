@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Windows;
+
 namespace MaaWpfGui.Views.UserControl.Settings;
 
 /// <summary>
@@ -18,6 +20,15 @@ namespace MaaWpfGui.Views.UserControl.Settings;
 /// </summary>
 public partial class ConnectSettingsUserControl : System.Windows.Controls.UserControl
 {
+    public static readonly DependencyProperty ShowAdvancedConnectSettingsProperty = DependencyProperty.Register(
+        nameof(ShowAdvancedConnectSettings), typeof(bool), typeof(ConnectSettingsUserControl), new PropertyMetadata(true));
+
+    public bool ShowAdvancedConnectSettings
+    {
+        get => (bool)GetValue(ShowAdvancedConnectSettingsProperty);
+        set => SetValue(ShowAdvancedConnectSettingsProperty, value);
+    }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ConnectSettingsUserControl"/> class.
     /// </summary>
