@@ -314,7 +314,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::slowly_swipe(const bool direction, i
         { start_point.x + swipe_dist - start_point.width, start_point.y, start_point.width, start_point.height },
         swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
         (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
-        (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
-        (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
+        (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2) / 10.0,
+        (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3) / 10.0);
     sleep(swipe_task->post_delay);
 }

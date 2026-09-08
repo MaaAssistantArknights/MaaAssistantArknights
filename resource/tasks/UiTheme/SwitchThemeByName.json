@@ -56,17 +56,17 @@
         "action": "Swipe",
         "specificRect": [340, 170, 10, 10],
         "rectMove": [340, 600, 10, 10],
-        "specialParams": [150, 0, 1, 1],
+        "specialParams": [150, 0, 37, 1],
         "postDelay": 500,
         "next": ["Stop"]
     },
     "SwitchThemeByNameDragDownList": {
-        "Doc": "slope_out=0 压 fling 并用水平额外滑动终止残余滚动实现精确停靠",
+        "Doc": "用水平额外滑动终止残余滚动实现精确停靠",
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [340, 600, 10, 10],
         "rectMove": [340, 350, 10, 10],
-        "specialParams": [300, 3, 2, 0],
+        "specialParams": [300, 3, 37, 1],
         "postDelay": 500,
         "next": ["Stop"]
     },
