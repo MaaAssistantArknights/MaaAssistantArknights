@@ -2,10 +2,6 @@
     "AccountManagerTxwy": {
         "roi": [500, 110, 290, 80]
     },
-    "BattleQuickFormationSkillPage": {
-        "algorithm": "JustReturn",
-        "baseTask": "#none"
-    },
     "FightSeries-OldMethodFlag": {
         "algorithm": "JustReturn",
         "doc": "whether to use old series method"
