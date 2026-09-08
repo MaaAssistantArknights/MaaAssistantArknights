@@ -74,6 +74,7 @@ A new "Switch Theme" task switches in-game themes by name; multiple candidate th
 ### 修复 | Fix
 
 * 修复 MuMu 触控增强状态与实际触控模式不同步、残留旧值的问题，增强勾选框改为触控模式的投影，启动时归一截图增强关闭后残留的触控模式，连接成功时重置状态 @ABA2396
+* 修复 MuMu 未使用触控增强时漏检模拟器应用保活的问题 ([#18134](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18134)) @Radekyspec
 * 修复基建笑脸被多个模板同时命中导致同一干员被识别两次，宿舍选人时被点选两下而未被选中进驻的问题 ([#18132](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18132)) @Alan-Charred
 * 修复繁中服自动编队不切换技能页 ([#18118](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18118)) @vonnoq
 * 修复切换界面语言后定时设置的任务标签停留在旧语言的问题 @ABA2396
