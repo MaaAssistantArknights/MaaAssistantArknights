@@ -75,6 +75,7 @@ A new "Switch Theme" task switches in-game themes by name; multiple candidate th
 
 * 修复 MuMu 触控增强状态与实际触控模式不同步、残留旧值的问题，增强勾选框改为触控模式的投影，启动时归一截图增强关闭后残留的触控模式，连接成功时重置状态 @ABA2396
 * 修复繁中服自动编队不切换技能页 ([#18118](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18118)) @vonnoq
+* 修复切换界面语言后定时设置的任务标签停留在旧语言的问题 @ABA2396
 * 完善干员名识别替换 ｢埃癸斯｣ 的正则，覆盖更多形近误识并收紧为整词匹配，避免误替换其他干员名 @ABA2396
 * YostarEN fix Sami (IS4) roguelike strategy selection and recognition (temperature OCR, roi, ocrReplace) ([#18088](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/18088)) @Constrat
 * YostarKR adjust ocrReplace for 掌灯与引烛 @HX3N
