@@ -3987,6 +3987,12 @@
         "maxTimes": 20,
         "doc": "检测到说明在训练选人界面"
     },
+    "InfrastTrainingMasterybusy": {
+        "algorithm": "OcrDetect",
+        "text": ["训练中"],
+        "roi": [163, 290, 150, 42],
+        "doc": "专精选人界面的训练中状态"
+    },
     "InfrastTrainingSelectTrainee": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -6549,5 +6555,11 @@
         "baseTask": "InfrastTrainingContinue3",
         "template": "InfrastTrainingContinue.png",
         "next": ["AutoRaise@MasteryPage"]
+    },
+    "AutoRaise@MasterySelectTrainer": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [169, 473, 88, 104],
+        "postDelay": 1000
     }
 }
