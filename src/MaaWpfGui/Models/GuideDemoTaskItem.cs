@@ -36,7 +36,7 @@ public class GuideDemoTaskItem : PropertyChangedBase, IDisposable
     }
 
     /// <summary>
-    /// Gets the localization key of the task type（如 Fight）；经重命名或复制后名称固化为自定义文本，此时为空串。
+    /// Gets the localization key of the task type（如 Fight）；重命名不改变本值（名称走自定义文本），复制产生的新项不携带本值（为空串）。
     /// </summary>
     public string LocalizationKey { get; init; } = string.Empty;
 
