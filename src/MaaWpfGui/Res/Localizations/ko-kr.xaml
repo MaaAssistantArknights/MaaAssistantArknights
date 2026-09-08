@@ -122,6 +122,8 @@
     <system:String x:Key="PrevGuide">이전 단계</system:String>
     <system:String x:Key="NextGuide">다음 단계</system:String>
     <system:String x:Key="DoneGuide">완료</system:String>
+    <system:String x:Key="GuideConfirmCountdownPrefix" xml:space="preserve">완료까지 </system:String>
+    <system:String x:Key="GuideConfirmCountdownSuffix">초</system:String>
     <system:String x:Key="ToolTipGuide">마우스를 올리면 팁이 보입니다</system:String>
     <system:String x:Key="TaskGuide">↑ 작업</system:String>
     <system:String x:Key="OftenUsedGuide">↑ 자주 쓰는 설정</system:String>

@@ -122,6 +122,8 @@
     <system:String x:Key="PrevGuide">上一步</system:String>
     <system:String x:Key="NextGuide">下一步</system:String>
     <system:String x:Key="DoneGuide">完成</system:String>
+    <system:String x:Key="GuideConfirmCountdownPrefix" xml:space="preserve">还剩 </system:String>
+    <system:String x:Key="GuideConfirmCountdownSuffix" xml:space="preserve"> 秒</system:String>
     <system:String x:Key="ToolTipGuide">鼠标移至此处会有提示哦</system:String>
     <system:String x:Key="TaskGuide">↑ 任务</system:String>
     <system:String x:Key="OftenUsedGuide">↑ 常用的</system:String>

@@ -64,6 +64,7 @@ A new "Switch Theme" task switches in-game themes by name; multiple candidate th
 * Swipe 的 specialParams[1] 额外滑动参数从 0/1 开关拓展为方向选择（0 不启用，1/2/3/4 分别为上/下/左/右）([#18099](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18099)) @ABA2396
 * Swipe 的 specialParams[2]/[3] 缓入、缓出斜率参数改为乘 10 输入（默认 10），正常缓入缓出建议 37/1，内置任务参数已同步迁移 ([#18112](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18112)) @status102
 * 改进设置指引，连接设置步骤复用实际连接设置界面，修复选择 PC 端时界面残留 ADB 选项且缺少提示，任务设置步骤改为可交互任务演示 ([#18047](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18047) [#18130](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18130)) @satgo1546 @ABA2396
+* 设置指引最后一步停留 5 秒后才能点击完成，期间按钮下方显示倒计时 @ABA2396
 * 优化黑流树海肉鸽，降低事件选项确认阈值，增加重开等待 ([#18066](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18066) [#18126](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18126)) @ZiyinLin
 * 调整基建默认设施顺序，宿舍移至换人设施之后，切换自定义基建后未调整顺序时不再先换宿舍，避免换下的干员送不进宿舍 @ABA2396
 * 自动战斗干员缺失提示补充练度未达标情形，不再仅提示未拥有 ([#18046](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18046)) @status102

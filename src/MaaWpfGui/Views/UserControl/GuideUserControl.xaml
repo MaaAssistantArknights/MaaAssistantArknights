@@ -78,8 +78,18 @@
                         hc:IconElement.Width="18"
                         Command="{s:Action DoneGuide}"
                         Content="{DynamicResource DoneGuide}"
+                        IsEnabled="{Binding GuideConfirmEnabled}"
                         Style="{StaticResource ButtonDashedPrimary}"
                         Visibility="{c:Binding 'GuideStepIndex >= GuideMaxStep - 1'}" />
+                    <controls:TextBlock
+                        Margin="0,6,0,0"
+                        HorizontalAlignment="Center"
+                        FontSize="12"
+                        Foreground="{DynamicResource ThirdlyTextBrush}"
+                        Visibility="{c:Binding '!GuideConfirmEnabled',
+                                               FalseToVisibility=Hidden}">
+                        <Run Text="{DynamicResource GuideConfirmCountdownPrefix}" /><Run Text="{Binding GuideConfirmCountdown}" /><Run Text="{DynamicResource GuideConfirmCountdownSuffix}" />
+                    </controls:TextBlock>
                 </StackPanel>
 
                 <ScrollViewer Margin="10,20,10,20" VerticalScrollBarVisibility="Auto">

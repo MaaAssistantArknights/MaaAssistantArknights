@@ -122,6 +122,8 @@
     <system:String x:Key="PrevGuide">前へ</system:String>
     <system:String x:Key="NextGuide">次へ</system:String>
     <system:String x:Key="DoneGuide">完了</system:String>
+    <system:String x:Key="GuideConfirmCountdownPrefix">あと</system:String>
+    <system:String x:Key="GuideConfirmCountdownSuffix">秒</system:String>
     <system:String x:Key="ToolTipGuide">マウスを乗せるとヒントあり</system:String>
     <system:String x:Key="TaskGuide">↑ タスク</system:String>
     <system:String x:Key="OftenUsedGuide">↑ よく使われる</system:String>

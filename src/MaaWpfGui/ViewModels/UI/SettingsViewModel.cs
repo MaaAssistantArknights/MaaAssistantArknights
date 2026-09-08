@@ -21,6 +21,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using HandyControl.Controls;
 using HandyControl.Data;
 using JetBrains.Annotations;
@@ -623,8 +624,55 @@ public class SettingsViewModel : Screen
         get; set {
             ConfigFactory.Root.Gui.GuideStep = value;
             SetAndNotify(ref field, value);
+            if (value == GuideMaxStep - 1)
+            {
+                StartGuideConfirmDelay();
+            }
+            else
+            {
+                _guideConfirmTimer?.Stop();
+                GuideConfirmEnabled = true;
+            }
         }
     } = ConfigFactory.Root.Gui.GuideStep;
+
+    private bool _guideConfirmEnabled = true;
+
+    public bool GuideConfirmEnabled
+    {
+        get => _guideConfirmEnabled;
+        set => SetAndNotify(ref _guideConfirmEnabled, value);
+    }
+
+    // 最后一步停留 5 秒后才允许点完成，避免一路连点跳过说明
+    private const int GuideConfirmDelaySeconds = 5;
+
+    private DispatcherTimer? _guideConfirmTimer;
+
+    private int _guideConfirmCountdown;
+
+    public int GuideConfirmCountdown
+    {
+        get => _guideConfirmCountdown;
+        set => SetAndNotify(ref _guideConfirmCountdown, value);
+    }
+
+    private void StartGuideConfirmDelay()
+    {
+        GuideConfirmEnabled = false;
+        GuideConfirmCountdown = GuideConfirmDelaySeconds;
+        var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+        timer.Tick += (_, _) =>
+        {
+            if (--GuideConfirmCountdown <= 0)
+            {
+                timer.Stop();
+                GuideConfirmEnabled = true;
+            }
+        };
+        timer.Start();
+        _guideConfirmTimer = timer;
+    }
 
     private string _guideTransitionMode = "Bottom2Top";
 
