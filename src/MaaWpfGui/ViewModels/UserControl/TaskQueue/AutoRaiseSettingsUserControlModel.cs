@@ -30,6 +30,8 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRaiseSettingsUserControlModel.ISerialize
 {
+    private const int MaxOperators = 5;
+
     private static readonly HashSet<string> AllowedFields = ["name", "elite", "skills", "skill", "skill_master"];
 
     static AutoRaiseSettingsUserControlModel() => Instance = new();
@@ -61,23 +63,141 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
 
     public ObservableCollection<PlanPreview> PlanPreviewItems { get; } = [];
 
+    /// <summary>可选择的干员名列表，按稀有度降序、名称升序排列，实时取自干员数据</summary>
+    public IReadOnlyList<string> OperatorNames => DataHelper.Operators.Values
+        .GroupBy(character => character.Name)
+        .Select(group => group.OrderByDescending(character => character.Rarity).First())
+        .OrderByDescending(character => character.Rarity)
+        .ThenBy(character => character.Name)
+        .Select(character => character.Name!)
+        .ToList();
+
+    private string _selectedOperator = string.Empty;
+
+    public string SelectedOperator
+    {
+        get => _selectedOperator;
+        set {
+            if (SetAndNotify(ref _selectedOperator, value))
+            {
+                NotifyOfPropertyChange(nameof(CanAddOperator));
+            }
+        }
+    }
+
+    /// <summary>未满 5 名干员，或所选干员已在计划中（可直接进入编辑）时允许添加</summary>
+    public bool CanAddOperator
+    {
+        get
+        {
+            JArray plans = GetValidatedPlans();
+            return DistinctOperatorCount(plans) < MaxOperators || FindOperator(plans, _selectedOperator) >= 0;
+        }
+    }
+
+    // —— 培养目标弹窗 ——
+    public bool IsTargetPopupOpen { get => field; set => SetAndNotify(ref field, value); }
+
+    public string PopupTitle { get => field; private set => SetAndNotify(ref field, value); } = string.Empty;
+
+    public string PopupConfirmText { get => field; private set => SetAndNotify(ref field, value); } = string.Empty;
+
+    public bool PopupHasSelection { get => field; private set => SetAndNotify(ref field, value); }
+
+    public bool PopupSelectElite
+    {
+        get => field;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                UpdatePopupHasSelection();
+            }
+        }
+    }
+
+    public int PopupEliteTarget
+    {
+        get => field;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                PopupSelectElite = true;
+            }
+        }
+    } = 2;
+
+    public bool PopupSelectSkill
+    {
+        get => field;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                UpdatePopupHasSelection();
+            }
+        }
+    }
+
+    public int PopupSkillTarget
+    {
+        get => field;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                PopupSelectSkill = true;
+            }
+        }
+    } = 7;
+
+    public bool PopupSelectMastery
+    {
+        get => field;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                UpdatePopupHasSelection();
+            }
+        }
+    }
+
+    public int PopupMasterySkillIndex
+    {
+        get => field;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                PopupSelectMastery = true;
+            }
+        }
+    } = 1;
+
+    public int PopupMasteryTarget
+    {
+        get => field;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                PopupSelectMastery = true;
+            }
+        }
+    } = 3;
+
+    public IReadOnlyList<int> EliteOptions { get; } = [1, 2];
+
+    public IReadOnlyList<int> SkillLevelOptions { get; } = [2, 3, 4, 5, 6, 7];
+
+    public IReadOnlyList<int> MasteryTargetOptions { get; } = [1, 2, 3];
+
+    public IReadOnlyList<int> MasterySkillOptions { get => field; private set => SetAndNotify(ref field, value); } = [1, 2, 3];
+
+    private string _popupOperatorName = string.Empty;
+
+    private int _editOperatorIndex = -1;
+
     public void ParsePlan()
     {
         try
         {
-            var plans = ParseAndValidate(PlanJson);
-            string normalized = plans.ToString(Formatting.Indented);
-            SetTaskConfig<AutoRaiseTask>(
-                t => t.PlanJson == normalized && t.ValidatedPlanJson == normalized,
-                t => {
-                    t.PlanJson = normalized;
-                    t.ValidatedPlanJson = normalized;
-                });
-            _planJson = normalized;
-            NotifyOfPropertyChange(nameof(PlanJson));
-            IsCurrentTextValidated = true;
-            ValidationMessage = LocalizationHelper.GetStringFormat("AutoRaisePlanParsed", plans.Count);
-            LoadPreview(plans);
+            ApplyPlans(ParseAndValidate(PlanJson));
         }
         catch (Exception ex) when (ex is JsonException or InvalidOperationException)
         {
@@ -105,12 +225,214 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
         catch (Exception)
         {
             PlanPreviewItems.Clear();
+            NotifyOfPropertyChange(nameof(CanAddOperator));
         }
         Refresh();
     }
 
     public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) =>
         (this as ISerialize).Serialize(baseTask, taskId);
+
+    public void OpenTargetPopup()
+    {
+        string name = SelectedOperator.Trim();
+        if (name.Length == 0)
+        {
+            return;
+        }
+
+        JArray plans = GetValidatedPlans();
+        int editIndex = FindOperator(plans, name);
+        if (editIndex < 0 && DistinctOperatorCount(plans) >= MaxOperators)
+        {
+            return;
+        }
+
+        BeginTargetPopup(name, plans, editIndex);
+    }
+
+    public void EditOperator(PlanPreview item)
+    {
+        if (item is null)
+        {
+            return;
+        }
+
+        JArray plans = GetValidatedPlans();
+        BeginTargetPopup(item.Name, plans, FindOperator(plans, item.Name));
+    }
+
+    public void RemoveOperator(PlanPreview item)
+    {
+        if (item is null)
+        {
+            return;
+        }
+
+        JArray plans = GetValidatedPlans();
+        var remaining = new JArray();
+        foreach (JObject plan in plans.Cast<JObject>())
+        {
+            if (plan.Value<string>("name") != item.Name)
+            {
+                remaining.Add(plan);
+            }
+        }
+
+        if (remaining.Count == plans.Count)
+        {
+            return;
+        }
+
+        ApplyPlans(remaining);
+    }
+
+    public void CancelTargetPopup() => IsTargetPopupOpen = false;
+
+    public void ConfirmTargetPopup()
+    {
+        string name = _popupOperatorName;
+        IsTargetPopupOpen = false;
+        if (name.Length == 0 || !PopupHasSelection)
+        {
+            return;
+        }
+
+        JArray plans = GetValidatedPlans();
+        var remaining = new JArray();
+        foreach (JObject plan in plans.Cast<JObject>())
+        {
+            if (plan.Value<string>("name") != name)
+            {
+                remaining.Add(plan);
+            }
+        }
+
+        int insertAt = _editOperatorIndex >= 0 ? Math.Min(_editOperatorIndex, remaining.Count) : remaining.Count;
+        foreach (JObject entry in BuildOperatorPlans(name))
+        {
+            remaining.Insert(insertAt++, entry);
+        }
+
+        ApplyPlans(remaining);
+        SelectedOperator = string.Empty;
+    }
+
+    /// <summary>把计划写回配置并刷新文本框、校验状态与预览，与 ParsePlan 成功路径一致</summary>
+    private void ApplyPlans(JArray plans)
+    {
+        string normalized = plans.ToString(Formatting.Indented);
+        SetTaskConfig<AutoRaiseTask>(
+            t => t.PlanJson == normalized && t.ValidatedPlanJson == normalized,
+            t => {
+                t.PlanJson = normalized;
+                t.ValidatedPlanJson = normalized;
+            });
+        _planJson = normalized;
+        NotifyOfPropertyChange(nameof(PlanJson));
+        IsCurrentTextValidated = true;
+        ValidationMessage = LocalizationHelper.GetStringFormat("AutoRaisePlanParsed", plans.Count);
+        LoadPreview(plans);
+    }
+
+    /// <summary>构建器始终基于最后一次解析成功的计划操作，与运行时使用的计划一致</summary>
+    private JArray GetValidatedPlans()
+    {
+        try
+        {
+            return ParseAndValidate(GetTaskConfig<AutoRaiseTask>().ValidatedPlanJson);
+        }
+        catch (Exception ex) when (ex is JsonException or InvalidOperationException)
+        {
+            return new JArray();
+        }
+    }
+
+    private void BeginTargetPopup(string name, JArray plans, int editIndex)
+    {
+        _popupOperatorName = name;
+        _editOperatorIndex = editIndex;
+        PopupTitle = LocalizationHelper.GetStringFormat("AutoRaiseTargetTitle", name);
+        PopupConfirmText = LocalizationHelper.GetString(editIndex >= 0 ? "AutoRaiseEdit" : "Confirm");
+        MasterySkillOptions = GetMasterySkillOptions(name);
+
+        PopupEliteTarget = 2;
+        PopupSkillTarget = 7;
+        PopupMasterySkillIndex = MasterySkillOptions[0];
+        PopupMasteryTarget = 3;
+        PopupSelectElite = PopupSelectSkill = PopupSelectMastery = false;
+        if (editIndex >= 0)
+        {
+            foreach (JObject plan in plans.Cast<JObject>().Where(plan => plan.Value<string>("name") == name))
+            {
+                if (plan.ContainsKey("elite"))
+                {
+                    PopupEliteTarget = plan.Value<int>("elite");
+                    PopupSelectElite = true;
+                }
+                else if (plan.ContainsKey("skills"))
+                {
+                    PopupSkillTarget = plan.Value<int>("skills");
+                    PopupSelectSkill = true;
+                }
+                else
+                {
+                    int skillIndex = plan.Value<int>("skill");
+                    PopupMasterySkillIndex = MasterySkillOptions.Contains(skillIndex) ? skillIndex : MasterySkillOptions[0];
+                    PopupMasteryTarget = plan.Value<int>("skill_master");
+                    PopupSelectMastery = true;
+                }
+            }
+        }
+
+        UpdatePopupHasSelection();
+        IsTargetPopupOpen = true;
+    }
+
+    private IEnumerable<JObject> BuildOperatorPlans(string name)
+    {
+        if (PopupSelectElite)
+        {
+            yield return new JObject { ["name"] = name, ["elite"] = PopupEliteTarget };
+        }
+
+        if (PopupSelectSkill)
+        {
+            yield return new JObject { ["name"] = name, ["skills"] = PopupSkillTarget };
+        }
+
+        if (PopupSelectMastery)
+        {
+            yield return new JObject { ["name"] = name, ["skill"] = PopupMasterySkillIndex, ["skill_master"] = PopupMasteryTarget };
+        }
+    }
+
+    private void UpdatePopupHasSelection() => PopupHasSelection = PopupSelectElite || PopupSelectSkill || PopupSelectMastery;
+
+    /// <summary>专精可选技能序号按稀有度过滤，规则与 CopilotViewModel 一致：3 技能需 6 星（或阿米娅），2 技能需 4 星</summary>
+    private static IReadOnlyList<int> GetMasterySkillOptions(string name)
+    {
+        var character = DataHelper.GetCharacterByNameOrAlias(name);
+        int rarity = character?.Rarity ?? -1;
+        int maxSkill = rarity >= 6 || character?.Id == "char_002_amiya" ? 3 : rarity >= 4 ? 2 : 1;
+        return Enumerable.Range(1, Math.Clamp(maxSkill, 1, 3)).ToList();
+    }
+
+    private static int FindOperator(JArray plans, string name)
+    {
+        for (int index = 0; index < plans.Count; ++index)
+        {
+            if (((JObject)plans[index]!).Value<string>("name") == name)
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
+    private static int DistinctOperatorCount(JArray plans) =>
+        plans.Cast<JObject>().Select(plan => plan.Value<string>("name")).Distinct().Count();
 
     internal static JArray ParseAndValidate(string json)
     {
@@ -178,6 +500,11 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
             }
         }
 
+        if (DistinctOperatorCount(plans) > MaxOperators)
+        {
+            throw new InvalidOperationException(LocalizationHelper.GetString("AutoRaiseOperatorLimit"));
+        }
+
         return plans;
     }
 
@@ -218,18 +545,21 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
     private void LoadPreview(JArray plans)
     {
         PlanPreviewItems.Clear();
-        for (int index = 0; index < plans.Count; ++index)
+        int index = 0;
+        foreach (var group in plans.Cast<JObject>().GroupBy(plan => plan.Value<string>("name")!))
         {
-            var plan = (JObject)plans[index]!;
-            string name = plan.Value<string>("name")!;
-            string target = plan.ContainsKey("elite")
-                ? $"E{plan.Value<int>("elite")}"
-                : plan.ContainsKey("skills")
-                    ? LocalizationHelper.GetStringFormat("AutoRaiseSkillLevelTarget", plan.Value<int>("skills"))
-                    : LocalizationHelper.GetStringFormat("AutoRaiseMasteryTarget", plan.Value<int>("skill"), plan.Value<int>("skill_master"));
-            PlanPreviewItems.Add(new(index + 1, name, target));
+            string target = string.Join(LocalizationHelper.GetString("AutoRaiseTargetSeparator"), group.Select(DescribeAction));
+            PlanPreviewItems.Add(new(++index, group.Key, target));
         }
+        NotifyOfPropertyChange(nameof(CanAddOperator));
     }
+
+    private static string DescribeAction(JObject plan) =>
+        plan.ContainsKey("elite")
+            ? $"E{plan.Value<int>("elite")}"
+            : plan.ContainsKey("skills")
+                ? LocalizationHelper.GetStringFormat("AutoRaiseSkillLevelTarget", plan.Value<int>("skills"))
+                : LocalizationHelper.GetStringFormat("AutoRaiseMasteryTarget", plan.Value<int>("skill"), plan.Value<int>("skill_master"));
 
     public sealed record PlanPreview(int Index, string Name, string Target);
 

@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:constants="clr-namespace:MaaWpfGui.Constants"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -15,9 +16,43 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
+        <!--  干员选择与添加培养目标  -->
+        <StackPanel Orientation="Horizontal">
+            <TextBlock VerticalAlignment="Center" Text="{DynamicResource AutoRaiseSelectOperator}" />
+            <ComboBox
+                MinWidth="130"
+                Margin="6,0,0,0"
+                ItemsSource="{Binding OperatorNames}"
+                SelectedItem="{Binding SelectedOperator}" />
+            <Button
+                x:Name="AddTargetButton"
+                MinWidth="90"
+                Margin="6,0,0,0"
+                HorizontalAlignment="Left"
+                Command="{s:Action OpenTargetPopup}"
+                Content="{DynamicResource AutoRaiseAddTarget}"
+                IsEnabled="{Binding CanAddOperator}"
+                ToolTip="{DynamicResource AutoRaiseOperatorLimit}"
+                ToolTipService.ShowOnDisabled="True" />
+        </StackPanel>
+
+        <!--  在线编辑计划链接  -->
+        <controls:TextBlock Margin="0,8,0,0">
+            <Hyperlink
+                Cursor="Hand"
+                NavigateUri="{x:Static constants:MaaUrls.ArknightsToolbox}"
+                TextDecorations="None">
+                <TextBlock
+                    Style="{StaticResource HyperlinkTextBlockStyle}"
+                    Text="{DynamicResource AutoRaiseOnlineEditor}" />
+            </Hyperlink>
+        </controls:TextBlock>
+
+        <!--  粘贴并解析协议  -->
         <TextBox
             MinWidth="210"
-            MinHeight="180"
+            MinHeight="64"
+            Margin="0,8,0,0"
             AcceptsReturn="True"
             FontFamily="Consolas"
             HorizontalScrollBarVisibility="Auto"
@@ -37,18 +72,126 @@
         <ItemsControl Margin="0,10,0,0" ItemsSource="{Binding PlanPreviewItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,2">
+                    <Grid
+                        Margin="0,2"
+                        Background="Transparent"
+                        Cursor="Hand"
+                        ToolTip="{DynamicResource AutoRaiseEdit}">
+                        <Grid.InputBindings>
+                            <MouseBinding
+                                Command="{s:Action EditOperator}"
+                                CommandParameter="{Binding}"
+                                Gesture="LeftClick" />
+                        </Grid.InputBindings>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="28" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{Binding Index}" />
-                        <TextBlock Grid.Column="1" Margin="4,0" Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="4,0"
+                            Text="{Binding Name}"
+                            TextTrimming="CharacterEllipsis" />
                         <TextBlock Grid.Column="2" Text="{Binding Target}" />
+                        <Button
+                            Grid.Column="3"
+                            Width="18"
+                            Height="18"
+                            MinWidth="18"
+                            Margin="6,0,0,0"
+                            Padding="0"
+                            hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                            BorderThickness="0"
+                            Command="{s:Action RemoveOperator}"
+                            CommandParameter="{Binding}"
+                            ToolTip="{DynamicResource Delete}" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+
+        <!--  培养目标选择弹窗  -->
+        <Popup
+            IsOpen="{Binding IsTargetPopupOpen}"
+            Placement="Center"
+            PlacementTarget="{Binding ElementName=AddTargetButton}"
+            PopupAnimation="Fade"
+            StaysOpen="False">
+            <Border
+                MinWidth="300"
+                Padding="12"
+                Background="{DynamicResource RegionBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <StackPanel>
+                    <TextBlock FontSize="14" Text="{Binding PopupTitle}" />
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <CheckBox
+                            MinWidth="80"
+                            Content="{DynamicResource AutoRaiseElite}"
+                            IsChecked="{Binding PopupSelectElite}" />
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource AutoRaiseTarget}" />
+                        <ComboBox
+                            MinWidth="64"
+                            Margin="6,0,0,0"
+                            ItemsSource="{Binding EliteOptions}"
+                            SelectedValue="{Binding PopupEliteTarget}" />
+                    </StackPanel>
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <CheckBox
+                            MinWidth="80"
+                            Content="{DynamicResource AutoRaiseSkillUpgrade}"
+                            IsChecked="{Binding PopupSelectSkill}" />
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource AutoRaiseTarget}" />
+                        <ComboBox
+                            MinWidth="64"
+                            Margin="6,0,0,0"
+                            ItemsSource="{Binding SkillLevelOptions}"
+                            SelectedValue="{Binding PopupSkillTarget}" />
+                    </StackPanel>
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <CheckBox
+                            MinWidth="80"
+                            Content="{DynamicResource AutoRaiseMastery}"
+                            IsChecked="{Binding PopupSelectMastery}" />
+                        <TextBlock
+                            Margin="6,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource AutoRaiseSkillIndex}" />
+                        <ComboBox
+                            MinWidth="64"
+                            Margin="6,0,0,0"
+                            ItemsSource="{Binding MasterySkillOptions}"
+                            SelectedValue="{Binding PopupMasterySkillIndex}" />
+                        <TextBlock Margin="6,0" VerticalAlignment="Center" Text="→" />
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource AutoRaiseTarget}" />
+                        <ComboBox
+                            MinWidth="64"
+                            Margin="6,0,0,0"
+                            ItemsSource="{Binding MasteryTargetOptions}"
+                            SelectedValue="{Binding PopupMasteryTarget}" />
+                    </StackPanel>
+                    <StackPanel
+                        Margin="0,12,0,0"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                        <Button
+                            MinWidth="60"
+                            Command="{s:Action CancelTargetPopup}"
+                            Content="{DynamicResource Cancel}" />
+                        <Button
+                            MinWidth="60"
+                            Margin="6,0,0,0"
+                            Command="{s:Action ConfirmTargetPopup}"
+                            Content="{Binding PopupConfirmText}"
+                            IsEnabled="{Binding PopupHasSelection}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Popup>
     </StackPanel>
 </UserControl>
