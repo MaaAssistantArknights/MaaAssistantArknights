@@ -14,6 +14,7 @@
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    x:Name="Root"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type settings_vms:ConnectSettingsUserControlModel}}"
     d:DesignWidth="550"
@@ -344,7 +345,7 @@
                     HorizontalAlignment="Center"
                     Command="{s:Action RestoreGameWindowPosition, Target={x:Static helper:Instances.AsstProxy}}"
                     Content="{DynamicResource WindowRestore}"
-                    Visibility="{c:Binding ShowWindowRestoreButton}" />
+                    Visibility="{c:Binding ShowAdvancedConnectSettings and DataContext.ShowWindowRestoreButton, ElementName=Root}" />
             </StackPanel>
             <controls:TextBlock
                 Margin="5"
@@ -358,13 +359,14 @@
             Grid.Row="4"
             Margin="5"
             HorizontalAlignment="Center"
-            Text="{c:Binding ScreencapCost}" />
+            Text="{c:Binding ScreencapCost}"
+            Visibility="{c:Binding ShowAdvancedConnectSettings, ElementName=Root}" />
 
         <StackPanel
             Grid.Row="5"
             HorizontalAlignment="Center"
             d:Visibility="Visible"
-            Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
+            Visibility="{c:Binding ShowAdvancedConnectSettings and !DataContext.IsPCConnectConfig, ElementName=Root}">
             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                 <CheckBox
                     Margin="5"
@@ -418,6 +420,9 @@
                     </StackPanel>
                 </controls:TooltipBlock.CustomToolTip>
             </controls:TooltipBlock>
+            <StackPanel
+                Orientation="Horizontal"
+                Visibility="{c:Binding ShowAdvancedConnectSettings, ElementName=Root}">
             <Button
                 Height="30"
                 Margin="5,5,0,5"
@@ -425,12 +430,13 @@
                 Command="{s:Action ReplaceAdb}"
                 Content="{DynamicResource ForcedReplaceAdb}" />
             <controls:TooltipBlock TooltipText="{DynamicResource ForcedReplaceAdbTip}" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
             Grid.Row="7"
             d:Visibility="Visible"
-            Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
+            Visibility="{c:Binding ShowAdvancedConnectSettings and !DataContext.IsPCConnectConfig, ElementName=Root}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <CheckBox
                     Margin="5"
