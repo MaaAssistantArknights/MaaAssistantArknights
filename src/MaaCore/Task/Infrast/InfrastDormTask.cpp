@@ -159,7 +159,7 @@ bool asst::InfrastDormTask::_run()
                 break;
             }
         }
-        if (!enter_oper_list_page()) {
+        if (!enter_dorm_oper_list_page()) {
             return false;
         }
 

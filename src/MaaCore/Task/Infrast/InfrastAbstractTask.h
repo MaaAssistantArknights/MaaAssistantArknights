@@ -38,6 +38,7 @@ protected:
     bool enter_facility(int index = 0);
     // 从刚点进设施的界面，到干员列表页
     bool enter_oper_list_page();
+    bool enter_dorm_oper_list_page();
 
     virtual int operlist_swipe_times() const noexcept { return 2; }
 
