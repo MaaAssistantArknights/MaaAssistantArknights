@@ -308,8 +308,14 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
         return Result::RecognitionFailed;
     }
     // 现有训练完成任务已经负责点击领取并关闭奖励弹窗，避免重复点击占位任务。
-    run_task("InfrastTrainingCompleted");
-    if (run_task("InfrastTrainingProcessing")) {
+    run_task("InfrastTrainingCompleted", 10);
+
+    if (!run_task("InfrastTrainingMasteryPage")) {
+        return Result::RecognitionFailed;
+    }
+
+    // 如果有正在训练的干员就退出任务
+    if (run_task("InfrastTrainingProcessing", 2)) {
         std::string training_operator;
         std::string training_skill;
         int training_level = 0;
@@ -322,14 +328,12 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
                 training_level);
         }
         m_mastery_busy = true;
+        run_task("AutoRaise@ReturnToOperFilesPage");
         return Result::Skipped;
-    }
-    if (!run_task("InfrastTrainingIdle")) {
-        return Result::RecognitionFailed;
     }
     // 专精会长期占用训练室，一次运行只启动下一级；导师选择任务负责结合职业、等级、技能与心情评分。
     // 该 task 只负责打开受训干员列表；列表内的目标查找、翻页和点击复用基建识别能力。
-    if (!run_task("AutoRaise@SelectTrainee") || !select_training_trainee(target) ||
+    if (!run_task("InfrastTrainingSelectTrainee") || !select_training_trainee(target) ||
         !run_task("AutoRaise@SelectSkill" + std::to_string(target.skill))) {
         return Result::RecognitionFailed;
     }
