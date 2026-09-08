@@ -56,15 +56,17 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     public static InfrastSettingsUserControlModel Instance { get; }
 
     private static readonly ILogger _logger = Log.ForContext<InfrastSettingsUserControlModel>();
+
+    // 默认模式的固定顺序，也是自定义模式未拖拽改序时的执行顺序；宿舍须在换人设施之后，否则换下的干员送不进宿舍
     private static readonly InfrastRoomType[] _normalFacilityOrder =
     [
-        InfrastRoomType.Dorm,
         InfrastRoomType.Power,
         InfrastRoomType.Office,
         InfrastRoomType.Control,
         InfrastRoomType.Mfg,
         InfrastRoomType.Trade,
         InfrastRoomType.Reception,
+        InfrastRoomType.Dorm,
         InfrastRoomType.Processing,
         InfrastRoomType.Training,
     ];

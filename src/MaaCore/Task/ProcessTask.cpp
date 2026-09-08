@@ -275,13 +275,14 @@ ProcessTask::NodeStatus ProcessTask::run_action(const HitDetail& hits) const
     case ProcessTaskAction::Swipe: {
         size_t param_size = task->special_params.size();
         // Warning: 这里的后两个参数 slope_in 和 slope_out 是 double 类型，但是在 json 中是 int 类型
+        // specialParams: [duration, extra_swipe 方向(0 不启用, 1/2/3/4 为上/下/左/右), slope_in, slope_out]
         exec_swipe_task(
             task->specific_rect,
             task->rect_move,
             (param_size > 0) ? task->special_params.at(0) : 0,
-            (param_size > 1) ? task->special_params.at(1) : false,
-            (param_size > 2) ? task->special_params.at(2) : 1,
-            (param_size > 3) ? task->special_params.at(3) : 1,
+            (param_size > 1) ? task->special_params.at(1) : 0,
+            (param_size > 2) ? task->special_params.at(2) / 10.0 : 1,
+            (param_size > 3) ? task->special_params.at(3) / 10.0 : 1,
             task->high_resolution_swipe_fix);
         return NodeStatus::Success;
     }
@@ -494,7 +495,7 @@ void ProcessTask::exec_swipe_task(
     const Rect& r1,
     const Rect& r2,
     int duration,
-    bool extra_swipe,
+    int extra_swipe,
     double slope_in,
     double slope_out,
     bool high_resolution_swipe_fix) const

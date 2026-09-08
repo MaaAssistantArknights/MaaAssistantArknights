@@ -393,7 +393,7 @@ std::optional<int> asst::MaterialSynthesisTaskPlugin::read_number(const std::str
 
     int value = 0;
     const auto [ptr, error] = std::from_chars(digits.data(), digits.data() + digits.size(), value);
-    if (error != std::errc { } || ptr != digits.data() + digits.size()) {
+    if (error != std::errc {} || ptr != digits.data() + digits.size()) {
         return std::nullopt;
     }
     return value;

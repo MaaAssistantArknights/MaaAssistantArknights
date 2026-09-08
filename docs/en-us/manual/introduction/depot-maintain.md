@@ -82,3 +82,7 @@ When checked, the entire Depot Maintain task is skipped if an event is detected 
 ### Skip during resource collection limited-time full-day open
 
 When checked, the entire Depot Maintain task is skipped if resource collection stages are in limited-time full-day open period.
+
+### Only execute the first insufficient plan
+
+When checked, each run only executes the first plan with insufficient stock that is open today, and the log stops at that plan; once it is stocked up, the next run automatically continues with the following plans. Plans not executable today (stage not open, invalid configuration) are skipped.

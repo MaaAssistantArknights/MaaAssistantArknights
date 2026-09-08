@@ -1,4 +1,4 @@
-## v6.17.2
+## v6.17.3
 
 ### Highlights
 
@@ -17,6 +17,10 @@
 #### 基建效率算法重写
 
 重写基建效率算法，常规（默认）模式支持跨设施组合，新增跨设施组合设置与菲亚梅塔恢复目标设置，并修复一批基建选人与识别问题；宿舍换班调整为第一轮仅执行菲亚梅塔配对，新增恢复开关。
+
+#### 更换主题任务与随机主题
+
+任务链新增 ｢更换主题｣ 任务，按主题名称自动切换游戏内主题；可填写多个主题，每次运行随机选择一个。
 
 <details>
 <summary><b>English</b></summary>
@@ -37,6 +41,10 @@ The reconnect-after-disconnect logic has been removed due to the complexity and 
 
 The infrast efficiency algorithm has been rewritten; the default mode now supports cross-facility combinations, with new settings for cross-facility combinations and Fiammetta recovery targets, along with a batch of infrast operator selection and recognition fixes. Dormitory shifting now performs only Fiammetta pairing in the first round, with a new recovery toggle.
 
+#### Switch Theme Task with Random Selection
+
+A new "Switch Theme" task switches in-game themes by name; multiple candidate themes can be configured, with one randomly picked on each run.
+
 </details>
 
 ----
@@ -44,6 +52,45 @@ The infrast efficiency algorithm has been rewritten; the default mode now suppor
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.3 (2026-09-08)</b></summary>
+
+### 新增 | New
+
+* 任务链新增 ｢更换主题｣ 任务，按游戏内主题名称自动切换主题，可填写多个主题每次运行随机选择一个，主题未解锁或未找到时给出对应提示 ([#18099](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18099)) @ABA2396 @HX3N @momomochi987 @Constrat
+* 库存保持新增 ｢仅执行第一个库存不足的计划｣ 选项，第一个计划补满后下次运行自动继续后续计划 @ABA2396
+
+### 改进 | Improved
+
+* Swipe 的 specialParams[1] 额外滑动参数从 0/1 开关拓展为方向选择（0 不启用，1/2/3/4 分别为上/下/左/右）([#18099](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18099)) @ABA2396
+* Swipe 的 specialParams[2]/[3] 缓入、缓出斜率参数改为乘 10 输入（默认 10），正常缓入缓出建议 37/1，内置任务参数已同步迁移 ([#18112](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18112)) @status102
+* 改进设置指引，连接设置步骤复用实际连接设置界面，修复选择 PC 端时界面残留 ADB 选项且缺少提示，任务设置步骤改为可交互任务演示 ([#18047](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18047) [#18130](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18130)) @satgo1546 @ABA2396
+* 设置指引最后一步停留 5 秒后才能点击完成，期间按钮下方显示倒计时 @ABA2396
+* 优化黑流树海肉鸽，降低事件选项确认阈值，增加重开等待 ([#18066](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18066) [#18126](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18126)) @ZiyinLin
+* 调整基建默认设施顺序，宿舍移至换人设施之后，切换自定义基建后未调整顺序时不再先换宿舍，避免换下的干员送不进宿舍 @ABA2396
+* 自动战斗干员缺失提示补充练度未达标情形，不再仅提示未拥有 ([#18046](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18046)) @status102
+* 优化界面日志显示，库存保持与更新用户数据的任务链日志按计划序号或识别类型区分，日志分隔线标题过长时换行显示 @ABA2396
+* KR shorten resource-repair dialog strings to fit the UI @HX3N
+
+### 修复 | Fix
+
+* 修复 MuMu 触控增强状态与实际触控模式不同步、残留旧值的问题，增强勾选框改为触控模式的投影，启动时归一截图增强关闭后残留的触控模式，连接成功时重置状态 @ABA2396
+* 修复 MuMu 未使用触控增强时漏检模拟器应用保活的问题 ([#18134](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18134)) @Radekyspec
+* 修复基建笑脸被多个模板同时命中导致同一干员被识别两次，宿舍选人时被点选两下而未被选中进驻的问题 ([#18132](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18132)) @Alan-Charred
+* 修复繁中服自动编队不切换技能页 ([#18118](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18118)) @vonnoq
+* 修复切换界面语言后定时设置的任务标签停留在旧语言的问题 @ABA2396
+* 完善干员名识别替换 ｢埃癸斯｣ 的正则，覆盖更多形近误识并收紧为整词匹配，避免误替换其他干员名 @ABA2396
+* YostarEN fix Sami (IS4) roguelike strategy selection and recognition (temperature OCR, roi, ocrReplace) ([#18088](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/18088)) @Constrat
+* YostarKR adjust ocrReplace for 掌灯与引烛 @HX3N
+
+### MaaMacGui
+
+#### 修复 | Fix
+
+* 触控模式等实例选项在已有实例上重新应用，无需重启生效 ([#110](https://github.com/MaaAssistantArknights/MaaMacGui/pull/110)) @VinciJL
+
+</details>
+
+<details>
 <summary><b>v6.17.2 (2026-09-06)</b></summary>
 
 ### 新增 | New

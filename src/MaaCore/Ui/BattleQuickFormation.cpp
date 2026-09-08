@@ -103,7 +103,7 @@ std::optional<asst::BattleQuickFormation::SkillResult>
     int last_y = -1;
     cv::Mat stitched_image = roi_image;
     while (!need_exit() && retry < 3) {
-        ctrler()->swipe(swipe_task->specific_rect, swipe_task->rect_move, 300, true, 3.7, 0.1);
+        ctrler()->swipe(swipe_task->specific_rect, swipe_task->rect_move, 300, 4, 3.7, 0.1);
         sleep(swipe_task->post_delay);
 
         image = ctrler()->get_image();

@@ -316,7 +316,7 @@
         "action": "Swipe",
         "specificRect": [752, 620, 0, 0],
         "rectMove": [752, 80, 0, 0],
-        "specialParams": [500, 0, 3, 0],
+        "specialParams": [500, 0, 37, 1],
         "next": ["Reclamation2ExSwipeAndClickProduct#next"]
     },
     "Reclamation2ProsperityMax": {

@@ -753,6 +753,35 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 
 </details>
 
+- `SwitchTheme`  
+   게임 메인 화면 테마 전환
+
+:::: field-group  
+::: field enable  
+@type boolean
+@default true
+@optional
+본 작업 활성화 여부  
+:::  
+::: field themes  
+@type string[]
+@required
+후보 테마 이름 목록으로, 게임 내 테마 목록에 표시되는 이름과 일치해야 합니다. 여러 개를 입력하면 실행할 때마다 무작위로 하나가 선택되며, 빈 배열이면 작업을 건너뜁니다.  
+:::  
+::::
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+   "enable": true,
+   "themes": ["夜间", "银凇"]
+}
+```
+
+</details>
+
 - `Roguelike`  
    통합 전략 무한 반복
 

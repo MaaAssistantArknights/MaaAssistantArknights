@@ -199,103 +199,97 @@
     "Sami@Roguelike@StrategyChange_mode0": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "doc2": "As expected, using temperature number leads to other issues. Removing...",
-        "roi": [540, 0, 240, 127],
+        "doc3": "Using temperature just for 3rd floor. Literally can't get a single text OCR result otherwise",
+        "doc4": "Upgrades... Reducing the ROI seems to have a beneficial effect, with little drawbacks. Returining to simple text detection...",
+        "roi": [540, 46, 240, 26],
         "ocrReplace": [
-            [".*Brisk ?M?arshlands", "_aggressive"],
+            [".*Brisk ?Marshlands", "_aggressive"],
             [".*Placid ?Forest.*", "_aggressive"],
-            [".*Daw.*", "_pragmatic"],
-            [".*Frost.*", "_pragmatic"],
-            [".*rostbou.*", "_pragmatic"],
-            [".*Ge?l?i?d? ?Rockshe.*", "_pragmatic"],
-            [".*Immaculate.*", "_default"],
-            [".*Garde.*", "_default"],
-            [".*Clairvoyant ?Carcass", "_default"],
-            [".*Sec.?uded ?Passag.*", "_SKIP_"]
+            [".*Dawning ?Frostb.*", "_pragmatic"],
+            [".*Gelid ?Rockshelves.*", "_pragmatic"],
+            [".*Immaculate ?Garden.*", "_default"],
+            [".*Clairvoyant ?Carcass.*", "_default"],
+            [".*Secluded ?Passage.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode1": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "doc2": "As expected, using temperature number leads to other issues. Removing...",
-        "roi": [540, 0, 240, 127],
+        "doc3": "Using temperature just for 3rd floor. Literally can't get a single text OCR result otherwise",
+        "doc4": "Upgrades... Reducing the ROI seems to have a beneficial effect, with little drawbacks. Returining to simple text detection...",
+        "roi": [540, 46, 240, 26],
         "ocrReplace": [
-            [".*Brisk ?M?arshlands", "_default"],
+            [".*Brisk ?Marshlands", "_default"],
             [".*Placid ?Forest.*", "_exit"],
-            [".*Daw.*", "_exit"],
-            [".*Frost.*", "_exit"],
-            [".*rostbou.*", "_exit"],
-            [".*Ge?l?i?d? ?Rockshe.*", "_exit"],
-            [".*Immaculate.*", "_default"],
-            [".*Garde.*", "_default"],
-            [".*Clairvoyant ?Carcass", "_exit"],
-            [".*Sec.?uded ?Passag.*", "_exit"]
+            [".*Dawning ?Frostb.*", "_exit"],
+            [".*Gelid ?Rockshelves.*", "_exit"],
+            [".*Immaculate ?Garden.*", "_exit"],
+            [".*Clairvoyant ?Carcass.*", "_exit"],
+            [".*Secluded ?Passage.*", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "doc2": "As expected, using temperature number leads to other issues. Removing...",
-        "roi": [540, 0, 240, 127],
+        "doc3": "Using temperature just for 3rd floor. Literally can't get a single text OCR result otherwise",
+        "doc4": "Upgrades... Reducing the ROI seems to have a beneficial effect, with little drawbacks. Returining to simple text detection...",
+        "roi": [540, 46, 240, 26],
         "ocrReplace": [
-            [".*Brisk ?M?arshlands", "_default"],
+            [".*Brisk ?Marshlands", "_default"],
             [".*Placid ?Forest.*", "_default"],
-            [".*Daw.*", "_exit"],
-            [".*Frost.*", "_exit"],
-            [".*rostbou.*", "_exit"],
-            [".*Ge?l?i?d? ?Rockshe.*", "_exit"],
-            [".*Immaculate.*", "_default"],
-            [".*Garde.*", "_default"],
-            [".*Clairvoyant ?Carcass", "_exit"],
-            [".*Sec.?uded ?Passag.*", "_exit"]
+            [".*Dawning ?Frostb.*", "_exit"],
+            [".*Gelid ?Rockshelves.*", "_exit"],
+            [".*Immaculate ?Garden.*", "_exit"],
+            [".*Clairvoyant ?Carcass.*", "_exit"],
+            [".*Secluded ?Passage.*", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode5": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "doc2": "As expected, using temperature number leads to other issues. Removing...",
-        "roi": [540, 0, 240, 127],
+        "doc3": "Using temperature just for 3rd floor. Literally can't get a single text OCR result otherwise",
+        "doc4": "Upgrades... Reducing the ROI seems to have a beneficial effect, with little drawbacks. Returining to simple text detection...",
+        "roi": [540, 46, 240, 26],
         "ocrReplace": [
-            [".*Brisk ?M?arshlands", "_collapsal_paradigms"],
+            [".*Brisk ?Marshlands", "_collapsal_paradigms"],
             [".*Placid ?Forest.*", "_collapsal_paradigms"],
-            [".*Daw.*", "_SKIP_"],
-            [".*Frost.*", "_SKIP_"],
-            [".*rostbou.*", "_SKIP_"],
-            [".*Ge?l?i?d? ?Rockshe.*", "_SKIP_"],
-            [".*Immaculate.*", "_default"],
-            [".*Garde.*", "_default"],
-            [".*Clairvoyant ?Carcass", "_SKIP_"],
-            [".*Sec.?uded ?Passag.*", "_SKIP_"]
+            [".*Dawning ?Frostb.*", "_SKIP_"],
+            [".*Gelid ?Rockshelves.*", "_SKIP_"],
+            [".*Immaculate ?Garden.*", "_SKIP_"],
+            [".*Clairvoyant ?Carcass.*", "_SKIP_"],
+            [".*Secluded ?Passage.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode6": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "doc2": "As expected, using temperature number leads to other issues. Removing...",
-        "roi": [540, 0, 240, 127],
+        "doc3": "Using temperature just for 3rd floor. Literally can't get a single text OCR result otherwise",
+        "doc4": "Upgrades... Reducing the ROI seems to have a beneficial effect, with little drawbacks. Returining to simple text detection...",
+        "roi": [540, 46, 240, 26],
         "ocrReplace": [
-            [".*Brisk ?M?arshlands", "_aggressive"],
+            [".*Brisk ?Marshlands", "_aggressive"],
             [".*Placid ?Forest.*", "_aggressive"],
-            [".*Daw.*", "_pragmatic"],
-            [".*Frost.*", "_pragmatic"],
-            [".*rostbou.*", "_pragmatic"],
-            [".*Ge?l?i?d? ?Rockshe.*", "_pragmatic"],
-            [".*Immaculate.*", "_default"],
-            [".*Garde.*", "_default"],
-            [".*Clairvoyant ?Carcass", "_default"],
-            [".*Sec.?uded ?Passag.*", "_SKIP_"]
+            [".*Dawning ?Frostb.*", "_pragmatic"],
+            [".*Gelid ?Rockshelves.*", "_pragmatic"],
+            [".*Immaculate ?Garden.*", "_default"],
+            [".*Clairvoyant ?Carcass.*", "_default"],
+            [".*Secluded ?Passage.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode7": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "doc2": "As expected, using temperature number leads to other issues. Removing...",
-        "roi": [540, 0, 240, 127],
+        "doc3": "Using temperature just for 3rd floor. Literally can't get a single text OCR result otherwise",
+        "doc4": "Upgrades... Reducing the ROI seems to have a beneficial effect, with little drawbacks. Returining to simple text detection...",
+        "roi": [540, 46, 240, 26],
         "ocrReplace": [
-            [".*Brisk ?M?arshlands", "_aggressive"],
+            [".*Brisk ?Marshlands", "_aggressive"],
             [".*Placid ?Forest.*", "_aggressive"],
-            [".*Daw.*", "_pragmatic"],
-            [".*Frost.*", "_pragmatic"],
-            [".*rostbou.*", "_pragmatic"],
-            [".*Ge?l?i?d? ?Rockshe.*", "_pragmatic"],
-            [".*Immaculate.*", "_default"],
-            [".*Garde.*", "_default"],
-            [".*Clairvoyant ?Carcass", "_default"],
-            [".*Sec.?uded ?Passag.*", "_SKIP_"]
+            [".*Dawning ?Frostb.*", "_pragmatic"],
+            [".*Gelid ?Rockshelves.*", "_pragmatic"],
+            [".*Immaculate ?Garden.*", "_default"],
+            [".*Clairvoyant ?Carcass.*", "_default"],
+            [".*Secluded ?Passage.*", "_SKIP_"]
         ]
     }
 }

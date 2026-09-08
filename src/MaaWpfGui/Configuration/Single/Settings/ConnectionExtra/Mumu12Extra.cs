@@ -21,7 +21,5 @@ public class Mumu12Extra : BaseExtra
 
     public bool EnableBridgeConnection { get; set; }
 
-    public bool EnableTouch { get; set; }
-
     public int InstanceIndex { get; set; }
 }

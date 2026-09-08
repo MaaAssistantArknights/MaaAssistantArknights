@@ -42,6 +42,11 @@ public class DepotMaintainTask : BaseTask
     public bool SkipDuringResourceCollection { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 仅下发第一个库存不足且当日可执行的计划，其补满后由下次运行继续后续计划。
+    /// </summary>
+    public bool OnlyFirstInsufficientPlan { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 使用 AUTO 代理倍率（Series = 0）。
     /// 默认关闭（按 1 倍刷取）；开启后单次进入可能因高倍率超过目标库存上限。
     /// </summary>

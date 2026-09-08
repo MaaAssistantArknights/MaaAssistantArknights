@@ -53,6 +53,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     {
         Instance = new();
         LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
+
+        // MuMu 触控勾选框的跨实例依赖须在 Instance 就绪后注册，
+        // 放进构造链会因静态构造重入拿到 null 的 Instance 而静默失败
+        PropertyDependsOnUtility.InitializePropertyDependencies(Instance.Extras.Mumu12);
     }
 
     private ConnectSettingsUserControlModel()
@@ -741,12 +745,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             UpdateInstanceSettings();
             ConfigFactory.CurrentConfig.Gui.ConnectSettings.TouchMode = value;
 
-            // 同步 MuMu 触控增强勾选框状态（SetAndNotify 会自动去重，不会循环）
-            if (ExtraConfig is MuMu12Extra mumu)
-            {
-                mumu.EnableTouch = value == TouchMode.MumuExtras;
-            }
-
             // 触控模式决定控制器子类，Core 侧需重连才能重建控制器实例
             Instances.AsstProxy.Connected = false;
         }
@@ -867,6 +865,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool ShowWindowRestoreButton =>
         IsPCConnectConfig && ExtraConfig is Models.EmulatorConnectionExtra.Win32Extra { MouseMethod: AsstWin32InputMethod.SendMessageWithWindowPos };
 
+    [PropertyDependsOn(nameof(ConnectConfig))]
     public bool IsPCConnectConfig => ConnectConfig == ConnectConfig.PC;
 
     #endregion

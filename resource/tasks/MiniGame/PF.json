@@ -38,7 +38,7 @@
         "action": "Swipe",
         "specificRect": [1224, 661, 1, 1],
         "rectMove": [710, 325, 1, 1],
-        "specialParams": [500, 0, 3, 0],
+        "specialParams": [500, 0, 37, 1],
         "postDelay": 500,
         "next": ["MiniGame@PF@ConfirmDirection"]
     },
@@ -47,7 +47,7 @@
         "action": "Swipe",
         "specificRect": [710, 325, 1, 1],
         "rectMove": [1000, 325, 1, 1],
-        "specialParams": [500, 0, 3, 0],
+        "specialParams": [500, 0, 37, 1],
         "postDelay": 500,
         "next": ["MiniGame@PF@Deployment", "MiniGame@PF@WaitToEnd"]
     },

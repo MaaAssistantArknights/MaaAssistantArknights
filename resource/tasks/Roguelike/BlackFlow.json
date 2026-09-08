@@ -1043,7 +1043,7 @@
         "action": "Swipe",
         "specificRect": [1024, 590, 1, 1],
         "rectMove": [1024, 280, 1, 1],
-        "specialParams": [200, 0, 2, 0],
+        "specialParams": [200, 0, 20, 0],
         "postDelay": 500
     },
     "BlackFlow@Roguelike@MovementPanelTitle": {
@@ -1358,8 +1358,7 @@
         "next": ["BlackFlow@Roguelike@StageEncounterResult"]
     },
     "BlackFlow@Roguelike@StageEncounterLeaveConfirm": {
-        "baseTask": "Roguelike@StageEncounterLeaveConfirm",
-        "template": "BlackFlow@Roguelike@StageEncounterLeaveConfirm.png",
+        "templThreshold": 0.7,
         "next": [
             "BlackFlow@Roguelike@StageEncounterLeaveConfirm",
             "BlackFlow@Roguelike@StageEncounterLeaveConfirmCompleted"

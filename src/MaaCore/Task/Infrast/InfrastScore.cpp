@@ -634,8 +634,9 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                     ++standard;
                 }
                 // 莱茵科技：白面鸮、赫默、多萝西、星源。
-                else if (
-                    is_operator(oper, { "char_128_plosis", "char_108_silent", "char_4048_doroth", "char_135_halo" })) {
+                else if (is_operator(
+                             oper,
+                             { "char_128_plosis", "char_108_silent", "char_4048_doroth", "char_135_halo" })) {
                     ++rhine;
                 }
                 // 红松骑士团：远牙、灰毫、野鬃；受薇薇安娜、焰尾和正义骑士号联动影响。
@@ -973,10 +974,10 @@ double office_score(const ScoreOper& oper)
             score += 0.2;
         }
         else if (icon == "bskill_hire_spd_memento") { // 追忆：絮雨
-            score += 0.31;// + 0.01 使之高于0.5
+            score += 0.31;                            // + 0.01 使之高于0.5
         }
-        else if (icon == "bskill_hire_spd_bd_n2") { // 救援队·灾后普查：桑葚
-            score += 0.301;// + 0.001 使之高于0.5
+        else if (icon == "bskill_hire_spd_bd_n2") {   // 救援队·灾后普查：桑葚
+            score += 0.301;                           // + 0.001 使之高于0.5
         }
         // 内幕：山；巡游：絮雨；救援队·资源清点：桑葚；语言学：闪击；人事管理·α：巡林者。
         else if (
@@ -1514,7 +1515,7 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
     std::vector<size_t> result;
     const size_t limit = static_cast<size_t>(std::max(0, context.slots));
     if (limit == 0) {
-        return { { }, 0 };
+        return { {}, 0 };
     }
 
     // 迷迭香在制造站或絮雨在办公室时，优先选择感知信息与无声共鸣体系的宿舍联动干员。
@@ -1766,7 +1767,7 @@ ScoreResult select_best_opers(const std::vector<ScoreOper>& opers, const ScoreCo
     if (context.facility == "Dorm") {
         return select_dorm(opers, context);
     }
-    return { };
+    return {};
 }
 
 } // namespace asst::infrast

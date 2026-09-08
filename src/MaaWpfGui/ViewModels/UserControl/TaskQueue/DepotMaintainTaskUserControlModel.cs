@@ -173,6 +173,15 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 仅下发第一个库存不足且当日可执行的计划，其补满后由下次运行继续后续计划。
+    /// </summary>
+    public bool OnlyFirstInsufficientPlan
+    {
+        get => GetTaskConfig<DepotMaintainTask>().OnlyFirstInsufficientPlan;
+        set => SetTaskConfig<DepotMaintainTask>(t => t.OnlyFirstInsufficientPlan == value, t => t.OnlyFirstInsufficientPlan = value);
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 使用 AUTO 代理倍率（Series = 0）。
     /// 默认关闭（按 1 倍刷取）；开启后单次进入可能因高倍率超过目标库存上限。
     /// </summary>
@@ -634,6 +643,10 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     taskIds.Add(id);
                     depot.PlanList[i] = plan with { TaskId = id };
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryInsufficient", i + 1, dropName, currentCount.ToString("N0"), plan.DropCount.ToString("N0"), need.ToString("N0")));
+                    if (depot.OnlyFirstInsufficientPlan)
+                    {
+                        break; // 仅下发第一个库存不足的计划，其后计划本轮不评估也不输出日志
+                    }
                 }
             }
 

@@ -21,6 +21,7 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.Win32;
@@ -205,16 +206,14 @@ public class MuMu12Extra() : ExtraConfig
 
     /// <summary>
     /// Gets or sets a value indicating whether MuMu extras is also used for touch input, not just screencap.
-    /// 勾选时自动切换触控模式为 MuMu 触控，取消勾选时回到默认 Minitouch。
+    /// TouchMode 的投影，无独立存储：勾选即切 MuMu 触控，取消时仅在仍处于 MuMu 触控的情况下回退默认 Minitouch；
+    /// 通知由 PropertyDependsOn 跨实例依赖自动转发，无需手动补发。
     /// </summary>
+    [PropertyDependsOn(typeof(ConnectSettingsUserControlModel), nameof(ConnectSettingsUserControlModel.TouchMode))]
     public bool EnableTouch
     {
-        get; set {
-            if (!SetAndNotify(ref field, value))
-            {
-                return;
-            }
-
+        get => ConnectSettingsUserControlModel.Instance.TouchMode == TouchMode.MumuExtras;
+        set {
             if (value)
             {
                 ConnectSettingsUserControlModel.Instance.TouchMode = TouchMode.MumuExtras;
@@ -225,9 +224,8 @@ public class MuMu12Extra() : ExtraConfig
                 // 避免用户主动切换到其他触控模式时被覆盖
                 ConnectSettingsUserControlModel.Instance.TouchMode = TouchMode.MiniTouch;
             }
-            ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Mumu12.EnableTouch = value;
         }
-    } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Mumu12.EnableTouch;
+    }
 
     /// <summary>
     /// Gets or sets the index of the emulator.

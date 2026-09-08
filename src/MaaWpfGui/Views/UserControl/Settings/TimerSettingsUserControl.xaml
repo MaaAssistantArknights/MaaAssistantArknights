@@ -87,11 +87,15 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerList[0].Name}"
                         IsChecked="{Binding TimerList[0].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
+                        <TextBlock>
+                            <Run Text="{DynamicResource Timer}" />
+                            <Run xml:space="preserve" Text=" 1" />
+                        </TextBlock>
+                    </CheckBox>
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -136,11 +140,15 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerList[1].Name}"
                         IsChecked="{Binding TimerList[1].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
+                        <TextBlock>
+                            <Run Text="{DynamicResource Timer}" />
+                            <Run xml:space="preserve" Text=" 2" />
+                        </TextBlock>
+                    </CheckBox>
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -185,11 +193,15 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerList[2].Name}"
                         IsChecked="{Binding TimerList[2].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
+                        <TextBlock>
+                            <Run Text="{DynamicResource Timer}" />
+                            <Run xml:space="preserve" Text=" 3" />
+                        </TextBlock>
+                    </CheckBox>
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -234,11 +246,15 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerList[3].Name}"
                         IsChecked="{Binding TimerList[3].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
+                        <TextBlock>
+                            <Run Text="{DynamicResource Timer}" />
+                            <Run xml:space="preserve" Text=" 4" />
+                        </TextBlock>
+                    </CheckBox>
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -283,11 +299,15 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerList[4].Name}"
                         IsChecked="{Binding TimerList[4].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
+                        <TextBlock>
+                            <Run Text="{DynamicResource Timer}" />
+                            <Run xml:space="preserve" Text=" 5" />
+                        </TextBlock>
+                    </CheckBox>
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -332,11 +352,15 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerList[5].Name}"
                         IsChecked="{Binding TimerList[5].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
+                        <TextBlock>
+                            <Run Text="{DynamicResource Timer}" />
+                            <Run xml:space="preserve" Text=" 6" />
+                        </TextBlock>
+                    </CheckBox>
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -381,11 +405,15 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerList[6].Name}"
                         IsChecked="{Binding TimerList[6].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
+                        <TextBlock>
+                            <Run Text="{DynamicResource Timer}" />
+                            <Run xml:space="preserve" Text=" 7" />
+                        </TextBlock>
+                    </CheckBox>
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"
@@ -430,11 +458,15 @@
                     Orientation="Horizontal">
                     <CheckBox
                         Margin="10"
-                        Content="{Binding TimerList[7].Name}"
                         IsChecked="{Binding TimerList[7].IsEnabled}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
+                        <TextBlock>
+                            <Run Text="{DynamicResource Timer}" />
+                            <Run xml:space="preserve" Text=" 8" />
+                        </TextBlock>
+                    </CheckBox>
                     <StackPanel Orientation="Horizontal">
                         <hc:NumericUpDown
                             Width="55"

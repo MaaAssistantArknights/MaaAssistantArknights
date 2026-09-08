@@ -23,7 +23,7 @@ namespace MaaWpfGui.Configuration.Single.Settings;
 /// <summary>
 /// 模拟器连接设置
 /// </summary>
-public partial class ConnectSettings : NotifyPropertyChangedWithValue
+public partial class ConnectSettings : NotifyPropertyChangedWithValue, IJsonOnDeserialized
 {
     private static string _bindingPrefix = string.Empty;
 
@@ -34,6 +34,15 @@ public partial class ConnectSettings : NotifyPropertyChangedWithValue
         Extras.Mumu12.PropertyChanged += Handler.OnPropertyChangedFactory(_bindingPrefix + nameof(ConnectSettings) + "." + nameof(ExtraConfigs) + "." + nameof(Extras.Mumu12) + ".");
         Extras.LDPlayer.PropertyChanged += Handler.OnPropertyChangedFactory(_bindingPrefix + nameof(ConnectSettings) + "." + nameof(ExtraConfigs) + "." + nameof(Extras.LDPlayer) + ".");
         Extras.Win32Extra.PropertyChanged += Handler.OnPropertyChangedFactory(_bindingPrefix + nameof(ConnectSettings) + "." + nameof(ExtraConfigs) + "." + nameof(Extras.Win32Extra) + ".");
+    }
+
+    public void OnDeserialized()
+    {
+        // MuMu 触控仅在截图增强开启时可选，残留的 MumuExtras 会让下拉框选中项悬空、Core 派生的控制器无 extras 可用
+        if (!Extras.Mumu12.IsEnabled && TouchMode == TouchMode.MumuExtras)
+        {
+            TouchMode = TouchMode.MiniTouch;
+        }
     }
 
     public bool AutoDetect { get; set; } = true;

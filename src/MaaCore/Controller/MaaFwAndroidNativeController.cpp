@@ -233,7 +233,7 @@ bool MaaFwAndroidNativeController::swipe(
     const Point& p1,
     const Point& p2,
     const int duration,
-    const bool extra_swipe,
+    const int extra_swipe,
     const double slope_in,
     const double slope_out,
     const bool with_pause)
@@ -323,8 +323,9 @@ bool MaaFwAndroidNativeController::swipe(
     // 额外滑动逻辑
     if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
         std::this_thread::sleep_for(std::chrono::milliseconds(opt.minitouch_swipe_extra_end_delay));
+        const auto offset = extra_swipe_offset(extra_swipe, opt.minitouch_extra_swipe_dist);
 
-        if (!do_swipe(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration)) {
+        if (!do_swipe(x2, y2, x2 + offset.x, y2 + offset.y, opt.minitouch_extra_swipe_duration)) {
             LogWarn << "Failed during extra swipe movement";
         }
     }

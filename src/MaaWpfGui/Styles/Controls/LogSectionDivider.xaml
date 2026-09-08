@@ -2,6 +2,7 @@
     x:Class="MaaWpfGui.Styles.Controls.LogSectionDivider"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -17,8 +18,10 @@
             Height="1"
             VerticalAlignment="Center"
             Fill="{DynamicResource BorderBrush}" />
+        <!--  Auto 列以无穷宽测量子元素，Wrap 不会因列宽触发；MaxWidth 在测量阶段钳制宽度，两侧各保留 20px 短线与 10px 边距  -->
         <TextBlock
             Grid.Column="1"
+            MaxWidth="{c:Binding 'ActualWidth - 60'}"
             Margin="10,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"

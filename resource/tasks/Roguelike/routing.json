@@ -13,7 +13,7 @@
         "action": "Swipe",
         "specificRect": [1000, 360, 0, 0],
         "rectMove": [800, 360, 0, 0],
-        "specialParams": [200, 1, 2, 0]
+        "specialParams": [200, 1, 20, 0]
     },
     "RoguelikeRoutingAction": {
         "algorithm": "JustReturn"

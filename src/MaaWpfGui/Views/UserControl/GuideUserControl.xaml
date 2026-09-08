@@ -6,17 +6,12 @@
     xmlns:constants="clr-namespace:MaaWpfGui.Constants"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:enums="clr-namespace:MaaWpfGui.Constants.Enums"
-    xmlns:extra="clr-namespace:MaaWpfGui.Models.EmulatorConnectionExtra"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings="clr-namespace:MaaWpfGui.Views.UserControl.Settings"
-    xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
-    xmlns:taskQueue="clr-namespace:MaaWpfGui.Views.UserControl.TaskQueue"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
@@ -83,8 +78,18 @@
                         hc:IconElement.Width="18"
                         Command="{s:Action DoneGuide}"
                         Content="{DynamicResource DoneGuide}"
+                        IsEnabled="{Binding GuideConfirmEnabled}"
                         Style="{StaticResource ButtonDashedPrimary}"
                         Visibility="{c:Binding 'GuideStepIndex >= GuideMaxStep - 1'}" />
+                    <controls:TextBlock
+                        Margin="0,6,0,0"
+                        HorizontalAlignment="Center"
+                        FontSize="12"
+                        Foreground="{DynamicResource ThirdlyTextBrush}"
+                        Visibility="{c:Binding '!GuideConfirmEnabled',
+                                               FalseToVisibility=Hidden}">
+                        <Run Text="{DynamicResource GuideConfirmCountdownPrefix}" /><Run Text="{Binding GuideConfirmCountdown}" /><Run Text="{DynamicResource GuideConfirmCountdownSuffix}" />
+                    </controls:TextBlock>
                 </StackPanel>
 
                 <ScrollViewer Margin="10,20,10,20" VerticalScrollBarVisibility="Auto">
@@ -158,583 +163,442 @@
                                     TextWrapping="Wrap"
                                     Visibility="{c:Binding !IsPCConnectConfig}" />
 
-                                <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding !IsPCConnectConfig}">
-                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                        <CheckBox
-                                            Margin="0,5"
-                                            Content="{DynamicResource AutoDetectConnection}"
-                                            IsChecked="{Binding AutoDetectConnection}" />
-                                        <controls:TooltipBlock TooltipText="{DynamicResource AutoDetectConnectionTip}" />
-                                    </StackPanel>
-                                    <StackPanel
-                                        HorizontalAlignment="Left"
-                                        Orientation="Horizontal"
-                                        Visibility="{c:Binding AutoDetectConnection}">
-                                        <CheckBox
-                                            Margin="0,5"
-                                            HorizontalAlignment="Left"
-                                            Content="{DynamicResource AlwaysAutoDetectConnection}"
-                                            IsChecked="{Binding AlwaysAutoDetectConnection}"
-                                            Style="{StaticResource ErrorHighlightCheckBoxStyle}" />
-                                        <controls:TooltipBlock TooltipText="{DynamicResource AlwaysAutoDetectConnectionTip}" />
-                                    </StackPanel>
-                                </StackPanel>
-
-                                <!--  连接配置  -->
-                                <hc:ComboBox
-                                    Width="200"
-                                    Margin="0,5"
-                                    hc:InfoElement.Title="{DynamicResource ConnectionPreset}"
-                                    hc:TitleElement.HorizontalAlignment="Center"
-                                    DisplayMemberPath="Display"
-                                    ItemsSource="{Binding ConnectConfigList}"
-                                    SelectedValue="{Binding ConnectConfig}"
-                                    SelectedValuePath="Value" />
-
-                                <StackPanel
-                                    Visibility="{c:Binding IsPCConnectConfig}">
-                                    <TextBlock
-                                        Margin="100,0"
-                                        HorizontalAlignment="Left"
-                                        Foreground="{DynamicResource ErrorLogBrush}"
-                                        Text="{DynamicResource UseAttachWindowWarning}"
-                                        TextWrapping="Wrap" />
-                                    <TextBlock
-                                        Margin="100,0"
-                                        HorizontalAlignment="Left"
-                                        properties:RainbowAnimationBehavior.IsActive="True"
-                                        Foreground="{DynamicResource RainbowFlowBrush}"
-                                        Text="{DynamicResource UseAttachWindowWarningRecommendation}"
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
-
-                                <!--  ADB 连接配置区域  -->
-                                <StackPanel Visibility="{c:Binding '!IsPCConnectConfig'}">
-                                    <Grid
-                                        Width="300"
-                                        Margin="0,5"
-                                        Visibility="{c:Binding !AutoDetectConnection}">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <controls:TextBlock
-                                            Grid.Row="0"
-                                            Grid.Column="0"
-                                            Grid.ColumnSpan="2"
-                                            Margin="8,0,0,5"
-                                            Text="{DynamicResource AdbPath}" />
-                                        <hc:TextBox
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            hc:BorderElement.CornerRadius="4,0,0,4"
-                                            Text="{Binding AdbPath}" />
-                                        <Button
-                                            Grid.Row="1"
-                                            Grid.Column="1"
-                                            Width="60"
-                                            VerticalAlignment="Bottom"
-                                            hc:BorderElement.CornerRadius="0,4,4,0"
-                                            BorderThickness="0,1,1,1"
-                                            Command="{s:Action SelectFile}"
-                                            Content="{DynamicResource Select}" />
-                                    </Grid>
-
-                                    <StackPanel Margin="0,5" Visibility="{c:Binding !AutoDetectConnection}">
-                                        <StackPanel
-                                            Margin="8,0,0,5"
-                                            HorizontalAlignment="Center"
-                                            Orientation="Horizontal">
-                                            <controls:TextBlock Text="{DynamicResource ConnectionAddress}" />
-                                            <controls:TooltipBlock TooltipText="{DynamicResource ConnectionAddressTip}" />
-                                        </StackPanel>
-                                        <hc:ComboBox
-                                            Width="200"
-                                            HorizontalContentAlignment="Stretch"
-                                            IsEditable="True"
-                                            ItemsSource="{Binding ConnectAddressHistory}"
-                                            Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*" />
-                                                            <ColumnDefinition Width="Auto" />
-                                                        </Grid.ColumnDefinitions>
-                                                        <TextBlock
-                                                            Grid.Column="0"
-                                                            HorizontalAlignment="Left"
-                                                            VerticalAlignment="Center"
-                                                            Text="{Binding}" />
-                                                        <Button
-                                                            Grid.Column="1"
-                                                            HorizontalAlignment="Right"
-                                                            Command="{s:Action RemoveAddressClick}"
-                                                            CommandParameter="{Binding}"
-                                                            Content="×"
-                                                            FontWeight="Bold" />
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </hc:ComboBox>
-                                    </StackPanel>
-
-                                    <StackPanel Margin="0,5">
-                                        <StackPanel
-                                            Margin="8,0,0,5"
-                                            HorizontalAlignment="Center"
-                                            Orientation="Horizontal">
-                                            <controls:TextBlock Text="{DynamicResource TouchMode}" />
-                                            <controls:TooltipBlock>
-                                                <controls:TooltipBlock.CustomToolTip>
-                                                    <StackPanel MaxWidth="400">
-                                                        <MediaElement
-                                                            Width="252"
-                                                            Height="268"
-                                                            IsMuted="True"
-                                                            LoadedBehavior="Play"
-                                                            Source="{Binding Source={x:Static settings_vms:ConnectSettingsUserControlModel.TouchModeVideoPath}}" />
-                                                        <TextBlock
-                                                            Margin="0,8,0,0"
-                                                            FontSize="12"
-                                                            Foreground="{DynamicResource PrimaryTextBrush}"
-                                                            Text="{DynamicResource TouchModeTip}"
-                                                            TextWrapping="Wrap" />
-                                                    </StackPanel>
-                                                </controls:TooltipBlock.CustomToolTip>
-                                            </controls:TooltipBlock>
-                                        </StackPanel>
-                                        <hc:ComboBox
-                                            Width="200"
-                                            DisplayMemberPath="Display"
-                                            IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                                            ItemsSource="{Binding TouchModeList}"
-                                            SelectedValue="{Binding TouchMode}"
-                                            SelectedValuePath="Value" />
-                                    </StackPanel>
-
-                                    <!--  额外配置  -->
-                                    <ContentControl d:Content="{d:DesignInstance Type=extra:MuMu12Extra}" Content="{Binding ExtraConfig}">
-                                        <ContentControl.Resources>
-                                            <DataTemplate DataType="{x:Type extra:MuMu12Extra}">
-                                                <StackPanel d:DataContext="{d:DesignInstance {x:Type extra:MuMu12Extra}}">
-                                                    <StackPanel
-                                                        Margin="0,5"
-                                                        HorizontalAlignment="Center"
-                                                        Orientation="Horizontal">
-                                                        <CheckBox Content="{DynamicResource MuMu12ExtrasEnabled}" IsChecked="{Binding Enable}" />
-                                                        <controls:TooltipBlock TooltipText="{DynamicResource MuMu12ExtrasEnabledTip}" />
-                                                    </StackPanel>
-                                                    <StackPanel
-                                                        HorizontalAlignment="Center"
-                                                        d:Visibility="Visible"
-                                                        Orientation="Vertical"
-                                                        Visibility="{c:Binding Enable}">
-                                                        <CheckBox
-                                                            Margin="0,5"
-                                                            HorizontalAlignment="Center"
-                                                            Content="{DynamicResource MuMuExtrasTouchEnabled}"
-                                                            IsChecked="{Binding EnableTouch}" />
-                                                        <hc:TextBox
-                                                            Width="300"
-                                                            Height="30"
-                                                            Margin="0,5"
-                                                            hc:InfoElement.Placeholder="{DynamicResource MuMu12EmulatorPathPlaceholder}"
-                                                            hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
-                                                            hc:TitleElement.TitlePlacement="Left"
-                                                            Text="{Binding EmulatorPath}" />
-                                                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                                            <CheckBox
-                                                                Margin="0,5"
-                                                                Content="{DynamicResource MuMuBridgeConnection}"
-                                                                IsChecked="{Binding EnableBridgeConnection}" />
-                                                            <controls:TooltipBlock TooltipText="{DynamicResource MuMuBridgeConnectionTip}" />
-                                                        </StackPanel>
-                                                        <hc:TextBox
-                                                            Height="30"
-                                                            Margin="0,5"
-                                                            HorizontalContentAlignment="Center"
-                                                            d:Visibility="Visible"
-                                                            hc:TitleElement.Title="{DynamicResource MuMu12Index}"
-                                                            hc:TitleElement.TitlePlacement="Left"
-                                                            Text="{Binding InstanceIndex}"
-                                                            Visibility="{c:Binding EnableBridgeConnection}" />
-                                                    </StackPanel>
-                                                </StackPanel>
-                                            </DataTemplate>
-
-                                            <DataTemplate DataType="{x:Type extra:LDPlayerExtra}">
-                                                <StackPanel d:DataContext="{d:DesignInstance {x:Type extra:LDPlayerExtra}}">
-
-                                                    <StackPanel
-                                                        Margin="0,5"
-                                                        HorizontalAlignment="Center"
-                                                        Orientation="Horizontal">
-                                                        <CheckBox Content="{DynamicResource LdExtrasEnabled}" IsChecked="{Binding Enable}" />
-                                                        <controls:TooltipBlock TooltipText="{DynamicResource LdExtrasEnabledTip}" />
-                                                    </StackPanel>
-                                                    <StackPanel d:Visibility="Visible" Visibility="{c:Binding Enable}">
-                                                        <hc:TextBox
-                                                            Width="300"
-                                                            Height="30"
-                                                            Margin="0,5"
-                                                            hc:InfoElement.Placeholder="{DynamicResource LdEmulatorPathPlaceholder}"
-                                                            hc:TitleElement.Title="{DynamicResource LdEmulatorPath}"
-                                                            hc:TitleElement.TitlePlacement="Left"
-                                                            Text="{Binding EmulatorPath}" />
-                                                        <CheckBox
-                                                            HorizontalAlignment="Center"
-                                                            VerticalContentAlignment="Center"
-                                                            Content="{DynamicResource LdManualSetIndex}"
-                                                            IsChecked="{Binding ManualSetIndex}" />
-                                                        <hc:TextBox
-                                                            Width="130"
-                                                            Height="30"
-                                                            Margin="0,5"
-                                                            d:Visibility="Visible"
-                                                            hc:InfoElement.Placeholder="0"
-                                                            hc:TitleElement.Title="{DynamicResource LdIndex}"
-                                                            hc:TitleElement.TitlePlacement="Left"
-                                                            Text="{Binding InstanceIndex}"
-                                                            Visibility="{c:Binding ManualSetIndex}" />
-                                                    </StackPanel>
-                                                </StackPanel>
-                                            </DataTemplate>
-
-                                            <DataTemplate DataType="{x:Type extra:Win32Extra}">
-                                                <StackPanel d:DataContext="{d:DesignInstance {x:Type extra:Win32Extra}}">
-                                                    <!--  PC 窗口配置区域  -->
-                                                    <hc:ComboBox
-                                                        Width="300"
-                                                        Margin="0,5"
-                                                        hc:InfoElement.Title="{DynamicResource AttachWindowScreencapMethod}"
-                                                        hc:TitleElement.HorizontalAlignment="Center"
-                                                        DisplayMemberPath="Display"
-                                                        ItemsSource="{Binding ScreencapMethodList}"
-                                                        SelectedValue="{Binding ScreencapMethod}"
-                                                        SelectedValuePath="Value">
-                                                        <hc:ComboBox.ItemContainerStyle>
-                                                            <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="{x:Type ComboBoxItem}">
-                                                                <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
-                                                                <Style.Triggers>
-                                                                    <Trigger Property="IsEnabled" Value="False">
-                                                                        <Setter Property="Opacity" Value="0.4" />
-                                                                    </Trigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </hc:ComboBox.ItemContainerStyle>
-                                                    </hc:ComboBox>
-
-                                                    <hc:ComboBox
-                                                        Width="300"
-                                                        Margin="0,5"
-                                                        hc:InfoElement.Title="{DynamicResource AttachWindowMouseMethod}"
-                                                        hc:TitleElement.HorizontalAlignment="Center"
-                                                        DisplayMemberPath="Display"
-                                                        ItemsSource="{Binding MouseMethodList}"
-                                                        SelectedValue="{Binding MouseMethod}"
-                                                        SelectedValuePath="Value">
-                                                        <hc:ComboBox.ItemContainerStyle>
-                                                            <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="{x:Type ComboBoxItem}">
-                                                                <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
-                                                                <Style.Triggers>
-                                                                    <Trigger Property="IsEnabled" Value="False">
-                                                                        <Setter Property="Opacity" Value="0.4" />
-                                                                    </Trigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </hc:ComboBox.ItemContainerStyle>
-                                                    </hc:ComboBox>
-
-                                                    <hc:ComboBox
-                                                        Width="300"
-                                                        Margin="0,5"
-                                                        hc:InfoElement.Title="{DynamicResource AttachWindowKeyboardMethod}"
-                                                        hc:TitleElement.HorizontalAlignment="Center"
-                                                        DisplayMemberPath="Display"
-                                                        ItemsSource="{Binding KeyboardMethodList}"
-                                                        SelectedValue="{Binding KeyboardMethod}"
-                                                        SelectedValuePath="Value" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ContentControl.Resources>
-                                    </ContentControl>
-                                </StackPanel>
-
-                                <!--  截图测试  -->
-                                <StackPanel HorizontalAlignment="Center">
-                                    <Button
-                                        Height="30"
-                                        Margin="5"
-                                        HorizontalAlignment="Center"
-                                        Command="{s:Action TestLinkAndGetImage}"
-                                        Content="{DynamicResource ScreenshotTest}" />
-                                    <controls:TextBlock
-                                        Margin="5"
-                                        HorizontalAlignment="Center"
-                                        Text="{Binding TestLinkInfo}"
-                                        TextWrapping="Wrap"
-                                        Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
-                                </StackPanel>
+                                <settings:ConnectSettingsUserControl ShowAdvancedConnectSettings="False" />
                             </StackPanel>
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl
-                            Width="500"
-                            Height="340"
-                            d:Visibility="Visible"
+                            Width="480"
+                            Height="430"
+                            d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 3'}">
-                            <hc:RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <TextBlock
-                                    Name="ToolTipGuide"
-                                    Margin="0,0,0,50"
-                                    Text="{DynamicResource ToolTipGuide}" />
-                                <controls:TooltipBlock
-                                    x:Name="PerformBattlesGuide"
-                                    Margin="0,0,0,50"
-                                    hc:RelativePanel.RightOf="{Binding ElementName=ToolTipGuide}"
-                                    TooltipText="{DynamicResource CheckBoxesNotSaved}" />
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Width="210"
+                                    Margin="0,0,0,2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <controls:TextBlock
+                                        FontSize="14"
+                                        Text="{DynamicResource HoverActionButtons}"
+                                        TextWrapping="Wrap" />
+                                    <controls:TextBlock
+                                        Grid.Row="1"
+                                        FontSize="14"
+                                        Text="{DynamicResource GearContextMenuTip}"
+                                        TextAlignment="Right"
+                                        TextWrapping="Wrap" />
+                                </Grid>
+
+                                <!--  演示任务面板：列表与互动操作均为演示数据，与真实任务队列无关  -->
                                 <Border
-                                    x:Name="TaskItemBorder"
-                                    Width="220"
-                                    Padding="5,0,0,0"
-                                    hc:RelativePanel.Below="{Binding ElementName=ToolTipGuide}"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Width="210"
+                                    HorizontalAlignment="Center"
+                                    Background="{DynamicResource RegionBrushOpacity25}"
                                     BorderBrush="{DynamicResource BorderBrush}"
                                     BorderThickness="1"
                                     CornerRadius="4">
                                     <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <hc:ButtonGroup>
-                                            <RadioButton
-                                                Grid.Column="0"
-                                                Margin="0"
-                                                Padding="0"
-                                                HorizontalAlignment="Stretch"
-                                                HorizontalContentAlignment="Left"
-                                                Background="Transparent"
-                                                BorderThickness="0"
-                                                Style="{DynamicResource RadioGroupItemSingle}">
-                                                <RadioButton.ToolTip>
-                                                    <ToolTip>
-                                                        <StackPanel>
-                                                            <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
-                                                            <TextBlock Text="{DynamicResource TaskSettings}" />
-                                                        </StackPanel>
-                                                    </ToolTip>
-                                                </RadioButton.ToolTip>
-                                            </RadioButton>
-                                        </hc:ButtonGroup>
-                                        <CheckBox
-                                            Grid.Column="0"
-                                            Width="120"
-                                            HorizontalAlignment="Left"
-                                            Content="{DynamicResource Combat}"
-                                            MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                                          Target={x:Type helper:CheckBoxHelper}}"
-                                            ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
-                                        <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel.Style>
-                                                    <Style TargetType="StackPanel">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=TaskItemBorder}" Value="True">
-                                                                <Setter Property="Visibility" Value="Visible" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </StackPanel.Style>
-                                                <Button
-                                                    Width="22"
-                                                    Height="22"
-                                                    Margin="0"
-                                                    Padding="0"
-                                                    hc:IconElement.Geometry="{StaticResource CopyTaskGeometry}"
-                                                    hc:IconElement.Height="14"
-                                                    hc:IconElement.Width="14"
-                                                    Background="Transparent"
-                                                    BorderBrush="Transparent"
-                                                    BorderThickness="0"
-                                                    ToolTip="{DynamicResource Copy}">
-                                                    <Button.Style>
-                                                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-                                                            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
-                                                            <Style.Triggers>
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Button.Style>
-                                                </Button>
-                                                <Button
-                                                    Width="22"
-                                                    Height="22"
-                                                    Margin="0"
-                                                    Padding="0"
-                                                    hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
-                                                    hc:IconElement.Height="14"
-                                                    hc:IconElement.Width="14"
-                                                    Background="Transparent"
-                                                    BorderBrush="Transparent"
-                                                    BorderThickness="0"
-                                                    ToolTip="{DynamicResource Rename}">
-                                                    <Button.Style>
-                                                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-                                                            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
-                                                            <Style.Triggers>
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Button.Style>
-                                                </Button>
-                                                <Button
-                                                    Width="22"
-                                                    Height="22"
-                                                    Margin="0"
-                                                    Padding="0"
-                                                    hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
-                                                    hc:IconElement.Height="14"
-                                                    hc:IconElement.Width="14"
-                                                    Background="Transparent"
-                                                    BorderBrush="Transparent"
-                                                    BorderThickness="0"
-                                                    ToolTip="{DynamicResource Delete}">
-                                                    <Button.Style>
-                                                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-                                                            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
-                                                            <Style.Triggers>
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Button.Style>
-                                                </Button>
-                                            </StackPanel>
-                                            <hc:ButtonGroup>
-                                                <RadioButton
-                                                    Width="22"
-                                                    Margin="0,0,4,0"
-                                                    Padding="0"
-                                                    hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
-                                                    hc:VisualElement.HighlightBackground="Transparent"
-                                                    hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
-                                                    Background="Transparent"
-                                                    BorderThickness="0"
-                                                    Style="{DynamicResource RadioGroupItemSingle}">
-                                                    <RadioButton.ToolTip>
-                                                        <ToolTip>
-                                                            <StackPanel>
-                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
-                                                                <TextBlock Text="{DynamicResource TaskSettings}" />
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <ItemsControl
+                                            Grid.Row="0"
+                                            Width="190"
+                                            MinHeight="140"
+                                            Margin="0,10,0,8"
+                                            HorizontalAlignment="Center"
+                                            ItemsSource="{Binding GuideDemoTasks}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border
+                                                        x:Name="GuideDemoItemBorder"
+                                                        MinHeight="24.5"
+                                                        Background="Transparent"
+                                                        CornerRadius="4">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
 
-                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
-                                                                <TextBlock>
-                                                                    <Run Text="{DynamicResource RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource Copy}" /><Run Text="/" /><Run Text="{DynamicResource Rename}" /><Run Text="/" /><Run Text="{DynamicResource Delete}" />
-                                                                </TextBlock>
+                                                            <!--  Column 0: CheckBox 拉伸填充可点击区域，名称由叠加 TextBlock 展示（照真实任务项结构）  -->
+                                                            <CheckBox
+                                                                Grid.Column="0"
+                                                                MaxWidth="140"
+                                                                Margin="4.5,0,0,0"
+                                                                HorizontalAlignment="Left"
+                                                                IsChecked="{Binding IsChecked}">
+                                                                <controls:TextBlock Text="{Binding Name}" Visibility="Hidden" />
+                                                            </CheckBox>
+                                                            <controls:TextBlock
+                                                                Grid.Column="0"
+                                                                Margin="26,0,4,0"
+                                                                HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Center"
+                                                                Background="Transparent"
+                                                                IsHitTestVisible="False"
+                                                                Text="{Binding Name}" />
+
+                                                            <!--  Column 1: 悬浮显示的 复制/重命名/删除 与常驻齿轮（右键菜单），交互均落在演示列表  -->
+                                                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <StackPanel.Style>
+                                                                        <Style TargetType="StackPanel">
+                                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=GuideDemoItemBorder}" Value="True">
+                                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </StackPanel.Style>
+                                                                    <Button
+                                                                        hc:IconElement.Geometry="{StaticResource CopyTaskGeometry}"
+                                                                        Command="{s:Action CopyGuideDemoTask,
+                                                                                           Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                        CommandParameter="{Binding}"
+                                                                        Style="{StaticResource TaskActionButtonStyle}"
+                                                                        ToolTip="{DynamicResource Copy}" />
+                                                                    <Button
+                                                                        hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
+                                                                        Command="{s:Action RenameGuideDemoTask,
+                                                                                           Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                        CommandParameter="{Binding}"
+                                                                        Style="{StaticResource TaskActionButtonStyle}"
+                                                                        ToolTip="{DynamicResource Rename}" />
+                                                                    <Button
+                                                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                                                        Command="{s:Action RemoveGuideDemoTask,
+                                                                                           Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                        CommandParameter="{Binding}"
+                                                                        Style="{StaticResource TaskActionButtonStyle}"
+                                                                        ToolTip="{DynamicResource Delete}" />
+                                                                </StackPanel>
+                                                                <hc:ButtonGroup>
+                                                                    <RadioButton
+                                                                        Width="22"
+                                                                        Margin="0,0,4,0"
+                                                                        Padding="0"
+                                                                        hc:VisualElement.HighlightBackground="Transparent"
+                                                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                                                        Background="Transparent"
+                                                                        BorderThickness="0"
+                                                                        GroupName="TaskSettings"
+                                                                        IsChecked="{Binding EnableSetting}"
+                                                                        Style="{DynamicResource RadioGroupItemSingle}">
+                                                                        <Grid Width="16" Height="16">
+                                                                            <Path
+                                                                                Data="{StaticResource ConfigGeometry}"
+                                                                                Stretch="Uniform"
+                                                                                Visibility="{c:Binding !EnableSetting}">
+                                                                                <Path.Style>
+                                                                                    <Style TargetType="Path">
+                                                                                        <Setter Property="Fill" Value="{DynamicResource SecondaryTextBrush}" />
+                                                                                        <Style.Triggers>
+                                                                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=RadioButton}}" Value="True">
+                                                                                                <Setter Property="Fill" Value="{DynamicResource PrimaryBrush}" />
+                                                                                            </DataTrigger>
+                                                                                        </Style.Triggers>
+                                                                                    </Style>
+                                                                                </Path.Style>
+                                                                            </Path>
+                                                                            <Path
+                                                                                Data="{StaticResource ConfigGeometry2}"
+                                                                                Fill="{DynamicResource PrimaryBrush}"
+                                                                                Stretch="Uniform"
+                                                                                Visibility="{c:Binding EnableSetting}" />
+                                                                        </Grid>
+                                                                        <RadioButton.ToolTip>
+                                                                            <ToolTip>
+                                                                                <StackPanel>
+                                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
+                                                                                    <TextBlock Text="{DynamicResource TaskSettings}" />
+
+                                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
+                                                                                    <TextBlock>
+                                                                                        <Run Text="{DynamicResource RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource Copy}" /><Run Text="/" /><Run Text="{DynamicResource Rename}" /><Run Text="/" /><Run Text="{DynamicResource Delete}" />
+                                                                                    </TextBlock>
+                                                                                </StackPanel>
+                                                                            </ToolTip>
+                                                                        </RadioButton.ToolTip>
+                                                                        <RadioButton.ContextMenu>
+                                                                            <ContextMenu Width="150">
+                                                                                <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource RunTaskOnce}" />
+                                                                                <MenuItem
+                                                                                    Command="{s:Action CopyGuideDemoTask,
+                                                                                                       Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                                    Header="{DynamicResource Copy}" />
+                                                                                <MenuItem
+                                                                                    Command="{s:Action RenameGuideDemoTask,
+                                                                                                       Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                                    Header="{DynamicResource Rename}" />
+                                                                                <MenuItem
+                                                                                    Command="{s:Action RemoveGuideDemoTask,
+                                                                                                       Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                                    Header="{DynamicResource Delete}" />
+                                                                            </ContextMenu>
+                                                                        </RadioButton.ContextMenu>
+                                                                    </RadioButton>
+                                                                </hc:ButtonGroup>
                                                             </StackPanel>
-                                                        </ToolTip>
-                                                    </RadioButton.ToolTip>
-                                                    <RadioButton.ContextMenu>
-                                                        <ContextMenu Width="150" ItemContainerStyle="{StaticResource MaaMenuItemDefaultStyle}">
-                                                            <MenuItem Header="{DynamicResource RunTaskOnce}" />
-                                                            <MenuItem Header="{DynamicResource Copy}" />
-                                                            <MenuItem Header="{DynamicResource Rename}" />
-                                                            <MenuItem Header="{DynamicResource Delete}" />
-                                                        </ContextMenu>
-                                                    </RadioButton.ContextMenu>
-                                                </RadioButton>
-                                            </hc:ButtonGroup>
-                                        </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <controls:MenuButton
+                                                Grid.Column="0"
+                                                Width="30"
+                                                Height="30"
+                                                Padding="0"
+                                                VerticalAlignment="Top"
+                                                hc:BorderElement.CornerRadius="4,0,0,4"
+                                                hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
+                                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                                Style="{StaticResource MaaButtonDefaultStyle}"
+                                                ToolTip="{DynamicResource AddTaskQueueTask}">
+                                                <controls:MenuButton.PopupContent>
+                                                    <Border
+                                                        Width="190"
+                                                        Margin="8"
+                                                        Padding="2,2,2,0"
+                                                        Background="{DynamicResource RegionBrush}"
+                                                        BorderBrush="{DynamicResource BorderBrush}"
+                                                        BorderThickness="1"
+                                                        CornerRadius="4"
+                                                        Effect="{DynamicResource EffectShadow2}">
+                                                        <!--
+                                                            本版 HandyControls 移除了原版 MenuAttach.ItemMinHeight（原 ContextMenu
+                                                            隐式样式靠它把项撑到标准控件高度），Menu 的顶级项模板默认无最小高度，
+                                                            需在容器样式显式补 MinHeight
+                                                        -->
+                                                        <Menu Padding="0">
+                                                            <Menu.ItemContainerStyle>
+                                                                <Style BasedOn="{StaticResource MaaMenuItemDefaultStyle}" TargetType="MenuItem">
+                                                                    <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+                                                                </Style>
+                                                            </Menu.ItemContainerStyle>
+                                                            <Menu.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <StackPanel Orientation="Vertical" />
+                                                                </ItemsPanelTemplate>
+                                                            </Menu.ItemsPanel>
+                                                            <MenuItem
+                                                                Command="{s:Action AddGuideDemoTask,
+                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                CommandParameter="{Binding TaskTypeList[0].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                Header="{Binding TaskTypeList[0].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
+                                                            <MenuItem
+                                                                Command="{s:Action AddGuideDemoTask,
+                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                CommandParameter="{Binding TaskTypeList[1].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                Header="{Binding TaskTypeList[1].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
+                                                            <MenuItem
+                                                                Command="{s:Action AddGuideDemoTask,
+                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                CommandParameter="{Binding TaskTypeList[2].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                Header="{Binding TaskTypeList[2].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
+                                                            <MenuItem
+                                                                Command="{s:Action AddGuideDemoTask,
+                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                CommandParameter="{Binding TaskTypeList[3].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                Header="{Binding TaskTypeList[3].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
+                                                            <MenuItem
+                                                                Command="{s:Action AddGuideDemoTask,
+                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                CommandParameter="{Binding TaskTypeList[4].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                Header="{Binding TaskTypeList[4].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
+                                                            <MenuItem
+                                                                Command="{s:Action AddGuideDemoTask,
+                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                CommandParameter="{Binding TaskTypeList[5].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                Header="{Binding TaskTypeList[5].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
+                                                            <MenuItem
+                                                                Command="{s:Action AddGuideDemoTask,
+                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                CommandParameter="{Binding TaskTypeList[6].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                Header="{Binding TaskTypeList[6].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
+                                                            <MenuItem
+                                                                Command="{s:Action AddGuideDemoTask,
+                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                CommandParameter="{Binding TaskTypeList[7].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                Header="{Binding TaskTypeList[7].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
+                                                            <MenuItem
+                                                                Command="{s:Action AddGuideDemoTask,
+                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                CommandParameter="{Binding TaskTypeList[8].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                Header="{Binding TaskTypeList[8].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
+                                                            <MenuItem
+                                                                Command="{s:Action AddGuideDemoTask,
+                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                CommandParameter="{Binding TaskTypeList[9].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                Header="{Binding TaskTypeList[9].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
+                                                            <MenuItem
+                                                                Command="{s:Action AddGuideDemoTask,
+                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                CommandParameter="{Binding TaskTypeList[10].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                Header="{Binding TaskTypeList[10].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
+                                                        </Menu>
+                                                    </Border>
+                                                </controls:MenuButton.PopupContent>
+                                            </controls:MenuButton>
+                                            <Button
+                                                Grid.Column="1"
+                                                Height="30"
+                                                Margin="-1,0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Top"
+                                                hc:BorderElement.CornerRadius="0"
+                                                Command="{s:Action SelectAllGuideDemoTasks,
+                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                Content="{DynamicResource SelectAll}" />
+                                            <Button
+                                                Grid.Column="2"
+                                                Height="30"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Top"
+                                                hc:BorderElement.CornerRadius="0,4,4,0"
+                                                Command="{s:Action ClearGuideDemoTasks,
+                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                Content="{DynamicResource Clear}" />
+                                        </Grid>
                                     </Grid>
                                 </Border>
-                                <TextBlock
-                                    Name="HoverActionButtons"
-                                    Margin="-60,10"
-                                    HorizontalAlignment="Left"
-                                    hc:RelativePanel.Above="{Binding ElementName=TaskItemBorder}"
-                                    hc:RelativePanel.RightOf="{Binding ElementName=TaskItemBorder}"
-                                    FontSize="14"
-                                    Text="{DynamicResource HoverActionButtons}" />
-                                <TextBlock
-                                    Name="TaskGuide"
-                                    Margin="10"
-                                    hc:RelativePanel.AlignLeftWith="{Binding ElementName=TaskItemBorder}"
-                                    hc:RelativePanel.Below="{Binding ElementName=TaskItemBorder}"
-                                    FontSize="14"
-                                    Text="{DynamicResource TaskGuide}" />
-                                <TextBlock
-                                    Name="TaskSettingsGuide1"
-                                    Margin="0,5,30,0"
-                                    hc:RelativePanel.AlignRightWith="{Binding ElementName=TaskItemBorder}"
-                                    hc:RelativePanel.Below="{Binding ElementName=TaskItemBorder}"
-                                    FontSize="14"
-                                    Text="↗" />
-                                <TextBlock
-                                    Name="TaskSettingsGuide2"
-                                    Width="90"
-                                    Margin="5,5,0,5"
-                                    hc:RelativePanel.AlignRightWith="{Binding ElementName=TaskSettingsGuide1}"
-                                    hc:RelativePanel.Below="{Binding ElementName=TaskSettingsGuide1}"
-                                    FontSize="14"
-                                    Text="{DynamicResource TaskSettings}"
-                                    TextAlignment="Left" />
-                                <TextBlock
-                                    Name="TaskSettingsGuide3"
-                                    hc:RelativePanel.AlignLeftWith="{Binding ElementName=TaskSettingsGuide2}"
-                                    hc:RelativePanel.Below="{Binding ElementName=TaskSettingsGuide2}"
-                                    FontSize="14"
-                                    Text="↙" />
-                                <hc:ButtonGroup
-                                    Name="TaskSettings"
-                                    Width="220"
+                                <StackPanel
+                                    Grid.Row="2"
                                     Margin="0,10,0,0"
-                                    hc:RelativePanel.AlignLeftWith="{Binding ElementName=TaskItemBorder}"
-                                    hc:RelativePanel.Below="{Binding ElementName=TaskSettingsGuide3}"
+                                    HorizontalAlignment="Center"
                                     Orientation="Horizontal">
-                                    <RadioButton Content="{DynamicResource GeneralSettings}" IsChecked="True" />
-                                    <RadioButton Content="{DynamicResource AdvancedSettings}" />
-                                </hc:ButtonGroup>
-                                <TextBlock
-                                    Name="GeneralSettingsGuide"
-                                    Margin="5,10"
-                                    hc:RelativePanel.AlignLeftWith="{Binding ElementName=TaskSettings}"
-                                    hc:RelativePanel.Below="{Binding ElementName=TaskSettings}"
-                                    FontSize="14"
-                                    Text="{DynamicResource OftenUsedGuide}" />
-                                <TextBlock
-                                    Name="AdvancedSettingsGuide"
-                                    Margin="5,10"
-                                    hc:RelativePanel.AlignRightWith="{Binding ElementName=TaskSettings}"
-                                    hc:RelativePanel.Below="{Binding ElementName=TaskSettings}"
-                                    FontSize="14"
-                                    Text="{DynamicResource SometimesUsedGuide}" />
-                                <Button
-                                    Name="LinkStart"
-                                    Width="100"
-                                    Height="50"
-                                    Margin="5,15,5,5"
-                                    hc:RelativePanel.Below="{Binding ElementName=AdvancedSettingsGuide}"
-                                    Content="{DynamicResource LinkStart}" />
-                                <TextBlock
-                                    Name="LinkStartGuide"
-                                    Margin="10,20"
-                                    hc:RelativePanel.Below="{Binding ElementName=AdvancedSettingsGuide}"
-                                    hc:RelativePanel.RightOf="{Binding ElementName=LinkStart}"
-                                    FontSize="14"
-                                    Text="{DynamicResource LinkStartGuide}" />
-                            </hc:RelativePanel>
+                                    <Button
+                                        Width="100"
+                                        Height="50"
+                                        Margin="5"
+                                        Command="{s:Action StartGuideDemo,
+                                                           Target={x:Static helper:Instances.SettingsViewModel}}"
+                                        Content="{DynamicResource LinkStart}" />
+                                    <controls:TextBlock
+                                        Margin="0,0,5,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Text="{DynamicResource LinkStartGuide}" />
+                                </StackPanel>
+
+                                <!--  右：假设置列（选项随常规/高级切换）与按钮组，顶部与任务面板同行对齐  -->
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="8,10,0,0"
+                                    VerticalAlignment="Top"
+                                    Visibility="{c:Binding !GuideDemoAdvancedSettings}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox IsChecked="True">
+                                            <controls:TextBlock>
+                                                <Run Text="{DynamicResource GeneralSettings}" /><Run xml:space="preserve" Text=" 1" />
+                                            </controls:TextBlock>
+                                        </CheckBox>
+                                        <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource CheckBoxesNotSaved}" />
+                                        <controls:TextBlock Text="←" TextWrapping="Wrap" />
+                                        <controls:TextBlock
+                                            MaxWidth="80"
+                                            VerticalAlignment="Center"
+                                            Text="{DynamicResource ToolTipGuide}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                    <CheckBox Margin="0,10,0,0">
+                                        <controls:TextBlock>
+                                            <Run Text="{DynamicResource GeneralSettings}" /><Run xml:space="preserve" Text=" 2" />
+                                        </controls:TextBlock>
+                                    </CheckBox>
+                                    <CheckBox Margin="0,10,0,0">
+                                        <controls:TextBlock>
+                                            <Run Text="{DynamicResource GeneralSettings}" /><Run xml:space="preserve" Text=" 3" />
+                                        </controls:TextBlock>
+                                    </CheckBox>
+                                </StackPanel>
+                                <hc:UniformSpacingPanel
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="8,10,0,0"
+                                    Orientation="Vertical"
+                                    Spacing="10"
+                                    Visibility="{c:Binding GuideDemoAdvancedSettings}">
+                                    <CheckBox IsChecked="True">
+                                        <controls:TextBlock>
+                                            <Run Text="{DynamicResource AdvancedSettings}" /><Run xml:space="preserve" Text=" 1" />
+                                        </controls:TextBlock>
+                                    </CheckBox>
+                                    <CheckBox>
+                                        <controls:TextBlock>
+                                            <Run Text="{DynamicResource AdvancedSettings}" /><Run xml:space="preserve" Text=" 2" />
+                                        </controls:TextBlock>
+                                    </CheckBox>
+                                    <CheckBox>
+                                        <controls:TextBlock>
+                                            <Run Text="{DynamicResource AdvancedSettings}" /><Run xml:space="preserve" Text=" 3" />
+                                        </controls:TextBlock>
+                                    </CheckBox>
+                                </hc:UniformSpacingPanel>
+                                <StackPanel
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Margin="0,10,0,0">
+                                    <hc:ButtonGroup
+                                        Width="220"
+                                        HorizontalAlignment="Center"
+                                        Orientation="Horizontal">
+                                        <RadioButton
+                                            hc:BorderElement.CornerRadius="4,0,0,4"
+                                            hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
+                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            Content="{DynamicResource GeneralSettings}"
+                                            IsChecked="{c:Binding !GuideDemoAdvancedSettings}" />
+                                        <RadioButton
+                                            hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
+                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            Content="{DynamicResource AdvancedSettings}"
+                                            IsChecked="{c:Binding GuideDemoAdvancedSettings}" />
+                                    </hc:ButtonGroup>
+                                    <Grid Width="220" Margin="0,2,0,0">
+                                        <controls:TextBlock
+                                            Margin="8,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            FontSize="14"
+                                            Text="{DynamicResource OftenUsedGuide}" />
+                                        <controls:TextBlock
+                                            Margin="0,0,8,0"
+                                            HorizontalAlignment="Right"
+                                            FontSize="14"
+                                            Text="{DynamicResource SometimesUsedGuide}" />
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl

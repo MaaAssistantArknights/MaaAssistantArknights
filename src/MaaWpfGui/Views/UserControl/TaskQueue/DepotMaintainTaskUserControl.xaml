@@ -308,6 +308,10 @@
                 Margin="0,6,0,0"
                 Content="{DynamicResource DepotSkipDuringResourceCollection}"
                 IsChecked="{Binding SkipDuringResourceCollection}" />
+            <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource DepotOnlyFirstInsufficientPlan}" IsChecked="{Binding OnlyFirstInsufficientPlan}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotOnlyFirstInsufficientPlanTip}" />
+            </StackPanel>
 
             <hc:Divider Margin="0,12,0,0" Content="{DynamicResource DepotGroupStageAndBattle}" />
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">

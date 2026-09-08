@@ -31,6 +31,15 @@ extern "C"
     // 调用方如果需要在多次调用间保留内容，应自行复制。
     struct AsstMapLevelKey ASSTAPI AsstGetMapLevelKey(const char* key);
 
+    // 根据物品 Id 查找物品名称。
+    //
+    // 对于空 Id，返回 "Unknown"。
+    // 对于找不到的 Id，返回空字符串。
+    //
+    // 返回的字符串指针由 MaaCore 持有，调用方不应释放它。
+    // 调用方如果需要在多次调用间保留内容，应自行复制。
+    const char* ASSTAPI AsstGetItemName(const char* id);
+
 #ifdef __cplusplus
 }
 #endif

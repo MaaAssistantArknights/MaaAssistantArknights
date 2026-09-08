@@ -122,13 +122,15 @@
     <system:String x:Key="PrevGuide">上一步</system:String>
     <system:String x:Key="NextGuide">下一步</system:String>
     <system:String x:Key="DoneGuide">完成</system:String>
-    <system:String x:Key="ToolTipGuide">滑鼠移至此處會有提示喔→</system:String>
+    <system:String x:Key="GuideConfirmCountdownPrefix" xml:space="preserve">還剩 </system:String>
+    <system:String x:Key="GuideConfirmCountdownSuffix" xml:space="preserve"> 秒</system:String>
+    <system:String x:Key="ToolTipGuide">滑鼠移至此處會有提示喔</system:String>
     <system:String x:Key="TaskGuide">↑ 任務</system:String>
     <system:String x:Key="OftenUsedGuide">↑ 常用的</system:String>
     <system:String x:Key="SometimesUsedGuide">不常用的 ↑</system:String>
     <system:String x:Key="LinkStartGuide">← 開始任務</system:String>
-    <system:String x:Key="HoverActionButtons" xml:space="preserve">   懸停顯示 複製/重新命名/刪除
-↓ 右鍵齒輪顯示更多操作</system:String>
+    <system:String x:Key="HoverActionButtons">懸停顯示 複製/重新命名/刪除</system:String>
+    <system:String x:Key="GearContextMenuTip">右鍵齒輪顯示更多操作 ↓</system:String>
     <system:String x:Key="UserGuide">使用指引</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 官網與文件</system:String>
     <system:String x:Key="GuideDocumentationPath">您可以在 ｢{key=Settings} - {key=AboutUs} - {key=Website}｣ 找到 MAA 的官方網站和完整文件。</system:String>
@@ -387,6 +389,8 @@
     <system:String x:Key="TaskRenamed">任務已重新命名為：{0}</system:String>
     <system:String x:Key="TaskDeleted">已刪除任務：{0}</system:String>
     <system:String x:Key="TaskCopied">已複製任務：{0}</system:String>
+    <system:String x:Key="StartGuideDemo">示範中不會真的執行任務</system:String>
+    <system:String x:Key="GuideDemoTaskAddLimitTip">示範清單最多容納 5 個任務，可先刪除部分後再新增</system:String>
     <system:String x:Key="TaskCopyFailed">任務複製失敗</system:String>
     <system:String x:Key="HotKeyShowGui">[熱鍵] 顯示/收起 MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[熱鍵] Link start/stop</system:String>
@@ -855,6 +859,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="UserDataUpdate">更新使用者資料</system:String>
     <system:String x:Key="DepotMaintain">庫存保持</system:String>
+    <system:String x:Key="SwitchTheme">更換主題</system:String>
     <system:String x:Key="MiniGame">快捷功能</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">常駐</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">目前活動</system:String>
@@ -967,6 +972,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}：新增任務失敗</system:String>
     <system:String x:Key="DepotSkipDuringActivity">活動期間跳過</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">資源收集限時全天開放期間跳過</system:String>
+    <system:String x:Key="DepotOnlyFirstInsufficientPlan">僅執行第一個庫存不足的計劃</system:String>
+    <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">僅執行第一個庫存不足且當日可執行的計劃，日誌也只顯示到該計劃為止。&#10;該計劃補滿後，下次執行會自動接續後續計劃，當日無法執行的會被跳過。</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">目前有活動進行中，已跳過庫存保持。</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">目前處於資源收集限時全天開放期間，已跳過庫存保持。</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">更新庫存資料失敗。</system:String>
@@ -980,6 +987,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotGroupTaskBehavior">任務行為</system:String>
     <system:String x:Key="DepotGroupStageAndBattle">關卡與戰鬥</system:String>
     <system:String x:Key="DepotGroupSanityRecovery">理智恢復</system:String>
+    <!--  SwitchTheme  -->
+    <system:String x:Key="SwitchThemeTip" xml:space="preserve">填寫遊戲內主題列表中顯示的主題名稱。&#10;填寫多個時每次執行隨機選擇一個，僅填寫一個時固定切換。&#10;少數罕用字辨識時可能誤認成字形相近的字而找不到主題（如 ｢淞｣ 被辨識成 ｢淋｣），此時請透過 ｢問題回饋｣ 提交日誌壓縮檔。</system:String>
+    <system:String x:Key="SwitchThemeAdd">新增主題</system:String>
+    <system:String x:Key="SwitchThemePlaceholder">主題名稱</system:String>
+    <system:String x:Key="SwitchThemeSkipped">未填寫主題名稱，跳過更換主題。</system:String>
+    <system:String x:Key="SwitchThemeSucceeded">已切換主題：{0}</system:String>
+    <system:String x:Key="SwitchThemeAlreadySet">目標已是目前主題：{0}，無需切換</system:String>
+    <system:String x:Key="SwitchThemeLocked">主題未解鎖，無法切換：{0}</system:String>
+    <system:String x:Key="SwitchThemeNotFound">未找到主題：{0}，請檢查名稱是否與遊戲內一致。</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>
@@ -1141,7 +1157,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGameName">小遊戲名稱</system:String>
     <system:String x:Key="MiniGameNameEmptyTip">在上方選擇小遊戲以開始執行。</system:String>
     <system:String x:Key="MiniGame@PF">陣地足球錦標賽</system:String>
-    <system:String x:Key="MiniGame@PFTip">手動通過教程關卡後，進入 PF-1 進行手動編隊，要求僅編入 ｢克洛絲｣ 單個幹員，並回到在活動關卡介面點擊 PF-1 後開始任務。</system:String>
+    <system:String x:Key="MiniGame@PFTip">手動通過教學關卡後，進入 PF-1 進行手動編隊，要求僅編入 ｢克洛絲｣ 單個幹員，並回到在活動關卡介面點擊 PF-1 後開始任務。</system:String>
     <system:String x:Key="MiniGame@PV">PV-煙花籌委會</system:String>
     <system:String x:Key="MiniGame@PVTip">從所選關卡開始並自動通關。若選擇第一關，則從活動頁面最左側開始；若選擇其他關卡，請先進入上一關再返回以校準位置。</system:String>
     <system:String x:Key="MiniGame@SPA">衛戍協議：盟約</system:String>
@@ -1258,7 +1274,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="SupportUnitUsage.None">不借用</system:String>
     <system:String x:Key="SupportUnitUsage.WhenNeeded">僅用於補漏</system:String>
     <system:String x:Key="SupportUnitUsage.Random">隨機</system:String>
-    <system:String x:Key="AddTrust">補充低信賴 {key=Operator}</system:String>
+    <system:String x:Key="AddTrust">補充低信賴{key=Operator}</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">忽略{key=Operator}屬性要求</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">部分作業需要特定技能等級、模組等作為前置條件。
 勾選此項將跳過這些檢查，但可能導致作業無法正常執行。
@@ -1442,7 +1458,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC 端滑鼠為獨立渲染，可能遮擋掉落物及數量辨識。為避免錯誤資料污染資料池，已自動跳過本次上報</system:String>
     <system:String x:Key="TheEx">無獎勵關卡，已停止</system:String>
-    <system:String x:Key="MissingOperators">以下{key=Operator}組內的{key=Operator}均未擁有（每組只需其一）：\n{0}｢特別關注｣ 可能影響{key=Operator}辨識，若實際已擁有，可移除 ｢特別關注｣ 後重試，或關閉 ｢{key=AutoSquad}｣ 手動補充；若確實未擁有，僅缺一組時可使用 ｢{key=SupportUnitUsage}｣，缺兩組以上請更換作業。</system:String>
+    <system:String x:Key="MissingOperators">以下{key=Operator}組內的{key=Operator}均未擁有（每組只需其一）或未達作業要求：\n{0}｢特別關注｣ 可能影響{key=Operator}辨識，若實際已擁有，可移除 ｢特別關注｣ 後重試，或關閉 ｢{key=AutoSquad}｣ 手動補充；若確實未擁有，僅缺一組時可使用 ｢{key=SupportUnitUsage}｣，缺兩組以上請更換作業。</system:String>
     <system:String x:Key="RecruitSupportOperator">編入助戰{key=Operator}：{0}</system:String>
     <system:String x:Key="StageQueue">關卡佇列：</system:String>
     <system:String x:Key="UnableToAgent">無法使用代理指揮</system:String>
@@ -1938,7 +1954,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 前置條件：
 1. 推進主線至 RA-4 已通關狀態
 2. 解鎖策略籌劃經營
-3. 如果自己有維什戴爾，請手動打開關卡並配隊一次，保證為任意 5 個費用比維什戴爾低的幹員+ 維什戴爾，且維什戴爾位於六號位即最後一個選的人，然後確認招募，放棄本次建設並在開始建設處開始
+3. 如果自己有維什戴爾，請手動打開關卡並配隊一次，保證為任意 5 個費用比維什戴爾低的幹員 + 維什戴爾，且維什戴爾位於六號位即最後一個選的人，然後確認招募，放棄本次建設並在開始建設處開始
 4. 如果使用助戰維什戴爾，請保證維什戴爾在狙擊助戰首頁（考慮摯友），請手動打開關卡編入任意 5 個費用比維什戴爾低的幹員，六號位選擇維什戴爾助戰後確認招募，放棄本次建設並在開始建設處開始（保證隊伍前五位有人且六號位為空）
 
 在大地圖打開 RA-4，右下角出現 ｢開啟建設｣ 時啟動任務即可自動循環

@@ -122,13 +122,15 @@
     <system:String x:Key="PrevGuide">Prev</system:String>
     <system:String x:Key="NextGuide">Next</system:String>
     <system:String x:Key="DoneGuide">Done</system:String>
-    <system:String x:Key="ToolTipGuide">Prompt appears when hovered→</system:String>
+    <system:String x:Key="GuideConfirmCountdownPrefix" xml:space="preserve">Click "Done" in </system:String>
+    <system:String x:Key="GuideConfirmCountdownSuffix">s</system:String>
+    <system:String x:Key="ToolTipGuide">Prompt appears when hovered</system:String>
     <system:String x:Key="TaskGuide">↑ Task</system:String>
     <system:String x:Key="OftenUsedGuide">↑ Often Used</system:String>
     <system:String x:Key="SometimesUsedGuide">Sometimes Used ↑</system:String>
     <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
-    <system:String x:Key="HoverActionButtons" xml:space="preserve">  Hover to Copy/Rename/Delete
-↓ Right-click gear for more options</system:String>
+    <system:String x:Key="HoverActionButtons">Hover to Copy/Rename/Delete</system:String>
+    <system:String x:Key="GearContextMenuTip">Right-click gear for more options ↓</system:String>
     <system:String x:Key="UserGuide">User Guide</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 Website &amp; Documentation</system:String>
     <system:String x:Key="GuideDocumentationPath">You can find MAA's official website and complete documentation at "{key=Settings} - {key=AboutUs} - {key=Website}".</system:String>
@@ -387,6 +389,8 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="TaskRenamed">Task renamed to: {0}</system:String>
     <system:String x:Key="TaskDeleted">Task deleted: {0}</system:String>
     <system:String x:Key="TaskCopied">Task copied: {0}</system:String>
+    <system:String x:Key="StartGuideDemo">Tasks won't actually run in the demo.</system:String>
+    <system:String x:Key="GuideDemoTaskAddLimitTip">The demo list holds up to 5 tasks. Remove some before adding more.</system:String>
     <system:String x:Key="TaskCopyFailed">Task copy failed</system:String>
     <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
@@ -855,6 +859,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
     <system:String x:Key="UserDataUpdate">Update Doctor Data</system:String>
     <system:String x:Key="DepotMaintain">Depot Maintain</system:String>
+    <system:String x:Key="SwitchTheme">Switch Theme</system:String>
     <system:String x:Key="MiniGame">Useful Tasks</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">Permanent</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">Current Events</system:String>
@@ -967,6 +972,8 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}: add task failed</system:String>
     <system:String x:Key="DepotSkipDuringActivity">Skip during event</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">Skip during resource collection limited-time all-day open</system:String>
+    <system:String x:Key="DepotOnlyFirstInsufficientPlan">Only execute the first insufficient plan</system:String>
+    <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">Only the first insufficient plan that is open today will be queued.&#10;The log stops there; plans after it are not evaluated this run.&#10;Once it is stocked up, the next run continues with the rest.</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">An event is in progress, depot maintain skipped.</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">Resource collection limited-time all-day open is in progress, depot maintain skipped.</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">Failed to update inventory data.</system:String>
@@ -980,6 +987,15 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotGroupTaskBehavior">Task Behavior</system:String>
     <system:String x:Key="DepotGroupStageAndBattle">Stage &amp; Battle</system:String>
     <system:String x:Key="DepotGroupSanityRecovery">Sanity Recovery</system:String>
+    <!--  SwitchTheme  -->
+    <system:String x:Key="SwitchThemeTip" xml:space="preserve">Enter the theme name as shown in the in-game theme list.&#10;Multiple entries pick one at random each run; a single entry always switches to it.&#10;Rarely used characters (e.g. 凇 vs. 淞) may be misrecognized as similar-looking ones and the theme is not found; submit the log archive via Issue Report in that case.</system:String>
+    <system:String x:Key="SwitchThemeAdd">Add Theme</system:String>
+    <system:String x:Key="SwitchThemePlaceholder">Theme name</system:String>
+    <system:String x:Key="SwitchThemeSkipped">No theme name entered, skipping theme switch.</system:String>
+    <system:String x:Key="SwitchThemeSucceeded">Theme switched to {0}</system:String>
+    <system:String x:Key="SwitchThemeAlreadySet">Target theme is already in use: {0}</system:String>
+    <system:String x:Key="SwitchThemeLocked">Theme not unlocked, cannot switch: {0}</system:String>
+    <system:String x:Key="SwitchThemeNotFound">Theme not found: {0}. Check that the name matches the in-game theme list.</system:String>
     <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>
@@ -1441,7 +1457,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
     <system:String x:Key="ReportSkippedForPcClient">The PC client cursor can obscure drop items and counts. This report was skipped to avoid polluting the data pool with inaccurate data</system:String>
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
-    <system:String x:Key="MissingOperators">None of the {key=Operator}s in the following groups are owned (only one is needed per group):\n{0}｢Favourite｣ marks may affect {key=Operator} recognition; if the {key=Operator}s are actually owned, you can remove the mark and retry, or turn off ｢{key=AutoSquad}｣ and add them manually. If they are really not owned, use ｢{key=SupportUnitUsage}｣ when only one group is missing, or use another job when two or more are missing.</system:String>
+    <system:String x:Key="MissingOperators">None of the {key=Operator}s in the following groups are owned or satisfy the job requirements (only one is needed per group):\n{0}｢Favourite｣ marks may affect {key=Operator} recognition; if the {key=Operator}s are actually owned, you can remove the mark and retry, or turn off ｢{key=AutoSquad}｣ and add them manually. If they are really not owned, use ｢{key=SupportUnitUsage}｣ when only one group is missing, or use another job when two or more are missing.</system:String>
     <system:String x:Key="RecruitSupportOperator">Add support unit: {0}</system:String>
     <system:String x:Key="StageQueue">Stage Queue:&#160;</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>

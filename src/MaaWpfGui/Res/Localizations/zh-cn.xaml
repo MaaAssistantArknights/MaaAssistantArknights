@@ -122,13 +122,15 @@
     <system:String x:Key="PrevGuide">上一步</system:String>
     <system:String x:Key="NextGuide">下一步</system:String>
     <system:String x:Key="DoneGuide">完成</system:String>
-    <system:String x:Key="ToolTipGuide">鼠标移至此处会有提示哦→</system:String>
+    <system:String x:Key="GuideConfirmCountdownPrefix" xml:space="preserve">还剩 </system:String>
+    <system:String x:Key="GuideConfirmCountdownSuffix" xml:space="preserve"> 秒</system:String>
+    <system:String x:Key="ToolTipGuide">鼠标移至此处会有提示哦</system:String>
     <system:String x:Key="TaskGuide">↑ 任务</system:String>
     <system:String x:Key="OftenUsedGuide">↑ 常用的</system:String>
     <system:String x:Key="SometimesUsedGuide">不常用的 ↑</system:String>
     <system:String x:Key="LinkStartGuide">← 开始任务</system:String>
-    <system:String x:Key="HoverActionButtons" xml:space="preserve">   悬停显示 复制/重命名/删除
-↓ 右键齿轮显示更多操作</system:String>
+    <system:String x:Key="HoverActionButtons">悬停显示 复制/重命名/删除</system:String>
+    <system:String x:Key="GearContextMenuTip">右键齿轮显示更多操作 ↓</system:String>
     <system:String x:Key="UserGuide">使用指引</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 官网与文档</system:String>
     <system:String x:Key="GuideDocumentationPath">您可以在 ｢{key=Settings} - {key=AboutUs} - {key=Website}｣ 找到 MAA 的官方网站和完整文档。</system:String>
@@ -387,6 +389,8 @@
     <system:String x:Key="TaskRenamed">任务已重命名为: {0}</system:String>
     <system:String x:Key="TaskDeleted">已删除任务: {0}</system:String>
     <system:String x:Key="TaskCopied">已复制任务: {0}</system:String>
+    <system:String x:Key="StartGuideDemo">演示中不会真的运行任务</system:String>
+    <system:String x:Key="GuideDemoTaskAddLimitTip">演示列表最多容纳 5 个任务，可先删除部分后再添加</system:String>
     <system:String x:Key="TaskCopyFailed">任务复制失败</system:String>
     <system:String x:Key="HotKeyShowGui">[热键] 显示/收起 MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[热键] Link start/stop</system:String>
@@ -854,6 +858,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="UserDataUpdate">更新数据</system:String>
     <system:String x:Key="DepotMaintain">库存保持</system:String>
+    <system:String x:Key="SwitchTheme">更换主题</system:String>
     <system:String x:Key="MiniGame">牛杂</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">常驻活动</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">当期活动</system:String>
@@ -966,6 +971,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}：添加任务失败</system:String>
     <system:String x:Key="DepotSkipDuringActivity">活动期间跳过</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">资源收集限时全天开放期间跳过</system:String>
+    <system:String x:Key="DepotOnlyFirstInsufficientPlan">仅执行第一个库存不足的计划</system:String>
+    <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">仅执行第一个库存不足且当日可执行的计划，日志也只显示到该计划为止。&#10;该计划补满后，下次运行自动继续后续计划，当日不可执行的会被跳过。</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">当前有活动进行中，已跳过库存保持。</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">当前处于资源收集限时全天开放期间，已跳过库存保持。</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">更新库存数据失败。</system:String>
@@ -979,6 +986,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotGroupTaskBehavior">任务行为</system:String>
     <system:String x:Key="DepotGroupStageAndBattle">关卡与战斗</system:String>
     <system:String x:Key="DepotGroupSanityRecovery">理智恢复</system:String>
+    <!--  SwitchTheme  -->
+    <system:String x:Key="SwitchThemeTip" xml:space="preserve">填写游戏内主题列表中显示的主题名称。&#10;填写多个时每次运行随机选择一个，仅填写一个时固定切换。&#10;个别不常用字（如 凇、淞）识别可能出现形近偏差导致主题未找到，此时请通过 ｢问题反馈｣ 提交日志压缩包。</system:String>
+    <system:String x:Key="SwitchThemeAdd">添加主题</system:String>
+    <system:String x:Key="SwitchThemePlaceholder">主题名称</system:String>
+    <system:String x:Key="SwitchThemeSkipped">未填写主题名称，跳过更换主题。</system:String>
+    <system:String x:Key="SwitchThemeSucceeded">已切换主题：{0}</system:String>
+    <system:String x:Key="SwitchThemeAlreadySet">目标已是当前主题：{0}，无需切换</system:String>
+    <system:String x:Key="SwitchThemeLocked">主题未解锁，无法切换：{0}</system:String>
+    <system:String x:Key="SwitchThemeNotFound">未找到主题：{0}，请检查名称是否与游戏内一致。</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>
@@ -1441,7 +1457,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC 端鼠标为独立渲染，可能遮挡掉落物及数量识别。为避免错误数据污染数据池，已自动跳过本次上报</system:String>
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
-    <system:String x:Key="MissingOperators">以下{key=Operator}组内的{key=Operator}均未拥有（每组只需其一）：\n{0}｢特别关注｣ 可能影响{key=Operator}识别，若实际已拥有，可移除 ｢特别关注｣ 后重试，或关闭 ｢{key=AutoSquad}｣ 手动补充；若确实未拥有，仅缺一组时可使用 ｢{key=SupportUnitUsage}｣，缺两组以上请更换作业。</system:String>
+    <system:String x:Key="MissingOperators">以下{key=Operator}组内的{key=Operator}均未拥有（每组只需其一）或未达到作业要求：\n{0}｢特别关注｣ 可能影响{key=Operator}识别，若实际已拥有，可移除 ｢特别关注｣ 后重试，或关闭 ｢{key=AutoSquad}｣ 手动补充；若确实未拥有，仅缺一组时可使用 ｢{key=SupportUnitUsage}｣，缺两组以上请更换作业。</system:String>
     <system:String x:Key="RecruitSupportOperator">编入助战{key=Operator}：{0}</system:String>
     <system:String x:Key="StageQueue">关卡队列:</system:String>
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>

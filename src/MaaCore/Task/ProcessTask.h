@@ -76,7 +76,7 @@ protected:
         const Rect& r1,
         const Rect& r2,
         int duration,
-        bool extra_swipe,
+        int extra_swipe,
         double slope_in,
         double slope_out,
         bool high_resolution_swipe_fix) const;

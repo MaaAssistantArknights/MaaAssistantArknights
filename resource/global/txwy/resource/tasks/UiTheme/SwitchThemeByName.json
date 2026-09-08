@@ -1,0 +1,11 @@
+{
+    "SwitchThemeByNameSelectTheme": {
+        "ocrReplace": [["銀淋", "銀淞"]]
+    },
+    "SwitchThemeByNameLockedTheme": {
+        "text": ["解鎖條件"]
+    },
+    "SwitchThemeByNameAlreadySet": {
+        "text": ["已設定"]
+    }
+}

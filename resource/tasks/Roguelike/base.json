@@ -1174,7 +1174,7 @@
         "action": "Swipe",
         "specificRect": [1160, 310, 100, 100],
         "rectMove": [0, 310, 100, 100],
-        "specialParams": [200, 1, 3, 0],
+        "specialParams": [200, 1, 37, 1],
         "postDelay": 200
     },
     "Roguelike@Stage": {
@@ -1703,7 +1703,7 @@
     },
     "Roguelike@StartExploreCD": {
         "algorithm": "OcrDetect",
-        "text": ["等待重返城堡入口", "等待重返陆地", "等待科考队重建", "正在清理思绪", "正在打扫园"],
+        "text": ["等待重返城堡入口", "等待重返陆地", "等待科考队重建", "正在清理思绪", "正在打扫园", "初始化"],
         "roi": [1026, 470, 254, 248],
         "postDelay": 1000,
         "next": ["Roguelike@StartExplore", "Roguelike@StartExploreCD"]

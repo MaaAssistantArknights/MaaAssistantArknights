@@ -1,0 +1,108 @@
+{
+    "SwitchThemeByNameBegin": {
+        "algorithm": "JustReturn",
+        "next": [
+            "SwitchThemeByNameOpenSettings",
+            "SwitchThemeByNameBegin@QuickSwitch@ToHome#next",
+            "SwitchThemeByNameBegin@ReturnButtons#next"
+        ]
+    },
+    "SwitchThemeByNameBegin@ReturnButton": {
+        "Doc": "覆盖以去掉原 ReturnButton 的切日间兜底 onErrorNext",
+        "template": ["Return.png", "Return-White.png"],
+        "templThreshold": [0.7, 0.7],
+        "action": "ClickSelf",
+        "roi": [0, 0, 180, 80],
+        "next": ["SwitchThemeByNameBegin"],
+        "onErrorNext": []
+    },
+    "SwitchThemeByNameOpenSettings": {
+        "action": "ClickSelf",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "postDelay": 1000,
+        "next": ["SwitchThemeByNameChangeTheme", "SwitchThemeByNameOpenSettings"]
+    },
+    "SwitchThemeByNameChangeTheme": {
+        "action": "ClickSelf",
+        "template": "SwitchTheme@ChangeTheme.png",
+        "roi": [563, 566, 132, 132],
+        "postDelay": 1000,
+        "next": ["Stop"]
+    },
+    "SwitchThemeByNameSelectTheme": {
+        "Doc": "text 运行时注入目标主题名；roi 下边界避开底部半透明遮挡；ocrReplace 为实测形近误读",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [],
+        "ocrReplace": [
+            ["银淞", "银凇"],
+            ["&梦乡", "梦乡"],
+            ["梦\\$", "梦乡"]
+        ],
+        "roi": [240, 90, 130, 510],
+        "postDelay": 800,
+        "next": ["Stop"]
+    },
+    "SwitchThemeByNameListAtTop": {
+        "Doc": "日间主题缩略卡出现在列表顶部即为到顶",
+        "action": "DoNothing",
+        "template": "SwitchTheme@SelectLightTheme.png",
+        "roi": [0, 99, 430, 180],
+        "next": ["Stop"]
+    },
+    "SwitchThemeByNameDragThemeList": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [340, 170, 10, 10],
+        "rectMove": [340, 600, 10, 10],
+        "specialParams": [150, 0, 37, 1],
+        "postDelay": 500,
+        "next": ["Stop"]
+    },
+    "SwitchThemeByNameDragDownList": {
+        "Doc": "用水平额外滑动终止残余滚动实现精确停靠",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [340, 600, 10, 10],
+        "rectMove": [340, 350, 10, 10],
+        "specialParams": [300, 3, 37, 1],
+        "postDelay": 500,
+        "next": ["Stop"]
+    },
+    "SwitchThemeByNameLockedTheme": {
+        "Doc": "灰确认按钮可被模板命中，须先于确认判定",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["解锁条件"],
+        "roi": [20, 590, 900, 130],
+        "next": ["SwitchThemeByNameCancelTheme"]
+    },
+    "SwitchThemeByNameAlreadySet": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["已设置"],
+        "roi": [950, 600, 330, 120],
+        "next": ["SwitchThemeByNameReturnAfterChange"]
+    },
+    "SwitchThemeByNameConfirmTheme": {
+        "action": "ClickSelf",
+        "template": "SwitchTheme@ConfirmThemeChange.png",
+        "roi": [1070, 620, 200, 90],
+        "postDelay": 500,
+        "next": ["SwitchThemeByNameReturnAfterChange", "Stop"]
+    },
+    "SwitchThemeByNameCancelTheme": {
+        "action": "ClickSelf",
+        "template": "SwitchTheme@CancelThemeChange.png",
+        "roi": [918, 645, 66, 38],
+        "next": ["SwitchThemeByNameReturnAfterChange", "Stop"]
+    },
+    "SwitchThemeByNameReturnAfterChange": {
+        "template": ["Return.png", "Return-White.png"],
+        "templThreshold": [0.7, 0.7],
+        "action": "ClickSelf",
+        "roi": [0, 0, 180, 80],
+        "next": ["Stop"]
+    }
+}

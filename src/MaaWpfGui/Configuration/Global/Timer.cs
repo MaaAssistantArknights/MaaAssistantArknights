@@ -13,10 +13,6 @@
 
 using System;
 using System.Text.Json.Serialization;
-using MaaWpfGui.Configuration.Factory;
-using MaaWpfGui.Helper;
-using MaaWpfGui.Utilities;
-using MaaWpfGui.ViewModels.UserControl.Settings;
 using Stylet;
 
 namespace MaaWpfGui.Configuration.Global;
@@ -48,12 +44,6 @@ public class Timer : PropertyChangedBase
     }
 
     public int Id { get; set; }
-
-    private static string _Name => LocalizationHelper.GetString("Timer");
-
-    [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
-    [JsonIgnore]
-    public string Name => $"{_Name} {Id + 1}";
 
     [JsonInclude]
     public bool? IsEnabled { get; set => SetAndNotify(ref field, value); } = false;

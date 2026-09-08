@@ -16,7 +16,7 @@ constexpr double MaterialTemplateScale = 1.2;
 
 bool asst::MaterialSynthesisImageAnalyzer::analyze()
 {
-    m_result = { };
+    m_result = {};
 
     const auto task_ptr = Task.get<MatchTaskInfo>(std::string(MaterialTask));
 
