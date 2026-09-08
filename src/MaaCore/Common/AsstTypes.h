@@ -73,15 +73,20 @@ enum class SwipeExtraDirection : int
 
 inline std::string enum_to_string(SwipeExtraDirection direction)
 {
-    static const std::unordered_map<SwipeExtraDirection, std::string> direction_map = {
-        { SwipeExtraDirection::None, "None" },   { SwipeExtraDirection::Up, "Up" },
-        { SwipeExtraDirection::Down, "Down" },   { SwipeExtraDirection::Left, "Left" },
-        { SwipeExtraDirection::Right, "Right" },
-    };
-    if (auto it = direction_map.find(direction); it != direction_map.end()) {
-        return it->second;
+    switch (direction) {
+    case SwipeExtraDirection::None:
+        return "None";
+    case SwipeExtraDirection::Up:
+        return "Up";
+    case SwipeExtraDirection::Down:
+        return "Down";
+    case SwipeExtraDirection::Left:
+        return "Left";
+    case SwipeExtraDirection::Right:
+        return "Right";
+    default:
+        return std::format("Unknown({})", static_cast<int>(direction));
     }
-    return "Unknown";
 }
 
 #ifdef _WIN32
