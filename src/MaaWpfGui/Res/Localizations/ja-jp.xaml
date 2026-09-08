@@ -387,7 +387,7 @@
     <system:String x:Key="TaskRenamed">タスク名を変更しました: {0}</system:String>
     <system:String x:Key="TaskDeleted">タスクを削除しました: {0}</system:String>
     <system:String x:Key="TaskCopied">タスクをコピーしました: {0}</system:String>
-    <system:String x:Key="GuideDemoTipRunOnce">デモでは実際にタスクは実行されません</system:String>
+    <system:String x:Key="StartGuideDemo">デモでは実際にタスクは実行されません</system:String>
     <system:String x:Key="GuideDemoTaskAddLimitTip">デモリストに追加できるタスクは最大 5 個です。追加する前に一部を削除してください</system:String>
     <system:String x:Key="TaskCopyFailed">タスクのコピーに失敗しました</system:String>
     <system:String x:Key="HotKeyShowGui">[ホットキー] MAAの表示/最小化</system:String>

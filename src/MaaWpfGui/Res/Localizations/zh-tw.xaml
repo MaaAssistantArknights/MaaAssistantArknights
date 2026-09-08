@@ -387,7 +387,7 @@
     <system:String x:Key="TaskRenamed">任務已重新命名為：{0}</system:String>
     <system:String x:Key="TaskDeleted">已刪除任務：{0}</system:String>
     <system:String x:Key="TaskCopied">已複製任務：{0}</system:String>
-    <system:String x:Key="GuideDemoTipRunOnce">示範中不會真的執行任務</system:String>
+    <system:String x:Key="StartGuideDemo">示範中不會真的執行任務</system:String>
     <system:String x:Key="GuideDemoTaskAddLimitTip">示範清單最多容納 5 個任務，可先刪除部分後再新增</system:String>
     <system:String x:Key="TaskCopyFailed">任務複製失敗</system:String>
     <system:String x:Key="HotKeyShowGui">[熱鍵] 顯示/收起 MAA</system:String>

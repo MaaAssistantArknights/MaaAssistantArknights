@@ -331,7 +331,7 @@
                                                                         </RadioButton.ToolTip>
                                                                         <RadioButton.ContextMenu>
                                                                             <ContextMenu Width="150">
-                                                                                <MenuItem Command="{s:Action RunGuideDemoTaskOnce, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource RunTaskOnce}" />
+                                                                                <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource RunTaskOnce}" />
                                                                                 <MenuItem
                                                                                     Command="{s:Action CopyGuideDemoTask,
                                                                                                        Target={x:Static helper:Instances.SettingsViewModel}}"

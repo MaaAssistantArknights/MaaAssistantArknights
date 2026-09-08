@@ -807,21 +807,10 @@ public class SettingsViewModel : Screen
 
     // UI 绑定的方法
     [UsedImplicitly]
-    public void RunGuideDemoTaskOnce()
-    {
-        MessageBoxHelper.Show(
-            LocalizationHelper.GetString("GuideDemoTipRunOnce"),
-            LocalizationHelper.GetString("Tip"),
-            MessageBoxButton.OK,
-            MessageBoxImage.Information);
-    }
-
-    // UI 绑定的方法
-    [UsedImplicitly]
     public void StartGuideDemo()
     {
         MessageBoxHelper.Show(
-            LocalizationHelper.GetString("GuideDemoTipRunOnce"),
+            LocalizationHelper.GetString("StartGuideDemo"),
             LocalizationHelper.GetString("Tip"),
             MessageBoxButton.OK,
             MessageBoxImage.Information);

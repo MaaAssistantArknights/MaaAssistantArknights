@@ -387,7 +387,7 @@
     <system:String x:Key="TaskRenamed">任务已重命名为: {0}</system:String>
     <system:String x:Key="TaskDeleted">已删除任务: {0}</system:String>
     <system:String x:Key="TaskCopied">已复制任务: {0}</system:String>
-    <system:String x:Key="GuideDemoTipRunOnce">演示中不会真的运行任务</system:String>
+    <system:String x:Key="StartGuideDemo">演示中不会真的运行任务</system:String>
     <system:String x:Key="GuideDemoTaskAddLimitTip">演示列表最多容纳 5 个任务，可先删除部分后再添加</system:String>
     <system:String x:Key="TaskCopyFailed">任务复制失败</system:String>
     <system:String x:Key="HotKeyShowGui">[热键] 显示/收起 MAA</system:String>

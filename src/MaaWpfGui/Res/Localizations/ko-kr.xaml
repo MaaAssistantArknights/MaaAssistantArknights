@@ -387,7 +387,7 @@
     <system:String x:Key="TaskRenamed">작업 이름 변경: {0}</system:String>
     <system:String x:Key="TaskDeleted">작업 삭제: {0}</system:String>
     <system:String x:Key="TaskCopied">작업 복사: {0}</system:String>
-    <system:String x:Key="GuideDemoTipRunOnce">데모에서는 실제로 작업이 실행되지 않습니다</system:String>
+    <system:String x:Key="StartGuideDemo">데모에서는 실제로 작업이 실행되지 않습니다</system:String>
     <system:String x:Key="GuideDemoTaskAddLimitTip">데모 목록에는 최대 5개의 작업만 추가할 수 있습니다. 추가 전에 일부를 삭제해 주세요</system:String>
     <system:String x:Key="TaskCopyFailed">작업 복사 실패</system:String>
     <system:String x:Key="HotKeyShowGui">[단축키] MAA 보이기/숨기기</system:String>
