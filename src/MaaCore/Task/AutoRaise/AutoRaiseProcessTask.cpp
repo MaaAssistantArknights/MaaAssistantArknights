@@ -390,8 +390,9 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
         return Result::RecognitionFailed;
     }
 
-    // 如果有正在训练的干员就退出任务
-    if (run_task("InfrastTrainingProcessing", 2)) {
+    // 如果有正在训练的干员就退出任务（干员档案跳转的训练页以头像"训练中"角标标识，
+    // 基建设施页布局的 InfrastTrainingProcessing 在此不适用）
+    if (run_task("InfrastTrainingMasterybusy", 2)) {
         std::string training_operator;
         std::string training_skill;
         int training_level = 0;
@@ -436,12 +437,13 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
         return Result::ResourceInsufficient;
     }
     // 参照 raise.lua master_skill:1461-1469：材料齐备后先点确认弹窗的蓝色确认启动专精，
-    // 以 InfrastTrainingProcessing 复核；协助者只在训练开始后换班加速，选人不成功不回滚专精。
-    if (!run_task("InfrastTrainingConfirm") || !run_task("InfrastTrainingProcessing")) {
+    // 再以头像"训练中"角标复核训练确实开始（协助者 OCR 只能证明在本页面，空闲态同样命中）。
+    if (!run_task("InfrastTrainingConfirm") || !run_task("InfrastTrainingMasteryPage", 10)) {
         return Result::RecognitionFailed;
     }
     m_mastery_busy = true;
-    if (!select_training_trainer(target)) {
+    // 参照 raise.lua path.训练室换班：先点协助者槽位的加号打开陪练面板（编队式 UI），再做选人扫描。
+    if (!run_task("AutoRaise@MasterySelectTrainer") || !select_training_trainer(target)) {
         LogWarn << "execute_mastery | trainer selection failed, training already started";
     }
     return Result::Completed;
