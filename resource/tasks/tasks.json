@@ -3886,11 +3886,16 @@
         "text": ["空闲中"],
         "roi": [346, 626, 161, 52]
     },
-    "InfrastTrainingPage": {
+    "InfrastTrainingMasteryPage": {
         "algorithm": "OcrDetect",
         "text": ["协助者"],
-        "roi": [82,364,163,45],
-        "doc":"检测到说明在训练选人界面"
+        "roi": [82, 364, 163, 45],
+        "maxTimes": 20,
+        "doc": "检测到说明在训练选人界面"
+    },
+    "InfrastTrainingSelectTrainee": {
+        "action": "ClickSelf",
+        "roi": [95, 98, 242, 222]
     },
     "InfrastTrainingProcessing": {
         "baseTask": "InfrastTrainingIdle",
@@ -6242,7 +6247,8 @@
     },
     "AutoRaise@MfgCatalystMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
-        "template": "MaterialMissing.png"},
+        "template": "MaterialMissing.png"
+    },
     "AutoRaise@ReturnToMfgPage": {
         "baseTask": "Return",
         "template": "Return.png",
@@ -6254,7 +6260,7 @@
         "action": "DoNothing",
         "next": [],
         "doc": "技能升级面板标志，仅用于从加工站返回时确认页面，不点击确认按钮"
-    },    
+    },
     "AutoRaise@ReturnToEliteUpPage": {
         "baseTask": "Return",
         "template": "Return.png",
@@ -6367,7 +6373,7 @@
         "template": "EliteUpPageConfirm.png",
         "postDelay": 1500,
         "next": []
-    },    
+    },
     "AutoRaise@MasteryPage": {
         "baseTask": "InfrastTrainingConfirm",
         "template": "InfrastTrainingConfirm.png",
@@ -6377,8 +6383,7 @@
     },
     "AutoRaise@MasteryPageEnter": {
         "baseTask": "AutoRaise@SkillUpgrade",
-        "template": "OperFilesEnterTrainingButton.png",
-        "doc": "从干员档案页点击训练按钮进入该干员的技能专精页面"
+        "template": "OperFilesEnterTrainingButton.png"
     },
     "AutoRaise@MasteryMaterialMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
@@ -6432,15 +6437,7 @@
         "template": "QuickJumpProcessing.png",
         "roi": [68, 325, 539, 312],
         "doc": "干员技能专精第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
-    },
-    "AutoRaise@SelectTrainee": {
-        "baseTask": "AutoRaise@ManualAction",
-        "doc": [
-            "对应 point.lua:1937、1939-1940「选择被训练干员」「专精第一干员未选中」「专精无干员选中」，参考调用 raise.lua:1474-1537。",
-            "本 Task 只负责识别并打开受训干员列表；列表内职业筛选、OCR 翻页和卡片点击由现有 MAA 能力处理。"
-        ],
-        "roi": [180, 190, 110, 100]
-    },
+    },    
     "AutoRaise@SelectSkill1": {
         "baseTask": "AutoRaise@ManualAction",
         "doc": "对应 point.lua:1941「专精技能列表」第 1 项及 raise.lua:1431-1438；需截图技能一可选状态并 ClickSelf。",
