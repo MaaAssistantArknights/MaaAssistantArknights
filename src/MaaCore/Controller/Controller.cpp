@@ -197,7 +197,7 @@ bool asst::Controller::swipe(
     const Point& p1,
     const Point& p2,
     int duration,
-    int extra_swipe,
+    SwipeExtraDirection extra_swipe,
     double slope_in,
     double slope_out,
     bool with_pause)
@@ -211,7 +211,7 @@ bool asst::Controller::swipe(
     const Rect& r1,
     const Rect& r2,
     int duration,
-    int extra_swipe,
+    SwipeExtraDirection extra_swipe,
     double slope_in,
     double slope_out,
     bool with_pause,

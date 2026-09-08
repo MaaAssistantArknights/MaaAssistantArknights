@@ -339,7 +339,7 @@ bool asst::FightTimesTaskPlugin::select_series_new(int times)
         if (std::abs(dis) > 4) {
             if (dis > 0) {
                 const auto& task = Task.get("FightSeries-List-SlideUp");
-                ctrler()->swipe(task->specific_rect, task->rect_move, 300, false, 3.7, 0.1);
+                ctrler()->swipe(task->specific_rect, task->rect_move, 300, SwipeExtraDirection::None, 3.7, 0.1);
                 sleep(task->post_delay);
                 if (!reanalyze()) {
                     return false;
@@ -347,7 +347,7 @@ bool asst::FightTimesTaskPlugin::select_series_new(int times)
             }
             else if (dis < 0) {
                 const auto& task = Task.get("FightSeries-List-SlideDown");
-                ctrler()->swipe(task->specific_rect, task->rect_move, 300, false, 3.7, 0.1);
+                ctrler()->swipe(task->specific_rect, task->rect_move, 300, SwipeExtraDirection::None, 3.7, 0.1);
                 sleep(task->post_delay);
                 if (!reanalyze()) {
                     return false;

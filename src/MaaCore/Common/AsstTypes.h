@@ -61,6 +61,29 @@ enum class TouchMode
     MumuExtras = 6, // MuMu external renderer IPC，不可用时自动降级为 Minitouch
 };
 
+// Swipe 任务 specialParams[1] 的额外滑动方向。json 协议层仍为 int：0 不启用，1/2/3/4 为上/下/左/右
+enum class SwipeExtraDirection : int
+{
+    None = 0,
+    Up = 1,
+    Down = 2,
+    Left = 3,
+    Right = 4,
+};
+
+inline std::string enum_to_string(SwipeExtraDirection direction)
+{
+    static const std::unordered_map<SwipeExtraDirection, std::string> direction_map = {
+        { SwipeExtraDirection::None, "None" },   { SwipeExtraDirection::Up, "Up" },
+        { SwipeExtraDirection::Down, "Down" },   { SwipeExtraDirection::Left, "Left" },
+        { SwipeExtraDirection::Right, "Right" },
+    };
+    if (auto it = direction_map.find(direction); it != direction_map.end()) {
+        return it->second;
+    }
+    return "Unknown";
+}
+
 #ifdef _WIN32
 
 // Win32 截图方式，与 MaaFramework 的 MaaWin32ScreencapMethod 保持一致

@@ -262,7 +262,7 @@ bool MaaFwAdbController::swipe(
     const Point& p1,
     const Point& p2,
     int duration,
-    int extra_swipe [[maybe_unused]],
+    SwipeExtraDirection extra_swipe [[maybe_unused]],
     double slope_in [[maybe_unused]],
     double slope_out [[maybe_unused]],
     bool with_pause [[maybe_unused]])

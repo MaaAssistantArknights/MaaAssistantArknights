@@ -207,7 +207,7 @@ bool asst::PlayToolsController::swipe(
     const Point& p1,
     const Point& p2,
     int duration,
-    int extra_swipe,
+    SwipeExtraDirection extra_swipe,
     double slope_in,
     double slope_out,
     bool with_pause [[maybe_unused]])
@@ -256,7 +256,7 @@ bool asst::PlayToolsController::swipe(
 
     progressive_move(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration);
 
-    if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
+    if (extra_swipe != SwipeExtraDirection::None && opt.minitouch_extra_swipe_duration > 0) {
         toucher_wait(opt.minitouch_swipe_extra_end_delay);
         const auto offset = extra_swipe_offset(extra_swipe, opt.minitouch_extra_swipe_dist);
         progressive_move(x2, y2, x2 + offset.x, y2 + offset.y, opt.minitouch_extra_swipe_duration);

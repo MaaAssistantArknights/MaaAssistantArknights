@@ -161,7 +161,7 @@ bool MumuController::swipe(
     const Point& p1,
     const Point& p2,
     int duration,
-    int extra_swipe,
+    SwipeExtraDirection extra_swipe,
     double slope_in,
     double slope_out,
     bool with_pause)
@@ -252,7 +252,7 @@ bool MumuController::swipe(
     // 中途失败也必须抬手，否则手指会一直按在屏幕上，后续操作全部失效
     bool moved = mumu_move(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration);
 
-    if (moved && extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
+    if (moved && extra_swipe != SwipeExtraDirection::None && opt.minitouch_extra_swipe_duration > 0) {
         std::this_thread::sleep_for(std::chrono::milliseconds(opt.minitouch_swipe_extra_end_delay));
         const auto offset = extra_swipe_offset(extra_swipe, opt.minitouch_extra_swipe_dist);
         moved = mumu_move(x2, y2, x2 + offset.x, y2 + offset.y, opt.minitouch_extra_swipe_duration);
