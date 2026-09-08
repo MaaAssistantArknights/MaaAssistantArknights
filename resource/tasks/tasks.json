@@ -6018,32 +6018,7 @@
         "template": "CreditShop-Bought.png",
         "maxTimes": 10,
         "next": ["RedTicket@Store@ChooseTicketTypeSelected", "RedTicket@Store@PurchasedConfirm"]
-    },
-    "AutoRaise@TemplateChecklist": {
-        "doc": [
-            "以下 AutoRaise 专属识别任务仅为 1280x720 国服截图占位，截图补齐并实机验证前不得视为可运行流程。",
-            "已复用：OperBox-Entry、OperBoxFlagRole1..Role8、CharsNameOcrReplace、OperBoxNameOCR、OperBoxFlagElite1/2。",
-            "已复用：InfrastFacilityImageAnalyzer、Training.png、InfrastTraining*、InfrastOperImageAnalyzer 和 infrastscore。",
-            "待采集：干员档案页、升级/晋升按钮、红色材料槽、材料详情跳转、训练室选择按钮。",
-            "待采集：双芯片制造、芯片组、芯片助剂库存、采购数量、原产线产品及生产数量恢复状态。",
-            "下列候选 ROI 由参考实现 point.lua 的 1920x1080 坐标按 2/3 换算为 1280x720，并添加截图余量；均须用实机截图复核。",
-            "复合操作的 ROI 仅是相关特征的合并范围，落地时必须按页面状态、按钮和确认结果拆成多个 Task。"
-        ],
-        "algorithm": "JustReturn",
-        "action": "DoNothing"
-    },
-    "AutoRaise@ManualRecognition": {
-        "doc": "人工截图占位。特殊文本保证截图缺失时识别失败，不以固定坐标绕过。",
-        "algorithm": "OcrDetect",
-        "text": ["__OPERATOR_DEVELOPMENT_TEMPLATE_REQUIRED__"],
-        "roi": [0, 0, 1280, 720],
-        "action": "DoNothing"
-    },
-    "AutoRaise@ManualAction": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "人工截图占位。按钮模板补齐后改为对应识别算法，点击保持 ClickSelf。",
-        "action": "ClickSelf"
-    },
+    },    
     "AutoRaise@OperFiles": {
         "baseTask": "OperOpenInformationMenu",
         "template": "OperInformationMenu.png",
