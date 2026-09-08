@@ -403,57 +403,57 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
         return Result::RecognitionFailed;
     }
 
-    // // 如果有正在训练的干员就退出任务（干员档案跳转的训练页以头像"训练中"角标标识,
-    // // 基建设施页布局的 InfrastTrainingProcessing 在此不适用）
-    // if (run_task("InfrastTrainingMasterybusy", 2)) {
-    //     std::string training_operator;
-    //     std::string training_skill;
-    //     int busy_training_level = 0;
-    //     if (analyze_training_context(training_operator, training_skill, busy_training_level)) {
-    //         Log.info(
-    //             "AutoRaise | training room occupied",
-    //             training_operator,
-    //             training_skill,
-    //             "mastery",
-    //             busy_training_level);
-    //     }
-    //     m_mastery_busy = true;
-    //     run_task("AutoRaise@ReturnToOperFilesPage");
-    //     return Result::Skipped;
-    // }
-    // // 专精会长期占用训练室,一次运行只启动下一级；导师选择任务负责结合职业、等级、技能与心情评分。
-    // // 该 task 只负责打开受训干员列表；列表内的目标查找、翻页和点击复用编队识别能力。
-    // if (!run_task("InfrastTrainingSelectTrainee") || !select_training_trainee(target)) {
-    //     return Result::RecognitionFailed;
-    // }
-    // if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage") ||
-    //     !run_task("AutoRaise@MasterySelectSkill" + std::to_string(target.skill))) {
-    //     return Result::RecognitionFailed;
-    // }
-    // // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派）：
-    // // 技能书/材料1/材料2 依次跳加工站走自动合成,全部修复后复核仍缺料则不启动专精。
-    // if (run_task("AutoRaise@MasterySkillSummaryRequired", 2) &&
-    //     !synthesize_missing_material(AutoRaiseAction::Mastery, 0)) {
-    //     return Result::ResourceInsufficient;
-    // }
-    // if (run_task("AutoRaise@MasteryMaterial1Required", 2) &&
-    //     !synthesize_missing_material(AutoRaiseAction::Mastery, 1)) {
-    //     return Result::ResourceInsufficient;
-    // }
-    // if (run_task("AutoRaise@MasteryMaterial2Required", 2) &&
-    //     !synthesize_missing_material(AutoRaiseAction::Mastery, 2)) {
-    //     return Result::ResourceInsufficient;
-    // }
-    // if (run_task("AutoRaise@MasteryMaterialMissing", 2)) {
-    //     return Result::ResourceInsufficient;
-    // }
-    // // 材料齐备后先点确认弹窗的蓝色确认启动专精,
-    // // 再以头像"训练中"角标复核训练确实开始（协助者 OCR 只能证明在本页面,空闲态同样命中）。
-    // if (!run_task("InfrastTrainingConfirm") || !run_task("InfrastTrainingMasteryPage", 10)) {
-    //     return Result::RecognitionFailed;
-    // }
+    // 如果有正在训练的干员就退出任务（干员档案跳转的训练页以头像"训练中"角标标识,
+    // 基建设施页布局的 InfrastTrainingProcessing 在此不适用）
+    if (run_task("InfrastTrainingMasterybusy", 2)) {
+        std::string training_operator;
+        std::string training_skill;
+        int busy_training_level = 0;
+        if (analyze_training_context(training_operator, training_skill, busy_training_level)) {
+            Log.info(
+                "AutoRaise | training room occupied",
+                training_operator,
+                training_skill,
+                "mastery",
+                busy_training_level);
+        }
+        m_mastery_busy = true;
+        run_task("AutoRaise@ReturnToOperFilesPage");
+        return Result::Skipped;
+    }
+    // 专精会长期占用训练室,一次运行只启动下一级；导师选择任务负责结合职业、等级、技能与心情评分。
+    // 该 task 只负责打开受训干员列表；列表内的目标查找、翻页和点击复用编队识别能力。
+    if (!run_task("InfrastTrainingSelectTrainee") || !select_training_trainee(target)) {
+        return Result::RecognitionFailed;
+    }
+    if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage") ||
+        !run_task("AutoRaise@MasterySelectSkill" + std::to_string(target.skill))) {
+        return Result::RecognitionFailed;
+    }
+    // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派）：
+    // 技能书/材料1/材料2 依次跳加工站走自动合成,全部修复后复核仍缺料则不启动专精。
+    if (run_task("AutoRaise@MasterySkillSummaryRequired", 2) &&
+        !synthesize_missing_material(AutoRaiseAction::Mastery, 0)) {
+        return Result::ResourceInsufficient;
+    }
+    if (run_task("AutoRaise@MasteryMaterial1Required", 2) &&
+        !synthesize_missing_material(AutoRaiseAction::Mastery, 1)) {
+        return Result::ResourceInsufficient;
+    }
+    if (run_task("AutoRaise@MasteryMaterial2Required", 2) &&
+        !synthesize_missing_material(AutoRaiseAction::Mastery, 2)) {
+        return Result::ResourceInsufficient;
+    }
+    if (run_task("AutoRaise@MasteryMaterialMissing", 2)) {
+        return Result::ResourceInsufficient;
+    }
+    // 材料齐备后先点确认弹窗的蓝色确认启动专精,
+    // 再以头像"训练中"角标复核训练确实开始（协助者 OCR 只能证明在本页面,空闲态同样命中）。
+    if (!run_task("InfrastTrainingConfirm") || !run_task("InfrastTrainingMasteryPage", 10)) {
+        return Result::RecognitionFailed;
+    }
     m_mastery_busy = true;
-    // 先点协助者槽位的加号打开陪练干员列表（基建选人页）,再做选人扫描。
+    // 选好技能之后再选陪练，这样能确保逻各斯类技能触发
     if (!run_task("AutoRaise@MasterySelectTrainer") || !select_training_trainer(target, training_level)) {
         LogWarn << "execute_mastery | trainer selection failed, training already started";
     }
