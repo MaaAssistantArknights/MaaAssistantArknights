@@ -240,18 +240,25 @@ asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
         // 面板缺料槽逐个检测（对接方式同 execute_elite 的槽位分派）：
         // 技能书/材料1/材料2 均跳加工站走自动合成，当前槽位修复后再检测下一槽；
         // 2-3 级的技能书不可合成，缺料时合成步骤失败即终止本轮培养。
-        if (run_task("AutoRaise@SkillUpSkillSummaryRequired", 2) && !synthesize_missing_material(0)) {
+        if (run_task("AutoRaise@SkillUpSkillSummaryRequired", 1)) {
+            if (level > 3 && !synthesize_missing_material(0)) {
+                return Result::ResourceInsufficient;
+            }
             return Result::ResourceInsufficient;
         }
-        if (run_task("AutoRaise@SkillUpMaterial1Required", 2) && !synthesize_missing_material(0)) {
+        if (run_task("AutoRaise@SkillUpMaterial1Required", 1) && !synthesize_missing_material(1)) {
             return Result::ResourceInsufficient;
         }
-        if (run_task("AutoRaise@SkillUpMaterial2Required", 2) && !synthesize_missing_material(0)) {
+
+        if (level == 7 && run_task("AutoRaise@SkillUpMaterial2Required", 1) && !synthesize_missing_material(2)) {
             return Result::ResourceInsufficient;
         }
         if (!run_task("AutoRaise@SkillUpConfirm")) {
             return Result::RecognitionFailed;
         }
+    }
+    if (!run_task("AutoRaise@OperFiles",10)) {
+        run_task("AutoRaise@ReturnToOperFilesPage");
     }
     // 目标级确认后游戏返回档案页，以 RANK 数字复核最终等级。
     if (ocr_number("AutoRaise@CurrentSkillLevel").value_or(0) < target.target) {
@@ -620,12 +627,12 @@ std::optional<int> asst::AutoRaiseProcessTask::ocr_number(const std::string& tas
 }
 
 bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& target)
-{    
+{
     // 弹窗徽标 OCR 已有/所需数量算缺口 → 跳制造站进芯片产线并记录当前产品 →
     // 选芯片类按职业选双芯片 → 助剂数量/库存不足时经凭证商店补购 → 制造站加 ×(缺口-1) →
     // 执行更改+右确认 → 等待生产 → 返回前按记录恢复产线 → 返回晋升页面。
     // 生产为排队制：制造完成后当次晋升仍会因材料未到账而复核失败，由外层计划重试。    
-    
+
     const int rarity = BattleData.get_rarity(BattleData.get_first_role(target.name), target.name);
     const int need = rarity >= 6 ? 4 : 3;// 所需数量按稀有度取值：6★ 晋升二阶需 4 枚、5★ 需 3 枚。
     const int owned = ocr_number("AutoRaise@DualchipBadgeCount").value_or(0);
