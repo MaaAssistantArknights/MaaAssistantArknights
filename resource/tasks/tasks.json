@@ -6168,7 +6168,6 @@
                 [16, 255, 255]
             ]
         ],
-        "action": "DoNothing",
         "roi": [71, 665, 615, 17]
     },
     "AutoRaise@DualchipRequired": {
@@ -6244,10 +6243,34 @@
         "template": "Return.png",
         "next": ["AutoRaise@MfgPage", "AutoRaise@ReturnToMfgPage"]
     },
+    "AutoRaise@SkillUpPage": {
+        "baseTask": "AutoRaise@SkillUpConfirm",
+        "template": "EliteUpPageConfirm.png",
+        "action": "DoNothing",
+        "next": [],
+        "doc": "技能升级面板标志，仅用于从加工站返回时确认页面，不点击确认按钮"
+    },
+    "AutoRaise@MasteryPage": {
+        "baseTask": "InfrastTrainingConfirm",
+        "template": "InfrastTrainingConfirm.png",
+        "action": "DoNothing",
+        "next": [],
+        "doc": "技能专精确认面板标志，仅用于从加工站返回时确认页面，不开始训练"
+    },
     "AutoRaise@ReturnToEliteUpPage": {
         "baseTask": "Return",
         "template": "Return.png",
         "next": ["AutoRaise@EliteUpPage", "AutoRaise@ReturnToEliteUpPage"]
+    },
+    "AutoRaise@ReturnToSkillUpPage": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "next": ["AutoRaise@SkillUpPage", "AutoRaise@ReturnToSkillUpPage"]
+    },
+    "AutoRaise@ReturnToMasteryPage": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "next": ["AutoRaise@MasteryPage", "AutoRaise@ReturnToMasteryPage"]
     },
     "AutoRaise@ReturnToOperFilesPage": {
         "baseTask": "Return",
@@ -6263,11 +6286,9 @@
         "doc": "干员精英化第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
     },
     "AutoRaise@EliteUpMaterial2JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
-        "action": "ClickSelf",
         "roi": [76, 328, 519, 313],
-        "rectMove": [314, 4, 84, 23],
-        "postDelay": 1000,
         "doc": "干员精英化第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
     },
     "AutoRaise@RecordFactoryState": {
@@ -6319,6 +6340,24 @@
         "specificRect": [520, 862, 75, 70],
         "doc": "干员技能升级的第二个材料位置,用于开启和关闭跳转弹窗"
     },
+    "AutoRaise@SkillUpMaterial0JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
+        "template": "QuickJumpProcessing.png",
+        "roi": [279, 376, 539, 271],
+        "doc": "干员技能升级的技能书跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
+    },
+    "AutoRaise@SkillUpMaterial1JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
+        "template": "QuickJumpProcessing.png",
+        "roi": [417, 331, 539, 300],
+        "doc": "干员技能升级第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
+    },
+    "AutoRaise@SkillUpMaterial2JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
+        "template": "QuickJumpProcessing.png",
+        "roi": [555, 324, 539, 317],
+        "doc": "干员技能升级第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
+    },
     "AutoRaise@SkillUpConfirm": {
         "baseTask": "AutoRaise@EliteUpPageConfirm",
         "template": "EliteUpPageConfirm.png",
@@ -6330,30 +6369,6 @@
         "action": "ClickSelf",
         "roi": [1150, 349, 87, 91],
         "postDelay": 800
-    },
-    "AutoRaise@OpenMissingMaterial": {
-        "baseTask": "AutoRaise@EliteUpMaterialMissing",
-        "template": "MaterialMissing.png",
-        "action": "ClickSelf",
-        "roi": [55, 640, 640, 60],
-        "postDelay": 800,
-        "doc": [
-            "对应 raise.jump_to_workshop（raise.lua:2047-2076）的材料槽点击。",
-            "继承缺料红字数色配方（MaterialMissing.png），roi 合并技能升级/专精/晋升各面板的槽位行；",
-            "点击命中红字即打开该槽位材料详情，无需区分具体槽位。龙门币槽缺料时同样会命中，",
-            "但其详情无跳转按钮，由下一步 GoToWorkshop 失配自然终止。"
-        ]
-    },
-    "AutoRaise@GoToWorkshop": {
-        "template": "QuickJumpProcessing.png",
-        "action": "ClickSelf",
-        "roi": [0, 280, 1280, 400],
-        "rectMove": [314, 4, 84, 23],
-        "postDelay": 1000,
-        "doc": [
-            "材料详情弹窗的快速跳转加工站按钮，与 EliteUpMaterial1/2JumpProcessing 同模板同 rectMove；",
-            "弹窗位置随槽位变化，roi 取全宽覆盖；对照 point.lua 各材料白跳转点。"
-        ]
     },
     "AutoRaise@MasteryMaterialMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
@@ -6369,20 +6384,17 @@
     "AutoRaise@MasterySkillSummaryRequired": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
-        "roi": [341, 671, 73, 21],
-        "doc": "专精确认面板技能书槽红字检测（point.lua:1904-1905 专精材料0红范围 {511,1007,620,1038}÷1.5）；rois 待训练室专精面板截图实测校准。"
+        "roi": [341, 671, 73, 21]
     },
     "AutoRaise@MasteryMaterial1Required": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
-        "roi": [479, 672, 72, 15],
-        "doc": "专精确认面板材料1槽红字检测（point.lua:1910-1911 专精材料1红范围 {718,1008,826,1031}÷1.5）；待截图校准。"
+        "roi": [479, 672, 72, 15]
     },
     "AutoRaise@MasteryMaterial2Required": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
-        "roi": [615, 673, 73, 13],
-        "doc": "专精确认面板材料2槽红字检测（point.lua:1915-1916 专精材料2红范围 {923,1010,1033,1030}÷1.5）；待截图校准。"
+        "roi": [615, 673, 73, 13]
     },
     "AutoRaise@MasteryMaterial0": {
         "baseTask": "AutoRaise@Dualchip",
@@ -6398,6 +6410,24 @@
         "baseTask": "AutoRaise@Dualchip",
         "specificRect": [624, 584, 49, 46],
         "doc": "干员技能专精的第二个材料位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@MasteryMaterial0JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
+        "template": "QuickJumpProcessing.png",
+        "roi": [415, 381, 539, 264],
+        "doc": "干员技能专精的技能书跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
+    },
+    "AutoRaise@MasteryMaterial1JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
+        "template": "QuickJumpProcessing.png",
+        "roi": [559, 326, 539, 312],
+        "doc": "干员技能专精第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
+    },
+    "AutoRaise@MasteryMaterial2JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
+        "template": "QuickJumpProcessing.png",
+        "roi": [68, 325, 539, 312],
+        "doc": "干员技能专精第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
     },
     "AutoRaise@SelectTrainee": {
         "baseTask": "AutoRaise@ManualAction",
