@@ -3886,6 +3886,12 @@
         "text": ["空闲中"],
         "roi": [346, 626, 161, 52]
     },
+    "InfrastTrainingPage": {
+        "algorithm": "OcrDetect",
+        "text": ["协助者"],
+        "roi": [82,364,163,45],
+        "doc":"检测到说明在训练选人界面"
+    },
     "InfrastTrainingProcessing": {
         "baseTask": "InfrastTrainingIdle",
         "text": ["进度"]
@@ -3913,6 +3919,7 @@
             [" [Yy]$", " γ"]
         ]
     },
+
     "InfrastTrainingSkillImg": {
         "template": "empty.png",
         "roi": [28, 558, 106, 108]
@@ -6235,9 +6242,7 @@
     },
     "AutoRaise@MfgCatalystMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
-        "template": "MaterialMissing.png",
-        "doc": "助剂数量红字检测，数色配方同 EliteUpMaterialMissing（point.lua:1814 选芯片界面胶水红）；待截图核对。"
-    },
+        "template": "MaterialMissing.png"},
     "AutoRaise@ReturnToMfgPage": {
         "baseTask": "Return",
         "template": "Return.png",
@@ -6249,14 +6254,7 @@
         "action": "DoNothing",
         "next": [],
         "doc": "技能升级面板标志，仅用于从加工站返回时确认页面，不点击确认按钮"
-    },
-    "AutoRaise@MasteryPage": {
-        "baseTask": "InfrastTrainingConfirm",
-        "template": "InfrastTrainingConfirm.png",
-        "action": "DoNothing",
-        "next": [],
-        "doc": "技能专精确认面板标志，仅用于从加工站返回时确认页面，不开始训练"
-    },
+    },    
     "AutoRaise@ReturnToEliteUpPage": {
         "baseTask": "Return",
         "template": "Return.png",
@@ -6301,6 +6299,12 @@
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
         "roi": [440, 370, 145, 90]
+    },
+    "AutoRaise@SkillUpgrade": {
+        "template": "OperFilesEnterSkillUpButton.png",
+        "action": "ClickSelf",
+        "roi": [1150, 349, 87, 91],
+        "postDelay": 800
     },
     "AutoRaise@SkillMaterialMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
@@ -6363,22 +6367,22 @@
         "template": "EliteUpPageConfirm.png",
         "postDelay": 1500,
         "next": []
+    },    
+    "AutoRaise@MasteryPage": {
+        "baseTask": "InfrastTrainingConfirm",
+        "template": "InfrastTrainingConfirm.png",
+        "action": "DoNothing",
+        "next": [],
+        "doc": "技能专精确认面板标志，仅用于从加工站返回时确认页面，不开始训练"
     },
-    "AutoRaise@SkillUpgrade": {
-        "template": "OperFilesEnterSkillUpButton.png",
-        "action": "ClickSelf",
-        "roi": [1150, 349, 87, 91],
-        "postDelay": 800
+    "AutoRaise@MasteryPageEnter": {
+        "baseTask": "AutoRaise@SkillUpgrade",
+        "template": "OperFilesEnterTrainingButton.png",
+        "doc": "从干员档案页点击训练按钮进入该干员的技能专精页面"
     },
     "AutoRaise@MasteryMaterialMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
-        "doc": [
-            "对应 point.lua:1943-1944「干员技能专精红」及其范围，参考调用 raise.lua:1444-1460。",
-            "数色配方同 AutoRaise@EliteUpMaterialMissing（baseTask 继承缺料红字 HSVCount 检测）。",
-            "该特征位于选定技能后的专精确认页；当前 C++ 在选择受训干员和技能之前调用，补模板前必须调整页面顺序。",
-            "ROI 未经专精确认页截图实测。"
-        ],
         "roi": [330, 655, 370, 50]
     },
     "AutoRaise@MasterySkillSummaryRequired": {

@@ -15,7 +15,6 @@
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Vision/BestMatcher.h"
-#include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
 #include "Vision/RegionOCRer.h"
@@ -98,11 +97,9 @@ asst::AutoRaiseProcessTask::execute_target(const AutoRaiseTarget& target)
         return Result::OperatorNotFound;
     }
 
-    if (target.action != AutoRaiseAction::Mastery) {
-        const Result located = find_and_open_operator(target);
-        if (located != Result::Completed) {
-            return located;
-        }
+    const Result located = find_and_open_operator(target);
+    if (located != Result::Completed) {
+        return located;
     }
 
     switch (target.action) {
@@ -274,6 +271,10 @@ asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
 asst::AutoRaiseProcessTask::Result
 asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
 {
+    if (m_operator_elite < 2) {
+        return Result::PrerequisiteNotMet;
+    }
+
     // 专精任务前置要求通用等级7级,不满足的情况下直接返回
     const auto rank = ocr_number("AutoRaise@CurrentSkillLevel");
     if (rank && *rank < 7) {
@@ -302,7 +303,8 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
         return Result::AlreadySatisfied;
     }
 
-    if (!enter_training_room()) {
+    // 从干员档案页的训练按钮直接进入训练室专精页面，保留当前目标干员的上下文。
+    if (!run_task("AutoRaise@MasteryPageEnter")) {
         return Result::RecognitionFailed;
     }
     // 现有训练完成任务已经负责点击领取并关闭奖励弹窗，避免重复点击占位任务。
@@ -398,36 +400,6 @@ bool asst::AutoRaiseProcessTask::analyze_training_context(
 
     const auto& template_name = level_analyzer.get_result().templ_info.name;
     return utils::chars_to_number(template_name.substr(std::string("InfrastTrainingLevel").size(), 1), level);
-}
-
-bool asst::AutoRaiseProcessTask::enter_training_room()
-{
-    // 训练室入口由 InfrastFacilityImageAnalyzer 识别 Training.png，不能以固定坐标替代设施识别。
-    if (!run_task("InfrastBegin", 3)) {
-        return false;
-    }
-
-    const auto enter = [this]() {
-        InfrastFacilityImageAnalyzer analyzer(ctrler()->get_image());
-        analyzer.set_to_be_analyzed({ "Training" });
-        if (!analyzer.analyze()) {
-            analyzer.save_img(utils::path("debug") / utils::path("auto_raise"));
-            return false;
-        }
-        const Rect rect = analyzer.get_rect("Training", 0);
-        if (rect.empty() || !ctrler()->click(rect)) {
-            return false;
-        }
-        sleep(Task.get("InfrastEnterFacility")->post_delay);
-        return true;
-        };
-
-    run_task("SwipeToTheLeft");
-    if (enter()) {
-        return true;
-    }
-    run_task("InfrastSwipeToRightOfMainUi");
-    return enter();
 }
 
 bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& target)
