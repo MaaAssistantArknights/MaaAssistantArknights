@@ -6234,6 +6234,11 @@
         "template": "Return.png",
         "next": ["AutoRaise@EliteUpPage", "AutoRaise@ReturnToEliteUpPage"]
     },
+    "AutoRaise@ReturnToOperFilesPage": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "next": ["AutoRaise@OperFiles", "AutoRaise@ReturnToOperFilesPage"]
+    },
     "AutoRaise@EliteUpMaterial1JumpProcessing": {
         "template": "QuickJumpProcessing.png",
         "action": "ClickSelf",
@@ -6264,13 +6269,7 @@
     "AutoRaise@SkillMaterialMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
-        "doc": [
-            "对应 point.lua:1933-1934「干员技能升级红」及其范围，参考调用 raise.lua:1384-1387。",
-            "数色配方同 AutoRaise@EliteUpMaterialMissing（baseTask 继承缺料红字 HSVCount 检测）。",
-            "该红色特征只存在于技能升级页面；当前 C++ 在 AutoRaise@SkillUpgrade 之前调用，补模板前必须先修正页面进入顺序。",
-            "ROI 未经技能升级页面截图实测；晋升页同区域会命中等级文字橙色，页面截图到位后需收敛边界。"
-        ],
-        "roi": [55, 650, 510, 45]
+        "roi": [101, 1001, 713, 26]
     },
     "AutoRaise@SkillUpSkillSummaryRequired": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
@@ -6290,11 +6289,26 @@
         "doc": "干员技能升级的第二个材料缺料检测",
         "roi": [490, 666, 48, 17]
     },
+    "AutoRaise@SkillUpMaterial0": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [319, 865, 75, 70],
+        "doc": "干员技能升级的技能书位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@SkillUpMaterial1": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [520, 862, 75, 70],
+        "doc": "干员技能升级的第一个材料位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@SkillUpMaterial2": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [520, 862, 75, 70],
+        "doc": "干员技能升级的第二个材料位置,用于开启和关闭跳转弹窗"
+    },
     "AutoRaise@SkillUpConfirm": {
         "baseTask": "AutoRaise@EliteUpPageConfirm",
         "template": "EliteUpPageConfirm.png",
         "postDelay": 1500,
-        "doc": "技能升级面板的确认√，与晋升弹窗为同一全 UI 组件：EliteUpPageConfirm 模板在 1-2..6-7 六张面板 0.992 同位命中；postDelay 覆盖面板翻页动画。"
+        "next": []
     },
     "AutoRaise@SkillUpgrade": {
         "template": "OperFilesEnterSkillUpButton.png",
