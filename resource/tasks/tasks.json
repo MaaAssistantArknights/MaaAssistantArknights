@@ -6272,6 +6272,30 @@
         ],
         "roi": [55, 650, 510, 45]
     },
+    "AutoRaise@SkillUpSkillSummaryRequired": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "doc": "干员技能升级的技能书缺料检测",
+        "roi": [215, 667, 43, 15]
+    },
+    "AutoRaise@SkillUpMaterial1Required": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "doc": "干员技能升级的第一个材料缺料检测",
+        "roi": [353, 665, 43, 15]
+    },
+    "AutoRaise@SkillUpMaterial2Required": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "doc": "干员技能升级的第二个材料缺料检测",
+        "roi": [490, 666, 48, 17]
+    },
+    "AutoRaise@SkillUpConfirm": {
+        "baseTask": "AutoRaise@EliteUpPageConfirm",
+        "template": "EliteUpPageConfirm.png",
+        "postDelay": 1500,
+        "doc": "技能升级面板的确认√，与晋升弹窗为同一全 UI 组件：EliteUpPageConfirm 模板在 1-2..6-7 六张面板 0.992 同位命中；postDelay 覆盖面板翻页动画。"
+    },
     "AutoRaise@SkillUpgrade": {
         "template": "OperFilesEnterSkillUpButton.png",
         "action": "ClickSelf",
@@ -6279,28 +6303,28 @@
         "postDelay": 800
     },
     "AutoRaise@OpenMissingMaterial": {
-        "baseTask": "AutoRaise@ManualAction",
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "action": "ClickSelf",
+        "roi": [55, 640, 640, 60],
+        "postDelay": 800,
         "doc": [
-            "对应 raise.jump_to_workshop（raise.lua:2047-2076）的材料槽点击；精英化使用 point.lua:1891、1898，专精使用 point.lua:1906、1912、1917。",
-            "应由红色槽识别结果区分实际缺少的槽位并点击自身；当前 ROI 合并五个可能槽位，仅供截图，不可直接作为点击区域。"
-        ],
-        "roi": [330, 570, 380, 130]
+            "对应 raise.jump_to_workshop（raise.lua:2047-2076）的材料槽点击。",
+            "继承缺料红字数色配方（MaterialMissing.png），roi 合并技能升级/专精/晋升各面板的槽位行；",
+            "点击命中红字即打开该槽位材料详情，无需区分具体槽位。龙门币槽缺料时同样会命中，",
+            "但其详情无跳转按钮，由下一步 GoToWorkshop 失配自然终止。"
+        ]
     },
     "AutoRaise@GoToWorkshop": {
-        "baseTask": "AutoRaise@ManualAction",
+        "template": "QuickJumpProcessing.png",
+        "action": "ClickSelf",
+        "roi": [0, 280, 1280, 400],
+        "rectMove": [314, 4, 84, 23],
+        "postDelay": 1000,
         "doc": [
-            "对应 point.lua:1895、1902、1908、1914、1919 的各材料详情跳转点，参考调用 raise.lua:2053-2058。",
-            "材料详情面板位置随槽位变化；应分别截图并通过可识别的跳转按钮 ClickSelf，合并 ROI 不可直接点击。"
-        ],
-        "roi": [420, 560, 570, 80]
-    },
-    "AutoRaise@MasteryPrerequisiteMissing": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": [
-            "参考实现无单独 point：raise.lua:1401-1418 先用玩家数据判断通用技能是否到 7，再以「干员技能升级页面」「干员技能专精页面」确认能否进入专精。",
-            "MAA 应以档案页实际精英阶段、通用技能等级和专精入口状态判断；当前 C++ 已先进入训练室，补模板前必须调整页面顺序。"
-        ],
-        "roi": [850, 210, 430, 220]
+            "材料详情弹窗的快速跳转加工站按钮，与 EliteUpMaterial1/2JumpProcessing 同模板同 rectMove；",
+            "弹窗位置随槽位变化，roi 取全宽覆盖；对照 point.lua 各材料白跳转点。"
+        ]
     },
     "AutoRaise@MasteryMaterialMissing": {
         "baseTask": "AutoRaise@EliteUpMaterialMissing",
@@ -6312,6 +6336,24 @@
             "ROI 未经专精确认页截图实测。"
         ],
         "roi": [330, 655, 370, 50]
+    },
+    "AutoRaise@MasterySkillSummaryRequired": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "roi": [341, 671, 73, 21],
+        "doc": "专精确认面板技能书槽红字检测（point.lua:1904-1905 专精材料0红范围 {511,1007,620,1038}÷1.5）；rois 待训练室专精面板截图实测校准。"
+    },
+    "AutoRaise@MasteryMaterial1Required": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "roi": [479, 672, 72, 15],
+        "doc": "专精确认面板材料1槽红字检测（point.lua:1910-1911 专精材料1红范围 {718,1008,826,1031}÷1.5）；待截图校准。"
+    },
+    "AutoRaise@MasteryMaterial2Required": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "roi": [615, 673, 73, 13],
+        "doc": "专精确认面板材料2槽红字检测（point.lua:1915-1916 专精材料2红范围 {923,1010,1033,1030}÷1.5）；待截图校准。"
     },
     "AutoRaise@SelectTrainee": {
         "baseTask": "AutoRaise@ManualAction",
@@ -6343,50 +6385,5 @@
             "参考流程先确认材料，再选择导师并确认换班；MAA 已有 InfrastTrainingConfirm 可复用，启动后必须以 InfrastTrainingProcessing 复核。"
         ],
         "roi": [930, 600, 340, 110]
-    },
-    "AutoRaise@MasterySatisfied11": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "对应 point.lua:1865「干员档案1技能专精列表」第 1 项（技能一 M1），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
-        "roi": [875, 325, 45, 45]
-    },
-    "AutoRaise@MasterySatisfied12": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "对应 point.lua:1865「干员档案1技能专精列表」第 2 项（技能一 M2），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
-        "roi": [875, 325, 45, 45]
-    },
-    "AutoRaise@MasterySatisfied13": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "对应 point.lua:1865「干员档案1技能专精列表」第 3 项（技能一 M3），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
-        "roi": [875, 325, 45, 45]
-    },
-    "AutoRaise@MasterySatisfied21": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "对应 point.lua:1866「干员档案2技能专精列表」第 1 项（技能二 M1），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
-        "roi": [965, 325, 45, 45]
-    },
-    "AutoRaise@MasterySatisfied22": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "对应 point.lua:1866「干员档案2技能专精列表」第 2 项（技能二 M2），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
-        "roi": [965, 325, 45, 45]
-    },
-    "AutoRaise@MasterySatisfied23": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "对应 point.lua:1866「干员档案2技能专精列表」第 3 项（技能二 M3），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
-        "roi": [965, 325, 45, 45]
-    },
-    "AutoRaise@MasterySatisfied31": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "对应 point.lua:1867「干员档案3技能专精列表」第 1 项（技能三 M1），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
-        "roi": [1050, 325, 45, 45]
-    },
-    "AutoRaise@MasterySatisfied32": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "对应 point.lua:1867「干员档案3技能专精列表」第 2 项（技能三 M2），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
-        "roi": [1050, 325, 45, 45]
-    },
-    "AutoRaise@MasterySatisfied33": {
-        "baseTask": "AutoRaise@ManualRecognition",
-        "doc": "对应 point.lua:1867「干员档案3技能专精列表」第 3 项（技能三 M3），参考调用 raise.lua:2037-2043；该点位于干员档案页。",
-        "roi": [1050, 325, 45, 45]
     }
 }

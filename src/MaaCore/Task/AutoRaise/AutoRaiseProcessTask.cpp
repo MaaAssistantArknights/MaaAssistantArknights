@@ -232,17 +232,30 @@ asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
     if (m_operator_elite < required_elite) {
         return Result::PrerequisiteNotMet;
     }
+    // 点"升级+"进入全屏升级面板；2-6 级确认后面板停留在下一级，7 级确认后游戏自动返回档案页。
+    if (!run_task("AutoRaise@SkillUpgrade")) {
+        return Result::RecognitionFailed;
+    }
     for (int level = current + 1; level <= target.target && !need_exit(); ++level) {
-        if (run_task("AutoRaise@SkillMaterialMissing", 2) && !synthesize_missing_material(0)) {
+        // 面板缺料槽逐个检测（对接方式同 execute_elite 的槽位分派）：
+        // 技能书/材料1/材料2 均跳加工站走自动合成，当前槽位修复后再检测下一槽；
+        // 2-3 级的技能书不可合成，缺料时合成步骤失败即终止本轮培养。
+        if (run_task("AutoRaise@SkillUpSkillSummaryRequired", 2) && !synthesize_missing_material(0)) {
             return Result::ResourceInsufficient;
         }
-        if (!run_task("AutoRaise@SkillUpgrade")) {
+        if (run_task("AutoRaise@SkillUpMaterial1Required", 2) && !synthesize_missing_material(0)) {
+            return Result::ResourceInsufficient;
+        }
+        if (run_task("AutoRaise@SkillUpMaterial2Required", 2) && !synthesize_missing_material(0)) {
+            return Result::ResourceInsufficient;
+        }
+        if (!run_task("AutoRaise@SkillUpConfirm")) {
             return Result::RecognitionFailed;
         }
-        // 升级确认后以 RANK 数字复核本级生效；确认面板任务由 SkillUpgrade 的 next 链承接。
-        if (ocr_number("AutoRaise@CurrentSkillLevel").value_or(level - 1) < level) {
-            return Result::RecognitionFailed;
-        }
+    }
+    // 目标级确认后游戏返回档案页，以 RANK 数字复核最终等级。
+    if (ocr_number("AutoRaise@CurrentSkillLevel").value_or(0) < target.target) {
+        return Result::RecognitionFailed;
     }
     return Result::Completed;
 }
@@ -250,6 +263,21 @@ asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
 asst::AutoRaiseProcessTask::Result
 asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
 {
+    // 档案页先读目标技能槽的当前专精等级（AutoRaise@CurrentSkill{skill}MasterLevel）：
+    // 已达标直接返回，不进入训练室（迁移 raise.lua:1401-1403 的前置检查位置）。
+    const int master_current =
+        ocr_number("AutoRaise@CurrentSkill" + std::to_string(target.skill) + "MasterLevel").value_or(0);
+    if (master_current >= target.target) {
+        return Result::AlreadySatisfied;
+    }
+    // 未专精时要求通用技能 7 级（raise.lua:1403 level[1] < 7）；专精等级 ≥1 本身即蕴含 7 级，无需重复识别。
+    // RANK OCR 失败时不拦截，交给训练室内既有门控兜底。
+    if (master_current == 0) {
+        const auto rank = ocr_number("AutoRaise@CurrentSkillLevel");
+        if (rank && *rank < 7) {
+            return Result::PrerequisiteNotMet;
+        }
+    }
     if (!enter_training_room()) {
         return Result::RecognitionFailed;
     }
@@ -273,22 +301,27 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
     if (!run_task("InfrastTrainingIdle")) {
         return Result::RecognitionFailed;
     }
-    if (run_task(
-        "AutoRaise@MasterySatisfied" + std::to_string(target.skill) + std::to_string(target.target))) {
-        return Result::AlreadySatisfied;
-    }
-    if (run_task("AutoRaise@MasteryPrerequisiteMissing")) {
-        return Result::PrerequisiteNotMet;
-    }
-    if (run_task("AutoRaise@MasteryMaterialMissing") && !synthesize_missing_material(0)) {
-        return Result::ResourceInsufficient;
-    }
-
     // 专精会长期占用训练室，一次运行只启动下一级；导师选择任务负责结合职业、等级、技能与心情评分。
     // 该 task 只负责打开受训干员列表；列表内的目标查找、翻页和点击复用基建识别能力。
     if (!run_task("AutoRaise@SelectTrainee") || !select_training_trainee(target) ||
-        !run_task("AutoRaise@SelectSkill" + std::to_string(target.skill)) ||
-        !select_training_trainer(target) || !run_task("AutoRaise@StartMastery") ||
+        !run_task("AutoRaise@SelectSkill" + std::to_string(target.skill))) {
+        return Result::RecognitionFailed;
+    }
+    // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派，参照 raise.lua:1443-1458）：
+    // 技能书/材料1/材料2 依次跳加工站走自动合成，全部修复后复核仍缺料则不启动专精。
+    if (run_task("AutoRaise@MasterySkillSummaryRequired", 2) && !synthesize_missing_material(0)) {
+        return Result::ResourceInsufficient;
+    }
+    if (run_task("AutoRaise@MasteryMaterial1Required", 2) && !synthesize_missing_material(0)) {
+        return Result::ResourceInsufficient;
+    }
+    if (run_task("AutoRaise@MasteryMaterial2Required", 2) && !synthesize_missing_material(0)) {
+        return Result::ResourceInsufficient;
+    }
+    if (run_task("AutoRaise@MasteryMaterialMissing", 2)) {
+        return Result::ResourceInsufficient;
+    }
+    if (!select_training_trainer(target) || !run_task("AutoRaise@StartMastery") ||
         !run_task("InfrastTrainingProcessing")) {
         return Result::RecognitionFailed;
     }
