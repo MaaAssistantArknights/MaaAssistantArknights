@@ -131,6 +131,8 @@ public class SettingsViewModel : Screen
 
         Init();
 
+        ResetGuideDemoTasks();
+
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (_, e) => {
             Idle = e.NewState.Idle;
@@ -670,6 +672,167 @@ public class SettingsViewModel : Screen
         if (result == MessageBoxResult.OK)
         {
             Bootstrapper.ShutdownAndRestartWithoutArgs();
+        }
+    }
+
+    /// <summary>
+    /// 演示列表容纳的任务数上限，超出后提示不要继续添加。
+    /// </summary>
+    private const int GuideDemoTaskLimit = 5;
+
+    /// <summary>
+    /// 弹窗提示演示任务列表已满。
+    /// </summary>
+    private void NotifyGuideDemoTaskLimit()
+    {
+        MessageBoxHelper.Show(
+            LocalizationHelper.GetString("GuideDemoTaskAddLimitTip"),
+            LocalizationHelper.GetString("Tip"),
+            MessageBoxButton.OK,
+            MessageBoxImage.Information);
+    }
+
+    /// <summary>
+    /// Gets the demo task list for the ｢任务设置｣ guide step's interactive simulation.
+    /// </summary>
+    public ObservableCollection<GuideDemoTaskItem> GuideDemoTasks { get; } = new();
+
+    private bool _guideDemoAdvancedSettings;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the demo settings column shows advanced entries，由常规/高级设置按钮组切换。
+    /// </summary>
+    public bool GuideDemoAdvancedSettings
+    {
+        get => _guideDemoAdvancedSettings;
+        set => SetAndNotify(ref _guideDemoAdvancedSettings, value);
+    }
+
+    /// <summary>
+    /// 重置指引演示任务列表为初始任务。名称项只存类型资源 key，显示名随语言热切换刷新。
+    /// </summary>
+    public void ResetGuideDemoTasks()
+    {
+        foreach (var task in GuideDemoTasks)
+        {
+            (task as IDisposable)?.Dispose();
+        }
+
+        GuideDemoTasks.Clear();
+        foreach (var key in new[] { "Fight", "Infrast", "Award" })
+        {
+            GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = key });
+        }
+    }
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void AddGuideDemoTask(Type taskType)
+    {
+        if (GuideDemoTasks.Count >= GuideDemoTaskLimit)
+        {
+            NotifyGuideDemoTaskLimit();
+            return;
+        }
+
+        // 任务类型资源 key 与类型名同构（XxxTask → Xxx）
+        var key = taskType.Name.EndsWith("Task", StringComparison.Ordinal) ? taskType.Name[..^"Task".Length] : taskType.Name;
+        GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = key });
+    }
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void CopyGuideDemoTask(GuideDemoTaskItem taskItem)
+    {
+        if (taskItem == null)
+        {
+            return;
+        }
+
+        var index = GuideDemoTasks.IndexOf(taskItem);
+        if (index < 0)
+        {
+            return;
+        }
+
+        if (GuideDemoTasks.Count >= GuideDemoTaskLimit)
+        {
+            NotifyGuideDemoTaskLimit();
+            return;
+        }
+
+        // 与真实 CopyTask 一致：副本为自定义名（原显示名 + " (2)"）、插在原项后、继承勾选状态
+        var newName = taskItem.Name + " (2)";
+        GuideDemoTasks.Insert(index + 1, new GuideDemoTaskItem { Name = newName, IsChecked = taskItem.IsChecked });
+    }
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void RenameGuideDemoTask(GuideDemoTaskItem taskItem)
+    {
+        if (taskItem == null)
+        {
+            return;
+        }
+
+        var dialog = new Views.Dialogs.TextDialogView(
+            LocalizationHelper.GetString("RenameTask"),
+            LocalizationHelper.GetString("RenameTaskPrompt"),
+            taskItem.Name)
+        {
+            Owner = Application.Current.MainWindow,
+        };
+
+        if (dialog.ShowDialog() != true || string.IsNullOrWhiteSpace(dialog.InputText))
+        {
+            return;
+        }
+
+        var newName = dialog.InputText.Trim().Replace("\r", string.Empty).Replace("\n", string.Empty);
+        taskItem.Name = newName;
+    }
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void RemoveGuideDemoTask(GuideDemoTaskItem taskItem)
+    {
+        if (taskItem == null)
+        {
+            return;
+        }
+
+        GuideDemoTasks.Remove(taskItem);
+        (taskItem as IDisposable)?.Dispose();
+    }
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void StartGuideDemo()
+    {
+        MessageBoxHelper.Show(
+            LocalizationHelper.GetString("StartGuideDemo"),
+            LocalizationHelper.GetString("Tip"),
+            MessageBoxButton.OK,
+            MessageBoxImage.Information);
+    }
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void SelectAllGuideDemoTasks()
+    {
+        foreach (var task in GuideDemoTasks)
+        {
+            task.IsChecked = true;
+        }
+    }
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void ClearGuideDemoTasks()
+    {
+        foreach (var task in GuideDemoTasks)
+        {
+            task.IsChecked = false;
         }
     }
 

@@ -122,13 +122,13 @@
     <system:String x:Key="PrevGuide">이전 단계</system:String>
     <system:String x:Key="NextGuide">다음 단계</system:String>
     <system:String x:Key="DoneGuide">완료</system:String>
-    <system:String x:Key="ToolTipGuide">마우스를 올리면 팁이 보입니다→</system:String>
+    <system:String x:Key="ToolTipGuide">마우스를 올리면 팁이 보입니다</system:String>
     <system:String x:Key="TaskGuide">↑ 작업</system:String>
     <system:String x:Key="OftenUsedGuide">↑ 자주 쓰는 설정</system:String>
     <system:String x:Key="SometimesUsedGuide">가끔 쓰는 설정 ↑</system:String>
     <system:String x:Key="LinkStartGuide">← 연결 및 동작 시작</system:String>
-    <system:String x:Key="HoverActionButtons" xml:space="preserve">   마우스 오버하여 복사/이름 변경/삭제
-↓ 기어 우클릭으로 더 많은 작업</system:String>
+    <system:String x:Key="HoverActionButtons">마우스 오버하여 복사/이름 변경/삭제</system:String>
+    <system:String x:Key="GearContextMenuTip">기어 우클릭으로 더 많은 작업 ↓</system:String>
     <system:String x:Key="UserGuide">사용 가이드</system:String>
     <system:String x:Key="GuideDocumentationTitle">📖 공식 웹사이트 및 문서</system:String>
     <system:String x:Key="GuideDocumentationPath">"{key=Settings} - {key=AboutUs} - {key=Website}"에서 MAA의 공식 웹사이트와 전체 문서를 찾을 수 있습니다.</system:String>
@@ -387,6 +387,8 @@
     <system:String x:Key="TaskRenamed">작업 이름 변경: {0}</system:String>
     <system:String x:Key="TaskDeleted">작업 삭제: {0}</system:String>
     <system:String x:Key="TaskCopied">작업 복사: {0}</system:String>
+    <system:String x:Key="StartGuideDemo">데모에서는 실제로 작업이 실행되지 않습니다</system:String>
+    <system:String x:Key="GuideDemoTaskAddLimitTip">데모 목록에는 최대 5개의 작업만 추가할 수 있습니다. 추가 전에 일부를 삭제해 주세요</system:String>
     <system:String x:Key="TaskCopyFailed">작업 복사 실패</system:String>
     <system:String x:Key="HotKeyShowGui">[단축키] MAA 보이기/숨기기</system:String>
     <system:String x:Key="HotKeyLinkStart">[단축키] Link 시작/중지</system:String>
