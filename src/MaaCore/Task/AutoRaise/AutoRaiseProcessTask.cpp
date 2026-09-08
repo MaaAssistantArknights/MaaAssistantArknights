@@ -257,7 +257,7 @@ asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
             return Result::RecognitionFailed;
         }
     }
-    if (!run_task("AutoRaise@OperFiles",10)) {
+    if (!run_task("AutoRaise@OperFiles", 10)) {
         run_task("AutoRaise@ReturnToOperFilesPage");
     }
     // 目标级确认后游戏返回档案页，以 RANK 数字复核最终等级。
@@ -270,21 +270,34 @@ asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
 asst::AutoRaiseProcessTask::Result
 asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
 {
-    // 档案页先读目标技能槽的当前专精等级（AutoRaise@CurrentSkill{skill}MasterLevel）：
-    // 已达标直接返回，不进入训练室（迁移 raise.lua:1401-1403 的前置检查位置）。
-    const int master_current =
-        ocr_number("AutoRaise@CurrentSkill" + std::to_string(target.skill) + "MasterLevel").value_or(0);
+    // 专精任务前置要求通用等级7级,不满足的情况下直接返回
+    const auto rank = ocr_number("AutoRaise@CurrentSkillLevel");
+    if (rank && *rank < 7) {
+        return Result::PrerequisiteNotMet;
+    }
+
+    // 档案页先匹配目标技能槽的当前专精等级（AutoRaise@CurrentSkill{skill}MasterLevel）：
+    // 专精等级是图标而不是可靠的 OCR 文本，使用 0-3 级模板中得分最高的结果。
+    const std::string master_task_name =
+        "AutoRaise@CurrentSkill" + std::to_string(target.skill) + "MasterLevel";
+    BestMatcher master_analyzer(ctrler()->get_image());
+    master_analyzer.set_task_info(master_task_name);
+    for (int level = 0; level <= 3; ++level) {
+        master_analyzer.append_templ("OperFilesSkillMaster" + std::to_string(level) + ".png");
+    }
+
+    int master_current = 0;
+    if (master_analyzer.analyze()) {
+        const auto& template_name = master_analyzer.get_result().templ_info.name;
+        const std::string prefix = "OperFilesSkillMaster";
+        if (template_name.starts_with(prefix)) {
+            utils::chars_to_number(template_name.substr(prefix.size(), 1), master_current);
+        }
+    }
     if (master_current >= target.target) {
         return Result::AlreadySatisfied;
     }
-    // 未专精时要求通用技能 7 级（raise.lua:1403 level[1] < 7）；专精等级 ≥1 本身即蕴含 7 级，无需重复识别。
-    // RANK OCR 失败时不拦截，交给训练室内既有门控兜底。
-    if (master_current == 0) {
-        const auto rank = ocr_number("AutoRaise@CurrentSkillLevel");
-        if (rank && *rank < 7) {
-            return Result::PrerequisiteNotMet;
-        }
-    }
+
     if (!enter_training_room()) {
         return Result::RecognitionFailed;
     }

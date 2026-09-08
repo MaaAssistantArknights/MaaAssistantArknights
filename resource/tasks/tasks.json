@@ -6049,15 +6049,30 @@
         "roi": [1215, 359, 14, 22]
     },
     "AutoRaise@CurrentSkill1MasterLevel": {
-        "template": "OperFilesSkillMaster0.png",
+        "template": [
+            "OperFilesSkillMaster0.png",
+            "OperFilesSkillMaster1.png",
+            "OperFilesSkillMaster2.png",
+            "OperFilesSkillMaster3.png"
+        ],
         "roi": [880, 333, 28, 24]
     },
     "AutoRaise@CurrentSkill2MasterLevel": {
-        "template": "OperFilesSkillMaster0.png",
+        "template": [
+            "OperFilesSkillMaster0.png",
+            "OperFilesSkillMaster1.png",
+            "OperFilesSkillMaster2.png",
+            "OperFilesSkillMaster3.png"
+        ],
         "roi": [968, 332, 28, 25]
     },
     "AutoRaise@CurrentSkill3MasterLevel": {
-        "template": "OperFilesSkillMaster0.png",
+        "template": [
+            "OperFilesSkillMaster0.png",
+            "OperFilesSkillMaster1.png",
+            "OperFilesSkillMaster2.png",
+            "OperFilesSkillMaster3.png"
+        ],
         "roi": [1057, 332, 27, 25]
     },
     "AutoRaise@LevelUp": {
@@ -6368,6 +6383,21 @@
         "template": "MaterialMissing.png",
         "roi": [615, 673, 73, 13],
         "doc": "专精确认面板材料2槽红字检测（point.lua:1915-1916 专精材料2红范围 {923,1010,1033,1030}÷1.5）；待截图校准。"
+    },
+    "AutoRaise@MasteryMaterial0": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [348, 581, 49, 46],
+        "doc": "干员技能专精的技能书位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@MasteryMaterial1": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [485, 581, 49, 46],
+        "doc": "干员技能专精的第一个材料位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@MasteryMaterial2": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [624, 584, 49, 46],
+        "doc": "干员技能专精的第二个材料位置,用于开启和关闭跳转弹窗"
     },
     "AutoRaise@SelectTrainee": {
         "baseTask": "AutoRaise@ManualAction",
