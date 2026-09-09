@@ -115,6 +115,10 @@ ProcessTask& ProcessTask::set_reusable_image(const cv::Mat& reusable)
 
 bool asst::ProcessTask::override_next(const std::string& name, const std::vector<std::string>& next_tasks)
 {
+    if (Task.get(name) == nullptr) {
+        LogError << __FUNCTION__ << "task not found:" << name;
+        return false;
+    }
     for (const auto& task_name : next_tasks) {
         if (Task.get(task_name) == nullptr) {
             LogError << __FUNCTION__ << "task not found:" << task_name;
