@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     MaxWidth="360"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type taskQueue_vms:AutoRaiseSettingsUserControlModel}}"
@@ -16,31 +17,11 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <!--  干员选择与添加培养目标  -->
-        <StackPanel Orientation="Horizontal">
-            <TextBlock VerticalAlignment="Center" Text="{DynamicResource AutoRaiseSelectOperator}" />
-            <ComboBox
-                MinWidth="130"
-                Margin="6,0,0,0"
-                ItemsSource="{Binding OperatorNames}"
-                SelectedItem="{Binding SelectedOperator}" />
-            <Button
-                x:Name="AddTargetButton"
-                MinWidth="90"
-                Margin="6,0,0,0"
-                HorizontalAlignment="Left"
-                Command="{s:Action OpenTargetPopup}"
-                Content="{DynamicResource AutoRaiseAddTarget}"
-                IsEnabled="{Binding CanAddOperator}"
-                ToolTip="{DynamicResource AutoRaiseOperatorLimit}"
-                ToolTipService.ShowOnDisabled="True" />
-        </StackPanel>
-
         <!--  在线编辑计划链接  -->
-        <controls:TextBlock Margin="0,8,0,0">
+        <controls:TextBlock Margin="0,0,0,8">
             <Hyperlink
                 Cursor="Hand"
-                NavigateUri="{x:Static constants:MaaUrls.ArknightsToolbox}"
+                NavigateUri="{Binding Source={x:Static constants:MaaUrls.ArknightsToolbox}}"
                 TextDecorations="None">
                 <TextBlock
                     Style="{StaticResource HyperlinkTextBlockStyle}"
@@ -51,8 +32,7 @@
         <!--  粘贴并解析协议  -->
         <TextBox
             MinWidth="210"
-            MinHeight="64"
-            Margin="0,8,0,0"
+            Height="64"
             AcceptsReturn="True"
             FontFamily="Consolas"
             HorizontalScrollBarVisibility="Auto"
@@ -64,6 +44,34 @@
             HorizontalAlignment="Left"
             Command="{s:Action ParsePlan}"
             Content="{DynamicResource AutoRaiseParsePlan}" />
+
+        <!--  干员选择与添加培养目标  -->
+        <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
+            <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource AutoRaiseSelectOperator}" />
+            <hc:ComboBox
+                Width="110"
+                Margin="6,0,0,0"
+                IsEditable="True"
+                IsTextSearchEnabled="False"
+                ItemsSource="{Binding OperatorNames}"
+                Loaded="{s:Action MakeComboBoxSearchable,
+                                  Target={x:Type ui_vms:SettingsViewModel}}">
+                <hc:ComboBox.Text>
+                    <Binding Path="SelectedOperator" UpdateSourceTrigger="PropertyChanged" />
+                </hc:ComboBox.Text>
+            </hc:ComboBox>
+            <Button
+                x:Name="AddTargetButton"
+                MinWidth="60"
+                Margin="6,0,0,0"
+                HorizontalAlignment="Left"
+                Command="{s:Action OpenTargetPopup}"
+                Content="{DynamicResource AutoRaiseAddTarget}"
+                IsEnabled="{Binding CanAddOperator}"
+                ToolTip="{DynamicResource AutoRaiseOperatorLimit}"
+                ToolTipService.ShowOnDisabled="True" />
+        </StackPanel>
+
         <controls:TextBlock
             Margin="0,8,0,0"
             Foreground="{DynamicResource TraceLogBrush}"
@@ -134,10 +142,9 @@
                             MinWidth="80"
                             Content="{DynamicResource AutoRaiseElite}"
                             IsChecked="{Binding PopupSelectElite}" />
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource AutoRaiseTarget}" />
+                        <TextBlock Margin="6,0" VerticalAlignment="Center" Text="→" />
                         <ComboBox
                             MinWidth="64"
-                            Margin="6,0,0,0"
                             ItemsSource="{Binding EliteOptions}"
                             SelectedValue="{Binding PopupEliteTarget}" />
                     </StackPanel>
@@ -146,35 +153,30 @@
                             MinWidth="80"
                             Content="{DynamicResource AutoRaiseSkillUpgrade}"
                             IsChecked="{Binding PopupSelectSkill}" />
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource AutoRaiseTarget}" />
+                        <TextBlock Margin="6,0" VerticalAlignment="Center" Text="→" />
                         <ComboBox
                             MinWidth="64"
-                            Margin="6,0,0,0"
                             ItemsSource="{Binding SkillLevelOptions}"
                             SelectedValue="{Binding PopupSkillTarget}" />
                     </StackPanel>
-                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <CheckBox
-                            MinWidth="80"
-                            Content="{DynamicResource AutoRaiseMastery}"
-                            IsChecked="{Binding PopupSelectMastery}" />
-                        <TextBlock
-                            Margin="6,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="{DynamicResource AutoRaiseSkillIndex}" />
-                        <ComboBox
-                            MinWidth="64"
-                            Margin="6,0,0,0"
-                            ItemsSource="{Binding MasterySkillOptions}"
-                            SelectedValue="{Binding PopupMasterySkillIndex}" />
-                        <TextBlock Margin="6,0" VerticalAlignment="Center" Text="→" />
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource AutoRaiseTarget}" />
-                        <ComboBox
-                            MinWidth="64"
-                            Margin="6,0,0,0"
-                            ItemsSource="{Binding MasteryTargetOptions}"
-                            SelectedValue="{Binding PopupMasteryTarget}" />
-                    </StackPanel>
+                    <controls:TextBlock Margin="0,10,0,0" Text="{DynamicResource AutoRaiseMastery}" />
+                    <ItemsControl ItemsSource="{Binding MasteryRows}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                                    <CheckBox
+                                        MinWidth="80"
+                                        Content="{Binding Label}"
+                                        IsChecked="{Binding IsSelected}" />
+                                    <TextBlock Margin="6,0" VerticalAlignment="Center" Text="→" />
+                                    <ComboBox
+                                        MinWidth="64"
+                                        ItemsSource="{Binding DataContext.MasteryTargetOptions, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        SelectedValue="{Binding Target}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                     <StackPanel
                         Margin="0,12,0,0"
                         HorizontalAlignment="Right"
