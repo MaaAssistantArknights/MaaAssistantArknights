@@ -866,6 +866,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AutoRaiseFieldRange">計畫第 {0} 項的「{1}」欄位必須在 {2} 到 {3} 之間</system:String>
     <system:String x:Key="AutoRaiseSkillLevelTarget">技能等級 {0}</system:String>
     <system:String x:Key="AutoRaiseMasteryTarget">技能 {0} 專精 {1}</system:String>
+    <system:String x:Key="AutoRaiseEliteTarget">精英化 {0}</system:String>
     <system:String x:Key="AutoRaiseUnsupportedClient">幹員培養首版僅支援國服官服和 B 服</system:String>
     <system:String x:Key="AutoRaiseTargetStartLog">培養計畫第 {0} 項：{1}，{2} 目標 {3}</system:String>
     <system:String x:Key="AutoRaiseTargetResultLog">培養計畫第 {0} 項：{1}，結果 {2}</system:String>

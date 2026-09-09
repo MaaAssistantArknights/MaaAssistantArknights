@@ -865,6 +865,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AutoRaiseFieldRange">计划第 {0} 项的“{1}”字段必须在 {2} 到 {3} 之间</system:String>
     <system:String x:Key="AutoRaiseSkillLevelTarget">技能等级 {0}</system:String>
     <system:String x:Key="AutoRaiseMasteryTarget">技能 {0} 专精 {1}</system:String>
+    <system:String x:Key="AutoRaiseEliteTarget">精英化 {0}</system:String>
     <system:String x:Key="AutoRaiseUnsupportedClient">干员培养首版仅支持国服官服和 B 服</system:String>
     <system:String x:Key="AutoRaiseTargetStartLog">培养计划第 {0} 项：{1}，{2} 目标 {3}</system:String>
     <system:String x:Key="AutoRaiseTargetResultLog">培养计划第 {0} 项：{1}，结果 {2}</system:String>
