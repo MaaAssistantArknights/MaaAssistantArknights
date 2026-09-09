@@ -6375,6 +6375,68 @@
         "template": "Return.png",
         "next": ["AutoRaise@OperFiles", "AutoRaise@ReturnToOperFilesPage"]
     },
+    "AutoRaise@ReturnToOperBox": {
+        "algorithm": "JustReturn",
+        "doc": "一路点击返回直到干员列表页；到达标志覆盖职业栏无筛选、筛选残留、已展开三种状态与排序页签，供换干员导航使用",
+        "next": [
+            "AutoRaise@OperBoxRoleNoFilter",
+            "AutoRaise@OperBoxRoleFiltered",
+            "AutoRaise@OperBoxRoleBarOpened",
+            "AutoRaise@OperBoxSortTabs",
+            "AutoRaise@ReturnToOperBoxWalk"
+        ]
+    },
+    "AutoRaise@ReturnToOperBoxWalk": {
+        "baseTask": "ReturnButton",
+        "template": ["Return.png", "Return-White.png"],
+        "next": [
+            "AutoRaise@OperBoxRoleNoFilter",
+            "AutoRaise@OperBoxRoleFiltered",
+            "AutoRaise@OperBoxRoleBarOpened",
+            "AutoRaise@OperBoxSortTabs",
+            "AutoRaise@ReturnToOperBoxWalk",
+            "ReturnConfirm"
+        ]
+    },
+    "AutoRaise@OperBoxRoleNoFilter": {
+        "template": "BattleQuickFormationExpandRole.png",
+        "roi": [1152, 0, 128, 138],
+        "action": "DoNothing",
+        "doc": "干员列表页职业栏收起且无筛选：右上角为职业≡",
+        "next": []
+    },
+    "AutoRaise@OperBoxRoleFiltered": {
+        "algorithm": "OcrDetect",
+        "text": ["先锋", "近卫", "重装", "狙击", "术师", "医疗", "辅助", "特种"],
+        "roi": [1152, 0, 128, 138],
+        "action": "DoNothing",
+        "doc": "干员列表页职业栏收起且有筛选残留：右上角为职业名▼",
+        "next": []
+    },
+    "AutoRaise@OperBoxRoleFilteredOpen": {
+        "algorithm": "OcrDetect",
+        "text": ["先锋", "近卫", "重装", "狙击", "术师", "医疗", "辅助", "特种"],
+        "roi": [1152, 0, 128, 138],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "doc": "点击筛选残留的职业名▼展开职业栏",
+        "next": []
+    },
+    "AutoRaise@OperBoxRoleBarOpened": {
+        "template": "BattleQuickFormationCollapseRole.png",
+        "roi": [1152, 0, 128, 138],
+        "action": "DoNothing",
+        "doc": "干员列表页职业栏已展开：右上角为收起>",
+        "next": []
+    },
+    "AutoRaise@OperBoxSortTabs": {
+        "algorithm": "OcrDetect",
+        "text": ["等级", "稀有度", "获取时间"],
+        "roi": [783, 0, 174, 136],
+        "action": "DoNothing",
+        "doc": "干员列表页排序页签，兜底到达标志；选中项为蓝字可能识别不佳，未选中项为白字",
+        "next": []
+    },
     "AutoRaise@EliteUpMaterial1JumpProcessing": {
         "template": "QuickJumpProcessing.png",
         "action": "ClickSelf",

@@ -134,6 +134,8 @@ namespace
 bool asst::AutoRaiseProcessTask::_run()
 {
     m_mastery_busy = false;
+    m_entry_completed = false;
+    m_current_operator.clear();
     m_completed = m_satisfied = m_failed = m_skipped = 0;
 
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
@@ -196,7 +198,31 @@ asst::AutoRaiseProcessTask::execute_target(const AutoRaiseTarget& target)
 asst::AutoRaiseProcessTask::Result
 asst::AutoRaiseProcessTask::find_and_open_operator(const AutoRaiseTarget& target)
 {
-    if (!run_task("OperBoxBegin", 3)) {
+    // 计划中连续两条属于同一干员且档案页仍停留时直接复用当前页面,不回干员列表重复定位
+    // （参照 ArkLightsPlus raise.auto_raise：上一条同名且 findOne("干员档案") 则跳过 char_choose）；
+    // 精英化等培养状态由 execute_xxx 在档案页现场识别,复用页面不影响状态判断。
+    if (m_current_operator == target.name && run_task("AutoRaise@OperFiles", 1)) {
+        return Result::Completed;
+    }
+
+    m_current_operator.clear();
+    bool entered = false;
+    if (m_entry_completed) {
+        // 任务中途保证不去主页：档案页等主界面页面直接小房子快捷切进干员列表；
+        // 基建内部等没有小房子入口的页面点击返回逐层退出,到列表页即停(AutoRaise@ReturnToOperBox 的到达标志)。
+        entered = run_task("QuickSwitch@ToOperBox", 2) || run_task("AutoRaise@ReturnToOperBox", 3);
+    }
+    else {
+        // 首条目标可能停在主页等任意页面,走完整入口链(主页入口/快捷切换/返回链,到列表页即停)。
+        // 入口链在上一轮遗留的编队选人等相似页面上可能误命中,先逐层返回脱离再重试一次。
+        entered = run_task("OperBoxBegin", 3);
+        if (!entered && !need_exit()) {
+            run_task("AutoRaise@ReturnToOperBoxWalk", 3);
+            entered = run_task("OperBoxBegin", 3);
+        }
+        m_entry_completed = true;
+    }
+    if (!entered) {
         return Result::RecognitionFailed;
     }
 
@@ -220,7 +246,11 @@ asst::AutoRaiseProcessTask::find_and_open_operator(const AutoRaiseTarget& target
             if (!ctrler()->click(target_iter->rect)) {
                 return Result::RecognitionFailed;
             }
-            return run_task("AutoRaise@OperFiles") ? Result::Completed : Result::RecognitionFailed;
+            if (!run_task("AutoRaise@OperFiles")) {
+                return Result::RecognitionFailed;
+            }
+            m_current_operator = target.name;
+            return Result::Completed;
         }
 
         const auto& last_operator = operators.back().name;
@@ -241,8 +271,17 @@ bool asst::AutoRaiseProcessTask::select_operator_role(const std::string& operato
     // 使用 BattleData 职业信息缩小 OCR 查找范围。现有快速编队任务负责展开职业栏并点击识别到的职业图标,
     // 同时将列表回到该职业的第一页,不使用固定的干员卡片坐标。
     const std::string role_task = role_task_name(BattleData.get_first_role(operator_name));
-    return role_task.empty() ||
-        (run_task("BattleQuickFormationExpandRole", 3) && run_task(role_task));
+    if (role_task.empty()) {
+        return true;
+    }
+    // 展开右上角职业栏,三种互斥状态依次尝试：筛选残留"职业名▼"(蓝字暗底与收起>模板互误匹配,只能按
+    // 职业名 OCR 点开)、无筛选"职业≡"(模板)、已展开"收起>"(无需操作,直接选职业)。
+    if (!run_task("AutoRaise@OperBoxRoleFilteredOpen", 1) && !run_task("BattleQuickFormationExpandRole", 1) &&
+        !run_task("AutoRaise@OperBoxRoleBarOpened", 1)) {
+        Log.error("AutoRaise | failed to expand role bar on oper box page");
+        return false;
+    }
+    return run_task(role_task);
 }
 
 asst::AutoRaiseProcessTask::Result
@@ -1034,6 +1073,12 @@ bool asst::AutoRaiseProcessTask::buy_catalyst(int count)
 
 bool asst::AutoRaiseProcessTask::run_task(const std::string& task_name, int retry_times)
 {
+    // ProcessTask 对不存在的任务名会抛异常并终止整条任务链
+    // （如改动 tasks.json 后未重启客户端重新加载资源时）,这里提前拦截,只让当前目标失败。
+    if (!Task.get(task_name)) {
+        Log.error(__FUNCTION__, "| task not found:", task_name);
+        return false;
+    }
     ProcessTask task(*this, { task_name });
     task.set_retry_times(retry_times);
     return task.run();
