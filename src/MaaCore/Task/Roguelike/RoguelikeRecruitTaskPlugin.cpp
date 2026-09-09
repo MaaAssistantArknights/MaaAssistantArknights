@@ -449,7 +449,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     // 选择优先级最高的干员
     auto selected_oper =
-        std::ranges::max_element(recruit_list, std::less {}, std::mem_fn(&RoguelikeRecruitInfo::priority));
+        std::ranges::max_element(recruit_list, std::less { }, std::mem_fn(&RoguelikeRecruitInfo::priority));
     if (selected_oper == recruit_list.cend()) {
         Log.trace(__FUNCTION__, "| No opers in recruit list.");
         return false;
@@ -739,8 +739,9 @@ void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(bool to_left, int swipe_dist
         StartPoint,
         { StartPoint.x + swipe_dist - StartPoint.width, StartPoint.y, StartPoint.width, StartPoint.height },
         swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
-        (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
-        (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
-        (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
+        (swipe_task->special_params.size() < 2) ? SwipeExtraDirection::None
+                                                : to_swipe_extra_direction(swipe_task->special_params.at(1)),
+        (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2) / 10.0,
+        (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3) / 10.0);
     sleep(swipe_task->post_delay);
 }

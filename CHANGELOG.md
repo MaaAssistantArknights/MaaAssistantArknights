@@ -1,4 +1,4 @@
-## v6.17.3
+## v6.17.5
 
 ### Highlights
 
@@ -52,6 +52,30 @@ A new "Switch Theme" task switches in-game themes by name; multiple candidate th
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.5 (2026-09-10)</b></summary>
+
+### 改进 | Improved
+
+* Swipe 额外滑动方向改用枚举判定，specialParams[1] 越界值收敛为不启用，避免零位移的空滑动；调整肉鸽招募干员列表缓慢滑动的缓出斜率参数 ([#18136](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18136)) @ABA2396 @status102
+
+### MaaMacGui
+
+#### 新增 | New
+
+* 新增信用商店购物与借助战刷信用 @hguandl
+* 新增 PlayCover 分辨率助手 @hguandl
+
+#### 改进 | Improved
+
+* 界面日志对齐 MaaMessage 回调，任务链与设施名称匹配本地化翻译 @hguandl
+
+#### 修复 | Fix
+
+* 修复 copilot 内容更新与任务工具栏按钮样式的问题 @hguandl
+
+</details>
+
+<details>
 <summary><b>v6.17.4 (2026-09-08)</b></summary>
 
 ### 修复 | Fix

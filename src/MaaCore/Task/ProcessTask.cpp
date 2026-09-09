@@ -280,7 +280,7 @@ ProcessTask::NodeStatus ProcessTask::run_action(const HitDetail& hits) const
             task->specific_rect,
             task->rect_move,
             (param_size > 0) ? task->special_params.at(0) : 0,
-            (param_size > 1) ? task->special_params.at(1) : 0,
+            (param_size > 1) ? to_swipe_extra_direction(task->special_params.at(1)) : SwipeExtraDirection::None,
             (param_size > 2) ? task->special_params.at(2) / 10.0 : 1,
             (param_size > 3) ? task->special_params.at(3) / 10.0 : 1,
             task->high_resolution_swipe_fix);
@@ -495,7 +495,7 @@ void ProcessTask::exec_swipe_task(
     const Rect& r1,
     const Rect& r2,
     int duration,
-    int extra_swipe,
+    SwipeExtraDirection extra_swipe,
     double slope_in,
     double slope_out,
     bool high_resolution_swipe_fix) const
