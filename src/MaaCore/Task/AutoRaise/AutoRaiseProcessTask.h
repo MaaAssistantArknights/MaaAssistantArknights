@@ -2,6 +2,7 @@
 
 #include <optional>
 
+#include "MaaUtils/NoWarningCVMat.hpp"
 #include "Task/AbstractTask.h"
 #include "Task/AutoRaise/AutoRaisePlan.h"
 
@@ -54,6 +55,7 @@ private:
     bool restore_factory_state();
     bool buy_catalyst(int count);
     std::optional<int> ocr_number(const std::string& task_name);
+    std::optional<int> ocr_number(const cv::Mat& image, const std::string& task_name);
     void report_target(std::string what, size_t index, const AutoRaiseTarget& target, Result result);
     void report_summary();
     static std::string_view action_name(AutoRaiseAction action);
