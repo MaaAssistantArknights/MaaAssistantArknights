@@ -62,6 +62,10 @@ private:
     static std::string_view result_name(Result result);
 
     AutoRaisePlan m_plan;
+    // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
+    bool m_entry_completed = false;
+    // 当前停留在档案页的干员名；计划中连续两条同干员时直接复用档案页,为空表示上下文已失效。
+    std::string m_current_operator;
     bool m_mastery_busy = false;
     size_t m_completed = 0;
     size_t m_satisfied = 0;
