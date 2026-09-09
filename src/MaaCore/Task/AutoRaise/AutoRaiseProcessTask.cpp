@@ -204,7 +204,6 @@ asst::AutoRaiseProcessTask::find_and_open_operator(const AutoRaiseTarget& target
         return Result::RecognitionFailed;
     }
 
-    m_operator_elite = 0;
     std::string previous_last_operator;
     std::string previous_previous_last_operator;
     for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
@@ -217,7 +216,7 @@ asst::AutoRaiseProcessTask::find_and_open_operator(const AutoRaiseTarget& target
         const auto target_iter = std::ranges::find(operators, target.name, &OperBoxInfo::name);
         if (target_iter != operators.cend()) {
             // OperBoxImageAnalyzer 同时使用八职业标志、OperBoxNameOCR 和精英标志；卡片点击锚定于识别结果。
-            m_operator_elite = target_iter->elite;
+            // 精英化等级不取此处的识别值,由 execute_xxx 在档案页现场识别。
             if (!ctrler()->click(target_iter->rect)) {
                 return Result::RecognitionFailed;
             }
@@ -249,11 +248,18 @@ bool asst::AutoRaiseProcessTask::select_operator_role(const std::string& operato
 asst::AutoRaiseProcessTask::Result
 asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
 {
-    if (m_operator_elite >= target.target) {
+    // 档案页现场识别当前精英阶段,不沿用干员列表页或上一条计划的结果：
+    // 前序培养目标可能已改变该干员的精英化等级。识别失败时不猜测,直接判识别失败。
+    const auto current_elite_opt = OperFilesImageAnalyzer(ctrler()->get_image()).elite_level();
+    if (!current_elite_opt) {
+        return Result::RecognitionFailed;
+    }
+    const int current_elite = *current_elite_opt;
+    if (current_elite >= target.target) {
         return Result::AlreadySatisfied;
     }
 
-    for (int phase = m_operator_elite; phase < target.target && !need_exit(); ++phase) {
+    for (int phase = current_elite; phase < target.target && !need_exit(); ++phase) {
         // 精英化前必须先把当前阶段升至满级；晋升成功后停在新阶段 1 级。
         if (!run_task("AutoRaise@CurrentElite" + std::to_string(phase)) ||
             !run_task("AutoRaise@LevelUp")) {
@@ -292,7 +298,6 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
             !run_task("AutoRaise@CurrentElite" + std::to_string(phase + 1))) {
             return Result::RecognitionFailed;
         }
-        m_operator_elite = phase + 1;
     }
     return Result::Completed;
 }
@@ -300,14 +305,18 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
 asst::AutoRaiseProcessTask::Result
 asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
 {
+    // 档案页技能等级 OCR 与精英阶段识别共用一张截图
+    const cv::Mat image = ctrler()->get_image();
+
     // 当前技能等级以档案页 RANK 数字 OCR 为准（AutoRaise@CurrentSkillLevel）,识别失败按 1 级处理。
-    const int current = ocr_number("AutoRaise@CurrentSkillLevel").value_or(1);
+    const int current = ocr_number(image, "AutoRaise@CurrentSkillLevel").value_or(1);
     if (current >= target.target) {
         return Result::AlreadySatisfied;
     }
     // 前置：精0 技能最高 4 级,精1 最高 7 级；目标超出当前精英阶段的上限则不满足。
+    // 精英阶段为档案页现场识别,不沿用干员列表页的结果；识别失败按 0 处理,宁可放弃不误操作。
     const int required_elite = target.target <= 4 ? 0 : 1;
-    if (m_operator_elite < required_elite) {
+    if (OperFilesImageAnalyzer(image).elite_level().value_or(0) < required_elite) {
         return Result::PrerequisiteNotMet;
     }
     // 点"升级+"进入全屏升级面板；2-6 级确认后面板停留在下一级,7 级确认后游戏自动返回档案页。
@@ -350,12 +359,13 @@ asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
 asst::AutoRaiseProcessTask::Result
 asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
 {
-    if (m_operator_elite < 2) {
+    // 档案页技能等级 OCR、精英阶段与专精图标识别共用一张截图
+    const cv::Mat image = ctrler()->get_image();
+
+    // 专精要求精英阶段 2；档案页现场识别,不沿用干员列表页的结果；识别失败按 0 处理,宁可放弃不误操作。
+    if (OperFilesImageAnalyzer(image).elite_level().value_or(0) < 2) {
         return Result::PrerequisiteNotMet;
     }
-
-    // 档案页技能等级 OCR 与专精图标识别共用一张截图
-    const cv::Mat image = ctrler()->get_image();
 
     // 专精任务前置要求通用等级7级,不满足的情况下直接返回
     const auto rank = ocr_number(image, "AutoRaise@CurrentSkillLevel");
