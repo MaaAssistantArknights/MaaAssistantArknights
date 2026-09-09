@@ -868,6 +868,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AutoRaiseSkillLevelTarget">技能等级 {0}</system:String>
     <system:String x:Key="AutoRaiseMasteryTarget">技能 {0} 专精 {1}</system:String>
     <system:String x:Key="AutoRaiseEliteTarget">精英化 {0}</system:String>
+    <system:String x:Key="AutoRaiseDeleteCompletedEntries">任务链结束后删除已完成条目</system:String>
+    <system:String x:Key="AutoRaiseDeleteCompletedEntriesTip">培养任务链结束后，自动删除结果为“成功”或“已满足”的条目；失败与跳过的条目会保留</system:String>
     <system:String x:Key="AutoRaiseUnsupportedClient">干员培养首版仅支持国服官服和 B 服</system:String>
     <system:String x:Key="AutoRaiseTargetStartLog">培养计划第 {0} 项：{1}，{2}</system:String>
     <system:String x:Key="AutoRaiseTargetResultLog">培养计划第 {0} 项：{1}，{2}，结果 {3}</system:String>

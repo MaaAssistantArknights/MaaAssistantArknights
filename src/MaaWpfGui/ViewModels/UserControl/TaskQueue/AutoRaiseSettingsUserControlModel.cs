@@ -96,6 +96,16 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
         }
     }
 
+    /// <summary>任务链结束后删除已完成条目（高级设置）</summary>
+    public bool DeleteCompletedEntries
+    {
+        get => GetTaskConfig<AutoRaiseTask>().DeleteCompletedEntries;
+        set => SetTaskConfig<AutoRaiseTask>(t => t.DeleteCompletedEntries == value, t => t.DeleteCompletedEntries = value);
+    }
+
+    /// <summary>本轮运行中各条目的回调结果，序号为 Core 收到的计划数组下标</summary>
+    private readonly Dictionary<int, (string Name, bool Completed)> _runEntryResults = [];
+
     // —— 培养目标弹窗 ——
     public bool IsTargetPopupOpen { get => field; set => SetAndNotify(ref field, value); }
 
@@ -295,6 +305,48 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
 
         ApplyPlans(remaining);
         SelectedOperator = string.Empty;
+    }
+
+    /// <summary>记录单条培养结果，由 AsstProxy 在 UI 线程回调（回调线程已由 Execute.OnUIThread 保证）</summary>
+    public void OnTargetResult(int index, string name, bool completed)
+    {
+        if (index == 0)
+        {
+            _runEntryResults.Clear();
+        }
+
+        _runEntryResults[index] = (name, completed);
+    }
+
+    /// <summary>培养任务链结束：开启开关时删除结果为“成功/已满足”的条目，失败与跳过的保留</summary>
+    public void OnSummary()
+    {
+        var completedEntries = _runEntryResults.Where(kv => kv.Value.Completed).Select(kv => (Index: kv.Key, kv.Value.Name)).ToList();
+        _runEntryResults.Clear();
+        if (!GetTaskConfig<AutoRaiseTask>().DeleteCompletedEntries || completedEntries.Count == 0)
+        {
+            return;
+        }
+
+        JArray plans = GetValidatedPlans();
+        var remaining = new JArray();
+        for (int index = 0; index < plans.Count; ++index)
+        {
+            var plan = (JObject)plans[index]!;
+
+            // 双重校验：干员名与回调一致才删除，防止运行期间计划被修改导致错位误删
+            if (completedEntries.Any(entry => entry.Index == index && entry.Name == plan.Value<string>("name")))
+            {
+                continue;
+            }
+
+            remaining.Add(plan);
+        }
+
+        if (remaining.Count < plans.Count)
+        {
+            ApplyPlans(remaining);
+        }
     }
 
     /// <summary>把计划写回配置并刷新文本框、校验状态与预览，与 ParsePlan 成功路径一致</summary>
